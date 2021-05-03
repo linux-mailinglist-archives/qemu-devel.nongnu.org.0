@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A743372342
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:55:47 +0200 (CEST)
-Received: from localhost ([::1]:40694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86EEE372327
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:44:51 +0200 (CEST)
+Received: from localhost ([::1]:38504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldhTe-0006y7-Aa
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:55:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53492)
+	id 1ldhJ4-0002dF-J6
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:44:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgrR-0006tX-NU
+ id 1ldgrT-0006ur-SU
  for qemu-devel@nongnu.org; Mon, 03 May 2021 18:16:19 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28394)
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgrO-0000Fd-3b
- for qemu-devel@nongnu.org; Mon, 03 May 2021 18:16:17 -0400
+ id 1ldgrQ-0000ID-KQ
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:16:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620080173; x=1651616173;
+ t=1620080176; x=1651616176;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=kX2Xv9V0jg3JpeHNNRl1F4kvINea/oqMxr6h/7opXw8=;
- b=XK7P286LGq8CiyuBuha+9yAJNsZ+YDn62L8HS57nzWhU/5FBXoCRVRfZ
- RbAk40UpR+RuxZpmbxlAHqKXmDtkn4an1jUWEDaJU4PZ2rX6CCfurtoAq
- LpkZBAJeL83uWjpNUuyGNIlZQ4razfQkVm1ZWAXWOpSqsiKi2v1hZUkZ2
- 2bAGABgM4eAxKgo3TwwaN7Sc2lqx4snN01gf7hWjNkybU7NybHUqK1ydW
- Gzv8l6euy2Z+G5x/2wqc82McMmS0DXGOM8qz4d2glVW/D3qRCUdNCIlOU
- xkWVaSPUHdaxLc7smHx9tqjjb/xxpoEVw647ydwA6UwiaUVHHpO1vr1fa g==;
-IronPort-SDR: W6o5+pNofbX8IZ/YGJOoWtycmQkfpboYkvhNcb7lDp6pwWqxi1E4wDa/EdcGt/TN6vEb8DPGlp
- Ka7X0tW9uHmwNEzLu5mkTRl1whJrxi2LesLndY3BPVHiit6qNNomKWV6Nw9sUHLVnzvkY4qIAf
- jHX0/AwS6tcNVw5AFK6UY6xx1uQGRptsEeJCJ4LLecZubPMijNx7GLO0N4VCKADTX/Zdfleyqc
- 5nRaDIH31+4WekM8kCqJSCgY9gRQJTa7GgSjvCMzmwlr6OXJLdTq1UEMPI0FvY7YcICLZFcPPy
- 3fA=
-X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278114698"
+ bh=WQcSS1oSxULsvx3rcazGUleTjavqMGxioohI8At+Ha4=;
+ b=eG1VzidPzcHk5bFBWj632XVIxDpRl9W9oh52DLkr7PU2GuxkDvE5NlTw
+ BwswVcul7h4hSxdqBNSee+PVbtVUCywVsthaa/3UuwRqcdrTGZmwwORyW
+ lpFv2v/hS+YqntWNIQ/qZ1pRGLUz2lM9Ak20QSs64LmWJlkPDQYOBD54s
+ ejFvgJ2wKVV3mNQMKYdwhOreKG9+hWeyuGJzdYM+gaclg0mB5Tti8IlxM
+ XjOiGeO/YFSf/u/+zjQSTqfw3usBymFAheERwCTYWt+itxCqs5ls0vh5F
+ 1VEGjQnz2b+ar4JR6HB3yta249AsbF2oh2bRuzjbRjcj1IkPappssFYgX Q==;
+IronPort-SDR: Cu1Wj/5tIN42rwSTABUEXPGw1WpHPkhYV6wOOvhgUa6Jt3nCwmfjB8pnqp1C1ivVz3io8qnlyF
+ F09IOd7PIlOQilJE/y3uPUj704pmEYdQ16NQedNcMWS8bJFNYeYVhvUm/yf4fzfjghPW5YNVVg
+ Pa5P5LWc2VPz82u8Nm/vdp8hrGiU/9aUJIB4xm7GIemXp21mVfr3yPeS0PrO/KlWgNi6QxXpCl
+ BURDIU22O5ALzBGD/b+5cdBHbWk3SL7Wu700Zyy6JUCHFZ3sSyYySVMLDZ4ysm8nwNeEQQqN5z
+ gPg=
+X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278114700"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:15:32 +0800
-IronPort-SDR: 8Tnm7Qc24tHgutaSgwFS3JSYEE/jG2BlYHhl5H53kL3WSP3qoiD9V1DSXH0nzIbpWGg+PXu+uS
- XLpZMnNlJtN/fxY4hFmud0ZKahUSRVLLIwZYgl08ilkZoxN3QH0Dm7vrw5zTNdTlUQi8w/x3/f
- 7BWb3zK0ZguiDNVvXnmdsxYEYxvyLZaAsSp5GuCa0yvO7JNvlPU1q8w1me0Bk5IuHEK/Yc9e/a
- 7GEJpN0mEn0ucZF4EGuSfsqm4CkfSlWYFJTphVhY6IB9Ha3ksdjZkfWPQfp9EMUlVTcGHEwIFj
- U9toIMiTBhH1NxXjN3GAh0TQ
+ by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:15:35 +0800
+IronPort-SDR: aDSLIclS8Ih3/uPOuza5LBYrf4d8C5S8bnVN6iXZ9UTdhAyudB1uvZwTItWW6NabxFsK5wvk96
+ jcvbeyICMBAZ/HlXp4ap9TlqJX40wFlCsLHlIuOCLciiRtJEkkp54hLwovuPJYnN2XcHF97CAg
+ tycgZe5XAuQRMS/Z/e87cl6pGwtBHJqFW7fcCysP1ywlWMYQVviUCdadtFnSC9OJSoWooeQ+hn
+ nKdNePH/XCQIkVdkQUV1FCBKExNcUcAw8ge84w6HOt5l8reyx3CV6uHfJmB08GFLitCpI+yMPA
+ Ol6I9ocDRGMZnlZR6iGTBXOj
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2021 14:55:43 -0700
-IronPort-SDR: uBzgMU4GxsYmB5Sfk2OTaQ5l2jy7zkvHPZs3DlteohUdpVAuXjftfZkOb2+fSPchHpoAaYAHFU
- /xhNVNzuJeISxRfK/Hv72fyNphF+o3JmYKpV9VBjrKDgxOD6YghXv/79ksjNM8wc87o9xaku6b
- +gkss8zR1ALQhCfWUgwAxzkfa1lXLEQ0PHbi0XvYymOya6C7s3YTt4STSJ0J2nxNl0Hv4w73KN
- FPaWVDh6AQ35YlNIC2jbdY1D1NxUyst0zG9iJvkycdjAVoFfO93gDCzQWQ92cd9DE7baoJZkbB
- 8gA=
+ 03 May 2021 14:55:46 -0700
+IronPort-SDR: XPQmYLeFzUXZPTmDR+7Y4iOHTxQxcHyUnrnkjwYLqXXteAN1D6l4J5K7pwCXvOPTSkq0YbeMyc
+ UgrwwiT5muo7gHRUUoqUrbcDk6ARx2oXx5NyPV3q/WQkMUmPaGKOw4rLvF3BPtoYN2TsCCcgBs
+ pRz8VJVtmzTVWaS4TjTghfyIYBw6+/gsURY4R1opEsRYe8I428Aek8rKnvuEpsiEtDT6F/vdkM
+ qKN4BACyH8Gy7o13tMIjEgXR4855hM/T/8hP7/X60mBTUcPO8pQlOez22meJ03SkyGSio4vEKo
+ gY8=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.45])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:15:30 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:15:33 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 34/42] target/riscv: Remove the hardcoded SSTATUS_SD macro
-Date: Tue,  4 May 2021 08:13:19 +1000
-Message-Id: <20210503221327.3068768-35-alistair.francis@wdc.com>
+Subject: [PULL 35/42] target/riscv: Remove the hardcoded HGATP_MODE macro
+Date: Tue,  4 May 2021 08:13:20 +1000
+Message-Id: <20210503221327.3068768-36-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210503221327.3068768-1-alistair.francis@wdc.com>
 References: <20210503221327.3068768-1-alistair.francis@wdc.com>
@@ -96,61 +96,82 @@ Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This also ensures that the SD bit is not writable.
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 9ea842309f0fd7adff172790f5b5fc058b40f2f1.1619234854.git.alistair.francis@wdc.com
+Message-id: 665f624bfdc2e3ca64265004b07de7489c77a766.1619234854.git.alistair.francis@wdc.com
 ---
- target/riscv/cpu_bits.h | 6 ------
- target/riscv/csr.c      | 9 ++++++++-
- 2 files changed, 8 insertions(+), 7 deletions(-)
+ target/riscv/cpu_bits.h   | 11 -----------
+ target/riscv/cpu_helper.c | 24 +++++++++++++++---------
+ 2 files changed, 15 insertions(+), 20 deletions(-)
 
 diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 24d89939a0..3a0e79e545 100644
+index 3a0e79e545..d738e2fdbd 100644
 --- a/target/riscv/cpu_bits.h
 +++ b/target/riscv/cpu_bits.h
-@@ -403,12 +403,6 @@
- #define SSTATUS32_SD        0x80000000
- #define SSTATUS64_SD        0x8000000000000000ULL
+@@ -195,17 +195,6 @@
+ #define CSR_HTIMEDELTA      0x605
+ #define CSR_HTIMEDELTAH     0x615
  
 -#if defined(TARGET_RISCV32)
--#define SSTATUS_SD SSTATUS32_SD
--#elif defined(TARGET_RISCV64)
--#define SSTATUS_SD SSTATUS64_SD
+-#define HGATP_MODE           SATP32_MODE
+-#define HGATP_VMID           SATP32_ASID
+-#define HGATP_PPN            SATP32_PPN
+-#endif
+-#if defined(TARGET_RISCV64)
+-#define HGATP_MODE           SATP64_MODE
+-#define HGATP_VMID           SATP64_ASID
+-#define HGATP_PPN            SATP64_PPN
 -#endif
 -
- /* hstatus CSR bits */
- #define HSTATUS_VSBE         0x00000020
- #define HSTATUS_GVA          0x00000040
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 97ceff718f..41951a0a84 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -459,7 +459,7 @@ static const target_ulong delegable_excps =
-     (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT));
- static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
-     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
--    SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
-+    SSTATUS_SUM | SSTATUS_MXR;
- static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP;
- static const target_ulong hip_writable_mask = MIP_VSSIP;
- static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
-@@ -788,6 +788,13 @@ static RISCVException read_sstatus(CPURISCVState *env, int csrno,
-                                    target_ulong *val)
+ /* Virtual CSRs */
+ #define CSR_VSSTATUS        0x200
+ #define CSR_VSIE            0x204
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 1018c0036d..d9defbdd34 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -413,8 +413,13 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+         }
+         widened = 0;
+     } else {
+-        base = (hwaddr)get_field(env->hgatp, HGATP_PPN) << PGSHIFT;
+-        vm = get_field(env->hgatp, HGATP_MODE);
++        if (riscv_cpu_is_32bit(env)) {
++            base = (hwaddr)get_field(env->hgatp, SATP32_PPN) << PGSHIFT;
++            vm = get_field(env->hgatp, SATP32_MODE);
++        } else {
++            base = (hwaddr)get_field(env->hgatp, SATP64_PPN) << PGSHIFT;
++            vm = get_field(env->hgatp, SATP64_MODE);
++        }
+         widened = 2;
+     }
+     /* status.SUM will be ignored if execute on background */
+@@ -618,16 +623,17 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+                                 bool first_stage, bool two_stage)
  {
-     target_ulong mask = (sstatus_v1_10_mask);
+     CPUState *cs = env_cpu(env);
+-    int page_fault_exceptions;
++    int page_fault_exceptions, vm;
 +
-+    if (riscv_cpu_is_32bit(env)) {
-+        mask |= SSTATUS32_SD;
-+    } else {
-+        mask |= SSTATUS64_SD;
-+    }
+     if (first_stage) {
+-        page_fault_exceptions =
+-            get_field(env->satp, SATP_MODE) != VM_1_10_MBARE &&
+-            !pmp_violation;
++        vm = get_field(env->satp, SATP_MODE);
++    } else if (riscv_cpu_is_32bit(env)) {
++        vm = get_field(env->hgatp, SATP32_MODE);
+     } else {
+-        page_fault_exceptions =
+-            get_field(env->hgatp, HGATP_MODE) != VM_1_10_MBARE &&
+-            !pmp_violation;
++        vm = get_field(env->hgatp, SATP64_MODE);
+     }
++    page_fault_exceptions = vm != VM_1_10_MBARE && !pmp_violation;
 +
-     *val = env->mstatus & mask;
-     return RISCV_EXCP_NONE;
- }
+     switch (access_type) {
+     case MMU_INST_FETCH:
+         if (riscv_cpu_virt_enabled(env) && !first_stage) {
 -- 
 2.31.1
 
