@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DE13710FA
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:38:25 +0200 (CEST)
-Received: from localhost ([::1]:49756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE0D3710FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:41:52 +0200 (CEST)
+Received: from localhost ([::1]:33096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldQLg-00029a-II
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:38:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51752)
+	id 1ldQP1-0006sl-6D
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:41:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQJR-0007mg-Lm; Mon, 03 May 2021 00:36:05 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:50127 helo=ozlabs.org)
+ id 1ldQJQ-0007jv-TG; Mon, 03 May 2021 00:36:04 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:47125 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQJN-0002Gp-71; Mon, 03 May 2021 00:36:05 -0400
+ id 1ldQJN-0002Gq-6k; Mon, 03 May 2021 00:36:04 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FYVXR0qqrz9sW7; Mon,  3 May 2021 14:35:51 +1000 (AEST)
+ id 4FYVXR19zZz9sW8; Mon,  3 May 2021 14:35:51 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620016551;
- bh=tujwPzdfQXkm0MUjUR2nQjXCS3AQB7Fjsf90VnEWFyE=;
+ bh=nNSHT0QUZJ8rlaWnnvvGjlowJtexwFGBkB/BiSJS2Tc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EN93GR6Y3Uuk+9GuMUtDgy8jy+VTD8OtuwNiKOq9ZBr0bs971SXcJG0U35LURVr++
- Km8GkUuEZe2iJCwJkxw4mw3Es2uPOq2A+xWvT64yS67nvLkNTNlXkoERIjtAwx+d11
- ZznW5CC0anhZd/ErJMR4+ixWvxfRFyWDwqXyQGrA=
-Date: Mon, 3 May 2021 14:24:59 +1000
+ b=CDuw+qZdG4y3hrXJmCNM+LpypW7zpym2ombnIM+SmZK5Oxm3J61xz7G28jqUxSTnF
+ ETt5gUwS7Q5LifCd7ZaFPwjSrOI+NlowqmN/7zKTTBgyBXhAxRbFRoCQ47QbNCi2c7
+ 8HGu38rKG8QRJ4mKE0HFCRuh/56iAJImIiubbiZk=
+Date: Mon, 3 May 2021 14:34:21 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: Re: [RFC PATCH v2 1/2] target/ppc: Moved functions out of mmu-hash64
-Message-ID: <YI97GykbXX5u428t@yekko>
+Subject: Re: [RFC PATCH v2 2/2] hw/ppc: Moved TCG code to spapr_hcall_tcg
+Message-ID: <YI99TaLqKsqBRRxJ@yekko>
 References: <20210430184047.81653-1-lucas.araujo@eldorado.org.br>
- <20210430184047.81653-2-lucas.araujo@eldorado.org.br>
+ <20210430184047.81653-3-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mf5pHxYdrUEa5CVA"
+ protocol="application/pgp-signature"; boundary="/C35JDL39tzlhgUT"
 Content-Disposition: inline
-In-Reply-To: <20210430184047.81653-2-lucas.araujo@eldorado.org.br>
+In-Reply-To: <20210430184047.81653-3-lucas.araujo@eldorado.org.br>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,399 +64,767 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---mf5pHxYdrUEa5CVA
+--/C35JDL39tzlhgUT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 30, 2021 at 03:40:46PM -0300, Lucas Mateus Castro (alqotel) wro=
+On Fri, Apr 30, 2021 at 03:40:47PM -0300, Lucas Mateus Castro (alqotel) wro=
 te:
-> The functions ppc_store_lpcr, ppc_hash64_filter_pagesizes and
-> ppc_hash64_unmap_hptes have been moved to mmu-misc.h since they are
-> not needed in a !TCG context and mmu-hash64 should not be compiled
-> in such situation.
+> Moved h_enter, remove_hpte, h_remove, h_bulk_remove,h_protect and
+> h_read to spapr_hcall_tcg.c, added h_tcg_only to be used in a !TCG
+> environment in spapr_hcall.c and changed build options to only build
+> spapr_hcall_tcg.c when CONFIG_TCG is enabled.
+
+This looks good.  I'd suggest the name 'spapr_softmmu.c' instead,
+which more specifically describes what's special about these
+functions.
+
+h_resize_hpt_prepare(), h_resize_hpt_commit() and the functions they
+depend on belong in the softmmu set as well.
+
+> Added the function h_tcg_only to be used for hypercalls that should be
+> called only in TCG environment but have been called in a TCG-less
+> one.
+
+Again, 'h_softmmu' would be a better name.
+
 >=20
-> ppc_store_lpcr and ppc_hash64_filter_pagesizes are used by multiple
-> functions, while ppc_hash64_unmap_hptes is used by rehash_hpt (in
-> spapr_hcall.c).
+> Right now, a #ifndef is used to know if there is a need of a h_tcg_only
+> function to be implemented and used as hypercalls, I initially thought
+> of always having that option turned on and having spapr_hcall_tcg.c
+> overwrite those hypercalls when TCG is enabled, but
+> spapr_register_hypercalls checks if a hypercall already exists for that
+> opcode so that wouldn't work, so if anyone has any suggestions I'm
+> interested.
 
-Hmm.. looking at it, ppc_store_lpcr() (and helper_store_lpcr()) don't
-really belong in this file at all.  The LPCR has some things related
-to the hash MMU, but plenty of others that don't.  So, maybe
-misc_helper.c?  That might have to be moved again, since misc_helper
-itself should probably mostly not be used for !TCG.  But.. one thing
-at a time.
+The ifdef is fine.  We don't want to litter the code with them, but a
+few is fine.  Especially in this context where it's pretty clearly
+just excluding some things from a simple list of calls.
 
-AFAICT the only user of ppc_hash64_filter_pagesizes() is in
-spapr_caps.c.  For now you can just move it next to the caller, it's
-debatable whether it belongs more to PAPR or MMU code.
+>=20
+> Also spapr_hcall_tcg.c only has 2 duplicated functions (valid_ptex and
+> is_ram_address), what is the advised way to deal with these
+> duplications?
 
-ppc_hash64_unmap_hptes() is definitely TCG only and should stay where
-it is.  The call from rehash_hpt() can be solved because rehash_hpt()
-itself is TCG only.  I've already suggested splitting the TCG (well,
-softmmu) only things out from spapr_hcall.c, so it might simplify
-things to tackle that first.
+valid_ptex() is only used by softmmu functions that are moving, so it
+should travel with them, no need for duplication.  is_ram_address() is
+also used by h_page_init() which is also needed in !TCG code.  So,
+leave it in spapr_hcall.c and just export it for use in the TCG only
+code.
 
-> Also I've put the functions in mmu-misc as I am unsure in which file
-> this functions should go, so I just created a new one for now, any
-> suggestion which file to put them (considering it's a file that must be
-> compiled in a !TCG situation)?
 >=20
 > Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.b=
 r>
 > ---
->  hw/ppc/spapr.c          |  1 +
->  hw/ppc/spapr_caps.c     |  1 +
->  hw/ppc/spapr_cpu_core.c |  1 +
->  hw/ppc/spapr_hcall.c    |  1 +
->  hw/ppc/spapr_rtas.c     |  1 +
->  target/ppc/meson.build  |  1 +
->  target/ppc/mmu-hash64.c | 81 +-------------------------------------
->  target/ppc/mmu-hash64.h |  6 ---
->  target/ppc/mmu-misc.c   | 86 +++++++++++++++++++++++++++++++++++++++++
->  target/ppc/mmu-misc.h   | 22 +++++++++++
->  10 files changed, 115 insertions(+), 86 deletions(-)
->  create mode 100644 target/ppc/mmu-misc.c
->  create mode 100644 target/ppc/mmu-misc.h
+>  hw/ppc/meson.build       |   3 +
+>  hw/ppc/spapr_hcall.c     | 300 ++--------------------------------
+>  hw/ppc/spapr_hcall_tcg.c | 343 +++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 363 insertions(+), 283 deletions(-)
+>  create mode 100644 hw/ppc/spapr_hcall_tcg.c
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index e4be00b732..61f8f150c2 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -53,6 +53,7 @@
->  #include "mmu-book3s-v3.h"
->  #include "cpu-models.h"
->  #include "hw/core/cpu.h"
-> +#include "mmu-misc.h"
-> =20
->  #include "hw/boards.h"
->  #include "hw/ppc/ppc.h"
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 9ea7ddd1e9..22352ff018 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -34,6 +34,7 @@
->  #include "kvm_ppc.h"
->  #include "migration/vmstate.h"
->  #include "sysemu/tcg.h"
-> +#include "mmu-misc.h"
-> =20
->  #include "hw/ppc/spapr.h"
-> =20
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index 4f316a6f9d..f4d93999e5 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -24,6 +24,7 @@
->  #include "sysemu/reset.h"
->  #include "sysemu/hw_accel.h"
->  #include "qemu/error-report.h"
-> +#include "mmu-misc.h"
-> =20
->  static void spapr_reset_vcpu(PowerPCCPU *cpu)
->  {
+> diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+> index 218631c883..3c7f2f08b7 100644
+> --- a/hw/ppc/meson.build
+> +++ b/hw/ppc/meson.build
+> @@ -29,6 +29,9 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
+>    'spapr_numa.c',
+>    'pef.c',
+>  ))
+> +ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_TCG'], if_true: files(
+> +  'spapr_hcall_tcg.c'
+> +))
+>  ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
+>  ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
+>    'spapr_pci_vfio.c',
 > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index 7b5cd3553c..4b0ba69841 100644
+> index 4b0ba69841..b37fbdc32e 100644
 > --- a/hw/ppc/spapr_hcall.c
 > +++ b/hw/ppc/spapr_hcall.c
-> @@ -13,6 +13,7 @@
->  #include "hw/ppc/spapr.h"
->  #include "hw/ppc/spapr_cpu_core.h"
->  #include "mmu-hash64.h"
-> +#include "mmu-misc.h"
->  #include "cpu-models.h"
->  #include "trace.h"
->  #include "kvm_ppc.h"
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index 8a79f9c628..8935b75d1c 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -35,6 +35,7 @@
->  #include "sysemu/hw_accel.h"
->  #include "sysemu/runstate.h"
->  #include "kvm_ppc.h"
-> +#include "mmu-misc.h"
-> =20
->  #include "hw/ppc/spapr.h"
->  #include "hw/ppc/spapr_vio.h"
-> diff --git a/target/ppc/meson.build b/target/ppc/meson.build
-> index bbfef90e08..7a97648803 100644
-> --- a/target/ppc/meson.build
-> +++ b/target/ppc/meson.build
-> @@ -31,6 +31,7 @@ ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
->    'mmu-book3s-v3.c',
->    'mmu-hash64.c',
->    'mmu-radix64.c',
-> +  'mmu-misc.c',
->  ))
-> =20
->  target_arch +=3D {'ppc': ppc_ss}
-> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> index 0fabc10302..919a3e9f51 100644
-> --- a/target/ppc/mmu-hash64.c
-> +++ b/target/ppc/mmu-hash64.c
-> @@ -30,6 +30,7 @@
->  #include "exec/log.h"
->  #include "hw/hw.h"
+> @@ -22,6 +22,15 @@
 >  #include "mmu-book3s-v3.h"
-> +#include "mmu-misc.h"
+>  #include "hw/mem/memory-device.h"
 > =20
->  /* #define DEBUG_SLB */
-> =20
-> @@ -499,20 +500,6 @@ const ppc_hash_pte64_t *ppc_hash64_map_hptes(PowerPC=
-CPU *cpu,
->      return hptes;
+> +#ifndef CONFIG_TCG
+> +static target_ulong h_tcg_only(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +                            target_ulong opcode, target_ulong *args)
+> +{
+> +    g_assert_not_reached();
+> +    return 0;
+> +}
+> +#endif /* !CONFIG_TCG */
+> +
+>  static bool has_spr(PowerPCCPU *cpu, int spr)
+>  {
+>      /* We can test whether the SPR is defined by checking for a valid na=
+me */
+> @@ -55,284 +64,6 @@ static bool is_ram_address(SpaprMachineState *spapr, =
+hwaddr addr)
+>      return false;
 >  }
 > =20
-> -void ppc_hash64_unmap_hptes(PowerPCCPU *cpu, const ppc_hash_pte64_t *hpt=
-es,
-> -                            hwaddr ptex, int n)
+> -static target_ulong h_enter(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> -                            target_ulong opcode, target_ulong *args)
 > -{
-> -    if (cpu->vhyp) {
-> -        PPCVirtualHypervisorClass *vhc =3D
-> -            PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
-> -        vhc->unmap_hptes(cpu->vhyp, hptes, ptex, n);
-> -        return;
+> -    target_ulong flags =3D args[0];
+> -    target_ulong ptex =3D args[1];
+> -    target_ulong pteh =3D args[2];
+> -    target_ulong ptel =3D args[3];
+> -    unsigned apshift;
+> -    target_ulong raddr;
+> -    target_ulong slot;
+> -    const ppc_hash_pte64_t *hptes;
+> -
+> -    apshift =3D ppc_hash64_hpte_page_shift_noslb(cpu, pteh, ptel);
+> -    if (!apshift) {
+> -        /* Bad page size encoding */
+> -        return H_PARAMETER;
 > -    }
 > -
-> -    address_space_unmap(CPU(cpu)->as, (void *)hptes, n * HASH_PTE_SIZE_6=
-4,
-> -                        false, n * HASH_PTE_SIZE_64);
-> -}
+> -    raddr =3D (ptel & HPTE64_R_RPN) & ~((1ULL << apshift) - 1);
 > -
->  static unsigned hpte_page_shift(const PPCHash64SegmentPageSizes *sps,
->                                  uint64_t pte0, uint64_t pte1)
->  {
-> @@ -1119,14 +1106,6 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, ta=
-rget_ulong ptex,
->      cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
-LUSH;
->  }
-> =20
-> -void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
-> -{
-> -    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> -    CPUPPCState *env =3D &cpu->env;
-> -
-> -    env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
-> -}
-> -
->  void helper_store_lpcr(CPUPPCState *env, target_ulong val)
->  {
->      PowerPCCPU *cpu =3D env_archcpu(env);
-> @@ -1197,61 +1176,3 @@ const PPCHash64Options ppc_hash64_opts_POWER7 =3D {
->      }
->  };
-> =20
-> -void ppc_hash64_filter_pagesizes(PowerPCCPU *cpu,
-> -                                 bool (*cb)(void *, uint32_t, uint32_t),
-> -                                 void *opaque)
-> -{
-> -    PPCHash64Options *opts =3D cpu->hash64_opts;
-> -    int i;
-> -    int n =3D 0;
-> -    bool ci_largepage =3D false;
-> -
-> -    assert(opts);
-> -
-> -    n =3D 0;
-> -    for (i =3D 0; i < ARRAY_SIZE(opts->sps); i++) {
-> -        PPCHash64SegmentPageSizes *sps =3D &opts->sps[i];
-> -        int j;
-> -        int m =3D 0;
-> -
-> -        assert(n <=3D i);
-> -
-> -        if (!sps->page_shift) {
-> -            break;
+> -    if (is_ram_address(spapr, raddr)) {
+> -        /* Regular RAM - should have WIMG=3D0010 */
+> -        if ((ptel & HPTE64_R_WIMG) !=3D HPTE64_R_M) {
+> -            return H_PARAMETER;
 > -        }
+> -    } else {
+> -        target_ulong wimg_flags;
+> -        /* Looks like an IO address */
+> -        /* FIXME: What WIMG combinations could be sensible for IO?
+> -         * For now we allow WIMG=3D010x, but are there others? */
+> -        /* FIXME: Should we check against registered IO addresses? */
+> -        wimg_flags =3D (ptel & (HPTE64_R_W | HPTE64_R_I | HPTE64_R_M));
 > -
-> -        for (j =3D 0; j < ARRAY_SIZE(sps->enc); j++) {
-> -            PPCHash64PageSize *ps =3D &sps->enc[j];
+> -        if (wimg_flags !=3D HPTE64_R_I &&
+> -            wimg_flags !=3D (HPTE64_R_I | HPTE64_R_M)) {
+> -            return H_PARAMETER;
+> -        }
+> -    }
 > -
-> -            assert(m <=3D j);
-> -            if (!ps->page_shift) {
+> -    pteh &=3D ~0x60ULL;
+> -
+> -    if (!valid_ptex(cpu, ptex)) {
+> -        return H_PARAMETER;
+> -    }
+> -
+> -    slot =3D ptex & 7ULL;
+> -    ptex =3D ptex & ~7ULL;
+> -
+> -    if (likely((flags & H_EXACT) =3D=3D 0)) {
+> -        hptes =3D ppc_hash64_map_hptes(cpu, ptex, HPTES_PER_GROUP);
+> -        for (slot =3D 0; slot < 8; slot++) {
+> -            if (!(ppc_hash64_hpte0(cpu, hptes, slot) & HPTE64_V_VALID)) {
 > -                break;
 > -            }
-> -
-> -            if (cb(opaque, sps->page_shift, ps->page_shift)) {
-> -                if (ps->page_shift >=3D 16) {
-> -                    ci_largepage =3D true;
-> -                }
-> -                sps->enc[m++] =3D *ps;
-> -            }
 > -        }
-> -
-> -        /* Clear rest of the row */
-> -        for (j =3D m; j < ARRAY_SIZE(sps->enc); j++) {
-> -            memset(&sps->enc[j], 0, sizeof(sps->enc[j]));
+> -        ppc_hash64_unmap_hptes(cpu, hptes, ptex, HPTES_PER_GROUP);
+> -        if (slot =3D=3D 8) {
+> -            return H_PTEG_FULL;
 > -        }
-> -
-> -        if (m) {
-> -            n++;
+> -    } else {
+> -        hptes =3D ppc_hash64_map_hptes(cpu, ptex + slot, 1);
+> -        if (ppc_hash64_hpte0(cpu, hptes, 0) & HPTE64_V_VALID) {
+> -            ppc_hash64_unmap_hptes(cpu, hptes, ptex + slot, 1);
+> -            return H_PTEG_FULL;
 > -        }
+> -        ppc_hash64_unmap_hptes(cpu, hptes, ptex, 1);
 > -    }
 > -
-> -    /* Clear the rest of the table */
-> -    for (i =3D n; i < ARRAY_SIZE(opts->sps); i++) {
-> -        memset(&opts->sps[i], 0, sizeof(opts->sps[i]));
-> -    }
+> -    spapr_store_hpte(cpu, ptex + slot, pteh | HPTE64_V_HPTE_DIRTY, ptel);
 > -
-> -    if (!ci_largepage) {
-> -        opts->flags &=3D ~PPC_HASH64_CI_LARGEPAGE;
-> -    }
+> -    args[0] =3D ptex + slot;
+> -    return H_SUCCESS;
 > -}
-> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
-> index 87729d48b3..562602b466 100644
-> --- a/target/ppc/mmu-hash64.h
-> +++ b/target/ppc/mmu-hash64.h
-> @@ -15,12 +15,8 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,
->                                 target_ulong pte0, target_ulong pte1);
->  unsigned ppc_hash64_hpte_page_shift_noslb(PowerPCCPU *cpu,
->                                            uint64_t pte0, uint64_t pte1);
-> -void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val);
->  void ppc_hash64_init(PowerPCCPU *cpu);
->  void ppc_hash64_finalize(PowerPCCPU *cpu);
-> -void ppc_hash64_filter_pagesizes(PowerPCCPU *cpu,
-> -                                 bool (*cb)(void *, uint32_t, uint32_t),
-> -                                 void *opaque);
->  #endif
+> -
+> -typedef enum {
+> -    REMOVE_SUCCESS =3D 0,
+> -    REMOVE_NOT_FOUND =3D 1,
+> -    REMOVE_PARM =3D 2,
+> -    REMOVE_HW =3D 3,
+> -} RemoveResult;
+> -
+> -static RemoveResult remove_hpte(PowerPCCPU *cpu
+> -                                , target_ulong ptex,
+> -                                target_ulong avpn,
+> -                                target_ulong flags,
+> -                                target_ulong *vp, target_ulong *rp)
+> -{
+> -    const ppc_hash_pte64_t *hptes;
+> -    target_ulong v, r;
+> -
+> -    if (!valid_ptex(cpu, ptex)) {
+> -        return REMOVE_PARM;
+> -    }
+> -
+> -    hptes =3D ppc_hash64_map_hptes(cpu, ptex, 1);
+> -    v =3D ppc_hash64_hpte0(cpu, hptes, 0);
+> -    r =3D ppc_hash64_hpte1(cpu, hptes, 0);
+> -    ppc_hash64_unmap_hptes(cpu, hptes, ptex, 1);
+> -
+> -    if ((v & HPTE64_V_VALID) =3D=3D 0 ||
+> -        ((flags & H_AVPN) && (v & ~0x7fULL) !=3D avpn) ||
+> -        ((flags & H_ANDCOND) && (v & avpn) !=3D 0)) {
+> -        return REMOVE_NOT_FOUND;
+> -    }
+> -    *vp =3D v;
+> -    *rp =3D r;
+> -    spapr_store_hpte(cpu, ptex, HPTE64_V_HPTE_DIRTY, 0);
+> -    ppc_hash64_tlb_flush_hpte(cpu, ptex, v, r);
+> -    return REMOVE_SUCCESS;
+> -}
+> -
+> -static target_ulong h_remove(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> -                             target_ulong opcode, target_ulong *args)
+> -{
+> -    CPUPPCState *env =3D &cpu->env;
+> -    target_ulong flags =3D args[0];
+> -    target_ulong ptex =3D args[1];
+> -    target_ulong avpn =3D args[2];
+> -    RemoveResult ret;
+> -
+> -    ret =3D remove_hpte(cpu, ptex, avpn, flags,
+> -                      &args[0], &args[1]);
+> -
+> -    switch (ret) {
+> -    case REMOVE_SUCCESS:
+> -        check_tlb_flush(env, true);
+> -        return H_SUCCESS;
+> -
+> -    case REMOVE_NOT_FOUND:
+> -        return H_NOT_FOUND;
+> -
+> -    case REMOVE_PARM:
+> -        return H_PARAMETER;
+> -
+> -    case REMOVE_HW:
+> -        return H_HARDWARE;
+> -    }
+> -
+> -    g_assert_not_reached();
+> -}
+> -
+> -#define H_BULK_REMOVE_TYPE             0xc000000000000000ULL
+> -#define   H_BULK_REMOVE_REQUEST        0x4000000000000000ULL
+> -#define   H_BULK_REMOVE_RESPONSE       0x8000000000000000ULL
+> -#define   H_BULK_REMOVE_END            0xc000000000000000ULL
+> -#define H_BULK_REMOVE_CODE             0x3000000000000000ULL
+> -#define   H_BULK_REMOVE_SUCCESS        0x0000000000000000ULL
+> -#define   H_BULK_REMOVE_NOT_FOUND      0x1000000000000000ULL
+> -#define   H_BULK_REMOVE_PARM           0x2000000000000000ULL
+> -#define   H_BULK_REMOVE_HW             0x3000000000000000ULL
+> -#define H_BULK_REMOVE_RC               0x0c00000000000000ULL
+> -#define H_BULK_REMOVE_FLAGS            0x0300000000000000ULL
+> -#define   H_BULK_REMOVE_ABSOLUTE       0x0000000000000000ULL
+> -#define   H_BULK_REMOVE_ANDCOND        0x0100000000000000ULL
+> -#define   H_BULK_REMOVE_AVPN           0x0200000000000000ULL
+> -#define H_BULK_REMOVE_PTEX             0x00ffffffffffffffULL
+> -
+> -#define H_BULK_REMOVE_MAX_BATCH        4
+> -
+> -static target_ulong h_bulk_remove(PowerPCCPU *cpu, SpaprMachineState *sp=
+apr,
+> -                                  target_ulong opcode, target_ulong *arg=
+s)
+> -{
+> -    CPUPPCState *env =3D &cpu->env;
+> -    int i;
+> -    target_ulong rc =3D H_SUCCESS;
+> -
+> -    for (i =3D 0; i < H_BULK_REMOVE_MAX_BATCH; i++) {
+> -        target_ulong *tsh =3D &args[i*2];
+> -        target_ulong tsl =3D args[i*2 + 1];
+> -        target_ulong v, r, ret;
+> -
+> -        if ((*tsh & H_BULK_REMOVE_TYPE) =3D=3D H_BULK_REMOVE_END) {
+> -            break;
+> -        } else if ((*tsh & H_BULK_REMOVE_TYPE) !=3D H_BULK_REMOVE_REQUES=
+T) {
+> -            return H_PARAMETER;
+> -        }
+> -
+> -        *tsh &=3D H_BULK_REMOVE_PTEX | H_BULK_REMOVE_FLAGS;
+> -        *tsh |=3D H_BULK_REMOVE_RESPONSE;
+> -
+> -        if ((*tsh & H_BULK_REMOVE_ANDCOND) && (*tsh & H_BULK_REMOVE_AVPN=
+)) {
+> -            *tsh |=3D H_BULK_REMOVE_PARM;
+> -            return H_PARAMETER;
+> -        }
+> -
+> -        ret =3D remove_hpte(cpu, *tsh & H_BULK_REMOVE_PTEX, tsl,
+> -                          (*tsh & H_BULK_REMOVE_FLAGS) >> 26,
+> -                          &v, &r);
+> -
+> -        *tsh |=3D ret << 60;
+> -
+> -        switch (ret) {
+> -        case REMOVE_SUCCESS:
+> -            *tsh |=3D (r & (HPTE64_R_C | HPTE64_R_R)) << 43;
+> -            break;
+> -
+> -        case REMOVE_PARM:
+> -            rc =3D H_PARAMETER;
+> -            goto exit;
+> -
+> -        case REMOVE_HW:
+> -            rc =3D H_HARDWARE;
+> -            goto exit;
+> -        }
+> -    }
+> - exit:
+> -    check_tlb_flush(env, true);
+> -
+> -    return rc;
+> -}
+> -
+> -static target_ulong h_protect(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> -                              target_ulong opcode, target_ulong *args)
+> -{
+> -    CPUPPCState *env =3D &cpu->env;
+> -    target_ulong flags =3D args[0];
+> -    target_ulong ptex =3D args[1];
+> -    target_ulong avpn =3D args[2];
+> -    const ppc_hash_pte64_t *hptes;
+> -    target_ulong v, r;
+> -
+> -    if (!valid_ptex(cpu, ptex)) {
+> -        return H_PARAMETER;
+> -    }
+> -
+> -    hptes =3D ppc_hash64_map_hptes(cpu, ptex, 1);
+> -    v =3D ppc_hash64_hpte0(cpu, hptes, 0);
+> -    r =3D ppc_hash64_hpte1(cpu, hptes, 0);
+> -    ppc_hash64_unmap_hptes(cpu, hptes, ptex, 1);
+> -
+> -    if ((v & HPTE64_V_VALID) =3D=3D 0 ||
+> -        ((flags & H_AVPN) && (v & ~0x7fULL) !=3D avpn)) {
+> -        return H_NOT_FOUND;
+> -    }
+> -
+> -    r &=3D ~(HPTE64_R_PP0 | HPTE64_R_PP | HPTE64_R_N |
+> -           HPTE64_R_KEY_HI | HPTE64_R_KEY_LO);
+> -    r |=3D (flags << 55) & HPTE64_R_PP0;
+> -    r |=3D (flags << 48) & HPTE64_R_KEY_HI;
+> -    r |=3D flags & (HPTE64_R_PP | HPTE64_R_N | HPTE64_R_KEY_LO);
+> -    spapr_store_hpte(cpu, ptex,
+> -                     (v & ~HPTE64_V_VALID) | HPTE64_V_HPTE_DIRTY, 0);
+> -    ppc_hash64_tlb_flush_hpte(cpu, ptex, v, r);
+> -    /* Flush the tlb */
+> -    check_tlb_flush(env, true);
+> -    /* Don't need a memory barrier, due to qemu's global lock */
+> -    spapr_store_hpte(cpu, ptex, v | HPTE64_V_HPTE_DIRTY, r);
+> -    return H_SUCCESS;
+> -}
+> -
+> -static target_ulong h_read(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> -                           target_ulong opcode, target_ulong *args)
+> -{
+> -    target_ulong flags =3D args[0];
+> -    target_ulong ptex =3D args[1];
+> -    int i, ridx, n_entries =3D 1;
+> -    const ppc_hash_pte64_t *hptes;
+> -
+> -    if (!valid_ptex(cpu, ptex)) {
+> -        return H_PARAMETER;
+> -    }
+> -
+> -    if (flags & H_READ_4) {
+> -        /* Clear the two low order bits */
+> -        ptex &=3D ~(3ULL);
+> -        n_entries =3D 4;
+> -    }
+> -
+> -    hptes =3D ppc_hash64_map_hptes(cpu, ptex, n_entries);
+> -    for (i =3D 0, ridx =3D 0; i < n_entries; i++) {
+> -        args[ridx++] =3D ppc_hash64_hpte0(cpu, hptes, i);
+> -        args[ridx++] =3D ppc_hash64_hpte1(cpu, hptes, i);
+> -    }
+> -    ppc_hash64_unmap_hptes(cpu, hptes, ptex, n_entries);
+> -
+> -    return H_SUCCESS;
+> -}
+> -
+>  struct SpaprPendingHpt {
+>      /* These fields are read-only after initialization */
+>      int shift;
+> @@ -2021,14 +1752,17 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, tar=
+get_ulong opcode,
 > =20
->  /*
-> @@ -112,8 +108,6 @@ struct ppc_hash_pte64 {
+>  static void hypercall_register_types(void)
+>  {
+> +
+> +#ifndef CONFIG_TCG
+>      /* hcall-pft */
+> -    spapr_register_hypercall(H_ENTER, h_enter);
+> -    spapr_register_hypercall(H_REMOVE, h_remove);
+> -    spapr_register_hypercall(H_PROTECT, h_protect);
+> -    spapr_register_hypercall(H_READ, h_read);
+> +    spapr_register_hypercall(H_ENTER, h_tcg_only);
+> +    spapr_register_hypercall(H_REMOVE, h_tcg_only);
+> +    spapr_register_hypercall(H_PROTECT, h_tcg_only);
+> +    spapr_register_hypercall(H_READ, h_tcg_only);
 > =20
->  const ppc_hash_pte64_t *ppc_hash64_map_hptes(PowerPCCPU *cpu,
->                                               hwaddr ptex, int n);
-> -void ppc_hash64_unmap_hptes(PowerPCCPU *cpu, const ppc_hash_pte64_t *hpt=
-es,
-> -                            hwaddr ptex, int n);
+>      /* hcall-bulk */
+> -    spapr_register_hypercall(H_BULK_REMOVE, h_bulk_remove);
+> +    spapr_register_hypercall(H_BULK_REMOVE, h_tcg_only);
+> +#endif /* !CONFIG_TCG */
 > =20
->  static inline uint64_t ppc_hash64_hpte0(PowerPCCPU *cpu,
->                                          const ppc_hash_pte64_t *hptes, i=
-nt i)
-> diff --git a/target/ppc/mmu-misc.c b/target/ppc/mmu-misc.c
+>      /* hcall-hpt-resize */
+>      spapr_register_hypercall(H_RESIZE_HPT_PREPARE, h_resize_hpt_prepare);
+> diff --git a/hw/ppc/spapr_hcall_tcg.c b/hw/ppc/spapr_hcall_tcg.c
 > new file mode 100644
-> index 0000000000..8abda66547
+> index 0000000000..92ff24c8dc
 > --- /dev/null
-> +++ b/target/ppc/mmu-misc.c
-> @@ -0,0 +1,86 @@
+> +++ b/hw/ppc/spapr_hcall_tcg.c
+> @@ -0,0 +1,343 @@
 > +#include "qemu/osdep.h"
+> +#include "qemu/cutils.h"
+> +#include "qapi/error.h"
+> +#include "sysemu/hw_accel.h"
+> +#include "sysemu/runstate.h"
+> +#include "qemu/log.h"
+> +#include "qemu/main-loop.h"
+> +#include "qemu/module.h"
+> +#include "qemu/error-report.h"
 > +#include "cpu.h"
+> +#include "exec/exec-all.h"
+> +#include "helper_regs.h"
+> +#include "hw/ppc/spapr.h"
+> +#include "hw/ppc/spapr_cpu_core.h"
 > +#include "mmu-hash64.h"
-> +#include "fpu/softfloat-helpers.h"
 > +#include "mmu-misc.h"
+> +#include "cpu-models.h"
+> +#include "trace.h"
+> +#include "kvm_ppc.h"
+> +#include "hw/ppc/fdt.h"
+> +#include "hw/ppc/spapr_ovec.h"
+> +#include "mmu-book3s-v3.h"
+> +#include "hw/mem/memory-device.h"
 > +
-> +void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+> +static inline bool valid_ptex(PowerPCCPU *cpu, target_ulong ptex)
 > +{
-> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> +    CPUPPCState *env =3D &cpu->env;
-> +
-> +    env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
+> +    /*
+> +     * hash value/pteg group index is normalized by HPT mask
+> +     */
+> +    if (((ptex & ~7ULL) / HPTES_PER_GROUP) & ~ppc_hash64_hpt_mask(cpu)) {
+> +        return false;
+> +    }
+> +    return true;
 > +}
 > +
-> +void ppc_hash64_filter_pagesizes(PowerPCCPU *cpu,
-> +                                 bool (*cb)(void *, uint32_t, uint32_t),
-> +                                 void *opaque)
+> +static bool is_ram_address(SpaprMachineState *spapr, hwaddr addr)
 > +{
-> +    PPCHash64Options *opts =3D cpu->hash64_opts;
-> +    int i;
-> +    int n =3D 0;
-> +    bool ci_largepage =3D false;
+> +    MachineState *machine =3D MACHINE(spapr);
+> +    DeviceMemoryState *dms =3D machine->device_memory;
 > +
-> +    assert(opts);
+> +    if (addr < machine->ram_size) {
+> +        return true;
+> +    }
+> +    if ((addr >=3D dms->base)
+> +        && ((addr - dms->base) < memory_region_size(&dms->mr))) {
+> +        return true;
+> +    }
 > +
-> +    n =3D 0;
-> +    for (i =3D 0; i < ARRAY_SIZE(opts->sps); i++) {
-> +        PPCHash64SegmentPageSizes *sps =3D &opts->sps[i];
-> +        int j;
-> +        int m =3D 0;
+> +    return false;
+> +}
 > +
-> +        assert(n <=3D i);
+> +static target_ulong h_enter(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +                            target_ulong opcode, target_ulong *args)
+> +{
+> +    target_ulong flags =3D args[0];
+> +    target_ulong ptex =3D args[1];
+> +    target_ulong pteh =3D args[2];
+> +    target_ulong ptel =3D args[3];
+> +    unsigned apshift;
+> +    target_ulong raddr;
+> +    target_ulong slot;
+> +    const ppc_hash_pte64_t *hptes;
 > +
-> +        if (!sps->page_shift) {
-> +            break;
+> +    apshift =3D ppc_hash64_hpte_page_shift_noslb(cpu, pteh, ptel);
+> +    if (!apshift) {
+> +        /* Bad page size encoding */
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    raddr =3D (ptel & HPTE64_R_RPN) & ~((1ULL << apshift) - 1);
+> +
+> +    if (is_ram_address(spapr, raddr)) {
+> +        /* Regular RAM - should have WIMG=3D0010 */
+> +        if ((ptel & HPTE64_R_WIMG) !=3D HPTE64_R_M) {
+> +            return H_PARAMETER;
 > +        }
+> +    } else {
+> +        target_ulong wimg_flags;
+> +        /* Looks like an IO address */
+> +        /* FIXME: What WIMG combinations could be sensible for IO?
+> +         * For now we allow WIMG=3D010x, but are there others? */
+> +        /* FIXME: Should we check against registered IO addresses? */
+> +        wimg_flags =3D (ptel & (HPTE64_R_W | HPTE64_R_I | HPTE64_R_M));
 > +
-> +        for (j =3D 0; j < ARRAY_SIZE(sps->enc); j++) {
-> +            PPCHash64PageSize *ps =3D &sps->enc[j];
+> +        if (wimg_flags !=3D HPTE64_R_I &&
+> +            wimg_flags !=3D (HPTE64_R_I | HPTE64_R_M)) {
+> +            return H_PARAMETER;
+> +        }
+> +    }
 > +
-> +            assert(m <=3D j);
-> +            if (!ps->page_shift) {
+> +    pteh &=3D ~0x60ULL;
+> +
+> +    if (!valid_ptex(cpu, ptex)) {
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    slot =3D ptex & 7ULL;
+> +    ptex =3D ptex & ~7ULL;
+> +
+> +    if (likely((flags & H_EXACT) =3D=3D 0)) {
+> +        hptes =3D ppc_hash64_map_hptes(cpu, ptex, HPTES_PER_GROUP);
+> +        for (slot =3D 0; slot < 8; slot++) {
+> +            if (!(ppc_hash64_hpte0(cpu, hptes, slot) & HPTE64_V_VALID)) {
 > +                break;
 > +            }
-> +
-> +            if (cb(opaque, sps->page_shift, ps->page_shift)) {
-> +                if (ps->page_shift >=3D 16) {
-> +                    ci_largepage =3D true;
-> +                }
-> +                sps->enc[m++] =3D *ps;
-> +            }
 > +        }
-> +
-> +        /* Clear rest of the row */
-> +        for (j =3D m; j < ARRAY_SIZE(sps->enc); j++) {
-> +            memset(&sps->enc[j], 0, sizeof(sps->enc[j]));
+> +        ppc_hash64_unmap_hptes(cpu, hptes, ptex, HPTES_PER_GROUP);
+> +        if (slot =3D=3D 8) {
+> +            return H_PTEG_FULL;
 > +        }
-> +
-> +        if (m) {
-> +            n++;
+> +    } else {
+> +        hptes =3D ppc_hash64_map_hptes(cpu, ptex + slot, 1);
+> +        if (ppc_hash64_hpte0(cpu, hptes, 0) & HPTE64_V_VALID) {
+> +            ppc_hash64_unmap_hptes(cpu, hptes, ptex + slot, 1);
+> +            return H_PTEG_FULL;
 > +        }
+> +        ppc_hash64_unmap_hptes(cpu, hptes, ptex, 1);
 > +    }
 > +
-> +    /* Clear the rest of the table */
-> +    for (i =3D n; i < ARRAY_SIZE(opts->sps); i++) {
-> +        memset(&opts->sps[i], 0, sizeof(opts->sps[i]));
-> +    }
+> +    spapr_store_hpte(cpu, ptex + slot, pteh | HPTE64_V_HPTE_DIRTY, ptel);
 > +
-> +    if (!ci_largepage) {
-> +        opts->flags &=3D ~PPC_HASH64_CI_LARGEPAGE;
-> +    }
+> +    args[0] =3D ptex + slot;
+> +    return H_SUCCESS;
 > +}
 > +
-> +void ppc_hash64_unmap_hptes(PowerPCCPU *cpu, const ppc_hash_pte64_t *hpt=
-es,
-> +                            hwaddr ptex, int n)
+> +typedef enum {
+> +    REMOVE_SUCCESS =3D 0,
+> +    REMOVE_NOT_FOUND =3D 1,
+> +    REMOVE_PARM =3D 2,
+> +    REMOVE_HW =3D 3,
+> +} RemoveResult;
+> +
+> +static RemoveResult remove_hpte(PowerPCCPU *cpu
+> +                                , target_ulong ptex,
+> +                                target_ulong avpn,
+> +                                target_ulong flags,
+> +                                target_ulong *vp, target_ulong *rp)
 > +{
-> +    if (cpu->vhyp) {
-> +        PPCVirtualHypervisorClass *vhc =3D
-> +            PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
-> +        vhc->unmap_hptes(cpu->vhyp, hptes, ptex, n);
-> +        return;
+> +    const ppc_hash_pte64_t *hptes;
+> +    target_ulong v, r;
+> +
+> +    if (!valid_ptex(cpu, ptex)) {
+> +        return REMOVE_PARM;
 > +    }
 > +
-> +    address_space_unmap(CPU(cpu)->as, (void *)hptes, n * HASH_PTE_SIZE_6=
-4,
-> +                        false, n * HASH_PTE_SIZE_64);
+> +    hptes =3D ppc_hash64_map_hptes(cpu, ptex, 1);
+> +    v =3D ppc_hash64_hpte0(cpu, hptes, 0);
+> +    r =3D ppc_hash64_hpte1(cpu, hptes, 0);
+> +    ppc_hash64_unmap_hptes(cpu, hptes, ptex, 1);
+> +
+> +    if ((v & HPTE64_V_VALID) =3D=3D 0 ||
+> +        ((flags & H_AVPN) && (v & ~0x7fULL) !=3D avpn) ||
+> +        ((flags & H_ANDCOND) && (v & avpn) !=3D 0)) {
+> +        return REMOVE_NOT_FOUND;
+> +    }
+> +    *vp =3D v;
+> +    *rp =3D r;
+> +    spapr_store_hpte(cpu, ptex, HPTE64_V_HPTE_DIRTY, 0);
+> +    ppc_hash64_tlb_flush_hpte(cpu, ptex, v, r);
+> +    return REMOVE_SUCCESS;
 > +}
-> diff --git a/target/ppc/mmu-misc.h b/target/ppc/mmu-misc.h
-> new file mode 100644
-> index 0000000000..7be6bf7b44
-> --- /dev/null
-> +++ b/target/ppc/mmu-misc.h
-> @@ -0,0 +1,22 @@
-> +#ifndef MMU_MISC_H
-> +#define MMU_MISC_H
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
 > +
-> +#ifndef CONFIG_USER_ONLY
+> +static target_ulong h_remove(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +                             target_ulong opcode, target_ulong *args)
+> +{
+> +    CPUPPCState *env =3D &cpu->env;
+> +    target_ulong flags =3D args[0];
+> +    target_ulong ptex =3D args[1];
+> +    target_ulong avpn =3D args[2];
+> +    RemoveResult ret;
 > +
-> +#ifdef TARGET_PPC64
+> +    ret =3D remove_hpte(cpu, ptex, avpn, flags,
+> +                      &args[0], &args[1]);
 > +
-> +void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val);
-> +void ppc_hash64_filter_pagesizes(PowerPCCPU *cpu,
-> +                                 bool (*cb)(void *, uint32_t, uint32_t),
-> +                                 void *opaque);
+> +    switch (ret) {
+> +    case REMOVE_SUCCESS:
+> +        check_tlb_flush(env, true);
+> +        return H_SUCCESS;
 > +
-> +#endif
+> +    case REMOVE_NOT_FOUND:
+> +        return H_NOT_FOUND;
 > +
-> +void ppc_hash64_unmap_hptes(PowerPCCPU *cpu, const ppc_hash_pte64_t *hpt=
-es,
-> +                            hwaddr ptex, int n);
+> +    case REMOVE_PARM:
+> +        return H_PARAMETER;
 > +
-> +#endif
+> +    case REMOVE_HW:
+> +        return H_HARDWARE;
+> +    }
 > +
-> +#endif
+> +    g_assert_not_reached();
+> +}
+> +
+> +#define H_BULK_REMOVE_TYPE             0xc000000000000000ULL
+> +#define   H_BULK_REMOVE_REQUEST        0x4000000000000000ULL
+> +#define   H_BULK_REMOVE_RESPONSE       0x8000000000000000ULL
+> +#define   H_BULK_REMOVE_END            0xc000000000000000ULL
+> +#define H_BULK_REMOVE_CODE             0x3000000000000000ULL
+> +#define   H_BULK_REMOVE_SUCCESS        0x0000000000000000ULL
+> +#define   H_BULK_REMOVE_NOT_FOUND      0x1000000000000000ULL
+> +#define   H_BULK_REMOVE_PARM           0x2000000000000000ULL
+> +#define   H_BULK_REMOVE_HW             0x3000000000000000ULL
+> +#define H_BULK_REMOVE_RC               0x0c00000000000000ULL
+> +#define H_BULK_REMOVE_FLAGS            0x0300000000000000ULL
+> +#define   H_BULK_REMOVE_ABSOLUTE       0x0000000000000000ULL
+> +#define   H_BULK_REMOVE_ANDCOND        0x0100000000000000ULL
+> +#define   H_BULK_REMOVE_AVPN           0x0200000000000000ULL
+> +#define H_BULK_REMOVE_PTEX             0x00ffffffffffffffULL
+> +
+> +#define H_BULK_REMOVE_MAX_BATCH        4
+> +
+> +static target_ulong h_bulk_remove(PowerPCCPU *cpu, SpaprMachineState *sp=
+apr,
+> +                                  target_ulong opcode, target_ulong *arg=
+s)
+> +{
+> +    CPUPPCState *env =3D &cpu->env;
+> +    int i;
+> +    target_ulong rc =3D H_SUCCESS;
+> +
+> +    for (i =3D 0; i < H_BULK_REMOVE_MAX_BATCH; i++) {
+> +        target_ulong *tsh =3D &args[i*2];
+> +        target_ulong tsl =3D args[i*2 + 1];
+> +        target_ulong v, r, ret;
+> +
+> +        if ((*tsh & H_BULK_REMOVE_TYPE) =3D=3D H_BULK_REMOVE_END) {
+> +            break;
+> +        } else if ((*tsh & H_BULK_REMOVE_TYPE) !=3D H_BULK_REMOVE_REQUES=
+T) {
+> +            return H_PARAMETER;
+> +        }
+> +
+> +        *tsh &=3D H_BULK_REMOVE_PTEX | H_BULK_REMOVE_FLAGS;
+> +        *tsh |=3D H_BULK_REMOVE_RESPONSE;
+> +
+> +        if ((*tsh & H_BULK_REMOVE_ANDCOND) && (*tsh & H_BULK_REMOVE_AVPN=
+)) {
+> +            *tsh |=3D H_BULK_REMOVE_PARM;
+> +            return H_PARAMETER;
+> +        }
+> +
+> +        ret =3D remove_hpte(cpu, *tsh & H_BULK_REMOVE_PTEX, tsl,
+> +                          (*tsh & H_BULK_REMOVE_FLAGS) >> 26,
+> +                          &v, &r);
+> +
+> +        *tsh |=3D ret << 60;
+> +
+> +        switch (ret) {
+> +        case REMOVE_SUCCESS:
+> +            *tsh |=3D (r & (HPTE64_R_C | HPTE64_R_R)) << 43;
+> +            break;
+> +
+> +        case REMOVE_PARM:
+> +            rc =3D H_PARAMETER;
+> +            goto exit;
+> +
+> +        case REMOVE_HW:
+> +            rc =3D H_HARDWARE;
+> +            goto exit;
+> +        }
+> +    }
+> + exit:
+> +    check_tlb_flush(env, true);
+> +
+> +    return rc;
+> +}
+> +
+> +static target_ulong h_protect(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +                              target_ulong opcode, target_ulong *args)
+> +{
+> +    CPUPPCState *env =3D &cpu->env;
+> +    target_ulong flags =3D args[0];
+> +    target_ulong ptex =3D args[1];
+> +    target_ulong avpn =3D args[2];
+> +    const ppc_hash_pte64_t *hptes;
+> +    target_ulong v, r;
+> +
+> +    if (!valid_ptex(cpu, ptex)) {
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    hptes =3D ppc_hash64_map_hptes(cpu, ptex, 1);
+> +    v =3D ppc_hash64_hpte0(cpu, hptes, 0);
+> +    r =3D ppc_hash64_hpte1(cpu, hptes, 0);
+> +    ppc_hash64_unmap_hptes(cpu, hptes, ptex, 1);
+> +
+> +    if ((v & HPTE64_V_VALID) =3D=3D 0 ||
+> +        ((flags & H_AVPN) && (v & ~0x7fULL) !=3D avpn)) {
+> +        return H_NOT_FOUND;
+> +    }
+> +
+> +    r &=3D ~(HPTE64_R_PP0 | HPTE64_R_PP | HPTE64_R_N |
+> +           HPTE64_R_KEY_HI | HPTE64_R_KEY_LO);
+> +    r |=3D (flags << 55) & HPTE64_R_PP0;
+> +    r |=3D (flags << 48) & HPTE64_R_KEY_HI;
+> +    r |=3D flags & (HPTE64_R_PP | HPTE64_R_N | HPTE64_R_KEY_LO);
+> +    spapr_store_hpte(cpu, ptex,
+> +                     (v & ~HPTE64_V_VALID) | HPTE64_V_HPTE_DIRTY, 0);
+> +    ppc_hash64_tlb_flush_hpte(cpu, ptex, v, r);
+> +    /* Flush the tlb */
+> +    check_tlb_flush(env, true);
+> +    /* Don't need a memory barrier, due to qemu's global lock */
+> +    spapr_store_hpte(cpu, ptex, v | HPTE64_V_HPTE_DIRTY, r);
+> +    return H_SUCCESS;
+> +}
+> +
+> +static target_ulong h_read(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +                           target_ulong opcode, target_ulong *args)
+> +{
+> +    target_ulong flags =3D args[0];
+> +    target_ulong ptex =3D args[1];
+> +    int i, ridx, n_entries =3D 1;
+> +    const ppc_hash_pte64_t *hptes;
+> +
+> +    if (!valid_ptex(cpu, ptex)) {
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    if (flags & H_READ_4) {
+> +        /* Clear the two low order bits */
+> +        ptex &=3D ~(3ULL);
+> +        n_entries =3D 4;
+> +    }
+> +
+> +    hptes =3D ppc_hash64_map_hptes(cpu, ptex, n_entries);
+> +    for (i =3D 0, ridx =3D 0; i < n_entries; i++) {
+> +        args[ridx++] =3D ppc_hash64_hpte0(cpu, hptes, i);
+> +        args[ridx++] =3D ppc_hash64_hpte1(cpu, hptes, i);
+> +    }
+> +    ppc_hash64_unmap_hptes(cpu, hptes, ptex, n_entries);
+> +
+> +    return H_SUCCESS;
+> +}
+> +
+> +
+> +static void hypercall_register_types(void)
+> +{
+> +    /* hcall-pft */
+> +    spapr_register_hypercall(H_ENTER, h_enter);
+> +    spapr_register_hypercall(H_REMOVE, h_remove);
+> +    spapr_register_hypercall(H_PROTECT, h_protect);
+> +    spapr_register_hypercall(H_READ, h_read);
+> +
+> +    /* hcall-bulk */
+> +    spapr_register_hypercall(H_BULK_REMOVE, h_bulk_remove);
+> +}
+> +
+> +type_init(hypercall_register_types)
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -464,25 +832,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---mf5pHxYdrUEa5CVA
+--/C35JDL39tzlhgUT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPexkACgkQbDjKyiDZ
-s5ImmA/+NNYgsP+SguCq90EKeNOEtlUnlHMOK8RrQvpYq8N04jwXKBWvUF/c+bmr
-GxxwyJ18TMBVaSxOLpNekGbou4ZVjQ+kOrxAOczjPXGLOiwp0tr279GpXpy2U5d0
-r1j+UhvRBjs5fI+okZBkOf5CbdRnb6laFKAKj0yddxCWbVV2Wc7qmIW7IS9G/qpE
-7mTZ8RtnZmf8RaEIHc0CvvL/lLtsoGmH8+4N3pjHpppxId+4EeIqKFEywSbS2XtG
-s2kvU3in3Jo0VMj4R/1TPZYTMPxh84rxC5xsmKRrM7/Xt1y3bu38b9PUpZjzlDP7
-JRhdeENmx70sFpzobU6jyOH0WOPRJqCwdShnLQl4phpkUoOHazQe8Heyu/I7NPLm
-rEXxrl2VXS3ycZ9eHFJtF5d6CpS/jaIMXWUmmixirEhwabhi2vZ2NZjLTVF6I6dE
-ZG5OOnVqu8V44zxWykGUV83lbE6Fxy9Oo0F8kMfJn/VwffPPYy+Sz3g4AKKdbYlY
-pBHPJwiG4tcB0AAt6MpE6soIS2YIP/qD4B0/wDUG0+Z9AKzB1ZhQgz/2ZIOdu84C
-xeGBonkE2ph2aA/19zkIbK2HBMT49zMIVPgvSlXE/FLVYbgmQK9fIgowWkGsVLZH
-bmJoPbOQAO/7kHZNa+kBTBRlC/zgueosKthVT+rUP3Vqx+ipM+Q=
-=uqAs
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPfU0ACgkQbDjKyiDZ
+s5K++g//QsDKhP9kt284JAi5KQ2iS2SJnSqdv4bgw3Oc7kXIder4+V934eE4Tgtd
+mPDNdGltmv98BZSvq1wgPZN6IVICpqonTFXJ3os447KpGQ6JNFYPLB+TOMieKApN
+ILdtHlPiUG2X8zSRVMOf3oSWWhvWAmEooUVjZTsSgjCHyFbkuiOJKCBNca7OlBZ6
+zXgJ84EfhBFQOkRWpDZ5YD9u2pi7I8wkrpzmlAK17JGpYfXELOaNsEBhcr5T/ua0
+sgvsjNtrZj/MpYer6e3wyohMy+VUs6WwTGBJV4IiQGRN2eyxhe/FvTXwmGQSSYAb
+ayn+CwTY9ShCVUDZjXC8ezj/5IyObykv1yJBvx6FtyiVWghVl6Vw+4O9v+rc+gkK
+7vHe88uJmWM+fQHPxrMSXm0SuQSgGeRZzj7g1NP98kiPhJuQLEIeH4bN/aoCAQqv
+O47S+fhzq7H21u5iY0CChb2HzSgxSegpDESloWhTXGCecjb7u1u3ThKrqiBk16PT
+gSl6Hqrc1Lb2SwVWvJabbz7mFJV2LuGEJx1M1MA5smJJNBHud4BzobjzAogUhpxZ
+PV4tE5uVg43ooNqIPhBdvJwNP+QTnuiTzQvb9Tc/Dq7RX19p7Degqgp8K2A/SkEm
+r6o9t39Sx35ZtgSx93RoQ0Kq3RXOED9VJ9vsjb5wJMddzBGJ+ew=
+=UUDo
 -----END PGP SIGNATURE-----
 
---mf5pHxYdrUEa5CVA--
+--/C35JDL39tzlhgUT--
 
