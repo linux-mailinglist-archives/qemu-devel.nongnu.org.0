@@ -2,77 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3620371CD2
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:56:39 +0200 (CEST)
-Received: from localhost ([::1]:37854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3481371D20
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:57:41 +0200 (CEST)
+Received: from localhost ([::1]:41614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldbs7-0002M3-1T
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:56:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43874)
+	id 1ldbt6-0003tU-LU
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:57:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1ldboU-0008FD-4K
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:52:54 -0400
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:40829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1ldboP-0002m4-5Q
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:52:53 -0400
-Received: by mail-lf1-x131.google.com with SMTP id c3so5016584lfs.7
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:52:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=YpEuQ7hF0GoltZceckdMT9YwteGoJXdZProS9A1Zy1c=;
- b=qfD11lkkLObJrWcnPKDbCcwEqtss203KUgytqrMDr+fMhHsviS+UyPmfJc/JrE8oof
- qSh9wpGroEuYW6TXO1nWvvONq81dA3ZJmAYJdPyJvbPW20Pq/jd2wOsW4ANhLwLlPaDi
- l6IV5nO89/dodcCUxw85vjoOkrFgejrTqyCrpbNOdX8GqD+4grRCKqB3/kXDtM76irON
- FdjAAB7EUa6mm+YKWb1SSrzT2fYYXfoVi1XcKUoY6YUBHTr1OsraoeAZcE30hWbtGLE1
- kLEcSGb5W6oc92ytFKtHzITeLQ6V4NFciaKPCqpg9YX8XR0glb655qpirdip9TgbVoCF
- uELA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldbr4-00029R-Gi
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:55:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldbqy-0003vl-VT
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:55:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620060927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q0Tdb8sR1fcDHfLPMX3wxk8VQkl06VVaHGh/CyYd0mY=;
+ b=dI43gVvyELTLy3uPjNM9Extlqricocurovhz3qkaEyRGPs+Lz/qaLthk5Mtn/V7Qf5pBJK
+ rqGDJyjykuUMoYuGkqsjSy6b2TJHgiFCsRQKs+M+epbxpeFDOczbucVN37HIAH94ca4xkv
+ tv7rzHZS/c9NnLtnb6w8thfpo46gwu8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-293-KxAAWWF4N16RK1mBAlkFOw-1; Mon, 03 May 2021 12:55:26 -0400
+X-MC-Unique: KxAAWWF4N16RK1mBAlkFOw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r12-20020adfc10c0000b029010d83323601so4224259wre.22
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:55:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=YpEuQ7hF0GoltZceckdMT9YwteGoJXdZProS9A1Zy1c=;
- b=amVlHn3N9dnpccbaXFfcVKqqhledshSLaP2lPmDl4X8qQMMpZ7yCTfC3lDZFunaAQk
- BLkXyX2NYJmcFm5gdRkIHHE/2GIiCqP5o2qnJABiA5Tqb6xgSPeFZBT0bfOZJWWrXNSB
- 1scfFibttEG7yLGdyzJwwgqT+LoTnSyAE9Nn1Npco6pTmRBcF5jq+GRG6ZooOK7u1U21
- lSC2Er/HuhzJB37tKd3MzYeB6Fw7SiDws69H5pH/X631QtBfDJd9HMxiurLqsIqPsnjp
- mX+HAcIIAmhW5eFPKncJc5/okjyG3Rz0Cq2dwZwWvAqK5ziMP9iKgsC0NE5WWOUfxY3b
- hQrQ==
-X-Gm-Message-State: AOAM5326FoITjDtc21teKUNuJYWBwmfp1eV00y05CU3/jbMZ6D2vKlgJ
- 9NP+8jrZ3Ift1Le1nBsnAaA=
-X-Google-Smtp-Source: ABdhPJwDYjR7Z7+8sRizBz9j/JB2V9WjYjiDLB3Hs9R4v3Lq9Yk8so6nEOn5rkWz0wf/dOhXZaDCpQ==
-X-Received: by 2002:a19:5208:: with SMTP id m8mr13628480lfb.372.1620060767340; 
- Mon, 03 May 2021 09:52:47 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id 21sm1301087ljz.60.2021.05.03.09.52.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 09:52:47 -0700 (PDT)
-Date: Mon, 3 May 2021 18:52:46 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3 2/2] hw/rtc/mc146818rtc: Convert to 3-phase reset
- (Resettable interface)
-Message-ID: <20210503165246.GE477672@toto>
-References: <20210502163931.552675-1-f4bug@amsat.org>
- <20210502163931.552675-3-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Q0Tdb8sR1fcDHfLPMX3wxk8VQkl06VVaHGh/CyYd0mY=;
+ b=myhGxG8AsvMFY32GzIQ2jFad6oG1uztNwat/pjFpFE3zc15JWISSwHdKrxIRDuXYDy
+ +gox56xa5054mAySpy82LU9HjD3o2F6u6wrIFWDv8uruVj02asGBYt1VEt1oHWwD3U99
+ HOTgJg558vwFv2zhxeNZsWwYI35hd43bkkhzUb5OiXppHTVTf3BBOIxfBqdirRzCUMxB
+ ATmXsCGS+5isflb7qiBFuf6wtEyKWTCPb5dw9q1TZtOkAgUmYS0GuA845MtitHgcibzx
+ vHUhJrMEH4bTmznm7LTrkH8bwGmQ4owSoh42ebQW+0CJ6VcQwsy+khL5g0GkrMVD2ynR
+ HELQ==
+X-Gm-Message-State: AOAM532qYLLHvEo1odx6wAzQIs5b79M/6/Wn1U0Lti3H2QKkcYSp3PVy
+ FjI6I7cDukGKiXMOLRN+bYbCFOD5RcYUHI2CjsvGz3SljjQQOBBbExPx7DX0LYbBwlTupvre8Py
+ 6H8iTKj4ESpmKU/Y=
+X-Received: by 2002:a1c:228a:: with SMTP id i132mr22727382wmi.10.1620060925035; 
+ Mon, 03 May 2021 09:55:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFo7qEDMges/uzjZw97HO6hFxO5PyY6DBxO4xIjzOBIH5ikYZzKiDHiEz6SFPumnm4SvWc4w==
+X-Received: by 2002:a1c:228a:: with SMTP id i132mr22727362wmi.10.1620060924840; 
+ Mon, 03 May 2021 09:55:24 -0700 (PDT)
+Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
+ [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id d3sm5107213wri.75.2021.05.03.09.55.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 May 2021 09:55:24 -0700 (PDT)
+Subject: Re: [PATCH 0/3] ppc: Convert (mostly) from device_legacy_reset() to
+ device_cold_reset()
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20210503151849.8766-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <5fc07469-32c4-3c86-92f1-430bac6f09a3@redhat.com>
+Date: Mon, 3 May 2021 18:55:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210502163931.552675-3-f4bug@amsat.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210503151849.8766-1-peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,116 +100,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 02, 2021 at 06:39:31PM +0200, Philippe Mathieu-Daudé wrote:
-> TYPE_MC146818_RTC is an ISA device, so its DeviceClass::reset()
-> handler is called automatically when its qbus parent is reset
-> (we don't need to register it manually).
-> 
-> We have 2 reset() methods: a generic one and the qdev one.
-> Merge them into a reset_enter handler (keeping the IRQ lowering
-> to a reset_hold one), and remove the qemu_register_reset() call.
+Hi Peter,
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
++Eduardo/Markus
 
+On 5/3/21 5:18 PM, Peter Maydell wrote:
+> The old function device_legacy_reset() (which was originally
+> device_reset() and got renamed when 3-phase-reset landed) is
+> deprecated, because it has slightly odd semantics -- it resets the
+> device itself, but (unlike when a device is reset as part of system
+> reset) not any qbus it owns (and devices attached to the qbus).  The
+> replacement is device_cold_reset(), which resets the device and its
+> bus (if any).
+> 
+> For a device with child bus, the two functions are identical; this
+> patchset changes the PPC code which uses device_legacy_reset() on
+> devices which have no qbus to use device_cold_reset() instead; this
+> should have no functionally visible difference.
+
+So IIUC we should be able to add this check?
+
+-- >8 --
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index cefc5eaa0a9..4e03f964a42 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -1121,6 +1122,7 @@ void device_legacy_reset(DeviceState *dev)
+     DeviceClass *klass = DEVICE_GET_CLASS(dev);
+
+     trace_qdev_reset(dev, object_get_typename(OBJECT(dev)));
++    assert(DEVICE_GET_CLASS(dev)->bus_type);
+     if (klass->reset) {
+         klass->reset(dev);
+     }
+---
 
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/rtc/mc146818rtc.c | 42 ++++++++++++++++++++++--------------------
->  1 file changed, 22 insertions(+), 20 deletions(-)
+> There is one other use of device_legacy_reset() in PPC code which I
+> didn't change: in hw/ppc/spapr_pci.c:spapr_phb_children_reset().  I
+> couldn't figure out what the children being reset here are and if
+> they might own buses.  I suspect that even if they do own buses the
+> right thing would be to change to device_cold_reset(), but I stuck to
+> only the changes I felt reasonably sure were definitely
+> no-behaviour-change.
 > 
-> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-> index 5d0fcacd0c0..836c3691706 100644
-> --- a/hw/rtc/mc146818rtc.c
-> +++ b/hw/rtc/mc146818rtc.c
-> @@ -872,22 +872,6 @@ static void rtc_notify_suspend(Notifier *notifier, void *data)
->      rtc_set_memory(ISA_DEVICE(s), 0xF, 0xFE);
->  }
->  
-> -static void rtc_reset(void *opaque)
-> -{
-> -    RTCState *s = opaque;
-> -
-> -    s->cmos_data[RTC_REG_B] &= ~(REG_B_PIE | REG_B_AIE | REG_B_SQWE);
-> -    s->cmos_data[RTC_REG_C] &= ~(REG_C_UF | REG_C_IRQF | REG_C_PF | REG_C_AF);
-> -    check_update_timer(s);
-> -
-> -    qemu_irq_lower(s->irq);
-> -
-> -    if (s->lost_tick_policy == LOST_TICK_POLICY_SLEW) {
-> -        s->irq_coalesced = 0;
-> -        s->irq_reinject_on_ack_count = 0;
-> -    }
-> -}
-> -
->  static const MemoryRegionOps cmos_ops = {
->      .read = cmos_ioport_read,
->      .write = cmos_ioport_write,
-> @@ -962,7 +946,6 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
->      memory_region_add_coalescing(&s->coalesced_io, 0, 1);
->  
->      qdev_set_legacy_instance_id(dev, RTC_ISA_BASE, 3);
-> -    qemu_register_reset(rtc_reset, s);
->  
->      object_property_add_tm(OBJECT(s), "date", rtc_get_date);
->  
-> @@ -998,15 +981,32 @@ static Property mc146818rtc_properties[] = {
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> -static void rtc_resetdev(DeviceState *d)
-> +static void rtc_reset_enter(Object *obj, ResetType type)
->  {
-> -    RTCState *s = MC146818_RTC(d);
-> +    RTCState *s = MC146818_RTC(obj);
->  
->      /* Reason: VM do suspend self will set 0xfe
->       * Reset any values other than 0xfe(Guest suspend case) */
->      if (s->cmos_data[0x0f] != 0xfe) {
->          s->cmos_data[0x0f] = 0x00;
->      }
-> +
-> +    s->cmos_data[RTC_REG_B] &= ~(REG_B_PIE | REG_B_AIE | REG_B_SQWE);
-> +    s->cmos_data[RTC_REG_C] &= ~(REG_C_UF | REG_C_IRQF | REG_C_PF | REG_C_AF);
-> +    check_update_timer(s);
-> +
-> +
-> +    if (s->lost_tick_policy == LOST_TICK_POLICY_SLEW) {
-> +        s->irq_coalesced = 0;
-> +        s->irq_reinject_on_ack_count = 0;
-> +    }
-> +}
-> +
-> +static void rtc_reset_hold(Object *obj)
-> +{
-> +    RTCState *s = MC146818_RTC(obj);
-> +
-> +    qemu_irq_lower(s->irq);
->  }
->  
->  static void rtc_build_aml(ISADevice *isadev, Aml *scope)
-> @@ -1033,11 +1033,13 @@ static void rtc_build_aml(ISADevice *isadev, Aml *scope)
->  static void rtc_class_initfn(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
->      ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
->  
->      dc->realize = rtc_realizefn;
-> -    dc->reset = rtc_resetdev;
->      dc->vmsd = &vmstate_rtc;
-> +    rc->phases.enter = rtc_reset_enter;
-> +    rc->phases.hold = rtc_reset_hold;
->      isa->build_aml = rtc_build_aml;
->      device_class_set_props(dc, mc146818rtc_properties);
->  }
-> -- 
-> 2.26.3
+> NB: tested with 'make check' and 'make check-acceptance' only.
 > 
+> thanks
+> -- PMM
+
 
