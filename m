@@ -2,77 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC36B371010
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 02:14:02 +0200 (CEST)
-Received: from localhost ([::1]:37830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927B3371020
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 02:41:08 +0200 (CEST)
+Received: from localhost ([::1]:34926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldMDp-00088g-PY
-	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 20:14:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43858)
+	id 1ldMe3-0002pv-MP
+	for lists+qemu-devel@lfdr.de; Sun, 02 May 2021 20:41:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldLyF-0007sU-6Y
- for qemu-devel@nongnu.org; Sun, 02 May 2021 19:57:55 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:45941)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldLyB-0000ik-56
- for qemu-devel@nongnu.org; Sun, 02 May 2021 19:57:54 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- gc22-20020a17090b3116b02901558435aec1so2323743pjb.4
- for <qemu-devel@nongnu.org>; Sun, 02 May 2021 16:57:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=X6eMYlPkz/xwpAiWOHwYMrr3yr7efGsUc6A7ETsQFoo=;
- b=Ynu0GwpQ3e3NfzdQBevIiDFuKwQyhHgeCftVnetMeKcH9KZMWfRYZXf5XvMKGpXC8T
- TGzdhxJqz/Qk1UV2w2JW5sI1KgvfbHqg5Lbtg+3+9cKMn8UsdtUifgN4Obvtm/EQfeRw
- OjeXtNZ98dxYUXqGQRHyfxF1jyYNFuPqh+SIFC6qwb9i5lPNtaficiingwYFZAvAL22L
- c7QsGjnyELWcl5Q8qppJspN2cqeiVH8K7XkEIYhCRKJBpkqUetHc+SXJvv7oefRvsqUM
- NEYb023FyMFjeW14JTiQAnhLUkTRZkFO2hZ2mP/y0GIbXmEJ/uc2inXVVL+5rJHTU7lK
- Wbvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=X6eMYlPkz/xwpAiWOHwYMrr3yr7efGsUc6A7ETsQFoo=;
- b=HS3oA/4bBFFbBXZ6kjhfjbe6S+HMjCW5/HYRo5va8ZRFGao8LNldSfZKvJcZ8Wyzmc
- hCtwNvwoKXDeCtB7RTpwUJE71/nlVm2E+cVZHfMvZq98NE4ZCrmazoSl1dJgiFByVeYY
- FyinmGF8clZPvBb0AEjUrEAfgpfNcJT1x0eQosfZZbzFXZ2+my16tikRogjxfE6Fm/qy
- 4iy5zLy7YtyX7n7UxmctVGmz1PzrWUktcspNCzLmurzquMmCivys6iNYMFgIkMGtGR9/
- jQlOiSEaoXz5ypsskG1erzG+Axoe8L4CfWnzfBt88EWnsN5zyb8dQy/IQJvkqreT8YI+
- WiMw==
-X-Gm-Message-State: AOAM533w9wr+Ktyi3Ki6SVrkBXW7whLCxyVU8bo5YmGz0ecjGNx5TbLB
- fGEBT4hEN2lvbF5McrZcNsZyQ4oOqMEdPQ==
-X-Google-Smtp-Source: ABdhPJwZdOrgX0sFDsBzs50kgp/haQ+ZDz2va9eqeB5YwNiQvaeNWnAgB5RPwLMxkYATnowTiX6dQQ==
-X-Received: by 2002:a17:90a:9203:: with SMTP id
- m3mr8287286pjo.21.1619999869909; 
- Sun, 02 May 2021 16:57:49 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id t184sm8098054pgt.32.2021.05.02.16.57.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 May 2021 16:57:49 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 26/26] gitlab: Enable cross-i386 builds of TCI
-Date: Sun,  2 May 2021 16:57:27 -0700
-Message-Id: <20210502235727.1979457-27-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210502235727.1979457-1-richard.henderson@linaro.org>
-References: <20210502235727.1979457-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ldMd4-00027E-Tf; Sun, 02 May 2021 20:40:06 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:37539 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ldMd1-0007PP-Rw; Sun, 02 May 2021 20:40:06 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FYPJ6125Zz9sTD; Mon,  3 May 2021 10:39:50 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1620002390;
+ bh=Zwledic2kIhKs6Aw12Fliq7h3cIPAKPT/pHAIDt9ymA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=A7Jy52v1nwGVZclCxbZRYUzH/KsjT2x8MiLVS6WpGpoig62IB3HMztUr+Iegf6fVj
+ x6UP3aFFv4RDEWWznzbRTJoEnvmnOnoF7hbgB+IH0aDimz/fBrtLEHvsGb1fIETWb2
+ MHekVvV026U+ofHE+GlRiemtHXEIXeVx8s1XLnvE=
+Date: Mon, 3 May 2021 10:18:27 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 2/3] hw/pci-host/raven: Manually reset the OR_IRQ device
+Message-ID: <YI9BU90w8s7akEZF@yekko>
+References: <20210502203121.630944-1-f4bug@amsat.org>
+ <20210502203121.630944-3-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="C/McwL+Wukj8oqWe"
+Content-Disposition: inline
+In-Reply-To: <20210502203121.630944-3-f4bug@amsat.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,52 +58,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're currently only testing TCI with a 64-bit host -- also test
-with a 32-bit host.  Enable a selection of softmmu and user-only
-targets, 32-bit LE, 64-bit LE, 32-bit BE, as there are ifdefs for each.
 
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- .gitlab-ci.d/crossbuilds.yml | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+--C/McwL+Wukj8oqWe
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index fbf7b7a881..bbf3cccf6d 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -27,7 +27,7 @@
-     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-       ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-         --disable-tools --enable-${ACCEL:-kvm} $EXTRA_CONFIGURE_OPTS
--    - make -j$(expr $(nproc) + 1) all check-build
-+    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
- 
- .cross_user_build_job:
-   stage: build
-@@ -98,6 +98,15 @@ cross-i386-user:
-     IMAGE: fedora-i386-cross
-     MAKE_CHECK_ARGS: check
- 
-+cross-i386-tci:
-+  extends: .cross_accel_build_job
-+  timeout: 60m
-+  variables:
-+    IMAGE: fedora-i386-cross
-+    ACCEL: tcg-interpreter
-+    EXTRA_CONFIGURE_OPTS: --target-list=i386-softmmu,i386-linux-user,aarch64-softmmu,aarch64-linux-user,ppc-softmmu,ppc-linux-user
-+    MAKE_CHECK_ARGS: check check-tcg
-+
- cross-mips-system:
-   extends: .cross_system_build_job
-   needs:
--- 
-2.25.1
+On Sun, May 02, 2021 at 10:31:20PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> The OR_IRQ device is bus-less, thus isn't reset automatically.
+> Add the raven_pcihost_reset() handler to manually reset the OR IRQ.
+>=20
+> Fixes: f40b83a4e31 ("40p: use OR gate to wire up raven PCI interrupts")
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  hw/pci-host/prep.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>=20
+> diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+> index 0a9162fba97..7481bbf99d4 100644
+> --- a/hw/pci-host/prep.c
+> +++ b/hw/pci-host/prep.c
+> @@ -230,6 +230,15 @@ static void raven_change_gpio(void *opaque, int n, i=
+nt level)
+>      s->contiguous_map =3D level;
+>  }
+> =20
+> +static void raven_pcihost_reset_enter(Object *obj, ResetType type)
+> +{
+> +    PREPPCIState *s =3D RAVEN_PCI_HOST_BRIDGE(obj);
+> +
+> +    if (!s->is_legacy_prep) {
+> +        device_cold_reset(DEVICE(&s->or_irq));
+> +    }
+> +}
+> +
+>  static void raven_pcihost_realizefn(DeviceState *d, Error **errp)
+>  {
+>      SysBusDevice *dev =3D SYS_BUS_DEVICE(d);
+> @@ -419,11 +428,13 @@ static Property raven_pcihost_properties[] =3D {
+>  static void raven_pcihost_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +    ResettableClass *rc =3D RESETTABLE_CLASS(klass);
+> =20
+>      set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+>      dc->realize =3D raven_pcihost_realizefn;
+>      device_class_set_props(dc, raven_pcihost_properties);
+>      dc->fw_name =3D "pci";
+> +    rc->phases.enter =3D raven_pcihost_reset_enter;
+>  }
+> =20
+>  static const TypeInfo raven_pcihost_info =3D {
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--C/McwL+Wukj8oqWe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPQVEACgkQbDjKyiDZ
+s5Jc2xAAk8uUyxWcYVHoquuHLpoTIZF0q25RSmkgMRb/ZznY1XQ9nX2i/ROzTYuq
+ycPJzLzLEIQFL455hPRdpb7vzXdDDM0CGkZfI8ZIwlW5qqqaqP5OBuROJ9PP7XwU
+xFpZqRvGesZs6EQnBlafhw5H6+lQeltP37037mByxXoFjgDSUVn6XxXFRg1F4FVm
+ZRegR9MdGmVvM/W9oRcZMoxTnRsYWmlKP7vkjrib/tKYkU7bOkXtSoxqDkG4m5/4
+o3UrWo/mYYgWdhICvC14P006VqK/qdxH2T0zruaZZP4Y6WIa5BZ9uHhOJRwkwK5G
+e76hM/J1/nj3JenBTB9FRNriaqXMHuGNeDN9uHGfWhrxIIehJx5WjxwGg2sskyo2
+ucP9qsISqR+rAwZiL7YQXk0u6QOCQkqLePnqoHa5kgz27Kjkqf5XCBB3w3Bi16/X
+E3fI6D+lU2RGpO50UD8hzAd6YlgYrL1GxCnvd3ALOEcYY0GBPpWOLpSsiEO1OCxr
+7opnA77Lr6uBU1lRn0WK4oTaMZbR8oOw1fmB3yUAXlC5PzXYu/JZNxeyQeBIcJh5
+8FhDDCgPNL5QHKR2fQZsULcG4HVbsCi7IEHm8Bf6P/r4IH6GKNo5qxgxcCknk3ej
+3B4KAJV7EsKkCNucTS5AC3xFE0GhCEXHaWlYGgWLhWWzdQxNwOQ=
+=OAtD
+-----END PGP SIGNATURE-----
+
+--C/McwL+Wukj8oqWe--
 
