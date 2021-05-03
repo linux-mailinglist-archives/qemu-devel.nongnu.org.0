@@ -2,76 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426643715BF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 15:10:40 +0200 (CEST)
-Received: from localhost ([::1]:36812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446C23715E4
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 15:22:24 +0200 (CEST)
+Received: from localhost ([::1]:60000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldYLP-0007JJ-4h
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 09:10:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38676)
+	id 1ldYWl-0000LO-C1
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 09:22:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1ldYIV-0004OI-KL
- for qemu-devel@nongnu.org; Mon, 03 May 2021 09:07:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25572)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ldYK4-0006O2-AR; Mon, 03 May 2021 09:09:16 -0400
+Received: from mail-eopbgr60093.outbound.protection.outlook.com
+ ([40.107.6.93]:22196 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1ldYIP-0004on-2o
- for qemu-devel@nongnu.org; Mon, 03 May 2021 09:07:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620047250;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=09rXqiaTUywzSMvmE0+oi/p9QKDaKHKsSfMTcogwyT0=;
- b=Zh3WlsvsIZnHAJVZuVoAumFcNHNdrBXicqWXve63OcU6P1PNfnNpGl/QQO7wOLe/aQuzIN
- 1sjxL2chR5IDDsj7Dz9LKMK0K5xlkkOvecSNycKAd/mgMt88IUG92czpKhzCsci3zxAe3J
- nGKMzEMEO9yiHz9mDu3bK7KMG8px+yg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-pgFWX_R3PM-8tk5GYSYTMw-1; Mon, 03 May 2021 09:07:28 -0400
-X-MC-Unique: pgFWX_R3PM-8tk5GYSYTMw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAA1C804035;
- Mon,  3 May 2021 13:07:27 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-10.rdu2.redhat.com [10.10.115.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ADB4319C79;
- Mon,  3 May 2021 13:07:16 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 39A7122054F; Mon,  3 May 2021 09:07:16 -0400 (EDT)
-Date: Mon, 3 May 2021 09:07:16 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Ge, Xiongzi" <Xiongzi.Ge@netapp.com>
-Subject: Re: [Virtio-fs] Live migration support for virtio-fs
-Message-ID: <20210503130716.GB81443@redhat.com>
-References: <714BD741-AE3F-4BC5-8DFB-F5C74A8623B1@netapp.com>
- <YFnC9QXo6uP+2zC1@work-vm> <20210323145312.GB483930@redhat.com>
- <YFoCpIh5PCSP6gXB@work-vm>
- <40D27E5F-C65A-4441-BA23-ABA6880DAA71@netapp.com>
- <YG8tXxdyakzkyI0h@stefanha-x1.localdomain>
- <423DD084-E08F-4402-AD5A-3583117A6B4E@netapp.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ldYK0-0005if-RB; Mon, 03 May 2021 09:09:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RozyPATZJ6A2/n50X5XZOWl2fwg+Q+EV8nIsF3YpbBomxU+lofSWDDEpAsNkFIVNPLav/pqc9HUzrdVumq6zkckhm7wAJItnEzTwJvTpwUVRujQ1eN++aKuGJoiXL9k85K9mjVP3JIl/Vqo8jXlBMGVzu8csIJJogrwuqR9TflrGQVF2vq6tXCeEkvj/6rzbPKrMv6HZjZB/Pi/vk6+372VtY5MSx43H/fe5CGGAOSsFMpXABfM7I1vp0dd7xc9+hWL/pIjpxBHcUMdPzwKeOvGHBT5LWuiFeuZZGwOQAaEnaCed+qyHm3fYZuXelPPO0ZaqusA6ffBa+7SEkKmVxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1YkTR9ECdo+oabcNmJy67iyYCqBLHNTep2sUv4J22s4=;
+ b=jhO6i7Yb3/OodRgJgTlT9GlU+xVN/Dc7E8IlyZUg1uV7jin/mjpAS/Swvg29wY5WiKIOzgR5eqh7HlA67qKnd9EcYiGhWkWhpbxieYbds759oLhnanMbHNU1dCEIeJaH70+LtihEZuvijVXumxH6hclTZggoAapW/K5DVmmD+s9k6cTt19mStf9ttHytmsdxYgpIma+9lSKBK4XeUPydsF93/+e13K40/23+WELjlkB9poL/5/++ATK/X4LiVqk1YdbG/D17lqS0F2WiadagBzx/78JpbDV2X0AF51lFV8bIZsDHMN5Nox97SgP2zdzJjrjYwbiain0rbp89bpRSYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1YkTR9ECdo+oabcNmJy67iyYCqBLHNTep2sUv4J22s4=;
+ b=itospG3c3G9CVSPYqV/2WGSpJTcAsf1l6v83r01Ta1T4ma9PCFVsm+1lXSp6h6vC0M69RXHB9RrW/71DUqpWuyqr9xAiUAtOEeZ8ot9gzYgKScsQzmFVXZAmrhnpbkFQSgbpA9VtMMYlbB/LN6XioDADXXOGCrGcup6Ls4mXoNU=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3861.eurprd08.prod.outlook.com (2603:10a6:20b:80::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.38; Mon, 3 May
+ 2021 13:09:09 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4087.039; Mon, 3 May 2021
+ 13:09:09 +0000
+Subject: Re: [PATCH 2/2] block: Fix Transaction leak in bdrv_reopen_multiple()
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, mreitz@redhat.com, qemu-devel@nongnu.org
+References: <20210503110555.24001-1-kwolf@redhat.com>
+ <20210503110555.24001-3-kwolf@redhat.com>
+ <ca5be7fe-9468-fce0-6f23-4d1c4c8ad1fb@virtuozzo.com>
+ <YI/vgNBevsswQXe+@merkur.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <72a09cc7-383a-0818-7edc-dae75979a264@virtuozzo.com>
+Date: Mon, 3 May 2021 16:09:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+In-Reply-To: <YI/vgNBevsswQXe+@merkur.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.251]
+X-ClientProxiedBy: PR2PR09CA0022.eurprd09.prod.outlook.com
+ (2603:10a6:101:16::34) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <423DD084-E08F-4402-AD5A-3583117A6B4E@netapp.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.251) by
+ PR2PR09CA0022.eurprd09.prod.outlook.com (2603:10a6:101:16::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4087.27 via Frontend Transport; Mon, 3 May 2021 13:09:08 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 03b82a1c-4a81-485f-8bff-08d90e34a35b
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3861:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB38610C285104C8935B1CA292C15B9@AM6PR08MB3861.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6EbVVcPGKUFomzWfKS8jt1yG2FnLUfLgSBeH5zrcOx1h6s4P3+Dgf1VjNkWQqX2KoDUySu5nIynZqMJu/fRtjeyfVNYAWKWHPjOO7I729jqbw+h3D47HiZ6qKAechW7Kp+MkyEbUBnX2QzQXsCdRMJ5tn91KVbg4fCugs83BYvZGJ5coMmXo5SIqZm24nvIHBrse+hYL/eC57C11gFGyJ47FuPSOptCINl4fBm8hijkZ4xMXHAN0f+sxUtP9LfoxViW03Rp8rexwb7Ve8zsdpkLzllgnqj+75rczJwAmyGah4Gi1NyFLJWogXAb0UgeLiq8+FUBZKpGlTPlBq4Ja9K7B9K4u4uUi/MNKnfsc8R68LYFiWj/WxXDyZQdkneIFNuuHoUHrfIXvtPAggFu8hXBZC7Rk5RIr6nGr+RKAKP/qWBLhSUWAeLVyS0Rju/MCWZ8fKuVGzySnvdnFYGoeai2odUO5TRgPf8Vul9UdQr9ShacNu+/1eT3r61XGNMj72NPqOBWo/4ab/HEEIc8GtFmbCz8FQ38utZ8xDTiUeiCJwmhlsTO1qnXfAGnB9a8t8bE66osiYXaF2TwQLw4V68Qa8Ip+4A8lCHBNYPEU0iJkECIlvPHgCYPz4BLMfiSF1mOOePU2hZmqRc7o/8QfiUPODDjOqzW/7jzGzSKhD91Fy4I3ZrBDG1rq+r24gufsWoGt60evsCFAjbCQnZ6h+Ak5uwciJRVF1/KZPzgTym8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(136003)(39840400004)(366004)(396003)(31686004)(8676002)(316002)(26005)(6916009)(16576012)(8936002)(86362001)(2616005)(38100700002)(36756003)(38350700002)(66556008)(52116002)(66946007)(5660300002)(956004)(16526019)(2906002)(31696002)(6486002)(83380400001)(4326008)(478600001)(66476007)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?S3gxZmRwMS9GMDExaWNHWUNEZ2pFenRNOXhvRWt1amw3U1NWb0MxRDdYaUVC?=
+ =?utf-8?B?RTNvUGpKSnl4SmdieXA2ZmNRZFVRQTNWUEhCUC85T3FmNnIwTitXL3JrT2dl?=
+ =?utf-8?B?WTdrdHhtVFJhVllMV2tCRHRvcFpCQTkxZWdlR1lLdWVUQWZPV3k3bE5CZTNy?=
+ =?utf-8?B?Q29BdC9IV1ppclNUcjNpdjhZTzdWNzh6U2ZMbUh3RHZrR0hIYloxQ3QyZlMr?=
+ =?utf-8?B?NGlZUDJ2L3hCUm5WWHhBUWZ5RklSTkN3KzJySTFsOEp5UlNyRENCd3ZLYS9O?=
+ =?utf-8?B?L2Z3Y2NMMGJoM0R6T3pISzlkUzdOYithQUsrdXA4MDFUamRrRmI2NWpaSGFa?=
+ =?utf-8?B?VlVYTXBDL1FkTERBZ3VPaERMVzVMOWdML0lwWlg3TjYwNUg0ZmZ4VmhtbUhV?=
+ =?utf-8?B?cjI5cTlFY1NLcHJWd3Q5TmN3U3VxbDdnb1RrTTAzYVk4YmlQc3hjMklSZm1v?=
+ =?utf-8?B?WVpMVUh1d2wzVFREMHRIcDVFUVN5dmthMlNROGF4WGdOY3I3bGFHQ0JSUkJY?=
+ =?utf-8?B?VklQbk82S084M2ZMem5aMUoyR1RlK3h4SHVPL0FySE15eUpWWTZSeXVSN0ky?=
+ =?utf-8?B?K3Z2Zmh6R3VZdHVRZXluQVhtdm5xUklFVks4QWhQRGNOZ0FQcmF0SVNWZUk4?=
+ =?utf-8?B?dmY4b0hVaWgvMm5teFczYUJlNTRBODdkOC81NUZ4NzNaemxtWVJtOWhHZUhM?=
+ =?utf-8?B?NGVMWFlGYWhiN0o4VEo1QzNmanZvbFVHYVR6M2NJSGk5NUtpV2hnQ0grM2VF?=
+ =?utf-8?B?dVhMbmtKa2tCR0VyNWxJTVhFNzRzZ0pIbys4UGhBZEQzdFRpcTRFdmI5WHc3?=
+ =?utf-8?B?aVdjMCtid1BPT2pWbWNCZG4rcWRFZU5wWnZrTGxLbEN5cnBNbGdUUGprMVRX?=
+ =?utf-8?B?ZzIzTkFXVmRzbzFKNFo3d0NzOVlxRzJSZ1d5azFvRDkxZTRIb2FkOUJkSU85?=
+ =?utf-8?B?eElUNHJMSVdaaDFUdDA3L1JocWhreVIvN0hPeFRhYlZ5THBkNlFkVWVGYXhP?=
+ =?utf-8?B?elpwdkhheTMrN3I3aGY5RFdDdVkzcEwveHB0bUxWVjF6T29DY1AwN0RrMDBK?=
+ =?utf-8?B?NGI0RXpGK1NYeG04dUpxeXpPOFhJanN4alhlZFNmT0tOdkl1Z25lZDNpNmJ3?=
+ =?utf-8?B?ZjhsSnNJM2ZseTgzNTNyazlPWmNqcHR0ZGx6TGdBMHhDdC9lRHVWVWpoODlX?=
+ =?utf-8?B?aE03b2txdXFtdkQwWThDVCtPajJBZks2NGozaVJwMjZLVzJpR1RiL0lOZlVo?=
+ =?utf-8?B?SnhLeERtT2pYS25RZ0hTU3ZVdk9nTnlqSTlKZmx0blF2LzE0b3hUNzRGQjRY?=
+ =?utf-8?B?MENCZ3lZTUN0UjQxUHBwNlJYYVZ6R1lCNi9oV1Jnb0lyS1ZSMmpGY09RWDVt?=
+ =?utf-8?B?U0pnSWlnZFNwaW1adk8rTEFXTU00MmFJNEw0NTdOM0M3MmpnV1NGbi8rZk0y?=
+ =?utf-8?B?ZjFoc3VJYXVHRDlhV2tmdlVlSUVwVG9XcEdlU0xLNnNtUnV4K2pGR213Tzdm?=
+ =?utf-8?B?dzZROHprYitrZnRDUlBLV1BoRTV1Nk41bVQvM25vVHNqOEhWWXRHU2J1cnM1?=
+ =?utf-8?B?aGVoRkdSaXNuTTNLTTluY2V0RmNETVlIR0IyQUFTMVErV2laek1EcUZ5TW1V?=
+ =?utf-8?B?M2J1N05Dc25SOUsxR1lWMVZ3VXpMcFdsRWNTYWdFaGV1c0FJNE1uWE9YUlJi?=
+ =?utf-8?B?Zk03NDdHWDE1ZTlBVjJnT0MzT0U0M3MvL1AxSnpaYWwvMGQydXF1aituYU9p?=
+ =?utf-8?Q?DxQoXJvUYORbgw5ym872cF7dQpNjs7DEHVjlo4o?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03b82a1c-4a81-485f-8bff-08d90e34a35b
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 May 2021 13:09:09.3072 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pWZ5P97aFNm6PdGR5NKycNm1Wfpo+WLJC+Gx7wCBgXaU+6SHx7lZ1WjqvyyW1MKmtCMyj69KuISSkfHa2T9jNIH3t95D+sYJbSkwCJsGXIQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3861
+Received-SPF: pass client-ip=40.107.6.93;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,87 +145,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Xiongzi,
-
-Try qemu monitor to hot device add/remove that works. I think libvirt
-support is yet to be added.
-
-One issue I faced was that I had to add a pcie root to move virtiofs
-device off pcie.0 and then hot add remove functionality works.
-
-So I had to add pcie root port by adding following to qemu command
-line.
-
--device pcie-root-port,id=root1,slot=0
-
-And now you can hot add a device using device_add.
-
- (qemu) device_add vhost-user-fs-pci,bus=root1,id=myvirtiofs,chardev=char0,tag=myfs,queue-size=1024
-
-- To hot remove device, issue from qemu monitor.
-
-  (qemu) device_del <device_id>
-  ex. device_del myvirtiofs
-
-Thanks
-Vivek
-
-On Mon, May 03, 2021 at 12:50:56PM +0000, Ge, Xiongzi wrote:
-> Thanks, Stefan!
-> It seems that libvirt does not support device-attach for filesystem type device, like virtiofs. Are there any other ways to do this hot-unplugging? 
+03.05.2021 15:41, Kevin Wolf wrote:
+> Am 03.05.2021 um 13:40 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> 03.05.2021 14:05, Kevin Wolf wrote:
+>>> Like other error paths, this one needs to call tran_finalize() and clean
+>>> up the BlockReopenQueue, too.
+>>
+>> We don't need the "abort" loop on that path. And clean-up of
+>> BlockReopenQueue is at "cleanup:" label.
 > 
-> Xiongzi
+> The cleanup of the BlockReopenQueue itself is there, but not of all
+> fields in it. Specifically, these lines are needed:
 > 
-> ﻿On 4/8/21, 12:21 PM, "Stefan Hajnoczi" <stefanha@redhat.com> wrote:
+>      qobject_unref(bs_entry->state.explicit_options);
+>      qobject_unref(bs_entry->state.options);
 > 
->     On Wed, Apr 07, 2021 at 06:05:29PM +0000, Ge, Xiongzi wrote:
->     > Thanks Dr Gilbert, Vivek, Stefan, Greg!
->     > I put together the discussion into this thread and CC qemu-devel@nongnu.org. 
->     > 
->     > Problem:
->     > Current Virtio-FS does not support live migration.  Even when the virtiofs directory is not mounted on the guest, VM cannot do live migration. Any suggestions/interest If we want to make this work so we can still have the live migration feature for other purpose on that VM? 
->     > 
->     > If we already have a shared file system like Ceph, does this make it different? 
+> The references are taken in bdrv_reopen_queue_child() and either used in
+> commit or released on abort. Doing nothing with them leaks them.
+
+Oops. Somehow I decided they are set in _prepare.
+
 > 
->     (Marc-André: I CCed you regarding D-Bus VMState, see below.)
+>> So I'd prefer Peter's suggestion (my "[PATCH 2/6] block:
+>> bdrv_reopen_multiple(): fix leak of tran object")
 > 
->     During the last virtio-fs call on Wednesday we discussed how to allow
->     live migration when the file system is not mounted. This means live
->     migration of a mounted file system still wouldn't be supported, but at
->     least it would be possible to migrate when the file system is not
->     mounted.
-> 
->     The easiest way to do that is to hot unplug the vhost-user-fs-pci device
->     so that QEMU can live migrate the VM and then hot plug the
->     vhost-user-fs-pci device again after migration has completed. This
->     requires either manually performing the hot plug operations or some
->     automation to do this around live migration.
-> 
->     A smoother approach would be for QEMU to allow live migration when the
->     file system is not mounted. Unfortunately it turns out this is actually
->     rather involved because virtiofsd runs as a separate process from QEMU
->     and the live migration interface for vhost-user devices is currently
->     pretty basic
->     (https://qemu.readthedocs.io/en/latest/interop/dbus-vmstate.html). There
->     is currently no way for virtiofsd to communicate with QEMU to allow/deny
->     live migration depending on whether virtiofsd currently has an active
->     FUSE session (mount). It might be possible to extend the D-Bus VMState
->     interface and implement support for "migration blockers" as they are
->     known in QEMU, but I wonder whether it's not better to just work on
->     full virtio-fs live migration instead. Either task is complex and I
->     wouldn't recommend it as a first contribution to virtiofsd or QEMU.
-> 
->     Can you make use of the hotplug approach to live migration?
-> 
->     Stefan
+> I don't like it because I think every call that doesn't end in a commit,
+> should jump to the abort label to make sure that everything that remains
+> unused because of this is correctly cleaned up.
 > 
 
+
+agree now..
+
+Still, don't we miss these two qobject_unref() calls on success path?
+
+-- 
+Best regards,
+Vladimir
 
