@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08F73713DF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:55:34 +0200 (CEST)
-Received: from localhost ([::1]:54672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163DE3713C4
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:49:12 +0200 (CEST)
+Received: from localhost ([::1]:34940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldWEf-0006YU-V0
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:55:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58980)
+	id 1ldW8V-0006uc-0i
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:49:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldW4t-0003vg-6S
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldW4u-0003vx-78
  for qemu-devel@nongnu.org; Mon, 03 May 2021 06:45:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30620)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldW4r-0003d2-Gs
- for qemu-devel@nongnu.org; Mon, 03 May 2021 06:45:26 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldW4r-0003dA-VB
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 06:45:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1620038725;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tZU6RUrWrKBMiQej9SF7Mt71rREj59rM//14ac3a1uY=;
- b=M+Z9c5Nk8IIcLjWHwpeWeZeDQ1fD5pgpSlGcleoChZfxcGHebDKSsuOSCVAVfOJ84CKmKy
- Dwr9PxSM+zfwoSQUXTwRVNUnEn9fHK8WcjEVdkrkGBeuYs2VLC49N0v2QRnhnJJHd1rina
- bX51OEY0XicNjHQUmUqKjytQVbla62E=
+ bh=WJZv7SxlH6CHVsVI4RrkhfkE0xypB+VndKOPWbT/v5Q=;
+ b=WYdOCFzAa9wYQv8H808z9R70X3AaGTau9/zUTY1rAYbw574+yrHXziVAK4b25L9OeEmZcs
+ vxLHS7KjLRA2ex9/rW4V5+p2O1cP1oLRBT6iZB9fNrLB3iyLu0SlZG+fT38D8vLl7x8iv9
+ fquGrRm+OjhG0r06gLIvhUsccEh8leg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-NZXdPhsDPDK_dfes00E2Jg-1; Mon, 03 May 2021 06:45:23 -0400
-X-MC-Unique: NZXdPhsDPDK_dfes00E2Jg-1
+ us-mta-28-knalIH3iOnOrKyNcgsj3Og-1; Mon, 03 May 2021 06:45:23 -0400
+X-MC-Unique: knalIH3iOnOrKyNcgsj3Og-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8869E800D62;
- Mon,  3 May 2021 10:45:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACAE68049C5;
+ Mon,  3 May 2021 10:45:22 +0000 (UTC)
 Received: from thuth.com (ovpn-112-122.ams2.redhat.com [10.36.112.122])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A47E15D9D0;
- Mon,  3 May 2021 10:45:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D534A5D9D5;
+ Mon,  3 May 2021 10:45:21 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 09/10] libqtest: refuse QTEST_QEMU_BINARY=qemu-kvm
-Date: Mon,  3 May 2021 12:44:55 +0200
-Message-Id: <20210503104456.1036472-10-thuth@redhat.com>
+Subject: [PULL 10/10] util/compatfd.c: Replaced a malloc call with g_malloc.
+Date: Mon,  3 May 2021 12:44:56 +0200
+Message-Id: <20210503104456.1036472-11-thuth@redhat.com>
 In-Reply-To: <20210503104456.1036472-1-thuth@redhat.com>
 References: <20210503104456.1036472-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -77,60 +77,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Qin Wang <qinwang@rehdat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-Some downstreams rename the QEMU binary to "qemu-kvm". This breaks
-qtest_get_arch(), which attempts to parse the target architecture from
-the QTEST_QEMU_BINARY environment variable.
+Replaced a call to malloc() and its respective call to free()
+with g_malloc() and g_free().
 
-Print an error instead of returning the architecture "kvm". Things fail
-in weird ways when the architecture string is bogus.
+g_malloc() is preferred more than g_try_* functions, which
+return NULL on error, when the size of the requested
+allocation  is small. This is because allocating few
+bytes should not be a problem in a healthy system.
+Otherwise, the system is already in a critical state.
 
-Arguably qtests should always be run in a build directory instead of
-against an installed QEMU. In any case, printing a clear error when this
-happens is helpful.
+Subsequently, removed NULL-checking after g_malloc().
 
-Since this is an error that is triggered by the user and not a test
-failure, use exit(1) instead of abort(). Change the existing abort()
-call in qtest_get_arch() to exit(1) too for the same reason and to be
-consistent.
-
-Reported-by: Qin Wang <qinwang@rehdat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20210412143050.725918-1-stefanha@redhat.com>
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+Message-Id: <20210315105814.5188-3-ma.mandourr@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/libqtest.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ util/compatfd.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 71e359efcd..825b13a44c 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -907,7 +907,14 @@ const char *qtest_get_arch(void)
+diff --git a/util/compatfd.c b/util/compatfd.c
+index 174f394533..a8ec525c6c 100644
+--- a/util/compatfd.c
++++ b/util/compatfd.c
+@@ -72,14 +72,10 @@ static int qemu_signalfd_compat(const sigset_t *mask)
+     QemuThread thread;
+     int fds[2];
  
-     if (!end) {
-         fprintf(stderr, "Can't determine architecture from binary name.\n");
--        abort();
-+        exit(1);
-+    }
-+
-+    if (!strstr(qemu, "-system-")) {
-+        fprintf(stderr, "QTEST_QEMU_BINARY must end with *-system-<arch> "
-+                "where 'arch' is the target\narchitecture (x86_64, aarch64, "
-+                "etc).\n");
-+        exit(1);
+-    info = malloc(sizeof(*info));
+-    if (info == NULL) {
+-        errno = ENOMEM;
+-        return -1;
+-    }
++    info = g_malloc(sizeof(*info));
+ 
+     if (pipe(fds) == -1) {
+-        free(info);
++        g_free(info);
+         return -1;
      }
  
-     return end + 1;
 -- 
 2.27.0
 
