@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50C23722F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:24:34 +0200 (CEST)
-Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A55F3722E5
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:17:38 +0200 (CEST)
+Received: from localhost ([::1]:51124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldgzR-0005FL-Qp
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52944)
+	id 1ldgsi-0006Nt-TF
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:17:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgpb-0004m6-0X
- for qemu-devel@nongnu.org; Mon, 03 May 2021 18:14:23 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgpX-0000ID-AO
- for qemu-devel@nongnu.org; Mon, 03 May 2021 18:14:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620080059; x=1651616059;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=bxuh/HYpFG5/VX0DQF6fAKC2S1UYsYT0FobkIKhBegY=;
- b=N2DWpgCeHS+fcemQIymrULC8qSh/Vi7uf439WFWn39QclOCixtdGPa3D
- TsI8NG8K9UKg5y4hVfkrlPJfC5PXhh+/5YOvvFaj4HSgsf6eFTfNZmZOr
- nsF9NcLzim8zbrAtkZ3+H04WMTA0No1bL9Ohn+QbCisAQlaq4uvOh+Vt2
- JR+zDPFx7HXbs1/OOWqlPACAOP14fG736+jLyOFYFzbvdCYL1GIB/qoWT
- 1Wn9pC1jRbVk4FIhzDLHbKyKHixHeWdrGR1R67jbfJakQh8WQsAGjAAXn
- rs2BshuSrAo0Y+J0eXIuVWpy+NvJYYSp5ZeERaic3wMuE7c1DSREhCeNt g==;
-IronPort-SDR: fAn0CF7Vz/+rGs0Fk7mEmzEgU4Ox4yTrq8dh7+NVdCchoqj8llKHGV5q53FavB5iV6JedOmQ+F
- mrPTCcSx9cpZh3w9f1k09MuQwR6m541Z3D98ygEbQ3E7z2hx7aDMSU0wZVS8LiRLWcpwKk0PcW
- we1cQQbkh076JtZFZk0aHBgjkNH7UUPjIOtvUmnl4gn9c/AebmT0EhyNhN0dla7MMoEPmifPn7
- /rO+PkQpponw3ehaC/O68CcIQKDbFQZ++4WldUESsHwMpZK4LvYtHKPqNDUOC8FO9Lzj8kFLP9
- ht8=
-X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278114629"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:14:16 +0800
-IronPort-SDR: 55sIhcaEgQOgC3dYsuLHQRWg+9Qv1sgOF24tfd+jjc5iJFVj+OoJoXzdI7Bpzro9z7+gjNgkJd
- HBppLD0An/vcg5e3SsOrTb4fRZHzgPUV/whdwuSVh5wxPftv/t53IqJPdjNICawgb35NzTIS5J
- ORgpkLh7SYnwBINceI5gcwHNFy/qINSwX1N7YERfJ3OnoZSjN3FDewGQIzG7/szi10XYhLq7s6
- hmsP0E0lZBrG4KH/vMaUPWugs5GQCT5T9zGJ+VhDMvwg7+Fvfui/srSsQU0zER8icFR5EvRVXX
- 7oVM4QpvHHJOcE5Tfgx85HD+
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2021 14:54:27 -0700
-IronPort-SDR: 35d1IpJM2fJidJrpQ4HfVOX/dOaKVS1Wqz+aRhvKhwbxmcLRXXXk6M78ATtw+E3pRxmA6a0bm/
- ItKz8i52EruWZFtkxY++Xx2UZnhaWmKJxI1Ii+94GNUNE4In88w3yj7gq8VQora2oI7XEoPIqi
- OnTa24LXn8fikK7sfiMn5+6oEDs8GQ2Z05yQJPePPz5JPj3kn3L2qhIkp9qxV035zN6YO0hcal
- Twwg428od6jv7qcMWFMwSlnIiiSNg0M1c+dkSB/bTliD78GlGYLhL/yjJEK9v79NutxVllDi0L
- 4aU=
-WDCIronportException: Internal
-Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.45])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:14:13 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: peter.maydell@linaro.org
-Subject: [PULL 11/42] target/riscv: Fix 32-bit HS mode access permissions
-Date: Tue,  4 May 2021 08:12:56 +1000
-Message-Id: <20210503221327.3068768-12-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210503221327.3068768-1-alistair.francis@wdc.com>
-References: <20210503221327.3068768-1-alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldgp6-0004WF-Kb
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:13:52 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36424)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldgp0-00007E-S7
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:13:50 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ l24-20020a7bc4580000b029014ac3b80020so161163wmi.1
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 15:13:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Tlsq2U5wV6nYMGkXmTiTfo2rIsEKAFvJInjmnbenVKs=;
+ b=eeABLV7JDuCEHgMyNQxdHT7tQxM+RDI3uiJhcLKzMS97fjCAufU6Rx0yI1d/7mTnQO
+ 796gLg2csfLsfT9ms/KELE/Y8HNT//EQ9pQC7/kWdFMsgQoPjwDzhikGKFqpY+4VVgP4
+ /VJCRRe5f6v7SQz1INVArwsGCNT/6TV1NaAZIJ0VnFYLaWofpc8vmfQU9ipBpjsI6yyc
+ juG4EkSGqIBjEzYOTzv3fvjtaaDl2ZrdF8wfqUyNH1MWJ40nu1JgpV/ozeb2oJfNJwnT
+ 9yi7p31S4FmN7rxhJSqMhbMEEAOuQIEip8sxf6vmF5UYYvdWeixZY1mEhYNpjhECHlSZ
+ a6zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Tlsq2U5wV6nYMGkXmTiTfo2rIsEKAFvJInjmnbenVKs=;
+ b=aj6FjHYwxIaBM4/cyQUnSH0vyb/lR1iJC5ceVfCoItvsuRqRNRfarG/jGaVACVuh8M
+ S5FOqwAkSDWlZAWq5DBZpUNSxNEttRiyBDfvqcDSDa3qSCE55z5IH7mh6VlNTryp5RsB
+ yOTNKMtXmY6X6K39yIdq3ViA/yM+EJUvKiOZOFuQaKufvl5n5pp3U5Q9FxUBAyUmm5Zw
+ mTLtelJci5b8jaeRMKjqBsxJzBTT1r/HqbPSN1/6EI1TQ6UeZe04iJ4JxGcPJMspbWkB
+ wZH5r9qulaNv8WpJBKZYq3nsCuoqH36yo6pHfIcV9TnVk85K3PYhP9LoMxUZK332iBge
+ kNmQ==
+X-Gm-Message-State: AOAM533hmaV8ruurnFgxvHcDNgM+iSw6qjA/sfHXMNiwAe4Lpyl2gwxe
+ ChZQYUdytOS0Boc2V4CkkWNF6c6maRUecg==
+X-Google-Smtp-Source: ABdhPJyFPiTKad/f2wp2RT50ntAppjqnu7Gc50K8Nif8eZBvrQeXZDZosNnH2kTGz95LaiOnFwelbQ==
+X-Received: by 2002:a05:600c:3205:: with SMTP id
+ r5mr23882434wmp.78.1620080025252; 
+ Mon, 03 May 2021 15:13:45 -0700 (PDT)
+Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
+ [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id p10sm13309620wrr.58.2021.05.03.15.13.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 May 2021 15:13:44 -0700 (PDT)
+Subject: Re: [PATCH v6 18/26] tcg/tci: Implement andc, orc, eqv, nand, nor
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210502235727.1979457-1-richard.henderson@linaro.org>
+ <20210502235727.1979457-19-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7fc5f371-c2f9-6c43-10d9-6c8c5568dc58@amsat.org>
+Date: Tue, 4 May 2021 00:13:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20210502235727.1979457-19-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=750139ea6=alistair.francis@wdc.com;
- helo=esa1.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,38 +91,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: cb1ef2061547dc9028ce3cf4f6622588f9c09149.1617290165.git.alistair.francis@wdc.com
----
- target/riscv/csr.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+On 5/3/21 1:57 AM, Richard Henderson wrote:
+> These were already present in tcg-target.c.inc,
+> but not in the interpreter.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/tci/tcg-target.h | 20 ++++++++++----------
+>  tcg/tci.c            | 40 ++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 50 insertions(+), 10 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 1938bdca7d..6a39c4aa96 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -181,7 +181,11 @@ static RISCVException hmode(CPURISCVState *env, int csrno)
- static RISCVException hmode32(CPURISCVState *env, int csrno)
- {
-     if (!riscv_cpu_is_32bit(env)) {
--        return RISCV_EXCP_NONE;
-+        if (riscv_cpu_virt_enabled(env)) {
-+            return RISCV_EXCP_ILLEGAL_INST;
-+        } else {
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+        }
-     }
- 
-     return hmode(env, csrno);
--- 
-2.31.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
