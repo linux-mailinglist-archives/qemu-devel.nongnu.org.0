@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98F937169A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 16:27:13 +0200 (CEST)
-Received: from localhost ([::1]:60456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D523716B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 16:36:34 +0200 (CEST)
+Received: from localhost ([::1]:39886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldZXU-0005PJ-98
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 10:27:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58412)
+	id 1ldZgX-0000ia-Eo
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 10:36:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1ldZWH-0004wG-Dg
- for qemu-devel@nongnu.org; Mon, 03 May 2021 10:25:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54562)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1ldZWF-0001ts-O8
- for qemu-devel@nongnu.org; Mon, 03 May 2021 10:25:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620051954;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pCmDoeibqX1nxQdDxcef15Nxk9S5leYyT4c+qK4Rar0=;
- b=WIyy3NyI5pizUqfDoTpmztbllusCKWIy8VXgy0Zl/Vct81mN5SSDS4+0+/eMUZrCSh4i5T
- GOG8/SOtzrNKDeBIsV30xozk8Mg/D4kQ+tdHKKoPb6Jk07gldo87M3ugoVfdIBSJy/h2ds
- MArK0nP88RpJbFbIAVMPUowe7zQLiPc=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-_VTU37jaM0eb9L656cQXAw-1; Mon, 03 May 2021 10:25:52 -0400
-X-MC-Unique: _VTU37jaM0eb9L656cQXAw-1
-Received: by mail-pl1-f200.google.com with SMTP id
- p4-20020a1709032484b02900e6aa6adc54so1717007plw.1
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 07:25:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ldZdQ-000796-Im
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 10:33:20 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ldZdO-0006QP-7Z
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 10:33:20 -0400
+Received: by mail-ed1-x535.google.com with SMTP id g14so6512370edy.6
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 07:33:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TtXJTv7MGNqGNcRxQTNAqGT2spvRUZSJyRqasiZNp0o=;
+ b=tvvlHisL/eLpLyPrkcbzU+upLW+NwwmklHGesQgt14VslF+wjX7OMwD0faQxWBW5eP
+ dT7dTX8D2Q6D++nHqel62AwitKwIorlq4u1Yo4Bj5nHWBe/btMkp2+M65fFhYjXijH0d
+ 5hdUlh4dPGHIymNVKJvTsnWfliIVKUTh8LxsHCnljAos7OKDO2A5lVwKgmI1Yvj+N5qi
+ 8aQzfkkBeIJ/Ri2UtRFdj6gP6qhCEyrHiZ7zrYhWeI1SVsUrXKta+hHf0DVtO8pdOoWm
+ lNSNUKXxNkUaM3lNOGT2+Dn4AUwAJ5AHOvUPAjax3KtTqUwEdtuAwrolVXftboTLQql9
+ A1hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pCmDoeibqX1nxQdDxcef15Nxk9S5leYyT4c+qK4Rar0=;
- b=q97xvs0xqCFd0eD9tWchmq7Yq/p5q+8XaSJJ/4jnHEIzvd4HHAOs4HR4sdpBhyC9e1
- mOzwHHZd7KOQPHsMFMHkdyZCun+6I8EhM+RLbWxyBn6XAM8NwcWwMMwtEsLsaYlNBkxB
- Z2hRT37EyAs7MrG2wC58WHOExWTuyZs7HV9SXViNBU44O4QlgnArXFJ+fIkWTUyZRnlq
- jP/ztY0Y5tBa86yeFyiN/X9L7vocba5YQPDetd58vsG+O/t9GdeqT+UABajgm/4uvfAm
- OUxUIQdrWKx9QeAwZwkEm7myWkokmk2Ct4HjD5SSGltgPe8lcyMso1K9nCyidW3rdPku
- JkNQ==
-X-Gm-Message-State: AOAM532b7MtUYrEXYBefwnp2l1QtUJPLvBsP0NyaSXkTxryBuc+5egK/
- DgowE7s+b1hG11SbbLVXr//kVx/nw9bFschaQEfC1//QUhz6wG1hDlsjvwvNbeyohlg2AK7Tr8U
- h/FuWcrxwSsd1Lw0T6cxuIjsdgJ/ewNg=
-X-Received: by 2002:a63:184a:: with SMTP id 10mr16502035pgy.426.1620051951808; 
- Mon, 03 May 2021 07:25:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkG3D+kzCVZZFfa/KPV0SuXar5rl2rJ+LXBUVt4nzNgFlankpm3K/pI3h/ySrMNX21HIYrTpPmlU9KhHJqalk=
-X-Received: by 2002:a63:184a:: with SMTP id 10mr16502022pgy.426.1620051951573; 
- Mon, 03 May 2021 07:25:51 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=TtXJTv7MGNqGNcRxQTNAqGT2spvRUZSJyRqasiZNp0o=;
+ b=b0x2FsX89MEdkQs4p4SKiIAl38AtEV7un3aobhEaZSsTQ6FYOHikE7iJwnoszUB7lJ
+ dyEHoDg20v91HjLwl0dUkWI7CL76MPz8PQmzojS0fBLMp3QI/6M+YC5eHZKBFDDMtxY8
+ ofb18bpMr30R0RFO8ESq5dos4WIrNHW+ywQIrnyEJsUmTVDy1pR+rmDZxpKor5b2AdrQ
+ OUM/VLgL40FvFXOK2H55p9brNVmOxPnco4WWnp+hpBM7BZaW55H6C27hKbkYx1t9G0VE
+ fDdLEqxIn3EV9/VQIfA8bFDGFhke1XmEBqkECYBZfepAZgvNQsOHUAiRTuFEqmu576sH
+ MucA==
+X-Gm-Message-State: AOAM532aJ22BOUDRwaK8VS3sUSTWg2JGtwgF85MpAddD/bwURDLYh6L0
+ sS5n4Tcw6mZheJPR9iFTYFAoEiv6MG0TrJX8lkQ=
+X-Google-Smtp-Source: ABdhPJxn7ZVxJgoUh1NPV6+Rinfk9CiCLQSnpyJMtuWUHXw+ZJyizM8ywmxG68iZKaJa+ckwJcQbAmH+WyvLFfT6u50=
+X-Received: by 2002:a05:6402:31a7:: with SMTP id
+ dj7mr6673915edb.314.1620052395943; 
+ Mon, 03 May 2021 07:33:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210503132915.2335822-1-kraxel@redhat.com>
- <20210503132915.2335822-3-kraxel@redhat.com>
-In-Reply-To: <20210503132915.2335822-3-kraxel@redhat.com>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Mon, 3 May 2021 16:25:40 +0200
-Message-ID: <CAA8xKjUL_FtT5_kxAcWZENBRduYcr++HB7qkWzb0dGLzSNjJ4g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] usb/redir: avoid dynamic stack allocation
- (CVE-2021-3527)
-To: Gerd Hoffmann <kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <162004304487.4348.9374620020070858180.malonedeb@chaenomeles.canonical.com>
+ <162004313799.12465.17531572055756650478.malone@soybean.canonical.com>
+In-Reply-To: <162004313799.12465.17531572055756650478.malone@soybean.canonical.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 3 May 2021 18:33:04 +0400
+Message-ID: <CAJ+F1CLVVCv2HVTUrMynu-A-eEE+A+g8jmxv2xFCAhSMYK=vpQ@mail.gmail.com>
+Subject: Re: [Bug 1926952] Re: SPICE support broken with 6.0
+To: Bug 1926952 <1926952@bugs.launchpad.net>
+Content-Type: multipart/alternative; boundary="00000000000093eb1605c16dd785"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,70 +78,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Remy Noel <remy.noel@blade-group.com>,
- Philippe Mathieu Daude <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 3, 2021 at 3:29 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+--00000000000093eb1605c16dd785
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Mon, May 3, 2021 at 4:07 PM Firecode95 <1926952@bugs.launchpad.net>
+wrote:
+
+> Also just removing spice part makes it bootable:
+> -spice port=3D5900,addr=3D127.0.0.1,disable-ticketing=3Don
 >
-> Use autofree heap allocation instead.
->
-> Fixes: 4f4321c11ff ("usb: use iovecs in USBPacket")
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/usb/redirect.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-> index 17f06f34179a..6a75b0dc4ab2 100644
-> --- a/hw/usb/redirect.c
-> +++ b/hw/usb/redirect.c
-> @@ -620,7 +620,7 @@ static void usbredir_handle_iso_data(USBRedirDevice *=
-dev, USBPacket *p,
->                  .endpoint =3D ep,
->                  .length =3D p->iov.size
->              };
-> -            uint8_t buf[p->iov.size];
-> +            g_autofree uint8_t *buf =3D g_malloc(p->iov.size);
->              /* No id, we look at the ep when receiving a status back */
->              usb_packet_copy(p, buf, p->iov.size);
->              usbredirparser_send_iso_packet(dev->parser, 0, &iso_packet,
-> @@ -818,7 +818,7 @@ static void usbredir_handle_bulk_data(USBRedirDevice =
-*dev, USBPacket *p,
->          usbredirparser_send_bulk_packet(dev->parser, p->id,
->                                          &bulk_packet, NULL, 0);
->      } else {
-> -        uint8_t buf[size];
-> +        g_autofree uint8_t *buf =3D g_malloc(size);
->          usb_packet_copy(p, buf, size);
->          usbredir_log_data(dev, "bulk data out:", buf, size);
->          usbredirparser_send_bulk_packet(dev->parser, p->id,
-> @@ -923,7 +923,7 @@ static void usbredir_handle_interrupt_out_data(USBRed=
-irDevice *dev,
->                                                 USBPacket *p, uint8_t ep)
->  {
->      struct usb_redir_interrupt_packet_header interrupt_packet;
-> -    uint8_t buf[p->iov.size];
-> +    g_autofree uint8_t *buf =3D g_malloc(p->iov.size);
->
->      DPRINTF("interrupt-out ep %02X len %zd id %"PRIu64"\n", ep,
->              p->iov.size, p->id);
 > --
-> 2.30.2
+> You received this bug notification because you are a member of qemu-
+> devel-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1926952
+>
+> Title:
+>   SPICE support broken with 6.0
+>
+> Status in QEMU:
+>   New
+>
+> Bug description:
+>   Using latest relase 6.0.0 while using Intel GVT-G DMA-BUF and SPICE
+>   for usb redirection Qemu won't start:
+>
+>   qemu-system-x86_64: The console requires display DMABUF support.
+>
+>   However just patching ui/console.c:
+>
+>   if (flags & GRAPHIC_FLAGS_DMABUF &&
+>           !displaychangelistener_has_dmabuf(dcl)) {
+>           error_setg(errp, "The console requires display DMABUF support."=
+);
+>           return false;
+>   }
+>
+>   to always return true for dmabuf part works just fine:
+>
+>   if (flags & GRAPHIC_FLAGS_DMABUF &&
+>           !displaychangelistener_has_dmabuf(dcl)) {
+>           error_setg(errp, "The console requires display DMABUF support."=
+);
+>           return true;
+>   }
+>
+>   This behavior wasn't in qemu 5.x version.
+>
+>   To reproduce this bug need to use:
+>
+>   /usr/bin/qemu-system-x86_64 \
+>   -machine q35 \
+>   -enable-kvm \
+>   -no-user-config \
+>   -nodefaults \
+>   -no-hpet \
+>   -display gtk,gl=3Don \
+>   -device
+> pcie-root-port,port=3D0x0,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,multifuncti=
+on=3Don,addr=3D0x1
+> \
+>   -device
+> vfio-pci,id=3Dhostdev2,driver=3Dvfio-pci-nohotplug,romfile=3D/sys/devices=
+/pci0000:00/0000:00:02.0/gvt_firmware,sysfsdev=3D/sys/bus/mdev/devices/1ae4=
+0c36-b180-4af0-8fab-c27de21f597d,x-igd-opregion=3Don,ramfb=3Don,display=3Do=
+n,xres=3D1920,yres=3D1080,bus=3Dpcie.0,multifunction=3Don,addr=3D0x2
+> \
+>   -spice port=3D5900,addr=3D127.0.0.1,disable-ticketing=3Don
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1926952/+subscriptions
+>
 >
 
-Nitpick: I would probably reference CVE-2021-3527 in patch 4/5 and 5/5
-as well. Just to avoid someone from cherry-picking this patch only,
-not actually fixing the root cause of the CVE.
+Did you actually get the dmabuf update displayed over spice? If not, then
+it is not a bug, it's a bug fix :) But I might be missing something.. I
+don't see how this could happen without egl-headless though.
 
-Regards.
 
---
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
+--=20
+Marc-Andr=C3=A9 Lureau
 
+--00000000000093eb1605c16dd785
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 3, 2021 at 4:07 PM Fire=
+code95 &lt;<a href=3D"mailto:1926952@bugs.launchpad.net">1926952@bugs.launc=
+hpad.net</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">Also just removing spice part makes it bootable:<br>
+-spice port=3D5900,addr=3D127.0.0.1,disable-ticketing=3Don<br>
+<br>
+-- <br>
+You received this bug notification because you are a member of qemu-<br>
+devel-ml, which is subscribed to QEMU.<br>
+<a href=3D"https://bugs.launchpad.net/bugs/1926952" rel=3D"noreferrer" targ=
+et=3D"_blank">https://bugs.launchpad.net/bugs/1926952</a><br>
+<br>
+Title:<br>
+=C2=A0 SPICE support broken with 6.0<br>
+<br>
+Status in QEMU:<br>
+=C2=A0 New<br>
+<br>
+Bug description:<br>
+=C2=A0 Using latest relase 6.0.0 while using Intel GVT-G DMA-BUF and SPICE<=
+br>
+=C2=A0 for usb redirection Qemu won&#39;t start:<br>
+<br>
+=C2=A0 qemu-system-x86_64: The console requires display DMABUF support.<br>
+<br>
+=C2=A0 However just patching ui/console.c:<br>
+<br>
+=C2=A0 if (flags &amp; GRAPHIC_FLAGS_DMABUF &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 !displaychangelistener_has_dmabuf(dcl)) =
+{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;The console requi=
+res display DMABUF support.&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
+=C2=A0 }<br>
+<br>
+=C2=A0 to always return true for dmabuf part works just fine:<br>
+<br>
+=C2=A0 if (flags &amp; GRAPHIC_FLAGS_DMABUF &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 !displaychangelistener_has_dmabuf(dcl)) =
+{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;The console requi=
+res display DMABUF support.&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return true;<br>
+=C2=A0 }<br>
+<br>
+=C2=A0 This behavior wasn&#39;t in qemu 5.x version.<br>
+<br>
+=C2=A0 To reproduce this bug need to use:<br>
+<br>
+=C2=A0 /usr/bin/qemu-system-x86_64 \<br>
+=C2=A0 -machine q35 \<br>
+=C2=A0 -enable-kvm \<br>
+=C2=A0 -no-user-config \<br>
+=C2=A0 -nodefaults \<br>
+=C2=A0 -no-hpet \<br>
+=C2=A0 -display gtk,gl=3Don \<br>
+=C2=A0 -device pcie-root-port,port=3D0x0,chassis=3D1,id=3Dpci.1,bus=3Dpcie.=
+0,multifunction=3Don,addr=3D0x1 \<br>
+=C2=A0 -device vfio-pci,id=3Dhostdev2,driver=3Dvfio-pci-nohotplug,romfile=
+=3D/sys/devices/pci0000:00/0000:00:02.0/gvt_firmware,sysfsdev=3D/sys/bus/md=
+ev/devices/1ae40c36-b180-4af0-8fab-c27de21f597d,x-igd-opregion=3Don,ramfb=
+=3Don,display=3Don,xres=3D1920,yres=3D1080,bus=3Dpcie.0,multifunction=3Don,=
+addr=3D0x2 \<br>
+=C2=A0 -spice port=3D5900,addr=3D127.0.0.1,disable-ticketing=3Don<br>
+<br>
+To manage notifications about this bug go to:<br>
+<a href=3D"https://bugs.launchpad.net/qemu/+bug/1926952/+subscriptions" rel=
+=3D"noreferrer" target=3D"_blank">https://bugs.launchpad.net/qemu/+bug/1926=
+952/+subscriptions</a><br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><div>Did you actually g=
+et the dmabuf update displayed over spice? If not, then it is not a bug, it=
+&#39;s a bug fix :) But I might be missing something.. I don&#39;t see how =
+this could happen without egl-headless though.</div><div><br></div><div><br=
+></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lu=
+reau<br></div></div>
+
+--00000000000093eb1605c16dd785--
 
