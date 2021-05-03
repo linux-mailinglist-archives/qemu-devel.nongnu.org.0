@@ -2,45 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B003710FC
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:39:30 +0200 (CEST)
-Received: from localhost ([::1]:55788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DE13710FA
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 06:38:25 +0200 (CEST)
+Received: from localhost ([::1]:49756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldQMj-0004Zc-Gq
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:39:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51714)
+	id 1ldQLg-00029a-II
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 00:38:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQJM-0007ZK-Db; Mon, 03 May 2021 00:36:00 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35409 helo=ozlabs.org)
+ id 1ldQJR-0007mg-Lm; Mon, 03 May 2021 00:36:05 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:50127 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldQJI-0002BV-92; Mon, 03 May 2021 00:36:00 -0400
+ id 1ldQJN-0002Gp-71; Mon, 03 May 2021 00:36:05 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FYVXR0T6Tz9sW6; Mon,  3 May 2021 14:35:50 +1000 (AEST)
+ id 4FYVXR0qqrz9sW7; Mon,  3 May 2021 14:35:51 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620016551;
- bh=i4/G8parSkImY0+u2qhh2nA0CcEFYXWjsu9Fy+g16Lk=;
+ bh=tujwPzdfQXkm0MUjUR2nQjXCS3AQB7Fjsf90VnEWFyE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lSGehoTZftYhDuiCoA2jU7ModgFL1ONmTPFWPpX9DiO9UvAY+E+IBCrGBtdlQVhfi
- 4lMnI0c2mPLdLbjeNDOV7fYtlFx0caWfOFcaDAmX3ztRUle+XFqqNeG4KA5AHAagEB
- dtBIwc3FPPedXbNbs2/hIHkm1gY4yPuLx4E5CX+g=
-Date: Mon, 3 May 2021 13:54:29 +1000
+ b=EN93GR6Y3Uuk+9GuMUtDgy8jy+VTD8OtuwNiKOq9ZBr0bs971SXcJG0U35LURVr++
+ Km8GkUuEZe2iJCwJkxw4mw3Es2uPOq2A+xWvT64yS67nvLkNTNlXkoERIjtAwx+d11
+ ZznW5CC0anhZd/ErJMR4+ixWvxfRFyWDwqXyQGrA=
+Date: Mon, 3 May 2021 14:24:59 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v2 3/7] target/ppc: Isolated SPR read/write callbacks
-Message-ID: <YI9z9c6P9HGNfY5i@yekko>
-References: <20210429162130.2412-1-bruno.larsen@eldorado.org.br>
- <20210429162130.2412-4-bruno.larsen@eldorado.org.br>
- <YIuFrMWyU/g80qfo@yekko>
- <b863a05d-cb2b-c511-42dd-7f1d028b9968@eldorado.org.br>
+To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+Subject: Re: [RFC PATCH v2 1/2] target/ppc: Moved functions out of mmu-hash64
+Message-ID: <YI97GykbXX5u428t@yekko>
+References: <20210430184047.81653-1-lucas.araujo@eldorado.org.br>
+ <20210430184047.81653-2-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="z+7nLXxRIcKUtLc9"
+ protocol="application/pgp-signature"; boundary="mf5pHxYdrUEa5CVA"
 Content-Disposition: inline
-In-Reply-To: <b863a05d-cb2b-c511-42dd-7f1d028b9968@eldorado.org.br>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210430184047.81653-2-lucas.araujo@eldorado.org.br>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -60,139 +58,405 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, qemu-devel@nongnu.org, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
+Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ farosas@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---z+7nLXxRIcKUtLc9
+--mf5pHxYdrUEa5CVA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 30, 2021 at 10:02:16AM -0300, Bruno Piazera Larsen wrote:
-> On 30/04/2021 01:21, David Gibson wrote:
-> > On Thu, Apr 29, 2021 at 01:21:26PM -0300, Bruno Larsen (billionai) wrot=
-e:
-> > > Moved all SPR read/write callback, and some related functions, to a
-> > > new file specific for it. These callbacks are TCG only, so separating
-> > > them is required to support the flag disable-tcg.
-> > >=20
-> > > Making the spr_noaccess function not static, and moving the define to
-> > > internal.h is required, as spr_tcg.c.inc has to be included after
-> > > SPR_NOACCESS has been used.
-> > >=20
-> > > Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-> > > ---
-> > >   target/ppc/internal.h           |    3 +
-> > >   target/ppc/spr_tcg.c.inc        | 1033 ++++++++++++++++++++++++++++=
-+++
-> > >   target/ppc/translate.c          |   49 +-
-> > >   target/ppc/translate_init.c.inc |  981 -----------------------------
-> > >   4 files changed, 1039 insertions(+), 1027 deletions(-)
-> > >   create mode 100644 target/ppc/spr_tcg.c.inc
-> > >=20
-> > > diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-> > > index 184ba6d6b3..1de15acfbd 100644
-> > > --- a/target/ppc/internal.h
-> > > +++ b/target/ppc/internal.h
-> > > @@ -228,4 +228,7 @@ void destroy_ppc_opcodes(PowerPCCPU *cpu);
-> > >   void ppc_gdb_init(CPUState *cs, PowerPCCPUClass *ppc);
-> > >   gchar *ppc_gdb_arch_name(CPUState *cs);
-> > > +void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
-> > > +#define SPR_NOACCESS (&spr_noaccess)
-> > > +
-> > >   #endif /* PPC_INTERNAL_H */
-> > > diff --git a/target/ppc/spr_tcg.c.inc b/target/ppc/spr_tcg.c.inc
-> > > new file mode 100644
-> > > index 0000000000..48274dd52b
-> > > --- /dev/null
-> > > +++ b/target/ppc/spr_tcg.c.inc
-> > I'm confused.  You create the new file as a .inc.c, but I don't see
-> > anything #including the new file.
-> <snip>
-> > > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> > > index b319d409c6..a6e677fa6d 100644
-> > > --- a/target/ppc/translate.c
-> > > +++ b/target/ppc/translate.c
-> > > @@ -36,6 +36,7 @@
-> > >   #include "exec/translator.h"
-> > >   #include "exec/log.h"
-> > >   #include "qemu/atomic128.h"
-> > > +#include "internal.h"
-> > >   #define CPU_SINGLE_STEP 0x1
-> > > @@ -4175,43 +4176,6 @@ static void gen_tdi(DisasContext *ctx)
-> > >   /***                          Processor control                    =
-        ***/
-> > > -static void gen_read_xer(DisasContext *ctx, TCGv dst)
-> > > -{
-> > > -    TCGv t0 =3D tcg_temp_new();
-> > > -    TCGv t1 =3D tcg_temp_new();
-> > > -    TCGv t2 =3D tcg_temp_new();
-> > > -    tcg_gen_mov_tl(dst, cpu_xer);
-> > > -    tcg_gen_shli_tl(t0, cpu_so, XER_SO);
-> > > -    tcg_gen_shli_tl(t1, cpu_ov, XER_OV);
-> > > -    tcg_gen_shli_tl(t2, cpu_ca, XER_CA);
-> > > -    tcg_gen_or_tl(t0, t0, t1);
-> > > -    tcg_gen_or_tl(dst, dst, t2);
-> > > -    tcg_gen_or_tl(dst, dst, t0);
-> > > -    if (is_isa300(ctx)) {
-> > > -        tcg_gen_shli_tl(t0, cpu_ov32, XER_OV32);
-> > > -        tcg_gen_or_tl(dst, dst, t0);
-> > > -        tcg_gen_shli_tl(t0, cpu_ca32, XER_CA32);
-> > > -        tcg_gen_or_tl(dst, dst, t0);
-> > > -    }
-> > > -    tcg_temp_free(t0);
-> > > -    tcg_temp_free(t1);
-> > > -    tcg_temp_free(t2);
-> > > -}
-> > > -
-> > > -static void gen_write_xer(TCGv src)
-> > > -{
-> > > -    /* Write all flags, while reading back check for isa300 */
-> > > -    tcg_gen_andi_tl(cpu_xer, src,
-> > > -                    ~((1u << XER_SO) |
-> > > -                      (1u << XER_OV) | (1u << XER_OV32) |
-> > > -                      (1u << XER_CA) | (1u << XER_CA32)));
-> > > -    tcg_gen_extract_tl(cpu_ov32, src, XER_OV32, 1);
-> > > -    tcg_gen_extract_tl(cpu_ca32, src, XER_CA32, 1);
-> > > -    tcg_gen_extract_tl(cpu_so, src, XER_SO, 1);
-> > > -    tcg_gen_extract_tl(cpu_ov, src, XER_OV, 1);
-> > > -    tcg_gen_extract_tl(cpu_ca, src, XER_CA, 1);
-> > > -}
-> > > -
-> > >   /* mcrxr */
-> > >   static void gen_mcrxr(DisasContext *ctx)
-> > >   {
-> > > @@ -4299,15 +4263,6 @@ static void gen_mfmsr(DisasContext *ctx)
-> > >       tcg_gen_mov_tl(cpu_gpr[rD(ctx->opcode)], cpu_msr);
-> > >   }
-> > > -static void spr_noaccess(DisasContext *ctx, int gprn, int sprn)
-> > > -{
-> > > -#if 0
-> > > -    sprn =3D ((sprn >> 5) & 0x1F) | ((sprn & 0x1F) << 5);
-> > > -    printf("ERROR: try to access SPR %d !\n", sprn);
-> > > -#endif
-> > > -}
-> > > -#define SPR_NOACCESS (&spr_noaccess)
-> > > -
-> > >   /* mfspr */
-> > >   static inline void gen_op_mfspr(DisasContext *ctx)
-> > >   {
-> > > @@ -7639,6 +7594,7 @@ GEN_HANDLER2_E(trechkpt, "trechkpt", 0x1F, 0x0E=
-, 0x1F, 0x03FFF800, \
-> > >   };
-> > >   #include "helper_regs.h"
-> > > +#include "spr_tcg.c.inc"
-> > >   #include "translate_init.c.inc"
+On Fri, Apr 30, 2021 at 03:40:46PM -0300, Lucas Mateus Castro (alqotel) wro=
+te:
+> The functions ppc_store_lpcr, ppc_hash64_filter_pagesizes and
+> ppc_hash64_unmap_hptes have been moved to mmu-misc.h since they are
+> not needed in a !TCG context and mmu-hash64 should not be compiled
+> in such situation.
 >=20
-> You probably just missed it here. Buried a bit in all the code motion,
-> unfortunately...
+> ppc_store_lpcr and ppc_hash64_filter_pagesizes are used by multiple
+> functions, while ppc_hash64_unmap_hptes is used by rehash_hpt (in
+> spapr_hcall.c).
 
-Oops, sorry.  Thought I'd grepped for it.
+Hmm.. looking at it, ppc_store_lpcr() (and helper_store_lpcr()) don't
+really belong in this file at all.  The LPCR has some things related
+to the hash MMU, but plenty of others that don't.  So, maybe
+misc_helper.c?  That might have to be moved again, since misc_helper
+itself should probably mostly not be used for !TCG.  But.. one thing
+at a time.
 
+AFAICT the only user of ppc_hash64_filter_pagesizes() is in
+spapr_caps.c.  For now you can just move it next to the caller, it's
+debatable whether it belongs more to PAPR or MMU code.
+
+ppc_hash64_unmap_hptes() is definitely TCG only and should stay where
+it is.  The call from rehash_hpt() can be solved because rehash_hpt()
+itself is TCG only.  I've already suggested splitting the TCG (well,
+softmmu) only things out from spapr_hcall.c, so it might simplify
+things to tackle that first.
+
+> Also I've put the functions in mmu-misc as I am unsure in which file
+> this functions should go, so I just created a new one for now, any
+> suggestion which file to put them (considering it's a file that must be
+> compiled in a !TCG situation)?
+>=20
+> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.b=
+r>
+> ---
+>  hw/ppc/spapr.c          |  1 +
+>  hw/ppc/spapr_caps.c     |  1 +
+>  hw/ppc/spapr_cpu_core.c |  1 +
+>  hw/ppc/spapr_hcall.c    |  1 +
+>  hw/ppc/spapr_rtas.c     |  1 +
+>  target/ppc/meson.build  |  1 +
+>  target/ppc/mmu-hash64.c | 81 +-------------------------------------
+>  target/ppc/mmu-hash64.h |  6 ---
+>  target/ppc/mmu-misc.c   | 86 +++++++++++++++++++++++++++++++++++++++++
+>  target/ppc/mmu-misc.h   | 22 +++++++++++
+>  10 files changed, 115 insertions(+), 86 deletions(-)
+>  create mode 100644 target/ppc/mmu-misc.c
+>  create mode 100644 target/ppc/mmu-misc.h
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index e4be00b732..61f8f150c2 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -53,6 +53,7 @@
+>  #include "mmu-book3s-v3.h"
+>  #include "cpu-models.h"
+>  #include "hw/core/cpu.h"
+> +#include "mmu-misc.h"
+> =20
+>  #include "hw/boards.h"
+>  #include "hw/ppc/ppc.h"
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index 9ea7ddd1e9..22352ff018 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -34,6 +34,7 @@
+>  #include "kvm_ppc.h"
+>  #include "migration/vmstate.h"
+>  #include "sysemu/tcg.h"
+> +#include "mmu-misc.h"
+> =20
+>  #include "hw/ppc/spapr.h"
+> =20
+> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> index 4f316a6f9d..f4d93999e5 100644
+> --- a/hw/ppc/spapr_cpu_core.c
+> +++ b/hw/ppc/spapr_cpu_core.c
+> @@ -24,6 +24,7 @@
+>  #include "sysemu/reset.h"
+>  #include "sysemu/hw_accel.h"
+>  #include "qemu/error-report.h"
+> +#include "mmu-misc.h"
+> =20
+>  static void spapr_reset_vcpu(PowerPCCPU *cpu)
+>  {
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 7b5cd3553c..4b0ba69841 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -13,6 +13,7 @@
+>  #include "hw/ppc/spapr.h"
+>  #include "hw/ppc/spapr_cpu_core.h"
+>  #include "mmu-hash64.h"
+> +#include "mmu-misc.h"
+>  #include "cpu-models.h"
+>  #include "trace.h"
+>  #include "kvm_ppc.h"
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 8a79f9c628..8935b75d1c 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -35,6 +35,7 @@
+>  #include "sysemu/hw_accel.h"
+>  #include "sysemu/runstate.h"
+>  #include "kvm_ppc.h"
+> +#include "mmu-misc.h"
+> =20
+>  #include "hw/ppc/spapr.h"
+>  #include "hw/ppc/spapr_vio.h"
+> diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+> index bbfef90e08..7a97648803 100644
+> --- a/target/ppc/meson.build
+> +++ b/target/ppc/meson.build
+> @@ -31,6 +31,7 @@ ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
+>    'mmu-book3s-v3.c',
+>    'mmu-hash64.c',
+>    'mmu-radix64.c',
+> +  'mmu-misc.c',
+>  ))
+> =20
+>  target_arch +=3D {'ppc': ppc_ss}
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index 0fabc10302..919a3e9f51 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -30,6 +30,7 @@
+>  #include "exec/log.h"
+>  #include "hw/hw.h"
+>  #include "mmu-book3s-v3.h"
+> +#include "mmu-misc.h"
+> =20
+>  /* #define DEBUG_SLB */
+> =20
+> @@ -499,20 +500,6 @@ const ppc_hash_pte64_t *ppc_hash64_map_hptes(PowerPC=
+CPU *cpu,
+>      return hptes;
+>  }
+> =20
+> -void ppc_hash64_unmap_hptes(PowerPCCPU *cpu, const ppc_hash_pte64_t *hpt=
+es,
+> -                            hwaddr ptex, int n)
+> -{
+> -    if (cpu->vhyp) {
+> -        PPCVirtualHypervisorClass *vhc =3D
+> -            PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+> -        vhc->unmap_hptes(cpu->vhyp, hptes, ptex, n);
+> -        return;
+> -    }
+> -
+> -    address_space_unmap(CPU(cpu)->as, (void *)hptes, n * HASH_PTE_SIZE_6=
+4,
+> -                        false, n * HASH_PTE_SIZE_64);
+> -}
+> -
+>  static unsigned hpte_page_shift(const PPCHash64SegmentPageSizes *sps,
+>                                  uint64_t pte0, uint64_t pte1)
+>  {
+> @@ -1119,14 +1106,6 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, ta=
+rget_ulong ptex,
+>      cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
+LUSH;
+>  }
+> =20
+> -void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+> -{
+> -    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+> -    CPUPPCState *env =3D &cpu->env;
+> -
+> -    env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
+> -}
+> -
+>  void helper_store_lpcr(CPUPPCState *env, target_ulong val)
+>  {
+>      PowerPCCPU *cpu =3D env_archcpu(env);
+> @@ -1197,61 +1176,3 @@ const PPCHash64Options ppc_hash64_opts_POWER7 =3D {
+>      }
+>  };
+> =20
+> -void ppc_hash64_filter_pagesizes(PowerPCCPU *cpu,
+> -                                 bool (*cb)(void *, uint32_t, uint32_t),
+> -                                 void *opaque)
+> -{
+> -    PPCHash64Options *opts =3D cpu->hash64_opts;
+> -    int i;
+> -    int n =3D 0;
+> -    bool ci_largepage =3D false;
+> -
+> -    assert(opts);
+> -
+> -    n =3D 0;
+> -    for (i =3D 0; i < ARRAY_SIZE(opts->sps); i++) {
+> -        PPCHash64SegmentPageSizes *sps =3D &opts->sps[i];
+> -        int j;
+> -        int m =3D 0;
+> -
+> -        assert(n <=3D i);
+> -
+> -        if (!sps->page_shift) {
+> -            break;
+> -        }
+> -
+> -        for (j =3D 0; j < ARRAY_SIZE(sps->enc); j++) {
+> -            PPCHash64PageSize *ps =3D &sps->enc[j];
+> -
+> -            assert(m <=3D j);
+> -            if (!ps->page_shift) {
+> -                break;
+> -            }
+> -
+> -            if (cb(opaque, sps->page_shift, ps->page_shift)) {
+> -                if (ps->page_shift >=3D 16) {
+> -                    ci_largepage =3D true;
+> -                }
+> -                sps->enc[m++] =3D *ps;
+> -            }
+> -        }
+> -
+> -        /* Clear rest of the row */
+> -        for (j =3D m; j < ARRAY_SIZE(sps->enc); j++) {
+> -            memset(&sps->enc[j], 0, sizeof(sps->enc[j]));
+> -        }
+> -
+> -        if (m) {
+> -            n++;
+> -        }
+> -    }
+> -
+> -    /* Clear the rest of the table */
+> -    for (i =3D n; i < ARRAY_SIZE(opts->sps); i++) {
+> -        memset(&opts->sps[i], 0, sizeof(opts->sps[i]));
+> -    }
+> -
+> -    if (!ci_largepage) {
+> -        opts->flags &=3D ~PPC_HASH64_CI_LARGEPAGE;
+> -    }
+> -}
+> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
+> index 87729d48b3..562602b466 100644
+> --- a/target/ppc/mmu-hash64.h
+> +++ b/target/ppc/mmu-hash64.h
+> @@ -15,12 +15,8 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,
+>                                 target_ulong pte0, target_ulong pte1);
+>  unsigned ppc_hash64_hpte_page_shift_noslb(PowerPCCPU *cpu,
+>                                            uint64_t pte0, uint64_t pte1);
+> -void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val);
+>  void ppc_hash64_init(PowerPCCPU *cpu);
+>  void ppc_hash64_finalize(PowerPCCPU *cpu);
+> -void ppc_hash64_filter_pagesizes(PowerPCCPU *cpu,
+> -                                 bool (*cb)(void *, uint32_t, uint32_t),
+> -                                 void *opaque);
+>  #endif
+> =20
+>  /*
+> @@ -112,8 +108,6 @@ struct ppc_hash_pte64 {
+> =20
+>  const ppc_hash_pte64_t *ppc_hash64_map_hptes(PowerPCCPU *cpu,
+>                                               hwaddr ptex, int n);
+> -void ppc_hash64_unmap_hptes(PowerPCCPU *cpu, const ppc_hash_pte64_t *hpt=
+es,
+> -                            hwaddr ptex, int n);
+> =20
+>  static inline uint64_t ppc_hash64_hpte0(PowerPCCPU *cpu,
+>                                          const ppc_hash_pte64_t *hptes, i=
+nt i)
+> diff --git a/target/ppc/mmu-misc.c b/target/ppc/mmu-misc.c
+> new file mode 100644
+> index 0000000000..8abda66547
+> --- /dev/null
+> +++ b/target/ppc/mmu-misc.c
+> @@ -0,0 +1,86 @@
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "mmu-hash64.h"
+> +#include "fpu/softfloat-helpers.h"
+> +#include "mmu-misc.h"
+> +
+> +void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+> +{
+> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+> +    CPUPPCState *env =3D &cpu->env;
+> +
+> +    env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
+> +}
+> +
+> +void ppc_hash64_filter_pagesizes(PowerPCCPU *cpu,
+> +                                 bool (*cb)(void *, uint32_t, uint32_t),
+> +                                 void *opaque)
+> +{
+> +    PPCHash64Options *opts =3D cpu->hash64_opts;
+> +    int i;
+> +    int n =3D 0;
+> +    bool ci_largepage =3D false;
+> +
+> +    assert(opts);
+> +
+> +    n =3D 0;
+> +    for (i =3D 0; i < ARRAY_SIZE(opts->sps); i++) {
+> +        PPCHash64SegmentPageSizes *sps =3D &opts->sps[i];
+> +        int j;
+> +        int m =3D 0;
+> +
+> +        assert(n <=3D i);
+> +
+> +        if (!sps->page_shift) {
+> +            break;
+> +        }
+> +
+> +        for (j =3D 0; j < ARRAY_SIZE(sps->enc); j++) {
+> +            PPCHash64PageSize *ps =3D &sps->enc[j];
+> +
+> +            assert(m <=3D j);
+> +            if (!ps->page_shift) {
+> +                break;
+> +            }
+> +
+> +            if (cb(opaque, sps->page_shift, ps->page_shift)) {
+> +                if (ps->page_shift >=3D 16) {
+> +                    ci_largepage =3D true;
+> +                }
+> +                sps->enc[m++] =3D *ps;
+> +            }
+> +        }
+> +
+> +        /* Clear rest of the row */
+> +        for (j =3D m; j < ARRAY_SIZE(sps->enc); j++) {
+> +            memset(&sps->enc[j], 0, sizeof(sps->enc[j]));
+> +        }
+> +
+> +        if (m) {
+> +            n++;
+> +        }
+> +    }
+> +
+> +    /* Clear the rest of the table */
+> +    for (i =3D n; i < ARRAY_SIZE(opts->sps); i++) {
+> +        memset(&opts->sps[i], 0, sizeof(opts->sps[i]));
+> +    }
+> +
+> +    if (!ci_largepage) {
+> +        opts->flags &=3D ~PPC_HASH64_CI_LARGEPAGE;
+> +    }
+> +}
+> +
+> +void ppc_hash64_unmap_hptes(PowerPCCPU *cpu, const ppc_hash_pte64_t *hpt=
+es,
+> +                            hwaddr ptex, int n)
+> +{
+> +    if (cpu->vhyp) {
+> +        PPCVirtualHypervisorClass *vhc =3D
+> +            PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
+> +        vhc->unmap_hptes(cpu->vhyp, hptes, ptex, n);
+> +        return;
+> +    }
+> +
+> +    address_space_unmap(CPU(cpu)->as, (void *)hptes, n * HASH_PTE_SIZE_6=
+4,
+> +                        false, n * HASH_PTE_SIZE_64);
+> +}
+> diff --git a/target/ppc/mmu-misc.h b/target/ppc/mmu-misc.h
+> new file mode 100644
+> index 0000000000..7be6bf7b44
+> --- /dev/null
+> +++ b/target/ppc/mmu-misc.h
+> @@ -0,0 +1,22 @@
+> +#ifndef MMU_MISC_H
+> +#define MMU_MISC_H
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +
+> +#ifndef CONFIG_USER_ONLY
+> +
+> +#ifdef TARGET_PPC64
+> +
+> +void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val);
+> +void ppc_hash64_filter_pagesizes(PowerPCCPU *cpu,
+> +                                 bool (*cb)(void *, uint32_t, uint32_t),
+> +                                 void *opaque);
+> +
+> +#endif
+> +
+> +void ppc_hash64_unmap_hptes(PowerPCCPU *cpu, const ppc_hash_pte64_t *hpt=
+es,
+> +                            hwaddr ptex, int n);
+> +
+> +#endif
+> +
+> +#endif
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -200,25 +464,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---z+7nLXxRIcKUtLc9
+--mf5pHxYdrUEa5CVA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPc/UACgkQbDjKyiDZ
-s5JhUQ//Xfv93ycYK/34HbutiPXO2MYPjYQ0t5TUW1SHfTPONvU1GBgfmmxmu1nc
-zLBUF4igRSda78Hkq3uzWugpF0US1aSJazMur8owd/PQ8zLneARGAkj/5+Y/0YFS
-eFnzREK6UQfoaJm6szfkntqdF15c5IoB5HsW16Nb7Hy5ZJUAg733PdS9aYdfCi+0
-s9Jo6zqE/NfjSphj9qoO9GXCebPSgkNvh5IerFPMvbtbElKNDyubcqZz6gZ30ZJF
-JykzFHuHdCfySTzbZibx8cPznAC2199wu6FuSgpyYaatLOAd00UAtRT0Ol3HQYUC
-2sG+4y7D6wA3j6XEtAQxlmelldUmvE5c7pnzR7sQkRr77uu+bm4YsF8tIPKzSDPX
-IGG3/wR84+1radfiDoM80mi4B9zeOAwUyCqHHRDeObTUPOXNIm8Pc6U1MFsBDvJ6
-zl+kxjVzqIYVKqWpDMU9lSmpw36A+oq2K688Zm0B3YUGrSeaAAhOjiDZejUs5y5G
-7+pj12HGWpJwq6rmwOU2VZ806wxPZdqS+MUHYi/9UIUeVMWTz0CTBnPf3lyd+oFt
-EOxL2hOwuMRep1l9jGRL/pQgD7Jt+UsDTa/09Tmd0WjMjYHQsZXe6OCBudwd9y2g
-iuNKo7mYWPP68OTT8WkFOEet7EZUxDUlw0DM2Q8N7O/Pk7hIwcg=
-=MwMZ
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCPexkACgkQbDjKyiDZ
+s5ImmA/+NNYgsP+SguCq90EKeNOEtlUnlHMOK8RrQvpYq8N04jwXKBWvUF/c+bmr
+GxxwyJ18TMBVaSxOLpNekGbou4ZVjQ+kOrxAOczjPXGLOiwp0tr279GpXpy2U5d0
+r1j+UhvRBjs5fI+okZBkOf5CbdRnb6laFKAKj0yddxCWbVV2Wc7qmIW7IS9G/qpE
+7mTZ8RtnZmf8RaEIHc0CvvL/lLtsoGmH8+4N3pjHpppxId+4EeIqKFEywSbS2XtG
+s2kvU3in3Jo0VMj4R/1TPZYTMPxh84rxC5xsmKRrM7/Xt1y3bu38b9PUpZjzlDP7
+JRhdeENmx70sFpzobU6jyOH0WOPRJqCwdShnLQl4phpkUoOHazQe8Heyu/I7NPLm
+rEXxrl2VXS3ycZ9eHFJtF5d6CpS/jaIMXWUmmixirEhwabhi2vZ2NZjLTVF6I6dE
+ZG5OOnVqu8V44zxWykGUV83lbE6Fxy9Oo0F8kMfJn/VwffPPYy+Sz3g4AKKdbYlY
+pBHPJwiG4tcB0AAt6MpE6soIS2YIP/qD4B0/wDUG0+Z9AKzB1ZhQgz/2ZIOdu84C
+xeGBonkE2ph2aA/19zkIbK2HBMT49zMIVPgvSlXE/FLVYbgmQK9fIgowWkGsVLZH
+bmJoPbOQAO/7kHZNa+kBTBRlC/zgueosKthVT+rUP3Vqx+ipM+Q=
+=uqAs
 -----END PGP SIGNATURE-----
 
---z+7nLXxRIcKUtLc9--
+--mf5pHxYdrUEa5CVA--
 
