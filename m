@@ -2,54 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B47537212B
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 22:15:30 +0200 (CEST)
-Received: from localhost ([::1]:41822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF48037211D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 22:12:02 +0200 (CEST)
+Received: from localhost ([::1]:38372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldeyX-0006Xs-2L
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 16:15:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55976)
+	id 1ldevC-00052L-1X
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 16:12:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lderp-0002XQ-QI; Mon, 03 May 2021 16:08:33 -0400
-Received: from [201.28.113.2] (port=34860 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lderm-00037I-Sl; Mon, 03 May 2021 16:08:33 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Mon, 3 May 2021 17:08:28 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id 5640680134C;
- Mon,  3 May 2021 17:08:28 -0300 (-03)
-Subject: Re: [PATCH v3 4/7] target/ppc: turned SPR R/W callbacks not static
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210430193533.82136-1-bruno.larsen@eldorado.org.br>
- <20210430193533.82136-5-bruno.larsen@eldorado.org.br>
- <79cda095-9ba0-0ec6-c89d-77e2d6dbf312@linaro.org>
- <ba205951-0286-25d8-c453-848e1d0123af@eldorado.org.br>
- <923b7fd2-122a-316b-adbe-fb9a2655ab61@linaro.org>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <1e284704-e46a-8af3-7dee-670e274c99c4@eldorado.org.br>
-Date: Mon, 3 May 2021 17:08:28 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ldetx-00047E-3B
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 16:10:45 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:46610)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ldets-0004Ks-1J
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 16:10:44 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 143K9XFO020385
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 3 May 2021 16:09:38 -0400
+Date: Mon, 3 May 2021 16:09:33 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [OSS-Fuzz] Assertion Failure: !in6_zero(&ip_addr) (#111)
+Message-ID: <20210503200933.aqi4fg7x5lilbug3@mozz.bu.edu>
 MIME-Version: 1.0
-In-Reply-To: <923b7fd2-122a-316b-adbe-fb9a2655ab61@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------1A0BA943646C86CE71E46815"
-Content-Language: en-US
-X-OriginalArrivalTime: 03 May 2021 20:08:28.0714 (UTC)
- FILETIME=[152AB8A0:01D74058]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.999,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,104 +52,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------1A0BA943646C86CE71E46815
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hi,
+Forwarding this along to the list, so it doesn't get burried during the
+gitlab issue migration.
 
+----- Forwarded message from "Alexander Bulekov (@a1xndr)" <gitlab@mg.gitlab.com> -----
 
-On 03/05/2021 12:25, Richard Henderson wrote:
-> On 5/3/21 4:28 AM, Bruno Piazera Larsen wrote:
->>> Note for future cleanup: Make spr_tcg.c be standalone as well. Just 
->>> need to move a few declarations to a translate.h.
->> it's not that easy, unfortunately. The readers and writers use a lot 
->> of global variables declared in translate.c, so we'd need to create 
->> getters and setters, or some better solution, before doing that.
->
-> No need for getters, and certainly not for setters (all of the globals 
-> are write-once at startup).  Just move the declarations into a shared 
-> translate.h.  That's what we've done for target/arm/.
-Ah, I can take a look later, but this would be pretty low priority 
-compared to what is being requested of us right now. And that's if we 
-separate it like that anyway
->
->
-> r~
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+Alexander Bulekov created an issue: https://gitlab.com/qemu-project/qemu/-/issues/111
 
---------------1A0BA943646C86CE71E46815
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Hello,
+Reproducer
+```
+cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
+512M -M q35 -nodefaults -device e1000e,netdev=net0 -netdev user,id=net0 \
+-qtest stdio
+outl 0xcf8 0x80000813
+outl 0xcfc 0x56
+outl 0xcf8 0x80000801
+outl 0xcfc 0x06000000
+write 0x56000403 0x1 0x02
+write 0x5600042b 0x1 0x80
+write 0x20a 0x1 0x86
+write 0x20b 0x1 0xdd
+write 0x20c 0x1 0x60
+write 0x212 0x1 0x11
+write 0x213 0x1 0x01
+write 0x224 0x1 0xfe
+write 0x225 0x1 0xc0
+write 0x233 0x1 0x02
+write 0x237 0x1 0x45
+write 0x23d 0x1 0x01
+write 0xb 0x1 0x24
+write 0x10 0x1 0xfe
+write 0x11 0x1 0x01
+write 0x19 0x1 0x01
+write 0x1a 0x1 0x10
+write 0x1b 0x1 0x25
+write 0x5600043a 0x1 0x04
+EOF
+```
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 03/05/2021 12:25, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:923b7fd2-122a-316b-adbe-fb9a2655ab61@linaro.org">On
-      5/3/21 4:28 AM, Bruno Piazera Larsen wrote:
-      <br>
-      <blockquote type="cite">
-        <blockquote type="cite">Note for future cleanup: Make spr_tcg.c
-          be standalone as well. Just need to move a few declarations to
-          a translate.h.
-          <br>
-        </blockquote>
-        it's not that easy, unfortunately. The readers and writers use a
-        lot of global variables declared in translate.c, so we'd need to
-        create getters and setters, or some better solution, before
-        doing that.
-        <br>
-      </blockquote>
-      <br>
-      No need for getters, and certainly not for setters (all of the
-      globals are write-once at startup).  Just move the declarations
-      into a shared translate.h.  That's what we've done for
-      target/arm/.
-      <br>
-    </blockquote>
-    Ah, I can take a look later, but this would be pretty low priority
-    compared to what is being requested of us right now. And that's if
-    we separate it like that anyway<br>
-    <blockquote type="cite"
-      cite="mid:923b7fd2-122a-316b-adbe-fb9a2655ab61@linaro.org">
-      <br>
-      <br>
-      r~
-      <br>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen</div>
-    <div class="moz-signature">
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a></div>
-    <div class="moz-signature">Departamento Computação Embarcada</div>
-    <div class="moz-signature">Analista de Software Trainee</div>
-    <div class="moz-signature">
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
+Stack-trace:
+```
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../net/eth.c:374:27 in
+../net/eth.c:375:27: runtime error: member access within misaligned address 0x631000014846 for type 'struct ip6_header', which requires 4 byte alignment
+0x631000014846: note: pointer points here
+ 00 00 11 11 60 00  00 00 00 00 11 11 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 fe c0  00 00
+             ^
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../net/eth.c:375:27 in
+qemu-fuzz-i386: ../slirp/src/ndp_table.c:59: _Bool ndp_table_search(Slirp *, struct in6_addr, uint8_t *): Assertion `!in6_zero(&ip_addr)' failed.
 
---------------1A0BA943646C86CE71E46815--
+#8 in __assert_fail assert/assert.c:101:3
+#9 in ndp_table_search /slirp/src/ndp_table.c:59:5
+#10 in if_encap6 /slirp/src/slirp.c:926:10
+#11 in if_encap /slirp/src/slirp.c:967:15
+#12 in if_start /slirp/src/if.c:183:45
+#13 in ip6_output /slirp/src/ip6_output.c:35:9
+#14 in tftp_udp_output /slirp/src/tftp.c:161:9
+#15 in tftp_send_error /slirp/src/tftp.c:223:5
+#16 in tftp_handle_rrq /slirp/src/tftp.c
+#17 in tftp_input /slirp/src/tftp.c:453:9
+#18 in udp6_input /slirp/src/udp6.c:81:9
+#19 in slirp_input /slirp/src/slirp.c:847:13
+#20 in net_slirp_receive /net/slirp.c:136:5
+#21 in nc_sendv_compat /net/net.c
+#22 in qemu_deliver_packet_iov /net/net.c:765:15
+#23 in qemu_net_queue_deliver_iov /net/queue.c:179:11
+#24 in qemu_net_queue_send_iov /net/queue.c:246:11
+#25 in net_tx_pkt_sendv /hw/net/net_tx_pkt.c:558:9
+#26 in net_tx_pkt_send /hw/net/net_tx_pkt.c:633:9
+#27 in e1000e_tx_pkt_send /hw/net/e1000e_core.c:659:16
+#28 in e1000e_process_tx_desc /hw/net/e1000e_core.c:736:17
+#29 in e1000e_start_xmit /hw/net/e1000e_core.c:927:9
+#30 in e1000e_set_tdt /hw/net/e1000e_core.c:2444:9
+#31 in e1000e_core_write /hw/net/e1000e_core.c:3256:9
+#32 in memory_region_write_accessor /softmmu/memory.c:491:5
+#33 in access_with_adjusted_size /softmmu/memory.c:552:18
+#34 in memory_region_dispatch_write /softmmu/memory.c
+#35 in flatview_write_continue /softmmu/physmem.c:2746:23
+#36 in flatview_write /softmmu/physmem.c:2786:14
+#37 in address_space_write /softmmu/physmem.c:2878:18
+```
+
+Test-case:
+```
+/*
+ * Autogenerated Fuzzer Test Case
+ *
+ * Copyright (c) 2021 <name of author>
+ *
+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
+ * See the COPYING file in the top-level directory.
+ */
+
+#include "qemu/osdep.h"
+
+#include "libqos/libqtest.h"
+
+static void test_fuzz(void)
+{
+    QTestState *s = qtest_init("-display none , -m 512M -M q35 -nodefaults -device "
+                               "e1000e,netdev=net0 -netdev user,id=net0");
+    qtest_outl(s, 0xcf8, 0x80000813);
+    qtest_outl(s, 0xcfc, 0x56);
+    qtest_outl(s, 0xcf8, 0x80000801);
+    qtest_outl(s, 0xcfc, 0x06000000);
+    qtest_bufwrite(s, 0x56000403, "\x02", 0x1);
+    qtest_bufwrite(s, 0x5600042b, "\x80", 0x1);
+    qtest_bufwrite(s, 0x20a, "\x86", 0x1);
+    qtest_bufwrite(s, 0x20b, "\xdd", 0x1);
+    qtest_bufwrite(s, 0x20c, "\x60", 0x1);
+    qtest_bufwrite(s, 0x212, "\x11", 0x1);
+    qtest_bufwrite(s, 0x213, "\x01", 0x1);
+    qtest_bufwrite(s, 0x224, "\xfe", 0x1);
+    qtest_bufwrite(s, 0x225, "\xc0", 0x1);
+    qtest_bufwrite(s, 0x233, "\x02", 0x1);
+    qtest_bufwrite(s, 0x237, "\x45", 0x1);
+    qtest_bufwrite(s, 0x23d, "\x01", 0x1);
+    qtest_bufwrite(s, 0xb, "\x24", 0x1);
+    qtest_bufwrite(s, 0x10, "\xfe", 0x1);
+    qtest_bufwrite(s, 0x11, "\x01", 0x1);
+    qtest_bufwrite(s, 0x19, "\x01", 0x1);
+    qtest_bufwrite(s, 0x1a, "\x10", 0x1);
+    qtest_bufwrite(s, 0x1b, "\x25", 0x1);
+    qtest_bufwrite(s, 0x5600043a, "\x04", 0x1);
+    qtest_quit(s);
+}
+int main(int argc, char **argv)
+{
+    const char *arch = qtest_get_arch();
+
+    g_test_init(&argc, &argv, NULL);
+
+    if (strcmp(arch, "i386") == 0) {
+        qtest_add_func("fuzz/test_fuzz", test_fuzz);
+    }
+
+    return g_test_run();
+}
+```
+
+OSS-Fuzz Report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33873
 
