@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74343722EE
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:24:30 +0200 (CEST)
-Received: from localhost ([::1]:39522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0AC03722E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 00:17:42 +0200 (CEST)
+Received: from localhost ([::1]:51468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldgzN-0004zM-75
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:24:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52776)
+	id 1ldgsn-0006Wc-3A
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 18:17:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgpE-0004Wm-1s
- for qemu-devel@nongnu.org; Mon, 03 May 2021 18:14:03 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28326)
+ id 1ldgpI-0004XF-Ss
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:14:04 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=750139ea6=alistair.francis@wdc.com>)
- id 1ldgp6-0008VN-Go
- for qemu-devel@nongnu.org; Mon, 03 May 2021 18:13:59 -0400
+ id 1ldgp9-00006X-GR
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 18:14:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620080032; x=1651616032;
+ t=1620080035; x=1651616035;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=a4yEU+4TjBk6Oe2/N0wvc5JGnBHXRW0rnny396yYmb0=;
- b=Bj2+0KgJHK2PiH5AfAdaLG5m3ftFcBsOAWHj7pi4bw0wYxS+Qj7tQi3m
- ROz7MouNR0SswfjMhd/LUtLZ93/CfRbsT4CFgAmWJ+4ah2erjyKIf4Vgl
- Yw7GM+KQ/p/zH1hXOTgu6ALaN04yCyUr+jmBjOHXJZHp7EORGMXEGpkTN
- 3O4hu6H5TClrSyw0Lg+y8LbXDGur7vjT9vigw8+fkdylI60PWnMFN5PXD
- V5cNbj6AXf5SRyDpqdiwZ5r+xJvVIrcp9E2xCvq3z8LNPueXgtwTcB6JT
- IqLM/6MFCPFeNk9Qj84I4wCrffya6CYQqc9mMsb4rjFpfdX8LOJJUSdaV w==;
-IronPort-SDR: TS+wAi3yjdCp/hiNDKBUJrQZbdUoUkJjEjYJldRgcVLFNgG0auJxrXdEEkuV+xfW4zMn6sSD1W
- WSk0z+Cuzd481wLWiJ716Mx8Vag+s2YCRMpyWozhiq+06A0bQQf6gYgNhdskGaoKW0qNCGlYQ1
- ZXT6r5WGs9AbHj5U1ns5cMfeJC71IPlQt0eqCklq0pnW3Ryhj6YaTD7F7SQMHNTf96t1Vk5IqW
- 3k6mkXgmi9xTO3S3gWP84Sd9oz8Xd8K982sg7X/Yp5lBOQKy7v7bZQfZ4JgEccJuHL4UW7H6we
- 8zg=
-X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278114594"
+ bh=uxQXJBGZObVTrLTr50Z1TExpqNoN8OBXuU5KlnJOMXE=;
+ b=nmjqpaTKkby3+9MnXlk9QBOO0pYHiTLHSg8ybPFTckkKMtEcwF+Gj79i
+ gk4Fk5zVgxFivt4wmT2XfAbt0d8T/i7WuKvTg/H1GGKPY6FZtEVlHdS2E
+ iOEtntQgKRb6hJTpSK+x+JoRAO9vIkWcnlbUL5nLDeJ1C0AU2RcP5pTuT
+ XFA066A6AVTlUIQhtQE75HoQPgWlAyREn5LXLsfx/Ri0eRAUIPVCOKz0i
+ siIPrEE1WUGNzOVnN1iMmAdxFC9+uo8J/k1PheNQnB6Vov9LhkqQ4c1UJ
+ MESBfByBqxTqW+1pRqQ5/VzJoiOGF2dH7yQ4hBYEcweR/sF80Ao2i/R9D w==;
+IronPort-SDR: HbA8mmdK4T2eIZ2fqzQpSlGy0aV5cgviXWbERYRn9UKfkGTfEjxHK96cesY3ISgMknKe88Hx/C
+ evhz0ODLQFebmr0B9IcXDaiW7iwynKPoORWIocz3irI9boDoGsdvHhILHe9m+51P65BUIUswaI
+ vgjLfZ2nRjZbE0RyPbmPpeubll8LeKvul0N6re80QPjU2WJt8v7VOyuzGe2/OxNgTjVp4C1U+x
+ PdfvVoMDK/s+rqZBV8iMR0dapVq4kQWPnkJQJNwcbrHrTzHCbxxqEK7574/YEhYWNFAdi1UQhu
+ ZaQ=
+X-IronPort-AV: E=Sophos;i="5.82,271,1613404800"; d="scan'208";a="278114596"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:13:50 +0800
-IronPort-SDR: epvFJpRm4SSIKR2IkZfdzz7MwCkI10IW38OUOShkEDGNx3wUJ0p3S0brhV+Pa2vLo0Kv1bJWz6
- 55AGhBFmeq5cTaLed5mHzfT0AA+szFNxTuqQtgFKBtzTP5IweZCDRPRGuQ1MdQqXGAZ/NkqOV+
- 2sN3/BdJbyLfD3ju9q/A27xSFgeSHVuuOkQFnp3J5LPXBDfLQVDNatLIBczts5RhxbFh9v8N2U
- Xb8K2zINZrizJBnjw1+LYFAIwdFLb9TftOrcDDmQ7QGp1HAgp+lIc/aLxQwX5XNfVL4+GwXQNx
- KZjM+CpzaFq44IH0GTTagS8J
+ by ob1.hgst.iphmx.com with ESMTP; 04 May 2021 06:13:53 +0800
+IronPort-SDR: T8MAxAYR9dPoUakJm18Mk7NUngjoKwfHyj1vVmBmRkRPiB/8inDhbTz6d4FVc7YD00SkOauCcr
+ j6g5d0epw6zg9RVM/QjD44sHhu1NJhx0E3PSsrOEqU+ad8JN9PMI1J12OAVLcKK/5Zeelmil7g
+ GHY/22rqVe0JnB/5yEyzNMHfHxkAa2crWrVFVG8tfvjhUTOfqxOT+aXlA7nfiB5/2/loXlxPzJ
+ BJdv9Pa+e3lwD8n5+x/+Z/9Y+UjXfAONQ4Wxf0MEV64tRTBAj082I9SshL7burKbDzpQN4kY0y
+ F7p1ABO1PlpM27e+xtxTQPGA
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 May 2021 14:54:01 -0700
-IronPort-SDR: vi0/ThWEUi7PeNH3O0L+tMlDads4jPGwy/U2Q9MRRhw/b4cT2p2cTHWcIBclJtUBe4JgDqb13a
- ijAuHYj9A65zBsFcwoC4EaNsak+vL1Wx7r292sHUF2BSDQyP3tkOWmJ0n/u/bRGH7B7pYeiZFq
- JQ/RKra6Vjdn0Hw3Ty9EYgwKOkVQoxfauoMf8HSo0jcYNDakSRV4hi9adb4MjtTwhZdJk80A4D
- nR5mszZyy7Y/NCWBbyTKbrF7cuqL3Vf6eqtkQNQ7Xv21jUfqM6ltHIUJIuP453dDFi7pYSyvHt
- qQk=
+ 03 May 2021 14:54:04 -0700
+IronPort-SDR: gZvgxr+JUTOTcg1GBo2fcfH3ORshKDVNeRPwUBXk1c8IieMMM7tqDDdYRVr7enTIrxkQIj5Zud
+ z4JkV10PNeCz4tpfMUtRjTqXeROi1GQK+VqALk6qOYIcyN6hQoQO8IEGlfvdwQ+kG9VUMvjoKC
+ rqyh366nvMtDSXSyUhip0lVicFbA3iO1Au6dqlVuj5zAIz29AFzh80TbaInj6RY6QamuTQxtAM
+ 3BzRtGW1zk90akTai6SEcH2lssR1W2g/wU4RJ5Biml5TXWSKN47GQ9s3H7UJIC5SjqrzQWrqS3
+ VuQ=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.45])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:13:47 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 03 May 2021 15:13:51 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 03/42] target/riscv: Align the data type of reset vector address
-Date: Tue,  4 May 2021 08:12:48 +1000
-Message-Id: <20210503221327.3068768-4-alistair.francis@wdc.com>
+Subject: [PULL 04/42] hw/riscv: sifive_e: Add 'const' to sifive_e_memmap[]
+Date: Tue,  4 May 2021 08:12:49 +1000
+Message-Id: <20210503221327.3068768-5-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210503221327.3068768-1-alistair.francis@wdc.com>
 References: <20210503221327.3068768-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=68.232.141.245;
  envelope-from=prvs=750139ea6=alistair.francis@wdc.com;
@@ -90,41 +91,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dylan Jhong <dylan@andestech.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Ruinland ChuanTzu Tsai <ruinland@andestech.com>, alistair23@gmail.com,
+Cc: Emmanuel Blot <eblot.ml@gmail.com>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alistair Francis <alistair.francis@wdc.com>, alistair23@gmail.com,
  Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dylan Jhong <dylan@andestech.com>
+From: Bin Meng <bmeng.cn@gmail.com>
 
-Use target_ulong to instead of uint64_t on reset vector address
-to adapt on both 32/64 machine.
+This was accidentally dropped before. Add it back.
 
-Signed-off-by: Dylan Jhong <dylan@andestech.com>
-Signed-off-by: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Fixes: 732612856a8 ("hw/riscv: Drop 'struct MemmapEntry'")
+Reported-by: Emmanuel Blot <eblot.ml@gmail.com>
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210329034801.22667-1-dylan@andestech.com
+Message-id: 20210331103612.654261-1-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 2 +-
+ hw/riscv/sifive_e.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 86e7dbeb20..047d6344fe 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -137,7 +137,7 @@ static void set_feature(CPURISCVState *env, int feature)
-     env->features |= (1ULL << feature);
- }
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index f939bcf9ea..82096b3e5a 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -50,7 +50,7 @@
+ #include "sysemu/sysemu.h"
+ #include "exec/address-spaces.h"
  
--static void set_resetvec(CPURISCVState *env, int resetvec)
-+static void set_resetvec(CPURISCVState *env, target_ulong resetvec)
- {
- #ifndef CONFIG_USER_ONLY
-     env->resetvec = resetvec;
+-static MemMapEntry sifive_e_memmap[] = {
++static const MemMapEntry sifive_e_memmap[] = {
+     [SIFIVE_E_DEV_DEBUG] =    {        0x0,     0x1000 },
+     [SIFIVE_E_DEV_MROM] =     {     0x1000,     0x2000 },
+     [SIFIVE_E_DEV_OTP] =      {    0x20000,     0x2000 },
 -- 
 2.31.1
 
