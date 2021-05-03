@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A9BA3721D0
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 22:46:46 +0200 (CEST)
-Received: from localhost ([::1]:54528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D9237222B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 23:03:10 +0200 (CEST)
+Received: from localhost ([::1]:46278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldfSm-0008Db-PW
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 16:46:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34076)
+	id 1ldfie-0000TZ-EQ
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 17:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
- id 1ldfR7-0007Dx-GT; Mon, 03 May 2021 16:45:01 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33448)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldfgT-0007T0-9j
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 17:00:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
- id 1ldfR4-0008K9-84; Mon, 03 May 2021 16:45:01 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id n2so7021207wrm.0;
- Mon, 03 May 2021 13:44:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SV1ZOnE6lj13CJJbhYDEk/s0OMmCaGgLXzaCQlq+Xcg=;
- b=K82Qd/ltEYSPNxI3FOrCFdI/oLluk2k7CQaFPparnwh40hOZOCmPZAtqloaTYS4t1L
- v2rZy3GMDcym1d3X1qDKqGfiIhpygLhgC4XdGs+kNj/VilDnmx3lGaK55eJ2KsnGpoyQ
- LJLw62t6Td6cB2wt1PBGQhNF4sQbTT0u2pdP/zGXM+qdoEKwGDoxoRcqO2OTkMt3PGbv
- tE+lA9Sr9ok4OBNfb6Fn/RC7XqqkGS/Wz3oTfyB5lpHDbhVebaFKh/hOCMUGYaLL/tre
- sSVe3rgshUbEirzvV66u+UTdvuDskXwan5NaIO/nvsTkKt4zXjD2t075BE8scaOXfvep
- Qr/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SV1ZOnE6lj13CJJbhYDEk/s0OMmCaGgLXzaCQlq+Xcg=;
- b=OEAWANuhGUHyl4JYVmIXsjHBLmddUdVNqMmDbEkrMZ39pR2uVfuGPk3K33Jy6XHNEk
- 1ths0ZgNQxbV0Z0ULYR3brVlrRHhf7QjDt1EECTuSl+HYTpwmhJMpEGLDXI3djdk2S44
- xxoeVV4mE6oM/cPjHV0gsAyx17LJAcffl2T4Pm0ixDTAFDSTHCuXDPJRvUJ10UJnQrvh
- /acpSGhJnmSV7LNwAcDcgSJ0xJOupU+DgnKK3diVTjEHKyrnVIr0hZNgZ0KlyPuMOZG2
- widY8oWWGL+5hNz5kNjKjjw465Mcbfpsa7WWH340MAQ2cV4JHuOWBf5+HjLYfN5cPg6y
- t3YA==
-X-Gm-Message-State: AOAM532IiMkTjiwnNFXjuYZI0sldYJt1oDI42wD8jZuT5gQA5N4ZCAH7
- SDNrA78rYSGlxyoZRPexZmK2Zo5h0DzM0dDB
-X-Google-Smtp-Source: ABdhPJzaYjQfmLj5BzhmF62jRzyTV5LCQNZbTXPixoThSbrccAs+wUXH0oSuq0UHB6aELPw/n2+PEA==
-X-Received: by 2002:adf:f74d:: with SMTP id z13mr27339310wrp.147.1620074695158; 
- Mon, 03 May 2021 13:44:55 -0700 (PDT)
-Received: from localhost.localdomain (a89-152-76-22.cpe.netcabo.pt.
- [89.152.76.22])
- by smtp.gmail.com with ESMTPSA id l22sm457353wmq.28.2021.05.03.13.44.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 13:44:54 -0700 (PDT)
-From: Jose Martins <josemartins90@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] target/riscv: fix VS interrupts forwarding to HS
-Date: Mon,  3 May 2021 21:44:48 +0100
-Message-Id: <20210503204448.127412-1-josemartins90@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldfgQ-0001Du-Uu
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 17:00:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ldfgO-0001zV-KF
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 21:00:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 72CBF2E8186
+ for <qemu-devel@nongnu.org>; Mon,  3 May 2021 21:00:48 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=josemartins90@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 May 2021 20:50:33 -0000
+From: Logan Bateman <1860742@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: bootloop xv6
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: engmrgh nametable th-huth
+X-Launchpad-Bug-Reporter: Logan Bateman (nametable)
+X-Launchpad-Bug-Modifier: Logan Bateman (nametable)
+References: <157983858012.5517.4456579868320256063.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162007503335.4348.7849620032855461708.malone@chaenomeles.canonical.com>
+Subject: [Bug 1860742] Re: xv6 Bootloop
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: dbf9bffb8cd044621ee15382dd196961475de01b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,96 +70,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Jose Martins <josemartins90@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Reply-To: Bug 1860742 <1860742@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VS interrupts (2, 6, 10) were not correctly forwarded to hs-mode when
-not delegated in hideleg (which was not being taken into account). This
-was mainly because hs level sie was not always considered enabled when
-it should. The spec states that "Interrupts for higher-privilege modes,
-y>x, are always globally enabled regardless of the setting of the global
-yIE bit for the higher-privilege mode." and also "For purposes of
-interrupt global enables, HS-mode is considered more privileged than
-VS-mode, and VS-mode is considered more privileged than VU-mode".
+Still seems to be an issue for me.
 
-These interrupts should be treated the same as any other kind of
-exception. Therefore, there is no need to "force an hs exception" as the
-current privilege level, the state of the global ie and of the
-delegation registers should be enough to route the interrupt to the
-appropriate privilege level in riscv_cpu_do_interrupt. Also, these
-interrupts never target m-mode, which is  guaranteed by the hardwiring
-of the corresponding bits in mideleg.
+Qemu Version 5.2.0
+Arch Linux 5.11.16-arch1-1
 
-Signed-off-by: Jose Martins <josemartins90@gmail.com>
----
-Alistair, I sent the previous version of this patch a year ago (!).        
-After our brief exchange on wether we should considered HS a higher        
-privilege mode than VS (the spec was updated to clarify this in the        
-meantime) you asked me for a small last tweak  before accepting            
-the patch. This completely slipped my mind, and I only noticed I hadn't    
-submitted the final version of the patch a few weeks ago. For this, my     
-apologies. When I took a deeper look at it again, I found some other issues
-with the patch so I decided to go for a deeper refactoring.                                                        
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
- target/riscv/cpu_helper.c | 28 ++++++++--------------------
- 1 file changed, 8 insertions(+), 20 deletions(-)
+-- =
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 21c54ef561..592d4642be 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -38,36 +38,24 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
- #ifndef CONFIG_USER_ONLY
- static int riscv_cpu_local_irq_pending(CPURISCVState *env)
- {
--    target_ulong irqs;
-+    target_ulong virt_enabled = riscv_cpu_virt_enabled(env);
- 
-     target_ulong mstatus_mie = get_field(env->mstatus, MSTATUS_MIE);
-     target_ulong mstatus_sie = get_field(env->mstatus, MSTATUS_SIE);
--    target_ulong hs_mstatus_sie = get_field(env->mstatus_hs, MSTATUS_SIE);
- 
--    target_ulong pending = env->mip & env->mie &
--                               ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
--    target_ulong vspending = (env->mip & env->mie &
--                              (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP));
-+    target_ulong pending = env->mip & env->mie;
- 
-     target_ulong mie    = env->priv < PRV_M ||
-                           (env->priv == PRV_M && mstatus_mie);
-     target_ulong sie    = env->priv < PRV_S ||
-                           (env->priv == PRV_S && mstatus_sie);
--    target_ulong hs_sie = env->priv < PRV_S ||
--                          (env->priv == PRV_S && hs_mstatus_sie);
-+    target_ulong hsie   = virt_enabled || sie;
-+    target_ulong vsie   = virt_enabled && sie;
- 
--    if (riscv_cpu_virt_enabled(env)) {
--        target_ulong pending_hs_irq = pending & -hs_sie;
--
--        if (pending_hs_irq) {
--            riscv_cpu_set_force_hs_excep(env, FORCE_HS_EXCEP);
--            return ctz64(pending_hs_irq);
--        }
--
--        pending = vspending;
--    }
--
--    irqs = (pending & ~env->mideleg & -mie) | (pending &  env->mideleg & -sie);
-+    target_ulong irqs =
-+            (pending & ~env->mideleg & -mie) |
-+            (pending &  env->mideleg & ~env->hideleg & -hsie) |
-+            (pending &  env->mideleg &  env->hideleg & -vsie);
- 
-     if (irqs) {
-         return ctz64(irqs); /* since non-zero */
--- 
-2.25.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1860742
 
+Title:
+  xv6 Bootloop
+
+Status in QEMU:
+  New
+
+Bug description:
+  Qemu Version: 4.2.0
+
+  Launch command:
+  qemu-system-x86_64 -nographic -drive file=3Dfs.img,index=3D1,media=3Ddisk=
+,format=3Draw -drive file=3Dxv6.img,index=3D0,media=3Ddisk,format=3Draw -sm=
+p 2 -m 512
+
+  How to reproduce?
+  1.)  Use/install latest release of qemu (4.2.0 at time of writing)
+
+  2.)  Download, build, and run xv6 (a simple os designed for learning
+  operating systems fundamentals)
+
+  cd /tmp
+  git clone https://github.com/mit-pdos/xv6-public.git
+  cd xv6-public
+  make qemu-nox
+
+  3.)  Qemu should now bootloop (seem to try to boot but then just
+  repeat). This is what it looks like below before it repeats:
+
+  SeaBIOS (version ?-20191223_100556-anatol)
+
+  iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF92A50+1FEF2A50
+  CA00
+
+  Booting from Hard Disk..
+
+  Host: Arch Linux - Kernel version: 5.4.13
+  Guest: xv6 (https://github.com/mit-pdos/xv6-public)
+
+  Suspicion:
+
+  When I was using qemu 2.11.1 inside an ubuntu docker container, the
+  xv6 os booted with no problem. I am thinking that something changed
+  between Qemu 2.11.1 and Qemu 4.2.0 which is now causing boot problems.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1860742/+subscriptions
 
