@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8E4371E8A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:26:54 +0200 (CEST)
-Received: from localhost ([::1]:52818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C70D371EA5
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:31:20 +0200 (CEST)
+Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldcLO-0008C8-2E
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:26:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49002)
+	id 1ldcPf-0004rn-F4
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:31:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldc8Y-0002CP-AY
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:13:38 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:39910)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldcFV-0000Qf-1X
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:20:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldc8V-00043r-Qs
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:13:37 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso453980wmh.4
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 10:13:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=+FPJ9Qnru6OpVjKtqox8lDIug1vZ9yjVHlNfUoQamQA=;
- b=LAFzYhwC+5t7tkrPfD9N4Xo0hWJxacNEKZAKdMdXq2Hznqz2fRHuWVkyddNlgWyz3I
- UsFVLTYoBH2YVyLnqHolFK/c2RS5PlWxHGEMMwb4NvzjZIHEPnh2gFJwqJzhRYjHxdeL
- Ie9QeBf/sjymb+vGag9+G9hPd/VB4UbTyK6tHerxXKPF6jVKI+6Fr3w2qFN2m8AsAHyI
- Y1b/Oh0PSWKKdx/+3+AyICI7+l4bpZlZmf/H2JQHRA0vGv45OqG6krWFrUGBfUX7d9VB
- f3kZ40ScvEjFa4Ht5k3g+D2b4AQc7U9j5GFqxsjm+pYhdT9UzEJrBZGKnFeu846mkfQR
- q11w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+FPJ9Qnru6OpVjKtqox8lDIug1vZ9yjVHlNfUoQamQA=;
- b=c3v9SEsYZwwTN5X9pTT+hiNqWWkaS54KyNnfOvy/F3ASkkP7quWZhoX2DbJHHE5Zgr
- N9p5NpMPN8Dd9s5MNWRL2jbvrll5q0X/XidR2hpBhkfZ1gXPpNqspjwsCVtZvflxF7PQ
- Sndr86JYJ5ayfWnyj9aWrKv1qFDb4J8gdrJTljIfnYfoUJ/QPCfIDllrmekHOw/DgSDQ
- uqG3R3zJ/IQQ57f/DzZWoh/Ms/ztwHx9G/a4oKykguNpsQgsOge0eI4u6VMWxNH7ugXB
- 4+2Jt+5qfVK7pV+gbeBvRjZkhaae61bSHTJuLP8G9jpwHJWvmV/VeCvgUlM5a0DICNnk
- JtwA==
-X-Gm-Message-State: AOAM530BOh86OW3FZaz9v6l6R3a/Q282vhu5XuB+0X1dctyGP5fci7tj
- XPLO+DlW+aG6ke3iV2zlK4/XcJbHO0y4rA==
-X-Google-Smtp-Source: ABdhPJwbrqzRfUzIX3wYDkD0MZ6hzdATVwinkEtzBiETnIxISM/0QmOqtcecvf56Bl+VNzikOxM2KQ==
-X-Received: by 2002:a7b:c1c5:: with SMTP id a5mr1781688wmj.63.1620062011467;
- Mon, 03 May 2021 10:13:31 -0700 (PDT)
-Received: from x1w.redhat.com (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
- [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id k6sm32112wmi.42.2021.05.03.10.13.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 10:13:31 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/6] hw/sparc/sun4m: Fix code style for checkpatch.pl
-Date: Mon,  3 May 2021 19:13:02 +0200
-Message-Id: <20210503171303.822501-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210503171303.822501-1-f4bug@amsat.org>
-References: <20210503171303.822501-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldcFK-0007pn-PW
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:20:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ldcFI-00086o-Sj
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 17:20:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B23FC2E8187
+ for <qemu-devel@nongnu.org>; Mon,  3 May 2021 17:20:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 May 2021 17:14:29 -0000
+From: Firecode95 <1926952@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: firecode95 marcandre-lureau
+X-Launchpad-Bug-Reporter: Firecode95 (firecode95)
+X-Launchpad-Bug-Modifier: Firecode95 (firecode95)
+References: <162004304487.4348.9374620020070858180.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162006206975.13437.3985692712970465953.malone@wampee.canonical.com>
+Subject: [Bug 1926952] Re: SPICE support broken with 6.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: e7d613a3a4a6a33aa13c7946abe593846c21270b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,91 +69,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Reply-To: Bug 1926952 <1926952@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to move this code, fix its style first.
+But is there any option to dynamically add/remove usb devices like from
+spice client to vm that is powered up without using spice? As far I have
+found there is no such option.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sparc/sun4m.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+-- =
 
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index a625c41cd37..956216591b0 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -1181,11 +1181,11 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .dma_base     = 0xef0400000ULL,
-         .esp_base     = 0xef0800000ULL,
-         .le_base      = 0xef0c00000ULL,
--        .apc_base     = 0xefa000000ULL, // XXX should not exist
-+        .apc_base     = 0xefa000000ULL, /* XXX should not exist */
-         .aux1_base    = 0xff1800000ULL,
-         .aux2_base    = 0xff1a01000ULL,
-         .ecc_base     = 0xf00000000ULL,
--        .ecc_version  = 0x10000000, // version 0, implementation 1
-+        .ecc_version  = 0x10000000, /* version 0, implementation 1 */
-         .nvram_machine_id = 0x72,
-         .machine_id = ss10_id,
-         .iommu_version = 0x03000000,
-@@ -1204,11 +1204,11 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .dma_base     = 0xef0081000ULL,
-         .esp_base     = 0xef0080000ULL,
-         .le_base      = 0xef0060000ULL,
--        .apc_base     = 0xefa000000ULL, // XXX should not exist
-+        .apc_base     = 0xefa000000ULL, /* XXX should not exist */
-         .aux1_base    = 0xff1800000ULL,
--        .aux2_base    = 0xff1a01000ULL, // XXX should not exist
-+        .aux2_base    = 0xff1a01000ULL, /* XXX should not exist */
-         .ecc_base     = 0xf00000000ULL,
--        .ecc_version  = 0x00000000, // version 0, implementation 0
-+        .ecc_version  = 0x00000000, /* version 0, implementation 0 */
-         .nvram_machine_id = 0x71,
-         .machine_id = ss600mp_id,
-         .iommu_version = 0x01000000,
-@@ -1230,7 +1230,7 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .esp_base     = 0xef0800000ULL,
-         .le_base      = 0xef0c00000ULL,
-         .bpp_base     = 0xef4800000ULL,
--        .apc_base     = 0xefa000000ULL, // XXX should not exist
-+        .apc_base     = 0xefa000000ULL, /* XXX should not exist */
-         .aux1_base    = 0xff1800000ULL,
-         .aux2_base    = 0xff1a01000ULL,
-         .dbri_base    = 0xee0000000ULL,
-@@ -1249,7 +1249,7 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-             }
-         },
-         .ecc_base     = 0xf00000000ULL,
--        .ecc_version  = 0x20000000, // version 0, implementation 2
-+        .ecc_version  = 0x20000000, /* version 0, implementation 2 */
-         .nvram_machine_id = 0x72,
-         .machine_id = ss20_id,
-         .iommu_version = 0x13000000,
-@@ -1270,7 +1270,7 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-         .dma_base     = 0x78400000,
-         .esp_base     = 0x78800000,
-         .le_base      = 0x78c00000,
--        .apc_base     = 0x71300000, // pmc
-+        .apc_base     = 0x71300000, /* pmc */
-         .aux1_base    = 0x71900000,
-         .aux2_base    = 0x71910000,
-         .nvram_machine_id = 0x80,
-@@ -1352,7 +1352,7 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
-     /* SPARCbook */
-     {
-         .iommu_base   = 0x10000000,
--        .tcx_base     = 0x50000000, // XXX
-+        .tcx_base     = 0x50000000, /* XXX */
-         .slavio_base  = 0x70000000,
-         .ms_kb_base   = 0x71000000,
-         .serial_base  = 0x71100000,
--- 
-2.26.3
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926952
 
+Title:
+  SPICE support broken with 6.0
+
+Status in QEMU:
+  New
+
+Bug description:
+  Using latest relase 6.0.0 while using Intel GVT-G DMA-BUF and SPICE
+  for usb redirection Qemu won't start:
+
+  qemu-system-x86_64: The console requires display DMABUF support.
+
+  However just patching ui/console.c:
+
+  if (flags & GRAPHIC_FLAGS_DMABUF &&
+          !displaychangelistener_has_dmabuf(dcl)) {
+          error_setg(errp, "The console requires display DMABUF support.");
+          return false;
+  }
+
+  to always return true for dmabuf part works just fine:
+
+  if (flags & GRAPHIC_FLAGS_DMABUF &&
+          !displaychangelistener_has_dmabuf(dcl)) {
+          error_setg(errp, "The console requires display DMABUF support.");
+          return true;
+  }
+
+  This behavior wasn't in qemu 5.x version.
+
+  To reproduce this bug need to use:
+
+  /usr/bin/qemu-system-x86_64 \
+  -machine q35 \
+  -enable-kvm \
+  -no-user-config \
+  -nodefaults \
+  -no-hpet \
+  -display gtk,gl=3Don \
+  -device pcie-root-port,port=3D0x0,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,mul=
+tifunction=3Don,addr=3D0x1 \
+  -device vfio-pci,id=3Dhostdev2,driver=3Dvfio-pci-nohotplug,romfile=3D/sys=
+/devices/pci0000:00/0000:00:02.0/gvt_firmware,sysfsdev=3D/sys/bus/mdev/devi=
+ces/1ae40c36-b180-4af0-8fab-c27de21f597d,x-igd-opregion=3Don,ramfb=3Don,dis=
+play=3Don,xres=3D1920,yres=3D1080,bus=3Dpcie.0,multifunction=3Don,addr=3D0x=
+2 \
+  -spice port=3D5900,addr=3D127.0.0.1,disable-ticketing=3Don
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926952/+subscriptions
 
