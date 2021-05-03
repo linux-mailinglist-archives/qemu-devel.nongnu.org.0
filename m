@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B58337138D
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:19:34 +0200 (CEST)
-Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A84371396
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:25:54 +0200 (CEST)
+Received: from localhost ([::1]:39124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldVfp-0008Ao-4U
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:19:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46112)
+	id 1ldVly-0004DP-27
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ldVdg-0007DS-3O
- for qemu-devel@nongnu.org; Mon, 03 May 2021 06:17:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27778)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ldVkW-0003iw-Hx
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 06:24:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52252)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ldVdc-0001ts-6T
- for qemu-devel@nongnu.org; Mon, 03 May 2021 06:17:19 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ldVkU-0007EV-Eq
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 06:24:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620037033;
+ s=mimecast20190719; t=1620037460;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=snsteE7M99/GqqEv4tXpJQ/j1Br4zhsvlNlSXBpS+7o=;
- b=WF+U10lEnh2BVufb/85N9zo6jhrjHCVLw2YGBcz+qNKTDpEUaMhsUzuGG/hyCYk0GXcOW5
- C0b2WdUzDmjY1o2lKutcvO1W3idDuDnS/FA623/v2bV2Gt34luIykcQJSGO8bV2rCC4i1R
- Es7mzoYAfJRTrUcaLyJTrjpZMDn8Azw=
+ bh=xj/MUs4kM0hyOOMILcRbxP9oMvEtVE4RaVXF/DyfZLw=;
+ b=irIuCth4zOxr5xTGOAqWOPY5HCWuatSxdCOSEXbMsMZWY/uHF1xOHmmVB3DKoHqWGZCSks
+ Jb6lMmRCXVbN7c7eQPsw+TXj5C2ldikaNgrj0q1tc8oj8i0fRuRHZbhCQUkAYwXiAIGlJj
+ Vz3ae+jPh5sPc88+AkgGzmELDLfU66k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-223-rIdJF9bTPJeyHX-5-zrNzA-1; Mon, 03 May 2021 06:17:11 -0400
-X-MC-Unique: rIdJF9bTPJeyHX-5-zrNzA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-387-rm3MrnshPlq6tf2xIarbdQ-1; Mon, 03 May 2021 06:24:17 -0400
+X-MC-Unique: rm3MrnshPlq6tf2xIarbdQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4324100A605;
- Mon,  3 May 2021 10:17:10 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-113-251.ams2.redhat.com [10.36.113.251])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A334460937;
- Mon,  3 May 2021 10:17:09 +0000 (UTC)
-Date: Mon, 3 May 2021 12:17:08 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PULL 37/64] block/snapshot: Fix fallback
-Message-ID: <YI/NpCFPtipl8Oah@merkur.fritz.box>
-References: <20200907110936.261684-1-kwolf@redhat.com>
- <20200907110936.261684-38-kwolf@redhat.com>
- <CAFEAcA8wGL61unoO=zGWR8KB6AiL8TR7MZeh7R34qGhzy7VKrg@mail.gmail.com>
- <YI/E+8jNzPT6Jqfy@merkur.fritz.box>
- <1b1f6fe6-1a0e-61f8-1197-d26667a3d6fc@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F34A780ED8D;
+ Mon,  3 May 2021 10:24:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB25919C45;
+ Mon,  3 May 2021 10:24:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2A138113525D; Mon,  3 May 2021 12:24:14 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Michael Walle <michael@walle.cc>
+Subject: Re: [PATCH 1/2] Drop the deprecated lm32 target
+References: <20210503084034.3804963-1-armbru@redhat.com>
+ <20210503084034.3804963-2-armbru@redhat.com>
+ <c8a153ce872c6df9e9433291dc41edad@walle.cc>
+Date: Mon, 03 May 2021 12:24:14 +0200
+In-Reply-To: <c8a153ce872c6df9e9433291dc41edad@walle.cc> (Michael Walle's
+ message of "Mon, 03 May 2021 11:30:04 +0200")
+Message-ID: <87mttcaze9.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <1b1f6fe6-1a0e-61f8-1197-d26667a3d6fc@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,128 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 03.05.2021 um 11:45 hat Max Reitz geschrieben:
-> On 03.05.21 11:40, Kevin Wolf wrote:
-> > Am 01.05.2021 um 00:30 hat Peter Maydell geschrieben:
-> > > On Mon, 7 Sept 2020 at 12:11, Kevin Wolf <kwolf@redhat.com> wrote:
-> > > > 
-> > > > From: Max Reitz <mreitz@redhat.com>
-> > > > 
-> > > > If the top node's driver does not provide snapshot functionality and we
-> > > > want to fall back to a node down the chain, we need to snapshot all
-> > > > non-COW children.  For simplicity's sake, just do not fall back if there
-> > > > is more than one such child.  Furthermore, we really only can fall back
-> > > > to bs->file and bs->backing, because bdrv_snapshot_goto() has to modify
-> > > > the child link (notably, set it to NULL).
-> > > > 
-> > > > Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > > > Signed-off-by: Max Reitz <mreitz@redhat.com>
-> > > > Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> > > > Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-> > > 
-> > > Hi; Coverity thinks it's found a problem with this code
-> > > (CID 1452774):
-> > 
-> > Cc: Max as the patch author
-> 
-> Yes, I’m writing a patch to add a comment.
-> 
-> > > > @@ -205,39 +258,46 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-> > > >           return ret;
-> > > >       }
-> > > > 
-> > > > -    if (bs->file) {
-> > > > -        BlockDriverState *file;
-> > > > -        QDict *options = qdict_clone_shallow(bs->options);
-> > > > +    fallback_ptr = bdrv_snapshot_fallback_ptr(bs);
-> > > > +    if (fallback_ptr) {
-> > > > +        QDict *options;
-> > > >           QDict *file_options;
-> > > >           Error *local_err = NULL;
-> > > > +        BlockDriverState *fallback_bs = (*fallback_ptr)->bs;
-> > > > +        char *subqdict_prefix = g_strdup_printf("%s.", (*fallback_ptr)->name);
-> > > > +
-> > > > +        options = qdict_clone_shallow(bs->options);
-> > > > 
-> > > > -        file = bs->file->bs;
-> > > >           /* Prevent it from getting deleted when detached from bs */
-> > > > -        bdrv_ref(file);
-> > > > +        bdrv_ref(fallback_bs);
-> > > > 
-> > > > -        qdict_extract_subqdict(options, &file_options, "file.");
-> > > > +        qdict_extract_subqdict(options, &file_options, subqdict_prefix);
-> > > >           qobject_unref(file_options);
-> > > > -        qdict_put_str(options, "file", bdrv_get_node_name(file));
-> > > > +        g_free(subqdict_prefix);
-> > > > +
-> > > > +        qdict_put_str(options, (*fallback_ptr)->name,
-> > > > +                      bdrv_get_node_name(fallback_bs));
-> > > > 
-> > > >           if (drv->bdrv_close) {
-> > > >               drv->bdrv_close(bs);
-> > > >           }
-> > > > -        bdrv_unref_child(bs, bs->file);
-> > > > -        bs->file = NULL;
-> > > > 
-> > > > -        ret = bdrv_snapshot_goto(file, snapshot_id, errp);
-> > > > +        bdrv_unref_child(bs, *fallback_ptr);
-> > > > +        *fallback_ptr = NULL;
-> > > 
-> > > Here we set *fallback_ptr to NULL...
-> > > 
-> > > > +
-> > > > +        ret = bdrv_snapshot_goto(fallback_bs, snapshot_id, errp);
-> > > >           open_ret = drv->bdrv_open(bs, options, bs->open_flags, &local_err);
-> > > >           qobject_unref(options);
-> > > >           if (open_ret < 0) {
-> > > > -            bdrv_unref(file);
-> > > > +            bdrv_unref(fallback_bs);
-> > > >               bs->drv = NULL;
-> > > >               /* A bdrv_snapshot_goto() error takes precedence */
-> > > >               error_propagate(errp, local_err);
-> > > >               return ret < 0 ? ret : open_ret;
-> > > >           }
-> > > > 
-> > > > -        assert(bs->file->bs == file);
-> > > > -        bdrv_unref(file);
-> > > > +        assert(fallback_bs == (*fallback_ptr)->bs);
-> > > 
-> > > ...but here we dereference *fallback_ptr, and Coverity doesn't see
-> > > anything that it recognizes as being able to change it.
-> > > 
-> > > > +        bdrv_unref(fallback_bs);
-> > > >           return ret;
-> > > >       }
-> > > 
-> > > False positive, or real issue? (If a false positive, a comment
-> > > explaining what's going on wouldn't go amiss -- as a human reader
-> > > I'm kind of confused about whether there's some kind of hidden
-> > > magic going on here.)
-> > 
-> > I think it's a false positive because drv->bdrv_open() is supposed to
-> > give it a non-NULL value again. Not sure if we can make the assumption
-> > in every case without checking it, but it feels reasonable to require
-> > that drv->bdrv_open() would return failure otherwise. Max?
-> 
-> Yes.  I think it’s sensible to add an *fallback_ptr non-NULL check to the
-> assert condition (i.e.,
-> 
-> assert(*fallback_ptr && fallback_bs == (*fallback_ptr)->bs);
-> 
-> ), because the intention of the condition is already to verify that
-> .bdrv_open() has opened the right node.  So we might say what’s missing is
-> to also assert that it has opened any node at all, but if we’re fine with
-> asserting that it has opened the right node (which we did since
-> 7a9e51198c24), we should definitely be fine with asserting that it has
-> opened any node at all.
+Michael Walle <michael@walle.cc> writes:
 
-True, that's a good point.
+> Am 2021-05-03 10:40, schrieb Markus Armbruster:
+>> Target lm32 was deprecated in commit d8498005122, v5.2.0.  See there
+>> for rationale.
+>> 
+>> Some of its code lives on in device models derived from milkymist
+>> ones: hw/char/digic-uart.c and hw/display/bcm2835_fb.c.
+>
+> yaay ;)
 
-Kevin
+Even at a glance, it was obvious to me that a lot of care went into the
+code being removed.  Thanks for serving as its maintainer!
+
+>> Cc: Michael Walle <michael@walle.cc>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>
+> Acked-by: Michael Walle <michael@walle.cc>
+
+And for this, too :)
 
 
