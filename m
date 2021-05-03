@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11EF371C5A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:51:40 +0200 (CEST)
-Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0F7371C6F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:53:55 +0200 (CEST)
+Received: from localhost ([::1]:60950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldbnI-0006OH-02
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:51:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43026)
+	id 1ldbpS-0008SQ-Oe
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:53:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ldbl9-0004rB-1I
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:49:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39285)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ldbl4-00013f-7k
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:49:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620060560;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=H5HFBj0dQS8/s20bsHUXmaBQQ//ExnZWYXR9CSg98Uk=;
- b=GAzapmi9GtKZDUr2q1TmLW2bzmEIeMoorFaXtm0cdj9Kia+eV/nFu/GbVY4v5YiaxxwWBm
- k7qwBQi2hevskVF0+9l9V6PfqjJI8UngBBI1zO6W2D5LHifPLJ36bxU5hjdEQQgkbiS7b5
- 2P91+yrVw1O3bPLaYUDpSmfbgdCfi6c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-6zzNXD6tM_qbC1DtHEo4Jg-1; Mon, 03 May 2021 12:49:18 -0400
-X-MC-Unique: 6zzNXD6tM_qbC1DtHEo4Jg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75092107ACC7;
- Mon,  3 May 2021 16:49:17 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32EF119C79;
- Mon,  3 May 2021 16:49:17 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] coverity-scan: list components,
- move model to scripts/coverity-scan
-Date: Mon,  3 May 2021 12:49:16 -0400
-Message-Id: <20210503164916.525597-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ldbme-00069B-Rx
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:51:00 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:38877)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ldbmb-0001oA-LA
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:51:00 -0400
+Received: by mail-ej1-x632.google.com with SMTP id b25so8897976eju.5
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:50:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=F3pEXl1UQwLb4jMs7uunS8lP7x7VdqFs0CkqL1Il4N4=;
+ b=eU6I88IvI/lRFs5ZNgE7buSFxV1+Kskcd+Q/Hh0JejrlkEmsOVRA82N1ZtWd9Ea9H5
+ 9TA7izOhNq/WVfg5xNObZr/d/W1rBLCizMdRvTevll0n4RmSuSERr6juhBcH4LT5Jq72
+ WgrI7VJEVo8ZlIstFAY065Bi368gs1wo1zHSmkaNYUA295d6SAz7ce0lLyzzkFAlpVY9
+ J8JSYPKqn2mlOM//3vcQ3vBBa5ENZwzwqPWHoeryKkRL7BFVKd1Bqx80DNi859dsjy0Q
+ bMoVzpQKx5VCUE/SzDLSxKIzZe2WnM9sk+8S8XI4p+GDET0tsXw1nnA4XhMmw8Fw1P5O
+ b5RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=F3pEXl1UQwLb4jMs7uunS8lP7x7VdqFs0CkqL1Il4N4=;
+ b=OgpkO0yW/yi7tonm9fH8BDbEhHxSnPbOCbcp3Lp/DlXhdbjliPiaDMjYeDJIKx/eUH
+ QkLzfOXEGpfVmBef9GZtFNwm6IdxyP0tXamXgvGSB+hTJ4G+q9cBghCJ4ji4QtS+uHOd
+ 1sXtf4VtV3z91vQhEUA2CTrQOO6ODkf6x0bni8AsDdc8+Gdl0R5K70+PpOdYAGLw+sZe
+ D0NkJSinCeTcgzpttVszS2gCc+isvu4ZOEYhKQ6GBVqZ/FDb1EsOvaBcJ0QumosvGW0I
+ PsHWNn88N7w0WJx77lgQGblAlUJYcBbnE7Fy1DtuLgsyBr13nEkTUDlP2c/onJuG1lqq
+ mv1g==
+X-Gm-Message-State: AOAM5328K9+vUNbxcmJi3xe4BpEGtsqNsev9tpcQl941Sm+dP0UluerS
+ WYR37D3kr2MDzTy1NDTfs3QbWK+eEa0K18BSA96OOfMaQgD76A==
+X-Google-Smtp-Source: ABdhPJxjqHWlJBr9+imArDVvxxkT04GtSiFiW+kSpmYfVRns/Lz/3hLs3hpkZYjR1kxyGnpYDYQ4EbW/jLchRQSiPMc=
+X-Received: by 2002:a17:906:3115:: with SMTP id
+ 21mr10728170ejx.482.1620060655669; 
+ Mon, 03 May 2021 09:50:55 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 3 May 2021 17:49:50 +0100
+Message-ID: <CAFEAcA9juOChqrh5orybJQwpQsyEZ5z3Dvmy7fjX0DW4Nbgmrg@mail.gmail.com>
+Subject: QEMU tests, Coverity, and g_test_set_nonfatal_assertions()
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,192 +74,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Place all files that can be useful to rebuild the Coverity
-configuration in scripts/coverity-scan: the existing model
-file, and the components setup.
+Currently we generally assume that assertions are always present
+and always fatal, and we tell Coverity this by putting this into
+our model file:
 
-The Markdown syntax was tested with Pandoc (but in any case
-is meant more as a human-readable reference than as a part
-of documentation).
+void g_assertion_message_expr(const char     *domain,
+                              const char     *file,
+                              int             line,
+                              const char     *func,
+                              const char     *expr)
+{
+    __coverity_panic__();
+}
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/coverity-scan/COMPONENTS.md           | 154 ++++++++++++++++++
- .../model.c}                                  |   0
- 2 files changed, 154 insertions(+)
- create mode 100644 scripts/coverity-scan/COMPONENTS.md
- rename scripts/{coverity-model.c => coverity-scan/model.c} (100%)
+However, this doesn't work for the tests, which use a variety
+of other assertion macros like g_assert_cmpstr(), g_assert_true(),
+etc, because those glib macros turn into calls to other functions:
+ g_assertion_message
+ g_assertion_message_cmpstr
+ g_assertion_message_cmpnum
+ g_assertion_message_error
+which we don't model.
 
-diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/COMPONENTS.md
-new file mode 100644
-index 0000000000..02a3447dab
---- /dev/null
-+++ b/scripts/coverity-scan/COMPONENTS.md
-@@ -0,0 +1,154 @@
-+This is the list of currently configured Coverity components:
-+
-+alpha
-+  ~ (/qemu)?((/include)?/hw/alpha/.*|/target/alpha/.*)
-+
-+arm
-+  ~ (/qemu)?((/include)?/hw/arm/.*|(/include)?/hw/.*/(arm|allwinner-a10|bcm28|digic|exynos|imx|omap|stellaris|pxa2xx|versatile|zynq|cadence).*|/hw/net/xgmac.c|/hw/ssi/xilinx_spips.c|/target/arm/.*)
-+
-+avr
-+  ~ (/qemu)?((/include)?/hw/avr/.*|/target/avr/.*)
-+
-+cris
-+  ~ (/qemu)?((/include)?/hw/cris/.*|/target/cris/.*)
-+
-+hexagon
-+  ~ (/qemu)?(/target/hexagon/.*)
-+
-+hppa
-+  ~ (/qemu)?((/include)?/hw/hppa/.*|/target/hppa/.*)
-+
-+i386
-+  ~ (/qemu)?((/include)?/hw/i386/.*|/target/i386/.*|/hw/intc/[^/]*apic[^/]*\.c)
-+
-+lm32
-+  ~ (/qemu)?((/include)?/hw/lm32/.*|/target/lm32/.*|/hw/.*/(milkymist|lm32).*)
-+
-+m68k
-+  ~ (/qemu)?((/include)?/hw/m68k/.*|/target/m68k/.*|(/include)?/hw(/.*)?/mcf.*)
-+
-+microblaze
-+  ~ (/qemu)?((/include)?/hw/microblaze/.*|/target/microblaze/.*)
-+
-+mips
-+  ~ (/qemu)?((/include)?/hw/mips/.*|/target/mips/.*)
-+
-+nios2
-+  ~ (/qemu)?((/include)?/hw/nios2/.*|/target/nios2/.*)
-+
-+ppc
-+  ~ (/qemu)?((/include)?/hw/ppc/.*|/target/ppc/.*|/hw/pci-host/(uninorth.*|dec.*|prep.*|ppc.*)|/hw/misc/macio/.*|(/include)?/hw/.*/(xics|openpic|spapr).*)
-+
-+riscv
-+  ~ (/qemu)?((/include)?/hw/riscv/.*|/target/riscv/.*)
-+
-+rx
-+  ~ (/qemu)?((/include)?/hw/rx/.*|/target/rx/.*)
-+
-+s390
-+  ~ (/qemu)?((/include)?/hw/s390x/.*|/target/s390x/.*|/hw/.*/s390_.*)
-+
-+sh4
-+  ~ (/qemu)?((/include)?/hw/sh4/.*|/target/sh4/.*)
-+
-+sparc
-+  ~ (/qemu)?((/include)?/hw/sparc(64)?.*|/target/sparc/.*|/hw/.*/grlib.*|/hw/display/cg3.c)
-+
-+tilegx
-+  ~ (/qemu)?(/target/tilegx/.*)
-+
-+tricore
-+  ~ (/qemu)?((/include)?/hw/tricore/.*|/target/tricore/.*)
-+
-+unicore32
-+  ~ (/qemu)?((/include)?/hw/unicore32/.*|/target/unicore32/.*)
-+
-+9pfs
-+  ~ (/qemu)?(/hw/9pfs/.*|/fsdev/.*)
-+
-+audio
-+  ~ (/qemu)?((/include)?/(audio|hw/audio)/.*)
-+
-+block
-+  ~ (/qemu)?(/block.*|(/include?)(/hw)?/(block|storage-daemon)/.*|(/include)?/hw/ide/.*|/qemu-(img|io).*|/util/(aio|async|thread-pool).*)
-+
-+char
-+  ~ (/qemu)?(/qemu-char\.c|/include/sysemu/char\.h|(/include)?/hw/char/.*)
-+
-+capstone
-+  ~ (/qemu)?(/capstone/.*)
-+
-+crypto
-+  ~ (/qemu)?((/include)?/crypto/.*|/hw/.*/crypto.*)
-+
-+disas
-+  ~ (/qemu)?((/include)?/disas.*)
-+
-+fpu
-+  ~ (/qemu)?((/include)?(/fpu|/libdecnumber)/.*)
-+
-+io
-+  ~ (/qemu)?((/include)?/io/.*)
-+
-+ipmi
-+  ~ (/qemu)?((/include)?/hw/ipmi/.*)
-+
-+libvixl
-+  ~ (/qemu)?(/disas/libvixl/.*)
-+
-+migration
-+  ~ (/qemu)?((/include)?/migration/.*)
-+
-+monitor
-+  ~ (/qemu)?(/qapi.*|/qobject/.*|/monitor\..*|/[hq]mp\..*)
-+
-+nbd
-+  ~ (/qemu)?(/nbd/.*|/include/block/nbd.*|/qemu-nbd\.c)
-+
-+net
-+  ~ (/qemu)?((/include)?(/hw)?/(net|rdma)/.*)
-+
-+pci
-+  ~ (/qemu)?(/hw/pci.*|/include/hw/pci.*)
-+
-+qemu-ga
-+  ~ (/qemu)?(/qga/.*)
-+
-+scsi
-+  ~ (/qemu)?(/scsi/.*|/hw/scsi/.*|/include/hw/scsi/.*)
-+
-+slirp
-+  ~ (/qemu)?(/.*slirp.*)
-+
-+tcg
-+  ~ (/qemu)?(/accel/tcg/.*|/replay/.*|/(.*/)?softmmu.*)
-+
-+trace
-+  ~ (/qemu)?(/.*trace.*\.[ch])
-+
-+ui
-+  ~ (/qemu)?((/include)?(/ui|/hw/display|/hw/input)/.*)
-+
-+usb
-+  ~ (/qemu)?(/hw/usb/.*|/include/hw/usb/.*)
-+
-+user
-+  ~ (/qemu)?(/linux-user/.*|/bsd-user/.*|/user-exec\.c|/thunk\.c|/include/exec/user/.*)
-+
-+util
-+  ~ (/qemu)?(/util/.*|/include/qemu/.*)
-+
-+xen
-+  ~ (/qemu)?(.*/xen.*)
-+
-+virtiofsd
-+  ~ (/qemu)?(/tools/virtiofsd/.*)
-+
-+(headers)
-+  ~ (/qemu)?(/include/.*)
-+
-+testlibs
-+  ~ (/qemu)?(/tests/qtest(/libqos/.*|/libqtest.*))
-+
-+tests
-+  ~ (/qemu)?(/tests/.*)
-diff --git a/scripts/coverity-model.c b/scripts/coverity-scan/model.c
-similarity index 100%
-rename from scripts/coverity-model.c
-rename to scripts/coverity-scan/model.c
--- 
-2.26.2
+So, we could just add models of those four functions. However,
+in some of our tests we call g_test_set_nonfatal_assertions()
+(which does what it says on the tin for the g_assert_something
+macros, but *not* for plain g_assert() or g_assert_not_reached()).
+The rationale here is that non-fatal assertions for code in the
+glib test framework allow failures to be reported cleanly as
+"this test failed", whereas an abort will give less useful
+information, eg it doesn't report the test failure name and
+it doesn't proceed to do further tests in the same test binary:
 
+**
+ERROR:../../../tests/qtest/npcm7xx_rng-test.c:256:test_first_byte_runs:
+assertion failed (calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE) >
+0.01): (0.00204666737 > 0.01)
+Bail out! ERROR:../../../tests/qtest/npcm7xx_rng-test.c:256:test_first_byte_runs:
+assertion failed (calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE) >
+0.01): (0.00204666737 > 0.01)
+Aborted
+
+vs
+
+**
+ERROR:../../../tests/qtest/npcm7xx_rng-test.c:232:test_first_byte_monobit:
+assertion failed (calc_monobit_p(buf, sizeof(buf)) > 0.01):
+(4.78548397e-05 > 0.01)
+# ERROR:../../../tests/qtest/npcm7xx_rng-test.c:232:test_first_byte_monobit:
+assertion failed (calc_monobit_p(buf, sizeof(buf)) > 0.01):
+(4.78548397e-05 > 0.01)
+not ok 5 /arm/npcm7xx_rng/first_byte/monobit
+ok 6 /arm/npcm7xx_rng/first_byte/runs
+
+Of course test code that opts into this needs to be prepared for
+its g_assert_something() to return even on failure. But if we make
+our Coverity model treat all these kinds of g_assert_something as
+fatal-on-failure then we won't be able to use Coverity to identify
+places in these tests that would accidentally crash on failure.
+
+In summary, we have a few options:
+
+(1) Expand "assertions always fatal" to test code, and add "panics"
+models of the g_assertion_message* functions. Remove all the calls
+to g_test_set_nonfatal_assertions().
+
+(2) Aim to expand the ability to use g_test_set_nonfatal_assertions()
+to other tests than the handful that currently use it (perhaps by
+providing a standard place where it gets called for all tests, though
+there isn't currently an obvious place to do that). Treat Coverity
+issues in our test code which flag up "this would crash if the
+assertion fired but execution continued" as bugs to be fixed (though
+not very high-priority ones, obviously).
+
+(3) Something else ?
+
+I think I vaguely favour 2, though it is of course more work...
+In any case, we need to make a decision so we can decide whether
+the pile of coverity issues should be either dismissed as intentional
+or gradually worked through and fixed.
+
+thanks
+-- PMM
 
