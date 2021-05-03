@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A37371D25
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:00:21 +0200 (CEST)
-Received: from localhost ([::1]:48752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516DE371D26
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:00:39 +0200 (CEST)
+Received: from localhost ([::1]:50130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldbvg-0006wa-R4
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:00:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44512)
+	id 1ldbvy-0007Uz-8D
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:00:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ldbr6-0002B2-Tw
+ id 1ldbr7-0002Ba-Pt
  for qemu-devel@nongnu.org; Mon, 03 May 2021 12:55:37 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42790)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ldbr0-0003wa-SL
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:55:36 -0400
-Received: by mail-wr1-x434.google.com with SMTP id l2so6301543wrm.9
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:55:30 -0700 (PDT)
+ id 1ldbr4-0003xX-Vy
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:55:37 -0400
+Received: by mail-wr1-x430.google.com with SMTP id m9so6324401wrx.3
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:55:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0X6grANLwk+ExZnCAqsNBYR2iXdC0Vt7l7CQDrbCCds=;
- b=pgcTQqQi4c+8651MpF6VT7qy9wgG0PklaNSRcSzaRNqKI+bvBLftxuTJ9g5HJ4y5nx
- DR+25tHSjSjDmg3GI8/yfx41T7rBWOzFiY6nxKxDq14Unqv3MQbTj904cou5+FN6hqLJ
- T5uN2x6GS2oGMOJlEDOM5KFMZLB3FlwDmQ/A/7/QYQ1Lzl/o2RZPaZ5N5W9eFZkSarrh
- 7oY5YWsuHhGwhomvlTdQBHIa1n4tf70hrV1k3spS+NMWBCeIGnxsG/xqqzL4A4juAZ5f
- dPLhGjqJWVWwSYExg6lYcNvqEyP22q1A8mxLBN9aCNcThbhAZWLvejiplWjAFW0+LpJK
- kHHg==
+ bh=sufPYBXl/XlfFN5YQ0XgohAInzRqzYbi1Ozy2tIcTHA=;
+ b=vB9TX8BlLHz8qjrDXZykdpc55QpidlZtp0jABrhS1ZoU7OGFGNLjs95qQpMNxN+p5/
+ pJ2eNQlksDC86CNQ8VUdqAxRvk9A8twMvi9y4jrcml81o9+F9N6gcgNQrsLVDLgvg2Gb
+ KiMuU0SpKiSxda+tpY+6UkiSbY9nCyxeR7yeZTFzVH+AJrzknNIZ5ur6yB8CCAfVINKo
+ wzZtU9QbNxgigRMcheaVGuTV7x2ye5rJZzR4CX/n8bGz5yT0+nHRiyjNHp4uydLiUfjB
+ mOFAOp6ZIfIhuW3LznOF4FAZ3Khi6Ly7Z29cxbsSutWflRyLPPEsapGAX4f33QFmfIov
+ hwJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0X6grANLwk+ExZnCAqsNBYR2iXdC0Vt7l7CQDrbCCds=;
- b=HcFlOyX1/Wn2Ew44mmoCkMgAOUCLh8gYWAMU1fy/iHguHz64ScCoNKgKqZRsbQmpgq
- HzfWkDLtMgSbDry3ij/KcUNyTNxUwv5L5lv+WwwyZnorHL2Qufnjo6RtzMS3DZDxCKwU
- 7hVz6O9mXLmucWSA/6wlJC2+5ZNtJt2NTjF40t+g9bLcoUUCJvXBz2ndG40HmeHGCcB+
- pJ1KsnzOVjzUy+L1etNUSSj+uchmShtqghDw92XWsIenspSH5I/rohezuAnLVK4l10Sc
- uYje1WzoA2irxTAuB0F3OuY/gc6EN+MHF3PGDSQTe+A94yoWD2Le5oQKKajL12zJeBlI
- 72XQ==
-X-Gm-Message-State: AOAM531wbiXr/KjTvMNXU8LhJW5pWaIT7tVOS0C3XWMjXaqy0DeDa1WN
- HquBmDhTjwpiJf5RYC0Uvo6k9sEpb5v9ww==
-X-Google-Smtp-Source: ABdhPJzHyBLSngHI27/jgBU7BdwT/atkOgUw4wQP2BeqUZqTfLLBxCHOO9waw4693KE3EdqnMrASvA==
-X-Received: by 2002:adf:ef4d:: with SMTP id c13mr25740095wrp.277.1620060929081; 
- Mon, 03 May 2021 09:55:29 -0700 (PDT)
+ bh=sufPYBXl/XlfFN5YQ0XgohAInzRqzYbi1Ozy2tIcTHA=;
+ b=qF3aBfuqWuwXk7x8a4KoDRJR0QYfKAqDDEsbUR4qwfSBGn5D2abX9oIRIRn/Y9Fkeu
+ X0v53TEy/85ddb2IuNr+HXzOHsOgQgZjAVCHiJnXJOSNFZvQfU0E4RG80F6ORX4QIOUk
+ +sh0P3UTjK+BrihpN7i9uWGt8kOnSCtEpumD3y6Ygm+UBzvU27QTl8BY9aNkliP23RMO
+ nnmeGevqysEFBKE99JR5yHFkeH5ftYpSP8A3O4txr0kYQhEmuRtaWZZcr8MEdmSaqBzz
+ G6y0xz/ORH+Hh9sXHtMmkaEROgNhmw+sXOivsVaf5shgQX7+xgb2ckvolS1GZGOxu0Yo
+ rijw==
+X-Gm-Message-State: AOAM5314HdljPmKldbiW4GIupkaLU5iPoxxy+mQf9fFLhLomZRXHt8uu
+ XD4ndAPtKWnLomX4A5ueVw7BWraZ/ZwgXA==
+X-Google-Smtp-Source: ABdhPJwuAlc8AcDr819y+k/gsDCcgPhUfpypNB0k8h62pmpaKDETb6G2T21+7TnA0NA8wgeYANFkWg==
+X-Received: by 2002:adf:d22c:: with SMTP id k12mr26598195wrh.25.1620060931081; 
+ Mon, 03 May 2021 09:55:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l12sm15282794wrq.36.2021.05.03.09.55.28
+ by smtp.gmail.com with ESMTPSA id l12sm15282794wrq.36.2021.05.03.09.55.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 09:55:28 -0700 (PDT)
+ Mon, 03 May 2021 09:55:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] tests/qtest/tpm-util.c: Free memory with correct free
- function
-Date: Mon,  3 May 2021 17:55:23 +0100
-Message-Id: <20210503165525.26221-2-peter.maydell@linaro.org>
+Subject: [PATCH 3/3] tests: Avoid side effects inside g_assert() arguments
+Date: Mon,  3 May 2021 17:55:25 +0100
+Message-Id: <20210503165525.26221-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210503165525.26221-1-peter.maydell@linaro.org>
 References: <20210503165525.26221-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,32 +88,56 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-tpm_util_migration_start_qemu() allocates memory with g_strdup_printf()
-but frees it with free() rather than g_free(), which provokes Coverity
-complaints (CID 1432379, 1432350). Use the correct free function.
+For us, assertions are always enabled, but side-effect expressions
+inside the argument to g_assert() are bad style anyway. Fix three
+occurrences in IPMI related tests, which will silence some Coverity
+nits.
 
-Fixes: Coverity CID 1432379, CID 1432350
+Fixes: CID 1432322, CID 1432287, CID 1432291
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-With newer glib (2.46 and up) g_free() is guaranteed to be the same
-as free(), but matching things up is neater anyway.
----
- tests/qtest/tpm-util.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/ipmi-bt-test.c  | 6 ++++--
+ tests/qtest/ipmi-kcs-test.c | 3 ++-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
-index b70cc32d600..3a40ff3f96c 100644
---- a/tests/qtest/tpm-util.c
-+++ b/tests/qtest/tpm-util.c
-@@ -289,6 +289,6 @@ void tpm_util_migration_start_qemu(QTestState **src_qemu,
- 
-     *dst_qemu = qtest_init(dst_qemu_args);
- 
--    free(src_qemu_args);
--    free(dst_qemu_args);
-+    g_free(src_qemu_args);
-+    g_free(dst_qemu_args);
+diff --git a/tests/qtest/ipmi-bt-test.c b/tests/qtest/ipmi-bt-test.c
+index a42207d416f..8492f02a9c3 100644
+--- a/tests/qtest/ipmi-bt-test.c
++++ b/tests/qtest/ipmi-bt-test.c
+@@ -98,7 +98,8 @@ static void bt_wait_b_busy(void)
+ {
+     unsigned int count = 1000;
+     while (IPMI_BT_CTLREG_GET_B_BUSY() != 0) {
+-        g_assert(--count != 0);
++        --count;
++        g_assert(count != 0);
+         usleep(100);
+     }
  }
+@@ -107,7 +108,8 @@ static void bt_wait_b2h_atn(void)
+ {
+     unsigned int count = 1000;
+     while (IPMI_BT_CTLREG_GET_B2H_ATN() == 0) {
+-        g_assert(--count != 0);
++        --count;
++        g_assert(count != 0);
+         usleep(100);
+     }
+ }
+diff --git a/tests/qtest/ipmi-kcs-test.c b/tests/qtest/ipmi-kcs-test.c
+index fc0a918c8d1..afc24dd3e46 100644
+--- a/tests/qtest/ipmi-kcs-test.c
++++ b/tests/qtest/ipmi-kcs-test.c
+@@ -73,7 +73,8 @@ static void kcs_wait_ibf(void)
+ {
+     unsigned int count = 1000;
+     while (IPMI_KCS_CMDREG_GET_IBF() != 0) {
+-        g_assert(--count != 0);
++        --count;
++        g_assert(count != 0);
+     }
+ }
+ 
 -- 
 2.20.1
 
