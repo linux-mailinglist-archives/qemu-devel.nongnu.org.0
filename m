@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0323713EF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 13:03:08 +0200 (CEST)
-Received: from localhost ([::1]:36736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFE33713F3
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 13:05:19 +0200 (CEST)
+Received: from localhost ([::1]:42244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldWLz-00037e-5Z
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 07:03:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33834)
+	id 1ldWO6-0005To-Fj
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 07:05:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ldWKK-0001rg-D2
- for qemu-devel@nongnu.org; Mon, 03 May 2021 07:01:24 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:45055)
+ id 1ldWKL-0001rs-2j
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 07:01:25 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:40775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ldWKI-0004rG-8p
+ id 1ldWKJ-0004s3-23
  for qemu-devel@nongnu.org; Mon, 03 May 2021 07:01:24 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id bf4so5749607edb.11
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 04:01:21 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id c22so5762900edn.7
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 04:01:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f2TUvLfi/bunpIY74wAKSOpvmTKQ7RTzmZv40TStSOI=;
- b=P+6SPlcgcgaNAA58JqJJAcXSXv94sssT/ETaL4VCwHx9/WiLUNvpHWEiCL69xSWrFZ
- Fr8UC89Hh/tkg884MPm9siyDBybq2DIUkgfgFcLFxPCuw0l53CWT0k2fjqcbZc7O4+aY
- 2pmcoBTLx4mwvnIFvoJFHADP7SpMqhYF1NfrnZiUso85i0ECeU92QsykEZOQG2TNzcAs
- juJoPTU8Omo8S26w0tLAhaxzfGiExtdjGtQ+nH2LS2boF+quE5BKH4XLasfUHUDiwCnX
- GheLMHih0//rZOJHveHGFbs6Bn2fYX72bNOEYGPdae/WhN4oU65vjrNXB9A2hN37mfq3
- Q8dA==
+ bh=3ICg7BIgvQas5k23bDctJ3vrOhEuRu5Sz5mmBFT/OUU=;
+ b=Qw4KdZ0FS5TrBj+X8gQFEoWiQnpD1E2pVopqiYjMKujQ8ParIRLZ/NV+mNFXDmDACT
+ RukM0hWNscv1F0NqVaLHw+ygjUg1ACEqJWKCOXrw6ZsfKy7mZvHNDl6MCnGQKHNLZiTq
+ 3uClU81oCzhj3siAyj1MyGrUFxjKueVGWZg6eyH9Dvk0N1yN2FO96XcuU0W9uO8s+cCL
+ /OCR+0DX37LTJecxQhCHmxV99GAjryRhX4tf63cIjpAcqa03S/SHdkk+2h7FjOsiXw0X
+ fH/3ZloU5ZkF4ZGychy7g7Gt8GYLW86/ExGIEAIeVMO36RZAwWFPHzm09xz5kFhqpMI7
+ ksIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=f2TUvLfi/bunpIY74wAKSOpvmTKQ7RTzmZv40TStSOI=;
- b=gwhkgt2/O/lknCyLrwTlLlaxyV5Z7qZuuFlizDyLPh86kC2IPaeVpjP3/vQ9s9/xoF
- plD0QMUxASt5E1wO3uNECO8lILv9jlp4ABOhHfZ2N0Yx+ikIAwsp4e3zUDl33qQ10sCp
- HPfFUaNUJ+9PU6LGLg+qnpiKcH2KtTVIQZdnEG7cJ7E98nYPPJ/1h4iZx/2l2dbzD8Ji
- 4DQNfrqAQbd0TO+Cd9oVQMHnexSCLH20MAGYzMzYx7F1XtHJSG1RHrofNPgWD/slMXN7
- FaKkQNdv/psGFx4CtZHBPU7OCwoWPzyrsjRUBwPzokphD/pZZmixI1QauyihYn+EYNJv
- f4Xg==
-X-Gm-Message-State: AOAM533HGv6yycTNI2eP9B/q2kyvSrQdwDm/ksMHsISchDIuCbLkfWrJ
- MvVTQ9oDG39lPxoh2FzCv70w9SeB5Q0=
-X-Google-Smtp-Source: ABdhPJzAvPzbHw0WszKbMwemlxZyxhgZfmWIYMdLzS+oTUesOna/NvS2+hZyZWKAjHYbdRAqn7jkPw==
-X-Received: by 2002:a05:6402:30bc:: with SMTP id
- df28mr18021666edb.67.1620039675964; 
- Mon, 03 May 2021 04:01:15 -0700 (PDT)
+ bh=3ICg7BIgvQas5k23bDctJ3vrOhEuRu5Sz5mmBFT/OUU=;
+ b=YlAXKvckjvyOM00L7VqPzQOSE41MCLPLZHPHr6AgFeHYxL3819N8/8YhAioAjNa4Ws
+ tNFFQs9MtWFHtQVDhSasOF0pPwr14IHt1Tyw8tSjYlpJ4ZSUcJzhZGdMKrdkbtCwJQif
+ jlOehEUkZ+jAATONiCoSEFTvAwzexGcWZcr9vbeLHfmMzxrYxo4Wa1BR2xoH+Qc2g5Zt
+ OBGlMlZY+XalJRq1Y97xeabhhjsgCRmNBJh98irkIjmxPPkMwkxTpX1oCEwOUKNF0oEc
+ V1QoVtw/EkIFGg5mR5GnPDRYkoE6VKFOJxRJZvt0aGjStanEDuwvAukdaI+B9OOsNOpE
+ 6itg==
+X-Gm-Message-State: AOAM533ig/RM7dK8leEAcqW4+rBFGX+HE0I7xra35DcXyQVp5WRbpqIW
+ FUlj+4famHa6ekQuUCqmONhyTKMYAlI=
+X-Google-Smtp-Source: ABdhPJx93RqqyY81XKE5D4OLRM7i7MoGn+shWiX800jv3N3QFETXtl473RmPkFDKHawEJF8qqe0xJg==
+X-Received: by 2002:a05:6402:51d4:: with SMTP id
+ r20mr19173829edd.112.1620039676772; 
+ Mon, 03 May 2021 04:01:16 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id v16sm12041464edt.53.2021.05.03.04.01.15
+ by smtp.gmail.com with ESMTPSA id v16sm12041464edt.53.2021.05.03.04.01.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 04:01:15 -0700 (PDT)
+ Mon, 03 May 2021 04:01:16 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/5] qemu-iotests: allow passing unittest.main arguments to
- the test scripts
-Date: Mon,  3 May 2021 13:01:07 +0200
-Message-Id: <20210503110110.476887-3-pbonzini@redhat.com>
+Subject: [PATCH v4 3/5] qemu-iotests: move command line and environment
+ handling from TestRunner to TestEnv
+Date: Mon,  3 May 2021 13:01:08 +0200
+Message-Id: <20210503110110.476887-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210503110110.476887-1-pbonzini@redhat.com>
 References: <20210503110110.476887-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,62 +89,87 @@ Cc: eesposit@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Python test scripts that use unittest consist of multiple tests.
-unittest.main allows selecting which tests to run, but currently this
-is not possible because the iotests wrapper ignores sys.argv.
+In the next patch, "check" will learn how to execute a test script without
+going through TestRunner.  To enable this, keep only the text output
+and subprocess handling in the TestRunner; move into TestEnv the logic
+to prepare for running a subprocess.
 
-unittest.main command line options also allow the user to pick the
-desired options for verbosity, failfast mode, etc.  While "-d" is
-currently translated to "-v", it also enables extra debug output,
-and other options are not available at all.
-
-These command line options only work if the unittest.main testRunner
-argument is a type, rather than a TestRunner instance.  Therefore, pass
-the class name and "verbosity" argument to unittest.main, and adjust for
-the different default warnings between TextTestRunner and unittest.main.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Tested-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20210323181928.311862-3-pbonzini@redhat.com>
+Message-Id: <20210323181928.311862-4-pbonzini@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/testenv.py    | 17 ++++++++++++++++-
+ tests/qemu-iotests/testrunner.py | 14 +-------------
+ 2 files changed, 17 insertions(+), 14 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 55a017577f..5ead94229f 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -1308,12 +1308,16 @@ def __init__(self, stream: Optional[TextIO] = None,
-                          resultclass=resultclass,
-                          **kwargs)
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index 6d27712617..fca3a609e0 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -25,7 +25,7 @@
+ import random
+ import subprocess
+ import glob
+-from typing import Dict, Any, Optional, ContextManager
++from typing import List, Dict, Any, Optional, ContextManager
  
--def execute_unittest(debug=False):
-+def execute_unittest(argv: List[str], debug: bool = False) -> None:
-     """Executes unittests within the calling module."""
  
--    verbosity = 2 if debug else 1
--    runner = ReproducibleTestRunner(verbosity=verbosity)
--    unittest.main(testRunner=runner)
-+    # Some tests have warnings, especially ResourceWarnings for unclosed
-+    # files and sockets.  Ignore them for now to ensure reproducibility of
-+    # the test output.
-+    unittest.main(argv=argv,
-+                  testRunner=ReproducibleTestRunner,
-+                  verbosity=2 if debug else 1,
-+                  warnings=None if sys.warnoptions else 'ignore')
+ def isxfile(path: str) -> bool:
+@@ -74,6 +74,21 @@ class TestEnv(ContextManager['TestEnv']):
+                      'CACHEMODE_IS_DEFAULT', 'IMGFMT_GENERIC', 'IMGOPTSSYNTAX',
+                      'IMGKEYSECRET', 'QEMU_DEFAULT_MACHINE', 'MALLOC_PERTURB_']
  
- def execute_setup_common(supported_fmts: Sequence[str] = (),
-                          supported_platforms: Sequence[str] = (),
-@@ -1350,7 +1354,7 @@ def execute_test(*args, test_function=None, **kwargs):
++    def prepare_subprocess(self, args: List[str]) -> Dict[str, str]:
++        if self.debug:
++            args.append('-d')
++
++        with open(args[0], encoding="utf-8") as f:
++            try:
++                if f.readline().rstrip() == '#!/usr/bin/env python3':
++                    args.insert(0, self.python)
++            except UnicodeDecodeError:  # binary test? for future.
++                pass
++
++        os_env = os.environ.copy()
++        os_env.update(self.get_env())
++        return os_env
++
+     def get_env(self) -> Dict[str, str]:
+         env = {}
+         for v in self.env_variables:
+diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+index 1fc61fcaa3..519924dc81 100644
+--- a/tests/qemu-iotests/testrunner.py
++++ b/tests/qemu-iotests/testrunner.py
+@@ -129,7 +129,6 @@ class TestRunner(ContextManager['TestRunner']):
+     def __init__(self, env: TestEnv, makecheck: bool = False,
+                  color: str = 'auto') -> None:
+         self.env = env
+-        self.test_run_env = self.env.get_env()
+         self.makecheck = makecheck
+         self.last_elapsed = LastElapsedTime('.last-elapsed-cache', env)
  
-     debug = execute_setup_common(*args, **kwargs)
-     if not test_function:
--        execute_unittest(debug)
-+        execute_unittest(sys.argv, debug)
-     else:
-         test_function()
+@@ -243,18 +242,7 @@ def do_run_test(self, test: str) -> TestResult:
+             silent_unlink(p)
  
+         args = [str(f_test.resolve())]
+-        if self.env.debug:
+-            args.append('-d')
+-
+-        with f_test.open(encoding="utf-8") as f:
+-            try:
+-                if f.readline().rstrip() == '#!/usr/bin/env python3':
+-                    args.insert(0, self.env.python)
+-            except UnicodeDecodeError:  # binary test? for future.
+-                pass
+-
+-        env = os.environ.copy()
+-        env.update(self.test_run_env)
++        env = self.env.prepare_subprocess(args)
+ 
+         t0 = time.time()
+         with f_bad.open('w', encoding="utf-8") as f:
 -- 
 2.31.1
 
