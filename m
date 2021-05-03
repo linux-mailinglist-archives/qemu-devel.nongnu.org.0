@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D4637193D
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:27:08 +0200 (CEST)
-Received: from localhost ([::1]:41132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD89F37193C
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 18:27:05 +0200 (CEST)
+Received: from localhost ([::1]:40890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldbPX-000496-L6
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:27:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37366)
+	id 1ldbPU-000422-RA
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 12:27:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldbNT-0002E0-K0
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:24:59 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:40715)
+ id 1ldbNr-0002N3-C0
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:25:23 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:45905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldbNR-0007Sg-IY
- for qemu-devel@nongnu.org; Mon, 03 May 2021 12:24:59 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- l10-20020a17090a850ab0290155b06f6267so6044275pjn.5
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:24:56 -0700 (PDT)
+ id 1ldbNm-0007bE-UP
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:25:23 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id p17so3090021plf.12
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:25:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sOLRYpwacY6j1PzxXuHkqseGzUDYqpKz3OYDcor6+dY=;
- b=O8Zzz2cC6D7YcePI5LPKOucHSCVrWgdBfZC5+UMYCzavvZuuu7Yvufh/twiw5Fll+U
- 6va2vEMdPxsP0Xh8/mUTZQ+3UCanEPdv4YuwcnwCL5IjiMFFIMCJ5p/0AzdV/eon+Ddk
- R2yqfLum88WTwc/+ZVlb1pk1Ba6+yf3P5iQKAoeSUz1gwI26VpMGz8qHqcXIRzU8zpcN
- FIW9zUPQciMqih5mMkS366oH0yDJDDUPaGmz0afI+O7giMkDMdNhMixYPDO0WYP5l7x7
- qz+1thYxHZN/2W4E8CR0hhA7qA16bceywwgUljexfKdA+QzUYW32ug+IeaDoLskOV4zR
- uySQ==
+ bh=uZoYStiq/K4JMsULEC8U/mmkOr7/tYQhtPWOftAgDdA=;
+ b=lBpTbegyF7hE+H9jcVadwPXSD1OT8c0YfbZUgrrOiOv0+TGUpd6U8z1s4WzCpEy3bY
+ hZ7scH/3cVkEyS+P02U+DDQdPA6LvdV6GNevAqbYBLh0a+bcPZG9sW9fyJVjHTuouk4D
+ UvFgkZ9J1WL5o1fRqfwvzcne9gqv7n6hh8DRMN7vInkx4RwouwGTOh03rPtz+xltAB6a
+ UhTI9lh/vI8ZTfTUkiZA1r/icdiesLXCWXs3IdIS7Pa4NaBJCZDy2O07Dvg0CaB0HtIG
+ bII/7pzMglksgZX95Df58wAjt61IUOAsC5Afy+jkwFVm65REDUk0mRunrxVFowyYhhIS
+ DRIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sOLRYpwacY6j1PzxXuHkqseGzUDYqpKz3OYDcor6+dY=;
- b=UE3N4hOhoFWAnwsumrk21lLUF8kqpQ88wkGBwCgEQy0X8oHhXyiB46GmLIA2LP1ObU
- +5Bsz4rgsPumbBuldIYgEAf/7XJ5FQJfNIXrIIeDFGAG+Z3mfKgD69HCyva+fvA6d7Ew
- GUxtSHAuWJvU53sAplTzYCGbqnU/azoD9WaK0EmsBKZ8w5TzuVU5E059djDxVrfCtPu9
- IAxmipbg95kRAkGga4e6TWKpTb5DA887X+HmUlvXDTucaoAsT/6cDU8eFpZ1jvTufJ0w
- vIuw2J0/oK5SMnHryZfjomltwHxBjtZ1QB7aFZNxsey4HBlytyzDdiH4+qcjK87Eh5c6
- 45OA==
-X-Gm-Message-State: AOAM531VTWccFhBQnLwGxmMu70RR9o3MrCEZMWMx6LG5gIKgf27BXd8/
- ilbQpnUSPvzYhtXBGqDvf4KH3w==
-X-Google-Smtp-Source: ABdhPJxFreOxCIm/yWSY3G2A/JkWq/f+jLUInBskgQdWqTyK8ThMIk/dtvEpq+yfrzT+6ZcT/Yo6Bw==
-X-Received: by 2002:a17:90a:2a84:: with SMTP id
- j4mr21477134pjd.42.1620059095450; 
- Mon, 03 May 2021 09:24:55 -0700 (PDT)
+ bh=uZoYStiq/K4JMsULEC8U/mmkOr7/tYQhtPWOftAgDdA=;
+ b=sFgpPpoJIaSdm+og5LLfTZMrERkAGOk/WhfpJ6cYLD0QXYdzSOjHvJEbb40bYs+hxp
+ ggU/112YGMoT3Fsc+hTR25WbLhvxr+Ovg7AtEcGMTj6f6c4d254jbLzWxToRUI351Ik4
+ ybiVEqAy5czhfjXueCnc5dNm3/aD6wUTZf11dgvwXFWN6iru93zu/c/6gaOHuoff1HEQ
+ Ayz92CcHjPU000OyA3h4iqjEqW0m6wDUmSZ3QTfPtyVrMhQwUxUdMqy6tYGsN9f5TXRU
+ tuGVB7Y5uisaHztqpmcsBNlLwLYgYtOAFxQGvTaYd9krsnsVijqMRw81Ovroxw13s03O
+ RYYA==
+X-Gm-Message-State: AOAM532kWqeIrYWtXFo5sL+cfUp+Hr4li9ivdEmpkIVLXvFiKJfo5rTm
+ wV3FSH1ChhcxIRN6ZjczpZNPxw==
+X-Google-Smtp-Source: ABdhPJx1HUjrVGbtrwvTk+l6hJWu3L14EKhKCturA8PdkIz+5ZQpN0gV6IuR/X2tXUM5WwFejhB5wA==
+X-Received: by 2002:a17:90a:fd88:: with SMTP id
+ cx8mr2101943pjb.190.1620059116306; 
+ Mon, 03 May 2021 09:25:16 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id c6sm7889385pjs.11.2021.05.03.09.24.54
+ by smtp.gmail.com with ESMTPSA id x10sm9731744pjq.53.2021.05.03.09.25.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 09:24:55 -0700 (PDT)
-Subject: Re: [PATCH v2 2/6] hw/sparc/sun4m: Introduce Sun4mMachineClass
+ Mon, 03 May 2021 09:25:15 -0700 (PDT)
+Subject: Re: [PATCH v2 3/6] hw/sparc/sun4m: Factor out
+ sun4m_machine_class_init()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210502185441.599980-1-f4bug@amsat.org>
- <20210502185441.599980-3-f4bug@amsat.org>
+ <20210502185441.599980-4-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8695ce0d-59a2-dc17-5eb1-c444343f39c5@linaro.org>
-Date: Mon, 3 May 2021 09:24:53 -0700
+Message-ID: <ee6ad616-ef25-115d-161e-71aee332e8d5@linaro.org>
+Date: Mon, 3 May 2021 09:25:14 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210502185441.599980-3-f4bug@amsat.org>
+In-Reply-To: <20210502185441.599980-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,13 +96,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/2/21 11:54 AM, Philippe Mathieu-Daudé wrote:
-> Instead of passing the sun4m_hwdef structure via
-> machine_init(), store it into the MachineClass.
+> Factor out the class_init code common to all machines
+> to sun4m_machine_class_init().
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   hw/sparc/sun4m.c | 50 +++++++++++++++++++++++++++++++++++++-----------
->   1 file changed, 39 insertions(+), 11 deletions(-)
+>   hw/sparc/sun4m.c | 103 ++++-------------------------------------------
+>   1 file changed, 8 insertions(+), 95 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
