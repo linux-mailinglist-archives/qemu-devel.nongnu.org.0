@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 360C9371885
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 17:55:37 +0200 (CEST)
-Received: from localhost ([::1]:48760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F6237188A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 17:57:13 +0200 (CEST)
+Received: from localhost ([::1]:52214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldav2-0006Re-BU
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 11:55:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55334)
+	id 1ldawb-0007zL-24
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 11:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1ldasM-0003y7-9Z; Mon, 03 May 2021 11:52:50 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:36118)
+ id 1ldatv-0005qH-4J; Mon, 03 May 2021 11:54:27 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:36193)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1ldasJ-0000Mg-50; Mon, 03 May 2021 11:52:50 -0400
+ id 1ldatt-00016r-G4; Mon, 03 May 2021 11:54:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=rgBAzuBWuNK4PmsMf8O9WMLMA8z4r1Z6QObGEVCLyL0=; 
- b=rnvcfHrjxkaooIY6xwvbCqBWzyqqGic7NXt+zIHHBxaImE0yFgsZmDQFMRgGPXu0S7aTv1cGlNFg05BdY9VvYRvFm0A/kdvrAzrPycFtU6cP2lt3AK6HaRdTz7mbtUQZe+kD+RcoM4EcsezzYvVLIdwrb3zoYnciJaSwpRtR+oGpdjQmgIUQ4FTaCSogcXVBXoDcKVcFjMr6Z59JLFGsYPmCXSYtfRuHWkNgiD8J2B2vUscO2JxXoJtLYCvPq8eDru2bopItJ07VgD1Cnv91/FCCebfEOvq1gEd/kyOvFQBojmaE5yK4Z1w6gG96LFEotXbY+ixnXdGG5fH1NqiM+w==;
+ bh=JmCgS3/RiS20Ng+9aewWWrNJJn9+hZeLLgi0OHtkJV0=; 
+ b=bSJJXzqZUpoEH1V3+6qM//tXSYjkZ4kRECNPMv9M0y+Ayjz5bD1rG7121w724jVacN76h50zBoqBrl2Rarj5GihqERhL97hjy0yUwB1GSG67W5lvEpN2SkqDOGRb20ZJGWHL8bBZhbPi27WFjWZySqMVeRODiPycNFt7PR86Bv1QU7xALkXB/gj92M2s21eUOUbTL5TQwvuun8TjTxI8EjikobKrk2HjOLuEE1/8TulEqRNOoY4W88jz7D2Kq1/RqwtogY8ZHh2JMDOXQEuvrI2cJX8DaMwORVvcE+AwX1m6hDcHYjdjUjR/R3BHrY9g1sw9JFxzzM4TLr8DpHC5jA==;
 Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
  by fanzine.igalia.com with esmtps 
  (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1ldasG-0008Pt-NK; Mon, 03 May 2021 17:52:44 +0200
+ id 1ldatr-0000Gh-IH; Mon, 03 May 2021 17:54:23 +0200
 Received: from berto by mail.igalia.com with local (Exim)
- id 1ldasG-00006F-E9; Mon, 03 May 2021 17:52:44 +0200
+ id 1ldatr-0000CJ-8B; Mon, 03 May 2021 17:54:23 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
-Subject: Re: [PATCH 2/6] block: bdrv_reopen_multiple(): fix leak of tran object
-In-Reply-To: <20210503113402.185852-3-vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 3/6] block-backend: improve blk_root_get_parent_desc()
+In-Reply-To: <20210503113402.185852-4-vsementsov@virtuozzo.com>
 References: <20210503113402.185852-1-vsementsov@virtuozzo.com>
- <20210503113402.185852-3-vsementsov@virtuozzo.com>
+ <20210503113402.185852-4-vsementsov@virtuozzo.com>
 User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
  (i586-pc-linux-gnu)
-Date: Mon, 03 May 2021 17:52:44 +0200
-Message-ID: <w51tunjhl0z.fsf@maestria.local.igalia.com>
+Date: Mon, 03 May 2021 17:54:23 +0200
+Message-ID: <w51r1inhky8.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
@@ -61,22 +61,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- vsementsov@virtuozzo.com, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon 03 May 2021 01:33:58 PM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
-> We have one path, where tran object is created, but we don't touch and
-> don't free it in any way: "goto cleanup" in first loop with calls to
-> bdrv_flush().
+On Mon 03 May 2021 01:33:59 PM CEST, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+> We have different types of parents: block nodes, block backends and
+> jobs. So, it makes sense to specify type together with name.
 >
-> Fix it simply moving tran_new() call below that loop.
+> While being here also use g_autofree.
 >
-> Reported-by: Coverity (CID 1452772)
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Fixes: 72373e40fbc7e4218061a8211384db362d3e7348
+> iotest 307 output is updated.
+>
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
 Reviewed-by: Alberto Garcia <berto@igalia.com>
