@@ -2,94 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8AA3713E3
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:58:11 +0200 (CEST)
-Received: from localhost ([::1]:58334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1363713EB
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 12:59:29 +0200 (CEST)
+Received: from localhost ([::1]:60708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldWHC-0008Ey-OD
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:58:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33192)
+	id 1ldWIS-0000nq-3g
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 06:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldWFw-0007oE-FT
- for qemu-devel@nongnu.org; Mon, 03 May 2021 06:56:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51065)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldWFu-0002DP-Ow
- for qemu-devel@nongnu.org; Mon, 03 May 2021 06:56:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620039409;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZHu4GTlzAheU1rSrgsBHuXeL1IjIlLXBsLBiF/wMUi0=;
- b=SQcCpD97OQ291UucQ7rCfl2zNbYkcjFs5hSUC6H8ZcIeN2geT4csxLBJaRPX53mjzVKOS2
- A9lcq94ait25BuCfHVyDomy0/aG+I2KsU18fKdjpsqI+luEHvsU7gpIs5Rb3QYEXyqLm0K
- zhdRe/4Wz+6sYkGE+A5zW48MYNgAID8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-544-71O_4n0oMP2gyfmj3ELqqA-1; Mon, 03 May 2021 06:56:48 -0400
-X-MC-Unique: 71O_4n0oMP2gyfmj3ELqqA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- s7-20020adfc5470000b0290106eef17cbdso3687861wrf.11
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 03:56:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldWGw-0008Sg-NA; Mon, 03 May 2021 06:57:54 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:51916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldWGt-0002lJ-UO; Mon, 03 May 2021 06:57:54 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id n205so2181839wmf.1;
+ Mon, 03 May 2021 03:57:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OCTLX3eF033BPqeFFzMGdbkKu+ZUIhKDq+RmE3hqCtA=;
+ b=jyk39Jp5pJ+EG+JG5U0bT+P2lDvseVKi08b97dtGgVuyGUr64yNPx5JvTxfuykv4em
+ /H/VxhFqDaSt11gfHYtDQOnA6ePw6SYwbtqeoFM0mdjLI7KaqXUujPrn12T0x4/bmDeV
+ V8V2n3vc17IhglNuwJqimeRWO6BpEbbeowA5uVQNtA3wRWMQajVE+qkH3RUd6l2U8c+v
+ REDZeCcAEoItyNmaGLnCK5JJM9m7JUtxwlZXFH0em2qSJHmcE//YPfMx2NkK0lb9N0J+
+ hVsK48ps2BLoxT/QZgmkZuh2bvnxOFJCif9q8n172O1knt5pu+58dgwInzEfHsh+TAVM
+ nxCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZHu4GTlzAheU1rSrgsBHuXeL1IjIlLXBsLBiF/wMUi0=;
- b=GkQns14ETLWoTp+NLA7adb2HSgMMczuL7Tb8mSdBhI/FcyXVa7xwvoB/WmbTkKOSio
- 7Z+F9yvd/dEKx9Mb1le8UmPhFlgyIJZIDqMXS2ecNm6uFBmEvrx5g7W01onTkznabil8
- dyIdGMhsyLXeQItsQUyRMgucEm+YjKPP7rc/1+sjw9h18KXhcLWNIax2NakjZIPA3RDL
- bAAQCDGD54bcXbVPRUhWVtekKacOH9ThfKfExiGfQj4O8SK2KhzRMoB4G1t/e318oqHq
- hd1EMUcuf/v60jaTN20bMmJucDYEwU8QgksUI6In/VTMinZv6U/CLJNzKE9qWdojOWUW
- a/NQ==
-X-Gm-Message-State: AOAM531qwg67WAepHOaJp3qZ97YQY5uAOraxtBnptqehTFT2KI7hAVAx
- ccggzcmO3xlzGtcr2Q0SSScANpttLpMehYoUujkp8zEUvaEII8CzVdPK95UizpSzOpxWC56zGrZ
- +rl1bx1QPk/k3tYc=
-X-Received: by 2002:adf:f38c:: with SMTP id m12mr18689368wro.282.1620039407153; 
- Mon, 03 May 2021 03:56:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLNR8cRglp7p+T0TsMFFzsr7F1FrZ5dNJ2PS/5j7iUrE78gG2l1dwB06fsvc47hXdCc6sUWw==
-X-Received: by 2002:adf:f38c:: with SMTP id m12mr18689357wro.282.1620039406991; 
- Mon, 03 May 2021 03:56:46 -0700 (PDT)
-Received: from thuth.remote.csb (p5791d0bc.dip0.t-ipconnect.de.
- [87.145.208.188])
- by smtp.gmail.com with ESMTPSA id e10sm11982934wrw.20.2021.05.03.03.56.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 03:56:46 -0700 (PDT)
-Subject: Re: [qemu-web PATCH] Update website to point to the new bug tracker
- at GitLab instead of Launchpad
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20210503103007.1034171-1-thuth@redhat.com>
- <92c95d95-dd59-4e52-ee14-a6b3925d43e0@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <0cc06563-a543-fcdd-0fe3-c5a6eec4c514@redhat.com>
-Date: Mon, 3 May 2021 12:56:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=OCTLX3eF033BPqeFFzMGdbkKu+ZUIhKDq+RmE3hqCtA=;
+ b=DZAofrY6/qoLWCD5lJuGrcB5IYqG/oSswPm1cqdr0auah2LLr7kpVETgwetGPMORq6
+ zfcKQ00IgSdz4b8O8iB2kRB6F2nf9QQ6TuPxGnU2+5YyUOwGCIMeb8eDbBmxv7rjIMAs
+ QDui1xPweequJONphoFhTr+DVVspHgPnYdL/gADLigO98l6DwrH0KqdzuSmnRAeqx/RR
+ GIS60OMgnUHhHQeTyslBqq7JahpW7C2d49WylXkChG/Tnf7iytl3KDAPFZy29eNDbWhL
+ SYAgDsfUGjYRnZRzH/RKBQ7Hzbce9LdtyzGO2kC9+CP4VFZ+YsHffHEo9sO4fpobZkUw
+ VGGg==
+X-Gm-Message-State: AOAM5304i0p+Mz4GhHeUmFtj4/f80zJ2e/QbJUqRzPIHL+3n3rbZxB1H
+ yJnYn/UBp4PPX2JrKL9uR1Vs5qA9+mcVuwrm
+X-Google-Smtp-Source: ABdhPJwqXAX/GKKF8RdfLo38qHC4qanqMleaKagu1Jf0tys0g7gbn0sqCnC/KUQ3a46rp9BTX/zQ1g==
+X-Received: by 2002:a1c:3b44:: with SMTP id i65mr32294725wma.31.1620039469514; 
+ Mon, 03 May 2021 03:57:49 -0700 (PDT)
+Received: from localhost.localdomain
+ (anancy-651-1-208-144.w109-217.abo.wanadoo.fr. [109.217.237.144])
+ by smtp.gmail.com with ESMTPSA id r13sm13053302wrn.2.2021.05.03.03.57.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 May 2021 03:57:49 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/arm/raspi: Remove deprecated raspi2/raspi3 aliases
+Date: Mon,  3 May 2021 12:57:47 +0200
+Message-Id: <20210503105747.703149-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <92c95d95-dd59-4e52-ee14-a6b3925d43e0@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,34 +81,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: libvir-list@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/05/2021 12.47, Philippe Mathieu-Daudé wrote:
-> Hi Thomas,
-> 
-> On 5/3/21 12:30 PM, Thomas Huth wrote:
->> We've started migrating the bug tickets from Launchpad to GitLab, so
->> it does not make too much sense anymore that users open new tickets
->> in the old system. Let's direct them now to the GitLab tracker instead.
-> 
-> We should document the user has to request a Gitlab 'Reporter' access to
-> the project, and warn there might be a delay of some days before the
-> request to be accepted, before the user be able to fill the bug.
->
-I think it is possible for everybody with a Gitlab account to file bugs. We 
-already have two tickets that were created by non-members:
+Remove the raspi2/raspi3 machine aliases,
+deprecated since commit 155e1c82ed0.
 
-  https://gitlab.com/qemu-project/qemu/-/issues/47
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ docs/system/deprecated.rst       | 7 -------
+ docs/system/removed-features.rst | 7 +++++++
+ hw/arm/raspi.c                   | 2 --
+ 3 files changed, 7 insertions(+), 9 deletions(-)
 
-  https://gitlab.com/qemu-project/qemu/-/issues/45
-
-AFAIK, you just need the "Reporter" state if you want to add labels to a 
-ticket, or if you want to assign it to somebody else.
-
-  Thomas
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 80cae862528..7895bd4d849 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -238,13 +238,6 @@ this CPU is also deprecated.
+ System emulator machines
+ ------------------------
+ 
+-Raspberry Pi ``raspi2`` and ``raspi3`` machines (since 5.2)
+-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-
+-The Raspberry Pi machines come in various models (A, A+, B, B+). To be able
+-to distinguish which model QEMU is implementing, the ``raspi2`` and ``raspi3``
+-machines have been renamed ``raspi2b`` and ``raspi3b``.
+-
+ Device options
+ --------------
+ 
+diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+index 29e90601a51..8a8b8ca627b 100644
+--- a/docs/system/removed-features.rst
++++ b/docs/system/removed-features.rst
+@@ -312,6 +312,13 @@ This machine has been renamed ``fuloong2e``.
+ These machine types were very old and likely could not be used for live
+ migration from old QEMU versions anymore. Use a newer machine type instead.
+ 
++Raspberry Pi ``raspi2`` and ``raspi3`` machines (removed in 6.1)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++The Raspberry Pi machines come in various models (A, A+, B, B+). To be able
++to distinguish which model QEMU is implementing, the ``raspi2`` and ``raspi3``
++machines have been renamed ``raspi2b`` and ``raspi3b``.
++
+ 
+ linux-user mode CPUs
+ --------------------
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 990509d3852..20bba0316f1 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -342,7 +342,6 @@ static void raspi2b_machine_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
+     RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
+ 
+-    mc->alias = "raspi2";
+     rmc->board_rev = 0xa21041;
+     raspi_machine_class_common_init(mc, rmc->board_rev);
+ };
+@@ -362,7 +361,6 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
+     RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
+ 
+-    mc->alias = "raspi3";
+     rmc->board_rev = 0xa02082;
+     raspi_machine_class_common_init(mc, rmc->board_rev);
+ };
+-- 
+2.26.3
 
 
