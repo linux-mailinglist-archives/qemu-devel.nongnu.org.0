@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E2A371E95
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:28:55 +0200 (CEST)
-Received: from localhost ([::1]:59598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8E4371E8A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:26:54 +0200 (CEST)
+Received: from localhost ([::1]:52818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldcNK-0002eS-6e
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:28:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48972)
+	id 1ldcLO-0008C8-2E
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:26:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldc8P-00027W-PR
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:13:29 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37647)
+ id 1ldc8Y-0002CP-AY
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:13:38 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:39910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldc8N-000410-Q3
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:13:29 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- b11-20020a7bc24b0000b0290148da0694ffso3702934wmj.2
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 10:13:27 -0700 (PDT)
+ id 1ldc8V-00043r-Qs
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 13:13:37 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso453980wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 10:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0dWVeeH1/VoY4ITl3jZ5D7j6w2KZsbQ1Q/ra2PImi8Q=;
- b=mVJUizJtvJxJwCH1y4OvYt1wlaNH5KJkY3QW9UWLfnSyrygSg21ZY4u5OkW1yH4eYl
- 5X4faN3hIrtkujJeEpDC61n4cfqru9XyTnEpmydMhJhjGOg2ALy2lmyxERDG/eo81XBr
- Nw5t9pUf9jb5wxTKHuIHc6a91tAYOwIYfXCq6LOlFWYz/1WurNkHDNwQBeReoFeEBWVn
- LJXgCGHlH8x0l7jIfe/sMUWkukpEsGVgoEmLJvEKhslMWUaSFCK4Alqd9R9jnYw28OlO
- 7yG597dnlBSTqkqVLKxG0FKG3hHl04JEY4uP4rxfLTTiZNMhEK4WkU9g+Tv4WOes/cgs
- z9SQ==
+ bh=+FPJ9Qnru6OpVjKtqox8lDIug1vZ9yjVHlNfUoQamQA=;
+ b=LAFzYhwC+5t7tkrPfD9N4Xo0hWJxacNEKZAKdMdXq2Hznqz2fRHuWVkyddNlgWyz3I
+ UsFVLTYoBH2YVyLnqHolFK/c2RS5PlWxHGEMMwb4NvzjZIHEPnh2gFJwqJzhRYjHxdeL
+ Ie9QeBf/sjymb+vGag9+G9hPd/VB4UbTyK6tHerxXKPF6jVKI+6Fr3w2qFN2m8AsAHyI
+ Y1b/Oh0PSWKKdx/+3+AyICI7+l4bpZlZmf/H2JQHRA0vGv45OqG6krWFrUGBfUX7d9VB
+ f3kZ40ScvEjFa4Ht5k3g+D2b4AQc7U9j5GFqxsjm+pYhdT9UzEJrBZGKnFeu846mkfQR
+ q11w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0dWVeeH1/VoY4ITl3jZ5D7j6w2KZsbQ1Q/ra2PImi8Q=;
- b=KTEdU6C0VIFrbBRI+6JiseqPsTe6rJorxUkx7qOZgvmiUAqbaHC2gAwH3A/UB9vz5V
- WMoRPn9C0ByaDKnfzE5DS88ZQ56mYrLjqJhq4WfIGUjl44F47uSlKK/dEPR503LkgmQ4
- xmY0Sr4Zmv6+BsGn5s1sitF5NNT+f74Rs6+27CfjJRGnMwlqnUY8mDAtiVMjLSgyMsME
- iXR/lOJvrUeg9OeSMEPe8KBo25lYuCcwpL1qZLdwXZuC27y0Haapx08B7OuIHG8l19Y5
- KMyZXDDhfD7i2I3wHMfzEs3ND4yOVPqKNFXhb3jzl/T1RXdu+tL4R5+ydc05uG/e8sk5
- 84TA==
-X-Gm-Message-State: AOAM532Y5vgQL67qNDg2eBrFQ+CR9Ou5VLqN/wS8GRafhIDQyjpyuJUW
- kLxfWN62t1QBGzqqsTaE5jxN+GlQdCqpZQ==
-X-Google-Smtp-Source: ABdhPJzPAew8Gja8ItJekPs8a+OTN3Vv35a/wStxffrRNVrF7rB8YAjemQppYmxNghy2xHIc6QY1/A==
-X-Received: by 2002:a1c:7fcd:: with SMTP id
- a196mr33636567wmd.180.1620062006007; 
- Mon, 03 May 2021 10:13:26 -0700 (PDT)
+ bh=+FPJ9Qnru6OpVjKtqox8lDIug1vZ9yjVHlNfUoQamQA=;
+ b=c3v9SEsYZwwTN5X9pTT+hiNqWWkaS54KyNnfOvy/F3ASkkP7quWZhoX2DbJHHE5Zgr
+ N9p5NpMPN8Dd9s5MNWRL2jbvrll5q0X/XidR2hpBhkfZ1gXPpNqspjwsCVtZvflxF7PQ
+ Sndr86JYJ5ayfWnyj9aWrKv1qFDb4J8gdrJTljIfnYfoUJ/QPCfIDllrmekHOw/DgSDQ
+ uqG3R3zJ/IQQ57f/DzZWoh/Ms/ztwHx9G/a4oKykguNpsQgsOge0eI4u6VMWxNH7ugXB
+ 4+2Jt+5qfVK7pV+gbeBvRjZkhaae61bSHTJuLP8G9jpwHJWvmV/VeCvgUlM5a0DICNnk
+ JtwA==
+X-Gm-Message-State: AOAM530BOh86OW3FZaz9v6l6R3a/Q282vhu5XuB+0X1dctyGP5fci7tj
+ XPLO+DlW+aG6ke3iV2zlK4/XcJbHO0y4rA==
+X-Google-Smtp-Source: ABdhPJwbrqzRfUzIX3wYDkD0MZ6hzdATVwinkEtzBiETnIxISM/0QmOqtcecvf56Bl+VNzikOxM2KQ==
+X-Received: by 2002:a7b:c1c5:: with SMTP id a5mr1781688wmj.63.1620062011467;
+ Mon, 03 May 2021 10:13:31 -0700 (PDT)
 Received: from x1w.redhat.com (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
  [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id g19sm146255wme.48.2021.05.03.10.13.24
+ by smtp.gmail.com with ESMTPSA id k6sm32112wmi.42.2021.05.03.10.13.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 10:13:25 -0700 (PDT)
+ Mon, 03 May 2021 10:13:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/6] hw/sparc/sun4m: Register machine types in
- sun4m_machine_types[]
-Date: Mon,  3 May 2021 19:13:01 +0200
-Message-Id: <20210503171303.822501-5-f4bug@amsat.org>
+Subject: [PATCH v3 5/6] hw/sparc/sun4m: Fix code style for checkpatch.pl
+Date: Mon,  3 May 2021 19:13:02 +0200
+Message-Id: <20210503171303.822501-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210503171303.822501-1-f4bug@amsat.org>
 References: <20210503171303.822501-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,188 +93,83 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We are going to move this code, fix its style first.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sparc/sun4m.c | 100 +++++++++++++++++------------------------------
- 1 file changed, 36 insertions(+), 64 deletions(-)
+ hw/sparc/sun4m.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 56f927e66ca..a625c41cd37 100644
+index a625c41cd37..956216591b0 100644
 --- a/hw/sparc/sun4m.c
 +++ b/hw/sparc/sun4m.c
-@@ -1396,12 +1396,6 @@ static void ss5_class_init(ObjectClass *oc, void *data)
-     smc->hwdef = &sun4m_hwdefs[0];
- }
- 
--static const TypeInfo ss5_type = {
--    .name = MACHINE_TYPE_NAME("SS-5"),
--    .parent = TYPE_SUN4M_MACHINE,
--    .class_init = ss5_class_init,
--};
--
- static void ss10_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -1413,12 +1407,6 @@ static void ss10_class_init(ObjectClass *oc, void *data)
-     smc->hwdef = &sun4m_hwdefs[1];
- }
- 
--static const TypeInfo ss10_type = {
--    .name = MACHINE_TYPE_NAME("SS-10"),
--    .parent = TYPE_SUN4M_MACHINE,
--    .class_init = ss10_class_init,
--};
--
- static void ss600mp_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -1430,12 +1418,6 @@ static void ss600mp_class_init(ObjectClass *oc, void *data)
-     smc->hwdef = &sun4m_hwdefs[2];
- }
- 
--static const TypeInfo ss600mp_type = {
--    .name = MACHINE_TYPE_NAME("SS-600MP"),
--    .parent = TYPE_SUN4M_MACHINE,
--    .class_init = ss600mp_class_init,
--};
--
- static void ss20_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -1447,12 +1429,6 @@ static void ss20_class_init(ObjectClass *oc, void *data)
-     smc->hwdef = &sun4m_hwdefs[3];
- }
- 
--static const TypeInfo ss20_type = {
--    .name = MACHINE_TYPE_NAME("SS-20"),
--    .parent = TYPE_SUN4M_MACHINE,
--    .class_init = ss20_class_init,
--};
--
- static void voyager_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -1463,12 +1439,6 @@ static void voyager_class_init(ObjectClass *oc, void *data)
-     smc->hwdef = &sun4m_hwdefs[4];
- }
- 
--static const TypeInfo voyager_type = {
--    .name = MACHINE_TYPE_NAME("Voyager"),
--    .parent = TYPE_SUN4M_MACHINE,
--    .class_init = voyager_class_init,
--};
--
- static void ss_lx_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -1479,12 +1449,6 @@ static void ss_lx_class_init(ObjectClass *oc, void *data)
-     smc->hwdef = &sun4m_hwdefs[5];
- }
- 
--static const TypeInfo ss_lx_type = {
--    .name = MACHINE_TYPE_NAME("LX"),
--    .parent = TYPE_SUN4M_MACHINE,
--    .class_init = ss_lx_class_init,
--};
--
- static void ss4_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -1495,12 +1459,6 @@ static void ss4_class_init(ObjectClass *oc, void *data)
-     smc->hwdef = &sun4m_hwdefs[6];
- }
- 
--static const TypeInfo ss4_type = {
--    .name = MACHINE_TYPE_NAME("SS-4"),
--    .parent = TYPE_SUN4M_MACHINE,
--    .class_init = ss4_class_init,
--};
--
- static void scls_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -1511,12 +1469,6 @@ static void scls_class_init(ObjectClass *oc, void *data)
-     smc->hwdef = &sun4m_hwdefs[7];
- }
- 
--static const TypeInfo scls_type = {
--    .name = MACHINE_TYPE_NAME("SPARCClassic"),
--    .parent = TYPE_SUN4M_MACHINE,
--    .class_init = scls_class_init,
--};
--
- static void sbook_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -1527,14 +1479,44 @@ static void sbook_class_init(ObjectClass *oc, void *data)
-     smc->hwdef = &sun4m_hwdefs[8];
- }
- 
--static const TypeInfo sbook_type = {
--    .name = MACHINE_TYPE_NAME("SPARCbook"),
--    .parent = TYPE_SUN4M_MACHINE,
--    .class_init = sbook_class_init,
--};
--
- static const TypeInfo sun4m_machine_types[] = {
+@@ -1181,11 +1181,11 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
+         .dma_base     = 0xef0400000ULL,
+         .esp_base     = 0xef0800000ULL,
+         .le_base      = 0xef0c00000ULL,
+-        .apc_base     = 0xefa000000ULL, // XXX should not exist
++        .apc_base     = 0xefa000000ULL, /* XXX should not exist */
+         .aux1_base    = 0xff1800000ULL,
+         .aux2_base    = 0xff1a01000ULL,
+         .ecc_base     = 0xf00000000ULL,
+-        .ecc_version  = 0x10000000, // version 0, implementation 1
++        .ecc_version  = 0x10000000, /* version 0, implementation 1 */
+         .nvram_machine_id = 0x72,
+         .machine_id = ss10_id,
+         .iommu_version = 0x03000000,
+@@ -1204,11 +1204,11 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
+         .dma_base     = 0xef0081000ULL,
+         .esp_base     = 0xef0080000ULL,
+         .le_base      = 0xef0060000ULL,
+-        .apc_base     = 0xefa000000ULL, // XXX should not exist
++        .apc_base     = 0xefa000000ULL, /* XXX should not exist */
+         .aux1_base    = 0xff1800000ULL,
+-        .aux2_base    = 0xff1a01000ULL, // XXX should not exist
++        .aux2_base    = 0xff1a01000ULL, /* XXX should not exist */
+         .ecc_base     = 0xf00000000ULL,
+-        .ecc_version  = 0x00000000, // version 0, implementation 0
++        .ecc_version  = 0x00000000, /* version 0, implementation 0 */
+         .nvram_machine_id = 0x71,
+         .machine_id = ss600mp_id,
+         .iommu_version = 0x01000000,
+@@ -1230,7 +1230,7 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
+         .esp_base     = 0xef0800000ULL,
+         .le_base      = 0xef0c00000ULL,
+         .bpp_base     = 0xef4800000ULL,
+-        .apc_base     = 0xefa000000ULL, // XXX should not exist
++        .apc_base     = 0xefa000000ULL, /* XXX should not exist */
+         .aux1_base    = 0xff1800000ULL,
+         .aux2_base    = 0xff1a01000ULL,
+         .dbri_base    = 0xee0000000ULL,
+@@ -1249,7 +1249,7 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
+             }
+         },
+         .ecc_base     = 0xf00000000ULL,
+-        .ecc_version  = 0x20000000, // version 0, implementation 2
++        .ecc_version  = 0x20000000, /* version 0, implementation 2 */
+         .nvram_machine_id = 0x72,
+         .machine_id = ss20_id,
+         .iommu_version = 0x13000000,
+@@ -1270,7 +1270,7 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
+         .dma_base     = 0x78400000,
+         .esp_base     = 0x78800000,
+         .le_base      = 0x78c00000,
+-        .apc_base     = 0x71300000, // pmc
++        .apc_base     = 0x71300000, /* pmc */
+         .aux1_base    = 0x71900000,
+         .aux2_base    = 0x71910000,
+         .nvram_machine_id = 0x80,
+@@ -1352,7 +1352,7 @@ static const struct sun4m_hwdef sun4m_hwdefs[] = {
+     /* SPARCbook */
      {
-+        .name           = MACHINE_TYPE_NAME("SS-5"),
-+        .parent         = TYPE_SUN4M_MACHINE,
-+        .class_init     = ss5_class_init,
-+    }, {
-+        .name           = MACHINE_TYPE_NAME("SS-10"),
-+        .parent         = TYPE_SUN4M_MACHINE,
-+        .class_init     = ss10_class_init,
-+    }, {
-+        .name           = MACHINE_TYPE_NAME("SS-600MP"),
-+        .parent         = TYPE_SUN4M_MACHINE,
-+        .class_init     = ss600mp_class_init,
-+    }, {
-+        .name           = MACHINE_TYPE_NAME("SS-20"),
-+        .parent         = TYPE_SUN4M_MACHINE,
-+        .class_init     = ss20_class_init,
-+    }, {
-+        .name           = MACHINE_TYPE_NAME("Voyager"),
-+        .parent         = TYPE_SUN4M_MACHINE,
-+        .class_init     = voyager_class_init,
-+    }, {
-+        .name           = MACHINE_TYPE_NAME("LX"),
-+        .parent         = TYPE_SUN4M_MACHINE,
-+        .class_init     = ss_lx_class_init,
-+    }, {
-+        .name           = MACHINE_TYPE_NAME("SS-4"),
-+        .parent         = TYPE_SUN4M_MACHINE,
-+        .class_init     = ss4_class_init,
-+    }, {
-+        .name           = MACHINE_TYPE_NAME("SPARCClassic"),
-+        .parent         = TYPE_SUN4M_MACHINE,
-+        .class_init     = scls_class_init,
-+    }, {
-+        .name           = MACHINE_TYPE_NAME("SPARCbook"),
-+        .parent         = TYPE_SUN4M_MACHINE,
-+        .class_init     = sbook_class_init,
-+    }, {
-         .name           = TYPE_SUN4M_MACHINE,
-         .parent         = TYPE_MACHINE,
-         .class_size     = sizeof(Sun4mMachineClass),
-@@ -1551,16 +1533,6 @@ static void sun4m_register_types(void)
-     type_register_static(&afx_info);
-     type_register_static(&prom_info);
-     type_register_static(&ram_info);
--
--    type_register_static(&ss5_type);
--    type_register_static(&ss10_type);
--    type_register_static(&ss600mp_type);
--    type_register_static(&ss20_type);
--    type_register_static(&voyager_type);
--    type_register_static(&ss_lx_type);
--    type_register_static(&ss4_type);
--    type_register_static(&scls_type);
--    type_register_static(&sbook_type);
- }
- 
- type_init(sun4m_register_types)
+         .iommu_base   = 0x10000000,
+-        .tcx_base     = 0x50000000, // XXX
++        .tcx_base     = 0x50000000, /* XXX */
+         .slavio_base  = 0x70000000,
+         .ms_kb_base   = 0x71000000,
+         .serial_base  = 0x71100000,
 -- 
 2.26.3
 
