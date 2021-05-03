@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A66B37205F
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 21:25:52 +0200 (CEST)
-Received: from localhost ([::1]:50300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C4437208F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 21:36:28 +0200 (CEST)
+Received: from localhost ([::1]:37674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldeCV-0001HJ-AT
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 15:25:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48362)
+	id 1ldeMl-00087b-BB
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 15:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lde9F-0006vA-31
- for qemu-devel@nongnu.org; Mon, 03 May 2021 15:22:29 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:40514)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lde9D-0000rB-7x
- for qemu-devel@nongnu.org; Mon, 03 May 2021 15:22:28 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id x188so2912358pfd.7
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 12:22:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=t6UAX4+HEE9ZtHNZWIRyVK3lOtWpU6jnwVgw1bixHjo=;
- b=mTW/HkPwuQmy8998O2iodJsRj0XPMIVOpqklF74Iu2Sx2BRcAxulTfhX/BjMcXXpS5
- GJ8/6DCXyYfzXVaD9UnFOpMdbEdQ9wgUNa9zmx9DR1PD0maMRfI4B0NXoGTuGB45Cbqr
- HpagiZ+dvBv3Yhg5HFd5I5ein1+pNkNFO9qPGvS8qzv3K7pd49pAsXSJb4qU+tE6f5WT
- M6HdtpReornj23UN5eo1Ld4XJ7isEovIBzIBB3qlvWQPZaLehflWPwsSHMz8aaVNMRPw
- sGC/TWsENTSQPd00ryIwU+nv3Rp4Rtf7R8STK3ZJVuFTlqFSt6UnDe7pbzzy1mrwL3Xc
- r9tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=t6UAX4+HEE9ZtHNZWIRyVK3lOtWpU6jnwVgw1bixHjo=;
- b=Oko18ZXKKScKurjxOdmkhXoshbiNLJvYG3cIje2xCXaJsVdsc3evEcRjdAH+meXCE5
- F3SWR3k26n1L/EYTW/4lBDKv16lKdXBueY5iP8Yr/OtVahdbd/ud4TCvwUMLHXyG/12Y
- /qqvfSBN2wOM5yloBXpGWP77cNmKbYHpIOO3J1kMr7OptFwq3so4G1QXm9g3ex5WxgN0
- RydzVsfFKnsTe/UMBnSfL+lY9Ef7OQ3QzVtXxWhlHGVutsOVMCl8QmJytjHzRzsqRqT5
- vMuilUJi6YlR2g5c42AQAhrbgKMHcCK1iB/y45NpGOLjQK83saenvOVXf5GC8tvuLeMk
- LpIA==
-X-Gm-Message-State: AOAM532spxMYSrv94qiM67lb7JzXr3pS+lmhG5lY/1h021Ql2c74luxI
- bpU4Ns21wDRoSUe2LmaPeXYvuQ==
-X-Google-Smtp-Source: ABdhPJxzdrPQJTtyjFX9v1DBcdMyAEx73B+ERLVQtR9lBXJ435Ie4RGtoCHYCCXL8T7w5IREWuYaLQ==
-X-Received: by 2002:a05:6a00:1687:b029:253:f417:4dba with SMTP id
- k7-20020a056a001687b0290253f4174dbamr20350235pfc.5.1620069743641; 
- Mon, 03 May 2021 12:22:23 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id mn22sm242787pjb.24.2021.05.03.12.22.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 12:22:23 -0700 (PDT)
-Subject: Re: [PATCH v3 6/6] hw/sparc/sun4m: Move each sun4m_hwdef definition
- in its class_init
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210503171303.822501-1-f4bug@amsat.org>
- <20210503171303.822501-7-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4defc9c4-1b99-19f3-44a7-19275e3afbed@linaro.org>
-Date: Mon, 3 May 2021 12:22:21 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <vincent@bernat.ch>) id 1ldeLG-0007Si-JO
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 15:34:54 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:57003)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vincent@bernat.ch>) id 1ldeLC-000823-S8
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 15:34:54 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.west.internal (Postfix) with ESMTP id A05821C1A;
+ Mon,  3 May 2021 15:34:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 03 May 2021 15:34:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bernat.ch; h=
+ from:to:cc:subject:references:date:in-reply-to:message-id
+ :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
+ XT4aNK/Drf5nW9Gv88m1+EJ+vw+7ca3KdezyJQ83G3k=; b=QYxPyugVTSfKT+wk
+ 7aLRuoDi2vAqU/opvSaBOucctllqfwp4pm3JYdKb+81d4IMfmbU1o/R046iK8XmG
+ LG8FHpk36lnx1Xber4ezhrXsODRsmgLDr/pZPLuqJM04GZcUAQrniUHywzzSQMLT
+ H3pjvbWdC2U45DCYLYETB8hggKlvGSsAajNBBe42cCDubT0py79xV8oA65tYftm5
+ Pi46B5YTqFjEq/jHjHweR7aZ9x0JxFrTEmxCqvYFv38Y5JIBHGcUEGmuBj/M6N8c
+ 5l6MgO86QGTXGlAgMVn36aJG9BmI88ZW8KQJ3HiD80UBx9B8Td9v60u1a9Epy+oE
+ m4A0Sw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=XT4aNK/Drf5nW9Gv88m1+EJ+vw+7ca3KdezyJQ83G
+ 3k=; b=UQ9NBw8ZWAKhzM1gOoYSE4Y6qhFzDjI6C1WjLofJ72Bj4c/K10kMlwoth
+ PSObZjNmf1A1jKnZ2Up1CyQvkq8voToOh7m7w3U7321y6flF0BSIgclJBrm86zkF
+ 4KV2y0YoWrc1MyMTWSbCiQ3VgwCc/WU0ATuIgP2J2JQIyZY2zyDldey5qXA30DTG
+ FQIopNwjciAczOJk9dXguMdei8ebUZhdDAXhgQ+1rF92oPDwWavnT5iYWkhsQq1R
+ q5KUPowjgHJ+vKStcMcQ6WCedgkoGAY0r1YZUPiUUa9S0BooJJwzqoOnWmVEZtGf
+ GpYFHf9ZQU/L+f3RzgzrKmpNr7aTA==
+X-ME-Sender: <xms:VVCQYECL4govNptZbKtuZFOI2tj66oZmdzWSUEeyMKrCx7g0avfhZQ>
+ <xme:VVCQYGjmhlJ81aaxLAuCq2XcpC_R72EzqdRo19rxoxqLxDHj0uqrap_3yCol2GUW7
+ uZEvd3lm4h-2QWfUWs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdefgedgudegtdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvffufhffjgfkfgggtgfgsehtkeertddtreejnecuhfhrohhmpeggihhn
+ tggvnhhtuceuvghrnhgrthcuoehvihhntggvnhhtsegsvghrnhgrthdrtghhqeenucggtf
+ frrghtthgvrhhnpeduueevgeegtdevuddujefgieffieevudeivdejvddufeeltefgfedv
+ hfektdeijeenucfkphepledtrdeltddrledtrdefheenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehvihhntggvnhhtsegsvghrnhgrthdrtghh
+X-ME-Proxy: <xmx:VVCQYHniseXzoTUg_nEOQXGcmZ90Eis9Iyc5s2u7aWnRZ0JgR4o8Xw>
+ <xmx:VVCQYKyPpZgwS3BNNsdvt2REJhUPdCxL300seona7IdUOXpccJ4O8Q>
+ <xmx:VVCQYJR4ZpQ4YsAGfMscCcJfpMJ2e8UKOrWvyHofhAtqPuvmyDbN3A>
+ <xmx:VlCQYIJkxjRvsiguCODLa8PpDq8IxfyO3Oj2bnuqX1TrcfGLImFC0w>
+Received: from neo.luffy.cx (lfbn-idf1-1-1655-35.w90-90.abo.wanadoo.fr
+ [90.90.90.35]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Mon,  3 May 2021 15:34:45 -0400 (EDT)
+Received: by neo.luffy.cx (Postfix, from userid 500)
+ id 8590091F; Mon,  3 May 2021 21:34:42 +0200 (CEST)
+From: Vincent Bernat <vincent@bernat.ch>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v4] hw/smbios: support for type 41 (onboard devices
+ extended information)
+References: <20210401171138.62970-1-vincent@bernat.ch>
+ <20210503170539.5e813f89@redhat.com>
+Date: Mon, 03 May 2021 21:34:42 +0200
+In-Reply-To: <20210503170539.5e813f89@redhat.com> (Igor Mammedov's message of
+ "Mon, 3 May 2021 17:05:39 +0200")
+Message-ID: <m3sg338vcd.fsf@bernat.ch>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210503171303.822501-7-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=vincent@bernat.ch;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,22 +98,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/21 10:13 AM, Philippe Mathieu-Daudé wrote:
-> Remove the sun4m_hwdefs[] array by moving assigning the
-> structure fields directly in each machine class_init()
-> function.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   hw/sparc/sun4m.c | 248 ++++++++++++++++++++++-------------------------
->   1 file changed, 118 insertions(+), 130 deletions(-)
+ ❦  3 mai 2021 17:05 +02, Igor Mammedov:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> +            /*
+>> +             * We only handle the case were the device is attached to
+>> +             * the PCI root bus. The general case is more complex as
+>> +             * bridges are enumerated later and the table would need
+>> +             * to be updated at this moment.
+>> +             */
+>> +            if (!pci_bus_is_root(pci_get_bus(pdev))) {
+>> +                error_setg(errp,
+>> +                           "Cannot create type 41 entry for PCI device %s: "
+>> +                           "not attached to the root bus",
+>> +                           t41->pcidev);
+>> +                return;
+>> +            }
+> Is this limitation really necessary?
+>
+> As far as I see caller of this smbios_get_tables(), is called at machine_done time
+> when all devices (including bridges) present on CLI are created.
 
-r~
+I wasn't sure how to get the segment group number in this case. It seems
+this is not exposed directly. There is a root_bus_path method returning
+a string that would need to be parsed to extract the segment group
+number. Looking a bit, it seems to be always 0.
+-- 
+Don't stop with your first draft.
+            - The Elements of Programming Style (Kernighan & Plauger)
 
