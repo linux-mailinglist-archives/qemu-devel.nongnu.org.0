@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F113712EA
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 11:21:10 +0200 (CEST)
-Received: from localhost ([::1]:57304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30F223712E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 11:20:47 +0200 (CEST)
+Received: from localhost ([::1]:55864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldUlJ-0004Qb-7z
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 05:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60744)
+	id 1ldUkw-0003ng-9J
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 05:20:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldUfW-0007CO-Tf
- for qemu-devel@nongnu.org; Mon, 03 May 2021 05:15:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58953)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldUfY-0007CV-A5
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 05:15:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldUfU-0005yj-I2
- for qemu-devel@nongnu.org; Mon, 03 May 2021 05:15:10 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldUfV-0005z3-A6
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 05:15:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1620033308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n4IuX5mGBxhSoUNBaK2iWkP/sAnynBLyfTGs307GZHs=;
- b=TDWV+YPLtqk1OwqJ1QMG9qY6Z2Cy+JRJ8jRQb64j+gjfAQyOlqfSy1eeQZK4/szOMX/PnV
- B4Stx+agClKrUmlXwKU4pd1ko7Rwfr12J7PW5gDfGKUkVPtWva4G9r8rwnYokfg1gMbVHL
- vsofQb1GXNUZvS6yZ4DsG4v7CDL7CJQ=
+ bh=beuHHcBhpTIhiCGL3twD1YqDRs3Mka47JpkK6KzdabU=;
+ b=BhhaWPh/8mc6UmM8mWmTfdXEH4OKr0lOOyijfoPFAB/mCnKkTeCbmi5qLL8ff2Jj+rmztU
+ XC3sJOB+SExXTm/7XUnWBuSVjhsMc+Q/i8a6B4SfKbBWu0+UwGR80Idc1CTTe/cdM5xGNd
+ eGq2WaK3ZYBVtg2dk2nfDDoIze+/aIE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-zlIv7IgOMSOsTGktxEsqaA-1; Mon, 03 May 2021 05:15:05 -0400
-X-MC-Unique: zlIv7IgOMSOsTGktxEsqaA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-352-x_qh_vncMD-3OeJpVrVhNg-1; Mon, 03 May 2021 05:15:06 -0400
+X-MC-Unique: x_qh_vncMD-3OeJpVrVhNg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8484801817;
- Mon,  3 May 2021 09:15:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D09CD1883525;
+ Mon,  3 May 2021 09:15:05 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-203.ams2.redhat.com
  [10.36.112.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 20B3E19C59;
- Mon,  3 May 2021 09:14:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E35794EF97;
+ Mon,  3 May 2021 09:14:57 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A57BC1800799; Mon,  3 May 2021 11:14:46 +0200 (CEST)
+ id B0929180079B; Mon,  3 May 2021 11:14:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] usb/xhci: sanity check packet size
-Date: Mon,  3 May 2021 11:14:45 +0200
-Message-Id: <20210503091446.2137206-5-kraxel@redhat.com>
+Subject: [PATCH 5/5] usb: limit combined packets to 1 MiB
+Date: Mon,  3 May 2021 11:14:46 +0200
+Message-Id: <20210503091446.2137206-6-kraxel@redhat.com>
 In-Reply-To: <20210503091446.2137206-1-kraxel@redhat.com>
 References: <20210503091446.2137206-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -84,30 +84,33 @@ Cc: mcascell@redhat.com, remy.noel@blade-group.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make sure the usb packet size is within the
-bounds of the endpoint configuration.
+usb-host and usb-redirect try to batch bulk transfers by combining many
+small usb packets into a single, large transfer request, to reduce the
+overhead and improve performance.
+
+This patch adds a size limit of 1 MiB for those combined packets to
+restrict the host resources the guest can bind that way.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/hcd-xhci.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/usb/combined-packet.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 46212b1e695a..7acfb8137bc9 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -1568,6 +1568,11 @@ static int xhci_setup_packet(XHCITransfer *xfer)
-         qemu_sglist_destroy(&xfer->sgl);
-         return -1;
-     }
-+    if (xfer->packet.iov.size > ep->max_packet_size) {
-+        usb_packet_unmap(&xfer->packet, &xfer->sgl);
-+        qemu_sglist_destroy(&xfer->sgl);
-+        return -1;
-+    }
-     DPRINTF("xhci: setup packet pid 0x%x addr %d ep %d\n",
-             xfer->packet.pid, ep->dev->addr, ep->nr);
-     return 0;
+diff --git a/hw/usb/combined-packet.c b/hw/usb/combined-packet.c
+index 5d57e883dcb5..e56802f89a32 100644
+--- a/hw/usb/combined-packet.c
++++ b/hw/usb/combined-packet.c
+@@ -171,7 +171,9 @@ void usb_ep_combine_input_packets(USBEndpoint *ep)
+         if ((p->iov.size % ep->max_packet_size) != 0 || !p->short_not_ok ||
+                 next == NULL ||
+                 /* Work around for Linux usbfs bulk splitting + migration */
+-                (totalsize == (16 * KiB - 36) && p->int_req)) {
++                (totalsize == (16 * KiB - 36) && p->int_req) ||
++                /* Next package may grow combined package over 1MiB */
++                totalsize > 1 * MiB - ep->max_packet_size) {
+             usb_device_handle_data(ep->dev, first);
+             assert(first->status == USB_RET_ASYNC);
+             if (first->combined) {
 -- 
 2.30.2
 
