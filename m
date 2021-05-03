@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ACAF37235E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 01:02:21 +0200 (CEST)
-Received: from localhost ([::1]:54594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8A737235D
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 01:02:10 +0200 (CEST)
+Received: from localhost ([::1]:53706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldhZz-0004NW-Qx
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 19:02:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56492)
+	id 1ldhZp-000419-Lm
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 19:02:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldhAx-0001p0-Un; Mon, 03 May 2021 18:36:29 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36485)
+ id 1ldhC7-0003Eq-5J; Mon, 03 May 2021 18:37:39 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ldhAw-00037a-80; Mon, 03 May 2021 18:36:27 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id m9so7236303wrx.3;
- Mon, 03 May 2021 15:36:25 -0700 (PDT)
+ id 1ldhC5-0003jw-Jz; Mon, 03 May 2021 18:37:38 -0400
+Received: by mail-wm1-x334.google.com with SMTP id o127so106865wmo.4;
+ Mon, 03 May 2021 15:37:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=M6DhStYJsMhMzDdFAP3PwwV1n4lGET/sk2+rqiSo3vA=;
- b=N3gw0U8Xgix3aavcTAOiPEYXY1eKDIB+sLm7b6erlXhi5nTIvsbgtEFJwXUQ50gNDO
- ytNJ62so5qzmkrfueFW53mCgJYA1CXjKl652Lzr9DsVAqC/l814VoIjbMqylRQGSKo7w
- oB2wUvfsIeGJJsIb0+syWdNJDXZ8YPeGSRmSiJfzoCn9dapQhCmrhTH/8FcmnZS7aKWO
- 9JlzRfJz4x4UDbS/Gvu+ISU04Tu+X4VDpPLVbcEdYZP3nAxx72mfxQdu57SeY+lRH9Pw
- FUVKaK1zWFZTEUGhGuWdyU8b3IHGmSGAk7MyClCO7K8oXinOFLCwyiTSVn+c+bFDX2sF
- Eiow==
+ bh=wzrwuirHTROMH8Z8lLwYjyJXrCfVH4WuhTaYUFy2XDQ=;
+ b=Kpk+4U5NJsLfwCN4BM39uyyh+cxNEKx6TWrPQWRQJeQDUTN4ApTz2//LRSiQsvtzCi
+ LAhW/Ifd+H8dOftxBOza28qU8Ye+vJL5kT+rSITKJXouEXVMvFyzOa54h9+1gB5+N+Kw
+ HaxlpNIu+G748MNuhWi2/VIt/ddw7anRlGrtHcn10earhrM87zgVHNa/S7wZVaEt8V1R
+ CSr12MFQzft8SEc26u72ykNkn2qo6Cr0I7nKTdN0kYEpX/qhAm//KemDeIwXWORgj0NO
+ 6Dmn68LlmskDZ/KVKkei8VLHCHEONlJ/ivI4JzwKSPbF+ikR/kppC3grp9/3TI2ajRnf
+ DtyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=M6DhStYJsMhMzDdFAP3PwwV1n4lGET/sk2+rqiSo3vA=;
- b=IBVun3Sej7LGAhOPO42ffVvJmeEvSASRAJwQ0sI3JGfjhxTe1JVv7D4h7G6Xxr1Z7e
- A3fXbmEfXyRSUiEJr/DCGe6JK+zHI7CxpsY2tCcVPTeUQkVG3IsOkVg9UA2EX0ui9WSB
- m+XbAfCbISYUXOghwZnc+8skiDqgsVYraDP2NebE3VhdIMH0oNyCyre0dh/50Rr90/lG
- CnKzMHY4lJC6Gp4U9WJ0BKcdfedZfJNtW8XooFgfpplu8y2NL3T5KL1YgSUCVAFcWyRB
- HidTqXknOPtd6HbElsnN2iaMyEMQoWN1PL8Qj+ixe3wwkB1wvECgNj6HtjNief1MmBwh
- EvBg==
-X-Gm-Message-State: AOAM5334qkg4QivZ5X235XNd3ol7odO8/39nxOnDgFz4R/e+wccEdcke
- cpo63R/1/XkYjzE1BnqOVCo=
-X-Google-Smtp-Source: ABdhPJxbjnJMHZ/cURswXGKho4+lR3JkkJJ4AAGAj8GsikXWAcgTVPYLWAwCddAIW/EFjQb710bLZw==
-X-Received: by 2002:a5d:64e5:: with SMTP id g5mr28263766wri.30.1620081384522; 
- Mon, 03 May 2021 15:36:24 -0700 (PDT)
+ bh=wzrwuirHTROMH8Z8lLwYjyJXrCfVH4WuhTaYUFy2XDQ=;
+ b=VHaViAIULOP3CTr6OYf+O1H63cdrHxom57vb5h1A/2dAQ2ROCklG8Us6YUvmP7JO+i
+ 1YIlxbJtQWLsCfEoDDvq+uUN0i3sVIEANyZcY6g6C3KkZPvpztgXQlO/f0dyN5M2pApY
+ G0MW3aO+dbYY4EXHu+Qyo0FFvp3zFSaUGIW9QFr2R5UA8i48xlLPaML63QwSWmQ5r48X
+ Jlekdkgol7pQfJdU+kutsqfRIQk8v3FC2vuuPu07VXcdjDywl5KKuadOlQFKp2cCJHlP
+ RlTYPE4sN3OqYlPGpbD3luaA6ZpnWGL/v1PhlQpnOw46NVPUvlWn9PhDEq4vMQ99yMrh
+ FgWg==
+X-Gm-Message-State: AOAM533aIM0lUCYCCOG7gdDxmSwqiqyhH0/wG7jTDNr8nmNzNAcY3bZz
+ W49h+kiMvfj1SWLlINiQYwE=
+X-Google-Smtp-Source: ABdhPJxt6AX1Yc1eDcEg/2JPCbkU311d0ELQtOqrNOlKSgcPnAhFTHstJAbc5wnQps5Uc3Gj6YmT1w==
+X-Received: by 2002:a05:600c:4304:: with SMTP id
+ p4mr816151wme.111.1620081455659; 
+ Mon, 03 May 2021 15:37:35 -0700 (PDT)
 Received: from [192.168.1.19] (anancy-651-1-208-144.w109-217.abo.wanadoo.fr.
  [109.217.237.144])
- by smtp.gmail.com with ESMTPSA id p10sm13355746wrr.58.2021.05.03.15.36.23
+ by smtp.gmail.com with ESMTPSA id a9sm13225632wrw.26.2021.05.03.15.37.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 15:36:23 -0700 (PDT)
-Subject: Re: [PATCH v3 20/30] target/ppc: Mark helper_raise_exception* as
- noreturn
+ Mon, 03 May 2021 15:37:35 -0700 (PDT)
+Subject: Re: [PATCH v3 22/30] target/ppc: Introduce macros to check isa
+ extensions
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210430011543.1017113-1-richard.henderson@linaro.org>
- <20210430011543.1017113-21-richard.henderson@linaro.org>
+ <20210430011543.1017113-23-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <27735d9f-7ad7-b5f0-837f-8f5722507836@amsat.org>
-Date: Tue, 4 May 2021 00:36:21 +0200
+Message-ID: <05e5509c-4d95-fa07-1146-3373ed79daa8@amsat.org>
+Date: Tue, 4 May 2021 00:37:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210430011543.1017113-21-richard.henderson@linaro.org>
+In-Reply-To: <20210430011543.1017113-23-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,10 +96,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/30/21 3:15 AM, Richard Henderson wrote:
+> These will be used by the decodetree trans_* functions
+> to early-exit when the instruction set is not enabled.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/ppc/helper.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  target/ppc/translate.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
