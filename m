@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DD2371E44
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:17:51 +0200 (CEST)
-Received: from localhost ([::1]:53502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEB7371DBC
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 19:04:20 +0200 (CEST)
+Received: from localhost ([::1]:57422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldcCc-00055a-3K
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47036)
+	id 1ldbzX-0002IO-V4
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 13:04:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldc05-0003qw-VR
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:04:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37068)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ldbrA-0002F1-8o
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:55:41 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:40852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldc02-0008Ne-Rm
- for qemu-devel@nongnu.org; Mon, 03 May 2021 13:04:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ldc00-0005bo-4Z
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 17:04:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0E9E32E8187
- for <qemu-devel@nongnu.org>; Mon,  3 May 2021 17:04:48 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 03 May 2021 16:53:05 -0000
-From: Thomas Huth <1368178@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ldbr0-0003wT-2t
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 12:55:40 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so6143220wmy.5
+ for <qemu-devel@nongnu.org>; Mon, 03 May 2021 09:55:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PP1wB8xlLysmvgANHj3AI5JMp4cGm5wsTxpTrOOY6w0=;
+ b=bOhzhffdiekwp5S6Tg7kScu/DPolhaSzH/rIUfJ9E8OZOXiTLRuChIf/J1n40eXOjZ
+ t4g6ax6ERJVp+SGZdiX2tN1hwnZhiuIBvxF+0tH/pglNMRx7ZDQKkYjQcHhr14uMynr4
+ JfYDZ5E3fe90XUQktIxQ9sDPG1OBg1l9kwcGYYUfD0Q77p/VMjW++4iDvmz1rr5Qo08D
+ 3lUWS8TVFb7cahARp3tS+iTyQ1v5vxtqlEUfVmgtTPlTF5lm3mUCWAl3FhnZ9j/AYNRR
+ 6HYcdPOXjqGPcoGX3dmJtl6MUq1ed7jQN/DcTDaG6yAYvmiq5OtkBizdVAS+vAXL9Te5
+ eEDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PP1wB8xlLysmvgANHj3AI5JMp4cGm5wsTxpTrOOY6w0=;
+ b=gsDGuqAp4wHE319cMVzxMk7wjSCRVyda4sRkNa2hH/9zs2dacu7bAmN6DgzGsRGVOi
+ +EZUF52xiimSYLrCFqkZhpb/c7PDLv6yA6PbzRBgfTy46pHLQyRnbsTtQmAlENUsxiax
+ 8bcGPO9f9ANfOQ03sTLjd1QuqvBNs4hvxYi6ZzNMUIoqu8Yhq4+MTvfcoYbpIWLk/x0X
+ 8bQ5idpOG+nivntVIQ7hnY1nz4cttjLBrTZRIwNJ+1jfTUJ/ogPSQwYk7G1maigRGhBE
+ B7bxD/yxINmIPdCxb3LL3nOIguhIbB/+mJNeJI3QIygzgwfFldEfZQUF6V00JXSVpZzB
+ JYKg==
+X-Gm-Message-State: AOAM530hFYarfjzhMsZnMxxERmvMR2AFhEmAulEHxZJ3xWdrEcSuTrdI
+ hO6P1WmgrRUCiao0Gj4gki/dOqNggYjipA==
+X-Google-Smtp-Source: ABdhPJzXnwzN6EgTaRNqv5Oac2pJnS1Qc69q9gNseREz3jjH3vvAa+ZTcvhXVhKXCiakaDoPtI9vPw==
+X-Received: by 2002:a1c:6754:: with SMTP id b81mr22313124wmc.16.1620060928297; 
+ Mon, 03 May 2021 09:55:28 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id l12sm15282794wrq.36.2021.05.03.09.55.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 May 2021 09:55:27 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: cirrus imagine me millennium nine number vga videocard
- windows winme
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: euro-cent th-huth
-X-Launchpad-Bug-Reporter: OIiver (euro-cent)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20140911114353.25076.30246.malonedeb@soybean.canonical.com>
-Message-Id: <162006078564.4449.7957739730874949945.malone@chaenomeles.canonical.com>
-Subject: [Bug 1368178] Re: Windows ME falsely detects qemu's videocards as
- Number Nine Imagine 128
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: dced2adef4367b8fb3dcde72c8645df00d69e578
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH 0/3] tests: three easy Coverity fixes
+Date: Mon,  3 May 2021 17:55:22 +0100
+Message-Id: <20210503165525.26221-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,66 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1368178 <1368178@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Corey Minyard <minyard@acm.org>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Oliver, did you ever check this with a newer version of QEMU?
+We recently started running Coverity on our tests/ code,
+which has revealed a pile of issues that we were previously
+blissfully unaware of. This series fixes three easy ones:
+ * use of free() where g_free() was meant
+ * unnecessary NULL check
+ * side effect inside g_assert() argument
 
--- =
+thanks
+-- PMM
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1368178
+Peter Maydell (3):
+  tests/qtest/tpm-util.c: Free memory with correct free function
+  tests/qtest/rtc-test: Remove pointless NULL check
+  tests: Avoid side effects inside g_assert() arguments
 
-Title:
-  Windows ME falsely detects qemu's videocards as Number Nine Imagine
-  128
+ tests/qtest/ipmi-bt-test.c  | 6 ++++--
+ tests/qtest/ipmi-kcs-test.c | 3 ++-
+ tests/qtest/rtc-test.c      | 6 ++----
+ tests/qtest/tpm-util.c      | 4 ++--
+ 4 files changed, 10 insertions(+), 9 deletions(-)
 
-Status in QEMU:
-  Expired
+-- 
+2.20.1
 
-Bug description:
-  A fresh installation of  Windows Millennium Edition (Windows ME,
-  WinME) as guest OS on qemu interprets qemu's videocards as Number Nine
-  Imagine  128 with the consequence, that
-
-  1. It is impossible to change color depth.
-  2. WinME uses the i128.drv Driver that is shipped with WinMe.
-  3. Forcing WinME to use other drivers has no effect.
-
-  =
-
-  It also doesn't matter what option for -vga was given to QEMU at command =
-line.
-  cirrus, std,   vmware,  qxl etc. all have no effect, the videocard detect=
-ed by Windows Me stays at Number Nine Imagine 128.
-
-  Even selecting another driver in WinME and forcing WinME to use
-  drivers such as the Cirrus Logic 5446 PCI driver has no effect.
-
-  I also want to mention, that the BIOS isn't detected by WinME properly.
-  The device manager of WinME shows errors with the Plug & Play BIOS driver=
- BIOS.vxd.
-
-  =
-
-  That is the QEMU Version:
-
-  # qemu-system-i386 --version                                             =
-                                                                           =
-                                                  =
-
-  QEMU emulator version 2.0.0 (Debian 2.0.0+dfsg-2ubuntu1.3), Copyright (c)=
- 2003-2008 Fabrice Bellard                  =
-
-
-  And this was the complete command line, that was given: =
-
-  # sudo /usr/bin/qemu-system-i386 -hda WinME_QEMU.img -cdrom drivers.iso -=
-boot c -no-acpi -no-hpet -soundhw sb16 -net nic -cpu pentium3 -m 256 -vga c=
-irrus
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1368178/+subscriptions
 
