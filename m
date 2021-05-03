@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F683715A6
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 15:05:49 +0200 (CEST)
-Received: from localhost ([::1]:48992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9763715B4
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 15:07:38 +0200 (CEST)
+Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldYGi-0000cU-DN
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 09:05:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37322)
+	id 1ldYIT-0002Ap-8q
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 09:07:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1ldYB1-0006QK-AG; Mon, 03 May 2021 08:59:55 -0400
-Received: from mail-eopbgr790097.outbound.protection.outlook.com
- ([40.107.79.97]:20156 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
+ id 1ldYBP-0006ot-A7; Mon, 03 May 2021 09:00:24 -0400
+Received: from mail-eopbgr790120.outbound.protection.outlook.com
+ ([40.107.79.120]:52352 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1ldYAz-0000Dp-Kl; Mon, 03 May 2021 08:59:55 -0400
+ id 1ldYBN-0000SS-V0; Mon, 03 May 2021 09:00:19 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Cu4VoLULynMUw6kmPg7ERdbIKAEbEhaRlGJusU/FexGPCQm8+VtwcLlkb0qqEvbILhWq/4QRapPjsXr2vsHCEs077mu5xT36UqBbMFRP/N4UsQgZiOuVMhT8ZxEqeAOin3NDsw5rKahwz7TwwQ/SssvX22+99QpYan3WZLXEe5iFvzBwh7QnweiLiAKF//YCVcqya2VTWIJPxhk7TWEW6uVeTMhKoU3wn/Y3c/5SKTbqF5NJst3zMPbjxXNvE2qDbz0ZGp5NHfjjXBp9pu7n+4SJaVOJgZTkx6mMRg5SI0D+le5Ay4tZT0qvuLNQ2PkEY+YA550KF3KLbk+kNDttTg==
+ b=AJprewXpO6FCmmYGe4KpDr1TBDvsNh3oNItreNhSsCRDVj7muWRwSeId2XNSXhaul2r7r4v+6w1IIOyGOFnf0btwlRoBWSp/02niie0eopuzeATeiD8V6NjR55soZgEaOVLBGBIgvsioAt09OL+wsjwGdQEUS3AC/UVumIhkRBVAVtlUsIsJQOYr3MxjChjhbuGPwlWw1SA4Dpl0KH7N3tq8Pb7lsxXTSUujLpPLJR4l+ybYbcKZEH8k7M0DRw2L43JivpRYKulHq0jJwCaoNtUWiR3GgQYjnYvXIWatARIC2WEzfDhY1Qc2m29y1WjcybFmWKSM7Ind2KxCVW32+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MzuHRc6HNk56qwHmsutdLIisxZpLWSy+F+EfsK2LkuY=;
- b=lbZUMjKvif8K/N1SbV6tnhbsAsSiEd2d14PUghRqfys+vLLdFpr81hfNvPTTvjGFoZ2lICS+2Q9X0LH13GwDJNGPVV5ouc7YIgP6eALGCQzI9sNir3BkZNEZOiOEjUqhA5Be5bv5wJrvhnUYQF++lcURtNYX8j+6bZAxEVBgmlOxf+oJrW9eMtI+yPawnxK56Hmw4TqigsqUHmSTKHEXu0cPwdrn/4nxa0XR9SUCLNPx0jNzNhw2AfA77GUPWWmU1siePzUnTqf/ulgvraVIFNOoXdNoXcAXlJHEJqaLW3Ok8jbKmJMGcf98oWVzm37Wr8Pa7STHzFE2Bm5boW3LZg==
+ bh=8kuxlPcP0kiFp5ihpVaoyWjeveGbd9Qy5KuyJz0pvz8=;
+ b=gJt/xNCy7HtdhG7G6q5H9qfto66Kv14EEgWKzBPC1ojYR8RInBh8FTVJDCSXAJVClIqIWI6ub6oLStUftBBN5u4EdEuMdllU8hMvieBSdq/eckZc4wBkX2WJeeB9fh9ednkkiUpdOrTGUFd50EEwCyEdJgkYw9UOe/Rjnixi/ouV9Ms/m2Sm71fc8kVbG/oWD3ly6dE8xQEAiAZGzZLemTjuZtYJ2jLWYP28LHWWUd+0jywskxULMxUlWavxTb6867lW2cEFgutmQDgt/mZAjYuKrVBg2fWGXv7e/CNuGE260qgsV7DJWF6wLQ0n81Vebai5DzOJfmvB6BdSkDPl6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=eldorado.org.br; dmarc=pass action=none
  header.from=eldorado.org.br; dkim=pass header.d=eldorado.org.br; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldorado.org.br;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MzuHRc6HNk56qwHmsutdLIisxZpLWSy+F+EfsK2LkuY=;
- b=i2K8gzIYoOidiMNAVBZqIdKpdp87mjTJnIJ0WY1J3hwCau0uNzq3Va3YqlHuZUXlwHbDIAw0I6RE/So6fL6KgT1WtTtnzEL927JtSVrcKFnTcxoJeOVGei4YjHUb0BdFpteGhsjpk86HHNb7VpZ/pJnjS8Yj/d5AMbEjqVvLATUeA/RPVNyyPJEJ8+vuxxTyPCuuhY9kKu3R7aWYw7834QWU7tJcKre/Ewp/kN1zw8kBq0TpcgFiVafvy2E0v056aEotMzbE1s0kJL5EGgQj8fdtlDM3D2Hz19KABtxXNpKjeN9sTANFVlAKw//TC52ZZVm0xoYnZvd82BPky54Ukg==
+ bh=8kuxlPcP0kiFp5ihpVaoyWjeveGbd9Qy5KuyJz0pvz8=;
+ b=cKrIMrIrC+paBrvc83XkUR4CXgbQGNyhMfngZsvq3ypSqjIACV6NIZCdN1T+oMVir8yuwfzAfLfsXopShyhWSwZsVJrP+kfMNaCfkjeC3UVrqz4BOBhM4hS6Kb9RWCswieddWv8netWenB4F5a/IAGontB3bJ3jczqc3bDK75daYZ7IYG0uIaGIxXzqZNOHVpO3MuH2P2Ciya8MyYH3PCDjfmpdajIUZw2qSn6/nFbDIAoBbeUYPs3/kwDFsEXmAZCabOVqpyTWFFQBZFAPxx1+ZZ4MO+Xz0sqFxNpB5O53gjLjc9zGhrx4nXAVjWSO9PREvrt7xEWK2L/6SOJXfNA==
 Received: from FR1PR80MB3670.lamprd80.prod.outlook.com (2603:10d6:202:25::14)
  by FR1PR80MB5179.lamprd80.prod.outlook.com (2603:10d6:203:1::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.38; Mon, 3 May
- 2021 12:59:47 +0000
+ 2021 13:00:11 +0000
 Received: from FR1PR80MB3670.lamprd80.prod.outlook.com
  ([fe80::2c95:a735:2e00:5ee6]) by FR1PR80MB3670.lamprd80.prod.outlook.com
  ([fe80::2c95:a735:2e00:5ee6%6]) with mapi id 15.20.4087.043; Mon, 3 May 2021
- 12:59:47 +0000
+ 13:00:11 +0000
 From: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
 To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
  <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v3 08/30] target/ppc: Remove special case for
- POWERPC_SYSCALL
-Thread-Topic: [PATCH v3 08/30] target/ppc: Remove special case for
- POWERPC_SYSCALL
-Thread-Index: AQHXPV5f35PKueEtMkC2cvsP0EyJJKrRvYrA
-Date: Mon, 3 May 2021 12:59:46 +0000
-Message-ID: <FR1PR80MB367046E51F6BC4A533FC0698DA5B9@FR1PR80MB3670.lamprd80.prod.outlook.com>
+Subject: RE: [PATCH v3 09/30] target/ppc: Remove special case for
+ POWERPC_EXCP_TRAP
+Thread-Topic: [PATCH v3 09/30] target/ppc: Remove special case for
+ POWERPC_EXCP_TRAP
+Thread-Index: AQHXPV5fjBsGUOx+4k2pfaROF3PGqKrRvarA
+Date: Mon, 3 May 2021 13:00:11 +0000
+Message-ID: <FR1PR80MB3670054B0ABB2C94B9E53123DA5B9@FR1PR80MB3670.lamprd80.prod.outlook.com>
 References: <20210430011543.1017113-1-richard.henderson@linaro.org>
- <20210430011543.1017113-9-richard.henderson@linaro.org>
-In-Reply-To: <20210430011543.1017113-9-richard.henderson@linaro.org>
+ <20210430011543.1017113-10-richard.henderson@linaro.org>
+In-Reply-To: <20210430011543.1017113-10-richard.henderson@linaro.org>
 Accept-Language: pt-BR, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -63,55 +63,55 @@ authentication-results: linaro.org; dkim=none (message not signed)
  header.d=none; linaro.org; dmarc=none action=none header.from=eldorado.org.br; 
 x-originating-ip: [191.205.120.173]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0e0a9689-917c-47e4-d9ba-08d90e335462
+x-ms-office365-filtering-correlation-id: a3287184-9b58-4f97-e123-08d90e33631e
 x-ms-traffictypediagnostic: FR1PR80MB5179:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <FR1PR80MB5179A9C3B3A212BBDA369EF2DA5B9@FR1PR80MB5179.lamprd80.prod.outlook.com>
+x-microsoft-antispam-prvs: <FR1PR80MB5179ED3AC5D06A391458768ADA5B9@FR1PR80MB5179.lamprd80.prod.outlook.com>
 x-ms-oob-tlc-oobclassifiers: OLM:489;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NaVTy5wJBScb/dsBTMjgNVUa/eam2rXmVvpjcZKdVxoMS9eqVSVuVK32BuN8GbWizGZ7tdHUYhKD49A6Js0kjouyQdmvSzqnCyZwxZyONxk/M9LuRvGaFFPO78rv3D3ChPF/l7rWE8X7RQ9hG/UfGoUqjJuTqek9X9KrjNPvhXmY5WuIiAWM12lmk1GzA6Aw5Dr1WTmFVLXRXOk0czy2W7rg8H8v9aKxobqjW7WHlkv2W2OaDxOpsPNfTgk2afM3Utic5AkJw9LfX6ijT2CerzQOMunFlI1omPuD7pXiqEIkZlzdNSj8D+PvpoIMy5+X7AkT4JY2BiUdCdYEJh1US9P/Me73zmWkQ96x8O6+nyyas0M6JkBPpCg9+ZqDVcBgxwutFcaqKFuhfSaMHPyxOGyQDgglFEkOX4w2gMtlKfbRi9+QyXzp9M1wwpM2vXwRvVjP3PQCoIsOpnzmMGWF9yk3edYeDI/69OrnrSECCC4w4OdlJWDZ38Bijn2Oosgq1UI8O2BgX8j1lLYiYRhYtkQYVdQkR8A0sgL/Hg6yz0HN1VX+3JydWd16hVrPpoLwUYYPyiHyGcJe7SnJPflppOkr1PpQ0yoDSq9YzuY2HyM=
+x-microsoft-antispam-message-info: xUtumWDHt6uQJLrXSunt7m3Pg0wj+xxTsGkc1a867IHzQ6BfDZ8AxLL/mjoFWvYuhAIBuZ0K5dX3E/C3QuRfA3ibqD8s1UbnV68FGzKq6crRWwEa6gFyKu7Oe3NTQCylj1ySJso2VyA7K5zR05LMR0Z1iamAKcaxCxaNa4CpnD2HvGl5qhkLdz52wVefVrbBOmvQ4KHW3qd88mzcTJT763aT5LXkSF1GnGq9eZcBR9dDC81IXhTDebXLwk3vCfJbzGGFS/cUsRHmm2Yecgja/rAuIURVCxO9v2Ez4d4rowhENsfMpDKBMd/i/k0gXxFkNzkFJcmyOF7kgcewMNECNVijFIAzPd2iZfcYJb9Fy/7ySU4aiglNHZ9kFwGjKfDEdG9F3VPwJT9tuVSbN0ISxwtfodnKh5rs4dnbCzqL6slaiANjjj3rKkxVsDPySytAX2aJTfpvQftKpGKUEWR9iNJQDnZhDM5Vzu6jEuTVZKa80Vjn0sEl52nvVEaW/GnCy45CwvmaxZYDBebfMWQaT/eOtPIiH9uPy330LaG67OsPgKmzNWuHe3DKpY0QxP6bO797cgG3j9uZnZI+wiC26QTc3LRtkcyV6J0P9MKbmwY=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:FR1PR80MB3670.lamprd80.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(39840400004)(136003)(396003)(366004)(376002)(346002)(4326008)(83380400001)(110136005)(66476007)(66946007)(64756008)(66556008)(2906002)(66446008)(76116006)(52536014)(186003)(5660300002)(478600001)(54906003)(7696005)(558084003)(26005)(55016002)(38100700002)(9686003)(316002)(33656002)(6506007)(122000001)(8676002)(71200400001)(86362001)(8936002);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?8qD8lK/ovVIa3Vin7rGs6zNaDERk4SRcYdo+ZzokMMMDJxmEYXc9aBCOABzp?=
- =?us-ascii?Q?AgpLCgopUrHCIi5Z59CV2XeToP1U64zX2GHsKFsRSTbw47eJnmZF+rZnQWiC?=
- =?us-ascii?Q?eE1tBlrROh3yligynlAEkHypv470PBo3ehytiIN8jWUy+atm8rLzpd6eXMlE?=
- =?us-ascii?Q?sUspU5izYY5wqBe0T2SjmAoETNV0OnXLvOPKqZnBR2ggQiddgf7fNVd1TS4f?=
- =?us-ascii?Q?M5XfrE+hXi+V7IJwb3PpQbu8TcyZrL6GCwtXuGtYEwan4Z27S6sIsuoMwUbH?=
- =?us-ascii?Q?IXfnJzzKpNU6OxjVldkWtesTCHoiYuDRGj3qDyJdBdN5+1M/NbFHbT4AsZXG?=
- =?us-ascii?Q?/6e2qPyBuvIjLZxxK/ZwAtSt3l+uzgGgbYVsFQk6/0G1F0HD91Mg/xYYrVCH?=
- =?us-ascii?Q?e929dmhzvje8N8w2mD+3/M7iEYpk//9Vu3C1u1Wd0MiU0c64PZiOQLLPGnRS?=
- =?us-ascii?Q?KXUd8qElSJbFcwsX1VyLtf/PoLZHM24+V3l3YmhGRh4THhoznPNhBXBs/Dyy?=
- =?us-ascii?Q?9EUXlyCpK9DWvaj/aKazh4lnj4ii86xNPkeDjewU+pxG+5tg1h1byAb3IP8e?=
- =?us-ascii?Q?jQlLjfvBscSpLekZu66nw8GPWcT44BytytLyUxkiquYGVQJFl4CvoZWB8ht1?=
- =?us-ascii?Q?p+A9Ez5BkX3MAqhl5uFNmy7HaPISerHbup1HfQ1or3diMkcndVRQS4oZpfar?=
- =?us-ascii?Q?WJfoQO3zADpPAwxUZCFKrbFsK7mSwWHrKs6xCUe08sE4cUTP+VIaank3AbY7?=
- =?us-ascii?Q?Slw+Ajzi9+HPPVBASLPWXbMpcPbixXcnmP6hd+984vp0OzxRQ5nSiZ6QqByG?=
- =?us-ascii?Q?47yv0OPTChegNYB4+/dMxm7244cqYKyKlBK2lA1PRRoYgrbLEeuCGbdppEn1?=
- =?us-ascii?Q?CwPCLxeAEJaUUo9S5Xbcn84/uAmuOwoFngGCDfsYgzUGJ2yWzfx2hq1Md9Pg?=
- =?us-ascii?Q?5ubXEQRUueRkQn2wWk4KJlvO4KGNmSvN3Ust2G7CPBDqv8YrEOOwnqT4oFrR?=
- =?us-ascii?Q?sTpHcpVfZ9RbyWstYTwwz1+9qAINU1/EjVaVLePggnlnI3lwxAMwFEwMRvss?=
- =?us-ascii?Q?BlV9QgCWhJynYDCehWc0+egTxl9ctd+0E5zZzVTL+jOgrJE2Mqf64V8RIeVp?=
- =?us-ascii?Q?i36Is3B92jgbWqg37VHzt2uANopZ1PEUM+MtZ8SoLIbC2wPJGKA4z+MCZnn9?=
- =?us-ascii?Q?a6EI3sZIeU9RhU1uagTIFKjPfwUt7t8Nr0jHASCY+Qm7EiMdr7y6Ts5e8qAb?=
- =?us-ascii?Q?+flbFD1pRsDwNR1mwq5bWp5igtg+nthaODwYR8b0AvBvOOleSkSUbwjnXVRX?=
- =?us-ascii?Q?+kM8X8cF6qaq1hWRSgu95kQO?=
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?7u1I3aAY8tVyZT1AyNEAJ2VnmsIe71FRYWTLjd73fKxhjwLA+2xOZ2c5HaxK?=
+ =?us-ascii?Q?qu4Z5j987U/EBxr2EypI0Lec40jaoHKGIwsIEoBrsT3DGc5DQ/sPs0v+C6AN?=
+ =?us-ascii?Q?hk+vB9qU8Ytw3eK8teWy1r0MqIljhwYmjbZggyZz9hQ+U2ffgqQO/zyVejrs?=
+ =?us-ascii?Q?00u/erN6ppQQ9RvAJxNqYEibX4AI3din9f6JQR0K6yQav19LsTT1tzfjH9PO?=
+ =?us-ascii?Q?jJczyY2KgtsKbbhBtSFLgZbjKJ1xAQK8pfAyy3h8MTKQ1zytZ0IE94wj8c5s?=
+ =?us-ascii?Q?+xVXTv3rB3SUD89L+CJv0iTSaKhOqdvYC+YPUQjdPCsg+EVFJiVLIDzXvSF0?=
+ =?us-ascii?Q?IU60P4mT17IIPGWYq0yLOwpa/q1svlMT2pwv8o8FZ9MnAtca2TtnVl1RC1ya?=
+ =?us-ascii?Q?CFSpRpBegDNXXnYDZACEF4q+NCw1qf533UiOmtK4LJoEYaymdK8Oa9QygQtB?=
+ =?us-ascii?Q?C6ANPgM2soGSk9HeqUh+1ilTE3KC2LqlqIAF9qUNEWdWJy8zmxR85DJcdmRA?=
+ =?us-ascii?Q?FMmPWns1QC1ZmDlCsSYaH+opn+d9fWxw7tQN+VgMJx2GOjLfgB//0/q2wott?=
+ =?us-ascii?Q?BEYziPrQsgFgagXbWFKm4tBSLK9y0IJEL2fC68hfJf4rgaMRJA9UqVaTTc0c?=
+ =?us-ascii?Q?LWAzBF2F3FzoTOKIEcYNLKdEdO18xLHdOeui2MuD0eX5aEtUmKju2obW+6r6?=
+ =?us-ascii?Q?Ly5suu04LNGI5VxvepUjiKQy4zWhSeWxFh3SN8z3CSEaVlqFM0RXKJM2ilWM?=
+ =?us-ascii?Q?kU28mUqvJUzSIz8OAKHjaPICnSmoPeCLFP9EIyY9iXPpMIdp0b6qH+N/oQAH?=
+ =?us-ascii?Q?dYhxdrP/wysZzK/aRBT1w2yRuZhFgxl2Qni+cJOIKLeLOEjoikF9f5ZtUVPH?=
+ =?us-ascii?Q?V+lmFF57btYzacIvonPgc8BiR5VKlFkNHuYCeMJM+skflisG3+rY2Kh4Tlnw?=
+ =?us-ascii?Q?i7p0UwwVIAKr0D/3rECsuJV+5HajbQ2HWcs7vH8J7gOVDkPfIVryD8wLtKPy?=
+ =?us-ascii?Q?EItTyLgFKqZvEXzv8NvUGuAV6Lco2bgfWyzBweuUbBVo+zXkjzet7bIDrr9d?=
+ =?us-ascii?Q?/COo1FmlseQkSlHnm0d7Ftd0vHWunPKVKs+9kFCz3wEGNBSzoMNRllbCUdGE?=
+ =?us-ascii?Q?Fy7feK5SRqSj/VhcpAfn/QS6VCzXaLPo0gVpenG3sJnq8WtR4mZFJEFwbkPj?=
+ =?us-ascii?Q?e31jZH1VtbrdsY2HBZcQ1qoUcqTZEifV9rWDld1CSYvSnOZB0AAxcx18Tdyz?=
+ =?us-ascii?Q?5sa2jl15WeIfv7n+99860XlAvFa/rkpG3uE21N9tmah+8XtHCw8yUVd66K5Y?=
+ =?us-ascii?Q?1C5ZbdGeLGg8SoYACNcOaQIx?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: eldorado.org.br
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: FR1PR80MB3670.lamprd80.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e0a9689-917c-47e4-d9ba-08d90e335462
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2021 12:59:46.8970 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3287184-9b58-4f97-e123-08d90e33631e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2021 13:00:11.6154 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: b9397c69-e827-4afc-a365-ab275e41638f
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bl5PbLRzj36Pncp9TObZ0SYhQi7hUZZrN4q+itKENGBVrNRKatvOVR2TQE7QP4SHmVMKSsMTvrCLgmgoyYrfGg==
+X-MS-Exchange-CrossTenant-userprincipalname: ocnr55bbCGKVlEyJxpTeDKMyi3K1sLcSuujGgQ91ZTUR/0HjC+EWZ0VhysmoqKZFBGVa3j6Is4slmMnDR4o8nA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR1PR80MB5179
-Received-SPF: pass client-ip=40.107.79.97;
+Received-SPF: pass client-ip=40.107.79.120;
  envelope-from=luis.pires@eldorado.org.br;
  helo=NAM03-CO1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -10
@@ -143,9 +143,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
-> Since POWERPC_SYSCALL is raised by gen_exception_err, we will have also s=
-et
-> DISAS_NORETURN.
+> Since POWERPC_EXCP_TRAP is raised by gen_exception_err, we will have also
+> set DISAS_NORETURN.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
