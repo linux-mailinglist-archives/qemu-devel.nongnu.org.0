@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E63C371294
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 10:45:28 +0200 (CEST)
-Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC54C3712C3
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 May 2021 10:57:44 +0200 (CEST)
+Received: from localhost ([::1]:59358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldUCl-0000pi-Iv
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 04:45:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54722)
+	id 1ldUOe-0006kV-0q
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 04:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ldU4J-0003Hi-OP; Mon, 03 May 2021 04:36:43 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:54749)
+ id 1ldU4S-0003O1-7t; Mon, 03 May 2021 04:36:52 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:55397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ldU4E-0000i7-If; Mon, 03 May 2021 04:36:43 -0400
+ id 1ldU4G-0000jC-3y; Mon, 03 May 2021 04:36:52 -0400
 Received: from quad ([82.142.20.222]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1M7am5-1leITu49bZ-0084Ca; Mon, 03
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mgebs-1l5Ei83Lci-00h7yH; Mon, 03
  May 2021 10:36:28 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/23] hw/arm/pxa2xx: Declare PCMCIA bus with Kconfig
-Date: Mon,  3 May 2021 10:36:02 +0200
-Message-Id: <20210503083623.139700-3-laurent@vivier.eu>
+Subject: [PULL 03/23] hw/ide: Add Kconfig dependency MICRODRIVE -> PCMCIA
+Date: Mon,  3 May 2021 10:36:03 +0200
+Message-Id: <20210503083623.139700-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210503083623.139700-1-laurent@vivier.eu>
 References: <20210503083623.139700-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:gfatMJYP889OOCgB2QKlHfn7uO9ShSegbRZX37obyyqKxX/sLWJ
- o7jwhhp62frdEOkS8k6ArWwOKnOKIGTuuWA5pnGF8gEARryYsL3h1YlmESUgWRaeRbUXGvN
- bQ6ZU9DA/0QwmhuDmHjO3xg8detWWSXp6sUqSVdZeR34FZeJIEERW/utLqraoIH2XRuGzXw
- VIBZbuO5A4nuX9vgP1fTw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:D+H5w2tZp8M=:R8KyCY47C57ClaIR3Xew4k
- mVk3PK9L1CIA6ER9aZLsZrKgWDmCLHA5eRugCUeiVKrmAVLSSPZrZUetd6ZepmN9xczM4KgiF
- rkDnTyYkYWqPZ+mZTDFl0bL/jsXYZFB5e0aDvkJL64QcLLib/SDd3Q+onSaHFxKu6Kh23NgkS
- FhAURti9ywfG77w8aB1Z9RzoF83n3KueG+++9kU8YqwuzJzYglWkB39mVLN3BnCNlR8NMFCxd
- UU65CfrCHq/6p6M/0GZZ0McZRsDWMlR1ckIHIAr6mMwo9mMPH0n9z4lImXm/8BVRGUN3xq3ea
- 3ZqjMg3vrmIlcnRiYKcZToPon7+FycDyqruExFe3SMB0FTr8yJfZnbzLufZVcwZJaqDGwCZce
- iXA96euc2jTah6mB9gA/Bz/B5p5hvqpZVFLin3r045Uvj4ttCYDhMdKbpsKUMOEKWQnKRrslP
- 9V8AC8PJuDrLjO5Jv+7KmdSh0t4FMdW8KIMBVt6PCzuDAK0/ciJHlwOPd8zFLxjgy19SIh+qG
- KujI1i3Ga3oGTAjSSme6HM=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:EIdyqqiYgUrrZj2RSmpT0HhtrqZEXYQZqUs+K/GhORXTptMAkv0
+ 62Vdes5Dj7gcWm8LcQBqra02GZk9lhcUnvH4UDSPpC0UP6spCW1pGMnFRtVo/lRfPv9tUDM
+ hwRc+KXovN/UQ8O9tuqHS5t4FoHPBaGuJCuKWnKvxk30WTX+BY6luvx0oskBLUyEcOT6j7O
+ M9X/dFgPcMmPDB2NLENWw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sxh0g8FtvZc=:1IwzSeI/UXY+YMgnY91sJC
+ Mc1gj54hjdWHs/xeLPBS4K8QqPOZs9aHfJslpEAS9AvuVyOh02niZyfqP9PlTxKX/xZJFLvSq
+ UTkpdz4r1peYxMjuWXKQ8CN4S7h3NHudEN9ZP6n+x7dcyr5zhG1O6Dkx542nxb4R/wlRD38it
+ 4GNklx7PmoD1Kg097dX1sQm3x0c9AL2LDhKWtEJMgcpQkcRrEl907vTip0FDwMJe6yt2LlD3h
+ 7rzOC/H1wCksAPE0sxsROYPAWv2+DWcz/wayMuyRjZyMy0W+18LSE4NYjqyLJ9pXsXDBmc/7P
+ sbvz6net0AfiaDkci5g6fZS7oMUgGyxuTzEk/usYHAsoJsugEBgsG2V/Yp5vA0gBA9MroP3vh
+ LwliBvqfbCelxAFPTUwG/TEf0ORpd+WrV8FF0rekDluLk6GeltBIVmlJX1uoCiwsOfnTjgC/8
+ y6mtj2lLQxmBYAybJ2y0vqDG73cZZpTUveXLK4lycoJ5EHOrCqp/L1PLS/eEfzNlr46HI1z9m
+ XwTcOZEM4DRAC5cjNFlOHo=
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -74,31 +74,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The Intel XScale PXA chipsets provide a PCMCIA controller,
-which expose a PCMCIA bus. Express this dependency using
-the Kconfig 'select' expression.
+The Microdrive Compact Flash can be plugged on a PCMCIA bus.
+Express the dependency using the 'depends on' Kconfig expression.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210424222057.3434459-2-f4bug@amsat.org>
-[lv: remove "(IDE)"]
+Message-Id: <20210424222057.3434459-3-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/arm/Kconfig | 1 +
+ hw/ide/Kconfig | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 8c37cf00da74..b887f6a5b17d 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -142,6 +142,7 @@ config PXA2XX
-     select SD
-     select SSI
-     select USB_OHCI
-+    select PCMCIA
+diff --git a/hw/ide/Kconfig b/hw/ide/Kconfig
+index 5d9106b1ac2b..8e2c89345497 100644
+--- a/hw/ide/Kconfig
++++ b/hw/ide/Kconfig
+@@ -41,6 +41,7 @@ config IDE_VIA
+ config MICRODRIVE
+     bool
+     select IDE_QDEV
++    depends on PCMCIA
  
- config GUMSTIX
+ config AHCI
      bool
 -- 
 2.31.1
