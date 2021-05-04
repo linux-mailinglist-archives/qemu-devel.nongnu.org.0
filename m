@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334733725B4
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:12:50 +0200 (CEST)
-Received: from localhost ([::1]:50276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD053725AF
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:09:10 +0200 (CEST)
+Received: from localhost ([::1]:45680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldoIb-0002qr-9G
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:12:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60482)
+	id 1ldoF3-0000p7-Sv
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:09:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo00-0005Fn-RV; Tue, 04 May 2021 01:53:36 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45969 helo=ozlabs.org)
+ id 1ldo04-0005IN-FP; Tue, 04 May 2021 01:53:42 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:49839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldnzu-0004h3-PK; Tue, 04 May 2021 01:53:34 -0400
+ id 1ldnzy-0004ie-Uv; Tue, 04 May 2021 01:53:39 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZ8CK3TXjz9sWp; Tue,  4 May 2021 15:53:17 +1000 (AEST)
+ id 4FZ8CK4BjVz9sX5; Tue,  4 May 2021 15:53:17 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620107597;
- bh=9Q0vDRcy2WGfG9TN8BUHQg8bYCUSstmE97i7Vbf7JZ4=;
+ bh=AE/4n5PGUFoays6zdARQ1IYd5KqZTCtHN4fMxuKqurw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EHtLWjbjww+dIgUQ9FjO/CFpUljMUlGIvKr4XZAVP0wpKd4J6Kz2P4HpO4+jmG88k
- dr2ZcGxJi9xSf51zEzKyBpp4hB9BSJqMbaLIRno3vAMgILqJrq1IzldCkRkhYq52Cr
- lLkeyGkcTaizVVXUshIld/2opdfOx+T0stLCsglI=
+ b=CG/zmRBj11BgKHf0CMIk3b+0a/IQ3qoo7/funvWg9rGiqlypcfw4yItCqMdaSLEII
+ dd/XWbcASUARDs4Hj/5xlSBdCmtovbYdh58aaIodPA6ZcmTO/v3bHjPqTudMVxn8Jp
+ 6vwWsW2239DGCFiGNX/9AzO4CKfhgufVnDyWfYDo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 12/46] target/ppc: Reduce env->hflags to uint32_t
-Date: Tue,  4 May 2021 15:52:38 +1000
-Message-Id: <20210504055312.306823-13-david@gibson.dropbear.id.au>
+Subject: [PULL 13/46] target/ppc: Put dbcr0 single-step bits into hflags
+Date: Tue,  4 May 2021 15:52:39 +1000
+Message-Id: <20210504055312.306823-14-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 References: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -58,69 +57,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-It will be stored in tb->flags, which is also uint32_t,
-so let's use the correct size.
+Because these bits were not in hflags, the code generated
+for single-stepping on BookE was essentially random.
+Recompute hflags when storing to dbcr0.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210323184340.619757-4-richard.henderson@linaro.org>
+Message-Id: <20210323184340.619757-5-richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu.h         | 4 ++--
- target/ppc/misc_helper.c | 2 +-
- target/ppc/translate.c   | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ target/ppc/helper_regs.c | 24 +++++++++++++++++-------
+ target/ppc/misc_helper.c |  3 +++
+ target/ppc/translate.c   | 11 -----------
+ 3 files changed, 20 insertions(+), 18 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index fe6c3f815d..d5f362506a 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1129,8 +1129,8 @@ struct CPUPPCState {
-     bool resume_as_sreset;
- #endif
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index df9673b90f..e345966b6b 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -114,13 +114,23 @@ void hreg_compute_hflags(CPUPPCState *env)
+         hflags |= le << MSR_LE;
+     }
  
--    /* These resources are used only in QEMU core */
--    target_ulong hflags;
-+    /* These resources are used only in TCG */
-+    uint32_t hflags;
-     target_ulong hflags_compat_nmsr; /* for migration compatibility */
-     int immu_idx;     /* precomputed MMU index to speed up insn accesses */
-     int dmmu_idx;     /* precomputed MMU index to speed up data accesses */
+-    if (ppc_flags & POWERPC_FLAG_BE) {
+-        QEMU_BUILD_BUG_ON(MSR_BE != HFLAGS_BE);
+-        msr_mask |= 1 << MSR_BE;
+-    }
+-    if (ppc_flags & POWERPC_FLAG_SE) {
+-        QEMU_BUILD_BUG_ON(MSR_SE != HFLAGS_SE);
+-        msr_mask |= 1 << MSR_SE;
++    if (ppc_flags & POWERPC_FLAG_DE) {
++        target_ulong dbcr0 = env->spr[SPR_BOOKE_DBCR0];
++        if (dbcr0 & DBCR0_ICMP) {
++            hflags |= 1 << HFLAGS_SE;
++        }
++        if (dbcr0 & DBCR0_BRT) {
++            hflags |= 1 << HFLAGS_BE;
++        }
++    } else {
++        if (ppc_flags & POWERPC_FLAG_BE) {
++            QEMU_BUILD_BUG_ON(MSR_BE != HFLAGS_BE);
++            msr_mask |= 1 << MSR_BE;
++        }
++        if (ppc_flags & POWERPC_FLAG_SE) {
++            QEMU_BUILD_BUG_ON(MSR_SE != HFLAGS_SE);
++            msr_mask |= 1 << MSR_SE;
++        }
+     }
+ 
+     if (msr_is_64bit(env, msr)) {
 diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-index 63e3147eb4..b04b4d7c6e 100644
+index b04b4d7c6e..002958be26 100644
 --- a/target/ppc/misc_helper.c
 +++ b/target/ppc/misc_helper.c
-@@ -199,7 +199,7 @@ void helper_store_hid0_601(CPUPPCState *env, target_ulong val)
-     if ((val ^ hid0) & 0x00000008) {
-         /* Change current endianness */
-         hreg_compute_hflags(env);
--        qemu_log("%s: set endianness to %c => " TARGET_FMT_lx "\n", __func__,
-+        qemu_log("%s: set endianness to %c => %08x\n", __func__,
-                  val & 0x8 ? 'l' : 'b', env->hflags);
-     }
+@@ -215,6 +215,9 @@ void helper_store_403_pbr(CPUPPCState *env, uint32_t num, target_ulong value)
+ 
+ void helper_store_40x_dbcr0(CPUPPCState *env, target_ulong val)
+ {
++    /* Bits 26 & 27 affect single-stepping. */
++    hreg_compute_hflags(env);
++    /* Bits 28 & 29 affect reset or shutdown. */
+     store_40x_dbcr0(env, val);
  }
+ 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index a9325a12e5..a85b890bb0 100644
+index a85b890bb0..7912495f28 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -7657,7 +7657,7 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-                  env->nip, env->lr, env->ctr, cpu_read_xer(env),
-                  cs->cpu_index);
-     qemu_fprintf(f, "MSR " TARGET_FMT_lx " HID0 " TARGET_FMT_lx "  HF "
--                 TARGET_FMT_lx " iidx %d didx %d\n",
-+                 "%08x iidx %d didx %d\n",
-                  env->msr, env->spr[SPR_HID0],
-                  env->hflags, env->immu_idx, env->dmmu_idx);
- #if !defined(NO_TIMER_DUMP)
+@@ -7923,17 +7923,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     if ((hflags >> HFLAGS_BE) & 1) {
+         ctx->singlestep_enabled |= CPU_BRANCH_STEP;
+     }
+-    if ((env->flags & POWERPC_FLAG_DE) && msr_de) {
+-        ctx->singlestep_enabled = 0;
+-        target_ulong dbcr0 = env->spr[SPR_BOOKE_DBCR0];
+-        if (dbcr0 & DBCR0_ICMP) {
+-            ctx->singlestep_enabled |= CPU_SINGLE_STEP;
+-        }
+-        if (dbcr0 & DBCR0_BRT) {
+-            ctx->singlestep_enabled |= CPU_BRANCH_STEP;
+-        }
+-
+-    }
+     if (unlikely(ctx->base.singlestep_enabled)) {
+         ctx->singlestep_enabled |= GDBSTUB_SINGLE_STEP;
+     }
 -- 
 2.31.1
 
