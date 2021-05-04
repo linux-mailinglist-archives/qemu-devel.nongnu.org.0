@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F093C372890
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:14:11 +0200 (CEST)
-Received: from localhost ([::1]:37850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 003C33728BE
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:22:56 +0200 (CEST)
+Received: from localhost ([::1]:36076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lds4B-0007Jf-1b
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55944)
+	id 1ldsCe-0001JT-35
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:22:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ldrze-0002RZ-NU
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:09:31 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42765)
+ id 1ldrtI-0002qL-49
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:02:56 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ldrza-0006iv-Tl
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:09:30 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id l2so8726302wrm.9
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:09:26 -0700 (PDT)
+ id 1ldrtD-0003KQ-Ef
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:02:55 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id l14so8714316wrx.5
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:02:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UDzjlNZz/GlC70CH5HhSB4c445lM3jEK8WC7UgJUryw=;
- b=ubxfGTD/vK0TaiENyKZAbHDbxUMfzuWYXM78xIyWz8RoaWQ7WTeJk3jr8U0n5WevMG
- 8+ckljRNgLuY6HMmOjN3kZeNs5YARnsoMoh1/LKO48snUqGQJ4rXTRUSkY5O8fkW0MQa
- CnPsQqEytooFr4mTuDnOJtHhkQFJTL8PGRqat1KvKASOHRR7qXxKXHcnU2nwAsbv6ycf
- +XCIAUzCGOWJv40sMKKPoR/x4fuEnCxpYKzXa2VR7iVbTf+J/ZMnzU6e7fgq39a6Z1bP
- EfjBsbaOKVulApAjjAysxtCfHsTzuwyF9O2kq+cwcz5AWbtrvPNwSsMPXo6px+0Dps+K
- l8nQ==
+ bh=VIg7qw3G3Wf81cGSwkWP+w1Bj/vvGUaYloDj5g7DKuk=;
+ b=FDlnAigcmVqsUz/ib+VHHpjag3s1EC4630KUjrhFuUmqOVAgNQUSoK58JXgqX1USJh
+ HSeW2ccrFrT36kUrpMfMgrNtk6tEl/YEIFfd2T1fYwm4lrtBXw9w3C/aD4KIkVXruyUh
+ sPFQ0I73rDnf6JuCekxaDEBn3LgV1+cNulVG8pbF9jlKm1++W9rmPs1RO6TCQbylggkq
+ 2nrjMRdzeY9Mb18oO+srmqwuonsRu78OcP75V4N6nYxZDpMUqFsxWgG1WXzBEa+7tAJW
+ XSEBY3bXQFOqgoy8LdVIeJ1x9WfPj9LENbrAJQR71QbAiKZZ8DuU/UjPlMQC5a6AKAHG
+ ZJvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UDzjlNZz/GlC70CH5HhSB4c445lM3jEK8WC7UgJUryw=;
- b=nlfJpBsZChetb4hxvMP+ASIDIycql/Xy106zV68PnU2S3S55z6vLST00lXH0Nj4KkT
- cJlHGmK7B9jM2mM95MXnGqiBUMz/xe5BmUMEyAKBrlI4P1LLY1DeRGqtZH0WHGlSrBTt
- COLLyFd5KRfuHOET60RA5IgYNFqJPxCkwdSTvZ8Yzx/9jA7p5QhXs7b94d5UBBTvTu1y
- XUEf2kXt9XglmF8JZfPetjgGQBrGABbz7D4GMqOqAUHihcRACtIqzuys3U0H3wwsnfeZ
- 9RG5r2PftIx7o+LuEPJy7OeuzjVfVZAuvm/op29RWZM5wMIpjQpDdw73SyBZUAvqAwQ2
- 6mjw==
-X-Gm-Message-State: AOAM533EYkeSwcYuwbZNHSumyxr6DblxC5vGa5kaXCVC+4rjx2eBocxX
- MwvE6sJ7pCG2VWUhnjIM3hs1PFnbcqVUTQ==
-X-Google-Smtp-Source: ABdhPJwlD+KzaulwIP+tG0tAjoB7z8lrqXhHRiX2yABOpqRwQXcGQMyJ1FvHIdZm0QBPhMht4WBeKA==
-X-Received: by 2002:adf:f38c:: with SMTP id m12mr25117367wro.282.1620122965158; 
- Tue, 04 May 2021 03:09:25 -0700 (PDT)
+ bh=VIg7qw3G3Wf81cGSwkWP+w1Bj/vvGUaYloDj5g7DKuk=;
+ b=VhWjHS9H7aFB3TQzQrFFVtZxCO0xfDMxXEorUJIW5dSxOyzyxDt4XMVXjigz1iKICh
+ QoNqvRZEveGCO/iaHnzNAyUnQCkd31LkNH+l90eCLhe+MbkB1vPOcXiq/Cb62rxZoW33
+ ohaYbh/a9aVe3K/aGsbLAyGPNLgDRQHFQ7ZrgjGQv0sugZeS+zk09uMLhgQGLqOmOlTq
+ RpgjG/GsBLG67p+fL/if3bcBkxQ/QwEx/Sym2btJFvhIamj4YhhB8aTxEKzSu5ljfovg
+ PcfYqRUdxznCz+B6CnHjdY4ZvtGIGsT45m4nI6sfEvVxDDQ7jY3ECoYLEL+ZGiQwnnt8
+ CxOA==
+X-Gm-Message-State: AOAM533XmAfXkPLw7C+1Mr/PicmJY1ASfaeo6WLgRiXYlNDQ4cOATRcr
+ Xu2goyv8ZKv3xGjmyVV1AR3JVw==
+X-Google-Smtp-Source: ABdhPJzPVWHaT73ow9d1qAmgntcAqseOGR4k1vLhJ37i4y2fjvygRf182lIxQeDVGJh9wTQ4PY9++w==
+X-Received: by 2002:a5d:54c9:: with SMTP id x9mr30224776wrv.91.1620122570129; 
+ Tue, 04 May 2021 03:02:50 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q19sm1916301wmc.44.2021.05.04.03.09.22
+ by smtp.gmail.com with ESMTPSA id w22sm2037790wmc.13.2021.05.04.03.02.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 03:09:22 -0700 (PDT)
+ Tue, 04 May 2021 03:02:40 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4049C1FF9F;
+ by zen.linaroharston (Postfix) with ESMTP id 5E28E1FFA5;
  Tue,  4 May 2021 11:02:25 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/30] tests/tcg/tricore: Add macros to create tests and
- first test 'abs'
-Date: Tue,  4 May 2021 11:02:09 +0100
-Message-Id: <20210504100223.25427-17-alex.bennee@linaro.org>
+Subject: [PATCH  v2 17/30] tests/tcg/tricore: Add bmerge test
+Date: Tue,  4 May 2021 11:02:10 +0100
+Message-Id: <20210504100223.25427-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210504100223.25427-1-alex.bennee@linaro.org>
 References: <20210504100223.25427-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,132 +95,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-This kind of tests is inspired by the riscv-tests repository. This adds
-macros that makes it easy to create single instruction self containing
-tests.
-
-It is achieved by macros that create a test sequence for an
-instruction and check for a supplied correct value. If the value is correct the
-next instruction is tested. Otherwise we jump to fail handler that writes is
-test number as a status code back to qemu that then exits on that status code.
-If all tests pass we write back 0 as a status code and exit.
-
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-Id: <20210305170045.869437-7-kbastian@mail.uni-paderborn.de>
-[AJB: add container_hosts]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210305170045.869437-8-kbastian@mail.uni-paderborn.de>
 ---
- tests/tcg/tricore/macros.h                | 53 +++++++++++++++++++++++
- tests/tcg/configure.sh                    |  6 +++
- tests/tcg/tricore/Makefile.softmmu-target |  2 +
- tests/tcg/tricore/test_abs.S              |  7 +++
- 4 files changed, 68 insertions(+)
- create mode 100644 tests/tcg/tricore/macros.h
- create mode 100644 tests/tcg/tricore/test_abs.S
+ tests/tcg/tricore/macros.h                | 24 +++++++++++++++++++++++
+ tests/tcg/tricore/Makefile.softmmu-target |  1 +
+ tests/tcg/tricore/test_bmerge.S           |  8 ++++++++
+ 3 files changed, 33 insertions(+)
+ create mode 100644 tests/tcg/tricore/test_bmerge.S
 
 diff --git a/tests/tcg/tricore/macros.h b/tests/tcg/tricore/macros.h
-new file mode 100644
-index 0000000000..76c133132a
---- /dev/null
+index 76c133132a..52aa936c56 100644
+--- a/tests/tcg/tricore/macros.h
 +++ b/tests/tcg/tricore/macros.h
-@@ -0,0 +1,53 @@
-+/* Helpers */
-+#define LI(reg, val)           \
-+    mov.u reg, lo:val;         \
-+    movh DREG_TEMP_LI, up:val; \
-+    or reg, reg, DREG_TEMP_LI; \
+@@ -8,7 +8,10 @@
+ #define TESTDEV_ADDR 0xf0000000
+ /* Register definitions */
+ #define DREG_RS1 %d0
++#define DREG_RS2 %d1
+ #define DREG_CALC_RESULT %d1
++#define DREG_CALC_PSW %d2
++#define DREG_CORRECT_PSW %d3
+ #define DREG_TEMP_LI %d10
+ #define DREG_TEMP %d11
+ #define DREG_TEST_NUM %d14
+@@ -24,6 +27,17 @@ test_ ## num:                                     \
+     mov DREG_TEST_NUM, num;                       \
+     jne testreg, DREG_CORRECT_RESULT, fail        \
+ 
++#define TEST_CASE_PSW(num, testreg, correct, correct_psw, code...) \
++test_ ## num:                                                      \
++    code;                                                          \
++    LI(DREG_CORRECT_RESULT, correct)                               \
++    mov DREG_TEST_NUM, num;                                        \
++    jne testreg, DREG_CORRECT_RESULT, fail;                        \
++    mfcr DREG_CALC_PSW, $psw;                                      \
++    LI(DREG_CORRECT_PSW, correct_psw)                              \
++    mov DREG_TEST_NUM, num;                                        \
++    jne DREG_CALC_PSW, DREG_CORRECT_PSW, fail;
 +
-+/* Address definitions */
-+#define TESTDEV_ADDR 0xf0000000
-+/* Register definitions */
-+#define DREG_RS1 %d0
-+#define DREG_CALC_RESULT %d1
-+#define DREG_TEMP_LI %d10
-+#define DREG_TEMP %d11
-+#define DREG_TEST_NUM %d14
-+#define DREG_CORRECT_RESULT %d15
-+
-+#define DREG_DEV_ADDR %a15
-+
-+/* Test case wrappers */
-+#define TEST_CASE(num, testreg, correct, code...) \
-+test_ ## num:                                     \
-+    code;                                         \
-+    LI(DREG_CORRECT_RESULT, correct)              \
-+    mov DREG_TEST_NUM, num;                       \
-+    jne testreg, DREG_CORRECT_RESULT, fail        \
-+
-+/* Actual test case type
-+ * e.g inst %dX, %dY      -> TEST_D_D
-+ *     inst %dX, %dY, %dZ -> TEST_D_DD
-+ *     inst %eX, %dY, %dZ -> TEST_E_DD
-+ */
-+#define TEST_D_D(insn, num, result, rs1)      \
-+    TEST_CASE(num, DREG_CALC_RESULT, result,  \
-+    LI(DREG_RS1, rs1);                        \
-+    insn DREG_CALC_RESULT, DREG_RS1;          \
+ /* Actual test case type
+  * e.g inst %dX, %dY      -> TEST_D_D
+  *     inst %dX, %dY, %dZ -> TEST_D_DD
+@@ -35,6 +49,16 @@ test_ ## num:                                     \
+     insn DREG_CALC_RESULT, DREG_RS1;          \
+     )
+ 
++#define TEST_D_DD_PSW(insn, num, result, psw, rs1, rs2) \
++    TEST_CASE_PSW(num, DREG_CALC_RESULT, result, psw,   \
++    LI(DREG_RS1, rs1);                                  \
++    LI(DREG_RS2, rs2);                                  \
++    rstv;                                               \
++    insn DREG_CALC_RESULT, DREG_RS1, DREG_RS2;          \
 +    )
 +
-+/* Pass/Fail handling part */
-+#define TEST_PASSFAIL                       \
-+        j pass;                             \
-+fail:                                       \
-+        LI(DREG_TEMP, TESTDEV_ADDR)         \
-+        mov.a DREG_DEV_ADDR, DREG_TEMP;     \
-+        st.w [DREG_DEV_ADDR], DREG_TEST_NUM;\
-+        debug;                              \
-+        j fail;                             \
-+pass:                                       \
-+        LI(DREG_TEMP, TESTDEV_ADDR)         \
-+        mov.a DREG_DEV_ADDR, DREG_TEMP;     \
-+        mov DREG_TEST_NUM, 0;               \
-+        st.w [DREG_DEV_ADDR], DREG_TEST_NUM;\
-+        debug;                              \
-+        j pass;
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index ed378e7840..11009fe433 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -180,6 +180,12 @@ for target in $target_list; do
-       container_image=debian-sparc64-cross
-       container_cross_cc=sparc64-linux-gnu-gcc
-       ;;
-+    tricore-softmmu)
-+      container_hosts=x86_64
-+      container_image=debian-tricore-cross
-+      container_cross_as=tricore-as
-+      container_cross_ld=tricore-ld
-+      ;;
-     x86_64-*)
-       container_hosts="aarch64 ppc64el x86_64"
-       container_image=debian-amd64-cross
++
++
+ /* Pass/Fail handling part */
+ #define TEST_PASSFAIL                       \
+         j pass;                             \
 diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-index d64a99b95f..3b048e49fa 100644
+index 3b048e49fa..de6a2cc88e 100644
 --- a/tests/tcg/tricore/Makefile.softmmu-target
 +++ b/tests/tcg/tricore/Makefile.softmmu-target
-@@ -3,6 +3,8 @@ TESTS_PATH = $(SRC_PATH)/tests/tcg/tricore
- LDFLAGS = -T$(TESTS_PATH)/link.ld
+@@ -4,6 +4,7 @@ LDFLAGS = -T$(TESTS_PATH)/link.ld
  ASFLAGS =
  
-+TESTS += test_abs.tst
-+
+ TESTS += test_abs.tst
++TESTS += test_bmerge.tst
+ 
  QEMU_OPTS += -M tricore_testboard -nographic -kernel
  
- %.pS: $(TESTS_PATH)/%.S
-diff --git a/tests/tcg/tricore/test_abs.S b/tests/tcg/tricore/test_abs.S
+diff --git a/tests/tcg/tricore/test_bmerge.S b/tests/tcg/tricore/test_bmerge.S
 new file mode 100644
-index 0000000000..e42240159a
+index 0000000000..8a0fa6d3f6
 --- /dev/null
-+++ b/tests/tcg/tricore/test_abs.S
-@@ -0,0 +1,7 @@
++++ b/tests/tcg/tricore/test_bmerge.S
+@@ -0,0 +1,8 @@
 +#include "macros.h"
 +.text
 +.global _start
 +_start:
-+    TEST_D_D(abs, 1, 0, 0)
++    TEST_D_DD_PSW(bmerge, 1, 0x555557f7, 0x00000b80, 0x0000001d, 0x0000ffff)
 +
 +    TEST_PASSFAIL
++
 -- 
 2.20.1
 
