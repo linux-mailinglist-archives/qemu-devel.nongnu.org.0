@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE8F37288F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:13:44 +0200 (CEST)
-Received: from localhost ([::1]:37176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66893728B7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:20:28 +0200 (CEST)
+Received: from localhost ([::1]:55896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lds3j-000735-HN
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
+	id 1ldsAF-0006He-Vy
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:20:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ldrzd-0002Qa-IL
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:09:29 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45839)
+ id 1ldrzm-0002Uh-SH
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:09:39 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ldrzZ-0006ip-Q5
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:09:29 -0400
-Received: by mail-wr1-x430.google.com with SMTP id h4so8698972wrt.12
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:09:25 -0700 (PDT)
+ id 1ldrzi-0006m8-Rx
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:09:36 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id d4so8734359wru.7
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:09:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=B/1r7PR/C5kPfLyXXkdUvTNVaZZQrwDzdLKu6YqyjOU=;
- b=ncfGJTUOxIibH+C5d+AixBXq8PRrM8A9OJXuZ++f8BRpkj/778FmlilCLunCglufQd
- kt8psQJkCyu0mvGquQ7zyOoqFcUoZdZK19K9gpI3DYrraD+E0BMsbORlO2QO91q9oae+
- kltKbui72P513VZV/hRFerUN3RHFv9IdEhA742Dzhb1qs7pI4eE+TeNjUfmqhvRIs/Ur
- gwMiF7gv3QUByzfY4g1NIXYBl0xCpf0w5fuE1OOnxl9gaGFmZm7OvqL38XFU7aorh1Nd
- k+4DYgw9cIxkYSriq1KbUMstRZCq0U6NV/S3aBqkzBgrkFZQyocu2gB7aoZGFzsSZrSv
- aTyA==
+ bh=5Fgd5AuHBvzHDNyp+2NAevLOgBMdJOfM03jnWADviJw=;
+ b=MgUko09XnAkL7cAS59TsHU5UyW1zBzKH0CrL7B0WV1IWHdumUeyneYYCKbdtth235I
+ Zaei3PG/yp42YROwaxHs1xHrvJVdnN4YLU8VFld8kmUsL6qKo7EnQyzVJLIXndvNVSVQ
+ pBMY8qTHcrlNJuRsA9scUk9/74aXs25zmiFHQkBTDdijhX0f8Jm+J6KIkIQYbGDVVYYt
+ uCRtksHZ+T9MLHnkohbP6MMkKT1YoqNHx52shQMcRIIKuYKYAdPMxgiP0XA5cLpK6vdt
+ 9yrW1vFkMw0vVi4P+zGXBIFkx0FKhKRrAokcMPtJuehXjPAtYeOSV+surOk97V/lhumJ
+ FUcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B/1r7PR/C5kPfLyXXkdUvTNVaZZQrwDzdLKu6YqyjOU=;
- b=Fem46RM36cV9FfTcGxjhyZn+Pm/EVpqNJgkw+/e5NBxYDGivXCA6m66n/7jZREYwnA
- PYMmj/XuKgqebksVdX5cs4feluFDDsmqQvSOukUFd/3QHyNa7Mky3wZ8q2xEhIfwgJoF
- Nr451jWeQfI8Wneq2YExF4Qp4PkPlocYWalRBf06JzUycJ26yIXPhjARs8ZlFxycJp+K
- 32B+wFN/gU2wlMscjyP0d6XVQCgPWlrNuRIHAfWbB3cJVAq0gGLIWRxlnL5VtR06Jbo8
- B5Qjsj86PGRMif7sjTlhk0pORbPKz0oXhf5M92qMH81YVDkX/yVZCYayyO7sip82Usm8
- XlxA==
-X-Gm-Message-State: AOAM532OW+acbrjK96Na4nS+SS18VhWlYWjR4eJmIlYVdcQ2DGZufl8d
- 3xFpyKj9SFmE+gyPIIhdP5xiwg==
-X-Google-Smtp-Source: ABdhPJxNVHOavIfczJGkQL15FpB6H+27rtgSyDoaPgcpwJkYdBTj5+Rh0fWAsP105XA9/cKQwyUsxA==
-X-Received: by 2002:a5d:528a:: with SMTP id c10mr30809646wrv.333.1620122964143; 
- Tue, 04 May 2021 03:09:24 -0700 (PDT)
+ bh=5Fgd5AuHBvzHDNyp+2NAevLOgBMdJOfM03jnWADviJw=;
+ b=EM3nSz/CVpHau4eI90Kk+h+MPqf+8XderDuDp9XSCqogRjGrm79vNKDecl4iGULUj/
+ mG5c4r/P1lXooZ0uUEOlbXA2cO5MonoUVnELmlHGDHgGMFvWupomAGklsP6XdUC+XYiH
+ EUSVY/DX1R/DBSL/xFqL0tYVgy+bOlX42eC3MUxavqs/SjZK7aCBZE3XO039HapjLjEW
+ eYJBa+KqWnVNtQZfLdImpt69M/ftIqk7VvZJqR12TiCus1CU7RGbAMzFZCrRD6D+cL8F
+ JAAvL1OGRo4ShCA2AG4baIAQ0N2IK8n2pEtEKHxwUpppKkMUfcgTN5wWfuULbvkARZT9
+ 48rw==
+X-Gm-Message-State: AOAM533/KAFCXJSjlbvJ70puz07vXqgzhucansS/AFpYM4L+c0Jmrr1u
+ x3+1kJ+/xdeXwlaXE2tfFTmyNQ==
+X-Google-Smtp-Source: ABdhPJxbad87h2ANVj4O2/HmUKUzY2KXOOXrPuuCccdu3f5bfsIFgG4oSZxZAE+g25PaqosUYPYYEQ==
+X-Received: by 2002:adf:f192:: with SMTP id h18mr29942150wro.270.1620122973577; 
+ Tue, 04 May 2021 03:09:33 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b10sm2040813wrr.27.2021.05.04.03.09.22
+ by smtp.gmail.com with ESMTPSA id k11sm2164615wrm.62.2021.05.04.03.09.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 03:09:22 -0700 (PDT)
+ Tue, 04 May 2021 03:09:30 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9B38C1FFB4;
+ by zen.linaroharston (Postfix) with ESMTP id B245D1FFB5;
  Tue,  4 May 2021 11:02:26 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 28/30] tests/tcg: add a multiarch signals test to stress
- test signal delivery
-Date: Tue,  4 May 2021 11:02:21 +0100
-Message-Id: <20210504100223.25427-29-alex.bennee@linaro.org>
+Subject: [PATCH  v2 29/30] cirrus.yml: Fix the MSYS2 task
+Date: Tue,  4 May 2021 11:02:22 +0100
+Message-Id: <20210504100223.25427-30-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210504100223.25427-1-alex.bennee@linaro.org>
 References: <20210504100223.25427-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,235 +86,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ f4bug@amsat.org, Ed Maste <emaste@freebsd.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a simple signal test that combines the POSIX timer_create
-with signal delivery across multiple threads. The aim is to provide a
-bit more of a stress test to flush out signal handling issues for
-easily than the occasional random crash we sometimes see in linux-test
-or threadcount.
+From: Thomas Huth <thuth@redhat.com>
 
+The MSYS2 task in the Cirrus-CI is currently failing with error messages
+like this:
+
+ warning: database file for 'ucrt64' does not exist (use '-Sy' to download)
+ :: Starting core system upgrade...
+  there is nothing to do
+ :: Starting full system upgrade...
+ error: failed to prepare transaction (could not find database)
+
+Seems like it can be fixed by switching to a newer release and by refreshing
+the database one more time after changing the /etc/pacman.conf file.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
+Message-Id: <20210427185524.281883-1-thuth@redhat.com>
 ---
-v2
-  - minor cosmetic tweaks
-  - skip for alpha/sparc64 (including with plugins)
----
- tests/tcg/multiarch/signals.c       | 149 ++++++++++++++++++++++++++++
- tests/tcg/alpha/Makefile.target     |   7 ++
- tests/tcg/multiarch/Makefile.target |   2 +
- tests/tcg/sparc64/Makefile.target   |   7 ++
- 4 files changed, 165 insertions(+)
- create mode 100644 tests/tcg/multiarch/signals.c
+ .cirrus.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/tcg/multiarch/signals.c b/tests/tcg/multiarch/signals.c
-new file mode 100644
-index 0000000000..998c8fdefd
---- /dev/null
-+++ b/tests/tcg/multiarch/signals.c
-@@ -0,0 +1,149 @@
-+/*
-+ * linux-user signal handling tests.
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include <stdarg.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <errno.h>
-+#include <pthread.h>
-+#include <string.h>
-+#include <signal.h>
-+#include <time.h>
-+#include <sys/time.h>
-+
-+static void error1(const char *filename, int line, const char *fmt, ...)
-+{
-+    va_list ap;
-+    va_start(ap, fmt);
-+    fprintf(stderr, "%s:%d: ", filename, line);
-+    vfprintf(stderr, fmt, ap);
-+    fprintf(stderr, "\n");
-+    va_end(ap);
-+    exit(1);
-+}
-+
-+static int __chk_error(const char *filename, int line, int ret)
-+{
-+    if (ret < 0) {
-+        error1(filename, line, "%m (ret=%d, errno=%d/%s)",
-+               ret, errno, strerror(errno));
-+    }
-+    return ret;
-+}
-+
-+#define error(fmt, ...) error1(__FILE__, __LINE__, fmt, ## __VA_ARGS__)
-+
-+#define chk_error(ret) __chk_error(__FILE__, __LINE__, (ret))
-+
-+/*
-+ * Thread handling
-+ */
-+typedef struct ThreadJob ThreadJob;
-+
-+struct ThreadJob {
-+    int number;
-+    int sleep;
-+    int count;
-+};
-+
-+static pthread_t *threads;
-+static int max_threads = 10;
-+__thread int signal_count;
-+int total_signal_count;
-+
-+static void *background_thread_func(void *arg)
-+{
-+    ThreadJob *job = (ThreadJob *) arg;
-+
-+    printf("thread%d: started\n", job->number);
-+    while (total_signal_count < job->count) {
-+        usleep(job->sleep);
-+    }
-+    printf("thread%d: saw %d alarms from %d\n", job->number,
-+           signal_count, total_signal_count);
-+    return NULL;
-+}
-+
-+static void spawn_threads(void)
-+{
-+    int i;
-+    threads = calloc(sizeof(pthread_t), max_threads);
-+
-+    for (i = 0; i < max_threads; i++) {
-+        ThreadJob *job = calloc(sizeof(ThreadJob), 1);
-+        job->number = i;
-+        job->sleep = i * 1000;
-+        job->count = i * 100;
-+        pthread_create(threads + i, NULL, background_thread_func, job);
-+    }
-+}
-+
-+static void close_threads(void)
-+{
-+    int i;
-+    for (i = 0; i < max_threads; i++) {
-+        pthread_join(threads[i], NULL);
-+    }
-+    free(threads);
-+    threads = NULL;
-+}
-+
-+static void sig_alarm(int sig, siginfo_t *info, void *puc)
-+{
-+    if (sig != SIGRTMIN) {
-+        error("unexpected signal");
-+    }
-+    signal_count++;
-+    __atomic_fetch_add(&total_signal_count, 1, __ATOMIC_SEQ_CST);
-+}
-+
-+static void test_signals(void)
-+{
-+    struct sigaction act;
-+    struct itimerspec it;
-+    timer_t tid;
-+    struct sigevent sev;
-+
-+    /* Set up SIG handler */
-+    act.sa_sigaction = sig_alarm;
-+    sigemptyset(&act.sa_mask);
-+    act.sa_flags = SA_SIGINFO;
-+    chk_error(sigaction(SIGRTMIN, &act, NULL));
-+
-+    /* Create POSIX timer */
-+    sev.sigev_notify = SIGEV_SIGNAL;
-+    sev.sigev_signo = SIGRTMIN;
-+    sev.sigev_value.sival_ptr = &tid;
-+    chk_error(timer_create(CLOCK_REALTIME, &sev, &tid));
-+
-+    it.it_interval.tv_sec = 0;
-+    it.it_interval.tv_nsec = 1000000;
-+    it.it_value.tv_sec = 0;
-+    it.it_value.tv_nsec = 1000000;
-+    chk_error(timer_settime(tid, 0, &it, NULL));
-+
-+    spawn_threads();
-+
-+    do {
-+        usleep(1000);
-+    } while (total_signal_count < 2000);
-+
-+    printf("shutting down after: %d signals\n", total_signal_count);
-+
-+    close_threads();
-+
-+    chk_error(timer_delete(tid));
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    test_signals();
-+    return 0;
-+}
-diff --git a/tests/tcg/alpha/Makefile.target b/tests/tcg/alpha/Makefile.target
-index a585080328..49ce5cd69f 100644
---- a/tests/tcg/alpha/Makefile.target
-+++ b/tests/tcg/alpha/Makefile.target
-@@ -14,5 +14,12 @@ test-cmov: test-cond.c
+diff --git a/.cirrus.yml b/.cirrus.yml
+index f53c519447..f4bf49b704 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -67,7 +67,7 @@ windows_msys2_task:
+     CIRRUS_SHELL: powershell
+     MSYS: winsymlinks:nativestrict
+     MSYSTEM: MINGW64
+-    MSYS2_URL: https://github.com/msys2/msys2-installer/releases/download/2021-01-05/msys2-base-x86_64-20210105.sfx.exe
++    MSYS2_URL: https://github.com/msys2/msys2-installer/releases/download/2021-04-19/msys2-base-x86_64-20210419.sfx.exe
+     MSYS2_FINGERPRINT: 0
+     MSYS2_PACKAGES: "
+       diffutils git grep make pkg-config sed
+@@ -130,7 +130,7 @@ windows_msys2_task:
+         taskkill /F /FI "MODULES eq msys-2.0.dll"
+         tasklist
+         C:\tools\msys64\usr\bin\bash.exe -lc "mv -f /etc/pacman.conf.pacnew /etc/pacman.conf || true"
+-        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Suu --overwrite=*"
++        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -Syuu --overwrite=*"
+         Write-Output "Core install time taken: $((Get-Date).Subtract($start_time))"
+         $start_time = Get-Date
  
- run-test-cmov: test-cmov
- 
-+# currently broken: executes a halt on sigreturn leading to being terminated by signal SIGILL (Illegal instruction)
-+run-signals: signals
-+	$(call skip-test, $<, "BROKEN")
-+
-+run-plugin-signals-with-%: signals
-+	$(call skip-test, $<, "BROKEN")
-+
- # On Alpha Linux only supports 8k pages
- EXTRA_RUNS+=run-test-mmap-8192
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index a3a751723d..3f283eabe6 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -30,6 +30,8 @@ testthread: LDFLAGS+=-lpthread
- 
- threadcount: LDFLAGS+=-lpthread
- 
-+signals: LDFLAGS+=-lrt -lpthread
-+
- # We define the runner for test-mmap after the individual
- # architectures have defined their supported pages sizes. If no
- # additional page sizes are defined we only run the default test.
-diff --git a/tests/tcg/sparc64/Makefile.target b/tests/tcg/sparc64/Makefile.target
-index 5bd7f90583..fb3825b7fa 100644
---- a/tests/tcg/sparc64/Makefile.target
-+++ b/tests/tcg/sparc64/Makefile.target
-@@ -7,5 +7,12 @@
- run-linux-test: linux-test
- 	$(call skip-test, $<, "BROKEN")
- 
-+# currently broken: hangs after the first thread exits
-+run-signals: signals
-+	$(call skip-test, $<, "BROKEN")
-+
-+run-plugin-signals-with-%: signals
-+	$(call skip-test, $<, "BROKEN")
-+
- # On Sparc64 Linux support 8k pages
- EXTRA_RUNS+=run-test-mmap-8192
 -- 
 2.20.1
 
