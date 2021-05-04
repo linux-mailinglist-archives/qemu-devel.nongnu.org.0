@@ -2,125 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45C23727FE
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 11:18:51 +0200 (CEST)
-Received: from localhost ([::1]:56166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 345823727F3
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 11:17:37 +0200 (CEST)
+Received: from localhost ([::1]:54304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldrCc-0008IF-R3
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 05:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41832)
+	id 1ldrBQ-0007PQ-0k
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 05:17:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ldqwC-0000xH-AD; Tue, 04 May 2021 05:01:52 -0400
-Received: from mail-db8eur05on2124.outbound.protection.outlook.com
- ([40.107.20.124]:62817 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <aneesh.kumar@linux.ibm.com>)
+ id 1ldqxb-0002Ww-JO; Tue, 04 May 2021 05:03:21 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30824
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ldqw7-0001zo-U8; Tue, 04 May 2021 05:01:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GhjGmS6r4WqTMk4d6XIj3vVKrjIBqceOtKWUijsBiwEIzKCG5YHQ85/rm7oqAc1r1YBActJF1Ej7HVVSsrBORXe1b12vNldpe3BkUcD/h0mpt2wdQyRNuiKxaW7Mom9TG91cllsbvPdN0t6xiC4koxEgpfIi/LMoGqtnC8ojW9vG+o4C5yadWhR6q3/DhcEmZmybRLT6Ng3PWshp1ubxn5jPznE1/iNY7Y6tK8r/wfTKdwzScOxRa3IYhcACk+0G71qe523Xa8te/pbNx/QaFWczsFxzupjzZK2f2eTYuzb5jJEMg7m2Bpr4yRVrLTdRUU6PPbBm59uGXOBxMnOJ+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UdGIqoBeyqkz4rWcWlmVwGGlfyLipswVPrYB45Ty2NQ=;
- b=gGawmCBiiiLfK1AUgAbxzY4JkFg/hccX2L638xEuc8xrYcss6OaufsrZ0wTgafetSOXJh6Fbp0Qcyk46Fn0lbI4uq3yNvRZdLHpfuJZjFLtQJtwpw3FMs42HwZoaGgH0rjUrwhS4MjoLGzLdqIoasi6AI5wT+VaD6XFBWmmzS7Ix7pp7zJ35o15Xgcpt90vbPdd7vAoRmhUzwN39VoXcW4gPQ8vOkhC6gGFLhCZgjM+SXt5EIG3cw7oeFPS+IApUXjyHuXND6RWwQ57yjppHLLNF6tVG5OdS7XM51+VgkyMIxthZz4b+ARuKE868uhTN3H9tP0PBj0jZiFzImqgsNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UdGIqoBeyqkz4rWcWlmVwGGlfyLipswVPrYB45Ty2NQ=;
- b=IaU1KcsReHiG4U87rBij7WZ2g5/Rb0zCgT1o0TtY8BIixqeUR6qKVHuMFhj1UcpVAa3ZRwgBO/0gJmdARl0HMg1tqkMYdHKrcuHBcBgg5dIxoTPhaRyaz+l9+LHc0ZVD2lsoHplIfYPRxdxKIPllgpNKX5sZiiGKGsy2d82RBOM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6359.eurprd08.prod.outlook.com (2603:10a6:20b:31a::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.38; Tue, 4 May
- 2021 09:01:36 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.024; Tue, 4 May 2021
- 09:01:36 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, peter.maydell@linaro.org
-Subject: [PULL 9/9] MAINTAINERS: update Benchmark util: add git tree
-Date: Tue,  4 May 2021 12:01:13 +0300
-Message-Id: <20210504090113.21311-10-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210504090113.21311-1-vsementsov@virtuozzo.com>
-References: <20210504090113.21311-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.251]
-X-ClientProxiedBy: HE1P190CA0024.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::34)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <aneesh.kumar@linux.ibm.com>)
+ id 1ldqxY-0002tP-Lv; Tue, 04 May 2021 05:03:19 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1448j0js066751; Tue, 4 May 2021 05:03:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=hhDEWmzdghAGZtZeuFoepYTZTUQE5WKYZBIlzMAcUTA=;
+ b=d7+vOBz1ri3+XgqQR42vv3qJScc1w4ZbNER4dpNQQ6ZglnvFfLQkKXqwrFTa3us9On2c
+ pEE98fAtiWC3LY/+ZFZSkiJjRc4CUdOvfCEzlUqZQz8KOhoD08Yj4EWJMs2/9W96TvpW
+ iLWMTYUNoOP2nnAdyrLgMbT2MY0MqKjTov6/yGXy+/RHjwmwqSor4HWjyZvD+Z1G1qhE
+ dYGuVhF88ksA0/b/b2Kv2hzWj93ZhYnHj0wJb+k1xkOa5LNN4NG1SZhATHlnl7VFeSru
+ Dr0VjU6Ap6yKVuAd1P1vO6t4ZESd7TAO+JrSV5B9BgoCQRACMArzuoH8KJ+H9VV6G/kG LQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38b31g0e92-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 May 2021 05:03:01 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1448j9SN067112;
+ Tue, 4 May 2021 05:03:00 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38b31g0e85-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 May 2021 05:03:00 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 1448xmtx021764;
+ Tue, 4 May 2021 09:02:58 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma05fra.de.ibm.com with ESMTP id 388xm8gkv8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 May 2021 09:02:58 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 14492ttr32440578
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 May 2021 09:02:55 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B1ECE4204D;
+ Tue,  4 May 2021 09:02:55 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 20EEC42041;
+ Tue,  4 May 2021 09:02:51 +0000 (GMT)
+Received: from [9.199.50.4] (unknown [9.199.50.4])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  4 May 2021 09:02:50 +0000 (GMT)
+Subject: Re: [PATCH v4 0/3] nvdimm: Enable sync-dax property for nvdimm
+To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+References: <161966810162.652.13723419108625443430.stgit@17be908f7c1c>
+ <CAPcyv4gwkyDBG7EZOth-kcZR8Fb+RgGXY=Y9vbuHXAz3PAnLVw@mail.gmail.com>
+ <bca3512d-5437-e8e6-68ae-0c9b887115f9@linux.ibm.com>
+ <CAPcyv4hAOC89JOXr-ZCps=n8gEKD5W0jmGU1Enfo8ECVMf3veQ@mail.gmail.com>
+ <d21fcac6-6a54-35fd-3088-6c56b85fbf25@linux.ibm.com>
+ <CAM9Jb+g8bKF0Z7za4sZpc2tZ01Sp4c4FEaV65He8w1+QOL3_yw@mail.gmail.com>
+From: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+Message-ID: <023e584a-6110-4d17-7fec-ca715226f869@linux.ibm.com>
+Date: Tue, 4 May 2021 14:32:50 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (185.215.60.251) by
- HE1P190CA0024.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4087.27 via Frontend Transport; Tue, 4 May 2021 09:01:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a45f1a16-ee98-4f17-f2dd-08d90edb38f5
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6359:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB63593D59EE9C9EDF1358F884C15A9@AS8PR08MB6359.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:296;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WD9O8ucgYLyHV6yHUnDsZPoztwFXPYtgIC7JEswOey2kLtpxhlhjzo3d9bbnueC2L7Q5Q+YxO4xVjctb6OaIiQ6Tpvbm5tpMJvcqXKfLkPqiVlGpywsC2AoQlyDm6b7v3027wlhfoYWxKfJe70U4IdV4acg861LrwX1ZpASrNmwQf4o0Md4CXVfRv/GEzcV9WpgGaZWEOqO8XRgZm8wY5LBV+Be1Y9LkBw+/aZHf2w/Yd1DnvGHdDTUkWGEobCBaVUaDmzkzrNTryJF0WAVuC0mP7RnVDiznJRrEO73BVnp16d/dsAFzloFz0UEQ4MxSF5PW7efz/UZQ+gbwW1VyqkSptzElCYT2ov0bX5kcazlT8yJUFNAH+dRxWqVe8iqrzVtkz5cP9NQR9K7FOg4ylW8Vaw5eq9yt+2SMsoNcQrUX0X0AESjIEHhI1UYsvw33Wqiu3N3pOTzJfnWcDzaRpab0ctXH/BcRtgGNhqOedqm4+4z+Jw4QTfOjSg+Gdkgb3xfUIoLbp3nkfnzethhcwqKgPcWSNmgXh0u3Glck5+kCT9P/jErbqNnuTGVn0ILD1OumBibhYo704kegsRCwyqRZPJe5xinNf+IzG5YPcBzOY6ZJGc2q2nEKeQFYY9kVWgB0u3RW/+pDMXK2DT5qvnAl1LCbn0mLCbu1LnLyPUw619qAeTftnPN9jsRqo7tTgr7sGAhPVQKr9UVqGwbvUrA2v7yD47/Gqr+F5byPBBeC/MZxWrGk0P7/qyv3bHHLBGdtpH/tE0/qBZDkfNovgw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(346002)(136003)(39840400004)(376002)(16526019)(186003)(36756003)(38100700002)(26005)(6486002)(4744005)(316002)(52116002)(6916009)(6506007)(1076003)(478600001)(4326008)(6512007)(966005)(8676002)(956004)(38350700002)(8936002)(66946007)(66556008)(66476007)(86362001)(2906002)(5660300002)(6666004)(2616005)(69590400013);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?lKam4+k8w6ebtr2Ijvkq+ihp++ByZgA8wQG+ozhPnN8UeIR9ldXuvrvV2eFe?=
- =?us-ascii?Q?oe7kmVIk2voKij3j87gyOX51ltoaBSh9uYznrwBSslo472mlcInzB6BmdwUG?=
- =?us-ascii?Q?n+XuFyLw7uSuLdM9DNZ2lHi785TuSBu2XMFdofLHM6uBHczjKIRslJyTeRXs?=
- =?us-ascii?Q?Mk1vHmpBf2/9pJPvy/82CVe8LgcDg2qH+EfowJX1BrVibPqfGNput5fGwO+S?=
- =?us-ascii?Q?GXNXYZhRche+cIxbERlQ0Rg90HOjcLPHPkS/TIiANtml/x5z8g/nCH7MymWr?=
- =?us-ascii?Q?aHLIguwIHu8IPWOLVO/BL1QN3kUJSqg4q3C7k6WE+lBLRTj0kIyLNAbx+U4s?=
- =?us-ascii?Q?UY+vj8AanDbExglMBjq/DVKPbnIkVfdT9yCRZB7/JQD1kuxRqO4sMYHMwIEL?=
- =?us-ascii?Q?NSDQwUQpgL/GAKaqv17rXIDCpw7NtBVkMV4kU8wGLLoH30CIqPXu6GTDKeig?=
- =?us-ascii?Q?TjA9Oy3F2G8YIAnVXjsmDRyyyq0OEGt556RYd3Y/Wx1+NuoMz4wNM67WBRHL?=
- =?us-ascii?Q?PKpmWqpOZk8xxSnqKMmy9hkooSAzQ6jIWYYdFgXNjG3tB3zJ4sGE0IRd9p84?=
- =?us-ascii?Q?w37Qaex0XNpR+C104fK0qC+EDfzsqHythfF9EywZqjU4uREGbvUGTaPDBS+j?=
- =?us-ascii?Q?jNGKUo9W+u52wKIwuvoO0Y8Y4kaquynwLAB2P0IcyKY7spysHPXkQZEnUx8D?=
- =?us-ascii?Q?tbGgXhJ9OUyQxSJ/u+11k5ynNbKeFQh8dl9aMd9cUDiDGu9LhLs4IHaUW2gI?=
- =?us-ascii?Q?1nQgwvFtlf4AvIAIU75ZWP561E+mkSvG/NWdBhMGEFx0XHUT+Srpi2dif2Ue?=
- =?us-ascii?Q?tsi2tT7xfyoLUOcfklIzKPMsIQXItCEvpO+1+ohkoJsmJUBvrxcxR24oQw8h?=
- =?us-ascii?Q?GDKtU+pC9vcjRipMzS3mGD798SZFBy23XVzIhIWoGfY1G7UaR3jVhq1QLZ/i?=
- =?us-ascii?Q?fAPJ9y2mB0CYjSi+qzhoK+4Fa1tkwqEuiQtaFf3YCLYKKGSOn+Q0pHeWeMPt?=
- =?us-ascii?Q?HwIM8jsg3yVEAg7YO1Cw1l6lO+GGzPChA51pGMwIeWB3veg08WXOFxECK0IS?=
- =?us-ascii?Q?AN3UEspPk8B3nh0zObckc6TeaBtCOWRpZE0Mc0iP54OL8YTV12mFhl+NOrFd?=
- =?us-ascii?Q?0JY5a09qvWFFl2l3Z5gQZ9zNmm/StH0LOQI/tXmL0pUGGzZQ/z/hbgaIRUDn?=
- =?us-ascii?Q?uFCUXFHOeYCPwr1XEOzfURsJcYqVmSZEXb2X5ysdBsLddLPuIbkGxYnIXOG7?=
- =?us-ascii?Q?/AMJ4UHy3Sqysh+NnEZlTGHeaM9F6cnT/lL67bk+ThLH31JkIPsxCZ19bq8I?=
- =?us-ascii?Q?si2o1c/Te0YatdvMAHkaw6Gl?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a45f1a16-ee98-4f17-f2dd-08d90edb38f5
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2021 09:01:36.7089 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dB5i9GMhsSOLecRELlfCXDXRk5cbhm0QYTbm3taga0roH99FlMOuWOrwyR4XRygD2ixlxULDM444a/yGTizOfV9tEeh15w+jj5PQjiuHzDE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6359
-Received-SPF: pass client-ip=40.107.20.124;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <CAM9Jb+g8bKF0Z7za4sZpc2tZ01Sp4c4FEaV65He8w1+QOL3_yw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: WyHOa4EB6zQCHAcN_OgqWSEtUI8wMYIe
+X-Proofpoint-ORIG-GUID: KmKW0vgbGyeSeoxKHoyeFcbJvHRk7H6a
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-04_05:2021-05-04,
+ 2021-05-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 clxscore=1015
+ mlxscore=0 suspectscore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 phishscore=0 adultscore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2105040062
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=aneesh.kumar@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -133,27 +116,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Shivaprasad G Bhat <sbhat@linux.ibm.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ linux-nvdimm <linux-nvdimm@lists.01.org>,
+ Markus Armbruster <armbru@redhat.com>, bharata@linux.vnet.ibm.com,
+ Haozhong Zhang <haozhong.zhang@intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, richard.henderson@linaro.org,
+ Greg Kurz <groug@kaod.org>, kvm-ppc@vger.kernel.org, qemu-arm@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, kwangwoo.lee@sk.com,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ shameerali.kolothum.thodi@huawei.com, shivaprasadbhat@gmail.com,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+On 5/4/21 11:13 AM, Pankaj Gupta wrote:
+....
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4c05ff8bba..f9f2acea8f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2531,6 +2531,7 @@ Benchmark util
- M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
- S: Maintained
- F: scripts/simplebench/
-+T: git https://src.openvz.org/scm/~vsementsov/qemu.git simplebench
- 
- Transactions helper
- M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
--- 
-2.29.2
+>>
+>> What this patch series did was to express that property via a device
+>> tree node and guest driver enables a hypercall based flush mechanism to
+>> ensure persistence.
+> 
+> Would VIRTIO (entirely asynchronous, no trap at host side) based
+> mechanism is better
+> than hyper-call based? Registering memory can be done any way. We
+> implemented virtio-pmem
+> flush mechanisms with below considerations:
+> 
+> - Proper semantic for guest flush requests.
+> - Efficient mechanism for performance pov.
+> 
 
+sure, virio-pmem can be used as an alternative.
+
+> I am just asking myself if we have platform agnostic mechanism already
+> there, maybe
+> we can extend it to suit our needs? Maybe I am missing some points here.
+> 
+
+What is being attempted in this series is to indicate to the guest OS 
+that the backing device/file used for emulated nvdimm device cannot 
+guarantee the persistence via cpu cache flush instructions.
+
+
+>>>> On PPC, the default is "sync-dax=writeback" - so the ND_REGION_ASYNC
+>>>>
+>>>> is set for the region and the guest makes hcalls to issue fsync on the host.
+>>>>
+>>>>
+>>>> Are you suggesting me to keep it "unsafe" as default for all architectures
+>>>>
+>>>> including PPC and a user can set it to "writeback" if desired.
+>>>
+>>> No, I am suggesting that "sync-dax" is insufficient to convey this
+>>> property. This behavior warrants its own device type, not an ambiguous
+>>> property of the memory-backend-file with implicit architecture
+>>> assumptions attached.
+>>>
+>>
+>> Why is it insufficient?  Is it because other architectures don't have an
+>> ability express this detail to guest OS? Isn't that an arch limitations?
+
+-aneesh
 
