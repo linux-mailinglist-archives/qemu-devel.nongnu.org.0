@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2752C372881
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:11:23 +0200 (CEST)
-Received: from localhost ([::1]:57444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7192A3728D4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:26:14 +0200 (CEST)
+Received: from localhost ([::1]:45212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lds1S-0003mz-6l
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:11:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55642)
+	id 1ldsFp-0004yf-GF
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldrxr-0000B9-Db
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:07:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29033)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldrzK-00023O-Fw
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:09:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ldrxp-0005rP-J9
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:07:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ldrzF-0006Yw-0m
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:09:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620122853;
+ s=mimecast20190719; t=1620122944;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MI2/n1OGEGl6XD4YWQLpncbpOVhDC0gelJ8hlxnt8UM=;
- b=XeryWdrIwO9w1yxeflCCuGV8V3DY9cdBMpNByEDhthE0Sy8SZjX/sUo8lWMf3QdtquNI1k
- cDZz/JiIOeAS0S//R75+f6hzAnj5hLKkJUCaKv/i+6nsN/LPe/ytJ793axPA1WgcWBMvOb
- ZaU+RcO5GzgEATjOXwNp7MydG3Op8F0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-54JKcozxOXazfYpL01Wk0g-1; Tue, 04 May 2021 06:07:31 -0400
-X-MC-Unique: 54JKcozxOXazfYpL01Wk0g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- u5-20020adf9e050000b029010df603f280so2611501wre.18
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:07:31 -0700 (PDT)
+ bh=EvORe9B/URLknbBbEqaDsInuMlYfGz5AojdgljOyw30=;
+ b=hlAV5b0xjshGycoi/KYkD1LKn0xpVJVmNzPAYfO4qltDNveci0UmZLqXvFUehgJc7Vc3jD
+ FPQSMuqSM4Yo8cDD6Kevo/pFRVGzpKBPgxc3ZgegqzXfz1SoVrRTVkcHC2UO+ooETJ/s5/
+ Q0UqPV87jfavB5d11Xoj1CfO/GUjNMs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-459-irtnYgGSNyytPcivxXdmYw-1; Tue, 04 May 2021 06:09:02 -0400
+X-MC-Unique: irtnYgGSNyytPcivxXdmYw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ t6-20020a1cc3060000b0290146ea8f8661so215201wmf.4
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:09:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MI2/n1OGEGl6XD4YWQLpncbpOVhDC0gelJ8hlxnt8UM=;
- b=VlPQ0TnFlXd4P0Nhd7vZzQgbAIL39BON1UXshqqZanJ0+OI5XDnUU5uc17+rK8+W72
- 3F/rFUqzCrBcs7OLL6Pr94gYJ/+clH86UjFxrGQpH/mMF/WzQV2aaEs6jGYEsTLzkZmD
- PNxmdWq0TIrZWz6lluT0jQgs680o371c2a4J0FZnjke2t/jYWh5A3iy29+2EpUjnn0pk
- +AyvIDoZZpyqxKqDvpkrrZbgu5nCp4fvlVtoQXs2FHYyinUJYiAtN1ROg8ZSPEipVb5C
- tAv3t8LQgDQ1oQJzxRYuUUbLMFqUWc28+Zws+g6rsKC9D9j/b0cssbocq5CJbv+asIvB
- pXNQ==
-X-Gm-Message-State: AOAM533drLCHMF7oBFD3jYspJb+wYFaUkjQIj3hRtfkBseYPi9ZdnxfF
- c29RLGMNE5BCQ04abmPo6OZceKou68kyS5u3hpJJcuthglRVXsMyBShRIofmN/JlPklfEaR2BnQ
- Uxyh9nXDEjQN9I/I=
-X-Received: by 2002:a05:600c:214f:: with SMTP id
- v15mr3117015wml.146.1620122850357; 
- Tue, 04 May 2021 03:07:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxnC3iefNgzA2uJE9WCl76yiUoklScSQlMSYxApNQXeFCBFPC/dRnvXvJBTrZqePNLiINO0yQ==
-X-Received: by 2002:a05:600c:214f:: with SMTP id
- v15mr3116994wml.146.1620122850172; 
- Tue, 04 May 2021 03:07:30 -0700 (PDT)
-Received: from thuth.remote.csb (p5791d35e.dip0.t-ipconnect.de.
- [87.145.211.94])
- by smtp.gmail.com with ESMTPSA id t2sm1995361wmg.38.2021.05.04.03.07.28
+ bh=EvORe9B/URLknbBbEqaDsInuMlYfGz5AojdgljOyw30=;
+ b=Fgqb7EIaGqbdRUGB6vij6u35kLtv4ClJ428o5zs+/rzw7/P5bEMGoZQ+6ZZ/ZDN/gi
+ G7nCVLifs9wRWlbsQY36UuwRtPgom9Uoa7T82WA2sQmjd0sYeQYeT0+HkOzXCOuEOi3W
+ l0IgWa2QnHXFBLKX6U56Qw+iGtfeRP6K7qVJHIBgKgVmbhvEHUaoejpe12DGDmHot8Rt
+ bSGQ7WhuMrvmAspN4O+n4cZYA4uEEdIj2IVz0vpAPM/ZL7KduTTdtYBHm/qrx+JNHufW
+ rT9hWNuqQicWdAgH8x5lOt/biGlytIUda4C151/Uwx/7Y+P+nPYJSVfGXfWbj4D3G6om
+ Yvzw==
+X-Gm-Message-State: AOAM530GU9kFvjYhTK1oC7AELa7xQJ3S0bfB9/Fu1Qynmy7KkviRTRRJ
+ krLF3dgbGTPKgJ3Cf+c1X4NetmOAAWYJ83dxAmP0baHAtAnuy4eCKv9s5qBG4110c5spKO94PuQ
+ ZfOalmdmecO7Zwqg=
+X-Received: by 2002:adf:ef92:: with SMTP id d18mr31512403wro.413.1620122941551; 
+ Tue, 04 May 2021 03:09:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxvbvtVEnl49tvUM7UflFkyjU9uVnUtCVOAP1fz5ef+OwNut8NT9/HV9i/JfLP0CSkSWaT9CA==
+X-Received: by 2002:adf:ef92:: with SMTP id d18mr31512391wro.413.1620122941368; 
+ Tue, 04 May 2021 03:09:01 -0700 (PDT)
+Received: from [192.168.1.19]
+ (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
+ by smtp.gmail.com with ESMTPSA id j10sm5754456wrt.32.2021.05.04.03.09.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 May 2021 03:07:29 -0700 (PDT)
+ Tue, 04 May 2021 03:09:01 -0700 (PDT)
 Subject: Re: [PATCH] tests/migration-test: Fix "true" vs true
 To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, lvivier@redhat.com, peter.maydell@linaro.org
+ qemu-devel@nongnu.org, thuth@redhat.com, lvivier@redhat.com,
+ peter.maydell@linaro.org
 References: <20210504100545.112213-1-dgilbert@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <d3a05612-92dd-b926-48db-825e00e1065a@redhat.com>
-Date: Tue, 4 May 2021 12:07:28 +0200
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e419383c-eedf-b674-41c2-e7c3c6c5ddf7@redhat.com>
+Date: Tue, 4 May 2021 12:08:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
 In-Reply-To: <20210504100545.112213-1-dgilbert@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -104,7 +103,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/05/2021 12.05, Dr. David Alan Gilbert (git) wrote:
+On 5/4/21 12:05 PM, Dr. David Alan Gilbert (git) wrote:
 > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
 > Accidental use of "true" as a boolean; spotted by coverity
@@ -116,57 +115,24 @@ On 04/05/2021 12.05, Dr. David Alan Gilbert (git) wrote:
 > Reported-by: Coverity (CID 1432373, 1432292, 1432288)
 > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->   tests/qtest/migration-test.c | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
+>  tests/qtest/migration-test.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 > 
 > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
 > index 3a711bb492..4d989f191b 100644
 > --- a/tests/qtest/migration-test.c
 > +++ b/tests/qtest/migration-test.c
 > @@ -898,8 +898,8 @@ static void test_xbzrle(const char *uri)
->   
->       migrate_set_parameter_int(from, "xbzrle-cache-size", 33554432);
->   
+>  
+>      migrate_set_parameter_int(from, "xbzrle-cache-size", 33554432);
+>  
 > -    migrate_set_capability(from, "xbzrle", "true");
 > -    migrate_set_capability(to, "xbzrle", "true");
 > +    migrate_set_capability(from, "xbzrle", true);
 > +    migrate_set_capability(to, "xbzrle", true);
->       /* Wait for the first serial output from the source */
->       wait_for_serial("src_serial");
->   
-> @@ -1246,8 +1246,8 @@ static void test_multifd_tcp(const char *method)
->       migrate_set_parameter_str(from, "multifd-compression", method);
->       migrate_set_parameter_str(to, "multifd-compression", method);
->   
-> -    migrate_set_capability(from, "multifd", "true");
-> -    migrate_set_capability(to, "multifd", "true");
-> +    migrate_set_capability(from, "multifd", true);
-> +    migrate_set_capability(to, "multifd", true);
->   
->       /* Start incoming migration from the 1st socket */
->       rsp = wait_command(to, "{ 'execute': 'migrate-incoming',"
-> @@ -1330,8 +1330,8 @@ static void test_multifd_tcp_cancel(void)
->       migrate_set_parameter_int(from, "multifd-channels", 16);
->       migrate_set_parameter_int(to, "multifd-channels", 16);
->   
-> -    migrate_set_capability(from, "multifd", "true");
-> -    migrate_set_capability(to, "multifd", "true");
-> +    migrate_set_capability(from, "multifd", true);
-> +    migrate_set_capability(to, "multifd", true);
->   
->       /* Start incoming migration from the 1st socket */
->       rsp = wait_command(to, "{ 'execute': 'migrate-incoming',"
-> @@ -1358,7 +1358,7 @@ static void test_multifd_tcp_cancel(void)
->   
->       migrate_set_parameter_int(to2, "multifd-channels", 16);
->   
-> -    migrate_set_capability(to2, "multifd", "true");
-> +    migrate_set_capability(to2, "multifd", true);
->   
->       /* Start incoming migration from the 1st socket */
->       rsp = wait_command(to2, "{ 'execute': 'migrate-incoming',"
-> 
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Funny one =)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
