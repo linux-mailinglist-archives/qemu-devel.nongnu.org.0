@@ -2,107 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345823727F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 11:17:37 +0200 (CEST)
-Received: from localhost ([::1]:54304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313D637280F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 11:25:33 +0200 (CEST)
+Received: from localhost ([::1]:43440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldrBQ-0007PQ-0k
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 05:17:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42270)
+	id 1ldrJ6-0006af-9H
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 05:25:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aneesh.kumar@linux.ibm.com>)
- id 1ldqxb-0002Ww-JO; Tue, 04 May 2021 05:03:21 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30824
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aneesh.kumar@linux.ibm.com>)
- id 1ldqxY-0002tP-Lv; Tue, 04 May 2021 05:03:19 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 1448j0js066751; Tue, 4 May 2021 05:03:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=hhDEWmzdghAGZtZeuFoepYTZTUQE5WKYZBIlzMAcUTA=;
- b=d7+vOBz1ri3+XgqQR42vv3qJScc1w4ZbNER4dpNQQ6ZglnvFfLQkKXqwrFTa3us9On2c
- pEE98fAtiWC3LY/+ZFZSkiJjRc4CUdOvfCEzlUqZQz8KOhoD08Yj4EWJMs2/9W96TvpW
- iLWMTYUNoOP2nnAdyrLgMbT2MY0MqKjTov6/yGXy+/RHjwmwqSor4HWjyZvD+Z1G1qhE
- dYGuVhF88ksA0/b/b2Kv2hzWj93ZhYnHj0wJb+k1xkOa5LNN4NG1SZhATHlnl7VFeSru
- Dr0VjU6Ap6yKVuAd1P1vO6t4ZESd7TAO+JrSV5B9BgoCQRACMArzuoH8KJ+H9VV6G/kG LQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38b31g0e92-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 May 2021 05:03:01 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1448j9SN067112;
- Tue, 4 May 2021 05:03:00 -0400
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38b31g0e85-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 May 2021 05:03:00 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 1448xmtx021764;
- Tue, 4 May 2021 09:02:58 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma05fra.de.ibm.com with ESMTP id 388xm8gkv8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 May 2021 09:02:58 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14492ttr32440578
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 4 May 2021 09:02:55 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B1ECE4204D;
- Tue,  4 May 2021 09:02:55 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 20EEC42041;
- Tue,  4 May 2021 09:02:51 +0000 (GMT)
-Received: from [9.199.50.4] (unknown [9.199.50.4])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  4 May 2021 09:02:50 +0000 (GMT)
-Subject: Re: [PATCH v4 0/3] nvdimm: Enable sync-dax property for nvdimm
-To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-References: <161966810162.652.13723419108625443430.stgit@17be908f7c1c>
- <CAPcyv4gwkyDBG7EZOth-kcZR8Fb+RgGXY=Y9vbuHXAz3PAnLVw@mail.gmail.com>
- <bca3512d-5437-e8e6-68ae-0c9b887115f9@linux.ibm.com>
- <CAPcyv4hAOC89JOXr-ZCps=n8gEKD5W0jmGU1Enfo8ECVMf3veQ@mail.gmail.com>
- <d21fcac6-6a54-35fd-3088-6c56b85fbf25@linux.ibm.com>
- <CAM9Jb+g8bKF0Z7za4sZpc2tZ01Sp4c4FEaV65He8w1+QOL3_yw@mail.gmail.com>
-From: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-Message-ID: <023e584a-6110-4d17-7fec-ca715226f869@linux.ibm.com>
-Date: Tue, 4 May 2021 14:32:50 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ldr56-0001dB-RN
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 05:11:04 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:42580)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ldr51-0007En-L7
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 05:11:04 -0400
+Received: by mail-ej1-x629.google.com with SMTP id y7so12018231ejj.9
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 02:10:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=VyYQCRKPPZ1U7QW1fpsJdF9vQ9MQPGn/Nrdw59WsAz0=;
+ b=c4AuYw2ySoDcOX+9aNhohWDn/JK3wFlRD+FLxIkyfik5OnnEO8qaBi10Uq/SengRjz
+ e8htzIwVXL6CNVwK2S8FdF2Sgl6kv8JbjrHYifWwQUA2iX12dxYqhsbi4wxyd31+8VYO
+ fvvtSFN/OVMoQB5j4M9fZ7rUAV44F9C3hkzg8tiTFXIyyeESrpKUzSiNWUVwCFGU3p4Z
+ cqklltO5GSi9boaRxs/gCxlX2I4nhhsj6PEk5D20P02WFZKhZunUVXOAgkgptrHanxaN
+ +cPVflOzD0hP6Ltpf9bleUB5UqXW3HT8lWc1YjQjzf7SZfIEY67eC4oZBT+YACtoG8tE
+ cI0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VyYQCRKPPZ1U7QW1fpsJdF9vQ9MQPGn/Nrdw59WsAz0=;
+ b=Pl3VL4qLxHbSMDudkBp6+qa+z0HdXWDbNFb+B6+Wb3ABTAJQA7pluWn8/U9R2ikBXw
+ DFuCUMMCBzwZeFsJmpgSfSiZWCjQoaRFTbNgC3loI25f3Hw1N+6p8Ke8CyDBl8sFOqyU
+ +AgKkVDabkD57RkC7p6sNHiIPNu972cLyyEsBoHqftKc1Me7zywmE+OiV76RJb+xECiF
+ FOJ0GTZ2WaXl7fPXFDrmomiCN+uFX8wLg+8hMmx0vHS9yaOkBU+K0YL9kbDgV5VddqrV
+ ErwBkRMH9ZTeVvK1upIHWSHHcbtw6cAe+9KS+rZiGAxiPRp4IcrA5ypkEhBe+n56VU8y
+ u/SQ==
+X-Gm-Message-State: AOAM532HwH93LByFS0RHvyZia8Vztpy34ImJMYrZaZhVOptaSSaP2UDD
+ YZyH8ERNCaNIbn0jfwpt1sNfWd1H9vQ76Yh58ENIkQ==
+X-Google-Smtp-Source: ABdhPJxR6USXRuVhouKvWrtcGU3Z1CWuSI4XhK7S6KbfUI6puHaPziup0thsO7Adye/0d+ghNEyPJ2ppRa1YD6rMoes=
+X-Received: by 2002:a17:906:11cc:: with SMTP id
+ o12mr21132286eja.85.1620119457854; 
+ Tue, 04 May 2021 02:10:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAM9Jb+g8bKF0Z7za4sZpc2tZ01Sp4c4FEaV65He8w1+QOL3_yw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: WyHOa4EB6zQCHAcN_OgqWSEtUI8wMYIe
-X-Proofpoint-ORIG-GUID: KmKW0vgbGyeSeoxKHoyeFcbJvHRk7H6a
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-04_05:2021-05-04,
- 2021-05-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 clxscore=1015
- mlxscore=0 suspectscore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 malwarescore=0 phishscore=0 adultscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2105040062
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=aneesh.kumar@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+References: <20210502161538.534038-1-f4bug@amsat.org>
+In-Reply-To: <20210502161538.534038-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 4 May 2021 10:09:52 +0100
+Message-ID: <CAFEAcA8RB8Qrc5CwL9-3KcQ3qzEO5kxAh9GWCx1AvXQ_QtnntA@mail.gmail.com>
+Subject: Re: [PULL 00/36] MIPS patches for 2021-05-02
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,70 +79,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Shivaprasad G Bhat <sbhat@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- linux-nvdimm <linux-nvdimm@lists.01.org>,
- Markus Armbruster <armbru@redhat.com>, bharata@linux.vnet.ibm.com,
- Haozhong Zhang <haozhong.zhang@intel.com>,
- Eduardo Habkost <ehabkost@redhat.com>, richard.henderson@linaro.org,
- Greg Kurz <groug@kaod.org>, kvm-ppc@vger.kernel.org, qemu-arm@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>, kwangwoo.lee@sk.com,
- David Gibson <david@gibson.dropbear.id.au>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- shameerali.kolothum.thodi@huawei.com, shivaprasadbhat@gmail.com,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/21 11:13 AM, Pankaj Gupta wrote:
-....
+On Sun, 2 May 2021 at 17:20, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> The following changes since commit 53c5433e84e8935abed8e91d4a2eb813168a0e=
+cf:
+>
+>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210501=
+' into staging (2021-05-02 12:02:46 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/mips-20210502
+>
+> for you to fetch changes up to 1c13514449439b5ff1f746ed0bf73b298da39cf0:
+>
+>   gitlab-ci: Add KVM mips64el cross-build jobs (2021-05-02 16:49:35 +0200=
+)
+>
+> ----------------------------------------------------------------
+> MIPS patches queue
+>
+> - Fix CACHEE opcode
+> - Add missing CP0 checks to nanoMIPS RDPGPR / WRPGPR opcodes
+> - Remove isa_get_irq() call in PIIX4 south bridge
+> - Add various missing fields to the MIPS CPU migration vmstate
+> - Lot of code moved around to allow TCG or KVM only builds
+> - Restrict non-virtualized machines to TCG
+> - Add KVM mips64el cross-build jobs to gitlab-ci
+>
+>
+> scripts/checkpatch.pl false positive in patch 31
+> "Move TLB management helpers to tcg/sysemu/tlb_helper.c":
+>
+> 4 checkpatch errors:
+>
+>   ERROR: space prohibited after that '&' (ctx:WxW)
+>   #414: FILE: target/mips/tcg/sysemu/tlb_helper.c:71:
+>   +    tlb->XI0 =3D (env->CP0_EntryLo0 >> CP0EnLo_XI) & 1;
+>                                                     ^
+>
+>   ERROR: space prohibited after that '&' (ctx:WxW)
+>   #415: FILE: target/mips/tcg/sysemu/tlb_helper.c:72:
+>   +    tlb->RI0 =3D (env->CP0_EntryLo0 >> CP0EnLo_RI) & 1;
+>                                                     ^
+>
+>   ERROR: space prohibited after that '&' (ctx:WxW)
+>   #420: FILE: target/mips/tcg/sysemu/tlb_helper.c:77:
+>   +    tlb->XI1 =3D (env->CP0_EntryLo1 >> CP0EnLo_XI) & 1;
+>                                                     ^
+>
+>   ERROR: space prohibited after that '&' (ctx:WxW)
+>   #421: FILE: target/mips/tcg/sysemu/tlb_helper.c:78:
+>   +    tlb->RI1 =3D (env->CP0_EntryLo1 >> CP0EnLo_RI) & 1;
+>                                                     ^
+>
+>   total: 4 errors, 0 warnings, 688 lines checked
 
->>
->> What this patch series did was to express that property via a device
->> tree node and guest driver enables a hypercall based flush mechanism to
->> ensure persistence.
-> 
-> Would VIRTIO (entirely asynchronous, no trap at host side) based
-> mechanism is better
-> than hyper-call based? Registering memory can be done any way. We
-> implemented virtio-pmem
-> flush mechanisms with below considerations:
-> 
-> - Proper semantic for guest flush requests.
-> - Efficient mechanism for performance pov.
-> 
+Applied, thanks.
 
-sure, virio-pmem can be used as an alternative.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
-> I am just asking myself if we have platform agnostic mechanism already
-> there, maybe
-> we can extend it to suit our needs? Maybe I am missing some points here.
-> 
-
-What is being attempted in this series is to indicate to the guest OS 
-that the backing device/file used for emulated nvdimm device cannot 
-guarantee the persistence via cpu cache flush instructions.
-
-
->>>> On PPC, the default is "sync-dax=writeback" - so the ND_REGION_ASYNC
->>>>
->>>> is set for the region and the guest makes hcalls to issue fsync on the host.
->>>>
->>>>
->>>> Are you suggesting me to keep it "unsafe" as default for all architectures
->>>>
->>>> including PPC and a user can set it to "writeback" if desired.
->>>
->>> No, I am suggesting that "sync-dax" is insufficient to convey this
->>> property. This behavior warrants its own device type, not an ambiguous
->>> property of the memory-backend-file with implicit architecture
->>> assumptions attached.
->>>
->>
->> Why is it insufficient?  Is it because other architectures don't have an
->> ability express this detail to guest OS? Isn't that an arch limitations?
-
--aneesh
+-- PMM
 
