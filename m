@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651193728B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:20:21 +0200 (CEST)
-Received: from localhost ([::1]:55278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5E9372876
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:08:37 +0200 (CEST)
+Received: from localhost ([::1]:48692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldsA8-00061p-DO
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:20:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55996)
+	id 1ldrym-00005E-Kq
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:08:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ldrzk-0002U2-A0
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:09:36 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43644)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ldrzi-0006lT-5t
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:09:36 -0400
-Received: by mail-wr1-x429.google.com with SMTP id x7so8727926wrw.10
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:09:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=stNIA9RM4jSLh1xeH6t+QvbJvkHUddlJF4eVEmZyRGU=;
- b=Gp1Z4pzLq4MUX56IxY335f+26Q8JNVOOYvLZcHHpC118utDSCMVF7iDCLfnNT4UEuN
- x09uaeRa3h+nKlJnJA6p/QZRE1vSTUR41wEZA7PZwhNEaef5E7MeOoB9elvJx/zy5ABB
- DDOf+Btis+truywR92tx+GS4BOMfz5SyhfW8ZJ4PBYV6GBg43f3TYDSXQ0sYbk1m7vgQ
- egUweBYuHITPWGYmOEkTCjqiiRHmArzdVZ2Q+A6b4afr2+wvxWRfoOGZrWzN4l9mjvxL
- os07LTy2WyTLE3lWocNEcaEwgD9jmBF40XXCeDeJqW4HlXL+6+oaMVsdPZ8nu6Qlbc04
- KZ7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=stNIA9RM4jSLh1xeH6t+QvbJvkHUddlJF4eVEmZyRGU=;
- b=uACuiyLoC3akXzFU8VoHMMtoX+eUoXPSKiwa4iAzQco76cTHcxb2PK6WR/zWKiD/MN
- a1F4qqs70tVOhpnZmcq3X1o/xif8lg3MmETqxL4CefcgaBKMXH5AUm3x7/LoYFEZi/re
- IXyeSJk9MueiHpFMyBqAomVF2lRkJyZuNrK2utV96Km1GxUoCl+LjSPcy/XxCEZzXM0N
- /WEsU5te4Z2mVnsbsDklcTfWpnOuqy+1RDxuU/l5vKvpfwYj2X6xEXE5xewM6EjvDKKY
- JTj8FfilEtOoXkTkc0zw7qoVVJnJzjcUu44dkgoOgQR6x40/YHYBgpYpqElQ1AZidvQt
- lWYg==
-X-Gm-Message-State: AOAM530VbBwFlcqjpvSHfM4FCTXFPs1M2/u2O768yIOxpHAPz5SoVut7
- GWfXD74+cA0ADxUE2CYti9jFSg==
-X-Google-Smtp-Source: ABdhPJxV9Qboc+ZYss9o4eEuZrOAF48oc03dIc6sZ+ICPfTLoGrIlI1rrhu8w/KbJXFeo+1r7HQWnQ==
-X-Received: by 2002:a5d:4145:: with SMTP id c5mr30668882wrq.252.1620122972703; 
- Tue, 04 May 2021 03:09:32 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o62sm2386538wmo.3.2021.05.04.03.09.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 03:09:31 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C79B61FFB7;
- Tue,  4 May 2021 11:02:26 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 30/30] configure: use cc,
- not host_cc to set cross_cc for build arch
-Date: Tue,  4 May 2021 11:02:23 +0100
-Message-Id: <20210504100223.25427-31-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210504100223.25427-1-alex.bennee@linaro.org>
-References: <20210504100223.25427-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ldrwC-0006e0-6x
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:05:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56252)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ldrwA-00053X-AZ
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:05:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620122752;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gEq90GYQ1+cnnd86QS9jWiI51mApm6kBam01eUYLHds=;
+ b=CJ6g/vOD6OA3cSdUu934R45Oz2CpVJtu6a3pPlqfoX0QzI3h/HFTJn2sBbgATt8zpdREuc
+ URBr1uWCZNPor9szzl9OchyajqOx6DfmfPFl+4kXhD+YXH9a6ml9TGc7NxyJ831TaH1rEb
+ fyc6GS1c5PV7+xrP4MaM/iwPCgC3J70=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-jB_36V3gO4G380yBm5kkjQ-1; Tue, 04 May 2021 06:05:50 -0400
+X-MC-Unique: jB_36V3gO4G380yBm5kkjQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAB5C801817;
+ Tue,  4 May 2021 10:05:49 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-115-50.ams2.redhat.com
+ [10.36.115.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A77595947F;
+ Tue,  4 May 2021 10:05:48 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, thuth@redhat.com, lvivier@redhat.com,
+ peter.maydell@linaro.org
+Subject: [PATCH] tests/migration-test: Fix "true" vs true
+Date: Tue,  4 May 2021 11:05:45 +0100
+Message-Id: <20210504100545.112213-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,35 +77,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Otherwise you run into hilarity like trying when cross compiling a 32
-bit ARM build on a 64 bit system trying to use host_cc to build 32 bit
-test cases.
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Accidental use of "true" as a boolean; spotted by coverity
+and Peter.
+
+Fixes: b99784ef6c3
+Fixes: d795f47466e
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Reported-by: Coverity (CID 1432373, 1432292, 1432288)
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/migration-test.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/configure b/configure
-index bb86c72479..aef53cd8bb 100755
---- a/configure
-+++ b/configure
-@@ -1648,7 +1648,7 @@ case "$cpu" in
-     # No special flags required for other host CPUs
- esac
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 3a711bb492..4d989f191b 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -898,8 +898,8 @@ static void test_xbzrle(const char *uri)
  
--eval "cross_cc_${cpu}=\$host_cc"
-+eval "cross_cc_${cpu}=\$cc"
- cross_cc_vars="$cross_cc_vars cross_cc_${cpu}"
- QEMU_CFLAGS="$CPU_CFLAGS $QEMU_CFLAGS"
+     migrate_set_parameter_int(from, "xbzrle-cache-size", 33554432);
  
+-    migrate_set_capability(from, "xbzrle", "true");
+-    migrate_set_capability(to, "xbzrle", "true");
++    migrate_set_capability(from, "xbzrle", true);
++    migrate_set_capability(to, "xbzrle", true);
+     /* Wait for the first serial output from the source */
+     wait_for_serial("src_serial");
+ 
+@@ -1246,8 +1246,8 @@ static void test_multifd_tcp(const char *method)
+     migrate_set_parameter_str(from, "multifd-compression", method);
+     migrate_set_parameter_str(to, "multifd-compression", method);
+ 
+-    migrate_set_capability(from, "multifd", "true");
+-    migrate_set_capability(to, "multifd", "true");
++    migrate_set_capability(from, "multifd", true);
++    migrate_set_capability(to, "multifd", true);
+ 
+     /* Start incoming migration from the 1st socket */
+     rsp = wait_command(to, "{ 'execute': 'migrate-incoming',"
+@@ -1330,8 +1330,8 @@ static void test_multifd_tcp_cancel(void)
+     migrate_set_parameter_int(from, "multifd-channels", 16);
+     migrate_set_parameter_int(to, "multifd-channels", 16);
+ 
+-    migrate_set_capability(from, "multifd", "true");
+-    migrate_set_capability(to, "multifd", "true");
++    migrate_set_capability(from, "multifd", true);
++    migrate_set_capability(to, "multifd", true);
+ 
+     /* Start incoming migration from the 1st socket */
+     rsp = wait_command(to, "{ 'execute': 'migrate-incoming',"
+@@ -1358,7 +1358,7 @@ static void test_multifd_tcp_cancel(void)
+ 
+     migrate_set_parameter_int(to2, "multifd-channels", 16);
+ 
+-    migrate_set_capability(to2, "multifd", "true");
++    migrate_set_capability(to2, "multifd", true);
+ 
+     /* Start incoming migration from the 1st socket */
+     rsp = wait_command(to2, "{ 'execute': 'migrate-incoming',"
 -- 
-2.20.1
+2.31.1
 
 
