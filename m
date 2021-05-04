@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71786372614
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:59:17 +0200 (CEST)
-Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 772703725F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:49:10 +0200 (CEST)
+Received: from localhost ([::1]:45644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldp1Y-0005rC-HL
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60974)
+	id 1ldorl-0004cT-It
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldo1C-0006tj-I5
- for qemu-devel@nongnu.org; Tue, 04 May 2021 01:54:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49258)
+ id 1ldo1A-0006sl-As
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 01:54:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldo16-0005RS-Af
- for qemu-devel@nongnu.org; Tue, 04 May 2021 01:54:50 -0400
+ id 1ldo16-0005RM-9P
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 01:54:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ldo12-0002a6-NP
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 05:54:40 +0000
+ id 1ldo11-0002ZZ-RF
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 05:54:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 70BF32E8199
- for <qemu-devel@nongnu.org>; Tue,  4 May 2021 05:54:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 948772E81A2
+ for <qemu-devel@nongnu.org>; Tue,  4 May 2021 05:54:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 04 May 2021 05:44:28 -0000
-From: Thomas Huth <1423528@bugs.launchpad.net>
+Date: Tue, 04 May 2021 05:44:38 -0000
+From: Thomas Huth <1424237@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Wishlist; assignee=None; 
+X-Launchpad-Bug-Tags: amd64 apport-bug third-party-packages utopic
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mbiebl mjt+launchpad-tls th-huth
-X-Launchpad-Bug-Reporter: Michael Biebl (mbiebl)
+X-Launchpad-Bug-Commenters: krichter722 th-huth
+X-Launchpad-Bug-Reporter: Karl-Philipp Richter (krichter722)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20150219122612.20987.32403.malonedeb@gac.canonical.com>
-Message-Id: <162010706863.4396.12428369422687355881.malone@chaenomeles.canonical.com>
-Subject: [Bug 1423528] Re: setting unsupported timeout for i6300esb watchdog
- causes hw reset
+References: <20150221185323.32257.65910.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162010707859.4685.882740317773333633.malone@chaenomeles.canonical.com>
+Subject: [Bug 1424237] Re: missing manpage for bridge.conf
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: dfff1b34b40f11398646f9e86eda40da44aae2e7
+X-Launchpad-Hash: 7f910580e20e97c35becd5aebc93a21919a5465c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1423528 <1423528@bugs.launchpad.net>
+Reply-To: Bug 1424237 <1424237@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -79,54 +81,89 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/112
+ https://gitlab.com/qemu-project/qemu/-/issues/113
 
 
 ** Changed in: qemu
-       Status: Confirmed =3D> Expired
+       Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #112
-   https://gitlab.com/qemu-project/qemu/-/issues/112
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #113
+   https://gitlab.com/qemu-project/qemu/-/issues/113
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1423528
+https://bugs.launchpad.net/bugs/1424237
 
 Title:
-   setting unsupported timeout for i6300esb watchdog causes hw reset
+  missing manpage for bridge.conf
 
 Status in QEMU:
   Expired
+Status in qemu package in Ubuntu:
+  Confirmed
 
 Bug description:
-  Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D778291
-  Version: 2.1
+  There's currently no (easy) way to figure out the form of content of
+  `/etc/qemu/bridge.conf`. Some howtos (e.g.
+  https://wiki.archlinux.org/index.php/QEMU
+  #Bridged_networking_using_qemu-bridge-helper) mention
+  `bridge.conf.sample` which is not available according to `apt-file`
+  and the official wiki at wiki.qemu.org doesn't mention the file at
+  all, it seems necessary, though, because specification of `-net nic
+  -net bridge,br=3Dbridge0` fails with `failed to get mtu of bridge
+  `bridge0': No such device` (can't be investigated further because
+  setup is completely unclear).
 
-  systemd utilizes existing watchdog hardware and set's a 10min timer on re=
-boot.
-  The i6300esb under qemu doesn't like such a timeout, and immediately rese=
-ts the hardware:
-
-  The last message one gets is
-  [    9.402243] i6300esb: Unexpected close, not stopping watchdog!
-
-  =
-
-  The linked bug report contains information how this bug can easily be rep=
-roduced.
-  With any image using a recent enough systemd as PID 1 you should be able =
-to reproduce it by running
-
-  qemu-system-x86_64 -curses -enable-kvm -device i6300esb -watchdog-
-  action reset -hda <image with systemd>
-
-  =
-
-  I'm uncertain if this is a qemu or kernel/driver bug. If the latter, plea=
-se re-assign the bug as necessary.
+  ProblemType: Bug
+  DistroRelease: Ubuntu 14.10
+  Package: qemu 2.1+dfsg-4ubuntu6.4
+  Uname: Linux 3.19.0-031900-generic x86_64
+  ApportVersion: 2.14.7-0ubuntu8.2
+  Architecture: amd64
+  CurrentDesktop: Unity
+  Date: Sat Feb 21 19:39:07 2015
+  EcryptfsInUse: Yes
+  InstallationDate: Installed on 2015-01-26 (25 days ago)
+  InstallationMedia: Ubuntu 14.10 "Utopic Unicorn" - Release amd64 (2014102=
+2.1)
+  KvmCmdLine:
+   COMMAND         STAT  EUID  RUID   PID  PPID %CPU COMMAND
+   kvm-irqfd-clean S<       0     0  1026     2  0.0 [kvm-irqfd-clean]
+   qemu-system-x86 Sl+      0     0 25905 25904 11.9 qemu-system-x86_64 -bo=
+ot c -hda ubuntu.img -m 2048 -smp 16 -enable-kvm -vnc :0,abc -k de -drive f=
+ile=3D/dev/sda14,if=3Dide -net nic -net bridge,br=3Dbridge0
+   kvm-pit/25905   S        0     0 25948     2  0.0 [kvm-pit/25905]
+  MachineType: LENOVO 20221
+  ProcEnviron:
+   TERM=3Dxterm
+   PATH=3D(custom, no user)
+   XDG_RUNTIME_DIR=3D<set>
+   LANG=3Dde_DE.UTF-8
+   SHELL=3D/bin/bash
+  ProcKernelCmdLine: BOOT_IMAGE=3D/vmlinuz-3.19.0-031900-generic root=3DUUI=
+D=3Dac20c93a-0ec5-445a-98cd-941f0fbc0e50 ro rootflags=3Dsubvol=3D@
+  SourcePackage: qemu
+  UpgradeStatus: No upgrade log present (probably fresh install)
+  dmi.bios.date: 07/12/2013
+  dmi.bios.vendor: LENOVO
+  dmi.bios.version: 71CN51WW(V1.21)
+  dmi.board.asset.tag: No Asset Tag
+  dmi.board.name: INVALID
+  dmi.board.vendor: LENOVO
+  dmi.board.version: 31900003WIN8 STD MLT
+  dmi.chassis.asset.tag: No Asset Tag
+  dmi.chassis.type: 10
+  dmi.chassis.vendor: LENOVO
+  dmi.chassis.version: Lenovo IdeaPad Z500 Touch
+  dmi.modalias: dmi:bvnLENOVO:bvr71CN51WW(V1.21):bd07/12/2013:svnLENOVO:pn2=
+0221:pvrLenovoIdeaPadZ500Touch:rvnLENOVO:rnINVALID:rvr31900003WIN8STDMLT:cv=
+nLENOVO:ct10:cvrLenovoIdeaPadZ500Touch:
+  dmi.product.name: 20221
+  dmi.product.version: Lenovo IdeaPad Z500 Touch
+  dmi.sys.vendor: LENOVO
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1423528/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1424237/+subscriptions
 
