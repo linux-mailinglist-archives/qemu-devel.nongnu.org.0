@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD4B372920
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:39:15 +0200 (CEST)
-Received: from localhost ([::1]:51658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B16372921
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:40:25 +0200 (CEST)
+Received: from localhost ([::1]:54350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldsSR-0002eh-3T
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:39:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58368)
+	id 1ldsTY-0003kq-Cy
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:40:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lds9z-0006yo-5h
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:20:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42916)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ldsBH-0000vG-Vu
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:21:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lds9w-0004BH-6w
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:20:10 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ldsBG-00053s-7W
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:21:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620123607;
+ s=mimecast20190719; t=1620123689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0gHwAACULLNDf7+9T/JkN0gZn3ETdLrecqMeDe4XYMw=;
- b=fx3Z7HC5zrvbDCNTcNxP7fsHFQWlWq8aZHrYS4F8tiHz8y7oiqM+TqGaxGbIIM3w4RP/R/
- gddOJ9aBC94tnXJW1BDd1SlLrivSd95T+FdrMUmUd5f3gA8fBnGl7vPVbJPs8d01Bd0B/Q
- 6YKItuW34UxI6mEouvzHqbMaqEJj2iw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-tS_0b6gnPx-bt9Jgo6rmBw-1; Tue, 04 May 2021 06:20:05 -0400
-X-MC-Unique: tS_0b6gnPx-bt9Jgo6rmBw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o126-20020a1c28840000b0290149b8f27c99so701507wmo.2
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:20:05 -0700 (PDT)
+ bh=sysRs/FwLpMpGDObnlHjccol0CFCK9W7nI3AwqwYA/M=;
+ b=MMIXFprBTZJ49zu7tXT4EEVzsXDGa9oPUbhMmE15b5q7qDUD6goK8pVV2B38VwXXmIlr8L
+ sEKrMyK9r6LYHnJY4vxZL/70cWhWoeUJbprCIJkjqv8US9S6i8IDIyvOoQbuDqn/vx3kG1
+ yBKYOn0y9Tt/IYSHchL9G8QRKQ2gzKE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-43-jWk-lxn7NJi8bReY_omJkQ-1; Tue, 04 May 2021 06:21:28 -0400
+X-MC-Unique: jWk-lxn7NJi8bReY_omJkQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z9-20020a1c65090000b029014b497b2d98so534414wmb.8
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:21:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0gHwAACULLNDf7+9T/JkN0gZn3ETdLrecqMeDe4XYMw=;
- b=hk3izWMzbCJzFexY9ctBtcxPBlWoVpYv4ozts7HCUgmQ0o4a1kAg98/5Rzr78ylDUf
- 4flm+6ghn1FWRtbCfoJdf//ezDBSoSbDAtMBNmpvjJXW/iYHdXzOMnc8DMFN+iurEfMn
- 6FkYlzk04rIWaOWnJOyApTdRqgWb4p+SPaE+Ct0u7KGx2SIlPHeDdENBndM4BSlZTOtW
- q+U0dHsDvCT7WUbWaJ3cAFU3Brm/G6PCzWB4hnqo4LUNEkIsLoLFxYRkb+WsLpSYo7JA
- jrCXKEm64YobKYCzec4x60aYDihAEWCtqDOD85jpcsVm7AJinMoXcR527DXTz+9GytEH
- wLVw==
-X-Gm-Message-State: AOAM533wGgKVzJO7mFQGPs+OnLkYau0/0XI0ogUrhgaXTgDQI4LrFZHb
- bComP8xgo0/h5q0xgiCdtZGTKosTRfFie6i/Mo01dY/auMyBSMRMzLPxAe8DlX6IQWOg3pO7jZo
- PfIHf5jhJsuw2cPE=
-X-Received: by 2002:adf:e846:: with SMTP id d6mr31125411wrn.356.1620123604711; 
- Tue, 04 May 2021 03:20:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3sSVziBcB09kiEQ/9j5+DaLUlYaDIWdyedzv9mwe9zEiW9dGg1USqmIBTLFySguCxOVe0rw==
-X-Received: by 2002:adf:e846:: with SMTP id d6mr31125396wrn.356.1620123604593; 
- Tue, 04 May 2021 03:20:04 -0700 (PDT)
-Received: from [192.168.1.19]
- (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
- by smtp.gmail.com with ESMTPSA id i3sm17290690wrb.46.2021.05.04.03.20.03
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=sysRs/FwLpMpGDObnlHjccol0CFCK9W7nI3AwqwYA/M=;
+ b=I6Yx2nAenRCQ0YllAPPJam26SY9SlpcUW5qgzPyx8NCC6ogLNdlKE6blyMmy8+RBLs
+ 9WOdd7Oy8HG0OdI6Rdvi9mMKYQNikycUgEY+QGpyrkiVk1LJF8GP+LfJ4Zcwafp1KfqX
+ LJj9jmOSwpfzbpv+Nya11CV2iQTG+KDQUl5rXT2Ua1oa0C1+KaaQJuqQXj8UERGDuqHL
+ qyAmLxeUGPv3BUN53NwZdxPnXy0wCtlFEUWliqozWDmgfMONl2MP8lHYQl8Mrpwn+3pR
+ 4EjBlFWF2fTPgFw48VN6xYBQSsLk0WO7cTyFGO2p6uWbGUvLgACII2gd7MU8rY7ZtfIH
+ 4oYQ==
+X-Gm-Message-State: AOAM533mnRjZ0RayL8EKH8ADOZ+PhkGd5JQJfDNe3oOmqUBPlEk7FiSy
+ wlNY2CQEOvbZkg5wBPI2ywy17fMTSTBQEM4TS1TqDp++ATr5imAgx7TopPg9eBPgV1wrA9AaO/7
+ 0K2gSobqn0kl+k+E=
+X-Received: by 2002:a05:600c:4f44:: with SMTP id
+ m4mr26397413wmq.50.1620123686670; 
+ Tue, 04 May 2021 03:21:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxRk8z9VzaxAzELGzYwNIBt+fpHXx314DHasOJW/J5LeqV1N+V0TsPXAh73ZIQUxzgsQz3iAg==
+X-Received: by 2002:a05:600c:4f44:: with SMTP id
+ m4mr26397396wmq.50.1620123686391; 
+ Tue, 04 May 2021 03:21:26 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6fae.dip0.t-ipconnect.de. [91.12.111.174])
+ by smtp.gmail.com with ESMTPSA id z6sm2203119wmf.9.2021.05.04.03.21.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 May 2021 03:20:04 -0700 (PDT)
-Subject: Re: Switching to the GitLab bug tracker
-To: Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <a6d77040-1dba-90c7-5ebe-5778177e686e@redhat.com>
- <YJEJNBJOqry5sHiy@stefanha-x1.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2953611e-8780-f2a8-6394-0a5099042eb1@redhat.com>
-Date: Tue, 4 May 2021 12:20:03 +0200
+ Tue, 04 May 2021 03:21:26 -0700 (PDT)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210428133754.10713-1-david@redhat.com>
+ <20210428133754.10713-10-david@redhat.com> <YJEddjCsFgXa4tiR@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v7 09/15] util/mmap-alloc: Support RAM_NORESERVE via
+ MAP_NORESERVE under Linux
+Message-ID: <477b3679-1218-87bb-29d6-9b1b6079ab78@redhat.com>
+Date: Tue, 4 May 2021 12:21:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YJEJNBJOqry5sHiy@stefanha-x1.localdomain>
+In-Reply-To: <YJEddjCsFgXa4tiR@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -99,60 +102,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-discuss <qemu-discuss@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Igor Mammedov <imammedo@redhat.com>, Nitesh Lal <nilal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/21 10:43 AM, Stefan Hajnoczi wrote:
-> On Mon, May 03, 2021 at 01:16:51PM +0200, Thomas Huth wrote:
->> As you might have already noticed by some other mails on the qemu-devel
->> mailing list, we are in progress of switching our bug tracking tool from
->> Launchpad to Gitlab. The new tracker can now be found here:
+On 04.05.21 12:09, Daniel P. Berrangé wrote:
+> On Wed, Apr 28, 2021 at 03:37:48PM +0200, David Hildenbrand wrote:
+>> Let's support RAM_NORESERVE via MAP_NORESERVE on Linux. The flag has no
+>> effect on most shared mappings - except for hugetlbfs and anonymous memory.
 >>
->>  https://gitlab.com/qemu-project/qemu/-/issues
-> 
-> Thank you for doing this, Thomas!
-> 
->> 1) We likely won't have the possibility anymore to automatically send e-mail
->> notifications for new bugs to the qemu-devel mailing list. If you want to
->> get informed about new bugs, please use the notification mechanism from
->> Gitlab instead. That means, log into your gitlab account, browse to
+>> Linux man page:
+>>    "MAP_NORESERVE: Do not reserve swap space for this mapping. When swap
+>>    space is reserved, one has the guarantee that it is possible to modify
+>>    the mapping. When swap space is not reserved one might get SIGSEGV
+>>    upon a write if no physical memory is available. See also the discussion
+>>    of the file /proc/sys/vm/overcommit_memory in proc(5). In kernels before
+>>    2.6, this flag had effect only for private writable mappings."
 >>
->>  https://gitlab.com/qemu-project/qemu
+>> Note that the "guarantee" part is wrong with memory overcommit in Linux.
 >>
->> and click on the bell icon at the top of the page to manage your
->> notifications, e.g. enable notifications for "New issues" there.
+>> Also, in Linux hugetlbfs is treated differently - we configure reservation
+>> of huge pages from the pool, not reservation of swap space (huge pages
+>> cannot be swapped).
+>>
+>> The rough behavior is [1]:
+>> a) !Hugetlbfs:
+>>
+>>    1) Without MAP_NORESERVE *or* with memory overcommit under Linux
+>>       disabled ("/proc/sys/vm/overcommit_memory == 2"), the following
+>>       accounting/reservation happens:
+>>        For a file backed map
+>>         SHARED or READ-only - 0 cost (the file is the map not swap)
+>>         PRIVATE WRITABLE - size of mapping per instance
+>>
+>>        For an anonymous or /dev/zero map
+>>         SHARED   - size of mapping
+>>         PRIVATE READ-only - 0 cost (but of little use)
+>>         PRIVATE WRITABLE - size of mapping per instance
+>>
+>>    2) With MAP_NORESERVE, no accounting/reservation happens.
+>>
+>> b) Hugetlbfs:
+>>
+>>    1) Without MAP_NORESERVE, huge pages are reserved.
+>>
+>>    2) With MAP_NORESERVE, no huge pages are reserved.
+>>
+>> Note: With "/proc/sys/vm/overcommit_memory == 0", we were already able
+>> to configure it for !hugetlbfs globally; this toggle now allows
+>> configuring it more fine-grained, not for the whole system.
+>>
+>> The target use case is virtio-mem, which dynamically exposes memory
+>> inside a large, sparse memory area to the VM.
 > 
-> All maintainers and most regular contributors should follow the issue
-> tracker so that QEMU developers are aware of new issues. Please do this!
-> 
-> An alternative mechanism is the RSS/Atom feed available by clicking the
-> "Subscribe to RSS feed" button left of the "New issue" button here:
-> 
->   https://gitlab.com/qemu-project/qemu/-/issues
+> Can you explain this use case in more real world terms, as I'm not
+> understanding what a mgmt app would actually do with this in
+> practice ?
 
-You can also subscribe to labels of interest [*] going to
-https://gitlab.com/qemu-project/qemu/-/labels
+Let's consider huge pages for simplicity. Assume you have 128 free huge 
+pages in your hypervisor that you want to dynamically assign to VMs.
 
-For example in my case I subscribed to receive notifications
-only from these labels:
+Further assume you have two VMs running. A workflow could look like
 
-- kind:Bug
-- Storage
-- pflash
-- Fuzzer
-- workflow:Merged
+1. Assign all huge pages to VM 0
+2. Reassign 64 huge pages to VM 1
+3. Reassign another 32 huge pages to VM 1
+4. Reasssign 16 huge pages to VM 0
+5. ...
 
-What I miss is getting notified when new labels are created...
+Basically what we're used to doing with "ordinary" memory.
 
-Regards,
+For that to work with virtio-mem, you'll have to disable reservation of 
+huge pages for the virtio-mem managed memory region.
 
-Phil.
+(prealloction of huge pages in virtio-mem to protect from user mistakes 
+is a separate work item)
 
-[*]
-https://docs.gitlab.com/ee/user/project/labels.html#subscribing-to-labels
+reserve=off will be the default for virtio-mem, and actual 
+reservation/preallcoation will be done within virtio-mem. There could be 
+use for "reserve=off" for virtio-balloon use cases as well, but I'd like 
+to exclude that from the discussion for now.
+
+Hope that answers your question, thanks.
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
