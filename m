@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB959372A07
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 14:25:55 +0200 (CEST)
-Received: from localhost ([::1]:38600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D8C372A06
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 14:25:37 +0200 (CEST)
+Received: from localhost ([::1]:37942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldu7f-0005lO-0G
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 08:25:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52782)
+	id 1ldu7M-0005TC-VS
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 08:25:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ldu0u-0002If-3B
- for qemu-devel@nongnu.org; Tue, 04 May 2021 08:18:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51093)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ldu4m-0004Zd-4F
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 08:22:56 -0400
+Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:41513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ldu0o-0003kx-4v
- for qemu-devel@nongnu.org; Tue, 04 May 2021 08:18:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620130725;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pbWO9DRPNiYmpMD3zNME6T7GcNN5zfFc+4/TAeYsrkE=;
- b=hWJGPmFDfgqYbmuNDEsX8LDGqLsqFZYqIGLojYzzDDEtwkmNWYHBW0JAGXExQWv6VSpw33
- FAsmWEriSyzOwSr5BGFBH21CUVPsFyeysSivrRlOmn0jO5AsMVTYnn+J67PQq9VZgbm3U2
- 8uk1Uz98ZVYh1Xer9sXfKHtfspgM6q4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-XuRKhZGAODCAflBbqjnpDA-1; Tue, 04 May 2021 08:18:43 -0400
-X-MC-Unique: XuRKhZGAODCAflBbqjnpDA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64163C73A1
- for <qemu-devel@nongnu.org>; Tue,  4 May 2021 12:18:42 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32F3460C0F
- for <qemu-devel@nongnu.org>; Tue,  4 May 2021 12:18:42 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] main-loop: remove dead code
-Date: Tue,  4 May 2021 08:18:41 -0400
-Message-Id: <20210504121841.605740-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ldu4j-0005fy-G7
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 08:22:55 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.240])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id CD06B275188;
+ Tue,  4 May 2021 14:22:40 +0200 (CEST)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 4 May 2021
+ 14:22:38 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0043eda4e7a-de7c-4853-8406-edae349cf2a7,
+ 233BADB9E061AA125F593C9F78707CF28220F307) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Tue, 4 May 2021 14:22:36 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: remove the nvlink2 pci_vfio subdriver v2
+Message-ID: <20210504142236.76994047@bahia.lan>
+In-Reply-To: <20210326061311.1497642-1-hch@lst.de>
+References: <20210326061311.1497642-1-hch@lst.de>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 316f1bea-914e-41ab-a4e8-46202395b6d3
+X-Ovh-Tracer-Id: 4363706565853223297
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdefiedgheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeeftdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeetgffffffggfekgeffteekhffhueelffdvhedvgfdthfeiudetvddulefgveevteenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=groug@kaod.org;
+ helo=7.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,116 +67,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Daniel Vetter <daniel@ffwll.ch>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>, Paul
+ Mackerras <paulus@samba.org>, Jason Gunthorpe <jgg@nvidia.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, qemu-ppc@nongnu.org,
+ linux-api@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_add_child_watch is not called anywhere since commit 2bdb920ece
-("slirp: simplify fork_exec()", 2019-01-14), remove it.
+On Fri, 26 Mar 2021 07:13:09 +0100
+Christoph Hellwig <hch@lst.de> wrote:
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/qemu/main-loop.h | 18 ------------
- util/main-loop.c         | 59 ----------------------------------------
- 2 files changed, 77 deletions(-)
+> Hi all,
+> 
+> the nvlink2 vfio subdriver is a weird beast.  It supports a hardware
+> feature without any open source component - what would normally be
+> the normal open source userspace that we require for kernel drivers,
+> although in this particular case user space could of course be a
+> kernel driver in a VM.  It also happens to be a complete mess that
+> does not properly bind to PCI IDs, is hacked into the vfio_pci driver
+> and also pulles in over 1000 lines of code always build into powerpc
+> kernels that have Power NV support enabled.  Because of all these
+> issues and the lack of breaking userspace when it is removed I think
+> the best idea is to simply kill.
+> 
+> Changes since v1:
+>  - document the removed subtypes as reserved
+>  - add the ACK from Greg
+> 
+> Diffstat:
+>  arch/powerpc/platforms/powernv/npu-dma.c     |  705 ---------------------------
+>  b/arch/powerpc/include/asm/opal.h            |    3 
+>  b/arch/powerpc/include/asm/pci-bridge.h      |    1 
+>  b/arch/powerpc/include/asm/pci.h             |    7 
+>  b/arch/powerpc/platforms/powernv/Makefile    |    2 
+>  b/arch/powerpc/platforms/powernv/opal-call.c |    2 
+>  b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
+>  b/arch/powerpc/platforms/powernv/pci.c       |   11 
+>  b/arch/powerpc/platforms/powernv/pci.h       |   17 
+>  b/arch/powerpc/platforms/pseries/pci.c       |   23 
+>  b/drivers/vfio/pci/Kconfig                   |    6 
+>  b/drivers/vfio/pci/Makefile                  |    1 
+>  b/drivers/vfio/pci/vfio_pci.c                |   18 
+>  b/drivers/vfio/pci/vfio_pci_private.h        |   14 
+>  b/include/uapi/linux/vfio.h                  |   38 -
 
-diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index d6892fd208..98aef5647c 100644
---- a/include/qemu/main-loop.h
-+++ b/include/qemu/main-loop.h
-@@ -234,24 +234,6 @@ void event_notifier_set_handler(EventNotifier *e,
- 
- GSource *iohandler_get_g_source(void);
- AioContext *iohandler_get_aio_context(void);
--#ifdef CONFIG_POSIX
--/**
-- * qemu_add_child_watch: Register a child process for reaping.
-- *
-- * Under POSIX systems, a parent process must read the exit status of
-- * its child processes using waitpid, or the operating system will not
-- * free some of the resources attached to that process.
-- *
-- * This function directs the QEMU main loop to observe a child process
-- * and call waitpid as soon as it exits; the watch is then removed
-- * automatically.  It is useful whenever QEMU forks a child process
-- * but will find out about its termination by other means such as a
-- * "broken pipe".
-- *
-- * @pid: The pid that QEMU should observe.
-- */
--int qemu_add_child_watch(pid_t pid);
--#endif
- 
- /**
-  * qemu_mutex_iothread_locked: Return lock status of the main loop mutex.
-diff --git a/util/main-loop.c b/util/main-loop.c
-index 5188ff6540..0550d71b4b 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -592,63 +592,4 @@ void event_notifier_set_handler(EventNotifier *e,
-                            handler, NULL);
- }
- 
--/* reaping of zombies.  right now we're not passing the status to
--   anyone, but it would be possible to add a callback.  */
--#ifndef _WIN32
--typedef struct ChildProcessRecord {
--    int pid;
--    QLIST_ENTRY(ChildProcessRecord) next;
--} ChildProcessRecord;
--
--static QLIST_HEAD(, ChildProcessRecord) child_watches =
--    QLIST_HEAD_INITIALIZER(child_watches);
--
--static QEMUBH *sigchld_bh;
--
--static void sigchld_handler(int signal)
--{
--    qemu_bh_schedule(sigchld_bh);
--}
--
--static void sigchld_bh_handler(void *opaque)
--{
--    ChildProcessRecord *rec, *next;
--
--    QLIST_FOREACH_SAFE(rec, &child_watches, next, next) {
--        if (waitpid(rec->pid, NULL, WNOHANG) == rec->pid) {
--            QLIST_REMOVE(rec, next);
--            g_free(rec);
--        }
--    }
--}
--
--static void qemu_init_child_watch(void)
--{
--    struct sigaction act;
--    sigchld_bh = qemu_bh_new(sigchld_bh_handler, NULL);
--
--    memset(&act, 0, sizeof(act));
--    act.sa_handler = sigchld_handler;
--    act.sa_flags = SA_NOCLDSTOP;
--    sigaction(SIGCHLD, &act, NULL);
--}
--
--int qemu_add_child_watch(pid_t pid)
--{
--    ChildProcessRecord *rec;
--
--    if (!sigchld_bh) {
--        qemu_init_child_watch();
--    }
--
--    QLIST_FOREACH(rec, &child_watches, next) {
--        if (rec->pid == pid) {
--            return 1;
--        }
--    }
--    rec = g_malloc0(sizeof(ChildProcessRecord));
--    rec->pid = pid;
--    QLIST_INSERT_HEAD(&child_watches, rec, next);
--    return 0;
--}
- #endif
--- 
-2.26.2
+
+Hi Christoph,
+
+FYI, these uapi changes break build of QEMU.
+
+I guess QEMU people should take some action before this percolates
+to the QEMU source tree.
+
+Cc'ing relevant QEMU lists to bring the discussion there.
+
+Cheers,
+
+--
+Greg
+
+>  drivers/vfio/pci/vfio_pci_nvlink2.c          |  490 ------------------
+>  16 files changed, 12 insertions(+), 1511 deletions(-)
 
 
