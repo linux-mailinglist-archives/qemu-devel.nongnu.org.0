@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F17372817
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 11:29:54 +0200 (CEST)
-Received: from localhost ([::1]:49378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78A737282A
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 11:42:55 +0200 (CEST)
+Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldrNH-0000o4-Gt
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 05:29:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47588)
+	id 1ldrZu-0005XC-EM
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 05:42:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ldrKw-0007wD-Sf
- for qemu-devel@nongnu.org; Tue, 04 May 2021 05:27:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37081)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ldrYi-00056Y-5s
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 05:41:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ldrKu-0007oj-Hu
- for qemu-devel@nongnu.org; Tue, 04 May 2021 05:27:26 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ldrYa-0007UA-Ey
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 05:41:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620120442;
+ s=mimecast20190719; t=1620121289;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BYZ5xqqTk3EmDRFuz6yABx9La0JIhF3w/gQ6c/hPM/0=;
- b=S4l7cvMT5Miuh/ILqHSBHd0/Iwgo/tEKV6o3ZBE/wzBYDbaTtqMr4obI6X60wQ/GYRFwfp
- x8X7SNt9NUp//oaT0n7MJaYRGsqB1C5BzAHvsZfUYIo5QZtgF/5vnkhRMfygqFOEqDTwS/
- d9DVbqWuDg5xejWg42VLhY9bni4CcRE=
+ bh=RRyNgHmeiVLnCy3xSzPJgEm6g2N/NC87u2gGhSbkvEQ=;
+ b=VAxEg4u3f9XLvLKY2/croyVCiqoSh/tWMg758M7YzicTN06wUy0WG9yBBEZVCR6xmg8M6X
+ SMBMos0qs9mWL40wjF0oH6MdxsBTyz6UtkfFx20Rk+AtzaAhvcSGyYXK5vnq3tu+DLMp0Z
+ jYklMKkn1kXWD0kkxemGqTiHYIAygaM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-WNozxWEfOReOFRhxLtzMXQ-1; Tue, 04 May 2021 05:27:20 -0400
-X-MC-Unique: WNozxWEfOReOFRhxLtzMXQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-57-d3cuCxvqMROlMRmZo_1IcQ-1; Tue, 04 May 2021 05:41:27 -0400
+X-MC-Unique: d3cuCxvqMROlMRmZo_1IcQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D4EE8042C5;
- Tue,  4 May 2021 09:27:19 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-48.ams2.redhat.com [10.36.114.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6FCF61156;
- Tue,  4 May 2021 09:27:13 +0000 (UTC)
-Date: Tue, 4 May 2021 11:27:12 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 2/6] vhost-user-blk: Don't reconnect during
- initialisation
-Message-ID: <YJETcFAyQUHB13N6@merkur.fritz.box>
-References: <20210429171316.162022-1-kwolf@redhat.com>
- <20210429171316.162022-3-kwolf@redhat.com>
- <20210504044050-mutt-send-email-mst@kernel.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6505D107ACC7;
+ Tue,  4 May 2021 09:41:26 +0000 (UTC)
+Received: from work-vm (ovpn-115-50.ams2.redhat.com [10.36.115.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E67D817A8B;
+ Tue,  4 May 2021 09:41:24 +0000 (UTC)
+Date: Tue, 4 May 2021 10:41:22 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v4 4/6] migration-test: Make sure that multifd and cancel
+ works
+Message-ID: <YJEWwlpOTLAHNUev@work-vm>
+References: <20200122111517.33223-1-quintela@redhat.com>
+ <20200122111517.33223-5-quintela@redhat.com>
+ <CAFEAcA8XG2ATagb=ed5oDW=PsMBzAYoQK3DN6Os3_oMusYkAuA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210504044050-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAFEAcA8XG2ATagb=ed5oDW=PsMBzAYoQK3DN6Os3_oMusYkAuA@mail.gmail.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,90 +81,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den-plotnikov@yandex-team.ru, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- raphael.norwitz@nutanix.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.05.2021 um 10:59 hat Michael S. Tsirkin geschrieben:
-> On Thu, Apr 29, 2021 at 07:13:12PM +0200, Kevin Wolf wrote:
-> > This is a partial revert of commits 77542d43149 and bc79c87bcde.
-> > 
-> > Usually, an error during initialisation means that the configuration was
-> > wrong. Reconnecting won't make the error go away, but just turn the
-> > error condition into an endless loop. Avoid this and return errors
-> > again.
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Wed, 22 Jan 2020 at 11:20, Juan Quintela <quintela@redhat.com> wrote:
+> >
+> > Test that this sequerce works:
+> >
+> > - launch source
+> > - launch target
+> > - start migration
+> > - cancel migration
+> > - relaunch target
+> > - do migration again
+> >
+> > Signed-off-by: Juan Quintela <quintela@redhat.com>
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Signed-off-by: Juan Quintela <quintela@redhat.com>
 > 
-> So there are several possible reasons for an error:
+> A year-old commit, but we've just got around to running Coverity
+> on the tests/ directory, and it spotted this one:
 > 
-> 1. remote restarted - we would like to reconnect,
->    this was the original use-case for reconnect.
+> >  static void migrate_set_capability(QTestState *who, const char *capability,
+> >                                     bool value)
 > 
->    I am not very happy that we are killing this usecase.
+> The 3rd argument to migrate_set_capability() is a bool...
 
-This patch is killing it only during initialisation, where it's quite
-unlikely compared to other cases and where the current implementation is
-rather broken. So reverting the broken feature and going back to a
-simpler correct state feels like a good idea to me.
+oops
 
-The idea is to add the "retry during initialisation" feature back on top
-of this, but it requires some more changes in the error paths so that we
-can actually distinguish different kinds of errors and don't retry when
-we already know that it can't succeed.
-
-> 2. qemu detected an error and closed the connection
->    looks like we try to handle that by reconnect,
->    this is something we should address.
-
-Yes, if qemu produces the error locally, retrying is useless.
-
-> 3. remote failed due to a bad command from qemu.
->    this usecase isn't well supported at the moment.
 > 
->    How about supporting it on the remote side? I think that if the
->    data is well-formed just has a configuration remote can not support
->    then instead of closing the connection, remote can wait for
->    commands with need_reply set, and respond with an error. Or at
->    least do it if VHOST_USER_PROTOCOL_F_REPLY_ACK has been negotiated.
->    If VHOST_USER_SET_VRING_ERR is used then signalling that fd might
->    also be reasonable.
+> > +static void test_multifd_tcp_cancel(void)
+> > +{
 > 
->    OTOH if qemu is buggy and sends malformed data and remote detects
->    that then hacing qemu retry forever is ok, might actually be
->    benefitial for debugging.
-
-I haven't really checked this case yet, it seems to be less common.
-Explicitly communicating an error is certainly better than just cutting
-the connection. But as you say, it means QEMU is buggy, so blindly
-retrying in this case is kind of acceptable.
-
-Raphael suggested that we could limit the number of retries during
-initialisation so that it wouldn't result in a hang at least.
-
-> > Additionally, calling vhost_user_blk_disconnect() from the chardev event
-> > handler could result in use-after-free because none of the
-> > initialisation code expects that the device could just go away in the
-> > middle. So removing the call fixes crashes in several places.
-> > For example, using a num-queues setting that is incompatible with the
-> > backend would result in a crash like this (dereferencing dev->opaque,
-> > which is already NULL):
-> > 
-> >  #0  0x0000555555d0a4bd in vhost_user_read_cb (source=0x5555568f4690, condition=(G_IO_IN | G_IO_HUP), opaque=0x7fffffffcbf0) at ../hw/virtio/vhost-user.c:313
-> >  #1  0x0000555555d950d3 in qio_channel_fd_source_dispatch (source=0x555557c3f750, callback=0x555555d0a478 <vhost_user_read_cb>, user_data=0x7fffffffcbf0) at ../io/channel-watch.c:84
-> >  #2  0x00007ffff7b32a9f in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
-> >  #3  0x00007ffff7b84a98 in g_main_context_iterate.constprop () at /lib64/libglib-2.0.so.0
-> >  #4  0x00007ffff7b32163 in g_main_loop_run () at /lib64/libglib-2.0.so.0
-> >  #5  0x0000555555d0a724 in vhost_user_read (dev=0x555557bc62f8, msg=0x7fffffffcc50) at ../hw/virtio/vhost-user.c:402
-> >  #6  0x0000555555d0ee6b in vhost_user_get_config (dev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost-user.c:2133
-> >  #7  0x0000555555d56d46 in vhost_dev_get_config (hdev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost.c:1566
-> >  #8  0x0000555555cdd150 in vhost_user_blk_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcf90) at ../hw/block/vhost-user-blk.c:510
-> >  #9  0x0000555555d08f6d in virtio_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcff0) at ../hw/virtio/virtio.c:3660
+> > +    migrate_set_parameter_int(from, "downtime-limit", 1);
+> > +    /* 300MB/s */
+> > +    migrate_set_parameter_int(from, "max-bandwidth", 30000000);
+> > +
+> > +    migrate_set_parameter_int(from, "multifd-channels", 16);
+> > +    migrate_set_parameter_int(to, "multifd-channels", 16);
+> > +
+> > +    migrate_set_capability(from, "multifd", "true");
+> > +    migrate_set_capability(to, "multifd", "true");
 > 
-> Right. So that's definitely something to fix.
+> ...but here you pass it the character string '"true"' rather than
+> the boolean value 'true'.
 > 
-> > 
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> This works by fluke since the implicit comparison of the literal string
+> against NULL will evaluate to true, but it isn't really right :-)
+> 
+> CID 1432373, 1432292, 1432288.
+> 
+> There seem to be 7 uses of the string "true" when the boolean
+> was intended; I don't know why Coverity only found 3 issues.
 
-Kevin
+I'll send a patch.
+
+Dave
+
+> thanks
+> -- PMM
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
