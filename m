@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E762F3725AC
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:06:40 +0200 (CEST)
-Received: from localhost ([::1]:41828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE87E3725A9
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:04:01 +0200 (CEST)
+Received: from localhost ([::1]:37274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldoCe-0007RU-04
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60480)
+	id 1ldoA3-0005Tt-CE
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo00-0005Fk-Rr; Tue, 04 May 2021 01:53:36 -0400
-Received: from ozlabs.org ([203.11.71.1]:35751)
+ id 1ldo02-0005Hc-IK; Tue, 04 May 2021 01:53:39 -0400
+Received: from ozlabs.org ([203.11.71.1]:39851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldnzx-0004iX-Ds; Tue, 04 May 2021 01:53:35 -0400
+ id 1ldnzz-0004kR-Cw; Tue, 04 May 2021 01:53:37 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZ8CK3r9Gz9sWq; Tue,  4 May 2021 15:53:17 +1000 (AEST)
+ id 4FZ8CK4VJQz9sX3; Tue,  4 May 2021 15:53:17 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620107597;
- bh=x/kaaARkUFgaoRSSOlm3/nAAxu0ti8r5riiog6MzMng=;
+ bh=EOPu6ADeRLGhAyKKyY2SdVCCjqq706WI0Er+aWaZJ8o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SS2Zb5K/3uP1HmLgP5f7Kc0o6l6jaXc1h2Ey54o4xWjRVQ2UNf37tLM5WEe50CGgC
- jjKENZ2oGHnNGs3raVfzXB08AJoEh6qWZDSB6SzHTgjD+veeYAM/BS/82oWMPjCt0l
- VERgCXZiBWjaLaCxMTTLpXSsAI6Md8OKq+MiYnqY=
+ b=AnXHInv5jo+304cUKO5rozSV2twH5FZNjMPDqQ4PAZRhJgM4jHLFwt1z0eNg/9RT2
+ fNu0Oj2NiodXUeoBknFdWAjIyrrOF7DHnKcQLiJTxC3KkWJX3jk1k/uIxZ6QVfD+V6
+ aPgE1SI5CLnU+ej1HgXGKMmtGt8a+TsF1/h3Uz78=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 14/46] target/ppc: Create helper_scv
-Date: Tue,  4 May 2021 15:52:40 +1000
-Message-Id: <20210504055312.306823-15-david@gibson.dropbear.id.au>
+Subject: [PULL 15/46] target/ppc: Put LPCR[GTSE] in hflags
+Date: Tue,  4 May 2021 15:52:41 +1000
+Message-Id: <20210504055312.306823-16-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 References: <20210504055312.306823-1-david@gibson.dropbear.id.au>
@@ -64,100 +64,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Perform the test against FSCR_SCV at runtime, in the helper.
+Because this bit was not in hflags, the privilege check
+for tlb instructions was essentially random.
+Recompute hflags when storing to LPCR.
 
-This means we can remove the incorrect set against SCV in
-ppc_tr_init_disas_context and do not need to add an HFLAGS bit.
-
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210323184340.619757-6-richard.henderson@linaro.org>
+Message-Id: <20210323184340.619757-7-richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/excp_helper.c |  9 +++++++++
- target/ppc/helper.h      |  1 +
- target/ppc/translate.c   | 20 +++++++-------------
- 3 files changed, 17 insertions(+), 13 deletions(-)
+ target/ppc/cpu.h         | 1 +
+ target/ppc/helper_regs.c | 3 +++
+ target/ppc/mmu-hash64.c  | 3 +++
+ target/ppc/translate.c   | 2 +-
+ 4 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 85de7e6c90..5c95e0c103 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -1130,6 +1130,15 @@ void helper_store_msr(CPUPPCState *env, target_ulong val)
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index d5f362506a..3c28ddb331 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -596,6 +596,7 @@ enum {
+     HFLAGS_LE = 0,   /* MSR_LE -- comes from elsewhere on 601 */
+     HFLAGS_HV = 1,   /* computed from MSR_HV and other state */
+     HFLAGS_64 = 2,   /* computed from MSR_CE and MSR_SF */
++    HFLAGS_GTSE = 3, /* computed from SPR_LPCR[GTSE] */
+     HFLAGS_DR = 4,   /* MSR_DR */
+     HFLAGS_IR = 5,   /* MSR_IR */
+     HFLAGS_SPE = 6,  /* from MSR_SPE if cpu has SPE; avoid overlap w/ MSR_VR */
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index e345966b6b..f85bb14d1d 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -149,6 +149,9 @@ void hreg_compute_hflags(CPUPPCState *env)
+     if ((ppc_flags & POWERPC_FLAG_TM) && (msr & (1ull << MSR_TM))) {
+         hflags |= 1 << HFLAGS_TM;
+     }
++    if (env->spr[SPR_LPCR] & LPCR_GTSE) {
++        hflags |= 1 << HFLAGS_GTSE;
++    }
+ 
+ #ifndef CONFIG_USER_ONLY
+     if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index 0fabc10302..d517a99832 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -30,6 +30,7 @@
+ #include "exec/log.h"
+ #include "hw/hw.h"
+ #include "mmu-book3s-v3.h"
++#include "helper_regs.h"
+ 
+ /* #define DEBUG_SLB */
+ 
+@@ -1125,6 +1126,8 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+     CPUPPCState *env = &cpu->env;
+ 
+     env->spr[SPR_LPCR] = val & pcc->lpcr_mask;
++    /* The gtse bit affects hflags */
++    hreg_compute_hflags(env);
  }
  
- #if defined(TARGET_PPC64)
-+void helper_scv(CPUPPCState *env, uint32_t lev)
-+{
-+    if (env->spr[SPR_FSCR] & (1ull << FSCR_SCV)) {
-+        raise_exception_err(env, POWERPC_EXCP_SYSCALL_VECTORED, lev);
-+    } else {
-+        raise_exception_err(env, POWERPC_EXCP_FU, FSCR_IC_SCV);
-+    }
-+}
-+
- void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
- {
-     CPUState *cs;
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 6a4dccf70c..513066d54d 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -13,6 +13,7 @@ DEF_HELPER_1(rfci, void, env)
- DEF_HELPER_1(rfdi, void, env)
- DEF_HELPER_1(rfmci, void, env)
- #if defined(TARGET_PPC64)
-+DEF_HELPER_2(scv, noreturn, env, i32)
- DEF_HELPER_2(pminsn, void, env, i32)
- DEF_HELPER_1(rfid, void, env)
- DEF_HELPER_1(rfscv, void, env)
+ void helper_store_lpcr(CPUPPCState *env, target_ulong val)
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 7912495f28..d48c554290 100644
+index d48c554290..5e629291d3 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -173,7 +173,6 @@ struct DisasContext {
-     bool vsx_enabled;
-     bool spe_enabled;
-     bool tm_enabled;
--    bool scv_enabled;
-     bool gtse;
-     ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
-     int singlestep_enabled;
-@@ -4081,15 +4080,16 @@ static void gen_sc(DisasContext *ctx)
- #if !defined(CONFIG_USER_ONLY)
- static void gen_scv(DisasContext *ctx)
- {
--    uint32_t lev;
-+    uint32_t lev = (ctx->opcode >> 5) & 0x7F;
- 
--    if (unlikely(!ctx->scv_enabled)) {
--        gen_exception_err(ctx, POWERPC_EXCP_FU, FSCR_IC_SCV);
--        return;
-+    /* Set the PC back to the faulting instruction. */
-+    if (ctx->exception == POWERPC_EXCP_NONE) {
-+        gen_update_nip(ctx, ctx->base.pc_next - 4);
-     }
-+    gen_helper_scv(cpu_env, tcg_constant_i32(lev));
- 
--    lev = (ctx->opcode >> 5) & 0x7F;
--    gen_exception_err(ctx, POWERPC_SYSCALL_VECTORED, lev);
-+    /* This need not be exact, just not POWERPC_EXCP_NONE */
-+    ctx->exception = POWERPC_SYSCALL_VECTORED;
- }
- #endif
- #endif
-@@ -7907,12 +7907,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->spe_enabled = (hflags >> HFLAGS_SPE) & 1;
+@@ -7908,7 +7908,7 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
      ctx->altivec_enabled = (hflags >> HFLAGS_VR) & 1;
      ctx->vsx_enabled = (hflags >> HFLAGS_VSX) & 1;
--    if ((env->flags & POWERPC_FLAG_SCV)
--        && (env->spr[SPR_FSCR] & (1ull << FSCR_SCV))) {
--        ctx->scv_enabled = true;
--    } else {
--        ctx->scv_enabled = false;
--    }
      ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
-     ctx->gtse = !!(env->spr[SPR_LPCR] & LPCR_GTSE);
+-    ctx->gtse = !!(env->spr[SPR_LPCR] & LPCR_GTSE);
++    ctx->gtse = (hflags >> HFLAGS_GTSE) & 1;
  
+     ctx->singlestep_enabled = 0;
+     if ((hflags >> HFLAGS_SE) & 1) {
 -- 
 2.31.1
 
