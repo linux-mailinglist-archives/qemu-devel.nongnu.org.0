@@ -2,88 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188243727BE
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 11:04:31 +0200 (CEST)
-Received: from localhost ([::1]:52666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1D93727CC
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 11:07:20 +0200 (CEST)
+Received: from localhost ([::1]:58390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldqyk-0002cz-6e
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 05:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41250)
+	id 1ldr1T-0005Au-7S
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 05:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ldquT-000871-PP
- for qemu-devel@nongnu.org; Tue, 04 May 2021 05:00:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31298)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ldqw2-0000wN-1b; Tue, 04 May 2021 05:01:45 -0400
+Received: from mail-eopbgr130128.outbound.protection.outlook.com
+ ([40.107.13.128]:35166 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ldquQ-0000uX-8u
- for qemu-devel@nongnu.org; Tue, 04 May 2021 05:00:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620118801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=e/gsilCJBUYavvBypJ/0U32s3fCUZTOC5ZezLki8rf0=;
- b=JywR9qLAwI7kV+Qnqvz5tptARd9M82MhPVmf/jvbB4Q3dB3IJKqAU1/YRP9IKQoDP5LhIa
- uI6N3YftptsJjg7yx/2VdXvllNUTUuPjCmzOwi1rTFWOJWMJOGpi2qWU3e6GDpc9w2l3iW
- RFJpH+azXFq3ugKODjDWBIj8+XZz0GM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-umpys5JNNCiEYXSxav8Tdw-1; Tue, 04 May 2021 04:59:59 -0400
-X-MC-Unique: umpys5JNNCiEYXSxav8Tdw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- 4-20020adf80040000b029010cab735fdeso5486291wrk.14
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 01:59:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=e/gsilCJBUYavvBypJ/0U32s3fCUZTOC5ZezLki8rf0=;
- b=NeIVI8wiNBfr2oGPE7+mCqlK4rP4sBOtDHdX9l/wfc37uo1Id9GI790kJx0nwJ7BlU
- eJfZeu21xBDdExrbfrrT04mMGCix4cGJs5V8aZejUi46rxPZnWHxYuf6uyF5LD+CHbo6
- HETMINRslNp6FPC9b4YciI/TR2Zm1Mrqn6oBjKzleU7dAg6GDuqwyH6m1ICDPzUnSwz3
- jjUltN6kaP2Yb8Qff6o48fwdg7f4TjTMlU0r3M5+l8hKNJVugCMT/WBpaKFQxRTOo0UO
- bDv6PNPeB1r5V5EW3n6V8QD2G/jr5h1PNODccjTpG2zpVnYzWqxlSqf7uVALBGn/S7aQ
- GcKw==
-X-Gm-Message-State: AOAM530JuYJ8/YDAqzZ4ghUGBtt1XnecS1ta+D9SQ8QstoDFOW1lSl9r
- 27aWw67yCVgJvSSW07OOLH6wV6J7i/assOp0Nv6h4teglOkeCgujf3tj9riNpPM8DG3ZgE/cnkQ
- wGIEyRYb3rarSieQ=
-X-Received: by 2002:a05:6000:110d:: with SMTP id
- z13mr30714304wrw.92.1620118798645; 
- Tue, 04 May 2021 01:59:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJza1qIJzfzAvC69vh219mTQbX5YLQr6Ri6VAGMHFpal/PJQqZt68SC2lZ9L8XVkrBUtM9j7dQ==
-X-Received: by 2002:a05:6000:110d:: with SMTP id
- z13mr30714287wrw.92.1620118798390; 
- Tue, 04 May 2021 01:59:58 -0700 (PDT)
-Received: from redhat.com (bzq-79-178-133-9.red.bezeqint.net. [79.178.133.9])
- by smtp.gmail.com with ESMTPSA id
- v17sm14995118wrd.89.2021.05.04.01.59.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 01:59:57 -0700 (PDT)
-Date: Tue, 4 May 2021 04:59:55 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2 2/6] vhost-user-blk: Don't reconnect during
- initialisation
-Message-ID: <20210504044050-mutt-send-email-mst@kernel.org>
-References: <20210429171316.162022-1-kwolf@redhat.com>
- <20210429171316.162022-3-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ldqvu-0001xj-M5; Tue, 04 May 2021 05:01:39 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I45hFSZY9zi3F9tRYpr+cL0XMkZxoOsl84o9vbgBQ7mTSyGegcKZLfDIiVl1Hap40GvrAK/sIluSVsdJeRmqWfUmkD7IuyVEDkXe/wzxl1+uHn5ir5KoX3RrCPz9K53nJtRNMjJBPShE1VW8+7mkBgQQGf2N7euu4o/r89/EO8ImTKprxul9NiwyqfckqErJUdgBYgCN1DDu5F8qwkSQwV8hy85mwRGcWzS0ChRFh0+qa6OOu//5G3UwnlF/2uhhYjr7BorqGMsI6/ighkhRhopmzKX0wsUDCsBq4GQiskWdUaPwvy1TJvm/lr25F5R8/jkwLC+qMX+vG30Nd12RQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3Gxfz73X+BElJ6duoWkImh45lh7Erjlc90jBEwBO+6M=;
+ b=guTnCTCAPa06tu6DAd+hhCGdTPxQj2j4lEaZF8hYFg8ya33pGw/rDPb2DMGSkgkTt3nXciTRG1UlzGkLoz8QLq3fcUjpl1MeKFz4kHDyu5G8PCn4kOl4rX4vIG3TGOKyOFC9Vo96H3jONcpxr8L58Df5GWgsQd8LV+gqqbZh94Eo0hsausygq2zGNXgZxxrSGB5SGDEe8WjG0UfhTdXMxntZxbPf2DBBgHpP2HmdhF1AdPiFyTGed8HLxAlson73dtSieICxwPdHDbcbZv3DMg7dK1xtiirDjZ/93BuFVVIFdnl1z0aRbCx0dtKtny2jvFAofcIJQ55sSu3eaJ+vAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3Gxfz73X+BElJ6duoWkImh45lh7Erjlc90jBEwBO+6M=;
+ b=bizVbMohtqGSn1SaZXx2RsGHrxs6n+tDwBvh27Zt5bLHMRstrXVLWBv4+jlCy6ifCRT8Oj4FMZaZpo6JXQEbCpCPGHhLYZyoGSJ4ahv80vB2boWNnRQcHM5Qty+s9BvozggaPgYM/GEa0DICTGyHaAZuf7h+hOD0HJB0zTEpmZw=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5077.eurprd08.prod.outlook.com (2603:10a6:20b:e6::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.38; Tue, 4 May
+ 2021 09:01:29 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.024; Tue, 4 May 2021
+ 09:01:29 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, peter.maydell@linaro.org
+Subject: [PULL 0/9] scripts/simplebench patches
+Date: Tue,  4 May 2021 12:01:04 +0300
+Message-Id: <20210504090113.21311-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [185.215.60.251]
+X-ClientProxiedBy: HE1P190CA0024.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::34)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <20210429171316.162022-3-kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.251) by
+ HE1P190CA0024.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4087.27 via Frontend Transport; Tue, 4 May 2021 09:01:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 521e4858-5d46-4050-ef79-08d90edb348d
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5077:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB50770EC8EFC04582CC695C5AC15A9@AM6PR08MB5077.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:291;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: D3WWnbvnRFjK84BQoSU5dX1+CV5/8g/0x9pYSqbNc/ngV/bWiMphNbpQq+vQse8FRqElmOJgx+aPHZ8jiEQphiLd+CUprpz2ZFX4X/DDicn/E9pjrJ8d5/IC3chcX7jHj9nGJ993pxXWI4bAz0mgvAu0rWC3LPxe+Wxddq/9RUEOGgs2iu8Z81Mpwtd6XcvWwFTehz9vK/Qar9ZVlXD+C2vr/X4AaNOfP58NE5qlOtlmWisLOBno2wttADa45j+1OiBFd43e5iTNk3xxTTKtZcUTV2O2pgJsLMlErVtz/6WCSrc3NANufttKk3zYVF1wWvsdcDeY3TRMPil+huVj0G+e/PcpjGs+8UaJY2GUci3ZJC0O/4PnvQcO+KS/MchApzbHFi679VED/meyXCVDDQE778Tx1INckRF5IxSHvhd+m/KENqEUXJs17ZzhAEHL4p4bTzhMW/JnLdQTuFPP/U44u7UE6MYSsBaKXXIhXOveA4/6LfNdNFBsChPRN0xeWsqrWcJEWAezVeVYxH7/G4inBgZBHuDlQYkUOKaoHFXGcpTzqWt/2Eobk1Q1zDe9GT6nwRhF97v3mtep1NiZA11bMALKNx+ioS5bJ2aI/QG2LnMP4rvzF7P+2wkXK6PfDidMitSaX5p4vUb+E0zjw2lp+KARPpNsCv9qY768XDA1lZ4AuOoVg8k56T0rnflIG0SGgJHgL7CvDiwny96IaJtxWh1WHkxvaE7ZMYlWt9Tcz957ZOWGYxpgLqBcyhyh32IGixosOZsodvbMlP7K6w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(376002)(346002)(39840400004)(136003)(956004)(52116002)(1076003)(38350700002)(16526019)(186003)(8676002)(38100700002)(86362001)(6916009)(6666004)(4326008)(2616005)(2906002)(6512007)(478600001)(6506007)(316002)(66476007)(66946007)(66556008)(966005)(83380400001)(36756003)(8936002)(6486002)(26005)(5660300002)(69590400013);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?teZtLMMMmwwUaCCvA618o3LbN1CQoNEciEnX066Ci0w8ww13bycFWMMyofZY?=
+ =?us-ascii?Q?i9iQZMJuKBjCQrei5JRREYCsHLgOT/Dc4pjxF45bB/oiX0+TShPMpkj55le7?=
+ =?us-ascii?Q?SAUGfpzQuVvxvjccVgKYT4loA91umsEDamHPB2DopPaROdUwIXGMtiYY5Acx?=
+ =?us-ascii?Q?vVIO4CMbgbqR2tRRWzdVEY4hutqlprpVtLrYew0yxRcb6uVyf03G+GpuOlWi?=
+ =?us-ascii?Q?k1Ar9l8n8Sd4uMWx1AX1rbuGT2LMhKral83MW9ytjM5lpGUg4y42sRTSkOp4?=
+ =?us-ascii?Q?gjgj17z7o+RRylGwRq/6PlA/RVXYatg+VhYKk1RlMZzbiVRQDYL3DRa8WL7o?=
+ =?us-ascii?Q?Ea7piLyoTO5P2cqI03/6pfXExe4UXP3Ik+kgaawxYgDz2QRm59BsKMegL7Bd?=
+ =?us-ascii?Q?WwVOCh6t4xYL3c/oeULSVGVobWQeby6aqt79iiN3tjx0FUlAMq1TD7lLBaLm?=
+ =?us-ascii?Q?8Jcs94OJm96fNQ0Lv2xuwQzxqa6zhGrwEXD0jBF0bSo9R3y+D/iSlURtJbEz?=
+ =?us-ascii?Q?33CCzpRRLwTR0+JWZh7PPngGXemuA+l9WXCl3kpJkDKeSgB248B19jesqpig?=
+ =?us-ascii?Q?1hHh3GGJuOzc4dC7qscGwR99tV462KW8+39cM0r+nzfv3wKyw8wG9+YXhcDQ?=
+ =?us-ascii?Q?KwoEkyWHL4entbIU9Xchm9lqHuK46fswIxPonwb/X2tfxfXle/vVCokEwYA0?=
+ =?us-ascii?Q?CN76eycRha32ufjFfspESnMXeD0JghNmNmGAsp3LAsuVpN6j9an/p3u54iEi?=
+ =?us-ascii?Q?kuibQcfygxVcqAiFoLtiBKlrK9HGpjLp2YKPGprL7plQsTRzIKL/CpQDrTCj?=
+ =?us-ascii?Q?Jm42l12ggpEDROQMrRNGFJnvBY3ZTut3gaZl2wsiI2q9KmqhmJtV0qGGjRJi?=
+ =?us-ascii?Q?cnZYETwLF6z4HR1mQPJiiTwzeC1P3d0aOfbiVgd/zSnpI6/q77QL0DBKFXvn?=
+ =?us-ascii?Q?URyi/EyLMxyR54gdwbIZg6ILP5y4K/oTf3sG9dgUyaeKt6sQTg+VnSCoog61?=
+ =?us-ascii?Q?VsM0+AvLREEPZFcFW80zphN8Wo1/mXOoCZjtPGrcW2Zvlc5ouvCOyaBhpSsm?=
+ =?us-ascii?Q?ygZHuDFTfRd9tZyaqVpPLlo6VoKOCXmU3UY5XbSXkpoz3BBIzd6kCbUieqwd?=
+ =?us-ascii?Q?mT929yfBfI8FOazXUZaAYeWDw+JTz6Y0wJHQt0NTk7kwlCEwfPCZZGgfLi9p?=
+ =?us-ascii?Q?2nvxLLAfMjinohqa0JVLQJHtb2mG7aslZG17BHzvlU0rrX0IJcum/QUMq3w/?=
+ =?us-ascii?Q?3aIxk70Aypkm/Y1W1OCtGNprN0HB6Fh6Y7YnthS2AUtLkXwR8exzLQYP0yjA?=
+ =?us-ascii?Q?W7dKBlK1I+meyzYe0XETVqRm?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 521e4858-5d46-4050-ef79-08d90edb348d
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2021 09:01:29.3204 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6kEdfIJ3Z4VWTjgONJMkmvRohbS8gJ6ovz84PVyyKsqxjRKRRKaI9A6YqzIylDhMyOCyQ+P54uqxf4w7sHrd3N4NjYlZ7jpa1j2CrQ1tKwA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5077
+Received-SPF: pass client-ip=40.107.13.128;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,197 +132,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den-plotnikov@yandex-team.ru, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 29, 2021 at 07:13:12PM +0200, Kevin Wolf wrote:
-> This is a partial revert of commits 77542d43149 and bc79c87bcde.
-> 
-> Usually, an error during initialisation means that the configuration was
-> wrong. Reconnecting won't make the error go away, but just turn the
-> error condition into an endless loop. Avoid this and return errors
-> again.
+The following changes since commit 53c5433e84e8935abed8e91d4a2eb813168a0ecf:
 
-So there are several possible reasons for an error:
+  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210501' into staging (2021-05-02 12:02:46 +0100)
 
-1. remote restarted - we would like to reconnect,
-   this was the original use-case for reconnect.
+are available in the Git repository at:
 
-   I am not very happy that we are killing this usecase.
+  https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-simplebench-2021-05-04
 
-2. qemu detected an error and closed the connection
-   looks like we try to handle that by reconnect,
-   this is something we should address.
-3. remote failed due to a bad command from qemu.
-   this usecase isn't well supported at the moment.
+for you to fetch changes up to e34bd02694026722410b80cee02ab7f33f893e9b:
 
-   How about supporting it on the remote side? I think
-   that if the data is well-formed just has a configuration
-   remote can not support then instead of closing the connection, remote can wait
-   for commands with need_reply set, and respond with
-   an error. Or at least do it
-   if VHOST_USER_PROTOCOL_F_REPLY_ACK has been negotiated.
-   If VHOST_USER_SET_VRING_ERR is used then signalling that
-   fd might also be reasonable.
+  MAINTAINERS: update Benchmark util: add git tree (2021-05-04 11:37:26 +0300)
 
-   OTOH if qemu is buggy and sends malformed data and remote detects that then
-   hacing qemu retry forever is ok, might actually be benefitial for
-   debugging.
+----------------------------------------------------------------
+scripts/simplebench improvements for 2021-05-04
 
+----------------------------------------------------------------
+Vladimir Sementsov-Ogievskiy (9):
+      simplebench: bench_one(): add slow_limit argument
+      simplebench: bench_one(): support count=1
+      simplebench/bench-backup: add --compressed option
+      simplebench/bench-backup: add target-cache argument
+      simplebench/bench_block_job: handle error in BLOCK_JOB_COMPLETED
+      simplebench/bench-backup: support qcow2 source files
+      simplebench/bench-backup: add --count and --no-initial-run
+      simplebench/bench-backup: add --drop-caches argument
+      MAINTAINERS: update Benchmark util: add git tree
 
-
-> Additionally, calling vhost_user_blk_disconnect() from the chardev event
-> handler could result in use-after-free because none of the
-> initialisation code expects that the device could just go away in the
-> middle. So removing the call fixes crashes in several places.
-> For example, using a num-queues setting that is incompatible with the
-> backend would result in a crash like this (dereferencing dev->opaque,
-> which is already NULL):
-> 
->  #0  0x0000555555d0a4bd in vhost_user_read_cb (source=0x5555568f4690, condition=(G_IO_IN | G_IO_HUP), opaque=0x7fffffffcbf0) at ../hw/virtio/vhost-user.c:313
->  #1  0x0000555555d950d3 in qio_channel_fd_source_dispatch (source=0x555557c3f750, callback=0x555555d0a478 <vhost_user_read_cb>, user_data=0x7fffffffcbf0) at ../io/channel-watch.c:84
->  #2  0x00007ffff7b32a9f in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
->  #3  0x00007ffff7b84a98 in g_main_context_iterate.constprop () at /lib64/libglib-2.0.so.0
->  #4  0x00007ffff7b32163 in g_main_loop_run () at /lib64/libglib-2.0.so.0
->  #5  0x0000555555d0a724 in vhost_user_read (dev=0x555557bc62f8, msg=0x7fffffffcc50) at ../hw/virtio/vhost-user.c:402
->  #6  0x0000555555d0ee6b in vhost_user_get_config (dev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost-user.c:2133
->  #7  0x0000555555d56d46 in vhost_dev_get_config (hdev=0x555557bc62f8, config=0x555557bc62ac "", config_len=60) at ../hw/virtio/vhost.c:1566
->  #8  0x0000555555cdd150 in vhost_user_blk_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcf90) at ../hw/block/vhost-user-blk.c:510
->  #9  0x0000555555d08f6d in virtio_device_realize (dev=0x555557bc60b0, errp=0x7fffffffcff0) at ../hw/virtio/virtio.c:3660
-
-Right. So that's definitely something to fix.
-
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  hw/block/vhost-user-blk.c | 59 +++++++++++----------------------------
->  1 file changed, 17 insertions(+), 42 deletions(-)
-> 
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index 7c85248a7b..c0b9958da1 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -50,6 +50,8 @@ static const int user_feature_bits[] = {
->      VHOST_INVALID_FEATURE_BIT
->  };
->  
-> +static void vhost_user_blk_event(void *opaque, QEMUChrEvent event);
-> +
->  static void vhost_user_blk_update_config(VirtIODevice *vdev, uint8_t *config)
->  {
->      VHostUserBlk *s = VHOST_USER_BLK(vdev);
-> @@ -362,19 +364,6 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
->      vhost_dev_cleanup(&s->dev);
->  }
->  
-> -static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
-> -                                 bool realized);
-> -
-> -static void vhost_user_blk_event_realize(void *opaque, QEMUChrEvent event)
-> -{
-> -    vhost_user_blk_event(opaque, event, false);
-> -}
-> -
-> -static void vhost_user_blk_event_oper(void *opaque, QEMUChrEvent event)
-> -{
-> -    vhost_user_blk_event(opaque, event, true);
-> -}
-> -
->  static void vhost_user_blk_chr_closed_bh(void *opaque)
->  {
->      DeviceState *dev = opaque;
-> @@ -382,12 +371,11 @@ static void vhost_user_blk_chr_closed_bh(void *opaque)
->      VHostUserBlk *s = VHOST_USER_BLK(vdev);
->  
->      vhost_user_blk_disconnect(dev);
-> -    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL,
-> -            vhost_user_blk_event_oper, NULL, opaque, NULL, true);
-> +    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_event,
-> +                             NULL, opaque, NULL, true);
->  }
->  
-> -static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
-> -                                 bool realized)
-> +static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
->  {
->      DeviceState *dev = opaque;
->      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> @@ -401,17 +389,7 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
->          }
->          break;
->      case CHR_EVENT_CLOSED:
-> -        /*
-> -         * Closing the connection should happen differently on device
-> -         * initialization and operation stages.
-> -         * On initalization, we want to re-start vhost_dev initialization
-> -         * from the very beginning right away when the connection is closed,
-> -         * so we clean up vhost_dev on each connection closing.
-> -         * On operation, we want to postpone vhost_dev cleanup to let the
-> -         * other code perform its own cleanup sequence using vhost_dev data
-> -         * (e.g. vhost_dev_set_log).
-> -         */
-> -        if (realized && !runstate_check(RUN_STATE_SHUTDOWN)) {
-> +        if (!runstate_check(RUN_STATE_SHUTDOWN)) {
->              /*
->               * A close event may happen during a read/write, but vhost
->               * code assumes the vhost_dev remains setup, so delay the
-> @@ -431,8 +409,6 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event,
->               * knowing its type (in this case vhost-user).
->               */
->              s->dev.started = false;
-> -        } else {
-> -            vhost_user_blk_disconnect(dev);
->          }
->          break;
->      case CHR_EVENT_BREAK:
-> @@ -489,33 +465,32 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
->      s->vhost_vqs = g_new0(struct vhost_virtqueue, s->num_queues);
->      s->connected = false;
->  
-> -    qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL,
-> -                             vhost_user_blk_event_realize, NULL, (void *)dev,
-> -                             NULL, true);
-> -
-> -reconnect:
->      if (qemu_chr_fe_wait_connected(&s->chardev, errp) < 0) {
->          goto virtio_err;
->      }
->  
-> -    /* check whether vhost_user_blk_connect() failed or not */
-> -    if (!s->connected) {
-> -        goto reconnect;
-> +    if (vhost_user_blk_connect(dev) < 0) {
-> +        error_setg(errp, "vhost-user-blk: could not connect");
-> +        qemu_chr_fe_disconnect(&s->chardev);
-> +        goto virtio_err;
->      }
-> +    assert(s->connected);
->  
->      ret = vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
->                                 sizeof(struct virtio_blk_config));
->      if (ret < 0) {
-> -        error_report("vhost-user-blk: get block config failed");
-> -        goto reconnect;
-> +        error_setg(errp, "vhost-user-blk: get block config failed");
-> +        goto vhost_err;
->      }
->  
-> -    /* we're fully initialized, now we can operate, so change the handler */
-> +    /* we're fully initialized, now we can operate, so add the handler */
->      qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL,
-> -                             vhost_user_blk_event_oper, NULL, (void *)dev,
-> +                             vhost_user_blk_event, NULL, (void *)dev,
->                               NULL, true);
->      return;
->  
-> +vhost_err:
-> +    vhost_dev_cleanup(&s->dev);
->  virtio_err:
->      g_free(s->vhost_vqs);
->      s->vhost_vqs = NULL;
-> -- 
-> 2.30.2
-
+ MAINTAINERS                            |  1 +
+ scripts/simplebench/bench-backup.py    | 95 ++++++++++++++++++++++++++++------
+ scripts/simplebench/bench_block_job.py | 42 +++++++++++++--
+ scripts/simplebench/simplebench.py     | 28 +++++++++-
+ 4 files changed, 144 insertions(+), 22 deletions(-)
 
