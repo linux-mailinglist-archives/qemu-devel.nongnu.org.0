@@ -2,91 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3FC03723A2
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 01:36:07 +0200 (CEST)
-Received: from localhost ([::1]:53724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 653FE3723F4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 02:50:01 +0200 (CEST)
+Received: from localhost ([::1]:57724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldi6g-0003HC-4q
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 19:36:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37390)
+	id 1ldjGC-0003WB-GG
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 20:50:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1ldhn8-0007mf-Ms
- for qemu-devel@nongnu.org; Mon, 03 May 2021 19:15:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28918)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ldjB8-0008GA-Qu; Mon, 03 May 2021 20:44:46 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:50141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1ldhmz-00083s-LF
- for qemu-devel@nongnu.org; Mon, 03 May 2021 19:15:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620083743;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hzlCyT6fV3EjYc6AAUo/Cl+xom1ivD+SK7Vskn3zFQc=;
- b=KLsgmItpcdmIW7+rKkX23M+Y0ve12ft8YZz6cxMBO3cpXhpRn6b+OOxffswgVHSDwGG3Y5
- 9cNcQiDwmwYd/wUgH6MrjOCWb0wwKB+dbjdD+j2q0xhxKRzpObUh67NcQ/7i3tk6SWZUWR
- Ep4JPgEPPQhiXfaENUszGcD+4nw5Euw=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-zYyCgb6tMb2K8zcn-IsmbQ-1; Mon, 03 May 2021 19:15:42 -0400
-X-MC-Unique: zYyCgb6tMb2K8zcn-IsmbQ-1
-Received: by mail-oi1-f198.google.com with SMTP id
- u132-20020aca478a0000b02901e5ac10ceebso2441200oia.11
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 16:15:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hzlCyT6fV3EjYc6AAUo/Cl+xom1ivD+SK7Vskn3zFQc=;
- b=jh9CvoA2y9sP9w959IyFtZjsz6fTzKlBv6G4zJ40ctM5RPcW2fYWLcTJkCeDJQfRUN
- ACMMS74ecx/Dx60Q2WnQ6roWZ2ziXhdKC6IFZG34aDW6OTZNuPURkOhwZsUHNcs6HfEl
- +ibzDJnMFfuLg3x0Idm3jsm3RNgpywj2CoLvdXVa68soBwzDe4+OOTSR4QjowFVnUW/K
- FLzEj4AfFneVYevOXgrp/5avTaCaUzGWTedaDcbjI+HKegBPVBOZjobVUeh4NJB956c5
- Nnv0nOXFOD8NDyGcGl/WQpENtFqWSkLbnUt9bHk1Lo+B/q27NLQWR+vPAAJopvtrg38D
- KEQg==
-X-Gm-Message-State: AOAM532NAC+hIEaPaa01RG1ZqT88pCGlpGT3O6aMT+4FgQJaz+dtHVT+
- vkg4byLWm4UFvjENSwf6G82nJgvZNQHI7rxZ6Wofhzs+pT7/GAElxXAstDhO1EEsRU+dQTB9Qk4
- pMg11EOwN0FC2Row=
-X-Received: by 2002:aca:3056:: with SMTP id w83mr760389oiw.154.1620083741747; 
- Mon, 03 May 2021 16:15:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwqIEjuEMXn+VCiJrxkTe/64RRy3FnUORSPw4LYKpJL3FeqDuizkVe4DTz5oUmqlGE6QqoDOw==
-X-Received: by 2002:aca:3056:: with SMTP id w83mr760375oiw.154.1620083741534; 
- Mon, 03 May 2021 16:15:41 -0700 (PDT)
-Received: from [192.168.0.112] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
- by smtp.gmail.com with ESMTPSA id
- v19sm311960oic.21.2021.05.03.16.15.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 May 2021 16:15:41 -0700 (PDT)
-Subject: Re: [PATCH v2] Document qemu-img options data_file and data_file_raw
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20210430133452.253102-1-ckuehl@redhat.com>
- <3f24af14-f324-1707-37b9-cbfc9bd082dd@redhat.com>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <b12175c4-db70-dc1e-6763-3124c1ad52ae@redhat.com>
-Date: Mon, 3 May 2021 18:15:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ldjB5-00064C-RI; Mon, 03 May 2021 20:44:46 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FZ1M46Qq3z9sT6; Tue,  4 May 2021 10:44:32 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1620089072;
+ bh=4XUunPz7YfYr7Pqs31pJ0/tdI3EVZEsz9ryj3uq1VUA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cka6xFCfBbquzDtw4kldf4TmozBMVH8FldGj+LECOv4D3PGYdMk8j1klj/WzCUN7B
+ TpyqQM3XtO8ESUKwQORdg5Un4MF87twKB+m41ImD6vUaCTUF1UYMXGtV4QOwYJ5ocM
+ bdSZS+dyKpy3wqixugg8Gga/9WcZdRQ73R9wuRds=
+Date: Tue, 4 May 2021 10:28:27 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v3 2/7] target/ppc: Isolated SPR read/write callbacks
+Message-ID: <YJCVK3qmjBncQVzu@yekko>
+References: <20210430193533.82136-1-bruno.larsen@eldorado.org.br>
+ <20210430193533.82136-3-bruno.larsen@eldorado.org.br>
+ <YI+B9mQTcU4YJHBt@yekko>
+ <a2fab0c6-7612-d6c0-9d71-0410d1b80a31@eldorado.org.br>
 MIME-Version: 1.0
-In-Reply-To: <3f24af14-f324-1707-37b9-cbfc9bd082dd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="l7w+0DIgI9YMJxge"
+Content-Disposition: inline
+In-Reply-To: <a2fab0c6-7612-d6c0-9d71-0410d1b80a31@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,58 +60,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/21 9:45 AM, Max Reitz wrote:
->> +  ``data_file_raw``
->> +    If this option is set to ``on``, QEMU will always keep the external
->> +    data file consistent as a standalone read-only raw image. It does
->> +    this by forwarding updates through to the raw image in addition to
->> +    updating the image metadata. If set to ``off``, QEMU will only
->> +    update the image metadata without forwarding the changes through
->> +    to the raw image. The default value is ``off``.
-> 
-> Hm, what updates and what changes?  I mean, the first part makes sense (the “It does this by...”), but the second part doesn’t.  qemu will still forward most writes to the data file.  (Not all, but most.)
-> 
-> (Also, nit pick: With data_file_raw=off, the data file is not a raw image.  (You still call it that in the penultimate sentence.))
-> When you write data to a qcow2 file with data_file, the data also goes to the data_file, most of the time.  The exception is when it can be handled with a metadata update, i.e. when it's a zero write or discard.
-> 
-> In addition, such updates (i.e. zero writes, I presume) not happening to the data file are usually a minor problem.  The real problem is that without data_file_raw, data clusters can be allocated anywhere in the data file, whereas with data_file_raw, they are allocated at their respective guest offset (i.e. the host offset always equals the guest offset).
-> 
-> I personally would have been fine with the first sentence, but if we want more of an explanation...  Perhaps:
-> 
-> <<EOF
-> 
-> If this option is set to ``on``, QEMU will always keep the external data file consistent as a standalone read-only raw image.
-> 
-> It does this by effectively forwarding all write accesses that happen to the qcow2 file to the raw data file, including their offsets. Therefore, data that is visible on the qcow2 node (i.e., to the guest) at some offset is visible at the same offset in the raw data file.
-> 
-> If this option is ``off``, QEMU will use the data file just to store data in an effectively arbitrary manner.  The file’s content will not make sense without the accompanying qcow2 metadata.  Where data is written will have no relation to its offset as seen by the guest, and some writes (specifically zero writes) may not be forwarded to the data file at all, but will only be handled by modifying qcow2 metadata.
-> 
-> In short: With data_file_raw, the data file reads as a valid raw VM image file.  Without it, its content can only be interpreted by reading the accompanying qcow2 metadata.
-> 
-> Note that this option only makes the data file valid as a read-only raw image.  You should not write to it, as this may effectively corrupt the qcow2 metadata (for example, dirty bitmaps may become out of sync).
-> 
-> EOF
-> 
-> This got longer than I wanted it to be.  Hm.  Anyway, what do you think?
 
-I found it very helpful. I'll incorporate your explanation into the next
-revision.
+--l7w+0DIgI9YMJxge
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm wondering what the most appropriate trailer would be for the next
-revision?
+On Mon, May 03, 2021 at 05:15:38PM -0300, Bruno Piazera Larsen wrote:
+>=20
+> On 03/05/2021 01:54, David Gibson wrote:
+> > On Fri, Apr 30, 2021 at 04:35:28PM -0300, Bruno Larsen (billionai) wrot=
+e:
+> > > Moved all SPR read/write callback, and some related functions, to a
+> > > new file specific for it. These callbacks are TCG only, so separating
+> > > them is required to support the build flag disable-tcg.
+> > >=20
+> > > Making the spr_noaccess function not static, and moving the define to
+> > > internal.h is required, otherwise the project doesn't build
+> > >=20
+> > > Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> > > ---
+> > >   target/ppc/internal.h           |    3 +
+> > >   target/ppc/spr_tcg.c.inc        | 1052 ++++++++++++++++++++++++++++=
++++
+> > >   target/ppc/translate.c          |   47 +-
+> > >   target/ppc/translate_init.c.inc |  981 ----------------------------
+> > >   4 files changed, 1056 insertions(+), 1027 deletions(-)
+> > >   create mode 100644 target/ppc/spr_tcg.c.inc
+> > Hmm.  So, I'm still pretty ambivalent about the creation of
+> > spr_tcg.c.inc.  The separation between it and translate.c just seems
+> > rather arbitrary to me.
+> >=20
+> > Yes, translate.c is overly huge, but I'm not sure going from
+> > overly-huge to overly-huger really makes anything worse, and would
+> > avoid some of the dancing around to handle the new file.
+> >=20
+> > So for now, I'm inclined to suggest just moving the spr callbacks from
+> > translate_init.c.inc to translate.c.  And some day, I hope someone has
+> > time to split up translate.c based on CPU family, which I think is a
+> > more useful way to make it less huge.
+>=20
+> Ok. I agree that the improved is pretty minor, I was just thinking it was
+> probably better than nothing... I'll work on that tomorrow and will have a
+> new version.
+>=20
+> When I do, should I put the many e-mail IDs that hold required patches as
+> "Based-on" tags, or should I just say ppc-for-6.1? I'm still a bit lost w=
+hen
+> dealing with patchew and these things...
 
-	Suggested-by: Max [..]
-	Co-developed-by: Max [..]
+You can just say it's against ppc-for-6.1 in the cover letter.  Since
+it's an explicitly ppc specific patchset, and the main audience is me
+there's no need to get too complicated.
 
-Let me know if you have a strong preference, otherwise I'll go with
-Suggested-by:
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Thank you,
+--l7w+0DIgI9YMJxge
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Connor
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCQlSYACgkQbDjKyiDZ
+s5It4hAA0zf23nooNHdlJCN4eMz+Tvjq60/Gpdav7jqYF1kucRsfuB2itzVDu9yf
+8K3IX+wkFGzo3MBvoqf5WWo8N2V+GCphtw4LmRayYCZ2bnqlkxGp9gK9P0d6STtD
+Hdj+Mj23FOi4ffilWhMrvfyUqkJZfM9jzRMOiFpoBBVCWb8RIoZQQuAzQpJIEJtO
+RqgPsvNKoF1XsVsPmgWtqysujhqKohalOqNoCM8dgIcDQpOLAPHR12Apx7hhyikI
+Ch2uJGIai1IOVaoTipOahVyOR+Pyh1dzasUWYGNwSDpDq+j+3HL+J2BXisWIGP77
+kWqH5XDPLSjUG05Tqnu4G/F/fH+F9UaiO/OG+lFetH4tfuwej3bqckZM6H7I3Mud
+PW59Av/TFEZad/eqMh6YVgQJchI9fDzD5WSvV5ATRTWm1Snrp/PQ7jSNizWOD/ZI
+yHDZRmTdlJ/mvOgdQ0ZdDPWQ0z4OsFuO/uFHKhiYU2NzCgd4srit0Kqa/bEC343O
+srGtGJ8BK/kXnuN5sq/EctjUYvlhffO1/y8JNSoufrtkH+PebXfpGR3xTjPu6mSM
+LkI5EXS+Ib6D+XBSNi4QIak2L8LEckrjMKubgo92/M/nDDvn2p10JioGqZnmRjuB
+nV5iso+U2AjwdSqlhVbev1t+D+X/XuCWWg+DKak9T1od9MzpnqI=
+=3GDH
+-----END PGP SIGNATURE-----
+
+--l7w+0DIgI9YMJxge--
 
