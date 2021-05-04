@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A17372C0F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 16:30:58 +0200 (CEST)
-Received: from localhost ([::1]:47036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47588372C11
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 16:32:59 +0200 (CEST)
+Received: from localhost ([::1]:51018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldw4f-0005uS-Ff
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 10:30:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57790)
+	id 1ldw6c-0007fA-AG
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 10:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ldw2s-00055A-0M
- for qemu-devel@nongnu.org; Tue, 04 May 2021 10:29:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54544)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ldw2n-0000wL-Rg
- for qemu-devel@nongnu.org; Tue, 04 May 2021 10:29:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620138541;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uwRYgiUOircZKd6MDaHCe9AHunH4mtIXAUDZll6DHjU=;
- b=UoCCVC/oTrFQCv5VzQBIBj9J5ZH8JZ6WRqQgmwFJiIM01NllC0dFQ0GvQ7miEaQf1IJFmC
- +Eg8Rgsvp4snGWubnnCB3ePYqmLlQtQmFeRmagk/Xqx11P6errlymX+/6SLdANP9epaxu6
- 9kwq+tcWRd1LEPBAfkp6YEV8FVJBzVY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-tK27bWu9M_yCpt83uda8bw-1; Tue, 04 May 2021 10:28:59 -0400
-X-MC-Unique: tK27bWu9M_yCpt83uda8bw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F17A5801817;
- Tue,  4 May 2021 14:28:57 +0000 (UTC)
-Received: from localhost (ovpn-115-110.ams2.redhat.com [10.36.115.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2F1B5D9D5;
- Tue,  4 May 2021 14:28:50 +0000 (UTC)
-Date: Tue, 4 May 2021 15:28:49 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH] virtio-blk: drop deprecated scsi=on|off property
-Message-ID: <YJFaITqqHaDTQDVn@stefanha-x1.localdomain>
-References: <20210429155221.1226561-1-stefanha@redhat.com>
- <20210429180352.ohhfz4kwyxapbiyl@habkost.net>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldw42-0006IV-N0
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 10:30:19 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38897)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ldw41-0001iS-08
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 10:30:18 -0400
+Received: by mail-wr1-x429.google.com with SMTP id l14so9672492wrx.5
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 07:30:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hZPmLIUzigwIFiO++StOIeGQUaRQA4WbpAbzRgFuKD4=;
+ b=rH/CuSgLPBLZCvNAgPUP1FpZEtVjUqeweeD+bluPLD67qwGBEYGzlnO/SWLej9xYxi
+ NbPWXgSvKlFnfARzHFpE89/PeYO+jYO4pv1PcXdKx3Hh1dlHCGwn4aIs/K5rvsleoXXb
+ +SDltndjn1XUvhi4/qzTEhB+teZ/TJm3/S3xwSFtsjxI4WHVcwRMWXXyv0lZ7ZD/ZcMs
+ RSZsQRoGGRkv4XQ24SoMndta8u05hYJdrPIR5r6LhZ8oA2b8+mDexkgHPvO0qcYDN/aU
+ 9tOvUl3aZ5NmhaZGeK/wJNFbctwfCzyOCOUEkXfTFKobpQFzK0ldvpPqH9Y2XuKckNlL
+ saOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hZPmLIUzigwIFiO++StOIeGQUaRQA4WbpAbzRgFuKD4=;
+ b=lX4/wFasCw3vgO+hcEnrjHDBlWij94H08S+yTKBhu3UpTBJfPjDm7js05SOFMZDIyA
+ Zieb9GEVfLnUBGBM/yCfksIg5HsRlYfzo3d4wL7LpETm8sSvIUXsNIqvHUs/eGw9HRpA
+ UIGqjy0zNxAc85XNC4UsuzP8nOng5h2laORglZAY8cWtJwIBwsuuai2Xtu2gMy7+AVOr
+ vsqwss7qQINAA1zpLWdFkbBtFLiDzg0GHJ1NbRLcEPglB5aesHEPNGmA0REzoZmW1Ieu
+ 8IxlcDsXle//Mty0griTGp8CfuDN4zhnQCMFvDq+qZFCrJ7+vgxqh93LawVjkQkEFfT+
+ A8BA==
+X-Gm-Message-State: AOAM530hhMRG/jyofyHiGxkDsrJ4xmmQ3W3KPMiior1ZPCjRReDLeBi6
+ Yxd5DMIkQqdLZtSjqXBp/j7RkQEfzejgTQ==
+X-Google-Smtp-Source: ABdhPJy3++v+nR1f07+f7JaZ7b44UvTGJe4ZWM/Aimz3TW8pNoxQ2O6juGWudWp9GbcZQ3TYoNNxIA==
+X-Received: by 2002:adf:f74e:: with SMTP id z14mr31605242wrp.320.1620138615071; 
+ Tue, 04 May 2021 07:30:15 -0700 (PDT)
+Received: from [192.168.1.19]
+ (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
+ by smtp.gmail.com with ESMTPSA id p3sm2307403wmq.31.2021.05.04.07.30.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 May 2021 07:30:14 -0700 (PDT)
+Subject: Re: [PATCH] m68k: virt: correctly set the initial PC
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210504131816.73272-1-laurent@vivier.eu>
+ <f85a2d4d-b31e-7752-c9dc-1bb0263fe739@amsat.org>
+ <87eb232c-18dc-eaef-d78b-7150c78fa0bc@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b8bd7c5a-dc07-ba10-d016-f3370dfa8c00@amsat.org>
+Date: Tue, 4 May 2021 16:30:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210429180352.ohhfz4kwyxapbiyl@habkost.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nQhmgPCngL/7jJAt"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <87eb232c-18dc-eaef-d78b-7150c78fa0bc@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,92 +90,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Christoph Hellwig <hch@lst.de>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nQhmgPCngL/7jJAt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/4/21 4:20 PM, Laurent Vivier wrote:
+> Le 04/05/2021 à 16:13, Philippe Mathieu-Daudé a écrit :
+>> On 5/4/21 3:18 PM, Laurent Vivier wrote:
+>>> Set initial PC to the entry of the loaded kernel.
+>>>
+>>> This fixes kernel reboot with "-kernel" parameter.
+>>>
+>>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>>> ---
+>>>  hw/m68k/virt.c | 22 +++++++++++++++++-----
+>>>  1 file changed, 17 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+>>> index e9a5d4c69b97..4fb3a7ebf0f2 100644
+>>> --- a/hw/m68k/virt.c
+>>> +++ b/hw/m68k/virt.c
+>>> @@ -88,14 +88,21 @@
+>>>  #define VIRT_VIRTIO_MMIO_BASE 0xff010000     /* MMIO: 0xff010000 - 0xff01ffff */
+>>>  #define VIRT_VIRTIO_IRQ_BASE  PIC_IRQ(2, 1)  /* PIC: 2, 3, 4, 5, IRQ: ALL */
+>>>  
+>>> +typedef struct {
+>>> +    M68kCPU *cpu;
+>>> +    hwaddr initial_pc;
+>>> +    hwaddr initial_stack;
+>>> +} ResetInfo;
+>>> +
+>>>  static void main_cpu_reset(void *opaque)
+>>>  {
+>>> -    M68kCPU *cpu = opaque;
+>>> +    ResetInfo *reset_info = opaque;
+>>> +    M68kCPU *cpu = reset_info->cpu;
+>>>      CPUState *cs = CPU(cpu);
+>>>  
+>>>      cpu_reset(cs);
+>>> -    cpu->env.aregs[7] = ldl_phys(cs->as, 0);
+>>> -    cpu->env.pc = ldl_phys(cs->as, 4);
+>>> +    cpu->env.aregs[7] = reset_info->initial_stack;
+>>> +    cpu->env.pc = reset_info->initial_pc;
+>>>  }
+>>>  
+>>>  static void virt_init(MachineState *machine)
+>>> @@ -116,6 +123,7 @@ static void virt_init(MachineState *machine)
+>>>      SysBusDevice *sysbus;
+>>>      hwaddr io_base;
+>>>      int i;
+>>> +    ResetInfo *reset_info;
+>>>  
+>>>      if (ram_size > 3399672 * KiB) {
+>>>          /*
+>>> @@ -127,9 +135,13 @@ static void virt_init(MachineState *machine)
+>>>          exit(1);
+>>>      }
+>>>  
+>>> +    reset_info = g_malloc0(sizeof(ResetInfo));
+>>> +
+>>>      /* init CPUs */
+>>>      cpu = M68K_CPU(cpu_create(machine->cpu_type));
+>>> -    qemu_register_reset(main_cpu_reset, cpu);
+>>> +
+>>> +    reset_info->cpu = cpu;
+>>> +    qemu_register_reset(main_cpu_reset, reset_info);
+>>>  
+>>>      /* RAM */
+>>>      memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+>>> @@ -209,7 +221,7 @@ static void virt_init(MachineState *machine)
+>>>              error_report("could not load kernel '%s'", kernel_filename);
+>>>              exit(1);
+>>>          }
+>>> -        stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
+>>> +        reset_info->initial_pc = elf_entry;
+>> Missing the stack?
+>>
+>>            reset_info->initial_stack = ldl_phys(cs->as, 0);
+> 
+> No, as it's a g_malloc0(), initial_stack is set to 0, so aregs[7] (SP) will be reset to 0 on reboot.
+> We could also set it to  ram_size if we want something usable, but it's not needed for the kernel
+> entry point.
 
-On Thu, Apr 29, 2021 at 02:03:52PM -0400, Eduardo Habkost wrote:
-> On Thu, Apr 29, 2021 at 04:52:21PM +0100, Stefan Hajnoczi wrote:
-> > The scsi=3Don|off property was deprecated in QEMU 5.0 and can be remove=
-d
-> > completely at this point.
-> >=20
-> > Drop the scsi=3Don|off option. It was only available on Legacy virtio-b=
-lk
-> > devices. Linux v5.6 already dropped support for it.
-> >=20
-> > Remove the hw_compat_2_4[] property assignment since scsi=3Don|off no
-> > longer exists. Old guests with Legacy virtio-blk devices no longer see
-> > the SCSI host features bit.
-> >=20
->=20
-> This means pc-2.4 will now break guest ABI if using virtio-blk
-> devices, correct?
+Indeed I missed g_malloc*0*.
 
-Yes.
+It would be clearer to use g_malloc() and explicitly set the initial
+stack IMHO.
 
-However, this feature was only enabled on Linux hosts, so cross-host OS
-migration was always broken and no one noticed. Maybe that configuration
-is too niche and QEMU never supported cross-host OS migration, but it
-still means that the "pc-2.4" ABI was never solid to begin with :).
-
->=20
-> > Live migrating old guests from an old QEMU with the SCSI feature bit
-> > enabled will fail with "Features 0x... unsupported. Allowed features:
-> > 0x...". We've followed the QEMU deprecation policy so users have been
-> > warned...
-> >=20
->=20
-> Were they really warned, though?  People running
-> "-machine pc-i440fx-2.4" might be completely unaware that it was
-> silently enabling a deprecated feature.
->=20
-> Can we have this documented in a more explicit way?  Maybe just a
-> comment at hw_compat_2_4 would be enough, to warn people doing
-> backports and rebases downstream.
->=20
-> Can we make QEMU refuse to start if using pc-2.4 + virtio-blk
-> together, just to be sure?
->=20
-> An alternative would be keeping the property (and the
-> hw_compat_2_4 entry) just to keep pc-2.4 working (until pc-2.4 is
-> deprecated and removed), but refusing to realize the device if
-> the feature is enabled.
-
-Yes, the least invasive approach is to leave the property in place but
-refuse to realize the virtio-blk device when scsi=3Don. The cost is more
-cruft, including a useless scsi=3Doff command-line option that will
-continue to show up in libvirt-generated QEMU command-lines.
-
-The cautious approach makes sense to me and I'll send a new revision.
-
-Stefan
-
---nQhmgPCngL/7jJAt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCRWiEACgkQnKSrs4Gr
-c8jCjAf+PNF2dJCvDznYk1b7YhiNPqqLz1i8hyhNG2l78hKDrvvzSTvDbMtQ4lXu
-5zFL2Incm8IuTqp0VNts2VzvSqk1O/tlPNdFEj3GDJ/UFQ2mToCCYXtB91eIZANJ
-8ky6LrNa1ptxZ7jYYt8fC1OzWoM2k2JVhOrbDBVx9wdYkc8fj7jjeNeUb0vIcmUi
-CINm2XWv7ALCFWI86K5NuKxfSu/AQB2JRVNrYuJirb0giVmgxlZUt9EOT/3HMAyE
-QHhu+h2HUeZrOQQsi1P6woJ5L8l8LLCHr4A8Srk+AymLn2/e2/Qa7mZEYOVtxf0R
-MpS3Bc0nlCkzZQYb57/ZCxXT5EtEwA==
-=X/54
------END PGP SIGNATURE-----
-
---nQhmgPCngL/7jJAt--
-
+> 
+> Thanks,
+> 
+> Laurent
+> 
+> 
 
