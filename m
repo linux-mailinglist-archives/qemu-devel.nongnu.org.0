@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B80E3725F8
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:52:12 +0200 (CEST)
-Received: from localhost ([::1]:52810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C1C3725F1
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:49:27 +0200 (CEST)
+Received: from localhost ([::1]:46270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldouh-0007uH-Cd
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60904)
+	id 1ldos2-0004sB-CA
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:49:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo11-0006jK-E9; Tue, 04 May 2021 01:54:39 -0400
-Received: from ozlabs.org ([203.11.71.1]:56557)
+ id 1ldo1N-00076i-Hx; Tue, 04 May 2021 01:55:01 -0400
+Received: from ozlabs.org ([203.11.71.1]:39687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo0z-0005MS-Ae; Tue, 04 May 2021 01:54:38 -0400
+ id 1ldo1L-0005OH-Hw; Tue, 04 May 2021 01:55:01 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZ8CQ3FMvz9sVb; Tue,  4 May 2021 15:53:22 +1000 (AEST)
+ id 4FZ8CQ5sbFz9t1r; Tue,  4 May 2021 15:53:22 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620107602;
- bh=qTTd1acHEOLOLfCLmBJ/7G0wh8ppvnqr7BiunJk5cBw=;
+ bh=fCKZKsqp44tDGeu7z15Q40LoupLPDQzipln+K2O5gIY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KuXWazCA+HIwtktR57Act7U3z5Fm5dslu/f4x6xt+pufQ5u0FeeEbIBHfhJXAbgUo
- +94WUT+02G8ZVUhN+0fegWTYT+SgRNUYC2uiCnfgu0AKPVP6OlvhCeus3EYqOUMWf+
- 0PISQbH4P2/+eyIkMY6kjRJHTq6D5vC/NyRtx/HM=
+ b=VbVsBSo45rI2WhDWrQ/aMmiiPXZUrcJovC6mcbgBGR2btWBNhm/bB4TUYvfF/kXEQ
+ +2jKTxVHFn/+nKzojZWaJ9yzgju8uXplVpUpxTrSq7TS0AlWLiGPhTpb4TiA8fExVv
+ MkIzinG08UGtuQSHO6CaUdZYkjLw5/NgBJUc4NX4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 44/46] hw/intc/spapr_xive: Use device_cold_reset() instead of
- device_legacy_reset()
-Date: Tue,  4 May 2021 15:53:10 +1000
-Message-Id: <20210504055312.306823-45-david@gibson.dropbear.id.au>
+Subject: [PULL 45/46] hw/ppc/spapr_vio: Reset TCE table object with
+ device_cold_reset()
+Date: Tue,  4 May 2021 15:53:11 +1000
+Message-Id: <20210504055312.306823-46-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 References: <20210504055312.306823-1-david@gibson.dropbear.id.au>
@@ -65,32 +65,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The h_int_reset() function resets the XIVE interrupt controller via
-device_legacy_reset().  We know that the interrupt controller does
-not have a qbus of its own, so the new device_cold_reset() function
-(which resets both the device and its child buses) is equivalent here
-to device_legacy_reset() and we can just switch to the new API.
+The spapr_vio_quiesce_one() function resets the TCE table object
+(TYPE_SPAPR_TCE_TABLE) via device_legacy_reset().  We know that
+objects of that type do not have a qbus of their own, so the new
+device_cold_reset() function (which resets both the device and its
+child buses) is equivalent here to device_legacy_reset() and we can
+just switch to the new API.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210503151849.8766-2-peter.maydell@linaro.org>
+Message-Id: <20210503151849.8766-3-peter.maydell@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive.c | 2 +-
+ hw/ppc/spapr_vio.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 801bc19341..89cfa018f5 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -1798,7 +1798,7 @@ static target_ulong h_int_reset(PowerPCCPU *cpu,
-         return H_PARAMETER;
+diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
+index ef06e0362c..b59452bcd6 100644
+--- a/hw/ppc/spapr_vio.c
++++ b/hw/ppc/spapr_vio.c
+@@ -310,7 +310,7 @@ int spapr_vio_send_crq(SpaprVioDevice *dev, uint8_t *crq)
+ static void spapr_vio_quiesce_one(SpaprVioDevice *dev)
+ {
+     if (dev->tcet) {
+-        device_legacy_reset(DEVICE(dev->tcet));
++        device_cold_reset(DEVICE(dev->tcet));
      }
- 
--    device_legacy_reset(DEVICE(xive));
-+    device_cold_reset(DEVICE(xive));
- 
-     if (spapr_xive_in_kernel(xive)) {
-         Error *local_err = NULL;
+     free_crq(dev);
+ }
 -- 
 2.31.1
 
