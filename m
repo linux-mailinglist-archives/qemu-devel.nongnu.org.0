@@ -2,48 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0E3372D25
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 17:41:03 +0200 (CEST)
-Received: from localhost ([::1]:54618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84699372D16
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 17:36:47 +0200 (CEST)
+Received: from localhost ([::1]:39664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldxAU-0006g9-Id
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 11:41:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44600)
+	id 1ldx6M-0000Iy-JU
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 11:36:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1ldwze-0004Rh-P2
- for qemu-devel@nongnu.org; Tue, 04 May 2021 11:29:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47044)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1ldx3I-00070M-2Z
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 11:33:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1ldwzc-0001vM-NK
- for qemu-devel@nongnu.org; Tue, 04 May 2021 11:29:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1BDA060FDC;
- Tue,  4 May 2021 15:29:42 +0000 (UTC)
-Date: Tue, 4 May 2021 16:29:40 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v11 1/6] arm64: mte: Sync tags for pages where PTE is
- untagged
-Message-ID: <20210504152938.GC8078@arm.com>
-References: <20210416154309.22129-1-steven.price@arm.com>
- <20210416154309.22129-2-steven.price@arm.com>
- <20210427174357.GA17872@arm.com>
- <0ab0017c-1eaf-201e-587f-101e03da6b80@arm.com>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1ldx3F-0003U3-Is
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 11:33:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620142412;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HLdHIElXsh+Br5DFDsP1+YjonXAJx6g75JUakM7EhX0=;
+ b=W7/bSoaEHRa2sJJsJaigph9G50tS8iwXHGXNMMpGRAvx5RyjkDyGx4crbI5ceD53cIScDv
+ liNs6G5shs9tAupqA507dUwvV3vC+8jQTPVvUm8++MfP3VMD3NpnQVYFK03osmOE+aAdcm
+ CnRvO6gCkVVktK08sAXf1dCCgXvRbWs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-586-oGqKZBKrOxqxLaLvFcQSeQ-1; Tue, 04 May 2021 11:33:28 -0400
+X-MC-Unique: oGqKZBKrOxqxLaLvFcQSeQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C45CF1922039;
+ Tue,  4 May 2021 15:33:26 +0000 (UTC)
+Received: from redhat.com (ovpn-113-225.phx2.redhat.com [10.3.113.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 13D425C230;
+ Tue,  4 May 2021 15:33:25 +0000 (UTC)
+Date: Tue, 4 May 2021 09:33:24 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: remove the nvlink2 pci_vfio subdriver v2
+Message-ID: <20210504093324.4f0cafc7@redhat.com>
+In-Reply-To: <20210504161131.2ed74d7b@bahia.lan>
+References: <20210326061311.1497642-1-hch@lst.de>
+ <20210504142236.76994047@bahia.lan> <YJFFG1tSP0dUCxcX@kroah.com>
+ <20210504152034.18e41ec3@bahia.lan> <YJFMZ8KYVCDwUBPU@kroah.com>
+ <20210504161131.2ed74d7b@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0ab0017c-1eaf-201e-587f-101e03da6b80@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,69 +78,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, qemu-devel@nongnu.org, Paul
+ Mackerras <paulus@samba.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, qemu-ppc@nongnu.org,
+ linux-api@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 29, 2021 at 05:06:05PM +0100, Steven Price wrote:
-> On 27/04/2021 18:43, Catalin Marinas wrote:
-> > On Fri, Apr 16, 2021 at 04:43:04PM +0100, Steven Price wrote:
-> > > diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-> > > index e17b96d0e4b5..cf4b52a33b3c 100644
-> > > --- a/arch/arm64/include/asm/pgtable.h
-> > > +++ b/arch/arm64/include/asm/pgtable.h
-> > > @@ -312,7 +312,7 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
-> > >   		__sync_icache_dcache(pte);
-> > >   	if (system_supports_mte() &&
-> > > -	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
-> > > +	    pte_present(pte) && (pte_val(pte) & PTE_USER) && !pte_special(pte))
+On Tue, 4 May 2021 16:11:31 +0200
+Greg Kurz <groug@kaod.org> wrote:
+
+> On Tue, 4 May 2021 15:30:15 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> 
+> > On Tue, May 04, 2021 at 03:20:34PM +0200, Greg Kurz wrote:  
+> > > On Tue, 4 May 2021 14:59:07 +0200
+> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> > >   
+> > > > On Tue, May 04, 2021 at 02:22:36PM +0200, Greg Kurz wrote:  
+> > > > > On Fri, 26 Mar 2021 07:13:09 +0100
+> > > > > Christoph Hellwig <hch@lst.de> wrote:
+> > > > >   
+> > > > > > Hi all,
+> > > > > > 
+> > > > > > the nvlink2 vfio subdriver is a weird beast.  It supports a hardware
+> > > > > > feature without any open source component - what would normally be
+> > > > > > the normal open source userspace that we require for kernel drivers,
+> > > > > > although in this particular case user space could of course be a
+> > > > > > kernel driver in a VM.  It also happens to be a complete mess that
+> > > > > > does not properly bind to PCI IDs, is hacked into the vfio_pci driver
+> > > > > > and also pulles in over 1000 lines of code always build into powerpc
+> > > > > > kernels that have Power NV support enabled.  Because of all these
+> > > > > > issues and the lack of breaking userspace when it is removed I think
+> > > > > > the best idea is to simply kill.
+> > > > > > 
+> > > > > > Changes since v1:
+> > > > > >  - document the removed subtypes as reserved
+> > > > > >  - add the ACK from Greg
+> > > > > > 
+> > > > > > Diffstat:
+> > > > > >  arch/powerpc/platforms/powernv/npu-dma.c     |  705 ---------------------------
+> > > > > >  b/arch/powerpc/include/asm/opal.h            |    3 
+> > > > > >  b/arch/powerpc/include/asm/pci-bridge.h      |    1 
+> > > > > >  b/arch/powerpc/include/asm/pci.h             |    7 
+> > > > > >  b/arch/powerpc/platforms/powernv/Makefile    |    2 
+> > > > > >  b/arch/powerpc/platforms/powernv/opal-call.c |    2 
+> > > > > >  b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
+> > > > > >  b/arch/powerpc/platforms/powernv/pci.c       |   11 
+> > > > > >  b/arch/powerpc/platforms/powernv/pci.h       |   17 
+> > > > > >  b/arch/powerpc/platforms/pseries/pci.c       |   23 
+> > > > > >  b/drivers/vfio/pci/Kconfig                   |    6 
+> > > > > >  b/drivers/vfio/pci/Makefile                  |    1 
+> > > > > >  b/drivers/vfio/pci/vfio_pci.c                |   18 
+> > > > > >  b/drivers/vfio/pci/vfio_pci_private.h        |   14 
+> > > > > >  b/include/uapi/linux/vfio.h                  |   38 -  
+> > > > > 
+> > > > > 
+> > > > > Hi Christoph,
+> > > > > 
+> > > > > FYI, these uapi changes break build of QEMU.  
+> > > > 
+> > > > What uapi changes?
+> > > >   
+> > > 
+> > > All macros and structure definitions that are being removed
+> > > from include/uapi/linux/vfio.h by patch 1.
+> > >   
+> > > > What exactly breaks?
+> > > >   
+> > > 
+> > > These macros and types are used by the current QEMU code base.
+> > > Next time the QEMU source tree updates its copy of the kernel
+> > > headers, the compilation of affected code will fail.  
 > > 
-> > I would add a pte_user() macro here or, if we restore the tags only when
-> > the page is readable, use pte_access_permitted(pte, false). Also add a
-> > comment why we do this.
+> > So does QEMU use this api that is being removed, or does it just have
+> > some odd build artifacts of the uapi things?
+> >   
 > 
-> pte_access_permitted() looks like it describes what we want (user space can
-> access the memory). I'll add the following comment:
-> 
->  /*
->   * If the PTE would provide user space will access to the tags
+> These are region subtypes definition and associated capabilities.
+> QEMU basically gets information on VFIO regions from the kernel
+> driver and for those regions with a nvlink2 subtype, it tries
+> to extract some more nvlink2 related info.
 
-I think drop "will".
 
->   * associated with it then ensure that the MTE tags are synchronised.
->   * Exec-only mappings don't expose tags (instruction fetches don't
->   * check tags).
->   */
+Urgh, let's put the uapi header back in place with a deprecation
+notice.  Userspace should never have a dependency on the existence of a
+given region, but clearly will have code to parse the data structure
+describing that region.  I'll post a patch.  Thanks,
 
-Sounds fine.
+Alex
 
-> > There's also the pte_user_exec() case which may not have the PTE_USER
-> > set (exec-only permission) but I don't think it matters. We don't do tag
-> > checking on instruction fetches, so if the user adds a PROT_READ to it,
-> > it would go through set_pte_at() again. I'm not sure KVM does anything
-> > special with exec-only mappings at stage 2, I suspect they won't be
-> > accessible by the guest (but needs checking).
-> 
-> It comes down to the behaviour of get_user_pages(). AFAICT that will fail if
-> the memory is exec-only, so no stage 2 mapping will be created. Which of
-> course means the guest can't do anything with that memory. That certainly
-> seems like the only sane behaviour even without MTE.
-
-That's my understanding as well. The get_user_pages_fast() path uses
-pte_access_permitted() and should return false. The slower
-get_user_pages() relies on checking the vma flags and it checks for
-VM_READ.
-
--- 
-Catalin
 
