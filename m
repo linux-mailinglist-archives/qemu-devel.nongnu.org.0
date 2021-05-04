@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C773730E7
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 21:37:20 +0200 (CEST)
-Received: from localhost ([::1]:50524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F01483730F2
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 21:39:59 +0200 (CEST)
+Received: from localhost ([::1]:54840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le0r9-00020h-2a
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 15:37:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51346)
+	id 1le0tj-0003sj-29
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 15:39:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1le0pk-0000lA-T6
- for qemu-devel@nongnu.org; Tue, 04 May 2021 15:35:54 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:33381)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1le0pg-0002u9-JQ
- for qemu-devel@nongnu.org; Tue, 04 May 2021 15:35:52 -0400
-Received: by mail-pf1-x429.google.com with SMTP id h11so219961pfn.0
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 12:35:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ORKAIf1asRZPMa+6s/pHeGXqpiqVPzgrJoeHO0bf6hM=;
- b=pY22gDIxTcb4XCUZoOIQSSDXtS6jhFyeUozhPEQ+7xYpO8ZBdajXTaENmhcrrlmEPR
- Kx0OkUqZmS9OlahoPe48PyCLigtoNdN+BdIPjqF5ko4xIZfircF75J0PkfliV9t+V0DY
- 5K1Sqyz704cAGhJdWJcLokQAKkBmZxJhIxm/Rud5YkUBfZmK80n6A0pQyAufLYvONeZA
- j4bL6MEH09jCUFdnFPKhhrm8rwzbwphcHDmMcn99/tGKGQci15jBTawMqTpn5ioOuF/n
- RY1I06bMCVAkmdoh0FQ9CkPfTl9FRN/fSRu+mOUIMYTz5KpMww0badgJTTg9PHWubaQu
- Ip2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ORKAIf1asRZPMa+6s/pHeGXqpiqVPzgrJoeHO0bf6hM=;
- b=LcXDjJ3qoKJG+HBricL6/P6Hr/ph1XDRB2cYV3gVyi3nU6iypyrTNacgJ7u8OtMqnA
- cdfOP/VVksCyjsCMy6xuox7mTmzxbExeuMz7P03iDZfTlBqQrem7laNZkeyKKpItigym
- D+FphKdrTvyJapTfbWtOWZVL9xsgfE7ORR4aE5onrr43nUybJamN67RH5k7BHUf7gFBM
- 1zM7+UcKDiaK/p4nHTvCH9mPv/bhtB6HrhlpdKrDXxap64Sy9E8rcnC8e05FJT58lLae
- G6GcMNo+Co+fF/0bCHOUt9zghJormI3iRdfEluVmCoR8FDcc6LqWHCbJv7CDAKtAdKDo
- BJ4A==
-X-Gm-Message-State: AOAM532DB4YozOKjWGxM9ViddPCu1AXroH8HOp6v505ykuwowGutbp57
- /j/XkYw33ze0w2w7W+IUEhIhQCij95Jh5je1xKY=
-X-Google-Smtp-Source: ABdhPJwlK0lzSx/l7zbdHR6BGPPkStJ09a9ve7oiD/QgulcEbtC7Hk3Rr1UhzAbGWhakKGZCKkUDoIN/HVj1GdofWOI=
-X-Received: by 2002:a63:5602:: with SMTP id k2mr14807519pgb.127.1620156946418; 
- Tue, 04 May 2021 12:35:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1le0sR-0003LU-S6
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 15:38:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50160)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1le0sM-0004d8-IS
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 15:38:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620157113;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hSUzG3mbW5I3GMmv3Txjuqo+7iNq8U4UCjG+KfE/ids=;
+ b=SIIEoAqX68mQ0p34EDS71M0IS1JGxrQWpIeHRCC6EsbYDj6QpnuEQdUoBiHunDvrkkID2k
+ MSN9ndbI55W7fUR9lnMVcUB6dgSb1EjqfoyqA7OnNUDXtbuIlHlV3fS4HANXysazOqLaqr
+ kPBFtHkgUfwlTv6TWA2HUjdcrIpiRqE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-454-DAyTpLm2MkuwpaIc-n1xvw-1; Tue, 04 May 2021 15:38:31 -0400
+X-MC-Unique: DAyTpLm2MkuwpaIc-n1xvw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9926A106BB2B;
+ Tue,  4 May 2021 19:38:30 +0000 (UTC)
+Received: from [10.3.114.144] (ovpn-114-144.phx2.redhat.com [10.3.114.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AA9B19C71;
+ Tue,  4 May 2021 19:38:29 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210504152023.322862-1-vsementsov@virtuozzo.com>
+ <20210504152023.322862-6-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH 05/10] qcow2-refcount: fix_l2_entry_by_zero(): also zero
+ L2 entry bitmap
+Message-ID: <96086f78-b8c6-ccc8-25e6-d41f928f3af2@redhat.com>
+Date: Tue, 4 May 2021 14:38:29 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
- <20210429120445.694420-8-chouhan.shreyansh2702@gmail.com>
- <df6c1dc7-5d0f-f094-5d2f-2d8f9a909a1c@vivier.eu>
-In-Reply-To: <df6c1dc7-5d0f-f094-5d2f-2d8f9a909a1c@vivier.eu>
-From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Date: Wed, 5 May 2021 01:05:35 +0530
-Message-ID: <CAAQ-SiMje-qBYy8bwRKXmUEMSQk5UR=rPtTPUBGQ6Fqhs-i_eA@mail.gmail.com>
-Subject: Re: [RFC PATCH 07/27] virtio-snd: Add properties for class init
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: multipart/alternative; boundary="0000000000004590d605c1862f73"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210504152023.322862-6-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,68 +84,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, mst@redhat.com
+Cc: kwolf@redhat.com, den@openvz.org, ktkhai@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004590d605c1862f73
-Content-Type: text/plain; charset="UTF-8"
+On 5/4/21 10:20 AM, Vladimir Sementsov-Ogievskiy wrote:
+> We'll reuse the function to fix wrong L2 entry bitmap. Support it now.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/qcow2-refcount.c | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+> index f1e771d742..62d59eb2e9 100644
+> --- a/block/qcow2-refcount.c
+> +++ b/block/qcow2-refcount.c
+> @@ -1588,7 +1588,8 @@ enum {
+>  };
+>  
+>  /*
+> - * Fix L2 entry by making it QCOW2_CLUSTER_ZERO_PLAIN.
+> + * Fix L2 entry by making it QCOW2_CLUSTER_ZERO_PLAIN (or maing all its present
 
-On Tue, 4 May 2021 at 19:02, Laurent Vivier <laurent@vivier.eu> wrote:
+making
 
-> There is nothing specific to PCI in that code, why do you prevent the use
-> of virtio-snd as a MMIO
-> device?
->
-> I am sorry I do not understand your question completely. If by preventing
-the use of virtio-snd, you mean
-why did I add the PCI dependencies to the Kconfig file, then I think I must
-have been a bit confused
-while writing it. VIRTIO_PCI already includes those dependencies, I will
-change the dependency to
-VIRTIO. (Which is what it is for other virtio devices too.)
+> + * subclusters QCOW2_SUBCLUSTER_ZERO_PLAIN).
+>   *
+>   * Function do res->corruptions-- on success, so caller is responsible to do
+>   * corresponding res->corruptions++ prior to the call.
+> @@ -1605,9 +1606,20 @@ static int fix_l2_entry_by_zero(BlockDriverState *bs, BdrvCheckResult *res,
+>      int idx = l2_index * (l2_entry_size(s) / sizeof(uint64_t));
+>      uint64_t l2e_offset = l2_offset + (uint64_t)l2_index * l2_entry_size(s);
+>      int ign = active ? QCOW2_OL_ACTIVE_L2 : QCOW2_OL_INACTIVE_L2;
+> -    uint64_t l2_entry = has_subclusters(s) ? 0 : QCOW_OFLAG_ZERO;
+>  
+> -    set_l2_entry(s, l2_table, l2_index, l2_entry);
+> +    if (has_subclusters(s)) {
+> +        uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, l2_index);
+> +
+> +        /* Allocated subclusters becomes zero */
 
-However if you mean why did I not add an MMIO binding for this device, then
-there is no
-specific reason. I simply followed what QEMU had been doing for the other
-virtio devices.
-Will there be any advantages to implementing the device as a MMIO device?
+become
 
-> Thanks,
->
-> Laurent
->
-> --
-Regards
-Shreyansh
+> +        l2_bitmap |= l2_bitmap << 32;
+> +        l2_bitmap &= QCOW_L2_BITMAP_ALL_ZEROES;
+> +
+> +        set_l2_bitmap(s, l2_table, l2_index, l2_bitmap);
+> +        set_l2_entry(s, l2_table, l2_index, 0);
+> +    } else {
+> +        set_l2_entry(s, l2_table, l2_index, QCOW_OFLAG_ZERO);
+> +    }
+> +
+>      ret = qcow2_pre_write_overlap_check(bs, ign, l2e_offset, l2_entry_size(s),
+>                                          false);
+>      if (metadata_overlap) {
+> 
 
---0000000000004590d605c1862f73
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 4 May 2021 at 19:02, Laurent Vivi=
-er &lt;<a href=3D"mailto:laurent@vivier.eu" target=3D"_blank">laurent@vivie=
-r.eu</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">There is nothing specific to PCI in that c=
-ode, why do you prevent the use of virtio-snd as a MMIO<br>
-device?<br>
-<br></blockquote><div>I am sorry I do not understand your question complete=
-ly. If by preventing the use of virtio-snd, you mean</div><div>why did I ad=
-d the PCI dependencies to the Kconfig file, then I think I must have been a=
- bit confused</div><div>while writing it. VIRTIO_PCI already includes those=
- dependencies, I will change the dependency to</div><div>VIRTIO. (Which is =
-what it is for other virtio devices too.)</div><div><br></div><div>However =
-if you mean why did I not add an MMIO binding for this device, then there i=
-s no</div><div>specific reason. I simply followed what QEMU had been doing =
-for the other virtio devices.</div><div>Will there be any advantages to imp=
-lementing the device as a MMIO device?=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">Thanks,<br>
-<br>
-Laurent<br>
-<br></blockquote><div>--=C2=A0</div><div>Regards</div><div>Shreyansh=C2=A0<=
-/div></div></div>
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
---0000000000004590d605c1862f73--
 
