@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109A63726E3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 10:05:11 +0200 (CEST)
-Received: from localhost ([::1]:48608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63A437270E
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 10:18:03 +0200 (CEST)
+Received: from localhost ([::1]:35434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldq3I-00014c-84
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 04:05:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55624)
+	id 1ldqFm-00007H-HU
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 04:18:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldpzR-0007uF-KC
- for qemu-devel@nongnu.org; Tue, 04 May 2021 04:01:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41718)
+ id 1ldqDx-0007hb-L6
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 04:16:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldpzL-0001cE-F2
- for qemu-devel@nongnu.org; Tue, 04 May 2021 04:01:09 -0400
+ id 1ldqDr-00017I-L9
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 04:16:09 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ldpzJ-0006ms-5j
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 08:01:01 +0000
+ id 1ldqDp-0000iz-06
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 08:16:01 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F2B392E8194
- for <qemu-devel@nongnu.org>; Tue,  4 May 2021 08:01:00 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8C7AC2E8187
+ for <qemu-devel@nongnu.org>; Tue,  4 May 2021 08:16:00 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 04 May 2021 07:55:23 -0000
+Date: Tue, 04 May 2021 08:01:14 -0000
 From: Thomas Huth <1909770@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,14 +43,14 @@ X-Launchpad-Bug-Commenters: on7wpi pmaydell th-huth
 X-Launchpad-Bug-Reporter: ON7WPI (on7wpi)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
 References: <160943407589.12883.6323653042448683983.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162011492391.11746.394529114116670650.malone@soybean.canonical.com>
+Message-Id: <162011527417.14597.10111288176593122914.malone@wampee.canonical.com>
 Subject: [Bug 1909770] Re: qemu-cris segfaults upon loading userspace binary
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: ea316d94de73bfc6046c2f2057d60f9a5a738e71
+X-Launchpad-Hash: 0d6a683476c564cdb698112b15e8118582747610
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,18 +75,7 @@ Reply-To: Bug 1909770 <1909770@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
-
- https://gitlab.com/qemu-project/qemu/-/issues/123
-
-
-** Changed in: qemu
-       Status: New =3D> Expired
-
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #123
-   https://gitlab.com/qemu-project/qemu/-/issues/123
+ON7WPI: Is QEMU version 6.0 now working fine for you?
 
 -- =
 
