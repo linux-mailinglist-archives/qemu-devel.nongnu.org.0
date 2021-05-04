@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4879B372930
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:47:36 +0200 (CEST)
-Received: from localhost ([::1]:39630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2D5372931
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:51:15 +0200 (CEST)
+Received: from localhost ([::1]:46868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldsaV-00011U-D8
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:47:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34874)
+	id 1ldse2-00041h-BW
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:51:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ldsYj-0008Jk-9K
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:45:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27910)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ldsYh-0001pa-GV
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:45:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620125141;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WNvIUQ0yYbgxw7ysw/CjpudXJM2XffOxG8VvL5/4UGk=;
- b=NbUYmcLj1+WkaXsyUxg1ix2+CB6OQjmMabgo4W1uVkoNtFESeY3SN0hIdGmHY1ObFvoYCp
- SwbBrVa2M4GZKn5c5ZlaQ1A92iuVvJdGYiml0DqWVA9ottNDDnluCbZ+3UrcNlCQgZAjLC
- HITB3zcUX2ceuU2r8GC47YissTv2Oak=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-spaOZRZSOVGCjGtVLNFYLA-1; Tue, 04 May 2021 06:45:38 -0400
-X-MC-Unique: spaOZRZSOVGCjGtVLNFYLA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AB6150212;
- Tue,  4 May 2021 10:45:37 +0000 (UTC)
-Received: from work-vm (ovpn-115-50.ams2.redhat.com [10.36.115.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E678859446;
- Tue,  4 May 2021 10:45:20 +0000 (UTC)
-Date: Tue, 4 May 2021 11:45:18 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Krempa <pkrempa@redhat.com>
-Subject: Re: [PATCH] virtio-blk: drop deprecated scsi=on|off property
-Message-ID: <YJElvmfnOl5J5Goo@work-vm>
-References: <20210429155221.1226561-1-stefanha@redhat.com>
- <20210429180352.ohhfz4kwyxapbiyl@habkost.net>
- <87lf905icy.fsf@dusky.pond.sub.org>
- <YIu4lDTeg1TZKWZg@angien.pipo.sk>
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1ldscI-0002iz-DG; Tue, 04 May 2021 06:49:26 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:38573)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1ldscF-0004Ec-OV; Tue, 04 May 2021 06:49:26 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id k19so4050764pfu.5;
+ Tue, 04 May 2021 03:49:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:subject:to:cc:references:in-reply-to:mime-version
+ :message-id:content-transfer-encoding;
+ bh=gToYGNxSi1n24OAhTY1wzpyEPjXuBwRQe8DnpN+si1E=;
+ b=pKnpPcFX/a1oZjT59s/btWYnVTkXmm7ZkZPL4XtRAkeh60lebq1ZmxPnM+NZXqfZlY
+ 8q8BMOrh7NJw6VoiOl6efUBdjaNBuakXGOyhDwm9RaMOFq6my2KUBPifgVRNpr4PgShh
+ y+KbQvQ08Bk6U7vTJcD3IRNx3GSPvNscuJei9mWbXw3HtJkUsiDFv2Xn94cmmPy8Lknk
+ kAbKPHI6QcEzDeCbd6vzcgkFV7G8fuwR9M0bUnSrdYk/punKfmVN5zMFy6ejhFT9owVx
+ cJT6FpS88cho6Pgxh7gbLAT9N2qqxcr5eH3hDeEeLtF5Z0iB3b8HUF4s7D3tCGMUZkJX
+ LajQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+ :mime-version:message-id:content-transfer-encoding;
+ bh=gToYGNxSi1n24OAhTY1wzpyEPjXuBwRQe8DnpN+si1E=;
+ b=noef9SnIWAO/yOj5OTHa94AIcn/HOLKYgloovATFzv02x+OMHk398s0plIvlO3lJWS
+ 2FHUIJmGrdRjw0yIDCEdr2GBcfphHAsu+LA0D16KAJKWtnwi7oaTbVETarIAJbx/pBzY
+ Nu1ODhVztDtmDCZisZT/Pw4XosxzL0dCbxDriqCKlhzB28ffkj03fIMkJKdf31mW1t5w
+ OEvmCn43VhUlf6IknTqJ/pDEJkBf2IkW1ZzNMCiLJSg+eG497lGe4dROcu1zDRHKTK4h
+ VUGE7SBISxJ2x69kJ8Ubpl1lw2UEJt8Mp1ie16VwRpEnSTRrtD5n5e+n8m6LEenzYFUy
+ VpNA==
+X-Gm-Message-State: AOAM530OMAozwUlvSOXbbmCZ0a+6Gy/CQR/zlVKB3Q6ygKZcScOIpOU0
+ pN7L5CnCtwkygU60nx8HMLM=
+X-Google-Smtp-Source: ABdhPJxvnBRLLsQC04xS9Ggwuy8oHm6tpFfZcCMRQzNcjjkxOwJ1tASwwvs0aRZs1iyt82a7YiobUA==
+X-Received: by 2002:a63:7c42:: with SMTP id l2mr22541373pgn.98.1620125361819; 
+ Tue, 04 May 2021 03:49:21 -0700 (PDT)
+Received: from localhost ([61.68.127.20])
+ by smtp.gmail.com with ESMTPSA id j12sm11625308pff.49.2021.05.04.03.49.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 May 2021 03:49:21 -0700 (PDT)
+Date: Tue, 04 May 2021 20:49:16 +1000
+From: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH] target/ppc: Do not check for LPCR[HAIL] on power10_v1.0
+ CPUs
+To: =?iso-8859-1?q?C=E9dric?= Le Goater <clg@kaod.org>, David Gibson
+ <david@gibson.dropbear.id.au>
+References: <20210504095900.505668-1-clg@kaod.org>
+In-Reply-To: <20210504095900.505668-1-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <YIu4lDTeg1TZKWZg@angien.pipo.sk>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Message-Id: <1620125242.e97yybasbv.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,51 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Christoph Hellwig <hch@lst.de>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Krempa (pkrempa@redhat.com) wrote:
-> On Fri, Apr 30, 2021 at 09:42:05 +0200, Markus Armbruster wrote:
-> > Eduardo Habkost <ehabkost@redhat.com> writes:
-> > 
-> > > On Thu, Apr 29, 2021 at 04:52:21PM +0100, Stefan Hajnoczi wrote:
-> > >> The scsi=on|off property was deprecated in QEMU 5.0 and can be removed
-> > >> completely at this point.
-> > >> 
-> > >> Drop the scsi=on|off option. It was only available on Legacy virtio-blk
-> > >> devices. Linux v5.6 already dropped support for it.
-> > >> 
-> > >> Remove the hw_compat_2_4[] property assignment since scsi=on|off no
-> > >> longer exists. Old guests with Legacy virtio-blk devices no longer see
-> > >> the SCSI host features bit.
-> > >> 
-> > >
-> > > This means pc-2.4 will now break guest ABI if using virtio-blk
-> > > devices, correct?
-> > >
-> > > This looks like a sign we should have deprecated pc-2.4 a long
-> > > time ago.
-> > 
-> > The last batch of PC machine type retiring was pc-1.0 to pc-1.3:
-> > deprecated in 5.0 (commit 30d2a17b4, Dec 2019), dropped in 6.0 (commit
-> > f862ddbb1, just weeks ago).  pc-1.3 was a bit over seven years old when
-> > we released 5.0.  pc-2.4 will be six years old by the time we release
-> > 6.1.  Fair game?
-> 
-> As a data-point, libvirt will be dropping support for <qemu-2.10
-> (release, not the machine type) in the upcomming release. I'm not sure
-> whether that justifies more deprecation though.
+Excerpts from C=C3=A9dric Le Goater's message of May 4, 2021 7:59 pm:
+> The LPCR[HAIL] bit only applies to POWER10 DD2 CPUs. On POWER10 DD1,
+> the ail value should be extracted using the LPCR_AIL mask like on P9.
+>=20
+> Cc: Nicholas Piggin <npiggin@gmail.com>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-What qemu features will you then be relying on?
+Thanks for this, my oversight for not realising the P10 CPU is DD1=20
+(which doesn't have HAIL).
 
-Dave
+I wonder if it could just use the POWER9 excp_model?
 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+> ---
+>  target/ppc/excp_helper.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index c0605f84d70f..ba18444f5d1e 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -198,6 +198,7 @@ static inline void ppc_excp_apply_ail(PowerPCCPU *cpu=
+, int excp_model, int excp,
+>                                        target_ulong *vector)
+>  {
+>  #if defined(TARGET_PPC64)
+> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+>      CPUPPCState *env =3D &cpu->env;
+>      bool mmu_all_on =3D ((msr >> MSR_IR) & 1) && ((msr >> MSR_DR) & 1);
+>      bool hv_escalation =3D !(msr & MSR_HVB) && (*new_msr & MSR_HVB);
+> @@ -240,7 +241,7 @@ static inline void ppc_excp_apply_ail(PowerPCCPU *cpu=
+, int excp_model, int excp,
+>              return;
+>          }
+> =20
+> -        if (*new_msr & MSR_HVB) {
+> +        if (*new_msr & MSR_HVB && pcc->lpcr_mask & LPCR_HAIL) {
+>              if (!(env->spr[SPR_LPCR] & LPCR_HAIL)) {
+>                  /* HV interrupts depend on LPCR[HAIL] */
+>                  return;
+> --=20
+> 2.26.3
+>=20
+>=20
 
