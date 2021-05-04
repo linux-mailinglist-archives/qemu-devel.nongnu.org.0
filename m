@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF96372765
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 10:41:21 +0200 (CEST)
-Received: from localhost ([::1]:51716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E17037278F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 10:49:51 +0200 (CEST)
+Received: from localhost ([::1]:41854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldqcK-0002jd-E1
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 04:41:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36430)
+	id 1ldqkY-0002Ik-Hu
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 04:49:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ldqZt-0001OT-5N
- for qemu-devel@nongnu.org; Tue, 04 May 2021 04:38:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51601)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ldqZi-0001Fy-5d
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 04:38:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ldqZp-0005Dg-Af
- for qemu-devel@nongnu.org; Tue, 04 May 2021 04:38:48 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ldqZe-00056C-6P
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 04:38:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620117524;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1620117511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=C+Q58dpgPacHikQSplFMBdjAR5od0VFE2VUEpdirUZA=;
- b=DZWc9kZnECxRRHh0waflN815KwNqg6g0Tbzl6VZTzdbh/7pLTnMGt5jMPlrk+exHCw53dO
- PKYva7wW6OwC3tI7lHMpxfRLr62mcMmo3RCuwRyJM+CN2+uA8c40Zi2Bvu8xOoiV+8WgCv
- cmeuLbvxvc43cO3oaJ1ChuzOBKufzPo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-EhycuRrgN-u-sLieJJy3Qg-1; Tue, 04 May 2021 04:38:33 -0400
-X-MC-Unique: EhycuRrgN-u-sLieJJy3Qg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC19E100A24D;
- Tue,  4 May 2021 08:38:31 +0000 (UTC)
-Received: from redhat.com (ovpn-113-37.ams2.redhat.com [10.36.113.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A97C61156;
- Tue,  4 May 2021 08:38:28 +0000 (UTC)
-Date: Tue, 4 May 2021 09:38:25 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Subject: Re: [PATCHv2 1/1] Support monitor chardev hotswap with QMP
-Message-ID: <YJEIAfs4tNRN52K4@redhat.com>
-References: <20210413213459.629963-1-li.zhang@cloud.ionos.com>
- <875z0m4733.fsf@dusky.pond.sub.org>
- <CAJ+F1CKFzgp=ndDER4p4v-_uz0gf0ydzYcxtay7Zz7wwUQUueg@mail.gmail.com>
- <CAJ+F1CLW1rCV1rnxxhtAMEoVttA+nbWetbQkd7C3G16NTR2NRw@mail.gmail.com>
- <87blad2v9x.fsf@dusky.pond.sub.org>
- <CAM9Jb+g0jUy5uEYmpu0nTYogRoDN1VZayLD_0xQ2ZZqB5tr21Q@mail.gmail.com>
+ bh=Q16+Z0zwf8moJx8dG1Sr0x38B1On6CzUbEtN7YQ64io=;
+ b=O1MAILz6rU+hyeBYPMOR4r7oJ40X3XxigHpnGSO8iCHslvN7NJSYDFZ1hykNsY8vey2+8R
+ 5J87OGW3LIde8W28YSv1/WIgXdiIbHeB9novpQbyerKHhNRgcOZLpIDT8cuMIglfCMxFq/
+ YSz1E7pKn4MaV3oM6hwLFboI9dfmQuU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-75-natFtK6wPzqa0AEnc3am6w-1; Tue, 04 May 2021 04:38:29 -0400
+X-MC-Unique: natFtK6wPzqa0AEnc3am6w-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r12-20020adfc10c0000b029010d83323601so5428951wre.22
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 01:38:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Q16+Z0zwf8moJx8dG1Sr0x38B1On6CzUbEtN7YQ64io=;
+ b=lrmITjx0SXkm6rELn/eWEngwncQhNhiT1InDTRfQRT94PyHwgTrcunToYOmHxEzSMn
+ 6cyBfgQ+GiufH/hFh+R3Izbox0D+tlBQe0jcadj2cOwEpNQuQfQI6WenDDC/Nbkjctzg
+ XWixuoT4GL0yakdvp+z5i/wDLmOmB/idCGI5niZUx2l5k6TPYhsH9MRQBphDelq5rNyq
+ C3l1O0d/00X+4clrZ2QJi2BgDzgIo3DE/PFLS9/KU4oUKjyrtwZU9Md9BVfhvwIVwYG5
+ 8vioBHQqTUSApHb8Um8+PAh+wbMUUMDsk1dLzrAPutvga493dZSF2EgkNQuo4ja8GWe8
+ aN+w==
+X-Gm-Message-State: AOAM530nYblptfBqrOnfI8K1qbOfBE8UljPiIoEWdjIyuDs7RhghW5Hg
+ PmA6JnCLNudMgGbigK1i9aB0Ly+5pXVigDH5RUg7cL7b7t5qLXB5z6azk7H5OIoAgClbjXcpGLW
+ u1c4oP3s7ZW1DKIM=
+X-Received: by 2002:adf:e40c:: with SMTP id g12mr29699122wrm.11.1620117508869; 
+ Tue, 04 May 2021 01:38:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzmVoKGzU12vkOMJoZ90z6MpShGiAf9Hl5IsO9dAwilflt/pxFOVScXdo+y6Xhq+eFPlZKxdA==
+X-Received: by 2002:adf:e40c:: with SMTP id g12mr29699108wrm.11.1620117508714; 
+ Tue, 04 May 2021 01:38:28 -0700 (PDT)
+Received: from redhat.com ([2a10:800a:cdef:0:114d:2085:61e4:7b41])
+ by smtp.gmail.com with ESMTPSA id r7sm1829588wmq.18.2021.05.04.01.38.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 May 2021 01:38:28 -0700 (PDT)
+Date: Tue, 4 May 2021 04:38:26 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 0/2] vhost-vDPA: doorbell mapping support
+Message-ID: <20210504043623-mutt-send-email-mst@kernel.org>
+References: <20210415080444.44645-1-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAM9Jb+g0jUy5uEYmpu0nTYogRoDN1VZayLD_0xQ2ZZqB5tr21Q@mail.gmail.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210415080444.44645-1-jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -86,76 +91,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Li Zhang <li.zhang@cloud.ionos.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Pankaj Gupta <pankaj.gupta@ionos.com>, Li Zhang <zhlcindy@gmail.com>
+Cc: elic@nvidia.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 04, 2021 at 08:29:50AM +0200, Pankaj Gupta wrote:
-> +CC Danpb
+On Thu, Apr 15, 2021 at 04:04:42PM +0800, Jason Wang wrote:
+> Hi All:
 > 
-> > >>> Marc-André, I'd like your opinion for this one, in particular the use of
-> > >>> g_source_remove().
-> > >>>
-> > >>
-> > >> My opinion isn't really worth much, my review would have a bit more value.
-> > >>
-> > >> GSource has indeed some peculiar lifetime management, that I got wrong in
-> > >> the past. So I would be extra careful.
-> > >>
-> > >> But before spending time on review, I would also clarify the motivation
-> > >> and ask for testing.
-> > >>
-> > >> Markus, hot-adding/removing monitors isn't supported?
-> > >>
-> > >>
-> > > I realize you answered my question below. That's surprising me. Wouldn't it
-> > > make more sense to support it rather than having a pre-opened null-based
-> > > monitor that can have its chardev swapped?
-> >
-> > Yes, it would.  Patches welcome.
-> >
-> > This patch is a somewhat ham-fisted and limited solution to the problem
-> > stated in the commit message.  However, it might *also* be a reasonable
-> > improvement to chardev-change on its own.  Not for me to judge.
-> >
-> > chardev-change comes with a number of restrictions.  Let's have a closer
-> > look.  It fails
-> >
-> > 1. when no such character device exists (d'oh)
-> >
-> > 2. for chardev-mux devices
-> >
-> > 3. in record/replay mode
-> >
-> > 4. when a backend is connected that doesn't implement the chr_be_change()
-> >    method
-> >
-> > 5. when chr_be_change() fails
-> >
-> > 6. when creating the new chardev fails[*]
-> >
-> > Items 2, 3, 4 are restrictions.  I figure 2 and 4 are simply not
-> > implemented, yet.  I'm not sure about 3.
-> >
-> > Whether we want to accept patches lifting restrictions is up to the
-> > chardev maintainers.
+> This series tries to implement doorbell mapping support for
+> vhost-vDPA. Tested with virtio-pci vDPA driver.
+
+BTW I'd rather we used the kick/call terminology from the virtio
+spec. doorbell terminology seems to be originating from e1000
+which has a register named like this.
+
+> Please review.
 > 
-> Maybe we can handle or already handle the restrictions at libvirt side?
-
-From the libvirt side I'd just like to see the real problem addressed.
-ie actally implement monitor hotplug/unplug, instead of this hack
-where you pre-create a monitor with null backend.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> Jason Wang (2):
+>   vhost-vdpa: skip ram device from the IOTLB mapping
+>   vhost-vdpa: doorbell mapping support
+> 
+>  hw/virtio/vhost-vdpa.c         | 97 ++++++++++++++++++++++++++++++----
+>  include/hw/virtio/vhost-vdpa.h |  7 +++
+>  2 files changed, 94 insertions(+), 10 deletions(-)
+> 
+> -- 
+> 2.25.1
 
 
