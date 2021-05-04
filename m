@@ -2,60 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DA7372BEA
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 16:22:22 +0200 (CEST)
-Received: from localhost ([::1]:39780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB91372BFB
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 16:27:33 +0200 (CEST)
+Received: from localhost ([::1]:42132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldvwL-0002b5-4D
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 10:22:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56098)
+	id 1ldw1M-0003jo-UA
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 10:27:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ldvuy-00029t-0z
- for qemu-devel@nongnu.org; Tue, 04 May 2021 10:20:56 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:35577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ldvuw-0004yV-6J
- for qemu-devel@nongnu.org; Tue, 04 May 2021 10:20:55 -0400
-Received: from [192.168.100.1] ([82.142.20.222]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mw8gc-1lNVWm3Xkq-00s8No; Tue, 04 May 2021 16:20:48 +0200
-Subject: Re: [PATCH] m68k: virt: correctly set the initial PC
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210504131816.73272-1-laurent@vivier.eu>
- <f85a2d4d-b31e-7752-c9dc-1bb0263fe739@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <87eb232c-18dc-eaef-d78b-7150c78fa0bc@vivier.eu>
-Date: Tue, 4 May 2021 16:20:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <daniel@ffwll.ch>) id 1ldvxk-0003E4-NV
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 10:23:48 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:43940)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <daniel@ffwll.ch>) id 1ldvxi-0006Qw-9I
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 10:23:48 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id l4so13441299ejc.10
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 07:23:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ensQSDTh3BO9iGPVrV6EYBnSBYEfz7lspMmgWRr6tEM=;
+ b=A/agEr85m2gTABKwkX7MweJdDLUWMMy/uuv8cOATtF0IOSbqQGQWqB7WVO/2i6CTej
+ A/xEN0wabqwjnysRyxUsM6987Nm7ZjOXb3ElY7BOmpcbi2Nz6d878YWmh7i2EiFYeKva
+ NM7Q/fRoU0PTIKl2uxcCG8z+XO6JfxPjFQ6us=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=ensQSDTh3BO9iGPVrV6EYBnSBYEfz7lspMmgWRr6tEM=;
+ b=puay4rQDwyb5Ktztf1B3yrEef9fonEx0pbOxCzSqtJ169HQV0MO90NKN2Y9MVgFEZr
+ ao6c/yZ75fXYmenIPa8Of9ruJJv3WhKA7ssZ0rR1mWMFwtJ6KMGNP4ZiFRK6x836Z660
+ fQwDFX6jk6QroniMvHE8Ssc93ngaWvH0aQVIzOHznpN4+3jVZycQC5byZD4JNJH3lFKS
+ Xp0CCq8OfxDiM4J0nybEH1tuCJ/Mg9Cl19cLjJknJv62nQIN9dKgYAyXUk2X0C7/brD1
+ 9vJRhDIjE6s54rchrfHiyr8tn5Z8ycqYp78CRFXngLuNl8GYZ9zTciDUFCETyOkrgeXL
+ ROqw==
+X-Gm-Message-State: AOAM532B5nG1ag8gm//D2Kh7c9JEPL9LTOB/Z/hwj0qgdnm70kIepp+Q
+ tRMmM4BU6Qz+smwuN/UoJfo8xA==
+X-Google-Smtp-Source: ABdhPJzaM96uclt2Tpt863I3ZtqPW7KYS209iLyt378polAbgvCVI1aPL30//Pa3FZcXPaOgGHkVGA==
+X-Received: by 2002:a17:906:194d:: with SMTP id
+ b13mr22253337eje.83.1620138223252; 
+ Tue, 04 May 2021 07:23:43 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id t14sm1462204ejc.121.2021.05.04.07.23.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 May 2021 07:23:42 -0700 (PDT)
+Date: Tue, 4 May 2021 16:23:40 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: remove the nvlink2 pci_vfio subdriver v2
+Message-ID: <YJFY7NjEBtCSlJHw@phenom.ffwll.local>
+Mail-Followup-To: Greg Kurz <groug@kaod.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Christoph Hellwig <hch@lst.de>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Paul Mackerras <paulus@samba.org>,
+ linux-api@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20210326061311.1497642-1-hch@lst.de>
+ <20210504142236.76994047@bahia.lan> <YJFFG1tSP0dUCxcX@kroah.com>
+ <20210504152034.18e41ec3@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <f85a2d4d-b31e-7752-c9dc-1bb0263fe739@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: fr
-X-Provags-ID: V03:K1:0cLMnp5uEutUeyEzh+ufQJcUPLSyMj/S+r36yhHjqUpHR34fbRt
- gktZPLaGQACSnYpwZEspYSlFh/S8XN+1bvhnApZda+bOZ+bE4v81l3hxg+kz3FYBDTifETw
- il1XNmwjHecFeqg9yuGf/FhyiMAkdf3F8Qo4IOBCIy3bMNk2Jbetl599uHJTGBEHXV5uKOW
- FjQ1N3rZ7sS6bI8i0rJ1A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9ipoL+ujaBg=:pJLGX9QF2f7BXpu4612uUL
- 8LBko5jWMvzdtWChrTO4RW4dvRHXAB2I4SfrfzOdd7216jIfeCGoR1k2g1FXgXJF8eztEzu8H
- mk7lg9/FWFbJlJv4Yd3k+jMDiQKfHmvpYCXUJiwbi+49D5ZIoMuKTesL24jryMxzp0o2b/iKw
- eeGVY7ZnA5aRfIYEKMIqWnExxgYsz4laNqAM7UlRQGgyXWSXMWk3EqHD059RgDlTkODBDPbJ2
- nJPr21n18vPBv+RQxcd1N/7zIon5rf1r1bxKEJz4Z/ZByJNYs2VEOVm5cff37Yax7vZx0KCwm
- IHXHMCE4PdxMwFKZHN2L+Kb3ia+sAaIbJCApyAzkTtwjP2DxeZzK7+NBSNKMujjlTlmgSV4Xm
- OaOb0ZD2kUwJIZcFGOeizBA4M87cjy1vzTlusvOpDeJF6BgrDzbcPt/NcZwEWGV+JyAUbcw9S
- DZTRMxhKrWVyGVkpSd1kDdN5EnxIbzLUFAVpaZz1W7gvgMreeSYKAQumgi/m8zV8H3coGDG95
- /F18cWxSXs7+B5W3735y3w=
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210504152034.18e41ec3@bahia.lan>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
+Received-SPF: none client-ip=2a00:1450:4864:20::62e;
+ envelope-from=daniel@ffwll.ch; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,88 +92,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Daniel Vetter <daniel@ffwll.ch>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paul Mackerras <paulus@samba.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, qemu-ppc@nongnu.org,
+ linux-api@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 04/05/2021 à 16:13, Philippe Mathieu-Daudé a écrit :
-> On 5/4/21 3:18 PM, Laurent Vivier wrote:
->> Set initial PC to the entry of the loaded kernel.
->>
->> This fixes kernel reboot with "-kernel" parameter.
->>
->> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->> ---
->>  hw/m68k/virt.c | 22 +++++++++++++++++-----
->>  1 file changed, 17 insertions(+), 5 deletions(-)
->>
->> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
->> index e9a5d4c69b97..4fb3a7ebf0f2 100644
->> --- a/hw/m68k/virt.c
->> +++ b/hw/m68k/virt.c
->> @@ -88,14 +88,21 @@
->>  #define VIRT_VIRTIO_MMIO_BASE 0xff010000     /* MMIO: 0xff010000 - 0xff01ffff */
->>  #define VIRT_VIRTIO_IRQ_BASE  PIC_IRQ(2, 1)  /* PIC: 2, 3, 4, 5, IRQ: ALL */
->>  
->> +typedef struct {
->> +    M68kCPU *cpu;
->> +    hwaddr initial_pc;
->> +    hwaddr initial_stack;
->> +} ResetInfo;
->> +
->>  static void main_cpu_reset(void *opaque)
->>  {
->> -    M68kCPU *cpu = opaque;
->> +    ResetInfo *reset_info = opaque;
->> +    M68kCPU *cpu = reset_info->cpu;
->>      CPUState *cs = CPU(cpu);
->>  
->>      cpu_reset(cs);
->> -    cpu->env.aregs[7] = ldl_phys(cs->as, 0);
->> -    cpu->env.pc = ldl_phys(cs->as, 4);
->> +    cpu->env.aregs[7] = reset_info->initial_stack;
->> +    cpu->env.pc = reset_info->initial_pc;
->>  }
->>  
->>  static void virt_init(MachineState *machine)
->> @@ -116,6 +123,7 @@ static void virt_init(MachineState *machine)
->>      SysBusDevice *sysbus;
->>      hwaddr io_base;
->>      int i;
->> +    ResetInfo *reset_info;
->>  
->>      if (ram_size > 3399672 * KiB) {
->>          /*
->> @@ -127,9 +135,13 @@ static void virt_init(MachineState *machine)
->>          exit(1);
->>      }
->>  
->> +    reset_info = g_malloc0(sizeof(ResetInfo));
->> +
->>      /* init CPUs */
->>      cpu = M68K_CPU(cpu_create(machine->cpu_type));
->> -    qemu_register_reset(main_cpu_reset, cpu);
->> +
->> +    reset_info->cpu = cpu;
->> +    qemu_register_reset(main_cpu_reset, reset_info);
->>  
->>      /* RAM */
->>      memory_region_add_subregion(get_system_memory(), 0, machine->ram);
->> @@ -209,7 +221,7 @@ static void virt_init(MachineState *machine)
->>              error_report("could not load kernel '%s'", kernel_filename);
->>              exit(1);
->>          }
->> -        stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
->> +        reset_info->initial_pc = elf_entry;
-> Missing the stack?
->
->            reset_info->initial_stack = ldl_phys(cs->as, 0);
+On Tue, May 04, 2021 at 03:20:34PM +0200, Greg Kurz wrote:
+> On Tue, 4 May 2021 14:59:07 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> 
+> > On Tue, May 04, 2021 at 02:22:36PM +0200, Greg Kurz wrote:
+> > > On Fri, 26 Mar 2021 07:13:09 +0100
+> > > Christoph Hellwig <hch@lst.de> wrote:
+> > > 
+> > > > Hi all,
+> > > > 
+> > > > the nvlink2 vfio subdriver is a weird beast.  It supports a hardware
+> > > > feature without any open source component - what would normally be
+> > > > the normal open source userspace that we require for kernel drivers,
+> > > > although in this particular case user space could of course be a
+> > > > kernel driver in a VM.  It also happens to be a complete mess that
+> > > > does not properly bind to PCI IDs, is hacked into the vfio_pci driver
+> > > > and also pulles in over 1000 lines of code always build into powerpc
+> > > > kernels that have Power NV support enabled.  Because of all these
+> > > > issues and the lack of breaking userspace when it is removed I think
+> > > > the best idea is to simply kill.
+> > > > 
+> > > > Changes since v1:
+> > > >  - document the removed subtypes as reserved
+> > > >  - add the ACK from Greg
+> > > > 
+> > > > Diffstat:
+> > > >  arch/powerpc/platforms/powernv/npu-dma.c     |  705 ---------------------------
+> > > >  b/arch/powerpc/include/asm/opal.h            |    3 
+> > > >  b/arch/powerpc/include/asm/pci-bridge.h      |    1 
+> > > >  b/arch/powerpc/include/asm/pci.h             |    7 
+> > > >  b/arch/powerpc/platforms/powernv/Makefile    |    2 
+> > > >  b/arch/powerpc/platforms/powernv/opal-call.c |    2 
+> > > >  b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
+> > > >  b/arch/powerpc/platforms/powernv/pci.c       |   11 
+> > > >  b/arch/powerpc/platforms/powernv/pci.h       |   17 
+> > > >  b/arch/powerpc/platforms/pseries/pci.c       |   23 
+> > > >  b/drivers/vfio/pci/Kconfig                   |    6 
+> > > >  b/drivers/vfio/pci/Makefile                  |    1 
+> > > >  b/drivers/vfio/pci/vfio_pci.c                |   18 
+> > > >  b/drivers/vfio/pci/vfio_pci_private.h        |   14 
+> > > >  b/include/uapi/linux/vfio.h                  |   38 -
+> > > 
+> > > 
+> > > Hi Christoph,
+> > > 
+> > > FYI, these uapi changes break build of QEMU.
+> > 
+> > What uapi changes?
+> > 
+> 
+> All macros and structure definitions that are being removed
+> from include/uapi/linux/vfio.h by patch 1.
 
-No, as it's a g_malloc0(), initial_stack is set to 0, so aregs[7] (SP) will be reset to 0 on reboot.
-We could also set it to  ram_size if we want something usable, but it's not needed for the kernel
-entry point.
+Just my 2cents from drm (where we deprecate old gunk uapi quite often):
+Imo it's best to keep the uapi headers as-is, but exchange the
+documentation with a big "this is removed, never use again" warning:
 
-Thanks,
+- it occasionally serves as a good lesson for how to not do uapi (whatever
+  the reasons really are in the specific case)
 
-Laurent
+- it's good to know which uapi numbers (like parameter extensions or
+  whatever they are in this case) are defacto reserved, because there are
+  binaries (qemu in this) that have code acting on them out there.
 
+The only exception where we completely nuke the structs and #defines is
+when uapi has been only used by testcases. Which we know, since we defacto
+limit our stable uapi guarantee to the canonical open&upstream userspace
+drivers only (for at least the driver-specific stuff, the cross-driver
+interfaces are hopeless).
+
+Anyway feel free to ignore since this might be different than drivers/gpu.
+
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
