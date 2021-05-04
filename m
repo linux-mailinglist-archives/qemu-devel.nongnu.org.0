@@ -2,71 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B87A372C15
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 16:34:50 +0200 (CEST)
-Received: from localhost ([::1]:55440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB14372C5D
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 16:47:19 +0200 (CEST)
+Received: from localhost ([::1]:34346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldw8P-00016r-Gv
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 10:34:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58680)
+	id 1ldwKU-0004c5-0n
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 10:47:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ldw6l-00008b-JF
- for qemu-devel@nongnu.org; Tue, 04 May 2021 10:33:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27866)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ldw6i-0003Tm-R1
- for qemu-devel@nongnu.org; Tue, 04 May 2021 10:33:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620138783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Yg5zKWrpfCOjGW5Bi+IEOGEz5BWuMDqZQwi1uqrSLGA=;
- b=A+tZ2wH9zK9ux3RqHxJYGImpH7wKpxQyalNm35oZ+m4R2Dl36hXgBs0jSETM7CG7F3E8hd
- T4sj3QOaI5Rd5JBzv+dlsRq3RUv9aa3RLoIUn+wgdrkC5u2AdQmHExTB8XGGKk1qw0EXY3
- wsBhnUP/ruC/Qv60p23V+g0BjF9eQr4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-9zJvMQsPM-Wg2q9jSpqnkw-1; Tue, 04 May 2021 10:33:01 -0400
-X-MC-Unique: 9zJvMQsPM-Wg2q9jSpqnkw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA74D803622;
- Tue,  4 May 2021 14:33:00 +0000 (UTC)
-Received: from localhost (ovpn-115-110.ams2.redhat.com [10.36.115.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8190360C4A;
- Tue,  4 May 2021 14:32:56 +0000 (UTC)
-Date: Tue, 4 May 2021 15:32:55 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH] virtio-blk: drop deprecated scsi=on|off property
-Message-ID: <YJFbFztA61itLoR2@stefanha-x1.localdomain>
-References: <20210429155221.1226561-1-stefanha@redhat.com>
- <20210429180352.ohhfz4kwyxapbiyl@habkost.net>
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1ldwHC-0003ml-Md; Tue, 04 May 2021 10:43:54 -0400
+Received: from [201.28.113.2] (port=50705 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1ldwH9-0001im-VB; Tue, 04 May 2021 10:43:54 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 4 May 2021 11:43:47 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id A839F8012B4;
+ Tue,  4 May 2021 11:43:47 -0300 (-03)
+Subject: Re: [RFC PATCH v2 0/2] hw/ppc: code motion to compile without TCG
+To: Fabiano Rosas <farosas@linux.ibm.com>,
+ "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20210430184047.81653-1-lucas.araujo@eldorado.org.br>
+ <87sg331mso.fsf@linux.ibm.com>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <42879cce-dde6-144c-59b5-43a022f24100@eldorado.org.br>
+Date: Tue, 4 May 2021 11:43:47 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210429180352.ohhfz4kwyxapbiyl@habkost.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rhGLXT0N2wes2YIy"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <87sg331mso.fsf@linux.ibm.com>
+Content-Type: multipart/alternative;
+ boundary="------------579B96839BA69B0A76DCBB53"
+Content-Language: en-US
+X-OriginalArrivalTime: 04 May 2021 14:43:47.0953 (UTC)
+ FILETIME=[E4243E10:01D740F3]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,63 +61,314 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Christoph Hellwig <hch@lst.de>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---rhGLXT0N2wes2YIy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is a multi-part message in MIME format.
+--------------579B96839BA69B0A76DCBB53
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 29, 2021 at 02:03:52PM -0400, Eduardo Habkost wrote:
-> On Thu, Apr 29, 2021 at 04:52:21PM +0100, Stefan Hajnoczi wrote:
-> > Live migrating old guests from an old QEMU with the SCSI feature bit
-> > enabled will fail with "Features 0x... unsupported. Allowed features:
-> > 0x...". We've followed the QEMU deprecation policy so users have been
-> > warned...
-> >=20
->=20
-> Were they really warned, though?  People running
-> "-machine pc-i440fx-2.4" might be completely unaware that it was
-> silently enabling a deprecated feature.
->=20
-> Can we have this documented in a more explicit way?  Maybe just a
-> comment at hw_compat_2_4 would be enough, to warn people doing
-> backports and rebases downstream.
->=20
-> Can we make QEMU refuse to start if using pc-2.4 + virtio-blk
-> together, just to be sure?
 
-On second thought, do we really want to break pc-2.4 user's QEMU
-command-lines if they have a virtio-blk device?
+On 03/05/2021 19:21, Fabiano Rosas wrote:
+> "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br> writes:
+>
+>> After the feedback from v1 I reworked the patch with suggested ideas and
+>> this version has less duplicated code and is overall simpler.
+>>
+>> This patch series is still a WIP, there are still 2 main problems I am
+>> trying to solve, I'll mention them in their respective patches.
+>>
+>> The aim of these patches is to progress toward enabling disable-tcg on
+>> PPC by solving errors in hw/ppc with that option.
+>>
+>> As a WIP comments are welcome.
+>>
+>> Lucas Mateus Castro (alqotel) (2):
+>>    target/ppc: Moved functions out of mmu-hash64
+>>    hw/ppc: Moved TCG code to spapr_hcall_tcg
+>>
+>>   hw/ppc/meson.build       |   3 +
+>>   hw/ppc/spapr.c           |   1 +
+>>   hw/ppc/spapr_caps.c      |   1 +
+>>   hw/ppc/spapr_cpu_core.c  |   1 +
+>>   hw/ppc/spapr_hcall.c     | 301 ++--------------------------------
+>>   hw/ppc/spapr_hcall_tcg.c | 343 +++++++++++++++++++++++++++++++++++++++
+>>   hw/ppc/spapr_rtas.c      |   1 +
+>>   target/ppc/meson.build   |   1 +
+>>   target/ppc/mmu-hash64.c  |  81 +--------
+>>   target/ppc/mmu-hash64.h  |   6 -
+>>   target/ppc/mmu-misc.c    |  86 ++++++++++
+>>   target/ppc/mmu-misc.h    |  22 +++
+>>   12 files changed, 478 insertions(+), 369 deletions(-)
+>>   create mode 100644 hw/ppc/spapr_hcall_tcg.c
+>>   create mode 100644 target/ppc/mmu-misc.c
+>>   create mode 100644 target/ppc/mmu-misc.h
+> This is the list of hypercalls registered with spapr_register_hypercall
+> and whether they are implemented by KVM HV, KVM PR or none. I also list
+> whether the KVM hcall uses the QEMU implementation as a fallback. Maybe
+> it will be helpful to this discussion.
+>
+> (This is from just looking at the code, so take it with a grain of salt)
+>
+> H_ADD_LOGICAL_LAN_BUFFER  - not impl. by KVM
+> H_CHANGE_LOGICAL_LAN_MAC  - not impl. by KVM
+> H_ENABLE_CRQ              - not impl. by KVM
+> H_FREE_CRQ                - not impl. by KVM
+> H_FREE_LOGICAL_LAN        - not impl. by KVM
+> H_GET_CPU_CHARACTERISTICS - not impl. by KVM
+> H_GET_TERM_CHAR           - not impl. by KVM
+> H_HOME_NODE_ASSOCIATIVITY - not impl. by KVM
+> H_INT_ESB                 - not impl. by KVM
+> H_INT_GET_QUEUE_INFO      - not impl. by KVM
+> H_INT_GET_SOURCE_CONFIG   - not impl. by KVM
+> H_INT_GET_SOURCE_INFO     - not impl. by KVM
+> H_INT_RESET               - not impl. by KVM
+> H_INT_SET_QUEUE_CONFIG    - not impl. by KVM
+> H_INT_SET_SOURCE_CONFIG   - not impl. by KVM
+> H_INT_SYNC                - not impl. by KVM
+> H_JOIN                    - not impl. by KVM
+> H_LOGICAL_CACHE_LOAD      - not impl. by KVM
+> H_LOGICAL_CACHE_STORE     - not impl. by KVM
+> H_LOGICAL_DCBF            - not impl. by KVM
+> H_LOGICAL_ICBI            - not impl. by KVM
+> H_MULTICAST_CTRL          - not impl. by KVM
+> H_PUT_TERM_CHAR           - not impl. by KVM
+> H_REGISTER_LOGICAL_LAN    - not impl. by KVM
+> H_REGISTER_PROC_TBL       - not impl. by KVM
+> H_REG_CRQ                 - not impl. by KVM
+> H_RESIZE_HPT_COMMIT       - not impl. by KVM
+> H_RESIZE_HPT_PREPARE      - not impl. by KVM
+> H_SCM_BIND_MEM            - not impl. by KVM
+> H_SCM_READ_METADATA       - not impl. by KVM
+> H_SCM_UNBIND_ALL          - not impl. by KVM
+> H_SCM_WRITE_METADATA      - not impl. by KVM
+> H_SEND_CRQ                - not impl. by KVM
+> H_SEND_LOGICAL_LAN        - not impl. by KVM
+> H_SET_SPRG0               - not impl. by KVM
+> H_SIGNAL_SYS_RESET        - not impl. by KVM
+> H_VIO_SIGNAL              - not impl. by KVM
+>
+> H_CAS                     - not impl. by KVM | called by SLOF only
+> H_LOGICAL_MEMOP           - not impl. by KVM | called by SLOF only
+> H_TPM_COMM                - not impl. by KVM | called by UV only
+> H_UPDATE_DT               - not impl. by KVM | called by SLOF only
+>
+> H_INT_GET_OS_REPORTING_LINE - not impl. by KVM | not called by linux/SLOF/UV
+> H_INT_GET_QUEUE_CONFIG      - not impl. by KVM | not called by linux/SLOF/UV
+> H_INT_SET_OS_REPORTING_LINE - not impl. by KVM | not called by linux/SLOF/UV
+> H_SCM_UNBIND_MEM            - not impl. by KVM | not called by linux/SLOF/UV
+>
+> H_GET_TCE      - HV | not impl. by PR | QEMU fallback
+> H_SET_MODE     - HV | not impl. by PR | QEMU fallback
+> H_CONFER       - HV | not impl. by PR
+> H_PAGE_INIT    - HV | not impl. by PR
+> H_PROD         - HV | not impl. by PR
+> H_RANDOM       - HV | not impl. by PR
+> H_READ         - HV | not impl. by PR
+> H_REGISTER_VPA - HV | not impl. by PR
+> H_SET_DABR     - HV | not impl. by PR
+> H_SET_XDABR    - HV | not impl. by PR
+>
+> H_CPPR             - HV | PR | QEMU fallback
+> H_EOI              - HV | PR | QEMU fallback
+> H_IPI              - HV | PR | QEMU fallback
+> H_IPOLL            - HV | PR | QEMU fallback
+> H_LOGICAL_CI_LOAD  - HV | PR | QEMU fallback
+> H_LOGICAL_CI_STORE - HV | PR | QEMU fallback
+> H_PUT_TCE          - HV | PR | QEMU fallback
+> H_PUT_TCE_INDIRECT - HV | PR | QEMU fallback
+> H_RTAS             - HV | PR | QEMU fallback
+> H_STUFF_TCE        - HV | PR | QEMU fallback
+> H_XIRR             - HV | PR | QEMU fallback
+> H_XIRR_X           - HV | PR | QEMU fallback
+>
+> H_BULK_REMOVE      - HV | PR
+> H_CEDE             - HV | PR
+> H_ENTER            - HV | PR
+> H_PROTECT          - HV | PR
+> H_REMOVE           - HV | PR
+>
+> H_CLEAN_SLB      - never called/implemented, added along with H_REGISTER_PROC_TBL
+> H_INVALIDATE_PID - never called/implemented, added along with H_REGISTER_PROC_TBL
+>
+> PS: we could perhaps use this information to annotate
+> qemu/include/spapr.h. I can send a patch if people find it useful.
+That would be very good, I think. I'm always in favor of more documentation
+-- 
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
-BTW Peter mentioned libvirt avoids the unnecessary scsi=3Doff:
-https://gitlab.com/libvirt/libvirt/-/commit/ec69f0190be731d12faeac08dbf6332=
-5836509a9
+--------------579B96839BA69B0A76DCBB53
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Stefan
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 03/05/2021 19:21, Fabiano Rosas
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:87sg331mso.fsf@linux.ibm.com">
+      <pre class="moz-quote-pre" wrap="">"Lucas Mateus Castro (alqotel)" <a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a> writes:
 
---rhGLXT0N2wes2YIy
-Content-Type: application/pgp-signature; name="signature.asc"
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">After the feedback from v1 I reworked the patch with suggested ideas and
+this version has less duplicated code and is overall simpler.
 
------BEGIN PGP SIGNATURE-----
+This patch series is still a WIP, there are still 2 main problems I am
+trying to solve, I'll mention them in their respective patches.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCRWxcACgkQnKSrs4Gr
-c8g6Wgf/Qba4BIigN/W55AuDa+MEJYQ1rpN1XsU85tiC0CQvbQ1oZGG0W2nTH2TL
-xSY+2T9C5PBtsvyjjzO5SOMho3M4hFq+kqgPHkOMVn/rFf+unlq6KfLPyOQJDNKU
-CNEOZYEnYdf+XskK0LvfaKjbEosbeLUgZEhhSgdcYsU9eJxNBiwStFoYzl3Wz4sr
-cAVoqLfvAhufRMvOBmUVfigQPrPcRKS53I8yRA/62mPh3IStcS5OuU2u70acw9s8
-bgwWrfA2D01hynvkOU+tgnJydqiG79Hh9M05QrxuyGge8Sr7sIauSzJJuCgtHv/p
-ieZJFOnh0EOtCnqh9st3i4RuFeFnjg==
-=CKjU
------END PGP SIGNATURE-----
+The aim of these patches is to progress toward enabling disable-tcg on
+PPC by solving errors in hw/ppc with that option.
 
---rhGLXT0N2wes2YIy--
+As a WIP comments are welcome.
 
+Lucas Mateus Castro (alqotel) (2):
+  target/ppc: Moved functions out of mmu-hash64
+  hw/ppc: Moved TCG code to spapr_hcall_tcg
+
+ hw/ppc/meson.build       |   3 +
+ hw/ppc/spapr.c           |   1 +
+ hw/ppc/spapr_caps.c      |   1 +
+ hw/ppc/spapr_cpu_core.c  |   1 +
+ hw/ppc/spapr_hcall.c     | 301 ++--------------------------------
+ hw/ppc/spapr_hcall_tcg.c | 343 +++++++++++++++++++++++++++++++++++++++
+ hw/ppc/spapr_rtas.c      |   1 +
+ target/ppc/meson.build   |   1 +
+ target/ppc/mmu-hash64.c  |  81 +--------
+ target/ppc/mmu-hash64.h  |   6 -
+ target/ppc/mmu-misc.c    |  86 ++++++++++
+ target/ppc/mmu-misc.h    |  22 +++
+ 12 files changed, 478 insertions(+), 369 deletions(-)
+ create mode 100644 hw/ppc/spapr_hcall_tcg.c
+ create mode 100644 target/ppc/mmu-misc.c
+ create mode 100644 target/ppc/mmu-misc.h
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+This is the list of hypercalls registered with spapr_register_hypercall
+and whether they are implemented by KVM HV, KVM PR or none. I also list
+whether the KVM hcall uses the QEMU implementation as a fallback. Maybe
+it will be helpful to this discussion.
+
+(This is from just looking at the code, so take it with a grain of salt)
+
+H_ADD_LOGICAL_LAN_BUFFER  - not impl. by KVM
+H_CHANGE_LOGICAL_LAN_MAC  - not impl. by KVM
+H_ENABLE_CRQ              - not impl. by KVM
+H_FREE_CRQ                - not impl. by KVM
+H_FREE_LOGICAL_LAN        - not impl. by KVM
+H_GET_CPU_CHARACTERISTICS - not impl. by KVM
+H_GET_TERM_CHAR           - not impl. by KVM
+H_HOME_NODE_ASSOCIATIVITY - not impl. by KVM
+H_INT_ESB                 - not impl. by KVM
+H_INT_GET_QUEUE_INFO      - not impl. by KVM
+H_INT_GET_SOURCE_CONFIG   - not impl. by KVM
+H_INT_GET_SOURCE_INFO     - not impl. by KVM
+H_INT_RESET               - not impl. by KVM
+H_INT_SET_QUEUE_CONFIG    - not impl. by KVM
+H_INT_SET_SOURCE_CONFIG   - not impl. by KVM
+H_INT_SYNC                - not impl. by KVM
+H_JOIN                    - not impl. by KVM
+H_LOGICAL_CACHE_LOAD      - not impl. by KVM
+H_LOGICAL_CACHE_STORE     - not impl. by KVM
+H_LOGICAL_DCBF            - not impl. by KVM
+H_LOGICAL_ICBI            - not impl. by KVM
+H_MULTICAST_CTRL          - not impl. by KVM
+H_PUT_TERM_CHAR           - not impl. by KVM
+H_REGISTER_LOGICAL_LAN    - not impl. by KVM
+H_REGISTER_PROC_TBL       - not impl. by KVM
+H_REG_CRQ                 - not impl. by KVM
+H_RESIZE_HPT_COMMIT       - not impl. by KVM
+H_RESIZE_HPT_PREPARE      - not impl. by KVM
+H_SCM_BIND_MEM            - not impl. by KVM
+H_SCM_READ_METADATA       - not impl. by KVM
+H_SCM_UNBIND_ALL          - not impl. by KVM
+H_SCM_WRITE_METADATA      - not impl. by KVM
+H_SEND_CRQ                - not impl. by KVM
+H_SEND_LOGICAL_LAN        - not impl. by KVM
+H_SET_SPRG0               - not impl. by KVM
+H_SIGNAL_SYS_RESET        - not impl. by KVM
+H_VIO_SIGNAL              - not impl. by KVM
+
+H_CAS                     - not impl. by KVM | called by SLOF only
+H_LOGICAL_MEMOP           - not impl. by KVM | called by SLOF only
+H_TPM_COMM                - not impl. by KVM | called by UV only
+H_UPDATE_DT               - not impl. by KVM | called by SLOF only
+
+H_INT_GET_OS_REPORTING_LINE - not impl. by KVM | not called by linux/SLOF/UV
+H_INT_GET_QUEUE_CONFIG      - not impl. by KVM | not called by linux/SLOF/UV
+H_INT_SET_OS_REPORTING_LINE - not impl. by KVM | not called by linux/SLOF/UV
+H_SCM_UNBIND_MEM            - not impl. by KVM | not called by linux/SLOF/UV
+
+H_GET_TCE      - HV | not impl. by PR | QEMU fallback
+H_SET_MODE     - HV | not impl. by PR | QEMU fallback
+H_CONFER       - HV | not impl. by PR
+H_PAGE_INIT    - HV | not impl. by PR
+H_PROD         - HV | not impl. by PR
+H_RANDOM       - HV | not impl. by PR
+H_READ         - HV | not impl. by PR
+H_REGISTER_VPA - HV | not impl. by PR
+H_SET_DABR     - HV | not impl. by PR
+H_SET_XDABR    - HV | not impl. by PR
+
+H_CPPR             - HV | PR | QEMU fallback
+H_EOI              - HV | PR | QEMU fallback
+H_IPI              - HV | PR | QEMU fallback
+H_IPOLL            - HV | PR | QEMU fallback
+H_LOGICAL_CI_LOAD  - HV | PR | QEMU fallback
+H_LOGICAL_CI_STORE - HV | PR | QEMU fallback
+H_PUT_TCE          - HV | PR | QEMU fallback
+H_PUT_TCE_INDIRECT - HV | PR | QEMU fallback
+H_RTAS             - HV | PR | QEMU fallback
+H_STUFF_TCE        - HV | PR | QEMU fallback
+H_XIRR             - HV | PR | QEMU fallback
+H_XIRR_X           - HV | PR | QEMU fallback
+
+H_BULK_REMOVE      - HV | PR
+H_CEDE             - HV | PR
+H_ENTER            - HV | PR
+H_PROTECT          - HV | PR
+H_REMOVE           - HV | PR
+
+H_CLEAN_SLB      - never called/implemented, added along with H_REGISTER_PROC_TBL
+H_INVALIDATE_PID - never called/implemented, added along with H_REGISTER_PROC_TBL
+
+PS: we could perhaps use this information to annotate
+qemu/include/spapr.h. I can send a patch if people find it useful.
+</pre>
+    </blockquote>
+    <div class="moz-signature">That would be very good, I think. I'm
+      always in favor of more documentation<br>
+    </div>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen</div>
+    <div class="moz-signature">
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+    </div>
+    <div class="moz-signature">
+      Departamento Computação Embarcada<br>
+    </div>
+    <div class="moz-signature">
+      Analista de Software Trainee</div>
+    <div class="moz-signature">
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------579B96839BA69B0A76DCBB53--
 
