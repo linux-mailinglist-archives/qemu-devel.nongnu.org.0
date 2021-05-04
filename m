@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3F33725D4
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:30:30 +0200 (CEST)
-Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542D43725C8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:23:05 +0200 (CEST)
+Received: from localhost ([::1]:41464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldoZh-00005b-KS
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:30:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60638)
+	id 1ldoSW-0003Jc-CV
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo0R-0005vC-1C; Tue, 04 May 2021 01:54:03 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50861 helo=ozlabs.org)
+ id 1ldo0U-000644-Gl; Tue, 04 May 2021 01:54:06 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50977 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo0O-0004o8-KR; Tue, 04 May 2021 01:54:02 -0400
+ id 1ldo0S-0004qm-FY; Tue, 04 May 2021 01:54:06 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZ8CL0JWMz9sXb; Tue,  4 May 2021 15:53:17 +1000 (AEST)
+ id 4FZ8CL1MTwz9shn; Tue,  4 May 2021 15:53:18 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620107598;
- bh=AlcnnbXsSRiB8mP7j8xA/Pa1V2sXA654j3UmiJEirOc=;
+ bh=uFVn2kz8KBK8M3OG9zv+1RPO2YvwjFTQNPbOIkUl470=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mi5/qmZcQ5TaMbphgtnJG9xYNcZFy7au6bdIEBDdQ/7jORDZH4C7zvmCSvuk8CB7s
- SnTRsCTmlM1MO5vz3sw8ceYXNIXXrodbOokNSGt+crZmm/lYKX8LclIxq1u0XXHibT
- OahQ7EEpaY/BWnlAZTqGV9p8SWpurBZFs3/+PRyI=
+ b=Nhsy31H6i3u5nK8MsrwAbFJg0JIaqwgJpP3R3Dm3DcwIpEn8x87KhJ9UZfRhh0VmY
+ 1OcMXtjdk1J4O5+zHNU4CSZyh4PbmC+uhDkxv5ieGARjKMM1TP7iwCiwx15yer7e01
+ OiwVCulhgETTzT1wHlqdeceHC2bPU/zCbOfoZACw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 21/46] vt82c686: Add VT8231_SUPERIO based on VIA_SUPERIO
-Date: Tue,  4 May 2021 15:52:47 +1000
-Message-Id: <20210504055312.306823-22-david@gibson.dropbear.id.au>
+Subject: [PULL 23/46] vt82c686: Add emulation of VT8231 south bridge
+Date: Tue,  4 May 2021 15:52:49 +1000
+Message-Id: <20210504055312.306823-24-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 References: <20210504055312.306823-1-david@gibson.dropbear.id.au>
@@ -66,140 +66,153 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-The VT8231 south bridge is very similar to VT82C686B but there are
-some differences in register addresses and functionality, e.g. the
-VT8231 only has one serial port. This commit adds VT8231_SUPERIO
-subclass based on the abstract VIA_SUPERIO class to emulate the
-superio part of VT8231.
+Add emulation of VT8231 south bridge ISA part based on the similar
+VT82C686B but implemented in a separate subclass that holds the
+differences while reusing parts that can be shared.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <8108809321f9ecf3fb1aea22ddaeccc7c3a57c8e.1616680239.git.balaton@eik.bme.hu>
+Message-Id: <10abc9f89854e7c980b9731c33d25a2e307e9c4f.1616680239.git.balaton@eik.bme.hu>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/isa/vt82c686.c | 102 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 102 insertions(+)
+ hw/isa/vt82c686.c         | 84 +++++++++++++++++++++++++++++++++++++++
+ include/hw/isa/vt82c686.h |  1 +
+ include/hw/pci/pci_ids.h  |  1 +
+ 3 files changed, 86 insertions(+)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index ea55117724..952c6fc867 100644
+index b09bfe3fa2..7b2e90c7e1 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -433,6 +433,107 @@ static const TypeInfo vt82c686b_superio_info = {
+@@ -8,6 +8,9 @@
+  *
+  * Contributions after 2012-01-13 are licensed under the terms of the
+  * GNU GPL, version 2 or (at your option) any later version.
++ *
++ * VT8231 south bridge support and general clean up to allow it
++ * Copyright (c) 2018-2020 BALATON Zoltan
+  */
+ 
+ #include "qemu/osdep.h"
+@@ -656,6 +659,86 @@ static const TypeInfo vt82c686b_isa_info = {
+     .class_init    = vt82c686b_class_init,
  };
  
- 
-+#define TYPE_VT8231_SUPERIO "vt8231-superio"
++/* TYPE_VT8231_ISA */
 +
-+static void vt8231_superio_cfg_write(void *opaque, hwaddr addr,
-+                                     uint64_t data, unsigned size)
++static void vt8231_write_config(PCIDevice *d, uint32_t addr,
++                                uint32_t val, int len)
 +{
-+    ViaSuperIOState *sc = opaque;
-+    uint8_t idx = sc->regs[0];
++    ViaISAState *s = VIA_ISA(d);
 +
-+    if (addr == 0) { /* config index register */
-+        sc->regs[0] = data;
-+        return;
++    trace_via_isa_write(addr, val, len);
++    pci_default_write_config(d, addr, val, len);
++    if (addr == 0x50) {
++        /* BIT(2): enable or disable superio config io ports */
++        via_superio_io_enable(s->via_sio, val & BIT(2));
 +    }
++}
 +
-+    /* config data register */
-+    trace_via_superio_write(idx, data);
-+    switch (idx) {
-+    case 0x00 ... 0xdf:
-+    case 0xe7 ... 0xef:
-+    case 0xf0 ... 0xf1:
-+    case 0xf5:
-+    case 0xf8:
-+    case 0xfd:
-+        /* ignore write to read only registers */
-+        return;
-+    default:
-+        qemu_log_mask(LOG_UNIMP,
-+                      "via_superio_cfg: unimplemented register 0x%x\n", idx);
-+        break;
++static void vt8231_isa_reset(DeviceState *dev)
++{
++    ViaISAState *s = VIA_ISA(dev);
++    uint8_t *pci_conf = s->dev.config;
++
++    pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
++    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_MEMORY |
++                 PCI_COMMAND_MASTER | PCI_COMMAND_SPECIAL);
++    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
++
++    pci_conf[0x58] = 0x40; /* Miscellaneous Control 0 */
++    pci_conf[0x67] = 0x08; /* Fast IR Config */
++    pci_conf[0x6b] = 0x01; /* Fast IR I/O Base */
++}
++
++static void vt8231_realize(PCIDevice *d, Error **errp)
++{
++    ViaISAState *s = VIA_ISA(d);
++    DeviceState *dev = DEVICE(d);
++    ISABus *isa_bus;
++    qemu_irq *isa_irq;
++    int i;
++
++    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
++    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
++    isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
++                          &error_fatal);
++    isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
++    i8254_pit_init(isa_bus, 0x40, 0, NULL);
++    i8257_dma_init(isa_bus, 0);
++    s->via_sio = VIA_SUPERIO(isa_create_simple(isa_bus, TYPE_VT8231_SUPERIO));
++    mc146818_rtc_init(isa_bus, 2000, NULL);
++
++    for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
++        if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
++            d->wmask[i] = 0;
++        }
 +    }
-+    sc->regs[idx] = data;
 +}
 +
-+static const MemoryRegionOps vt8231_superio_cfg_ops = {
-+    .read = via_superio_cfg_read,
-+    .write = vt8231_superio_cfg_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
-+};
-+
-+static void vt8231_superio_reset(DeviceState *dev)
-+{
-+    ViaSuperIOState *s = VIA_SUPERIO(dev);
-+
-+    memset(s->regs, 0, sizeof(s->regs));
-+    /* Device ID */
-+    s->regs[0xf0] = 0x3c;
-+    /* Device revision */
-+    s->regs[0xf1] = 0x01;
-+    /* Function select - all disabled */
-+    vt8231_superio_cfg_write(s, 0, 0xf2, 1);
-+    vt8231_superio_cfg_write(s, 1, 0x03, 1);
-+    /* Serial port base addr */
-+    vt8231_superio_cfg_write(s, 0, 0xf4, 1);
-+    vt8231_superio_cfg_write(s, 1, 0xfe, 1);
-+    /* Parallel port base addr */
-+    vt8231_superio_cfg_write(s, 0, 0xf6, 1);
-+    vt8231_superio_cfg_write(s, 1, 0xde, 1);
-+    /* Floppy ctrl base addr */
-+    vt8231_superio_cfg_write(s, 0, 0xf7, 1);
-+    vt8231_superio_cfg_write(s, 1, 0xfc, 1);
-+
-+    vt8231_superio_cfg_write(s, 0, 0, 1);
-+}
-+
-+static void vt8231_superio_init(Object *obj)
-+{
-+    VIA_SUPERIO(obj)->io_ops = &vt8231_superio_cfg_ops;
-+}
-+
-+static uint16_t vt8231_superio_serial_iobase(ISASuperIODevice *sio,
-+                                             uint8_t index)
-+{
-+        return 0x2f8; /* FIXME: This should be settable via registers f2-f4 */
-+}
-+
-+static void vt8231_superio_class_init(ObjectClass *klass, void *data)
++static void vt8231_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
-+    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
 +
-+    dc->reset = vt8231_superio_reset;
-+    sc->serial.count = 1;
-+    sc->serial.get_iobase = vt8231_superio_serial_iobase;
-+    sc->parallel.count = 1;
-+    sc->ide.count = 0; /* emulated by via-ide */
-+    sc->floppy.count = 1;
++    k->realize = vt8231_realize;
++    k->config_write = vt8231_write_config;
++    k->vendor_id = PCI_VENDOR_ID_VIA;
++    k->device_id = PCI_DEVICE_ID_VIA_8231_ISA;
++    k->class_id = PCI_CLASS_BRIDGE_ISA;
++    k->revision = 0x10;
++    dc->reset = vt8231_isa_reset;
++    dc->desc = "ISA bridge";
++    dc->vmsd = &vmstate_via;
++    /* Reason: part of VIA VT8231 southbridge, needs to be wired up */
++    dc->user_creatable = false;
 +}
 +
-+static const TypeInfo vt8231_superio_info = {
-+    .name          = TYPE_VT8231_SUPERIO,
-+    .parent        = TYPE_VIA_SUPERIO,
-+    .instance_size = sizeof(ViaSuperIOState),
-+    .instance_init = vt8231_superio_init,
-+    .class_size    = sizeof(ISASuperIOClass),
-+    .class_init    = vt8231_superio_class_init,
++static const TypeInfo vt8231_isa_info = {
++    .name          = TYPE_VT8231_ISA,
++    .parent        = TYPE_VIA_ISA,
++    .instance_size = sizeof(ViaISAState),
++    .class_init    = vt8231_class_init,
 +};
 +
-+
- OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
  
- struct VT82C686BISAState {
-@@ -556,6 +657,7 @@ static void vt82c686b_register_types(void)
-     type_register_static(&vt8231_pm_info);
-     type_register_static(&via_superio_info);
-     type_register_static(&vt82c686b_superio_info);
-+    type_register_static(&vt8231_superio_info);
-     type_register_static(&via_info);
+ static void vt82c686b_register_types(void)
+ {
+@@ -667,6 +750,7 @@ static void vt82c686b_register_types(void)
+     type_register_static(&vt8231_superio_info);
+     type_register_static(&via_isa_info);
+     type_register_static(&vt82c686b_isa_info);
++    type_register_static(&vt8231_isa_info);
  }
  
+ type_init(vt82c686b_register_types)
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index 0692b9a527..0f01aaa471 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -3,6 +3,7 @@
+ 
+ #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+ #define TYPE_VT82C686B_PM "vt82c686b-pm"
++#define TYPE_VT8231_ISA "vt8231-isa"
+ #define TYPE_VT8231_PM "vt8231-pm"
+ #define TYPE_VIA_AC97 "via-ac97"
+ #define TYPE_VIA_MC97 "via-mc97"
+diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
+index aa3f67eaa4..ac0c23ebc7 100644
+--- a/include/hw/pci/pci_ids.h
++++ b/include/hw/pci/pci_ids.h
+@@ -210,6 +210,7 @@
+ #define PCI_DEVICE_ID_VIA_82C686B_PM     0x3057
+ #define PCI_DEVICE_ID_VIA_AC97           0x3058
+ #define PCI_DEVICE_ID_VIA_MC97           0x3068
++#define PCI_DEVICE_ID_VIA_8231_ISA       0x8231
+ #define PCI_DEVICE_ID_VIA_8231_PM        0x8235
+ 
+ #define PCI_VENDOR_ID_MARVELL            0x11ab
 -- 
 2.31.1
 
