@@ -2,44 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8405372BD8
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 16:18:29 +0200 (CEST)
-Received: from localhost ([::1]:33532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D91372BE7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 16:20:31 +0200 (CEST)
+Received: from localhost ([::1]:37556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldvsa-0008D4-RV
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 10:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52302)
+	id 1ldvuZ-0001Z7-0I
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 10:20:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ldvfr-0007H6-CJ; Tue, 04 May 2021 10:05:19 -0400
-Received: from [201.28.113.2] (port=20951 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ldvfp-0004E5-3p; Tue, 04 May 2021 10:05:18 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 4 May 2021 11:02:37 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 393FB8012B4;
- Tue,  4 May 2021 11:02:37 -0300 (-03)
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/5] target/ppc: isolated cpu init from translation logic
-Date: Tue,  4 May 2021 11:01:57 -0300
-Message-Id: <20210504140157.76066-6-bruno.larsen@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210504140157.76066-1-bruno.larsen@eldorado.org.br>
-References: <20210504140157.76066-1-bruno.larsen@eldorado.org.br>
-X-OriginalArrivalTime: 04 May 2021 14:02:37.0369 (UTC)
- FILETIME=[238F0A90:01D740EE]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ldvme-0003nS-2j
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 10:12:20 -0400
+Received: from 8.mo51.mail-out.ovh.net ([46.105.45.231]:59611)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ldvmX-0008H2-Ea
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 10:12:19 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 1829F297B71;
+ Tue,  4 May 2021 16:11:55 +0200 (CEST)
+Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 4 May 2021
+ 16:11:32 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R0059937f50a-f377-4106-9467-b3b86bf2979e,
+ 233BADB9E061AA125F593C9F78707CF28220F307) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Tue, 4 May 2021 16:11:31 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: remove the nvlink2 pci_vfio subdriver v2
+Message-ID: <20210504161131.2ed74d7b@bahia.lan>
+In-Reply-To: <YJFMZ8KYVCDwUBPU@kroah.com>
+References: <20210326061311.1497642-1-hch@lst.de>
+ <20210504142236.76994047@bahia.lan> <YJFFG1tSP0dUCxcX@kroah.com>
+ <20210504152034.18e41ec3@bahia.lan> <YJFMZ8KYVCDwUBPU@kroah.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: effd68a3-6459-416d-a28c-4964cefb2245
+X-Ovh-Tracer-Id: 6202864065056512385
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdefiedgjeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevlefhtddufffhieevhefhleegleelgfetffetkedugeehjeffgfehhfefueduffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.45.231; envelope-from=groug@kaod.org;
+ helo=8.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,111 +69,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- luis.pires@eldorado.org.br, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
- matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
+Cc: Daniel Vetter <daniel@ffwll.ch>, kvm@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Michael Ellerman <mpe@ellerman.id.au>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>, Paul
+ Mackerras <paulus@samba.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ linux-api@vger.kernel.org, qemu-ppc@nongnu.org, linuxppc-dev@lists.ozlabs.org,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-finished isolation of CPU initialization logic from
-translation logic. CPU initialization now only has common code
-and may or may not call accelerator-specific code, as the
-build options require.
+On Tue, 4 May 2021 15:30:15 +0200
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org> 
----
- target/ppc/{translate_init.c.inc => cpu_init.c} | 6 ++++++
- target/ppc/meson.build                          | 1 +
- target/ppc/spr_tcg.h                            | 2 ++
- target/ppc/translate.c                          | 4 ++--
- 4 files changed, 11 insertions(+), 2 deletions(-)
- rename target/ppc/{translate_init.c.inc => cpu_init.c} (99%)
+> On Tue, May 04, 2021 at 03:20:34PM +0200, Greg Kurz wrote:
+> > On Tue, 4 May 2021 14:59:07 +0200
+> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> >=20
+> > > On Tue, May 04, 2021 at 02:22:36PM +0200, Greg Kurz wrote:
+> > > > On Fri, 26 Mar 2021 07:13:09 +0100
+> > > > Christoph Hellwig <hch@lst.de> wrote:
+> > > >=20
+> > > > > Hi all,
+> > > > >=20
+> > > > > the nvlink2 vfio subdriver is a weird beast.  It supports a hardw=
+are
+> > > > > feature without any open source component - what would normally be
+> > > > > the normal open source userspace that we require for kernel drive=
+rs,
+> > > > > although in this particular case user space could of course be a
+> > > > > kernel driver in a VM.  It also happens to be a complete mess that
+> > > > > does not properly bind to PCI IDs, is hacked into the vfio_pci dr=
+iver
+> > > > > and also pulles in over 1000 lines of code always build into powe=
+rpc
+> > > > > kernels that have Power NV support enabled.  Because of all these
+> > > > > issues and the lack of breaking userspace when it is removed I th=
+ink
+> > > > > the best idea is to simply kill.
+> > > > >=20
+> > > > > Changes since v1:
+> > > > >  - document the removed subtypes as reserved
+> > > > >  - add the ACK from Greg
+> > > > >=20
+> > > > > Diffstat:
+> > > > >  arch/powerpc/platforms/powernv/npu-dma.c     |  705 ------------=
+---------------
+> > > > >  b/arch/powerpc/include/asm/opal.h            |    3=20
+> > > > >  b/arch/powerpc/include/asm/pci-bridge.h      |    1=20
+> > > > >  b/arch/powerpc/include/asm/pci.h             |    7=20
+> > > > >  b/arch/powerpc/platforms/powernv/Makefile    |    2=20
+> > > > >  b/arch/powerpc/platforms/powernv/opal-call.c |    2=20
+> > > > >  b/arch/powerpc/platforms/powernv/pci-ioda.c  |  185 -------
+> > > > >  b/arch/powerpc/platforms/powernv/pci.c       |   11=20
+> > > > >  b/arch/powerpc/platforms/powernv/pci.h       |   17=20
+> > > > >  b/arch/powerpc/platforms/pseries/pci.c       |   23=20
+> > > > >  b/drivers/vfio/pci/Kconfig                   |    6=20
+> > > > >  b/drivers/vfio/pci/Makefile                  |    1=20
+> > > > >  b/drivers/vfio/pci/vfio_pci.c                |   18=20
+> > > > >  b/drivers/vfio/pci/vfio_pci_private.h        |   14=20
+> > > > >  b/include/uapi/linux/vfio.h                  |   38 -
+> > > >=20
+> > > >=20
+> > > > Hi Christoph,
+> > > >=20
+> > > > FYI, these uapi changes break build of QEMU.
+> > >=20
+> > > What uapi changes?
+> > >=20
+> >=20
+> > All macros and structure definitions that are being removed
+> > from include/uapi/linux/vfio.h by patch 1.
+> >=20
+> > > What exactly breaks?
+> > >=20
+> >=20
+> > These macros and types are used by the current QEMU code base.
+> > Next time the QEMU source tree updates its copy of the kernel
+> > headers, the compilation of affected code will fail.
+>=20
+> So does QEMU use this api that is being removed, or does it just have
+> some odd build artifacts of the uapi things?
+>=20
 
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/cpu_init.c
-similarity index 99%
-rename from target/ppc/translate_init.c.inc
-rename to target/ppc/cpu_init.c
-index c913058170..0a1d67a98c 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/cpu_init.c
-@@ -18,6 +18,7 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
-+#include "qemu/osdep.h"
- #include "disas/dis-asm.h"
- #include "exec/gdbstub.h"
- #include "kvm_ppc.h"
-@@ -42,6 +43,11 @@
- #include "fpu/softfloat.h"
- #include "qapi/qapi-commands-machine-target.h"
- 
-+#include "exec/helper-proto.h"
-+#include "helper_regs.h"
-+#include "internal.h"
-+#include "spr_tcg.h"
-+
- /* #define PPC_DEBUG_SPR */
- /* #define USE_APPLE_GDB */
- 
-diff --git a/target/ppc/meson.build b/target/ppc/meson.build
-index bbfef90e08..ad53629298 100644
---- a/target/ppc/meson.build
-+++ b/target/ppc/meson.build
-@@ -2,6 +2,7 @@ ppc_ss = ss.source_set()
- ppc_ss.add(files(
-   'cpu-models.c',
-   'cpu.c',
-+  'cpu_init.c',
-   'dfp_helper.c',
-   'excp_helper.c',
-   'fpu_helper.c',
-diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-index 1d2890dea0..0be5f347d5 100644
---- a/target/ppc/spr_tcg.h
-+++ b/target/ppc/spr_tcg.h
-@@ -19,6 +19,8 @@
- #ifndef SPR_TCG_H
- #define SPR_TCG_H
- 
-+#define SPR_NOACCESS (&spr_noaccess)
-+
- /* prototypes for readers and writers for SPRs */
- void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
- void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 0c7628657b..7958f2f7da 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -38,6 +38,8 @@
- #include "qemu/atomic128.h"
- #include "spr_tcg.h"
- 
-+#include "qemu/qemu-print.h"
-+#include "qapi/error.h"
- 
- #define CPU_SINGLE_STEP 0x1
- #define CPU_BRANCH_STEP 0x2
-@@ -381,7 +383,6 @@ void spr_noaccess(DisasContext *ctx, int gprn, int sprn)
-     printf("ERROR: try to access SPR %d !\n", sprn);
- #endif
- }
--#define SPR_NOACCESS (&spr_noaccess)
- 
- /* #define PPC_DUMP_SPR_ACCESSES */
- 
-@@ -8617,7 +8618,6 @@ GEN_HANDLER2_E(trechkpt, "trechkpt", 0x1F, 0x0E, 0x1F, 0x03FFF800, \
- };
- 
- #include "helper_regs.h"
--#include "translate_init.c.inc"
- 
- /*****************************************************************************/
- /* Misc PowerPC helpers */
--- 
-2.17.1
+These are region subtypes definition and associated capabilities.
+QEMU basically gets information on VFIO regions from the kernel
+driver and for those regions with a nvlink2 subtype, it tries
+to extract some more nvlink2 related info.
+
+> What exactly is the error messages here?
+>=20
+
+[55/143] Compiling C object libqemu-ppc64-softmmu.fa.p/hw_vfio_pci-quirks.c=
+.o
+FAILED: libqemu-ppc64-softmmu.fa.p/hw_vfio_pci-quirks.c.o=20
+cc -Ilibqemu-ppc64-softmmu.fa.p -I. -I../.. -Itarget/ppc -I../../target/ppc=
+ -I../../capstone/include/capstone -Iqapi -Itrace -Iui -Iui/shader -I/usr/i=
+nclude/pixman-1 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -fdia=
+gnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Werror -std=3Dgnu99 -O2 -g=
+ -isystem /home/greg/Work/qemu/qemu-virtiofs/linux-headers -isystem linux-h=
+eaders -iquote . -iquote /home/greg/Work/qemu/qemu-virtiofs -iquote /home/g=
+reg/Work/qemu/qemu-virtiofs/include -iquote /home/greg/Work/qemu/qemu-virti=
+ofs/disas/libvixl -iquote /home/greg/Work/qemu/qemu-virtiofs/tcg/ppc -iquot=
+e /home/greg/Work/qemu/qemu-virtiofs/accel/tcg -pthread -U_FORTIFY_SOURCE -=
+D_FORTIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SO=
+URCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissin=
+g-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-declarati=
+on -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Win=
+it-self -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -=
+Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs =
+-Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIC -isyste=
+m../../linux-headers -isystemlinux-headers -DNEED_CPU_H '-DCONFIG_TARGET=3D=
+"ppc64-softmmu-config-target.h"' '-DCONFIG_DEVICES=3D"ppc64-softmmu-config-=
+devices.h"' -MD -MQ libqemu-ppc64-softmmu.fa.p/hw_vfio_pci-quirks.c.o -MF l=
+ibqemu-ppc64-softmmu.fa.p/hw_vfio_pci-quirks.c.o.d -o libqemu-ppc64-softmmu=
+.fa.p/hw_vfio_pci-quirks.c.o -c ../../hw/vfio/pci-quirks.c
+../../hw/vfio/pci-quirks.c: In function =E2=80=98vfio_pci_nvidia_v100_ram_i=
+nit=E2=80=99:
+../../hw/vfio/pci-quirks.c:1597:36: error: =E2=80=98VFIO_REGION_SUBTYPE_NVI=
+DIA_NVLINK2_RAM=E2=80=99 undeclared (first use in this function); did you m=
+ean =E2=80=98VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD=E2=80=99?
+                                    VFIO_REGION_SUBTYPE_NVIDIA_NVLINK2_RAM,
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                    VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD
+../../hw/vfio/pci-quirks.c:1597:36: note: each undeclared identifier is rep=
+orted only once for each function it appears in
+../../hw/vfio/pci-quirks.c:1603:44: error: =E2=80=98VFIO_REGION_INFO_CAP_NV=
+LINK2_SSATGT=E2=80=99 undeclared (first use in this function); did you mean=
+ =E2=80=98VFIO_REGION_INFO_CAP_SPARSE_MMAP=E2=80=99?
+     hdr =3D vfio_get_region_info_cap(nv2reg, VFIO_REGION_INFO_CAP_NVLINK2_=
+SSATGT);
+                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+                                            VFIO_REGION_INFO_CAP_SPARSE_MMAP
+../../hw/vfio/pci-quirks.c:1624:49: error: dereferencing pointer to incompl=
+ete type =E2=80=98struct vfio_region_info_cap_nvlink2_ssatgt=E2=80=99
+                         (void *) (uintptr_t) cap->tgt);
+                                                 ^~
+../../hw/vfio/pci-quirks.c: In function =E2=80=98vfio_pci_nvlink2_init=E2=
+=80=99:
+../../hw/vfio/pci-quirks.c:1646:36: error: =E2=80=98VFIO_REGION_SUBTYPE_IBM=
+_NVLINK2_ATSD=E2=80=99 undeclared (first use in this function); did you mea=
+n =E2=80=98VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD=E2=80=99?
+                                    VFIO_REGION_SUBTYPE_IBM_NVLINK2_ATSD,
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                    VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD
+../../hw/vfio/pci-quirks.c:1653:36: error: =E2=80=98VFIO_REGION_INFO_CAP_NV=
+LINK2_SSATGT=E2=80=99 undeclared (first use in this function); did you mean=
+ =E2=80=98VFIO_REGION_INFO_CAP_SPARSE_MMAP=E2=80=99?
+                                    VFIO_REGION_INFO_CAP_NVLINK2_SSATGT);
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                    VFIO_REGION_INFO_CAP_SPARSE_MMAP
+../../hw/vfio/pci-quirks.c:1661:36: error: =E2=80=98VFIO_REGION_INFO_CAP_NV=
+LINK2_LNKSPD=E2=80=99 undeclared (first use in this function); did you mean=
+ =E2=80=98VFIO_REGION_INFO_CAP_SPARSE_MMAP=E2=80=99?
+                                    VFIO_REGION_INFO_CAP_NVLINK2_LNKSPD);
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                    VFIO_REGION_INFO_CAP_SPARSE_MMAP
+../../hw/vfio/pci-quirks.c:1685:52: error: dereferencing pointer to incompl=
+ete type =E2=80=98struct vfio_region_info_cap_nvlink2_ssatgt=E2=80=99
+                         (void *) (uintptr_t) captgt->tgt);
+                                                    ^~
+../../hw/vfio/pci-quirks.c:1691:54: error: dereferencing pointer to incompl=
+ete type =E2=80=98struct vfio_region_info_cap_nvlink2_lnkspd=E2=80=99
+                         (void *) (uintptr_t) capspeed->link_speed);
+                                                      ^~
+
+> And if we put the uapi .h file stuff back, is that sufficient for qemu
+> to work, as it should be checking at runtime what the kernel has / has
+> not anyway, right?
+>=20
+
+Right. This will just be dead code in QEMU for newer kernels.
+
+Anyway, as said in some other mail, it is probably time for QEMU to
+start deprecating this code as well.
+
+> thanks,
+>=20
+> greg k-h
 
 
