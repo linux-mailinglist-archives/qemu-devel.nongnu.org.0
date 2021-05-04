@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339F2372877
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:08:52 +0200 (CEST)
-Received: from localhost ([::1]:49542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332FB37286E
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:05:56 +0200 (CEST)
+Received: from localhost ([::1]:41142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldrz1-0000Sn-4y
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54682)
+	id 1ldrwB-0005Hf-7I
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:05:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ldrst-0002Md-0k
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:02:31 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35823)
+ id 1ldrsq-0002KF-Tv
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:02:28 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ldrsq-00032j-WC
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:02:30 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id a4so8728577wrr.2
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:02:28 -0700 (PDT)
+ id 1ldrsp-00032A-3o
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:02:28 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ p6-20020a05600c3586b029014131bbe5c7so887374wmq.3
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:02:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Q/+qwTC8zNgx+d+hVTlEWCEVVWE5ZQZzlzxGFpmvz6U=;
- b=DQUkHP7gqU5UKUsQDhqYhOWl+mKeDG1DBRmKMBIzga8vxf5NMm7xpaaBNAhRQmfpZG
- 4qDayEuQHFSeKdTjFXHBMTPP1xHQCPvC3VeVYCwtViaBNJvIIJSWaWecy2xwuOgXYV6+
- rTN8Tmpz+X6HpPAbL9lHLD5nY5V9KhmvL69di58A9TPkI5Ls9z0WtzWDQMjbzEizZa0z
- A8gb6QNYcQIKYKTr3Av2pXoG+PbxWg5LGx/uiWNIe1wUP4DwNPDkCnIuB4mFFb1GeVH4
- WpO4MnziliSTROda7MVGNFneabo4xrX6k78mfaRQqW9j1K6Sv4h3YYM1+FIqFem4Aso6
- DXdA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tLKjqMKIjh3YXoNizCAFrfsiNgZ3bBB8hCFaWw47VeQ=;
+ b=S2L6lmg7CpkdVe79ff74KQGmnejFXTFQtzLhw3gcCV3xmONWFEL9MIyKoTQIL4X/ni
+ skzESoBgRRiqzghGjEXEzK44/Nt3J013HmRM7RDtnPhrwkebyRI45uBe9EYD1QEZ3nbt
+ o2SEWG1kVqktCNlrZIqh1T55V3q6xzZpxh3TcIXgJC7t1vY6pvy8J+sClbACFJ9lO+j/
+ QXalM3HczOOzXH6Bi416oVd1zDMG90HZZBOdQqNtClop5syAXfGKGbXlSEy4ogunuo2T
+ oX4CDKUGQLWk1wryigBTX8P+vOH8CSWwwidD06l9L7qdhYJlwG2VuoyJ3KB3OSIsXlGU
+ jmRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Q/+qwTC8zNgx+d+hVTlEWCEVVWE5ZQZzlzxGFpmvz6U=;
- b=KPoK5ycnqeL7PIQVZneizWIeBjxbweCPL8xkIJkhLH3ypIlvPyrOIIrx29of+vv1fK
- wp4pM36BSbLKh+420He7eX/tTx3sEd8GeY9+YUjcmG/GiLwDhRsncUvvm/5uG5ZffYKX
- tAiAm79xJ9PREh6m/6rMj5S/LGqA3XWd2ndwN1cyTTIWNLvVYuKMU4QoSKF8tT/+Wy5C
- S0EaysRCutP8B+36YZt106sBsFuQJaJ0b58jHaA1n7FPQTZS/qsCO9EsN4R/0wdecocj
- Xjt2Y4ufMRhZxRVkWyNZNGsBcMqkwoJuNqLwVpTyGIqOCb2X9z1s/bdSzT3H0jTvIEZF
- D+Uw==
-X-Gm-Message-State: AOAM533F8lEp/HXwtn6ecl+G4xmjIa+xLJHRwabadF6XpJ93vyDjtwAJ
- 4z09r6QeBu1XpRRDiNkzD/rAjw==
-X-Google-Smtp-Source: ABdhPJyeXszJTkaE1lSZh/Ds1o9gCoB+BHPpdPFodSw1zu71wzOIp7W9PHhf3mDXIi4OBTFjU2pPlg==
-X-Received: by 2002:a05:6000:1541:: with SMTP id
- 1mr21099627wry.364.1620122547468; 
- Tue, 04 May 2021 03:02:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tLKjqMKIjh3YXoNizCAFrfsiNgZ3bBB8hCFaWw47VeQ=;
+ b=Ner2NkZIZ7VcGesGKDTSF/dfOjbVSxkolG5cDJ03hcrjFruLy2Gu+lLgMw5eiGIX79
+ s2Gsukq3tNv03dCewL5Dxt9NfpEjSPMTPqGY6+xOI2vLzGwEYhKn5E1YoQX89f/OZw3I
+ svRyajW5baos8UxquoTCVNqFdx/qWYI2RP5ld90JytnzEVtA2iYPjhjoYNM/L74PWb3X
+ 17XVIByK6YfoUp3CUHZ3uPSL8ecglkYTgt6sEcWKEU2VUyetTAFFbTcuWuHNr5XgMFvu
+ ABxh14v2gGk3lXqE25qv0jsvi2roVL97st9OC4X6HM4/trEikxO6qs3iI95dIQvgdEOP
+ lytg==
+X-Gm-Message-State: AOAM533+IrWhdSaElQC3rLJgkhUdWMlsks3RF43PdFqBcgEyxVU3c9v1
+ andKyraKUbucwaoCQD+soCqFCg==
+X-Google-Smtp-Source: ABdhPJwmYxvsM2AeWV7Vv/uf9D0GS114IboRhfZ3tDmdBmNw7buBySQ/bahU9MfPEzkznfrNLkBBKg==
+X-Received: by 2002:a05:600c:4fd4:: with SMTP id
+ o20mr3160245wmq.166.1620122545627; 
+ Tue, 04 May 2021 03:02:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g12sm1982970wmh.24.2021.05.04.03.02.24
+ by smtp.gmail.com with ESMTPSA id 61sm16437959wrm.52.2021.05.04.03.02.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 04 May 2021 03:02:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8090F1FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 957941FF87;
  Tue,  4 May 2021 11:02:23 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 00/30] testing/next (hexagon, tricore, ppc, signals,
- cirrus)
-Date: Tue,  4 May 2021 11:01:53 +0100
-Message-Id: <20210504100223.25427-1-alex.bennee@linaro.org>
+Subject: [PATCH  v2 01/30] checkpatch: Fix use of uninitialized value
+Date: Tue,  4 May 2021 11:01:54 +0100
+Message-Id: <20210504100223.25427-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210504100223.25427-1-alex.bennee@linaro.org>
+References: <20210504100223.25427-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,139 +88,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com,
+Cc: fam@euphon.net, Isaku Yamahata <isaku.yamahata@intel.com>,
+ berrange@redhat.com, f4bug@amsat.org, Greg Kurz <groug@kaod.org>,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Greg Kurz <groug@kaod.org>
 
-Now that the tree is open time to start the testing updates again.
-I've added another tweak to configure I found while testing on non-x86
-boxen. There are also a few fixes for an errant file that got added
-with the tricore tests and a fix rth pointed out that meant hexagon
-wasn't actually running it's tests. The signal smasher test which was
-used to find the s390x issue is now included although still disabled
-for sparc/alpha while their fixes are in flight.
+checkfilename() doesn't always set $acpi_testexpected. Fix the following
+warning:
 
-The following remain un-reviewed:
+Use of uninitialized value $acpi_testexpected in string eq at
+ ./scripts/checkpatch.pl line 1529.
 
- - configure: use cc, not host_cc to set cross_cc for build arch
- - tests/tcg: add a multiarch signals test to stress test signal delivery
- - tests/tcg: don't iterate through other arch compilers
+Fixes: d2f1af0e4120 ("checkpatch: don't emit warning on newly created acpi data files")
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Isaku Yamahata <isaku.yamahata@intel.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: isaku.yamahata@intel.com
+Message-Id: <20210408164610.14229-1-alex.bennee@linaro.org>
+Message-Id: <161786467973.295167.5612704777283969903.stgit@bahia.lan>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ scripts/checkpatch.pl | 1 +
+ 1 file changed, 1 insertion(+)
 
-Alessandro Di Federico (2):
-  docker: Add Hexagon image
-  tests/tcg: Use Hexagon Docker image
-
-Alex Bennée (8):
-  tests/docker: fix copying of executable in "update"
-  tests/docker: make executable an optional argument to "update"
-  tests/docker: allow "update" to add the current user
-  tests/docker: add "fetch" sub-command
-  gitlab: add build-user-hexagon test
-  tests/tcg: don't iterate through other arch compilers
-  tests/tcg: add a multiarch signals test to stress test signal delivery
-  configure: use cc, not host_cc to set cross_cc for build arch
-
-Andrew Melnychenko (1):
-  tests/docker: Added libbpf library to the docker files.
-
-Bastian Koppelmann (15):
-  tests/tcg: Add docker_as and docker_ld cmds
-  tests/tcg: Run timeout cmds using --foreground
-  hw/tricore: Add testdevice for tests in tests/tcg/
-  tests/tcg/tricore: Add build infrastructure
-  configure: Emit HOST_CC to config-host.mak
-  tests/tcg/tricore: Add macros to create tests and first test 'abs'
-  tests/tcg/tricore: Add bmerge test
-  tests/tcg/tricore: Add clz test
-  tests/tcg/tricore: Add dvstep test
-  tests/tcg/tricore: Add fadd test
-  tests/tcg/tricore: Add fmul test
-  tests/tcg/tricore: Add ftoi test
-  tests/tcg/tricore: Add madd test
-  tests/tcg/tricore: Add msub test
-  tests/tcg/tricore: Add muls test
-
-Greg Kurz (1):
-  checkpatch: Fix use of uninitialized value
-
-Matheus Ferst (2):
-  tests/docker: gcc-10 based images for ppc64{,le} tests
-  tests/tcg/ppc64le: tests for brh/brw/brd
-
-Thomas Huth (1):
-  cirrus.yml: Fix the MSYS2 task
-
- configure                                     |   3 +-
- include/hw/tricore/tricore_testdevice.h       |  38 ++++
- tests/tcg/tricore/macros.h                    | 129 ++++++++++++
- hw/tricore/tricore_testboard.c                |   8 +
- hw/tricore/tricore_testdevice.c               |  82 ++++++++
- tests/tcg/multiarch/signals.c                 | 149 +++++++++++++
- tests/tcg/ppc64le/byte_reverse.c              |  21 ++
- .cirrus.yml                                   |   4 +-
- .gitlab-ci.d/containers.yml                   |  13 +-
- .gitlab-ci.yml                                |  11 +
- MAINTAINERS                                   |   3 +
- hw/tricore/meson.build                        |   1 +
- scripts/checkpatch.pl                         |   1 +
- tests/docker/Makefile.include                 |  29 ++-
- tests/docker/docker.py                        |  78 +++++--
- tests/docker/dockerfiles/alpine.docker        |   1 +
- tests/docker/dockerfiles/centos8.docker       |   1 +
- .../dockerfiles/debian-hexagon-cross.docker   |  44 ++++
- .../build-toolchain.sh                        | 141 +++++++++++++
- .../dockerfiles/debian-powerpc-cross.docker   |  12 --
- .../debian-powerpc-test-cross.docker          |  17 ++
- .../dockerfiles/debian-ppc64-cross.docker     |  11 -
- tests/docker/dockerfiles/fedora.docker        |   1 +
- tests/tcg/Makefile.qemu                       |  17 ++
- tests/tcg/Makefile.target                     |   5 +-
- tests/tcg/alpha/Makefile.target               |   7 +
- tests/tcg/configure.sh                        | 196 +++++++++---------
- tests/tcg/multiarch/Makefile.target           |   2 +
- tests/tcg/ppc64/Makefile.target               |  13 ++
- tests/tcg/ppc64le/Makefile.target             |  13 ++
- tests/tcg/sparc64/Makefile.target             |   7 +
- tests/tcg/tricore/Makefile.softmmu-target     |  26 +++
- tests/tcg/tricore/link.ld                     |  60 ++++++
- tests/tcg/tricore/test_abs.S                  |   7 +
- tests/tcg/tricore/test_bmerge.S               |   8 +
- tests/tcg/tricore/test_clz.S                  |   9 +
- tests/tcg/tricore/test_dvstep.S               |  15 ++
- tests/tcg/tricore/test_fadd.S                 |  16 ++
- tests/tcg/tricore/test_fmul.S                 |   8 +
- tests/tcg/tricore/test_ftoi.S                 |  10 +
- tests/tcg/tricore/test_madd.S                 |  11 +
- tests/tcg/tricore/test_msub.S                 |   9 +
- tests/tcg/tricore/test_muls.S                 |   9 +
- 43 files changed, 1083 insertions(+), 163 deletions(-)
- create mode 100644 include/hw/tricore/tricore_testdevice.h
- create mode 100644 tests/tcg/tricore/macros.h
- create mode 100644 hw/tricore/tricore_testdevice.c
- create mode 100644 tests/tcg/multiarch/signals.c
- create mode 100644 tests/tcg/ppc64le/byte_reverse.c
- create mode 100644 tests/docker/dockerfiles/debian-hexagon-cross.docker
- create mode 100755 tests/docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh
- delete mode 100644 tests/docker/dockerfiles/debian-powerpc-cross.docker
- create mode 100644 tests/docker/dockerfiles/debian-powerpc-test-cross.docker
- delete mode 100644 tests/docker/dockerfiles/debian-ppc64-cross.docker
- create mode 100644 tests/tcg/tricore/Makefile.softmmu-target
- create mode 100644 tests/tcg/tricore/link.ld
- create mode 100644 tests/tcg/tricore/test_abs.S
- create mode 100644 tests/tcg/tricore/test_bmerge.S
- create mode 100644 tests/tcg/tricore/test_clz.S
- create mode 100644 tests/tcg/tricore/test_dvstep.S
- create mode 100644 tests/tcg/tricore/test_fadd.S
- create mode 100644 tests/tcg/tricore/test_fmul.S
- create mode 100644 tests/tcg/tricore/test_ftoi.S
- create mode 100644 tests/tcg/tricore/test_madd.S
- create mode 100644 tests/tcg/tricore/test_msub.S
- create mode 100644 tests/tcg/tricore/test_muls.S
-
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 8f7053ec9b..3d185cceac 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -1532,6 +1532,7 @@ sub process {
+ 		     ($line =~ /\{\s*([\w\/\.\-]*)\s*\=\>\s*([\w\/\.\-]*)\s*\}/ &&
+ 		      (defined($1) || defined($2)))) &&
+                       !(($realfile ne '') &&
++                        defined($acpi_testexpected) &&
+                         ($realfile eq $acpi_testexpected))) {
+ 			$reported_maintainer_file = 1;
+ 			WARN("added, moved or deleted file(s), does MAINTAINERS need updating?\n" . $herecurr);
 -- 
 2.20.1
 
