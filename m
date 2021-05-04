@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3ABD372BA3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 16:06:50 +0200 (CEST)
-Received: from localhost ([::1]:40132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715FD372BA2
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 16:06:38 +0200 (CEST)
+Received: from localhost ([::1]:39700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldvhJ-00076E-Qb
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 10:06:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51448)
+	id 1ldvh7-0006vO-5u
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 10:06:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ldvd3-0005Kg-U8; Tue, 04 May 2021 10:02:25 -0400
-Received: from [201.28.113.2] (port=56991 helo=outlook.eldorado.org.br)
+ id 1ldvdB-0005XN-7t; Tue, 04 May 2021 10:02:33 -0400
+Received: from [201.28.113.2] (port=51300 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ldvd2-0002dQ-0J; Tue, 04 May 2021 10:02:25 -0400
+ id 1ldvd9-0002ku-H9; Tue, 04 May 2021 10:02:32 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 4 May 2021 11:02:19 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 4 May 2021 11:02:29 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 698DA8012B4;
- Tue,  4 May 2021 11:02:19 -0300 (-03)
+ by power9a (Postfix) with ESMTP id AFE088012B4;
+ Tue,  4 May 2021 11:02:29 -0300 (-03)
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/5] target/ppc: Untangle CPU init from translation
-Date: Tue,  4 May 2021 11:01:52 -0300
-Message-Id: <20210504140157.76066-1-bruno.larsen@eldorado.org.br>
+Subject: [PATCH v4 1/5] target/ppc: Fold gen_*_xer into their callers
+Date: Tue,  4 May 2021 11:01:53 -0300
+Message-Id: <20210504140157.76066-2-bruno.larsen@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
-X-OriginalArrivalTime: 04 May 2021 14:02:19.0561 (UTC)
- FILETIME=[18F1C190:01D740EE]
+In-Reply-To: <20210504140157.76066-1-bruno.larsen@eldorado.org.br>
+References: <20210504140157.76066-1-bruno.larsen@eldorado.org.br>
+X-OriginalArrivalTime: 04 May 2021 14:02:29.0853 (UTC)
+ FILETIME=[1F1430D0:01D740EE]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -58,50 +60,111 @@ Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: ppc-for-6.1 tree
+folded gen_{read,write}_xer into their only callers, spr_{read,write}_xer
 
-This patch series aims to remove the logic of initializing CPU from
-the file related to TCG translation. To achieve this, we have to make
-it so registering SPRs isn't directly tied to TCG, and move code only
-related to translation out of translate_init.c.inc and into translate.c.
-This is in preparation to compile this target without TCG.
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/translate.c          | 37 ---------------------------------
+ target/ppc/translate_init.c.inc | 33 +++++++++++++++++++++++++++--
+ 2 files changed, 31 insertions(+), 39 deletions(-)
 
-Changes for v4:
- * reordered patches, to make partially applying simpler
- * removed patches that were already applied
- * undone creation of spt_tcg.c.inc, now waiting for further cleanup
- * moved SPR_NOACCESS motion to last patch, and to spr_tcg.h
-
-Changes for v3:
- * fixed the parameters of _spr_register
- * remove some redundant #include statements
- * removed some functions that were mentioned in v2 as unnecessary
- * added copyright header to relevant files
- * removed first patch, that was already applied
- * removed a changed that would add a regression
-
- Changes for v2:
- * split and reordered patches, to make it easier to review
- * improved commit messages 
- * Undid creation of spr_common, as it was unnecessary
- * kept more functions as static
- * ensured that the project builds after every commit
-
-Bruno Larsen (billionai) (5):
-  target/ppc: Fold gen_*_xer into their callers
-  target/ppc: renamed SPR registration functions
-  target/ppc: move SPR R/W callbacks to translate.c
-  target/ppc: turned SPR R/W callbacks not static
-  target/ppc: isolated cpu init from translation logic
-
- .../ppc/{translate_init.c.inc => cpu_init.c}  | 1848 ++++-------------
- target/ppc/meson.build                        |    1 +
- target/ppc/spr_tcg.h                          |  136 ++
- target/ppc/translate.c                        | 1072 +++++++++-
- 4 files changed, 1598 insertions(+), 1459 deletions(-)
- rename target/ppc/{translate_init.c.inc => cpu_init.c} (89%)
- create mode 100644 target/ppc/spr_tcg.h
-
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index b319d409c6..2f10aa2fea 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -4175,43 +4175,6 @@ static void gen_tdi(DisasContext *ctx)
+ 
+ /***                          Processor control                            ***/
+ 
+-static void gen_read_xer(DisasContext *ctx, TCGv dst)
+-{
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-    TCGv t2 = tcg_temp_new();
+-    tcg_gen_mov_tl(dst, cpu_xer);
+-    tcg_gen_shli_tl(t0, cpu_so, XER_SO);
+-    tcg_gen_shli_tl(t1, cpu_ov, XER_OV);
+-    tcg_gen_shli_tl(t2, cpu_ca, XER_CA);
+-    tcg_gen_or_tl(t0, t0, t1);
+-    tcg_gen_or_tl(dst, dst, t2);
+-    tcg_gen_or_tl(dst, dst, t0);
+-    if (is_isa300(ctx)) {
+-        tcg_gen_shli_tl(t0, cpu_ov32, XER_OV32);
+-        tcg_gen_or_tl(dst, dst, t0);
+-        tcg_gen_shli_tl(t0, cpu_ca32, XER_CA32);
+-        tcg_gen_or_tl(dst, dst, t0);
+-    }
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    tcg_temp_free(t2);
+-}
+-
+-static void gen_write_xer(TCGv src)
+-{
+-    /* Write all flags, while reading back check for isa300 */
+-    tcg_gen_andi_tl(cpu_xer, src,
+-                    ~((1u << XER_SO) |
+-                      (1u << XER_OV) | (1u << XER_OV32) |
+-                      (1u << XER_CA) | (1u << XER_CA32)));
+-    tcg_gen_extract_tl(cpu_ov32, src, XER_OV32, 1);
+-    tcg_gen_extract_tl(cpu_ca32, src, XER_CA32, 1);
+-    tcg_gen_extract_tl(cpu_so, src, XER_SO, 1);
+-    tcg_gen_extract_tl(cpu_ov, src, XER_OV, 1);
+-    tcg_gen_extract_tl(cpu_ca, src, XER_CA, 1);
+-}
+-
+ /* mcrxr */
+ static void gen_mcrxr(DisasContext *ctx)
+ {
+diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+index d10d7e5bf6..d5527c149f 100644
+--- a/target/ppc/translate_init.c.inc
++++ b/target/ppc/translate_init.c.inc
+@@ -116,12 +116,41 @@ static void spr_access_nop(DisasContext *ctx, int sprn, int gprn)
+ /* XER */
+ static void spr_read_xer(DisasContext *ctx, int gprn, int sprn)
+ {
+-    gen_read_xer(ctx, cpu_gpr[gprn]);
++    TCGv dst = cpu_gpr[gprn];
++    TCGv t0 = tcg_temp_new();
++    TCGv t1 = tcg_temp_new();
++    TCGv t2 = tcg_temp_new();
++    tcg_gen_mov_tl(dst, cpu_xer);
++    tcg_gen_shli_tl(t0, cpu_so, XER_SO);
++    tcg_gen_shli_tl(t1, cpu_ov, XER_OV);
++    tcg_gen_shli_tl(t2, cpu_ca, XER_CA);
++    tcg_gen_or_tl(t0, t0, t1);
++    tcg_gen_or_tl(dst, dst, t2);
++    tcg_gen_or_tl(dst, dst, t0);
++    if (is_isa300(ctx)) {
++        tcg_gen_shli_tl(t0, cpu_ov32, XER_OV32);
++        tcg_gen_or_tl(dst, dst, t0);
++        tcg_gen_shli_tl(t0, cpu_ca32, XER_CA32);
++        tcg_gen_or_tl(dst, dst, t0);
++    }
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++    tcg_temp_free(t2);
+ }
+ 
+ static void spr_write_xer(DisasContext *ctx, int sprn, int gprn)
+ {
+-    gen_write_xer(cpu_gpr[gprn]);
++    TCGv src = cpu_gpr[gprn];
++    /* Write all flags, while reading back check for isa300 */
++    tcg_gen_andi_tl(cpu_xer, src,
++                    ~((1u << XER_SO) |
++                      (1u << XER_OV) | (1u << XER_OV32) |
++                      (1u << XER_CA) | (1u << XER_CA32)));
++    tcg_gen_extract_tl(cpu_ov32, src, XER_OV32, 1);
++    tcg_gen_extract_tl(cpu_ca32, src, XER_CA32, 1);
++    tcg_gen_extract_tl(cpu_so, src, XER_SO, 1);
++    tcg_gen_extract_tl(cpu_ov, src, XER_OV, 1);
++    tcg_gen_extract_tl(cpu_ca, src, XER_CA, 1);
+ }
+ 
+ /* LR */
 -- 
 2.17.1
 
