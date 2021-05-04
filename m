@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01483730F2
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 21:39:59 +0200 (CEST)
-Received: from localhost ([::1]:54840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32621373102
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 21:47:10 +0200 (CEST)
+Received: from localhost ([::1]:39394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le0tj-0003sj-29
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 15:39:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51922)
+	id 1le10f-00011R-91
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 15:47:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1le0sR-0003LU-S6
- for qemu-devel@nongnu.org; Tue, 04 May 2021 15:38:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50160)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1le0sM-0004d8-IS
- for qemu-devel@nongnu.org; Tue, 04 May 2021 15:38:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620157113;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hSUzG3mbW5I3GMmv3Txjuqo+7iNq8U4UCjG+KfE/ids=;
- b=SIIEoAqX68mQ0p34EDS71M0IS1JGxrQWpIeHRCC6EsbYDj6QpnuEQdUoBiHunDvrkkID2k
- MSN9ndbI55W7fUR9lnMVcUB6dgSb1EjqfoyqA7OnNUDXtbuIlHlV3fS4HANXysazOqLaqr
- kPBFtHkgUfwlTv6TWA2HUjdcrIpiRqE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-DAyTpLm2MkuwpaIc-n1xvw-1; Tue, 04 May 2021 15:38:31 -0400
-X-MC-Unique: DAyTpLm2MkuwpaIc-n1xvw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9926A106BB2B;
- Tue,  4 May 2021 19:38:30 +0000 (UTC)
-Received: from [10.3.114.144] (ovpn-114-144.phx2.redhat.com [10.3.114.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AA9B19C71;
- Tue,  4 May 2021 19:38:29 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210504152023.322862-1-vsementsov@virtuozzo.com>
- <20210504152023.322862-6-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH 05/10] qcow2-refcount: fix_l2_entry_by_zero(): also zero
- L2 entry bitmap
-Message-ID: <96086f78-b8c6-ccc8-25e6-d41f928f3af2@redhat.com>
-Date: Tue, 4 May 2021 14:38:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1le0zI-00005l-BK
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 15:45:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1le0zG-0000PB-Nq
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 15:45:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1le0zF-00058R-Ej
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 19:45:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5945E2E8085
+ for <qemu-devel@nongnu.org>; Tue,  4 May 2021 19:45:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210504152023.322862-6-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 04 May 2021 19:39:20 -0000
+From: Thomas Huth <1892081@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahmedkrmn rth th-huth
+X-Launchpad-Bug-Reporter: Ahmed Karaman (ahmedkrmn)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159777580973.2034.8843080316751302000.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162015716037.767.15114834005928521728.malone@chaenomeles.canonical.com>
+Subject: [Bug 1892081] Re: Performance improvement when using "QEMU_FLATTEN"
+ with softfloat type conversions
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: 0a57ac6deae8ae10a6d8bb8f8d5951ad4110a532
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,69 +71,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, ktkhai@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com
+Reply-To: Bug 1892081 <1892081@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/21 10:20 AM, Vladimir Sementsov-Ogievskiy wrote:
-> We'll reuse the function to fix wrong L2 entry bitmap. Support it now.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/qcow2-refcount.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-> index f1e771d742..62d59eb2e9 100644
-> --- a/block/qcow2-refcount.c
-> +++ b/block/qcow2-refcount.c
-> @@ -1588,7 +1588,8 @@ enum {
->  };
->  
->  /*
-> - * Fix L2 entry by making it QCOW2_CLUSTER_ZERO_PLAIN.
-> + * Fix L2 entry by making it QCOW2_CLUSTER_ZERO_PLAIN (or maing all its present
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-making
+ https://gitlab.com/qemu-project/qemu/-/issues/134
 
-> + * subclusters QCOW2_SUBCLUSTER_ZERO_PLAIN).
->   *
->   * Function do res->corruptions-- on success, so caller is responsible to do
->   * corresponding res->corruptions++ prior to the call.
-> @@ -1605,9 +1606,20 @@ static int fix_l2_entry_by_zero(BlockDriverState *bs, BdrvCheckResult *res,
->      int idx = l2_index * (l2_entry_size(s) / sizeof(uint64_t));
->      uint64_t l2e_offset = l2_offset + (uint64_t)l2_index * l2_entry_size(s);
->      int ign = active ? QCOW2_OL_ACTIVE_L2 : QCOW2_OL_INACTIVE_L2;
-> -    uint64_t l2_entry = has_subclusters(s) ? 0 : QCOW_OFLAG_ZERO;
->  
-> -    set_l2_entry(s, l2_table, l2_index, l2_entry);
-> +    if (has_subclusters(s)) {
-> +        uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, l2_index);
-> +
-> +        /* Allocated subclusters becomes zero */
 
-become
+** Changed in: qemu
+       Status: In Progress =3D> Expired
 
-> +        l2_bitmap |= l2_bitmap << 32;
-> +        l2_bitmap &= QCOW_L2_BITMAP_ALL_ZEROES;
-> +
-> +        set_l2_bitmap(s, l2_table, l2_index, l2_bitmap);
-> +        set_l2_entry(s, l2_table, l2_index, 0);
-> +    } else {
-> +        set_l2_entry(s, l2_table, l2_index, QCOW_OFLAG_ZERO);
-> +    }
-> +
->      ret = qcow2_pre_write_overlap_check(bs, ign, l2e_offset, l2_entry_size(s),
->                                          false);
->      if (metadata_overlap) {
-> 
+** Changed in: qemu
+     Assignee: Richard Henderson (rth) =3D> (unassigned)
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #134
+   https://gitlab.com/qemu-project/qemu/-/issues/134
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1892081
+
+Title:
+  Performance improvement when using "QEMU_FLATTEN" with softfloat type
+  conversions
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  Attached below is a matrix multiplication program for double data
+  types. The program performs the casting operation "(double)rand()"
+  when generating random numbers.
+
+  This operation calls the integer to float softfloat conversion
+  function "int32_to_float_64".
+
+  Adding the "QEMU_FLATTEN" attribute to the function definition
+  decreases the instructions per call of the function by about 63%.
+
+  Attached are before and after performance screenshots from
+  KCachegrind.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1892081/+subscriptions
 
