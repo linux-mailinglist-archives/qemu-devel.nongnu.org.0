@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AAE3725EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:44:02 +0200 (CEST)
-Received: from localhost ([::1]:60278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9C03725EE
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:46:48 +0200 (CEST)
+Received: from localhost ([::1]:38536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldomn-00079p-LZ
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:44:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60884)
+	id 1ldopT-0001TT-VY
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:46:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo0z-0006gy-71; Tue, 04 May 2021 01:54:37 -0400
-Received: from ozlabs.org ([203.11.71.1]:37727)
+ id 1ldo0z-0006gm-5z; Tue, 04 May 2021 01:54:37 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:49855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo0v-0005A1-Ec; Tue, 04 May 2021 01:54:36 -0400
+ id 1ldo0w-0005A9-3i; Tue, 04 May 2021 01:54:36 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZ8CP2QPCz9t0k; Tue,  4 May 2021 15:53:20 +1000 (AEST)
+ id 4FZ8CP319Gz9t0p; Tue,  4 May 2021 15:53:21 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620107601;
- bh=uHYxqL7MwJR1AGjlaCDo2saew1p+mMOoXYp2KNeVJYQ=;
+ bh=QR2zcAf6goM5WAwuXHkSFi0GzTiS9Ue5wHyMsGgu9Vk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZWs9lpOg5bxOPl3bxRRT3e+QMH8YpLr0FYQ80LEieVzveu4bJeGCz98xmdTWgZ9zz
- LX/FDpzTtY/gnkzOjxscYczYaQXjG/oLpGNJygCzQOm8jcBPBiSl+v0CuUI5wk0Uqx
- 5vKnECNpCwXDYxKp5XViSvqxc++Lse9IVRh4pP6w=
+ b=jmInMLY8K9bH1wnMoJ51iDm7nU0nwM6xc/gPHPnKAo4ObNqr/cDD6jWBYxs+dsazV
+ 1e2USJx1a9cOi0GCv8FDH3eK7S2viFO76nZpPCezdBuXz7Ra/QMkeZ65APs0MDZ0VL
+ KEp/PDfo2yrRYLQhhXDllgyHPiw7U+FR2f7OVMLw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 38/46] target/ppc: move opcode table logic to translate.c
-Date: Tue,  4 May 2021 15:53:04 +1000
-Message-Id: <20210504055312.306823-39-david@gibson.dropbear.id.au>
+Subject: [PULL 39/46] target/ppc: rework AIL logic in interrupt delivery
+Date: Tue,  4 May 2021 15:53:05 +1000
+Message-Id: <20210504055312.306823-40-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 References: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,874 +58,319 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+From: Nicholas Piggin <npiggin@gmail.com>
 
-code motion to remove opcode callback table from
-translate_init.c.inc to translate.c in preparation to remove
-the #include <translate_init.c.inc> from translate.c. Also created
-destroy_ppc_opcodes and removed that logic from ppc_cpu_unrealize
+The AIL logic is becoming unmanageable spread all over powerpc_excp(),
+and it is slated to get even worse with POWER10 support.
 
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Message-Id: <20210429162130.2412-2-bruno.larsen@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Move it all to a new helper function.
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Tested-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+Message-Id: <20210501072436.145444-2-npiggin@gmail.com>
+[dwg: Corrected tab indenting]
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/internal.h           |   8 +
- target/ppc/translate.c          | 394 ++++++++++++++++++++++++++++++++
- target/ppc/translate_init.c.inc | 391 +------------------------------
- 3 files changed, 403 insertions(+), 390 deletions(-)
+ hw/ppc/spapr_hcall.c            |   3 +-
+ target/ppc/cpu.h                |   8 --
+ target/ppc/excp_helper.c        | 165 ++++++++++++++++++++------------
+ target/ppc/translate_init.c.inc |   2 +-
+ 4 files changed, 108 insertions(+), 70 deletions(-)
 
-diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-index c401658e8d..184ba6d6b3 100644
---- a/target/ppc/internal.h
-+++ b/target/ppc/internal.h
-@@ -216,6 +216,14 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                                  MMUAccessType access_type,
-                                  int mmu_idx, uintptr_t retaddr);
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 7b5cd3553c..2fbe04a689 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1395,7 +1395,8 @@ static target_ulong h_set_mode_resource_addr_trans_mode(PowerPCCPU *cpu,
+         return H_P4;
+     }
  
-+/* translate.c */
-+
-+/* #define PPC_DUMP_CPU */
-+
-+int ppc_fixup_cpu(PowerPCCPU *cpu);
-+void create_ppc_opcodes(PowerPCCPU *cpu, Error **errp);
-+void destroy_ppc_opcodes(PowerPCCPU *cpu);
-+
- /* gdbstub.c */
- void ppc_gdb_init(CPUState *cs, PowerPCCPUClass *ppc);
- gchar *ppc_gdb_arch_name(CPUState *cs);
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index a53463b9b8..a7c568ca9c 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -7825,6 +7825,400 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- #undef RFPL
- }
+-    if (mflags == AIL_RESERVED) {
++    if (mflags == 1) {
++        /* AIL=1 is reserved */
+         return H_UNSUPPORTED_FLAG;
+     }
  
-+/*****************************************************************************/
-+/* Opcode types */
-+enum {
-+    PPC_DIRECT   = 0, /* Opcode routine        */
-+    PPC_INDIRECT = 1, /* Indirect opcode table */
-+};
-+
-+#define PPC_OPCODE_MASK 0x3
-+
-+static inline int is_indirect_opcode(void *handler)
-+{
-+    return ((uintptr_t)handler & PPC_OPCODE_MASK) == PPC_INDIRECT;
-+}
-+
-+static inline opc_handler_t **ind_table(void *handler)
-+{
-+    return (opc_handler_t **)((uintptr_t)handler & ~PPC_OPCODE_MASK);
-+}
-+
-+/* Instruction table creation */
-+/* Opcodes tables creation */
-+static void fill_new_table(opc_handler_t **table, int len)
-+{
-+    int i;
-+
-+    for (i = 0; i < len; i++) {
-+        table[i] = &invalid_handler;
-+    }
-+}
-+
-+static int create_new_table(opc_handler_t **table, unsigned char idx)
-+{
-+    opc_handler_t **tmp;
-+
-+    tmp = g_new(opc_handler_t *, PPC_CPU_INDIRECT_OPCODES_LEN);
-+    fill_new_table(tmp, PPC_CPU_INDIRECT_OPCODES_LEN);
-+    table[idx] = (opc_handler_t *)((uintptr_t)tmp | PPC_INDIRECT);
-+
-+    return 0;
-+}
-+
-+static int insert_in_table(opc_handler_t **table, unsigned char idx,
-+                            opc_handler_t *handler)
-+{
-+    if (table[idx] != &invalid_handler) {
-+        return -1;
-+    }
-+    table[idx] = handler;
-+
-+    return 0;
-+}
-+
-+static int register_direct_insn(opc_handler_t **ppc_opcodes,
-+                                unsigned char idx, opc_handler_t *handler)
-+{
-+    if (insert_in_table(ppc_opcodes, idx, handler) < 0) {
-+        printf("*** ERROR: opcode %02x already assigned in main "
-+               "opcode table\n", idx);
-+#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
-+        printf("           Registered handler '%s' - new handler '%s'\n",
-+               ppc_opcodes[idx]->oname, handler->oname);
-+#endif
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+static int register_ind_in_table(opc_handler_t **table,
-+                                 unsigned char idx1, unsigned char idx2,
-+                                 opc_handler_t *handler)
-+{
-+    if (table[idx1] == &invalid_handler) {
-+        if (create_new_table(table, idx1) < 0) {
-+            printf("*** ERROR: unable to create indirect table "
-+                   "idx=%02x\n", idx1);
-+            return -1;
-+        }
-+    } else {
-+        if (!is_indirect_opcode(table[idx1])) {
-+            printf("*** ERROR: idx %02x already assigned to a direct "
-+                   "opcode\n", idx1);
-+#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
-+            printf("           Registered handler '%s' - new handler '%s'\n",
-+                   ind_table(table[idx1])[idx2]->oname, handler->oname);
-+#endif
-+            return -1;
-+        }
-+    }
-+    if (handler != NULL &&
-+        insert_in_table(ind_table(table[idx1]), idx2, handler) < 0) {
-+        printf("*** ERROR: opcode %02x already assigned in "
-+               "opcode table %02x\n", idx2, idx1);
-+#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
-+        printf("           Registered handler '%s' - new handler '%s'\n",
-+               ind_table(table[idx1])[idx2]->oname, handler->oname);
-+#endif
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+static int register_ind_insn(opc_handler_t **ppc_opcodes,
-+                             unsigned char idx1, unsigned char idx2,
-+                             opc_handler_t *handler)
-+{
-+    return register_ind_in_table(ppc_opcodes, idx1, idx2, handler);
-+}
-+
-+static int register_dblind_insn(opc_handler_t **ppc_opcodes,
-+                                unsigned char idx1, unsigned char idx2,
-+                                unsigned char idx3, opc_handler_t *handler)
-+{
-+    if (register_ind_in_table(ppc_opcodes, idx1, idx2, NULL) < 0) {
-+        printf("*** ERROR: unable to join indirect table idx "
-+               "[%02x-%02x]\n", idx1, idx2);
-+        return -1;
-+    }
-+    if (register_ind_in_table(ind_table(ppc_opcodes[idx1]), idx2, idx3,
-+                              handler) < 0) {
-+        printf("*** ERROR: unable to insert opcode "
-+               "[%02x-%02x-%02x]\n", idx1, idx2, idx3);
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+static int register_trplind_insn(opc_handler_t **ppc_opcodes,
-+                                 unsigned char idx1, unsigned char idx2,
-+                                 unsigned char idx3, unsigned char idx4,
-+                                 opc_handler_t *handler)
-+{
-+    opc_handler_t **table;
-+
-+    if (register_ind_in_table(ppc_opcodes, idx1, idx2, NULL) < 0) {
-+        printf("*** ERROR: unable to join indirect table idx "
-+               "[%02x-%02x]\n", idx1, idx2);
-+        return -1;
-+    }
-+    table = ind_table(ppc_opcodes[idx1]);
-+    if (register_ind_in_table(table, idx2, idx3, NULL) < 0) {
-+        printf("*** ERROR: unable to join 2nd-level indirect table idx "
-+               "[%02x-%02x-%02x]\n", idx1, idx2, idx3);
-+        return -1;
-+    }
-+    table = ind_table(table[idx2]);
-+    if (register_ind_in_table(table, idx3, idx4, handler) < 0) {
-+        printf("*** ERROR: unable to insert opcode "
-+               "[%02x-%02x-%02x-%02x]\n", idx1, idx2, idx3, idx4);
-+        return -1;
-+    }
-+    return 0;
-+}
-+static int register_insn(opc_handler_t **ppc_opcodes, opcode_t *insn)
-+{
-+    if (insn->opc2 != 0xFF) {
-+        if (insn->opc3 != 0xFF) {
-+            if (insn->opc4 != 0xFF) {
-+                if (register_trplind_insn(ppc_opcodes, insn->opc1, insn->opc2,
-+                                          insn->opc3, insn->opc4,
-+                                          &insn->handler) < 0) {
-+                    return -1;
-+                }
-+            } else {
-+                if (register_dblind_insn(ppc_opcodes, insn->opc1, insn->opc2,
-+                                         insn->opc3, &insn->handler) < 0) {
-+                    return -1;
-+                }
-+            }
-+        } else {
-+            if (register_ind_insn(ppc_opcodes, insn->opc1,
-+                                  insn->opc2, &insn->handler) < 0) {
-+                return -1;
-+            }
-+        }
-+    } else {
-+        if (register_direct_insn(ppc_opcodes, insn->opc1, &insn->handler) < 0) {
-+            return -1;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+static int test_opcode_table(opc_handler_t **table, int len)
-+{
-+    int i, count, tmp;
-+
-+    for (i = 0, count = 0; i < len; i++) {
-+        /* Consistency fixup */
-+        if (table[i] == NULL) {
-+            table[i] = &invalid_handler;
-+        }
-+        if (table[i] != &invalid_handler) {
-+            if (is_indirect_opcode(table[i])) {
-+                tmp = test_opcode_table(ind_table(table[i]),
-+                    PPC_CPU_INDIRECT_OPCODES_LEN);
-+                if (tmp == 0) {
-+                    free(table[i]);
-+                    table[i] = &invalid_handler;
-+                } else {
-+                    count++;
-+                }
-+            } else {
-+                count++;
-+            }
-+        }
-+    }
-+
-+    return count;
-+}
-+
-+static void fix_opcode_tables(opc_handler_t **ppc_opcodes)
-+{
-+    if (test_opcode_table(ppc_opcodes, PPC_CPU_OPCODES_LEN) == 0) {
-+        printf("*** WARNING: no opcode defined !\n");
-+    }
-+}
-+
-+/*****************************************************************************/
-+void create_ppc_opcodes(PowerPCCPU *cpu, Error **errp)
-+{
-+    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
-+    opcode_t *opc;
-+
-+    fill_new_table(cpu->opcodes, PPC_CPU_OPCODES_LEN);
-+    for (opc = opcodes; opc < &opcodes[ARRAY_SIZE(opcodes)]; opc++) {
-+        if (((opc->handler.type & pcc->insns_flags) != 0) ||
-+            ((opc->handler.type2 & pcc->insns_flags2) != 0)) {
-+            if (register_insn(cpu->opcodes, opc) < 0) {
-+                error_setg(errp, "ERROR initializing PowerPC instruction "
-+                           "0x%02x 0x%02x 0x%02x", opc->opc1, opc->opc2,
-+                           opc->opc3);
-+                return;
-+            }
-+        }
-+    }
-+    fix_opcode_tables(cpu->opcodes);
-+    fflush(stdout);
-+    fflush(stderr);
-+}
-+
-+void destroy_ppc_opcodes(PowerPCCPU *cpu)
-+{
-+    opc_handler_t **table, **table_2;
-+    int i, j, k;
-+
-+    for (i = 0; i < PPC_CPU_OPCODES_LEN; i++) {
-+        if (cpu->opcodes[i] == &invalid_handler) {
-+            continue;
-+        }
-+        if (is_indirect_opcode(cpu->opcodes[i])) {
-+            table = ind_table(cpu->opcodes[i]);
-+            for (j = 0; j < PPC_CPU_INDIRECT_OPCODES_LEN; j++) {
-+                if (table[j] == &invalid_handler) {
-+                    continue;
-+                }
-+                if (is_indirect_opcode(table[j])) {
-+                    table_2 = ind_table(table[j]);
-+                    for (k = 0; k < PPC_CPU_INDIRECT_OPCODES_LEN; k++) {
-+                        if (table_2[k] != &invalid_handler &&
-+                            is_indirect_opcode(table_2[k])) {
-+                            g_free((opc_handler_t *)((uintptr_t)table_2[k] &
-+                                                     ~PPC_INDIRECT));
-+                        }
-+                    }
-+                    g_free((opc_handler_t *)((uintptr_t)table[j] &
-+                                             ~PPC_INDIRECT));
-+                }
-+            }
-+            g_free((opc_handler_t *)((uintptr_t)cpu->opcodes[i] &
-+                ~PPC_INDIRECT));
-+        }
-+    }
-+}
-+
-+#if defined(PPC_DUMP_CPU)
-+static void dump_ppc_insns(CPUPPCState *env)
-+{
-+    opc_handler_t **table, *handler;
-+    const char *p, *q;
-+    uint8_t opc1, opc2, opc3, opc4;
-+
-+    printf("Instructions set:\n");
-+    /* opc1 is 6 bits long */
-+    for (opc1 = 0x00; opc1 < PPC_CPU_OPCODES_LEN; opc1++) {
-+        table = env->opcodes;
-+        handler = table[opc1];
-+        if (is_indirect_opcode(handler)) {
-+            /* opc2 is 5 bits long */
-+            for (opc2 = 0; opc2 < PPC_CPU_INDIRECT_OPCODES_LEN; opc2++) {
-+                table = env->opcodes;
-+                handler = env->opcodes[opc1];
-+                table = ind_table(handler);
-+                handler = table[opc2];
-+                if (is_indirect_opcode(handler)) {
-+                    table = ind_table(handler);
-+                    /* opc3 is 5 bits long */
-+                    for (opc3 = 0; opc3 < PPC_CPU_INDIRECT_OPCODES_LEN;
-+                            opc3++) {
-+                        handler = table[opc3];
-+                        if (is_indirect_opcode(handler)) {
-+                            table = ind_table(handler);
-+                            /* opc4 is 5 bits long */
-+                            for (opc4 = 0; opc4 < PPC_CPU_INDIRECT_OPCODES_LEN;
-+                                 opc4++) {
-+                                handler = table[opc4];
-+                                if (handler->handler != &gen_invalid) {
-+                                    printf("INSN: %02x %02x %02x %02x -- "
-+                                           "(%02d %04d %02d) : %s\n",
-+                                           opc1, opc2, opc3, opc4,
-+                                           opc1, (opc3 << 5) | opc2, opc4,
-+                                           handler->oname);
-+                                }
-+                            }
-+                        } else {
-+                            if (handler->handler != &gen_invalid) {
-+                                /* Special hack to properly dump SPE insns */
-+                                p = strchr(handler->oname, '_');
-+                                if (p == NULL) {
-+                                    printf("INSN: %02x %02x %02x (%02d %04d) : "
-+                                           "%s\n",
-+                                           opc1, opc2, opc3, opc1,
-+                                           (opc3 << 5) | opc2,
-+                                           handler->oname);
-+                                } else {
-+                                    q = "speundef";
-+                                    if ((p - handler->oname) != strlen(q)
-+                                        || (memcmp(handler->oname, q, strlen(q))
-+                                            != 0)) {
-+                                        /* First instruction */
-+                                        printf("INSN: %02x %02x %02x"
-+                                               "(%02d %04d) : %.*s\n",
-+                                               opc1, opc2 << 1, opc3, opc1,
-+                                               (opc3 << 6) | (opc2 << 1),
-+                                               (int)(p - handler->oname),
-+                                               handler->oname);
-+                                    }
-+                                    if (strcmp(p + 1, q) != 0) {
-+                                        /* Second instruction */
-+                                        printf("INSN: %02x %02x %02x "
-+                                               "(%02d %04d) : %s\n", opc1,
-+                                               (opc2 << 1) | 1, opc3, opc1,
-+                                               (opc3 << 6) | (opc2 << 1) | 1,
-+                                               p + 1);
-+                                    }
-+                                }
-+                            }
-+                        }
-+                    }
-+                } else {
-+                    if (handler->handler != &gen_invalid) {
-+                        printf("INSN: %02x %02x -- (%02d %04d) : %s\n",
-+                               opc1, opc2, opc1, opc2, handler->oname);
-+                    }
-+                }
-+            }
-+        } else {
-+            if (handler->handler != &gen_invalid) {
-+                printf("INSN: %02x -- -- (%02d ----) : %s\n",
-+                       opc1, opc1, handler->oname);
-+            }
-+        }
-+    }
-+}
-+#endif
-+int ppc_fixup_cpu(PowerPCCPU *cpu)
-+{
-+    CPUPPCState *env = &cpu->env;
-+
-+    /*
-+     * TCG doesn't (yet) emulate some groups of instructions that are
-+     * implemented on some otherwise supported CPUs (e.g. VSX and
-+     * decimal floating point instructions on POWER7).  We remove
-+     * unsupported instruction groups from the cpu state's instruction
-+     * masks and hope the guest can cope.  For at least the pseries
-+     * machine, the unavailability of these instructions can be
-+     * advertised to the guest via the device tree.
-+     */
-+    if ((env->insns_flags & ~PPC_TCG_INSNS)
-+        || (env->insns_flags2 & ~PPC_TCG_INSNS2)) {
-+        warn_report("Disabling some instructions which are not "
-+                    "emulated by TCG (0x%" PRIx64 ", 0x%" PRIx64 ")",
-+                    env->insns_flags & ~PPC_TCG_INSNS,
-+                    env->insns_flags2 & ~PPC_TCG_INSNS2);
-+    }
-+    env->insns_flags &= PPC_TCG_INSNS;
-+    env->insns_flags2 &= PPC_TCG_INSNS2;
-+    return 0;
-+}
-+
-+
- void ppc_cpu_dump_statistics(CPUState *cs, int flags)
- {
- #if defined(DO_PPC_STATISTICS)
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index 9ab2c32cc4..42b3a4fd57 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -42,7 +42,6 @@
- #include "fpu/softfloat.h"
- #include "qapi/qapi-commands-machine-target.h"
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 8c18bb0762..be24a501fc 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -2405,14 +2405,6 @@ enum {
+     HMER_XSCOM_STATUS_MASK      = PPC_BITMASK(21, 23),
+ };
  
--/* #define PPC_DUMP_CPU */
- /* #define PPC_DEBUG_SPR */
- /* #define PPC_DUMP_SPR_ACCESSES */
- /* #define USE_APPLE_GDB */
-@@ -9560,366 +9559,6 @@ static void dump_ppc_sprs(CPUPPCState *env)
- }
- #endif
- 
--/*****************************************************************************/
--
--/* Opcode types */
+-/* Alternate Interrupt Location (AIL) */
 -enum {
--    PPC_DIRECT   = 0, /* Opcode routine        */
--    PPC_INDIRECT = 1, /* Indirect opcode table */
+-    AIL_NONE                = 0,
+-    AIL_RESERVED            = 1,
+-    AIL_0001_8000           = 2,
+-    AIL_C000_0000_0000_4000 = 3,
 -};
 -
--#define PPC_OPCODE_MASK 0x3
--
--static inline int is_indirect_opcode(void *handler)
--{
--    return ((uintptr_t)handler & PPC_OPCODE_MASK) == PPC_INDIRECT;
--}
--
--static inline opc_handler_t **ind_table(void *handler)
--{
--    return (opc_handler_t **)((uintptr_t)handler & ~PPC_OPCODE_MASK);
--}
--
--/* Instruction table creation */
--/* Opcodes tables creation */
--static void fill_new_table(opc_handler_t **table, int len)
--{
--    int i;
--
--    for (i = 0; i < len; i++) {
--        table[i] = &invalid_handler;
--    }
--}
--
--static int create_new_table(opc_handler_t **table, unsigned char idx)
--{
--    opc_handler_t **tmp;
--
--    tmp = g_new(opc_handler_t *, PPC_CPU_INDIRECT_OPCODES_LEN);
--    fill_new_table(tmp, PPC_CPU_INDIRECT_OPCODES_LEN);
--    table[idx] = (opc_handler_t *)((uintptr_t)tmp | PPC_INDIRECT);
--
--    return 0;
--}
--
--static int insert_in_table(opc_handler_t **table, unsigned char idx,
--                            opc_handler_t *handler)
--{
--    if (table[idx] != &invalid_handler) {
--        return -1;
--    }
--    table[idx] = handler;
--
--    return 0;
--}
--
--static int register_direct_insn(opc_handler_t **ppc_opcodes,
--                                unsigned char idx, opc_handler_t *handler)
--{
--    if (insert_in_table(ppc_opcodes, idx, handler) < 0) {
--        printf("*** ERROR: opcode %02x already assigned in main "
--               "opcode table\n", idx);
--#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
--        printf("           Registered handler '%s' - new handler '%s'\n",
--               ppc_opcodes[idx]->oname, handler->oname);
--#endif
--        return -1;
--    }
--
--    return 0;
--}
--
--static int register_ind_in_table(opc_handler_t **table,
--                                 unsigned char idx1, unsigned char idx2,
--                                 opc_handler_t *handler)
--{
--    if (table[idx1] == &invalid_handler) {
--        if (create_new_table(table, idx1) < 0) {
--            printf("*** ERROR: unable to create indirect table "
--                   "idx=%02x\n", idx1);
--            return -1;
--        }
--    } else {
--        if (!is_indirect_opcode(table[idx1])) {
--            printf("*** ERROR: idx %02x already assigned to a direct "
--                   "opcode\n", idx1);
--#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
--            printf("           Registered handler '%s' - new handler '%s'\n",
--                   ind_table(table[idx1])[idx2]->oname, handler->oname);
--#endif
--            return -1;
--        }
--    }
--    if (handler != NULL &&
--        insert_in_table(ind_table(table[idx1]), idx2, handler) < 0) {
--        printf("*** ERROR: opcode %02x already assigned in "
--               "opcode table %02x\n", idx2, idx1);
--#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
--        printf("           Registered handler '%s' - new handler '%s'\n",
--               ind_table(table[idx1])[idx2]->oname, handler->oname);
--#endif
--        return -1;
--    }
--
--    return 0;
--}
--
--static int register_ind_insn(opc_handler_t **ppc_opcodes,
--                             unsigned char idx1, unsigned char idx2,
--                             opc_handler_t *handler)
--{
--    return register_ind_in_table(ppc_opcodes, idx1, idx2, handler);
--}
--
--static int register_dblind_insn(opc_handler_t **ppc_opcodes,
--                                unsigned char idx1, unsigned char idx2,
--                                unsigned char idx3, opc_handler_t *handler)
--{
--    if (register_ind_in_table(ppc_opcodes, idx1, idx2, NULL) < 0) {
--        printf("*** ERROR: unable to join indirect table idx "
--               "[%02x-%02x]\n", idx1, idx2);
--        return -1;
--    }
--    if (register_ind_in_table(ind_table(ppc_opcodes[idx1]), idx2, idx3,
--                              handler) < 0) {
--        printf("*** ERROR: unable to insert opcode "
--               "[%02x-%02x-%02x]\n", idx1, idx2, idx3);
--        return -1;
--    }
--
--    return 0;
--}
--
--static int register_trplind_insn(opc_handler_t **ppc_opcodes,
--                                 unsigned char idx1, unsigned char idx2,
--                                 unsigned char idx3, unsigned char idx4,
--                                 opc_handler_t *handler)
--{
--    opc_handler_t **table;
--
--    if (register_ind_in_table(ppc_opcodes, idx1, idx2, NULL) < 0) {
--        printf("*** ERROR: unable to join indirect table idx "
--               "[%02x-%02x]\n", idx1, idx2);
--        return -1;
--    }
--    table = ind_table(ppc_opcodes[idx1]);
--    if (register_ind_in_table(table, idx2, idx3, NULL) < 0) {
--        printf("*** ERROR: unable to join 2nd-level indirect table idx "
--               "[%02x-%02x-%02x]\n", idx1, idx2, idx3);
--        return -1;
--    }
--    table = ind_table(table[idx2]);
--    if (register_ind_in_table(table, idx3, idx4, handler) < 0) {
--        printf("*** ERROR: unable to insert opcode "
--               "[%02x-%02x-%02x-%02x]\n", idx1, idx2, idx3, idx4);
--        return -1;
--    }
--    return 0;
--}
--static int register_insn(opc_handler_t **ppc_opcodes, opcode_t *insn)
--{
--    if (insn->opc2 != 0xFF) {
--        if (insn->opc3 != 0xFF) {
--            if (insn->opc4 != 0xFF) {
--                if (register_trplind_insn(ppc_opcodes, insn->opc1, insn->opc2,
--                                          insn->opc3, insn->opc4,
--                                          &insn->handler) < 0) {
--                    return -1;
--                }
--            } else {
--                if (register_dblind_insn(ppc_opcodes, insn->opc1, insn->opc2,
--                                         insn->opc3, &insn->handler) < 0) {
--                    return -1;
--                }
--            }
--        } else {
--            if (register_ind_insn(ppc_opcodes, insn->opc1,
--                                  insn->opc2, &insn->handler) < 0) {
--                return -1;
--            }
--        }
--    } else {
--        if (register_direct_insn(ppc_opcodes, insn->opc1, &insn->handler) < 0) {
--            return -1;
--        }
--    }
--
--    return 0;
--}
--
--static int test_opcode_table(opc_handler_t **table, int len)
--{
--    int i, count, tmp;
--
--    for (i = 0, count = 0; i < len; i++) {
--        /* Consistency fixup */
--        if (table[i] == NULL) {
--            table[i] = &invalid_handler;
--        }
--        if (table[i] != &invalid_handler) {
--            if (is_indirect_opcode(table[i])) {
--                tmp = test_opcode_table(ind_table(table[i]),
--                    PPC_CPU_INDIRECT_OPCODES_LEN);
--                if (tmp == 0) {
--                    free(table[i]);
--                    table[i] = &invalid_handler;
--                } else {
--                    count++;
--                }
--            } else {
--                count++;
--            }
--        }
--    }
--
--    return count;
--}
--
--static void fix_opcode_tables(opc_handler_t **ppc_opcodes)
--{
--    if (test_opcode_table(ppc_opcodes, PPC_CPU_OPCODES_LEN) == 0) {
--        printf("*** WARNING: no opcode defined !\n");
--    }
--}
--
--/*****************************************************************************/
--static void create_ppc_opcodes(PowerPCCPU *cpu, Error **errp)
--{
--    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
--    opcode_t *opc;
--
--    fill_new_table(cpu->opcodes, PPC_CPU_OPCODES_LEN);
--    for (opc = opcodes; opc < &opcodes[ARRAY_SIZE(opcodes)]; opc++) {
--        if (((opc->handler.type & pcc->insns_flags) != 0) ||
--            ((opc->handler.type2 & pcc->insns_flags2) != 0)) {
--            if (register_insn(cpu->opcodes, opc) < 0) {
--                error_setg(errp, "ERROR initializing PowerPC instruction "
--                           "0x%02x 0x%02x 0x%02x", opc->opc1, opc->opc2,
--                           opc->opc3);
--                return;
--            }
--        }
--    }
--    fix_opcode_tables(cpu->opcodes);
--    fflush(stdout);
--    fflush(stderr);
--}
--
--#if defined(PPC_DUMP_CPU)
--static void dump_ppc_insns(CPUPPCState *env)
--{
--    opc_handler_t **table, *handler;
--    const char *p, *q;
--    uint8_t opc1, opc2, opc3, opc4;
--
--    printf("Instructions set:\n");
--    /* opc1 is 6 bits long */
--    for (opc1 = 0x00; opc1 < PPC_CPU_OPCODES_LEN; opc1++) {
--        table = env->opcodes;
--        handler = table[opc1];
--        if (is_indirect_opcode(handler)) {
--            /* opc2 is 5 bits long */
--            for (opc2 = 0; opc2 < PPC_CPU_INDIRECT_OPCODES_LEN; opc2++) {
--                table = env->opcodes;
--                handler = env->opcodes[opc1];
--                table = ind_table(handler);
--                handler = table[opc2];
--                if (is_indirect_opcode(handler)) {
--                    table = ind_table(handler);
--                    /* opc3 is 5 bits long */
--                    for (opc3 = 0; opc3 < PPC_CPU_INDIRECT_OPCODES_LEN;
--                            opc3++) {
--                        handler = table[opc3];
--                        if (is_indirect_opcode(handler)) {
--                            table = ind_table(handler);
--                            /* opc4 is 5 bits long */
--                            for (opc4 = 0; opc4 < PPC_CPU_INDIRECT_OPCODES_LEN;
--                                 opc4++) {
--                                handler = table[opc4];
--                                if (handler->handler != &gen_invalid) {
--                                    printf("INSN: %02x %02x %02x %02x -- "
--                                           "(%02d %04d %02d) : %s\n",
--                                           opc1, opc2, opc3, opc4,
--                                           opc1, (opc3 << 5) | opc2, opc4,
--                                           handler->oname);
--                                }
--                            }
--                        } else {
--                            if (handler->handler != &gen_invalid) {
--                                /* Special hack to properly dump SPE insns */
--                                p = strchr(handler->oname, '_');
--                                if (p == NULL) {
--                                    printf("INSN: %02x %02x %02x (%02d %04d) : "
--                                           "%s\n",
--                                           opc1, opc2, opc3, opc1,
--                                           (opc3 << 5) | opc2,
--                                           handler->oname);
--                                } else {
--                                    q = "speundef";
--                                    if ((p - handler->oname) != strlen(q)
--                                        || (memcmp(handler->oname, q, strlen(q))
--                                            != 0)) {
--                                        /* First instruction */
--                                        printf("INSN: %02x %02x %02x"
--                                               "(%02d %04d) : %.*s\n",
--                                               opc1, opc2 << 1, opc3, opc1,
--                                               (opc3 << 6) | (opc2 << 1),
--                                               (int)(p - handler->oname),
--                                               handler->oname);
--                                    }
--                                    if (strcmp(p + 1, q) != 0) {
--                                        /* Second instruction */
--                                        printf("INSN: %02x %02x %02x "
--                                               "(%02d %04d) : %s\n", opc1,
--                                               (opc2 << 1) | 1, opc3, opc1,
--                                               (opc3 << 6) | (opc2 << 1) | 1,
--                                               p + 1);
--                                    }
--                                }
--                            }
--                        }
--                    }
--                } else {
--                    if (handler->handler != &gen_invalid) {
--                        printf("INSN: %02x %02x -- (%02d %04d) : %s\n",
--                               opc1, opc2, opc1, opc2, handler->oname);
--                    }
--                }
--            }
--        } else {
--            if (handler->handler != &gen_invalid) {
--                printf("INSN: %02x -- -- (%02d ----) : %s\n",
--                       opc1, opc1, handler->oname);
--            }
--        }
--    }
--}
--#endif
--static int ppc_fixup_cpu(PowerPCCPU *cpu)
--{
--    CPUPPCState *env = &cpu->env;
--
--    /*
--     * TCG doesn't (yet) emulate some groups of instructions that are
--     * implemented on some otherwise supported CPUs (e.g. VSX and
--     * decimal floating point instructions on POWER7).  We remove
--     * unsupported instruction groups from the cpu state's instruction
--     * masks and hope the guest can cope.  For at least the pseries
--     * machine, the unavailability of these instructions can be
--     * advertised to the guest via the device tree.
--     */
--    if ((env->insns_flags & ~PPC_TCG_INSNS)
--        || (env->insns_flags2 & ~PPC_TCG_INSNS2)) {
--        warn_report("Disabling some instructions which are not "
--                    "emulated by TCG (0x%" PRIx64 ", 0x%" PRIx64 ")",
--                    env->insns_flags & ~PPC_TCG_INSNS,
--                    env->insns_flags2 & ~PPC_TCG_INSNS2);
--    }
--    env->insns_flags &= PPC_TCG_INSNS;
--    env->insns_flags2 &= PPC_TCG_INSNS2;
--    return 0;
--}
--
- static void ppc_cpu_realize(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-@@ -10131,40 +9770,12 @@ static void ppc_cpu_unrealize(DeviceState *dev)
- {
-     PowerPCCPU *cpu = POWERPC_CPU(dev);
-     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
--    opc_handler_t **table, **table_2;
--    int i, j, k;
+ /*****************************************************************************/
  
-     pcc->parent_unrealize(dev);
- 
-     cpu_remove_sync(CPU(cpu));
- 
--    for (i = 0; i < PPC_CPU_OPCODES_LEN; i++) {
--        if (cpu->opcodes[i] == &invalid_handler) {
--            continue;
--        }
--        if (is_indirect_opcode(cpu->opcodes[i])) {
--            table = ind_table(cpu->opcodes[i]);
--            for (j = 0; j < PPC_CPU_INDIRECT_OPCODES_LEN; j++) {
--                if (table[j] == &invalid_handler) {
--                    continue;
--                }
--                if (is_indirect_opcode(table[j])) {
--                    table_2 = ind_table(table[j]);
--                    for (k = 0; k < PPC_CPU_INDIRECT_OPCODES_LEN; k++) {
--                        if (table_2[k] != &invalid_handler &&
--                            is_indirect_opcode(table_2[k])) {
--                            g_free((opc_handler_t *)((uintptr_t)table_2[k] &
--                                                     ~PPC_INDIRECT));
--                        }
--                    }
--                    g_free((opc_handler_t *)((uintptr_t)table[j] &
--                                             ~PPC_INDIRECT));
--                }
--            }
--            g_free((opc_handler_t *)((uintptr_t)cpu->opcodes[i] &
--                ~PPC_INDIRECT));
--        }
--    }
-+    destroy_ppc_opcodes(cpu);
+ #define is_isa300(ctx) (!!(ctx->insns_flags2 & PPC2_ISA300))
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 344af66f66..15b2813253 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -136,25 +136,111 @@ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
+     return POWERPC_EXCP_RESET;
  }
  
- static gint ppc_cpu_compare_class_pvr(gconstpointer a, gconstpointer b)
+-static uint64_t ppc_excp_vector_offset(CPUState *cs, int ail)
++/*
++ * AIL - Alternate Interrupt Location, a mode that allows interrupts to be
++ * taken with the MMU on, and which uses an alternate location (e.g., so the
++ * kernel/hv can map the vectors there with an effective address).
++ *
++ * An interrupt is considered to be taken "with AIL" or "AIL applies" if they
++ * are delivered in this way. AIL requires the LPCR to be set to enable this
++ * mode, and then a number of conditions have to be true for AIL to apply.
++ *
++ * First of all, SRESET, MCE, and HMI are always delivered without AIL, because
++ * they specifically want to be in real mode (e.g., the MCE might be signaling
++ * a SLB multi-hit which requires SLB flush before the MMU can be enabled).
++ *
++ * After that, behaviour depends on the current MSR[IR], MSR[DR], MSR[HV],
++ * whether or not the interrupt changes MSR[HV] from 0 to 1, and the current
++ * radix mode (LPCR[HR]).
++ *
++ * POWER8, POWER9 with LPCR[HR]=0
++ * | LPCR[AIL] | MSR[IR||DR] | MSR[HV] | new MSR[HV] | AIL |
++ * +-----------+-------------+---------+-------------+-----+
++ * | a         | 00/01/10    | x       | x           | 0   |
++ * | a         | 11          | 0       | 1           | 0   |
++ * | a         | 11          | 1       | 1           | a   |
++ * | a         | 11          | 0       | 0           | a   |
++ * +-------------------------------------------------------+
++ *
++ * POWER9 with LPCR[HR]=1
++ * | LPCR[AIL] | MSR[IR||DR] | MSR[HV] | new MSR[HV] | AIL |
++ * +-----------+-------------+---------+-------------+-----+
++ * | a         | 00/01/10    | x       | x           | 0   |
++ * | a         | 11          | x       | x           | a   |
++ * +-------------------------------------------------------+
++ *
++ * The difference with POWER9 being that MSR[HV] 0->1 interrupts can be sent to
++ * the hypervisor in AIL mode if the guest is radix.
++ */
++static inline void ppc_excp_apply_ail(PowerPCCPU *cpu, int excp_model, int excp,
++                                      target_ulong msr,
++                                      target_ulong *new_msr,
++                                      target_ulong *vector)
+ {
+-    uint64_t offset = 0;
++#if defined(TARGET_PPC64)
++    CPUPPCState *env = &cpu->env;
++    bool mmu_all_on = ((msr >> MSR_IR) & 1) && ((msr >> MSR_DR) & 1);
++    bool hv_escalation = !(msr & MSR_HVB) && (*new_msr & MSR_HVB);
++    int ail = 0;
++
++    if (excp == POWERPC_EXCP_MCHECK ||
++        excp == POWERPC_EXCP_RESET ||
++        excp == POWERPC_EXCP_HV_MAINT) {
++        /* SRESET, MCE, HMI never apply AIL */
++        return;
++    }
+ 
+-    switch (ail) {
+-    case AIL_NONE:
+-        break;
+-    case AIL_0001_8000:
+-        offset = 0x18000;
+-        break;
+-    case AIL_C000_0000_0000_4000:
+-        offset = 0xc000000000004000ull;
+-        break;
+-    default:
+-        cpu_abort(cs, "Invalid AIL combination %d\n", ail);
+-        break;
++    if (excp_model == POWERPC_EXCP_POWER8 ||
++        excp_model == POWERPC_EXCP_POWER9) {
++        if (!mmu_all_on) {
++            /* AIL only works if MSR[IR] and MSR[DR] are both enabled. */
++            return;
++        }
++        if (hv_escalation && !(env->spr[SPR_LPCR] & LPCR_HR)) {
++            /*
++             * AIL does not work if there is a MSR[HV] 0->1 transition and the
++             * partition is in HPT mode. For radix guests, such interrupts are
++             * allowed to be delivered to the hypervisor in ail mode.
++             */
++            return;
++        }
++
++        ail = (env->spr[SPR_LPCR] & LPCR_AIL) >> LPCR_AIL_SHIFT;
++        if (ail == 0) {
++            return;
++        }
++        if (ail == 1) {
++            /* AIL=1 is reserved, treat it like AIL=0 */
++            return;
++        }
++    } else {
++        /* Other processors do not support AIL */
++        return;
+     }
+ 
+-    return offset;
++    /*
++     * AIL applies, so the new MSR gets IR and DR set, and an offset applied
++     * to the new IP.
++     */
++    *new_msr |= (1 << MSR_IR) | (1 << MSR_DR);
++
++    if (excp != POWERPC_EXCP_SYSCALL_VECTORED) {
++        if (ail == 2) {
++            *vector |= 0x0000000000018000ull;
++        } else if (ail == 3) {
++            *vector |= 0xc000000000004000ull;
++        }
++    } else {
++        /*
++         * scv AIL is a little different. AIL=2 does not change the address,
++         * only the MSR. AIL=3 replaces the 0x17000 base with 0xc...3000.
++         */
++        if (ail == 3) {
++            *vector &= ~0x0000000000017000ull; /* Un-apply the base offset */
++            *vector |= 0xc000000000003000ull; /* Apply scv's AIL=3 offset */
++        }
++    }
++#endif
+ }
+ 
+ static inline void powerpc_set_excp_state(PowerPCCPU *cpu,
+@@ -197,7 +283,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+     target_ulong msr, new_msr, vector;
+-    int srr0, srr1, asrr0, asrr1, lev = -1, ail;
++    int srr0, srr1, asrr0, asrr1, lev = -1;
+     bool lpes0;
+ 
+     qemu_log_mask(CPU_LOG_INT, "Raise exception at " TARGET_FMT_lx
+@@ -238,25 +324,16 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+      *
+      * On anything else, we behave as if LPES0 is 1
+      * (externals don't alter MSR:HV)
+-     *
+-     * AIL is initialized here but can be cleared by
+-     * selected exceptions
+      */
+ #if defined(TARGET_PPC64)
+     if (excp_model == POWERPC_EXCP_POWER7 ||
+         excp_model == POWERPC_EXCP_POWER8 ||
+         excp_model == POWERPC_EXCP_POWER9) {
+         lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
+-        if (excp_model != POWERPC_EXCP_POWER7) {
+-            ail = (env->spr[SPR_LPCR] & LPCR_AIL) >> LPCR_AIL_SHIFT;
+-        } else {
+-            ail = 0;
+-        }
+     } else
+ #endif /* defined(TARGET_PPC64) */
+     {
+         lpes0 = true;
+-        ail = 0;
+     }
+ 
+     /*
+@@ -315,7 +392,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+              */
+             new_msr |= (target_ulong)MSR_HVB;
+         }
+-        ail = 0;
+ 
+         /* machine check exceptions don't have ME set */
+         new_msr &= ~((target_ulong)1 << MSR_ME);
+@@ -519,7 +595,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+                           "exception %d with no HV support\n", excp);
+             }
+         }
+-        ail = 0;
+         break;
+     case POWERPC_EXCP_DSEG:      /* Data segment exception                   */
+     case POWERPC_EXCP_ISEG:      /* Instruction segment exception            */
+@@ -790,24 +865,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+     }
+ #endif
+ 
+-    /*
+-     * AIL only works if MSR[IR] and MSR[DR] are both enabled.
+-     */
+-    if (!((msr >> MSR_IR) & 1) || !((msr >> MSR_DR) & 1)) {
+-        ail = 0;
+-    }
+-
+-    /*
+-     * AIL does not work if there is a MSR[HV] 0->1 transition and the
+-     * partition is in HPT mode. For radix guests, such interrupts are
+-     * allowed to be delivered to the hypervisor in ail mode.
+-     */
+-    if ((new_msr & MSR_HVB) && !(msr & MSR_HVB)) {
+-        if (!(env->spr[SPR_LPCR] & LPCR_HR)) {
+-            ail = 0;
+-        }
+-    }
+-
+     vector = env->excp_vectors[excp];
+     if (vector == (target_ulong)-1ULL) {
+         cpu_abort(cs, "Raised an exception without defined vector %d\n",
+@@ -848,23 +905,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+         /* Save MSR */
+         env->spr[srr1] = msr;
+ 
+-        /* Handle AIL */
+-        if (ail) {
+-            new_msr |= (1 << MSR_IR) | (1 << MSR_DR);
+-            vector |= ppc_excp_vector_offset(cs, ail);
+-        }
+-
+ #if defined(TARGET_PPC64)
+     } else {
+-        /* scv AIL is a little different */
+-        if (ail) {
+-            new_msr |= (1 << MSR_IR) | (1 << MSR_DR);
+-        }
+-        if (ail == AIL_C000_0000_0000_4000) {
+-            vector |= 0xc000000000003000ull;
+-        } else {
+-            vector |= 0x0000000000017000ull;
+-        }
+         vector += lev * 0x20;
+ 
+         env->lr = env->nip;
+@@ -872,6 +914,9 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+ #endif
+     }
+ 
++    /* This can update new_msr and vector if AIL applies */
++    ppc_excp_apply_ail(cpu, excp_model, excp, msr, &new_msr, &vector);
++
+     powerpc_set_excp_state(cpu, vector, new_msr);
+ }
+ 
+diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+index 42b3a4fd57..65906c7e6d 100644
+--- a/target/ppc/translate_init.c.inc
++++ b/target/ppc/translate_init.c.inc
+@@ -3456,7 +3456,7 @@ static void init_excp_POWER9(CPUPPCState *env)
+ 
+ #if !defined(CONFIG_USER_ONLY)
+     env->excp_vectors[POWERPC_EXCP_HVIRT]    = 0x00000EA0;
+-    env->excp_vectors[POWERPC_EXCP_SYSCALL_VECTORED] = 0x00000000;
++    env->excp_vectors[POWERPC_EXCP_SYSCALL_VECTORED] = 0x00017000;
+ #endif
+ }
+ 
 -- 
 2.31.1
 
