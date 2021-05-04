@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0347D37291B
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:33:19 +0200 (CEST)
-Received: from localhost ([::1]:35738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB52037291A
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 12:31:36 +0200 (CEST)
+Received: from localhost ([::1]:60440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldsMh-0004UJ-2r
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:33:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58158)
+	id 1ldsL1-0002zU-VR
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 06:31:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lds9M-00069m-En
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:19:32 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53134)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lds9J-0003mY-HF
- for qemu-devel@nongnu.org; Tue, 04 May 2021 06:19:32 -0400
-Received: by mail-wm1-x329.google.com with SMTP id g65so5036553wmg.2
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 03:19:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fPkUtUsZBhQTOVdElvOgFTSd49w6hL06WN6K1JOPhLM=;
- b=Zhbm91dRuDHnr6HbJBE3s//Iy41g4HnJhNYn+e3o054ire1sYqKPpj2uSCJUt7wXQh
- MCZ6bVpvr7ITejXAADv+6mo8LHe7y+BR7Xw/xItAFXZfIwpOyi5jvBILNJraXiEWw8Pt
- LCQFXsQdjqJeO4mRmhu0WX3NOcw9q5wwz4tNioIdhvQ19H4XMq1ovclhCVZUSzYx/SwH
- KiQCYsBJQ5SfCydg/vLWMDiX3mO6WZ7cdltbBUwovDQCo/KZi2vvC3m2iYZzIfftgWyF
- RBkMFF9BO+zCPxoOFcEgkQ98amPCRC4qveHFY1uDoYqOlfwjXhit6PD3SqAJhSMNLdNw
- s0aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fPkUtUsZBhQTOVdElvOgFTSd49w6hL06WN6K1JOPhLM=;
- b=RB5YoRBfSAlGSY0lU7DLxQ1AAdWpa6Ob9SpwspxvKoRwFts8IFtHlrPUjQpp/XMbqO
- qBLBiUL+0yTuTEju96mX0L8GmUxloXbLFs5RvaO0iMEfI15KBvoY+t0gYFY19+ZyLEc3
- 666vF+aUgYPGwtt8mTFmArFqEFDUBL+fl+39dZLO7piAX5Nabc3B1fucd46tcX01+S19
- 8fQ7fUrw+/d9MAatKqzsajtmCX6nxdFsCBLBgWA3vonkKBFJwh2IP1vcSiga/DtT7fV5
- 6cuS9QQ0vzu0fka0GcgT1NVlJZ54vOBMvPpiLvWv8HYL0XnJ641ZZvHOl2db2IDBRn20
- 5jJg==
-X-Gm-Message-State: AOAM533u0gDmiVkwQgQa+eZwuAU2nGuV+eG4HZCtNvlfuPlGGrdnjQ7g
- AiWxh3QY1V5pPfIzWWZbq5AjLQ==
-X-Google-Smtp-Source: ABdhPJwWrfqeQW9+z7WKt9yXI3cAJ4k8KTKAqFWx8B9dNcTsITG0cWXihEG/KmRwDj/5FEWmh6naRg==
-X-Received: by 2002:a1c:988f:: with SMTP id a137mr19805035wme.81.1620123567732; 
- Tue, 04 May 2021 03:19:27 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j10sm5787303wrt.32.2021.05.04.03.19.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 03:19:23 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2B4941FFAE;
- Tue,  4 May 2021 11:02:26 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 24/30] tests/tcg/tricore: Add msub test
-Date: Tue,  4 May 2021 11:02:17 +0100
-Message-Id: <20210504100223.25427-25-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210504100223.25427-1-alex.bennee@linaro.org>
-References: <20210504100223.25427-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lds3A-0007cu-KR
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:13:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55113)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lds37-0000Sh-G2
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 06:13:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620123184;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=F31XZ8c07tCUiTMXEoJP3omgUChlW6fAf2KPZMy/9E0=;
+ b=dC44PDar5j6aMCwjEaDf+dj2xqJDHY6ZuphY7bQ12K/6BIJB14IVmpxAfdP7iMUf0UGvI/
+ u1pBKThfF4gWUaio0iWQtb+IJCNNWasOWHrFtFbOaCIXqudG4b6ytAu+LsG3IMZE+6aLEv
+ 6fagPdUPQweAkDbcBqPr15j835ZB6t8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-540-7f2Lyf1LMaSW-P18v9dPfw-1; Tue, 04 May 2021 06:13:03 -0400
+X-MC-Unique: 7f2Lyf1LMaSW-P18v9dPfw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F28AC8030CF;
+ Tue,  4 May 2021 10:13:01 +0000 (UTC)
+Received: from redhat.com (ovpn-113-37.ams2.redhat.com [10.36.113.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 924925D730;
+ Tue,  4 May 2021 10:12:41 +0000 (UTC)
+Date: Tue, 4 May 2021 11:12:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v7 10/15] hostmem: Wire up RAM_NORESERVE via "reserve"
+ property
+Message-ID: <YJEeFtpZFcoR35He@redhat.com>
+References: <20210428133754.10713-1-david@redhat.com>
+ <20210428133754.10713-11-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210428133754.10713-11-david@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,53 +80,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, f4bug@amsat.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Igor Mammedov <imammedo@redhat.com>, Nitesh Lal <nilal@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+On Wed, Apr 28, 2021 at 03:37:49PM +0200, David Hildenbrand wrote:
+> Let's provide a way to control the use of RAM_NORESERVE via memory
+> backends using the "reserve" property which defaults to true (old
+> behavior).
+> 
+> Only Linux currently supports clearing the flag (and support is checked at
+> runtime, depending on the setting of "/proc/sys/vm/overcommit_memory").
+> Windows and other POSIX systems will bail out with "reserve=false".
+> 
+> The target use case is virtio-mem, which dynamically exposes memory
+> inside a large, sparse memory area to the VM. This essentially allows
+> avoiding to set "/proc/sys/vm/overcommit_memory == 0") when using
+> virtio-mem and also supporting hugetlbfs in the future.
+> 
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> Acked-by: Eduardo Habkost <ehabkost@redhat.com> for memory backend and machine core
+> Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Eric Blake <eblake@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  backends/hostmem-file.c  | 11 ++++++-----
+>  backends/hostmem-memfd.c |  1 +
+>  backends/hostmem-ram.c   |  1 +
+>  backends/hostmem.c       | 32 ++++++++++++++++++++++++++++++++
+>  include/sysemu/hostmem.h |  2 +-
+>  qapi/qom.json            | 10 ++++++++++
+>  6 files changed, 51 insertions(+), 6 deletions(-)
+> 
+> diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
+> index b683da9daf..9d550e53d4 100644
+> --- a/backends/hostmem-file.c
+> +++ b/backends/hostmem-file.c
+> @@ -40,6 +40,7 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+>                 object_get_typename(OBJECT(backend)));
+>  #else
+>      HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(backend);
+> +    uint32_t ram_flags;
+>      gchar *name;
+>  
+>      if (!backend->size) {
+> @@ -52,11 +53,11 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+>      }
+>  
+>      name = host_memory_backend_get_name(backend);
+> -    memory_region_init_ram_from_file(&backend->mr, OBJECT(backend),
+> -                                     name,
+> -                                     backend->size, fb->align,
+> -                                     (backend->share ? RAM_SHARED : 0) |
+> -                                     (fb->is_pmem ? RAM_PMEM : 0),
+> +    ram_flags = backend->share ? RAM_SHARED : 0;
+> +    ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
+> +    ram_flags |= fb->is_pmem ? RAM_PMEM : 0;
+> +    memory_region_init_ram_from_file(&backend->mr, OBJECT(backend), name,
+> +                                     backend->size, fb->align, ram_flags,
+>                                       fb->mem_path, fb->readonly, errp);
+>      g_free(name);
+>  #endif
+> diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
+> index 93b5d1a4cf..f3436b623d 100644
+> --- a/backends/hostmem-memfd.c
+> +++ b/backends/hostmem-memfd.c
+> @@ -55,6 +55,7 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+>  
+>      name = host_memory_backend_get_name(backend);
+>      ram_flags = backend->share ? RAM_SHARED : 0;
+> +    ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
+>      memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend), name,
+>                                     backend->size, ram_flags, fd, 0, errp);
+>      g_free(name);
+> diff --git a/backends/hostmem-ram.c b/backends/hostmem-ram.c
+> index 741e701062..b8e55cdbd0 100644
+> --- a/backends/hostmem-ram.c
+> +++ b/backends/hostmem-ram.c
+> @@ -29,6 +29,7 @@ ram_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+>  
+>      name = host_memory_backend_get_name(backend);
+>      ram_flags = backend->share ? RAM_SHARED : 0;
+> +    ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
+>      memory_region_init_ram_flags_nomigrate(&backend->mr, OBJECT(backend), name,
+>                                             backend->size, ram_flags, errp);
+>      g_free(name);
+> diff --git a/backends/hostmem.c b/backends/hostmem.c
+> index c6c1ff5b99..58fdc1b658 100644
+> --- a/backends/hostmem.c
+> +++ b/backends/hostmem.c
+> @@ -217,6 +217,11 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+>      Error *local_err = NULL;
+>      HostMemoryBackend *backend = MEMORY_BACKEND(obj);
+>  
+> +    if (!backend->reserve && value) {
+> +        error_setg(errp, "'prealloc=on' and 'reserve=off' are incompatible");
+> +        return;
+> +    }
+> +
+>      if (!host_memory_backend_mr_inited(backend)) {
+>          backend->prealloc = value;
+>          return;
+> @@ -268,6 +273,7 @@ static void host_memory_backend_init(Object *obj)
+>      /* TODO: convert access to globals to compat properties */
+>      backend->merge = machine_mem_merge(machine);
+>      backend->dump = machine_dump_guest_core(machine);
+> +    backend->reserve = true;
+>      backend->prealloc_threads = 1;
+>  }
+>  
+> @@ -426,6 +432,28 @@ static void host_memory_backend_set_share(Object *o, bool value, Error **errp)
+>      backend->share = value;
+>  }
+>  
+> +static bool host_memory_backend_get_reserve(Object *o, Error **errp)
+> +{
+> +    HostMemoryBackend *backend = MEMORY_BACKEND(o);
+> +
+> +    return backend->reserve;
+> +}
+> +
+> +static void host_memory_backend_set_reserve(Object *o, bool value, Error **errp)
+> +{
+> +    HostMemoryBackend *backend = MEMORY_BACKEND(o);
+> +
+> +    if (host_memory_backend_mr_inited(backend)) {
+> +        error_setg(errp, "cannot change property value");
+> +        return;
+> +    }
+> +    if (backend->prealloc && !value) {
+> +        error_setg(errp, "'prealloc=on' and 'reserve=off' are incompatible");
+> +        return;
+> +    }
+> +    backend->reserve = value;
+> +}
+> +
+>  static bool
+>  host_memory_backend_get_use_canonical_path(Object *obj, Error **errp)
+>  {
+> @@ -494,6 +522,10 @@ host_memory_backend_class_init(ObjectClass *oc, void *data)
+>          host_memory_backend_get_share, host_memory_backend_set_share);
+>      object_class_property_set_description(oc, "share",
+>          "Mark the memory as private to QEMU or shared");
+> +    object_class_property_add_bool(oc, "reserve",
+> +        host_memory_backend_get_reserve, host_memory_backend_set_reserve);
+> +    object_class_property_set_description(oc, "reserve",
+> +        "Reserve swap space (or huge pages) if applicable");
+>      /*
+>       * Do not delete/rename option. This option must be considered stable
+>       * (as if it didn't have the 'x-' prefix including deprecation period) as
+> diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
+> index df5644723a..9ff5c16963 100644
+> --- a/include/sysemu/hostmem.h
+> +++ b/include/sysemu/hostmem.h
+> @@ -64,7 +64,7 @@ struct HostMemoryBackend {
+>      /* protected */
+>      uint64_t size;
+>      bool merge, dump, use_canonical_path;
+> -    bool prealloc, is_mapped, share;
+> +    bool prealloc, is_mapped, share, reserve;
+>      uint32_t prealloc_threads;
+>      DECLARE_BITMAP(host_nodes, MAX_NODES + 1);
+>      HostMemPolicy policy;
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index cd0e76d564..4fa3137aab 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -545,6 +545,9 @@
+>  # @share: if false, the memory is private to QEMU; if true, it is shared
+>  #         (default: false)
+>  #
+> +# @reserve: if true, reserve swap space (or huge pages) if applicable
+> +#           default: true)
+> +#
+>  # @size: size of the memory region in bytes
+>  #
+>  # @x-use-canonical-path-for-ramblock-id: if true, the canoncial path is used
+> @@ -556,6 +559,12 @@
+>  #                                        false generally, but true for machine
+>  #                                        types <= 4.0)
+>  #
+> +# Note: prealloc=true and reserve=false cannot be set at the same time. With
+> +#       reserve=true, the behavior depends on the operating system: for example,
+> +#       Linux will not reserve swap space for shared file mappings --
+> +#       "not applicable". In contrast, reserve=false will bail out if it cannot
+> +#       be configured accordingly.
+> +#
+>  # Since: 2.1
+>  ##
+>  { 'struct': 'MemoryBackendProperties',
+> @@ -566,6 +575,7 @@
+>              '*prealloc': 'bool',
+>              '*prealloc-threads': 'uint32',
+>              '*share': 'bool',
+> +            '*reserve': 'bool',
+>              'size': 'size',
+>              '*x-use-canonical-path-for-ramblock-id': 'bool' } }
 
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210305170045.869437-15-kbastian@mail.uni-paderborn.de>
----
- tests/tcg/tricore/Makefile.softmmu-target | 1 +
- tests/tcg/tricore/test_msub.S             | 9 +++++++++
- 2 files changed, 10 insertions(+)
- create mode 100644 tests/tcg/tricore/test_msub.S
+IIUC from the previous patch in the series, 'reserve' is only implemented
+on Linux.  If we make this QAPI prop dependant on CONFIG_LINUX, then mgmt
+apps will do the right thing to detect what platform(s) it works on.
 
-diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-index 8de005523e..0fe6a86482 100644
---- a/tests/tcg/tricore/Makefile.softmmu-target
-+++ b/tests/tcg/tricore/Makefile.softmmu-target
-@@ -11,6 +11,7 @@ TESTS += test_fadd.tst
- TESTS += test_fmul.tst
- TESTS += test_ftoi.tst
- TESTS += test_madd.tst
-+TESTS += test_msub.tst
- 
- QEMU_OPTS += -M tricore_testboard -nographic -kernel
- 
-diff --git a/tests/tcg/tricore/test_msub.S b/tests/tcg/tricore/test_msub.S
-new file mode 100644
-index 0000000000..6dee87d99c
---- /dev/null
-+++ b/tests/tcg/tricore/test_msub.S
-@@ -0,0 +1,9 @@
-+#include "macros.h"
-+.text
-+.global _start
-+_start:
-+    TEST_D_DDI_PSW(msub, 1, 0xd2fbe5e0, 0x00000b80,0x64003300, 0xff5420d4, -216)
-+    TEST_D_DDI_PSW(msub, 2, 0xfffffc10, 0x00000b80,0xfffffe68, 0xfffffffd, -200)
-+    TEST_D_DDD_PSW(msubs.u, 3, 0x0, 0x60000b80, 0x1, 0xffffffff, 0xffffffdb)
-+    TEST_PASSFAIL
-+
+
+Regards,
+Daniel
 -- 
-2.20.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
