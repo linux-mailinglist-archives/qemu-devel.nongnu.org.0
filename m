@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACEB3723F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 02:47:41 +0200 (CEST)
-Received: from localhost ([::1]:52286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79483723F2
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 02:47:48 +0200 (CEST)
+Received: from localhost ([::1]:52302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldjDw-0001Hg-0T
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 20:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54060)
+	id 1ldjE3-0001I5-Pe
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 20:47:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldjB8-0008GH-Vb; Mon, 03 May 2021 20:44:46 -0400
-Received: from ozlabs.org ([203.11.71.1]:36029)
+ id 1ldjB8-0008GD-RI; Mon, 03 May 2021 20:44:46 -0400
+Received: from ozlabs.org ([203.11.71.1]:42669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldjB5-00064B-RN; Mon, 03 May 2021 20:44:46 -0400
+ id 1ldjB6-00064F-HP; Mon, 03 May 2021 20:44:46 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZ1M46v1Pz9sSs; Tue,  4 May 2021 10:44:32 +1000 (AEST)
+ id 4FZ1M50WJPz9sV5; Tue,  4 May 2021 10:44:33 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620089072;
- bh=pPQqdd8ATVZAviZ98Yp0cs2ZpCxObXzSi/9SPu0uDho=;
+ d=gibson.dropbear.id.au; s=201602; t=1620089073;
+ bh=PLvN2GZOUuAV2f+90I1JpgaQnrNgHsgTPuZ3/8ra1B4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=i5gTSw7JY+FCIPUzlYn0wUksuUnndo76IfnmIWltYchYhbk5GUGpfCNSynrirE5JN
- YTMel/Pjoc5lQxBzBp23mjoM2hBGPtlhRUP8s3qDI85OPXtWTP1YOTSAvZOBXlV9jR
- ZkozFIYfpcnlfvh4o1bUzqeDI23+6ODuen3Rothc=
-Date: Tue, 4 May 2021 10:36:02 +1000
+ b=SyQNvUTPJjXaDveLmLmmpaUaGWtVCr9xn7bDnydEqJpGVn2hYCfvVRPqG284+j7sZ
+ LULpTurdw1isEcnXkY7+muJQWXTHf5cvgc1mhvsaZTaIqQQDwjDrHW7GPAb2Zv/d25
+ hrdCOK8cjupj9ZsRu3CaH7qFKih4F06kjdYLR3fI=
+Date: Tue, 4 May 2021 10:37:01 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 2/3] hw/ppc/spapr_vio: Reset TCE table object with
- device_cold_reset()
-Message-ID: <YJCW8i9ePqDORgRS@yekko>
+Subject: Re: [PATCH 3/3] hw/ppc/pnv_psi: Use device_cold_reset() instead of
+ device_legacy_reset()
+Message-ID: <YJCXLQ07euUrnoW3@yekko>
 References: <20210503151849.8766-1-peter.maydell@linaro.org>
- <20210503151849.8766-3-peter.maydell@linaro.org>
+ <20210503151849.8766-4-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9kh7pS6FgneppnXx"
+ protocol="application/pgp-signature"; boundary="a6N9rFVjvxLxVeYB"
 Content-Disposition: inline
-In-Reply-To: <20210503151849.8766-3-peter.maydell@linaro.org>
+In-Reply-To: <20210503151849.8766-4-peter.maydell@linaro.org>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -65,15 +65,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---9kh7pS6FgneppnXx
+--a6N9rFVjvxLxVeYB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 03, 2021 at 04:18:48PM +0100, Peter Maydell wrote:
-> The spapr_vio_quiesce_one() function resets the TCE table object
-> (TYPE_SPAPR_TCE_TABLE) via device_legacy_reset().  We know that
-> objects of that type do not have a qbus of their own, so the new
+On Mon, May 03, 2021 at 04:18:49PM +0100, Peter Maydell wrote:
+> The pnv_psi.c code uses device_legacy_reset() for two purposes:
+>  * to reset itself from its qemu_register_reset() handler
+>  * to reset a XiveSource object it has
+>=20
+> Neither it nor the XiveSource have any qbuses, so the new
 > device_cold_reset() function (which resets both the device and its
 > child buses) is equivalent here to device_legacy_reset() and we can
 > just switch to the new API.
@@ -82,28 +84,33 @@ On Mon, May 03, 2021 at 04:18:48PM +0100, Peter Maydell wrote:
 
 Applied to ppc-for-6.1.
 
-Actually, I strongly suspect we could just change rtas_quiesce() to
-cold reset the entire VIO bus, but we can look at that as a followup
-after checking  bit more closely.
-
 > ---
->  hw/ppc/spapr_vio.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/ppc/pnv_psi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
-> index ef06e0362c8..b59452bcd62 100644
-> --- a/hw/ppc/spapr_vio.c
-> +++ b/hw/ppc/spapr_vio.c
-> @@ -310,7 +310,7 @@ int spapr_vio_send_crq(SpaprVioDevice *dev, uint8_t *=
-crq)
->  static void spapr_vio_quiesce_one(SpaprVioDevice *dev)
+> diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+> index 3e868c8c8da..292b373f93f 100644
+> --- a/hw/ppc/pnv_psi.c
+> +++ b/hw/ppc/pnv_psi.c
+> @@ -466,7 +466,7 @@ static void pnv_psi_reset(DeviceState *dev)
+> =20
+>  static void pnv_psi_reset_handler(void *dev)
 >  {
->      if (dev->tcet) {
-> -        device_legacy_reset(DEVICE(dev->tcet));
-> +        device_cold_reset(DEVICE(dev->tcet));
->      }
->      free_crq(dev);
+> -    device_legacy_reset(DEVICE(dev));
+> +    device_cold_reset(DEVICE(dev));
 >  }
+> =20
+>  static void pnv_psi_realize(DeviceState *dev, Error **errp)
+> @@ -710,7 +710,7 @@ static void pnv_psi_p9_mmio_write(void *opaque, hwadd=
+r addr,
+>          break;
+>      case PSIHB9_INTERRUPT_CONTROL:
+>          if (val & PSIHB9_IRQ_RESET) {
+> -            device_legacy_reset(DEVICE(&psi9->source));
+> +            device_cold_reset(DEVICE(&psi9->source));
+>          }
+>          psi->regs[reg] =3D val;
+>          break;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -111,25 +118,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---9kh7pS6FgneppnXx
+--a6N9rFVjvxLxVeYB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCQlvEACgkQbDjKyiDZ
-s5IXDhAAun4JBjfu7LXNy9iAcVPz8r8OkFiMrnx5jrQTuQt/BxTvKOvyg5USmNuo
-t30/zEs5DScDq72TU5JdsDpG7glvsJfUs02+lc1I6NUuELw7y4jUL5+3C/jKTWLj
-D+iiokLyXxFd6cAflCvqBoDXyv8KqsIW3W6u+95YT87tdD3jJK8SS2tQbl6zms9A
-sf0nw2BNy2dAfPJRvgPbzsroCydP7EwxtPDiyN7sm/QVa3EcbgAg4Q9VhyAqsc+R
-xvbiaA2516bqet3M9DX1Kq/hee7ktm0QdynbdSQFudgfBN8/czZPaA+Noo22+oYL
-F07KA41WqJjqFo8/saf4jCUZySYlNHQrqlyn0d7yBQs1kOLLTVtlYWc3YTVYp8r1
-mUudyUyqohyrKCFMtUapErNmzW1NG8hllX/BtMoF5W2pygK3N40ptMTzH2rZ4+XW
-pcBFyLEfaPjuZvrD52TV8pffvg7ZkUj0VtZRtK50MP7FYiCZEROq8a2xf0x7xxHX
-K/FuHLf1IIrZbczjZMhf/1WzOIEPGcmJUhpXPrir/uCh8Mj8Av6LbOa+xQqgnq9H
-otH0xerIGkudHJ2TrAw8CAe0+MKVNoRtoLj9BSVewz6QX3mfWQT3uMOitNzCMLh6
-viBDqs4Ilg5bWWGiPbgaQanJ+YjzGI/JNHVZS5lVzAB4yXMXot0=
-=sXUr
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCQly0ACgkQbDjKyiDZ
+s5IHmQ//X8gnfp2sZYSF1z1y2bxX7YM3/wVJLHEoISRpl+pD92NJgaa1THl0nBtl
+wZetfIFr5mTb/mT8ZgLUwAbK5FIFV/PRA8taNpvF9BcoppV5yP87Pe2BKjjQ6V6I
+1zVEp3rlb6YaoCgqfp9BDI86ReNgg9bfukLz7kLk6x7pqWiIegSOAtHN44wosGdZ
+3JywUw1lKZg4DklHTN1k1E5cgjU5w81UJBwzYCDnosYTY1XfzI+sVYDVbbeMSZ+/
+ywGylm6+jFv+7VKUMVkAtB4o9zQoTgkq59cSZ5pBe2E1x0ZJugcsiXaj//QckdK/
+yP6IcoFWkwayGJ+2iwtNprM/uN9tE3sBNz0aJp7P8iC1C9MTQPSxE6iS8MA3kIN9
+YdG2V7HcNCQJ4jUqTb1tC0ERdAp6JJCcZU+T9iWQ7sSkIE7eoFpAH/LWEmAdW6LW
+Jx+z/tofhFspcYRC5NH/zUS+ZCfxxcUfcqe/yPHtyEwAGogRnn7WE/e2D0CZIDRt
+ZwVCCOwq51qN52rBb63ZVieyqSNrCttEA+IcnxDdIY67jg39mNE3+SsZIfpVSzwd
+GLOizVjGAq6YJ6v9LY9czaLP3Dm47QtZB/Hsy7lDkLNSl2eT3FDdhfz8GVyp4ucE
+ST1tfnEMkLAOKyxKYCV7d5+WS3i+Pld7WEvlyADKLszA/XsaJlI=
+=2Z+Y
 -----END PGP SIGNATURE-----
 
---9kh7pS6FgneppnXx--
+--a6N9rFVjvxLxVeYB--
 
