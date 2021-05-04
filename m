@@ -2,94 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6BA37318C
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 22:39:40 +0200 (CEST)
-Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EAAB3731A2
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 22:51:04 +0200 (CEST)
+Received: from localhost ([::1]:38272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le1pS-0006FC-WA
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 16:39:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36172)
+	id 1le20U-00029E-VG
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 16:51:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1le1oO-0005iH-F6; Tue, 04 May 2021 16:38:32 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2558)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1le1oM-0006lK-Ci; Tue, 04 May 2021 16:38:32 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 144KXNHQ083949; Tue, 4 May 2021 16:38:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=Y42hTc5rySZN1zwbNL33luCrBA6wggn1SfpbngdPRJI=;
- b=gjJjB082+MXcvxpqEVUaflyFVkerrRoU5lmCCtf9RtUeGuugrZXg8OLWFMtpuGUT3Koj
- GxYLNY0doSQbQXG+12qysuMEAgfHzufbdeHGZQk0Fi1iYP0p3RsiVrkbaSaNjjVuJtzj
- QMCl+//Vb/xApHe3fK8hmNidUIyqIVphNPrk7r23gYR4GH6y60MCLkNa15Sdjki2rla4
- xLIt8U5fnuyAg5w6VXPrJol+AfWFaC0GTZ7NSZOp/WWZaflRYGW6Q5RcJ4iw3+DJp10l
- ZFaYaxRtBwt70+0yUr66JZv0FkriPwWOMNg71ZaasWx0OloEI2TbX7BNslLC6xi4lLXR zw== 
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 38bd6v0c9g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 May 2021 16:38:20 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 144KaXNC021397;
- Tue, 4 May 2021 20:38:19 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma02wdc.us.ibm.com with ESMTP id 388xm9816j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 May 2021 20:38:16 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 144KcFWB19071386
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 4 May 2021 20:38:15 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C1FAFBE054;
- Tue,  4 May 2021 20:38:15 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2B6D8BE04F;
- Tue,  4 May 2021 20:38:15 +0000 (GMT)
-Received: from localhost (unknown [9.211.49.100])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Tue,  4 May 2021 20:38:14 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 0/5] target/ppc: Untangle CPU init from translation
-In-Reply-To: <20210504140157.76066-1-bruno.larsen@eldorado.org.br>
-References: <20210504140157.76066-1-bruno.larsen@eldorado.org.br>
-Date: Tue, 04 May 2021 17:38:12 -0300
-Message-ID: <87im3y1bgr.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1le1z8-0001Y1-9r; Tue, 04 May 2021 16:49:38 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1le1z6-00051l-M2; Tue, 04 May 2021 16:49:38 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id n205so165343wmf.1;
+ Tue, 04 May 2021 13:49:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yHS2LqqxmsFxUsJAdbVMpK73ptvKCLvKS048Pl7ppm8=;
+ b=D9U1nyhIJ60ZPRiW03JVeH33L3lV70h7OFZnRx9/xn7MLHf0vNe43iIL3TmD74OiOz
+ oQ6ORboefrrBsFPi/2kOQzcLQlz5x6AiW/TgX0/8htXATUsSFEscsLLi7d0fQaX+CyMG
+ pyXUfJ5kfVuDJxZKUghKKhsNh3DSs8gLUFPndxl1cZS7T4mUEjm9wHqIGNWXfn+r7DNr
+ 4gkuh+jJY+a+Ljen3V6zxR2b1EM8GbjFYAggn7Tzy81LE5GW+z//42eLeCezlmlQ8+ez
+ n/uK0A5LtW2bhtx/dIYJ/N6WxN51b4K/hxchkoIARJ+CG9GRd4X/oQ4rpWEYk2J39Oi+
+ qw6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yHS2LqqxmsFxUsJAdbVMpK73ptvKCLvKS048Pl7ppm8=;
+ b=poowrQYAe53IZvJ4NyeFSUeVeDwJO4MmfDsejht13ZfKxXy/AccfA5i8TmVA/IJUwa
+ yMLOMNSSLwVfQW0GJdXw6M6PjVISpOIqn+o0/JDjsTsCG8EEavczqLxjyIDqw8gcaXy6
+ f4LmdRn0XBk7NsexCZMxhVIC1IO5OdBv4yUkkRCwT031M9kfAOhYpyeaIPzBBsmA6lr/
+ qjnCYKLwKmehAQE7aMkTdM+srZfliOg+6chUnT6QzYiMJHnZPD4whvSFj+3NqY9QIDmF
+ Oiv+C/aGAE/G0pH/IdW0CuWFGG6HMCdk1fz9U+CS3z4hqelKeSU6v+2mGgyMDmJTk0cL
+ CKNQ==
+X-Gm-Message-State: AOAM533A6nzJfB514/EjjNsANDwldJM/ZQ4FFfp1Va2+mBzumSEmatYv
+ SJcd2oS2dtS+C4jhvo7Inv4=
+X-Google-Smtp-Source: ABdhPJzOZ0b7gzDu1qZQpO82wgnlCxe864CwPQ56fUrmopJW04YWxidbBOoxXhwlq9fckd4nKI9wAg==
+X-Received: by 2002:a7b:c312:: with SMTP id k18mr29715859wmj.89.1620161374919; 
+ Tue, 04 May 2021 13:49:34 -0700 (PDT)
+Received: from [192.168.1.19]
+ (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
+ by smtp.gmail.com with ESMTPSA id h9sm3751008wmb.35.2021.05.04.13.49.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 May 2021 13:49:33 -0700 (PDT)
+Subject: Re: [PATCH 1/3] hw/i2c: add support for PMBus
+To: Titus Rwantare <titusr@google.com>, Corey Minyard <cminyard@mvista.com>
+References: <20210504162841.2884846-1-titusr@google.com>
+ <20210504162841.2884846-2-titusr@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b0e4ed67-d8fd-3902-6a71-144203b9a9da@amsat.org>
+Date: Tue, 4 May 2021 22:49:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20210504162841.2884846-2-titusr@google.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7Rvfg6cETk4eOVGfK7c4DbMEY6is9nqp
-X-Proofpoint-ORIG-GUID: 7Rvfg6cETk4eOVGfK7c4DbMEY6is9nqp
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-04_15:2021-05-04,
- 2021-05-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
- clxscore=1015 mlxscore=0 impostorscore=0 spamscore=0 adultscore=0
- suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104060000 definitions=main-2105040138
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,103 +87,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, lucas.araujo@eldorado.org.br,
- luis.pires@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org,
- "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
- matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
+Cc: Hao Wu <wuhaotsh@google.com>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> writes:
+Hi Titus,
 
-> Based-on: ppc-for-6.1 tree
->
-> This patch series aims to remove the logic of initializing CPU from
-> the file related to TCG translation. To achieve this, we have to make
-> it so registering SPRs isn't directly tied to TCG, and move code only
-> related to translation out of translate_init.c.inc and into translate.c.
-> This is in preparation to compile this target without TCG.
->
-> Changes for v4:
->  * reordered patches, to make partially applying simpler
->  * removed patches that were already applied
->  * undone creation of spt_tcg.c.inc, now waiting for further cleanup
->  * moved SPR_NOACCESS motion to last patch, and to spr_tcg.h
->
-> Changes for v3:
->  * fixed the parameters of _spr_register
->  * remove some redundant #include statements
->  * removed some functions that were mentioned in v2 as unnecessary
->  * added copyright header to relevant files
->  * removed first patch, that was already applied
->  * removed a changed that would add a regression
->
->  Changes for v2:
->  * split and reordered patches, to make it easier to review
->  * improved commit messages=20
->  * Undid creation of spr_common, as it was unnecessary
->  * kept more functions as static
->  * ensured that the project builds after every commit
->
-> Bruno Larsen (billionai) (5):
->   target/ppc: Fold gen_*_xer into their callers
->   target/ppc: renamed SPR registration functions
->   target/ppc: move SPR R/W callbacks to translate.c
->   target/ppc: turned SPR R/W callbacks not static
->   target/ppc: isolated cpu init from translation logic
->
->  .../ppc/{translate_init.c.inc =3D> cpu_init.c}  | 1848 ++++-------------
->  target/ppc/meson.build                        |    1 +
->  target/ppc/spr_tcg.h                          |  136 ++
->  target/ppc/translate.c                        | 1072 +++++++++-
->  4 files changed, 1598 insertions(+), 1459 deletions(-)
->  rename target/ppc/{translate_init.c.inc =3D> cpu_init.c} (89%)
->  create mode 100644 target/ppc/spr_tcg.h
+On 5/4/21 6:28 PM, Titus Rwantare wrote:
+> QEMU has support for SMBus devices, and PMBus is a more specific
+> implementation of SMBus. The additions made in this commit makes it easier to
+> add new PMBus devices to QEMU.
+> 
+> https://pmbus.org/specification-archives/
+> 
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Signed-off-by: Titus Rwantare <titusr@google.com>
+> ---
+>  hw/arm/Kconfig                |    1 +
+>  hw/i2c/Kconfig                |    4 +
+>  hw/i2c/meson.build            |    1 +
+>  hw/i2c/pmbus_device.c         | 1611 +++++++++++++++++++++++++++++++++
+>  include/hw/i2c/pmbus_device.h |  520 +++++++++++
+>  5 files changed, 2137 insertions(+)
 
-We're still missing some changes:
+TBH this is quite a big patch to digest.
 
-- some files (hw/ppc/pnv.c, hw/ppc/spapr.c) use oea_read to check if an
-SPR exists. This needs to be changed to something that is present in
-both configs (I believe Bruno is working on this).
+Any chance you could split it?
 
-- The commit 6113563982 ("target/ppc: Clean up _spr_register et al")
-from the ppc-for-6.1 branch missed some TCG-specific code in
-gen_spr_BookE206:
+Thanks,
 
-$ ../configure --target-list=3Dppc64-softmmu --disable-tcg
-$ make
-(...)
-[193/264] Compiling C object libqemu-ppc64-softmmu.fa.p/target_ppc_cpu_init=
-.c.o
-FAILED: libqemu-ppc64-softmmu.fa.p/target_ppc_cpu_init.c.o=20
-(...)
-../target/ppc/cpu_init.c: In function =E2=80=98register_BookE206_sprs=E2=80=
-=99:
-../target/ppc/cpu_init.c:1207:16: error: variable =E2=80=98uea_write=E2=80=
-=99 set but not used [-Werror=3Dunused-but-set-variable]
-         void (*uea_write)(DisasContext *ctx, int sprn, int gprn) =3D
-                ^~~~~~~~~
-cc1: all warnings being treated as errors
-
-We need something like:
-
---- a/target/ppc/translate_init.c.inc   2021-05-04 16:24:53.549556292 -0400
-+++ b/target/ppc/translate_init.c.inc   2021-05-04 16:26:41.005280971 -0400
-@@ -2025,11 +2025,13 @@
-     /* TLB assist registers */
-     /* XXX : not implemented */
-     for (i =3D 0; i < 8; i++) {
-+#ifdef CONFIG_TCG
-         void (*uea_write)(DisasContext *ctx, int sprn, int gprn) =3D
-             &spr_write_generic32;
-         if (i =3D=3D 2 && (mas_mask & (1 << i)) && (env->insns_flags & PPC=
-_64B)) {
-             uea_write =3D &spr_write_generic;
-         }
-+#endif
-         if (mas_mask & (1 << i)) {
-             spr_register(env, mas_sprn[i], mas_names[i],
-                          SPR_NOACCESS, SPR_NOACCESS,
----
+Phil.
 
