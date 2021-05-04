@@ -2,98 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 111EA37298F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 13:29:28 +0200 (CEST)
-Received: from localhost ([::1]:48584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1583729C0
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 13:56:45 +0200 (CEST)
+Received: from localhost ([::1]:39084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldtF0-0000zR-MZ
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 07:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41950)
+	id 1ldtfQ-0001i3-2O
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 07:56:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ldtDp-0000Zl-33
- for qemu-devel@nongnu.org; Tue, 04 May 2021 07:28:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33255)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1ldtdj-0000sW-27; Tue, 04 May 2021 07:54:59 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:35943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ldtDm-0001mt-DK
- for qemu-devel@nongnu.org; Tue, 04 May 2021 07:28:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620127689;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MFTRyvdnDvMS31IhKv1d4u6DXv4PRBQMyw4ZeOO+txI=;
- b=RPnNdbqqfvEndC8YVR0SxTyc7fYmezPMZN0AybRt7gpSZoRh23qtr5tUqoM6QdhZzF7VnQ
- 5X9OmdMNxK4NGQPftVwhfh64eYE5Nz+UQSyPbEszVlmjmjAXN/40T+wm5fafrOsZ+N3UJJ
- /8zCc1tuiAj7q60mAi/JxEn45EmOm6s=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-yBVB83PJPG-gUAQQvG9r0Q-1; Tue, 04 May 2021 07:28:07 -0400
-X-MC-Unique: yBVB83PJPG-gUAQQvG9r0Q-1
-Received: by mail-ed1-f69.google.com with SMTP id
- q18-20020a0564025192b02903888712212fso6079820edd.19
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 04:28:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=MFTRyvdnDvMS31IhKv1d4u6DXv4PRBQMyw4ZeOO+txI=;
- b=C9kJJGM5EhnFhYZ2JxSwnmYLPfsTnJ4WZwHewaOfib7CDd4QM4wLRulBU4TNKMQmmx
- KUWvHenSJLsIWHDlIGf+lIWxDmdg0u1kAR1qGnohLyTjzDWB+vpqG6vV5M3CLlOKj/ae
- 06xS9nML0k7DpH1wZ6w0+Sfi2tDaJiilN1zgFcaKJrYfo1/Zf8BkvlKlJEG0SmIOIcFy
- 0td7SSfFV8fBv20Ro26rY1QoF4dYRCyWBKou/muMpccNuKC56uTN1Q3QZ7q6Qi6KCMt6
- LKuU3FdMCpDkt3B388q9vNAUliQ3Essviyvs7xC608EL7WqKF3sWxneGoTtgsc7mKLB8
- R7Jg==
-X-Gm-Message-State: AOAM53374Dr0Er+yU4T3ACJ8xQtagxkmKuuewljLvRAFdT8iKn09Z8la
- HeOmTSMQHjCQwGfb3cFsMzUK0Qn2OuSVKhcIWBwy87pnBD3txRInSQGqQK5DDYaY1gsR+tayWoK
- k8RN00cQD2eKKOyM=
-X-Received: by 2002:a17:906:ccc9:: with SMTP id
- ot9mr8455035ejb.253.1620127686646; 
- Tue, 04 May 2021 04:28:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy2Oa26rD8gsYUGVQcs1uc/IsgMvul2HO8JONFx86GxSv23Y4csAub1WdDmkROmq2we6SdwBw==
-X-Received: by 2002:a17:906:ccc9:: with SMTP id
- ot9mr8454997ejb.253.1620127686282; 
- Tue, 04 May 2021 04:28:06 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6fae.dip0.t-ipconnect.de. [91.12.111.174])
- by smtp.gmail.com with ESMTPSA id p9sm13933268edu.79.2021.05.04.04.28.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 May 2021 04:28:06 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210428133754.10713-1-david@redhat.com>
- <20210428133754.10713-10-david@redhat.com> <YJEddjCsFgXa4tiR@redhat.com>
- <477b3679-1218-87bb-29d6-9b1b6079ab78@redhat.com>
- <YJEiz4E+Gk/fqWBo@redhat.com>
- <e72359da-918c-df2d-c541-c1fcf7e3c7d5@redhat.com>
- <YJEsqPuuW/zCeetg@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v7 09/15] util/mmap-alloc: Support RAM_NORESERVE via
- MAP_NORESERVE under Linux
-Message-ID: <f3ccd8d5-3554-e2b6-0f43-021558d2e6d7@redhat.com>
-Date: Tue, 4 May 2021 13:28:05 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1ldtdf-0008S8-NP; Tue, 04 May 2021 07:54:58 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.240])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 3110EA1C3369;
+ Tue,  4 May 2021 13:54:50 +0200 (CEST)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Tue, 4 May 2021
+ 13:54:41 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R00309d6300c-36a4-488b-9937-b6392cd04309,
+ FE205EFFD255CB112FC695D6C3BB315DBE02FA54) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.73.13
+Subject: Re: [PATCH] target/ppc: Do not check for LPCR[HAIL] on power10_v1.0
+ CPUs
+To: Nicholas Piggin <npiggin@gmail.com>, David Gibson
+ <david@gibson.dropbear.id.au>
+References: <20210504095900.505668-1-clg@kaod.org>
+ <1620125242.e97yybasbv.astroid@bobo.none>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <850b8bb4-0e79-f5ee-ef95-a0e8d95ff9b0@kaod.org>
+Date: Tue, 4 May 2021 13:54:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YJEsqPuuW/zCeetg@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <1620125242.e97yybasbv.astroid@bobo.none>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 312157d8-0d0a-4889-b9a0-7c212a3a2247
+X-Ovh-Tracer-Id: 3891391557067770787
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdefiedggeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,161 +72,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Igor Mammedov <imammedo@redhat.com>, Nitesh Lal <nilal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.05.21 13:14, Daniel P. Berrangé wrote:
-> On Tue, May 04, 2021 at 01:04:17PM +0200, David Hildenbrand wrote:
->> On 04.05.21 12:32, Daniel P. Berrangé wrote:
->>> On Tue, May 04, 2021 at 12:21:25PM +0200, David Hildenbrand wrote:
->>>> On 04.05.21 12:09, Daniel P. Berrangé wrote:
->>>>> On Wed, Apr 28, 2021 at 03:37:48PM +0200, David Hildenbrand wrote:
->>>>>> Let's support RAM_NORESERVE via MAP_NORESERVE on Linux. The flag has no
->>>>>> effect on most shared mappings - except for hugetlbfs and anonymous memory.
->>>>>>
->>>>>> Linux man page:
->>>>>>      "MAP_NORESERVE: Do not reserve swap space for this mapping. When swap
->>>>>>      space is reserved, one has the guarantee that it is possible to modify
->>>>>>      the mapping. When swap space is not reserved one might get SIGSEGV
->>>>>>      upon a write if no physical memory is available. See also the discussion
->>>>>>      of the file /proc/sys/vm/overcommit_memory in proc(5). In kernels before
->>>>>>      2.6, this flag had effect only for private writable mappings."
->>>>>>
->>>>>> Note that the "guarantee" part is wrong with memory overcommit in Linux.
->>>>>>
->>>>>> Also, in Linux hugetlbfs is treated differently - we configure reservation
->>>>>> of huge pages from the pool, not reservation of swap space (huge pages
->>>>>> cannot be swapped).
->>>>>>
->>>>>> The rough behavior is [1]:
->>>>>> a) !Hugetlbfs:
->>>>>>
->>>>>>      1) Without MAP_NORESERVE *or* with memory overcommit under Linux
->>>>>>         disabled ("/proc/sys/vm/overcommit_memory == 2"), the following
->>>>>>         accounting/reservation happens:
->>>>>>          For a file backed map
->>>>>>           SHARED or READ-only - 0 cost (the file is the map not swap)
->>>>>>           PRIVATE WRITABLE - size of mapping per instance
->>>>>>
->>>>>>          For an anonymous or /dev/zero map
->>>>>>           SHARED   - size of mapping
->>>>>>           PRIVATE READ-only - 0 cost (but of little use)
->>>>>>           PRIVATE WRITABLE - size of mapping per instance
->>>>>>
->>>>>>      2) With MAP_NORESERVE, no accounting/reservation happens.
->>>>>>
->>>>>> b) Hugetlbfs:
->>>>>>
->>>>>>      1) Without MAP_NORESERVE, huge pages are reserved.
->>>>>>
->>>>>>      2) With MAP_NORESERVE, no huge pages are reserved.
->>>>>>
->>>>>> Note: With "/proc/sys/vm/overcommit_memory == 0", we were already able
->>>>>> to configure it for !hugetlbfs globally; this toggle now allows
->>>>>> configuring it more fine-grained, not for the whole system.
->>>>>>
->>>>>> The target use case is virtio-mem, which dynamically exposes memory
->>>>>> inside a large, sparse memory area to the VM.
->>>>>
->>>>> Can you explain this use case in more real world terms, as I'm not
->>>>> understanding what a mgmt app would actually do with this in
->>>>> practice ?
->>>>
->>>> Let's consider huge pages for simplicity. Assume you have 128 free huge
->>>> pages in your hypervisor that you want to dynamically assign to VMs.
->>>>
->>>> Further assume you have two VMs running. A workflow could look like
->>>>
->>>> 1. Assign all huge pages to VM 0
->>>> 2. Reassign 64 huge pages to VM 1
->>>> 3. Reassign another 32 huge pages to VM 1
->>>> 4. Reasssign 16 huge pages to VM 0
->>>> 5. ...
->>>>
->>>> Basically what we're used to doing with "ordinary" memory.
->>>
->>> What does this look like in terms of the memory backend configuration
->>> when you boot VM 0 and VM 1 ?
->>>
->>> Are you saying that we boot both VMs with
->>>
->>>      -object hostmem-memfd,size=128G,hugetlb=yes,hugetlbsize=1G,reserve=off
->>>
->>> and then we have another property set on 'virtio-mem' to tell it
->>> how much/little of that 128 G, to actually give to the guest ?
->>> How do we change that at runtime ?
+On 5/4/21 12:49 PM, Nicholas Piggin wrote:
+> Excerpts from Cédric Le Goater's message of May 4, 2021 7:59 pm:
+>> The LPCR[HAIL] bit only applies to POWER10 DD2 CPUs. On POWER10 DD1,
+>> the ail value should be extracted using the LPCR_AIL mask like on P9.
 >>
->> Roughly, yes. We only special-case memory backends managed by virtio-mem devices.
->>
->> An advanced example for a single VM could look like this:
->>
->> sudo build/qemu-system-x86_64 \
->> 	... \
->> 	-m 4G,maxmem=64G \
->> 	-smp sockets=2,cores=2 \
->> 	-object hostmem-memfd,id=bmem0,size=2G,hugetlb=yes,hugetlbsize=2M \
->> 	-numa node,nodeid=0,cpus=0-1,memdev=bmem0 \
->> 	-object hostmem-memfd,id=bmem1,size=2G,hugetlb=yes,hugetlbsize=2M \
->> 	-numa node,nodeid=1,cpus=2-3,memdev=bmem1 \
->> 	... \
->> 	-object hostmem-memfd,id=mem0,size=30G,hugetlb=yes,hugetlbsize=2M,reserve=off \
->> 	-device virtio-mem-pci,id=vmem0,memdev=mem0,node=0,requested-size=0G \
->> 	-object hostmem-memfd,id=mem1,size=30G,hugetlb=yes,hugetlbsize=2M,reserve=off \
->> 	-device virtio-mem-pci,id=vmem1,memdev=mem1,node=1,requested-size=0G \
->> 	... \
->>
->> We can request a size change by adjusting the "requested-size" property (e.g., via qom-set)
->> and observe the current size by reading the "size" property (e.g., qom-get). Think of
->> it as an advanced device-local memory balloon mixed with the concept of a memory hotplug.
+>> Cc: Nicholas Piggin <npiggin@gmail.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > 
-> Ok, so in this example, the initial  GB of RAM has normal reserve=on
-> so if there's insufficient hugepages we'll see the startup failure IIUC.
-
-Yes, except in some NUMA configurations, as huge page reservation isn't 
-numa aware; even with reservation there are cases where we can run out 
-of applicable free huge pages. Usually we end up preallocating all 
-memory in the memory backend just so we're on the safe side.
-
+> Thanks for this, my oversight for not realising the P10 CPU is DD1 
+> (which doesn't have HAIL).
 > 
-> What happens when we set qom-set requested-size=10GB at runtime, but there
-> are only 8 GB of hugepages left available ?
+> I wonder if it could just use the POWER9 excp_model?
 
-This is one of the user errors that will be tackled next by a dynamic 
-preallocation (and/or reservation) inside virtio-mem.
+Yes. Why not. It does bring up another problem which is how to define
+(cleanly) different characteristics for CPUs of the same POWER family.
 
-Once the guest would actually touch >8 GiB, we run out of free huge 
-pages and don't have huge page overcommit enabled (or huge page 
-overcommit fails allocation which can happen easily), we'd essentially 
-crash the VM.
+Currently, all P10s are under POWERPC_FAMILY(POWER10). This is a base 
+abstract class and definitions can not depend on the PVR. See below
+what needs to be done to add a custom LPCR mask for DD2 :/
 
-Pretty much similar to messing up memory overcommit with "ordinary" 
-memory and getting your VM killed by the OOM handler.
+We could also simply switch P10 to DD2. I would favor that instead of 
+adding complexity. 
 
-The solution is fairly easy: preallocate huge pages when resizing the 
-virtio-mem device (making new huge pages available to the VM in this case).
+David, what is your opinion on this ? 
 
-In the simplest case this can be done using fallocate(). If you're 
-interested about the dirty details where it's not that easy, take a look 
-at my MADV_POPULATE_READ/MADV_POPULATE_WRITE kernel series [1]. Marek is 
-working on handling virtio-mem device via an iothread, so we can do 
-preallocation easily "concurrently" while the VM is running, avoiding 
-holding the BQL for a long time.
+Thank,
 
-[1] https://lkml.kernel.org/r/20210419135443.12822-1-david@redhat.com
+C. 
 
--- 
-Thanks,
 
-David / dhildenb
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ target/ppc/cpu-models.c |   13 +++++++++++--
+ target/ppc/cpu-models.h |    1 +
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
+Index: qemu-powernv-6.1.git/target/ppc/cpu-models.c
+===================================================================
+--- qemu-powernv-6.1.git.orig/target/ppc/cpu-models.c
++++ qemu-powernv-6.1.git/target/ppc/cpu-models.c
+@@ -32,7 +32,7 @@
+ /* PowerPC CPU definitions                                                 */
+ #define POWERPC_DEF_PREFIX(pvr, svr, type)                                  \
+     glue(glue(glue(glue(pvr, _), svr), _), type)
+-#define POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type)                    \
++#define __POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type, _lpcr)           \
+     static void                                                             \
+     glue(POWERPC_DEF_PREFIX(_pvr, _svr, _type), _cpu_class_init)            \
+     (ObjectClass *oc, void *data)                                           \
+@@ -40,6 +40,7 @@
+         DeviceClass *dc = DEVICE_CLASS(oc);                                 \
+         PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);                       \
+                                                                             \
++        pcc->lpcr_mask    |= _lpcr;                                         \
+         pcc->pvr          = _pvr;                                           \
+         pcc->svr          = _svr;                                           \
+         dc->desc          = _desc;                                          \
+@@ -63,6 +64,12 @@
+     type_init(                                                              \
+         glue(POWERPC_DEF_PREFIX(_pvr, _svr, _type), _cpu_register_types))
+ 
++#define POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type)                    \
++    __POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type, 0)
++
++#define POWERPC_DEF_LPCR(_name, _pvr, _type, _desc, _lpcr)                  \
++    __POWERPC_DEF_SVR(_name, _desc, _pvr, POWERPC_SVR_NONE, _type, _lpcr)
++
+ #define POWERPC_DEF(_name, _pvr, _type, _desc)                              \
+     POWERPC_DEF_SVR(_name, _desc, _pvr, POWERPC_SVR_NONE, _type)
+ 
+@@ -776,6 +783,8 @@
+                 "POWER9 v2.0")
+     POWERPC_DEF("power10_v1.0",  CPU_POWERPC_POWER10_DD1,            POWER10,
+                 "POWER10 v1.0")
++    POWERPC_DEF_LPCR("power10_v2.0",  CPU_POWERPC_POWER10_DD20,      POWER10,
++                     "POWER10 v2.0", LPCR_HAIL)
+ #endif /* defined (TARGET_PPC64) */
+ 
+ /***************************************************************************/
+@@ -952,7 +961,7 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
+     { "power8", "power8_v2.0" },
+     { "power8nvl", "power8nvl_v1.0" },
+     { "power9", "power9_v2.0" },
+-    { "power10", "power10_v1.0" },
++    { "power10", "power10_v2.0" },
+ #endif
+ 
+     /* Generic PowerPCs */
+Index: qemu-powernv-6.1.git/target/ppc/cpu-models.h
+===================================================================
+--- qemu-powernv-6.1.git.orig/target/ppc/cpu-models.h
++++ qemu-powernv-6.1.git/target/ppc/cpu-models.h
+@@ -375,6 +375,7 @@ enum {
+     CPU_POWERPC_POWER9_DD20        = 0x004E1200,
+     CPU_POWERPC_POWER10_BASE       = 0x00800000,
+     CPU_POWERPC_POWER10_DD1        = 0x00800100,
++    CPU_POWERPC_POWER10_DD20       = 0x00800200,
+     CPU_POWERPC_970_v22            = 0x00390202,
+     CPU_POWERPC_970FX_v10          = 0x00391100,
+     CPU_POWERPC_970FX_v20          = 0x003C0200,
 
