@@ -2,53 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F0C3725D0
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:28:06 +0200 (CEST)
-Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71786372614
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:59:17 +0200 (CEST)
+Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldoXN-0007D6-VK
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:28:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60738)
+	id 1ldp1Y-0005rC-HL
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:59:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo0Z-0006Fo-D7; Tue, 04 May 2021 01:54:11 -0400
-Received: from ozlabs.org ([203.11.71.1]:39521)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo0X-000570-HI; Tue, 04 May 2021 01:54:11 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZ8CN3mHxz9t0J; Tue,  4 May 2021 15:53:20 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620107600;
- bh=CRHqLETkCbZCv40pzPfeO0sTEltt6FO4e3KcDka05M0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lEUXJohwodaYOvra/3YRUIkdGlAhhSGkmh7orhWKKNhD8RQ2FWD0hLXRGHASn7uGc
- bb3oHs3THzHxQmZYmU4bUgC9fctw8tbDFT1GOHNnaABiT2WTsBdP/kLBnaHMjmlDLy
- Q4VjZkV3/DaKYQgHgCmfBMZG5pYC81pt8ULpcNlU=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org,
-	groug@kaod.org
-Subject: [PULL 33/46] ppc: Rename current DAWR macros and variables
-Date: Tue,  4 May 2021 15:52:59 +1000
-Message-Id: <20210504055312.306823-34-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210504055312.306823-1-david@gibson.dropbear.id.au>
-References: <20210504055312.306823-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldo1C-0006tj-I5
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 01:54:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49258)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ldo16-0005RS-Af
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 01:54:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ldo12-0002a6-NP
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 05:54:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 70BF32E8199
+ for <qemu-devel@nongnu.org>; Tue,  4 May 2021 05:54:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 04 May 2021 05:44:28 -0000
+From: Thomas Huth <1423528@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mbiebl mjt+launchpad-tls th-huth
+X-Launchpad-Bug-Reporter: Michael Biebl (mbiebl)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20150219122612.20987.32403.malonedeb@gac.canonical.com>
+Message-Id: <162010706863.4396.12428369422687355881.malone@chaenomeles.canonical.com>
+Subject: [Bug 1423528] Re: setting unsupported timeout for i6300esb watchdog
+ causes hw reset
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
+X-Launchpad-Hash: dfff1b34b40f11398646f9e86eda40da44aae2e7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,80 +71,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ravi Bangoria <ravi.bangoria@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1423528 <1423528@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-Power10 is introducing second DAWR. Use real register names (with
-suffix 0) from ISA for current macros and variables used by Qemu.
+ https://gitlab.com/qemu-project/qemu/-/issues/112
 
-One exception to this is KVM_REG_PPC_DAWR[X]. This is from kernel
-uapi header and thus not changed in kernel as well as Qemu.
 
-Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20210412114433.129702-3-ravi.bangoria@linux.ibm.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- include/hw/ppc/spapr.h          | 2 +-
- target/ppc/cpu.h                | 4 ++--
- target/ppc/translate_init.c.inc | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+** Changed in: qemu
+       Status: Confirmed =3D> Expired
 
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index d2b5a9bdf9..49a79fbf96 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -363,7 +363,7 @@ struct SpaprMachineState {
- 
- /* Values for 2nd argument to H_SET_MODE */
- #define H_SET_MODE_RESOURCE_SET_CIABR           1
--#define H_SET_MODE_RESOURCE_SET_DAWR            2
-+#define H_SET_MODE_RESOURCE_SET_DAWR0           2
- #define H_SET_MODE_RESOURCE_ADDR_TRANS_MODE     3
- #define H_SET_MODE_RESOURCE_LE                  4
- 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 69fc9a2831..8c18bb0762 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1489,10 +1489,10 @@ typedef PowerPCCPU ArchCPU;
- #define SPR_MPC_BAR           (0x09F)
- #define SPR_PSPB              (0x09F)
- #define SPR_DPDES             (0x0B0)
--#define SPR_DAWR              (0x0B4)
-+#define SPR_DAWR0             (0x0B4)
- #define SPR_RPR               (0x0BA)
- #define SPR_CIABR             (0x0BB)
--#define SPR_DAWRX             (0x0BC)
-+#define SPR_DAWRX0            (0x0BC)
- #define SPR_HFSCR             (0x0BE)
- #define SPR_VRSAVE            (0x100)
- #define SPR_USPRG0            (0x100)
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index 06686489a0..58473c4c09 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -7748,12 +7748,12 @@ static void gen_spr_book3s_dbg(CPUPPCState *env)
- 
- static void gen_spr_book3s_207_dbg(CPUPPCState *env)
- {
--    spr_register_kvm_hv(env, SPR_DAWR, "DAWR",
-+    spr_register_kvm_hv(env, SPR_DAWR0, "DAWR0",
-                         SPR_NOACCESS, SPR_NOACCESS,
-                         SPR_NOACCESS, SPR_NOACCESS,
-                         &spr_read_generic, &spr_write_generic,
-                         KVM_REG_PPC_DAWR, 0x00000000);
--    spr_register_kvm_hv(env, SPR_DAWRX, "DAWRX",
-+    spr_register_kvm_hv(env, SPR_DAWRX0, "DAWRX0",
-                         SPR_NOACCESS, SPR_NOACCESS,
-                         SPR_NOACCESS, SPR_NOACCESS,
-                         &spr_read_generic, &spr_write_generic,
--- 
-2.31.1
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #112
+   https://gitlab.com/qemu-project/qemu/-/issues/112
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1423528
+
+Title:
+   setting unsupported timeout for i6300esb watchdog causes hw reset
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D778291
+  Version: 2.1
+
+  systemd utilizes existing watchdog hardware and set's a 10min timer on re=
+boot.
+  The i6300esb under qemu doesn't like such a timeout, and immediately rese=
+ts the hardware:
+
+  The last message one gets is
+  [    9.402243] i6300esb: Unexpected close, not stopping watchdog!
+
+  =
+
+  The linked bug report contains information how this bug can easily be rep=
+roduced.
+  With any image using a recent enough systemd as PID 1 you should be able =
+to reproduce it by running
+
+  qemu-system-x86_64 -curses -enable-kvm -device i6300esb -watchdog-
+  action reset -hda <image with systemd>
+
+  =
+
+  I'm uncertain if this is a qemu or kernel/driver bug. If the latter, plea=
+se re-assign the bug as necessary.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1423528/+subscriptions
 
