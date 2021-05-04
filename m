@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE71372414
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 03:03:53 +0200 (CEST)
-Received: from localhost ([::1]:36390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F23372424
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 03:07:40 +0200 (CEST)
+Received: from localhost ([::1]:40630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldjTc-00071L-85
-	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 21:03:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47580)
+	id 1ldjXG-0000TM-Uv
+	for lists+qemu-devel@lfdr.de; Mon, 03 May 2021 21:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ldidK-00016R-Dj
- for qemu-devel@nongnu.org; Mon, 03 May 2021 20:09:51 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:42799)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ldidG-0003qv-8G
- for qemu-devel@nongnu.org; Mon, 03 May 2021 20:09:50 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id m12so5071050pgr.9
- for <qemu-devel@nongnu.org>; Mon, 03 May 2021 17:09:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=BWnUivadNaThYgP7jgFhkDF+yZo1bOJ9x2Kn3bxBh4I=;
- b=NiOb6seam1/w5Be53wLqbK561l2rL9NuE/lbAiwNBce6J32aY319bEPkTMh8EEoMlB
- 4sucT9rxxquu64CUbloB12jeVGRsgJY/QQhtok2aODlDh/919tEz6Y+ZFiJTqzJeRVhM
- lBiGWO+D2bucO5dwJHzWCiW8BGCGDRyulNXActp1fR+QU5oVy3pDD/RwuyrpVoL9R2I2
- 3N//DIpWkIDsVIt+o+fxVTtcjVhd0LMgb7qW3qDwEcULmFpOh6uAftzXhHk6Ujlmd/Ov
- Vwa0CD52FDFc6dMQJWbUOexC0KPYfuUF/Bov0V2FmBmv4zjdjsZm6OiGWAUykeq+JvsK
- M/wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BWnUivadNaThYgP7jgFhkDF+yZo1bOJ9x2Kn3bxBh4I=;
- b=Z9J/TBvnyUp9yK9mj0JtxXTJUjeSopeAZ3ztO/XmD4O6b2Oi5OERc5uZYNKiTiB86s
- Eag6UIfETAUc3cIuyJ4lNWYuhGTx6QcJ2bZ0gGFrOlfXMi6leTJ2P0W7nIi0rJSADGHy
- gbqLartiZr0RNqUhElBUdOlylIZy+Gb/E67BuuRdbVBZ2+2+hOiRroNrjnVPmt2cXFkG
- EX/gwkuYTwkEX2SSj+jQs0BHxshO41TNZ+IoDheXleIqKLS0TM8e9nDUezoagu+W92fo
- ++35sm0SiQw6MdvH/5uf8MykBeMRwTG3fbEnMhHA8i3oVxG3utzoJFt8HS2x7Wu/21vU
- gYQQ==
-X-Gm-Message-State: AOAM530R3cs7oQe7eGRKRzZiolQhnulKHgZGFCKpXxZyfGPbw63QkTEy
- AANHSuYCAhY6kLeOoNI9qkTXIg==
-X-Google-Smtp-Source: ABdhPJyTCGaIbbGSFyVo1OrB5XEEqAiRUvT8ViSbCOlhv88b7rmVns4RFybFa/1++gIz7I7rSl/IDA==
-X-Received: by 2002:a17:90a:17a2:: with SMTP id
- q31mr1525507pja.32.1620086981887; 
- Mon, 03 May 2021 17:09:41 -0700 (PDT)
-Received: from google.com (240.111.247.35.bc.googleusercontent.com.
- [35.247.111.240])
- by smtp.gmail.com with ESMTPSA id i20sm10461828pjz.48.2021.05.03.17.09.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 17:09:41 -0700 (PDT)
-Date: Tue, 4 May 2021 00:09:37 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org,
- kai.huang@intel.com
-Subject: Re: [RESEND PATCH 05/32] vl: Add "sgx-epc" option to expose SGX EPC
- sections to guest
-Message-ID: <YJCQwXVmS/om2HrW@google.com>
-References: <20210430062455.8117-1-yang.zhong@intel.com>
- <20210430062455.8117-6-yang.zhong@intel.com>
- <d772cdd1-69fa-b48f-b8ff-c07cd383b04e@redhat.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ldjRc-0006eo-7o
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 21:01:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20270)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ldjRY-0007Xu-3D
+ for qemu-devel@nongnu.org; Mon, 03 May 2021 21:01:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620090102;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=teB5NGw0+4l4Dpy+IpNRh7O/cWYQJwXLj97hiuxJQLE=;
+ b=i8ldzDSIEAVYlwrnOkW6ViTZf5FydIbnCpVYhVfItBDsfqA0SqhlODtWIkpQ/oNs2JXlLf
+ Pm9yxV8W/12ZWiEGLsUlrBW6qC1j5vyByHOPXgs1bVNBobiqyE9YZHnPEG1CXXf1TuIGU7
+ r4Zcr1PcbPcPb4ZDx+5+Y+hiEK/N/iM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-iKXVCBxtO1ix4TZqXcT2xQ-1; Mon, 03 May 2021 21:01:39 -0400
+X-MC-Unique: iKXVCBxtO1ix4TZqXcT2xQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2ADDF10066E8;
+ Tue,  4 May 2021 01:01:38 +0000 (UTC)
+Received: from [10.10.116.36] (ovpn-116-36.rdu2.redhat.com [10.10.116.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 455985C22A;
+ Tue,  4 May 2021 01:01:37 +0000 (UTC)
+Subject: Re: [PATCH 10/22] qapi/parser: Fix typing of token membership tests
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210422030720.3685766-1-jsnow@redhat.com>
+ <20210422030720.3685766-11-jsnow@redhat.com>
+ <87v98a7q23.fsf@dusky.pond.sub.org>
+ <78cf87ce-ce02-d9d6-0922-84a328b6b9da@redhat.com>
+ <87k0oo6wkp.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <3b8af56e-4322-4729-05c9-27e62f7e86a6@redhat.com>
+Date: Mon, 3 May 2021 21:01:36 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d772cdd1-69fa-b48f-b8ff-c07cd383b04e@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=seanjc@google.com; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <87k0oo6wkp.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 03 May 2021 21:00:15 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,46 +84,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 03, 2021, Paolo Bonzini wrote:
-> On 30/04/21 08:24, Yang Zhong wrote:
-> > +void pc_machine_init_sgx_epc(PCMachineState *pcms)
-> > +{
-> > +    SGXEPCState *sgx_epc;
-> > +    X86MachineState *x86ms = X86_MACHINE(pcms);
-> > +
-> > +    sgx_epc = g_malloc0(sizeof(*sgx_epc));
-> > +    pcms->sgx_epc = sgx_epc;
-> > +
-> > +    sgx_epc->base = 0x100000000ULL + x86ms->above_4g_mem_size;
-> > +
-> > +    memory_region_init(&sgx_epc->mr, OBJECT(pcms), "sgx-epc", UINT64_MAX);
-> > +    memory_region_add_subregion(get_system_memory(), sgx_epc->base,
-> > +                                &sgx_epc->mr);
-> > +
-> > +    qemu_opts_foreach(qemu_find_opts("sgx-epc"), sgx_epc_init_func, NULL,
-> > +                      &error_fatal);
-> > +
-> > +    if ((sgx_epc->base + sgx_epc->size) < sgx_epc->base) {
-> > +        error_report("Size of all 'sgx-epc' =0x%"PRIu64" causes EPC to wrap",
-> > +                     sgx_epc->size);
-> > +        exit(EXIT_FAILURE);
+On 4/27/21 3:00 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
 > 
-> Or perhaps even drop completely the options and just do "-device
-> sgx-epc,backend=epc1"?
+>> On 4/25/21 3:59 AM, Markus Armbruster wrote:
+>>> John Snow <jsnow@redhat.com> writes:
+>>>
+>>>> When the token can be None, we can't use 'x in "abc"' style membership
+>>>> tests to group types of tokens together, because 'None in "abc"' is a
+>>>> TypeError.
+>>>>
+>>>> Easy enough to fix, if not a little ugly.
+>>>>
+>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>>> ---
+>>>>    scripts/qapi/parser.py | 5 +++--
+>>>>    1 file changed, 3 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+>>>> index 7f3c009f64b..16fd36f8391 100644
+>>>> --- a/scripts/qapi/parser.py
+>>>> +++ b/scripts/qapi/parser.py
+>>>> @@ -272,7 +272,7 @@ def get_values(self):
+>>>>            if self.tok == ']':
+>>>>                self.accept()
+>>>>                return expr
+>>>> -        if self.tok not in "{['tf":
+>>>> +        if self.tok is None or self.tok not in "{['tf":
+>>>>                raise QAPIParseError(
+>>>>                    self, "expected '{', '[', ']', string, or boolean")
+>>>>            while True:
+>>>> @@ -294,7 +294,8 @@ def get_expr(self, nested):
+>>>>            elif self.tok == '[':
+>>>>                self.accept()
+>>>>                expr = self.get_values()
+>>>> -        elif self.tok in "'tf":
+>>>> +        elif self.tok and self.tok in "'tf":
+>>>> +            assert isinstance(self.val, (str, bool))
+>>>>                expr = self.val
+>>>>                self.accept()
+>>>>            else:
+>>>
+>>> How can self.tok be None?
+>>>
+>>> I suspect this is an artifact of PATCH 04.  Before, self.tok is
+>>> initialized to the first token, then set to subsequent tokens (all str)
+>>> in turn.  After, it's initialized to None, then set to tokens in turn.
+>>>
+>>
+>> Actually, it's set to None to represent EOF. See here:
+>>
+>>               elif self.tok == '\n':
+>> 	        if self.cursor == len(self.src):
+>>                       self.tok = None
+>>                       return
+> 
+> Alright, then this is actually a bug fix:
+> 
+>      $ echo -n "{'key': " | python3 scripts/qapi-gen.py /dev/stdin
+>      Traceback (most recent call last):
+>        File "scripts/qapi-gen.py", line 19, in <module>
+>          sys.exit(main.main())
+>        File "/work/armbru/qemu/scripts/qapi/main.py", line 93, in main
+>          generate(args.schema,
+>        File "/work/armbru/qemu/scripts/qapi/main.py", line 50, in generate
+>          schema = QAPISchema(schema_file)
+>        File "/work/armbru/qemu/scripts/qapi/schema.py", line 852, in __init__
+>          parser = QAPISchemaParser(fname)
+>        File "/work/armbru/qemu/scripts/qapi/parser.py", line 59, in __init__
+>          self._parse()
+>        File "/work/armbru/qemu/scripts/qapi/parser.py", line 81, in _parse
+>          expr = self.get_expr(False)
+>        File "/work/armbru/qemu/scripts/qapi/parser.py", line 293, in get_expr
+>          expr = self.get_members()
+>        File "/work/armbru/qemu/scripts/qapi/parser.py", line 260, in get_members
+>          expr[key] = self.get_expr(True)
+>        File "/work/armbru/qemu/scripts/qapi/parser.py", line 297, in get_expr
+>          elif self.tok in "'tf":
+>      TypeError: 'in <string>' requires string as left operand, not NoneType
+> 
+> Likewise, the other hunk:
+> 
+>      $ echo -n "{'key': [" | python3 scripts/qapi-gen.py /dev/stdin
+>      Traceback (most recent call last):
+>        File "scripts/qapi-gen.py", line 19, in <module>
+>          sys.exit(main.main())
+>        File "/work/armbru/qemu/scripts/qapi/main.py", line 89, in main
+>          generate(args.schema,
+>        File "/work/armbru/qemu/scripts/qapi/main.py", line 51, in generate
+>          schema = QAPISchema(schema_file)
+>        File "/work/armbru/qemu/scripts/qapi/schema.py", line 860, in __init__
+>          parser = QAPISchemaParser(fname)
+>        File "/work/armbru/qemu/scripts/qapi/parser.py", line 71, in __init__
+>          expr = self.get_expr(False)
+>        File "/work/armbru/qemu/scripts/qapi/parser.py", line 270, in get_expr
+>          expr = self.get_members()
+>        File "/work/armbru/qemu/scripts/qapi/parser.py", line 238, in get_members
+>          expr[key] = self.get_expr(True)
+>        File "/work/armbru/qemu/scripts/qapi/parser.py", line 273, in get_expr
+>          expr = self.get_values()
+>        File "/work/armbru/qemu/scripts/qapi/parser.py", line 253, in get_values
+>          if self.tok not in "{['tf":
+>      TypeError: 'in <string>' requires string as left operand, not NoneType
+> 
+> Please add test cases.  I recommend adding them in a separate patch, so
+> this one's diff shows clearly what's being fixed.
+> 
 
-Is there a way to process "-device sgx-epc..." before vCPUs are realized?  The
-ordering problem was the only reason I added a dedicated option.
+Can't, again: because it's a crash, the test runner explodes.
 
-From the changelog:
+Two choices, because I won't finish respinning this tonight:
 
-  Because SGX EPC is enumerated through CPUID, EPC "devices" need to be
-  realized prior to realizing the vCPUs themselves, i.e. long before
-  generic devices are parsed and realized.
+(1) Amend the test runner to print generic exceptions using str(err), 
+without the stack trace -- so we can check for crashes using the diffs 
+-- again in its own commit.
 
-  So even though EPC sections could be realized through the generic
-  -devices command, they need to be created much earlier for them to
-  actually be usable by the guest.
+(2) Just squish the tests and error messages into this commit like I did 
+for the other crash fix I checked in.
+
+I'd normally leap for #1, but you seem to have some affinity for 
+allowing unpredictable things to explode very violently, so I am not sure.
+
+--js
+
 
