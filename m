@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83B1437269E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 09:38:04 +0200 (CEST)
-Received: from localhost ([::1]:47798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72FD3726A3
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 09:39:17 +0200 (CEST)
+Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldpd5-0004LP-K3
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 03:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51424)
+	id 1ldpeH-0005x0-16
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 03:39:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldpZw-0002DM-5Q
- for qemu-devel@nongnu.org; Tue, 04 May 2021 03:34:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38024)
+ id 1ldpZv-0002Cl-Sv
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 03:34:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldpZu-0002Z0-GQ
+ id 1ldpZt-0002XT-VC
  for qemu-devel@nongnu.org; Tue, 04 May 2021 03:34:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ldpZs-0004SC-Ip
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 07:34:44 +0000
+ id 1ldpZr-0004R3-CX
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 07:34:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3512C2E8194
- for <qemu-devel@nongnu.org>; Tue,  4 May 2021 07:34:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5AF8F2E8195
+ for <qemu-devel@nongnu.org>; Tue,  4 May 2021 07:34:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 04 May 2021 07:23:01 -0000
-From: Thomas Huth <1500265@bugs.launchpad.net>
+Date: Tue, 04 May 2021 07:23:15 -0000
+From: Thomas Huth <1511887@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=wine1.6; component=universe;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: hid oscilloscope uhci usb
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: d-haid metux-its schoenebeck th-huth
-X-Launchpad-Bug-Reporter: Daniel Haid (d-haid)
+X-Launchpad-Bug-Commenters: jirkacejka th-huth
+X-Launchpad-Bug-Reporter: Jiri Cejka (jirkacejka)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20150927211256.29032.14479.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162011298218.13763.4464850284769876229.malone@wampee.canonical.com>
-Subject: [Bug 1500265] Re: nested 9p filesystem with
- security_model=mapped-xattr
+References: <20151031002349.21474.82964.malonedeb@soybean.canonical.com>
+Message-Id: <162011299509.12465.13708991042905583449.malone@soybean.canonical.com>
+Subject: [Bug 1511887] Re: USB device 1.1 not correctly passedthru from Linux
+ host to Windows guest
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: 0a610237b183ffefa0ee87c2f2bdc16d672571bf
+X-Launchpad-Hash: e94c4815a3ed8f4c27bd35f3bf2488e185c22558
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +74,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1500265 <1500265@bugs.launchpad.net>
+Reply-To: Bug 1511887 <1511887@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -79,39 +82,82 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/117
+ https://gitlab.com/qemu-project/qemu/-/issues/118
 
 
 ** Changed in: qemu
        Status: Triaged =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #117
-   https://gitlab.com/qemu-project/qemu/-/issues/117
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #118
+   https://gitlab.com/qemu-project/qemu/-/issues/118
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1500265
+https://bugs.launchpad.net/bugs/1511887
 
 Title:
-  nested 9p filesystem with security_model=3Dmapped-xattr
+  USB device 1.1 not correctly passedthru from Linux host to Windows
+  guest
 
 Status in QEMU:
   Expired
+Status in wine1.6 package in Ubuntu:
+  New
 
 Bug description:
-  I do not know whether this is a bug or a feature request, but on a 9p
-  virtfs with security_model=3Dmapped-xattr, access to extended attributes
-  starting with "user.virtfs" coming from the guest seem to be silently
-  ignored. Would it not be more correct to use some sort of "escaping",
-  say map to "user.virtfs.x" on guest to "user.virtfs.virtfs.x" on host
-  or something like that, so that the guest can use arbitrary
-  attributes.
+  I have USB Digital Oscilloscope which works great on pure Windows
+  machine but not work on virtualized one. I tried passthru the device
+  from my Debian Jessie (64bit) host machine to Windows 7 (32bit) guest
+  machine but unfortunately it does not work very well. It looks that
+  device is passed thru so Windows machine knows about new device and
+  loads HID device driver for it but the device driver failed to start
+  the device and details of an error provided by device manager is "This
+  device cannot start" Code 10.
 
-  In particular, this would allow nested virtual machines to use nested
-  9p virtfs with security_model=3Dmapped-xattr.
+  Installed Qemu version: 2.1+dfsg-12+deb8u4 0
+
+  USB device spec: Dynon Instruments ELAB-080, USB 1.1
+
+  On linux host computer
+  ---------------------------
+  lsusb identify it as:
+  Bus 003 Device 009: ID 13a3:0001 =
+
+
+  lsusb -t identify it as:
+  /: Bus 03.Port 1: Dev 1, Class=3Droot_hub, Driver=3Duhci_hcd/2p, 12M
+      |__ Port 1: Dev 9, If 0, Class=3DHuman Interface Device, Driver=3Dusb=
+hid, 12M
+
+  This is how I started my Windows guest machine
+  ------------------------------------------------------
+  kvm -cpu host \
+      -m 2048MiB \
+      -hda test.vdi \
+      -ctrl-grab \
+      -parallel /dev/parport0 \
+      -usbdevice host:13a3:0001
+
+  ...also instead of last line I tried this one:
+      -device usb-host,vendorid=3D0x13a3,productid=3D0x0001
+
+  none of them help to properly handle my device inside guest machine.
+
+  Only one time the Windows guest machine properly start the device so
+  software for that oscilloscope can identify the Oscilloscope and
+  measure for a while but unfortunately after I guess 5 seconds of
+  measurement the device was disconnected from Windows and never start
+  working again even after couple of restarts of guest machine even
+  after plug and unplug it's USB cable and power cable.
+
+  I searched for a solution or some clues to get it work but none of my
+  searching over the internet was successful. Because device works on
+  pure Windows but not work on virtualized one, I think there is a
+  problem with handling not standard USB devices (like sticks,
+  keyboards, mouses etc.)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1500265/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1511887/+subscriptions
 
