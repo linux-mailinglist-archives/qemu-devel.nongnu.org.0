@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD6437311B
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 21:57:38 +0200 (CEST)
-Received: from localhost ([::1]:49810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD7837311F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 21:59:22 +0200 (CEST)
+Received: from localhost ([::1]:54680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le1An-0005mw-8w
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 15:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54764)
+	id 1le1CT-0007ob-Ss
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 15:59:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1le17K-0003a2-5W
- for qemu-devel@nongnu.org; Tue, 04 May 2021 15:54:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42384)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1le18I-0004NQ-Lo
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 15:55:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1le17H-0005fy-2k
- for qemu-devel@nongnu.org; Tue, 04 May 2021 15:54:01 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1le18G-0006Eu-54
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 15:55:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620158038;
+ s=mimecast20190719; t=1620158099;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fu7wiy5NE1o5JHK9HfyyfRNaynywEkNVevANcOZjQO8=;
- b=CnmMEfxSRJDAGzKJ8mrYfzD6F4VjrocgPRZw1ln83OE0OiwKs/qsQMMvlMNgSwBLYJj1gP
- vmR7TdMlvQaGL/n0izN35fgF15cF0S5tpxVvROiV6dwGSTvMHTnuYC8oOnKbK4k5a/x0vS
- hIzNpzp7Hb0Bx3+pYrKeoYuTE1QDYNE=
+ bh=3EWX3vTQMa9aB785QHGwJ3x1MK/cS73fIb/FZDWo5RY=;
+ b=iMxLQOfLDQjjv/QG98RDI7f6NaDgs6bF8B1lHoNrJQ6J951NoTfcjoA2iTZuOgS4aagIkY
+ Aom+UDSfARXOR/SwGNFcbPy44KMuq0y/KTqafxSdjal+1IGA1mh/cVUBdbN0HbcdDg3ryT
+ 8TWPoEJMX6la5pIXJuHZo235w8V1Wew=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-2JKM9MjyMbqKmSJjXnQvOQ-1; Tue, 04 May 2021 15:53:56 -0400
-X-MC-Unique: 2JKM9MjyMbqKmSJjXnQvOQ-1
+ us-mta-442-driMtjsxNjOCJS0D5Kz9yA-1; Tue, 04 May 2021 15:54:57 -0400
+X-MC-Unique: driMtjsxNjOCJS0D5Kz9yA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 528269F92C;
- Tue,  4 May 2021 19:53:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88AF7835DE3;
+ Tue,  4 May 2021 19:54:56 +0000 (UTC)
 Received: from [10.3.114.144] (ovpn-114-144.phx2.redhat.com [10.3.114.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B43F160CCD;
- Tue,  4 May 2021 19:53:54 +0000 (UTC)
-Subject: Re: [PATCH 09/10] qcow2-refcount: check_refcounts_l1(): check
- reserved bits
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E030460CCD;
+ Tue,  4 May 2021 19:54:55 +0000 (UTC)
+Subject: Re: [PATCH 10/10] qcow2-refcount: check_refblocks(): add separate
+ message for reserved
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20210504152023.322862-1-vsementsov@virtuozzo.com>
- <20210504152023.322862-10-vsementsov@virtuozzo.com>
+ <20210504152023.322862-11-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <8e92ffa4-80ac-2355-f9e3-d0a2c7a54e5c@redhat.com>
-Date: Tue, 4 May 2021 14:53:54 -0500
+Message-ID: <c09753f0-b26a-3fb9-2591-68d46122d1c4@redhat.com>
+Date: Tue, 4 May 2021 14:54:55 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210504152023.322862-10-vsementsov@virtuozzo.com>
+In-Reply-To: <20210504152023.322862-11-vsementsov@virtuozzo.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
@@ -90,12 +90,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/4/21 10:20 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Split checking for reserved bits out of aligned offset check.
+> 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  block/qcow2.h          | 1 +
->  block/qcow2-refcount.c | 6 ++++++
->  2 files changed, 7 insertions(+)
-> 
+>  block/qcow2.h          |  1 +
+>  block/qcow2-refcount.c | 10 +++++++++-
+>  2 files changed, 10 insertions(+), 1 deletion(-)
+
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
