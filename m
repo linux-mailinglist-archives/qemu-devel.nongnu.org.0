@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148B9372D22
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 17:39:26 +0200 (CEST)
-Received: from localhost ([::1]:49366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66337372D18
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 17:37:40 +0200 (CEST)
+Received: from localhost ([::1]:42114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldx8v-0004RX-6R
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 11:39:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44094)
+	id 1ldx7D-0001Pg-FB
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 11:37:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1ldwwh-00017f-V2
- for qemu-devel@nongnu.org; Tue, 04 May 2021 11:26:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50792)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ldwwb-00016l-Vk
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 11:26:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1ldwwZ-0000hz-Rl
- for qemu-devel@nongnu.org; Tue, 04 May 2021 11:26:47 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ldwwZ-0000hO-Ht
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 11:26:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620141998;
+ s=mimecast20190719; t=1620141996;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ot+XuDGDq72eg7LmHupejUozcDXHELSlPsG8x+q5v1A=;
- b=g2KIr+3qpOHCQo8XgmSBf5Pk8mmTUqjA+rUfiP4UWw0VZkExnpzK0ACWBucWvFo0rfmEWU
- AuFQQvoFtVOAeGd33qSmYldIeGYq4eNQXsG1m75fjlyLRf9DzsXKuKhE1bIu7tm+wo1PNQ
- azHb97cT4IBIKEb83h7mxAVtZcaTbFo=
+ bh=WoyYPbT/4Utt0qIiex2GpYGIrdODyUDnc2nVMT/siQ4=;
+ b=Av0aC1/4EvbVggQEZWCuQhz6NsnXz445XA3EmMbbMn9fIhwr07OuOoqn19sPPasRzivmvm
+ hX5n/SoTYlMBTLRP7xJIcKP5sv1zFl+nquywkasiVYgL21IXM2s2eVzicW60OqtWanq6CF
+ OIaJTXbGehGPdhWgRdC/v1RkjSxjmiA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-dL0yIzDiMRmJ7l0cxi-Byw-1; Tue, 04 May 2021 11:26:35 -0400
-X-MC-Unique: dL0yIzDiMRmJ7l0cxi-Byw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-217-4nMbrjOpNuqiVNXIsttr6g-1; Tue, 04 May 2021 11:26:34 -0400
+X-MC-Unique: 4nMbrjOpNuqiVNXIsttr6g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FDCBA40C0;
- Tue,  4 May 2021 15:26:34 +0000 (UTC)
-Received: from localhost (unknown [10.22.8.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43B175C1B4;
- Tue,  4 May 2021 15:26:23 +0000 (UTC)
-Date: Tue, 4 May 2021 11:26:23 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] virtio-blk: drop deprecated scsi=on|off property
-Message-ID: <20210504152623.cq5pokrzfnqcke7a@habkost.net>
-References: <20210429155221.1226561-1-stefanha@redhat.com>
- <20210429180352.ohhfz4kwyxapbiyl@habkost.net>
- <YJFbFztA61itLoR2@stefanha-x1.localdomain>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BEB11966323;
+ Tue,  4 May 2021 15:26:33 +0000 (UTC)
+Received: from localhost (ovpn-115-110.ams2.redhat.com [10.36.115.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E27A360C4A;
+ Tue,  4 May 2021 15:26:29 +0000 (UTC)
+Date: Tue, 4 May 2021 16:26:28 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3 04/26] DAX: libvhost-user: Route slave message payload
+Message-ID: <YJFnpIwjrbdo2LPn@stefanha-x1.localdomain>
+References: <20210428110100.27757-1-dgilbert@redhat.com>
+ <20210428110100.27757-5-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YJFbFztA61itLoR2@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210428110100.27757-5-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="F71rP5MikdgOjNDk"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,58 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Christoph Hellwig <hch@lst.de>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, vgoyal@redhat.com,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 04, 2021 at 03:32:55PM +0100, Stefan Hajnoczi wrote:
-> On Thu, Apr 29, 2021 at 02:03:52PM -0400, Eduardo Habkost wrote:
-> > On Thu, Apr 29, 2021 at 04:52:21PM +0100, Stefan Hajnoczi wrote:
-> > > Live migrating old guests from an old QEMU with the SCSI feature bit
-> > > enabled will fail with "Features 0x... unsupported. Allowed features:
-> > > 0x...". We've followed the QEMU deprecation policy so users have been
-> > > warned...
-> > > 
-> > 
-> > Were they really warned, though?  People running
-> > "-machine pc-i440fx-2.4" might be completely unaware that it was
-> > silently enabling a deprecated feature.
-> > 
-> > Can we have this documented in a more explicit way?  Maybe just a
-> > comment at hw_compat_2_4 would be enough, to warn people doing
-> > backports and rebases downstream.
-> > 
-> > Can we make QEMU refuse to start if using pc-2.4 + virtio-blk
-> > together, just to be sure?
-> 
-> On second thought, do we really want to break pc-2.4 user's QEMU
-> command-lines if they have a virtio-blk device?
+--F71rP5MikdgOjNDk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It depends which command line you are talking about.
+On Wed, Apr 28, 2021 at 12:00:38PM +0100, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> Route the uint64 payload from message replies on the slave back up
+> through vu_process_message_reply and to the callers.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  subprojects/libvhost-user/libvhost-user.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
 
-I believe we _must_ break the following:
-"-machine pc-i440fx-2.4 -device virtio-blk", and
-"-machine pc-i440fx-2.4 -device virtio-blk,scsi=on".
-Your patch breaks only the latter.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Your patch also breaks the following:
-"-machine pc-i440fx-2.4 -device virtio-blk,scsi=off",
-which I don't think we should break.
+--F71rP5MikdgOjNDk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> BTW Peter mentioned libvirt avoids the unnecessary scsi=off:
-> https://gitlab.com/libvirt/libvirt/-/commit/ec69f0190be731d12faeac08dbf63325836509a9
-> 
-> Stefan
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCRZ6QACgkQnKSrs4Gr
+c8ifswgAgMDIRKx/euJ0SnqqG+CY/C6cO5s87C7O3k2SEnpq9y0eJdWVaJWO10Bk
+VnKPx5AXC7oJXnwOnzxfcLAI4rlzkRY2vHNxPwAmFRRR0cUU8u8DffSVKAb8gveQ
+gXIxMmURaLsd8jsKKYMLPngRy9D7us5E4731LceAKWnOh+YFSqeGom/rmgs8CFMM
+PyFt5RDJyXzyzSTL67dBNLVfa3CwuQxtocDvMlCNDrKYhLN2pkibOsT4ZQs5Wezz
+ZzddCVUwvyYokfn1TW+VIdTBsarh0R3p5dskD3lX5kXrnTjSFYKDUKpCr8Y7cW16
+7cdAMEWC695FR/A9HfQ5jQd3v9QNPw==
+=Jv90
+-----END PGP SIGNATURE-----
 
-
--- 
-Eduardo
+--F71rP5MikdgOjNDk--
 
 
