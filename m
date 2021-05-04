@@ -2,81 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702CC372E42
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 18:50:32 +0200 (CEST)
-Received: from localhost ([::1]:42352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BB0372E83
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 19:11:31 +0200 (CEST)
+Received: from localhost ([::1]:36058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldyFj-0002PC-I3
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 12:50:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36418)
+	id 1ldya1-00041Z-L3
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 13:11:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldy6a-0005Sw-Gz
- for qemu-devel@nongnu.org; Tue, 04 May 2021 12:41:05 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:40949)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ldy6U-0000FQ-Bv
- for qemu-devel@nongnu.org; Tue, 04 May 2021 12:41:02 -0400
-Received: by mail-pf1-x430.google.com with SMTP id x188so6140730pfd.7
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 09:40:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=u2FxJE8ye/dR5kEM6RF7oMZvhqKRBp5k4mTytWTqdIo=;
- b=t9MjxS0zVrucfbXSLGEhOaSKBuS8B7d+5lCQIwbLitL8Ele2NxXRI2O8y47mdjVPhJ
- bkbZ6hzlKRYg9IDJmTfYJzCyrPseoDK4YPqwI8u+6PNvbt2NUTYuQ3shy5Py1tbWZj21
- rSrqyIx2aDwEN9/MNTkRJNG+uIOUYWokOEkfpfzRJv2r02t7W8IZBkS8bwOvSGlv20Fl
- CO8Sb6z3p6zYRTXiRYOq84QEzWIxnVtY++lw7hbMDtCI21AOoPPr4AAoEffz2cYPXGwL
- gmmXyIfcpmoq1gvcMtPFUDc81h+mLa2LDxuyZ4hi2hxwdsGTwAhNmHQPDUabUN84LksR
- 8FvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=u2FxJE8ye/dR5kEM6RF7oMZvhqKRBp5k4mTytWTqdIo=;
- b=N34Q9XwyIy+DT/6+T1uY3YODPtRZhCTGyJq7l/Dfhi15YRB7I/b+EVR0ojKQA9EAXJ
- mlucMh2tEc/Gce4i+W9xFJ6SCfI1KUYBi6LxjoujyqgJlneXHHxXLkKvgso7DAz3yJVs
- 9M/FQaT7MBhljPGWMBo4Nf9Y2qtwWglW0rZNCiiyRAD9FnRmwKhGlpiOf1FmpWJP0bzy
- mEVc2iOFm3RcU2WW2D6WCcxOdGaxhVd/lvExbejizailNhFY83t5+rAvHKuOnA1lKxZu
- BOkwABtystOOPnq4LAMpPYEzXEupIHDu6tjTnJxa54Qdz8Acl1hosT8MzeD4iCHgi4SH
- /SIQ==
-X-Gm-Message-State: AOAM530KsBfMPIDqfWRzcpl5RqZM1lokKX/6pQGR+OnOmZ1Tvqis4Y7T
- RYrT55hC38pAp0HJoWPwxs33hw==
-X-Google-Smtp-Source: ABdhPJw94MDsRphkefqL/hTQ2uV1Or7pImGtSLZ282g5coYQ60su5+VrPojG1F2c7n1fVpj/3c6aUA==
-X-Received: by 2002:a63:1d19:: with SMTP id d25mr23796855pgd.169.1620146456531; 
- Tue, 04 May 2021 09:40:56 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 23sm4168915pgm.9.2021.05.04.09.40.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 May 2021 09:40:56 -0700 (PDT)
-Subject: Re: [PATCH v4 4/5] target/ppc: turned SPR R/W callbacks not static
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- qemu-devel@nongnu.org
-References: <20210504140157.76066-1-bruno.larsen@eldorado.org.br>
- <20210504140157.76066-5-bruno.larsen@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <aaa34fa2-e598-9a2e-5f4e-051abe7730fe@linaro.org>
-Date: Tue, 4 May 2021 09:40:54 -0700
+ (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
+ id 1ldyNX-0005UZ-2K; Tue, 04 May 2021 12:58:35 -0400
+Received: from relay.sw.ru ([185.231.240.75]:34814)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
+ id 1ldyNT-000877-Mb; Tue, 04 May 2021 12:58:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=virtuozzo.com; s=relay; h=Content-Type:MIME-Version:Date:Message-ID:From:
+ Subject; bh=wNDbrrSqn+6Dl54mvJOQCCgiodLUlPlMlbCVJHB6frE=; b=b9v14rhrKfDMy22Po
+ +isr0SimuUpgOvOgaomJxobtW7Z4KIKi8AFNYj0n0d3+UrtVlYA5bOI1mwBeR9UM5MgjNx51ysllp
+ Cazvauza6OrfQCGnSVQ9/pJjDJB9TagEvU4Wh4ULT7Gaq4Y4cy+SVE3i5SJHvf0hCKX0UFb7hhf+k
+ =;
+Received: from [192.168.15.213] by relay.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <ktkhai@virtuozzo.com>)
+ id 1ldyNL-001shW-N2; Tue, 04 May 2021 19:58:23 +0300
+Subject: Re: [PATCH] qcow2: set bdi->is_dirty
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
+References: <20210504160656.462836-1-vsementsov@virtuozzo.com>
+From: Kirill Tkhai <ktkhai@virtuozzo.com>
+Message-ID: <11eda246-ff49-010e-8a21-6ec0f9860746@virtuozzo.com>
+Date: Tue, 4 May 2021 19:58:23 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210504140157.76066-5-bruno.larsen@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210504160656.462836-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=185.231.240.75; envelope-from=ktkhai@virtuozzo.com;
+ helo=relay.sw.ru
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 04 May 2021 13:02:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,26 +62,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/21 7:01 AM, Bruno Larsen (billionai) wrote:
-> To be able to compile translate_init.c.inc as a standalone file,
-> we have to make the callbacks accessible outside of translate.c;
-> This patch does exactly that
+On 04.05.2021 19:06, Vladimir Sementsov-Ogievskiy wrote:
+> Set bdi->is_dirty, so that qemu-img info could show dirty flag.
 > 
-> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
+> After this commit the following check will show '"dirty-flag": true':
+> 
+> ./build/qemu-img create -f qcow2 -o lazy_refcounts=on x 1M
+> ./build/qemu-io x
+> qemu-io> write 0 1M
+> 
+>  After "write" command success, kill the qemu-io process:
+> 
+> kill -9 <qemu-io pid>
+> 
+> ./build/qemu-img info --output=json x
+> 
+> This will show '"dirty-flag": true' among other things. (before this
+> commit it shows '"dirty-flag": false')
+> 
+> Note, that qcow2's dirty-bit is not a "dirty bit for the image". It
+> only protects qcow2 lazy refcounts feature. So, there are a lot of
+> conditions when qcow2 session may be not closed correctly, but bit is
+> 0. Still, when bit is set, the last session is definitely not finished
+> correctly and it's better to report it.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+Works for me. Thanks,
+
+Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
+
 > ---
->   target/ppc/spr_tcg.h   | 134 ++++++++++++++++++++++++++
->   target/ppc/translate.c | 210 ++++++++++++++++++++---------------------
->   2 files changed, 237 insertions(+), 107 deletions(-)
->   create mode 100644 target/ppc/spr_tcg.h
+>  block/qcow2.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 9727ae8fe3..39b91ef940 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+> @@ -5089,6 +5089,7 @@ static int qcow2_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+>      BDRVQcow2State *s = bs->opaque;
+>      bdi->cluster_size = s->cluster_size;
+>      bdi->vm_state_offset = qcow2_vm_state_offset(s);
+> +    bdi->is_dirty = s->incompatible_features & QCOW2_INCOMPAT_DIRTY;
+>      return 0;
+>  }
+>  
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
 
