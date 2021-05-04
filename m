@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE87E3725A9
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:04:01 +0200 (CEST)
-Received: from localhost ([::1]:37274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378BB3725C4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:22:07 +0200 (CEST)
+Received: from localhost ([::1]:39066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldoA3-0005Tt-CE
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:04:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60506)
+	id 1ldoRa-0002HQ-4Y
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:22:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo02-0005Hc-IK; Tue, 04 May 2021 01:53:39 -0400
-Received: from ozlabs.org ([203.11.71.1]:39851)
+ id 1ldo04-0005IM-FK; Tue, 04 May 2021 01:53:42 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51127 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldnzz-0004kR-Cw; Tue, 04 May 2021 01:53:37 -0400
+ id 1ldo00-0004kV-Pa; Tue, 04 May 2021 01:53:39 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZ8CK4VJQz9sX3; Tue,  4 May 2021 15:53:17 +1000 (AEST)
+ id 4FZ8CK4xscz9sXH; Tue,  4 May 2021 15:53:17 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620107597;
- bh=EOPu6ADeRLGhAyKKyY2SdVCCjqq706WI0Er+aWaZJ8o=;
+ bh=Xk1wYOuZSpZWxh2ux/tBAmxZ1jpImU1ImlZmhp9mW8o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AnXHInv5jo+304cUKO5rozSV2twH5FZNjMPDqQ4PAZRhJgM4jHLFwt1z0eNg/9RT2
- fNu0Oj2NiodXUeoBknFdWAjIyrrOF7DHnKcQLiJTxC3KkWJX3jk1k/uIxZ6QVfD+V6
- aPgE1SI5CLnU+ej1HgXGKMmtGt8a+TsF1/h3Uz78=
+ b=azv2z9J/mErL83AOAoT9QXVFaLY4N1WtUEUecMWWwpubJbocbTTUdU+3M5FDyHf97
+ CzJDjWPDrPrJQlvptPRrFjXujgYi9ujgJyh1y9iM0yDmyVatnNOPqSjetDOBZ6/U2a
+ 4CKRHOVczwG/GLggkGyJfrlOIqX6OrG2nJ4rjyKY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 15/46] target/ppc: Put LPCR[GTSE] in hflags
-Date: Tue,  4 May 2021 15:52:41 +1000
-Message-Id: <20210504055312.306823-16-david@gibson.dropbear.id.au>
+Subject: [PULL 16/46] target/ppc: Remove MSR_SA and MSR_AP from hflags
+Date: Tue,  4 May 2021 15:52:42 +1000
+Message-Id: <20210504055312.306823-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 References: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,81 +64,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Because this bit was not in hflags, the privilege check
-for tlb instructions was essentially random.
-Recompute hflags when storing to LPCR.
+Nothing within the translator -- or anywhere else for that
+matter -- checks MSR_SA or MSR_AP on the 602.  This may be
+a mistake.  However, for the moment, we need not record these
+bits in hflags.
+
+This allows us to simplify HFLAGS_VSX computation by moving
+it to overlap with MSR_VSX.
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210323184340.619757-7-richard.henderson@linaro.org>
+Message-Id: <20210323184340.619757-8-richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu.h         | 1 +
- target/ppc/helper_regs.c | 3 +++
- target/ppc/mmu-hash64.c  | 3 +++
- target/ppc/translate.c   | 2 +-
- 4 files changed, 8 insertions(+), 1 deletion(-)
+ target/ppc/cpu.h         |  4 +---
+ target/ppc/helper_regs.c | 10 ++++------
+ 2 files changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index d5f362506a..3c28ddb331 100644
+index 3c28ddb331..2f72f83ee3 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -596,6 +596,7 @@ enum {
-     HFLAGS_LE = 0,   /* MSR_LE -- comes from elsewhere on 601 */
-     HFLAGS_HV = 1,   /* computed from MSR_HV and other state */
-     HFLAGS_64 = 2,   /* computed from MSR_CE and MSR_SF */
-+    HFLAGS_GTSE = 3, /* computed from SPR_LPCR[GTSE] */
+@@ -600,14 +600,12 @@ enum {
      HFLAGS_DR = 4,   /* MSR_DR */
      HFLAGS_IR = 5,   /* MSR_IR */
      HFLAGS_SPE = 6,  /* from MSR_SPE if cpu has SPE; avoid overlap w/ MSR_VR */
+-    HFLAGS_VSX = 7,  /* from MSR_VSX if cpu has VSX; avoid overlap w/ MSR_AP */
+     HFLAGS_TM = 8,   /* computed from MSR_TM */
+     HFLAGS_BE = 9,   /* MSR_BE -- from elsewhere on embedded ppc */
+     HFLAGS_SE = 10,  /* MSR_SE -- from elsewhere on embedded ppc */
+     HFLAGS_FP = 13,  /* MSR_FP */
+     HFLAGS_PR = 14,  /* MSR_PR */
+-    HFLAGS_SA = 22,  /* MSR_SA */
+-    HFLAGS_AP = 23,  /* MSR_AP */
++    HFLAGS_VSX = 23, /* MSR_VSX if cpu has VSX */
+     HFLAGS_VR = 25,  /* MSR_VR if cpu has VRE */
+ };
+ 
 diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index e345966b6b..f85bb14d1d 100644
+index f85bb14d1d..dd3cd770a3 100644
 --- a/target/ppc/helper_regs.c
 +++ b/target/ppc/helper_regs.c
-@@ -149,6 +149,9 @@ void hreg_compute_hflags(CPUPPCState *env)
+@@ -99,11 +99,8 @@ void hreg_compute_hflags(CPUPPCState *env)
+     QEMU_BUILD_BUG_ON(MSR_DR != HFLAGS_DR);
+     QEMU_BUILD_BUG_ON(MSR_IR != HFLAGS_IR);
+     QEMU_BUILD_BUG_ON(MSR_FP != HFLAGS_FP);
+-    QEMU_BUILD_BUG_ON(MSR_SA != HFLAGS_SA);
+-    QEMU_BUILD_BUG_ON(MSR_AP != HFLAGS_AP);
+     msr_mask = ((1 << MSR_LE) | (1 << MSR_PR) |
+-                (1 << MSR_DR) | (1 << MSR_IR) |
+-                (1 << MSR_FP) | (1 << MSR_SA) | (1 << MSR_AP));
++                (1 << MSR_DR) | (1 << MSR_IR) | (1 << MSR_FP));
+ 
+     if (ppc_flags & POWERPC_FLAG_HID0_LE) {
+         /*
+@@ -143,8 +140,9 @@ void hreg_compute_hflags(CPUPPCState *env)
+         QEMU_BUILD_BUG_ON(MSR_VR != HFLAGS_VR);
+         msr_mask |= 1 << MSR_VR;
+     }
+-    if ((ppc_flags & POWERPC_FLAG_VSX) && (msr & (1 << MSR_VSX))) {
+-        hflags |= 1 << HFLAGS_VSX;
++    if (ppc_flags & POWERPC_FLAG_VSX) {
++        QEMU_BUILD_BUG_ON(MSR_VSX != HFLAGS_VSX);
++        msr_mask |= 1 << MSR_VSX;
+     }
      if ((ppc_flags & POWERPC_FLAG_TM) && (msr & (1ull << MSR_TM))) {
          hflags |= 1 << HFLAGS_TM;
-     }
-+    if (env->spr[SPR_LPCR] & LPCR_GTSE) {
-+        hflags |= 1 << HFLAGS_GTSE;
-+    }
- 
- #ifndef CONFIG_USER_ONLY
-     if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 0fabc10302..d517a99832 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -30,6 +30,7 @@
- #include "exec/log.h"
- #include "hw/hw.h"
- #include "mmu-book3s-v3.h"
-+#include "helper_regs.h"
- 
- /* #define DEBUG_SLB */
- 
-@@ -1125,6 +1126,8 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
-     CPUPPCState *env = &cpu->env;
- 
-     env->spr[SPR_LPCR] = val & pcc->lpcr_mask;
-+    /* The gtse bit affects hflags */
-+    hreg_compute_hflags(env);
- }
- 
- void helper_store_lpcr(CPUPPCState *env, target_ulong val)
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index d48c554290..5e629291d3 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -7908,7 +7908,7 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->altivec_enabled = (hflags >> HFLAGS_VR) & 1;
-     ctx->vsx_enabled = (hflags >> HFLAGS_VSX) & 1;
-     ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
--    ctx->gtse = !!(env->spr[SPR_LPCR] & LPCR_GTSE);
-+    ctx->gtse = (hflags >> HFLAGS_GTSE) & 1;
- 
-     ctx->singlestep_enabled = 0;
-     if ((hflags >> HFLAGS_SE) & 1) {
 -- 
 2.31.1
 
