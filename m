@@ -2,67 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1623D372600
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:55:18 +0200 (CEST)
-Received: from localhost ([::1]:59810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAB33725D7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:33:00 +0200 (CEST)
+Received: from localhost ([::1]:57998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldoxh-0002cD-5V
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:55:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33270)
+	id 1ldoc7-0002KU-4E
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:32:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldo5m-0002wZ-Ti
- for qemu-devel@nongnu.org; Tue, 04 May 2021 01:59:34 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ldo5i-0007xc-PA
- for qemu-devel@nongnu.org; Tue, 04 May 2021 01:59:34 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ldo5h-0002s8-Kr
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 05:59:29 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 909302E8188
- for <qemu-devel@nongnu.org>; Tue,  4 May 2021 05:59:29 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ldo0S-0005yi-IB; Tue, 04 May 2021 01:54:04 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:34985)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ldo0Q-0004pc-Gw; Tue, 04 May 2021 01:54:04 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FZ8CL0kzgz9sXh; Tue,  4 May 2021 15:53:18 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1620107598;
+ bh=ZXngux+vg82chzEMmTJ7/137V6OF57z5Jfn89SAnKLs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=fRTEn249Uo8eVm1TrNQPgpyRMa3xEWslkfZSIHfNZDEKSnJc26lCb9lb4Bo/5UzzZ
+ aAcMGf8At6HfDg6Q98iBxrIX92tKUeLRWIfQJ4RIkca0VGx9EZbnfioU2bfCXyPjQ8
+ KxHSEPpWEydovpHGdKtX/xA7rzuBU/8J+Y0spZaY=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org,
+	groug@kaod.org
+Subject: [PULL 22/46] vt82c686: Introduce abstract TYPE_VIA_ISA and base
+ vt82c686b_isa on it
+Date: Tue,  4 May 2021 15:52:48 +1000
+Message-Id: <20210504055312.306823-23-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210504055312.306823-1-david@gibson.dropbear.id.au>
+References: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 04 May 2021 05:45:35 -0000
-From: Thomas Huth <1471904@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: balaton-4 th-huth uwe-lienig
-X-Launchpad-Bug-Reporter: Uwe Lienig (uwe-lienig)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20150706172738.3886.69660.malonedeb@wampee.canonical.com>
-Message-Id: <162010713578.9706.9858675175027912564.malone@gac.canonical.com>
-Subject: [Bug 1471904] Re: qemu fails under NeXTStep 3.3 when accessing ROM in
- SCSI-Adapter am53c974
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="02afa4875ac52c169f5cddf0d1bcdd6e149a3754"; Instance="production"
-X-Launchpad-Hash: d4bdfe16f857820d2a73dc5db5759b6c670d74aa
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,126 +59,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1471904 <1471904@bugs.launchpad.net>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
+From: BALATON Zoltan <balaton@eik.bme.hu>
 
- https://gitlab.com/qemu-project/qemu/-/issues/116
+To allow reusing ISA bridge emulation for vt8231_isa move the device
+state of vt82c686b_isa emulation in an abstract via_isa class. This
+change breaks migration back compatibility but this is not an issue
+for Fuloong2E machine which is not versioned or migration supported.
 
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <0cb8fc69c7aaa555589181931b881335fecd2ef3.1616680239.git.balaton@eik.bme.hu>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/isa/vt82c686.c        | 70 ++++++++++++++++++++++------------------
+ include/hw/pci/pci_ids.h |  2 +-
+ 2 files changed, 40 insertions(+), 32 deletions(-)
 
-** Changed in: qemu
-       Status: Triaged =3D> Expired
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 952c6fc867..b09bfe3fa2 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -534,24 +534,48 @@ static const TypeInfo vt8231_superio_info = {
+ };
+ 
+ 
+-OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
++#define TYPE_VIA_ISA "via-isa"
++OBJECT_DECLARE_SIMPLE_TYPE(ViaISAState, VIA_ISA)
+ 
+-struct VT82C686BISAState {
++struct ViaISAState {
+     PCIDevice dev;
+     qemu_irq cpu_intr;
+     ViaSuperIOState *via_sio;
+ };
+ 
++static const VMStateDescription vmstate_via = {
++    .name = "via-isa",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(dev, ViaISAState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const TypeInfo via_isa_info = {
++    .name          = TYPE_VIA_ISA,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(ViaISAState),
++    .abstract      = true,
++    .interfaces    = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { },
++    },
++};
++
+ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+ {
+-    VT82C686BISAState *s = opaque;
++    ViaISAState *s = opaque;
+     qemu_set_irq(s->cpu_intr, level);
+ }
+ 
++/* TYPE_VT82C686B_ISA */
++
+ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+                                    uint32_t val, int len)
+ {
+-    VT82C686BISAState *s = VT82C686B_ISA(d);
++    ViaISAState *s = VIA_ISA(d);
+ 
+     trace_via_isa_write(addr, val, len);
+     pci_default_write_config(d, addr, val, len);
+@@ -561,19 +585,9 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+     }
+ }
+ 
+-static const VMStateDescription vmstate_via = {
+-    .name = "vt82c686b",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
+-    .fields = (VMStateField[]) {
+-        VMSTATE_PCI_DEVICE(dev, VT82C686BISAState),
+-        VMSTATE_END_OF_LIST()
+-    }
+-};
+-
+ static void vt82c686b_isa_reset(DeviceState *dev)
+ {
+-    VT82C686BISAState *s = VT82C686B_ISA(dev);
++    ViaISAState *s = VIA_ISA(dev);
+     uint8_t *pci_conf = s->dev.config;
+ 
+     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+@@ -593,7 +607,7 @@ static void vt82c686b_isa_reset(DeviceState *dev)
+ 
+ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+ {
+-    VT82C686BISAState *s = VT82C686B_ISA(d);
++    ViaISAState *s = VIA_ISA(d);
+     DeviceState *dev = DEVICE(d);
+     ISABus *isa_bus;
+     qemu_irq *isa_irq;
+@@ -617,7 +631,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     }
+ }
+ 
+-static void via_class_init(ObjectClass *klass, void *data)
++static void vt82c686b_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+@@ -625,28 +639,21 @@ static void via_class_init(ObjectClass *klass, void *data)
+     k->realize = vt82c686b_realize;
+     k->config_write = vt82c686b_write_config;
+     k->vendor_id = PCI_VENDOR_ID_VIA;
+-    k->device_id = PCI_DEVICE_ID_VIA_ISA_BRIDGE;
++    k->device_id = PCI_DEVICE_ID_VIA_82C686B_ISA;
+     k->class_id = PCI_CLASS_BRIDGE_ISA;
+     k->revision = 0x40;
+     dc->reset = vt82c686b_isa_reset;
+     dc->desc = "ISA bridge";
+     dc->vmsd = &vmstate_via;
+-    /*
+-     * Reason: part of VIA VT82C686 southbridge, needs to be wired up,
+-     * e.g. by mips_fuloong2e_init()
+-     */
++    /* Reason: part of VIA VT82C686 southbridge, needs to be wired up */
+     dc->user_creatable = false;
+ }
+ 
+-static const TypeInfo via_info = {
++static const TypeInfo vt82c686b_isa_info = {
+     .name          = TYPE_VT82C686B_ISA,
+-    .parent        = TYPE_PCI_DEVICE,
+-    .instance_size = sizeof(VT82C686BISAState),
+-    .class_init    = via_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+-        { },
+-    },
++    .parent        = TYPE_VIA_ISA,
++    .instance_size = sizeof(ViaISAState),
++    .class_init    = vt82c686b_class_init,
+ };
+ 
+ 
+@@ -658,7 +665,8 @@ static void vt82c686b_register_types(void)
+     type_register_static(&via_superio_info);
+     type_register_static(&vt82c686b_superio_info);
+     type_register_static(&vt8231_superio_info);
+-    type_register_static(&via_info);
++    type_register_static(&via_isa_info);
++    type_register_static(&vt82c686b_isa_info);
+ }
+ 
+ type_init(vt82c686b_register_types)
+diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
+index ea28dcc850..aa3f67eaa4 100644
+--- a/include/hw/pci/pci_ids.h
++++ b/include/hw/pci/pci_ids.h
+@@ -204,7 +204,7 @@
+ #define PCI_VENDOR_ID_XILINX             0x10ee
+ 
+ #define PCI_VENDOR_ID_VIA                0x1106
+-#define PCI_DEVICE_ID_VIA_ISA_BRIDGE     0x0686
++#define PCI_DEVICE_ID_VIA_82C686B_ISA    0x0686
+ #define PCI_DEVICE_ID_VIA_IDE            0x0571
+ #define PCI_DEVICE_ID_VIA_UHCI           0x3038
+ #define PCI_DEVICE_ID_VIA_82C686B_PM     0x3057
+-- 
+2.31.1
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #116
-   https://gitlab.com/qemu-project/qemu/-/issues/116
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1471904
-
-Title:
-  qemu fails under NeXTStep 3.3 when accessing ROM in SCSI-Adapter
-  am53c974
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  I try to do a fresh install of NeXTStep 3.3 on qemu. After all install
-  floppies are successfully read in, the installation shall start, but
-  aborts right away. During installation process the SCSI host adapter
-  is correctly detected. I don't know, if these adapter where equipped
-  with some special ROM. I thought of installing NeXTStep on a SCSI
-  system due to the IDE problems already known under #1276879. If
-  necessary I would use gdb to track more into this.
-
-  System info:
-  Linux prerow 3.11.10-29-desktop #1 SMP PREEMPT Thu Mar 5 16:24:00 UTC 201=
-5 (338c513) x86_64 x86_64 x86_64 GNU/Linux
-  NAME=3DopenSUSE
-  VERSION=3D"13.1 (Bottle)"
-  VERSION_ID=3D"13.1"
-  PRETTY_NAME=3D"openSUSE 13.1 (Bottle) (x86_64)"
-
-  qemu commandline parameter:
-  /usr/bin/qemu-system-i386 \
-      -cpu pentium \
-      -monitor stdio \
-      -k de \
-      -vga cirrus \
-      -m 128 \
-      -localtime \
-      -drive \
-           file=3D.qemu/floppy/3.3_Boot_Disk.floppyimage,format=3Draw,if=3D=
-floppy,index=3D0 \
-       -drive \
-           file=3D.qemu/disk/scsihd-2G.qcow2,format=3Dqcow2,id=3Dscsihd0,if=
-=3Dnone \
-       -drive \
-           file=3D.qemu/cdrom/3.3_InstallCD-NeXTIntel.cdromimage,format=3Dr=
-aw,id=3Dscsicd0,if=3Dnone \
-       -net \
-           none \
-       -device \
-           am53c974,id=3DAMD0 \
-       -device \
-           scsi-cd,drive=3Dscsicd0,bus=3DAMD0.0,lun=3D0,scsi-id=3D1,physica=
-l_block_size=3D512,logical_block_size=3D512 \
-       -device \
-           scsi-hd,drive=3Dscsihd0,bus=3DAMD0.0,lun=3D0,scsi-id=3D0,removab=
-le=3Doff,secs=3D125,heads=3D8,cyls=3D4176,product=3D"ST32151N        ",vend=
-or=3D"Seagate ",serial=3D"89683587",ver=3D"2356",physical_block_size=3D512,=
-logical_block_size=3D512,dpofua=3Doff
-
-  qemu error message:
-  qemu: fatal: Trying to execute code outside RAM or ROM at 0xc01754a8
-
-  EAX=3D000000ff EBX=3D0000fffb ECX=3D000000ff EDX=3D000000a1
-  ESI=3D00000009 EDI=3D00011010 EBP=3D0000ff84 ESP=3D0000ff6c
-  EIP=3D001754a8 EFL=3D00000007 [-----PC] CPL=3D0 II=3D0 A20=3D1 SMM=3D0 HL=
-T=3D0
-  ES =3D0050 00000000 bfffffff 00cb9300 DPL=3D0 DS   [-WA]
-  CS =3D0008 c0000000 3fffffff 00c39a00 DPL=3D0 CS32 [-R-]
-  SS =3D0050 00000000 bfffffff 00cb9300 DPL=3D0 DS   [-WA]
-  DS =3D0050 00000000 bfffffff 00cb9300 DPL=3D0 DS   [-WA]
-  FS =3D0050 00000000 bfffffff 00cb9300 DPL=3D0 DS   [-WA]
-  GS =3D0050 00000000 bfffffff 00cb9300 DPL=3D0 DS   [-WA]
-  LDT=3D0000 00000000 0000ffff 00008200 DPL=3D0 LDT
-  TR =3D0000 00000000 0000ffff 00008b00 DPL=3D0 TSS32-busy
-  GDT=3D     001c9a58 000000ff
-  IDT=3D     001c9bac 000007ff
-  CR0=3D00000033 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000              =
-                                                                       =
-
-  DR0=3D00000000 DR1=3D00000000 DR2=3D00000000 DR3=3D00000000              =
-                                                                       =
-
-  DR6=3Dffff0ff0 DR7=3D00000400                                            =
-                                                                   =
-
-  CCS=3D00000001 CCD=3D0000000c CCO=3DINCL    =
-
-  EFER=3D0000000000000000
-  FCW=3D037f FSW=3D0000 [ST=3D0] FTW=3D00 MXCSR=3D00001f80
-  FPR0=3D0000000000000000 0000 FPR1=3D0000000000000000 0000
-  FPR2=3D0000000000000000 0000 FPR3=3D0000000000000000 0000
-  FPR4=3D0000000000000000 0000 FPR5=3D0000000000000000 0000
-  FPR6=3D0000000000000000 0000 FPR7=3D0000000000000000 0000
-  XMM00=3D00000000000000000000000000000000 XMM01=3D000000000000000000000000=
-00000000
-  XMM02=3D00000000000000000000000000000000 XMM03=3D000000000000000000000000=
-00000000
-  XMM04=3D00000000000000000000000000000000 XMM05=3D000000000000000000000000=
-00000000
-  XMM06=3D00000000000000000000000000000000 XMM07=3D000000000000000000000000=
-00000000
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1471904/+subscriptions
 
