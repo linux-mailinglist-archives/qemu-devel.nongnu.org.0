@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C1C3725F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:49:27 +0200 (CEST)
-Received: from localhost ([::1]:46270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0BC3725F7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 08:51:54 +0200 (CEST)
+Received: from localhost ([::1]:52498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldos2-0004sB-CA
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32808)
+	id 1ldouP-0007kc-Gz
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 02:51:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo1N-00076i-Hx; Tue, 04 May 2021 01:55:01 -0400
-Received: from ozlabs.org ([203.11.71.1]:39687)
+ id 1ldo1N-00077A-Ld; Tue, 04 May 2021 01:55:01 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:55873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ldo1L-0005OH-Hw; Tue, 04 May 2021 01:55:01 -0400
+ id 1ldo1L-0005OK-OX; Tue, 04 May 2021 01:55:01 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZ8CQ5sbFz9t1r; Tue,  4 May 2021 15:53:22 +1000 (AEST)
+ id 4FZ8CQ4zFlz9t1s; Tue,  4 May 2021 15:53:22 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620107602;
- bh=fCKZKsqp44tDGeu7z15Q40LoupLPDQzipln+K2O5gIY=;
+ bh=y9uyQJXG5pCTAYMMEsFQPkAKFM4i1KQ0n02I0GZk4yE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VbVsBSo45rI2WhDWrQ/aMmiiPXZUrcJovC6mcbgBGR2btWBNhm/bB4TUYvfF/kXEQ
- +2jKTxVHFn/+nKzojZWaJ9yzgju8uXplVpUpxTrSq7TS0AlWLiGPhTpb4TiA8fExVv
- MkIzinG08UGtuQSHO6CaUdZYkjLw5/NgBJUc4NX4=
+ b=hq6T6klWkS8oHc0yWEps/9mxyicptvOKUyB3lTR75OYa69RMOoQdoO5vp2tzDApCI
+ /jeiPcICKOtZFTi9K2EjllwX9OrdKPI0uW+7plkTtDY9C7UPw7e02UI2FC1BM6ABEb
+ xQSBrr9DAWkS3M3MATWbSUabQHmCIZ8yCxQZ3hKo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 45/46] hw/ppc/spapr_vio: Reset TCE table object with
- device_cold_reset()
-Date: Tue,  4 May 2021 15:53:11 +1000
-Message-Id: <20210504055312.306823-46-david@gibson.dropbear.id.au>
+Subject: [PULL 46/46] hw/ppc/pnv_psi: Use device_cold_reset() instead of
+ device_legacy_reset()
+Date: Tue,  4 May 2021 15:53:12 +1000
+Message-Id: <20210504055312.306823-47-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 References: <20210504055312.306823-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,33 +65,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The spapr_vio_quiesce_one() function resets the TCE table object
-(TYPE_SPAPR_TCE_TABLE) via device_legacy_reset().  We know that
-objects of that type do not have a qbus of their own, so the new
+The pnv_psi.c code uses device_legacy_reset() for two purposes:
+ * to reset itself from its qemu_register_reset() handler
+ * to reset a XiveSource object it has
+
+Neither it nor the XiveSource have any qbuses, so the new
 device_cold_reset() function (which resets both the device and its
 child buses) is equivalent here to device_legacy_reset() and we can
 just switch to the new API.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210503151849.8766-3-peter.maydell@linaro.org>
+Message-Id: <20210503151849.8766-4-peter.maydell@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_vio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ppc/pnv_psi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
-index ef06e0362c..b59452bcd6 100644
---- a/hw/ppc/spapr_vio.c
-+++ b/hw/ppc/spapr_vio.c
-@@ -310,7 +310,7 @@ int spapr_vio_send_crq(SpaprVioDevice *dev, uint8_t *crq)
- static void spapr_vio_quiesce_one(SpaprVioDevice *dev)
+diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+index 3e868c8c8d..292b373f93 100644
+--- a/hw/ppc/pnv_psi.c
++++ b/hw/ppc/pnv_psi.c
+@@ -466,7 +466,7 @@ static void pnv_psi_reset(DeviceState *dev)
+ 
+ static void pnv_psi_reset_handler(void *dev)
  {
-     if (dev->tcet) {
--        device_legacy_reset(DEVICE(dev->tcet));
-+        device_cold_reset(DEVICE(dev->tcet));
-     }
-     free_crq(dev);
+-    device_legacy_reset(DEVICE(dev));
++    device_cold_reset(DEVICE(dev));
  }
+ 
+ static void pnv_psi_realize(DeviceState *dev, Error **errp)
+@@ -710,7 +710,7 @@ static void pnv_psi_p9_mmio_write(void *opaque, hwaddr addr,
+         break;
+     case PSIHB9_INTERRUPT_CONTROL:
+         if (val & PSIHB9_IRQ_RESET) {
+-            device_legacy_reset(DEVICE(&psi9->source));
++            device_cold_reset(DEVICE(&psi9->source));
+         }
+         psi->regs[reg] = val;
+         break;
 -- 
 2.31.1
 
