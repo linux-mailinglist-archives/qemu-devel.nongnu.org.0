@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A4837273B
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 10:30:01 +0200 (CEST)
-Received: from localhost ([::1]:58282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FAB37274C
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 10:35:28 +0200 (CEST)
+Received: from localhost ([::1]:39628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldqRM-0001my-B7
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 04:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34062)
+	id 1ldqWd-0005xY-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 04:35:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ldqO2-00082Y-OA; Tue, 04 May 2021 04:26:35 -0400
-Received: from mail-db8eur05on2118.outbound.protection.outlook.com
- ([40.107.20.118]:10464 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1ldqNu-0007yw-3x; Tue, 04 May 2021 04:26:26 -0400
+Received: from mail-db8eur05on2116.outbound.protection.outlook.com
+ ([40.107.20.116]:45350 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ldqNx-0007EP-3A; Tue, 04 May 2021 04:26:34 -0400
+ id 1ldqNp-0007Kk-RW; Tue, 04 May 2021 04:26:25 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PvCZSWmVrrATEnqhsuqq3pv4p8QgLyRgnTJdjORngCjBYvylr1+ZZ9kfzsIJRmEshG1LZWBS/3TNoUY+a7qPr/T+Ll0AFHyUgJQAZI7ailwA1mYjzCwXd4zBl/FmtJgZX7jI6qvEMaIE9lY/3zpPV+clapKgJ9vwCl65CKvcRRe9N4Qa7zZp9zaFcvzle6pcEoM4xclsXMtr1AaQteGVsPy6poM9JZpMwQTl7zdbkI9FdUZ8opeZCgcVhRaUki0Px4Ter5p8/jXSpQxwP9ymyrt9Zb0Okya/21IS6GFOGNJ2955rW84P19J5J/OsYRtuXiSNltyfU10ajDz1cyo4jg==
+ b=LE28ikcYLk28MVvE6cbuRSnn+rkxs4Jjs1ZYIeS8qJlcGSS+Em1YGQB5awYL3rVOMvY26oHs60/5PAGwQ/5NWXAGlDps/kwHQlW7o+GAHkZFbggfGYQa7GWwFpsWzWa5iBqqbf+zTk7JqQeEo1Ok/xgLTxosDqog5B06Gpg4meDU3RydWSsLUE+caoSpvp9TpojZVcUZr55ZR7v/aDZZ8s4Tpqoh/rlax6NUX7NqHVO2k2MalWpYl8ZHPm4suGhGukxrbctTqh+dA+LSLclxy5dJuA2mX2UaF4hXSLEkEIYVj2PTJ5ASzbCIbXolAIJ97t37lFAnGVY7RQcw6IAZew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZVnxqGECls+TQxCkbFAClRijhk/doPHsDIGULGvD54U=;
- b=Kn+IvZUum1lVTAJgI1ARO/Sr9cYRFuN2snDa+uaSFu38DmpItqOpQKaPb5vW7yu3BsuYnn/CI8u7Q2bwQVhkTgTm1T3lYxX5Bmjvv5arg7JgkbH2HQdZi88BOhOXIggo7OUvuIVeLvSRSCu/2GBR6Zdg5RdzLSzx+DVQAWv3XebbMQHyWhmLTjbequNOjdqYyVo3p1GGwcM1KQ7D7zfjF8O1ZqHaPH3rMh6zTz2oo5CMCvuMlpv5trueaU/NSZGxWR59bKOEGSl19kU92PAT3EgZ40O4r+RpY44tJbxfFEiRL9u6elcjnaFDTo0PLmjk0iAXwVLXzt3ZLXlQcxlXwQ==
+ bh=+RujCyZGVC+T48Sg8vsxPAQvBpkzCIGoJ/nXzE8eWRo=;
+ b=lweXBMlIdZagtLNi6oCdVJoasFrvexViRMXCZxavmpMTc4aRtSFGya0yPGEc8TyVu1Zem2mAYUhM1Zj9LBrUavnbbTgOc+Gz7MqB/jTOt9mjNnu9enQlGkf/BxTM4kwYkFWpm/IiyOJPxJUrLJnJQ+8x9Or2nj1E9DOe1hHX3alqnqErUpAkV3WEPtk6a+8NZdCaqxkfA5QgpJhMR/WBNH5ElUowiF4w65Z4FPplDxlRSSV26ryvzcweu9w94k3mdkPkKNoT9s5fIQR3irBm8/loW6KfVhc9ZZG37l7/iSYHfygdQ7TYdiHk0PPpjHQ5RojR/XfsljyJcWYQ5RW/Iw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZVnxqGECls+TQxCkbFAClRijhk/doPHsDIGULGvD54U=;
- b=cGxHu74ShbZOCxwg9SrF9eJigVc75A0Jee1nYN5/R8oTbyIBX/wQawa21HMIpWolmN79ndnpaVLiuCRe6HQ7NbUlJxeN7+HhMOGoVphHoZ7zz47KWG+UTkYwwTvwvACtQNuWAUdOSkmGw1K6tr3JMvATtfquk86hw8ihvz+gTZs=
+ bh=+RujCyZGVC+T48Sg8vsxPAQvBpkzCIGoJ/nXzE8eWRo=;
+ b=CNeFBQosEMnbsUBOAryv5PJzZPJzToVb5eszIk3k7JT0NUp2YWo+0ZcgqIw3/280c9ZUP0tmamf7afqgRuQZYmpUxPa8DXtHteR6fw/FVC19zJfEnPzM2n+Tn0NYULEJAMGDTJz5vS8waZsYa96bXFQa7LltWCHa7rDcI8w6REQ=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3381.eurprd08.prod.outlook.com (2603:10a6:20b:43::26)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.44; Tue, 4 May
- 2021 08:26:13 +0000
+ 2021 08:26:10 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.024; Tue, 4 May 2021
- 08:26:13 +0000
+ 08:26:10 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
  eesposit@redhat.com, pbonzini@redhat.com
-Subject: [PATCH v2 5/9] block/write-threshold: don't use aio context lock
-Date: Tue,  4 May 2021 11:25:49 +0300
-Message-Id: <20210504082553.20377-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 2/9] block: drop write notifiers
+Date: Tue,  4 May 2021 11:25:46 +0300
+Message-Id: <20210504082553.20377-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210504082553.20377-1-vsementsov@virtuozzo.com>
 References: <20210504082553.20377-1-vsementsov@virtuozzo.com>
@@ -66,63 +66,64 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.251) by
  HE1P191CA0013.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4087.27 via Frontend Transport; Tue, 4 May 2021 08:26:12 +0000
+ 15.20.4087.27 via Frontend Transport; Tue, 4 May 2021 08:26:09 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0a468491-6373-462c-602b-08d90ed6477e
+X-MS-Office365-Filtering-Correlation-Id: d49b7cbc-fc24-407f-79a3-08d90ed6456c
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3381:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3381C37AE9893E911145822CC15A9@AM6PR08MB3381.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB33815A3A7229AF926730BA40C15A9@AM6PR08MB3381.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:168;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: khGZPQZT5N2Md7Ui1qoJy12gUIkm2kgqN6ijLiYHrJjfuSpWjEhGk9GBYHRhibzPTpTyCXKT68+MYvYUoV6fJWPyo5e/9P8TDOqwORsCa1Q8tu/FJZPPQla0bdjOFnIeRNaL8qSKtSEYDZd9JiNjmbAOF6tQv3iYNV1vKOi1JFMErGdwKT9rUUmTu2h+NZXNDaAlgVkQrmcQThmiOUKg6XRu0S6eNytLJsPCliYduflqJJD7nVEg/I3FNC3FnHonZadVVXnqjLJ7t7dyWA0lP2vER4E+RXG/W8RMVWEd8nmjtnsGsOWVPmXSejkggg93e7PQdfGRFvzQdVa3xgfVjNUQEbH0LuZPfPecAZ/MJmjm7FvAR7OAhSEWhvpc5rUijwzfmgSCyv44Mdu0RMHxkPQLRcdHoQSlx1MZwMGSTIgpmvwWSq0B50iWUJMwm63lSuMKw9ML6Qga77M/LgtqxM8GaJvlRyIY0XMqWRcKIDxBqUGrkoleAAEQZST3UWKe/k8oY7J2gTje4WTXpOBZ5BUi3dP3pspd3jsK5APTSUc1Z8Yk9M/sAvNZOxFUgC73/q4H+pSkuiUPhH1G0py0H5HMRI8u8s/uFgIrQkzCewyRArTF2zIP0qwYn5JptqWhRrLKbWsAYRmeOfAjKEY6GCaXHhREwcIACN7oYdprkbOfKMCNAPJ0RBiGHAhRGFVf
+X-Microsoft-Antispam-Message-Info: zlD/hhuDHyRQhrrV5R1x90C9ffVhv8MH6ZtTTT7m9XCs++oL+RtK62TJmzF14L6cH5bVDtSYcn1NRP3cpAnY2qt/LkO/r+zlq8EkaoYHogZvoqcTa7qNnwHb6rYL6t7pOeB94BdGXg0XpmjUX+qtdWtp4H/uukRrUipBnJqelg+GaAJJi9cze/iSsxguOkteXXqhXFwiDsCcWifBRZELwfD9y8S2kj6ynX9fwmcAo/q+pART9fNryc1V3u2zMaiEA52xhVfS7/ENtbNVb7j11lwP/BOoivy8BTCwQIWeiEppohT3b1JWOgLJyNrCppT43ugyqA+JXzIXSNeDr+Tq/XNfk6sVq5m8JkfAPzDXOGH0khdxSYlRDjbFQyVUHL/GPpk96KWPUyAhMUTkEWDXVULeg9UeZ/NrPGM+B/H+BNT/tCR7DvPIj7rzRJ7eZiI+9HI3R7H5C2iEBXYza0PcuSl5BpTpsyMg2si+ReAj6b7idGMAl9eQxPVz2iOoTV+8PILEtl9vJsfkiTrBeEc8XyjV1lN+w/SIE5ZJGNx1J4P8ZHz6YOSmNykNlh2mShLCChcnXAtLj53j1MDREhHs4kd0jnsDecc19fPDreizCwSXezCc3MsotQEIewXqHGmEKQrlvVrq707Yu5CaoxSE4pW7NA0HQ0RqWeHKZIwqDV36tI9NTHH/ih+f8eqh2qA/
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(136003)(39830400003)(376002)(346002)(366004)(396003)(6666004)(83380400001)(38350700002)(38100700002)(5660300002)(8676002)(36756003)(16526019)(2616005)(186003)(956004)(1076003)(2906002)(316002)(4326008)(6506007)(478600001)(6486002)(26005)(8936002)(6916009)(6512007)(86362001)(66946007)(52116002)(66556008)(66476007)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?o0lUNbwjciIqs3X6D49qtntb6ipi4hTPl9NRBd753WVA2TFyCCswi+kOhCyd?=
- =?us-ascii?Q?P0JZw1Joi8e+gRBsU8UhSogPsiyHk/0brIRedgaSnBLYcJUmp9e8nCLXuEIm?=
- =?us-ascii?Q?vQZ5fBcCplHTpFWYk7/PwRYUoHxl5ElUYnn8GxmX3sVK7D6bp4/cEh62z4h0?=
- =?us-ascii?Q?QD1mevCZELdNfWYOrxpjOBskf2lUmm4d06H5z+w/nq0NWvB1AxowVSHPWFv1?=
- =?us-ascii?Q?5igIKaDH7R+9eerDEhL+IGAxngmYhiviIoO/ZPvamjaw9fzVFiDiTnYtTHFe?=
- =?us-ascii?Q?yD9XmGu2DI1t8vM+kzmMXs/oNLydZ1kQiHQ+9/T2iwqOPNvkA+Al8ApB5wAF?=
- =?us-ascii?Q?htoCBl//DVZ/VmMTygbBvL1bLliLNLKzDIK+rlp3MGs+QoCsiI+J6qnbuMcr?=
- =?us-ascii?Q?zuK5/K1KP6HC0MDq6ikWToc58M5c0LprlxqPB66fYxUSvK+SlIXWIzBUC3Qv?=
- =?us-ascii?Q?Qg0umusoB36bhQ032gIPzauiLvZ+x7fG4WXUGWLBNGpJCVwCzNPC5TMuB2LV?=
- =?us-ascii?Q?5wrRwqMSOI3FypwW4xhLiukYITqRibixxe0wI8Jy3eABKAviMFbs70uaAOTX?=
- =?us-ascii?Q?x2z88HUqMLmE2qmSJxlphsfMSUum+eklJjN2BaSdceC58HqdYf05Ksb3uoFz?=
- =?us-ascii?Q?JrFHTvCsyKxnUmStjYRWRU+GcWsSJMHdVBaIlq8HC4Jh8h8MpHNj/osXGu2W?=
- =?us-ascii?Q?70l6t0ZXVGcGdmiK954xAS9QeIrnChbVnE9QW9qdH7zeaB6YM5bvFv49yp1R?=
- =?us-ascii?Q?z1rlBmVaU2sdnRqpKrztas901jYBtZWi+9zDm1ks0ijOQv+UVjR8fjtHQY7g?=
- =?us-ascii?Q?4yZ0BoNlM6G0gHxe5C8/uDW1iiSr9FDsBPx7icDbANPfmALhu4foofZXq10v?=
- =?us-ascii?Q?oKeIKT0EXmODTxPZVOqgViDhmjus/0qkWKd2120l79FW8q+ndyHV7Tmp4/cI?=
- =?us-ascii?Q?TYeyEYvcE6nkkf/5JMFdIpcw4Bio43xKZv+boMQgqHjAbMHDuahrIQBEyfjg?=
- =?us-ascii?Q?xw7FR/B+a/BjoyZXSDskbQ92UDd9SicElgnyffRCCXgm5ICgoMOCxlqMXqDq?=
- =?us-ascii?Q?2LkQOi920EG0Cq7Ckb1tS+oOj1QE0rNtpERusa+5XS8SnnCFtBa/0iptJH6g?=
- =?us-ascii?Q?XxSEFINKkwPyw4YH04NxDSKlPXGKFg0o2zaVHckhPMJyx7xAWnIds2wiqp8g?=
- =?us-ascii?Q?7fDE84Zz/xPA6YTw5U+iAhUaUOTYmpftv07n74gE55TwEp+UKCuDFZM0iZCu?=
- =?us-ascii?Q?QDl2g6il7tN9gQX2uypNpLxMusvtgfnJ49dS+LXJTNfICNnS8Yg/1+J57f0x?=
- =?us-ascii?Q?/ptXj+iepqIEN430lHSCox+e?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?7KDO/RrMyUUOBr2AOQROboLVfb+tTQiL+LxGSFOTvgt8280uaa9SgbPjnrOY?=
+ =?us-ascii?Q?1hSqt+NBaM82aZUb8CFNa6N8onKxXRCP8za8npVSjP0lyEbViwyPMicFH9Jh?=
+ =?us-ascii?Q?h1OX2okBsEaGN2E9colYP8YJTDlptZ5yYBvPwvh7Lqxr3mL8nCvLMhHxlnK8?=
+ =?us-ascii?Q?ddYoJtRvG1SuLTfUXuNEF4ZDul7Cw3xno57bVlLEXJu6I+FKaHp0abuE+NF4?=
+ =?us-ascii?Q?R68zDwNPxL56OPYUI9nHkapyoA8cgsZJlphSSFGLaSWl/6HGJwGFamucdtBk?=
+ =?us-ascii?Q?5BEC1YgTFS8BEEAA2xSeJQ4b5CfwOuj8dLbr3KgwPIbcusBZBN2jMIGLHXLg?=
+ =?us-ascii?Q?gfR4rav+YGhQcXd3w6smVObuu73lVyTiBTNEBBf8QFcAJ3hDYJQXkkDAUSz2?=
+ =?us-ascii?Q?/PcbYgFt+zVXdh/BrfXbjyg3NGY6lXgW4lSvnT3RyUJHH2QT6V+j9LPPDjNg?=
+ =?us-ascii?Q?od/vtOwl4qXuK74ONmckR/QLgcReV+ecKFxvw50xFMcmJ3YzzpY9A+bs9E3g?=
+ =?us-ascii?Q?o1qth+IMgoTOWEPZjUHYfxaSwD8RZlT5t1qeX0xkPUDervSjHLRfHiU9e34y?=
+ =?us-ascii?Q?DkhBRonNMHWB26oL0hcHgKGFLVeOxVUqVGjs4Qz9artfhpI7P8hBxHtWuxsa?=
+ =?us-ascii?Q?qtEle4Q2p+AOSymO2tG1kxhKD9UWWnkrVMzvujEjNLhEgoETHHeCRWnE9fFp?=
+ =?us-ascii?Q?DpJk0FhNI6rpBWBIJ/ZBKI6GgrqDlUYatHatNu0dqzH3GqNjEY45+oqV/6Ya?=
+ =?us-ascii?Q?uD/tBfsIwty/rYNda8Q6GfOrIIIsuIHeqZxlrWr0T/7B7sF/4U7dprVoRtWf?=
+ =?us-ascii?Q?DSdfVh9OQftZSvnvScFMpZ1yxi5GaVnUfi6QoTRkGVLRQjhscZl9cTzvkHo0?=
+ =?us-ascii?Q?+mXGDEiDI0EbkwGvd/6W5vZ8MHRxUE9pJYwiqVTyFhCyVUcgDBQyWMStc25M?=
+ =?us-ascii?Q?XE5ihkLa2p+yfyGmTq7fr3h6yUmCqZpmD7jYRbMbHjOOBVqkgw1J262lZ8aD?=
+ =?us-ascii?Q?CGrQmB9sWvSYn3DiBviw6LOFPGNqvWzXsC9dgDc0Bcq2kELLqSYpfLu5aPQC?=
+ =?us-ascii?Q?HkkYLoAH5Q3vPLjaSDCbCarORBTYzq7pwZGmxVg/QSodT+/bc42qSLJEvm+x?=
+ =?us-ascii?Q?l2lio24XLAEz/LTRTV4WMIU54lPoEB+DDRzn4bLbzC/mXg4Dal0E+jhxhwZm?=
+ =?us-ascii?Q?GmNhfFCScG2yjLDmIKBFcIMlUcp4XpCB2enTzJGArul90UpTuPQ4uFcSJer5?=
+ =?us-ascii?Q?3hdMgtKw5sDLq57TIyryJlHQwOUJq5hkaJjaH0SjVmPqyoEKOPkiSOTWc1Ss?=
+ =?us-ascii?Q?d2BUoDYm98i1KpCZn68a6BVn?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a468491-6373-462c-602b-08d90ed6477e
+X-MS-Exchange-CrossTenant-Network-Message-Id: d49b7cbc-fc24-407f-79a3-08d90ed6456c
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2021 08:26:13.6752 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2021 08:26:10.1447 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5wychzb+63ip/4qi+lOL5l9Da8xcxudX4bS8tUzxFIGDcR1DjDdasJMjgYNPBgqC/MximlmkjRQixJjQe9NgNS2MRei99t6REnbNwTe+lDY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: O6z3sPkO+lvkHGhRZomXpGL1wxVIQ0G0u78yrWb/KblKRFAPKG1N0yGfPMVL5NbX3AgNCkudNN6r6w11UTrOL3mzhI3dNCWL3qunzlFDJSo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3381
-Received-SPF: pass client-ip=40.107.20.118;
+Received-SPF: pass client-ip=40.107.20.116;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,96 +139,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of relying on aio context lock, let's make use of atomic
-operations.
-
-The tricky place is bdrv_write_threshold_check_write(): we want
-atomically unset bs->write_threshold_offset iff
-  offset + bytes > bs->write_threshold_offset
-We don't have such atomic operation, so let's go in a loop:
-
-1. fetch wtr atomically
-2. if condition satisfied, try cmpxchg (if not satisfied, we are done,
-   don't send event)
-3. if cmpxchg succeeded, we are done (send event), else go to [1]
+They are unused now.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/write-threshold.c | 32 +++++++++++++++++---------------
- 1 file changed, 17 insertions(+), 15 deletions(-)
+ include/block/block_int.h | 12 ------------
+ block.c                   |  1 -
+ block/io.c                |  6 ------
+ 3 files changed, 19 deletions(-)
 
-diff --git a/block/write-threshold.c b/block/write-threshold.c
-index ae54ee05dc..fbf4e6f5c4 100644
---- a/block/write-threshold.c
-+++ b/block/write-threshold.c
-@@ -2,6 +2,7 @@
-  * QEMU System Emulator block write threshold notification
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 51f51286a5..eab352f363 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -954,9 +954,6 @@ struct BlockDriverState {
+      */
+     int64_t total_sectors;
+ 
+-    /* Callback before write request is processed */
+-    NotifierWithReturnList before_write_notifiers;
+-
+     /* threshold limit for writes, in bytes. "High water mark". */
+     uint64_t write_threshold_offset;
+ 
+@@ -1083,15 +1080,6 @@ void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+ bool bdrv_backing_overridden(BlockDriverState *bs);
+ 
+ 
+-/**
+- * bdrv_add_before_write_notifier:
+- *
+- * Register a callback that is invoked before write requests are processed but
+- * after any throttling or waiting for overlapping requests.
+- */
+-void bdrv_add_before_write_notifier(BlockDriverState *bs,
+-                                    NotifierWithReturn *notifier);
+-
+ /**
+  * bdrv_add_aio_context_notifier:
   *
-  * Copyright Red Hat, Inc. 2014
-+ * Copyright (c) 2021 Virtuozzo International GmbH.
-  *
-  * Authors:
-  *  Francesco Romani <fromani@redhat.com>
-@@ -21,43 +22,44 @@
- 
- uint64_t bdrv_write_threshold_get(const BlockDriverState *bs)
- {
--    return bs->write_threshold_offset;
-+    return qatomic_read(&bs->write_threshold_offset);
- }
- 
- void bdrv_write_threshold_set(BlockDriverState *bs, uint64_t threshold_bytes)
- {
--    bs->write_threshold_offset = threshold_bytes;
-+    qatomic_set(&bs->write_threshold_offset, threshold_bytes);
- }
- 
- void qmp_block_set_write_threshold(const char *node_name,
-                                    uint64_t threshold_bytes,
-                                    Error **errp)
- {
--    BlockDriverState *bs;
--    AioContext *aio_context;
--
--    bs = bdrv_find_node(node_name);
-+    BlockDriverState *bs = bdrv_find_node(node_name);
-     if (!bs) {
-         error_setg(errp, "Device '%s' not found", node_name);
-         return;
+diff --git a/block.c b/block.c
+index 874c22c43e..e3c6c6ed93 100644
+--- a/block.c
++++ b/block.c
+@@ -401,7 +401,6 @@ BlockDriverState *bdrv_new(void)
+     for (i = 0; i < BLOCK_OP_TYPE_MAX; i++) {
+         QLIST_INIT(&bs->op_blockers[i]);
      }
- 
--    aio_context = bdrv_get_aio_context(bs);
--    aio_context_acquire(aio_context);
--
-     bdrv_write_threshold_set(bs, threshold_bytes);
--
--    aio_context_release(aio_context);
+-    notifier_with_return_list_init(&bs->before_write_notifiers);
+     qemu_co_mutex_init(&bs->reqs_lock);
+     qemu_mutex_init(&bs->dirty_bitmap_mutex);
+     bs->refcnt = 1;
+diff --git a/block/io.c b/block/io.c
+index 3520de51bb..1e826ba9e8 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3165,12 +3165,6 @@ bool bdrv_qiov_is_aligned(BlockDriverState *bs, QEMUIOVector *qiov)
+     return true;
  }
  
- void bdrv_write_threshold_check_write(BlockDriverState *bs, int64_t offset,
-                                       int64_t bytes)
+-void bdrv_add_before_write_notifier(BlockDriverState *bs,
+-                                    NotifierWithReturn *notifier)
+-{
+-    notifier_with_return_list_add(&bs->before_write_notifiers, notifier);
+-}
+-
+ void bdrv_io_plug(BlockDriverState *bs)
  {
-     int64_t end = offset + bytes;
--    uint64_t wtr = bs->write_threshold_offset;
-+    uint64_t wtr;
- 
--    if (wtr > 0 && end > wtr) {
--        qapi_event_send_block_write_threshold(bs->node_name, end - wtr, wtr);
--        bdrv_write_threshold_set(bs, 0);
-+retry:
-+    wtr = bdrv_write_threshold_get(bs);
-+    if (wtr == 0 || wtr >= end) {
-+        return;
-     }
-+
-+    if (qatomic_cmpxchg(&bs->write_threshold_offset, wtr, 0) != wtr) {
-+        /* bs->write_threshold_offset changed in parallel */
-+        goto retry;
-+    }
-+
-+    /* We have cleared bs->write_threshold_offset, so let's send event */
-+    qapi_event_send_block_write_threshold(bs->node_name, end - wtr, wtr);
- }
+     BdrvChild *child;
 -- 
 2.29.2
 
