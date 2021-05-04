@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A1A372798
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 10:53:13 +0200 (CEST)
-Received: from localhost ([::1]:52532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EC53727A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 10:56:43 +0200 (CEST)
+Received: from localhost ([::1]:34062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldqno-000719-Pg
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 04:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39112)
+	id 1ldqrB-0002o8-P4
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 04:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1ldqll-0004Me-ON; Tue, 04 May 2021 04:51:06 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1ldqli-0003xp-Hr; Tue, 04 May 2021 04:51:05 -0400
-Received: by mail-pl1-x629.google.com with SMTP id n16so4371467plf.7;
- Tue, 04 May 2021 01:51:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:subject:to:cc:references:in-reply-to:mime-version
- :message-id:content-transfer-encoding;
- bh=GwOWE3+oTM/pZH6kslaRO3/ZPeYaBX9lIAQmHNvIVlQ=;
- b=p/zNvF95q1Tix9RoEhKnrMJ3+8rD7lKID5L8kYcvuNXibKTXw6vT4V2euIbMAs9BTg
- dACzm2inX9YFUUrLF9poMBA+YS3OifrQ69HBK8PGWEgqf8BuIMIgskUSpnom+Ml/fGEU
- /z2bx7DVEPTK3GeJyxAv9fsOblpinDRCsVkm5dX+ClP0mkf1uAVPLpeMRyhuUle+cM8K
- mvF8bcqLVkZ+ytV6K36E2zA0Zpudl8ptNNxcNreaBtNrU2cxwxASlCF79Z+TVFLaMbYb
- cwnPbtrWo1V/lOF7TcsODf87kI69XLOTPI+Hid0/98iAEdhvngbaywe8sjTxmZWbEMF1
- OZaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
- :mime-version:message-id:content-transfer-encoding;
- bh=GwOWE3+oTM/pZH6kslaRO3/ZPeYaBX9lIAQmHNvIVlQ=;
- b=aMk5EfH6ukQO4YtCWQlkG+VcM7X+yezaLXmuVg+sWEZfqLplIooel1wMYhszmssfOO
- ItZSDpKWWR9O9Ba5yYNs6UgAfZLQtglZwNQW7fxwXdZiYsZcw6oTilyf+iUng7qNKTVD
- 5TIHpt+wPTyoyggG+HJsOdbqDmEhNprKtM7LxQH/D8+3brkJamVEbisOUgRS2w0RJlMn
- THcjXWHSPePM7g9dQsYpoba6kZ6ijLHQpRXiLnhwUth+wwFE1lA/5qcALcon+unDhBBD
- YLF/G5rDaPDCgl7lsvIhS3VD7oiapMJ89wPzda4YDv1v0xH8aEQaIP2qVWeqOLlO9GM9
- iyBw==
-X-Gm-Message-State: AOAM532zyPXVptuW+GmMADu0pIhtmmokDDlHfyQRRrSl6FD/Y7YbD8Xv
- u8xvK8TuEsIQAHbjkRrocyvjFKWw8TE=
-X-Google-Smtp-Source: ABdhPJxTAxwVUxtBGCXtSlNkmU9SX5kysp+gS9mHf7n9lFx2DGkufDWU759FmIxDA2BklXSaF/EP7g==
-X-Received: by 2002:a17:903:18b:b029:ee:d430:6c4d with SMTP id
- z11-20020a170903018bb02900eed4306c4dmr10617292plg.34.1620118260741; 
- Tue, 04 May 2021 01:51:00 -0700 (PDT)
-Received: from localhost ([61.68.127.20])
- by smtp.gmail.com with ESMTPSA id d63sm2837861pjk.10.2021.05.04.01.50.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 01:51:00 -0700 (PDT)
-Date: Tue, 04 May 2021 18:50:54 +1000
-From: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH] target/ppc/spapr: Update H_GET_CPU_CHARACTERISTICS bits
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210503125833.891752-1-npiggin@gmail.com>
- <YJCYKBF2YgEl8AEA@yekko>
-In-Reply-To: <YJCYKBF2YgEl8AEA@yekko>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldqoH-00089a-M3
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 04:53:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56933)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ldqoC-0005YG-UP
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 04:53:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620118415;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xBv6c9ucSae68a2F7/Bg0Y6tDtEJmpBBPOr5Of/VjtI=;
+ b=IYO9wq4fpqSj+yXKwKNA+5k3fA4pBbftF31inCaSKjuxLoe8WrV68QWsxGd9egie9c6IdI
+ yBywUn77gAoRW+TiM1NDnwMnMv4z+P40qOsMT75v0MfsXzOcJHZrGhGbJHfZzhGUWboZ+R
+ AR9cTeNpziTZ8FvEH+0TzKxFYjMX1L4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-3NKfNeu9MbqhIullJWIHLg-1; Tue, 04 May 2021 04:53:34 -0400
+X-MC-Unique: 3NKfNeu9MbqhIullJWIHLg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDA2C18B615C
+ for <qemu-devel@nongnu.org>; Tue,  4 May 2021 08:53:31 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-11.ams2.redhat.com
+ [10.36.112.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 695BA2AABD;
+ Tue,  4 May 2021 08:53:19 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8A1701800383; Tue,  4 May 2021 10:53:17 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/7] Usb 20210504 patches
+Date: Tue,  4 May 2021 10:53:10 +0200
+Message-Id: <20210504085317.207369-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Message-Id: <1620117371.82b83ry366.astroid@bobo.none>
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=npiggin@gmail.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,73 +76,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Excerpts from David Gibson's message of May 4, 2021 10:41 am:
-> On Mon, May 03, 2021 at 10:58:33PM +1000, Nicholas Piggin wrote:
->> There are several new bits added to the hcall which reflect new issues
->> found and new hardware mitigations.
->>=20
->> This adds the link stack flush behaviour, link stack flush accelerated
->> instruction capability, and several L1D flush type behaviours (which are
->> now being specified as negative in order to simplify patched kernel
->> compatibility with older firmware).
->=20
-> So, to clarify here, the bits your adding aren't advertising any new
-> behaviour on qemu/KVM's part, they're just new ways of advertising the
-> same behaviour?
+The following changes since commit 15106f7dc3290ff3254611f265849a314a93eb0e=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-hex-20210502' =
+into staging (2021-05-02 16:23:05 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/usb-20210504-pull-request=0D
+=0D
+for you to fetch changes up to 6d900b0752a72d1236a37dd31ff4a9e685e5ff56:=0D
+=0D
+  usb: limit combined packets to 1 MiB (CVE-2021-3527) (2021-05-04 08:38:55=
+ +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+usb: fix some memory allocation issues (CVE-2021-3527).=0D
+usb: add stubs, allow building without usb subsystem.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Gerd Hoffmann (5):=0D
+  usb/hid: avoid dynamic stack allocation=0D
+  usb/redir: avoid dynamic stack allocation (CVE-2021-3527)=0D
+  usb/mtp: avoid dynamic stack allocation=0D
+  usb/xhci: sanity check packet size (CVE-2021-3527)=0D
+  usb: limit combined packets to 1 MiB (CVE-2021-3527)=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/usb/host-stub: Remove unused header=0D
+  hw/usb: Do not build USB subsystem if not required=0D
+=0D
+ hw/usb/combined-packet.c |  4 +++-=0D
+ hw/usb/dev-hid.c         |  2 +-=0D
+ hw/usb/dev-mtp.c         |  3 ++-=0D
+ hw/usb/dev-wacom.c       |  2 +-=0D
+ hw/usb/hcd-xhci.c        |  5 +++++=0D
+ hw/usb/host-stub.c       |  1 -=0D
+ hw/usb/redirect.c        |  6 +++---=0D
+ stubs/usb-dev-stub.c     | 25 +++++++++++++++++++++++++=0D
+ MAINTAINERS              |  1 +=0D
+ hw/usb/meson.build       |  9 +++------=0D
+ stubs/meson.build        |  1 +=0D
+ 11 files changed, 45 insertions(+), 14 deletions(-)=0D
+ create mode 100644 stubs/usb-dev-stub.c=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-I... think so. "Behaviour" is in context of the hcall that advertises
-how the processor behaves (or what the guest must do for security).
-
-The new NO_ bits added are for processors that don't require a particular
-flush. The FLUSH_LINK_STACK was basically always required but I think
-Linux just keyed off the count cache flush and did both at once.
-
-The new LINK_FLUSH_ASSIST is a new processor feature the guest will use
-to implement link stack flushing, so maybe that does need a cap?
-
->=20
->>=20
->> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
->> ---
->>  hw/ppc/spapr_hcall.c   | 5 +++++
->>  include/hw/ppc/spapr.h | 6 ++++++
->>  2 files changed, 11 insertions(+)
->>=20
->> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->> index 7275d0bba1..f656620232 100644
->> --- a/hw/ppc/spapr_hcall.c
->> +++ b/hw/ppc/spapr_hcall.c
->> @@ -1878,6 +1878,9 @@ static target_ulong h_get_cpu_characteristics(Powe=
-rPCCPU *cpu,
->>          behaviour |=3D H_CPU_BEHAV_L1D_FLUSH_PR;
->>          break;
->>      case SPAPR_CAP_FIXED:
->> +        behaviour |=3D H_CPU_BEHAV_NO_L1D_FLUSH_ENTRY;
->> +        behaviour |=3D H_CPU_BEHAV_NO_L1D_FLUSH_UACCESS;
->> +        behaviour |=3D H_CPU_BEHAV_NO_STF_BARRIER;
->>          break;
->>      default: /* broken */
->>          assert(safe_cache =3D=3D SPAPR_CAP_BROKEN);
->> @@ -1909,9 +1912,11 @@ static target_ulong h_get_cpu_characteristics(Pow=
-erPCCPU *cpu,
->>          break;
->>      case SPAPR_CAP_WORKAROUND:
->>          behaviour |=3D H_CPU_BEHAV_FLUSH_COUNT_CACHE;
->> +        behaviour |=3D H_CPU_BEHAV_FLUSH_LINK_STACK;
->>          if (count_cache_flush_assist) {
->>              characteristics |=3D H_CPU_CHAR_BCCTR_FLUSH_ASSIST;
->>          }
->> +        /* Should have a way to enable BCCTR_LINK_FLUSH_ASSIST */
->=20
-> Do we need a new spapr capability for this link flush thing?
-
-It is independent of the FLUSH_COUNT_CACHE capability, so it seems like
-it should I think? Should that be added as a following patch?
-
-Thanks,
-Nick
 
