@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C2F372D9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 18:11:08 +0200 (CEST)
-Received: from localhost ([::1]:40412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F95372DD0
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 May 2021 18:14:13 +0200 (CEST)
+Received: from localhost ([::1]:47998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ldxdb-0000mr-53
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 12:11:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54390)
+	id 1ldxga-0004ir-1o
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 12:14:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ldxYa-00064t-U3
- for qemu-devel@nongnu.org; Tue, 04 May 2021 12:05:56 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:37791)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ldxYY-0001ku-GK
- for qemu-devel@nongnu.org; Tue, 04 May 2021 12:05:56 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id y26so11087672eds.4
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 09:05:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W4Cy2o/KTbeUx7NPoSGsh3qZYmPZv9p2mlbeCn7hXZE=;
- b=MTAn2GrOTAtu3PJJWNxh+waY2QQAY4QMKKwU91xKKQTzMq/iZejCyEPPgi8/wr/59l
- 7cVB/vFsCh06mXCKN2TXiC4zoW+P5ykkwWeODyUIO9kI7oqkCxSzXG2Fh+/zEusdTodI
- eoX4t0toxYbKfNkMGLugqmgPpo9MUsFREe77kArswY9lV4Uj3PWwavXhOYMEAOxhKIHa
- Oz/R5sfAtpiIfTbeZnchIcupMDLLWj/Vbp71bm6zoJQjWksMHd0QN7HjlCiKiySGveQW
- coTxatR+raIk7Pr18595565PGtls/G45hqZrtMIx+UrSFxmG9AU/E9FBe6lLrk9F543E
- ujZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W4Cy2o/KTbeUx7NPoSGsh3qZYmPZv9p2mlbeCn7hXZE=;
- b=Pt6JEwzdfkoGZtY3lkiZ2O6VL5lg1Lo85EA7648fZhbT+pHoO6gVIr5vaLo9mJ5cvb
- zFpFp89JXO2hleOdocx9xwIEX9zPYiu3+IVMMuDk7u8Q/i7C0VZRLVR+SnqwDM7ML31G
- Xwz+VHAMVUqPBYTLqodhfRKtgKAuV1jXQbRKLcGBeQxhS+JkOdaO12D5A+P7OWAleJmi
- fX6uObn45rAwN9TMhp4PZQ+HqOi9Wszzv8CqiEBc3NDudzYwvzSW7EXVdDfSxohh6JNO
- f1StSJ39i+iBDG1oOsNzB66UXKjEjFvS8d4L2kmzjJbCe2dnww9DAN40FVPyq0DxwHIn
- 8Njg==
-X-Gm-Message-State: AOAM532Nx2m7qxVOb2lQyWQP4RZfUUa/9UWj9diG0+4tYLm1ZrpXUwU0
- /DaU0Jj6SxhA/2nzRLDQCsxNjSgOiMHHzTh6vGnvngwOkak=
-X-Google-Smtp-Source: ABdhPJyP4NQN9Dim2u5JgntgtpT8C1uDBt4aEOTLhSXGa4CdxAWT+3+fHBVt96CqFdWrqlAcvcpaKenshX3jGClxOzQ=
-X-Received: by 2002:a05:6402:19a:: with SMTP id
- r26mr26269157edv.44.1620144352341; 
- Tue, 04 May 2021 09:05:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ldxZY-00074R-9B
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 12:07:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37485)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ldxZT-00026U-LG
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 12:06:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620144410;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GVIxTT9uSFfUO3j3YO7sGQ1PTKDOjdIH+lYA0YgyIyA=;
+ b=BxnBGHu9OwRFEI4sp+1zLHZfWkNG3kMjJY4DdkCrDEl5RCpxFBdZsVWXrQwY2MWlad1JFo
+ B8m+yawYeniPPCK0A2rz3cIK4rq1luPQKR09vsUshr7gdgxJck+aBcNqSqf0yWxxLkDrn6
+ aUNcahRDmwxPFoK7UXkAm/1xx869NL0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-78-I7M62cUEMh-U8VfpQ2FvKw-1; Tue, 04 May 2021 12:06:46 -0400
+X-MC-Unique: I7M62cUEMh-U8VfpQ2FvKw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF23E107ACCA;
+ Tue,  4 May 2021 16:06:44 +0000 (UTC)
+Received: from gondolin.fritz.box (ovpn-113-126.ams2.redhat.com
+ [10.36.113.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C81219C71;
+ Tue,  4 May 2021 16:06:39 +0000 (UTC)
+Date: Tue, 4 May 2021 18:06:36 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH] vfio/pci: Revert nvlink removal uAPI breakage
+Message-ID: <20210504180636.6251eaf1.cohuck@redhat.com>
+In-Reply-To: <162014341432.3807030.11054087109120670135.stgit@omen>
+References: <162014341432.3807030.11054087109120670135.stgit@omen>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20210430172746.99818-1-imp@bsdimp.com>
-In-Reply-To: <20210430172746.99818-1-imp@bsdimp.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 May 2021 17:04:46 +0100
-Message-ID: <CAFEAcA9P-i+gaWLXvxMLouHbC82hWnHU+J4HyG00uTALqb=s-A@mail.gmail.com>
-Subject: Re: [PULL 0/5] bsd-user: minor cleanup patches
-To: Warner Losh <imp@bsdimp.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,45 +74,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ daniel@ffwll.ch, linux-api@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ hch@lst.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 18:46, Warner Losh <imp@bsdimp.com> wrote:
->
-> The following changes since commit ffa090bc56e73e287a63261e70ac02c0970be61a:
->
->   target/s390x: fix s390_probe_access to check PAGE_WRITE_ORG for writeability (2021-04-23 14:10:56 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bsdimp/qemu.git tags/pull-bsd-user-20210430
->
-> for you to fetch changes up to 58b3beb483d08066548d84eccd007b9d8bd24a2b:
->
->   bsd-user: style tweak: Put {} around all if/else/for statements (2021-04-30 09:14:06 -0600)
->
-> ----------------------------------------------------------------
-> bsd-user: start to cleanup the mess
->
-> A number of small cleanups to get started. All the checkpatch.pl warnings for
-> bsdload.c have been fixed, as well as a warning from qemu.h (though more remain
-> and this patch series fails the format check still). I've also fixed a
-> compile-time warning about a missing break.
->
-> ----------------------------------------------------------------
-> Warner Losh (5):
->       bsd-user: whitespace changes
->       bsd-user: style tweak: keyword space (
->       bsd-user: style tweak: return is not a function, eliminate ()
->       bsd-user: put back a break; that had gone missing...
->       bsd-user: style tweak: Put {} around all if/else/for statements
+On Tue, 04 May 2021 09:52:02 -0600
+Alex Williamson <alex.williamson@redhat.com> wrote:
 
+> Revert the uAPI changes from the below commit with notice that these
+> regions and capabilities are no longer provided.
+> 
+> Fixes: b392a1989170 ("vfio/pci: remove vfio_pci_nvlink2")
+> Reported-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> ---
+> 
+> Greg (Kurz), please double check this resolves the issue.  Thanks!
+> 
+>  include/uapi/linux/vfio.h |   46 +++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 42 insertions(+), 4 deletions(-)
 
-Applied, thanks.
+I had already hacked up a QEMU patch that moved the definitions into
+local headers, but this one is less of a hassle. (Code compiles fine
+after doing a headers update.)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
--- PMM
 
