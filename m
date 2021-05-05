@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E23C374357
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 19:12:49 +0200 (CEST)
-Received: from localhost ([::1]:33008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A15B374364
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 19:17:02 +0200 (CEST)
+Received: from localhost ([::1]:41710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leL4q-0000Kt-JA
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 13:12:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47786)
+	id 1leL8v-00042W-Ap
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 13:17:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3Vs-SYAYKCks6v6754t11tyr.p1z3rz7-qr8ry010t07.14t@flex--titusr.bounces.google.com>)
- id 1leKtr-000694-4l
- for qemu-devel@nongnu.org; Wed, 05 May 2021 13:01:27 -0400
-Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:50930)
+ <3XM-SYAYKClEC1CDBAz77z4x.v759x5D-wxEx4676z6D.7Az@flex--titusr.bounces.google.com>)
+ id 1leKtu-0006CM-QJ
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 13:01:30 -0400
+Received: from mail-qk1-x74a.google.com ([2607:f8b0:4864:20::74a]:52013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3Vs-SYAYKCks6v6754t11tyr.p1z3rz7-qr8ry010t07.14t@flex--titusr.bounces.google.com>)
- id 1leKtg-0002OQ-OG
- for qemu-devel@nongnu.org; Wed, 05 May 2021 13:01:26 -0400
-Received: by mail-yb1-xb49.google.com with SMTP id
- o12-20020a5b050c0000b02904f4a117bd74so2971026ybp.17
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 10:01:11 -0700 (PDT)
+ <3XM-SYAYKClEC1CDBAz77z4x.v759x5D-wxEx4676z6D.7Az@flex--titusr.bounces.google.com>)
+ id 1leKtj-0002QU-7Z
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 13:01:29 -0400
+Received: by mail-qk1-x74a.google.com with SMTP id
+ e4-20020a37b5040000b02902df9a0070efso1581283qkf.18
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 10:01:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc
- :content-transfer-encoding;
- bh=F309V6c6dXwlfpiDKe23lYI7DoGepdEZZkf7t9tNlXc=;
- b=E4Q/Hd0w+iWizfUKdg4zvnIqXxspEe87gvvi0zMBTZvXWtf9t447opn34lNGsh3Tb0
- GRlFTTcMg7l5h2TaVl/vb4AXAxyJ83njkdD6zmbVAkdfuQw2PTSjxFuqi8bnWOoLsa3o
- lsRw+cM2D5h5n6ieICyEoal0JnZ+E9JpMM+CdPDJF2TfSrpXvV/28F2lgxknWfxQhUA0
- QTgbi4bKOgQ1RzdnBaaZC3FeKXltYWvPZm74ErzDSSzwMPXiFrOLYL6SdA8UJe0yaeMc
- 320mmuiCwBk60qz5XYCjrQ/Sseq3GMMfVGHC/3eR9mvQfh0K1ZLF7IcpPh8KZu18nFNQ
- eVoA==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=eufrIKHmSrhRMbo3c4ko2MQEUu/HNSOkvm3EaOjyYog=;
+ b=YCyj/bgkVEHvKbjXH/NnqVTqNA+vLfPH3e3tnMkU8z9wDkO2z52faauEZ+u68uavYo
+ QwwuD663AQUwt9SAOR8cZgKsY3X0TK1bQc8v8s2K0Fv3G88ghMR/soZh6GGu3phWB6b/
+ 9hWodHitf/laDX+/b6Hz+u/bu2gwbXbUYJYEhhX+RIt6KfX4Ooked3z+GXjT9fx48Zbh
+ b6jgORNu4BnTUFYB012r1/8HyAw3lhuaMhdzPjK65X5TI/ZZWJPzzWXQeME6/HNAvjAd
+ +ZTbkvy2MwOuQVUmIOvKk1oIk0p9YZau8DBQcl9ToHKTxoCA2Kyf1tyBP65DzSGSKzEk
+ Cwqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
- :content-transfer-encoding;
- bh=F309V6c6dXwlfpiDKe23lYI7DoGepdEZZkf7t9tNlXc=;
- b=qR/AIVFxGrcc9QFCpg5UtSerxHIRmdIf83Ed/Oiahm2SPFcVJvbVFDT/6EDqaZ/EXT
- aptho7y9Fmwal98WOn6thZd4OgswFTw1H8AbtEcxBu86oJP3TxAeAwq8ja4VR7e3HsXv
- MR8zt8c0gkCGxLrsB5FMm4PSpYuCblI7dJXx9ojMQJYRk+/MV/inhLQh0sarnnOKyuDh
- qNjxq7Sjs7GQHMKmstkMw79mRCg7K7RCyEDbu+05fDZZYaU4wznISJdaJAR8CL8Ku48K
- pwQDD0qicq+LH4rKa3Fdx2nkRWcoiqeaKb4OWT+nqH1A2KvMVM158rbSk3DYO5UHkme6
- uZHw==
-X-Gm-Message-State: AOAM533Xg7JB8MWC7cL6AK17WSKupyQufFqQ/Ytf/R+B/enpNRupOflC
- SBtrE58mD7ZjmV2GhBK0KT+2FtqcMbM=
-X-Google-Smtp-Source: ABdhPJxjr1mhR3a1L6Cdfu+D00nvbYk3GqDNZ5lfQ7gCae0MnFMFfHiLf7yR7XU/kXoTz1FT5YGmio4DxkY=
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=eufrIKHmSrhRMbo3c4ko2MQEUu/HNSOkvm3EaOjyYog=;
+ b=aG+qKpABxhRBm0AwwUMe1DAbwhNf+bKj5L5DUpqr36mVg1NX4jC4SMKqoYkTmC7fQi
+ VBtjQnKNKuguZOBc2R4xMNi3dBhUlKjTSjrIrYbnLzJACId/JccMEG4Myo+oEV868L+C
+ Uie+JytXSEeBlZkGqyuSyj887vD5HevMzVujiXI0sEqPIN3+ITG4ncuQlgv5h8YnKu1O
+ INgsud37q9CQhz+eopl3QwTqrrPfMlinXy7TJwlOp9MgtOXYMtzc+5Ha6Q2z//uOs2kI
+ SGpW8gydZixFS62o9OB1cK+2xuhrmeZU1hLrDshX7SoiwQLxlNOwgQ/CLe4ljPh6E/N2
+ UyLA==
+X-Gm-Message-State: AOAM533iZgjDrgTQdLTpnFD/NdEqGvAoD/UxrZu2vGdEX/ewn4BzSzXR
+ 1Xfxk/oY4ohSLH4OHmm4apsVASz2K5w=
+X-Google-Smtp-Source: ABdhPJyR8QlGTPnVmlhSAyyXsniPzzQYxqNOXPEkJzggGTNwujzCZfyc5yLPWC6tWn+cvsI3Wv4yOwsgL0g=
 X-Received: from titusr.svl.corp.google.com
  ([2620:15c:2c5:13:aa52:9f3f:7187:bafc])
- (user=titusr job=sendgmr) by 2002:a25:8088:: with SMTP id
- n8mr39226071ybk.140.1620234070773; 
- Wed, 05 May 2021 10:01:10 -0700 (PDT)
-Date: Wed,  5 May 2021 10:00:56 -0700
-Message-Id: <20210505170101.3297395-1-titusr@google.com>
+ (user=titusr job=sendgmr) by 2002:ad4:4109:: with SMTP id
+ i9mr32152320qvp.30.1620234076055; 
+ Wed, 05 May 2021 10:01:16 -0700 (PDT)
+Date: Wed,  5 May 2021 10:00:57 -0700
+In-Reply-To: <20210505170101.3297395-1-titusr@google.com>
+Message-Id: <20210505170101.3297395-2-titusr@google.com>
 Mime-Version: 1.0
+References: <20210505170101.3297395-1-titusr@google.com>
 X-Mailer: git-send-email 2.31.1.527.g47e6f16901-goog
-Subject: [PATCH v2 0/5] Add support for PMBus in QEMU
+Subject: [PATCH v2 1/5] hw/i2c: add support for PMBus
 From: Titus Rwantare <titusr@google.com>
 To: Corey Minyard <cminyard@mvista.com>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Titus Rwantare <titusr@google.com>
+ Titus Rwantare <titusr@google.com>, Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
- envelope-from=3Vs-SYAYKCks6v6754t11tyr.p1z3rz7-qr8ry010t07.14t@flex--titusr.bounces.google.com;
- helo=mail-yb1-xb49.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::74a;
+ envelope-from=3XM-SYAYKClEC1CDBAz77z4x.v759x5D-wxEx4676z6D.7Az@flex--titusr.bounces.google.com;
+ helo=mail-qk1-x74a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -89,1237 +89,2173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
-
-This patch series adds an interface to start supporting PMBus devices in QE=
-MU.
-I=E2=80=99ve included two PMBus devices: MAX34451 and ADM1272.
-
-PMBus is a variant of SMBus meant for digital management of power supplies.
-PMBus adds to the SMBus standard by defining a number of constants and comm=
-ands
-used by compliant devices. The specification for PMBus can be found at:
+QEMU has support for SMBus devices, and PMBus is a more specific
+implementation of SMBus. The additions made in this commit makes it easier to
+add new PMBus devices to QEMU.
 
 https://pmbus.org/specification-archives/
 
-Currently, the goal for these devices is to emulate basic functionality by
-reading and writing registers. Timing, and some logical operation is not
-implemented. This implementation supports nearly all available registers fo=
-r
-PMBus including:
-   - Voltage inputs and outputs
-   - Current inputs and outputs
-   - Temperature sensors
-
-Unimplimented registers get passed through to the device model, and device
-models can opt out of using the standard registers with flags. The included
-devices make use of these fields and illustrate how to interface with the p=
-mbus
-class.
-
-Datasheets for sensors:
-
-https://datasheets.maximintegrated.com/en/ds/MAX34451.pdf
-https://www.analog.com/media/en/technical-documentation/data-sheets/ADM1272=
-.pdf
-
-Since v1:
-- addressed Joel's comments
-- split out tests into their own patches
-
-Thanks for reviewing,
-
-Titus Rwantare
-
-Titus Rwantare (5):
-  hw/i2c: add support for PMBus
-  hw/misc: add ADM1272 device
-  tests/qtest: add tests for ADM1272 device model
-  hw/misc: add MAX34451 device
-  tests/qtest: add tests for MAX34451 device model
-
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Signed-off-by: Titus Rwantare <titusr@google.com>
+---
  include/hw/i2c/pmbus_device.h |  506 +++++++++++
  hw/i2c/pmbus_device.c         | 1596 +++++++++++++++++++++++++++++++++
- hw/misc/adm1272.c             |  543 +++++++++++
- hw/misc/max34451.c            |  719 +++++++++++++++
- tests/qtest/adm1272-test.c    |  445 +++++++++
- tests/qtest/max34451-test.c   |  336 +++++++
- hw/arm/Kconfig                |    3 +
+ hw/arm/Kconfig                |    1 +
  hw/i2c/Kconfig                |    4 +
  hw/i2c/meson.build            |    1 +
- hw/misc/Kconfig               |    8 +
- hw/misc/meson.build           |    2 +
- tests/qtest/meson.build       |    2 +
- 12 files changed, 4165 insertions(+)
+ 5 files changed, 2108 insertions(+)
  create mode 100644 include/hw/i2c/pmbus_device.h
  create mode 100644 hw/i2c/pmbus_device.c
- create mode 100644 hw/misc/adm1272.c
- create mode 100644 hw/misc/max34451.c
- create mode 100644 tests/qtest/adm1272-test.c
- create mode 100644 tests/qtest/max34451-test.c
 
-Range-diff against v1:
-1:  b584203d74 ! 1:  cac7aa27ec hw/i2c: add support for PMBus
-    @@ include/hw/i2c/pmbus_device.h (new)
-     + *
-     + * Copyright 2021 Google LLC
-     + *
-    -+ * This program is free software; you can redistribute it and/or modi=
-fy it
-    -+ * under the terms of the GNU General Public License as published by =
-the
-    -+ * Free Software Foundation; either version 2 of the License, or
-    -+ * (at your option) any later version.
-    -+ *
-    -+ * This program is distributed in the hope that it will be useful, bu=
-t WITHOUT
-    -+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY=
- or
-    -+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public Licen=
-se
-    -+ * for more details.
-    ++ * SPDX-License-Identifier: GPL-2.0-or-later
-     + */
-     +
-     +#ifndef HW_PMBUS_DEVICE_H
-    @@ include/hw/i2c/pmbus_device.h (new)
-     +    uint8_t out_buf[SMBUS_DATA_MAX_LEN];
-     +};
-     +
-    -+typedef struct PMBusBlock {
-    -+    uint8_t *buf;
-    -+    uint8_t len;
-    -+} PMBusBlock;
-    -+
-     +/**
-     + * Direct mode coefficients
-     + * @var m - mantissa
-    @@ include/hw/i2c/pmbus_device.h (new)
-     + * Assumes that the bytes in the block are already ordered correctly,
-     + * also assumes the length has been prepended to the block if necessa=
-ry
-     + *     | low_byte | ... | high_byte |
-    -+ * @param pmdev - maintains state of the PMBus device
-    ++ * @param state - maintains state of the PMBus device
-     + * @param data - byte array to be sent by device
-     + * @param len - number
-     + */
-    -+void pmbus_send_block(PMBusDevice *state, PMBusBlock block);
-    ++void pmbus_send(PMBusDevice *state, const uint8_t *data, uint16_t len=
-);
-     +void pmbus_send8(PMBusDevice *state, uint8_t data);
-     +void pmbus_send16(PMBusDevice *state, uint16_t data);
-     +void pmbus_send32(PMBusDevice *state, uint32_t data);
-    @@ include/hw/i2c/pmbus_device.h (new)
-     +uint16_t pmbus_receive16(PMBusDevice *pmdev);
-     +uint32_t pmbus_receive32(PMBusDevice *pmdev);
-     +uint64_t pmbus_receive64(PMBusDevice *pmdev);
-    -+PMBusBlock pmbus_receive_block(PMBusDevice *pmdev);
-     +
-     +/**
-     + * PMBus page config must be called before any page is first used.
-    @@ hw/i2c/pmbus_device.c (new)
-     + *
-     + * Copyright 2021 Google LLC
-     + *
-    -+ * This program is free software; you can redistribute it and/or modi=
-fy it
-    -+ * under the terms of the GNU General Public License as published by =
-the
-    -+ * Free Software Foundation; either version 2 of the License, or
-    -+ * (at your option) any later version.
-    -+ *
-    -+ * This program is distributed in the hope that it will be useful, bu=
-t WITHOUT
-    -+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY=
- or
-    -+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public Licen=
-se
-    -+ * for more details.
-    ++ * SPDX-License-Identifier: GPL-2.0-or-later
-     + */
-    ++
-     +#include "qemu/osdep.h"
-     +#include <math.h>
-     +#include <string.h>
-    @@ hw/i2c/pmbus_device.c (new)
-     +    return x;
-     +}
-     +
-    -+static void pmbus_send(PMBusDevice *pmdev, const uint8_t *data, uint1=
-6_t len)
-    ++void pmbus_send(PMBusDevice *pmdev, const uint8_t *data, uint16_t len=
-)
-     +{
-     +    if (pmdev->out_buf_len + len > SMBUS_DATA_MAX_LEN) {
-     +        qemu_log_mask(LOG_GUEST_ERROR,
-    @@ hw/i2c/pmbus_device.c (new)
-     +static void pmbus_send_uint(PMBusDevice *pmdev, uint64_t data, uint8_=
-t size)
-     +{
-     +    uint8_t bytes[8];
-    ++    g_assert(size <=3D 8);
-    ++
-     +    for (int i =3D 0; i < size; i++) {
-     +        bytes[i] =3D data & 0xFF;
-     +        data =3D data >> 8;
-    @@ hw/i2c/pmbus_device.c (new)
-     +    pmbus_send(pmdev, bytes, size);
-     +}
-     +
-    -+void pmbus_send_block(PMBusDevice *pmdev, PMBusBlock block)
-    -+{
-    -+    pmbus_send(pmdev, block.buf, block.len);
-    -+}
-    -+
-     +void pmbus_send8(PMBusDevice *pmdev, uint8_t data)
-     +{
-     +    pmbus_send_uint(pmdev, data, 1);
-    @@ hw/i2c/pmbus_device.c (new)
-     +void pmbus_send_string(PMBusDevice *pmdev, const char *data)
-     +{
-     +    size_t len =3D strlen(data);
-    ++    g_assert(len > 0);
-     +    g_assert(len + pmdev->out_buf_len < SMBUS_DATA_MAX_LEN);
-     +    pmdev->out_buf[len + pmdev->out_buf_len] =3D len;
-     +
-    @@ hw/i2c/pmbus_device.c (new)
-     +                      "%s: length mismatch. Expected 1 byte, got %d b=
-ytes\n",
-     +                      __func__, pmdev->in_buf_len - 1);
-     +    }
-    -+    return (uint8_t) pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_=
-len);
-    ++    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
-     +}
-     +
-     +uint16_t pmbus_receive16(PMBusDevice *pmdev)
-    @@ hw/i2c/pmbus_device.c (new)
-     +                      "%s: length mismatch. Expected 2 bytes, got %d =
-bytes\n",
-     +                      __func__, pmdev->in_buf_len - 1);
-     +    }
-    -+    return (uint16_t) pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf=
-_len);
-    ++    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
-     +}
-     +
-     +uint32_t pmbus_receive32(PMBusDevice *pmdev)
-    @@ hw/i2c/pmbus_device.c (new)
-     +                      "%s: length mismatch. Expected 4 bytes, got %d =
-bytes\n",
-     +                      __func__, pmdev->in_buf_len - 1);
-     +    }
-    -+    return (uint32_t) pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf=
-_len);
-    ++    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
-     +}
-     +
-     +uint64_t pmbus_receive64(PMBusDevice *pmdev)
-    @@ hw/i2c/pmbus_device.c (new)
-     +                      "%s: length mismatch. Expected 8 bytes, got %d =
-bytes\n",
-     +                      __func__, pmdev->in_buf_len - 1);
-     +    }
-    -+    return (uint64_t) pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf=
-_len);
-    -+}
-    -+
-    -+PMBusBlock pmbus_receive_block(PMBusDevice *pmdev)
-    -+{
-    -+    PMBusBlock data =3D { pmdev->in_buf, pmdev->in_buf_len };
-    -+    return data;
-    ++    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
-     +}
-     +
-     +static uint8_t pmbus_out_buf_pop(PMBusDevice *pmdev)
-2:  33b0608a8c ! 2:  a130a338b4 hw/misc: add ADM1272 device
-    @@ hw/misc/adm1272.c (new)
-     + *
-     + * Copyright 2021 Google LLC
-     + *
-    -+ * This program is free software; you can redistribute it and/or modi=
-fy it
-    -+ * under the terms of the GNU General Public License as published by =
-the
-    -+ * Free Software Foundation; either version 2 of the License, or
-    -+ * (at your option) any later version.
-    -+ *
-    -+ * This program is distributed in the hope that it will be useful, bu=
-t WITHOUT
-    -+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY=
- or
-    -+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public Licen=
-se
-    -+ * for more details.
-    ++ * SPDX-License-Identifier: GPL-2.0-or-later
-     + */
-     +
-     +#include "qemu/osdep.h"
-    @@ hw/misc/adm1272.c (new)
-     +
-     +type_init(adm1272_register_types)
-    =20
-    - ## tests/qtest/adm1272-test.c (new) ##
-    -@@
-    -+/*
-    -+ * QTests for the ADM1272 hotswap controller
-    -+ *
-    -+ * Copyright 2021 Google LLC
-    -+ *
-    -+ * This program is free software; you can redistribute it and/or modi=
-fy it
-    -+ * under the terms of the GNU General Public License as published by =
-the
-    -+ * Free Software Foundation; either version 2 of the License, or
-    -+ * (at your option) any later version.
-    -+ *
-    -+ * This program is distributed in the hope that it will be useful, bu=
-t WITHOUT
-    -+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY=
- or
-    -+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public Licen=
-se
-    -+ * for more details.
-    -+ */
-    -+
-    -+#include "qemu/osdep.h"
-    -+#include <math.h>
-    -+#include "hw/i2c/pmbus_device.h"
-    -+#include "libqtest-single.h"
-    -+#include "libqos/qgraph.h"
-    -+#include "libqos/i2c.h"
-    -+#include "qapi/qmp/qdict.h"
-    -+#include "qapi/qmp/qnum.h"
-    -+#include "qemu/bitops.h"
-    -+
-    -+#define TEST_ID "adm1272-test"
-    -+#define TEST_ADDR (0x10)
-    -+
-    -+#define ADM1272_RESTART_TIME            0xCC
-    -+#define ADM1272_MFR_PEAK_IOUT           0xD0
-    -+#define ADM1272_MFR_PEAK_VIN            0xD1
-    -+#define ADM1272_MFR_PEAK_VOUT           0xD2
-    -+#define ADM1272_MFR_PMON_CONTROL        0xD3
-    -+#define ADM1272_MFR_PMON_CONFIG         0xD4
-    -+#define ADM1272_MFR_ALERT1_CONFIG       0xD5
-    -+#define ADM1272_MFR_ALERT2_CONFIG       0xD6
-    -+#define ADM1272_MFR_PEAK_TEMPERATURE    0xD7
-    -+#define ADM1272_MFR_DEVICE_CONFIG       0xD8
-    -+#define ADM1272_MFR_POWER_CYCLE         0xD9
-    -+#define ADM1272_MFR_PEAK_PIN            0xDA
-    -+#define ADM1272_MFR_READ_PIN_EXT        0xDB
-    -+#define ADM1272_MFR_READ_EIN_EXT        0xDC
-    -+
-    -+#define ADM1272_HYSTERESIS_LOW          0xF2
-    -+#define ADM1272_HYSTERESIS_HIGH         0xF3
-    -+#define ADM1272_STATUS_HYSTERESIS       0xF4
-    -+#define ADM1272_STATUS_GPIO             0xF5
-    -+#define ADM1272_STRT_UP_IOUT_LIM        0xF6
-    -+
-    -+/* Defaults */
-    -+#define ADM1272_OPERATION_DEFAULT       0x80
-    -+#define ADM1272_CAPABILITY_DEFAULT      0xB0
-    -+#define ADM1272_CAPABILITY_NO_PEC       0x30
-    -+#define ADM1272_DIRECT_MODE             0x40
-    -+#define ADM1272_HIGH_LIMIT_DEFAULT      0x0FFF
-    -+#define ADM1272_PIN_OP_DEFAULT          0x7FFF
-    -+#define ADM1272_PMBUS_REVISION_DEFAULT  0x22
-    -+#define ADM1272_MFR_ID_DEFAULT          "ADI"
-    -+#define ADM1272_MODEL_DEFAULT           "ADM1272-A1"
-    -+#define ADM1272_MFR_DEFAULT_REVISION    "25"
-    -+#define ADM1272_DEFAULT_DATE            "160301"
-    -+#define ADM1272_RESTART_TIME_DEFAULT    0x64
-    -+#define ADM1272_PMON_CONTROL_DEFAULT    0x1
-    -+#define ADM1272_PMON_CONFIG_DEFAULT     0x3F35
-    -+#define ADM1272_DEVICE_CONFIG_DEFAULT   0x8
-    -+#define ADM1272_HYSTERESIS_HIGH_DEFAULT     0xFFFF
-    -+#define ADM1272_STRT_UP_IOUT_LIM_DEFAULT    0x000F
-    -+#define ADM1272_VOLT_DEFAULT            12000
-    -+#define ADM1272_IOUT_DEFAULT            25000
-    -+#define ADM1272_PWR_DEFAULT             300  /* 12V 25A */
-    -+#define ADM1272_SHUNT                   300 /* micro-ohms */
-    -+#define ADM1272_VOLTAGE_COEFF_DEFAULT   1
-    -+#define ADM1272_CURRENT_COEFF_DEFAULT   3
-    -+#define ADM1272_PWR_COEFF_DEFAULT       7
-    -+#define ADM1272_IOUT_OFFSET             0x5000
-    -+#define ADM1272_IOUT_OFFSET             0x5000
-    -+
-    -+static const PMBusCoefficients adm1272_coefficients[] =3D {
-    -+    [0] =3D { 6770, 0, -2 },       /* voltage, vrange 60V */
-    -+    [1] =3D { 4062, 0, -2 },       /* voltage, vrange 100V */
-    -+    [2] =3D { 1326, 20480, -1 },   /* current, vsense range 15mV */
-    -+    [3] =3D { 663, 20480, -1 },    /* current, vsense range 30mV */
-    -+    [4] =3D { 3512, 0, -2 },       /* power, vrange 60V, irange 15mV =
-*/
-    -+    [5] =3D { 21071, 0, -3 },      /* power, vrange 100V, irange 15mV=
- */
-    -+    [6] =3D { 17561, 0, -3 },      /* power, vrange 60V, irange 30mV =
-*/
-    -+    [7] =3D { 10535, 0, -3 },      /* power, vrange 100V, irange 30mV=
- */
-    -+    [8] =3D { 42, 31871, -1 },     /* temperature */
-    -+};
-    -+
-    -+uint16_t pmbus_data2direct_mode(PMBusCoefficients c, uint32_t value)
-    -+{
-    -+    /* R is usually negative to fit large readings into 16 bits */
-    -+    uint16_t y =3D (c.m * value + c.b) * pow(10, c.R);
-    -+    return y;
-    -+}
-    -+
-    -+uint32_t pmbus_direct_mode2data(PMBusCoefficients c, uint16_t value)
-    -+{
-    -+    /* X =3D (Y * 10^-R - b) / m */
-    -+    uint32_t x =3D (value / pow(10, c.R) - c.b) / c.m;
-    -+    return x;
-    -+}
-    -+
-    -+
-    -+static uint16_t adm1272_millivolts_to_direct(uint32_t value)
-    -+{
-    -+    PMBusCoefficients c =3D adm1272_coefficients[ADM1272_VOLTAGE_COEF=
-F_DEFAULT];
-    -+    c.b =3D c.b * 1000;
-    -+    c.R =3D c.R - 3;
-    -+    return pmbus_data2direct_mode(c, value);
-    -+}
-    -+
-    -+static uint32_t adm1272_direct_to_millivolts(uint16_t value)
-    -+{
-    -+    PMBusCoefficients c =3D adm1272_coefficients[ADM1272_VOLTAGE_COEF=
-F_DEFAULT];
-    -+    c.b =3D c.b * 1000;
-    -+    c.R =3D c.R - 3;
-    -+    return pmbus_direct_mode2data(c, value);
-    -+}
-    -+
-    -+static uint16_t adm1272_milliamps_to_direct(uint32_t value)
-    -+{
-    -+    PMBusCoefficients c =3D adm1272_coefficients[ADM1272_CURRENT_COEF=
-F_DEFAULT];
-    -+    /* Y =3D (m * r_sense * x - b) * 10^R */
-    -+    c.m =3D c.m * ADM1272_SHUNT / 1000; /* micro-ohms */
-    -+    c.b =3D c.b * 1000;
-    -+    c.R =3D c.R - 3;
-    -+    return pmbus_data2direct_mode(c, value);
-    -+}
-    -+
-    -+static uint32_t adm1272_direct_to_milliamps(uint16_t value)
-    -+{
-    -+    PMBusCoefficients c =3D adm1272_coefficients[ADM1272_CURRENT_COEF=
-F_DEFAULT];
-    -+    c.m =3D c.m * ADM1272_SHUNT / 1000;
-    -+    c.b =3D c.b * 1000;
-    -+    c.R =3D c.R - 3;
-    -+    return pmbus_direct_mode2data(c, value);
-    -+}
-    -+
-    -+static uint16_t adm1272_watts_to_direct(uint32_t value)
-    -+{
-    -+    PMBusCoefficients c =3D adm1272_coefficients[ADM1272_PWR_COEFF_DE=
-FAULT];
-    -+    c.m =3D c.m * ADM1272_SHUNT / 1000;
-    -+    return pmbus_data2direct_mode(c, value);
-    -+}
-    -+
-    -+static uint32_t adm1272_direct_to_watts(uint16_t value)
-    -+{
-    -+    PMBusCoefficients c =3D adm1272_coefficients[ADM1272_PWR_COEFF_DE=
-FAULT];
-    -+    c.m =3D c.m * ADM1272_SHUNT / 1000;
-    -+    return pmbus_direct_mode2data(c, value);
-    -+}
-    -+
-    -+static uint16_t qmp_adm1272_get(const char *id, const char *property)
-    -+{
-    -+    QDict *response;
-    -+    uint64_t ret;
-    -+
-    -+    response =3D qmp("{ 'execute': 'qom-get', 'arguments': { 'path': =
-%s, "
-    -+                   "'property': %s } }", id, property);
-    -+    g_assert(qdict_haskey(response, "return"));
-    -+    ret =3D qnum_get_uint(qobject_to(QNum, qdict_get(response, "retur=
-n")));
-    -+    qobject_unref(response);
-    -+    return ret;
-    -+}
-    -+
-    -+static void qmp_adm1272_set(const char *id,
-    -+                            const char *property,
-    -+                            uint16_t value)
-    -+{
-    -+    QDict *response;
-    -+
-    -+    response =3D qmp("{ 'execute': 'qom-set', 'arguments': { 'path': =
-%s, "
-    -+                   "'property': %s, 'value': %u } }", id, property, v=
-alue);
-    -+    g_assert(qdict_haskey(response, "return"));
-    -+    qobject_unref(response);
-    -+}
-    -+
-    -+/* PMBus commands are little endian vs i2c_set16 in i2c.h which is bi=
-g endian */
-    -+static uint16_t adm1272_i2c_get16(QI2CDevice *i2cdev, uint8_t reg)
-    -+{
-    -+    uint8_t resp[2];
-    -+    i2c_read_block(i2cdev, reg, resp, sizeof(resp));
-    -+    return (resp[1] << 8) | resp[0];
-    -+}
-    -+
-    -+/* PMBus commands are little endian vs i2c_set16 in i2c.h which is bi=
-g endian */
-    -+static void adm1272_i2c_set16(QI2CDevice *i2cdev, uint8_t reg, uint16=
-_t value)
-    -+{
-    -+    uint8_t data[2];
-    -+
-    -+    data[0] =3D value & 255;
-    -+    data[1] =3D value >> 8;
-    -+    i2c_write_block(i2cdev, reg, data, sizeof(data));
-    -+}
-    -+
-    -+static void test_defaults(void *obj, void *data, QGuestAllocator *all=
-oc)
-    -+{
-    -+    uint16_t value, i2c_value;
-    -+    int16_t err;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+    value =3D qmp_adm1272_get(TEST_ID, "vout");
-    -+    err =3D ADM1272_VOLT_DEFAULT - value;
-    -+    g_assert_cmpuint(abs(err), <, ADM1272_VOLT_DEFAULT / 20);
-    -+
-    -+    i2c_value =3D i2c_get8(i2cdev, PMBUS_OPERATION);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_OPERATION_DEFAULT);
-    -+
-    -+    i2c_value =3D i2c_get8(i2cdev, PMBUS_VOUT_MODE);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_DIRECT_MODE);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT)=
-;
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_HIGH_LIMIT_DEFAULT);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT)=
-;
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_IOUT_OC_WARN_LIMIT)=
-;
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_HIGH_LIMIT_DEFAULT);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_OT_FAULT_LIMIT);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_HIGH_LIMIT_DEFAULT);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_OT_WARN_LIMIT);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_HIGH_LIMIT_DEFAULT);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_VIN_OV_WARN_LIMIT);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_HIGH_LIMIT_DEFAULT);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_VIN_UV_WARN_LIMIT);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_PIN_OP_WARN_LIMIT);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_PIN_OP_DEFAULT);
-    -+
-    -+    i2c_value =3D i2c_get8(i2cdev, PMBUS_REVISION);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_PMBUS_REVISION_DEFAULT=
-);
-    -+
-    -+    i2c_value =3D i2c_get8(i2cdev, ADM1272_MFR_PMON_CONTROL);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_PMON_CONTROL_DEFAULT);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, ADM1272_MFR_PMON_CONFIG);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_PMON_CONFIG_DEFAULT);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, ADM1272_MFR_DEVICE_CONFIG=
-);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_DEVICE_CONFIG_DEFAULT)=
-;
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, ADM1272_HYSTERESIS_HIGH);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_HYSTERESIS_HIGH_DEFAUL=
-T);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, ADM1272_STRT_UP_IOUT_LIM)=
-;
-    -+    g_assert_cmphex(i2c_value, =3D=3D, ADM1272_STRT_UP_IOUT_LIM_DEFAU=
-LT);
-    -+}
-    -+
-    -+/* test qmp access */
-    -+static void test_tx_rx(void *obj, void *data, QGuestAllocator *alloc)
-    -+{
-    -+    uint16_t i2c_value, value, i2c_voltage, i2c_pwr, lossy_value;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+
-    -+    /* converting to direct mode is lossy - we generate the same loss=
- here */
-    -+    lossy_value =3D
-    -+        adm1272_direct_to_millivolts(adm1272_millivolts_to_direct(100=
-0));
-    -+    qmp_adm1272_set(TEST_ID, "vin", 1000);
-    -+    value =3D qmp_adm1272_get(TEST_ID, "vin");
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_VIN);
-    -+    i2c_voltage =3D adm1272_direct_to_millivolts(i2c_value);
-    -+    g_assert_cmpuint(value, =3D=3D, i2c_voltage);
-    -+    g_assert_cmpuint(i2c_voltage, =3D=3D, lossy_value);
-    -+
-    -+    lossy_value =3D
-    -+        adm1272_direct_to_millivolts(adm1272_millivolts_to_direct(150=
-0));
-    -+    qmp_adm1272_set(TEST_ID, "vout", 1500);
-    -+    value =3D qmp_adm1272_get(TEST_ID, "vout");
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-    -+    i2c_voltage =3D adm1272_direct_to_millivolts(i2c_value);
-    -+    g_assert_cmpuint(value, =3D=3D, i2c_voltage);
-    -+    g_assert_cmpuint(i2c_voltage, =3D=3D, lossy_value);
-    -+
-    -+    lossy_value =3D
-    -+        adm1272_direct_to_milliamps(adm1272_milliamps_to_direct(1600)=
-);
-    -+    qmp_adm1272_set(TEST_ID, "iout", 1600);
-    -+    value =3D qmp_adm1272_get(TEST_ID, "iout");
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_IOUT);
-    -+    i2c_value =3D adm1272_direct_to_milliamps(i2c_value);
-    -+    g_assert_cmphex(value, =3D=3D, i2c_value);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, lossy_value);
-    -+
-    -+    lossy_value =3D
-    -+        adm1272_direct_to_watts(adm1272_watts_to_direct(320));
-    -+    qmp_adm1272_set(TEST_ID, "pin", 320);
-    -+    value =3D qmp_adm1272_get(TEST_ID, "pin");
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_PIN);
-    -+    i2c_pwr =3D adm1272_direct_to_watts(i2c_value);
-    -+    g_assert_cmphex(value, =3D=3D, i2c_pwr);
-    -+    g_assert_cmphex(i2c_pwr, =3D=3D, lossy_value);
-    -+}
-    -+
-    -+/* test r/w registers */
-    -+static void test_rw_regs(void *obj, void *data, QGuestAllocator *allo=
-c)
-    -+{
-    -+    uint16_t i2c_value;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT, 0xABCD);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT)=
-;
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0xABCD);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT, 0xCDEF);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT)=
-;
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0xCDEF);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_IOUT_OC_WARN_LIMIT, 0x1234);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_IOUT_OC_WARN_LIMIT)=
-;
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0x1234);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_OT_FAULT_LIMIT, 0x5678);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_OT_FAULT_LIMIT);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0x5678);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_OT_WARN_LIMIT, 0xABDC);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_OT_WARN_LIMIT);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0xABDC);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_VIN_OV_WARN_LIMIT, 0xCDEF);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_VIN_OV_WARN_LIMIT);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0xCDEF);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_VIN_UV_WARN_LIMIT, 0x2345);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_VIN_UV_WARN_LIMIT);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0x2345);
-    -+
-    -+    i2c_set8(i2cdev, ADM1272_RESTART_TIME, 0xF8);
-    -+    i2c_value =3D i2c_get8(i2cdev, ADM1272_RESTART_TIME);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0xF8);
-    -+
-    -+    i2c_set8(i2cdev, ADM1272_MFR_PMON_CONTROL, 0);
-    -+    i2c_value =3D i2c_get8(i2cdev, ADM1272_MFR_PMON_CONTROL);
-    -+    g_assert_cmpuint(i2c_value, =3D=3D, 0);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, ADM1272_MFR_PMON_CONFIG, 0xDEF0);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, ADM1272_MFR_PMON_CONFIG);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0xDEF0);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, ADM1272_MFR_ALERT1_CONFIG, 0x0123);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, ADM1272_MFR_ALERT1_CONFIG=
-);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0x0123);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, ADM1272_MFR_ALERT2_CONFIG, 0x9876);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, ADM1272_MFR_ALERT2_CONFIG=
-);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0x9876);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, ADM1272_MFR_DEVICE_CONFIG, 0x3456);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, ADM1272_MFR_DEVICE_CONFIG=
-);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0x3456);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, ADM1272_HYSTERESIS_LOW, 0xCABA);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, ADM1272_HYSTERESIS_LOW);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0xCABA);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, ADM1272_HYSTERESIS_HIGH, 0x6789);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, ADM1272_HYSTERESIS_HIGH);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0x6789);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, ADM1272_STRT_UP_IOUT_LIM, 0x9876);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, ADM1272_STRT_UP_IOUT_LIM)=
-;
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0x9876);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_OPERATION, 0xA);
-    -+    i2c_value =3D i2c_get8(i2cdev, PMBUS_OPERATION);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0xA);
-    -+}
-    -+
-    -+/* test read-only registers */
-    -+static void test_ro_regs(void *obj, void *data, QGuestAllocator *allo=
-c)
-    -+{
-    -+    uint16_t i2c_init_value, i2c_value;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+
-    -+    i2c_init_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_VIN);
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_READ_VIN, 0xBEEF);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_VIN);
-    -+    g_assert_cmphex(i2c_init_value, =3D=3D, i2c_value);
-    -+
-    -+    i2c_init_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_READ_VOUT, 0x1234);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-    -+    g_assert_cmphex(i2c_init_value, =3D=3D, i2c_value);
-    -+
-    -+    i2c_init_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_IOUT);
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_READ_IOUT, 0x6547);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_IOUT);
-    -+    g_assert_cmphex(i2c_init_value, =3D=3D, i2c_value);
-    -+
-    -+    i2c_init_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_TEMPERATU=
-RE_1);
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_READ_TEMPERATURE_1, 0x1597);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1)=
-;
-    -+    g_assert_cmphex(i2c_init_value, =3D=3D, i2c_value);
-    -+
-    -+    i2c_init_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_PIN);
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_READ_PIN, 0xDEAD);
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_PIN);
-    -+    g_assert_cmphex(i2c_init_value, =3D=3D, i2c_value);
-    -+}
-    -+
-    -+/* test voltage fault handling */
-    -+static void test_voltage_faults(void *obj, void *data, QGuestAllocato=
-r *alloc)
-    -+{
-    -+    uint16_t i2c_value;
-    -+    uint8_t i2c_byte;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT,
-    -+                      adm1272_millivolts_to_direct(5000));
-    -+    qmp_adm1272_set(TEST_ID, "vout", 5100);
-    -+
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_STATUS_WORD);
-    -+    i2c_byte =3D i2c_get8(i2cdev, PMBUS_STATUS_VOUT);
-    -+    g_assert_true((i2c_value & PB_STATUS_VOUT) !=3D 0);
-    -+    g_assert_true((i2c_byte & PB_STATUS_VOUT_OV_WARN) !=3D 0);
-    -+
-    -+    qmp_adm1272_set(TEST_ID, "vout", 4500);
-    -+    i2c_set8(i2cdev, PMBUS_CLEAR_FAULTS, 0);
-    -+    i2c_byte =3D i2c_get8(i2cdev, PMBUS_STATUS_VOUT);
-    -+    g_assert_true((i2c_byte & PB_STATUS_VOUT_OV_WARN) =3D=3D 0);
-    -+
-    -+    adm1272_i2c_set16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT,
-    -+                      adm1272_millivolts_to_direct(4600));
-    -+    i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_STATUS_WORD);
-    -+    i2c_byte =3D i2c_get8(i2cdev, PMBUS_STATUS_VOUT);
-    -+    g_assert_true((i2c_value & PB_STATUS_VOUT) !=3D 0);
-    -+    g_assert_true((i2c_byte & PB_STATUS_VOUT_UV_WARN) !=3D 0);
-    -+
-    -+}
-    -+
-    -+static void adm1272_register_nodes(void)
-    -+{
-    -+    QOSGraphEdgeOptions opts =3D {
-    -+        .extra_device_opts =3D "id=3D" TEST_ID ",address=3D0x10"
-    -+    };
-    -+    add_qi2c_address(&opts, &(QI2CAddress) { TEST_ADDR });
-    -+
-    -+    qos_node_create_driver("adm1272", i2c_device_create);
-    -+    qos_node_consumes("adm1272", "i2c-bus", &opts);
-    -+
-    -+    qos_add_test("test_defaults", "adm1272", test_defaults, NULL);
-    -+    qos_add_test("test_tx_rx", "adm1272", test_tx_rx, NULL);
-    -+    qos_add_test("test_rw_regs", "adm1272", test_rw_regs, NULL);
-    -+    qos_add_test("test_ro_regs", "adm1272", test_ro_regs, NULL);
-    -+    qos_add_test("test_ov_faults", "adm1272", test_voltage_faults, NU=
-LL);
-    -+}
-    -+libqos_init(adm1272_register_nodes);
-    -
-      ## hw/arm/Kconfig ##
-     @@ hw/arm/Kconfig: config XLNX_VERSAL
-      config NPCM7XX
-    @@ hw/misc/meson.build: softmmu_ss.add(when: 'CONFIG_SGA', if_true: fil=
-es('sga.c'))
-      softmmu_ss.add(when: 'CONFIG_UNIMP', if_true: files('unimp.c'))
-      softmmu_ss.add(when: 'CONFIG_EMPTY_SLOT', if_true: files('empty_slot.=
-c'))
-      softmmu_ss.add(when: 'CONFIG_LED', if_true: files('led.c'))
-    -
-    - ## tests/qtest/meson.build ##
-    -@@ tests/qtest/meson.build: qtests_s390x =3D \
-    - qos_test_ss =3D ss.source_set()
-    - qos_test_ss.add(
-    -   'ac97-test.c',
-    -+  'adm1272-test.c',
-    -   'ds1338-test.c',
-    -   'e1000-test.c',
-    -   'e1000e-test.c',
--:  ---------- > 3:  7d6d55d65e tests/qtest: add tests for ADM1272 device m=
-odel
-3:  7bf96fed69 ! 4:  5d69decd3a hw/misc: add MAX34451 device
-    @@ hw/misc/max34451.c (new)
-     + *
-     + * Copyright 2021 Google LLC
-     + *
-    -+ * This program is free software; you can redistribute it and/or modi=
-fy it
-    -+ * under the terms of the GNU General Public License as published by =
-the
-    -+ * Free Software Foundation; either version 2 of the License, or
-    -+ * (at your option) any later version.
-    -+ *
-    -+ * This program is distributed in the hope that it will be useful, bu=
-t WITHOUT
-    -+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY=
- or
-    -+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public Licen=
-se
-    -+ * for more details.
-    ++ * SPDX-License-Identifier: GPL-2.0-or-later
-     + */
-     +
-     +#include "qemu/osdep.h"
-    @@ hw/misc/max34451.c (new)
-     +
-     +type_init(max34451_register_types)
-    =20
-    - ## tests/qtest/max34451-test.c (new) ##
-    -@@
-    -+/*
-    -+ * QTests for the MAX34451 device
-    -+ *
-    -+ * Copyright 2021 Google LLC
-    -+ *
-    -+ * This program is free software; you can redistribute it and/or modi=
-fy it
-    -+ * under the terms of the GNU General Public License as published by =
-the
-    -+ * Free Software Foundation; either version 2 of the License, or
-    -+ * (at your option) any later version.
-    -+ *
-    -+ * This program is distributed in the hope that it will be useful, bu=
-t WITHOUT
-    -+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY=
- or
-    -+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public Licen=
-se
-    -+ * for more details.
-    -+ */
-    -+
-    -+#include "qemu/osdep.h"
-    -+#include "hw/i2c/pmbus_device.h"
-    -+#include "libqtest-single.h"
-    -+#include "libqos/qgraph.h"
-    -+#include "libqos/i2c.h"
-    -+#include "qapi/qmp/qdict.h"
-    -+#include "qapi/qmp/qnum.h"
-    -+#include "qemu/bitops.h"
-    -+
-    -+#define TEST_ID "max34451-test"
-    -+#define TEST_ADDR (0x4e)
-    -+
-    -+#define MAX34451_MFR_VOUT_PEAK          0xD4
-    -+#define MAX34451_MFR_IOUT_PEAK          0xD5
-    -+#define MAX34451_MFR_TEMPERATURE_PEAK   0xD6
-    -+#define MAX34451_MFR_VOUT_MIN           0xD7
-    -+
-    -+#define DEFAULT_VOUT                    0
-    -+#define DEFAULT_UV_LIMIT                0
-    -+#define DEFAULT_TEMPERATURE             2500
-    -+#define DEFAULT_SCALE                   0x7FFF
-    -+#define DEFAULT_OV_LIMIT                0x7FFF
-    -+#define DEFAULT_OC_LIMIT                0x7FFF
-    -+#define DEFAULT_OT_LIMIT                0x7FFF
-    -+#define DEFAULT_VMIN                    0x7FFF
-    -+#define DEFAULT_TON_FAULT_LIMIT         0xFFFF
-    -+#define DEFAULT_CHANNEL_CONFIG          0x20
-    -+#define DEFAULT_TEXT                    0x20
-    -+
-    -+#define MAX34451_NUM_PWR_DEVICES        16
-    -+#define MAX34451_NUM_TEMP_DEVICES       5
-    -+
-    -+
-    -+static uint16_t qmp_max34451_get(const char *id, const char *property=
-)
-    -+{
-    -+    QDict *response;
-    -+    uint16_t ret;
-    -+    response =3D qmp("{ 'execute': 'qom-get', 'arguments': { 'path': =
-%s, "
-    -+                   "'property': %s } }", id, property);
-    -+    g_assert(qdict_haskey(response, "return"));
-    -+    ret =3D qnum_get_uint(qobject_to(QNum, qdict_get(response, "retur=
-n")));
-    -+    qobject_unref(response);
-    -+    return ret;
-    -+}
-    -+
-    -+static void qmp_max34451_set(const char *id,
-    -+                             const char *property,
-    -+                             uint16_t value)
-    -+{
-    -+    QDict *response;
-    -+
-    -+    response =3D qmp("{ 'execute': 'qom-set', 'arguments': { 'path': =
-%s, "
-    -+                   "'property': %s, 'value': %u } }",
-    -+                   id, property, value);
-    -+    g_assert(qdict_haskey(response, "return"));
-    -+    qobject_unref(response);
-    -+}
-    -+
-    -+/* PMBus commands are little endian vs i2c_set16 in i2c.h which is bi=
-g endian */
-    -+static uint16_t max34451_i2c_get16(QI2CDevice *i2cdev, uint8_t reg)
-    -+{
-    -+    uint8_t resp[2];
-    -+    i2c_read_block(i2cdev, reg, resp, sizeof(resp));
-    -+    return (resp[1] << 8) | resp[0];
-    -+}
-    -+
-    -+/* PMBus commands are little endian vs i2c_set16 in i2c.h which is bi=
-g endian */
-    -+static void max34451_i2c_set16(QI2CDevice *i2cdev, uint8_t reg, uint1=
-6_t value)
-    -+{
-    -+    uint8_t data[2];
-    -+
-    -+    data[0] =3D value & 255;
-    -+    data[1] =3D value >> 8;
-    -+    i2c_write_block(i2cdev, reg, data, sizeof(data));
-    -+}
-    -+
-    -+/* Test default values */
-    -+static void test_defaults(void *obj, void *data, QGuestAllocator *all=
-oc)
-    -+{
-    -+    uint16_t value, i2c_value;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+    char *path;
-    -+
-    -+    /* Default temperatures and temperature fault limits */
-    -+    for (int i =3D 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-    -+        path =3D g_strdup_printf("temperature[%d]", i);
-    -+        value =3D qmp_max34451_get(TEST_ID, path);
-    -+        g_assert_cmpuint(value, =3D=3D, DEFAULT_TEMPERATURE);
-    -+        g_free(path);
-    -+
-    -+        /* Temperature sensors start on page 16 */
-    -+        i2c_set8(i2cdev, PMBUS_PAGE, i + 16);
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERATU=
-RE_1);
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, DEFAULT_TEMPERATURE);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_OT_FAULT_LIMIT=
-);
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, DEFAULT_OT_LIMIT);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_OT_WARN_LIMIT)=
-;
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, DEFAULT_OT_LIMIT);
-    -+    }
-    -+
-    -+    /* Default voltages and fault limits */
-    -+    for (int i =3D 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-    -+        path =3D g_strdup_printf("vout[%d]", i);
-    -+        value =3D qmp_max34451_get(TEST_ID, path);
-    -+        g_assert_cmpuint(value, =3D=3D, DEFAULT_VOUT);
-    -+        g_free(path);
-    -+
-    -+        i2c_set8(i2cdev, PMBUS_PAGE, i);
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, DEFAULT_VOUT);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_FAULT_=
-LIMIT);
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, DEFAULT_OV_LIMIT);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_WARN_L=
-IMIT);
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, DEFAULT_OV_LIMIT);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_WARN_L=
-IMIT);
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, DEFAULT_UV_LIMIT);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_FAULT_=
-LIMIT);
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, DEFAULT_UV_LIMIT);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, MAX34451_MFR_VOUT_MI=
-N);
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, DEFAULT_VMIN);
-    -+    }
-    -+
-    -+    i2c_value =3D i2c_get8(i2cdev, PMBUS_VOUT_MODE);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0x40); /* DIRECT mode */
-    -+
-    -+    i2c_value =3D i2c_get8(i2cdev, PMBUS_REVISION);
-    -+    g_assert_cmphex(i2c_value, =3D=3D, 0x11); /* Rev 1.1 */
-    -+}
-    -+
-    -+/* Test setting temperature */
-    -+static void test_temperature(void *obj, void *data, QGuestAllocator *=
-alloc)
-    -+{
-    -+    uint16_t value, i2c_value;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+    char *path;
-    -+
-    -+    for (int i =3D 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-    -+        path =3D g_strdup_printf("temperature[%d]", i);
-    -+        qmp_max34451_set(TEST_ID, path, 0xBE00 + i);
-    -+        value =3D qmp_max34451_get(TEST_ID, path);
-    -+        g_assert_cmphex(value, =3D=3D, 0xBE00 + i);
-    -+        g_free(path);
-    -+    }
-    -+
-    -+    /* compare qmp read with i2c read separately */
-    -+    for (int i =3D 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-    -+        /* temperature[0] is on page 16 */
-    -+        i2c_set8(i2cdev, PMBUS_PAGE, i + 16);
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERATU=
-RE_1);
-    -+        g_assert_cmphex(i2c_value, =3D=3D, 0xBE00 + i);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, MAX34451_MFR_TEMPERA=
-TURE_PEAK);
-    -+        g_assert_cmphex(i2c_value, =3D=3D, 0xBE00 + i);
-    -+    }
-    -+}
-    -+
-    -+/* Test setting voltage */
-    -+static void test_voltage(void *obj, void *data, QGuestAllocator *allo=
-c)
-    -+{
-    -+    uint16_t value, i2c_value;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+    char *path;
-    -+
-    -+    for (int i =3D 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-    -+        path =3D g_strdup_printf("vout[%d]", i);
-    -+        qmp_max34451_set(TEST_ID, path, 3000 + i);
-    -+        value =3D qmp_max34451_get(TEST_ID, path);
-    -+        g_assert_cmpuint(value, =3D=3D, 3000 + i);
-    -+        g_free(path);
-    -+    }
-    -+
-    -+    /* compare qmp read with i2c read separately */
-    -+    for (int i =3D 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-    -+        i2c_set8(i2cdev, PMBUS_PAGE, i);
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, 3000 + i);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, MAX34451_MFR_VOUT_PE=
-AK);
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, 3000 + i);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, MAX34451_MFR_VOUT_MI=
-N);
-    -+        g_assert_cmpuint(i2c_value, =3D=3D, 3000 + i);
-    -+    }
-    -+}
-    -+
-    -+/* Test setting some read/write registers */
-    -+static void test_rw_regs(void *obj, void *data, QGuestAllocator *allo=
-c)
-    -+{
-    -+    uint16_t i2c_value;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+
-    -+    i2c_set8(i2cdev, PMBUS_PAGE, 11);
-    -+    i2c_value =3D i2c_get8(i2cdev, PMBUS_PAGE);
-    -+    g_assert_cmpuint(i2c_value, =3D=3D, 11);
-    -+
-    -+    i2c_set8(i2cdev, PMBUS_OPERATION, 1);
-    -+    i2c_value =3D i2c_get8(i2cdev, PMBUS_OPERATION);
-    -+    g_assert_cmpuint(i2c_value, =3D=3D, 1);
-    -+
-    -+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_MARGIN_HIGH, 5000);
-    -+    i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_HIGH);
-    -+    g_assert_cmpuint(i2c_value, =3D=3D, 5000);
-    -+
-    -+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_MARGIN_LOW, 4000);
-    -+    i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_LOW);
-    -+    g_assert_cmpuint(i2c_value, =3D=3D, 4000);
-    -+
-    -+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT, 5500);
-    -+    i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMI=
-T);
-    -+    g_assert_cmpuint(i2c_value, =3D=3D, 5500);
-    -+
-    -+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT, 5600);
-    -+    i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT=
-);
-    -+    g_assert_cmpuint(i2c_value, =3D=3D, 5600);
-    -+
-    -+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_UV_FAULT_LIMIT, 5700);
-    -+    i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_FAULT_LIMI=
-T);
-    -+    g_assert_cmpuint(i2c_value, =3D=3D, 5700);
-    -+
-    -+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT, 5800);
-    -+    i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT=
-);
-    -+    g_assert_cmpuint(i2c_value, =3D=3D, 5800);
-    -+
-    -+    max34451_i2c_set16(i2cdev, PMBUS_POWER_GOOD_ON, 5900);
-    -+    i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_POWER_GOOD_ON);
-    -+    g_assert_cmpuint(i2c_value, =3D=3D, 5900);
-    -+
-    -+    max34451_i2c_set16(i2cdev, PMBUS_POWER_GOOD_OFF, 6100);
-    -+    i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_POWER_GOOD_OFF);
-    -+    g_assert_cmpuint(i2c_value, =3D=3D, 6100);
-    -+}
-    -+
-    -+/* Test that Read only registers can't be written */
-    -+static void test_ro_regs(void *obj, void *data, QGuestAllocator *allo=
-c)
-    -+{
-    -+    uint16_t i2c_value, i2c_init_value;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+
-    -+    i2c_set8(i2cdev, PMBUS_PAGE, 1); /* move to page 1 */
-    -+    i2c_init_value =3D i2c_get8(i2cdev, PMBUS_CAPABILITY);
-    -+    i2c_set8(i2cdev, PMBUS_CAPABILITY, 0xF9);
-    -+    i2c_value =3D i2c_get8(i2cdev, PMBUS_CAPABILITY);
-    -+    g_assert_cmpuint(i2c_init_value, =3D=3D, i2c_value);
-    -+
-    -+    i2c_init_value =3D max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-    -+    max34451_i2c_set16(i2cdev, PMBUS_READ_VOUT, 0xDEAD);
-    -+    i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-    -+    g_assert_cmpuint(i2c_init_value, =3D=3D, i2c_value);
-    -+    g_assert_cmphex(i2c_value, !=3D, 0xDEAD);
-    -+
-    -+    i2c_set8(i2cdev, PMBUS_PAGE, 16); /* move to page 16 */
-    -+    i2c_init_value =3D max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERAT=
-URE_1);
-    -+    max34451_i2c_set16(i2cdev, PMBUS_READ_TEMPERATURE_1, 0xABBA);
-    -+    i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1=
-);
-    -+    g_assert_cmpuint(i2c_init_value, =3D=3D, i2c_value);
-    -+    g_assert_cmphex(i2c_value, !=3D, 0xABBA);
-    -+}
-    -+
-    -+/* test over voltage faults */
-    -+static void test_ov_faults(void *obj, void *data, QGuestAllocator *al=
-loc)
-    -+{
-    -+    uint16_t i2c_value;
-    -+    uint8_t i2c_byte;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+    char *path;
-    -+    /* Test ov fault reporting */
-    -+    for (int i =3D 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-    -+        path =3D g_strdup_printf("vout[%d]", i);
-    -+        i2c_set8(i2cdev, PMBUS_PAGE, i);
-    -+        max34451_i2c_set16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT, 5000);
-    -+        qmp_max34451_set(TEST_ID, path, 5100);
-    -+        g_free(path);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_STATUS_WORD);
-    -+        i2c_byte =3D i2c_get8(i2cdev, PMBUS_STATUS_VOUT);
-    -+        g_assert_true((i2c_value & PB_STATUS_VOUT) !=3D 0);
-    -+        g_assert_true((i2c_byte & PB_STATUS_VOUT_OV_FAULT) !=3D 0);
-    -+    }
-    -+}
-    -+
-    -+/* test over temperature faults */
-    -+static void test_ot_faults(void *obj, void *data, QGuestAllocator *al=
-loc)
-    -+{
-    -+    uint16_t i2c_value;
-    -+    uint8_t i2c_byte;
-    -+    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
-    -+    char *path;
-    -+
-    -+    for (int i =3D 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-    -+        path =3D g_strdup_printf("temperature[%d]", i);
-    -+        i2c_set8(i2cdev, PMBUS_PAGE, i + 16);
-    -+        max34451_i2c_set16(i2cdev, PMBUS_OT_FAULT_LIMIT, 6000);
-    -+        qmp_max34451_set(TEST_ID, path, 6100);
-    -+        g_free(path);
-    -+
-    -+        i2c_value =3D max34451_i2c_get16(i2cdev, PMBUS_STATUS_WORD);
-    -+        i2c_byte =3D i2c_get8(i2cdev, PMBUS_STATUS_TEMPERATURE);
-    -+        g_assert_true((i2c_value & PB_STATUS_TEMPERATURE) !=3D 0);
-    -+        g_assert_true((i2c_byte & PB_STATUS_OT_FAULT) !=3D 0);
-    -+    }
-    -+}
-    -+
-    -+static void max34451_register_nodes(void)
-    -+{
-    -+    QOSGraphEdgeOptions opts =3D {
-    -+        .extra_device_opts =3D "id=3D" TEST_ID ",address=3D0x4e"
-    -+    };
-    -+    add_qi2c_address(&opts, &(QI2CAddress) { TEST_ADDR });
-    -+
-    -+    qos_node_create_driver("max34451", i2c_device_create);
-    -+    qos_node_consumes("max34451", "i2c-bus", &opts);
-    -+
-    -+    qos_add_test("test_defaults", "max34451", test_defaults, NULL);
-    -+    qos_add_test("test_temperature", "max34451", test_temperature, NU=
-LL);
-    -+    qos_add_test("test_voltage", "max34451", test_voltage, NULL);
-    -+    qos_add_test("test_rw_regs", "max34451", test_rw_regs, NULL);
-    -+    qos_add_test("test_ro_regs", "max34451", test_ro_regs, NULL);
-    -+    qos_add_test("test_ov_faults", "max34451", test_ov_faults, NULL);
-    -+    qos_add_test("test_ot_faults", "max34451", test_ot_faults, NULL);
-    -+}
-    -+libqos_init(max34451_register_nodes);
-    -
-      ## hw/arm/Kconfig ##
-     @@ hw/arm/Kconfig: config NPCM7XX
-          select ADM1272
-    @@ hw/misc/meson.build: softmmu_ss.add(when: 'CONFIG_TMP105', if_true: =
-files('tmp10
-      softmmu_ss.add(when: 'CONFIG_UNIMP', if_true: files('unimp.c'))
-      softmmu_ss.add(when: 'CONFIG_EMPTY_SLOT', if_true: files('empty_slot.=
-c'))
-      softmmu_ss.add(when: 'CONFIG_LED', if_true: files('led.c'))
-    -
-    - ## tests/qtest/meson.build ##
-    -@@ tests/qtest/meson.build: qos_test_ss.add(
-    -   'eepro100-test.c',
-    -   'es1370-test.c',
-    -   'ipoctal232-test.c',
-    -+  'max34451-test.c',
-    -   'megasas-test.c',
-    -   'ne2000-test.c',
-    -   'tulip-test.c',
--:  ---------- > 5:  d782fc570f tests/qtest: add tests for MAX34451 device =
-model
---=20
+diff --git a/include/hw/i2c/pmbus_device.h b/include/hw/i2c/pmbus_device.h
+new file mode 100644
+index 0000000000..3940de1f32
+--- /dev/null
++++ b/include/hw/i2c/pmbus_device.h
+@@ -0,0 +1,506 @@
++/*
++ * QEMU PMBus device emulation
++ *
++ * Copyright 2021 Google LLC
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef HW_PMBUS_DEVICE_H
++#define HW_PMBUS_DEVICE_H
++
++#include "qemu/bitops.h"
++#include "hw/i2c/smbus_slave.h"
++
++enum pmbus_registers {
++    PMBUS_PAGE                      = 0x00, /* R/W byte */
++    PMBUS_OPERATION                 = 0x01, /* R/W byte */
++    PMBUS_ON_OFF_CONFIG             = 0x02, /* R/W byte */
++    PMBUS_CLEAR_FAULTS              = 0x03, /* Send Byte */
++    PMBUS_PHASE                     = 0x04, /* R/W byte */
++    PMBUS_PAGE_PLUS_WRITE           = 0x05, /* Block Write-only */
++    PMBUS_PAGE_PLUS_READ            = 0x06, /* Block Read-only */
++    PMBUS_WRITE_PROTECT             = 0x10, /* R/W byte */
++    PMBUS_STORE_DEFAULT_ALL         = 0x11, /* Send Byte */
++    PMBUS_RESTORE_DEFAULT_ALL       = 0x12, /* Send Byte */
++    PMBUS_STORE_DEFAULT_CODE        = 0x13, /* Write-only Byte */
++    PMBUS_RESTORE_DEFAULT_CODE      = 0x14, /* Write-only Byte */
++    PMBUS_STORE_USER_ALL            = 0x15, /* Send Byte */
++    PMBUS_RESTORE_USER_ALL          = 0x16, /* Send Byte */
++    PMBUS_STORE_USER_CODE           = 0x17, /* Write-only Byte */
++    PMBUS_RESTORE_USER_CODE         = 0x18, /* Write-only Byte */
++    PMBUS_CAPABILITY                = 0x19, /* Read-Only byte */
++    PMBUS_QUERY                     = 0x1A, /* Write-Only */
++    PMBUS_SMBALERT_MASK             = 0x1B, /* Block read, Word write */
++    PMBUS_VOUT_MODE                 = 0x20, /* R/W byte */
++    PMBUS_VOUT_COMMAND              = 0x21, /* R/W word */
++    PMBUS_VOUT_TRIM                 = 0x22, /* R/W word */
++    PMBUS_VOUT_CAL_OFFSET           = 0x23, /* R/W word */
++    PMBUS_VOUT_MAX                  = 0x24, /* R/W word */
++    PMBUS_VOUT_MARGIN_HIGH          = 0x25, /* R/W word */
++    PMBUS_VOUT_MARGIN_LOW           = 0x26, /* R/W word */
++    PMBUS_VOUT_TRANSITION_RATE      = 0x27, /* R/W word */
++    PMBUS_VOUT_DROOP                = 0x28, /* R/W word */
++    PMBUS_VOUT_SCALE_LOOP           = 0x29, /* R/W word */
++    PMBUS_VOUT_SCALE_MONITOR        = 0x2A, /* R/W word */
++    PMBUS_COEFFICIENTS              = 0x30, /* Read-only block 5 bytes */
++    PMBUS_POUT_MAX                  = 0x31, /* R/W word */
++    PMBUS_MAX_DUTY                  = 0x32, /* R/W word */
++    PMBUS_FREQUENCY_SWITCH          = 0x33, /* R/W word */
++    PMBUS_VIN_ON                    = 0x35, /* R/W word */
++    PMBUS_VIN_OFF                   = 0x36, /* R/W word */
++    PMBUS_INTERLEAVE                = 0x37, /* R/W word */
++    PMBUS_IOUT_CAL_GAIN             = 0x38, /* R/W word */
++    PMBUS_IOUT_CAL_OFFSET           = 0x39, /* R/W word */
++    PMBUS_FAN_CONFIG_1_2            = 0x3A, /* R/W byte */
++    PMBUS_FAN_COMMAND_1             = 0x3B, /* R/W word */
++    PMBUS_FAN_COMMAND_2             = 0x3C, /* R/W word */
++    PMBUS_FAN_CONFIG_3_4            = 0x3D, /* R/W byte */
++    PMBUS_FAN_COMMAND_3             = 0x3E, /* R/W word */
++    PMBUS_FAN_COMMAND_4             = 0x3F, /* R/W word */
++    PMBUS_VOUT_OV_FAULT_LIMIT       = 0x40, /* R/W word */
++    PMBUS_VOUT_OV_FAULT_RESPONSE    = 0x41, /* R/W byte */
++    PMBUS_VOUT_OV_WARN_LIMIT        = 0x42, /* R/W word */
++    PMBUS_VOUT_UV_WARN_LIMIT        = 0x43, /* R/W word */
++    PMBUS_VOUT_UV_FAULT_LIMIT       = 0x44, /* R/W word */
++    PMBUS_VOUT_UV_FAULT_RESPONSE    = 0x45, /* R/W byte */
++    PMBUS_IOUT_OC_FAULT_LIMIT       = 0x46, /* R/W word */
++    PMBUS_IOUT_OC_FAULT_RESPONSE    = 0x47, /* R/W byte */
++    PMBUS_IOUT_OC_LV_FAULT_LIMIT    = 0x48, /* R/W word */
++    PMBUS_IOUT_OC_LV_FAULT_RESPONSE = 0x49, /* R/W byte */
++    PMBUS_IOUT_OC_WARN_LIMIT        = 0x4A, /* R/W word */
++    PMBUS_IOUT_UC_FAULT_LIMIT       = 0x4B, /* R/W word */
++    PMBUS_IOUT_UC_FAULT_RESPONSE    = 0x4C, /* R/W byte */
++    PMBUS_OT_FAULT_LIMIT            = 0x4F, /* R/W word */
++    PMBUS_OT_FAULT_RESPONSE         = 0x50, /* R/W byte */
++    PMBUS_OT_WARN_LIMIT             = 0x51, /* R/W word */
++    PMBUS_UT_WARN_LIMIT             = 0x52, /* R/W word */
++    PMBUS_UT_FAULT_LIMIT            = 0x53, /* R/W word */
++    PMBUS_UT_FAULT_RESPONSE         = 0x54, /* R/W byte */
++    PMBUS_VIN_OV_FAULT_LIMIT        = 0x55, /* R/W word */
++    PMBUS_VIN_OV_FAULT_RESPONSE     = 0x56, /* R/W byte */
++    PMBUS_VIN_OV_WARN_LIMIT         = 0x57, /* R/W word */
++    PMBUS_VIN_UV_WARN_LIMIT         = 0x58, /* R/W word */
++    PMBUS_VIN_UV_FAULT_LIMIT        = 0x59, /* R/W word */
++    PMBUS_VIN_UV_FAULT_RESPONSE     = 0x5A, /* R/W byte */
++    PMBUS_IIN_OC_FAULT_LIMIT        = 0x5B, /* R/W word */
++    PMBUS_IIN_OC_FAULT_RESPONSE     = 0x5C, /* R/W byte */
++    PMBUS_IIN_OC_WARN_LIMIT         = 0x5D, /* R/W word */
++    PMBUS_POWER_GOOD_ON             = 0x5E, /* R/W word */
++    PMBUS_POWER_GOOD_OFF            = 0x5F, /* R/W word */
++    PMBUS_TON_DELAY                 = 0x60, /* R/W word */
++    PMBUS_TON_RISE                  = 0x61, /* R/W word */
++    PMBUS_TON_MAX_FAULT_LIMIT       = 0x62, /* R/W word */
++    PMBUS_TON_MAX_FAULT_RESPONSE    = 0x63, /* R/W byte */
++    PMBUS_TOFF_DELAY                = 0x64, /* R/W word */
++    PMBUS_TOFF_FALL                 = 0x65, /* R/W word */
++    PMBUS_TOFF_MAX_WARN_LIMIT       = 0x66, /* R/W word */
++    PMBUS_POUT_OP_FAULT_LIMIT       = 0x68, /* R/W word */
++    PMBUS_POUT_OP_FAULT_RESPONSE    = 0x69, /* R/W byte */
++    PMBUS_POUT_OP_WARN_LIMIT        = 0x6A, /* R/W word */
++    PMBUS_PIN_OP_WARN_LIMIT         = 0x6B, /* R/W word */
++    PMBUS_STATUS_BYTE               = 0x78, /* R/W byte */
++    PMBUS_STATUS_WORD               = 0x79, /* R/W word */
++    PMBUS_STATUS_VOUT               = 0x7A, /* R/W byte */
++    PMBUS_STATUS_IOUT               = 0x7B, /* R/W byte */
++    PMBUS_STATUS_INPUT              = 0x7C, /* R/W byte */
++    PMBUS_STATUS_TEMPERATURE        = 0x7D, /* R/W byte */
++    PMBUS_STATUS_CML                = 0x7E, /* R/W byte */
++    PMBUS_STATUS_OTHER              = 0x7F, /* R/W byte */
++    PMBUS_STATUS_MFR_SPECIFIC       = 0x80, /* R/W byte */
++    PMBUS_STATUS_FANS_1_2           = 0x81, /* R/W byte */
++    PMBUS_STATUS_FANS_3_4           = 0x82, /* R/W byte */
++    PMBUS_READ_EIN                  = 0x86, /* Read-Only block 5 bytes */
++    PMBUS_READ_EOUT                 = 0x87, /* Read-Only block 5 bytes */
++    PMBUS_READ_VIN                  = 0x88, /* Read-Only word */
++    PMBUS_READ_IIN                  = 0x89, /* Read-Only word */
++    PMBUS_READ_VCAP                 = 0x8A, /* Read-Only word */
++    PMBUS_READ_VOUT                 = 0x8B, /* Read-Only word */
++    PMBUS_READ_IOUT                 = 0x8C, /* Read-Only word */
++    PMBUS_READ_TEMPERATURE_1        = 0x8D, /* Read-Only word */
++    PMBUS_READ_TEMPERATURE_2        = 0x8E, /* Read-Only word */
++    PMBUS_READ_TEMPERATURE_3        = 0x8F, /* Read-Only word */
++    PMBUS_READ_FAN_SPEED_1          = 0x90, /* Read-Only word */
++    PMBUS_READ_FAN_SPEED_2          = 0x91, /* Read-Only word */
++    PMBUS_READ_FAN_SPEED_3          = 0x92, /* Read-Only word */
++    PMBUS_READ_FAN_SPEED_4          = 0x93, /* Read-Only word */
++    PMBUS_READ_DUTY_CYCLE           = 0x94, /* Read-Only word */
++    PMBUS_READ_FREQUENCY            = 0x95, /* Read-Only word */
++    PMBUS_READ_POUT                 = 0x96, /* Read-Only word */
++    PMBUS_READ_PIN                  = 0x97, /* Read-Only word */
++    PMBUS_REVISION                  = 0x98, /* Read-Only byte */
++    PMBUS_MFR_ID                    = 0x99, /* R/W block */
++    PMBUS_MFR_MODEL                 = 0x9A, /* R/W block */
++    PMBUS_MFR_REVISION              = 0x9B, /* R/W block */
++    PMBUS_MFR_LOCATION              = 0x9C, /* R/W block */
++    PMBUS_MFR_DATE                  = 0x9D, /* R/W block */
++    PMBUS_MFR_SERIAL                = 0x9E, /* R/W block */
++    PMBUS_APP_PROFILE_SUPPORT       = 0x9F, /* Read-Only block-read */
++    PMBUS_MFR_VIN_MIN               = 0xA0, /* Read-Only word */
++    PMBUS_MFR_VIN_MAX               = 0xA1, /* Read-Only word */
++    PMBUS_MFR_IIN_MAX               = 0xA2, /* Read-Only word */
++    PMBUS_MFR_PIN_MAX               = 0xA3, /* Read-Only word */
++    PMBUS_MFR_VOUT_MIN              = 0xA4, /* Read-Only word */
++    PMBUS_MFR_VOUT_MAX              = 0xA5, /* Read-Only word */
++    PMBUS_MFR_IOUT_MAX              = 0xA6, /* Read-Only word */
++    PMBUS_MFR_POUT_MAX              = 0xA7, /* Read-Only word */
++    PMBUS_MFR_TAMBIENT_MAX          = 0xA8, /* Read-Only word */
++    PMBUS_MFR_TAMBIENT_MIN          = 0xA9, /* Read-Only word */
++    PMBUS_MFR_EFFICIENCY_LL         = 0xAA, /* Read-Only block 14 bytes */
++    PMBUS_MFR_EFFICIENCY_HL         = 0xAB, /* Read-Only block 14 bytes */
++    PMBUS_MFR_PIN_ACCURACY          = 0xAC, /* Read-Only byte */
++    PMBUS_IC_DEVICE_ID              = 0xAD, /* Read-Only block-read */
++    PMBUS_IC_DEVICE_REV             = 0xAE, /* Read-Only block-read */
++    PMBUS_MFR_MAX_TEMP_1            = 0xC0, /* R/W word */
++    PMBUS_MFR_MAX_TEMP_2            = 0xC1, /* R/W word */
++    PMBUS_MFR_MAX_TEMP_3            = 0xC2, /* R/W word */
++};
++
++/* STATUS_WORD */
++#define PB_STATUS_VOUT           BIT(15)
++#define PB_STATUS_IOUT_POUT      BIT(14)
++#define PB_STATUS_INPUT          BIT(13)
++#define PB_STATUS_WORD_MFR       BIT(12)
++#define PB_STATUS_POWER_GOOD_N   BIT(11)
++#define PB_STATUS_FAN            BIT(10)
++#define PB_STATUS_OTHER          BIT(9)
++#define PB_STATUS_UNKNOWN        BIT(8)
++/* STATUS_BYTE */
++#define PB_STATUS_BUSY           BIT(7)
++#define PB_STATUS_OFF            BIT(6)
++#define PB_STATUS_VOUT_OV        BIT(5)
++#define PB_STATUS_IOUT_OC        BIT(4)
++#define PB_STATUS_VIN_UV         BIT(3)
++#define PB_STATUS_TEMPERATURE    BIT(2)
++#define PB_STATUS_CML            BIT(1)
++#define PB_STATUS_NONE_ABOVE     BIT(0)
++
++/* STATUS_VOUT */
++#define PB_STATUS_VOUT_OV_FAULT         BIT(7) /* Output Overvoltage Fault */
++#define PB_STATUS_VOUT_OV_WARN          BIT(6) /* Output Overvoltage Warning */
++#define PB_STATUS_VOUT_UV_WARN          BIT(5) /* Output Undervoltage Warning */
++#define PB_STATUS_VOUT_UV_FAULT         BIT(4) /* Output Undervoltage Fault */
++#define PB_STATUS_VOUT_MAX              BIT(3)
++#define PB_STATUS_VOUT_TON_MAX_FAULT    BIT(2)
++#define PB_STATUS_VOUT_TOFF_MAX_WARN    BIT(1)
++
++/* STATUS_IOUT */
++#define PB_STATUS_IOUT_OC_FAULT    BIT(7) /* Output Overcurrent Fault */
++#define PB_STATUS_IOUT_OC_LV_FAULT BIT(6) /* Output OC And Low Voltage Fault */
++#define PB_STATUS_IOUT_OC_WARN     BIT(5) /* Output Overcurrent Warning */
++#define PB_STATUS_IOUT_UC_FAULT    BIT(4) /* Output Undercurrent Fault */
++#define PB_STATUS_CURR_SHARE       BIT(3) /* Current Share Fault */
++#define PB_STATUS_PWR_LIM_MODE     BIT(2) /* In Power Limiting Mode */
++#define PB_STATUS_POUT_OP_FAULT    BIT(1) /* Output Overpower Fault */
++#define PB_STATUS_POUT_OP_WARN     BIT(0) /* Output Overpower Warning */
++
++/* STATUS_INPUT */
++#define PB_STATUS_INPUT_VIN_OV_FAULT    BIT(7) /* Input Overvoltage Fault */
++#define PB_STATUS_INPUT_VIN_OV_WARN     BIT(6) /* Input Overvoltage Warning */
++#define PB_STATUS_INPUT_VIN_UV_WARN     BIT(5) /* Input Undervoltage Warning */
++#define PB_STATUS_INPUT_VIN_UV_FAULT    BIT(4) /* Input Undervoltage Fault */
++#define PB_STATUS_INPUT_IIN_OC_FAULT    BIT(2) /* Input Overcurrent Fault */
++#define PB_STATUS_INPUT_IIN_OC_WARN     BIT(1) /* Input Overcurrent Warning */
++#define PB_STATUS_INPUT_PIN_OP_WARN     BIT(0) /* Input Overpower Warning */
++
++/* STATUS_TEMPERATURE */
++#define PB_STATUS_OT_FAULT              BIT(7) /* Overtemperature Fault */
++#define PB_STATUS_OT_WARN               BIT(6) /* Overtemperature Warning */
++#define PB_STATUS_UT_WARN               BIT(5) /* Undertemperature Warning */
++#define PB_STATUS_UT_FAULT              BIT(4) /* Undertemperature Fault */
++
++/* STATUS_CML */
++#define PB_CML_FAULT_INVALID_CMD     BIT(7) /* Invalid/Unsupported Command */
++#define PB_CML_FAULT_INVALID_DATA    BIT(6) /* Invalid/Unsupported Data  */
++#define PB_CML_FAULT_PEC             BIT(5) /* Packet Error Check Failed */
++#define PB_CML_FAULT_MEMORY          BIT(4) /* Memory Fault Detected */
++#define PB_CML_FAULT_PROCESSOR       BIT(3) /* Processor Fault Detected */
++#define PB_CML_FAULT_OTHER_COMM      BIT(1) /* Other communication fault */
++#define PB_CML_FAULT_OTHER_MEM_LOGIC BIT(0) /* Other Memory Or Logic Fault */
++
++/* OPERATION*/
++#define PB_OP_ON                BIT(7) /* PSU is switched on */
++#define PB_OP_MARGIN_HIGH       BIT(5) /* PSU vout is set to margin high */
++#define PB_OP_MARGIN_LOW        BIT(4) /* PSU vout is set to margin low */
++
++/* PAGES */
++#define PB_MAX_PAGES            0x1F
++#define PB_ALL_PAGES            0xFF
++
++#define TYPE_PMBUS_DEVICE "pmbus-device"
++OBJECT_DECLARE_TYPE(PMBusDevice, PMBusDeviceClass,
++                    PMBUS_DEVICE)
++
++/* flags */
++#define PB_HAS_COEFFICIENTS        BIT(9)
++#define PB_HAS_VIN                 BIT(10)
++#define PB_HAS_VOUT                BIT(11)
++#define PB_HAS_VOUT_MARGIN         BIT(12)
++#define PB_HAS_VIN_RATING          BIT(13)
++#define PB_HAS_VOUT_RATING         BIT(14)
++#define PB_HAS_VOUT_MODE           BIT(15)
++#define PB_HAS_IOUT                BIT(21)
++#define PB_HAS_IIN                 BIT(22)
++#define PB_HAS_IOUT_RATING         BIT(23)
++#define PB_HAS_IIN_RATING          BIT(24)
++#define PB_HAS_IOUT_GAIN           BIT(25)
++#define PB_HAS_POUT                BIT(30)
++#define PB_HAS_PIN                 BIT(31)
++#define PB_HAS_EIN                 BIT(32)
++#define PB_HAS_EOUT                BIT(33)
++#define PB_HAS_POUT_RATING         BIT(34)
++#define PB_HAS_PIN_RATING          BIT(35)
++#define PB_HAS_TEMPERATURE         BIT(40)
++#define PB_HAS_TEMP2               BIT(41)
++#define PB_HAS_TEMP3               BIT(42)
++#define PB_HAS_TEMP_RATING         BIT(43)
++#define PB_HAS_MFR_INFO            BIT(50)
++
++struct PMBusDeviceClass {
++    SMBusDeviceClass parent_class;
++    uint8_t device_num_pages;
++
++    /**
++     * Implement quick_cmd, receive byte, and write_data to support non-standard
++     * PMBus functionality
++     */
++    void (*quick_cmd)(PMBusDevice *dev, uint8_t read);
++    int (*write_data)(PMBusDevice *dev, const uint8_t *buf, uint8_t len);
++    uint8_t (*receive_byte)(PMBusDevice *dev);
++};
++
++/*
++ * According to the spec, each page may offer the full range of PMBus commands
++ * available for each output or non-PMBus device.
++ * Therefore, we can't assume that any registers will always be the same across
++ * all pages.
++ * The page 0xFF is intended for writes to all pages
++ */
++typedef struct PMBusPage {
++    uint64_t page_flags;
++
++    uint8_t page;                      /* R/W byte */
++    uint8_t operation;                 /* R/W byte */
++    uint8_t on_off_config;             /* R/W byte */
++    uint8_t write_protect;             /* R/W byte */
++    uint8_t phase;                     /* R/W byte */
++    uint8_t vout_mode;                 /* R/W byte */
++    uint16_t vout_command;             /* R/W word */
++    uint16_t vout_trim;                /* R/W word */
++    uint16_t vout_cal_offset;          /* R/W word */
++    uint16_t vout_max;                 /* R/W word */
++    uint16_t vout_margin_high;         /* R/W word */
++    uint16_t vout_margin_low;          /* R/W word */
++    uint16_t vout_transition_rate;     /* R/W word */
++    uint16_t vout_droop;               /* R/W word */
++    uint16_t vout_scale_loop;          /* R/W word */
++    uint16_t vout_scale_monitor;       /* R/W word */
++    uint8_t coefficients[5];           /* Read-only block 5 bytes */
++    uint16_t pout_max;                 /* R/W word */
++    uint16_t max_duty;                 /* R/W word */
++    uint16_t frequency_switch;         /* R/W word */
++    uint16_t vin_on;                   /* R/W word */
++    uint16_t vin_off;                  /* R/W word */
++    uint16_t iout_cal_gain;            /* R/W word */
++    uint16_t iout_cal_offset;          /* R/W word */
++    uint8_t fan_config_1_2;            /* R/W byte */
++    uint16_t fan_command_1;            /* R/W word */
++    uint16_t fan_command_2;            /* R/W word */
++    uint8_t fan_config_3_4;            /* R/W byte */
++    uint16_t fan_command_3;            /* R/W word */
++    uint16_t fan_command_4;            /* R/W word */
++    uint16_t vout_ov_fault_limit;      /* R/W word */
++    uint8_t vout_ov_fault_response;    /* R/W byte */
++    uint16_t vout_ov_warn_limit;       /* R/W word */
++    uint16_t vout_uv_warn_limit;       /* R/W word */
++    uint16_t vout_uv_fault_limit;      /* R/W word */
++    uint8_t vout_uv_fault_response;    /* R/W byte */
++    uint16_t iout_oc_fault_limit;      /* R/W word */
++    uint8_t iout_oc_fault_response;    /* R/W byte */
++    uint16_t iout_oc_lv_fault_limit;   /* R/W word */
++    uint8_t iout_oc_lv_fault_response; /* R/W byte */
++    uint16_t iout_oc_warn_limit;       /* R/W word */
++    uint16_t iout_uc_fault_limit;      /* R/W word */
++    uint8_t iout_uc_fault_response;    /* R/W byte */
++    uint16_t ot_fault_limit;           /* R/W word */
++    uint8_t ot_fault_response;         /* R/W byte */
++    uint16_t ot_warn_limit;            /* R/W word */
++    uint16_t ut_warn_limit;            /* R/W word */
++    uint16_t ut_fault_limit;           /* R/W word */
++    uint8_t ut_fault_response;         /* R/W byte */
++    uint16_t vin_ov_fault_limit;       /* R/W word */
++    uint8_t vin_ov_fault_response;     /* R/W byte */
++    uint16_t vin_ov_warn_limit;        /* R/W word */
++    uint16_t vin_uv_warn_limit;        /* R/W word */
++    uint16_t vin_uv_fault_limit;       /* R/W word */
++    uint8_t vin_uv_fault_response;     /* R/W byte */
++    uint16_t iin_oc_fault_limit;       /* R/W word */
++    uint8_t iin_oc_fault_response;     /* R/W byte */
++    uint16_t iin_oc_warn_limit;        /* R/W word */
++    uint16_t power_good_on;            /* R/W word */
++    uint16_t power_good_off;           /* R/W word */
++    uint16_t ton_delay;                /* R/W word */
++    uint16_t ton_rise;                 /* R/W word */
++    uint16_t ton_max_fault_limit;      /* R/W word */
++    uint8_t ton_max_fault_response;    /* R/W byte */
++    uint16_t toff_delay;               /* R/W word */
++    uint16_t toff_fall;                /* R/W word */
++    uint16_t toff_max_warn_limit;      /* R/W word */
++    uint16_t pout_op_fault_limit;      /* R/W word */
++    uint8_t pout_op_fault_response;    /* R/W byte */
++    uint16_t pout_op_warn_limit;       /* R/W word */
++    uint16_t pin_op_warn_limit;        /* R/W word */
++    uint16_t status_word;              /* R/W word */
++    uint8_t status_vout;               /* R/W byte */
++    uint8_t status_iout;               /* R/W byte */
++    uint8_t status_input;              /* R/W byte */
++    uint8_t status_temperature;        /* R/W byte */
++    uint8_t status_cml;                /* R/W byte */
++    uint8_t status_other;              /* R/W byte */
++    uint8_t status_mfr_specific;       /* R/W byte */
++    uint8_t status_fans_1_2;           /* R/W byte */
++    uint8_t status_fans_3_4;           /* R/W byte */
++    uint8_t read_ein[5];               /* Read-Only block 5 bytes */
++    uint8_t read_eout[5];              /* Read-Only block 5 bytes */
++    uint16_t read_vin;                 /* Read-Only word */
++    uint16_t read_iin;                 /* Read-Only word */
++    uint16_t read_vcap;                /* Read-Only word */
++    uint16_t read_vout;                /* Read-Only word */
++    uint16_t read_iout;                /* Read-Only word */
++    uint16_t read_temperature_1;       /* Read-Only word */
++    uint16_t read_temperature_2;       /* Read-Only word */
++    uint16_t read_temperature_3;       /* Read-Only word */
++    uint16_t read_fan_speed_1;         /* Read-Only word */
++    uint16_t read_fan_speed_2;         /* Read-Only word */
++    uint16_t read_fan_speed_3;         /* Read-Only word */
++    uint16_t read_fan_speed_4;         /* Read-Only word */
++    uint16_t read_duty_cycle;          /* Read-Only word */
++    uint16_t read_frequency;           /* Read-Only word */
++    uint16_t read_pout;                /* Read-Only word */
++    uint16_t read_pin;                 /* Read-Only word */
++    uint8_t revision;                  /* Read-Only byte */
++    const char *mfr_id;                /* R/W block */
++    const char *mfr_model;             /* R/W block */
++    const char *mfr_revision;          /* R/W block */
++    const char *mfr_location;          /* R/W block */
++    const char *mfr_date;              /* R/W block */
++    const char *mfr_serial;            /* R/W block */
++    const char *app_profile_support;   /* Read-Only block-read */
++    uint16_t mfr_vin_min;              /* Read-Only word */
++    uint16_t mfr_vin_max;              /* Read-Only word */
++    uint16_t mfr_iin_max;              /* Read-Only word */
++    uint16_t mfr_pin_max;              /* Read-Only word */
++    uint16_t mfr_vout_min;             /* Read-Only word */
++    uint16_t mfr_vout_max;             /* Read-Only word */
++    uint16_t mfr_iout_max;             /* Read-Only word */
++    uint16_t mfr_pout_max;             /* Read-Only word */
++    uint16_t mfr_tambient_max;         /* Read-Only word */
++    uint16_t mfr_tambient_min;         /* Read-Only word */
++    uint8_t mfr_efficiency_ll[14];     /* Read-Only block 14 bytes */
++    uint8_t mfr_efficiency_hl[14];     /* Read-Only block 14 bytes */
++    uint8_t mfr_pin_accuracy;          /* Read-Only byte */
++    uint16_t mfr_max_temp_1;           /* R/W word */
++    uint16_t mfr_max_temp_2;           /* R/W word */
++    uint16_t mfr_max_temp_3;           /* R/W word */
++} PMBusPage;
++
++/* State */
++struct PMBusDevice {
++    SMBusDevice smb;
++
++    uint8_t num_pages;
++    uint8_t code;
++    uint8_t page;
++
++    /*
++     * PMBus registers are stored in a PMBusPage structure allocated by
++     * calling pmbus_pages_alloc()
++     */
++    PMBusPage *pages;
++    uint8_t capability;
++
++
++    int32_t in_buf_len;
++    uint8_t *in_buf;
++    int32_t out_buf_len;
++    uint8_t out_buf[SMBUS_DATA_MAX_LEN];
++};
++
++/**
++ * Direct mode coefficients
++ * @var m - mantissa
++ * @var b - offset
++ * @var R - exponent
++ */
++typedef struct PMBusCoefficients {
++    int32_t m;     /* mantissa */
++    int64_t b;     /* offset */
++    int32_t R;     /* exponent */
++} PMBusCoefficients;
++
++/**
++ * Convert sensor values to direct mode format
++ *
++ * Y = (m * x - b) * 10^R
++ *
++ * @return uint32_t
++ */
++uint16_t pmbus_data2direct_mode(PMBusCoefficients c, uint32_t value);
++
++/**
++ * Convert direct mode formatted data into sensor reading
++ *
++ * X = (Y * 10^-R - b) / m
++ *
++ * @return uint32_t
++ */
++uint32_t pmbus_direct_mode2data(PMBusCoefficients c, uint16_t value);
++
++/**
++ * @brief Send a block of data over PMBus
++ * Assumes that the bytes in the block are already ordered correctly,
++ * also assumes the length has been prepended to the block if necessary
++ *     | low_byte | ... | high_byte |
++ * @param state - maintains state of the PMBus device
++ * @param data - byte array to be sent by device
++ * @param len - number
++ */
++void pmbus_send(PMBusDevice *state, const uint8_t *data, uint16_t len);
++void pmbus_send8(PMBusDevice *state, uint8_t data);
++void pmbus_send16(PMBusDevice *state, uint16_t data);
++void pmbus_send32(PMBusDevice *state, uint32_t data);
++void pmbus_send64(PMBusDevice *state, uint64_t data);
++
++/**
++ * @brief Send a string over PMBus with length prepended.
++ * Length is calculated using str_len()
++ */
++void pmbus_send_string(PMBusDevice *state, const char *data);
++
++/**
++ * @brief Receive data over PMBus
++ * These methods help track how much data is being received over PMBus
++ * Log to GUEST_ERROR if too much or too little is sent.
++ */
++uint8_t pmbus_receive8(PMBusDevice *pmdev);
++uint16_t pmbus_receive16(PMBusDevice *pmdev);
++uint32_t pmbus_receive32(PMBusDevice *pmdev);
++uint64_t pmbus_receive64(PMBusDevice *pmdev);
++
++/**
++ * PMBus page config must be called before any page is first used.
++ * It will allocate memory for all the pages if needed.
++ * Passed in flags overwrite existing flags if any.
++ * @param page_index the page to which the flags are applied, setting page_index
++ * to 0xFF applies the passed in flags to all pages.
++ * @param flags
++ */
++int pmbus_page_config(PMBusDevice *pmdev, uint8_t page_index, uint64_t flags);
++
++/**
++ * Update the status registers when sensor values change.
++ * Useful if modifying sensors through qmp, this way status registers get
++ * updated
++ */
++void pmbus_check_limits(PMBusDevice *pmdev);
++#endif
+diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+new file mode 100644
+index 0000000000..f1edc93346
+--- /dev/null
++++ b/hw/i2c/pmbus_device.c
+@@ -0,0 +1,1596 @@
++/*
++ * PMBus wrapper over SMBus
++ *
++ * Copyright 2021 Google LLC
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include <math.h>
++#include <string.h>
++#include "hw/i2c/pmbus_device.h"
++#include "qemu/module.h"
++#include "qemu/log.h"
++
++uint16_t pmbus_data2direct_mode(PMBusCoefficients c, uint32_t value)
++{
++    /* R is usually negative to fit large readings into 16 bits */
++    uint16_t y = (c.m * value + c.b) * pow(10, c.R);
++    return y;
++}
++
++uint32_t pmbus_direct_mode2data(PMBusCoefficients c, uint16_t value)
++{
++    /* X = (Y * 10^-R - b) / m */
++    uint32_t x = (value / pow(10, c.R) - c.b) / c.m;
++    return x;
++}
++
++void pmbus_send(PMBusDevice *pmdev, const uint8_t *data, uint16_t len)
++{
++    if (pmdev->out_buf_len + len > SMBUS_DATA_MAX_LEN) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "PMBus device tried to send too much data");
++        len = 0;
++    }
++
++    for (int i = len - 1; i >= 0; i--) {
++        pmdev->out_buf[i + pmdev->out_buf_len] = data[len - i - 1];
++    }
++    pmdev->out_buf_len += len;
++}
++
++/* Internal only, convert unsigned ints to the little endian bus */
++static void pmbus_send_uint(PMBusDevice *pmdev, uint64_t data, uint8_t size)
++{
++    uint8_t bytes[8];
++    g_assert(size <= 8);
++
++    for (int i = 0; i < size; i++) {
++        bytes[i] = data & 0xFF;
++        data = data >> 8;
++    }
++    pmbus_send(pmdev, bytes, size);
++}
++
++void pmbus_send8(PMBusDevice *pmdev, uint8_t data)
++{
++    pmbus_send_uint(pmdev, data, 1);
++}
++
++void pmbus_send16(PMBusDevice *pmdev, uint16_t data)
++{
++    pmbus_send_uint(pmdev, data, 2);
++}
++
++void pmbus_send32(PMBusDevice *pmdev, uint32_t data)
++{
++    pmbus_send_uint(pmdev, data, 4);
++}
++
++void pmbus_send64(PMBusDevice *pmdev, uint64_t data)
++{
++    pmbus_send_uint(pmdev, data, 8);
++}
++
++void pmbus_send_string(PMBusDevice *pmdev, const char *data)
++{
++    size_t len = strlen(data);
++    g_assert(len > 0);
++    g_assert(len + pmdev->out_buf_len < SMBUS_DATA_MAX_LEN);
++    pmdev->out_buf[len + pmdev->out_buf_len] = len;
++
++    for (int i = len - 1; i >= 0; i--) {
++        pmdev->out_buf[i + pmdev->out_buf_len] = data[len - 1 - i];
++    }
++    pmdev->out_buf_len += len + 1;
++}
++
++
++static uint64_t pmbus_receive_uint(const uint8_t *buf, uint8_t len)
++{
++    uint64_t ret = 0;
++
++    /* Exclude command code from return value */
++    buf++;
++    len--;
++
++    for (int i = len - 1; i >= 0; i--) {
++        ret = ret << 8 | buf[i];
++    }
++    return ret;
++}
++
++uint8_t pmbus_receive8(PMBusDevice *pmdev)
++{
++    if (pmdev->in_buf_len - 1 != 1) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: length mismatch. Expected 1 byte, got %d bytes\n",
++                      __func__, pmdev->in_buf_len - 1);
++    }
++    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
++}
++
++uint16_t pmbus_receive16(PMBusDevice *pmdev)
++{
++    if (pmdev->in_buf_len - 1 != 2) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: length mismatch. Expected 2 bytes, got %d bytes\n",
++                      __func__, pmdev->in_buf_len - 1);
++    }
++    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
++}
++
++uint32_t pmbus_receive32(PMBusDevice *pmdev)
++{
++    if (pmdev->in_buf_len - 1 != 4) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: length mismatch. Expected 4 bytes, got %d bytes\n",
++                      __func__, pmdev->in_buf_len - 1);
++    }
++    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
++}
++
++uint64_t pmbus_receive64(PMBusDevice *pmdev)
++{
++    if (pmdev->in_buf_len - 1 != 8) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: length mismatch. Expected 8 bytes, got %d bytes\n",
++                      __func__, pmdev->in_buf_len - 1);
++    }
++    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
++}
++
++static uint8_t pmbus_out_buf_pop(PMBusDevice *pmdev)
++{
++    if (pmdev->out_buf_len == 0) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: tried to read from empty buffer",
++                      __func__);
++        return 0xFF;
++    }
++    uint8_t data = pmdev->out_buf[pmdev->out_buf_len - 1];
++    pmdev->out_buf_len--;
++    return data;
++}
++
++static void pmbus_quick_cmd(SMBusDevice *smd, uint8_t read)
++{
++    PMBusDevice *pmdev = PMBUS_DEVICE(smd);
++    PMBusDeviceClass *pmdc = PMBUS_DEVICE_GET_CLASS(pmdev);
++
++    if (pmdc->quick_cmd) {
++        pmdc->quick_cmd(pmdev, read);
++    }
++}
++
++static void pmbus_pages_alloc(PMBusDevice *pmdev)
++{
++    /* some PMBus devices don't use the PAGE command, so they get 1 page */
++    PMBusDeviceClass *k = PMBUS_DEVICE_GET_CLASS(pmdev);
++    if (k->device_num_pages == 0) {
++        k->device_num_pages = 1;
++    }
++    pmdev->num_pages = k->device_num_pages;
++    pmdev->pages = g_new0(PMBusPage, k->device_num_pages);
++}
++
++void pmbus_check_limits(PMBusDevice *pmdev)
++{
++    for (int i = 0; i < pmdev->num_pages; i++) {
++        if ((pmdev->pages[i].operation & PB_OP_ON) == 0) {
++            continue;   /* don't check powered off devices */
++        }
++
++        if (pmdev->pages[i].read_vout > pmdev->pages[i].vout_ov_fault_limit) {
++            pmdev->pages[i].status_word |= PB_STATUS_VOUT;
++            pmdev->pages[i].status_vout |= PB_STATUS_VOUT_OV_FAULT;
++        }
++
++        if (pmdev->pages[i].read_vout > pmdev->pages[i].vout_ov_warn_limit) {
++            pmdev->pages[i].status_word |= PB_STATUS_VOUT;
++            pmdev->pages[i].status_vout |= PB_STATUS_VOUT_OV_WARN;
++        }
++
++        if (pmdev->pages[i].read_vout < pmdev->pages[i].vout_uv_warn_limit) {
++            pmdev->pages[i].status_word |= PB_STATUS_VOUT;
++            pmdev->pages[i].status_vout |= PB_STATUS_VOUT_UV_WARN;
++        }
++
++        if (pmdev->pages[i].read_vout < pmdev->pages[i].vout_uv_fault_limit) {
++            pmdev->pages[i].status_word |= PB_STATUS_VOUT;
++            pmdev->pages[i].status_vout |= PB_STATUS_VOUT_UV_FAULT;
++        }
++
++        if (pmdev->pages[i].read_vin > pmdev->pages[i].vin_ov_warn_limit) {
++            pmdev->pages[i].status_word |= PB_STATUS_INPUT;
++            pmdev->pages[i].status_input |= PB_STATUS_INPUT_VIN_OV_WARN;
++        }
++
++        if (pmdev->pages[i].read_vin < pmdev->pages[i].vin_uv_warn_limit) {
++            pmdev->pages[i].status_word |= PB_STATUS_INPUT;
++            pmdev->pages[i].status_input |= PB_STATUS_INPUT_VIN_UV_WARN;
++        }
++
++        if (pmdev->pages[i].read_iout > pmdev->pages[i].iout_oc_warn_limit) {
++            pmdev->pages[i].status_word |= PB_STATUS_IOUT_POUT;
++            pmdev->pages[i].status_iout |= PB_STATUS_IOUT_OC_WARN;
++        }
++
++        if (pmdev->pages[i].read_iout > pmdev->pages[i].iout_oc_fault_limit) {
++            pmdev->pages[i].status_word |= PB_STATUS_IOUT_POUT;
++            pmdev->pages[i].status_iout |= PB_STATUS_IOUT_OC_FAULT;
++        }
++
++        if (pmdev->pages[i].read_pin > pmdev->pages[i].pin_op_warn_limit) {
++            pmdev->pages[i].status_word |= PB_STATUS_INPUT;
++            pmdev->pages[i].status_input |= PB_STATUS_INPUT_PIN_OP_WARN;
++        }
++
++        if (pmdev->pages[i].read_temperature_1
++                > pmdev->pages[i].ot_fault_limit) {
++            pmdev->pages[i].status_word |= PB_STATUS_TEMPERATURE;
++            pmdev->pages[i].status_temperature |= PB_STATUS_OT_FAULT;
++        }
++
++        if (pmdev->pages[i].read_temperature_1
++                > pmdev->pages[i].ot_warn_limit) {
++            pmdev->pages[i].status_word |= PB_STATUS_TEMPERATURE;
++            pmdev->pages[i].status_temperature |= PB_STATUS_OT_WARN;
++        }
++    }
++}
++
++static uint8_t pmbus_receive_byte(SMBusDevice *smd)
++{
++    PMBusDevice *pmdev = PMBUS_DEVICE(smd);
++    PMBusDeviceClass *pmdc = PMBUS_DEVICE_GET_CLASS(pmdev);
++    uint8_t ret = 0xFF;
++    uint8_t index = pmdev->page;
++
++    if (pmdev->out_buf_len != 0) {
++        ret = pmbus_out_buf_pop(pmdev);
++        return ret;
++    }
++
++    switch (pmdev->code) {
++    case PMBUS_PAGE:
++        pmbus_send8(pmdev, pmdev->page);
++        break;
++
++    case PMBUS_OPERATION:                 /* R/W byte */
++        pmbus_send8(pmdev, pmdev->pages[index].operation);
++        break;
++
++    case PMBUS_ON_OFF_CONFIG:             /* R/W byte */
++        pmbus_send8(pmdev, pmdev->pages[index].on_off_config);
++        break;
++
++    case PMBUS_PHASE:                     /* R/W byte */
++        pmbus_send8(pmdev, pmdev->pages[index].phase);
++        break;
++
++    case PMBUS_WRITE_PROTECT:             /* R/W byte */
++        pmbus_send8(pmdev, pmdev->pages[index].write_protect);
++        break;
++
++    case PMBUS_CAPABILITY:
++        pmbus_send8(pmdev, pmdev->capability);
++        break;
++
++    case PMBUS_VOUT_MODE:                 /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_MODE) {
++            pmbus_send8(pmdev, pmdev->pages[index].vout_mode);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_COMMAND:              /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_command);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_TRIM:                 /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_trim);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_CAL_OFFSET:           /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_cal_offset);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_MAX:                  /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_max);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_MARGIN_HIGH:          /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_MARGIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_margin_high);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_MARGIN_LOW:           /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_MARGIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_margin_low);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_TRANSITION_RATE:      /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_transition_rate);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_DROOP:                /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_droop);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_SCALE_LOOP:           /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_scale_loop);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_SCALE_MONITOR:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_scale_monitor);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    /* TODO: implement coefficients support */
++
++    case PMBUS_POUT_MAX:                  /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_POUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].pout_max);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VIN_ON:                    /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].vin_on);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VIN_OFF:                   /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].vin_off);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_IOUT_CAL_GAIN:             /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT_GAIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].iout_cal_gain);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_OV_FAULT_LIMIT:       /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_ov_fault_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_OV_FAULT_RESPONSE:    /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send8(pmdev, pmdev->pages[index].vout_ov_fault_response);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_OV_WARN_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_ov_warn_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_UV_WARN_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_uv_warn_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_UV_FAULT_LIMIT:       /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_uv_fault_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VOUT_UV_FAULT_RESPONSE:    /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send8(pmdev, pmdev->pages[index].vout_uv_fault_response);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_IOUT_OC_FAULT_LIMIT:       /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].iout_oc_fault_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_IOUT_OC_FAULT_RESPONSE:    /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmbus_send8(pmdev, pmdev->pages[index].iout_oc_fault_response);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_IOUT_OC_LV_FAULT_LIMIT:    /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].iout_oc_lv_fault_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_IOUT_OC_LV_FAULT_RESPONSE: /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmbus_send8(pmdev, pmdev->pages[index].iout_oc_lv_fault_response);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_IOUT_OC_WARN_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].iout_oc_warn_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_IOUT_UC_FAULT_LIMIT:       /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].iout_uc_fault_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_IOUT_UC_FAULT_RESPONSE:    /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmbus_send8(pmdev, pmdev->pages[index].iout_uc_fault_response);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_OT_FAULT_LIMIT:            /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmbus_send16(pmdev, pmdev->pages[index].ot_fault_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_OT_FAULT_RESPONSE:         /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmbus_send8(pmdev, pmdev->pages[index].ot_fault_response);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_OT_WARN_LIMIT:             /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmbus_send16(pmdev, pmdev->pages[index].ot_warn_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_UT_WARN_LIMIT:             /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmbus_send16(pmdev, pmdev->pages[index].ut_warn_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_UT_FAULT_LIMIT:            /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmbus_send16(pmdev, pmdev->pages[index].ut_fault_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_UT_FAULT_RESPONSE:         /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmbus_send8(pmdev, pmdev->pages[index].ut_fault_response);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VIN_OV_FAULT_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].vin_ov_fault_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VIN_OV_FAULT_RESPONSE:     /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmbus_send8(pmdev, pmdev->pages[index].vin_ov_fault_response);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VIN_OV_WARN_LIMIT:         /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].vin_ov_warn_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VIN_UV_WARN_LIMIT:         /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].vin_uv_warn_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VIN_UV_FAULT_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].vin_uv_fault_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_VIN_UV_FAULT_RESPONSE:     /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmbus_send8(pmdev, pmdev->pages[index].vin_uv_fault_response);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_IIN_OC_FAULT_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].iin_oc_fault_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_IIN_OC_FAULT_RESPONSE:     /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_IIN) {
++            pmbus_send8(pmdev, pmdev->pages[index].iin_oc_fault_response);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_IIN_OC_WARN_LIMIT:         /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].iin_oc_warn_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_POUT_OP_FAULT_LIMIT:       /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_POUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].pout_op_fault_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_POUT_OP_FAULT_RESPONSE:    /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_POUT) {
++            pmbus_send8(pmdev, pmdev->pages[index].pout_op_fault_response);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_POUT_OP_WARN_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_POUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].pout_op_warn_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_PIN_OP_WARN_LIMIT:         /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_PIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].pin_op_warn_limit);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_STATUS_BYTE:               /* R/W byte */
++        pmbus_send8(pmdev, pmdev->pages[index].status_word & 0xFF);
++        break;
++
++    case PMBUS_STATUS_WORD:               /* R/W word */
++        pmbus_send16(pmdev, pmdev->pages[index].status_word);
++        break;
++
++    case PMBUS_STATUS_VOUT:               /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send8(pmdev, pmdev->pages[index].status_vout);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_STATUS_IOUT:               /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmbus_send8(pmdev, pmdev->pages[index].status_iout);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_STATUS_INPUT:              /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN ||
++            pmdev->pages[index].page_flags & PB_HAS_IIN ||
++            pmdev->pages[index].page_flags & PB_HAS_PIN) {
++            pmbus_send8(pmdev, pmdev->pages[index].status_input);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_STATUS_TEMPERATURE:        /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmbus_send8(pmdev, pmdev->pages[index].status_temperature);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_STATUS_CML:                /* R/W byte */
++        pmbus_send8(pmdev, pmdev->pages[index].status_cml);
++        break;
++
++    case PMBUS_STATUS_OTHER:              /* R/W byte */
++        pmbus_send8(pmdev, pmdev->pages[index].status_other);
++        break;
++
++    case PMBUS_READ_EIN:                  /* Read-Only block 5 bytes */
++        if (pmdev->pages[index].page_flags & PB_HAS_EIN) {
++            pmbus_send(pmdev, pmdev->pages[index].read_ein, 5);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_READ_EOUT:                 /* Read-Only block 5 bytes */
++        if (pmdev->pages[index].page_flags & PB_HAS_EOUT) {
++            pmbus_send(pmdev, pmdev->pages[index].read_eout, 5);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_READ_VIN:                  /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].read_vin);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_READ_IIN:                  /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].read_iin);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_READ_VOUT:                 /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].read_vout);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_READ_IOUT:                 /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].read_iout);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_READ_TEMPERATURE_1:        /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmbus_send16(pmdev, pmdev->pages[index].read_temperature_1);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_READ_TEMPERATURE_2:        /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMP2) {
++            pmbus_send16(pmdev, pmdev->pages[index].read_temperature_2);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_READ_TEMPERATURE_3:        /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMP3) {
++            pmbus_send16(pmdev, pmdev->pages[index].read_temperature_3);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_READ_POUT:                 /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_POUT) {
++            pmbus_send16(pmdev, pmdev->pages[index].read_pout);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_READ_PIN:                  /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_PIN) {
++            pmbus_send16(pmdev, pmdev->pages[index].read_pin);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_REVISION:                  /* Read-Only byte */
++        pmbus_send8(pmdev, pmdev->pages[index].revision);
++        break;
++
++    case PMBUS_MFR_ID:                    /* R/W block */
++        if (pmdev->pages[index].page_flags & PB_HAS_MFR_INFO) {
++            pmbus_send_string(pmdev, pmdev->pages[index].mfr_id);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_MODEL:                 /* R/W block */
++        if (pmdev->pages[index].page_flags & PB_HAS_MFR_INFO) {
++            pmbus_send_string(pmdev, pmdev->pages[index].mfr_model);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_REVISION:              /* R/W block */
++        if (pmdev->pages[index].page_flags & PB_HAS_MFR_INFO) {
++            pmbus_send_string(pmdev, pmdev->pages[index].mfr_revision);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_LOCATION:              /* R/W block */
++        if (pmdev->pages[index].page_flags & PB_HAS_MFR_INFO) {
++            pmbus_send_string(pmdev, pmdev->pages[index].mfr_location);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_VIN_MIN:               /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].mfr_vin_min);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_VIN_MAX:               /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].mfr_vin_max);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_IIN_MAX:               /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IIN_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].mfr_iin_max);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_PIN_MAX:               /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_PIN_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].mfr_pin_max);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_VOUT_MIN:              /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].mfr_vout_min);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_VOUT_MAX:              /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].mfr_vout_max);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_IOUT_MAX:              /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].mfr_iout_max);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_POUT_MAX:              /* Read-Only word */
++        if (pmdev->pages[index].page_flags & PB_HAS_POUT_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].mfr_pout_max);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_MAX_TEMP_1:            /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMP_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].mfr_max_temp_1);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_MAX_TEMP_2:            /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMP_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].mfr_max_temp_2);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_MFR_MAX_TEMP_3:            /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMP_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].mfr_max_temp_3);
++        } else {
++            goto passthough;
++        }
++        break;
++
++    case PMBUS_CLEAR_FAULTS:              /* Send Byte */
++    case PMBUS_PAGE_PLUS_WRITE:           /* Block Write-only */
++    case PMBUS_STORE_DEFAULT_ALL:         /* Send Byte */
++    case PMBUS_RESTORE_DEFAULT_ALL:       /* Send Byte */
++    case PMBUS_STORE_DEFAULT_CODE:        /* Write-only Byte */
++    case PMBUS_RESTORE_DEFAULT_CODE:      /* Write-only Byte */
++    case PMBUS_STORE_USER_ALL:            /* Send Byte */
++    case PMBUS_RESTORE_USER_ALL:          /* Send Byte */
++    case PMBUS_STORE_USER_CODE:           /* Write-only Byte */
++    case PMBUS_RESTORE_USER_CODE:         /* Write-only Byte */
++    case PMBUS_QUERY:                     /* Write-Only */
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: reading from write only register 0x%02x\n",
++                      __func__, pmdev->code);
++        break;
++
++passthough:
++    default:
++        /* Pass through read request if not handled */
++        if (pmdc->receive_byte) {
++            ret = pmdc->receive_byte(pmdev);
++        }
++        break;
++    }
++
++    if (pmdev->out_buf_len != 0) {
++        ret = pmbus_out_buf_pop(pmdev);
++        return ret;
++    }
++
++    return ret;
++}
++
++/*
++ * PMBus clear faults command applies to all status registers, existing faults
++ * should separately get re-asserted.
++ */
++static void pmbus_clear_faults(PMBusDevice *pmdev)
++{
++    for (uint8_t i = 0; i < pmdev->num_pages; i++) {
++        pmdev->pages[i].status_word = 0;
++        pmdev->pages[i].status_vout = 0;
++        pmdev->pages[i].status_iout = 0;
++        pmdev->pages[i].status_input = 0;
++        pmdev->pages[i].status_temperature = 0;
++        pmdev->pages[i].status_cml = 0;
++        pmdev->pages[i].status_other = 0;
++        pmdev->pages[i].status_mfr_specific = 0;
++        pmdev->pages[i].status_fans_1_2 = 0;
++        pmdev->pages[i].status_fans_3_4 = 0;
++    }
++
++}
++
++/*
++ * PMBus operation is used to turn On and Off PSUs
++ * Therefore, default value for the Operation should be PB_OP_ON or 0x80
++ */
++static void pmbus_operation(PMBusDevice *pmdev)
++{
++    uint8_t index = pmdev->page;
++    if ((pmdev->pages[index].operation & PB_OP_ON) == 0) {
++        pmdev->pages[index].read_vout = 0;
++        pmdev->pages[index].read_iout = 0;
++        pmdev->pages[index].read_pout = 0;
++        return;
++    }
++
++    if (pmdev->pages[index].operation & (PB_OP_ON | PB_OP_MARGIN_HIGH)) {
++        pmdev->pages[index].read_vout = pmdev->pages[index].vout_margin_high;
++    }
++
++    if (pmdev->pages[index].operation & (PB_OP_ON | PB_OP_MARGIN_LOW)) {
++        pmdev->pages[index].read_vout = pmdev->pages[index].vout_margin_low;
++    }
++    pmbus_check_limits(pmdev);
++}
++
++static int pmbus_write_data(SMBusDevice *smd, uint8_t *buf, uint8_t len)
++{
++    PMBusDevice *pmdev = PMBUS_DEVICE(smd);
++    PMBusDeviceClass *pmdc = PMBUS_DEVICE_GET_CLASS(pmdev);
++    int ret = 0;
++    uint8_t index;
++
++    if (len == 0) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: writing empty data\n", __func__);
++        return -1;
++    }
++
++    if (!pmdev->pages) { /* allocate memory for pages on first use */
++        pmbus_pages_alloc(pmdev);
++    }
++
++    pmdev->in_buf_len = len;
++    pmdev->in_buf = buf;
++
++    pmdev->code = buf[0]; /* PMBus command code */
++    if (len == 1) { /* Single length writes are command codes only */
++        return 0;
++    }
++
++    if (pmdev->code == PMBUS_PAGE) {
++        pmdev->page = pmbus_receive8(pmdev);
++        return 0;
++    }
++    /* loop through all the pages when 0xFF is received */
++    if (pmdev->page == PB_ALL_PAGES) {
++        for (int i = 0; i < pmdev->num_pages; i++) {
++            pmdev->page = i;
++            pmbus_write_data(smd, buf, len);
++        }
++        pmdev->page = PB_ALL_PAGES;
++        return 0;
++    }
++
++    index = pmdev->page;
++
++    switch (pmdev->code) {
++    case PMBUS_OPERATION:                 /* R/W byte */
++        pmdev->pages[index].operation = pmbus_receive8(pmdev);
++        pmbus_operation(pmdev);
++        break;
++
++    case PMBUS_ON_OFF_CONFIG:             /* R/W byte */
++        pmdev->pages[index].on_off_config = pmbus_receive8(pmdev);
++        break;
++
++    case PMBUS_CLEAR_FAULTS:              /* Send Byte */
++        pmbus_clear_faults(pmdev);
++        break;
++
++    case PMBUS_PHASE:                     /* R/W byte */
++        pmdev->pages[index].phase = pmbus_receive8(pmdev);
++        break;
++
++    case PMBUS_PAGE_PLUS_WRITE:           /* Block Write-only */
++    case PMBUS_WRITE_PROTECT:             /* R/W byte */
++        pmdev->pages[index].write_protect = pmbus_receive8(pmdev);
++        break;
++
++    case PMBUS_VOUT_MODE:                 /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_MODE) {
++            pmdev->pages[index].vout_mode = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_COMMAND:              /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_command = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_TRIM:                 /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_trim = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_CAL_OFFSET:           /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_cal_offset = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_MAX:                  /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_max = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_MARGIN_HIGH:          /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_MARGIN) {
++            pmdev->pages[index].vout_margin_high = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_MARGIN_LOW:           /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_MARGIN) {
++            pmdev->pages[index].vout_margin_low = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_TRANSITION_RATE:      /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_transition_rate = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_DROOP:                /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_droop = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_SCALE_LOOP:           /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_scale_loop = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_SCALE_MONITOR:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_scale_monitor = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_POUT_MAX:                  /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].pout_max = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VIN_ON:                    /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmdev->pages[index].vin_on = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VIN_OFF:                   /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmdev->pages[index].vin_off = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_IOUT_CAL_GAIN:             /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT_GAIN) {
++            pmdev->pages[index].iout_cal_gain = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_OV_FAULT_LIMIT:       /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_ov_fault_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_OV_FAULT_RESPONSE:    /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_ov_fault_response = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_OV_WARN_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_ov_warn_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_UV_WARN_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_uv_warn_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_UV_FAULT_LIMIT:       /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_uv_fault_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VOUT_UV_FAULT_RESPONSE:    /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].vout_uv_fault_response = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_IOUT_OC_FAULT_LIMIT:       /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmdev->pages[index].iout_oc_fault_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_IOUT_OC_FAULT_RESPONSE:    /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmdev->pages[index].iout_oc_fault_response = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_IOUT_OC_LV_FAULT_LIMIT:    /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmdev->pages[index].iout_oc_lv_fault_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_IOUT_OC_LV_FAULT_RESPONSE: /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmdev->pages[index].iout_oc_lv_fault_response
++                = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_IOUT_OC_WARN_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmdev->pages[index].iout_oc_warn_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_IOUT_UC_FAULT_LIMIT:       /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmdev->pages[index].iout_uc_fault_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_IOUT_UC_FAULT_RESPONSE:    /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmdev->pages[index].iout_uc_fault_response = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_OT_FAULT_LIMIT:            /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmdev->pages[index].ot_fault_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_OT_FAULT_RESPONSE:         /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmdev->pages[index].ot_fault_response = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_OT_WARN_LIMIT:             /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmdev->pages[index].ot_warn_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_UT_WARN_LIMIT:             /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmdev->pages[index].ut_warn_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_UT_FAULT_LIMIT:            /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmdev->pages[index].ut_fault_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_UT_FAULT_RESPONSE:         /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmdev->pages[index].ut_fault_response = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VIN_OV_FAULT_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmdev->pages[index].vin_ov_fault_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VIN_OV_FAULT_RESPONSE:     /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmdev->pages[index].vin_ov_fault_response = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VIN_OV_WARN_LIMIT:         /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmdev->pages[index].vin_ov_warn_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VIN_UV_WARN_LIMIT:         /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmdev->pages[index].vin_uv_warn_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VIN_UV_FAULT_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmdev->pages[index].vin_uv_fault_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_VIN_UV_FAULT_RESPONSE:     /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VIN) {
++            pmdev->pages[index].vin_uv_fault_response = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_IIN_OC_FAULT_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IIN) {
++            pmdev->pages[index].iin_oc_fault_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_IIN_OC_FAULT_RESPONSE:     /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_IIN) {
++            pmdev->pages[index].iin_oc_fault_response = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_IIN_OC_WARN_LIMIT:         /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_IIN) {
++            pmdev->pages[index].iin_oc_warn_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_POUT_OP_FAULT_LIMIT:       /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].pout_op_fault_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_POUT_OP_FAULT_RESPONSE:    /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].pout_op_fault_response = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_POUT_OP_WARN_LIMIT:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].pout_op_warn_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_PIN_OP_WARN_LIMIT:         /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_PIN) {
++            pmdev->pages[index].pin_op_warn_limit = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_STATUS_BYTE:               /* R/W byte */
++        pmdev->pages[index].status_word = pmbus_receive8(pmdev);
++        break;
++
++    case PMBUS_STATUS_WORD:               /* R/W word */
++        pmdev->pages[index].status_word = pmbus_receive16(pmdev);
++        break;
++
++    case PMBUS_STATUS_VOUT:               /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
++            pmdev->pages[index].status_vout = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_STATUS_IOUT:               /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_IOUT) {
++            pmdev->pages[index].status_iout = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_STATUS_INPUT:              /* R/W byte */
++        pmdev->pages[index].status_input = pmbus_receive8(pmdev);
++        break;
++
++    case PMBUS_STATUS_TEMPERATURE:        /* R/W byte */
++        if (pmdev->pages[index].page_flags & PB_HAS_TEMPERATURE) {
++            pmdev->pages[index].status_temperature = pmbus_receive8(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
++    case PMBUS_STATUS_CML:                /* R/W byte */
++        pmdev->pages[index].status_cml = pmbus_receive8(pmdev);
++        break;
++
++    case PMBUS_STATUS_OTHER:              /* R/W byte */
++        pmdev->pages[index].status_other = pmbus_receive8(pmdev);
++        break;
++
++    case PMBUS_PAGE_PLUS_READ:            /* Block Read-only */
++    case PMBUS_CAPABILITY:                /* Read-Only byte */
++    case PMBUS_COEFFICIENTS:              /* Read-only block 5 bytes */
++    case PMBUS_READ_EIN:                  /* Read-Only block 5 bytes */
++    case PMBUS_READ_EOUT:                 /* Read-Only block 5 bytes */
++    case PMBUS_READ_VIN:                  /* Read-Only word */
++    case PMBUS_READ_IIN:                  /* Read-Only word */
++    case PMBUS_READ_VCAP:                 /* Read-Only word */
++    case PMBUS_READ_VOUT:                 /* Read-Only word */
++    case PMBUS_READ_IOUT:                 /* Read-Only word */
++    case PMBUS_READ_TEMPERATURE_1:        /* Read-Only word */
++    case PMBUS_READ_TEMPERATURE_2:        /* Read-Only word */
++    case PMBUS_READ_TEMPERATURE_3:        /* Read-Only word */
++    case PMBUS_READ_FAN_SPEED_1:          /* Read-Only word */
++    case PMBUS_READ_FAN_SPEED_2:          /* Read-Only word */
++    case PMBUS_READ_FAN_SPEED_3:          /* Read-Only word */
++    case PMBUS_READ_FAN_SPEED_4:          /* Read-Only word */
++    case PMBUS_READ_DUTY_CYCLE:           /* Read-Only word */
++    case PMBUS_READ_FREQUENCY:            /* Read-Only word */
++    case PMBUS_READ_POUT:                 /* Read-Only word */
++    case PMBUS_READ_PIN:                  /* Read-Only word */
++    case PMBUS_REVISION:                  /* Read-Only byte */
++    case PMBUS_APP_PROFILE_SUPPORT:       /* Read-Only block-read */
++    case PMBUS_MFR_VIN_MIN:               /* Read-Only word */
++    case PMBUS_MFR_VIN_MAX:               /* Read-Only word */
++    case PMBUS_MFR_IIN_MAX:               /* Read-Only word */
++    case PMBUS_MFR_PIN_MAX:               /* Read-Only word */
++    case PMBUS_MFR_VOUT_MIN:              /* Read-Only word */
++    case PMBUS_MFR_VOUT_MAX:              /* Read-Only word */
++    case PMBUS_MFR_IOUT_MAX:              /* Read-Only word */
++    case PMBUS_MFR_POUT_MAX:              /* Read-Only word */
++    case PMBUS_MFR_TAMBIENT_MAX:          /* Read-Only word */
++    case PMBUS_MFR_TAMBIENT_MIN:          /* Read-Only word */
++    case PMBUS_MFR_EFFICIENCY_LL:         /* Read-Only block 14 bytes */
++    case PMBUS_MFR_EFFICIENCY_HL:         /* Read-Only block 14 bytes */
++    case PMBUS_MFR_PIN_ACCURACY:          /* Read-Only byte */
++    case PMBUS_IC_DEVICE_ID:              /* Read-Only block-read */
++    case PMBUS_IC_DEVICE_REV:             /* Read-Only block-read */
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: writing to read-only register 0x%02x\n",
++                      __func__, pmdev->code);
++        break;
++
++passthrough:
++    /* Unimplimented registers get passed to the device */
++    default:
++        if (pmdc->write_data) {
++            ret = pmdc->write_data(pmdev, buf, len);
++        }
++        break;
++    }
++    pmbus_check_limits(pmdev);
++    pmdev->in_buf_len = 0;
++    return ret;
++}
++
++int pmbus_page_config(PMBusDevice *pmdev, uint8_t index, uint64_t flags)
++{
++    if (!pmdev->pages) { /* allocate memory for pages on first use */
++        pmbus_pages_alloc(pmdev);
++    }
++
++    /* The 0xFF page is special for commands applying to all pages */
++    if (index == PB_ALL_PAGES) {
++        for (int i = 0; i < pmdev->num_pages; i++) {
++            pmdev->pages[i].page_flags = flags;
++        }
++        return 0;
++    }
++
++    if (index > pmdev->num_pages - 1) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: index %u is out of range\n",
++                      __func__, index);
++        return -1;
++    }
++
++    pmdev->pages[index].page_flags = flags;
++
++    return 0;
++}
++
++static void pmbus_device_finalize(Object *obj)
++{
++    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
++    g_free(pmdev->pages);
++}
++
++static void pmbus_device_class_init(ObjectClass *klass, void *data)
++{
++    SMBusDeviceClass *k = SMBUS_DEVICE_CLASS(klass);
++
++    k->quick_cmd = pmbus_quick_cmd;
++    k->write_data = pmbus_write_data;
++    k->receive_byte = pmbus_receive_byte;
++}
++
++static const TypeInfo pmbus_device_type_info = {
++    .name = TYPE_PMBUS_DEVICE,
++    .parent = TYPE_SMBUS_DEVICE,
++    .instance_size = sizeof(PMBusDevice),
++    .instance_finalize = pmbus_device_finalize,
++    .abstract = true,
++    .class_size = sizeof(PMBusDeviceClass),
++    .class_init = pmbus_device_class_init,
++};
++
++static void pmbus_device_register_types(void)
++{
++    type_register_static(&pmbus_device_type_info);
++}
++
++type_init(pmbus_device_register_types)
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 8c37cf00da..8c9ae17efd 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -373,6 +373,7 @@ config NPCM7XX
+     select ARM_GIC
+     select AT24C  # EEPROM
+     select PL310  # cache controller
++    select PMBUS
+     select SERIAL
+     select SSI
+     select UNIMP
+diff --git a/hw/i2c/Kconfig b/hw/i2c/Kconfig
+index 09642a6dcb..87f7004cea 100644
+--- a/hw/i2c/Kconfig
++++ b/hw/i2c/Kconfig
+@@ -28,3 +28,7 @@ config IMX_I2C
+ config MPC_I2C
+     bool
+     select I2C
++
++config PMBUS
++    bool
++    select SMBUS
+diff --git a/hw/i2c/meson.build b/hw/i2c/meson.build
+index cdcd694a7f..f7e2d482b0 100644
+--- a/hw/i2c/meson.build
++++ b/hw/i2c/meson.build
+@@ -14,4 +14,5 @@ i2c_ss.add(when: 'CONFIG_SMBUS_EEPROM', if_true: files('smbus_eeprom.c'))
+ i2c_ss.add(when: 'CONFIG_VERSATILE_I2C', if_true: files('versatile_i2c.c'))
+ i2c_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_i2c.c'))
+ i2c_ss.add(when: 'CONFIG_PPC4XX', if_true: files('ppc4xx_i2c.c'))
++i2c_ss.add(when: 'CONFIG_PMBUS', if_true: files('pmbus_device.c'))
+ softmmu_ss.add_all(when: 'CONFIG_I2C', if_true: i2c_ss)
+-- 
 2.31.1.527.g47e6f16901-goog
 
 
