@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097BD373DCA
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 16:37:59 +0200 (CEST)
-Received: from localhost ([::1]:49540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 945A6373DCF
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 16:40:03 +0200 (CEST)
+Received: from localhost ([::1]:55406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leIf0-0007UJ-30
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 10:37:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49098)
+	id 1leIh0-0001UJ-Gv
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 10:40:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leId8-00066M-C6
+ id 1leId8-000670-Sl
  for qemu-devel@nongnu.org; Wed, 05 May 2021 10:36:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36692)
+Received: from indium.canonical.com ([91.189.90.7]:36652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leId4-0002Jg-Lw
+ id 1leId4-0002Je-LN
  for qemu-devel@nongnu.org; Wed, 05 May 2021 10:36:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leId2-0004BX-1y
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:35:56 +0000
+ id 1leId1-0004Bg-5H
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:35:55 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9E3A92E81EF
- for <qemu-devel@nongnu.org>; Wed,  5 May 2021 14:35:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 985802E81C5
+ for <qemu-devel@nongnu.org>; Wed,  5 May 2021 14:35:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 May 2021 14:28:19 -0000
-From: Thomas Huth <1833053@bugs.launchpad.net>
+Date: Wed, 05 May 2021 14:28:31 -0000
+From: Thomas Huth <1835694@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: crash spice usbredir
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gsanic hijacker-c th-huth
-X-Launchpad-Bug-Reporter: Nikolay Kichukov (hijacker-c)
+X-Launchpad-Bug-Commenters: alhaddad2000 th-huth
+X-Launchpad-Bug-Reporter: Abdulla (alhaddad2000)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156076455835.24347.5065510387911666481.malonedeb@gac.canonical.com>
-Message-Id: <162022489946.14396.7829283680244031625.malone@soybean.canonical.com>
-Subject: [Bug 1833053] Re: qemu guest crashes on spice client USB redirected
- device removal
+References: <156255510137.2177.7648111145482157380.malonedeb@wampee.canonical.com>
+Message-Id: <162022491155.32459.2648340559767750456.malone@chaenomeles.canonical.com>
+Subject: [Bug 1835694] Re: hardware-based time keeping
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 7607127d4393b3c2eb7b2c516a8a5851c03935d9
+X-Launchpad-Hash: 8fa7dd3281b08bf6a1f0cacdf0aeb50a3b428e4e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1833053 <1833053@bugs.launchpad.net>
+Reply-To: Bug 1835694 <1835694@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,138 +78,423 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/179
+ https://gitlab.com/qemu-project/qemu/-/issues/180
 
 
 ** Changed in: qemu
        Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #179
-   https://gitlab.com/qemu-project/qemu/-/issues/179
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #180
+   https://gitlab.com/qemu-project/qemu/-/issues/180
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1833053
+https://bugs.launchpad.net/bugs/1835694
 
 Title:
-  qemu guest crashes on spice client USB redirected device removal
+  hardware-based time keeping
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hello,
+  Hi all,
 
-  I am experiencing guest crashes, which cannot be reproduced at all
-  times, but are pretty frequent (4 out of 5 tries it would crash). The
-  guest crashes when a previously attached USB redirected device through
-  SPICE has been removed by the client.
+  I hope you're all doing well.
 
-  Steps to reproduce:
-  1.) Start windows 10 guest with display driver Spice
-  2.) Connect to the console with remote-viewer spice://IP:PORT or via virt=
--viewer (tunnelled through SSH)
-  3.) Attach a client USB device, for example storage device, iPhone or And=
-roid phone
-  4.) Observe the guest OS detects it and sets it up
-  5.) Go back to 'USB device selection' and untick the USB device
-  6.) Observe the guest VM crashed and the below assertion was printed in t=
-he qemu log for this virtual machine:
+  As i was looking for a solution for a particular problem in Qemu/KVM
+  virtualization.
 
-  qemu-system-x86_64: /var/tmp/portage/app-emulation/qemu-4.0.0-r3/work/qem=
-u-4.0.0/hw/usb/core.c:720: usb_ep_get: Assertion `dev !=3D NULL' failed.
-  2019-06-17 09:25:09.160+0000: shutting down, reason=3Dcrashed
+  My issue is that I have a virtual machine that runs well in VMware and wh=
+en
+  I migrated that to Qemu/KVM-enabled environment, it didn't work! I figured
+  out that under VMware hypervisor, VMware supplies CPU TSC and Performance
+  Counters values to the guest VM with the option
+  "monitor_control.pseudo_perfctr =3D TRUE" set the vmx configuration file,
+  Ref.: https://www.vmware.com/pdf/vmware_timekeeping.pdf
 
-  =
+  My question is, is there any similar option in Qemu/KVM-enabled environme=
+nt
+  that I can use to get my VM working the same way as in the VMware
+  environment?
 
-  Versions of related packages on the host:
-  app-emulation/qemu-4.0.0-r3
-  app-emulation/spice-0.14.0-r2:0
-  app-emulation/spice-protocol-0.12.14:0
-  net-misc/spice-gtk-0.35:0
-  Kernel: 5.1.7-gentoo on Intel x86_64 CPU
+  I almost tried all options in Qemu with regards to CPU but no avail.
 
-  Version of the spice-tools on the guest:
-  virtio-win 0.1-126
-  QXL 0.1-21
-  mingw-vdagent-win 0.8.0
+  To elaborate more, the VM I'm trying to port under Qemu/KVM environment is
+  a an old version of Cisco virtual ASA Firewall. The VM image is actually
+  meant to be run under VMware ESXi and with that
+  "*monitor_control.pseudo_perfctr
+  =3D TRUE*" option it can also run in Vware Workstation as well. *Yes, this
+  option that makes it run under VMware and if it's removed from the
+  configuration vmx file then the VM boots half way and crashes the same way
+  it crashes under Qemu*. That dictates it's the option in interest that
+  needs to be found in Qemu/KVM. I have a copy of this VM in the below link
+  in case you would like to try its behavior in under VMware. I downloaded =
+it
+  from a youtube previously to test it out:
 
-  QEMU command line (generated by libvirt):
+  https://drive.google.com/open?id=3D1SEXws18hoj2sWGk8iFqqH8RpBZsBNpRH
 
-  /usr/bin/qemu-system-x86_64 -name guest=3DW10VM,debug-threads=3Don -S
-  -object
-  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-4=
-1-W10VM
-  /master-key.aes -machine pc-i440fx-2.12,accel=3Dkvm,usb=3Doff,vmport=3Doff
-  ,dump-guest-core=3Doff -cpu
-  qemu64,hv_time,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1fff,hv_synic,hv_stim=
-er
-  -m 4500 -realtime mlock=3Doff -smp
-  2,maxcpus=3D4,sockets=3D4,cores=3D1,threads=3D1 -uuid b39afae2-5085-4659-=
-891c-
-  b3c65e65af2e -no-user-config -nodefaults -chardev
-  socket,id=3Dcharmonitor,fd=3D26,server,nowait -mon
-  chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
-  base=3Dlocaltime,driftfix=3Dslew -no-hpet -global kvm-
-  pit.lost_tick_policy=3Ddelay -no-shutdown -global PIIX4_PM.disable_s3=3D1
-  -global PIIX4_PM.disable_s4=3D1 -boot menu=3Doff,strict=3Don -device ich9
-  -usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0x5.0x7 -device ich9-usb-
-  uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,multifunction=3Don,addr=
-=3D0x5
-  -device ich9-usb-
-  uhci2,masterbus=3Dusb.0,firstport=3D2,bus=3Dpci.0,addr=3D0x5.0x1 -device =
-ich9
-  -usb-uhci3,masterbus=3Dusb.0,firstport=3D4,bus=3Dpci.0,addr=3D0x5.0x2 -de=
-vice
-  virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.0,addr=3D0x8 -device virtio-serial-
-  pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x6 -drive
-  file=3D/libvirt/images/W10VM.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-
-  scsi0-0-0-1,cache=3Dunsafe,discard=3Dunmap,detect-zeroes=3Dunmap -device
-  scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,device_id=3Ddrive-
-  scsi0-0-0-1,drive=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1,bootindex=3D1,writ=
-e-
-  cache=3Don -netdev tap,fd=3D28,id=3Dhostnet0,vhost=3Don,vhostfd=3D29 -dev=
-ice
-  virtio-net-
-  pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:44:f6:21,bus=3Dpci.0,addr=
-=3D0x3
-  -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent -device
-  virtserialport,bus=3Dvirtio-
-  serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dcom.redhat.s=
-pice.0
-  -chardev socket,id=3Dcharchannel1,fd=3D30,server,nowait -device
-  virtserialport,bus=3Dvirtio-
-  serial0.0,nr=3D3,chardev=3Dcharchannel1,id=3Dchannel1,name=3Dorg.qemu.gue=
-st_agent.0
-  -chardev spiceport,id=3Dcharchannel2,name=3Dorg.spice-space.webdav.0
-  -device virtserialport,bus=3Dvirtio-
-  serial0.0,nr=3D2,chardev=3Dcharchannel2,id=3Dchannel2,name=3Dorg.spice-
-  space.webdav.0 -spice port=3D5901,addr=3D0.0.0.0,seamless-migration=3Don
-  -device qxl-
-  vga,id=3Dvideo0,ram_size=3D134217728,vram_size=3D134217728,vram64_size_mb=
-=3D0,vgamem_mb=3D64,max_outputs=3D1,bus=3Dpci.0,addr=3D0x2
-  -device intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -device hda-
-  duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -chardev
-  spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-
-  redir,chardev=3Dcharredir0,id=3Dredir0,bus=3Dusb.0,port=3D1 -chardev
-  spicevmc,id=3Dcharredir1,name=3Dusbredir -device usb-
-  redir,chardev=3Dcharredir1,id=3Dredir1,bus=3Dusb.0,port=3D2 -device virti=
-o-
-  balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x7 -sandbox
-  on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=
-=3Ddeny
-  -msg timestamp=3Don
+  Once you power on the VM you can telnet to 127.0.0.1 on port 3000 to see
+  the boot process. If you remove that option i mentioned to you and boot t=
+he
+  VM again you'll see the crashing in process.
 
   =
 
-  I have attempted to collect a backtrace, but will need direction as I am =
-not sure on which thread to listen and where to set the breakpoint, 'thread=
- apply all backtrace' does not seem to work well with the qemu process...
+  I've converted that vmdk disk images into Qemu disks "qcow2" format and i
+  ran them using the below command line on Ubuntu:
 
-  Thank you
+  /opt/qemu/bin/qemu-system-x86_64 -L -nographic -device
+  e1000-82545em,netdev=3Dnet0,mac=3D50:00:00:6a:00:00 -netdev
+  tap,id=3Dnet0,ifname=3Dvunl0_33_0,script=3Dno -device
+  e1000-82545em,netdev=3Dnet1,mac=3D50:00:00:6a:00:01 -netdev
+  tap,id=3Dnet1,ifname=3Dvunl0_33_1,script=3Dno -device
+  e1000-82545em,netdev=3Dnet2,mac=3D50:00:00:6a:00:02 -netdev
+  tap,id=3Dnet2,ifname=3Dvunl0_33_2,script=3Dno -device
+  e1000-82545em,netdev=3Dnet3,mac=3D50:00:00:6a:00:03 -netdev
+  tap,id=3Dnet3,ifname=3Dvunl0_33_3,script=3Dno -machine type=3Dpc-1.0  *-c=
+pu
+  host,migratable=3Doff,invtsc=3Don,pmu=3Don* -m 4096 -hda hda.qcow2 -hdb h=
+db.qcow2
+  -serial telnet:0.0.0.0:3000,server,nowait -monitor
+  tcp:127.0.0.1:42379,server,nowait
+  -nographic -display none -enable-kvm
+
+  =
+
+  Once you power on the VM you can telnet to xx.xx.xx.xx 3000 (where the xx
+  IP is the Ubuntu machine IP) to see the crashing in process. You may need
+  to wait for a while for the status messages to appear in the terminal
+  window.
+
+  I assume it's a cpu issue because in page 9 of the Vmware pdf reference
+  file; it says there are machine instructions become available when this
+  option "*monitor_control.pseudo_perfctr =3D TRUE*" is enabled:
+
+  The following machine instructions then become available:
+
+  Instruction    Time Value    Returned
+  rdpmc           0x10000       Physical host TSC
+  rdpmc           0x10001       Elapsed real time in ns
+  rdpmc           0x10002       Elapsed apparent time in ns
+
+  Therefore, I used many of the Qemu cpu options such as these:
+
+  -cpu host,migratable=3Dno,+invtsc (ref: https://wiki.qemu.org/ChangeLog/2=
+.1)
+  -cpu host, tsc-frequency=3Dxxxx (ref: https://lists.gnu.org/archive/
+  html/qemu-devel/2017-01/msg03555.html)
+   -cpu host,migratable=3Doff,invtsc=3Dtrue,pmu=3Dtrue
+
+  Not sure if i'm hitting the wrong option!
+
+  The log I'm getting when the VM boots up looks like the following crash
+  happens at the blue colored log:
+
+  -------------------------------------------------------------------------=
+---------------------------------------------------
+  Loading...
+
+  Starting image verification
+  Hash Computation:    100% Done!
+  Computed Hash   SHA2: 63c1e8aa9de3d0c6e738dc91be8e1784
+                        5caf64af4cf06cf6a3c5da7200d478dd
+                        938d380d2b1064f6a349401c7860f50e
+                        cc4eeb98a0ae16c097dbc9447d4d6626
+
+  Get key records from key storage: Primary, key_store_type: 2
+  Embedded Hash   SHA2: 63c1e8aa9de3d0c6e738dc91be8e1784
+                        5caf64af4cf06cf6a3c5da7200d478dd
+                        938d380d2b1064f6a349401c7860f50e
+                        cc4eeb98a0ae16c097dbc9447d4d6626
+
+  The digital signature of the running image verified successfully
+  Processor memory 3183296512, Reserved memory: 0
+
+  Total NICs found: 4
+  i82545EM rev03 Gigabit Ethernet @ irq10 dev 6 index 03 MAC: 5000.006a.0003
+  i82545EM rev03 Gigabit Ethernet @ irq10 dev 5 index 02 MAC: 5000.006a.0002
+  i82545EM rev03 Gigabit Ethernet @ irq11 dev 4 index 01 MAC: 5000.006a.0001
+  i82545EM rev03 Gigabit Ethernet @ irq11 dev 3 index 00 MAC: 5000.006a.0000
+
+  Thread Name: lina_flash_init_thread
+  Page fault: Unknown
+          r8 0x0000000000000790
+          r9 0x00007fff3fa8b000
+         r10 0x0000000000000001
+         r11 0x000000000210e130
+         r12 0x00000000062ebfc0
+         r13 0x0000000000010001
+         r14 0x0000000000000000
+         r15 0x00000000062ebfc0
+         rdi 0x00000000062ebfc0
+         rsi 0x0000000006c17c20
+         rbp 0x00007fff4056f4e0
+         rbx 0x00000000062ebfc0
+         rdx 0x00007fff40566f10
+         rax 0x0000000000000001
+         rcx 0x0000000000010001
+         rsp 0x00007fff4056f4b0
+         rip 0x0000000001581130
+      eflags 0x0000000000013202
+      csgsfs 0x0000000000000033
+  error code 0x0000000000000000
+      vector 0x000000000000000d
+    old mask 0xffffffde3e3b5a05
+         cr2 0x0000000000000000
+
+  Cisco Adaptive Security Appliance Software Version 9.3(1)
+
+  Compiled on Wed 23-Jul-14 18:16 PDT by builders
+  Hardware:   ASAv
+  Crashinfo collected on 03:42:24.059 UTC Tue Nov 28 2017
+
+  Traceback:
+  0: 0x0000000000422118
+  1: 0x0000000000422152
+  2: 0x0000000000424331
+  3: 0x00000000015874a9
+  4: 0x00007ffffecd55f0
+  5: 0x0000000000558d85
+  6: 0x00000000008f5a2b
+  7: 0x00000000008fd361
+  8: 0x0000000000428a15
+  Stack dump: base:0x00007fff4056f2e0 size:178, active:178
+       entries above '=3D=3D': return PC preceded by input parameters
+       entries below '=3D=3D': local variables followed by saved regs
+                   '=3D=3DFn': stack frame n, contains next stack frame
+                      '*': stack pointer at crash
+   rdi rsi rdx rcx r8 r9 : Arguments 1 through 6 to leaf function
+   For example:
+      0x00007fffeeeeef00: 0x0000000000000009     : arg9
+      0x00007fffeeeeeefc: 0x0000000000000008     : arg8
+      0x00007fffeeeeeef8: 0x0000000000000007     : arg7
+      0x00007fffeeeeeef4: 0x0000000000000abc     : return PC
+      0x00007fffeeeeeef0: 0x00007fffeeeeef20 =3D=3DF2: stack frame F2
+      0x00007fffeeeeeeec: 0x0000000000000def     : local variable
+      0x00007fffeeeeeee8: 0x0000000000000123     : local variable or saved =
+reg
+      0x00007fffeeeeeee4: 0x0000000000000456     : local variable or saved =
+reg
+      0x00007fffeeeeeee0: 0x0000000000000789     : local variable or saved =
+reg
+  0x00007fff4056f870: 0x00007fff4056f7e0
+  0x00007fff4056f868: 0x0000000000000000
+  0x00007fff4056f860: 0x00000038a11c0123
+  0x00007fff4056f858: 0x0000000000000083
+  0x00007fff4056f850: 0x00007fff16a864c8
+  0x00007fff4056f848: 0x0000000000000000
+  0x00007fff4056f840: 0x00000000a11ccdef
+  0x00007fff4056f838-0x00007fff4056f808: 0x0000000000000000
+  0x00007fff4056f800: 0x0000000000429867
+  0x00007fff4056f7f8: 0x00007fff4056f860
+  0x00007fff4056f7f0: 0x00007fff40567100
+  0x00007fff4056f7e8: 0x0000000000000000
+  0x00007fff4056f7e0: 0x00000030a11c0123
+  0x00007fff4056f7d8: 0x0000000000000083
+  0x00007fff4056f7d0: 0x00007fff16a864c8
+  0x00007fff4056f7c8: 0x0000000000000000
+  0x00007fff4056f7c0: 0x00000000a11ccdef
+  0x00007fff4056f7b8: 0x0fffffff0fffffff
+  0x00007fff4056f7b0-0x00007fff4056f7a8: 0x0000000000000000
+  0x00007fff4056f7a0: 0x00000000062cc8a0
+  0x00007fff4056f798: 0x0000000000000000
+  0x00007fff4056f790: 0x00007fff4056f6e0
+  0x00007fff4056f788: 0x00007fff4056f758
+  0x00007fff4056f780: 0x0000000000000000
+  0x00007fff4056f778: 0x00007fff3ff48620
+  0x00007fff4056f770-0x00007fff4056f730: 0x0000000000000000
+  0x00007fff4056f728: 0x0000000004d14940
+  0x00007fff4056f720: 0x000000000041d690
+  0x00007fff4056f718: 0x0000000002777640
+  0x00007fff4056f710: 0x0000000200010010
+  0x00007fff4056f708: 0x0000000006c17d40
+  0x00007fff4056f700: 0x00007fff4056f6e0
+  0x00007fff4056f6f8: 0x00007fff40150e80
+  0x00007fff4056f6f0: 0x000000000638e598
+  0x00007fff4056f6e8: 0x00007fff3ff48620
+  0x00007fff4056f6e0: 0x00007fff4056f778
+  0x00007fff4056f6d8: 0x00000000deadfeed
+  0x00007fff4056f6d0-0x00007fff4056f6c8: 0x0000000000000000
+  0x00007fff4056f6c0: 0x000000000041e1f6
+  0x00007fff4056f6b8: 0x00007fff40571fd0
+  0x00007fff4056f6b0: 0x00007fff40560cf0
+  0x00007fff4056f6a8: 0x0000000000000000
+  0x00007fff4056f6a0: 0x000000f0a11c0123
+  0x00007fff4056f698: 0x0000000000000143
+  0x00007fff4056f690: 0x00007fff16a864c8
+  0x00007fff4056f688: 0x0000000000000000
+  0x00007fff4056f680: 0x00000000a11ccdef
+  0x00007fff4056f678-0x00007fff4056f660: 0x0000000000000000 =3D=3DF5
+  0x00007fff4056f658: 0x000000009abcdef0
+  0x00007fff4056f650-0x00007fff4056f5b8: 0x123456789abcdef0
+  0x00007fff4056f5b0: 0x0000000000428a01
+  0x00007fff4056f5a8: 0x00007fff4056f570
+  0x00007fff4056f5a0-0x00007fff4056f590: 0x0000000000000000
+  0x00007fff4056f588: 0xffffffffffffdf98
+  0x00007fff4056f580: 0x00007fff4056f670
+  0x00007fff4056f578: 0x00007fff3ff48370
+  0x00007fff4056f570: 0x0000000000000000
+  0x00007fff4056f568: 0x0000000000428a15
+  0x00007fff4056f560: 0x00007fff4056f670 =3D=3DF4
+  0x00007fff4056f558: 0x00000000008fd361
+  0x00007fff4056f550: 0x00007fff4056f560 =3D=3DF3
+  0x00007fff4056f548: 0x00000000008f5a2b
+  0x00007fff4056f540: 0x00007fff4056f550 =3D=3DF2
+  0x00007fff4056f538: 0x0000000000000000
+  0x00007fff4056f530: 0xffffffffffffdf98
+  0x00007fff4056f528: 0x00007fff3ff48370
+  0x00007fff4056f520: 0x00000000008fba90
+  0x00007fff4056f518: 0x00000000008fb908
+  0x00007fff4056f510: 0x00007fff4056f550
+  0x00007fff4056f508: 0x00000000008fb87e
+  0x00007fff4056f500: 0x00007fff4056f510
+  0x00007fff4056f4f8: 0x0000000000000000
+  0x00007fff4056f4f0: 0xffffffffffffdf98
+  0x00007fff4056f4e8: 0x0000000000558d85
+  0x00007fff4056f4e0: 0x00007fff4056f540 =3D=3DF1
+  0x00007fff4056f4d8-0x00007fff4056f4d0: 0x0000000000000000
+  0x00007fff4056f4c8: 0x0000000000000001
+  0x00007fff4056f4c0-0x00007fff4056f4b8: 0x00000000062ebfc0
+  0x00007fff4056f4b0: 0x0000000000000000 *
+  0x00007fff4056f4a8: 0x00000000008fd973
+  0x00007fff4056f4a0: 0x00007fff4056f4d0
+  0x00007fff4056f498: 0x00007fff40563908
+  0x00007fff4056f490: 0x00007fff4056f4d0
+  0x00007fff4056f488: 0x00000000009d4b01
+  0x00007fff4056f480: 0x00007fff4056f4a0
+  0x00007fff4056f478-0x00007fff4056f470: 0x0000000000000000
+  0x00007fff4056f468: 0x00007fff418d6390
+  0x00007fff4056f460: 0x0000000000000000
+  0x00007fff4056f458: 0x000000000201b9f8
+  0x00007fff4056f450: 0x00007fff4056f480
+  0x00007fff4056f448: 0x00007fff40563908
+  0x00007fff4056f440: 0x0000000000000001
+  0x00007fff4056f438: 0x00007fff405619a0
+  0x00007fff4056f430: 0x00007fff40563908
+  0x00007fff4056f428: 0x0000000000000001
+  0x00007fff4056f420: 0x0000000000000000
+  0x00007fff4056f418: 0x0000000001627125
+  0x00007fff4056f410: 0x00007fff4056f450
+  0x00007fff4056f408: 0x00007fff3fa8b010
+  0x00007fff4056f400: 0x00007fff46505845
+  0x00007fff4056f3f8-0x00007fff4056f3c8: 0x0000000000000000
+  0x00007fff4056f3c0: 0x0000000000000003
+  0x00007fff4056f3b8-0x00007fff4056f3a8: 0x0000000000000000
+  0x00007fff4056f3a0: 0x0000000000000240
+  0x00007fff4056f398: 0x0000000000000003
+  0x00007fff4056f390: 0x0000024446505853
+  0x00007fff4056f388-0x00007fff4056f310: 0x0000000000000000
+  0x00007fff4056f308: 0x424b7e25fece8fc2
+  0x00007fff4056f300: 0x2cc4f98473045e95
+  0x00007fff4056f2f8: 0x18fa9b6c57ca0e78
+  0x00007fff4056f2f0: 0x081e2a254ab96aa4
+  0x00007fff4056f2e8: 0x0000000300000000
+
+  Begin to dump crashinfo to flash....
+
+  core0: An internal error occurred.  Specifically, a programming assertion
+  was
+  violated.  Copy the error message exactly as it appears, and get the
+  output of the show version command and the contents of the configuration
+  file.  Then call your technical support representative.
+
+  assertion "_vf_mode_init" failed: file "vf_api.c", line 136
+  core0 same core snap_count=3D1 signo=3D6 RIP=3D7ffffecd43fb
+
+  =
+
+  -----------------------------------------------
+  Traceback output aborted.
+  Flushing first exception frame:
+  Page fault: Unknown
+          r8 0x0000000000000790
+          r9 0x00007fff3fa8b000
+         r10 0x0000000000000001
+         r11 0x000000000210e130
+         r12 0x00000000062ebfc0
+         r13 0x0000000000010001
+         r14 0x0000000000000000
+         r15 0x00000000062ebfc0
+         rdi 0x00000000062ebfc0
+         rsi 0x0000000006c17c20
+         rbp 0x00007fff4056f4e0
+         rbx 0x00000000062ebfc0
+         rdx 0x00007fff40566f10
+         rax 0x0000000000000001
+         rcx 0x0000000000010001
+         rsp 0x00007fff4056f4b0
+         rip 0x0000000001581130
+      eflags 0x0000000000013202
+      csgsfs 0x0000000000000033
+  error code 0x0000000000000000
+      vector 0x000000000000000d
+    old mask 0xffffffde3e3b5a05
+         cr2 0x0000000000000000
+  Nested traceback attempted via signal, from:
+  Abort: Unknown
+          r8 0x000000000000003c
+          r9 0x0000000005097a27
+         r10 0x00007fff4056de28
+         r11 0x0000000000003206
+         r12 0x0000000000000001
+         r13 0x00007fff4056df80
+         r14 0x0000000000000000
+         r15 0x0000000000000006
+         rdi 0x0000000000000008
+         rsi 0x00007fff4056df80
+         rbp 0x00007fff4056dfc0
+         rbx 0x00007fff29f6b780
+         rdx 0x0000000000000010
+         rax 0x0000000000000010
+         rcx 0xffffffffffffffff
+         rsp 0x00007fff4056df50
+         rip 0x00007ffffecd43fb
+      eflags 0x0000000000003206
+      csgsfs 0x1234000000000033
+  error code 0x0000000000000000
+      vector 0x000000000000000d
+    old mask 0xffffffde3e3b5a05
+         cr2 0x0000000000000000
+
+  Cisco Adaptive Security Appliance Software Version 9.3(1)
+
+  Compiled on Wed 23-Jul-14 18:16 PDT by builders
+  Hardware:   ASAv
+  Crashinfo collected on 03:42:24.059 UTC Tue Nov 28 2017
+
+  Traceback:
+  0: 0x0000000000422118
+  1: 0x00000000004221f8
+  2: 0x000000000042226d
+  3: 0x0000000001587076
+  4: 0x00007ffffecd55f0
+  5: 0x00000000015820a0
+  6: 0x000000000212d482
+  7: 0x000000000139f304
+  8: 0x000000000213f315
+  9: 0x0000000001460873
+  10: 0x0000000001488625
+  11: 0x0000000000423e7a
+  12: 0x00000000004244dc
+  13: 0x00000000015874a9
+  14: 0x00007ffffecd55f0
+  15: 0x0000000000558d85
+  16: 0x00000000008f5a2b
+  17: 0x00000000008fd361
+  18: 0x0000000000428a15
+  -----------------------------------------------
+  Process shutdown finished
+  Rebooting.....
+
+  Thanks in advance for your help! :)
+
+  Regards,
+  Abdullah Alhaddad
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1833053/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1835694/+subscriptions
 
