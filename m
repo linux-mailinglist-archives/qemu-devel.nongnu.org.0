@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BEE373746
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 11:21:12 +0200 (CEST)
-Received: from localhost ([::1]:56966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C8CF37378D
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 11:30:07 +0200 (CEST)
+Received: from localhost ([::1]:42968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leDiR-0007ab-0C
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 05:21:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44918)
+	id 1leDqz-0005ci-09
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 05:30:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1leDcK-0005t6-TI
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:14:52 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:41795)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1leDkT-0000tF-0d
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:17 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1leDcJ-00007U-AN
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:14:52 -0400
-Received: by mail-qk1-x731.google.com with SMTP id l129so829130qke.8
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 02:14:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5TaWIDgvwlgeslfkHd78sC8Bo4MzvBfi+qdbx32kllo=;
- b=QUCSVh/5GI1b9MvSFd8XrytzyxYPYxMNgNLXTgIjkt7iHzxwyQ4iIr88pxFN40pPMQ
- jnXJr1w9jvOW/1A63sN5OO306CKWWHpGX15CR3jZn6LOkmuskbA2hSHKQCDDHJSfYiRt
- BknhOb84W67ZPH1Ikb1X78Yg6RuBxVDC6BUw1+ZesmejzP1TuLflVJq5zGtiI6zhXV6a
- 6gyi1ZpR+OLa+O8CWSgZwNgXRYvSAYUdJ9ZgBtvIEn2wx0Y/F3ZKm1JOYmNbn9K5Y0g/
- khxR5NtY0e55ap8gSk2KRR4KyQXAw+FLpyvpD3mYdWZwE3MWA0F+mCoHMNBZzibJo8Hs
- rU8g==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1leDkJ-00057p-Ll
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:16 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id z6so1029694wrm.4
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 02:23:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RjMgeed3Eg2L1hYeBcLF4NjYwepJBsR/ly1lGVEUMu0=;
+ b=ixmaL4rKcE+HYPu/LGHYTYNrXtg14GwMqc2eOXh5Zr7AcT1Iyg0tmoQ/oSPcLMlAHu
+ 2+5uKmC743YHFbMMZ4WsCM4ZQjx2uY+mhPJ8YAbm3dDdgN2Jzry4XFX61qzKKn8NJuRV
+ msB7/99cJg5qYl8v/aq3l6okcHVf3On/b/pMsCFm/ihUFXEDpGh3O684p4vH3z1K1Vvy
+ LrxhBzS/KSqj+GLkaG1/px0HR972fZ974xpgZlTn4e1KulBsEPPhp2JU4YyWw1FbqsBM
+ EtY/oq2C7BAJKxPLwmWE60onEY5KKHoSbrmA20NiNA8S28c4LcfTmBq3lv/pSRxSCzRZ
+ S9QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5TaWIDgvwlgeslfkHd78sC8Bo4MzvBfi+qdbx32kllo=;
- b=Oo3NIF/6WGbLBNJL2Sb4C3inRuUvh22FAXqFprnkiLou9GXQpNPqdwZ+aoE73WRHR/
- SgPje5erImqpi6+Ptb6cQXdH3SPs/BjGZEgLUQavpPZ54uerdFC+80cwhQEpoqQjRoJM
- 1TLwmyLpzcH3F9/Lre/pgLgHrFfkUoHuP8T4bcSMPwjqcCfgkbfT5ytPo8g3VaunsPhF
- jcFQqTlizppCEBt5zaSi9P9Ky8JbYUgWckURSL8XecF9KVArKQM3islKtXRUEgZr4eJt
- R2jnS6yAHDZKzoKmty7Yf3vv1Nu13QvuAehFxLHN5tMxPCaIw0vDeBLVhYW5hm5yRq+o
- 0hAw==
-X-Gm-Message-State: AOAM533XkwhrRNkSBZjHSeK18r7j64WszhC2ppeYVvqheVo2uvk9UwFL
- LSLgV808koftSEQDqjV0LoaJkFT5zhqL5ZUbsdk=
-X-Google-Smtp-Source: ABdhPJyQCGmri+pq7lVvSPM3zRIqnvbi7i+zlWuoO6IOsU2KwvZILx2AqptZHvndXwjzBIj8sJEMZivskh5qhR5hzGw=
-X-Received: by 2002:a37:8443:: with SMTP id g64mr29612838qkd.185.1620206090404; 
- Wed, 05 May 2021 02:14:50 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RjMgeed3Eg2L1hYeBcLF4NjYwepJBsR/ly1lGVEUMu0=;
+ b=L4Bv3dL831UBdJ9gVbb978YbSkpQAyWVNIzggQz780tXX4NFZwmiyIcjEkfnt3d3Hg
+ KgxTK30lyCgWeLjRMiKu46zLcypKj+wIrrbHCq/7LR8rBV+4fLpy3QYN8dU2mbw1ooRq
+ i4Fx2nFjTBk4zPYJGgGO9nNgVYoZtyXGYmdXtTTSqftGBR25MjCSGag1PHtSsZVIM3ZA
+ k+kp28D4FCtLUFNr80izA+OSwpMLyOL2AdW9zwd+koXXarVmFbySUv2KXUESsFmV8rLg
+ IVPDNsgBEnk/u0jsyGx3iaOPrQgXAbIXZeEG8FEuPB62DiNzcEoAwphZ6LlqXk4WZP+8
+ 8Xiw==
+X-Gm-Message-State: AOAM533/Uf1bP/0oLEY0L3gdpENq3Pa5oJ1qx10WnticYXR0mMBdqT2z
+ uydp+gds552MRnGcocqT0kNEnQ==
+X-Google-Smtp-Source: ABdhPJzPxLGaqDrBVi1qIM3zlej/zQPuEjYD46CuXPnIXyoZYNBSqjofyZV7UJNdPolorcQ4lbi3uA==
+X-Received: by 2002:adf:e845:: with SMTP id d5mr36211901wrn.96.1620206584696; 
+ Wed, 05 May 2021 02:23:04 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y21sm5088878wmi.15.2021.05.05.02.23.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 May 2021 02:23:00 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C5B8B1FF7E;
+ Wed,  5 May 2021 10:22:59 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 0/7] plugins/next (windows, leaks, tcg tracing)
+Date: Wed,  5 May 2021 10:22:52 +0100
+Message-Id: <20210505092259.8202-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210505045824.33880-1-liq3ea@163.com>
- <20210505045824.33880-6-liq3ea@163.com>
- <o617p20-s2pp-6p4n-69pn-31o9s74pq97r@erqung.pbz>
-In-Reply-To: <o617p20-s2pp-6p4n-69pn-31o9s74pq97r@erqung.pbz>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Wed, 5 May 2021 17:14:15 +0800
-Message-ID: <CAKXe6SJFf2eqcP+2b41GnVH8NsGMDvaBTAg-sgjP25WP++tHZw@mail.gmail.com>
-Subject: Re: [PATCH 5/7] vhost-user-gpu: fix memory leak in
- 'virgl_cmd_resource_unref'
-To: P J P <ppandit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=liq3ea@gmail.com; helo=mail-qk1-x731.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,54 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre lureau <marcandre.lureau@redhat.com>, Li Qiang <liq3ea@163.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, minyihh@uci.edu,
+ robhenry@microsoft.com, vilanova@imperial.ac.uk, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
+ mohamad.gebai@gmail.com, kuhn.chenqun@huawei.com,
+ matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-P J P <ppandit@redhat.com> =E4=BA=8E2021=E5=B9=B45=E6=9C=885=E6=97=A5=E5=91=
-=A8=E4=B8=89 =E4=B8=8B=E5=8D=883:48=E5=86=99=E9=81=93=EF=BC=9A
->
-> +-- On Tue, 4 May 2021, Li Qiang wrote --+
-> | diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/vi=
-rgl.c
-> | index 6a332d601f..c669d73a1d 100644
-> | --- a/contrib/vhost-user-gpu/virgl.c
-> | +++ b/contrib/vhost-user-gpu/virgl.c
-> | @@ -108,9 +108,16 @@ virgl_cmd_resource_unref(VuGpu *g,
-> |                           struct virtio_gpu_ctrl_command *cmd)
-> |  {
-> |      struct virtio_gpu_resource_unref unref;
-> | +    struct iovec *res_iovs =3D NULL;
-> | +    int num_iovs =3D 0;
-> |
-> |      VUGPU_FILL_CMD(unref);
-> |
-> | +    virgl_renderer_resource_detach_iov(unref.resource_id,
-> | +                                       &res_iovs,
-> | +                                       &num_iovs);
-> | +    g_free(res_iovs);
-> | +
-> |      virgl_renderer_resource_unref(unref.resource_id);
->
-> * Should this also call 'virtio_gpu_cleanup_mapping_iov' similar to
->   'hw/display/virtio-gpu-3d.c:virgl_cmd_resource_unref'?
->
->     if (res_iovs !=3D NULL && num_iovs !=3D 0) {
->         virtio_gpu_cleanup_mapping_iov(g, res_iovs, num_iovs);
->     }
->
->
+Hi,
 
-No because the resource here contains only 'res->iov' no memory mapping
-like 'hw/display/virtio-gpu-3d.c:virgl_cmd_resource_unref'.
+This is my current plugins queue. It has a few fixes from Yonggang and
+Mahmoud as well as some minor tweaks to the TCG tracing. I've also
+marked an intention to deprecate following the discussion we had in:
 
-Thanks,
-Li Qiang
+  Subject: trace_FOO_tcg bit-rotted?
+  Date: Tue, 06 Apr 2021 17:00:20 +0100
+  Message-ID: <87eefnwd0l.fsf@linaro.org>
 
-> Thank you.
-> --
->  - P J P
-> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
->
+After the fixes to the tool I've actually managed to implement some
+trace points in the generic code but I was still running into issues
+in translator specific code. For the time being the tracing
+documentation just references TCG plugins as another approach to
+solving these sort of instrumentation problems.
+
+The following still need review:
+
+ - tcg: add trace events for [exit|goto]_tb and goto_ptr
+ - scripts/tracetool: don't barf validating TCG types
+ - docs: mark intention to deprecate TCG tracing functionality
+
+Alex Bennée (3):
+  docs: mark intention to deprecate TCG tracing functionality
+  scripts/tracetool: don't barf validating TCG types
+  tcg: add trace events for [exit|goto]_tb and goto_ptr
+
+Mahmoud Mandour (2):
+  plugins/hotblocks: Properly freed the hash table values
+  plugins/hotpages: Properly freed the hash table values
+
+Yonggang Luo (2):
+  plugins: Update qemu-plugins.symbols to match qemu-plugins.h
+  plugins: Move all typedef and type declaration to the front of the
+    qemu-plugin.h
+
+ docs/devel/tcg-plugins.rst    |   2 +
+ docs/devel/tracing.rst        |   7 ++
+ docs/system/deprecated.rst    |  13 +++
+ include/qemu/qemu-plugin.h    | 187 +++++++++++++++++-----------------
+ contrib/plugins/hotblocks.c   |   3 +-
+ contrib/plugins/hotpages.c    |   3 +-
+ tcg/tcg-op.c                  |   8 ++
+ plugins/qemu-plugins.symbols  |  25 +++--
+ scripts/tracetool/__init__.py |   7 +-
+ trace-events                  |  12 +++
+ 10 files changed, 155 insertions(+), 112 deletions(-)
+
+-- 
+2.20.1
+
 
