@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116A5373EB9
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:40:07 +0200 (CEST)
-Received: from localhost ([::1]:54202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31724373EC1
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:42:41 +0200 (CEST)
+Received: from localhost ([::1]:58618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leJd8-00022C-1R
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:40:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38886)
+	id 1leJfY-0004GX-6K
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leJUS-0001uR-Cl
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:31:09 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46414)
+ id 1leJUU-0001vP-57
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:31:10 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leJUN-0005Hf-No
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:31:08 -0400
+ id 1leJUQ-0005Hu-7q
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:31:09 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leJUK-0005qO-4a
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 15:31:00 +0000
+ id 1leJUK-0005oT-TJ
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 15:31:01 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BF1FD2E818A
- for <qemu-devel@nongnu.org>; Wed,  5 May 2021 15:30:58 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3E1922E8194
+ for <qemu-devel@nongnu.org>; Wed,  5 May 2021 15:30:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 May 2021 15:21:56 -0000
-From: Thomas Huth <1861875@bugs.launchpad.net>
+Date: Wed, 05 May 2021 15:23:10 -0000
+From: Thomas Huth <1861653@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mvgijssel th-huth
-X-Launchpad-Bug-Reporter: Maarten (mvgijssel)
+X-Launchpad-Bug-Commenters: awdrg901 th-huth
+X-Launchpad-Bug-Reporter: zwq (awdrg901)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158082639262.26675.4971489062247211077.malonedeb@soybean.canonical.com>
-Message-Id: <162022811673.6225.1351207178781231208.malone@wampee.canonical.com>
-Subject: [Bug 1861875] Re: VDE networking barely working 
+References: <158071042004.19865.7386710530747108432.malonedeb@wampee.canonical.com>
+Message-Id: <162022819017.14445.17739974022585401595.malone@soybean.canonical.com>
+Subject: [Bug 1861653] Re: CPU of qemu-system-aarch64 always stuck
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: acf4298e32f32e63b23251897a7908a8b1a0352d
+X-Launchpad-Hash: 9334c4658f5368a1d8d9150537a5682ba379f593
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861875 <1861875@bugs.launchpad.net>
+Reply-To: Bug 1861653 <1861653@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,44 +91,80 @@ Thank you and sorry for the inconvenience.
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
+** Tags added: arm
+
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861875
+https://bugs.launchpad.net/bugs/1861653
 
 Title:
-  VDE networking barely working
+  CPU of qemu-system-aarch64 always stuck
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Running qemu with a vde_switch and slirpvde:
+  I started qemu with these arguments:
+   qemu-system-aarch64 -M virt-2.9 -cpu cortex-a72 -smp cores=3D8,threads=
+=3D1,sockets=3D1 -m 2G -device nec-usb-xhci -device usb-kbd -device usb-tab=
+let -pflash /sdcard/QEMU_EFI.img -pflash /sdcard/QEMU_VARS.img -device virt=
+io-blk-device,drive=3DUbuntu -drive if=3Dnone,id=3DUbuntu,file=3DUbuntu.vhd=
+ -nographic -net user -net nic,model=3Drtl8139 -kernel linux -initrd initrd=
+.gz
+  The setup program of Ubuntu devel aarch64 ran normally.But after several =
+hours,the CPUs emulated by qemu-system-aarch64 went wrong.
+  Here are the messages displayed on the tty
+  [15842.164745] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksoftir=
+qd/0:9]                                                                    =
+     [15930.163589] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksof=
+tirqd/0:9]
+  [16110.163540] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftir=
+qd/0:9] =
 
-  =C2=A0=C2=A0vde_switch -F -sock /tmp/qemu_vde_switch -M /tmp/qemu_vde_mgmt
-  =C2=A0=C2=A0slirpvde -s /tmp/qemu_vde_switch -dhcp
-  =C2=A0=C2=A0qemu-system-x86_64 -m 2048 -smp 2 -serial mon:stdio -display =
-none -vga none -nodefaults -accel hax -net nic,macaddr=3D52:54:00:0e:e0:61,=
-model=3Dvirtio -net vde,sock=3D/tmp/qemu_vde_switch -device virtio-rng-pci =
--drive file=3Dworker.qcow2,if=3Dvirtio -drive file=3Dcloud-init.iso,format=
-=3Draw,if=3Dvirtio
+  [16290.162801] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftir=
+qd/0:9]
+  [16470.163927] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksoftir=
+qd/0:9] =
 
-  There is some network connectivity, ping and curl work, but bigger
-  transfers like apt-get update or iperf break with the following errors
-  printed in the output of vde_switch:
+  [16650.163246] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftir=
+qd/0:9] =
 
-  =C2=A0=C2=A0vde_switch: send_sockaddr port 2: No buffer space available
-  =C2=A0=C2=A0vde_switch: send_sockaddr port 2: No buffer space available
-  =C2=A0=C2=A0vde_switch: send_sockaddr port 2: No buffer space available
+  [16830.163216] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksoftir=
+qd/0:9] =
 
-  I've tried to change the MTU size and model of the adapter inside of
-  the VM, but nothing worked.
+  [17010.164504] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftir=
+qd/0:9]
 
-  OS: macOS 10.15.2
-  qemu: 4.2.0
-  vde2 (vde_switch / slirpvde): 2.3.2
+  Then I tried CentOS 7.1908 aarch64 with almost the same arguments.
+  After several hours,it went wrong too.
+  [17480 . 201 1 58] rcu : (3 ticks this GP) idle=3D362/0/0x3 softirq=3D616=
+31 /61 631 fqs=3D10077
+  [17480 . 204889] (detected by 3 , t=3D24007 jiffies , g=3D218453 , q=3D52=
+85) [1 7480 . 21 7986] Task dump for CPU 7 :
+  [17480.222379] swapper/7R running task	0 =
+
+  0  0x0000002a [17480.229073] Call trace :
+  [1 7480.241518]	switch t0+0x104/0x1 f8
+  [17480.249839]	Ox7fffffffffffffff
+  [17660.232314] rcu : INFO: rcu sched detected stalls on CPUs/ tasks :
+  [17660.233580] rcu : (3 ticks this GP) idle=3D362/0/0x3 softirq=3D61631 /=
+61 631 fqs=3D17770
+  [17660.235837] (detected by 3,t=3D42012 jiffies , g=3D218453 , q=3D7039) =
+
+  [17660 . 237955] Task dump for CPU 7 :
+  [17660.238900] swapper/ 7  R running task  0   0
+  [17660.242967] Call trace :
+  [17660.246192]	switch t0+0x104/0x1 f8
+  [17660.253215]	Ox7fffffffffffffff
+
+  Obviously qemu-system-aarch64 caused these bugs.
+
+  qemu version: 4.x(I have tested version 4.0 & 4.1.0 & 4.2.0)
+  host architecture: aarch64(Qualcomm Snapdragon series)
+  host system:Ubuntu devel 20.04& Debian 10(I have tested on many devices)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861875/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1861653/+subscriptions
 
