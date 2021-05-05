@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DAA63738CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:47:15 +0200 (CEST)
-Received: from localhost ([::1]:56318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F32B3738DA
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:52:53 +0200 (CEST)
+Received: from localhost ([::1]:42398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leF3i-0002w0-Iw
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:47:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41422)
+	id 1leF99-0000Rf-Sc
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1leF1T-0001Qu-6y
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:44:55 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:42630)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1leF1R-0002zY-LN
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:44:54 -0400
-Received: by mail-ed1-x533.google.com with SMTP id j28so1428655edy.9
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 03:44:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GP/vPds0EqCzt5VvWIxNTtdyM1XqSdLs2BjBAUgiytM=;
- b=ng6Jcw7WG63grQhr8dIcicvF8kM+4SoWMOWyxHNHeQTaxGyWVF/Chuz6NihNGI99fx
- IhWE5jztIdMj2UMm/OwB93TvESzLPHOgZ+EqeA/O2cees+4Fk30wE6FThKioP1FsVko/
- RdwmZQtFbSm7Ofj9fG/l35Zecuf7A53YOKkMs4pD05Pn10i/M+iCjrfCRLMVssDwzE3V
- 9YtIhpnicTE7Bm8yEv389iavt4zzQyimJQiigYWxTor9NOCA+kkTRlJif12lTEQl5tME
- S821efxATPFHaZGufX09PSueniyraLBVwMg/hDHqBdGy5n9YPFZQOVAV3FZXaLxyMkup
- zNcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GP/vPds0EqCzt5VvWIxNTtdyM1XqSdLs2BjBAUgiytM=;
- b=orsLUD99daRirQAFlNnC462DgkRMiBj2u+c8dBzMdtFLzS4kYWo1peqFOufHoWhD0y
- VGj+mIVhaTh/1cQVc749w0FiApoXu2/kL6+x7OyHVp32cAz4ILcnZ4Vx7PhKL8k0WR8k
- v2e4Dqpj63Z0YgwI1YQRlJUe3kl28U5+f39+RS5WaS0nt2UgGdMS4xUC3Jtltl8XVvqq
- aF52i+ck0vwy9t7iuML2iDN7RI+uD5qhGgETlWAhQMKO+DU+2y51W2RxyXY8+U+IIGNM
- 5Q5HGO3p/PFYeWvq3TTYutUmy6oHXkZxbphEODJ6Y7f8VbyCW1cpV4UMysCrlO93qsi/
- pmsg==
-X-Gm-Message-State: AOAM532uMIqsNHHiCjAW/HRyxt8Rdkb483iMieEzUDiQy1ZdaM3W3NRN
- SigjT8zx2BkH8EbGXRu23Z/gZGs+zKQfQRI4cLNAKA==
-X-Google-Smtp-Source: ABdhPJx+mLjJjjNs5uWH1Mxk91OlJkeaVYXlzNvPhYf8M1OjF0X6MQ0/vxQz6p7n8o8k8eZaTO4mtE69X7iR7dkFGBY=
-X-Received: by 2002:a05:6402:3548:: with SMTP id
- f8mr8171804edd.251.1620211491326; 
- Wed, 05 May 2021 03:44:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1leF6c-0007Fl-62
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:50:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27621)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1leF6T-0005zH-Hh
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:50:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620211802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6+GlYhWHnz6iOlMWUKZRy6xvZVZrZYZEyUyg01fTwbA=;
+ b=IeL7DiEV9eh6gK1j9MDR5L4t5uVkB9Fm66yLK2N7eOV/IvOZ1Uamu2tGfjN7ZY1zuFx578
+ 9JmQ3mDntF/7VXhE8ISgS1/DDeJQdpOCG7qQDgmXyqBt6v1wMOieoYNoiSDqW+a/Ao8dO1
+ s7dKAEXrKuYkDhzsftytw3Ssz4PdFVk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496-F5qQPHOFPBiIqCXKQ88Ktw-1; Wed, 05 May 2021 06:50:00 -0400
+X-MC-Unique: F5qQPHOFPBiIqCXKQ88Ktw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74A2450207;
+ Wed,  5 May 2021 10:49:59 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-114-245.ams2.redhat.com [10.36.114.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0FFE459446;
+ Wed,  5 May 2021 10:49:53 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1] softfloat: Silence signaling NaN when converting to/from
+ float128
+Date: Wed,  5 May 2021 12:49:52 +0200
+Message-Id: <20210505104952.5632-1-david@redhat.com>
 MIME-Version: 1.0
-References: <603798381.17174916.1620200426349.JavaMail.zimbra@redhat.com>
- <1162368493.17178530.1620201543649.JavaMail.zimbra@redhat.com>
-In-Reply-To: <1162368493.17178530.1620201543649.JavaMail.zimbra@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 5 May 2021 11:43:44 +0100
-Message-ID: <CAFEAcA9mZfuSYsEK-TcERB+8yTnq_Qhn7HwRGvCnE7_DMfAXyQ@mail.gmail.com>
-Subject: Re: Prevent compiler warning on block.c
-To: Miroslav Rezanina <mrezanin@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,29 +74,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 5 May 2021 at 09:06, Miroslav Rezanina <mrezanin@redhat.com> wrote:
->
-> Commit 3108a15cf (block: introduce bdrv_drop_filter()) introduced uninitialized
-> variable to_cow_parent in bdrv_replace_node_common function that is used only when
-> detach_subchain is true. It is used in two places. First if block properly initialize
-> the variable and second block use it.
->
-> However, compiler treats this two blocks as two independent cases so it thinks first
-> block can fail test and second one pass (although both use same condition). This cause
-> warning that variable can be uninitialized in second block.
->
-> To prevent this warning, initialize the variable with NULL.
+We forgot to silence the NaN, just as we already do for the other
+conversions.
 
-If fixing compiler warnings, please quote the compiler name/version
-in the commit message. (This helps with understanding whether the issue
-is because of an older and not-smart-enough compiler or a new bleeding-edge
-compiler with extra checking.)
+Found by comparing the result of running randomly generated FP instructions
+under s390x/tcg and comparing against the result on real HW.
 
-thanks
--- PMM
+Unfortunately, test cases like f32_to_f128 cannot be unlocked yet as
+some expected values (with NaN) are wrongly calculated.
+
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: "Alex Bennée" <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ fpu/softfloat.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 67cfa0fd82..e9f2117a6d 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -4924,7 +4924,9 @@ float128 float32_to_float128(float32 a, float_status *status)
+     aSign = extractFloat32Sign( a );
+     if ( aExp == 0xFF ) {
+         if (aSig) {
+-            return commonNaNToFloat128(float32ToCommonNaN(a, status), status);
++            float128 res = commonNaNToFloat128(float32ToCommonNaN(a, status),
++                                               status);
++            return float128_silence_nan(res, status);
+         }
+         return packFloat128( aSign, 0x7FFF, 0, 0 );
+     }
+@@ -5229,7 +5231,9 @@ float128 float64_to_float128(float64 a, float_status *status)
+     aSign = extractFloat64Sign( a );
+     if ( aExp == 0x7FF ) {
+         if (aSig) {
+-            return commonNaNToFloat128(float64ToCommonNaN(a, status), status);
++            float128 res = commonNaNToFloat128(float64ToCommonNaN(a, status),
++                                               status);
++            return float128_silence_nan(res, status);
+         }
+         return packFloat128( aSign, 0x7FFF, 0, 0 );
+     }
+@@ -6665,7 +6669,9 @@ float32 float128_to_float32(float128 a, float_status *status)
+     aSign = extractFloat128Sign( a );
+     if ( aExp == 0x7FFF ) {
+         if ( aSig0 | aSig1 ) {
+-            return commonNaNToFloat32(float128ToCommonNaN(a, status), status);
++            float32 res = commonNaNToFloat32(float128ToCommonNaN(a, status),
++                                             status);
++            return float32_silence_nan(res, status);
+         }
+         return packFloat32( aSign, 0xFF, 0 );
+     }
+@@ -6699,7 +6705,9 @@ float64 float128_to_float64(float128 a, float_status *status)
+     aSign = extractFloat128Sign( a );
+     if ( aExp == 0x7FFF ) {
+         if ( aSig0 | aSig1 ) {
+-            return commonNaNToFloat64(float128ToCommonNaN(a, status), status);
++            float64 res = commonNaNToFloat64(float128ToCommonNaN(a, status),
++                                             status);
++            return float64_silence_nan(res, status);
+         }
+         return packFloat64( aSign, 0x7FF, 0 );
+     }
+-- 
+2.30.2
+
 
