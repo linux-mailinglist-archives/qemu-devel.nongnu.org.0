@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3B13749F8
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:13:54 +0200 (CEST)
-Received: from localhost ([::1]:47180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC6CF3749FB
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:16:11 +0200 (CEST)
+Received: from localhost ([::1]:55774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leOqA-00028m-0y
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:13:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39868)
+	id 1leOsM-0005e2-SX
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:16:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnT-0008E1-QA
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59584)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnY-0008Fp-Rj
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnS-00049c-AC
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnU-0004BN-Dj
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620249064;
+ s=mimecast20190719; t=1620249067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yGG470A3Jaz0DhDPrHiZEZ43qAaY5nNHcaGiMNivkn0=;
- b=X8HP1SO/x3wW+y8yFQy1VqYn4VsbNfiM4sGzhhfUe0MA3lKzLMvIMjeGddffSFuVGHHomJ
- qXTwvHaJV/UhYz2mHKElos5WCHctllqUtb9kvUuPd4Vhg+DVURIRxrn6exydJy/PzmHBvA
- /yJxe87P6xHZMcnSL+I0PB2utrVv4ec=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-i3gvtOTLPZSGB2hEGmtLpQ-1; Wed, 05 May 2021 17:11:01 -0400
-X-MC-Unique: i3gvtOTLPZSGB2hEGmtLpQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- n10-20020adfb74a0000b029010e1a98fb84so1237452wre.0
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:11:01 -0700 (PDT)
+ bh=jDbW5AjqVLLqIRW+qjBQwi317+pzRCZswt2T1a+tgz4=;
+ b=KHDdeDe1m6Zrj54XHU2pDNFXJkOU/N721eZc7/SBQXw+Cc6aTgAWJrMRAka9JTocGVxnyQ
+ D11Xn2qPizNBpCplJvC8/J9yCF/pi+KeukQX/ImAA68DxNau7mY6ZhtpCjZmJZUE1dRAoG
+ P3lMiInHM/lBUeC7ytUhTw/Dt2CgRAE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-2fGPp7LqPBidA81VxMuPcQ-1; Wed, 05 May 2021 17:11:06 -0400
+X-MC-Unique: 2fGPp7LqPBidA81VxMuPcQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o10-20020a05600c4fcab029014ae7fdec90so706489wmq.5
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:11:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yGG470A3Jaz0DhDPrHiZEZ43qAaY5nNHcaGiMNivkn0=;
- b=h9ZXhZrNRxrfEVxR1Qjd7viN9hOgVUl/bjXVqTYsQSjOqFvZqoBx3xCu19jvjdtPfA
- Fg5BIdqEX14xRzG0rg7nisAmUPmErc+bjBureFIrlSCpJPEyuNkEefmj1ZjU2t53QUOk
- xHfcn2sMjWuUJOZkcC7CJ+Sayqr4d3o7ND9Ce0jUnVKE96TQlznBnzaukG4yCl0GbcwB
- v9gtz+gYSL/tsPSifK/TP63M8aH9UjaQaXcSIZPW3zBKLfPlGjMprtoNqF+cil0Om2sb
- FX8NC/AuryV1BG7LuSj0yB7kIuNAa4Wwh5lPFiQDnnKZ7Mvook1ASSK73bMq1IrVf188
- MbQA==
-X-Gm-Message-State: AOAM532WxGKAtAaBItfZaG9x/tqT/NzZSOO4n53ejEfRNOWGuEu1bprH
- WSW39wJ/amG0ma4VzjpQ4STa1aAZcMDaw+i9IE0ATai/9JyXggoXZhCRBrBZZIVCTthiGzrnZRO
- purrjcd5nPTmhND+HFsJmsCdr24lCU+bTrNI5R5QF+MX2kOKNXRN0bTebLMaAHW7E
-X-Received: by 2002:adf:d1ec:: with SMTP id g12mr1078585wrd.294.1620249059936; 
- Wed, 05 May 2021 14:10:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyIGIU2wTR52pvVBtbElhLcb5ebrIvmDSZz3nPUhGj9Y9gRioNSfoYQBa7vB+kIDXVm3OwEMQ==
-X-Received: by 2002:adf:d1ec:: with SMTP id g12mr1078568wrd.294.1620249059800; 
- Wed, 05 May 2021 14:10:59 -0700 (PDT)
+ bh=jDbW5AjqVLLqIRW+qjBQwi317+pzRCZswt2T1a+tgz4=;
+ b=ubnkVniNa2DvXGeE86Vx5kTE6qWIVTYsEW5sNX9buss7hayx1qhUy2Tl5pHSddS20k
+ GfdOpav2NJ4tKabieJDb91xgOhf2n3c/5aVoMzHTZXB7lL6VZF/iUjEXAtDMQ7Bjd8hi
+ cBYRjSOIIuLJfMxwMyKT9Fm+fxRjMl0oaD7oiDiVzXOtT8nPI4DvMOq5zLKE7isUapUj
+ 2dAk1jXoFxKHetuMBhTsm5jcBW+xmxrv04yEu1AkLtQtbmRJnEB+gstlMQQx7Ew/d+Qm
+ 1PCzO8N/LTkC9zo8v3ZjMVbcY1aC3WTURECurgj4JuMq3JPer+AUWwkElVZQDjq7Tv9e
+ KWtQ==
+X-Gm-Message-State: AOAM532oTJG2+Z+6fuaZFya4OXJ7rW0ELYm8xMVLAf4e5vU4zbZpp14N
+ AsacqSswOyH6mz3ytsNnPGAgxbsLLqqo2SmsteqAq4j86+o+fzfnYkn1G9jLbAKn7C2kmzJBWk3
+ CwogW6g4HiHEUZjG9sbjGzJSiwH2t8cWFNpru/rS0REKt/vl7emv3BJwCaA8dPFpE
+X-Received: by 2002:a1c:750b:: with SMTP id o11mr12022989wmc.188.1620249064811; 
+ Wed, 05 May 2021 14:11:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwOEPOao+qykKQIphPjsuJSYjxkn/EPllDV0Z2ZMqGBHfz+R9Qb+afafsKtq+M5cPi7UKuSqg==
+X-Received: by 2002:a1c:750b:: with SMTP id o11mr12022964wmc.188.1620249064582; 
+ Wed, 05 May 2021 14:11:04 -0700 (PDT)
 Received: from x1w.redhat.com
  (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
- by smtp.gmail.com with ESMTPSA id w22sm7363254wmc.13.2021.05.05.14.10.58
+ by smtp.gmail.com with ESMTPSA id o1sm4073966wmc.6.2021.05.05.14.11.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 14:10:59 -0700 (PDT)
+ Wed, 05 May 2021 14:11:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/23] chardev/baum: Replace magic values by X_MAX / Y_MAX
- definitions
-Date: Wed,  5 May 2021 23:10:26 +0200
-Message-Id: <20210505211047.1496765-3-philmd@redhat.com>
+Subject: [PATCH 03/23] chardev/baum: Use definitions to avoid dynamic stack
+ allocation
+Date: Wed,  5 May 2021 23:10:27 +0200
+Message-Id: <20210505211047.1496765-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210505211047.1496765-1-philmd@redhat.com>
 References: <20210505211047.1496765-1-philmd@redhat.com>
@@ -105,43 +105,42 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace '84' magic value by the X_MAX definition, and '1' by Y_MAX.
+We know 'x * y' will be at most 'X_MAX * Y_MAX' (which is not
+a big value, it is actually 84). Instead of having the compiler
+use variable-length array, declare an array able to hold the
+maximum 'x * y'.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- chardev/baum.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ chardev/baum.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/chardev/baum.c b/chardev/baum.c
-index 5deca778bc4..adc3d7b3b56 100644
+index adc3d7b3b56..0822e9ed5f3 100644
 --- a/chardev/baum.c
 +++ b/chardev/baum.c
-@@ -87,6 +87,9 @@
+@@ -383,9 +383,9 @@ static int baum_eat_packet(BaumChardev *baum, const uint8_t *buf, int len)
+     switch (req) {
+     case BAUM_REQ_DisplayData:
+     {
+-        uint8_t cells[baum->x * baum->y], c;
+-        uint8_t text[baum->x * baum->y];
+-        uint8_t zero[baum->x * baum->y];
++        uint8_t cells[X_MAX * Y_MAX], c;
++        uint8_t text[X_MAX * Y_MAX];
++        uint8_t zero[X_MAX * Y_MAX];
+         int cursor = BRLAPI_CURSOR_OFF;
+         int i;
  
- #define BUF_SIZE 256
+@@ -408,7 +408,7 @@ static int baum_eat_packet(BaumChardev *baum, const uint8_t *buf, int len)
+         }
+         timer_del(baum->cellCount_timer);
  
-+#define X_MAX   84
-+#define Y_MAX   1
-+
- struct BaumChardev {
-     Chardev parent;
+-        memset(zero, 0, sizeof(zero));
++        memset(zero, 0, baum->x * baum->y);
  
-@@ -244,11 +247,11 @@ static int baum_deferred_init(BaumChardev *baum)
-         brlapi_perror("baum: brlapi__getDisplaySize");
-         return 0;
-     }
--    if (baum->y > 1) {
--        baum->y = 1;
-+    if (baum->y > Y_MAX) {
-+        baum->y = Y_MAX;
-     }
--    if (baum->x > 84) {
--        baum->x = 84;
-+    if (baum->x > X_MAX) {
-+        baum->x = X_MAX;
-     }
- 
-     con = qemu_console_lookup_by_index(0);
+         brlapi_writeArguments_t wa = {
+             .displayNumber = BRLAPI_DISPLAY_DEFAULT,
 -- 
 2.26.3
 
