@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC868373FCE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 18:29:25 +0200 (CEST)
-Received: from localhost ([::1]:60002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB984373F5E
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 18:16:00 +0200 (CEST)
+Received: from localhost ([::1]:52876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leKOr-0004hR-1U
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 12:29:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60152)
+	id 1leKBr-0006bF-Q4
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 12:15:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1leK3m-0006Wn-Nt
- for qemu-devel@nongnu.org; Wed, 05 May 2021 12:07:38 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:36606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1leK3h-0002kK-P6
- for qemu-devel@nongnu.org; Wed, 05 May 2021 12:07:38 -0400
-Received: by mail-pg1-x533.google.com with SMTP id c21so2123676pgg.3
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 09:07:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=QO/q5sTYgh8lDsKjmAjwxvHZnXZMZgpYcKr3/0vGBfs=;
- b=UnOWbwvLNfiZMUV3vuYVJ927bgCtshJbwf1uAQ0Ml4yT5qcqVsrfAquwtLps+p1Ckl
- MeXbhXpSIUaFeLGnfgCI9jt3kkZWJPobsD/dzFVCXzqxKyLg5BKL4bWqliTZDpYKa1Ly
- cyHQCX/gCMJt6I4axV5pjwFnS12yV0DT2gBAq7D0TLAagHlGO0w7sQgWc17YZ1/ulqSd
- oS14aG0NRILafNkt3U5KBByCXddbPhk1k97f2t5ssaQaoSBhhqTGQjsDHbzhHEVJEUBC
- /Sss+zzR8eQ5khml4f1K4dvRq5duQx9c9eMB6hS6+W3ZIxDLs9wvjBL5b8U3251iggt5
- BSOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=QO/q5sTYgh8lDsKjmAjwxvHZnXZMZgpYcKr3/0vGBfs=;
- b=IhIdXMUwRaiginptFVo2RrSaRhmTBT+ruFIyZSQ1PF15AHapPNg/SfkO6kM3VLTG8i
- oM5rh3o/MgbOxvhqK8HRfX4efTcYfMEA/Z9VcZcgfmqzpMhMc8v9HPgMghUAgr1Bmb3E
- UKW3nOc/j3M97cjnJdbuXW2d5DVFEgvxmqk+Bg8uTDaA1MO5DSPVfyN7akFtKbXKPOAz
- CZ4hUfHQowHG9CZQRk01DCWa2K7wMvFkKu2dyz96xIt7+E30pEaZq0LoCy12G8FS78p3
- BvNqek5Z9sQ6dEtLUIfCZSkV4PGa9ILfqLuWJlr8Vn//WTlJ8PXpZBS813oqS2yOgTRd
- M6Jg==
-X-Gm-Message-State: AOAM5307VYE5LfL5ao+lEXGtYYjsKbUSB1UvW7iyqexH8zYXFVAI8zkY
- syGpIe+IPqzNIQ9X60Aj732ev7BpyQ1ZeUIm
-X-Google-Smtp-Source: ABdhPJy+sAvZo9gTE3ZjzqLpJWxM9eGluWmGOh7Q7GTlZBg0DcxNXZmQq4VPGthP/EctgaKW2XHwrw==
-X-Received: by 2002:a63:1125:: with SMTP id g37mr28896475pgl.56.1620230849919; 
- Wed, 05 May 2021 09:07:29 -0700 (PDT)
-Received: from localhost.localdomain (122-116-72-36.HINET-IP.hinet.net.
- [122.116.72.36])
- by smtp.gmail.com with ESMTPSA id js6sm35877977pjb.0.2021.05.05.09.07.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 09:07:29 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v6 17/17] target/riscv: rvb: add b-ext version cpu option
-Date: Thu,  6 May 2021 00:06:18 +0800
-Message-Id: <20210505160620.15723-18-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210505160620.15723-1-frank.chang@sifive.com>
-References: <20210505160620.15723-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1leK7V-0001jG-5x
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 12:11:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28304)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1leK7T-0004zn-0U
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 12:11:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620231086;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M1qU1q1xaDHRLxiGK540TSjCq3vzJkLpuPmhwxWx8eE=;
+ b=hN0PcC3RFh2mKwShXCeRey36gae1R8YTdrWggHbZW6xbWijnPyzzCkz3WULYSsp5jbKld7
+ qeZKJay3A7iPjwiJYBJOQMkCEkDczyeWI6tf7G3MyNTN0+ntccTPAhMxvfXXbswnDMaQ/2
+ cPQ++PIzVNIQD8ghdKSrEezDT0r4tjs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-QBjBPbhzMLKB3ffMoUMIcA-1; Wed, 05 May 2021 12:11:24 -0400
+X-MC-Unique: QBjBPbhzMLKB3ffMoUMIcA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 157FE1936B60;
+ Wed,  5 May 2021 16:11:23 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-115-153.ams2.redhat.com
+ [10.36.115.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A8695D72F;
+ Wed,  5 May 2021 16:11:17 +0000 (UTC)
+Subject: Re: [PATCH v2 6/9] test-write-threshold: drop extra tests
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210504082553.20377-1-vsementsov@virtuozzo.com>
+ <20210504082553.20377-7-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <d1497e53-7e14-61a4-39b0-4bcde92df484@redhat.com>
+Date: Wed, 5 May 2021 18:11:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <20210504082553.20377-7-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,113 +83,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: fam@euphon.net, kwolf@redhat.com, eesposit@redhat.com,
+ qemu-devel@nongnu.org, stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+On 04.05.21 10:25, Vladimir Sementsov-Ogievskiy wrote:
+> Testing set/get of one 64bit variable doesn't seem necessary. We have a
+> lot of such variables. Also remaining tests do test set/get anyway.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/unit/test-write-threshold.c | 43 -------------------------------
+>   1 file changed, 43 deletions(-)
 
-Default b-ext version is v0.93.
-
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
----
- target/riscv/cpu.c | 23 +++++++++++++++++++++++
- target/riscv/cpu.h |  3 +++
- 2 files changed, 26 insertions(+)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1b3c5ba1480..32469f7c891 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -127,6 +127,11 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
-     env->priv_ver = priv_ver;
- }
- 
-+static void set_bext_version(CPURISCVState *env, int bext_ver)
-+{
-+    env->bext_ver = bext_ver;
-+}
-+
- static void set_vext_version(CPURISCVState *env, int vext_ver)
- {
-     env->vext_ver = vext_ver;
-@@ -385,6 +390,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     CPURISCVState *env = &cpu->env;
-     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-     int priv_version = PRIV_VERSION_1_11_0;
-+    int bext_version = BEXT_VERSION_0_93_0;
-     int vext_version = VEXT_VERSION_0_07_1;
-     target_ulong target_misa = env->misa;
-     Error *local_err = NULL;
-@@ -409,6 +415,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     }
- 
-     set_priv_version(env, priv_version);
-+    set_bext_version(env, bext_version);
-     set_vext_version(env, vext_version);
- 
-     if (cpu->cfg.mmu) {
-@@ -488,6 +495,21 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         }
-         if (cpu->cfg.ext_b) {
-             target_misa |= RVB;
-+
-+            if (cpu->cfg.bext_spec) {
-+                if (!g_strcmp0(cpu->cfg.bext_spec, "v0.93")) {
-+                    bext_version = BEXT_VERSION_0_93_0;
-+                } else {
-+                    error_setg(errp,
-+                           "Unsupported bitmanip spec version '%s'",
-+                           cpu->cfg.bext_spec);
-+                    return;
-+                }
-+            } else {
-+                qemu_log("bitmanip version is not specified, "
-+                         "use the default value v0.93\n");
-+            }
-+            set_bext_version(env, bext_version);
-         }
-         if (cpu->cfg.ext_v) {
-             target_misa |= RVV;
-@@ -566,6 +588,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-+    DEFINE_PROP_STRING("bext_spec", RISCVCPU, cfg.bext_spec),
-     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 3cea62cd4c4..b2cca778526 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -83,6 +83,7 @@ enum {
- #define PRIV_VERSION_1_10_0 0x00011000
- #define PRIV_VERSION_1_11_0 0x00011100
- 
-+#define BEXT_VERSION_0_93_0 0x00009300
- #define VEXT_VERSION_0_07_1 0x00000701
- 
- enum {
-@@ -130,6 +131,7 @@ struct CPURISCVState {
-     target_ulong guest_phys_fault_addr;
- 
-     target_ulong priv_ver;
-+    target_ulong bext_ver;
-     target_ulong vext_ver;
-     target_ulong misa;
-     target_ulong misa_mask;
-@@ -295,6 +297,7 @@ struct RISCVCPU {
- 
-         char *priv_spec;
-         char *user_spec;
-+        char *bext_spec;
-         char *vext_spec;
-         uint16_t vlen;
-         uint16_t elen;
--- 
-2.17.1
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
