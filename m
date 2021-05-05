@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F32B3738DA
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:52:53 +0200 (CEST)
-Received: from localhost ([::1]:42398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2703738DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:54:12 +0200 (CEST)
+Received: from localhost ([::1]:44722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leF99-0000Rf-Sc
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42830)
+	id 1leFAR-0001Pn-Oq
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:54:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1leF6c-0007Fl-62
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:50:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27621)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1leF8n-0000b2-N6
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:52:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1leF6T-0005zH-Hh
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:50:12 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1leF8k-0007Ux-2m
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:52:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620211802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6+GlYhWHnz6iOlMWUKZRy6xvZVZrZYZEyUyg01fTwbA=;
- b=IeL7DiEV9eh6gK1j9MDR5L4t5uVkB9Fm66yLK2N7eOV/IvOZ1Uamu2tGfjN7ZY1zuFx578
- 9JmQ3mDntF/7VXhE8ISgS1/DDeJQdpOCG7qQDgmXyqBt6v1wMOieoYNoiSDqW+a/Ao8dO1
- s7dKAEXrKuYkDhzsftytw3Ssz4PdFVk=
+ s=mimecast20190719; t=1620211944;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jcr0sZVtGy0QyodyGTD/QilUyY6MXlJnnT/JXieunPg=;
+ b=Ycj2CJUx7vIqmiX5xsRi2cd/VSGTmSEIbU6Boi6nkx6WcFhw/SvOsGAa5zuy6EOYApDuwl
+ 1nY+fmmc0TCorf/2wEibh2zDZNb3/jyraN4YzTMKpLhr4pNhrzzFHKPE9IrGj0YI9l6Sjn
+ F/sAXbJrKKrgM99B7ADBGRi08k3dQ4c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-F5qQPHOFPBiIqCXKQ88Ktw-1; Wed, 05 May 2021 06:50:00 -0400
-X-MC-Unique: F5qQPHOFPBiIqCXKQ88Ktw-1
+ us-mta-357-SkxO7NO9MAaIIjoPXU9koQ-1; Wed, 05 May 2021 06:52:20 -0400
+X-MC-Unique: SkxO7NO9MAaIIjoPXU9koQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74A2450207;
- Wed,  5 May 2021 10:49:59 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-245.ams2.redhat.com [10.36.114.245])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FFE459446;
- Wed,  5 May 2021 10:49:53 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1] softfloat: Silence signaling NaN when converting to/from
- float128
-Date: Wed,  5 May 2021 12:49:52 +0200
-Message-Id: <20210505104952.5632-1-david@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8B1A803620;
+ Wed,  5 May 2021 10:52:18 +0000 (UTC)
+Received: from redhat.com (ovpn-114-253.ams2.redhat.com [10.36.114.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9ADB1421F;
+ Wed,  5 May 2021 10:52:08 +0000 (UTC)
+Date: Wed, 5 May 2021 11:52:05 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v1 5/7] docs: mark intention to deprecate TCG tracing
+ functionality
+Message-ID: <YJJ41bUEY+Gfkw/Z@redhat.com>
+References: <20210505092259.8202-1-alex.bennee@linaro.org>
+ <20210505092259.8202-6-alex.bennee@linaro.org>
+ <YJJmYOWDl0UzziW7@redhat.com> <87lf8to49d.fsf@linaro.org>
+ <87im3xo3zv.fsf@linaro.org>
 MIME-Version: 1.0
+In-Reply-To: <87im3xo3zv.fsf@linaro.org>
+User-Agent: Mutt/2.0.6 (2021-03-06)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -74,80 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, David Hildenbrand <david@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ qemu-devel@nongnu.org, robhenry@microsoft.com, aaron@os.amperecomputing.com,
+ vilanova@imperial.ac.uk, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
+ cota@braap.org, stefanha@redhat.com, mohamad.gebai@gmail.com,
+ kuhn.chenqun@huawei.com, matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We forgot to silence the NaN, just as we already do for the other
-conversions.
+On Wed, May 05, 2021 at 11:41:46AM +0100, Alex Bennée wrote:
+> 
+> Alex Bennée <alex.bennee@linaro.org> writes:
+> 
+> > Daniel P. Berrangé <berrange@redhat.com> writes:
+> >
+> >> On Wed, May 05, 2021 at 10:22:57AM +0100, Alex Bennée wrote:
+> <snip>
+> >>> +TCG introspection features
+> >>> +--------------------------
+> >>> +
+> >>> +TCG trace-events (since 6.1)
+> >>> +''''''''''''''''''''''''''''
+> >>> +
+> >>> +The ability to add new TCG trace points has bit rotted and as the
+> >>
+> >> When you say this "has bit rotted", just how bad is the situation ?
+> >>
+> >> Is the TCG tracing still usable at all, or is is fully broken
+> >> already ?
+> >
+> > Well patches 6/7 got it working for generic TCG things. I haven't been
+> > able to get the architecture one working but I suspect that is some sort
+> > of interaction between the per-arch trace header generation that I
+> > haven't quite figured out yet.
+> 
+> Ahh it's since 7609ffb919 (trace: fix tcg tracing build breakage) which
+> limited tcg/vcpu events to the root trace-events file.
 
-Found by comparing the result of running randomly generated FP instructions
-under s390x/tcg and comparing against the result on real HW.
+That commit is from release 2.10.0.
 
-Unfortunately, test cases like f32_to_f128 cannot be unlocked yet as
-some expected values (with NaN) are wrongly calculated.
+The other commit mentioned in patch 6 (73ff061032) is from 2.12.0.
 
-Cc: Aurelien Jarno <aurelien@aurel32.net>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: "Alex Bennée" <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- fpu/softfloat.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+So no one has been able to use this feature for 3+ years already.
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 67cfa0fd82..e9f2117a6d 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -4924,7 +4924,9 @@ float128 float32_to_float128(float32 a, float_status *status)
-     aSign = extractFloat32Sign( a );
-     if ( aExp == 0xFF ) {
-         if (aSig) {
--            return commonNaNToFloat128(float32ToCommonNaN(a, status), status);
-+            float128 res = commonNaNToFloat128(float32ToCommonNaN(a, status),
-+                                               status);
-+            return float128_silence_nan(res, status);
-         }
-         return packFloat128( aSign, 0x7FFF, 0, 0 );
-     }
-@@ -5229,7 +5231,9 @@ float128 float64_to_float128(float64 a, float_status *status)
-     aSign = extractFloat64Sign( a );
-     if ( aExp == 0x7FF ) {
-         if (aSig) {
--            return commonNaNToFloat128(float64ToCommonNaN(a, status), status);
-+            float128 res = commonNaNToFloat128(float64ToCommonNaN(a, status),
-+                                               status);
-+            return float128_silence_nan(res, status);
-         }
-         return packFloat128( aSign, 0x7FFF, 0, 0 );
-     }
-@@ -6665,7 +6669,9 @@ float32 float128_to_float32(float128 a, float_status *status)
-     aSign = extractFloat128Sign( a );
-     if ( aExp == 0x7FFF ) {
-         if ( aSig0 | aSig1 ) {
--            return commonNaNToFloat32(float128ToCommonNaN(a, status), status);
-+            float32 res = commonNaNToFloat32(float128ToCommonNaN(a, status),
-+                                             status);
-+            return float32_silence_nan(res, status);
-         }
-         return packFloat32( aSign, 0xFF, 0 );
-     }
-@@ -6699,7 +6705,9 @@ float64 float128_to_float64(float128 a, float_status *status)
-     aSign = extractFloat128Sign( a );
-     if ( aExp == 0x7FFF ) {
-         if ( aSig0 | aSig1 ) {
--            return commonNaNToFloat64(float128ToCommonNaN(a, status), status);
-+            float64 res = commonNaNToFloat64(float128ToCommonNaN(a, status),
-+                                             status);
-+            return float64_silence_nan(res, status);
-         }
-         return packFloat64( aSign, 0x7FF, 0 );
-     }
+Is it actually worth fixing and then deprecating for 2 releases before
+deleting, as opposed to just deleting the broken code today on basis
+that it can't have any current users ?
+
+Regards,
+Daniel
 -- 
-2.30.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
