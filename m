@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BABD3739A8
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 13:46:02 +0200 (CEST)
-Received: from localhost ([::1]:49692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB523739A6
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 13:45:57 +0200 (CEST)
+Received: from localhost ([::1]:49302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leFyb-0003Rl-4O
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 07:46:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57526)
+	id 1leFyW-0003IL-Vv
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 07:45:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leFuF-0001k4-5L
- for qemu-devel@nongnu.org; Wed, 05 May 2021 07:41:31 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54608)
+ id 1leFuD-0001hJ-61
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 07:41:29 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leFu3-0002JS-R8
- for qemu-devel@nongnu.org; Wed, 05 May 2021 07:41:30 -0400
+ id 1leFu2-0002Hv-TV
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 07:41:28 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1leFu2-0003X0-Bs
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 11:41:18 +0000
+ id 1leFu1-0003T6-Ki
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 11:41:17 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5893E2E8186
- for <qemu-devel@nongnu.org>; Wed,  5 May 2021 11:41:18 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9BF0E2E818C
+ for <qemu-devel@nongnu.org>; Wed,  5 May 2021 11:41:17 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 May 2021 11:28:00 -0000
-From: Thomas Huth <1828207@bugs.launchpad.net>
+Date: Wed, 05 May 2021 11:28:16 -0000
+From: Thomas Huth <1828723@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: feature-request
+X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange pmaydell rawlik th-huth
-X-Launchpad-Bug-Reporter: Druta Pavel (rawlik)
+X-Launchpad-Bug-Commenters: ajbennee moschny philmd th-huth
+X-Launchpad-Bug-Reporter: Thomas Moschny (moschny)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <155731026034.22594.3160504765111033354.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162021408098.14396.12347986485485265070.malone@soybean.canonical.com>
-Subject: [Bug 1828207] Re: Request to add something like "Auth failed from IP"
- log report for built-in VNC server
+References: <155766144999.15801.8727893741494500797.malonedeb@wampee.canonical.com>
+Message-Id: <162021409617.5967.17394420556065919932.malone@wampee.canonical.com>
+Subject: [Bug 1828723] Re: [RFE] option to suppress gemu_log() output
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 5b69a48075b7364cd52132c87fddd4a00fd4b816
+X-Launchpad-Hash: 07ee9746a33801dfd98a7917d9cc2e440845aaf4
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1828207 <1828207@bugs.launchpad.net>
+Reply-To: Bug 1828723 <1828723@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,40 +79,38 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/170
+ https://gitlab.com/qemu-project/qemu/-/issues/171
 
 
 ** Changed in: qemu
        Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #170
-   https://gitlab.com/qemu-project/qemu/-/issues/170
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #171
+   https://gitlab.com/qemu-project/qemu/-/issues/171
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1828207
+https://bugs.launchpad.net/bugs/1828723
 
 Title:
-  Request to add something like "Auth failed from IP" log report for
-  built-in VNC server
+  [RFE] option to suppress gemu_log() output
 
 Status in QEMU:
   Expired
 
 Bug description:
-  In environment with needs of public accessible VNC ports there is no logs=
- or other registered events about authentication failures to analyze and/or=
- integrate it to automated services like fail2ban ans so on.
-  Thus the built-in VNC service is vulnerable to brutforce attacks and in c=
-ombination with weak built-in VNC-auth scheme can be a security vulnerabili=
-ty.
+  With user mode emulation, messages from genu_log() are emitted
+  unconditionally to stderr. I didn't find a way to suppress them. It
+  would be nice to have options similar to the -D/-d options to be able
+  to filter and/or redirect the output.
 
-  Adding a simple log record like "QEMU VNC Authentication failed
-  192.168.0.5:5902 - 123.45.67.89:7898" will permit to quickly integrate
-  it to fail2ban system.
+  My use case is chroot/container execution for different architectures
+  via binfmt. In this case it will appear as if the binary in question
+  had emitted messages like "Unsupported setsockopt ..." to stderr while
+  in fact the message came from qemu-*-static.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1828207/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1828723/+subscriptions
 
