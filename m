@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E45374C0A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:41:36 +0200 (CEST)
-Received: from localhost ([::1]:44014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315E1374C1C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:51:04 +0200 (CEST)
+Received: from localhost ([::1]:41938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leR95-0006tw-EZ
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:41:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35980)
+	id 1leRIE-0000ub-Ub
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:51:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQsp-0000c0-Cu
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:47 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33229)
+ id 1leQt7-00014Y-ND
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:25:05 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQsl-0000cg-Qr
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:47 -0400
+ id 1leQt5-0000ys-O1
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:25:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620257083; x=1651793083;
+ t=1620257103; x=1651793103;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=eY64W9JB7jnGvaakjv5BADNjhl2X/P3bfdlkpxmil/8=;
- b=RZopp+gpLSvvOHwQctBFO5SB64ZxBEXKGYUwqSG9jyo/4HQjtlzBadd7
- MJJyQzAVL9+oQnmmLCAWqYVDtmkoFAqydr6JKZsnaZrVjGTW4yqX5Xf2T
- M5FGoqT49klB9UkAhGUud9YBzaJJqV+Mfmo9f3odiJuA14ExVCNtjPIN8
- J0xXVfciVXyGnZTrzjkX/xig8py71UtNS6zeJtXYekbY1duYnNiFcMQjq
- LPWpTCJDqCtq00gI4sRyfaJ/e6K3cW+DsxqikliC29H8+MUJCRex4zaFm
- LmeKVJzn6090dskuVf8wyrobFy9B5aaTg5ULeesn6kEkKN03v4avmeoWH g==;
-IronPort-SDR: TKyfPm5wmJm0MMAe9QB5ycaDzHMQajiJE1mscEdI+ce1PjtoKh7p2pZ7TkuCWGlbKHx20XrWw1
- X3cNh5+p4ZVAGu31csOt0XRQv3CFgCMz6U7wdzyFbliQdOTIMoC5VHc70uIa/pgzs7dfWP1hBr
- +1hvkEnJnpRHoTDXZwqrLlKkQNslHGzV0+Y8L23wv9i2WsL2v787TCTAwtteUERl1rHWrsC6Qx
- G/H8HfA7Syc7AK3jnGFB0yv79Bye84q0drz9Hwa3dg8Om4BOAUg3d3FPknFnRC1F1I8+MTuw1r
- 4PM=
-X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585960"
+ bh=HRFnRKpT6eIKGkJmmSWcNkwahgPJ7f2r03ru00s2A0o=;
+ b=J/PvQ6se6ysXNyfxK8PbrwdseLR3LlsgcuIlqbMS99huiM0Zy6RH44Gh
+ mnemjA6ucq55LJDnoKCvBQzQCxKXtNIoMSStfcVV+BGDvwMLBEODXAsXi
+ GECtvPxJBi/hZGLJVDV8RxfKqVAbFBjbKMo2k9TonxMOfAyTGHAZ5tVBU
+ mdpG8ChM/YEzY6FNuiUhqeVVuaOOM5JeVR3A19ga6xWilvHKC1xlH2iKk
+ 6j1EVjhtEHE5UBn5faE3eRSqpTmHr2QbVJJUOAkve9Ubme4SleggeDr/I
+ bDoT7geTElT5uFZgsC5a1W8OzDpW6HvNEDez6KAy0KGkTl+15lmro13s7 g==;
+IronPort-SDR: +k6h2DLeR3QpzcyxljvTAzx/RY0OzXygb+G7Zx92Kup5RpuFsdP8de76jE7MmyJg1OHoaHwj2T
+ R10UQhCs0iq5NpNICfnz/zhQfIF8vqUcVFtzI5s8Zy3H0Lovyq3p4JWqcS1+zGVwviK/trvF7A
+ +jNQHE5kMH/6h3TgtMD72g/gzOC3Sqj0esX6DDO3HGhN3vXYz0U/9gZMA5MA4brx9JjTzDHLPw
+ cTDuNNOrWZTChMq8KUWjH9MnLVa3mEKLWsWmff66CvLYg2proTO0Lzjoyg5YHTF5zEiFUE92NM
+ lxw=
+X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585974"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:43 +0800
-IronPort-SDR: XnbPUsaSXaH7oDyu77+SMVNBPxBWbm6KLSJLY+Yy77NpJBzudYoUqye7cGaRjaw+bpCOsEPq0G
- 9W014o42IcAfUcBUo3N7s6f2ga17pfza/gTnclodDLexNA/4cVPEJSqGGjJgEj+I/Og/gRoJJS
- Bs3qYx/LLhiGmKIoSWmdBr07uDxCWKcYuyJ01M3uSJDguNIci+Xil0NceFgxqY0mU3QTN/BgXK
- ftLnslWeDkD3DDcHE94PJwdFvKMBLj4dN34bppT32+REWnPOL4/dHg4V2wQrWApSmJb50wUyMj
- PVQ/jiNukTQVRi9V2XyuAMXo
+ by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:52 +0800
+IronPort-SDR: bJNpDMCorW3G39ZlElDDu29aWRIdV59yMwzlZlxR9b9Yio9L0AxVqZ4QgIduJRahlxHvdD2eZf
+ 1WaNids0N9TmBnfQ5dZ5COhzNkZx6nwytpOX7IimD8HZRz3g9H3VVITodtP/MaCMPbJAd8d9lx
+ YWp95kytX8d8YQnCMrtbH1h5nFH4rNvXqrs/4jb63mg8khAQ4vy+dhbRymUsDNrc1Tt3Z8J7m1
+ aR0voA3/SWLPC5/Fdzc4lFwOMWwRur6VtbSGJQzXzi4qm59WXy/D0LFlit1fXwlt9i87ErISIe
+ 6RgVpamJ4Rpi+Q2J8suarDQw
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 16:03:23 -0700
-IronPort-SDR: 4OTi7nFc3Kdcv0iDbC8J2lPnKLrdjoUyCpYLkDTNIHUWS1EEiYrtafU1RF+z/z1Vb98/0NW/qa
- VhO9lXuqWJbKIew/MC/i+JjQxloXz1Nvkft+bD5PpsbFxGg/uQ3o+ff4grQ3ul+w/lt+wySB6q
- a4vo98RzW3pDvJsWQrGpQnBYJAKl/KyvKMk+qHcbSQ9jfhwv//CXaJr6VrP4qd0fnvhWg8o5eZ
- 3jqFxlaFda4m2Kw5dHftzGBnOFlJNbhAIaiKCnGb/qPH9v4v5j49Wpv4GH4B++BXSBpkcgEtHy
- WEc=
+ 05 May 2021 16:03:33 -0700
+IronPort-SDR: +XDJ+uz/bc/i5QwWQPH1HWgzcnVPU0h8VGS68aa04bKQQn2rfgkJ39NHE8crIoPo9XLcrvZ6W+
+ rNdtkONFrzAVoa0uSlgZkUHL94l3TqIq/vAJkSd9imfZroFrpR7cPiJLg7rD3Yi08HgueyWCxn
+ DZ+ncx/qY3VRek23lFtGL42l4HioMGjn3EIilXlsxSJKHKXGQOSA5oXO2Jgh58TcmJGcW76qXO
+ Aj0F1irUxlEavROdAFSinzaBfFX1rfjiHA0eODwQPaWqXEHr/EzPk05I//rTf8WiCH+S8kSapd
+ JFA=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.46])
- by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:24:40 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:24:50 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 25/42] target/riscv: Add a config option for ePMP
-Date: Thu,  6 May 2021 09:22:55 +1000
-Message-Id: <20210505232312.4175486-26-alistair.francis@wdc.com>
+Subject: [PULL v2 28/42] target/riscv: fix vrgather macro index variable type
+ bug
+Date: Thu,  6 May 2021 09:22:58 +1000
+Message-Id: <20210505232312.4175486-29-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505232312.4175486-1-alistair.francis@wdc.com>
 References: <20210505232312.4175486-1-alistair.francis@wdc.com>
@@ -90,71 +91,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hou Weiying <weiying_hou@outlook.com>, qemu-devel@nongnu.org,
- Hongzheng-Li <Ethan.Lee.QNL@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>, alistair23@gmail.com,
- Bin Meng <bmeng.cn@gmail.com>, Myriad-Dreamin <camiyoru@gmail.com>
+Cc: Frank Chang <frank.chang@sifive.com>, alistair23@gmail.com,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hou Weiying <weiying_hou@outlook.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-Add a config option to enable experimental support for ePMP. This
-is disabled by default and can be enabled with 'x-epmp=true'.
+ETYPE may be type of uint64_t, thus index variable has to be declared as
+type of uint64_t, too. Otherwise the value read from vs1 register may be
+truncated to type of uint32_t.
 
-Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
-Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
-Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210419060302.14075-1-frank.chang@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: a22ccdaf9314078bc735d3b323f966623f8af020.1618812899.git.alistair.francis@wdc.com
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 ---
- target/riscv/cpu.h |  1 +
- target/riscv/cpu.c | 10 ++++++++++
- 2 files changed, 11 insertions(+)
+ target/riscv/vector_helper.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 83b315e0b2..add734bbbd 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -304,6 +304,7 @@ struct RISCVCPU {
-         uint16_t elen;
-         bool mmu;
-         bool pmp;
-+        bool epmp;
-         uint64_t resetvec;
-     } cfg;
- };
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index e530df9385..66787d019c 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -412,6 +412,14 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
- 
-     if (cpu->cfg.pmp) {
-         set_feature(env, RISCV_FEATURE_PMP);
-+
-+        /*
-+         * Enhanced PMP should only be available
-+         * on harts with PMP support
-+         */
-+        if (cpu->cfg.epmp) {
-+            set_feature(env, RISCV_FEATURE_EPMP);
-+        }
-     }
- 
-     set_resetvec(env, cpu->cfg.resetvec);
-@@ -554,6 +562,8 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-+    DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
-+
-     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-     DEFINE_PROP_END_OF_LIST(),
- };
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 356cef8a09..4651a1e224 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -4796,7 +4796,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
+     uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
+     uint32_t vm = vext_vm(desc);                                          \
+     uint32_t vl = env->vl;                                                \
+-    uint32_t index, i;                                                    \
++    uint64_t index;                                                       \
++    uint32_t i;                                                           \
+                                                                           \
+     for (i = 0; i < vl; i++) {                                            \
+         if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
+@@ -4826,7 +4827,8 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+     uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
+     uint32_t vm = vext_vm(desc);                                          \
+     uint32_t vl = env->vl;                                                \
+-    uint32_t index = s1, i;                                               \
++    uint64_t index = s1;                                                  \
++    uint32_t i;                                                           \
+                                                                           \
+     for (i = 0; i < vl; i++) {                                            \
+         if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
 -- 
 2.31.1
 
