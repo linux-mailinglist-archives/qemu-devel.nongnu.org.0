@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9492E373E1D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:08:59 +0200 (CEST)
-Received: from localhost ([::1]:43760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2F4373E3D
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:13:55 +0200 (CEST)
+Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leJ90-0005cZ-3z
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59068)
+	id 1leJDl-0001VP-Pn
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:13:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1leJ2S-0001pb-2L
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:02:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1leJ2F-0001ql-Nj
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:02:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620226918;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fhMp4x+KILijfTKHWUNCFvTuYIYiXuFj4VSPB80hbqg=;
- b=FjbU1LlfoQqj4O5QB4o7wBRUaTGzjrNY2URPy3rvJY27+s77scHzzOxo4cYZyot91pvoOy
- Xy+nF2uJDwTeqf4roOOFyaWuneR8+lZZyEqyZlfoZbMCoTw3xzkWExcx+fBzMpW/lfa6bn
- SDc5PrSyocZwbE5Xb3LfmioYLDyrSHA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-QXJDeNWnNMaHXWeVmloDqQ-1; Wed, 05 May 2021 11:01:47 -0400
-X-MC-Unique: QXJDeNWnNMaHXWeVmloDqQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB3141020C24;
- Wed,  5 May 2021 15:01:45 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
- [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64EBD6062C;
- Wed,  5 May 2021 15:01:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D934A1138529; Wed,  5 May 2021 17:01:41 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v5 02/10] accel: Introduce 'query-accels' QMP command
-References: <20210501223638.510712-1-philmd@redhat.com>
- <20210501223638.510712-3-philmd@redhat.com>
- <87o8dpvet4.fsf@dusky.pond.sub.org>
- <918d1fc1-260c-57b7-2dd9-61f1125a2aa2@redhat.com>
-Date: Wed, 05 May 2021 17:01:41 +0200
-In-Reply-To: <918d1fc1-260c-57b7-2dd9-61f1125a2aa2@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 5 May 2021 13:49:45
- +0200")
-Message-ID: <87tunhns16.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leJB6-0008Hl-OJ
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:11:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43268)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leJAt-0005qv-JJ
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:11:08 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1leJAr-0002R5-Hh
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 15:10:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7F1BF2E8135
+ for <qemu-devel@nongnu.org>; Wed,  5 May 2021 15:10:53 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Date: Wed, 05 May 2021 15:05:29 -0000
+From: ON7WPI <1909770@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: cris linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: on7wpi pmaydell th-huth
+X-Launchpad-Bug-Reporter: ON7WPI (on7wpi)
+X-Launchpad-Bug-Modifier: ON7WPI (on7wpi)
+References: <160943407589.12883.6323653042448683983.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162022712931.32029.8879929276508976064.malone@chaenomeles.canonical.com>
+Subject: [Bug 1909770] Re: qemu-cris segfaults upon loading userspace binary
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: 48601556b11731df1adb22285dc9fa7bf990bb48
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,86 +71,275 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1909770 <1909770@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Yes, this is working for me now. The binary still crashes, but I think
+that's a problem in my code instead of QEMU.
 
-> On 5/5/21 9:07 AM, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->>=20
->>> Introduce the 'query-accels' QMP command which returns a list
->>> of built-in accelerator names.
->>>
->>> - Accelerator is a QAPI enum of all existing accelerators,
->>>
->>> - AcceleratorInfo is a QAPI structure providing accelerator
->>>   specific information. Currently the common structure base
->>>   provides the name of the accelerator, while the specific
->>>   part is empty, but each accelerator can expand it.
->>>
->>> - 'query-accels' QMP command returns a list of @AcceleratorInfo
->>>
->>> For example on a KVM-only build we get:
->>>
->>>     { "execute": "query-accels" }
->>>     {
->>>         "return": [
->>>             {
->>>                 "name": "qtest"
->>>             },
->>>             {
->>>                 "name": "kvm"
->>>             }
->>>         ]
->>>     }
->>>
->>> Note that we can't make the enum values or union branches conditional
->>> because of target-specific poisoning of accelerator definitions.
->>=20
->> Let me try to complete this argument;
->>=20
->>   If we did, enum Accelerator could only be used in target-specific
->>   code.  But we want to use it in generic code, too.
->>=20
->> Which generic code exactly?
->
->
-> cpu.c:133:#ifdef CONFIG_TCG
-> hmp-commands-info.hx:271:#if defined(CONFIG_TCG)
-> monitor/misc.c:324:#ifdef CONFIG_TCG
-> softmmu/physmem.c:28:#ifdef CONFIG_TCG
->
-> and more importantly:
->
-> include/exec/cpu-all.h:430:#ifdef CONFIG_TCG
-> include/exec/cpu-defs.h:77:#if !defined(CONFIG_USER_ONLY) &&
-> defined(CONFIG_TCG)
-> include/exec/exec-all.h:25:#ifdef CONFIG_TCG
-> include/sysemu/cpu-timers.h:27:#ifdef CONFIG_TCG
->
-> Thomas might provide more cases, IIRC he audited this recently.
+-- =
 
-No need, I'm interested in examples, not a complete list.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1909770
 
-Please amend the commit message:
+Title:
+  qemu-cris segfaults upon loading userspace binary
 
-    Note that we can't make the enum values or union branches conditional
-    because of target-specific poisoning of accelerator definitions.
-    If we did, enum Accelerator could only be used in target-specific
-    code.  But we want to also use it in generic code, such as ...
+Status in QEMU:
+  Expired
 
-with ... replaced by one or more references to relevant code.
+Bug description:
+  I am on commit 65a3c5984074313602fb5f61cc5f464abfb020c7 (latest as far
+  as I know). I compiled qemu with --enable-debug.
 
-If we expect readers of the code to later wonder why we're not using
-QAPI conditionals, then we should add a comment to the QAPI schema,
-too.  Not a demand, since I'm not sure what to expect.
+  I'm trying to run a userspace CRIS binary (`./qemu-cris -cpu crisv10
+  ./basic`), but this segfaults. When opening the coredump in gdb, I get
 
+  gdb-peda$ bt
+  #0  0x00007f272a2e1ee1 in __memset_avx2_erms () from /usr/lib/libc.so.6
+  #1  0x0000564a2f7bcda7 in zero_bss (elf_bss=3D0x82134, last_bss=3D0x84000=
+, =
+
+      prot=3D0x3) at ../linux-user/elfload.c:1865
+  #2  0x0000564a2f7bff65 in load_elf_image (
+      image_name=3D0x7fffe9f5703d "./basic", image_fd=3D0x3, =
+
+      info=3D0x7fffe9f547c0, pinterp_name=3D0x7fffe9f545b0, =
+
+      bprm_buf=3D0x7fffe9f54920 "\177ELF\001\001\001")
+      at ../linux-user/elfload.c:2801
+  #3  0x0000564a2f7c0a12 in load_elf_binary (bprm=3D0x7fffe9f54920, =
+
+      info=3D0x7fffe9f547c0) at ../linux-user/elfload.c:3104
+  #4  0x0000564a2f81f290 in loader_exec (fdexec=3D0x3, =
+
+      filename=3D0x7fffe9f5703d "./basic", argv=3D0x564a2f9f3cc0, =
+
+      envp=3D0x564a2fa12600, regs=3D0x7fffe9f54860, infop=3D0x7fffe9f547c0, =
+
+      bprm=3D0x7fffe9f54920) at ../linux-user/linuxload.c:147
+  #5  0x0000564a2f7c4f9f in main (argc=3D0x4, argv=3D0x7fffe9f54e78, =
+
+      envp=3D0x7fffe9f54ea0) at ../linux-user/main.c:808
+  #6  0x00007f272a1a4152 in __libc_start_main () from /usr/lib/libc.so.6
+  #7  0x0000564a2f786cee in _start ()
+
+  Or as a full backtrace:
+  gdb-peda$ bt full
+  #0  0x00007f272a2e1ee1 in __memset_avx2_erms () from /usr/lib/libc.so.6
+  No symbol table info available.
+  #1  0x0000564a2f7bcda7 in zero_bss (elf_bss=3D0x82134, last_bss=3D0x84000=
+, =
+
+      prot=3D0x3) at ../linux-user/elfload.c:1865
+          host_start =3D 0x92134
+          host_map_start =3D 0x93000
+          host_end =3D 0x94000
+  #2  0x0000564a2f7bff65 in load_elf_image (
+      image_name=3D0x7fffe9f5703d "./basic", image_fd=3D0x3, =
+
+      info=3D0x7fffe9f547c0, pinterp_name=3D0x7fffe9f545b0, =
+
+      bprm_buf=3D0x7fffe9f54920 "\177ELF\001\001\001")
+      at ../linux-user/elfload.c:2801
+          vaddr =3D 0x82134
+          vaddr_em =3D 0x82140
+          vaddr_len =3D 0x2000
+          vaddr_po =3D 0x134
+          vaddr_ps =3D 0x82000
+          vaddr_ef =3D 0x82134
+          elf_prot =3D 0x3
+          eppnt =3D 0x7fffe9f54974
+          ehdr =3D 0x7fffe9f54920
+          phdr =3D 0x7fffe9f54954
+          load_addr =3D 0x80000
+          load_bias =3D 0x0
+          loaddr =3D 0x80000
+          hiaddr =3D 0x1082140
+          error =3D 0x80000
+          i =3D 0x1
+          retval =3D 0x273d2e9c
+          prot_exec =3D 0x4
+          err =3D 0x0
+          __func__ =3D "load_elf_image"
+  #3  0x0000564a2f7c0a12 in load_elf_binary (bprm=3D0x7fffe9f54920, =
+
+      info=3D0x7fffe9f547c0) at ../linux-user/elfload.c:3104
+          interp_info =3D {
+            load_bias =3D 0x0,
+            load_addr =3D 0x0,
+            start_code =3D 0x0,
+            end_code =3D 0x0,
+            start_data =3D 0x0,
+            end_data =3D 0x0,
+            start_brk =3D 0x0,
+            brk =3D 0x0,
+            reserve_brk =3D 0x0,
+            start_mmap =3D 0x0,
+            start_stack =3D 0x0,
+            stack_limit =3D 0x0,
+            entry =3D 0x0,
+            code_offset =3D 0x0,
+            data_offset =3D 0x0,
+            saved_auxv =3D 0x0,
+            auxv_len =3D 0x0,
+            arg_start =3D 0x0,
+            arg_end =3D 0x0,
+            arg_strings =3D 0x0,
+            env_strings =3D 0x0,
+            file_string =3D 0x0,
+            elf_flags =3D 0x0,
+            personality =3D 0x0,
+            alignment =3D 0x0,
+            loadmap_addr =3D 0x0,
+            nsegs =3D 0x0,
+            loadsegs =3D 0x0,
+            pt_dynamic_addr =3D 0x0,
+            interpreter_loadmap_addr =3D 0x0,
+            interpreter_pt_dynamic_addr =3D 0x0,
+            other_info =3D 0x0,
+            note_flags =3D 0x0
+          }
+          elf_ex =3D {
+            e_ident =3D "|\214\t1\000\000\000\000\262\002\356_\000\000\000",
+            e_type =3D 0x8c7c,
+            e_machine =3D 0x3109,
+            e_version =3D 0x0,
+            e_entry =3D 0x5fee02b2,
+            e_phoff =3D 0x0,
+            e_shoff =3D 0x31098c7c,
+            e_flags =3D 0x0,
+            e_ehsize =3D 0x0,
+            e_phentsize =3D 0x0,
+            e_phnum =3D 0x0,
+            e_shentsize =3D 0x0,
+            e_shnum =3D 0x0,
+            e_shstrndx =3D 0x0
+          }
+          elf_interpreter =3D 0x0
+          scratch =3D 0x7f272a358021 <read+97> "H\213D$\bH\203\304(\303\017=
+\037D"
+  #4  0x0000564a2f81f290 in loader_exec (fdexec=3D0x3, =
+
+      filename=3D0x7fffe9f5703d "./basic", argv=3D0x564a2f9f3cc0, =
+
+      envp=3D0x564a2fa12600, regs=3D0x7fffe9f54860, infop=3D0x7fffe9f547c0, =
+
+      bprm=3D0x7fffe9f54920) at ../linux-user/linuxload.c:147
+          retval =3D 0x400
+  #5  0x0000564a2f7c4f9f in main (argc=3D0x4, argv=3D0x7fffe9f54e78, =
+
+      envp=3D0x7fffe9f54ea0) at ../linux-user/main.c:808
+          regs1 =3D {
+            orig_r10 =3D 0x0,
+            r0 =3D 0x0,
+            r1 =3D 0x0,
+            r2 =3D 0x0,
+            r3 =3D 0x0,
+            r4 =3D 0x0,
+            r5 =3D 0x0,
+            r6 =3D 0x0,
+            r7 =3D 0x0,
+            r8 =3D 0x0,
+            r9 =3D 0x0,
+            r10 =3D 0x0,
+            r11 =3D 0x0,
+            r12 =3D 0x0,
+            r13 =3D 0x0,
+            acr =3D 0x0,
+            srs =3D 0x0,
+            mof =3D 0x0,
+            spc =3D 0x0,
+            ccs =3D 0x0,
+            srp =3D 0x0,
+            erp =3D 0x0,
+            exs =3D 0x0,
+            eda =3D 0x0
+          }
+          regs =3D 0x7fffe9f54860
+          info1 =3D {
+            load_bias =3D 0x0,
+            load_addr =3D 0x80000,
+            start_code =3D 0x80000,
+            end_code =3D 0x80133,
+            start_data =3D 0xffffffff,
+            end_data =3D 0x0,
+            start_brk =3D 0x0,
+            brk =3D 0x80133,
+            reserve_brk =3D 0x1000000,
+            start_mmap =3D 0x80000000,
+            start_stack =3D 0x0,
+            stack_limit =3D 0x0,
+            entry =3D 0x80106,
+            code_offset =3D 0x0,
+            data_offset =3D 0x0,
+            saved_auxv =3D 0x0,
+            auxv_len =3D 0x0,
+            arg_start =3D 0x0,
+            arg_end =3D 0x0,
+            arg_strings =3D 0x0,
+            env_strings =3D 0x0,
+            file_string =3D 0x0,
+            elf_flags =3D 0x0,
+            personality =3D 0x0,
+            alignment =3D 0x2000,
+            loadmap_addr =3D 0x0,
+            nsegs =3D 0x2,
+            loadsegs =3D 0x0,
+            pt_dynamic_addr =3D 0x0,
+            interpreter_loadmap_addr =3D 0x0,
+            interpreter_pt_dynamic_addr =3D 0x0,
+            other_info =3D 0x0,
+            note_flags =3D 0x0
+          }
+          info =3D 0x7fffe9f547c0
+          bprm =3D {
+            buf =3D "\177ELF\001\001\001\000\000\000\000\000\000\000\000\00=
+0\002\000L\000\001\000\000\000\006\001\b\000\064\000\000\000\264\006\000\00=
+0\000\000\000\000\064\000 \000\003\000(\000\016\000\r\000\001\000\000\000\0=
+00\000\000\000\000\000\b\000\000\000\b\000\063\001\000\000\063\001\000\000\=
+005\000\000\000\000 \000\000\001\000\000\000\064\001\000\000\064!\b\000\064=
+!\b\000\000\000\000\000\f\000\000\000\006\000\000\000\000 \000\000\004\000\=
+000\000\224\000\000\000\224\000\b\000\224\000\b\000$\000\000\000$\000\000\0=
+00\004\000\000\000\004\000\000\000\004\000\000\000\024\000\000\000\003\000\=
+000\000GNU\000PH\017'i\204\231\070e\000\247\376\211\230\236\336Nf7\372\204\=
+342\356\213n\206\214\342\374\201\352\253\370\201\353\273"...,
+            p =3D 0x0,
+            fd =3D 0x3,
+            e_uid =3D 0x3e8,
+            e_gid =3D 0x3d9,
+            argc =3D 0x1,
+            envc =3D 0x43,
+            argv =3D 0x564a2f9f3cc0,
+            envp =3D 0x564a2fa12600,
+            filename =3D 0x7fffe9f5703d "./basic",
+            core_dump =3D 0x0
+          }
+          ts =3D 0x564a2fa25400
+          env =3D 0x564a2fa24a08
+          cpu =3D 0x564a2fa1c730
+          optind =3D 0x3
+          target_environ =3D 0x564a2fa12600
+          wrk =3D 0x7fffe9f550b8
+          target_argv =3D 0x564a2f9f3cc0
+          target_argc =3D 0x1
+          i =3D 0x1
+          ret =3D 0x7fff
+          execfd =3D 0x3
+          log_mask =3D 0x0
+          max_reserved_va =3D 0xffffe000
+  #6  0x00007f272a1a4152 in __libc_start_main () from /usr/lib/libc.so.6
+  No symbol table info available.
+  #7  0x0000564a2f786cee in _start ()
+  No symbol table info available.
+
+  =
+
+  The binary itself is just a basic binary that prints "hello\n" to stdout.=
+ I have attached it.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1909770/+subscriptions
 
