@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B423373E7C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:26:23 +0200 (CEST)
-Received: from localhost ([::1]:49410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01667373E9A
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:34:12 +0200 (CEST)
+Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leJPq-00043z-HF
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35858)
+	id 1leJXP-0002c2-1w
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:34:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1leJLN-0000gT-CJ
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:21:45 -0400
-Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32]:46662)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leJPH-0004d3-TO
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:25:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1leJLK-000081-T2
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:21:45 -0400
-Received: by mail-vs1-xe32.google.com with SMTP id b4so1259502vst.13
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 08:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z35LRBIAu9/+wT0ufNZBWbwRE672jFZePrykKlHI4A8=;
- b=gw/qFA445uB+mplp64GcLhaa6ClqqXQEJP3dWoaBZl8/yOZaElLiY13j4dtT6Snf03
- gR/DSHM60SvKwxcyGEv2XwbhKGpn379Vtihc9dgqjd84PnVX5D2Bk+DfG6/THZO4DYTi
- OraUUDssk40CTb2UGy62xrdQ6uVkuFXq916CyqPxKa/aFV/lTq7zhO44qpnrG2ayeG+l
- I6KOC3nPJ2NT+wlzZNisgGrX+teoVf721EDWhjoRrg/g4wUkxlhuOS6lsYujb8PkTM70
- yjUT346aQtuXt7RiwLnl8rcupm0HJa6L2drzPcrLWrqHoHuvUWxuDIdKsCr26j2vwOHo
- wB6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z35LRBIAu9/+wT0ufNZBWbwRE672jFZePrykKlHI4A8=;
- b=NNz9hkkQLDdobWRUm2O7lGdE86LW5l0nd9APDWRDznM642qLftkxvdz+AifXZKfDw/
- A4W30sNdZk3SSKRoXnpSuFW+XghZcrQ/RNoBSAjB0G/AApo9xO7o5I6tejmtt1tbIDcn
- Dil0V/WaOeBtBkS8uRUxYJfu6/sQPdbAbi5tJCRfisWEP9TIitT1Fru2wWWJ9lKiNSNp
- 8mcuQKyzOHIN6LEQsBkhX/2/NbMqLd0PvL7DpW4uDdfQE3F3MiGUdkWw/vXxiNBiEzCS
- CdVfxP9lPHBgGxUGf1+3h0bW20sYkJRMS+qoVHKhZB/u6K3hSUpzWC9kXJ2T19pPJOYs
- oS4g==
-X-Gm-Message-State: AOAM530KGlCBrU22l0LHXrGuvqZ8p1EdSIcSrAQ/dAon7HDAn4is/aQo
- KTqo2D+JMkAuzY9+8e/2p6PCe+y77+ro+5m3Uy4bheBIvnLlhg==
-X-Google-Smtp-Source: ABdhPJwnG6O1oWd44iwKGwglhnKME8i1gYYpy0cvaVhjHcf6wucTkuvbHvg6Vx/OJtufnTeo6+ejVObVNhvUxFMLJKM=
-X-Received: by 2002:a67:db91:: with SMTP id f17mr28006492vsk.47.1620228097837; 
- Wed, 05 May 2021 08:21:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leJPA-00028G-7X
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:25:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1leJP8-00044n-UM
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 15:25:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E36442E8135
+ for <qemu-devel@nongnu.org>; Wed,  5 May 2021 15:25:38 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210415033925.1290401-1-dje@google.com>
- <CADPb22SBzeHj75aaNnJKN2Ov--=MExh5CuZCYRZO7gK8A-A-Lw@mail.gmail.com>
-In-Reply-To: <CADPb22SBzeHj75aaNnJKN2Ov--=MExh5CuZCYRZO7gK8A-A-Lw@mail.gmail.com>
-From: Doug Evans <dje@google.com>
-Date: Wed, 5 May 2021 08:21:00 -0700
-Message-ID: <CADPb22RJJHOdSqc4veQU-Gzuf4gDGsCdC6=BpL_eeprtFw-vDw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/4] Add support for ipv6 host forwarding
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000003a7b5e05c196c04b"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
- envelope-from=dje@google.com; helo=mail-vs1-xe32.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 05 May 2021 15:15:37 -0000
+From: Thomas Huth <1863200@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: mode packed ring server
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: th-huth xavier-ding
+X-Launchpad-Bug-Reporter: xuan (xavier-ding)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158165197713.30147.2525334191220612578.malonedeb@wampee.canonical.com>
+Message-Id: <162022773780.3037.6692114449095421942.malone@gac.canonical.com>
+Subject: [Bug 1863200] Re: Reconnect failed with loopback virtio1.1 server
+ mode test
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: a6bcbdb50d6bdf106bd12c9439fbdab5ebb38409
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,295 +72,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1863200 <1863200@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003a7b5e05c196c04b
-Content-Type: text/plain; charset="UTF-8"
+The QEMU project is currently considering to move its bug tracking to
+another system. For this we need to know which bugs are still valid
+and which could be closed already. Thus we are setting older bugs to
+"Incomplete" now.
 
-Ping.
+If you still think this bug report here is valid, then please switch
+the state back to "New" within the next 60 days, otherwise this report
+will be marked as "Expired". Or please mark it as "Fix Released" if
+the problem has been solved with a newer version of QEMU already.
 
-On Wed, Apr 28, 2021 at 8:37 PM Doug Evans <dje@google.com> wrote:
+Thank you and sorry for the inconvenience.
 
-> Ping.
->
-> On Wed, Apr 14, 2021 at 8:39 PM Doug Evans <dje@google.com> wrote:
->
->> This patchset takes the original patch from Maxim,
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
->> and updates it.
->>
->> Option hostfwd is extended to support ipv6 addresses.
->> Commands hostfwd_add, hostfwd_remove are extended as well.
->>
->> The libslirp part of the patch has been committed upstream,
->> and is now in qemu. See patch 1/4.
->>
->> Changes from v5:
->>
->> 1/4 slirp: Advance libslirp submodule to current master
->> NOTE TO REVIEWERS: It may be a better use of everyone's time if a
->> maintainer takes on advancing QEMU's libslirp to libslirp's master.
->> Beyond that, I really don't know what to do except submit this patch as
->> is currently provided.
->>
->> 2/4: util/qemu-sockets.c: Split host:port parsing out of inet_parse
->>
->> Also split out parsing of ipv4=on|off, ipv6=on|off
->>
->> 3/4: net/slirp.c: Refactor address parsing
->>
->> Use InetSocketAddress and getaddrinfo().
->> Use new libslirp calls: slirp_remove_hostxfwd, slirp_add_hostxfwd.
->>
->> 4/4: net: Extend host forwarding to support IPv6
->>
->> Recognize ipv4=,ipv6= options.
->>
->> Note: v5's 3/5 "Recognize []:port (empty ipv6 address)" has been deleted:
->> the churn on this patch series needs to be reduced.
->> This change is not required, and can easily be done in a later patch.
->>
->> Changes from v4:
->>
->> 1/5 slirp: Advance libslirp submodule to add ipv6 host-forward support
->> NOTE TO REVIEWERS: I need some hand-holding to know what The Right
->> way to submit this particular patch is.
->>
->> - no change
->>
->> 2/5 util/qemu-sockets.c: Split host:port parsing out of inet_parse
->>
->> - move recognition of "[]:port" to separate patch
->> - allow passing NULL for ip_v6
->> - fix some formatting issues
->>
->> 3/5 inet_parse_host_and_addr: Recognize []:port (empty ipv6 address)
->>
->> - new in this patchset revision
->>
->> 4/5 net/slirp.c: Refactor address parsing
->>
->> - was 3/4 in v4
->> - fix some formatting issues
->>
->> 5/5 net: Extend host forwarding to support IPv6
->>
->> - was 4/4 in v4
->> - fix some formatting issues
->>
->> Changes from v3:
->>
->> 1/4 slirp: Advance libslirp submodule to add ipv6 host-forward support
->>
->> - pick up latest libslirp patch to reject ipv6 addr-any for guest address
->>   - libslirp currently only provides a stateless DHCPv6 server, which
->> means
->>     it can't know in advance what the guest's IP address is, and thus
->>     cannot do the "addr-any -> guest ip address" translation that is done
->>     for ipv4
->>
->> 2/4 util/qemu-sockets.c: Split host:port parsing out of inet_parse
->>
->> - this patch is new in v4
->>   - provides new utility: inet_parse_host_and_port, updates inet_parse
->>     to use it
->>
->> 3/4 net/slirp.c: Refactor address parsing
->>
->> - this patch renamed from 2/3 to 3/4
->> - call inet_parse_host_and_port from util/qemu-sockets.c
->> - added tests/acceptance/hostfwd.py
->>
->> 4/4 net: Extend host forwarding to support IPv6
->>
->> - this patch renamed from 3/3 to 4/4
->> - ipv6 support added to existing hostfwd option, commands
->>   - instead of creating new ipv6 option, commands
->> - added tests to tests/acceptance/hostfwd.py
->>
->> Changes from v2:
->> - split out libslirp commit
->> - clarify spelling of ipv6 addresses in docs
->> - tighten parsing of ipv6 addresses
->>
->> Change from v1:
->> - libslirp part is now upstream
->> - net/slirp.c changes split into two pieces (refactor, add ipv6)
->> - added docs
->>
->> Doug Evans (4):
->>   slirp: Advance libslirp submodule to add ipv6 host-forward support
->>   util/qemu-sockets.c: Split host:port parsing out of inet_parse
->>   net/slirp.c: Refactor address parsing
->>   net: Extend host forwarding to support IPv6
->>
->>  hmp-commands.hx             |  18 ++-
->>  include/qemu/sockets.h      |   5 +
->>  net/slirp.c                 | 236 ++++++++++++++++++++++++++----------
->>  slirp                       |   2 +-
->>  tests/acceptance/hostfwd.py | 185 ++++++++++++++++++++++++++++
->>  util/qemu-sockets.c         |  82 +++++++++----
->>  6 files changed, 436 insertions(+), 92 deletions(-)
->>  create mode 100644 tests/acceptance/hostfwd.py
->>
->> --
->> 2.31.1.295.g9ea45b61b8-goog
->>
->>
 
---0000000000003a7b5e05c196c04b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">Ping.<br></div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Wed, Apr 28, 2021 at 8:37 PM Doug Evans &l=
-t;<a href=3D"mailto:dje@google.com">dje@google.com</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div sty=
-le=3D"font-size:small">Ping.</div></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 14, 2021 at 8:39 PM Doug Evan=
-s &lt;<a href=3D"mailto:dje@google.com" target=3D"_blank">dje@google.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Thi=
-s patchset takes the original patch from Maxim,<br>
-<a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.htm=
-l" rel=3D"noreferrer" target=3D"_blank">https://www.mail-archive.com/qemu-d=
-evel@nongnu.org/msg569573.html</a><br>
-and updates it.<br>
-<br>
-Option hostfwd is extended to support ipv6 addresses.<br>
-Commands hostfwd_add, hostfwd_remove are extended as well.<br>
-<br>
-The libslirp part of the patch has been committed upstream,<br>
-and is now in qemu. See patch 1/4.<br>
-<br>
-Changes from v5:<br>
-<br>
-1/4 slirp: Advance libslirp submodule to current master<br>
-NOTE TO REVIEWERS: It may be a better use of everyone&#39;s time if a<br>
-maintainer takes on advancing QEMU&#39;s libslirp to libslirp&#39;s master.=
-<br>
-Beyond that, I really don&#39;t know what to do except submit this patch as=
-<br>
-is currently provided.<br>
-<br>
-2/4: util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
-<br>
-Also split out parsing of ipv4=3Don|off, ipv6=3Don|off<br>
-<br>
-3/4: net/slirp.c: Refactor address parsing<br>
-<br>
-Use InetSocketAddress and getaddrinfo().<br>
-Use new libslirp calls: slirp_remove_hostxfwd, slirp_add_hostxfwd.<br>
-<br>
-4/4: net: Extend host forwarding to support IPv6<br>
-<br>
-Recognize ipv4=3D,ipv6=3D options.<br>
-<br>
-Note: v5&#39;s 3/5 &quot;Recognize []:port (empty ipv6 address)&quot; has b=
-een deleted:<br>
-the churn on this patch series needs to be reduced.<br>
-This change is not required, and can easily be done in a later patch.<br>
-<br>
-Changes from v4:<br>
-<br>
-1/5 slirp: Advance libslirp submodule to add ipv6 host-forward support<br>
-NOTE TO REVIEWERS: I need some hand-holding to know what The Right<br>
-way to submit this particular patch is.<br>
-<br>
-- no change<br>
-<br>
-2/5 util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
-<br>
-- move recognition of &quot;[]:port&quot; to separate patch<br>
-- allow passing NULL for ip_v6<br>
-- fix some formatting issues<br>
-<br>
-3/5 inet_parse_host_and_addr: Recognize []:port (empty ipv6 address)<br>
-<br>
-- new in this patchset revision<br>
-<br>
-4/5 net/slirp.c: Refactor address parsing<br>
-<br>
-- was 3/4 in v4<br>
-- fix some formatting issues<br>
-<br>
-5/5 net: Extend host forwarding to support IPv6<br>
-<br>
-- was 4/4 in v4<br>
-- fix some formatting issues<br>
-<br>
-Changes from v3:<br>
-<br>
-1/4 slirp: Advance libslirp submodule to add ipv6 host-forward support<br>
-<br>
-- pick up latest libslirp patch to reject ipv6 addr-any for guest address<b=
-r>
-=C2=A0 - libslirp currently only provides a stateless DHCPv6 server, which =
-means<br>
-=C2=A0 =C2=A0 it can&#39;t know in advance what the guest&#39;s IP address =
-is, and thus<br>
-=C2=A0 =C2=A0 cannot do the &quot;addr-any -&gt; guest ip address&quot; tra=
-nslation that is done<br>
-=C2=A0 =C2=A0 for ipv4<br>
-<br>
-2/4 util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
-<br>
-- this patch is new in v4<br>
-=C2=A0 - provides new utility: inet_parse_host_and_port, updates inet_parse=
-<br>
-=C2=A0 =C2=A0 to use it<br>
-<br>
-3/4 net/slirp.c: Refactor address parsing<br>
-<br>
-- this patch renamed from 2/3 to 3/4<br>
-- call inet_parse_host_and_port from util/qemu-sockets.c<br>
-- added tests/acceptance/hostfwd.py<br>
-<br>
-4/4 net: Extend host forwarding to support IPv6<br>
-<br>
-- this patch renamed from 3/3 to 4/4<br>
-- ipv6 support added to existing hostfwd option, commands<br>
-=C2=A0 - instead of creating new ipv6 option, commands<br>
-- added tests to tests/acceptance/hostfwd.py<br>
-<br>
-Changes from v2:<br>
-- split out libslirp commit<br>
-- clarify spelling of ipv6 addresses in docs<br>
-- tighten parsing of ipv6 addresses<br>
-<br>
-Change from v1:<br>
-- libslirp part is now upstream<br>
-- net/slirp.c changes split into two pieces (refactor, add ipv6)<br>
-- added docs<br>
-<br>
-Doug Evans (4):<br>
-=C2=A0 slirp: Advance libslirp submodule to add ipv6 host-forward support<b=
-r>
-=C2=A0 util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
-=C2=A0 net/slirp.c: Refactor address parsing<br>
-=C2=A0 net: Extend host forwarding to support IPv6<br>
-<br>
-=C2=A0hmp-commands.hx=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 18 ++-<br>
-=C2=A0include/qemu/sockets.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A05 +<br>
-=C2=A0net/slirp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 236 ++++++++++++++++++++++++++----------<br>
-=C2=A0slirp=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-=C2=A0tests/acceptance/hostfwd.py | 185 ++++++++++++++++++++++++++++<br>
-=C2=A0util/qemu-sockets.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 82 +++++=
-++++----<br>
-=C2=A06 files changed, 436 insertions(+), 92 deletions(-)<br>
-=C2=A0create mode 100644 tests/acceptance/hostfwd.py<br>
-<br>
--- <br>
-2.31.1.295.g9ea45b61b8-goog<br>
-<br>
-</blockquote></div>
-</blockquote></div></div>
+-- =
 
---0000000000003a7b5e05c196c04b--
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863200
+
+Title:
+  Reconnect failed with loopback virtio1.1 server mode test
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Issue discription=EF=BC=9A
+  Packed ring server mode is a new feature to enable the virtio-user or vir=
+tio-pmd(in VM) as the server, vhost as the client, then when the vhost-user=
+ is killed then re-launched, the vhost-user can connect back to virtio-user=
+/virtio-pmd again. Test with dpdk 20.02 ,virtio-pmd loopback reconnect from=
+ vhost-user failed.
+
+  Test Environment:
+  DPDK version: DPDK v20.02
+  Other software versions: virtio1.1
+  Qemu versions:4.2.0
+  OS: Linux 4.15.0-20-generic
+  Compiler: gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+  Hardware platform: R2208WFTZSR.
+
+  The reproduce step is :
+  Test Case: vhost-user/virtio-pmd loopback reconnect from vhost-user
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  Flow: Vhost-user --> Virtio --> Vhost-user
+
+  1. Launch vhost-user with client mode by below commands::
+
+      ./testpmd -c 0x30 -n 4 --socket-mem 1024,1024 --legacy-mem --vdev 'et=
+h_vhost0,iface=3D/tmp/vhost-net,client=3D1,queues=3D1' -- -i --nb-cores=3D1
+      testpmd>set fwd mac
+
+  2. Start VM with 1 virtio device, and set the qemu as server mode::
+
+      ./qemu-system-x86_64 -name vm2 -enable-kvm -cpu host -smp 100 -m 8G \
+      -object memory-backend-file,id=3Dmem,size=3D8192M,mem-path=3D/mnt/hug=
+e,share=3Don \
+      -numa node,memdev=3Dmem -mem-prealloc -drive file=3D/home/xuan/dpdk_p=
+roject/shell/u18.img  \
+      -chardev socket,path=3D/tmp/vm2_qga0.sock,server,nowait,id=3Dvm2_qga0=
+ -device virtio-serial \
+      -device virtserialport,chardev=3Dvm2_qga0,name=3Dorg.qemu.guest_agent=
+.2 -daemonize \
+      -monitor unix:/tmp/vm2_monitor.sock,server,nowait -net nic,macaddr=3D=
+00:00:00:08:e8:aa,addr=3D1f \
+      -net user,hostfwd=3Dtcp:127.0.0.1:6002-:22 \
+      -chardev socket,id=3Dchar0,path=3D/tmp/vhost-net,server \
+      -netdev type=3Dvhost-user,id=3Dnetdev0,chardev=3Dchar0,vhostforce \
+      -device virtio-net-pci,netdev=3Dnetdev0,mac=3D52:54:00:00:00:01,mrg_r=
+xbuf=3Don,rx_queue_size=3D1024,tx_queue_size=3D1024,packed=3Don \
+      -vnc :10
+
+  3. On VM, bind virtio net to igb_uio and run testpmd::
+
+      ./testpmd -c 0x3 -n 4 -- -i --nb-cores=3D1 --txd=3D1024 --rxd=3D1024
+      testpmd>set fwd mac
+      testpmd>start
+
+  4. Send packets by vhost-user, check if packets can be RX/TX with
+  virtio-pmd::
+
+      testpmd>start tx_first 32
+      testpmd>show port stats all
+
+  5. On host, quit vhost-user, then re-launch the vhost-user with below
+  command::
+
+      testpmd>quit
+      ./testpmd -c 0x30 -n 4 --socket-mem 1024,1024 --legacy-mem --vdev 'et=
+h_vhost0,iface=3D/tmp/vhost-net,client=3D1,queues=3D1' -- -i --nb-cores=3D1
+      testpmd>set fwd mac
+      testpmd>start tx_first 32
+
+  6. Check if the reconnection can work, still send packets by vhost-
+  user, check if packets can be RX/TX with virtio-pmd::
+
+      testpmd>show port stats all
+
+  Expected result::
+
+  After the vhost-user is killed then re-launched, the VM can connect
+  back to vhost-user again with throughput.
+
+  Real result::
+
+  After the vhost-user is killed then re-launched, no throughput with
+  PVP.
+
+  Analysis::
+
+  QEMU has its own way to handle reconnect function for virtio server
+  mode. However, for packed ring, when reconnecting to virtio, vhost
+  cannot get the status of descriptors via the descriptor ring. This bug
+  is caused since the reconnection for packed ring need additional reset
+  operation.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863200/+subscriptions
 
