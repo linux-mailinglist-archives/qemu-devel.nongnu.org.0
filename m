@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C8853733D9
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 05:12:59 +0200 (CEST)
-Received: from localhost ([::1]:56034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCBF3733D6
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 05:08:35 +0200 (CEST)
+Received: from localhost ([::1]:50562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le7y5-0003t2-00
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 23:12:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39066)
+	id 1le7tq-0001Vn-4S
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 23:08:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1le7qd-0008Ci-G8
- for qemu-devel@nongnu.org; Tue, 04 May 2021 23:05:15 -0400
-Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:37623)
+ id 1le7qb-0008CD-Hf
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 23:05:13 -0400
+Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35]:44788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1le7qT-00031u-Hy
- for qemu-devel@nongnu.org; Tue, 04 May 2021 23:05:15 -0400
-Received: by mail-qk1-x72b.google.com with SMTP id i67so307310qkc.4
- for <qemu-devel@nongnu.org>; Tue, 04 May 2021 20:05:05 -0700 (PDT)
+ id 1le7qV-00032h-1e
+ for qemu-devel@nongnu.org; Tue, 04 May 2021 23:05:13 -0400
+Received: by mail-qv1-xf35.google.com with SMTP id u1so550484qvg.11
+ for <qemu-devel@nongnu.org>; Tue, 04 May 2021 20:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=btMaGj7ccU0HCYX4NRJ6hUY5JOpjFZjbz479ppWGpb4=;
- b=COjG2xbTiCbqE5q9t8lNX6MiFZgcmFD/CdZcNJDrCeJdMXfKMnrt6pnJpuzBpL1+OR
- 158crcgWsWR8MK5DslG55/Gv9+vYyOjL3JL1YMHU4l3ShYAnYVDiUHedYsUG6Xr3uEgy
- zcLGZ2vL3SILl+tHSz5npM2P2x+tZqOnaECCNlKZRAo193K5RyupZGeixbOg5JzhoyGP
- xWpYO2LMK/Wt2OKrzPlsgq+7m2ns6uLfEId/UWrRqUxUtJfkkEK5mkZO07K/WRxl/jsV
- hxCcCvdOMayZzk0PKjDxG6jWwJKzp7fFhRsV4wfrAjYTdbek+2C9e8gHr8+ujwjarGlL
- gv9Q==
+ bh=jlgETGbZuRzHBHvHlcUoL6xtFf9QKaaxdVGn5r8yTJA=;
+ b=Gka7U2VPWD7XS/ZTppMHp81DH3AVgFEmnJCSPQkWFJCKmxh9Vsh69KLMcI25e3alRW
+ MSe9PP2ACvY5t+1SPF/6ihyzK+wrmacoa3Cj1upylzQjaESfFe5Rm1fWY6yEgw42UyC0
+ /7W/OuM6vr3GC4KPa+C/ZGHstGQhPgeeMY5YoJ8cb6XbLWsSldgSwx91aHcBReEHiVxt
+ copkclDr260xff6T2HsdjhC2VZFncKqlCilbPB3wlTuJJ8dH+gIFPrObSv/efE/D1fBa
+ yzmEPH4qB1qnlX3zFGp3SGEOia14R+E2pNtjVzXJn3nbZfb51iISFnnSj9kS3DZmxs7V
+ oxxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=btMaGj7ccU0HCYX4NRJ6hUY5JOpjFZjbz479ppWGpb4=;
- b=Rx3++u4sD+CRLxmK5AtKw4dTU8tZgpUV//r0Ygkxumd9jPHDKcfJenR0+OwDqDgqTT
- RLjVEGxtFR48xIdWDSNbh+qlgZQuacOpGPzWHUGQKP44XKYGlQ5Irl9J10AWKHiEQWSn
- Y2QVRkEbe/iJB+cWg58vJmfD++FUsgA/s8cCbsJfc9l00lLwaNOHEgYBhL+gGEEwuIcF
- jMJDowA3MaZOxRT67hIKLtO70BBVH7+IhVFJMPUyUadPms7c1nxWRpyeU5PTFHmnPN90
- jthLzwLFkbTHI9p0U0ElES2k+m0tzKAXxlXXruYq88Z8H2xLB5L9ctbIUT1DnT3IhkgM
- lPpw==
-X-Gm-Message-State: AOAM531am0+fTfI3Nu5IVPIQwAq4QzqrRhigphyOkDLDHSmbYIdE8q3O
- 35MX520QTFAIFVXQfszsacNnLg==
-X-Google-Smtp-Source: ABdhPJwGiH5AYwN+lHKJsKswAyj/5XGLetW1t/AOBK21a72zM9WKRY1FSQQyXXaeCqaGRugYFLjJtg==
-X-Received: by 2002:a05:620a:4a:: with SMTP id
- t10mr28484318qkt.249.1620183904647; 
- Tue, 04 May 2021 20:05:04 -0700 (PDT)
+ bh=jlgETGbZuRzHBHvHlcUoL6xtFf9QKaaxdVGn5r8yTJA=;
+ b=TZSX29EmvkSA+Ii6X2faqYoujwfXJUthSMAxYoHi0e5ycnstQB0XAe1Wf3nzSOZUJQ
+ vMq3P+dbGVxlMIT3cU7t1axvKoN/h/QCenIQKBzGVGmDufR0dYebK/5n4iaKNXsGB4N/
+ vtpJDZl3M0VI4Cm8eh1lr9sK8kxxi6ceu6BkgFHxsdGmt2rV1A0zERIJdURXlielbQJ8
+ VUdHJ+6MjVYlJqrPnTjRsWbBOmkcatadFbHqXu7jFgNP8o0x4x2DBMB+dgFtMkYJvhHF
+ ZLEmX9zmzlsn+ZkUALcZI4oD2iFz1xhuWoVnSNvuzGrBcacFkOgCCLfcGiVJKHo9Stis
+ hncw==
+X-Gm-Message-State: AOAM533dehjLf09Vai/1pVhcTpNCNYEncE6H6TgjHi0DhmTEsPw9Bu2y
+ aw3ue+wbS+r408vWZk01IncoBw==
+X-Google-Smtp-Source: ABdhPJzCWqD6tc2CSmRF7TepIODm8BL0oIFfd5GgZG8jCkXy0LGjNVy5ru3Xb7nQVf0nFYP5KsYQIg==
+X-Received: by 2002:a0c:ca8c:: with SMTP id a12mr28588897qvk.14.1620183905802; 
+ Tue, 04 May 2021 20:05:05 -0700 (PDT)
 Received: from cube.int.bluestop.org (c-174-52-16-57.hsd1.ut.comcast.net.
  [174.52.16.57])
- by smtp.gmail.com with ESMTPSA id a63sm12270550qkf.132.2021.05.04.20.05.03
+ by smtp.gmail.com with ESMTPSA id a63sm12270550qkf.132.2021.05.04.20.05.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 May 2021 20:05:04 -0700 (PDT)
+ Tue, 04 May 2021 20:05:05 -0700 (PDT)
 From: Rebecca Cran <rebecca@nuviainc.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v8 1/4] accel/tcg: Add TLB invalidation support for ranges of
- addresses
-Date: Tue,  4 May 2021 21:04:40 -0600
-Message-Id: <20210505030443.25310-2-rebecca@nuviainc.com>
+Subject: [PATCH v8 2/4] target/arm: Add support for FEAT_TLBIRANGE
+Date: Tue,  4 May 2021 21:04:41 -0600
+Message-Id: <20210505030443.25310-3-rebecca@nuviainc.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210505030443.25310-1-rebecca@nuviainc.com>
 References: <20210505030443.25310-1-rebecca@nuviainc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
- envelope-from=rebecca@nuviainc.com; helo=mail-qk1-x72b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
+ envelope-from=rebecca@nuviainc.com; helo=mail-qv1-xf35.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,245 +89,352 @@ Cc: Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add functions to support the FEAT_TLBIRANGE ARMv8.4 feature that adds
-TLB invalidation instructions to invalidate ranges of addresses.
+ARMv8.4 adds the mandatory FEAT_TLBIRANGE. It provides TLBI
+maintenance instructions that apply to a range of input addresses.
 
 Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
 ---
- accel/tcg/cputlb.c      | 128 +++++++++++++++++++-
- include/exec/exec-all.h |  46 +++++++
- 2 files changed, 171 insertions(+), 3 deletions(-)
+ target/arm/cpu.h    |   5 +
+ target/arm/helper.c | 296 ++++++++++++++++++++
+ 2 files changed, 301 insertions(+)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 8a7b779270a4..9381745f2528 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -709,7 +709,7 @@ void tlb_flush_page_all_cpus_synced(CPUState *src, target_ulong addr)
-     tlb_flush_page_by_mmuidx_all_cpus_synced(src, addr, ALL_MMUIDX_BITS);
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 616b39325347..5802798c3069 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -4071,6 +4071,11 @@ static inline bool isar_feature_aa64_pauth_arch(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, APA) != 0;
  }
  
--static void tlb_flush_page_bits_locked(CPUArchState *env, int midx,
-+static bool tlb_flush_page_bits_locked(CPUArchState *env, int midx,
-                                        target_ulong page, unsigned bits)
++static inline bool isar_feature_aa64_tlbirange(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64isar0, ID_AA64ISAR0, TLB) == 2;
++}
++
+ static inline bool isar_feature_aa64_sb(const ARMISARegisters *id)
  {
-     CPUTLBDesc *d = &env_tlb(env)->d[midx];
-@@ -729,7 +729,7 @@ static void tlb_flush_page_bits_locked(CPUArchState *env, int midx,
-                   TARGET_FMT_lx "/" TARGET_FMT_lx ")\n",
-                   midx, page, mask);
-         tlb_flush_one_mmuidx_locked(env, midx, get_clock_realtime());
--        return;
-+        return true;
-     }
- 
-     /* Check if we need to flush due to large pages.  */
-@@ -738,13 +738,14 @@ static void tlb_flush_page_bits_locked(CPUArchState *env, int midx,
-                   TARGET_FMT_lx "/" TARGET_FMT_lx ")\n",
-                   midx, d->large_page_addr, d->large_page_mask);
-         tlb_flush_one_mmuidx_locked(env, midx, get_clock_realtime());
--        return;
-+        return true;
-     }
- 
-     if (tlb_flush_entry_mask_locked(tlb_entry(env, midx, page), page, mask)) {
-         tlb_n_used_entries_dec(env, midx);
-     }
-     tlb_flush_vtlb_page_mask_locked(env, midx, page, mask);
-+    return false;
+     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, SB) != 0;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 9b1b98705f91..cb10851efda8 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -4759,6 +4759,219 @@ static void tlbi_aa64_vae3is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                                   ARMMMUIdxBit_SE3, bits);
  }
  
- typedef struct {
-@@ -943,6 +944,127 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-     }
- }
- 
-+typedef struct {
-+    target_ulong addr;
-+    target_ulong length;
-+    uint16_t idxmap;
-+    uint16_t bits;
-+}  TLBFlushPageRangeBitsByMMUIdxData;
-+
-+static void
-+tlb_flush_page_range_bits_by_mmuidx_async_0(CPUState *cpu,
-+                                            target_ulong addr,
-+                                            target_ulong length,
-+                                            uint16_t idxmap,
-+                                            unsigned bits)
++#ifdef TARGET_AARCH64
++static uint64_t tlbi_aa64_range_get_length(CPUARMState *env,
++                                           uint64_t value)
 +{
-+    CPUArchState *env = cpu->env_ptr;
-+    bool full_flush;
-+    int mmu_idx;
-+    target_ulong page;
++    unsigned int page_shift;
++    unsigned int page_size_granule;
++    uint64_t num;
++    uint64_t scale;
++    uint64_t exponent;
++    uint64_t length;
 +
-+    assert_cpu_is_self(cpu);
++    num = extract64(value, 39, 4);
++    scale = extract64(value, 44, 2);
++    page_size_granule = extract64(value, 46, 2);
 +
-+    tlb_debug("page addr:" TARGET_FMT_lx "/%u len: " TARGET_FMT_lx
-+              " mmu_map:0x%x\n",
-+              addr, bits, length, idxmap);
++    page_shift = page_size_granule * 2 + 10;
 +
-+    qemu_spin_lock(&env_tlb(env)->c.lock);
-+    for (mmu_idx = 0; mmu_idx < NB_MMU_MODES; mmu_idx++) {
-+        if ((idxmap >> mmu_idx) & 1) {
-+            for (page = addr; page < (addr + length); page += TARGET_PAGE_SIZE) {
-+                full_flush = tlb_flush_page_bits_locked(env, mmu_idx,
-+                                                        page, bits);
-+                if (full_flush) {
-+                    break;
-+                }
-+            }
-+        }
++    if (page_size_granule == 0) {
++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid page size granule %d\n",
++                      page_size_granule);
++        return 0;
 +    }
-+    qemu_spin_unlock(&env_tlb(env)->c.lock);
 +
-+    for (page = addr; page < (addr + length); page += TARGET_PAGE_SIZE) {
-+        tb_flush_jmp_cache(cpu, page);
-+    }
++    exponent = (5 * scale) + 1;
++    length = (num + 1) << (exponent + page_shift);
++
++    return length;
 +}
 +
-+static void
-+tlb_flush_page_range_bits_by_mmuidx_async_1(CPUState *cpu,
-+                                            run_on_cpu_data data)
++static void tlbi_aa64_rvae1_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                                  uint64_t value)
 +{
-+    TLBFlushPageRangeBitsByMMUIdxData *d = data.host_ptr;
++    /*
++     * Invalidate by VA range, EL1&0.
++     * Currently handles all of RVAE1, RVAAE1, RVAALE1 and RVALE1,
++     * since we don't support flush-for-specific-ASID-only or
++     * flush-last-level-only.
++     */
++    ARMMMUIdx mmu_idx;
++    int mask;
++    int bits;
++    uint64_t pageaddr;
++    uint64_t length;
 +
-+    tlb_flush_page_range_bits_by_mmuidx_async_0(cpu, d->addr, d->length,
-+                                                d->idxmap, d->bits);
-+
-+    g_free(d);
-+}
-+
-+void tlb_flush_page_range_bits_by_mmuidx(CPUState *cpu,
-+                                         target_ulong addr,
-+                                         target_ulong length,
-+                                         uint16_t idxmap,
-+                                         unsigned bits)
-+{
-+    TLBFlushPageRangeBitsByMMUIdxData d;
-+    TLBFlushPageRangeBitsByMMUIdxData *p;
-+
-+    /* This should already be page aligned */
-+    addr &= TARGET_PAGE_BITS;
-+
-+    d.addr = addr & TARGET_PAGE_MASK;
-+    d.idxmap = idxmap;
-+    d.bits = bits;
-+    d.length = length;
-+
-+    if (qemu_cpu_is_self(cpu)) {
-+        tlb_flush_page_range_bits_by_mmuidx_async_0(cpu, addr, length,
-+                                                    idxmap, bits);
++    CPUState *cs = env_cpu(env);
++    mask = vae1_tlbmask(env);
++    mmu_idx = ARM_MMU_IDX_A | ctz32(mask);
++    if (regime_has_2_ranges(mmu_idx)) {
++        pageaddr = sextract64(value, 0, 37) << TARGET_PAGE_BITS;
 +    } else {
-+        p = g_new(TLBFlushPageRangeBitsByMMUIdxData, 1);
++        pageaddr = extract64(value, 0, 37) << TARGET_PAGE_BITS;
++    }
++    length = tlbi_aa64_range_get_length(env, value);
++    bits = tlbbits_for_regime(env, mmu_idx, pageaddr);
 +
-+        /* Allocate a structure, freed by the worker.  */
-+        *p = d;
-+        async_run_on_cpu(cpu, tlb_flush_page_range_bits_by_mmuidx_async_1,
-+                         RUN_ON_CPU_HOST_PTR(p));
++    if (tlb_force_broadcast(env)) {
++        tlb_flush_page_range_bits_by_mmuidx_all_cpus_synced(cs, pageaddr,
++                                                            length, mask,
++                                                            bits);
++    } else {
++        tlb_flush_page_range_bits_by_mmuidx(cs, pageaddr, length, mask,
++                                            bits);
 +    }
 +}
 +
-+void tlb_flush_page_range_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-+                                                         target_ulong addr,
-+                                                         target_ulong length,
-+                                                         uint16_t idxmap,
-+                                                         unsigned bits)
++static void tlbi_aa64_rvae1is_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                                    uint64_t value)
 +{
-+    TLBFlushPageRangeBitsByMMUIdxData d;
-+    TLBFlushPageRangeBitsByMMUIdxData *p;
-+    CPUState *dst_cpu;
++    /*
++     * Invalidate by VA range, Inner/Outer Shareable EL1&0.
++     * Currently handles all of RVAE1IS, RVAE1OS, RVAAE1IS, RVAAE1OS,
++     * RVAALE1IS, RVAALE1OS, RVALE1IS and RVALE1OS, since we don't support
++     * flush-for-specific-ASID-only, flush-last-level-only or inner/outer
++     * shareable specific flushes.
++     */
++    ARMMMUIdx mmu_idx;
++    int mask;
++    int bits;
++    uint64_t pageaddr;
++    uint64_t length;
 +
-+    /* This should already be page aligned */
-+    addr &= TARGET_PAGE_BITS;
-+
-+    d.addr = addr;
-+    d.idxmap = idxmap;
-+    d.bits = bits;
-+    d.length = length;
-+
-+    /* Allocate a separate data block for each destination cpu.  */
-+    CPU_FOREACH(dst_cpu) {
-+        if (dst_cpu != src_cpu) {
-+            p = g_new(TLBFlushPageRangeBitsByMMUIdxData, 1);
-+            *p = d;
-+            async_run_on_cpu(dst_cpu,
-+                             tlb_flush_page_range_bits_by_mmuidx_async_1,
-+                             RUN_ON_CPU_HOST_PTR(p));
-+        }
++    CPUState *cs = env_cpu(env);
++    mask = vae1_tlbmask(env);
++    mmu_idx = ARM_MMU_IDX_A | ctz32(mask);
++    if (regime_has_2_ranges(mmu_idx)) {
++        pageaddr = sextract64(value, 0, 37) << TARGET_PAGE_BITS;
++    } else {
++        pageaddr = extract64(value, 0, 37) << TARGET_PAGE_BITS;
 +    }
++    length = tlbi_aa64_range_get_length(env, value);
++    bits = tlbbits_for_regime(env, mmu_idx, pageaddr);
 +
-+    p = g_new(TLBFlushPageRangeBitsByMMUIdxData, 1);
-+    *p = d;
-+    async_safe_run_on_cpu(src_cpu, tlb_flush_page_range_bits_by_mmuidx_async_1,
-+                          RUN_ON_CPU_HOST_PTR(p));
++    tlb_flush_page_range_bits_by_mmuidx_all_cpus_synced(cs, pageaddr,
++                                                        length, mask,
++                                                        bits);
 +}
 +
- /* update the TLBs so that writes to code in the virtual page 'addr'
-    can be detected */
- void tlb_protect_code(ram_addr_t ram_addr)
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 6b036cae8f65..a7ff35efb865 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -212,6 +212,37 @@ void tlb_flush_page_by_mmuidx_all_cpus(CPUState *cpu, target_ulong addr,
-  */
- void tlb_flush_page_by_mmuidx_all_cpus_synced(CPUState *cpu, target_ulong addr,
-                                               uint16_t idxmap);
-+/**
-+ * tlb_flush_page_range_by_mmuidx:
-+ * @cpu: CPU whose TLB should be flushed
-+ * @addr: virtual address of start of page range to be flushed
-+ * @length: the number of bytes to be flushed
-+ * @idxmap: bitmap of MMU indexes to flush
-+ *
-+ * Flush a range of pages from the TLB of the specified CPU, for the specified
-+ * MMU indexes.
-+ */
-+void tlb_flush_page_range_bits_by_mmuidx(CPUState *cpu, target_ulong addr,
-+                                         target_ulong length, uint16_t idxmap,
-+                                         unsigned bits);
-+/**
-+ * tlb_flush_page_range_by_mmuidx_all_cpus_synced:
-+ * @cpu: Originating CPU of the flush
-+ * @addr: virtual address of start of page range to be flushed
-+ * @length: the number of bytes to be flushed
-+ * @idxmap: bitmap of MMU indexes to flush
-+ *
-+ * Flush a range of pages from the TLB of all CPUs, for the specified MMU
-+ * indexes like tlb_flush_page_by_mmuidx_all_cpus except the source
-+ * vCPUs work is scheduled as safe work meaning all flushes will be
-+ * complete once the source vCPUs safe work is complete. This will
-+ * depend on when the guests translation ends the TB.
-+ */
-+void tlb_flush_page_range_bits_by_mmuidx_all_cpus_synced(CPUState *cpu,
-+                                                         target_ulong addr,
-+                                                         target_ulong length,
-+                                                         uint16_t idxmap,
-+                                                         unsigned bits);
- /**
-  * tlb_flush_by_mmuidx:
-  * @cpu: CPU whose TLB should be flushed
-@@ -313,6 +344,21 @@ static inline void tlb_flush_page_all_cpus_synced(CPUState *src,
-                                                   target_ulong addr)
- {
- }
-+static inline void tlb_flush_page_range_bits_by_mmuidx(CPUState *cpu,
-+                                                       target_ulong addr,
-+                                                       target_ulong length,
-+                                                       uint16_t idxmap,
-+                                                       unsigned bits)
++static void tlbi_aa64_rvae2_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                                  uint64_t value)
 +{
++    /*
++     * Invalidate by VA range, EL2.
++     * Currently handles all of RVAE2 and RVALE2,
++     * since we don't support flush-for-specific-ASID-only or
++     * flush-last-level-only.
++     */
++    bool secure;
++    int mask;
++    int bits;
++    uint64_t pageaddr;
++    uint64_t length;
++
++    CPUState *cs = env_cpu(env);
++    secure = arm_is_secure_below_el3(env);
++    pageaddr = extract64(value, 0, 37) << TARGET_PAGE_BITS;
++    length = tlbi_aa64_range_get_length(env, value);
++    mask = secure ? ARMMMUIdxBit_SE2 : ARMMMUIdxBit_E2;
++    bits = tlbbits_for_regime(env, secure ? ARMMMUIdx_SE2 : ARMMMUIdx_E2,
++                              pageaddr);
++
++    if (tlb_force_broadcast(env)) {
++        tlb_flush_page_range_bits_by_mmuidx_all_cpus_synced(cs, pageaddr,
++                                                            length, mask,
++                                                            bits);
++    } else {
++        tlb_flush_page_range_bits_by_mmuidx(cs, pageaddr, length, mask,
++                                            bits);
++    }
 +}
-+static inline void
-+tlb_flush_page_range_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-+                                                    target_ulong addr,
-+                                                    target_ulong length,
-+                                                    uint16_t idxmap,
-+                                                    unsigned bits)
++
++static void tlbi_aa64_rvae2is_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                                    uint64_t value)
 +{
++    /*
++     * Invalidate by VA range, Inner/Outer Shareable, EL2.
++     * Currently handles all of RVAE2IS, RVAE2OS, RVALE2IS and RVALE2OS,
++     * since we don't support flush-for-specific-ASID-only,
++     * flush-last-level-only or inner/outer shareable specific flushes.
++     */
++    bool secure;
++    int mask;
++    int bits;
++    uint64_t pageaddr;
++    uint64_t length;
++
++    CPUState *cs = env_cpu(env);
++    secure = arm_is_secure_below_el3(env);
++    pageaddr = extract64(value, 0, 37) << TARGET_PAGE_BITS;
++    length = tlbi_aa64_range_get_length(env, value);
++    mask = secure ? ARMMMUIdxBit_SE2 : ARMMMUIdxBit_E2;
++    bits = tlbbits_for_regime(env, secure ? ARMMMUIdx_SE2 : ARMMMUIdx_E2,
++                              pageaddr);
++
++    tlb_flush_page_range_bits_by_mmuidx_all_cpus_synced(cs, pageaddr,
++                                                        length, mask,
++                                                        bits);
 +}
- static inline void tlb_flush(CPUState *cpu)
++
++static void tlbi_aa64_rvae3_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                                  uint64_t value)
++{
++    /*
++     * Invalidate by VA range, EL3.
++     * Currently handles all of RVAE3 and RVALE3,
++     * since we don't support flush-for-specific-ASID-only or
++     * flush-last-level-only.
++     */
++    int bits;
++    uint64_t pageaddr;
++    uint64_t length;
++
++    CPUState *cs = env_cpu(env);
++    pageaddr = extract64(value, 0, 37) << TARGET_PAGE_BITS;
++    length = tlbi_aa64_range_get_length(env, value);
++    bits = tlbbits_for_regime(env, ARMMMUIdx_SE3, pageaddr);
++
++    if (tlb_force_broadcast(env)) {
++        tlb_flush_page_range_bits_by_mmuidx_all_cpus_synced(cs, pageaddr,
++                                                            length,
++                                                            ARMMMUIdxBit_SE3,
++                                                            bits);
++    } else {
++        tlb_flush_page_range_bits_by_mmuidx(cs, pageaddr, length,
++                                            ARMMMUIdxBit_SE3,
++                                            bits);
++    }
++}
++
++static void tlbi_aa64_rvae3is_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                                    uint64_t value)
++{
++    /*
++     * Invalidate by VA range, EL3, Inner/Outer Shareable.
++     * Currently handles all of RVAE3IS, RVAE3OS, RVALE3IS and RVALE3OS,
++     * since we don't support flush-for-specific-ASID-only,
++     * flush-last-level-only or inner/outer specific flushes.
++     */
++    int bits;
++    uint64_t pageaddr;
++    uint64_t length;
++
++    CPUState *cs = env_cpu(env);
++    pageaddr = extract64(value, 0, 37) << TARGET_PAGE_BITS;
++    length = tlbi_aa64_range_get_length(env, value);
++    bits = tlbbits_for_regime(env, ARMMMUIdx_SE3, pageaddr);
++
++    tlb_flush_page_range_bits_by_mmuidx_all_cpus_synced(cs, pageaddr,
++                                                        length,
++                                                        ARMMMUIdxBit_SE3,
++                                                        bits);
++}
++#endif
++
+ static CPAccessResult aa64_zva_access(CPUARMState *env, const ARMCPRegInfo *ri,
+                                       bool isread)
  {
- }
+@@ -6920,6 +7133,86 @@ static const ARMCPRegInfo pauth_reginfo[] = {
+     REGINFO_SENTINEL
+ };
+ 
++static const ARMCPRegInfo tlbirange_reginfo[] = {
++    { .name = "TLBI_RVAE1IS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 1,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae1is_write },
++    { .name = "TLBI_RVAAE1IS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 3,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae1is_write },
++   { .name = "TLBI_RVALE1IS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 5,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae1is_write },
++    { .name = "TLBI_RVAALE1IS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 7,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae1is_write },
++    { .name = "TLBI_RVAE1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 1,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae1_write },
++    { .name = "TLBI_RVAAE1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 3,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae1_write },
++   { .name = "TLBI_RVALE1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 5,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae1_write },
++    { .name = "TLBI_RVAALE1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 7,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae1_write },
++    { .name = "TLBI_RIPAS2E1IS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 0, .opc2 = 2,
++      .access = PL2_W, .type = ARM_CP_NOP },
++    { .name = "TLBI_RIPAS2LE1IS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 0, .opc2 = 6,
++      .access = PL2_W, .type = ARM_CP_NOP },
++    { .name = "TLBI_RVAE2IS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 2, .opc2 = 1,
++      .access = PL2_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae2is_write },
++   { .name = "TLBI_RVALE2IS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 2, .opc2 = 5,
++      .access = PL2_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae2is_write },
++    { .name = "TLBI_RIPAS2E1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 4, .opc2 = 2,
++      .access = PL2_W, .type = ARM_CP_NOP },
++   { .name = "TLBI_RIPAS2LE1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 4, .opc2 = 6,
++      .access = PL2_W, .type = ARM_CP_NOP },
++    { .name = "TLBI_RVAE2", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 6, .opc2 = 1,
++      .access = PL2_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae2_write },
++   { .name = "TLBI_RVALE2", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 6, .opc2 = 5,
++      .access = PL2_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae2_write },
++   { .name = "TLBI_RVAE3IS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 2, .opc2 = 1,
++      .access = PL3_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae3is_write },
++   { .name = "TLBI_RVALE3IS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 2, .opc2 = 5,
++      .access = PL3_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae3is_write },
++   { .name = "TLBI_RVAE3", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 6, .opc2 = 1,
++      .access = PL3_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae3_write },
++   { .name = "TLBI_RVALE3", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 6, .opc2 = 5,
++      .access = PL3_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_rvae3_write },
++    REGINFO_SENTINEL
++};
++
+ static uint64_t rndr_readfn(CPUARMState *env, const ARMCPRegInfo *ri)
+ {
+     Error *err = NULL;
+@@ -8289,6 +8582,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+     if (cpu_isar_feature(aa64_rndr, cpu)) {
+         define_arm_cp_regs(cpu, rndr_reginfo);
+     }
++    if (cpu_isar_feature(aa64_tlbirange, cpu)) {
++        define_arm_cp_regs(cpu, tlbirange_reginfo);
++    }
+ #ifndef CONFIG_USER_ONLY
+     /* Data Cache clean instructions up to PoP */
+     if (cpu_isar_feature(aa64_dcpop, cpu)) {
 -- 
 2.26.2
 
