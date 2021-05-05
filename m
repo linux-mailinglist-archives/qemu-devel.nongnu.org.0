@@ -2,137 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A874373C7B
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 15:37:21 +0200 (CEST)
-Received: from localhost ([::1]:56850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B230373C7C
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 15:37:28 +0200 (CEST)
+Received: from localhost ([::1]:57348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leHiK-0003oi-68
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 09:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56924)
+	id 1leHiR-000415-Fa
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 09:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leHgh-0002ma-4C; Wed, 05 May 2021 09:35:39 -0400
-Received: from mail-vi1eur05on2110.outbound.protection.outlook.com
- ([40.107.21.110]:13760 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leHge-0008Ss-DE; Wed, 05 May 2021 09:35:38 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ReP5LSkOmIUZX7UIKjBhJxRlX2RVF/s2e8dmvxgFjXsT864MO511zRtJrFnzOxPmxOxggk+0b09ajnm/5dwuhYVnXEnE0vVDJMjx2j+0r/3o924Q4f1jsKp0z0jh8bVDajALEiafllHEt+55vMqHRf4/5Dr05ztV2342vPm/Fh6I34hOm6lJmE0K5XZIndsdbeA6bLMGseav420C3J+17hoN3XQFigsBCRfGxIyurkdt4AJeK5y/Ys92pCa7So6a8PKChHDG5pxKeLOeW3xqjPJDCGVEop7Zd7Hhn6WOY1aBu+r66DWXAjLwtDruRKo6nsW6/XgY9kbsbO5pWOoWPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AIxdMcYExvbWLB4QmUYL5u3lHV4+SpPbRepUu0xfS10=;
- b=gdYwFEF+pO0ApA0AK/5f3ZAGJNrwRaT7IVqEqf/0/L4bzqHEC1gy2ocIgsD57jtA8vBUP9BI6YAwzSFree8zCvQBlej/+1drwd05JBJ+dM+h9yCpmGIitjCohDAKpa+kXcQgPNmSOv2Dhc9bAPgHM6Voxp7dD485Wnggd7T9SaEPKtB6rayYtMJ7ezZ4r5Tn5ziaanlLTTQOZX0v4lKmmq9AOaxwxtP852NVocPtTYkjn7ZSh90qA4s9ABrL6jZj/WWaajN+6Ui1RFYurkSd3RHxjDhV74L0Knr5nDv1+f6pALCk9KyVG789xRubU333nygzsJMBZo8lqN2nmEcpmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AIxdMcYExvbWLB4QmUYL5u3lHV4+SpPbRepUu0xfS10=;
- b=I5/+4x48q6P6jPFL1OU/Amq3jI0nUmMsz3bppcSkciftKVLKshws2IzJnu1uQyg+NdT9bPc46EqKE73Dd4j4zs+Tr6BzHcXUbzcIp6aqKMPOG+M1Qz0ZVksSLlHWu8z2ETlHtYoLSI7QhTujFkld/q/Dll6epUSnFScSb9CByss=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3895.eurprd08.prod.outlook.com (2603:10a6:20b:81::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25; Wed, 5 May
- 2021 13:35:31 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.026; Wed, 5 May 2021
- 13:35:31 +0000
-Subject: Re: [PATCH v2 1/9] block/write-threshold: don't use write notifiers
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
- kwolf@redhat.com, eesposit@redhat.com, pbonzini@redhat.com
-References: <20210504082553.20377-1-vsementsov@virtuozzo.com>
- <20210504082553.20377-2-vsementsov@virtuozzo.com>
- <712e9661-e296-b960-d6ca-9173f9ecb2f3@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <384228c1-3e4c-f28f-aaf6-3c2515b99dcf@virtuozzo.com>
-Date: Wed, 5 May 2021 16:35:29 +0300
+ (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
+ id 1leHh3-00030P-Kt
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 09:36:01 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33545)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
+ id 1leHh0-0000L0-1U
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 09:36:01 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id n2so1908803wrm.0
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 06:35:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=adacore-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Zyu6Jh1tIOrjge7LLfUbkEs1c9RHhrPmpbhHLZmktxA=;
+ b=L8Tis+vll+aXblNC3JWxUiL+yIhTErknwINOvynPgbS4ZuKXbkvH1aNWa6rQqvsZfD
+ vAoO3uPk3TlBoBqikFw0Haj7NsCAovL4nEFrzWjmNgaFlsBSGcWpO9Aw7fW0LVhyXfPE
+ 1k0OQnf9FizaRtvUeMUihTkr1bgLwU6Q5n1DMyQ81Nkxik1zGWBiZFo02x5rbC2HgCxr
+ Kya2r1aAEV6oGMciLMnqrItH7rFMFvcyFBCSuRbotjBvvOqF0UbOAqadXdtbbbGsFCem
+ veOu4i2mW4MIYwV4okGhVrRzqscSOINPnsQRsd9/4dujjUZxkRZ0cx+nVRyrxUVIUFpx
+ h5Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Zyu6Jh1tIOrjge7LLfUbkEs1c9RHhrPmpbhHLZmktxA=;
+ b=p9kbViMcsRQfnDaedh9KbetgKlt85YOtYZdPKVQO+3MeF3Hxvlm0qEXB+zSLz4t/eu
+ OrFfTNSjliXNG6LmVSgK0OkNRzDEtMcaOpG3Yt27LCWRjnbjVRyIQ9M/Ol9JbXsm6YOY
+ frKCKYYKLD6Je3edzRpeFkDy2FVY+PMzrbbahs4522mzVId+56HLCByQfzRRC/mdzlDS
+ ZIzt+HUiBoiKe968oh38D8Sl5Nnxe94mIeF3tbaliqRQP9V305UCjZwlffk/X7maMbx7
+ P2G/WAGAlIvF7dWfl1G9/fZFJm6POrMJ1cSpofzAaPZiLV7XrL/LsJj6b74DPq+3GDG4
+ SqAQ==
+X-Gm-Message-State: AOAM533dx1iUN8RjijaWToD/0HYykpUCdoGnLgS6qtMR1YEQ3nDam8u0
+ /7UjIfEmwtSqOeAnvtpRc+NQ5w==
+X-Google-Smtp-Source: ABdhPJz/IvG8KyGzIGTbWxRr/eUPRkSETnPiLt8uXT0ThC6Yk/I/G8eJxF3vacbVsGLhS4mN0HFuIg==
+X-Received: by 2002:adf:ea06:: with SMTP id q6mr37196313wrm.34.1620221756170; 
+ Wed, 05 May 2021 06:35:56 -0700 (PDT)
+Received: from localhost.localdomain
+ (lfbn-tou-1-1482-80.w90-89.abo.wanadoo.fr. [90.89.5.80])
+ by smtp.gmail.com with ESMTPSA id p7sm19126623wrt.24.2021.05.05.06.35.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 May 2021 06:35:55 -0700 (PDT)
+Subject: Re: [PATCH] target/avr: Ignore unimplemented WDR opcode
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210502190900.604292-1-f4bug@amsat.org>
+From: Fred Konrad <konrad@adacore.com>
+Message-ID: <36dd1481-d89e-5f1c-5715-9275df83b722@adacore.com>
+Date: Wed, 5 May 2021 15:35:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
-In-Reply-To: <712e9661-e296-b960-d6ca-9173f9ecb2f3@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.236]
-X-ClientProxiedBy: PR0P264CA0160.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1b::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.236) by
- PR0P264CA0160.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1b::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.25 via Frontend Transport; Wed, 5 May 2021 13:35:30 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c67dffc2-087a-4e5a-67c9-08d90fcaa722
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3895:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3895F19229CC4ACD0A64512CC1599@AM6PR08MB3895.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rQJmq4CIYF5F1AZRA0gR+/L4ARd8uV75EXH1ZYnC33GFCJKWaeHZUMXva7c8vP3YVt7MDcB0/DO1gEHDdpnv9zT5QsJa5e0jrNTjKn+VVUosoUPQuSiMcrJtmRk55fT8nR66rK17BDovS1eeupeOK5sPcpBTVXQzDM3ba1SHQI6bajHNAxeBbXk6klIInRxKphNZkefpSIPuUvqCKBOgESM8RaUlula26xa9CAolZIaAn9W977Xh7gK81OAOHI8w7Dq1iBn8NG64Hsqk8gpSYwho7kUeaOc6Ohl+iBf6oB0BgcmopEAFsOUASQjyuR2PAyDwhL+qqdKhY94vWPu/6pU1tWN5OWeKGLq/YrpP4Y3Ejw6BUCr/uQMBwxmjk9D/tBp80eRfkLTqYOuY3p+hEEavbRYl8QGNGRd6yw2tFHNdCuA/ajWxacGh9p0xpgonUH1/AHkuxQ0HTACgNbcbP9abYqbFpOwQ/ld7rfObVC2Py2rqWnkRto6ySHhOwLMhwrWA1y5fP8v7BExJcs5dbVuSfqBEUUZhnKqBvn3rDvpvl7ay4lyl3VhJstn2C/+KR5n1Zco2IuTPTWcZj8K71FDj6IN3gAjdJBuqTBnx4X509njU5LldxRk/Pk8nELbweIGP1EwFdST/S25jl+R8dMpTbfxxoHQfqS2FqGA/L+WTv86ZELm11tjt+F2DFHj19hyln12j+wDGTbGZYf+koKJkidph8T9oq35VGwU1beA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(346002)(376002)(396003)(39840400004)(2906002)(66556008)(66476007)(8936002)(16576012)(38100700002)(478600001)(66946007)(52116002)(31696002)(4326008)(38350700002)(316002)(31686004)(8676002)(26005)(36756003)(86362001)(6486002)(4744005)(16526019)(186003)(5660300002)(956004)(2616005)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?R2xGWkt5SkExSUdkQWV3N2hWcXhjUkdSaWU0RVJHWGVRZmpvSzVaengvUXJj?=
- =?utf-8?B?ODI1b2VaRXUzSk5ySTZJb0RPR0Z2dGYySFBvYnFXUzFrUWV6c0huOXZGMGhE?=
- =?utf-8?B?RTI0UmZyNG9qZzJaYVVzUzFpT3hvZFJHZ0VxVFExRktHbnZuZzd1V2k2RGdm?=
- =?utf-8?B?QTR3WVhscnQ1TTh6SHJJdlBTb1FXQUREcTNHaWR2VVNaSUgyQmJNWE5hRzFL?=
- =?utf-8?B?S244Q0E1UWRZb0g0c3JMZW40MGFzWVVId3ZkOS90RUZFU1NEODBzNnRQbHlP?=
- =?utf-8?B?WitXaWtSalZnNlR3RTgvVzNVMVdZNndud1VWcWZTZUdYc1o5alc4VFdWZFN4?=
- =?utf-8?B?ZC93bzQ5Y2d2UHB0TlVGQjV0WGNFSWNRYURoRDVxVEZHbkNVZ1Rtd0MzYllI?=
- =?utf-8?B?Y2RXN05oMzRoVkk5eVhiQmUvTlpZem5XUmJhcm92K29jRGNtVEZnUFVMVUlJ?=
- =?utf-8?B?dG1BZW0yOFJwUGpUTkRjenJhcFliSERWczRqdWVqdzFldS9XT2Vacm5jWDB6?=
- =?utf-8?B?VkYvNURpVUo0bHRGejA4c1ZsRXFNUGZkdlFQM2lWNHRGRGNBY2lTUzY4NEFw?=
- =?utf-8?B?OCtsb3VpN0xuZ3VNRGlIM0RQd3FrY01BK2l0dWNFRkNSZW5ibmY0TlF2KzRD?=
- =?utf-8?B?bGJBeWliUzM1YTZJSXFWNkwwb2NUM1U1NzA4a1ZuR2Z2RCtyT2FUTHp4TmZz?=
- =?utf-8?B?ZW9tdEFSNEVUL0luMVNnbWFKSVdBMVZ3Q3JITFBSMG95SmFyRjhCay8yeGow?=
- =?utf-8?B?YldvSmdyM0FVVnBxeVA3NHNCRGdNclh4WWN3Rm9BL0dLL2UxN2dOblN6WHVk?=
- =?utf-8?B?M0NvcTJlUEl0c0FDdktSdVRPWWJoWXVXNk5XL2N0V2JFbXIrQ3pPOVV5dTl1?=
- =?utf-8?B?TEwrc0cyUHFoKzlVRlZGVmlFQVdwUld3eDhENkpQdkoxcFNHZlFpcTZJdWlM?=
- =?utf-8?B?VVBqZ2tXU1Y3Mmo0QzlSR0I4dTZ5N2lKWEIyUlJFZlRoRGtWNVFsY3FKMWhE?=
- =?utf-8?B?OEcxYUFraS85dWc5VWxjcEJRdDZ4NXFObW9iVFV4ZFp0RUsrZzR1T0Z0T2li?=
- =?utf-8?B?TXNuU05hc0RzdHR0d3pPODhnNXlzQmRrWVFMZ3o4Zm93S0hqeldFWCt3c0pK?=
- =?utf-8?B?ZVltSUMzSXVJNE5xWjFLTlNXMTFWRTZ4Ty9CTGFUUUx6bWI1Y2c3N3grRzlW?=
- =?utf-8?B?Ti9iaVFwOGdINHdScW1NcFRSZ2xFUlZHcWE3VDVTYzlHNHBQY0VaOFRyalF6?=
- =?utf-8?B?aDh0OG1OUGEvSFlhRHYvTnd3ZHQ3OFpUNm12QVZtZWpZcjhjcmFQRjVTeE1I?=
- =?utf-8?B?WWVNOFErOE1TeXpiOXUzb0dabEpFYUllSlorQmJVWDFqekZIMnJjTVNBdjBp?=
- =?utf-8?B?Y2sxM3gvQ0QzdjExOEowZkJvQWF4TElRVDl1MExHU2dhOUUrTzJtNnUvTGc2?=
- =?utf-8?B?enVuYitqd2lFRXFpd041eXdkU3pmU0hvOEdVV3c4NXFPZGovY2hqL1YyU0U5?=
- =?utf-8?B?SEQwcXZuSlU4QTNtT3g0MmVkdWZKVU13Qi9FUHg4RVR1ZVZDYzArMDlaUkNr?=
- =?utf-8?B?MVp1WlRGbjBJeG1mQjB3MWhsazhLN3BNQTN4N2hXM2hCT1BNNzdTR1JWNlFP?=
- =?utf-8?B?RHhtc0ROMGFsSldleU5iSmE3enVCVDEzQ3lndk9NUmp0TjBQd1pBYVh1eSsw?=
- =?utf-8?B?NTNXb1V5eEpFY1E5RUdRTjI4c2p3aGNlZ21xZ1ZXM2dDWXdiYXBXODErVDAz?=
- =?utf-8?Q?lMvdegzV9a/BIzrR4ws1E1Zw1392LTGjv5YNC7U?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c67dffc2-087a-4e5a-67c9-08d90fcaa722
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 13:35:31.2083 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LvBPdrzFPXO7jLVWrQhssTTBSQh1Fr7/uPg4UxvOddPGFqUIAsleROXLXa+2M7f/kxiLNH2sijaEtQqTWO4O4PdBKCGUjpECH8jNEaJqt8g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3895
-Received-SPF: pass client-ip=40.107.21.110;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210502190900.604292-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=konrad@adacore.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -145,27 +88,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Joaquin de Andres <me@xcancerberox.com.ar>, Michael Rolnik <mrolnik@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-05.05.2021 15:37, Max Reitz wrote:
->> write-notifiers are used only for write-threshold. New code for such
->> purpose should create filters.
->>
->> Let's better special-case write-threshold and drop write notifiers at
->> all. (Actually, write-threshold is special-cased anyway, as the only
->> user of write-notifiers)
+
+
+Le 5/2/21 à 9:09 PM, Philippe Mathieu-Daudé a écrit :
+> Running the WDR opcode triggers a segfault:
 > 
-> Not noted here: That write-threshold.c is also reorganized.  (Doesn’t seem entirely necessary to do right in this patch, but why not.)
+>    $ cat > foo.S << EOF
+>    > __start:
+>    >     wdr
+>    > EOF
+>    $ avr-gcc -nostdlib -nostartfiles -mmcu=avr6 foo.S -o foo.elf
+>    $ qemu-system-avr -serial mon:stdio -nographic -no-reboot \
+>      -M mega -bios foo.elf -d in_asm --singlestep
+>    IN:
+>    0x00000000:  WDR
+>    Segmentation fault (core dumped)
+> 
+>    (gdb) bt
+>       #0  0x00005555add0b23a in gdb_get_cpu_pid (cpu=0x5555af5a4af0) at ../gdbstub.c:718
+>       #1  0x00005555add0b2dd in gdb_get_cpu_process (cpu=0x5555af5a4af0) at ../gdbstub.c:743
+>       #2  0x00005555add0e477 in gdb_set_stop_cpu (cpu=0x5555af5a4af0) at ../gdbstub.c:2742
+>       #3  0x00005555adc99b96 in cpu_handle_guest_debug (cpu=0x5555af5a4af0) at ../softmmu/cpus.c:306
+>       #4  0x00005555adcc66ab in rr_cpu_thread_fn (arg=0x5555af5a4af0) at ../accel/tcg/tcg-accel-ops-rr.c:224
+>       #5  0x00005555adefaf12 in qemu_thread_start (args=0x5555af5d9870) at ../util/qemu-thread-posix.c:521
+>       #6  0x00007f692d940ea5 in start_thread () from /lib64/libpthread.so.0
+>       #7  0x00007f692d6699fd in clone () from /lib64/libc.so.6
+> 
+> Since the watchdog peripheral is not implemented, simply
+> log the opcode as unimplemented and keep going.
+> 
+> Reported-by: Fred Konrad <konrad@adacore.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   target/avr/helper.c | 6 +-----
+>   1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/target/avr/helper.c b/target/avr/helper.c
+> index 35e10195940..981c29da453 100644
+> --- a/target/avr/helper.c
+> +++ b/target/avr/helper.c
+> @@ -188,11 +188,7 @@ void helper_break(CPUAVRState *env)
+>   
+>   void helper_wdr(CPUAVRState *env)
+>   {
+> -    CPUState *cs = env_cpu(env);
+> -
+> -    /* WD is not implemented yet, placeholder */
+> -    cs->exception_index = EXCP_DEBUG;
+> -    cpu_loop_exit(cs);
+> +    qemu_log_mask(LOG_UNIMP, "WDG reset (not implemented)\n");
+>   }
 
-You mean, we probably could only add new interface here, keeping other things as is, and drop them in a separate patch?
+Seems ok to me, at least better than having a segfault.
 
-If keep as is we can add the following here:
+Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
 
-   So, create a new direct interface for bdrv_co_write_req_prepare() and drop
-   all write-notifier related logic from write-threshold.c.
-
--- 
-Best regards,
-Vladimir
+>   
+>   /*
+> 
 
