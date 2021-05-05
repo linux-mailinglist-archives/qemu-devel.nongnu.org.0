@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282ED3738AD
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:41:25 +0200 (CEST)
-Received: from localhost ([::1]:42038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA483738A7
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:39:24 +0200 (CEST)
+Received: from localhost ([::1]:33576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leEy4-0005Ti-7d
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:41:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39290)
+	id 1leEw7-00020i-Ds
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:39:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1leEuV-0000iO-Np
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:37:43 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1leEuT-0007V2-Me
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:37:43 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id l14so1276947wrx.5
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 03:37:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=dou4blMyX3Q0KvkRg2ZAZBd/b7MGORJL71zpLEWpHac=;
- b=up2Yo1pIMIPmFKv90lRXvYa2hNGKcReVQpPh5gErf2NI6u12M0Dlfi6gE1K3nKE+lN
- PXbg6dl+8w5SSL+iwSHmD7MkJs88S4gR+ru11L7eAkSDg745NXChhxnh9lWNMqNs+Vhj
- j/UuTx6jWw/sKuoxtIC4QygJ3jDdEVtBJRpgGTCiNcnI+TFM25d9kog9uEpJOJNusa3E
- uLoOQq2S0Er7Z1N5UyNC1JhNjaeVxLHmcY1kIZv84fhYUCmNTQI9t8uGN56UL8xM4dNs
- NS/z/anvDaYcFKG9yMioWsJttxorzWRiCPvZgdXVH2uAlvzs2pVv6nfBgnEpgCxe4HUf
- OuXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=dou4blMyX3Q0KvkRg2ZAZBd/b7MGORJL71zpLEWpHac=;
- b=k+7/ju0uDDpbLn7yUYFvMlUtgtQdQztGq79DJx3Tas3V66emRPXslnc43bz7PM1B/t
- Rtxq1NoSgPFeNZiPe7sPhBhvlXS7WgRH6k+Qf7GvOg7bnCQtmHsH0kBc9ZdDOaYGF62a
- plW4XiyF7P43bEdXBVXxJqseLH0b5DHOcnlt+hUYuIO3NWT6eRFM9S45pFcK72V6YwFI
- /Hnist9Hq50ZUGzmb5tgDqUNeZ0nJC5gwk7Tjt6pAxYVp5ftIyuyvI60SRiahdNYrjfB
- ktt4NZhdrYAhVWrIUQiOcG1r7kVZuIpPlsaeWUNoWpRW3fdvcEaxzW42yMb1uW1XNTKm
- oGsg==
-X-Gm-Message-State: AOAM532mQXVdC9OUK/i25JewjcOBZx5EffVEIjKIDLiE4GpxdhTISYeh
- l7O9ydSHK4F4vTB3Oqamn+Oz4A==
-X-Google-Smtp-Source: ABdhPJxBFHFpOeiKGsK2WQAb+xJ3nE4q8Qevw5Z86ilcpcvBHJ2X4pt0M9HXVoSod87TWCoCUxcXuw==
-X-Received: by 2002:a5d:674c:: with SMTP id l12mr36802559wrw.357.1620211056214; 
- Wed, 05 May 2021 03:37:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s6sm5357097wms.0.2021.05.05.03.37.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 03:37:35 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0F1D11FF7E;
- Wed,  5 May 2021 11:37:34 +0100 (BST)
-References: <20210505092259.8202-1-alex.bennee@linaro.org>
- <20210505092259.8202-6-alex.bennee@linaro.org>
- <YJJmYOWDl0UzziW7@redhat.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v1 5/7] docs: mark intention to deprecate TCG tracing
- functionality
-Date: Wed, 05 May 2021 11:35:16 +0100
-In-reply-to: <YJJmYOWDl0UzziW7@redhat.com>
-Message-ID: <87lf8to49d.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1leEuH-0000RW-Ik
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:37:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1leEuE-0007Os-Un
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:37:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620211044;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=WBXVyQvFe+7MSsRuDjQqI6fXIB4RWXYa5ZgYMae7E5Q=;
+ b=XmhC12QSybnqR3yL0Q5JpYF1/ze8/oBPksDn+DICYb9ExlR/tgfeHg+eZQN318jKf+z+/9
+ 4zFUUmT3jU5KOI5mRSa47C/4WLyd0RvQNvJ1GjcMoPz04LHzVHMJ41uaTr4McvReXrUcNJ
+ OH3OTGnqOLrGsoxLxQxPFlDYoB2OZWk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-rx_fyIsENDywOQ4eAiOMaA-1; Wed, 05 May 2021 06:37:22 -0400
+X-MC-Unique: rx_fyIsENDywOQ4eAiOMaA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E7CA801AC9;
+ Wed,  5 May 2021 10:37:21 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-114-253.ams2.redhat.com
+ [10.36.114.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39E765C3E0;
+ Wed,  5 May 2021 10:37:04 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] replace all use of strftime() with g_date_time_format()
+Date: Wed,  5 May 2021 11:36:55 +0100
+Message-Id: <20210505103702.521457-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,104 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- qemu-devel@nongnu.org, robhenry@microsoft.com, aaron@os.amperecomputing.com,
- vilanova@imperial.ac.uk, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
- cota@braap.org, stefanha@redhat.com, mohamad.gebai@gmail.com,
- kuhn.chenqun@huawei.com, matheus.ferst@eldorado.org.br
+Cc: Kevin Wolf <kwolf@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
+ virtio-fs@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The GDateTime APIs provided by GLib avoid portability pitfalls, such=0D
+as some platforms where 'struct timeval.tv_sec' field is still 'long'=0D
+instead of 'time_t'. When combined with automatic cleanup, GDateTime=0D
+often results in simpler code too.=0D
+=0D
+Daniel P. Berrang=C3=A9 (7):=0D
+  migration: use GDateTime for formatting timestamp in snapshot names=0D
+  block: use GDateTime for formatting timestamp when dumping snapshot=0D
+    info=0D
+  net/rocker: use GDateTime for formatting timestamp in debug messages=0D
+  usb/dev-mtp: use GDateTime for formatting timestamp for objects=0D
+  io: use GDateTime for formatting timestamp for websock headers=0D
+  linux-user: use GDateTime for formatting timestamp for core file=0D
+  virtiofsd: use GDateTime for formatting timestamp for debug messages=0D
+=0D
+ block/qapi.c                     | 11 ++++------=0D
+ hw/net/rocker/rocker.h           | 11 +++-------=0D
+ hw/usb/dev-mtp.c                 |  9 +++-----=0D
+ io/channel-websock.c             | 10 ++-------=0D
+ linux-user/elfload.c             | 36 ++++++++------------------------=0D
+ migration/savevm.c               | 13 +++++-------=0D
+ tools/virtiofsd/passthrough_ll.c | 25 ++++------------------=0D
+ 7 files changed, 30 insertions(+), 85 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-
-> On Wed, May 05, 2021 at 10:22:57AM +0100, Alex Benn=C3=A9e wrote:
->> Currently attempts to add a new TCG trace events results in failures
->> to build. Previous discussions have suggested maybe it's time to mark
->> the feature as deprecated and push people towards using plugins.
->>=20
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Cc: Luis Vilanova <vilanova@imperial.ac.uk>
->> Cc: Stefan Hajnoczi <stefanha@redhat.com>
->> ---
->>  docs/devel/tcg-plugins.rst |  2 ++
->>  docs/devel/tracing.rst     |  7 +++++++
->>  docs/system/deprecated.rst | 13 +++++++++++++
->>  3 files changed, 22 insertions(+)
->>=20
->> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
->> index 18c6581d85..edf04e3091 100644
->> --- a/docs/devel/tcg-plugins.rst
->> +++ b/docs/devel/tcg-plugins.rst
->> @@ -3,6 +3,8 @@
->>     Copyright (c) 2019, Linaro Limited
->>     Written by Emilio Cota and Alex Benn=C3=A9e
->>=20=20
->> +.. _tcgplugin-ref:
->> +
->>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>  QEMU TCG Plugins
->>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
->> index ba83954899..6b0f46cd54 100644
->> --- a/docs/devel/tracing.rst
->> +++ b/docs/devel/tracing.rst
->> @@ -414,6 +414,13 @@ disabled, this check will have no performance impac=
-t.
->>  "tcg"
->>  -----
->>=20=20
->> +.. warning::
->> +   The ability to add new TCG trace points relies on a having a good
->> +   understanding of the TCG internals. In the meantime TCG plugins
->> +   have been introduced which solve many of the same problems with
->> +   more of a focus on analysing guest code. See :ref:`tcgplugin-ref`
->> +   for more details.
->> +
->>  Guest code generated by TCG can be traced by defining an event with the=
- "tcg"
->>  event property. Internally, this property generates two events:
->>  "<eventname>_trans" to trace the event at translation time, and
->> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
->> index 80cae86252..0c9d3c1e1e 100644
->> --- a/docs/system/deprecated.rst
->> +++ b/docs/system/deprecated.rst
->> @@ -312,6 +312,19 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA,=
- which is deprecated
->>  (the ISA has never been upstreamed to a compiler toolchain). Therefore
->>  this CPU is also deprecated.
->>=20=20
->> +TCG introspection features
->> +--------------------------
->> +
->> +TCG trace-events (since 6.1)
->> +''''''''''''''''''''''''''''
->> +
->> +The ability to add new TCG trace points has bit rotted and as the
->
-> When you say this "has bit rotted", just how bad is the situation ?
->
-> Is the TCG tracing still usable at all, or is is fully broken
-> already ?
-
-Well patches 6/7 got it working for generic TCG things. I haven't been
-able to get the architecture one working but I suspect that is some sort
-of interaction between the per-arch trace header generation that I
-haven't quite figured out yet.
-
-It's currently broken without the included patches because it's not
-really being exercised by anything.
-
->> +feature can be replicated with TCG plugins it will be deprecated. If
->> +any user is currently using this feature and needs help with
->> +converting to using TCG plugins they should contact the qemu-devel
->> +mailing list.
->> +
->
-> Regards,
-> Daniel
-
-
---=20
-Alex Benn=C3=A9e
 
