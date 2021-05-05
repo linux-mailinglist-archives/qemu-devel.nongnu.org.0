@@ -2,79 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF3637391E
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 13:14:28 +0200 (CEST)
-Received: from localhost ([::1]:58846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72815373926
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 13:18:10 +0200 (CEST)
+Received: from localhost ([::1]:34354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leFU3-0008JH-IN
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 07:14:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48784)
+	id 1leFXd-0001cN-9y
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 07:18:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1leFSM-0007iW-IL
- for qemu-devel@nongnu.org; Wed, 05 May 2021 07:12:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37497)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1leFVc-0000ce-8e
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 07:16:04 -0400
+Received: from 8.mo52.mail-out.ovh.net ([46.105.37.156]:34084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1leFSJ-0002Zf-QW
- for qemu-devel@nongnu.org; Wed, 05 May 2021 07:12:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620213158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OQ8hU2qDytOQT1swiFPFstOEyr/YVyoFXhfnteBde80=;
- b=hKBOBN+W1mYZRW9eLy7OJgRGc3Cayo04Yfgd2eL9et7TyMnYn94xaItWPHSxBOeEw3KM50
- ISpYgWtQrk4sZtTE8h88WCnfK/k16C1MP8qmcNeNwHaBHp8ZHnUvXwiD34+Mf+z0zKdLD4
- gXkX9fZItDzO84kV5Avo063J6ZdoiEE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-1HgUByiSPaGZA90BuOPs5Q-1; Wed, 05 May 2021 07:12:36 -0400
-X-MC-Unique: 1HgUByiSPaGZA90BuOPs5Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D11011006C80;
- Wed,  5 May 2021 11:12:35 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C7EFB5C5B5;
- Wed,  5 May 2021 11:12:35 +0000 (UTC)
-Received: from zmail17.collab.prod.int.phx2.redhat.com
- (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id 93B6C85CD;
- Wed,  5 May 2021 11:12:35 +0000 (UTC)
-Date: Wed, 5 May 2021 07:12:35 -0400 (EDT)
-From: Miroslav Rezanina <mrezanin@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <1691168205.17503177.1620213155446.JavaMail.zimbra@redhat.com>
-In-Reply-To: <CAFEAcA9mZfuSYsEK-TcERB+8yTnq_Qhn7HwRGvCnE7_DMfAXyQ@mail.gmail.com>
-References: <603798381.17174916.1620200426349.JavaMail.zimbra@redhat.com>
- <1162368493.17178530.1620201543649.JavaMail.zimbra@redhat.com>
- <CAFEAcA9mZfuSYsEK-TcERB+8yTnq_Qhn7HwRGvCnE7_DMfAXyQ@mail.gmail.com>
-Subject: Re: Prevent compiler warning on block.c
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1leFVX-0004YW-5L
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 07:16:03 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.125])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 6D9392733EF;
+ Wed,  5 May 2021 13:15:54 +0200 (CEST)
+Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 5 May 2021
+ 13:15:53 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R0038c78f4dc-e531-4b8a-bc70-b82b7b3497e9,
+ FB9A53C33CE493E52F97C59693F06259F03A7A1A) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 5 May 2021 13:15:51 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [for-6.1 2/4] virtio-blk: Configure all host notifiers in a
+ single MR transaction
+Message-ID: <20210505131551.011f5516@bahia.lan>
+In-Reply-To: <YJJv/5jWOwEu92C/@stefanha-x1.localdomain>
+References: <20210407143501.244343-1-groug@kaod.org>
+ <20210407143501.244343-3-groug@kaod.org>
+ <YJJv/5jWOwEu92C/@stefanha-x1.localdomain>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Originating-IP: [10.40.192.172, 10.4.195.16]
-Thread-Topic: Prevent compiler warning on block.c
-Thread-Index: yTgQvcpIyuAgj99B+cUmdNHc62gLlA==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mrezanin@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mrezanin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: multipart/signed; boundary="Sig_/Dat7bsC2JbOp5omncNyovl.";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 5fcfe869-f753-4833-ba10-b394d15d7cd1
+X-Ovh-Tracer-Id: 9109093199654656303
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdefkedgfeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheplefggfefueegudegkeevieevveejfffhuddvgeffteekieevueefgfeltdfgieetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=groug@kaod.org;
+ helo=8.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,60 +69,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--Sig_/Dat7bsC2JbOp5omncNyovl.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, 5 May 2021 11:14:23 +0100
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
------ Original Message -----
-> From: "Peter Maydell" <peter.maydell@linaro.org>
-> To: "Miroslav Rezanina" <mrezanin@redhat.com>
-> Cc: "QEMU Developers" <qemu-devel@nongnu.org>, "Vladimir Sementsov-Ogievskiy" <vsementsov@virtuozzo.com>,
-> "Qemu-block" <qemu-block@nongnu.org>
-> Sent: Wednesday, May 5, 2021 12:43:44 PM
-> Subject: Re: Prevent compiler warning on block.c
-> 
-> On Wed, 5 May 2021 at 09:06, Miroslav Rezanina <mrezanin@redhat.com> wrote:
-> >
-> > Commit 3108a15cf (block: introduce bdrv_drop_filter()) introduced
-> > uninitialized
-> > variable to_cow_parent in bdrv_replace_node_common function that is used
-> > only when
-> > detach_subchain is true. It is used in two places. First if block properly
-> > initialize
-> > the variable and second block use it.
-> >
-> > However, compiler treats this two blocks as two independent cases so it
-> > thinks first
-> > block can fail test and second one pass (although both use same condition).
-> > This cause
-> > warning that variable can be uninitialized in second block.
-> >
-> > To prevent this warning, initialize the variable with NULL.
-> 
-> If fixing compiler warnings, please quote the compiler name/version
-> in the commit message. (This helps with understanding whether the issue
-> is because of an older and not-smart-enough compiler or a new bleeding-edge
-> compiler with extra checking.)
+> On Wed, Apr 07, 2021 at 04:34:59PM +0200, Greg Kurz wrote:
+> > This allows the virtio-blk-pci device to batch the setup of all its
+> > host notifiers. This significantly improves boot time of VMs with a
+> > high number of vCPUs, e.g. from 3m26.186s down to 0m58.023s for a
+> > pseries machine with 384 vCPUs.
+> >=20
+> > Note that memory_region_transaction_commit() must be called before
+> > virtio_bus_cleanup_host_notifier() because the latter might close
+> > ioeventfds that the transaction still assumes to be around when it
+> > commits.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  hw/block/dataplane/virtio-blk.c | 25 +++++++++++++++++++++++++
+> >  1 file changed, 25 insertions(+)
+> >=20
+> > diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virti=
+o-blk.c
+> > index d7b5c95d26d9..cd81893d1d01 100644
+> > --- a/hw/block/dataplane/virtio-blk.c
+> > +++ b/hw/block/dataplane/virtio-blk.c
+> > @@ -198,19 +198,30 @@ int virtio_blk_data_plane_start(VirtIODevice *vde=
+v)
+> >          goto fail_guest_notifiers;
+> >      }
+> > =20
+> > +    memory_region_transaction_begin();
+>=20
+> This call is optional and an optimization. It would be nice to have a
+> comment here explaining that - otherwise people may wonder why this is
+> necessary.
+>=20
 
-Hi Peter,
+Indeed. Same goes for patch 4 actually.
 
-sorry for missing version. I was going to put the version in but got distracted when checking versions.
+Michael,
 
-This warning occurs using GCC 8.4.1 and 11.0.1.
+Should I re-post an updated version of this series or can the
+comments be added in a followup ?
 
-Mirek
+> > +
+> >      /* Set up virtqueue notify */
+> >      for (i =3D 0; i < nvqs; i++) {
+> >          r =3D virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, true);
+> >          if (r !=3D 0) {
+> > +            int j =3D i;
+> > +
+> >              fprintf(stderr, "virtio-blk failed to set host notifier (%=
+d)\n", r);
+> >              while (i--) {
+> >                  virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, fals=
+e);
+> > +            }
+> > +
+> > +            memory_region_transaction_commit();
+> > +
+> > +            while (j--) {
+> >                  virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
+> >              }
+> >              goto fail_host_notifiers;
+> >          }
+> >      }
+> > =20
+> > +    memory_region_transaction_commit();
+> > +
+> >      s->starting =3D false;
+> >      vblk->dataplane_started =3D true;
+> >      trace_virtio_blk_data_plane_start(s);
+> > @@ -246,8 +257,15 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+> >      return 0;
+> > =20
+> >    fail_aio_context:
+> > +    memory_region_transaction_begin();
+>=20
+> Probably unnecessary since this is an error code path. We don't need to
+> optimize it.
+>=20
+> Doesn't hurt though.
 
-> 
-> thanks
-> -- PMM
-> 
-> 
+True. I can drop this if I repost.
 
--- 
-Miroslav Rezanina
-Software Engineer - Virtualization Team Maintainer
+--Sig_/Dat7bsC2JbOp5omncNyovl.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmCSfmcACgkQcdTV5YIv
+c9bP4w//V2nBu6W7XCZOaKHuvCaEpadPo8BzrmA2+mEY9VDlDvmbU8PyLAn0F8vd
+jctltJNeK6hbKsL4r1Y3RkqyYv0z5r7Vkz3rY7vboyC4ed7YjiQl7C7rIVQhmTA8
+xPAVpnVGKLyVXYyc7nEO69G8b7I0CCzn0s/WacqMFxK+23DA6WaM4Y3834iLC1VP
+EPe4R6FaYxUfOXjnQJROA5y3j9gvwS4Wkcmhx39PqlcimUQOIRiNI4kVx5Yf6kBr
+P7k2sXcBbwWH3A9iVAfVR5Wue2yimQwy6cpPvxeasjVyg7mMYsn/MvJlbYFXM0dB
+PDCBglIrnbS0aUn4SfITMQHUSEMPvTvEFrg7kksZmcuUU8H5oxwN4ZgF/w+A13wt
+iG2BlwpBVij3utA1v393+1eV6hrMcBGqckIom64GMSc63bE4E74mmcJ02m6omLuz
+5BndnlFHI12VNUGn7DSdlPJ5wod4Lx3uIQixqmGVc6DdIcz//Dx+Kn4uJMwkHRj8
+54iFP1RxyYfsmkEHzTQWrVoKJ7rQ40fzBwRs1pxzGp3jvOYi37OwbehC0id/yIbJ
+LyT6ltgKvo8qvkz1HueEyFRrn8hCur5+0BZEmgDgKekMnotOdn54mxSmw7RSPy5n
+saZvD9mZFjrS4I3D5oVPTILzHw//RWOfjC12/re/syEBKLdP+kE=
+=UJZN
+-----END PGP SIGNATURE-----
+
+--Sig_/Dat7bsC2JbOp5omncNyovl.--
 
