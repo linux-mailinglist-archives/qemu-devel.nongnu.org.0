@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED01373430
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 06:18:28 +0200 (CEST)
-Received: from localhost ([::1]:38578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DDA373433
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 06:19:45 +0200 (CEST)
+Received: from localhost ([::1]:44066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le8zS-00039K-T6
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 00:18:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48764)
+	id 1le90i-0005O2-5r
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 00:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1le8yG-0001zL-72; Wed, 05 May 2021 00:17:12 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:51765 helo=ozlabs.org)
+ id 1le8yG-0001zM-9V; Wed, 05 May 2021 00:17:12 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:55919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1le8yD-0007Fl-M2; Wed, 05 May 2021 00:17:11 -0400
+ id 1le8yD-0007Fn-M3; Wed, 05 May 2021 00:17:12 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZk1h6bsXz9sW1; Wed,  5 May 2021 14:16:56 +1000 (AEST)
+ id 4FZk1j0YgTz9sSs; Wed,  5 May 2021 14:16:56 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620188216;
- bh=HBkbdE2t3/52p6GQJFZBmmCZULEd4eW3ABcs8GV4g/A=;
+ d=gibson.dropbear.id.au; s=201602; t=1620188217;
+ bh=BNVmsrnlg5bsdOECNXcgHLuukwjTcWogMFrJvb0xQgk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CohvIB8y/6hg882dBBht/SLM9pfsW61WLcBRXglx1tWpMmLtLwhqSo7WdwAraa3C9
- oAr7doi6q4r7A/j1OK5Z+oI2kWLovAdpfpgo8sR3vIKphRyvgCvSbCoiSkMRNQTpPw
- FJWWe9LMy/hrId1n4e23OyoS5Vc+pBKtnZsbBpQo=
-Date: Wed, 5 May 2021 13:29:37 +1000
+ b=fiZ3iJjG8/CP+7rx2rLxGKIrSZ+fCBphWAvPXX/j5eBrEqEfTqLbnrYScjF2RZ0od
+ lTP17T7mTyISr7ExIuj0222cKTle0aDW/V7yjFLXWbwSpQNQlRXB3ymiGMy0RgSbKO
+ SMs1btEnWzJImyfWgHwDQWiQxVR7yVBPLpg4UUVA=
+Date: Wed, 5 May 2021 14:10:45 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH 0/2] Fix for compat mode in P9 < 2.2
-Message-ID: <YJIRISyL/Nt24ITD@yekko>
-References: <20210505001130.3999968-1-farosas@linux.ibm.com>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v4 1/5] target/ppc: Fold gen_*_xer into their callers
+Message-ID: <YJIaxQJhhfFLOhb9@yekko>
+References: <20210504140157.76066-1-bruno.larsen@eldorado.org.br>
+ <20210504140157.76066-2-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1n1sCBU69wKVSQ3q"
+ protocol="application/pgp-signature"; boundary="EhbtkYys3BlgMPO5"
 Content-Disposition: inline
-In-Reply-To: <20210505001130.3999968-1-farosas@linux.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210504140157.76066-2-bruno.larsen@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,76 +58,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---1n1sCBU69wKVSQ3q
+--EhbtkYys3BlgMPO5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 04, 2021 at 09:11:28PM -0300, Fabiano Rosas wrote:
-> We dropped support in KVM for mixing MMU modes in machines that have
-> old POWER9 processors which don't support mixing. As usual I forgot
-> that compat mode exists:
+On Tue, May 04, 2021 at 11:01:53AM -0300, Bruno Larsen (billionai) wrote:
+> folded gen_{read,write}_xer into their only callers, spr_{read,write}_xer
 >=20
->   $ lscpu | grep pvr
->   Model:               2.1 (pvr 004e 1201)
->=20
->   $ ~/qemu-system-ppc64 -machine pseries,accel=3Dkvm,max-cpu-compat=3Dpow=
-er8 ...
->   error: kvm run failed Invalid argument
->   NIP 0000000000000100   LR 0000000000000000 CTR 0000000000000000 XER 000=
-0000000000000 CPU#0
->   MSR 8000000000001000 HID0 0000000000000000  HF 8000000000000000 iidx 3 =
-didx 3
->   TB 00000000 00000000 DECR 0
->   GPR00 0000000000000000 0000000000000000 0000000000000000 000000007ff000=
-00
->   GPR04 0000000000000000 0000000000000000 0000000000000000 00000000000000=
-00
->   GPR08 0000000000000000 0000000000000000 0000000000000000 00000000000000=
-00
->   GPR12 0000000000000000 0000000000000000 0000000000000000 00000000000000=
-00
->   GPR16 0000000000000000 0000000000000000 0000000000000000 00000000000000=
-00
->   GPR20 0000000000000000 0000000000000000 0000000000000000 00000000000000=
-00
->   GPR24 0000000000000000 0000000000000000 0000000000000000 00000000000000=
-00
->   GPR28 0000000000000000 0000000000000000 0000000000000000 00000000000000=
-00
->   CR 00000000  [ -  -  -  -  -  -  -  -  ]             RES ffffffffffffff=
-ff
->    SRR0 0000000000000000  SRR1 0000000000000000    PVR 00000000004e1201 V=
-RSAVE 0000000000000000
->   SPRG0 0000000000000000 SPRG1 0000000000000000  SPRG2 0000000000000000  =
-SPRG3 0000000000000000
->   SPRG4 0000000000000000 SPRG5 0000000000000000  SPRG6 0000000000000000  =
-SPRG7 0000000000000000
->   HSRR0 0000000000000000 HSRR1 0000000000000000
->    CFAR 0000000000000000
->    LPCR 000000000004f01f
->    PTCR 0000000000000000   DAR 0000000000000000  DSISR 0000000000000000
->=20
-> This series reuses some code we already have to abort and print a
-> proper message if the chosen MMU mode is not supported by the host.
+> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Applied to ppc-for-6.1, thanks.
+Good cleanup on its own.  Applied to ppc-for-6.1.
 
+> ---
+>  target/ppc/translate.c          | 37 ---------------------------------
+>  target/ppc/translate_init.c.inc | 33 +++++++++++++++++++++++++++--
+>  2 files changed, 31 insertions(+), 39 deletions(-)
 >=20
-> Fabiano Rosas (2):
->   hw/ppc/spapr.c: Extract MMU mode error reporting into a function
->   hw/ppc/spapr.c: Make sure the host supports the selected MMU mode
->=20
->  hw/ppc/spapr.c         | 17 +++++++++++++++++
->  hw/ppc/spapr_hcall.c   | 14 ++------------
->  include/hw/ppc/spapr.h |  1 +
->  3 files changed, 20 insertions(+), 12 deletions(-)
->=20
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index b319d409c6..2f10aa2fea 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -4175,43 +4175,6 @@ static void gen_tdi(DisasContext *ctx)
+> =20
+>  /***                          Processor control                         =
+   ***/
+> =20
+> -static void gen_read_xer(DisasContext *ctx, TCGv dst)
+> -{
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv t1 =3D tcg_temp_new();
+> -    TCGv t2 =3D tcg_temp_new();
+> -    tcg_gen_mov_tl(dst, cpu_xer);
+> -    tcg_gen_shli_tl(t0, cpu_so, XER_SO);
+> -    tcg_gen_shli_tl(t1, cpu_ov, XER_OV);
+> -    tcg_gen_shli_tl(t2, cpu_ca, XER_CA);
+> -    tcg_gen_or_tl(t0, t0, t1);
+> -    tcg_gen_or_tl(dst, dst, t2);
+> -    tcg_gen_or_tl(dst, dst, t0);
+> -    if (is_isa300(ctx)) {
+> -        tcg_gen_shli_tl(t0, cpu_ov32, XER_OV32);
+> -        tcg_gen_or_tl(dst, dst, t0);
+> -        tcg_gen_shli_tl(t0, cpu_ca32, XER_CA32);
+> -        tcg_gen_or_tl(dst, dst, t0);
+> -    }
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+> -    tcg_temp_free(t2);
+> -}
+> -
+> -static void gen_write_xer(TCGv src)
+> -{
+> -    /* Write all flags, while reading back check for isa300 */
+> -    tcg_gen_andi_tl(cpu_xer, src,
+> -                    ~((1u << XER_SO) |
+> -                      (1u << XER_OV) | (1u << XER_OV32) |
+> -                      (1u << XER_CA) | (1u << XER_CA32)));
+> -    tcg_gen_extract_tl(cpu_ov32, src, XER_OV32, 1);
+> -    tcg_gen_extract_tl(cpu_ca32, src, XER_CA32, 1);
+> -    tcg_gen_extract_tl(cpu_so, src, XER_SO, 1);
+> -    tcg_gen_extract_tl(cpu_ov, src, XER_OV, 1);
+> -    tcg_gen_extract_tl(cpu_ca, src, XER_CA, 1);
+> -}
+> -
+>  /* mcrxr */
+>  static void gen_mcrxr(DisasContext *ctx)
+>  {
+> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.=
+c.inc
+> index d10d7e5bf6..d5527c149f 100644
+> --- a/target/ppc/translate_init.c.inc
+> +++ b/target/ppc/translate_init.c.inc
+> @@ -116,12 +116,41 @@ static void spr_access_nop(DisasContext *ctx, int s=
+prn, int gprn)
+>  /* XER */
+>  static void spr_read_xer(DisasContext *ctx, int gprn, int sprn)
+>  {
+> -    gen_read_xer(ctx, cpu_gpr[gprn]);
+> +    TCGv dst =3D cpu_gpr[gprn];
+> +    TCGv t0 =3D tcg_temp_new();
+> +    TCGv t1 =3D tcg_temp_new();
+> +    TCGv t2 =3D tcg_temp_new();
+> +    tcg_gen_mov_tl(dst, cpu_xer);
+> +    tcg_gen_shli_tl(t0, cpu_so, XER_SO);
+> +    tcg_gen_shli_tl(t1, cpu_ov, XER_OV);
+> +    tcg_gen_shli_tl(t2, cpu_ca, XER_CA);
+> +    tcg_gen_or_tl(t0, t0, t1);
+> +    tcg_gen_or_tl(dst, dst, t2);
+> +    tcg_gen_or_tl(dst, dst, t0);
+> +    if (is_isa300(ctx)) {
+> +        tcg_gen_shli_tl(t0, cpu_ov32, XER_OV32);
+> +        tcg_gen_or_tl(dst, dst, t0);
+> +        tcg_gen_shli_tl(t0, cpu_ca32, XER_CA32);
+> +        tcg_gen_or_tl(dst, dst, t0);
+> +    }
+> +    tcg_temp_free(t0);
+> +    tcg_temp_free(t1);
+> +    tcg_temp_free(t2);
+>  }
+> =20
+>  static void spr_write_xer(DisasContext *ctx, int sprn, int gprn)
+>  {
+> -    gen_write_xer(cpu_gpr[gprn]);
+> +    TCGv src =3D cpu_gpr[gprn];
+> +    /* Write all flags, while reading back check for isa300 */
+> +    tcg_gen_andi_tl(cpu_xer, src,
+> +                    ~((1u << XER_SO) |
+> +                      (1u << XER_OV) | (1u << XER_OV32) |
+> +                      (1u << XER_CA) | (1u << XER_CA32)));
+> +    tcg_gen_extract_tl(cpu_ov32, src, XER_OV32, 1);
+> +    tcg_gen_extract_tl(cpu_ca32, src, XER_CA32, 1);
+> +    tcg_gen_extract_tl(cpu_so, src, XER_SO, 1);
+> +    tcg_gen_extract_tl(cpu_ov, src, XER_OV, 1);
+> +    tcg_gen_extract_tl(cpu_ca, src, XER_CA, 1);
+>  }
+> =20
+>  /* LR */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -134,25 +189,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---1n1sCBU69wKVSQ3q
+--EhbtkYys3BlgMPO5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCSER8ACgkQbDjKyiDZ
-s5IZxhAA46/9BnkQGM3ZMt+sP59cpqQ757fDksXDxN0Btw/AafHJSlka5I2XVTUB
-yZZhMVwWlxIqGu4mvPmvL/6jLgyDPvYZ9108V+V+V9aLk+Ey0YL8K4qHKL77RCnV
-AR9r7NiQN7jGl1brbdYmdDZBzI+2fqyDt6ttgZqzB9FhglNNA6ZjQge8wV/M2OEy
-ND63wlvKnnYikyoEVuLNrRPbntvOCmTLfwYviSNK5te+WwkqPsIDfXah/zzgjtuJ
-MA2yd7FR1+8tsnJ2b3MSZQDAHLC2Bv/KiRS3j2dB6vYoYpYkYw26Si4gS88NNhK3
-zcBcMbR16janXrfS6SGLYmKYzmXe0EWH1Sxn3P13cXFGTygbdUTyDXYThE9s9ekE
-HXiNv4TrmE1qg0plxwVhmd2WSaSyOkCZnYbM1nQ9HcgluOeV+NSRKqMsNy+jJefF
-LeQ+8vbutGULdXmZPJlv0x0j2mIZn4DstMZBkr5vnYclnNeZ43taqVLE6WZMTdn+
-0d/0MziAyD0WZyOcz15ROa2jdvukLY2M/uatzqouuzzvz8LfDa+zZKq3U24Qyfjx
-CeFtDJDDPWUt+u9bGmMuaIdx3DLUNDesjG5H+RGZxO4B5XdpPMEkcUPao8KNULbx
-r5BdcMUo6YcuoXT7MKEeKg0Vx05llWq9Oj/wTVG5srr83kazFp0=
-=+sdc
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCSGsMACgkQbDjKyiDZ
+s5Jp9w/8DaVN9v3+2EhE9B9xh/VLEU23vEMFd0v2HS2zxzY3WY8FxwQEdE1x/1hW
+cPHdDHf1m4QP9baxLyFVWmecpbKnQxXuSPWDj/GTBN7Iao7whYmMPaPcuwJVS96c
+xEstJQNudp4KE4UteRB+Ssa5amB6+3me9gcqr9QufimHKsh/yrBfC7iaJElESrob
+JSkFCC+XOHSD1X7m5HPTqC+4Lp6WH9ndTHuki7LmlzPfOd1ManSlo7A2X/MRmF+U
+aAnhWXduxI1wyh65t6DPMvFf1L6An87bWlYVScX+RuP7KXsxbNh564kuR6DZmrAv
+ePP0RAcqm0qnzvxp7nnMCG8lPr2esGvBebKQl0JykiXQgXi0DTFz7stWVX7e4oKA
+0NIxCHc9/wghBYYPv711Zk3W0LdwDlSY97xpdEFMo4sEt534TMubXIPRp6eSfCBp
+ZYw8/mGrc1D1gonHvyHYC4m+/l6O/r0zdh7356BikuDqFK7NGkRgZVZBb3sadaym
+PxXqh0xcHYVdozx8WM/jkmdYbzDi8B8PUl4yj55qgidmTSxVyIwddq7VWKz5KViy
+6F0Q9qvOFVzzocQWk97505/YXKRsofaY9dHcoPLE2ZIzncDZ5dbNt54Qmac+0t/w
+a9nupRsnEyf/LT18mHTWekAemxMZlR+TK6n8NM/BYW+OqD58RKk=
+=0qVx
 -----END PGP SIGNATURE-----
 
---1n1sCBU69wKVSQ3q--
+--EhbtkYys3BlgMPO5--
 
