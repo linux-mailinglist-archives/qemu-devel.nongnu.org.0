@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C616837393C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 13:22:46 +0200 (CEST)
-Received: from localhost ([::1]:42052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330E537393B
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 13:22:43 +0200 (CEST)
+Received: from localhost ([::1]:41934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leFc5-0004rT-Ri
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 07:22:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51222)
+	id 1leFc1-0004oi-GA
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 07:22:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leFaN-0003Gq-CO
- for qemu-devel@nongnu.org; Wed, 05 May 2021 07:20:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48098)
+ id 1leFaM-0003Gj-OS
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 07:20:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leFaL-0007gr-Iy
- for qemu-devel@nongnu.org; Wed, 05 May 2021 07:20:59 -0400
+ id 1leFaK-0007fx-QB
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 07:20:58 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1leFaJ-00008R-OV
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 11:20:55 +0000
+ id 1leFaI-0000B6-Kl
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 11:20:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B6DFA2E8136
- for <qemu-devel@nongnu.org>; Wed,  5 May 2021 11:20:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9907B2E8135
+ for <qemu-devel@nongnu.org>; Wed,  5 May 2021 11:20:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 May 2021 11:10:51 -0000
-From: Thomas Huth <1811543@bugs.launchpad.net>
+Date: Wed, 05 May 2021 11:11:01 -0000
+From: Thomas Huth <1813307@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jamespharvey20 th-huth
-X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
+X-Launchpad-Bug-Commenters: christophe-lyon th-huth
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154733722037.9104.8291788054708984327.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162021305174.4369.16471461117789449890.malone@gac.canonical.com>
-Subject: [Bug 1811543] Re: virtio-scsi gives improper discard sysfs entries
+References: <154842583020.19428.9970935732154630086.malonedeb@gac.canonical.com>
+Message-Id: <162021306151.14445.9366041459240896494.malone@soybean.canonical.com>
+Subject: [Bug 1813307] Re: util/path.c/follow_path() does not handle "/" well
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 62da76c91ca9442f426b80df4dcd01c7effa23ed
+X-Launchpad-Hash: df3e5527ed497739dca9ec95a54e00dce7c04dc0
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1811543 <1811543@bugs.launchpad.net>
+Reply-To: Bug 1813307 <1813307@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -78,104 +78,55 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/161
+ https://gitlab.com/qemu-project/qemu/-/issues/162
 
 
 ** Changed in: qemu
        Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #161
-   https://gitlab.com/qemu-project/qemu/-/issues/161
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #162
+   https://gitlab.com/qemu-project/qemu/-/issues/162
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1811543
+https://bugs.launchpad.net/bugs/1813307
 
 Title:
-  virtio-scsi gives improper discard sysfs entries
+  util/path.c/follow_path() does not handle "/" well
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Apologies if this is just an inherent part of paravirtualization that
-  should be expected.
+  Hello,
 
-  In my host, I have an LVM thin pool with chunk_size 128MB.  Within it,
-  I have a thin volume "tmp".  In the host:
+  I noticed that qemu does not handle "/" very well in follow_path().
 
-  # fdisk -l /dev/lvm/tmp
-  Disk /dev/lvm/tmp: 256 MiB, 268435456 bytes, 524288 sectors
-  Units: sectors of 1 * 512 =3D 512 bytes
-  Sector size (logical/physical): 512 bytes / 4096 bytes
-  I/O size (minimum/optimal): 262144 bytes / 134217728 bytes
-  Disklabel type: gpt
-  Disk identifier: BAE3154E-6E85-F642-8129-BAD7B58B2775
+  Specifically, I was trying to run gdbserver under qemu, and it failed
+  inside its implementation of __getcwd.
 
-  Device        Start    End Sectors  Size Type
-  /dev/lvm/tmp1  2048 524254  522207  255M Linux filesystem
+  Indeed it does something like
+    if (__lstat ("/", &st) < 0)
+  .....
+  and then loops from current dir toward the top using lstat("..")
 
-  $ lsblk
-  ...
-        =E2=94=94=E2=94=80lvm-tmp                      254:13   0   256M  0=
- lvm
-          =E2=94=94=E2=94=80lvm-tmp1                   254:14   0   255M  0=
- part
+  On qemu side, lstat forwards the request to follow_path() in util/path.c,=
+ and when passed "/", it returns the path in QEMU_LD_PREFIX (which was the =
+top of my sysroot).
+  OTHT, the series of lstat("..") finally reaches the real device root beca=
+use it's not recognized as "/" in follow_path(), so this is inconsistent an=
+d __getcwd fails.
 
-  $ cat /sys/dev/block/254:13/discard_alignment
-  0
-  $ cat /sys/dev/block/254:13/queue/discard_granularity
-  134217728
-  $ cat /sys/dev/block/254:13/queue/discard_max_bytes
-  17179869184
-  $ cat /sys/dev/block/254:13/queue/discard_max_hw_bytes
-  0
-  $ cat /sys/dev/block/254:13/queue/discard_zeroes_data
-  0
+  I suppose there's a good reason for returning QEMU_LD_PREFIX when
+  asking for "/", but why is it so?
 
-  $ cat /sys/dev/block/254:14/discard_alignment
-  133169152
-  $ cat /sys/dev/block/254:14/queue/discard_granularity
-  134217728
-  $ cat /sys/dev/block/254:14/queue/discard_max_bytes
-  17179869184
-  $ cat /sys/dev/block/254:14/queue/discard_max_hw_bytes
-  0
-  $ cat /sys/dev/block/254:14/queue/discard_zeroes_data
-  0
+  If there's no good reason, maybe the behaviour could be changed to map
+  "/" to "/" ?
 
-  If this is given to QEMU using virtio-scsi:
-
-     -device virtio-scsi-pci,id=3Dscsi1 \
-     -drive driver=3Draw,node-name=3Dhdb,file=3D/dev/lvm/tmp,if=3Dnone,disc=
-ard=3Dunmap,id=3Dhd2 \
-     -device scsi-hd,drive=3Dhd2,bootindex=3D1 \
-
-  Then incorrect values are given:
-
-  $ lsblk
-  ...
-  sdb     8:16   0   256M  0 disk
-  =E2=94=94=E2=94=80sdb1  8:17   0   255M  0 part /mnt
-
-  $ cat /sys/dev/block/8:16/discard_alignment
-  0
-  $ cat /sys/dev/block/8:16/queue/discard_granularity
-  4096
-  $ cat /sys/dev/block/8:16/queue/discard_max_bytes
-  1073741824
-  $ cat /sys/dev/block/8:16/queue/discard_max_hw_bytes
-  1073741824
-  $ cat /sys/dev/block/8:16/queue/discard_zeroes_data
-  0
-
-  $ cat /sys/dev/block/8:17/discard_alignment
-  133169152
-
-  And, there isn't even a /sys/dev/block/8:17/queue direcotry.
+  Thanks
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1811543/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1813307/+subscriptions
 
