@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A12374A1A
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:27:02 +0200 (CEST)
-Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEEF0374A2B
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:30:01 +0200 (CEST)
+Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leP2r-0000uv-Ft
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:27:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40934)
+	id 1leP5k-0005dU-NO
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:30:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOpE-0001wZ-Di
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:12:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49679)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1leOpH-00024e-Ap; Wed, 05 May 2021 17:12:59 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:47442)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOp6-00058T-97
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:12:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620249167;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BNIGbNGB2kAXmzDhqFSxh3VfwsIC++UOzvIwklsGj4s=;
- b=Fk5Bwwx9aQ1pXtVS1K/0zc1ZW5lKNzYh8j+TZNxzPyFUSDN99YFL3l+OadNJza+LZ74UNO
- IpDa43WuDlZPIncs0aN6dtrYdKy59w7OmdCD9bwfq+ozxHOq7ZEOMijWJ1ZJtVkLMh3xPk
- zbJNYrXmvOte83j/37Gwa9IPrzi5gG8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-mxZlCHDoMZWxZBLe1GkIHQ-1; Wed, 05 May 2021 17:12:46 -0400
-X-MC-Unique: mxZlCHDoMZWxZBLe1GkIHQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 4-20020adf91840000b029010d9c088599so1216572wri.10
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:12:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BNIGbNGB2kAXmzDhqFSxh3VfwsIC++UOzvIwklsGj4s=;
- b=o7K29iZQpq9/yxJBTRv2GLpf2PSuOkjNoJm1FimcixBe8PgL1DFDpSidIkubwEAwy/
- 9M3zdiJflJx3gGiU+UoaFggUyJbYP5Yyispo48GsRL3rQgrnG3sJxHfQYEMLrT8Qet3/
- 0HnboRD6ePoRLMe7R7IEieCXNqrqG3e07egRJfadSjnbNeJb1N1WwFtQptAANXsdhREq
- CN4HGV7j9TtdkA3w5iqLvFs/k13sBSjQt2KGsQzHYvE31TItPbcHfQl4S6Li1hKybkVJ
- o9OzmmxST/uuXN5qzUgRXPevhJV05iMGsYiwxmF4ch6ryhT5lqE3QfkrlcD9tfLt/Tqj
- 6VuQ==
-X-Gm-Message-State: AOAM530fxjw6PifGPqdowxMt1yR8tB7Bm0Etd1AXW5eZ6Trj06+xsDzZ
- UlIFyIiI+goJfdUIW6Lfd7LqUiAblnyyDtAcX1b7ePA5Yz8w+KzD8VicSzsWBBYa3mFPf2/hmT7
- CtMnMzrCiYfH3S71zp4HJ5afeWRKdQchHIUSWxGeYETuMiJAlzQ1+7RRr6N64q/RO
-X-Received: by 2002:adf:cc85:: with SMTP id p5mr1048090wrj.75.1620249164963;
- Wed, 05 May 2021 14:12:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSKnbW9quRN+wUvUODkYnuSjkpq3sgG+NpbBMsKxtmu82GgOeCRXqipeTdWbz31k5j5lvi5Q==
-X-Received: by 2002:adf:cc85:: with SMTP id p5mr1048067wrj.75.1620249164748;
- Wed, 05 May 2021 14:12:44 -0700 (PDT)
-Received: from x1w.redhat.com
- (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
- by smtp.gmail.com with ESMTPSA id n10sm665996wrw.37.2021.05.05.14.12.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 14:12:44 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 23/23] configure: Prohibit variable-length allocations by
- using -Wvla CPPFLAG
-Date: Wed,  5 May 2021 23:10:47 +0200
-Message-Id: <20210505211047.1496765-24-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210505211047.1496765-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1leOpF-0005A4-6E; Wed, 05 May 2021 17:12:59 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id 53465301;
+ Wed,  5 May 2021 23:12:53 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id cPD2RoeH4PA0; Wed,  5 May 2021 23:12:52 +0200 (CEST)
+Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 421B11E8;
+ Wed,  5 May 2021 23:12:52 +0200 (CEST)
+Received: from samy by begin with local (Exim 4.94)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1leOp9-002f6O-Cp; Wed, 05 May 2021 23:12:51 +0200
+Date: Wed, 5 May 2021 23:12:51 +0200
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 02/23] chardev/baum: Replace magic values by X_MAX /
+ Y_MAX definitions
+Message-ID: <20210505211251.tpnfcj5kpzqeolgs@begin>
 References: <20210505211047.1496765-1-philmd@redhat.com>
+ <20210505211047.1496765-3-philmd@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210505211047.1496765-3-philmd@redhat.com>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: 53465301
+X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; HAS_ORG_HEADER(0.00)[];
+ RCVD_COUNT_THREE(0.00)[3]; RCPT_COUNT_SEVEN(0.00)[9];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MID_RHS_NOT_FQDN(0.50)[]; BAYES_HAM(-3.00)[100.00%]
+Received-SPF: softfail client-ip=185.233.100.1;
+ envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,42 +75,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
  qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we converted all variable-length allocations in the
-repository, add the -Wvla CPPFLAG to trigger a build failure
-if such allocation is used.
+Philippe Mathieu-Daudé, le mer. 05 mai 2021 23:10:26 +0200, a ecrit:
+> Replace '84' magic value by the X_MAX definition, and '1' by Y_MAX.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-This should help avoiding vulnerabilities such CVE-2021-3527
-(see commit range 3f67e2e7f13..05a40b172e4).
+Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-Inspired-by: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/configure b/configure
-index 4f374b48890..a78ff15b52f 100755
---- a/configure
-+++ b/configure
-@@ -552,7 +552,7 @@ ARFLAGS="${ARFLAGS-rv}"
- # provides these semantics.)
- QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
--QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
-+QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls -Wvla $QEMU_CFLAGS"
- QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
- 
- # Flags that are needed during configure but later taken care of by Meson
--- 
-2.26.3
-
+> ---
+>  chardev/baum.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/chardev/baum.c b/chardev/baum.c
+> index 5deca778bc4..adc3d7b3b56 100644
+> --- a/chardev/baum.c
+> +++ b/chardev/baum.c
+> @@ -87,6 +87,9 @@
+>  
+>  #define BUF_SIZE 256
+>  
+> +#define X_MAX   84
+> +#define Y_MAX   1
+> +
+>  struct BaumChardev {
+>      Chardev parent;
+>  
+> @@ -244,11 +247,11 @@ static int baum_deferred_init(BaumChardev *baum)
+>          brlapi_perror("baum: brlapi__getDisplaySize");
+>          return 0;
+>      }
+> -    if (baum->y > 1) {
+> -        baum->y = 1;
+> +    if (baum->y > Y_MAX) {
+> +        baum->y = Y_MAX;
+>      }
+> -    if (baum->x > 84) {
+> -        baum->x = 84;
+> +    if (baum->x > X_MAX) {
+> +        baum->x = X_MAX;
+>      }
+>  
+>      con = qemu_console_lookup_by_index(0);
+> -- 
+> 2.26.3
+> 
 
