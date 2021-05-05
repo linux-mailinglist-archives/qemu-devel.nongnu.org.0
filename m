@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE915373434
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 06:21:51 +0200 (CEST)
-Received: from localhost ([::1]:47708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D290C373486
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 07:03:14 +0200 (CEST)
+Received: from localhost ([::1]:54020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le92l-00070N-1g
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 00:21:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49170)
+	id 1le9gn-0003Dy-Sw
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 01:03:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1le91a-0006E8-Fz; Wed, 05 May 2021 00:20:38 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:33019)
+ id 1le9eT-0001yA-DE; Wed, 05 May 2021 01:00:49 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:51793 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1le91Y-0001Sn-FP; Wed, 05 May 2021 00:20:38 -0400
+ id 1le9eO-0007ua-Uy; Wed, 05 May 2021 01:00:49 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZk5s3Rtnz9sRR; Wed,  5 May 2021 14:20:33 +1000 (AEST)
+ id 4FZl075K6Jz9sSs; Wed,  5 May 2021 15:00:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620188433;
- bh=OEVsKX8rStUmBVT7VblJ6fKCtBTd64nECccwWgQn5Oc=;
+ d=gibson.dropbear.id.au; s=201602; t=1620190839;
+ bh=YVaBME8cYlAONb7aPI+wLl6ajZoH+W+EQUB5BWnbk2A=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NV9YkUF9oSrEn/WEvEBucgCUOyRLwXstxDUH75CO9EL5M/rmTq+3fPva3srwxLJyb
- RbXFDNC5WztrP5N4GPd5r+57L7mOTNdn1rP0YXByZPIeH67aG2Hs0mt2p1rkPIVNEX
- LYbF5xYx7kUFfOq7PCtSI2r04vgcN/lyJTD8BaWU=
-Date: Wed, 5 May 2021 14:20:28 +1000
+ b=WS4+6srWjvxiaN17LINkFU52QikAgQ0LIKRc/do7jtcvK1sSGV2LTl7oLyQdW7yZe
+ GQW73Bw9uP7F/UsfXTXt9UOcWdYXJet+b9cybGMjmON9pClIzALQqv9+C4nLx281Tm
+ Rv51sN/pYOeHLuSRWQgHBLozVPDx2ltS1mSChrUM=
+Date: Wed, 5 May 2021 14:42:36 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH] target/ppc/spapr: Update H_GET_CPU_CHARACTERISTICS bits
-Message-ID: <YJIdDOCE6CMZ0zLF@yekko>
-References: <20210503125833.891752-1-npiggin@gmail.com>
- <YJCYKBF2YgEl8AEA@yekko> <1620117371.82b83ry366.astroid@bobo.none>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [RFC PATCH v2 0/2] hw/ppc: code motion to compile without TCG
+Message-ID: <YJIiPLlYCJ3kf8LX@yekko>
+References: <20210430184047.81653-1-lucas.araujo@eldorado.org.br>
+ <87sg331mso.fsf@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lyAA3TK1xSI8rAg7"
+ protocol="application/pgp-signature"; boundary="fjjFp19358KpRUpy"
 Content-Disposition: inline
-In-Reply-To: <1620117371.82b83ry366.astroid@bobo.none>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <87sg331mso.fsf@linux.ibm.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,90 +58,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: bruno.larsen@eldorado.org.br,
+ "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---lyAA3TK1xSI8rAg7
+--fjjFp19358KpRUpy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 04, 2021 at 06:50:54PM +1000, Nicholas Piggin wrote:
-> Excerpts from David Gibson's message of May 4, 2021 10:41 am:
-> > On Mon, May 03, 2021 at 10:58:33PM +1000, Nicholas Piggin wrote:
-> >> There are several new bits added to the hcall which reflect new issues
-> >> found and new hardware mitigations.
-> >>=20
-> >> This adds the link stack flush behaviour, link stack flush accelerated
-> >> instruction capability, and several L1D flush type behaviours (which a=
-re
-> >> now being specified as negative in order to simplify patched kernel
-> >> compatibility with older firmware).
-> >=20
-> > So, to clarify here, the bits your adding aren't advertising any new
-> > behaviour on qemu/KVM's part, they're just new ways of advertising the
-> > same behaviour?
+On Mon, May 03, 2021 at 07:21:11PM -0300, Fabiano Rosas wrote:
+> "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br> writes:
 >=20
-> I... think so. "Behaviour" is in context of the hcall that advertises
-> how the processor behaves (or what the guest must do for security).
-
-Heh.  Don't get me started on how the difference between
-"characteristics" and "behaviours" in the fields is totally
-non-obvious.
-
-> The new NO_ bits added are for processors that don't require a particular
-> flush. The FLUSH_LINK_STACK was basically always required but I think
-> Linux just keyed off the count cache flush and did both at once.
+> > After the feedback from v1 I reworked the patch with suggested ideas and
+> > this version has less duplicated code and is overall simpler.
+> >
+> > This patch series is still a WIP, there are still 2 main problems I am
+> > trying to solve, I'll mention them in their respective patches.
+> >
+> > The aim of these patches is to progress toward enabling disable-tcg on
+> > PPC by solving errors in hw/ppc with that option.
+> >
+> > As a WIP comments are welcome.
+> >
+> > Lucas Mateus Castro (alqotel) (2):
+> >   target/ppc: Moved functions out of mmu-hash64
+> >   hw/ppc: Moved TCG code to spapr_hcall_tcg
+> >
+> >  hw/ppc/meson.build       |   3 +
+> >  hw/ppc/spapr.c           |   1 +
+> >  hw/ppc/spapr_caps.c      |   1 +
+> >  hw/ppc/spapr_cpu_core.c  |   1 +
+> >  hw/ppc/spapr_hcall.c     | 301 ++--------------------------------
+> >  hw/ppc/spapr_hcall_tcg.c | 343 +++++++++++++++++++++++++++++++++++++++
+> >  hw/ppc/spapr_rtas.c      |   1 +
+> >  target/ppc/meson.build   |   1 +
+> >  target/ppc/mmu-hash64.c  |  81 +--------
+> >  target/ppc/mmu-hash64.h  |   6 -
+> >  target/ppc/mmu-misc.c    |  86 ++++++++++
+> >  target/ppc/mmu-misc.h    |  22 +++
+> >  12 files changed, 478 insertions(+), 369 deletions(-)
+> >  create mode 100644 hw/ppc/spapr_hcall_tcg.c
+> >  create mode 100644 target/ppc/mmu-misc.c
+> >  create mode 100644 target/ppc/mmu-misc.h
 >=20
-> The new LINK_FLUSH_ASSIST is a new processor feature the guest will use
-> to implement link stack flushing, so maybe that does need a cap?
-
-Yeah, sounds like it will.
-
+> This is the list of hypercalls registered with spapr_register_hypercall
+> and whether they are implemented by KVM HV, KVM PR or none. I also list
+> whether the KVM hcall uses the QEMU implementation as a fallback. Maybe
+> it will be helpful to this discussion.
 >=20
-> >=20
-> >>=20
-> >> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> >> ---
-> >>  hw/ppc/spapr_hcall.c   | 5 +++++
-> >>  include/hw/ppc/spapr.h | 6 ++++++
-> >>  2 files changed, 11 insertions(+)
-> >>=20
-> >> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> >> index 7275d0bba1..f656620232 100644
-> >> --- a/hw/ppc/spapr_hcall.c
-> >> +++ b/hw/ppc/spapr_hcall.c
-> >> @@ -1878,6 +1878,9 @@ static target_ulong h_get_cpu_characteristics(Po=
-werPCCPU *cpu,
-> >>          behaviour |=3D H_CPU_BEHAV_L1D_FLUSH_PR;
-> >>          break;
-> >>      case SPAPR_CAP_FIXED:
-> >> +        behaviour |=3D H_CPU_BEHAV_NO_L1D_FLUSH_ENTRY;
-> >> +        behaviour |=3D H_CPU_BEHAV_NO_L1D_FLUSH_UACCESS;
-> >> +        behaviour |=3D H_CPU_BEHAV_NO_STF_BARRIER;
-> >>          break;
-> >>      default: /* broken */
-> >>          assert(safe_cache =3D=3D SPAPR_CAP_BROKEN);
-> >> @@ -1909,9 +1912,11 @@ static target_ulong h_get_cpu_characteristics(P=
-owerPCCPU *cpu,
-> >>          break;
-> >>      case SPAPR_CAP_WORKAROUND:
-> >>          behaviour |=3D H_CPU_BEHAV_FLUSH_COUNT_CACHE;
-> >> +        behaviour |=3D H_CPU_BEHAV_FLUSH_LINK_STACK;
-> >>          if (count_cache_flush_assist) {
-> >>              characteristics |=3D H_CPU_CHAR_BCCTR_FLUSH_ASSIST;
-> >>          }
-> >> +        /* Should have a way to enable BCCTR_LINK_FLUSH_ASSIST */
-> >=20
-> > Do we need a new spapr capability for this link flush thing?
+> (This is from just looking at the code, so take it with a grain of salt)
 >=20
-> It is independent of the FLUSH_COUNT_CACHE capability, so it seems like
-> it should I think? Should that be added as a following patch?
+> H_ADD_LOGICAL_LAN_BUFFER  - not impl. by KVM
+> H_CHANGE_LOGICAL_LAN_MAC  - not impl. by KVM
+> H_ENABLE_CRQ              - not impl. by KVM
+> H_FREE_CRQ                - not impl. by KVM
+> H_FREE_LOGICAL_LAN        - not impl. by KVM
+> H_GET_CPU_CHARACTERISTICS - not impl. by KVM
+> H_GET_TERM_CHAR           - not impl. by KVM
+> H_HOME_NODE_ASSOCIATIVITY - not impl. by KVM
+> H_INT_ESB                 - not impl. by KVM
+> H_INT_GET_QUEUE_INFO      - not impl. by KVM
+> H_INT_GET_SOURCE_CONFIG   - not impl. by KVM
+> H_INT_GET_SOURCE_INFO     - not impl. by KVM
+> H_INT_RESET               - not impl. by KVM
+> H_INT_SET_QUEUE_CONFIG    - not impl. by KVM
+> H_INT_SET_SOURCE_CONFIG   - not impl. by KVM
+> H_INT_SYNC                - not impl. by KVM
+> H_JOIN                    - not impl. by KVM
+> H_LOGICAL_CACHE_LOAD      - not impl. by KVM
+> H_LOGICAL_CACHE_STORE     - not impl. by KVM
+> H_LOGICAL_DCBF            - not impl. by KVM
+> H_LOGICAL_ICBI            - not impl. by KVM
+> H_MULTICAST_CTRL          - not impl. by KVM
+> H_PUT_TERM_CHAR           - not impl. by KVM
+> H_REGISTER_LOGICAL_LAN    - not impl. by KVM
+> H_REGISTER_PROC_TBL       - not impl. by KVM
+> H_REG_CRQ                 - not impl. by KVM
+> H_RESIZE_HPT_COMMIT       - not impl. by KVM
+> H_RESIZE_HPT_PREPARE      - not impl. by KVM
+> H_SCM_BIND_MEM            - not impl. by KVM
+> H_SCM_READ_METADATA       - not impl. by KVM
+> H_SCM_UNBIND_ALL          - not impl. by KVM
+> H_SCM_WRITE_METADATA      - not impl. by KVM
+> H_SEND_CRQ                - not impl. by KVM
+> H_SEND_LOGICAL_LAN        - not impl. by KVM
+> H_SET_SPRG0               - not impl. by KVM
+> H_SIGNAL_SYS_RESET        - not impl. by KVM
+> H_VIO_SIGNAL              - not impl. by KVM
+>=20
+> H_CAS                     - not impl. by KVM | called by SLOF only
+> H_LOGICAL_MEMOP           - not impl. by KVM | called by SLOF only
+> H_TPM_COMM                - not impl. by KVM | called by UV only
+> H_UPDATE_DT               - not impl. by KVM | called by SLOF only
+>=20
+> H_INT_GET_OS_REPORTING_LINE - not impl. by KVM | not called by linux/SLOF=
+/UV
+> H_INT_GET_QUEUE_CONFIG      - not impl. by KVM | not called by linux/SLOF=
+/UV
+> H_INT_SET_OS_REPORTING_LINE - not impl. by KVM | not called by linux/SLOF=
+/UV
+> H_SCM_UNBIND_MEM            - not impl. by KVM | not called by linux/SLOF=
+/UV
+>=20
+> H_GET_TCE      - HV | not impl. by PR | QEMU fallback
+> H_SET_MODE     - HV | not impl. by PR | QEMU fallback
+> H_CONFER       - HV | not impl. by PR
+> H_PAGE_INIT    - HV | not impl. by PR
+> H_PROD         - HV | not impl. by PR
+> H_RANDOM       - HV | not impl. by PR
+> H_READ         - HV | not impl. by PR
+> H_REGISTER_VPA - HV | not impl. by PR
+> H_SET_DABR     - HV | not impl. by PR
+> H_SET_XDABR    - HV | not impl. by PR
+>=20
+> H_CPPR             - HV | PR | QEMU fallback
+> H_EOI              - HV | PR | QEMU fallback
+> H_IPI              - HV | PR | QEMU fallback
+> H_IPOLL            - HV | PR | QEMU fallback
+> H_LOGICAL_CI_LOAD  - HV | PR | QEMU fallback
+> H_LOGICAL_CI_STORE - HV | PR | QEMU fallback
+> H_PUT_TCE          - HV | PR | QEMU fallback
+> H_PUT_TCE_INDIRECT - HV | PR | QEMU fallback
+> H_RTAS             - HV | PR | QEMU fallback
+> H_STUFF_TCE        - HV | PR | QEMU fallback
+> H_XIRR             - HV | PR | QEMU fallback
+> H_XIRR_X           - HV | PR | QEMU fallback
+>=20
+> H_BULK_REMOVE      - HV | PR
+> H_CEDE             - HV | PR
+> H_ENTER            - HV | PR
+> H_PROTECT          - HV | PR
+> H_REMOVE           - HV | PR
+>=20
+> H_CLEAN_SLB      - never called/implemented, added along with H_REGISTER_=
+PROC_TBL
+> H_INVALIDATE_PID - never called/implemented, added along with H_REGISTER_=
+PROC_TBL
 
-No, it will have to go in first or at the same time.  Otherwise we'll
-be errneously advertising things.
+Thanks for summarizing this, Fabiano.
+
+> PS: we could perhaps use this information to annotate
+> qemu/include/spapr.h. I can send a patch if people find it useful.
+
+I don't want to include the whole set of information here in qemu,
+since exactly what's implemented in KVM is subject to change, and in
+most cases qemu doesn't care about that.
+
+It would be worth annotating those hcalls which qemu *relies* on being
+provided by KVM.  As I've noted this is basically just the hash MMU calls:
+	H_ENTER
+	H_REMOVE
+	H_BULK_REMOVE
+	H_PROTECT
+	H_READ
+	H_RESIZE_HPT_PREPARE
+	H_RESIZE_HPT_COMMIT
+
+Secondarily there's a handful of extra hypercalls which are probably
+pointless but harmless to be implemented in qemu for a KVM guest.
+They shouldn't be as intimately tied to TCG or the softmmu code as the
+above, so dealing with them can wait until a later:
+	H_CEDE
+	H_CONFER
+	H_PROD
+	H_REGISTER_VPA
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -149,25 +233,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---lyAA3TK1xSI8rAg7
+--fjjFp19358KpRUpy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCSHQwACgkQbDjKyiDZ
-s5KT9Q//SOQ60GjowjLxnqk9ar+/fYqL77p2fj2jculr4GerMiak4Ruy05A0jm07
-zxU8koa4ko9BMIMVKW/boKdZzm7ptr0uXiw4Yg5/1/qTYcXxnTKwPiCaSUAv6rxl
-iT1Je0r4L5Ju4GVkB/S50bOzNJWji4uKlkj/c34zUVXgYbzbf0SeH+tJk17gDVCS
-6ouaFx6cu1c+cQoWpAlwlDNz1qtXO0CznkJBss9L0iRZVdUeBqqE78dZ8aSQSf14
-2l3Q4qosTMJO337/CyTm+gNFs+sDuJVZwKvCroHabpNFjsBmy7A2x3G/UEsjOhAq
-O9dipP46hVmcg98bSZtfHZF2hE55kyPCOT8bMkcR2Txta30oads0OdumwTWFODd1
-HP7A+K4d0Fy5vVCoLKcqKD4zNHj7tL0jy5TCgCr5OCciwjWieGvX6KRbF+pRZSzB
-24pqUa0B/8n+TB2XMnKSRYCsTKAoGxfhwrsLPhv/K09g4ike+45b4zr/wfiHngJn
-TvTE/M3bDhbk8iyUHmar2pTnm8M+eDTvaxj6CxkvcshMzQU0xk/jFi1llSIxjMTP
-eb0tl50Lih/a4VWWoAKbPat3X1ZqU4jzP0Gwp3yg3LciNzSu/+fCeXu0/nune1Cb
-Q09Lu6GDKW1VO2qsFZUFhYEGFOgkGPcVvFdRPIsEBIZew1suFJs=
-=KAFC
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCSIjoACgkQbDjKyiDZ
+s5JJgg//RxOS8sVd7bMy7233vL2X8GASd+fXPKCsPUPST6NkrNaK2XekuaSkOjeB
+42EAzuExEXDWomlwVIZdcm0MPe0s+N1ssH4x2Iq+L4gI2Fb43pbtISyV0zFUonI2
+pp3c9wFobtkhYwYksUoLSQwVsHeSJbw0xjuwC3qLbLg/WpNReJEwNd/Nftbk1A1e
+jEl0+cvkUTyazyquik477MDItyIZna3gjm5AnfdQAhc3pUxXeINhZ4XHXKq1+iY1
+pmdkscpa88LoP0t7LoYxTdiNbni5FvOBFDItUgGdHrCLMxACxQspWK8r6WnvFrMq
+E0SJIBcJLah9KBiWfSVBdtXvzwCuPIU4G3qkPR3waeUtlZY+EZSgC3KmEkGj79Fy
+ZpWkanMP9QOj3D7dcTLDyBPu3llHNT0TYe8YkVvHa+p+KItxxJpYwOwkhBvcdapA
+rt4ZXUFCrv4dqXEAhGc/eVxSLXyMqHmtybyzOmKdeUZCnmb0Zawehij5D4kJ4g9f
+41cpKl7H1GBVx/3BBt7nBKo1P2Z5kbFdSU1utaLJz8o65o82bwBbCziUTUUHtBIL
+CECMwnZ2Na7IRUDyPvlOi7zZ+JSzLmxKqXaj36KyET5k2TwTanXQqhMMnQyC8AJx
+ud3CGyrlrmhrHOkHiK2NgDOOzJZ/W7KePaJRqn8h7ZCceglkGlo=
+=wrgu
 -----END PGP SIGNATURE-----
 
---lyAA3TK1xSI8rAg7--
+--fjjFp19358KpRUpy--
 
