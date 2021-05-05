@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787D83732FF
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 02:16:14 +0200 (CEST)
-Received: from localhost ([::1]:43896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779B93732FA
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 02:13:12 +0200 (CEST)
+Received: from localhost ([::1]:37526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le5D3-0003qk-JL
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 20:16:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40718)
+	id 1le5A7-0001C7-0g
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 20:13:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1le58l-0000KR-GT; Tue, 04 May 2021 20:11:47 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2360
- helo=mx0a-001b2d01.pphosted.com)
+ id 1le58k-0000KG-7v; Tue, 04 May 2021 20:11:46 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1le58i-0002vG-H2; Tue, 04 May 2021 20:11:47 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14502rVg068879; Tue, 4 May 2021 20:11:36 -0400
+ id 1le58i-0002vL-Hn; Tue, 04 May 2021 20:11:46 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14502VeU012473; Tue, 4 May 2021 20:11:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=ieQY2AAmueOxHGoBFuysWkrvd9LJUc9FNM25dZ9Bwgc=;
- b=jUqFM+Dc3xadu+wSd4yvyc+QFwJjShz/wNoxp+NyzkpJ5npGLr6z9n0njTFcebiPFzzy
- B+6s4DODXczjMAcFCDOno3CTm/Z6HJaVSCbRY0gJOQvYn1lxJL0t8WHaE5TgSToobDTL
- 9+WRI/SuaqDXvgTDhALFFeuqYnV8hNdRk8G9N/oKq5oo2qWKOsCxNp1VT9ePQbaQT4V6
- 600HhZ3dfcjDUdmDKjVww0gUu6dKQNPARcy5lGdn9iP7Rn0ZaGw8okcbs0+OV3SEUwCx
- DAUSJ/OtdUqh3lt4EuOnJGrpOuPSxppIYbYJja+KjHa+EoeqtaBJzFRXC5wC7YFjG49J hg== 
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38bfx7rt3d-1
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=kHKFG/dXmbgaKEtkMCCZqGNtGLecZ8sV1PV21tPX1WU=;
+ b=gfat9X8n4dZfIDrGYvf2lUNVIofPIkwWis9ulrWbX1QbNdUdcaZutgjJbLkYtqd02QIj
+ TpEMeVkEk00JYkvk4PAnZ2lxOpIjwyN+ydjjof24UzXFM3XMc7sclsG+mkTMcABMBZA7
+ SjDM0ceJclfH93+O/K1KM5n221x+NOCP4vEATXaCP/FCIhwAWVeSQGdd2yg/oj55JA28
+ iQ6spvRNm5wyaepb0Vlm0ljngw6WIQqJCgnatHgZNU5W9daKg8FhsWjrXpJnoWn/nqXE
+ ji/keAX8d9ib6lz+VZAzcGSv1OZsWRnmlMrjez3QhYsJXxfo03bbi7IRWr8q4O5i4Jqz +Q== 
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38bgfc05nr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 May 2021 20:11:36 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 1450BZ3B016297;
- Wed, 5 May 2021 00:11:36 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma03wdc.us.ibm.com with ESMTP id 38bedr0ns8-1
+ Tue, 04 May 2021 20:11:38 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 1450BbX6025151;
+ Wed, 5 May 2021 00:11:37 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma04wdc.us.ibm.com with ESMTP id 38bedtrnq1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 May 2021 00:11:36 +0000
+ Wed, 05 May 2021 00:11:37 +0000
 Received: from b03ledav006.gho.boulder.ibm.com
  (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1450BZsQ29950440
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1450BaAx25952538
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 5 May 2021 00:11:35 GMT
+ Wed, 5 May 2021 00:11:36 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 47EE5C605D;
+ by IMSVA (Postfix) with ESMTP id 8F732C6063;
+ Wed,  5 May 2021 00:11:36 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9EDC8C6059;
  Wed,  5 May 2021 00:11:35 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 56FDBC6057;
- Wed,  5 May 2021 00:11:34 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.49.100])
  by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed,  5 May 2021 00:11:34 +0000 (GMT)
+ Wed,  5 May 2021 00:11:35 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Fix for compat mode in P9 < 2.2
-Date: Tue,  4 May 2021 21:11:28 -0300
-Message-Id: <20210505001130.3999968-1-farosas@linux.ibm.com>
+Subject: [PATCH 1/2] hw/ppc/spapr.c: Extract MMU mode error reporting into a
+ function
+Date: Tue,  4 May 2021 21:11:29 -0300
+Message-Id: <20210505001130.3999968-2-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210505001130.3999968-1-farosas@linux.ibm.com>
+References: <20210505001130.3999968-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ay0fSd5pGjFHbKu0rZlck5_o4Iklfqjs
-X-Proofpoint-ORIG-GUID: ay0fSd5pGjFHbKu0rZlck5_o4Iklfqjs
+X-Proofpoint-GUID: Wf_JlwyopADeHVP5b3vRt8YtVz4Y8Gvj
+X-Proofpoint-ORIG-GUID: Wf_JlwyopADeHVP5b3vRt8YtVz4Y8Gvj
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-05-04_15:2021-05-04,
  2021-05-04 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 spamscore=0 suspectscore=0 clxscore=1015 phishscore=0
- mlxlogscore=764 impostorscore=0 mlxscore=0 bulkscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 mlxscore=0
+ phishscore=0 clxscore=1015 lowpriorityscore=0 mlxlogscore=999
+ priorityscore=1501 bulkscore=0 suspectscore=0 impostorscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104060000 definitions=main-2105040166
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -103,47 +106,80 @@ Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We dropped support in KVM for mixing MMU modes in machines that have
-old POWER9 processors which don't support mixing. As usual I forgot
-that compat mode exists:
+A following patch will make use of it.
 
-  $ lscpu | grep pvr
-  Model:               2.1 (pvr 004e 1201)
-
-  $ ~/qemu-system-ppc64 -machine pseries,accel=kvm,max-cpu-compat=power8 ...
-  error: kvm run failed Invalid argument
-  NIP 0000000000000100   LR 0000000000000000 CTR 0000000000000000 XER 0000000000000000 CPU#0
-  MSR 8000000000001000 HID0 0000000000000000  HF 8000000000000000 iidx 3 didx 3
-  TB 00000000 00000000 DECR 0
-  GPR00 0000000000000000 0000000000000000 0000000000000000 000000007ff00000
-  GPR04 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  GPR08 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  GPR12 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  GPR16 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  GPR20 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  GPR24 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  GPR28 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  CR 00000000  [ -  -  -  -  -  -  -  -  ]             RES ffffffffffffffff
-   SRR0 0000000000000000  SRR1 0000000000000000    PVR 00000000004e1201 VRSAVE 0000000000000000
-  SPRG0 0000000000000000 SPRG1 0000000000000000  SPRG2 0000000000000000  SPRG3 0000000000000000
-  SPRG4 0000000000000000 SPRG5 0000000000000000  SPRG6 0000000000000000  SPRG7 0000000000000000
-  HSRR0 0000000000000000 HSRR1 0000000000000000
-   CFAR 0000000000000000
-   LPCR 000000000004f01f
-   PTCR 0000000000000000   DAR 0000000000000000  DSISR 0000000000000000
-
-This series reuses some code we already have to abort and print a
-proper message if the chosen MMU mode is not supported by the host.
-
-Fabiano Rosas (2):
-  hw/ppc/spapr.c: Extract MMU mode error reporting into a function
-  hw/ppc/spapr.c: Make sure the host supports the selected MMU mode
-
- hw/ppc/spapr.c         | 17 +++++++++++++++++
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+---
+ hw/ppc/spapr.c         | 16 ++++++++++++++++
  hw/ppc/spapr_hcall.c   | 14 ++------------
  include/hw/ppc/spapr.h |  1 +
- 3 files changed, 20 insertions(+), 12 deletions(-)
+ 3 files changed, 19 insertions(+), 12 deletions(-)
 
---
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 529ff056dd..4fd226b15b 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1558,6 +1558,22 @@ void spapr_setup_hpt(SpaprMachineState *spapr)
+     }
+ }
+ 
++void spapr_check_mmu_mode(bool guest_radix)
++{
++    if (guest_radix) {
++        if (kvm_enabled() && !kvmppc_has_cap_mmu_radix()) {
++            error_report("Guest requested unavailable MMU mode (radix).");
++            exit(EXIT_FAILURE);
++        }
++    } else {
++        if (kvm_enabled() && kvmppc_has_cap_mmu_radix()
++            && !kvmppc_has_cap_mmu_hash_v3()) {
++            error_report("Guest requested unavailable MMU mode (hash).");
++            exit(EXIT_FAILURE);
++        }
++    }
++}
++
+ static void spapr_machine_reset(MachineState *machine)
+ {
+     SpaprMachineState *spapr = SPAPR_MACHINE(machine);
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 7b5cd3553c..32b7100125 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1755,18 +1755,8 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+     spapr_ovec_intersect(spapr->ov5_cas, spapr->ov5, ov5_guest);
+     spapr_ovec_cleanup(ov5_guest);
+ 
+-    if (guest_radix) {
+-        if (kvm_enabled() && !kvmppc_has_cap_mmu_radix()) {
+-            error_report("Guest requested unavailable MMU mode (radix).");
+-            exit(EXIT_FAILURE);
+-        }
+-    } else {
+-        if (kvm_enabled() && kvmppc_has_cap_mmu_radix()
+-            && !kvmppc_has_cap_mmu_hash_v3()) {
+-            error_report("Guest requested unavailable MMU mode (hash).");
+-            exit(EXIT_FAILURE);
+-        }
+-    }
++    spapr_check_mmu_mode(guest_radix);
++
+     spapr->cas_pre_isa3_guest = !spapr_ovec_test(ov1_guest, OV1_PPC_3_00);
+     spapr_ovec_cleanup(ov1_guest);
+ 
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index bf7cab7a2c..52b68b2d92 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -820,6 +820,7 @@ void spapr_dt_events(SpaprMachineState *sm, void *fdt);
+ void close_htab_fd(SpaprMachineState *spapr);
+ void spapr_setup_hpt(SpaprMachineState *spapr);
+ void spapr_free_hpt(SpaprMachineState *spapr);
++void spapr_check_mmu_mode(bool guest_radix);
+ SpaprTceTable *spapr_tce_new_table(DeviceState *owner, uint32_t liobn);
+ void spapr_tce_table_enable(SpaprTceTable *tcet,
+                             uint32_t page_shift, uint64_t bus_offset,
+-- 
 2.29.2
+
 
