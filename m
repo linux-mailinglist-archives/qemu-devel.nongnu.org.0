@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2703738DF
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:54:12 +0200 (CEST)
-Received: from localhost ([::1]:44722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9093C3738E1
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:56:45 +0200 (CEST)
+Received: from localhost ([::1]:47070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leFAR-0001Pn-Oq
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:54:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43432)
+	id 1leFCu-0002UG-Mr
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:56:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1leF8n-0000b2-N6
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:52:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36685)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1leFBd-0001wd-Hk
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:55:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1leF8k-0007Ux-2m
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:52:29 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1leFBb-0000nA-VX
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:55:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620211944;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1620212123;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jcr0sZVtGy0QyodyGTD/QilUyY6MXlJnnT/JXieunPg=;
- b=Ycj2CJUx7vIqmiX5xsRi2cd/VSGTmSEIbU6Boi6nkx6WcFhw/SvOsGAa5zuy6EOYApDuwl
- 1nY+fmmc0TCorf/2wEibh2zDZNb3/jyraN4YzTMKpLhr4pNhrzzFHKPE9IrGj0YI9l6Sjn
- F/sAXbJrKKrgM99B7ADBGRi08k3dQ4c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-SkxO7NO9MAaIIjoPXU9koQ-1; Wed, 05 May 2021 06:52:20 -0400
-X-MC-Unique: SkxO7NO9MAaIIjoPXU9koQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8B1A803620;
- Wed,  5 May 2021 10:52:18 +0000 (UTC)
-Received: from redhat.com (ovpn-114-253.ams2.redhat.com [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9ADB1421F;
- Wed,  5 May 2021 10:52:08 +0000 (UTC)
-Date: Wed, 5 May 2021 11:52:05 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v1 5/7] docs: mark intention to deprecate TCG tracing
- functionality
-Message-ID: <YJJ41bUEY+Gfkw/Z@redhat.com>
-References: <20210505092259.8202-1-alex.bennee@linaro.org>
- <20210505092259.8202-6-alex.bennee@linaro.org>
- <YJJmYOWDl0UzziW7@redhat.com> <87lf8to49d.fsf@linaro.org>
- <87im3xo3zv.fsf@linaro.org>
+ bh=S+7PCOOsFSoGUOHpV6P0YNgSZRnExQlaAQKmSYmKPik=;
+ b=bQM/xQrNoBMH+czckHdU5GPS58v1FR+7ieUSfExbV9IjpDJw2zVAWHQ23LnC2GgzzmyAJG
+ +1s0MH6LA17Gch8ETjGAejctGbgpOSAtBRmCFGtH/+1Sx8jrLZzgdXkZiHBoBEKDkgMQix
+ eOxskLYCSDVYMj+77If0HolJWPl52SI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-556-pbXtDMm8Obqyem4fvrtgDQ-1; Wed, 05 May 2021 06:55:21 -0400
+X-MC-Unique: pbXtDMm8Obqyem4fvrtgDQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n9-20020a1c40090000b02901401bf40f9dso1470703wma.0
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 03:55:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=S+7PCOOsFSoGUOHpV6P0YNgSZRnExQlaAQKmSYmKPik=;
+ b=oXDp4K7hgj4m0zY5A7UMUP1sVsvMPsEyGpoy3TPQKnd3rjdDEh/JUuYreRgDy6P2YA
+ Yl4L/38y2SpKwG8KGSw4xTdJadKDX4NqaeIIsKlEQ3rqpeJZQdIXCDgKoYA6m2GlzvkW
+ 39yBWFR3uYHfMWtZruglx7Ipbfxs/4e1NYGZEI5IuEQ/plUvtvkEoXClAcI5LNu7qTnj
+ kRsGrYh1pRkgQ0VM0KZowFgVbtDk3HicX8gBJYcEpxEPKaRIRfw1UmzQsTvCdCp0sUQY
+ z2KpFzr3uEU+U8fp+zTHXHdszhTo89PZ+wyE6D8l7hHcRhfemnU1eRkLwTDTRnPqFr5+
+ 6n3g==
+X-Gm-Message-State: AOAM533jx6xTv3pSt/i0iWf0tryUC5F83DEXSfelVT7DxNeen9+89SQa
+ n9CC7X3OAlhuQ1S/CRPWHmAxSG0tOa0F4p+R/014qAHZCWVxJd+dLuNWnB15vBTaz172DrkpUQi
+ QTeV+O/Sirtoi3kY=
+X-Received: by 2002:adf:9d88:: with SMTP id p8mr37092217wre.138.1620212120532; 
+ Wed, 05 May 2021 03:55:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxR6NlttxqIPPI7Xx1D4xRBUU56HyHd8RLvjWp8hPh/jN2/8gR+yTQ6AaHwxry0Y+cFFWx7ng==
+X-Received: by 2002:adf:9d88:: with SMTP id p8mr37092181wre.138.1620212120266; 
+ Wed, 05 May 2021 03:55:20 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c63bc.dip0.t-ipconnect.de. [91.12.99.188])
+ by smtp.gmail.com with ESMTPSA id
+ r2sm18643304wrt.79.2021.05.05.03.55.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 May 2021 03:55:19 -0700 (PDT)
+Subject: Re: [PATCH v1 00/20] s390x/tcg: Implement Vector enhancements
+ facility and switch to z14
+To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+References: <20200930145523.71087-1-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <66f538df-2e8e-52af-7241-96aa0cc00024@redhat.com>
+Date: Wed, 5 May 2021 12:55:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <87im3xo3zv.fsf@linaro.org>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200930145523.71087-1-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,59 +100,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- qemu-devel@nongnu.org, robhenry@microsoft.com, aaron@os.amperecomputing.com,
- vilanova@imperial.ac.uk, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
- cota@braap.org, stefanha@redhat.com, mohamad.gebai@gmail.com,
- kuhn.chenqun@huawei.com, matheus.ferst@eldorado.org.br
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 05, 2021 at 11:41:46AM +0100, Alex Bennée wrote:
+On 30.09.20 16:55, David Hildenbrand wrote:
+> This series adds support for the "Vector enhancements facility" and bumps
+> the qemu CPU model tp to a stripped-down z14.
 > 
-> Alex Bennée <alex.bennee@linaro.org> writes:
+> I yet have to find a way to get more test coverage - looks like some of
+> the functions aren't used anywhere yet (e.g., VECTOR FP MAXIMUM), writing
+> unit tests to cover all functions and cases is just nasty. But I might be
+> wrong - I'm planning to at least test basic functionality of all new added
+> instructions.
 > 
-> > Daniel P. Berrangé <berrange@redhat.com> writes:
-> >
-> >> On Wed, May 05, 2021 at 10:22:57AM +0100, Alex Bennée wrote:
-> <snip>
-> >>> +TCG introspection features
-> >>> +--------------------------
-> >>> +
-> >>> +TCG trace-events (since 6.1)
-> >>> +''''''''''''''''''''''''''''
-> >>> +
-> >>> +The ability to add new TCG trace points has bit rotted and as the
-> >>
-> >> When you say this "has bit rotted", just how bad is the situation ?
-> >>
-> >> Is the TCG tracing still usable at all, or is is fully broken
-> >> already ?
-> >
-> > Well patches 6/7 got it working for generic TCG things. I haven't been
-> > able to get the architecture one working but I suspect that is some sort
-> > of interaction between the per-arch trace header generation that I
-> > haven't quite figured out yet.
+> I have to make excessive use of c macros again to cover different element
+> sizes (32/64/128bit). Any advise to clean things up are welcome.
 > 
-> Ahh it's since 7609ffb919 (trace: fix tcg tracing build breakage) which
-> limited tcg/vcpu events to the root trace-events file.
+> This is based on:
+>      "[PATCH v2 0/9] s390x/tcg: Implement some z14 facilities"
+>      "[PATCH v2 00/10] softfloat: Implement float128_muladd"
+> 
+> Based-on: 20200928122717.30586-1-david@redhat.com
+> Based-on: 20200925152047.709901-1-richard.henderson@linaro.org
 
-That commit is from release 2.10.0.
+Hi Richard,
 
-The other commit mentioned in patch 6 (73ff061032) is from 2.12.0.
+I'll have a new series ready soonish. I did what you suggested and 
+started generating random (valid) Vector FP instructions with (valid) 
+random parameters, executed on randomly generated vectors. It's looking 
+pretty good by now.
 
-So no one has been able to use this feature for 3+ years already.
+I'll still have to see to which degree I can address feedback on 
+"softfloat: Implement float128_(min|minnum|minnummag|max|maxnum|maxnummag)"
 
-Is it actually worth fixing and then deprecating for 2 releases before
-deleting, as opposed to just deleting the broken code today on basis
-that it can't have any current users ?
+Anyhow, I'd need your "softfloat: Implement float128_muladd" series -- 
+any idea when you might get to continue working on that? Thanks!
 
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks,
+
+David / dhildenb
 
 
