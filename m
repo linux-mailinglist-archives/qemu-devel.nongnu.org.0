@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1843374BDF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:27:07 +0200 (CEST)
-Received: from localhost ([::1]:49726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A18374BE4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:28:27 +0200 (CEST)
+Received: from localhost ([::1]:58308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leQv4-0003E8-Kq
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35694)
+	id 1leQwM-0006dt-Az
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:28:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQs3-0007Rh-Pz
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:23:59 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:42199)
+ id 1leQsB-0007d0-Py
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:07 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQry-0000TN-Ao
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:23:59 -0400
+ id 1leQs9-0000Xa-MG
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620257034; x=1651793034;
+ t=1620257045; x=1651793045;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bxuh/HYpFG5/VX0DQF6fAKC2S1UYsYT0FobkIKhBegY=;
- b=hcOVTcv8ptIzMHhluFIBmBHGwUFHemiBh5SJ+7A8txviSIfObI6tgjZ0
- lNq5DekbMQGAgc3WDuWWzqB7+BSq4pPn2286b6NSein724J4fb+fpNesn
- UCiZ1nAsrfGG6ORF3+4vLF/3NwZZHErvMZU4AFN9R8lxTBn91F7fCGOJl
- QAA/doT+ZePrMdESeBbt3M8jjSHbv+WmPlpydrD6n1rO/eE+cH/rHxZKg
- SXuGLbKQCTlu81ACbm5PvpCmSfqp7zGhM9bhTZ4n6zVMLXgE0cQhwU3mC
- 2jzYlaER1hl5zMr3k/1YqcO9iOmFLN1ucdpNLZaOnWqvwvIao/urCKp1/ Q==;
-IronPort-SDR: 3E/KCGu6rJACOEBUq9z2W4eMv5DR5UR6A77qQdBq6QJwXd5VWU9wQE3/HIMiLf12OnPX93wQbh
- E31Nnz1WwZ/UiJhzjYxZrzWRwU95nhSa9lv+Rp+uYHmg3RYCXMqGPRwCZgsjrYFCGStPxXL/Vt
- HSmlYmF3ujgjHVwIMszZ+dJNu8M/cRqcBiZbDM52u9E5HDNpGEcj3N0S2SujAWKPq3iqNOwsW3
- yfufIREPEeAEjL18AcASssQRNcb93/NEqARMLdGNcACp08BUZ5NdREiBs6WFxUS54+6oxgKWlW
- jac=
-X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="278356943"
+ bh=WcLRZejkj3O7sPHwpm1SnnH9ePTMEq/b8rLcZ9KrMfA=;
+ b=Iqyw+PwWv7RbqTBXwzG0WrXHuj1+pAu0nFqNMPgOxEJI1//CziyMsiS3
+ FyxTGeUrNFL8YuLtbI1ISruRvYQ20hoNSJxmebjUQLc97s+XlZ0/M1RT9
+ NL0HMjjucYn+vYwnWzgyNGgMZ5SST9Ii5hjr36Bl8/8BDdiUP2hgwLUxA
+ vMfjCN+DVcGWJKOSdhjCdOLGi6epdJt9TMpxGg+YaeFhMx7AETT5zuFoA
+ QtVcelp4AdMkLeDvh7d9xlkYjkXip214EnM7tENK+I51nI1e9Dr+fVClY
+ 1TeklzM1ia+BDof1olMgnC7guX+Ey/LbW3nLhmF3jFjf62BfvplYfI6A6 g==;
+IronPort-SDR: ybzhm9KrsGQ4tAXKK5W05RoJqpQIPlPguCQ5tDqL+a04te+wHsNjnaqjFga5ymtBAgbhUhh9nK
+ Q/kMJwLx2PoEgnYq+ZVmCeickySmVSgKLVSVDaSKJswye1dgw738w23oVZjEynazWpWJMIHNUD
+ P0aJIHY0nvyh+SaMKG54SpkIXTUIxox9Tc/buu1BlhHo54ow2PPAhF66R+7R4kfY0TydPCqdGP
+ +Lm8Fp6UeUrL4P1W8XbE1tOmltlzIHJvKnSgl+xm3F2WUoQbbGr5ZAqkunajWfU94m1Us/mq2p
+ yeE=
+X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585903"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:23:51 +0800
-IronPort-SDR: RU5bS2cJVNsUM8iw9T1b3U8wDJ8XAOdJKQJZ3mYN7W3uF/DlDHrd+WWRFXwoM+cxApWERYISrw
- G10+PqX+5T7JnKKEgDR3wDi2zCenwp5Iu/kjTlUAsKSjpwmFH1GG/UXP/EaQGyY/S/1bzvPQhn
- tC4daZRgpNe4T7NLooI2rKg/bHheHIZbxKTaODhZt922P0xFXfL58dMdqPo2iVLMLXKqwzc9QN
- qOu7vyS9DjyZAD5bCEkZuJotZZf49KhX/fz1gD7tApGNcob5EMKiMlebebJx+VRDmNFVtRlOe5
- ge6Du4wgSjfbv6dP8OYlD5hO
+ by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:04 +0800
+IronPort-SDR: TpgPn9pjqvcNLnntM6fQYFK7ZeMUSJl8rY8rwhWfQk6DRpeOXhNiyhdo1stNyg84SKr24hYPAC
+ mkknkJ1OoqvhNWEHyvQhyW+SEK/Vozr46nl42K5FeD95Tkdir0tJAWpOZjFuUEixTD+SWv5HOX
+ pSKhRM9PXyA2I3dFBplbRvn6jnfl4IzJnD9GB3nFm99Dswxd3BylzPAHIL2jryxbCL9Iq6+3Kg
+ GGcLY+Z/Ex6Zq06ZEXpHfmmiwmXmntMv0/rfITEU1sIL2Xt6dIrOMJENeLZvehebjSgNpr0rxb
+ E2Ff0Fj146NVyoHkVBtZwUS4
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 16:02:32 -0700
-IronPort-SDR: nOp+PNJ+mYZd/wJscY2UAs8SD4tDSOK0tLQfuU+18iGyPy3VMlphVpwRLAaddfFx37O7FGtaCl
- nj+bQfpQ+jo2tvBbBcYsZjkLBo6oWu+WrU5es0OfpJrz5/m+KH6/+WMNcbqjrTn6B1GeZ1LkcW
- yWLZx/C58niQalALf0l7y/nnGQqT7jFpfsovhBZkdnE1IAqpCm2W5wr5HUvKR9zaECJTzkhWMd
- vSHIpBO70bWFBFnoG87LNIygQaX4Vgxppn90XWzKIDLQjqwunbcw+q5ewFiAn1YQ50wd/sKq6j
- Nmc=
+ 05 May 2021 16:02:44 -0700
+IronPort-SDR: ewRemvij037nUXGJXG/vMAnQUQ8x4kDo2cav5S4dh9UPzllcetg9Vie3+h0lwp84cf1oarxYdU
+ capNCNnKroNYXVt2K1gBcUlPap4Nxc30uudXEnsm/B55YBIezcOt/cgwvMumqbFn/zMxjGTalA
+ LVDv7WTcpg24pZw3uGznyMCoxS2g6ie7le9kk5rQLQthEZZK619s3YnGVuYkaRKp6IA3TnRpL/
+ ljDZcd1gAjsXy+BpiCFdEs23f0Di0iVYwXJllMoGykFFQHdyg43SAv5WBRErUnh6xe0SqoiVoI
+ 87o=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.46])
- by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:23:49 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:24:01 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 11/42] target/riscv: Fix 32-bit HS mode access permissions
-Date: Thu,  6 May 2021 09:22:41 +1000
-Message-Id: <20210505232312.4175486-12-alistair.francis@wdc.com>
+Subject: [PULL v2 14/42] MAINTAINERS: Update the RISC-V CPU Maintainers
+Date: Thu,  6 May 2021 09:22:44 +1000
+Message-Id: <20210505232312.4175486-15-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505232312.4175486-1-alistair.francis@wdc.com>
 References: <20210505232312.4175486-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
+Received-SPF: pass client-ip=216.71.154.42;
  envelope-from=prvs=752564754=alistair.francis@wdc.com;
- helo=esa1.hgst.iphmx.com
+ helo=esa4.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -90,37 +91,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: cb1ef2061547dc9028ce3cf4f6622588f9c09149.1617290165.git.alistair.francis@wdc.com
----
- target/riscv/csr.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Update the RISC-V maintainers by removing Sagar and Bastian who haven't
+been involved recently.
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 1938bdca7d..6a39c4aa96 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -181,7 +181,11 @@ static RISCVException hmode(CPURISCVState *env, int csrno)
- static RISCVException hmode32(CPURISCVState *env, int csrno)
- {
-     if (!riscv_cpu_is_32bit(env)) {
--        return RISCV_EXCP_NONE;
-+        if (riscv_cpu_virt_enabled(env)) {
-+            return RISCV_EXCP_ILLEGAL_INST;
-+        } else {
-+            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+        }
-     }
+Also add Bin who has been helping with reviews.
+
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Bin Meng <bin.meng@windriver.com>
+Acked-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com
+---
+ MAINTAINERS | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 446c776a7f..0a2d89ccaa 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -295,9 +295,8 @@ F: tests/acceptance/machine_ppc.py
  
-     return hmode(env, csrno);
+ RISC-V TCG CPUs
+ M: Palmer Dabbelt <palmer@dabbelt.com>
+-M: Alistair Francis <Alistair.Francis@wdc.com>
+-M: Sagar Karandikar <sagark@eecs.berkeley.edu>
+-M: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
++M: Alistair Francis <alistair.francis@wdc.com>
++M: Bin Meng <bin.meng@windriver.com>
+ L: qemu-riscv@nongnu.org
+ S: Supported
+ F: target/riscv/
 -- 
 2.31.1
 
