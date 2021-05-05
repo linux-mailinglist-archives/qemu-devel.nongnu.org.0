@@ -2,74 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F370373DDE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 16:44:55 +0200 (CEST)
-Received: from localhost ([::1]:39928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1315B373DE0
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 16:45:37 +0200 (CEST)
+Received: from localhost ([::1]:41518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leIli-0006zK-NJ
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 10:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51924)
+	id 1leImO-0007cu-51
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 10:45:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1leIjs-0005WZ-2E
- for qemu-devel@nongnu.org; Wed, 05 May 2021 10:43:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38377)
+ (Exim 4.90_1) (envelope-from <mahesh@linux.ibm.com>)
+ id 1leIl7-0006eV-Uj; Wed, 05 May 2021 10:44:17 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1leIjo-0006Th-N5
- for qemu-devel@nongnu.org; Wed, 05 May 2021 10:42:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620225776;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mSXhK+w1jWGsxfVC9YAS7uk3bfdKVeAz6CRPjFuHvEE=;
- b=GalcFaJ+6gpgzz6bj5zdMfZGxTcMg2f4ZkBR3i0dqAYsvMePcQuYO9ulwnwupc+9HwkXqB
- 5QhKO15r0/QRMcdGhZmlcp6e8XG4AoiKWETWRUb45KR6LC6kEbmVbJunIvRtsasdIcTlXD
- 60925UDfQh1TioTPTwu0qjzxFidVfj8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-2Et-4VXsOC6yzgaGCGDPhQ-1; Wed, 05 May 2021 10:42:54 -0400
-X-MC-Unique: 2Et-4VXsOC6yzgaGCGDPhQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FD6D107ACC7;
- Wed,  5 May 2021 14:42:52 +0000 (UTC)
-Received: from work-vm (ovpn-115-97.ams2.redhat.com [10.36.115.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 39EAA39A50;
- Wed,  5 May 2021 14:42:49 +0000 (UTC)
-Date: Wed, 5 May 2021 15:42:46 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 1/7] migration: use GDateTime for formatting timestamp in
- snapshot names
-Message-ID: <YJKu5jfOeu5ubDXZ@work-vm>
-References: <20210505103702.521457-1-berrange@redhat.com>
- <20210505103702.521457-2-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <mahesh@linux.ibm.com>)
+ id 1leIl6-0007Ki-2I; Wed, 05 May 2021 10:44:17 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 145EYaIq095827; Wed, 5 May 2021 10:44:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=DFX02VsaysSob/aP2QXJP9KC0BssESNB7wV2TeN+iL4=;
+ b=GFfXd4fmkZtju6dQTu0QM0Gu1+J9lXNXVOJT7WWHKxq5KfHRF3DyPomMeVksWSAYyBlL
+ r/RgekxPjK2UHPtVWJgG5lWgE+9mHKMedgfNUM4O4GMI71aFeToxPOWCntYSsJo20eNk
+ SPcw8j4Zbsa2DVClcmtnlI/iFjOgDUyCaLPAdaMroD3SPdiIbH6pvTxuUGTLOyItnnQO
+ ikWTxjfmUzQ0g4h0elV7hZUCU7OziyfI9FQ9toJ7MzM1kNz63dBJp0yR98BlPstxtHX2
+ mAc3OLzoDdnenhCdWbmHcIREdiZES2fPOHQPXL93uvErLwdGgIsdG7/ciNDmP+ynsrCY Hg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38bubnvcgs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 May 2021 10:44:13 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 145EaaZK106537;
+ Wed, 5 May 2021 10:44:12 -0400
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38bubnvcfx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 May 2021 10:44:12 -0400
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 145Ed9Jk011993;
+ Wed, 5 May 2021 14:44:10 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03fra.de.ibm.com with ESMTP id 38beebg6n9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 May 2021 14:44:10 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 145EhgmV35586552
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 5 May 2021 14:43:42 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 24AC55204F;
+ Wed,  5 May 2021 14:44:08 +0000 (GMT)
+Received: from [9.85.84.185] (unknown [9.85.84.185])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 391535204E;
+ Wed,  5 May 2021 14:44:07 +0000 (GMT)
+Subject: Re: [PATCH v2] spapr: Fix EEH capability issue on KVM guest for PCI
+ passthru
+From: Mahesh Jagannath Salgaonkar <mahesh@linux.ibm.com>
+To: Qemu-devel <qemu-devel@nongnu.org>
+References: <162022202916.114061.13956430525175811972.stgit@jupiter>
+Message-ID: <4973b0e0-1d3e-75a8-1f9b-febc0306721c@linux.ibm.com>
+Date: Wed, 5 May 2021 20:14:06 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210505103702.521457-2-berrange@redhat.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <162022202916.114061.13956430525175811972.stgit@jupiter>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: lGDfba8wBN1pOx6vLzbX9-LGN7Xc-gJq
+X-Proofpoint-GUID: HwBcBBMnrhH0NuhdHX8tL6iUwFYt0_zY
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-05_07:2021-05-05,
+ 2021-05-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ bulkscore=0 malwarescore=0 suspectscore=0 impostorscore=0 mlxlogscore=999
+ mlxscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2105050102
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=mahesh@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,72 +109,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- virtio-fs@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Brad Smith <brad@comstyle.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Qemu-ppc <qemu-ppc@nongnu.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Oliver O'Halloran <oohall@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> The GDateTime APIs provided by GLib avoid portability pitfalls, such
-> as some platforms where 'struct timeval.tv_sec' field is still 'long'
-> instead of 'time_t'. When combined with automatic cleanup, GDateTime
-> often results in simpler code too.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+On 5/5/21 7:10 PM, Mahesh Salgaonkar wrote:
+> With upstream kernel, especially after commit 98ba956f6a389
+> ("powerpc/pseries/eeh: Rework device EEH PE determination") we see that KVM
+> guest isn't able to enable EEH option for PCI pass-through devices anymore.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Please ignore this patch.
 
-> ---
->  migration/savevm.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
-> 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 52e2d72e4b..72848b946c 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -2775,8 +2775,7 @@ bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
->      QEMUFile *f;
->      int saved_vm_running;
->      uint64_t vm_state_size;
-> -    qemu_timeval tv;
-> -    struct tm tm;
-> +    g_autoptr(GDateTime) now = g_date_time_new_now_local();
->      AioContext *aio_context;
->  
->      if (migration_is_blocked(errp)) {
-> @@ -2836,9 +2835,8 @@ bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
->      memset(sn, 0, sizeof(*sn));
->  
->      /* fill auxiliary fields */
-> -    qemu_gettimeofday(&tv);
-> -    sn->date_sec = tv.tv_sec;
-> -    sn->date_nsec = tv.tv_usec * 1000;
-> +    sn->date_sec = g_date_time_to_unix(now);
-> +    sn->date_nsec = g_date_time_get_microsecond(now) * 1000;
->      sn->vm_clock_nsec = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->      if (replay_mode != REPLAY_MODE_NONE) {
->          sn->icount = replay_get_current_icount();
-> @@ -2849,9 +2847,8 @@ bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
->      if (name) {
->          pstrcpy(sn->name, sizeof(sn->name), name);
->      } else {
-> -        /* cast below needed for OpenBSD where tv_sec is still 'long' */
-> -        localtime_r((const time_t *)&tv.tv_sec, &tm);
-> -        strftime(sn->name, sizeof(sn->name), "vm-%Y%m%d%H%M%S", &tm);
-> +        g_autofree char *autoname = g_date_time_format(now,  "vm-%Y%m%d%H%M%S");
-> +        pstrcpy(sn->name, sizeof(sn->name), autoname);
->      }
->  
->      /* save the VM state */
-> -- 
-> 2.31.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Thanks,
+-Mahesh.
 
