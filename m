@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565E737378E
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 11:30:51 +0200 (CEST)
-Received: from localhost ([::1]:44522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C9A37378F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 11:30:55 +0200 (CEST)
+Received: from localhost ([::1]:44896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leDrm-0006HI-Bp
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 05:30:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48846)
+	id 1leDrq-0006Q6-AT
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 05:30:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1leDkX-0000vP-M6
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:22 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:56177)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1leDlr-0001Ql-2A
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:24:44 -0400
+Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:33446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1leDkP-0005BA-Bf
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:21 -0400
-Received: by mail-wm1-x330.google.com with SMTP id i128so974538wma.5
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 02:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pzxmZD4B0lAUAH8sN7d3Ghe+Y5XcNwSkO4kOPPQi1iI=;
- b=t1EZxG0Kl7tkdZSzFCP0uMUFnfkTaFbuymR9dzujn3bMHkACC5jCW9WcMz0u8fnsuM
- nJngLqz53vTPL/YJTU09S0UrQF5Ejc2cPMz0j4gq+CWXRfQM7OYw4r/+8WKKusY+12XG
- rAjTJJYmhNyoT4UZujcLswiNcfZLWg7aBFxE2img1h1DwC/43zE08GUf2D87uR6LcLxz
- 8ix6SaeNo5eYpqrnPBp7BxJ/BoqAFS8QfxME8tHpe3BjSPaoOvsmHEwt12nDKF3RnQuw
- tRYrA60I4QgqOiKg+yihypAVl4WnaWJ0NpLh2Fy8aVO3oDc/R41W7T1TJk3eqGCSWEiB
- ltsg==
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1leDll-00063a-3F
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:24:39 -0400
+Received: by mail-qt1-x830.google.com with SMTP id 1so663688qtb.0
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 02:24:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/r4oUydODTvMXrB5vw1tllJRrd5sDO+tebrlhUMv+oc=;
+ b=Amod4JvzNfRipWuib5piIsttHwAsbzePZwshAwM3oEdFB4xtcLrIcr/haKA5dHIpwt
+ IAYeOFU3QG7ZrRaHxppRI1AaXtzGpXJyqMLuO2sRbzfDLGE2a6K3ej2MaYxqy/KOmeEX
+ K28blIP1GjSczQOrG7Cxj6syzZcukTAR4tqR6IJ3A9KcI05utruVBaTehW6PMzp6pTYG
+ h5bTKLxUjg5xa5BvYZ7xdD4zll5hDTMTxRAW2qCS7F6jNWkTCWSso5Go9gDtZNAfYLHF
+ b+sG2widR+Lk/8l3jZX0S1mb0seAKmQDz/+JvMHwg2cQaiaWHzjwDtyBFJ15BGJyyVqH
+ nMjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pzxmZD4B0lAUAH8sN7d3Ghe+Y5XcNwSkO4kOPPQi1iI=;
- b=gx+5HMJ7LdQJhNU6yi2JzK8rmoCEt5bijy7Fo2bG0UubhFMtc+2EKlF5quHGWTdxRo
- OolL+SpgULoVKPi5g72K3MyZcDNFfwzoC8tuxhiQwF/X6ErXf/4hhtfK9bw2VvzLAc8p
- fOoZi0SIItEcxh+y7QwADGlTe91yl1ECE/UtKYsNUpVLcJc7HH0xlFEE8wekvoQMdvl1
- XYtHLh+Wp+CHdkKvO6loxkwa25KbcGARvae4bVX/dkOokbmek1ZvMwaD1xdqeQlOkRO8
- N1aIREOFinCby+MBWAuYRyzTsx+AlZwroBTbEo8OK3xnN5RNe+eYOVTv+m00LLlJtKyf
- tAxQ==
-X-Gm-Message-State: AOAM532PAlnSL4c+fiwnrw7HPfeayU9Dso9m/XlYWPa65Bs1qHKK6DGp
- DejcfbIKPwuhxTout57wE54q1w==
-X-Google-Smtp-Source: ABdhPJwDQOPyfxu88Zpg/uD+cmrF7lOWMiDpMfZDMxMBCCR2TRDJixsoRkfUXwYzFlXy30chvV7iaA==
-X-Received: by 2002:a1c:6646:: with SMTP id a67mr8705560wmc.11.1620206591236; 
- Wed, 05 May 2021 02:23:11 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 61sm20282645wrm.52.2021.05.05.02.23.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 02:23:08 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 75B7E1FF93;
- Wed,  5 May 2021 10:23:00 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 7/7] tcg: add trace events for [exit|goto]_tb and goto_ptr
-Date: Wed,  5 May 2021 10:22:59 +0100
-Message-Id: <20210505092259.8202-8-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210505092259.8202-1-alex.bennee@linaro.org>
-References: <20210505092259.8202-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/r4oUydODTvMXrB5vw1tllJRrd5sDO+tebrlhUMv+oc=;
+ b=td888uq2Pn6jKZDXFxmquqktz+5ODfNnt3ZH7eQoilNgNRIVgY5xK7BkYjq7gUo5Z3
+ UQgWKDhNDXcrNo7L86KvCb0BxAOVRqNqkQiP8MOxq26BZ4YowiaV5XAKFkFxsiO6kmWj
+ m5imfCvRqNGb54DIHoH5N9Es0yNGcJPEzShdzL1H6wtEJ6pWMxfQTx80v93XICfWKUkN
+ OaAZ298urgOqKspr9Tui1xlnMTIkJP6Xj6tQP2pGPPB2xAQwPrjjiSFvhh5dVdLZPvJY
+ vgjnKKdhiKM+EQLz6SDd3bAFcIYK9B4WgXD0+GUlFT+soGzijhxQeT3Imoe0fJwGhFE8
+ dl6Q==
+X-Gm-Message-State: AOAM531fvPrI1BKkvwcau1QTH8i2uVGRguGoW2UYpTkgca/5sgTO2R8j
+ UMsVKixIAw3SnS8OS65FYtz7fVblfSNdH3tKQ6Q=
+X-Google-Smtp-Source: ABdhPJz/gGLkM0ZDbzm4GF7tOFIJENeo4Yy3zabezQbGlZrLiph9OJLqPgwtuYznTE907d9FHWDx3TwRIZ+lfnKRW68=
+X-Received: by 2002:a05:622a:1704:: with SMTP id
+ h4mr27154022qtk.30.1620206674737; 
+ Wed, 05 May 2021 02:24:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+References: <20210505045824.33880-1-liq3ea@163.com>
+ <20210505045824.33880-7-liq3ea@163.com>
+ <qq3n3949-n544-no21-649q-rqq0r7569n19@erqung.pbz>
+ <CAJ+F1CL0Wz88FgUT-SYJMZdXKzgnYUdv3SsHPEstz9uSyqvTrQ@mail.gmail.com>
+In-Reply-To: <CAJ+F1CL0Wz88FgUT-SYJMZdXKzgnYUdv3SsHPEstz9uSyqvTrQ@mail.gmail.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Wed, 5 May 2021 17:23:59 +0800
+Message-ID: <CAKXe6SLmbnmBs2NhyP=8Vm51wQXxFKW9m2XAYYcVTb3dpmEsYg@mail.gmail.com>
+Subject: Re: [PATCH 6/7] vhost-user-gpu: fix memory leak in
+ 'virgl_resource_attach_backing'
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
+ envelope-from=liq3ea@gmail.com; helo=mail-qt1-x830.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,83 +81,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, minyihh@uci.edu,
- robhenry@microsoft.com, vilanova@imperial.ac.uk, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
- mohamad.gebai@gmail.com, kuhn.chenqun@huawei.com,
- matheus.ferst@eldorado.org.br
+Cc: QEMU <qemu-devel@nongnu.org>, Li Qiang <liq3ea@163.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, P J P <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are generic trace points in common helper functions used by all
-front ends. They mainly serve as additional in-tree examples of TCG
-trace points and can be used to compare and contrast with getting
-similar information from the TCG plugins.
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> =E4=BA=8E2021=E5=B9=B45=
+=E6=9C=885=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=885:08=E5=86=99=E9=81=
+=93=EF=BC=9A
+>
+> Hi
+>
+> On Wed, May 5, 2021 at 12:03 PM P J P <ppandit@redhat.com> wrote:
+>>
+>> +-- On Tue, 4 May 2021, Li Qiang wrote --+
+>> | diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/v=
+irgl.c
+>> | index c669d73a1d..a16a311d80 100644
+>> | --- a/contrib/vhost-user-gpu/virgl.c
+>> | +++ b/contrib/vhost-user-gpu/virgl.c
+>> | @@ -287,8 +287,11 @@ virgl_resource_attach_backing(VuGpu *g,
+>> |          return;
+>> |      }
+>> |
+>> | -    virgl_renderer_resource_attach_iov(att_rb.resource_id,
+>> | +    ret =3D virgl_renderer_resource_attach_iov(att_rb.resource_id,
+>> |                                         res_iovs, att_rb.nr_entries);
+>> | +    if (ret !=3D 0) {
+>> | +        g_free(res_iovs);
+>> | +    }
+>> |  }
+>>
+>> * Similar to earlier,
+>>   hw/display/virtio-gpu-3d.c:virgl_resource_attach_backing() calls
+>>   'virtio_gpu_cleanup_mapping_iov'
+>>
+>> * should it be same for vhost-user-gpu?
+>>
+>>
+>
+> Good question, that's also what you did when you fixed it for virtio-gpu =
+in:
+>
+> commit 33243031dad02d161225ba99d782616da133f689
+> Author: Li Qiang <liq3ea@gmail.com>
+> Date:   Thu Dec 29 03:11:26 2016 -0500
+>
+>     virtio-gpu-3d: fix memory leak in resource attach backing
+>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tcg/tcg-op.c |  8 ++++++++
- trace-events | 12 ++++++++++++
- 2 files changed, 20 insertions(+)
+Do you mean this;
+-->https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01156.html
 
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 70475773f4..46b00f6e9b 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -2687,6 +2687,8 @@ void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx)
-         tcg_debug_assert(idx == TB_EXIT_REQUESTED);
-     }
- 
-+    trace_exit_tb_tcg(val & ~TB_EXIT_MASK, val & TB_EXIT_MASK);
-+
-     plugin_gen_disable_mem_helpers();
-     tcg_gen_op1i(INDEX_op_exit_tb, val);
- }
-@@ -2703,6 +2705,9 @@ void tcg_gen_goto_tb(unsigned idx)
-     plugin_gen_disable_mem_helpers();
-     /* When not chaining, we simply fall through to the "fallback" exit.  */
-     if (!qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
-+
-+        trace_goto_tb_tcg(idx);
-+
-         tcg_gen_op1i(INDEX_op_goto_tb, idx);
-     }
- }
-@@ -2715,6 +2720,9 @@ void tcg_gen_lookup_and_goto_ptr(void)
-         plugin_gen_disable_mem_helpers();
-         ptr = tcg_temp_new_ptr();
-         gen_helper_lookup_tb_ptr(ptr, cpu_env);
-+
-+        trace_goto_ptr_tcg(ptr);
-+
-         tcg_gen_op1i(INDEX_op_goto_ptr, tcgv_ptr_arg(ptr));
-         tcg_temp_free_ptr(ptr);
-     } else {
-diff --git a/trace-events b/trace-events
-index ac7cef9335..1fcb8c4dda 100644
---- a/trace-events
-+++ b/trace-events
-@@ -136,6 +136,18 @@ vcpu guest_cpu_reset(void)
- # Targets: TCG(all)
- vcpu tcg guest_mem_before(TCGv vaddr, uint16_t info) "info=%d", "vaddr=0x%016"PRIx64" info=%d"
- 
-+# Mode: user, softmmu
-+# Targets: TCG(all)
-+tcg exit_tb(uint64_t ptr, uint64_t idx) "tb=0x%016"PRIx64"/%"PRId64"", "tb=0x%016"PRIx64"/%"PRId64""
-+
-+# Mode: user, softmmu
-+# Targets: TCG(all)
-+tcg goto_tb(uint64_t idx) "idx=%"PRId64"", "idx=%"PRId64""
-+
-+# Mode: user, softmmu
-+# Targets: TCG(all)
-+tcg goto_ptr(TCGv_ptr ptr) "", "ptr=%p"
-+
- # include/user/syscall-trace.h
- 
- # @num: System call number.
--- 
-2.20.1
+I think there is no need for this.
 
+The virtio_gpu_cleanup_mapping_iov is needed in virtio-gpu is because
+it need map guest memory.
+But in vhost-user-gpu case, the 'vg_create_mapping_iov' calls
+'vu_gpa_to_va' and this function don't need
+do map memory.
+
+But for the beauty of symmetry we can abstract a function called
+'vg_destroy_mapping_iov' and it just calls g_free(res->iov).
+Like the pair 'virtio_gpu_create_mapping_iov' and 'virtio_gpu_cleanup_mappi=
+ng'.
+
+Thanks,
+Li Qiang
+
+>
+> Btw, for each patch, it would be nice to have a reference to the original=
+ fix in virtio-gpu.
+>
+> Thanks!
+>
 
