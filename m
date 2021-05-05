@@ -2,56 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913413734CC
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 07:51:58 +0200 (CEST)
-Received: from localhost ([::1]:50336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A5D3734EB
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 08:19:52 +0200 (CEST)
+Received: from localhost ([::1]:52992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leARx-0001UP-De
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 01:51:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34830)
+	id 1leAsx-0006V6-U8
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 02:19:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1leAQL-0000jw-KV; Wed, 05 May 2021 01:50:18 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:59435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1leAQI-0006vj-Mc; Wed, 05 May 2021 01:50:17 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZm5B69Bkz9sSs; Wed,  5 May 2021 15:50:06 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620193806;
- bh=jAq2zp64SpSpSQIJ9hH4zcxC45A+W8IurEZSogi4rZ4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bZaKyABkAzh1nM2PMmki+jRk2F8+vHNI3sTFPw24vUHB0YllaUGvxWFk/rQH1AtFz
- 9CpBsDTfxaXLXmisuOopU3ylByG86Ue2Qf5j4OosVxET6RQukLx2GurPtgAPftjrA5
- gVEUK4HCbM3kBuW/e/RJCZ5YG05XWggv9eMpbx+Q=
-Date: Wed, 5 May 2021 15:50:02 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-Subject: Re: [PATCH v5 3/3] ppc: Enable 2nd DAWR support on p10
-Message-ID: <YJIyCnVYohsdKLvf@yekko>
-References: <20210412114433.129702-1-ravi.bangoria@linux.ibm.com>
- <20210412114433.129702-4-ravi.bangoria@linux.ibm.com>
- <YH0M1YdINJqbdqP+@yekko.fritz.box>
- <ca21d852-4b54-01d3-baab-cc8d0d50e505@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leAkM-0006DR-1E
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 02:10:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41736)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leAkJ-0002f5-1j
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 02:10:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1leAkH-0006IW-Bd
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 06:10:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 521582E804B
+ for <qemu-devel@nongnu.org>; Wed,  5 May 2021 06:10:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rihsVy5hImpJBoPR"
-Content-Disposition: inline
-In-Reply-To: <ca21d852-4b54-01d3-baab-cc8d0d50e505@linux.ibm.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 05 May 2021 06:02:19 -0000
+From: Ravishankar <1925417@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: rreddy78
+X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
+X-Launchpad-Bug-Modifier: Ravishankar (rreddy78)
+References: <161906987819.6402.12318771307523732954.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162019453951.14052.11206033604653406896.malone@soybean.canonical.com>
+Subject: [Bug 1925417] Re: Cannot boot from EFI image on aarch64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: d4e0b642da841df36bba27ac0e5ffc46a86a6e0b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,125 +69,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, mikey@neuling.org, kvm@vger.kernel.org, mst@redhat.com,
- mpe@ellerman.id.au, cohuck@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
- paulus@samba.org, clg@kaod.org, pbonzini@redhat.com
+Reply-To: Bug 1925417 <1925417@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
---rihsVy5hImpJBoPR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is not a bug with QEMU. Its a problem with ChromiumOS qemu image
+issue which does not have a valid EFI partition for booting on qemu with
+EDK2
 
-On Wed, Apr 21, 2021 at 11:50:40AM +0530, Ravi Bangoria wrote:
-> Hi David,
->=20
-> On 4/19/21 10:23 AM, David Gibson wrote:
-> > On Mon, Apr 12, 2021 at 05:14:33PM +0530, Ravi Bangoria wrote:
-> > > As per the PAPR, bit 0 of byte 64 in pa-features property indicates
-> > > availability of 2nd DAWR registers. i.e. If this bit is set, 2nd
-> > > DAWR is present, otherwise not. Use KVM_CAP_PPC_DAWR1 capability to
-> > > find whether kvm supports 2nd DAWR or not. If it's supported, allow
-> > > user to set the pa-feature bit in guest DT using cap-dawr1 machine
-> > > capability. Though, watchpoint on powerpc TCG guest is not supported
-> > > and thus 2nd DAWR is not enabled for TCG mode.
-> > >=20
-> > > Signed-off-by: Ravi Bangoria <ravi.bangoria@linux.ibm.com>
-> > > Reviewed-by: Greg Kurz <groug@kaod.org>
-> >=20
-> > So, I'm actually not sure if using an spapr capability is what we want
-> > to do here.  The problem is that presumably the idea is to at some
-> > point make the DAWR1 capability default to on (on POWER10, at least).
-> > But at that point you'll no longer to be able to start TCG guests
-> > without explicitly disabling it.  That's technically correct, since we
-> > don't implement DAWR1 in TCG, but then we also don't implement DAWR0
-> > and we let that slide... which I think is probably going to cause less
-> > irritation on balance.
->=20
-> Ok. Probably something like this is what you want?
->=20
-> Power10 behavior:
->   - KVM does not support DAWR1: Boot the guest without DAWR1
->     support (No warnings). Error out only if user tries with
->     cap-dawr1=3Don.
->   - KVM supports DAWR1: Boot the guest with DAWR1 support, unless
->     user specifies cap-dawr1=3Doff.
->   - TCG guest: Ignore cap-dawr1 i.e. boot as if there is only
->     DAWR0 (Should be fixed in future while adding PowerPC watch-
->     point support in TCG mode)
->=20
-> Power10 predecessor behavior:
->   - KVM guest: Boot the guest without DAWR1 support. Error out
->     if user tries with cap-dawr1=3Don.
->   - TCG guest: Ignore cap-dawr1 i.e. boot as if there is only
->     DAWR0 (Should be fixed in future while adding PowerPC watch-
->     point support in TCG mode)
+Please close this ticket.
 
-Sorry I've neglected this thread so long.  I'm afraid the logic above
-won't work.  As a general rule we never want to change guest-visible
-details of the platform based on KVM capabilities, because it makes a
-total mess of migration across clusters.
+-- =
 
-So, if we'd introduced this along with initial POWER10 support, I
-don't think we'd need a capability at all: we just present DAWR1 on
-POWER10, don't otherwise.  The fact it doesn't work in TCG we just
-treat as a TCG bug we'll probably never get around to fixing, just
-like TCG not supporting DAWR0 is a TCG bug right now.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1925417
 
-Since we have released versions with POWER10 support, but no DAWR1, in
-theory we need a capability so new qemu with old machine types don't
-gain guest visible features that the same machine types on older qemus
-had.
+Title:
+  Cannot boot from EFI image on aarch64
 
-Except.. there's a loophole we might use to sidestep that.  The
-current POWER10 CPU modelled in qemu is a DD1 - which I strongly
-suspect will never appear outside of IBM.  I'm pretty sure we want to
-replace that with a DD2.
+Status in QEMU:
+  New
 
-While the modelled CPU is DD1, I think it's pretty reasonable to say
-our POWER10 support hasn't yet stabilized, and it would therefore be
-ok to simply add DAWR1 on POWER10 unconditionally, as long as we do it
-before we switch over to DD2.
+Bug description:
+  I am unable to boot from a EFI disk image on aarch64 qemu.
 
-> > I'm wondering if we're actually just better off setting the pa feature
-> > just based on the guest CPU model.  TCG will be broken if you try to
-> > use it, but then, it already is.  AFAIK there's no inherent reason we
-> > couldn't implement DAWR support in TCG, it's just never been worth the
-> > trouble.
->=20
-> Correct. Probably there is no practical usecase for DAWR in TCG mode.
->=20
-> Thanks,
-> Ravi
->=20
+  I have qemu built and installed from sources on a jetson-nano
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+  qemu-system-aarch64 -version
+  QEMU emulator version 5.2.50 (v5.2.0-3234-gbdee969c0e)
+  Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
 
---rihsVy5hImpJBoPR
-Content-Type: application/pgp-signature; name="signature.asc"
+  KVM and and virtio are enabled in host kernel.
 
------BEGIN PGP SIGNATURE-----
+  Now I want to boot a ChromiumOS image. I have the image downloaded
+  from here:
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCSMggACgkQbDjKyiDZ
-s5KcRRAAqZ5xW57N59aAFUpH3oGVocRIH6LhTt/QLvQfQNEhPbljGk7xxkQR3uY9
-WEOJcBiUw6oyB9ScN3369epif6V1L5yImaMOkC/MK2cLPb7/2gaL4z7p26Y9zcHO
-jvb4aImHgO+ggoDDr7Tqv3YTVjFixmeDssXjFM7Tb2B+tMzpBMwstoEeifpDbpf7
-/cUv8oz8y1L6W4jwP7OUNlsWpkIrt/fU8nLxkzYmDNdW1+y0BXLsPcShejrwD9Bt
-gl217blLDNH6MWWmT0XjQnn8i6Fi3ApvgLfLSvRG7TS3+x0CPX9TKqceLgu6uj7U
-LtliubKyOkCeEfaOnoq+7XnFMX9GaQehssLf2AlR1Lfqks1f/tM5BAG4L7aRJWjG
-bkx9PvWoHKyIydbugmLh7XtPAC0cpL7zmPqzx+p6AbLMf3j715nZsD/QJZRbDde0
-RRsyNaL1pPowlQ7Q1uG4oFryF/yBa6nOnQGdf3Uvnb+SdrWrypWzEu3DCdnSVvsL
-ehU9GFgXUpC8xwrKa45BrRDGfnyh/TzipibIwTZy7IVXmBHNuByUwsBnOjwSTtZD
-Q6NLtQj9FN8KsEhq1az+T/jEYiF0Eas7CYT8QLdWxbB5PdH1cFQE4xadxouWw1i6
-BPmP/wiRhb8dyXywQb9WymZ2ICRwooLIjADIYzd9sehJlgimu8Q=
-=Edf7
------END PGP SIGNATURE-----
+  https://chromium.arnoldthebat.co.uk/?dir=3Ddaily
 
---rihsVy5hImpJBoPR--
+  The image looks fine:
+
+  rreddy78@jetson-nano:~/Downloads$ fdisk -lu chromiumos_image.bin =
+
+  Disk chromiumos_image.bin: 6.2 GiB, 6606109184 bytes, 12902557 sectors
+  Units: sectors of 1 * 512 =3D 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: gpt
+  Disk identifier: C5B6CA94-0AF1-374E-90B5-A5CF4DC1FF51
+
+  Device                   Start      End Sectors  Size Type
+  chromiumos_image.bin1  4513792 12902508 8388717    4G Linux filesystem
+  chromiumos_image.bin2    20480    53247   32768   16M ChromeOS kernel
+  chromiumos_image.bin3   319488  4513791 4194304    2G ChromeOS root fs
+  chromiumos_image.bin4    53248    86015   32768   16M ChromeOS kernel
+  chromiumos_image.bin5   315392   319487    4096    2M ChromeOS root fs
+  chromiumos_image.bin6    16448    16448       1  512B ChromeOS kernel
+  chromiumos_image.bin7    16449    16449       1  512B ChromeOS root fs
+  chromiumos_image.bin8    86016   118783   32768   16M Linux filesystem
+  chromiumos_image.bin9    16450    16450       1  512B ChromeOS reserved
+  chromiumos_image.bin10   16451    16451       1  512B ChromeOS reserved
+  chromiumos_image.bin11      64    16447   16384    8M unknown
+  chromiumos_image.bin12  249856   315391   65536   32M EFI System
+
+  Partition table entries are not in disk order.
+
+  Now I try booting like this:
+
+  qemu-system-aarch64 -M virt -m 2048 -smp 2 -cpu host -enable-kvm  \
+  -device usb-ehci -device usb-kbd  -device usb-mouse -usb -serial stdio  \
+  -device virtio-gpu-pci,virgl=3Don,xres=3D1600,yres=3D900 -display sdl,gl=
+=3Don \
+  -device virtio-blk-device,drive=3Dhd \
+  -drive if=3Dnone,file=3Dchromiumos_image.bin,format=3Draw,id=3Dhd   \
+  -netdev user,id=3Dmynet   \
+  -device virtio-net-device,netdev=3Dmynet \
+  -bios edk2-aarch64-code.fd -no-reboot
+
+  But I am unable to boot.
+
+  Memory Type Information settings change.
+  [Bds]Booting UEFI Misc Device
+   BlockSize : 262144 =
+
+   LastBlock : FF =
+
+  [Bds] Expand VenHw(93E34C7E-B50E-11DF-9223-2443DFD72085,00) -> <null stri=
+ng>
+  BdsDxe: failed to load Boot0001 "UEFI Misc Device" from VenHw(93E34C7E-B5=
+0E-11DF-9223-2443DFD72085,00): Not Found
+
+  =
+
+  and =
+
+
+  =
+
+  [Bds] Expand VenHw(837DCA9E-E874-4D82-B29A-23FE0E23D1E2,003E000A00000000)=
+ -> <null string>
+  BdsDxe: failed to load Boot0002 "UEFI Misc Device 2" from VenHw(837DCA9E-=
+E874-4D82-B29A-23FE0E23D1E2,003E000A00000000): Not Found
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1925417/+subscriptions
 
