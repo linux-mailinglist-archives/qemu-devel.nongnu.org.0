@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D96373CFE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 16:05:20 +0200 (CEST)
-Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D22A373D02
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 16:05:51 +0200 (CEST)
+Received: from localhost ([::1]:47952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leI9P-00074T-Om
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 10:05:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37766)
+	id 1leI9u-0007p2-65
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 10:05:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leI3L-00031X-RA; Wed, 05 May 2021 09:59:03 -0400
-Received: from mail-eopbgr60134.outbound.protection.outlook.com
- ([40.107.6.134]:4891 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ id 1leI3K-00030D-JS; Wed, 05 May 2021 09:59:02 -0400
+Received: from mail-db8eur05on2103.outbound.protection.outlook.com
+ ([40.107.20.103]:55905 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leI3I-0005lY-RP; Wed, 05 May 2021 09:59:03 -0400
+ id 1leI3H-0005oK-JP; Wed, 05 May 2021 09:59:02 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iZwoFug3O/CzLDv3lhQ052qx5Anx8VDi/w9cVsIUrQ3Cia8z3rW6UPBIhtBwZh84RTGsywAR73MY/crqnkUidiomziW6sx9VDwaK3wtCaVC3/f9TbHoA3wjAGCsKmqWYyGb7FUyFTSmTHGnidAjyYfjHtrJqaHS3fxa6rgwJobc2BVGQrDfMDPLMQ5LkQCdGo++o+b3sTyj+OYxPqP4LOp6DLZhWfPGvIhyG5znq9qycJa80ihsQU/vPx7vv2bz9n9cjxHYVLIlbibsUTTF2OJYTmXGaAUn1QipEpqk+vHJxyySBW4lZGbmVBR2MAdXeGFFZrmPHBBBW5iQXdZEK6g==
+ b=evk+757OElaFf0xQCVHbbFP8WKMKyR77lObhLjpIB06n/C0l3Lo+zu8SA2VhScVx+eskqmbxyehDHxCHDdcp565qEWbx/4ImOBq5WBzrkj+YBTJx4K+GUegiSDbBz7Uzk15UCU03HboJRS+eXvBuwc8J6YT65iau3rIopPQ+jbL4hkqbLXw+zhvBAEqjb75JGz+nG1434KldkECW+lHPMi2+KSqcA86ncr1vPSJkMxRYcwktfzd7zhQNTDdooNiiCGqdSVOAsILZRFQRCZD6wRkqvv2LeTYaR3Cw8cjd1pN7OCg1bKYwwpnsfWQBIDpBkyIqJRxDKoiAW7/5om37hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NFQCltJH7MkIdedMj/L2uumEpXtZMo1gMDgSMrWhfGY=;
- b=PYKSe6wTr7yyx5U4K86+6e3d0CTH7iSHD1xGZAc5d0OW8e9cRguWGb8Nb3vJOhtO1O2Z7zaDQoCu5BGLq6XisXOr/rHhBuWe9uJkm5H98F5f0MFaPgkRg6IMUnRZgyf5yGbbFlD4EvZsmcchLnviZLOSQWSXdo7pMr416h+KOgPo504gZYLLhgwa3tmPJ9orhCh3IE+p45LzVzqFhiTzA3fhw3MkQ8LBH85ljg7+IkeHEvqf0ploocU0XwLbKCuQfKJEgy76vQLM5ZK9KuTkcaJM2rcCA2csV+Cm3z6dR/JeZik9SorDY89xOPwhG2CIsPs/ruE0CUMRY8yHvD9HNg==
+ bh=GeSmp9IdnS99SxoqHutwshzeQfNsboNYpjAzxOkGkGA=;
+ b=REcllEgqxnez15MrLIIxCXiTQNQ/HMupboilY6OWOFSsWr12gZPdx8eXZvLe7vFXcTsJmtM9wKoW68quRns5qbXAm0vG5X207DHSh1meg4SS9y5STMzlzAPVIzDyeYhYA28Cka1oDUXZBzyM3BsfVmEtLO54VSaKek72tJr5ZAcqdubOOgI2OV87dt+sA4c1LUUDM26Dqv3R2H6GNlWdC8bshqc4F5MwdaQzEdVxqhs6EuYehogCe7EQQMniOoPJpTwnSKr74fptfOnBGnVfftjjW5eLhSpZZzJIh+p930MwIzj1EUdf5HWvD1+D8Z6pveShGjfqSCEUgGcCo/X7pg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NFQCltJH7MkIdedMj/L2uumEpXtZMo1gMDgSMrWhfGY=;
- b=ZgDL2gF6Z0vHlqrR8tBAbZ1k3Ea7V1GSImL5d7JK3yb4kn3GRNn0cfR4lSKEoIAkRXzHzXz5AvbXZIfh0+wEcg++tUsUcQNSlKns6vocKLc11idWWrwxqga8WIDV/cU5bgP+r07XpUZjKmbwQyjLyzbHrQqdWQJFtLwUkUQXzMw=
+ bh=GeSmp9IdnS99SxoqHutwshzeQfNsboNYpjAzxOkGkGA=;
+ b=W9Z90SkbxsXieduPGnQJ3ySC0wmh+ceP1j1qpgmdVc11JgA0evKaDBprWyGok9i4xjR7B5PT4PgCJeJIEAbCBB+AUMEC1W5wRVj+f5jblK19MJSie7Ywkmr5qzDDSqGoAOVO+GR7/FKDVM0sdEKxgjr/80VLi5S5zFGDhoXTkmY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4071.eurprd08.prod.outlook.com (2603:10a6:20b:a7::19)
+ by AM5PR0801MB1780.eurprd08.prod.outlook.com (2603:10a6:203:39::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.35; Wed, 5 May
- 2021 13:58:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25; Wed, 5 May
+ 2021 13:58:56 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.026; Wed, 5 May 2021
- 13:58:55 +0000
+ 13:58:56 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, libvir-list@redhat.com,
@@ -52,9 +52,9 @@ Cc: qemu-devel@nongnu.org, armbru@redhat.com, libvir-list@redhat.com,
  nshirokovskiy@virtuozzo.com, pkrempa@redhat.com, den@openvz.org,
  yur@virtuozzo.com, dim@virtuozzo.com, berrange@redhat.com,
  kchamart@redhat.com
-Subject: [PATCH v2 2/3] docs/interop/bitmaps: use blockdev-backup
-Date: Wed,  5 May 2021 16:58:02 +0300
-Message-Id: <20210505135803.67896-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 3/3] qapi: deprecate drive-backup
+Date: Wed,  5 May 2021 16:58:03 +0300
+Message-Id: <20210505135803.67896-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210505135803.67896-1-vsementsov@virtuozzo.com>
 References: <20210505135803.67896-1-vsementsov@virtuozzo.com>
@@ -69,63 +69,64 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.236) by
  ZR0P278CA0150.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:41::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.24 via Frontend Transport; Wed, 5 May 2021 13:58:53 +0000
+ 15.20.4108.24 via Frontend Transport; Wed, 5 May 2021 13:58:55 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 368c093a-028d-44de-1f6d-08d90fcdebb8
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4071:
+X-MS-Office365-Filtering-Correlation-Id: 40076bc1-f182-48c6-75ba-08d90fcdeca8
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1780:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB40716D93F8CF29513E07FE3EC1599@AM6PR08MB4071.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB1780185C4C0B519E5F2945EDC1599@AM5PR0801MB1780.eurprd08.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RjCeNNrWtQNg+yHjb1NcMSDD8qJFIhGsY5QFgHs3f8BOgI8WvleVgfuu90zZPNxHg8IQHkFwV9xxOIY6L1RJrQLLPMuCJqeo8n8LBpWWX/wb3XtA04FRV8fm9ahZG32URiWYOHrf0snXBc6rQ8uJgmjF2PM9FnbWoL7HVuynEkOV5fkcDRR9VNwOhRbT4wGwJ1dqNfFEn3UzDWj3qW035h82IYnRgxcLfN1sXx5Eke0UjP9XGTt85684LDyExVnLVdc0GfI3htm8TCFTOE9cUBJD3YLNPq24y4qtFKeVVIEbiuoPNukEnnEtV/+0zWOsv7wQ5z3ODDdR1JPdkxnbB2cTX0FjShRzb3MZ1VMgm1nWJK7FyfAmKtt1wrONBNpmiqigK6JfnxNwBAadyRy8XbjriGG/j8Ao0Q0fCmr0IJkfwDZNLQPfsDSeMUwmgAYh+V7Fn0TebnvjCJ9ddVg6BUHhlhJQ91+gd7jmYSMgzhcXyQ3Q/Q2gfLZSXdLChpqLHp6kTVH4J1AB2CrLVqM/gC8mZXPSZij11cGRYrsEx+wrdcvYOAvtTS8iJ1W619Dsln2igWj/h5j7Z8CeRFPkw4qtcb/R6RiWunnTrhobJyxXWBOVGM8bqF3e9Ml5S8KZBAAhqi0bHAEY+r4HFUHCDAiplFPBS30ItEp8baDj1dtLffXHLZsBWHvd3hHV9iTF
+X-Microsoft-Antispam-Message-Info: pdkJrDiCBPMPL4fpW3Pl8aXlPJnJPnjaoK4w9wFTzDU4Hny/Dv6nBaEfOp1O4502Xctm82D6/Ad+0LyPdGM3Y32K5y8VlilrsfWTXNxliMZo8Df4/cmxKTJq1A44qQq7eOtSYwhPws9HHLY6aRmxS3eMZw133yxp50xpX+XgTVGC6aeo77kNQR4xMr8pHzkfuzjY5+lPdw6dB7WDDqc/YYx/IQ4AjuVoa20V4ho35J8qgFX6axG7chhydEbp4b1XROpWzRlDSMthHDziq+HeuwedOqy/HgGzpmSenVJ5CtoesiUQxr8UXbdnuEqj/gdzzq/bgZTWvhB+YByLO/G+h8nSuCyPSnWHRsYkFvJPmTo2yGvJk4nTgRxyCbWSklHpNnLNFMyLNBdSCz/jVtccCcxct/COELWwLpwnyYaqF2yAHfORlC5xxChs5tm3l9eDyyBkMhrnszpjpyWw5YD+4usfXKVxL2v/NFaqt2FQhzpEFdPc/15GG1ZOj73pylhCAGXjjrM8CJDpyBy6frp0SGEIplw+XoSFGemGnKDkXJmez3bffq5jLmoDDNMSYcQhKgDI+0knatfMigND1zJ1QOEAEX0sxO153Bvq7BS4QzrnuOim1bWmsKItKnDGJkhzbYXi1556f+LFugHURZfojiwJ/PiuodL/niT+LltzeG4OMGy4+zwk3GOQCvQOUm0L
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(136003)(366004)(346002)(396003)(376002)(66476007)(6916009)(2906002)(36756003)(26005)(316002)(6506007)(83380400001)(6512007)(956004)(186003)(16526019)(6666004)(478600001)(52116002)(86362001)(7416002)(38100700002)(30864003)(8936002)(6486002)(1076003)(4326008)(8676002)(66556008)(5660300002)(38350700002)(66946007)(2616005)(69590400013);
+ SFS:(4636009)(396003)(136003)(346002)(39830400003)(366004)(376002)(186003)(38100700002)(2906002)(26005)(1076003)(16526019)(6666004)(7416002)(8676002)(956004)(86362001)(38350700002)(36756003)(316002)(8936002)(2616005)(4326008)(5660300002)(83380400001)(6916009)(6486002)(478600001)(66946007)(6506007)(6512007)(66556008)(66476007)(52116002)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?QEotw60fT90NPvmCUOnDwfsbNTlCOId1nZNHhLObMU6EgMpIOl+0tUfHEYQt?=
- =?us-ascii?Q?vywOo1V4nTxVWnFsJAl5muF6WbtdMneSnKW0nboJOH6B85A0UBsme4hCTxpo?=
- =?us-ascii?Q?5DwaQv3hRGvuhH9TZHBPaC4V6pOJ/4cZ91+Kjia5vFSi3RBUUlxcQC0ih3vC?=
- =?us-ascii?Q?0zY1TmobU5p1txxpdJSjMI91gJKraMtxoGW8zlWs1RPEwg5QnDzBhcg3s0l1?=
- =?us-ascii?Q?5S7XJ16W7eQsUXzQ+n/gZ1I3cFG/W1JDfhFKUL5ahWqAYk6dxDn2urPFTE+M?=
- =?us-ascii?Q?aGKfXiurPi9GnM0bsR/KPzCPDsmcakU8Yyhs460UtlsO+atkVYt87/+4GJLe?=
- =?us-ascii?Q?YDtsxzzZFhL77AM+uOszo/idxGhk1UcHQrOEOutaAatKPn2CNQaXO5oVckO8?=
- =?us-ascii?Q?cU1roO0XVe+77Y/iSY3NFM9agIJW7NZwgb41jXPm0TvdVgHLHFWxddVhLdJB?=
- =?us-ascii?Q?/JAnIp8RZTMwTypnoC/Qob1BZHI0ykzI5hZ1VNdaIfYqcjExA1FXrXFruoPO?=
- =?us-ascii?Q?4o0KLPbbncC9jkunrnCKsZ5KjYGfgaUWYnFG6wB1FgkExfjkjNDvn+SVOhgd?=
- =?us-ascii?Q?D3Rq8pNfpXEwoiTaDjOvPHE+XGDAfoXIPgAxxhrLWV7CECArmLCInh4TTYlS?=
- =?us-ascii?Q?S4GO4RCEBWS5DmISAmbo0pjflFpKXdEYBSiqoGtWT+KtyBeGcf8q/qkmxRXW?=
- =?us-ascii?Q?7/zj46MERGvYBKxSUlOEYDNJOdpIgpyg4O4CaVRa4gsxur+06kNBd9Ly8/5e?=
- =?us-ascii?Q?749knBwO1M5rC8keHFbC7YQHJ3j8is2WvL1Lnfb2vamv7zGsvX0u/5bqvoAI?=
- =?us-ascii?Q?/qCk9uZUJDzhgOIgP80SkMvLy3YVYhdEM7Hk0VlziJNZtF/EoP4uOBdwOcy5?=
- =?us-ascii?Q?jaCHKEDohvEMpMBUZuOPV89HC+5ugjpE28sIFnQ0sWWd87uoz9H+sPWEQWnR?=
- =?us-ascii?Q?Dy1fNY30aN/JZmEMbNJUwnosYN3Vssl/qWQL/Ig89E8KEdc7YjSh2SpFNosW?=
- =?us-ascii?Q?UQ61oEqnx1cVnJQfoJEiX3SMVw/6gVOiW3hRi2mKxp5IdS3nQW++i83oJzIh?=
- =?us-ascii?Q?80m2mx/aahs/5WRnOiJZEeXtlF88qxN69NloYei7r180+QzdgJw1O8RjkrKM?=
- =?us-ascii?Q?JLxXdMGOmOPIUYtdqn7o8ak6UufFaH9r3gJlwQ8O6JpP70e/TGBiYtWIM3Pd?=
- =?us-ascii?Q?W3wfwIKzgYd5cno/M9IeldGiz+eVWuVaj3fVL95TPZ9ZUXtGy0RI0lH8qarG?=
- =?us-ascii?Q?NPuWSL+jLTxVoyvnLoyoG17Opu3WI+CvllFSUJuugQlFvRATOOQV+DAOOOTo?=
- =?us-ascii?Q?P7L5tk9BVtcfR3ZcIUz75rSd?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?XGTLVi0k9J7v/7HxFL4jwOQKAyWmOlh815ts4IW2jNXX2XbswwOEXKB0xKrz?=
+ =?us-ascii?Q?J/UOLAnxH8TPaL/y+bOf2y5+myHVTUfguDfB5tP/LlrBc/Zh/bG0QMvQ+6FB?=
+ =?us-ascii?Q?AW66Bgp+7Z6qcnlWDCohwwTQMOF+ixyARFxOJnx/BzutQiuZwl03GXOA5Fdk?=
+ =?us-ascii?Q?XZpSj81hlBoNK19mCF0Agk66nILGptjLFzVpogD6rGOjSD6oDdCF3CRXvqME?=
+ =?us-ascii?Q?6NHbwoSL2iSHKxQX9Rbnx4WHIRRcNuouan780ufDWxOzhsDzXwdCn7tUKwSA?=
+ =?us-ascii?Q?CtBdFchNCb9R4BidrpKLB+QAYk59eN/X8Z32Davqa2jQyPnR2d4p/c8aRJsu?=
+ =?us-ascii?Q?BsZuh+8jU7ZlvTdxeWVeAQ1MeYFAfab3hfnVhvTxfdFzijbJ+joQBdxJ1BNj?=
+ =?us-ascii?Q?S0//pAVXbR52RxD2ZviyENO05Cnxjs9HPhYOHvkjZZkWPTg7UHm7m7qhhj88?=
+ =?us-ascii?Q?DTWWUSRtY9my73OfX1hVMWxZ9cJ1xqCp3aYv9RaEpzmV/qdE7d1GPi6koGXw?=
+ =?us-ascii?Q?b5Ch8Ika1o/u8Xu6VAPEu/WADa72qxqiJKE0Yh74dvJqZMuzVsap/83MB3bg?=
+ =?us-ascii?Q?iuvY22r8SohPBT+ND5D3tkorGnPx/nVpizwBYbrrqh33WzI8q0hF8Fc+8tj/?=
+ =?us-ascii?Q?k2nl8uYq0M/qPNSdraBHA2uVJxf7z9KZNe5mIYujLUmAy164/++osh2sGQEg?=
+ =?us-ascii?Q?+6kP+zCwGViaLXK1qXW8BBfzxv23r5C7n214tCQ8XfsxZRKUIv7CiE+sOiDl?=
+ =?us-ascii?Q?DDqckbBxz8m+mA/fztaZRKhrFmrr6BXF+7c1wqXkrI614XuoGwl1e3Wi8TXk?=
+ =?us-ascii?Q?VkdS2t7WUzYL8tlaMDIOJAbqfwdJdpk+zePLBvjzMsT8FkKkYldU6ntdIkiQ?=
+ =?us-ascii?Q?SIqItRlmhxyfvldmx5AEctGZTU829u7LtQ2Y3aJYtR/ZwRmSz4/Rm6XanNzn?=
+ =?us-ascii?Q?/PZ4vPWwj9kwhpz+MDBEDW1a1oaEio1w32pRw0CYA31znyl/U5l4XYcGde/k?=
+ =?us-ascii?Q?Pnk4ypr0UVbRARkjcK0jThUtO9tq9CNPfEAc4GfQE6spc2u0m5bkKqqi3E38?=
+ =?us-ascii?Q?lH7SJFwlIErewRBFfYRIz9QsEh+p0flogzjt/e0v2pDPQgSJh8xDkpc4H5Sz?=
+ =?us-ascii?Q?ZG4yecHmDuDfbVb5BBMhvQ0Ntr/kakRXiaus7xQIAKb0tKINLSQiI86Su5C7?=
+ =?us-ascii?Q?4Ney150bW4RmcsPYcg14HegWbPV3ah9/xL0OKy9+UpR0lE3J15S45YSIPq1K?=
+ =?us-ascii?Q?qox3zeQi2tzQGi1SEsvxUNB1vrRLicZjdOhLW5AqMQbFiEE8P/pziJwGsvZs?=
+ =?us-ascii?Q?fTzCHu0Vdv+gON+pfrls/GeA?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 368c093a-028d-44de-1f6d-08d90fcdebb8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40076bc1-f182-48c6-75ba-08d90fcdeca8
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 13:58:54.8902 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 13:58:56.4145 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WjEfnB/Rqt24gTBuNQXa/yAbzfDH5xLfW/Wd0LTB4jvcAd/sW0ogiexfH5jUiKDUoaEJ2hpXxZH/PrwJzlCQkYxkMQAugMyjZ9/TFsE9vCY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4071
-Received-SPF: pass client-ip=40.107.6.134;
+X-MS-Exchange-CrossTenant-UserPrincipalName: xcmPBAZaTv1MvHQLvIa3QKC+l09ik/WgNjaczBk3cXV/BGItTYXqPox2jQcYBUa4mfuYjNWnKJQu1GieXTj5V6mYz8V2gVna2sr1AL3GLsU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1780
+Received-SPF: pass client-ip=40.107.20.103;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -141,512 +142,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to deprecate drive-backup, so use modern interface here.
-In examples where target image creation is shown, show blockdev-add as
-well. If target creation omitted, omit blockdev-add as well.
+Modern way is using blockdev-add + blockdev-backup, which provides a
+lot more control on how target is opened.
+
+As example of drive-backup problems consider the following:
+
+User of drive-backup expects that target will be opened in the same
+cache and aio mode as source. Corresponding logic is in
+drive_backup_prepare(), where we take bs->open_flags of source.
+
+It works rather bad if source was added by blockdev-add. Assume source
+is qcow2 image. On blockdev-add we should specify aio and cache options
+for file child of qcow2 node. What happens next:
+
+drive_backup_prepare() looks at bs->open_flags of qcow2 source node.
+But there no BDRV_O_NOCAHE neither BDRV_O_NATIVE_AIO: BDRV_O_NOCAHE is
+places in bs->file->bs->open_flags, and BDRV_O_NATIVE_AIO is nowhere,
+as file-posix parse options and simply set s->use_linux_aio.
+
+The documentation is updated in a minimal way, so that drive-backup is
+noted only as a deprecated command, and blockdev-backup used in most of
+places.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- docs/interop/bitmaps.rst | 285 +++++++++++++++++++++++++++++----------
- 1 file changed, 215 insertions(+), 70 deletions(-)
 
-diff --git a/docs/interop/bitmaps.rst b/docs/interop/bitmaps.rst
-index 059ad67929..ef95090c81 100644
---- a/docs/interop/bitmaps.rst
-+++ b/docs/interop/bitmaps.rst
-@@ -539,12 +539,11 @@ other partial disk images on top of a base image to reconstruct a full backup
- from the point in time at which the incremental backup was issued.
+TODO: We also need to deprecate drive-backup transaction action..
+But union members in QAPI doesn't support 'deprecated' feature. I tried
+to dig a bit, but failed :/ Markus, could you please help with it? At
+least by advice?
+
+ docs/interop/live-block-operations.rst | 47 +++++++++++++++++---------
+ docs/system/deprecated.rst             | 11 ++++++
+ qapi/block-core.json                   |  5 ++-
+ 3 files changed, 46 insertions(+), 17 deletions(-)
+
+diff --git a/docs/interop/live-block-operations.rst b/docs/interop/live-block-operations.rst
+index 1073b930dc..f71f79ae2a 100644
+--- a/docs/interop/live-block-operations.rst
++++ b/docs/interop/live-block-operations.rst
+@@ -116,8 +116,8 @@ QEMU block layer supports.
+ (3) ``drive-mirror`` (and ``blockdev-mirror``): Synchronize a running
+     disk to another image.
  
- The "Push Model" here references the fact that QEMU is "pushing" the modified
--blocks out to a destination. We will be using the `drive-backup
--<qemu-qmp-ref.html#index-drive_002dbackup>`_ and `blockdev-backup
--<qemu-qmp-ref.html#index-blockdev_002dbackup>`_ QMP commands to create both
-+blocks out to a destination. We will be using the  `blockdev-backup
-+<qemu-qmp-ref.html#index-blockdev_002dbackup>`_ QMP command to create both
- full and incremental backups.
+-(4) ``drive-backup`` (and ``blockdev-backup``): Point-in-time (live) copy
+-    of a block device to a destination.
++(4) ``blockdev-backup`` (and deprecated ``drive-backup``): Point-in-time
++    (live) copy of a block device to a destination.
  
--Both of these commands are jobs, which have their own QMP API for querying and
-+The command is a job, which has its own QMP API for querying and
- management documented in `Background jobs
- <qemu-qmp-ref.html#Background-jobs>`_.
  
-@@ -557,6 +556,10 @@ create a new incremental backup chain attached to a drive.
- This example creates a new, full backup of "drive0" and accompanies it with a
- new, empty bitmap that records writes from this point in time forward.
+ .. _`Interacting with a QEMU instance`:
+@@ -553,13 +553,14 @@ Currently, there are four different kinds:
  
-+The target may be created with help of `blockdev-add
-+<qemu-qmp-ref.html#index-blockdev_002dadd>`_ or `blockdev-create
-+<qemu-qmp-ref.html#index-blockdev_002dcreate>`_ command.
-+
- .. note:: Any new writes that happen after this command is issued, even while
-           the backup job runs, will be written locally and not to the backup
-           destination. These writes will be recorded in the bitmap
-@@ -576,12 +579,11 @@ new, empty bitmap that records writes from this point in time forward.
-              }
-            },
-            {
--             "type": "drive-backup",
-+             "type": "blockdev-backup",
-              "data": {
-                "device": "drive0",
--               "target": "/path/to/drive0.full.qcow2",
--               "sync": "full",
--               "format": "qcow2"
-+               "target": "target0",
-+               "sync": "full"
-              }
-            }
-          ]
-@@ -664,12 +666,11 @@ use a transaction to reset the bitmap while making a new full backup:
-            }
-          },
-          {
--           "type": "drive-backup",
-+           "type": "blockdev-backup",
-            "data": {
-              "device": "drive0",
--             "target": "/path/to/drive0.new_full.qcow2",
--             "sync": "full",
--             "format": "qcow2"
-+             "target": "target0",
-+             "sync": "full"
-            }
-          }
-        ]
-@@ -728,19 +729,35 @@ Example: First Incremental Backup
-        $ qemu-img create -f qcow2 drive0.inc0.qcow2 \
-          -b drive0.full.qcow2 -F qcow2
+ (3) ``none`` -- Synchronize only the new writes from this point on.
  
-+#. Add target block node:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc0.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Issue an incremental backup command:
+-    .. note:: In the case of ``drive-backup`` (or ``blockdev-backup``),
+-              the behavior of ``none`` synchronization mode is different.
+-              Normally, a ``backup`` job consists of two parts: Anything
+-              that is overwritten by the guest is first copied out to
+-              the backup, and in the background the whole image is
+-              copied from start to end. With ``sync=none``, it's only
+-              the first part.
++    .. note:: In the case of ``blockdev-backup`` (or deprecated
++              ``drive-backup``), the behavior of ``none``
++              synchronization mode is different.  Normally, a
++              ``backup`` job consists of two parts: Anything that is
++              overwritten by the guest is first copied out to the
++              backup, and in the background the whole image is copied
++              from start to end. With ``sync=none``, it's only the
++              first part.
  
-    .. code-block:: QMP
+ (4) ``incremental`` -- Synchronize content that is described by the
+     dirty bitmap
+@@ -924,19 +925,22 @@ Shutdown the guest, by issuing the ``quit`` QMP command::
+     }
  
-     -> {
--         "execute": "drive-backup",
-+         "execute": "blockdev-backup",
-          "arguments": {
-            "device": "drive0",
-            "bitmap": "bitmap0",
--           "target": "drive0.inc0.qcow2",
--           "format": "qcow2",
--           "sync": "incremental",
--           "mode": "existing"
-+           "target": "target0",
-+           "sync": "incremental"
-          }
-        }
  
-@@ -785,20 +802,36 @@ Example: Second Incremental Backup
-        $ qemu-img create -f qcow2 drive0.inc1.qcow2 \
-          -b drive0.inc0.qcow2 -F qcow2
+-Live disk backup --- ``drive-backup`` and ``blockdev-backup``
+--------------------------------------------------------------
++Live disk backup --- ``blockdev-backup`` and deprecated``drive-backup``
++-----------------------------------------------------------------------
  
-+#. Add target block node:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc1.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Issue a new incremental backup command. The only difference here is that we
-    have changed the target image below.
+-The ``drive-backup`` (and its newer equivalent ``blockdev-backup``) allows
++The ``blockdev-backup`` (and deprecated ``drive-backup``) allows
+ you to create a point-in-time snapshot.
  
-    .. code-block:: QMP
+-In this case, the point-in-time is when you *start* the ``drive-backup``
+-(or its newer equivalent ``blockdev-backup``) command.
++In this case, the point-in-time is when you *start* the
++``blockdev-backup`` (or deprecated ``drive-backup``) command.
  
-     -> {
--         "execute": "drive-backup",
-+         "execute": "blockdev-backup",
-          "arguments": {
-            "device": "drive0",
-            "bitmap": "bitmap0",
--           "target": "drive0.inc1.qcow2",
--           "format": "qcow2",
--           "sync": "incremental",
--           "mode": "existing"
-+           "target": "target0",
-+           "sync": "incremental"
-          }
-        }
  
-@@ -866,20 +899,36 @@ image:
-              file for you, but you lose control over format options like
-              compatibility and preallocation presets.
+ QMP invocation for ``drive-backup``
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
-+#. Add target block node:
++Note that ``drive-backup`` command is deprecated since Qemu 6.1 and
++will be removed in future.
 +
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc2.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Issue a new incremental backup command. Apart from the new destination
-    image, there is no difference from the last two examples.
+ Yet again, starting afresh with our example disk image chain::
  
-    .. code-block:: QMP
+     [A] <-- [B] <-- [C] <-- [D]
+@@ -961,11 +965,22 @@ will be issued, indicating the live block device job operation has
+ completed, and no further action is required.
  
-     -> {
--         "execute": "drive-backup",
-+         "execute": "blockdev-backup",
-          "arguments": {
-            "device": "drive0",
-            "bitmap": "bitmap0",
--           "target": "drive0.inc2.qcow2",
--           "format": "qcow2",
--           "sync": "incremental",
--           "mode": "existing"
-+           "target": "target0",
-+           "sync": "incremental"
-          }
-        }
  
-@@ -930,6 +979,38 @@ point in time.
-     $ qemu-img create -f qcow2 drive0.full.qcow2 64G
-     $ qemu-img create -f qcow2 drive1.full.qcow2 64G
++Moving from deprecated ``drive-backup`` to newer ``blockdev-backup``
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++``blockdev-backup`` differs in a way of specifying backup target.
++With ``blockdev-backup`` you can't specify filename as a target.
++Instead you use node-name of existing block node, which you may add
++by ``blockdev-add`` or ``blockdev-create`` commands. Correspondingly,
++``blockdev-backup`` doesn't have ``mode`` and  ``format`` arguments
++which don't apply to existing block node. See following sections for
++details and examples.
++
++
+ Notes on ``blockdev-backup``
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
-+#. Add target block nodes:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.full.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target1",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive1.full.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Create a full (anchor) backup for each drive, with accompanying bitmaps:
+-The ``blockdev-backup`` command is equivalent in functionality to
+-``drive-backup``, except that it operates at node-level in a Block Driver
++The ``blockdev-backup`` operates at node-level in a Block Driver
+ State (BDS) graph.
  
-    .. code-block:: QMP
-@@ -953,21 +1034,19 @@ point in time.
-                }
-              },
-              {
--               "type": "drive-backup",
-+               "type": "blockdev-backup",
-                "data": {
-                  "device": "drive0",
--                 "target": "/path/to/drive0.full.qcow2",
--                 "sync": "full",
--                 "format": "qcow2"
-+                 "target": "target0",
-+                 "sync": "full"
-                }
-              },
-              {
--               "type": "drive-backup",
-+               "type": "blockdev-backup",
-                "data": {
-                  "device": "drive1",
--                 "target": "/path/to/drive1.full.qcow2",
--                 "sync": "full",
--                 "format": "qcow2"
-+                 "target": "target1",
-+                 "sync": "full"
-                }
-              }
-            ]
-@@ -1016,6 +1095,38 @@ point in time.
-      $ qemu-img create -f qcow2 drive1.inc0.qcow2 \
-        -b drive1.full.qcow2 -F qcow2
+ E.g. the sequence of actions to create a point-in-time backup
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 80cae86252..676d72a1ed 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -186,6 +186,17 @@ Use the more generic commands ``block-export-add`` and ``block-export-del``
+ instead.  As part of this deprecation, where ``nbd-server-add`` used a
+ single ``bitmap``, the new ``block-export-add`` uses a list of ``bitmaps``.
  
-+#. Add target block nodes:
++``drive-backup`` (since 6.1)
++''''''''''''''''''''''''''''
 +
-+   .. code-block:: QMP
++Use ``blockdev-backup`` in pair with ``blockdev-add`` instead.
++This change primarily separates the creation/opening process of the backup
++target with explicit, separate steps. ``blockdev-backup`` uses mostly the
++same arguments as ``drive-backup``, except the ``format`` and ``mode``
++options are removed in favor of using explicit ``blockdev-create`` and
++``blockdev-add`` calls. See :doc:`/interop/live-block-operations` for
++details.
 +
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc0.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target1",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive1.inc0.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Issue a multi-drive incremental push backup transaction:
+ System accelerators
+ -------------------
  
-    .. code-block:: QMP
-@@ -1025,25 +1136,21 @@ point in time.
-          "arguments": {
-            "actions": [
-              {
--               "type": "drive-backup",
-+               "type": "blockev-backup",
-                "data": {
-                  "device": "drive0",
-                  "bitmap": "bitmap0",
--                 "format": "qcow2",
--                 "mode": "existing",
-                  "sync": "incremental",
--                 "target": "drive0.inc0.qcow2"
-+                 "target": "target0"
-                }
-              },
-              {
--               "type": "drive-backup",
-+               "type": "blockdev-backup",
-                "data": {
-                  "device": "drive1",
-                  "bitmap": "bitmap0",
--                 "format": "qcow2",
--                 "mode": "existing",
-                  "sync": "incremental",
--                 "target": "drive1.inc0.qcow2"
-+                 "target": "target1"
-                }
-              },
-            ]
-@@ -1119,19 +1226,35 @@ described above. This example demonstrates the single-job failure case:
-        $ qemu-img create -f qcow2 drive0.inc0.qcow2 \
-          -b drive0.full.qcow2 -F qcow2
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 6d227924d0..8e2c6e1622 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1642,6 +1642,9 @@
+ # The operation can be stopped before it has completed using the
+ # block-job-cancel command.
+ #
++# Features:
++# @deprecated: This command is deprecated. Use @blockdev-backup instead.
++#
+ # Returns: - nothing on success
+ #          - If @device is not a valid block device, GenericError
+ #
+@@ -1657,7 +1660,7 @@
+ #
+ ##
+ { 'command': 'drive-backup', 'boxed': true,
+-  'data': 'DriveBackup' }
++  'data': 'DriveBackup', 'features': ['deprecated'] }
  
-+#. Add target block node:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc0.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Attempt to create an incremental backup via QMP:
- 
-    .. code-block:: QMP
- 
-     -> {
--         "execute": "drive-backup",
-+         "execute": "blockdev-backup",
-          "arguments": {
-            "device": "drive0",
-            "bitmap": "bitmap0",
--           "target": "drive0.inc0.qcow2",
--           "format": "qcow2",
--           "sync": "incremental",
--           "mode": "existing"
-+           "target": "target0",
-+           "sync": "incremental"
-          }
-        }
- 
-@@ -1164,6 +1287,19 @@ described above. This example demonstrates the single-job failure case:
-          "event": "BLOCK_JOB_COMPLETED"
-        }
- 
-+#. Remove target node:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-del",
-+         "arguments": {
-+           "node-name": "target0",
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Delete the failed image, and re-create it.
- 
-    .. code:: bash
-@@ -1172,20 +1308,36 @@ described above. This example demonstrates the single-job failure case:
-        $ qemu-img create -f qcow2 drive0.inc0.qcow2 \
-          -b drive0.full.qcow2 -F qcow2
- 
-+#. Add target block node:
-+
-+   .. code-block:: QMP
-+
-+    -> {
-+         "execute": "blockdev-add",
-+         "arguments": {
-+           "node-name": "target0",
-+           "driver": "qcow2",
-+           "file": {
-+             "driver": "file",
-+             "filename": "drive0.inc0.qcow2"
-+           }
-+         }
-+       }
-+
-+    <- { "return": {} }
-+
- #. Retry the command after fixing the underlying problem, such as
-    freeing up space on the backup volume:
- 
-    .. code-block:: QMP
- 
-     -> {
--         "execute": "drive-backup",
-+         "execute": "blockdev-backup",
-          "arguments": {
-            "device": "drive0",
-            "bitmap": "bitmap0",
--           "target": "drive0.inc0.qcow2",
--           "format": "qcow2",
--           "sync": "incremental",
--           "mode": "existing"
-+           "target": "target0",
-+           "sync": "incremental"
-          }
-        }
- 
-@@ -1210,7 +1362,8 @@ described above. This example demonstrates the single-job failure case:
- Example: Partial Transactional Failures
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--QMP commands like `drive-backup <qemu-qmp-ref.html#index-drive_002dbackup>`_
-+QMP commands like `blockdev-backup
-+<qemu-qmp-ref.html#index-blockdev_002dbackup>`_
- conceptually only start a job, and so transactions containing these commands
- may succeed even if the job it created later fails. This might have surprising
- interactions with notions of how a "transaction" ought to behave.
-@@ -1240,25 +1393,21 @@ and one succeeds:
-          "arguments": {
-            "actions": [
-            {
--             "type": "drive-backup",
-+             "type": "blockdev-backup",
-              "data": {
-                "device": "drive0",
-                "bitmap": "bitmap0",
--               "format": "qcow2",
--               "mode": "existing",
-                "sync": "incremental",
--               "target": "drive0.inc0.qcow2"
-+               "target": "target0"
-              }
-            },
-            {
--             "type": "drive-backup",
-+             "type": "blockdev-backup",
-              "data": {
-                "device": "drive1",
-                "bitmap": "bitmap0",
--               "format": "qcow2",
--               "mode": "existing",
-                "sync": "incremental",
--               "target": "drive1.inc0.qcow2"
-+               "target": "target1"
-              }
-            }]
-          }
-@@ -1375,25 +1524,21 @@ applied:
-            },
-            "actions": [
-            {
--             "type": "drive-backup",
-+             "type": "blockdev-backup",
-              "data": {
-                "device": "drive0",
-                "bitmap": "bitmap0",
--               "format": "qcow2",
--               "mode": "existing",
-                "sync": "incremental",
--               "target": "drive0.inc0.qcow2"
-+               "target": "target0"
-              }
-            },
-            {
--             "type": "drive-backup",
-+             "type": "blockdev-backup",
-              "data": {
-                "device": "drive1",
-                "bitmap": "bitmap0",
--               "format": "qcow2",
--               "mode": "existing",
-                "sync": "incremental",
--               "target": "drive1.inc0.qcow2"
-+               "target": "target1"
-              }
-            }]
-          }
+ ##
+ # @blockdev-backup:
 -- 
 2.29.2
 
