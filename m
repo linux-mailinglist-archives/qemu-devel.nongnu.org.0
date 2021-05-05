@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BFD373CFC
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 16:04:40 +0200 (CEST)
-Received: from localhost ([::1]:43708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F46373D54
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 16:12:12 +0200 (CEST)
+Received: from localhost ([::1]:60432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leI8l-00063p-C9
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 10:04:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38300)
+	id 1leIG3-0004iX-7b
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 10:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <me@xcancerberox.com.ar>)
- id 1leI59-0004dL-6c
- for qemu-devel@nongnu.org; Wed, 05 May 2021 10:00:55 -0400
-Received: from cloud.estebanecheverria.gob.ar ([67.227.157.153]:43728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <me@xcancerberox.com.ar>)
- id 1leI56-0006SE-4e
- for qemu-devel@nongnu.org; Wed, 05 May 2021 10:00:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=xcancerberox.com.ar; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ysCNK3+ZLH3k1cR3l3gFBXynWsjChYnnstbz/Gwv2Q0=; b=TQyR/P5KDb1AkjMDd6dKM8bSzq
- gL8EG4IkLvfHBSpsw8Lu+IrZyGwc0a2OOUccrPnZBmWCLO3l8D+RuvNROreuNlUnXLoZbLjehLcQT
- FuwDogV+fPsUxKyizQ7rSouF7//vqSVfPfvB1+DLz8dJn22TMsCW0TZsnLT5/Ii70JEyfdtg1MmBf
- 7ipfTF1FOCBbJg3jfOciIACMfCfbnA8/V6alH9SIszePhYzgE1xO+CoeKTRxvZlfHPdIYprygwyTn
- 0S4KQZXniOJY+3INoka5PEBhDR9a+EtN5zR3ne8WPASNlmloq45er2XAR6/vKQNw1T0knhV8ySTe0
- 38vUnvaA==;
-Received: from 120.net-94.228.4.isbl.embou.net ([94.228.4.120]:44320
- helo=[192.168.2.151])
- by cloud.estebanecheverria.gob.ar with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <me@xcancerberox.com.ar>)
- id 1leI4O-0008Bz-RC; Wed, 05 May 2021 11:00:07 -0300
-Subject: Re: [PATCH] hw/avr/atmega.c: use the avr51 cpu for atmega1280
-To: Fred Konrad <konrad@adacore.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, qemu-devel@nongnu.org
-References: <1619637319-22299-1-git-send-email-frederic.konrad@adacore.com>
- <7970a6ec-f5ac-bcc9-9184-d8450b64b116@amsat.org>
- <27cc1bc5-ee71-abf6-fd8f-58ec44e1767f@xcancerberox.com.ar>
- <d8b05f93-ef5f-1697-439b-8961cb446cdf@adacore.com>
-From: Joaquin de Andres <me@xcancerberox.com.ar>
-Message-ID: <b61dabc3-e5e6-5bab-503c-53dd32a11aff@xcancerberox.com.ar>
-Date: Wed, 5 May 2021 16:00:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1leIDG-0002hm-KP
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 10:09:18 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54935)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1leIDE-0003EW-Qr
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 10:09:18 -0400
+Received: by mail-wm1-x333.google.com with SMTP id o127so1517667wmo.4
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 07:09:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HLJFif9hX/1RjVhENBsjtOSWfSSNJX7I9pO1HdpNHHE=;
+ b=UK19LphQ/hY+873DVWZ5Zno5N9guPCOcGjCn1e9dvKdh70wGooWgNxgDLXy4MGi9Bu
+ BJm9iA9mmq5MNOSqCwhnYHIt34AO1ZGHNufsrzbYJMskt/Z4UbRdhowi6Jf4jwWypFYD
+ dKFeMIyKiqBDJ0spjQEA9tHDHbBWAR08s7hFTRnVWwzFFxqRs2Q3EIldtA0fu193J5mF
+ 7xEx3CjqOmzO8g/wIpZB5Rf7IcBTxfJjSLCNOQutTdcmhTb00GPD4ON5+LUhZFcphlpY
+ X+pJ8qgde8MfNL5Fb0564a/+seuejq1lEHXZxfCYXkzes2PWycaE8unSjm9eP8jRNWX2
+ WYOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HLJFif9hX/1RjVhENBsjtOSWfSSNJX7I9pO1HdpNHHE=;
+ b=T6cA67xk9jHv5c2Pj7dNhQYVd4/wFs3a4Ry2Ey/pMsjmuRjb4ICLvpPdpl0+jH+/Ae
+ dB0k2IQ0dwQJewRwSd4j2mhCPtFEKmQPodGgwPbAIE2AI7wky/HLdG211XrysaihAgt3
+ 5IkyzsAPjid9i+bKHdh/4D64uLVcmZ0aNZoQ38aNxEb/USG05wrAGuzsDJmU1PJUMOQb
+ SXTwuzR8O8KJmTD5VZBDCHHtI+m3vbPgvP147wBy5BgEBUwahwUYdfH0URWLiEjSAMi0
+ LWsuFsQFMtrsRhczFG/c6Ez92/u/8isTD4oxxR1GiCZJMFYYBx62Klp1tD9Mpy+kWJ0N
+ rCqg==
+X-Gm-Message-State: AOAM530PSVT7Wir1AsabKSmUBw+up2wkhJ4HonzhMn7DDAJWVTtg97TF
+ O2G3v4N4fn6kP8k7GIqziO8wM5cEbNdqb8u5MmUNOg==
+X-Google-Smtp-Source: ABdhPJyUor975gI6stLLPrNyVPf/Vzgj601CpOa+vrw2ZwOA1n5Umo938gummtlHkIdow0GAQs5/+WIwLCUDCjRBpTI=
+X-Received: by 2002:a05:600c:48a8:: with SMTP id
+ j40mr33804713wmp.114.1620223753671; 
+ Wed, 05 May 2021 07:09:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d8b05f93-ef5f-1697-439b-8961cb446cdf@adacore.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cloud.estebanecheverria.gob.ar
-X-AntiAbuse: Original Domain - nongnu.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - xcancerberox.com.ar
-X-Get-Message-Sender-Via: cloud.estebanecheverria.gob.ar: authenticated_id:
- me@xcancerberox.com.ar
-X-Authenticated-Sender: cloud.estebanecheverria.gob.ar: me@xcancerberox.com.ar
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Received-SPF: pass client-ip=67.227.157.153;
- envelope-from=me@xcancerberox.com.ar; helo=cloud.estebanecheverria.gob.ar
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210505135516.21097-1-peter.maydell@linaro.org>
+In-Reply-To: <20210505135516.21097-1-peter.maydell@linaro.org>
+From: Havard Skinnemoen <hskinnemoen@google.com>
+Date: Wed, 5 May 2021 07:09:01 -0700
+Message-ID: <CAFQmdRZyt6o+A8cSZ+MVsKYC0F-Prp2H09Obxk=U9uY6C1sbtw@mail.gmail.com>
+Subject: Re: [PATCH] tests/qtest/npcm7xx_pwm-test.c: Avoid g_assert_true() for
+ non-test assertions
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>, 
+ Tyrone Ting <kfting@nuvoton.com>, Thomas Huth <thuth@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=hskinnemoen@google.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,71 +82,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Rolnik <mrolnik@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/21 3:33 PM, Fred Konrad wrote:
+On Wed, May 5, 2021 at 6:55 AM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
+> In the glib API, the distinction between g_assert() and
+> g_assert_true() is that the former is for "bug, terminate the
+> application" and the latter is for "test check, on failure either
+> terminate or just mark the testcase as failed".  For QEMU, g_assert()
+> is always fatal, so code can assume that if the assertion fails
+> execution does not proceed, but this is not true of g_assert_true().
 >
-> Le 4/30/21 à 12:27 PM, Joaquin de Andres a écrit :
->> On 4/28/21 9:17 PM, Philippe Mathieu-Daudé wrote:
->>> Cc'ing Joaquín.
->>>
->>> On 4/28/21 9:15 PM, Frederic Konrad wrote:
->>>> According to the as documentation:
->>>>   (https://sourceware.org/binutils/docs-2.36/as/AVR-Options.html)
->>>>
->>>> "Instruction set avr51 is for the enhanced AVR core with exactly 128K
->>>>   program memory space (MCU types: atmega128, atmega128a, atmega1280,
->>>>   atmega1281, atmega1284, atmega1284p, atmega128rfa1, atmega128rfr2,
->>>>   atmega1284rfr2, at90can128, at90usb1286, at90usb1287, m3000)."
->>>>
->>>> But when compiling a program for atmega1280 or avr51 and trying to
->>>> execute
->>>> it:
->>>>
->>>> $ cat > test.S << EOF
->>>>> loop:
->>>>>      rjmp loop
->>>>> EOF
->>>> $ avr-gcc -nostdlib -nostartfiles -mmcu=atmega1280 test.S -o test.elf
->>>> $ qemu-system-avr -serial mon:stdio -nographic -no-reboot -M mega \
->>>>                    -bios test.elf
->>>> qemu-system-avr: Current machine: Arduino Mega (ATmega1280) with
->>>> 'avr6' CPU
->>>> qemu-system-avr: ELF image 'test.elf' is for 'avr51' CPU
->>>>
->>>> So this fixes the atmega1280 class to use an avr51 CPU.
->>>>
->>>> Signed-off-by: Frederic Konrad <frederic.konrad@adacore.com>
->>>> ---
->>>>   hw/avr/atmega.c | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
->>>> index 44c6afebbb..e3ea5702f5 100644
->>>> --- a/hw/avr/atmega.c
->>>> +++ b/hw/avr/atmega.c
->>>> @@ -402,7 +402,7 @@ static void atmega1280_class_init(ObjectClass
->>>> *oc, void *data)
->>>>   {
->>>>       AtmegaMcuClass *amc = ATMEGA_MCU_CLASS(oc);
->>>>   -    amc->cpu_type = AVR_CPU_TYPE_NAME("avr6");
->>>> +    amc->cpu_type = AVR_CPU_TYPE_NAME("avr51");
->>>>       amc->flash_size = 128 * KiB;
->>>>       amc->eeprom_size = 4 * KiB;
->>>>       amc->sram_size = 8 * KiB;
->>>>
->>>
->> Good catch!
->>
+> In npcm7xx_pwm-test, the pwm_index() and pwm_module_index() functions
+> include some assertions that are just guarding against possible bugs
+> in the test code that might lead us to out-of-bounds array accesses.
+> These should use g_assert() because they aren't part of what the test
+> is testing and the code does not correctly handle the case where the
+> condition was false.
 >
-> Thanks, does that count as a reviewed-by :)?
+> This fixes some Coverity issues where Coverity knows that
+> g_assert_true() can continue when the condition is false and
+> complains about the possible array overrun at various callsites.
 >
->
-Yes! sorry.
+> Fixes: Coverity CID 1442340, 1442341, 1442343, 1442344, 1442345, 1442346
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-
-Reviewed-by: Joaquin de Andres <me@xcancerberox.com.ar>
+Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
 
