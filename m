@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E954374AC2
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:44:22 +0200 (CEST)
-Received: from localhost ([::1]:53238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C335374A31
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:33:01 +0200 (CEST)
+Received: from localhost ([::1]:48826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lePJd-0006Dh-Hg
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:44:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40766)
+	id 1leP8e-00010i-NA
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:33:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOp1-0001si-1W
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:12:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38883)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1leOqW-0004An-2M; Wed, 05 May 2021 17:14:17 -0400
+Received: from hera.aquilenet.fr ([2a0c:e300::1]:33352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOop-0004zb-1S
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:12:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620249148;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SmRPmb4hC8Fjru663xDAXcQsgbJqooC87XEyEFNRFMQ=;
- b=DPUFwytlwfCMIc1U/amfSlIuPRZyMUS81zNqjuEmB5nNGhVk5XIaPx3NHlTX+gMamzIQ+Y
- L0B7B7UMKEe27WPxJLct/ZIgaSBfNiw9A6+xctrnZWQ27E5+AnF78/AFVtGRxalpKV58tE
- ziWOaXzOXRIjLa3CYkocjH0a+KgLQLg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-bJZB6QdxNjGj-_2FkA6fxA-1; Wed, 05 May 2021 17:12:27 -0400
-X-MC-Unique: bJZB6QdxNjGj-_2FkA6fxA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 7-20020a05600c2307b02901432673350dso704352wmo.9
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:12:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SmRPmb4hC8Fjru663xDAXcQsgbJqooC87XEyEFNRFMQ=;
- b=ILEHwa1NtqoEKME9orYQKbiBuJ+3JelxSNHC0gxgr3doFzmmfp6be+KOB6r6bxeoL9
- WRS4Xt/l9NqBQ6QYFo8gxal6Qx6Pp+YrmuzFO2W+V5MEgYb8EcEvhKhWtgiprbgCV16b
- wbWfrJ4RysYYAdmCQO18uHlnA6Nf5wDC0V9xf7MBLwDqRNYQPVLRSSk3GgsME+0+TwXz
- 6nMVAVHpaGNFpfYwrYqPB6f3eXHAjHlgmEiJYoJcbjnDpBdCMv4Eo6SKF+LG/ivwil4+
- zDpJiPP6aGqXvvrjxntjvOfC1Wt9GS4tCjVP+aZndpwftcmbDNPWwXg6HzhcXg+sXlms
- f82w==
-X-Gm-Message-State: AOAM533DQU9zOj4o4JyK4GrSnDUewT/0n6ae65cLu02jLf7ZozPT+vds
- Y7Vqo2k97Aj8AIUGXTabiyka1Ln6pFGP9q4TWXgBBCrvQGWbgqVhhXDxDvEwV2J0kfCdq8iTpSN
- mEPK3I3ab7cyic8cmEiW4/NVYqa2EBISiY2U+3g3/v7jWzISdCmm/kPSEtKtcgyjL
-X-Received: by 2002:adf:fe02:: with SMTP id n2mr1006757wrr.355.1620249145983; 
- Wed, 05 May 2021 14:12:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzGaMig5BIWWmqxPYj38JqUy41lSxrODNKmbDkEja4RdDilHYo76RG1j5RpQhtiMnidhMw+WQ==
-X-Received: by 2002:adf:fe02:: with SMTP id n2mr1006739wrr.355.1620249145792; 
- Wed, 05 May 2021 14:12:25 -0700 (PDT)
-Received: from x1w.redhat.com
- (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
- by smtp.gmail.com with ESMTPSA id i13sm728316wrs.12.2021.05.05.14.12.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 14:12:25 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 19/23] ui/vnc-enc-tight: Avoid dynamic stack allocation
-Date: Wed,  5 May 2021 23:10:43 +0200
-Message-Id: <20210505211047.1496765-20-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210505211047.1496765-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1leOqU-0005rb-JI; Wed, 05 May 2021 17:14:15 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id A58F834C;
+ Wed,  5 May 2021 23:14:10 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hJAjMzBFPomz; Wed,  5 May 2021 23:14:10 +0200 (CEST)
+Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id DF0E0319;
+ Wed,  5 May 2021 23:14:09 +0200 (CEST)
+Received: from samy by begin with local (Exim 4.94)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1leOqP-002fBq-4S; Wed, 05 May 2021 23:14:09 +0200
+Date: Wed, 5 May 2021 23:14:09 +0200
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 03/23] chardev/baum: Use definitions to avoid dynamic
+ stack allocation
+Message-ID: <20210505211409.lgmh7ivo7lrudfvd@begin>
 References: <20210505211047.1496765-1-philmd@redhat.com>
+ <20210505211047.1496765-4-philmd@redhat.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210505211047.1496765-4-philmd@redhat.com>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: A58F834C
+X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; HAS_ORG_HEADER(0.00)[];
+ RCVD_COUNT_THREE(0.00)[3]; RCPT_COUNT_SEVEN(0.00)[9];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MID_RHS_NOT_FQDN(0.50)[]; BAYES_HAM(-3.00)[100.00%]
+Received-SPF: softfail client-ip=2a0c:e300::1;
+ envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,60 +75,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
  qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use autofree heap allocation instead of variable-length
-array on the stack.
+Philippe Mathieu-Daudé, le mer. 05 mai 2021 23:10:27 +0200, a ecrit:
+> We know 'x * y' will be at most 'X_MAX * Y_MAX' (which is not
+> a big value, it is actually 84). Instead of having the compiler
+> use variable-length array, declare an array able to hold the
+> maximum 'x * y'.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- ui/vnc-enc-tight.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-diff --git a/ui/vnc-enc-tight.c b/ui/vnc-enc-tight.c
-index cebd35841a9..ff6027cf8d4 100644
---- a/ui/vnc-enc-tight.c
-+++ b/ui/vnc-enc-tight.c
-@@ -1097,13 +1097,13 @@ static int send_palette_rect(VncState *vs, int x, int y,
-     switch (vs->client_pf.bytes_per_pixel) {
-     case 4:
-     {
--        size_t old_offset, offset;
--        uint32_t header[palette_size(palette)];
-+        size_t old_offset, offset, palette_sz = palette_size(palette);
-+        g_autofree uint32_t *header = g_new(uint32_t, palette_sz);
-         struct palette_cb_priv priv = { vs, (uint8_t *)header };
- 
-         old_offset = vs->output.offset;
-         palette_iter(palette, write_palette, &priv);
--        vnc_write(vs, header, sizeof(header));
-+        vnc_write(vs, header, palette_sz * sizeof(uint32_t));
- 
-         if (vs->tight->pixel24) {
-             tight_pack24(vs, vs->output.buffer + old_offset, colors, &offset);
-@@ -1115,11 +1115,12 @@ static int send_palette_rect(VncState *vs, int x, int y,
-     }
-     case 2:
-     {
--        uint16_t header[palette_size(palette)];
-+        size_t palette_sz = palette_size(palette);
-+        g_autofree uint16_t *header = g_new(uint16_t, palette_sz);
-         struct palette_cb_priv priv = { vs, (uint8_t *)header };
- 
-         palette_iter(palette, write_palette, &priv);
--        vnc_write(vs, header, sizeof(header));
-+        vnc_write(vs, header, palette_sz * sizeof(uint16_t));
-         tight_encode_indexed_rect16(vs->tight->tight.buffer, w * h, palette);
-         break;
-     }
--- 
-2.26.3
-
+> ---
+>  chardev/baum.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/chardev/baum.c b/chardev/baum.c
+> index adc3d7b3b56..0822e9ed5f3 100644
+> --- a/chardev/baum.c
+> +++ b/chardev/baum.c
+> @@ -383,9 +383,9 @@ static int baum_eat_packet(BaumChardev *baum, const uint8_t *buf, int len)
+>      switch (req) {
+>      case BAUM_REQ_DisplayData:
+>      {
+> -        uint8_t cells[baum->x * baum->y], c;
+> -        uint8_t text[baum->x * baum->y];
+> -        uint8_t zero[baum->x * baum->y];
+> +        uint8_t cells[X_MAX * Y_MAX], c;
+> +        uint8_t text[X_MAX * Y_MAX];
+> +        uint8_t zero[X_MAX * Y_MAX];
+>          int cursor = BRLAPI_CURSOR_OFF;
+>          int i;
+>  
+> @@ -408,7 +408,7 @@ static int baum_eat_packet(BaumChardev *baum, const uint8_t *buf, int len)
+>          }
+>          timer_del(baum->cellCount_timer);
+>  
+> -        memset(zero, 0, sizeof(zero));
+> +        memset(zero, 0, baum->x * baum->y);
+>  
+>          brlapi_writeArguments_t wa = {
+>              .displayNumber = BRLAPI_DISPLAY_DEFAULT,
+> -- 
+> 2.26.3
+> 
 
