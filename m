@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC943374AD1
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:51:59 +0200 (CEST)
-Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1103374ABF
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:42:24 +0200 (CEST)
+Received: from localhost ([::1]:48154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lePR0-0005OB-9O
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42760)
+	id 1lePHj-000495-Pc
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:42:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1leP0z-00009o-JY; Wed, 05 May 2021 17:25:05 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:40732)
+ id 1leP3V-0002zG-N6; Wed, 05 May 2021 17:27:41 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:44632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1leP0w-0003N9-Vh; Wed, 05 May 2021 17:25:05 -0400
-Received: by mail-ej1-x633.google.com with SMTP id n2so5072778ejy.7;
- Wed, 05 May 2021 14:25:01 -0700 (PDT)
+ id 1leP3U-000500-1e; Wed, 05 May 2021 17:27:41 -0400
+Received: by mail-ej1-x635.google.com with SMTP id gx5so5050853ejb.11;
+ Wed, 05 May 2021 14:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mgVC5GAwCd579XQfB/Z8UQnM5xXmOIgrDlNOTtuLVrM=;
- b=gvv7T2hnHBdLIzK0PD1d6riDSQd5lSHn/MVsQC+pyQnCiu5uXDiSQVEJuqg/YE0aDx
- MhbcfzdMYGUuJzvv4LU+VE+gsNINUaOEEt41UW5qrYF/X25hj/rpYAOrDFgwV9sfRLuM
- RKPXFmIfcZ3q/349aM6H1tGOk2LkOrKS7HXkOnf4dYM/SU3VPAeUDOEtP2O7bBVZpkE+
- /cPftIZTs+z+metWqqQumv75sXDq40H8Bl0K0C6DWEL1jLZFLohzL2ZbuM/6F8yL0zGe
- lH60R5RGl79Z3Sg/6pjqph7uTG5kyYuW9/okk+zmFt1i78rdylUFmtsPhHXdEf8lZK/W
- bu5w==
+ :cc; bh=dXBkKKd+m6tu8qUnC9WZa5slYUNEIVTt4LsyJPz79YE=;
+ b=Jy+G/COwEoalNAdnZZJ+/lREXcNTIhFU+een1rGJnffdQX63shkJ4DvpKofx0FpcAx
+ W8yvF67+osf47gythctVciIK/YrgJmk8kKFzWHEo4SvGba1R4yGku+OU/p4j9fR074O8
+ 7XQfczKJlTdvXorCEWzAZFYe75IW1/kiCj/TLidsB1zBtZWgpICfkEW5GRoTgzptJfrY
+ 8MMY638HsUcpK0jSYhNnury1/TYiysT8q3Dt4xjtFmPuxj9rKGLwoYnsZdRFqjWQUWMx
+ k6HB/UuI8Ca+cXpQeM0AZmekHWp/roMIxwn3ExklclojOSE3uVjY3oHYrgb+SVtQS0No
+ Wirg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mgVC5GAwCd579XQfB/Z8UQnM5xXmOIgrDlNOTtuLVrM=;
- b=XmLyTFf1GCN/+/qZAP+K8pxYtcK+7N/i0pFQ9stfuEjaH/WRY2Oj94yoF9ZA8UhCGY
- zjKWdVgMnX1RqF1jBJWubv4nojkmfJNe1DUj6RgSs9DfkpxoUkIUgQ5F4sS84nzzrwLH
- jYzaC4jXa/0uVD6heoHUTWAPm00egQD3PP0zew8isOKXHRZ/HLWx8twbi+0+JIZMcKbF
- sFV7jLx1lxKSyWRk207mljFQBXjeKjUiNPwrnREd0INTsAKwt5aGjekeZ24ZrOmJpJFM
- RzsTRpVHjqkSYXTV5KVVOaeObVnbgh3baDS9es7cH8Q+VSw1i9FBiAFTRKNgA/U4ZfXL
- F/4w==
-X-Gm-Message-State: AOAM531s0TISSq3QTrZyxTyAb3j+IMbDn3aPHLPn51oq4+gZvP3LTGis
- /1105Sjj6RWjO/d9G5+rAZYe87y5Vh7NodhOhA0=
-X-Google-Smtp-Source: ABdhPJzrVQH7vYHncArE+O9Rc9YYdl4xBBkv2U+T2sKjJrkqSyeV29MfQDO0DPUaloSQ4/rntRCzHEyv4P47ulcJJbs=
-X-Received: by 2002:a17:906:b03:: with SMTP id u3mr725300ejg.381.1620249900449; 
- Wed, 05 May 2021 14:25:00 -0700 (PDT)
+ bh=dXBkKKd+m6tu8qUnC9WZa5slYUNEIVTt4LsyJPz79YE=;
+ b=KsyvlOYQl7wHiZ5yTfqtmyL7nNXul3zIz1Mt70ctVGx2naYJV0AL4568rHuvufrqcz
+ OIV+5lwYybUC614Q8WxQMlCMsRGt1iRuNYEMIEzZvVY80VSCV+vknEhUGwvnm1OrFqfe
+ sqRCJGAzp0nrv69FChJnh/wKFaew5y9sS3AQfGzysPksVb6gMgNzyHGD7+bVnZC7aeqs
+ S6CB3tt/Z/EoJktokNnt2+MwkbIW4sGokoSKauA94+G4wlOjiTvLPvCp9N6jInkI/Vxi
+ AuY+kjOPcOWVT14O+25AYRFsOBVRm0EUMhXEA4ZTMjXyx52s6NT0Ouqe/3pGWvZWZIXU
+ HCdg==
+X-Gm-Message-State: AOAM533sditY6+NR6laK/MraRCFFUX/Xe1K6fu1S4pdAOB2s+/Qq+2E7
+ f/+hHM81y9045X+ohgJqhsxojf506BbpwmXB4JPeqOgDg9g=
+X-Google-Smtp-Source: ABdhPJyJpmt3CbSHS67kNtc6MvGj0zO51nIM9zwOCIOIvm2GWOSvU6gU3Ydoy5x6eSV0Jsc7FApfJSYSUrfGIsku+yc=
+X-Received: by 2002:a17:906:7e51:: with SMTP id
+ z17mr839225ejr.92.1620250057369; 
+ Wed, 05 May 2021 14:27:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210505211047.1496765-1-philmd@redhat.com>
- <20210505211047.1496765-3-philmd@redhat.com>
-In-Reply-To: <20210505211047.1496765-3-philmd@redhat.com>
+ <20210505211047.1496765-4-philmd@redhat.com>
+In-Reply-To: <20210505211047.1496765-4-philmd@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 6 May 2021 01:24:48 +0400
-Message-ID: <CAJ+F1C+p=9jKU-5hr_YWT5GT5yVgCZ3c0RY_cgm1vjcAoNAzUA@mail.gmail.com>
-Subject: Re: [PATCH 02/23] chardev/baum: Replace magic values by X_MAX / Y_MAX
- definitions
+Date: Thu, 6 May 2021 01:27:25 +0400
+Message-ID: <CAJ+F1C+TE-RsG+S5KUYAh5Hc6AUHKa2w9-Ug8GPvKZpsqCGu8A@mail.gmail.com>
+Subject: Re: [PATCH 03/23] chardev/baum: Use definitions to avoid dynamic
+ stack allocation
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000c3821005c19bd346"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x633.google.com
+Content-Type: multipart/alternative; boundary="0000000000001deb9305c19bddc4"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,55 +86,60 @@ Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c3821005c19bd346
+--0000000000001deb9305c19bddc4
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 6, 2021 at 1:13 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+On Thu, May 6, 2021 at 1:14 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
 om>
 wrote:
 
-> Replace '84' magic value by the X_MAX definition, and '1' by Y_MAX.
+> We know 'x * y' will be at most 'X_MAX * Y_MAX' (which is not
+> a big value, it is actually 84). Instead of having the compiler
+> use variable-length array, declare an array able to hold the
+> maximum 'x * y'.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 >
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-> ---
->  chardev/baum.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+---
+>  chardev/baum.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
 > diff --git a/chardev/baum.c b/chardev/baum.c
-> index 5deca778bc4..adc3d7b3b56 100644
+> index adc3d7b3b56..0822e9ed5f3 100644
 > --- a/chardev/baum.c
 > +++ b/chardev/baum.c
-> @@ -87,6 +87,9 @@
+> @@ -383,9 +383,9 @@ static int baum_eat_packet(BaumChardev *baum, const
+> uint8_t *buf, int len)
+>      switch (req) {
+>      case BAUM_REQ_DisplayData:
+>      {
+> -        uint8_t cells[baum->x * baum->y], c;
+> -        uint8_t text[baum->x * baum->y];
+> -        uint8_t zero[baum->x * baum->y];
+> +        uint8_t cells[X_MAX * Y_MAX], c;
+> +        uint8_t text[X_MAX * Y_MAX];
+> +        uint8_t zero[X_MAX * Y_MAX];
+>          int cursor =3D BRLAPI_CURSOR_OFF;
+>          int i;
 >
->  #define BUF_SIZE 256
+> @@ -408,7 +408,7 @@ static int baum_eat_packet(BaumChardev *baum, const
+> uint8_t *buf, int len)
+>          }
+>          timer_del(baum->cellCount_timer);
 >
-> +#define X_MAX   84
-> +#define Y_MAX   1
-> +
->  struct BaumChardev {
->      Chardev parent;
+> -        memset(zero, 0, sizeof(zero));
+> +        memset(zero, 0, baum->x * baum->y);
 >
-> @@ -244,11 +247,11 @@ static int baum_deferred_init(BaumChardev *baum)
->          brlapi_perror("baum: brlapi__getDisplaySize");
->          return 0;
->      }
-> -    if (baum->y > 1) {
-> -        baum->y =3D 1;
-> +    if (baum->y > Y_MAX) {
-> +        baum->y =3D Y_MAX;
->      }
-> -    if (baum->x > 84) {
-> -        baum->x =3D 84;
-> +    if (baum->x > X_MAX) {
-> +        baum->x =3D X_MAX;
->      }
->
->      con =3D qemu_console_lookup_by_index(0);
+
+eh, I would have left the sizeof(zero)..
+
+
+>          brlapi_writeArguments_t wa =3D {
+>              .displayNumber =3D BRLAPI_DISPLAY_DEFAULT,
 > --
 > 2.26.3
 >
@@ -143,65 +149,70 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000c3821005c19bd346
+--0000000000001deb9305c19bddc4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 6, 2021 at 1:13 AM Philip=
-pe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redha=
-t.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">Replace &#39;84&#39; magic value by the X_MAX definition, and &#39;1&#=
-39; by Y_MAX.<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 6, 2021 at 1:14 AM Philip=
+pe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com" target=3D"_b=
+lank">philmd@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">We know &#39;x * y&#39; will be at most &#39;X_MAX *=
+ Y_MAX&#39; (which is not<br>
+a big value, it is actually 84). Instead of having the compiler<br>
+use variable-length array, declare an array able to hold the<br>
+maximum &#39;x * y&#39;.<br>
 <br>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
 hat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br></blockquote><div><=
 br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:mar=
-candre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt; <br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
+candre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>=
+&gt;</div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>
 ---<br>
-=C2=A0chardev/baum.c | 11 +++++++----<br>
-=C2=A01 file changed, 7 insertions(+), 4 deletions(-)<br>
+=C2=A0chardev/baum.c | 8 ++++----<br>
+=C2=A01 file changed, 4 insertions(+), 4 deletions(-)<br>
 <br>
 diff --git a/chardev/baum.c b/chardev/baum.c<br>
-index 5deca778bc4..adc3d7b3b56 100644<br>
+index adc3d7b3b56..0822e9ed5f3 100644<br>
 --- a/chardev/baum.c<br>
 +++ b/chardev/baum.c<br>
-@@ -87,6 +87,9 @@<br>
+@@ -383,9 +383,9 @@ static int baum_eat_packet(BaumChardev *baum, const uin=
+t8_t *buf, int len)<br>
+=C2=A0 =C2=A0 =C2=A0switch (req) {<br>
+=C2=A0 =C2=A0 =C2=A0case BAUM_REQ_DisplayData:<br>
+=C2=A0 =C2=A0 =C2=A0{<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t cells[baum-&gt;x * baum-&gt;y], c;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t text[baum-&gt;x * baum-&gt;y];<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t zero[baum-&gt;x * baum-&gt;y];<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t cells[X_MAX * Y_MAX], c;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t text[X_MAX * Y_MAX];<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t zero[X_MAX * Y_MAX];<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int cursor =3D BRLAPI_CURSOR_OFF;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int i;<br>
 <br>
-=C2=A0#define BUF_SIZE 256<br>
+@@ -408,7 +408,7 @@ static int baum_eat_packet(BaumChardev *baum, const uin=
+t8_t *buf, int len)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0timer_del(baum-&gt;cellCount_timer);<br>
 <br>
-+#define X_MAX=C2=A0 =C2=A084<br>
-+#define Y_MAX=C2=A0 =C2=A01<br>
-+<br>
-=C2=A0struct BaumChardev {<br>
-=C2=A0 =C2=A0 =C2=A0Chardev parent;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(zero, 0, sizeof(zero));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(zero, 0, baum-&gt;x * baum-&gt;y);<br><=
+/blockquote><div><br></div><div>eh, I would have left the sizeof(zero)..</d=
+iv><div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
-@@ -244,11 +247,11 @@ static int baum_deferred_init(BaumChardev *baum)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0brlapi_perror(&quot;baum: brlapi__getDisp=
-laySize&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 if (baum-&gt;y &gt; 1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 baum-&gt;y =3D 1;<br>
-+=C2=A0 =C2=A0 if (baum-&gt;y &gt; Y_MAX) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 baum-&gt;y =3D Y_MAX;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 if (baum-&gt;x &gt; 84) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 baum-&gt;x =3D 84;<br>
-+=C2=A0 =C2=A0 if (baum-&gt;x &gt; X_MAX) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 baum-&gt;x =3D X_MAX;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0con =3D qemu_console_lookup_by_index(0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0brlapi_writeArguments_t wa =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.displayNumber =3D BRLAPI_D=
+ISPLAY_DEFAULT,<br>
 -- <br>
 2.26.3<br>
 <br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
+=C3=A9 Lureau<br></div></div>
 
---000000000000c3821005c19bd346--
+--0000000000001deb9305c19bddc4--
 
