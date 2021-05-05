@@ -2,138 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42434373E73
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:24:45 +0200 (CEST)
-Received: from localhost ([::1]:45736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B423373E7C
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:26:23 +0200 (CEST)
+Received: from localhost ([::1]:49410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leJOG-0002YK-B7
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35462)
+	id 1leJPq-00043z-HF
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:26:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leJKA-0007fJ-2O; Wed, 05 May 2021 11:20:30 -0400
-Received: from mail-vi1eur05on2128.outbound.protection.outlook.com
- ([40.107.21.128]:51264 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leJK6-0007wU-Ff; Wed, 05 May 2021 11:20:29 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nGjZVkv1DXFS2H1iaA72V7TFzIYIu855JqL7ghQ72EdpGLiUJ48j0seQwFVK44+JfjL0EzAxWFUUE/1T01JR9ds8HKHG8xpYAPVBSkl5LIlmaMjtQOjk/9MHut+iQmllV+JrGy5hu9fxON9GduSh8wMxJ/G8VcLDf52H0821Gf8n0UPXMQWDATkRYNvQsy4R9WjJ2lMRoehDcmKW2EGkc8AzL4bJKeCRhYehX5WsKlsVq35mZfPhAf/L1Gi3KFb6M0a8LQFGGtl27ov3ZSWKd+dXaDGWt1tHLM+8EuSRy0JllpPrL1vkHuqx9M7TomF5yb/zVme0hPGFmD1Z7xEj6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V/q2VzYrhZG7aJVXmokuloCLzBzUgdzWYUyYcAjcHqg=;
- b=f/zdvuG7KmHnW9YSlNGxeYGrdxLq7ZsxD7FqKmXZk5Dj1VFcgotY1Uf3OHd/9XjaE1blXcXATaa97AK72dS9aF1ShmcU8hkeFNMyWpIdDvQ9qi133dT4MW7BA3Fi3hVXIC34WrZU5nNJqdhs7Cyc56XvJrAg0hN+R2GCA2JfKkXQwIMBONI1+MOYlODBaM84iLKu6QwZWzzmu5xhu9++ao4vKuEsArGPZtNmnLfRiAQdw2hN2HZFM4S+dHGhHVNbqDpjXgYJBJU3qAUZTk7P8fBkhfFzv1tEk/QHQvf+5JweEvnCywSDoMCLDdJhuL9LfYTPeg/xmcP3IfXDUKQ8qg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V/q2VzYrhZG7aJVXmokuloCLzBzUgdzWYUyYcAjcHqg=;
- b=I4JJ47H3SaSlWoLS5QApS0+3Ky7fMXrBJvf7O+8XK2h1DKfZo9cZg6cM7TrnHx2VvycNT68ZtD8pZa0DjnOr/GDFdVXqMM8TRHpG17r4AMHuBojGomRU3MhUF+bkO8iKWmYwN/VSY71cD+57FvC8rVUoYsGZCxADNNKKAPJabkk=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4914.eurprd08.prod.outlook.com (2603:10a6:20b:cf::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4087.40; Wed, 5 May
- 2021 15:20:22 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.026; Wed, 5 May 2021
- 15:20:22 +0000
-Subject: Re: [PATCH v2 3/9] test-write-threshold: rewrite
- test_threshold_(not_)trigger tests
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
- kwolf@redhat.com, eesposit@redhat.com, pbonzini@redhat.com
-References: <20210504082553.20377-1-vsementsov@virtuozzo.com>
- <20210504082553.20377-4-vsementsov@virtuozzo.com>
- <f082362f-ec9e-9367-eede-9df7d14ef85b@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <880d2a4a-68ae-fdb8-05d6-357ff74b32a1@virtuozzo.com>
-Date: Wed, 5 May 2021 18:20:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
-In-Reply-To: <f082362f-ec9e-9367-eede-9df7d14ef85b@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.236]
-X-ClientProxiedBy: AM0PR03CA0069.eurprd03.prod.outlook.com (2603:10a6:208::46)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1leJLN-0000gT-CJ
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:21:45 -0400
+Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32]:46662)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1leJLK-000081-T2
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:21:45 -0400
+Received: by mail-vs1-xe32.google.com with SMTP id b4so1259502vst.13
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 08:21:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=z35LRBIAu9/+wT0ufNZBWbwRE672jFZePrykKlHI4A8=;
+ b=gw/qFA445uB+mplp64GcLhaa6ClqqXQEJP3dWoaBZl8/yOZaElLiY13j4dtT6Snf03
+ gR/DSHM60SvKwxcyGEv2XwbhKGpn379Vtihc9dgqjd84PnVX5D2Bk+DfG6/THZO4DYTi
+ OraUUDssk40CTb2UGy62xrdQ6uVkuFXq916CyqPxKa/aFV/lTq7zhO44qpnrG2ayeG+l
+ I6KOC3nPJ2NT+wlzZNisgGrX+teoVf721EDWhjoRrg/g4wUkxlhuOS6lsYujb8PkTM70
+ yjUT346aQtuXt7RiwLnl8rcupm0HJa6L2drzPcrLWrqHoHuvUWxuDIdKsCr26j2vwOHo
+ wB6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=z35LRBIAu9/+wT0ufNZBWbwRE672jFZePrykKlHI4A8=;
+ b=NNz9hkkQLDdobWRUm2O7lGdE86LW5l0nd9APDWRDznM642qLftkxvdz+AifXZKfDw/
+ A4W30sNdZk3SSKRoXnpSuFW+XghZcrQ/RNoBSAjB0G/AApo9xO7o5I6tejmtt1tbIDcn
+ Dil0V/WaOeBtBkS8uRUxYJfu6/sQPdbAbi5tJCRfisWEP9TIitT1Fru2wWWJ9lKiNSNp
+ 8mcuQKyzOHIN6LEQsBkhX/2/NbMqLd0PvL7DpW4uDdfQE3F3MiGUdkWw/vXxiNBiEzCS
+ CdVfxP9lPHBgGxUGf1+3h0bW20sYkJRMS+qoVHKhZB/u6K3hSUpzWC9kXJ2T19pPJOYs
+ oS4g==
+X-Gm-Message-State: AOAM530KGlCBrU22l0LHXrGuvqZ8p1EdSIcSrAQ/dAon7HDAn4is/aQo
+ KTqo2D+JMkAuzY9+8e/2p6PCe+y77+ro+5m3Uy4bheBIvnLlhg==
+X-Google-Smtp-Source: ABdhPJwnG6O1oWd44iwKGwglhnKME8i1gYYpy0cvaVhjHcf6wucTkuvbHvg6Vx/OJtufnTeo6+ejVObVNhvUxFMLJKM=
+X-Received: by 2002:a67:db91:: with SMTP id f17mr28006492vsk.47.1620228097837; 
+ Wed, 05 May 2021 08:21:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.236) by
- AM0PR03CA0069.eurprd03.prod.outlook.com (2603:10a6:208::46) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.25 via Frontend Transport; Wed, 5 May 2021 15:20:21 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b60ff984-3b7d-4fc0-fbd8-08d90fd94ce5
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4914:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB491442A8AC77F044ED8172D1C1599@AM6PR08MB4914.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XRYG2owtCVbmlGNvGQdKtw8zpRtYYthquYVTGyGPY5IpppBRytmWywJBpAKA1CUvR6IAD8z1ZhEV4uo2S7iMSfh3OgHFerokM9a2OTCKiF2AdguiYe0TRjG9S2yk2yoKaTj84spaZmogOQzsfwKb/Ex/soh5pbFhKFX0W4wTY6I7AsaTOyv51YanDKkRKN940UiIk2TxDFrxpHXsGo1FN+a36ymZr4e3BnbyHY1AAhD9aGLLCA8UMS55vPqxrWZm7w1TvS/xipKlSECQHJ5u4m2svlb4tfuIn6r461lAipt56Yfj4BnZKxBvpbE5ThW80VqMIXlNYdwDpZqarauEqPvE8KRCAOJ6Ptkee8MP4gir2gJiM4P6EYdB1MJWo4ihkname1RtVlQbBcOqnpGEcChI8XAW8Ng8EeABTERM1X4XQYnbA4Po/kkrLCiX5miMTrV4y/SiR+3DsrlzgmDciHxjtJFqjiqHQivsD/dV5TvKnTpNjxBn/xd0sm857BvSiZxhhgaW/PXZpA3lI1JmpsN5BqsTG90uPLwdEJZ3l5RdYWMueN3EQYdQt2Szwra6kyTkxhQXJ0Vgyz9mMKEYHsTNoxkSmf2sNptbhEYFnN2o/aW0BZLhg3vEMzTRsZHfZCYZEiizolvtA/rL3dxpyoCD0gKcNCZtI+39pn1bpse/RzWT87EFTCdZqeTZRhJOLGMF/jZy4LfESCFpHGlxxPOCQOruFKlE3Z8ziVkVq04=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39850400004)(376002)(366004)(346002)(136003)(396003)(66556008)(66476007)(31686004)(31696002)(53546011)(66946007)(186003)(38350700002)(316002)(956004)(8936002)(16526019)(4326008)(2616005)(16576012)(52116002)(26005)(86362001)(38100700002)(5660300002)(8676002)(83380400001)(36756003)(2906002)(478600001)(6486002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TFRQZThZVTZ0WUloQ0ZIY2dJY2thMXBYK3N3WEZzVWUyMnNHc0YzL3VwL2Ir?=
- =?utf-8?B?TnRsUk5iK2MraUR5djQrdDAzMlRicTZFYmZ5cWJOSDJuSHk2bEdlSDVGUU5I?=
- =?utf-8?B?em02WTRKRndvVlVqYmZPTUZuR2ExbVNSQ3BxVkVXVzZENmNWdHU2WFpieFFx?=
- =?utf-8?B?eXpkYTl5ZkxqTVNCNEd5a3hSMTAvbm5qNFVxS1hOS0lsZWZCZ3BLYVRZdVI2?=
- =?utf-8?B?NWdOKyt0YWZod1dDMzZvVFQyVks3Q1RXQUlTdjRwZ3hsMkl0VkdmL25JaW51?=
- =?utf-8?B?WW5CODJJbHVyKzNheDloTERsNDAxWEJvNncvS0hwZW01emZ2emhGM2JUUEUz?=
- =?utf-8?B?bW9mWmhtakhGMVlVVmhyM3dJQ0FNMEMvNGZMQTBoOGl0OTdCbXVBNzZ6dmc4?=
- =?utf-8?B?SFlCZlUySkE0QUpYMlJETnRiSW8rZ1ZYYjN6OFh0WERCK0RlcUd0NWlQRnpu?=
- =?utf-8?B?VmVLOEZNUi9iVlVWakd3dVJaR0o5WktKV0RadWNzWmFHZE5vTnlFbi9aQkVU?=
- =?utf-8?B?emZRd2RlUnR6VzR3SGw0aFREeEFndDlQbDJUZTlvdGE1czF3UDkrb3MxZVMz?=
- =?utf-8?B?bTQrMG5vZEh2clNtSzY1dUxFMUY1WjJRajhhanB3RFVSTzVCVllGN2Y5TmpC?=
- =?utf-8?B?d00rTnYzRTA5U01ZMVpTcC9PUDhSNFJTMFlLYjRORllHY0xCTVlBOVh3OFZI?=
- =?utf-8?B?M01JZCtZMVRFWFpUOURuUnZIV3owMDIvaUZTTDI5N21oWk94Y0pHUWVPWEdT?=
- =?utf-8?B?Rjlab0xDdStXSzEzVjFCcnhaWEltSFJrbk0rNCtvSlZOakNkTm1NRWkxUGc2?=
- =?utf-8?B?dzF6VHRzaGN5YmlZbjlqQW9vZjZ6ODBhNmFjS0RmSmVxZC9CclZNb29pR1Ew?=
- =?utf-8?B?Y2RqV1d6ekNoSFhpdmZNRWVlMG9IS2kvUWoyVTgwY2d3Zm1SYy9kSm01K3FW?=
- =?utf-8?B?WW9pU2w2MFlZdEhjOE5LcUVtUzZwS3h5N1JTVzhOWFFTdklwNndQcGpvRFhV?=
- =?utf-8?B?NmVaRXd0Q0svMm9vWlZTbXRWSjBTb2l6NW4yaDd6VVlRQ1RZUjA1d05qbzFw?=
- =?utf-8?B?N01yMEVqb2Jtd1E3aDRONnJHNGhGNjd0cDRDN3FHZWt1a2RsTzl0Rkx5empr?=
- =?utf-8?B?LzRVeFR0ZW1rOG9KbURjdFNyL1V4WWRHQzFwZEdkWmVhMGVtbzhoeDdxVnQ4?=
- =?utf-8?B?MDgxeVN4WXBGc2E2R29JejdhV3hKL2tHT2VFV3BwaTRVdDdvQjZaNnFUSmJa?=
- =?utf-8?B?MVNDVGZoSkNrczlQeFlmS25hVUorTzhjZU40WUxZRDhtSlZGZmJrY2IrZUJB?=
- =?utf-8?B?QmNHOVR2N2Z2RWxoejNsVk1CU3JNN2pkUWEzOHN5dytmL3lpQndxelVwdFUx?=
- =?utf-8?B?R01zTnFyR0VyOGRnbThFQTRScEVGVTl6UmptYUF5MjBETlV5ZFVjSlhueFIx?=
- =?utf-8?B?amF4R3hpalpYeGM1M3hLYXRnR3BRU0RWcVZ2MG9XckFMNEI1ZlQ3ZWxXQVFz?=
- =?utf-8?B?MGtrajlzTHBYNndBL1BGa2hqM0RmUEoxRit6dVdYRWVKdGl6cWtxSGRYbzdE?=
- =?utf-8?B?OUZOdFRWR0xWTGMwcmdoNldnWG5YaVNjN0FTQXF3czc0bDRtd09TRXBUdWVT?=
- =?utf-8?B?NzhyTG5sSHh4K1Y4Mngva3RWU0htVUhVb2VIcUNUUTQvQkZHaEFmT2tHNXo2?=
- =?utf-8?B?S0xaRkQ4VVp3UHVzbVZPaW9kVytPbzM4R2J3UUZpQnhzNzlXZHlsbU01V2Jh?=
- =?utf-8?Q?buLKZVIAqmkk9SiqbeQeaSGx1TYqRguRy0IsMiL?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b60ff984-3b7d-4fc0-fbd8-08d90fd94ce5
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 15:20:22.2713 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eqiYbRieQaJjyVbq76KGk2d9MqYIqXNlm+uGhbZhoJOH0c4Kt/46YkoTCYnpapBx2JBjypaCkOaDCJjgSSGfZcthnf/SkOdb1LtHEwPfnRc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4914
-Received-SPF: pass client-ip=40.107.21.128;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210415033925.1290401-1-dje@google.com>
+ <CADPb22SBzeHj75aaNnJKN2Ov--=MExh5CuZCYRZO7gK8A-A-Lw@mail.gmail.com>
+In-Reply-To: <CADPb22SBzeHj75aaNnJKN2Ov--=MExh5CuZCYRZO7gK8A-A-Lw@mail.gmail.com>
+From: Doug Evans <dje@google.com>
+Date: Wed, 5 May 2021 08:21:00 -0700
+Message-ID: <CADPb22RJJHOdSqc4veQU-Gzuf4gDGsCdC6=BpL_eeprtFw-vDw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/4] Add support for ipv6 host forwarding
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000003a7b5e05c196c04b"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
+ envelope-from=dje@google.com; helo=mail-vs1-xe32.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -149,94 +81,292 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-05.05.2021 17:28, Max Reitz wrote:
-> On 04.05.21 10:25, Vladimir Sementsov-Ogievskiy wrote:
->> These tests use bdrv_write_threshold_exceeded() API, which is used only
->> for test.
-> 
-> Well, now.  That used to be different before patch 1.
-> 
->> Better is testing real API, which is used in block.c as well.
+--0000000000003a7b5e05c196c04b
+Content-Type: text/plain; charset="UTF-8"
+
+Ping.
+
+On Wed, Apr 28, 2021 at 8:37 PM Doug Evans <dje@google.com> wrote:
+
+> Ping.
+>
+> On Wed, Apr 14, 2021 at 8:39 PM Doug Evans <dje@google.com> wrote:
+>
+>> This patchset takes the original patch from Maxim,
+>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
+>> and updates it.
 >>
->> So, let's call bdrv_write_threshold_check_write(), and check is
->> bs->write_threshold_offset cleared or not (it's cleared iff threshold
->> triggered).
+>> Option hostfwd is extended to support ipv6 addresses.
+>> Commands hostfwd_add, hostfwd_remove are extended as well.
 >>
->> Also we get rid of BdrvTrackedRequest use here. Tracked requests are
->> unrelated to write-threshold since we get rid of write notifiers.
-> 
-> The purpose behind the BdrvTrackedRequest was clearly because this is the object bdrv_write_threshold_exceeded() expected.  This reads like there was some other purpose (i.e. actually tracked requests), but there wasn’t.
-> 
-> The question that comes to my mind is why we had the bdrv_check_request() calls there, and why this patch removes them.  They seem unrelated to the write threshold, but someone must have thought something when adding them.
-
-I wanted to add a note for it but forget. Something like:
-
-   "Such small requests are obviously good, no reason to check them" :)
-
-> 
-> Looking into git blame, that someone is you :) (8b1170012b1)
-
-Oops:) When I read your "but someone must have thought something", I really doubt in it :) But that was me, and I really thought something. Respect for your punctuality!
-
-> Looks like you added those calls because BdrvTrackedRequest is a block layer structure, so getting rid of it means the reason for bdrv_check_request() disappears.  OK.
-
-Yes, I was worried about the fact that BdrvTrackedRequest is a public structure and is a potential backdoor for not-checked offset/bytes things. At some moment we'd better close it (hide structure and add some interfaces).
-
-> 
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
-> 
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   tests/unit/test-write-threshold.c | 22 ++++------------------
->>   1 file changed, 4 insertions(+), 18 deletions(-)
+>> The libslirp part of the patch has been committed upstream,
+>> and is now in qemu. See patch 1/4.
 >>
->> diff --git a/tests/unit/test-write-threshold.c b/tests/unit/test-write-threshold.c
->> index fc1c45a2eb..fd40a815b8 100644
->> --- a/tests/unit/test-write-threshold.c
->> +++ b/tests/unit/test-write-threshold.c
->> @@ -55,41 +55,27 @@ static void test_threshold_multi_set_get(void)
->>   static void test_threshold_not_trigger(void)
->>   {
->> -    uint64_t amount = 0;
->>       uint64_t threshold = 4 * 1024 * 1024;
->>       BlockDriverState bs;
->> -    BdrvTrackedRequest req;
->>       memset(&bs, 0, sizeof(bs));
->> -    memset(&req, 0, sizeof(req));
->> -    req.offset = 1024;
->> -    req.bytes = 1024;
->> -
->> -    bdrv_check_request(req.offset, req.bytes, &error_abort);
->>       bdrv_write_threshold_set(&bs, threshold);
->> -    amount = bdrv_write_threshold_exceeded(&bs, &req);
->> -    g_assert_cmpuint(amount, ==, 0);
->> +    bdrv_write_threshold_check_write(&bs, 1024, 1024);
->> +    g_assert_cmpuint(bdrv_write_threshold_get(&bs), ==, threshold);
->>   }
->>   static void test_threshold_trigger(void)
->>   {
->> -    uint64_t amount = 0;
->>       uint64_t threshold = 4 * 1024 * 1024;
->>       BlockDriverState bs;
->> -    BdrvTrackedRequest req;
->>       memset(&bs, 0, sizeof(bs));
->> -    memset(&req, 0, sizeof(req));
->> -    req.offset = (4 * 1024 * 1024) - 1024;
->> -    req.bytes = 2 * 1024;
->> -
->> -    bdrv_check_request(req.offset, req.bytes, &error_abort);
->>       bdrv_write_threshold_set(&bs, threshold);
->> -    amount = bdrv_write_threshold_exceeded(&bs, &req);
->> -    g_assert_cmpuint(amount, >=, 1024);
->> +    bdrv_write_threshold_check_write(&bs, threshold - 1024, 2 * 1024);
->> +    g_assert_cmpuint(bdrv_write_threshold_get(&bs), ==, 0);
->>   }
->>   typedef struct TestStruct {
+>> Changes from v5:
 >>
-> 
+>> 1/4 slirp: Advance libslirp submodule to current master
+>> NOTE TO REVIEWERS: It may be a better use of everyone's time if a
+>> maintainer takes on advancing QEMU's libslirp to libslirp's master.
+>> Beyond that, I really don't know what to do except submit this patch as
+>> is currently provided.
+>>
+>> 2/4: util/qemu-sockets.c: Split host:port parsing out of inet_parse
+>>
+>> Also split out parsing of ipv4=on|off, ipv6=on|off
+>>
+>> 3/4: net/slirp.c: Refactor address parsing
+>>
+>> Use InetSocketAddress and getaddrinfo().
+>> Use new libslirp calls: slirp_remove_hostxfwd, slirp_add_hostxfwd.
+>>
+>> 4/4: net: Extend host forwarding to support IPv6
+>>
+>> Recognize ipv4=,ipv6= options.
+>>
+>> Note: v5's 3/5 "Recognize []:port (empty ipv6 address)" has been deleted:
+>> the churn on this patch series needs to be reduced.
+>> This change is not required, and can easily be done in a later patch.
+>>
+>> Changes from v4:
+>>
+>> 1/5 slirp: Advance libslirp submodule to add ipv6 host-forward support
+>> NOTE TO REVIEWERS: I need some hand-holding to know what The Right
+>> way to submit this particular patch is.
+>>
+>> - no change
+>>
+>> 2/5 util/qemu-sockets.c: Split host:port parsing out of inet_parse
+>>
+>> - move recognition of "[]:port" to separate patch
+>> - allow passing NULL for ip_v6
+>> - fix some formatting issues
+>>
+>> 3/5 inet_parse_host_and_addr: Recognize []:port (empty ipv6 address)
+>>
+>> - new in this patchset revision
+>>
+>> 4/5 net/slirp.c: Refactor address parsing
+>>
+>> - was 3/4 in v4
+>> - fix some formatting issues
+>>
+>> 5/5 net: Extend host forwarding to support IPv6
+>>
+>> - was 4/4 in v4
+>> - fix some formatting issues
+>>
+>> Changes from v3:
+>>
+>> 1/4 slirp: Advance libslirp submodule to add ipv6 host-forward support
+>>
+>> - pick up latest libslirp patch to reject ipv6 addr-any for guest address
+>>   - libslirp currently only provides a stateless DHCPv6 server, which
+>> means
+>>     it can't know in advance what the guest's IP address is, and thus
+>>     cannot do the "addr-any -> guest ip address" translation that is done
+>>     for ipv4
+>>
+>> 2/4 util/qemu-sockets.c: Split host:port parsing out of inet_parse
+>>
+>> - this patch is new in v4
+>>   - provides new utility: inet_parse_host_and_port, updates inet_parse
+>>     to use it
+>>
+>> 3/4 net/slirp.c: Refactor address parsing
+>>
+>> - this patch renamed from 2/3 to 3/4
+>> - call inet_parse_host_and_port from util/qemu-sockets.c
+>> - added tests/acceptance/hostfwd.py
+>>
+>> 4/4 net: Extend host forwarding to support IPv6
+>>
+>> - this patch renamed from 3/3 to 4/4
+>> - ipv6 support added to existing hostfwd option, commands
+>>   - instead of creating new ipv6 option, commands
+>> - added tests to tests/acceptance/hostfwd.py
+>>
+>> Changes from v2:
+>> - split out libslirp commit
+>> - clarify spelling of ipv6 addresses in docs
+>> - tighten parsing of ipv6 addresses
+>>
+>> Change from v1:
+>> - libslirp part is now upstream
+>> - net/slirp.c changes split into two pieces (refactor, add ipv6)
+>> - added docs
+>>
+>> Doug Evans (4):
+>>   slirp: Advance libslirp submodule to add ipv6 host-forward support
+>>   util/qemu-sockets.c: Split host:port parsing out of inet_parse
+>>   net/slirp.c: Refactor address parsing
+>>   net: Extend host forwarding to support IPv6
+>>
+>>  hmp-commands.hx             |  18 ++-
+>>  include/qemu/sockets.h      |   5 +
+>>  net/slirp.c                 | 236 ++++++++++++++++++++++++++----------
+>>  slirp                       |   2 +-
+>>  tests/acceptance/hostfwd.py | 185 ++++++++++++++++++++++++++++
+>>  util/qemu-sockets.c         |  82 +++++++++----
+>>  6 files changed, 436 insertions(+), 92 deletions(-)
+>>  create mode 100644 tests/acceptance/hostfwd.py
+>>
+>> --
+>> 2.31.1.295.g9ea45b61b8-goog
+>>
+>>
 
+--0000000000003a7b5e05c196c04b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Best regards,
-Vladimir
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">Ping.<br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Wed, Apr 28, 2021 at 8:37 PM Doug Evans &l=
+t;<a href=3D"mailto:dje@google.com">dje@google.com</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div sty=
+le=3D"font-size:small">Ping.</div></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 14, 2021 at 8:39 PM Doug Evan=
+s &lt;<a href=3D"mailto:dje@google.com" target=3D"_blank">dje@google.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Thi=
+s patchset takes the original patch from Maxim,<br>
+<a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.htm=
+l" rel=3D"noreferrer" target=3D"_blank">https://www.mail-archive.com/qemu-d=
+evel@nongnu.org/msg569573.html</a><br>
+and updates it.<br>
+<br>
+Option hostfwd is extended to support ipv6 addresses.<br>
+Commands hostfwd_add, hostfwd_remove are extended as well.<br>
+<br>
+The libslirp part of the patch has been committed upstream,<br>
+and is now in qemu. See patch 1/4.<br>
+<br>
+Changes from v5:<br>
+<br>
+1/4 slirp: Advance libslirp submodule to current master<br>
+NOTE TO REVIEWERS: It may be a better use of everyone&#39;s time if a<br>
+maintainer takes on advancing QEMU&#39;s libslirp to libslirp&#39;s master.=
+<br>
+Beyond that, I really don&#39;t know what to do except submit this patch as=
+<br>
+is currently provided.<br>
+<br>
+2/4: util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
+<br>
+Also split out parsing of ipv4=3Don|off, ipv6=3Don|off<br>
+<br>
+3/4: net/slirp.c: Refactor address parsing<br>
+<br>
+Use InetSocketAddress and getaddrinfo().<br>
+Use new libslirp calls: slirp_remove_hostxfwd, slirp_add_hostxfwd.<br>
+<br>
+4/4: net: Extend host forwarding to support IPv6<br>
+<br>
+Recognize ipv4=3D,ipv6=3D options.<br>
+<br>
+Note: v5&#39;s 3/5 &quot;Recognize []:port (empty ipv6 address)&quot; has b=
+een deleted:<br>
+the churn on this patch series needs to be reduced.<br>
+This change is not required, and can easily be done in a later patch.<br>
+<br>
+Changes from v4:<br>
+<br>
+1/5 slirp: Advance libslirp submodule to add ipv6 host-forward support<br>
+NOTE TO REVIEWERS: I need some hand-holding to know what The Right<br>
+way to submit this particular patch is.<br>
+<br>
+- no change<br>
+<br>
+2/5 util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
+<br>
+- move recognition of &quot;[]:port&quot; to separate patch<br>
+- allow passing NULL for ip_v6<br>
+- fix some formatting issues<br>
+<br>
+3/5 inet_parse_host_and_addr: Recognize []:port (empty ipv6 address)<br>
+<br>
+- new in this patchset revision<br>
+<br>
+4/5 net/slirp.c: Refactor address parsing<br>
+<br>
+- was 3/4 in v4<br>
+- fix some formatting issues<br>
+<br>
+5/5 net: Extend host forwarding to support IPv6<br>
+<br>
+- was 4/4 in v4<br>
+- fix some formatting issues<br>
+<br>
+Changes from v3:<br>
+<br>
+1/4 slirp: Advance libslirp submodule to add ipv6 host-forward support<br>
+<br>
+- pick up latest libslirp patch to reject ipv6 addr-any for guest address<b=
+r>
+=C2=A0 - libslirp currently only provides a stateless DHCPv6 server, which =
+means<br>
+=C2=A0 =C2=A0 it can&#39;t know in advance what the guest&#39;s IP address =
+is, and thus<br>
+=C2=A0 =C2=A0 cannot do the &quot;addr-any -&gt; guest ip address&quot; tra=
+nslation that is done<br>
+=C2=A0 =C2=A0 for ipv4<br>
+<br>
+2/4 util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
+<br>
+- this patch is new in v4<br>
+=C2=A0 - provides new utility: inet_parse_host_and_port, updates inet_parse=
+<br>
+=C2=A0 =C2=A0 to use it<br>
+<br>
+3/4 net/slirp.c: Refactor address parsing<br>
+<br>
+- this patch renamed from 2/3 to 3/4<br>
+- call inet_parse_host_and_port from util/qemu-sockets.c<br>
+- added tests/acceptance/hostfwd.py<br>
+<br>
+4/4 net: Extend host forwarding to support IPv6<br>
+<br>
+- this patch renamed from 3/3 to 4/4<br>
+- ipv6 support added to existing hostfwd option, commands<br>
+=C2=A0 - instead of creating new ipv6 option, commands<br>
+- added tests to tests/acceptance/hostfwd.py<br>
+<br>
+Changes from v2:<br>
+- split out libslirp commit<br>
+- clarify spelling of ipv6 addresses in docs<br>
+- tighten parsing of ipv6 addresses<br>
+<br>
+Change from v1:<br>
+- libslirp part is now upstream<br>
+- net/slirp.c changes split into two pieces (refactor, add ipv6)<br>
+- added docs<br>
+<br>
+Doug Evans (4):<br>
+=C2=A0 slirp: Advance libslirp submodule to add ipv6 host-forward support<b=
+r>
+=C2=A0 util/qemu-sockets.c: Split host:port parsing out of inet_parse<br>
+=C2=A0 net/slirp.c: Refactor address parsing<br>
+=C2=A0 net: Extend host forwarding to support IPv6<br>
+<br>
+=C2=A0hmp-commands.hx=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 18 ++-<br>
+=C2=A0include/qemu/sockets.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A05 +<br>
+=C2=A0net/slirp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| 236 ++++++++++++++++++++++++++----------<br>
+=C2=A0slirp=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+=C2=A0tests/acceptance/hostfwd.py | 185 ++++++++++++++++++++++++++++<br>
+=C2=A0util/qemu-sockets.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 82 +++++=
+++++----<br>
+=C2=A06 files changed, 436 insertions(+), 92 deletions(-)<br>
+=C2=A0create mode 100644 tests/acceptance/hostfwd.py<br>
+<br>
+-- <br>
+2.31.1.295.g9ea45b61b8-goog<br>
+<br>
+</blockquote></div>
+</blockquote></div></div>
+
+--0000000000003a7b5e05c196c04b--
 
