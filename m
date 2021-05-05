@@ -2,67 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B2F4373E3D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:13:55 +0200 (CEST)
-Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0E4373E20
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:09:30 +0200 (CEST)
+Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leJDl-0001VP-Pn
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:13:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32942)
+	id 1leJ9V-0006Ct-8j
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:09:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leJB6-0008Hl-OJ
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:11:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43268)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leJAt-0005qv-JJ
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:11:08 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leJAr-0002R5-Hh
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 15:10:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7F1BF2E8135
- for <qemu-devel@nongnu.org>; Wed,  5 May 2021 15:10:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1leJ66-0004Tp-LL; Wed, 05 May 2021 11:05:58 -0400
+Received: from mail-db8eur05on2111.outbound.protection.outlook.com
+ ([40.107.20.111]:53927 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1leJ63-0003zC-8H; Wed, 05 May 2021 11:05:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FqbGX85B9uoNsSscZS34j8zbdMbmq0fLV2OUA3gRYDdHUp9XsUenrPY2zmk1l645dAVGXzckSY1kCO8GMOuwYthzjquO7jiZQSqp1NNemQZzHbmTFVFX8+uUacvJwtMKktCCIr3pixgj8yQ3FVQk6NmkOZ/D448jUrEE0KGoGz0B0YoAw7rf0VbeR+M2avl8N9/L3upaEKCCzR0gq0YB0hA9DwPdTJll9DmcYUtRd0h3dktVqqIhrLskNN3LXrBUHvDT5X62gzoHuuYZah5VOCo8uBzPxPcGoZhmBgyB+DzBVHATeTwgs9rMtYWf24MBMJFERQom1QDTDP3QZoIJ+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SnGyXyGOwu9gawcDW+WegFirsnGfCbSGGeH9yJYQgkg=;
+ b=KosFY2E4s7OxyH8V2++O8B22f943PX1LO5WTKx4XVY0IesdgkRI4FkPm7h2adl676ZlmcHg5gU3dNHZ/WOzC/m8o7PV36L/AK9LmIXoVF/CKPNfbZUwNeH2LnL8uPLaJYNX1DzzJFmfcyTsJ773FQDRK4ybA1Ta9Ht+UqU/4XR+19MT6JmCb2iOKyfor9pH/1TmgK18n88Iau6kPdJ6SEBCmazUc8kdLrXpx8LejXcUE+9bWTiRqYeNpFOJcjqZdegkuEnZXX2kr8EZeLuq5ZXOyDGDm/ktrO3I2+m78rZ0p91xw7k4nPZi88Bqsz9c45cc7TVp/bJ5KAThrkHodBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SnGyXyGOwu9gawcDW+WegFirsnGfCbSGGeH9yJYQgkg=;
+ b=fGmpQ1cqStzbC9WOAx4RXWJR0DMBxu+kCHJ3Be8aXm49xfbmicu/AL6evVR31r+45RuKXM5VlYW19yWv83OszD2J1529/kX4HAj+0uDBX9ppSHgWMx5VjCpKPm2OBUU7Vd0MC9Afxo6kQzYnFq73mVaDERuA9fs847j/MBR4usk=
+Authentication-Results: dreamhost.com; dkim=none (message not signed)
+ header.d=none;dreamhost.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4721.eurprd08.prod.outlook.com (2603:10a6:20b:c7::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.24; Wed, 5 May
+ 2021 15:05:50 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.026; Wed, 5 May 2021
+ 15:05:50 +0000
+Subject: Re: [PATCH] block/snapshot: Clarify goto fallback behavior
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ morita.kazutaka@lab.ntt.co.jp, gregory.farnum@dreamhost.com
+References: <20210503095418.31521-1-mreitz@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <29db0d1f-2d60-7df6-e6d0-97b89cf636ef@virtuozzo.com>
+Date: Wed, 5 May 2021 18:05:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+In-Reply-To: <20210503095418.31521-1-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.236]
+X-ClientProxiedBy: PR3P191CA0042.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:102:55::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 May 2021 15:05:29 -0000
-From: ON7WPI <1909770@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: cris linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: on7wpi pmaydell th-huth
-X-Launchpad-Bug-Reporter: ON7WPI (on7wpi)
-X-Launchpad-Bug-Modifier: ON7WPI (on7wpi)
-References: <160943407589.12883.6323653042448683983.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162022712931.32029.8879929276508976064.malone@chaenomeles.canonical.com>
-Subject: [Bug 1909770] Re: qemu-cris segfaults upon loading userspace binary
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 48601556b11731df1adb22285dc9fa7bf990bb48
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.236) by
+ PR3P191CA0042.EURP191.PROD.OUTLOOK.COM (2603:10a6:102:55::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4087.29 via Frontend Transport; Wed, 5 May 2021 15:05:49 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a7396355-8fd3-4809-0317-08d90fd7450f
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4721:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB472132D182432F246A4E0D00C1599@AM6PR08MB4721.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Is1EebqPjuZS4n62Hj9uW79nZpZOFjdf0lwHJClskRawPzHxZnyeh7U8FZgSOtf8goZtE6el4YnuwlOp3yD4cwfnAaokfTy1Y6Ejmku+k0UwIVWlYSgbaXjUY+IxodAtyQpAO1GVZ0MJxJMD3NsdvH6uK1IIirmjtfT8vjJl711iKgOchQ6RJkYe7dS0gaJD+hho7yTDFhXJI//x07eP2KWj9Jp13o9OSH9CvrQdxEDvIUuh7VwU8nwGeycCN1LP2HJJK5RyNqGBFr+4a7PzU55FE/+bSg+4DaypEB2WHmw4xOLl+YDP7DbQx7VnlWJrLaZO/3zK2KwSn2unU4AwQtmFpy878D6fGWHTfb7rdNFkq0HoOSkJK6T4vFE1xdE69/rseV3xYE0f7azcvzDkbhmmCM1/VkaVi4Rld8MnHfBlr+Ry8Aho4q2q1/FMVaS8QcmzO0x45omxQHMjKzoDF+xGBHbfiMyiKju06D1rkWuXi72Hm8njIo8Omm4LCz8BP+kEez5j68tJfaV0d1uTpL93PCbVEGVG2eqw0Hwpqp0UrP4ta0hLx2nb7d0GtJx+lhglNRgJLQutMaKOMs/VYFXUpEulyix0CKiL6YSF2ouv69x8ZWdU2Hnmfqe41sILjpTNunnHIRx0j0KSVj+aMcL+4dUfE8EEynIHACkfdANjvLCMC4N6yXeRdV9xtBEe6KmvyWPq/HpOA9rdY+YDrtRVwc9xC8RJC0GdRvSTgzc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(396003)(39850400004)(366004)(346002)(2906002)(83380400001)(52116002)(186003)(16576012)(8936002)(478600001)(31696002)(86362001)(36756003)(956004)(316002)(2616005)(8676002)(5660300002)(38350700002)(6486002)(66946007)(26005)(66476007)(66556008)(38100700002)(31686004)(4326008)(16526019)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?M3JLWGthUTV6S00yOElVU0Noa09JRGhSNkovQ2ExcGpwcUNzdGh0ZFplc25w?=
+ =?utf-8?B?bFFqS1MxK3dHL29EMkhmWnBtc3lSUHNvSUhMazRmTnNqQWF2VE03SEtNRnZl?=
+ =?utf-8?B?MlRnOU5wTFdHZ3VqQTdLUHlhdXMvZDAyaFc5akZINW9HNzhnRFZGSUMwMzdH?=
+ =?utf-8?B?a1d6Y09aUi9oWXQ2UkMybjVzVzUzekxPZDJBZkMwbWxodWRpaExTeGhUVXFn?=
+ =?utf-8?B?YitPTWhGUUppYThLdFI0clN3YnpSUjRoREl1NkNPQkoxeVNhQk90b2haK0l5?=
+ =?utf-8?B?Uzk2Z3VyVTJjeWpSNzJGdjNmR2hGbmZvbnVYTkxzWkQvVVlHblhRUWtPNndF?=
+ =?utf-8?B?SUxGaUNINGhUZ01BdzNYMldSSDJqa2JoWndFWDJjTEkwam9OQVUzaDlORzBG?=
+ =?utf-8?B?cElYMVNPQ0VSVjBvc2txdXVWRDhqZ1huY05TdHVoWFV5MzVQSkZXdGV0NWo4?=
+ =?utf-8?B?c2IwdzF6UDVFTjJoVk5QQ0VnVVo5VklJNS90RjhFaHp1bUVHUk1TS1VrMzZa?=
+ =?utf-8?B?bXFSY1dram1LOG40RDhGVnloWmsreW9ydWZuODdiMmN1cXEwWEZBQk81Rmt1?=
+ =?utf-8?B?VzhrQitnSC91bEg3Y2I1eC9rL1NvWng3ZDZMcDBHYUpDZFZvYWdFQisyZVlT?=
+ =?utf-8?B?cFZYSEdUdWFHRHhmdTZWZzNYd3RUN1BaSWdoUDRJaVlPYTBIdXNidXh1TkRm?=
+ =?utf-8?B?UXRINnYrbjZ3L08zQm9aMzBQVXdybVZ6dmtVWjR1dnlIam9TVSthRy9LdllM?=
+ =?utf-8?B?d1FadnMwTElNVlI5Z21ZVkluQ3BLVVdad1ZIbkV2WnoyZUdlSjA4ampxL0pR?=
+ =?utf-8?B?b2o3blBMdzhQdDJEMWlGaDcyd1J0WFpSQjdPeWJ4WEo0VmdPUTZiRzRadm14?=
+ =?utf-8?B?KzMzRGFZT09pdXRFRVVMSzltdnQ3VlFBOVp3NlVUWHh5anVuRjBITU9jMCth?=
+ =?utf-8?B?YUwvNWhJV0g2WFNhMVAwZHlKZU5icUkwa3llckUvdFh0V2FUbGxJbWxqNFh3?=
+ =?utf-8?B?Y2ZRVWNmTGkvdU9rVmdVSDRPc3RZN0VUc1BiWEFuUlZidlk2cDZpUGsrVjlY?=
+ =?utf-8?B?ck1TMzFONisvZklXRnpubkFaWThQaDBEY1d6amo5MHpHQjg3VmJJbVMrdzlz?=
+ =?utf-8?B?dGRTV3VvWkwrNjhKemdraTN3MUFSelp4ZkhYZ1VrN2hFd1FRY21GRWNIWm9s?=
+ =?utf-8?B?YnhhNUx1Q3orOGhUbk5QUktDK1hHVlkrWGdxTmErRDNBMkdtVmEranBmcUhM?=
+ =?utf-8?B?OWRLdDdITFFjTUFqenlySXBLRDNLTlowcm9Ldk1ZWEZpcVkzdmZKN0c0SHFR?=
+ =?utf-8?B?MDBkcFIwNlM0NHZMMk9XdkR6Q0h4WHMvMWJwcEZ2dFJvaU1JWEdkM3V4b2JV?=
+ =?utf-8?B?eWV1cWxHYXliNTJ3cEs3Tk9YN24xcS9RNnB3Qk5scksyNFR2OGorVHhWRFpP?=
+ =?utf-8?B?TFg5Y0tmbnhYeHVOV1AxS2dGbGEweHJRdDVsYTRsMzRHWG0rMTR3QmwzWE1N?=
+ =?utf-8?B?cFNqKzRSS3F3eXF4UUZRd0FzL2Raa09lYUkzcnlwTkRnbkJ2ZERia3p1WDJV?=
+ =?utf-8?B?amxBYXdSYWdLdDJZNnN1SzAzRExlWEtMcjJGNVdjTEJkYzVKVUYxWjRDWjU1?=
+ =?utf-8?B?eXJ4OTMxbkhDTGFHR2dkWERvKys0NWFDT1dKNlA4WXJpcnJncHBablc2dnlL?=
+ =?utf-8?B?a2Z4SktkQ1NudHU2WmZjQ1BTdEhscllyMG9mQ1ZTQzNUNHQrekZ6VGpvaFJp?=
+ =?utf-8?Q?HXqvpqobtHU/9++mwlScKROAP87gNxIuGGmeVu/?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7396355-8fd3-4809-0317-08d90fd7450f
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2021 15:05:50.2773 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p1Ne0rq1J+vGc+2sR6A/qwox/vJmZQnESq9xmGQ1gf+KNRpx21PRp9BMvQArG9RIU8x7PTt/N0mp/8IxhqqwFpd1e++n64mHRNiCgL92aoE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4721
+Received-SPF: pass client-ip=40.107.20.111;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,275 +144,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1909770 <1909770@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yes, this is working for me now. The binary still crashes, but I think
-that's a problem in my code instead of QEMU.
+03.05.2021 12:54, Max Reitz wrote:
+> In the bdrv_snapshot_goto() fallback code, we work with a pointer to
+> either bs->file or bs->backing.  
 
--- =
+> We close that child,
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1909770
+Do we?
 
-Title:
-  qemu-cris segfaults upon loading userspace binary
+> close the node
+> (with .bdrv_close()), apply the snapshot on the child node, and then
+> re-open the node (with .bdrv_open()).
+> 
+> In order for .bdrv_open() to attach the same child node that we had
+> before, we pass "file={child-node}" or "backing={child-node}" to it.
+> Therefore, when .bdrv_open() has returned success, we can assume that
+> bs->file or bs->backing (respectively) points to our original child
+> again.  This is verified by an assertion.
+> 
+> All of this is not immediately clear from a quick glance at the code,
+> so add a comment to the assertion what it is for, and why it is valid.
+> It certainly confused Coverity.
+> 
+> Reported-by: Coverity (CID 1452774)
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   block/snapshot.c | 14 +++++++++++++-
+>   1 file changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/snapshot.c b/block/snapshot.c
+> index e8ae9a28c1..cce5e35b35 100644
+> --- a/block/snapshot.c
+> +++ b/block/snapshot.c
+> @@ -275,13 +275,16 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
+>           qobject_unref(file_options);
+>           g_free(subqdict_prefix);
+>   
+> +        /* Force .bdrv_open() below to re-attach fallback_bs on *fallback_ptr */
+>           qdict_put_str(options, (*fallback_ptr)->name,
+>                         bdrv_get_node_name(fallback_bs));
+>   
+> +        /* Now close bs, apply the snapshot on fallback_bs, and re-open bs */
+>           if (drv->bdrv_close) {
+>               drv->bdrv_close(bs);
+>           }
+>   
+> +        /* .bdrv_open() will re-attach it */
+>           bdrv_unref_child(bs, *fallback_ptr);
+>           *fallback_ptr = NULL;
+>   
+> @@ -296,7 +299,16 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
+>               return ret < 0 ? ret : open_ret;
+>           }
+>   
+> -        assert(fallback_bs == (*fallback_ptr)->bs);
+> +        /*
+> +         * fallback_ptr is &bs->file or &bs->backing.  *fallback_ptr
+> +         * was closed above and set to NULL, but the .bdrv_open() call
+> +         * has opened it again, because we set the respective option
+> +         * (with the qdict_put_str() call above).
+> +         * Assert that .bdrv_open() has attached some child on
+> +         * *fallback_ptr, and that it has attached the one we wanted
+> +         * it to (i.e., fallback_bs).
+> +         */
+> +        assert(*fallback_ptr && fallback_bs == (*fallback_ptr)->bs);
+>           bdrv_unref(fallback_bs);
+>           return ret;
+>       }
+> 
 
-Status in QEMU:
-  Expired
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Bug description:
-  I am on commit 65a3c5984074313602fb5f61cc5f464abfb020c7 (latest as far
-  as I know). I compiled qemu with --enable-debug.
+===
 
-  I'm trying to run a userspace CRIS binary (`./qemu-cris -cpu crisv10
-  ./basic`), but this segfaults. When opening the coredump in gdb, I get
+I still think that this fallback has more problems.. Nothing guarantee that all format drivers (even restricted to those who have only one child) support such logic.
 
-  gdb-peda$ bt
-  #0  0x00007f272a2e1ee1 in __memset_avx2_erms () from /usr/lib/libc.so.6
-  #1  0x0000564a2f7bcda7 in zero_bss (elf_bss=3D0x82134, last_bss=3D0x84000=
-, =
+For example, .bdrv_open() may rely on state structure were zeroed and not initialize some fields. And .bdrv_close() may just g_free() some things, not setting them to zero.. So we probably should call bdrv_open()/bdrv_close() generic functions. But we can't: at least bdrv_close() requires that node has no parents.
 
-      prot=3D0x3) at ../linux-user/elfload.c:1865
-  #2  0x0000564a2f7bff65 in load_elf_image (
-      image_name=3D0x7fffe9f5703d "./basic", image_fd=3D0x3, =
+Not saying about that we lose everything on failure (when actually, it's better to restore original state on failure).
 
-      info=3D0x7fffe9f547c0, pinterp_name=3D0x7fffe9f545b0, =
+This feature should instead be done with help of bdrv_reopen_multiple(), and even with it it's not obvious how to do it properly.
 
-      bprm_buf=3D0x7fffe9f54920 "\177ELF\001\001\001")
-      at ../linux-user/elfload.c:2801
-  #3  0x0000564a2f7c0a12 in load_elf_binary (bprm=3D0x7fffe9f54920, =
+The feature were done long ago in 2010 with commit 7cdb1f6d305e1000b5f882257cbee71b8bb08ef5 by Morita Kazutaka.
 
-      info=3D0x7fffe9f547c0) at ../linux-user/elfload.c:3104
-  #4  0x0000564a2f81f290 in loader_exec (fdexec=3D0x3, =
+Note also, that the only protocol driver that support snapshots is rbd, and snapshot support was added to it in 2012 with commit bd6032470631d8d5de6db84ecb55398b70d9d2f3 by Gregory Farnum.
 
-      filename=3D0x7fffe9f5703d "./basic", argv=3D0x564a2f9f3cc0, =
+Other two drivers with support are sheepdog (which is deprecated) and qcow2 (I doubt that it should be used as protocol driver for some other format).
 
-      envp=3D0x564a2fa12600, regs=3D0x7fffe9f54860, infop=3D0x7fffe9f547c0, =
 
-      bprm=3D0x7fffe9f54920) at ../linux-user/linuxload.c:147
-  #5  0x0000564a2f7c4f9f in main (argc=3D0x4, argv=3D0x7fffe9f54e78, =
+Do we really need this fallback? Is it used somewhere? May be, we can just deprecate it, and look will someone complain?
 
-      envp=3D0x7fffe9f54ea0) at ../linux-user/main.c:808
-  #6  0x00007f272a1a4152 in __libc_start_main () from /usr/lib/libc.so.6
-  #7  0x0000564a2f786cee in _start ()
 
-  Or as a full backtrace:
-  gdb-peda$ bt full
-  #0  0x00007f272a2e1ee1 in __memset_avx2_erms () from /usr/lib/libc.so.6
-  No symbol table info available.
-  #1  0x0000564a2f7bcda7 in zero_bss (elf_bss=3D0x82134, last_bss=3D0x84000=
-, =
-
-      prot=3D0x3) at ../linux-user/elfload.c:1865
-          host_start =3D 0x92134
-          host_map_start =3D 0x93000
-          host_end =3D 0x94000
-  #2  0x0000564a2f7bff65 in load_elf_image (
-      image_name=3D0x7fffe9f5703d "./basic", image_fd=3D0x3, =
-
-      info=3D0x7fffe9f547c0, pinterp_name=3D0x7fffe9f545b0, =
-
-      bprm_buf=3D0x7fffe9f54920 "\177ELF\001\001\001")
-      at ../linux-user/elfload.c:2801
-          vaddr =3D 0x82134
-          vaddr_em =3D 0x82140
-          vaddr_len =3D 0x2000
-          vaddr_po =3D 0x134
-          vaddr_ps =3D 0x82000
-          vaddr_ef =3D 0x82134
-          elf_prot =3D 0x3
-          eppnt =3D 0x7fffe9f54974
-          ehdr =3D 0x7fffe9f54920
-          phdr =3D 0x7fffe9f54954
-          load_addr =3D 0x80000
-          load_bias =3D 0x0
-          loaddr =3D 0x80000
-          hiaddr =3D 0x1082140
-          error =3D 0x80000
-          i =3D 0x1
-          retval =3D 0x273d2e9c
-          prot_exec =3D 0x4
-          err =3D 0x0
-          __func__ =3D "load_elf_image"
-  #3  0x0000564a2f7c0a12 in load_elf_binary (bprm=3D0x7fffe9f54920, =
-
-      info=3D0x7fffe9f547c0) at ../linux-user/elfload.c:3104
-          interp_info =3D {
-            load_bias =3D 0x0,
-            load_addr =3D 0x0,
-            start_code =3D 0x0,
-            end_code =3D 0x0,
-            start_data =3D 0x0,
-            end_data =3D 0x0,
-            start_brk =3D 0x0,
-            brk =3D 0x0,
-            reserve_brk =3D 0x0,
-            start_mmap =3D 0x0,
-            start_stack =3D 0x0,
-            stack_limit =3D 0x0,
-            entry =3D 0x0,
-            code_offset =3D 0x0,
-            data_offset =3D 0x0,
-            saved_auxv =3D 0x0,
-            auxv_len =3D 0x0,
-            arg_start =3D 0x0,
-            arg_end =3D 0x0,
-            arg_strings =3D 0x0,
-            env_strings =3D 0x0,
-            file_string =3D 0x0,
-            elf_flags =3D 0x0,
-            personality =3D 0x0,
-            alignment =3D 0x0,
-            loadmap_addr =3D 0x0,
-            nsegs =3D 0x0,
-            loadsegs =3D 0x0,
-            pt_dynamic_addr =3D 0x0,
-            interpreter_loadmap_addr =3D 0x0,
-            interpreter_pt_dynamic_addr =3D 0x0,
-            other_info =3D 0x0,
-            note_flags =3D 0x0
-          }
-          elf_ex =3D {
-            e_ident =3D "|\214\t1\000\000\000\000\262\002\356_\000\000\000",
-            e_type =3D 0x8c7c,
-            e_machine =3D 0x3109,
-            e_version =3D 0x0,
-            e_entry =3D 0x5fee02b2,
-            e_phoff =3D 0x0,
-            e_shoff =3D 0x31098c7c,
-            e_flags =3D 0x0,
-            e_ehsize =3D 0x0,
-            e_phentsize =3D 0x0,
-            e_phnum =3D 0x0,
-            e_shentsize =3D 0x0,
-            e_shnum =3D 0x0,
-            e_shstrndx =3D 0x0
-          }
-          elf_interpreter =3D 0x0
-          scratch =3D 0x7f272a358021 <read+97> "H\213D$\bH\203\304(\303\017=
-\037D"
-  #4  0x0000564a2f81f290 in loader_exec (fdexec=3D0x3, =
-
-      filename=3D0x7fffe9f5703d "./basic", argv=3D0x564a2f9f3cc0, =
-
-      envp=3D0x564a2fa12600, regs=3D0x7fffe9f54860, infop=3D0x7fffe9f547c0, =
-
-      bprm=3D0x7fffe9f54920) at ../linux-user/linuxload.c:147
-          retval =3D 0x400
-  #5  0x0000564a2f7c4f9f in main (argc=3D0x4, argv=3D0x7fffe9f54e78, =
-
-      envp=3D0x7fffe9f54ea0) at ../linux-user/main.c:808
-          regs1 =3D {
-            orig_r10 =3D 0x0,
-            r0 =3D 0x0,
-            r1 =3D 0x0,
-            r2 =3D 0x0,
-            r3 =3D 0x0,
-            r4 =3D 0x0,
-            r5 =3D 0x0,
-            r6 =3D 0x0,
-            r7 =3D 0x0,
-            r8 =3D 0x0,
-            r9 =3D 0x0,
-            r10 =3D 0x0,
-            r11 =3D 0x0,
-            r12 =3D 0x0,
-            r13 =3D 0x0,
-            acr =3D 0x0,
-            srs =3D 0x0,
-            mof =3D 0x0,
-            spc =3D 0x0,
-            ccs =3D 0x0,
-            srp =3D 0x0,
-            erp =3D 0x0,
-            exs =3D 0x0,
-            eda =3D 0x0
-          }
-          regs =3D 0x7fffe9f54860
-          info1 =3D {
-            load_bias =3D 0x0,
-            load_addr =3D 0x80000,
-            start_code =3D 0x80000,
-            end_code =3D 0x80133,
-            start_data =3D 0xffffffff,
-            end_data =3D 0x0,
-            start_brk =3D 0x0,
-            brk =3D 0x80133,
-            reserve_brk =3D 0x1000000,
-            start_mmap =3D 0x80000000,
-            start_stack =3D 0x0,
-            stack_limit =3D 0x0,
-            entry =3D 0x80106,
-            code_offset =3D 0x0,
-            data_offset =3D 0x0,
-            saved_auxv =3D 0x0,
-            auxv_len =3D 0x0,
-            arg_start =3D 0x0,
-            arg_end =3D 0x0,
-            arg_strings =3D 0x0,
-            env_strings =3D 0x0,
-            file_string =3D 0x0,
-            elf_flags =3D 0x0,
-            personality =3D 0x0,
-            alignment =3D 0x2000,
-            loadmap_addr =3D 0x0,
-            nsegs =3D 0x2,
-            loadsegs =3D 0x0,
-            pt_dynamic_addr =3D 0x0,
-            interpreter_loadmap_addr =3D 0x0,
-            interpreter_pt_dynamic_addr =3D 0x0,
-            other_info =3D 0x0,
-            note_flags =3D 0x0
-          }
-          info =3D 0x7fffe9f547c0
-          bprm =3D {
-            buf =3D "\177ELF\001\001\001\000\000\000\000\000\000\000\000\00=
-0\002\000L\000\001\000\000\000\006\001\b\000\064\000\000\000\264\006\000\00=
-0\000\000\000\000\064\000 \000\003\000(\000\016\000\r\000\001\000\000\000\0=
-00\000\000\000\000\000\b\000\000\000\b\000\063\001\000\000\063\001\000\000\=
-005\000\000\000\000 \000\000\001\000\000\000\064\001\000\000\064!\b\000\064=
-!\b\000\000\000\000\000\f\000\000\000\006\000\000\000\000 \000\000\004\000\=
-000\000\224\000\000\000\224\000\b\000\224\000\b\000$\000\000\000$\000\000\0=
-00\004\000\000\000\004\000\000\000\004\000\000\000\024\000\000\000\003\000\=
-000\000GNU\000PH\017'i\204\231\070e\000\247\376\211\230\236\336Nf7\372\204\=
-342\356\213n\206\214\342\374\201\352\253\370\201\353\273"...,
-            p =3D 0x0,
-            fd =3D 0x3,
-            e_uid =3D 0x3e8,
-            e_gid =3D 0x3d9,
-            argc =3D 0x1,
-            envc =3D 0x43,
-            argv =3D 0x564a2f9f3cc0,
-            envp =3D 0x564a2fa12600,
-            filename =3D 0x7fffe9f5703d "./basic",
-            core_dump =3D 0x0
-          }
-          ts =3D 0x564a2fa25400
-          env =3D 0x564a2fa24a08
-          cpu =3D 0x564a2fa1c730
-          optind =3D 0x3
-          target_environ =3D 0x564a2fa12600
-          wrk =3D 0x7fffe9f550b8
-          target_argv =3D 0x564a2f9f3cc0
-          target_argc =3D 0x1
-          i =3D 0x1
-          ret =3D 0x7fff
-          execfd =3D 0x3
-          log_mask =3D 0x0
-          max_reserved_va =3D 0xffffe000
-  #6  0x00007f272a1a4152 in __libc_start_main () from /usr/lib/libc.so.6
-  No symbol table info available.
-  #7  0x0000564a2f786cee in _start ()
-  No symbol table info available.
-
-  =
-
-  The binary itself is just a basic binary that prints "hello\n" to stdout.=
- I have attached it.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1909770/+subscriptions
+-- 
+Best regards,
+Vladimir
 
