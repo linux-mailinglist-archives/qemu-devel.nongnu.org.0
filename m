@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0EC373E45
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:16:54 +0200 (CEST)
-Received: from localhost ([::1]:58700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403BF373E46
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:16:55 +0200 (CEST)
+Received: from localhost ([::1]:58852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leJGf-0004AV-9p
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:16:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33888)
+	id 1leJGg-0004EI-BZ
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1leJEQ-0002l8-74
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:14:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32319)
+ id 1leJER-0002nJ-98
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:14:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1leJDN-0006Cg-UK
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:14:32 -0400
+ id 1leJDS-0006DN-UT
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:14:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620227608;
+ s=mimecast20190719; t=1620227613;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cValEhDJazpNOSPYjnyqU+NZmFAid4VDyaSpUksztoU=;
- b=Ew24A7Ig3osmWG5MgaRbPQkxOtUE9+Cvqf4iBukod4w18ldHsU2m92XQ1OTQ/nwbhRKvhb
- ECeqhteYGWWh3lxQCLDcD0U2XruqoFV8R1vdXYvDM1sEwB4KZyAcN/aZMJNggiHsIi/pcS
- ZNdcb6D5eFQXufOduCIY7MChLPNIVvQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WpLaRh4uigVjrXIXfUlkki90IlhLBVFQil+C2N3mCr0=;
+ b=Epff5iJM6zoLidgrZc6nc9bYowD1aN8AkHQKqZlytRrtdMzMlPC3JAEPJIfLSAfFBr5DDr
+ fEBslAeiZAEQHQB6K2movYYlrdGtpBDkXYBDrbYLcxmfQ47+zG1+vV1yG+QjQtu3YLh7uK
+ R7RoRFe4r7m1O7YNi7G0FxAgF1FuDTY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-oqxcGtHNNmWyY2CJ7eHBDg-1; Wed, 05 May 2021 11:13:25 -0400
-X-MC-Unique: oqxcGtHNNmWyY2CJ7eHBDg-1
+ us-mta-144-v3-eKi6YNUCpCA0Bup3YXQ-1; Wed, 05 May 2021 11:13:30 -0400
+X-MC-Unique: v3-eKi6YNUCpCA0Bup3YXQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D04E69126F
- for <qemu-devel@nongnu.org>; Wed,  5 May 2021 15:13:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED3E591270
+ for <qemu-devel@nongnu.org>; Wed,  5 May 2021 15:13:29 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5920560CD1;
- Wed,  5 May 2021 15:13:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1050D60864;
+ Wed,  5 May 2021 15:13:28 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] meson: fix meson 0.58 warning with libvhost-user
- subproject
-Date: Wed,  5 May 2021 19:13:12 +0400
-Message-Id: <20210505151313.203258-1-marcandre.lureau@redhat.com>
+Subject: [PATCH 2/2] libvhost-user: fix -Werror=format= warnings with __u64
+ fields
+Date: Wed,  5 May 2021 19:13:13 +0400
+Message-Id: <20210505151313.203258-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20210505151313.203258-1-marcandre.lureau@redhat.com>
+References: <20210505151313.203258-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -84,78 +87,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Meson now checks that subprojects do not access files from parent
-project. While we all agree this is best practice, libvhost-user also
-want to share a few headers with QEMU, and libvhost-user isn't really a
-standalone project at this point (although this is making the dependency
-a bit more explicit).
+../subprojects/libvhost-user/libvhost-user.c:1070:12: error: format ‘%lx’ expects argument of type ‘long unsigned int’, but argument 3 has type ‘__u64’ {aka ‘long long unsigned int’} [-Werror=format=]
+ 1070 |     DPRINT("    desc_user_addr:   0x%016" PRIx64 "\n", vra->desc_user_addr);
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~              ~~~~~~~~~~~~~~~~~~~
+      |                                                           |
+      |                                                           __u64 {aka long long unsigned int}
+
+Rather than using %llx, which may fail if __u64 is declared differently
+elsewhere, let's just cast the values. Feel free to propose a better solution!
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- subprojects/libvhost-user/include/atomic.h       | 1 +
- subprojects/libvhost-user/libvhost-user.c        | 2 +-
- subprojects/libvhost-user/meson.build            | 6 +-----
- subprojects/libvhost-user/standard-headers/linux | 1 +
- 4 files changed, 4 insertions(+), 6 deletions(-)
- create mode 120000 subprojects/libvhost-user/include/atomic.h
- create mode 120000 subprojects/libvhost-user/standard-headers/linux
+ subprojects/libvhost-user/libvhost-user.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/subprojects/libvhost-user/include/atomic.h b/subprojects/libvhost-user/include/atomic.h
-new file mode 120000
-index 0000000000..8c2be64f7b
---- /dev/null
-+++ b/subprojects/libvhost-user/include/atomic.h
-@@ -0,0 +1 @@
-+../../../include/qemu/atomic.h
-\ No newline at end of file
 diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index fab7ca17ee..2971ba0112 100644
+index 2971ba0112..bf09693255 100644
 --- a/subprojects/libvhost-user/libvhost-user.c
 +++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -40,7 +40,7 @@
+@@ -1067,10 +1067,10 @@ vu_set_vring_addr_exec(VuDev *dev, VhostUserMsg *vmsg)
+     DPRINT("vhost_vring_addr:\n");
+     DPRINT("    index:  %d\n", vra->index);
+     DPRINT("    flags:  %d\n", vra->flags);
+-    DPRINT("    desc_user_addr:   0x%016" PRIx64 "\n", vra->desc_user_addr);
+-    DPRINT("    used_user_addr:   0x%016" PRIx64 "\n", vra->used_user_addr);
+-    DPRINT("    avail_user_addr:  0x%016" PRIx64 "\n", vra->avail_user_addr);
+-    DPRINT("    log_guest_addr:   0x%016" PRIx64 "\n", vra->log_guest_addr);
++    DPRINT("    desc_user_addr:   0x%016" PRIx64 "\n", (uint64_t)vra->desc_user_addr);
++    DPRINT("    used_user_addr:   0x%016" PRIx64 "\n", (uint64_t)vra->used_user_addr);
++    DPRINT("    avail_user_addr:  0x%016" PRIx64 "\n", (uint64_t)vra->avail_user_addr);
++    DPRINT("    log_guest_addr:   0x%016" PRIx64 "\n", (uint64_t)vra->log_guest_addr);
  
- #endif
- 
--#include "qemu/atomic.h"
-+#include "include/atomic.h"
- 
- #include "libvhost-user.h"
- 
-diff --git a/subprojects/libvhost-user/meson.build b/subprojects/libvhost-user/meson.build
-index b03446e7cd..39825d9404 100644
---- a/subprojects/libvhost-user/meson.build
-+++ b/subprojects/libvhost-user/meson.build
-@@ -4,21 +4,17 @@ project('libvhost-user', 'c',
- 
- threads = dependency('threads')
- glib = dependency('glib-2.0')
--inc = include_directories('../../include', '../../linux-headers')
- 
- vhost_user = static_library('vhost-user',
-                             files('libvhost-user.c'),
--                            include_directories: inc,
-                             dependencies: threads,
-                             c_args: '-D_GNU_SOURCE')
- 
- executable('link-test', files('link-test.c'),
--           link_whole: vhost_user,
--           include_directories: inc)
-+           link_whole: vhost_user)
- 
- vhost_user_glib = static_library('vhost-user-glib',
-                                  files('libvhost-user-glib.c'),
--                                 include_directories: inc,
-                                  link_with: vhost_user,
-                                  dependencies: glib)
- 
-diff --git a/subprojects/libvhost-user/standard-headers/linux b/subprojects/libvhost-user/standard-headers/linux
-new file mode 120000
-index 0000000000..15a2378139
---- /dev/null
-+++ b/subprojects/libvhost-user/standard-headers/linux
-@@ -0,0 +1 @@
-+../../../include/standard-headers/linux
-\ No newline at end of file
+     vq->vra = *vra;
+     vq->vring.flags = vra->flags;
 -- 
 2.29.0
 
