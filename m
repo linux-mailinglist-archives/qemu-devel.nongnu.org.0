@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86D13735FA
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 10:02:16 +0200 (CEST)
-Received: from localhost ([::1]:40180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29068373600
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 10:06:30 +0200 (CEST)
+Received: from localhost ([::1]:50778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leCU3-0001Hm-TQ
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 04:02:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56876)
+	id 1leCY9-0005tq-9B
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 04:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1leCQh-0006pB-HI
- for qemu-devel@nongnu.org; Wed, 05 May 2021 03:58:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50842)
+ (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
+ id 1leCR3-0007Rf-8Q
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 03:59:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1leCQf-0006j5-6j
- for qemu-devel@nongnu.org; Wed, 05 May 2021 03:58:47 -0400
+ (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
+ id 1leCR1-0006vV-Gr
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 03:59:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620201524;
+ s=mimecast20190719; t=1620201546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lzdXZ7GLrK/6KhTBT+hzrf7kzmwM6qSDVehMFMD6LgU=;
- b=iMifi1PhG+xbCkHZLK/EnqOvJ6RyfI7SZuvTkTcP538+Pw4cu3dtLzuF3dI297XnD4I9NX
- VRNagIRLEawcaPOud+uUFGM/hNcbF1fXbL3w2ySYNpgyMex8u/eSA4U4SFH1Snba4bBjlG
- qDzZRuQ8dJXF7G4E2QcoDXJdd/tNnkY=
+ content-transfer-encoding:content-transfer-encoding:  in-reply-to:in-reply-to; 
+ bh=931qKze80ucCHe9sis7KsCv/4qQ1OmeN2T3v+GWp5tg=;
+ b=SfU8fkp7c02EFp/+a1PJSC7xUUc2UJptQeU1mxnCgc1A8wBDX4Xa/r2l0kUkuGXt+9Rwvz
+ /JwkOpkMbHvwrRKUxQdZLyeBYwri1C0+wKpSsJI75//48GIrNlJSmQ7tCO5DUyUYb9HS6I
+ Oq/vAyS8/ZmnsGHzMpd0XxGAb4TG8GQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-RfPMyMYeOAaOunujsbX6TQ-1; Wed, 05 May 2021 03:58:42 -0400
-X-MC-Unique: RfPMyMYeOAaOunujsbX6TQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-373-h5lejfAONPekllhgHWtKqw-1; Wed, 05 May 2021 03:59:05 -0400
+X-MC-Unique: h5lejfAONPekllhgHWtKqw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B700510066E5;
- Wed,  5 May 2021 07:58:41 +0000 (UTC)
-Received: from kaapi (unknown [10.74.9.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3A7C5C3E0;
- Wed,  5 May 2021 07:58:32 +0000 (UTC)
-Date: Wed, 5 May 2021 13:28:30 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: Li Qiang <liq3ea@163.com>
-Subject: Re: [PATCH 7/7] vhost-user-gpu: fix OOB write in
- 'virgl_cmd_get_capset'
-In-Reply-To: <20210505045824.33880-8-liq3ea@163.com>
-Message-ID: <743pnq4o-qs68-r754-20p4-8r5nr349ro9@erqung.pbz>
-References: <20210505045824.33880-1-liq3ea@163.com>
- <20210505045824.33880-8-liq3ea@163.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E08326D591;
+ Wed,  5 May 2021 07:59:03 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D72A31002D71;
+ Wed,  5 May 2021 07:59:03 +0000 (UTC)
+Received: from zmail17.collab.prod.int.phx2.redhat.com
+ (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id CE5B05533F;
+ Wed,  5 May 2021 07:59:03 +0000 (UTC)
+Date: Wed, 5 May 2021 03:59:03 -0400 (EDT)
+From: Miroslav Rezanina <mrezanin@redhat.com>
+To: QEMU Developers <qemu-devel@nongnu.org>
+Message-ID: <1162368493.17178530.1620201543649.JavaMail.zimbra@redhat.com>
+In-Reply-To: <603798381.17174916.1620200426349.JavaMail.zimbra@redhat.com>
+Subject: Prevent compiler warning on block.c
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Originating-IP: [10.40.192.172, 10.4.195.23]
+Thread-Topic: Prevent compiler warning on block.c
+Thread-Index: ZQfkvE+NRwyFJWCI41vTjxwszg2NPw==
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mrezanin@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mrezanin@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,44 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, liq3ea@gmail.com, kraxel@redhat.com,
- qemu-devel@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+-- On Tue, 4 May 2021, Li Qiang wrote --+
-| If 'virgl_cmd_get_capset' set 'max_size' to 0,
-| the 'virgl_renderer_fill_caps' will write the data after the 'resp'.
-| This patch avoid this by checking the returned 'max_size'.
-| 
-| Signed-off-by: Li Qiang <liq3ea@163.com>
-| ---
-|  contrib/vhost-user-gpu/virgl.c | 4 ++++
-|  1 file changed, 4 insertions(+)
-| 
-| diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/virgl.c
-| index a16a311d80..7172104b19 100644
-| --- a/contrib/vhost-user-gpu/virgl.c
-| +++ b/contrib/vhost-user-gpu/virgl.c
-| @@ -177,6 +177,10 @@ virgl_cmd_get_capset(VuGpu *g,
-|  
-|      virgl_renderer_get_cap_set(gc.capset_id, &max_ver,
-|                                 &max_size);
-| +    if (!max_size) {
-| +        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
-| +        return;
-| +    }
-|      resp = g_malloc0(sizeof(*resp) + max_size);
-|  
-|      resp->hdr.type = VIRTIO_GPU_RESP_OK_CAPSET;
+Commit 3108a15cf (block: introduce bdrv_drop_filter()) introduced uninitialized
+variable to_cow_parent in bdrv_replace_node_common function that is used only when
+detach_subchain is true. It is used in two places. First if block properly initialize
+the variable and second block use it.
 
-* Looks okay.
+However, compiler treats this two blocks as two independent cases so it thinks first
+block can fail test and second one pass (although both use same condition). This cause
+warning that variable can be uninitialized in second block.
 
-Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
+To prevent this warning, initialize the variable with NULL.
 
-Thank you.
---
- - P J P
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
+---
+diff --git a/block.c b/block.c
+index 874c22c43e..3ca27bd2d9 100644
+--- a/block.c
++++ b/block.c
+@@ -4851,7 +4851,7 @@ static int bdrv_replace_node_common(BlockDriverState *from,
+     Transaction *tran = tran_new();
+     g_autoptr(GHashTable) found = NULL;
+     g_autoptr(GSList) refresh_list = NULL;
+-    BlockDriverState *to_cow_parent;
++    BlockDriverState *to_cow_parent = NULL;
+     int ret;
+
+     if (detach_subchain) {
 
 
