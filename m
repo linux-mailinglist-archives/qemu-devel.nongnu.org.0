@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1473737A2
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 11:36:22 +0200 (CEST)
-Received: from localhost ([::1]:59852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6763737A1
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 11:35:58 +0200 (CEST)
+Received: from localhost ([::1]:58558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leDx7-000485-JR
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 05:36:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53780)
+	id 1leDwj-0003cM-2c
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 05:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1leDuK-00023M-A4
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:33:28 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:36788)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1leDuG-000397-W4
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:33:28 -0400
-Received: by mail-ed1-x535.google.com with SMTP id u13so1192497edd.3
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 02:33:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8osYa+C3XZmCnf246NQToaihMXNYNQuBlWsWnVx3UXA=;
- b=cBMXWmbExzKqOv6zU/FgyJ10o9mePmzeR7v7525SjPPyKnPhYTwveArsHvi8HgsXd7
- kPv4bWEw9V3yIeXIuYuhMPeMeQfndsMwh3qWy9CnjubH6qkqfGxre+DhawXSqSQd+0Pt
- kIkoA8kfdXIbVqYYMhz2/XReZq2lODzAOM/SLgLQNxEn01r5Im+ScZfqTEGYHeSAAlxG
- i9Uu+xrsgzBUQRSfdQSG3EKTAAFSx+dBN/mWQ1cwfzj7N7td94Pf7yxnXhOTa2tdt7JI
- 3bmlPEz0qc/4p48r6uxqmNXZS8QjdnIk8oUig1DYAct7iEwGcXgAUbJ4d2haszolw5BW
- U5nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8osYa+C3XZmCnf246NQToaihMXNYNQuBlWsWnVx3UXA=;
- b=d+y72S2PnhKGfZYdJ9nPNZVMULy8ioFovd5x+QXTzVNHFi5AHzXVhtMApayYY3kVyA
- 3yHAbvf2Rjh2OLCxE45XlAy2AlpA7wP7a6h68SHzxQ5jJLnaOl/yDIrYy1aQs0iYfu2S
- KWuI6cx1aZ9K13h+tGzRwuOM3qaGOgKfBTDcyhgSfC3SKcv2wpa2PLXv4yXT4rjB/1uK
- 2XRQnuuauOxnQVyJ/KtnEwBgZnSam8wEFI65zn2QBT3tvw19fUZbzRJ+N20HgRy3RUt/
- 7F4WSKeE9XmXjgiGVQ4gxV5iYnc8oCjMRx59ardA5JIe+uGUn1n0jfGWHk7SaMWvA+BR
- 4tww==
-X-Gm-Message-State: AOAM533HrMySJiNlhSWqd/bnhY7MPl026dx+nWdUBcbVXdh+KE3UDHFl
- xBVOe/rO2mvaDAMHIMskyi/z/QJayGe3KgBJOMU=
-X-Google-Smtp-Source: ABdhPJyZEdaGFqPK4JoDgEgfc22nDYF+PlYt18ZrXe4rWicQi48OOtXwDeTzp2kw6cpya/UvQH8stUcEgkIoRGLwYmg=
-X-Received: by 2002:aa7:dd4d:: with SMTP id o13mr31792055edw.53.1620207203017; 
- Wed, 05 May 2021 02:33:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1leDun-0002Ji-Rm
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:33:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1leDui-0003P1-PN
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:33:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620207231;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fyFEo9eavQJfisTMgFeKu0xCt1xRWpwON9ggUG5BwJc=;
+ b=cTy1ryePNMZ8g0N20vYI3HZZTYPiXKu4neqN8yDtL6Mb7+2KaN7OGsJMHG2fwzMTVfVptu
+ 4wUXIKbcmDUYVpWYLKGiKenHBR0QrydoEjZj7DQzs3oudRLU8h9tNRqqz+vhFPqvMBPuHM
+ ci3r0tnqUvDuZnTafPI2EKRU0ANSbhk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-48-xg-guAHVPjC7eHmGddx7AQ-1; Wed, 05 May 2021 05:33:35 -0400
+X-MC-Unique: xg-guAHVPjC7eHmGddx7AQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94F10818400;
+ Wed,  5 May 2021 09:33:33 +0000 (UTC)
+Received: from redhat.com (ovpn-114-253.ams2.redhat.com [10.36.114.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A0824687CD;
+ Wed,  5 May 2021 09:33:23 +0000 (UTC)
+Date: Wed, 5 May 2021 10:33:20 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v1 5/7] docs: mark intention to deprecate TCG tracing
+ functionality
+Message-ID: <YJJmYOWDl0UzziW7@redhat.com>
+References: <20210505092259.8202-1-alex.bennee@linaro.org>
+ <20210505092259.8202-6-alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <20210505045824.33880-1-liq3ea@163.com>
- <20210505045824.33880-7-liq3ea@163.com>
- <qq3n3949-n544-no21-649q-rqq0r7569n19@erqung.pbz>
- <CAJ+F1CL0Wz88FgUT-SYJMZdXKzgnYUdv3SsHPEstz9uSyqvTrQ@mail.gmail.com>
- <CAKXe6SLmbnmBs2NhyP=8Vm51wQXxFKW9m2XAYYcVTb3dpmEsYg@mail.gmail.com>
-In-Reply-To: <CAKXe6SLmbnmBs2NhyP=8Vm51wQXxFKW9m2XAYYcVTb3dpmEsYg@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 5 May 2021 13:33:10 +0400
-Message-ID: <CAJ+F1C+j1VJjkgx49eTQmya07jxS0vSDivnrqduuZkMA8SkNmA@mail.gmail.com>
-Subject: Re: [PATCH 6/7] vhost-user-gpu: fix memory leak in
- 'virgl_resource_attach_backing'
-To: Li Qiang <liq3ea@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000cc677c05c191e242"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210505092259.8202-6-alex.bennee@linaro.org>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,196 +83,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Li Qiang <liq3ea@163.com>,
- Gerd Hoffmann <kraxel@redhat.com>, P J P <ppandit@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ qemu-devel@nongnu.org, robhenry@microsoft.com, aaron@os.amperecomputing.com,
+ vilanova@imperial.ac.uk, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
+ cota@braap.org, stefanha@redhat.com, mohamad.gebai@gmail.com,
+ kuhn.chenqun@huawei.com, matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000cc677c05c191e242
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, May 05, 2021 at 10:22:57AM +0100, Alex Bennée wrote:
+> Currently attempts to add a new TCG trace events results in failures
+> to build. Previous discussions have suggested maybe it's time to mark
+> the feature as deprecated and push people towards using plugins.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Luis Vilanova <vilanova@imperial.ac.uk>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  docs/devel/tcg-plugins.rst |  2 ++
+>  docs/devel/tracing.rst     |  7 +++++++
+>  docs/system/deprecated.rst | 13 +++++++++++++
+>  3 files changed, 22 insertions(+)
+> 
+> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+> index 18c6581d85..edf04e3091 100644
+> --- a/docs/devel/tcg-plugins.rst
+> +++ b/docs/devel/tcg-plugins.rst
+> @@ -3,6 +3,8 @@
+>     Copyright (c) 2019, Linaro Limited
+>     Written by Emilio Cota and Alex Bennée
+>  
+> +.. _tcgplugin-ref:
+> +
+>  ================
+>  QEMU TCG Plugins
+>  ================
+> diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
+> index ba83954899..6b0f46cd54 100644
+> --- a/docs/devel/tracing.rst
+> +++ b/docs/devel/tracing.rst
+> @@ -414,6 +414,13 @@ disabled, this check will have no performance impact.
+>  "tcg"
+>  -----
+>  
+> +.. warning::
+> +   The ability to add new TCG trace points relies on a having a good
+> +   understanding of the TCG internals. In the meantime TCG plugins
+> +   have been introduced which solve many of the same problems with
+> +   more of a focus on analysing guest code. See :ref:`tcgplugin-ref`
+> +   for more details.
+> +
+>  Guest code generated by TCG can be traced by defining an event with the "tcg"
+>  event property. Internally, this property generates two events:
+>  "<eventname>_trans" to trace the event at translation time, and
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 80cae86252..0c9d3c1e1e 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -312,6 +312,19 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
+>  (the ISA has never been upstreamed to a compiler toolchain). Therefore
+>  this CPU is also deprecated.
+>  
+> +TCG introspection features
+> +--------------------------
+> +
+> +TCG trace-events (since 6.1)
+> +''''''''''''''''''''''''''''
+> +
+> +The ability to add new TCG trace points has bit rotted and as the
 
-Hi
+When you say this "has bit rotted", just how bad is the situation ?
 
-On Wed, May 5, 2021 at 1:24 PM Li Qiang <liq3ea@gmail.com> wrote:
-
-> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> =E4=BA=8E2021=E5=B9=
-=B45=E6=9C=885=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=885:08=E5=86=99=
-=E9=81=93=EF=BC=9A
-> >
-> > Hi
-> >
-> > On Wed, May 5, 2021 at 12:03 PM P J P <ppandit@redhat.com> wrote:
-> >>
-> >> +-- On Tue, 4 May 2021, Li Qiang wrote --+
-> >> | diff --git a/contrib/vhost-user-gpu/virgl.c
-> b/contrib/vhost-user-gpu/virgl.c
-> >> | index c669d73a1d..a16a311d80 100644
-> >> | --- a/contrib/vhost-user-gpu/virgl.c
-> >> | +++ b/contrib/vhost-user-gpu/virgl.c
-> >> | @@ -287,8 +287,11 @@ virgl_resource_attach_backing(VuGpu *g,
-> >> |          return;
-> >> |      }
-> >> |
-> >> | -    virgl_renderer_resource_attach_iov(att_rb.resource_id,
-> >> | +    ret =3D virgl_renderer_resource_attach_iov(att_rb.resource_id,
-> >> |                                         res_iovs, att_rb.nr_entries)=
-;
-> >> | +    if (ret !=3D 0) {
-> >> | +        g_free(res_iovs);
-> >> | +    }
-> >> |  }
-> >>
-> >> * Similar to earlier,
-> >>   hw/display/virtio-gpu-3d.c:virgl_resource_attach_backing() calls
-> >>   'virtio_gpu_cleanup_mapping_iov'
-> >>
-> >> * should it be same for vhost-user-gpu?
-> >>
-> >>
-> >
-> > Good question, that's also what you did when you fixed it for virtio-gp=
-u
-> in:
-> >
-> > commit 33243031dad02d161225ba99d782616da133f689
-> > Author: Li Qiang <liq3ea@gmail.com>
-> > Date:   Thu Dec 29 03:11:26 2016 -0500
-> >
-> >     virtio-gpu-3d: fix memory leak in resource attach backing
-> >
->
-> Do you mean this;
-> -->https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01156.html
->
-> I think there is no need for this.
->
-> The virtio_gpu_cleanup_mapping_iov is needed in virtio-gpu is because
-> it need map guest memory.
-> But in vhost-user-gpu case, the 'vg_create_mapping_iov' calls
-> 'vu_gpa_to_va' and this function don't need
-> do map memory.
->
-> But for the beauty of symmetry we can abstract a function called
-> 'vg_destroy_mapping_iov' and it just calls g_free(res->iov).
-> Like the pair 'virtio_gpu_create_mapping_iov' and
-> 'virtio_gpu_cleanup_mapping'.
->
->
-Right. I think I like the suggestion to add a 'virtio_gpu_cleanup_mapping'
-(with a comment to explain it) to avoid this kind of question again. Feel
-free to add a patch on top if you want.
-
-thanks
+Is the TCG tracing still usable at all, or is is fully broken
+already ?
 
 
->
-> >
-> > Btw, for each patch, it would be nice to have a reference to the
-> original fix in virtio-gpu.
-> >
-> > Thanks!
-> >
->
+> +feature can be replicated with TCG plugins it will be deprecated. If
+> +any user is currently using this feature and needs help with
+> +converting to using TCG plugins they should contact the qemu-devel
+> +mailing list.
+> +
 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000cc677c05c191e242
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 5, 2021 at 1:24 PM Li Q=
-iang &lt;<a href=3D"mailto:liq3ea@gmail.com">liq3ea@gmail.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Marc-Andr=C3=
-=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=3D"_bla=
-nk">marcandre.lureau@gmail.com</a>&gt; =E4=BA=8E2021=E5=B9=B45=E6=9C=885=E6=
-=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=885:08=E5=86=99=E9=81=93=EF=BC=9A<=
-br>
-&gt;<br>
-&gt; Hi<br>
-&gt;<br>
-&gt; On Wed, May 5, 2021 at 12:03 PM P J P &lt;<a href=3D"mailto:ppandit@re=
-dhat.com" target=3D"_blank">ppandit@redhat.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; +-- On Tue, 4 May 2021, Li Qiang wrote --+<br>
-&gt;&gt; | diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user=
--gpu/virgl.c<br>
-&gt;&gt; | index c669d73a1d..a16a311d80 100644<br>
-&gt;&gt; | --- a/contrib/vhost-user-gpu/virgl.c<br>
-&gt;&gt; | +++ b/contrib/vhost-user-gpu/virgl.c<br>
-&gt;&gt; | @@ -287,8 +287,11 @@ virgl_resource_attach_backing(VuGpu *g,<br>
-&gt;&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt;&gt; |=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;&gt; |<br>
-&gt;&gt; | -=C2=A0 =C2=A0 virgl_renderer_resource_attach_iov(att_rb.resourc=
-e_id,<br>
-&gt;&gt; | +=C2=A0 =C2=A0 ret =3D virgl_renderer_resource_attach_iov(att_rb=
-.resource_id,<br>
-&gt;&gt; |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0res_iovs, att_rb.nr_entries);<br>
-&gt;&gt; | +=C2=A0 =C2=A0 if (ret !=3D 0) {<br>
-&gt;&gt; | +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(res_iovs);<br>
-&gt;&gt; | +=C2=A0 =C2=A0 }<br>
-&gt;&gt; |=C2=A0 }<br>
-&gt;&gt;<br>
-&gt;&gt; * Similar to earlier,<br>
-&gt;&gt;=C2=A0 =C2=A0hw/display/virtio-gpu-3d.c:virgl_resource_attach_backi=
-ng() calls<br>
-&gt;&gt;=C2=A0 =C2=A0&#39;virtio_gpu_cleanup_mapping_iov&#39;<br>
-&gt;&gt;<br>
-&gt;&gt; * should it be same for vhost-user-gpu?<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; Good question, that&#39;s also what you did when you fixed it for virt=
-io-gpu in:<br>
-&gt;<br>
-&gt; commit 33243031dad02d161225ba99d782616da133f689<br>
-&gt; Author: Li Qiang &lt;<a href=3D"mailto:liq3ea@gmail.com" target=3D"_bl=
-ank">liq3ea@gmail.com</a>&gt;<br>
-&gt; Date:=C2=A0 =C2=A0Thu Dec 29 03:11:26 2016 -0500<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0virtio-gpu-3d: fix memory leak in resource attach b=
-acking<br>
-&gt;<br>
-<br>
-Do you mean this;<br>
---&gt;<a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg0=
-1156.html" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archi=
-ve/html/qemu-devel/2021-05/msg01156.html</a><br>
-<br>
-I think there is no need for this.<br>
-<br>
-The virtio_gpu_cleanup_mapping_iov is needed in virtio-gpu is because<br>
-it need map guest memory.<br>
-But in vhost-user-gpu case, the &#39;vg_create_mapping_iov&#39; calls<br>
-&#39;vu_gpa_to_va&#39; and this function don&#39;t need<br>
-do map memory.<br>
-<br>
-But for the beauty of symmetry we can abstract a function called<br>
-&#39;vg_destroy_mapping_iov&#39; and it just calls g_free(res-&gt;iov).<br>
-Like the pair &#39;virtio_gpu_create_mapping_iov&#39; and &#39;virtio_gpu_c=
-leanup_mapping&#39;.<br>
-<br></blockquote><div><br></div><div>Right. I think I like the suggestion t=
-o add a &#39;virtio_gpu_cleanup_mapping&#39; (with a comment to explain it)=
- to avoid this kind of question again. Feel free to add a patch on top if y=
-ou want.</div><div><br></div><div>thanks<br></div><div>=C2=A0</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt;<br>
-&gt; Btw, for each patch, it would be nice to have a reference to the origi=
-nal fix in virtio-gpu.<br>
-&gt;<br>
-&gt; Thanks!<br>
-&gt;<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000cc677c05c191e242--
 
