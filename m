@@ -2,64 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC24373646
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 10:28:39 +0200 (CEST)
-Received: from localhost ([::1]:49456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A99D373648
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 10:31:08 +0200 (CEST)
+Received: from localhost ([::1]:57676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leCta-0001It-NO
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 04:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35134)
+	id 1leCvz-0004hE-Da
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 04:31:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leCrA-00083R-RR
- for qemu-devel@nongnu.org; Wed, 05 May 2021 04:26:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40126)
+ id 1leCrU-0008Ei-Tz
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 04:26:28 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leCr7-0006C6-9J
- for qemu-devel@nongnu.org; Wed, 05 May 2021 04:26:08 -0400
+ id 1leCrP-0006Kd-6S
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 04:26:28 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1leCr5-0003vr-5q
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 08:26:03 +0000
+ id 1leCrM-0004FZ-2m
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 08:26:20 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 263362E80F9
- for <qemu-devel@nongnu.org>; Wed,  5 May 2021 08:26:03 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B6DA62E8196
+ for <qemu-devel@nongnu.org>; Wed,  5 May 2021 08:26:19 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 May 2021 08:15:51 -0000
-From: Thomas Huth <1868116@bugs.launchpad.net>
+Date: Wed, 05 May 2021 08:17:14 -0000
+From: Thomas Huth <1693050@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Invalid; importance=High; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=vte2.91; component=main;
- status=Fix Released; importance=Critical;
- assignee=ubuntu-desktop@lists.ubuntu.com; 
-X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
- status=Fix Released; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Tags: amd64 apport-bug champagne focal rls-ee-incoming
- server-next
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h egmont-gmail furretuber janitor paelzer
- seb128 th-huth
-X-Launchpad-Bug-Reporter: FurretUber (furretuber)
+X-Launchpad-Bug-Commenters: paulmenzel philmd rmustacc th-huth
+X-Launchpad-Bug-Reporter: Robert Mustacchi (rmustacc)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158463145822.18899.10972607578883935283.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162020255109.14639.14094798447785546321.malone@soybean.canonical.com>
-Subject: [Bug 1868116] Re: QEMU monitor no longer works
+References: <149558234717.18218.15801621819682136328.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162020263450.14828.818469915917686515.malone@soybean.canonical.com>
+Subject: [Bug 1693050] Re: xhci HCIVERSION register read emulation incorrectly
+ handled
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: bd4a96361f5a9c7945d20276cb17a052a49644e6
+X-Launchpad-Hash: 4235d5e5424f2084ed78f768539121e612f17d81
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -80,131 +71,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1868116 <1868116@bugs.launchpad.net>
+Reply-To: Bug 1693050 <1693050@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for opening the new ticket. Let's close this one here as WontFix
-- since we will only look at the new issue now instead.
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
+
+ https://gitlab.com/qemu-project/qemu/-/issues/143
+
 
 ** Changed in: qemu
-       Status: Incomplete =3D> Won't Fix
+       Status: New =3D> Expired
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #143
+   https://gitlab.com/qemu-project/qemu/-/issues/143
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1868116
+https://bugs.launchpad.net/bugs/1693050
 
 Title:
-  QEMU monitor no longer works
+  xhci HCIVERSION register read emulation incorrectly handled
 
 Status in QEMU:
-  Won't Fix
-Status in qemu package in Ubuntu:
-  Invalid
-Status in vte2.91 package in Ubuntu:
-  Fix Released
-Status in qemu package in Debian:
-  Fix Released
+  Expired
 
 Bug description:
-  Repro:
-  VTE
-  $ meson _build && ninja -C _build && ninja -C _build install
+  We had an illumos user trying to run illumos in QEMU 2.9.0 with the
+  qemu-xhci device enabled. Note, that while this was discovered against
+  QEMU 2.9.0, from my current read of the HEAD, it is still present. The
+  illumos bug at https://www.illumos.org/issues/8173 has additional
+  information on how the user invoked qemu. While investigating the
+  problem we found that the illumos driver was reading a version of
+  0x0000 when reading the HCIVERSION register from qemu.
 
-  qemu:
-  $ ../configure --python=3D/usr/bin/python3 --disable-werror --disable-use=
-r --disable-linux-user --disable-docs --disable-guest-agent --disable-sdl -=
--enable-gtk --disable-vnc --disable-xen --disable-brlapi --disable-fdt --di=
-sable-hax --disable-vde --disable-netmap --disable-rbd --disable-libiscsi -=
--disable-libnfs --disable-smartcard --disable-libusb --disable-usb-redir --=
-disable-seccomp --disable-glusterfs --disable-tpm --disable-numa --disable-=
-opengl --disable-virglrenderer --disable-xfsctl --disable-vxhs --disable-sl=
-irp --disable-blobs --target-list=3Dx86_64-softmmu --disable-rdma --disable=
--pvrdma --disable-attr --disable-vhost-net --disable-vhost-vsock --disable-=
-vhost-scsi --disable-vhost-crypto --disable-vhost-user --disable-spice --di=
-sable-qom-cast-debug --disable-vxhs --disable-bochs --disable-cloop --disab=
-le-dmg --disable-qcow1 --disable-vdi --disable-vvfat --disable-qed --disabl=
-e-parallels --disable-sheepdog --disable-avx2 --disable-nettle --disable-gn=
-utls --disable-capstone --disable-tools --disable-libpmem --disable-iconv -=
--disable-cap-ng
-  $ make
+  In the illumos driver we're performing a 16-bit read of the version
+  register at offset 0x2. From looking around at other OSes, while Linux
+  performs a 4 byte read at offset 0x0 and masks out the version, others
+  that care about the version are doing a two byte read, though not all
+  actually act on the version and some just discard the information.
 
-  Test:
-  $ LD_LIBRARY_PATH=3D/usr/local/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH ./b=
-uild/x86_64-softmmu/qemu-system-x86_64 -enable-kvm --drive media=3Dcdrom,fi=
-le=3Dhttp://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/cur=
-rent/images/netboot/mini.iso
-  - switch to monitor with CTRL+ALT+2
-  - try to enter something
+  The user who hit this was able to enable tracing (note the tracing
+  file is attached to the illumos bug linked previously) and we hit the
+  unimplemented register read with offset 0x2 at
+  http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l2960. The xhci register specifies today that its
+  allowed for users to do 1-4 byte reads; however, that it implements
+  only four byte reads in its implementation
+  (http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l3333). Hence why when we read the HCIVERSION register
+  at offset 0x2, it isn't handled in xhci_cap_read() which then returns
+  zeros.
 
-  Affects head of both usptream git repos.
+  From digging into this, I think that we're coming into
+  memory_region_dispatch_read() and then memory_region_dispatch_read1().
+  However, I don't see anything in either the general memory region
+  logic or in the xhci_cap_read() function that would deal with
+  adjusting the offset that we're reading at and then masking it off
+  again. While the access_with_adjusted_size() attempts to deal with
+  this, it never adjusts the hardware address that's passed in to be a
+  multiple of the implementation defined offset that I can see. I
+  suspect that the FIXME at line 582
+  (http://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dmemory.c;hb=3DHEAD#l582) =
+and
+  the implementation in the xhci code is the crux of the problem.
 
-  =
-
-  --- original bug ---
-
-  It was observed that the QEMU console (normally accessible using
-  Ctrl+Alt+2) accepts no input, so it can't be used. This is being
-  problematic because there are cases where it's required to send
-  commands to the guest, or key combinations that the host would grab
-  (as Ctrl-Alt-F1 or Alt-F4).
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 20.04
-  Package: qemu 1:4.2-3ubuntu2
-  Uname: Linux 5.6.0-rc6+ x86_64
-  ApportVersion: 2.20.11-0ubuntu20
-  Architecture: amd64
-  CurrentDesktop: XFCE
-  Date: Thu Mar 19 12:16:31 2020
-  Dependencies:
-
-  InstallationDate: Installed on 2017-06-13 (1009 days ago)
-  InstallationMedia: Xubuntu 17.04 "Zesty Zapus" - Release amd64 (20170412)
-  KvmCmdLine:
-  =C2=A0COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  =C2=A0qemu-system-x86 Sl+   1000  1000   34275   25235 29.2 qemu-system-x=
-86_64 -m 4G -cpu Skylake-Client -device virtio-vga,virgl=3Dtrue,xres=3D1280=
-,yres=3D720 -accel kvm -device nec-usb-xhci -serial vc -serial stdio -hda /=
-home/usuario/Sistemas/androidx86.img -display gtk,gl=3Don -device usb-audio
-  =C2=A0kvm-nx-lpage-re S        0     0   34284       2  0.0 [kvm-nx-lpage=
--re]
-  =C2=A0kvm-pit/34275   S        0     0   34286       2  0.0 [kvm-pit/3427=
-5]
-  MachineType: LENOVO 80UG
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-rc6+ root=3DUUID=3D6b=
-4ae5c0-c78c-49a6-a1ba-029192618a7a ro quiet ro kvm.ignore_msrs=3D1 kvm.repo=
-rt_ignored_msrs=3D0 kvm.halt_poll_ns=3D0 kvm.halt_poll_ns_grow=3D0 i915.ena=
-ble_gvt=3D1 i915.fastboot=3D1 cgroup_enable=3Dmemory swapaccount=3D1 zswap.=
-enabled=3D1 zswap.zpool=3Dz3fold resume=3DUUID=3Da82e38a0-8d20-49dd-9cbd-de=
-7216b589fc log_buf_len=3D16M usbhid.quirks=3D0x0079:0x0006:0x100000 config_=
-scsi_mq_default=3Dy scsi_mod.use_blk_mq=3D1 mtrr_gran_size=3D64M mtrr_chunk=
-_size=3D64M nbd.nbds_max=3D2 nbd.max_part=3D63
-  SourcePackage: qemu
-  UpgradeStatus: Upgraded to focal on 2019-12-22 (87 days ago)
-  dmi.bios.date: 08/09/2018
-  dmi.bios.vendor: LENOVO
-  dmi.bios.version: 0XCN45WW
-  dmi.board.asset.tag: NO Asset Tag
-  dmi.board.name: Toronto 4A2
-  dmi.board.vendor: LENOVO
-  dmi.board.version: SDK0J40679 WIN
-  dmi.chassis.asset.tag: NO Asset Tag
-  dmi.chassis.type: 10
-  dmi.chassis.vendor: LENOVO
-  dmi.chassis.version: Lenovo ideapad 310-14ISK
-  dmi.modalias: dmi:bvnLENOVO:bvr0XCN45WW:bd08/09/2018:svnLENOVO:pn80UG:pvr=
-Lenovoideapad310-14ISK:rvnLENOVO:rnToronto4A2:rvrSDK0J40679WIN:cvnLENOVO:ct=
-10:cvrLenovoideapad310-14ISK:
-  dmi.product.family: IDEAPAD
-  dmi.product.name: 80UG
-  dmi.product.sku: LENOVO_MT_80UG_BU_idea_FM_Lenovo ideapad 310-14ISK
-  dmi.product.version: Lenovo ideapad 310-14ISK
-  dmi.sys.vendor: LENOVO
-  mtime.conffile..etc.apport.crashdb.conf: 2019-08-29T08:39:36.787240
+  For the time being we're working around this in the illumos driver,
+  but I wanted to point this out such that it might be helpful for other
+  systems which are assuming that they can do the two byte read like on
+  hardware.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1868116/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1693050/+subscriptions
 
