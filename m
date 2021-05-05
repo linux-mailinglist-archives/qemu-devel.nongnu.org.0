@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0197373EB2
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:38:52 +0200 (CEST)
-Received: from localhost ([::1]:50168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19FE373EB4
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 17:39:28 +0200 (CEST)
+Received: from localhost ([::1]:51858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leJbv-0000A6-RG
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:38:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38514)
+	id 1leJcV-0000xG-RD
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 11:39:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leJTS-0001Sk-Kf
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:30:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58745)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1leJUu-0002Sv-D1
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:31:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leJTQ-0004f2-Pc
- for qemu-devel@nongnu.org; Wed, 05 May 2021 11:30:06 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1leJUs-0005V1-92
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 11:31:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620228601;
+ s=mimecast20190719; t=1620228693;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2wCJMJ2lCPjZm9Hqyw1puL+ARP1hTov3wVmVyo8GMuE=;
- b=d1UMDQjf4kJg8AaLooSFG1pbvrMSP4uXr2Ko/t5LHqOb7v21Y5J+TvEoYP2IF/1H/MWTbg
- 5NE2txD86kEepsv9WNdZvLTsmFvLFlrLKtL+bAmUP5BcnISDWH/NyZNnirp1Qh3SnIhUqK
- ZdWFieJtgsJBsGKJJS3uA0gofFbe50Q=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-vauOim9fPyaJX3CTTujV0Q-1; Wed, 05 May 2021 11:29:58 -0400
-X-MC-Unique: vauOim9fPyaJX3CTTujV0Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- u5-20020adf9e050000b029010df603f280so834736wre.18
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 08:29:58 -0700 (PDT)
+ bh=ZLMgVyHKNcS/XcllqN7QtoSTPj06eNceS6Y/dbeH9sA=;
+ b=eeiBZmvHKhSywrUOiaa/mwufekbej/cJsTJ9ydFRdM/mqifpOk/TeWcDxAORmp8p7VBIqV
+ JgMnaTKmI9vur35ngOJjKp1Z5wjsjdljEgmkc7XcDMlt9x4Xw5IC+TsvEFoofQdM61akDI
+ lTz2jZSYbY6dQG9yNp8AttPZENj+Fm4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-4TolmTE1MuG0w6LMbHaSlQ-1; Wed, 05 May 2021 11:31:31 -0400
+X-MC-Unique: 4TolmTE1MuG0w6LMbHaSlQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ d199-20020a1c1dd00000b02901492c14476eso463001wmd.2
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 08:31:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2wCJMJ2lCPjZm9Hqyw1puL+ARP1hTov3wVmVyo8GMuE=;
- b=Tr95s+2yf552bhnb//RbmNvB6yrqDNelYSq5VABOoQKhyASp66WSUB/L0mGdZFglZU
- SghITdBjKchI6n7vO4JB45jQi2OyY3P4oUxkZLlKiK0Mpfy5eG3AveEiMK7Gx/UUCa6P
- DMlS1EOo28pff1SgEbWsE4fJwMIoWGXhBgowfWCeTtIg6b5SMw5EA4IuJg7h/mv8NRiW
- E9ct7VI7imH5iktv6ja4lxJuCIRBMYwb81HQrD+6j+fjIA6GCn9eFXzksPyGhlhmb2+s
- pYlEM0gvdLPiIaoVJsypZIfitjgSczZiqMDTILVgMjWN9AxLh03HAsfXR3wJbnlw2+MP
- yonA==
-X-Gm-Message-State: AOAM533XcDnZaZhG4BgWSMYOoOehbef8TBrg7qHw5rlHqkUZC1bgBqqL
- YiBx1WrWypoSi/7sjnmqkVdiUKI4FP8ByxXPzCuIcuglpG2/2xDVZzYHiQzKedsuar2081iXBHk
- Z0zZckvIPKlUORc0=
-X-Received: by 2002:adf:cd01:: with SMTP id w1mr39302693wrm.425.1620228597635; 
- Wed, 05 May 2021 08:29:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzhGFo6KPe5ajHU12d/xGlkviInFV/sBho185JQciWH2pzW7fxqTW0brGscNiJndILSCmZUkg==
-X-Received: by 2002:adf:cd01:: with SMTP id w1mr39302662wrm.425.1620228597425; 
- Wed, 05 May 2021 08:29:57 -0700 (PDT)
-Received: from [192.168.1.19]
- (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
- by smtp.gmail.com with ESMTPSA id f22sm6085974wmj.42.2021.05.05.08.29.56
+ bh=ZLMgVyHKNcS/XcllqN7QtoSTPj06eNceS6Y/dbeH9sA=;
+ b=ALyCRjEQptRf+e/tFph4Imy1tgKZ2uymRf6nW3PERyx0kTDucqE92U5kfDyCpSOgLu
+ +T1FXeH9205cu8q+UHAHbHxsgcZhDd/97nJD4ZavAruGX4ni7l+2CS23NRKF5bEqlSXR
+ VyH+FBylEEo2uipezlm5ogAt4hz19j2iurW44vN6BZMqmLmCJ2Sl6cVTsWjPw7lAevgk
+ xA6GsnsHW6daSw4Bug8GuBLNjbix3/eXdAVlidPpPIZV0xkBUYdiXWIFdTn3ML2B981l
+ uAFbryv8RCCWbHGizuGrbei0PGfcQxFyyk71esNY/aJ8qYCI3AFtsfbPgZVKvB226Mrb
+ ivaw==
+X-Gm-Message-State: AOAM533D72cp0MsVNef/0QcLI/vMiCdNtXC+wXP3pf8B8hUAYuorJX0E
+ zBS5+Ed+BmvtbiZYoDkzDxa68FgbJIZcIP4jl9/BhYiWY3AEP48Qo15FCjWmTG5GXEsYCAibUec
+ U2UY5S/Phb5Wy2FA=
+X-Received: by 2002:a7b:c382:: with SMTP id s2mr29434941wmj.75.1620228690436; 
+ Wed, 05 May 2021 08:31:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwbIh+H7eMnd+qRgvuxlG4u2IY8OBVd+zwClxoSMFHCC46CUBiktqB7CToXuBbs18poW1c7bg==
+X-Received: by 2002:a7b:c382:: with SMTP id s2mr29434918wmj.75.1620228690171; 
+ Wed, 05 May 2021 08:31:30 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id y5sm6183150wmj.25.2021.05.05.08.31.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 May 2021 08:29:57 -0700 (PDT)
-Subject: Re: [PATCH v7 00/12] qtests: Check accelerator available at runtime
- via QMP 'query-accels'
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-References: <20210505125806.1263441-1-philmd@redhat.com>
- <362383cf-0e04-96d7-f950-a1ecf377f1a5@redhat.com>
-Message-ID: <a372d6f2-a5b2-dfa1-50f4-a354175e4b65@redhat.com>
-Date: Wed, 5 May 2021 17:29:56 +0200
+ Wed, 05 May 2021 08:31:29 -0700 (PDT)
+Subject: Re: [PATCH v1] softmmu/vl: make default prealloc-threads work w/o
+ -mem-prealloc
+To: Denis Plotnikov <den-plotnikov@yandex-team.ru>, qemu-devel@nongnu.org
+References: <20210311085918.284903-1-den-plotnikov@yandex-team.ru>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1554e090-f26d-d676-c045-d45747acc570@redhat.com>
+Date: Wed, 5 May 2021 17:31:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <362383cf-0e04-96d7-f950-a1ecf377f1a5@redhat.com>
+In-Reply-To: <20210311085918.284903-1-den-plotnikov@yandex-team.ru>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -100,33 +101,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/21 3:20 PM, Philippe Mathieu-Daudé wrote:
-> Hi Paolo,
-> 
-> On 5/5/21 2:57 PM, Philippe Mathieu-Daudé wrote:
->> Series fully reviewed.
-> 
-> Igor made a comment on the last patch (qtest: Do not restrict
-> bios-tables-test to Aarch64 hosts anymore).
-> 
-> The following patches are the one helping Claudio's x86 TCG/KVM split:
-> 
->  2> accel: Introduce 'query-accels' QMP command
->  3> qtest: Add qtest_has_accel() method
->  9> qtest/bios-tables-test: Rename tests not TCG specific
-> 10> qtest/bios-tables-test: Rename TCG specific tests
-> 11> qtest/bios-tables-test: Make test build-independent from accelerator
-> 
-> The rest are for his ARM TCG/KVM split.
-> 
-> You might queue 1-11, or only 2-3 & 9-11 for x86 and I'll resend the
-> rest via qemu-arm.
+On 11/03/21 09:59, Denis Plotnikov wrote:
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ff488ea3e7db..e392e226a2d3 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2300,14 +2300,17 @@ static void qemu_validate_options(void)
+>   
+>   static void qemu_process_sugar_options(void)
+>   {
+> -    if (mem_prealloc) {
+> -        char *val;
+> +    char *val;
+>   
+> -        val = g_strdup_printf("%d",
+> -                 (uint32_t) qemu_opt_get_number(qemu_find_opts_singleton("smp-opts"), "cpus", 1));
+> -        object_register_sugar_prop("memory-backend", "prealloc-threads", val,
+> -                                   false);
+> -        g_free(val);
+> +    val = g_strdup_printf("%d",
+> +              (uint32_t) qemu_opt_get_number(
+> +                             qemu_find_opts_singleton("smp-opts"), "cpus", 1));
+> +
+> +    object_register_sugar_prop("memory-backend", "prealloc-threads", val,
+> +                                false);
+> +    g_free(val);
+> +
+> +    if (mem_prealloc) {
+>           object_register_sugar_prop("memory-backend", "prealloc", "on", false);
+>       }
 
-And Markus made another comment, so please disregard this v7.
+Hi Denis, this patch breaks make check-qtest-arm:
+
+G_TEST_DBUS_DAEMON=/home/pbonzini/work/upstream/qemu/tests/dbus-vmstate-daemon.sh QTEST_QEMU_IMG=./qemu-img MALLOC_PERTURB_=45 QTEST_QEMU_BINARY=./qemu-system-arm /home/pbonzini/work/upstream/qemu/+bb/tests/qtest/npcm7xx_emc-test --tap -k
+# random seed: R02Sac2b21edc4fb48abab9f9723147ddbd5
+1..6
+# Start of arm tests
+# Start of npcm7xx_emc tests
+# Start of emc[0] tests
+# starting QEMU: exec ./qemu-system-arm -qtest unix:/tmp/qtest-839596.sock -qtest-log /dev/null -chardev socket,path=/tmp/qtest-839596.qmp,id=char0 -mon chardev=char0,mode=control -display none -machine quanta-gsj -accel qtest
+qemu-system-arm: Invalid SMP CPUs 1. The min CPUs supported by machine 'quanta-gsj' is 2
+
+Paolo
 
 
