@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6CF3749FB
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:16:11 +0200 (CEST)
-Received: from localhost ([::1]:55774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02340374A02
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:17:43 +0200 (CEST)
+Received: from localhost ([::1]:57912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leOsM-0005e2-SX
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:16:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39970)
+	id 1leOtq-0006bO-1A
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:17:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnY-0008Fp-Rj
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59177)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnc-0008JW-E4
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnU-0004BN-Dj
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:12 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnZ-0004Ee-M4
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620249067;
+ s=mimecast20190719; t=1620249073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jDbW5AjqVLLqIRW+qjBQwi317+pzRCZswt2T1a+tgz4=;
- b=KHDdeDe1m6Zrj54XHU2pDNFXJkOU/N721eZc7/SBQXw+Cc6aTgAWJrMRAka9JTocGVxnyQ
- D11Xn2qPizNBpCplJvC8/J9yCF/pi+KeukQX/ImAA68DxNau7mY6ZhtpCjZmJZUE1dRAoG
- P3lMiInHM/lBUeC7ytUhTw/Dt2CgRAE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-2fGPp7LqPBidA81VxMuPcQ-1; Wed, 05 May 2021 17:11:06 -0400
-X-MC-Unique: 2fGPp7LqPBidA81VxMuPcQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o10-20020a05600c4fcab029014ae7fdec90so706489wmq.5
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:11:06 -0700 (PDT)
+ bh=Jsw0hjQgHEh8fe+V8icgihsn1Zo56TzjPc95CU2mxS0=;
+ b=XO2dNvh+rbIHzNtMLodTOzUf+D8BYazbfStbsIFp4+8WjSXj8Y7Q6Hd7AmELrKd6EbDAyn
+ SQgh8dYsnx0lAHJD8vowAjjt1CwsFgAqxLOPJ3qfXPsyd1Dgt48HfCNyIisDcneeZtIQH8
+ +JiNJ6kjFhoYdAlD+Ky6iwSscNxBKlc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-b2x9IoaEOg-enVhnxLh-qQ-1; Wed, 05 May 2021 17:11:11 -0400
+X-MC-Unique: b2x9IoaEOg-enVhnxLh-qQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r12-20020adfc10c0000b029010d83323601so1190505wre.22
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:11:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jDbW5AjqVLLqIRW+qjBQwi317+pzRCZswt2T1a+tgz4=;
- b=ubnkVniNa2DvXGeE86Vx5kTE6qWIVTYsEW5sNX9buss7hayx1qhUy2Tl5pHSddS20k
- GfdOpav2NJ4tKabieJDb91xgOhf2n3c/5aVoMzHTZXB7lL6VZF/iUjEXAtDMQ7Bjd8hi
- cBYRjSOIIuLJfMxwMyKT9Fm+fxRjMl0oaD7oiDiVzXOtT8nPI4DvMOq5zLKE7isUapUj
- 2dAk1jXoFxKHetuMBhTsm5jcBW+xmxrv04yEu1AkLtQtbmRJnEB+gstlMQQx7Ew/d+Qm
- 1PCzO8N/LTkC9zo8v3ZjMVbcY1aC3WTURECurgj4JuMq3JPer+AUWwkElVZQDjq7Tv9e
- KWtQ==
-X-Gm-Message-State: AOAM532oTJG2+Z+6fuaZFya4OXJ7rW0ELYm8xMVLAf4e5vU4zbZpp14N
- AsacqSswOyH6mz3ytsNnPGAgxbsLLqqo2SmsteqAq4j86+o+fzfnYkn1G9jLbAKn7C2kmzJBWk3
- CwogW6g4HiHEUZjG9sbjGzJSiwH2t8cWFNpru/rS0REKt/vl7emv3BJwCaA8dPFpE
-X-Received: by 2002:a1c:750b:: with SMTP id o11mr12022989wmc.188.1620249064811; 
- Wed, 05 May 2021 14:11:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOEPOao+qykKQIphPjsuJSYjxkn/EPllDV0Z2ZMqGBHfz+R9Qb+afafsKtq+M5cPi7UKuSqg==
-X-Received: by 2002:a1c:750b:: with SMTP id o11mr12022964wmc.188.1620249064582; 
- Wed, 05 May 2021 14:11:04 -0700 (PDT)
+ bh=Jsw0hjQgHEh8fe+V8icgihsn1Zo56TzjPc95CU2mxS0=;
+ b=FhhCzZgcnypZu5rIEIC83TUZoyeZO89RgOcUAUNSxgY7L5WuWfAOYIbBrE8sO/i5FL
+ grtrJ+gNp8naOtrjm9LvJd5DdS5+Z9QQ7lM+Z2gRs35qTP1Y8dGv382cObYNQVED7zOl
+ 0vgsw/3v+As9fEVpCmdW8OWOaXvtBtaadMhHrWnPKkLehLjZqIQWVi6SR73mP6U0Lhqd
+ AMMci1I2C+jGTV0LT98Op6cPydx5J6oTegWCVhfsCaq/MKI+Q5voMPxnajX7dG7g9+Lr
+ 6ITdG22ZiC4YLkfZepjJ4RIS05/m1Z49JBItZweh7UZS+0ig61orZs8yhD425emRUOBi
+ DIQw==
+X-Gm-Message-State: AOAM53206c4kuylkBXOky+8iSRkWEiaVLrDUlBGpwprzyk2/rwZktIX1
+ S/zSu6GkzGcM0gf5gQeGZ933Z6M6xxNeIxrJ/p+fE2o4LoMrGS3a4EAWbTdcd/a0uQOEadhWew4
+ 4erOh5lW2+JUlJEB1dTCT2imJk+2YY+SKGyz7oNy4FmjMSQeFGVpU+jZhnW9x1Fcw
+X-Received: by 2002:a05:600c:2d42:: with SMTP id
+ a2mr11900719wmg.99.1620249069641; 
+ Wed, 05 May 2021 14:11:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFx12/Cfj5SAGn1R6ueiw6IPzEuQQsz5cieDZOJJF77UKfykeNTFXuTfy86XJg4oIqT3Aung==
+X-Received: by 2002:a05:600c:2d42:: with SMTP id
+ a2mr11900694wmg.99.1620249069425; 
+ Wed, 05 May 2021 14:11:09 -0700 (PDT)
 Received: from x1w.redhat.com
  (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
- by smtp.gmail.com with ESMTPSA id o1sm4073966wmc.6.2021.05.05.14.11.03
+ by smtp.gmail.com with ESMTPSA id m6sm761402wrp.29.2021.05.05.14.11.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 14:11:04 -0700 (PDT)
+ Wed, 05 May 2021 14:11:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/23] chardev/baum: Use definitions to avoid dynamic stack
- allocation
-Date: Wed,  5 May 2021 23:10:27 +0200
-Message-Id: <20210505211047.1496765-4-philmd@redhat.com>
+Subject: [PATCH 04/23] chardev/baum: Avoid dynamic stack allocation
+Date: Wed,  5 May 2021 23:10:28 +0200
+Message-Id: <20210505211047.1496765-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210505211047.1496765-1-philmd@redhat.com>
 References: <20210505211047.1496765-1-philmd@redhat.com>
@@ -82,7 +83,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,42 +106,28 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We know 'x * y' will be at most 'X_MAX * Y_MAX' (which is not
-a big value, it is actually 84). Instead of having the compiler
-use variable-length array, declare an array able to hold the
-maximum 'x * y'.
+Use autofree heap allocation instead of variable-length
+array on the stack.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- chardev/baum.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ chardev/baum.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/chardev/baum.c b/chardev/baum.c
-index adc3d7b3b56..0822e9ed5f3 100644
+index 0822e9ed5f3..bc09cda3471 100644
 --- a/chardev/baum.c
 +++ b/chardev/baum.c
-@@ -383,9 +383,9 @@ static int baum_eat_packet(BaumChardev *baum, const uint8_t *buf, int len)
-     switch (req) {
-     case BAUM_REQ_DisplayData:
-     {
--        uint8_t cells[baum->x * baum->y], c;
--        uint8_t text[baum->x * baum->y];
--        uint8_t zero[baum->x * baum->y];
-+        uint8_t cells[X_MAX * Y_MAX], c;
-+        uint8_t text[X_MAX * Y_MAX];
-+        uint8_t zero[X_MAX * Y_MAX];
-         int cursor = BRLAPI_CURSOR_OFF;
-         int i;
- 
-@@ -408,7 +408,7 @@ static int baum_eat_packet(BaumChardev *baum, const uint8_t *buf, int len)
-         }
-         timer_del(baum->cellCount_timer);
- 
--        memset(zero, 0, sizeof(zero));
-+        memset(zero, 0, baum->x * baum->y);
- 
-         brlapi_writeArguments_t wa = {
-             .displayNumber = BRLAPI_DISPLAY_DEFAULT,
+@@ -299,7 +299,8 @@ static void baum_chr_accept_input(struct Chardev *chr)
+ static void baum_write_packet(BaumChardev *baum, const uint8_t *buf, int len)
+ {
+     Chardev *chr = CHARDEV(baum);
+-    uint8_t io_buf[1 + 2 * len], *cur = io_buf;
++    g_autofree uint8_t *io_buf = g_malloc(1 + 2 * len);
++    uint8_t *cur = io_buf;
+     int room;
+     *cur++ = ESC;
+     while (len--)
 -- 
 2.26.3
 
