@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B663734AE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 07:22:14 +0200 (CEST)
-Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49AC37349D
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 07:16:18 +0200 (CEST)
+Received: from localhost ([::1]:34728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le9zB-00068n-9O
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 01:22:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57292)
+	id 1le9tR-0007RM-Tz
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 01:16:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1le9rd-000687-0a
- for qemu-devel@nongnu.org; Wed, 05 May 2021 01:14:25 -0400
-Received: from m12-16.163.com ([220.181.12.16]:58170)
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1le9rc-00067n-Hq
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 01:14:24 -0400
+Received: from m12-16.163.com ([220.181.12.16]:58169)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1le9rb-00017I-0J
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1le9rY-00017G-Fw
  for qemu-devel@nongnu.org; Wed, 05 May 2021 01:14:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=RgTd6
- STBXTpszmDsXFt9TAp+ejdbo3H0pDMEnZ62xRg=; b=gvWiz0bayk6gxBWYlerp6
- gI05GcUkTzKiljLnWGGctZmdNP4CJJZq4BfXHFrlAzKe0ougUQqOmtupp02Y0rmF
- OeRK/bsxY6I9CQsZgVUCob0FoAa80oWDdO3C5bpVgkfvpj5MfnQ04kIrsVvbA68f
- T3pT8PrrixpjuFxVXQJTAM=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=zlCFF
+ 1m7rXQZjXsw0wpx6URXzl2KvVLjDHEWjVRKgC4=; b=a6M5PbwU0Mk3EgYMM3QWG
+ sDascPIvCFTIcjTOOaho7D6BdsGrd23PQ5ky9bFTZXOpk9MKr7Xp6QkFLI7vrcjZ
+ DcIoEBzfQQM1pjg+ot0vBe/UNM/OfXzWkSd6HCZ+MJjIBXMyXMHzsfkXMaO+Ili7
+ MV4N3ogf36QNiIRw+4mfbk=
 Received: from ubuntu.localdomain (unknown [36.22.237.185])
- by smtp12 (Coremail) with SMTP id EMCowACXET7zJZJg8VpupQ--.18216S4;
- Wed, 05 May 2021 12:58:28 +0800 (CST)
+ by smtp12 (Coremail) with SMTP id EMCowACXET7zJZJg8VpupQ--.18216S5;
+ Wed, 05 May 2021 12:58:29 +0800 (CST)
 From: Li Qiang <liq3ea@163.com>
 To: marcandre.lureau@redhat.com,
 	kraxel@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/7] vhost-user-gpu: fix several security issues
-Date: Tue,  4 May 2021 21:58:17 -0700
-Message-Id: <20210505045824.33880-1-liq3ea@163.com>
+Subject: [PATCH 1/7] vhost-user-gpu: fix memory disclosure in
+ virgl_cmd_get_capset_info
+Date: Tue,  4 May 2021 21:58:18 -0700
+Message-Id: <20210505045824.33880-2-liq3ea@163.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210505045824.33880-1-liq3ea@163.com>
+References: <20210505045824.33880-1-liq3ea@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EMCowACXET7zJZJg8VpupQ--.18216S4
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Jr1xZF4UJrWUtr1UurW7urg_yoW3urX_ZF
- 4rCFWkJw17GFWj9ay5Cw1rurZIyFZ3Gr1fZFyxJayfKw4Yqr1Sqw1rK3s7tryxZw4DWF1D
- Ary8Jw4FvwnIkjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUjm9aJUUUUU==
+X-CM-TRANSID: EMCowACXET7zJZJg8VpupQ--.18216S5
+X-Coremail-Antispam: 1Uf129KBjvdXoW5Kry3Cw17Ar1DGF18Xr4fXwb_yoWxWFb_ZF
+ 1FyFn7AF4DWrW0krs8Zw4rJ3yavrWYyFsayFnakr1xXFyYkw15Xwn3t34kJ3yfuw43GF4D
+ AFy0yw4rGa1j9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUboGQPUUUUU==
 X-Originating-IP: [36.22.237.185]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBZhGJbVaD7t2FnQABss
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbB8QWJbV2MZ6UWWQAAsM
 Received-SPF: pass client-ip=220.181.12.16; envelope-from=liq3ea@163.com;
  helo=m12-16.163.com
 X-Spam_score_int: -20
@@ -68,23 +71,25 @@ Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These security issue is low severity and is similar with the
-virtio-vga/virtio-gpu device. All of them can be triggered by
-the guest user.
+Otherwise some of the 'resp' will be leaked to guest.
 
-Li Qiang (7):
-  vhost-user-gpu: fix memory disclosure in virgl_cmd_get_capset_info
-  vhost-user-gpu: fix resource leak in 'vg_resource_create_2d'
-  vhost-user-gpu: fix memory leak in vg_resource_attach_backing
-  vhost-user-gpu: fix memory link while calling 'vg_resource_unref'
-  vhost-user-gpu: fix memory leak in 'virgl_cmd_resource_unref'
-  vhost-user-gpu: fix memory leak in 'virgl_resource_attach_backing'
-  vhost-user-gpu: fix OOB write in 'virgl_cmd_get_capset'
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+ contrib/vhost-user-gpu/virgl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- contrib/vhost-user-gpu/vhost-user-gpu.c |  7 +++++++
- contrib/vhost-user-gpu/virgl.c          | 17 ++++++++++++++++-
- 2 files changed, 23 insertions(+), 1 deletion(-)
-
+diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/virgl.c
+index 9e6660c7ab..6a332d601f 100644
+--- a/contrib/vhost-user-gpu/virgl.c
++++ b/contrib/vhost-user-gpu/virgl.c
+@@ -128,6 +128,7 @@ virgl_cmd_get_capset_info(VuGpu *g,
+ 
+     VUGPU_FILL_CMD(info);
+ 
++    memset(&resp, 0, sizeof(resp));
+     if (info.capset_index == 0) {
+         resp.capset_id = VIRTIO_GPU_CAPSET_VIRGL;
+         virgl_renderer_get_cap_set(resp.capset_id,
 -- 
 2.25.1
 
