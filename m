@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0ABB3732C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 01:34:34 +0200 (CEST)
-Received: from localhost ([::1]:55656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787D83732FF
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 02:16:14 +0200 (CEST)
+Received: from localhost ([::1]:43896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le4Yj-0003iw-Tm
-	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 19:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35604)
+	id 1le5D3-0003qk-JL
+	for lists+qemu-devel@lfdr.de; Tue, 04 May 2021 20:16:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gustavo@noronha.eti.br>)
- id 1le4X6-0002rm-Eh
- for qemu-devel@nongnu.org; Tue, 04 May 2021 19:32:52 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:32933)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1le58l-0000KR-GT; Tue, 04 May 2021 20:11:47 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2360
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gustavo@noronha.eti.br>)
- id 1le4X4-0004n8-6C
- for qemu-devel@nongnu.org; Tue, 04 May 2021 19:32:52 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id B22FC5C00F4;
- Tue,  4 May 2021 19:32:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 04 May 2021 19:32:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noronha.eti.br;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=mesmtp; bh=L9ZXHAgM41
- 3byeCQUfxLJo/5edsa3TRY8s6NJ6VKK2M=; b=oqf8PUOOkSv7SwRnIyZ8uF1NwK
- 32ifpcZugZs5bd4DwgxaYlxysbOKk1z0qjPJBN4LO9rm7p9S7pI6jU5V82YWp7Q4
- cR1GTamL2YgucIFY4pY+2nxUrECsXOgLNPqhTUF6LpQak3n03nE1uzIvOSaEly5g
- UF7dgxOE6bhee3klA=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=L9ZXHAgM413byeCQUfxLJo/5edsa3TRY8s6NJ6VKK2M=; b=KpWXQUlK
- 8Znk4kiUyGxhyw3z1J11HmLz9xRUZMFXowmcTj3w7XH1Zgr8qVEm4sOglTfWvoAy
- YRGTIZGICKncgNjHLaGzYmoekAV682uCxAPsqT2PS4eli/mzJdHoeEOpDBdbJTLq
- ZsFB3dqYO8XUcmuijCySMSEwoLOKOA/GTUZPL6QktmgYKl2dj8+ZAOAEPJF0HULM
- DbP23DEU890UTIgV/CL7meXrimitz37gdVLZJue8o79zMeJnpvr0f2vKy81/A77O
- oGhriKzW/xKcz0icdARef9xIRYcfSRRIOpPdN9ZIR3Fe+8hnQieaDxyEKGhogNbA
- k0GMHb4IVTHrDA==
-X-ME-Sender: <xms:odmRYOmUtxabfutqHosmTWoKk1X4oNUIK1SIFygW0fxFQHJMQXTmEg>
- <xme:odmRYF3ZtTgFhvg2-5fusy_eNkafZ5cpaAgLT8DGICc1D3pPxLyJkGZvGZbgwi6ZQ
- ytDeKHRo32Db33DPg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdefjedgudekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpehguhhsthgr
- vhhosehnohhrohhnhhgrrdgvthhirdgsrhenucggtffrrghtthgvrhhnpeevhfdvjeelve
- etiedutdfhleegleffkeffjefgtdeggfekheehledttdffvdelleenucffohhmrghinhep
- rghpphhlvgdrtghomhenucfkphepvddtuddrkedtrddurdeinecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhushhtrghvohesnhhorhhonhhh
- rgdrvghtihdrsghr
-X-ME-Proxy: <xmx:odmRYMpy04W16gPrLCFlHEAo_9vdMUyccTkU76Jt5Qxi3RirUZUYag>
- <xmx:odmRYCnIRDeUlvu4XH-WG7DDl8r3OWFoahMXXtyc5tHGVtetTSr-Yw>
- <xmx:odmRYM3TLaSgKjrJGh6OQWMhj5RKCoLPzFWp_YhNQHhFAW_OptFUqw>
- <xmx:odmRYPSH746FVay1oC-_HzXyDNm8Vo7dwRHFvkwgx17BeTQ8cSaHtg>
-Received: from Gustavos-Mini.box (unknown [201.80.1.6])
- by mail.messagingengine.com (Postfix) with ESMTPA;
- Tue,  4 May 2021 19:32:47 -0400 (EDT)
-From: gustavo@noronha.eti.br
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1le58i-0002vG-H2; Tue, 04 May 2021 20:11:47 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14502rVg068879; Tue, 4 May 2021 20:11:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=ieQY2AAmueOxHGoBFuysWkrvd9LJUc9FNM25dZ9Bwgc=;
+ b=jUqFM+Dc3xadu+wSd4yvyc+QFwJjShz/wNoxp+NyzkpJ5npGLr6z9n0njTFcebiPFzzy
+ B+6s4DODXczjMAcFCDOno3CTm/Z6HJaVSCbRY0gJOQvYn1lxJL0t8WHaE5TgSToobDTL
+ 9+WRI/SuaqDXvgTDhALFFeuqYnV8hNdRk8G9N/oKq5oo2qWKOsCxNp1VT9ePQbaQT4V6
+ 600HhZ3dfcjDUdmDKjVww0gUu6dKQNPARcy5lGdn9iP7Rn0ZaGw8okcbs0+OV3SEUwCx
+ DAUSJ/OtdUqh3lt4EuOnJGrpOuPSxppIYbYJja+KjHa+EoeqtaBJzFRXC5wC7YFjG49J hg== 
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38bfx7rt3d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 May 2021 20:11:36 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 1450BZ3B016297;
+ Wed, 5 May 2021 00:11:36 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma03wdc.us.ibm.com with ESMTP id 38bedr0ns8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 May 2021 00:11:36 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1450BZsQ29950440
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 5 May 2021 00:11:35 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 47EE5C605D;
+ Wed,  5 May 2021 00:11:35 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 56FDBC6057;
+ Wed,  5 May 2021 00:11:34 +0000 (GMT)
+Received: from farosas.linux.ibm.com.com (unknown [9.211.49.100])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  5 May 2021 00:11:34 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] ui/cocoa: add option to swap Option and Command,
- enable by default
-Date: Tue,  4 May 2021 20:32:32 -0300
-Message-Id: <20210504233232.28423-3-gustavo@noronha.eti.br>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20210504233232.28423-1-gustavo@noronha.eti.br>
-References: <20210504233232.28423-1-gustavo@noronha.eti.br>
+Subject: [PATCH 0/2] Fix for compat mode in P9 < 2.2
+Date: Tue,  4 May 2021 21:11:28 -0300
+Message-Id: <20210505001130.3999968-1-farosas@linux.ibm.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=gustavo@noronha.eti.br;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ay0fSd5pGjFHbKu0rZlck5_o4Iklfqjs
+X-Proofpoint-ORIG-GUID: ay0fSd5pGjFHbKu0rZlck5_o4Iklfqjs
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-04_15:2021-05-04,
+ 2021-05-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ adultscore=0 spamscore=0 suspectscore=0 clxscore=1015 phishscore=0
+ mlxlogscore=764 impostorscore=0 mlxscore=0 bulkscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2105040166
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,209 +99,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 'Peter Maydell ' <peter.maydell@linaro.org>,
- 'Markus Armbruster ' <armbru@redhat.com>, 'Gerd Hoffmann ' <kraxel@redhat.com>,
- Gustavo Noronha Silva <gustavo@noronha.eti.br>
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gustavo Noronha Silva <gustavo@noronha.eti.br>
+We dropped support in KVM for mixing MMU modes in machines that have
+old POWER9 processors which don't support mixing. As usual I forgot
+that compat mode exists:
 
-On Mac OS X the Option key maps to Alt and Command to Super/Meta. This change
-swaps them around so that Alt is the key closer to the space bar and Meta/Super
-is between Control and Alt, like on non-Mac keyboards.
+  $ lscpu | grep pvr
+  Model:               2.1 (pvr 004e 1201)
 
-It is a cocoa display option, disabled by default.
+  $ ~/qemu-system-ppc64 -machine pseries,accel=kvm,max-cpu-compat=power8 ...
+  error: kvm run failed Invalid argument
+  NIP 0000000000000100   LR 0000000000000000 CTR 0000000000000000 XER 0000000000000000 CPU#0
+  MSR 8000000000001000 HID0 0000000000000000  HF 8000000000000000 iidx 3 didx 3
+  TB 00000000 00000000 DECR 0
+  GPR00 0000000000000000 0000000000000000 0000000000000000 000000007ff00000
+  GPR04 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  GPR08 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  GPR12 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  GPR16 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  GPR20 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  GPR24 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  GPR28 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  CR 00000000  [ -  -  -  -  -  -  -  -  ]             RES ffffffffffffffff
+   SRR0 0000000000000000  SRR1 0000000000000000    PVR 00000000004e1201 VRSAVE 0000000000000000
+  SPRG0 0000000000000000 SPRG1 0000000000000000  SPRG2 0000000000000000  SPRG3 0000000000000000
+  SPRG4 0000000000000000 SPRG5 0000000000000000  SPRG6 0000000000000000  SPRG7 0000000000000000
+  HSRR0 0000000000000000 HSRR1 0000000000000000
+   CFAR 0000000000000000
+   LPCR 000000000004f01f
+   PTCR 0000000000000000   DAR 0000000000000000  DSISR 0000000000000000
 
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.eti.br>
----
- qapi/ui.json    |  8 ++++++-
- qemu-options.hx |  3 ++-
- ui/cocoa.m      | 64 ++++++++++++++++++++++++++++++++++++++++++-------
- 3 files changed, 65 insertions(+), 10 deletions(-)
+This series reuses some code we already have to abort and print a
+proper message if the chosen MMU mode is not supported by the host.
 
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 4ccfae4bbb..ee6fde46d5 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1098,10 +1098,16 @@
- #             a global grab on key events. (default: off)
- #             See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
- #
-+# @swap-option-command: Swap the Option and Command keys so that their key
-+#                       codes match their position on non-Mac keyboards and
-+#                       you can use Meta/Super and Alt where you expect them.
-+#                       (default: off)
-+#
- # Since: 6.1
- ##
- { 'struct'  : 'DisplayCocoa',
--  'data'    : { '*full-grab'     : 'bool' } }
-+  'data'    : { '*full-grab'           : 'bool',
-+                '*swap-option-command' : 'bool' } }
- 
- ##
- # @DisplayType:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index a77505241f..6fcb0b6aaa 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1784,7 +1784,8 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
-     "-display curses[,charset=<encoding>]\n"
- #endif
- #if defined(CONFIG_COCOA)
--    "-display cocoa[,full_grab=on|off]\n"
-+    "-display cocoa[,full-grab=on|off]\n"
-+    "              [,swap-option-command=on|off]\n"
- #endif
- #if defined(CONFIG_OPENGL)
-     "-display egl-headless[,rendernode=<file>]\n"
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 0a45ab30e6..b8fe64e252 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -73,6 +73,7 @@
-     int width;
-     int height;
-     bool full_grab;
-+    bool swap_option_command;
- } QEMUScreen;
- 
- static void cocoa_update(DisplayChangeListener *dcl,
-@@ -327,6 +328,7 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled;
- - (BOOL) isMouseGrabbed;
- - (BOOL) isAbsoluteEnabled;
- - (BOOL) isFullGrabEnabled;
-+- (BOOL) isSwapOptionCommandEnabled;
- - (float) cdx;
- - (float) cdy;
- - (QEMUScreen) gscreen;
-@@ -648,6 +650,13 @@ - (void) setFullGrab:(id)sender
-     screen.full_grab = true;
- }
- 
-+- (void) setSwapOptionCommand:(id)sender
-+{
-+    COCOA_DEBUG("QemuCocoaView: setSwapOptionCommand\n");
-+
-+    screen.swap_option_command = true;
-+}
-+
- - (void) toggleKey: (int)keycode {
-     qkbd_state_key_event(kbd, keycode, !qkbd_state_key_get(kbd, keycode));
- }
-@@ -797,12 +806,22 @@ - (bool) handleEventLocked:(NSEvent *)event
-         qkbd_state_key_event(kbd, Q_KEY_CODE_CTRL_R, false);
-     }
-     if (!(modifiers & NSEventModifierFlagOption)) {
--        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
--        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-+        if ([self isSwapOptionCommandEnabled]) {
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-+        } else {
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-+        }
-     }
-     if (!(modifiers & NSEventModifierFlagCommand)) {
--        qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
--        qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-+        if ([self isSwapOptionCommandEnabled]) {
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-+        } else {
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
-+            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-+        }
-     }
- 
-     switch ([event type]) {
-@@ -834,13 +853,21 @@ - (bool) handleEventLocked:(NSEvent *)event
- 
-                 case kVK_Option:
-                     if (!!(modifiers & NSEventModifierFlagOption)) {
--                        [self toggleKey:Q_KEY_CODE_ALT];
-+                        if ([self isSwapOptionCommandEnabled]) {
-+                            [self toggleKey:Q_KEY_CODE_META_L];
-+                        } else {
-+                            [self toggleKey:Q_KEY_CODE_ALT];
-+                        }
-                     }
-                     break;
- 
-                 case kVK_RightOption:
-                     if (!!(modifiers & NSEventModifierFlagOption)) {
--                        [self toggleKey:Q_KEY_CODE_ALT_R];
-+                        if ([self isSwapOptionCommandEnabled]) {
-+                            [self toggleKey:Q_KEY_CODE_META_R];
-+                        } else {
-+                            [self toggleKey:Q_KEY_CODE_ALT_R];
-+                        }
-                     }
-                     break;
- 
-@@ -848,14 +875,22 @@ - (bool) handleEventLocked:(NSEvent *)event
-                 case kVK_Command:
-                     if (isMouseGrabbed &&
-                         !!(modifiers & NSEventModifierFlagCommand)) {
--                        [self toggleKey:Q_KEY_CODE_META_L];
-+                        if ([self isSwapOptionCommandEnabled]) {
-+                            [self toggleKey:Q_KEY_CODE_ALT];
-+                        } else {
-+                            [self toggleKey:Q_KEY_CODE_META_L];
-+                        }
-                     }
-                     break;
- 
-                 case kVK_RightCommand:
-                     if (isMouseGrabbed &&
-                         !!(modifiers & NSEventModifierFlagCommand)) {
--                        [self toggleKey:Q_KEY_CODE_META_R];
-+                        if ([self isSwapOptionCommandEnabled]) {
-+                            [self toggleKey:Q_KEY_CODE_ALT_R];
-+                        } else {
-+                            [self toggleKey:Q_KEY_CODE_META_R];
-+                        }
-                     }
-                     break;
-             }
-@@ -1085,6 +1120,7 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {
- - (BOOL) isMouseGrabbed {return isMouseGrabbed;}
- - (BOOL) isAbsoluteEnabled {return isAbsoluteEnabled;}
- - (BOOL) isFullGrabEnabled {return screen.full_grab;}
-+- (BOOL) isSwapOptionCommandEnabled {return screen.swap_option_command;}
- - (float) cdx {return cdx;}
- - (float) cdy {return cdy;}
- - (QEMUScreen) gscreen {return screen;}
-@@ -1271,6 +1307,13 @@ - (void) setFullGrab:(id)sender
-     [cocoaView setFullGrab:sender];
- }
- 
-+- (void) setSwapOptionCommand:(id)sender
-+{
-+    COCOA_DEBUG("QemuCocoaAppController: setSwapOptionCommand\n");
-+
-+    [cocoaView setSwapOptionCommand:sender];
-+}
-+
- /* Tries to find then open the specified filename */
- - (void) openDocumentation: (NSString *) filename
- {
-@@ -1953,6 +1996,11 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
-             [[controller delegate] setFullGrab: nil];
-         });
-     }
-+    if (opts->u.cocoa.has_swap_option_command && opts->u.cocoa.swap_option_command) {
-+        dispatch_async(dispatch_get_main_queue(), ^{
-+            [[controller delegate] setSwapOptionCommand: nil];
-+        });
-+    }
-     if (opts->has_show_cursor && opts->show_cursor) {
-         cursor_hide = 0;
-     }
--- 
-2.24.3 (Apple Git-128)
+Fabiano Rosas (2):
+  hw/ppc/spapr.c: Extract MMU mode error reporting into a function
+  hw/ppc/spapr.c: Make sure the host supports the selected MMU mode
 
+ hw/ppc/spapr.c         | 17 +++++++++++++++++
+ hw/ppc/spapr_hcall.c   | 14 ++------------
+ include/hw/ppc/spapr.h |  1 +
+ 3 files changed, 20 insertions(+), 12 deletions(-)
+
+--
+2.29.2
 
