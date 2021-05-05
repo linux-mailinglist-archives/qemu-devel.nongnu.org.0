@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E065374C12
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:44:33 +0200 (CEST)
-Received: from localhost ([::1]:52742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 549FA374C15
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:46:38 +0200 (CEST)
+Received: from localhost ([::1]:59098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leRBw-000229-0h
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:44:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35738)
+	id 1leRDx-0004s2-Bo
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:46:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQsA-0007Zn-LI
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:06 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33202)
+ id 1leQsG-0007kh-V1
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:13 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQs5-0000W7-UP
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:06 -0400
+ id 1leQsC-0000Xa-6j
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620257041; x=1651793041;
+ t=1620257048; x=1651793048;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lTWmHLSJ/1zeLY+vPzxAeYV0kg5U5ryvxxKuI70GuU4=;
- b=B4Kua7asawtsv2btzaa/nL3c60i8VqCV4Yjesdyy6yynll5yN8iiiFvp
- meSjxoJuk0Abtw28ROzPkyIdT/4B92REoYUsR+RReoH6+gF1iInXnwoSj
- g0swLIYPz8huqKHeVR3CAY/7Vj1LdhQfRWwEPnqMH+GrkKE8juru3vHtl
- +MxYfIQn1rzT9WI+Y72U67Khr+DLFytTdxdWZh2laN0nn9azqtWy4l3/N
- 1695yQEICs08+sg5Fmb4aXS0fzBC/O9Cl7YSPF+3FQu6imymYSZUvKkP6
- NdwzbJgcuC2AnM3akAchzr42mQJfmNZooHykEWi9oBC5AHO+YT6B2gIZu w==;
-IronPort-SDR: 6OuiwLOWblQqwqlMyl4rtLXJ68IvFxY6zu4yiMYEJNTw4UGMseSyip634jHOzv9DkDN5XcQNa4
- vBsexLhNcBw+5TluKAhymPb6CviHJi/3GnifISztScXPzAmYcUY4xg/kobye598+e1iB3zRMPr
- YFmpL5PTU2uNVdTUCizU530+nUKqrr/qCziXGasn4iOvt7DrB55k9uiI35u6eCu6bsgabskRLD
- rdhH+AFkmh3n0v/NbfCdQTMMv3vsOqfzgE/j+O+kiHpFOc/BC6LfI9TxOfSzI/+gBkyrYneNLz
- +oQ=
-X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585897"
+ bh=CCgwUukf0mol48E+b6OjDya1sHpuv6iWQ9PgPgArBlM=;
+ b=NwGWEcYjhWWmbXK25L+3YnP7FP1pIm3QqO606rthYo0VVoD7dzzpzXhg
+ jiBubc298EmC/CpQKK6FL/JKw7EXDcZVD5VHADrU/SnHYD/mpEQP9/JAG
+ aH4dKBTL5RSwHBh+0cNSxfJcS5c8myuSkZlic7dJiYf1Wl7SpAoUIMQ5E
+ aUUsJyDpCGHAz4H4/IrBGxlfLt+fv5nX4IfrBiW2NQZeWkJ+qOUXvtox+
+ alWAh5gKuf1jVtNEY6z8mhcV2QbSSUi1knT5FlFVHqQr8eLxsPF/+yFue
+ zBqz5o88mwYQ6uHW2h/gyYYCOFtnICEh7WKuqBNs79ohLjVAumKRzvIjB Q==;
+IronPort-SDR: ZxPb7j/twg09di4SuBULuWQb7ATbD9VQ1qC6hjgfvsJDRvbZBmziPUgWyvMOKgAsLzRUa3Zuju
+ dP/1nFTg2YdVXvI+qM/DFE4siubfiAg8iKV3CPO6dDCZTlGDDpNP+kNbSRUjrDOlj5+XO13YIU
+ crtZdZd7h8Mu5xiiIggIivE2NIiYKzkAngu/ln3jE4oZWMpCYogeIPCkH4Zhg1AyHhZv1FjzWe
+ Yt/YUJf/M+mQ1pKllHgemyI731InIbwAk5EMYJjsMHmCY8ghkfDHAkLF9S4Gbgsm9A9gOjN3pu
+ HtQ=
+X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585909"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:00 +0800
-IronPort-SDR: 3n30lTmTGw7q3Ri0/+g+17P9xlICql8/jO/p7P1SoVmve7SmxrINz3PFb7g8c5pAYg72c493zc
- fmyRKV1t5iHe0xWjo/ZTcPRWcCKgjYBaSKxj0wRvcOFYDaq+wqMuvZRdiJaiJHzroabKE81zaE
- u34qda3bBAI2bgsqb2tlEUT03qwODcXT/Yj5ZtSJrl+DzXtkVqKIxqbyXicNyEeIbyxZ5+dkWg
- SgDEWpIPleTLnrwzRWb6P0xA5FJPNXJmtAQwTD3iPdbR1py2+coLB71p4LXzOVfrmcqtE5Qwn2
- S0K9/jWf2Ym4hS9Drc6eK61v
+ by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:07 +0800
+IronPort-SDR: JmpGMn/QowWMG80vS5h+3lQchmMDQnft9ACQODRh2E91oLIUzUE/cNIFdHWfpJAdnxKi0XfpzC
+ iuOKqEv1QUn6z58Gu3jueOkI7cvvYHoBYQzVUPAOeKSHDH7wKfQHN9QtrfyHqSTGxV1w/3wadn
+ 73rKYSzx5ugGOjy2ZWIki3wU9RZDw3dLsrGConDMYaMtzJzLZtiqN5lu24baE/qxDl9Wx/sfO9
+ q8ZI99V3dhHanOTvHObhz3cPg3NUUZwNZwrAuLhth4C4GOt7Ocd0W4ZSKWfZfYz1UbANnCklev
+ LV/u2+8NVBDXnURMEcrydXVO
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 16:02:41 -0700
-IronPort-SDR: Jsv+rrN0nA1wVNGuOWH3BxVZfDsIh9PBkOc4YOmfa5WMQDjacu3xrdQcRbDHCYTXwRKZb5XrFc
- g/EOjCD86oDwJwVYblYA99LQF7XecVBgXaEaPZEmFKU3Fs8lS6cpBYZaBGUZBRWBHRwwm2eCWr
- BbEBVjvTQ+O8SouFgZHqEvObTMkuMQE7ZA6zdxtelLQ3a7knHiwPTorEGbh0mY4VKpihLjB7aF
- MSk2BB1MHETGvmlWp1oENIa4W6T/DQixx4rIL5nnuv/UcX489tUhXx5cS+g+dqLh6xFb+RanNX
- kzo=
+ 05 May 2021 16:02:47 -0700
+IronPort-SDR: gZgJIfhlLWOZWKQGkQulG9HC25/Yw7jq/zXzlaSEmRrCwq4ugipUW8A/vVmJPQw7u09V3bsqZd
+ hlWqgrLV44oJdhl6Q70/8w/nh4+vCBXINjwOVFvZR2fyQwjWhbRgCnxSTy/kGpwPsCGlHo7b7I
+ 7l/MzXoysmyy2AvWAYoGK7XJu6PAl6EUSuyi9dTDyRJw+jFroTCXiClyeqDIZNWk+QE3yWtW5c
+ PFF8I5OZ/+am6tzt7tIFJ0bYIKBhKHG3qKYQdow0+I7/ZhStWwMwnHuQzIufF25n4ORotQlS0Q
+ HiE=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.46])
- by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:23:58 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:24:05 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 13/42] target/riscv: Use RISCVException enum for CSR access
-Date: Thu,  6 May 2021 09:22:43 +1000
-Message-Id: <20210505232312.4175486-14-alistair.francis@wdc.com>
+Subject: [PULL v2 15/42] hw/opentitan: Update the interrupt layout
+Date: Thu,  6 May 2021 09:22:45 +1000
+Message-Id: <20210505232312.4175486-16-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505232312.4175486-1-alistair.francis@wdc.com>
 References: <20210505232312.4175486-1-alistair.francis@wdc.com>
@@ -90,232 +90,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 302b208f40373557fa11b351b5c9f43039ca8ea3.1617290165.git.alistair.francis@wdc.com
----
- target/riscv/cpu.h       | 11 +++++++----
- target/riscv/csr.c       | 37 ++++++++++++++++++-------------------
- target/riscv/gdbstub.c   |  8 ++++----
- target/riscv/op_helper.c | 18 +++++++++---------
- 4 files changed, 38 insertions(+), 36 deletions(-)
+Update the OpenTitan interrupt layout to match the latest OpenTitan
+bitstreams. This involves changing the Ibex PLIC memory layout and the
+UART interrupts.
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index a7b8876ea0..842d3ab810 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -454,10 +454,13 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-     *pflags = flags;
- }
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-id: e92b696f1809c9fa4410da2e9f23c414db5a6960.1617202791.git.alistair.francis@wdc.com
+---
+ include/hw/riscv/opentitan.h | 16 ++++++++--------
+ hw/intc/ibex_plic.c          | 20 ++++++++++----------
+ hw/riscv/opentitan.c         |  8 ++++----
+ 3 files changed, 22 insertions(+), 22 deletions(-)
+
+diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+index a5ea3a5e4e..aab9bc9245 100644
+--- a/include/hw/riscv/opentitan.h
++++ b/include/hw/riscv/opentitan.h
+@@ -82,14 +82,14 @@ enum {
+ };
  
--int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
--                target_ulong new_value, target_ulong write_mask);
--int riscv_csrrw_debug(CPURISCVState *env, int csrno, target_ulong *ret_value,
--                      target_ulong new_value, target_ulong write_mask);
-+RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
-+                           target_ulong *ret_value,
-+                           target_ulong new_value, target_ulong write_mask);
-+RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
-+                                 target_ulong *ret_value,
-+                                 target_ulong new_value,
-+                                 target_ulong write_mask);
+ enum {
+-    IBEX_UART_RX_PARITY_ERR_IRQ = 0x28,
+-    IBEX_UART_RX_TIMEOUT_IRQ = 0x27,
+-    IBEX_UART_RX_BREAK_ERR_IRQ = 0x26,
+-    IBEX_UART_RX_FRAME_ERR_IRQ = 0x25,
+-    IBEX_UART_RX_OVERFLOW_IRQ = 0x24,
+-    IBEX_UART_TX_EMPTY_IRQ = 0x23,
+-    IBEX_UART_RX_WATERMARK_IRQ = 0x22,
+-    IBEX_UART_TX_WATERMARK_IRQ = 0x21,
++    IBEX_UART0_RX_PARITY_ERR_IRQ = 8,
++    IBEX_UART0_RX_TIMEOUT_IRQ = 7,
++    IBEX_UART0_RX_BREAK_ERR_IRQ = 6,
++    IBEX_UART0_RX_FRAME_ERR_IRQ = 5,
++    IBEX_UART0_RX_OVERFLOW_IRQ = 4,
++    IBEX_UART0_TX_EMPTY_IRQ = 3,
++    IBEX_UART0_RX_WATERMARK_IRQ = 2,
++    IBEX_UART0_TX_WATERMARK_IRQ = 1,
+ };
  
- static inline void riscv_csr_write(CPURISCVState *env, int csrno,
-                                    target_ulong val)
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index f67eaf4042..f0a74f0eb8 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1382,10 +1382,11 @@ static RISCVException write_pmpaddr(CPURISCVState *env, int csrno,
-  * csrrc  <->  riscv_csrrw(env, csrno, ret_value, 0, value);
-  */
- 
--int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
--                target_ulong new_value, target_ulong write_mask)
-+RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
-+                           target_ulong *ret_value,
-+                           target_ulong new_value, target_ulong write_mask)
- {
--    int ret;
-+    RISCVException ret;
-     target_ulong old_value;
-     RISCVCPU *cpu = env_archcpu(env);
- 
-@@ -1407,41 +1408,37 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
- 
-     if ((write_mask && read_only) ||
-         (!env->debugger && (effective_priv < get_field(csrno, 0x300)))) {
--        return -RISCV_EXCP_ILLEGAL_INST;
-+        return RISCV_EXCP_ILLEGAL_INST;
-     }
  #endif
+diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
+index c1b72fcab0..edf76e4f61 100644
+--- a/hw/intc/ibex_plic.c
++++ b/hw/intc/ibex_plic.c
+@@ -225,23 +225,23 @@ static void ibex_plic_irq_request(void *opaque, int irq, int level)
  
-     /* ensure the CSR extension is enabled. */
-     if (!cpu->cfg.ext_icsr) {
--        return -RISCV_EXCP_ILLEGAL_INST;
-+        return RISCV_EXCP_ILLEGAL_INST;
-     }
+ static Property ibex_plic_properties[] = {
+     DEFINE_PROP_UINT32("num-cpus", IbexPlicState, num_cpus, 1),
+-    DEFINE_PROP_UINT32("num-sources", IbexPlicState, num_sources, 80),
++    DEFINE_PROP_UINT32("num-sources", IbexPlicState, num_sources, 176),
  
-     /* check predicate */
-     if (!csr_ops[csrno].predicate) {
--        return -RISCV_EXCP_ILLEGAL_INST;
-+        return RISCV_EXCP_ILLEGAL_INST;
-     }
-     ret = csr_ops[csrno].predicate(env, csrno);
-     if (ret != RISCV_EXCP_NONE) {
--        return -ret;
-+        return ret;
-     }
+     DEFINE_PROP_UINT32("pending-base", IbexPlicState, pending_base, 0),
+-    DEFINE_PROP_UINT32("pending-num", IbexPlicState, pending_num, 3),
++    DEFINE_PROP_UINT32("pending-num", IbexPlicState, pending_num, 6),
  
-     /* execute combined read/write operation if it exists */
-     if (csr_ops[csrno].op) {
--        ret = csr_ops[csrno].op(env, csrno, ret_value, new_value, write_mask);
--        if (ret != RISCV_EXCP_NONE) {
--            return -ret;
--        }
--        return 0;
-+        return csr_ops[csrno].op(env, csrno, ret_value, new_value, write_mask);
-     }
+-    DEFINE_PROP_UINT32("source-base", IbexPlicState, source_base, 0x0c),
+-    DEFINE_PROP_UINT32("source-num", IbexPlicState, source_num, 3),
++    DEFINE_PROP_UINT32("source-base", IbexPlicState, source_base, 0x18),
++    DEFINE_PROP_UINT32("source-num", IbexPlicState, source_num, 6),
  
-     /* if no accessor exists then return failure */
-     if (!csr_ops[csrno].read) {
--        return -RISCV_EXCP_ILLEGAL_INST;
-+        return RISCV_EXCP_ILLEGAL_INST;
-     }
-     /* read old value */
-     ret = csr_ops[csrno].read(env, csrno, &old_value);
-     if (ret != RISCV_EXCP_NONE) {
--        return -ret;
-+        return ret;
-     }
+-    DEFINE_PROP_UINT32("priority-base", IbexPlicState, priority_base, 0x18),
+-    DEFINE_PROP_UINT32("priority-num", IbexPlicState, priority_num, 80),
++    DEFINE_PROP_UINT32("priority-base", IbexPlicState, priority_base, 0x30),
++    DEFINE_PROP_UINT32("priority-num", IbexPlicState, priority_num, 177),
  
-     /* write value if writable and write mask set, otherwise drop writes */
-@@ -1450,7 +1447,7 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-         if (csr_ops[csrno].write) {
-             ret = csr_ops[csrno].write(env, csrno, new_value);
-             if (ret != RISCV_EXCP_NONE) {
--                return -ret;
-+                return ret;
-             }
-         }
-     }
-@@ -1460,17 +1457,19 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-         *ret_value = old_value;
-     }
+-    DEFINE_PROP_UINT32("enable-base", IbexPlicState, enable_base, 0x200),
+-    DEFINE_PROP_UINT32("enable-num", IbexPlicState, enable_num, 3),
++    DEFINE_PROP_UINT32("enable-base", IbexPlicState, enable_base, 0x300),
++    DEFINE_PROP_UINT32("enable-num", IbexPlicState, enable_num, 6),
  
--    return 0;
-+    return RISCV_EXCP_NONE;
- }
+-    DEFINE_PROP_UINT32("threshold-base", IbexPlicState, threshold_base, 0x20c),
++    DEFINE_PROP_UINT32("threshold-base", IbexPlicState, threshold_base, 0x318),
  
- /*
-  * Debugger support.  If not in user mode, set env->debugger before the
-  * riscv_csrrw call and clear it after the call.
-  */
--int riscv_csrrw_debug(CPURISCVState *env, int csrno, target_ulong *ret_value,
--                target_ulong new_value, target_ulong write_mask)
-+RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
-+                                 target_ulong *ret_value,
-+                                 target_ulong new_value,
-+                                 target_ulong write_mask)
- {
--    int ret;
-+    RISCVException ret;
- #if !defined(CONFIG_USER_ONLY)
-     env->debugger = true;
- #endif
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index 5f96b7ea2a..ca78682cf4 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -71,7 +71,7 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
-          */
-         result = riscv_csrrw_debug(env, n - 32, &val,
-                                    0, 0);
--        if (result == 0) {
-+        if (result == RISCV_EXCP_NONE) {
-             return gdb_get_regl(buf, val);
-         }
-     }
-@@ -94,7 +94,7 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
-          */
-         result = riscv_csrrw_debug(env, n - 32, NULL,
-                                    val, -1);
--        if (result == 0) {
-+        if (result == RISCV_EXCP_NONE) {
-             return sizeof(target_ulong);
-         }
-     }
-@@ -108,7 +108,7 @@ static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
-         int result;
+-    DEFINE_PROP_UINT32("claim-base", IbexPlicState, claim_base, 0x210),
++    DEFINE_PROP_UINT32("claim-base", IbexPlicState, claim_base, 0x31c),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
-         result = riscv_csrrw_debug(env, n, &val, 0, 0);
--        if (result == 0) {
-+        if (result == RISCV_EXCP_NONE) {
-             return gdb_get_regl(buf, val);
-         }
-     }
-@@ -122,7 +122,7 @@ static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
-         int result;
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index dc9dea117e..557d73726b 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -148,16 +148,16 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->uart), 0, memmap[IBEX_DEV_UART].base);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
+                        0, qdev_get_gpio_in(DEVICE(&s->plic),
+-                       IBEX_UART_TX_WATERMARK_IRQ));
++                       IBEX_UART0_TX_WATERMARK_IRQ));
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
+                        1, qdev_get_gpio_in(DEVICE(&s->plic),
+-                       IBEX_UART_RX_WATERMARK_IRQ));
++                       IBEX_UART0_RX_WATERMARK_IRQ));
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
+                        2, qdev_get_gpio_in(DEVICE(&s->plic),
+-                       IBEX_UART_TX_EMPTY_IRQ));
++                       IBEX_UART0_TX_EMPTY_IRQ));
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
+                        3, qdev_get_gpio_in(DEVICE(&s->plic),
+-                       IBEX_UART_RX_OVERFLOW_IRQ));
++                       IBEX_UART0_RX_OVERFLOW_IRQ));
  
-         result = riscv_csrrw_debug(env, n, NULL, val, -1);
--        if (result == 0) {
-+        if (result == RISCV_EXCP_NONE) {
-             return sizeof(target_ulong);
-         }
-     }
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index f0bbd73ca5..170b494227 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -41,10 +41,10 @@ target_ulong helper_csrrw(CPURISCVState *env, target_ulong src,
-         target_ulong csr)
- {
-     target_ulong val = 0;
--    int ret = riscv_csrrw(env, csr, &val, src, -1);
-+    RISCVException ret = riscv_csrrw(env, csr, &val, src, -1);
- 
--    if (ret < 0) {
--        riscv_raise_exception(env, -ret, GETPC());
-+    if (ret != RISCV_EXCP_NONE) {
-+        riscv_raise_exception(env, ret, GETPC());
-     }
-     return val;
- }
-@@ -53,10 +53,10 @@ target_ulong helper_csrrs(CPURISCVState *env, target_ulong src,
-         target_ulong csr, target_ulong rs1_pass)
- {
-     target_ulong val = 0;
--    int ret = riscv_csrrw(env, csr, &val, -1, rs1_pass ? src : 0);
-+    RISCVException ret = riscv_csrrw(env, csr, &val, -1, rs1_pass ? src : 0);
- 
--    if (ret < 0) {
--        riscv_raise_exception(env, -ret, GETPC());
-+    if (ret != RISCV_EXCP_NONE) {
-+        riscv_raise_exception(env, ret, GETPC());
-     }
-     return val;
- }
-@@ -65,10 +65,10 @@ target_ulong helper_csrrc(CPURISCVState *env, target_ulong src,
-         target_ulong csr, target_ulong rs1_pass)
- {
-     target_ulong val = 0;
--    int ret = riscv_csrrw(env, csr, &val, 0, rs1_pass ? src : 0);
-+    RISCVException ret = riscv_csrrw(env, csr, &val, 0, rs1_pass ? src : 0);
- 
--    if (ret < 0) {
--        riscv_raise_exception(env, -ret, GETPC());
-+    if (ret != RISCV_EXCP_NONE) {
-+        riscv_raise_exception(env, ret, GETPC());
-     }
-     return val;
- }
+     create_unimplemented_device("riscv.lowrisc.ibex.gpio",
+         memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
 -- 
 2.31.1
 
