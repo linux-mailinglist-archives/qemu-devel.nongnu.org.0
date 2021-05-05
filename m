@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8CF37378D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 11:30:07 +0200 (CEST)
-Received: from localhost ([::1]:42968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7193B37377A
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 11:27:23 +0200 (CEST)
+Received: from localhost ([::1]:36838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leDqz-0005ci-09
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 05:30:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48796)
+	id 1leDoQ-0002xs-H0
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 05:27:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1leDkT-0000tF-0d
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:17 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37647)
+ id 1leDkQ-0000ru-S7
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:15 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1leDkJ-00057p-Ll
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:16 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id z6so1029694wrm.4
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 02:23:05 -0700 (PDT)
+ id 1leDkJ-00058T-Mc
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:12 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ l24-20020a7bc4580000b029014ac3b80020so2991083wmi.1
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 02:23:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RjMgeed3Eg2L1hYeBcLF4NjYwepJBsR/ly1lGVEUMu0=;
- b=ixmaL4rKcE+HYPu/LGHYTYNrXtg14GwMqc2eOXh5Zr7AcT1Iyg0tmoQ/oSPcLMlAHu
- 2+5uKmC743YHFbMMZ4WsCM4ZQjx2uY+mhPJ8YAbm3dDdgN2Jzry4XFX61qzKKn8NJuRV
- msB7/99cJg5qYl8v/aq3l6okcHVf3On/b/pMsCFm/ihUFXEDpGh3O684p4vH3z1K1Vvy
- LrxhBzS/KSqj+GLkaG1/px0HR972fZ974xpgZlTn4e1KulBsEPPhp2JU4YyWw1FbqsBM
- EtY/oq2C7BAJKxPLwmWE60onEY5KKHoSbrmA20NiNA8S28c4LcfTmBq3lv/pSRxSCzRZ
- S9QA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CQ8679cFYPFRKCt5xKP0d5J4rP4I/8eL7P8Ydf6Ygrc=;
+ b=wIOIhpeRlnuvzo+stWllXWq7BKZFMNPUGyIigHtKCeVdRzFCvdjkuHJGZtsInNHJ9d
+ CdfcbyVBYL5gbvUq+IkyNPFpGA6nY0fVgszNGrnz1Bg5gi8yP32tjpk/Zg48giCmeMqW
+ SODq5wpoxHmJsxEl2v8FthPvTxq6o2YxfYAm5ARVZMCZXIWPuSLJ2mNxSlwG2BKNY3w8
+ HRTE1C7L61jmSssy2dc2oQyAvbLIqmOuuakb4d+QpfAnfdnYXtNueaXQRY1jZsV47Xb1
+ BCLFpl8hJa22MtvcAGOdPmKgE/U4hPro8XRvSTMEf98iANGZovyuN+hP0WoBItOmFn17
+ /N2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RjMgeed3Eg2L1hYeBcLF4NjYwepJBsR/ly1lGVEUMu0=;
- b=L4Bv3dL831UBdJ9gVbb978YbSkpQAyWVNIzggQz780tXX4NFZwmiyIcjEkfnt3d3Hg
- KgxTK30lyCgWeLjRMiKu46zLcypKj+wIrrbHCq/7LR8rBV+4fLpy3QYN8dU2mbw1ooRq
- i4Fx2nFjTBk4zPYJGgGO9nNgVYoZtyXGYmdXtTTSqftGBR25MjCSGag1PHtSsZVIM3ZA
- k+kp28D4FCtLUFNr80izA+OSwpMLyOL2AdW9zwd+koXXarVmFbySUv2KXUESsFmV8rLg
- IVPDNsgBEnk/u0jsyGx3iaOPrQgXAbIXZeEG8FEuPB62DiNzcEoAwphZ6LlqXk4WZP+8
- 8Xiw==
-X-Gm-Message-State: AOAM533/Uf1bP/0oLEY0L3gdpENq3Pa5oJ1qx10WnticYXR0mMBdqT2z
- uydp+gds552MRnGcocqT0kNEnQ==
-X-Google-Smtp-Source: ABdhPJzPxLGaqDrBVi1qIM3zlej/zQPuEjYD46CuXPnIXyoZYNBSqjofyZV7UJNdPolorcQ4lbi3uA==
-X-Received: by 2002:adf:e845:: with SMTP id d5mr36211901wrn.96.1620206584696; 
- Wed, 05 May 2021 02:23:04 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CQ8679cFYPFRKCt5xKP0d5J4rP4I/8eL7P8Ydf6Ygrc=;
+ b=OaleXpDnvI6RKNRr30gQqMz1OJL8f0Q5KjOgSaUZSC+mEVoVEm95b0e297CHNojWbI
+ kGQNfcQxUiryfMbqewgc/mWJkkOlrMoLoCQXRfKo6gL1JkMqwdekLfGLJoUYhsBnTLrb
+ n345o1Ex3E/lPqx21TI0JhtfNhnX4eai0qQWE8VeBzCm9ODtQ2/3YVumiOYLL78xZJA7
+ dIAFpuGR98Ox2vNnFPRaGDtWWe0BfuGvoQdtSMWrDkLHGi/ixBnh97TJp+CZDoRWwqYR
+ BnQixcWstzN+FZV4dNeOjrLF36RPhQGFV2YELe2hccf1XrtIY6oOpsSTKVLMdO2HEGyo
+ 6G8g==
+X-Gm-Message-State: AOAM532qrtu1OEZdjuHi+LuNG904Vq/NvpiRsM0Y0LBGv3oYgzurGpRK
+ vxXe9OKq+8idjvOAWZYR05G6tw==
+X-Google-Smtp-Source: ABdhPJzV78qEZBe0CVJsVPNpV/S197CDRHFjY2HO83fl4/+PooANSgZY89DGjh16BmeWL50/R0F2Zw==
+X-Received: by 2002:a1c:731a:: with SMTP id d26mr9070351wmb.36.1620206585443; 
+ Wed, 05 May 2021 02:23:05 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y21sm5088878wmi.15.2021.05.05.02.23.00
+ by smtp.gmail.com with ESMTPSA id c15sm19212753wrr.3.2021.05.05.02.23.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 05 May 2021 02:23:00 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C5B8B1FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id DBDA71FF87;
  Wed,  5 May 2021 10:22:59 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 0/7] plugins/next (windows, leaks, tcg tracing)
-Date: Wed,  5 May 2021 10:22:52 +0100
-Message-Id: <20210505092259.8202-1-alex.bennee@linaro.org>
+Subject: [PATCH v1 1/7] plugins: Update qemu-plugins.symbols to match
+ qemu-plugins.h
+Date: Wed,  5 May 2021 10:22:53 +0100
+Message-Id: <20210505092259.8202-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210505092259.8202-1-alex.bennee@linaro.org>
+References: <20210505092259.8202-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,58 +92,73 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, minyihh@uci.edu,
  robhenry@microsoft.com, vilanova@imperial.ac.uk, mahmoudabdalghany@outlook.com,
  aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
  mohamad.gebai@gmail.com, kuhn.chenqun@huawei.com,
- matheus.ferst@eldorado.org.br
+ matheus.ferst@eldorado.org.br, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Yonggang Luo <luoyonggang@gmail.com>
 
-This is my current plugins queue. It has a few fixes from Yonggang and
-Mahmoud as well as some minor tweaks to the TCG tracing. I've also
-marked an intention to deprecate following the discussion we had in:
+Reorder the function symbols that consistence with qemu-plugins.h
 
-  Subject: trace_FOO_tcg bit-rotted?
-  Date: Tue, 06 Apr 2021 17:00:20 +0100
-  Message-ID: <87eefnwd0l.fsf@linaro.org>
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210318185555.434-2-luoyonggang@gmail.com>
+---
+ plugins/qemu-plugins.symbols | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
-After the fixes to the tool I've actually managed to implement some
-trace points in the generic code but I was still running into issues
-in translator specific code. For the time being the tracing
-documentation just references TCG plugins as another approach to
-solving these sort of instrumentation problems.
-
-The following still need review:
-
- - tcg: add trace events for [exit|goto]_tb and goto_ptr
- - scripts/tracetool: don't barf validating TCG types
- - docs: mark intention to deprecate TCG tracing functionality
-
-Alex Bennée (3):
-  docs: mark intention to deprecate TCG tracing functionality
-  scripts/tracetool: don't barf validating TCG types
-  tcg: add trace events for [exit|goto]_tb and goto_ptr
-
-Mahmoud Mandour (2):
-  plugins/hotblocks: Properly freed the hash table values
-  plugins/hotpages: Properly freed the hash table values
-
-Yonggang Luo (2):
-  plugins: Update qemu-plugins.symbols to match qemu-plugins.h
-  plugins: Move all typedef and type declaration to the front of the
-    qemu-plugin.h
-
- docs/devel/tcg-plugins.rst    |   2 +
- docs/devel/tracing.rst        |   7 ++
- docs/system/deprecated.rst    |  13 +++
- include/qemu/qemu-plugin.h    | 187 +++++++++++++++++-----------------
- contrib/plugins/hotblocks.c   |   3 +-
- contrib/plugins/hotpages.c    |   3 +-
- tcg/tcg-op.c                  |   8 ++
- plugins/qemu-plugins.symbols  |  25 +++--
- scripts/tracetool/__init__.py |   7 +-
- trace-events                  |  12 +++
- 10 files changed, 155 insertions(+), 112 deletions(-)
-
+diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
+index 4bdb381f48..a0ac1df62a 100644
+--- a/plugins/qemu-plugins.symbols
++++ b/plugins/qemu-plugins.symbols
+@@ -5,35 +5,34 @@
+   qemu_plugin_register_vcpu_exit_cb;
+   qemu_plugin_register_vcpu_idle_cb;
+   qemu_plugin_register_vcpu_resume_cb;
+-  qemu_plugin_register_vcpu_insn_exec_cb;
+-  qemu_plugin_register_vcpu_insn_exec_inline;
+-  qemu_plugin_register_vcpu_mem_cb;
+-  qemu_plugin_register_vcpu_mem_haddr_cb;
+-  qemu_plugin_register_vcpu_mem_inline;
+-  qemu_plugin_ram_addr_from_host;
+   qemu_plugin_register_vcpu_tb_trans_cb;
+   qemu_plugin_register_vcpu_tb_exec_cb;
+   qemu_plugin_register_vcpu_tb_exec_inline;
+-  qemu_plugin_register_flush_cb;
+-  qemu_plugin_register_vcpu_syscall_cb;
+-  qemu_plugin_register_vcpu_syscall_ret_cb;
+-  qemu_plugin_register_atexit_cb;
++  qemu_plugin_register_vcpu_insn_exec_cb;
++  qemu_plugin_register_vcpu_insn_exec_inline;
+   qemu_plugin_tb_n_insns;
+-  qemu_plugin_tb_get_insn;
+   qemu_plugin_tb_vaddr;
++  qemu_plugin_tb_get_insn;
+   qemu_plugin_insn_data;
+   qemu_plugin_insn_size;
+   qemu_plugin_insn_vaddr;
+   qemu_plugin_insn_haddr;
+-  qemu_plugin_insn_disas;
+   qemu_plugin_mem_size_shift;
+   qemu_plugin_mem_is_sign_extended;
+   qemu_plugin_mem_is_big_endian;
+   qemu_plugin_mem_is_store;
+   qemu_plugin_get_hwaddr;
+   qemu_plugin_hwaddr_is_io;
+-  qemu_plugin_hwaddr_to_raddr;
++  qemu_plugin_hwaddr_phys_addr;
++  qemu_plugin_hwaddr_device_name;
++  qemu_plugin_register_vcpu_mem_cb;
++  qemu_plugin_register_vcpu_mem_inline;
++  qemu_plugin_register_vcpu_syscall_cb;
++  qemu_plugin_register_vcpu_syscall_ret_cb;
++  qemu_plugin_insn_disas;
+   qemu_plugin_vcpu_for_each;
++  qemu_plugin_register_flush_cb;
++  qemu_plugin_register_atexit_cb;
+   qemu_plugin_n_vcpus;
+   qemu_plugin_n_max_vcpus;
+   qemu_plugin_outs;
 -- 
 2.20.1
 
