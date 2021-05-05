@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93654373485
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 07:03:09 +0200 (CEST)
-Received: from localhost ([::1]:53652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E27373487
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 07:04:33 +0200 (CEST)
+Received: from localhost ([::1]:57354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le9gi-00034W-3W
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 01:03:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54938)
+	id 1le9i4-0004Z6-Qv
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 01:04:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1le9eR-0001y3-JG; Wed, 05 May 2021 01:00:49 -0400
-Received: from ozlabs.org ([203.11.71.1]:43983)
+ id 1le9eR-0001y2-IU; Wed, 05 May 2021 01:00:49 -0400
+Received: from ozlabs.org ([203.11.71.1]:36059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1le9eP-0007uZ-4s; Wed, 05 May 2021 01:00:47 -0400
+ id 1le9eP-0007uY-1M; Wed, 05 May 2021 01:00:47 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZl075gMPz9sRR; Wed,  5 May 2021 15:00:39 +1000 (AEST)
+ id 4FZl0766CMz9sT6; Wed,  5 May 2021 15:00:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620190839;
- bh=DsPXfJAMkQAXO1VpNauxnPKLfM5l/FRRzR5DgDGotw0=;
+ bh=hQTtstFpP9BENIs1rVAjhmpvc7zlS/wantXa4MrKK40=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UODf4gRrg0DIoo6TH28ADzchgf3SraReMSZDIq6NDKXWXxkYeouS5v18RwPzG4N/Y
- 8vJ9vJiX9LRWwRsi1iqcQ7lc5k83C61hWOZYT5VvChmC/ZVMugs1kqVh0MYpohJ/GU
- o7aWHaaEoiggiS3LgqbR7TkNsLX4PGcO+T/815qw=
-Date: Wed, 5 May 2021 14:58:51 +1000
+ b=ZF1gYgzWpgNhrghYEe/kxEueTKM19w8ycVU68LREDC9AksO4Isb7CHdXDZzcNHxCI
+ gFNnEMSgAiWqITi63iWpt0+vDuuwIzXKxK/693vdcy9cUno54B635M6Qttz/oJfrLt
+ TITAWhaVQlYsXWK418707fsslJVQPOs9drc0o6nk=
+Date: Wed, 5 May 2021 15:00:34 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-Subject: Re: [RFC PATCH v2 2/2] hw/ppc: Moved TCG code to spapr_hcall_tcg
-Message-ID: <YJImCwjXUsiKe7mi@yekko>
-References: <20210430184047.81653-1-lucas.araujo@eldorado.org.br>
- <20210430184047.81653-3-lucas.araujo@eldorado.org.br>
- <YI99TaLqKsqBRRxJ@yekko>
- <58cd0298-51e2-3c4f-af15-4b09aa0b71d7@eldorado.org.br>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH] target/ppc: Do not check for LPCR[HAIL] on power10_v1.0
+ CPUs
+Message-ID: <YJImcn2SyNdWZCfW@yekko>
+References: <20210504095900.505668-1-clg@kaod.org>
+ <1620125242.e97yybasbv.astroid@bobo.none>
+ <850b8bb4-0e79-f5ee-ef95-a0e8d95ff9b0@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RmbCv+cmOf26llgF"
+ protocol="application/pgp-signature"; boundary="Zv3F1yiXFjamtt/B"
 Content-Disposition: inline
-In-Reply-To: <58cd0298-51e2-3c4f-af15-4b09aa0b71d7@eldorado.org.br>
+In-Reply-To: <850b8bb4-0e79-f5ee-ef95-a0e8d95ff9b0@kaod.org>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -60,77 +60,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- farosas@linux.ibm.com
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---RmbCv+cmOf26llgF
-Content-Type: text/plain; charset=us-ascii
+--Zv3F1yiXFjamtt/B
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 04, 2021 at 03:14:17PM -0300, Lucas Mateus Martins Araujo e Cas=
-tro wrote:
->=20
-> On 03/05/2021 01:34, David Gibson wrote:
-> > On Fri, Apr 30, 2021 at 03:40:47PM -0300, Lucas Mateus Castro (alqotel)=
- wrote:
-> > > Moved h_enter, remove_hpte, h_remove, h_bulk_remove,h_protect and
-> > > h_read to spapr_hcall_tcg.c, added h_tcg_only to be used in a !TCG
-> > > environment in spapr_hcall.c and changed build options to only build
-> > > spapr_hcall_tcg.c when CONFIG_TCG is enabled.
-> > This looks good.  I'd suggest the name 'spapr_softmmu.c' instead,
-> > which more specifically describes what's special about these
-> > functions.
+On Tue, May 04, 2021 at 01:54:39PM +0200, C=E9dric Le Goater wrote:
+> On 5/4/21 12:49 PM, Nicholas Piggin wrote:
+> > Excerpts from C=E9dric Le Goater's message of May 4, 2021 7:59 pm:
+> >> The LPCR[HAIL] bit only applies to POWER10 DD2 CPUs. On POWER10 DD1,
+> >> the ail value should be extracted using the LPCR_AIL mask like on P9.
+> >>
+> >> Cc: Nicholas Piggin <npiggin@gmail.com>
+> >> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 > >=20
-> > h_resize_hpt_prepare(), h_resize_hpt_commit() and the functions they
-> > depend on belong in the softmmu set as well.
+> > Thanks for this, my oversight for not realising the P10 CPU is DD1=20
+> > (which doesn't have HAIL).
+> >=20
+> > I wonder if it could just use the POWER9 excp_model?
 >=20
-> Moved these hcalls to spapr_softmmu.c as well, along with the most
-> functions they depend on, but 1 function (push_sregs_to_kvm_pr) is
-> also used by hcalls in spapr_hcall.c, so for now I'm just leaving it in
-> spapr_hcall.c and exporting it to be used in spapr_softmmu.c.
+> Yes. Why not. It does bring up another problem which is how to define
+> (cleanly) different characteristics for CPUs of the same POWER family.
+>=20
+> Currently, all P10s are under POWERPC_FAMILY(POWER10). This is a base=20
+> abstract class and definitions can not depend on the PVR. See below
+> what needs to be done to add a custom LPCR mask for DD2 :/
+>=20
+> We could also simply switch P10 to DD2. I would favor that instead of=20
+> adding complexity.
 
-Right.  That one's an ugly workaround for some weird KVM PR behaviour,
-and we will need it in the common code.
+Definitely.  I'm guessing DD1 POWER10s will never be seen outside IBM,
+so I don't think we want support for them in upstream qemu at all.
 
-> On a related note, from what I've seen h_resize_hpt_prepare and
-> h_resize_hpt_commit are not implementede in KVM, so they're only
-> called when there's softmmu so that's why they can be moved to
-> spapr_softmmu.c?
-
-Ah, sorry, I forgot how these worked.  The bulk of the logic to
-implement these *is* in KVM, but KVM doesn't directly intercept them
-as hcalls.  Instead the hcall is caught by qemu, but it just forwards
-them back to KVM by calling an ioctl().  See the calls to
-kvmppc_resize_hpt_prepare() and kvmppc_resize_hpt_commit() in
-spapr_hcall.c.
-
-[Aside: the reason for this is that they're not latency critical, and
- it's useful for qemu to be aware of and possibly filter HPT resize
- requests, but because KVM manages the HPT, qemu can't implement these
- directly for the KVM case]
-
-So what we'll need to do for those is keep the first part if
-h_resize_hpt_{prepare,commit}() in common code - that's basically just
-parameter validation - up to the call to
-kvmppc_resize_hpt_{prepare,commit}().
-
-if the kvmppc_() call fails with -ENOSYS then we need to do
-	if (kvm_enabled()) {
-		return H_HARDWARE;
-	}
-	softmmu_resize_hpt_{prepare,commit}()
-
-Where that softmmu_..() function is the remainder of the logic that's
-in the current implementation.  That bit can move to the softmmu file
-and can be stubbed with an assert-not-reached for the !TCG case.
-
-In practice we should never actually hit that H_HARDWARE - we should
-have failed at machine setup if we tried to enable the resize HPT
-feature on a KVM that doesn't implement it.
+>=20
+> David, what is your opinion on this ?=20
+>=20
+> Thank,
+>=20
+> C.=20
+>=20
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> ---
+>  target/ppc/cpu-models.c |   13 +++++++++++--
+>  target/ppc/cpu-models.h |    1 +
+>  2 files changed, 12 insertions(+), 2 deletions(-)
+>=20
+> Index: qemu-powernv-6.1.git/target/ppc/cpu-models.c
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> --- qemu-powernv-6.1.git.orig/target/ppc/cpu-models.c
+> +++ qemu-powernv-6.1.git/target/ppc/cpu-models.c
+> @@ -32,7 +32,7 @@
+>  /* PowerPC CPU definitions                                              =
+   */
+>  #define POWERPC_DEF_PREFIX(pvr, svr, type)                              =
+    \
+>      glue(glue(glue(glue(pvr, _), svr), _), type)
+> -#define POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type)                =
+    \
+> +#define __POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type, _lpcr)       =
+    \
+>      static void                                                         =
+    \
+>      glue(POWERPC_DEF_PREFIX(_pvr, _svr, _type), _cpu_class_init)        =
+    \
+>      (ObjectClass *oc, void *data)                                       =
+    \
+> @@ -40,6 +40,7 @@
+>          DeviceClass *dc =3D DEVICE_CLASS(oc);                           =
+      \
+>          PowerPCCPUClass *pcc =3D POWERPC_CPU_CLASS(oc);                 =
+      \
+>                                                                          =
+    \
+> +        pcc->lpcr_mask    |=3D _lpcr;                                   =
+      \
+>          pcc->pvr          =3D _pvr;                                     =
+      \
+>          pcc->svr          =3D _svr;                                     =
+      \
+>          dc->desc          =3D _desc;                                    =
+      \
+> @@ -63,6 +64,12 @@
+>      type_init(                                                          =
+    \
+>          glue(POWERPC_DEF_PREFIX(_pvr, _svr, _type), _cpu_register_types))
+> =20
+> +#define POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type)                =
+    \
+> +    __POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type, 0)
+> +
+> +#define POWERPC_DEF_LPCR(_name, _pvr, _type, _desc, _lpcr)              =
+    \
+> +    __POWERPC_DEF_SVR(_name, _desc, _pvr, POWERPC_SVR_NONE, _type, _lpcr)
+> +
+>  #define POWERPC_DEF(_name, _pvr, _type, _desc)                          =
+    \
+>      POWERPC_DEF_SVR(_name, _desc, _pvr, POWERPC_SVR_NONE, _type)
+> =20
+> @@ -776,6 +783,8 @@
+>                  "POWER9 v2.0")
+>      POWERPC_DEF("power10_v1.0",  CPU_POWERPC_POWER10_DD1,            POW=
+ER10,
+>                  "POWER10 v1.0")
+> +    POWERPC_DEF_LPCR("power10_v2.0",  CPU_POWERPC_POWER10_DD20,      POW=
+ER10,
+> +                     "POWER10 v2.0", LPCR_HAIL)
+>  #endif /* defined (TARGET_PPC64) */
+> =20
+>  /***********************************************************************=
+****/
+> @@ -952,7 +961,7 @@ PowerPCCPUAlias ppc_cpu_aliases[] =3D {
+>      { "power8", "power8_v2.0" },
+>      { "power8nvl", "power8nvl_v1.0" },
+>      { "power9", "power9_v2.0" },
+> -    { "power10", "power10_v1.0" },
+> +    { "power10", "power10_v2.0" },
+>  #endif
+> =20
+>      /* Generic PowerPCs */
+> Index: qemu-powernv-6.1.git/target/ppc/cpu-models.h
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> --- qemu-powernv-6.1.git.orig/target/ppc/cpu-models.h
+> +++ qemu-powernv-6.1.git/target/ppc/cpu-models.h
+> @@ -375,6 +375,7 @@ enum {
+>      CPU_POWERPC_POWER9_DD20        =3D 0x004E1200,
+>      CPU_POWERPC_POWER10_BASE       =3D 0x00800000,
+>      CPU_POWERPC_POWER10_DD1        =3D 0x00800100,
+> +    CPU_POWERPC_POWER10_DD20       =3D 0x00800200,
+>      CPU_POWERPC_970_v22            =3D 0x00390202,
+>      CPU_POWERPC_970FX_v10          =3D 0x00391100,
+>      CPU_POWERPC_970FX_v20          =3D 0x003C0200,
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -138,25 +209,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---RmbCv+cmOf26llgF
+--Zv3F1yiXFjamtt/B
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCSJgkACgkQbDjKyiDZ
-s5KKFhAAwHUfQaF3Ls9VeF9em4rQrmgFoGKgW5nT04qBdoBlw+AvdtqHLkDm8v7O
-XjPcRjKiUkLHvK4u9rrMo5NuIfKqzn4QC0FwRWMAvClMK0WCk2ZFm8llSjDLSXzV
-Nf1c1GdDwRJ5pYm8HhHdQG2hHErClVsvBJC7dpVa1ialj96H8CImjOoSq4O5Fkr1
-BEqPxLVGoKZo9b1+OtKz8kXNsEW84zdeKB0Zjj/5NBhuNlmVjCPZPPCBkUx8f+Vg
-z8TG2Gc/5pErTINBKNmTdj+4ItVoJ864cJx7IqfflJiOEVkyyfGbbVawigwcngUI
-NtM865VyPH4sr+VNcoZCeUPeM9NIJoIbButC6DnNQ8nYnS4CEU48XVHiV+iyjIrR
-kQ92qgJ61FTGvm9fB9R747qHOPmlokXjIRlQf7fxO86Zss7ItqWLT7Q+cFIUDLRA
-M9/4qvDcQJKpqxwk92o6T6edn4AZkmFU5oL0jQrG99rTWpXYPivH4TZ7oKDiUT5T
-B6wSUsW/oZgv2nlAnG06cwuPi7B2EONL0m+4NJzAGfjgAgkg2sPE7jsIeQp9QE/e
-b2J7WkiS7LZmEy163miLMAK812FKX0AS2wrCR7k2g5eUzOcYPB6s8LmSB7Vd13Et
-zxuM07jaelMAlehcJw14iCR3fA9aQUpz5pCPE5A58uf0eyvG9Qo=
-=DyJg
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCSJnIACgkQbDjKyiDZ
+s5IMVg/9Fu5VD3saZujrDzbAuuxYoYJ1zQr+5qzq5UWZ8eOe1n/YT6/WI4u7c+rk
+MMDYJTocVZtmmi5mrf4OLN6uvI7pUq+jnPqzGEKxuKRVL8luIgYGu0a47ouYHZ0r
+xKhEqSlJND0e7LvFhRg8/p25Lii8kv5f8HDCfuOJv3toyqF/5E1u20WpZ05n/ZPM
+EahrI7CUbGfdeyXPzfvmzkQbKVmtEAcXpwa7WSjR9HFQ8y0iH67NfCFl62gGNx+S
+YWDzrJJW67eKtJtHQWKyixTcnxvWZR/8dM5m29kHcyfT2Rwi7ckNXT43YdLv+y/j
+bA59xP+Ig57rF5mMZBJ0qpYq8AeHTLM/f6scG/PLCUnViZ5bJfd4wALuw3Nx2lPh
+uKwZSG3loEHPH8vy8U+AQQlHWM8+3tdYuxOMW7mEFKaDOo0AzLh40oak1A6P5tLK
+5vQsqH1YxAZ5ogtemkO0bZCQN0Ee+FDOn+eORZDYRIbQ6MIm3ap5Ue688Ti+eJ5w
+V7foODks38KJHbXjIUyfyizr9KaSOfxLKN9vwgOE49mGsonBkTlm9VA9FtFOIOVY
+C2z6QWewlzFWxQ6uvEG7jKIotIO2Zlji76hogckb58a+EjutmSGkgjSqJkBLX0ln
+Pj83yuxKM3dqYW+h4mNWeKL1jqMC1fdgNU4YLlAO4kUkZ1I699I=
+=UM7x
 -----END PGP SIGNATURE-----
 
---RmbCv+cmOf26llgF--
+--Zv3F1yiXFjamtt/B--
 
