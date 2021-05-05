@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C335374A31
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:33:01 +0200 (CEST)
-Received: from localhost ([::1]:48826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA13374A39
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:35:17 +0200 (CEST)
+Received: from localhost ([::1]:56852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leP8e-00010i-NA
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:33:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41260)
+	id 1lePAq-0004JR-5E
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:35:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1leOqW-0004An-2M; Wed, 05 May 2021 17:14:17 -0400
-Received: from hera.aquilenet.fr ([2a0c:e300::1]:33352)
+ id 1leOrg-00063s-9E; Wed, 05 May 2021 17:15:28 -0400
+Received: from hera.aquilenet.fr ([2a0c:e300::1]:33404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1leOqU-0005rb-JI; Wed, 05 May 2021 17:14:15 -0400
+ id 1leOre-0006Zi-AQ; Wed, 05 May 2021 17:15:28 -0400
 Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id A58F834C;
- Wed,  5 May 2021 23:14:10 +0200 (CEST)
+ by hera.aquilenet.fr (Postfix) with ESMTP id 5184E34C;
+ Wed,  5 May 2021 23:15:24 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
 Received: from hera.aquilenet.fr ([127.0.0.1])
  by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hJAjMzBFPomz; Wed,  5 May 2021 23:14:10 +0200 (CEST)
+ with ESMTP id bTWsVgwYhWmH; Wed,  5 May 2021 23:15:23 +0200 (CEST)
 Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id DF0E0319;
- Wed,  5 May 2021 23:14:09 +0200 (CEST)
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 6EA73319;
+ Wed,  5 May 2021 23:15:23 +0200 (CEST)
 Received: from samy by begin with local (Exim 4.94)
  (envelope-from <samuel.thibault@gnu.org>)
- id 1leOqP-002fBq-4S; Wed, 05 May 2021 23:14:09 +0200
-Date: Wed, 5 May 2021 23:14:09 +0200
+ id 1leOra-002fD4-Iv; Wed, 05 May 2021 23:15:22 +0200
+Date: Wed, 5 May 2021 23:15:22 +0200
 From: Samuel Thibault <samuel.thibault@gnu.org>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 03/23] chardev/baum: Use definitions to avoid dynamic
- stack allocation
-Message-ID: <20210505211409.lgmh7ivo7lrudfvd@begin>
+Subject: Re: [PATCH 04/23] chardev/baum: Avoid dynamic stack allocation
+Message-ID: <20210505211522.grcqmeilft5ucjvp@begin>
 References: <20210505211047.1496765-1-philmd@redhat.com>
- <20210505211047.1496765-4-philmd@redhat.com>
+ <20210505211047.1496765-5-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210505211047.1496765-4-philmd@redhat.com>
+In-Reply-To: <20210505211047.1496765-5-philmd@redhat.com>
 Organization: I am not organized
 User-Agent: NeoMutt/20170609 (1.8.3)
 X-Spamd-Bar: --
 Authentication-Results: hera.aquilenet.fr
 X-Rspamd-Server: hera
-X-Rspamd-Queue-Id: A58F834C
+X-Rspamd-Queue-Id: 5184E34C
 X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
  RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
  TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
@@ -83,46 +82,32 @@ Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daudé, le mer. 05 mai 2021 23:10:27 +0200, a ecrit:
-> We know 'x * y' will be at most 'X_MAX * Y_MAX' (which is not
-> a big value, it is actually 84). Instead of having the compiler
-> use variable-length array, declare an array able to hold the
-> maximum 'x * y'.
+Philippe Mathieu-Daudé, le mer. 05 mai 2021 23:10:28 +0200, a ecrit:
+> Use autofree heap allocation instead of variable-length
+> array on the stack.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
 > ---
->  chardev/baum.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  chardev/baum.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/chardev/baum.c b/chardev/baum.c
-> index adc3d7b3b56..0822e9ed5f3 100644
+> index 0822e9ed5f3..bc09cda3471 100644
 > --- a/chardev/baum.c
 > +++ b/chardev/baum.c
-> @@ -383,9 +383,9 @@ static int baum_eat_packet(BaumChardev *baum, const uint8_t *buf, int len)
->      switch (req) {
->      case BAUM_REQ_DisplayData:
->      {
-> -        uint8_t cells[baum->x * baum->y], c;
-> -        uint8_t text[baum->x * baum->y];
-> -        uint8_t zero[baum->x * baum->y];
-> +        uint8_t cells[X_MAX * Y_MAX], c;
-> +        uint8_t text[X_MAX * Y_MAX];
-> +        uint8_t zero[X_MAX * Y_MAX];
->          int cursor = BRLAPI_CURSOR_OFF;
->          int i;
->  
-> @@ -408,7 +408,7 @@ static int baum_eat_packet(BaumChardev *baum, const uint8_t *buf, int len)
->          }
->          timer_del(baum->cellCount_timer);
->  
-> -        memset(zero, 0, sizeof(zero));
-> +        memset(zero, 0, baum->x * baum->y);
->  
->          brlapi_writeArguments_t wa = {
->              .displayNumber = BRLAPI_DISPLAY_DEFAULT,
+> @@ -299,7 +299,8 @@ static void baum_chr_accept_input(struct Chardev *chr)
+>  static void baum_write_packet(BaumChardev *baum, const uint8_t *buf, int len)
+>  {
+>      Chardev *chr = CHARDEV(baum);
+> -    uint8_t io_buf[1 + 2 * len], *cur = io_buf;
+> +    g_autofree uint8_t *io_buf = g_malloc(1 + 2 * len);
+> +    uint8_t *cur = io_buf;
+>      int room;
+>      *cur++ = ESC;
+>      while (len--)
 > -- 
 > 2.26.3
 > 
