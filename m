@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB307373FD6
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 18:31:03 +0200 (CEST)
-Received: from localhost ([::1]:60812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35655373FAD
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 18:25:36 +0200 (CEST)
+Received: from localhost ([::1]:49620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leKQQ-00051f-Kd
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 12:31:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59590)
+	id 1leKL9-0000MF-9J
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 12:25:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1leK2x-0005TP-5t
- for qemu-devel@nongnu.org; Wed, 05 May 2021 12:06:47 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:41583)
+ id 1leK32-0005aY-RL
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 12:06:52 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:33778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1leK2t-0002KI-8J
- for qemu-devel@nongnu.org; Wed, 05 May 2021 12:06:46 -0400
-Received: by mail-pl1-x631.google.com with SMTP id e2so1342467plh.8
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 09:06:41 -0700 (PDT)
+ id 1leK30-0002NR-6v
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 12:06:52 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id h11so2531363pfn.0
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 09:06:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=fIPRX4rZvfjgmZsp4kFN9w9Yg0oTaTpU0JN62XLcU4M=;
- b=Y4txtp2y4DxCfWPqt6KNy0GkKl8SwGOX3iYrnnagp8DGUaQdLbDy2foYUcajWFpoZx
- fKPUxkZ9wRAL/vezFzBLaywKuVv/EKKMinvmwHRzt4I/adtxctHD4OOXhcAh1KFRmXso
- M/HFqRNEv09X1wEHPmpFW7wcRwzldZoutWw9pGPEVUE0gWwvngUij6uTrgf5/mDs/cId
- zqdJN2N7ynS1EDwF2zg2GM62FtEZHHNII25rhgxFh6A5Z2arjtseXoSPJVG7zo9wHnVd
- a+mjrp/sKPZE2kW2LVYB7QHL+jC9qvdcqKauvPtJXmz9SlZJnucxxsXXeP9lViC+44en
- pFWw==
+ bh=WDNvY/qw3qpaFfSGAmKakwm7H/nAtriANbcxbBIwKow=;
+ b=M7r89aHpsnt+WXbCJC9dKnxdfllS9KJggcz7xJHltuv22gBKvA2eHDcWrkbJd3cozh
+ v2AFeIvFD2nPbk8Ysg4/zuXGBnEaun75JdcV+yXZ6dM2gk+97fE/XuOP4QVuJ07Z+/rj
+ qKPn1WRn8R0I+hSZA/PSeBvg+3XRucgT0izfPeM3a6TnggKTy5zuYfffb/6GO9xyKM7l
+ ipEVx1R6xZIVpIbvnibdt0VZbTiUgco4q9ix36NU+BbW2zrQu+rKmIwSxy05ORAPFaiG
+ Slv1AXiMlMPXrnx8BpaKXQo8igH6mFkzgCsvdoq6x28CppBPZJlV1PMEQIzuuq7rrdGg
+ Fw5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=fIPRX4rZvfjgmZsp4kFN9w9Yg0oTaTpU0JN62XLcU4M=;
- b=ocpRP80R5j7B+RqxCxvmjSJCN2SZLm3qR0VF1l/UcnoidFLLaQ53gfznwoaF4Kvt0G
- HE6U0yrviTZliOYO7bH8KuVcFCltuGThJ+n8Xsype93mvgW/rQZhGhovegIMTB8CDhZz
- cN+6j3GGyT60gZhn2D5MVpKXHthQCPJimVX38CFcyEVhrCvYBlgY10PXWi0wTMpn4XWz
- WTrGGyr0DuDBmoy2OoXjDIE/h1ya41UVIAO+t/NHL0zOM28dn5+Wa25QTp63yqxP+TbF
- L/LophxG4iVw5PiGhFvcdOz6DiS9zJIisQP4AdXKm4YyeO0e7t/Vz3zJTh+E/QUc65qd
- /T2g==
-X-Gm-Message-State: AOAM533VnM+QZTKrk/JiCzBd9e8pUqRpGDXivVDO1xzxK/RNGGWHD5+N
- Op2KlJ8io6NRoP6AG24cCHNq4zNaXggGdWn3
-X-Google-Smtp-Source: ABdhPJwhmVO/bq7jj8xa312lFR3ONvegn8VBAKdcqUXolYswPxKow7rpDaFNmuDIm/DocJc9gqyCUA==
-X-Received: by 2002:a17:90b:3504:: with SMTP id
- ls4mr11756468pjb.222.1620230800628; 
- Wed, 05 May 2021 09:06:40 -0700 (PDT)
+ bh=WDNvY/qw3qpaFfSGAmKakwm7H/nAtriANbcxbBIwKow=;
+ b=jsMAaZy+X3lKn7CfEQfAOBZdMmw5jgyaDs6SZfZ5RTHKbwyEHTQif8OkhwVwmjt33G
+ 7xFAjO/725k95ThQz3P4ak7kBPUSYt6Mrnt61nmfODF3AUbE7UUUSCI2K6BeFbntrrur
+ /Gm4nJyP2cOrN4uq1N0kKGA+iuAa/CzejUonMcE6l2vhdkl9acxf74ccEpNeLB8Lqal0
+ pXsa6zRquL5E+JdSccgUWZQA9qMLr66v06/UotT0qR3pJu/J4bNYVEgEB2XK1TR4HKVf
+ FYtr5vawgbGTduiBr7hApH5cO6CCDo23kTLDOULzV59u7J0guSXM/fNCQr9Rg7h6dQyq
+ Vq1A==
+X-Gm-Message-State: AOAM531fWoD6zVyl3tmWTE+HJN9kCQCK6/7J4mjkkhQW7PQpF+Ckueog
+ 83hMkc9EH4DD8YFRUYyYEeTd5B0CO6+FRJVe
+X-Google-Smtp-Source: ABdhPJznwcRQ8os22XxSfMY3NJNhdg4prq5E+F2hgFA5jzmOgls+X49VdKqB0I9QxGk1lnGfOXnu5g==
+X-Received: by 2002:a63:4607:: with SMTP id t7mr22212258pga.269.1620230807611; 
+ Wed, 05 May 2021 09:06:47 -0700 (PDT)
 Received: from localhost.localdomain (122-116-72-36.HINET-IP.hinet.net.
  [122.116.72.36])
- by smtp.gmail.com with ESMTPSA id js6sm35877977pjb.0.2021.05.05.09.06.38
+ by smtp.gmail.com with ESMTPSA id js6sm35877977pjb.0.2021.05.05.09.06.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 09:06:40 -0700 (PDT)
+ Wed, 05 May 2021 09:06:47 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v6 04/17] target/riscv: rvb: logic-with-negate
-Date: Thu,  6 May 2021 00:06:05 +0800
-Message-Id: <20210505160620.15723-5-frank.chang@sifive.com>
+Subject: [PATCH v6 06/17] target/riscv: rvb: min/max instructions
+Date: Thu,  6 May 2021 00:06:07 +0800
+Message-Id: <20210505160620.15723-7-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210505160620.15723-1-frank.chang@sifive.com>
 References: <20210505160620.15723-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,52 +91,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Kito Cheng <kito.cheng@sifive.com>
 
 Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/insn32.decode              |  3 +++
- target/riscv/insn_trans/trans_rvb.c.inc | 18 ++++++++++++++++++
- 2 files changed, 21 insertions(+)
+ target/riscv/insn32.decode              |  4 ++++
+ target/riscv/insn_trans/trans_rvb.c.inc | 24 ++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 6f7671872d2..a4d95ea6217 100644
+index 9b2fd4b6fe8..81dfdfbafdc 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -663,6 +663,9 @@ vamomaxud_v     11100 . . ..... ..... 111 ..... 0101111 @r_wdvm
- clz        011000 000000 ..... 001 ..... 0010011 @r2
- ctz        011000 000001 ..... 001 ..... 0010011 @r2
- cpop       011000 000010 ..... 001 ..... 0010011 @r2
-+andn       0100000 .......... 111 ..... 0110011 @r
-+orn        0100000 .......... 110 ..... 0110011 @r
-+xnor       0100000 .......... 100 ..... 0110011 @r
+@@ -669,6 +669,10 @@ xnor       0100000 .......... 100 ..... 0110011 @r
+ pack       0000100 .......... 100 ..... 0110011 @r
+ packu      0100100 .......... 100 ..... 0110011 @r
+ packh      0000100 .......... 111 ..... 0110011 @r
++min        0000101 .......... 100 ..... 0110011 @r
++minu       0000101 .......... 101 ..... 0110011 @r
++max        0000101 .......... 110 ..... 0110011 @r
++maxu       0000101 .......... 111 ..... 0110011 @r
  
  # *** RV64B Standard Extension (in addition to RV32B) ***
  clzw       0110000 00000 ..... 001 ..... 0011011 @r2
 diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 4a5d271b438..b8676785c6f 100644
+index 770205f96f7..5a4fc02f705 100644
 --- a/target/riscv/insn_trans/trans_rvb.c.inc
 +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -35,6 +35,24 @@ static bool trans_cpop(DisasContext *ctx, arg_cpop *a)
-     return gen_unary(ctx, a, tcg_gen_ctpop_tl);
+@@ -71,6 +71,30 @@ static bool trans_packh(DisasContext *ctx, arg_packh *a)
+     return gen_arith(ctx, a, gen_packh);
  }
  
-+static bool trans_andn(DisasContext *ctx, arg_andn *a)
++static bool trans_min(DisasContext *ctx, arg_min *a)
 +{
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_arith(ctx, a, tcg_gen_andc_tl);
++    return gen_arith(ctx, a, tcg_gen_smin_tl);
 +}
 +
-+static bool trans_orn(DisasContext *ctx, arg_orn *a)
++static bool trans_max(DisasContext *ctx, arg_max *a)
 +{
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_arith(ctx, a, tcg_gen_orc_tl);
++    return gen_arith(ctx, a, tcg_gen_smax_tl);
 +}
 +
-+static bool trans_xnor(DisasContext *ctx, arg_xnor *a)
++static bool trans_minu(DisasContext *ctx, arg_minu *a)
 +{
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_arith(ctx, a, tcg_gen_eqv_tl);
++    return gen_arith(ctx, a, tcg_gen_umin_tl);
++}
++
++static bool trans_maxu(DisasContext *ctx, arg_maxu *a)
++{
++    REQUIRE_EXT(ctx, RVB);
++    return gen_arith(ctx, a, tcg_gen_umax_tl);
 +}
 +
  static bool trans_clzw(DisasContext *ctx, arg_clzw *a)
