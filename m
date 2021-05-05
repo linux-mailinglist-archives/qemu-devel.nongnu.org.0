@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CCE7374BDC
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:26:42 +0200 (CEST)
-Received: from localhost ([::1]:47868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56ED2374BE1
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:28:10 +0200 (CEST)
+Received: from localhost ([::1]:56454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leQuf-0002V3-7l
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:26:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35994)
+	id 1leQw5-0005v3-Cw
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQsr-0000fm-6b
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:49 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33264)
+ id 1leQt4-00011X-8t
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:25:02 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQsp-0000vY-BJ
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:48 -0400
+ id 1leQt2-0000wu-73
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:25:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620257087; x=1651793087;
+ t=1620257100; x=1651793100;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=WzI8U0Vh2iFMSVxjJhHwv+fox5ZJja+nCtlrHq7wrso=;
- b=Wjf+YeD1idhStaLrxffJMXxq2F0IZjoDGiP5kBNkGV+ikZ+aTUnACSDV
- dIOPEgp3j9VMS4rK/CKWdSLUArvu3l+xvBBpgq0eOYDixA0J/kt7Fjgz0
- NRgX4Kw7oLx6CY5KWRNP86dw5cB1w4wHpeOM4okioqG8cJitdEXoYVHg1
- Auvk/aWzsTqQqpgknc4mMZUSoi5uBiF1z1DRUeD9R+BoV7L0nBDzfRa09
- mgYPIuvFZ0jdTGo+dP00zEOpukVPPLoNAe6zLw8mhhSk/ymYfBlVTEZI7
- Tr0flFiYD6N+djUCj0W96uKrpJLOzmXe8kz2P91DR0OdSVCkqpBAYeJJ8 Q==;
-IronPort-SDR: NsYxWVGKGtfhD72s9qBdDeuOEFh8n9Q7o40NOX2UNZ7EwQ6W3Zd6rPtjjppVHTn2BB62RDCmTb
- T35O4LwYGMcAEijHM8W/U8h7HD/FU1JbBmnNMqVqMgBz3pfbwLwDuLrF2AyXj3dJ4wVobL+L9A
- IR2AGKoVFI8smWp9uJQKczORpIl2uGSeS6oNNMoD2EANEsnOGyoQTjrav7wcfoYWuE1U3/fEG3
- t0v7rweo+3p+7p2A754MTI+jwPn1vlEIlcwtTiOX80CC4KMywjG0moPUoWS0eUghgovtz9oOQA
- fK8=
-X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585962"
+ bh=F35Wlg7ThlZkm1vRHn1Yuy4izpGJ5nEtQpXZGyOoRmY=;
+ b=EX+I1nSbid/NsT7fNaYUUERlTdM2S3f7zYywjTwyNO+PSRD+obUDykMN
+ YTwAce8dwAN8cfzrCwFx999Wyp16234wS/5H7DuTf4mcubISUuk5Z+N22
+ eqMwu7B8pT8k4Aa086iApS15/zKcxA00DYCWKhqW+4q9jMuqRgocsxDo1
+ tYQ/Ny7lcP8+jGQVHsA0AqXKEOQWzS9fo7zyIhHSIScpYyMXBT0UwXotE
+ 1/v2Z4QBPgTklvHaLlTNhAyYNAHD5OtUv0lnzBSHpJh9NzoG7mVajYHCz
+ tIV/ugduS8tb9va3UF5JnTgK3mbfG4vpsNEjtmDQ5IpFTghpxm9RPYauU w==;
+IronPort-SDR: weaxqkPhQiioZxpv6az5xNKAIp8U8N1vv0ZEZBgsGDMZhUroisrZ6gc/Wvvt/506q/CwG4qSYy
+ xdMLk0h3VQEPeqr4GePsvRD+xnH2LIZh3FVLx9eBmivwOC3kTsZx/HGHjYxiWvbhHwr3CHUKlQ
+ FABGfR3Pm2AVoXZws2psmM2Bqvz6+WiedIW0lTaKIADYd6Jb8vIQPMdyrqfBAhsmbRx5G6U1K0
+ C3I4cfYVCSdcdwcOljppAfAvNYz3QuVi8FC9BOgTrmnEl3ekQo0x7NiOYC8C89jutvFrelgQZG
+ pL4=
+X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585965"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:46 +0800
-IronPort-SDR: pEZ44HYi8ezaFYJwNppF0lAhraC9nPbxV+KZQ+xLowExq1zTy9NKv2oeI0px5s8PVVTD9YuHGj
- vdrVolsEWanGqYrD+Kg+FIrglsKXXTy+lYLw9bKhIj2XxwWiT4swPL7FkZz6oU0a3jViMwy12V
- 5f+92cuDgk1RR34qrQTrQOUdvh9ebaPB8jNVp82aAPskFYeifm1523NiMiDJ8wOdc8wX+Pg8Nh
- dJIdErctWnwDxP9oSE7znrg0wT6n+PcwOPVE+mUF9LIVrCfqW/z74ockvXu3YC9HW9KoPcmOdN
- CjQM/Ucdjy0KMIun0pwed9kt
+ by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:49 +0800
+IronPort-SDR: NSULJZ3ZHjHNKgdZcPmSZNQfEYzjesAkASOfkCL1CIqjiOH3U+SRLIn5B/a+1ZwyXW1O119Jty
+ hZsz2322quciz5bMhYv2QMpItNoRmta5dESAmJCUkU/Qjgjo2IY6d9p8GTI8fsISN5B8YQ4JXa
+ uCUMXfWGfPXRV0voBfDdWdfSfmDBPC7JCAl89GPyqbNhwDdbtapC9Y6ngM73o1DQQpBxmAN+1F
+ WPYY36pGZicQC8B/QYK/k3FKLDsf7KyDl4d8eYjtVqTlPNs8DNMPk0qDPVz2/jfbqAE2wwMZGp
+ iujj00mvNfBeKbUoMxxvytpf
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 16:03:26 -0700
-IronPort-SDR: +DPhSYCYTbcf1a4xhR3XZfP8ZZMVmvQMoM1EAFV2UMzf9k92QWCslA4IRzHd582E1o49zf6BZd
- aTcEkNuaCWGzdQiOZxapTi5sK/cxxxqhl0B0iiz7+AfUJTUcr6iLv8nfzp7AYuwMIe8GAi3/hh
- hNxcv0sYi63uCNiRuKSYts6XdwZ/2WiUf/KICm41Eq017af1LDRMzXcxbSbAEjplV3mmVZ4JME
- lNFdVW49ogPBKGfquLL7HuHhxo7X9emoI6WrvweXXjWmFbGf9DIFE6xAtHSqhsGMIR/LdLBZO1
- 2qc=
+ 05 May 2021 16:03:29 -0700
+IronPort-SDR: DqMbLKVDKvNkxFZxZETphj0eHKTIxbeEUvGduAKcInZa0rspQw51TT7kf+cM34yGIHJsn0RzW9
+ 5srt24wvMPp3LCRyXkuEGXA35JM+tLZAF5YEeYtARTJ1bl0tJ0PUjMkbNqpbrFszzAWJjFANu8
+ HSbWoeNmoWzkKX+btKf3+gye+I+IOIiggTbmllvEEOHpcTl/QwtYjQC+GoiTzDkEfUHgd4VPoO
+ Nq/6Av1Vp6o2FpwlXFu2UVdj8WMN1YRPeRBCUZRdyAI837EGhogn0bYnoWqFPveXgywrBkQqJD
+ 8fI=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.46])
- by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:24:44 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:24:47 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 26/42] target/riscv/pmp: Remove outdated comment
-Date: Thu,  6 May 2021 09:22:56 +1000
-Message-Id: <20210505232312.4175486-27-alistair.francis@wdc.com>
+Subject: [PULL v2 27/42] target/riscv: Add ePMP support for the Ibex CPU
+Date: Thu,  6 May 2021 09:22:57 +1000
+Message-Id: <20210505232312.4175486-28-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505232312.4175486-1-alistair.francis@wdc.com>
 References: <20210505232312.4175486-1-alistair.francis@wdc.com>
@@ -95,28 +95,28 @@ Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The physical Ibex CPU has ePMP support and it's enabled for the
+OpenTitan machine so let's enable ePMP support for the Ibex CPU in QEMU.
+
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 10387eec21d2f17c499a78fdba85280cab4dd27f.1618812899.git.alistair.francis@wdc.com
+Message-id: d426baabab0c9361ed2e989dbe416e417a551fd1.1618812899.git.alistair.francis@wdc.com
 ---
- target/riscv/pmp.c | 4 ----
- 1 file changed, 4 deletions(-)
+ target/riscv/cpu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index e1f5776316..78203291de 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -19,10 +19,6 @@
-  * this program.  If not, see <http://www.gnu.org/licenses/>.
-  */
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 66787d019c..4bf6a00636 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -202,6 +202,7 @@ static void rv32_ibex_cpu_init(Object *obj)
+     set_misa(env, RV32 | RVI | RVM | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
++    qdev_prop_set_bit(DEVICE(obj), "x-epmp", true);
+ }
  
--/*
-- * PMP (Physical Memory Protection) is as-of-yet unused and needs testing.
-- */
--
- #include "qemu/osdep.h"
- #include "qemu/log.h"
- #include "qapi/error.h"
+ static void rv32_imafcu_nommu_cpu_init(Object *obj)
 -- 
 2.31.1
 
