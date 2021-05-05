@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1039B3748C0
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 21:35:40 +0200 (CEST)
-Received: from localhost ([::1]:45342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DEE3748BB
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 21:32:11 +0200 (CEST)
+Received: from localhost ([::1]:38724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leNJ5-00037m-5i
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 15:35:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43776)
+	id 1leNFi-0000Fo-SP
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 15:32:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1leN7B-0002I6-1k
- for qemu-devel@nongnu.org; Wed, 05 May 2021 15:23:22 -0400
-Received: from mailout12.t-online.de ([194.25.134.22]:40170)
+ id 1leN6j-000219-58
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 15:22:54 -0400
+Received: from mailout10.t-online.de ([194.25.134.21]:50418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1leN73-0007qM-EB
- for qemu-devel@nongnu.org; Wed, 05 May 2021 15:23:18 -0400
-Received: from fwd15.aul.t-online.de (fwd15.aul.t-online.de [172.20.27.63])
- by mailout12.t-online.de (Postfix) with SMTP id D3DA832721;
+ id 1leN6g-0007fc-RD
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 15:22:52 -0400
+Received: from fwd09.aul.t-online.de (fwd09.aul.t-online.de [172.20.27.151])
+ by mailout10.t-online.de (Postfix) with SMTP id 812C9BBEA2;
  Wed,  5 May 2021 21:21:56 +0200 (CEST)
 Received: from linpower.localnet
- (GQUIpsZerhYjvA2Iy2XvlWTawEwv4AkOT+F7xYYKg823SSHW5oDSERlfjAOWGrMQKs@[46.86.52.8])
- by fwd15.t-online.de
+ (TF+4R2ZQYhA8Wn5GS4um50xJNIPgDve6hZG5psMsSwfzt5IjAXCwdD03ddzN-Oeg6e@[46.86.52.8])
+ by fwd09.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1leN5i-20sP2G0; Wed, 5 May 2021 21:21:50 +0200
+ esmtp id 1leN5l-4XWmRc0; Wed, 5 May 2021 21:21:53 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 0058A2006F7; Wed,  5 May 2021 21:21:33 +0200 (CEST)
+ id 0286F2006F8; Wed,  5 May 2021 21:21:34 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 07/10] pckbd: add state variable for interrupt source
-Date: Wed,  5 May 2021 21:21:30 +0200
-Message-Id: <20210505192133.7480-7-vr_qemu@t-online.de>
+Subject: [PATCH 08/10] pckbd: add controller response queue
+Date: Wed,  5 May 2021 21:21:31 +0200
+Message-Id: <20210505192133.7480-8-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <aed90d92-4e34-6f33-005f-10cf176e5483@t-online.de>
 References: <aed90d92-4e34-6f33-005f-10cf176e5483@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: GQUIpsZerhYjvA2Iy2XvlWTawEwv4AkOT+F7xYYKg823SSHW5oDSERlfjAOWGrMQKs
-X-TOI-EXPURGATEID: 150726::1620242510-0001577D-1CD62D14/0/0 CLEAN NORMAL
-X-TOI-MSGID: dba7b5fc-18bc-4ab0-b5b1-538407b61e52
-Received-SPF: none client-ip=194.25.134.22;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout12.t-online.de
+X-ID: TF+4R2ZQYhA8Wn5GS4um50xJNIPgDve6hZG5psMsSwfzt5IjAXCwdD03ddzN-Oeg6e
+X-TOI-EXPURGATEID: 150726::1620242513-00002D5B-739ED396/0/0 CLEAN NORMAL
+X-TOI-MSGID: a310330d-494f-4a76-97fc-6aa29130b6d3
+Received-SPF: none client-ip=194.25.134.21;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout10.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,91 +67,109 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently there is only one flag to distinguish between two
-interrupt sources and there are no available flags for more
-sources. Add an internal state variable to store the interrupt
-source. The next patch will introduce an additional interrupt
-source. There is no functional change.
+Add a separate queue for PS/2 controller responses. The
+responses no longer get queued in the keyboard or mouse queues.
+The advantage of this can be seen after the next patch, where
+the guest can disable the PS/2 communication with the keyboard
+and mouse and still talk to the PS/2 controller.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- hw/input/pckbd.c | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ hw/input/pckbd.c | 38 +++++++++++++++++++++++++++++++-------
+ 1 file changed, 31 insertions(+), 7 deletions(-)
 
 diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index f45aebb6b8..f8f3859b17 100644
+index f8f3859b17..3c41c11841 100644
 --- a/hw/input/pckbd.c
 +++ b/hw/input/pckbd.c
-@@ -135,12 +135,16 @@
+@@ -132,11 +132,14 @@
+ 
+ #define KBD_PENDING_KBD         1
+ #define KBD_PENDING_AUX         2
++#define KBD_PENDING_CTRL_KBD    0x04
++#define KBD_PENDING_CTRL_AUX    0x08
  
  #define KBD_MIGR_TIMER_PENDING  0x1
  
-+#define KBD_OBSRC_KBD           0x01
-+#define KBD_OBSRC_MOUSE         0x02
-+
+ #define KBD_OBSRC_KBD           0x01
+ #define KBD_OBSRC_MOUSE         0x02
++#define KBD_OBSRC_CTRL          0x04
+ 
  typedef struct KBDState {
      uint8_t write_cmd; /* if non zero, write data to port 60 is expected */
-     uint8_t status;
-     uint8_t mode;
-     uint8_t outport;
-     uint32_t migration_flags;
-+    uint32_t obsrc;
-     bool outport_present;
+@@ -149,6 +152,7 @@ typedef struct KBDState {
      /* Bitmask of devices with data available.  */
      uint8_t pending;
-@@ -198,6 +202,9 @@ static void kbd_update_irq(KBDState *s)
-         if (s->pending == KBD_PENDING_AUX) {
+     uint8_t obdata;
++    uint8_t cbdata;
+     void *kbd;
+     void *mouse;
+     QEMUTimer *throttle_timer;
+@@ -199,12 +203,18 @@ static void kbd_update_irq(KBDState *s)
+     if (s->pending) {
+         s->status |= KBD_STAT_OBF;
+         s->outport |= KBD_OUT_OBF;
+-        if (s->pending == KBD_PENDING_AUX) {
++        if (s->pending & KBD_PENDING_CTRL_KBD) {
++            s->obsrc = KBD_OBSRC_CTRL;
++        } else if (s->pending & KBD_PENDING_CTRL_AUX) {
              s->status |= KBD_STAT_MOUSE_OBF;
              s->outport |= KBD_OUT_MOUSE_OBF;
-+            s->obsrc = KBD_OBSRC_MOUSE;
+-            s->obsrc = KBD_OBSRC_MOUSE;
+-        } else {
++            s->obsrc = KBD_OBSRC_CTRL;
++        } else if (s->pending & KBD_PENDING_KBD) {
+             s->obsrc = KBD_OBSRC_KBD;
 +        } else {
-+            s->obsrc = KBD_OBSRC_KBD;
++            s->status |= KBD_STAT_MOUSE_OBF;
++            s->outport |= KBD_OUT_MOUSE_OBF;
++            s->obsrc = KBD_OBSRC_MOUSE;
          }
      }
      kbd_update_irq_lines(s);
-@@ -371,18 +378,17 @@ static uint64_t kbd_read_data(void *opaque, hwaddr addr,
-                               unsigned size)
- {
-     KBDState *s = opaque;
--    uint8_t status = s->status;
+@@ -276,10 +286,21 @@ static uint64_t kbd_read_status(void *opaque, hwaddr addr,
  
--    if (status & KBD_STAT_OBF) {
-+    if (s->status & KBD_STAT_OBF) {
-         kbd_deassert_irq(s);
--        if (status & KBD_STAT_MOUSE_OBF) {
--            s->obdata = ps2_read_data(s->mouse);
--        } else {
-+        if (s->obsrc & KBD_OBSRC_KBD) {
-             if (s->throttle_timer) {
-                 timer_mod(s->throttle_timer,
-                           qemu_clock_get_us(QEMU_CLOCK_VIRTUAL) + 1000);
-             }
+ static void kbd_queue(KBDState *s, int b, int aux)
+ {
+-    if (aux)
+-        ps2_queue(s->mouse, b);
+-    else
+-        ps2_queue(s->kbd, b);
++    s->cbdata = b;
++    s->pending &= ~KBD_PENDING_CTRL_KBD & ~KBD_PENDING_CTRL_AUX;
++    s->pending |= aux ? KBD_PENDING_CTRL_AUX : KBD_PENDING_CTRL_KBD;
++    kbd_safe_update_irq(s);
++}
++
++static uint8_t kbd_dequeue(KBDState *s)
++{
++    uint8_t b = s->cbdata;
++
++    s->pending &= ~KBD_PENDING_CTRL_KBD & ~KBD_PENDING_CTRL_AUX;
++    if (s->pending) {
++        kbd_update_irq(s);
++    }
++    return b;
+ }
+ 
+ static void outport_write(KBDState *s, uint32_t val)
+@@ -389,6 +410,8 @@ static uint64_t kbd_read_data(void *opaque, hwaddr addr,
              s->obdata = ps2_read_data(s->kbd);
-+        } else if (s->obsrc & KBD_OBSRC_MOUSE) {
-+            s->obdata = ps2_read_data(s->mouse);
+         } else if (s->obsrc & KBD_OBSRC_MOUSE) {
+             s->obdata = ps2_read_data(s->mouse);
++        } else if (s->obsrc & KBD_OBSRC_CTRL) {
++            s->obdata = kbd_dequeue(s);
          }
      }
  
-@@ -499,6 +505,11 @@ static int kbd_post_load(void *opaque, int version_id)
-         s->outport = kbd_outport_default(s);
-     }
-     s->outport_present = false;
-+    if (version_id < 4) {
-+        s->obsrc = s->status & KBD_STAT_OBF ?
-+            (s->status & KBD_STAT_MOUSE_OBF ? KBD_OBSRC_MOUSE : KBD_OBSRC_KBD) :
-+            0;
-+    }
-     if (s->migration_flags & KBD_MIGR_TIMER_PENDING) {
-         kbd_throttle_timeout(s);
-     }
-@@ -517,6 +528,7 @@ static const VMStateDescription vmstate_kbd = {
-         VMSTATE_UINT8(mode, KBDState),
-         VMSTATE_UINT8(pending, KBDState),
+@@ -530,6 +553,7 @@ static const VMStateDescription vmstate_kbd = {
          VMSTATE_UINT32_V(migration_flags, KBDState, 4),
-+        VMSTATE_UINT32_V(obsrc, KBDState, 4),
+         VMSTATE_UINT32_V(obsrc, KBDState, 4),
          VMSTATE_UINT8_V(obdata, KBDState, 4),
++        VMSTATE_UINT8_V(cbdata, KBDState, 4),
          VMSTATE_END_OF_LIST()
      },
+     .subsections = (const VMStateDescription*[]) {
 -- 
 2.26.2
 
