@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3603748A8
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 21:22:30 +0200 (CEST)
-Received: from localhost ([::1]:48660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C30AB3748B4
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 21:28:29 +0200 (CEST)
+Received: from localhost ([::1]:33652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leN6L-0000u8-GO
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 15:22:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42990)
+	id 1leNC8-0006VF-SU
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 15:28:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1leN4q-0000QZ-Dx
- for qemu-devel@nongnu.org; Wed, 05 May 2021 15:20:56 -0400
-Received: from mailout08.t-online.de ([194.25.134.20]:60754)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1leN73-0002Fb-LV
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 15:23:15 -0400
+Received: from mailout05.t-online.de ([194.25.134.82]:35714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1leN4o-0006RW-DN
- for qemu-devel@nongnu.org; Wed, 05 May 2021 15:20:56 -0400
-Received: from fwd21.aul.t-online.de (fwd21.aul.t-online.de [172.20.27.66])
- by mailout08.t-online.de (Postfix) with SMTP id 1F19480DCA;
- Wed,  5 May 2021 21:20:49 +0200 (CEST)
-Received: from [192.168.211.200]
- (Vsj25YZBghM6x2K2y3Qsb768Tj52h0d3EhcwmLHBqFj7IoK2rnCeKHZBWmGvRVVQoT@[46.86.52.8])
- by fwd21.t-online.de
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1leN6x-0007ob-IM
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 15:23:13 -0400
+Received: from fwd33.aul.t-online.de (fwd33.aul.t-online.de [172.20.27.144])
+ by mailout05.t-online.de (Postfix) with SMTP id 8A05851FB0;
+ Wed,  5 May 2021 21:21:37 +0200 (CEST)
+Received: from linpower.localnet
+ (STiHxOZ1Yh4vhV4eklg09pmglcqt5zbQTSKLzVpU+0ePoKrhcV02Jg9zlEbbn8xgNT@[46.86.52.8])
+ by fwd33.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1leN4h-3hCXR20; Wed, 5 May 2021 21:20:47 +0200
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: [PATCH 00/10] PS/2 controller related fixes
+ esmtp id 1leN5S-0FzrPM0; Wed, 5 May 2021 21:21:34 +0200
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id E8210200469; Wed,  5 May 2021 21:21:33 +0200 (CEST)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <aed90d92-4e34-6f33-005f-10cf176e5483@t-online.de>
-Date: Wed, 5 May 2021 21:20:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+Subject: [PATCH 01/10] ps2: fix mouse stream corruption
+Date: Wed,  5 May 2021 21:21:24 +0200
+Message-Id: <20210505192133.7480-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <aed90d92-4e34-6f33-005f-10cf176e5483@t-online.de>
+References: <aed90d92-4e34-6f33-005f-10cf176e5483@t-online.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ID: Vsj25YZBghM6x2K2y3Qsb768Tj52h0d3EhcwmLHBqFj7IoK2rnCeKHZBWmGvRVVQoT
-X-TOI-EXPURGATEID: 150726::1620242447-00002A54-53382A39/0/0 CLEAN NORMAL
-X-TOI-MSGID: 3ed6fd5c-3423-4595-a1b5-466d2ed7d770
-Received-SPF: none client-ip=194.25.134.20; envelope-from=vr_qemu@t-online.de;
- helo=mailout08.t-online.de
+X-ID: STiHxOZ1Yh4vhV4eklg09pmglcqt5zbQTSKLzVpU+0ePoKrhcV02Jg9zlEbbn8xgNT
+X-TOI-EXPURGATEID: 150726::1620242494-00013209-BAB7E192/0/0 CLEAN NORMAL
+X-TOI-MSGID: 4e81bb8b-aadd-4358-8943-a2c07cd79fee
+Received-SPF: none client-ip=194.25.134.82;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout05.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -65,27 +67,36 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series fixes two different PS/2 mouse stream corruptions
-and adds a feature that allows some old misbehaving DOS programs to
-have a working keyboard. With the last few patches, the PS/2 con-
-troller behaves more like a real controller.
+Commit 7abe7eb294 "ps2: Fix mouse stream corruption due to lost data"
+added code to avoid mouse stream corruptions but the calculation of
+the needed free queue size was wrong. Fix this.
 
-Volker Rümelin (10):
-   ps2: fix mouse stream corruption
-   ps2: don't raise an interrupt if queue is full
-   ps2: don't deassert irq twice if queue is empty
-   pckbd: split out interrupt line changing code
-   pckbd: don't update OBF flags if KBD_STAT_OBF is set
-   pckbd: PS/2 keyboard throttle
-   pckbd: add state variable for interrupt source
-   pckbd: add controller response queue
-   pckbd: correctly disable PS/2 communication
-   pckbd: remove duplicated keyboard and mouse defines
+To reproduce, open a text file with the vim 7.3 32 bit for DOS exe-
+cutable in a FreeDOS client started with -display sdl and move the
+mouse around for a few seconds. You will quickly see erratic mouse
+movements and unexpected mouse clicks. CuteMouse (ctmouse.exe) in
+FreeDOS doesn't try to re-sync the mouse stream.
 
-  hw/input/pckbd.c | 293 ++++++++++++++++++++++++++++++++++-------------
-  hw/input/ps2.c   |  11 +-
-  2 files changed, 223 insertions(+), 81 deletions(-)
+Fixes: 7abe7eb294 ("ps2: Fix mouse stream corruption due to lost data")
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ hw/input/ps2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+index 72cdb80ae1..d9f79e8260 100644
+--- a/hw/input/ps2.c
++++ b/hw/input/ps2.c
+@@ -645,7 +645,8 @@ void ps2_keyboard_set_translation(void *opaque, int mode)
+ 
+ static int ps2_mouse_send_packet(PS2MouseState *s)
+ {
+-    const int needed = 3 + (s->mouse_type - 2);
++    /* IMPS/2 and IMEX send 4 bytes, PS2 sends 3 bytes */
++    const int needed = s->mouse_type ? 4 : 3;
+     unsigned int b;
+     int dx1, dy1, dz1;
+ 
 -- 
 2.26.2
 
