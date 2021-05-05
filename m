@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56ED2374BE1
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:28:10 +0200 (CEST)
-Received: from localhost ([::1]:56454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9C9374BF1
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:33:31 +0200 (CEST)
+Received: from localhost ([::1]:46848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leQw5-0005v3-Cw
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36008)
+	id 1leR1G-0004z1-7B
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:33:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQt4-00011X-8t
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:25:02 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33266)
+ id 1leQro-0007JH-LB
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:23:45 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:42186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQt2-0000wu-73
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:25:02 -0400
+ id 1leQrm-0000Lu-LX
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:23:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620257100; x=1651793100;
+ t=1620257022; x=1651793022;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=F35Wlg7ThlZkm1vRHn1Yuy4izpGJ5nEtQpXZGyOoRmY=;
- b=EX+I1nSbid/NsT7fNaYUUERlTdM2S3f7zYywjTwyNO+PSRD+obUDykMN
- YTwAce8dwAN8cfzrCwFx999Wyp16234wS/5H7DuTf4mcubISUuk5Z+N22
- eqMwu7B8pT8k4Aa086iApS15/zKcxA00DYCWKhqW+4q9jMuqRgocsxDo1
- tYQ/Ny7lcP8+jGQVHsA0AqXKEOQWzS9fo7zyIhHSIScpYyMXBT0UwXotE
- 1/v2Z4QBPgTklvHaLlTNhAyYNAHD5OtUv0lnzBSHpJh9NzoG7mVajYHCz
- tIV/ugduS8tb9va3UF5JnTgK3mbfG4vpsNEjtmDQ5IpFTghpxm9RPYauU w==;
-IronPort-SDR: weaxqkPhQiioZxpv6az5xNKAIp8U8N1vv0ZEZBgsGDMZhUroisrZ6gc/Wvvt/506q/CwG4qSYy
- xdMLk0h3VQEPeqr4GePsvRD+xnH2LIZh3FVLx9eBmivwOC3kTsZx/HGHjYxiWvbhHwr3CHUKlQ
- FABGfR3Pm2AVoXZws2psmM2Bqvz6+WiedIW0lTaKIADYd6Jb8vIQPMdyrqfBAhsmbRx5G6U1K0
- C3I4cfYVCSdcdwcOljppAfAvNYz3QuVi8FC9BOgTrmnEl3ekQo0x7NiOYC8C89jutvFrelgQZG
- pL4=
-X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585965"
+ bh=33oKkjRKiHqdoKmxYRwb0N+/KhiXMXBJI/b/JHXG0gg=;
+ b=NJn088P+GKpVcYErRswy2Oc78NYNfK+zcqaqVzIHatprKfP0U/A7ZzbW
+ 3+JK/IbUzRdRiuqrJoWemqPtOhDoV6ZnAAZjdLdOctawDOctm/mHkL17H
+ NPsDdFEDAxxW99zqDR5D87wguhWG0KA0xnWPMMUq/3aBteA77bEzmw6IQ
+ HITRHOmyWci9M2yRyOcQHMQxUCdFLa5xfzZMpMOKeJ3CYFz/M/GRUG3pH
+ ZWhmCP0+AsfvmO7H6sJVnD288uKXiJv9nHOvwVcYinkD4Ek4JC17lsNE2
+ KDayRPG68khDHY34Rtx2OOE9fpW7H+7WgWAkYYPGWGguZnrSpEOgFzP9Z w==;
+IronPort-SDR: irEnJeJjwTHGA0kyyxCQzJK+OWmtSDHrcEqGy8IVXyL4Q81GMXuCgFztWwX17T8gEs6l6nF0tk
+ 99wm44Ql79h82pCuqFIiwH9AYy5lTiE+6aEEQfCZ+bnbxgP+93RwjRjrk2fgbra5zn/8YXNIK5
+ Vpg3GVdWQEmDOjGYuhPxPY8G/kn0i+x2Yoofn0L6DKcGskRDbUGXUNDmUYxfT5/tOjFixnkqIa
+ OyhlXcJLUkJ+zA7KuqT++SZ8pHoGL3SRGBgxzPvW9a4g+3SmZmeCBmhvhVt21lcJNNNPCHN8TP
+ NJo=
+X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="278356888"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:49 +0800
-IronPort-SDR: NSULJZ3ZHjHNKgdZcPmSZNQfEYzjesAkASOfkCL1CIqjiOH3U+SRLIn5B/a+1ZwyXW1O119Jty
- hZsz2322quciz5bMhYv2QMpItNoRmta5dESAmJCUkU/Qjgjo2IY6d9p8GTI8fsISN5B8YQ4JXa
- uCUMXfWGfPXRV0voBfDdWdfSfmDBPC7JCAl89GPyqbNhwDdbtapC9Y6ngM73o1DQQpBxmAN+1F
- WPYY36pGZicQC8B/QYK/k3FKLDsf7KyDl4d8eYjtVqTlPNs8DNMPk0qDPVz2/jfbqAE2wwMZGp
- iujj00mvNfBeKbUoMxxvytpf
+ by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:23:41 +0800
+IronPort-SDR: 92pl+HvCm234UtbeupNkitxxvL9bDCOBnRYxRS1w0GWgnwbqmJBh0lY78/9GzVJ4qNIfeuoxbl
+ WK+iLpRNCB3nMQWbejSZGgfxw8tGglMTlnm2g4CniQzQaJ1ufmTzCQYeEwwhqDlPgtG9d5/IYa
+ qgtIRdD4d55ufLPzvJJbQAHKIuowVwVdvfkVgN8A7xWDGFUHOGErVTSAg2D+EYGWM8/U84Ytr6
+ iBKR9RCEnt0Yzr57q+4h4Mnh4qRxnjblfcbDKXWtND4MQsJUqAwgzkZIIZDmNgQZMLGMXKKzZo
+ 4/AfvDvbZvVK+ezymwqfLAKt
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 16:03:29 -0700
-IronPort-SDR: DqMbLKVDKvNkxFZxZETphj0eHKTIxbeEUvGduAKcInZa0rspQw51TT7kf+cM34yGIHJsn0RzW9
- 5srt24wvMPp3LCRyXkuEGXA35JM+tLZAF5YEeYtARTJ1bl0tJ0PUjMkbNqpbrFszzAWJjFANu8
- HSbWoeNmoWzkKX+btKf3+gye+I+IOIiggTbmllvEEOHpcTl/QwtYjQC+GoiTzDkEfUHgd4VPoO
- Nq/6Av1Vp6o2FpwlXFu2UVdj8WMN1YRPeRBCUZRdyAI837EGhogn0bYnoWqFPveXgywrBkQqJD
- 8fI=
+ 05 May 2021 16:02:22 -0700
+IronPort-SDR: uTq2waVbTyIfMlYOhIYfKUlv3Nf8vQTGE0XZRSSTzukk5GB7f3ej0w4t0ee/nTDU4w3zxEX3g+
+ LD5T7ZjAsfGqpusvWRGk7zg1lYKgswMee0EX9gJytuT8C0msO5ghCX0aYZxkBXRwoz8a+hf3gd
+ k+aWiiaQ0V2ZWHWshuUhKsrUtWp1FaajrBsesdimxuN9DZmAHs55xBwHbma4fg2KO2YwUQxjXR
+ xmEwgT1cZ9OL/5hr8aoxBXbxzoabs7GQXeAhqHHHtNZ58O23Iqu0Drz1PXKE4hnM1s33o9wjKr
+ Tek=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.46])
- by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:24:47 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:23:39 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 27/42] target/riscv: Add ePMP support for the Ibex CPU
-Date: Thu,  6 May 2021 09:22:57 +1000
-Message-Id: <20210505232312.4175486-28-alistair.francis@wdc.com>
+Subject: [PULL v2 08/42] hw/riscv: Connect Shakti UART to Shakti platform
+Date: Thu,  6 May 2021 09:22:38 +1000
+Message-Id: <20210505232312.4175486-9-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505232312.4175486-1-alistair.francis@wdc.com>
 References: <20210505232312.4175486-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.42;
+Received-SPF: pass client-ip=68.232.141.245;
  envelope-from=prvs=752564754=alistair.francis@wdc.com;
- helo=esa4.hgst.iphmx.com
+ helo=esa1.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -90,33 +90,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
+Cc: Vijai Kumar K <vijai@behindbytes.com>, alistair23@gmail.com,
  Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The physical Ibex CPU has ePMP support and it's enabled for the
-OpenTitan machine so let's enable ePMP support for the Ibex CPU in QEMU.
+From: Vijai Kumar K <vijai@behindbytes.com>
 
+Connect one shakti uart to the shakti_c machine.
+
+Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210401181457.73039-5-vijai@behindbytes.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: d426baabab0c9361ed2e989dbe416e417a551fd1.1618812899.git.alistair.francis@wdc.com
 ---
- target/riscv/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/hw/riscv/shakti_c.h | 2 ++
+ hw/riscv/shakti_c.c         | 8 ++++++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 66787d019c..4bf6a00636 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -202,6 +202,7 @@ static void rv32_ibex_cpu_init(Object *obj)
-     set_misa(env, RV32 | RVI | RVM | RVC | RVU);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
-+    qdev_prop_set_bit(DEVICE(obj), "x-epmp", true);
- }
+diff --git a/include/hw/riscv/shakti_c.h b/include/hw/riscv/shakti_c.h
+index 8ffc2b0213..50a2b79086 100644
+--- a/include/hw/riscv/shakti_c.h
++++ b/include/hw/riscv/shakti_c.h
+@@ -21,6 +21,7 @@
  
- static void rv32_imafcu_nommu_cpu_init(Object *obj)
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/boards.h"
++#include "hw/char/shakti_uart.h"
+ 
+ #define TYPE_RISCV_SHAKTI_SOC "riscv.shakti.cclass.soc"
+ #define RISCV_SHAKTI_SOC(obj) \
+@@ -33,6 +34,7 @@ typedef struct ShaktiCSoCState {
+     /*< public >*/
+     RISCVHartArrayState cpus;
+     DeviceState *plic;
++    ShaktiUartState uart;
+     MemoryRegion rom;
+ 
+ } ShaktiCSoCState;
+diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
+index c8205d3f22..e207fa83dd 100644
+--- a/hw/riscv/shakti_c.c
++++ b/hw/riscv/shakti_c.c
+@@ -125,6 +125,13 @@ static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp)
+         SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
+         SIFIVE_CLINT_TIMEBASE_FREQ, false);
+ 
++    qdev_prop_set_chr(DEVICE(&(sss->uart)), "chardev", serial_hd(0));
++    if (!sysbus_realize(SYS_BUS_DEVICE(&sss->uart), errp)) {
++        return;
++    }
++    sysbus_mmio_map(SYS_BUS_DEVICE(&sss->uart), 0,
++                    shakti_c_memmap[SHAKTI_C_UART].base);
++
+     /* ROM */
+     memory_region_init_rom(&sss->rom, OBJECT(dev), "riscv.shakti.c.rom",
+                            shakti_c_memmap[SHAKTI_C_ROM].size, &error_fatal);
+@@ -143,6 +150,7 @@ static void shakti_c_soc_instance_init(Object *obj)
+     ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(obj);
+ 
+     object_initialize_child(obj, "cpus", &sss->cpus, TYPE_RISCV_HART_ARRAY);
++    object_initialize_child(obj, "uart", &sss->uart, TYPE_SHAKTI_UART);
+ 
+     /*
+      * CPU type is fixed and we are not supporting passing from commandline yet.
 -- 
 2.31.1
 
