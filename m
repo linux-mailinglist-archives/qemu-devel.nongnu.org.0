@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3DE374754
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 19:57:16 +0200 (CEST)
-Received: from localhost ([::1]:41042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32BB374756
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 19:59:42 +0200 (CEST)
+Received: from localhost ([::1]:44704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leLlr-0003wP-JB
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 13:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39716)
+	id 1leLoD-0005bA-TR
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 13:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1leLjJ-00033b-6r
- for qemu-devel@nongnu.org; Wed, 05 May 2021 13:54:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21301)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1leLjF-0000nr-MG
- for qemu-devel@nongnu.org; Wed, 05 May 2021 13:54:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620237272;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NdW9Zi1T+f3fzX2fRJLE/kim+RxVMv4R5nc9KJjrpJ8=;
- b=CrJFczoY2ZZM+fGXFpkpM8UBe+sbvP4X/cuoz1mBrD1SjOwfhQumTpWsJRmAeg3GpVemU6
- Z/uMzg93lgx8xQmGy7QbqtKwCNzikyZNczde8Tz9h3hOETwZa5z6X83mqTBRku8U8t/NlM
- u13f9jTfaF7/sNe1QFkuz/XmG3oakg0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-FmyHM5CEP8m6oIaMXOo4MQ-1; Wed, 05 May 2021 13:54:30 -0400
-X-MC-Unique: FmyHM5CEP8m6oIaMXOo4MQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76626106BB24;
- Wed,  5 May 2021 17:54:29 +0000 (UTC)
-Received: from work-vm (ovpn-115-97.ams2.redhat.com [10.36.115.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 566C060864;
- Wed,  5 May 2021 17:54:19 +0000 (UTC)
-Date: Wed, 5 May 2021 18:54:16 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: vhost-user payload union restrictions ?
-Message-ID: <YJLbyERdbaFBwgg+@work-vm>
-References: <YJKRUp8E+J7OSCgg@work-vm>
- <CAJ+F1CLZedsd4X9x5iLoaNNUXSqvet-AKOb-LNsuBjkqfnB3vg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1leLl3-0004ME-TM
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 13:56:26 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:41712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1leLl1-0001bp-F2
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 13:56:25 -0400
+Received: by mail-io1-xd32.google.com with SMTP id n10so2429523ion.8
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 10:56:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=agnhvK0NV5U5zw5S3UkzHacHKvDMnNzeb6XKruEWECs=;
+ b=i6Jjqdwbbt7qF5HiXErqGVa5P9GKK0reWXBVUvp/roiCeQBHHxbuX9djjRf2wH2Crh
+ LrPPttbglUJOnaLGTp0gNXO31AS5sKMMjr3Sa4ohtx46dtVweSn1WA0dFxhYz3OreI4J
+ g5CdCLD6OR6QB0/TMjVD8qtvCS39RGqx3rnQIOonEjP4uB/HbadP0gfoZfoRJw+y0wqb
+ o6lM7pKBZugv1rTOP4+QbqfAmMC/8P5RVI4skQEG5XjoU1NFIhh0DakjFbWf0zVJFVCp
+ HnnXXr3bUGX8yYtTIbI3ti3kfUsKwH0AdNsSmPrq4fwSfAjSnYGcvN7tvnZKFxP6sk6Q
+ JGlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=agnhvK0NV5U5zw5S3UkzHacHKvDMnNzeb6XKruEWECs=;
+ b=Kz0bOqAcPOTEmjM1mYXnOnw/WjvY/+SQEzAuVr4c8L+LoX+7fXaHkKPTmIcZj/ad5k
+ g7AO18MzWBqD1J7mKLcks8MFcxdDnnxxH4W76E8/pXRmHhi/u7+p4RqKjDNuFzbLfy/f
+ Z5svic9I3eO2+xm2Ym0vEGI4aY3jtI4N7nWmLICnXZv4EoXxZKHnIKa0HsfolMuLa9cH
+ JQFyN2Ulmfp2Y6G6SxcKvd5fHgWZUrD1ADWy5qKrfIJm5CHvwtnxtfCMUos00UjwMJIs
+ ITvISetfYnF3/tt0yW0WpbLDGq3kd4DWR8DLo2km/9VuwutiLGhtzxb6+1OBZ1QqlweT
+ 2GrQ==
+X-Gm-Message-State: AOAM533A5irA1ajJbzQrdCgY04Qsi7oApghsoafsJalRq078cBOg2Pt0
+ 7Byui7wH8XcoAFV3frcKRU9y7JCjoLlTHmsXf7Y=
+X-Google-Smtp-Source: ABdhPJxP+niQ9tObrwNkFEgBWvw3ubu7pq/nyZIEn90eaBLO0wQRXS0Qjwgxf2LDJppQgL/kLjSyS8Tp4hZ3K5WZZBo=
+X-Received: by 2002:a02:ceb5:: with SMTP id z21mr9924568jaq.72.1620237381575; 
+ Wed, 05 May 2021 10:56:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CLZedsd4X9x5iLoaNNUXSqvet-AKOb-LNsuBjkqfnB3vg@mail.gmail.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210420115433.12148-1-ma.mandourr@gmail.com>
+ <87fsz1nwqv.fsf@linaro.org>
+In-Reply-To: <87fsz1nwqv.fsf@linaro.org>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+Date: Wed, 5 May 2021 19:56:10 +0200
+Message-ID: <CAD-LL6g8MgXWEr1H8Dgx15nnHJKhtcZBMhefXquJG_FEYgFPGA@mail.gmail.com>
+Subject: Re: [PATCH v3] plugins/syscall: Added a table-like summary output
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000094d9b005c198e94e"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,182 +77,331 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- vgoyal@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Marc-André Lureau (marcandre.lureau@gmail.com) wrote:
-> Hi
-> 
-> On Wed, May 5, 2021 at 4:38 PM Dr. David Alan Gilbert <dgilbert@redhat.com>
-> wrote:
-> 
-> > (Resend, remembering to add list)
-> > Hi,
-> >   I'm trying to understand what restrictions there are on the
-> > payload that's part of VhostUserMsg; and am confused by
-> > inconsistencies.
-> >
-> > Lets start with this version:
-> >
-> > subprojects/libvhost-user/libvhost-user.h :
-> > typedef struct VhostUserMsg {
-> >     int request;
-> >
-> > #define VHOST_USER_VERSION_MASK     (0x3)
-> > #define VHOST_USER_REPLY_MASK       (0x1 << 2)
-> > #define VHOST_USER_NEED_REPLY_MASK  (0x1 << 3)
-> >     uint32_t flags;
-> >     uint32_t size; /* the following payload size */
-> >
-> >     union {
-> > #define VHOST_USER_VRING_IDX_MASK   (0xff)
-> > #define VHOST_USER_VRING_NOFD_MASK  (0x1 << 8)
-> >         uint64_t u64;
-> >         struct vhost_vring_state state;
-> >         struct vhost_vring_addr addr;
-> >         VhostUserMemory memory;
-> >         VhostUserMemRegMsg memreg;
-> >         VhostUserLog log;
-> >         VhostUserConfig config;
-> >         VhostUserVringArea area;
-> >         VhostUserInflight inflight;
-> >     } payload;
-> >
-> >     int fds[VHOST_MEMORY_BASELINE_NREGIONS];
-> >     int fd_num;
-> >     uint8_t *data;
-> > } VU_PACKED VhostUserMsg;
-> >
-> > note the 'fds' array after the payload but before
-> > the end of the structure.
-> >
-> > But then there's the version in:
-> > hw/virtio/vhost-user.c
-> > typedef union {
-> > #define VHOST_USER_VRING_IDX_MASK   (0xff)
-> > #define VHOST_USER_VRING_NOFD_MASK  (0x1<<8)
-> >         uint64_t u64;
-> >         struct vhost_vring_state state;
-> >         struct vhost_vring_addr addr;
-> >         VhostUserMemory memory;
-> >         VhostUserMemRegMsg mem_reg;
-> >         VhostUserLog log;
-> >         struct vhost_iotlb_msg iotlb;
-> >         VhostUserConfig config;
-> >         VhostUserCryptoSession session;
-> >         VhostUserVringArea area;
-> >         VhostUserInflight inflight;
-> > } VhostUserPayload;
-> >
-> > typedef struct VhostUserMsg {
-> >     VhostUserHeader hdr;
-> >     VhostUserPayload payload;
-> > } QEMU_PACKED VhostUserMsg;
-> >
-> > which hasn't got the 'fds' section.
-> > Yet they're both marked as 'packed'.
-> >
-> 
-> They are packed, because both are used to serialize/deserialize the stream.
+--00000000000094d9b005c198e94e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The header is (de)serialized and the payload is; but we don't ever try
-and deal with both at the same time do we ? We read the header, check
-the length, read the payload; so isn't it really each part is packed and
-not the whole?
+On Wed, May 5, 2021 at 3:19 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
 
-> 
-> > That's a bit unfortunate for two structures with the same name.
+>
+> Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+>
+> > Added a table-like output which contains the total number of calls
+> > for each used syscall along with the number of errors that occurred.
 > >
+> > Per-call tracing is still available through supplying the argument
+> > ``print`` to the plugin.
 > >
-> Yes, maybe it's time to have a canonical system header used by both?
+> > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> > ---
+> <snip>
+> > +
+> > +void print_entry(gpointer val, gpointer user_data)
+> >  {
+> >      g_autofree gchar *out;
+> > -    out =3D g_strdup_printf("syscall #%" PRIi64 " returned -> %" PRIi6=
+4
+> "\n",
+> > -            num, ret);
+> > +    SyscallStats *entry =3D (SyscallStats *) val;
+> > +    int64_t syscall_num =3D entry->num;
+> > +    out =3D g_strdup_printf(
+> > +        "%-13" PRIi64 "%-6" PRIi64 " %" PRIi64 "\n",
+> > +        syscall_num, entry->calls, entry->errors);
+> >      qemu_plugin_outs(out);
+> >  }
+>
+> This still fails to compile due to a missing static:
+>
+> [2/10] Compiling C object tests/plugin/libsyscall.so.p/syscall.c.o
+> FAILED: tests/plugin/libsyscall.so.p/syscall.c.o
+> cc -Itests/plugin/libsyscall.so.p -Itests/plugin -I../../tests/plugin
+> -I../../include/qemu -I/usr/include/glib-2.0
+> -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -fdiagnostics-color=3Dauto -=
+pipe
+> -Wall -Winvalid-pch -Werror -std=3Dgnu99 -O2 -g -isystem
+> /home/alex/lsrc/qemu.git/linux-headers -isystem linux-headers -iquote .
+> -iquote /home/alex/lsrc/qemu.git -iquote /home/alex/lsrc/qemu.git/include
+> -iquote /home/alex/lsrc/qemu.git/disas/libvixl -iquote
+> /home/alex/lsrc/qemu.git/tcg/i386 -pthread -U_FORTIFY_SOURCE
+> -D_FORTIFY_SOURCE=3D2 -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64
+> -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
+> -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common
+> -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits
+> -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
+> -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
+> -Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs
+> -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong
+> -DLEGACY_RDMA_REG_MR -fPIC -MD -MQ tests/plugin/libsyscall.so.p/syscall.c=
+.o
+> -MF tests/plugin/libsyscall.so.p/syscall.c.o.d -o
+> tests/plugin/libsyscall.so.p/syscall.c.o -c ../../tests/plugin/syscall.c
+> ../../tests/plugin/syscall.c:80:6: error: no previous prototype for
+> =E2=80=98print_entry=E2=80=99 [-Werror=3Dmissing-prototypes]
+>  void print_entry(gpointer val, gpointer user_data)
+>       ^~~~~~~~~~~
+> cc1: all warnings being treated as errors
+> ninja: build stopped: subcommand failed.
+> make: *** [Makefile:152: run-ninja] Error 1
+>
+> Thanks for the notice. I got it working because I was building it using
+the makefile in the
+contrib/plugins makefile and it does not report warnings. I fixed it.
 
-Any idea where that would live?  I think the problem is that in some
-respects the libvhost_user.h is the right place, but it's now formally a
-separate/sub project.
+> >
+> > +static gint comp_func(gconstpointer ea, gconstpointer eb)
+> > +{
+> > +    SyscallStats *ent_a =3D (SyscallStats *) ea;
+> > +    SyscallStats *ent_b =3D (SyscallStats *) eb;
+> > +
+> > +    return ent_a->calls > ent_b->calls ? -1 : 1;
+> > +}
+> > +
+> >  /*
+> *************************************************************************=
+ */
+> > +static void plugin_exit(qemu_plugin_id_t id, void *p)
+> > +{
+> > +    if (!statistics) {
+> > +        return;
+> > +    }
+> > +
+> > +    g_mutex_lock(&lock);
+> > +    GList *entries =3D g_hash_table_get_values(statistics);
+> > +    entries =3D g_list_sort(entries, comp_func);
+> > +    qemu_plugin_outs("syscall no.  calls  errors\n");
+> >
+> > -static void plugin_exit(qemu_plugin_id_t id, void *p) {}
+> > +    g_list_foreach(entries, print_entry, NULL);
+> > +
+> > +    g_list_free(entries);
+> > +    g_hash_table_destroy(statistics);
+> > +    g_mutex_unlock(&lock);
+> > +}
+>
+> Hmm it looks like we see multiple plugin_exit's when running multiple
+> threads:
+>
+>   ./qemu-aarch64 -d plugin -D output -plugin ./tests/plugin/libsyscall.so
+> ./tests/tcg/aarch64-linux-user/linux-test
+>
+> I don't see it with testthread or the new signals test though which is
+> confusing. Something linux-test is doing must be different.
+>
 
-> > Am I right in thinking that the vhost-user.c version is sent over
-> > the wire, while the libvhost-user.h one is really just an interface?
-> >
-> >
-> I believe the extra fields are not used for serializing the message, but
-> just a convenient way to group related data.
+The output of other plugins is similar so apparently there's something
+different with linux-test, yes.
 
-OK
-
-> > Is it safe for me to add a new, larger entry in the payload union
-> > without breaking existing clients?
-> >
-> 
-> It should be.
-
-Good.
-
-> > I ended up at this question after trying to add a variable length
-> > entry to the union:
-> >
-> > typedef struct {
-> >     VhostUserFSSlaveMsg fs;
-> >     VhostUserFSSlaveMsgEntry entries[VHOST_USER_FS_SLAVE_MAX_ENTRIES];
-> > } QEMU_PACKED VhostUserFSSlaveMsgMax;
-> >
-> > ...
-> > union ....
-> >         VhostUserFSSlaveMsg fs;
-> >         VhostUserFSSlaveMsgMax fs_max; /* Never actually used */
-> > } VhostUserPayload;
-> >
-> > and in the .h I had:
-> > typedef struct {
-> >     /* Generic flags for the overall message */
-> >     uint32_t flags;
-> >     /* Number of entries */
-> >     uint16_t count;
-> >     /* Spare */
-> >     uint16_t align;
-> >
-> >     VhostUserFSSlaveMsgEntry entries[];
-> > } VhostUserFSSlaveMsg;
-> >
-> >     union {
-> > ...
-> >         VhostUserInflight inflight;
-> >         VhostUserFSSlaveMsg fs;
-> >     } payload;
-> >
-> > which is apparently OK in the .c version, and gcc is happy with the same
-> > in the libvhost-user.h version; but clang gets upset by the .h
-> > version because it doesn't like the variable length structure
-> > before the end of the struct - which I have sympathy for.
-> >
-> >
-> Indeed, we probably want to allocate the message separately then.
-
-I'm thinking that wecould change the libvhost-user.h to be:
-
-(as the C file)
-
-typedef struct VhostUserMsg {
-    VhostUserHeader hdr;
-    VhostUserPayload payload;
-} VU_PACKED VhostUserMsgWire;
-
-typedef struct VhostUserMsgExt {
-    int fds[VHOST_MEMORY_BASELINE_NREGIONS];
-    int fd_num;
-    uint8_t *data;
-    VhostUserMsgWire msg;
-} VhostUserMsg;
-
-Dave
+Since this is not a bug related to this particular patch, should I fix the
+compilation error and resend the patch?
 
 
-> thanks
-> 
-> -- 
-> Marc-André Lureau
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
+> >
+> >  QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+> >                                             const qemu_info_t *info,
+> >                                             int argc, char **argv)
+> >  {
+> > +    if (argc =3D=3D 0) {
+> > +        statistics =3D g_hash_table_new_full(NULL, g_direct_equal, NUL=
+L,
+> g_free);
+> > +    } else {
+> > +        for (int i =3D 0; i < argc; i++) {
+> > +            if (g_strcmp0(argv[i], "print") !=3D 0) {
+> > +                fprintf(stderr, "unsupported argument: %s\n", argv[i])=
+;
+> > +                return -1;
+> > +            }
+> > +        }
+> > +    }
+> > +
+> >      qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
+> >      qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_syscall_ret);
+> >      qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
+>
+> Otherwise looking pretty good - certainly a more useful default ;-)
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
 
+Thanks,
+Mahmoud
+
+--00000000000094d9b005c198e94e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Wed, May 5, 2021 at 3:19 PM Alex Benn=
+=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.or=
+g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+><br>
+Mahmoud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail.com" target=3D"_bla=
+nk">ma.mandourr@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; Added a table-like output which contains the total number of calls<br>
+&gt; for each used syscall along with the number of errors that occurred.<b=
+r>
+&gt;<br>
+&gt; Per-call tracing is still available through supplying the argument<br>
+&gt; ``print`` to the plugin.<br>
+&gt;<br>
+&gt; Signed-off-by: Mahmoud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail=
+.com" target=3D"_blank">ma.mandourr@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&lt;snip&gt;<br>
+&gt; +<br>
+&gt; +void print_entry(gpointer val, gpointer user_data)<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 g_autofree gchar *out;<br>
+&gt; -=C2=A0 =C2=A0 out =3D g_strdup_printf(&quot;syscall #%&quot; PRIi64 &=
+quot; returned -&gt; %&quot; PRIi64 &quot;\n&quot;,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 num, ret);<br>
+&gt; +=C2=A0 =C2=A0 SyscallStats *entry =3D (SyscallStats *) val;<br>
+&gt; +=C2=A0 =C2=A0 int64_t syscall_num =3D entry-&gt;num;<br>
+&gt; +=C2=A0 =C2=A0 out =3D g_strdup_printf(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;%-13&quot; PRIi64 &quot;%-6&quot; P=
+RIi64 &quot; %&quot; PRIi64 &quot;\n&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 syscall_num, entry-&gt;calls, entry-&gt;e=
+rrors);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_plugin_outs(out);<br>
+&gt;=C2=A0 }<br>
+<br>
+This still fails to compile due to a missing static:<br>
+<br>
+[2/10] Compiling C object tests/plugin/libsyscall.so.p/syscall.c.o<br>
+FAILED: tests/plugin/libsyscall.so.p/syscall.c.o<br>
+cc -Itests/plugin/libsyscall.so.p -Itests/plugin -I../../tests/plugin -I../=
+../include/qemu -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.=
+0/include -fdiagnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Werror -std=
+=3Dgnu99 -O2 -g -isystem /home/alex/lsrc/qemu.git/linux-headers -isystem li=
+nux-headers -iquote . -iquote /home/alex/lsrc/qemu.git -iquote /home/alex/l=
+src/qemu.git/include -iquote /home/alex/lsrc/qemu.git/disas/libvixl -iquote=
+ /home/alex/lsrc/qemu.git/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SO=
+URCE=3D2 -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SO=
+URCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissin=
+g-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-declarati=
+on -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Win=
+it-self -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -=
+Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs =
+-Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -DLEGACY_RDMA=
+_REG_MR -fPIC -MD -MQ tests/plugin/libsyscall.so.p/syscall.c.o -MF tests/pl=
+ugin/libsyscall.so.p/syscall.c.o.d -o tests/plugin/libsyscall.so.p/syscall.=
+c.o -c ../../tests/plugin/syscall.c<br>
+../../tests/plugin/syscall.c:80:6: error: no previous prototype for =E2=80=
+=98print_entry=E2=80=99 [-Werror=3Dmissing-prototypes]<br>
+=C2=A0void print_entry(gpointer val, gpointer user_data)<br>
+=C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~<br>
+cc1: all warnings being treated as errors<br>
+ninja: build stopped: subcommand failed.<br>
+make: *** [Makefile:152: run-ninja] Error 1<br>
+<br></blockquote><div>Thanks for the notice. I got it working because I was=
+ building it using the makefile in the=C2=A0</div><div>contrib/plugins make=
+file and it does not report warnings. I fixed it.</div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">
+&gt;=C2=A0 <br>
+&gt; +static gint comp_func(gconstpointer ea, gconstpointer eb)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 SyscallStats *ent_a =3D (SyscallStats *) ea;<br>
+&gt; +=C2=A0 =C2=A0 SyscallStats *ent_b =3D (SyscallStats *) eb;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return ent_a-&gt;calls &gt; ent_b-&gt;calls ? -1 : 1;<b=
+r>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 /* *************************************************************=
+************ */<br>
+&gt; +static void plugin_exit(qemu_plugin_id_t id, void *p)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 if (!statistics) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 g_mutex_lock(&amp;lock);<br>
+&gt; +=C2=A0 =C2=A0 GList *entries =3D g_hash_table_get_values(statistics);=
+<br>
+&gt; +=C2=A0 =C2=A0 entries =3D g_list_sort(entries, comp_func);<br>
+&gt; +=C2=A0 =C2=A0 qemu_plugin_outs(&quot;syscall no.=C2=A0 calls=C2=A0 er=
+rors\n&quot;);<br>
+&gt;=C2=A0 <br>
+&gt; -static void plugin_exit(qemu_plugin_id_t id, void *p) {}<br>
+&gt; +=C2=A0 =C2=A0 g_list_foreach(entries, print_entry, NULL);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 g_list_free(entries);<br>
+&gt; +=C2=A0 =C2=A0 g_hash_table_destroy(statistics);<br>
+&gt; +=C2=A0 =C2=A0 g_mutex_unlock(&amp;lock);<br>
+&gt; +}<br>
+<br>
+Hmm it looks like we see multiple plugin_exit&#39;s when running multiple<b=
+r>
+threads:<br>
+<br>
+=C2=A0 ./qemu-aarch64 -d plugin -D output -plugin ./tests/plugin/libsyscall=
+.so ./tests/tcg/aarch64-linux-user/linux-test<br>
+<br>
+I don&#39;t see it with testthread or the new signals test though which is<=
+br>
+confusing. Something linux-test is doing must be different.<br></blockquote=
+><div><br></div><div>The output of other plugins is similar so apparently t=
+here&#39;s something</div><div>different with linux-test, yes.</div><div><b=
+r></div><div>Since this is not a bug related to this particular patch, shou=
+ld I fix the</div><div>compilation error and resend the patch?</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0const qemu_info_t *info,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0int argc, char **argv)<br>
+&gt;=C2=A0 {<br>
+&gt; +=C2=A0 =C2=A0 if (argc =3D=3D 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 statistics =3D g_hash_table_new_full(NULL=
+, g_direct_equal, NULL, g_free);<br>
+&gt; +=C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (int i =3D 0; i &lt; argc; i++) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_strcmp0(argv[i], &quo=
+t;print&quot;) !=3D 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stder=
+r, &quot;unsupported argument: %s\n&quot;, argv[i]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_plugin_register_vcpu_syscall_cb(id, vcpu_sysc=
+all);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_plugin_register_vcpu_syscall_ret_cb(id, vcpu_=
+syscall_ret);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_plugin_register_atexit_cb(id, plugin_exit, NU=
+LL);<br>
+<br>
+Otherwise looking pretty good - certainly a more useful default ;-)<br>
+<br>
+Reviewed-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org"=
+ target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br></blockquote><div><br></div><div>Thanks,=C2=A0</div><di=
+v>Mahmoud=C2=A0</div></div></div>
+
+--00000000000094d9b005c198e94e--
 
