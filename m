@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F173738C7
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:45:01 +0200 (CEST)
-Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75003738CE
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:46:37 +0200 (CEST)
+Received: from localhost ([::1]:54332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leF1Y-0000re-JI
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:45:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39484)
+	id 1leF36-00022q-Sm
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:46:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1leEv3-0001LX-4h
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:38:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32907)
+ id 1leEvL-0001wF-NG
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:38:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1leEv0-0007kD-OD
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:38:16 -0400
+ id 1leEvH-0007tr-2e
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:38:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620211094;
+ s=mimecast20190719; t=1620211110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hhg8q6k50z+vNJQbPykxVts+XvN6KPzMWEvbV3M/T9Y=;
- b=FRLSxmoxRaoKiabAmiYfQ8tQy6rL4bzinApaz1nYn5UOudzTPfbwaaM2rcY7kCV0gpZVcY
- pCKlmSt9LBFd964Jvcfk7qvEC/2fmMqcAlFaTZTXLsludP9kgUmwPh1uE0I1pisDRtGiF1
- 0j9wI+biBWsxj6VaAwnjw3UuAnUdN5A=
+ bh=zuNHPGs9m/WWfUU6/EY/+dbFSrd7g9G6+sv/t5XFvOQ=;
+ b=YBsO6iHAxQnmlYyF8t2TaIDyyNwYYXS6yo1doH0NKLSYyfkrPf9xQBvGAV6RwPJXD610nE
+ zjFvJNdN/vP7tWC2niKYZP3VMqVbPSbPiPp6gFs9DVIKndfUMIDT/zwzF7EWt7Gbr+7eYl
+ uctq035kux7zpOJssXc5OIiO0LOrWaU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-se2YcjuVOd-z_NLEHje_9g-1; Wed, 05 May 2021 06:38:12 -0400
-X-MC-Unique: se2YcjuVOd-z_NLEHje_9g-1
+ us-mta-495-gR-RP_BTN1-b7VXP-7zS6w-1; Wed, 05 May 2021 06:38:26 -0400
+X-MC-Unique: gR-RP_BTN1-b7VXP-7zS6w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A73A801B14;
- Wed,  5 May 2021 10:38:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2763188E3C2;
+ Wed,  5 May 2021 10:38:25 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-253.ams2.redhat.com
  [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40550679E9;
- Wed,  5 May 2021 10:38:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0E5C58821;
+ Wed,  5 May 2021 10:38:11 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/7] linux-user: use GDateTime for formatting timestamp for
- core file
-Date: Wed,  5 May 2021 11:37:01 +0100
-Message-Id: <20210505103702.521457-7-berrange@redhat.com>
+Subject: [PATCH 7/7] virtiofsd: use GDateTime for formatting timestamp for
+ debug messages
+Date: Wed,  5 May 2021 11:37:02 +0100
+Message-Id: <20210505103702.521457-8-berrange@redhat.com>
 In-Reply-To: <20210505103702.521457-1-berrange@redhat.com>
 References: <20210505103702.521457-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -98,80 +98,52 @@ often results in simpler code too.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- linux-user/elfload.c | 36 +++++++++---------------------------
- 1 file changed, 9 insertions(+), 27 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 25 ++++---------------------
+ 1 file changed, 4 insertions(+), 21 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index c6731013fd..c38b7b4d37 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -3386,7 +3386,6 @@ static size_t note_size(const struct memelfnote *);
- static void free_note_info(struct elf_note_info *);
- static int fill_note_info(struct elf_note_info *, long, const CPUArchState *);
- static void fill_thread_info(struct elf_note_info *, const CPUArchState *);
--static int core_dump_filename(const TaskState *, char *, size_t);
- 
- static int dump_write(int, const void *, size_t);
- static int write_note(struct memelfnote *, int);
-@@ -3685,32 +3684,16 @@ static void fill_auxv_note(struct memelfnote *note, const TaskState *ts)
-  * for the name:
-  *     qemu_<basename-of-target-binary>_<date>-<time>_<pid>.core
-  *
-- * Returns 0 in case of success, -1 otherwise (errno is set).
-+ * Returns the filename
-  */
--static int core_dump_filename(const TaskState *ts, char *buf,
--                              size_t bufsize)
-+static char *core_dump_filename(const TaskState *ts)
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 1553d2ef45..cdd224918c 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -3558,10 +3558,6 @@ static void setup_nofile_rlimit(unsigned long rlimit_nofile)
+ static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
  {
--    char timestamp[64];
--    char *base_filename = NULL;
--    struct timeval tv;
+     g_autofree char *localfmt = NULL;
+-    struct timespec ts;
 -    struct tm tm;
-+    g_autoptr(GDateTime) now = g_date_time_new_now_local();
-+    g_autofree char *nowstr = g_date_time_format(now, "%Y%m%d-%H%M%S");
-+    g_autofree char *base_filename = g_path_get_basename(ts->bprm->filename);
+-    char sec_fmt[sizeof "2020-12-07 18:17:54"];
+-    char zone_fmt[sizeof "+0100"];
  
--    assert(bufsize >= PATH_MAX);
--
--    if (gettimeofday(&tv, NULL) < 0) {
--        (void) fprintf(stderr, "unable to get current timestamp: %s",
--                       strerror(errno));
--        return (-1);
--    }
--
--    base_filename = g_path_get_basename(ts->bprm->filename);
--    (void) strftime(timestamp, sizeof (timestamp), "%Y%m%d-%H%M%S",
--                    localtime_r(&tv.tv_sec, &tm));
--    (void) snprintf(buf, bufsize, "qemu_%s_%s_%d.core",
--                    base_filename, timestamp, (int)getpid());
--    g_free(base_filename);
--
--    return (0);
-+    return g_strdup_printf("qemu_%s_%s_%d.core",
-+                           base_filename, nowstr, (int)getpid());
- }
- 
- static int dump_write(int fd, const void *ptr, size_t size)
-@@ -3938,7 +3921,7 @@ static int elf_core_dump(int signr, const CPUArchState *env)
-     const CPUState *cpu = env_cpu((CPUArchState *)env);
-     const TaskState *ts = (const TaskState *)cpu->opaque;
-     struct vm_area_struct *vma = NULL;
--    char corefile[PATH_MAX];
-+    g_autofree char *corefile = NULL;
-     struct elf_note_info info;
-     struct elfhdr elf;
-     struct elf_phdr phdr;
-@@ -3955,8 +3938,7 @@ static int elf_core_dump(int signr, const CPUArchState *env)
-     if (dumpsize.rlim_cur == 0)
-         return 0;
- 
--    if (core_dump_filename(ts, corefile, sizeof (corefile)) < 0)
--        return (-errno);
-+    corefile = core_dump_filename(ts);
- 
-     if ((fd = open(corefile, O_WRONLY | O_CREAT,
-                    S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)) < 0)
+     if (current_log_level < level) {
+         return;
+@@ -3573,23 +3569,10 @@ static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
+             localfmt = g_strdup_printf("[ID: %08ld] %s", syscall(__NR_gettid),
+                                        fmt);
+         } else {
+-            /* try formatting a broken-down timestamp */
+-            if (clock_gettime(CLOCK_REALTIME, &ts) != -1 &&
+-                localtime_r(&ts.tv_sec, &tm) != NULL &&
+-                strftime(sec_fmt, sizeof sec_fmt, "%Y-%m-%d %H:%M:%S",
+-                         &tm) != 0 &&
+-                strftime(zone_fmt, sizeof zone_fmt, "%z", &tm) != 0) {
+-                localfmt = g_strdup_printf("[%s.%02ld%s] [ID: %08ld] %s",
+-                                           sec_fmt,
+-                                           ts.tv_nsec / (10L * 1000 * 1000),
+-                                           zone_fmt, syscall(__NR_gettid),
+-                                           fmt);
+-            } else {
+-                /* fall back to a flat timestamp */
+-                localfmt = g_strdup_printf("[%" PRId64 "] [ID: %08ld] %s",
+-                                           get_clock(), syscall(__NR_gettid),
+-                                           fmt);
+-            }
++            g_autoptr(GDateTime) now = g_date_time_new_now_local();
++            g_autofree char *nowstr = g_date_time_format(now, "%Y-%m-%d %H:%M:%S.%f%z");
++            localfmt = g_strdup_printf("[%s] [ID: %08ld] %s",
++                                       nowstr, syscall(__NR_gettid), fmt);
+         }
+         fmt = localfmt;
+     }
 -- 
 2.31.1
 
