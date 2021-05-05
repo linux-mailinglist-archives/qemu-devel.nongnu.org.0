@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE98374BF2
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:33:33 +0200 (CEST)
-Received: from localhost ([::1]:47208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B1A374C00
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:36:21 +0200 (CEST)
+Received: from localhost ([::1]:55748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leR1J-00058y-1y
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35880)
+	id 1leR40-00005b-Ei
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:36:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQsU-0008I3-TX
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:26 -0400
+ id 1leQsY-0008Qx-Pk
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:30 -0400
 Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33229)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQsT-0000cg-1C
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:26 -0400
+ id 1leQsX-0000cg-13
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:24:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620257065; x=1651793065;
+ t=1620257069; x=1651793069;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=d+NPft2RyN4RxgurmCoyTVD5EaivC4NQIQYrLmDjJmk=;
- b=WZV7xwkjAFvRNbkomMFzy+AP77cLP4KpNFH+SaH2K++1aw66N2AsVwJV
- 5jI+0TwTrjQjV2Fo6ByAKoAZqtZwcYS8XNPh1DU27FilWGJZNW4gKQ3IZ
- xLNjVCnJWekJWBRa8vdd9D+8oucNu7Cq3D8UHcKH+cWcV9dVrryroCiz1
- u4Rwx/94zNj9SPj/FTXGOxHg+YKcdvG7QXYZiG2K29MPAUcghqEXnaZfb
- o9OzsKAnRuMYHfjFa5fOPMnRu92489Lg992SETIs6Zw/7ElA3AWnyreuc
- +UZXE6/qGAKksncjm4a8GEGskpPODG7yvKAPQDP3le6lJlj2OxAmcF4Wn A==;
-IronPort-SDR: CpSGE3jjtLAr3csjo61NLb/jHhpvAijWP1xwByFzGaQMC+ueYa1ZKgjF/2F1yFWdQkaf6TGi6u
- I/gevd8zRsbLs8TKHqgbG+sLHcM4dz6L53oUU3HtTM/srARM7GjP7eGjPVk6UBDq9lGiSclX5U
- Fke43t/AqcB0bDFTtIMHmLjWcAlktQgl5Uw6Px999pwYg+IBi+jYwx83kiAK6Gr0qqIb6zmBZC
- D+S5ghxtZnet+5r+pFKtecOY9dnK5zHSyd1B38Z3ntO6Nvvs38lLLlE0HzmVWw+zVbaIoHEILy
- hEI=
-X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585938"
+ bh=8y3Un5Hxd2E2PcjnIHIP4w4G78fYCc51KoJUltBBqoo=;
+ b=Skc6ebu0WBEJvnlPFmgpuHzf9MNvW9inghIgWfawAE8vfpBv3XGhJPf/
+ Gvsntkt0JS6LgKAHYHrJXrgBLpKDXOsMQHuLOWPjhL5li/fP1vupGFXVI
+ 89ffWx8Vqb/ia1PjrubNjTl08M2l99OZ8qhFQB6euRdQJZ3LXzxEdWQT+
+ kJnfQLYzbuWDuJDqOd2X6dAn69Sj6UnjtNyciamTPFSRJgZcUvcvIXELq
+ ri9nefaYARjWh9J8SlYdIUpgIlC/J0WdzmajctrAAAwDaT8Qx5H1S5u9C
+ G5VRZKKb7ExdGS95mpQn06SskBIvCepv3Fl3wmkG47xjsrJVONq7GeNG6 w==;
+IronPort-SDR: INnOVLT+TLMjI2utwLQbuFxNujgb47IdqQEloZrpNUfKpbxcs3BUTez1I53cDPP453J+pDnFJ9
+ I7QdZ6+lzBpFCTFAB/xCcqxvu21t7GvS+ZPqpGEFaLeDf8qf9OUrz+yweRynJqSOx6VYc494gW
+ 1ouSGzMM24HsPY/YxhkoopCCYDf7EAIozFeka8fIPagiHGVf1sTZgkNAUuNJkCS+y27yA4Tcpk
+ hFK8ow7dBRCgY+KF7bEzAA7D3rTIlLwkVOAeSC7+sBOBHSD6ouqoB+qbvFZYCluxyTwtjMGFxM
+ IMA=
+X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585944"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:24 +0800
-IronPort-SDR: nsYEg5KDxAE1h4uf0eyuAnKWCQmn5jNOqxWwKK+PmdN0XAU3RWIqipMMGFpFCDeCLEfCLGzMW4
- Cvjt6QHDPN1/S5fO5bhZDZiwwrUt9yMdxh20HJoMifP+DfYm1N5Yt/bvzQQPPLDNlzhjeWSgOU
- JiwZTpiL9cOMhHXt4h0zdbsZJ3yrzlm+J3rfXgHD268haI2mZiYBVzaQHGGH199bDFntyCCLJ2
- dAdSl1sf0yW01vgwXqrwrhgw6KDFtH3PFfaEbP3VK+/zzfXZepa57P6AzMRIvh1e93EtlU0axD
- V4UcrvmMCxJhUeQZb/WN6CbU
+ by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:28 +0800
+IronPort-SDR: vhOBYrFr4j2y4/ZWq7+iqEKSOgT2/pFn0j6VZ8F2GFHM7hSsO0CA1IMZgNkaqHw6PJtC4U7Jhk
+ ok8ev0vd0/ICT/4RlKPaIuJJxYl2/2CXFwyA4Wj/uMiZe9PY7TS+elZnpnMmuhedVBnrBytqEf
+ 5Tpb7uhUut4lFJXTIKlB/QnLnxx8IEh9pAR86BJxD14qpxHphNEpusGdPWv87RggMgUm+TxXh5
+ nAxAPS30FHnBP7LYI3Uz3sxW4RO1IL1S8f+hH0ziv2ayEPW4NpGlDqxfrUeTQSGel41PF/P5mo
+ ftaUejr/c5wiKHDkgwmZ0Jq6
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 16:03:05 -0700
-IronPort-SDR: omhSHgXrf9v8XrIEO/Ih1fK8ZXsobGLfOXEu8zz4izSRCAcSFTw1e8MwxsEhgTrmcw6anOxkdG
- mJJ9ROoKonT6wWV94Ma3t+wAIhQpa9VXjbOZc5BX2wGem3aXj/g1id3CQD5MnTeOt9vVmW83+C
- GYzLVCHbkkClgrerx4JRggfLJvtRblYGIcP3fgA6eP0MuwAg0BJRFiMpQVZeQ3CqDTSI0Rl9/t
- aWL1gzrr74gc7EuqZch5fpAzttv5XH5xo0jBJzQBCKMc/rdlrttk4QsSaELeC58S3pUOtbHvvb
- yPI=
+ 05 May 2021 16:03:09 -0700
+IronPort-SDR: Z8nhPd5AikBiFHzuwQ5nij4+tRF+1R2FlkluNL7uJPLuSu/ENvMqzf74b9s7FTCshef+rZsHoN
+ YWkApFrvcX/UPp9qCjBY8fTyMnisxXaWTSlDK8udPTsPDRO4slR8XUbuBmkfkss9ILMOeCjrvT
+ oJA/jKF6uJHNrUyY0E+beto+8I5lhZ41/0rbKa2Ooe3dms1KSMkj3uPifdxZRN0omraYEoaVJo
+ YzYGJ3RzH3YbIwc1sbKixrwrSAr+ITKP9cNQhfuL4OI9V4K2Nm7P1KRZQvOqv/zof3mBiFsAV8
+ WSY=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.46])
- by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:24:22 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:24:25 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 20/42] target/riscv: Fix the PMP is locked check when using
- TOR
-Date: Thu,  6 May 2021 09:22:50 +1000
-Message-Id: <20210505232312.4175486-21-alistair.francis@wdc.com>
+Subject: [PULL v2 21/42] target/riscv: Define ePMP mseccfg
+Date: Thu,  6 May 2021 09:22:51 +1000
+Message-Id: <20210505232312.4175486-22-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505232312.4175486-1-alistair.francis@wdc.com>
 References: <20210505232312.4175486-1-alistair.francis@wdc.com>
@@ -91,73 +90,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
+Cc: Hou Weiying <weiying_hou@outlook.com>, qemu-devel@nongnu.org,
+ Hongzheng-Li <Ethan.Lee.QNL@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>, alistair23@gmail.com,
+ Bin Meng <bmeng.cn@gmail.com>, Myriad-Dreamin <camiyoru@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The RISC-V spec says:
-    if PMP entry i is locked and pmpicfg.A is set to TOR, writes to
-    pmpaddri-1 are ignored.
+From: Hou Weiying <weiying_hou@outlook.com>
 
-The current QEMU code ignores accesses to pmpaddri-1 and pmpcfgi-1 which
-is incorrect.
+Use address 0x390 and 0x391 for the ePMP CSRs.
 
-Update the pmp_is_locked() function to not check the supporting fields
-and instead enforce the lock functionality in the pmpaddr write operation.
-
+Signed-off-by: Hongzheng-Li <Ethan.Lee.QNL@gmail.com>
+Signed-off-by: Hou Weiying <weiying_hou@outlook.com>
+Signed-off-by: Myriad-Dreamin <camiyoru@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 2831241458163f445a89bd59c59990247265b0c6.1618812899.git.alistair.francis@wdc.com
+Message-id: 63245b559f477a9ce6d4f930136d2d7fd7f99c78.1618812899.git.alistair.francis@wdc.com
+[ Changes by AF:
+ - Tidy up commit message
+]
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 ---
- target/riscv/pmp.c | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+ target/riscv/cpu_bits.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index cff020122a..a3b253bb15 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -59,16 +59,6 @@ static inline int pmp_is_locked(CPURISCVState *env, uint32_t pmp_index)
-         return 0;
-     }
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 8549d77b4f..24d89939a0 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -220,6 +220,9 @@
+ #define CSR_MTINST          0x34a
+ #define CSR_MTVAL2          0x34b
  
--    /* In TOR mode, need to check the lock bit of the next pmp
--     * (if there is a next)
--     */
--    const uint8_t a_field =
--        pmp_get_a_field(env->pmp_state.pmp[pmp_index + 1].cfg_reg);
--    if ((env->pmp_state.pmp[pmp_index + 1u].cfg_reg & PMP_LOCK) &&
--         (PMP_AMATCH_TOR == a_field)) {
--        return 1;
--    }
--
-     return 0;
- }
- 
-@@ -380,7 +370,23 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
-     target_ulong val)
- {
-     trace_pmpaddr_csr_write(env->mhartid, addr_index, val);
-+
-     if (addr_index < MAX_RISCV_PMPS) {
-+        /*
-+         * In TOR mode, need to check the lock bit of the next pmp
-+         * (if there is a next).
-+         */
-+        if (addr_index + 1 < MAX_RISCV_PMPS) {
-+            uint8_t pmp_cfg = env->pmp_state.pmp[addr_index + 1].cfg_reg;
-+
-+            if (pmp_cfg & PMP_LOCK &&
-+                PMP_AMATCH_TOR == pmp_get_a_field(pmp_cfg)) {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                              "ignoring pmpaddr write - pmpcfg + 1 locked\n");
-+                return;
-+            }
-+        }
-+
-         if (!pmp_is_locked(env, addr_index)) {
-             env->pmp_state.pmp[addr_index].addr_reg = val;
-             pmp_update_rule(env, addr_index);
++/* Enhanced Physical Memory Protection (ePMP) */
++#define CSR_MSECCFG         0x390
++#define CSR_MSECCFGH        0x391
+ /* Physical Memory Protection */
+ #define CSR_PMPCFG0         0x3a0
+ #define CSR_PMPCFG1         0x3a1
 -- 
 2.31.1
 
