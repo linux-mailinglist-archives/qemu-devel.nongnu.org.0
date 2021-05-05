@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A143374354
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 19:09:16 +0200 (CEST)
-Received: from localhost ([::1]:52202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADBB5374355
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 19:09:23 +0200 (CEST)
+Received: from localhost ([::1]:52914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leL1P-0004Qd-3d
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 13:09:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47482)
+	id 1leL1W-0004ik-Ms
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 13:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leKte-000619-2E
- for qemu-devel@nongnu.org; Wed, 05 May 2021 13:01:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49282)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leKtl-00066S-Fc
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 13:01:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leKtS-0002Ma-EF
- for qemu-devel@nongnu.org; Wed, 05 May 2021 13:01:08 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leKte-0002O1-Sj
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 13:01:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620234060;
+ s=mimecast20190719; t=1620234065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+Ub5jvn/lqjey2bVlsloSRDDuHhWq0HW7DTqp2lNdH8=;
- b=aAAP+Q4zaBC/ViQV9vx5rZx4zTA7LEoAE0iczR1ypBUpOqCFr5M65WynlE+DGhAREJHnJU
- FGfjboUvI4nQ9QXq3u6umkYZlS+gVkUWKCVBn+ojDZcQ6rlimf19dQTfEZ+yCHQd9km5h3
- 5Mo0AP72949+stUhvkHJXesRub4V6tQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-fPHPPpXuNYaE33vTznuQQw-1; Wed, 05 May 2021 13:00:58 -0400
-X-MC-Unique: fPHPPpXuNYaE33vTznuQQw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 65-20020adf82c70000b0290107593a42c3so953424wrc.5
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 10:00:58 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dXiqUMGNseF8aEoCidrrmNydk4TNmOpI8OAZgIN0M9M=;
+ b=Jfx94TRaZx2tQ3JCTyLTQ76Ipo6yOxEu0Sewfzwu+Qw41d0ZEURG6tn2HwpJ3sSc3b8/JZ
+ Nspz9qN9mYfJTsB+pHHC1/l+xPU2cTQsmKju11jVhS7W3xo26F7GMZfN6y/2X4G9giOGoy
+ ndIZfI91axfoHN8jNYhcOFOEyJIFMoc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-ezFrNEcSPjK7kd1QlTiEaA-1; Wed, 05 May 2021 13:01:03 -0400
+X-MC-Unique: ezFrNEcSPjK7kd1QlTiEaA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ y184-20020a1ce1c10000b0290143299f39d7so1805648wmg.4
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 10:01:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bpS6WG/Q+wvk5meBPez2cUUVm1R5qxqit/VaiSIYvWk=;
- b=iXGhQbQbC/xap+vfBoqe9gTSGEdlfYMzzuvajMTthGa8Ouf4iCnRpboUbAmAAWHpXF
- 4m/dqeGhRukU6lDw6muP9xvcIBQS3gE2wbqu8chMaanXk+56ko0M7+U8EFDmoIluZRtF
- mQENH/iJVLJlNUVDL4PqF8asOaqQCrIL0fbv38pzOz2HXOssI/apUCTL2TJdlDeDqFAS
- uKMh/MIKO617ynP/AUGIoffWlaWrRTmsfQ5A/9Ad/SUcgJ2hLHU8rW2uW7LWJweocPhk
- yKC6EHliOHjkzyiccE2OdmpKEbFrVYxcZrUlaGUO9nqS+VI23xUmgN8O7RIgh7BvMkhk
- cycA==
-X-Gm-Message-State: AOAM531A5dDGZVrWxeJUI09Ixd0WnqZu6ygohZH/gOqboW+jliQRFYAX
- /VOR2VSh82qB1NRsaXLMfQTY7wFq2wBsGHJH5Iz0cQaUYy/FHM/MilnOf1zGAiaRmEd5UEKh5hj
- euoCWIO8MWXMb741vSmXH+mO7SQFm8VSGNjwKYLX1K7hKb9tVxPlJ3fey61Hsw22o
-X-Received: by 2002:a5d:4805:: with SMTP id l5mr54234wrq.40.1620234057257;
- Wed, 05 May 2021 10:00:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyJy6JOnIywmHU2cEBDvLS3q473TEGxy8IF0NXYFxA3uUXFXtXc0JojNtytXBWhEVK4J8EonQ==
-X-Received: by 2002:a5d:4805:: with SMTP id l5mr54205wrq.40.1620234057050;
- Wed, 05 May 2021 10:00:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dXiqUMGNseF8aEoCidrrmNydk4TNmOpI8OAZgIN0M9M=;
+ b=ViH/2f48A5kqWoVxlGSWWqMoWAheDWVT0z03cFzO0iPk6HgLzTUL9NUVUHDg2RxKdC
+ 5ZMvnQnAvhfkCagI6JLdQDdLO7mEJW1RYyuzod2Dl5zz1tzo7+7seOzgGuERb5pIEhY4
+ SIuwaNvAFKCp5fvh3bZPACu5SSJqSBM2v7GfZBi1nDHITJogdqpDeWHeHDZujVeJEpMl
+ XMhGgMw69R/Nayvehn8vA2J2O8w48ETbys3mjo1vNtAaKeNu7o8SepmSV0nnmqvDv/eP
+ o3b76oylWDckxfDOx+1+Os6FgToHpu7Gnwd4gYN3qQTiBV/K5VLLhHxL7aqxS401/QPK
+ ih+w==
+X-Gm-Message-State: AOAM53034jFGjfuWCGOs7dc5G5/3JJAQaoPnbDg91Y1OWYG424GMhzSV
+ AqUbtHLtxUcetNBwnmv0Q4eHcfnPQqGnGczDXIQ6RIDRfM0fO5ILLQ0gbuGbY/Imdta9TUyc8pa
+ mzNWdNnX/4pAkUOo3UvEhb/d47DUN3GRUc7eOaaiI+2YLL/6aBUmQYT/RkJIWbwhh
+X-Received: by 2002:a7b:c248:: with SMTP id b8mr11424875wmj.150.1620234062147; 
+ Wed, 05 May 2021 10:01:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxE9b3pj/YxZNlRHG2GkXBUvD3WDR/aewpjObwARt5wff69Kml4yF8lCFHOeEDahXzD3Sem3A==
+X-Received: by 2002:a7b:c248:: with SMTP id b8mr11424837wmj.150.1620234061759; 
+ Wed, 05 May 2021 10:01:01 -0700 (PDT)
 Received: from x1w.redhat.com
  (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
- by smtp.gmail.com with ESMTPSA id 62sm2650329wrc.80.2021.05.05.10.00.56
+ by smtp.gmail.com with ESMTPSA id m7sm6814316wrv.35.2021.05.05.10.01.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 10:00:56 -0700 (PDT)
+ Wed, 05 May 2021 10:01:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] misc: Replace alloca() by g_malloc()
-Date: Wed,  5 May 2021 19:00:50 +0200
-Message-Id: <20210505170055.1415360-1-philmd@redhat.com>
+Subject: [PATCH 1/5] bsd-user/syscall: Replace alloca() by g_new()
+Date: Wed,  5 May 2021 19:00:51 +0200
+Message-Id: <20210505170055.1415360-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210505170055.1415360-1-philmd@redhat.com>
+References: <20210505170055.1415360-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -99,25 +102,31 @@ Cc: Kyle Evans <kevans@freebsd.org>, Greg Kurz <groug@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ALLOCA(3) man-page mentions its "use is discouraged".=0D
-Replace few calls by a g_malloc()/g_new() ones.=0D
-=0D
-Last call site is linux-user/.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (5):=0D
-  bsd-user/syscall: Replace alloca() by g_new()=0D
-  gdbstub: Constify GdbCmdParseEntry=0D
-  gdbstub: Use fixed-size array in GdbCmdParseEntry instead of pointer=0D
-  gdbstub: Replace alloca() by g_new()=0D
-  target/ppc/kvm: Replace alloca() by g_malloc()=0D
-=0D
- bsd-user/syscall.c |  3 +--=0D
- gdbstub.c          | 24 +++++++++++++-----------=0D
- target/ppc/kvm.c   | 10 +++++-----=0D
- 3 files changed, 19 insertions(+), 18 deletions(-)=0D
-=0D
---=20=0D
-2.26.3=0D
-=0D
+The ALLOCA(3) man-page mentions its "use is discouraged".
+
+Replace it by a g_new() call.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ bsd-user/syscall.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
+index 4abff796c76..dbee0385ceb 100644
+--- a/bsd-user/syscall.c
++++ b/bsd-user/syscall.c
+@@ -355,9 +355,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+     case TARGET_FREEBSD_NR_writev:
+         {
+             int count = arg3;
+-            struct iovec *vec;
++            g_autofree struct iovec *vec = g_new(struct iovec, count);
+ 
+-            vec = alloca(count * sizeof(struct iovec));
+             if (lock_iovec(VERIFY_READ, vec, arg2, count, 1) < 0)
+                 goto efault;
+             ret = get_errno(writev(arg1, vec, count));
+-- 
+2.26.3
 
 
