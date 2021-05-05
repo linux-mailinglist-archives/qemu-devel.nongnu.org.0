@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20F83734A2
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B1C3734A1
 	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 07:18:58 +0200 (CEST)
-Received: from localhost ([::1]:42386 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le9w2-0002FA-3B
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 01:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57322)
+	id 1le9vz-0002Fx-IP
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 01:18:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1le9ri-0006Iu-Pw
- for qemu-devel@nongnu.org; Wed, 05 May 2021 01:14:30 -0400
-Received: from m12-16.163.com ([220.181.12.16]:58932)
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1le9rc-00067t-On
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 01:14:24 -0400
+Received: from m12-16.163.com ([220.181.12.16]:58178)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1le9rg-0001G5-9t
- for qemu-devel@nongnu.org; Wed, 05 May 2021 01:14:30 -0400
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1le9rX-00017O-L7
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 01:14:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=VB6Lx
- 2qoSlaoSWWnEIymTr6B23IGQf/fSdRoCCDV7Zg=; b=kr6LST3Y8HNLGj+JxibT7
- PkalJHP3KvSIxCSVMYPY+v7DJFqKYzIzz+lGWxflv7t5UhOgx5ovWBlnb19NiVvd
- Y3L/UqJSCdSxGI3SxeN447j3UmbnKTyS8sHqKZ3s7kghDzhucYd3gtO4oQ2Q4psf
- gjlcXw3babFWDA4xxSzykU=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=QTmgs
+ OcfkOmjLcbwZwmklrqfoD9/5A+DbgbSLcgxKAA=; b=jbEwGxjBlg+JeRWbJRAFT
+ /CrhZHyuWNTD8S618/cwFADwy9gaPSsyDdvn10XuIy0d69H9xcdEEYLyO04VkKXC
+ WFoCnhnljsRhwU7VD9UGutG4QNNrw6eYyuL6h0mbU1JuFXQEvgduLwrw6zTtou0h
+ +G6L0Jm45dGYDv7Ce68vlY=
 Received: from ubuntu.localdomain (unknown [36.22.237.185])
- by smtp12 (Coremail) with SMTP id EMCowACXET7zJZJg8VpupQ--.18216S10;
- Wed, 05 May 2021 12:58:35 +0800 (CST)
+ by smtp12 (Coremail) with SMTP id EMCowACXET7zJZJg8VpupQ--.18216S11;
+ Wed, 05 May 2021 12:58:36 +0800 (CST)
 From: Li Qiang <liq3ea@163.com>
 To: marcandre.lureau@redhat.com,
 	kraxel@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH 6/7] vhost-user-gpu: fix memory leak in
- 'virgl_resource_attach_backing'
-Date: Tue,  4 May 2021 21:58:23 -0700
-Message-Id: <20210505045824.33880-7-liq3ea@163.com>
+Subject: [PATCH 7/7] vhost-user-gpu: fix OOB write in 'virgl_cmd_get_capset'
+Date: Tue,  4 May 2021 21:58:24 -0700
+Message-Id: <20210505045824.33880-8-liq3ea@163.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210505045824.33880-1-liq3ea@163.com>
 References: <20210505045824.33880-1-liq3ea@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EMCowACXET7zJZJg8VpupQ--.18216S10
-X-Coremail-Antispam: 1Uf129KBjvdXoW7GFy7ZrW5AF17XFWfXFWDurg_yoW3Xrb_ZF
- 4FkFn7Ar1UWFyj9wsxXw1rCayayrWrZF97GF97Ka4fCFyYgw15Jw1rJ3s7J3429w1DWFnr
- Zryvyw4rCa13ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbZa9DUUUUU==
+X-CM-TRANSID: EMCowACXET7zJZJg8VpupQ--.18216S11
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtw43Ww1fXF1kAF1ktr17trb_yoW3Kwc_XF
+ 4Skrn3Ar4DXryq9Fs8Arn0vrW7ArWUA3Z2vFyfKw1fXFyak3WUXw1fG3s5GrW3Z3ykuF1D
+ A340yw4rWF4q9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUUOJ57UUUUU==
 X-Originating-IP: [36.22.237.185]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiKRuJbVXl0Y5R3gAAs2
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiTxyJbVsGYnBXtgAAsZ
 Received-SPF: pass client-ip=220.181.12.16; envelope-from=liq3ea@163.com;
  helo=m12-16.163.com
 X-Spam_score_int: -20
@@ -71,31 +70,30 @@ Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If 'virgl_renderer_resource_attach_iov' failed, the 'res_iovs' will
-be leaked.
+If 'virgl_cmd_get_capset' set 'max_size' to 0,
+the 'virgl_renderer_fill_caps' will write the data after the 'resp'.
+This patch avoid this by checking the returned 'max_size'.
 
 Signed-off-by: Li Qiang <liq3ea@163.com>
 ---
- contrib/vhost-user-gpu/virgl.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ contrib/vhost-user-gpu/virgl.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/virgl.c
-index c669d73a1d..a16a311d80 100644
+index a16a311d80..7172104b19 100644
 --- a/contrib/vhost-user-gpu/virgl.c
 +++ b/contrib/vhost-user-gpu/virgl.c
-@@ -287,8 +287,11 @@ virgl_resource_attach_backing(VuGpu *g,
-         return;
-     }
+@@ -177,6 +177,10 @@ virgl_cmd_get_capset(VuGpu *g,
  
--    virgl_renderer_resource_attach_iov(att_rb.resource_id,
-+    ret = virgl_renderer_resource_attach_iov(att_rb.resource_id,
-                                        res_iovs, att_rb.nr_entries);
-+    if (ret != 0) {
-+        g_free(res_iovs);
+     virgl_renderer_get_cap_set(gc.capset_id, &max_ver,
+                                &max_size);
++    if (!max_size) {
++        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
++        return;
 +    }
- }
+     resp = g_malloc0(sizeof(*resp) + max_size);
  
- static void
+     resp->hdr.type = VIRTIO_GPU_RESP_OK_CAPSET;
 -- 
 2.25.1
 
