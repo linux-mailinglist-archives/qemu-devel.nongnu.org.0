@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B63373C70
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 15:32:11 +0200 (CEST)
-Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C95373C76
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 15:35:33 +0200 (CEST)
+Received: from localhost ([::1]:53404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leHdK-0007QR-OM
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 09:32:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54668)
+	id 1leHga-0002Gi-Qu
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 09:35:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <remy.noel@blade-group.com>)
- id 1leHaZ-0005py-K8
- for qemu-devel@nongnu.org; Wed, 05 May 2021 09:29:20 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40849)
+ (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
+ id 1leHei-0001PA-2l
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 09:33:36 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <remy.noel@blade-group.com>)
- id 1leHaU-0004YB-Bi
- for qemu-devel@nongnu.org; Wed, 05 May 2021 09:29:15 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id d4so1840090wru.7
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 06:29:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
+ id 1leHef-0007Av-IZ
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 09:33:35 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ l24-20020a7bc4580000b029014ac3b80020so3442671wmi.1
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 06:33:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=blade-group.com; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=kPDpgENHrmTqjKHX191uVRu4X3rz2E6kCHLEbBR1mpo=;
- b=LOkRboCoLIOaU5/x8mbOWTc3Bq8ka6HZiXSWvmu3TdWUv43Ypu8rmS9d/NjaZfyf+p
- h6i1TZk2cnThkYDRz80piqgxaI+mlL1EjCNgf9KI/dZKQvtT+ng8FAew0q3wWrZ8TowF
- ygG4YVENuaTIOAO4ONuFEfQQf00kY8HGj8nzRsj9E4VRdSL/rCrlubIEd8CawA1M2tCH
- LH0jdzg1FRxPj/nC/ovwGk1LJ2ARLLD0crX8Zs7GHBaxtGDy6FBmuSAeqkbSTzR2/7Ji
- nGIeq82LYJIo7eGEZTeGoc85Zqj9AogEcwFZgVfXn+1ebau+FplFIitH9Q0thBahly9o
- S9/g==
+ d=adacore-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OukDl24L8tqUJfvu1mmTYzQ2RbOmMweY+lkK6NtcEhE=;
+ b=jy/OQVfAtlZq/XqLTprANuU+QtCcr12i2a5TJw9r8VI3WYFDaonuWjVLN424wOkEy3
+ /au3B2qpOxwgA44jP4t23ecw2VYIkzTz3DsZU1kc5cytOPDsTdgG8E3jc+vvQ1M2auKY
+ bjg/csd0tigyHKbAfbq2pJIZf29HIEgJcKS7bo4R1PMamMU9tx/LeupirmuGdqRoKOXj
+ XdiKfwtv9h1EHNondggofuVyYIenAtcmEHZlxr/2ABWF8hi5IGBmX0QpxMpsHk/hGI/Y
+ WJ3ZLtWIAwb5iyOtal+HS2ysZ8u+Q4bKC0AnfJiTGqvIE6re6zvfec9FymUG7XJpcs5+
+ vJDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kPDpgENHrmTqjKHX191uVRu4X3rz2E6kCHLEbBR1mpo=;
- b=EMOTdaKLTRjVirL2LD3VRIYfbVyzDFpz9sIZa9FRp0vyT//eeN23U85OUYi3OzAbUb
- M1EU6yLdxPHcFxoWJXluod59Iw22smaYeYamOWN9CExZxj7HFhKmtA6Y+q5I2y9UW8P0
- TkmY6KERWVDu8qv3whniNVm/7xHFl3geR96pcLEwx7gGGxqWjHrhU3aSrxtkot03ckz9
- 5G9uE2YTLu7cFDe0MV8CCBhiCdin4BUjkLpjbBveCpVi5h5RdOxjyM7ZckYAU90aQHVv
- tRgMnx5/BW1y6C90YLXCUImf8HxG6s+jj2mOsuc7EuoqFYinj3MuNJS+evBMPi4YHBxC
- DvZg==
-X-Gm-Message-State: AOAM530Z6iMVK6IF/jaMR1cxgxVBTOjB/KY0pP+N4LYJr3uLH8K6EvcU
- BBvmlE94lQ21JnhVK8wOKatuPg==
-X-Google-Smtp-Source: ABdhPJyH0WoXrFO3tg692NGLb480qblzRvw4jF0c2s4iOzbiUzNOYzdBmzAVWgJjGCTplIf3yVFKvg==
-X-Received: by 2002:adf:e906:: with SMTP id f6mr39453743wrm.200.1620221352117; 
- Wed, 05 May 2021 06:29:12 -0700 (PDT)
-Received: from gmail.com ([2001:41d0:fc88:4700:250:b6ff:fe1f:8e7])
- by smtp.gmail.com with ESMTPSA id k10sm6625548wmf.0.2021.05.05.06.29.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 06:29:11 -0700 (PDT)
-Date: Wed, 5 May 2021 15:29:10 +0200
-From: Remy Noel <remy.noel@blade-group.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PULL 4/6] usb/redir: avoid dynamic stack allocation
- (CVE-2021-3527)
-Message-ID: <20210505132910.myokkgilp4md6jit@gmail.com>
-References: <20210505130716.1128420-1-kraxel@redhat.com>
- <20210505130716.1128420-5-kraxel@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OukDl24L8tqUJfvu1mmTYzQ2RbOmMweY+lkK6NtcEhE=;
+ b=Z+97nR7zMvi5wu/jIwgNoLxqCJd3aBCSY2hfzN6MOIMKOUUCnrK4dBh5vPkdPAvn4z
+ FlVx8l9raWYoqcJSKkqyifzS5RyVb85pwLnigZI5rNnZQX+Iv9WZVbIvHYq1WJ6DvcyT
+ j/zgT4dmJ0qDzigzi9ongTggCLFRXrkLY41lJTHLp6Vvnbu5L18Gzx/wzXQogGGKL4j1
+ 80J4U7Q0F7kRIS/UWGlWH+QzKH1z9KFjo0tctZ198CxV0tjUlvb9gbeF6S9vGhIBBubp
+ c09wa1XP5ubNDQF6AMyxFw6P8Omta0C2uTg3utJNDqLV4EVtQm3Yy5pbTssvY5JU5wBI
+ 4dSw==
+X-Gm-Message-State: AOAM533bXxAgFWe1gM+dVgiWea+AttdySxelNUlKbDbkblKhqhv+fTww
+ qmdjv5CqVlwWqvyTvkv8mmmWZw==
+X-Google-Smtp-Source: ABdhPJxbkCQVh2yNE7RtX9g4l/Mqz6rrJWoPJoAE7QNl69f9UXYFGzjoUxuaZUED2nrLvDKVeym9sg==
+X-Received: by 2002:a1c:f705:: with SMTP id v5mr8232994wmh.69.1620221611173;
+ Wed, 05 May 2021 06:33:31 -0700 (PDT)
+Received: from localhost.localdomain
+ (lfbn-tou-1-1482-80.w90-89.abo.wanadoo.fr. [90.89.5.80])
+ by smtp.gmail.com with ESMTPSA id j13sm19875052wrw.93.2021.05.05.06.33.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 May 2021 06:33:30 -0700 (PDT)
+Subject: Re: [PATCH] hw/avr/atmega.c: use the avr51 cpu for atmega1280
+To: Joaquin de Andres <me@xcancerberox.com.ar>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <1619637319-22299-1-git-send-email-frederic.konrad@adacore.com>
+ <7970a6ec-f5ac-bcc9-9184-d8450b64b116@amsat.org>
+ <27cc1bc5-ee71-abf6-fd8f-58ec44e1767f@xcancerberox.com.ar>
+From: Fred Konrad <konrad@adacore.com>
+Message-ID: <d8b05f93-ef5f-1697-439b-8961cb446cdf@adacore.com>
+Date: Wed, 5 May 2021 15:33:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20210505130716.1128420-5-kraxel@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=remy.noel@blade-group.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+In-Reply-To: <27cc1bc5-ee71-abf6-fd8f-58ec44e1767f@xcancerberox.com.ar>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=konrad@adacore.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,37 +92,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Michael Rolnik <mrolnik@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 05, 2021 at 03:07:14PM +0200, Gerd Hoffmann wrote:
->[...]
->diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
->index 17f06f34179a..6a75b0dc4ab2 100644
->--- a/hw/usb/redirect.c
->+++ b/hw/usb/redirect.c
->@@ -620,7 +620,7 @@ static void usbredir_handle_iso_data(USBRedirDevice *dev, USBPacket *p,
->                 .endpoint = ep,
->                 .length = p->iov.size
->             };
->-            uint8_t buf[p->iov.size];
->+            g_autofree uint8_t *buf = g_malloc(p->iov.size);
->             /* No id, we look at the ep when receiving a status back */
->             usb_packet_copy(p, buf, p->iov.size);
->             usbredirparser_send_iso_packet(dev->parser, 0, &iso_packet,
->@@ -818,7 +818,7 @@ static void usbredir_handle_bulk_data(USBRedirDevice *dev, USBPacket *p,
->         usbredirparser_send_bulk_packet(dev->parser, p->id,
->                                         &bulk_packet, NULL, 0);
->     } else {
->-        uint8_t buf[size];
->+        g_autofree uint8_t *buf = g_malloc(size);
->         usb_packet_copy(p, buf, size);
 
-Won't this allows us to malloc then write an arbitrary amount of heap 
-memory, allowing a guest driver to abort the qemu ?
 
-Remy
+Le 4/30/21 à 12:27 PM, Joaquin de Andres a écrit :
+> On 4/28/21 9:17 PM, Philippe Mathieu-Daudé wrote:
+>> Cc'ing Joaquín.
+>>
+>> On 4/28/21 9:15 PM, Frederic Konrad wrote:
+>>> According to the as documentation:
+>>>   (https://sourceware.org/binutils/docs-2.36/as/AVR-Options.html)
+>>>
+>>> "Instruction set avr51 is for the enhanced AVR core with exactly 128K
+>>>   program memory space (MCU types: atmega128, atmega128a, atmega1280,
+>>>   atmega1281, atmega1284, atmega1284p, atmega128rfa1, atmega128rfr2,
+>>>   atmega1284rfr2, at90can128, at90usb1286, at90usb1287, m3000)."
+>>>
+>>> But when compiling a program for atmega1280 or avr51 and trying to execute
+>>> it:
+>>>
+>>> $ cat > test.S << EOF
+>>>> loop:
+>>>>      rjmp loop
+>>>> EOF
+>>> $ avr-gcc -nostdlib -nostartfiles -mmcu=atmega1280 test.S -o test.elf
+>>> $ qemu-system-avr -serial mon:stdio -nographic -no-reboot -M mega \
+>>>                    -bios test.elf
+>>> qemu-system-avr: Current machine: Arduino Mega (ATmega1280) with 'avr6' CPU
+>>> qemu-system-avr: ELF image 'test.elf' is for 'avr51' CPU
+>>>
+>>> So this fixes the atmega1280 class to use an avr51 CPU.
+>>>
+>>> Signed-off-by: Frederic Konrad <frederic.konrad@adacore.com>
+>>> ---
+>>>   hw/avr/atmega.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
+>>> index 44c6afebbb..e3ea5702f5 100644
+>>> --- a/hw/avr/atmega.c
+>>> +++ b/hw/avr/atmega.c
+>>> @@ -402,7 +402,7 @@ static void atmega1280_class_init(ObjectClass *oc, void *data)
+>>>   {
+>>>       AtmegaMcuClass *amc = ATMEGA_MCU_CLASS(oc);
+>>>   
+>>> -    amc->cpu_type = AVR_CPU_TYPE_NAME("avr6");
+>>> +    amc->cpu_type = AVR_CPU_TYPE_NAME("avr51");
+>>>       amc->flash_size = 128 * KiB;
+>>>       amc->eeprom_size = 4 * KiB;
+>>>       amc->sram_size = 8 * KiB;
+>>>
+>>
+> Good catch!
+> 
+
+Thanks, does that count as a reviewed-by :)?
+
 
