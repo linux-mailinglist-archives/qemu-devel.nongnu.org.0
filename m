@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3B237357C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 09:19:17 +0200 (CEST)
-Received: from localhost ([::1]:57840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C029373572
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 09:17:35 +0200 (CEST)
+Received: from localhost ([::1]:55556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leBoS-00038Y-9d
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 03:19:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46672)
+	id 1leBmo-0002B4-Kp
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 03:17:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leBbt-00064d-Bb
- for qemu-devel@nongnu.org; Wed, 05 May 2021 03:06:17 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53266)
+ id 1leBbq-0005zQ-SM
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 03:06:14 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leBbr-0000gT-KX
- for qemu-devel@nongnu.org; Wed, 05 May 2021 03:06:17 -0400
+ id 1leBbp-0000ea-1d
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 03:06:14 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1leBbq-0004Bh-Em
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 07:06:14 +0000
+ id 1leBbo-00049p-0u
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 07:06:12 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6758B2E80F9
- for <qemu-devel@nongnu.org>; Wed,  5 May 2021 07:06:14 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 01D3E2E805D
+ for <qemu-devel@nongnu.org>; Wed,  5 May 2021 07:06:12 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 May 2021 06:55:37 -0000
-From: Thomas Huth <1652459@bugs.launchpad.net>
+Date: Wed, 05 May 2021 06:56:47 -0000
+From: Thomas Huth <1673976@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: socketpair th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
- =?utf-8?q?_=28socketpair=29?=
+X-Launchpad-Bug-Commenters: domibel ehoffman-videotron eldavo glaubitz
+ jcowgill l3iggs mizvekov pmaydell th-huth xavier-miller
+X-Launchpad-Bug-Reporter: l3iggs (l3iggs)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20161224192528.14563.19329.malonedeb@wampee.canonical.com>
-Message-Id: <162019773753.3870.6497877645207524662.malone@gac.canonical.com>
-Subject: [Bug 1652459] Re: kvm rbd driver (and maybe others, i.e. qcow2,
- qed and so on)  does not report DISCARD-ZERO flag
+References: <20170318142657.21676.52259.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162019780767.14295.6287439706375037642.malone@soybean.canonical.com>
+Subject: [Bug 1673976] Re: linux-user clone() can't handle glibc posix_spawn()
+ (causes locale-gen to assert)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 60fd33d6ebc05932b1b4dbc8c6b5104829df684e
+X-Launchpad-Hash: 018942c7a8fb2a6260dbef559d62d68869201b4a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1652459 <1652459@bugs.launchpad.net>
+Reply-To: Bug 1673976 <1673976@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,42 +81,46 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/139
+ https://gitlab.com/qemu-project/qemu/-/issues/140
 
 
 ** Changed in: qemu
        Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #139
-   https://gitlab.com/qemu-project/qemu/-/issues/139
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #140
+   https://gitlab.com/qemu-project/qemu/-/issues/140
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1652459
+https://bugs.launchpad.net/bugs/1673976
 
 Title:
-  kvm rbd driver (and maybe others, i.e. qcow2, qed and so on)  does not
-  report DISCARD-ZERO flag
+  linux-user clone() can't handle glibc posix_spawn() (causes locale-gen
+  to assert)
 
 Status in QEMU:
   Expired
 
 Bug description:
-  # lsblk -D
-  NAME   DISC-ALN DISC-GRAN DISC-MAX DISC-ZERO
-  sda           0        4K       1G         0
-  =E2=94=9C=E2=94=80sda1        0        4K       1G         0
-  =E2=94=9C=E2=94=80sda2     1024        4K       1G         0
-  =E2=94=94=E2=94=80sda5        0        4K       1G         0
+  I'm running a command (locale-gen) inside of an armv7h chroot mounted
+  on my x86_64 desktop by putting qemu-arm-static into /usr/bin/ of the
+  chroot file system and I get a core dump.
 
-  Last column should be `1` at least for "RBD+discard=3Dunmap" since
-  reading from discarded regions in RBD MUST return zeroes. The same
-  with QCOW2, QED and sparse raw images. KVM should copy value of this
-  flag when real raw device (i.e. real SSD) with discard capability is
-  used as virtual disk.
+  locale-gen
+  Generating locales...
+  =C2=A0=C2=A0en_US.UTF-8...localedef: ../sysdeps/unix/sysv/linux/spawni.c:=
+360: __spawnix: Assertion `ec >=3D 0' failed.
+  qemu: uncaught target signal 6 (Aborted) - core dumped
+  /usr/bin/locale-gen: line 41:    34 Aborted                 (core dumped)=
+ localedef -i $input -c -f $charset -A /usr/share/locale/locale.alias $loca=
+le
+
+  I've done this same thing successfully for years, but this breakage
+  has appeared some time in the last 3 or so months. Possibly with the
+  update to qemu version 2.8.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1652459/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1673976/+subscriptions
 
