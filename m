@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9102B373799
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 11:33:02 +0200 (CEST)
-Received: from localhost ([::1]:52396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307B037379C
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 11:34:44 +0200 (CEST)
+Received: from localhost ([::1]:56298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leDtt-000169-MM
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 05:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48878)
+	id 1leDvX-0002hH-7j
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 05:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1leDka-0000wO-Qi
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:24 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38419)
+ id 1leDka-0000wN-Hw
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:25 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1leDkO-0005Ar-3H
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:24 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- a10-20020a05600c068ab029014dcda1971aso879342wmn.3
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 02:23:11 -0700 (PDT)
+ id 1leDkQ-0005C0-TA
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:23:23 -0400
+Received: by mail-wr1-x429.google.com with SMTP id t18so1038793wry.1
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 02:23:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=djikfsvzpevIoT9ZhL//tIh35KLunxCT5zbeziHmb1o=;
- b=RaWqM373kh+NfkiwzPJZ9jon/Wo8I9ynFTowezuYvqOo852c5BUARA9KIwcdHfUgdT
- UHhzyF82jMhFXksVx7/87ibsG+lvlgUb7aGCVg25kLpzTNtfujA/c1JiyRb/sT0ZLAWS
- MBCavFxUDbiSB5SooEzR/7IBhkegnEZv9tDenoIjHu0A992rG14e7Q1WJsIUHU0F++S+
- xwkMI6EhYpc09ccuoVBFGUH9cAMWccZ8JAKA+L0SDLpVcMvNHli/TZtPFnKhejUeIu12
- hiZPBhQ7rVyY92b8iKEq1+NDtUmqSOedIOl6GSPfE4fvhTK+hcNcW1lqN5rxB5EIsNBy
- Zggg==
+ bh=+Rw6OGQrVJGw3XC/foHAisgB3VI31AwIvMNzYonwovA=;
+ b=qeP7/ybCYH1wzVDrDLRBnkTBwAV04Hs70pHEaHj7uqrFgdmecAOZZgFtVowmwGqM9P
+ UlvWuwqkBshA89X+17IsKvfQiPJjXI4KZUl++XtkewE9VkKTe8ocmz4hRHP0mRbK7rbD
+ Y69i+VX0scN5CUHPCa0mbRZLbv0ArjwKwu99QL9qij1fstlVr10CaUO5G68fwpAXcIsy
+ PPwCq0JxQfshDEytFtygdMl/2pm/yrdeIaOOEX3lcq40grZWQsdnDHdtImJpafDsp3Bs
+ T9IX02L6ZL6qcaHmqcVmF0KIPMV84RF5d61qlWWFiZ6v3/qcCaP9YDuT9rU6vuMKctoP
+ o2Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=djikfsvzpevIoT9ZhL//tIh35KLunxCT5zbeziHmb1o=;
- b=oSdiziud/kqVa9Vs3XjMW5d2ibRwkq9EaeROyMOUUeopiFmF9USJbCx5tefHoObBpX
- u3rpNmuBDyO0htDUmejGrIvJ7h2Zaw6y8kYRZHBHiFukOd8OYrszsV7WqhKTZkXxauVY
- g/EnksG93S3cmVomxbVCJ5ogaYBTlPBF2IlT59ahX0Gyc2ZiBB03M/VVnUVRkpl4FzTi
- JxSxFR1EIespX3JSMa0ESt5RgxZ2f0xbIViWi1cLQkpyoV3TmGyFxjELB1xaKHGCa0ek
- pyV7m369rt9wI4gXI54+qCuqQLE//Ay1oHwoD7lBvRnrDR6OTTovMIEQ0enZP4LWprO+
- PMfg==
-X-Gm-Message-State: AOAM533jwQplpZ9d74cr/FR2Ln5N/aMPYRapfj0QGA5/2H0GvXlPsFxp
- yDnxjdnK/FlaiB2s20vcN9jy4w==
-X-Google-Smtp-Source: ABdhPJx1SHeNu3qDX2ml4vSmvFrnfK6rpiSfO2qJFMtTFjB64mkVkqqNWsmTziDB3/gbffAYXlMbog==
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr8482662wmi.87.1620206590380; 
- Wed, 05 May 2021 02:23:10 -0700 (PDT)
+ bh=+Rw6OGQrVJGw3XC/foHAisgB3VI31AwIvMNzYonwovA=;
+ b=OH60UETXE8Md1/r2KWfbBP4hRzieJVDyROIt6oThejKsjpwiXWIw+Rd3Yqcv4amdUS
+ iEfaEOFw5rdbUUqbHeLrVGYiU/nk6cFaE7h/io9Z9Cu/1wPanYm4FSvjhhGzLb2l8Zu6
+ Hgu/c2P6sq/+HNQQPD5v6pafOmYyLSLhFnlE4HYp6slYPVqvVI05pJRnEEhZ6VxZ+AM9
+ t8O+v5CvIIKfa5j54KAaQTXwQH5jXVMcX7wUOtWILb7wiF1CIQCgKmWyH84sHAi+y8G6
+ e4X6O021TRg7GvX8REzyYtWWLCJ7FxXVHlk/1RPpiXDCoe/XzvJFMOSX/pShs5xTAoiF
+ bo0g==
+X-Gm-Message-State: AOAM531c4Uzygn6YRklwZHzL0eW/vkJsc2eqhZqaecLMc2IRFgNCowAi
+ Cbqfoj4IPQoF/GPLQ9EIzZ5Ziw==
+X-Google-Smtp-Source: ABdhPJxKBjIKFIRVICTt+T5dRPcjvNMkbMnutk59LWL9zch9eKlQOiQh/+VJ+6xRqpY4GxtgjijDgg==
+X-Received: by 2002:adf:8046:: with SMTP id 64mr36246315wrk.176.1620206593179; 
+ Wed, 05 May 2021 02:23:13 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f7sm19374075wrg.34.2021.05.05.02.23.02
+ by smtp.gmail.com with ESMTPSA id b10sm5999462wrr.27.2021.05.05.02.23.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 05 May 2021 02:23:08 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 455AD1FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 5BC2A1FF92;
  Wed,  5 May 2021 10:23:00 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 5/7] docs: mark intention to deprecate TCG tracing
- functionality
-Date: Wed,  5 May 2021 10:22:57 +0100
-Message-Id: <20210505092259.8202-6-alex.bennee@linaro.org>
+Subject: [PATCH  v1 6/7] scripts/tracetool: don't barf validating TCG types
+Date: Wed,  5 May 2021 10:22:58 +0100
+Message-Id: <20210505092259.8202-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210505092259.8202-1-alex.bennee@linaro.org>
 References: <20210505092259.8202-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,8 +86,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, minyihh@uci.edu,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, minyihh@uci.edu,
  robhenry@microsoft.com, vilanova@imperial.ac.uk, mahmoudabdalghany@outlook.com,
  aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
  mohamad.gebai@gmail.com, kuhn.chenqun@huawei.com,
@@ -97,74 +94,56 @@ Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently attempts to add a new TCG trace events results in failures
-to build. Previous discussions have suggested maybe it's time to mark
-the feature as deprecated and push people towards using plugins.
+TCG types will be transformed into the appropriate host types later on
+in the tool. For example adding the following trace point:
 
+  tcg goto_ptr(TCGv_ptr ptr) "", "ptr=%p"
+
+would trigger:
+
+  ValueError: Error at /home/alex/lsrc/qemu.git/./trace-events:149: Argument type 'TCGv_ptr' is not allowed. Only standard C types and fixed size integer types should be used. struct, union, and other complex pointer types should be declared as 'void *'
+
+Rather than expand ALLOWED_TYPES just directly handle TCGv types in validate_type.
+
+Fixes: 73ff061032 ("trace: only permit standard C types and fixed size integer types")
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Luis Vilanova <vilanova@imperial.ac.uk>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
----
- docs/devel/tcg-plugins.rst |  2 ++
- docs/devel/tracing.rst     |  7 +++++++
- docs/system/deprecated.rst | 13 +++++++++++++
- 3 files changed, 22 insertions(+)
+Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Message-Id: <20210406165307.5993-1-alex.bennee@linaro.org>
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 18c6581d85..edf04e3091 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -3,6 +3,8 @@
-    Copyright (c) 2019, Linaro Limited
-    Written by Emilio Cota and Alex Bennée
+---
+v2
+  - do workaround directly in validate_type
+---
+ scripts/tracetool/__init__.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.py
+index 5bc94d95cf..ce5fd23191 100644
+--- a/scripts/tracetool/__init__.py
++++ b/scripts/tracetool/__init__.py
+@@ -87,10 +87,9 @@ def out(*lines, **kwargs):
+     "ssize_t",
+     "uintptr_t",
+     "ptrdiff_t",
+-    # Magic substitution is done by tracetool
+-    "TCGv",
+ ]
  
-+.. _tcgplugin-ref:
 +
- ================
- QEMU TCG Plugins
- ================
-diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
-index ba83954899..6b0f46cd54 100644
---- a/docs/devel/tracing.rst
-+++ b/docs/devel/tracing.rst
-@@ -414,6 +414,13 @@ disabled, this check will have no performance impact.
- "tcg"
- -----
- 
-+.. warning::
-+   The ability to add new TCG trace points relies on a having a good
-+   understanding of the TCG internals. In the meantime TCG plugins
-+   have been introduced which solve many of the same problems with
-+   more of a focus on analysing guest code. See :ref:`tcgplugin-ref`
-+   for more details.
-+
- Guest code generated by TCG can be traced by defining an event with the "tcg"
- event property. Internally, this property generates two events:
- "<eventname>_trans" to trace the event at translation time, and
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 80cae86252..0c9d3c1e1e 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -312,6 +312,19 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
- (the ISA has never been upstreamed to a compiler toolchain). Therefore
- this CPU is also deprecated.
- 
-+TCG introspection features
-+--------------------------
-+
-+TCG trace-events (since 6.1)
-+''''''''''''''''''''''''''''
-+
-+The ability to add new TCG trace points has bit rotted and as the
-+feature can be replicated with TCG plugins it will be deprecated. If
-+any user is currently using this feature and needs help with
-+converting to using TCG plugins they should contact the qemu-devel
-+mailing list.
-+
-+
- Related binaries
- ----------------
- 
+ def validate_type(name):
+     bits = name.split(" ")
+     for bit in bits:
+@@ -99,6 +98,10 @@ def validate_type(name):
+             continue
+         if bit == "const":
+             continue
++        # Magic substitution of TCGv types will be done later
++        # using tracetool.transform.TCG_2_HOST
++        if bit.startswith("TCGv") and bit != "TCGv_vec":
++            continue
+         if bit not in ALLOWED_TYPES:
+             raise ValueError("Argument type '%s' is not allowed. "
+                              "Only standard C types and fixed size integer "
 -- 
 2.20.1
 
