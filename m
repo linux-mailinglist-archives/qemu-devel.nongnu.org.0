@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EB3373691
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 10:44:55 +0200 (CEST)
-Received: from localhost ([::1]:60568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8F33736A0
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 10:51:10 +0200 (CEST)
+Received: from localhost ([::1]:36710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leD9K-00012H-Vz
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 04:44:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37118)
+	id 1leDFN-000355-Bf
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 04:51:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1leD2J-0003BH-Sb
- for qemu-devel@nongnu.org; Wed, 05 May 2021 04:37:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59830)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1leDDy-0002L9-Pk
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 04:49:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1leD2H-00049l-Eg
- for qemu-devel@nongnu.org; Wed, 05 May 2021 04:37:39 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1leDDv-0001p8-Q8
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 04:49:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620203856;
+ s=mimecast20190719; t=1620204577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MtKn7q/jjyOaIwnU/kXei3Qud4D4X3ajMn/UbY3OmKo=;
- b=EAauh36cv5BPFWSggePRhjCTQgnKo1Q7X6HhH6A9KqRpKrVx2SVqIzZw8RE8xVlUDJbAgW
- PyUyFumKp0tHrUk4tNBnryFPtSLf08r67KfPJ+FEj6oQWTGFU5jffJ5ARPwljOl+KZjSqd
- ET8UuJZ6wMhltVuvBC+ql5JEyI4VL1k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-Y38uIskSMuSBnB16EjMj_A-1; Wed, 05 May 2021 04:37:34 -0400
-X-MC-Unique: Y38uIskSMuSBnB16EjMj_A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B65B1800D41;
- Wed,  5 May 2021 08:37:34 +0000 (UTC)
-Received: from starship (unknown [10.40.192.34])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 725B260C17;
- Wed,  5 May 2021 08:37:28 +0000 (UTC)
-Message-ID: <5f4ffcb1091567221bd0b9fd1efef53742e87332.camel@redhat.com>
-Subject: Re: [PATCH 2/2] gdbstub: implement NOIRQ support for single step on
- KVM, when kvm's KVM_GUESTDBG_BLOCKIRQ debug flag is supported.
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Date: Wed, 05 May 2021 11:37:27 +0300
-In-Reply-To: <871rb69qqk.fsf@linaro.org>
-References: <20210401144152.1031282-1-mlevitsk@redhat.com>
- <20210401144152.1031282-3-mlevitsk@redhat.com> <871rb69qqk.fsf@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+ bh=76ohqy4ZzjgefDiKCnvjEQfGeTfIviHMJ2MbCGtzspc=;
+ b=Y8zAtqeJ1gARn5aMU5R2Zz2KqWbDAi/exBm8wGa2FOYwi0THfKOVKYYnqpxe4SVnD/RFY9
+ w3Oo8zPX93Fmse86D5CGR/FAtscyjf/Bs44YJOYnEqa8wJtJAfRagMZz66nV2HDLDh0WY4
+ e9lINC00cydwTjUvh37Y6JjZalkFW5s=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-dUcLZaBmNoSfoB7qq0MZQA-1; Wed, 05 May 2021 04:49:35 -0400
+X-MC-Unique: dUcLZaBmNoSfoB7qq0MZQA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ j136-20020a1c238e0000b029014675462236so341736wmj.7
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 01:49:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=76ohqy4ZzjgefDiKCnvjEQfGeTfIviHMJ2MbCGtzspc=;
+ b=hAxD0PyP2i97ly6QrwK4dujjx6XA6wVewusrNNv2IQOQvXj/61AL8ArNdHAQ74WWCQ
+ 03mQzgVQYCxzbtXybDri4aeC31WkFljgPHpIemzU+rjcMGEg/+DUfkEX7tB3I16fb6pu
+ Ve13xUCEmHX5ccyoZroDexQOOnAEoAKOpV4GAIbbNo8E+Iy5hW8roRFf919xXPW6b9bX
+ Z9alGSvilCRMWgSuQZZmWpBP12EM1MHewQr8SRz4PpDvvgAZJSBlVaQSsrP6y8u320os
+ vV5Swf7ZqM0OYSzHL227HJ2DmajRooAfBvvcQsaQmSbnCuRuJbQU8jW74uX3oCrx5diD
+ vQ9g==
+X-Gm-Message-State: AOAM5305xdFjSbWdzHY8ZlA3s/HwgC4LhJbpY7TljQmu0HKtfFfKN1D/
+ 6kvj6NfCF0KHzwSysLN/FvgqP5nlT7Of9J4QzxL+0rXrdR2PuYMXRsdPdGpn8TMP6tiG7eBRrAf
+ n75lAh+6SBnKMAFc=
+X-Received: by 2002:a5d:64e4:: with SMTP id g4mr36860266wri.366.1620204574725; 
+ Wed, 05 May 2021 01:49:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxQFGhPh+W+zePLZCYcDq4wB8YWfDYtjzma1ZaQD1c/bnTUIE4t3+ftJXY0/uO04ZYlRqhwlw==
+X-Received: by 2002:a5d:64e4:: with SMTP id g4mr36860241wri.366.1620204574498; 
+ Wed, 05 May 2021 01:49:34 -0700 (PDT)
+Received: from thuth.remote.csb (pd9575e3e.dip0.t-ipconnect.de. [217.87.94.62])
+ by smtp.gmail.com with ESMTPSA id d127sm4823456wmd.14.2021.05.05.01.49.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 May 2021 01:49:34 -0700 (PDT)
+To: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+References: <166fe72a-c209-fd08-5f31-db15e4f3a8b9@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: Gitlab Issue Tracker - Proposed Workflow
+Message-ID: <c278c5cb-f9d2-081f-3451-9ae38cd33bcf@redhat.com>
+Date: Wed, 5 May 2021 10:49:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
+In-Reply-To: <166fe72a-c209-fd08-5f31-db15e4f3a8b9@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,279 +97,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2021-04-19 at 17:29 +0100, Alex Benn=C3=A9e wrote:
-> Maxim Levitsky <mlevitsk@redhat.com> writes:
->=20
-> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > ---
-> >  accel/kvm/kvm-all.c  | 25 +++++++++++++++++++
-> >  gdbstub.c            | 59 ++++++++++++++++++++++++++++++++++++--------
-> >  include/sysemu/kvm.h | 13 ++++++++++
-> >  3 files changed, 87 insertions(+), 10 deletions(-)
-> >=20
-> > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> > index b6d9f92f15..bc7955fb19 100644
-> > --- a/accel/kvm/kvm-all.c
-> > +++ b/accel/kvm/kvm-all.c
-> > @@ -147,6 +147,8 @@ bool kvm_vm_attributes_allowed;
-> >  bool kvm_direct_msi_allowed;
-> >  bool kvm_ioeventfd_any_length_allowed;
-> >  bool kvm_msi_use_devid;
-> > +bool kvm_has_guest_debug;
-> > +int kvm_sstep_flags;
-> >  static bool kvm_immediate_exit;
-> >  static hwaddr kvm_max_slot_size =3D ~0;
-> > =20
-> > @@ -2186,6 +2188,25 @@ static int kvm_init(MachineState *ms)
-> >      kvm_ioeventfd_any_length_allowed =3D
-> >          (kvm_check_extension(s, KVM_CAP_IOEVENTFD_ANY_LENGTH) > 0);
-> > =20
-> > +    kvm_has_guest_debug =3D
-> > +        (kvm_check_extension(s, KVM_CAP_SET_GUEST_DEBUG) > 0);
-> > +
-> > +    kvm_sstep_flags =3D 0;
-> > +
-> > +    if (kvm_has_guest_debug) {
-> > +        /* Assume that single stepping is supported */
-> > +        kvm_sstep_flags =3D SSTEP_ENABLE;
-> > +
-> > +        int guest_debug_flags =3D
-> > +            kvm_check_extension(s, KVM_CAP_SET_GUEST_DEBUG2);
-> > +
-> > +        if (guest_debug_flags > 0) {
-> > +            if (guest_debug_flags & KVM_GUESTDBG_BLOCKIRQ) {
-> > +                kvm_sstep_flags |=3D SSTEP_NOIRQ;
-> > +            }
-> > +        }
-> > +    }
-> > +
-> >      kvm_state =3D s;
-> > =20
-> >      ret =3D kvm_arch_init(ms, s);
-> > @@ -2796,6 +2817,10 @@ int kvm_update_guest_debug(CPUState *cpu, unsign=
-ed long reinject_trap)
-> > =20
-> >      if (cpu->singlestep_enabled) {
-> >          data.dbg.control |=3D KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_SINGL=
-ESTEP;
-> > +
-> > +        if (cpu->singlestep_enabled & SSTEP_NOIRQ) {
-> > +            data.dbg.control |=3D KVM_GUESTDBG_BLOCKIRQ;
-> > +        }
-> >      }
-> >      kvm_arch_update_guest_debug(cpu, &data.dbg);
-> > =20
-> > diff --git a/gdbstub.c b/gdbstub.c
-> > index 054665e93e..f789ded99d 100644
-> > --- a/gdbstub.c
-> > +++ b/gdbstub.c
-> > @@ -369,12 +369,11 @@ typedef struct GDBState {
-> >      gdb_syscall_complete_cb current_syscall_cb;
-> >      GString *str_buf;
-> >      GByteArray *mem_buf;
-> > +    int sstep_flags;
-> > +    int supported_sstep_flags;
-> >  } GDBState;
-> > =20
-> > -/* By default use no IRQs and no timers while single stepping so as to
-> > - * make single stepping like an ICE HW step.
-> > - */
-> > -static int sstep_flags =3D SSTEP_ENABLE|SSTEP_NOIRQ|SSTEP_NOTIMER;
-> > +static GDBState gdbserver_state;
-> > =20
-> >  /* Retrieves flags for single step mode. */
-> >  static int get_sstep_flags(void)
-> > @@ -386,11 +385,10 @@ static int get_sstep_flags(void)
-> >      if (replay_mode !=3D REPLAY_MODE_NONE) {
-> >          return SSTEP_ENABLE;
-> >      } else {
-> > -        return sstep_flags;
-> > +        return gdbserver_state.sstep_flags;
-> >      }
-> >  }
-> > =20
-> > -static GDBState gdbserver_state;
-> > =20
-> >  static void init_gdbserver_state(void)
-> >  {
-> > @@ -400,6 +398,23 @@ static void init_gdbserver_state(void)
-> >      gdbserver_state.str_buf =3D g_string_new(NULL);
-> >      gdbserver_state.mem_buf =3D g_byte_array_sized_new(MAX_PACKET_LENG=
-TH);
-> >      gdbserver_state.last_packet =3D g_byte_array_sized_new(MAX_PACKET_=
-LENGTH + 4);
-> > +
-> > +
-> > +    if (kvm_enabled()) {
-> > +        gdbserver_state.supported_sstep_flags =3D
-> >  kvm_get_supported_sstep_flags();
->=20
-> This falls over as soon as you build something without KVM support (like
-> a TCG only build or an emulation only target):
+On 04/05/2021 20.33, John Snow wrote:
+[...]
+> - Gitlab will automatically close issues that reference the gitlab issue 
+> tracker from the commit message, but it won't apply the "Merged" label, so 
+> it's at risk of falling out of sync.
+> 
+> Closed issues retain their "Workflow::" labels, but won't show up in the 
+> issue search by default unless you ask to include closed issues as well.
+> 
+> I think we can likely just drop this label, and have bugs go directly from 
+> whatever state they're in to "Closed". The issue board will look cleaner and 
+> there's less custodial work for maintainers.
+> 
+> - Similarly to the above concern, "Released" is extra paperwork for us to 
+> maintain.
+Others replied already, but I wanted to add some of my personal views here, 
+too: Hunting down the issues to close them after we published a new release 
+was a very tedious and time consuming task. Most people simply forget to 
+close tickets that they've opened or solved. So I was always doing most of 
+the dirty work here, using a script to hunt down bug URLs in commit messages 
+and looking for bugs that were stuck in "Fix committed" state - but 
+honestly, I feel like I've also got better things to do in my spare time.
+So from my point of view: Let's close bugs automatically with the 
+"Resolves:" keyword in the commit messages. I think users are smart enough 
+to realize that the fix will then be available with the next release. So we 
+really don't need a "Merged" and "Release" state anymore and I vote for 
+dropping them.
 
-This is something I'll check from now on before sending patches.
-
-
->=20
->   [10/1152] Compiling C object libqemu-riscv32-softmmu.fa.p/gdbstub.c.o
->   FAILED: libqemu-riscv32-softmmu.fa.p/gdbstub.c.o=20
->   cc -Ilibqemu-riscv32-softmmu.fa.p -I. -I../.. -Itarget/riscv -I../../ta=
-rget/riscv -Idtc/libfdt -I../../dtc/libfdt -I../../capstone/include/capston=
-e -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/pixman-1 -I/usr/include/li=
-bdrm -I/usr/include/spice-server -I/usr/include/spice-1 -I/usr/include/glib=
--2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -fdiagnostics-color=3Daut=
-o -pipe -Wall -Winvalid-pch -Werror -std=3Dgnu99 -O2 -g -isystem /home/alex=
-/lsrc/qemu.git/linux-headers -isystem linux-headers -iquote . -iquote /home=
-/alex/lsrc/qemu.git -iquote /home/alex/lsrc/qemu.git/include -iquote /home/=
-alex/lsrc/qemu.git/disas/libvixl -iquote /home/alex/lsrc/qemu.git/tcg/i386 =
--iquote /home/alex/lsrc/qemu.git/accel/tcg -pthread -U_FORTIFY_SOURCE -D_FO=
-RTIFY_SOURCE=3D2 -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARG=
-EFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings =
--Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-d=
-eclaration -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-=
-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-=
-labels -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno-missing-inclu=
-de-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -DLEG=
-ACY_RDMA_REG_MR -fPIC -isystem../../linux-headers -isystemlinux-headers -DN=
-EED_CPU_H '-DCONFIG_TARGET=3D"riscv32-softmmu-config-target.h"' '-DCONFIG_D=
-EVICES=3D"riscv32-softmmu-config-devices.h"' -MD -MQ libqemu-riscv32-softmm=
-u.fa.p/gdbstub.c.o -MF libqemu-riscv32-softmmu.fa.p/gdbstub.c.o.d -o libqem=
-u-riscv32-softmmu.fa.p/gdbstub.c.o -c ../../gdbstub.c
->   ../../gdbstub.c: In function =E2=80=98init_gdbserver_state=E2=80=99:
->   ../../gdbstub.c:404:49: error: implicit declaration of function =E2=80=
-=98kvm_get_supported_sstep_flags=E2=80=99; did you mean =E2=80=98hvf_get_su=
-pported_cpuid=E2=80=99? [-Werror=3Dimplicit-function-declaration]
->            gdbserver_state.supported_sstep_flags =3D kvm_get_supported_ss=
-tep_flags();
->                                                    ^~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
->                                                    hvf_get_supported_cpui=
-d
->   ../../gdbstub.c:404:49: error: nested extern declaration of =E2=80=98kv=
-m_get_supported_sstep_flags=E2=80=99 [-Werror=3Dnested-externs]
->   ../../gdbstub.c: In function =E2=80=98gdbserver_start=E2=80=99:
->   ../../gdbstub.c:3536:27: error: implicit declaration of function =E2=80=
-=98kvm_supports_guest_debug=E2=80=99; did you mean =E2=80=98kvm_update_gues=
-t_debug=E2=80=99? [-Werror=3Dimplicit-function-declaration]
->        if (kvm_enabled() && !kvm_supports_guest_debug()) {
->                              ^~~~~~~~~~~~~~~~~~~~~~~~
->                              kvm_update_guest_debug
->   ../../gdbstub.c:3536:27: error: nested extern declaration of =E2=80=98k=
-vm_supports_guest_debug=E2=80=99 [-Werror=3Dnested-externs]
->   cc1: all warnings being treated as errors
->=20
->=20
-> > +    } else {
-> > +        gdbserver_state.supported_sstep_flags =3D
-> > +            SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
-> > +    }
-> > +
-> > +    /*
-> > +     * By default use no IRQs and no timers while single stepping so a=
-s to
-> > +     * make single stepping like an ICE HW step.
-> > +     */
-> > +
-> > +    gdbserver_state.sstep_flags =3D SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP=
-_NOTIMER;
-> > +    gdbserver_state.sstep_flags &=3D gdbserver_state.supported_sstep_f=
-lags;
-> > +
-> >  }
-> > =20
-> >  #ifndef CONFIG_USER_ONLY
-> > @@ -2023,24 +2038,43 @@ static void handle_v_commands(GdbCmdContext *gd=
-b_ctx, void *user_ctx)
-> > =20
-> >  static void handle_query_qemu_sstepbits(GdbCmdContext *gdb_ctx, void *=
-user_ctx)
-> >  {
-> > -    g_string_printf(gdbserver_state.str_buf, "ENABLE=3D%x,NOIRQ=3D%x,N=
-OTIMER=3D%x",
-> > -                    SSTEP_ENABLE, SSTEP_NOIRQ, SSTEP_NOTIMER);
-> > +    g_string_printf(gdbserver_state.str_buf, "ENABLE=3D%x", SSTEP_ENAB=
-LE);
-> > +
-> > +    if (gdbserver_state.supported_sstep_flags & SSTEP_NOIRQ) {
-> > +        g_string_append_printf(gdbserver_state.str_buf, ",NOIRQ=3D%x",
-> > +                               SSTEP_NOIRQ);
-> > +    }
-> > +
-> > +    if (gdbserver_state.supported_sstep_flags & SSTEP_NOTIMER) {
-> > +        g_string_append_printf(gdbserver_state.str_buf, ",NOTIMER=3D%x=
-",
-> > +                               SSTEP_NOTIMER);
-> > +    }
-> > +
-> >      put_strbuf();
-> >  }
-> > =20
-> >  static void handle_set_qemu_sstep(GdbCmdContext *gdb_ctx, void *user_c=
-tx)
-> >  {
-> > +    int new_sstep_flags;
-> >      if (!gdb_ctx->num_params) {
-> >          return;
-> >      }
-> > =20
-> > -    sstep_flags =3D gdb_ctx->params[0].val_ul;
-> > +    new_sstep_flags =3D gdb_ctx->params[0].val_ul;
-> > +
-> > +    if (new_sstep_flags  & ~gdbserver_state.supported_sstep_flags) {
-> > +        put_packet("E22");
-> > +        return;
-> > +    }
-> > +
-> > +    gdbserver_state.sstep_flags =3D new_sstep_flags;
-> >      put_packet("OK");
-> >  }
-> > =20
-> >  static void handle_query_qemu_sstep(GdbCmdContext *gdb_ctx, void *user=
-_ctx)
-> >  {
-> > -    g_string_printf(gdbserver_state.str_buf, "0x%x", sstep_flags);
-> > +    g_string_printf(gdbserver_state.str_buf, "0x%x",
-> > +                    gdbserver_state.sstep_flags);
-> >      put_strbuf();
-> >  }
-> > =20
-> > @@ -3499,6 +3533,11 @@ int gdbserver_start(const char *device)
-> >          return -1;
-> >      }
-> > =20
-> > +    if (kvm_enabled() && !kvm_supports_guest_debug()) {
-> > +        error_report("gdbstub: KVM doesn't support guest debugging");
-> > +        return -1;
-> > +    }
-> > +
-> <snip>
->=20
-> Otherwise it looks fine as far as it goes, however it would be nice to
-> have some sort of test in for this. The gdbstub has a hand-rolled gdb
-> script in tests/guest-debug/test-gdbstub.py but it's not integrated with
-> the rest of the testing.
-I'll take a look!
-
->=20
-> As I suspect you need a) KVM enabled, b) a recent enough kernel and c)
-> some sort of guest kernel that is going to enable timers and IRQs this
-> might be something worth porting to the acceptance tests.
->=20
-> We have an example in tests/acceptance/reverse_debugging.py which is run
-> as part of check-acceptance. It's TCG only but perhaps is a template for
-> how such a test could be implemented.
-
-Thanks for the review,
-	Best regards,
-		Maxim Levitsky
->=20
-
+  Thomas
 
 
