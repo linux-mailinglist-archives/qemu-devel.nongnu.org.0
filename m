@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D6E374A33
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:33:12 +0200 (CEST)
-Received: from localhost ([::1]:49086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B05C374A3A
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:36:12 +0200 (CEST)
+Received: from localhost ([::1]:58280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leP8p-00017A-E6
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:33:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
+	id 1lePBj-0004ux-6P
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:36:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOoL-0001Dl-U4
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:12:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22609)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOoR-0001RH-AD
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 17:12:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOoJ-0004hD-L7
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:12:01 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOoO-0004kE-Dk
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 17:12:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620249119;
+ s=mimecast20190719; t=1620249123;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DfUDaI+/f3cLjeF1lXLCmZjtS2bI+iFNO52XEDHDQcY=;
- b=N/ICO9F64DtQdtnbBGzATH0sIUitsj+SLmx7BQEqnAAhiOSD6rN+3UCeQQXAqLokJRHKqL
- ghjFQOrA8VpVtNPSTJjKpTe0lb8nLiIfDfZoQOShIwKpzVH4aoO4M16qybzZLezOPQ6XWA
- QwovLQz7RkKOneSFgPY9H/g/c9UR0vQ=
+ bh=636tUeaZUJwZXzgkoGYRlYUQS8C8vEDoXPpJByBKufw=;
+ b=IF1qXYoH3yz2yjsoCjgktKA2JL1W60wC+hBzIbKHy5jg6rpxVTT/kWQ1t3YOzzjfpCV0sQ
+ hF9F0tkspBBrG58xz15jdOALRcq2JOXPD9TeRpY6du7U8VqlM7GpKTCmgnhuWqwuGSRZW2
+ /vsdEQ+UB5oDjxO/luCDCnLhp9LV69I=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-MYHAxYNoN22RQi-duA7GqA-1; Wed, 05 May 2021 17:11:57 -0400
-X-MC-Unique: MYHAxYNoN22RQi-duA7GqA-1
+ us-mta-497-y4ask1dpPNuscPnmAWTD0w-1; Wed, 05 May 2021 17:12:02 -0400
+X-MC-Unique: y4ask1dpPNuscPnmAWTD0w-1
 Received: by mail-wr1-f72.google.com with SMTP id
- r12-20020adfc10c0000b029010d83323601so1191235wre.22
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:11:57 -0700 (PDT)
+ r12-20020adfc10c0000b029010d83323601so1191301wre.22
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:12:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DfUDaI+/f3cLjeF1lXLCmZjtS2bI+iFNO52XEDHDQcY=;
- b=kTJzfVkaaujNMnBdlRbChb6y+5/Pchj/M3TGzK7l/EKF3ZWBI/Cf7RX7Cv4qzCYPtU
- QBzpN4Yi87u4rAJSUiWMUzzpjZmZbqx0KUiQZXCElx0J8xgy2n6QtvFluFLmSBQZA/tV
- G4UggsCDfIWR36P1pg1dST2VKD8G0gCsNYWCMYqXvkRs19gE7wrLQYTHgQC1sgfBQhmO
- 331r1nWssQM52icU1lS44LL4B+QLCsU/lQ7Obr1ki5NUQec2lJuGC0bZWtbarx229pLs
- Nk3AqPYs3spv8weIVHZFdecnmlm3zZsq1voGipfO2HltaU1fqXFnhmIidV3hv1O4Xsvs
- pKtQ==
-X-Gm-Message-State: AOAM532a8v2T5+P4ALhJPoBTI8jzcHFilIum0rxUI6Ai6O91plX89zi6
- bZ17ifnShWBO0RpwpPf+gFbaZep20wPbo6iFG5fRAH6g01UbFR+98DgRhqHgSCXsqKNxZAP0UaI
- Ky0LcZtffXttgby4yw8uQDezWqazFtZS1rwHIvXWSALvew++ulz/eFPd86hJz9IaP
-X-Received: by 2002:a05:600c:4105:: with SMTP id
- j5mr11852484wmi.141.1620249116186; 
- Wed, 05 May 2021 14:11:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyG5noAegUY6P5TQU7a34yqqqkqt19xtSf03Oa1j5D6n+YP5pon+6ohzY+LLzQLvfzWE/3n8w==
-X-Received: by 2002:a05:600c:4105:: with SMTP id
- j5mr11852465wmi.141.1620249115963; 
- Wed, 05 May 2021 14:11:55 -0700 (PDT)
+ bh=636tUeaZUJwZXzgkoGYRlYUQS8C8vEDoXPpJByBKufw=;
+ b=WZKEEEk8yF6lrrJN7Vgf1gC8IYyMAULy1VqzPFOzX4M6S6yiheKk7HbyOO44QoH74a
+ EXMhR2e7SZ7HUyMCCWd1SO7V07vDcOXC1IXHWIT1HHOr3WgYMUdIyuIiapHfKanM7sfh
+ 34kVlvl9k6NwGGEeNC7qGWqktuwn3CMq6OFm5+KAiRxUWqKGfqfJVkMAJbAKlfE4vxue
+ MsoAhkrhsSzWDfcvxc/wJP33lIaiqrpJtrDVt8nmN5EfR/iG5ll4iAccH1KRiHgxw/PS
+ NGx1XeZUxb8PGKJwjtE1+/i0XfIwdjfQcjq0oez0KkIpInEGuMwRTIZPLERKR2xA9LWa
+ QmVQ==
+X-Gm-Message-State: AOAM530AbVx487n/SreafVN7XquGhLd0xiORMYC6N5y/EEweuXr05HWt
+ qoeSAsRFHY2yMhYEjDuosQTmzsj4pgdbZHRhHTjQSW8iyVvdKYv8hOc/oEGsfwT7T85lBpvwiR+
+ zDRAIOcwQ3ft3gnp3DdWrcoIrWWW47ZotNskMi2JI2Ipgw1gHeLSQJY1lSq1as5Jy
+X-Received: by 2002:a05:600c:2242:: with SMTP id
+ a2mr619034wmm.125.1620249120976; 
+ Wed, 05 May 2021 14:12:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzCJeEMZBQikxcTCj55Wbnl59HNODb424Hnb387n8l9K6RxYflSny7y4Nqiv7PVgw1geYimyw==
+X-Received: by 2002:a05:600c:2242:: with SMTP id
+ a2mr619021wmm.125.1620249120831; 
+ Wed, 05 May 2021 14:12:00 -0700 (PDT)
 Received: from x1w.redhat.com
  (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
- by smtp.gmail.com with ESMTPSA id j18sm528387wmq.27.2021.05.05.14.11.55
+ by smtp.gmail.com with ESMTPSA id r5sm641066wmh.23.2021.05.05.14.11.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 14:11:55 -0700 (PDT)
+ Wed, 05 May 2021 14:12:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/23] hw/usb/hcd-xhci: Avoid dynamic stack allocation
-Date: Wed,  5 May 2021 23:10:37 +0200
-Message-Id: <20210505211047.1496765-14-philmd@redhat.com>
+Subject: [PATCH 14/23] hw/usb/hcd-ohci: Use definition to avoid dynamic stack
+ allocation
+Date: Wed,  5 May 2021 23:10:38 +0200
+Message-Id: <20210505211047.1496765-15-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210505211047.1496765-1-philmd@redhat.com>
 References: <20210505211047.1496765-1-philmd@redhat.com>
@@ -105,27 +106,44 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use autofree heap allocation instead of variable-length
-array on the stack.
+The compiler isn't clever enough to figure 'width' is a constant,
+so help it by using a definitions instead.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/usb/hcd-xhci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/usb/hcd-ohci.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 7acfb8137bc..59a267e3c8b 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -2387,7 +2387,7 @@ static void xhci_detach_slot(XHCIState *xhci, USBPort *uport)
- static TRBCCode xhci_get_port_bandwidth(XHCIState *xhci, uint64_t pctx)
+diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
+index 1cf2816772c..d090eee673d 100644
+--- a/hw/usb/hcd-ohci.c
++++ b/hw/usb/hcd-ohci.c
+@@ -894,13 +894,14 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed,
+     return 1;
+ }
+ 
++#define HEX_CHAR_PER_LINE 16
++
+ static void ohci_td_pkt(const char *msg, const uint8_t *buf, size_t len)
  {
-     dma_addr_t ctx;
--    uint8_t bw_ctx[xhci->numports+1];
-+    g_autofree uint8_t *bw_ctx = g_malloc(xhci->numports + 1);
+     bool print16;
+     bool printall;
+-    const int width = 16;
+     int i;
+-    char tmp[3 * width + 1];
++    char tmp[3 * HEX_CHAR_PER_LINE + 1];
+     char *p = tmp;
  
-     DPRINTF("xhci_get_port_bandwidth()\n");
+     print16 = !!trace_event_get_state_backends(TRACE_USB_OHCI_TD_PKT_SHORT);
+@@ -911,7 +912,7 @@ static void ohci_td_pkt(const char *msg, const uint8_t *buf, size_t len)
+     }
  
+     for (i = 0; ; i++) {
+-        if (i && (!(i % width) || (i == len))) {
++        if (i && (!(i % HEX_CHAR_PER_LINE) || (i == len))) {
+             if (!printall) {
+                 trace_usb_ohci_td_pkt_short(msg, tmp);
+                 break;
 -- 
 2.26.3
 
