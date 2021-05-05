@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 196E83749F9
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:13:59 +0200 (CEST)
-Received: from localhost ([::1]:47706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3B13749F8
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 23:13:54 +0200 (CEST)
+Received: from localhost ([::1]:47180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leOqE-0002Ma-5m
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39802)
+	id 1leOqA-00028m-0y
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 17:13:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnN-00089p-IJ
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44045)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnT-0008E1-QA
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnK-00042S-RZ
- for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:01 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leOnS-00049c-AC
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 17:11:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620249058;
+ s=mimecast20190719; t=1620249064;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nfSqtx2bsWJBI4JnD1Mt3pZTQzkiHMCXAS9LcMiGD6o=;
- b=e4Vgyd2IdMFDq0UWMXWpmX05ob2NmHHPuWcHz+V5R1JKlZME/MHL5Pq1r7jguLZXk48E4F
- 6h9TZJARagoT9P0NxggbJ+AiIeS3lrcr6v+ByeHV+peXorXf3ijOV1gjJS0EXBKCSGcM4b
- 7zqOAeHcIORxLg7lHXovluZPxV8Jbk4=
+ bh=yGG470A3Jaz0DhDPrHiZEZ43qAaY5nNHcaGiMNivkn0=;
+ b=X8HP1SO/x3wW+y8yFQy1VqYn4VsbNfiM4sGzhhfUe0MA3lKzLMvIMjeGddffSFuVGHHomJ
+ qXTwvHaJV/UhYz2mHKElos5WCHctllqUtb9kvUuPd4Vhg+DVURIRxrn6exydJy/PzmHBvA
+ /yJxe87P6xHZMcnSL+I0PB2utrVv4ec=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-HPWenaD1PPeKcoOr84CpNg-1; Wed, 05 May 2021 17:10:56 -0400
-X-MC-Unique: HPWenaD1PPeKcoOr84CpNg-1
+ us-mta-516-i3gvtOTLPZSGB2hEGmtLpQ-1; Wed, 05 May 2021 17:11:01 -0400
+X-MC-Unique: i3gvtOTLPZSGB2hEGmtLpQ-1
 Received: by mail-wr1-f70.google.com with SMTP id
- l2-20020adf9f020000b029010d6bb7f1cbso1210985wrf.7
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:10:56 -0700 (PDT)
+ n10-20020adfb74a0000b029010e1a98fb84so1237452wre.0
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 14:11:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nfSqtx2bsWJBI4JnD1Mt3pZTQzkiHMCXAS9LcMiGD6o=;
- b=Wtn+SjXLp2YbDc/oIWS+MEZEwj7jrrdG6dhkeeIAiAX08j+iZ4Apk3VR50ok7Kza+s
- 7UMO0ng13MdFrnKvTeCByjJJvPHOB3nWTvTmwHsCWBicfnQuB1E0FI6rJpCtoMPnQNDY
- YwpGzu6hi1kIXN566ZyhPGNS6Fjb8fgueyJKOKoRNv5iHE4Di17EJWgJKeofdnsRHzW+
- PlqgAn6j5a1BAmbZhT6LWDzqD4gL5Hc5Fuk+dNHR+wgJ+PzFUQqU4iVYXblQqTbeD+W8
- 4LVHYZyCKvAgIJ8GUQZhqBRyZ+VA8yY7LPN0Yg6+3I1ktaQtQG+P1jAv80KZSlWuer0v
- kVQA==
-X-Gm-Message-State: AOAM533OLClsUc2+3NuKQ+7qosUn1R17CXWHGSw4csaYXXk3J46I8C21
- ClLxPEee7M5eToWNLpRSflFc7qdzGDxdT7qnruqMq1Pj68Q2QHbVhB8WSWsIUL+JE+THAZ87kjy
- BdlikMfT0DfM7k6w7a4Ly+00sUXjmIwpgTjpF5x0xTqN29HsEELZ5a4kqDLCi+ead
-X-Received: by 2002:a5d:4e52:: with SMTP id r18mr1005313wrt.179.1620249055108; 
- Wed, 05 May 2021 14:10:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzdcO6k4STJUW002h/z1xwQnLLkjuTPTZ/XOg80aMMNDfDaqPBnBBRL5M9D/HGhVmHgmwSWKQ==
-X-Received: by 2002:a5d:4e52:: with SMTP id r18mr1005281wrt.179.1620249054847; 
- Wed, 05 May 2021 14:10:54 -0700 (PDT)
+ bh=yGG470A3Jaz0DhDPrHiZEZ43qAaY5nNHcaGiMNivkn0=;
+ b=h9ZXhZrNRxrfEVxR1Qjd7viN9hOgVUl/bjXVqTYsQSjOqFvZqoBx3xCu19jvjdtPfA
+ Fg5BIdqEX14xRzG0rg7nisAmUPmErc+bjBureFIrlSCpJPEyuNkEefmj1ZjU2t53QUOk
+ xHfcn2sMjWuUJOZkcC7CJ+Sayqr4d3o7ND9Ce0jUnVKE96TQlznBnzaukG4yCl0GbcwB
+ v9gtz+gYSL/tsPSifK/TP63M8aH9UjaQaXcSIZPW3zBKLfPlGjMprtoNqF+cil0Om2sb
+ FX8NC/AuryV1BG7LuSj0yB7kIuNAa4Wwh5lPFiQDnnKZ7Mvook1ASSK73bMq1IrVf188
+ MbQA==
+X-Gm-Message-State: AOAM532WxGKAtAaBItfZaG9x/tqT/NzZSOO4n53ejEfRNOWGuEu1bprH
+ WSW39wJ/amG0ma4VzjpQ4STa1aAZcMDaw+i9IE0ATai/9JyXggoXZhCRBrBZZIVCTthiGzrnZRO
+ purrjcd5nPTmhND+HFsJmsCdr24lCU+bTrNI5R5QF+MX2kOKNXRN0bTebLMaAHW7E
+X-Received: by 2002:adf:d1ec:: with SMTP id g12mr1078585wrd.294.1620249059936; 
+ Wed, 05 May 2021 14:10:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyIGIU2wTR52pvVBtbElhLcb5ebrIvmDSZz3nPUhGj9Y9gRioNSfoYQBa7vB+kIDXVm3OwEMQ==
+X-Received: by 2002:adf:d1ec:: with SMTP id g12mr1078568wrd.294.1620249059800; 
+ Wed, 05 May 2021 14:10:59 -0700 (PDT)
 Received: from x1w.redhat.com
  (astrasbourg-653-1-188-220.w90-13.abo.wanadoo.fr. [90.13.127.220])
- by smtp.gmail.com with ESMTPSA id i20sm6168267wmq.29.2021.05.05.14.10.53
+ by smtp.gmail.com with ESMTPSA id w22sm7363254wmc.13.2021.05.05.14.10.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 14:10:54 -0700 (PDT)
+ Wed, 05 May 2021 14:10:59 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/23] block/vpc: Avoid dynamic stack allocation
-Date: Wed,  5 May 2021 23:10:25 +0200
-Message-Id: <20210505211047.1496765-2-philmd@redhat.com>
+Subject: [PATCH 02/23] chardev/baum: Replace magic values by X_MAX / Y_MAX
+ definitions
+Date: Wed,  5 May 2021 23:10:26 +0200
+Message-Id: <20210505211047.1496765-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210505211047.1496765-1-philmd@redhat.com>
 References: <20210505211047.1496765-1-philmd@redhat.com>
@@ -94,10 +95,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-block@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
  Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -105,36 +105,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use autofree heap allocation instead of variable-length
-array on the stack.
+Replace '84' magic value by the X_MAX definition, and '1' by Y_MAX.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/vpc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ chardev/baum.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/block/vpc.c b/block/vpc.c
-index 17a705b482a..9ed144331fd 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -509,7 +509,7 @@ static inline int64_t get_image_offset(BlockDriverState *bs, uint64_t offset,
-        miss sparse read optimization, but it's not a problem in terms of
-        correctness. */
-     if (write && (s->last_bitmap_offset != bitmap_offset)) {
--        uint8_t bitmap[s->bitmap_size];
-+        g_autofree uint8_t *bitmap = g_malloc(s->bitmap_size);
-         int r;
+diff --git a/chardev/baum.c b/chardev/baum.c
+index 5deca778bc4..adc3d7b3b56 100644
+--- a/chardev/baum.c
++++ b/chardev/baum.c
+@@ -87,6 +87,9 @@
  
-         s->last_bitmap_offset = bitmap_offset;
-@@ -556,7 +556,7 @@ static int64_t alloc_block(BlockDriverState *bs, int64_t offset)
-     int64_t bat_offset;
-     uint32_t index, bat_value;
-     int ret;
--    uint8_t bitmap[s->bitmap_size];
-+    g_autofree uint8_t *bitmap = g_malloc(s->bitmap_size);
+ #define BUF_SIZE 256
  
-     /* Check if sector_num is valid */
-     if ((offset < 0) || (offset > bs->total_sectors * BDRV_SECTOR_SIZE)) {
++#define X_MAX   84
++#define Y_MAX   1
++
+ struct BaumChardev {
+     Chardev parent;
+ 
+@@ -244,11 +247,11 @@ static int baum_deferred_init(BaumChardev *baum)
+         brlapi_perror("baum: brlapi__getDisplaySize");
+         return 0;
+     }
+-    if (baum->y > 1) {
+-        baum->y = 1;
++    if (baum->y > Y_MAX) {
++        baum->y = Y_MAX;
+     }
+-    if (baum->x > 84) {
+-        baum->x = 84;
++    if (baum->x > X_MAX) {
++        baum->x = X_MAX;
+     }
+ 
+     con = qemu_console_lookup_by_index(0);
 -- 
 2.26.3
 
