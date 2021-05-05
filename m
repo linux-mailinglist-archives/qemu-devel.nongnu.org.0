@@ -2,80 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B230373C7C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 15:37:28 +0200 (CEST)
-Received: from localhost ([::1]:57348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0AC373C9B
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 15:42:42 +0200 (CEST)
+Received: from localhost ([::1]:37288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leHiR-000415-Fa
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 09:37:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57104)
+	id 1leHnU-0007a7-RO
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 09:42:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1leHh3-00030P-Kt
- for qemu-devel@nongnu.org; Wed, 05 May 2021 09:36:01 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1leHh0-0000L0-1U
- for qemu-devel@nongnu.org; Wed, 05 May 2021 09:36:01 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id n2so1908803wrm.0
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 06:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=adacore-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Zyu6Jh1tIOrjge7LLfUbkEs1c9RHhrPmpbhHLZmktxA=;
- b=L8Tis+vll+aXblNC3JWxUiL+yIhTErknwINOvynPgbS4ZuKXbkvH1aNWa6rQqvsZfD
- vAoO3uPk3TlBoBqikFw0Haj7NsCAovL4nEFrzWjmNgaFlsBSGcWpO9Aw7fW0LVhyXfPE
- 1k0OQnf9FizaRtvUeMUihTkr1bgLwU6Q5n1DMyQ81Nkxik1zGWBiZFo02x5rbC2HgCxr
- Kya2r1aAEV6oGMciLMnqrItH7rFMFvcyFBCSuRbotjBvvOqF0UbOAqadXdtbbbGsFCem
- veOu4i2mW4MIYwV4okGhVrRzqscSOINPnsQRsd9/4dujjUZxkRZ0cx+nVRyrxUVIUFpx
- h5Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Zyu6Jh1tIOrjge7LLfUbkEs1c9RHhrPmpbhHLZmktxA=;
- b=p9kbViMcsRQfnDaedh9KbetgKlt85YOtYZdPKVQO+3MeF3Hxvlm0qEXB+zSLz4t/eu
- OrFfTNSjliXNG6LmVSgK0OkNRzDEtMcaOpG3Yt27LCWRjnbjVRyIQ9M/Ol9JbXsm6YOY
- frKCKYYKLD6Je3edzRpeFkDy2FVY+PMzrbbahs4522mzVId+56HLCByQfzRRC/mdzlDS
- ZIzt+HUiBoiKe968oh38D8Sl5Nnxe94mIeF3tbaliqRQP9V305UCjZwlffk/X7maMbx7
- P2G/WAGAlIvF7dWfl1G9/fZFJm6POrMJ1cSpofzAaPZiLV7XrL/LsJj6b74DPq+3GDG4
- SqAQ==
-X-Gm-Message-State: AOAM533dx1iUN8RjijaWToD/0HYykpUCdoGnLgS6qtMR1YEQ3nDam8u0
- /7UjIfEmwtSqOeAnvtpRc+NQ5w==
-X-Google-Smtp-Source: ABdhPJz/IvG8KyGzIGTbWxRr/eUPRkSETnPiLt8uXT0ThC6Yk/I/G8eJxF3vacbVsGLhS4mN0HFuIg==
-X-Received: by 2002:adf:ea06:: with SMTP id q6mr37196313wrm.34.1620221756170; 
- Wed, 05 May 2021 06:35:56 -0700 (PDT)
-Received: from localhost.localdomain
- (lfbn-tou-1-1482-80.w90-89.abo.wanadoo.fr. [90.89.5.80])
- by smtp.gmail.com with ESMTPSA id p7sm19126623wrt.24.2021.05.05.06.35.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 May 2021 06:35:55 -0700 (PDT)
-Subject: Re: [PATCH] target/avr: Ignore unimplemented WDR opcode
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210502190900.604292-1-f4bug@amsat.org>
-From: Fred Konrad <konrad@adacore.com>
-Message-ID: <36dd1481-d89e-5f1c-5715-9275df83b722@adacore.com>
-Date: Wed, 5 May 2021 15:35:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <mahesh@linux.ibm.com>)
+ id 1leHm3-0006th-Kw; Wed, 05 May 2021 09:41:11 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60788
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mahesh@linux.ibm.com>)
+ id 1leHm1-0003Lw-5d; Wed, 05 May 2021 09:41:11 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 145DXHgX164778; Wed, 5 May 2021 09:41:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=jbIVnzOhOFSIP8UrwG8BJqubeRi3ZJA5tufNwdCyOBk=;
+ b=CRmIaKGWaV7OLmHAJKKx4LqlnhdK0E4EgL9hjSmSrcPCbA274OOygJrcttugmAHwSRRQ
+ yIK3pG5xZT0B09K7VmoAb5EZoNqAk/zXafEsLS0SFLr/YSsjVSHvLaADS8jDwOtPYv42
+ SpYaaoQBlHIIKwuyhCAXoVKWhOTNyij6GI4+28xAhN4GKaGO6ecIAidOSqLTQ8RYPJk0
+ kn/HgNyofapgh3Y48+ogdWzTvnXfT0zC7AS9Aat9nY0qEDR2Rf3J8RomVDTPZM1Vm5el
+ o0ELPpI11gDKlzTfKLNGCL0s+cXeILJOCN5NB5k2TLe0t46jWAPuQ9ehDj2vHZxkxIcJ 0Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38bumessae-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 May 2021 09:41:06 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 145DXf3Y167000;
+ Wed, 5 May 2021 09:41:05 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38bumess8t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 May 2021 09:41:05 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 145DcUTi009376;
+ Wed, 5 May 2021 13:41:03 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 38bee58b01-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 May 2021 13:41:03 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 145Df1aS20578684
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 5 May 2021 13:41:01 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4C42AA4053;
+ Wed,  5 May 2021 13:41:01 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 57B7BA404D;
+ Wed,  5 May 2021 13:41:00 +0000 (GMT)
+Received: from [127.0.0.1] (unknown [9.85.84.185])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  5 May 2021 13:41:00 +0000 (GMT)
+Subject: [PATCH v2] spapr: Fix EEH capability issue on KVM guest for PCI
+ passthru
+From: Mahesh Salgaonkar <mahesh@linux.ibm.com>
+To: Qemu-devel <qemu-devel@nongnu.org>
+Date: Wed, 05 May 2021 19:10:57 +0530
+Message-ID: <162022202916.114061.13956430525175811972.stgit@jupiter>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-In-Reply-To: <20210502190900.604292-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=konrad@adacore.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Cp2BCJm_-govw8jhoMAW65zQCrAyjDxz
+X-Proofpoint-GUID: gbXdLOF74jR39BLyJhlia-0wLqC3kU7L
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-05_07:2021-05-05,
+ 2021-05-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015
+ adultscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0 spamscore=0
+ impostorscore=0 phishscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2105050097
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=mahesh@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,67 +109,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Joaquin de Andres <me@xcancerberox.com.ar>, Michael Rolnik <mrolnik@gmail.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Oliver O'Halloran <oohall@gmail.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Qemu-ppc <qemu-ppc@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+With upstream kernel, especially after commit 98ba956f6a389
+("powerpc/pseries/eeh: Rework device EEH PE determination") we see that KVM
+guest isn't able to enable EEH option for PCI pass-through devices anymore.
+
+[root@atest-guest ~]# dmesg | grep EEH
+[    0.032337] EEH: pSeries platform initialized
+[    0.298207] EEH: No capable adapters found: recovery disabled.
+[root@atest-guest ~]#
+
+So far the linux kernel was assuming pe_config_addr equal to device's
+config_addr and using it to enable EEH on the PE through ibm,set-eeh-option
+RTAS call. Which wasn't the correct way as per PAPR. The linux kernel
+commit 98ba956f6a389 fixed this flow. With that fixed, linux now uses PE
+config address returned by ibm,get-config-addr-info2 RTAS call to enable
+EEH option per-PE basis instead of per-device basis. However this has
+uncovered a bug in qemu where ibm,set-eeh-option is treating PE config
+address as per-device config address.
+
+Hence in qemu guest with recent kernel the ibm,set-eeh-option RTAS call
+fails with -3 return value indicating that there is no PCI device exist for
+the specified PE config address. The rtas_ibm_set_eeh_option call uses
+pci_find_device() to get the PC device that matches specific bus and devfn
+extracted from PE config address passed as argument.  Thus it tries to map
+the PE config address to a single specific PCI device 'bus->devices[devfn]'
+and hence fails to enable the EEH capability.
+
+hw/ppc/spapr_pci_vfio.c: spapr_phb_vfio_eeh_set_option()
+   case RTAS_EEH_ENABLE: {
+        PCIHostState *phb;
+        PCIDevice *pdev;
+
+        /*
+         * The EEH functionality is enabled on basis of PCI device,
+         * instead of PE. We need check the validity of the PCI
+         * device address.
+         */
+        phb = PCI_HOST_BRIDGE(sphb);
+        pdev = pci_find_device(phb->bus,
+                               (addr >> 16) & 0xFF, (addr >> 8) & 0xFF);
+        if (!pdev || !object_dynamic_cast(OBJECT(pdev), "vfio-pci")) {
+            return RTAS_OUT_PARAM_ERROR;
+        }
+
+hw/pci/pci.c:pci_find_device()
+
+PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn)
+{
+    bus = pci_find_bus_nr(bus, bus_num);
+
+    if (!bus)
+        return NULL;
+
+    return bus->devices[devfn];
+}
+
+This patch fixes ibm,set-eeh-option to check for presence of any PCI device
+(vfio-pci) under specified bus and enable the EEH if found. The current
+code already makes sure that all the devices on that bus are from same
+iommu group (within same PE) and fail very early if it does not.
+
+After this fix guest is able to find EEH capable devices and enable EEH
+recovery on it.
+
+[root@atest-guest ~]# dmesg | grep EEH
+[    0.048139] EEH: pSeries platform initialized
+[    0.405115] EEH: Capable adapter found: recovery enabled.
+[root@atest-guest ~]#
+
+Signed-off-by: Mahesh Salgaonkar <mahesh@linux.ibm.com>
+---
+Change in v2:
+- Fix ibm,set-eeh-option instead of returning per-device PE config address.
+- Changed patch subject line.
+---
+ hw/ppc/spapr_pci_vfio.c |   27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
+
+diff --git a/hw/ppc/spapr_pci_vfio.c b/hw/ppc/spapr_pci_vfio.c
+index e0547b1740..b30020da6a 100644
+--- a/hw/ppc/spapr_pci_vfio.c
++++ b/hw/ppc/spapr_pci_vfio.c
+@@ -47,6 +47,16 @@ void spapr_phb_vfio_reset(DeviceState *qdev)
+     spapr_phb_vfio_eeh_reenable(SPAPR_PCI_HOST_BRIDGE(qdev));
+ }
+ 
++static void spapr_eeh_pci_find_device(PCIBus *bus, PCIDevice *pdev,
++                                      void *opaque)
++{
++    bool *found = opaque;
++
++    if (object_dynamic_cast(OBJECT(pdev), "vfio-pci")) {
++        *found = true;
++    }
++}
++
+ int spapr_phb_vfio_eeh_set_option(SpaprPhbState *sphb,
+                                   unsigned int addr, int option)
+ {
+@@ -59,17 +69,20 @@ int spapr_phb_vfio_eeh_set_option(SpaprPhbState *sphb,
+         break;
+     case RTAS_EEH_ENABLE: {
+         PCIHostState *phb;
+-        PCIDevice *pdev;
++        bool found = false;
+ 
+         /*
+-         * The EEH functionality is enabled on basis of PCI device,
+-         * instead of PE. We need check the validity of the PCI
+-         * device address.
++         * The EEH functionality is enabled per sphb level instead of
++         * per PCI device. We just need to check the validity of the PCI
++         * pass-through devices (vfio-pci) under this sphb bus.
++         * We have already validated that all the devices under this sphb
++         * are from same iommu group (within same PE) before comming here.
+          */
+         phb = PCI_HOST_BRIDGE(sphb);
+-        pdev = pci_find_device(phb->bus,
+-                               (addr >> 16) & 0xFF, (addr >> 8) & 0xFF);
+-        if (!pdev || !object_dynamic_cast(OBJECT(pdev), "vfio-pci")) {
++        pci_for_each_device(phb->bus, (addr >> 16) & 0xFF,
++                            spapr_eeh_pci_find_device, &found);
++
++        if (!found) {
+             return RTAS_OUT_PARAM_ERROR;
+         }
+ 
 
 
-Le 5/2/21 à 9:09 PM, Philippe Mathieu-Daudé a écrit :
-> Running the WDR opcode triggers a segfault:
-> 
->    $ cat > foo.S << EOF
->    > __start:
->    >     wdr
->    > EOF
->    $ avr-gcc -nostdlib -nostartfiles -mmcu=avr6 foo.S -o foo.elf
->    $ qemu-system-avr -serial mon:stdio -nographic -no-reboot \
->      -M mega -bios foo.elf -d in_asm --singlestep
->    IN:
->    0x00000000:  WDR
->    Segmentation fault (core dumped)
-> 
->    (gdb) bt
->       #0  0x00005555add0b23a in gdb_get_cpu_pid (cpu=0x5555af5a4af0) at ../gdbstub.c:718
->       #1  0x00005555add0b2dd in gdb_get_cpu_process (cpu=0x5555af5a4af0) at ../gdbstub.c:743
->       #2  0x00005555add0e477 in gdb_set_stop_cpu (cpu=0x5555af5a4af0) at ../gdbstub.c:2742
->       #3  0x00005555adc99b96 in cpu_handle_guest_debug (cpu=0x5555af5a4af0) at ../softmmu/cpus.c:306
->       #4  0x00005555adcc66ab in rr_cpu_thread_fn (arg=0x5555af5a4af0) at ../accel/tcg/tcg-accel-ops-rr.c:224
->       #5  0x00005555adefaf12 in qemu_thread_start (args=0x5555af5d9870) at ../util/qemu-thread-posix.c:521
->       #6  0x00007f692d940ea5 in start_thread () from /lib64/libpthread.so.0
->       #7  0x00007f692d6699fd in clone () from /lib64/libc.so.6
-> 
-> Since the watchdog peripheral is not implemented, simply
-> log the opcode as unimplemented and keep going.
-> 
-> Reported-by: Fred Konrad <konrad@adacore.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   target/avr/helper.c | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/target/avr/helper.c b/target/avr/helper.c
-> index 35e10195940..981c29da453 100644
-> --- a/target/avr/helper.c
-> +++ b/target/avr/helper.c
-> @@ -188,11 +188,7 @@ void helper_break(CPUAVRState *env)
->   
->   void helper_wdr(CPUAVRState *env)
->   {
-> -    CPUState *cs = env_cpu(env);
-> -
-> -    /* WD is not implemented yet, placeholder */
-> -    cs->exception_index = EXCP_DEBUG;
-> -    cpu_loop_exit(cs);
-> +    qemu_log_mask(LOG_UNIMP, "WDG reset (not implemented)\n");
->   }
-
-Seems ok to me, at least better than having a segfault.
-
-Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
-
->   
->   /*
-> 
 
