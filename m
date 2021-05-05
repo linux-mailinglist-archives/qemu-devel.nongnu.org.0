@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112D1374C11
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:43:51 +0200 (CEST)
-Received: from localhost ([::1]:50192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67DF374C13
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 01:45:37 +0200 (CEST)
+Received: from localhost ([::1]:56492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leRBG-0000z6-36
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:43:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36066)
+	id 1leRCz-0003i5-0p
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 19:45:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQtB-00015B-6C
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:25:09 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33276)
+ id 1leQtH-00017S-Dz
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:25:15 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:33266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=752564754=alistair.francis@wdc.com>)
- id 1leQt9-00010n-2v
- for qemu-devel@nongnu.org; Wed, 05 May 2021 19:25:08 -0400
+ id 1leQtE-0000wu-KP
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 19:25:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620257107; x=1651793107;
+ t=1620257112; x=1651793112;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XfXgYxiYX5i1x54fnTk0QzFVD6VSA4CU3S+I1f1IWWg=;
- b=duyOoUQNUQAfhe01K/8OkMwNNPeauNc8D+woGRYXQd9LgUrisrrm0Tvf
- qTuEv17JkSZxJou7OoLO4oBV5kn9L4u2DazlGeZh9Zgr6kvu1AUxqWxFO
- BpIKCPpEinO3IaE1QbkjTkR7lHw3i0gaaUcodG0aAQ1vgARbCnrLYLcTp
- POYnG0Sl9bF8W1+z7L/qqHwRVHWRafwHyjjJ/Q9V+639cC6xBOMAQKeY2
- Su8rMVIdLlTfHyqHFn3rpjunsLnLixuQUCO6uZm4YtXNJ3um9UgFt0IPx
- u/R/RTEk4/7C18tMwDxob64D45LLs3PZzn2UmYvTHsitgT5PLKXg8PfBG Q==;
-IronPort-SDR: Ts7W5IRW2rTGCe7fLlqGdVe+GNipfP719xY+Ob9Ho5ID4guYdVN0INVHDxl/q2Cz3e4iIFvLG4
- fiFF6kEWXNqSB8jkbzoaMCkjNagNMn2BLuUlVBmIg2+DXvD9aayIQOtab4fzyKvjLeiWW9T09G
- mKhcvwVxH1XTh6056iLQGG9S9hF9h6nuj4HpPeyseNYOkeLc/IGd4IjBssfosczapq4/an31VH
- XCjXhf9SmJpKx49hy0Gmbrg1kjqem43ahBoGkX4rXRSyvoPo7Dv5uwyVGQBjq0dc+zuwj4nSyy
- YYI=
-X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585982"
+ bh=Wh2ave+DSkoE9jb+Ncy1LkaCoi2qwdskqhXQshjT/NI=;
+ b=bdHysUoxdKoHF3OxCPveiyUJrGKDO/Ec0Fo2L5OKEuLgTpcTJQLDqXEK
+ ou1Fjb8nHOXVZxhtVZ9ToFRH7qKmzrpVnz4QMAa79QunwTYDZqnlyl7HR
+ 4o9BnPnzu5oB4mPu3x8AWc6fo1kA4HrzysrGvBShmNpTqCRLWVFqd3Ck/
+ JEsVS7JIj8sQwajxe0aH4rlprFRU04NH6lUpzokemyGCT0stboMBlXDcF
+ Z21euKEQq3WM3njBa2Bw90jIIzXSpFRVfM6+mV16upRR9KhwFTd3S85Ik
+ W/QNLeO7uiXgnxOrjyql6N4maRHDq1/VJdNUcpRNUfOAJ6WUK9ehjczgJ Q==;
+IronPort-SDR: juGjtTVCiOrRTXAT68/GURJcnERQQ0w1UDWm8yWLGeOVPjc9/QH4gH/EauedlcHCu9uenMEUmq
+ Ctd7GQ5hAyT6us64lyLBbtopINMDtxw1oexpfPN2MBJwk6RgX5sjfFsOuCLQnHuKGPxBdjnGZW
+ THLI4BlaNdtXShT0uDK1VQqfhuE5O6yDfZ2BiWc4SoCMeNszctevUJm4p/exyXhA/ypvkjPZxg
+ UxyckBofWTsKuLbgjbeUCZhCmJDO/p9eIJvvK0wjk786xCHtyYqBvrJ2A72pfLnZZs+muwzt2j
+ 6b8=
+X-IronPort-AV: E=Sophos;i="5.82,276,1613404800"; d="scan'208";a="166585989"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:55 +0800
-IronPort-SDR: LcRiQY0YoHClsARtVKdzsJvQ/t3OWNUlUfwTviQWLkAccc6cp2lcWBkkK6pWPxMEDwTuPu5r/+
- BJLe1de3981FvbZlINllTKbGL3pQSxhht1OoouDsjbRjhD9mmYRWG79u0MyYHIxlVQFYFk69iG
- QwQnzQ/E+S0fhuHZrzNh+saykwfvtgRGr/7fRwlOLmqENzWXfOjZXpZMH6vD4m07JRvkrL0Vwy
- POSjCDhl7gGpQ0B6Zu1DKqol7pvFWacsaGGpzBAPp1eoCwWV99scZsVgkCcWO7oc3WNWM5ti3/
- TzJhjl0zMxFhqRdQa4GUUt2s
+ by ob1.hgst.iphmx.com with ESMTP; 06 May 2021 07:24:58 +0800
+IronPort-SDR: ljPzPJtbIfiZKhMPajEUnbRTlmuVjV9T76Tmjr0ewHnwNvJ5KHqSnP/93b965xOJcPdn0JUzGW
+ ivN9NXmeOIV48nxVaoAUh/3rRLyxMtZ4Drb9gkpGRyff/CjOE/j75PusLvsiMw86g5/eFY4A6x
+ EJN43e6ZyUbb8revvbpWwatQHGJKNLuw066JWVk+J6lhIyJdCFJC+WXMjq4K7FmbAz7Dud98N4
+ b6PgofU4sscAJKZFvS5oh/Ki/noJgM3NTAXihPyGtCkFmdFvDqwnguWj7i4UWW/wLYjZWbygTw
+ 8Cw6vgW0jnHoPNUG6S3dKY82
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 16:03:36 -0700
-IronPort-SDR: kx0m6hjVDrzQH7FzLfJKfAOZuYhmm8YvVW9THIksD7dv/uXR/X/TIptzLA6sp+emfcgPutrKdf
- tbwdPX7wU1l/9Vql4Prxr662IsKiX811UxDGT5bo0aHbPpa9f9Bd24aCRsdwDv6Is9Q7wfbGBd
- xDQkA+kDuh/Y/KYIZfZYHIxAlkocbW+66OVq/K8ThjJROKwp4p2nSu94GFrk3eCOUYkGgkspJh
- iOsd2j1fs/W9jdCkJlQhxGteluSLupmk3RUmUw/afJxbhLjl+cy5hl5jm6wxH1oMbubrzsgWGX
- yo0=
+ 05 May 2021 16:03:39 -0700
+IronPort-SDR: RVpw/JZ4ZcWaPHRIDZB9w3y8AZ4PW8GQx/IowRuQ0BLp7AckKhq4q6o7Ea4GSwinox/7WIBLQY
+ qP0ULdflp+FpZGCrpF91wVoH1Qwlve1ghf2Cnf3RHYMKm7UvCgUo1iu6eDLs7J22ZJBN7LO4WT
+ bxC2FqeK5PDtJszIydiu7Hp1TvEJ8SM6nKy+IMohiWTaySFP1ozi2uuwkwRhNNhgZBuR/2hXo/
+ wPIpn4CBhDxQ+PY5043WS2rh3a3Qk+OJG/ucidjcNrJDAswQn/DT0WHyJ0nUxSxFZwp+LcespB
+ rYk=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.46])
- by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:24:53 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 05 May 2021 16:24:56 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 29/42] target/riscv: fix exception index on instruction
- access fault
-Date: Thu,  6 May 2021 09:22:59 +1000
-Message-Id: <20210505232312.4175486-30-alistair.francis@wdc.com>
+Subject: [PULL v2 30/42] hw/riscv: Fix OT IBEX reset vector
+Date: Thu,  6 May 2021 09:23:00 +1000
+Message-Id: <20210505232312.4175486-31-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210505232312.4175486-1-alistair.francis@wdc.com>
 References: <20210505232312.4175486-1-alistair.francis@wdc.com>
@@ -92,40 +91,39 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- qemu-devel@nongnu.org, Emmanuel Blot <emmanuel.blot@sifive.com>
+ qemu-devel@nongnu.org, Alexander Wagner <alexander.wagner@ulal.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Emmanuel Blot <emmanuel.blot@sifive.com>
+From: Alexander Wagner <alexander.wagner@ulal.de>
 
-When no MMU is used and the guest code attempts to fetch an instruction
-from an invalid memory location, the exception index defaults to a data
-load access fault, rather an instruction access fault.
+The IBEX documentation [1] specifies the reset vector to be "the most
+significant 3 bytes of the boot address and the reset value (0x80) as
+the least significant byte".
 
-Signed-off-by: Emmanuel Blot <emmanuel.blot@sifive.com>
+[1] https://github.com/lowRISC/ibex/blob/master/doc/03_reference/exception_interrupts.rst
+
+Signed-off-by: Alexander Wagner <alexander.wagner@ulal.de>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: FB9EA197-B018-4879-AB0F-922C2047A08B@sifive.com
+Message-id: 20210420080008.119798-1-alexander.wagner@ulal.de
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/riscv/opentitan.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 659ca8a173..1018c0036d 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -694,8 +694,10 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 557d73726b..7545dcda9c 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -119,7 +119,7 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+                             &error_abort);
+     object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
+                             &error_abort);
+-    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8090, &error_abort);
++    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8080, &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_abort);
  
-     if (access_type == MMU_DATA_STORE) {
-         cs->exception_index = RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
--    } else {
-+    } else if (access_type == MMU_DATA_LOAD) {
-         cs->exception_index = RISCV_EXCP_LOAD_ACCESS_FAULT;
-+    } else {
-+        cs->exception_index = RISCV_EXCP_INST_ACCESS_FAULT;
-     }
- 
-     env->badaddr = addr;
+     /* Boot ROM */
 -- 
 2.31.1
 
