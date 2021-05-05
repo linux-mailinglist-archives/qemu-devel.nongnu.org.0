@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6D837383C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 11:59:50 +0200 (CEST)
-Received: from localhost ([::1]:60058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9BD337383E
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:00:37 +0200 (CEST)
+Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leEJp-0000Oc-Ut
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 05:59:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59076)
+	id 1leEKb-0001os-0E
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:00:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1leEHv-0008Gg-HN
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:57:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29758)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1leEIt-0000VY-2O
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:58:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1leEHt-0000mA-2A
- for qemu-devel@nongnu.org; Wed, 05 May 2021 05:57:50 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1leEIr-0001Kn-5W
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 05:58:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620208668;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1620208728;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6HDf38rxkjxFnyAcBgVx1U7MOK9CBa1leiohEogP3hg=;
- b=cOXmWrL6ja7NO2FL/NKWfJoufW4K8OphQVea+lCE+Amrx6WfNL+V4UGgaBDZdJ5pYhDMR2
- DLxWkyifbeHmUM52kgCeJr6wnnc6cDkht4OlxxZRBlNYTPyy2gMJirud9Ph249MZ/0OmFD
- T27F8KRSfrbLqB4MwEoh8U0faFpyU4c=
+ bh=WmG8sKzjBn9wxHCfbL2YPeCWi5+Xxp9F4aGzKcFgvqk=;
+ b=Ld1jO8/Zz08bC9esaihB64OdvpHoOZgsKNsBbJjPGBVTRmEVS26xV/5f6Y5Vg2qknpZSHb
+ 2UnHIRtWMtGujV0D0zZKC/ozvvQI7VDP6qexz+xR7HPRtF0j0OmbAg7wk7nI3HaxNVs5G0
+ S8BEWTbNHyl74s46wgdEViiUzXu8SU0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-tHbKBN2cMqa6_AOKXzh76w-1; Wed, 05 May 2021 05:57:46 -0400
-X-MC-Unique: tHbKBN2cMqa6_AOKXzh76w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-476-wNxBa9rUOCKeFX3D2R7N_Q-1; Wed, 05 May 2021 05:58:45 -0400
+X-MC-Unique: wNxBa9rUOCKeFX3D2R7N_Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5563384A5E4;
- Wed,  5 May 2021 09:57:45 +0000 (UTC)
-Received: from localhost (ovpn-115-109.ams2.redhat.com [10.36.115.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB7E65D6D1;
- Wed,  5 May 2021 09:57:44 +0000 (UTC)
-Date: Wed, 5 May 2021 10:57:44 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v2 7/8] block/replication: do not acquire AioContext
-Message-ID: <YJJsGOKLz3Ywe450@stefanha-x1.localdomain>
-References: <20210419085541.22310-1-eesposit@redhat.com>
- <20210419085541.22310-8-eesposit@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A9F66D249;
+ Wed,  5 May 2021 09:58:44 +0000 (UTC)
+Received: from redhat.com (ovpn-114-253.ams2.redhat.com [10.36.114.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C4F519D61;
+ Wed,  5 May 2021 09:58:37 +0000 (UTC)
+Date: Wed, 5 May 2021 10:58:34 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: Switching to the GitLab bug tracker
+Message-ID: <YJJsSsj4Cg9DFrZU@redhat.com>
+References: <a6d77040-1dba-90c7-5ebe-5778177e686e@redhat.com>
+ <YJEJNBJOqry5sHiy@stefanha-x1.localdomain>
+ <2953611e-8780-f2a8-6394-0a5099042eb1@redhat.com>
+ <20210505095530.lvpuyunqzv422app@steredhat>
 MIME-Version: 1.0
-In-Reply-To: <20210419085541.22310-8-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210505095530.lvpuyunqzv422app@steredhat>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8tB8DGphw7AFSZbM"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -79,54 +84,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-discuss <qemu-discuss@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---8tB8DGphw7AFSZbM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, May 05, 2021 at 11:55:30AM +0200, Stefano Garzarella wrote:
+> On Tue, May 04, 2021 at 12:20:03PM +0200, Philippe Mathieu-Daudé wrote:
+> > On 5/4/21 10:43 AM, Stefan Hajnoczi wrote:
+> > > On Mon, May 03, 2021 at 01:16:51PM +0200, Thomas Huth wrote:
+> > > > As you might have already noticed by some other mails on the qemu-devel
+> > > > mailing list, we are in progress of switching our bug tracking tool from
+> > > > Launchpad to Gitlab. The new tracker can now be found here:
+> > > > 
+> > > >  https://gitlab.com/qemu-project/qemu/-/issues
+> > > 
+> > > Thank you for doing this, Thomas!
+> > > 
+> > > > 1) We likely won't have the possibility anymore to automatically send e-mail
+> > > > notifications for new bugs to the qemu-devel mailing list. If you want to
+> > > > get informed about new bugs, please use the notification mechanism from
+> > > > Gitlab instead. That means, log into your gitlab account, browse to
+> > > > 
+> > > >  https://gitlab.com/qemu-project/qemu
+> > > > 
+> > > > and click on the bell icon at the top of the page to manage your
+> > > > notifications, e.g. enable notifications for "New issues" there.
+> > > 
+> > > All maintainers and most regular contributors should follow the issue
+> > > tracker so that QEMU developers are aware of new issues. Please do this!
+> > > 
+> > > An alternative mechanism is the RSS/Atom feed available by clicking the
+> > > "Subscribe to RSS feed" button left of the "New issue" button here:
+> > > 
+> > >   https://gitlab.com/qemu-project/qemu/-/issues
+> > 
+> > You can also subscribe to labels of interest [*] going to
+> > https://gitlab.com/qemu-project/qemu/-/labels
+> > 
+> > For example in my case I subscribed to receive notifications
+> > only from these labels:
+> > 
+> > - kind:Bug
+> > - Storage
+> > - pflash
+> > - Fuzzer
+> > - workflow:Merged
+> 
+> Cool feature, I also subscribed to some labels.
+> 
+> I was trying to assign a label, for example "Storage" to this issue:
+> https://gitlab.com/qemu-project/qemu/-/issues/96
+> 
+> but I can't, should I have some special permission/role?
 
-On Mon, Apr 19, 2021 at 10:55:40AM +0200, Emanuele Giuseppe Esposito wrote:
-> @@ -210,7 +212,7 @@ static int replication_return_value(BDRVReplicationSt=
-ate *s, int ret)
->      }
-> =20
->      if (ret < 0) {
-> -        s->error =3D ret;
-> +        qatomic_set(&s->error, ret);
->          ret =3D 0;
->      }
-> =20
-> @@ -307,6 +309,7 @@ out:
->      return ret;
->  }
-> =20
-> +/* Called with no I/O pending.  */
+Yes, anyone who is a QEMU maintainer needs to be added to gitlab
+project with "Reporter" role to be able to do bug janitoring.
 
-It would be clearer to refer to the specific guarantee that no I/O is
-pending, like "Called from a drained section". There are more comments
-like this one below.
 
---8tB8DGphw7AFSZbM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCSbBcACgkQnKSrs4Gr
-c8j55ggAykW2UyXKc7yfSjD/9r14QdPgFa1yWMNymIqtouS6NVo/GWWLjoW7SUHP
-lx0rBEkUHvMwmJ5cXikwE4Nc/Q2uEaCSDJTvhS4T3ZPBzlFmeSN4KYda/gA/xbLV
-rNhYpFSFnklvf7dFlqEYcwHlWo635//0XktjabOc7brMJZCqyXMUHG3+JFiAkBLw
-UioEQcEyjiaGXDrfjdaohIVomLz+9CEuyz1VvSMiKTQG/4qjGnL8A3rPiP12WQJX
-rNKJI6zZPr8eNFMhbMMmB1MxQ00ROyadei6EBbPMvUWoVQvAkAqy/1Ql3UkdEqdg
-S7Uxy3S9aiX1yEpr1kNtl21C96a3Xg==
-=vrIi
------END PGP SIGNATURE-----
-
---8tB8DGphw7AFSZbM--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
