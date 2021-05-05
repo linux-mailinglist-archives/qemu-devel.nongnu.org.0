@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62169373671
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 10:43:09 +0200 (CEST)
-Received: from localhost ([::1]:55458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AC2E373670
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 10:42:53 +0200 (CEST)
+Received: from localhost ([::1]:54760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leD7c-0007Kw-3y
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 04:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36776)
+	id 1leD7M-00072t-7r
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 04:42:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leD0X-0001bP-V0
- for qemu-devel@nongnu.org; Wed, 05 May 2021 04:35:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42166)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leD0U-00037D-3F
- for qemu-devel@nongnu.org; Wed, 05 May 2021 04:35:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1leD0S-0004tE-C5
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 08:35:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 597512E8136
- for <qemu-devel@nongnu.org>; Wed,  5 May 2021 08:35:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1leD13-0001z2-TO
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 04:36:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47650)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1leD0y-0003R3-Dc
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 04:36:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620203774;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TGsV9oxlRVBsXgbyNSnKusUukT5R+kNB72RhHN5dk9o=;
+ b=KfgRD+eUi/fdU9j0kb649c5HUdLVgIL8B0WmDW54bhLvLjmLmeEAI4RsXia6oZ4yWac7OF
+ U3FysfPktqvmlE/aeXNdxDQRJBDk6Lfs5VCEr6pAs98tw2MaPr/7i/iADO13llODqHI0LR
+ 8t+eaLrOjRiOQQCVtJPk4E6jsgbeA6Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-nvsE5nRZM_KjBeXUrwGJYg-1; Wed, 05 May 2021 04:36:12 -0400
+X-MC-Unique: nvsE5nRZM_KjBeXUrwGJYg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC74B1020C24;
+ Wed,  5 May 2021 08:36:11 +0000 (UTC)
+Received: from starship (unknown [10.40.192.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 349D7131DE;
+ Wed,  5 May 2021 08:35:51 +0000 (UTC)
+Message-ID: <881137dab90d0779180c075d762f27d2cd612e6c.camel@redhat.com>
+Subject: Re: [PATCH 1/2] kvm: update kernel headers for
+ KVM_GUESTDBG_BLOCKEVENTS
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Date: Wed, 05 May 2021 11:35:51 +0300
+In-Reply-To: <874kg29r8j.fsf@linaro.org>
+References: <20210401144152.1031282-1-mlevitsk@redhat.com>
+ <20210401144152.1031282-2-mlevitsk@redhat.com> <874kg29r8j.fsf@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 May 2021 08:29:36 -0000
-From: Thomas Huth <1925417@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: rreddy78
-X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161906987819.6402.12318771307523732954.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162020337701.6423.2967582865324902498.launchpad@wampee.canonical.com>
-Subject: [Bug 1925417] Re: Cannot boot from EFI image on aarch64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: a0fb01827a2c2f0015adf91e858c115f4bc33387
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.697,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,105 +77,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1925417 <1925417@bugs.launchpad.net>
+Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+On Mon, 2021-04-19 at 17:22 +0100, Alex Bennée wrote:
+> Maxim Levitsky <mlevitsk@redhat.com> writes:
+> 
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> 
+> Generally it's a good idea to reference where these are coming from, is
+> it a current kernel patch in flight or from an release we haven't synced
+> up to yet?
+Hi!
 
--- =
+As Paolo explained to me, qemu syncs the kernel headers every once in a while
+thus when I submit a feature to qemu which uses a new KVM feature, while
+I should submit a patch to add it to the kernel headers, the patch is only
+for the reference.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1925417
+In this particular case, I first updated the qemu's kernel headers to
+match the kvm/queue branch, then added my feature to the kernel, and updated
+the qemu kernel headers again. This patch is the diff between 1st and second
+update to make it more readable.
 
-Title:
-  Cannot boot from EFI image on aarch64
+Best regards,
+	Maxim Levitsky
 
-Status in QEMU:
-  Invalid
-
-Bug description:
-  I am unable to boot from a EFI disk image on aarch64 qemu.
-
-  I have qemu built and installed from sources on a jetson-nano
-
-  qemu-system-aarch64 -version
-  QEMU emulator version 5.2.50 (v5.2.0-3234-gbdee969c0e)
-  Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
-
-  KVM and and virtio are enabled in host kernel.
-
-  Now I want to boot a ChromiumOS image. I have the image downloaded
-  from here:
-
-  https://chromium.arnoldthebat.co.uk/?dir=3Ddaily
-
-  The image looks fine:
-
-  rreddy78@jetson-nano:~/Downloads$ fdisk -lu chromiumos_image.bin =
-
-  Disk chromiumos_image.bin: 6.2 GiB, 6606109184 bytes, 12902557 sectors
-  Units: sectors of 1 * 512 =3D 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: gpt
-  Disk identifier: C5B6CA94-0AF1-374E-90B5-A5CF4DC1FF51
-
-  Device                   Start      End Sectors  Size Type
-  chromiumos_image.bin1  4513792 12902508 8388717    4G Linux filesystem
-  chromiumos_image.bin2    20480    53247   32768   16M ChromeOS kernel
-  chromiumos_image.bin3   319488  4513791 4194304    2G ChromeOS root fs
-  chromiumos_image.bin4    53248    86015   32768   16M ChromeOS kernel
-  chromiumos_image.bin5   315392   319487    4096    2M ChromeOS root fs
-  chromiumos_image.bin6    16448    16448       1  512B ChromeOS kernel
-  chromiumos_image.bin7    16449    16449       1  512B ChromeOS root fs
-  chromiumos_image.bin8    86016   118783   32768   16M Linux filesystem
-  chromiumos_image.bin9    16450    16450       1  512B ChromeOS reserved
-  chromiumos_image.bin10   16451    16451       1  512B ChromeOS reserved
-  chromiumos_image.bin11      64    16447   16384    8M unknown
-  chromiumos_image.bin12  249856   315391   65536   32M EFI System
-
-  Partition table entries are not in disk order.
-
-  Now I try booting like this:
-
-  qemu-system-aarch64 -M virt -m 2048 -smp 2 -cpu host -enable-kvm  \
-  -device usb-ehci -device usb-kbd  -device usb-mouse -usb -serial stdio  \
-  -device virtio-gpu-pci,virgl=3Don,xres=3D1600,yres=3D900 -display sdl,gl=
-=3Don \
-  -device virtio-blk-device,drive=3Dhd \
-  -drive if=3Dnone,file=3Dchromiumos_image.bin,format=3Draw,id=3Dhd   \
-  -netdev user,id=3Dmynet   \
-  -device virtio-net-device,netdev=3Dmynet \
-  -bios edk2-aarch64-code.fd -no-reboot
-
-  But I am unable to boot.
-
-  Memory Type Information settings change.
-  [Bds]Booting UEFI Misc Device
-   BlockSize : 262144 =
-
-   LastBlock : FF =
-
-  [Bds] Expand VenHw(93E34C7E-B50E-11DF-9223-2443DFD72085,00) -> <null stri=
-ng>
-  BdsDxe: failed to load Boot0001 "UEFI Misc Device" from VenHw(93E34C7E-B5=
-0E-11DF-9223-2443DFD72085,00): Not Found
-
-  =
-
-  and =
+> 
+> Usually linux header updates are done with semi-regular runs on
+> ./scripts/update-linux-headers.sh but obviously it's OK to include
+> standalone patches during the review process.
+> 
+> > ---
+> >  linux-headers/asm-x86/kvm.h | 2 ++
+> >  linux-headers/linux/kvm.h   | 1 +
+> >  2 files changed, 3 insertions(+)
+> > 
+> > diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+> > index 8e76d3701d..33878cdc34 100644
+> > --- a/linux-headers/asm-x86/kvm.h
+> > +++ b/linux-headers/asm-x86/kvm.h
+> > @@ -281,6 +281,8 @@ struct kvm_debug_exit_arch {
+> >  #define KVM_GUESTDBG_USE_HW_BP		0x00020000
+> >  #define KVM_GUESTDBG_INJECT_DB		0x00040000
+> >  #define KVM_GUESTDBG_INJECT_BP		0x00080000
+> > +#define KVM_GUESTDBG_BLOCKIRQ		0x00100000
+> > +
+> >  
+> >  /* for KVM_SET_GUEST_DEBUG */
+> >  struct kvm_guest_debug_arch {
+> > diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> > index 020b62a619..2ded7a0630 100644
+> > --- a/linux-headers/linux/kvm.h
+> > +++ b/linux-headers/linux/kvm.h
+> > @@ -1056,6 +1056,7 @@ struct kvm_ppc_resize_hpt {
+> >  #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
+> >  #define KVM_CAP_SYS_HYPERV_CPUID 191
+> >  #define KVM_CAP_DIRTY_LOG_RING 192
+> > +#define KVM_CAP_SET_GUEST_DEBUG2 195
+> >  
+> >  #ifdef KVM_CAP_IRQ_ROUTING
+> 
+> 
 
 
-  =
-
-  [Bds] Expand VenHw(837DCA9E-E874-4D82-B29A-23FE0E23D1E2,003E000A00000000)=
- -> <null string>
-  BdsDxe: failed to load Boot0002 "UEFI Misc Device 2" from VenHw(837DCA9E-=
-E874-4D82-B29A-23FE0E23D1E2,003E000A00000000): Not Found
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1925417/+subscriptions
 
