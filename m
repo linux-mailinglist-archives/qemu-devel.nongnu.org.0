@@ -2,56 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E27373487
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 07:04:33 +0200 (CEST)
-Received: from localhost ([::1]:57354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90483734B6
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 07:28:51 +0200 (CEST)
+Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1le9i4-0004Z6-Qv
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 01:04:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54936)
+	id 1leA5a-0000hI-WB
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 01:28:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1le9eR-0001y2-IU; Wed, 05 May 2021 01:00:49 -0400
-Received: from ozlabs.org ([203.11.71.1]:36059)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1le9eP-0007uY-1M; Wed, 05 May 2021 01:00:47 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FZl0766CMz9sT6; Wed,  5 May 2021 15:00:39 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620190839;
- bh=hQTtstFpP9BENIs1rVAjhmpvc7zlS/wantXa4MrKK40=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZF1gYgzWpgNhrghYEe/kxEueTKM19w8ycVU68LREDC9AksO4Isb7CHdXDZzcNHxCI
- gFNnEMSgAiWqITi63iWpt0+vDuuwIzXKxK/693vdcy9cUno54B635M6Qttz/oJfrLt
- TITAWhaVQlYsXWK418707fsslJVQPOs9drc0o6nk=
-Date: Wed, 5 May 2021 15:00:34 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] target/ppc: Do not check for LPCR[HAIL] on power10_v1.0
- CPUs
-Message-ID: <YJImcn2SyNdWZCfW@yekko>
-References: <20210504095900.505668-1-clg@kaod.org>
- <1620125242.e97yybasbv.astroid@bobo.none>
- <850b8bb4-0e79-f5ee-ef95-a0e8d95ff9b0@kaod.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leA32-0008D3-UY
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 01:26:12 -0400
+Received: from indium.canonical.com ([91.189.90.7]:32862)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leA2r-0000qW-H8
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 01:26:10 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1leA2n-0000lh-9m
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 05:25:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B8A3C2E80BA
+ for <qemu-devel@nongnu.org>; Wed,  5 May 2021 05:25:55 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Zv3F1yiXFjamtt/B"
-Content-Disposition: inline
-In-Reply-To: <850b8bb4-0e79-f5ee-ef95-a0e8d95ff9b0@kaod.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 05 May 2021 05:16:03 -0000
+From: Thomas Huth <1759522@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: atmgnd dogbertai maro th-huth the.netadmin voltagex
+X-Launchpad-Bug-Reporter: Zixuan Wang (the.netadmin)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <152222836105.21062.2375148895134658603.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162019176387.14724.4745907305001563907.malone@soybean.canonical.com>
+Subject: [Bug 1759522] Re: windows qemu-img create vpc/vhdx error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: 178d7603f258eb0bb79b3072208b6c1354fc36b0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,174 +71,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1759522 <1759522@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
---Zv3F1yiXFjamtt/B
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ https://gitlab.com/qemu-project/qemu/-/issues/136
 
-On Tue, May 04, 2021 at 01:54:39PM +0200, C=E9dric Le Goater wrote:
-> On 5/4/21 12:49 PM, Nicholas Piggin wrote:
-> > Excerpts from C=E9dric Le Goater's message of May 4, 2021 7:59 pm:
-> >> The LPCR[HAIL] bit only applies to POWER10 DD2 CPUs. On POWER10 DD1,
-> >> the ail value should be extracted using the LPCR_AIL mask like on P9.
-> >>
-> >> Cc: Nicholas Piggin <npiggin@gmail.com>
-> >> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> >=20
-> > Thanks for this, my oversight for not realising the P10 CPU is DD1=20
-> > (which doesn't have HAIL).
-> >=20
-> > I wonder if it could just use the POWER9 excp_model?
->=20
-> Yes. Why not. It does bring up another problem which is how to define
-> (cleanly) different characteristics for CPUs of the same POWER family.
->=20
-> Currently, all P10s are under POWERPC_FAMILY(POWER10). This is a base=20
-> abstract class and definitions can not depend on the PVR. See below
-> what needs to be done to add a custom LPCR mask for DD2 :/
->=20
-> We could also simply switch P10 to DD2. I would favor that instead of=20
-> adding complexity.
 
-Definitely.  I'm guessing DD1 POWER10s will never be seen outside IBM,
-so I don't think we want support for them in upstream qemu at all.
+** Changed in: qemu
+       Status: New =3D> Expired
 
->=20
-> David, what is your opinion on this ?=20
->=20
-> Thank,
->=20
-> C.=20
->=20
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> ---
->  target/ppc/cpu-models.c |   13 +++++++++++--
->  target/ppc/cpu-models.h |    1 +
->  2 files changed, 12 insertions(+), 2 deletions(-)
->=20
-> Index: qemu-powernv-6.1.git/target/ppc/cpu-models.c
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- qemu-powernv-6.1.git.orig/target/ppc/cpu-models.c
-> +++ qemu-powernv-6.1.git/target/ppc/cpu-models.c
-> @@ -32,7 +32,7 @@
->  /* PowerPC CPU definitions                                              =
-   */
->  #define POWERPC_DEF_PREFIX(pvr, svr, type)                              =
-    \
->      glue(glue(glue(glue(pvr, _), svr), _), type)
-> -#define POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type)                =
-    \
-> +#define __POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type, _lpcr)       =
-    \
->      static void                                                         =
-    \
->      glue(POWERPC_DEF_PREFIX(_pvr, _svr, _type), _cpu_class_init)        =
-    \
->      (ObjectClass *oc, void *data)                                       =
-    \
-> @@ -40,6 +40,7 @@
->          DeviceClass *dc =3D DEVICE_CLASS(oc);                           =
-      \
->          PowerPCCPUClass *pcc =3D POWERPC_CPU_CLASS(oc);                 =
-      \
->                                                                          =
-    \
-> +        pcc->lpcr_mask    |=3D _lpcr;                                   =
-      \
->          pcc->pvr          =3D _pvr;                                     =
-      \
->          pcc->svr          =3D _svr;                                     =
-      \
->          dc->desc          =3D _desc;                                    =
-      \
-> @@ -63,6 +64,12 @@
->      type_init(                                                          =
-    \
->          glue(POWERPC_DEF_PREFIX(_pvr, _svr, _type), _cpu_register_types))
-> =20
-> +#define POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type)                =
-    \
-> +    __POWERPC_DEF_SVR(_name, _desc, _pvr, _svr, _type, 0)
-> +
-> +#define POWERPC_DEF_LPCR(_name, _pvr, _type, _desc, _lpcr)              =
-    \
-> +    __POWERPC_DEF_SVR(_name, _desc, _pvr, POWERPC_SVR_NONE, _type, _lpcr)
-> +
->  #define POWERPC_DEF(_name, _pvr, _type, _desc)                          =
-    \
->      POWERPC_DEF_SVR(_name, _desc, _pvr, POWERPC_SVR_NONE, _type)
-> =20
-> @@ -776,6 +783,8 @@
->                  "POWER9 v2.0")
->      POWERPC_DEF("power10_v1.0",  CPU_POWERPC_POWER10_DD1,            POW=
-ER10,
->                  "POWER10 v1.0")
-> +    POWERPC_DEF_LPCR("power10_v2.0",  CPU_POWERPC_POWER10_DD20,      POW=
-ER10,
-> +                     "POWER10 v2.0", LPCR_HAIL)
->  #endif /* defined (TARGET_PPC64) */
-> =20
->  /***********************************************************************=
-****/
-> @@ -952,7 +961,7 @@ PowerPCCPUAlias ppc_cpu_aliases[] =3D {
->      { "power8", "power8_v2.0" },
->      { "power8nvl", "power8nvl_v1.0" },
->      { "power9", "power9_v2.0" },
-> -    { "power10", "power10_v1.0" },
-> +    { "power10", "power10_v2.0" },
->  #endif
-> =20
->      /* Generic PowerPCs */
-> Index: qemu-powernv-6.1.git/target/ppc/cpu-models.h
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- qemu-powernv-6.1.git.orig/target/ppc/cpu-models.h
-> +++ qemu-powernv-6.1.git/target/ppc/cpu-models.h
-> @@ -375,6 +375,7 @@ enum {
->      CPU_POWERPC_POWER9_DD20        =3D 0x004E1200,
->      CPU_POWERPC_POWER10_BASE       =3D 0x00800000,
->      CPU_POWERPC_POWER10_DD1        =3D 0x00800100,
-> +    CPU_POWERPC_POWER10_DD20       =3D 0x00800200,
->      CPU_POWERPC_970_v22            =3D 0x00390202,
->      CPU_POWERPC_970FX_v10          =3D 0x00391100,
->      CPU_POWERPC_970FX_v20          =3D 0x003C0200,
->=20
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #136
+   https://gitlab.com/qemu-project/qemu/-/issues/136
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+-- =
 
---Zv3F1yiXFjamtt/B
-Content-Type: application/pgp-signature; name="signature.asc"
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1759522
 
------BEGIN PGP SIGNATURE-----
+Title:
+  windows qemu-img create vpc/vhdx error
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCSJnIACgkQbDjKyiDZ
-s5IMVg/9Fu5VD3saZujrDzbAuuxYoYJ1zQr+5qzq5UWZ8eOe1n/YT6/WI4u7c+rk
-MMDYJTocVZtmmi5mrf4OLN6uvI7pUq+jnPqzGEKxuKRVL8luIgYGu0a47ouYHZ0r
-xKhEqSlJND0e7LvFhRg8/p25Lii8kv5f8HDCfuOJv3toyqF/5E1u20WpZ05n/ZPM
-EahrI7CUbGfdeyXPzfvmzkQbKVmtEAcXpwa7WSjR9HFQ8y0iH67NfCFl62gGNx+S
-YWDzrJJW67eKtJtHQWKyixTcnxvWZR/8dM5m29kHcyfT2Rwi7ckNXT43YdLv+y/j
-bA59xP+Ig57rF5mMZBJ0qpYq8AeHTLM/f6scG/PLCUnViZ5bJfd4wALuw3Nx2lPh
-uKwZSG3loEHPH8vy8U+AQQlHWM8+3tdYuxOMW7mEFKaDOo0AzLh40oak1A6P5tLK
-5vQsqH1YxAZ5ogtemkO0bZCQN0Ee+FDOn+eORZDYRIbQ6MIm3ap5Ue688Ti+eJ5w
-V7foODks38KJHbXjIUyfyizr9KaSOfxLKN9vwgOE49mGsonBkTlm9VA9FtFOIOVY
-C2z6QWewlzFWxQ6uvEG7jKIotIO2Zlji76hogckb58a+EjutmSGkgjSqJkBLX0ln
-Pj83yuxKM3dqYW+h4mNWeKL1jqMC1fdgNU4YLlAO4kUkZ1I699I=
-=UM7x
------END PGP SIGNATURE-----
+Status in QEMU:
+  Expired
 
---Zv3F1yiXFjamtt/B--
+Bug description:
+  On windows, using qemu-img (version 2.11.90) to create vpc/vhdx
+  virtual disk tends to fail. Here's the way to reproduce:
+
+  1. Install qemu-w64-setup-20180321.exe
+
+  2. Use `qemu-img create -f vhdx -o subformat=3Dfixed disk.vhdx 512M` to c=
+reate a vhdx:
+     Formatting 'disk.vhdx', fmt=3Dvhdx size=3D536870912 log_size=3D1048576=
+ block_size=3D0 subformat=3Dfixed
+
+  3. Execute `qemu-img info disk.vhdx` gives the result, (note the `disk si=
+ze` is incorrect):
+     image: disk.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 1.4M
+     cluster_size: 8388608
+
+  4. On Windows 10 (V1709), double click disk.vhdx gives an error:
+     Make sure the file is in an NTFS volume and isn't in a compressed fold=
+er or volume.
+
+     Using Disk Management -> Action -> Attach VHD gives an error:
+     The requested operation could not be completed due to a virtual disk s=
+ystem limitation. Virtual hard disk files must be uncompressed and uneccryp=
+ted and must not be sparse.
+
+  Comparison with Windows 10 created VHDX:
+
+  1. Using Disk Management -> Action -> Create VHD:
+     File name: win.vhdx
+     Virtual hard disk size: 512MB
+     Virtual hard disk format: VHDX
+     Virtual hard disk type: Fixed size
+
+  2. Detach VHDX
+
+  3. Execute `qemu-img info win.vhdx` gives the result:
+     image: win.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 516M
+     cluster_size: 33554432
+
+  Comparison with qemu-img under Ubuntu:
+
+  1. Version: qemu-img version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.16),
+  Copyright (c) 2004-2008 Fabrice Bellard
+
+  2. qemu-img create -f vhdx -o subformat=3Dfixed lin.vhdx 512M
+     Formatting 'lin.vhdx', fmt=3Dvhdx size=3D536870912 log_size=3D1048576 =
+block_size=3D0 subformat=3Dfixed
+
+  3. qemu-img info lin.vhdx
+     image: lin.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 520M
+     cluster_size: 8388608
+
+  4. Load lin.vhdx under Windows 10 is ok
+
+  The same thing happens on `vpc` format with or without
+  `oformat=3Dfixed`, it seems that windows version of qemu-img has some
+  incorrect operation? My guess is that windows version of qemu-img
+  doesn't handle the description field of vpc/vhdx, which leads to an
+  incorrect `disk size` field.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1759522/+subscriptions
 
