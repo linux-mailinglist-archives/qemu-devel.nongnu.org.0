@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384CB374266
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 18:47:26 +0200 (CEST)
-Received: from localhost ([::1]:34846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BA737431B
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 18:52:35 +0200 (CEST)
+Received: from localhost ([::1]:43968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leKgH-0001Q6-6u
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 12:47:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59980)
+	id 1leKlB-0005f2-2I
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 12:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1leK3T-0006JK-Nx
- for qemu-devel@nongnu.org; Wed, 05 May 2021 12:07:19 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:39828)
+ id 1leK3m-0006Wp-Nz
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 12:07:38 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:45588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1leK3Q-0002cH-Un
- for qemu-devel@nongnu.org; Wed, 05 May 2021 12:07:19 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id c17so2338250pfn.6
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 09:07:16 -0700 (PDT)
+ id 1leK3h-0002jz-2a
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 12:07:38 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id p17so1333483plf.12
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 09:07:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4j8f+BqvngWfv7vww8HE4PFn7DVDPAFt9j8qj4IGu3w=;
- b=YxeF0nMYO0F/LrXmcU+19MOZti/sQrsbWqWDX6GGGbzECgCSt8e5JodBsh+xJkkFwm
- nRlBL9DasyqVNx+3G2w5kzy2BDoar17R2RgWxsU6EDSHREG1ITWPtfh6+8ofLbiTGR56
- lhgN+cnDqmWLCkFdpUtaspGrYJnoJ8BQPAJA8hHhZWQ272+gk5nqKwRQT/rGJnGr9wdT
- TeUUQ4Oy6vzM7B+HU2uPtMmW2/KI1aD17J8QOuai2iFUXO2YHcUXWXEBOWTImH5au/wW
- Pz3pKdSQjYy97X2I7NFdSD/vQOVep06UXLFlfdFXFayfE1ffqYdogI8UDfBTZ/Ra2Gyk
- zhLA==
+ bh=MbUS3FHXaTjfTejD26jINumm8NjBKbn09fwRKpQblAw=;
+ b=eiGK5FRI04TeEes6Szi2hA5iz8ACryGxY7ntsqmtV7tYPeuC5a7xazXIRTFOan0o6y
+ b2qcQbm8RdUbfFcsC7PiSWuscTpEs1rRFFIdrS4i0QFUX2+VOb4ZTt+CwlrsuzV6//R7
+ Qqnr3y5xZomy543S5jTvncgH1HCaT5d/2i6owwMEJ9MAu143a6tUMTxaqjjxMjoOCFGJ
+ HKjLT6BtUAKPvE+WhnIPjvzqGw6t/WmMrztwcd2BAvp93/D4O68IpG8YHr6PluX8PI1d
+ W6Zmfwa/H7bqDCzpNFaZ5wiHHo21ihqG/lXbRqkC7kxz9v+E3+iIXC9OdEwBP7hhU64e
+ jXPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=4j8f+BqvngWfv7vww8HE4PFn7DVDPAFt9j8qj4IGu3w=;
- b=gFCdsIpQgelYpja4ytlZX3ZbH3Z9EJNoH9PJhQqifWAIVRBWKXC+XpYqLOFOwCSHXh
- D3akpPBeZQLNTvscU060ZIRELXnbeUZsAg5KBwKniP5wntAmlvShUC+IB+dWSyrT1ys7
- 2UO6fQoY3cFpn2N/goC+/zuN0l+xtWZSmLNRuvZ8zLylGS/zRUuH8JUZDgR4U/serYgT
- osL/brQC1P63pa4b2jvAsSg/L3g76JIZtehjksa5nF+oa/Fnt6PimRVGyG+yzhgrwcvZ
- /8F4AT3H0aGszScBZNz5RBmt9hqjkEyM6VvAd/6mG4/OxywfMOvHM/DTZwZFpO8+rKMr
- PF9w==
-X-Gm-Message-State: AOAM530ZtwQJ/XRjGWdrPGNPNCJEn7GkcLPqvHT1KfpKu0UZG/z2fbfN
- BnjWOsC3smJ1UDrZDl2w4eftCFizpCNZH/kE
-X-Google-Smtp-Source: ABdhPJydK+b3KH3fFWFA6rJ2wLmQkbBOmLFuMCKHAahiSjCvKykH3Z33G4PY3XPfhuwDDeRgVMckOQ==
-X-Received: by 2002:a63:4423:: with SMTP id r35mr30000366pga.13.1620230835306; 
- Wed, 05 May 2021 09:07:15 -0700 (PDT)
+ bh=MbUS3FHXaTjfTejD26jINumm8NjBKbn09fwRKpQblAw=;
+ b=kdS8d22UW+Ld3E2rl7W4fahAMTzI64FDp3QHwTIsUiUgwkU3teZxHU4iWMljuLF17t
+ /fcPgtFQHqk5JA96HTUmrDMdxwTddPQbTrn+YJ1JfEh0C8vUFzJyhoMczufhwcQ53SYc
+ 1X4XuLVdJP5hH9ktdvx7wA9txdHxjsiBUy7ckGJZV6tIn09OjAkF+PcmVb/9p3yD33XB
+ 8kC/7w5SEKtswJn0VPBUy0V9OGw4ZavQe8YYzDIDIlCDeF+k7RU3yhD7qiGe1sQZat74
+ nORBe4OKcIqRrcvCxVvsED+/Egqg9eJkp15Bk8Vns3Uz7Zv8V80TOTEzuLy/UfyC4FT4
+ xABQ==
+X-Gm-Message-State: AOAM531icq//5aLUU7hAXVbQVylmPHkf6nLoHQ7n2t8ypCuKoFZqbSeE
+ Te9INvWrGYYFBCYht1z2Tgdte8daHU4VYcjH
+X-Google-Smtp-Source: ABdhPJwi9ss7vhg50XDNQ4GsckZKzBg2u4ugODOLs9EPrbQEJw2ofSHUDpcUDkxQHuzSUNY+uTAhFw==
+X-Received: by 2002:a17:902:fe98:b029:ed:23f5:7d54 with SMTP id
+ x24-20020a170902fe98b02900ed23f57d54mr32388707plm.57.1620230846721; 
+ Wed, 05 May 2021 09:07:26 -0700 (PDT)
 Received: from localhost.localdomain (122-116-72-36.HINET-IP.hinet.net.
  [122.116.72.36])
- by smtp.gmail.com with ESMTPSA id js6sm35877977pjb.0.2021.05.05.09.07.13
+ by smtp.gmail.com with ESMTPSA id js6sm35877977pjb.0.2021.05.05.09.07.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 09:07:14 -0700 (PDT)
+ Wed, 05 May 2021 09:07:26 -0700 (PDT)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v6 13/17] target/riscv: rvb: generalized or-combine
-Date: Thu,  6 May 2021 00:06:14 +0800
-Message-Id: <20210505160620.15723-14-frank.chang@sifive.com>
+Subject: [PATCH v6 16/17] target/riscv: rvb: support and turn on B-extension
+ from command line
+Date: Thu,  6 May 2021 00:06:17 +0800
+Message-Id: <20210505160620.15723-17-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210505160620.15723-1-frank.chang@sifive.com>
 References: <20210505160620.15723-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,163 +83,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Frank Chang <frank.chang@sifive.com>,
  Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
+ Kito Cheng <kito.cheng@sifive.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+From: Kito Cheng <kito.cheng@sifive.com>
 
+B-extension is default off, use cpu rv32 or rv64 with x-b=true to
+enable B-extension.
+
+Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/bitmanip_helper.c          | 26 +++++++++++++++++++++++++
- target/riscv/helper.h                   |  2 ++
- target/riscv/insn32.decode              |  4 ++++
- target/riscv/insn_trans/trans_rvb.c.inc | 26 +++++++++++++++++++++++++
- target/riscv/translate.c                |  6 ++++++
- 5 files changed, 64 insertions(+)
+ target/riscv/cpu.c | 4 ++++
+ target/riscv/cpu.h | 1 +
+ 2 files changed, 5 insertions(+)
 
-diff --git a/target/riscv/bitmanip_helper.c b/target/riscv/bitmanip_helper.c
-index c625adaded5..5b2f795d03a 100644
---- a/target/riscv/bitmanip_helper.c
-+++ b/target/riscv/bitmanip_helper.c
-@@ -62,3 +62,29 @@ target_ulong HELPER(grevw)(target_ulong rs1, target_ulong rs2)
- {
-     return do_grev(rs1, rs2, 32);
- }
-+
-+static target_ulong do_gorc(target_ulong rs1,
-+                            target_ulong rs2,
-+                            int bits)
-+{
-+    target_ulong x = rs1;
-+    int i, shift;
-+
-+    for (i = 0, shift = 1; shift < bits; i++, shift <<= 1) {
-+        if (rs2 & shift) {
-+            x |= do_swap(x, adjacent_masks[i], shift);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 3191fd00822..1b3c5ba1480 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -486,6 +486,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         if (cpu->cfg.ext_h) {
+             target_misa |= RVH;
+         }
++        if (cpu->cfg.ext_b) {
++            target_misa |= RVB;
 +        }
-+    }
-+
-+    return x;
-+}
-+
-+target_ulong HELPER(gorc)(target_ulong rs1, target_ulong rs2)
-+{
-+    return do_gorc(rs1, rs2, TARGET_LONG_BITS);
-+}
-+
-+target_ulong HELPER(gorcw)(target_ulong rs1, target_ulong rs2)
-+{
-+    return do_gorc(rs1, rs2, 32);
-+}
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index f81b8faf3bf..415e37bc37a 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -61,6 +61,8 @@ DEF_HELPER_FLAGS_1(fclass_d, TCG_CALL_NO_RWG_SE, tl, i64)
- /* Bitmanip */
- DEF_HELPER_FLAGS_2(grev, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_FLAGS_2(grevw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(gorc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(gorcw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- 
- /* Special functions */
- DEF_HELPER_3(csrrw, tl, env, tl, tl)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 6b5e276a9f7..e6dab8dbbc1 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -685,6 +685,7 @@ sro        0010000 .......... 101 ..... 0110011 @r
- ror        0110000 .......... 101 ..... 0110011 @r
- rol        0110000 .......... 001 ..... 0110011 @r
- grev       0110100 .......... 101 ..... 0110011 @r
-+gorc       0010100 .......... 101 ..... 0110011 @r
- 
- bseti      00101. ........... 001 ..... 0010011 @sh
- bclri      01001. ........... 001 ..... 0010011 @sh
-@@ -694,6 +695,7 @@ sloi       00100. ........... 001 ..... 0010011 @sh
- sroi       00100. ........... 101 ..... 0010011 @sh
- rori       01100. ........... 101 ..... 0010011 @sh
- grevi      01101. ........... 101 ..... 0010011 @sh
-+gorci      00101. ........... 101 ..... 0010011 @sh
- 
- # *** RV64B Standard Extension (in addition to RV32B) ***
- clzw       0110000 00000 ..... 001 ..... 0011011 @r2
-@@ -711,6 +713,7 @@ srow       0010000 .......... 101 ..... 0111011 @r
- rorw       0110000 .......... 101 ..... 0111011 @r
- rolw       0110000 .......... 001 ..... 0111011 @r
- grevw      0110100 .......... 101 ..... 0111011 @r
-+gorcw      0010100 .......... 101 ..... 0111011 @r
- 
- bsetiw     0010100 .......... 001 ..... 0011011 @sh5
- bclriw     0100100 .......... 001 ..... 0011011 @sh5
-@@ -719,3 +722,4 @@ sloiw      0010000 .......... 001 ..... 0011011 @sh5
- sroiw      0010000 .......... 101 ..... 0011011 @sh5
- roriw      0110000 .......... 101 ..... 0011011 @sh5
- greviw     0110100 .......... 101 ..... 0011011 @sh5
-+gorciw     0010100 .......... 101 ..... 0011011 @sh5
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 281e0ffae9a..ec9f9d2ef24 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -214,6 +214,18 @@ static bool trans_grevi(DisasContext *ctx, arg_grevi *a)
-     return gen_grevi(ctx, a);
- }
- 
-+static bool trans_gorc(DisasContext *ctx, arg_gorc *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_shift(ctx, a, gen_helper_gorc);
-+}
-+
-+static bool trans_gorci(DisasContext *ctx, arg_gorci *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_shifti(ctx, a, gen_helper_gorc);
-+}
-+
- static bool trans_clzw(DisasContext *ctx, arg_clzw *a)
- {
-     REQUIRE_64BIT(ctx);
-@@ -360,3 +372,17 @@ static bool trans_greviw(DisasContext *ctx, arg_greviw *a)
-     REQUIRE_EXT(ctx, RVB);
-     return gen_shiftiw(ctx, a, gen_grevw);
- }
-+
-+static bool trans_gorcw(DisasContext *ctx, arg_gorcw *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_shiftw(ctx, a, gen_gorcw);
-+}
-+
-+static bool trans_gorciw(DisasContext *ctx, arg_gorciw *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_shiftiw(ctx, a, gen_gorcw);
-+}
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 8deb05add42..35d4d36eef8 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -727,6 +727,12 @@ static void gen_grevw(TCGv ret, TCGv arg1, TCGv arg2)
-     gen_helper_grev(ret, arg1, arg2);
- }
- 
-+static void gen_gorcw(TCGv ret, TCGv arg1, TCGv arg2)
-+{
-+    tcg_gen_ext32u_tl(arg1, arg1);
-+    gen_helper_gorcw(ret, arg1, arg2);
-+}
-+
- static bool gen_arith(DisasContext *ctx, arg_r *a,
-                       void(*func)(TCGv, TCGv, TCGv))
- {
+         if (cpu->cfg.ext_v) {
+             target_misa |= RVV;
+             if (!is_power_of_2(cpu->cfg.vlen)) {
+@@ -556,6 +559,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
+     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+     /* This is experimental so mark with 'x-' */
++    DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
+     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
+     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index f95bcbd8e10..3cea62cd4c4 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -284,6 +284,7 @@ struct RISCVCPU {
+         bool ext_f;
+         bool ext_d;
+         bool ext_c;
++        bool ext_b;
+         bool ext_s;
+         bool ext_u;
+         bool ext_h;
 -- 
 2.17.1
 
