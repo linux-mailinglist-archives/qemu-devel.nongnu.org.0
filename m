@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC2E373670
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 10:42:53 +0200 (CEST)
-Received: from localhost ([::1]:54760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F8B337366C
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 10:40:04 +0200 (CEST)
+Received: from localhost ([::1]:48244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leD7M-00072t-7r
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 04:42:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36880)
+	id 1leD4d-0004KQ-46
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 04:40:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1leD13-0001z2-TO
- for qemu-devel@nongnu.org; Wed, 05 May 2021 04:36:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47650)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1leD0y-0001uB-ST
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 04:36:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1leD0y-0003R3-Dc
- for qemu-devel@nongnu.org; Wed, 05 May 2021 04:36:21 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1leD0x-0003RN-9n
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 04:36:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1620203774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TGsV9oxlRVBsXgbyNSnKusUukT5R+kNB72RhHN5dk9o=;
- b=KfgRD+eUi/fdU9j0kb649c5HUdLVgIL8B0WmDW54bhLvLjmLmeEAI4RsXia6oZ4yWac7OF
- U3FysfPktqvmlE/aeXNdxDQRJBDk6Lfs5VCEr6pAs98tw2MaPr/7i/iADO13llODqHI0LR
- 8t+eaLrOjRiOQQCVtJPk4E6jsgbeA6Y=
+ bh=DXWk06cn5+p1gjQAmqPbrRaCgSjvzmAH7dLwutgFynQ=;
+ b=E+mqwcb4kBy697W2YLWTTthhBEfnza+RN2Kearx0r3XyUoNos1NyqykMbRrK275Usowu3P
+ e7TkuzvOPYiKALhqofJKOpoi2n0+ytMDHs5NC0n5pldJCdhQQghd6rbF8BvpT7kH4u+7NR
+ D6y1EPt6GucqeNEj7g0oMXfZ9L25lEg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-nvsE5nRZM_KjBeXUrwGJYg-1; Wed, 05 May 2021 04:36:12 -0400
-X-MC-Unique: nvsE5nRZM_KjBeXUrwGJYg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-89-3jFcWrsWO7WEYRd_588LZw-1; Wed, 05 May 2021 04:36:13 -0400
+X-MC-Unique: 3jFcWrsWO7WEYRd_588LZw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC74B1020C24;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 090E91020C25;
+ Wed,  5 May 2021 08:36:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFDC960D08;
  Wed,  5 May 2021 08:36:11 +0000 (UTC)
-Received: from starship (unknown [10.40.192.34])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 349D7131DE;
- Wed,  5 May 2021 08:35:51 +0000 (UTC)
-Message-ID: <881137dab90d0779180c075d762f27d2cd612e6c.camel@redhat.com>
-Subject: Re: [PATCH 1/2] kvm: update kernel headers for
- KVM_GUESTDBG_BLOCKEVENTS
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Date: Wed, 05 May 2021 11:35:51 +0300
-In-Reply-To: <874kg29r8j.fsf@linaro.org>
-References: <20210401144152.1031282-1-mlevitsk@redhat.com>
- <20210401144152.1031282-2-mlevitsk@redhat.com> <874kg29r8j.fsf@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 536411138529; Wed,  5 May 2021 10:36:10 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: QEMU tests, Coverity, and g_test_set_nonfatal_assertions()
+References: <CAFEAcA9juOChqrh5orybJQwpQsyEZ5z3Dvmy7fjX0DW4Nbgmrg@mail.gmail.com>
+Date: Wed, 05 May 2021 10:36:10 +0200
+In-Reply-To: <CAFEAcA9juOChqrh5orybJQwpQsyEZ5z3Dvmy7fjX0DW4Nbgmrg@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 3 May 2021 17:49:50 +0100")
+Message-ID: <877dkdvapx.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -77,72 +79,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2021-04-19 at 17:22 +0100, Alex Bennée wrote:
-> Maxim Levitsky <mlevitsk@redhat.com> writes:
-> 
-> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> 
-> Generally it's a good idea to reference where these are coming from, is
-> it a current kernel patch in flight or from an release we haven't synced
-> up to yet?
-Hi!
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-As Paolo explained to me, qemu syncs the kernel headers every once in a while
-thus when I submit a feature to qemu which uses a new KVM feature, while
-I should submit a patch to add it to the kernel headers, the patch is only
-for the reference.
+[...]
 
-In this particular case, I first updated the qemu's kernel headers to
-match the kvm/queue branch, then added my feature to the kernel, and updated
-the qemu kernel headers again. This patch is the diff between 1st and second
-update to make it more readable.
+> In summary, we have a few options:
+>
+> (1) Expand "assertions always fatal" to test code, and add "panics"
+> models of the g_assertion_message* functions. Remove all the calls
+> to g_test_set_nonfatal_assertions().
+>
+> (2) Aim to expand the ability to use g_test_set_nonfatal_assertions()
+> to other tests than the handful that currently use it (perhaps by
+> providing a standard place where it gets called for all tests, though
+> there isn't currently an obvious place to do that). Treat Coverity
+> issues in our test code which flag up "this would crash if the
+> assertion fired but execution continued" as bugs to be fixed (though
+> not very high-priority ones, obviously).
 
-Best regards,
-	Maxim Levitsky
+Further discussed under Richard's reply.
 
-> 
-> Usually linux header updates are done with semi-regular runs on
-> ./scripts/update-linux-headers.sh but obviously it's OK to include
-> standalone patches during the review process.
-> 
-> > ---
-> >  linux-headers/asm-x86/kvm.h | 2 ++
-> >  linux-headers/linux/kvm.h   | 1 +
-> >  2 files changed, 3 insertions(+)
-> > 
-> > diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
-> > index 8e76d3701d..33878cdc34 100644
-> > --- a/linux-headers/asm-x86/kvm.h
-> > +++ b/linux-headers/asm-x86/kvm.h
-> > @@ -281,6 +281,8 @@ struct kvm_debug_exit_arch {
-> >  #define KVM_GUESTDBG_USE_HW_BP		0x00020000
-> >  #define KVM_GUESTDBG_INJECT_DB		0x00040000
-> >  #define KVM_GUESTDBG_INJECT_BP		0x00080000
-> > +#define KVM_GUESTDBG_BLOCKIRQ		0x00100000
-> > +
-> >  
-> >  /* for KVM_SET_GUEST_DEBUG */
-> >  struct kvm_guest_debug_arch {
-> > diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-> > index 020b62a619..2ded7a0630 100644
-> > --- a/linux-headers/linux/kvm.h
-> > +++ b/linux-headers/linux/kvm.h
-> > @@ -1056,6 +1056,7 @@ struct kvm_ppc_resize_hpt {
-> >  #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
-> >  #define KVM_CAP_SYS_HYPERV_CPUID 191
-> >  #define KVM_CAP_DIRTY_LOG_RING 192
-> > +#define KVM_CAP_SET_GUEST_DEBUG2 195
-> >  
-> >  #ifdef KVM_CAP_IRQ_ROUTING
-> 
-> 
+> (3) Something else ?
 
+We could try to model what the GLib functions do:
+g_test_set_nonfatal_assertions() sets a global flag, the g_assert_FOO()
+other than g_assert_not_reached() check it.  We'll then find out whether
+Coverity's analysis is strong enough to propagate the value passed to
+g_test_set_nonfatal_assertions() to its uses.
+
+[...]
 
 
