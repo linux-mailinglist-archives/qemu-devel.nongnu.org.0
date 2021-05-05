@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01903738C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:43:38 +0200 (CEST)
-Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E335D3738A8
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 May 2021 12:39:51 +0200 (CEST)
+Received: from localhost ([::1]:36072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leF0D-00084H-Ri
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39414)
+	id 1leEwZ-00030D-0a
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 06:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1leEuq-0000yn-8l
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:38:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21052)
+ id 1leEv0-0001Dp-6k
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:38:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23171)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1leEun-0007dJ-5h
- for qemu-devel@nongnu.org; Wed, 05 May 2021 06:38:03 -0400
+ id 1leEux-0007hq-TZ
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 06:38:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620211079;
+ s=mimecast20190719; t=1620211087;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oKFPMuA5gXmiCEpl0mCUt0lLiExZwjh2+65uOHQ3Rpc=;
- b=R+7J47MfWmB4GVMOZie9almpLfSsFKZjUhollH9fnF/m6Y8IjGNJpQ8c+f+7ygBX3pCJOL
- V53Z1gHDhbHbZy1dVlPybiE1H9MJq5eeVi+DEwEvKSeI0Itj1ubZ8A10vTQ4VBTtS+kogA
- nZwZGy2b3F0RMdbAkzSXj05o463fxJ8=
+ bh=+RQlaoH3uqa9HBuyEfpQHmFY6ilplTIyJVDnXQ10u/A=;
+ b=h7rI3rQXcjrOlrkxorr4SW/KRjTA+uuoB5178naEcGDekvHKUA2sMqMmYh+Sx7c2MvAXOt
+ Uc1+r8gG2rLLG7+oZ+nFbpNHm7vnSDkXUHTNvrSPfI0lcBuLQbPMU9KlOykETeS9V7WzgV
+ BKYiBzoIkzrtTXy2v+a6at8pYb9kzGE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-TU5FqT39MTOeGCR116qRXw-1; Wed, 05 May 2021 06:37:58 -0400
-X-MC-Unique: TU5FqT39MTOeGCR116qRXw-1
+ us-mta-493-pXIbI1tPPYKjv0CgarAimA-1; Wed, 05 May 2021 06:38:06 -0400
+X-MC-Unique: pXIbI1tPPYKjv0CgarAimA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DAAC107ACCA;
- Wed,  5 May 2021 10:37:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5298801ADA;
+ Wed,  5 May 2021 10:38:04 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-253.ams2.redhat.com
  [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 093EF5C3E0;
- Wed,  5 May 2021 10:37:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C48A5885D;
+ Wed,  5 May 2021 10:37:57 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] usb/dev-mtp: use GDateTime for formatting timestamp for
- objects
-Date: Wed,  5 May 2021 11:36:59 +0100
-Message-Id: <20210505103702.521457-5-berrange@redhat.com>
+Subject: [PATCH 5/7] io: use GDateTime for formatting timestamp for websock
+ headers
+Date: Wed,  5 May 2021 11:37:00 +0100
+Message-Id: <20210505103702.521457-6-berrange@redhat.com>
 In-Reply-To: <20210505103702.521457-1-berrange@redhat.com>
 References: <20210505103702.521457-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -98,29 +98,31 @@ often results in simpler code too.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hw/usb/dev-mtp.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ io/channel-websock.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-index bbb8274344..a71fcc326d 100644
---- a/hw/usb/dev-mtp.c
-+++ b/hw/usb/dev-mtp.c
-@@ -772,12 +772,9 @@ static void usb_mtp_add_str(MTPData *data, const char *str)
+diff --git a/io/channel-websock.c b/io/channel-websock.c
+index 03c1f7cb62..70889bb54d 100644
+--- a/io/channel-websock.c
++++ b/io/channel-websock.c
+@@ -177,15 +177,9 @@ qio_channel_websock_handshake_send_res(QIOChannelWebsock *ioc,
  
- static void usb_mtp_add_time(MTPData *data, time_t time)
+ static gchar *qio_channel_websock_date_str(void)
  {
--    char buf[16];
 -    struct tm tm;
+-    time_t now = time(NULL);
+-    char datebuf[128];
++    g_autoptr(GDateTime) now = g_date_time_new_now_utc();
+ 
+-    gmtime_r(&now, &tm);
 -
--    gmtime_r(&time, &tm);
--    strftime(buf, sizeof(buf), "%Y%m%dT%H%M%S", &tm);
--    usb_mtp_add_str(data, buf);
-+    g_autoptr(GDateTime) then = g_date_time_new_from_unix_utc(time);
-+    g_autofree char *thenstr = g_date_time_format(then, "%Y%m%dT%H%M%S");
-+    usb_mtp_add_str(data, thenstr);
+-    strftime(datebuf, sizeof(datebuf), "%a, %d %b %Y %H:%M:%S GMT", &tm);
+-
+-    return g_strdup(datebuf);
++    return g_date_time_format(now, "%a, %d %b %Y %H:%M:%S GMT");
  }
  
- /* ----------------------------------------------------------------------- */
+ static void qio_channel_websock_handshake_send_res_err(QIOChannelWebsock *ioc,
 -- 
 2.31.1
 
