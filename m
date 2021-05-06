@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98415375150
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:12:49 +0200 (CEST)
-Received: from localhost ([::1]:36308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719C3375162
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:18:20 +0200 (CEST)
+Received: from localhost ([::1]:45490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lea3s-0008As-Lo
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:12:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60264)
+	id 1lea9D-0003su-Gr
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:18:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leZyF-0002JU-A7; Thu, 06 May 2021 05:06:59 -0400
+ id 1leZyI-0002RA-5A; Thu, 06 May 2021 05:07:02 -0400
 Received: from mail-eopbgr60093.outbound.protection.outlook.com
  ([40.107.6.93]:50670 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leZyA-0002tO-0W; Thu, 06 May 2021 05:06:58 -0400
+ id 1leZyF-0002tO-Uu; Thu, 06 May 2021 05:07:01 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H7euIPuIg8TNArmgLbQmfXqw76tB4GNf5sOE/gEOnzTgmDPP9bKmCoHCnnaJqi8RS2GahFY/J9XCWQN1HVmx4bCrgoGGL+tT92tHDdjpcceDMbcO4blwffVs9LxmfERaUyoMcQSS40HCDZwJMgbK2RhocPvSTfxZ8fUoAgD9642N6iICs6jBDlaAOTbZsmu17ZkZZBEsyH1M/uykbBXXCZ04iXwioYjwFrQlJgDYTpZNBDFTYHZsjyZ6AohQ7kDnlymUAPsQ/ztJhKTit2ymu1+SivDrUixx9O6WeNasOpmasjp3WIOsJ/euwYIYrHQ5nInRZMCWGZXMX4twHy13Qw==
+ b=SNudTH6RVnoEx+Mu+anf+gYewiyiRmTdtYb6rENqp7VVIFSIJWl/k2Liqu/4jkuKyLLduXr9H1e676mpngr31LIirRX6J4b8YfWKwYUWv++VlTRLyoGq6cdDa5JKYnIBAJjdTzYz86NjnnnXjhoVclolfH4yca25QR5P3mzxeanpU0LQ+n/ERKKDiAU0XP7X0LMAQACoDuAuPiSlq8Dfl4gWELScSBYdlScOE+UZPH77KvMJq/STw5EmEjxbGP/iQilbeaXzgooLprrT9T313Vzc+qPv0/uDCOKDjtPaNDuOOs+LM9HzRLBGmsa6wV1hciT6bUPE7ZWBiCtqzQn6fg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9FvT0LdMwFqZ+YvLnNkb76dJG95GnOtmrxKV6bx2BlU=;
- b=gXTu70KgfafHUBXyIZJjJ9wf4ulPZbXtWRhPz8Ycb5JyGXfKm8viTUJWwyfYun6iA2pR5JxNPD47S0bTxY1NhbjVsBpf1n5RHsg59sEmYlZzReGlxclzO2Vo/NSfn9NqdIl+VHyBTtYooPPvqfZAGATVqwHZQDE3tz/UF2YX2clhCyLoi1RHAF7ybf/3bpIJGDsqu6UZykaJMARfCMy8owErHJDYURpQTBOZbEU/4tkJnOXsfV3BL0QAqBtWgN4soDkYZy+I4rahWBaMx5oHSHgcTJgGdgqEq8+7DrGNf0dOBmFm64FGaDEUGckx7gmKuzWXEvGo9qBOX0i3Go78ow==
+ bh=wiCXCrN7gt37Xiv+B5Eb134+ojHTs61X0eeJFlW/qSs=;
+ b=PMO5KemAHR2mXLJK1BAVJgsou/5yW+UjeNuxSeGyovwEvnbEIyKEp4m9UJ0fG/btEVdXDh7wAaFGlN590NJKn+rEWYBYR7nm2vtKWElBM1Tg9DbUWhZoT5RBnVGUnryeUwfMT8hjTYZLD31TkDYuCueHX+3+Xip9LWt+/wgl+iXVFqTjm/9RA48ejKInu6uCXnqfsuqwFvjhnd0H3mJ4YXN3d9T8KYxutrbe/6vBhcUKo4MIR6nkU2aZuvAwDxCRZS0mBH9jNv6X4xLeIrL2YdxlKmMmBXTivXxk6b7EHcRtT+VdUgl8nArmTrfgIoacdLrJYTYijMlci+8odgqLCA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9FvT0LdMwFqZ+YvLnNkb76dJG95GnOtmrxKV6bx2BlU=;
- b=m/CmO9BmEiB65YrHGZmTmKPYKIvFLlnk3RdbDbnU+e4soy0xgq6yIkSrYz/o6nczFWFjMIWcuUOm3cFy0B7Jfj3sggU30W9ttHRgmBPUTCar3sQfx3cjHkHcWcwMzuzASQAOeIp+atf5/nM9SV9why17Mf91/j2H06VtLtpCCnY=
+ bh=wiCXCrN7gt37Xiv+B5Eb134+ojHTs61X0eeJFlW/qSs=;
+ b=RdyDflDyjssTSt2EkVyCKwssK1lXCEtuDj+cGPtrVyUHyDGhO1wiGXWYNIBU6eapC1EDZmxXNThzfvJTDZSsG0h0p0PpsOtW3E2uX3jo3VZno5/3Yj2Nll5+fayrMtMwwyl8OnxsY0iuhJpBsv48S3LjKeu0la/jUErSQ2D1n7A=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4166.eurprd08.prod.outlook.com (2603:10a6:20b:a6::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.26; Thu, 6 May
- 2021 09:06:42 +0000
+ 2021 09:06:43 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.026; Thu, 6 May 2021
- 09:06:42 +0000
+ 09:06:43 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
  eesposit@redhat.com, pbonzini@redhat.com
-Subject: [PATCH v3 3/8] test-write-threshold: rewrite
- test_threshold_(not_)trigger tests
-Date: Thu,  6 May 2021 12:06:16 +0300
-Message-Id: <20210506090621.11848-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 4/8] block/write-threshold: drop extra APIs
+Date: Thu,  6 May 2021 12:06:17 +0300
+Message-Id: <20210506090621.11848-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210506090621.11848-1-vsementsov@virtuozzo.com>
 References: <20210506090621.11848-1-vsementsov@virtuozzo.com>
@@ -67,52 +66,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.236) by
  HE1P195CA0011.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.25 via Frontend Transport; Thu, 6 May 2021 09:06:41 +0000
+ 15.20.4108.25 via Frontend Transport; Thu, 6 May 2021 09:06:42 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5f9d02bf-5bda-49d0-a8a9-08d9106e43ed
+X-MS-Office365-Filtering-Correlation-Id: 9892681d-03f1-48c8-8f03-08d9106e449f
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4166:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB41663103ACEF755CB92B8379C1589@AM6PR08MB4166.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:569;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4166C044B40D75B17AE23B5FC1589@AM6PR08MB4166.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oSjSLXZjp7L60lTeUmwl83pkF0JvEZPhWhPdFJrb8qwSGNGK997H6rtYRkqete6H01VMPSdly82tWKRcYh4wzUCAITOI2emcqdUd2NFb8vhn/bAnhT8MasOa3Iyt64mxa8gc6HcLk9rrQmyH6QUVs1LRu9GLJ+5DpynGneRXvCyDOcnZPsaqSYeKKE23tV8j7gMMcxMi1wyYk3BPDRT+1Pk47F2SXRbFQi798ExUdkeuKxxldAaljjqQfYHI1Nb0BQy9b4PJZkvgcZyvoddVaezspGprGqOHmcjN33Dcj38EYn8U2HrTQUljGIdYvxhiL+cEgF60C8IcDpdYwVFkISA/jeRXg99JsjHxwn6FY5ZZz0wNsCrTTtcewCFxKVEvXSeyXQ3KrIZXmSrb6R4wLDRwtwGxmWfPd3FZx7BWE5WlQjwc0Uf0D7kULuQazO3JHzEuS+8XlESL5bGDrO7qKmoesa0HQXa1wlS08SSTHR+kyGEx9/yjJMI9bgMQQshmi5arD09A7pqZCsj7Zmf1R5N7L2QqGc02qTVCnak+Ohu+Y73S/7wfRT12ylDZCT5HImNsxRSMQE41rP5guvmQH9qxJ1CHlO+luo0cQ2Rz+2jHvElv5HfPMifWK5XJMTwJ1bgU4X+ABxQtgO7K/fOZacR0q0mxzV7zJ/aNW+mmec8lc6pgzrZ8F4Hy1X87Uzja
+X-Microsoft-Antispam-Message-Info: e9dBjS2u/QvVuYNHSX58qmYg6ys5XyjptbQ9bvWdp37vOQa2fnCjsB77kkM9nTYm+8TY6otMYwW9YtsG9DgQw7R0VaYIWiqj2SQooVrIVvjHYBCDfoYRuhpms0425PeyU0MkAJoW6xxdxxHrJd7yYfYxnrKaqky0jh+M887ES7Tng/UcQTtqSoVdwPgv9As8TayErbSwSFQzMr271R+v7csVZ92d/ktQNtoV/yAQcAmFnWaj531tJ5ZTrN2DIf5kI/LNJhWkZNGeLPNbBllWiN1LjRwmxrry4CdussL3NwHNkfYghmyFWMflSdY33iV0CA1Xi5xNX7o3b41WiP+/t5Ff6+ocCGh4OblCEIs1RaeAnqB6AoHZEzbnxuDMJYIdJE1rMKSIqvstkMixhlITeu8vUiiiHhsDkF7l/0wLo7V1HqM8ki/HgVHCBH5dUKiMeowts+mxrsAiep2DaZafGFo6vQxd7+mE6n+Puh9Ltm+NVPyO5sqqf04XsHbDh3LqpSoWZB3qwVB2rd7aDBDvMA1lBERhUPnJusMvgMfCVfO99kwGpe8lj/4e23cA7IYhS+7q2dnNLwHnDZ7In9RwkLXehk+3xLPHfx+ZnYkbXsi/dJAEjh5jrnWnjCjiDC6EM4ZZGW7hzKhoGJVtEIwCecSTdbTSR8p4stlqCyBNXa1CcIAE2ssCUS6ReVbcy8Ui
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(396003)(39840400004)(346002)(366004)(376002)(136003)(86362001)(66556008)(6512007)(8936002)(66476007)(66946007)(316002)(6666004)(8676002)(36756003)(6486002)(1076003)(52116002)(4326008)(478600001)(2906002)(956004)(186003)(83380400001)(6916009)(6506007)(38350700002)(2616005)(38100700002)(26005)(16526019)(5660300002)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?A5Lo6eXNtfMD70TtbHUGH05uEy/Lzyg2HtCfrYKyeD1YDAAfLpeB804gSMDQ?=
- =?us-ascii?Q?xUys27hlKagtH0K/71pwgbrOyxSPPMvBj3RM0N/9cOa5X78V7lrK7e5TyZLT?=
- =?us-ascii?Q?P2wZyqNznTf0zWEOUV9U07hSFKakoyQd9vd/Im3itShX2cAA1RR5vBdmAs8q?=
- =?us-ascii?Q?kIs5wg0nAVk2ZO4TFCBXHf61mdRf+/zZSsZLg/U9s67VqmSt9ylhrsJjRtR9?=
- =?us-ascii?Q?f5GsLyEkG5z/VGxWj3f6+hMiyl6UZL5CDXd5vEZyYWxxibVh4wOzeBsZQcOo?=
- =?us-ascii?Q?sa+EhcEbMygcm9bhIwDxhnbschFmBzxrZG7SNPuOkHBA/exh6bTtVE8lrzm2?=
- =?us-ascii?Q?MawcFQxYwlqmnCqAwQKRd457KoEI1z4vloPZM8YBA/782/WZRJw5eQcT9162?=
- =?us-ascii?Q?EgsXYBywg6/BSEVZv0YcKzOKRWTPvkQaj4vI80bFUjr/RNCVDKajZXHxfVQ2?=
- =?us-ascii?Q?S58cAbxEo2qEx6mHQ/Qi1NpuNCgu2C+1Ewu0ZErz6Z2jnX3BgxDaDMlY+UrB?=
- =?us-ascii?Q?k4R0TCv6h/4EsjznSUatn21h9ktHB9lypsot+at40QxeEq2puArvDai8vShC?=
- =?us-ascii?Q?u9lbiLLkC7FcHkx3xvrprl6gGE0ebBbmatDNo1ph5NZJoYKPd2Hy/8aRKn2a?=
- =?us-ascii?Q?rTTHJJ1usEwqebwBm4tEhGgN1boMi1T+hWcxTfONEVhbsb55r/tMnMfm2jrA?=
- =?us-ascii?Q?hrd1Vsz9KSUcCg02BZf59OlQAHOwaZ/TY8c73uyG/wm8sHclRD7AXAQI20BT?=
- =?us-ascii?Q?QwE0QKFS/C0NmcGIrEGGy3XtIogZFovw801ejfQkNhNVJX8h76+1ukJsikiD?=
- =?us-ascii?Q?wYpxpADUNNjHba9Zwfl8FED6tRGQtwvQnu9zpgEhFPF3fJFA+mbVw5M/AYFb?=
- =?us-ascii?Q?rHAheM5SFeAHDiTJYGRM0Sedt7Er+DfWZVNrBarWkdzJEaSC8FsRf2KYaJSQ?=
- =?us-ascii?Q?D+UNpp0O5wahL59+5lE4NhqQBNWMpcAbM16HB10LTn93QULPQekw/AoebX3f?=
- =?us-ascii?Q?Hn58ipRTO6fyrmFcoGKlD/6kL1i2wjeulBKtIxx0c7++CLPdFcmp8rHmBbo2?=
- =?us-ascii?Q?tQJfYnoZirWGdohMYIalzunBAPqLkeOyoEJgjkYVlSj32MJD4jHQK/iHZDri?=
- =?us-ascii?Q?WvQQIi023j5aei2oZTVVWBGtrrn6dTQfwANRK1fxx86pSd2g8DaEYO00tWU2?=
- =?us-ascii?Q?Jcz8FKugqCQSfIumnRSri2igcYIORgFksnuofbH1IpZA/a1dGW86hbHlBRQJ?=
- =?us-ascii?Q?ZBt94/ENLEOb50B6ZdfzcZclU/Iaz0w2EFlUrYPXxD6hwWUprgro6JfI706s?=
- =?us-ascii?Q?bOSgbRQtfZC2AODrA5GGAHvB?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ex2bJz2Ap/nWXlTyUdAGP241PbjdQhjakGM507fCUyK7tSoawTn7506PjHW6?=
+ =?us-ascii?Q?pnSW8+FKkzIbRpzpDrY851NZQqN3KYsVEcwiLeDdX0rOmTAVHe17RC2FNXJ7?=
+ =?us-ascii?Q?2VqORowWBti9pYvnBH6HoegoCQACQMOGzjS/Qk4729mAlGmo1/VjOk2ZmLgu?=
+ =?us-ascii?Q?n63WfMAFbgeo0N7qm55nLFoAioU3KY341BLLqxE5euX3yEZIlTEDyjGbShVI?=
+ =?us-ascii?Q?aZSTLyCoVNuLCme1c2AXlAK9f5E4U1Tl5L38QAEE2hIXkLa/iNSabl1Iw7CS?=
+ =?us-ascii?Q?voklync61eoTFCPLaAgcVOyUTVOgu9DyYApgP/ZfosgTcMZGx61N9P5D/jMP?=
+ =?us-ascii?Q?3Ywu3Srs0W2rXxrLzHZ1GRG3ysKzm18Wz91/ZuksPmDl4tdg4f7k4GG5265R?=
+ =?us-ascii?Q?M4yvMksCYIANpp4NWGQupI4VugbzrtXCXuA3ruVBTMenpLyXtpx4Wo3wBhzu?=
+ =?us-ascii?Q?rbuHEZK279Uo/xWM1srQoiocv7QcBR1rQoFg8ZiEg7diwPjWNBJfkDd9eeOE?=
+ =?us-ascii?Q?imLBDqfi8Wa1Jct8ehzzXICc1yRlajUXq5Zh548f0rgEiRvIHS5B2EdxLmMa?=
+ =?us-ascii?Q?/7+EMEDVfeTyEVQsrt53hxdYtRb3jS+n/Iw0jh4RDdl+ZD+oDFYR9QTH9lZE?=
+ =?us-ascii?Q?eef9fGm3Wxf1J4eRSatQzGWaiOP38zcUvEpxz3cU373MGXDacwocNTRCp+UK?=
+ =?us-ascii?Q?wZh3gYMnocBCG6W2xATMqfecHEkDncDaVL6px0hFNkYaUtq0CipPvNVSh9kT?=
+ =?us-ascii?Q?fvan2fzN1+sunHB24FxXZ39NWKCbAkpIv/l9i5imuENP5xhHxxAxrlIXzIVo?=
+ =?us-ascii?Q?6zs3I1eBoNiqgtPtURwnLrY9E8UDSnWf6gXtKh/Xf/x+Kgtfonvdec50qkXc?=
+ =?us-ascii?Q?faQ61ULDEhw8NB/MyRtxtMFKW/2MNF54s8Hi39QshZxto5KL/biPNAip/awL?=
+ =?us-ascii?Q?T2NzHexC2VPN7geRMe88E7/HR3qj4mocWAlIExmqKmM93bOLT8RxnPRdU3jq?=
+ =?us-ascii?Q?yLt12d8DpBFskVhAKltLm1HWDaLRH0Q4iSrv+Ba7ATn0zEuydeXHv3mX7ZNa?=
+ =?us-ascii?Q?SBiR6nQEgjHAQ+HHu3s5Bpcn3Hg7NJYpzKHduju6/oBz7xPVGnd23fGjqtCK?=
+ =?us-ascii?Q?SD4B9FChAYx6WDByUo0r38l9W4oO+n+ySHN+/Shwx8guga+vLUwk/UzVHvg2?=
+ =?us-ascii?Q?cV6wyeBSYUITkTArvIv7Y7eQwCaDq45+/owZozYWk88OqQMryx5QfTEbRmWx?=
+ =?us-ascii?Q?K4Y3UY7ijLRqbQCx5EWDMnJ7gSRj9c/sylzFVjYsNhMWWYm3gxyHg5ZbX40n?=
+ =?us-ascii?Q?gtYu2HY9Xso7beWlBfM6lSxs?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f9d02bf-5bda-49d0-a8a9-08d9106e43ed
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9892681d-03f1-48c8-8f03-08d9106e449f
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2021 09:06:42.3414 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2021 09:06:43.4435 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l75Bg/dNax/uCTAB8sOjlapicsFby9AFFREYaGT0Eoczm13NiOTalN+07aNg2W45MlnG4SVc7JRhaDZ5q9CRzkmxRTd3imXKJNm7DegOcOo=
+X-MS-Exchange-CrossTenant-UserPrincipalName: OqjuhUS03Z3mgypLGyhclsY6pVJrPKGhLZuGZu+UoGyc/JKsVkzBKwIuoeCacSbyqjdYfLfw3e41I8UBTohIKbk25tTachEpNGlWtA3bWNU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4166
 Received-SPF: pass client-ip=40.107.6.93;
  envelope-from=vsementsov@virtuozzo.com;
@@ -140,74 +139,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These tests use bdrv_write_threshold_exceeded() API, which is used only
-for test (since pre-previous commit). Better is testing real API, which
-is used in block.c as well.
+bdrv_write_threshold_exceeded() is unused at all.
 
-So, let's call bdrv_write_threshold_check_write(), and check is
-bs->write_threshold_offset cleared or not (it's cleared iff threshold
-triggered).
-
-Also we get rid of BdrvTrackedRequest use here. Note, that paranoiac
-bdrv_check_request() calls were added in 8b1170012b1 to protect
-BdrvTrackedRequest. Drop them now.
+bdrv_write_threshold_is_set() is used only to double check the value of
+bs->write_threshold_offset in tests. No real sense in it (both tests do
+check real value with help of bdrv_write_threshold_get())
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/unit/test-write-threshold.c | 22 ++++------------------
- 1 file changed, 4 insertions(+), 18 deletions(-)
+ include/block/write-threshold.h   | 24 ------------------------
+ block/write-threshold.c           | 19 -------------------
+ tests/unit/test-write-threshold.c |  4 ----
+ 3 files changed, 47 deletions(-)
 
+diff --git a/include/block/write-threshold.h b/include/block/write-threshold.h
+index 555afd0de6..c60b9954cd 100644
+--- a/include/block/write-threshold.h
++++ b/include/block/write-threshold.h
+@@ -35,30 +35,6 @@ void bdrv_write_threshold_set(BlockDriverState *bs, uint64_t threshold_bytes);
+  */
+ uint64_t bdrv_write_threshold_get(const BlockDriverState *bs);
+ 
+-/*
+- * bdrv_write_threshold_is_set
+- *
+- * Tell if a write threshold is set for a given BDS.
+- */
+-bool bdrv_write_threshold_is_set(const BlockDriverState *bs);
+-
+-/*
+- * bdrv_write_threshold_exceeded
+- *
+- * Return the extent of a write request that exceeded the threshold,
+- * or zero if the request is below the threshold.
+- * Return zero also if the threshold was not set.
+- *
+- * NOTE: here we assume the following holds for each request this code
+- * deals with:
+- *
+- * assert((req->offset + req->bytes) <= UINT64_MAX)
+- *
+- * Please not there is *not* an actual C assert().
+- */
+-uint64_t bdrv_write_threshold_exceeded(const BlockDriverState *bs,
+-                                       const BdrvTrackedRequest *req);
+-
+ /*
+  * bdrv_write_threshold_check_write
+  *
+diff --git a/block/write-threshold.c b/block/write-threshold.c
+index 71df3c434f..65a6acd142 100644
+--- a/block/write-threshold.c
++++ b/block/write-threshold.c
+@@ -24,25 +24,6 @@ uint64_t bdrv_write_threshold_get(const BlockDriverState *bs)
+     return bs->write_threshold_offset;
+ }
+ 
+-bool bdrv_write_threshold_is_set(const BlockDriverState *bs)
+-{
+-    return bs->write_threshold_offset > 0;
+-}
+-
+-uint64_t bdrv_write_threshold_exceeded(const BlockDriverState *bs,
+-                                       const BdrvTrackedRequest *req)
+-{
+-    if (bdrv_write_threshold_is_set(bs)) {
+-        if (req->offset > bs->write_threshold_offset) {
+-            return (req->offset - bs->write_threshold_offset) + req->bytes;
+-        }
+-        if ((req->offset + req->bytes) > bs->write_threshold_offset) {
+-            return (req->offset + req->bytes) - bs->write_threshold_offset;
+-        }
+-    }
+-    return 0;
+-}
+-
+ void bdrv_write_threshold_set(BlockDriverState *bs, uint64_t threshold_bytes)
+ {
+     bs->write_threshold_offset = threshold_bytes;
 diff --git a/tests/unit/test-write-threshold.c b/tests/unit/test-write-threshold.c
-index fc1c45a2eb..fd40a815b8 100644
+index fd40a815b8..bb5c1a5217 100644
 --- a/tests/unit/test-write-threshold.c
 +++ b/tests/unit/test-write-threshold.c
-@@ -55,41 +55,27 @@ static void test_threshold_multi_set_get(void)
- 
- static void test_threshold_not_trigger(void)
- {
--    uint64_t amount = 0;
-     uint64_t threshold = 4 * 1024 * 1024;
+@@ -18,8 +18,6 @@ static void test_threshold_not_set_on_init(void)
      BlockDriverState bs;
--    BdrvTrackedRequest req;
- 
      memset(&bs, 0, sizeof(bs));
--    memset(&req, 0, sizeof(req));
--    req.offset = 1024;
--    req.bytes = 1024;
+ 
+-    g_assert(!bdrv_write_threshold_is_set(&bs));
 -
--    bdrv_check_request(req.offset, req.bytes, &error_abort);
+     res = bdrv_write_threshold_get(&bs);
+     g_assert_cmpint(res, ==, 0);
+ }
+@@ -33,8 +31,6 @@ static void test_threshold_set_get(void)
  
      bdrv_write_threshold_set(&bs, threshold);
--    amount = bdrv_write_threshold_exceeded(&bs, &req);
--    g_assert_cmpuint(amount, ==, 0);
-+    bdrv_write_threshold_check_write(&bs, 1024, 1024);
-+    g_assert_cmpuint(bdrv_write_threshold_get(&bs), ==, threshold);
- }
  
- 
- static void test_threshold_trigger(void)
- {
--    uint64_t amount = 0;
-     uint64_t threshold = 4 * 1024 * 1024;
-     BlockDriverState bs;
--    BdrvTrackedRequest req;
- 
-     memset(&bs, 0, sizeof(bs));
--    memset(&req, 0, sizeof(req));
--    req.offset = (4 * 1024 * 1024) - 1024;
--    req.bytes = 2 * 1024;
+-    g_assert(bdrv_write_threshold_is_set(&bs));
 -
--    bdrv_check_request(req.offset, req.bytes, &error_abort);
- 
-     bdrv_write_threshold_set(&bs, threshold);
--    amount = bdrv_write_threshold_exceeded(&bs, &req);
--    g_assert_cmpuint(amount, >=, 1024);
-+    bdrv_write_threshold_check_write(&bs, threshold - 1024, 2 * 1024);
-+    g_assert_cmpuint(bdrv_write_threshold_get(&bs), ==, 0);
+     res = bdrv_write_threshold_get(&bs);
+     g_assert_cmpint(res, ==, threshold);
  }
- 
- typedef struct TestStruct {
 -- 
 2.29.2
 
