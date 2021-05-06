@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52966375683
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 17:23:41 +0200 (CEST)
-Received: from localhost ([::1]:43840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B13375650
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 17:14:11 +0200 (CEST)
+Received: from localhost ([::1]:54926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lefqm-00022Y-D5
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 11:23:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39688)
+	id 1lefha-0002pO-55
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 11:14:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lefo3-00008C-98
- for qemu-devel@nongnu.org; Thu, 06 May 2021 11:20:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57466)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lefnx-0000RL-6n
- for qemu-devel@nongnu.org; Thu, 06 May 2021 11:20:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lefnu-0004f0-Kn
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 15:20:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9C32B2E8139
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 15:20:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1leffp-0001no-2O
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 11:12:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54460)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1leffm-0004hY-2o
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 11:12:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620313936;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xpPrlLB02dlLF+VZotAd2Gu6violmAcQfXU6pjJpY3A=;
+ b=jLezlYYWYEV/aWhfd4screPDpbZMiZDUxwgGld9z/ebF2UYPatcFmlKUbMFcHsvuzc0Ws1
+ cD5oO2c5a6Tp8jfG+izICDTOzy/IfDNW22/Op7PHu2QFQg1GKFLqJeMdFmSqMxcyNUw7Wf
+ 8qGkELxqhL9XYqS092Is4U6LKOyf0vc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-108-mVOQbP78OnerzI_WJ1JmYw-1; Thu, 06 May 2021 11:12:13 -0400
+X-MC-Unique: mVOQbP78OnerzI_WJ1JmYw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F4B26D5D5;
+ Thu,  6 May 2021 15:12:12 +0000 (UTC)
+Received: from localhost (ovpn-115-109.ams2.redhat.com [10.36.115.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 969F516909;
+ Thu,  6 May 2021 15:12:08 +0000 (UTC)
+Date: Thu, 6 May 2021 16:12:07 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3 18/26] DAX/unmap: virtiofsd: Add VHOST_USER_SLAVE_FS_IO
+Message-ID: <YJQHRwkUhXT+PLtT@stefanha-x1.localdomain>
+References: <20210428110100.27757-1-dgilbert@redhat.com>
+ <20210428110100.27757-19-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 15:11:14 -0000
-From: John Arbuckle <1927408@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: programmingkidx th-huth
-X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
-X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
-References: <162030847598.14117.18174818076154312728.malonedeb@soybean.canonical.com>
-Message-Id: <162031387500.3580.565899343984279678.malone@gac.canonical.com>
-Subject: [Bug 1927408] Re: USB Ethernet device (RNDIS) does not work on
- several tested operating systems
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: ec62f0a6904489e1248c523c06b86554f0129b36
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210428110100.27757-19-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zBYl7lu5d6PCY1UM"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,97 +79,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1927408 <1927408@bugs.launchpad.net>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, vgoyal@redhat.com,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-See https://gitlab.com/qemu-project/qemu/-/issues/198 for further
-updates.
+--zBYl7lu5d6PCY1UM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #198
-   https://gitlab.com/qemu-project/qemu/-/issues/198
+On Wed, Apr 28, 2021 at 12:00:52PM +0100, Dr. David Alan Gilbert (git) wrot=
+e:
+> @@ -220,6 +222,99 @@ uint64_t vhost_user_fs_slave_unmap(struct vhost_dev =
+*dev, int message_size,
+>      return (uint64_t)res;
+>  }
+> =20
+> +uint64_t vhost_user_fs_slave_io(struct vhost_dev *dev, int message_size,
+> +                                VhostUserFSSlaveMsg *sm, int fd)
+> +{
+> +    VHostUserFS *fs =3D (VHostUserFS *)object_dynamic_cast(OBJECT(dev->v=
+dev),
+> +                          TYPE_VHOST_USER_FS);
+> +    if (!fs) {
+> +        error_report("%s: Bad fs ptr", __func__);
+> +        return (uint64_t)-1;
+> +    }
+> +    if (!check_slave_message_entries(sm, message_size)) {
+> +        return (uint64_t)-1;
+> +    }
 
--- =
+These early error returns don't close(fd).
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1927408
+> +
+> +    unsigned int i;
+> +    int res =3D 0;
+> +    size_t done =3D 0;
+> +
+> +    if (fd < 0) {
+> +        error_report("Bad fd for io");
+> +        return (uint64_t)-1;
+> +    }
+> +
+> +    for (i =3D 0; i < sm->count && !res; i++) {
+> +        VhostUserFSSlaveMsgEntry *e =3D &sm->entries[i];
+> +        if (e->len =3D=3D 0) {
+> +            continue;
+> +        }
+> +
+> +        size_t len =3D e->len;
+> +        uint64_t fd_offset =3D e->fd_offset;
+> +        hwaddr gpa =3D e->c_offset;
+> +
+> +        while (len && !res) {
+> +            hwaddr xlat, xlat_len;
+> +            bool is_write =3D e->flags & VHOST_USER_FS_FLAG_MAP_W;
+> +            MemoryRegion *mr =3D address_space_translate(dev->vdev->dma_=
+as, gpa,
+> +                                                       &xlat, &xlat_len,
+> +                                                       is_write,
+> +                                                       MEMTXATTRS_UNSPEC=
+IFIED);
+> +            if (!mr || !xlat_len) {
+> +                error_report("No guest region found for 0x%" HWADDR_PRIx=
+, gpa);
+> +                res =3D -EFAULT;
+> +                break;
+> +            }
+> +
+> +            trace_vhost_user_fs_slave_io_loop(mr->name,
+> +                                          (uint64_t)xlat,
+> +                                          memory_region_is_ram(mr),
+> +                                          memory_region_is_romd(mr),
+> +                                          (size_t)xlat_len);
+> +
+> +            void *hostptr =3D qemu_map_ram_ptr(mr->ram_block,
+> +                                             xlat);
+> +            ssize_t transferred;
 
-Title:
-  USB Ethernet device (RNDIS) does not work on several tested operating
-  systems
+What happens when the MemoryRegion is not backed by RAM?
 
-Status in QEMU:
-  Won't Fix
+> +            if (e->flags & VHOST_USER_FS_FLAG_MAP_R) {
+> +                /* Read from file into RAM */
+> +                if (mr->readonly) {
+> +                    res =3D -EFAULT;
+> +                    break;
+> +                }
+> +                transferred =3D pread(fd, hostptr, xlat_len, fd_offset);
+> +            } else if (e->flags & VHOST_USER_FS_FLAG_MAP_W) {
+> +                /* Write into file from RAM */
+> +                transferred =3D pwrite(fd, hostptr, xlat_len, fd_offset)=
+;
+> +            } else {
+> +                transferred =3D EINVAL;
 
-Bug description:
-  The USB ethernet device does not work on most versions of operating
-  systems I have tested. For each operating system the command to use
-  this device was: -netdev user,id=3Dmynet1 -device usb-net,netdev=3Dmynet1.
+I don't see how this is handled below by the error checking code. Should
+this be:
 
-  =
+  errno =3D EINVAL;
+  transferred =3D -1;
 
-  Windows 2000 (qemu-system-i386):
-  - failed to load a driver for the device
+?
 
-  =
+> +            }
+> +
+> +            trace_vhost_user_fs_slave_io_loop_res(transferred);
+> +            if (transferred < 0) {
+> +                res =3D -errno;
+> +                break;
+> +            }
+> +            if (!transferred) {
+> +                /* EOF */
+> +                break;
+> +            }
+> +
+> +            done +=3D transferred;
+> +            fd_offset +=3D transferred;
+> +            gpa +=3D transferred;
+> +            len -=3D transferred;
+> +        }
+> +    }
+> +    close(fd);
+> +
+> +    trace_vhost_user_fs_slave_io_exit(res, done);
+> +    if (res < 0) {
+> +        return (uint64_t)res;
+> +    }
+> +    return (uint64_t)done;
+> +}
 
-  Windows 7 (qemu-system-x86_64):
-  - Did not find a driver
-  - Followed the directions here: https://developer.toradex.com/knowledge-b=
-ase/how-to-install-microsoft-rndis-driver-for-windows-7
-  -- The device failed to start with error 10.
-  - Did see this message in the terminal on the host: =
+--zBYl7lu5d6PCY1UM
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  usbnet: failed control transaction: request 0x8006 value 0x600 index 0x0 =
-length 0xa
+-----BEGIN PGP SIGNATURE-----
 
-  =
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCUB0cACgkQnKSrs4Gr
+c8iZ5wf/ZQOaGftr7HIQpHnZ4wuFclA73AXhUikkrArkY9zDyv6dOTtQp5n2w59y
+nKR5UNyhoxfywNAqA6CyxIh1ApG6AwQ2AC7XI0Bcf+snVQyWTtJOPa2LMFcviQr+
+VAxvXZFnTHWezqzJCQDJd2MBy5MEgGSseJti+QFC5K4xR/hqB9KptXkFdeGlQZVw
+MAy9nDYZRHrIiW2p4b8HGTtHaz31cBtF9SLOBbLsiCoTwuV0rp4FeRKUCaiPjery
+Xl2qgpj8mGngRYEtXX00PMK1sV7YpBHf2vKGT1OpLIL4TKxfrHwwZ38kl+fnl6J7
+aq1sTkgRD4SHDeVy2KWHsD23phFgkw==
+=0c8x
+-----END PGP SIGNATURE-----
 
-  Mac OS 10.4.11 (qemu-system-ppc):
-  - It actually works.
-  - did see these messages in the terminal on the host:
-  usbnet: failed control transaction: request 0x2143 value 0x1c index 0x0 l=
-ength 0x0
-  usbnet: failed control transaction: request 0x2143 value 0x1e index 0x0 l=
-ength 0x0
+--zBYl7lu5d6PCY1UM--
 
-  =
-
-  Mac OS 10.8.5 (qemu-system-x86_64):
-  - Fails to obtain IP address using DHCP.
-  - The Network pane does say the device is connected. =
-
-  - A self-assigned IP address is given: 169.254.186.53.
-  -- It still did not work
-  - Did see this message in the terminal of the host:
-  usbnet: failed control transaction: request 0x2143 value 0x1c index 0x0 l=
-ength 0x0
-  usbnet: failed control transaction: request 0x2143 value 0x1e index 0x0 l=
-ength 0x0
-
-  =
-
-  Mac OS 10.2.3 (qemu-system-ppc):
-  - Did not appear to detect the USB NIC. Did not see it in the network pan=
-e.
-  - Apple System Profiler does see this device.
-  - Saw this message in there terminal of the host: qemu-system-ppc: Slirp:=
- Failed to send packet, ret: -1
-
-  =
-
-  Mac OS 9.2 (qemu-system-ppc):
-  - Apple System Profiler does show the device connected.
-  - The Tcp/ip control panel did not detect this device.
-
-  =
-
-  My guess is this device is buggy. If anyone has any tips or suggestions p=
-lease let me know.
-
-  Thank you.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1927408/+subscriptions
 
