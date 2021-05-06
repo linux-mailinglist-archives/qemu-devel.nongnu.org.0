@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABEB9375926
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 19:21:35 +0200 (CEST)
-Received: from localhost ([::1]:42796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19CE37590B
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 19:15:06 +0200 (CEST)
+Received: from localhost ([::1]:57638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lehgr-0002kU-O1
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 13:21:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53142)
+	id 1lehab-0005HC-GN
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 13:15:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lehN4-0003A9-Jm
- for qemu-devel@nongnu.org; Thu, 06 May 2021 13:01:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34228)
+ id 1lehN7-0003BB-3o
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 13:01:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lehMy-0003LA-HH
- for qemu-devel@nongnu.org; Thu, 06 May 2021 13:01:06 -0400
+ id 1lehMz-0003Lq-9g
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 13:01:08 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lehMv-0001Hd-Ss
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 17:00:57 +0000
+ id 1lehMw-0001H1-Qv
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 17:00:58 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D96252E8060
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 17:00:57 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 95D242E8187
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 17:00:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 16:52:56 -0000
-From: Thomas Huth <1883593@bugs.launchpad.net>
+Date: Thu, 06 May 2021 16:54:56 -0000
+From: Thomas Huth <1877781@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee randy3 th-huth
-X-Launchpad-Bug-Reporter: Randy Rhoads (randy3)
+X-Launchpad-Bug-Commenters: crossd rcfa th-huth
+X-Launchpad-Bug-Reporter: Dan Cross (crossd)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159225010396.5666.14857392307926027696.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162031997685.4215.17124326580193251530.malone@gac.canonical.com>
-Subject: [Bug 1883593] Re: Windows XP takes much longer to boot in TCG mode
- since 5.0
+References: <158905060046.6343.9507725476835392793.malonedeb@soybean.canonical.com>
+Message-Id: <162032009647.32674.3017456526422975865.malone@chaenomeles.canonical.com>
+Subject: [Bug 1877781] Re: TCG does not support x2APIC emulation
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: e1ff64268bcfa31d40dceb5a0a091a2dbab53b84
+X-Launchpad-Hash: 03980ff5c22f2b286d72422656beef767a2e88e5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883593 <1883593@bugs.launchpad.net>
+Reply-To: Bug 1877781 <1877781@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -111,28 +109,23 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883593
+https://bugs.launchpad.net/bugs/1877781
 
 Title:
-  Windows XP takes much longer to boot in TCG mode since 5.0
+  TCG does not support x2APIC emulation
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Since upgrading from 4.2 to 5.0, a Windows XP VM takes much longer to
-  boot.
+  This is not a bug so much as a feature request.
 
-  It hangs about three minutes on "welcome" screen with the blue
-  background, while previously the total boot time was less than a
-  minute.
-
-  The issue only happens in TCG mode (not with KVM) and also happens
-  with the current master which includes the uring patches (7d3660e7).
-
-  I can reproduce this issue with a clean XP install with no flags other
-  than `-m 2G`. After booting, the performance seems to be normal.
+  It would be great if there was a pure-software emulation of the x2APIC
+  on x86_64, so that it could be used on systems that don't support such
+  providing a thing on via a host-based solution (e.g., KVM etc). KVM
+  provides this, but that doesn't help if you're working on a machine
+  that doesn't support KVM.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883593/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1877781/+subscriptions
 
