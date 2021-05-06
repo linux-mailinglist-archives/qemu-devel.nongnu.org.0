@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E360F375932
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 19:23:54 +0200 (CEST)
-Received: from localhost ([::1]:47378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94971375927
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 19:23:27 +0200 (CEST)
+Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lehj8-0004cw-18
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 13:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60762)
+	id 1lehig-00049x-Oq
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 13:23:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lehbJ-0006VP-KF
- for qemu-devel@nongnu.org; Thu, 06 May 2021 13:15:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36416)
+ id 1lehg6-0002qP-0f
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 13:20:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lehbG-0002Oo-FM
- for qemu-devel@nongnu.org; Thu, 06 May 2021 13:15:49 -0400
+ id 1lehg1-0005IP-Ie
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 13:20:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lehbA-0005Ys-MB
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 17:15:40 +0000
+ id 1lehfz-0006s7-Gk
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 17:20:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A66AA2E804C
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 17:15:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7CA752E804B
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 17:20:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 17:07:05 -0000
-From: Thomas Huth <1879590@bugs.launchpad.net>
+Date: Thu, 06 May 2021 17:11:17 -0000
+From: Thomas Huth <1880066@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug: distribution=fedora; sourcepackage=qemu; component=None;
+ status=New; importance=Undecided; assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chrisp99 mike-papersolve th-huth
-X-Launchpad-Bug-Reporter: chris pugmire (chrisp99)
+X-Launchpad-Bug-Commenters: csl-ubuntuone jrcichra th-huth
+X-Launchpad-Bug-Reporter: Justin Cichra (jrcichra)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158993637415.31242.3259652866813380059.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162032082568.14776.6979243209489697815.malone@soybean.canonical.com>
-Subject: [Bug 1879590] Re: Using qemu-system-sparc64 no network interface
- seems to exist
+References: <159011868752.31342.14577516157927235828.malonedeb@wampee.canonical.com>
+Message-Id: <162032107732.14591.3185783527139237951.malone@soybean.canonical.com>
+Subject: [Bug 1880066] Re: Microphone input dies in guest when switching evdev
+ input
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 37e4e3a54d046708ba8021febb7798f5cba70028
+X-Launchpad-Hash: b3c4f7f4beb072fcc376a68c1c6eb4d3d64b59a5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1879590 <1879590@bugs.launchpad.net>
+Reply-To: Bug 1880066 <1880066@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -110,57 +112,103 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1879590
+https://bugs.launchpad.net/bugs/1880066
 
 Title:
-  Using qemu-system-sparc64 no network interface seems to exist
+  Microphone input dies in guest when switching evdev input
 
 Status in QEMU:
   Incomplete
+Status in qemu package in Fedora:
+  New
 
 Bug description:
-  Using boot command:
-
-  qemu-system-sparc64 -M niagara -L /home/chrisp/sparc/S10image/
-  -nographic -m 256 -drive
-  if=3Dpflash,readonly=3Don,file=3D/home/chrisp/sparc/S10image/disk.s10hw2
-
-  After I log into solaris system I see no network devices other than the l=
-oopback device.
-  All the docs I can see suggest it should come up with a default network d=
-evice that allows communication via the hosts network. Host is ubuntu 64bit=
-.  =
+  justin@justin-3900x:~$ lsb_release -a
+  No LSB modules are available.
+  Distributor ID:	Ubuntu
+  Description:	Ubuntu 20.04 LTS
+  Release:	20.04
+  Codename:	focal
 
 
-  root@giant:/home/chrisp/sparc# qemu-system-sparc64 -version
-  QEMU emulator version 5.0.0
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+  justin@justin-3900x:~$ apt list --installed | egrep '*qemu*|*kvm*'
+
+  WARNING: apt does not have a stable CLI interface. Use with caution in
+  scripts.
+
+  ipxe-qemu-256k-compat-efi-roms/focal,focal,now 1.0.0+git-20150424.a25a16d=
+-0ubuntu4 all [installed,automatic]
+  ipxe-qemu/focal,focal,now 1.0.0+git-20190109.133f4c4-0ubuntu3 all [instal=
+led,automatic]
+  libvirt-daemon-driver-qemu/focal,now 6.0.0-0ubuntu8 amd64 [installed,auto=
+matic]
+  qemu-block-extra/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 =
+[installed,automatic]
+  qemu-kvm/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 [install=
+ed]
+  qemu-system-common/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd6=
+4 [installed,automatic]
+  qemu-system-data/focal-updates,focal-updates,focal-security,focal-securit=
+y,now 1:4.2-3ubuntu6.1 all [installed,automatic]
+  qemu-system-gui/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 [=
+installed,automatic]
+  qemu-system-x86/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 [=
+installed]
+  qemu-utils/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 [insta=
+lled,automatic]
+  qemu/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 [installed]
+  justin@justin-3900x:~$ =
+
+
+  This did not happen in Eoan (qemu 4.0.0). I was able to switch in/out
+  of a VM with my audio coming through fine. I enabled Eoan in my
+  sources.list, downgraded all my qemu packages, and the issue was
+  resolved.
+
+  This happens on the latest Windows 10 guest when a sound device is
+  listening for the microphone.
+
+  /var/log/libvirt/qemu/<vmname>.log spews this error out when I switch
+  with evdev (which is just the keyboard and mouse, the audio is passed
+  through I assume spice):
 
   =
 
-  dladm show-link
-  ifconfig -a
-
-
-  ok boot
-  Loading ufs-file-system package 1.4 04 Aug 1995 13:02:54.
-  FCode UFS Reader 1.12 00/07/17 15:48:16.
-  Loading: /platform/SUNW,Sun-Fire-T2000/ufsboot
-  Loading: /platform/sun4v/ufsboot
-  SunOS Release 5.10 Version Generic_118822-23 64-bit
-  Copyright 1983-2005 Sun Microsystems, Inc.  All rights reserved.
-  Use is subject to license terms.
-  Hostname: unknown
-
-  unknown console login: root
-  Last login: Wed Feb  8 09:01:28 on console
-  Sun Microsystems Inc.   SunOS 5.10      Generic January 2005
-  # dladm show-link
-  # ifconfig -a
-  lo0: flags=3D2001000849<UP,LOOPBACK,RUNNING,MULTICAST,IPv4,VIRTUAL> mtu 8=
-232 index 1
-          inet 127.0.0.1 netmask ff000000
+  audio: live=3D228193 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D228675 sw->hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_pcm_hw_get_live_in
+  Context:
+  audio: live=3D228675 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D229156 sw->hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_pcm_hw_get_live_in
+  Context:
+  audio: live=3D229156 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D229638 sw->hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_pcm_hw_get_live_in
+  Context:
+  audio: live=3D229638 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D230119 sw->hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_pcm_hw_get_live_in
+  Context:
+  audio: live=3D230119 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D230600 sw->hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_pcm_hw_get_live_in
+  Context:
+  audio: live=3D230600 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D231081 sw->hw->conv_buf->size=3D1920
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1879590/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1880066/+subscriptions
 
