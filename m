@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29EE374DD0
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 05:07:19 +0200 (CEST)
-Received: from localhost ([::1]:43764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F2B374DDA
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 05:17:01 +0200 (CEST)
+Received: from localhost ([::1]:47476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leUMA-0007Kv-H9
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 23:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40332)
+	id 1leUVY-0001JC-O1
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 23:17:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1leUJx-0006h7-5M; Wed, 05 May 2021 23:05:05 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:37723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1leUJv-0002QS-Bi; Wed, 05 May 2021 23:05:00 -0400
-Received: by mail-oi1-x234.google.com with SMTP id k25so4229112oic.4;
- Wed, 05 May 2021 20:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=gdw2jFIMcThZTTxIoPSGwrRcEL8emCAS9GyEWUFVI9M=;
- b=DpJ3NCS/oq9/sFN2NpHmvpLPm2fGM31sS6Tym9bP0C2x+HEdwPr61pP5N0fNmVSAWr
- 7T/+rn4V8QwwSvKb8rbVCLVnNZDCC+G209oCQSrdy53ipu5rW7fW+c2zBYTfMgdyE2WE
- HbC3pB83wrU+VjeeYw890SzMlVOizsDaLnA9uQDDBXIF0l2qf0Hvlc+aUT2T/NroPfzP
- wEduVMUkUJup7pZ6qFNnW2rglS4/F7GX5CxdmkC2uFRnohpMdhT3HX6jrXhGh1UaGnxP
- Mznk9CFSG+2leb/+EJhbnLfj6oQcvkhUqswmPXlCmyP24PSFDjUl+hdsxb6AwVE7YXRl
- /EgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=gdw2jFIMcThZTTxIoPSGwrRcEL8emCAS9GyEWUFVI9M=;
- b=XpLa8Tn7yBHWNSENBLYlG47+KHny4vuEQ3ZHj4HdzXnHtBYtPtqg8zDZa6czhL6/pm
- wznDyALPqKZMMkPUKo0U/Mw582Wf/8PVkuaAhRDkT4ujh/NDgZZIG3nBF4tgKNSPa1DU
- bWrbn6QGgspkgaiIDeFMvCBA3hnXKlxpvAQlr6yomR0niqPY4gGDHJXJoA7dJb9esEUR
- vFZyRQuEnxmR0jzXnQset/BZheY46EmKGBoLgPnFhC4gbzXGHkWFP2IzfbGNMafgT+V1
- 8jY9pLNDHy8WVT3ZLpcvlBNk2XxCcqbCoe3W9CqcvyN4mVAm47U+dwdpBKRNgtERnpPB
- 4QpQ==
-X-Gm-Message-State: AOAM532M1xy2dLHhO0ummGBGnNYr1i2m2q04LfDC4igR6cPlBWtoCjGA
- UaVGB//3T3V/Krm9st0Zc1s=
-X-Google-Smtp-Source: ABdhPJzrR4Ey+hi3gT3KFGQjtoXiigElsuoWWIfGRFytR27+glC3gmhj4j0Ek6PeOXty1DHMJRctiA==
-X-Received: by 2002:aca:408a:: with SMTP id n132mr1488126oia.70.1620270297882; 
- Wed, 05 May 2021 20:04:57 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id l8sm309517otk.36.2021.05.05.20.04.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 20:04:57 -0700 (PDT)
-Date: Wed, 5 May 2021 20:04:56 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH] hw/net/imx_fec: return 0xffff when accessing
- non-existing PHY
-Message-ID: <20210506030456.GB741106@roeck-us.net>
-References: <20210502160326.1196252-1-linux@roeck-us.net>
- <CAEUhbmWC_jVkrF9V=rs+A2A021ahqefimFtehsxgfvTxphwKZQ@mail.gmail.com>
- <bffabe57-013a-1aca-e854-38a211738049@roeck-us.net>
- <982bc15e-1e88-8871-54b4-3dc74f540727@redhat.com>
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>)
+ id 1leUTV-0000A3-Il; Wed, 05 May 2021 23:14:53 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:26597
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>)
+ id 1leUTT-0001Dq-Cf; Wed, 05 May 2021 23:14:53 -0400
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4FbJdz3d4Rz8PbN;
+ Wed,  5 May 2021 23:16:55 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; s=default; bh=ZHUukWhEv
+ MmN0PAW4z+5itM7Vos=; b=USGS3VMd0aLLo9VH50n/oVYL6yEKN0oQ+2ZFYon7Y
+ E8liHtjCydRuYII4tb9zMWY6tqySbEJ0GNHOeA7PbEIsWWEGWIlgRHciKP0YmjW6
+ dA7lNay6ClgfjV/v4vCMYskt/bYJ2wJYxLuNQkzYyF3IuEMnlmpu5SKt5DlPHprL
+ jI=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; q=dns; s=default; b=msa
+ /sdR1nz29CEaiWQ+jnx250ryd0EIs9wG/cHS1FzXjf+i1FgoW8REhYZwjuN/qRv0
+ 1z1AZ8JfsjmaDQsPfNFQiSbIweO+w3uB2ej20UQohza9s5Ri0xxd4RuEtcx61lwt
+ uytYb3RGZvi3uZ30qjBBhGpEhiN/ioEg5Vlqw9Ko=
+Received: from [192.168.3.75]
+ (bras-base-toroon2719w-grc-49-142-114-9-241.dsl.bell.ca [142.114.9.241])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4FbJdz2Yrdz8PbK;
+ Wed,  5 May 2021 23:16:55 -0400 (EDT)
+Message-ID: <c962e974-929e-9f96-7b80-93c49d71cf09@comstyle.com>
+Date: Wed, 5 May 2021 23:14:42 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <982bc15e-1e88-8871-54b4-3dc74f540727@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=groeck7@gmail.com; helo=mail-oi1-x234.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101
+ Thunderbird/89.0
+Subject: Re: [PATCH 1/7] migration: use GDateTime for formatting timestamp in
+ snapshot names
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>, Jiri Pirko <jiri@resnulli.us>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, virtio-fs@redhat.com
+References: <20210505103702.521457-1-berrange@redhat.com>
+ <20210505103702.521457-2-berrange@redhat.com>
+From: Brad Smith <brad@comstyle.com>
+In-Reply-To: <20210505103702.521457-2-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,21 +83,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- Bin Meng <bmeng.cn@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 06, 2021 at 10:24:52AM +0800, Jason Wang wrote:
-[ ... ]
+Thank you.
 
-> Ok, please send V2.
-> 
-You should have it by now. Please let me know if it got lost.
-
-Thanks,
-Guenter
+On 5/5/2021 6:36 AM, Daniel P. Berrang=C3=A9 wrote:
+> The GDateTime APIs provided by GLib avoid portability pitfalls, such
+> as some platforms where 'struct timeval.tv_sec' field is still 'long'
+> instead of 'time_t'. When combined with automatic cleanup, GDateTime
+> often results in simpler code too.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>   migration/savevm.c | 13 +++++--------
+>   1 file changed, 5 insertions(+), 8 deletions(-)
+>
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 52e2d72e4b..72848b946c 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2775,8 +2775,7 @@ bool save_snapshot(const char *name, bool overwri=
+te, const char *vmstate,
+>       QEMUFile *f;
+>       int saved_vm_running;
+>       uint64_t vm_state_size;
+> -    qemu_timeval tv;
+> -    struct tm tm;
+> +    g_autoptr(GDateTime) now =3D g_date_time_new_now_local();
+>       AioContext *aio_context;
+>  =20
+>       if (migration_is_blocked(errp)) {
+> @@ -2836,9 +2835,8 @@ bool save_snapshot(const char *name, bool overwri=
+te, const char *vmstate,
+>       memset(sn, 0, sizeof(*sn));
+>  =20
+>       /* fill auxiliary fields */
+> -    qemu_gettimeofday(&tv);
+> -    sn->date_sec =3D tv.tv_sec;
+> -    sn->date_nsec =3D tv.tv_usec * 1000;
+> +    sn->date_sec =3D g_date_time_to_unix(now);
+> +    sn->date_nsec =3D g_date_time_get_microsecond(now) * 1000;
+>       sn->vm_clock_nsec =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>       if (replay_mode !=3D REPLAY_MODE_NONE) {
+>           sn->icount =3D replay_get_current_icount();
+> @@ -2849,9 +2847,8 @@ bool save_snapshot(const char *name, bool overwri=
+te, const char *vmstate,
+>       if (name) {
+>           pstrcpy(sn->name, sizeof(sn->name), name);
+>       } else {
+> -        /* cast below needed for OpenBSD where tv_sec is still 'long' =
+*/
+> -        localtime_r((const time_t *)&tv.tv_sec, &tm);
+> -        strftime(sn->name, sizeof(sn->name), "vm-%Y%m%d%H%M%S", &tm);
+> +        g_autofree char *autoname =3D g_date_time_format(now,  "vm-%Y%=
+m%d%H%M%S");
+> +        pstrcpy(sn->name, sizeof(sn->name), autoname);
+>       }
+>  =20
+>       /* save the VM state */
 
