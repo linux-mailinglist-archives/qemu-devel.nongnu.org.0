@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F415375847
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 18:14:48 +0200 (CEST)
-Received: from localhost ([::1]:56336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5DC37586A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 18:26:16 +0200 (CEST)
+Received: from localhost ([::1]:51058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1legeF-0004X5-52
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 12:14:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59746)
+	id 1legpJ-0006Pd-No
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 12:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1legVw-0004LS-Ec
- for qemu-devel@nongnu.org; Thu, 06 May 2021 12:06:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33242)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1legW1-0004Tt-PB
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 12:06:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1legVr-0003cB-7S
- for qemu-devel@nongnu.org; Thu, 06 May 2021 12:06:12 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1legVt-0003d8-EA
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 12:06:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620317165;
+ s=mimecast20190719; t=1620317168;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VOVx1SRqMzRYQu3cs/ZILn2Fj3r7/l2ieWtt+maJF9Q=;
- b=NtxlOmxfXmcxZefsrvnw82LgPjRA8P7rogT/pdzOoSHLR7n5H6odX2IQJb/fOqtJJhfu+B
- WRx3J8o6i47WaP3+AZIbDfdDZi5tSuvE28pcvSjTd0ecc/HerRFS5IO6pahGMaOLf/Lm+a
- nv/d9enPp+roepTLv+rsFE/Z2aT4XCI=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-ch8cywOmNOOSc9CgKH-c2Q-1; Thu, 06 May 2021 12:06:04 -0400
-X-MC-Unique: ch8cywOmNOOSc9CgKH-c2Q-1
-Received: by mail-qt1-f199.google.com with SMTP id
- o5-20020ac872c50000b02901c32e7e3c21so3879120qtp.8
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 09:06:03 -0700 (PDT)
+ bh=4rCrAN+h0wgJgjBJic1rm3cOtCEsNSz3UJTGf5unUhs=;
+ b=RBIafxBSWjKLObUUVFRzvSIylGYfRNAoH6Tb3JxlnTj+br19lHYrIA/X6fEJy4DxmfXIHB
+ /YCIVAfEStBcMT2Jeq98bjakyqu0ARLdS2OKRiQdaUgXHn87nnScuxqFwLXs3QwAUF34LC
+ lFFnpDjv06rT9AxMzpYSJmXNIyZBbxM=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-hfXF7RSLMQOFRSa_3WJWtQ-1; Thu, 06 May 2021 12:06:06 -0400
+X-MC-Unique: hfXF7RSLMQOFRSa_3WJWtQ-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ h4-20020ac858440000b029019d657b9f21so3869645qth.9
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 09:06:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VOVx1SRqMzRYQu3cs/ZILn2Fj3r7/l2ieWtt+maJF9Q=;
- b=dvx4TPeJlpnpmOnl/U+44oU8RUc+szKYLPCaa1VzSb56irbveXX7m9JVZ1J3s0sJGn
- nfEV7jWFhGSiUb/FZwi5ZPN+unibkul9+Q5Q4lpgaT7rXajlZ/RFuAsp1uFaJP/Pfrzu
- PJ49eO62yjffnLOrRLE08qQaWu3Po7gFiw4mE/RktfxH1IiKSRjrL8/qbLmnp8SeUzOc
- g7xbbDewj3aC6m1FAwXzLPCaf230lCxfZFieENM0pvrpr2R3oIQOXVGhssgJPpKsKqlX
- dCB3Qn6zuuvLkHzNOqZjVBu8vKaQG112J2l4NKhTklSqD3fOwImsvs19ZxcaVwe7AZM9
- rxrA==
-X-Gm-Message-State: AOAM532g6qK5S6N4kTfqKj7UymeyyhRwLIzh4/iZ+NIcCg2zlNttN9jA
- wHsc2YtvJmalF29z2RzKa0VGzQt1yKpt9t0VooJ3pUDAf94x2e2Ek2LXR1nTEwXfrjaxK/M2Nl1
- FLYbkqz/bCXMIIo/0Hee1hy5PwX3MXAsZFFIyIJ4okO9F+4eYZ8sc1uAVxz14UlWr
-X-Received: by 2002:ae9:ddc2:: with SMTP id r185mr1855157qkf.85.1620317162180; 
- Thu, 06 May 2021 09:06:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9QmNPbSw5E0PNe91dk5j7h8EPei2Rqeu4+vHchRWjfFgHq1g8tpWcnuMaCnRfVMYrm+HmJQ==
-X-Received: by 2002:ae9:ddc2:: with SMTP id r185mr1855106qkf.85.1620317161864; 
- Thu, 06 May 2021 09:06:01 -0700 (PDT)
+ bh=4rCrAN+h0wgJgjBJic1rm3cOtCEsNSz3UJTGf5unUhs=;
+ b=gCFhpKVYWmGSj1zRLjTZHiy+n7Qbd7xbZo7MPUw5xgI033HYhWa3VwUL1Q2qFi2B62
+ 9S00Stk9u3efiJsBbM1h74FzoEKhU6tBAsHNNccuO2Yr918pOHWE4Kz9utsy9opWpKcb
+ BRv1q59/zSSxeVwZuzblL2T9MfAX5MoHr7OtbKaNMpJOJa5XdftywEDGjg0W/kPcKzzc
+ +joQ7OmCxJKUlvDlmx3EGDMEnYA36URPXXUKI5FvYIXPq0Fm1B3ZkSGgzZFxQ1VhBgwD
+ blgtzwqnAHPpy7Dpiha3EzfXH9T35B2KXipqym2jp8AdzlQ/VKcbLImA8eVW7BhHdOYM
+ Jzfw==
+X-Gm-Message-State: AOAM533J7Bv8NBZUDA0wsMm347xa3KxlmO8SJ23IbqeQmafw7B6RRmyP
+ QHHRtfd1DayqZUBWT9S/e6XIdB+a9tMYoAA7o07gDN+/Dkqar5bbNZYGPqZdcI0E1/euVMckVn7
+ tUQmBY4DhePlIpNNkb4DaDlNqcrrjj7/aa6s7lNObfuKxOKJl+HtH15i0ZIyftOWz
+X-Received: by 2002:a37:a604:: with SMTP id p4mr4605255qke.215.1620317165090; 
+ Thu, 06 May 2021 09:06:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxs8CIHKxm4yPk38+sq3ELsDBvLBk7WBncz0U4cuUYJexUUR0+qcEBWlUnw64Uh414BksFqtA==
+X-Received: by 2002:a37:a604:: with SMTP id p4mr4605191qke.215.1620317164493; 
+ Thu, 06 May 2021 09:06:04 -0700 (PDT)
 Received: from t490s.redhat.com
  (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca. [184.145.4.219])
- by smtp.gmail.com with ESMTPSA id y84sm2194131qkb.134.2021.05.06.09.06.00
+ by smtp.gmail.com with ESMTPSA id y84sm2194131qkb.134.2021.05.06.09.06.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 May 2021 09:06:00 -0700 (PDT)
+ Thu, 06 May 2021 09:06:03 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 05/10] KVM: Provide helper to sync dirty bitmap from slot
- to ramblock
-Date: Thu,  6 May 2021 12:05:44 -0400
-Message-Id: <20210506160549.130416-6-peterx@redhat.com>
+Subject: [PATCH v7 06/10] KVM: Simplify dirty log sync in kvm_set_phys_mem
+Date: Thu,  6 May 2021 12:05:45 -0400
+Message-Id: <20210506160549.130416-7-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210506160549.130416-1-peterx@redhat.com>
 References: <20210506160549.130416-1-peterx@redhat.com>
@@ -101,132 +100,33 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm_physical_sync_dirty_bitmap() calculates the ramblock offset in an
-awkward way from the MemoryRegionSection that passed in from the
-caller.  The truth is for each KVMSlot the ramblock offset never
-change for the lifecycle.  Cache the ramblock offset for each KVMSlot
-into the structure when the KVMSlot is created.
+kvm_physical_sync_dirty_bitmap() on the whole section is inaccurate, because
+the section can be a superset of the memslot that we're working on.  The result
+is that if the section covers multiple kvm memslots, we could be doing the
+synchronization for multiple times for each kvmslot in the section.
 
-With that, we can further simplify kvm_physical_sync_dirty_bitmap()
-with a helper to sync KVMSlot dirty bitmap to the ramblock dirty
-bitmap of a specific KVMSlot.
+With the two helpers that we just introduced, it's very easy to do it right now
+by calling the helpers.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- accel/kvm/kvm-all.c      | 37 +++++++++++++++++--------------------
- include/sysemu/kvm_int.h |  2 ++
- 2 files changed, 19 insertions(+), 20 deletions(-)
+ accel/kvm/kvm-all.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 4ed5b4a3631..1025701f557 100644
+index 1025701f557..4b786240a04 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -573,15 +573,12 @@ static void kvm_log_stop(MemoryListener *listener,
- }
+@@ -1161,7 +1161,8 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+                 goto out;
+             }
+             if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
+-                kvm_physical_sync_dirty_bitmap(kml, section);
++                kvm_slot_get_dirty_log(kvm_state, mem);
++                kvm_slot_sync_dirty_pages(mem);
+             }
  
- /* get kvm's dirty pages bitmap and update qemu's */
--static int kvm_get_dirty_pages_log_range(MemoryRegionSection *section,
--                                         unsigned long *bitmap)
-+static void kvm_slot_sync_dirty_pages(KVMSlot *slot)
- {
--    ram_addr_t start = section->offset_within_region +
--                       memory_region_get_ram_addr(section->mr);
--    ram_addr_t pages = int128_get64(section->size) / qemu_real_host_page_size;
-+    ram_addr_t start = slot->ram_start_offset;
-+    ram_addr_t pages = slot->memory_size / qemu_real_host_page_size;
- 
--    cpu_physical_memory_set_dirty_lebitmap(bitmap, start, pages);
--    return 0;
-+    cpu_physical_memory_set_dirty_lebitmap(slot->dirty_bmap, start, pages);
- }
- 
- #define ALIGN(x, y)  (((x)+(y)-1) & ~((y)-1))
-@@ -656,26 +653,19 @@ static void kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-     KVMState *s = kvm_state;
-     KVMSlot *mem;
-     hwaddr start_addr, size;
--    hwaddr slot_size, slot_offset = 0;
-+    hwaddr slot_size;
- 
-     size = kvm_align_section(section, &start_addr);
-     while (size) {
--        MemoryRegionSection subsection = *section;
--
-         slot_size = MIN(kvm_max_slot_size, size);
-         mem = kvm_lookup_matching_slot(kml, start_addr, slot_size);
-         if (!mem) {
-             /* We don't have a slot if we want to trap every access. */
-             return;
-         }
--
-         if (kvm_slot_get_dirty_log(s, mem)) {
--            subsection.offset_within_region += slot_offset;
--            subsection.size = int128_make64(slot_size);
--            kvm_get_dirty_pages_log_range(&subsection, d.dirty_bitmap);
-+            kvm_slot_sync_dirty_pages(mem);
-         }
--
--        slot_offset += slot_size;
-         start_addr += slot_size;
-         size -= slot_size;
-     }
-@@ -1134,7 +1124,8 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-     int err;
-     MemoryRegion *mr = section->mr;
-     bool writeable = !mr->readonly && !mr->rom_device;
--    hwaddr start_addr, size, slot_size;
-+    hwaddr start_addr, size, slot_size, mr_offset;
-+    ram_addr_t ram_start_offset;
-     void *ram;
- 
-     if (!memory_region_is_ram(mr)) {
-@@ -1152,9 +1143,13 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-         return;
-     }
- 
--    /* use aligned delta to align the ram address */
--    ram = memory_region_get_ram_ptr(mr) + section->offset_within_region +
--          (start_addr - section->offset_within_address_space);
-+    /* The offset of the kvmslot within the memory region */
-+    mr_offset = section->offset_within_region + start_addr -
-+        section->offset_within_address_space;
-+
-+    /* use aligned delta to align the ram address and offset */
-+    ram = memory_region_get_ram_ptr(mr) + mr_offset;
-+    ram_start_offset = memory_region_get_ram_addr(mr) + mr_offset;
- 
-     kvm_slots_lock();
- 
-@@ -1193,6 +1188,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-         mem->as_id = kml->as_id;
-         mem->memory_size = slot_size;
-         mem->start_addr = start_addr;
-+        mem->ram_start_offset = ram_start_offset;
-         mem->ram = ram;
-         mem->flags = kvm_mem_flags(mr);
-         kvm_slot_init_dirty_bitmap(mem);
-@@ -1203,6 +1199,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-             abort();
-         }
-         start_addr += slot_size;
-+        ram_start_offset += slot_size;
-         ram += slot_size;
-         size -= slot_size;
-     } while (size);
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index e13075f738a..ab09a150e19 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -25,6 +25,8 @@ typedef struct KVMSlot
-     unsigned long *dirty_bmap;
-     /* Cache of the address space ID */
-     int as_id;
-+    /* Cache of the offset in ram address space */
-+    ram_addr_t ram_start_offset;
- } KVMSlot;
- 
- typedef struct KVMMemoryListener {
+             /* unregister the slot */
 -- 
 2.31.1
 
