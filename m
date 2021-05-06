@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B7D37503C
+	by mail.lfdr.de (Postfix) with ESMTPS id F086837503D
 	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 09:37:17 +0200 (CEST)
-Received: from localhost ([::1]:48194 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:48238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leYZQ-0007Ot-Lc
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 03:37:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36330)
+	id 1leYZR-0007Py-16
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 03:37:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leYXt-0006KF-AZ
- for qemu-devel@nongnu.org; Thu, 06 May 2021 03:35:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57110)
+ id 1leYXu-0006Kc-Gs
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:35:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leYXr-0004ci-In
- for qemu-devel@nongnu.org; Thu, 06 May 2021 03:35:40 -0400
+ id 1leYXs-0004dl-3k
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:35:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leYXp-0002W0-7n
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:35:37 +0000
+ id 1leYXq-0002dC-Nj
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:35:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1FD1C2E8186
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 07:35:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A7DB62E8135
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 07:35:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 07:22:39 -0000
-From: Thomas Huth <1873335@bugs.launchpad.net>
+Date: Thu, 06 May 2021 07:24:23 -0000
+From: Thomas Huth <1873032@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: epistemepromeneur ruthan th-huth
-X-Launchpad-Bug-Reporter: ruthan (ruthan)
+X-Launchpad-Bug-Commenters: mikegav post-factum stefanha th-huth
+X-Launchpad-Bug-Reporter: Mikhail Gavrilov (mikegav)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158706530687.6368.4226982042682182002.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162028575938.4274.11329868396063674241.malone@gac.canonical.com>
-Subject: [Bug 1873335] Re: Dos Keypad is not working for numbers - numlock is
- not working
+References: <158696794416.12296.17436515324844466583.malonedeb@soybean.canonical.com>
+Message-Id: <162028586352.3420.2046252283797152181.malone@gac.canonical.com>
+Subject: [Bug 1873032] Re: After upgrade qemu to 5.0.0-0.3.rc2.fc33 the
+ virtual machine with Windows 10 after a while starts to work very slowly
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 8329dae34b97671b0648092adf5755a6e8c86bfe
+X-Launchpad-Hash: 7203a48d02a791dc48d488ad98988e479b0566e5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,47 +71,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1873335 <1873335@bugs.launchpad.net>
+Reply-To: Bug 1873032 <1873032@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting older bugs to "Incomplete" now.
-
-If you still think this bug report here is valid, then please switch
-the state back to "New" within the next 60 days, otherwise this report
-will be marked as "Expired". Or please mark it as "Fix Released" if
-the problem has been solved with a newer version of QEMU already.
-
-Thank you and sorry for the inconvenience.
-
+The patches mentioned in the previous comments have been released with
+QEMU v5.1, so I'm marking this bug as fixed now. If you still have
+problems, please open a new ticket.
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1873335
+https://bugs.launchpad.net/bugs/1873032
 
 Title:
-  Dos Keypad is not working for numbers - numlock is not working
+  After upgrade qemu to 5.0.0-0.3.rc2.fc33 the virtual machine with
+  Windows 10 after a while starts to work very slowly
 
 Status in QEMU:
-  Incomplete
+  Fix Released
 
 Bug description:
-  Hello,
-  i tried to use Qemu 4.2 for Dos, but there is problem what in Dos is not =
-possible turn on Numlock for input numbers, so games need it.. Numlock only=
- working as arrow keys.
-  =C2=A0=C2=A0I tested bough Windows and Linux builds.
+  Description of problem:
 
-  With same setting, when i use Windows 98 or later os, numlock is
-  working fine.
+  After upgrade qemu to 5.0.0-0.3.rc2.fc33 the virtual machine with
+  Windows 10 after a while starts to work very slowly
+
+  I created the virtual machine with Windows 10 with the following config:
+  - 1 CPU
+  - 2GB RAM
+  - With network access
+
+  I launch there a web browser there with flash content. =
+
+  And usually, the system (Windows 10) does not work there for more than an=
+ hour.
+  When the system starts to work very slowly it doesn't respond to "Reboot"=
+ and "Shut Down" commands. Only works "Force Reset" and "Force Off". But wh=
+en I reboot the system with "Force Reset" it usually stuck at boot at the W=
+indows splash screen. https://imgur.com/yGyacDG
+
+  The last version of qemu which not contain this issue is
+  5.0.0-0.2.rc0.fc33
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1873335/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1873032/+subscriptions
 
