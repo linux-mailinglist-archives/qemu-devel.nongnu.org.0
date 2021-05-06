@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288FF375917
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 19:18:04 +0200 (CEST)
-Received: from localhost ([::1]:34946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E360F375932
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 19:23:54 +0200 (CEST)
+Received: from localhost ([::1]:47378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lehdT-0007pY-9P
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 13:18:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55408)
+	id 1lehj8-0004cw-18
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 13:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lehRo-0006CX-G0
- for qemu-devel@nongnu.org; Thu, 06 May 2021 13:06:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35318)
+ id 1lehbJ-0006VP-KF
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 13:15:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lehRm-0005L8-Aa
- for qemu-devel@nongnu.org; Thu, 06 May 2021 13:06:00 -0400
+ id 1lehbG-0002Oo-FM
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 13:15:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lehRj-0002Vd-Et
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 17:05:55 +0000
+ id 1lehbA-0005Ys-MB
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 17:15:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 301992E8187
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 17:05:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A66AA2E804C
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 17:15:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 16:57:09 -0000
-From: Thomas Huth <1878348@bugs.launchpad.net>
+Date: Thu, 06 May 2021 17:07:05 -0000
+From: Thomas Huth <1879590@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,20 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange christophe-lyon laurent-vivier philmd
- pmaydell th-huth
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Commenters: chrisp99 mike-papersolve th-huth
+X-Launchpad-Bug-Reporter: chris pugmire (chrisp99)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158935359452.19393.4863679569975227091.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162032022998.32029.14975761378774300802.malone@chaenomeles.canonical.com>
-Subject: [Bug 1878348] Re: --static build fails in v5.0 (since
- 5010cec2bc87dafab39b3913c8ca91f88df9c540)
+References: <158993637415.31242.3259652866813380059.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162032082568.14776.6979243209489697815.malone@soybean.canonical.com>
+Subject: [Bug 1879590] Re: Using qemu-system-sparc64 no network interface
+ seems to exist
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: f2192998d35bbae879843ac6c99cf99cf3d9bfcc
+X-Launchpad-Hash: 37e4e3a54d046708ba8021febb7798f5cba70028
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878348 <1878348@bugs.launchpad.net>
+Reply-To: Bug 1879590 <1879590@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -111,43 +110,57 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878348
+https://bugs.launchpad.net/bugs/1879590
 
 Title:
-  --static build fails in v5.0 (since
-  5010cec2bc87dafab39b3913c8ca91f88df9c540)
+  Using qemu-system-sparc64 no network interface seems to exist
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Hi,
+  Using boot command:
 
-  Since commit 5010cec2bc87dafab39b3913c8ca91f88df9c540, building qemu
-  fails when configured with --static (eg ../configure --target-
-  list=3Dx86_64-softmmu,x86_64-linux-user --enable-debug --static).
+  qemu-system-sparc64 -M niagara -L /home/chrisp/sparc/S10image/
+  -nographic -m 256 -drive
+  if=3Dpflash,readonly=3Don,file=3D/home/chrisp/sparc/S10image/disk.s10hw2
 
-  On ubuntu 16.04, it fails to find -lffi and -lselinux.
+  After I log into solaris system I see no network devices other than the l=
+oopback device.
+  All the docs I can see suggest it should come up with a default network d=
+evice that allows communication via the hosts network. Host is ubuntu 64bit=
+.  =
 
-  After I apt-get install libffi-dev libselinux1-dev, the build still fails:
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_pre=
-_save':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:29: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_PRE_SAVE_DSTATE'
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_pos=
-t_load':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:52: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_POST_LOAD_DSTATE'
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_loa=
-ding':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:75: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_LOADING_DSTATE'
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_sav=
-ing':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:98: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_SAVING_DSTATE'
-  collect2: error: ld returned 1 exit status
+
+  root@giant:/home/chrisp/sparc# qemu-system-sparc64 -version
+  QEMU emulator version 5.0.0
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+
+  =
+
+  dladm show-link
+  ifconfig -a
+
+
+  ok boot
+  Loading ufs-file-system package 1.4 04 Aug 1995 13:02:54.
+  FCode UFS Reader 1.12 00/07/17 15:48:16.
+  Loading: /platform/SUNW,Sun-Fire-T2000/ufsboot
+  Loading: /platform/sun4v/ufsboot
+  SunOS Release 5.10 Version Generic_118822-23 64-bit
+  Copyright 1983-2005 Sun Microsystems, Inc.  All rights reserved.
+  Use is subject to license terms.
+  Hostname: unknown
+
+  unknown console login: root
+  Last login: Wed Feb  8 09:01:28 on console
+  Sun Microsystems Inc.   SunOS 5.10      Generic January 2005
+  # dladm show-link
+  # ifconfig -a
+  lo0: flags=3D2001000849<UP,LOOPBACK,RUNNING,MULTICAST,IPv4,VIRTUAL> mtu 8=
+232 index 1
+          inet 127.0.0.1 netmask ff000000
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878348/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1879590/+subscriptions
 
