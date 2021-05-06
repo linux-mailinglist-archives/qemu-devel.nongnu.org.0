@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBA43755DD
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:46:49 +0200 (CEST)
-Received: from localhost ([::1]:52792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3119C3755DF
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:46:50 +0200 (CEST)
+Received: from localhost ([::1]:52828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lefH5-0002LL-Mw
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:46:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55290)
+	id 1lefH7-0002MH-7V
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:46:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lefEM-0000as-O9
+ id 1lefEM-0000am-1X
  for qemu-devel@nongnu.org; Thu, 06 May 2021 10:43:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36350)
+Received: from indium.canonical.com ([91.189.90.7]:36324)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lefEJ-0005eH-FJ
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:43:58 -0400
+ id 1lefEJ-0005df-99
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:43:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lefEG-0001A6-3N
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 14:43:52 +0000
+ id 1lefEF-0001Aj-8X
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 14:43:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0A38D2E834B
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 14:43:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 40F9B2E82EB
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 14:43:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 14:33:14 -0000
-From: Thomas Huth <1874904@bugs.launchpad.net>
+Date: Thu, 06 May 2021 14:33:51 -0000
+From: Thomas Huth <1876568@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jbytibidi th-huth
-X-Launchpad-Bug-Reporter: Jean-Yves BAUDY (jbytibidi)
+X-Launchpad-Bug-Commenters: manuel-reimer th-huth
+X-Launchpad-Bug-Reporter: Manuel Reimer (manuel-reimer)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158776006238.17831.1947739599630021875.malonedeb@wampee.canonical.com>
-Message-Id: <162031159487.5872.5981848078029328914.malone@wampee.canonical.com>
-Subject: [Bug 1874904] Re: qemu windows with gtk and french keypad not working
- as expected
+References: <158850298589.4878.18034033813424107508.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162031163155.4018.4459792298560213257.malone@gac.canonical.com>
+Subject: [Bug 1876568] Re: "semtimedop" implementation missing in qemu?
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 7175cb85fd0ac79f8b5a4afdffd6f8d10535fc31
+X-Launchpad-Hash: f2e019fbb9b66c7e97b0e2c9ae2a878942fa3a43
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1874904 <1874904@bugs.launchpad.net>
+Reply-To: Bug 1876568 <1876568@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,29 +93,38 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1874904
+https://bugs.launchpad.net/bugs/1876568
 
 Title:
-  qemu windows with gtk and french keypad not working as expected
+  "semtimedop" implementation missing in qemu?
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  When I use qemu on Windows 10 with a French AZERTY keypad with the
-  correct options the emulated system keypad still QWERTY. If I use sdl
-  it works fine the emulated keypad is AZERTY.
+  I was trying to do an ARMv6 cross compile with qemu-user-static when I
+  ran into this:
 
-  Example of command with ubuntu live cd:
-  -> qemu-system-x86_64.exe  -m 4G ubuntu-18.04.4-desktop-amd64.iso -displa=
-y gtk -k fr
+  https://travis-ci.com/github/VDR4Arch/vdr4arch/jobs/326884620#L1596
 
-  NOTES:
-  =C2=A0- Using the same command on Linux works fine. The emulated keypad i=
-s AZERTY.
+  I was close to giving up when I found the following:
 
-  Qemu version : 4.2.0 on Windows 10
+  https://github.com/osrf/multiarch-docker-image-generation/issues/36
+
+  Most important comment may be this one:
+
+  https://github.com/osrf/multiarch-docker-image-
+  generation/issues/36#issuecomment-610626796
+
+  > The "correct" way to fix this does seem to be to implement
+  semtimedop in qemu.
+
+  I don't know how much involved the people, discussing there, are in
+  the qemu development but I thought it may be a good idea to bring this
+  to your attention. If this is already fixed (I haven't found any bug
+  about "semtimedop"), then please just close this one and tell me in
+  which version the fix will be included.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1874904/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1876568/+subscriptions
 
