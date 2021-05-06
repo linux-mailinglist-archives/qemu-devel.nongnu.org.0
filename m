@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56BE374D50
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 04:12:59 +0200 (CEST)
-Received: from localhost ([::1]:50856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51FE2374D6E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 04:19:59 +0200 (CEST)
+Received: from localhost ([::1]:37434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leTVa-0001Gm-VY
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 22:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60024)
+	id 1leTcM-0007t6-0p
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 22:19:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1leTSo-0000Zw-Sx; Wed, 05 May 2021 22:10:11 -0400
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:44860)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1leTSm-0008Oo-UQ; Wed, 05 May 2021 22:10:06 -0400
-Received: by mail-il1-x132.google.com with SMTP id i22so3454829ila.11;
- Wed, 05 May 2021 19:10:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1YnX9Cm3enqdv0yfI/EdfbngfUVrtcH6oNGxderYxdE=;
- b=aYFRQHi6vpUdj8fNw9WPUz2AIqkPMK6H00cY13nURagG0VuNNPhuYN6qgC4du2legk
- vITSssWJMo9TdvBo54pZB9gMon/G/Mj3sQUCQIBs2YYzOggfLqaLBqhbSN+ejsN1Z7F0
- rzvBc6TEntOl/Qp1YMI7PS6nZ7PaQietZdXvhHBPCkPNgzeQ0W2HxAUOwXazmF+ZhDwS
- /MQhOcrRSuSmWlKwPmuGX+v+TC7fjXCD0yHXZkDK6IzCLMmpp+RRY0TcX27rKBg8qZ8I
- 5dqBD6Hsqy6jHLgelCO6oyBBOeYFSxfrmlCTQU7i0Z2RepVDDEjdf7iyeqi5nNN5wp5O
- J7Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1YnX9Cm3enqdv0yfI/EdfbngfUVrtcH6oNGxderYxdE=;
- b=Bby5NkVb/02+EssXOaOYZozZL8QR4i0lBXLkGNqp/2tD3W6aDfW99aHmuJR4hm7GxO
- t/ZIYBwf/C/SwdRKgpeG9iNq5ulnCynVEB247uUcrkagevh2F4On57wai3RfE1OrQx4N
- FsFK2m5bJYIzmyqPp1GoLN0ew5HHXvIA56y00pkDfA7U48IyEKEPQXuT6jj9URp5jptg
- CTXLG9wDCL6pjD3pQ2Bn8ojYejLjoahCPynXSsJgiqWJKsq890vjj9NV01JHKD+LSlPo
- sUSfIfLLsIK0QtE/ksxwDQgAFgKk6ITZhjmNm4qDxm3ri8Y5p1EgF7t/TjE2pp1yzzGG
- FhBg==
-X-Gm-Message-State: AOAM531WYE4LWnCi5MOZsWULkqZvcEW2slZOnYwD+fIif0FSAzBwi1ci
- SEs3fJclZBw01vAKXfQk80zPPrTn/I5XuSSNxQ0=
-X-Google-Smtp-Source: ABdhPJwJbW0JHg5VJptvSmtlWVUujQ0bvv2CCinZHcKqEZ20hufV84k4IoAeA6gfywAsFOH0Ciy2zkXOa8LDqSJhuZo=
-X-Received: by 2002:a05:6e02:eac:: with SMTP id
- u12mr1863475ilj.177.1620267003422; 
- Wed, 05 May 2021 19:10:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1leTas-0005oI-TI; Wed, 05 May 2021 22:18:27 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:32783 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1leTaq-0004cU-8S; Wed, 05 May 2021 22:18:26 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FbHLH61bsz9sPf; Thu,  6 May 2021 12:18:15 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1620267495;
+ bh=4vc8Cn7d16bjCvwzRyLTX4TfHZwJJcUHiaXo2HIDV1w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Wy+kwmW8lq/oxVqXrRCfQ55FxTEAMNMQ6deGeNOrGGav1yqtLXx4aPOBdRt+UlEhD
+ 56CbdXZRxzdstl+P8MovfKM3w95ZgeTLb7MBHz4dfO1CDRUYbVHb6YxICXjdKbrESL
+ aqxEK8AZbIPu2dO1rQQ3SvPJ6mE7HybIXdsvGQt8=
+Date: Thu, 6 May 2021 12:12:25 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 10/23] hw/ppc/pnv: Avoid dynamic stack allocation
+Message-ID: <YJNQiUXSfTgD1q19@yekko>
+References: <20210505211047.1496765-1-philmd@redhat.com>
+ <20210505211047.1496765-11-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20210420213656.85148-1-josemartins90@gmail.com>
-In-Reply-To: <20210420213656.85148-1-josemartins90@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 6 May 2021 12:09:37 +1000
-Message-ID: <CAKmqyKN-qaBqhqTKJ-RVQ4BXO++vxVYB1+WNK3atUmqZbNyWgg@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: fix wfi exception behavior
-To: Jose Martins <josemartins90@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bj2N5Wdb33lTc/+h"
+Content-Disposition: inline
+In-Reply-To: <20210505211047.1496765-11-philmd@redhat.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,93 +58,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 21, 2021 at 7:37 AM Jose Martins <josemartins90@gmail.com> wrote:
->
-> The wfi exception trigger behavior should take into account user mode,
-> hstatus.vtw, and the fact the an wfi might raise different types of
-> exceptions depending on various factors:
->
-> If supervisor mode is not present:
->
-> - an illegal instruction exception should be generated if user mode
-> executes and wfi instruction and mstatus.tw = 1.
->
-> If supervisor mode is present:
->
-> - when a wfi instruction is executed, an illegal exception should be triggered
-> if either the current mode is user or the mode is supervisor and mstatus.tw is
-> set.
->
-> Plus, if the hypervisor extensions are enabled:
->
-> - a virtual instruction exception should be raised when a wfi is executed from
-> virtual-user or virtual-supervisor and hstatus.vtw is set.
->
-> Signed-off-by: Jose Martins <josemartins90@gmail.com>
 
-Thanks!
+--bj2N5Wdb33lTc/+h
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied to riscv-to-apply.next
+On Wed, May 05, 2021 at 11:10:34PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Use autofree heap allocation instead of variable-length
+> array on the stack.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-Alistair
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
-> Alistair, I hope you've agreed with my argumentis for the previous version
-> of the patch. As promised, I submit this version which takes into account M/U
-> only harts. It checks for the presence of the RVS extension. If it is
-> not present mstatus.tw takes effect over the exection of wfi in user
-> mode.
->
->  target/riscv/cpu_bits.h  |  1 +
->  target/riscv/op_helper.c | 11 ++++++++---
->  2 files changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 24b24c69c5..ed8b97c788 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -436,6 +436,7 @@
->  #define HSTATUS_HU           0x00000200
->  #define HSTATUS_VGEIN        0x0003F000
->  #define HSTATUS_VTVM         0x00100000
-> +#define HSTATUS_VTW          0x00200000
->  #define HSTATUS_VTSR         0x00400000
->  #if defined(TARGET_RISCV64)
->  #define HSTATUS_VSXL        0x300000000
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index d55def76cf..15982a7a33 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -173,10 +173,15 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
->  void helper_wfi(CPURISCVState *env)
+>  hw/ppc/pnv.c               | 4 ++--
+>  hw/ppc/spapr.c             | 8 ++++----
+>  hw/ppc/spapr_pci_nvlink2.c | 2 +-
+>  3 files changed, 7 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 77af846cdfe..f6e3d37b751 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -141,7 +141,7 @@ static void pnv_dt_core(PnvChip *chip, PnvCore *pc, v=
+oid *fdt)
+>      int smt_threads =3D CPU_CORE(pc)->nr_threads;
+>      CPUPPCState *env =3D &cpu->env;
+>      PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cs);
+> -    uint32_t servers_prop[smt_threads];
+> +    g_autofree uint32_t *servers_prop =3D g_new(uint32_t, smt_threads);
+>      int i;
+>      uint32_t segs[] =3D {cpu_to_be32(28), cpu_to_be32(40),
+>                         0xffffffff, 0xffffffff};
+> @@ -244,7 +244,7 @@ static void pnv_dt_core(PnvChip *chip, PnvCore *pc, v=
+oid *fdt)
+>          servers_prop[i] =3D cpu_to_be32(pc->pir + i);
+>      }
+>      _FDT((fdt_setprop(fdt, offset, "ibm,ppc-interrupt-server#s",
+> -                       servers_prop, sizeof(servers_prop))));
+> +                       servers_prop, sizeof(*servers_prop) * smt_threads=
+)));
+>  }
+> =20
+>  static void pnv_dt_icp(PnvChip *chip, void *fdt, uint32_t pir,
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 529ff056dd2..31c2c0d97bf 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -176,8 +176,8 @@ static int spapr_fixup_cpu_smt_dt(void *fdt, int offs=
+et, PowerPCCPU *cpu,
+>                                    int smt_threads)
 >  {
->      CPUState *cs = env_cpu(env);
-> +    bool rvs = riscv_has_ext(env, RVS);
-> +    bool prv_u = env->priv == PRV_U;
-> +    bool prv_s = env->priv == PRV_S;
->
-> -    if ((env->priv == PRV_S &&
-> -        get_field(env->mstatus, MSTATUS_TW)) ||
-> -        riscv_cpu_virt_enabled(env)) {
-> +    if (((prv_s || (!rvs && prv_u)) && get_field(env->mstatus, MSTATUS_TW)) ||
-> +        (rvs && prv_u && !riscv_cpu_virt_enabled(env))) {
-> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-> +    } else if (riscv_cpu_virt_enabled(env) && (prv_u ||
-> +        (prv_s && get_field(env->hstatus, HSTATUS_VTW)))) {
->          riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
->      } else {
->          cs->halted = 1;
-> --
-> 2.25.1
->
->
+>      int i, ret =3D 0;
+> -    uint32_t servers_prop[smt_threads];
+> -    uint32_t gservers_prop[smt_threads * 2];
+> +    g_autofree uint32_t *servers_prop =3D g_new(uint32_t, smt_threads);
+> +    g_autofree uint32_t *gservers_prop =3D g_new(uint32_t, smt_threads *=
+ 2);
+>      int index =3D spapr_get_vcpu_id(cpu);
+> =20
+>      if (cpu->compat_pvr) {
+> @@ -195,12 +195,12 @@ static int spapr_fixup_cpu_smt_dt(void *fdt, int of=
+fset, PowerPCCPU *cpu,
+>          gservers_prop[i*2 + 1] =3D 0;
+>      }
+>      ret =3D fdt_setprop(fdt, offset, "ibm,ppc-interrupt-server#s",
+> -                      servers_prop, sizeof(servers_prop));
+> +                      servers_prop, sizeof(*servers_prop) * smt_threads);
+>      if (ret < 0) {
+>          return ret;
+>      }
+>      ret =3D fdt_setprop(fdt, offset, "ibm,ppc-interrupt-gserver#s",
+> -                      gservers_prop, sizeof(gservers_prop));
+> +                      gservers_prop, sizeof(*gservers_prop) * smt_thread=
+s * 2);
+> =20
+>      return ret;
+>  }
+> diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
+> index 8ef9b40a18d..bb61adb114c 100644
+> --- a/hw/ppc/spapr_pci_nvlink2.c
+> +++ b/hw/ppc/spapr_pci_nvlink2.c
+> @@ -401,7 +401,7 @@ void spapr_phb_nvgpu_populate_pcidev_dt(PCIDevice *de=
+v, void *fdt, int offset,
+>              continue;
+>          }
+>          if (dev =3D=3D nvslot->gpdev) {
+> -            uint32_t npus[nvslot->linknum];
+> +            g_autofree uint32_t *npus =3D g_new(uint32_t, nvslot->linknu=
+m);
+> =20
+>              for (j =3D 0; j < nvslot->linknum; ++j) {
+>                  PCIDevice *npdev =3D nvslot->links[j].npdev;
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--bj2N5Wdb33lTc/+h
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCTUIgACgkQbDjKyiDZ
+s5Jv9RAAymc7V6GbetBJrq5NCa1o+oaVDos9bv7kYKu4JxUPZL5gdC47s7PZm117
+d7DEJ3JsPanfbmTM8Uyk+yiuAUkBpOSINHAstpUD12b8/6SyauiyWAkoKApCcJx6
+Plh8sVpJioU1iVyQp82vhm6UxcHsfheB1t4U1DjFhsJBTEhhORWqbYV5E6g7DtsK
+3I7w9Vqs92L0GBxL4cvw3y2RSSyk8nv4fZCOQagWhN/cfwHvYeKkIaeCFTRtYULs
+yPL6xplZ6/MSHTix5GLl1t2WkyKqBgFMqXfO99Jl/05BU/FdUSY6ovWseWG500f+
++2+mQTD7KvG5c+Vblgmcz364vZp6p/dgOz/0Ezk/zR/sFbBtSQSe65tE6iIrvVeP
+RSz1Mkngi2gKuplwLibdNwIiDK8eOGkD8SuHipaJ7hMoX0nOCAagrTRyi37nwol8
+kfHD9OyLCj04XOvJh7mpUudzubhusvcosR9+lF6N8gb2sF8lqKbYI8EL2TgKqHtR
+ct1syph1zToAx+KvsHMDHVIVFr7Bmb0twJ/LiKAKdRSRy1rCKIu+iWNJLHUoJTCX
+9m93k/QD0Iwu/DIdRWjdQVlp/Ss4LVZ+kAjps2ktDp/E/3oDbK6EtneLMUTEMovh
+zGUQZak/bVgji8Jqqdb2SisrzQFThLaNacHhIv8JF/L6xlVlsEo=
+=Dkz6
+-----END PGP SIGNATURE-----
+
+--bj2N5Wdb33lTc/+h--
 
