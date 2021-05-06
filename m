@@ -2,68 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DAB37517C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:26:16 +0200 (CEST)
-Received: from localhost ([::1]:33014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF78C375180
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:28:57 +0200 (CEST)
+Received: from localhost ([::1]:38546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leaGt-0002WQ-JV
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:26:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32962)
+	id 1leaJU-000545-BY
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:28:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lea1d-0006lZ-Am
- for qemu-devel@nongnu.org; Thu, 06 May 2021 05:10:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60831)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lea2D-0007RL-Rh
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 05:11:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lea1b-0004s7-60
- for qemu-devel@nongnu.org; Thu, 06 May 2021 05:10:29 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lea2A-0005EO-UN
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 05:11:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620292226;
+ s=mimecast20190719; t=1620292262;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=KnO3xu1/y2KAuFqYE9XFXZBiO0nwlakLchjruO0d+bI=;
- b=NdfT2xxIPch0mU5v9476nGg4s+e9aajpcHa7txWmOSUAvcnG91n7yD923N90mqpCvgfgUf
- jEet2ipoHPpl+AMD2tbVI/7cFPbHqeh1hMDKYrF7v+rxENcZZVMoFavxByrHM9bZsB0mzz
- Bu4/jLVSkcGBtyTpXyR6vgwVgd2zJsk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-c7BC9CbuMO67MnDYuGNKEQ-1; Thu, 06 May 2021 05:10:24 -0400
-X-MC-Unique: c7BC9CbuMO67MnDYuGNKEQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6633107ACE3
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 09:10:23 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-11.ams2.redhat.com
- [10.36.112.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE08D5C582;
- Thu,  6 May 2021 09:10:03 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CDA40180062B; Thu,  6 May 2021 11:10:01 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtio-gpu: handle partial maps properly
-Date: Thu,  6 May 2021 11:10:01 +0200
-Message-Id: <20210506091001.1301250-1-kraxel@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o0d7SYP2f2sPz7N+yzuZHydGhsGPyoutIF/gDaHqA6g=;
+ b=Qh78NFynLEO7pu0mzkZa1pMQtna/RISEYENZqz48eAAQua+XxWGlVaHA8swauMs3CIcqum
+ YcjF90OVOId9woZqVzqUesH0+QqcSjpxg4vnTA+KyT1SRI18v4p7M4hVbqjoLR6D5dRbQK
+ iwZtcXHM4dv+mgPf011z5xuyndEhnQQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-9DV6CHZwMoWovw8Zqs7oZw-1; Thu, 06 May 2021 05:11:00 -0400
+X-MC-Unique: 9DV6CHZwMoWovw8Zqs7oZw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ 88-20020adf95610000b029010758d8d7e2so1898281wrs.19
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 02:11:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=o0d7SYP2f2sPz7N+yzuZHydGhsGPyoutIF/gDaHqA6g=;
+ b=gpU/R0IXq2K6zpi4oKi+5nppXVdGSR8aM7UbM0G3s3vsRSurAmZpXfK1ZAT+XtGzsv
+ xPMZ/ipGloFnrq/Lmcq/D8DI2QJ6GlnI1QrqWlMqoXY+F/U/zucqJqiMl3CxTs6vHWYS
+ assWZSCPkoDT7Zu1sd9BlyXHtbzLKCHmIqGWQ5ZFUt9GlKMCtG5DaAnksRdQ3VC8ONoo
+ 7c5mbkIpa4zit+r/Gp3slhk5HYx+iO0jDKMZFUux1MfAmorWex2NIpzAzolL166fq6vz
+ MLuMJT7m0wyg/JHxFZfaQDgp/rxgypi2Id93I2Vgbt2MmgFc80iWnenPWKK8zUnNh11q
+ L84w==
+X-Gm-Message-State: AOAM530Qrk9cV0jAinjy+gEibAoxAJAV5dgUL6vjpUzqDT0RGqOvIGG5
+ vu/U+GCvMrgPMRUWOEBJhl83rGv+TekC5RUuXPKdhPt0Y/iL9P9Kvji/CCb9A2+QAflE10IpzDV
+ OGOt0dbgRC0bZHiI=
+X-Received: by 2002:a5d:4602:: with SMTP id t2mr3807358wrq.190.1620292259215; 
+ Thu, 06 May 2021 02:10:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhxtMennc2+ZXN7A0lx7UohQOhXFMui8H4Sn76IhQqBG3b0awqiPdVmlPmwy36qKbKZNLVPQ==
+X-Received: by 2002:a5d:4602:: with SMTP id t2mr3807329wrq.190.1620292259023; 
+ Thu, 06 May 2021 02:10:59 -0700 (PDT)
+Received: from [192.168.1.19] (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr.
+ [90.40.114.60])
+ by smtp.gmail.com with ESMTPSA id t7sm3152728wrw.60.2021.05.06.02.10.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 May 2021 02:10:58 -0700 (PDT)
+Subject: Re: [PATCH v26 00/20] i386 cleanup PART 2
+To: Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20210301085450.1732-1-cfontana@suse.de>
+ <cfeead83-4890-bdd8-c5cb-9bdb2ca24abb@suse.de> <875z21aghn.fsf@linaro.org>
+ <50c3c1e6-cc62-ee50-874b-72615d7bfac7@suse.de> <87o8dpo4ww.fsf@linaro.org>
+ <03b6b51e-71d7-a2c9-4d3d-db1ac77a1484@redhat.com>
+ <20210505193141.4tb6k5cupbovctbs@habkost.net>
+ <a6049846-2edf-c22f-0b7b-5a9f087223ab@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a6f5e405-039a-a055-ffec-dd9e65bf209e@redhat.com>
+Date: Thu, 6 May 2021 11:10:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <a6049846-2edf-c22f-0b7b-5a9f087223ab@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,189 +103,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eric.auger@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-dma_memory_map() may map only a part of the request.  Happens if the
-request can't be mapped in one go, for example due to a iommu creating
-a linear dma mapping for scattered physical pages.  Should that be the
-case virtio-gpu must call dma_memory_map() again with the remaining
-range instead of simply throwing an error.
+On 5/6/21 9:55 AM, Claudio Fontana wrote:
+> On 5/5/21 9:31 PM, Eduardo Habkost wrote:
+>> On Wed, May 05, 2021 at 02:15:29PM +0200, Philippe Mathieu-Daudé wrote:
+>>> On 5/5/21 12:04 PM, Alex Bennée wrote:
+>>>> Claudio Fontana <cfontana@suse.de> writes:
+>>>>> On 3/8/21 3:02 PM, Alex Bennée wrote:
+>>>>>> Claudio Fontana <cfontana@suse.de> writes:
+>>>>>>
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> anything else for me to do here?
+>>>>>>
+>>>>>> It looks to me that this series is looking pretty good. Every patch has
+>>>>>> at least one review so I think it's just waiting on the maintainers to
+>>>>>> pick it up.
+>>>>>>
+>>>>>> Paolo/Richard - are you intending to take the series as is or are you
+>>>>>> waiting for something else? I'd like to see the patch delta reduced for
+>>>>>> the ARM cleanup work which is still ongoing.
+>>>>>
+>>>>> I am a bit at a loss here, as this has been reviewed for a while, but nothing is happening.
+>>>>> Rebasing is starting to become more and more draining;
+>>>>
+>>>> This is still the latest re-factor right?
+>>>>
+>>>>   Subject: [PATCH v28 00/23] i386 cleanup PART 2
+>>>>   Date: Mon, 22 Mar 2021 14:27:36 +0100
+>>>>   Message-Id: <20210322132800.7470-1-cfontana@suse.de>
+>>>>
+>>>>> I am seeing some changes from Phil that redo some of the patches here (like target arch user),
+>>>>> maybe you would like to drive this?
+>>>>
+>>>> AIUI his changes where to get qtest passing.
+>>>
+>>> I hadn't read Claudio's mail, I think he's mentioning commit 46369b50ee3
+>>>
+>>>     meson: Introduce meson_user_arch source set for arch-specific user-mode
+>>>
+>>>     Similarly to the 'target_softmmu_arch' source set which allows
+>>>     to restrict target-specific sources to system emulation, add
+>>>     the equivalent 'target_user_arch' set for user emulation.
+>>>
+>>> The patch only contains 6 lines in 2 hunks, if it introduced a conflict
+>>> it should be trivial to resolve (I wasn't expecting it to conflict with
+>>> your work when I merged it TBH).
 
-Note that this change implies the number of iov entries may differ from
-the number of mapping entries sent by the guest.  Therefore the iov_len
-bookkeeping needs some updates too, we have to explicitly pass around
-the iov length now.
+> I'd suggest to move the discussions about the ARM series to the arm series thread.
+> 
+> I am concerned here about the groundwork and x86 part.
 
-Reported-by: Auger Eric <eric.auger@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/hw/virtio/virtio-gpu.h |  3 +-
- hw/display/virtio-gpu-3d.c     |  7 ++--
- hw/display/virtio-gpu.c        | 75 ++++++++++++++++++++--------------
- 3 files changed, 51 insertions(+), 34 deletions(-)
+OK sorry, I was explaining the IRC chat.
 
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index fae149235c58..0d15af41d96d 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -209,7 +209,8 @@ void virtio_gpu_get_edid(VirtIOGPU *g,
- int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
-                                   struct virtio_gpu_resource_attach_backing *ab,
-                                   struct virtio_gpu_ctrl_command *cmd,
--                                  uint64_t **addr, struct iovec **iov);
-+                                  uint64_t **addr, struct iovec **iov,
-+                                  uint32_t *niov);
- void virtio_gpu_cleanup_mapping_iov(VirtIOGPU *g,
-                                     struct iovec *iov, uint32_t count);
- void virtio_gpu_process_cmdq(VirtIOGPU *g);
-diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
-index d98964858e13..72c14d91324b 100644
---- a/hw/display/virtio-gpu-3d.c
-+++ b/hw/display/virtio-gpu-3d.c
-@@ -283,22 +283,23 @@ static void virgl_resource_attach_backing(VirtIOGPU *g,
- {
-     struct virtio_gpu_resource_attach_backing att_rb;
-     struct iovec *res_iovs;
-+    uint32_t res_niov;
-     int ret;
- 
-     VIRTIO_GPU_FILL_CMD(att_rb);
-     trace_virtio_gpu_cmd_res_back_attach(att_rb.resource_id);
- 
--    ret = virtio_gpu_create_mapping_iov(g, &att_rb, cmd, NULL, &res_iovs);
-+    ret = virtio_gpu_create_mapping_iov(g, &att_rb, cmd, NULL, &res_iovs, &res_niov);
-     if (ret != 0) {
-         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-         return;
-     }
- 
-     ret = virgl_renderer_resource_attach_iov(att_rb.resource_id,
--                                             res_iovs, att_rb.nr_entries);
-+                                             res_iovs, res_niov);
- 
-     if (ret != 0)
--        virtio_gpu_cleanup_mapping_iov(g, res_iovs, att_rb.nr_entries);
-+        virtio_gpu_cleanup_mapping_iov(g, res_iovs, res_niov);
- }
- 
- static void virgl_resource_detach_backing(VirtIOGPU *g,
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index c9f5e36fd076..1dd3648f32a3 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -608,11 +608,12 @@ static void virtio_gpu_set_scanout(VirtIOGPU *g,
- int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
-                                   struct virtio_gpu_resource_attach_backing *ab,
-                                   struct virtio_gpu_ctrl_command *cmd,
--                                  uint64_t **addr, struct iovec **iov)
-+                                  uint64_t **addr, struct iovec **iov,
-+                                  uint32_t *niov)
- {
-     struct virtio_gpu_mem_entry *ents;
-     size_t esize, s;
--    int i;
-+    int e, v;
- 
-     if (ab->nr_entries > 16384) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-@@ -633,37 +634,53 @@ int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
-         return -1;
-     }
- 
--    *iov = g_malloc0(sizeof(struct iovec) * ab->nr_entries);
-+    *iov = NULL;
-     if (addr) {
--        *addr = g_malloc0(sizeof(uint64_t) * ab->nr_entries);
-+        *addr = NULL;
-     }
--    for (i = 0; i < ab->nr_entries; i++) {
--        uint64_t a = le64_to_cpu(ents[i].addr);
--        uint32_t l = le32_to_cpu(ents[i].length);
--        hwaddr len = l;
--        (*iov)[i].iov_base = dma_memory_map(VIRTIO_DEVICE(g)->dma_as,
--                                            a, &len, DMA_DIRECTION_TO_DEVICE);
--        (*iov)[i].iov_len = len;
--        if (addr) {
--            (*addr)[i] = a;
--        }
--        if (!(*iov)[i].iov_base || len != l) {
--            qemu_log_mask(LOG_GUEST_ERROR, "%s: failed to map MMIO memory for"
--                          " resource %d element %d\n",
--                          __func__, ab->resource_id, i);
--            if ((*iov)[i].iov_base) {
--                i++; /* cleanup the 'i'th map */
-+    for (e = 0, v = 0; e < ab->nr_entries; e++) {
-+        uint64_t a = le64_to_cpu(ents[e].addr);
-+        uint32_t l = le32_to_cpu(ents[e].length);
-+        hwaddr len;
-+        void *map;
-+
-+        do {
-+            len = l;
-+            map = dma_memory_map(VIRTIO_DEVICE(g)->dma_as,
-+                                 a, &len, DMA_DIRECTION_TO_DEVICE);
-+            if (!map) {
-+                qemu_log_mask(LOG_GUEST_ERROR, "%s: failed to map MMIO memory for"
-+                              " resource %d element %d\n",
-+                              __func__, ab->resource_id, e);
-+                virtio_gpu_cleanup_mapping_iov(g, *iov, v);
-+                g_free(ents);
-+                *iov = NULL;
-+                if (addr) {
-+                    g_free(*addr);
-+                    *addr = NULL;
-+                }
-+                return -1;
-             }
--            virtio_gpu_cleanup_mapping_iov(g, *iov, i);
--            g_free(ents);
--            *iov = NULL;
-+
-+            if (!(v % 16)) {
-+                *iov = g_realloc(*iov, sizeof(struct iovec) * (v + 16));
-+                if (addr) {
-+                    *addr = g_realloc(*addr, sizeof(uint64_t) * (v + 16));
-+                }
-+            }
-+            (*iov)[v].iov_base = map;
-+            (*iov)[v].iov_len = len;
-             if (addr) {
--                g_free(*addr);
--                *addr = NULL;
-+                (*addr)[v] = a;
-             }
--            return -1;
--        }
-+
-+            a += len;
-+            l -= len;
-+            v += 1;
-+        } while (l > 0);
-     }
-+    *niov = v;
-+
-     g_free(ents);
-     return 0;
- }
-@@ -717,13 +734,11 @@ virtio_gpu_resource_attach_backing(VirtIOGPU *g,
-         return;
-     }
- 
--    ret = virtio_gpu_create_mapping_iov(g, &ab, cmd, &res->addrs, &res->iov);
-+    ret = virtio_gpu_create_mapping_iov(g, &ab, cmd, &res->addrs, &res->iov, &res->iov_cnt);
-     if (ret != 0) {
-         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-         return;
-     }
--
--    res->iov_cnt = ab.nr_entries;
- }
- 
- static void
--- 
-2.31.1
+Is there any issue rebasing the groundwork on top of commit 46369b50ee3?
+
+Maybe my qtest/accel series is irrelevant to your x86 part, TBH I don't
+remember.
+
+Regards,
+
+Phil.
 
 
