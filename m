@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A29B375158
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:16:56 +0200 (CEST)
-Received: from localhost ([::1]:43810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D808437516D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:22:02 +0200 (CEST)
+Received: from localhost ([::1]:50194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lea7Z-0002yc-WE
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:16:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60428)
+	id 1leaCn-000658-TU
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leZyb-0002bs-Ch
- for qemu-devel@nongnu.org; Thu, 06 May 2021 05:07:21 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58746)
+ id 1leZyf-0002ff-Ae
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 05:07:25 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leZyX-0003BL-BP
- for qemu-devel@nongnu.org; Thu, 06 May 2021 05:07:21 -0400
+ id 1leZyV-0003Aj-UM
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 05:07:25 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leZyS-0001JA-D9
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 09:07:12 +0000
+ id 1leZyR-0001YU-74
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 09:07:11 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CC36F2E81C0
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 09:07:04 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 57AA82E8230
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 09:07:03 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 08:58:52 -0000
-From: Thomas Huth <1860575@bugs.launchpad.net>
+Date: Thu, 06 May 2021 08:59:22 -0000
+From: Thomas Huth <1860742@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: bootloop xv6
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange lemonboy th-huth
-X-Launchpad-Bug-Reporter: The Lemon Man (lemonboy)
+X-Launchpad-Bug-Commenters: engmrgh nametable th-huth
+X-Launchpad-Bug-Reporter: Logan Bateman (nametable)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157970748795.4848.1694391096642821939.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162029153289.6519.14085419891793338471.malone@wampee.canonical.com>
-Subject: [Bug 1860575] Re: qemu64 CPU model is incorrect
+References: <157983858012.5517.4456579868320256063.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162029156274.14724.3152677737957216402.malone@soybean.canonical.com>
+Subject: [Bug 1860742] Re: xv6 Bootloop
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 6df3d95dec504abb049e26ab22a0f18b862aea63
+X-Launchpad-Hash: c6d864d7d8ee75f145af170e348b5f26c26be3c6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1860575 <1860575@bugs.launchpad.net>
+Reply-To: Bug 1860742 <1860742@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -78,51 +79,65 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/191
+ https://gitlab.com/qemu-project/qemu/-/issues/192
 
 
 ** Changed in: qemu
        Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #191
-   https://gitlab.com/qemu-project/qemu/-/issues/191
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #192
+   https://gitlab.com/qemu-project/qemu/-/issues/192
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1860575
+https://bugs.launchpad.net/bugs/1860742
 
 Title:
-  qemu64 CPU model is incorrect
+  xv6 Bootloop
 
 Status in QEMU:
   Expired
 
 Bug description:
-  At the moment the "qemu64" CPU is defined as follows:
+  Qemu Version: 4.2.0
 
-  ```
-          .vendor =3D CPUID_VENDOR_AMD,
-          .family =3D 6,
-          .model =3D 6,
-          .stepping =3D 3,
-  ```
+  Launch command:
+  qemu-system-x86_64 -nographic -drive file=3Dfs.img,index=3D1,media=3Ddisk=
+,format=3Draw -drive file=3Dxv6.img,index=3D0,media=3Ddisk,format=3Draw -sm=
+p 2 -m 512
 
-  According to Wikipedia [1] this means the CPU is defined as part of the
-  K7 family while the AMD64 ISA was only introduced with the K8 series!
+  How to reproduce?
+  1.)  Use/install latest release of qemu (4.2.0 at time of writing)
 
-  This causes some software such as LLVM to notice the problem (32-bit cpu
-  with 64-bit capability reported in the cpuid flag) and produce various
-  error messages.
+  2.)  Download, build, and run xv6 (a simple os designed for learning
+  operating systems fundamentals)
 
-  The simple solution would be to upgrade this definition to use the Sledge=
-hammer
-  family (15) instead. =
+  cd /tmp
+  git clone https://github.com/mit-pdos/xv6-public.git
+  cd xv6-public
+  make qemu-nox
 
+  3.)  Qemu should now bootloop (seem to try to boot but then just
+  repeat). This is what it looks like below before it repeats:
 
-  [1] https://en.wikipedia.org/wiki/List_of_AMD_CPU_microarchitectures
+  SeaBIOS (version ?-20191223_100556-anatol)
+
+  iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF92A50+1FEF2A50
+  CA00
+
+  Booting from Hard Disk..
+
+  Host: Arch Linux - Kernel version: 5.4.13
+  Guest: xv6 (https://github.com/mit-pdos/xv6-public)
+
+  Suspicion:
+
+  When I was using qemu 2.11.1 inside an ubuntu docker container, the
+  xv6 os booted with no problem. I am thinking that something changed
+  between Qemu 2.11.1 and Qemu 4.2.0 which is now causing boot problems.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1860575/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1860742/+subscriptions
 
