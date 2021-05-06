@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83ED63751B0
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:40:57 +0200 (CEST)
-Received: from localhost ([::1]:38030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795EA3751DF
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 12:00:20 +0200 (CEST)
+Received: from localhost ([::1]:60074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leaV6-0000nd-Jx
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:40:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41536)
+	id 1leanr-0003ar-1M
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 06:00:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1leaTo-0008Fy-Ln
- for qemu-devel@nongnu.org; Thu, 06 May 2021 05:39:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32885)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1lealw-00020n-Js
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 05:58:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1leaTk-0004Su-DL
- for qemu-devel@nongnu.org; Thu, 06 May 2021 05:39:36 -0400
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1lealr-0000Jj-Kc
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 05:58:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620293971;
+ s=mimecast20190719; t=1620295094;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=i3DlAxkDxLreGF/67BXse8O2cbxWyFgeZepigJRHBDk=;
- b=Xg4+MC0DqWN/o7wulWTS/ceSrzFw5B4Sx3V9VN/x32LM7GsZAQCBbPLuLxiU0vx9dZTf11
- rZ1BVNGsBrJcDl8OKAxinI32TeCAmBqcpbwGRYm28sULXGp17gFRbFnFMj73Xkn/ETUbrt
- oLpDOZrWRahksvSZq12hUOZCgnNykUQ=
+ bh=bxUJ8BRmSw1MSvQdleFjHTLCYAfvzYnBs6JJFeqHZwk=;
+ b=ZOzA2387+h2jFp7cUBTS98kHMgf3IWu9XVk54COQq2s4nPsDB3AeGqEv0juCkENR3FrrA7
+ p2mA7CWRAehMhMW7+oFEcDuUeqRfHfRTohpcxwmSsc0nDYBuGmQFCQxOqL7NLd9ocR4Obh
+ nYvTfdjuuioLEOZ09XmPB3dOFbOYAvA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-5A38Yn0vNzqKG9QCJPrHFQ-1; Thu, 06 May 2021 05:39:30 -0400
-X-MC-Unique: 5A38Yn0vNzqKG9QCJPrHFQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-436-RpHWZJaFPu2JHDaiowKjtg-1; Thu, 06 May 2021 05:58:12 -0400
+X-MC-Unique: RpHWZJaFPu2JHDaiowKjtg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74F8E6D5C9;
- Thu,  6 May 2021 09:39:29 +0000 (UTC)
-Received: from work-vm (ovpn-115-37.ams2.redhat.com [10.36.115.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52FEF1002388;
- Thu,  6 May 2021 09:39:21 +0000 (UTC)
-Date: Thu, 6 May 2021 10:39:18 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH v3 2/7] virtiofsd: Changed allocations of iovec to GLib's
- functions
-Message-ID: <YJO5RsRYQzTbFH09@work-vm>
-References: <YIf2d8HuyPqwqt9C@work-vm>
- <20210427181333.148176-1-ma.mandourr@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 902721006C84;
+ Thu,  6 May 2021 09:58:05 +0000 (UTC)
+Received: from paraplu.home (ovpn-115-104.ams2.redhat.com [10.36.115.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C5A2C5B826;
+ Thu,  6 May 2021 09:57:57 +0000 (UTC)
+Date: Thu, 6 May 2021 11:57:55 +0200
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 3/3] qapi: deprecate drive-backup
+Message-ID: <YJO9owtr4N+1Ta7k@paraplu.home>
+References: <20210505135803.67896-1-vsementsov@virtuozzo.com>
+ <20210505135803.67896-4-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210427181333.148176-1-ma.mandourr@gmail.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210505135803.67896-4-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -80,205 +78,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:virtiofs" <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: pkrempa@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, jsnow@redhat.com, xiechanglong.d@gmail.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, yur@virtuozzo.com,
+ nshirokovskiy@virtuozzo.com, wencongyang2@huawei.com, den@openvz.org,
+ dim@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Mahmoud Mandour (ma.mandourr@gmail.com) wrote:
-> Replaced the calls to malloc()/calloc() and their respective
-> calls to free() of iovec structs with GLib's allocation and
-> deallocation functions and used g_autofree when appropriate.
+On Wed, May 05, 2021 at 04:58:03PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Modern way is using blockdev-add + blockdev-backup, which provides a
+> lot more control on how target is opened.
 > 
-> Replaced the allocation of in_sg_cpy to g_new() instead of a call
-> to calloc() and a null-checking assertion. Not g_new0()
-> because the buffer is immediately overwritten using memcpy.
+> As example of drive-backup problems consider the following:
 > 
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-
-Thanks,
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+> User of drive-backup expects that target will be opened in the same
+> cache and aio mode as source. Corresponding logic is in
+> drive_backup_prepare(), where we take bs->open_flags of source.
+> 
+> It works rather bad if source was added by blockdev-add. Assume source
+> is qcow2 image. On blockdev-add we should specify aio and cache options
+> for file child of qcow2 node. What happens next:
+> 
+> drive_backup_prepare() looks at bs->open_flags of qcow2 source node.
+> But there no BDRV_O_NOCAHE neither BDRV_O_NATIVE_AIO: BDRV_O_NOCAHE is
+> places in bs->file->bs->open_flags, and BDRV_O_NATIVE_AIO is nowhere,
+> as file-posix parse options and simply set s->use_linux_aio.
+> 
+> The documentation is updated in a minimal way, so that drive-backup is
+> noted only as a deprecated command, and blockdev-backup used in most of
+> places.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
-> v2 -> v3:
->     * Removed a wrongful combination of g_autofree and g_steel_pointer().
->     * Removed some goto paths that IMHO were not so useful any more.
->     * In v2, I allocated in_sg_cpy through g_new0(). This patch, I use
->       g_new() because the buffer is memcpy'd into right away so no need
->       to zero-initialize.
->     * Moved the declaration of in_sg_cpy to the top of the function
->       to match QEMU's style guidelines. 
 > 
->  tools/virtiofsd/fuse_lowlevel.c | 31 ++++++++++++-------------------
->  tools/virtiofsd/fuse_virtio.c   |  8 +++-----
->  2 files changed, 15 insertions(+), 24 deletions(-)
+> TODO: We also need to deprecate drive-backup transaction action..
+> But union members in QAPI doesn't support 'deprecated' feature. I tried
+> to dig a bit, but failed :/ Markus, could you please help with it? At
+> least by advice?
 > 
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> index c8bea246ab..7fe2cef1eb 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -217,9 +217,9 @@ static int send_reply(fuse_req_t req, int error, const void *arg,
->  int fuse_reply_iov(fuse_req_t req, const struct iovec *iov, int count)
->  {
->      int res;
-> -    struct iovec *padded_iov;
-> +    g_autofree struct iovec *padded_iov = NULL;
->  
-> -    padded_iov = malloc((count + 1) * sizeof(struct iovec));
-> +    padded_iov = g_try_new(struct iovec, count + 1);
->      if (padded_iov == NULL) {
->          return fuse_reply_err(req, ENOMEM);
->      }
-> @@ -228,7 +228,6 @@ int fuse_reply_iov(fuse_req_t req, const struct iovec *iov, int count)
->      count++;
->  
->      res = send_reply_iov(req, 0, padded_iov, count);
-> -    free(padded_iov);
->  
->      return res;
->  }
-> @@ -568,7 +567,7 @@ static struct fuse_ioctl_iovec *fuse_ioctl_iovec_copy(const struct iovec *iov,
->      struct fuse_ioctl_iovec *fiov;
->      size_t i;
->  
-> -    fiov = malloc(sizeof(fiov[0]) * count);
-> +    fiov = g_try_new(struct fuse_ioctl_iovec, count);
->      if (!fiov) {
->          return NULL;
->      }
-> @@ -586,8 +585,8 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
->                             size_t out_count)
->  {
->      struct fuse_ioctl_out arg;
-> -    struct fuse_ioctl_iovec *in_fiov = NULL;
-> -    struct fuse_ioctl_iovec *out_fiov = NULL;
-> +    g_autofree struct fuse_ioctl_iovec *in_fiov = NULL;
-> +    g_autofree struct fuse_ioctl_iovec *out_fiov = NULL;
->      struct iovec iov[4];
->      size_t count = 1;
->      int res;
-> @@ -603,13 +602,14 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
->      /* Can't handle non-compat 64bit ioctls on 32bit */
->      if (sizeof(void *) == 4 && req->ioctl_64bit) {
->          res = fuse_reply_err(req, EINVAL);
-> -        goto out;
-> +        return res;
->      }
->  
->      if (in_count) {
->          in_fiov = fuse_ioctl_iovec_copy(in_iov, in_count);
->          if (!in_fiov) {
-> -            goto enomem;
-> +            res = fuse_reply_err(req, ENOMEM);
-> +            return res;
+>  docs/interop/live-block-operations.rst | 47 +++++++++++++++++---------
+>  docs/system/deprecated.rst             | 11 ++++++
+>  qapi/block-core.json                   |  5 ++-
 
-That could have just been return fuse_reply_err(req, ENOMEM);
-but that's minor.
+The core changes itself looks good; I have some minor nit-picks below,
+hope that's not annoying. :-)
 
-Dave
+With those addressed:
 
->          }
+    Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>    
+
+>  3 files changed, 46 insertions(+), 17 deletions(-)
+> 
+> diff --git a/docs/interop/live-block-operations.rst b/docs/interop/live-block-operations.rst
+> index 1073b930dc..f71f79ae2a 100644
+> --- a/docs/interop/live-block-operations.rst
+> +++ b/docs/interop/live-block-operations.rst
+> @@ -116,8 +116,8 @@ QEMU block layer supports.
+>  (3) ``drive-mirror`` (and ``blockdev-mirror``): Synchronize a running
+>      disk to another image.
 >  
->          iov[count].iov_base = (void *)in_fiov;
-> @@ -619,7 +619,8 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
->      if (out_count) {
->          out_fiov = fuse_ioctl_iovec_copy(out_iov, out_count);
->          if (!out_fiov) {
-> -            goto enomem;
-> +            res = fuse_reply_err(req, ENOMEM);
-> +            return res;
->          }
+> -(4) ``drive-backup`` (and ``blockdev-backup``): Point-in-time (live) copy
+> -    of a block device to a destination.
+> +(4) ``blockdev-backup`` (and deprecated ``drive-backup``): Point-in-time
+> +    (live) copy of a block device to a destination.
+
+nit: s/deprecated ``drive-backup``/the deprecated ``drive-backup``/  
+
 >  
->          iov[count].iov_base = (void *)out_fiov;
-> @@ -628,15 +629,8 @@ int fuse_reply_ioctl_retry(fuse_req_t req, const struct iovec *in_iov,
+>  .. _`Interacting with a QEMU instance`:
+> @@ -553,13 +553,14 @@ Currently, there are four different kinds:
+>  
+>  (3) ``none`` -- Synchronize only the new writes from this point on.
+>  
+> -    .. note:: In the case of ``drive-backup`` (or ``blockdev-backup``),
+> -              the behavior of ``none`` synchronization mode is different.
+> -              Normally, a ``backup`` job consists of two parts: Anything
+> -              that is overwritten by the guest is first copied out to
+> -              the backup, and in the background the whole image is
+> -              copied from start to end. With ``sync=none``, it's only
+> -              the first part.
+> +    .. note:: In the case of ``blockdev-backup`` (or deprecated
+> +              ``drive-backup``), the behavior of ``none``
+> +              synchronization mode is different.  Normally, a
+> +              ``backup`` job consists of two parts: Anything that is
+> +              overwritten by the guest is first copied out to the
+> +              backup, and in the background the whole image is copied
+> +              from start to end. With ``sync=none``, it's only the
+> +              first part.
+>  
+>  (4) ``incremental`` -- Synchronize content that is described by the
+>      dirty bitmap
+> @@ -924,19 +925,22 @@ Shutdown the guest, by issuing the ``quit`` QMP command::
 >      }
 >  
->      res = send_reply_iov(req, 0, iov, count);
-> -out:
-> -    free(in_fiov);
-> -    free(out_fiov);
 >  
->      return res;
-> -
-> -enomem:
-> -    res = fuse_reply_err(req, ENOMEM);
-> -    goto out;
->  }
+> -Live disk backup --- ``drive-backup`` and ``blockdev-backup``
+> --------------------------------------------------------------
+> +Live disk backup --- ``blockdev-backup`` and deprecated``drive-backup``
+> +-----------------------------------------------------------------------
+
+Here too, missing the article "the": "the deprecated".
+
+> -The ``drive-backup`` (and its newer equivalent ``blockdev-backup``) allows
+> +The ``blockdev-backup`` (and deprecated ``drive-backup``) allows
+>  you to create a point-in-time snapshot.
 >  
->  int fuse_reply_ioctl(fuse_req_t req, int result, const void *buf, size_t size)
-> @@ -663,11 +657,11 @@ int fuse_reply_ioctl(fuse_req_t req, int result, const void *buf, size_t size)
->  int fuse_reply_ioctl_iov(fuse_req_t req, int result, const struct iovec *iov,
->                           int count)
->  {
-> -    struct iovec *padded_iov;
-> +    g_autofree struct iovec *padded_iov = NULL;
->      struct fuse_ioctl_out arg;
->      int res;
+> -In this case, the point-in-time is when you *start* the ``drive-backup``
+> -(or its newer equivalent ``blockdev-backup``) command.
+> +In this case, the point-in-time is when you *start* the
+> +``blockdev-backup`` (or deprecated ``drive-backup``) command.
 >  
-> -    padded_iov = malloc((count + 2) * sizeof(struct iovec));
-> +    padded_iov = g_try_new(struct iovec, count + 2);
->      if (padded_iov == NULL) {
->          return fuse_reply_err(req, ENOMEM);
->      }
-> @@ -680,7 +674,6 @@ int fuse_reply_ioctl_iov(fuse_req_t req, int result, const struct iovec *iov,
->      memcpy(&padded_iov[2], iov, count * sizeof(struct iovec));
 >  
->      res = send_reply_iov(req, 0, padded_iov, count + 2);
-> -    free(padded_iov);
+>  QMP invocation for ``drive-backup``
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 >  
->      return res;
->  }
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index 9e437618fb..9b00687cb0 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -295,6 +295,8 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->      VuVirtqElement *elem = &req->elem;
->      int ret = 0;
+> +Note that ``drive-backup`` command is deprecated since Qemu 6.1 and
+> +will be removed in future.
+
+nit: Let's consistently spell QEMU in all caps, please: s/Qemu/QEMU/
+
+>  Yet again, starting afresh with our example disk image chain::
 >  
-> +    g_autofree struct iovec *in_sg_cpy = NULL;
+>      [A] <-- [B] <-- [C] <-- [D]
+> @@ -961,11 +965,22 @@ will be issued, indicating the live block device job operation has
+>  completed, and no further action is required.
+>  
+>  
+> +Moving from deprecated ``drive-backup`` to newer ``blockdev-backup``
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+s/from/from the/
+
+> +``blockdev-backup`` differs in a way of specifying backup target.
+
+I might slightly rephrase it this way:
+
+    ``blockdev-backup`` differs from ``drive-backup`` in how you specify
+    the backup target.
+
+> +With ``blockdev-backup`` you can't specify filename as a target.
+> +Instead you use node-name of existing block node, which you may add
+
+Can use literals also for node-name: s/node-name/``node-name``
+
+> +by ``blockdev-add`` or ``blockdev-create`` commands. Correspondingly,
+> +``blockdev-backup`` doesn't have ``mode`` and  ``format`` arguments
+> +which don't apply to existing block node. See following sections for
+
+s/to/to an/
+
+> +details and examples.
 > +
->      assert(count >= 1);
->      assert(iov[0].iov_len >= sizeof(struct fuse_out_header));
+> +
+>  Notes on ``blockdev-backup``
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 >  
-> @@ -347,8 +349,7 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->       * Build a copy of the the in_sg iov so we can skip bits in it,
->       * including changing the offsets
->       */
-> -    struct iovec *in_sg_cpy = calloc(sizeof(struct iovec), in_num);
-> -    assert(in_sg_cpy);
-> +    in_sg_cpy = g_new(struct iovec, in_num);
->      memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
->      /* These get updated as we skip */
->      struct iovec *in_sg_ptr = in_sg_cpy;
-> @@ -386,7 +387,6 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->              ret = errno;
->              fuse_log(FUSE_LOG_DEBUG, "%s: preadv failed (%m) len=%zd\n",
->                       __func__, len);
-> -            free(in_sg_cpy);
->              goto err;
->          }
->          fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=%d len=%zd\n", __func__,
-> @@ -410,13 +410,11 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->          if (ret != len) {
->              fuse_log(FUSE_LOG_DEBUG, "%s: ret!=len\n", __func__);
->              ret = EIO;
-> -            free(in_sg_cpy);
->              goto err;
->          }
->          in_sg_left -= ret;
->          len -= ret;
->      } while (in_sg_left);
-> -    free(in_sg_cpy);
+> -The ``blockdev-backup`` command is equivalent in functionality to
+> -``drive-backup``, except that it operates at node-level in a Block Driver
+> +The ``blockdev-backup`` operates at node-level in a Block Driver
+>  State (BDS) graph.
+
+s/``blockdev-backup``/``blockdev-backup`` command/
+
+>  E.g. the sequence of actions to create a point-in-time backup
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 80cae86252..676d72a1ed 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -186,6 +186,17 @@ Use the more generic commands ``block-export-add`` and ``block-export-del``
+>  instead.  As part of this deprecation, where ``nbd-server-add`` used a
+>  single ``bitmap``, the new ``block-export-add`` uses a list of ``bitmaps``.
 >  
->      /* Need to fix out->len on EOF */
->      if (len) {
-> -- 
-> 2.25.1
-> 
+> +``drive-backup`` (since 6.1)
+> +''''''''''''''''''''''''''''
+> +
+> +Use ``blockdev-backup`` in pair with ``blockdev-add`` instead.
+
+nit: s/in pair/in combination/
+
+> +This change primarily separates the creation/opening process of the backup
+> +target with explicit, separate steps. ``blockdev-backup`` uses mostly the
+> +same arguments as ``drive-backup``, except the ``format`` and ``mode``
+> +options are removed in favor of using explicit ``blockdev-create`` and
+> +``blockdev-add`` calls. See :doc:`/interop/live-block-operations` for
+> +details.
+
+The rest reads good to me.  Thanks for fixing this.  
+
+[...] 
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+/kashyap
 
 
