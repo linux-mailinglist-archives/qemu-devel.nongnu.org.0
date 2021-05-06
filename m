@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48AD375A0F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 20:16:52 +0200 (CEST)
-Received: from localhost ([::1]:58478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CE1375A12
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 20:18:58 +0200 (CEST)
+Received: from localhost ([::1]:35990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leiYN-00018P-Kd
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 14:16:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46478)
+	id 1leiaP-0003eq-GV
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 14:18:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1leiI3-0003v1-Rg
- for qemu-devel@nongnu.org; Thu, 06 May 2021 14:00:00 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:36757)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1leiHs-000159-W9
- for qemu-devel@nongnu.org; Thu, 06 May 2021 13:59:55 -0400
-Received: by mail-pg1-x530.google.com with SMTP id c21so5279370pgg.3
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 10:59:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zzbPPsyM/RQ3RC66pVK4RBs2EmO/wnOK6LpHmB53KM8=;
- b=jPMKoVg6V95CXmkQws/RLfUby4JlUrxAuVGCPn8msakYvWzyp05EGWDnswz3p0JM/D
- 8w+wxs3dAiNAKxhOvwpvqHaQUjHfEsiTa4hpKJCYo0VOktEXXudDicBmWYb62cJpmXRR
- FJs/+84UMcImNleLpB5F2Ydn0B+yhNGqRZ6EnHv2Woq9Leo/DDCOh8/ipyZoPstqeLTZ
- ZZrqKLUCY5fl1OpOEROQZs9Pgou/HTPPRUtMgrpGa40v/ov/B3s7eH/Z/hrbj1QFBDZa
- wvQRWaYTbdJY5Tq/y1zY+27GLyskz1J7xQXUQxu+Bjh84xrbGBsg1mK5FEEdBATLhKKB
- 6uMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zzbPPsyM/RQ3RC66pVK4RBs2EmO/wnOK6LpHmB53KM8=;
- b=e6jIEa3c2vnueM1Y51SlsucEtO8CfAAZuKTUQIVhq0PENiQNj4E3zn/zqGH7/Z2p/S
- /YKRCd933PsZUAuyPIUXfQoH9SP17xLtGaRh/CC1lfKXwHXt5tPQddxccmxzOswpic+M
- nd7WumRGc60e35e8Ux4fQozj8cA6765lFWL6UueUSQ9AEHRT2szBEUC99sOiTkMp/UJR
- vCzyzQ6A9kQ5Ua+RxtPU3AnYLpOXzRdNT+t9dyZnrE9A3yF12Ij4UOXd1siSHkm8mNKO
- Ifa62gIKPXwJhb5YDY7LVOnxyrmh8H8cJqnG/qzmlpsPlyvNgkILwGujnanbtB4WigEY
- iKSA==
-X-Gm-Message-State: AOAM533Cw8CI9V+rlvJlvW40KockTu9nw4Prb+m9aECzteiA1/8frwqI
- LpGKW0b/HHw9AUbRIrNaTExOxg==
-X-Google-Smtp-Source: ABdhPJy0K8iXTQqWv0U55B1RJZ6TFdiUVTRLclmuPwLRPAlpDLo84Lh1p2wV1VPMTSVVFxieEKmG1Q==
-X-Received: by 2002:a63:e60a:: with SMTP id g10mr5490405pgh.21.1620323985511; 
- Thu, 06 May 2021 10:59:45 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id t11sm2428448pji.54.2021.05.06.10.59.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 May 2021 10:59:45 -0700 (PDT)
-Subject: Re: [PATCH] target/mips: Fix potential integer overflow (CID 1452921)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210505215119.1517465-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <24ee41cc-4d2d-c7f2-0beb-956943733b3c@linaro.org>
-Date: Thu, 6 May 2021 10:59:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1leiNM-0005mN-FC
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 14:05:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51470)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1leiMx-0003Aw-Oy
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 14:05:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620324301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lp5JRsM8rj5SsoVynS7SniJLyycB4xfIUNTe+gqZQuI=;
+ b=MFJiPasL7Q8Uj/yqyPlLyomTcupaZOijyAYL4Mhb8TaTlwXB8xiTlHt6x66qvP9MtZaaKX
+ wKmvEHhAslVIUZsR+sZeJ96XyFT1ergdQcrgACmRxZHSGol/LCWtQ9znKVOCuQwpc5BCCk
+ gxZGzbwVxhFdk5dNO+d7QzNko3x9UTU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-530-kD8_ZCQgOlKLn6Azcfl39w-1; Thu, 06 May 2021 14:04:58 -0400
+X-MC-Unique: kD8_ZCQgOlKLn6Azcfl39w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 635988015F7;
+ Thu,  6 May 2021 18:04:57 +0000 (UTC)
+Received: from work-vm (ovpn-115-37.ams2.redhat.com [10.36.115.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A2662BFF1;
+ Thu,  6 May 2021 18:04:42 +0000 (UTC)
+Date: Thu, 6 May 2021 19:04:39 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v5 00/10] numa/exec/migration: Fix resizing RAM blocks
+ while migrating
+Message-ID: <YJQvt4BLqyqna6MH@work-vm>
+References: <20210429112708.12291-1-david@redhat.com>
+ <20210506175740.upqfqneqyqurfb2g@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <20210505215119.1517465-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210506175740.upqfqneqyqurfb2g@habkost.net>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,29 +80,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/21 2:51 PM, Philippe Mathieu-Daudé wrote:
-> Use the BIT_ULL() macro to ensure we use 64-bit arithmetic.
-> This fixes the following Coverity issue (OVERFLOW_BEFORE_WIDEN):
+* Eduardo Habkost (ehabkost@redhat.com) wrote:
+> On Thu, Apr 29, 2021 at 01:26:58PM +0200, David Hildenbrand wrote:
+> > v4 has been floating around for a while. Let's see if we can find someone
+> > to merge this; or at least give some more feedback ... all patches have
+> > at least one RB.
 > 
->    CID 1452921:  Integer handling issues:
+> Acked-by: Eduardo Habkost <ehabkost@redhat.com>
 > 
->      Potentially overflowing expression "1 << w" with type "int"
->      (32 bits, signed) is evaluated using 32-bit arithmetic, and
->      then used in a context that expects an expression of type
->      "uint64_t" (64 bits, unsigned).
-> 
-> Fixes: 074cfcb4dae ("target/mips: Implement hardware page table walker")
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   target/mips/tcg/sysemu/tlb_helper.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> David Gilbert: I assume this should go through your tree?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Yep, I'm going to cook a migration pull next week.
 
-r~
+Dave
+
+> -- 
+> Eduardo
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
