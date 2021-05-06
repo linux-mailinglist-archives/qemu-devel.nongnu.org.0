@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF78C375180
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:28:57 +0200 (CEST)
-Received: from localhost ([::1]:38546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9956337517F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:28:45 +0200 (CEST)
+Received: from localhost ([::1]:37628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leaJU-000545-BY
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:28:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33138)
+	id 1leaJI-0004cs-JE
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lea2D-0007RL-Rh
- for qemu-devel@nongnu.org; Thu, 06 May 2021 05:11:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35031)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1leaG0-0002nv-S1
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 05:25:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lea2A-0005EO-UN
- for qemu-devel@nongnu.org; Thu, 06 May 2021 05:11:05 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1leaFt-00047k-Qp
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 05:25:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620292262;
+ s=mimecast20190719; t=1620293109;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o0d7SYP2f2sPz7N+yzuZHydGhsGPyoutIF/gDaHqA6g=;
- b=Qh78NFynLEO7pu0mzkZa1pMQtna/RISEYENZqz48eAAQua+XxWGlVaHA8swauMs3CIcqum
- YcjF90OVOId9woZqVzqUesH0+QqcSjpxg4vnTA+KyT1SRI18v4p7M4hVbqjoLR6D5dRbQK
- iwZtcXHM4dv+mgPf011z5xuyndEhnQQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-9DV6CHZwMoWovw8Zqs7oZw-1; Thu, 06 May 2021 05:11:00 -0400
-X-MC-Unique: 9DV6CHZwMoWovw8Zqs7oZw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 88-20020adf95610000b029010758d8d7e2so1898281wrs.19
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 02:11:00 -0700 (PDT)
+ bh=KQiuki7NfIyclGBm/fDfPtve2NNMTbqLWkGZU/IuMLY=;
+ b=GoUKgIIHx09C9Xafx+deuEVp0w7pcLnmKthdvqL6VqimkQDPcbmRTPT1JZdj5eCWOkz6JG
+ 51447vB4kLkk8jDo7ZBsgsGRJN42BESWjwIBSEVMxK6qik7B/57jyACBpUi/u9Ylma1KQW
+ IkhGDnmTbh7WpqVTHFPFcpug3AIdeMM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-twAeXGVEMLqSog0zPLntpw-1; Thu, 06 May 2021 05:25:07 -0400
+X-MC-Unique: twAeXGVEMLqSog0zPLntpw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ g19-20020a0564021813b029038811907178so2306676edy.14
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 02:25:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=o0d7SYP2f2sPz7N+yzuZHydGhsGPyoutIF/gDaHqA6g=;
- b=gpU/R0IXq2K6zpi4oKi+5nppXVdGSR8aM7UbM0G3s3vsRSurAmZpXfK1ZAT+XtGzsv
- xPMZ/ipGloFnrq/Lmcq/D8DI2QJ6GlnI1QrqWlMqoXY+F/U/zucqJqiMl3CxTs6vHWYS
- assWZSCPkoDT7Zu1sd9BlyXHtbzLKCHmIqGWQ5ZFUt9GlKMCtG5DaAnksRdQ3VC8ONoo
- 7c5mbkIpa4zit+r/Gp3slhk5HYx+iO0jDKMZFUux1MfAmorWex2NIpzAzolL166fq6vz
- MLuMJT7m0wyg/JHxFZfaQDgp/rxgypi2Id93I2Vgbt2MmgFc80iWnenPWKK8zUnNh11q
- L84w==
-X-Gm-Message-State: AOAM530Qrk9cV0jAinjy+gEibAoxAJAV5dgUL6vjpUzqDT0RGqOvIGG5
- vu/U+GCvMrgPMRUWOEBJhl83rGv+TekC5RUuXPKdhPt0Y/iL9P9Kvji/CCb9A2+QAflE10IpzDV
- OGOt0dbgRC0bZHiI=
-X-Received: by 2002:a5d:4602:: with SMTP id t2mr3807358wrq.190.1620292259215; 
- Thu, 06 May 2021 02:10:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzhxtMennc2+ZXN7A0lx7UohQOhXFMui8H4Sn76IhQqBG3b0awqiPdVmlPmwy36qKbKZNLVPQ==
-X-Received: by 2002:a5d:4602:: with SMTP id t2mr3807329wrq.190.1620292259023; 
- Thu, 06 May 2021 02:10:59 -0700 (PDT)
-Received: from [192.168.1.19] (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr.
- [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id t7sm3152728wrw.60.2021.05.06.02.10.57
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=KQiuki7NfIyclGBm/fDfPtve2NNMTbqLWkGZU/IuMLY=;
+ b=KEzXc8UkRmUzLBphWNzGbpduAA49Ag5wMJ5mGRYGBSqFa5Gu7Jr0l9uJ/D17JAImsN
+ WQ+8lwdlAO2ZBJzToffxOy7LERiYo+tDg7xfdj2+VhvKAZJVOpB3NCUYjlTx9XdSor5v
+ qO++9CnFpXwNMvII9i2IbdEx7rxrqxkupHBanReEkeWHkH7C7sMkkahJTTWJ2Xnp+kFu
+ OjWFbR0x1SpiIdStq+CoAMd8YaN+pn685i2majJWaMPYBTGhgdcFaC9WTH3chwc1HNO2
+ GjG4Wz6h7/11UF9YB/lr3zRM68mH5U/1EbaQHeJRY6AzVoH7dNV0lj8OllEhLJTLMeu/
+ SHHQ==
+X-Gm-Message-State: AOAM532+ZrzD+1eSBxDpuui2EIiqP+uFCYueh+yRiNhtV/XoE+GYaZwZ
+ 330w/FfQC0Q6MXRED6JtCmJAXDzgITRQgIpa77m8R0AytQ93VgcspN7KizAFbXudjJT7w5Eud8n
+ MX1VGjOw2Oa2Uu1c=
+X-Received: by 2002:a17:906:c0c3:: with SMTP id
+ bn3mr3360833ejb.498.1620293106818; 
+ Thu, 06 May 2021 02:25:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxV5Vq+yPRueLLRVVXajqBTHBwQ4HrDYRxlKLDAcHVjATPkbGBDpcu1LHgZacCD7AcRQe3dOw==
+X-Received: by 2002:a17:906:c0c3:: with SMTP id
+ bn3mr3360800ejb.498.1620293106543; 
+ Thu, 06 May 2021 02:25:06 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c64ae.dip0.t-ipconnect.de. [91.12.100.174])
+ by smtp.gmail.com with ESMTPSA id a24sm1165003edr.74.2021.05.06.02.25.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 May 2021 02:10:58 -0700 (PDT)
-Subject: Re: [PATCH v26 00/20] i386 cleanup PART 2
-To: Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20210301085450.1732-1-cfontana@suse.de>
- <cfeead83-4890-bdd8-c5cb-9bdb2ca24abb@suse.de> <875z21aghn.fsf@linaro.org>
- <50c3c1e6-cc62-ee50-874b-72615d7bfac7@suse.de> <87o8dpo4ww.fsf@linaro.org>
- <03b6b51e-71d7-a2c9-4d3d-db1ac77a1484@redhat.com>
- <20210505193141.4tb6k5cupbovctbs@habkost.net>
- <a6049846-2edf-c22f-0b7b-5a9f087223ab@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a6f5e405-039a-a055-ffec-dd9e65bf209e@redhat.com>
-Date: Thu, 6 May 2021 11:10:55 +0200
+ Thu, 06 May 2021 02:25:06 -0700 (PDT)
+Subject: Re: [PATCH v7 10/15] hostmem: Wire up RAM_NORESERVE via "reserve"
+ property
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210428133754.10713-1-david@redhat.com>
+ <20210428133754.10713-11-david@redhat.com>
+ <039b34c2-07e1-49da-d325-ae1b67636374@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <74f91b11-4858-e350-d145-73fd45652f27@redhat.com>
+Date: Thu, 6 May 2021 11:25:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <a6049846-2edf-c22f-0b7b-5a9f087223ab@suse.de>
+In-Reply-To: <039b34c2-07e1-49da-d325-ae1b67636374@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -103,74 +103,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Igor Mammedov <imammedo@redhat.com>, Nitesh Lal <nilal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/21 9:55 AM, Claudio Fontana wrote:
-> On 5/5/21 9:31 PM, Eduardo Habkost wrote:
->> On Wed, May 05, 2021 at 02:15:29PM +0200, Philippe Mathieu-Daudé wrote:
->>> On 5/5/21 12:04 PM, Alex Bennée wrote:
->>>> Claudio Fontana <cfontana@suse.de> writes:
->>>>> On 3/8/21 3:02 PM, Alex Bennée wrote:
->>>>>> Claudio Fontana <cfontana@suse.de> writes:
->>>>>>
->>>>>>> Hi,
->>>>>>>
->>>>>>> anything else for me to do here?
->>>>>>
->>>>>> It looks to me that this series is looking pretty good. Every patch has
->>>>>> at least one review so I think it's just waiting on the maintainers to
->>>>>> pick it up.
->>>>>>
->>>>>> Paolo/Richard - are you intending to take the series as is or are you
->>>>>> waiting for something else? I'd like to see the patch delta reduced for
->>>>>> the ARM cleanup work which is still ongoing.
->>>>>
->>>>> I am a bit at a loss here, as this has been reviewed for a while, but nothing is happening.
->>>>> Rebasing is starting to become more and more draining;
->>>>
->>>> This is still the latest re-factor right?
->>>>
->>>>   Subject: [PATCH v28 00/23] i386 cleanup PART 2
->>>>   Date: Mon, 22 Mar 2021 14:27:36 +0100
->>>>   Message-Id: <20210322132800.7470-1-cfontana@suse.de>
->>>>
->>>>> I am seeing some changes from Phil that redo some of the patches here (like target arch user),
->>>>> maybe you would like to drive this?
->>>>
->>>> AIUI his changes where to get qtest passing.
->>>
->>> I hadn't read Claudio's mail, I think he's mentioning commit 46369b50ee3
->>>
->>>     meson: Introduce meson_user_arch source set for arch-specific user-mode
->>>
->>>     Similarly to the 'target_softmmu_arch' source set which allows
->>>     to restrict target-specific sources to system emulation, add
->>>     the equivalent 'target_user_arch' set for user emulation.
->>>
->>> The patch only contains 6 lines in 2 hunks, if it introduced a conflict
->>> it should be trivial to resolve (I wasn't expecting it to conflict with
->>> your work when I merged it TBH).
-
-> I'd suggest to move the discussions about the ARM series to the arm series thread.
+On 04.05.21 11:58, Paolo Bonzini wrote:
+> On 28/04/21 15:37, David Hildenbrand wrote:
+>> @@ -545,6 +545,9 @@
+>>    # @share: if false, the memory is private to QEMU; if true, it is shared
+>>    #         (default: false)
+>>    #
+>> +# @reserve: if true, reserve swap space (or huge pages) if applicable
+>> +#           default: true)
 > 
-> I am concerned here about the groundwork and x86 part.
+> Missing open parenthesis and "since 6.1", otherwise the whole series
+> looks good, thanks!
 
-OK sorry, I was explaining the IRC chat.
+I could have sworn I had the "since 6.1" in before :)
 
-Is there any issue rebasing the groundwork on top of commit 46369b50ee3?
+Thanks!
 
-Maybe my qtest/accel series is irrelevant to your x86 part, TBH I don't
-remember.
 
-Regards,
+-- 
+Thanks,
 
-Phil.
+David / dhildenb
 
 
