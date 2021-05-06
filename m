@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C78F3755AD
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:30:29 +0200 (CEST)
-Received: from localhost ([::1]:49120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F12375584
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:21:05 +0200 (CEST)
+Received: from localhost ([::1]:53222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lef1I-0004lE-3k
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:30:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42778)
+	id 1leesC-00032W-Rt
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:21:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leewt-0000NT-KD
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:25:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51268)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1leeo6-00069V-Sz
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:16:52 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:46735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leewq-0002yW-7W
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:25:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leewo-0002sF-3t
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 14:25:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E4A5B2E8186
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 14:25:49 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1leenz-0005g4-UE
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:16:50 -0400
+Received: by mail-qk1-x735.google.com with SMTP id 76so4997849qkn.13
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:16:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qrsW51zOkrM7kQuZGu554O6tEF+pmRN3LMKQd/Lw3HE=;
+ b=fEiIee/q5vrcfTZTUqHI0d7Jtl17Qie9uo15vSlH1tPJ5NkQtVB57ZoW7XVDU9PL48
+ bqwxjYlz0NHA+K56TExXcnBefFDLdjp1tdKh0h0MWhMiLvnC01DOKQ5hJsUM/6u9mQ8D
+ Mq22gCyk3dz1PyPTRTInIWrvZtBavN2ZJx6mL31rr0GHxDFNjqXRGAlVQwDPeVBBUgy2
+ La39NX3NPij4ugOC4hW2oJt0Ii5X80NCCXaQ1Uko8oVezTfsdH6MrNdWf4ryFpn4uBEx
+ SehfmpURHE0dIO2r54uC4CSxgGtWgTKzC9MtXDzlCH10L1filSqnysouy7FrVZWiEYsC
+ BMIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qrsW51zOkrM7kQuZGu554O6tEF+pmRN3LMKQd/Lw3HE=;
+ b=N/pyzZdGHjl7AFSqgoHfdbuDrlcRWq+XV1vWje+0VIw6HG6KvToidkevytO87JEBtJ
+ fuHICFfTnnKARSoma6fqJjWxzph5PLTZqs13ymgJuFmVNLxDKLqelGBWagPqThFY6Zhl
+ zM6cHwEsWgUkSVhI/24uBLeZ+KNpECp8UcXDymZyVsSRm4gDbrcmkojClQXpIeHHE9H2
+ W4mZmjrqMn+fB2qIQ+V6hIWN6CV8aIndzTjA25ufEIQTMDyyb5ETpnMdusEDix/pJJiT
+ DIi6I1pVoAJ++P4S++HAj3Y0jcNvkWb1xFOVGAx85Sl5QbSTMC15ZhlmsRpcVhYEmJnC
+ P2IQ==
+X-Gm-Message-State: AOAM530bR4syq7XFhDUiKlgtfUiWlQ5i7Zf6RAE3QulSDtj5jC6htXWZ
+ 1qbNHG7jp3mqQn1/WQA1UlruswvlIjUZv1VVQ72wsQ==
+X-Google-Smtp-Source: ABdhPJwS3c2eBBOuTQUKHgbw78cl1LI3YGWqPNniUgUGgJUaNw5468VEjlK7l+VJaxi27hbQTRuN4j1Z0uej96SXBQQ=
+X-Received: by 2002:a05:620a:24c5:: with SMTP id
+ m5mr4177309qkn.195.1620310602750; 
+ Thu, 06 May 2021 07:16:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 14:16:12 -0000
-From: Kenneth Salerno <1874264@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kennethsalerno th-huth
-X-Launchpad-Bug-Reporter: Kenneth Salerno (kennethsalerno)
-X-Launchpad-Bug-Modifier: Kenneth Salerno (kennethsalerno)
-References: <158756466889.23136.4781024661991862847.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162031057214.6066.7324536211123633812.malone@wampee.canonical.com>
-Subject: [Bug 1874264] Re: AIX 7.2 TL4 SP1 cannot IPL with QEMU >2.11.2
- ppc64-softmmu
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: ff9575e6cfcd289250159ec25320a2595a740bc9
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210506133758.1749233-1-philmd@redhat.com>
+ <20210506133758.1749233-5-philmd@redhat.com>
+In-Reply-To: <20210506133758.1749233-5-philmd@redhat.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Thu, 6 May 2021 08:16:30 -0600
+Message-ID: <CANCZdfoJWEbPFvZ0605riUfnpVRAeC6Feem5_ahC7FUfO71-AA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/9] bsd-user/syscall: Replace alloca() by g_new()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000e733e705c1a9f591"
+Received-SPF: none client-ip=2607:f8b0:4864:20::735;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x735.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,472 +76,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1874264 <1874264@bugs.launchpad.net>
+Cc: kvm@vger.kernel.org, Kyle Evans <kevans@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Thomas. Yes! Of course I had it working beautifully before, with
-only a minor issue executing a small number of XCOFF binaries, that is
-why I specified the QEMU version (2.11.2) AIX last worked with in the
-title of this bug.
+--000000000000e733e705c1a9f591
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Check it out:
+On Thu, May 6, 2021, 7:38 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+>
+wrote:
 
-kens@LAPTOP-JN77KAC2$ qemu-system-ppc64 -version
-QEMU emulator version 2.11.2
-Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+> The ALLOCA(3) man-page mentions its "use is discouraged".
+>
+> Replace it by a g_new() call.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  bsd-user/syscall.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
+> index 4abff796c76..dbee0385ceb 100644
+> --- a/bsd-user/syscall.c
+> +++ b/bsd-user/syscall.c
+> @@ -355,9 +355,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num,
+> abi_long arg1,
+>      case TARGET_FREEBSD_NR_writev:
+>          {
+>              int count =3D arg3;
+> -            struct iovec *vec;
+> +            g_autofree struct iovec *vec =3D g_new(struct iovec, count);
+>
 
-kens@LAPTOP-JN77KAC2$ ssh -p9018 localhost
-Last login: Thu May  6 10:06:55 EDT 2021 on ssh from 10.0.2.2
-***************************************************************************=
-****
-*                                                                          =
-   *
-*                                                                          =
-   *
-*  Welcome to AIX Version 7.2!                                             =
-   *
-*                                                                          =
-   *
-*                                                                          =
-   *
-*  Please see the README file in /usr/lpp/bos for information pertinent to =
-   *
-*  this release of the AIX Operating System.                               =
-   *
-*                                                                          =
-   *
-*                                                                          =
-   *
-***************************************************************************=
-****
-kens@aix-ppc64$ lsattr -El sys0 -a modelname
-modelname IBM pSeries (emulated by qemu) Machine name False
+Where is this freed? Also, alloca just moves a stack pointer, where malloc
+has complex interactions. Are you sure that's a safe change here?
 
-kens@aix-ppc64$ lsattr -El proc0
-frequency   1000000000     Processor Speed       False
-smt_enabled false          Processor SMT enabled False
-smt_threads 1              Processor SMT threads False
-state       enable         Processor state       False
-type        PowerPC_POWER9 Processor type        False
+Warner
 
+-            vec =3D alloca(count * sizeof(struct iovec));
+>              if (lock_iovec(VERIFY_READ, vec, arg2, count, 1) < 0)
+>                  goto efault;
+>              ret =3D get_errno(writev(arg1, vec, count));
+> --
+> 2.26.3
+>
+>
 
-Pretty cool, right?
+--000000000000e733e705c1a9f591
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Something changed after 2.11.2 that broke something in the tcg cpu
-execution emulation.
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, May 6, 2021, 7:38 AM Philippe Mathieu-Daud=C3=
+=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">The ALLOCA(3) man-page mentions =
+its &quot;use is discouraged&quot;.<br>
+<br>
+Replace it by a g_new() call.<br>
+<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
+hat.com" target=3D"_blank" rel=3D"noreferrer">philmd@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0bsd-user/syscall.c | 3 +--<br>
+=C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
+<br>
+diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c<br>
+index 4abff796c76..dbee0385ceb 100644<br>
+--- a/bsd-user/syscall.c<br>
++++ b/bsd-user/syscall.c<br>
+@@ -355,9 +355,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi=
+_long arg1,<br>
+=C2=A0 =C2=A0 =C2=A0case TARGET_FREEBSD_NR_writev:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int count =3D arg3;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iovec *vec;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree struct iovec *vec =3D=
+ g_new(struct iovec, count);<br></blockquote></div></div><div dir=3D"auto">=
+<br></div><div dir=3D"auto">Where is this freed? Also, alloca just moves a =
+stack pointer, where malloc has complex interactions. Are you sure that&#39=
+;s a safe change here?</div><div dir=3D"auto"><br></div><div dir=3D"auto">W=
+arner</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmai=
+l_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vec =3D alloca(count * sizeof(st=
+ruct iovec));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (lock_iovec(VERIFY_READ,=
+ vec, arg2, count, 1) &lt; 0)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto efault;<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D get_errno(writev(ar=
+g1, vec, count));<br>
+-- <br>
+2.26.3<br>
+<br>
+</blockquote></div></div></div>
 
-This is the error I get when I try to boot AIX in any QEMU version >
-2.11.2:
-
-ERROR:/home/kens/tmp/qemu/cpus.c:1727:qemu_tcg_cpu_thread_fn: assertion
-failed: (cpu->halted)
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1874264
-
-Title:
-  AIX 7.2 TL4 SP1 cannot IPL with QEMU >2.11.2 ppc64-softmmu
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  kens@LAPTOP-JN77KAC2$ qemu-system-ppc64 -version
-  QEMU emulator version 4.2.93 (v5.0.0-rc3-8-g3119154db0-dirty)
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-
-  qemu-system-ppc64 \
-    -name "IBM AIX - IBM POWER9" \
-    -M pseries \
-    -cpu POWER9 \
-    -smp 8 \
-    -m 8192 \
-    -nodefaults \
-    -nographic \
-    -prom-env input-device=3D/vdevice/vty@71000000 \
-    -prom-env output-device=3D/vdevice/vty@71000000 \
-    -serial tcp::9019,server,nowait \
-    -monitor tcp::9020,server,nowait \
-    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
-22 \
-    -device virtio-net-pci,netdev=3Dmynet0 \
-    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
-ia=3Ddisk,cache=3Dunsafe \
-    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
-    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
-=3Dunsafe
-
-  -------------------------------------------------------------------------=
-------
-                                  Welcome to AIX.
-                     boot image timestamp: 14:18:40 03/27/2020
-          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
-           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
-  =0CAIX vm,uuid property contains invalid data
-  processing splpar characteristic: MaxEntCap
-  processing splpar characteristic: DesMem
-  processing splpar characteristic: DesProcs
-  processing splpar characteristic: MaxPlatProcs
-  processing splpar characteristic: HostThrs
-
-  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
-rgument
-  -------------------------------------------------------------------------=
-------
-  =0CStarqemu-system-ppc64: OS terminated: 888 102 700 C20
-
-  =
-
-  qemu-system-ppc64 \
-    -name "IBM AIX - IBM POWER8" \
-    -M pseries \
-    -cpu POWER8 \
-    -smp 8 \
-    -m 8192 \
-    -nodefaults \
-    -nographic \
-    -prom-env input-device=3D/vdevice/vty@71000000 \
-    -prom-env output-device=3D/vdevice/vty@71000000 \
-    -serial tcp::9019,server,nowait \
-    -monitor tcp::9020,server,nowait \
-    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
-22 \
-    -device virtio-net-pci,netdev=3Dmynet0 \
-    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
-ia=3Ddisk,cache=3Dunsafe \
-    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
-    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
-=3Dunsafe
-
-  -------------------------------------------------------------------------=
-------
-                                  Welcome to AIX.
-                     boot image timestamp: 14:18:40 03/27/2020
-          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
-           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
-  =0CAIX vm,uuid property contains invalid data
-  processing splpar characteristic: MaxEntCap
-  processing splpar characteristic: DesMem
-  processing splpar characteristic: DesProcs
-  processing splpar characteristic: MaxPlatProcs
-  processing splpar characteristic: HostThrs
-
-  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
-rgument
-  -------------------------------------------------------------------------=
-------
-  =0CStar**
-  ERROR:/home/kens/tmp/qemu/cpus.c:1727:qemu_tcg_cpu_thread_fn: assertion f=
-ailed: (cpu->halted)
-
-  =
-
-  kens@LAPTOP-JN77KAC2$ qemu-system-ppc64 -version
-  QEMU emulator version 2.11.2
-  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
-
-  qemu-system-ppc64 \
-    -name "IBM AIX - IBM POWER9" \
-    -M pseries,cap-htm=3Doff \
-    -cpu POWER9 \
-    -smp 8 \
-    -m 8192 \
-    -nodefaults \
-    -nographic \
-    -prom-env input-device=3D/vdevice/vty@71000000 \
-    -prom-env output-device=3D/vdevice/vty@71000000 \
-    -serial tcp::9019,server,nowait \
-    -monitor tcp::9020,server,nowait \
-    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
-22 \
-    -device virtio-net-pci,netdev=3Dmynet0 \
-    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
-ia=3Ddisk,cache=3Dunsafe \
-    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
-    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
-=3Dunsafe
-
-  -------------------------------------------------------------------------=
-------
-                                  Welcome to AIX.
-                     boot image timestamp: 14:18:40 03/27/2020
-          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
-           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
-  =0CAIX vm,uuid property contains invalid data
-  processing splpar characteristic: MaxEntCap
-  processing splpar characteristic: DesMem
-  processing splpar characteristic: DesProcs
-  processing splpar characteristic: MaxPlatProcs
-
-  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
-rgument
-  -------------------------------------------------------------------------=
-------
-  =0CStar
-  0539
-  0811
-  0539
-  0812
-  0708
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  078c
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  078c
-  0539
-  2071
-  0539
-  2073
-  0539
-  25b3vscsi_send_capabilities: capabilities size mismatch !
-  VSCSI: Unknown MAD type 09
-
-  0539
-  0538
-  0539
-  0591
-  0539
-  0538
-  0539
-  0538
-  0539
-  25b0
-  0539
-
-  0511
-  0551
-  0517
-  0517
-  0517
-  0517
-  0553
-  0517
-  0517
-  0538
-  0539
-  0538
-  0539
-  270b
-  0539
-  0538
-  0539
-  2070
-  0539
-  0538
-  0539
-  0811
-  0539
-  0811
-  0539
-  0812
-  0708
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  078c
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  078c
-  04ee
-  078c
-  0727
-  0727
-  2071
-  2072
-  2072
-  2071
-  0539
-  25b3
-  0539
-  25b5
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0581
-  0539
-  0538
-  0539
-  7000
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0581
-  0581
-  0539
-  0538
-  0539
-  25b0
-  0539
-  0538
-  0539
-  0538
-  0539
-  0731
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  2028
-  0539
-  0538
-  0539
-
-  0c33
-  Saving Base Customize Data to boot disk
-  Starting the sync daemon
-  Starting the error daemon
-
-  System initialization completed.
-  TE=3DOFF
-  CHKEXEC=3DOFF
-  CHKSHLIB=3DOFF
-  CHKSCRIPT=3DOFF
-  CHKKERNEXT=3DOFF
-  STOP_UNTRUSTD=3DOFF
-  STOP_ON_CHKFAIL=3DOFF
-  LOCK_KERN_POLICIES=3DOFF
-  TSD_FILES_LOCK=3DOFF
-  TSD_LOCK=3DOFF
-  TEP=3DOFF
-  TLP=3DOFF
-  Successfully updated the Kernel Authorization Table.
-  Successfully updated the Kernel Role Table.
-  Successfully updated the Kernel Command Table.
-  Successfully updated the Kernel Device Table.
-  Successfully updated the Kernel Object Domain Table.
-  Successfully updated the Kernel Domains Table.
-  Successfully updated the Kernel RBAC log level.
-  Successfully updated the Kernel RBAC log level.
-  OPERATIONAL MODE Security Flags
-  ROOT                      :    ENABLED
-  TRACEAUTH                 :   DISABLED
-  System runtime mode is now OPERATIONAL MODE.
-  Setting tunable parameters...complete
-  Checking for srcmstr active...complete
-  Starting tcpip daemons:
-  0513-059 The sendmail Subsystem has been started. Subsystem PID is 445684=
-6.
-  0513-059 The syslogd Subsystem has been started. Subsystem PID is 4522382.
-  0513-059 The portmap Subsystem has been started. Subsystem PID is 4194776.
-  0513-059 The inetd Subsystem has been started. Subsystem PID is 4129230.
-  0513-059 The snmpmibd Subsystem has been started. Subsystem PID is 432567=
-2.
-  Finished starting tcpip daemons.
-
-  =
-
-  AIX Version 7
-  Copyright IBM Corporation, 1982, 2019.
-  Console login: root
-  root's Password:
-
-  *************************************************************************=
-******
-  *                                                                        =
-     *
-  *                                                                        =
-     *
-  *  Welcome to AIX Version 7.2!                                           =
-     *
-  *                                                                        =
-     *
-  *                                                                        =
-     *
-  *  Please see the README file in /usr/lpp/bos for information pertinent t=
-o    *
-  *  this release of the AIX Operating System.                             =
-     *
-  *                                                                        =
-     *
-  *                                                                        =
-     *
-  *************************************************************************=
-******
-  Last login: Wed Apr 22 07:21:19 EDT 2020 on /dev/vty0
-
-  root@aix-ppc64# oslevel -s
-  7200-04-01-1939
-  root@aix-ppc64#
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1874264/+subscriptions
+--000000000000e733e705c1a9f591--
 
