@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938AF374F51
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 08:24:57 +0200 (CEST)
-Received: from localhost ([::1]:33442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD370374F48
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 08:16:26 +0200 (CEST)
+Received: from localhost ([::1]:47152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leXRO-0004Dc-Si
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 02:24:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46490)
+	id 1leXJB-0005vm-Q3
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 02:16:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leXNZ-0001c7-Jw
- for qemu-devel@nongnu.org; Thu, 06 May 2021 02:20:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45884)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leXNX-00074K-Ed
- for qemu-devel@nongnu.org; Thu, 06 May 2021 02:20:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leXNV-0000L1-J0
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 06:20:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7A88A2E8192
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 06:20:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1leXHZ-0005Oc-Oo
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 02:14:45 -0400
+Received: from 8.mo52.mail-out.ovh.net ([46.105.37.156]:44837)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1leXHU-0003MX-Vx
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 02:14:45 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.48])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 176AC275CC1;
+ Thu,  6 May 2021 08:14:30 +0200 (CEST)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Thu, 6 May 2021
+ 08:14:29 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002c35e9a4b-82c2-4398-9a74-d8a1be0523f7,
+ A011F864E236C67B2AFE342ECDF08F9E86568858) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 6 May 2021 08:14:28 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [for-6.1 v2 2/2] virtiofsd: Add support for FUSE_SYNCFS request
+Message-ID: <20210506081428.69d73bbc@bahia.lan>
+In-Reply-To: <20210505185242.GC244258@redhat.com>
+References: <20210426152135.842037-1-groug@kaod.org>
+ <20210426152135.842037-3-groug@kaod.org>
+ <20210505185242.GC244258@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 06:14:01 -0000
-From: Thomas Huth <1865248@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: adrelanos th-huth
-X-Launchpad-Bug-Reporter: Patrick Schleizer (adrelanos)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158295716251.12323.9371566486970829687.malonedeb@soybean.canonical.com>
-Message-Id: <162028164185.14342.4082457235438579809.malone@soybean.canonical.com>
-Subject: [Bug 1865248] Re: bundle QEMU installer with a QEMU GUI (graphical
- user interface) such as Virt Manager
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 9b58c7c8ea531f55ba23211e9bae99ae2e5d6248
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: c78b824e-59e7-468b-825f-a6735cd090d1
+X-Ovh-Tracer-Id: 9891312157052475826
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdefledguddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepphgsohhniihinhhisehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=groug@kaod.org;
+ helo=8.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,47 +68,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1865248 <1865248@bugs.launchpad.net>
+Cc: kvm@vger.kernel.org, Miklos Szeredi <miklos@szeredi.hu>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry, but I don't think that any of the current QEMU project members
-has plans to work on such a bundle. This requires a new contributor to
-step up and do the job.
+On Wed, 5 May 2021 14:52:42 -0400
+Vivek Goyal <vgoyal@redhat.com> wrote:
 
-** Changed in: qemu
-       Status: New =3D> Won't Fix
+> On Mon, Apr 26, 2021 at 05:21:35PM +0200, Greg Kurz wrote:
+> > Honor the expected behavior of syncfs() to synchronously flush all
+> > data and metadata on linux systems.
+> > 
+> > Flushing is done with syncfs(). This is suboptimal as it will also
+> > flush writes performed by any other process on the same file system,
+> > and thus add an unbounded time penalty to syncfs(). This may be
+> > optimized in the future, but enforce correctness first.
+> > 
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  tools/virtiofsd/fuse_lowlevel.c       | 19 ++++++++++++++++++
+> >  tools/virtiofsd/fuse_lowlevel.h       | 13 ++++++++++++
+> >  tools/virtiofsd/passthrough_ll.c      | 29 +++++++++++++++++++++++++++
+> >  tools/virtiofsd/passthrough_seccomp.c |  1 +
+> >  4 files changed, 62 insertions(+)
+> > 
+> > diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+> > index 58e32fc96369..918ab11f54c2 100644
+> > --- a/tools/virtiofsd/fuse_lowlevel.c
+> > +++ b/tools/virtiofsd/fuse_lowlevel.c
+> > @@ -1870,6 +1870,24 @@ static void do_lseek(fuse_req_t req, fuse_ino_t nodeid,
+> >      }
+> >  }
+> >  
+> > +static void do_syncfs(fuse_req_t req, fuse_ino_t nodeid,
+> > +                      struct fuse_mbuf_iter *iter)
+> > +{
+> > +    struct fuse_syncfs_in *arg;
+> > +
+> > +    arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
+> > +    if (!arg) {
+> > +        fuse_reply_err(req, EINVAL);
+> > +        return;
+> > +    }
+> > +
+> > +    if (req->se->op.syncfs) {
+> > +        req->se->op.syncfs(req, arg->flags);
+> > +    } else {
+> > +        fuse_reply_err(req, ENOSYS);
+> > +    }
+> > +}
+> > +
+> >  static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+> >                      struct fuse_mbuf_iter *iter)
+> >  {
+> > @@ -2267,6 +2285,7 @@ static struct {
+> >      [FUSE_RENAME2] = { do_rename2, "RENAME2" },
+> >      [FUSE_COPY_FILE_RANGE] = { do_copy_file_range, "COPY_FILE_RANGE" },
+> >      [FUSE_LSEEK] = { do_lseek, "LSEEK" },
+> > +    [FUSE_SYNCFS] = { do_syncfs, "SYNCFS" },
+> >  };
+> >  
+> >  #define FUSE_MAXOP (sizeof(fuse_ll_ops) / sizeof(fuse_ll_ops[0]))
+> > diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+> > index 3bf786b03485..220bb3db4898 100644
+> > --- a/tools/virtiofsd/fuse_lowlevel.h
+> > +++ b/tools/virtiofsd/fuse_lowlevel.h
+> > @@ -1225,6 +1225,19 @@ struct fuse_lowlevel_ops {
+> >       */
+> >      void (*lseek)(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
+> >                    struct fuse_file_info *fi);
+> > +
+> > +    /**
+> > +     * Synchronize file system content
+> > +     *
+> > +     * If this request is answered with an error code of ENOSYS,
+> > +     * this is treated as success and future calls to syncfs() will
+> > +     * succeed automatically without being sent to the filesystem
+> > +     * process.
+> > +     *
+> > +     * @param req request handle
+> > +     * @param flags not used yet
+> > +     */
+> > +    void (*syncfs)(fuse_req_t req, uint64_t flags);
+> >  };
+> >  
+> >  /**
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > index 1553d2ef454f..6790a2f6fe10 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -3124,6 +3124,34 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
+> >      }
+> >  }
+> >  
+> > +static void lo_syncfs(fuse_req_t req, uint64_t flags)
+> > +{
+> > +    struct lo_data *lo = lo_data(req);
+> > +    int fd, ret;
+> > +
+> > +    /* No flags supported yet */
+> > +    if (flags) {
+> > +        fuse_reply_err(req, EINVAL);
+> > +        return;
+> > +    }
+> > +
+> > +    fd = lo_inode_open(lo, &lo->root, O_RDONLY);
+> > +    if (fd < 0) {
+> > +        fuse_reply_err(req, errno);
+> > +        return;
+> > +    }
+> > +
+> > +    /*
+> > +     * FIXME: this is suboptimal because it will also flush unrelated
+> > +     *        writes not coming from the client. This can dramatically
+> > +     *        increase the time spent in syncfs() if some process is
+> > +     *        writing lots of data on the same filesystem as virtiofsd.
+> > +     */
+> > +    ret = syncfs(fd);
+> 
+> Hi Greg,
+> 
 
--- =
+Hi Vivek,
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1865248
+> As we discussed in the community call that this works only if there are
+> no other filesystems mounted as submounts under exported directory.
+> 
+> We proably need to find a way to call syncfs() on all the filesystems
+> which are submounts of exported directory. Might not be easy at all.
+> 
 
-Title:
-  bundle QEMU installer with a QEMU GUI (graphical user interface) such
-  as Virt Manager
+I must confess I didn't investigate this case. I'll start looking.
 
-Status in QEMU:
-  Won't Fix
+> Just mentioning it here so that we have a note about the limitation of
+> current patch.
+> 
 
-Bug description:
-  For a better out of the box user experience on the Windows platform it
-  would be nice if a QEMU GUI would be by installed by the same QEMU
-  installer. Currently it is required to first install QEMU and then
-  install a QEMU GUI.
+Sure. I'll add a note for that.
 
-  I don't know all QEMU GUIs but looks like Virt Manager is a decent
-  QEMU GUI and still maintained.
+> Vivek
+> 
+> > +    fuse_reply_err(req, ret < 0 ? errno : 0);
+> > +    close(fd);
+> > +}
+> > +
+> >  static void lo_destroy(void *userdata)
+> >  {
+> >      struct lo_data *lo = (struct lo_data *)userdata;
+> > @@ -3184,6 +3212,7 @@ static struct fuse_lowlevel_ops lo_oper = {
+> >      .copy_file_range = lo_copy_file_range,
+> >  #endif
+> >      .lseek = lo_lseek,
+> > +    .syncfs = lo_syncfs,
+> >      .destroy = lo_destroy,
+> >  };
+> >  
+> > diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+> > index 62441cfcdb95..343188447901 100644
+> > --- a/tools/virtiofsd/passthrough_seccomp.c
+> > +++ b/tools/virtiofsd/passthrough_seccomp.c
+> > @@ -107,6 +107,7 @@ static const int syscall_allowlist[] = {
+> >      SCMP_SYS(set_robust_list),
+> >      SCMP_SYS(setxattr),
+> >      SCMP_SYS(symlinkat),
+> > +    SCMP_SYS(syncfs),
+> >      SCMP_SYS(time), /* Rarely needed, except on static builds */
+> >      SCMP_SYS(tgkill),
+> >      SCMP_SYS(unlinkat),
+> > -- 
+> > 2.26.3
+> > 
+> 
 
-  Virt Manager is also available for Windows.
-
-  https://serverfault.com/questions/340949/is-there-a-way-to-run-virt-
-  manager-on-windows
-
-  However as per these instructions it is difficult (many steps) for
-  laymen to install Virt Manager on Windows (cygwin...).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1865248/+subscriptions
 
