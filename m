@@ -2,77 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5039A374FA3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 08:55:41 +0200 (CEST)
-Received: from localhost ([::1]:58372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11236374FB8
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 09:03:02 +0200 (CEST)
+Received: from localhost ([::1]:35274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leXvA-000198-7Y
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 02:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53774)
+	id 1leY2G-0003s3-VN
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 03:03:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1leXu1-0000fM-4q
- for qemu-devel@nongnu.org; Thu, 06 May 2021 02:54:29 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:42628)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1leXtx-0002fB-Iw
- for qemu-devel@nongnu.org; Thu, 06 May 2021 02:54:28 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 4-20020a05600c26c4b0290146e1feccd8so2413367wmv.1
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 23:54:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=user-agent:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7G+jgUV9Y9CrtPr6PNPnkHvlprzGSMTDJCIxD3nvopM=;
- b=yjJDs0HLuHviZLiICiXxDL8268lLahNfVYy8qkEbwgm5vtmyiHH0YwaPFDbGh2yUI1
- hGjX+UB2YS0MaUy8EKtqlNmsETPCMzRb+x03GhCgeBOl+bmFJAKDHcovbA0HYtNPyf0G
- VFmfCwtU7eVyrYSitbU2epSrx45Vw4mIyslay3DhxPLl1OcMTn5cQNW4AOMwFIucy45A
- 1pfNxLTK0KQ8CB5FO0QOVsfl4QDVhsWoBS4H7d3R16arshIwnkcZB1LJs/zsEOCGDBEN
- o+YZ2vkBPG6OQRqmRCmW02Itllc1akGQzzsaQ1rJrAQqaPqGLPtnA62RlRSSvCF6gqVs
- cA5w==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1leY0Y-00038k-97
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:01:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1leY0S-00078T-9x
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:01:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620284466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=usKfPff/4OkH62lX5lQIr91wInFsZmtiBgmhvM7kkMw=;
+ b=ePxz+ZpyrTMkRo00ZDV8nSS5jQdoOQ53b7QsT3Ek8J7ZTWJCAAQA8A/85fBGjvMcFRMUHY
+ DC1JM5eZflmbFppQruuYVZOAh3s+dHrT6F4Y/HJGVhVZGBBtj7y/U7AzBKmbAIMOwR4a9R
+ TGdn/TZcLXNZTZWQ79qZV+QQL6FOB9s=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-71RgRgjJPCCzsUgrtuTk4A-1; Thu, 06 May 2021 03:01:02 -0400
+X-MC-Unique: 71RgRgjJPCCzsUgrtuTk4A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ n10-20020adfb74a0000b029010e1a98fb84so1810438wre.0
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 00:01:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:user-agent:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=7G+jgUV9Y9CrtPr6PNPnkHvlprzGSMTDJCIxD3nvopM=;
- b=SvxUz/oY+/Q+MVq1i0+Y9SRJKUCfhfVQNBr6tCNzZR6D7AJ32n3rdfroq6ajOy6fuH
- 86UFmopXvc1JXWX3OT09lL2lH+9C4JR85+bWyjaBtrQj/U5RsWLc+JtqtQgQBUYFMRsy
- R903SE1NpNvdCBqMzpDKq/EzAYK7D2fKMuNuGxmBnAU77FIf7cIekfE4I5F2q8zQvhwN
- XIWPGiIbHzOm9NFR6g19tOAODLZ1D0KBx16UPOqyLM7oHZRsAnON4i6gfJjPYnfVSvk6
- XlfSx2Loe7KMIOePCLvZ+uzFGLqoUbDd+fH3dipeeI19cp1n6+ut4FTK1XeAhaKmnKNu
- QH6A==
-X-Gm-Message-State: AOAM5309y20DTnFQvU4APfafepCh2pkph1Ir7/yGVQzKVg4rKWgFPQrB
- OCjkT0n+0xg1Qd4Wpr8rAkFRNw==
-X-Google-Smtp-Source: ABdhPJzVpHUGdjQMeTJ3QiKjoBAt1J2G+mO1/mOp1OlBKwxbqD9D0F51sBtmDCGZuSqSsmzJhOTsWQ==
-X-Received: by 2002:a1c:b786:: with SMTP id
- h128mr13249542wmf.119.1620284063894; 
- Wed, 05 May 2021 23:54:23 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s1sm9127845wmj.8.2021.05.05.23.54.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 May 2021 23:54:22 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1692F1FF7E;
- Thu,  6 May 2021 07:54:22 +0100 (BST)
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Subject: Help with record/replay 
-Date: Thu, 06 May 2021 07:50:41 +0100
-Message-ID: <87czu4nyht.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=usKfPff/4OkH62lX5lQIr91wInFsZmtiBgmhvM7kkMw=;
+ b=Ix98G57QfVH5JA6CQ9YVDcWXrowk7tml6YcDlvufQte4+fL7PQHt8Lqo+As/QIKDfe
+ ud5ne0yVlGF/McYEQp9OrEfVbXJJBBRw7ZhFdyJ21gLW+p0ieaoKKAW/7caSHxmE1Vjk
+ fY4dPqbPVdYqcOgN+MaJPILxHAlU8gdHnvxFnKuk2D9ws899imyziwSP3DqY768Kf1sl
+ SEPR9AOi0nN7bzYhf+5oydQjlcjgDaL7R+HaVGGj0zI+oRzWhKFZghKdeiWEjmHiChXp
+ t/LXmxYjGohqK3lsHNZ6pzRoBmrDBp/ZJq2uS3sve+sPkX9k25Fa9SWKg6XvPewlkPnU
+ J4+A==
+X-Gm-Message-State: AOAM531OqZTRY+2LYuW839nYSCzA4ABYxHxERGizAzx9FQSyyXj0Wohq
+ u/dUPplD2A9SwW6Cj7bg04c5DGD+cusWReZtv7LdwEiI9WeKLW/EFVTe0Dg0PnYx+byQMlQ18X8
+ z9P9mENQ+pPjlletL34ZYEP4oH4RdQZiUIg70mOIEHzXmQwUDpNYSHNcfiLEU/Nw=
+X-Received: by 2002:adf:d1c4:: with SMTP id b4mr3147839wrd.301.1620284461619; 
+ Thu, 06 May 2021 00:01:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJztb1tOlasdVpGtdij2dBsE3/OwCJQNOuz7n/Ct7ltArZ4iCUezt3QJsesXVkqaAiUpvx8EQA==
+X-Received: by 2002:adf:d1c4:: with SMTP id b4mr3147814wrd.301.1620284461405; 
+ Thu, 06 May 2021 00:01:01 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e83394.dip0.t-ipconnect.de.
+ [217.232.51.148])
+ by smtp.gmail.com with ESMTPSA id c8sm8429498wmr.48.2021.05.06.00.01.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 May 2021 00:01:00 -0700 (PDT)
+Subject: Re: [PULL 00/10] Gitlab-CI, qtest, moxie removal and misc patches
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210503104456.1036472-1-thuth@redhat.com>
+ <CAFEAcA8k1DnOFT+5pjQ4ytene3asVDKB7TUOZgGhucTp_ypz2g@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <66206f67-f3c8-eb1c-fd5d-8c7555fe5316@redhat.com>
+Date: Thu, 6 May 2021 09:00:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAFEAcA8k1DnOFT+5pjQ4ytene3asVDKB7TUOZgGhucTp_ypz2g@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,40 +100,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Pavel,
+On 05/05/2021 20.06, Peter Maydell wrote:
+> On Mon, 3 May 2021 at 11:45, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>>   Hi Peter,
+>>
+>> the following changes since commit 53c5433e84e8935abed8e91d4a2eb813168a0ecf:
+>>
+>>    Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210501' into staging (2021-05-02 12:02:46 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://gitlab.com/thuth/qemu.git tags/pull-request-2021-05-03
+>>
+>> for you to fetch changes up to 8f582fa290e5d5d0a00db23eaf1ab1bb3d3ae68d:
+>>
+>>    util/compatfd.c: Replaced a malloc call with g_malloc. (2021-05-03 11:40:40 +0200)
+>>
+>> ----------------------------------------------------------------
+>> * Removal of the deprecated moxie target
+>> * Replace some YAML anchors by "extends" in the Gitlab-CI
+>> * Some small improvements for using the qtests
+>> * Some other small misc patches
+> 
+> This fails to build as an incremental (not from-clean) build:
+[...]
+> ../../meson.build:1291:2: ERROR: Failed to load
+> /home/ubuntu/qemu/default-configs/targets/moxie-softmmu.mak: [Errno 2]
+> No such file or directory:
+> '/home/ubuntu/qemu/default-configs/targets/moxie-softmmu.mak'
 
-I'm trying to get reverse debugging working to look at a Xen problem and
-I'm confused about what is going wrong. I've converted by normal setup
-which uses a ZFS block device to qcow2 so I have a place for the
-snapshots:
+D'oh! I think I can work-around the problem with a patch like
+this on top:
 
-  ./qemu-system-aarch64 -machine virt,virtualization=3Don -cpu cortex-a57 \
-    -serial mon:stdio -netdev user,id=3Dnet1,hostfwd=3Dtcp::2222-:22 \
-    -device virtio-net-pci,netdev=3Dnet1 \
-    -device virtio-scsi-pci \
-    -drive file=3Ddebian-buster-arm64.qcow2,id=3Dhd0,index=3D0,if=3Dnone,sn=
-apshot=3Don \
-    -device scsi-hd,drive=3Dhd0 \
-    -display none -m 8192 \
-    -kernel ~/lsrc/xen/xen.build.arm64-xen/xen/xen \
-    -append "dom0_mem=3D2G,max:2G dom0_max_vcpus=3D4" \
-    -device guest-loader,addr=3D0x47000000,kernel=3D$HOME/lsrc/linux.git/bu=
-ilds/arm64/arch/arm64/boot/Image,bootargs=3D"root=3D/dev/sda2
-  console=3Dhvc0 earlyprintk=3Dxen" \
-    -icount shift=3D5,rr=3Drecord,rrfile=3Dxencrash.bin,rrsnapshot=3Dinit \
-    -object filter-replay,id=3Dreplay,netdev=3Dnet1
+diff a/configure b/configure
+--- a/configure
++++ b/configure
+@@ -1686,6 +1686,11 @@ fi
+  
+  for config in $mak_wilds; do
+      target="$(basename "$config" .mak)"
++    if [ "$target" = "moxie-softmmu" ]; then
++        # This is a work-around to make incremental builds pass after
++        # moxie-softmmu has been removed. It can be removed later.
++        continue
++    fi
+      if echo "$target_list_exclude" | grep -vq "$target"; then
+          default_target_list="${default_target_list} $target"
+      fi
+diff a/default-configs/targets/moxie-softmmu.mak b/default-configs/targets/moxie-softmmu.mak
+new file mode 100644
+index 0000000000..23fd596b66
+--- /dev/null
++++ b/default-configs/targets/moxie-softmmu.mak
+@@ -0,0 +1,2 @@
++# This is just a dummy file to avoid that incremental builds are failing.
++# It can be removed as soon as all builders have been updated.
 
-but when I try to replay I get:
+Does that look acceptable? If yes, I'll respin my PR with that
+squashed into the moxie patch.
 
-  qemu-system-aarch64: Snapshot 'init' does not exist in one or more devices
-  qemu-system-aarch64: Could not load snapshot for icount replay
+  Thomas
 
-So do I need another qcow device just for snapshots?
-
---=20
-Alex Benn=C3=A9e
 
