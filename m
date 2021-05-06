@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A4F375BAF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 21:27:25 +0200 (CEST)
-Received: from localhost ([::1]:55598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7275D375BAE
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 21:25:40 +0200 (CEST)
+Received: from localhost ([::1]:51526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lejee-0004lN-OP
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 15:27:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39680)
+	id 1lejcx-0002sp-HD
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 15:25:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lejYz-0000Ze-A0
- for qemu-devel@nongnu.org; Thu, 06 May 2021 15:21:33 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53154)
+ id 1lejaA-0001UQ-Pa
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 15:22:48 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lejYw-0001DX-Cg
- for qemu-devel@nongnu.org; Thu, 06 May 2021 15:21:32 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id g65so3969316wmg.2
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 12:21:29 -0700 (PDT)
+ id 1leja2-0001sh-TN
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 15:22:44 -0400
+Received: by mail-wr1-x436.google.com with SMTP id z6so6777389wrm.4
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 12:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=Yg1I4glWqaS52CpGzVFLIbEPG9mJUqSU8zT79wfMSYY=;
- b=Rz3wmpXtVAdrQ1thoNAPQ/PPtRWrjCHNAGbI+HwCZ56fHeQKzIY2FXYiEYWbJYwLAP
- orathCPW15Fjg0pnVV4jtr2Sb0a2cdJ4glga6Khl3aMlPMMMixUff4KzSFn8oLY6IZsv
- jhpOHZi4+htCTw9xjJv09l4MofgBfJw/b4un11GqghXoEiAVG/bZuYTCsTqqsQJrJtQs
- rFGzICq9MlwNHRm1QiW6iaUqw/UKWNm0OAzn39VkJUof6O7XcAySQJdAoIGQ2C8W3iaQ
- HAV8cCTfqv04FNLeO4ErEHflQvAtsWtaFZK2NZA9BY4KTg0kP8ebbsIywZt3kfwSBenD
- /grA==
+ bh=OcGko0AZpfeOMrm5jT5N9J347dkqKIUp28FiXKFtwdk=;
+ b=fELVnzK2+xFRsnRGPh//ft7E2TmxIFR18SqhN97yrkYySqfxwRVM7nMPS1kmx9/BX/
+ d8lCU2LfQu25BYAvEswZgx22e/LoyRz6+EIYTY4eU4ShXsZS/nYDa5+gP/KWIDKszo/c
+ M0WLyrc3i91S1+Dy53iMsyCIuA2sDNPcVDcPjPC7qyxyKhKP25ltlUClufgWfb8yGrCk
+ nuYBeT2/NCmJpSWDs9bpLugSq6FqorqXdwEsuh+hTexVA3ScBlU6LaLTbyHaC3qGg09f
+ eP09zF4EfJaaw1dnt1Ubroq5jzpysEQSFMaOeh6uqcEe9kqH31NAzOmISGT8QpyI/XLS
+ P2nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Yg1I4glWqaS52CpGzVFLIbEPG9mJUqSU8zT79wfMSYY=;
- b=cUc+72k6NmwPGdDW5QJaWgkLyIihCiZr+0zJTpCj81WseYiTPjy/ElH2jhGCt0ejjW
- Cp/IGoMvpagjYFF+a0SVusU16XpQV/OxJ0g9HjKlRD5jroiw556iZHj3XFd6rp+tuKuX
- NM2dG2ylJbcPWNkVrEPml7g8sJBxA2qG+fzMIHXhCJhU71DlClq30YGE/xSq9co/SGBG
- vBycl/bblgMxjPCmitBQscDevmzg7qN2IVnQOuSj2EyPtA1PMBUAwOYxFTzvRRJWdFqv
- tF1QrHFBSKYuHihM+vekPma6jO4Yafe0N0t0YeStjc9MsE+FexSPNAmnL+SYYxGU/h4N
- bRrQ==
-X-Gm-Message-State: AOAM533uZRBO1MD21tAH6AdiRnePGvGkwoeMnvd+don+QaYMfWzFY2jf
- rWvllAHbgaNtjALnQELkmFu2PQ==
-X-Google-Smtp-Source: ABdhPJwqY14O7WbIKOgN7nshCCu9J2bEWolzDXRzV0lrgqSAVLjIWEtC/lSVYcgKnDH/+C6AoPg57Q==
-X-Received: by 2002:a05:600c:220e:: with SMTP id
- z14mr5858595wml.0.1620328888444; 
- Thu, 06 May 2021 12:21:28 -0700 (PDT)
+ bh=OcGko0AZpfeOMrm5jT5N9J347dkqKIUp28FiXKFtwdk=;
+ b=gWIqpHuiwJV7dd5VfkPQVar/3YcL/f2jOp6inGfAMzQMtQofINKhj6d+cmefRrokkL
+ InF2dqrSCO80xFBLXJ4XSQh+b8/G3ZfZu5r6gw7nsKolVT8kqk9x9nTet2uno186Z4Pu
+ 9nAujcziHvR5XYFKrsvcXJXH0/mS2hWhsebQX7pzAKLTcpPk2yJ04hOVUWwWWu2iebHP
+ RgcNYnzqeIkE26fUTiCdqju3df9luV4WOwHSejllQPLvwhLRBv9X7eCp3tNb752sLRsk
+ x0rqT0JFElsKYKdHb/RMKmzvz+STaaPKnWTOmyu4e85Uog/KqtiWg8wSL5DhltP1QUMK
+ RDyA==
+X-Gm-Message-State: AOAM532xmoVJ7OxcAoRBHpmv7OeHK7ff77zooQhVYRqt05WOW+YL6O0w
+ cJ0RSAKvqABlsLOOwkJeN83A4g==
+X-Google-Smtp-Source: ABdhPJz7hohkJdA1qQSV8cIlvzUqbOP6alUWSu9tndMQ8CfhwlXE/7/aWSvUceGtoPB3tbC5F9TWzw==
+X-Received: by 2002:a5d:6648:: with SMTP id f8mr7554311wrw.396.1620328955527; 
+ Thu, 06 May 2021 12:22:35 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z6sm4285367wmf.9.2021.05.06.12.21.27
+ by smtp.gmail.com with ESMTPSA id t7sm5572382wrw.60.2021.05.06.12.22.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 May 2021 12:21:27 -0700 (PDT)
+ Thu, 06 May 2021 12:22:34 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7349C1FF7E;
- Thu,  6 May 2021 20:21:26 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 811051FF7E;
+ Thu,  6 May 2021 20:22:33 +0100 (BST)
 References: <20210506133758.1749233-1-philmd@redhat.com>
- <20210506133758.1749233-7-philmd@redhat.com>
+ <20210506133758.1749233-8-philmd@redhat.com>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 6/9] gdbstub: Only call cmd_parse_params() with
- non-NULL command schema
-Date: Thu, 06 May 2021 20:21:21 +0100
-In-reply-to: <20210506133758.1749233-7-philmd@redhat.com>
-Message-ID: <87y2crmzwp.fsf@linaro.org>
+Subject: Re: [PATCH v2 7/9] gdbstub: Replace alloca() + memset(0) by g_new0()
+Date: Thu, 06 May 2021 20:22:01 +0100
+In-reply-to: <20210506133758.1749233-8-philmd@redhat.com>
+Message-ID: <87v97vmzuu.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,14 +96,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> Move the NULL check on command schema buffer from the callee
-> cmd_parse_params() to the single caller, process_string_cmd().
+> The ALLOCA(3) man-page mentions its "use is discouraged".
 >
-> This simplifies the process_string_cmd() logic.
+> Replace the alloca() and memset(0) calls by g_new0().
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Please see:
+
+  Subject: [ALT PATCH] gdbstub: Replace GdbCmdContext with plain g_array()
+  Date: Thu,  6 May 2021 17:07:41 +0100
+  Message-Id: <20210506160741.9841-1-alex.bennee@linaro.org>
+
+which also includes elements of 6/9 which can be kept split off.
+
+> ---
+>  gdbstub.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/gdbstub.c b/gdbstub.c
+> index 7cee2fb0f1f..666053bf590 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -1487,14 +1487,13 @@ static int process_string_cmd(void *user_ctx, con=
+st char *data,
+>          if (cmd->schema) {
+>              int schema_len =3D strlen(cmd->schema);
+>              int max_num_params =3D schema_len / 2;
+> +            g_autofree GdbCmdVariant *params =3D NULL;
+>=20=20
+>              if (schema_len % 2) {
+>                  return -2;
+>              }
+>=20=20
+> -            gdb_ctx.params =3D (GdbCmdVariant *)alloca(sizeof(*gdb_ctx.p=
+arams)
+> -                                                     * max_num_params);
+> -            memset(gdb_ctx.params, 0, sizeof(*gdb_ctx.params) * max_num_=
+params);
+> +            gdb_ctx.params =3D params =3D g_new0(GdbCmdVariant, max_num_=
+params);
+>=20=20
+>              if (cmd_parse_params(&data[strlen(cmd->cmd)], cmd->schema,
+>                                   gdb_ctx.params, &gdb_ctx.num_params)) {
+
 
 --=20
 Alex Benn=C3=A9e
