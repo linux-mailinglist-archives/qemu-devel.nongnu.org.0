@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A245375BEF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 21:44:48 +0200 (CEST)
-Received: from localhost ([::1]:37090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2DDF375BF3
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 21:48:17 +0200 (CEST)
+Received: from localhost ([::1]:40534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lejvT-0001So-NQ
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 15:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47274)
+	id 1lejyq-00034H-T4
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 15:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lejtf-0000S6-LZ
- for qemu-devel@nongnu.org; Thu, 06 May 2021 15:42:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46656)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lejtc-0005QL-Ur
- for qemu-devel@nongnu.org; Thu, 06 May 2021 15:42:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620330171;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eraw/UcYLb3IMC/zDSK6jL0qoObBOVSM50npVJ+FeZo=;
- b=MCoiCRWotYOCu90FjbQjU1emcDfjqC3mKmPiFjju/JQ80nJWTCY6RNSZEkL5zyZicCuVc+
- uGt7/dWQCa0vEJfDr5FbgnCNfb8YaYUvkFTfbycdWn8JS9UHqu3UnxhBeq1TJK1Q4IJgXX
- XLgtaykdhBPS41p9ozPVWCEyYzz637I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-s3iOfwGENPqcYg11fv6QdQ-1; Thu, 06 May 2021 15:42:50 -0400
-X-MC-Unique: s3iOfwGENPqcYg11fv6QdQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j3-20020a1c55030000b029012e7c06101aso1182230wmb.5
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 12:42:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lejun-0001YG-EE
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 15:44:05 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lejuk-0005z2-64
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 15:44:05 -0400
+Received: by mail-wr1-x433.google.com with SMTP id a4so6837476wrr.2
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 12:44:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OFgBiUo4F0PdQXdwF4FguM9p8gImFy47B+ViKzYfDOw=;
+ b=Fmj/fmExCSwa1PjNm5T3lTu02+F3bx4cFv8llmpTK3TjD5iWtDM6sfHID1yzhbYLCB
+ Lfci3ScrYV4ZfGP54PC6S/5M8km4ixaJ14fpzL4Dun5GhmWspE68TOhce05uMwo/eajC
+ apk+CNyvsntYD1Z/6+dTZyNhHLSiba6PpbJGDWMuRHkkjzkmeZ7ygm1LVHS6T0oYEj5B
+ qtKaBvn3MtsgXGrKc3EhnUd6AFxauyai3LZlF05EhcF8uK5b6wXPmkUjpyvRDuElFzi/
+ KBWAyZfaBUXW7ibCo5dbCTWTH459TWUl6NVMepfZtfsWM6q4hUMSHIezbOHvQSr26e8K
+ pe3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=eraw/UcYLb3IMC/zDSK6jL0qoObBOVSM50npVJ+FeZo=;
- b=JWEN7sb+JwlZKhh5QO8nsAUbXv2fpJs+4BbZ9hglKBGpE8+UwV4ES+F05prQNk1z2l
- cqyD4bgVLvdXcsqbZ4+bAYBnWet7tA/HGlqmgfOzxyd2wLnqs+sbuQacOBKvIa4zlL4L
- 3Bpu9u1bBnGX5+44TLjab/ba4XWwy59r4hNc4VPIbk35Q5DrVO+qpe0Pxx2I9UDbH2rd
- 4GBriA70mTXTsbhmsljZYWq7UfqH5dNqOOKHUECNozYUbU6/m08NX5YYXGru54guWB/S
- CZb3KGnp+ahiwy27YYT5CN9jf9RqMt+mx0DNRnEpBCJNf2gjvM+auxhL1X3eSegB0VoA
- Heuw==
-X-Gm-Message-State: AOAM533CGnlxkUc9q3CMLtIEN73MrMO2hsSln+KeBKlCrMWGwwTqg2WX
- 0vP4Enx3q+4UxR2aa161Jm3rMZpFL1gIvzUv3zE3IBco66M2g8HcUWl689fJpHLGTSq06kZZiB6
- hBRuUtK0TEFQqMaU=
-X-Received: by 2002:a5d:4386:: with SMTP id i6mr7517744wrq.207.1620330168932; 
- Thu, 06 May 2021 12:42:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybGGwg96Gl/8F4LwrCaxZn8kuuGbkG7H/lTWm+y40xAAWp1qAJzNjSiTz5nXyHEICPDQ5ZAg==
-X-Received: by 2002:a5d:4386:: with SMTP id i6mr7517717wrq.207.1620330168757; 
- Thu, 06 May 2021 12:42:48 -0700 (PDT)
-Received: from [192.168.1.19] (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr.
- [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id u9sm4738917wmc.38.2021.05.06.12.42.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 May 2021 12:42:48 -0700 (PDT)
-Subject: Re: [PATCH] virtio-blk: Convert QEMUBH callback to "bitops.h" API
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210506155419.1796056-1-philmd@redhat.com>
- <fdf97a71-1359-e186-a895-3383c31ca20c@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <20266f2d-00e2-339a-0fdf-122c32ae4da1@redhat.com>
-Date: Thu, 6 May 2021 21:42:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=OFgBiUo4F0PdQXdwF4FguM9p8gImFy47B+ViKzYfDOw=;
+ b=B9B6HsLI/p+F1I4cPIPiyqPLz3fzI0kY2M8YknYUpRRPCNhvyG2XyxRQxxPLTgdcfA
+ uE+uaj8n5dWNmQYKMd5PISeg1z3dddG4FYIWrRa96lLoJGMq+QH4GF2YsCpNes2EHRRJ
+ ckwPuhVTYpZ1cgocnzL54CNOlaxRr5PZFGmJDRCC1SaEUcxz0oiyXKhkArGn8VRhQfkA
+ 11TrY1SsNz9G86F9wRmGQ/GKm8AxCTxLhZ72wTQkhIHsaoBHCYlM91PBNiV4CRg3LcS9
+ WWd+p/1moyFrfD8sspxUEDho07SlybBebnHfvRa0vrdQvtarauZdl1r5uIC2HpZhz1cL
+ xCyQ==
+X-Gm-Message-State: AOAM532MDg/SGAPKnC52BmrNq6fjicpkzr0ioz5PaGtj2DYmZPz4Efp8
+ HnvdzEVPgTsra8fzU1KRXnbRdoG5mOG7nQ==
+X-Google-Smtp-Source: ABdhPJzhpdG6OqOpFQ3Y6yuQQXGm8gF32/0pZ8rPpw4s5Y8LKX2q2UIu9RmnmMdTRxkWZu61JLghZQ==
+X-Received: by 2002:adf:f3cd:: with SMTP id g13mr289772wrp.94.1620330240450;
+ Thu, 06 May 2021 12:44:00 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id g25sm10917497wmk.43.2021.05.06.12.43.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 May 2021 12:44:00 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/qtest/ahci-test.c: Calculate iso_size with 64-bit
+ arithmetic
+Date: Thu,  6 May 2021 20:43:58 +0100
+Message-Id: <20210506194358.3925-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <fdf97a71-1359-e186-a895-3383c31ca20c@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,45 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Li Hangjing <lihangjing@baidu.com>,
- Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Chai Wen <chaiwen@baidu.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Xie Yongji <xieyongji@baidu.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/21 8:22 PM, Richard Henderson wrote:
-> On 5/6/21 8:54 AM, Philippe Mathieu-Daudé wrote:
->>   static void notify_guest_bh(void *opaque)
->>   {
->>       VirtIOBlockDataPlane *s = opaque;
->> -    unsigned nvqs = s->conf->num_queues;
->> -    unsigned long bitmap[BITS_TO_LONGS(nvqs)];
->> -    unsigned j;
->>   -    memcpy(bitmap, s->batch_notify_vqs, sizeof(bitmap));
->> -    memset(s->batch_notify_vqs, 0, sizeof(bitmap));
->> -
->> -    for (j = 0; j < nvqs; j += BITS_PER_LONG) {
->> -        unsigned long bits = bitmap[j / BITS_PER_LONG];
->> -
->> -        while (bits != 0) {
->> -            unsigned i = j + ctzl(bits);
->> +    for (unsigned i = 0; i < s->conf->num_queues; i++) {
-> 
-> Is this bitmap dense enough that you want to iterate by index,
+Coverity notes that when calculating the 64-bit iso_size value in
+ahci_test_cdrom() we actually only do it with 32-bit arithmetic.
+This doesn't matter for the current test code because nsectors is
+always small; but adding the cast avoids the coverity complaints.
 
-By 'iterate by index' do you mean the actual iteration with 'j'?
+Fixes: Coverity CID 1432343
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ tests/qtest/ahci-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> or is it
-> sparse enough to iterate via find_first_bit/find_next_bit?
-
-I looked at find_first_bit/find_next_bit() but they seemed to do
-a lot more than test_and_clear_bit(). As Stefan said this is hot
-path, I thought this would be cheaper, but haven't profiled the
-performance.
-
-> In either case, leave the copy of  s->conf->num_queues to a local variable.
-
-That is sensible to do :)
+diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
+index 5e1954852e7..8073ccc2052 100644
+--- a/tests/qtest/ahci-test.c
++++ b/tests/qtest/ahci-test.c
+@@ -1491,14 +1491,14 @@ static void ahci_test_cdrom(int nsectors, bool dma, uint8_t cmd,
+     char *iso;
+     int fd;
+     AHCIOpts opts = {
+-        .size = (ATAPI_SECTOR_SIZE * nsectors),
++        .size = ((uint64_t)ATAPI_SECTOR_SIZE * nsectors),
+         .atapi = true,
+         .atapi_dma = dma,
+         .post_cb = ahci_cb_cmp_buff,
+         .set_bcl = override_bcl,
+         .bcl = bcl,
+     };
+-    uint64_t iso_size = ATAPI_SECTOR_SIZE * (nsectors + 1);
++    uint64_t iso_size = (uint64_t)ATAPI_SECTOR_SIZE * (nsectors + 1);
+ 
+     /* Prepare ISO and fill 'tx' buffer */
+     fd = prepare_iso(iso_size, &tx, &iso);
+-- 
+2.20.1
 
 
