@@ -2,63 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629D73755CA
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:40:33 +0200 (CEST)
-Received: from localhost ([::1]:41556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E92C13755BD
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:35:07 +0200 (CEST)
+Received: from localhost ([::1]:58282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lefB2-0005gc-CI
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:40:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
+	id 1lef5m-0000Mu-VV
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:35:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1leex8-0000v4-MN
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:26:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26573)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1leeyD-0002Ix-Go
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:27:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1leex4-0003Ds-Sd
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:26:09 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1leeyA-0003o4-VI
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:27:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620311165;
+ s=mimecast20190719; t=1620311233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4iuE6eCW+gTRiFvl6fzIAuVjIl3+LmZF9xYYjhbaPYk=;
- b=QLggL/Kle0EorEYDdNTQw6rtwf8RCA9Y/zVqV3b/UYIcc6eJq+jD4eJTeafEAHQs6P2obq
- SXJmblmIrfjbbd/7lPDb82+l5osytK4q7vB2bpMDYqINIWmM9sXu9FwNK7v7xSf+I4p9Dx
- 4+36aZ1knWPe4eceW5ihmU0NuICSO4w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-VUj96t0uOsKt2Yn_3ajXeQ-1; Thu, 06 May 2021 10:25:57 -0400
-X-MC-Unique: VUj96t0uOsKt2Yn_3ajXeQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4465818BA281;
- Thu,  6 May 2021 14:25:56 +0000 (UTC)
-Received: from [10.3.113.56] (ovpn-113-56.phx2.redhat.com [10.3.113.56])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E70A95D6D7;
- Thu,  6 May 2021 14:25:51 +0000 (UTC)
-Subject: Re: [PATCH v2 4/9] bsd-user/syscall: Replace alloca() by g_new()
-To: Warner Losh <imp@bsdimp.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <20210506133758.1749233-1-philmd@redhat.com>
- <20210506133758.1749233-5-philmd@redhat.com>
- <CANCZdfoJWEbPFvZ0605riUfnpVRAeC6Feem5_ahC7FUfO71-AA@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <39f12704-af5c-2e4f-d872-a860d9a870d7@redhat.com>
-Date: Thu, 6 May 2021 09:25:51 -0500
+ bh=4Yv7slJuaggEkZWT8w9+hStrjFobFpZmAlIidCRXr9I=;
+ b=AtuS/nCdJOz7n/Z0fuOdCsdfzy90HbSktgYvq4rcWZt8OHYuabiYDy2ZP+z0Bif4Mqjr1k
+ frJgo9SFxgGKbSSk4QYZ7dTN82RmkhNgV/zJrwaJ6Ata6ENKpyc2oL61RhmGpYX+2RWBpM
+ pjlTaJl2vX+czU9WADNw+UhE2cNO0CI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-sLZEpAkMOxm5Ni39oCh1yw-1; Thu, 06 May 2021 10:27:10 -0400
+X-MC-Unique: sLZEpAkMOxm5Ni39oCh1yw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j136-20020a1c238e0000b029014675462236so1047212wmj.7
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:27:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4Yv7slJuaggEkZWT8w9+hStrjFobFpZmAlIidCRXr9I=;
+ b=Pt9S3mSyMGJuKtyrWz6jyjZGo/vLZl3Bc57dqajubzuty7TBMp9d0X56VuiINcIgIy
+ zIvixItNuaX7O9mnhqYRzUZ6XWEP18qHYm8byp5diBfFhsBXUsxEzAgEEboVGBIHFofx
+ SR89A5nRHdM8rJ6JhkXTdxTmgLj6OF0079c50qsjlInWhD90cEPcFwRSp3gIdHKgWD6p
+ lVEvlQcF2I04SnP2bkTHx1V/Ximi6HEtAO5vTZAN/pk4wKbCJlX7m6NZ0An48rxeQLf4
+ z1/SjtZmpQk9v7ebNjRsyyDiGGZxmYQYShvbfaXIxdZuks04z2qiVZQED7Cjjk2qYokQ
+ SPzg==
+X-Gm-Message-State: AOAM533kBRZGvfRSCZyRoiNYlb3vdavI/NvhOPWI+o9n2GOcfOO3rbre
+ m8GbmKdLpfOxOjvTa8/dLA7nFfNNcAe4Mxf/nE+79N5trGuOSs9HR/Dtw0TP+CzSDDv1yuEpYg9
+ Z3ell2OXhEe+CZ9A=
+X-Received: by 2002:a1c:9817:: with SMTP id a23mr4161881wme.171.1620311228844; 
+ Thu, 06 May 2021 07:27:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx1Ih5W6g0n6aVCnLyKJbQPkXe2R/B3HV0qAW+5Cedmi3Ucf7RTbuA7LyKPI/qophjqxEGZeA==
+X-Received: by 2002:a1c:9817:: with SMTP id a23mr4161861wme.171.1620311228646; 
+ Thu, 06 May 2021 07:27:08 -0700 (PDT)
+Received: from thuth.remote.csb (pd9575b79.dip0.t-ipconnect.de.
+ [217.87.91.121])
+ by smtp.gmail.com with ESMTPSA id l22sm9629461wmq.28.2021.05.06.07.27.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 May 2021 07:27:08 -0700 (PDT)
+Subject: Re: [PATCH v21 09/20] multi-process: define MPQemuMsg format and
+ transmission functions
+To: Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org
+References: <cover.1611938319.git.jag.raman@oracle.com>
+ <56ca8bcf95195b2b195b08f6b9565b6d7410bce5.1611938319.git.jag.raman@oracle.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <7433948d-02bb-625f-b6b6-9421b1d7c05b@redhat.com>
+Date: Thu, 6 May 2021 16:27:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <CANCZdfoJWEbPFvZ0605riUfnpVRAeC6Feem5_ahC7FUfO71-AA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <56ca8bcf95195b2b195b08f6b9565b6d7410bce5.1611938319.git.jag.raman@oracle.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -67,7 +87,7 @@ X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,54 +100,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Kyle Evans <kevans@freebsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, kraxel@redhat.com, quintela@redhat.com,
+ mst@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
+ felipe@nutanix.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ dgilbert@redhat.com, alex.williamson@redhat.com, stefanha@redhat.com,
+ thanos.makatos@nutanix.com, kwolf@redhat.com, berrange@redhat.com,
+ mreitz@redhat.com, ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/21 9:16 AM, Warner Losh wrote:
-> On Thu, May 6, 2021, 7:38 AM Philippe Mathieu-Daudé <philmd@redhat.com>
-> wrote:
+On 29/01/2021 17.46, Jagannathan Raman wrote:
+> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 > 
->> The ALLOCA(3) man-page mentions its "use is discouraged".
->>
->> Replace it by a g_new() call.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  bsd-user/syscall.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
->> index 4abff796c76..dbee0385ceb 100644
->> --- a/bsd-user/syscall.c
->> +++ b/bsd-user/syscall.c
->> @@ -355,9 +355,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num,
->> abi_long arg1,
->>      case TARGET_FREEBSD_NR_writev:
->>          {
->>              int count = arg3;
->> -            struct iovec *vec;
->> +            g_autofree struct iovec *vec = g_new(struct iovec, count);
->>
+> Defines MPQemuMsg, which is the message that is sent to the remote
+> process. This message is sent over QIOChannel and is used to
+> command the remote process to perform various tasks.
+> Define transmission functions used by proxy and by remote.
 > 
-> Where is this freed? Also, alloca just moves a stack pointer, where malloc
-> has complex interactions. Are you sure that's a safe change here?
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+[...]
+> diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
+> new file mode 100644
+> index 0000000..b3d380e
+> --- /dev/null
+> +++ b/hw/remote/mpqemu-link.c
+[...]
+> +bool mpqemu_msg_valid(MPQemuMsg *msg)
+> +{
+> +    if (msg->cmd >= MPQEMU_CMD_MAX && msg->cmd < 0) {
+> +        return false;
+> +    }
 
-It's freed any time the g_autofree variable goes out of scope (that's
-what the g_autofree macro is for).  Yes, the change is safe, although
-you are right that switching to malloc is going to be a bit more
-heavyweight than what alloca used.  What's more, it adds safety: if
-count was under user control, a user could pass a value that could cause
-alloca to allocate more than 4k and accidentally mess up stack guard
-pages, while malloc() uses the heap and therefore cannot cause stack bugs.
+  Hi!
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+A bug in this code has been reported on Launchpad:
+
+  https://bugs.launchpad.net/qemu/+bug/1926995
+
+Could someone please send a patch for this issue?
+
+  Thanks,
+   Thomas
 
 
