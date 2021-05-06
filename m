@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F2B374DDA
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 05:17:01 +0200 (CEST)
-Received: from localhost ([::1]:47476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE8A374DDD
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 05:17:35 +0200 (CEST)
+Received: from localhost ([::1]:50160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leUVY-0001JC-O1
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 23:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41296)
+	id 1leUW6-0002OD-Jt
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 23:17:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>)
- id 1leUTV-0000A3-Il; Wed, 05 May 2021 23:14:53 -0400
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:26597
- helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>)
- id 1leUTT-0001Dq-Cf; Wed, 05 May 2021 23:14:53 -0400
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4FbJdz3d4Rz8PbN;
- Wed,  5 May 2021 23:16:55 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; s=default; bh=ZHUukWhEv
- MmN0PAW4z+5itM7Vos=; b=USGS3VMd0aLLo9VH50n/oVYL6yEKN0oQ+2ZFYon7Y
- E8liHtjCydRuYII4tb9zMWY6tqySbEJ0GNHOeA7PbEIsWWEGWIlgRHciKP0YmjW6
- dA7lNay6ClgfjV/v4vCMYskt/bYJ2wJYxLuNQkzYyF3IuEMnlmpu5SKt5DlPHprL
- jI=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; q=dns; s=default; b=msa
- /sdR1nz29CEaiWQ+jnx250ryd0EIs9wG/cHS1FzXjf+i1FgoW8REhYZwjuN/qRv0
- 1z1AZ8JfsjmaDQsPfNFQiSbIweO+w3uB2ej20UQohza9s5Ri0xxd4RuEtcx61lwt
- uytYb3RGZvi3uZ30qjBBhGpEhiN/ioEg5Vlqw9Ko=
-Received: from [192.168.3.75]
- (bras-base-toroon2719w-grc-49-142-114-9-241.dsl.bell.ca [142.114.9.241])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4FbJdz2Yrdz8PbK;
- Wed,  5 May 2021 23:16:55 -0400 (EDT)
-Message-ID: <c962e974-929e-9f96-7b80-93c49d71cf09@comstyle.com>
-Date: Wed, 5 May 2021 23:14:42 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1leUUk-00012P-OZ
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 23:16:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27480)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1leUUg-0002Fd-A6
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 23:16:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620270965;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z0q3CDVwUgMZ4EC6xrLW8oZIgpc+YQbt/icwb4uzXLo=;
+ b=HuHqbDT+toTyvmdMzXJocmzESRNcDxSdWTXVWF+rAk3AnHeCVFHJtphQ7lh9/sswDph4Yt
+ R10lylwGbElc5XC3w/hL2k0PHEy9qOdFWnKk3Pie2Xf775fQ+DZWlOyiK2K5KiqZSaCt9T
+ /2r/3OJajU9Zw8Qv9rwno1oOu9WgcAQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-bXU_Qdz_Mte3NJiQLRR1uw-1; Wed, 05 May 2021 23:16:01 -0400
+X-MC-Unique: bXU_Qdz_Mte3NJiQLRR1uw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1454C1800D50;
+ Thu,  6 May 2021 03:16:00 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-13-159.pek2.redhat.com
+ [10.72.13.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B713D5D9DD;
+ Thu,  6 May 2021 03:15:56 +0000 (UTC)
+Subject: Re: [PATCH v2] hw/net/imx_fec: return 0xffff when accessing
+ non-existing PHY
+To: Guenter Roeck <linux@roeck-us.net>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210503135300.3242369-1-linux@roeck-us.net>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <98f3107c-528e-185b-49b9-eb775f8db018@redhat.com>
+Date: Thu, 6 May 2021 11:15:55 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101
- Thunderbird/89.0
-Subject: Re: [PATCH 1/7] migration: use GDateTime for formatting timestamp in
- snapshot names
+In-Reply-To: <20210503135300.3242369-1-linux@roeck-us.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>, Jiri Pirko <jiri@resnulli.us>,
- Stefan Hajnoczi <stefanha@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, virtio-fs@redhat.com
-References: <20210505103702.521457-1-berrange@redhat.com>
- <20210505103702.521457-2-berrange@redhat.com>
-From: Brad Smith <brad@comstyle.com>
-In-Reply-To: <20210505103702.521457-2-berrange@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,63 +85,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you.
 
-On 5/5/2021 6:36 AM, Daniel P. Berrang=C3=A9 wrote:
-> The GDateTime APIs provided by GLib avoid portability pitfalls, such
-> as some platforms where 'struct timeval.tv_sec' field is still 'long'
-> instead of 'time_t'. When combined with automatic cleanup, GDateTime
-> often results in simpler code too.
+在 2021/5/3 下午9:53, Guenter Roeck 写道:
+> If a PHY does not exist, attempts to read from it should return 0xffff.
+> Otherwise the Linux kernel will believe that a PHY is there and select
+> the non-existing PHY. This in turn will result in network errors later
+> on since the real PHY is not selected or configured.
 >
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Since reading from or writing to a non-existing PHY is not an emulation
+> error, replace guest error messages with traces.
+>
+> Fixes: 461c51ad4275 ("Add a phy-num property to the i.MX FEC emulator")
+> Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Tested-by: Bin Meng <bmeng.cn@gmail.com>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 > ---
->   migration/savevm.c | 13 +++++--------
->   1 file changed, 5 insertions(+), 8 deletions(-)
+> v2: Reordered imx_phy_read/imx_phy_read_num in trace_events
+>      Added Reviewed-by:/Tested-by: tags
+
+
+Applied.
+
+Thanks
+
+
 >
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 52e2d72e4b..72848b946c 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -2775,8 +2775,7 @@ bool save_snapshot(const char *name, bool overwri=
-te, const char *vmstate,
->       QEMUFile *f;
->       int saved_vm_running;
->       uint64_t vm_state_size;
-> -    qemu_timeval tv;
-> -    struct tm tm;
-> +    g_autoptr(GDateTime) now =3D g_date_time_new_now_local();
->       AioContext *aio_context;
->  =20
->       if (migration_is_blocked(errp)) {
-> @@ -2836,9 +2835,8 @@ bool save_snapshot(const char *name, bool overwri=
-te, const char *vmstate,
->       memset(sn, 0, sizeof(*sn));
->  =20
->       /* fill auxiliary fields */
-> -    qemu_gettimeofday(&tv);
-> -    sn->date_sec =3D tv.tv_sec;
-> -    sn->date_nsec =3D tv.tv_usec * 1000;
-> +    sn->date_sec =3D g_date_time_to_unix(now);
-> +    sn->date_nsec =3D g_date_time_get_microsecond(now) * 1000;
->       sn->vm_clock_nsec =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->       if (replay_mode !=3D REPLAY_MODE_NONE) {
->           sn->icount =3D replay_get_current_icount();
-> @@ -2849,9 +2847,8 @@ bool save_snapshot(const char *name, bool overwri=
-te, const char *vmstate,
->       if (name) {
->           pstrcpy(sn->name, sizeof(sn->name), name);
->       } else {
-> -        /* cast below needed for OpenBSD where tv_sec is still 'long' =
-*/
-> -        localtime_r((const time_t *)&tv.tv_sec, &tm);
-> -        strftime(sn->name, sizeof(sn->name), "vm-%Y%m%d%H%M%S", &tm);
-> +        g_autofree char *autoname =3D g_date_time_format(now,  "vm-%Y%=
-m%d%H%M%S");
-> +        pstrcpy(sn->name, sizeof(sn->name), autoname);
+>   hw/net/imx_fec.c    | 8 +++-----
+>   hw/net/trace-events | 2 ++
+>   2 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
+> index f03450c028..9c7035bc94 100644
+> --- a/hw/net/imx_fec.c
+> +++ b/hw/net/imx_fec.c
+> @@ -283,9 +283,8 @@ static uint32_t imx_phy_read(IMXFECState *s, int reg)
+>       uint32_t phy = reg / 32;
+>   
+>       if (phy != s->phy_num) {
+> -        qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
+> -                      TYPE_IMX_FEC, __func__, phy);
+> -        return 0;
+> +        trace_imx_phy_read_num(phy, s->phy_num);
+> +        return 0xffff;
 >       }
->  =20
->       /* save the VM state */
+>   
+>       reg %= 32;
+> @@ -345,8 +344,7 @@ static void imx_phy_write(IMXFECState *s, int reg, uint32_t val)
+>       uint32_t phy = reg / 32;
+>   
+>       if (phy != s->phy_num) {
+> -        qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
+> -                      TYPE_IMX_FEC, __func__, phy);
+> +        trace_imx_phy_write_num(phy, s->phy_num);
+>           return;
+>       }
+>   
+> diff --git a/hw/net/trace-events b/hw/net/trace-events
+> index baf25ffa7e..78e85660bf 100644
+> --- a/hw/net/trace-events
+> +++ b/hw/net/trace-events
+> @@ -414,7 +414,9 @@ i82596_channel_attention(void *s) "%p: Received CHANNEL ATTENTION"
+>   
+>   # imx_fec.c
+>   imx_phy_read(uint32_t val, int phy, int reg) "0x%04"PRIx32" <= phy[%d].reg[%d]"
+> +imx_phy_read_num(int phy, int configured) "read request from unconfigured phy %d (configured %d)"
+>   imx_phy_write(uint32_t val, int phy, int reg) "0x%04"PRIx32" => phy[%d].reg[%d]"
+> +imx_phy_write_num(int phy, int configured) "write request to unconfigured phy %d (configured %d)"
+>   imx_phy_update_link(const char *s) "%s"
+>   imx_phy_reset(void) ""
+>   imx_fec_read_bd(uint64_t addr, int flags, int len, int data) "tx_bd 0x%"PRIx64" flags 0x%04x len %d data 0x%08x"
+
 
