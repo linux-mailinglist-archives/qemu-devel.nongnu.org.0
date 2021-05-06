@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96545375949
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 19:28:07 +0200 (CEST)
-Received: from localhost ([::1]:55686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39B2375984
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 19:37:01 +0200 (CEST)
+Received: from localhost ([::1]:36604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lehnC-0008AP-4f
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 13:28:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36296)
+	id 1lehvo-0003zI-Hp
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 13:37:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lehl2-0006sn-42
- for qemu-devel@nongnu.org; Thu, 06 May 2021 13:25:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37598)
+ id 1lehpq-0002AK-FV
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 13:30:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lehks-0007vU-6a
- for qemu-devel@nongnu.org; Thu, 06 May 2021 13:25:50 -0400
+ id 1lehpn-0002ck-AU
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 13:30:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lehkq-0007ap-3B
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 17:25:40 +0000
+ id 1lehpl-0007st-HX
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 17:30:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DD0B22E8187
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 17:25:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 83A262E813A
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 17:30:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 17:18:52 -0000
-From: Thomas Huth <1880763@bugs.launchpad.net>
+Date: Thu, 06 May 2021 17:21:54 -0000
+From: Thomas Huth <1881506@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=ahmedkrmn@outlook.com; 
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahmedkrmn th-huth
-X-Launchpad-Bug-Reporter: Ahmed Karaman (ahmedkrmn)
+X-Launchpad-Bug-Commenters: harlydavidsen th-huth
+X-Launchpad-Bug-Reporter: Ethin Probst (harlydavidsen)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159052842235.20182.6565477896254015468.malonedeb@soybean.canonical.com>
-Message-Id: <162032153291.14117.7330376419379121543.malone@soybean.canonical.com>
-Subject: [Bug 1880763] Re: Missing page crossing check in use_goto_tb() for rx
- target
+References: <159095209581.29684.17955799234221982572.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162032171508.6519.1097153268846961478.malone@wampee.canonical.com>
+Subject: [Bug 1881506] Re: TCG doesn't support a lot of features that should
+ be supported
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: be31352e60399bab8852f41a309922c930cd3068
+X-Launchpad-Hash: aaa9037a7c831179c218f7934acbf040a9cef5cc
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1880763 <1880763@bugs.launchpad.net>
+Reply-To: Bug 1881506 <1881506@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -110,23 +110,32 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1880763
+https://bugs.launchpad.net/bugs/1881506
 
 Title:
-  Missing page crossing check in use_goto_tb() for rx target
+  TCG doesn't support a lot of features that should be supported
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Currently the rx target doesn't have the page crossing check in its =
-
-  use_goto_tb() function. =
-
-  This is a required feature for stable system mode emulations that all =
-
-  other targets implement.
+  This is quite odd, and I'm not sure about how to get around it. I'm writi=
+ng an OS in Rust and require APIC support. When I boot my kernel with qemu-=
+system-x86_64, however, it dumps out a [lot] of warnings; it claims that TC=
+G doesn't support FMA, X2APIC, AVX, F16C, AVX2, RDSEED, SHA-NI, FXSR-OPT, m=
+isalignsse, 3dnowprefetch, osvw, topoext, perfctr-core, clzero, xsaveerptr,=
+ ibpb, nrip-save, xsavec, and xsaves, but prints these warnings over 80 tim=
+es before finally doing what I told it to do. Running QEMU 5.0.0 (unknown c=
+ommit hash), as follows:
+  qemu-system-x86_64 -drive format=3Draw,file=3Dtarget\x86_64-kernel-none\d=
+ebug\bootimage-kernel.bin -serial stdio -no-reboot -hdb disk.img -s -m 4G -=
+usb -rtc base=3Dutc,clock=3Dhost -cpu EPYC-v3,+acpi,+apic,+rdrand,+rdseed,+=
+sse,+sse2,+sse4.1,+sse4.2,+sse4a,+ssse3,+syscall,+x2apic -smp cpus=3D8 -sou=
+ndhw all
+  I would run using HAXM, but my kernel requires RDRAND, and QEMU does not,=
+ to my knowledge, automatically support RDRAND (and I don't know how to ena=
+ble it).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1880763/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1881506/+subscriptions
 
