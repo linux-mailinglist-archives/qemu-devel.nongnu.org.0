@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D717C374F6B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 08:35:03 +0200 (CEST)
-Received: from localhost ([::1]:42890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5732374F7D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 08:43:47 +0200 (CEST)
+Received: from localhost ([::1]:49074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leXbC-0000nK-VW
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 02:35:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48552)
+	id 1leXje-0004Do-Qx
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 02:43:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leXYX-0007Vt-Q0
- for qemu-devel@nongnu.org; Thu, 06 May 2021 02:32:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41803)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leXiR-0003Zn-Mk
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 02:42:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leXYU-0005wS-VH
- for qemu-devel@nongnu.org; Thu, 06 May 2021 02:32:17 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leXiO-0003oV-MT
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 02:42:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620282734;
+ s=mimecast20190719; t=1620283347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZYnDO8ePyPvArR5qYR5dqiktWpN7ozW6xvmZULzilxc=;
- b=LP+xfRUXs2GPDukntBUVdx42RFjSYuaUIJQTR3xkQ/DvsHp+gnIEoeirOG4Es0G3QbIo7o
- CBfnzmWALg/SGsLuMiNAN6g2zxYVgKP3AHwmU2mTAck7SzPgNHjuG3g0Nx12tZLsoNF4wY
- tiB8yoHyEYlW5vjAYLaE4040SfOeEGw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-mxLxoKgeM_WwoBubrBMmZA-1; Thu, 06 May 2021 02:32:12 -0400
-X-MC-Unique: mxLxoKgeM_WwoBubrBMmZA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- x10-20020adfc18a0000b029010d83c83f2aso1762821wre.8
- for <qemu-devel@nongnu.org>; Wed, 05 May 2021 23:32:12 -0700 (PDT)
+ bh=j/3yhCG4GGyE4XmYdHDLNwYVR35GFb19r+0DDPuFGM8=;
+ b=hVncA0iWb0oq1HS69GUQmyt2kmPqlB+6rHuAd6G4vKaWpLPPRWZ5VyIh4sH8EDGDWCRKYg
+ Jeak26tW8JEIuBaaOAFGHou+CWxD69fZ6A5xJddqbOHA2Ypm8k6aFx8tL8+9KMARXVRzrj
+ 992ZcbZ8DWWpq+s9b4jG6TV7AzvNIOI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-540-nPZPlLS1Pe-hGxNBJyCUxw-1; Thu, 06 May 2021 02:42:26 -0400
+X-MC-Unique: nPZPlLS1Pe-hGxNBJyCUxw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ g17-20020a05600c0011b029014399f816a3so975780wmc.7
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 23:42:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ZYnDO8ePyPvArR5qYR5dqiktWpN7ozW6xvmZULzilxc=;
- b=oEoZ6BiaX5SOX8/0QlCQL3p+6pMlzu+1P0tX6Lj7pahrbFEH8yCA7tOtMfHTSjAjKe
- zlYVO3crZ3eCVg62KbGfCZHE+ETfL2mB/+t0VWd3nUBmfilUGqdp999FMLdR8pmW+l1F
- xXZ6G0net+rLl++Q/3ghdonuriBTRTsdEbGGKHVyKoGkEDxzPBWrpp5B5QFerzXgXAU2
- 1a3t356pv4yGSHZSmZKxIH/vT9Q30UBK6wM213dlRJQ2CgIYNub5t3BUhrwOXdbym/83
- gjwGG6GJRyA+WiFC7JbrNeR8QzXrUJN49cv5Y7AX9BkYB8oGMxzx14i1kGn/tQ+NeB20
- xDWA==
-X-Gm-Message-State: AOAM531BTGbm2bNSTr8K5X5nvW5KNnz0xz/Kp98ZxxtFfhEGgQVSlPUk
- S5Sr2iI5RbNEletGcuz5cRJt+3XxiJgX022pRj55LlvAg0pFfIRLemBR9cGHEQPPMEUXrmM1Osb
- Kh74q9MTGJWWwKO9xKoqCE730e2h0lqTVArIumzilnxcRuZr7KH5HMXpCKWQKFyeT
-X-Received: by 2002:a5d:694c:: with SMTP id r12mr2995453wrw.224.1620282731188; 
- Wed, 05 May 2021 23:32:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSb0GMAALQh7eUn73DLT4HQeAdGkfS/okpogwnPomY6LAbiJx2qq1fwlIZZJq9ZFs/ECPLkw==
-X-Received: by 2002:a5d:694c:: with SMTP id r12mr2995418wrw.224.1620282730888; 
- Wed, 05 May 2021 23:32:10 -0700 (PDT)
+ bh=j/3yhCG4GGyE4XmYdHDLNwYVR35GFb19r+0DDPuFGM8=;
+ b=XVqHlomWsQ1aI1oDn18wUUa0xlqM+YXkWDBP0vpUOYvedKq9/6z7WJTufYTJey4Kf6
+ WoBPYGTNQ7JIPnHHhYxXYDdg0WZ9iEXhYkXB3e50c2nufkJNGaxaqZVu2ooIGRtcPlIs
+ S1HFn5xpwXw4OP0A2HFqreCJXC0ZJPvqGuuuJos/ui4ygq5Jeb4U7rSOWJuX+JTQJ2cM
+ NOm62Wv5f3BqBUCSBzE8gwyDVoQXClkZGjU7l0ghQVCvoQAPo7CzGFdIS+2b7/epoQKL
+ e0c/sg56heqo3bq7waHQ/tYl2qe1WOB3SpcylL5+BM8byob0KJGccMrzBmiyiOOj7KuA
+ Q6RA==
+X-Gm-Message-State: AOAM5329XVKKWfsDdpDpuL/zuTGnwHDD/oVwxAgHD97u0UKwu9BOzCIo
+ Cj5Ib+zNiwytJ7EjY3ArgK9JNNeGTh9PD0x/k2vBWQFjn8XQzjdM32flDEy6JwqHkV+gyBp5qTP
+ WXLBEfkFIinh6h/E=
+X-Received: by 2002:a1c:4d01:: with SMTP id o1mr2313858wmh.42.1620283345059;
+ Wed, 05 May 2021 23:42:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyfiSr0VkHg1TyrS/lUewjP0l3hM7qXmEcT9hgWOyKjek+Yx6yQMD/AXMFlcwG7Let2AyK1ag==
+X-Received: by 2002:a1c:4d01:: with SMTP id o1mr2313825wmh.42.1620283344860;
+ Wed, 05 May 2021 23:42:24 -0700 (PDT)
 Received: from [192.168.1.19] (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr.
  [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id z8sm2380740wrw.74.2021.05.05.23.32.09
+ by smtp.gmail.com with ESMTPSA id g19sm1867689wme.48.2021.05.05.23.42.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 May 2021 23:32:10 -0700 (PDT)
-Subject: Re: [PATCH 03/10] ps2: don't deassert irq twice if queue is empty
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <aed90d92-4e34-6f33-005f-10cf176e5483@t-online.de>
- <20210505192133.7480-3-vr_qemu@t-online.de>
+ Wed, 05 May 2021 23:42:24 -0700 (PDT)
+Subject: Re: [PATCH 07/23] hw/block/nvme: Use definition to avoid dynamic
+ stack allocation
+To: Keith Busch <kbusch@kernel.org>, Eric Blake <eblake@redhat.com>
+References: <20210505211047.1496765-1-philmd@redhat.com>
+ <20210505211047.1496765-8-philmd@redhat.com>
+ <20210505212238.GA1186879@dhcp-10-100-145-180.wdc.com>
+ <285e17d3-93fb-7317-8aba-689fda772f84@redhat.com>
+ <c72ab9cd-e958-ee21-ef18-bd84c9dfd39c@redhat.com>
+ <20210506021556.GA1187168@dhcp-10-100-145-180.wdc.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4bb538e1-5c16-25c0-980c-317f2fb66646@redhat.com>
-Date: Thu, 6 May 2021 08:32:09 +0200
+Message-ID: <43f60568-6fa2-0fd4-5672-48e5b767de80@redhat.com>
+Date: Thu, 6 May 2021 08:42:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210505192133.7480-3-vr_qemu@t-online.de>
+In-Reply-To: <20210506021556.GA1187168@dhcp-10-100-145-180.wdc.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,7 +82,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -87,7 +91,7 @@ X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,19 +104,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/21 9:21 PM, Volker Rümelin wrote:
-> Don't deassert the irq twice if the queue is empty. While the
-> second deassertion doesn't do any harm, it's unnecessary.
+On 5/6/21 4:15 AM, Keith Busch wrote:
+> On Wed, May 05, 2021 at 06:09:10PM -0500, Eric Blake wrote:
+>> On 5/5/21 5:07 PM, Philippe Mathieu-Daudé wrote:
+>>> +Eric
+>>>
+>>> On 5/5/21 11:22 PM, Keith Busch wrote:
+>>>> On Wed, May 05, 2021 at 11:10:31PM +0200, Philippe Mathieu-Daudé wrote:
+>>>>> The compiler isn't clever enough to figure 'SEG_CHUNK_SIZE' is
+>>>>> a constant! Help it by using a definitions instead.
+>>>>
+>>>> I don't understand.
+>>>
+>>> Neither do I TBH...
+>>>
+>>>> It's labeled 'const', so any reasonable compiler
+>>>> will place it in the 'text' segment of the executable rather than on the
+>>>> stack. While that's compiler specific, is there really a compiler doing
+>>>> something bad with this? If not, I do prefer the 'const' here if only
+>>>> because it limits the symbol scope ('static const' is also preferred if
+>>>> that helps).
+>>>
+>>> Using: gcc version 10.2.1 20201125 (Red Hat 10.2.1-9) (GCC)
+>>>
+>>> Both static+const / const trigger:
+>>>
+>>> hw/block/nvme.c: In function ‘nvme_map_sgl’:
+>>> hw/block/nvme.c:818:5: error: ISO C90 forbids variable length array
+>>> ‘segment’ [-Werror=vla]
+>>>   818 |     NvmeSglDescriptor segment[SEG_CHUNK_SIZE], *sgld, *last_sgld;
+>>>       |     ^~~~~~~~~~~~~~~~~
+>>> cc1: all warnings being treated as errors
+>>
+>> C99 6.7.5.2 paragraph 4:
+>> "If the size is an integer constant expression and the element type has
+>> a known constant size, the array type is not a variable length array
+>> type; otherwise, the array type is a variable length array type."
+>>
+>> 6.6 paragraph 6:
+>> "An integer constant expression shall have integer type and shall only
+>> have operands that are integer constants, enumeration constants,
+>> character constants, sizeof expressions whose results are integer
+>> constants, and floating constants that are the immediate operands of
+>> casts. Cast operators in an integer constant expression shall only
+>> convert arithmetic types to integer types, except as part of an operand
+>> to the sizeof operator."
+>>
+>> Notably absent from that list are 'const int' variables, which even
+>> though they act as constants (in that the name always represents the
+>> same value), do not actually qualify as such under C99 rules.  Yes, it's
+>> a pain.  What's more, 6.6 paragraph 10:
+>>
+>> "An implementation may accept other forms of constant expressions."
+>>
+>> which means it _should_ be possible for the compiler to do what we want.
+>>  But just because it is permitted does not make it actually work. :(
 > 
-> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-> ---
->  hw/input/ps2.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> Thank you, that makes sense. In this case, we are talking about an
+> integer constant expression for the value of a 'const' symbol. That
+> seems like perfect fodder for a compiler to optimize. I understand it's
+> not obligated to do that, but I assumed it would.
+> 
+> Anyway, Philippe, I have no objection if you want to push forward with
+> this series.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Thanks both. I'll amend Eric explanation in the commit description.
+
+Regards,
+
+Phil.
 
 
