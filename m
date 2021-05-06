@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9952E374F0A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 07:52:17 +0200 (CEST)
-Received: from localhost ([::1]:46906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09405374F1D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 07:57:26 +0200 (CEST)
+Received: from localhost ([::1]:55840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leWvo-0000py-32
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 01:52:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38940)
+	id 1leX0h-0004jJ-SO
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 01:57:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leWud-00082R-CC
- for qemu-devel@nongnu.org; Thu, 06 May 2021 01:51:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42866)
+ id 1leWzL-0003Rt-DW
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 01:55:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leWub-00052G-Hp
- for qemu-devel@nongnu.org; Thu, 06 May 2021 01:51:03 -0400
+ id 1leWzJ-0008HZ-Rf
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 01:55:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leWuY-0005q7-J1
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 05:50:58 +0000
+ id 1leWzI-0006PU-Dx
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 05:55:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 84BF12E8197
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 05:50:58 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4ED3B2E8187
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 05:55:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 05:45:14 -0000
-From: Thomas Huth <1864814@bugs.launchpad.net>
+Date: Thu, 06 May 2021 05:46:17 -0000
+From: Thomas Huth <1863710@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: macos
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pbuntu1 th-huth
-X-Launchpad-Bug-Reporter: Peter Vegh (pbuntu1)
+X-Launchpad-Bug-Commenters: chriscjsus th-huth
+X-Launchpad-Bug-Reporter: Chris S. (chriscjsus)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158270726043.14146.8926447072185498744.malonedeb@wampee.canonical.com>
-Message-Id: <162027991451.4274.7441565740330586546.malone@gac.canonical.com>
-Subject: [Bug 1864814] Re: Improve UX for macOS when launching from a
- fullscreen app
+References: <158200914380.31311.6636278385327327157.malonedeb@wampee.canonical.com>
+Message-Id: <162027997764.14052.12471380749762092951.malone@soybean.canonical.com>
+Subject: [Bug 1863710] Re: qemu 4.2 does not process discard(trim) commands 
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 2eedffceb3ff3dd01e9fcd0cbaf042afca0f9702
+X-Launchpad-Hash: 6ec3dbd5eab09cdcedddcb53f2fa82b6f6dbe58a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,66 +70,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1864814 <1864814@bugs.launchpad.net>
+Reply-To: Bug 1863710 <1863710@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting older bugs to "Incomplete" now.
-
-If you still think this bug report here is valid, then please switch
-the state back to "New" within the next 60 days, otherwise this report
-will be marked as "Expired". Or please mark it as "Fix Released" if
-the problem has been solved with a newer version of QEMU already.
-
-Thank you and sorry for the inconvenience.
-
+How did you start QEMU? Does this still happen with the latest version
+of QEMU?
 
 ** Changed in: qemu
        Status: New =3D> Incomplete
-
-** Tags added: macos
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1864814
+https://bugs.launchpad.net/bugs/1863710
 
 Title:
-  Improve UX for macOS when launching from a fullscreen app
+  qemu 4.2 does not process discard(trim) commands
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  System/setup:
-  * MacBook Pro, macOS (any version from the last 2 years), external monito=
-r.
-  * IDE on the laptop, emulator is used on the external monitor.
+  I'm using Arch Linux with qemu 4.2 and blktrace to monitor discard
+  commands as they are sent to the hardware.  Blktrace shows nothing as
+  the VM is trimming the SSDs.
 
-  Currently, when starting the emulator from e.g. Android Studio or
-  IntelliJ IDEA, which is set to fullscreen mode on the laptop, which is
-  like it's own virtual desktop (Space) in macOS, what happens is this:
+  I downgraded to qemu 4.1.1 and blktrace shows lots of discard commands
+  as the VM is trimming.
 
-  1. The virtual desktop (Space) on the laptop screen is switched because o=
-f #2. The reason is that only one window can be shown in Fullscreen this wa=
-y.
-  2. The qemu splashscreen is shown for a few seconds, then it disappears. =
-This is the reason for the virtual desktop switch. This splashscreen seems =
-actually unnecessary to me, it has no value and it causes problems.
-  3. The actual emulator is shown, in my case on the external monitor (corr=
-ectly). I guess if the splashscreen would not be shown, the virtual desktop=
- switch would not happen, because the emulator would happen on the correct =
-screen directly.
+  Kernel version is 5.5.4.
 
-  So maybe the splashscreen and the emulator window should be the same wind=
-ow, so that the OS can remember it's position being the same as the emulato=
-r?
-  Or maybe the splash could be disabled (by default? otherwise an update to=
- IDEs would be necessary for the improved behavior?)
+  Attached is the libvirt xml.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1864814/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1863710/+subscriptions
 
