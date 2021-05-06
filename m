@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5EC374F0C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 07:52:21 +0200 (CEST)
-Received: from localhost ([::1]:47170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9952E374F0A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 07:52:17 +0200 (CEST)
+Received: from localhost ([::1]:46906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leWvs-0000y4-J0
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 01:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
+	id 1leWvo-0000py-32
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 01:52:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leWuf-00083F-0F
- for qemu-devel@nongnu.org; Thu, 06 May 2021 01:51:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42894)
+ id 1leWud-00082R-CC
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 01:51:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leWub-00052p-LY
- for qemu-devel@nongnu.org; Thu, 06 May 2021 01:51:04 -0400
+ id 1leWub-00052G-Hp
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 01:51:03 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leWuZ-0005pI-LB
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 05:50:59 +0000
+ id 1leWuY-0005q7-J1
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 05:50:58 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 480A72E8193
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 05:50:59 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 84BF12E8197
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 05:50:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 05:44:13 -0000
-From: Thomas Huth <1864704@bugs.launchpad.net>
+Date: Thu, 06 May 2021 05:45:14 -0000
+From: Thomas Huth <1864814@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug-Tags: macos
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier th-huth xiaoxing-fang
-X-Launchpad-Bug-Reporter: Xiaoxing Fang (xiaoxing-fang)
+X-Launchpad-Bug-Commenters: pbuntu1 th-huth
+X-Launchpad-Bug-Reporter: Peter Vegh (pbuntu1)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158266147970.14929.12590183127375701795.malonedeb@wampee.canonical.com>
-Message-Id: <162027985377.4321.1887538672047136030.malone@gac.canonical.com>
-Subject: [Bug 1864704] Re: No compatible -machine option in qemu-system-ppc64
- for e6500 core
+References: <158270726043.14146.8926447072185498744.malonedeb@wampee.canonical.com>
+Message-Id: <162027991451.4274.7441565740330586546.malone@gac.canonical.com>
+Subject: [Bug 1864814] Re: Improve UX for macOS when launching from a
+ fullscreen app
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 410923e20879c6d4550f90304beada2c3fc4c1c5
+X-Launchpad-Hash: 2eedffceb3ff3dd01e9fcd0cbaf042afca0f9702
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,80 +72,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1864704 <1864704@bugs.launchpad.net>
+Reply-To: Bug 1864814 <1864814@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You could try to build an image for this machine with buildroot (see
-https://buildroot.org/). Anyway, I'm closing this ticket now since this
-was not a bug.
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting older bugs to "Incomplete" now.
+
+If you still think this bug report here is valid, then please switch
+the state back to "New" within the next 60 days, otherwise this report
+will be marked as "Expired". Or please mark it as "Fix Released" if
+the problem has been solved with a newer version of QEMU already.
+
+Thank you and sorry for the inconvenience.
+
 
 ** Changed in: qemu
-       Status: New =3D> Invalid
+       Status: New =3D> Incomplete
+
+** Tags added: macos
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1864704
+https://bugs.launchpad.net/bugs/1864814
 
 Title:
-  No compatible -machine option in qemu-system-ppc64 for e6500 core
+  Improve UX for macOS when launching from a fullscreen app
 
 Status in QEMU:
-  Invalid
+  Incomplete
 
 Bug description:
-  Hi,
+  System/setup:
+  * MacBook Pro, macOS (any version from the last 2 years), external monito=
+r.
+  * IDE on the laptop, emulator is used on the external monitor.
 
-  I'm trying to use qemu-system-ppc64 for emulating a QorIQ T2080 (with e65=
-00 cores). =
+  Currently, when starting the emulator from e.g. Android Studio or
+  IntelliJ IDEA, which is set to fullscreen mode on the laptop, which is
+  like it's own virtual desktop (Space) in macOS, what happens is this:
 
-  However, I couldn't find any -machine option that matches -cpu e6500 opti=
-on, which are listed below:
+  1. The virtual desktop (Space) on the laptop screen is switched because o=
+f #2. The reason is that only one window can be shown in Fullscreen this wa=
+y.
+  2. The qemu splashscreen is shown for a few seconds, then it disappears. =
+This is the reason for the virtual desktop switch. This splashscreen seems =
+actually unnecessary to me, it has no value and it causes problems.
+  3. The actual emulator is shown, in my case on the external monitor (corr=
+ectly). I guess if the splashscreen would not be shown, the virtual desktop=
+ switch would not happen, because the emulator would happen on the correct =
+screen directly.
 
-  C:\Program Files\qemu>qemu-system-ppc64 -machine help
-  Supported machines are:
-  40p                  IBM RS/6000 7020 (40p)
-  bamboo               bamboo
-  g3beige              Heathrow based PowerMAC
-  mac99                Mac99 based PowerMAC
-  mpc8544ds            mpc8544ds
-  none                 empty machine
-  powernv8             IBM PowerNV (Non-Virtualized) POWER8
-  powernv              IBM PowerNV (Non-Virtualized) POWER9 (alias of power=
-nv9)
-  powernv9             IBM PowerNV (Non-Virtualized) POWER9
-  ppce500              generic paravirt e500 platform
-  prep                 PowerPC PREP platform (deprecated)
-  pseries-2.1          pSeries Logical Partition (PAPR compliant)
-  pseries-2.10         pSeries Logical Partition (PAPR compliant)
-  pseries-2.11         pSeries Logical Partition (PAPR compliant)
-  pseries-2.12         pSeries Logical Partition (PAPR compliant)
-  pseries-2.12-sxxm    pSeries Logical Partition (PAPR compliant)
-  pseries-2.2          pSeries Logical Partition (PAPR compliant)
-  pseries-2.3          pSeries Logical Partition (PAPR compliant)
-  pseries-2.4          pSeries Logical Partition (PAPR compliant)
-  pseries-2.5          pSeries Logical Partition (PAPR compliant)
-  pseries-2.6          pSeries Logical Partition (PAPR compliant)
-  pseries-2.7          pSeries Logical Partition (PAPR compliant)
-  pseries-2.8          pSeries Logical Partition (PAPR compliant)
-  pseries-2.9          pSeries Logical Partition (PAPR compliant)
-  pseries-3.0          pSeries Logical Partition (PAPR compliant)
-  pseries-3.1          pSeries Logical Partition (PAPR compliant)
-  pseries-4.0          pSeries Logical Partition (PAPR compliant)
-  pseries-4.1          pSeries Logical Partition (PAPR compliant)
-  pseries              pSeries Logical Partition (PAPR compliant) (alias of=
- pseries-4.2)
-  pseries-4.2          pSeries Logical Partition (PAPR compliant) (default)
-  ref405ep             ref405ep
-  sam460ex             aCube Sam460ex
-  taihu                taihu
-  virtex-ml507         Xilinx Virtex ML507 reference design
-
-  I am wondering if anyone knows that is if any of them can be selected
-  for such emulation? Thank you!
+  So maybe the splashscreen and the emulator window should be the same wind=
+ow, so that the OS can remember it's position being the same as the emulato=
+r?
+  Or maybe the splash could be disabled (by default? otherwise an update to=
+ IDEs would be necessary for the improved behavior?)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1864704/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1864814/+subscriptions
 
