@@ -2,96 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11236374FB8
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 09:03:02 +0200 (CEST)
-Received: from localhost ([::1]:35274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35AC0374FE9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 09:18:11 +0200 (CEST)
+Received: from localhost ([::1]:49342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leY2G-0003s3-VN
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 03:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55470)
+	id 1leYGw-0002h7-8t
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 03:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1leY0Y-00038k-97
- for qemu-devel@nongnu.org; Thu, 06 May 2021 03:01:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33868)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1leY0S-00078T-9x
- for qemu-devel@nongnu.org; Thu, 06 May 2021 03:01:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620284466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=usKfPff/4OkH62lX5lQIr91wInFsZmtiBgmhvM7kkMw=;
- b=ePxz+ZpyrTMkRo00ZDV8nSS5jQdoOQ53b7QsT3Ek8J7ZTWJCAAQA8A/85fBGjvMcFRMUHY
- DC1JM5eZflmbFppQruuYVZOAh3s+dHrT6F4Y/HJGVhVZGBBtj7y/U7AzBKmbAIMOwR4a9R
- TGdn/TZcLXNZTZWQ79qZV+QQL6FOB9s=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-71RgRgjJPCCzsUgrtuTk4A-1; Thu, 06 May 2021 03:01:02 -0400
-X-MC-Unique: 71RgRgjJPCCzsUgrtuTk4A-1
-Received: by mail-wr1-f70.google.com with SMTP id
- n10-20020adfb74a0000b029010e1a98fb84so1810438wre.0
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 00:01:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=usKfPff/4OkH62lX5lQIr91wInFsZmtiBgmhvM7kkMw=;
- b=Ix98G57QfVH5JA6CQ9YVDcWXrowk7tml6YcDlvufQte4+fL7PQHt8Lqo+As/QIKDfe
- ud5ne0yVlGF/McYEQp9OrEfVbXJJBBRw7ZhFdyJ21gLW+p0ieaoKKAW/7caSHxmE1Vjk
- fY4dPqbPVdYqcOgN+MaJPILxHAlU8gdHnvxFnKuk2D9ws899imyziwSP3DqY768Kf1sl
- SEPR9AOi0nN7bzYhf+5oydQjlcjgDaL7R+HaVGGj0zI+oRzWhKFZghKdeiWEjmHiChXp
- t/LXmxYjGohqK3lsHNZ6pzRoBmrDBp/ZJq2uS3sve+sPkX9k25Fa9SWKg6XvPewlkPnU
- J4+A==
-X-Gm-Message-State: AOAM531OqZTRY+2LYuW839nYSCzA4ABYxHxERGizAzx9FQSyyXj0Wohq
- u/dUPplD2A9SwW6Cj7bg04c5DGD+cusWReZtv7LdwEiI9WeKLW/EFVTe0Dg0PnYx+byQMlQ18X8
- z9P9mENQ+pPjlletL34ZYEP4oH4RdQZiUIg70mOIEHzXmQwUDpNYSHNcfiLEU/Nw=
-X-Received: by 2002:adf:d1c4:: with SMTP id b4mr3147839wrd.301.1620284461619; 
- Thu, 06 May 2021 00:01:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztb1tOlasdVpGtdij2dBsE3/OwCJQNOuz7n/Ct7ltArZ4iCUezt3QJsesXVkqaAiUpvx8EQA==
-X-Received: by 2002:adf:d1c4:: with SMTP id b4mr3147814wrd.301.1620284461405; 
- Thu, 06 May 2021 00:01:01 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e83394.dip0.t-ipconnect.de.
- [217.232.51.148])
- by smtp.gmail.com with ESMTPSA id c8sm8429498wmr.48.2021.05.06.00.01.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 May 2021 00:01:00 -0700 (PDT)
-Subject: Re: [PULL 00/10] Gitlab-CI, qtest, moxie removal and misc patches
-To: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210503104456.1036472-1-thuth@redhat.com>
- <CAFEAcA8k1DnOFT+5pjQ4ytene3asVDKB7TUOZgGhucTp_ypz2g@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <66206f67-f3c8-eb1c-fd5d-8c7555fe5316@redhat.com>
-Date: Thu, 6 May 2021 09:00:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leYFM-0001OT-6G
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:16:32 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leYFK-0000cy-1z
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:16:31 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1leYFI-0007FV-Hv
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:16:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 79E7F2E8186
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 07:16:28 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8k1DnOFT+5pjQ4ytene3asVDKB7TUOZgGhucTp_ypz2g@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 May 2021 07:02:03 -0000
+From: Peter Vegh <1864814@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: macos
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pbuntu1 th-huth
+X-Launchpad-Bug-Reporter: Peter Vegh (pbuntu1)
+X-Launchpad-Bug-Modifier: Peter Vegh (pbuntu1)
+References: <158270726043.14146.8926447072185498744.malonedeb@wampee.canonical.com>
+Message-Id: <162028452429.5967.9940181102732632869.launchpad@wampee.canonical.com>
+Subject: [Bug 1864814] Re: Improve UX for macOS when launching from a
+ fullscreen app
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: de230e5d7a668267eedd2cf89fdee255dd4ec743
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -100,70 +71,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1864814 <1864814@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/05/2021 20.06, Peter Maydell wrote:
-> On Mon, 3 May 2021 at 11:45, Thomas Huth <thuth@redhat.com> wrote:
->>
->>   Hi Peter,
->>
->> the following changes since commit 53c5433e84e8935abed8e91d4a2eb813168a0ecf:
->>
->>    Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210501' into staging (2021-05-02 12:02:46 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.com/thuth/qemu.git tags/pull-request-2021-05-03
->>
->> for you to fetch changes up to 8f582fa290e5d5d0a00db23eaf1ab1bb3d3ae68d:
->>
->>    util/compatfd.c: Replaced a malloc call with g_malloc. (2021-05-03 11:40:40 +0200)
->>
->> ----------------------------------------------------------------
->> * Removal of the deprecated moxie target
->> * Replace some YAML anchors by "extends" in the Gitlab-CI
->> * Some small improvements for using the qtests
->> * Some other small misc patches
-> 
-> This fails to build as an incremental (not from-clean) build:
-[...]
-> ../../meson.build:1291:2: ERROR: Failed to load
-> /home/ubuntu/qemu/default-configs/targets/moxie-softmmu.mak: [Errno 2]
-> No such file or directory:
-> '/home/ubuntu/qemu/default-configs/targets/moxie-softmmu.mak'
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
-D'oh! I think I can work-around the problem with a patch like
-this on top:
+-- =
 
-diff a/configure b/configure
---- a/configure
-+++ b/configure
-@@ -1686,6 +1686,11 @@ fi
-  
-  for config in $mak_wilds; do
-      target="$(basename "$config" .mak)"
-+    if [ "$target" = "moxie-softmmu" ]; then
-+        # This is a work-around to make incremental builds pass after
-+        # moxie-softmmu has been removed. It can be removed later.
-+        continue
-+    fi
-      if echo "$target_list_exclude" | grep -vq "$target"; then
-          default_target_list="${default_target_list} $target"
-      fi
-diff a/default-configs/targets/moxie-softmmu.mak b/default-configs/targets/moxie-softmmu.mak
-new file mode 100644
-index 0000000000..23fd596b66
---- /dev/null
-+++ b/default-configs/targets/moxie-softmmu.mak
-@@ -0,0 +1,2 @@
-+# This is just a dummy file to avoid that incremental builds are failing.
-+# It can be removed as soon as all builders have been updated.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1864814
 
-Does that look acceptable? If yes, I'll respin my PR with that
-squashed into the moxie patch.
+Title:
+  Improve UX for macOS when launching from a fullscreen app
 
-  Thomas
+Status in QEMU:
+  New
 
+Bug description:
+  System/setup:
+  * MacBook Pro, macOS (any version from the last 2 years), external monito=
+r.
+  * IDE on the laptop, emulator is used on the external monitor.
+
+  Currently, when starting the emulator from e.g. Android Studio or
+  IntelliJ IDEA, which is set to fullscreen mode on the laptop, which is
+  like it's own virtual desktop (Space) in macOS, what happens is this:
+
+  1. The virtual desktop (Space) on the laptop screen is switched because o=
+f #2. The reason is that only one window can be shown in Fullscreen this wa=
+y.
+  2. The qemu splashscreen is shown for a few seconds, then it disappears. =
+This is the reason for the virtual desktop switch. This splashscreen seems =
+actually unnecessary to me, it has no value and it causes problems.
+  3. The actual emulator is shown, in my case on the external monitor (corr=
+ectly). I guess if the splashscreen would not be shown, the virtual desktop=
+ switch would not happen, because the emulator would happen on the correct =
+screen directly.
+
+  So maybe the splashscreen and the emulator window should be the same wind=
+ow, so that the OS can remember it's position being the same as the emulato=
+r?
+  Or maybe the splash could be disabled (by default? otherwise an update to=
+ IDEs would be necessary for the improved behavior?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1864814/+subscriptions
 
