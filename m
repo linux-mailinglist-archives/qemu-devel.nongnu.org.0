@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9AA3754FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 15:43:09 +0200 (CEST)
-Received: from localhost ([::1]:34162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC467375522
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 15:50:34 +0200 (CEST)
+Received: from localhost ([::1]:56086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leeHU-0004Pw-MX
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 09:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57450)
+	id 1leeOf-00050R-TU
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 09:50:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leeFb-0002fL-Lo
+ id 1leeFb-0002eu-GT
  for qemu-devel@nongnu.org; Thu, 06 May 2021 09:41:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41886)
+Received: from indium.canonical.com ([91.189.90.7]:41856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leeFZ-00014B-2S
+ id 1leeFY-00013h-7K
  for qemu-devel@nongnu.org; Thu, 06 May 2021 09:41:11 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leeFX-0001uZ-P5
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 13:41:07 +0000
+ id 1leeFW-0001tD-Px
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 13:41:06 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BCB812E802E
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 13:41:07 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BF04D2E8186
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 13:41:06 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 13:33:29 -0000
-From: Thomas Huth <1875702@bugs.launchpad.net>
+Date: Thu, 06 May 2021 13:34:24 -0000
+From: Thomas Huth <1877015@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=Laurent@vivier.eu; 
-X-Launchpad-Bug-Tags: linux-user
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: agl th-huth
-X-Launchpad-Bug-Reporter: agl (agl)
+X-Launchpad-Bug-Commenters: luoyonggang th-huth xavier-ding
+X-Launchpad-Bug-Reporter: xuan (xavier-ding)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158809456539.8338.16342287412940632416.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162030800998.6598.8113594581143069191.malone@wampee.canonical.com>
-Subject: [Bug 1875702] Re: madvise reports success,
- but doesn't implement WIPEONFORK.
+References: <158873300816.14142.15664636500998863138.malonedeb@gac.canonical.com>
+Message-Id: <162030806499.4215.1120162653561142269.malone@gac.canonical.com>
+Subject: [Bug 1877015] Re: virtio only support packed ring size power of 2
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 79f5e3acfad243e9d916ef63702cfc6749b47ad7
+X-Launchpad-Hash: 4cd04dd16b74f34959ec7bdc822f06f4715cc7b6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1875702 <1875702@bugs.launchpad.net>
+Reply-To: Bug 1877015 <1877015@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,41 +89,31 @@ Thank you and sorry for the inconvenience.
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
-** Tags added: linux-user
-
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1875702
+https://bugs.launchpad.net/bugs/1877015
 
 Title:
-  madvise reports success, but doesn't implement WIPEONFORK.
+  virtio only support packed ring size power of 2
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  The implementation of madvise (linux-user/syscall.c:11331, tag
-  v5.0.0-rc4) always returns zero (i.e. success). However, an
-  application requesting (at least) MADV_WIPEONFORK may need to know
-  whether the call was actually successful. If not (because the kernel
-  doesn't support WIPEONFORK) then it will need to take other measures
-  to provide fork-safety (such as drawing entropy from the kernel in
-  every case). But, if the application believes that WIPEONFORK is
-  supported (because madvise returned zero), but it actually isn't (as
-  in qemu), then it may forego those protections on the assumption that
-  WIPEONFORK will provide fork-safety.
+  Issue discription=EF=BC=9A
+  When QEMU starts with "-device virtio-net-pci,netdev=3Dnetdev0,mac=3D52:5=
+4:00:00:00:01,disable-modern=3Dfalse,mrg_rxbuf=3Don,rx_queue_size=3D1025,tx=
+_queue_size=3D1025,mq=3Don,vectors=3D15,packed=3Don"
 
-  Roughly, the comment in qemu that says "This is a hint, so ignoring
-  and returning success is ok." is no longer accurate in the presence of
-  MADV_WIPEONFORK.
+  It raises error: Invalid rx_queue_size (=3D 1025), must be a power of 2
+  between 256 and 1024
 
-  (This is not purely academic: BoringSSL is planning on acting in this
-  way. We found the qemu behaviour in pre-release testing and are
-  planning on making an madvise call with advice=3D-1 first to test
-  whether unknown advice values actually produce EINVAL.)
+  Analysis:
+  According to virtio1.1 spec, the packed queue size value does not have to=
+ be a power of 2.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1875702/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1877015/+subscriptions
 
