@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FA4375948
+	by mail.lfdr.de (Postfix) with ESMTPS id 96545375949
 	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 19:28:07 +0200 (CEST)
-Received: from localhost ([::1]:55652 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:55686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lehnC-00089n-3z
+	id 1lehnC-0008AP-4f
 	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 13:28:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36310)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lehl3-0006uI-Ua
- for qemu-devel@nongnu.org; Thu, 06 May 2021 13:25:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37614)
+ id 1lehl2-0006sn-42
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 13:25:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lehks-0007vW-6C
- for qemu-devel@nongnu.org; Thu, 06 May 2021 13:25:53 -0400
+ id 1lehks-0007vU-6a
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 13:25:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lehkq-0007at-Po
+ id 1lehkq-0007ap-3B
  for <qemu-devel@nongnu.org>; Thu, 06 May 2021 17:25:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B1A402E8187
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 17:25:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DD0B22E8187
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 17:25:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 17:15:57 -0000
-From: Thomas Huth <1880722@bugs.launchpad.net>
+Date: Thu, 06 May 2021 17:18:52 -0000
+From: Thomas Huth <1880763@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
+ assignee=ahmedkrmn@outlook.com; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: ahmedkrmn th-huth
 X-Launchpad-Bug-Reporter: Ahmed Karaman (ahmedkrmn)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159050902512.8264.16089666576245848412.malonedeb@gac.canonical.com>
-Message-Id: <162032135775.5739.1143718916135276436.malone@wampee.canonical.com>
-Subject: [Bug 1880722] Re: Problems related to checking page crossing in
- use_goto_tb()
+References: <159052842235.20182.6565477896254015468.malonedeb@soybean.canonical.com>
+Message-Id: <162032153291.14117.7330376419379121543.malone@soybean.canonical.com>
+Subject: [Bug 1880763] Re: Missing page crossing check in use_goto_tb() for rx
+ target
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 5db6820f906b8917c9eee3e9602966ddf2efff8e
+X-Launchpad-Hash: be31352e60399bab8852f41a309922c930cd3068
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1880722 <1880722@bugs.launchpad.net>
+Reply-To: Bug 1880763 <1880763@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -111,29 +110,23 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1880722
+https://bugs.launchpad.net/bugs/1880763
 
 Title:
-  Problems related to checking page crossing in use_goto_tb()
+  Missing page crossing check in use_goto_tb() for rx target
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  The discussion that led to this bug discovery can be found in this
-  mailing list thread:
-  https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg05426.html
+  Currently the rx target doesn't have the page crossing check in its =
 
-  A workaround for this problem would be to check for page crossings for
-  both the user and system modes in the use_goto_tb() function across
-  targets. Some targets like "hppa" already implement this fix but others
-  don't.
+  use_goto_tb() function. =
 
-  To solve the root cause of this problem, the linux-user/mmap.c should
-  be fixed to do all the invalidations required. By doing so, better
-  performance results could be achieved, compared to the case of the
-  workaround described above.
+  This is a required feature for stable system mode emulations that all =
+
+  other targets implement.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1880722/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1880763/+subscriptions
 
