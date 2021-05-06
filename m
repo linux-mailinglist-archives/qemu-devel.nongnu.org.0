@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E723A375BA2
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 21:20:34 +0200 (CEST)
-Received: from localhost ([::1]:41898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8CA375B6D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 21:08:52 +0200 (CEST)
+Received: from localhost ([::1]:48538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lejY1-0007Bo-VE
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 15:20:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32828)
+	id 1lejMh-0006FX-QL
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 15:08:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lejBl-0005im-Sw
- for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29003)
+ id 1lejBj-0005bg-9T
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lejBc-0005hY-Jy
- for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:33 -0400
+ id 1lejBe-0005iZ-1S
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620327442;
+ s=mimecast20190719; t=1620327445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OhCPmU82AN1xmN8DoqLWWjVSbLSl0fuMooXTx+FsK9Q=;
- b=WE0VbGfP7Epq94kcr9u/wL0K3QEVdjjsZDl9AaDWFxuZuwRGcQTjNvujp9bq3IC5UBG1Va
- prRZ8xjWVXOHV555jT6nUS2WJuwk52MM22hlRKrRGhPF9KQL30iqwWEhN7KI7vV2cd7APH
- jbwvywN9bp2KxudXtJE9uxIRM4ogEMc=
+ bh=HpXtmp1ldLpbexZZQ6+fA3pd/+IH174hLro6g4Sr2Jo=;
+ b=DYynSo7qDmVMJqVgKBCI0K9spsBEsb4dmnCHdHjJIbFa3+WGyC3xlEKyKsehHC31mQyoJG
+ 7lPdAxM8NbGInqzFh8IpowApGCerBXhfRXbObS5ztN3d8nmbPkZP3/O+2q23POkl7IC43G
+ ZxmDIV8HMRScxP9eyhxI6717JAcT9zE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-fgup0tT0O92SB_fqpCq76w-1; Thu, 06 May 2021 14:57:20 -0400
-X-MC-Unique: fgup0tT0O92SB_fqpCq76w-1
+ us-mta-289-K7P1K6uRPK2fKp7NhPoP3w-1; Thu, 06 May 2021 14:57:23 -0400
+X-MC-Unique: K7P1K6uRPK2fKp7NhPoP3w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37657801817;
- Thu,  6 May 2021 18:57:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16246107ACE3;
+ Thu,  6 May 2021 18:57:21 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-37.ams2.redhat.com
  [10.36.115.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FD4419C46;
- Thu,  6 May 2021 18:57:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83BDE19C46;
+ Thu,  6 May 2021 18:57:19 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, groug@kaod.org, jose.carlos.venegas.munoz@intel.com,
  ma.mandourr@gmail.com
-Subject: [PULL 10/12] virtiofsd: Changed allocations of fv_VuDev & its
- internals to GLib functions
-Date: Thu,  6 May 2021 19:56:39 +0100
-Message-Id: <20210506185641.284821-11-dgilbert@redhat.com>
+Subject: [PULL 11/12] virtiofsd/passthrough_ll.c: Changed local allocations to
+ GLib functions
+Date: Thu,  6 May 2021 19:56:40 +0100
+Message-Id: <20210506185641.284821-12-dgilbert@redhat.com>
 In-Reply-To: <20210506185641.284821-1-dgilbert@redhat.com>
 References: <20210506185641.284821-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -87,84 +87,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-Changed the allocations of fv_VuDev structs, VuDev structs, and
-fv_QueueInfo strcuts from using calloc()/realloc() & free() to using
-the equivalent functions from GLib.
-
-In instances, removed the pair of allocation and assertion for
-non-NULL checking with a GLib function that aborts on error.
-
-Removed NULL-checking for fv_VuDev struct allocation and used
-a GLib function that crashes on error; namely, g_new0(). This
-is because allocating one struct should not be a problem on an
-healthy system. Also following the pattern of aborting-on-null
-behaviour that is taken with allocating VuDev structs and
-fv_QueueInfo structs.
+Changed the allocations of some local variables to GLib's allocation
+functions, such as g_try_malloc0(), and annotated those variables
+as g_autofree. Subsequently, I was able to remove the calls to free().
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20210420154643.58439-6-ma.mandourr@gmail.com>
+Message-Id: <20210420154643.58439-7-ma.mandourr@gmail.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index a3d37ab696..828f0fa590 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -782,7 +782,7 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
-     pthread_mutex_destroy(&ourqi->vq_lock);
-     close(ourqi->kill_fd);
-     ourqi->kick_fd = -1;
--    free(vud->qi[qidx]);
-+    g_free(vud->qi[qidx]);
-     vud->qi[qidx] = NULL;
- }
- 
-@@ -813,15 +813,13 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
-     if (started) {
-         /* Fire up a thread to watch this queue */
-         if (qidx >= vud->nqueues) {
--            vud->qi = realloc(vud->qi, (qidx + 1) * sizeof(vud->qi[0]));
--            assert(vud->qi);
-+            vud->qi = g_realloc_n(vud->qi, qidx + 1, sizeof(vud->qi[0]));
-             memset(vud->qi + vud->nqueues, 0,
-                    sizeof(vud->qi[0]) * (1 + (qidx - vud->nqueues)));
-             vud->nqueues = qidx + 1;
-         }
-         if (!vud->qi[qidx]) {
--            vud->qi[qidx] = calloc(sizeof(struct fv_QueueInfo), 1);
--            assert(vud->qi[qidx]);
-+            vud->qi[qidx] = g_new0(struct fv_QueueInfo, 1);
-             vud->qi[qidx]->virtio_dev = vud;
-             vud->qi[qidx]->qidx = qidx;
-         } else {
-@@ -1087,12 +1085,7 @@ int virtio_session_mount(struct fuse_session *se)
-              __func__);
- 
-     /* TODO: Some cleanup/deallocation! */
--    se->virtio_dev = calloc(sizeof(struct fv_VuDev), 1);
--    if (!se->virtio_dev) {
--        fuse_log(FUSE_LOG_ERR, "%s: virtio_dev calloc failed\n", __func__);
--        close(data_sock);
--        return -1;
--    }
-+    se->virtio_dev = g_new0(struct fv_VuDev, 1);
- 
-     se->vu_socketfd = data_sock;
-     se->virtio_dev->se = se;
-@@ -1114,8 +1107,8 @@ void virtio_session_close(struct fuse_session *se)
-         return;
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 406b5bd10e..49c21fd855 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -1653,7 +1653,7 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+     struct lo_data *lo = lo_data(req);
+     struct lo_dirp *d = NULL;
+     struct lo_inode *dinode;
+-    char *buf = NULL;
++    g_autofree char *buf = NULL;
+     char *p;
+     size_t rem = size;
+     int err = EBADF;
+@@ -1669,7 +1669,7 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
      }
  
--    free(se->virtio_dev->qi);
-+    g_free(se->virtio_dev->qi);
-     pthread_rwlock_destroy(&se->virtio_dev->vu_dispatch_rwlock);
--    free(se->virtio_dev);
-+    g_free(se->virtio_dev);
-     se->virtio_dev = NULL;
+     err = ENOMEM;
+-    buf = calloc(1, size);
++    buf = g_try_malloc0(size);
+     if (!buf) {
+         goto error;
+     }
+@@ -1755,7 +1755,6 @@ error:
+     } else {
+         fuse_reply_buf(req, buf, size - rem);
+     }
+-    free(buf);
  }
+ 
+ static void lo_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+@@ -2732,7 +2731,7 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+                         size_t size)
+ {
+     struct lo_data *lo = lo_data(req);
+-    char *value = NULL;
++    g_autofree char *value = NULL;
+     char procname[64];
+     const char *name;
+     char *mapped_name;
+@@ -2773,7 +2772,7 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+              ino, name, size);
+ 
+     if (size) {
+-        value = malloc(size);
++        value = g_try_malloc(size);
+         if (!value) {
+             goto out_err;
+         }
+@@ -2812,8 +2811,6 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+         fuse_reply_xattr(req, ret);
+     }
+ out_free:
+-    free(value);
+-
+     if (fd >= 0) {
+         close(fd);
+     }
+@@ -2832,7 +2829,7 @@ out:
+ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+ {
+     struct lo_data *lo = lo_data(req);
+-    char *value = NULL;
++    g_autofree char *value = NULL;
+     char procname[64];
+     struct lo_inode *inode;
+     ssize_t ret;
+@@ -2854,7 +2851,7 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+              size);
+ 
+     if (size) {
+-        value = malloc(size);
++        value = g_try_malloc(size);
+         if (!value) {
+             goto out_err;
+         }
+@@ -2939,8 +2936,6 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+         fuse_reply_xattr(req, ret);
+     }
+ out_free:
+-    free(value);
+-
+     if (fd >= 0) {
+         close(fd);
+     }
 -- 
 2.31.1
 
