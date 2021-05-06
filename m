@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D33375104
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 10:43:23 +0200 (CEST)
-Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E689437512E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:00:06 +0200 (CEST)
+Received: from localhost ([::1]:43120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leZbN-0003ee-Vq
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 04:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53928)
+	id 1leZra-0006tt-0f
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:00:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1leZZk-0002zd-Bx
- for qemu-devel@nongnu.org; Thu, 06 May 2021 04:41:40 -0400
-Received: from 9.mo51.mail-out.ovh.net ([46.105.48.137]:42734)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1leZqq-0006Rz-2t
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 04:59:20 -0400
+Received: from mga07.intel.com ([134.134.136.100]:14813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1leZZh-0003lu-CA
- for qemu-devel@nongnu.org; Thu, 06 May 2021 04:41:39 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.5])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 4E6FF288D1E;
- Thu,  6 May 2021 10:41:32 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Thu, 6 May 2021
- 10:41:31 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0013e49f871-4110-410e-8fd8-c83a2fe46aa9,
- A011F864E236C67B2AFE342ECDF08F9E86568858) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Thu, 6 May 2021 10:41:30 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH 5/5] target/ppc/kvm: Replace alloca() by g_malloc()
-Message-ID: <20210506104130.5f617359@bahia.lan>
-In-Reply-To: <20210505170055.1415360-6-philmd@redhat.com>
-References: <20210505170055.1415360-1-philmd@redhat.com>
- <20210505170055.1415360-6-philmd@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1leZqm-0006O5-OI
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 04:59:19 -0400
+IronPort-SDR: +//FnFSGjcBsMpTa9bMqQpFKMXE2QlYpsgTvqcceus8kMEPuabFtenCWsaU9QPn2QuZvoICw5X
+ GZCqc23PiGxg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="262365625"
+X-IronPort-AV: E=Sophos;i="5.82,277,1613462400"; d="scan'208";a="262365625"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2021 01:59:07 -0700
+IronPort-SDR: pqo4mS8ASheQ1c65g+OZoRggXeWPuSl+VV3h1EqALhC3T2VLV/jOOezzJzSAd04EAycYE/172U
+ zOlW9bTL+E/g==
+X-IronPort-AV: E=Sophos;i="5.82,277,1613462400"; d="scan'208";a="430438716"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.144.101])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 06 May 2021 01:59:05 -0700
+Date: Thu, 6 May 2021 16:46:36 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [RESEND PATCH 31/32] sgx-epc: Add the fill_device_info()
+ callback support
+Message-ID: <20210506084636.GB21621@yangzhon-Virtual>
+References: <20210430062455.8117-1-yang.zhong@intel.com>
+ <20210430062455.8117-32-yang.zhong@intel.com>
+ <9c62797b-a96b-8777-dd4e-676a3e107964@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 81b71a7d-59c2-4d1c-8aa8-7f6a7006e2cf
-X-Ovh-Tracer-Id: 12374484402015738159
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdegtddgtdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevlefhtddufffhieevhefhleegleelgfetffetkedugeehjeffgfehhfefueduffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=groug@kaod.org;
- helo=9.mo51.mail-out.ovh.net
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_BL_SPAMCOP_NET=1.347,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9c62797b-a96b-8777-dd4e-676a3e107964@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=yang.zhong@intel.com; helo=mga07.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,78 +66,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
- Kyle Evans <kevans@freebsd.org>, qemu-devel@nongnu.org,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Warner Losh <imp@bsdimp.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: yang.zhong@intel.com, pbonzini@redhat.com, kai.huang@intel.com,
+ qemu-devel@nongnu.org, seanjc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  5 May 2021 19:00:55 +0200
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+On Mon, May 03, 2021 at 01:01:22PM -0500, Eric Blake wrote:
+> On 4/30/21 1:24 AM, Yang Zhong wrote:
+> > Since there is no fill_device_info() callback support, and when we
+> > execute "info memory-devices" command in the monitor, the segfault
+> > will be found.
+> > 
+> > This patch will add this callback support and "info memory-devices"
+> > will show sgx epc memory exposed to guest. The result as below:
+> > 
+> > qemu) info memory-devices
+> > Memory device [sgx-epc]: "epc1"
+> >   memaddr: 0x180000000
+> >   size: 29360128
+> >   memdev: /objects/mem1
+> > Memory device [sgx-epc]: "epc2"
+> >   memaddr: 0x181c00000
+> >   size: 10485760
+> >   memdev: /objects/mem2
+> > 
+> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> > ---
+> 
+> > +++ b/qapi/machine.json
+> > @@ -1184,6 +1184,29 @@
+> >            }
+> >  }
+> >  
+> > +##
+> > +# @SgxEPCDeviceInfo:
+> > +#
+> > +# Sgx EPC state information
+> > +#
+> > +# @id: device's ID
+> > +#
+> > +# @memaddr: physical address in memory, where device is mapped
+> > +#
+> > +# @size: size of memory that the device provides
+> > +#
+> > +# @memdev: memory backend linked with device
+> > +#
+> > +# Since: 5.1
+> 
+> 6.1
 
-> The ALLOCA(3) man-page mentions its "use is discouraged".
->=20
-> Replace it by a g_malloc() call.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  target/ppc/kvm.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 104a308abb5..ae62daddf7d 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -2698,11 +2698,11 @@ int kvmppc_save_htab(QEMUFile *f, int fd, size_t =
-bufsize, int64_t max_ns)
->  int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
->                             uint16_t n_valid, uint16_t n_invalid, Error *=
-*errp)
->  {
-> -    struct kvm_get_htab_header *buf;
-> -    size_t chunksize =3D sizeof(*buf) + n_valid * HASH_PTE_SIZE_64;
-> +    size_t chunksize =3D sizeof(struct kvm_get_htab_header)
+  Eric, thanks for your comments, i will change this in the next version, thanks!
 
-It is a bit unfortunate to introduce a new dependency on the struct type.
+  Yang
 
-What about the following ?
-
--    struct kvm_get_htab_header *buf;
-+    g_autofree struct kvm_get_htab_header *buf =3D NULL;
-     size_t chunksize =3D sizeof(*buf) + n_valid * HASH_PTE_SIZE_64;
-     ssize_t rc;
-=20
--    buf =3D alloca(chunksize);
-+    buf =3D g_malloc(chunksize);
-
-
-    g_autofree struct kvm_get_htab_header *buf =3D NULL;
-    size_t chunksize =3D sizeof(*buf) + n_valid * HASH_PTE_SIZE_64;
-
-> +                       + n_valid * HASH_PTE_SIZE_64;
->      ssize_t rc;
-> +    g_autofree struct kvm_get_htab_header *buf =3D g_malloc(chunksize);
-> =20
-> -    buf =3D alloca(chunksize);
->      buf->index =3D index;
->      buf->n_valid =3D n_valid;
->      buf->n_invalid =3D n_invalid;
-> @@ -2741,10 +2741,10 @@ void kvmppc_read_hptes(ppc_hash_pte64_t *hptes, h=
-waddr ptex, int n)
->      i =3D 0;
->      while (i < n) {
->          struct kvm_get_htab_header *hdr;
-> +        char buf[sizeof(*hdr) + HPTES_PER_GROUP * HASH_PTE_SIZE_64];
->          int m =3D n < HPTES_PER_GROUP ? n : HPTES_PER_GROUP;
-> -        char buf[sizeof(*hdr) + m * HASH_PTE_SIZE_64];
-> =20
-> -        rc =3D read(fd, buf, sizeof(buf));
-> +        rc =3D read(fd, buf, sizeof(*hdr) + m * HASH_PTE_SIZE_64);
->          if (rc < 0) {
->              hw_error("kvmppc_read_hptes: Unable to read HPTEs");
->          }
-
+> 
+> > +##
+> > +{ 'struct': 'SgxEPCDeviceInfo',
+> > +  'data': { '*id': 'str',
+> > +            'memaddr': 'size',
+> > +            'size': 'size',
+> > +            'memdev': 'str'
+> > +          }
+> > +}
+> > +
+> >  ##
+> >  # @MemoryDeviceInfo:
+> >  #
+> > @@ -1198,7 +1221,8 @@
+> >    'data': { 'dimm': 'PCDIMMDeviceInfo',
+> >              'nvdimm': 'PCDIMMDeviceInfo',
+> >              'virtio-pmem': 'VirtioPMEMDeviceInfo',
+> > -            'virtio-mem': 'VirtioMEMDeviceInfo'
+> > +            'virtio-mem': 'VirtioMEMDeviceInfo',
+> > +            'sgx-epc': 'SgxEPCDeviceInfo'
+> >            }
+> >  }
+> >  
+> > 
+> 
+> -- 
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3226
+> Virtualization:  qemu.org | libvirt.org
 
