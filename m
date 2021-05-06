@@ -2,180 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555A6375CB3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 23:17:05 +0200 (CEST)
-Received: from localhost ([::1]:55216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116DF375D20
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 00:18:44 +0200 (CEST)
+Received: from localhost ([::1]:57048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lelMl-0001mW-Vs
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 17:17:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41336)
+	id 1lemKQ-0002SJ-K8
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 18:18:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1lelLJ-0001Dl-Ds
- for qemu-devel@nongnu.org; Thu, 06 May 2021 17:15:33 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:50306)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lemIi-000218-CJ
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 18:16:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1lelLG-0007Cr-JC
- for qemu-devel@nongnu.org; Thu, 06 May 2021 17:15:32 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 146LESQJ131387;
- Thu, 6 May 2021 21:15:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=Qi75J74Su1R4tJn3KFfOrObldJOeIqPLBEuv0YyYit4=;
- b=sJcfg0Zvma/Qd1762mmfOyjQepBg6ccyy8FQkmSnzFLRdlVHS8LeL2lIjMuU0EghrAXA
- ChmX4Br5N8yfQ/0iZ/DdY2XMK6JCN7jnt1tldIt6oo0Ovy7p/MJIHpexsZJmtahrDzMw
- 0VQ9W8esN2CmvWOsM0WGccj8gufMAuj6ZYCqbx30M/kqJeaFrpclhQQvbglc6hvJjcaz
- Poto/PPpnaDDuDfZNmU8kmoEU0WeTzVUS90bKVgjNjXLypCBH3TXOqo8jQFUOE46ihxM
- 7XlWctwOaIGJECCqQFePn+3G2KO4mr1HMb6xva8zXAV58Xb38HrYGelLx/rL9NLhNwcD Cg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 38bebc6bqd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 06 May 2021 21:15:26 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 146LAO5A138295;
- Thu, 6 May 2021 21:15:25 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
- by aserp3020.oracle.com with ESMTP id 38bebn6jxe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 06 May 2021 21:15:25 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZLO47yT0NEwROJvx6G44gUph45gK42ZMHWnV2W0hO81i0gZMlezQKGDCv6t3mc+twkbceKqAm/G8Agx713WhmrIpLRsiGQdVX0PVeeHsLkllGT4lkLXeWJhGHcVK8DFqQTmcDCMFTt8+Mjn03x/ojsB9B9QbCIYltEJQDrg46GU82xcIjXjlsLv/khR2/pZAsw/SZlONWhEPYacZNOUS7IZ90V23Rinenq8YnZvAx30jwBrag5BiZwGkdmzeUKn3yGAeAdkx8ViRwsGoum2Y8oiKeZaVAEifKpsD4ToXJb/eSxH71zFI4HAsSl1B6sv7VnsWCtehG2d6/7UvMOneXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qi75J74Su1R4tJn3KFfOrObldJOeIqPLBEuv0YyYit4=;
- b=UzlKCeKuqhvrt5xu6MeJzO7LX5wgr0J1gC+mprfdTF5qEikp/LbHKuyb26ebVhigSexFgWyhGwrGsox6X+mR6QNzG+2D2gSIVCwZC8gPAjRV2id0lw3pGgnTszO/OHC2JRJKrV5//0y0Tdwu0j6xa90rEQcEmxbnqRqQbO1Ms4t0yadUeQR6Kl/knVnxjerkzC1tZZ6H7j4qsg3IgaMWor+n7o6lgjg/0mR4mAlbmCTp3hI5s9qdw7Rq4L2eNs37KG6W8GSmCwdwQAfnaK+mDLS34lC+myVPsdgL1WmAQx8+wsZ//ith2+kB0ax4/k1z+F0cDaro9ZLAWPKhyyjOsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qi75J74Su1R4tJn3KFfOrObldJOeIqPLBEuv0YyYit4=;
- b=hN0CeiJpFt7k5+egVKuwySFMXYvqNP4RH77jUR7XpfDuGJqganuoZf6/RBaECZIPiewfHtXRaee1g3n+V/UL655GP2AB4Mh43Tv9Z/iMT0kAP8sodS/vdHLjqeRbxBEvsQvK98iLneCTCGvbEoelzXVFxAX1guhwVXpby37bdsk=
-Authentication-Results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=oracle.com;
-Received: from BYAPR10MB3287.namprd10.prod.outlook.com (2603:10b6:a03:15c::11)
- by SJ0PR10MB4543.namprd10.prod.outlook.com (2603:10b6:a03:2d9::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25; Thu, 6 May
- 2021 21:15:10 +0000
-Received: from BYAPR10MB3287.namprd10.prod.outlook.com
- ([fe80::572:1b89:6a87:b18a]) by BYAPR10MB3287.namprd10.prod.outlook.com
- ([fe80::572:1b89:6a87:b18a%5]) with mapi id 15.20.4108.026; Thu, 6 May 2021
- 21:15:10 +0000
-Subject: Re: [PATCH 2/2] vhost-vdpa: doorbell mapping support
-To: Jason Wang <jasowang@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
-References: <20210415080444.44645-1-jasowang@redhat.com>
- <20210415080444.44645-3-jasowang@redhat.com>
- <c2a0e640-4f76-c6a3-12a7-756204473030@oracle.com>
- <cb97a251-ed9e-4417-4aab-527a428c86d0@redhat.com>
-From: Si-Wei Liu <si-wei.liu@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <ac0f3498-f57a-7b4f-24f7-5d8e58912b40@oracle.com>
-Date: Thu, 6 May 2021 14:15:07 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
-In-Reply-To: <cb97a251-ed9e-4417-4aab-527a428c86d0@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [73.231.200.235]
-X-ClientProxiedBy: SJ0PR03CA0116.namprd03.prod.outlook.com
- (2603:10b6:a03:333::31) To BYAPR10MB3287.namprd10.prod.outlook.com
- (2603:10b6:a03:15c::11)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lemIf-0000N8-Km
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 18:16:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620339411;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VVqtcHMBiEb5CBRrlD2feZ+Jh9dkQ48ROy3h7QQSIaA=;
+ b=UiW8H7RrnHr5SAuNY13ZZkrYgb1/x/YTrFEsOZdXZ7MqQWbfgiLPMQO6jfCmTrFQFqqVR7
+ MSpuyIya29Wc5zNp3nZbXvMfkUICW4Jn5LMXzzB8P8ATLuWQxBk0lZaQFdbtcbcENf2UZH
+ lA2yI7a4nntUHtN54C5TyiZgEzOe28Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-bCkilFXlNEGUMolnrLCKfA-1; Thu, 06 May 2021 18:16:49 -0400
+X-MC-Unique: bCkilFXlNEGUMolnrLCKfA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC99318397A4;
+ Thu,  6 May 2021 22:16:48 +0000 (UTC)
+Received: from localhost (unknown [10.22.8.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6638710027A5;
+ Thu,  6 May 2021 22:16:48 +0000 (UTC)
+Date: Thu, 6 May 2021 18:16:47 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Yang Weijiang <weijiang.yang@intel.com>
+Subject: Re: [PATCH v7 2/6] target/i386: Enable XSS feature enumeration for
+ CPUID
+Message-ID: <20210506221647.zaq4or66rqspxssb@habkost.net>
+References: <20210226022058.24562-1-weijiang.yang@intel.com>
+ <20210226022058.24562-3-weijiang.yang@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.0.16] (73.231.200.235) by
- SJ0PR03CA0116.namprd03.prod.outlook.com (2603:10b6:a03:333::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend
- Transport; Thu, 6 May 2021 21:15:09 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ad7683fb-0a93-42a3-8ca0-08d910d407d5
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB4543:
-X-Microsoft-Antispam-PRVS: <SJ0PR10MB45436A0DF5004481E03ADB9FB1589@SJ0PR10MB4543.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mHPZoehS3bKOQxf+/yWJvrh79Gu5oWcqJKAAwWgHyIuT+27Z7kYHfUxDDtEfWiuaZPwRkKqckS8js2tPp3BtXjXGTzPU0inTVpcUI8bONYBffMCY8Hp+keStWRidiN3lkE8jee88FcborRaFi2vjQWfAQvaNCrzpa3NAV5VuiRjXA1kyqcWKMsFzF47hbMwnh7bEpU0byAT6KfKdNDtg04ccxOAeo/p/xIwWrnRo4KxCnQKEJ/pFQgu2bBJZflq6CLQHzBgLXno0JWfDhIXtGVXxPdkYxT+QI2tzRNMvU9QWEgEnVefAVgb1NkU4SFw1Q7AWtIIrdxzjxnhyXrppP6lC+BvZmUFCGimBbQ2m0TdRHCVWTsCvt3IvIppRnjbGAL/A1Bo2tZw3yHA7XGOXzbjOkr5BppMvr7giKbTzKs8NUy+M5iYwAOa4AN6hfmfM9PYuMupNsoAQk47ZaBENo3TM5nPSPBZ2jX5l4LnFPk4NHPsO78Wm9hi40U/YQVYg8hvgUuOEFGGDaTuyBiWyrHmoLPrjBR0UcFMErX0S96WGq+4ZcpR3ZjB+IA7fsR+1zXRI5LWb20CS8l22gj8/z5AfLdQN4B6Y6vs/RDQdvYIZeR45baxgZ3E5kwLVZ60+rRchfFTCBXfr9H12u7uw2gOlMOpOpBhjSv7dRtrXguHw4/xbKxEM80NyY2G5/ews
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB3287.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(6486002)(186003)(8676002)(83380400001)(16526019)(5660300002)(86362001)(36756003)(956004)(36916002)(2616005)(31686004)(4326008)(38100700002)(66476007)(66556008)(2906002)(498600001)(16576012)(31696002)(8936002)(66946007)(26005)(53546011)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MlBTTTU4WThBMWFkeFJzSTJKQWJXcGFVT3dwaEEreHU2UnZMSXpMcUJSd2xk?=
- =?utf-8?B?Rlk2ME9tZk55bFd1UHBnOGwzYzZpZEFsSlA0aXZYd0NSS1dNWVdIbVQ0TWZk?=
- =?utf-8?B?WjRaZ3NFVU1SVDFEbEFPNmpRc1o1ZURpMkk3dlZMNG11a3UzSkhmcEtRZ0tB?=
- =?utf-8?B?M09waE1adlZtZHhHSzIyeVlQR0VZend1dEphek9XVTRnVWwvQ09rcnVpaG5G?=
- =?utf-8?B?QWNBbTRrOFlNUWdYbDhUZURYZC8wTnYxb0dMU3VrUlFHY2tjc1FSNHMxTlNt?=
- =?utf-8?B?b2dJMko3aW5oZEpFK3FNL0pwcVpFQmx1LzV4am55T1RlQmU5OWo3OWpaRWtS?=
- =?utf-8?B?d2lUSWdXUytJNkJaelBkSTF0SXNLaG9sd0cxMHZqSXkrajdmVjJxNHhBMHJY?=
- =?utf-8?B?Z3ZGYXd5QWVmMjd3Nm0rYXZPUDlOdzR0YVRiTWJBNTVsOVZRai80K005dUdi?=
- =?utf-8?B?RVk5TVpGOWJuMk81QmpYcUZjYXFKMnk2cURlN2owbUE0NG9LK3dLdUpxTjIw?=
- =?utf-8?B?M1RHd0pvdVBRSmhpSWJ4a1V4Z1hoaFdIemR5aTRvdHRYbFdVVFd3TUJjZTRU?=
- =?utf-8?B?dy9EYyt5Q2ZhZEhPc3hOckxoWmRMd1ZqM0UrbUpqRGxrVCtVVk1VZ2hQcE5L?=
- =?utf-8?B?dmNyaTZYSUk0YWdkZCs2VDcyV0JHcm1LOXdNQk9oR0I5VDhEOTdBMk84bjhp?=
- =?utf-8?B?Vm1sUnc0WHh0MktQa0R5S21uQzE5WVlLbitaMC90R3dXZ3hwUUZrOEwxRUVF?=
- =?utf-8?B?Ty9xTmNCOFg3V0RRaTk1VVlKUkVWL1N0N1pQbkN0dE1WWmxSdWo3NUpEZDNt?=
- =?utf-8?B?L3F2VnJFa0dURUhKZS9vSGNSR1dyNUhDbTljamVOVnJRcVJRM0NwL0tleDM4?=
- =?utf-8?B?b1BJS1pVMmRKU0RYNEpUd056UDkrQ1JCVk1Cd3ZoMldFTmoyRSt1cU43bnF2?=
- =?utf-8?B?WVFoRTBHRTRzc094WVZGcHpkU2ZmV0dFZlJHTlVtL29KOXp4MXc4OUxpUFFF?=
- =?utf-8?B?SUJaV3RxNDhkZnRsU05Taks4c2dKa2Z5ZFY2Y1RyTjZpRVlzbXNZZzgyRUdX?=
- =?utf-8?B?dXVBV3NsdUM5bjI2bk5Pc1JMZmxLOWszd0cveEJZV2hjWXFnNmpwM2pPMXVY?=
- =?utf-8?B?OHN5S0hzemRpVkdLOWRLNmlvZ1ZOd0NrNTdXN3hPTG91eE5ERmxMcWZTVDJ3?=
- =?utf-8?B?UTBHeXhIeWZXWmFnRU51UEpFVVAwVXdUVFU3eHhkVjN3SnRCb0hKQ2h3dU5a?=
- =?utf-8?B?MnUzUXRzeUwybjVCS1NLdTgzRVVPVEQrT01IbHp5amtRbTQ3b2llTS9PMHZF?=
- =?utf-8?B?N245SWNxd2tCZjBuRTkxUG43dTJRQVV0aTA2ajVndXJFSWJqcHEwZWUrRllW?=
- =?utf-8?B?N01nTkQ1Tk5tYk14QmJQVUs4VjRVcWk2Vmk4Rml5Q1VTK0RndGFXU0pLMHpH?=
- =?utf-8?B?U2N3MWsyQU9zdGFWZ01renRwYittSC8vUjlERVFRRm1QZ0tEOWdMbjV1dEQ0?=
- =?utf-8?B?aklJZ0U2WThIZTN6d0t4MWYwQW1UcTR2bkRZWUp0T2txU3MrZ1QrRVcvUG5C?=
- =?utf-8?B?T0J6MlZ2NVBvdXRwZ0ZUOVh4ak5pejJxclVQTC94aEFvV094UFNNQ0tRTnFY?=
- =?utf-8?B?bGdkdDhuSFBmWjRIOC9aL1FmanZqOHhPbldFMytZN3lpNWRUcktRQjlDeW5V?=
- =?utf-8?B?a0VUdW1VMHYxaC9SdHNwU01JQk96TzkrNEFOeExSREpmdml1YVV4LzBYbm54?=
- =?utf-8?Q?XgsH4lIwqnCQ8dRuqu08eqJhEfFly75zw/ecOLZ?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad7683fb-0a93-42a3-8ca0-08d910d407d5
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3287.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2021 21:15:10.1991 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ysbsc8hut3Mwq8iS5xgRHzZk82Uiek/5aj14NrzMMekdDy2pmKSr9ktDg/2e5mTs4KBGtmoUJg5PbAYCm0js0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4543
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- phishscore=0 adultscore=0
- bulkscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2105060149
-X-Proofpoint-ORIG-GUID: JxjgfQHyWWbR7RIJ2Y5Y9aToNuXC2aAg
-X-Proofpoint-GUID: JxjgfQHyWWbR7RIJ2Y5Y9aToNuXC2aAg
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 lowpriorityscore=0
- phishscore=0 spamscore=0 adultscore=0 clxscore=1015 mlxscore=0
- malwarescore=0 mlxlogscore=999 impostorscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2105060149
-Received-SPF: pass client-ip=156.151.31.85; envelope-from=si-wei.liu@oracle.com;
- helo=userp2120.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210226022058.24562-3-weijiang.yang@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -188,232 +75,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elic@nvidia.com
+Cc: kvm@vger.kernel.org, mtosatti@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, sean.j.christopherson@intel.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Feb 26, 2021 at 10:20:54AM +0800, Yang Weijiang wrote:
+> Currently, CPUID.(EAX=0DH,ECX=01H) doesn't enumerate features in
+> XSS properly, add the support here. XCR0 bits indicate user-mode XSAVE
+> components, and XSS bits indicate supervisor-mode XSAVE components.
+> 
+> Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
+> ---
+>  target/i386/cpu.c | 48 ++++++++++++++++++++++++++++++++++++++++++-----
+>  target/i386/cpu.h | 12 ++++++++++++
+>  2 files changed, 55 insertions(+), 5 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 89edab4240..f3923988ed 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -1058,6 +1058,24 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+>          },
+>          .tcg_features = TCG_XSAVE_FEATURES,
+>      },
+> +    [FEAT_XSAVE_XSS_LO] = {
+> +        .type = CPUID_FEATURE_WORD,
+> +        .cpuid = {
+> +            .eax = 0xD,
+> +            .needs_ecx = true,
+> +            .ecx = 1,
+> +            .reg = R_ECX,
+> +        },
+> +    },
+> +    [FEAT_XSAVE_XSS_HI] = {
+> +        .type = CPUID_FEATURE_WORD,
+> +        .cpuid = {
+> +            .eax = 0xD,
+> +            .needs_ecx = true,
+> +            .ecx = 1,
+> +            .reg = R_EDX
+> +        },
+> +    },
+>      [FEAT_6_EAX] = {
+>          .type = CPUID_FEATURE_WORD,
+>          .feat_names = {
+> @@ -1478,6 +1496,9 @@ static uint32_t xsave_area_size(uint64_t mask)
+>      for (i = 0; i < ARRAY_SIZE(x86_ext_save_areas); i++) {
+>          const ExtSaveArea *esa = &x86_ext_save_areas[i];
+>          if ((mask >> i) & 1) {
+> +            if (i >= 2 && !esa->offset) {
+
+Maybe a few comments at the definition of ExtSaveArea to explain
+that offset can now be zero (and what it means when it's zero)
+would be helpful.  I took a while to understand why this is safe.
+
+Would it be valid to say "ExtSaveArea.offset has a valid offset
+only if the component is in CPUID_XSTATE_XCR0_MASK"?  If so,
+can't this check be simply replaced with:
+  if ((1 << i) & CPUID_XSTATE_XCR0_MASK)
+?
+
+Or maybe this function should just contain a:
+  assert(!(mask & CPUID_XSTATE_XCR0_MASK));
+at the beginning?
 
 
-On 5/5/2021 7:17 PM, Jason Wang wrote:
->
-> 在 2021/5/1 上午6:32, Si-Wei Liu 写道:
->>
->>
->> On 4/15/2021 1:04 AM, Jason Wang wrote:
->>> This patch implements the doorbell mapping support for
->>> vhost-vDPA. This is simply done by using mmap()/munmap() for the
->>> vhost-vDPA fd during device start/stop. For the device without
->>> doorbell support, we fall back to eventfd based notification
->>> gracefully.
->>>
->>> Signed-off-by: Jason Wang <jasowang@redhat.com>
->>> ---
->>>   hw/virtio/vhost-vdpa.c         | 85 
->>> ++++++++++++++++++++++++++++++++++
->>>   include/hw/virtio/vhost-vdpa.h |  7 +++
->>>   2 files changed, 92 insertions(+)
->>>
->>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->>> index dd4321bac2..c3a3b7566f 100644
->>> --- a/hw/virtio/vhost-vdpa.c
->>> +++ b/hw/virtio/vhost-vdpa.c
->>> @@ -285,12 +285,95 @@ static int vhost_vdpa_init(struct vhost_dev 
->>> *dev, void *opaque)
->>>       return 0;
->>>   }
->>>   +static void vhost_vdpa_host_notifier_uninit(struct vhost_dev *dev,
->>> +                                            int queue_index)
->>> +{
->>> +    size_t page_size = qemu_real_host_page_size;
->>> +    struct vhost_vdpa *v = dev->opaque;
->>> +    VirtIODevice *vdev = dev->vdev;
->>> +    VhostVDPAHostNotifier *n;
->>> +
->>> +    n = &v->notifier[queue_index];
->>> +
->>> +    if (n->addr) {
->>> +        virtio_queue_set_host_notifier_mr(vdev, queue_index, 
->>> &n->mr, false);
->>> +        object_unparent(OBJECT(&n->mr));
->>> +        munmap(n->addr, page_size);
->>> +        n->addr = NULL;
->>> +    }
->>> +}
->>> +
->>> +static void vhost_vdpa_host_notifiers_uninit(struct vhost_dev *dev, 
->>> int n)
->>> +{
->>> +    int i;
->>> +
->>> +    for (i = 0; i < n; i++) {
->>> +        vhost_vdpa_host_notifier_uninit(dev, i);
->>> +    }
->>> +}
->>> +
->>> +static int vhost_vdpa_host_notifier_init(struct vhost_dev *dev, int 
->>> queue_index)
->>> +{
->>> +    size_t page_size = qemu_real_host_page_size;
->>> +    struct vhost_vdpa *v = dev->opaque;
->>> +    VirtIODevice *vdev = dev->vdev;
->>> +    VhostVDPAHostNotifier *n;
->>> +    int fd = v->device_fd;
->>> +    void *addr;
->>> +    char *name;
->>> +
->>> +    vhost_vdpa_host_notifier_uninit(dev, queue_index);
->>> +
->>> +    n = &v->notifier[queue_index];
->>> +
->>> +    addr = mmap(NULL, page_size, PROT_WRITE, MAP_SHARED, fd,
->>> +                queue_index * page_size);
->>> +    if (addr == MAP_FAILED) {
->>> +        goto err;
->>> +    }
->>> +
->>> +    name = g_strdup_printf("vhost-vdpa/host-notifier@%p mmaps[%d]",
->>> +                           v, queue_index);
->>> +    memory_region_init_ram_device_ptr(&n->mr, OBJECT(vdev), name,
->>> +                                      page_size, addr);
->>> +    g_free(name);
->>> +
->>> +    if (virtio_queue_set_host_notifier_mr(vdev, queue_index, 
->>> &n->mr, true)) {
->>> +        munmap(addr, page_size);
->>> +        goto err;
->>> +    }
->>> +    n->addr = addr;
->>> +
->>> +    return 0;
->>> +
->>> +err:
->>> +    return -1;
->>> +}
->>> +
->>> +static void vhost_vdpa_host_notifiers_init(struct vhost_dev *dev)
->>> +{
->>> +    int i;
->>> +
->>> +    for (i = 0; i < dev->nvqs; i++) {
->>> +        if (vhost_vdpa_host_notifier_init(dev, i)) {
->> Shouldn't (hdev->vq_index + i) be used instead of i? or it's assumed 
->> to be single QP for vhost-vdpa for the moment?
->
->
-> Only single queue pair is supported, I'm working on the multiqueue 
-> support.
+> +                continue;
+> +            }
+>              ret = MAX(ret, esa->offset + esa->size);
+>          }
+>      }
+> @@ -1489,12 +1510,18 @@ static inline bool accel_uses_host_cpuid(void)
+>      return kvm_enabled() || hvf_enabled();
+>  }
+>  
+> -static inline uint64_t x86_cpu_xsave_components(X86CPU *cpu)
+> +static inline uint64_t x86_cpu_xsave_xcr0_components(X86CPU *cpu)
+>  {
+>      return ((uint64_t)cpu->env.features[FEAT_XSAVE_XCR0_HI]) << 32 |
+>             cpu->env.features[FEAT_XSAVE_XCR0_LO];
+>  }
+>  
+> +static inline uint64_t x86_cpu_xsave_xss_components(X86CPU *cpu)
+> +{
+> +    return ((uint64_t)cpu->env.features[FEAT_XSAVE_XSS_HI]) << 32 |
+> +           cpu->env.features[FEAT_XSAVE_XSS_LO];
+> +}
+> +
+>  const char *get_register_name_32(unsigned int reg)
+>  {
+>      if (reg >= CPU_NB_REGS32) {
+> @@ -5716,7 +5743,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>          }
+>  
+>          if (count == 0) {
+> -            *ecx = xsave_area_size(x86_cpu_xsave_components(cpu));
+> +            *ecx = xsave_area_size(x86_cpu_xsave_xcr0_components(cpu));
+>              *eax = env->features[FEAT_XSAVE_XCR0_LO];
+>              *edx = env->features[FEAT_XSAVE_XCR0_HI];
+>              /*
+> @@ -5728,11 +5755,17 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>              *ebx = kvm_enabled() ? *ecx : xsave_area_size(env->xcr0);
+>          } else if (count == 1) {
+>              *eax = env->features[FEAT_XSAVE];
+> +            *ecx = env->features[FEAT_XSAVE_XSS_LO];
+> +            *edx = env->features[FEAT_XSAVE_XSS_HI];
 
-OK, I see.
->
->
->> If the latter, would be good to add some comment.
->
->
-> I agree, and I think it's better to use vq_index + i to avoid future 
-> changes.
+What about EBX?  It is documented as "The size in bytes of the
+XSAVE area containing all states enabled by XCRO | IA32_XSS".
 
-That'll be fine. I think that depends on the way how mq will be modeled 
-for vhost-vdpa, i.e. it doesn't need to be 1:1 between struct vhost_dev 
-and a queue pair, like what vhost-kernel is modeled after for mq.
+The Intel SDM is not clear, but I assume this would be
+necessarily the size of the area in compacted format?
 
->
->
->>> +            goto err;
->>> +        }
->>> +    }
->>> +
->>> +    return;
->>> +
->>> +err:
->>> +    vhost_vdpa_host_notifiers_uninit(dev, i);
->> I'm not sure if it is really the intent to leave other vqs behind - I 
->> presume that either none of them is mapped, or all mappable should be 
->> mapped. Why here just uninit the first unmappable vq?
->
->
-> I'm not sure I get here, there's a loop in 
-> vhost_vdpa_host_notifiers_uninit(), so we either:
->
-> 1) map all doorbells
->
-> or
->
-> 2) no doorell is mapped
 
-Oops, I missed the 's' in vhost_vdpa_host_notifiers_uninit() and thought 
-it was vhost_vdpa_host_notifier_uninit(). Sorry for the false alarm. The 
-error handling looks fine then.
+>          } else if (count < ARRAY_SIZE(x86_ext_save_areas)) {
+> -            if ((x86_cpu_xsave_components(cpu) >> count) & 1) {
+> -                const ExtSaveArea *esa = &x86_ext_save_areas[count];
+> +            const ExtSaveArea *esa = &x86_ext_save_areas[count];
+> +            if ((x86_cpu_xsave_xcr0_components(cpu) >> count) & 1) {
+>                  *eax = esa->size;
+>                  *ebx = esa->offset;
+> +            } else if ((x86_cpu_xsave_xss_components(cpu) >> count) & 1) {
+> +                *eax = esa->size;
+> +                *ebx = 0;
+> +                *ecx = 1;
+>              }
+>          }
+>          break;
+> @@ -6059,6 +6092,9 @@ static void x86_cpu_reset(DeviceState *dev)
+>      }
+>      for (i = 2; i < ARRAY_SIZE(x86_ext_save_areas); i++) {
+>          const ExtSaveArea *esa = &x86_ext_save_areas[i];
+> +        if (!esa->offset) {
+> +            continue;
 
-Thanks!
--Siwei
+Most of the comments at the xsave_area_size() hunk would apply
+here.  I miss some clarity on what esa->offset==0 really means.
 
->
->
->>
->>> +    return;
->>> +}
->>> +
->>>   static int vhost_vdpa_cleanup(struct vhost_dev *dev)
->>>   {
->>>       struct vhost_vdpa *v;
->>>       assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
->>>       v = dev->opaque;
->>>       trace_vhost_vdpa_cleanup(dev, v);
->>> +    vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
->>>       memory_listener_unregister(&v->listener);
->>>         dev->opaque = NULL;
->>> @@ -467,6 +550,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev 
->>> *dev, bool started)
->>>       if (started) {
->>>           uint8_t status = 0;
->>>           memory_listener_register(&v->listener, 
->>> &address_space_memory);
->>> +        vhost_vdpa_host_notifiers_init(dev);
->>>           vhost_vdpa_set_vring_ready(dev);
->>>           vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
->>>           vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
->>> @@ -476,6 +560,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev 
->>> *dev, bool started)
->>>           vhost_vdpa_reset_device(dev);
->>>           vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->>>                                      VIRTIO_CONFIG_S_DRIVER);
->>> +        vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
->>>           memory_listener_unregister(&v->listener);
->>>             return 0;
->>> diff --git a/include/hw/virtio/vhost-vdpa.h 
->>> b/include/hw/virtio/vhost-vdpa.h
->>> index 9b81a409da..0f11ecff34 100644
->>> --- a/include/hw/virtio/vhost-vdpa.h
->>> +++ b/include/hw/virtio/vhost-vdpa.h
->>> @@ -14,11 +14,18 @@
->>>     #include "hw/virtio/virtio.h"
->>>   +typedef struct VhostVDPAHostNotifier {
->>> +    MemoryRegion mr;
->>> +    void *addr;
->>> +} VhostVDPAHostNotifier;
->>> +
->>>   typedef struct vhost_vdpa {
->>>       int device_fd;
->>>       uint32_t msg_type;
->>>       MemoryListener listener;
->>>       struct vhost_dev *dev;
->>> +    VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
->>> +    bool host_notifier_set;
->> What this host_notifier_set is used for? Doesn't seem it's ever set 
->> or referenced?
->
->
-> Right, will remove it.
->
-> Thanks
->
->
->>
->>>   } VhostVDPA;
->>>     extern AddressSpace address_space_memory;
->> Thanks,
->> -Siwei
->>
->
+Would it be valid to replace this with a check for
+  ((1 << i) & CPUID_XSTATE_XCR0_MASK)
+?
+
+> +        }
+>          if (env->features[esa->feature] & esa->bits) {
+>              xcr0 |= 1ull << i;
+>          }
+> @@ -6295,8 +6331,10 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
+>          }
+>      }
+>  
+> -    env->features[FEAT_XSAVE_XCR0_LO] = mask;
+> +    env->features[FEAT_XSAVE_XCR0_LO] = mask & CPUID_XSTATE_XCR0_MASK;
+>      env->features[FEAT_XSAVE_XCR0_HI] = mask >> 32;
+> +    env->features[FEAT_XSAVE_XSS_LO] = mask & CPUID_XSTATE_XSS_MASK;
+> +    env->features[FEAT_XSAVE_XSS_HI] = mask >> 32;
+>  }
+>  
+>  /***** Steps involved on loading and filtering CPUID data
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 52f31335c4..8aeaa8869a 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -504,6 +504,16 @@ typedef enum X86Seg {
+>  #define XSTATE_Hi16_ZMM_MASK            (1ULL << XSTATE_Hi16_ZMM_BIT)
+>  #define XSTATE_PKRU_MASK                (1ULL << XSTATE_PKRU_BIT)
+>  
+> +/* CPUID feature bits available in XCR0 */
+> +#define CPUID_XSTATE_XCR0_MASK  (XSTATE_FP_MASK | XSTATE_SSE_MASK | \
+> +                                 XSTATE_YMM_MASK | XSTATE_BNDREGS_MASK | \
+> +                                 XSTATE_BNDCSR_MASK | XSTATE_OPMASK_MASK | \
+> +                                 XSTATE_ZMM_Hi256_MASK | \
+> +                                 XSTATE_Hi16_ZMM_MASK | XSTATE_PKRU_MASK)
+> +
+> +/* CPUID feature bits available in XSS */
+> +#define CPUID_XSTATE_XSS_MASK    0
+
+Do you expect this to be used outside target/i386/cpu.c?  If not,
+maybe it could be moved close to the x86_ext_save_areas[]
+definition, as any updates to x86_ext_save_areas will require an
+update to these macros.
+
+> +
+>  /* CPUID feature words */
+>  typedef enum FeatureWord {
+>      FEAT_1_EDX,         /* CPUID[1].EDX */
+> @@ -541,6 +551,8 @@ typedef enum FeatureWord {
+>      FEAT_VMX_EPT_VPID_CAPS,
+>      FEAT_VMX_BASIC,
+>      FEAT_VMX_VMFUNC,
+> +    FEAT_XSAVE_XSS_LO,     /* CPUID[EAX=0xd,ECX=1].ECX */
+> +    FEAT_XSAVE_XSS_HI,     /* CPUID[EAX=0xd,ECX=1].EDX */
+>      FEATURE_WORDS,
+>  } FeatureWord;
+>  
+> -- 
+> 2.26.2
+> 
+> 
+
+-- 
+Eduardo
 
 
