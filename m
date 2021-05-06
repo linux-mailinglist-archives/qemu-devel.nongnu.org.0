@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E952E3755BC
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:33:43 +0200 (CEST)
-Received: from localhost ([::1]:54106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D8C3755C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:39:15 +0200 (CEST)
+Received: from localhost ([::1]:37652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lef4Q-0006tJ-Q2
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:33:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43946)
+	id 1lef9m-0003rp-56
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:39:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1leezs-000455-DD
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:29:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59016)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1leezp-0004be-5Y
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:29:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620311336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Mdbs+8zL0ZsR6n4jgVA72c4nLXnosqzKKX4khM1dLjo=;
- b=SVcguRnDSSS8Eyx7CIo9b4hlFvW5MZR7ki0pFMW86+1uSAuXGYhSQqPj40c+K3pr1ymW4e
- 7pwL2EkUsBB5fPRLj3Q92dzoZAyjip0efyon46GA9A9ZWXxzysOW4aq/w5d3n3JmXyGT+6
- gYtAIM4v/0nW50xWgUiXx/P3663FDYc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-UrRYZ5BMPNC0cG3q7qBqBg-1; Thu, 06 May 2021 10:28:55 -0400
-X-MC-Unique: UrRYZ5BMPNC0cG3q7qBqBg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BEB2801107;
- Thu,  6 May 2021 14:28:53 +0000 (UTC)
-Received: from [10.3.113.56] (ovpn-113-56.phx2.redhat.com [10.3.113.56])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 724BA19D61;
- Thu,  6 May 2021 14:28:49 +0000 (UTC)
-Subject: Re: [PATCH v2 0/9] misc: Replace alloca() by g_malloc()
-To: Warner Losh <imp@bsdimp.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <20210506133758.1749233-1-philmd@redhat.com>
- <CANCZdfqiHxQoG+g3bq_KL01yWCHUbF5qxJWN=sD37h7UJFMZ7g@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <476d8b44-cba3-4bf2-d93c-d35736d316c6@redhat.com>
-Date: Thu, 6 May 2021 09:28:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lef6R-000218-N2
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:35:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lef6J-0000A6-N9
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:35:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lef6G-0004uj-JW
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 14:35:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 924252E804C
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 14:35:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CANCZdfqiHxQoG+g3bq_KL01yWCHUbF5qxJWN=sD37h7UJFMZ7g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 May 2021 14:30:08 -0000
+From: Thomas Huth <1875762@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: stefanha th-huth vorteil-alan
+X-Launchpad-Bug-Reporter: Alan Murtagh (vorteil-alan)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158811390770.10067.14727390581808721252.malonedeb@soybean.canonical.com>
+Message-Id: <162031140815.4369.1604950724412255150.malone@gac.canonical.com>
+Subject: [Bug 1875762] Re: Poor disk performance on sparse VMDKs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: 559604f75d973a88b3c00f4e66b5d5768161e39e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,43 +70,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1875762 <1875762@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/21 9:22 AM, Warner Losh wrote:
-> On Thu, May 6, 2021 at 7:39 AM Philippe Mathieu-Daudé <philmd@redhat.com>
-> wrote:
-> 
->> The ALLOCA(3) man-page mentions its "use is discouraged".
->> Replace few calls by equivalent GLib malloc().
->>
-> 
-> Except g_alloc and g_malloc are not at all the same, and you can't drop in
-> replace one with the other.
-> 
-> g_alloc allocates stack space on the calling frame that's automatically
-> freed when the function returns.
-> g_malloc allocates space from the heap, and calls to it must be matched
-> with calls to g_free().
-> 
-> These patches don't do the latter, as far as I can tell, and so introduce
-> memory leaks unless there's something I've missed.
+Ok, I'm closing this now, since this is the expected behavior according
+to Stefan's description.
 
-You missed the g_autofree, whose job is to call g_free() on all points
-in the control flow where the malloc()d memory goes out of scope
-(equivalent in expressive power to alloca()d memory going out of scope).
- Although the code is arguably a bit slower (as heap manipulations are
-not as cheap as stack manipulations), in the long run that speed penalty
-is worth the safety factor (since stack manipulations under user control
-are inherently unsafe).
+** Changed in: qemu
+       Status: New =3D> Won't Fix
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1875762
+
+Title:
+  Poor disk performance on sparse VMDKs
+
+Status in QEMU:
+  Won't Fix
+
+Bug description:
+  Found in QEMU 4.1, and reproduced on master.
+
+  QEMU appears to suffer from remarkably poor disk performance when
+  writing to sparse-extent VMDKs. Of course it's to be expected that
+  allocation takes time and sparse VMDKs peform worse than allocated
+  VMDKs, but surely not on the orders of magnitude I'm observing. On my
+  system, the fully allocated write speeds are approximately 1.5GB/s,
+  while the fully sparse write speeds can be as low as 10MB/s. I've
+  noticed that adding "cache unsafe" reduces the issue dramatically,
+  bringing speeds up to around 750MB/s. I don't know if this is still
+  slow or if this perhaps reveals a problem with the default caching
+  method.
+
+  To reproduce the issue I've attached two 4GiB VMDKs. Both are
+  completely empty and both are technically sparse-extent VMDKs, but one
+  is 100% pre-allocated and the other is 100% unallocated. If you attach
+  these VMDKs as second and third disks to an Ubuntu VM running on QEMU
+  (with KVM) and measure their write performance (using dd to write to
+  /dev/sdb and /dev/sdc for example) the difference in write speeds is
+  clear.
+
+  For what it's worth, the flags I'm using that relate to the VMDK are
+  as follows:
+
+  `-drive if=3Dnone,file=3Dsparse.vmdk,id=3Dhd0,format=3Dvmdk -device virti=
+o-
+  scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd0`
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1875762/+subscriptions
 
