@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D49374CFB
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 03:44:27 +0200 (CEST)
-Received: from localhost ([::1]:53728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 954AE374CFE
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 03:45:54 +0200 (CEST)
+Received: from localhost ([::1]:59778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leT3y-0006PP-Cq
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 21:44:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56126)
+	id 1leT5N-0000Nw-N7
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 21:45:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1leT0m-0002Y3-Cc
- for qemu-devel@nongnu.org; Wed, 05 May 2021 21:41:08 -0400
-Received: from mga05.intel.com ([192.55.52.43]:61826)
+ id 1leT0q-0002ca-Li
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 21:41:12 -0400
+Received: from mga17.intel.com ([192.55.52.151]:23057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1leT0k-0007Xn-LX
- for qemu-devel@nongnu.org; Wed, 05 May 2021 21:41:08 -0400
-IronPort-SDR: cBA71HVk7kOjUm9X509FxykwkbqiqLXCgzbckssNk6cKd9IqLLNqBGwhlFqtXWpPTz54Tq779+
- uUckk05Y6qOQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="283783521"
-X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="283783521"
+ id 1leT0o-0007bf-AJ
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 21:41:12 -0400
+IronPort-SDR: Ux8tefLZPxZEpWBCrXwzy1BfRfvL+YnIxLJYWnQRuKiIQa22um3U3pz8RO7XYehlX1GAqbB4Mf
+ pg0dGrrHGmgw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="178579137"
+X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="178579137"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 18:41:02 -0700
-IronPort-SDR: gHpi7Qln+3G46fad71umHSqklKdUAnUOZATJGR5cUpLHIvB9k7Vq5oB08oueKINbpSYtqNJZ6J
- G8XX0TzS1N2w==
-X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="469220304"
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2021 18:41:08 -0700
+IronPort-SDR: gsQl2CG711TFP2h5d0I0AByrDQOClSnXfc2qiNvEDN3PjPRLf/LL5/xuSbtHhEnI5NMKmHJJbs
+ 59ntSv8QpGIg==
+X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="469220338"
 Received: from yy-desk-7060.sh.intel.com ([10.239.159.38])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 18:40:46 -0700
+ 05 May 2021 18:40:57 -0700
 From: Yuan Yao <yuan.yao@linux.intel.com>
 To: pbonzini@redhat.com
-Subject: [RFC][PATCH v1 01/10] Extend the MemTxAttrs to include a 'debug'
- flag. The flag can be used as general indicator that operation was triggered
- by the debugger.
-Date: Thu,  6 May 2021 09:40:28 +0800
-Message-Id: <20210506014037.11982-2-yuan.yao@linux.intel.com>
+Subject: [RFC][PATCH v1 02/10] Currently,
+ guest memory access for debugging purposes is performed using
+ memcpy(). Extend the 'struct MemoryRegion' to include new callbacks that can
+ be used to override the use of memcpy() with something else.
+Date: Thu,  6 May 2021 09:40:29 +0800
+Message-Id: <20210506014037.11982-3-yuan.yao@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210506014037.11982-1-yuan.yao@linux.intel.com>
 References: <20210506014037.11982-1-yuan.yao@linux.intel.com>
-Received-SPF: none client-ip=192.55.52.43;
- envelope-from=yuan.yao@linux.intel.com; helo=mga05.intel.com
+Received-SPF: none client-ip=192.55.52.151;
+ envelope-from=yuan.yao@linux.intel.com; helo=mga17.intel.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -70,27 +71,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Brijesh Singh <brijesh.singh@amd.com>
 
-A subsequent patch will set the debug=1 when issuing a memory access
-from the gdbstub or HMP commands. This is a prerequisite to support
-debugging an encrypted guest. When a request with debug=1 is seen, the
-encryption APIs will be used to access the guest memory.
+The new callbacks can be used to display the guest memory of an SEV guest
+by registering callbacks to the SEV memory encryption/decryption APIs.
+
+Typical usage:
+
+mem_read(uint8_t *dest,
+         const uint8_t *hva_src, hwaddr gpa_src,
+         uint32_t len, MemTxAttrs attrs);
+mem_write(uint8_t *hva_dest, hwaddr gpa_des,
+          const uint8_t *src, uint32_t len, MemTxAttrs attrs);
+
+MemoryRegionRAMReadWriteOps ops;
+ops.read = mem_read;
+ops.write = mem_write;
+
+memory_region_init_ram(mem, NULL, "memory", size, NULL);
+memory_region_set_ram_debug_ops(mem, ops);
+
+Yuan Yao:
+ - Add the gpa_src/gpa_des for read/write interface
 
 Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
 Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
+Signed-off-by: Yuan Yao <yuan.yao@intel.com>
 
-diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
-index 95f2d20d55..c8b56389d6 100644
---- a/include/exec/memattrs.h
-+++ b/include/exec/memattrs.h
-@@ -49,6 +49,8 @@ typedef struct MemTxAttrs {
-     unsigned int target_tlb_bit0 : 1;
-     unsigned int target_tlb_bit1 : 1;
-     unsigned int target_tlb_bit2 : 1;
-+    /* Memory access request from the debugger */
-+    unsigned int debug:1;
- } MemTxAttrs;
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 5728a681b2..7e6fdcb8e4 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -444,6 +444,19 @@ struct IOMMUMemoryRegionClass {
+ typedef struct CoalescedMemoryRange CoalescedMemoryRange;
+ typedef struct MemoryRegionIoeventfd MemoryRegionIoeventfd;
  
- /* Bus masters which don't specify any attributes will get this,
++/* Memory Region RAM debug callback */
++typedef struct MemoryRegionRAMReadWriteOps MemoryRegionRAMReadWriteOps;
++
++struct MemoryRegionRAMReadWriteOps {
++    /* Write data into guest memory */
++    int (*write) (uint8_t *hva_dest, hwaddr gpa_des,
++                  const uint8_t *src, uint32_t len, MemTxAttrs attrs);
++    /* Read data from guest memory */
++    int (*read) (uint8_t *dest,
++                 const uint8_t *hva_src, hwaddr gpa_src,
++                 uint32_t len, MemTxAttrs attrs);
++};
++
+ /** MemoryRegion:
+  *
+  * A struct representing a memory region.
+@@ -487,6 +500,7 @@ struct MemoryRegion {
+     const char *name;
+     unsigned ioeventfd_nb;
+     MemoryRegionIoeventfd *ioeventfds;
++    const MemoryRegionRAMReadWriteOps *ram_debug_ops;
+ };
+ 
+ struct IOMMUMemoryRegion {
+@@ -1130,6 +1144,20 @@ void memory_region_init_rom_nomigrate(MemoryRegion *mr,
+                                       uint64_t size,
+                                       Error **errp);
+ 
++/**
++ * memory_region_set_ram_debug_ops: Set access ops for a give memory region.
++ *
++ * @mr: the #MemoryRegion to be initialized
++ * @ops: a function that will be used when accessing @target region during
++ *       debug
++ */
++static inline void
++memory_region_set_ram_debug_ops(MemoryRegion *mr,
++                                const MemoryRegionRAMReadWriteOps *ops)
++{
++    mr->ram_debug_ops = ops;
++}
++
+ /**
+  * memory_region_init_rom_device_nomigrate:  Initialize a ROM memory region.
+  *                                 Writes are handled via callbacks.
 -- 
 2.20.1
 
