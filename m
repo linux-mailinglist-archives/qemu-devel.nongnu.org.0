@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB0B374F3B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 08:12:29 +0200 (CEST)
-Received: from localhost ([::1]:42324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3AD374F4C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 08:19:16 +0200 (CEST)
+Received: from localhost ([::1]:51698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leXFM-0003dz-3y
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 02:12:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43352)
+	id 1leXLv-0007zc-Iy
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 02:19:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leXDp-0002Dm-Vm
- for qemu-devel@nongnu.org; Thu, 06 May 2021 02:10:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44328)
+ id 1leXIf-00062Q-68
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 02:15:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leXDm-0000tt-Vs
- for qemu-devel@nongnu.org; Thu, 06 May 2021 02:10:53 -0400
+ id 1leXId-0004Cy-8g
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 02:15:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leXDl-0007Gw-BC
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 06:10:49 +0000
+ id 1leXIb-0007ln-6x
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 06:15:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4F5B52E802E
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 06:10:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 323752E8136
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 06:15:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 06:02:07 -0000
+Date: Thu, 06 May 2021 06:08:32 -0000
 From: Thomas Huth <1865252@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: adrelanos th-huth
 X-Launchpad-Bug-Reporter: Patrick Schleizer (adrelanos)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
 References: <158295831762.11832.17275327924748594060.malonedeb@wampee.canonical.com>
-Message-Id: <162028092794.3821.16085629110312102795.launchpad@gac.canonical.com>
+Message-Id: <162028131225.32079.4810967665842188713.malone@chaenomeles.canonical.com>
 Subject: [Bug 1865252] Re: QEMU Windows Portable Version (with HAXM
  accelerator and QEMU GUI)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 9e9951b53bc8fb6c8fa8a255410bf7716db4f991
+X-Launchpad-Hash: ef5f37498e2d328df9d905351128920ff73c9be0
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -76,10 +76,17 @@ Reply-To: Bug 1865252 <1865252@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: feature-request haxm
+QEMU, like most open source projects, relies on contributors who have
+motivation, skills and available time to work on implementing particular
+features. They naturally tend to focus on features that result in the
+greatest benefit to their own use cases. I'm sorry, but as far as I know
+there is currently nobody working on such a topic, and opening a ticket
+like this won't make it happen without some new contributor to step up
+to do the job. Thus I'm closing this ticket now. Feel free to re-open if
+you know someone who could contribute this feature.
 
 ** Changed in: qemu
-   Importance: Undecided =3D> Wishlist
+       Status: New =3D> Won't Fix
 
 -- =
 
