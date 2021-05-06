@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09405374F1D
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 07:57:26 +0200 (CEST)
-Received: from localhost ([::1]:55840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43DF374F1C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 07:57:22 +0200 (CEST)
+Received: from localhost ([::1]:56024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leX0h-0004jJ-SO
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 01:57:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39788)
+	id 1leX0j-0004ol-Pu
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 01:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leWzL-0003Rt-DW
- for qemu-devel@nongnu.org; Thu, 06 May 2021 01:55:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43600)
+ id 1leWzM-0003SS-CI
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 01:55:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leWzJ-0008HZ-Rf
- for qemu-devel@nongnu.org; Thu, 06 May 2021 01:55:55 -0400
+ id 1leWzK-0008Hf-9b
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 01:55:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leWzI-0006PU-Dx
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 05:55:52 +0000
+ id 1leWzJ-0006Y8-1C
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 05:55:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4ED3B2E8187
+ by loganberry.canonical.com (Postfix) with ESMTP id 0017A2E8136
  for <qemu-devel@nongnu.org>; Thu,  6 May 2021 05:55:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 05:46:17 -0000
+Date: Thu, 06 May 2021 05:47:35 -0000
 From: Thomas Huth <1863710@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,14 +42,14 @@ X-Launchpad-Bug-Commenters: chriscjsus th-huth
 X-Launchpad-Bug-Reporter: Chris S. (chriscjsus)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
 References: <158200914380.31311.6636278385327327157.malonedeb@wampee.canonical.com>
-Message-Id: <162027997764.14052.12471380749762092951.malone@soybean.canonical.com>
+Message-Id: <162028005535.4018.6364787467947693098.malone@gac.canonical.com>
 Subject: [Bug 1863710] Re: qemu 4.2 does not process discard(trim) commands 
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 6ec3dbd5eab09cdcedddcb53f2fa82b6f6dbe58a
+X-Launchpad-Hash: 48fbd3d0e361d74fd29fe848879cb1d30f0be536
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,11 +74,9 @@ Reply-To: Bug 1863710 <1863710@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-How did you start QEMU? Does this still happen with the latest version
-of QEMU?
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
+I mean: Please provide the QEMU command line parameters ... is this also
+reproducible without libvirt? ... otherwise it might also be a problem
+in libvirt instead...
 
 -- =
 
