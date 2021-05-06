@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42486375668
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 17:19:49 +0200 (CEST)
-Received: from localhost ([::1]:34870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB99375667
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 17:19:24 +0200 (CEST)
+Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lefn2-0006bq-Ai
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 11:19:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38250)
+	id 1lefmd-0005oW-8k
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 11:19:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lefkT-0004uy-S5
- for qemu-devel@nongnu.org; Thu, 06 May 2021 11:17:09 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39621)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lefkQ-0006uU-SZ
- for qemu-devel@nongnu.org; Thu, 06 May 2021 11:17:09 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id v12so6019565wrq.6
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 08:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=TVOGavTbsBrK1FNBiZX1PSZ7uacTt5q9fQ9irXNN7qo=;
- b=VMK3ciFkwRUAGXKuXPV/19PPHyS5Re5OXyZ7GeovQqNWit30iR54jlzGcGqTi1gZB/
- JB538UBQrYgxo69wpg3RVeu8j65wNqKYTWNmzbtKOfE4ryHR1lFxOifNxV9vlDz3Nl/4
- cDLMdxx8z5cc6Ij0DL72VHijAsHkocUNs3hjyyJIUabbTc83grONw9I0rOIN8JXVY0tB
- 2tnx2jqvDTr/qGdGBMLGbqG4vDR6Prgqvunszv1fJwjr7123CndZ/+AA53R1HYqrEUJV
- 9JyjL0ZGf/iLRw2p5DAd1URrBMVJr6Fafw+WcprIKcEW1AYpCIJ+JdPy/nLS5pC4wNVb
- 7xQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=TVOGavTbsBrK1FNBiZX1PSZ7uacTt5q9fQ9irXNN7qo=;
- b=ce030nnwWPJez4IDXPTltf1nbEuDswTCLr6qdaj7ZYceJFpSDeHSRFSizRiB/X7v38
- shR/cXLDg4FGbMslVg4AeivTOlbrDVCvraJBFitIB6ToNlfLbP5x8ge5SnctnKZoXnEh
- I77Mt5Gc5rIk3jTH3eIOvbHW0zjTeyoPFMxZoSgllDrAo6SeGNb1ulp0mZxzr39a850Q
- db0fb+FlQFwdy9ZbwuSsGGmhz08vFoSKl+rv9m3Vxu2jqgxuMhneqvFXfcUdaxnPXI8e
- L496TDdmf0OYUttbvhjSPEt2SHoLLiwYeYAnuJBJqc7FJ5F+rgUOLkaEAUpXYW17f4qn
- E29g==
-X-Gm-Message-State: AOAM533hwB+38TyE4N7egHNlcrtx03mhMn8DvRiGc/RX+hwzTpn+f8z8
- RLp4LAvvA7nwqJsbGBCQ+aSpUw==
-X-Google-Smtp-Source: ABdhPJwnyIHZOmiu/sI9ExqQFZ5sFse6y+VuqNIaJuO7lTIqP91QrLdDivaCgqoj1PQSkA3JBf6pEg==
-X-Received: by 2002:a5d:4d09:: with SMTP id z9mr6087449wrt.131.1620314218652; 
- Thu, 06 May 2021 08:16:58 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w4sm4652376wrl.5.2021.05.06.08.16.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 May 2021 08:16:56 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 252781FF7E;
- Thu,  6 May 2021 16:16:56 +0100 (BST)
-References: <20210505170055.1415360-1-philmd@redhat.com>
- <20210505170055.1415360-4-philmd@redhat.com> <877dkcnk7c.fsf@linaro.org>
- <42044899-6704-7d33-0a73-58fd00adc7ca@redhat.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 3/5] gdbstub: Use fixed-size array in GdbCmdParseEntry
- instead of pointer
-Date: Thu, 06 May 2021 16:15:38 +0100
-In-reply-to: <42044899-6704-7d33-0a73-58fd00adc7ca@redhat.com>
-Message-ID: <874kffopsn.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lefjY-0004A8-G1
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 11:16:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43468)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lefjW-0006S2-6i
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 11:16:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620314169;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZwEVipBTyU2jiw/AeQMVFnvpOXqLrNTPIMY/ficnzb8=;
+ b=bXcYE5F6u+isaoNlHD8BqBqtH6Uzw4dqUBI0fQdsQ3CsdiCATS1qBtot+ZcYwt7lsh5Ceq
+ SEGmuL5aSoLDsS2g2Qs2BaR0cqZj391jYGD1RFbNu+1Z/OpI59+S3N0SgFGwJPiA0K12qc
+ IcVI0ehKsoPehSwEmFTE+ImLCbqbkf0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-Egxum5n1PQmUh11-uPNmVA-1; Thu, 06 May 2021 11:16:07 -0400
+X-MC-Unique: Egxum5n1PQmUh11-uPNmVA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 587C318BA280;
+ Thu,  6 May 2021 15:16:06 +0000 (UTC)
+Received: from localhost (ovpn-115-109.ams2.redhat.com [10.36.115.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E9D863B8C;
+ Thu,  6 May 2021 15:16:02 +0000 (UTC)
+Date: Thu, 6 May 2021 16:16:01 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3 18/26] DAX/unmap: virtiofsd: Add VHOST_USER_SLAVE_FS_IO
+Message-ID: <YJQIMfU00U3ZR3BL@stefanha-x1.localdomain>
+References: <20210428110100.27757-1-dgilbert@redhat.com>
+ <20210428110100.27757-19-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210428110100.27757-19-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="s+/LkN8WXC3Z886s"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,43 +79,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Warner Losh <imp@bsdimp.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, vgoyal@redhat.com,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--s+/LkN8WXC3Z886s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On Wed, Apr 28, 2021 at 12:00:52PM +0100, Dr. David Alan Gilbert (git) wrote:
+> +    close(fd);
 
-> On 5/6/21 2:01 PM, Alex Benn=C3=A9e wrote:
->>=20
->> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->>=20
->>> GdbCmdParseEntry should have enough room with 20 chars for the command
->>> string, and 8 for the schema. Add the GDB_CMD_PARSE_ENTRY_CMD_SIZE and
->>> GDB_CMD_PARSE_ENTRY_SCHEMA_SIZE definitions.
->>>
->>> Do not use pointer to string of unknown length, but array of fixed
->>> size. Having constant size will help use to remove the alloca() call
->>> in process_string_cmd() in the next commit.
->>=20
->> I don't understand how this helps. The alloca is being used for an array
->> of GdbCmdVariant so why do we want to enlarge the size of the parse
->> table entries?
->
-> This patch is crap indeed. I'll post another one with more sense.
+I looked back at the hw/virtio/vhost-user.c slave channel code and it
+closes fds for us. Looks like this close(2) call should be removed, but
+please double-check in case I missed something.
 
-Looking at the logic I wonder it's just better turning params into a
-GArray and let glib deal with the sizing for us? It's not like one or
-two entries breaks the bank on temporary memory allocation.
+Stefan
 
->
-> Sorry about this,
->
-> Phil.
+--s+/LkN8WXC3Z886s
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Alex Benn=C3=A9e
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCUCDEACgkQnKSrs4Gr
+c8j2mgf/T8Y9qq45TavKJizEPOE8iSWeTSoPKzJcQ7BfP3CLbMkubx35MNst6oXz
+P2lJkq2+cmwPAOc8/bs7kRZU4s0pVki6bqQORaduoP2oEEsLVGZj89Wj/YbD9Lmf
+R9Mdb5NPCK7O+6iws582cAPpTKU9Zb6ctcSKIMQfZqF8HVIra1CCAv8MDWv2CWEH
+fQt+rVv6q4MKROijEQ/Ndd3of0hVtQ7LJmlXt2KjSd82ed5o9Jb9oQ3xdaB9pBLH
+XAyiHnfWG14n7LCFH9xNLbaGvKOjZiceSgGnoKDT0xIMoAiQSV0Y3mszpXQsHW6s
+iHxWG4w8TR9fTLivRTKqcZw96wWuBA==
+=d7sN
+-----END PGP SIGNATURE-----
+
+--s+/LkN8WXC3Z886s--
+
 
