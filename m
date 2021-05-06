@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F0B375042
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 09:38:28 +0200 (CEST)
-Received: from localhost ([::1]:51664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB25375051
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 09:41:39 +0200 (CEST)
+Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leYaa-0000SA-28
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 03:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36360)
+	id 1leYdd-0003Vq-T6
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 03:41:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leYXu-0006LA-UU
- for qemu-devel@nongnu.org; Thu, 06 May 2021 03:35:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57216)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1leYbz-0001yO-3G
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:39:55 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:36832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leYXs-0004eS-UW
- for qemu-devel@nongnu.org; Thu, 06 May 2021 03:35:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leYXr-0002em-Jb
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:35:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7F6AE2E8139
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 07:35:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1leYbw-0007Fe-1A
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:39:54 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id r9so6830148ejj.3
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 00:39:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TbnfELGyKlzse6K+VACzPi30J5mJ1dSgwEJp9mY3LYo=;
+ b=J/pFr45zbngwdFrylYwfagZIJqTRHVM2xXnFeMbSjQpjQNBDju5I/oPbsTEe2h633w
+ /b9PgHSz5HeIoekP47VRmkenAvNXB0nGAJh7tVCRhSWin0/TNX2W+nrpYqWl5GCNkkOl
+ juqLSOIpPrdv9mhgiBa5iCReHJJ5vUObmsjl7nEdtFUf2tjLmMsqXVfA/cDntuosgPBN
+ s1FNH4FxMhBASKs/nhvB3p4Uduanuv+s5uiis1EVkIy+7WPRlJwtep5yA8bLgLOHz2WJ
+ tdk7a43miAXO2v6+f62CfM9WLjHhdcHW3C5r6Efr+uqgND858ef24kIJVZYjQ+BidJFf
+ nNmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TbnfELGyKlzse6K+VACzPi30J5mJ1dSgwEJp9mY3LYo=;
+ b=O44f9f33tO2c+JkLszeGik86LClmB7iqiRyLmKx6WshGjhjboOaxLxdIfBujMw7iRP
+ jDuaftExU13ii3sBtFsywHgZWiEmjMtUsyVOvVV+RMvf7T3Q1dm61p8z4y0uWqGDtuHj
+ vqb1FJS0yVfQxnzt6fxFqLSNWLlox9lgyGRd8D8gwsf6ojrELi+8sIN+xDHMRz6pwjan
+ MAtGntfo11hDUNuIKjZz6kJBMelBy5B1inxuUbUn7XPrJQT4C5o2GGTNSvC+p1Ol4vIM
+ fOkL/bgwxU64vP4iPnnOyY2KW3iWmnSr0M3Qm4mzA6JWROF6cFH0R/mu16zTlProOfcf
+ Zrig==
+X-Gm-Message-State: AOAM532BPELLU1ggcW152s3neUDOJgv/8Vx95zhspt0t++Te5fNiuQZR
+ xaWVggCf4JNIJdW41ysSkOrBjhTyFZgLOsL0T2mCXg==
+X-Google-Smtp-Source: ABdhPJxgmQrWfWsixJwWzfmf53sE5w56tSkvT68Tn1F1rGKAjFStEUChxcOyCvwkVlFsISXp7XzXAhLB96C+GDL9cLc=
+X-Received: by 2002:a17:906:1dd3:: with SMTP id
+ v19mr2910729ejh.4.1620286790188; 
+ Thu, 06 May 2021 00:39:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 07:25:08 -0000
-From: Thomas Huth <1872644@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: hvf macos
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: js1943 sitsofe th-huth
-X-Launchpad-Bug-Reporter: JS (js1943)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158684876015.5950.10208526082243977591.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162028590834.14006.6680600390491820554.malone@soybean.canonical.com>
-Subject: [Bug 1872644] Re: MacOS host qemu-system-x86_64 -cpu host not working
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 113308b8dee63d02d9f5494c016cd172f3f99398
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210503104456.1036472-1-thuth@redhat.com>
+ <CAFEAcA8k1DnOFT+5pjQ4ytene3asVDKB7TUOZgGhucTp_ypz2g@mail.gmail.com>
+ <66206f67-f3c8-eb1c-fd5d-8c7555fe5316@redhat.com>
+In-Reply-To: <66206f67-f3c8-eb1c-fd5d-8c7555fe5316@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 6 May 2021 08:38:42 +0100
+Message-ID: <CAFEAcA_9o+h29L1Y0BVFhg9JbQbo6A=MgGwCaH_=vt3OhcERBw@mail.gmail.com>
+Subject: Re: [PULL 00/10] Gitlab-CI, qtest, moxie removal and misc patches
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,81 +79,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1872644 <1872644@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting older bugs to "Incomplete" now.
+On Thu, 6 May 2021 at 08:01, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 05/05/2021 20.06, Peter Maydell wrote:
+> > On Mon, 3 May 2021 at 11:45, Thomas Huth <thuth@redhat.com> wrote:
+> >>
+> >>   Hi Peter,
+> >>
+> >> the following changes since commit 53c5433e84e8935abed8e91d4a2eb813168a0ecf:
+> >>
+> >>    Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210501' into staging (2021-05-02 12:02:46 +0100)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>    https://gitlab.com/thuth/qemu.git tags/pull-request-2021-05-03
+> >>
+> >> for you to fetch changes up to 8f582fa290e5d5d0a00db23eaf1ab1bb3d3ae68d:
+> >>
+> >>    util/compatfd.c: Replaced a malloc call with g_malloc. (2021-05-03 11:40:40 +0200)
+> >>
+> >> ----------------------------------------------------------------
+> >> * Removal of the deprecated moxie target
+> >> * Replace some YAML anchors by "extends" in the Gitlab-CI
+> >> * Some small improvements for using the qtests
+> >> * Some other small misc patches
+> >
+> > This fails to build as an incremental (not from-clean) build:
+> [...]
+> > ../../meson.build:1291:2: ERROR: Failed to load
+> > /home/ubuntu/qemu/default-configs/targets/moxie-softmmu.mak: [Errno 2]
+> > No such file or directory:
+> > '/home/ubuntu/qemu/default-configs/targets/moxie-softmmu.mak'
+>
+> D'oh! I think I can work-around the problem with a patch like
+> this on top:
+>
+> diff a/configure b/configure
+> --- a/configure
+> +++ b/configure
+> @@ -1686,6 +1686,11 @@ fi
+>
+>   for config in $mak_wilds; do
+>       target="$(basename "$config" .mak)"
+> +    if [ "$target" = "moxie-softmmu" ]; then
+> +        # This is a work-around to make incremental builds pass after
+> +        # moxie-softmmu has been removed. It can be removed later.
+> +        continue
+> +    fi
+>       if echo "$target_list_exclude" | grep -vq "$target"; then
+>           default_target_list="${default_target_list} $target"
+>       fi
+> diff a/default-configs/targets/moxie-softmmu.mak b/default-configs/targets/moxie-softmmu.mak
+> new file mode 100644
+> index 0000000000..23fd596b66
+> --- /dev/null
+> +++ b/default-configs/targets/moxie-softmmu.mak
+> @@ -0,0 +1,2 @@
+> +# This is just a dummy file to avoid that incremental builds are failing.
+> +# It can be removed as soon as all builders have been updated.
+>
+> Does that look acceptable? If yes, I'll respin my PR with that
+> squashed into the moxie patch.
 
-If you still think this bug report here is valid, then please switch
-the state back to "New" within the next 60 days, otherwise this report
-will be marked as "Expired". Or please mark it as "Fix Released" if
-the problem has been solved with a newer version of QEMU already.
+Ugly, but I guess so. It would be nice to fix the underlying cause, though:
+meson/ninja should just DTRT if we remove a target. We have a couple
+of other target removals coming through as well...
 
-Thank you and sorry for the inconvenience.
-
-
-** Tags added: macos
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1872644
-
-Title:
-  MacOS host qemu-system-x86_64 -cpu host not working
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  MacOS: 10.15.4
-  uname -a: Linux door 4.15.0-96-generic #97-Ubuntu SMP Wed Apr 1 03:25:46 =
-UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
-
-  I am using qemu on mac host, with ubuntu client.
-
-  I used to have "-cpu host" in my qemu command as follow:-
-
-  qemu-system-x86_64 \
-  -no-user-config \
-  -nodefaults \
-  -name u64d01 \
-  -show-cursor \
-  -M q35,accel=3Dhvf,usb=3Doff,vmport=3Doff \
-  -cpu host \
-  -m 8192M \
-  -smp 4 \
-  -rtc base=3Dutc,clock=3Dhost \
-  -device virtio-blk-pci,drive=3Dssd1 \
-  -drive id=3Dssd1,file=3D/Users/js/code/vm/qemu/u64d01.qcow2,if=3Dnone,for=
-mat=3Dqcow2 \
-  -device virtio-net-pci,netdev=3Dnic1,mac=3D52:54:98:76:54:33 \
-  -netdev user,id=3Dnic1,ipv4=3Don,ipv6=3Don,hostname=3Du64d01,hostfwd=3Dtc=
-p::2222-:22 \
-  -device virtio-tablet-pci \
-  -device virtio-vga \
-  -device ich9-intel-hda,id=3Dsnd,msi=3Don \
-  -device hda-output,id=3Dsnd-codec0,bus=3Dsnd.0,cad=3D0,audiodev=3Dsnd0 \
-  -audiodev coreaudio,id=3Dsnd0
-
-  Base on log of one of the vm, it was definitely working on
-  2020-01-17(base on journal inside vm), with qemu 4.2.0, which I
-  installed with brew.
-
-  The only way to make it work is to remove "-cpu host".
-
-  Already tried with 4.1.1, 4.2 and 5.0rc2. Same result.
-
-  To reproduce, try above with a Ubuntu 18.04 installation cd. Client
-  will crash during kernel loading.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1872644/+subscriptions
+thanks
+-- PMM
 
