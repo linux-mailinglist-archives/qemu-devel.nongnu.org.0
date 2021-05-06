@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F0A375153
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:14:22 +0200 (CEST)
-Received: from localhost ([::1]:38834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09812375147
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:09:16 +0200 (CEST)
+Received: from localhost ([::1]:55876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lea5N-0000pl-FZ
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:14:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60220)
+	id 1lea0R-0004OS-1i
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:09:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leZyA-0002Fj-Tp; Thu, 06 May 2021 05:06:56 -0400
-Received: from mail-eopbgr60134.outbound.protection.outlook.com
- ([40.107.6.134]:38452 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ id 1leZy9-0002D8-82; Thu, 06 May 2021 05:06:53 -0400
+Received: from mail-eopbgr60093.outbound.protection.outlook.com
+ ([40.107.6.93]:50670 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leZy5-0002qw-Uh; Thu, 06 May 2021 05:06:54 -0400
+ id 1leZy2-0002tO-24; Thu, 06 May 2021 05:06:52 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FJop2oWOg5MRv90bOY5gGQOMxHrdMeELLT5U7hcD6LjLePryfyuY4DhUilLITP0Gdf3kHMh1teXjzK0whaRs7qQ79XCglm2A4Qw7jgc80YBGY6jvkJ2cf0mNreAGYmL2+f4uFobb1U8oRs5a4oHL5jO1QoAqIze0jBrDNk9gKASkDB3yIfN7MmrLqJ9SFy2pJr8pjZ209PXmPlTrKAQ90eJVGk+rOwkJzVPALgmDSgWheUhAYkvHqNu4Uqcq3vnLNnJFHsYBMDKGderGj9aQlIaQwITAjYrGFwWK6ZN8T1t3fwLybjfOGE2cShcXRvxblf9gBHGgNrgy9/XWwZECmg==
+ b=Ytjejn/fahYCp/YEHQ7TymPgG8exz1ErTS4J+Ck+MzGmyX2ZYCCZuG0LNssOgQaD13WwF3qoblJKi9UvGrzWBH2HTttXsoPUl2sGzw7ckftnF8fcMh549j0SoDFv/vPkJkamAUEAh1ut2QCgSP/n/UcJMEIGwXLMaCss3MLmBIX56LF2G2zG56mdNVgXGs8pV/Hc6uY6bynUgE0p/DzfRuh9OZdfoPO8+inOG130gBCCnkYMiYpklk+u9NQz28P9WeClk/4/J99P+h2I60cXz8yanZhNKpXUrLUdz0AwuN3HF0fCB21OViQXjDGVvnuwZpPuyFwoGBb1HvsWXcXYAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ipnajDPxQi5JFjkMmqwu9zp0XRy/bvuDSis1eMOZO34=;
- b=FqygTFghmENaQaIPgWC85bV6EkVbepmquPsRRnNrlZ1kLPcNIxtI+0XZixN0hjHiFpRUaR0eAxp9yaM44OZDzud+odM4O9OSqz9PdnY4OTcGx5vUWYxT06S8skK2veJtY8U9F8a9PjM5JXrL3erYdKTAz+P52SqJKnXGidfDNTynqUq9l3KLu+EL8HlHlTo/OZG8/rS8OVFKTAMWR2uU+UFP1Kanjc0Yjuiwpg1vI4+f7AuZw/J++GvSlP3AZLxaE88i5wzj/SD8zeeevlcrUICTV6rgZqKdZxvzsp+n5Dgf8Kij/dE46N08EUTRvv4iXKCCXT9l7BSyonygNT3PTg==
+ bh=jJFN0kbNK1HYsScle4BJxnbgfK5v1ltAKvID4Xb5e1I=;
+ b=oM6zQLoKUIaJ0xXMJ4Dsa9q78deTYUOiUhyGHaal8+NwZtgXTQMbT4YuqlOI7bqeAcQa4APxHpWs4gqRmhLP9krFbT5PKCRfNk8c4lWqUfcSkCySqcBbVYsWOHvF/zm3WL2Ze4T0rcpYWplxLbmrXF7XNU6abgwuzP/UAm0wQsDP8K4sSakHyH5wKOjljIaAKjYFylXwAHGRAU9+6OJHmw70sRfkoAhCJKoAO9wRB8iet6rCWsarrkYo6sN575RH9DXOhrrQf3fwtuEzCK8TagCO5fHIAJORTELguH81C0HEATaTrKX7A+2IXJYMdrGaqQQo+onzYtIlRACi+AVOGA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ipnajDPxQi5JFjkMmqwu9zp0XRy/bvuDSis1eMOZO34=;
- b=Sb88OkXczkZXVCopQGL++v5Q13Nk4tWzqYNFTuKR4RKDOxWqa/Urlr/j8kbouAdwaccOdJMAKHRv78WtDMcODNTo6CXfm5ExC4GR/aVJCc84w8BljWZ3QzPKs4uxB1vHd7qi++LfGZgCE/qChFDD7lBtNi3S4fAcmFQCJuO9Luw=
+ bh=jJFN0kbNK1HYsScle4BJxnbgfK5v1ltAKvID4Xb5e1I=;
+ b=u+n/L3a3YIEvvjIEM6mS6xTkTIozUlVMZRAO5fpFz/2AOmOp2Gvod1pk3dEwZTu8X9b9UQCWBRUmPgx8PacbdPHXwlJ9Npruecmr+AaK3wUD6DKUKSucPeUK+2N79/9mooi0ryJReGdCksVmNFPmSkN5kDmx9V5OIVXvao4xjaE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6807.eurprd08.prod.outlook.com (2603:10a6:20b:395::7)
+ by AM6PR08MB4166.eurprd08.prod.outlook.com (2603:10a6:20b:a6::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.26; Thu, 6 May
- 2021 09:06:40 +0000
+ 2021 09:06:41 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.026; Thu, 6 May 2021
- 09:06:40 +0000
+ 09:06:41 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
  eesposit@redhat.com, pbonzini@redhat.com
-Subject: [PATCH v3 1/8] block/write-threshold: don't use write notifiers
-Date: Thu,  6 May 2021 12:06:14 +0300
-Message-Id: <20210506090621.11848-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 2/8] block: drop write notifiers
+Date: Thu,  6 May 2021 12:06:15 +0300
+Message-Id: <20210506090621.11848-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210506090621.11848-1-vsementsov@virtuozzo.com>
 References: <20210506090621.11848-1-vsementsov@virtuozzo.com>
@@ -66,63 +66,64 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.236) by
  HE1P195CA0011.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.25 via Frontend Transport; Thu, 6 May 2021 09:06:39 +0000
+ 15.20.4108.25 via Frontend Transport; Thu, 6 May 2021 09:06:40 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5112c54c-fb08-40e7-542c-08d9106e428f
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6807:
+X-MS-Office365-Filtering-Correlation-Id: 2ed1aca4-88db-408a-780b-08d9106e4340
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4166:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB680797CB3080722A5D057811C1589@AS8PR08MB6807.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4166A0E521AEF886BEBEAC64C1589@AM6PR08MB4166.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:168;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NFQnTG78YiYQ1PPFQRnm5ObR+I2CJfRzAaxrt+6AOVKABouYiE8aVviyei1M8+eydI3+3Gm2nJzwVJ8NeHxCg2zZAXy1qLlmOFiRJOgAxGPz05r6bPNUWFPIB6/VkSj6d2USz+cTXBvS6IOFg0YgYYZsb3jb0cAJ5NZfNlKmZhRJyNqRD0crjdtCvreSjBrCDSPM1w4dNw3b/oRiiF0V4y3YCZjPQg0MT5IrLTE/lf/GaEIXTHLFZ1kUiDU508ry2S8813QbbJbuzHXuFLos2RWAa+qkwNRpjHck4/ePStxtsa2gwxxp9USVgnbUqAxyC7T40VMabyFLKqlfUubTjRva4nSF9epA8oR6liLmSx6rzNGrtJ6NOX4xSovWxlM0/Ya0XcdgONdmIZBYz+L8pXrnrjdDrTOHCm4tl2zm6sIQjg/cg0rhseY7oZTKDRFypa+WPlbmWuGtB9yiL2KWykGJtgvvRXuRF+KN0ebHMIgTJ3rjWsSKT+YfWCJtSS62w4XkBuc+odIdaPxFuk77XsQMajgAndwfB9tW/NilpumdauDZmKjTn68gzug6aaGIk5Pedrg2yCyNPFv4fW08TzLBLjGRoQK8SiPhZMD60nBrgAMsdSKOUj/9nf/TOdmlaRSRjNUB2zHiUOKbE31ZWri3AOqkGQ4PxjE+llE7kIaTNnZ/ptwPU7FPWX7u+VHz
+X-Microsoft-Antispam-Message-Info: uDT7KrqwuS6+WuvNfcM6zC/NZFPfagC2XTTLXvcAdDuRlJ8Tdh+i1Vd+ZXEppUUFGgrcCdqgv+cDnBReOYEAfRbafllWlQq4MKM5xI8DRMmnh7Lme/U4xOjkDjKWUT8AouTDWG12rivQz8u13CRl6ATeiXXonVh6wjHSPLNVlCoMt2Fi94sQe86ox0JUJkWxRpaBFoTASY1RTJNCXndpnlnNe+eBxLF9/zGJ7QewnwVT4Vvf4qBPBYofDi8SpGsLDzrVTO7bM2oE7X28TW4rJts6mU2Q5atUQEYsSuE+yvc9RZ6rW83CsmOgKrAlJk2pr7YKTBO4938lbTeM39nXsnLfVCe6vlaJti5vrmPcoayGo6Igsq8g20gChbbNix/HMd5RYoVh7rqEwVUQKSuGyUXyW+xNX7IKD5vtcJAHXSMQ6x8gJ7aCwueGS0IApD0fp94J2nkDxXcP8EWvls3C4OqAbhH+CPkUK7iYuLvDjkbAxkJ77bQBYIVkqDyCncQpIl47XSmQzFYfHDyJI2FZBQh0y+025p1E0ranoUeHvRSSs0MtYEjISUBlpyBwWLZrkJtCnfCSPDOcevgffKLHB/AOBivnP4auYWL0+FZ4PDc9Wea1cLcVy7ezpNhzmJa0FvhhUXCHHonoT7jNSH/2GM7pxM5cbdxEIoZYGZzN8L1FtpWJ/zGRt39O8dnMBiSg
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(346002)(366004)(376002)(39830400003)(396003)(6486002)(38100700002)(6506007)(956004)(2616005)(66946007)(83380400001)(66476007)(38350700002)(4326008)(26005)(66556008)(86362001)(36756003)(1076003)(6666004)(478600001)(6916009)(5660300002)(2906002)(316002)(6512007)(8936002)(8676002)(186003)(16526019)(52116002)(69590400013);
+ SFS:(4636009)(396003)(39840400004)(346002)(366004)(376002)(136003)(86362001)(66556008)(6512007)(8936002)(66476007)(66946007)(316002)(6666004)(8676002)(36756003)(6486002)(1076003)(52116002)(4326008)(478600001)(2906002)(956004)(186003)(83380400001)(6916009)(6506007)(38350700002)(2616005)(38100700002)(26005)(16526019)(5660300002)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?UqLcZRmwE6QvxGoNidGp6euBfMBG26kE0Xq2rYQstBDGJF0NJcr76Jw0fYFP?=
- =?us-ascii?Q?Rm5eZiqvYod+XG+LqkZmHajh5jTqAq/LNt467sTT2Tg+mceBnNckKhjVtrkx?=
- =?us-ascii?Q?NxJrOKDet2EliwK/1p0EBG163Aj0d5aj5QnhQL3byE6VrpVdARwdI6jKVXg1?=
- =?us-ascii?Q?mDf/0ia6yJ382sNpnjoEk35vB88eFTgkPPWxdTsAfl48PpJNUkKccWBkRPdL?=
- =?us-ascii?Q?kI7t08w3ePPexMqIWIjSMlpIgMf9gCdl7ETPcwSB5NFmZt6cpp/xuTwLeMJc?=
- =?us-ascii?Q?Vs9WK745tk/sX89hHHkt/39FH7tK7X3E8sqK1T/dw/721trNYQC5BW/bY7x/?=
- =?us-ascii?Q?Rw5+Fzt/RZAA6PEGwWMBB6Sh1nHbJWPfQTtlxZ5FAb3onwkAM69PajUBNEEV?=
- =?us-ascii?Q?LsRPU2p9QC2ZrDw2qfsDebx++hX3cl7ws25VQ/sEm+Y4YDzTEd48V8ySss7I?=
- =?us-ascii?Q?wzhrfcBPnOpDI+NnAtIV2yfrmBnd5MqN3bgC0GlTqPqxxxFExnnDdTfpVAFJ?=
- =?us-ascii?Q?NQmu5s2E2hg2fXeUCcMN5RMIWtcYnTUAn6NJ1Ii27ePXFvFRlfAokTNKVNaC?=
- =?us-ascii?Q?CZQaMcOCeUmrCseW5zbHeOf/Xc77UYjb07BVZeDmUt1L6t/oHBSwdxGrGpPl?=
- =?us-ascii?Q?g0fLP700V1jHc41UzKemf9d0Bp3/FgwaTYP7A+bLbAU+UXZjQ8IMmPz8dNz9?=
- =?us-ascii?Q?mla2Rux6ZmcjwN0XXMHmJ12ulQD5gNpb7X4UXGVP9mwOgg1yn3KKF37vrQoe?=
- =?us-ascii?Q?5PTKZzXK8qq0O7isbvi7bkk9CXq45+uBfAmO/QhnZzuaWLdkznma/ESQ1IVT?=
- =?us-ascii?Q?g9YegdJJ9YqbZ4wOLPWBNPfgWcSY4vkPzyMASvD4ephm7SjZ/xfxUWoNiuXC?=
- =?us-ascii?Q?xJ/vf6X0E4rfvb5DoX6py8LfAitO17EJV/xnsSV5OhqwdDTGrK48IsMat2dq?=
- =?us-ascii?Q?maHP41wNrSRTkkxU7sSdyxs8Mt/c5w/KUD2uRTOvBgg2xJD6YNcs4siPMEg6?=
- =?us-ascii?Q?iHCVLvsbxGiwkFUja3srGadAloGUnIaqf8o7da4s6KSShJ0XON3aUNJdzILm?=
- =?us-ascii?Q?D5kXDQOk5mL5PQttkk7+iWDmPbTtnVzUsvVpdwmqzuu1aw7ZeAWq5BQ/j6GP?=
- =?us-ascii?Q?3w6CFIqy/KgVrcMqLFvt6ATuY8emYHkmP8TRQJtnBbZiMdjklcgOyYKpFB94?=
- =?us-ascii?Q?/iuFYqIuIkxUntb/BpL912SkdGg9HHmZWnj2yEBzNOECh2JoU7CMojDGXZur?=
- =?us-ascii?Q?OHR814r3GZT/wAPDF6WD2dygM7iIDt1HtgHPlpJp2Mz3bX7wk23/JpQgsA6g?=
- =?us-ascii?Q?MiYDDEXOySGA53oq+7AY5+/y?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?PHsTBX0AzKprTtbvlCJ5gXgZ76yVtSTMYcZY5V1s9YAb1n2xSIbwZhvbvUb8?=
+ =?us-ascii?Q?UpWTp6gquAIk2MCEZAgZ9LFlXfWiDc3JLw7kxntpX8qESRodQEEAzoQMQ6lE?=
+ =?us-ascii?Q?oESIpjoyAWChFeBrPUHCSiS5X8mcCQdYJeYgMfgOHxRqNQNOOIyqmgumf8ls?=
+ =?us-ascii?Q?DIPFJzJnLM2YmT/49Lrp2nn/jvB4wRJbmEbVyUQywpxwIvJqKZSS9rEk6vQn?=
+ =?us-ascii?Q?kIFUVY39fBFgQ6D5q3LMty2EIE9bY273VxDQBwuidNp+1A62DPjLcbtvBfIV?=
+ =?us-ascii?Q?Fc1q+/12Oc0RnymxcE6JU0WG2ppIgQYOr0TP7cQ/p1z6nubmGclcbg3b6xGe?=
+ =?us-ascii?Q?csMGze1YVvfoAmLkr7q/PrH7CkUqiOYOBUdT3PJ0GSuyOb5vkLW2EWbhibRz?=
+ =?us-ascii?Q?/LjKFHSOFwdndH5SXvr3dmMev8TCAGt4XyNUolB23CegXzFIvNJmnDkOV81W?=
+ =?us-ascii?Q?RYvgOJrmSaucf/TkYhg2c1KN1uSejwmSnQ9wzPW9r+96wtj3pABlPCH02I+f?=
+ =?us-ascii?Q?D8qf1mwprz1QFSqZMA5CGMYLxcz5uvzZVzd6KtACTx2fUsaL4wsTyfkbhrF7?=
+ =?us-ascii?Q?avDAVsqylD2FKY2GPfN9fAG218QGGTuosR2lpvjH7y53xnyE7cg84R6n6dYK?=
+ =?us-ascii?Q?Hl+bdEAsukVyS29XQ2+vv+TEC2IBwf5W6gNrY7YnGh8o5uEWf5LyidBpW9F5?=
+ =?us-ascii?Q?J++A0KZpcP6kHGscU2uH2HciAUKGZSpVfGKZQv2p3bZyXv2gE38WVIDNMS0T?=
+ =?us-ascii?Q?EQznpNUSyhLh5s5vIeMX1jp5RKrD5xwg1DwO8f41yjkY+f4S+ljjn1kwmos5?=
+ =?us-ascii?Q?qFLKUmQR6y5VrxDizDKN+VqtVQpMHlE6Ss4EY+/HsfciTGtUQhbWpQHTvsR4?=
+ =?us-ascii?Q?E8QpiQ9QUt14ckVzEdv8j+ukVGC74yxY6ryWYa/vikhPVfhFY56XGRll3K4H?=
+ =?us-ascii?Q?NOoqfiLkpRO2bJzG/fdoGikS2s1Ru568XoY9ctNt8NLMYShPCEJY++IXkitd?=
+ =?us-ascii?Q?JnESY6ZPfWkG061ZMjn3HLN4pUyw5W/De/LqogdWB1+y0WNWdOjiBPlazKab?=
+ =?us-ascii?Q?qf3lnZXzrU3/r/RqAzYq5O7O9hNKjwgUwbVrXJEaR2TmPK13/FG/OOP6kjmV?=
+ =?us-ascii?Q?zDs9RmLe0sKbc2DH4SJ+lSj8cEK+Gz7IVhBB6Vs2a1ICgcD+0AdIdq/4qg8m?=
+ =?us-ascii?Q?v1U+S1AeYe2nhk7pPfm5uhB0Mi7kzM/tYP8kFQPm5F8NGOZMC21QHXkhfBkX?=
+ =?us-ascii?Q?ND6Eq+igVLOBcYGghRBx6Lua2+oUTa70nD1bY17dgJkyvlx/Cpqf4ih0Rywk?=
+ =?us-ascii?Q?35X+VqMEDNT14tTMmlqG+/dr?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5112c54c-fb08-40e7-542c-08d9106e428f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ed1aca4-88db-408a-780b-08d9106e4340
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2021 09:06:40.0225 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2021 09:06:41.1586 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NBTVat4QgWKCaF0jedwgbRdiUriSuvepKPCi0p+GNak7NyQY6ZxmLWwP5AXfXs25rAQli+YdDGy83p5HYnFuqUGXoFzlCALhTa2H8skrYZw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6807
-Received-SPF: pass client-ip=40.107.6.134;
+X-MS-Exchange-CrossTenant-UserPrincipalName: iFxh+qscKEY6Nqjjw86ED1NSHwpBimry+cLgWN1sV9ZGS8mpvXP5++fkbVrZ2Xh/ZK+sghUurBUkTlHg8haMdhe8BLxAyUMfFGlEuQlkvC4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4166
+Received-SPF: pass client-ip=40.107.6.93;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,172 +139,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-write-notifiers are used only for write-threshold. New code for such
-purpose should create filters.
-
-Let's better special-case write-threshold and drop write notifiers at
-all. (Actually, write-threshold is special-cased anyway, as the only
-user of write-notifiers)
-
-So, create a new direct interface for bdrv_co_write_req_prepare() and
-drop all write-notifier related logic from write-threshold.c.
+They are unused now.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block_int.h       |  1 -
- include/block/write-threshold.h |  9 +++++
- block/io.c                      |  5 ++-
- block/write-threshold.c         | 70 +++++++--------------------------
- 4 files changed, 27 insertions(+), 58 deletions(-)
+ include/block/block_int.h | 12 ------------
+ block.c                   |  1 -
+ block/io.c                |  6 ------
+ 3 files changed, 19 deletions(-)
 
 diff --git a/include/block/block_int.h b/include/block/block_int.h
-index c823f5b1b3..51f51286a5 100644
+index 51f51286a5..eab352f363 100644
 --- a/include/block/block_int.h
 +++ b/include/block/block_int.h
-@@ -959,7 +959,6 @@ struct BlockDriverState {
+@@ -954,9 +954,6 @@ struct BlockDriverState {
+      */
+     int64_t total_sectors;
  
+-    /* Callback before write request is processed */
+-    NotifierWithReturnList before_write_notifiers;
+-
      /* threshold limit for writes, in bytes. "High water mark". */
      uint64_t write_threshold_offset;
--    NotifierWithReturn write_threshold_notifier;
  
-     /* Writing to the list requires the BQL _and_ the dirty_bitmap_mutex.
-      * Reading from the list can be done with either the BQL or the
-diff --git a/include/block/write-threshold.h b/include/block/write-threshold.h
-index c646f267a4..555afd0de6 100644
---- a/include/block/write-threshold.h
-+++ b/include/block/write-threshold.h
-@@ -59,4 +59,13 @@ bool bdrv_write_threshold_is_set(const BlockDriverState *bs);
- uint64_t bdrv_write_threshold_exceeded(const BlockDriverState *bs,
-                                        const BdrvTrackedRequest *req);
+@@ -1083,15 +1080,6 @@ void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+ bool bdrv_backing_overridden(BlockDriverState *bs);
  
-+/*
-+ * bdrv_write_threshold_check_write
-+ *
-+ * Check whether the specified request exceeds the write threshold.
-+ * If it is, send corresponding event and disable write threshold checking.
-+ */
-+void bdrv_write_threshold_check_write(BlockDriverState *bs, int64_t offset,
-+                                      int64_t bytes);
-+
- #endif
+ 
+-/**
+- * bdrv_add_before_write_notifier:
+- *
+- * Register a callback that is invoked before write requests are processed but
+- * after any throttling or waiting for overlapping requests.
+- */
+-void bdrv_add_before_write_notifier(BlockDriverState *bs,
+-                                    NotifierWithReturn *notifier);
+-
+ /**
+  * bdrv_add_aio_context_notifier:
+  *
+diff --git a/block.c b/block.c
+index 9ad725d205..75a82af641 100644
+--- a/block.c
++++ b/block.c
+@@ -400,7 +400,6 @@ BlockDriverState *bdrv_new(void)
+     for (i = 0; i < BLOCK_OP_TYPE_MAX; i++) {
+         QLIST_INIT(&bs->op_blockers[i]);
+     }
+-    notifier_with_return_list_init(&bs->before_write_notifiers);
+     qemu_co_mutex_init(&bs->reqs_lock);
+     qemu_mutex_init(&bs->dirty_bitmap_mutex);
+     bs->refcnt = 1;
 diff --git a/block/io.c b/block/io.c
-index 35b6c56efc..3520de51bb 100644
+index 3520de51bb..1e826ba9e8 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -30,6 +30,7 @@
- #include "block/blockjob_int.h"
- #include "block/block_int.h"
- #include "block/coroutines.h"
-+#include "block/write-threshold.h"
- #include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-@@ -2008,8 +2009,8 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, int64_t bytes,
-         } else {
-             assert(child->perm & BLK_PERM_WRITE);
-         }
--        return notifier_with_return_list_notify(&bs->before_write_notifiers,
--                                                req);
-+        bdrv_write_threshold_check_write(bs, offset, bytes);
-+        return 0;
-     case BDRV_TRACKED_TRUNCATE:
-         assert(child->perm & BLK_PERM_RESIZE);
-         return 0;
-diff --git a/block/write-threshold.c b/block/write-threshold.c
-index 85b78dc2a9..71df3c434f 100644
---- a/block/write-threshold.c
-+++ b/block/write-threshold.c
-@@ -29,14 +29,6 @@ bool bdrv_write_threshold_is_set(const BlockDriverState *bs)
-     return bs->write_threshold_offset > 0;
+@@ -3165,12 +3165,6 @@ bool bdrv_qiov_is_aligned(BlockDriverState *bs, QEMUIOVector *qiov)
+     return true;
  }
  
--static void write_threshold_disable(BlockDriverState *bs)
+-void bdrv_add_before_write_notifier(BlockDriverState *bs,
+-                                    NotifierWithReturn *notifier)
 -{
--    if (bdrv_write_threshold_is_set(bs)) {
--        notifier_with_return_remove(&bs->write_threshold_notifier);
--        bs->write_threshold_offset = 0;
--    }
+-    notifier_with_return_list_add(&bs->before_write_notifiers, notifier);
 -}
 -
- uint64_t bdrv_write_threshold_exceeded(const BlockDriverState *bs,
-                                        const BdrvTrackedRequest *req)
+ void bdrv_io_plug(BlockDriverState *bs)
  {
-@@ -51,55 +43,9 @@ uint64_t bdrv_write_threshold_exceeded(const BlockDriverState *bs,
-     return 0;
- }
- 
--static int coroutine_fn before_write_notify(NotifierWithReturn *notifier,
--                                            void *opaque)
--{
--    BdrvTrackedRequest *req = opaque;
--    BlockDriverState *bs = req->bs;
--    uint64_t amount = 0;
--
--    amount = bdrv_write_threshold_exceeded(bs, req);
--    if (amount > 0) {
--        qapi_event_send_block_write_threshold(
--            bs->node_name,
--            amount,
--            bs->write_threshold_offset);
--
--        /* autodisable to avoid flooding the monitor */
--        write_threshold_disable(bs);
--    }
--
--    return 0; /* should always let other notifiers run */
--}
--
--static void write_threshold_register_notifier(BlockDriverState *bs)
--{
--    bs->write_threshold_notifier.notify = before_write_notify;
--    bdrv_add_before_write_notifier(bs, &bs->write_threshold_notifier);
--}
--
--static void write_threshold_update(BlockDriverState *bs,
--                                   int64_t threshold_bytes)
--{
--    bs->write_threshold_offset = threshold_bytes;
--}
--
- void bdrv_write_threshold_set(BlockDriverState *bs, uint64_t threshold_bytes)
- {
--    if (bdrv_write_threshold_is_set(bs)) {
--        if (threshold_bytes > 0) {
--            write_threshold_update(bs, threshold_bytes);
--        } else {
--            write_threshold_disable(bs);
--        }
--    } else {
--        if (threshold_bytes > 0) {
--            /* avoid multiple registration */
--            write_threshold_register_notifier(bs);
--            write_threshold_update(bs, threshold_bytes);
--        }
--        /* discard bogus disable request */
--    }
-+    bs->write_threshold_offset = threshold_bytes;
- }
- 
- void qmp_block_set_write_threshold(const char *node_name,
-@@ -122,3 +68,17 @@ void qmp_block_set_write_threshold(const char *node_name,
- 
-     aio_context_release(aio_context);
- }
-+
-+void bdrv_write_threshold_check_write(BlockDriverState *bs, int64_t offset,
-+                                      int64_t bytes)
-+{
-+    int64_t end = offset + bytes;
-+    uint64_t wtr = bs->write_threshold_offset;
-+
-+    if (wtr > 0 && end > wtr) {
-+        qapi_event_send_block_write_threshold(bs->node_name, end - wtr, wtr);
-+
-+        /* autodisable to avoid flooding the monitor */
-+        bdrv_write_threshold_set(bs, 0);
-+    }
-+}
+     BdrvChild *child;
 -- 
 2.29.2
 
