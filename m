@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D69BC375591
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:24:17 +0200 (CEST)
-Received: from localhost ([::1]:32790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4653755C0
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:37:16 +0200 (CEST)
+Received: from localhost ([::1]:34286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leevI-0006Nz-Ut
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:24:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42026)
+	id 1lef7r-0002FD-3x
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:37:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1leeuA-0005W2-JU
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:23:06 -0400
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:41969)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leewr-0000Ik-PF
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:25:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1leeu6-0001KB-05
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:23:06 -0400
-Received: by mail-qt1-x835.google.com with SMTP id o12so4086606qtx.8
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:23:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dQGJ6Q0wZKhpJ3PZdrsCXdr7zqNBB4FZ2lq1ceu6GQM=;
- b=ZL4nPapkQnQzI5hNrqRk4EOdF5UHQXoCYwA+zf3I+5p/OUid0bx8xQwiCfkDY+jFGY
- aDfo8z/n+Uvb38a499UO1wHo9wIQcmVf/wrEkrAK5OdlG3a+GSssxqtBphd1teZcAlm3
- hG4GNdvi3lkLzC/eSM78wvOAJLXNsXVo9TY5xUz2LYxZfQEj1wv5+2BXP3agjyOrsGcU
- h5Q9s6oh62tiJHArrV06sD+1nxZRUV1nrLszulTjOBjMLQ9xhMbH/0Vf2aaDhIlD4vFZ
- YugV+oq2xItinGwYVBwj7/Q53HOc5UuxgX2DyBpys2whXSIisA+hkqzZNg0T+cx8Kn66
- R8Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dQGJ6Q0wZKhpJ3PZdrsCXdr7zqNBB4FZ2lq1ceu6GQM=;
- b=G4/wyAjUh1Y0HQM7yQY3kE3p4DbB5Igemc9auPTDxT7Dp1ngNFH8BHGKv/DdzaFZxa
- pndrZb3WDnS/yElGaZM4K/24jlPsDn7BW8O0nBAItPjIZp9r3FcZPphS8nWYZ4wQsIxy
- 5OAvT/V+nBdd1JDfk0LLNfQhz5/QKS0050T+fb6mMzV2GjsR6En4Ot629W4ZEZCNJb66
- c2RJQ7+QDJFe+IvwepngKIkcSTCTDLbq1R1NGqjOhVHarLQ6cHKpiqWtQPtGLbkffKEO
- AoG3H5myMHJmpLam4YNrULTnnXubTuKS2g41eH3yCB2qO2DlHDlEPChjeQgWYgPnhlRK
- d1ug==
-X-Gm-Message-State: AOAM533Lj7TAvHRNgJrv1Bu1jMU3sfHAyh8GoIozPzZQ3yxW6sflbVNg
- BnyALN7brGZeUCP0q/uaqQ6YbJcZ1v2qsUVGOWMFPA==
-X-Google-Smtp-Source: ABdhPJyBS//SKMm9JQFUL3tfxRak1+TRpBPcKJh3kB36Zt2GrPL58gzj7r9qDcK1DCjsG8+S0Gfw9DFeN5JYYE60FBI=
-X-Received: by 2002:ac8:675a:: with SMTP id n26mr4557315qtp.101.1620310980656; 
- Thu, 06 May 2021 07:23:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leewp-0002xu-4b
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:25:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1leewn-0002tq-5i
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 14:25:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1C74F2E818E
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 14:25:49 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210506133758.1749233-1-philmd@redhat.com>
-In-Reply-To: <20210506133758.1749233-1-philmd@redhat.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 6 May 2021 08:22:49 -0600
-Message-ID: <CANCZdfqiHxQoG+g3bq_KL01yWCHUbF5qxJWN=sD37h7UJFMZ7g@mail.gmail.com>
-Subject: Re: [PATCH v2 0/9] misc: Replace alloca() by g_malloc()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000006d95be05c1aa0c4a"
-Received-SPF: none client-ip=2607:f8b0:4864:20::835;
- envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x835.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 May 2021 14:18:13 -0000
+From: Thomas Huth <1876678@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: graphdrum th-huth
+X-Launchpad-Bug-Reporter: John Hartley (graphdrum)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158858209471.12655.6550590823696382929.malonedeb@gac.canonical.com>
+Message-Id: <162031069373.14828.13453360482065396148.malone@soybean.canonical.com>
+Subject: [Bug 1876678] Re: Ubuntu 20.04 KVM / QEMU Failure with nested FreeBSD
+ bhyve
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: caba076feff03d0c2ed2bee8f1ad5c463659dbe0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,134 +71,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Reply-To: Bug 1876678 <1876678@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006d95be05c1aa0c4a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Since you were talking about Ubuntu, I moved this to the Ubuntu tracker
+now. If you can reproduce the problem with upstream QEMU (currently
+v6.0), then please open a new ticket in the new QEMU issue tracker at
+gitlab.com.
 
-On Thu, May 6, 2021 at 7:39 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om>
-wrote:
+** Project changed: qemu =3D> qemu (Ubuntu)
 
-> The ALLOCA(3) man-page mentions its "use is discouraged".
-> Replace few calls by equivalent GLib malloc().
->
+-- =
 
-Except g_alloc and g_malloc are not at all the same, and you can't drop in
-replace one with the other.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1876678
 
-g_alloc allocates stack space on the calling frame that's automatically
-freed when the function returns.
-g_malloc allocates space from the heap, and calls to it must be matched
-with calls to g_free().
+Title:
+  Ubuntu 20.04 KVM / QEMU Failure with nested FreeBSD bhyve
 
-These patches don't do the latter, as far as I can tell, and so introduce
-memory leaks unless there's something I've missed.
+Status in qemu package in Ubuntu:
+  New
 
-Warner
+Bug description:
+  BUG:
+
+  Starting FreeBSD Layer 2 bhyve Guest within Layer 1 FreeBSD VM Host on
+  Layer 0 Ubuntu 20.04 KVM / QEMU Host result in Layer 1 Guest / Host
+  Pausing with "Emulation Failure"
+
+  TESTING:
+
+  My test scenario is nested virtualisation:
+  Layer 0 - Ubuntu 20.04 Host
+  Layer 1 - FreeBSD 12.1 with OVMF + bhyve hypervisor Guest/Host
+  Layer 2 - FreeBSD 12.1 guest
+
+  Layer 0 Host is: Ubuntu 20.04 LTS KVM / QEMU / libvirt
+
+  <<START QEMU VERSION>>
+  $ virsh -c qemu:///system version --daemon
+  Compiled against library: libvirt 6.0.0
+  Using library: libvirt 6.0.0
+  Using API: QEMU 6.0.0
+  Running hypervisor: QEMU 4.2.0
+  Running against daemon: 6.0.0
+  <<END QEMU VERSION>
+
+  <<START Intel VMX Support & Nesting Enabled>>
+  $ cat /proc/cpuinfo | grep -c vmx
+  64
+  $ cat /sys/module/kvm_intel/parameters/nested
+  Y
+  <<END Intel VMS>>
 
 
+  Layer 1 Guest / Host is: FreeBSD Q35 v4.2 with OVMF:
 
-> Last call site is linux-user/.
->
-> Since v1:
-> - Converted more uses (alsaaudio, tpm, pca9552)
-> - Reworked gdbstub (Alex)
-> - Simplified PPC/KVM (Greg)
->
-> Philippe Mathieu-Daud=C3=A9 (9):
->   audio/alsaaudio: Replace ALSA alloca() by malloc() equivalent
->   backends/tpm: Replace qemu_mutex_lock calls with QEMU_LOCK_GUARD
->   backends/tpm: Replace g_alloca() by g_malloc()
->   bsd-user/syscall: Replace alloca() by g_new()
->   gdbstub: Constify GdbCmdParseEntry
->   gdbstub: Only call cmd_parse_params() with non-NULL command schema
->   gdbstub: Replace alloca() + memset(0) by g_new0()
->   hw/misc/pca9552: Replace g_newa() by g_new()
->   target/ppc/kvm: Replace alloca() by g_malloc()
->
->  audio/alsaaudio.c           | 11 +++++++----
->  backends/tpm/tpm_emulator.c | 35 +++++++++++++++--------------------
->  bsd-user/syscall.c          |  3 +--
->  gdbstub.c                   | 34 +++++++++++++++-------------------
->  hw/misc/pca9552.c           |  2 +-
->  target/ppc/kvm.c            |  3 +--
->  6 files changed, 40 insertions(+), 48 deletions(-)
->
-> --
-> 2.26.3
->
->
->
->
+  Pass Host VMX support to Layer 1 Guest via <cpu mode=3D'host-model>
 
---0000000000006d95be05c1aa0c4a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  <<LIBVIRT CONFIG SNIPPET>>
+  ...
+  ...
+    <os>
+      <type arch=3D'x86_64' machine=3D'pc-q35-4.2'>hvm</type>
+      <loader readonly=3D'yes' type=3D'pflash'>/usr/share/OVMF/OVMF_CODE.fd=
+</loader>
+      <nvram>/home/USER/swarm.bhyve.freebsd/OVMF_VARS.fd</nvram>
+    </os>
+    <features>
+      <acpi/>
+      <apic/>
+      <vmport state=3D'off'/>
+    </features>
+    <cpu mode=3D'host-model' check=3D'partial'/>
+  ...
+  ...
+  <END LIBVIRT CONFIG SNIPPET>>
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 6, 2021 at 7:39 AM Philip=
-pe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redha=
-t.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">The ALLOCA(3) man-page mentions its &quot;use is discouraged&quot;.<br=
->
-Replace few calls by equivalent GLib malloc().<br></blockquote><div><br></d=
-iv><div>Except g_alloc and g_malloc are not at all the same, and you can&#3=
-9;t drop in replace one with the other.</div><div><br></div><div>g_alloc al=
-locates stack space on the calling frame that&#39;s automatically freed whe=
-n the function returns.</div><div>g_malloc allocates space from the heap, a=
-nd calls to it must be matched with calls to g_free().</div><div><br></div>=
-<div>These patches don&#39;t do the latter, as far as I can tell, and so in=
-troduce memory leaks unless there&#39;s something I&#39;ve missed.</div><di=
-v><br></div><div>Warner</div><div><br></div><div>=C2=A0</div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
-Last call site is linux-user/.<br>
-<br>
-Since v1:<br>
-- Converted more uses (alsaaudio, tpm, pca9552)<br>
-- Reworked gdbstub (Alex)<br>
-- Simplified PPC/KVM (Greg)<br>
-<br>
-Philippe Mathieu-Daud=C3=A9 (9):<br>
-=C2=A0 audio/alsaaudio: Replace ALSA alloca() by malloc() equivalent<br>
-=C2=A0 backends/tpm: Replace qemu_mutex_lock calls with QEMU_LOCK_GUARD<br>
-=C2=A0 backends/tpm: Replace g_alloca() by g_malloc()<br>
-=C2=A0 bsd-user/syscall: Replace alloca() by g_new()<br>
-=C2=A0 gdbstub: Constify GdbCmdParseEntry<br>
-=C2=A0 gdbstub: Only call cmd_parse_params() with non-NULL command schema<b=
-r>
-=C2=A0 gdbstub: Replace alloca() + memset(0) by g_new0()<br>
-=C2=A0 hw/misc/pca9552: Replace g_newa() by g_new()<br>
-=C2=A0 target/ppc/kvm: Replace alloca() by g_malloc()<br>
-<br>
-=C2=A0audio/alsaaudio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 11 ++++++=
-+----<br>
-=C2=A0backends/tpm/tpm_emulator.c | 35 +++++++++++++++--------------------<=
-br>
-=C2=A0bsd-user/syscall.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +--<br=
->
-=C2=A0gdbstub.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 34 +++++++++++++++-------------------<br>
-=C2=A0hw/misc/pca9552.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +=
--<br>
-=C2=A0target/ppc/kvm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +=
---<br>
-=C2=A06 files changed, 40 insertions(+), 48 deletions(-)<br>
-<br>
--- <br>
-2.26.3<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
+  Checked that Layer 1 - FreeBSD Quest / Host has VMX feature available:
 
---0000000000006d95be05c1aa0c4a--
+  <<LAYER 1 - FreeBSD CPU Features>>
+  # uname -a
+  FreeBSD swarm.DOMAIN.HERE 12.1-RELEASE FreeBSD 12.1-RELEASE GENERIC  amd64
+
+  # grep Features /var/run/dmesg.boot =
+
+    Features=3D0xf83fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,P=
+GE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,SS>
+    Features2=3D0xfffa3223<SSE3,PCLMULQDQ,VMX,SSSE3,FMA,CX16,PCID,SSE4.1,SS=
+E4.2,x2APIC,MOVBE,POPCNT,TSCDLT,AESNI,XSAVE,OSXSAVE,AVX,F16C,RDRAND,HV>
+    AMD Features=3D0x2c100800<SYSCALL,NX,Page1GB,RDTSCP,LM>
+    AMD Features2=3D0x121<LAHF,ABM,Prefetch>
+    Structured Extended Features=3D0x1c0fbb<FSGSBASE,TSCADJ,BMI1,HLE,AVX2,S=
+MEP,BMI2,ERMS,INVPCID,RTM,RDSEED,ADX,SMAP>
+    Structured Extended Features2=3D0x4<UMIP>
+    Structured Extended Features3=3D0xac000400<MD_CLEAR,IBPB,STIBP,ARCH_CAP=
+,SSBD>
+    XSAVE Features=3D0x1<XSAVEOPT>
+  <<END LAYER 1 - FreeBSD CPU Features>
+
+  On Layer 1 FreeBSD Guest / Host start up the Layer 2 guest..
+
+  <<START LAYER 2 GUEST START>>
+  # ls
+  FreeBSD-11.2-RELEASE-amd64-bootonly.iso	FreeBSD-12.1-RELEASE-amd64-dvd1.i=
+so	bee-hd1-01.img
+  # /usr/sbin/bhyve -c 2 -m 2048 -H -A -s 0:0,hostbridge -s 1:0,lpc -s 2:0,=
+e1000,tap0 -s 3:0,ahci-hd,bee-hd1-01.img -l com1,stdio -s 5:0,ahci-cd,./Fre=
+eBSD-12.1-RELEASE-amd64-dvd1.iso bee
+  <<END LAYER 2 GUEST START>>
+
+  Result is that Layer 1 - FreeBSD Host guest "paused".
+
+  To Layer 1 machines freezes I cannot get any further diagnostics from
+  this machine, so I run tail on libvirt log from Layer 0 - Ubuntu Host
+
+  <<LAYER 0 LOG TAIL>>
+  char device redirected to /dev/pts/29 (label charserial0)
+  2020-05-04T06:09:15.310474Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
+  2020-05-04T06:09:15.310531Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
+  2020-05-04T06:09:15.312533Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
+  2020-05-04T06:09:15.312548Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
+  2020-05-04T06:09:15.313828Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
+  2020-05-04T06:09:15.313841Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
+  2020-05-04T06:09:15.315185Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
+  2020-05-04T06:09:15.315201Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
+  KVM internal error. Suberror: 1
+  emulation failure
+  EAX=3D00000000 EBX=3D00000000 ECX=3D00000000 EDX=3D00000000
+  ESI=3D00000000 EDI=3D00000000 EBP=3D00000000 ESP=3D00000000
+  EIP=3D00000000 EFL=3D00000000 [-------] CPL=3D0 II=3D0 A20=3D1 SMM=3D0 HL=
+T=3D0
+  ES =3D0000 00000000 00000000 00008000 DPL=3D0 <hiword>
+  CS =3D0000 00000000 00000000 00008000 DPL=3D0 <hiword>
+  SS =3D0000 00000000 00000000 00008000 DPL=3D0 <hiword>
+  DS =3D0000 00000000 00000000 00008000 DPL=3D0 <hiword>
+  FS =3D0000 00000000 00000000 00008000 DPL=3D0 <hiword>
+  GS =3D0000 00000000 00000000 00008000 DPL=3D0 <hiword>
+  LDT=3D0000 00000000 00000000 00008000 DPL=3D0 <hiword>
+  TR =3D0000 00000000 00000000 00008000 DPL=3D0 <hiword>
+  GDT=3D     0000000000000000 00000000
+  IDT=3D     0000000000000000 00000000
+  CR0=3D80050033 CR2=3D0000000000000000 CR3=3D0000000000000000 CR4=3D003720=
+60
+  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
+=3D0000000000000000 =
+
+  DR6=3D00000000ffff0ff0 DR7=3D0000000000000400
+  EFER=3D0000000000000d01
+  Code=3D<??> ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?=
+? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?=
+? ?? ?? ??
+  2020-05-04T06:35:39.186799Z qemu-system-x86_64: terminating on signal 15 =
+from pid 2155 (/usr/sbin/libvirtd)
+  2020-05-04 06:35:39.386+0000: shutting down, reason=3Ddestroyed
+  <<END LAYER 0 LOG TAIL>>
+
+  =
+
+  I am reporting this bug here as result is very similar to that seen with =
+QEMU seabios failure reported here: https://bugs.launchpad.net/qemu/+bug/18=
+66870
+
+  However in this case my VM Layer 1 VM is using OVMF.
+
+  NOTE 1: I have also tested with Q35 v3.1 and 2.12 and get the same result.
+  NOTE 2: Due to bug in FreeBSD networking code, I had to compile custom ke=
+rnel with "netmap driver disabled".  This is known bug in FreeBSD that I ha=
+ve reported separately.
+  NOTE 3: I will cross posted this bug report on FreeBSD bugzilla as well: =
+https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=3D246168
+  NOTE 4: Have done extensive testing of Ubuntu 20.04 Nested virtualisation=
+ with just Ubuntu hosts  and OVMF and the nested virtualisation runs correc=
+tly, so problem is specific to using FreeBSD / bhyve guest / host.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1876678/+subscriptions
 
