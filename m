@@ -2,106 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA283755F8
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:53:23 +0200 (CEST)
-Received: from localhost ([::1]:43106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55EF33755F0
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:50:40 +0200 (CEST)
+Received: from localhost ([::1]:35678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lefNS-0001dy-Fv
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56134)
+	id 1lefKp-0006vb-CF
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:50:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1lefHF-0003kf-BK; Thu, 06 May 2021 10:46:57 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13092
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lefIG-0004zl-Mm
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:48:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1lefHC-0007Ql-9F; Thu, 06 May 2021 10:46:57 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 146EYYBK127504; Thu, 6 May 2021 10:46:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=tXoCNIlB2bctjjVycl7DyvYGC6RmCOECwtOCPYo4JEs=;
- b=lRxXP46j6s6T/HZ3GoKTUGAXnNIiM//MfjFwhUBJ7I51Ud0986zrCSuA0ax1mj4+vJ5+
- OI+f5FsDSVpQVqlEdT5m7HwNu2THZugwx+wt6Avx0Z5XwIu38NIi/QWz5TIJktN8AOJo
- 6a+HNaa276nM31CPHiI1rnBTnMKwqM/QHtnQoohc1Ujzwa6gULRvgyOAoeRx7y7CIMgk
- SdtRTHbvol2nC8JdBCsBYP894c+cPpex89qZZ6Rzu2/oUvMvnxplmIk92wGcHJAwqHU2
- EtJMtaELA6xqmsRT6ZOeMHdmpcas/huRAhxtnganPJkuQrh5Bj8AVq/NEyMg/iFI/J9K gA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38cjb9gd7t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 May 2021 10:46:51 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 146Ek8VA191550;
- Thu, 6 May 2021 10:46:51 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38cjb9gd7a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 May 2021 10:46:51 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 146EgdiR004612;
- Thu, 6 May 2021 14:46:50 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma03dal.us.ibm.com with ESMTP id 38bee8qg9f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 May 2021 14:46:50 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 146EknUp28705050
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 6 May 2021 14:46:49 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1BB7ABE05A;
- Thu,  6 May 2021 14:46:49 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2F36FBE053;
- Thu,  6 May 2021 14:46:48 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  6 May 2021 14:46:48 +0000 (GMT)
-Subject: Re: [PATCH v2 3/9] backends/tpm: Replace g_alloca() by g_malloc()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210506133758.1749233-1-philmd@redhat.com>
- <20210506133758.1749233-4-philmd@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <bf880c36-2b09-602f-aea0-772949c55ed5@linux.ibm.com>
-Date: Thu, 6 May 2021 10:46:47 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lefID-00086b-5l
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:48:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620312476;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DAAAhqHp6EmAwbmCy8WbYsEfie2d/LRd4SnbYGYWy8E=;
+ b=ZdXgr7rs1E4bKBinS3OmCx7zycxw5TiF5X42kp9dY3dxRwLwerjkBvcmDVYBLQ6PrvTV3w
+ rMrM6yQgEhXLIwrgWCCSVpeSf0yh80ViWzNxIu2q3yAuiSrrZ5JnF6HHXP5w/L0wQsdJld
+ 9AMKF6AH4JWVA5u0O3a8Ad3GjhMuq8s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-DZ0vEP29NVqYOxApg85_qQ-1; Thu, 06 May 2021 10:47:52 -0400
+X-MC-Unique: DZ0vEP29NVqYOxApg85_qQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85FD51008077;
+ Thu,  6 May 2021 14:47:51 +0000 (UTC)
+Received: from localhost (ovpn-115-109.ams2.redhat.com [10.36.115.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 232CC5C277;
+ Thu,  6 May 2021 14:47:20 +0000 (UTC)
+Date: Thu, 6 May 2021 15:47:19 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 06/23] hw/block/dataplane/virtio-blk: Avoid dynamic stack
+ allocation
+Message-ID: <YJQBd+lnvQnbK0XH@stefanha-x1.localdomain>
+References: <20210505211047.1496765-1-philmd@redhat.com>
+ <20210505211047.1496765-7-philmd@redhat.com>
+ <YJOuesiuqgQugO+Q@stefanha-x1.localdomain>
+ <124ddeb2-ca4a-c551-19ad-d1125451226f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210506133758.1749233-4-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: C1U5KbtyB40mvw-9k_VQmXxEV4-YhsIA
-X-Proofpoint-GUID: yJl_b3BVn1FBli3v8yQBZL7VE7WfBgOj
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-06_10:2021-05-06,
- 2021-05-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 spamscore=0 clxscore=1015 mlxscore=0 malwarescore=0
- adultscore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2105060106
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <124ddeb2-ca4a-c551-19ad-d1125451226f@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Vc4NIKc8AIDTKkid"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,20 +82,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--Vc4NIKc8AIDTKkid
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 5/6/21 9:37 AM, Philippe Mathieu-Daudé wrote:
-> The ALLOCA(3) man-page mentions its "use is discouraged".
->
-> Replace a g_alloca() call by a g_malloc() one, moving the
-> allocation before the MUTEX guarded block.
->
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+On Thu, May 06, 2021 at 11:01:47AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> On 5/6/21 10:53 AM, Stefan Hajnoczi wrote:
+> > On Wed, May 05, 2021 at 11:10:30PM +0200, Philippe Mathieu-Daud=E9 wrot=
+e:
+> >> Use autofree heap allocation instead of variable-length
+> >> array on the stack.
+> >>
+> >> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> >> ---
+> >>  hw/block/dataplane/virtio-blk.c | 7 ++++---
+> >>  1 file changed, 4 insertions(+), 3 deletions(-)
+> >=20
+> > Why?
+>=20
+> The motivation behind removing all variable-length allocations
+> (and adding CPPFLAG+=3D-Wvla at the end) is to avoid security
+> vulnerabilities such CVE-2021-3527.
+
+I see. Please mention it in the commit description. There could be other
+reasons for this change, like minimizing stack usage, so I wasn't sure
+why.
+
+> > This is a performance-critical code path and BITS_TO_LONGS(nvqs) is
+> > small.
+>=20
+> OK, having looked better at nvqs, I suppose this is preferred:
+>=20
+> -- >8 --
+> @@ -60,7 +60,7 @@ static void notify_guest_bh(void *opaque)
+>  {
+>      VirtIOBlockDataPlane *s =3D opaque;
+>      unsigned nvqs =3D s->conf->num_queues;
+> -    unsigned long bitmap[BITS_TO_LONGS(nvqs)];
+> +    unsigned long bitmap[BITS_TO_LONGS(VIRTIO_QUEUE_MAX)];
+>      unsigned j;
+>=20
+>      memcpy(bitmap, s->batch_notify_vqs, sizeof(bitmap));
+> ---
+>=20
+> Would that work for you?
+
+It's a little risky since s->batch_notify_vqs does not have
+sizeof(bitmap). That makes uninitialized data and buffer overflows more
+likely. Your example has the bug:
+
+  memcpy(bitmap, s->batch_notify_vqs, sizeof(bitmap));
+                                      ^^^^^^^^^^^^^^
+  Accesses beyond the end of s->batch_notify_vqs[].
+
+Can we eliminate bitmap[] entirely by using bitops.h APIs on
+s->batch_notify_vqs instead?
+
+Stefan
+
+--Vc4NIKc8AIDTKkid
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCUAXcACgkQnKSrs4Gr
+c8hCEwgAlT6OptGs4DHn9OifMcVdmQ0voS52qjVnDloG3VgJ1Hdo385T5OWOeOyd
+i7ir/9JQiS3PHSPaa9xiWJYyql+wSTef4uqwV0MRVp237vd7c7upweCVT7ZRQiNa
+1h9Dw5YenjySK7AGkdURzpH8A2bdyCPr6Fmqe/NhC9lF85WnGRO3hUI+ssC1Oy5v
+uFkPhH6pH8n2olWrvkWAXOUT6u2SHnU//GUI796m6NYvduuXuE+ZkGXs323f9tOt
+uhEj/+ygxSRc+62dpDMnrDN82m5Hu6mlVmQpOCmVTvZ91P+xv3taZ/U2Ro57JgMj
+yMnuzPYR49OL8tEV6f/nLrgy5KDooQ==
+=ZqHi
+-----END PGP SIGNATURE-----
+
+--Vc4NIKc8AIDTKkid--
+
 
