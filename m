@@ -2,42 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9B4374D0A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 03:48:06 +0200 (CEST)
-Received: from localhost ([::1]:33776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8DA374CF9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 03:43:24 +0200 (CEST)
+Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leT7V-0001Pb-7g
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 21:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56208)
+	id 1leT2x-0004QW-JY
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 21:43:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1leT0v-0002hD-J0
- for qemu-devel@nongnu.org; Wed, 05 May 2021 21:41:17 -0400
+ id 1leT0z-0002oV-Qt
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 21:41:21 -0400
 Received: from mga17.intel.com ([192.55.52.151]:23057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1leT0t-0007bf-VW
- for qemu-devel@nongnu.org; Wed, 05 May 2021 21:41:17 -0400
-IronPort-SDR: FLrnQY2q957Ax0OsYQ6XPB10OxYts+w1umfShzG3rmRP1PyZ6jLp/rn/R+/UFS/svMblWQ72Ho
- FwMvOvHlMugg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="178579151"
-X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="178579151"
+ id 1leT0x-0007bf-TZ
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 21:41:21 -0400
+IronPort-SDR: y/qu3Npheo07ldBzuBwPh76ssPPjuZ3B4dzzb8EzZN3UYsQGz7/rcWP+JS+PNavn9yYF8bKqPl
+ gAisC7CQ5EGQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="178579154"
+X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="178579154"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 18:41:14 -0700
-IronPort-SDR: ODijVWIWkzgja8CNKpLWpZYAZg3ObQCFIyQMQIh65kRS1XKW1o23AcwOk8oNfVSLYrsrlRx73v
- 2viTFNtg6E2A==
-X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="469220387"
+ 05 May 2021 18:41:19 -0700
+IronPort-SDR: 8GT797jRE+K50ygb3hvoSuOakNu3PTiA1JIToz/G3hVFiDuXm40UqGyFcUYM/Oyp7CP/3hsAZ2
+ mf4MBJwknD1w==
+X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="469220401"
 Received: from yy-desk-7060.sh.intel.com ([10.239.159.38])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 18:41:11 -0700
+ 05 May 2021 18:41:15 -0700
 From: Yuan Yao <yuan.yao@linux.intel.com>
 To: pbonzini@redhat.com
-Subject: [RFC][PATCH v1 05/10] Set the RAM's MemoryRegion::debug_ops for INTEL
- TD guests
-Date: Thu,  6 May 2021 09:40:32 +0800
-Message-Id: <20210506014037.11982-6-yuan.yao@linux.intel.com>
+Subject: [RFC][PATCH v1 06/10] Introduce new MemoryDebugOps which hook into
+ guest virtual and physical memory debug interfaces such as
+ cpu_memory_rw_debug,
+ to allow vendor specific assist/hooks for debugging and delegating accessing
+ the guest memory. This is required for example in case of AMD SEV platform
+ where the guest memory is encrypted and a SEV specific debug assist/hook will
+ be required to access the guest memory.
+Date: Thu,  6 May 2021 09:40:33 +0800
+Message-Id: <20210506014037.11982-7-yuan.yao@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210506014037.11982-1-yuan.yao@linux.intel.com>
 References: <20210506014037.11982-1-yuan.yao@linux.intel.com>
@@ -67,71 +72,94 @@ Cc: isaku.yamahata@intel.com, Thomas.Lendacky@amd.com, ashish.kalra@amd.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yuan Yao <yuan.yao@intel.com>
+From: Ashish Kalra <ashish.kalra@amd.com>
 
-Now only set the RAM's debug_ops for INTEL TD guests, SEV can also
-rely on the common part introduced in previous patch or introduce
-new debug_ops implementation if it's necessary.
+The MemoryDebugOps are used by cpu_memory_rw_debug() and default to
+address_space_read and address_space_write_rom.
 
+Yuan Yao: Exports the physical_memory_debug_ops variable for functions
+in target/i386/helper.c
+
+Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
 Signed-off-by: Yuan Yao <yuan.yao@intel.com>
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index d5a4345f44..772b19c524 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -60,6 +60,7 @@
- #include "sysemu/xen.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
-+#include "sysemu/tdx.h"
- #include "kvm/kvm_i386.h"
- #include "hw/xen/xen.h"
- #include "hw/xen/start_info.h"
-@@ -992,6 +993,9 @@ void pc_memory_init(PCMachineState *pcms,
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 7e6fdcb8e4..0250b50beb 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2498,6 +2498,20 @@ MemTxResult address_space_write_cached_slow(MemoryRegionCache *cache,
+                                             hwaddr addr, const void *buf,
+                                             hwaddr len);
  
-     /* Init ACPI memory hotplug IO base address */
-     pcms->memhp_io_base = ACPI_MEMORY_HOTPLUG_BASE;
++typedef struct MemoryDebugOps {
++    MemTxResult (*read)(AddressSpace *as, hwaddr phys_addr,
++                        MemTxAttrs attrs, void *buf,
++                        hwaddr len);
++    MemTxResult (*write)(AddressSpace *as, hwaddr phys_addr,
++                         MemTxAttrs attrs, const void *buf,
++                         hwaddr len);
++} MemoryDebugOps;
 +
-+    if (tdx_debug_enabled(machine->cgs))
-+        kvm_set_memory_region_debug_ops(NULL, *ram_memory);
- }
- 
- /*
-diff --git a/include/sysemu/tdx.h b/include/sysemu/tdx.h
-index 429bb0ff8e..bd0af77c03 100644
---- a/include/sysemu/tdx.h
-+++ b/include/sysemu/tdx.h
-@@ -16,4 +16,7 @@ void tdx_post_init_vcpu(CPUState *cpu);
- struct TDXCapability;
- struct TDXCapability *tdx_get_capabilities(void);
- 
-+struct ConfidentialGuestSupport;
-+bool tdx_debug_enabled(ConfidentialGuestSupport *cgs);
++// Export for functions in target/i386/helper.c
++extern const MemoryDebugOps *physical_memory_debug_ops;
 +
- #endif
-diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-index c4e5686260..d13d4c8487 100644
---- a/target/i386/kvm/tdx.c
-+++ b/target/i386/kvm/tdx.c
-@@ -384,3 +384,18 @@ static void tdx_guest_finalize(Object *obj)
- static void tdx_guest_class_init(ObjectClass *oc, void *data)
++void address_space_set_debug_ops(const MemoryDebugOps *ops);
++
+ static inline bool memory_access_is_direct(MemoryRegion *mr, bool is_write)
  {
- }
+     if (is_write) {
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 85034d9c11..c8029f69ad 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -171,6 +171,18 @@ struct DirtyBitmapSnapshot {
+     unsigned long dirty[];
+ };
+ 
++static const MemoryDebugOps default_debug_ops = {
++    .read = address_space_read,
++    .write = address_space_write_rom
++};
 +
-+bool tdx_debug_enabled(ConfidentialGuestSupport *cgs)
++const MemoryDebugOps *physical_memory_debug_ops = &default_debug_ops;
++
++void address_space_set_debug_ops(const MemoryDebugOps *ops)
 +{
-+    TdxGuest *tdx;
-+
-+    if (!cgs)
-+        return false;
-+
-+    tdx = (TdxGuest *)object_dynamic_cast(OBJECT(cgs),
-+                                          TYPE_TDX_GUEST);
-+    if (!tdx)
-+        return false;
-+
-+    return tdx->debug;
++    physical_memory_debug_ops = ops;
 +}
++
+ static void phys_map_node_reserve(PhysPageMap *map, unsigned nodes)
+ {
+     static unsigned alloc_hint = 16;
+@@ -3396,6 +3408,10 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
+         page = addr & TARGET_PAGE_MASK;
+         phys_addr = cpu_get_phys_page_attrs_debug(cpu, page, &attrs);
+         asidx = cpu_asidx_from_attrs(cpu, attrs);
++
++        /* set debug attrs to indicate memory access is from the debugger */
++        attrs.debug = 1;
++
+         /* if no physical page mapped, return an error */
+         if (phys_addr == -1)
+             return -1;
+@@ -3404,11 +3420,13 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
+             l = len;
+         phys_addr += (addr & ~TARGET_PAGE_MASK);
+         if (is_write) {
+-            res = address_space_write_rom(cpu->cpu_ases[asidx].as, phys_addr,
+-                                          attrs, buf, l);
++            res = physical_memory_debug_ops->write(cpu->cpu_ases[asidx].as,
++                                                   phys_addr,
++                                                   attrs, buf, l);
+         } else {
+-            res = address_space_read(cpu->cpu_ases[asidx].as, phys_addr,
+-                                     attrs, buf, l);
++            res = physical_memory_debug_ops->read(cpu->cpu_ases[asidx].as,
++                                                  phys_addr,
++                                                  attrs, buf, l);
+         }
+         if (res != MEMTX_OK) {
+             return -1;
 -- 
 2.20.1
 
