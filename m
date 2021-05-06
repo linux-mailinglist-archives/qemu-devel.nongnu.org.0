@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92C13755BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:35:07 +0200 (CEST)
-Received: from localhost ([::1]:58282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E952E3755BC
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:33:43 +0200 (CEST)
+Received: from localhost ([::1]:54106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lef5m-0000Mu-VV
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:35:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43182)
+	id 1lef4Q-0006tJ-Q2
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:33:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1leeyD-0002Ix-Go
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:27:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27945)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1leezs-000455-DD
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:29:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1leeyA-0003o4-VI
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:27:17 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1leezp-0004be-5Y
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:29:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620311233;
+ s=mimecast20190719; t=1620311336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4Yv7slJuaggEkZWT8w9+hStrjFobFpZmAlIidCRXr9I=;
- b=AtuS/nCdJOz7n/Z0fuOdCsdfzy90HbSktgYvq4rcWZt8OHYuabiYDy2ZP+z0Bif4Mqjr1k
- frJgo9SFxgGKbSSk4QYZ7dTN82RmkhNgV/zJrwaJ6Ata6ENKpyc2oL61RhmGpYX+2RWBpM
- pjlTaJl2vX+czU9WADNw+UhE2cNO0CI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-sLZEpAkMOxm5Ni39oCh1yw-1; Thu, 06 May 2021 10:27:10 -0400
-X-MC-Unique: sLZEpAkMOxm5Ni39oCh1yw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j136-20020a1c238e0000b029014675462236so1047212wmj.7
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:27:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4Yv7slJuaggEkZWT8w9+hStrjFobFpZmAlIidCRXr9I=;
- b=Pt9S3mSyMGJuKtyrWz6jyjZGo/vLZl3Bc57dqajubzuty7TBMp9d0X56VuiINcIgIy
- zIvixItNuaX7O9mnhqYRzUZ6XWEP18qHYm8byp5diBfFhsBXUsxEzAgEEboVGBIHFofx
- SR89A5nRHdM8rJ6JhkXTdxTmgLj6OF0079c50qsjlInWhD90cEPcFwRSp3gIdHKgWD6p
- lVEvlQcF2I04SnP2bkTHx1V/Ximi6HEtAO5vTZAN/pk4wKbCJlX7m6NZ0An48rxeQLf4
- z1/SjtZmpQk9v7ebNjRsyyDiGGZxmYQYShvbfaXIxdZuks04z2qiVZQED7Cjjk2qYokQ
- SPzg==
-X-Gm-Message-State: AOAM533kBRZGvfRSCZyRoiNYlb3vdavI/NvhOPWI+o9n2GOcfOO3rbre
- m8GbmKdLpfOxOjvTa8/dLA7nFfNNcAe4Mxf/nE+79N5trGuOSs9HR/Dtw0TP+CzSDDv1yuEpYg9
- Z3ell2OXhEe+CZ9A=
-X-Received: by 2002:a1c:9817:: with SMTP id a23mr4161881wme.171.1620311228844; 
- Thu, 06 May 2021 07:27:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx1Ih5W6g0n6aVCnLyKJbQPkXe2R/B3HV0qAW+5Cedmi3Ucf7RTbuA7LyKPI/qophjqxEGZeA==
-X-Received: by 2002:a1c:9817:: with SMTP id a23mr4161861wme.171.1620311228646; 
- Thu, 06 May 2021 07:27:08 -0700 (PDT)
-Received: from thuth.remote.csb (pd9575b79.dip0.t-ipconnect.de.
- [217.87.91.121])
- by smtp.gmail.com with ESMTPSA id l22sm9629461wmq.28.2021.05.06.07.27.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 May 2021 07:27:08 -0700 (PDT)
-Subject: Re: [PATCH v21 09/20] multi-process: define MPQemuMsg format and
- transmission functions
-To: Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1611938319.git.jag.raman@oracle.com>
- <56ca8bcf95195b2b195b08f6b9565b6d7410bce5.1611938319.git.jag.raman@oracle.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <7433948d-02bb-625f-b6b6-9421b1d7c05b@redhat.com>
-Date: Thu, 6 May 2021 16:27:05 +0200
+ bh=Mdbs+8zL0ZsR6n4jgVA72c4nLXnosqzKKX4khM1dLjo=;
+ b=SVcguRnDSSS8Eyx7CIo9b4hlFvW5MZR7ki0pFMW86+1uSAuXGYhSQqPj40c+K3pr1ymW4e
+ 7pwL2EkUsBB5fPRLj3Q92dzoZAyjip0efyon46GA9A9ZWXxzysOW4aq/w5d3n3JmXyGT+6
+ gYtAIM4v/0nW50xWgUiXx/P3663FDYc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-91-UrRYZ5BMPNC0cG3q7qBqBg-1; Thu, 06 May 2021 10:28:55 -0400
+X-MC-Unique: UrRYZ5BMPNC0cG3q7qBqBg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BEB2801107;
+ Thu,  6 May 2021 14:28:53 +0000 (UTC)
+Received: from [10.3.113.56] (ovpn-113-56.phx2.redhat.com [10.3.113.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 724BA19D61;
+ Thu,  6 May 2021 14:28:49 +0000 (UTC)
+Subject: Re: [PATCH v2 0/9] misc: Replace alloca() by g_malloc()
+To: Warner Losh <imp@bsdimp.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>
+References: <20210506133758.1749233-1-philmd@redhat.com>
+ <CANCZdfqiHxQoG+g3bq_KL01yWCHUbF5qxJWN=sD37h7UJFMZ7g@mail.gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <476d8b44-cba3-4bf2-d93c-d35736d316c6@redhat.com>
+Date: Thu, 6 May 2021 09:28:48 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <56ca8bcf95195b2b195b08f6b9565b6d7410bce5.1611938319.git.jag.raman@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CANCZdfqiHxQoG+g3bq_KL01yWCHUbF5qxJWN=sD37h7UJFMZ7g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -87,7 +66,7 @@ X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,52 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, kraxel@redhat.com, quintela@redhat.com,
- mst@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
- felipe@nutanix.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- dgilbert@redhat.com, alex.williamson@redhat.com, stefanha@redhat.com,
- thanos.makatos@nutanix.com, kwolf@redhat.com, berrange@redhat.com,
- mreitz@redhat.com, ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- pbonzini@redhat.com
+Cc: kvm@vger.kernel.org, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/01/2021 17.46, Jagannathan Raman wrote:
-> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+On 5/6/21 9:22 AM, Warner Losh wrote:
+> On Thu, May 6, 2021 at 7:39 AM Philippe Mathieu-Daudé <philmd@redhat.com>
+> wrote:
 > 
-> Defines MPQemuMsg, which is the message that is sent to the remote
-> process. This message is sent over QIOChannel and is used to
-> command the remote process to perform various tasks.
-> Define transmission functions used by proxy and by remote.
+>> The ALLOCA(3) man-page mentions its "use is discouraged".
+>> Replace few calls by equivalent GLib malloc().
+>>
 > 
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
-[...]
-> diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
-> new file mode 100644
-> index 0000000..b3d380e
-> --- /dev/null
-> +++ b/hw/remote/mpqemu-link.c
-[...]
-> +bool mpqemu_msg_valid(MPQemuMsg *msg)
-> +{
-> +    if (msg->cmd >= MPQEMU_CMD_MAX && msg->cmd < 0) {
-> +        return false;
-> +    }
+> Except g_alloc and g_malloc are not at all the same, and you can't drop in
+> replace one with the other.
+> 
+> g_alloc allocates stack space on the calling frame that's automatically
+> freed when the function returns.
+> g_malloc allocates space from the heap, and calls to it must be matched
+> with calls to g_free().
+> 
+> These patches don't do the latter, as far as I can tell, and so introduce
+> memory leaks unless there's something I've missed.
 
-  Hi!
+You missed the g_autofree, whose job is to call g_free() on all points
+in the control flow where the malloc()d memory goes out of scope
+(equivalent in expressive power to alloca()d memory going out of scope).
+ Although the code is arguably a bit slower (as heap manipulations are
+not as cheap as stack manipulations), in the long run that speed penalty
+is worth the safety factor (since stack manipulations under user control
+are inherently unsafe).
 
-A bug in this code has been reported on Launchpad:
-
-  https://bugs.launchpad.net/qemu/+bug/1926995
-
-Could someone please send a patch for this issue?
-
-  Thanks,
-   Thomas
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
