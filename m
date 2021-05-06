@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18E3375030
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 09:31:01 +0200 (CEST)
-Received: from localhost ([::1]:42944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7797437501D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 09:25:42 +0200 (CEST)
+Received: from localhost ([::1]:59584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leYTM-0004Oj-S1
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 03:31:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33848)
+	id 1leYOD-0007dY-Im
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 03:25:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leYOW-0008JY-A4
- for qemu-devel@nongnu.org; Thu, 06 May 2021 03:26:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54828)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leYOS-0006P1-Lm
- for qemu-devel@nongnu.org; Thu, 06 May 2021 03:26:00 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leYOR-0000SU-Bw
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:25:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 528EA2E8187
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 07:25:55 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1leYN1-00073z-VB
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:24:27 -0400
+Received: from mga01.intel.com ([192.55.52.88]:44151)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1leYMz-0005Dy-F3
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:24:27 -0400
+IronPort-SDR: nuGxl4cDBSaSr8TaoJL5SUITNhpdf+egIH2M6aIz7T1JnAjQ6xfr0hmQWSVBAHKG6WxPOXijb7
+ zO+v034ygiKA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="219278643"
+X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="219278643"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2021 00:24:17 -0700
+IronPort-SDR: XP108HyxrS4VZjriQvpXgcXzYiYUePf/hGwa6zTOHaJB7gFbr1wnLB7Monyp2dmneM1ViOxU8a
+ 3e4lJpt8T5dQ==
+X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="430401215"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.144.101])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 06 May 2021 00:24:15 -0700
+Date: Thu, 6 May 2021 15:11:46 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Kai Huang <kai.huang@intel.com>
+Subject: Re: [RESEND PATCH 13/32] linux-headers: Add placeholder for
+ KVM_CAP_SGX_ATTRIBUTE
+Message-ID: <20210506071146.GA21621@yangzhon-Virtual>
+References: <20210430062455.8117-1-yang.zhong@intel.com>
+ <20210430062455.8117-14-yang.zhong@intel.com>
+ <eb4c7f3035c4542ec78c6bf5c7ee98af36c46230.camel@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 07:11:17 -0000
-From: Thomas Huth <1866577@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: luoyonggang th-huth
-X-Launchpad-Bug-Reporter: Yonggang Luo (luoyonggang)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158371718383.12217.15072587639340612485.malonedeb@wampee.canonical.com>
-Message-Id: <162028507796.3176.2485328986654640937.malone@gac.canonical.com>
-Subject: [Bug 1866577] Re: powerpc-none-eabi-gdb.exe GDB 9.1 with QEMU 4.2
- gdb-stub comes with Reply contains invalid hex digit 79
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 23d0689e17b2bd3354e92b4657aab57468d86aff
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <eb4c7f3035c4542ec78c6bf5c7ee98af36c46230.camel@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=yang.zhong@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
 X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,44 +68,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1866577 <1866577@bugs.launchpad.net>
+Cc: yang.zhong@intel.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ seanjc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Which parameters do you use to run QEMU?
+On Thu, May 06, 2021 at 02:17:21PM +1200, Kai Huang wrote:
+> On Fri, 2021-04-30 at 14:24 +0800, Yang Zhong wrote:
+> > From: Sean Christopherson <sean.j.christopherson@intel.com>
+> > 
+> > KVM_CAP_SGX_ATTRIBUTE is a proposed capability for Intel SGX that can be
+> > used by userspace to enable privileged attributes, e.g. access to the
+> > PROVISIONKEY.
+> > 
+> > Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> > ---
+> >  linux-headers/linux/kvm.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> > index 020b62a619..0961b03007 100644
+> > --- a/linux-headers/linux/kvm.h
+> > +++ b/linux-headers/linux/kvm.h
+> > @@ -1056,6 +1056,7 @@ struct kvm_ppc_resize_hpt {
+> >  #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
+> >  #define KVM_CAP_SYS_HYPERV_CPUID 191
+> >  #define KVM_CAP_DIRTY_LOG_RING 192
+> > +#define KVM_CAP_SGX_ATTRIBUTE 195
+> >  
+> > 
+> 
+> This hasn't been updated to 196.
+>
+  As for KVM_CAP_SGX_ATTRIBUTE is still 195, i mentioned this in the coverletter, and this release
+  still rebased on KVM-SGX upstream branch(5.12.0-rc3+). Since the KVM-SGX series has been merged
+  into linux release in 5/1, i will rebase Qemu SGX on linux release in the next version patch series. 
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+> 
+> Btw, should we just copy the latest kvm.h from linux kernel? 193-195 are missing if only
+> define KVM_CAP_SGX_ATTRIBUTE here.
 
--- =
+  There are three macro definitions before KVM_CAP_SGX_ATTRIBUTE, and KVM_CAP_X86_BUS_LOCK_EXIT use case
+  is being upstreamed by our colleague. 
+  As for other two macro definitions, i am not sure if we need add those here. thanks!
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1866577
+  Yang
+  
 
-Title:
-  powerpc-none-eabi-gdb.exe GDB 9.1 with QEMU 4.2 gdb-stub comes with
-  Reply contains invalid hex digit 79
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  I am using powerpc-none-eabi-gdb with qemu 4.2, but it comes with =
-
-  the following error:
-
-  undefinedC:\CI-Tools\msys64\powerpc-none-eabi\usr\local\bin\powerpc-
-  none-eabi-gdb.exe: warning: Couldn't determine a path for the index
-  cache directory.
-
-  ```Not implemented stop reason (assuming exception): undefined```
-  The target architecture is assumed to be powerpc:603
-
-  ```
-  Reply contains invalid hex digit 79
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1866577/+subscriptions
 
