@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC59375B5F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 21:04:50 +0200 (CEST)
-Received: from localhost ([::1]:40228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C64375B5C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 21:04:23 +0200 (CEST)
+Received: from localhost ([::1]:38956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lejIn-0002k6-E0
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 15:04:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60754)
+	id 1lejIK-0002BP-9W
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 15:04:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lejBG-0005FQ-Fd
- for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29776)
+ id 1lejBO-0005ON-Db
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lejBC-0005Ui-QG
- for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:01 -0400
+ id 1lejBI-0005YN-Im
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620327416;
+ s=mimecast20190719; t=1620327422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=m5nh9heGzcxXARtpC1cgmy3r4WFYQBXfO3RmqgO9gOo=;
- b=FHj5Z56D3BwKZKGHp0O74klGizIJsbsJgM5jrB80RS00ILtLGb3di5HbqnQVRZXRZTRABV
- bOS6LgAfNSFRnac0L/pwu04Bt6mK+FNQPHaK9AoJA5CuMDgluTC/11qIIeJkpKPR61lu58
- 24nCsdm8wNhwgrXO/6y9JrgwsNCgZP0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=najyOKa4OMMiEhLX4pW0KgZbca/nbW78HPk/QQf4xDY=;
+ b=b/BYlceF9DQnOoEBxq5MICU7Qf+aIk5PnBkRPGFnpzhGjX7ZdhtEgDzVjL+SxJ96YzCEwE
+ /O18mrky5fYxS494FttImwAC707Fi7mvin1HuewwdAEKHGx5rDQ6kV70U/v8RDS7WyZzln
+ XOA3AXL4AZKsQo/l/cR/nDPmNOlSoaU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-cpN6B2AAP_ajgFbnNxBN3w-1; Thu, 06 May 2021 14:56:53 -0400
-X-MC-Unique: cpN6B2AAP_ajgFbnNxBN3w-1
+ us-mta-538-A0v8fMiNO6iF-zEqlVqJdg-1; Thu, 06 May 2021 14:56:59 -0400
+X-MC-Unique: A0v8fMiNO6iF-zEqlVqJdg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 657D91020C2A;
- Thu,  6 May 2021 18:56:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B53441922962;
+ Thu,  6 May 2021 18:56:58 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-37.ams2.redhat.com
  [10.36.115.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A38B019D9F;
- Thu,  6 May 2021 18:56:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0802119C46;
+ Thu,  6 May 2021 18:56:56 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, groug@kaod.org, jose.carlos.venegas.munoz@intel.com,
  ma.mandourr@gmail.com
-Subject: [PULL 00/12] virtiofs queue
-Date: Thu,  6 May 2021 19:56:29 +0100
-Message-Id: <20210506185641.284821-1-dgilbert@redhat.com>
+Subject: [PULL 03/12] virtiofsd: Add help for -o xattr-mapping
+Date: Thu,  6 May 2021 19:56:32 +0100
+Message-Id: <20210506185641.284821-4-dgilbert@redhat.com>
+In-Reply-To: <20210506185641.284821-1-dgilbert@redhat.com>
+References: <20210506185641.284821-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,57 +84,35 @@ Cc: virtio-fs@redhat.com, vgoyal@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Carlos Venegas <jose.carlos.venegas.munoz@intel.com>
 
-The following changes since commit d90f154867ec0ec22fd719164b88716e8fd48672:
+The option is not documented in help.
 
-  Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504' into staging (2021-05-05 20:29:14 +0100)
+Add small help about the option.
 
-are available in the Git repository at:
-
-  https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20210506
-
-for you to fetch changes up to 67a010f64cc9e33ba19ab389dedaa52013a9de8a:
-
-  virtiofsd/fuse_virtio.c: Changed allocations of locals to GLib (2021-05-06 19:47:44 +0100)
-
-----------------------------------------------------------------
-virtiofsd pull 2021-05-06
-
-A pile of cleanups:
-
-  Use of glib allocators from Mahmoud
-  Virtio spec compliance and printf cleanup from me.
-  Sugar to turn on xattr when defining xattr mapping from Carlos
-  an assert cleanup from Greg
-
+Signed-off-by: Carlos Venegas <jose.carlos.venegas.munoz@intel.com>
+Message-Id: <20210414201207.3612432-3-jose.carlos.venegas.munoz@intel.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+---
+ tools/virtiofsd/helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-----------------------------------------------------------------
-Carlos Venegas (2):
-      virtiofsd: Allow use "-o xattrmap" without "-o xattr"
-      virtiofsd: Add help for -o xattr-mapping
-
-Dr. David Alan Gilbert (2):
-      virtiofs: Fixup printf args
-      virtiofsd: Don't assume header layout
-
-Greg Kurz (1):
-      virtiofsd: Fix side-effect in assert()
-
-Mahmoud Mandour (7):
-      virtiofsd: Changed allocations of fuse_req to GLib functions
-      virtiofsd: Changed allocations of iovec to GLib's functions
-      virtiofsd: Changed allocations of fuse_session to GLib's functions
-      virtiofsd: Changed allocation of lo_map_elems to GLib's functions
-      virtiofsd: Changed allocations of fv_VuDev & its internals to GLib functions
-      virtiofsd/passthrough_ll.c: Changed local allocations to GLib functions
-      virtiofsd/fuse_virtio.c: Changed allocations of locals to GLib
-
- tools/virtiofsd/fuse_lowlevel.c  |  43 ++++++-------
- tools/virtiofsd/fuse_virtio.c    | 129 ++++++++++++++++++++++++++-------------
- tools/virtiofsd/helper.c         |   3 +
- tools/virtiofsd/passthrough_ll.c |  64 +++++++++----------
- 4 files changed, 139 insertions(+), 100 deletions(-)
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 28243b51b2..5e98ed702b 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -172,6 +172,9 @@ void fuse_cmdline_help(void)
+            "                               default: no_writeback\n"
+            "    -o xattr|no_xattr          enable/disable xattr\n"
+            "                               default: no_xattr\n"
++           "    -o xattrmap=<mapping>      Enable xattr mapping (enables xattr)\n"
++           "                               <mapping> is a string consists of a series of rules\n"
++           "                               e.g. -o xattrmap=:map::user.virtiofs.:\n"
+            "    -o modcaps=CAPLIST         Modify the list of capabilities\n"
+            "                               e.g. -o modcaps=+sys_admin:-chown\n"
+            "    --rlimit-nofile=<num>      set maximum number of file descriptors\n"
+-- 
+2.31.1
 
 
