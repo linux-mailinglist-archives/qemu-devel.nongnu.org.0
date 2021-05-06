@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D8C3755C8
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:39:15 +0200 (CEST)
-Received: from localhost ([::1]:37652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBA43755DD
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:46:49 +0200 (CEST)
+Received: from localhost ([::1]:52792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lef9m-0003rp-56
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:39:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48072)
+	id 1lefH5-0002LL-Mw
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:46:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lef6R-000218-N2
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:35:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53834)
+ id 1lefEM-0000as-O9
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:43:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lef6J-0000A6-N9
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:35:47 -0400
+ id 1lefEJ-0005eH-FJ
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:43:58 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lef6G-0004uj-JW
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 14:35:36 +0000
+ id 1lefEG-0001A6-3N
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 14:43:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 924252E804C
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 14:35:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0A38D2E834B
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 14:43:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 14:30:08 -0000
-From: Thomas Huth <1875762@bugs.launchpad.net>
+Date: Thu, 06 May 2021 14:33:14 -0000
+From: Thomas Huth <1874904@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Won't Fix; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: stefanha th-huth vorteil-alan
-X-Launchpad-Bug-Reporter: Alan Murtagh (vorteil-alan)
+X-Launchpad-Bug-Commenters: jbytibidi th-huth
+X-Launchpad-Bug-Reporter: Jean-Yves BAUDY (jbytibidi)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158811390770.10067.14727390581808721252.malonedeb@soybean.canonical.com>
-Message-Id: <162031140815.4369.1604950724412255150.malone@gac.canonical.com>
-Subject: [Bug 1875762] Re: Poor disk performance on sparse VMDKs
+References: <158776006238.17831.1947739599630021875.malonedeb@wampee.canonical.com>
+Message-Id: <162031159487.5872.5981848078029328914.malone@wampee.canonical.com>
+Subject: [Bug 1874904] Re: qemu windows with gtk and french keypad not working
+ as expected
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 559604f75d973a88b3c00f4e66b5d5768161e39e
+X-Launchpad-Hash: 7175cb85fd0ac79f8b5a4afdffd6f8d10535fc31
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,57 +71,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1875762 <1875762@bugs.launchpad.net>
+Reply-To: Bug 1874904 <1874904@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, I'm closing this now, since this is the expected behavior according
-to Stefan's description.
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting older bugs to "Incomplete" now.
+
+If you still think this bug report here is valid, then please switch
+the state back to "New" within the next 60 days, otherwise this report
+will be marked as "Expired". Or please mark it as "Fix Released" if
+the problem has been solved with a newer version of QEMU already.
+
+Thank you and sorry for the inconvenience.
+
 
 ** Changed in: qemu
-       Status: New =3D> Won't Fix
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1875762
+https://bugs.launchpad.net/bugs/1874904
 
 Title:
-  Poor disk performance on sparse VMDKs
+  qemu windows with gtk and french keypad not working as expected
 
 Status in QEMU:
-  Won't Fix
+  Incomplete
 
 Bug description:
-  Found in QEMU 4.1, and reproduced on master.
+  When I use qemu on Windows 10 with a French AZERTY keypad with the
+  correct options the emulated system keypad still QWERTY. If I use sdl
+  it works fine the emulated keypad is AZERTY.
 
-  QEMU appears to suffer from remarkably poor disk performance when
-  writing to sparse-extent VMDKs. Of course it's to be expected that
-  allocation takes time and sparse VMDKs peform worse than allocated
-  VMDKs, but surely not on the orders of magnitude I'm observing. On my
-  system, the fully allocated write speeds are approximately 1.5GB/s,
-  while the fully sparse write speeds can be as low as 10MB/s. I've
-  noticed that adding "cache unsafe" reduces the issue dramatically,
-  bringing speeds up to around 750MB/s. I don't know if this is still
-  slow or if this perhaps reveals a problem with the default caching
-  method.
+  Example of command with ubuntu live cd:
+  -> qemu-system-x86_64.exe  -m 4G ubuntu-18.04.4-desktop-amd64.iso -displa=
+y gtk -k fr
 
-  To reproduce the issue I've attached two 4GiB VMDKs. Both are
-  completely empty and both are technically sparse-extent VMDKs, but one
-  is 100% pre-allocated and the other is 100% unallocated. If you attach
-  these VMDKs as second and third disks to an Ubuntu VM running on QEMU
-  (with KVM) and measure their write performance (using dd to write to
-  /dev/sdb and /dev/sdc for example) the difference in write speeds is
-  clear.
+  NOTES:
+  =C2=A0- Using the same command on Linux works fine. The emulated keypad i=
+s AZERTY.
 
-  For what it's worth, the flags I'm using that relate to the VMDK are
-  as follows:
-
-  `-drive if=3Dnone,file=3Dsparse.vmdk,id=3Dhd0,format=3Dvmdk -device virti=
-o-
-  scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd0`
+  Qemu version : 4.2.0 on Windows 10
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1875762/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1874904/+subscriptions
 
