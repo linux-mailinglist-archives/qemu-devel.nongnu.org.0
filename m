@@ -2,66 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60610374D36
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 04:00:05 +0200 (CEST)
-Received: from localhost ([::1]:43352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A233B374D75
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 04:22:12 +0200 (CEST)
+Received: from localhost ([::1]:44648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leTJ6-0005pZ-Ag
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 22:00:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58624)
+	id 1leTeV-0002Qg-NG
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 22:22:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1leTHy-0005Hi-Q9; Wed, 05 May 2021 21:58:54 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:41791)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1leTHw-0001it-W8; Wed, 05 May 2021 21:58:54 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id l7so5315575ybf.8;
- Wed, 05 May 2021 18:58:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=55PulxY+2aI7FSmUytdxrXIbJ7zdhQbJKacth6BW6MQ=;
- b=YmlDCjNeYowmqAaWSWt1rSpTyv+nDsZk1UMw6sEQB/Qa1Ld+5EXKjrVs3g11vldlIK
- wG64IZQhPFSrv1E9zMgzM02xj0/pj5yHA46IWyzuE8PLP5b+IT/i8j5i16CZ3NoXnI3S
- TUW8eNAq8lbOpdSnx95nkLv+/h2RmAgpZdfo6v8KDUnWUt0i3Q1YINgEqbv2bGfyxQzO
- poV3vH9PsxfKsU0YR9P3/Q9M0CyE2RENuBjjj/tD3qPNQ4P481DzdnF+HByWGz3fj3GB
- u3AK/dc01gLtBdj2eaYGG0n7ImhWCo9zU/4uwBWNTBJ2p+AXA+YrwDtPv9Ly/Itw6182
- RpNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=55PulxY+2aI7FSmUytdxrXIbJ7zdhQbJKacth6BW6MQ=;
- b=ETRmh6GvKgGKA5F8kMqIew+s7zNpRx0EnAmN/oKC5WPokHLlyP9pAT05z/EBF5BA/3
- kMDZzVvzLS4tN9N7k83nb+WS+wLs4R2QM2tgtrqvpIATXehUX5VborgFBynUCPn5mA3U
- D2QVpjHqzn9xXHD30Pxnlel2O5anlL5QOmrpPZvYtGxjTWsC3MyvSLdvqqEI07SkFH96
- eulGdp6Z/FQLt6b8WTWs+yBX4+NPnAG2OjZGzJ9sKb68N/WF1MvA0jkSf4C6+zeAGL6Y
- A89xKqeod5oiB8LRlRa3ry5HNNni7JOkN7hHpLOOvOEE6vu0FupAxvNvewlhMBeRPC2X
- 8bCA==
-X-Gm-Message-State: AOAM531GPzYoMSrUz0ujGqcYrTmLPa913xn6tLLuJKoyiNQCyndaQGos
- Wl/jrVubn+3N9bcVzKLvKphAoOIx1rznNlvrDkE=
-X-Google-Smtp-Source: ABdhPJwVJAzeIPxfVhdvdwgegC93VJQ4n3e12PkuItf48v3IeGlM40tQa4QNHRA1w8gFjTmuYxVmjmdZRK+UiiYRA54=
-X-Received: by 2002:a25:d990:: with SMTP id q138mr2585649ybg.387.1620266331043; 
- Wed, 05 May 2021 18:58:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1leTav-0005ol-91; Wed, 05 May 2021 22:18:30 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:56487)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1leTaq-0004cV-Fd; Wed, 05 May 2021 22:18:27 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FbHLH5XqTz9sTD; Thu,  6 May 2021 12:18:15 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1620267495;
+ bh=GlMn/kYkx4XMKX5OM/3d1kqHLb59rMyb/NTUPM9dalM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Zg81B7QOHvJIntrEBiepKhSvDTi5fbLIBh/0fJvKs5BOfmI1mRWesL06F9fbJzl9E
+ sI+JcdtsHNtjf7mtqylCTCQ6M23Fw1S5Kfr6/dYVIO4jwwScFbf/a4vo/TMhw7wNIL
+ xmFrKSAqyj+RxKnwg0sz3yv2zfISvulGwYuNzD8k=
+Date: Thu, 6 May 2021 12:03:10 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+Subject: Re: [RFC PATCH v2 1/2] target/ppc: Moved functions out of mmu-hash64
+Message-ID: <YJNOXs2tD04vqGCD@yekko>
+References: <20210430184047.81653-1-lucas.araujo@eldorado.org.br>
+ <20210430184047.81653-2-lucas.araujo@eldorado.org.br>
+ <YI97GykbXX5u428t@yekko>
+ <6c67c7fb-a825-a469-a0dd-30c3c76c6472@eldorado.org.br>
 MIME-Version: 1.0
-References: <20210504124140.1100346-1-linux@roeck-us.net>
-In-Reply-To: <20210504124140.1100346-1-linux@roeck-us.net>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 6 May 2021 09:58:39 +0800
-Message-ID: <CAEUhbmVPqHyfZXSR0TS0_E1x-BbfHN869fjZWjWxQx4ASLVGnA@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/xlnx: Fix PHY address for xilinx-zynq-a9
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="thj9gqSxUknPu5tJ"
+Content-Disposition: inline
+In-Reply-To: <6c67c7fb-a825-a469-a0dd-30c3c76c6472@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,66 +60,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ farosas@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Guenter,
 
-On Tue, May 4, 2021 at 8:41 PM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Commit dfc388797cc4 ("hw/arm: xlnx: Set all boards' GEM 'phy-addr'
-> property value to 23") configured the PHY address for xilinx-zynq-a9
-> to 23. When trying to boot xilinx-zynq-a9 with zynq-zc702.dtb or
-> zynq-zc706.dtb, this results in the following error message when
-> trying to use the Ethernet interface.
->
-> macb e000b000.ethernet eth0: Could not attach PHY (-19)
->
-> The devicetree files for ZC702 and ZC706 configure PHY address 7. The
-> documentation for the ZC702 and ZC706 evaluation boards suggest that the
-> PHY address is 7, not 23. Other boards use PHY address 0, 1, 3, or 7.
-> I was unable to find a documentation or a devicetree file suggesting
-> or using PHY address 23.
+--thj9gqSxUknPu5tJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I can't find one neither :(
+On Wed, May 05, 2021 at 02:30:35PM -0300, Lucas Mateus Martins Araujo e Cas=
+tro wrote:
+>=20
+> On 03/05/2021 01:24, David Gibson wrote:
+> > On Fri, Apr 30, 2021 at 03:40:46PM -0300, Lucas Mateus Castro (alqotel)=
+ wrote:
+> > > The functions ppc_store_lpcr, ppc_hash64_filter_pagesizes and
+> > > ppc_hash64_unmap_hptes have been moved to mmu-misc.h since they are
+> > > not needed in a !TCG context and mmu-hash64 should not be compiled
+> > > in such situation.
+> > >=20
+> > > ppc_store_lpcr and ppc_hash64_filter_pagesizes are used by multiple
+> > > functions, while ppc_hash64_unmap_hptes is used by rehash_hpt (in
+> > > spapr_hcall.c).
+> > Hmm.. looking at it, ppc_store_lpcr() (and helper_store_lpcr()) don't
+> > really belong in this file at all.  The LPCR has some things related
+> > to the hash MMU, but plenty of others that don't.  So, maybe
+> > misc_helper.c?  That might have to be moved again, since misc_helper
+> > itself should probably mostly not be used for !TCG.  But.. one thing
+> > at a time.
+>=20
+> I tested here and compiling misc_helper.c with disable-tcg it's kind of
+> complicated and it would require many changes in it, so for this patch
+> just move it there and deal with it in a later patch?
 
-> The Ethernet interface starts working with
-> zynq-zc702.dtb and zynq-zc706.dtb when setting the PHY address to 7,
-> so let's use it.
->
-> Cc: Bin Meng <bin.meng@windriver.com>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->  hw/arm/xilinx_zynq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-> index 8db6cfd47f..5ac0294f9e 100644
-> --- a/hw/arm/xilinx_zynq.c
-> +++ b/hw/arm/xilinx_zynq.c
-> @@ -119,7 +119,7 @@ static void gem_init(NICInfo *nd, uint32_t base, qemu_irq irq)
->          qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
->          qdev_set_nic_properties(dev, nd);
->      }
-> -    object_property_set_int(OBJECT(dev), "phy-addr", 23, &error_abort);
-> +    object_property_set_int(OBJECT(dev), "phy-addr", 7, &error_abort);
->      s = SYS_BUS_DEVICE(dev);
->      sysbus_realize_and_unref(s, &error_fatal);
->      sysbus_mmio_map(s, 0, base);
-> --
+Yes, sounds reasonable.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+>=20
+> > AFAICT the only user of ppc_hash64_filter_pagesizes() is in
+> > spapr_caps.c.  For now you can just move it next to the caller, it's
+> > debatable whether it belongs more to PAPR or MMU code.
+>=20
+> Also I'm assuming the prototype should also be moved from
+> "target/ppc/mmu-hash64.h" to "include/hw/ppc/spapr.h" (or some other
+> spapr_*.h file), or should it be left in the original file?
 
-While we are here, could you please create a doc for the target you
-are testing with Linux/U-Boot/etc?
+Well, if you put it next to the caller you can make it static and
+remove the prototype entirely.
 
-I was having a hard time booting upstream U-Boot/Linux on QEMU zynqmp before.
+>=20
+> > ppc_hash64_unmap_hptes() is definitely TCG only and should stay where
+> > it is.  The call from rehash_hpt() can be solved because rehash_hpt()
+> > itself is TCG only.  I've already suggested splitting the TCG (well,
+> > softmmu) only things out from spapr_hcall.c, so it might simplify
+> > things to tackle that first.
+> >=20
+>=20
 
-Regards,
-Bin
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--thj9gqSxUknPu5tJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCTTlwACgkQbDjKyiDZ
+s5JCHQ//SE13omhlWyU/iGqzBPw9rf3CHDiiLb22uypG15EyV5rG+eSjUyXRYLuE
+bmFOLFILZ8RhjpOekgQS9W7LBqwZ0hf7OKxRaP9zwYAX3h57lu6QgV20CiJN3+ma
+pdyJJhdppUkOglmbjMYmkQ+cK5iEi6P/KBFxH3VEZbBuFt9TQx+l1rsgMPjIs61+
++lYIcMznhR2W8g82LAxpEecafVQ7DXwN6isbhwjTr3dxE3z5TA1V9Wpnum80w1y1
+8KhH1hlEbprAyOVsB6N2UKIo0HvkZ7coTLSmipjtCNLfk8qXQ5dMBuqQG5sm7hc3
+QeIvlxrjjb3sNbXOPRETYW7VWYsQu31DqQN/1/ZMW2/Blm8RJ716DYCxeyGfju1T
+95AvPLesXt9aGDewBOFa7kIP3/KyVj014iEQfYlOYFEHXQ5siP/NxX+e0RmXqVsR
+ryH9/oN5rATIekcyvG16UhCyyawksN5t+HVZR72YVSQ7d8gVYheh4dydx80FIzaM
+qxGEbjRvBuK5qRlm/6ZiqeXvVVjtH3qW1ZMwiYf78TJ518gNHUX1nQmcb/2oi1hO
+GyU95iqbVB+vLtphSc1kagbhZOreU/WhxRA4CiABSTKFU2Hwi3+Kt9/fQJ2QSXz3
+nkskW1M7s83wzv/ep/fzIkF4g6xKkGOAuw0ViuWX4cG09U41RTg=
+=NbVn
+-----END PGP SIGNATURE-----
+
+--thj9gqSxUknPu5tJ--
 
