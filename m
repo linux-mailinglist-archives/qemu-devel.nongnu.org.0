@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55EF33755F0
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:50:40 +0200 (CEST)
-Received: from localhost ([::1]:35678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE3BA3755FB
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:55:31 +0200 (CEST)
+Received: from localhost ([::1]:47314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lefKp-0006vb-CF
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:50:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56460)
+	id 1lefPX-0003O8-1F
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:55:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lefIG-0004zl-Mm
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:48:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45086)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lefID-00086b-5l
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:48:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620312476;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DAAAhqHp6EmAwbmCy8WbYsEfie2d/LRd4SnbYGYWy8E=;
- b=ZdXgr7rs1E4bKBinS3OmCx7zycxw5TiF5X42kp9dY3dxRwLwerjkBvcmDVYBLQ6PrvTV3w
- rMrM6yQgEhXLIwrgWCCSVpeSf0yh80ViWzNxIu2q3yAuiSrrZ5JnF6HHXP5w/L0wQsdJld
- 9AMKF6AH4JWVA5u0O3a8Ad3GjhMuq8s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-DZ0vEP29NVqYOxApg85_qQ-1; Thu, 06 May 2021 10:47:52 -0400
-X-MC-Unique: DZ0vEP29NVqYOxApg85_qQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85FD51008077;
- Thu,  6 May 2021 14:47:51 +0000 (UTC)
-Received: from localhost (ovpn-115-109.ams2.redhat.com [10.36.115.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 232CC5C277;
- Thu,  6 May 2021 14:47:20 +0000 (UTC)
-Date: Thu, 6 May 2021 15:47:19 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 06/23] hw/block/dataplane/virtio-blk: Avoid dynamic stack
- allocation
-Message-ID: <YJQBd+lnvQnbK0XH@stefanha-x1.localdomain>
-References: <20210505211047.1496765-1-philmd@redhat.com>
- <20210505211047.1496765-7-philmd@redhat.com>
- <YJOuesiuqgQugO+Q@stefanha-x1.localdomain>
- <124ddeb2-ca4a-c551-19ad-d1125451226f@redhat.com>
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lefJ7-00065N-QN
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:48:53 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:43529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lefJ3-000095-JY
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:48:53 -0400
+Received: by mail-qk1-x731.google.com with SMTP id a22so4567060qkl.10
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:48:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4Gb0I7ISeIJ1QqvZBHcd3YAVMORjuBTVTOovRqj2pUM=;
+ b=QXKAsXRdzB6Z9p0YOiFHSVzJNKe0Z3+WxHCeAtGu+Ki/CSZc+6gKRztKHg1GYPcCUk
+ EBIJzueuPrTdG3LH8gPG9a3dpaJl9Tld0lj3OXa9zlWE2cRaSIuZ8N+Iqi79hWpCjCIZ
+ uik3l+bZ/25pVklG4hvu6x6XMTbcHCzO2XvGbe+AGacUUYzaYE4HAuJbsAeAgf5EzSmN
+ bzetqBfqU4bdr6ScQ73ckMsFAqzTsMDyS+G5g+RoE59xxbB4qYFNcxMt7XYeaHzQWj4a
+ ZKZ0nOnrsRa44bFlekEdMXtSBbhjfV8tciIBlem9RlKC+MdrtQmI55qAJPm7jAwTPQRO
+ hqMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4Gb0I7ISeIJ1QqvZBHcd3YAVMORjuBTVTOovRqj2pUM=;
+ b=Em1vAg4fo0pbTpohmVGHfwkvX9FDiobNDcj1nb7yuMc3nMLtaGQhxBPjJLt1mW/oqW
+ L1QqZyhLMp4UqTP/ylt0QtXOQdSfDgdrQWJ9MaC+E6Gzex9u/EUNwRrQlsz6cw/ZGqDO
+ aLHuwzSusDLFz+6tdqnLUcBtILNNtYvzxvY1vpC2f7B5a0r3YVDD/OKEjY/RGhNIn2xL
+ kyryoXIzdT58uJc1RgImbu3cQXxwdyrRZ7lVrFGzWjN5ikZL+WGI2Rqp8ekQ9ZuHUBf2
+ 89k7vVPg2iGEenyvpcRkxjfP5pAcpdYa8CXa9wX46w68zYFPfZscf3/CvShxKeBkXVy2
+ oSQQ==
+X-Gm-Message-State: AOAM532qoGplkNfivb6G++kGLDJh7WqBjyGapZl+bKUf0GFl8Br7Tz6T
+ A1zixnS0bQ/wMw36d5SwE0h2pJ0TRfFG+HmT7rTKNw==
+X-Google-Smtp-Source: ABdhPJzoB4t5FgdV/5LEzVbTgT6jcxavkAR8WxPXlAl2GKUGjqdxD/h6izTHh3Nv+CBGgNK48IoVV6xmeGpj/lhF7N8=
+X-Received: by 2002:a37:7685:: with SMTP id r127mr4125026qkc.359.1620312528205; 
+ Thu, 06 May 2021 07:48:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <124ddeb2-ca4a-c551-19ad-d1125451226f@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Vc4NIKc8AIDTKkid"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210506133758.1749233-1-philmd@redhat.com>
+ <20210506133758.1749233-5-philmd@redhat.com>
+ <CANCZdfoJWEbPFvZ0605riUfnpVRAeC6Feem5_ahC7FUfO71-AA@mail.gmail.com>
+ <CAFEAcA9VL_h8DdVwWWmOxs=mNWj-DEHQu-U4L6vb_H4cGMZpPA@mail.gmail.com>
+In-Reply-To: <CAFEAcA9VL_h8DdVwWWmOxs=mNWj-DEHQu-U4L6vb_H4cGMZpPA@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Thu, 6 May 2021 08:48:37 -0600
+Message-ID: <CANCZdfpXjDECHmZq55zP43g32OVhnfjf9W+ERtPMFeDs2MmvXQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/9] bsd-user/syscall: Replace alloca() by g_new()
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000ab554205c1aa6823"
+Received-SPF: none client-ip=2607:f8b0:4864:20::731;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x731.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,89 +77,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: kvm-devel <kvm@vger.kernel.org>, Kyle Evans <kevans@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Vc4NIKc8AIDTKkid
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--000000000000ab554205c1aa6823
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 06, 2021 at 11:01:47AM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 5/6/21 10:53 AM, Stefan Hajnoczi wrote:
-> > On Wed, May 05, 2021 at 11:10:30PM +0200, Philippe Mathieu-Daud=E9 wrot=
-e:
-> >> Use autofree heap allocation instead of variable-length
-> >> array on the stack.
+On Thu, May 6, 2021 at 8:21 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Thu, 6 May 2021 at 15:17, Warner Losh <imp@bsdimp.com> wrote:
+> >
+> >
+> >
+> > On Thu, May 6, 2021, 7:38 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+.com>
+> wrote:
 > >>
-> >> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> >> The ALLOCA(3) man-page mentions its "use is discouraged".
+> >>
+> >> Replace it by a g_new() call.
+> >>
+> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > >> ---
-> >>  hw/block/dataplane/virtio-blk.c | 7 ++++---
-> >>  1 file changed, 4 insertions(+), 3 deletions(-)
-> >=20
-> > Why?
->=20
-> The motivation behind removing all variable-length allocations
-> (and adding CPPFLAG+=3D-Wvla at the end) is to avoid security
-> vulnerabilities such CVE-2021-3527.
+> >>  bsd-user/syscall.c | 3 +--
+> >>  1 file changed, 1 insertion(+), 2 deletions(-)
+> >>
+> >> diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
+> >> index 4abff796c76..dbee0385ceb 100644
+> >> --- a/bsd-user/syscall.c
+> >> +++ b/bsd-user/syscall.c
+> >> @@ -355,9 +355,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num=
+,
+> abi_long arg1,
+> >>      case TARGET_FREEBSD_NR_writev:
+> >>          {
+> >>              int count =3D arg3;
+> >> -            struct iovec *vec;
+> >> +            g_autofree struct iovec *vec =3D g_new(struct iovec, coun=
+t);
+> >
+> >
+> > Where is this freed?
+>
+> g_autofree, so it gets freed when it goes out of scope.
+>
+> https://developer.gnome.org/glib/stable/glib-Miscellaneous-Macros.html#g-=
+autofree
 
-I see. Please mention it in the commit description. There could be other
-reasons for this change, like minimizing stack usage, so I wasn't sure
-why.
 
-> > This is a performance-critical code path and BITS_TO_LONGS(nvqs) is
-> > small.
->=20
-> OK, having looked better at nvqs, I suppose this is preferred:
->=20
-> -- >8 --
-> @@ -60,7 +60,7 @@ static void notify_guest_bh(void *opaque)
->  {
->      VirtIOBlockDataPlane *s =3D opaque;
->      unsigned nvqs =3D s->conf->num_queues;
-> -    unsigned long bitmap[BITS_TO_LONGS(nvqs)];
-> +    unsigned long bitmap[BITS_TO_LONGS(VIRTIO_QUEUE_MAX)];
->      unsigned j;
->=20
->      memcpy(bitmap, s->batch_notify_vqs, sizeof(bitmap));
-> ---
->=20
-> Would that work for you?
+Ah. I'd missed that feature and annotation...  Too many years seeing
+patches like
+this in other projects where a feature like this wasn't there to save the
+day...
 
-It's a little risky since s->batch_notify_vqs does not have
-sizeof(bitmap). That makes uninitialized data and buffer overflows more
-likely. Your example has the bug:
+This means you can ignore my other message as equally misinformed.
 
-  memcpy(bitmap, s->batch_notify_vqs, sizeof(bitmap));
-                                      ^^^^^^^^^^^^^^
-  Accesses beyond the end of s->batch_notify_vqs[].
 
-Can we eliminate bitmap[] entirely by using bitops.h APIs on
-s->batch_notify_vqs instead?
+>
+> > Also, alloca just moves a stack pointer, where malloc has complex
+> interactions. Are you sure that's a safe change here?
+>
+> alloca()ing something with size determined by the guest is
+> definitely not safe :-) malloc as part of "handle this syscall"
+> is pretty common, at least in linux-user.
+>
 
-Stefan
+Well, since this is userland emulation, the normal process boundaries will
+fix that. allocating from
+the heap is little different..., so while unsafe, it's the domain of
+$SOMEONE_ELSE to enforce
+the safety. linux-user has many similar usages for both malloc and alloca,
+and it's ok for the
+same reason.
 
---Vc4NIKc8AIDTKkid
-Content-Type: application/pgp-signature; name="signature.asc"
+Doing a quick grep on my blitz[*] branch in the bsd-user fork shows that
+alloca is used almost
+exclusively there. There's 24 calls to alloca in the bsd-user code. There's
+almost no malloc
+calls (7) in that at all outside the image loader: all but one of them are
+confined to sysctl
+emulation with the last one used to keep track of thread state in new
+threads...
+linux-user has a similar profile (20 alloca's and 14 mallocs outside the
+loader),
+but with more mallocs in other paths than just sysctl (which isn't present)=
+.
 
------BEGIN PGP SIGNATURE-----
+I had no plans on migrating to anything else...
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCUAXcACgkQnKSrs4Gr
-c8hCEwgAlT6OptGs4DHn9OifMcVdmQ0voS52qjVnDloG3VgJ1Hdo385T5OWOeOyd
-i7ir/9JQiS3PHSPaa9xiWJYyql+wSTef4uqwV0MRVp237vd7c7upweCVT7ZRQiNa
-1h9Dw5YenjySK7AGkdURzpH8A2bdyCPr6Fmqe/NhC9lF85WnGRO3hUI+ssC1Oy5v
-uFkPhH6pH8n2olWrvkWAXOUT6u2SHnU//GUI796m6NYvduuXuE+ZkGXs323f9tOt
-uhEj/+ygxSRc+62dpDMnrDN82m5Hu6mlVmQpOCmVTvZ91P+xv3taZ/U2Ro57JgMj
-yMnuzPYR49OL8tEV6f/nLrgy5KDooQ==
-=ZqHi
------END PGP SIGNATURE-----
+Warner
 
---Vc4NIKc8AIDTKkid--
+--000000000000ab554205c1aa6823
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 6, 2021 at 8:21 AM Peter =
+Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linar=
+o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">On Thu, 6 May 2021 at 15:17, Warner Losh &lt;<a href=3D"mailto:imp@bsd=
+imp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; On Thu, May 6, 2021, 7:38 AM Philippe Mathieu-Daud=C3=A9 &lt;<a href=
+=3D"mailto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a>&gt; w=
+rote:<br>
+&gt;&gt;<br>
+&gt;&gt; The ALLOCA(3) man-page mentions its &quot;use is discouraged&quot;=
+.<br>
+&gt;&gt;<br>
+&gt;&gt; Replace it by a g_new() call.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:p=
+hilmd@redhat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 bsd-user/syscall.c | 3 +--<br>
+&gt;&gt;=C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c<br>
+&gt;&gt; index 4abff796c76..dbee0385ceb 100644<br>
+&gt;&gt; --- a/bsd-user/syscall.c<br>
+&gt;&gt; +++ b/bsd-user/syscall.c<br>
+&gt;&gt; @@ -355,9 +355,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int=
+ num, abi_long arg1,<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 case TARGET_FREEBSD_NR_writev:<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int count =3D arg3=
+;<br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iovec *vec;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree struct iovec=
+ *vec =3D g_new(struct iovec, count);<br>
+&gt;<br>
+&gt;<br>
+&gt; Where is this freed?<br>
+<br>
+g_autofree, so it gets freed when it goes out of scope.<br>
+<a href=3D"https://developer.gnome.org/glib/stable/glib-Miscellaneous-Macro=
+s.html#g-autofree" rel=3D"noreferrer" target=3D"_blank">https://developer.g=
+nome.org/glib/stable/glib-Miscellaneous-Macros.html#g-autofree</a></blockqu=
+ote><div><br></div><div>Ah. I&#39;d missed that feature and annotation...=
+=C2=A0 Too many years seeing patches like</div><div>this in other projects =
+where a feature like this wasn&#39;t there to save the day...</div><div><br=
+></div><div>This means you can ignore my other message as equally misinform=
+ed.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+><br>
+&gt; Also, alloca just moves a stack pointer, where malloc has complex inte=
+ractions. Are you sure that&#39;s a safe change here?<br>
+<br>
+alloca()ing something with size determined by the guest is<br>
+definitely not safe :-) malloc as part of &quot;handle this syscall&quot;<b=
+r>
+is pretty common, at least in linux-user.<br></blockquote><div><br></div><d=
+iv>Well, since this is userland emulation, the normal process boundaries wi=
+ll fix that. allocating from</div><div>the heap is little different..., so =
+while unsafe, it&#39;s the domain of $SOMEONE_ELSE to enforce</div><div>the=
+ safety. linux-user has many similar usages for both malloc and alloca, and=
+ it&#39;s ok for the</div><div>same reason.</div><div><br></div><div>Doing =
+a quick grep on my blitz[*] branch in the bsd-user fork shows that alloca i=
+s used almost</div><div>exclusively there. There&#39;s 24 calls to alloca i=
+n the bsd-user code. There&#39;s almost no malloc</div><div>calls (7) in th=
+at at all outside the image loader: all but one of them are confined to sys=
+ctl</div><div>emulation with the last one used to keep track of thread stat=
+e in new threads...</div><div>linux-user has a similar profile (20 alloca&#=
+39;s and 14 mallocs outside the loader),</div><div>but with more mallocs in=
+ other paths than just sysctl (which isn&#39;t present).</div><div><br></di=
+v><div>I had no plans on migrating to anything else...</div><div><br></div>=
+<div>Warner</div><div><br></div></div></div>
+
+--000000000000ab554205c1aa6823--
 
