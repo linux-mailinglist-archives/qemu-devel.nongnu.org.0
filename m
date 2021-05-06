@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53948375B6A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 21:08:40 +0200 (CEST)
-Received: from localhost ([::1]:47492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09382375B6B
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 21:08:41 +0200 (CEST)
+Received: from localhost ([::1]:47534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lejMV-0005q7-Ca
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 15:08:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60968)
+	id 1lejMW-0005r0-3M
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 15:08:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lejBg-0005Ys-Mo
- for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41841)
+ id 1lejBk-0005dV-2i
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lejBY-0005gY-U0
- for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:28 -0400
+ id 1lejBa-0005hA-NI
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620327439;
+ s=mimecast20190719; t=1620327441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gQhs0sX6Gga/1nq9tf6Zeb6knuemXeTEYKTqI3NVdCE=;
- b=MClAVfkQCvFPdZAX+exE8bFkIcSky8I/j6qDGtpuZogad0kGy83EmglRRz4YuavauAWTzk
- TTpNPcKfoy4oSGHA54RFrOcIhWBNMG0XnbO/RyR1g36XSY4g6e44q/AGjlj3zzYMMoSBqR
- Wlg7oJtkwuO3LeBXGpNmmmOcnVxZEg8=
+ bh=JquNheQ5J3TfJAaGrv5GVQ6BvlpknW/T+aC6f2aZLAU=;
+ b=XkM5X9qE5d60BQb9QWcNpIgEVCgvTrwVldI+sfrctc3I7i1IK9JL4crkDrCDACOlKvXNph
+ qJMYrUFFMClOoc4Gg8LZyaROhAVVMkBlIYgz9R2jxNmr6dcBuM/t4izquqBv5gM1Eqwyg5
+ w2DT8qaGSqxXDf3GdRGuEYKxgwGlG14=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-jGRPHT8PO6mHvl5Vo409MA-1; Thu, 06 May 2021 14:57:17 -0400
-X-MC-Unique: jGRPHT8PO6mHvl5Vo409MA-1
+ us-mta-590-hT442_iDOYO7Vg9BA54KDA-1; Thu, 06 May 2021 14:57:18 -0400
+X-MC-Unique: hT442_iDOYO7Vg9BA54KDA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 473D1C7401;
- Thu,  6 May 2021 18:57:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 515AC8042A3;
+ Thu,  6 May 2021 18:57:17 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-37.ams2.redhat.com
  [10.36.115.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD3E219C46;
- Thu,  6 May 2021 18:57:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9720D19C46;
+ Thu,  6 May 2021 18:57:15 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, groug@kaod.org, jose.carlos.venegas.munoz@intel.com,
  ma.mandourr@gmail.com
-Subject: [PULL 08/12] virtiofsd: Changed allocations of fuse_session to GLib's
+Subject: [PULL 09/12] virtiofsd: Changed allocation of lo_map_elems to GLib's
  functions
-Date: Thu,  6 May 2021 19:56:37 +0100
-Message-Id: <20210506185641.284821-9-dgilbert@redhat.com>
+Date: Thu,  6 May 2021 19:56:38 +0100
+Message-Id: <20210506185641.284821-10-dgilbert@redhat.com>
 In-Reply-To: <20210506185641.284821-1-dgilbert@redhat.com>
 References: <20210506185641.284821-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -87,48 +87,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-Replaced the allocation and deallocation of fuse_session structs
-from calloc() and free() calls to g_try_new0() and g_free().
+Replaced (re)allocation of lo_map_elem structs from realloc() to
+GLib's g_try_realloc_n() and replaced the respective free() call
+with a g_free().
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20210420154643.58439-4-ma.mandourr@gmail.com>
+Message-Id: <20210420154643.58439-5-ma.mandourr@gmail.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-index 88496f9560..7fe2cef1eb 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -2470,7 +2470,7 @@ void fuse_session_destroy(struct fuse_session *se)
-     free(se->vu_socket_path);
-     se->vu_socket_path = NULL;
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 93a49db3cd..406b5bd10e 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -406,7 +406,7 @@ static void lo_map_init(struct lo_map *map)
  
--    free(se);
-+    g_free(se);
+ static void lo_map_destroy(struct lo_map *map)
+ {
+-    free(map->elems);
++    g_free(map->elems);
  }
  
- 
-@@ -2493,7 +2493,7 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
-         return NULL;
+ static int lo_map_grow(struct lo_map *map, size_t new_nelems)
+@@ -418,7 +418,7 @@ static int lo_map_grow(struct lo_map *map, size_t new_nelems)
+         return 1;
      }
  
--    se = (struct fuse_session *)calloc(1, sizeof(struct fuse_session));
-+    se = g_try_new0(struct fuse_session, 1);
-     if (se == NULL) {
-         fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate fuse object\n");
-         goto out1;
-@@ -2553,7 +2553,7 @@ struct fuse_session *fuse_session_new(struct fuse_args *args,
- out4:
-     fuse_opt_free_args(args);
- out2:
--    free(se);
-+    g_free(se);
- out1:
-     return NULL;
- }
+-    new_elems = realloc(map->elems, sizeof(map->elems[0]) * new_nelems);
++    new_elems = g_try_realloc_n(map->elems, new_nelems, sizeof(map->elems[0]));
+     if (!new_elems) {
+         return 0;
+     }
 -- 
 2.31.1
 
