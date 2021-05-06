@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1367C375168
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:19:40 +0200 (CEST)
-Received: from localhost ([::1]:47202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B906A375148
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:09:42 +0200 (CEST)
+Received: from localhost ([::1]:56850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leaAV-0004dc-4K
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:19:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60316)
+	id 1lea0r-0004ou-Q6
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leZyK-0002X8-LB; Thu, 06 May 2021 05:07:05 -0400
+ id 1leZyO-0002Ym-Bg; Thu, 06 May 2021 05:07:10 -0400
 Received: from mail-eopbgr60093.outbound.protection.outlook.com
  ([40.107.6.93]:50670 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1leZyI-0002tO-PG; Thu, 06 May 2021 05:07:04 -0400
+ id 1leZyL-0002tO-7k; Thu, 06 May 2021 05:07:08 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=duCv+mJfmvmPpR3x8qUyZ/rUbIAiep97EyGUidUUAzH2G9hdQcH5BPmVQOI+1D1FjzB0Uh7e0O+ITv5DyGT03ZHUKjHr/weXz0nHPibtKYxm5cm+m7wR9ej7SEAtw5NJ8A/6cp5s9vV5vNJPiO3HbstmJh5VgRlh/Nf5y6fxZqzSnfNknpcNUq1BpkAh/0AuVcK6/KjAVxwdrWY4aSMz9cE9XlkD//BFEFBxqritsMtcAstdKjeLN94x0QJOWl9eGCEg3dJjv12EN0UGB9/SU4CZi5THA9Rh3ZF1/iNxjpzGOTmbpWK2iqjCHWNmYiCz7EKdiMSuaPym60Wenbwh6Q==
+ b=XIOnwzfbnZdbGubk6hktPb2UqtNWymx4L4aV7+cddqDlU4+XWHguRmMGubiWuHyUeCnMHmIsF2Wh1ZLvspko3y6YnmbeJbliKPicmGgcsKqImBmgYn0128TzkBI1AXOhDpwU9ouzDp25wiBJLrJUV6f0MAe4s6wUxpx6Nn1QMQo9oOnCdMUKFbTh5gSkMBA9QdEMtfUeXfcdoIVeVnXM20ABn0+PMxxwsZV3c2Z6XbXBu9cUShwH0pj3KEGr5eP1Ebw5+pvJ0raHIMuFoje7LzwVswa1RqjNsMARpGBD16OeIViR4UgfsmEIUQYuS+L83eXzLrh2ReZZB+KqRVugog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZMUyUN2/eQUPFpuUX66SjXb7kxCCrp3O/d4hQr0QRU4=;
- b=oRi7LV9bWVdKtDRheAxisVrY9F+lQWYqF6xIKsyM7C9rlkHUavWl5LzEMjVXQVC/y0D5MEoceDSrvLlVphpt4H6ghNewWkkPH2e6M/fguuF/t0XoVncNyqC+1a0vF8O7T7roRAjvs7DDcIM43ad6csBVgNq4NMR2EffQJEazr+eTb7t/VfYsFylxwRB7wiA6ubbFm/sY2yS28/KqE3DiZSyG38WrTQcUoj16QqNsQtNn+lZg76DpBhzn6xFy7aZgj5+A/a1eNoemWjwXyqifv+HKtpo/PoOSIMFct9y5t7HOG6UuGQclTflN6uyJEIxcR9UmAhspOPiDTTy+Ndb5Dg==
+ bh=dQpTMrlJpXfNGPXl/8hXhgnKwhByqoTByrokQat5ef0=;
+ b=Y4wga2byI6UY1jKn/8vaINPgAGvwK6Yq/fVIw2b3qvdzi4v2gmhA8A1FcbygquaEGJdZsTOUtlpNP4ORFp0HVQ0RMxBAwai0Jgwv7Zdt0GIfkZrtQ3NBO+QizP7/S7x66Pvsq4Jy5wnV4oNjLsO+iNmIEja8Ref0eeRirjUZkjK5rrgWtThmkEuOTEhfh6Mi233jNe/wPGB2GLAJ4i1moBVIMiw9pd9JVNUXgujY8C7w24DJsT6+8B6wOHXGkyhmH9syJwprQpcnXKuwcCXUpv4/2+rkpfXwM3jdWjUO4sjLx2SOgFrFNJmP4+cb1xlYNb6BRHwgxIOZmcKX+X5PZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZMUyUN2/eQUPFpuUX66SjXb7kxCCrp3O/d4hQr0QRU4=;
- b=W8WZOswJTy7nKGWe8s7w5RP/klixx3bwAidjfgWkYqt2RURHPPXxLcfryyXFd7GUkcTEXR45Zy0KlKzD/fLlXsvl4VH7y6WTGWCElxAPp7r+x1O71EOSSrDWZP9rJQrBpUmzuY1JXb6ncYwm5DSWnzwzvXtAVkiHgMfP4SiiC6A=
+ bh=dQpTMrlJpXfNGPXl/8hXhgnKwhByqoTByrokQat5ef0=;
+ b=QxgzdaIHw9+f+UXCJmS6N8gxnBVM6Vd9laqfWyCWFB7LhOZkyAtL3/WAIPbssX1ko0lkCb8b74auImxLAT40uIRwM16dOiKfDpM8wyTkQwmGn4RBBXWMIMmNjRRm/5BycQHW45+hEFZ8Bwya4hIze7ep85J9WxRZbPriUAAmyHA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4166.eurprd08.prod.outlook.com (2603:10a6:20b:a6::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.26; Thu, 6 May
- 2021 09:06:45 +0000
+ 2021 09:06:47 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.026; Thu, 6 May 2021
- 09:06:45 +0000
+ 09:06:47 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
  eesposit@redhat.com, pbonzini@redhat.com
-Subject: [PATCH v3 6/8] test-write-threshold: drop extra tests
-Date: Thu,  6 May 2021 12:06:19 +0300
-Message-Id: <20210506090621.11848-7-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 7/8] test-write-threshold: drop extra TestStruct structure
+Date: Thu,  6 May 2021 12:06:20 +0300
+Message-Id: <20210506090621.11848-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210506090621.11848-1-vsementsov@virtuozzo.com>
 References: <20210506090621.11848-1-vsementsov@virtuozzo.com>
@@ -66,52 +66,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.236) by
  HE1P195CA0011.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.25 via Frontend Transport; Thu, 6 May 2021 09:06:44 +0000
+ 15.20.4108.25 via Frontend Transport; Thu, 6 May 2021 09:06:45 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 187e6bfa-b642-46be-3aae-08d9106e45f5
+X-MS-Office365-Filtering-Correlation-Id: 933fd35a-56f8-431c-ecdb-08d9106e469e
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4166:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4166322A60A7548F10B1BE1BC1589@AM6PR08MB4166.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:561;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4166B18A7F65FEBD10EB727CC1589@AM6PR08MB4166.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2089;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IxFe95mOt0l9GzS7GX7tXwcu9NDNC37gQsgWqAM/NW23FH8dTdbqmwA1h4/NrVOtnmWfi/MGhRWO9elROFJ/kCXuppPO58DTqV85qxrCXjCk1dbxSQ/v1/4wVySBDGpP4F1iQMA6MdYlW5EMstEbaChfnortga89x6lO4Kg2iVL5cCbQoHPclTlR4Wn/jVhe6PqtxRrdw1PXABEznxxRZ6iuGC1ebogp8fVZxchTtkEja2yy9W52fuU5Kyex0LSMWkh0Oop4RKCHOHF7owcwRvzb0FrYpD74YdrUYngo7+e8YSSPx3t5sSQA1z9dPqzPKtYkl6XD0QomDWE/KKzcjS4Nn0pQi6n69chM7PQZraT4R/Au1lXwAsm1YzVKS+MNZUF0sD0fi+0PGjNpa7h6wNPyEf1flRcPi1a6Ma5Ll36m0iCpuarOdC7Jr5r+gTAUcnkLwp/5DpUIXpIvbbfQBj5CDRHt92pYd9kxJHhqBkusZ6pp73RS5JEa9LUUyW1xLq2yoEkb7dgqJQ1oDKBhbGUQnhNlKVzAHcQgMbKcH4qXCwGsGmijSPZa1xkiiepFkTPA4RuTahZ+ZOqGxOYOWuA1VXaaaeckoTy9LvME6+YgNKBrN5OGdTbUK7vhtv9BMYvePhWD/G4nNFETpD1MEFyDFFfay+aLbMw2hgSSycvaW348H+1tRERLOTiwcZcP
+X-Microsoft-Antispam-Message-Info: k64WIZAHaTQve9OEgZMPOv+cvkTcJtpka2VeHvSS3dFUVVF8dsCU//qu6y3fXqWSl3W1h8K+5OJwB1qHb0AjYnR1LR7iUFOTccC0hD0DT84j40Yr6sXH2w+qSaGxT0cHgGKTXxgIGNNfrjHs0TKQu6A/on3jfIH3Oi3Eh+VTzs2BwNEF9OyxoPI37ws5mpsURhTtloCYwheCDpeb7TO7aYqvN/ecGJho+DHvjbI834PkbCFaJrlHF9PUv1L2RAUxTOCwrRFReOzWVevP18TapkvzucUniRnZqXNZjMQu7PX4m6e/ZPi0U1HVEhgMVFPu2ydeK90PKBWYUgxsWHqBR3JKY1be6QFTpxSkqSKEwril/zzTr50fLVFEUavMIQWTiXoL8oqfWj0os7tpkZiB4c1jObKtE10b00C2bBNC1HHYhsRznwkd+dWMcmhFtOgHxBzK6f1ORtGJfWlrYj+7MjC6+ZCabC/X9MybxxDQmJonawh7YJjdilx7BV5lsK4v9wZxbzYqmlvSAdvp46ocDrBKEPe5w2qSXJPmJNHqRJbDOa6wxsgukuhSAJSHlHwL8f7h1vc32nf5TZJWQ664+Q2uSMNq7T/UfnpyAhjTZT//28T+jWUHzCOZGPGeLg/7mvKx/2vX3POhMRBRQ9w7XXhrvMx/gmNB3ZlvXvN+LY7w9gMemPt1i/CLGbl6wxNV
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(396003)(39840400004)(346002)(366004)(376002)(136003)(86362001)(66556008)(6512007)(8936002)(66476007)(66946007)(316002)(6666004)(8676002)(36756003)(6486002)(1076003)(52116002)(4326008)(478600001)(2906002)(956004)(186003)(83380400001)(6916009)(6506007)(38350700002)(2616005)(38100700002)(26005)(16526019)(5660300002)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?hbYMkJe/VMJLOd8T3C6Wz0V9eMqzg5twCIi8MDbydgTYZfEj2X4/qj2K4fq5?=
- =?us-ascii?Q?gY4XC8UCW2AJZbH3GhXtt2imYqECW/6iGtI52HiC68tpJsLMd36BDL8G8gTr?=
- =?us-ascii?Q?VTdBM3yXKmM88FiM5ooplCNtFOSXoFCe8lmIfTu6eWtMyHq7knjlrFw2FvLA?=
- =?us-ascii?Q?sEZCBm0CmU//fF/0Pnw5UhEku7oX60jfnT+Ie/CZt24kf1zqbK9Ekj+vrTSk?=
- =?us-ascii?Q?IBym1OUYybBTOjr/OKW3NC6S5yF8NnOPSXQLtUEYsiho3ucDFW295gq2hWp5?=
- =?us-ascii?Q?rjFNEYB4wTGbPFBbt9iJzZGxQ+Y76gryFIszZevNarGLG5xcm/uxVbsYxk6P?=
- =?us-ascii?Q?Ksdtk02K3FpR5kutxOKyi9Mxmk6Mdm4lY7XRzJrOSfm1TQTB8QHLVIJLjPKf?=
- =?us-ascii?Q?FyJ0kHhyFROWR3ON/jbu26y9kxlaWxB2HM2eYFQ6+pE5ApXLsvAUS6DypyMI?=
- =?us-ascii?Q?RIs7S+XB9MUQmDTfIuMzOqnvBoNMlav13XHYj8qmScNJ/nXpGEmClUwTBU29?=
- =?us-ascii?Q?F/r/CNVfjlPb6W58TGA2MfIjoTB0oePkeDhO4NniPv0q5ACWe67FBvu7vVjG?=
- =?us-ascii?Q?RgMsB8yMCnoYivDb1jY3+weKGa/6XZIzpy2T7GYs+vusSgJfrXoSe+Bih3N4?=
- =?us-ascii?Q?ClM4i2WlHuabykGr5ggMqt9Z/1/DCPjZntGgcy1ZAfS3ZFuX5HpeDTlko1wo?=
- =?us-ascii?Q?kV8znwOZKBInSEm8FmWV9kfEdP/asxeQRLi1vH5X3NkVHURu6gwviKjhY7ey?=
- =?us-ascii?Q?uOG5pmo+3SOaYA/h1PxXGeCV4O+lsF3WGwWOL12ez8COu9JKkiLYBjHkMwXo?=
- =?us-ascii?Q?mQP9ELPjYL22zEwoqHAh71mfPMq+Pw2VyFMP4DzI0Mrzm007ZhfixSaOLh6u?=
- =?us-ascii?Q?leziZsS2bmVVupz2CdchI1rl3g9Vt+gDIJQYtGYzsJjLItgtN8UfGoN4UCb1?=
- =?us-ascii?Q?3/KycwRswqjxE+tWRC6RVtRmPQ6yZVxaNf5e5nL4f8n/hP7qkuYJ14iU5kcB?=
- =?us-ascii?Q?OQwrvSZ9OI+7vclw/BzfCRzbaUaRTyv22axHgDZO3K40D2lgFVaYvsmo42l9?=
- =?us-ascii?Q?sGOkFY2ZLic58pcYNDJAXRy+SHFd91CprKU9WhT2klo/Y26heYqkBYJHlCVM?=
- =?us-ascii?Q?3oG1PFwNJDm1WF0ZUhW1FLXpSqsocY34S+DnLI69qLMy/VoZLMrHm/3a6Utn?=
- =?us-ascii?Q?PsjwuMU+Z+0hxL+3XHm1cYqJtgNJoqU1H8stQcl1wDAnFoCGxzyWlju9wgS6?=
- =?us-ascii?Q?3uNg1HVXuEXVv3R7e8EEY9Xt2O68IQVLroSHlUDY++olBtM8uIc5O1ggL9lc?=
- =?us-ascii?Q?ECxZw9TIZSCMSOhvegl9541s?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?L7lD3ndxvMaSNtHvurYkVa3hVztqTZU08DB6dhCOPuxz8zNK9dBEIKd45hVA?=
+ =?us-ascii?Q?Sp6zp/f3K1+QJaSkYpVkB1MTaJgQsaztYY40I57FtUBqAs0MQ1h1NVCG+5/7?=
+ =?us-ascii?Q?l4NXyC5tZ32cm17gq0btDKV29lJUWFNtkow6tlerJAkJOpcnMLQ2OBbgTPKt?=
+ =?us-ascii?Q?awq+KYl5IVbxdAFo7XQkZbV8c0Z9aqrAVHhw1scGE22ctIj9jIPwsiRKioCZ?=
+ =?us-ascii?Q?xwExjuNcfe1DhsVURSEoHVeb8hQh+dL9u5PWGgEAFJobLzGN4I5aZLxMQ3So?=
+ =?us-ascii?Q?glRRoTCcEcVeFiasiEynUmufKslF19xIUSDYFOQeNfUuw9xVKpG01csCgpEU?=
+ =?us-ascii?Q?4XZvqXZCi2vABwA86hnt6OGNuRp0vqY5cuZK0qzk3Pr7HH/DFNAU1Whi10P6?=
+ =?us-ascii?Q?rXokDXag9R/sh0cjuvpO1f53rQxAXP1x4f/KL7W9fiJYhGxDtcts9oyVilzP?=
+ =?us-ascii?Q?jxdYhom+FwDjiovFX8L7e/3/e8m7Omm5xYeHE9g60eokEfoSW+OzDcXNK4S/?=
+ =?us-ascii?Q?9+kfeoixa9nr84S8ceOmUWFUJLO0a/+J+nkAzMgsintiDqNdtsWlfA1aFCE5?=
+ =?us-ascii?Q?eNojnjzlCzxY00Hnyu6+sN50XBIRwnKFT1EG3hEa5H7V/RZH66qaB016nZDT?=
+ =?us-ascii?Q?cRGhokNu/tbJI9smwP+AtXPnNdy8IsIEGhwSjPtD8ZF+5Ane40Ax/XTdmUCE?=
+ =?us-ascii?Q?usu0vZckIyAF3izCJal//KnWVFfSjQPE9BAXvhnSvZ1i6qkCJTpFbjeTznLP?=
+ =?us-ascii?Q?uIj3BnDA+jbLAhFheZFMSD28sJeo7FM1JjqvrwTcpEsSNxlozsZIq+pz0QYF?=
+ =?us-ascii?Q?DwSKrQUlJEKC88lHcjoE4SbTLIkYPg+9nBVpsbe1uPOOqX77aqLR18GWKPhe?=
+ =?us-ascii?Q?YHEhuW52ZTnZfthRam0qrihQAajGTvtPRo5g7QqliZqF8zNdbVwvnjkFZLJn?=
+ =?us-ascii?Q?tokh9WAk8zPYkV51Cg4SO4qS+WMuUPl+9ZMCrCl1NRqT3bJJUGg8miIrlLxE?=
+ =?us-ascii?Q?wabpDVwnKQvdv+/yCUK9vEBH7aKkBpbquqsuBeM00SI1kz0Fd4t7ofBN9ixz?=
+ =?us-ascii?Q?ZbkdHlA5cVB41w11o/lpQXDe43dyRfT1cPhJyMD1aFl9T4Z0M1UIkqE2iknE?=
+ =?us-ascii?Q?tcAKZnUImtljI4AXI4TlCHC0fQSfeJWWdUQ2FYuYeYYMx0WmF9hVC8gnVy5i?=
+ =?us-ascii?Q?JzIZ662zZlgLcfPcrCSB7Vu3bH1g7gZIZkBBI5YN/Jd8GjLpeR2Dhei2WQS2?=
+ =?us-ascii?Q?qSLFZ7qkwX1HlCdbRi88QFOWJfqii1HeUYMShJzaREQcSGoeJSkxXg8kkdZb?=
+ =?us-ascii?Q?ButqGomS11MB93XtIXdxgGTx?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 187e6bfa-b642-46be-3aae-08d9106e45f5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 933fd35a-56f8-431c-ecdb-08d9106e469e
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2021 09:06:45.7036 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2021 09:06:46.8466 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bbCLDlcE5LgDrs1HaEvADEi92ffE0CmRDiYiA8TToKcc4ZzbCBQq1uyGyuGX0btAbxYKKl6touA1k5wbpBJeux0XgsjWlnNctE+d3Qmn1X8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: BvRy5xjWPoeSN3Bt8A0taViDmUqpICdkbDbU0iuF7ZNXH+ivdcc1np1hhIxS96GKklGfs0EseOZ1tbF9fDoIf4x/NlMON4tBvAyn+cMeiLg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4166
 Received-SPF: pass client-ip=40.107.6.93;
  envelope-from=vsementsov@virtuozzo.com;
@@ -139,76 +139,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Testing set/get of one 64bit variable doesn't seem necessary. We have a
-lot of such variables. Also remaining tests do test set/get anyway.
+We don't need this extra logic: it doesn't make code simpler.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/unit/test-write-threshold.c | 43 -------------------------------
- 1 file changed, 43 deletions(-)
+ tests/unit/test-write-threshold.c | 20 +++-----------------
+ 1 file changed, 3 insertions(+), 17 deletions(-)
 
 diff --git a/tests/unit/test-write-threshold.c b/tests/unit/test-write-threshold.c
-index bb5c1a5217..9e9986aefc 100644
+index 9e9986aefc..49b1ef7a20 100644
 --- a/tests/unit/test-write-threshold.c
 +++ b/tests/unit/test-write-threshold.c
-@@ -12,43 +12,6 @@
- #include "block/write-threshold.h"
+@@ -37,26 +37,12 @@ static void test_threshold_trigger(void)
+     g_assert_cmpuint(bdrv_write_threshold_get(&bs), ==, 0);
+ }
  
+-typedef struct TestStruct {
+-    const char *name;
+-    void (*func)(void);
+-} TestStruct;
+-
  
--static void test_threshold_not_set_on_init(void)
--{
--    uint64_t res;
--    BlockDriverState bs;
--    memset(&bs, 0, sizeof(bs));
--
--    res = bdrv_write_threshold_get(&bs);
--    g_assert_cmpint(res, ==, 0);
--}
--
--static void test_threshold_set_get(void)
--{
--    uint64_t threshold = 4 * 1024 * 1024;
--    uint64_t res;
--    BlockDriverState bs;
--    memset(&bs, 0, sizeof(bs));
--
--    bdrv_write_threshold_set(&bs, threshold);
--
--    res = bdrv_write_threshold_get(&bs);
--    g_assert_cmpint(res, ==, threshold);
--}
--
--static void test_threshold_multi_set_get(void)
--{
--    uint64_t threshold1 = 4 * 1024 * 1024;
--    uint64_t threshold2 = 15 * 1024 * 1024;
--    uint64_t res;
--    BlockDriverState bs;
--    memset(&bs, 0, sizeof(bs));
--
--    bdrv_write_threshold_set(&bs, threshold1);
--    bdrv_write_threshold_set(&bs, threshold2);
--    res = bdrv_write_threshold_get(&bs);
--    g_assert_cmpint(res, ==, threshold2);
--}
--
- static void test_threshold_not_trigger(void)
+ int main(int argc, char **argv)
  {
-     uint64_t threshold = 4 * 1024 * 1024;
-@@ -84,12 +47,6 @@ int main(int argc, char **argv)
- {
-     size_t i;
-     TestStruct tests[] = {
--        { "/write-threshold/not-set-on-init",
--          test_threshold_not_set_on_init },
--        { "/write-threshold/set-get",
--          test_threshold_set_get },
--        { "/write-threshold/multi-set-get",
--          test_threshold_multi_set_get },
-         { "/write-threshold/not-trigger",
-           test_threshold_not_trigger },
-         { "/write-threshold/trigger",
+-    size_t i;
+-    TestStruct tests[] = {
+-        { "/write-threshold/not-trigger",
+-          test_threshold_not_trigger },
+-        { "/write-threshold/trigger",
+-          test_threshold_trigger },
+-        { NULL, NULL }
+-    };
+-
+     g_test_init(&argc, &argv, NULL);
+-    for (i = 0; tests[i].name != NULL; i++) {
+-        g_test_add_func(tests[i].name, tests[i].func);
+-    }
++    g_test_add_func("/write-threshold/not-trigger", test_threshold_not_trigger);
++    g_test_add_func("/write-threshold/trigger", test_threshold_trigger);
++
+     return g_test_run();
+ }
 -- 
 2.29.2
 
