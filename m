@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0605537550B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 15:46:39 +0200 (CEST)
-Received: from localhost ([::1]:47406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3282375506
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 15:45:38 +0200 (CEST)
+Received: from localhost ([::1]:44828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leeKs-0001OG-3R
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 09:46:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56906)
+	id 1leeJu-0000FZ-1G
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 09:45:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leeD9-0007rT-4N
- for qemu-devel@nongnu.org; Thu, 06 May 2021 09:38:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45992)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leeDG-00089q-2k
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 09:38:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leeD7-0007xy-Gb
- for qemu-devel@nongnu.org; Thu, 06 May 2021 09:38:38 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leeDC-000827-F1
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 09:38:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620308316;
+ s=mimecast20190719; t=1620308321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k4PLS6ZKiwbiAj4ntOkzSZGX4ZG/Ux0v+1o1vvVJrYM=;
- b=fXK2Y/P9RYah5H5Usg5XD7ROW3+c224PC1hsDZg5WY20szqAyp53YtvBheJC5PVPF5TsU5
- hgY7bylhkWSMTg6H6RbwlkuzzflSaZqnLEuT/RatR7SE3Y5lPRN6LqyoXJp5TfYW/qwlwA
- gisZvPU/Vsr4RHGxWQ6Gvt0jGKpBSns=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-iCuQ031DM9K9Lq9ikN_D8Q-1; Thu, 06 May 2021 09:38:35 -0400
-X-MC-Unique: iCuQ031DM9K9Lq9ikN_D8Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o18-20020a1ca5120000b02901333a56d46eso2680310wme.8
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 06:38:35 -0700 (PDT)
+ bh=NaJZZTBiusehu1Tq7zBJHOToPc0jvSFCIFWhGsqf9q0=;
+ b=fresYRepUTg/YtxMS/3eGVjkRpuHC2Xi5fEGESlljRXmD5PL2fWTexa6z2dHsysbpno9TJ
+ tkwTRHAiN4vJN9wgANKJgwRKXkgLVDloiLlGdGf+yccTbZe6atcZxHWkoBcfxYN1bgt7Gi
+ Pwe4Jhb+5LbDNGRhRbmSjgWJlSTV28w=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-277-fmo4zyHLNJGEOGswP-dONw-1; Thu, 06 May 2021 09:38:40 -0400
+X-MC-Unique: fmo4zyHLNJGEOGswP-dONw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ t18-20020adfdc120000b02900ffe4432d8bso2224388wri.6
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 06:38:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k4PLS6ZKiwbiAj4ntOkzSZGX4ZG/Ux0v+1o1vvVJrYM=;
- b=iAe9qcs0WRuPNQD3rzJ6ESQUWpmBBMrft4yLXhGYZoVXoT2zPKqjkX+kxT092tMWgz
- +b/G/5AUpKarSTJ7n2x+uPrmBPITgxTChgU8lDza1yuyaoeiIs84RbWAavfT83M/QvYN
- 3Dn5cjpzG+IwpeKalc6J55m1dkmG1RdPZEL2g80aDxTjaaJL9Zpbkd/znJJ33EX1EvHc
- crQ/+Jiarj5DzAoYKUxDgp2Ko3q5A8igZFlG5mKLPk9JWu3qHFNsl3rz8OJHSicF/2Mz
- IgA5EhKcD9+CeoIW2QA1gDz4VSE8ojSrtZ+e4YGYSWtkv6fbW0WhHIw+/vP6ICFe/jAZ
- bclQ==
-X-Gm-Message-State: AOAM530Ks0XE6kpNHPEWZlAyVC4sg0b+hFqi8XxT1DCH5KUZUHK5Gggi
- Rz0X8dHV2/ADoZNk+JC0yGIdVNI2lwT0p1V3c8mf8P/7t8GcpI2jB5DuS46HH/xGJlGi10ELk+e
- p8Z+Y1T3u7ggLBKR6WMnO1I10x2yza/N3dh7GmPVa3KNEXrhnfG1UMIqgyS9GyHqd
-X-Received: by 2002:a5d:4707:: with SMTP id y7mr5273922wrq.137.1620308314059; 
- Thu, 06 May 2021 06:38:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9OkIRdMCjajJ35Xqm95nwOIWcYI/GC6OCGDnowdoEynI2VdSlNOXJBaO3mbso8BQyxIbuGA==
-X-Received: by 2002:a5d:4707:: with SMTP id y7mr5273889wrq.137.1620308313868; 
- Thu, 06 May 2021 06:38:33 -0700 (PDT)
+ bh=NaJZZTBiusehu1Tq7zBJHOToPc0jvSFCIFWhGsqf9q0=;
+ b=P2keawXndB9xltoA1BEHjl/eCAxHCx1xUdwaO7P3qYF3kDzIvyYaZILoIP87n6B5OX
+ ItD57xstZQzd/TvA79IiDqzlCOcOYpqH2AN6j+QC+JrJjVFlr8TmVTKl/Zon/h93toKQ
+ 6f0QID1IQ/6LYQuVlcJMZkf3khlub7rAbiGD2xmma+GFXoKVLs6Y6e0zho2JhJfClGIH
+ I7y7tI8JyRxW5BlpDI3QrmIOvLZkEEN8QfHakHwvo1Os9IWOviitGYs1Zrna+OiqjaAy
+ Lv+hcOe0N8UTuZzyvJakQUz0A/EZdYIfZaqvGc5dk+0rPxeSFOBYRwfp5P69ryRkrVNq
+ g25A==
+X-Gm-Message-State: AOAM5335+cvWLRnFz4iMBQLqFyksOmFiHEA8kc15K4Ux4m2e0yUq7jyt
+ iQ8y0cFui7TKd+z+Ps4pwiE1f0XhRt+updjHowL5lH3yuoAeNR/ECroLZtaiGljyHi2Vt5zedFK
+ iP9hTVc4UAhCdb6HkDImkoJcMX2p+9K0L46tT7u4Yk719t48N7YID87dK2DG4bZYY
+X-Received: by 2002:adf:c002:: with SMTP id z2mr5292561wre.100.1620308318988; 
+ Thu, 06 May 2021 06:38:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyHdfkaTmkvWQf5Hf6Mx8u2g2OWRDThcbJG1gkPh5MWHU1eQptHFzQJqG0ffuS/NnFVO+6Rg==
+X-Received: by 2002:adf:c002:: with SMTP id z2mr5292527wre.100.1620308318789; 
+ Thu, 06 May 2021 06:38:38 -0700 (PDT)
 Received: from localhost.localdomain
  (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr. [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id j13sm4830339wrd.81.2021.05.06.06.38.32
+ by smtp.gmail.com with ESMTPSA id l22sm9501029wmq.28.2021.05.06.06.38.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 May 2021 06:38:33 -0700 (PDT)
+ Thu, 06 May 2021 06:38:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/9] gdbstub: Replace alloca() + memset(0) by g_new0()
-Date: Thu,  6 May 2021 15:37:56 +0200
-Message-Id: <20210506133758.1749233-8-philmd@redhat.com>
+Subject: [PATCH v2 8/9] hw/misc/pca9552: Replace g_newa() by g_new()
+Date: Thu,  6 May 2021 15:37:57 +0200
+Message-Id: <20210506133758.1749233-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210506133758.1749233-1-philmd@redhat.com>
 References: <20210506133758.1749233-1-philmd@redhat.com>
@@ -94,44 +94,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org,
+Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
+ Andrew Jeffery <andrew@aj.id.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The ALLOCA(3) man-page mentions its "use is discouraged".
 
-Replace the alloca() and memset(0) calls by g_new0().
+Replace the g_newa() call by g_new().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- gdbstub.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/misc/pca9552.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 7cee2fb0f1f..666053bf590 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -1487,14 +1487,13 @@ static int process_string_cmd(void *user_ctx, const char *data,
-         if (cmd->schema) {
-             int schema_len = strlen(cmd->schema);
-             int max_num_params = schema_len / 2;
-+            g_autofree GdbCmdVariant *params = NULL;
+diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
+index b7686e27d7f..facf103cbfb 100644
+--- a/hw/misc/pca9552.c
++++ b/hw/misc/pca9552.c
+@@ -71,7 +71,7 @@ static void pca955x_display_pins_status(PCA955xState *s,
+         return;
+     }
+     if (trace_event_get_state_backends(TRACE_PCA955X_GPIO_STATUS)) {
+-        char *buf = g_newa(char, k->pin_count + 1);
++        g_autofree char *buf = g_new(char, k->pin_count + 1);
  
-             if (schema_len % 2) {
-                 return -2;
-             }
- 
--            gdb_ctx.params = (GdbCmdVariant *)alloca(sizeof(*gdb_ctx.params)
--                                                     * max_num_params);
--            memset(gdb_ctx.params, 0, sizeof(*gdb_ctx.params) * max_num_params);
-+            gdb_ctx.params = params = g_new0(GdbCmdVariant, max_num_params);
- 
-             if (cmd_parse_params(&data[strlen(cmd->cmd)], cmd->schema,
-                                  gdb_ctx.params, &gdb_ctx.num_params)) {
+         for (i = 0; i < k->pin_count; i++) {
+             if (extract32(pins_status, i, 1)) {
 -- 
 2.26.3
 
