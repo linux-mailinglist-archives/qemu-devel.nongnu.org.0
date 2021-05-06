@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D6A3754F6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 15:41:20 +0200 (CEST)
-Received: from localhost ([::1]:55534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86908375502
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 15:43:31 +0200 (CEST)
+Received: from localhost ([::1]:34618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leeFj-0001ad-Fp
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 09:41:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56720)
+	id 1leeHq-0004bN-Kg
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 09:43:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leeCw-0007LJ-Un
- for qemu-devel@nongnu.org; Thu, 06 May 2021 09:38:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42328)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leeD0-0007UE-9T
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 09:38:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leeCu-0007or-Cj
- for qemu-devel@nongnu.org; Thu, 06 May 2021 09:38:25 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leeCy-0007rr-BP
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 09:38:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620308303;
+ s=mimecast20190719; t=1620308307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dXiqUMGNseF8aEoCidrrmNydk4TNmOpI8OAZgIN0M9M=;
- b=JKv9W8c+otDIvMW9Oi/K6hh1/LN1J8HTiWiB6+ieI6YmLwQx8dQbplkh1Abm3HXcDFTgoK
- uTKS194Q+rWv/VnJgnLqCGIFOH5UhKE8rxTCSC1DKlMTq1neWUWlIZDFxl4iiTUPH6tIrM
- MkouantzdCkNwMdL90eeys5y6KamHPI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-795Iham4OaSZw0SVhU2jEA-1; Thu, 06 May 2021 09:38:22 -0400
-X-MC-Unique: 795Iham4OaSZw0SVhU2jEA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- 93-20020adf93e60000b029010d9bb1923eso2221236wrp.4
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 06:38:21 -0700 (PDT)
+ bh=B3vDcPc2Lwo5z0s8ItWutJUQDssHj4SCpM1PcCRAn5U=;
+ b=QRau2uHS6G+HWVTwmcDOgVnRuVh3MkMaP2cYoeOnezZG8xw6K5TwSN4n4uLMsAtuWe7x6y
+ OVbGWnk3NbBR+1aompcBchjeJ8nAtI25UpR/fYlEPHXwIhxad7WuoUfIf5Vd77yV+gJce6
+ CkEnqrYkWeCNuMJBzkDSftPQ5JazNS8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-kIkI6PSPNHaNMZEx6gGWaA-1; Thu, 06 May 2021 09:38:26 -0400
+X-MC-Unique: kIkI6PSPNHaNMZEx6gGWaA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ i102-20020adf90ef0000b029010dfcfc46c0so2232385wri.1
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 06:38:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dXiqUMGNseF8aEoCidrrmNydk4TNmOpI8OAZgIN0M9M=;
- b=d5XCMtHemA1ZKyLo4PWTe02NhKCrGX6Mw8L5SeQrpeCp6VxqbwQF58YjSmbVSA9u9F
- e3Ax1fuJO5uxA+gUOSAhYtM3Q9qLtNwcoudiQ7Ko20enHF8DGUDHcmZ2Glx3XeXpZS2E
- t7yg1LPbMFi+bLWXOeZLVew37E4v2RZMH0GXTs1vj/0Qwkm5aAhKuitRpumI42Xqhn+3
- f8yxEHk/6o+Aa4fKb6GDXI0fT5aAvVJbg/Rlevy+URwtNgS1AwFQdtJuCs6gma2WDfaG
- YPsT9lOi5vMf61GkwdOlCsMoBKr9MqZcoMdyXOhMwXos9KneBmVMZgifBKXp0ObKKCR+
- kgeA==
-X-Gm-Message-State: AOAM531PjG9wG16SnSQPoZcLiMZGl6q+LpL9tKWfRECo/0K1/UYxrci0
- Ah9JUtcZpk3WKTvRIMUd5REv6hHWeL7sfMdMAjkuWMVj1TiLGA0zoW3R1sV+TGzipHkRpCWRm0Y
- CeClmt2aHHmNzRu5uvQUiCTIsZfERCcnifDO1SLQHicXVw9xo5GEfB3u5ugmGG3MZ
-X-Received: by 2002:a5d:51ce:: with SMTP id n14mr5147693wrv.239.1620308299982; 
- Thu, 06 May 2021 06:38:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzyAZIfvg++T6fTYKrEquhu6tnCC62wCEQ30o8S5aLEgqSCKFWctM9XzEDZQWk7c63Etg+U8g==
-X-Received: by 2002:a5d:51ce:: with SMTP id n14mr5147655wrv.239.1620308299780; 
- Thu, 06 May 2021 06:38:19 -0700 (PDT)
+ bh=B3vDcPc2Lwo5z0s8ItWutJUQDssHj4SCpM1PcCRAn5U=;
+ b=Z1wKnOFRGUt+ER6Xef32NCakep9b1xAknPXnHpGVCrw+RHNj+0rRYIOwumJkwpTUZU
+ 76GMy6xfxhe79xInvAxOulX/mBdbCbLUyj6yICXj3EcyhVRpVzgO8jcJW9mXzheYvSXb
+ 6r8ATvfIMIeHyzkZusIHyXUd4Rx/LWUS1y9mQPgdrcTBUNHK3X3mu8csrFw14Me2qcm+
+ UYnxblQzNqPrfYlEeh6omE6w1GlMgVyZLpuhtIKIt31gHr0itAB/4agXY/4cVjPLl47g
+ yTbhjLrUqV0aDWQbwrtkrlVZLOp3Ql8OPVVQosxsap86dQSjBnLij8U6xpe6/tDKFTvB
+ ExCQ==
+X-Gm-Message-State: AOAM532+60jUwMR1+ElB321CtuunO6pQGnHfkeO3VBQYRd8DiDNdGYky
+ Lc8wSMk/oe7Xy6aB1RZZveYVICh5YEBbmzxcMjOLTNEnTejYWpBPnu0giL+mV7b+eoWu/HgnEeW
+ EarcUYiCmC41Z+fHFIWt8BTe9eJdGltPNUIwhTy+fd7Zc+AFu7JDX0FkHSUoyZPEt
+X-Received: by 2002:a5d:48c3:: with SMTP id p3mr4659230wrs.150.1620308304670; 
+ Thu, 06 May 2021 06:38:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwECKu/BlFqjZgy5iMIlrOtoOiBjrMgG2/qWWwpALxiW11/+mDQsXIqidjTaJhIgu3oXy9nPg==
+X-Received: by 2002:a5d:48c3:: with SMTP id p3mr4659202wrs.150.1620308304482; 
+ Thu, 06 May 2021 06:38:24 -0700 (PDT)
 Received: from localhost.localdomain
  (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr. [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id m13sm4432533wrw.86.2021.05.06.06.38.18
+ by smtp.gmail.com with ESMTPSA id c15sm4424312wrr.3.2021.05.06.06.38.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 May 2021 06:38:19 -0700 (PDT)
+ Thu, 06 May 2021 06:38:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/9] bsd-user/syscall: Replace alloca() by g_new()
-Date: Thu,  6 May 2021 15:37:53 +0200
-Message-Id: <20210506133758.1749233-5-philmd@redhat.com>
+Subject: [PATCH v2 5/9] gdbstub: Constify GdbCmdParseEntry
+Date: Thu,  6 May 2021 15:37:54 +0200
+Message-Id: <20210506133758.1749233-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210506133758.1749233-1-philmd@redhat.com>
 References: <20210506133758.1749233-1-philmd@redhat.com>
@@ -81,7 +81,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,36 +97,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: kvm@vger.kernel.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Kyle Evans <kevans@freebsd.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Warner Losh <imp@bsdimp.com>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ALLOCA(3) man-page mentions its "use is discouraged".
-
-Replace it by a g_new() call.
-
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- bsd-user/syscall.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ gdbstub.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index 4abff796c76..dbee0385ceb 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -355,9 +355,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-     case TARGET_FREEBSD_NR_writev:
-         {
-             int count = arg3;
--            struct iovec *vec;
-+            g_autofree struct iovec *vec = g_new(struct iovec, count);
+diff --git a/gdbstub.c b/gdbstub.c
+index 9103ffc9028..83d47c67325 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -1981,7 +1981,7 @@ static void handle_v_kill(GdbCmdContext *gdb_ctx, void *user_ctx)
+     exit(0);
+ }
  
--            vec = alloca(count * sizeof(struct iovec));
-             if (lock_iovec(VERIFY_READ, vec, arg2, count, 1) < 0)
-                 goto efault;
-             ret = get_errno(writev(arg1, vec, count));
+-static GdbCmdParseEntry gdb_v_commands_table[] = {
++static const GdbCmdParseEntry gdb_v_commands_table[] = {
+     /* Order is important if has same prefix */
+     {
+         .handler = handle_v_cont_query,
+@@ -2324,7 +2324,7 @@ static void handle_set_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx, void *user_ctx)
+ }
+ #endif
+ 
+-static GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
++static const GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
+     /* Order is important if has same prefix */
+     {
+         .handler = handle_query_qemu_sstepbits,
+@@ -2342,7 +2342,7 @@ static GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
+     },
+ };
+ 
+-static GdbCmdParseEntry gdb_gen_query_table[] = {
++static const GdbCmdParseEntry gdb_gen_query_table[] = {
+     {
+         .handler = handle_query_curr_tid,
+         .cmd = "C",
+@@ -2420,7 +2420,7 @@ static GdbCmdParseEntry gdb_gen_query_table[] = {
+ #endif
+ };
+ 
+-static GdbCmdParseEntry gdb_gen_set_table[] = {
++static const GdbCmdParseEntry gdb_gen_set_table[] = {
+     /* Order is important if has same prefix */
+     {
+         .handler = handle_set_qemu_sstep,
 -- 
 2.26.3
 
