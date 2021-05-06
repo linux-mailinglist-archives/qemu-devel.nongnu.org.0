@@ -2,68 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9FB37589E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 18:43:05 +0200 (CEST)
-Received: from localhost ([::1]:35138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C81037587E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 18:33:55 +0200 (CEST)
+Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leh5c-0007Ij-CE
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 12:43:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41856)
+	id 1legwk-0005g6-5P
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 12:33:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1legyG-0007su-6O
- for qemu-devel@nongnu.org; Thu, 06 May 2021 12:35:28 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1legy5-0008EX-BB
- for qemu-devel@nongnu.org; Thu, 06 May 2021 12:35:27 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lefP1-0007Ob-DT
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 14:55:00 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AA3692E8271
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 14:53:45 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 14:45:32 -0000
-From: Thomas Huth <1874264@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1legW5-0004Xf-9s
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 12:06:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43552)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1legVz-0003eS-Nj
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 12:06:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620317175;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3hEMDIt72dK79rkwjKZwzBlNWlqk9Cujj6vHcXwHvIY=;
+ b=fdFG8E8cOJQUyxY/lh3iKl9rI2PbtiyU3ToFyV9sNTZ+XXZTVQxYfoyB/5RJKOq0KfKUUj
+ H/C1wedU9thZxGZdUpwjy6gDhxYqf0v6MB2VNYwE40ogZrgrUNy7P57sWT8/7P0O2KNIV0
+ GPvb5mF7NZt0ZAUg4fzJscY9x+MIbnI=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-MnXuZ3lDOqWJqiGoLrebYA-1; Thu, 06 May 2021 12:06:13 -0400
+X-MC-Unique: MnXuZ3lDOqWJqiGoLrebYA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ e4-20020a37b5040000b02902df9a0070efso3783726qkf.18
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 09:06:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3hEMDIt72dK79rkwjKZwzBlNWlqk9Cujj6vHcXwHvIY=;
+ b=ljpMv8GR4bGy1LyIXDWX4zTSMb5wcS1wFZM8hu7QlzXy7Wb/Z8FWT+g8Mer2plaH+d
+ CLxzoE7iXpON96xskJ7to1E9126C5Oh2L6RN1BYgfBYZ/us2lkwVE2vI28AC9bMeqBPL
+ Hk0cqUfwzzj69tcvgyh8xTCtnQDp7hLoRag1GH/ghp+XqgFBSH5AA3GwgNUpcTzVxONr
+ jQeeE/gzGLh0KJnhbbUShNLuCBpppcj/bs4R74YUM6t3Z9wZ/VxUHuZVLAeL4Wn/m4V+
+ 4JBr1CQRT8jwKMhDlVBE0J9NW5p4t25Bo+DDLFv2bNWmiv7boQ0hQ/oFZn5TBuHmE6sJ
+ WarA==
+X-Gm-Message-State: AOAM531d+T2MIVzzaZ2zsaAOug+QJBAnJFkZszzj2NHUojuUcq8WbX3M
+ jZVBzgAvppLSwwaXYtHcH8HHcnYTwRG9UJXIsJ26tXRYEvMb1TNg+VanwpufGPAzoSazE11H5Hj
+ Xus5uRugCc7imvESbbQtpmZB++O+nGEYizQmSfoZECCj5ceNd47VrlUS09/Krt694
+X-Received: by 2002:a05:620a:cca:: with SMTP id
+ b10mr4734802qkj.136.1620317171540; 
+ Thu, 06 May 2021 09:06:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxh+pWGMI9EBgVfGYEA/xDFXXiDokXkmQ5vyNU0pyVmtKfkF6JEhkQZN3plI4F7aLL1RwmOlQ==
+X-Received: by 2002:a05:620a:cca:: with SMTP id
+ b10mr4734369qkj.136.1620317166825; 
+ Thu, 06 May 2021 09:06:06 -0700 (PDT)
+Received: from t490s.redhat.com
+ (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca. [184.145.4.219])
+ by smtp.gmail.com with ESMTPSA id y84sm2194131qkb.134.2021.05.06.09.06.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 May 2021 09:06:05 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kennethsalerno th-huth
-X-Launchpad-Bug-Reporter: Kenneth Salerno (kennethsalerno)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158756466889.23136.4781024661991862847.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162031233335.6678.7193982578379033714.launchpad@wampee.canonical.com>
-Subject: [Bug 1874264] Re: AIX 7.2 TL4 SP1 cannot IPL with QEMU >2.11.2
- ppc64-softmmu
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: d19fa8de363259b5361dae1c3e97912ba96e69c7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v7 07/10] KVM: Cache kvm slot dirty bitmap size
+Date: Thu,  6 May 2021 12:05:46 -0400
+Message-Id: <20210506160549.130416-8-peterx@redhat.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210506160549.130416-1-peterx@redhat.com>
+References: <20210506160549.130416-1-peterx@redhat.com>
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,418 +96,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1874264 <1874264@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>,
+ Hyman <huangy81@chinatelecom.cn>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> Confirmed
+Cache it too because we'll reference it more frequently in the future.
 
--- =
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ accel/kvm/kvm-all.c      | 1 +
+ include/sysemu/kvm_int.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1874264
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 4b786240a04..4af61734e37 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -610,6 +610,7 @@ static void kvm_slot_init_dirty_bitmap(KVMSlot *mem)
+     hwaddr bitmap_size = ALIGN(mem->memory_size / qemu_real_host_page_size,
+                                         /*HOST_LONG_BITS*/ 64) / 8;
+     mem->dirty_bmap = g_malloc0(bitmap_size);
++    mem->dirty_bmap_size = bitmap_size;
+ }
+ 
+ /*
+diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+index ab09a150e19..c788452cd96 100644
+--- a/include/sysemu/kvm_int.h
++++ b/include/sysemu/kvm_int.h
+@@ -23,6 +23,7 @@ typedef struct KVMSlot
+     int old_flags;
+     /* Dirty bitmap cache for the slot */
+     unsigned long *dirty_bmap;
++    unsigned long dirty_bmap_size;
+     /* Cache of the address space ID */
+     int as_id;
+     /* Cache of the offset in ram address space */
+-- 
+2.31.1
 
-Title:
-  AIX 7.2 TL4 SP1 cannot IPL with QEMU >2.11.2 ppc64-softmmu
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  kens@LAPTOP-JN77KAC2$ qemu-system-ppc64 -version
-  QEMU emulator version 4.2.93 (v5.0.0-rc3-8-g3119154db0-dirty)
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-
-  qemu-system-ppc64 \
-    -name "IBM AIX - IBM POWER9" \
-    -M pseries \
-    -cpu POWER9 \
-    -smp 8 \
-    -m 8192 \
-    -nodefaults \
-    -nographic \
-    -prom-env input-device=3D/vdevice/vty@71000000 \
-    -prom-env output-device=3D/vdevice/vty@71000000 \
-    -serial tcp::9019,server,nowait \
-    -monitor tcp::9020,server,nowait \
-    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
-22 \
-    -device virtio-net-pci,netdev=3Dmynet0 \
-    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
-ia=3Ddisk,cache=3Dunsafe \
-    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
-    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
-=3Dunsafe
-
-  -------------------------------------------------------------------------=
-------
-                                  Welcome to AIX.
-                     boot image timestamp: 14:18:40 03/27/2020
-          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
-           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
-  =0CAIX vm,uuid property contains invalid data
-  processing splpar characteristic: MaxEntCap
-  processing splpar characteristic: DesMem
-  processing splpar characteristic: DesProcs
-  processing splpar characteristic: MaxPlatProcs
-  processing splpar characteristic: HostThrs
-
-  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
-rgument
-  -------------------------------------------------------------------------=
-------
-  =0CStarqemu-system-ppc64: OS terminated: 888 102 700 C20
-
-  =
-
-  qemu-system-ppc64 \
-    -name "IBM AIX - IBM POWER8" \
-    -M pseries \
-    -cpu POWER8 \
-    -smp 8 \
-    -m 8192 \
-    -nodefaults \
-    -nographic \
-    -prom-env input-device=3D/vdevice/vty@71000000 \
-    -prom-env output-device=3D/vdevice/vty@71000000 \
-    -serial tcp::9019,server,nowait \
-    -monitor tcp::9020,server,nowait \
-    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
-22 \
-    -device virtio-net-pci,netdev=3Dmynet0 \
-    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
-ia=3Ddisk,cache=3Dunsafe \
-    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
-    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
-=3Dunsafe
-
-  -------------------------------------------------------------------------=
-------
-                                  Welcome to AIX.
-                     boot image timestamp: 14:18:40 03/27/2020
-          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
-           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
-  =0CAIX vm,uuid property contains invalid data
-  processing splpar characteristic: MaxEntCap
-  processing splpar characteristic: DesMem
-  processing splpar characteristic: DesProcs
-  processing splpar characteristic: MaxPlatProcs
-  processing splpar characteristic: HostThrs
-
-  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
-rgument
-  -------------------------------------------------------------------------=
-------
-  =0CStar**
-  ERROR:/home/kens/tmp/qemu/cpus.c:1727:qemu_tcg_cpu_thread_fn: assertion f=
-ailed: (cpu->halted)
-
-  =
-
-  kens@LAPTOP-JN77KAC2$ qemu-system-ppc64 -version
-  QEMU emulator version 2.11.2
-  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
-
-  qemu-system-ppc64 \
-    -name "IBM AIX - IBM POWER9" \
-    -M pseries,cap-htm=3Doff \
-    -cpu POWER9 \
-    -smp 8 \
-    -m 8192 \
-    -nodefaults \
-    -nographic \
-    -prom-env input-device=3D/vdevice/vty@71000000 \
-    -prom-env output-device=3D/vdevice/vty@71000000 \
-    -serial tcp::9019,server,nowait \
-    -monitor tcp::9020,server,nowait \
-    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
-22 \
-    -device virtio-net-pci,netdev=3Dmynet0 \
-    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
-ia=3Ddisk,cache=3Dunsafe \
-    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
-    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
-=3Dunsafe
-
-  -------------------------------------------------------------------------=
-------
-                                  Welcome to AIX.
-                     boot image timestamp: 14:18:40 03/27/2020
-          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
-           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
-  =0CAIX vm,uuid property contains invalid data
-  processing splpar characteristic: MaxEntCap
-  processing splpar characteristic: DesMem
-  processing splpar characteristic: DesProcs
-  processing splpar characteristic: MaxPlatProcs
-
-  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
-rgument
-  -------------------------------------------------------------------------=
-------
-  =0CStar
-  0539
-  0811
-  0539
-  0812
-  0708
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  078c
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  078c
-  0539
-  2071
-  0539
-  2073
-  0539
-  25b3vscsi_send_capabilities: capabilities size mismatch !
-  VSCSI: Unknown MAD type 09
-
-  0539
-  0538
-  0539
-  0591
-  0539
-  0538
-  0539
-  0538
-  0539
-  25b0
-  0539
-
-  0511
-  0551
-  0517
-  0517
-  0517
-  0517
-  0553
-  0517
-  0517
-  0538
-  0539
-  0538
-  0539
-  270b
-  0539
-  0538
-  0539
-  2070
-  0539
-  0538
-  0539
-  0811
-  0539
-  0811
-  0539
-  0812
-  0708
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  0811
-  078c
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  25b6
-  078c
-  04ee
-  078c
-  0727
-  0727
-  2071
-  2072
-  2072
-  2071
-  0539
-  25b3
-  0539
-  25b5
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0581
-  0539
-  0538
-  0539
-  7000
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0581
-  0581
-  0539
-  0538
-  0539
-  25b0
-  0539
-  0538
-  0539
-  0538
-  0539
-  0731
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  0538
-  0539
-  2028
-  0539
-  0538
-  0539
-
-  0c33
-  Saving Base Customize Data to boot disk
-  Starting the sync daemon
-  Starting the error daemon
-
-  System initialization completed.
-  TE=3DOFF
-  CHKEXEC=3DOFF
-  CHKSHLIB=3DOFF
-  CHKSCRIPT=3DOFF
-  CHKKERNEXT=3DOFF
-  STOP_UNTRUSTD=3DOFF
-  STOP_ON_CHKFAIL=3DOFF
-  LOCK_KERN_POLICIES=3DOFF
-  TSD_FILES_LOCK=3DOFF
-  TSD_LOCK=3DOFF
-  TEP=3DOFF
-  TLP=3DOFF
-  Successfully updated the Kernel Authorization Table.
-  Successfully updated the Kernel Role Table.
-  Successfully updated the Kernel Command Table.
-  Successfully updated the Kernel Device Table.
-  Successfully updated the Kernel Object Domain Table.
-  Successfully updated the Kernel Domains Table.
-  Successfully updated the Kernel RBAC log level.
-  Successfully updated the Kernel RBAC log level.
-  OPERATIONAL MODE Security Flags
-  ROOT                      :    ENABLED
-  TRACEAUTH                 :   DISABLED
-  System runtime mode is now OPERATIONAL MODE.
-  Setting tunable parameters...complete
-  Checking for srcmstr active...complete
-  Starting tcpip daemons:
-  0513-059 The sendmail Subsystem has been started. Subsystem PID is 445684=
-6.
-  0513-059 The syslogd Subsystem has been started. Subsystem PID is 4522382.
-  0513-059 The portmap Subsystem has been started. Subsystem PID is 4194776.
-  0513-059 The inetd Subsystem has been started. Subsystem PID is 4129230.
-  0513-059 The snmpmibd Subsystem has been started. Subsystem PID is 432567=
-2.
-  Finished starting tcpip daemons.
-
-  =
-
-  AIX Version 7
-  Copyright IBM Corporation, 1982, 2019.
-  Console login: root
-  root's Password:
-
-  *************************************************************************=
-******
-  *                                                                        =
-     *
-  *                                                                        =
-     *
-  *  Welcome to AIX Version 7.2!                                           =
-     *
-  *                                                                        =
-     *
-  *                                                                        =
-     *
-  *  Please see the README file in /usr/lpp/bos for information pertinent t=
-o    *
-  *  this release of the AIX Operating System.                             =
-     *
-  *                                                                        =
-     *
-  *                                                                        =
-     *
-  *************************************************************************=
-******
-  Last login: Wed Apr 22 07:21:19 EDT 2020 on /dev/vty0
-
-  root@aix-ppc64# oslevel -s
-  7200-04-01-1939
-  root@aix-ppc64#
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1874264/+subscriptions
 
