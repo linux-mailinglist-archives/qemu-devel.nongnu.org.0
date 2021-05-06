@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD1F3755FC
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:56:35 +0200 (CEST)
-Received: from localhost ([::1]:49902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9DA3755E9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:49:59 +0200 (CEST)
+Received: from localhost ([::1]:33644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lefQY-0004Qq-AX
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:56:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58334)
+	id 1lefK5-00065C-IL
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lefNt-0002bX-7m
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:53:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47180)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lefNr-0002iK-CX
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:53:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lefNo-0007P3-Ie
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 14:53:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8542B2E8271
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 14:53:01 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lefGB-0001wp-3r
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:45:51 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:38083)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lefG9-0006gh-60
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:45:50 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-602-4Jbjb-DMNXiDclDRdlqWiQ-1; Thu, 06 May 2021 10:45:45 -0400
+X-MC-Unique: 4Jbjb-DMNXiDclDRdlqWiQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 337B961242;
+ Thu,  6 May 2021 14:45:43 +0000 (UTC)
+Received: from bahia.lan (ovpn-112-247.ams2.redhat.com [10.36.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1045F19D9F;
+ Thu,  6 May 2021 14:45:34 +0000 (UTC)
+Date: Thu, 6 May 2021 16:45:33 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 9/9] target/ppc/kvm: Replace alloca() by g_malloc()
+Message-ID: <20210506164533.040b8c39@bahia.lan>
+In-Reply-To: <20210506133758.1749233-10-philmd@redhat.com>
+References: <20210506133758.1749233-1-philmd@redhat.com>
+ <20210506133758.1749233-10-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 14:44:31 -0000
-From: Thomas Huth <1888492@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: haxm windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth zhaosq
-X-Launchpad-Bug-Reporter: ZhaoSQ-CH (zhaosq)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159541364991.32738.5508954702379988107.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162031227192.6519.11473846367159810637.malone@wampee.canonical.com>
-Subject: [Bug 1888492] Re: After installing Ubuntu,
- restart and pop up the CMD command prompt
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 9275583e605a85d8a7ea86f696b52bb94b04cd2a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,103 +63,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888492 <1888492@bugs.launchpad.net>
+Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting older bugs to "Incomplete" now.
+On Thu,  6 May 2021 15:37:58 +0200
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-If you still think this bug report here is valid, then please switch
-the state back to "New" within the next 60 days, otherwise this report
-will be marked as "Expired". Or please mark it as "Fix Released" if
-the problem has been solved with a newer version of QEMU already.
+> The ALLOCA(3) man-page mentions its "use is discouraged".
+>=20
+> Replace it by a g_malloc() call.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
 
-Thank you and sorry for the inconvenience.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+>  target/ppc/kvm.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 104a308abb5..63c458e2211 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -2698,11 +2698,10 @@ int kvmppc_save_htab(QEMUFile *f, int fd, size_t =
+bufsize, int64_t max_ns)
+>  int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
+>                             uint16_t n_valid, uint16_t n_invalid, Error *=
+*errp)
+>  {
+> -    struct kvm_get_htab_header *buf;
+>      size_t chunksize =3D sizeof(*buf) + n_valid * HASH_PTE_SIZE_64;
+> +    g_autofree struct kvm_get_htab_header *buf =3D g_malloc(chunksize);
+>      ssize_t rc;
+> =20
+> -    buf =3D alloca(chunksize);
+>      buf->index =3D index;
+>      buf->n_valid =3D n_valid;
+>      buf->n_invalid =3D n_invalid;
 
-** Tags added: haxm
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888492
-
-Title:
-  After installing Ubuntu, restart and pop up the CMD command prompt
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  QEMU release version=EF=BC=9A V5.1.0
-  time=EF=BC=9A2020=E5=B9=B47=E6=9C=8822=E6=97=A510:34:40
-  Operation: =E5=AE=89=E8=A3=85=E5=AE=8CUbuntu=E5=90=8E=E9=87=8D=E6=96=B0=
-=E5=90=AF=E5=8A=A8=EF=BC=8C=E5=B9=B6=E5=BC=B9=E5=87=BACMD=E5=91=BD=E4=BB=A4=
-=E6=8F=90=E7=A4=BA=E7=AC=A6
-  use Ubuntu release version =EF=BC=9AV20.04-desktop.
-  use windows release version: windows 10.
-  Question:
-  Command used=EF=BC=9Aqemu-system-x86_64.exe -name test -m 4096 -machine a=
-ccel=3Dhax -cdrom .\workspace\ubuntu\ubuntu-20.04-desktop-amd64.iso .\works=
-pace\img\ubuntu.img
-  HAX is working and emulator runs in fast virt mode.
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  *** BUG ***
-  In pixman_region32_init_rect: Invalid rectangle passed
-  Set a breakpoint on '_pixman_log_error' to debug
-
-  (qemu:660): Gtk-WARNING **: Negative content width -7 (allocation 1,
-  extents 4x4) while allocating gadget (node headerbar, owner
-  GtkHeaderBar)
-
-  (qemu:660): Gtk-WARNING **: gtk_widget_size_allocate(): attempt to
-  allocate widget with width -102 and height 16
-
-  (qemu:660): Gtk-WARNING **: Negative content width -23 (allocation 1, ext=
-ents 12x12) while allocating gadget (node label, owner GtkLabel)
-  qemu-system-x86_64.exe: Gtk: gtk_distribute_natural_allocation: assertion=
- 'extra_space >=3D 0' failed
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888492/+subscriptions
 
