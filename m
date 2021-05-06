@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65542374F12
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 07:54:47 +0200 (CEST)
-Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9ED374F21
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 08:03:06 +0200 (CEST)
+Received: from localhost ([::1]:36464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leWyE-0002qg-BQ
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 01:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39496)
+	id 1leX6H-0000Jg-VK
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 02:03:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1leWxM-0002Rk-Rd
- for qemu-devel@nongnu.org; Thu, 06 May 2021 01:53:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1leWxI-0006nj-7x
- for qemu-devel@nongnu.org; Thu, 06 May 2021 01:53:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620280425;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KhY2DUIwVnYtbopN2w9q0BGumgHfj9407GbmyCKsRXc=;
- b=BkSkoB/0jNLETU8Rt2MLPdeI4A8QQ/6FavbQoNJ5AI/iotQyHe2GON6xLHK2QSdsvSQvrb
- AtRTDNyxkv01rUZMviBpF57taEDcRzelGhbgxcRweQ+sflluPjrxFRevavcO+Og5eJgM6/
- ShFFc4cstcTiX5/MwTQABCoeVX0Ty34=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-uIPcVzDVNsOAXPCvOr_Zjg-1; Thu, 06 May 2021 01:53:44 -0400
-X-MC-Unique: uIPcVzDVNsOAXPCvOr_Zjg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F22BD6D241;
- Thu,  6 May 2021 05:53:42 +0000 (UTC)
-Received: from kaapi (unknown [10.74.8.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D1EC5687C2;
- Thu,  6 May 2021 05:53:31 +0000 (UTC)
-Date: Thu, 6 May 2021 11:23:29 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: Li Qiang <liq3ea@gmail.com>
-Subject: Re: [PATCH 1/7] vhost-user-gpu: fix memory disclosure in
- virgl_cmd_get_capset_info
-In-Reply-To: <CAKXe6SK_gwLad2khA9iJda2DJi2BDXSg=ZGpPUFqPQdb+V6tRw@mail.gmail.com>
-Message-ID: <1970r4n-9opn-q43n-r510-s85so96648op@erqung.pbz>
-References: <20210505045824.33880-1-liq3ea@163.com>
- <20210505045824.33880-2-liq3ea@163.com>
- <8o22o26q-9342-o822-2758-372s9s59r2qn@erqung.pbz>
- <CAKXe6SK_gwLad2khA9iJda2DJi2BDXSg=ZGpPUFqPQdb+V6tRw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leX4V-0007FX-UL
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 02:01:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44074)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leX4Q-0003I2-EI
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 02:01:15 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1leX4O-0006w0-S5
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 06:01:08 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D343B2E8136
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 06:01:08 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed;
- boundary="-1463810559-1813655995-1620280422=:56254"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 May 2021 05:53:53 -0000
+From: Thomas Huth <1864984@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kraxel-redhat th-huth valentin.david
+X-Launchpad-Bug-Reporter: Valentin David (valentin.david)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158279885836.19592.16795975857735049927.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162028043391.6519.15140265804789335422.malone@wampee.canonical.com>
+Subject: [Bug 1864984] Re: "nr_entries is too big" when using virgl
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: 3e3e99a6517af4557470628dc235b0f7290293e1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,39 +70,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre lureau <marcandre.lureau@redhat.com>, Li Qiang <liq3ea@163.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1864984 <1864984@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
----1463810559-1813655995-1620280422=:56254
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting older bugs to "Incomplete" now.
 
-+-- On Wed, 5 May 2021, Li Qiang wrote --+
-| P J P <ppandit@redhat.com> 于2021年5月5日周三 下午3:24写道：
-| > -   vg_ctrl_response(g, cmd, &resp.hdr, sizeof(resp));
-| > +   vg_ctrl_response(g, cmd, &resp.hdr, sizeof(resp.hdr));
-| >
-| > * While memset(3) is okay, should it also send header(hdr) size as 'resp_len'?
-| 
-| I don't think so. This function also set fields other than header such
-| as 'resp.capset_id', 'resp.capset_max_version' and so on.
+If you still think this bug report here is valid, then please switch
+the state back to "New" within the next 60 days, otherwise this report
+will be marked as "Expired". Or please mark it as "Fix Released" if
+the problem has been solved with a newer version of QEMU already.
 
-But it is passing 'resp.hdr' reference as parameter and size of 'resp' as 
-length.
+Thank you and sorry for the inconvenience.
 
-  sizeof(struct virtio_gpu_ctrl_hdr): 24
-  sizeof(struct virtio_gpu_resp_capset_info): 40
 
-It may cause OOB access.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-Thank you.
---
- - P J P
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
----1463810559-1813655995-1620280422=:56254--
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1864984
+
+Title:
+  "nr_entries is too big" when using virgl
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I have a bootable image where GNOME Shell fails because it hits a
+  limit in virtio-gpu.
+
+  In `hw/display/virtio-gpu.c`, there is a limit for `nr_entries` at
+  16384. There is no explanation for that limit. But there does not seem
+  to be any limit on the kernel side.
+
+  Raising this limit with a patch to 262144 solves the issue.
+
+  Could there be an explanation why this limit is needed? And why this
+  value? Or could this limit be just removed?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1864984/+subscriptions
 
