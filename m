@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A13375AE8
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 20:59:23 +0200 (CEST)
-Received: from localhost ([::1]:58712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3858A375AE9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 20:59:24 +0200 (CEST)
+Received: from localhost ([::1]:58754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lejDW-0006xJ-G4
+	id 1lejDW-0006yR-Dy
 	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 14:59:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60764)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lejBH-0005Gy-Kr
- for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55830)
+ id 1lejBJ-0005IM-GC
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lejBC-0005VO-QW
- for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:03 -0400
+ id 1lejBE-0005Wl-Hn
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 14:57:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620327417;
+ s=mimecast20190719; t=1620327419;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KyXvn23GJpjWPiH/gTS/OhOYul/0WPEsLt6H0sEFwtM=;
- b=Dh5vY05p2FN9aneiE3q5pqvzMFUlThWfgbsjH/cW0VvFfZN23MT89h+PbrOZ/8gMwxteP/
- lUCbsp4v7bdfKI4V4EvVL4UgvUhuPkVpyk92dQqKZf6C0cpHfw1xV1lhVdDEm7dxtgxYC/
- z1jranhdX0jUOoz4r6nrd6b/CSev9yQ=
+ bh=ixZvPyfzey0N3JlNi4lsoo23i7AgQijVdVZhCMUC9XQ=;
+ b=h3w1U82ODBgG/fW26eSpCrvQbuCKSF8OFEIFgjT4E480jOoUBd9rlRT01F0ZTToHrJeqHF
+ 6LrScm+5UsYKFFmkUdYV6OjOco9vY+O8Qc5pB2dxmtTDVUNu8v6PNGsWNIx+NJmHTB5EVh
+ HWKoefyAhLbt4cMzqKWqBVTcg5U8Pqg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-LHPd2fb5Nqiogbvq9YafSg-1; Thu, 06 May 2021 14:56:55 -0400
-X-MC-Unique: LHPd2fb5Nqiogbvq9YafSg-1
+ us-mta-111-Bhjbx-3oNXiOVhFPGBnZpQ-1; Thu, 06 May 2021 14:56:57 -0400
+X-MC-Unique: Bhjbx-3oNXiOVhFPGBnZpQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7987E107ACCA;
- Thu,  6 May 2021 18:56:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A35E11922978;
+ Thu,  6 May 2021 18:56:56 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-115-37.ams2.redhat.com
  [10.36.115.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BEAB119726;
- Thu,  6 May 2021 18:56:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D458F19C46;
+ Thu,  6 May 2021 18:56:54 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, groug@kaod.org, jose.carlos.venegas.munoz@intel.com,
  ma.mandourr@gmail.com
-Subject: [PULL 01/12] virtiofsd: Fix side-effect in assert()
-Date: Thu,  6 May 2021 19:56:30 +0100
-Message-Id: <20210506185641.284821-2-dgilbert@redhat.com>
+Subject: [PULL 02/12] virtiofsd: Allow use "-o xattrmap" without "-o xattr"
+Date: Thu,  6 May 2021 19:56:31 +0100
+Message-Id: <20210506185641.284821-3-dgilbert@redhat.com>
 In-Reply-To: <20210506185641.284821-1-dgilbert@redhat.com>
 References: <20210506185641.284821-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +57,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -84,98 +84,32 @@ Cc: virtio-fs@redhat.com, vgoyal@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Carlos Venegas <jose.carlos.venegas.munoz@intel.com>
 
-It is bad practice to put an expression with a side-effect in
-assert() because the side-effect won't happen if the code is
-compiled with -DNDEBUG.
+When -o xattrmap is used, it will not work unless xattr is enabled.
 
-Use an intermediate variable. Consolidate this in an macro to
-have proper line numbers when the assertion is hit.
+This patch enables xattr when -o xattrmap is used.
 
-virtiofsd: ../../tools/virtiofsd/passthrough_ll.c:2797: lo_getxattr:
- Assertion `fchdir_res == 0' failed.
-Aborted
-
-  2796          /* fchdir should not fail here */
-=>2797          FCHDIR_NOFAIL(lo->proc_self_fd);
-  2798          ret = getxattr(procname, name, value, size);
-  2799          FCHDIR_NOFAIL(lo->root.fd);
-
-Fixes: bdfd66788349 ("virtiofsd: Fix xattr operations")
-Cc: misono.tomohiro@jp.fujitsu.com
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20210409100627.451573-1-groug@kaod.org>
+Signed-off-by: Carlos Venegas <jose.carlos.venegas.munoz@intel.com>
+Message-Id: <20210414201207.3612432-2-jose.carlos.venegas.munoz@intel.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 1553d2ef45..6592f96f68 100644
+index 6592f96f68..2c36f4ec46 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2723,6 +2723,11 @@ static int xattr_map_server(const struct lo_data *lo, const char *server_name,
-     return -ENODATA;
- }
- 
-+#define FCHDIR_NOFAIL(fd) do {                         \
-+        int fchdir_res = fchdir(fd);                   \
-+        assert(fchdir_res == 0);                       \
-+    } while (0)
-+
- static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-                         size_t size)
- {
-@@ -2789,9 +2794,9 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-         ret = fgetxattr(fd, name, value, size);
-     } else {
-         /* fchdir should not fail here */
--        assert(fchdir(lo->proc_self_fd) == 0);
-+        FCHDIR_NOFAIL(lo->proc_self_fd);
-         ret = getxattr(procname, name, value, size);
--        assert(fchdir(lo->root.fd) == 0);
-+        FCHDIR_NOFAIL(lo->root.fd);
+@@ -3831,6 +3831,7 @@ int main(int argc, char *argv[])
      }
  
-     if (ret == -1) {
-@@ -2864,9 +2869,9 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
-         ret = flistxattr(fd, value, size);
-     } else {
-         /* fchdir should not fail here */
--        assert(fchdir(lo->proc_self_fd) == 0);
-+        FCHDIR_NOFAIL(lo->proc_self_fd);
-         ret = listxattr(procname, value, size);
--        assert(fchdir(lo->root.fd) == 0);
-+        FCHDIR_NOFAIL(lo->root.fd);
+     if (lo.xattrmap) {
++        lo.xattr = 1;
+         parse_xattrmap(&lo);
      }
  
-     if (ret == -1) {
-@@ -3000,9 +3005,9 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-         ret = fsetxattr(fd, name, value, size, flags);
-     } else {
-         /* fchdir should not fail here */
--        assert(fchdir(lo->proc_self_fd) == 0);
-+        FCHDIR_NOFAIL(lo->proc_self_fd);
-         ret = setxattr(procname, name, value, size, flags);
--        assert(fchdir(lo->root.fd) == 0);
-+        FCHDIR_NOFAIL(lo->root.fd);
-     }
- 
-     saverr = ret == -1 ? errno : 0;
-@@ -3066,9 +3071,9 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *in_name)
-         ret = fremovexattr(fd, name);
-     } else {
-         /* fchdir should not fail here */
--        assert(fchdir(lo->proc_self_fd) == 0);
-+        FCHDIR_NOFAIL(lo->proc_self_fd);
-         ret = removexattr(procname, name);
--        assert(fchdir(lo->root.fd) == 0);
-+        FCHDIR_NOFAIL(lo->root.fd);
-     }
- 
-     saverr = ret == -1 ? errno : 0;
 -- 
 2.31.1
 
