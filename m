@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F28637500E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 09:22:06 +0200 (CEST)
-Received: from localhost ([::1]:56840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B7D37503C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 09:37:17 +0200 (CEST)
+Received: from localhost ([::1]:48194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leYKj-0006AJ-6s
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 03:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60774)
+	id 1leYZQ-0007Ot-Lc
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 03:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1leYJW-0005cc-J8
- for qemu-devel@nongnu.org; Thu, 06 May 2021 03:20:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53261)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1leYJS-0003G0-HN
- for qemu-devel@nongnu.org; Thu, 06 May 2021 03:20:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620285644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tnDc12VTn+LodLns8DoZPbV13/LygVebbZiKyVJPZSY=;
- b=dwVMiaD7AE5LCZGIMUryP7+GZHCmMpLDX8UJp1PL04PV32U10K9E46TgTHtY0jtPxyq+1X
- juAbO1/cQO9Grqa8mY03aiiVM4Q9X6Db2qMil7PgqlPdtkHhZNzu8yqOtXDR14Q8cCpJdQ
- 04SBdTF3gGXGg90cg4Si27W4CYRPOb8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-wYx3fmemOzqoaULXXS4Img-1; Thu, 06 May 2021 03:20:42 -0400
-X-MC-Unique: wYx3fmemOzqoaULXXS4Img-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E62BE80059E
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 07:20:41 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-3.pek2.redhat.com
- [10.72.13.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D9DA5B4B5
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 07:20:41 +0000 (UTC)
-Subject: Re: [PATCH 0/2] vhost-vDPA: doorbell mapping support
-To: qemu-devel@nongnu.org
-References: <20210415080444.44645-1-jasowang@redhat.com>
- <20210504043623-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <3aebbc13-bb2d-405e-06f7-b6aec4ca290f@redhat.com>
-Date: Thu, 6 May 2021 15:20:39 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leYXt-0006KF-AZ
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:35:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leYXr-0004ci-In
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 03:35:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1leYXp-0002W0-7n
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:35:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1FD1C2E8186
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 07:35:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210504043623-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 May 2021 07:22:39 -0000
+From: Thomas Huth <1873335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: epistemepromeneur ruthan th-huth
+X-Launchpad-Bug-Reporter: ruthan (ruthan)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158706530687.6368.4226982042682182002.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162028575938.4274.11329868396063674241.malone@gac.canonical.com>
+Subject: [Bug 1873335] Re: Dos Keypad is not working for numbers - numlock is
+ not working
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: 8329dae34b97671b0648092adf5755a6e8c86bfe
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,39 +71,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1873335 <1873335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting older bugs to "Incomplete" now.
 
-ÔÚ 2021/5/4 ÏÂÎç4:38, Michael S. Tsirkin Ð´µÀ:
-> On Thu, Apr 15, 2021 at 04:04:42PM +0800, Jason Wang wrote:
->> Hi All:
->>
->> This series tries to implement doorbell mapping support for
->> vhost-vDPA. Tested with virtio-pci vDPA driver.
-> BTW I'd rather we used the kick/call terminology from the virtio
-> spec. doorbell terminology seems to be originating from e1000
-> which has a register named like this.
+If you still think this bug report here is valid, then please switch
+the state back to "New" within the next 60 days, otherwise this report
+will be marked as "Expired". Or please mark it as "Fix Released" if
+the problem has been solved with a newer version of QEMU already.
 
-
-Ok, will rename in next version.
-
-Thanks
+Thank you and sorry for the inconvenience.
 
 
->
->> Please review.
->>
->> Jason Wang (2):
->>    vhost-vdpa: skip ram device from the IOTLB mapping
->>    vhost-vdpa: doorbell mapping support
->>
->>   hw/virtio/vhost-vdpa.c         | 97 ++++++++++++++++++++++++++++++----
->>   include/hw/virtio/vhost-vdpa.h |  7 +++
->>   2 files changed, 94 insertions(+), 10 deletions(-)
->>
->> -- 
->> 2.25.1
->
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1873335
+
+Title:
+  Dos Keypad is not working for numbers - numlock is not working
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Hello,
+  i tried to use Qemu 4.2 for Dos, but there is problem what in Dos is not =
+possible turn on Numlock for input numbers, so games need it.. Numlock only=
+ working as arrow keys.
+  =C2=A0=C2=A0I tested bough Windows and Linux builds.
+
+  With same setting, when i use Windows 98 or later os, numlock is
+  working fine.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1873335/+subscriptions
 
