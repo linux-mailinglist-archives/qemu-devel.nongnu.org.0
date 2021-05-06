@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFDC374D44
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 04:06:38 +0200 (CEST)
-Received: from localhost ([::1]:45740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B18AE374D49
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 04:09:34 +0200 (CEST)
+Received: from localhost ([::1]:47936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leTPR-0007JG-Ni
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 22:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59490)
+	id 1leTSH-0008N6-Qu
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 22:09:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1leTNt-0006oo-Iz; Wed, 05 May 2021 22:05:01 -0400
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:37753)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1leTNr-0005Sp-Bl; Wed, 05 May 2021 22:05:01 -0400
-Received: by mail-io1-xd32.google.com with SMTP id b10so3482539iot.4;
- Wed, 05 May 2021 19:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qZlRz6/4Is4yLewzU/9WdTXLNZrZuJ75lgS1ZNHD3hI=;
- b=Pc7PNAzGUTItQbBdUBdTUP1kBknVEntzshMcqesKNq4lSXEzeP7gXvYX9WJ7jsvhAo
- rber4G6Z3lYQWZq68epcp/ZSW110yxiRoK4FmGNfuFDl1eLQ8XBizpiQt0SjgcJEl8a8
- 3TOpnOVgyvRWaWqD6yYSZVMVzvjLq4Iztbovr10tQI+m7qfZjndj3OhCYlUfE/ju7CIY
- CcvJbsRUSnxzVf0Go7vrtplGTEChLDQ9XXNvmL5Z5avtYY+JPanA9PLYFBcB6B8+aUTn
- czKO619TTEaCSYX8NscrflWEePRIRJzYWrkenyQg66p24KSxl6tjZTylkSknPm24IXbA
- JALA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qZlRz6/4Is4yLewzU/9WdTXLNZrZuJ75lgS1ZNHD3hI=;
- b=swWLziS6sBp99qGSPFUMa/vknIjv0Ksq/oUxHN6fb8jP5FI/W+GIk+ytOywr4Td/Q4
- rUI/nGBLyXxm7SN/CMNCdHSMJPREw23uFr7JVF+OIbfyxLFIN3IoYmeZgsNrVP9fxArI
- ocHjc9oD5RsB4EuegXhcDx0Ia8jbBAuPEiiBbYeeBOB3iJ851wD+eFWRsQOy6Ldw5OnT
- cjRsDTFawJ95MO4LvUw6DdVYxJm6fJur+zhx4lD4F11qW3q25E1kb9acGo2RRDI42q+j
- vf5inn5J2F+3tm1nUbPB1IIxerFxBMzFS3BIFknZqqHjH+0MXkOSvXQ06w+6Zi4m+ccv
- 8qXA==
-X-Gm-Message-State: AOAM533v+NHpB3BUuI7OvJa3z0ODLb4UAQ0KpW+WB8VcJsxq8EURCqdv
- mXNH9HNc/N1zV4MDXTexOQWMJ607jB8kwwntWoA=
-X-Google-Smtp-Source: ABdhPJy1g4C3QMLnyDxfGTLuHJzu2IwJIumTVUh/xTUdNUu5y+F3LCdiy1nZ6X2+yzdFGBL2H4JfZBTBAOG3XSm+mms=
-X-Received: by 2002:a6b:c857:: with SMTP id y84mr1237357iof.118.1620266697727; 
- Wed, 05 May 2021 19:04:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1leTRI-0007vo-Cf
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 22:08:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47229)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1leTRF-0007S6-1L
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 22:08:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620266907;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FW3BeJPF5kSp0xNOvg5NLPAeicEo8Q9yAUEvTqsjjzc=;
+ b=U73ycmVokwSUavdNG8lHppBcdmEuMqAvXnK0nmMliibyXvgimJTbfB045YMWeEUApisesp
+ 8rQ7xQ9z6oTCg6zxBa5+bf3/U8a0Vv7Mi1Efv68uoVfYisslpJCw/husr1F/dsVt0OvhBw
+ FbnebgNINPXoKmZEqv+xl0cNqDHwl8I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-373-GMlZ9UTcOYOJ4Tbt3MaTtQ-1; Wed, 05 May 2021 22:08:22 -0400
+X-MC-Unique: GMlZ9UTcOYOJ4Tbt3MaTtQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB6E2107ACC7;
+ Thu,  6 May 2021 02:08:21 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7FB811002D71;
+ Thu,  6 May 2021 02:08:20 +0000 (UTC)
+Subject: Re: [PATCH 16/22] qapi/parser: add docstrings
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210422030720.3685766-1-jsnow@redhat.com>
+ <20210422030720.3685766-17-jsnow@redhat.com>
+ <877dkq5w9x.fsf@dusky.pond.sub.org>
+ <6ea6efc8-0506-326c-ee57-eb81fd61dfae@redhat.com>
+ <87lf942j73.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <aa7e8787-9198-37c2-6bb5-04aa25d26bce@redhat.com>
+Date: Wed, 5 May 2021 22:08:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210505160620.15723-1-frank.chang@sifive.com>
- <20210505160620.15723-3-frank.chang@sifive.com>
-In-Reply-To: <20210505160620.15723-3-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 6 May 2021 12:04:31 +1000
-Message-ID: <CAKmqyKMx00GWC-Ap77OTKPvmOJWPoTv__4Gf-46fzh3ziQOeYg@mail.gmail.com>
-Subject: Re: [PATCH v6 02/17] target/riscv: rvb: count leading/trailing zeros
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <87lf942j73.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,195 +84,358 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 6, 2021 at 2:24 AM <frank.chang@sifive.com> wrote:
->
-> From: Kito Cheng <kito.cheng@sifive.com>
->
-> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 4/27/21 5:03 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 4/25/21 9:27 AM, Markus Armbruster wrote:
+>>> John Snow <jsnow@redhat.com> writes:
+>>>
+>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>>>
+>>>> ---
+>>>>
+>>>> My hubris is infinite.
+>>>
+>>> Score one of the three principal virtues of a programmer ;)
+>>>
+>>
+>> It was written before the prior review, but I promise I am slowing down
+>> on adding these. I just genuinely left them to help remind myself how
+>> these modules are actually structured and work so that I will be able to
+>> "pop in" quickly in the future and make a tactical, informed edit.
+>>
+>>>> OK, I only added a few -- to help me remember how the parser works at a glance.
+>>>>
+>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>>> ---
+>>>>    scripts/qapi/parser.py | 66 ++++++++++++++++++++++++++++++++++++++++++
+>>>>    1 file changed, 66 insertions(+)
+>>>>
+>>>> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+>>>> index dbbd0fcbc2f..8fc77808ace 100644
+>>>> --- a/scripts/qapi/parser.py
+>>>> +++ b/scripts/qapi/parser.py
+>>>> @@ -51,7 +51,24 @@ def __init__(self, parser: 'QAPISchemaParser', msg: str):
+>>>>    
+>>>>    
+>>>>    class QAPISchemaParser:
+>>>> +    """
+>>>> +    Performs parsing of a QAPI schema source file.
+>>>
+>>> Actually, this parses one of two layers, see qapi-code-gen.txt section
+>>> "Schema syntax".  Pointing there might help.
+>>>
+>>
+>> It sort of parses one-and-a-half layers, but yes ... I know the
+>> distinction you're drawing here. This is *mostly* the JSON/AST level.
+>>
+>> (With some upper-level or mid-level parsing for Pragmas and Includes.)
+> 
+> True.  I chose simplicity over purity.
+> 
+>>>>    
+>>>> +    :param fname: Path to the source file
+>>>
+>>> Either "Source file name" or "Source pathname", please.  I prefer "file
+>>> name" for additional distance to "path" in the sense of a search path,
+>>> i.e. a list of directory names.
+>>>
+>>
+>> OK, I am not sure I have any ... prejudice about when to use which kind
+>> of description for these sorts of things. I'm happy to defer to you, but
+>> if there's some kind of existing standard vocabulary I'm trampling all
+>> over, feel free to point me to your preferred hacker dictionary.
+>>
+>> Anyway, happy to adopt your phrasing here.
+>>
+>>>> +    :param previously_included:
+>>>> +        The absolute paths of previously included source files.
+>>>
+>>> Either "absolute file name" or "absulute pathname".
+>>>
+>>
+>> OK.
+>>
+>>>> +        Only used by recursive calls to avoid re-parsing files.
+>>>
+>>> Feels like detail, not sure it's needed here.
+>>>
+>>
+>> You're probably right, but I suppose I wanted to hint/suggest that it
+>> was not necessary to feed it this argument for the root schema, but it
+>> was crucial for the recursive calls.
+> 
+> To me "if root schema, then nothing was previously included" feels
+> obvious enough :)  But if you want to spell out proper use of the
+> parameter, I recommend to stick to the interface, i.e. when to pass it,
+> not what the function does with it (in the hope that the reader can
+> then guess when to pass it).
+> 
+>> (Earlier I mentioned possibly just passing the parent parser in: that
+>> helps eliminate some of this ambiguity, too.)
+>>
+>>>> +    :param incl_info:
+>>>> +       `QAPISourceInfo` for the parent document.
+>>>> +       This may be None if this is the root schema document.
+>>>
+>>> Recommend s/This maybe //.
+>>>
+>>> qapi-code-gen.txt calls a QAPI schema that uses include directives
+>>> "modular", and the included files "sub-modules".  s/root schema
+>>> document/root module/?
+>>>
+>>
+>> Sure. All in favor of phrasing consistency.
+>>
+>> (By the way: I did write up a draft for converting qapi-code-gen.txt to
+>> ReST format, and if I had finished that, it might be nice to hotlink to
+>> it here. I stopped for now because I wanted to solidify some conventions
+>> on how to markup certain constructs first, and wanted ... not to
+>> overwhelm you with more doc-wrangling.)
+> 
+> Appreciated :)
+> 
+>>>> +
+>>>> +    :ivar exprs: Resulting parsed expressions.
+>>>> +    :ivar docs: Resulting parsed documentation blocks.
+>>>
+>>> Uh, why are these here?  A doc string is interface documentation...
+>>>
+>>
+>> These *are* interface. It is how callers are expected to get the results
+>> of parsing.
+> 
+> You're right, but is the constructor the right place to document
+> attributes?
+> 
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+This is the docstring for the class, actually.
 
-Alistair
+https://www.python.org/dev/peps/pep-0257/ says:
 
-> ---
->  target/riscv/cpu.h                      |  1 +
->  target/riscv/insn32.decode              | 11 ++++++-
->  target/riscv/insn_trans/trans_rvb.c.inc | 44 +++++++++++++++++++++++++
->  target/riscv/translate.c                | 38 +++++++++++++++++++++
->  4 files changed, 93 insertions(+), 1 deletion(-)
->  create mode 100644 target/riscv/insn_trans/trans_rvb.c.inc
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 7e879fb9ca5..f95bcbd8e10 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -67,6 +67,7 @@
->  #define RVS RV('S')
->  #define RVU RV('U')
->  #define RVH RV('H')
-> +#define RVB RV('B')
->
->  /* S extension denotes that Supervisor mode exists, however it is possible
->     to have a core that support S mode but does not have an MMU and there
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index f75642bb0d2..9a2ffab1504 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -41,6 +41,7 @@
->  &i    imm rs1 rd
->  &j    imm rd
->  &r    rd rs1 rs2
-> +&r2   rd rs1
->  &s    imm rs1 rs2
->  &u    imm rd
->  &shift     shamt rs1 rd
-> @@ -68,7 +69,7 @@
->  @r4_rm   ..... ..  ..... ..... ... ..... ....... %rs3 %rs2 %rs1 %rm %rd
->  @r_rm    .......   ..... ..... ... ..... ....... %rs2 %rs1 %rm %rd
->  @r2_rm   .......   ..... ..... ... ..... ....... %rs1 %rm %rd
-> -@r2      .......   ..... ..... ... ..... ....... %rs1 %rd
-> +@r2      .......   ..... ..... ... ..... ....... &r2 %rs1 %rd
->  @r2_nfvm ... ... vm:1 ..... ..... ... ..... ....... &r2nfvm %nf %rs1 %rd
->  @r2_vm   ...... vm:1 ..... ..... ... ..... ....... &rmr %rs2 %rd
->  @r1_vm   ...... vm:1 ..... ..... ... ..... ....... %rd
-> @@ -657,3 +658,11 @@ vamomind_v      10000 . . ..... ..... 111 ..... 0101111 @r_wdvm
->  vamomaxd_v      10100 . . ..... ..... 111 ..... 0101111 @r_wdvm
->  vamominud_v     11000 . . ..... ..... 111 ..... 0101111 @r_wdvm
->  vamomaxud_v     11100 . . ..... ..... 111 ..... 0101111 @r_wdvm
-> +
-> +# *** RV32B Standard Extension ***
-> +clz        011000 000000 ..... 001 ..... 0010011 @r2
-> +ctz        011000 000001 ..... 001 ..... 0010011 @r2
-> +
-> +# *** RV64B Standard Extension (in addition to RV32B) ***
-> +clzw       0110000 00000 ..... 001 ..... 0011011 @r2
-> +ctzw       0110000 00001 ..... 001 ..... 0011011 @r2
-> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-> new file mode 100644
-> index 00000000000..157b4e3c41d
-> --- /dev/null
-> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-> @@ -0,0 +1,44 @@
-> +/*
-> + * RISC-V translation routines for the RVB Standard Extension.
-> + *
-> + * Copyright (c) 2020 Kito Cheng, kito.cheng@sifive.com
-> + * Copyright (c) 2020 Frank Chang, frank.chang@sifive.com
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +static bool trans_clz(DisasContext *ctx, arg_clz *a)
-> +{
-> +    REQUIRE_EXT(ctx, RVB);
-> +    return gen_unary(ctx, a, gen_clz);
-> +}
-> +
-> +static bool trans_ctz(DisasContext *ctx, arg_ctz *a)
-> +{
-> +    REQUIRE_EXT(ctx, RVB);
-> +    return gen_unary(ctx, a, gen_ctz);
-> +}
-> +
-> +static bool trans_clzw(DisasContext *ctx, arg_clzw *a)
-> +{
-> +    REQUIRE_64BIT(ctx);
-> +    REQUIRE_EXT(ctx, RVB);
-> +    return gen_unary(ctx, a, gen_clzw);
-> +}
-> +
-> +static bool trans_ctzw(DisasContext *ctx, arg_ctzw *a)
-> +{
-> +    REQUIRE_64BIT(ctx);
-> +    REQUIRE_EXT(ctx, RVB);
-> +    return gen_unary(ctx, a, gen_ctzw);
-> +}
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index e945352bca3..60fac0fe27e 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -548,6 +548,19 @@ static bool gen_arith_div_uw(DisasContext *ctx, arg_r *a,
->      return true;
->  }
->
-> +static void gen_ctzw(TCGv ret, TCGv arg1)
-> +{
-> +    tcg_gen_ori_tl(ret, arg1, (target_ulong)MAKE_64BIT_MASK(32, 32));
-> +    tcg_gen_ctzi_tl(ret, ret, 64);
-> +}
-> +
-> +static void gen_clzw(TCGv ret, TCGv arg1)
-> +{
-> +    tcg_gen_ext32u_tl(ret, arg1);
-> +    tcg_gen_clzi_tl(ret, ret, 64);
-> +    tcg_gen_subi_tl(ret, ret, 32);
-> +}
-> +
->  static bool gen_arith(DisasContext *ctx, arg_r *a,
->                        void(*func)(TCGv, TCGv, TCGv))
->  {
-> @@ -593,6 +606,30 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
->      return cpu_ldl_code(env, pc);
->  }
->
-> +static void gen_ctz(TCGv ret, TCGv arg1)
-> +{
-> +    tcg_gen_ctzi_tl(ret, arg1, TARGET_LONG_BITS);
-> +}
-> +
-> +static void gen_clz(TCGv ret, TCGv arg1)
-> +{
-> +    tcg_gen_clzi_tl(ret, arg1, TARGET_LONG_BITS);
-> +}
-> +
-> +static bool gen_unary(DisasContext *ctx, arg_r2 *a,
-> +                      void(*func)(TCGv, TCGv))
-> +{
-> +    TCGv source = tcg_temp_new();
-> +
-> +    gen_get_gpr(source, a->rs1);
-> +
-> +    (*func)(source, source);
-> +
-> +    gen_set_gpr(a->rd, source);
-> +    tcg_temp_free(source);
-> +    return true;
-> +}
-> +
->  /* Include insn module translation function */
->  #include "insn_trans/trans_rvi.c.inc"
->  #include "insn_trans/trans_rvm.c.inc"
-> @@ -601,6 +638,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
->  #include "insn_trans/trans_rvd.c.inc"
->  #include "insn_trans/trans_rvh.c.inc"
->  #include "insn_trans/trans_rvv.c.inc"
-> +#include "insn_trans/trans_rvb.c.inc"
->  #include "insn_trans/trans_privileged.c.inc"
->
->  /* Include the auto-generated decoder for 16 bit insn */
-> --
-> 2.17.1
->
->
+"The docstring for a class should summarize its behavior and list the 
+public methods and instance variables. If the class is intended to be 
+subclassed, and has an additional interface for subclasses, this 
+interface should be listed separately (in the docstring). The class 
+constructor should be documented in the docstring for its __init__ 
+method. Individual methods should be documented by their own docstring."
+
+So that's where parameters for the init method goes, as well as class 
+and instance variables.
+
+One-stop shop for interface documentation.
+
+>> We could change that, of course, but that is absolutely how this class
+>> works today.
+>>
+>>>> +
+>>>> +    :raise OSError: For problems opening the root schema document.
+>>>> +    :raise QAPIParseError: For JSON or QAPIDoc syntax problems.
+>>>> +    :raise QAPISemError: For various semantic issues with the schema.
+>>>
+>>> Should callers care for the difference between QAPIParseError and
+>>> QAPISemError?
+>>>
+>>
+>> That's up to the caller, I suppose. I just dutifully reported the truth
+>> of the matter here.
+>>
+>> (That's a real non-answer, I know.)
+>>
+>> I could always document QAPISourceError instead, with a note about the
+>> subclasses used for completeness.
+>>
+>> (The intent is that QAPIError is always assumed/implied to be sufficient
+>> for capturing absolutely everything raised directly by this package, if
+>> you want to ignore the meanings behind them.)
+> 
+> I honestly can't think of a reason for catching anything but QAPIError.
+> The other classes exist only to give us more convenient ways to
+> construct instances of QAPIError.  We could replace them all by
+> functions returning QAPIError.
+> 
+
+Summary it is.
+
+>>>> +    """
+>>>>        def __init__(self,
+>>>>                     fname: str,
+>>>>                     previously_included: Optional[Set[str]] = None,
+>>>> @@ -77,6 +94,11 @@ def __init__(self,
+>>>>            self._parse()
+>>>>    
+>>>>        def _parse(self) -> None:
+>>>> +        """
+>>>> +        Parse the QAPI schema document.
+>>>> +
+>>>> +        :return: None; results are stored in ``exprs`` and ``docs``.
+>>>
+>>> Another ignorant doc string markup question...  how am I supposed to see
+>>> that exprs and docs are attributes, and not global variables?
+>>>
+>>
+>> I don't know, it's an unsolved mystery for me too. I need more time in
+>> the Sphinx dungeon to figure out how this stuff is supposed to work.
+>> You're right to wonder.
+> 
+> Use self.exprs and self.docs meanwhile?
+> 
+
+If I don't accidentally trip and fall and decide to care more about it 
+by the time I finish revising the docs tomorrow, yes.
+
+>>>> +        """
+>>>>            cur_doc = None
+>>>>    
+>>>>            with open(self._fname, 'r', encoding='utf-8') as fp:
+>>>> @@ -197,6 +219,50 @@ def _check(name: str, value: object) -> List[str]:
+>>>>                raise QAPISemError(info, "unknown pragma '%s'" % name)
+>>>>    
+>>>>        def accept(self, skip_comment: bool = True) -> None:
+>>>> +        """
+>>>> +        Read the next lexeme and process it into a token.
+>>>> +
+>>>> +        :Object state:
+>>>> +          :tok: represents the token type. See below for values.
+>>>> +          :pos: is the position of the first character in the lexeme.
+>>>> +          :cursor: is the position of the next character.
+>>>
+>>> Define "position" :)  It's an index in self.src.
+>>>
+>>
+>> Good call.
+>>
+>>> self.cursor and self.pos are not used outside accept().  Not sure thet
+>>> belong into interface documentation.
+>>>
+>>
+>> Fair point, though I was on a mission to document exactly how the parser
+>> works even at the internal level, because accept(), despite being
+>> "public", is really more of an internal function here.
+>>
+>> I am somewhat partial to documenting these state variables for my own
+>> sake so that I can remember the way this lexer behaves.
+> 
+> I understand why you want to document how they work.  Since they're
+> internal to accept(), a comment in accept() seems more proper than
+> accept() doc string.  Admittedly doesn't matter that much, as accept()
+> is internal to the class.
+> 
+
+OK, I'll take it into consideration and see what subjectively looks and 
+feels the nicest.
+
+>>>> +          :val: is the variable value of the token, if any.
+>>>
+>>> Missing: self.info, which *is* used outside accept().
+>>>
+>>
+>> Oh, yes.
+>>
+>>>> +
+>>>> +        Single-character tokens:
+>>>> +
+>>>> +        These include ``LBRACE``, ``RBRACE``, ``COLON``, ``COMMA``,
+>>>> +        ``LSQB``, and ``RSQB``.
+>>>
+>>> "These include ..." is misleading.  This is the complete list of
+>>> single-character tokens.
+>>>
+>>
+>> I'm just testing your ability to recognize the difference between proper
+>> and improper subsets.
+>>
+>> (Joking. I'll reword to avoid that ambiguity.)
+>>
+>>>> +        ``LSQB``, and ``RSQB``.  ``tok`` holds the single character
+>>>> +        lexeme.  ``val`` is ``None``.
+>>>> +
+>>>> +        Multi-character tokens:
+>>>> +
+>>>> +        - ``COMMENT``:
+>>>> +
+>>>> +          - This token is not normally yielded by the lexer, but it
+>>>> +            can be when ``skip_comment`` is False.
+>>>> +          - ``tok`` is the value ``"#"``.
+>>>> +          - ``val`` is a string including all chars until end-of-line.
+>>>> +
+>>>> +        - ``STRING``:
+>>>> +
+>>>> +          - ``tok`` is the ``"'"``, the single quote.
+>>>> +          - ``value`` is the string, *excluding* the quotes.
+>>>> +
+>>>> +        - ``TRUE`` and ``FALSE``:
+>>>> +
+>>>> +          - ``tok`` is either ``"t"`` or ``"f"`` accordingly.
+>>>> +          - ``val`` is either ``True`` or ``False`` accordingly.
+>>>> +
+>>>> +        - ``NEWLINE`` and ``SPACE``:
+>>>> +
+>>>> +          - These are consumed by the lexer directly. ``line_pos`` and
+>>>> +            ``info`` are advanced when ``NEWLINE`` is encountered.
+>>>> +            ``tok`` is set to ``None`` upon reaching EOF.
+>>>> +
+>>>> +        :param skip_comment:
+>>>> +            When false, return ``COMMENT`` tokens.
+>>>> +            This is used when reading documentation blocks.
+>>>
+>>> The doc string mostly describes possible state on return of accept().
+>>> *Within* accept(), self.tok may be any character.
+>>>
+>>> "Mostly" because item ``NEWLINE`` and ``SPACE`` is about something that
+>>> happens within accept().
+>>>
+>>
+>> Almost kinda-sorta. The value of "tok" is important there, too.
+> 
+> --verbose?
+> 
+
+Fair enough. I'll trim it down. There is some future bleed from some 
+experimental stuff I cut out here.
+
+(It's been banished to some realm even further beyond pt5c, the 
+oft-feared but seldom-mentioned pt7. Spoken of in frightened whispers, 
+leading QAPI scholars are as of yet unable to confirm it truly exists.)
+
+>>> Perhaps phrasing it as a postcondition would be clearer:
+>>>
+>>>       Read and store the next token.
+>>>
+>>>       On return, self.tok is the token type, self.info is describes its
+>>>       source location, and self.value is the token's value.
+>>>
+>>>       The possible token types and their values are
+>>>
+>>>       ...
+>>>
+>>
+>> OK, I will play with this suggestion while I try to clean up the docs.
+>>
+>>>> +        """
+>>>>            while True:
+>>>>                self.tok = self.src[self.cursor]
+>>>>                self.pos = self.cursor
+>>
+>> Thanks for taking a look at this one.
+> 
+> Thank *you* for documenting my[*] code!
+> 
+> 
+> [*] Some of it mine in the sense I wrote it, some of it mine in the
+> sense I maintain it.
+> 
+> 
+
+I assure you it's entirely selfish. I have the memory of a goldfish and 
+the docs I wrote myself here have *already* come in handy for reminding 
+myself what's going on in here.
+
+--js
+
 
