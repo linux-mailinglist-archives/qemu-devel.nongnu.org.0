@@ -2,61 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87716375170
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:23:09 +0200 (CEST)
-Received: from localhost ([::1]:52864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C2137517A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 11:24:46 +0200 (CEST)
+Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leaDs-0007PZ-Gi
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:23:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32770)
+	id 1leaFR-0001KR-BZ
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 05:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lea14-0006S9-E0
- for qemu-devel@nongnu.org; Thu, 06 May 2021 05:09:55 -0400
-Received: from mga06.intel.com ([134.134.136.31]:24191)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lea12-0004bI-0A
- for qemu-devel@nongnu.org; Thu, 06 May 2021 05:09:54 -0400
-IronPort-SDR: tYq4zA0OFP4qLDABjw5y9oya3J/rP3rAVlIjr77BP+Rktv2Xxio1NTjnFjwmACISwG9UyaTiXc
- Ghi6VeQprnJg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="259701541"
-X-IronPort-AV: E=Sophos;i="5.82,277,1613462400"; d="scan'208";a="259701541"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 May 2021 02:09:49 -0700
-IronPort-SDR: N8Jplj/JVC7rYzuYBK+iqXRgje+29RMrvLDMsV1FoXyElf+6dMx5aP7aWOwJggXDkY1OKEmk6U
- GIMTmMtsEOoA==
-X-IronPort-AV: E=Sophos;i="5.82,277,1613462400"; d="scan'208";a="434256706"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.144.101])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 06 May 2021 02:09:47 -0700
-Date: Thu, 6 May 2021 16:57:18 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [RESEND PATCH 29/32] qmp: Add the qmp_query_sgx_capabilities()
-Message-ID: <20210506085718.GC21621@yangzhon-Virtual>
-References: <20210430062455.8117-1-yang.zhong@intel.com>
- <20210430062455.8117-30-yang.zhong@intel.com>
- <7a3a9cde-a213-91f1-b5b1-522e45dbc4df@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leZyh-0002gX-FJ
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 05:07:29 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1leZyZ-0003CH-AW
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 05:07:27 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1leZyU-0001YW-Qb
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 09:07:15 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6863D2E8241
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 09:07:07 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7a3a9cde-a213-91f1-b5b1-522e45dbc4df@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 May 2021 08:58:29 -0000
+From: Thomas Huth <1856399@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: simonbrand1992 th-huth
+X-Launchpad-Bug-Reporter: Simon Brand (simonbrand1992)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <157634067875.7231.7677894888746798043.malonedeb@soybean.canonical.com>
+Message-Id: <162029150939.3737.995458753521707645.malone@gac.canonical.com>
+Subject: [Bug 1856399] Re: Intel GVT-g works in X11, segfaults in wayland
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: f806582248a1d280fb665bd3bb9c2b17166b57e2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,75 +70,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, kai.huang@intel.com,
- qemu-devel@nongnu.org, seanjc@google.com
+Reply-To: Bug 1856399 <1856399@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 03, 2021 at 01:00:37PM -0500, Eric Blake wrote:
-> On 4/30/21 1:24 AM, Yang Zhong wrote:
-> > The libvirt can use qmp_query_sgx_capabilities() to get the host
-> 
-> s/The libvirt/Libvirt/
-> 
-> > sgx capabilitis.
-> > 
-> 
-> capabilities
-> 
-  Eric, thanks for your comments! I will change those mistakes, thanks!
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-  Yang
-  
-> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> > ---
-> >  hw/i386/sgx-epc.c          | 66 ++++++++++++++++++++++++++++++++++++++
-> >  include/hw/i386/pc.h       |  1 +
-> >  monitor/qmp-cmds.c         |  5 +++
-> >  qapi/misc.json             | 19 +++++++++++
-> >  stubs/sgx-stub.c           |  5 +++
-> >  tests/qtest/qmp-cmd-test.c |  1 +
-> >  6 files changed, 97 insertions(+)
-> > 
-> 
-> > +++ b/qapi/misc.json
-> > @@ -561,3 +561,22 @@
-> >  #
-> >  ##
-> >  { 'command': 'query-sgx', 'returns': 'SGXInfo' }
-> > +
-> > +
-> > +##
-> > +# @query-sgx-capabilities:
-> > +#
-> > +# Returns information from host SGX capabilities
-> > +#
-> > +# Returns: @SGXInfo
-> > +#
-> > +# Since: 5.1
-> 
-> 6.1
-> 
-
-  Ditto, thanks!
-
-  Yang
+ https://gitlab.com/qemu-project/qemu/-/issues/189
 
 
-> > +#
-> > +# Example:
-> > +#
-> > +# -> { "execute": "query-sgx-capabilities" }
-> > +# <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
-> > +#                  "flc": true, "section-size" : 0 } }
-> > +#
-> > +##
-> > +{ 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo' }
-> > diff --git a/stubs/sgx-stub.c b/stubs/sgx-stub.c
-> > index c2b59a88fd..1dedf3f3db 100644
-> > --- a/stubs/sgx-stub.c
-> -- 
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
+** Changed in: qemu
+       Status: New =3D> Expired
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #189
+   https://gitlab.com/qemu-project/qemu/-/issues/189
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856399
+
+Title:
+  Intel GVT-g works in X11, segfaults in wayland
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  Hello,
+
+  I am using an uptodate Arch Linux 64bit with qemu version 4.2.0, but the =
+problem was also present in older versions. The problem occurs with Linux 5=
+.4 and 4.19.
+  The problem also occurs with Debian as guest. I am running sway.
+  If I provide -vga std, then qemu works fine until I use the qemu window t=
+o switch to the vfio-pci device. There are no problems under X11/xwayland a=
+t all.
+
+  Commandline:
+  qemu-system-x86_64
+  =C2=A0=C2=A0=C2=A0=C2=A0-enable-kvm
+  =C2=A0=C2=A0=C2=A0=C2=A0-cpu host
+  =C2=A0=C2=A0=C2=A0=C2=A0-smp 2
+  =C2=A0=C2=A0=C2=A0=C2=A0-m 8192
+  =C2=A0=C2=A0=C2=A0=C2=A0-display gtk,gl=3Don
+  =C2=A0=C2=A0=C2=A0=C2=A0-device vfio-pci,sysfsdev=3D/sys/devices/pci0000:=
+00/0000:00:02.0/[ID]/,x-igd-opregion=3Don,display=3Don
+  =C2=A0=C2=A0=C2=A0=C2=A0-cdrom archlinux-2019.11.01-x86_64.iso
+  =C2=A0=C2=A0=C2=A0=C2=A0-vga none
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856399/+subscriptions
 
