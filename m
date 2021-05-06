@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8F937533C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 13:53:19 +0200 (CEST)
-Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF977375347
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 13:56:16 +0200 (CEST)
+Received: from localhost ([::1]:51704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lecZB-0005Q0-Qh
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 07:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53166)
+	id 1lecc3-0000Lh-PZ
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 07:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lecWn-0003zJ-Pr
- for qemu-devel@nongnu.org; Thu, 06 May 2021 07:50:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51574)
+ id 1lecWr-00042j-84
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 07:50:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lecWl-00031S-Mm
- for qemu-devel@nongnu.org; Thu, 06 May 2021 07:50:49 -0400
+ id 1lecWp-00035I-MZ
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 07:50:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lecWj-0000n2-Gy
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 11:50:45 +0000
+ id 1lecWo-0000zo-9J
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 11:50:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7F12A2E8060
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 11:50:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 379E92E8187
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 11:50:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 11:37:30 -0000
-From: Thomas Huth <1873337@bugs.launchpad.net>
+Date: Thu, 06 May 2021 11:38:31 -0000
+From: Thomas Huth <1861692@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: audio
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ruthan th-huth
-X-Launchpad-Bug-Reporter: ruthan (ruthan)
+X-Launchpad-Bug-Commenters: philmd th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158706555938.11904.16475777662338789012.malonedeb@soybean.canonical.com>
-Message-Id: <162030105053.14445.5927955518722494137.malone@soybean.canonical.com>
-Subject: [Bug 1873337] Re: Arrow keys press is double in some programs in Dos
+References: <158074287462.9078.13948577712209976443.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162030111131.3126.3188258212591078485.malone@gac.canonical.com>
+Subject: [Bug 1861692] Re: wavcapture does not record silence
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: f8f6d486920a9f75ef3d85067481222972ccc97b
+X-Launchpad-Hash: f8c53ad4f46cdb4e54f501cabb05bdc360b67357
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,52 +72,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1873337 <1873337@bugs.launchpad.net>
+Reply-To: Bug 1861692 <1861692@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting older bugs to "Incomplete" now.
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-If you still think this bug report here is valid, then please switch
-the state back to "New" within the next 60 days, otherwise this report
-will be marked as "Expired". Or please mark it as "Fix Released" if
-the problem has been solved with a newer version of QEMU already.
-
-Thank you and sorry for the inconvenience.
+ https://gitlab.com/qemu-project/qemu/-/issues/195
 
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Expired
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #195
+   https://gitlab.com/qemu-project/qemu/-/issues/195
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1873337
+https://bugs.launchpad.net/bugs/1861692
 
 Title:
-  Arrow keys press is double in some programs in Dos
+  wavcapture does not record silence
 
 Status in QEMU:
-  Incomplete
+  Expired
 
 Bug description:
-  Hello,
-  im trying to use Qemu for Dos machines.
-
-   But there is problem with some programs that arrow key press is
-  double in some problems. As advanced Filemanagers - Dos Navigator or
-  File Wizard, same Scandisk.
-
-  There is gif:
-  https://www.vogons.org/download/file.php?id=3D77141&mode=3Dview
-
-   Its blocking to use such problem, unless you use Numlock key for it,
-  but im used 25+ years to arrow keys and its bug.. I guess that it
-  would mess with some games too.
+  Using setup described in https://bugs.launchpad.net/qemu/+bug/1861677
+  a wav file is generated with all the silences stripped out. IOW
+  silence frames are not recorded.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1873337/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1861692/+subscriptions
 
