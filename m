@@ -2,85 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C73374F69
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 08:33:55 +0200 (CEST)
-Received: from localhost ([::1]:36324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE51374F6E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 08:36:38 +0200 (CEST)
+Received: from localhost ([::1]:45350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leXa6-00063W-Rz
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 02:33:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47772)
+	id 1leXcj-0001vN-9I
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 02:36:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1leXUF-0005EO-Vi; Thu, 06 May 2021 02:27:52 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:45173)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leXUU-0005LP-77
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 02:28:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1leXU9-0002xC-9W; Thu, 06 May 2021 02:27:51 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 1E12E58073F;
- Thu,  6 May 2021 02:27:41 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 06 May 2021 02:27:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=B6+sJwprFXC2/h/cOyeLm5WE/1D
- rWLASxEWyXnenq1o=; b=P/LmtxcMGhypr8dG/T/BrFUton5ippGZXdMDxuMFx0j
- jNARIe6cJSRg8gEIBsZAjnch+s6klarv+8ri8whpjsMzjYkn74jmCwteuSH9bvjZ
- wwe9r5hsdVQfVvgray0Sjqu0aGq+m5jVQhIm221MbqMZtWGBkchuXLnIrCYavqFl
- d6MzPOD5P0tMEyB55s0X/QF7aRm2W3nMgxR6ozPXGZqsVO+m3CiVbddFUThiX02d
- iAskbXkdEuBsLO5sGA3GhwK3wWEAueQUbknEP65+wqC/6FxHxuhwZT6+7sv72zSS
- vR8SL8g7ksKc9lHzB1fefHCEMEHgJoNdqnBTE8wct4w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=B6+sJw
- prFXC2/h/cOyeLm5WE/1DrWLASxEWyXnenq1o=; b=FwCiko1gQPCdZT1WQfCqaU
- kbUy3yBgGcXsBCcmcSdKwTxjccm8g4vaUI0jmaVhV1xwy6GfkgKuEsyj4RZ+Nxhi
- H02sUlx4TkbxVDakhRx60evb6EHP7Izix8bfQnVottppLCQ9Y6BMj2qkRTrak+8x
- K4C7yCqzq8T9dWcMJPoQql0XsbluXDL+S/p0b02RqcqA9Hkzds0ukqx6S+fLUaLn
- Y88h+216SPaKbhc2dGSWKVSlbKhmIrf4x0OLzBW+ARoc/dXJ8UPzL0ayoE9SF/kY
- /bXSbyW6QAYXTa4VyiEP4G6vjHjSpTIFbpMtl+EkRMEi6LT9Re6NiIgVbOkZQBKA
- ==
-X-ME-Sender: <xms:XIyTYAu4uGH6-Ck1gX2sYw1jYOIbrMEcrGugCS0i991n6zecwF3tTQ>
- <xme:XIyTYNdaGg2sVRM7cQZgGZ0WE7qnXSBWlFOqokoKONhaBcr5myYjPB_Ge23jDQ4Ci
- k6EBw_cG3L9pRo5arE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdefledguddthecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtroertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepueeuffeihffggfetheejieevleduhfetfffhheeigfehteejieetvddtgedv
- hedtnecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:XIyTYLwvammQmWUj6-gs-Q5lZGepyPyGieGrZ5UdIKdKz2BbN74rog>
- <xmx:XIyTYDOnTJeGcu7IsHYZ0T-MTC2h9VfMPGNrdIA4t5bjWo7IHzGeCg>
- <xmx:XIyTYA_HIuPGwQ0v5kdhDy6a7RKmObJfG5RnAB4x3_DDqJsogFoPEQ>
- <xmx:XYyTYB07lVQgO-rCda8UiEx671qol1L9jm0djD6YMCLFOKYiDRYEsw>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
- Thu,  6 May 2021 02:27:38 -0400 (EDT)
-Date: Thu, 6 May 2021 08:27:37 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 07/23] hw/block/nvme: Use definition to avoid dynamic
- stack allocation
-Message-ID: <YJOMWfEjUoewLrRo@apples.localdomain>
-References: <20210505211047.1496765-1-philmd@redhat.com>
- <20210505211047.1496765-8-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leXUQ-00039c-5C
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 02:28:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620282479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NC2kSHQLPEbs12cC0qOt7Gi5j+7px3YicgeYUuC+R8c=;
+ b=VuoWNV7S8hgOJf0i2mGySNuxtR8bIB0lVevUWfPPeQ09WDZusPCDO+EGBt+GZn3tdxbwnK
+ KW8tBJGuYbzZ+VRrITQyll53To8hZK2ACYsi3OeCjDJKyHUuB+g2gVdlShL+nYWy7A/c49
+ 08RPzsDn1oLleuPmRz86ALFSeSnMUKM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-__BPrKEvP3yy-ScmYYdy4g-1; Thu, 06 May 2021 02:27:57 -0400
+X-MC-Unique: __BPrKEvP3yy-ScmYYdy4g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o10-20020a05600c4fcab029014ae7fdec90so963853wmq.5
+ for <qemu-devel@nongnu.org>; Wed, 05 May 2021 23:27:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NC2kSHQLPEbs12cC0qOt7Gi5j+7px3YicgeYUuC+R8c=;
+ b=EY5zrorUS89aR+FEunZUk68QJcTRR/4jTpB2te62Vyz76axRO7RfqBhaddQ7AYGAJv
+ EMCLAmgB1CMPLM2EOAQOzZbTpRHqNWcnxidQJNl8HGwNa3mVY6wgxct1ktX1aWnV60pW
+ N0oTM0s8+Ich5iZB8obDuJtvIb5Qai+2H1WfulvL/+UCqnxUOC71kH5rc6m7Sg6iYvSl
+ 6wEIg/hYwEaD2R8b5Tmn5PQtPlPlzXggqAHzi6d4bFPh8e7k9shzkW1RcA4LHgYRUj6n
+ rj0o395MhCVYu4693wNKK8N1X4jJ1e6YWReEA/8lIhxPP37Rx183wwUJAotto1Ce6u9m
+ cbXQ==
+X-Gm-Message-State: AOAM533vANlcWmJkfABF9mKPZrW6+wAwTtQB5/CvPRpub4tS/04b22DX
+ EI73HBr6spt9rpsTNIaj4U5uq7FlkjJWrXL1bCnomm4N8FKo6EJNdrHH+tc5z/scHBJseka0ZXw
+ FdDOjefS3MIsBj2oRt4iPfRibNIJjCm/H4eDLJ7buEU/YNstPR6sfD5sMF+ltXjQp
+X-Received: by 2002:a05:600c:19d1:: with SMTP id
+ u17mr2061892wmq.111.1620282476265; 
+ Wed, 05 May 2021 23:27:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTxEJwRVZEGLKy5BTWaOQrFOZ3hRPYrmWGzhRKo1ZgayeZtC6rl777h9LDGwkBkED2hPSPxg==
+X-Received: by 2002:a05:600c:19d1:: with SMTP id
+ u17mr2061874wmq.111.1620282476050; 
+ Wed, 05 May 2021 23:27:56 -0700 (PDT)
+Received: from [192.168.1.19] (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr.
+ [90.40.114.60])
+ by smtp.gmail.com with ESMTPSA id b7sm2533291wri.83.2021.05.05.23.27.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 May 2021 23:27:55 -0700 (PDT)
+Subject: Re: [PATCH 09/10] pckbd: correctly disable PS/2 communication
+To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <aed90d92-4e34-6f33-005f-10cf176e5483@t-online.de>
+ <20210505192133.7480-9-vr_qemu@t-online.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <5bb37b0e-6625-c356-e542-54fc29d4dfb5@redhat.com>
+Date: Thu, 6 May 2021 08:27:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vCKLpbnvxaQ3Ambk"
-Content-Disposition: inline
-In-Reply-To: <20210505211047.1496765-8-philmd@redhat.com>
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
- helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210505192133.7480-9-vr_qemu@t-online.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,67 +102,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Keith Busch <kbusch@kernel.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Volker,
 
---vCKLpbnvxaQ3Ambk
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/5/21 9:21 PM, Volker Rümelin wrote:
+> Currently the PS/2 controller command KBD_CCMD_MOUSE_DISABLE
+> doesn't disable the PS/2 mouse communication at all, and the
+> PS/2 controller commands KBD_CCMD_KBD_DISABLE and
+> KBD_CCMD_KBD_ENABLE disable and enable the keyboard interrupt,
+> which is very different from what a real PS/2 controller does.
+> A guest may notice the difference.
+> 
+> Mask out pending data on disabled queues to correctly disable
+> the PS/2 controller communication.
+> 
+> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+> ---
+>  hw/input/pckbd.c | 48 +++++++++++++++++++++++++++++++++++-------------
+>  1 file changed, 35 insertions(+), 13 deletions(-)
 
-On May  5 23:10, Philippe Mathieu-Daud=C3=A9 wrote:
->The compiler isn't clever enough to figure 'SEG_CHUNK_SIZE' is
->a constant! Help it by using a definitions instead.
->
->Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->---
-> hw/block/nvme.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/hw/block/nvme.c b/hw/block/nvme.c
->index 5fe082ec34c..2f6d4925826 100644
->--- a/hw/block/nvme.c
->+++ b/hw/block/nvme.c
->@@ -812,7 +812,7 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, NvmeSg *sg, =
-NvmeSglDescriptor sgl,
->      * descriptors and segment chain) than the command transfer size, so =
-it is
->      * not bounded by MDTS.
->      */
->-    const int SEG_CHUNK_SIZE =3D 256;
->+#define SEG_CHUNK_SIZE 256
->
->     NvmeSglDescriptor segment[SEG_CHUNK_SIZE], *sgld, *last_sgld;
->     uint64_t nsgld;
->--=20
->2.26.3
->
->
+> +static uint8_t kbd_pending(KBDState *s)
+> +{
+> +    return s->pending & (~s->mode | ~(KBD_PENDING_KBD | KBD_PENDING_AUX));
+> +}
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Please introduce kbd_pending() in a preliminary patch.
 
---vCKLpbnvxaQ3Ambk
-Content-Type: application/pgp-signature; name="signature.asc"
+>  /* update irq and KBD_STAT_[MOUSE_]OBF */
+>  static void kbd_update_irq(KBDState *s)
+>  {
+> +    uint8_t pending = kbd_pending(s);
+> +
+>      s->status &= ~(KBD_STAT_OBF | KBD_STAT_MOUSE_OBF);
+>      s->outport &= ~(KBD_OUT_OBF | KBD_OUT_MOUSE_OBF);
+> -    if (s->pending) {
+> +    if (pending) {
+>          s->status |= KBD_STAT_OBF;
+>          s->outport |= KBD_OUT_OBF;
+> -        if (s->pending & KBD_PENDING_CTRL_KBD) {
+> +        if (pending & KBD_PENDING_CTRL_KBD) {
+>              s->obsrc = KBD_OBSRC_CTRL;
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmCTjFUACgkQTeGvMW1P
-Dekhwwf+PQ6KEfhoYcUN9a/47asHOQVP2XOTqhgLnttJcmTeNbg3/0+ztCPwEkaC
-MLGCgtr7qLegbhEXKm2CNs8bnVkLndbBS8GR+YaHGqGqcbTU8XczTyznkOHxvns8
-a0+2cl7qEJ720QueOKdwOtvb7SyjIG/0EcRhDtRegcrtZ2L9DKNAk0KQ4jn5n9fr
-DOiSZbx+/H7HiUJjNmoZwjzcl0dWL82us67VFytMQ3rXRWPc/EclDb1rm/JxDcni
-5YXgOKqEA39Kdjq8tJV3kGq9ryHvEADNOievxgUkU+PTE9nYAPOQ6vbsjId+HZpG
-SCJ3dZwmsUGWUwDU8ex/ZN9r6w1Xrg==
-=kcYT
------END PGP SIGNATURE-----
-
---vCKLpbnvxaQ3Ambk--
 
