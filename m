@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23319374D81
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 04:27:02 +0200 (CEST)
-Received: from localhost ([::1]:58532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C488374D85
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 04:28:07 +0200 (CEST)
+Received: from localhost ([::1]:33998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leTjB-00086s-70
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 22:27:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34196)
+	id 1leTkE-0001Gy-Bs
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 22:28:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1leThJ-0007FT-81
- for qemu-devel@nongnu.org; Wed, 05 May 2021 22:25:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1leThH-0008Oh-Hm
- for qemu-devel@nongnu.org; Wed, 05 May 2021 22:25:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620267899;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0UyFQEWn0IpDk1vKGIpp1NrFbgpHW1NlLLkTrt03XqY=;
- b=ZkDDQ//qegVLyBzRrDViWCPzvTDQopa2TFP0tobfVjgCpFzf0e9nPJjXZmMbf5Id05w2Lz
- VwjrXGO71Iq/SGwQFTDSYlf2eE1uzBeb9DXhekHwBx81roQlpdfUf82+7logTIb2JAdul4
- A4Kx55uttlzGyyh5f3Hpu9b57d9+ew8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-nh-RmmtdPMqIQvVz2JOQXg-1; Wed, 05 May 2021 22:24:57 -0400
-X-MC-Unique: nh-RmmtdPMqIQvVz2JOQXg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BEFF1800D50;
- Thu,  6 May 2021 02:24:56 +0000 (UTC)
-Received: from wangxiaodeMacBook-Air.local (ovpn-13-159.pek2.redhat.com
- [10.72.13.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F6EBBA6F;
- Thu,  6 May 2021 02:24:53 +0000 (UTC)
-Subject: Re: [PATCH] hw/net/imx_fec: return 0xffff when accessing non-existing
- PHY
-To: Guenter Roeck <linux@roeck-us.net>, Bin Meng <bmeng.cn@gmail.com>
-References: <20210502160326.1196252-1-linux@roeck-us.net>
- <CAEUhbmWC_jVkrF9V=rs+A2A021ahqefimFtehsxgfvTxphwKZQ@mail.gmail.com>
- <bffabe57-013a-1aca-e854-38a211738049@roeck-us.net>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <982bc15e-1e88-8871-54b4-3dc74f540727@redhat.com>
-Date: Thu, 6 May 2021 10:24:52 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1leTiq-0008Uc-Kd; Wed, 05 May 2021 22:26:40 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:40645)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1leTil-0000lV-4H; Wed, 05 May 2021 22:26:40 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id u16so4147105oiu.7;
+ Wed, 05 May 2021 19:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:to:cc:references:from:subject:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZnY2dkL8b81cfCirToq00pKKe1qP9eFw7vBW4dzRYyE=;
+ b=fU6kxbRElqdFeyOAa9HkXpUC0B7XdNrSCQEsmN4LmJBjFpqqpkf0/aPsbwFMxO4Itw
+ UobLZMRpBwjt+3Mapj8dEAHqM38ZaP5YMzqjXHQpgqCEsO8f3eOZtnM8kkcxe0snKErs
+ KMDhmDRfS9lw1ESJjh5MjcidNoZQ8fPrB45Y7jixodMTbEwYcSiMiziHA3p6LkJ0L/N1
+ zpELx+wXYtDFSBsi29aYT/AkNcDSXQeww0mXBfGG4NU28CBIZewmAvryjGRlF+d81vk6
+ X6EZPyzb241E/Rl9EWuwiUYnVffHmnQotZEIX32MclTB5YJ72Z+OHJfbcilubVOVhOH9
+ b77A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZnY2dkL8b81cfCirToq00pKKe1qP9eFw7vBW4dzRYyE=;
+ b=uPdim0C0KpQZnC5Sfi4qhIXtHySn59hJXx0wPos2X+EPeMTssvHjxa072CM/s/Poqg
+ v1do874A78qYfJlr8B8mpWASZSG+oGjpzJDZtI9/H46trF57j9sUdtFHWy4gz91N0Mxn
+ ijam3IlqLBAKGJ5/lRKvemzEtdRX7qij+JyRXJ8FJqzQsA8kNYizB9A7xYtETM7dBoSp
+ rxetsVI4YSfhP1I6gMb1JLT2N6N2pxVHmi4AM1Dwien3ZeT5+brBkOZoy30kcapf6gGN
+ +43JIid7+0egvGSzDzEdgZgXEp+WFu7D5hiXeKuaQhLVsp6XVBMADNBCeFmzP6Z+he8s
+ 1OeA==
+X-Gm-Message-State: AOAM531E56bzu8U7Eugs/oBPVnPInqnKSfYbibOTmiGCW7h27XOjLqhY
+ qeNgBqsNaVKQnI5Tu/ax0qM/8sJhuVE=
+X-Google-Smtp-Source: ABdhPJyeZWfkNDD31LHrb4Me++sNveIDEIRbXQ6Cqf1Jv9aEkKLCQ/oKIJ8wSOjwF7FKrtn2bDGgUA==
+X-Received: by 2002:a05:6808:10d0:: with SMTP id
+ s16mr1382838ois.10.1620267992591; 
+ Wed, 05 May 2021 19:26:32 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ v19sm295224otq.35.2021.05.05.19.26.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 May 2021 19:26:32 -0700 (PDT)
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <20210504124140.1100346-1-linux@roeck-us.net>
+ <CAEUhbmVPqHyfZXSR0TS0_E1x-BbfHN869fjZWjWxQx4ASLVGnA@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] hw/arm/xlnx: Fix PHY address for xilinx-zynq-a9
+Message-ID: <df7e51cd-9c16-fccf-b811-f35144888df3@roeck-us.net>
+Date: Wed, 5 May 2021 19:26:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <bffabe57-013a-1aca-e854-38a211738049@roeck-us.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEUhbmVPqHyfZXSR0TS0_E1x-BbfHN869fjZWjWxQx4ASLVGnA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=groeck7@gmail.com; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,94 +89,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, Bin Meng <bin.meng@windriver.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+ qemu-arm <qemu-arm@nongnu.org>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2021/5/3 上午12:14, Guenter Roeck 写道:
-> On 5/2/21 9:09 AM, Bin Meng wrote:
->> On Mon, May 3, 2021 at 12:03 AM Guenter Roeck <linux@roeck-us.net> wrote:
->>> If a PHY does not exist, attempts to read from it should return 0xffff.
->>> Otherwise the Linux kernel will believe that a PHY is there and select
->>> the non-existing PHY. This in turn will result in network errors later
->>> on since the real PHY is not selected or configured.
->>>
->>> Since reading from or writing to a non-existing PHY is not an emulation
->>> error, replace guest error messages with traces.
->>>
->>> Fixes: 461c51ad4275 ("Add a phy-num property to the i.MX FEC emulator")
->>> Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
->>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
->>> ---
->>>   hw/net/imx_fec.c    | 8 +++-----
->>>   hw/net/trace-events | 2 ++
->>>   2 files changed, 5 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
->>> index f03450c028..9c7035bc94 100644
->>> --- a/hw/net/imx_fec.c
->>> +++ b/hw/net/imx_fec.c
->>> @@ -283,9 +283,8 @@ static uint32_t imx_phy_read(IMXFECState *s, int reg)
->>>       uint32_t phy = reg / 32;
->>>
->>>       if (phy != s->phy_num) {
->>> -        qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
->>> -                      TYPE_IMX_FEC, __func__, phy);
->>> -        return 0;
->>> +        trace_imx_phy_read_num(phy, s->phy_num);
->>> +        return 0xffff;
->>>       }
->>>
->>>       reg %= 32;
->>> @@ -345,8 +344,7 @@ static void imx_phy_write(IMXFECState *s, int reg, uint32_t val)
->>>       uint32_t phy = reg / 32;
->>>
->>>       if (phy != s->phy_num) {
->>> -        qemu_log_mask(LOG_GUEST_ERROR, "[%s.phy]%s: Bad phy num %u\n",
->>> -                      TYPE_IMX_FEC, __func__, phy);
->>> +        trace_imx_phy_write_num(phy, s->phy_num);
->>>           return;
->>>       }
->>>
->>> diff --git a/hw/net/trace-events b/hw/net/trace-events
->>> index baf25ffa7e..ee77238d9e 100644
->>> --- a/hw/net/trace-events
->>> +++ b/hw/net/trace-events
->>> @@ -413,8 +413,10 @@ i82596_set_multicast(uint16_t count) "Added %d multicast entries"
->>>   i82596_channel_attention(void *s) "%p: Received CHANNEL ATTENTION"
->>>
->>>   # imx_fec.c
->>> +imx_phy_read_num(int phy, int configured) "read request from unconfigured phy %d (configured %d)"
->> nits: could we put this below imx_phy_read(), like you put
->> imx_phy_write_num after imx_phy_write?
+On 5/5/21 6:58 PM, Bin Meng wrote:
+> Hi Guenter,
+> 
+> On Tue, May 4, 2021 at 8:41 PM Guenter Roeck <linux@roeck-us.net> wrote:
 >>
-> Sure, makes sense. I'll wait a bit for other feedback and then resend.
-
-
-Ok, please send V2.
-
-Thanks
-
-
->
->>>   imx_phy_read(uint32_t val, int phy, int reg) "0x%04"PRIx32" <= phy[%d].reg[%d]"
->>>   imx_phy_write(uint32_t val, int phy, int reg) "0x%04"PRIx32" => phy[%d].reg[%d]"
->>> +imx_phy_write_num(int phy, int configured) "write request to unconfigured phy %d (configured %d)"
->>>   imx_phy_update_link(const char *s) "%s"
->>>   imx_phy_reset(void) ""
->>>   imx_fec_read_bd(uint64_t addr, int flags, int len, int data) "tx_bd 0x%"PRIx64" flags 0x%04x len %d data 0x%08x"
->>> --
->> Otherwise,
->> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
->> Tested-by: Bin Meng <bmeng.cn@gmail.com>
+>> Commit dfc388797cc4 ("hw/arm: xlnx: Set all boards' GEM 'phy-addr'
+>> property value to 23") configured the PHY address for xilinx-zynq-a9
+>> to 23. When trying to boot xilinx-zynq-a9 with zynq-zc702.dtb or
+>> zynq-zc706.dtb, this results in the following error message when
+>> trying to use the Ethernet interface.
 >>
-> Thanks!
->
-> Guenter
->
+>> macb e000b000.ethernet eth0: Could not attach PHY (-19)
+>>
+>> The devicetree files for ZC702 and ZC706 configure PHY address 7. The
+>> documentation for the ZC702 and ZC706 evaluation boards suggest that the
+>> PHY address is 7, not 23. Other boards use PHY address 0, 1, 3, or 7.
+>> I was unable to find a documentation or a devicetree file suggesting
+>> or using PHY address 23.
+> 
+> I can't find one neither :(
+> 
+>> The Ethernet interface starts working with
+>> zynq-zc702.dtb and zynq-zc706.dtb when setting the PHY address to 7,
+>> so let's use it.
+>>
+>> Cc: Bin Meng <bin.meng@windriver.com>
+>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>> ---
+>>  hw/arm/xilinx_zynq.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+>> index 8db6cfd47f..5ac0294f9e 100644
+>> --- a/hw/arm/xilinx_zynq.c
+>> +++ b/hw/arm/xilinx_zynq.c
+>> @@ -119,7 +119,7 @@ static void gem_init(NICInfo *nd, uint32_t base, qemu_irq irq)
+>>          qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
+>>          qdev_set_nic_properties(dev, nd);
+>>      }
+>> -    object_property_set_int(OBJECT(dev), "phy-addr", 23, &error_abort);
+>> +    object_property_set_int(OBJECT(dev), "phy-addr", 7, &error_abort);
+>>      s = SYS_BUS_DEVICE(dev);
+>>      sysbus_realize_and_unref(s, &error_fatal);
+>>      sysbus_mmio_map(s, 0, base);
+>> --
+> 
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> 
+> While we are here, could you please create a doc for the target you
+> are testing with Linux/U-Boot/etc?
+> 
+> I was having a hard time booting upstream U-Boot/Linux on QEMU zynqmp before.
+> 
 
+Everything I have is in my repository at
+    https://github.com/groeck/linux-build-test
+My clone of qemu is at
+    https://github.com/groeck/qemu
+
+The v6.0.0-local branch in the qemu repository is probably the most relevant.
+There are two caveats when trying to boot zynqmp images:
+- You may need commit 9bfbe02879 from that branch to boot Linux directly,
+  ie without u-boot. That patch was rejected a long time ago (the argument,
+  if I recall correctly, was that u-boot should set the clock rates as
+  needed).
+- Booting zynqmp based images on arm64 with linux 5.6 and later doesn't work
+  anymore. This is due to Linux commit 9c8a47b484ed ("arm64: dts: xilinx:
+  Add the clock nodes for zynqmp"). Unfortunately, those clocks are tied
+  to zynqmq firmware which is not emulated by qemu, so all the drivers
+  needed to do anything useful in Linux won't load.
+
+Hope this helps,
+Guenter
 
