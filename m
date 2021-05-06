@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F7C375586
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:22:06 +0200 (CEST)
-Received: from localhost ([::1]:55478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C78F3755AD
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:30:29 +0200 (CEST)
+Received: from localhost ([::1]:49120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leetB-00040w-9x
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41460)
+	id 1lef1I-0004lE-3k
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:30:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lees4-0003Im-4J
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:20:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50380)
+ id 1leewt-0000NT-KD
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:25:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lees2-0008OL-7N
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:20:55 -0400
+ id 1leewq-0002yW-7W
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:25:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leery-000298-PR
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 14:20:50 +0000
+ id 1leewo-0002sF-3t
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 14:25:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 92E5B2E8139
- for <qemu-devel@nongnu.org>; Thu,  6 May 2021 14:20:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E4A5B2E8186
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 14:25:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 May 2021 14:15:12 -0000
-From: Thomas Huth <1875139@bugs.launchpad.net>
+Date: Thu, 06 May 2021 14:16:12 -0000
+From: Kenneth Salerno <1874264@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: avschie berrange pkrempa th-huth
-X-Launchpad-Bug-Reporter: A van Schie (avschie)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158788589324.18152.6333525201430073299.malonedeb@wampee.canonical.com>
-Message-Id: <162031051249.3632.16341413103876101421.malone@gac.canonical.com>
-Subject: [Bug 1875139] Re: Domain fails to start when 'readonly' device not
- writable
+X-Launchpad-Bug-Commenters: kennethsalerno th-huth
+X-Launchpad-Bug-Reporter: Kenneth Salerno (kennethsalerno)
+X-Launchpad-Bug-Modifier: Kenneth Salerno (kennethsalerno)
+References: <158756466889.23136.4781024661991862847.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162031057214.6066.7324536211123633812.malone@wampee.canonical.com>
+Subject: [Bug 1874264] Re: AIX 7.2 TL4 SP1 cannot IPL with QEMU >2.11.2
+ ppc64-softmmu
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: f0443fac7d05a38e31cab0cf3ef8ea2d46441eaa
+X-Launchpad-Hash: ff9575e6cfcd289250159ec25320a2595a740bc9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,55 +72,472 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1875139 <1875139@bugs.launchpad.net>
+Reply-To: Bug 1874264 <1874264@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If I've got that right, this issue got solved, so I'm closing it now.
-Please file a new ticket in our new tracker at gitlab.com if there is
-still a problem.
+Hi, Thomas. Yes! Of course I had it working beautifully before, with
+only a minor issue executing a small number of XCOFF binaries, that is
+why I specified the QEMU version (2.11.2) AIX last worked with in the
+title of this bug.
 
-** Changed in: qemu
-       Status: New =3D> Fix Released
+Check it out:
+
+kens@LAPTOP-JN77KAC2$ qemu-system-ppc64 -version
+QEMU emulator version 2.11.2
+Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+
+kens@LAPTOP-JN77KAC2$ ssh -p9018 localhost
+Last login: Thu May  6 10:06:55 EDT 2021 on ssh from 10.0.2.2
+***************************************************************************=
+****
+*                                                                          =
+   *
+*                                                                          =
+   *
+*  Welcome to AIX Version 7.2!                                             =
+   *
+*                                                                          =
+   *
+*                                                                          =
+   *
+*  Please see the README file in /usr/lpp/bos for information pertinent to =
+   *
+*  this release of the AIX Operating System.                               =
+   *
+*                                                                          =
+   *
+*                                                                          =
+   *
+***************************************************************************=
+****
+kens@aix-ppc64$ lsattr -El sys0 -a modelname
+modelname IBM pSeries (emulated by qemu) Machine name False
+
+kens@aix-ppc64$ lsattr -El proc0
+frequency   1000000000     Processor Speed       False
+smt_enabled false          Processor SMT enabled False
+smt_threads 1              Processor SMT threads False
+state       enable         Processor state       False
+type        PowerPC_POWER9 Processor type        False
+
+
+Pretty cool, right?
+
+Something changed after 2.11.2 that broke something in the tcg cpu
+execution emulation.
+
+This is the error I get when I try to boot AIX in any QEMU version >
+2.11.2:
+
+ERROR:/home/kens/tmp/qemu/cpus.c:1727:qemu_tcg_cpu_thread_fn: assertion
+failed: (cpu->halted)
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1875139
+https://bugs.launchpad.net/bugs/1874264
 
 Title:
-  Domain fails to start when 'readonly' device not writable
+  AIX 7.2 TL4 SP1 cannot IPL with QEMU >2.11.2 ppc64-softmmu
 
 Status in QEMU:
-  Fix Released
+  Incomplete
 
 Bug description:
-  This issue is introduced in QEMU 4.2.0 (4.1.0 is working fine)
+  kens@LAPTOP-JN77KAC2$ qemu-system-ppc64 -version
+  QEMU emulator version 4.2.93 (v5.0.0-rc3-8-g3119154db0-dirty)
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
 
-  My root disk is a LVM2 volume thin snapshot that is marked as read-only
-  But when I try to start the domain (using virt-manager) I get the followi=
-ng error:
+  qemu-system-ppc64 \
+    -name "IBM AIX - IBM POWER9" \
+    -M pseries \
+    -cpu POWER9 \
+    -smp 8 \
+    -m 8192 \
+    -nodefaults \
+    -nographic \
+    -prom-env input-device=3D/vdevice/vty@71000000 \
+    -prom-env output-device=3D/vdevice/vty@71000000 \
+    -serial tcp::9019,server,nowait \
+    -monitor tcp::9020,server,nowait \
+    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
+22 \
+    -device virtio-net-pci,netdev=3Dmynet0 \
+    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
+ia=3Ddisk,cache=3Dunsafe \
+    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
+    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
+=3Dunsafe
 
-  Error starting domain: internal error: process exited while connecting
-  to monitor: 2020-04-26T06:55:06.342700Z qemu-system-x86_64: -blockdev
-  {"driver":"host_device","filename":"/dev/vg/vmroot-20200425","aio":"native
-  ","node-name":"libvirt-3-storage","cache":{"direct":true,"no-
-  flush":false},"auto-read-only":true,"discard":"unmap"} The device is
-  not writable: Permission denied
+  -------------------------------------------------------------------------=
+------
+                                  Welcome to AIX.
+                     boot image timestamp: 14:18:40 03/27/2020
+          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
+           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
+  =0CAIX vm,uuid property contains invalid data
+  processing splpar characteristic: MaxEntCap
+  processing splpar characteristic: DesMem
+  processing splpar characteristic: DesProcs
+  processing splpar characteristic: MaxPlatProcs
+  processing splpar characteristic: HostThrs
 
-  Changing the lvm snapshot to writeable allows me to start the domain.
-  (Making it changes possible during domain is running)
+  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
+rgument
+  -------------------------------------------------------------------------=
+------
+  =0CStarqemu-system-ppc64: OS terminated: 888 102 700 C20
 
-  I don't think QEMU should fail when it can't open a (block) device when t=
-he read-only option is set.
-  (why is write access needed?)
+  =
 
-  Reproduce steps:
-  * Create LVM read-only volume (I don't think any data is needed)
-  * Create domain with read-only volume as block device
-  * Try to start the domain
+  qemu-system-ppc64 \
+    -name "IBM AIX - IBM POWER8" \
+    -M pseries \
+    -cpu POWER8 \
+    -smp 8 \
+    -m 8192 \
+    -nodefaults \
+    -nographic \
+    -prom-env input-device=3D/vdevice/vty@71000000 \
+    -prom-env output-device=3D/vdevice/vty@71000000 \
+    -serial tcp::9019,server,nowait \
+    -monitor tcp::9020,server,nowait \
+    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
+22 \
+    -device virtio-net-pci,netdev=3Dmynet0 \
+    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
+ia=3Ddisk,cache=3Dunsafe \
+    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
+    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
+=3Dunsafe
+
+  -------------------------------------------------------------------------=
+------
+                                  Welcome to AIX.
+                     boot image timestamp: 14:18:40 03/27/2020
+          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
+           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
+  =0CAIX vm,uuid property contains invalid data
+  processing splpar characteristic: MaxEntCap
+  processing splpar characteristic: DesMem
+  processing splpar characteristic: DesProcs
+  processing splpar characteristic: MaxPlatProcs
+  processing splpar characteristic: HostThrs
+
+  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
+rgument
+  -------------------------------------------------------------------------=
+------
+  =0CStar**
+  ERROR:/home/kens/tmp/qemu/cpus.c:1727:qemu_tcg_cpu_thread_fn: assertion f=
+ailed: (cpu->halted)
+
+  =
+
+  kens@LAPTOP-JN77KAC2$ qemu-system-ppc64 -version
+  QEMU emulator version 2.11.2
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+
+  qemu-system-ppc64 \
+    -name "IBM AIX - IBM POWER9" \
+    -M pseries,cap-htm=3Doff \
+    -cpu POWER9 \
+    -smp 8 \
+    -m 8192 \
+    -nodefaults \
+    -nographic \
+    -prom-env input-device=3D/vdevice/vty@71000000 \
+    -prom-env output-device=3D/vdevice/vty@71000000 \
+    -serial tcp::9019,server,nowait \
+    -monitor tcp::9020,server,nowait \
+    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
+22 \
+    -device virtio-net-pci,netdev=3Dmynet0 \
+    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
+ia=3Ddisk,cache=3Dunsafe \
+    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
+    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
+=3Dunsafe
+
+  -------------------------------------------------------------------------=
+------
+                                  Welcome to AIX.
+                     boot image timestamp: 14:18:40 03/27/2020
+          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
+           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
+  =0CAIX vm,uuid property contains invalid data
+  processing splpar characteristic: MaxEntCap
+  processing splpar characteristic: DesMem
+  processing splpar characteristic: DesProcs
+  processing splpar characteristic: MaxPlatProcs
+
+  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
+rgument
+  -------------------------------------------------------------------------=
+------
+  =0CStar
+  0539
+  0811
+  0539
+  0812
+  0708
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  078c
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  078c
+  0539
+  2071
+  0539
+  2073
+  0539
+  25b3vscsi_send_capabilities: capabilities size mismatch !
+  VSCSI: Unknown MAD type 09
+
+  0539
+  0538
+  0539
+  0591
+  0539
+  0538
+  0539
+  0538
+  0539
+  25b0
+  0539
+
+  0511
+  0551
+  0517
+  0517
+  0517
+  0517
+  0553
+  0517
+  0517
+  0538
+  0539
+  0538
+  0539
+  270b
+  0539
+  0538
+  0539
+  2070
+  0539
+  0538
+  0539
+  0811
+  0539
+  0811
+  0539
+  0812
+  0708
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  078c
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  078c
+  04ee
+  078c
+  0727
+  0727
+  2071
+  2072
+  2072
+  2071
+  0539
+  25b3
+  0539
+  25b5
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0581
+  0539
+  0538
+  0539
+  7000
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0581
+  0581
+  0539
+  0538
+  0539
+  25b0
+  0539
+  0538
+  0539
+  0538
+  0539
+  0731
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  2028
+  0539
+  0538
+  0539
+
+  0c33
+  Saving Base Customize Data to boot disk
+  Starting the sync daemon
+  Starting the error daemon
+
+  System initialization completed.
+  TE=3DOFF
+  CHKEXEC=3DOFF
+  CHKSHLIB=3DOFF
+  CHKSCRIPT=3DOFF
+  CHKKERNEXT=3DOFF
+  STOP_UNTRUSTD=3DOFF
+  STOP_ON_CHKFAIL=3DOFF
+  LOCK_KERN_POLICIES=3DOFF
+  TSD_FILES_LOCK=3DOFF
+  TSD_LOCK=3DOFF
+  TEP=3DOFF
+  TLP=3DOFF
+  Successfully updated the Kernel Authorization Table.
+  Successfully updated the Kernel Role Table.
+  Successfully updated the Kernel Command Table.
+  Successfully updated the Kernel Device Table.
+  Successfully updated the Kernel Object Domain Table.
+  Successfully updated the Kernel Domains Table.
+  Successfully updated the Kernel RBAC log level.
+  Successfully updated the Kernel RBAC log level.
+  OPERATIONAL MODE Security Flags
+  ROOT                      :    ENABLED
+  TRACEAUTH                 :   DISABLED
+  System runtime mode is now OPERATIONAL MODE.
+  Setting tunable parameters...complete
+  Checking for srcmstr active...complete
+  Starting tcpip daemons:
+  0513-059 The sendmail Subsystem has been started. Subsystem PID is 445684=
+6.
+  0513-059 The syslogd Subsystem has been started. Subsystem PID is 4522382.
+  0513-059 The portmap Subsystem has been started. Subsystem PID is 4194776.
+  0513-059 The inetd Subsystem has been started. Subsystem PID is 4129230.
+  0513-059 The snmpmibd Subsystem has been started. Subsystem PID is 432567=
+2.
+  Finished starting tcpip daemons.
+
+  =
+
+  AIX Version 7
+  Copyright IBM Corporation, 1982, 2019.
+  Console login: root
+  root's Password:
+
+  *************************************************************************=
+******
+  *                                                                        =
+     *
+  *                                                                        =
+     *
+  *  Welcome to AIX Version 7.2!                                           =
+     *
+  *                                                                        =
+     *
+  *                                                                        =
+     *
+  *  Please see the README file in /usr/lpp/bos for information pertinent t=
+o    *
+  *  this release of the AIX Operating System.                             =
+     *
+  *                                                                        =
+     *
+  *                                                                        =
+     *
+  *************************************************************************=
+******
+  Last login: Wed Apr 22 07:21:19 EDT 2020 on /dev/vty0
+
+  root@aix-ppc64# oslevel -s
+  7200-04-01-1939
+  root@aix-ppc64#
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1875139/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1874264/+subscriptions
 
