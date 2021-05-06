@@ -2,52 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED666374D15
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 03:52:05 +0200 (CEST)
-Received: from localhost ([::1]:39090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACAD374D16
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 03:52:07 +0200 (CEST)
+Received: from localhost ([::1]:39112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leTBN-0003ga-2P
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 21:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56300)
+	id 1leTBO-0003h8-2j
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 21:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1leT1F-0003GE-Bi
- for qemu-devel@nongnu.org; Wed, 05 May 2021 21:41:37 -0400
-Received: from mga17.intel.com ([192.55.52.151]:23088)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1leT8y-0002jG-Tm
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 21:49:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57442)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1leT1D-0007vI-1y
- for qemu-devel@nongnu.org; Wed, 05 May 2021 21:41:37 -0400
-IronPort-SDR: 026kKOQWrJrkK7MWDaPsUMQgFBK/smQndtbkedi82HJATSvKyt7Wwvb4gJwDIIXzfosOSjaNXd
- FuztyyvQwvtg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="178579179"
-X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="178579179"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 18:41:32 -0700
-IronPort-SDR: s0Mtm9jpzon4ZF3wCxKoFToTGOCQ6RIRtSBUqcpKrtr/mU2A7L82P41mTr/hrHoq80TpemUdvo
- +tzUJ0xhpL+A==
-X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; d="scan'208";a="469220482"
-Received: from yy-desk-7060.sh.intel.com ([10.239.159.38])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2021 18:41:29 -0700
-From: Yuan Yao <yuan.yao@linux.intel.com>
-To: pbonzini@redhat.com
-Subject: [RFC][PATCH v1 10/10] Introduce new
- CPUClass::get_phys_page_attrs_debug implementation for encrypted guests
-Date: Thu,  6 May 2021 09:40:37 +0800
-Message-Id: <20210506014037.11982-11-yuan.yao@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210506014037.11982-1-yuan.yao@linux.intel.com>
-References: <20210506014037.11982-1-yuan.yao@linux.intel.com>
-Received-SPF: none client-ip=192.55.52.151;
- envelope-from=yuan.yao@linux.intel.com; helo=mga17.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1leT8u-0004CI-3X
+ for qemu-devel@nongnu.org; Wed, 05 May 2021 21:49:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620265770;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ohssr7zpgwuqmcCclE7YZZxqeITGSjAFlne5CoBQ5VQ=;
+ b=AobnNlN8M1XFN14ly8hEtoajpj1Mw0Aa1tSWeTM77k1Xl5krwrmOKH6uHxg03mkDN5OfUh
+ OGFWPQUHw9C9eAy6Gm501+paTEw78eSYf5tlxMH3pVwBqcdgYGuPPDKmHAJnBe1aewJQw2
+ CWjPfBd9hy9Xc5ZQN5qzh6CMK+Bg90U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-6NK0DdoJPQyORNr7woK0Vw-1; Wed, 05 May 2021 21:49:28 -0400
+X-MC-Unique: 6NK0DdoJPQyORNr7woK0Vw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1124C801B14;
+ Thu,  6 May 2021 01:49:27 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2CC41002D71;
+ Thu,  6 May 2021 01:49:25 +0000 (UTC)
+Subject: Re: [PATCH 12/22] qapi/parser: add type hint annotations
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210422030720.3685766-1-jsnow@redhat.com>
+ <20210422030720.3685766-13-jsnow@redhat.com>
+ <87zgxm5yrp.fsf@dusky.pond.sub.org>
+ <07ad14a5-a1bb-691f-cdc1-93ef82b28e77@redhat.com>
+ <87tuns2k3p.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <da9be44a-6e54-e411-8cbc-28811c7cf1ee@redhat.com>
+Date: Wed, 5 May 2021 21:49:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <87tuns2k3p.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,169 +84,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, Thomas.Lendacky@amd.com, ashish.kalra@amd.com,
- brijesh.singh@amd.com, ehabkost@redhat.com, kvm@vger.kernel.org,
- mst@redhat.com, mtosatti@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
- yuan.yao@intel.com, dgilbert@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yuan Yao <yuan.yao@intel.com>
+On 4/27/21 4:43 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 4/25/21 8:34 AM, Markus Armbruster wrote:
+>>> value: object isn't wrong, but why not _ExprValue?
+>>>
+>>
+>> Updated excuse:
+>>
+>> because all the way back outside in _parse, we know that:
+>>
+>> 1. expr is a dict (because of get_expr(False))
+>> 2. expr['pragma'] is also a dict, because we explicitly check it there.
+> 
+> Yes:
+> 
+>                  pragma = expr['pragma']
+> -->             if not isinstance(pragma, dict):
+> -->                 raise QAPISemError(
+> -->                     info, "value of 'pragma' must be an object")
+>                  for name, value in pragma.items():
+>                      self._pragma(name, value, info)
+> 
+>> 3. We iterate over the keys; all we know so far is that the values are
+>> ... something.
+> 
+> Actually, *we* know more about the values.  get_expr() returns a tree
+> whose inner nodes are dict or list, and whose leaves are str or bool.
+> Therefore, the values are dict, list, str, or bool.
+> 
+> It's *mypy* that doesn't know, because it lacks recursive types.
+> 
+> I know that you're prbably using "we" in the sense of "the toolchain".
+> I'm annoying you with the difference between "the toolchain" and "we
+> (you, me, and other humans) because I'm concerned about us humans
+> dumbing ourselves down to mypy's level of understanding.
+> 
 
-Add new function x86_cpu_get_phys_page_attrs_encrypted_debug() to walking guset
-page tables to do VA -> PA translation for encrypted guests.
+Put in a gentler way: The risk is that type annotations that assume less 
+because they *must* assume less will potentially miscommunicate the 
+reality of the interface to future developers.
 
-Now install this to cc->get_phys_page_attrs_debug for INTEL TD guests only.
+I agree, that is a genuine risk.
 
-Signed-off-by: Yuan Yao <yuan.yao@intel.com>
+but ...
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 7a8a1386fb..9ce81bb21c 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1807,6 +1807,8 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags);
- 
- hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
-                                          MemTxAttrs *attrs);
-+hwaddr x86_cpu_get_phys_page_attrs_encrypted_debug(CPUState *cs, vaddr addr,
-+                                                   MemTxAttrs *attrs);
- 
- int x86_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int x86_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 21edcb9204..a9a0467b50 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -205,8 +205,10 @@ void cpu_x86_update_cr4(CPUX86State *env, uint32_t new_cr4)
- }
- 
- #if !defined(CONFIG_USER_ONLY)
--hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
--                                         MemTxAttrs *attrs)
-+static hwaddr x86_cpu_get_phys_page_attrs_debug_internal(CPUState *cs, vaddr addr,
-+                                                         MemTxAttrs *attrs,
-+                                                         uint64_t (*ldq_phys)(CPUState *, hwaddr),
-+                                                         uint32_t (*ldl_phys)(CPUState *, hwaddr))
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-@@ -242,7 +244,7 @@ hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
-             if (la57) {
-                 pml5e_addr = ((env->cr[3] & ~0xfff) +
-                         (((addr >> 48) & 0x1ff) << 3)) & a20_mask;
--                pml5e = x86_ldq_phys(cs, pml5e_addr);
-+                pml5e = ldq_phys(cs, pml5e_addr);
-                 if (!(pml5e & PG_PRESENT_MASK)) {
-                     return -1;
-                 }
-@@ -252,13 +254,13 @@ hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
- 
-             pml4e_addr = ((pml5e & PG_ADDRESS_MASK) +
-                     (((addr >> 39) & 0x1ff) << 3)) & a20_mask;
--            pml4e = x86_ldq_phys(cs, pml4e_addr);
-+            pml4e = ldq_phys(cs, pml4e_addr);
-             if (!(pml4e & PG_PRESENT_MASK)) {
-                 return -1;
-             }
-             pdpe_addr = ((pml4e & PG_ADDRESS_MASK) +
-                          (((addr >> 30) & 0x1ff) << 3)) & a20_mask;
--            pdpe = x86_ldq_phys(cs, pdpe_addr);
-+            pdpe = ldq_phys(cs, pdpe_addr);
-             if (!(pdpe & PG_PRESENT_MASK)) {
-                 return -1;
-             }
-@@ -273,14 +275,14 @@ hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
-         {
-             pdpe_addr = ((env->cr[3] & ~0x1f) + ((addr >> 27) & 0x18)) &
-                 a20_mask;
--            pdpe = x86_ldq_phys(cs, pdpe_addr);
-+            pdpe = ldq_phys(cs, pdpe_addr);
-             if (!(pdpe & PG_PRESENT_MASK))
-                 return -1;
-         }
- 
-         pde_addr = ((pdpe & PG_ADDRESS_MASK) +
-                     (((addr >> 21) & 0x1ff) << 3)) & a20_mask;
--        pde = x86_ldq_phys(cs, pde_addr);
-+        pde = ldq_phys(cs, pde_addr);
-         if (!(pde & PG_PRESENT_MASK)) {
-             return -1;
-         }
-@@ -293,7 +295,7 @@ hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
-             pte_addr = ((pde & PG_ADDRESS_MASK) +
-                         (((addr >> 12) & 0x1ff) << 3)) & a20_mask;
-             page_size = 4096;
--            pte = x86_ldq_phys(cs, pte_addr);
-+            pte = ldq_phys(cs, pte_addr);
-         }
-         if (!(pte & PG_PRESENT_MASK)) {
-             return -1;
-@@ -303,7 +305,7 @@ hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
- 
-         /* page directory entry */
-         pde_addr = ((env->cr[3] & ~0xfff) + ((addr >> 20) & 0xffc)) & a20_mask;
--        pde = x86_ldl_phys(cs, pde_addr);
-+        pde = ldl_phys(cs, pde_addr);
-         if (!(pde & PG_PRESENT_MASK))
-             return -1;
-         if ((pde & PG_PSE_MASK) && (env->cr[4] & CR4_PSE_MASK)) {
-@@ -312,7 +314,7 @@ hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
-         } else {
-             /* page directory entry */
-             pte_addr = ((pde & ~0xfff) + ((addr >> 10) & 0xffc)) & a20_mask;
--            pte = x86_ldl_phys(cs, pte_addr);
-+            pte = ldl_phys(cs, pte_addr);
-             if (!(pte & PG_PRESENT_MASK)) {
-                 return -1;
-             }
-@@ -329,6 +331,22 @@ out:
-     return pte | page_offset;
- }
- 
-+hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
-+                                         MemTxAttrs *attrs)
-+{
-+    return x86_cpu_get_phys_page_attrs_debug_internal(cs, addr, attrs,
-+                                                      x86_ldq_phys,
-+                                                      x86_ldl_phys);
-+}
-+
-+hwaddr x86_cpu_get_phys_page_attrs_encrypted_debug(CPUState *cs, vaddr addr,
-+                                                   MemTxAttrs *attrs)
-+{
-+    return x86_cpu_get_phys_page_attrs_debug_internal(cs, addr, attrs,
-+                                                      x86_ldq_phys_debug,
-+                                                      x86_ldl_phys_debug);
-+}
-+
- typedef struct MCEInjectionParams {
-     Monitor *mon;
-     int bank;
-diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-index d13d4c8487..b1e089f73f 100644
---- a/target/i386/kvm/tdx.c
-+++ b/target/i386/kvm/tdx.c
-@@ -273,6 +273,7 @@ void tdx_pre_create_vcpu(CPUState *cpu)
- 
-     MachineState *ms = MACHINE(qdev_get_machine());
-     X86CPU *x86cpu = X86_CPU(cpu);
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-     CPUX86State *env = &x86cpu->env;
-     TdxGuest *tdx = (TdxGuest *)object_dynamic_cast(OBJECT(ms->cgs),
-                                                     TYPE_TDX_GUEST);
-@@ -320,6 +321,11 @@ void tdx_pre_create_vcpu(CPUState *cpu)
- 
-     init_vm.cpuid = (__u64)(&cpuid_data);
-     tdx_ioctl(KVM_TDX_INIT_VM, 0, &init_vm);
-+
-+    if (tdx->debug) {
-+        cc->get_phys_page_attrs_debug
-+            = x86_cpu_get_phys_page_attrs_encrypted_debug;
-+    }
- out:
-     qemu_mutex_unlock(&tdx->lock);
- }
--- 
-2.20.1
+> To be honest, I'm less and less sure typing these trees without the
+> necessary typing tools is worth the bother.  The notational overhead it
+> more oppressive than elsewhere, and yet the typing remains weak.  The
+> result fails to satisfy, and that's a constant source of discussions
+> (between us as well as just in my head) on how to best mitigate.
+> 
+
+... What's the alternative? I still think strict typing has strong 
+benefits -- it's found a few bugs, albeit small. It offers good 
+refactoring assurance and can help communicate the expected types in an 
+interface *very* quickly.
+
+Whenever I type something as Dict[str, object] that is my genuine 
+attempt at just cutting my losses and saying "It gets ... something. 
+Figure it out, like you did before Python 3.6."
+
+I could use 'Any', but that really just effectively shuts the checker 
+off. You could pass <Lasagna> to the interface and mypy won't flinch.
+
+Dict[str, object] at least enforces:
+
+- It must be a dict
+- 100% of its keys must be strings
+- You cannot safely do anything with its values until you interrogate 
+them at runtime
+
+...And I think that's perfectly accurate. I tried too hard to accurately 
+type introspect.py, and I am avoiding repeating that mistake.
+
+>> 4. _pragma()'s job is to validate the type(s) anyway.
+> 
+> _pragma() can safely assume @value is dict, list, str, or bool.  It just
+> happens not to rely on this assumption.
+> 
+
+Correct. Though, there's not too many operations that dict/list/str/bool 
+all share, so you're going to be interrogating these types at runtime 
+anyway.
+
+Really, just about everything they share as an interface is probably 
+perfectly summed up by the python object type.
+
+So ... I dunno. I share your frustrations at the lack of expressiveness 
+in recursive types, and it has been a major bummer while working on ... 
+a recursive expression parser.
+
+* abandons series *
+
+/s
+
+>> More or less, the _ExprValue type union isn't remembered here -- even
+>> though it was once upon a time something returned by get_expr, it
+>> happened in a nested call that is now opaque to mypy in this context.
+> 
+> Understand.
+> 
+>> So, it's some combination of "That's all we know about it" and "It
+>> happens to be exactly sufficient for this function to operate."
+> 
+> I can accept "it's all mypy can figure out by itself, and it's good
+> enough to get the static checking we want".
+> 
+
+Yep. I think the typing of this particular interface is as good as it 
+can be for the moment, so I recommend leaving it as Dict[str, object].
+
+--js
 
 
