@@ -2,69 +2,170 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3BA3755FB
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:55:31 +0200 (CEST)
-Received: from localhost ([::1]:47314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243663755FD
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:57:21 +0200 (CEST)
+Received: from localhost ([::1]:52624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lefPX-0003O8-1F
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:55:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56746)
+	id 1lefRI-0005cm-5F
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:57:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lefJ7-00065N-QN
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:48:53 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:43529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lefJ3-000095-JY
- for qemu-devel@nongnu.org; Thu, 06 May 2021 10:48:53 -0400
-Received: by mail-qk1-x731.google.com with SMTP id a22so4567060qkl.10
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 07:48:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1lefPS-0003xi-EQ
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:55:26 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:32994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1lefPQ-0003aC-10
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:55:26 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 146EeDWD026484;
+ Thu, 6 May 2021 14:55:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=Big0zZDJssBRP+wKcXiBymnlx1zuQRuktKD4Sb8+4OA=;
+ b=q/SArUFevQlkBcDZpTbwnW5zeqyhs7y03SwfHSUWy1UZKp9b5cb32XyygOHPv39+DCDd
+ 2B24VkX2oG4pg5EXarnjB6lYLDNiR8JFk1s2FuPbaxH0yDwFiZrlmBKKXOsWeEQHH60k
+ 9FFej4XGFdgxs8+yPxAE9dLL+rvUqv1VTZ6DtdNfvO7cjAgAwIg/eOZafclxV5m9TWLj
+ m97BRRWI5+IsnsHMab3DFAFJRMWu75XMBjw5Kd/azW+nwIwS6XQdW/6r2IbMZBla0Oep
+ oC1EZ8aF8P4bJXZjI/s15ONXxydFi5cAbVpCs7RiEioDR9Dc1ET+48pCuhLww/cCFsqa nw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 38bemjn8wp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 06 May 2021 14:55:04 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 146EfKLn093411;
+ Thu, 6 May 2021 14:55:04 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08lp2173.outbound.protection.outlook.com [104.47.73.173])
+ by userp3030.oracle.com with ESMTP id 38bebveysn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 06 May 2021 14:55:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CaQMMUI39rO7YpMg//FDO+wdh406EB8bjmGpDwzne/rfpQeT7s7fdaRRl14zlfTS5RKQIsa17+MpOmRb93LP8ecPiBp8IlOtTv5Sfyb0c+QAjqYJNEgeHALWGXkRLdJLQq+e499KAMpJnfwNcKIX4YZFRhgUpWrDyChp6oRnF0YpUNwRbfoZwCOguDsqkY0UxEDJBrTmkH57jQLgIcwrjL5/WqRBEbUVzaWXDVNnXnmhLw4vYj1gJWjRrvQJl3x+j8RTrSe5uD2diDVTgefbOdI2c0T5wcAQikzMYFEYK7fxeh+xfLwXEOKc6WuRerH9ftTIdvUzsc9vzmQt4/h+Yw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Big0zZDJssBRP+wKcXiBymnlx1zuQRuktKD4Sb8+4OA=;
+ b=CM04qUYWLdb0s0d8f/mNdc6yO7dsV0hElX1TmKRZTAnxFJnotD0E0aZO4A/kTzCWO0QwUjIl9MK/Fhg71UFEQpjov8zbU79PYdBGO0fxlsz855sA+/4obWJ0bGBsjkPGHPCuczFM6V4d0OsotKuTkn27g1P33j3wWoJZZCDy3BzSTwdz4lwvWf3WOa0Dwdhvqsf8Hcbye5+ouXTzUZmEiyLvI2T44iQnz+6kgxL0AL56sOu5e6yy/hFvf9H5rccrWDamKl1ikQusH3GfsThXNU4iopls6lfdNbpM05V/L2iEvgn1WJJp6T3hVr53EVjxcPWtR8lZR59w5Gcvbujc9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4Gb0I7ISeIJ1QqvZBHcd3YAVMORjuBTVTOovRqj2pUM=;
- b=QXKAsXRdzB6Z9p0YOiFHSVzJNKe0Z3+WxHCeAtGu+Ki/CSZc+6gKRztKHg1GYPcCUk
- EBIJzueuPrTdG3LH8gPG9a3dpaJl9Tld0lj3OXa9zlWE2cRaSIuZ8N+Iqi79hWpCjCIZ
- uik3l+bZ/25pVklG4hvu6x6XMTbcHCzO2XvGbe+AGacUUYzaYE4HAuJbsAeAgf5EzSmN
- bzetqBfqU4bdr6ScQ73ckMsFAqzTsMDyS+G5g+RoE59xxbB4qYFNcxMt7XYeaHzQWj4a
- ZKZ0nOnrsRa44bFlekEdMXtSBbhjfV8tciIBlem9RlKC+MdrtQmI55qAJPm7jAwTPQRO
- hqMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4Gb0I7ISeIJ1QqvZBHcd3YAVMORjuBTVTOovRqj2pUM=;
- b=Em1vAg4fo0pbTpohmVGHfwkvX9FDiobNDcj1nb7yuMc3nMLtaGQhxBPjJLt1mW/oqW
- L1QqZyhLMp4UqTP/ylt0QtXOQdSfDgdrQWJ9MaC+E6Gzex9u/EUNwRrQlsz6cw/ZGqDO
- aLHuwzSusDLFz+6tdqnLUcBtILNNtYvzxvY1vpC2f7B5a0r3YVDD/OKEjY/RGhNIn2xL
- kyryoXIzdT58uJc1RgImbu3cQXxwdyrRZ7lVrFGzWjN5ikZL+WGI2Rqp8ekQ9ZuHUBf2
- 89k7vVPg2iGEenyvpcRkxjfP5pAcpdYa8CXa9wX46w68zYFPfZscf3/CvShxKeBkXVy2
- oSQQ==
-X-Gm-Message-State: AOAM532qoGplkNfivb6G++kGLDJh7WqBjyGapZl+bKUf0GFl8Br7Tz6T
- A1zixnS0bQ/wMw36d5SwE0h2pJ0TRfFG+HmT7rTKNw==
-X-Google-Smtp-Source: ABdhPJzoB4t5FgdV/5LEzVbTgT6jcxavkAR8WxPXlAl2GKUGjqdxD/h6izTHh3Nv+CBGgNK48IoVV6xmeGpj/lhF7N8=
-X-Received: by 2002:a37:7685:: with SMTP id r127mr4125026qkc.359.1620312528205; 
- Thu, 06 May 2021 07:48:48 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Big0zZDJssBRP+wKcXiBymnlx1zuQRuktKD4Sb8+4OA=;
+ b=eX5cJpe3ovzqjbnWaTw+pOnqyFHot5Z4y+6ScLKGY37yHCbKMmlSk23PWMwbUf5QySLSEFjCK8IKuWzUXGF4kGOFkH2jHojLMsMoFHG0xfVkn1zVZUKyjeQkQ0ZjwXAz275VPks3EHQl/fr/YbAVeAWkeSpcl3AJnTG+59ysvTs=
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
+ by MN2PR10MB4126.namprd10.prod.outlook.com (2603:10b6:208:15f::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.26; Thu, 6 May
+ 2021 14:55:00 +0000
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::508:17b9:6da6:5246]) by MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::508:17b9:6da6:5246%6]) with mapi id 15.20.4108.027; Thu, 6 May 2021
+ 14:55:00 +0000
+From: Jag Raman <jag.raman@oracle.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v21 09/20] multi-process: define MPQemuMsg format and
+ transmission functions
+Thread-Topic: [PATCH v21 09/20] multi-process: define MPQemuMsg format and
+ transmission functions
+Thread-Index: AQHW9l5X5AclsqE9t02Cd+PSaf6KFarXGwmAgAAHzIA=
+Date: Thu, 6 May 2021 14:55:00 +0000
+Message-ID: <5AFC417B-F681-4E88-A587-9A6EB65AE684@oracle.com>
+References: <cover.1611938319.git.jag.raman@oracle.com>
+ <56ca8bcf95195b2b195b08f6b9565b6d7410bce5.1611938319.git.jag.raman@oracle.com>
+ <7433948d-02bb-625f-b6b6-9421b1d7c05b@redhat.com>
+In-Reply-To: <7433948d-02bb-625f-b6b6-9421b1d7c05b@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.60.0.2.21)
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=oracle.com;
+x-originating-ip: [2601:18c:d07f:b000:2dbc:7eee:3380:9050]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c4da941d-114f-4ff8-15cc-08d9109eec69
+x-ms-traffictypediagnostic: MN2PR10MB4126:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR10MB41264B427B1A905ECD37D36590589@MN2PR10MB4126.namprd10.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 16uMDVIW6/4BAIXfZczGRKQL0quoIgAn87Aqeoa6pdRpzvkdcJ9xdeEbEuSeKUF9ljvxsB7Ucbs7CoajtoyfVugjqLIKPJsWUYhBOwQQ1lSiFIEfAKZ1LMYZh3BiqNSR67Lt8eixCB/MngmbTRWFeyEBECjYSyRgkSm7DIjyucgPx6hjRbfis5Hopx+0DBKq7oJJzazvkHg9rgdqI7tFWrO3ppD+tPDOZWcjd6yhsMCLEFmsHgxEKpcXo477FEunKce1Ka7sXz9xv2sHI3C8Q+G9J1P4042AXeX3xGm9ja7xi+WE8U+NC8sfYEpixqwLCRnVsFsVzB/V9mbjXcTqghsIAQH3qpk0CaAIxRb5bC7JlRDslgP+i2l3JF7vtKpvBLwhVQtXwPkBiDoFXnMvbuJzZMAdOmS0HJ0GIHe0gQXI30AcBV8Ebpntej77weFNu7/qV9e/tslVymq9w4242759qMB3i6Alz6d6IMdhf6BmCOyl+njLJtc5xVlqY952Gh1UuEHo8gegK3Wlh/Z/iSHNe0kunDyHkMrnC2uSfeP6nci3sLBo10mItQRkBbuLG8K+pWJtr8w24f/4P22HhUbfLsU94w3wcq3WA3mizEhspw0UxXb3XQ76qquEI5q1laJLbwwPsjuB0YIOcw/Yy+TZG/fYxDmBjgLjB9AdOsGELXwxBHyDxY8nQ8KjoOp4O6UzXV0WU/juvqjDgLx2UruTfHn3V4mna46SF+D3M0w=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(396003)(376002)(136003)(346002)(366004)(6486002)(91956017)(66946007)(64756008)(8936002)(66556008)(76116006)(66446008)(66476007)(83380400001)(316002)(6916009)(71200400001)(966005)(2616005)(33656002)(478600001)(8676002)(53546011)(6506007)(54906003)(186003)(44832011)(38100700002)(122000001)(2906002)(86362001)(5660300002)(4326008)(7416002)(6512007)(36756003)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?hB0eI2N1+JS17ebi0T2YPs9kSGjy+dTVHvVYinU9NZGzsQGFpSMGgBEioju8?=
+ =?us-ascii?Q?ydlj5Y8LVC+Ed0teQbb1stnz5ww8No1Whju+3nnxQl8JIiBW0uvcOUYrg7I9?=
+ =?us-ascii?Q?r1uQCyFKv4FTK4GjGW7yTGPoyWiZkRBKdB2Uqcqie4TnMQo/BsUTM9WWbxbT?=
+ =?us-ascii?Q?UirO2j5jydoRwnQSHQ1X2dVK4PX8PgYLhYTaP0zWG+NLJjNFsq0ZkxZiqq3r?=
+ =?us-ascii?Q?ahi0/KQsra18Ud5GhxqIGWXhrMI74pgnepGSVpSQ7dMy4+c5njXEdQHOzQa6?=
+ =?us-ascii?Q?JTYfDxILZXEZdphSXMbSSouVrT3DoBuz0EoG+mAiAwCxO/sOFt/K7cONyaSv?=
+ =?us-ascii?Q?wFAZKHDyD0AE5kTFcf+CASjKPKCJiUlN0vNbVMkQe/LLw24xXepAqugZzcrq?=
+ =?us-ascii?Q?nziE6uVs0bcUsadzM5krkbsYjFCCywZWEO0y8DinCIb7aw5pqJqaWyn6ElMR?=
+ =?us-ascii?Q?1zIFKENKLG83iH9fquu9WqdoKf6RGu+iOIfbmV8BP8UytAYwmJpL4tU+qp4d?=
+ =?us-ascii?Q?nmHeUNDnlVwIW42IDZbai/SEVOKl80LtbmzzEkdB7yxLW1rEnhb95wxzQX1g?=
+ =?us-ascii?Q?HBT4YpUJYmuBs1mNVR6eDeFRWUHwfe6ReADtyckpVbn1BwpLKxxPuj6Qn5Sw?=
+ =?us-ascii?Q?14fEGhyyS08Lvqe4lOaPEjn/cZj5ujC0m/B3wfyTrkXwSSd4zHl9fqtEw/oT?=
+ =?us-ascii?Q?XiCBa5SZE7hPHxzRWSCFJXvxc88kDCg7IXfvo2nudKrjN7cHQVzUVTmPUDMy?=
+ =?us-ascii?Q?EYVFvqnKOnw2F97wxz0yy1TzTOpVjV2jCXSPjsQYdYIN1dgJ+vRf6yRizT7H?=
+ =?us-ascii?Q?q+CUxEHSSBcVtkTS1TlN+NIDTKe5rFE++A6mBnO2Iw5Tnpcu9vCAyfbcIsLe?=
+ =?us-ascii?Q?c/BKJALmDr1hqCBv5noF5nl9FGphheItFh1d/fd7ctUm064wFsifIl8B33or?=
+ =?us-ascii?Q?Ai0Jdvrg2WMeGLG6VJRXhn9fpbE/Y0mA8CiegO1nZoEHc+4e291It1TxcjiQ?=
+ =?us-ascii?Q?6L6AAptje7hyCc4TdFpFbhpjhdxzf9kZdSD2h2DjpY1YyhxunEusn05nT3oo?=
+ =?us-ascii?Q?PkiFHoxPmbrh/kqBYGXndpllYiMl0O6XSfp1GYmFoKlnJAtgz1vyhA51AVlR?=
+ =?us-ascii?Q?GPqw2+We+T2qQezNrpTdUnqO0wgwTD4H8sFDYan4v7jWpFoltLCgPnb5SfPE?=
+ =?us-ascii?Q?OxINgzdLZEa2DDoeR4yhF3Un5QqWEfUs/qPbthhkC3/D0x7RUFhj7Ha8bnvs?=
+ =?us-ascii?Q?sYheU2xcVv9uF0O9nZuGCsG8kCsifV25Vfj0gNIUNnOBQwqd2TBtS9zXxwGB?=
+ =?us-ascii?Q?jJY/o3pw4fIrx1fh7C5BNgpNoSF87m6npXqCg3yHV431CSEloudUeUPGixZA?=
+ =?us-ascii?Q?HFG55xeI4BajXXIeZNP7GKYn+aR7?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <E5328F54A651224483D084AC8948C296@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20210506133758.1749233-1-philmd@redhat.com>
- <20210506133758.1749233-5-philmd@redhat.com>
- <CANCZdfoJWEbPFvZ0605riUfnpVRAeC6Feem5_ahC7FUfO71-AA@mail.gmail.com>
- <CAFEAcA9VL_h8DdVwWWmOxs=mNWj-DEHQu-U4L6vb_H4cGMZpPA@mail.gmail.com>
-In-Reply-To: <CAFEAcA9VL_h8DdVwWWmOxs=mNWj-DEHQu-U4L6vb_H4cGMZpPA@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 6 May 2021 08:48:37 -0600
-Message-ID: <CANCZdfpXjDECHmZq55zP43g32OVhnfjf9W+ERtPMFeDs2MmvXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/9] bsd-user/syscall: Replace alloca() by g_new()
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000ab554205c1aa6823"
-Received-SPF: none client-ip=2607:f8b0:4864:20::731;
- envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x731.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4da941d-114f-4ff8-15cc-08d9109eec69
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2021 14:55:00.5183 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g8P2cTf5omZnC7wl9cuQbj6pnO4zJhjftzJDeEs4ew/gcYEGfh1t3sEt7KHc6djD2wb6bLdgzsAEvDMkUXGa2w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4126
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ adultscore=0
+ phishscore=0 mlxlogscore=999 suspectscore=0 spamscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2105060107
+X-Proofpoint-ORIG-GUID: q_kHTz0959y0a0m0nNYCZNzFTTOpzNrd
+X-Proofpoint-GUID: q_kHTz0959y0a0m0nNYCZNzFTTOpzNrd
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 adultscore=0
+ phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ mlxlogscore=999 malwarescore=0 suspectscore=0 mlxscore=0 clxscore=1011
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2105060107
+Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
+ helo=aserp2120.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L4=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,182 +178,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm-devel <kvm@vger.kernel.org>, Kyle Evans <kevans@freebsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ Konrad Wilk <konrad.wilk@oracle.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "kwolf@redhat.com" <kwolf@redhat.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "ross.lagerwall@citrix.com" <ross.lagerwall@citrix.com>,
+ "marcandre.lureau@gmail.com" <marcandre.lureau@gmail.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ab554205c1aa6823
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, May 6, 2021 at 8:21 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Thu, 6 May 2021 at 15:17, Warner Losh <imp@bsdimp.com> wrote:
-> >
-> >
-> >
-> > On Thu, May 6, 2021, 7:38 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
-.com>
-> wrote:
-> >>
-> >> The ALLOCA(3) man-page mentions its "use is discouraged".
-> >>
-> >> Replace it by a g_new() call.
-> >>
-> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> >> ---
-> >>  bsd-user/syscall.c | 3 +--
-> >>  1 file changed, 1 insertion(+), 2 deletions(-)
-> >>
-> >> diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-> >> index 4abff796c76..dbee0385ceb 100644
-> >> --- a/bsd-user/syscall.c
-> >> +++ b/bsd-user/syscall.c
-> >> @@ -355,9 +355,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num=
-,
-> abi_long arg1,
-> >>      case TARGET_FREEBSD_NR_writev:
-> >>          {
-> >>              int count =3D arg3;
-> >> -            struct iovec *vec;
-> >> +            g_autofree struct iovec *vec =3D g_new(struct iovec, coun=
-t);
-> >
-> >
-> > Where is this freed?
->
-> g_autofree, so it gets freed when it goes out of scope.
->
-> https://developer.gnome.org/glib/stable/glib-Miscellaneous-Macros.html#g-=
-autofree
 
 
-Ah. I'd missed that feature and annotation...  Too many years seeing
-patches like
-this in other projects where a feature like this wasn't there to save the
-day...
+> On May 6, 2021, at 10:27 AM, Thomas Huth <thuth@redhat.com> wrote:
+>=20
+> On 29/01/2021 17.46, Jagannathan Raman wrote:
+>> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+>> Defines MPQemuMsg, which is the message that is sent to the remote
+>> process. This message is sent over QIOChannel and is used to
+>> command the remote process to perform various tasks.
+>> Define transmission functions used by proxy and by remote.
+>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> ---
+> [...]
+>> diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
+>> new file mode 100644
+>> index 0000000..b3d380e
+>> --- /dev/null
+>> +++ b/hw/remote/mpqemu-link.c
+> [...]
+>> +bool mpqemu_msg_valid(MPQemuMsg *msg)
+>> +{
+>> +    if (msg->cmd >=3D MPQEMU_CMD_MAX && msg->cmd < 0) {
+>> +        return false;
+>> +    }
+>=20
+> Hi!
+>=20
+> A bug in this code has been reported on Launchpad:
+>=20
+> https://bugs.launchpad.net/qemu/+bug/1926995
+>=20
+> Could someone please send a patch for this issue?
 
-This means you can ignore my other message as equally misinformed.
+Thank you for sharing it, Thomas!
 
+Will jump on it right away.
 
->
-> > Also, alloca just moves a stack pointer, where malloc has complex
-> interactions. Are you sure that's a safe change here?
->
-> alloca()ing something with size determined by the guest is
-> definitely not safe :-) malloc as part of "handle this syscall"
-> is pretty common, at least in linux-user.
->
+--
+Jag
 
-Well, since this is userland emulation, the normal process boundaries will
-fix that. allocating from
-the heap is little different..., so while unsafe, it's the domain of
-$SOMEONE_ELSE to enforce
-the safety. linux-user has many similar usages for both malloc and alloca,
-and it's ok for the
-same reason.
+>=20
+> Thanks,
+>  Thomas
+>=20
 
-Doing a quick grep on my blitz[*] branch in the bsd-user fork shows that
-alloca is used almost
-exclusively there. There's 24 calls to alloca in the bsd-user code. There's
-almost no malloc
-calls (7) in that at all outside the image loader: all but one of them are
-confined to sysctl
-emulation with the last one used to keep track of thread state in new
-threads...
-linux-user has a similar profile (20 alloca's and 14 mallocs outside the
-loader),
-but with more mallocs in other paths than just sysctl (which isn't present)=
-.
-
-I had no plans on migrating to anything else...
-
-Warner
-
---000000000000ab554205c1aa6823
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 6, 2021 at 8:21 AM Peter =
-Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linar=
-o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">On Thu, 6 May 2021 at 15:17, Warner Losh &lt;<a href=3D"mailto:imp@bsd=
-imp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; On Thu, May 6, 2021, 7:38 AM Philippe Mathieu-Daud=C3=A9 &lt;<a href=
-=3D"mailto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a>&gt; w=
-rote:<br>
-&gt;&gt;<br>
-&gt;&gt; The ALLOCA(3) man-page mentions its &quot;use is discouraged&quot;=
-.<br>
-&gt;&gt;<br>
-&gt;&gt; Replace it by a g_new() call.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:p=
-hilmd@redhat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 bsd-user/syscall.c | 3 +--<br>
-&gt;&gt;=C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c<br>
-&gt;&gt; index 4abff796c76..dbee0385ceb 100644<br>
-&gt;&gt; --- a/bsd-user/syscall.c<br>
-&gt;&gt; +++ b/bsd-user/syscall.c<br>
-&gt;&gt; @@ -355,9 +355,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int=
- num, abi_long arg1,<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 case TARGET_FREEBSD_NR_writev:<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int count =3D arg3=
-;<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct iovec *vec;<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree struct iovec=
- *vec =3D g_new(struct iovec, count);<br>
-&gt;<br>
-&gt;<br>
-&gt; Where is this freed?<br>
-<br>
-g_autofree, so it gets freed when it goes out of scope.<br>
-<a href=3D"https://developer.gnome.org/glib/stable/glib-Miscellaneous-Macro=
-s.html#g-autofree" rel=3D"noreferrer" target=3D"_blank">https://developer.g=
-nome.org/glib/stable/glib-Miscellaneous-Macros.html#g-autofree</a></blockqu=
-ote><div><br></div><div>Ah. I&#39;d missed that feature and annotation...=
-=C2=A0 Too many years seeing patches like</div><div>this in other projects =
-where a feature like this wasn&#39;t there to save the day...</div><div><br=
-></div><div>This means you can ignore my other message as equally misinform=
-ed.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
-><br>
-&gt; Also, alloca just moves a stack pointer, where malloc has complex inte=
-ractions. Are you sure that&#39;s a safe change here?<br>
-<br>
-alloca()ing something with size determined by the guest is<br>
-definitely not safe :-) malloc as part of &quot;handle this syscall&quot;<b=
-r>
-is pretty common, at least in linux-user.<br></blockquote><div><br></div><d=
-iv>Well, since this is userland emulation, the normal process boundaries wi=
-ll fix that. allocating from</div><div>the heap is little different..., so =
-while unsafe, it&#39;s the domain of $SOMEONE_ELSE to enforce</div><div>the=
- safety. linux-user has many similar usages for both malloc and alloca, and=
- it&#39;s ok for the</div><div>same reason.</div><div><br></div><div>Doing =
-a quick grep on my blitz[*] branch in the bsd-user fork shows that alloca i=
-s used almost</div><div>exclusively there. There&#39;s 24 calls to alloca i=
-n the bsd-user code. There&#39;s almost no malloc</div><div>calls (7) in th=
-at at all outside the image loader: all but one of them are confined to sys=
-ctl</div><div>emulation with the last one used to keep track of thread stat=
-e in new threads...</div><div>linux-user has a similar profile (20 alloca&#=
-39;s and 14 mallocs outside the loader),</div><div>but with more mallocs in=
- other paths than just sysctl (which isn&#39;t present).</div><div><br></di=
-v><div>I had no plans on migrating to anything else...</div><div><br></div>=
-<div>Warner</div><div><br></div></div></div>
-
---000000000000ab554205c1aa6823--
 
