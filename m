@@ -2,97 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F153752ED
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 13:19:10 +0200 (CEST)
-Received: from localhost ([::1]:38080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8F937533C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 13:53:19 +0200 (CEST)
+Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lec28-00043v-SU
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 07:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41234)
+	id 1lecZB-0005Q0-Qh
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 07:53:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lebyu-0002L2-LF
- for qemu-devel@nongnu.org; Thu, 06 May 2021 07:15:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59958)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lebyp-0006R6-La
- for qemu-devel@nongnu.org; Thu, 06 May 2021 07:15:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620299741;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vdpuG0d1ZM0qdYrRtdM1nNbCvGwEaGx2TzMDg/t8AQY=;
- b=ABNM9sIw9yOXR8JF94DA0hohRiS3ltA0kL8J+rn6rSUHjRkZnEzyaVDibW8Q3JTgQ5MrvC
- UPFspRrR80LZ3zwyXNsInAK3SrTEZw3qph+I7dFb6BCi3LY7GulxmUWjfyZTHuJ0lkjJwR
- GO8Le+pNCqVsBeQthe/pnsdEUkl+muU=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-ub3LEGCGOAeKgTHlxJvlzA-1; Thu, 06 May 2021 07:15:38 -0400
-X-MC-Unique: ub3LEGCGOAeKgTHlxJvlzA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- qk30-20020a170906d9deb02903916754e1b6so1562129ejb.2
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 04:15:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=vdpuG0d1ZM0qdYrRtdM1nNbCvGwEaGx2TzMDg/t8AQY=;
- b=kKwWeJxD3ByDjFiJyStn/7pQM4hGXvrAFM+zyLDddtdKYxwz+lleJaO0WNkeq5rvIe
- VFEwsr73jhUclG3OhviFNrbfl4TMHYgMhNYdyUDpzAxIdk7L49grd7a3xW8ES4EoBuRD
- oWDTZa1J6B1WqEBpGpjBhxW6WWNHTUijY8c1c6BvrinfXj/BeYOyyMNFUczm3KZ7rJbB
- ZrBrWdShqWg9chyDGQ/y00iWWAMZbzjee1R0Mb510c09GW4Ik8ULn3159+o5yBvYTd27
- eKQ7jdUuiugrt6BO8gHQhZV/J+08InPhM5t6EALdSMZ8yBySn1ZWg52IhHbsFHOjEf4i
- eQwQ==
-X-Gm-Message-State: AOAM532wQvgMq5c6N5mc92tGMTxUyYGmgwBjW3SPd1vDx5u6KlD1kELC
- efUymixvH2mNAV0vtjXKeu+aVK5cYPSyus35grsA+MFyw59fVnYaiXNqOZHLkERIwOcmGkLwyJQ
- TtVm97PqzN7nmhOU=
-X-Received: by 2002:a17:906:3c4e:: with SMTP id
- i14mr3722415ejg.245.1620299737155; 
- Thu, 06 May 2021 04:15:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw96sVUlqDhg22y8aLJMGAcwKMeIiHDBNCn0S8x2TNCwyWBbcmTyuiNouktZx98eDtPAR8+cA==
-X-Received: by 2002:a17:906:3c4e:: with SMTP id
- i14mr3722394ejg.245.1620299736909; 
- Thu, 06 May 2021 04:15:36 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c64ae.dip0.t-ipconnect.de. [91.12.100.174])
- by smtp.gmail.com with ESMTPSA id s2sm1382621edu.89.2021.05.06.04.15.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 May 2021 04:15:36 -0700 (PDT)
-Subject: Re: [PATCH v3 01/16] tcg/s390x: Rename from tcg/s390
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210503183541.2014496-1-richard.henderson@linaro.org>
- <20210503183541.2014496-2-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <7ec746b0-8d25-3a76-88c5-f7c1aec0c058@redhat.com>
-Date: Thu, 6 May 2021 13:15:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lecWn-0003zJ-Pr
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 07:50:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51574)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lecWl-00031S-Mm
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 07:50:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lecWj-0000n2-Gy
+ for <qemu-devel@nongnu.org>; Thu, 06 May 2021 11:50:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7F12A2E8060
+ for <qemu-devel@nongnu.org>; Thu,  6 May 2021 11:50:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210503183541.2014496-2-richard.henderson@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 May 2021 11:37:30 -0000
+From: Thomas Huth <1873337@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ruthan th-huth
+X-Launchpad-Bug-Reporter: ruthan (ruthan)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158706555938.11904.16475777662338789012.malonedeb@soybean.canonical.com>
+Message-Id: <162030105053.14445.5927955518722494137.malone@soybean.canonical.com>
+Subject: [Bug 1873337] Re: Arrow keys press is double in some programs in Dos
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: f8f6d486920a9f75ef3d85067481222972ccc97b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -101,62 +70,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com
+Reply-To: Bug 1873337 <1873337@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.05.21 20:35, Richard Henderson wrote:
-> This emphasizes that we don't support s390, only 64-bit s390x hosts.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   meson.build                              | 2 --
->   tcg/{s390 => s390x}/tcg-target-con-set.h | 0
->   tcg/{s390 => s390x}/tcg-target-con-str.h | 0
->   tcg/{s390 => s390x}/tcg-target.h         | 0
->   tcg/{s390 => s390x}/tcg-target.c.inc     | 0
->   5 files changed, 2 deletions(-)
->   rename tcg/{s390 => s390x}/tcg-target-con-set.h (100%)
->   rename tcg/{s390 => s390x}/tcg-target-con-str.h (100%)
->   rename tcg/{s390 => s390x}/tcg-target.h (100%)
->   rename tcg/{s390 => s390x}/tcg-target.c.inc (100%)
-> 
-> diff --git a/meson.build b/meson.build
-> index d8bb1ec5aa..7ce0bf5dfd 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -248,8 +248,6 @@ if not get_option('tcg').disabled()
->       tcg_arch = 'tci'
->     elif config_host['ARCH'] == 'sparc64'
->       tcg_arch = 'sparc'
-> -  elif config_host['ARCH'] == 's390x'
-> -    tcg_arch = 's390'
->     elif config_host['ARCH'] in ['x86_64', 'x32']
->       tcg_arch = 'i386'
->     elif config_host['ARCH'] == 'ppc64'
-> diff --git a/tcg/s390/tcg-target-con-set.h b/tcg/s390x/tcg-target-con-set.h
-> similarity index 100%
-> rename from tcg/s390/tcg-target-con-set.h
-> rename to tcg/s390x/tcg-target-con-set.h
-> diff --git a/tcg/s390/tcg-target-con-str.h b/tcg/s390x/tcg-target-con-str.h
-> similarity index 100%
-> rename from tcg/s390/tcg-target-con-str.h
-> rename to tcg/s390x/tcg-target-con-str.h
-> diff --git a/tcg/s390/tcg-target.h b/tcg/s390x/tcg-target.h
-> similarity index 100%
-> rename from tcg/s390/tcg-target.h
-> rename to tcg/s390x/tcg-target.h
-> diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-> similarity index 100%
-> rename from tcg/s390/tcg-target.c.inc
-> rename to tcg/s390x/tcg-target.c.inc
-> 
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting older bugs to "Incomplete" now.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+If you still think this bug report here is valid, then please switch
+the state back to "New" within the next 60 days, otherwise this report
+will be marked as "Expired". Or please mark it as "Fix Released" if
+the problem has been solved with a newer version of QEMU already.
 
--- 
-Thanks,
+Thank you and sorry for the inconvenience.
 
-David / dhildenb
 
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1873337
+
+Title:
+  Arrow keys press is double in some programs in Dos
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Hello,
+  im trying to use Qemu for Dos machines.
+
+   But there is problem with some programs that arrow key press is
+  double in some problems. As advanced Filemanagers - Dos Navigator or
+  File Wizard, same Scandisk.
+
+  There is gif:
+  https://www.vogons.org/download/file.php?id=3D77141&mode=3Dview
+
+   Its blocking to use such problem, unless you use Numlock key for it,
+  but im used 25+ years to arrow keys and its bug.. I guess that it
+  would mess with some games too.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1873337/+subscriptions
 
