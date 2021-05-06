@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18AE374D49
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 04:09:34 +0200 (CEST)
-Received: from localhost ([::1]:47936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D56BE374D50
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 04:12:59 +0200 (CEST)
+Received: from localhost ([::1]:50856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leTSH-0008N6-Qu
-	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 22:09:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59826)
+	id 1leTVa-0001Gm-VY
+	for lists+qemu-devel@lfdr.de; Wed, 05 May 2021 22:12:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1leTRI-0007vo-Cf
- for qemu-devel@nongnu.org; Wed, 05 May 2021 22:08:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47229)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1leTRF-0007S6-1L
- for qemu-devel@nongnu.org; Wed, 05 May 2021 22:08:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620266907;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FW3BeJPF5kSp0xNOvg5NLPAeicEo8Q9yAUEvTqsjjzc=;
- b=U73ycmVokwSUavdNG8lHppBcdmEuMqAvXnK0nmMliibyXvgimJTbfB045YMWeEUApisesp
- 8rQ7xQ9z6oTCg6zxBa5+bf3/U8a0Vv7Mi1Efv68uoVfYisslpJCw/husr1F/dsVt0OvhBw
- FbnebgNINPXoKmZEqv+xl0cNqDHwl8I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-GMlZ9UTcOYOJ4Tbt3MaTtQ-1; Wed, 05 May 2021 22:08:22 -0400
-X-MC-Unique: GMlZ9UTcOYOJ4Tbt3MaTtQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB6E2107ACC7;
- Thu,  6 May 2021 02:08:21 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FB811002D71;
- Thu,  6 May 2021 02:08:20 +0000 (UTC)
-Subject: Re: [PATCH 16/22] qapi/parser: add docstrings
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210422030720.3685766-1-jsnow@redhat.com>
- <20210422030720.3685766-17-jsnow@redhat.com>
- <877dkq5w9x.fsf@dusky.pond.sub.org>
- <6ea6efc8-0506-326c-ee57-eb81fd61dfae@redhat.com>
- <87lf942j73.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <aa7e8787-9198-37c2-6bb5-04aa25d26bce@redhat.com>
-Date: Wed, 5 May 2021 22:08:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1leTSo-0000Zw-Sx; Wed, 05 May 2021 22:10:11 -0400
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:44860)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1leTSm-0008Oo-UQ; Wed, 05 May 2021 22:10:06 -0400
+Received: by mail-il1-x132.google.com with SMTP id i22so3454829ila.11;
+ Wed, 05 May 2021 19:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1YnX9Cm3enqdv0yfI/EdfbngfUVrtcH6oNGxderYxdE=;
+ b=aYFRQHi6vpUdj8fNw9WPUz2AIqkPMK6H00cY13nURagG0VuNNPhuYN6qgC4du2legk
+ vITSssWJMo9TdvBo54pZB9gMon/G/Mj3sQUCQIBs2YYzOggfLqaLBqhbSN+ejsN1Z7F0
+ rzvBc6TEntOl/Qp1YMI7PS6nZ7PaQietZdXvhHBPCkPNgzeQ0W2HxAUOwXazmF+ZhDwS
+ /MQhOcrRSuSmWlKwPmuGX+v+TC7fjXCD0yHXZkDK6IzCLMmpp+RRY0TcX27rKBg8qZ8I
+ 5dqBD6Hsqy6jHLgelCO6oyBBOeYFSxfrmlCTQU7i0Z2RepVDDEjdf7iyeqi5nNN5wp5O
+ J7Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1YnX9Cm3enqdv0yfI/EdfbngfUVrtcH6oNGxderYxdE=;
+ b=Bby5NkVb/02+EssXOaOYZozZL8QR4i0lBXLkGNqp/2tD3W6aDfW99aHmuJR4hm7GxO
+ t/ZIYBwf/C/SwdRKgpeG9iNq5ulnCynVEB247uUcrkagevh2F4On57wai3RfE1OrQx4N
+ FsFK2m5bJYIzmyqPp1GoLN0ew5HHXvIA56y00pkDfA7U48IyEKEPQXuT6jj9URp5jptg
+ CTXLG9wDCL6pjD3pQ2Bn8ojYejLjoahCPynXSsJgiqWJKsq890vjj9NV01JHKD+LSlPo
+ sUSfIfLLsIK0QtE/ksxwDQgAFgKk6ITZhjmNm4qDxm3ri8Y5p1EgF7t/TjE2pp1yzzGG
+ FhBg==
+X-Gm-Message-State: AOAM531WYE4LWnCi5MOZsWULkqZvcEW2slZOnYwD+fIif0FSAzBwi1ci
+ SEs3fJclZBw01vAKXfQk80zPPrTn/I5XuSSNxQ0=
+X-Google-Smtp-Source: ABdhPJwJbW0JHg5VJptvSmtlWVUujQ0bvv2CCinZHcKqEZ20hufV84k4IoAeA6gfywAsFOH0Ciy2zkXOa8LDqSJhuZo=
+X-Received: by 2002:a05:6e02:eac:: with SMTP id
+ u12mr1863475ilj.177.1620267003422; 
+ Wed, 05 May 2021 19:10:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87lf942j73.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.693,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210420213656.85148-1-josemartins90@gmail.com>
+In-Reply-To: <20210420213656.85148-1-josemartins90@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 6 May 2021 12:09:37 +1000
+Message-ID: <CAKmqyKN-qaBqhqTKJ-RVQ4BXO++vxVYB1+WNK3atUmqZbNyWgg@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: fix wfi exception behavior
+To: Jose Martins <josemartins90@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,358 +76,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/21 5:03 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> On 4/25/21 9:27 AM, Markus Armbruster wrote:
->>> John Snow <jsnow@redhat.com> writes:
->>>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>>
->>>> ---
->>>>
->>>> My hubris is infinite.
->>>
->>> Score one of the three principal virtues of a programmer ;)
->>>
->>
->> It was written before the prior review, but I promise I am slowing down
->> on adding these. I just genuinely left them to help remind myself how
->> these modules are actually structured and work so that I will be able to
->> "pop in" quickly in the future and make a tactical, informed edit.
->>
->>>> OK, I only added a few -- to help me remember how the parser works at a glance.
->>>>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>> ---
->>>>    scripts/qapi/parser.py | 66 ++++++++++++++++++++++++++++++++++++++++++
->>>>    1 file changed, 66 insertions(+)
->>>>
->>>> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
->>>> index dbbd0fcbc2f..8fc77808ace 100644
->>>> --- a/scripts/qapi/parser.py
->>>> +++ b/scripts/qapi/parser.py
->>>> @@ -51,7 +51,24 @@ def __init__(self, parser: 'QAPISchemaParser', msg: str):
->>>>    
->>>>    
->>>>    class QAPISchemaParser:
->>>> +    """
->>>> +    Performs parsing of a QAPI schema source file.
->>>
->>> Actually, this parses one of two layers, see qapi-code-gen.txt section
->>> "Schema syntax".  Pointing there might help.
->>>
->>
->> It sort of parses one-and-a-half layers, but yes ... I know the
->> distinction you're drawing here. This is *mostly* the JSON/AST level.
->>
->> (With some upper-level or mid-level parsing for Pragmas and Includes.)
-> 
-> True.  I chose simplicity over purity.
-> 
->>>>    
->>>> +    :param fname: Path to the source file
->>>
->>> Either "Source file name" or "Source pathname", please.  I prefer "file
->>> name" for additional distance to "path" in the sense of a search path,
->>> i.e. a list of directory names.
->>>
->>
->> OK, I am not sure I have any ... prejudice about when to use which kind
->> of description for these sorts of things. I'm happy to defer to you, but
->> if there's some kind of existing standard vocabulary I'm trampling all
->> over, feel free to point me to your preferred hacker dictionary.
->>
->> Anyway, happy to adopt your phrasing here.
->>
->>>> +    :param previously_included:
->>>> +        The absolute paths of previously included source files.
->>>
->>> Either "absolute file name" or "absulute pathname".
->>>
->>
->> OK.
->>
->>>> +        Only used by recursive calls to avoid re-parsing files.
->>>
->>> Feels like detail, not sure it's needed here.
->>>
->>
->> You're probably right, but I suppose I wanted to hint/suggest that it
->> was not necessary to feed it this argument for the root schema, but it
->> was crucial for the recursive calls.
-> 
-> To me "if root schema, then nothing was previously included" feels
-> obvious enough :)  But if you want to spell out proper use of the
-> parameter, I recommend to stick to the interface, i.e. when to pass it,
-> not what the function does with it (in the hope that the reader can
-> then guess when to pass it).
-> 
->> (Earlier I mentioned possibly just passing the parent parser in: that
->> helps eliminate some of this ambiguity, too.)
->>
->>>> +    :param incl_info:
->>>> +       `QAPISourceInfo` for the parent document.
->>>> +       This may be None if this is the root schema document.
->>>
->>> Recommend s/This maybe //.
->>>
->>> qapi-code-gen.txt calls a QAPI schema that uses include directives
->>> "modular", and the included files "sub-modules".  s/root schema
->>> document/root module/?
->>>
->>
->> Sure. All in favor of phrasing consistency.
->>
->> (By the way: I did write up a draft for converting qapi-code-gen.txt to
->> ReST format, and if I had finished that, it might be nice to hotlink to
->> it here. I stopped for now because I wanted to solidify some conventions
->> on how to markup certain constructs first, and wanted ... not to
->> overwhelm you with more doc-wrangling.)
-> 
-> Appreciated :)
-> 
->>>> +
->>>> +    :ivar exprs: Resulting parsed expressions.
->>>> +    :ivar docs: Resulting parsed documentation blocks.
->>>
->>> Uh, why are these here?  A doc string is interface documentation...
->>>
->>
->> These *are* interface. It is how callers are expected to get the results
->> of parsing.
-> 
-> You're right, but is the constructor the right place to document
-> attributes?
-> 
+On Wed, Apr 21, 2021 at 7:37 AM Jose Martins <josemartins90@gmail.com> wrote:
+>
+> The wfi exception trigger behavior should take into account user mode,
+> hstatus.vtw, and the fact the an wfi might raise different types of
+> exceptions depending on various factors:
+>
+> If supervisor mode is not present:
+>
+> - an illegal instruction exception should be generated if user mode
+> executes and wfi instruction and mstatus.tw = 1.
+>
+> If supervisor mode is present:
+>
+> - when a wfi instruction is executed, an illegal exception should be triggered
+> if either the current mode is user or the mode is supervisor and mstatus.tw is
+> set.
+>
+> Plus, if the hypervisor extensions are enabled:
+>
+> - a virtual instruction exception should be raised when a wfi is executed from
+> virtual-user or virtual-supervisor and hstatus.vtw is set.
+>
+> Signed-off-by: Jose Martins <josemartins90@gmail.com>
 
-This is the docstring for the class, actually.
+Thanks!
 
-https://www.python.org/dev/peps/pep-0257/ says:
+Applied to riscv-to-apply.next
 
-"The docstring for a class should summarize its behavior and list the 
-public methods and instance variables. If the class is intended to be 
-subclassed, and has an additional interface for subclasses, this 
-interface should be listed separately (in the docstring). The class 
-constructor should be documented in the docstring for its __init__ 
-method. Individual methods should be documented by their own docstring."
+Alistair
 
-So that's where parameters for the init method goes, as well as class 
-and instance variables.
-
-One-stop shop for interface documentation.
-
->> We could change that, of course, but that is absolutely how this class
->> works today.
->>
->>>> +
->>>> +    :raise OSError: For problems opening the root schema document.
->>>> +    :raise QAPIParseError: For JSON or QAPIDoc syntax problems.
->>>> +    :raise QAPISemError: For various semantic issues with the schema.
->>>
->>> Should callers care for the difference between QAPIParseError and
->>> QAPISemError?
->>>
->>
->> That's up to the caller, I suppose. I just dutifully reported the truth
->> of the matter here.
->>
->> (That's a real non-answer, I know.)
->>
->> I could always document QAPISourceError instead, with a note about the
->> subclasses used for completeness.
->>
->> (The intent is that QAPIError is always assumed/implied to be sufficient
->> for capturing absolutely everything raised directly by this package, if
->> you want to ignore the meanings behind them.)
-> 
-> I honestly can't think of a reason for catching anything but QAPIError.
-> The other classes exist only to give us more convenient ways to
-> construct instances of QAPIError.  We could replace them all by
-> functions returning QAPIError.
-> 
-
-Summary it is.
-
->>>> +    """
->>>>        def __init__(self,
->>>>                     fname: str,
->>>>                     previously_included: Optional[Set[str]] = None,
->>>> @@ -77,6 +94,11 @@ def __init__(self,
->>>>            self._parse()
->>>>    
->>>>        def _parse(self) -> None:
->>>> +        """
->>>> +        Parse the QAPI schema document.
->>>> +
->>>> +        :return: None; results are stored in ``exprs`` and ``docs``.
->>>
->>> Another ignorant doc string markup question...  how am I supposed to see
->>> that exprs and docs are attributes, and not global variables?
->>>
->>
->> I don't know, it's an unsolved mystery for me too. I need more time in
->> the Sphinx dungeon to figure out how this stuff is supposed to work.
->> You're right to wonder.
-> 
-> Use self.exprs and self.docs meanwhile?
-> 
-
-If I don't accidentally trip and fall and decide to care more about it 
-by the time I finish revising the docs tomorrow, yes.
-
->>>> +        """
->>>>            cur_doc = None
->>>>    
->>>>            with open(self._fname, 'r', encoding='utf-8') as fp:
->>>> @@ -197,6 +219,50 @@ def _check(name: str, value: object) -> List[str]:
->>>>                raise QAPISemError(info, "unknown pragma '%s'" % name)
->>>>    
->>>>        def accept(self, skip_comment: bool = True) -> None:
->>>> +        """
->>>> +        Read the next lexeme and process it into a token.
->>>> +
->>>> +        :Object state:
->>>> +          :tok: represents the token type. See below for values.
->>>> +          :pos: is the position of the first character in the lexeme.
->>>> +          :cursor: is the position of the next character.
->>>
->>> Define "position" :)  It's an index in self.src.
->>>
->>
->> Good call.
->>
->>> self.cursor and self.pos are not used outside accept().  Not sure thet
->>> belong into interface documentation.
->>>
->>
->> Fair point, though I was on a mission to document exactly how the parser
->> works even at the internal level, because accept(), despite being
->> "public", is really more of an internal function here.
->>
->> I am somewhat partial to documenting these state variables for my own
->> sake so that I can remember the way this lexer behaves.
-> 
-> I understand why you want to document how they work.  Since they're
-> internal to accept(), a comment in accept() seems more proper than
-> accept() doc string.  Admittedly doesn't matter that much, as accept()
-> is internal to the class.
-> 
-
-OK, I'll take it into consideration and see what subjectively looks and 
-feels the nicest.
-
->>>> +          :val: is the variable value of the token, if any.
->>>
->>> Missing: self.info, which *is* used outside accept().
->>>
->>
->> Oh, yes.
->>
->>>> +
->>>> +        Single-character tokens:
->>>> +
->>>> +        These include ``LBRACE``, ``RBRACE``, ``COLON``, ``COMMA``,
->>>> +        ``LSQB``, and ``RSQB``.
->>>
->>> "These include ..." is misleading.  This is the complete list of
->>> single-character tokens.
->>>
->>
->> I'm just testing your ability to recognize the difference between proper
->> and improper subsets.
->>
->> (Joking. I'll reword to avoid that ambiguity.)
->>
->>>> +        ``LSQB``, and ``RSQB``.  ``tok`` holds the single character
->>>> +        lexeme.  ``val`` is ``None``.
->>>> +
->>>> +        Multi-character tokens:
->>>> +
->>>> +        - ``COMMENT``:
->>>> +
->>>> +          - This token is not normally yielded by the lexer, but it
->>>> +            can be when ``skip_comment`` is False.
->>>> +          - ``tok`` is the value ``"#"``.
->>>> +          - ``val`` is a string including all chars until end-of-line.
->>>> +
->>>> +        - ``STRING``:
->>>> +
->>>> +          - ``tok`` is the ``"'"``, the single quote.
->>>> +          - ``value`` is the string, *excluding* the quotes.
->>>> +
->>>> +        - ``TRUE`` and ``FALSE``:
->>>> +
->>>> +          - ``tok`` is either ``"t"`` or ``"f"`` accordingly.
->>>> +          - ``val`` is either ``True`` or ``False`` accordingly.
->>>> +
->>>> +        - ``NEWLINE`` and ``SPACE``:
->>>> +
->>>> +          - These are consumed by the lexer directly. ``line_pos`` and
->>>> +            ``info`` are advanced when ``NEWLINE`` is encountered.
->>>> +            ``tok`` is set to ``None`` upon reaching EOF.
->>>> +
->>>> +        :param skip_comment:
->>>> +            When false, return ``COMMENT`` tokens.
->>>> +            This is used when reading documentation blocks.
->>>
->>> The doc string mostly describes possible state on return of accept().
->>> *Within* accept(), self.tok may be any character.
->>>
->>> "Mostly" because item ``NEWLINE`` and ``SPACE`` is about something that
->>> happens within accept().
->>>
->>
->> Almost kinda-sorta. The value of "tok" is important there, too.
-> 
-> --verbose?
-> 
-
-Fair enough. I'll trim it down. There is some future bleed from some 
-experimental stuff I cut out here.
-
-(It's been banished to some realm even further beyond pt5c, the 
-oft-feared but seldom-mentioned pt7. Spoken of in frightened whispers, 
-leading QAPI scholars are as of yet unable to confirm it truly exists.)
-
->>> Perhaps phrasing it as a postcondition would be clearer:
->>>
->>>       Read and store the next token.
->>>
->>>       On return, self.tok is the token type, self.info is describes its
->>>       source location, and self.value is the token's value.
->>>
->>>       The possible token types and their values are
->>>
->>>       ...
->>>
->>
->> OK, I will play with this suggestion while I try to clean up the docs.
->>
->>>> +        """
->>>>            while True:
->>>>                self.tok = self.src[self.cursor]
->>>>                self.pos = self.cursor
->>
->> Thanks for taking a look at this one.
-> 
-> Thank *you* for documenting my[*] code!
-> 
-> 
-> [*] Some of it mine in the sense I wrote it, some of it mine in the
-> sense I maintain it.
-> 
-> 
-
-I assure you it's entirely selfish. I have the memory of a goldfish and 
-the docs I wrote myself here have *already* come in handy for reminding 
-myself what's going on in here.
-
---js
-
+> ---
+> Alistair, I hope you've agreed with my argumentis for the previous version
+> of the patch. As promised, I submit this version which takes into account M/U
+> only harts. It checks for the presence of the RVS extension. If it is
+> not present mstatus.tw takes effect over the exection of wfi in user
+> mode.
+>
+>  target/riscv/cpu_bits.h  |  1 +
+>  target/riscv/op_helper.c | 11 ++++++++---
+>  2 files changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 24b24c69c5..ed8b97c788 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -436,6 +436,7 @@
+>  #define HSTATUS_HU           0x00000200
+>  #define HSTATUS_VGEIN        0x0003F000
+>  #define HSTATUS_VTVM         0x00100000
+> +#define HSTATUS_VTW          0x00200000
+>  #define HSTATUS_VTSR         0x00400000
+>  #if defined(TARGET_RISCV64)
+>  #define HSTATUS_VSXL        0x300000000
+> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> index d55def76cf..15982a7a33 100644
+> --- a/target/riscv/op_helper.c
+> +++ b/target/riscv/op_helper.c
+> @@ -173,10 +173,15 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
+>  void helper_wfi(CPURISCVState *env)
+>  {
+>      CPUState *cs = env_cpu(env);
+> +    bool rvs = riscv_has_ext(env, RVS);
+> +    bool prv_u = env->priv == PRV_U;
+> +    bool prv_s = env->priv == PRV_S;
+>
+> -    if ((env->priv == PRV_S &&
+> -        get_field(env->mstatus, MSTATUS_TW)) ||
+> -        riscv_cpu_virt_enabled(env)) {
+> +    if (((prv_s || (!rvs && prv_u)) && get_field(env->mstatus, MSTATUS_TW)) ||
+> +        (rvs && prv_u && !riscv_cpu_virt_enabled(env))) {
+> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+> +    } else if (riscv_cpu_virt_enabled(env) && (prv_u ||
+> +        (prv_s && get_field(env->hstatus, HSTATUS_VTW)))) {
+>          riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
+>      } else {
+>          cs->halted = 1;
+> --
+> 2.25.1
+>
+>
 
