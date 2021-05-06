@@ -2,92 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C406C37552D
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 15:53:59 +0200 (CEST)
-Received: from localhost ([::1]:38752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51843755A0
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 May 2021 16:28:14 +0200 (CEST)
+Received: from localhost ([::1]:41390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leeRy-00018N-Sr
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 09:53:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60874)
+	id 1leez7-0001aT-Ln
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 10:28:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leeQr-0008LI-Qp
- for qemu-devel@nongnu.org; Thu, 06 May 2021 09:52:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50633)
+ (Exim 4.90_1)
+ (envelope-from <dd5004665090f6b054072a51ccbad7bbd2f2424a@lizzy.crudebyte.com>)
+ id 1leewV-0008Dx-TH
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:25:31 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:59931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1leeQq-0008Ko-1M
- for qemu-devel@nongnu.org; Thu, 06 May 2021 09:52:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620309167;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6IZalKvFxUNTD1dgLCEsHfySBg/CutxX4/OXgudQzHg=;
- b=eHdHhuWZbDCmFhiFBN5lmtZAlYwE44cLVQ8bGZPASQFd/mIEVREK4l4dApL8IvlfBpencG
- kQ2VD93qayHwY386kJAwzFIYuLPjdwhboLpEa7ck8QjSBZqZnIGl+510VmmdAd5kBPGp0s
- TZY7KlmafO/VvjYOD45pZGs5PggQ4c8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-83HPl3zvPUqB1uARObgmaw-1; Thu, 06 May 2021 09:52:43 -0400
-X-MC-Unique: 83HPl3zvPUqB1uARObgmaw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- t7-20020a1cc3070000b029014131bbe82eso2694294wmf.3
- for <qemu-devel@nongnu.org>; Thu, 06 May 2021 06:52:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6IZalKvFxUNTD1dgLCEsHfySBg/CutxX4/OXgudQzHg=;
- b=cvmBKA7+qeMvClU/frabiUG0DpdoUMnkfZWEXD9jeAfVpzmIVzGHCK1DJieZ7935Gy
- O+eTK7K6cyezE7fdrYfk95yfDLYx8CMLY0Dxkikrm/CRnZwQkgQkDGwL74HnZ5KQr0oI
- eNddRsMZStkJJUZiI+/uEhaZ9/mClUsXs1+5C7SLni25qzHMLY7qwMBHq6knp6XDxPTZ
- vPhJBwPNYJnXyCBRJF6KmYQ/5UGoBRwKflcesX6o61BRWHCYq0EKudVh0IhlXFMZbKrs
- KQcRfds8kQdMe6H8YQpcjEqe1TnyJePgq68iHd7za4B0kbrzerRd8Z6Lyn304ZbhvPGB
- PIpQ==
-X-Gm-Message-State: AOAM531VT+bbhGDqn8yO9cLfxYlz3IBiEw56B/Qh0QtK+EWXRLvvBfCX
- S4ncy+HmUl1kfw56fe1alSZeku0QGLsdpRlsPic2PbS93XX9oeDPOuD5bJvmo47x9hIK/kARUsW
- ZqV3ciSxYX0BQYn0=
-X-Received: by 2002:a7b:cb85:: with SMTP id m5mr14983585wmi.53.1620309162336; 
- Thu, 06 May 2021 06:52:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx2kify+MSzppFiGQmagSRH5BhYWwJgj9nVDfPSYl2Vy5dlkIxtRT6AAvWGfayv7K+b1XFC2g==
-X-Received: by 2002:a7b:cb85:: with SMTP id m5mr14983560wmi.53.1620309162153; 
- Thu, 06 May 2021 06:52:42 -0700 (PDT)
-Received: from [192.168.1.19] (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr.
- [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id k16sm3617414wmi.44.2021.05.06.06.52.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 May 2021 06:52:41 -0700 (PDT)
-Subject: Re: [PATCH 11/23] hw/intc/xics: Avoid dynamic stack allocation
-To: Greg Kurz <groug@kaod.org>
-References: <20210505211047.1496765-1-philmd@redhat.com>
- <20210505211047.1496765-12-philmd@redhat.com>
- <20210506102256.1284c2e8@bahia.lan>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <08ce19d2-7af1-766c-9ffe-b6f4a5ad2dcf@redhat.com>
-Date: Thu, 6 May 2021 15:52:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210506102256.1284c2e8@bahia.lan>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.69,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <dd5004665090f6b054072a51ccbad7bbd2f2424a@lizzy.crudebyte.com>)
+ id 1leewQ-00029l-Rk
+ for qemu-devel@nongnu.org; Thu, 06 May 2021 10:25:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=t3xFS+RdkHlUPcAh91xVvn9sIS/X2PCweHr1Tsp1qDI=; b=pQUBp
+ uuTMUaNtp5dxAe1jrJPG9XG+1mcvqMSMkvfAd8cCsG/3G1t3hQPeG/QhOU9F19IzRL7B4reIqwzO1
+ K4x/vRDHIgrnhgrQaRO5X3C7lqJKdEc5TSUrTibMWlFdabl7E8hf9by6GEJscx6I0+pqalDwIA64O
+ Q2Kdo4a54oC/1xhoIR1r3nKaDk+yGBCv8sdzs2CYWREspb7l5eVHBiGWAXsN6XfwGJtHmyBnD6t3B
+ ZQJPZksPWTs4mpyNQoCD3zQNy632mQRShzbjAs5ubaG+6U5gcbwBJnddPrU4XC72rDSF4YKPM097y
+ D5UB75QBecnrl9OT0yhNZ+7YQMBfw==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Thu, 6 May 2021 15:12:23 +0200
+Subject: [PATCH] 9pfs: add link to 9p developer docs
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Message-Id: <E1leeDf-0008GZ-9q@lizzy.crudebyte.com>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=dd5004665090f6b054072a51ccbad7bbd2f2424a@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,39 +57,307 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/21 10:22 AM, Greg Kurz wrote:
-> On Wed,  5 May 2021 23:10:35 +0200
-> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> 
->> Use autofree heap allocation instead of variable-length
->> array on the stack.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  hw/intc/xics.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+To lower the entry level for new developers, add a link to the
+9p developer docs (i.e. qemu wiki) at the beginning of 9p source
+files, that is to: https://wiki.qemu.org/Documentation/9p
 
->> +    g_autofree uint8_t *flags = g_malloc(ics->nr_irqs);
-> 
-> I would have made it g_new(uint8_t, ics->nr_irqs) so that changes
-> in the type of 'flags' that could potentially change the allocated
-> size are safely detected.
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ hw/9pfs/9p-local.c             | 5 +++++
+ hw/9pfs/9p-posix-acl.c         | 5 +++++
+ hw/9pfs/9p-proxy.c             | 5 +++++
+ hw/9pfs/9p-synth.c             | 5 +++++
+ hw/9pfs/9p-util.c              | 5 +++++
+ hw/9pfs/9p-xattr-user.c        | 5 +++++
+ hw/9pfs/9p-xattr.c             | 5 +++++
+ hw/9pfs/9p.c                   | 5 +++++
+ hw/9pfs/codir.c                | 5 +++++
+ hw/9pfs/cofile.c               | 5 +++++
+ hw/9pfs/cofs.c                 | 5 +++++
+ hw/9pfs/coth.c                 | 5 +++++
+ hw/9pfs/coxattr.c              | 5 +++++
+ hw/9pfs/virtio-9p-device.c     | 5 +++++
+ hw/9pfs/xen-9p-backend.c       | 5 +++++
+ tests/qtest/libqos/virtio-9p.c | 5 +++++
+ tests/qtest/virtio-9p-test.c   | 5 +++++
+ 17 files changed, 85 insertions(+)
 
-OK, will update.
-
-> This is unlikely though, so:
-> 
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-
-Thanks!
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index af52c1daac..210d9e7705 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -10,6 +10,11 @@
+  * the COPYING file in the top-level directory.
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "9p.h"
+ #include "9p-local.h"
+diff --git a/hw/9pfs/9p-posix-acl.c b/hw/9pfs/9p-posix-acl.c
+index bbf89064f7..eadae270dd 100644
+--- a/hw/9pfs/9p-posix-acl.c
++++ b/hw/9pfs/9p-posix-acl.c
+@@ -11,6 +11,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "qemu/xattr.h"
+ #include "9p.h"
+diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+index 4aa4e0a3ba..09bd9f1464 100644
+--- a/hw/9pfs/9p-proxy.c
++++ b/hw/9pfs/9p-proxy.c
+@@ -10,6 +10,11 @@
+  * the COPYING file in the top-level directory.
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include <sys/socket.h>
+ #include <sys/un.h>
+diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+index 473ef914b0..b38088e066 100644
+--- a/hw/9pfs/9p-synth.c
++++ b/hw/9pfs/9p-synth.c
+@@ -12,6 +12,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "9p.h"
+ #include "fsdev/qemu-fsdev.h"
+diff --git a/hw/9pfs/9p-util.c b/hw/9pfs/9p-util.c
+index 614b7fc34d..3221d9b498 100644
+--- a/hw/9pfs/9p-util.c
++++ b/hw/9pfs/9p-util.c
+@@ -10,6 +10,11 @@
+  * See the COPYING file in the top-level directory.
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "qemu/xattr.h"
+ #include "9p-util.h"
+diff --git a/hw/9pfs/9p-xattr-user.c b/hw/9pfs/9p-xattr-user.c
+index 2c90817b75..f2ae9582e6 100644
+--- a/hw/9pfs/9p-xattr-user.c
++++ b/hw/9pfs/9p-xattr-user.c
+@@ -11,6 +11,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "9p.h"
+ #include "fsdev/file-op-9p.h"
+diff --git a/hw/9pfs/9p-xattr.c b/hw/9pfs/9p-xattr.c
+index c696d8f846..9ae69dd8db 100644
+--- a/hw/9pfs/9p-xattr.c
++++ b/hw/9pfs/9p-xattr.c
+@@ -11,6 +11,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "9p.h"
+ #include "fsdev/file-op-9p.h"
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 134806db52..0fa776af09 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -11,6 +11,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include <glib/gprintf.h>
+ #include "hw/virtio/virtio.h"
+diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+index 1f70a58df5..032cce04c4 100644
+--- a/hw/9pfs/codir.c
++++ b/hw/9pfs/codir.c
+@@ -11,6 +11,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "fsdev/qemu-fsdev.h"
+ #include "qemu/thread.h"
+diff --git a/hw/9pfs/cofile.c b/hw/9pfs/cofile.c
+index 83bb6c14e0..20f93a90e7 100644
+--- a/hw/9pfs/cofile.c
++++ b/hw/9pfs/cofile.c
+@@ -11,6 +11,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "fsdev/qemu-fsdev.h"
+ #include "qemu/thread.h"
+diff --git a/hw/9pfs/cofs.c b/hw/9pfs/cofs.c
+index 0b321b456e..9d0adc2e78 100644
+--- a/hw/9pfs/cofs.c
++++ b/hw/9pfs/cofs.c
+@@ -11,6 +11,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "fsdev/qemu-fsdev.h"
+ #include "qemu/thread.h"
+diff --git a/hw/9pfs/coth.c b/hw/9pfs/coth.c
+index 9778f24b00..2802d41cce 100644
+--- a/hw/9pfs/coth.c
++++ b/hw/9pfs/coth.c
+@@ -12,6 +12,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "block/thread-pool.h"
+ #include "qemu/coroutine.h"
+diff --git a/hw/9pfs/coxattr.c b/hw/9pfs/coxattr.c
+index 0e00ffaa0d..dbcd09e0fd 100644
+--- a/hw/9pfs/coxattr.c
++++ b/hw/9pfs/coxattr.c
+@@ -11,6 +11,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "fsdev/qemu-fsdev.h"
+ #include "qemu/thread.h"
+diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
+index 14371a78ef..54ee93b71f 100644
+--- a/hw/9pfs/virtio-9p-device.c
++++ b/hw/9pfs/virtio-9p-device.c
+@@ -11,6 +11,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "hw/virtio/virtio.h"
+ #include "qemu/sockets.h"
+diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+index a969fcc54c..65c4979c3c 100644
+--- a/hw/9pfs/xen-9p-backend.c
++++ b/hw/9pfs/xen-9p-backend.c
+@@ -8,6 +8,11 @@
+  *
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ 
+ #include "hw/9pfs/9p.h"
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+index be91662c6f..b4e1143288 100644
+--- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -16,6 +16,11 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "libqtest.h"
+ #include "qemu/module.h"
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 92a498f249..41fed41de1 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -7,6 +7,11 @@
+  * See the COPYING file in the top-level directory.
+  */
+ 
++/*
++ * Not so fast! You might want to read the 9p developer docs first:
++ * https://wiki.qemu.org/Documentation/9p
++ */
++
+ #include "qemu/osdep.h"
+ #include "libqtest-single.h"
+ #include "qemu/module.h"
+-- 
+2.20.1
 
 
