@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B930837673E
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 16:51:40 +0200 (CEST)
-Received: from localhost ([::1]:51632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7C037674C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 16:55:49 +0200 (CEST)
+Received: from localhost ([::1]:34804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf1pL-00062X-PC
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 10:51:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39034)
+	id 1lf1tM-0002HB-Tr
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 10:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1i3-0007ku-Tr
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:44:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27402)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1i5-0007oE-Fr
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 10:44:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1hr-0000jV-KD
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:44:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1hz-0000lr-3q
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 10:44:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620398633;
+ s=mimecast20190719; t=1620398639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9UwtNiSXhDRvxxEBq2bA0+BsvH/APBPHI+6JmS4Uqh4=;
- b=Z3tUKWZ9TUSCHr0eJ+j0Joj1SNoMTA+JHbfKMN0oFp3bUgrueeCIuWmxwUqUhNHuqrz/tl
- o0pWiut8HlVTx5rFWVUu5ydsE4wnJZZFa7AzpGBLTWarFwhvt7y7gqA0sjPOTwEUxm1H4z
- gpyXmHOd14+hqFQ/Mtimm89lNxpl644=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-L2JHnGSXNYmVyKjz2IoFKA-1; Fri, 07 May 2021 10:43:52 -0400
-X-MC-Unique: L2JHnGSXNYmVyKjz2IoFKA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r12-20020adfc10c0000b029010d83323601so3663105wre.22
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 07:43:52 -0700 (PDT)
+ bh=0aEFCYf2HLWMKyL3vu/hasMYJfVES1sketKqALkOn8E=;
+ b=XjDmLzn0JnJ9VZvoF6bTxrHPLA2LQUIUK0G7C9O+G7oE8cxPRjvo8Gn6pcKqrpdE8qIQ/R
+ Cqk5Ys/eZ7Wy5A2YzyW05+1xP41kj5fuT2oXmuU2s87MSdPAnEZVniZtDNGDGakiuoBXAM
+ 6kNqr7TeQNsu5nHprRQ0oE51Elx0cR4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-506-oF72ux7RPXaQbh8mxqHTug-1; Fri, 07 May 2021 10:43:57 -0400
+X-MC-Unique: oF72ux7RPXaQbh8mxqHTug-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ 88-20020adf95610000b029010758d8d7e2so3647753wrs.19
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 07:43:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9UwtNiSXhDRvxxEBq2bA0+BsvH/APBPHI+6JmS4Uqh4=;
- b=rFhW0WtVBkGhC0/Ue36cJPmhjaL6NJimiUXLmiZxlGIjtIfuNH+7vYoFf7iLkTd8yL
- EGtzy5PRd1+0WwxeN6GwJvyZx3x61OIA54g/edujQnGGjlRrPvOLz0pRSW8w43uBADE5
- n4L0Rw5h16USt/y7F5aBXVh6sJOm85TIPI+fJ2cT+eLkfRkOFN+Mu+LMZ2wWW7nRUq7G
- nQOAz8qdr4UkixmXae1nRy6y48hrdfXNTrTLFis2E30bGyj6ju8zOzRK7m1oIVp6ZnIb
- iFEJvH8H5erpCRpVq9mQw/wHwsvqCcbaxlHcNVzaGXuvLBROwamfqHml+eC5t9ExUsCj
- FMtg==
-X-Gm-Message-State: AOAM5300zklv4Kk4Jer8/T+bBCbKm++iR1rxdUJ/2XlROwOAWbFld7O1
- cDUl/amHr4+mrTHgHIQQVekZg+sYlgA1kMs87EABEh++l4/1xXtG8I7Uk7c65ycKUzpj9gKH/r/
- rePqGVrgeO9/hKgvzZG4KnO84Blx+uYZbcZBwhEqGi0R+sKbsFjG5Vw9GJInKCXuW
-X-Received: by 2002:a5d:4acc:: with SMTP id y12mr12640296wrs.233.1620398631138; 
- Fri, 07 May 2021 07:43:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzpO9HD46hd1zWh+qoigRuizkz+et7j2kyahnyJH43scB9tmRKhQTHHgYM62Qg0Bn5FVKcPCg==
-X-Received: by 2002:a5d:4acc:: with SMTP id y12mr12640261wrs.233.1620398630869; 
- Fri, 07 May 2021 07:43:50 -0700 (PDT)
+ bh=0aEFCYf2HLWMKyL3vu/hasMYJfVES1sketKqALkOn8E=;
+ b=ODIyPbzDsrKDyutY2cF55ZppOBkGzqX/fjYFySjViVOw6gwCQfl1E9nnkoJPUvsuXI
+ xMUJo2PXZhbCa1VCrDWHHOioD9NQL+42QMh4k9jVUa2KRTR5jGP7DdxVfXFHGlHIDjJt
+ 6Bc3B57FoetW1rxYO4S/5T/X6F91D24wtqqoCGEDnR4EejMZkAUlVTS32JYRp2C2Xox1
+ P6q06FEhBi3Mc1KOkqmliat16oaQVHZLsWP9/O4B2qOin0bzEO/GmX9+syvm7SY4DHvv
+ 5BFjOFfJO12blep900u+sr6wkrTHcjCiFySI8laPsE4naU3LDzx2b165XrJZYlD5fGfw
+ iLoQ==
+X-Gm-Message-State: AOAM533+xvOE9olgtfFIlQjTLmRMwXJTKgr90qFwjsgdv1yGyPKgd8Ec
+ dlS/WsCiBqiMzomVDSud+YF6VC3zTaFJFXmgw343UiJDTRaaZVnAmgB1A0uTJEGOE1SL5cNMRUq
+ CLJDlCQzqqVGKSpplGTgiO+SaGQ4JXqmapgLUeBkerL5UR++Jfiux6F6X0V918nuN
+X-Received: by 2002:a1c:e912:: with SMTP id q18mr21780868wmc.59.1620398635922; 
+ Fri, 07 May 2021 07:43:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwuxDw+Z5ejCnnQGzrscKMxB38QYBMH5R95NR75yg2DPkosJ/eaQfVzqQPNjxuH9z1wWTJ1gA==
+X-Received: by 2002:a1c:e912:: with SMTP id q18mr21780843wmc.59.1620398635604; 
+ Fri, 07 May 2021 07:43:55 -0700 (PDT)
 Received: from localhost.localdomain
  (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr. [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id d3sm8221624wri.75.2021.05.07.07.43.49
+ by smtp.gmail.com with ESMTPSA id q12sm9079882wrx.17.2021.05.07.07.43.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 07:43:50 -0700 (PDT)
+ Fri, 07 May 2021 07:43:55 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/17] linux-user: Replace alloca() by g_try_malloc() in
- various socket syscall
-Date: Fri,  7 May 2021 16:43:05 +0200
-Message-Id: <20210507144315.1994337-8-philmd@redhat.com>
+Subject: [PATCH v3 08/17] linux-user/syscall: Move code around in
+ do_sendrecvmsg_locked()
+Date: Fri,  7 May 2021 16:43:06 +0200
+Message-Id: <20210507144315.1994337-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210507144315.1994337-1-philmd@redhat.com>
 References: <20210507144315.1994337-1-philmd@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -103,170 +103,56 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ALLOCA(3) man-page mentions its "use is discouraged".
+Avoid initializing variables too early, since there is
+2 possible failure points before they get used. Move them
+after the lock_iovec() call.
 
-Use autofree heap allocation instead (returning ENOMEM on failure).
-
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- linux-user/syscall.c | 50 +++++++++++++++++++++++++++++++-------------
- 1 file changed, 35 insertions(+), 15 deletions(-)
+ linux-user/syscall.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index a263aea85ff..7c5c821f48d 100644
+index 7c5c821f48d..593241362a9 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -3307,14 +3307,17 @@ static abi_long do_socket(int domain, int type, int protocol)
- static abi_long do_bind(int sockfd, abi_ulong target_addr,
-                         socklen_t addrlen)
- {
--    void *addr;
-+    g_autofree void *addr = NULL;
-     abi_long ret;
+@@ -3379,15 +3379,8 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
+         msg.msg_name = NULL;
+         msg.msg_namelen = 0;
+     }
+-    msg.msg_controllen = 2 * tswapal(msgp->msg_controllen);
+-    msg.msg_control = alloca(msg.msg_controllen);
+-    memset(msg.msg_control, 0, msg.msg_controllen);
+-
+-    msg.msg_flags = tswap32(msgp->msg_flags);
  
-     if ((int)addrlen < 0) {
-         return -TARGET_EINVAL;
+     count = tswapal(msgp->msg_iovlen);
+-    target_vec = tswapal(msgp->msg_iov);
+-
+     if (count > IOV_MAX) {
+         /* sendrcvmsg returns a different errno for this condition than
+          * readv/writev, so we must catch it here before lock_iovec() does.
+@@ -3396,14 +3389,20 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
+         goto out2;
      }
  
--    addr = alloca(addrlen+1);
-+    addr = g_try_malloc(addrlen + 1);
-+    if (!addr) {
-+        return -TARGET_ENOMEM;
-+    }
- 
-     ret = target_to_host_sockaddr(sockfd, addr, target_addr, addrlen);
-     if (ret)
-@@ -3327,14 +3330,17 @@ static abi_long do_bind(int sockfd, abi_ulong target_addr,
- static abi_long do_connect(int sockfd, abi_ulong target_addr,
-                            socklen_t addrlen)
- {
--    void *addr;
-+    g_autofree void *addr = NULL;
-     abi_long ret;
- 
-     if ((int)addrlen < 0) {
-         return -TARGET_EINVAL;
++    target_vec = tswapal(msgp->msg_iov);
+     vec = lock_iovec(send ? VERIFY_READ : VERIFY_WRITE,
+                      target_vec, count, send);
+     if (vec == NULL) {
+         ret = -host_to_target_errno(errno);
+         goto out2;
      }
- 
--    addr = alloca(addrlen+1);
-+    addr = g_try_malloc(addrlen + 1);
-+    if (!addr) {
-+        return -TARGET_ENOMEM;
-+    }
- 
-     ret = target_to_host_sockaddr(sockfd, addr, target_addr, addrlen);
-     if (ret)
-@@ -3519,7 +3525,7 @@ static abi_long do_accept4(int fd, abi_ulong target_addr,
-                            abi_ulong target_addrlen_addr, int flags)
- {
-     socklen_t addrlen, ret_addrlen;
--    void *addr;
-+    g_autofree void *addr = NULL;
-     abi_long ret;
-     int host_flags;
- 
-@@ -3541,7 +3547,10 @@ static abi_long do_accept4(int fd, abi_ulong target_addr,
-         return -TARGET_EFAULT;
-     }
- 
--    addr = alloca(addrlen);
-+    addr = g_try_malloc(addrlen);
-+    if (!addr) {
-+        return -TARGET_ENOMEM;
-+    }
- 
-     ret_addrlen = addrlen;
-     ret = get_errno(safe_accept4(fd, addr, &ret_addrlen, host_flags));
-@@ -3559,7 +3568,7 @@ static abi_long do_getpeername(int fd, abi_ulong target_addr,
-                                abi_ulong target_addrlen_addr)
- {
-     socklen_t addrlen, ret_addrlen;
--    void *addr;
-+    g_autofree void *addr = NULL;
-     abi_long ret;
- 
-     if (get_user_u32(addrlen, target_addrlen_addr))
-@@ -3573,7 +3582,10 @@ static abi_long do_getpeername(int fd, abi_ulong target_addr,
-         return -TARGET_EFAULT;
-     }
- 
--    addr = alloca(addrlen);
-+    addr = g_try_malloc(addrlen);
-+    if (!addr) {
-+        return -TARGET_ENOMEM;
-+    }
- 
-     ret_addrlen = addrlen;
-     ret = get_errno(getpeername(fd, addr, &ret_addrlen));
-@@ -3591,7 +3603,7 @@ static abi_long do_getsockname(int fd, abi_ulong target_addr,
-                                abi_ulong target_addrlen_addr)
- {
-     socklen_t addrlen, ret_addrlen;
--    void *addr;
-+    g_autofree void *addr = NULL;
-     abi_long ret;
- 
-     if (get_user_u32(addrlen, target_addrlen_addr))
-@@ -3605,7 +3617,10 @@ static abi_long do_getsockname(int fd, abi_ulong target_addr,
-         return -TARGET_EFAULT;
-     }
- 
--    addr = alloca(addrlen);
-+    addr = g_try_malloc(addrlen);
-+    if (!addr) {
-+        return -TARGET_ENOMEM;
-+    }
- 
-     ret_addrlen = addrlen;
-     ret = get_errno(getsockname(fd, addr, &ret_addrlen));
-@@ -3640,7 +3655,6 @@ static abi_long do_socketpair(int domain, int type, int protocol,
- static abi_long do_sendto(int fd, abi_ulong msg, size_t len, int flags,
-                           abi_ulong target_addr, socklen_t addrlen)
- {
--    void *addr;
-     void *host_msg;
-     void *copy_msg = NULL;
-     abi_long ret;
-@@ -3662,7 +3676,11 @@ static abi_long do_sendto(int fd, abi_ulong msg, size_t len, int flags,
-         }
-     }
-     if (target_addr) {
--        addr = alloca(addrlen+1);
-+        g_autofree void *addr = g_try_malloc(addrlen + 1);
 +
-+        if (!addr) {
-+            return -TARGET_ENOMEM;
-+        }
-         ret = target_to_host_sockaddr(fd, addr, target_addr, addrlen);
-         if (ret) {
-             goto fail;
-@@ -3686,7 +3704,7 @@ static abi_long do_recvfrom(int fd, abi_ulong msg, size_t len, int flags,
-                             abi_ulong target_addrlen)
- {
-     socklen_t addrlen, ret_addrlen;
--    void *addr;
-+    g_autofree void *addr = NULL;
-     void *host_msg;
-     abi_long ret;
+     msg.msg_iovlen = count;
+     msg.msg_iov = vec;
++    msg.msg_flags = tswap32(msgp->msg_flags);
++    msg.msg_controllen = 2 * tswapal(msgp->msg_controllen);
++    msg.msg_control = alloca(msg.msg_controllen);
++    memset(msg.msg_control, 0, msg.msg_controllen);
  
-@@ -3707,12 +3725,14 @@ static abi_long do_recvfrom(int fd, abi_ulong msg, size_t len, int flags,
-             ret = -TARGET_EINVAL;
-             goto fail;
-         }
--        addr = alloca(addrlen);
-+        addr = g_try_malloc(addrlen);
-+        if (!addr) {
-+            return -TARGET_ENOMEM;
-+        }
-         ret_addrlen = addrlen;
-         ret = get_errno(safe_recvfrom(fd, host_msg, len, flags,
-                                       addr, &ret_addrlen));
-     } else {
--        addr = NULL; /* To keep compiler quiet.  */
-         addrlen = 0; /* To keep compiler quiet.  */
-         ret = get_errno(safe_recvfrom(fd, host_msg, len, flags, NULL, 0));
-     }
+     if (send) {
+         if (fd_trans_target_to_host_data(fd)) {
 -- 
 2.26.3
 
