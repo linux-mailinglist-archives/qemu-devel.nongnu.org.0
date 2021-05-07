@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873D2375F93
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 06:52:22 +0200 (CEST)
-Received: from localhost ([::1]:52360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07992375FBF
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 07:38:21 +0200 (CEST)
+Received: from localhost ([::1]:57748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lesTN-0007PD-Lk
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 00:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59956)
+	id 1letBr-0003Rz-Kv
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 01:38:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lesRi-00063m-5h
- for qemu-devel@nongnu.org; Fri, 07 May 2021 00:50:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37342)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lesRg-0005Lb-CF
- for qemu-devel@nongnu.org; Fri, 07 May 2021 00:50:37 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lesRf-00058m-1b
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 04:50:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 06A062E813A
- for <qemu-devel@nongnu.org>; Fri,  7 May 2021 04:50:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1letB4-00032W-CB
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 01:37:30 -0400
+Received: from mga03.intel.com ([134.134.136.65]:34806)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1letB0-00005t-BG
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 01:37:29 -0400
+IronPort-SDR: nQ7B2rOOYiX4Z8vnuIw7Q/VWbQ8jbuILW1mcNIUGrUthc3cEwyDgNDjUU/nIpjJUPtlZ3JYg4p
+ 8GmYUprGL7oQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9976"; a="198708125"
+X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; d="scan'208";a="198708125"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2021 22:37:16 -0700
+IronPort-SDR: pX4oiNF6iPM2FkjMVDsbb4DUcvL5rwEyvk9fztlzHAU/fPnwVstKvEnu4HcaeXmMkJpLOwItA4
+ G2EpApKr978A==
+X-IronPort-AV: E=Sophos;i="5.82,279,1613462400"; d="scan'208";a="533338945"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.144.101])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 06 May 2021 22:37:12 -0700
+Date: Fri, 7 May 2021 13:24:43 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RESEND PATCH 01/32] memory: Add RAM_PROTECTED flag to skip
+ IOMMU mappings
+Message-ID: <20210507052443.GA23130@yangzhon-Virtual>
+References: <20210430062455.8117-1-yang.zhong@intel.com>
+ <20210430062455.8117-2-yang.zhong@intel.com>
+ <b216c2e4-abcb-d7bd-b461-96b731472b4d@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 May 2021 04:41:15 -0000
-From: Thomas Huth <1887306@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: izbyshev th-huth
-X-Launchpad-Bug-Reporter: Alexey Izbyshev (izbyshev)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159458406053.7310.1285869489559583574.malonedeb@wampee.canonical.com>
-Message-Id: <162036247580.14776.9218620078622173874.malone@soybean.canonical.com>
-Subject: [Bug 1887306] Re: qemu-user deadlocks when forked in a multithreaded
- process
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 5869e333f160a31d59512585b544f07eb69f9a67
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b216c2e4-abcb-d7bd-b461-96b731472b4d@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=yang.zhong@intel.com;
+ helo=mga03.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,118 +66,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1887306 <1887306@bugs.launchpad.net>
+Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
+On Mon, May 03, 2021 at 07:01:27PM +0200, Paolo Bonzini wrote:
+> On 30/04/21 08:24, Yang Zhong wrote:
+> >From: Sean Christopherson <sean.j.christopherson@intel.com>
+> >
+> >Add a new RAMBlock flag to denote "protected" memory, i.e. memory that
+> >looks and acts like RAM but is inaccessible via normal mechanisms,
+> >including DMA.  Use the flag to skip protected memory regions when
+> >mapping RAM for DMA in VFIO.
+> >
+> >Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> >Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> 
+> Can you instead unify this with the "share" argument, and pass the
+> argument down to qemu_ram_alloc_from_fd?  This removes the "share ?
+> RAM_SHARED : 0" conversion.
+> 
 
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
+  Paolo, i will revert this patch, but in order to disable sgx epc memory region
+  as DMA target, we still need to skip this memory region while adding this memory
+  region.
 
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
+  So, my plan is to revert this patch, and then add one new bool variable in the 
+  struct MemoryRegion.
 
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
+  The new patch as below and it will be as patch 2 in the next version
 
-    https://gitlab.com/qemu-project/qemu/-/issues
+  diff --git a/backends/hostmem-epc.c b/backends/hostmem-epc.c
+  index 0c98812f0d..316e1ee688 100644
+  --- a/backends/hostmem-epc.c
+  +++ b/backends/hostmem-epc.c
+  @@ -67,6 +67,7 @@ void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
+       }
 
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
-
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" within the next 60 days (otherwise it will get
-closed as "Expired"). We will then eventually migrate the ticket auto-
-matically to the new system (but you won't be the reporter of the bug
-in the new system and thus won't get notified on changes anymore).
-
-Thank you and sorry for the inconvenience.
-
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1887306
-
-Title:
-  qemu-user deadlocks when forked in a multithreaded process
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  The following program (also attached) deadlocks when run under QEMU
-  user on Linux.
-
-  #include <pthread.h>
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <sys/types.h>
-  #include <sys/wait.h>
-  #include <unistd.h>
-
-  #define NUM_THREADS 100
-  #define NUM_FORKS 10
-
-  pthread_barrier_t barrier;
-
-  void *t(void *arg) {
-      for (int i =3D 0; i < NUM_FORKS; i++) {
-          pid_t pid =3D fork();
-          if (pid < 0)
-              abort();
-          if (!pid)
-              _exit(0);
-          if (waitpid(pid, NULL, 0) < 0)
-              abort();
-      }
-      //pthread_barrier_wait(&barrier);
-      return NULL;
+       sgx_epc_backend_memory_alloc(backend, errp);
+  +    mr->sgx_epc_device = true;
   }
 
-  int main(void) {
-      pthread_barrier_init(&barrier, NULL, NUM_THREADS);
-      pthread_t ts[NUM_THREADS];
-      for (size_t i =3D 0; i < NUM_THREADS; i++) {
-          if (pthread_create(&ts[i], NULL, t, NULL))
-              abort();
-      }
-      for (size_t i =3D 0; i < NUM_THREADS; i++) {
-          pthread_join(ts[i], NULL);
-      }
-      printf("Done: %d\n", getpid());
-      return 0;
-  }
+  static void sgx_epc_backend_instance_init(Object *obj)
+  diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+  index 5bc5d29358..7a53855436 100644
+  --- a/hw/vfio/common.c
+  +++ b/hw/vfio/common.c
+  @@ -538,7 +538,7 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+   {
+       return (!memory_region_is_ram(section->mr) &&
+               !memory_region_is_iommu(section->mr)) ||
+  +            section->mr->sgx_epc_device ||
+               /*
+                * Sizing an enabled 64-bit BAR can cause spurious mappings to
+                * addresses in the upper part of the 64-bit address space.  These
+   diff --git a/include/exec/memory.h b/include/exec/memory.h
+   index 2816e52be3..9bba0a1590 100644
+   --- a/include/exec/memory.h
+   +++ b/include/exec/memory.h
+   @@ -463,6 +463,7 @@ struct MemoryRegion {
+        bool readonly; /* For RAM regions */
+        bool nonvolatile;
+        bool rom_device;
+   +    bool sgx_epc_device;
+        bool flush_coalesced_mmio;
+        uint8_t dirty_log_mask;
+        bool is_iommu;
+   
+  If this patch is not suitable to skip this memory region, any suggestion is 
+  appreciated, thanks!
 
-  To reproduce:
-  $ gcc test.c -pthread
-  $ while qemu-x86_64 ./a.out; do :; done
+  Yang
 
-  (Be careful, Ctrl-C/SIGINT doesn't kill the deadlocked child).
 
-  Larger values of NUM_THREADS/NUM_FORKS lead to more often deadlocks.
-  With the values above it often deadlocks on the first try on my
-  machine. When it deadlocks, there is a child qemu process with two
-  threads which is waited upon by one of the worker threads of the
-  parent.
 
-  I tried to avoid the deadlock by serializing fork() with a mutex, but
-  it didn't help. However, ensuring that no thread exits until all forks
-  are done (by adding a barrier to t()) does seem to help, at least, the
-  program above could run for a half an hour until I terminated it.
 
-  Tested on QEMU 5.0.0, 4.2.0 and 2.11.1, with x86_64 and AArch64 linux-
-  user targets.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1887306/+subscriptions
+> Paolo
+> 
+> >---
+> >  backends/hostmem-memfd.c |  2 +-
+> >  hw/misc/ivshmem.c        |  2 +-
+> >  hw/remote/memory.c       |  2 +-
+> >  hw/vfio/common.c         |  1 +
+> >  include/exec/memory.h    | 15 +++++++++++++++
+> >  softmmu/memory.c         | 12 ++++++++++--
+> >  softmmu/physmem.c        |  2 +-
+> >  7 files changed, 30 insertions(+), 6 deletions(-)
+> >
+> >diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
+> >index 69b0ae30bb..d4267cc35c 100644
+> >--- a/backends/hostmem-memfd.c
+> >+++ b/backends/hostmem-memfd.c
+> >@@ -55,7 +55,7 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+> >      name = host_memory_backend_get_name(backend);
+> >      memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
+> >                                     name, backend->size,
+> >-                                   backend->share, fd, 0, errp);
+> >+                                   backend->share, false, fd, 0, errp);
+> >      g_free(name);
+> >  }
+> >diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+> >index a1fa4878be..aa3fa80774 100644
+> >--- a/hw/misc/ivshmem.c
+> >+++ b/hw/misc/ivshmem.c
+> >@@ -494,7 +494,7 @@ static void process_msg_shmem(IVShmemState *s, int fd, Error **errp)
+> >      /* mmap the region and map into the BAR2 */
+> >      memory_region_init_ram_from_fd(&s->server_bar2, OBJECT(s),
+> >-                                   "ivshmem.bar2", size, true, fd, 0,
+> >+                                   "ivshmem.bar2", size, true, false, fd, 0,
+> >                                     &local_err);
+> >      if (local_err) {
+> >          error_propagate(errp, local_err);
+> >diff --git a/hw/remote/memory.c b/hw/remote/memory.c
+> >index 32085b1e05..5d0a213030 100644
+> >--- a/hw/remote/memory.c
+> >+++ b/hw/remote/memory.c
+> >@@ -48,7 +48,7 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
+> >          name = g_strdup_printf("remote-mem-%u", suffix++);
+> >          memory_region_init_ram_from_fd(subregion, NULL,
+> >                                         name, sysmem_info->sizes[region],
+> >-                                       true, msg->fds[region],
+> >+                                       true, false, msg->fds[region],
+> >                                         sysmem_info->offsets[region],
+> >                                         errp);
+> >diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> >index ae5654fcdb..5bc5d29358 100644
+> >--- a/hw/vfio/common.c
+> >+++ b/hw/vfio/common.c
+> >@@ -538,6 +538,7 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+> >  {
+> >      return (!memory_region_is_ram(section->mr) &&
+> >              !memory_region_is_iommu(section->mr)) ||
+> >+           memory_region_is_protected(section->mr) ||
+> >             /*
+> >              * Sizing an enabled 64-bit BAR can cause spurious mappings to
+> >              * addresses in the upper part of the 64-bit address space.  These
+> >diff --git a/include/exec/memory.h b/include/exec/memory.h
+> >index 5728a681b2..2816e52be3 100644
+> >--- a/include/exec/memory.h
+> >+++ b/include/exec/memory.h
+> >@@ -155,6 +155,9 @@ typedef struct IOMMUTLBEvent {
+> >   */
+> >  #define RAM_UF_WRITEPROTECT (1 << 6)
+> >+/* RAM that isn't accessible through normal means. */
+> >+#define RAM_PROTECTED (1 << 7)
+> >+
+> >  static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
+> >                                         IOMMUNotifierFlag flags,
+> >                                         hwaddr start, hwaddr end,
+> >@@ -1021,6 +1024,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+> >   * @name: the name of the region.
+> >   * @size: size of the region.
+> >   * @share: %true if memory must be mmaped with the MAP_SHARED flag
+> >+ * @protected: %true if memory is protected and isn't treated like normal RAM
+> >   * @fd: the fd to mmap.
+> >   * @offset: offset within the file referenced by fd
+> >   * @errp: pointer to Error*, to store an error if it happens.
+> >@@ -1033,6 +1037,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+> >                                      const char *name,
+> >                                      uint64_t size,
+> >                                      bool share,
+> >+                                    bool protected,
+> >                                      int fd,
+> >                                      ram_addr_t offset,
+> >                                      Error **errp);
+> >@@ -1321,6 +1326,16 @@ static inline bool memory_region_is_romd(MemoryRegion *mr)
+> >      return mr->rom_device && mr->romd_mode;
+> >  }
+> >+/**
+> >+ * memory_region_is_protected: check whether a memory region is protected
+> >+ *
+> >+ * Returns %true if a memory region is protected RAM and cannot be accessed
+> >+ * via standard mechanisms, e.g. DMA.
+> >+ *
+> >+ * @mr: the memory region being queried
+> >+ */
+> >+bool memory_region_is_protected(MemoryRegion *mr);
+> >+
+> >  /**
+> >   * memory_region_get_iommu: check whether a memory region is an iommu
+> >   *
+> >diff --git a/softmmu/memory.c b/softmmu/memory.c
+> >index d4493ef9e4..0c9eb335ca 100644
+> >--- a/softmmu/memory.c
+> >+++ b/softmmu/memory.c
+> >@@ -1612,18 +1612,21 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+> >                                      const char *name,
+> >                                      uint64_t size,
+> >                                      bool share,
+> >+                                    bool protected,
+> >                                      int fd,
+> >                                      ram_addr_t offset,
+> >                                      Error **errp)
+> >  {
+> >+    uint32_t ram_flags = (share ? RAM_SHARED : 0) |
+> >+                         (protected ? RAM_PROTECTED : 0);
+> >      Error *err = NULL;
+> >      memory_region_init(mr, owner, name, size);
+> >      mr->ram = true;
+> >      mr->terminates = true;
+> >      mr->destructor = memory_region_destructor_ram;
+> >-    mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
+> >-                                           share ? RAM_SHARED : 0,
+> >+    mr->ram_block = qemu_ram_alloc_from_fd(size, mr, ram_flags,
+> >                                             fd, offset, false, &err);
+> >+
+> >      if (err) {
+> >          mr->size = int128_zero();
+> >          object_unparent(OBJECT(mr));
+> >@@ -1810,6 +1813,11 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
+> >      return mr->ram_device;
+> >  }
+> >+bool memory_region_is_protected(MemoryRegion *mr)
+> >+{
+> >+    return mr->ram && (mr->ram_block->flags & RAM_PROTECTED);
+> >+}
+> >+
+> >  uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
+> >  {
+> >      uint8_t mask = mr->dirty_log_mask;
+> >diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> >index 85034d9c11..ae79cbea96 100644
+> >--- a/softmmu/physmem.c
+> >+++ b/softmmu/physmem.c
+> >@@ -2022,7 +2022,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+> >      int64_t file_size, file_align;
+> >      /* Just support these ram flags by now. */
+> >-    assert((ram_flags & ~(RAM_SHARED | RAM_PMEM)) == 0);
+> >+    assert((ram_flags & ~(RAM_SHARED | RAM_PMEM | RAM_PROTECTED)) == 0);
+> >      if (xen_enabled()) {
+> >          error_setg(errp, "-mem-path not supported with Xen");
+> >
 
