@@ -2,67 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F027D375F07
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 05:12:03 +0200 (CEST)
-Received: from localhost ([::1]:43008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95EE375EF6
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 05:03:54 +0200 (CEST)
+Received: from localhost ([::1]:50668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lequJ-0001Qh-2B
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 23:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45576)
+	id 1leqmP-0001I3-N9
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 23:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leqoF-0003wm-LF
- for qemu-devel@nongnu.org; Thu, 06 May 2021 23:05:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59100)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leqo7-0007wI-JF
- for qemu-devel@nongnu.org; Thu, 06 May 2021 23:05:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leqo6-0003Yb-BK
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 03:05:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4F38A2E804C
- for <qemu-devel@nongnu.org>; Fri,  7 May 2021 03:05:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1leqjT-0007x5-Gm; Thu, 06 May 2021 23:00:55 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41105 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1leqjP-0004rY-6v; Thu, 06 May 2021 23:00:50 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FbwDm4fldz9sj1; Fri,  7 May 2021 13:00:40 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1620356440;
+ bh=OBKrYM0v0pKBf8Az23k0cgeFlH+j9zznH+6zNw6Ze/A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RgFxHxCVQr08gVM27EsLMyWdfZ7IHdZZIApXXoeJ8+Xu1yx1rHsLZLHNecIBecq4F
+ SXAVMp/RTh+F8xo7UvviSbnn5cyTGXyTC3P2GjagCLAhXGyS34dXose7utsLR5zBT7
+ /A0yly6Z/zNjX+f25KXZFXC/HpkGCN7ywuVIfmZ0=
+Date: Fri, 7 May 2021 13:00:33 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v5 4/4] target/ppc: isolated cpu init from translation
+ logic
+Message-ID: <YJStUWAUq5g7AcMp@yekko>
+References: <20210505155310.62710-1-bruno.larsen@eldorado.org.br>
+ <20210505155310.62710-5-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 May 2021 03:00:07 -0000
-From: Thomas Huth <1886097@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: langston0 th-huth
-X-Launchpad-Bug-Reporter: Langston (langston0)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159372304166.1717.6838286421660212766.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162035640734.32079.10177857251651604531.malone@chaenomeles.canonical.com>
-Subject: [Bug 1886097] Re: Error in user-mode calculation of ELF program's brk
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 0f083a6d4fa4495ebd6b1aa32fc2855ca28fc1a9
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="urfEr3gcn8owYfD5"
+Content-Disposition: inline
+In-Reply-To: <20210505155310.62710-5-bruno.larsen@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,111 +59,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886097 <1886097@bugs.launchpad.net>
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
 
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
+--urfEr3gcn8owYfD5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
+On Wed, May 05, 2021 at 12:53:10PM -0300, Bruno Larsen (billionai) wrote:
+> finished isolation of CPU initialization logic from
+> translation logic. CPU initialization now only has common code
+> and may or may not call accelerator-specific code, as the
+> build options require.
+>=20
+> Signed-off-by: Bruno Larsen (billionai)
+> <bruno.larsen@eldorado.org.br>
 
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-    https://gitlab.com/qemu-project/qemu/-/issues
+> ---
+>  target/ppc/{translate_init.c.inc =3D> cpu_init.c} | 6 ++++++
+>  target/ppc/meson.build                          | 1 +
+>  target/ppc/spr_tcg.h                            | 2 ++
+>  target/ppc/translate.c                          | 4 ++--
+>  4 files changed, 11 insertions(+), 2 deletions(-)
+>  rename target/ppc/{translate_init.c.inc =3D> cpu_init.c} (99%)
+>=20
+> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/cpu_init.c
+> similarity index 99%
+> rename from target/ppc/translate_init.c.inc
+> rename to target/ppc/cpu_init.c
+> index 2f4e463bb6..faece1dca2 100644
+> --- a/target/ppc/translate_init.c.inc
+> +++ b/target/ppc/cpu_init.c
+> @@ -18,6 +18,7 @@
+>   * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+>   */
+> =20
+> +#include "qemu/osdep.h"
+>  #include "disas/dis-asm.h"
+>  #include "exec/gdbstub.h"
+>  #include "kvm_ppc.h"
+> @@ -42,6 +43,11 @@
+>  #include "fpu/softfloat.h"
+>  #include "qapi/qapi-commands-machine-target.h"
+> =20
+> +#include "exec/helper-proto.h"
+> +#include "helper_regs.h"
+> +#include "internal.h"
+> +#include "spr_tcg.h"
+> +
+>  /* #define PPC_DEBUG_SPR */
+>  /* #define USE_APPLE_GDB */
+> =20
+> diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+> index 4079d01ee3..d1aa7d5d39 100644
+> --- a/target/ppc/meson.build
+> +++ b/target/ppc/meson.build
+> @@ -2,6 +2,7 @@ ppc_ss =3D ss.source_set()
+>  ppc_ss.add(files(
+>    'cpu-models.c',
+>    'cpu.c',
+> +  'cpu_init.c',
+>    'dfp_helper.c',
+>    'excp_helper.c',
+>    'fpu_helper.c',
+> diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
+> index 1d2890dea0..0be5f347d5 100644
+> --- a/target/ppc/spr_tcg.h
+> +++ b/target/ppc/spr_tcg.h
+> @@ -19,6 +19,8 @@
+>  #ifndef SPR_TCG_H
+>  #define SPR_TCG_H
+> =20
+> +#define SPR_NOACCESS (&spr_noaccess)
+> +
+>  /* prototypes for readers and writers for SPRs */
+>  void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
+>  void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 8feececba0..cc209e5999 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -38,6 +38,8 @@
+>  #include "qemu/atomic128.h"
+>  #include "spr_tcg.h"
+> =20
+> +#include "qemu/qemu-print.h"
+> +#include "qapi/error.h"
+> =20
+>  #define CPU_SINGLE_STEP 0x1
+>  #define CPU_BRANCH_STEP 0x2
+> @@ -380,7 +382,6 @@ void spr_noaccess(DisasContext *ctx, int gprn, int sp=
+rn)
+>      printf("ERROR: try to access SPR %d !\n", sprn);
+>  #endif
+>  }
+> -#define SPR_NOACCESS (&spr_noaccess)
+> =20
+>  /* #define PPC_DUMP_SPR_ACCESSES */
+> =20
+> @@ -8617,7 +8618,6 @@ GEN_HANDLER2_E(trechkpt, "trechkpt", 0x1F, 0x0E, 0x=
+1F, 0x03FFF800, \
+>  };
+> =20
+>  #include "helper_regs.h"
+> -#include "translate_init.c.inc"
+> =20
+>  /***********************************************************************=
+******/
+>  /* Misc PowerPC helpers */
 
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" within the next 60 days (otherwise it will get
-closed as "Expired"). We will then eventually migrate the ticket auto-
-matically to the new system (but you won't be the reporter of the bug
-in the new system and thus won't get notified on changes anymore).
+--urfEr3gcn8owYfD5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thank you and sorry for the inconvenience.
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCUrVEACgkQbDjKyiDZ
+s5L3Rw//YV0I4NWDwaZomH24+1xYBkphOcWwzKAG7Ei0AnrGfLbbVIKxwGp/Zq/Y
+XpssW5oUHZYoO8vJN3be5r+1i1O3vWzImvzuxPi2IlIbvGNKSWYS0Bd1NAKTjxUk
+AUVR6Blt/+f4Z0GSZhoKukSlupCOHIwbgsRkSeXAt+qdKy9P7T+8lg3th2FjmGBu
+DUPRR5RilConHOBqPRx08uKlX6v8J/kXv6BUnY8bXvk8q7bFAGxR4EfRlZxlpCKL
+Pbu7L/d7tH0zMboKZg9Neltvfq+PoC4NmKSXUp4vW1mrvsKWsbKLD9YJadfMuBmK
+mz0DccE9DCG3Obcn214R02mnmsRo8XbukGr4MBhduHlBF2+8rmeo0IXpxqWU2T0l
+EkAn/yklER6RjV3LJG+LeFjL6XMZY8KVogfeSUGcYkR0v4ReE8zN8+3Ugw0SVyxu
+fiIa22cRWaClN9UWdtce0RD/m/M89TfxFUJ3xAsMB1+VJZjobJeCWgsuNwbMtlvn
+Nj0OcBrX3HLBflFVr6mQp2/mSelLG6Mvf/KIc3Z5P9qr0ebcWJADwqPYVx36c1iU
+TAaojsNP0pKhn/5MvGzCrBVoFcJsaWO5D2QTOCPUHSk1CWQf2/DwYX8YEs8AbISN
+azCN9mv4XkSzk8VJzO06iZfCms+50ZEvvl4ev+GeKZ2vRyPwMSs=
+=AC9R
+-----END PGP SIGNATURE-----
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
-** Tags added: linux-user
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886097
-
-Title:
-  Error in user-mode calculation of ELF program's brk
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  There's a discrepancy between the way QEMU user-mode and Linux
-  calculate the initial program break for statically-linked binaries. I
-  have a binary with the following segments:
-
-    Program Headers:
-      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Ali=
-gn
-      EXIDX          0x065a14 0x00075a14 0x00075a14 0x00588 0x00588 R   0x4
-      PHDR           0x0a3000 0x000a3000 0x000a3000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x0a3000 0x000a3000 0x000a3000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x000000 0x00010000 0x00010000 0x65fa0 0x65fa0 R E 0x1=
-0000
-      LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x1=
-0000
-      NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
-      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
-      GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
-      LOAD           0x07e000 0x00089000 0x00089000 0x03ff4 0x03ff4 R E 0x1=
-000
-      LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1=
-000
-
-  The call to set_brk in Linux's binfmt_elf.c receives these arguments:
-
-    set_brk(0xa3160, 0xa3160, 1)
-    =
-
-  Whereas in QEMU, info->brk gets set to 0x88f00. When the binary is run in=
- QEMU, it crashes on the second call to brk, whereas it runs fine on real A=
-RM hardware. I think the trouble is that the program break is set to an add=
-ress lower than the virtual address of a LOAD segment (the program headers,=
- in this case).
-
-  I believe that this discrepancy arises because in QEMU, info->brk is
-  only incremented when the LOAD segment in question has PROT_WRITE. For
-  this binary, the LOAD segment with write permissions and the highest
-  virtual address is
-
-    LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x100=
-00
-      =
-
-  which overlaps with the TLS segment:
-
-      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-      =
-
-  However, the Linux kernel puts the program break after the loadable segme=
-nt with the highest virtual address, regardless of flags. So I think the fi=
-x is for QEMU to do the same.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886097/+subscriptions
+--urfEr3gcn8owYfD5--
 
