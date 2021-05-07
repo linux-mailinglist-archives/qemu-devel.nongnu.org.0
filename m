@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B1BF376540
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:37:09 +0200 (CEST)
-Received: from localhost ([::1]:48934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A833376570
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:47:40 +0200 (CEST)
+Received: from localhost ([::1]:45690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lezjA-0005mq-2m
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57352)
+	id 1leztL-0007yb-EQ
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:47:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbU-0000hF-Kq
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:12 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:49994)
+ id 1lezbZ-0000sD-0f
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:17 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:49996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbQ-0001U6-L1
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:12 -0400
+ id 1lezbQ-0001UA-Pa
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:16 -0400
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CEs7u149340;
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CDcGZ148663;
  Fri, 7 May 2021 12:29:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=c0E/zcDJGjSGN7JHoqA7EjNGE+X5H2Tp4mcfHSW8Qr4=;
- b=gu0MAozimc0XuUCL4QzEZ7HW30F1vYofIgRACYwdeejRAY76Dg7x+u0rAbAzjgz9B1U2
- cNq2J2EZ6dzjwEdpJNk6S3xfGXigfubVFNWo9823a+A9hWObgpKVnvoHrZFaCRSCzLNd
- ehC3QVwmapLXihafgJd3GgDLj/raWsmV2/DiPtj7M9N1lG3rB3HposbnPbkEPpRKCFzf
- gsMbV/5LN0MIbfNQa+KQlmhyEpHihT+eMJhMMRumdCpXWjO+krdBXT1F0Wc0Rx6xJBPP
- 5f5tKzuE3ftGcQm7ANhIRMtVCCD9f2scrKp+050tvbBBUvBnQ7CMeTRnepfiXcNiUDVe qQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2130.oracle.com with ESMTP id 38csrd9ewn-1
+ bh=udyIHUkIBkYcTm208Cn0jkThzE9j/33KP3icVIEe804=;
+ b=QLbu0G4Z/ZB/nNBbFRMOjt4wCDF/PqmCxezDVxbI23EFcgMwdyG1uMLvXJ3MpRN1zq3B
+ JfB2fkeZGU6zO2JZ19T9vTUvAkdbq2Jok8XWNuSsHGlx1uHCOf4FZ6rssZxsFIs8iBym
+ gFEZnPLLhV29lx1Q/QbVdSKCd+WQf2ZHr/WM6zocrHsJoN7HlZz+dkENFFgX7UCziXLP
+ pKwS9nCezSd+FibIRyNDY7tb9a4SXLZyPV4cIb+S1fBROSPl4Dv7Nz8qRY0piPJpjquU
+ AW6ma/B//GYkFHp6MWpdaySHbdtWfoNakk+Fm0d9j6JGm4+O9s8iBmU4eQd71s35Q1xa cA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2130.oracle.com with ESMTP id 38csrd9ewp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 07 May 2021 12:29:05 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CFl05168295;
- Fri, 7 May 2021 12:29:04 GMT
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CGQh9173728;
+ Fri, 7 May 2021 12:29:05 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by userp3020.oracle.com with ESMTP id 38csrh1tac-1
+ by aserp3020.oracle.com with ESMTP id 38csrtb69w-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 07 May 2021 12:29:04 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CT31n014690;
- Fri, 7 May 2021 12:29:03 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 38csrh1t8k-1
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CKq51192424;
+ Fri, 7 May 2021 12:29:04 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 38csrtb69e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 May 2021 12:29:03 +0000
+ Fri, 07 May 2021 12:29:04 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 147CT2Uo017250;
- Fri, 7 May 2021 12:29:02 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 147CT3Xw019311;
+ Fri, 7 May 2021 12:29:03 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 07 May 2021 05:29:02 -0700
+ with ESMTP ; Fri, 07 May 2021 05:29:03 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V3 15/22] hostmem-memfd: cpr support
-Date: Fri,  7 May 2021 05:25:13 -0700
-Message-Id: <1620390320-301716-16-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V3 16/22] chardev: cpr framework
+Date: Fri,  7 May 2021 05:25:14 -0700
+Message-Id: <1620390320-301716-17-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
 References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-ORIG-GUID: 6m-KbUIzjW9l9fxyUapDCqG7Hir5Qox1
-X-Proofpoint-GUID: 6m-KbUIzjW9l9fxyUapDCqG7Hir5Qox1
+X-Proofpoint-ORIG-GUID: frjONlfxf3J8JVbLIGtihAbww31sx6b2
+X-Proofpoint-GUID: frjONlfxf3J8JVbLIGtihAbww31sx6b2
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
@@ -109,60 +109,258 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Preserve memory-backend-memfd memory objects during cpr.
+Add QEMU_CHAR_FEATURE_CPR for devices that support cpr.
+Add the chardev close_on_cpr option for devices that can be closed on cpr
+and reopened after exec.
+cpr is allowed only if either QEMU_CHAR_FEATURE_CPR or close_on_cpr is set
+for all chardevs in the configuration.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- backends/hostmem-memfd.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ chardev/char.c         | 41 ++++++++++++++++++++++++++++++++++++++---
+ include/chardev/char.h |  5 +++++
+ migration/cpr.c        |  3 +++
+ qapi/char.json         |  5 ++++-
+ qemu-options.hx        | 26 ++++++++++++++++++++++----
+ 5 files changed, 72 insertions(+), 8 deletions(-)
 
-diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
-index 69b0ae3..3503c89 100644
---- a/backends/hostmem-memfd.c
-+++ b/backends/hostmem-memfd.c
-@@ -15,6 +15,7 @@
- #include "sysemu/sysemu.h"
- #include "qom/object_interfaces.h"
- #include "qemu/memfd.h"
-+#include "qemu/env.h"
+diff --git a/chardev/char.c b/chardev/char.c
+index 398f09d..596d4f9 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -37,6 +37,7 @@
+ #include "qemu/help_option.h"
  #include "qemu/module.h"
- #include "qapi/error.h"
- #include "qom/object.h"
-@@ -36,23 +37,25 @@ static void
- memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
- {
-     HostMemoryBackendMemfd *m = MEMORY_BACKEND_MEMFD(backend);
--    char *name;
--    int fd;
-+    char *name = host_memory_backend_get_name(backend);
-+    int fd = getenv_fd(name);
+ #include "qemu/option.h"
++#include "qemu/env.h"
+ #include "qemu/id.h"
+ #include "qemu/coroutine.h"
+ #include "qemu/yank.h"
+@@ -240,6 +241,9 @@ static void qemu_char_open(Chardev *chr, ChardevBackend *backend,
+     ChardevClass *cc = CHARDEV_GET_CLASS(chr);
+     /* Any ChardevCommon member would work */
+     ChardevCommon *common = backend ? backend->u.null.data : NULL;
++    char fdname[40];
++
++    chr->close_on_cpr = (common && common->close_on_cpr);
  
-     if (!backend->size) {
-         error_setg(errp, "can't create backend with size 0");
-         return;
-     }
- 
--    fd = qemu_memfd_create(TYPE_MEMORY_BACKEND_MEMFD, backend->size,
--                           m->hugetlb, m->hugetlbsize, m->seal ?
--                           F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL : 0,
--                           errp);
--    if (fd == -1) {
--        return;
-+    if (fd < 0) {
-+        fd = qemu_memfd_create(TYPE_MEMORY_BACKEND_MEMFD, backend->size,
-+                               m->hugetlb, m->hugetlbsize, m->seal ?
-+                               F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL : 0,
-+                               errp);
-+        if (fd == -1) {
-+            return;
+     if (common && common->has_logfile) {
+         int flags = O_WRONLY | O_CREAT;
+@@ -249,7 +253,14 @@ static void qemu_char_open(Chardev *chr, ChardevBackend *backend,
+         } else {
+             flags |= O_TRUNC;
+         }
+-        chr->logfd = qemu_open_old(common->logfile, flags, 0666);
++        snprintf(fdname, sizeof(fdname), "%s_log", chr->label);
++        chr->logfd = getenv_fd(fdname);
++        if (chr->logfd < 0) {
++            chr->logfd = qemu_open_old(common->logfile, flags, 0666);
++            if (!chr->close_on_cpr) {
++                setenv_fd(fdname, chr->logfd);
++            }
 +        }
-+        setenv_fd(name, fd);
+         if (chr->logfd < 0) {
+             error_setg_errno(errp, errno,
+                              "Unable to open logfile %s",
+@@ -301,11 +312,12 @@ static void char_finalize(Object *obj)
+     if (chr->be) {
+         chr->be->chr = NULL;
      }
+-    g_free(chr->filename);
+-    g_free(chr->label);
+     if (chr->logfd != -1) {
+         close(chr->logfd);
++        unsetenv_fdv("%s_log", chr->label);
+     }
++    g_free(chr->filename);
++    g_free(chr->label);
+     qemu_mutex_destroy(&chr->chr_write_lock);
+ }
  
--    name = host_memory_backend_get_name(backend);
-     memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
-                                    name, backend->size,
-                                    backend->share, fd, 0, errp);
+@@ -505,6 +517,8 @@ void qemu_chr_parse_common(QemuOpts *opts, ChardevCommon *backend)
+ 
+     backend->has_logappend = true;
+     backend->logappend = qemu_opt_get_bool(opts, "logappend", false);
++
++    backend->close_on_cpr = qemu_opt_get_bool(opts, "close-on-cpr", false);
+ }
+ 
+ static const ChardevClass *char_get_class(const char *driver, Error **errp)
+@@ -940,6 +954,9 @@ QemuOptsList qemu_chardev_opts = {
+         },{
+             .name = "abstract",
+             .type = QEMU_OPT_BOOL,
++        },{
++            .name = "close-on-cpr",
++            .type = QEMU_OPT_BOOL,
+ #endif
+         },
+         { /* end of list */ }
+@@ -1207,6 +1224,24 @@ GSource *qemu_chr_timeout_add_ms(Chardev *chr, guint ms,
+     return source;
+ }
+ 
++static int chr_cpr_capable(Object *obj, void *opaque)
++{
++    Chardev *chr = (Chardev *)obj;
++    Error **errp = opaque;
++
++    if (qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_CPR) || chr->close_on_cpr) {
++        return 0;
++    }
++    error_setg(errp, "error: chardev %s -> %s is not capable of cpr",
++               chr->label, chr->filename);
++    return 1;
++}
++
++bool qemu_chr_cpr_capable(Error **errp)
++{
++    return !object_child_foreach(get_chardevs_root(), chr_cpr_capable, errp);
++}
++
+ void qemu_chr_cleanup(void)
+ {
+     object_unparent(get_chardevs_root());
+diff --git a/include/chardev/char.h b/include/chardev/char.h
+index 7c0444f..e488ad1 100644
+--- a/include/chardev/char.h
++++ b/include/chardev/char.h
+@@ -50,6 +50,8 @@ typedef enum {
+     /* Whether the gcontext can be changed after calling
+      * qemu_chr_be_update_read_handlers() */
+     QEMU_CHAR_FEATURE_GCONTEXT,
++    /* Whether the device supports cpr */
++    QEMU_CHAR_FEATURE_CPR,
+ 
+     QEMU_CHAR_FEATURE_LAST,
+ } ChardevFeature;
+@@ -67,6 +69,7 @@ struct Chardev {
+     int be_open;
+     /* used to coordinate the chardev-change special-case: */
+     bool handover_yank_instance;
++    bool close_on_cpr;
+     GSource *gsource;
+     GMainContext *gcontext;
+     DECLARE_BITMAP(features, QEMU_CHAR_FEATURE_LAST);
+@@ -291,4 +294,6 @@ void resume_mux_open(void);
+ /* console.c */
+ void qemu_chr_parse_vc(QemuOpts *opts, ChardevBackend *backend, Error **errp);
+ 
++bool qemu_chr_cpr_capable(Error **errp);
++
+ #endif
+diff --git a/migration/cpr.c b/migration/cpr.c
+index 3cde26f..8dfd5f1 100644
+--- a/migration/cpr.c
++++ b/migration/cpr.c
+@@ -132,6 +132,9 @@ void cprsave(const char *file, CprMode mode, Error **errp)
+         shutdown_action = SHUTDOWN_ACTION_POWEROFF;
+         qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+     } else if (restart) {
++        if (!qemu_chr_cpr_capable(errp)) {
++            goto err;
++        }
+         if (vfio_cprsave(errp)) {
+             goto err;
+         }
+diff --git a/qapi/char.json b/qapi/char.json
+index 6413970..dea5dad 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -204,12 +204,15 @@
+ # @logfile: The name of a logfile to save output
+ # @logappend: true to append instead of truncate
+ #             (default to false to truncate)
++# @close-on-cpr: if true, close device's fd on cprsave. defaults to false.
++#                since 6.0.
+ #
+ # Since: 2.6
+ ##
+ { 'struct': 'ChardevCommon',
+   'data': { '*logfile': 'str',
+-            '*logappend': 'bool' } }
++            '*logappend': 'bool',
++            '*close-on-cpr': 'bool' } }
+ 
+ ##
+ # @ChardevFile:
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 3392ac0..ef2d24a 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3071,43 +3071,57 @@ DEFHEADING(Character device options:)
+ 
+ DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
+     "-chardev help\n"
+-    "-chardev null,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "-chardev null,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off][,close-on-cpr=on|off]\n"
+     "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4=on|off][,ipv6=on|off][,nodelay=on|off][,reconnect=seconds]\n"
+     "         [,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds][,mux=on|off]\n"
+-    "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID] (tcp)\n"
++    "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID][,close-on-cpr=on|off] (tcp)\n"
+     "-chardev socket,id=id,path=path[,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds]\n"
+-    "         [,mux=on|off][,logfile=PATH][,logappend=on|off][,abstract=on|off][,tight=on|off] (unix)\n"
++    "         [,mux=on|off][,logfile=PATH][,logappend=on|off][,abstract=on|off][,tight=on|off][,close-on-cpr=on|off] (unix)\n"
+     "-chardev udp,id=id[,host=host],port=port[,localaddr=localaddr]\n"
+     "         [,localport=localport][,ipv4=on|off][,ipv6=on|off][,mux=on|off]\n"
+-    "         [,logfile=PATH][,logappend=on|off]\n"
++    "         [,logfile=PATH][,logappend=on|off][,close-on-cpr=on|off]\n"
+     "-chardev msmouse,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+     "-chardev vc,id=id[[,width=width][,height=height]][[,cols=cols][,rows=rows]]\n"
+     "         [,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+     "-chardev ringbuf,id=id[,size=size][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+     "-chardev file,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+     "-chardev pipe,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+ #ifdef _WIN32
+     "-chardev console,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+     "-chardev serial,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+ #else
+     "-chardev pty,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+     "-chardev stdio,id=id[,mux=on|off][,signal=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+ #endif
+ #ifdef CONFIG_BRLAPI
+     "-chardev braille,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+ #endif
+ #if defined(__linux__) || defined(__sun__) || defined(__FreeBSD__) \
+         || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
+     "-chardev serial,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+     "-chardev tty,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+ #endif
+ #if defined(__linux__) || defined(__FreeBSD__) || defined(__DragonFly__)
+     "-chardev parallel,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+     "-chardev parport,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+ #endif
+ #if defined(CONFIG_SPICE)
+     "-chardev spicevmc,id=id,name=name[,debug=debug][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+     "-chardev spiceport,id=id,name=name[,debug=debug][,logfile=PATH][,logappend=on|off]\n"
++    "         [,close-on-cpr=on|off]\n"
+ #endif
+     , QEMU_ARCH_ALL
+ )
+@@ -3182,6 +3196,10 @@ The general form of a character device option is:
+     ``logappend`` option controls whether the log file will be truncated
+     or appended to when opened.
+ 
++    Every backend supports the ``close-on-cpr`` option.  If on, the
++    devices's descriptor is closed during cprsave, and reopened after exec.
++    This is useful for devices that do not support cpr.
++
+ The available backends are:
+ 
+ ``-chardev null,id=id``
 -- 
 1.8.3.1
 
