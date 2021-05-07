@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341CF375F17
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 05:19:48 +0200 (CEST)
-Received: from localhost ([::1]:60606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8310375F18
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 05:19:51 +0200 (CEST)
+Received: from localhost ([::1]:60980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ler1n-0000SP-8V
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 23:19:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47314)
+	id 1ler1q-0000bz-Rp
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 23:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1leqza-0007Qr-KI; Thu, 06 May 2021 23:17:30 -0400
-Received: from ozlabs.org ([203.11.71.1]:36895)
+ id 1leqzb-0007R3-2i; Thu, 06 May 2021 23:17:31 -0400
+Received: from ozlabs.org ([203.11.71.1]:44397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1leqzX-0007lG-J8; Thu, 06 May 2021 23:17:30 -0400
+ id 1leqzX-0007lE-Ff; Thu, 06 May 2021 23:17:30 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fbwc26xxDz9sXV; Fri,  7 May 2021 13:17:22 +1000 (AEST)
+ id 4Fbwc307gHz9sj1; Fri,  7 May 2021 13:17:22 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620357442;
- bh=X1GPqMYPhyEDvL3lUkKRfQEBbbAKry0HxDQioMzXHsI=;
+ d=gibson.dropbear.id.au; s=201602; t=1620357443;
+ bh=t5T7Vc9Up1FZdvH788yBmqRR5EsiU3e4JIGUdS7NO+E=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cNoIhAiltjeTXHstxj8+lA1KpPeon6uSM4HcV/L7G+d+6QHUyho7O6/IqI8q/8zPq
- 6rcmzd8kb2hG3HQRntKJuQ2aIDiD0XdAhKvimwJo+9kNEIaZ8ZoXUHyIy7G62a/sU7
- h5AaZ2tSkpkxHkKhjHjdl5rlzhO3D4l479HHXJUI=
-Date: Fri, 7 May 2021 13:14:22 +1000
+ b=f5R/V601pahCuqCEpS5pY/cyhBfGiKR+wUbQJJsqPMQxjpWOdj/MSnHnu4+136AoM
+ fkgD7MzAEMPcpMST8Ch7+ISWLozYILm980C6WIS9pdK97GmNJWe90v0sArMhWQJJI+
+ jQbCV/pqMp9F3UGfeAAgSJyeGMWzWq5M4X+J5k2w=
+Date: Fri, 7 May 2021 13:17:17 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: Re: [PATCH v3 3/4] target/ppc: moved ppc_store_lpcr to misc_helper.c
-Message-ID: <YJSwjhxpB6dw/LDX@yekko>
+Subject: Re: [PATCH v3 4/4] hw/ppc: Altered calls from oea_read to read
+Message-ID: <YJSxPcnakGxhVMwE@yekko>
 References: <20210506163941.106984-1-lucas.araujo@eldorado.org.br>
- <20210506163941.106984-4-lucas.araujo@eldorado.org.br>
+ <20210506163941.106984-5-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kqGoZaISTrtogDNJ"
+ protocol="application/pgp-signature"; boundary="dj3/OL+omNYdILMD"
 Content-Disposition: inline
-In-Reply-To: <20210506163941.106984-4-lucas.araujo@eldorado.org.br>
+In-Reply-To: <20210506163941.106984-5-lucas.araujo@eldorado.org.br>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,100 +64,64 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---kqGoZaISTrtogDNJ
+--dj3/OL+omNYdILMD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 06, 2021 at 01:39:40PM -0300, Lucas Mateus Castro (alqotel) wro=
+On Thu, May 06, 2021 at 01:39:41PM -0300, Lucas Mateus Castro (alqotel) wro=
 te:
-> Moved the function ppc_store from mmu-hash64.c to misc_helper.c and the
-> prototype from mmu-hash64.h to cpu.h as it is a more appropriate place,
-> but it will have to have its implementation moved to a new file as
-> misc_helper.c should not be compiled in a !TCG environment.
+> Changed spapr.c and pnv.c from calls of ppc_spr_t.oea_read to
+> ppc_spr_t.name as oea_read is not available in !TCG builds.
+
+This is correct, but I think we can do it a little more cleanly.  This
+logic is identical to has_spr() in spapr_hcall.c.
+
+Can you move has_spr() to the target/ppc logic instead and rename it
+to, say, ppc_has_spr().  It's simple enough that it could just go
+inline in target/ppc/cpu.h.  Then we can use that in these places as
+well as the places its used in spapr_hcall.c.
+
 >=20
-> Signed-off-by: Lucas Mateus Castro (alqotel)
-> <lucas.araujo@eldorado.org.br>
-
-Applied to ppc-for-6.1, thanks.
-
+> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.b=
+r>
 > ---
->  target/ppc/cpu.h         |  1 +
->  target/ppc/misc_helper.c | 10 ++++++++++
->  target/ppc/mmu-hash64.c  | 10 ----------
->  target/ppc/mmu-hash64.h  |  1 -
->  4 files changed, 11 insertions(+), 11 deletions(-)
+>  hw/ppc/pnv.c   | 2 +-
+>  hw/ppc/spapr.c | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 733a2168c4..a976e7f7b0 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1297,6 +1297,7 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong =
-value);
->  void ppc_store_ptcr(CPUPPCState *env, target_ulong value);
->  #endif /* !defined(CONFIG_USER_ONLY) */
->  void ppc_store_msr(CPUPPCState *env, target_ulong value);
-> +void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val);
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 77af846cdf..06849b8802 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -199,7 +199,7 @@ static void pnv_dt_core(PnvChip *chip, PnvCore *pc, v=
+oid *fdt)
+>      _FDT((fdt_setprop_string(fdt, offset, "status", "okay")));
+>      _FDT((fdt_setprop(fdt, offset, "64-bit", NULL, 0)));
 > =20
->  void ppc_cpu_list(void);
+> -    if (env->spr_cb[SPR_PURR].oea_read) {
+> +    if (env->spr_cb[SPR_PURR].name) {
+>          _FDT((fdt_setprop(fdt, offset, "ibm,purr", NULL, 0)));
+>      }
 > =20
-> diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-> index 002958be26..08a31da289 100644
-> --- a/target/ppc/misc_helper.c
-> +++ b/target/ppc/misc_helper.c
-> @@ -261,6 +261,16 @@ void ppc_store_msr(CPUPPCState *env, target_ulong va=
-lue)
->      hreg_store_msr(env, value, 0);
->  }
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index b37ceb8ee8..61653cbe2e 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -705,10 +705,10 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, i=
+nt offset,
+>      _FDT((fdt_setprop_string(fdt, offset, "status", "okay")));
+>      _FDT((fdt_setprop(fdt, offset, "64-bit", NULL, 0)));
 > =20
-> +void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
-> +{
-> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> +    CPUPPCState *env =3D &cpu->env;
-> +
-> +    env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
-> +    /* The gtse bit affects hflags */
-> +    hreg_compute_hflags(env);
-> +}
-> +
->  /*
->   * This code is lifted from MacOnLinux. It is called whenever THRM1,2
->   * or 3 is read an fixes up the values in such a way that will make
-> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> index be3596f27b..c4a4bc7cd2 100644
-> --- a/target/ppc/mmu-hash64.c
-> +++ b/target/ppc/mmu-hash64.c
-> @@ -1120,16 +1120,6 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, ta=
-rget_ulong ptex,
->      cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
-LUSH;
->  }
+> -    if (env->spr_cb[SPR_PURR].oea_read) {
+> +    if (env->spr_cb[SPR_PURR].name) {
+>          _FDT((fdt_setprop_cell(fdt, offset, "ibm,purr", 1)));
+>      }
+> -    if (env->spr_cb[SPR_SPURR].oea_read) {
+> +    if (env->spr_cb[SPR_SPURR].name) {
+>          _FDT((fdt_setprop_cell(fdt, offset, "ibm,spurr", 1)));
+>      }
 > =20
-> -void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
-> -{
-> -    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> -    CPUPPCState *env =3D &cpu->env;
-> -
-> -    env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
-> -    /* The gtse bit affects hflags */
-> -    hreg_compute_hflags(env);
-> -}
-> -
->  void helper_store_lpcr(CPUPPCState *env, target_ulong val)
->  {
->      PowerPCCPU *cpu =3D env_archcpu(env);
-> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
-> index 5dfd7f8b93..4b8b8e7950 100644
-> --- a/target/ppc/mmu-hash64.h
-> +++ b/target/ppc/mmu-hash64.h
-> @@ -15,7 +15,6 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,
->                                 target_ulong pte0, target_ulong pte1);
->  unsigned ppc_hash64_hpte_page_shift_noslb(PowerPCCPU *cpu,
->                                            uint64_t pte0, uint64_t pte1);
-> -void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val);
->  void ppc_hash64_init(PowerPCCPU *cpu);
->  void ppc_hash64_finalize(PowerPCCPU *cpu);
->  #endif
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -165,25 +129,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---kqGoZaISTrtogDNJ
+--dj3/OL+omNYdILMD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCUsI4ACgkQbDjKyiDZ
-s5Ix7w/8Dvm7KIx2J9XxrqGFzOfZOGxKytvyRDef9OnJE3Nw0X5WvinccU9qMzgG
-NkG0PzyPCMsdf9q80HuvLU0gTuj9FOwGTGKpJ3U4MClsKwoTC5/fkUoANkvU2bR6
-z5caxdkRR+kW3Nfu1QAPiwhqHLrMM3U03z8sEMZEZxPnbYxBC+cWnJIa6GmxGFL8
-P51TRHkzmnPJUEQYpHPj1x7eV3L6yW8cLtJwAaNHTfGN+RuDobyuWJU+fy5LRya2
-n+jq+Vk6Yv3jPYqYXA6QXmlTI7muJw552XAzywpqIIUhIPq7kUg1W5i/JYjpWLfR
-9vS5XKPo+WA3c0pqIB+6xe+tlOqmTb9mEEUp7wK3tclUJmmYiQTPldtyOKmJDaEi
-N/W1LW8KFwQR9okTHf9xCWNhmzm9pe1LW52kEMYNjEbiRBXijS1tc0IwRdGPlT4b
-DWZLi5kAic+MFRsHWU4tlDKeD0Rsn4WBpGRYg7SUhZiNCvYVr7w2b0R+JUoF6fvL
-JMBuqvnmg++bJoMvJeZIZ+O3nrfm0Espn0nl6XdvGPb+PytgIIHBbzsLCMm9zJa/
-Mbw5qD2IRDRVD+ImmDWJBHyWqzHjybrNof7ArY8YdHJ276YIl2A78lEAWfSuB8v3
-NrWFHcCX1e+XB1pVjAj0aywinTQsg7ux+T0ZuagxCHRrWSfA0Xk=
-=4OJJ
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCUsT0ACgkQbDjKyiDZ
+s5KDSA//aGJeR9jyxEVdWdlPdZy42e549CgfZ2f7fpWCogcRBFie4/3WsNzWdW1X
+gPSYU+J7r3Ij65/x1bDjwx1fLK9tvWkZYQHWT5okHSE10XOUe27hLM9Z0yVSFPur
+a2WXj70fHKb3uRgXApsHpOJePnFjnmsoYr0JKYfup4Zr2vK6V/f+bTpT0+jf7wIK
+DOquzhi/umJYgE9tomxNOmnNEDQbXlDu00y7LUkDns3AM18O+XfSQQ+p3BR+T/MQ
+JnG6TJ37NhZoP+W9V8zX8XE/snSMfHde8UUtQJn0SPz1saGgsQ/bpM2awXwcO2xM
+c1kPMJSkItB+BJ3rUXit+Fki3h7BuQSo+/tv9xuvtulr7Ar/wq4T1wbqR5ypi5K+
+w1IBne7z2eQj1EUiiDjyZRZRwf/WctNFMYmLxNbsTZrwZtB+u6Cdp+huHOH/E3nb
+MCBmPW081YeXXjhaHlPBTjJcslVAYWTc4ssoXHIWA8l+UJf/9cB7rdxnHM4ajYLb
+x0AYAoQqqLX1MkRKc+K5ulUIOxvgomnsJnJAZ1+N7nX1/0uKin03HMD6UisXfQtN
+1RQT9ZpTfdPS7h/e5tBf5qH9xn9nT/ueqMqrlM6d7EGw2vEtqIkqkkQ0YVcmgszC
+skINmjEIat+SBFO8RZ9/k4zXDM6zos695ymqj1qaGerFgcExl2o=
+=ln2p
 -----END PGP SIGNATURE-----
 
---kqGoZaISTrtogDNJ--
+--dj3/OL+omNYdILMD--
 
