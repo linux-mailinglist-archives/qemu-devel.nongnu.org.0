@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA462376556
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:40:45 +0200 (CEST)
-Received: from localhost ([::1]:57718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBAE3765A5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:56:39 +0200 (CEST)
+Received: from localhost ([::1]:39704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lezme-0000wn-TH
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:40:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57312)
+	id 1lf023-0000Tf-0D
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:56:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbS-0000dG-TZ
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:10 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:49894)
+ id 1lezcL-0001S5-SA
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:30:05 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:40946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbK-0001Rv-Hn
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:10 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CDr2L148738;
+ id 1lezcJ-00023p-Gn
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:30:05 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CE4SK096866;
  Fri, 7 May 2021 12:28:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=zeYY6QQF2/OIwjuNLMYlqEZVUbtqwO/F/LY+8WehK1g=;
- b=V1W4nKL96c21CGZFISLTXaXF+ex4k4pzp8MFQ2yvKEhOGv9ajb73r3qbNHUr2qS5XQ3m
- woIfr2qw1iHbeBKj0/mWWfoxs0ajosNMg9vqhlBe6BbKs/rnix+oYrhWb2EoDQQahLq3
- GxFQWP9xQ00xl/avdDD+CVnOfSz2fHf6IffZvZ+MS/ypfP3pTf9q09t1I26h4PJFKrny
- QISAoXeH4Y/HUVHM7orMljo/QCGn/jqnyVP4GaZfJHGYwmoJOcvEbbpV7pK72hNtEZyi
- QAppUIUsxcBkq/ABPpDaSFLbnd9as8wAJLFwJF7nfzStaDihBjFSbdJlQ0/ruCKGq+yB 7A== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2130.oracle.com with ESMTP id 38csrd9ewc-1
+ bh=bhXktVqVbHebVf1zMiTZRGxxftF1sfcsqPDmjMN9oAc=;
+ b=UfxB40QJCSglHuqIaOKbgDY6mwzjBFK5pb7b62nIdsVVGBEXPrWnflLtyQkDVDgjDQHc
+ sy6OwGaSADDofMYz96Dy+gWxxlFUOmCt6bZeQsCOVq5LCJD6eezTvGjZucYtdLHmaXM4
+ eWFoTtqx2pyWZok3HxD4mwU/z2pW+puyG9P8feF6grSwc/ALc0kC32rRbppH7CJbppuI
+ AHR3wX5y67+CfbeiqaBBRWjRk10Qwh92orKlSUsBLi3yPRwpTOOjmIxcWPUtuZ+IwoND
+ SEluGVh7DeJvE1BN4cKFUdDNRxml/jjGnIdW8ojg5jYINldhjWN+iA5U+V2ts7MHSUr6 sg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 38ctd89d1d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 07 May 2021 12:28:59 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CFY9U068921;
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CFN5C031201;
  Fri, 7 May 2021 12:28:59 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by aserp3030.oracle.com with ESMTP id 38csrev2gs-1
+ by userp3030.oracle.com with ESMTP id 38css8ss6m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 07 May 2021 12:28:59 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CPnbe097968;
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CSwSE071605;
  Fri, 7 May 2021 12:28:58 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 38csrev2g2-1
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 38css8ss54-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 07 May 2021 12:28:58 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 147CSuR8011657;
- Fri, 7 May 2021 12:28:56 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 147CSve9017194;
+ Fri, 7 May 2021 12:28:57 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
  with ESMTP ; Fri, 07 May 2021 05:28:56 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V3 08/22] cpr: QMP interfaces
-Date: Fri,  7 May 2021 05:25:06 -0700
-Message-Id: <1620390320-301716-9-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V3 09/22] cpr: HMP interfaces
+Date: Fri,  7 May 2021 05:25:07 -0700
+Message-Id: <1620390320-301716-10-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
 References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-ORIG-GUID: bV23kd7SYzmBaJ8pfXlsA7HNW4Y05GNI
-X-Proofpoint-GUID: bV23kd7SYzmBaJ8pfXlsA7HNW4Y05GNI
+X-Proofpoint-GUID: wkejXdTJdjsuLdbkhkoqfIcb2uyZ6jPW
+X-Proofpoint-ORIG-GUID: wkejXdTJdjsuLdbkhkoqfIcb2uyZ6jPW
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- clxscore=1015
- malwarescore=0 adultscore=0 mlxlogscore=999 impostorscore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxscore=0 spamscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxscore=0 adultscore=0
+ clxscore=1015 spamscore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
  definitions=main-2105070085
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
@@ -109,185 +109,164 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cprsave calls cprsave().  Syntax:
-  { 'enum': 'CprMode', 'data': [ 'reboot', 'restart' ] }
-  { 'command': 'cprsave', 'data': { 'file': 'str', 'mode': 'CprMode' } }
+cprsave <file> <mode>
+  Call cprsave().
+  Arguments:
+    file : save vmstate to this file name
+    mode: "reboot" or "restart"
 
-cprload calls cprload().  Syntax:
-  { 'command': 'cprload', 'data': { 'file': 'str' } }
+cprload <file>
+  Call cprload().
+  Arguments:
+    file : load vmstate from this file name
 
-cprinfo returns a list of supported modes.  Syntax:
-  { 'struct': 'CprInfo', 'data': { 'modes': [ 'CprMode' ] } }
-  { 'command': 'cprinfo', 'returns': 'CprInfo' }
+cprinfo
+  Print to stdout a space-delimited list of modes supported by cprsave.
+  Arguments: none
 
 Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- monitor/qmp-cmds.c    | 31 +++++++++++++++++++++
- qapi/cpr.json         | 76 +++++++++++++++++++++++++++++++++++++++++++++++++++
- qapi/meson.build      |  1 +
- qapi/qapi-schema.json |  1 +
- 4 files changed, 109 insertions(+)
- create mode 100644 qapi/cpr.json
+ hmp-commands.hx       | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ include/monitor/hmp.h |  3 +++
+ monitor/hmp-cmds.c    | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 95 insertions(+)
 
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index f7d64a6..1128604 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -37,9 +37,11 @@
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-ui.h"
-+#include "qapi/qapi-commands-cpr.h"
- #include "qapi/qmp/qerror.h"
- #include "hw/mem/memory-device.h"
- #include "hw/acpi/acpi_dev_interface.h"
-+#include "migration/cpr.h"
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 435c591..5c79c5a 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -351,6 +351,50 @@ SRST
+ ERST
  
- NameInfo *qmp_query_name(Error **errp)
- {
-@@ -153,6 +155,35 @@ void qmp_cont(Error **errp)
-     }
+     {
++        .name       = "cprinfo",
++        .args_type  = "",
++        .params     = "",
++        .help       = "return list of modes supported by cprsave",
++        .cmd        = hmp_cprinfo,
++    },
++
++SRST
++``cprinfo``
++Return a space-delimited list of modes supported by cprsave.
++ERST
++
++    {
++        .name       = "cprsave",
++        .args_type  = "file:s,mode:s",
++        .params     = "file 'restart'|'reboot'",
++        .help       = "create a checkpoint of the VM in file",
++        .cmd        = hmp_cprsave,
++    },
++
++SRST
++``cprsave`` *file* *mode*
++Create a checkpoint of the whole virtual machine and save it in *file*.
++If *mode* is 'reboot', the checkpoint remains valid after a host kexec
++reboot.  Guest ram must be backed by persistant shared memory.
++If *mode* is 'restart', pause the VCPUs, exec /usr/bin/qemu-exec if it
++exists, else exec argv[0], passing all the original command line arguments.
++Guest ram must be allocated with the memfd-alloc machine option.
++ERST
++
++    {
++        .name       = "cprload",
++        .args_type  = "file:s",
++        .params     = "file",
++        .help       = "load VM checkpoint from file",
++        .cmd        = hmp_cprload,
++    },
++
++SRST
++``cprload`` *file*
++Load a virtual machine from checkpoint file *file* and continue VCPUs.
++ERST
++
++    {
+         .name       = "delvm",
+         .args_type  = "name:s",
+         .params     = "tag",
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 605d572..e4ebdf1 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -58,6 +58,9 @@ void hmp_balloon(Monitor *mon, const QDict *qdict);
+ void hmp_loadvm(Monitor *mon, const QDict *qdict);
+ void hmp_savevm(Monitor *mon, const QDict *qdict);
+ void hmp_delvm(Monitor *mon, const QDict *qdict);
++void hmp_cprinfo(Monitor *mon, const QDict *qdict);
++void hmp_cprsave(Monitor *mon, const QDict *qdict);
++void hmp_cprload(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_cancel(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_continue(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_incoming(Monitor *mon, const QDict *qdict);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 0ad5b77..e115a23 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -33,6 +33,7 @@
+ #include "qapi/qapi-commands-block.h"
+ #include "qapi/qapi-commands-char.h"
+ #include "qapi/qapi-commands-control.h"
++#include "qapi/qapi-commands-cpr.h"
+ #include "qapi/qapi-commands-machine.h"
+ #include "qapi/qapi-commands-migration.h"
+ #include "qapi/qapi-commands-misc.h"
+@@ -1173,6 +1174,53 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
+     qapi_free_AnnounceParameters(params);
  }
  
-+CprInfo *qmp_cprinfo(Error **errp)
++void hmp_cprinfo(Monitor *mon, const QDict *qdict)
 +{
++    Error *err = NULL;
 +    CprInfo *cprinfo;
-+    CprModeList *mode, *mode_list = NULL;
-+    CprMode i;
++    CprModeList *mode;
 +
-+    cprinfo = g_malloc0(sizeof(*cprinfo));
-+
-+    for (i = 0; i < CPR_MODE__MAX; i++) {
-+        mode = g_malloc0(sizeof(*mode));
-+        mode->value = i;
-+        mode->next = mode_list;
-+        mode_list = mode;
++    cprinfo = qmp_cprinfo(&err);
++    if (err) {
++        goto out;
 +    }
 +
-+    cprinfo->modes = mode_list;
-+    return cprinfo;
++    for (mode = cprinfo->modes; mode; mode = mode->next) {
++        monitor_printf(mon, "%s ", CprMode_str(mode->value));
++    }
++
++out:
++    hmp_handle_error(mon, err);
++    qapi_free_CprInfo(cprinfo);
 +}
 +
-+void qmp_cprsave(const char *file, CprMode mode, Error **errp)
++void hmp_cprsave(Monitor *mon, const QDict *qdict)
 +{
-+    cprsave(file, mode, errp);
++    Error *err = NULL;
++    const char *mode;
++    int val;
++
++    mode = qdict_get_try_str(qdict, "mode");
++    val = qapi_enum_parse(&CprMode_lookup, mode, -1, &err);
++
++    if (val == -1) {
++        goto out;
++    }
++
++    qmp_cprsave(qdict_get_try_str(qdict, "file"), val, &err);
++
++out:
++    hmp_handle_error(mon, err);
 +}
 +
-+void qmp_cprload(const char *file, Error **errp)
++void hmp_cprload(Monitor *mon, const QDict *qdict)
 +{
-+    cprload(file, errp);
++    Error *err = NULL;
++
++    qmp_cprload(qdict_get_try_str(qdict, "file"), &err);
++    hmp_handle_error(mon, err);
 +}
 +
- void qmp_system_wakeup(Error **errp)
+ void hmp_migrate_cancel(Monitor *mon, const QDict *qdict)
  {
-     if (!qemu_wakeup_suspend_enabled()) {
-diff --git a/qapi/cpr.json b/qapi/cpr.json
-new file mode 100644
-index 0000000..2d80cca
---- /dev/null
-+++ b/qapi/cpr.json
-@@ -0,0 +1,76 @@
-+# -*- Mode: Python -*-
-+#
-+# Copyright (c) 2021 Oracle and/or its affiliates.
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2.
-+# See the COPYING file in the top-level directory.
-+
-+##
-+# = CPR
-+##
-+
-+{ 'include': 'common.json' }
-+
-+##
-+# @CprMode:
-+#
-+# @reboot: checkpoint can be cprload'ed after a host kexec reboot.
-+#
-+# @restart: checkpoint can be cprload'ed after restarting qemu.
-+#
-+# Since: 6.0
-+##
-+{ 'enum': 'CprMode',
-+  'data': [ 'reboot', 'restart' ] }
-+
-+
-+##
-+# @CprInfo:
-+#
-+# @modes: @CprMode list
-+#
-+# Since: 6.0
-+##
-+{ 'struct': 'CprInfo',
-+  'data': { 'modes': [ 'CprMode' ] } }
-+
-+##
-+# @cprinfo:
-+#
-+# Returns the modes supported by @cprsave.
-+#
-+# Returns: @CprInfo
-+#
-+# Since: 6.0
-+#
-+##
-+{ 'command': 'cprinfo',
-+  'returns': 'CprInfo' }
-+
-+##
-+# @cprsave:
-+#
-+# Create a checkpoint of the virtual machine device state in @file.
-+# Guest RAM and guest block device blocks are not saved.
-+#
-+# @file: name of checkpoint file
-+# @mode: @CprMode mode
-+#
-+# Since: 6.0
-+##
-+{ 'command': 'cprsave',
-+  'data': { 'file': 'str',
-+            'mode': 'CprMode' } }
-+
-+##
-+# @cprload:
-+#
-+# Start virtual machine from checkpoint file that was created earlier using
-+# the cprsave command.
-+#
-+# @file: name of checkpoint file
-+#
-+# Since: 6.0
-+##
-+{ 'command': 'cprload',
-+  'data': { 'file': 'str' } }
-diff --git a/qapi/meson.build b/qapi/meson.build
-index 376f4ce..7e7c48a 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -26,6 +26,7 @@ qapi_all_modules = [
-   'common',
-   'compat',
-   'control',
-+  'cpr',
-   'crypto',
-   'dump',
-   'error',
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 4912b97..001d790 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -77,6 +77,7 @@
- { 'include': 'ui.json' }
- { 'include': 'authz.json' }
- { 'include': 'migration.json' }
-+{ 'include': 'cpr.json' }
- { 'include': 'transaction.json' }
- { 'include': 'trace.json' }
- { 'include': 'compat.json' }
+     qmp_migrate_cancel(NULL);
 -- 
 1.8.3.1
 
