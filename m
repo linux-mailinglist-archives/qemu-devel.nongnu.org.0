@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3B4376534
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:32:53 +0200 (CEST)
-Received: from localhost ([::1]:40350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C2E376536
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:33:00 +0200 (CEST)
+Received: from localhost ([::1]:40726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lezf2-0002Fx-Mp
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57164)
+	id 1lezf7-0002PX-9a
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:32:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbK-0000RY-Qf
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:02 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:60344)
+ id 1lezbO-0000U5-W9
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:07 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:43710)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbI-0001Qm-9d
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:02 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CETEG126746;
- Fri, 7 May 2021 12:28:56 GMT
+ id 1lezbJ-0001RN-Um
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:06 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CShOF050065;
+ Fri, 7 May 2021 12:28:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=ARpEyzI3y4U8V40/CLSccsjvztc225pgFKz6D2WIVmQ=;
- b=XKi0OzIrubAH99Ru8UUTXqJ+IJ6hEGxsPjz+/20Wyk5OWSbrRgiKmjWh4gNx/v/Cdwky
- 69nLiK1B2tEG5vNi1LGctkShm90COoy4D/QBe9tV/IOwAL+oSSqbroAxXBKLmTj+FwPh
- AUrGod0V37Ym6IWbKSYPdCQExpNFOdVTzxjG7udIUiNBT5rcRwMvRbVNeY6EfpaxM9ps
- SL6Yj0RG0anWqNhbIQbmfGNvWaRiKpUGqSUEUG9MJv++xJdCTgudO/lZKi2rPbZxQncU
- /UxHE0qr+SsT4yC1Sge2+XSZQEv3yg/rI6sb0JXxjuq4FDTNOotbxmtPyWPrZsvVcWwp Eg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 38ctjv1cbf-1
+ bh=p16l0WPBMG4jZxEyxo+4hfuLsJ7gQEWt4ArQ0Bp4BeU=;
+ b=LeaXzw3VIIT8ohCXBMT34YCSN0CwmSJonObGx4kE9kiTr0IZcKTybJwsay3weP1B4gNh
+ 8q3I//iLsU7Ex6toyjnweRwxQ5yBrDAFA5Ro0wEzlpYJD8ks5596JmZ242glSyqnRWZq
+ 7i7JilpDxuR7DxrXvHsqYZ5tuPabFlA4UxE2CwuZ/RNNqvvv7ZwgNq+slHyse5c43C72
+ fWrv6Oqt3GtSGbv/WHvqmVu+EpjPNF8jcNVPQEUAQ4Z/Ef9t1P5e2l94+v85v0izOG8Q
+ 9yTioolTgKsLK/8Kf4WUhCf9CUzyDlGjntxnTzRMp0GgjIk6KQR3v2R5KC56SSNusR1a Hw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 38csqvhemb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 May 2021 12:28:55 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CFlmb168407;
- Fri, 7 May 2021 12:28:55 GMT
+ Fri, 07 May 2021 12:28:57 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CGPPi173683;
+ Fri, 7 May 2021 12:28:56 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by userp3020.oracle.com with ESMTP id 38csrh1sxb-1
+ by aserp3020.oracle.com with ESMTP id 38csrtb63s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 07 May 2021 12:28:56 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CStBV027798;
+ Fri, 7 May 2021 12:28:55 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 38csrtb638-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 07 May 2021 12:28:55 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CPaH6002524;
- Fri, 7 May 2021 12:28:54 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 38csrh1swb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 May 2021 12:28:54 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 147CSqET016385;
- Fri, 7 May 2021 12:28:52 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 147CSr3a016393;
+ Fri, 7 May 2021 12:28:53 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 07 May 2021 05:28:52 -0700
+ with ESMTP ; Fri, 07 May 2021 05:28:53 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V3 04/22] util: env var helpers
-Date: Fri,  7 May 2021 05:25:02 -0700
-Message-Id: <1620390320-301716-5-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V3 05/22] machine: memfd-alloc option
+Date: Fri,  7 May 2021 05:25:03 -0700
+Message-Id: <1620390320-301716-6-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
 References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-ORIG-GUID: VINH-8nMuODkwvsR9W4t5AjVhKvXKvN5
-X-Proofpoint-GUID: VINH-8nMuODkwvsR9W4t5AjVhKvXKvN5
+X-Proofpoint-ORIG-GUID: UByTe6NBJB6nqW4hLIXRGw49e6vWpgIB
+X-Proofpoint-GUID: UByTe6NBJB6nqW4hLIXRGw49e6vWpgIB
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
- mlxlogscore=999
- malwarescore=0 phishscore=0 mlxscore=0 clxscore=1015 priorityscore=1501
- bulkscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 suspectscore=0 spamscore=0
+ impostorscore=0 phishscore=0 clxscore=1015 mlxscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105070085
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
+ definitions=main-2105070086
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=steven.sistare@oracle.com; helo=userp2120.oracle.com
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L4=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,164 +109,197 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add functions for saving fd's and other values in the environment via
-setenv, and for reading them back via getenv.
+Allocate anonymous memory using memfd_create if the memfd-alloc machine
+option is set.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- include/qemu/env.h | 23 +++++++++++++
- util/env.c         | 99 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- util/meson.build   |  1 +
- 3 files changed, 123 insertions(+)
- create mode 100644 include/qemu/env.h
- create mode 100644 util/env.c
+ hw/core/machine.c   | 19 +++++++++++++++++++
+ include/hw/boards.h |  1 +
+ qemu-options.hx     |  5 +++++
+ softmmu/physmem.c   | 41 ++++++++++++++++++++++++++++++++---------
+ trace-events        |  1 +
+ util/qemu-config.c  |  4 ++++
+ 6 files changed, 62 insertions(+), 9 deletions(-)
 
-diff --git a/include/qemu/env.h b/include/qemu/env.h
-new file mode 100644
-index 0000000..3dad503
---- /dev/null
-+++ b/include/qemu/env.h
-@@ -0,0 +1,23 @@
-+/*
-+ * Copyright (c) 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef QEMU_ENV_H
-+#define QEMU_ENV_H
-+
-+#define FD_PREFIX "QEMU_FD_"
-+
-+typedef int (*walkenv_cb)(const char *name, const char *val, void *handle);
-+
-+int getenv_fd(const char *name);
-+void setenv_fd(const char *name, int fd);
-+void unsetenv_fd(const char *name);
-+void unsetenv_fdv(const char *fmt, ...);
-+int walkenv(const char *prefix, walkenv_cb cb, void *handle);
-+void printenv(void);
-+
-+#endif
-diff --git a/util/env.c b/util/env.c
-new file mode 100644
-index 0000000..b09ba05
---- /dev/null
-+++ b/util/env.c
-@@ -0,0 +1,99 @@
-+/*
-+ * Copyright (c) 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/env.h"
-+
-+static uint64_t getenv_ulong(const char *prefix, const char *name, bool *found)
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 40def78..3ce5303 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -375,6 +375,20 @@ static void machine_set_mem_merge(Object *obj, bool value, Error **errp)
+     ms->mem_merge = value;
+ }
+ 
++static bool machine_get_memfd_alloc(Object *obj, Error **errp)
 +{
-+    char var[80], *val;
-+    uint64_t res;
++    MachineState *ms = MACHINE(obj);
 +
-+    snprintf(var, sizeof(var), "%s%s", prefix, name);
-+    val = getenv(var);
-+    if (val) {
-+        *found = true;
-+        res = strtol(val, 0, 10);
-+    } else {
-+        *found = false;
-+        res = 0;
-+    }
-+    return res;
++    return ms->memfd_alloc;
 +}
 +
-+static void setenv_ulong(const char *prefix, const char *name, uint64_t val)
++static void machine_set_memfd_alloc(Object *obj, bool value, Error **errp)
 +{
-+    char var[80], val_str[80];
-+    snprintf(var, sizeof(var), "%s%s", prefix, name);
-+    snprintf(val_str, sizeof(val_str), "%"PRIu64, val);
-+    setenv(var, val_str, 1);
++    MachineState *ms = MACHINE(obj);
++
++    ms->memfd_alloc = value;
 +}
 +
-+static void unsetenv_ulong(const char *prefix, const char *name)
-+{
-+    char var[80];
-+    snprintf(var, sizeof(var), "%s%s", prefix, name);
-+    unsetenv(var);
-+}
+ static bool machine_get_usb(Object *obj, Error **errp)
+ {
+     MachineState *ms = MACHINE(obj);
+@@ -858,6 +872,11 @@ static void machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, "mem-merge",
+         "Enable/disable memory merge support");
+ 
++    object_class_property_add_bool(oc, "memfd-alloc",
++        machine_get_memfd_alloc, machine_set_memfd_alloc);
++    object_class_property_set_description(oc, "memfd-alloc",
++        "Enable/disable allocating anonymous memory using memfd_create");
 +
-+int getenv_fd(const char *name)
-+{
-+    bool found;
-+    int fd = getenv_ulong(FD_PREFIX, name, &found);
-+    if (!found) {
-+        fd = -1;
-+    }
-+    return fd;
-+}
+     object_class_property_add_bool(oc, "usb",
+         machine_get_usb, machine_set_usb);
+     object_class_property_set_description(oc, "usb",
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index ad6c8fd..dceb7f7 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -305,6 +305,7 @@ struct MachineState {
+     char *dt_compatible;
+     bool dump_guest_core;
+     bool mem_merge;
++    bool memfd_alloc;
+     bool usb;
+     bool usb_disabled;
+     char *firmware;
+diff --git a/qemu-options.hx b/qemu-options.hx
+index fd21002..3392ac0 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -30,6 +30,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+     "                vmport=on|off|auto controls emulation of vmport (default: auto)\n"
+     "                dump-guest-core=on|off include guest memory in a core dump (default=on)\n"
+     "                mem-merge=on|off controls memory merge support (default: on)\n"
++    "                memfd-alloc=on|off controls allocating anonymous memory using memfd_create (default: off)\n"
+     "                aes-key-wrap=on|off controls support for AES key wrapping (default=on)\n"
+     "                dea-key-wrap=on|off controls support for DEA key wrapping (default=on)\n"
+     "                suppress-vmdesc=on|off disables self-describing migration (default=off)\n"
+@@ -76,6 +77,10 @@ SRST
+         supported by the host, de-duplicates identical memory pages
+         among VMs instances (enabled by default).
+ 
++    ``memfd-alloc=on|off``
++        Enables or disables allocation of anonymous memory using memfd_create.
++        (disabled by default).
 +
-+void setenv_fd(const char *name, int fd)
-+{
-+    setenv_ulong(FD_PREFIX, name, fd);
-+}
-+
-+void unsetenv_fd(const char *name)
-+{
-+    unsetenv_ulong(FD_PREFIX, name);
-+}
-+
-+void unsetenv_fdv(const char *fmt, ...)
-+{
-+    va_list args;
-+    char buf[80];
-+    va_start(args, fmt);
-+    vsnprintf(buf, sizeof(buf), fmt, args);
-+    va_end(args);
-+}
-+
-+int walkenv(const char *prefix, walkenv_cb cb, void *handle)
-+{
-+    char *str, name[128];
-+    char **envp = environ;
-+    size_t prefix_len = strlen(prefix);
-+
-+    while (*envp) {
-+        str = *envp++;
-+        if (!strncmp(str, prefix, prefix_len)) {
-+            char *val = strchr(str, '=');
-+            str += prefix_len;
-+            strncpy(name, str, val - str);
-+            name[val - str] = 0;
-+            if (cb(name, val + 1, handle)) {
-+                return 1;
+     ``aes-key-wrap=on|off``
+         Enables or disables AES key wrapping support on s390-ccw hosts.
+         This feature controls whether AES wrapping keys will be created
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 85034d9..695aa10 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -67,6 +67,7 @@
+ 
+ #include "qemu/pmem.h"
+ 
++#include "qemu/memfd.h"
+ #include "migration/vmstate.h"
+ 
+ #include "qemu/range.h"
+@@ -1931,35 +1932,57 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
+ {
+     RAMBlock *block;
+     RAMBlock *last_block = NULL;
++    struct MemoryRegion *mr = new_block->mr;
+     ram_addr_t old_ram_size, new_ram_size;
+     Error *err = NULL;
++    const char *name;
++    void *addr = 0;
++    size_t maxlen;
++    MachineState *ms = MACHINE(qdev_get_machine());
+ 
+     old_ram_size = last_ram_page();
+ 
+     qemu_mutex_lock_ramlist();
+-    new_block->offset = find_ram_offset(new_block->max_length);
++    maxlen = new_block->max_length;
++    new_block->offset = find_ram_offset(maxlen);
+ 
+     if (!new_block->host) {
+         if (xen_enabled()) {
+-            xen_ram_alloc(new_block->offset, new_block->max_length,
+-                          new_block->mr, &err);
++            xen_ram_alloc(new_block->offset, maxlen, new_block->mr, &err);
+             if (err) {
+                 error_propagate(errp, err);
+                 qemu_mutex_unlock_ramlist();
+                 return;
+             }
+         } else {
+-            new_block->host = qemu_anon_ram_alloc(new_block->max_length,
+-                                                  &new_block->mr->align,
+-                                                  shared);
+-            if (!new_block->host) {
++            name = memory_region_name(new_block->mr);
++            if (ms->memfd_alloc) {
++                int mfd = -1;          /* placeholder until next patch */
++                mr->align = QEMU_VMALLOC_ALIGN;
++                if (mfd < 0) {
++                    mfd = qemu_memfd_create(name, maxlen + mr->align,
++                                            0, 0, 0, &err);
++                    if (mfd < 0) {
++                        return;
++                    }
++                }
++                new_block->flags |= RAM_SHARED;
++                addr = file_ram_alloc(new_block, maxlen, mfd,
++                                      false, false, 0, errp);
++                trace_anon_memfd_alloc(name, maxlen, addr, mfd);
++            } else {
++                addr = qemu_anon_ram_alloc(maxlen, &mr->align, shared);
 +            }
-+        }
-+    }
-+    return 0;
-+}
 +
-+void printenv(void)
-+{
-+    char **ptr = environ;
-+    while (*ptr) {
-+        puts(*ptr++);
-+    }
-+}
-diff --git a/util/meson.build b/util/meson.build
-index 510765c..d2d90cc 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -22,6 +22,7 @@ util_ss.add(files('host-utils.c'))
- util_ss.add(files('bitmap.c', 'bitops.c'))
- util_ss.add(files('fifo8.c'))
- util_ss.add(files('cacheinfo.c', 'cacheflush.c'))
-+util_ss.add(files('env.c'))
- util_ss.add(files('error.c', 'qemu-error.c'))
- util_ss.add(files('qemu-print.c'))
- util_ss.add(files('id.c'))
++            if (!addr) {
+                 error_setg_errno(errp, errno,
+                                  "cannot set up guest memory '%s'",
+-                                 memory_region_name(new_block->mr));
++                                 name);
+                 qemu_mutex_unlock_ramlist();
+                 return;
+             }
+-            memory_try_enable_merging(new_block->host, new_block->max_length);
++            memory_try_enable_merging(addr, maxlen);
++            new_block->host = addr;
+         }
+     }
+ 
+diff --git a/trace-events b/trace-events
+index ac7cef9..99e8208 100644
+--- a/trace-events
++++ b/trace-events
+@@ -40,6 +40,7 @@ ram_block_discard_range(const char *rbname, void *hva, size_t length, bool need_
+ # accel/tcg/cputlb.c
+ memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
+ memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
++anon_memfd_alloc(const char *name, size_t size, void *ptr, int fd) "%s size %zu ptr %p fd %d"
+ 
+ # gdbstub.c
+ gdbstub_op_start(const char *device) "Starting gdbstub using device %s"
+diff --git a/util/qemu-config.c b/util/qemu-config.c
+index 670bd6e..135ec3b 100644
+--- a/util/qemu-config.c
++++ b/util/qemu-config.c
+@@ -205,6 +205,10 @@ static QemuOptsList machine_opts = {
+             .type = QEMU_OPT_BOOL,
+             .help = "enable/disable memory merge support",
+         },{
++            .name = "memfd-alloc",
++            .type = QEMU_OPT_BOOL,
++            .help = "enable/disable memfd_create for anonymous memory",
++        },{
+             .name = "usb",
+             .type = QEMU_OPT_BOOL,
+             .help = "Set on/off to enable/disable usb",
 -- 
 1.8.3.1
 
