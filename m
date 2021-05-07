@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE87375F8B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 06:46:50 +0200 (CEST)
-Received: from localhost ([::1]:44272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5207375F8C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 06:46:51 +0200 (CEST)
+Received: from localhost ([::1]:44404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lesO0-0003vb-Qw
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 00:46:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59256)
+	id 1lesO2-0003yq-WC
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 00:46:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lesMx-000334-LX
+ id 1lesMx-000335-MJ
  for qemu-devel@nongnu.org; Fri, 07 May 2021 00:45:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37068)
+Received: from indium.canonical.com ([91.189.90.7]:37092)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lesMv-0001VX-Dr
+ id 1lesMv-0001WA-Ok
  for qemu-devel@nongnu.org; Fri, 07 May 2021 00:45:43 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lesMt-0003sA-NV
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 04:45:39 +0000
+ id 1lesMu-0003vP-D4
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 04:45:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AFC782E802E
- for <qemu-devel@nongnu.org>; Fri,  7 May 2021 04:45:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 616462E8186
+ for <qemu-devel@nongnu.org>; Fri,  7 May 2021 04:45:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 May 2021 04:39:27 -0000
-From: Thomas Huth <1888467@bugs.launchpad.net>
+Date: Fri, 07 May 2021 04:39:57 -0000
+From: Thomas Huth <1888417@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: force-stop hangs nvidia pci reboot
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: arrowfeng th-huth xanclic
-X-Launchpad-Bug-Reporter: dunfeng zhang (arrowfeng)
+X-Launchpad-Bug-Commenters: lightninjay th-huth
+X-Launchpad-Bug-Reporter: Jason (lightninjay)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159540494097.10238.3390638369680947345.malonedeb@gac.canonical.com>
-Message-Id: <162036236804.3318.14689436829612098530.malone@gac.canonical.com>
-Subject: [Bug 1888467] Re: qemu-img http convert bug
+References: <159535256686.7592.12361820079263274205.malonedeb@wampee.canonical.com>
+Message-Id: <162036239805.32626.8951796255657523099.malone@chaenomeles.canonical.com>
+Subject: [Bug 1888417] Re: Latest QEMU git build on Arch linux causes PCI
+ Passthrough host to hang on guest reboot.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 77fcfaa64af50efb53e81d9252ef7d531183f3f7
+X-Launchpad-Hash: 3e43717e66d0701e6bd08a021fa4f46a8d4b30ef
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888467 <1888467@bugs.launchpad.net>
+Reply-To: Bug 1888417 <1888417@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -110,31 +112,29 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888467
+https://bugs.launchpad.net/bugs/1888417
 
 Title:
-  qemu-img http convert bug
+  Latest QEMU git build on Arch linux causes PCI Passthrough host to
+  hang on guest reboot.
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Hello, Why the file sizes of http conversion and local conversion are
-  inconsistent?
+  Current Arch linux release, up-to-date as of 7/21/2020.
 
-  Use the http method of qemu-img for conversion. The size of some formats =
-after conversion is different from the local method of qemu-img. Such as vh=
-d, vdi. qcow2 and vmdk are normal=E3=80=82
-  My image size is 40 G, raw format.
-
-  The source is the same file, but the access method is different
-  http method of qemu-img=EF=BC=9A qemu-img convert -f raw -O vdi http://xx=
-x xxx.vdi=EF=BC=8819G=EF=BC=8Cafter conversion=EF=BC=89
-  local method of qemu-img=EF=BC=9A qemu-img convert -f raw -O vdi xxx.raw =
-xxx.vdi=EF=BC=883G=EF=BC=8Cafter conversion=EF=BC=89
-
-  thank you
+  Running a windows 7 virtual machine (also happens with windows 10,
+  possibly more OSes), with an nvidia GTX 1060 passthrough, if the VM is
+  attempted to be restarted, either through the guest interface, or by
+  libvirt's gui interface "Virtual Machine Manager", it hangs in a
+  "paused" state once the VM shutsdown, and just before the reboot can
+  take place.  A force-stop of the VM allows the VM to be properly
+  booted without any disk error checks, alluding to a clean shutdown,
+  but failed reboot.  The VM can be properly shutdown using the guests
+  shutdown function, or the libvirt manager shutdown, without any hangs.
+  Reverting to Arch stable build QEMU 5.0.0-7 fixes the issue.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888467/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1888417/+subscriptions
 
