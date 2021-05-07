@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0284A376996
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 19:41:53 +0200 (CEST)
-Received: from localhost ([::1]:39284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 079373769E5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 20:20:19 +0200 (CEST)
+Received: from localhost ([::1]:52842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf4U3-0002n5-Iy
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 13:41:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48566)
+	id 1lf55F-0003KL-Jj
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 14:20:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lf4RW-0001ve-88
- for qemu-devel@nongnu.org; Fri, 07 May 2021 13:39:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30313)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lf4RN-0006Wz-BH
- for qemu-devel@nongnu.org; Fri, 07 May 2021 13:39:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620409141;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kQ9iMimd7vtYXGSSI9nEta4IkP2tbRn7soP24UEnqJQ=;
- b=FTIryk+iSEzLv45Yzwk+N7UqFgfjHAg+L8rPZY4jrsOYkbms8hm1hzExDMQmtwyrj0RJSD
- slQYRg51GToulsSB5m+kT3jsmVlxi6xWsFqinZuDqAAMgwTC7HJ/U74j1Ote3P1c3EPqP6
- bddrdTGVdryHF6QTJSHK2U4wwlDberY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-MW37-5gUPH-iFjKz5JeYCQ-1; Fri, 07 May 2021 13:38:58 -0400
-X-MC-Unique: MW37-5gUPH-iFjKz5JeYCQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A04561854E2A;
- Fri,  7 May 2021 17:38:56 +0000 (UTC)
-Received: from [10.3.113.56] (ovpn-113-56.phx2.redhat.com [10.3.113.56])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 27FD7100164A;
- Fri,  7 May 2021 17:38:49 +0000 (UTC)
-Subject: Re: [PATCH v2 1/2] bitops.h: Improve find_xxx_bit() documentation
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210507170634.2058801-1-philmd@redhat.com>
- <20210507170634.2058801-2-philmd@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <99c170d8-d6f3-87ad-6270-73f620c1e172@redhat.com>
-Date: Fri, 7 May 2021 12:38:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lf50x-0000b3-6z
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 14:15:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lf50s-0004Zj-2z
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 14:15:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lf50n-0002N8-Tm
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:15:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C58A62E8139
+ for <qemu-devel@nongnu.org>; Fri,  7 May 2021 18:15:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210507170634.2058801-2-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 May 2021 18:06:28 -0000
+From: Langston <1885332@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: langston0 th-huth xeioexception
+X-Launchpad-Bug-Reporter: Langston (langston0)
+X-Launchpad-Bug-Modifier: Langston (langston0)
+References: <159320263008.26082.15752081078008046631.malonedeb@gac.canonical.com>
+Message-Id: <162041078927.7300.6958383500334879348.launchpad@gac.canonical.com>
+Subject: [Bug 1885332] Re: Error in user-mode calculation of ELF aux vector's
+ AT_PHDR
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
+X-Launchpad-Hash: 8501d68ce1817959c8f9d2a4a6431525a4d8c598
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,66 +70,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Sergio Lopez <slp@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Max Reitz <mreitz@redhat.com>, Chai Wen <chaiwen@baidu.com>,
- qemu-block@nongnu.org
+Reply-To: Bug 1885332 <1885332@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/7/21 12:06 PM, Philippe Mathieu-Daudé wrote:
-> Document the following functions return the bitmap size
-> if not matching bit is found:
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
-s/not/no/
+-- =
 
-> 
-> - find_first_bit
-> - find_next_bit
-> - find_last_bit
-> - find_first_zero_bit
-> - find_next_zero_bit
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  include/qemu/bitops.h | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
-> 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1885332
 
-> @@ -150,6 +151,9 @@ unsigned long find_last_bit(const unsigned long *addr,
->   * @addr: The address to base the search on
->   * @offset: The bitnumber to start searching at
->   * @size: The bitmap size in bits
-> + *
-> + * Returns the bit number of the next set bit,
-> + * or @size if there is no set bit in the bitmap.
->   */
->  unsigned long find_next_bit(const unsigned long *addr,
+Title:
+  Error in user-mode calculation of ELF aux vector's AT_PHDR
 
-Misleading - there might be a set bit prior to @offset.  Better might be:
+Status in QEMU:
+  New
 
-or @size if there are no further set bits in the bitmap.
+Bug description:
+  =
 
->                              unsigned long size,
-> @@ -160,6 +164,9 @@ unsigned long find_next_bit(const unsigned long *addr,
->   * @addr: The address to base the search on
->   * @offset: The bitnumber to start searching at
->   * @size: The bitmap size in bits
-> + *
-> + * Returns the bit number of the next cleared bit,
-> + * or @size if there is no clear bit in the bitmap.
->   */
->  
->  unsigned long find_next_zero_bit(const unsigned long *addr,
+  I have an (admittedly strange) statically-linked ELF binary for Linux tha=
+t runs just fine on top of the Linux kernel in QEMU full-system emulation, =
+but crashes before main in user-mode emulation. Specifically, it crashes wh=
+en initializing thread-local storage in glibc's _dl_aux_init, because it re=
+ads out a strange value from the AT_PHDR entry of the ELF aux vector.
 
-similarly,
+  The binary has these program headers:
 
-or @size if there are no further clear bits in the bitmap.
+    Program Headers:
+      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Ali=
+gn
+      EXIDX          0x065874 0x00075874 0x00075874 0x00570 0x00570 R   0x4
+      PHDR           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
+000
+      LOAD           0x0a3000 0x00900000 0x00900000 0x00160 0x00160 R   0x1=
+000
+      LOAD           0x000000 0x00010000 0x00010000 0x65de8 0x65de8 R E 0x1=
+0000
+      LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x1=
+0000
+      NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
+      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
+      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
+      GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
+      LOAD           0x07e000 0x00089000 0x00089000 0x03f44 0x03f44 R E 0x1=
+000
+      LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1=
+000
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+  If I build the Linux kernel with the following patch to the very end
+  of create_elf_tables in fs/binfmt_elf.c
 
+    /* Put the elf_info on the stack in the right place.  */
+    elf_addr_t *my_auxv =3D (elf_addr_t *) mm->saved_auxv;
+    int i;
+    for (i =3D 0; i < 15; i++) {
+      printk("0x%x =3D 0x%x", my_auxv[2*i], my_auxv[(2*i)+ 1]);
+    }
+    if (copy_to_user(sp, mm->saved_auxv, ei_index * sizeof(elf_addr_t)))
+        return -EFAULT;
+    return 0;
+
+  and run it like this:
+
+    qemu-system-arm \
+      -M versatilepb \
+      -nographic \
+      -dtb ./dts/versatile-pb.dtb \
+      -kernel zImage \
+      -M versatilepb \
+      -m 128M \
+      -append "earlyprintk=3Dvga,keep" \
+      -initrd initramfs
+
+  after I've built the kernel initramfs like this (where "init" is the
+  binary in question):
+
+    make ARCH=3Darm versatile_defconfig
+    make ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabi- all -j10
+    cp "$1" arch/arm/boot/init
+    cd arch/arm/boot
+    echo init | cpio -o --format=3Dnewc > initramfs
+
+  then I get the following output. This is the kernel's view of the aux
+  vector for this binary:
+
+    0x10 =3D 0x1d7
+    0x6 =3D 0x1000
+    0x11 =3D 0x64
+    0x3 =3D 0x900000
+    0x4 =3D 0x20
+    0x5 =3D 0xb
+    0x7 =3D 0x0
+    0x8 =3D 0x0
+    0x9 =3D 0x101b8
+    0xb =3D 0x0
+    0xc =3D 0x0
+    0xd =3D 0x0
+    0xe =3D 0x0
+    0x17 =3D 0x0
+    0x19 =3D 0xbec62fb5
+
+  However, if I run "qemu-arm -g 12345 binary" and use GDB to peek at
+  the aux vector at the beginning of __libc_start_init (for example,
+  using this Python GDB API script: https://gist.github.com/langston-
+  barrett/5573d64ae0c9953e2fa0fe26847a5e1e), then I see the following
+  values:
+
+    AT_PHDR =3D 0xae000
+    AT_PHENT =3D 0x20
+    AT_PHNUM =3D 0xb
+    AT_PAGESZ =3D 0x1000
+    AT_BASE =3D 0x0
+    AT_FLAGS =3D 0x0
+    AT_ENTRY =3D 0x10230
+    AT_UID =3D 0x3e9
+    AT_EUID =3D 0x3e9
+    AT_GID =3D 0x3e9
+    AT_EGID =3D 0x3e9
+    AT_HWCAP =3D 0x1fb8d7
+    AT_CLKTCK =3D 0x64
+    AT_RANDOM =3D -0x103c0
+    AT_HWCAP2 =3D 0x1f
+    AT_NULL =3D 0x0
+
+  The crucial difference is in AT_PHDR (0x3), which is indeed the
+  virtual address of the PHDR segment when the kernel calculates it, but
+  is not when QEMU calculates it.
+
+  qemu-arm --version
+  qemu-arm version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.26)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1885332/+subscriptions
 
