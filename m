@@ -2,46 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F973764C8
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:00:19 +0200 (CEST)
-Received: from localhost ([::1]:45958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C2F3764E1
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:07:07 +0200 (CEST)
+Received: from localhost ([::1]:54164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lez9W-000882-Ak
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:00:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48598)
+	id 1lezG5-0003Z0-N8
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lez5J-0006hy-5J; Fri, 07 May 2021 07:55:57 -0400
-Received: from [201.28.113.2] (port=3450 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lez5H-0006ym-AX; Fri, 07 May 2021 07:55:56 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 7 May 2021 08:55:53 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 852D080139F;
- Fri,  7 May 2021 08:55:53 -0300 (-03)
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lezF1-00037Q-PM
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:05:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35002)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lezEz-0004l5-H4
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:05:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lezEw-0007JI-BI
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 12:05:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F0D252E8194
+ for <qemu-devel@nongnu.org>; Fri,  7 May 2021 12:05:53 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 07 May 2021 11:55:41 -0000
+From: Justin Cichra <1880066@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Subject: [RESEND v5 4/4] target/ppc: isolated cpu init from translation logic
-Date: Fri,  7 May 2021 08:55:51 -0300
-Message-Id: <20210507115551.11436-1-bruno.larsen@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-X-OriginalArrivalTime: 07 May 2021 11:55:53.0680 (UTC)
- FILETIME=[EEA56D00:01D74337]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=fedora; sourcepackage=qemu; component=None;
+ status=Fix Released; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: csl-ubuntuone jrcichra th-huth
+X-Launchpad-Bug-Reporter: Justin Cichra (jrcichra)
+X-Launchpad-Bug-Modifier: Justin Cichra (jrcichra)
+References: <159011868752.31342.14577516157927235828.malonedeb@wampee.canonical.com>
+Message-Id: <162038854157.4018.3602861275022990647.malone@gac.canonical.com>
+Subject: [Bug 1880066] Re: Microphone input dies in guest when switching evdev
+ input
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
+X-Launchpad-Hash: bdc2233692413e1ac840712a18bd60286f184b03
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -50,111 +73,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- luis.pires@eldorado.org.br, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
- matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
+Reply-To: Bug 1880066 <1880066@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-finished isolation of CPU initialization logic from
-translation logic. CPU initialization now only has common code
-and may or may not call accelerator-specific code, as the
-build options require.
+Was fixed when moving to QEMU 5.x in Ubuntu 20.10.
 
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
----
- target/ppc/{translate_init.c.inc => cpu_init.c} | 6 ++++++
- target/ppc/meson.build                          | 1 +
- target/ppc/spr_tcg.h                            | 2 ++
- target/ppc/translate.c                          | 4 ++--
- 4 files changed, 11 insertions(+), 2 deletions(-)
- rename target/ppc/{translate_init.c.inc => cpu_init.c} (99%)
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
 
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/cpu_init.c
-similarity index 99%
-rename from target/ppc/translate_init.c.inc
-rename to target/ppc/cpu_init.c
-index 2f4e463bb6..faece1dca2 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/cpu_init.c
-@@ -18,6 +18,7 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
-+#include "qemu/osdep.h"
- #include "disas/dis-asm.h"
- #include "exec/gdbstub.h"
- #include "kvm_ppc.h"
-@@ -42,6 +43,11 @@
- #include "fpu/softfloat.h"
- #include "qapi/qapi-commands-machine-target.h"
- 
-+#include "exec/helper-proto.h"
-+#include "helper_regs.h"
-+#include "internal.h"
-+#include "spr_tcg.h"
-+
- /* #define PPC_DEBUG_SPR */
- /* #define USE_APPLE_GDB */
- 
-diff --git a/target/ppc/meson.build b/target/ppc/meson.build
-index 4079d01ee3..d1aa7d5d39 100644
---- a/target/ppc/meson.build
-+++ b/target/ppc/meson.build
-@@ -2,6 +2,7 @@ ppc_ss = ss.source_set()
- ppc_ss.add(files(
-   'cpu-models.c',
-   'cpu.c',
-+  'cpu_init.c',
-   'dfp_helper.c',
-   'excp_helper.c',
-   'fpu_helper.c',
-diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-index 1d2890dea0..0be5f347d5 100644
---- a/target/ppc/spr_tcg.h
-+++ b/target/ppc/spr_tcg.h
-@@ -19,6 +19,8 @@
- #ifndef SPR_TCG_H
- #define SPR_TCG_H
- 
-+#define SPR_NOACCESS (&spr_noaccess)
-+
- /* prototypes for readers and writers for SPRs */
- void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
- void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index aba9cf0a40..5e3495e018 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -38,6 +38,8 @@
- #include "qemu/atomic128.h"
- #include "spr_tcg.h"
- 
-+#include "qemu/qemu-print.h"
-+#include "qapi/error.h"
- 
- #define CPU_SINGLE_STEP 0x1
- #define CPU_BRANCH_STEP 0x2
-@@ -380,7 +382,6 @@ void spr_noaccess(DisasContext *ctx, int gprn, int sprn)
-     printf("ERROR: try to access SPR %d !\n", sprn);
- #endif
- }
--#define SPR_NOACCESS (&spr_noaccess)
- 
- /* #define PPC_DUMP_SPR_ACCESSES */
- 
-@@ -8617,7 +8618,6 @@ GEN_HANDLER2_E(trechkpt, "trechkpt", 0x1F, 0x0E, 0x1F, 0x03FFF800, \
- };
- 
- #include "helper_regs.h"
--#include "translate_init.c.inc"
- 
- /*****************************************************************************/
- /* Misc PowerPC helpers */
--- 
-2.17.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880066
+
+Title:
+  Microphone input dies in guest when switching evdev input
+
+Status in QEMU:
+  Fix Released
+Status in qemu package in Fedora:
+  Fix Released
+
+Bug description:
+  justin@justin-3900x:~$ lsb_release -a
+  No LSB modules are available.
+  Distributor ID:	Ubuntu
+  Description:	Ubuntu 20.04 LTS
+  Release:	20.04
+  Codename:	focal
+
+
+  justin@justin-3900x:~$ apt list --installed | egrep '*qemu*|*kvm*'
+
+  WARNING: apt does not have a stable CLI interface. Use with caution in
+  scripts.
+
+  ipxe-qemu-256k-compat-efi-roms/focal,focal,now 1.0.0+git-20150424.a25a16d=
+-0ubuntu4 all [installed,automatic]
+  ipxe-qemu/focal,focal,now 1.0.0+git-20190109.133f4c4-0ubuntu3 all [instal=
+led,automatic]
+  libvirt-daemon-driver-qemu/focal,now 6.0.0-0ubuntu8 amd64 [installed,auto=
+matic]
+  qemu-block-extra/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 =
+[installed,automatic]
+  qemu-kvm/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 [install=
+ed]
+  qemu-system-common/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd6=
+4 [installed,automatic]
+  qemu-system-data/focal-updates,focal-updates,focal-security,focal-securit=
+y,now 1:4.2-3ubuntu6.1 all [installed,automatic]
+  qemu-system-gui/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 [=
+installed,automatic]
+  qemu-system-x86/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 [=
+installed]
+  qemu-utils/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 [insta=
+lled,automatic]
+  qemu/focal-updates,focal-security,now 1:4.2-3ubuntu6.1 amd64 [installed]
+  justin@justin-3900x:~$ =
+
+
+  This did not happen in Eoan (qemu 4.0.0). I was able to switch in/out
+  of a VM with my audio coming through fine. I enabled Eoan in my
+  sources.list, downgraded all my qemu packages, and the issue was
+  resolved.
+
+  This happens on the latest Windows 10 guest when a sound device is
+  listening for the microphone.
+
+  /var/log/libvirt/qemu/<vmname>.log spews this error out when I switch
+  with evdev (which is just the keyboard and mouse, the audio is passed
+  through I assume spice):
+
+  =
+
+  audio: live=3D228193 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D228675 sw->hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_pcm_hw_get_live_in
+  Context:
+  audio: live=3D228675 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D229156 sw->hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_pcm_hw_get_live_in
+  Context:
+  audio: live=3D229156 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D229638 sw->hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_pcm_hw_get_live_in
+  Context:
+  audio: live=3D229638 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D230119 sw->hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_pcm_hw_get_live_in
+  Context:
+  audio: live=3D230119 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D230600 sw->hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_pcm_hw_get_live_in
+  Context:
+  audio: live=3D230600 hw->conv_buf->size=3D1920
+  A bug was just triggered in audio_get_avail
+  Context:
+  audio: live=3D231081 sw->hw->conv_buf->size=3D1920
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880066/+subscriptions
 
