@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0806376BDA
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 23:39:03 +0200 (CEST)
-Received: from localhost ([::1]:40244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8676376BFB
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 00:02:45 +0200 (CEST)
+Received: from localhost ([::1]:43466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf8Ba-0004ZR-Hs
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 17:39:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38770)
+	id 1lf8YW-0007qy-CA
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 18:02:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf8AO-0003uT-KL
- for qemu-devel@nongnu.org; Fri, 07 May 2021 17:37:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25192)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lf8WU-0007Ac-1s
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 18:00:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf8AM-00046W-6c
- for qemu-devel@nongnu.org; Fri, 07 May 2021 17:37:47 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lf8WP-0007vT-El
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 18:00:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620423465;
+ s=mimecast20190719; t=1620424830;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zg1hxew2J0c2uQeTEFFDFyaQqMYfnXJciIa/dVzNKjU=;
- b=EHUJ+lh9yc1B5LTPV8HZLaKqtIm1BZUbV9l1KsakAObloJY8F6Sz6dqyiPfDVWmVv86LQT
- u182gvE95nzob15OvY5o3UxStpOauS78B0vVhWLwyD8p/mM4cE9Wae1+924+f8+WqnXpbL
- qHEfTJJLnFUzqIaAtc+9BJDP3BIX9Hw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-71-P5BIWOD6iWFDg6uVgDQ-1; Fri, 07 May 2021 17:37:41 -0400
-X-MC-Unique: 71-P5BIWOD6iWFDg6uVgDQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- 88-20020adf95610000b029010758d8d7e2so4071725wrs.19
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 14:37:41 -0700 (PDT)
+ bh=+2l+yILKTmVXAtWg5GIkfQ0owvNFPiGBYpccXtbsjOg=;
+ b=H4vJEKy68g9nRxQqdZHm2mI+wpBKUJaR/0NyYRypDeWjJhheDvr7N7q/CVYqgcLep1aVbM
+ kg+RuNcM5qTZsHHTDc/8UcZdolBNYoDrsspGlvPu/uPtRjk8Zg+rsm4pZC5EWwsTi9mRlT
+ UeDJsYaE9OEftVG6xa8p+Xq/+GIYzBI=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-429-T8IATwL0OyWZlfYy036s5w-1; Fri, 07 May 2021 18:00:29 -0400
+X-MC-Unique: T8IATwL0OyWZlfYy036s5w-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ w4-20020a0568081404b0290102a1fd05b2so5064145oiv.6
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 15:00:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zg1hxew2J0c2uQeTEFFDFyaQqMYfnXJciIa/dVzNKjU=;
- b=pV0T6PXvwoOAVsEjKnnAO5eaqjrBL3hyVGQoKEn2frc7KOFsDfYm0Uu9QNGtmHaOpF
- NM1cpcg5TjoAypIUdW12U1cno78rpWpSwWsss8Ciuqs8IsQBoYgxIU2edQhjhDLOR9cK
- Myb7qgEW3qi5mkg1P6HSu9jrA7S0hbVjIeQsgU9F/MraS6F+niB3SREKAkxiAUHw6O7R
- 9U/XEOgdgZflGPv6tKMyynWSO968NHOwbFwUD6++B0EyZuhx3kPzSEd5DgOOSKMS9hyg
- johLf9AC3MIMArokUyS4FF0qpEySVnrnXe2h0XCjfXleDIDJ7zi2ApTlwZj8BYamkyzH
- QIpw==
-X-Gm-Message-State: AOAM530xq0FBatCKPyaxoUDl16gOn8zoBIFiGxJ3NgHkdF3acuQGdLyo
- Hw90Dokb81YhPd6VnG6Vrc20F3dQF5JrFiojcoR7xrCFELTzhtRTrJBJw3hwNaEmkYBIDnAAToL
- /b4jsomZ1jtdu1BSDfhasWl6mRy4Vm6h8QFqeMSmYGk/H9ZVdrx7dQEXUC1NshXtp
-X-Received: by 2002:a1c:238d:: with SMTP id
- j135mr23710486wmj.170.1620423460199; 
- Fri, 07 May 2021 14:37:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFHVPM3KsJY+mGGBvGyFufI++8Jnk3S9LaHDo07hMku3E7CMDJIFM7EtWa8fc38Utv3V89pw==
-X-Received: by 2002:a1c:238d:: with SMTP id
- j135mr23710459wmj.170.1620423459934; 
- Fri, 07 May 2021 14:37:39 -0700 (PDT)
-Received: from [192.168.1.19] (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr.
- [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id p10sm9113648wrr.58.2021.05.07.14.37.38
+ bh=+2l+yILKTmVXAtWg5GIkfQ0owvNFPiGBYpccXtbsjOg=;
+ b=jMVdi9dThSL9IzQqPDZfu5Nv4fqUw6jUe+e1R/1cZQfIwpO605ka6ekGAOJMMuijcs
+ XAu5bgUENbNheAU6aciYx4YUdZ3uXY4/cnKJRZlToaweWJ3DJuQeMQiNJFH9fx3riqXi
+ wKLN3uDc3Fot5yfaN8PFD+N/Qy3t1sk9vrShXOe/+lpyVFT5Kgpld50bbvN0d1CYomvf
+ Co8lbbGdRME4GufMnCRcAkoFco7eY3iCsytTJ5gF6dMpRkaIlAGITFYw5cR6dn8Kxgaq
+ cNkq7a9j3j5vcMN+G3vbBjjQ5E+OEEFrFnsZ11ls3HSxqYwZ4xcZ1mdl19kv0ntFbDWp
+ S8mQ==
+X-Gm-Message-State: AOAM532vqs6e8UJ5jX/5KhgDl0lAVmEOc7gU+b+ovPcU7rKjqiJjFSE3
+ 6sVq7OPV11oUP7/hrgfIxs/eIxeKxA9gzrAlO4Mhaw/1kRXyFtKcyw2FBtRWkHhdn/mer4S82gZ
+ R5oazPJxLOgyl99o=
+X-Received: by 2002:a05:6830:410e:: with SMTP id
+ w14mr10347937ott.251.1620424828751; 
+ Fri, 07 May 2021 15:00:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwwHJq/Lo10V2TsKqgNvfJloU+un87SEsPkv1RYQNIPii+V71dQ/VupeZR7Yxt1L26nTBGZag==
+X-Received: by 2002:a05:6830:410e:: with SMTP id
+ w14mr10347923ott.251.1620424828531; 
+ Fri, 07 May 2021 15:00:28 -0700 (PDT)
+Received: from [192.168.0.112] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id
+ q26sm1509837otn.0.2021.05.07.15.00.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 May 2021 14:37:39 -0700 (PDT)
-Subject: Re: [PATCH v2 09/11] pckbd: add function kbd_pending()
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <a898b0d5-7086-9699-ae8b-9524ad319b01@t-online.de>
- <20210507180953.8530-9-vr_qemu@t-online.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <74960b21-5ce6-cf5d-1ebf-b8cd94ee7ce4@redhat.com>
-Date: Fri, 7 May 2021 23:37:38 +0200
+ Fri, 07 May 2021 15:00:28 -0700 (PDT)
+Subject: Re: [PATCH v3] target/i386/sev: add support to query the attestation
+ report
+To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
+References: <20210429170728.24322-1-brijesh.singh@amd.com>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <dd711e32-c4bb-ca8f-5892-0133098e632e@redhat.com>
+Date: Fri, 7 May 2021 17:00:26 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210507180953.8530-9-vr_qemu@t-online.de>
+In-Reply-To: <20210429170728.24322-1-brijesh.singh@amd.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -102,20 +101,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Tom Lendacky <Thomas.Lendacky@amd.com>, kvm@vger.kernel.org,
+ James Bottomley <jejb@linux.ibm.com>, armbru@redhat.com, dgilbert@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/7/21 8:09 PM, Volker Rümelin wrote:
-> Replace reads of the variable s->pending with a call to a new
-> function kbd_pending() to ease the review of the next patch.
-> There is no functional change.
+On 4/29/21 12:07 PM, Brijesh Singh wrote:
+> The SEV FW >= 0.23 added a new command that can be used to query the
+> attestation report containing the SHA-256 digest of the guest memory
+> and VMSA encrypted with the LAUNCH_UPDATE and sign it with the PEK.
 > 
-> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-> ---
->  hw/input/pckbd.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
+> Note, we already have a command (LAUNCH_MEASURE) that can be used to
+> query the SHA-256 digest of the guest memory encrypted through the
+> LAUNCH_UPDATE. The main difference between previous and this command
+> is that the report is signed with the PEK and unlike the LAUNCH_MEASURE
+> command the ATTESATION_REPORT command can be called while the guest
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+typo: 'ATTESATION_REPORT'
+
+> is running.
+> 
+> Add a QMP interface "query-sev-attestation-report" that can be used
+> to get the report encoded in base64.
+> 
+> Cc: James Bottomley <jejb@linux.ibm.com>
+> Cc: Tom Lendacky <Thomas.Lendacky@amd.com>
+> Cc: Eric Blake <eblake@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: kvm@vger.kernel.org
+> Reviewed-by: James Bottomley <jejb@linux.ibm.com>
+> Tested-by: James Bottomley <jejb@linux.ibm.com>
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+
+Looks good to me!
+
+Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
 
 
