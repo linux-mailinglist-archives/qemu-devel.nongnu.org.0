@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719EA375EEE
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 04:56:48 +0200 (CEST)
-Received: from localhost ([::1]:45604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F22375EF8
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 05:05:03 +0200 (CEST)
+Received: from localhost ([::1]:52612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leqfX-0007LG-0T
-	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 22:56:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43928)
+	id 1leqnW-00023m-1u
+	for lists+qemu-devel@lfdr.de; Thu, 06 May 2021 23:05:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leqek-0006rJ-Ks
- for qemu-devel@nongnu.org; Thu, 06 May 2021 22:55:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58244)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leqec-0001Dq-2j
- for qemu-devel@nongnu.org; Thu, 06 May 2021 22:55:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leqeY-0002pX-FF
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 02:55:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6D83C2E8135
- for <qemu-devel@nongnu.org>; Fri,  7 May 2021 02:55:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1leqjT-0007x4-Fb; Thu, 06 May 2021 23:00:55 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:47593 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1leqjP-0004qy-Gh; Thu, 06 May 2021 23:00:50 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FbwDm2j3Tz9sXS; Fri,  7 May 2021 13:00:40 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1620356440;
+ bh=V3Col8QuO+oqxyxGF4EMsfKrF/pUgQZGNFIpssOh0AI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=edza2LeyxxkxmGtfpPhcz3XklUpdUgN1Aqkrr6AcESVHjA5NDMONhLDq8vdFR0mA9
+ Ev2aVcmxor+FyG9jCJ03f7dIGIn4hb2rHFiwsWWm+ATaBNAgAA30gKGrnmOTaCbya4
+ p4Coak2+knhaXxjx8cMB2Ef29JD/zmObxV8j8DFo=
+Date: Fri, 7 May 2021 11:05:35 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 9/9] target/ppc/kvm: Replace alloca() by g_malloc()
+Message-ID: <YJSSX1eUIecBpwwX@yekko>
+References: <20210506133758.1749233-1-philmd@redhat.com>
+ <20210506133758.1749233-10-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 May 2021 02:50:16 -0000
-From: Thomas Huth <1883784@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: ppc64le tcg testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier misterc nemequ th-huth
-X-Launchpad-Bug-Reporter: Evan Nemerson (nemequ)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159233926606.29237.7012634601262116409.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162035581657.3037.5824933304394018518.malone@gac.canonical.com>
-Subject: [Bug 1883784] Re: [ppc64le] qemu behavior differs from ppc64le
- hardware
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 7728f3e3bc6c2c377b86c2ec850c34bc4b4a31de
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="g1x6QJlBgI8sUhxy"
+Content-Disposition: inline
+In-Reply-To: <20210506133758.1749233-10-philmd@redhat.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,71 +58,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883784 <1883784@bugs.launchpad.net>
+Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting older bugs to "Incomplete" now.
 
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
+--g1x6QJlBgI8sUhxy
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
+On Thu, May 06, 2021 at 03:37:58PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> The ALLOCA(3) man-page mentions its "use is discouraged".
+>=20
+> Replace it by a g_malloc() call.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> ---
+>  target/ppc/kvm.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 104a308abb5..63c458e2211 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -2698,11 +2698,10 @@ int kvmppc_save_htab(QEMUFile *f, int fd, size_t =
+bufsize, int64_t max_ns)
+>  int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
+>                             uint16_t n_valid, uint16_t n_invalid, Error *=
+*errp)
+>  {
+> -    struct kvm_get_htab_header *buf;
+>      size_t chunksize =3D sizeof(*buf) + n_valid * HASH_PTE_SIZE_64;
+> +    g_autofree struct kvm_get_htab_header *buf =3D g_malloc(chunksize);
 
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
+Um.. that doesn't look like it would compile, since you use
+sizeof(*buf) before declaring buf.
 
-    https://gitlab.com/qemu-project/qemu/-/issues
+>      ssize_t rc;
+> =20
+> -    buf =3D alloca(chunksize);
+>      buf->index =3D index;
+>      buf->n_valid =3D n_valid;
+>      buf->n_invalid =3D n_invalid;
 
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" within the next 60 days (otherwise it will get
-closed as "Expired"). We will then eventually migrate the ticket auto-
-matically to the new system (but you won't be the reporter of the bug
-in the new system and thus won't get notified on changes anymore).
+--g1x6QJlBgI8sUhxy
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thank you and sorry for the inconvenience.
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCUkl0ACgkQbDjKyiDZ
+s5JeShAAtE6r+nLzXGSDEwW1F4BeqX9QVewuCmaxNGgnLxraxLHuO0ME9IMsp0jM
+xJg2sv+KFC9axYu1o2RZeGeH8+wGBusgofIRlxmL28+jIgYyFeD/VQZM5Fh2C/Qz
+apTpHA6Pjn6Ed6d8qk+6cTCAYj4cEZkq+4PvI7Rf492WLPDJxKMa28DeUdJ4Oe/K
+SsYZIgJMRXrgk8ckPEJ7faYweaBtVxlvIK8yt/dKJuv+u33oHMoFwwqfPJP2i5ed
+LKCl5bN/wEMGkaD5iP39AgPbLf5ICl2W3wB42+jbsewTBwCzr//+Oudl1Qt7Okns
+08kk6GFbK/9jLrSUDUAN8JUblIzPGu0QF+QEsWGaCvgnL+EXHUDBNjv9BtEpupPt
+KauPOUXwA6XA6gEnU3N3S5kP9QlN1sWs9Df0wH0flbJo62cGFAg1A1ZxgCmyayfZ
+H3c7bPsQvTm1lB6YEHAirHe2FB5G9blsNAZU4dtMsxxdm2uOK87rEwuwFzW3XfZY
+aNcENy3aYUbKVLSOWoeRLLlvtVXHAT8afhN1RYtaby+mA8w/fI22IW1F55scEz1B
+AZSDqkJ0ZDmNM3KUY+n6YRJeYvTTQJNIgAO5Lud5533d9hZFxD3HVD7oogXykAaL
+XYG+MJamQEwkV5wZr9VXyy543zqIwRatQdJk7RAxeHPsqt8lYsY=
+=JBda
+-----END PGP SIGNATURE-----
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883784
-
-Title:
-  [ppc64le] qemu behavior differs from ppc64le hardware
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  I have some code which passes my test suite on PPC64LE hardware when
-  compiled with GCC 10, but the saem binary fails with both qemu-ppc64le
-  4.2 (on Fedora 32) and qemu-ppc64le-static 5.0.0 (Debian testing).
-
-  I'm not getting any errors about illegal instructions or anything,
-  like that; the results are just silently different on qemu.
-
-  I've generated a reduced test case, which is attached along with the
-  binaries (both are the same code, one is just statically linked).
-  They should execute successufully on PPC64LE hardware, but on qemu
-  they hit a __builtin_abort (because the computed value doesn't match
-  the expected value).
-
-  Without being familiar with PPC assembly I'm not sure what else I can
-  do, but if there is anything please let me know.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883784/+subscriptions
+--g1x6QJlBgI8sUhxy--
 
