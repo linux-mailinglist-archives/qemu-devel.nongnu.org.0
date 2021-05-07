@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3563376740
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 16:52:01 +0200 (CEST)
-Received: from localhost ([::1]:52470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5BB37673C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 16:51:20 +0200 (CEST)
+Received: from localhost ([::1]:50430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf1pg-0006PQ-KR
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 10:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38934)
+	id 1lf1p1-0005Y2-AK
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 10:51:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1hr-0007hb-Qs
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:43:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55850)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1ht-0007jF-R4
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 10:43:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1hh-0000hd-Mq
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:43:51 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1hn-0000jC-6d
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 10:43:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620398624;
+ s=mimecast20190719; t=1620398629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0Q+1JmkmHePwynNhULjY5tlZHv+f3d17hAW4SIJc660=;
- b=T4RiVvDIsugnH8QYf7EtaNA6TDsGSgyjnEhDhhIe6sXlCOL/k+zkJwt+Rxhq20rM8PR3ko
- gJyP35CVkwehN5RfafacaQhNg6tR8RPMlXMN+Q4rQIS6C+FAI084drmPNP64PgSnqMJOF4
- EGUA2uQh+U7oPfTuKYux0OTT+uWZGUM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-OOUbTT5DNKS9HXWrc-s-Mw-1; Fri, 07 May 2021 10:43:43 -0400
-X-MC-Unique: OOUbTT5DNKS9HXWrc-s-Mw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 67-20020adf81490000b029010756d109e6so3654274wrm.13
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 07:43:42 -0700 (PDT)
+ bh=2L5mr2b7hhw5EkGSTWl47QqXXqBmVyFmMYU/e54ubTE=;
+ b=SorAX5dc2LcT4RbwUVVxlDFS3JFsyE7ZGfeLCAt6dgaG16f21fb8ociBNSiMy1ws2ImotF
+ uFiXdzPZXVwcEVkVOzF7GeuJWsqxuqTh9Usx7hcBLZSPu65iXNmunNSoAoH1KyTCEy0S6v
+ 3sCpu08MnZkh8cwH4ZCZkBGgstgSZ8U=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-74-vO9o92F_MKaqPCSSjIe2RQ-1; Fri, 07 May 2021 10:43:47 -0400
+X-MC-Unique: vO9o92F_MKaqPCSSjIe2RQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ 88-20020adf95610000b029010758d8d7e2so3647576wrs.19
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 07:43:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0Q+1JmkmHePwynNhULjY5tlZHv+f3d17hAW4SIJc660=;
- b=ZVVgMt7xNGkZA75wnbiArWxNhY187UJXc22PCSCkkSBU2OX17qmBYMO2F1I/NyLkkD
- mrXl2xBomfRXXnjxHWU/quY+hrqLiXhZgjWSCPTuVfE5njYVRmzCffSXy14aRz7mHeEP
- EWBcBXIHMfZFT4tKSSvBX/SkyegAQBZxROblZHuiSuxAPz7MlIyUQECtuoh2glsea86W
- ZWVAAUKGToQg9B70adXnvi/CLARy+IeBV/pSfJUtIedT5a2Zk4reok2OPzvOpKfUNWZL
- fb5s9Sl0RQ+aeUfqviZ/jHs0nY8n0AHDziNYxsolwA+HrJuWK++AbL3uBjGy2P+CBK0J
- EmcQ==
-X-Gm-Message-State: AOAM532lW92EeFU2HS1YAu+aSnZERMkaWkisno2CJq/2qxOfdAHy8aut
- x4zFvQBuRGV2RrF7P+pIp0qUVF06tGXRw/l3jOGv0/4k/KxXWmF6V9yVAW0rajDprAy0U99k48T
- 7inIPt5eIEkg+sCzghvZ29OvHPGUaYCp/aUApS1xN6yiHtzrWZa7d18oydsYKrKGj
-X-Received: by 2002:a5d:64e4:: with SMTP id g4mr12745262wri.366.1620398621603; 
- Fri, 07 May 2021 07:43:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzq+8a9eTWd9LLo0lKbFnav+n6uJJCUttMkNpC1ladPYpd+vHRsfQgfmgc2chAdH48leiYagg==
-X-Received: by 2002:a5d:64e4:: with SMTP id g4mr12745233wri.366.1620398621414; 
- Fri, 07 May 2021 07:43:41 -0700 (PDT)
+ bh=2L5mr2b7hhw5EkGSTWl47QqXXqBmVyFmMYU/e54ubTE=;
+ b=b35c0JsA5r4nZcrGhLn86snbtb9npBi4hL3KJTQf+BmH9F56USczddbjgSVALDY20y
+ khU2xTcdBBHATM2XngwqD7CVHSgmLjAhx+7Is4xw3X19XrmJ6dAvlmWYcftYemLBpns1
+ pzQxP7Cn1dVVNPUTJ+mdsAWez4w6GW528wWWTuMt+eJcDdGom3sa8DF7edQ6F5g/4Bmv
+ j4DUVxssyzx3ND9SfFql1isBjnNkVdCNF8AeWzV11R+op+rFSv8yrPAJilrSlsCeBtaD
+ rmohBfg46RGSVoU1ltYSm2/uztFH6GAxPxoiAU1DwK96ZKGb62Hdq4rh3DiigtIEQJSJ
+ 2wLw==
+X-Gm-Message-State: AOAM5311y0mUJLI+v5MtVgyquxQQ8MSrGitu7g0s1X5ArgtNWd8OKYKu
+ jMY7GOPEyBCGZkmRFCx4MbdaeT55N1QWF/vz2se0g9+UVqxXMRp18LPSiIGtTutVjd/wNjEeOi2
+ dB8R08zrUAQ46jrFTFethfJuZUzcmHIOeF2NHrV7azrOqeUmY1jGWSTs8CZu7Ur5u
+X-Received: by 2002:a5d:6682:: with SMTP id l2mr12867725wru.15.1620398626421; 
+ Fri, 07 May 2021 07:43:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy9DMJA8+x/NYI0yJJsbEcLCTwgBtgsQmZh7JNyu0BIiNXSApGIllKxUmvSifBrFhmtnMgQDw==
+X-Received: by 2002:a5d:6682:: with SMTP id l2mr12867692wru.15.1620398626166; 
+ Fri, 07 May 2021 07:43:46 -0700 (PDT)
 Received: from localhost.localdomain
  (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr. [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id i2sm10411140wro.0.2021.05.07.07.43.40
+ by smtp.gmail.com with ESMTPSA id f4sm9261707wrz.33.2021.05.07.07.43.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 07:43:41 -0700 (PDT)
+ Fri, 07 May 2021 07:43:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/17] linux-user: Replace alloca() by g_try_new() in
- ppoll() syscall
-Date: Fri,  7 May 2021 16:43:03 +0200
-Message-Id: <20210507144315.1994337-6-philmd@redhat.com>
+Subject: [PATCH v3 06/17] linux-user: Replace alloca() by g_try_malloc() in
+ setsockopt() syscall
+Date: Fri,  7 May 2021 16:43:04 +0200
+Message-Id: <20210507144315.1994337-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210507144315.1994337-1-philmd@redhat.com>
 References: <20210507144315.1994337-1-philmd@redhat.com>
@@ -110,38 +110,67 @@ Use autofree heap allocation instead (returning ENOMEM on failure).
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- linux-user/syscall.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ linux-user/syscall.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 2fa6b89b3de..0bf4273fc7a 100644
+index 0bf4273fc7a..a263aea85ff 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -1605,11 +1605,10 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+@@ -2191,7 +2191,6 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
  {
-     struct target_pollfd *target_pfd;
-     unsigned int nfds = arg2;
--    struct pollfd *pfd;
-+    g_autofree struct pollfd *pfd = NULL;
-     unsigned int i;
      abi_long ret;
+     int val;
+-    struct ip_mreqn *ip_mreq;
+     struct ip_mreq_source *ip_mreq_source;
  
--    pfd = NULL;
-     target_pfd = NULL;
-     if (nfds) {
-         if (nfds > (INT_MAX / sizeof(struct target_pollfd))) {
-@@ -1621,7 +1620,10 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
-             return -TARGET_EFAULT;
-         }
+     switch(level) {
+@@ -2235,15 +2234,21 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+             break;
+         case IP_ADD_MEMBERSHIP:
+         case IP_DROP_MEMBERSHIP:
++        {
++            g_autofree struct ip_mreqn *ip_mreq = NULL;
++
+             if (optlen < sizeof (struct target_ip_mreq) ||
+                 optlen > sizeof (struct target_ip_mreqn))
+                 return -TARGET_EINVAL;
  
--        pfd = alloca(sizeof(struct pollfd) * nfds);
-+        pfd = g_try_new(struct pollfd, nfds);
-+        if (!pfd) {
-+            return -TARGET_ENOMEM;
+-            ip_mreq = (struct ip_mreqn *) alloca(optlen);
++            ip_mreq = g_try_malloc(optlen);
++            if (!ip_mreq) {
++                return -TARGET_ENOMEM;
++            }
+             target_to_host_ip_mreq(ip_mreq, optval_addr, optlen);
+             ret = get_errno(setsockopt(sockfd, level, optname, ip_mreq, optlen));
+             break;
+-
 +        }
-         for (i = 0; i < nfds; i++) {
-             pfd[i].fd = tswap32(target_pfd[i].fd);
-             pfd[i].events = tswap16(target_pfd[i].events);
+         case IP_BLOCK_SOURCE:
+         case IP_UNBLOCK_SOURCE:
+         case IP_ADD_SOURCE_MEMBERSHIP:
+@@ -2492,7 +2497,8 @@ set_timeout:
+         }
+ 	case TARGET_SO_BINDTODEVICE:
+ 	{
+-		char *dev_ifname, *addr_ifname;
++                char *dev_ifname;
++                g_autofree char *addr_ifname = NULL;
+ 
+ 		if (optlen > IFNAMSIZ - 1) {
+ 		    optlen = IFNAMSIZ - 1;
+@@ -2502,7 +2508,10 @@ set_timeout:
+ 		    return -TARGET_EFAULT;
+ 		}
+ 		optname = SO_BINDTODEVICE;
+-		addr_ifname = alloca(IFNAMSIZ);
++                addr_ifname = g_try_malloc(IFNAMSIZ);
++                if (!addr_ifname) {
++                    return -TARGET_ENOMEM;
++                }
+ 		memcpy(addr_ifname, dev_ifname, optlen);
+ 		addr_ifname[optlen] = 0;
+ 		ret = get_errno(setsockopt(sockfd, SOL_SOCKET, optname,
 -- 
 2.26.3
 
