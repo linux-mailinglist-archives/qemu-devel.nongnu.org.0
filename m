@@ -2,66 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A43C37658E
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:51:03 +0200 (CEST)
-Received: from localhost ([::1]:53922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C153765AF
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 15:00:01 +0200 (CEST)
+Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lezwb-0002xH-Ut
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:51:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58938)
+	id 1lf05H-0003Qn-Vk
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 09:00:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lezhr-0005YP-GT
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:35:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37854)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lezhp-0005NN-BV
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:35:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lezhm-0002Xp-0X
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 12:35:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EE35B2E8195
- for <qemu-devel@nongnu.org>; Fri,  7 May 2021 12:35:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1leznl-00033T-TD
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:41:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25482)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lezni-0008R2-B2
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:41:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620391307;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aEC0GJ+RbrA4ocwZKDMLvkYgxzvkKLL/vZGNYXimB3E=;
+ b=dIAGz8yef3PMWNWxoC4rlNvxDe+jCNysGsJMJNpxAcX89sRaiq5v7PBbBOgHzhN1Ce8XiX
+ twchO+lzr9JwwqLt0oCTFBQRCoo/Pd0Dlm2PLRNVQE1/vc7zErqkFeXNLTZBqaTvgqD8c4
+ clsbrbQngi2Zx91o6JIotQ0inQf4aLk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-10-GZpwXu0qOeiV4l3r2jKPpw-1; Fri, 07 May 2021 08:41:44 -0400
+X-MC-Unique: GZpwXu0qOeiV4l3r2jKPpw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ w21-20020a7bc1150000b029014a850581efso2197152wmi.6
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 05:41:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aEC0GJ+RbrA4ocwZKDMLvkYgxzvkKLL/vZGNYXimB3E=;
+ b=M/bq8TpGamXuXmjiK5U645Cg17YvslSn3lkvDAOLVDFXy1bd9yICAulIkOJiV6/qmf
+ 8ictOogjfHtkRt3W0WdpyUjctDQRopy55aFvg4SgMS+83ohuHb8FQKQwuXrcFj7M7bgM
+ yVITLdyYkzVEvzIQFgzIKxqcZC7HJ4JP0R2y/d3Gb3fBA6icVuk3g27PkjlbnCsKtmPo
+ FTVu8V7WeLMxBJehkCKnd1begIq/TsdZM5PRvkiQSkQDjNT3k7XGDtPKVgIEe9Z4e1Gp
+ PdXrTNhnoGZGCnnVCKyO70TStk/dO03K1LszYHMOnKa4EfEwBiWG2cjSHIiMggQDZnER
+ h9wg==
+X-Gm-Message-State: AOAM532SivE0UqA7cuwxGVb9279+lOHMaoUDO3jHiaoPP/z/oySb/6m8
+ 8JJ7FDb2Knw5QN99BHjzTw4EG/DFGmywJ9nR0hhHN3LPzLSkTPk0mjNPXgqfee8/LZgKMYPI1Xc
+ /soe6qNx50xQol4Zpm+wk76/2mnE4kcPUamfLfK6Q9Ns8SXA8MWGWnpDoAa6/m1ZROfo=
+X-Received: by 2002:a5d:40c4:: with SMTP id b4mr12341097wrq.307.1620391302665; 
+ Fri, 07 May 2021 05:41:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTGIfq005pB2s3BnzzbxNr/A4b+s51L8rPxylubt3AFNTui3RL8wN5VqO6I+bSEsufdmqG0Q==
+X-Received: by 2002:a5d:40c4:: with SMTP id b4mr12341061wrq.307.1620391302310; 
+ Fri, 07 May 2021 05:41:42 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id v13sm8547261wrt.65.2021.05.07.05.41.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 May 2021 05:41:41 -0700 (PDT)
+Subject: Re: [PULL 00/10] Gitlab-CI, qtest, moxie removal and misc patches
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20210503104456.1036472-1-thuth@redhat.com>
+ <CAFEAcA8k1DnOFT+5pjQ4ytene3asVDKB7TUOZgGhucTp_ypz2g@mail.gmail.com>
+ <66206f67-f3c8-eb1c-fd5d-8c7555fe5316@redhat.com>
+ <CAFEAcA_9o+h29L1Y0BVFhg9JbQbo6A=MgGwCaH_=vt3OhcERBw@mail.gmail.com>
+ <c748372a-d585-7777-9dda-9faf33e97e30@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d5bf0064-052e-a0c7-cc17-72db815949e2@redhat.com>
+Date: Fri, 7 May 2021 14:41:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 May 2021 12:30:28 -0000
-From: Eric Blake <1884831@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: eblake th-huth tobias-hunger
-X-Launchpad-Bug-Reporter: TobiasHunger (tobias-hunger)
-X-Launchpad-Bug-Modifier: Eric Blake (eblake)
-References: <159294358125.13789.3860026407311199131.malonedeb@wampee.canonical.com>
-Message-Id: <162039062901.6177.17779935471683066697.malone@wampee.canonical.com>
-Subject: [Bug 1884831] Re: qemu-nbd fails to discard bigger chunks
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 0fa966cfd14c1b5d6debc489ccf0317cfe312016
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <c748372a-d585-7777-9dda-9faf33e97e30@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,48 +104,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884831 <1884831@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 890cbccb0 included in upstream release 5.1.0.
+On 07/05/21 11:45, Thomas Huth wrote:
+> 
+> 
+> diff --git a/Makefile b/Makefile
+> index bcbbec71a1..3088502329 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -85,7 +85,8 @@ x := $(shell rm -rf meson-private meson-info meson-logs)
+>   endif
+> 
+>   # 1. ensure config-host.mak is up-to-date
+> -config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/pc-bios 
+> $(SRC_PATH)/VERSION
+> +config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/pc-bios 
+> $(SRC_PATH)/VERSION \
+> +                $(SRC_PATH)/default-configs/targets
+>          @echo config-host.mak is out-of-date, running configure
+>          @if test -f meson-private/coredata.dat; then \
+>            ./config.status --skip-meson; \
+> 
+> I.e. re-run configure if somethings in default-configs/targets changed.
+> Does that look sane?
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+I am not sure if using a directory is reliable (it's pre-existing for
+pc-bios).  However you probably can use
 
--- =
+# currently in tests/Makefile.include, move it to toplevel Makefile
+TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
+config-host.mak: $(SRC_PATH)/configure $(TARGETS:%=default-configs/targets/%)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884831
+And then if a file goes missing it will trigger the rebuild of config-host.mak.
 
-Title:
-  qemu-nbd fails to discard bigger chunks
+Paolo
 
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  This report is moved from systemd to here:
-  https://github.com/systemd/systemd/issues/16242
-
-  A qemu-nbd device reports that it can discard a lot of bytes:
-
-  cat /sys/block/nbd0/queue/discard_max_bytes
-  2199023255040
-
-  And indeed, discard works with small images:
-
-  $ qemu-img create -f qcow2 /tmp/image.img 2M
-  $ sudo qemu-nbd --connect=3D/dev/nbd0 /tmp/image.img
-  $ sudo blkdiscard /dev/nbd0
-
-  but not for bigger ones (still smaller than discard_max_bytes):
-
-  $ qemu-img create -f qcow2 /tmp/image.img 5G
-  $ sudo qemu-nbd --connect=3D/dev/nbd0 /tmp/image.img
-  $ sudo blkdiscard /dev/nbd0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884831/+subscriptions
 
