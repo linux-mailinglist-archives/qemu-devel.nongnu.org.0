@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5207375F8C
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 06:46:51 +0200 (CEST)
-Received: from localhost ([::1]:44404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CEF375F8E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 06:48:12 +0200 (CEST)
+Received: from localhost ([::1]:47620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lesO2-0003yq-WC
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 00:46:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59258)
+	id 1lesPL-0005Gq-Jh
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 00:48:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lesMx-000335-MJ
- for qemu-devel@nongnu.org; Fri, 07 May 2021 00:45:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37092)
+ id 1lesMz-00033W-3H
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 00:45:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lesMv-0001WA-Ok
- for qemu-devel@nongnu.org; Fri, 07 May 2021 00:45:43 -0400
+ id 1lesMw-0001Wa-RG
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 00:45:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lesMu-0003vP-D4
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 04:45:40 +0000
+ id 1lesMv-0003vH-2c
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 04:45:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 616462E8186
- for <qemu-devel@nongnu.org>; Fri,  7 May 2021 04:45:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 10C172E8135
+ for <qemu-devel@nongnu.org>; Fri,  7 May 2021 04:45:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 May 2021 04:39:57 -0000
-From: Thomas Huth <1888417@bugs.launchpad.net>
+Date: Fri, 07 May 2021 04:40:30 -0000
+From: Thomas Huth <1888303@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: force-stop hangs nvidia pci reboot
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lightninjay th-huth
-X-Launchpad-Bug-Reporter: Jason (lightninjay)
+X-Launchpad-Bug-Commenters: gordanb th-huth
+X-Launchpad-Bug-Reporter: Gordan Bobic (gordanb)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159535256686.7592.12361820079263274205.malonedeb@wampee.canonical.com>
-Message-Id: <162036239805.32626.8951796255657523099.malone@chaenomeles.canonical.com>
-Subject: [Bug 1888417] Re: Latest QEMU git build on Arch linux causes PCI
- Passthrough host to hang on guest reboot.
+References: <159527271737.12536.2281351511750409436.malonedeb@gac.canonical.com>
+Message-Id: <162036243028.6829.16976520031644970728.malone@wampee.canonical.com>
+Subject: [Bug 1888303] Re: Intermittent buggines with user mode emulation of
+ x86-64 on aarch64
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 3e43717e66d0701e6bd08a021fa4f46a8d4b30ef
+X-Launchpad-Hash: 58230e1dbebdb4f55668e293200974755b3534f8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888417 <1888417@bugs.launchpad.net>
+Reply-To: Bug 1888303 <1888303@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -112,29 +111,48 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888417
+https://bugs.launchpad.net/bugs/1888303
 
 Title:
-  Latest QEMU git build on Arch linux causes PCI Passthrough host to
-  hang on guest reboot.
+  Intermittent buggines with user mode emulation of x86-64 on aarch64
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Current Arch linux release, up-to-date as of 7/21/2020.
+  QEMU Version: 5.0.0
+  ./configure --target-list=3Dx86_64-linux-user --enable-user --prefix=3D/o=
+pt/qemu --static
 
-  Running a windows 7 virtual machine (also happens with windows 10,
-  possibly more OSes), with an nvidia GTX 1060 passthrough, if the VM is
-  attempted to be restarted, either through the guest interface, or by
-  libvirt's gui interface "Virtual Machine Manager", it hangs in a
-  "paused" state once the VM shutsdown, and just before the reboot can
-  take place.  A force-stop of the VM allows the VM to be properly
-  booted without any disk error checks, alluding to a clean shutdown,
-  but failed reboot.  The VM can be properly shutdown using the guests
-  shutdown function, or the libvirt manager shutdown, without any hangs.
-  Reverting to Arch stable build QEMU 5.0.0-7 fixes the issue.
+  Testing using node_exporter from pmm-client-1.17.4-1.el8.x86_64.rpm
+
+  aarch64 system is running CentOS 8 with a mainline 5.4.52 kernel built
+  for 4KB memory pages.
+
+  On aarch64 machine, invoke:
+
+  ./qemu-x86_64-static /usr/local/percona/pmm-
+  client/node_exporter.x86_64 -web.listen-address=3D192.168.0.10:42000
+  -web.auth-file=3D/usr/local/percona/pmm-client/pmm.yml -web.ssl-key-
+  file=3D/usr/local/percona/pmm-client/server.key -web.ssl-cert-
+  file=3D/usr/local/percona/pmm-client/server.crt
+  -collectors.enabled=3Ddiskstats,filefd,filesystem,loadavg,meminfo,netdev,=
+netstat,stat,time,uname,vmstat,meminfo_numa,textfile
+
+  Most of the time it will outright segfault within a few seconds,
+  seemingly when the prometheus server polls for data.
+
+  But, about once every 10 times, it will not sefault and will continue
+  working just fine forever.
+
+  The dynamically linked version of qemu (built without --static) always
+  works without segfaulting, but it just doesn't work, the prometheus
+  server gets no data from it. Again, once in a while it will work, but
+  even when it doesn't work it won't segfault.
+
+  This vaguely feels like a memory alignment issue somewhere, but my
+  debug-fu is not quite strong enough to attack the problem.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888417/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1888303/+subscriptions
 
