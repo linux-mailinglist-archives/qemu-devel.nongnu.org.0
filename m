@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E583376621
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 15:26:44 +0200 (CEST)
-Received: from localhost ([::1]:54486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A3937661F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 15:26:14 +0200 (CEST)
+Received: from localhost ([::1]:51446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf0V9-0002ID-Dr
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 09:26:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60720)
+	id 1lf0Uf-0000z5-72
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 09:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangjunqiang@iscas.ac.cn>)
- id 1levgX-0004aF-HI; Fri, 07 May 2021 04:18:09 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25]:50032 helo=cstnet.cn)
+ id 1levgY-0004ac-Nr; Fri, 07 May 2021 04:18:10 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25]:50028 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <wangjunqiang@iscas.ac.cn>)
- id 1levgS-0005jm-C2; Fri, 07 May 2021 04:18:09 -0400
+ id 1levgS-0005jn-JQ; Fri, 07 May 2021 04:18:10 -0400
 Received: from localhost.localdomain (unknown [121.232.13.213])
- by APP-05 (Coremail) with SMTP id zQCowAB3fSnh9pRgTQ5HAQ--.1834S3;
- Fri, 07 May 2021 16:14:26 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowAB3fSnh9pRgTQ5HAQ--.1834S4;
+ Fri, 07 May 2021 16:14:27 +0800 (CST)
 From: wangjunqiang <wangjunqiang@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH 1/5] target/riscv: Add Nuclei CSR and Update interrupt
- handling
-Date: Fri,  7 May 2021 16:16:50 +0800
-Message-Id: <20210507081654.11056-2-wangjunqiang@iscas.ac.cn>
+Subject: [RFC PATCH 2/5] hw/intc: Add Nuclei ECLIC device
+Date: Fri,  7 May 2021 16:16:51 +0800
+Message-Id: <20210507081654.11056-3-wangjunqiang@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210507081654.11056-1-wangjunqiang@iscas.ac.cn>
 References: <20210507081654.11056-1-wangjunqiang@iscas.ac.cn>
-X-CM-TRANSID: zQCowAB3fSnh9pRgTQ5HAQ--.1834S3
-X-Coremail-Antispam: 1UD129KBjvAXoWfWFyftr4rCrW8uF1UXw15twb_yoW5GrW7Ao
- WfJF4SvrsYywnakrZ29r12qr1jgFn8AwsavF1qkrWfWwn7Zr4rWF4Ut3Zava43trsIg3yU
- Jan2gF9xtFykAryfn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjp_UUUYZ7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20EY4v20xva
- j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r18M28IrcIa0x
- kI8VCY1x0267AKxVWUCVW8JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
+X-CM-TRANSID: zQCowAB3fSnh9pRgTQ5HAQ--.1834S4
+X-Coremail-Antispam: 1UD129KBjvAXoWfJw13tFykJrykZrW3Gry8Zrb_yoW8CFyUCo
+ WfAr4DJ395Xr4UXrsakF1UGry7WF1ayFWYqFs7Wr4qyF18ZwnxX3yDKa43ZF4SvrZ8KrWx
+ ZryagFs3Xrs3JF1fn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjp_UUUYZ7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
+ j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r15M28IrcIa0x
+ kI8VCY1x0267AKxVW8JVW5JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
  jcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJw
  A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
  0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
@@ -46,9 +45,9 @@ X-Coremail-Antispam: 1UD129KBjvAXoWfWFyftr4rCrW8uF1UXw15twb_yoW5GrW7Ao
  0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMI
  IF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
  0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87
- Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUea0PDUUUU
+ Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU1yCJDUUUU
 X-Originating-IP: [121.232.13.213]
-X-CM-SenderInfo: pzdqwy5xqtxt1qj6x2xfdvhtffof0/1tbiBgcOAF0TfNHfbAAAsf
+X-CM-SenderInfo: pzdqwy5xqtxt1qj6x2xfdvhtffof0/1tbiBgcOAF0TfNHfbQAAse
 Received-SPF: none client-ip=159.226.251.25;
  envelope-from=wangjunqiang@iscas.ac.cn; helo=cstnet.cn
 X-Spam_score_int: -31
@@ -76,865 +75,608 @@ Cc: liweiwei@iscas.ac.cn, wangjunqiang <wangjunqiang@iscas.ac.cn>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds Nuclei CSR support for ECLIC and update the
-related interrupt handling.
+This patch provides an implementation of Nuclei ECLIC Device.
+Nuclei processor core have been equipped with an Enhanced Core Local
+Interrupt Controller (ECLIC), which is optimized based on the RISC-V
+standard CLIC, to manage all interrupt sources.
 
-https://doc.nucleisys.com/nuclei_spec/isa/core_csr.html
+https://doc.nucleisys.com/nuclei_spec/isa/eclic.html
 ---
- target/riscv/cpu.c                      |  25 +-
- target/riscv/cpu.h                      |  42 ++-
- target/riscv/cpu_bits.h                 |  37 +++
- target/riscv/cpu_helper.c               |  80 +++++-
- target/riscv/csr.c                      | 347 +++++++++++++++++++++++-
- target/riscv/insn_trans/trans_rvi.c.inc |  16 +-
- target/riscv/op_helper.c                |  14 +
- 7 files changed, 552 insertions(+), 9 deletions(-)
+ hw/intc/Kconfig                |   3 +
+ hw/intc/meson.build            |   1 +
+ hw/intc/nuclei_eclic.c         | 437 +++++++++++++++++++++++++++++++++
+ include/hw/intc/nuclei_eclic.h | 115 +++++++++
+ 4 files changed, 556 insertions(+)
+ create mode 100644 hw/intc/nuclei_eclic.c
+ create mode 100644 include/hw/intc/nuclei_eclic.h
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 7d6ed80f6b..b2a96effbc 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -173,6 +173,16 @@ static void rv64_sifive_e_cpu_init(Object *obj)
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
- }
-+
-+static void rv64imafdcu_nuclei_cpu_init(Object *obj)
-+{
-+    CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-+    set_priv_version(env, PRIV_VERSION_1_10_0);
-+    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
-+    set_resetvec(env, DEFAULT_RSTVEC);
-+    set_feature(env, RISCV_FEATURE_PMP);
-+}
- #else
- static void rv32_base_cpu_init(Object *obj)
- {
-@@ -212,6 +222,16 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
-     set_resetvec(env, DEFAULT_RSTVEC);
-     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
- }
-+
-+static void rv32imafdcu_nuclei_cpu_init(Object *obj)
-+{
-+    CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-+    set_priv_version(env, PRIV_VERSION_1_10_0);
-+    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
-+    set_resetvec(env, DEFAULT_RSTVEC);
-+    set_feature(env, RISCV_FEATURE_PMP);
-+}
- #endif
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index f4694088a4..eab30f6ffd 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -73,3 +73,6 @@ config GOLDFISH_PIC
  
- static ObjectClass *riscv_cpu_class_by_name(const char *cpu_model)
-@@ -331,7 +351,7 @@ static bool riscv_cpu_has_work(CPUState *cs)
-      * Definition of the WFI instruction requires it to ignore the privilege
-      * mode and delegation registers, but respect individual enables
-      */
--    return (env->mip & env->mie) != 0;
-+    return ((env->mip & env->mie) != 0  || (env->exccode != -1));
- #else
-     return true;
- #endif
-@@ -356,6 +376,7 @@ static void riscv_cpu_reset(DeviceState *dev)
-     env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
-     env->mcause = 0;
-     env->pc = env->resetvec;
-+    env->exccode = -1;
-     env->two_stage_lookup = false;
- #endif
-     cs->exception_index = EXCP_NONE;
-@@ -704,10 +725,12 @@ static const TypeInfo riscv_cpu_type_infos[] = {
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_NUCLEI_N307FD,    rv32imafdcu_nuclei_cpu_init),
- #elif defined(TARGET_RISCV64)
-     DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_NUCLEI_NX600FD,    rv64imafdcu_nuclei_cpu_init),
- #endif
- };
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0a33d387ba..1d3a1986a6 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -33,6 +33,7 @@
- #define RISCV_CPU_TYPE_SUFFIX "-" TYPE_RISCV_CPU
- #define RISCV_CPU_TYPE_NAME(name) (name RISCV_CPU_TYPE_SUFFIX)
- #define CPU_RESOLVING_TYPE TYPE_RISCV_CPU
-+#define CPU_INTERRUPT_ECLIC CPU_INTERRUPT_TGT_EXT_0
- 
- #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
- #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
-@@ -43,6 +44,8 @@
- #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
- #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
- #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
-+#define TYPE_RISCV_CPU_NUCLEI_N307FD    RISCV_CPU_TYPE_NAME("nuclei-n307fd")
-+#define TYPE_RISCV_CPU_NUCLEI_NX600FD    RISCV_CPU_TYPE_NAME("nuclei-nx600fd")
- 
- #if defined(TARGET_RISCV32)
- # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE32
-@@ -80,7 +83,8 @@
- enum {
-     RISCV_FEATURE_MMU,
-     RISCV_FEATURE_PMP,
--    RISCV_FEATURE_MISA
-+    RISCV_FEATURE_MISA,
-+    RISCV_FEATURE_ECLIC
- };
- 
- #define PRIV_VERSION_1_10_0 0x00011000
-@@ -174,10 +178,34 @@ struct CPURISCVState {
-     target_ulong scause;
- 
-     target_ulong mtvec;
-+    target_ulong mtvt;   /* eclic */
-     target_ulong mepc;
-     target_ulong mcause;
-     target_ulong mtval;  /* since: priv-1.10.0 */
- 
-+    target_ulong mnxti; /* eclic */
-+    target_ulong mintstatus; /* eclic */
-+    target_ulong mscratchcsw;
-+    target_ulong mscratchcswl;
+ config M68K_IRQC
+     bool
 +
-+    /* NMI  CSR*/
-+    target_ulong mnvec;
-+    target_ulong msubm;
-+    target_ulong mdcause;
-+    target_ulong mmisc_ctl;
-+    target_ulong msavestatus;
-+    target_ulong msaveepc1;
-+    target_ulong msavecause1;
-+    target_ulong msaveepc2;
-+    target_ulong msavecause2;
-+    target_ulong msavedcause1;
-+    target_ulong msavedcause2;
-+    target_ulong pushmsubm;
-+    target_ulong mtvt2;
-+    target_ulong jalmnxti;
-+    target_ulong pushmcause;
-+    target_ulong pushmepc;
++config NUCLEI_ECLIC
++    bool
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index 1c299039f6..7577ba69d2 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -50,6 +50,7 @@ specific_ss.add(when: 'CONFIG_S390_FLIC_KVM', if_true: files('s390_flic_kvm.c'))
+ specific_ss.add(when: 'CONFIG_SH_INTC', if_true: files('sh_intc.c'))
+ specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.c'))
+ specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'))
++specific_ss.add(when: 'CONFIG_NUCLEI_ECLIC', if_true: files('nuclei_eclic.c'))
+ specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
+ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
+ 		if_true: files('xics_kvm.c'))
+diff --git a/hw/intc/nuclei_eclic.c b/hw/intc/nuclei_eclic.c
+new file mode 100644
+index 0000000000..52de83cb1d
+--- /dev/null
++++ b/hw/intc/nuclei_eclic.c
+@@ -0,0 +1,437 @@
++/*
++ * NUCLEI ECLIC(Enhanced Core Local Interrupt Controller)
++ *
++ * Copyright (c) 2020 Gao ZhiYuan <alapha23@gmail.com>
++ * Copyright (c) 2020-2021 PLCT Lab.All rights reserved.
++ *
++ * This provides a parameterizable interrupt controller based on NucLei's ECLIC.
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 3 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
 +
-     /* Hypervisor CSRs */
-     target_ulong hstatus;
-     target_ulong hedeleg;
-@@ -228,6 +256,9 @@ struct CPURISCVState {
-     uint64_t mtohost;
-     uint64_t timecmp;
- 
-+    /*nuclei timer comparators */
-+    uint64_t mtimecmp;
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++#include "qemu/error-report.h"
++#include "hw/sysbus.h"
++#include "hw/pci/msi.h"
++#include "hw/boards.h"
++#include "hw/qdev-properties.h"
++#include "target/riscv/cpu.h"
++#include "sysemu/sysemu.h"
++#include "hw/intc/nuclei_eclic.h"
++#include "qapi/error.h"
 +
-     /* physical memory protection */
-     pmp_table_t pmp_state;
- 
-@@ -243,6 +274,13 @@ struct CPURISCVState {
- 
-     /* Fields from here on are preserved across CPU reset. */
-     QEMUTimer *timer; /* Internal timer */
++#define RISCV_DEBUG_ECLIC 0
 +
-+    QEMUTimer *mtimer; /* Nuclei Internal timer */
-+    void *eclic;
-+    uint32_t exccode;    /* irq id: 0~11  shv: 12 */
-+    uint32_t eclic_flag;
-+
-+    bool irq_pending;
- };
- 
- OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
-@@ -364,6 +402,8 @@ void riscv_cpu_list(void);
- void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
- int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts);
- uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
-+void riscv_cpu_eclic_clean_pending(void *eclic, int irq);
-+void riscv_cpu_eclic_get_next_interrupt(void *eclic);
- #define BOOL_TO_MASK(x) (-!!(x)) /* helper for riscv_cpu_update_mip value */
- void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
-                              uint32_t arg);
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index caf4599207..24ed7a99e1 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -149,6 +149,7 @@
- #define CSR_MIE             0x304
- #define CSR_MTVEC           0x305
- #define CSR_MCOUNTEREN      0x306
-+#define CSR_MTVT      0x307 /* customized */
- 
- /* 32-bit only */
- #define CSR_MSTATUSH        0x310
-@@ -165,6 +166,10 @@
- #define CSR_MCAUSE          0x342
- #define CSR_MTVAL           0x343
- #define CSR_MIP             0x344
-+#define CSR_MNXTI             0x345     /* customized */
-+#define CSR_MINTSTATUS        0x346     /* customized */
-+#define CSR_MSCRATCHCSW        0x348    /* customized */
-+#define CSR_MSCRATCHCSWL        0x349   /* customized */
- 
- /* Legacy Machine Trap Handling (priv v1.9.1) */
- #define CSR_MBADADDR        0x343
-@@ -265,6 +270,24 @@
- #define CSR_DPC             0x7b1
- #define CSR_DSCRATCH        0x7b2
- 
-+/* Nuclei Customized Registers*/
-+#define CSR_MNVEC   0x07c3
-+#define CSR_MSUBM  0x07c4
-+#define CSR_MDCAUSE  0x07c9
-+#define CSR_MMISC_CTL           0x07d0
-+#define CSR_MSAVESTATUS     0x07d6
-+#define CSR_MSAVEEPC1     0x07d7
-+#define CSR_MSAVECAUSE1     0x07d8
-+#define CSR_MSAVEEPC2     0x07d9
-+#define CSR_MSAVECAUSE2     0x07da
-+#define CSR_MSAVEDCAUSE1     0x07db
-+#define CSR_MSAVEDCAUSE2     0x07dc
-+#define CSR_PUSHMSUBM     0x07eb
-+#define CSR_MTVT2     0x07ec
-+#define CSR_JALMNXTI     0x07ed
-+#define CSR_PUSHMCAUSE     0x07ee
-+#define CSR_PUSHMEPC     0x07ef
-+
- /* Performance Counters */
- #define CSR_MHPMCOUNTER3    0xb03
- #define CSR_MHPMCOUNTER4    0xb04
-@@ -549,6 +572,7 @@
- #define RISCV_EXCP_VIRT_INSTRUCTION_FAULT        0x16
- #define RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT  0x17
- 
-+#define RISCV_EXCP_INT_ECLIC                0x40000000
- #define RISCV_EXCP_INT_FLAG                0x80000000
- #define RISCV_EXCP_INT_MASK                0x7fffffff
- 
-@@ -592,4 +616,17 @@
- #define MIE_UTIE                           (1 << IRQ_U_TIMER)
- #define MIE_SSIE                           (1 << IRQ_S_SOFT)
- #define MIE_USIE                           (1 << IRQ_U_SOFT)
-+
-+/* mintstatus */
-+#define MINTSTATUS_MIL                     0xff000000 /* mil[31:24] */
-+#define MINTSTATUS_UIL                     0x000000ff /* uil[7:0] */
-+
-+/* mcause */
-+#define MCAUSE_INTERRUPT             0x80000000 /* INTERRUPT  31*/
-+#define MCAUSE_MINHV                       0x40000000 /* minhv  30*/
-+#define MCAUSE_MPP                         0x30000000 /* mpp[29:28] */
-+#define MCAUSE_MPIE                        0x08000000 /* mpie 27*/
-+#define MCAUSE_MPIL                        0x00ff0000 /* mpil[23:16] */
-+#define MCAUSE_EXCCODE               0x00000fff /* exccode[11:0] */
-+
- #endif
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 21c54ef561..e481e1b216 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -36,6 +36,22 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
- }
- 
- #ifndef CONFIG_USER_ONLY
-+static int riscv_cpu_local_irq_mode_enabled(CPURISCVState *env, int mode)
++static void riscv_cpu_eclic_interrupt(RISCVCPU *cpu, int exccode)
 +{
-+    switch (mode) {
-+    case PRV_M:
-+            return env->priv < PRV_M ||
-+                        (env->priv == PRV_M &&
-+                        get_field(env->mstatus, MSTATUS_MIE));
-+    case PRV_S:
-+            return env->priv < PRV_S ||
-+                        (env->priv == PRV_S &&
-+                         get_field(env->mstatus, MSTATUS_SIE));
-+    default:
-+        return false;
-+    }
-+}
++    CPURISCVState *env = &cpu->env;
++    bool locked = false;
 +
- static int riscv_cpu_local_irq_pending(CPURISCVState *env)
- {
-     target_ulong irqs;
-@@ -90,6 +106,19 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-             return true;
-         }
-     }
++    env->exccode = exccode;
 +
-+    if (interrupt_request & CPU_INTERRUPT_ECLIC) {
-+        RISCVCPU *cpu = RISCV_CPU(cs);
-+        CPURISCVState *env = &cpu->env;
-+        int mode = PRV_M;
-+        int enabled = riscv_cpu_local_irq_mode_enabled(env, mode);
-+        if (enabled) {
-+            cs->exception_index = RISCV_EXCP_INT_ECLIC |  env->exccode;
-+            cs->interrupt_request &= ~CPU_INTERRUPT_ECLIC;
-+            riscv_cpu_do_interrupt(cs);
-+            return true;
-+        }
-+    }
- #endif
-     return false;
- }
-@@ -884,6 +913,30 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
- #endif
- }
- 
-+#if !defined(CONFIG_USER_ONLY)
-+static target_ulong riscv_intr_pc(CPURISCVState *env, bool async,
-+                                        bool eclic_flag, int cause, bool mode)
-+{
-+    target_ulong newpc = 0;
-+    if (eclic_flag) {
-+        if (mode) {
-+            uint64_t vec_addr = (cause & 0x3FF) * 4 + env->mtvt;
-+            cpu_physical_memory_rw(vec_addr, &newpc,  4, 0);
-+        } else {
-+            if ((env->mtvt2 & 0x1) == 0) {
-+                    newpc = env->mtvec & 0xfffffffc;
-+                } else if ((env->mtvt2 & 0x1) == 1) {
-+                    newpc = env->mtvt2 & 0xfffffffc;
-+                }
-+            }
-+    } else {
-+            newpc = (env->mtvec >> 2 << 2) +
-+                ((async && (env->mtvec & 3) == 1) ? cause * 4 : 0);
-+    }
-+    return newpc;
-+}
-+#endif
-+
- /*
-  * Handle Traps
-  *
-@@ -892,8 +945,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-  */
- void riscv_cpu_do_interrupt(CPUState *cs)
- {
--#if !defined(CONFIG_USER_ONLY)
- 
-+#if !defined(CONFIG_USER_ONLY)
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
-     bool force_hs_execp = riscv_cpu_force_hs_excep_enabled(env);
-@@ -903,12 +956,15 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-      * so we mask off the MSB and separate into trap type and cause.
-      */
-     bool async = !!(cs->exception_index & RISCV_EXCP_INT_FLAG);
-+    bool eclic_flag = !!(cs->exception_index & RISCV_EXCP_INT_ECLIC);
-     target_ulong cause = cs->exception_index & RISCV_EXCP_INT_MASK;
-     target_ulong deleg = async ? env->mideleg : env->medeleg;
-     bool write_tval = false;
-     target_ulong tval = 0;
-     target_ulong htval = 0;
-     target_ulong mtval2 = 0;
-+    bool mode = false;
-+    uint8_t level = 0;
- 
-     if  (cause == RISCV_EXCP_SEMIHOST) {
-         if (env->priv >= PRV_S) {
-@@ -919,7 +975,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-         cause = RISCV_EXCP_BREAKPOINT;
-     }
- 
--    if (!async) {
-+    if (!(async || eclic_flag)) {
-         /* set tval to badaddr for traps with address information */
-         switch (cause) {
-         case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
-@@ -958,6 +1014,22 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-         }
-     }
- 
-+    if (eclic_flag) {
-+        mode = (cause >> 12) & 0x1;
-+        level = (cause >> 13) & 0xFF;
-+        cause &= 0x3ff;
-+
-+        cause |= get_field(env->mstatus, MSTATUS_MPP) << 28;
-+        cause |= get_field(env->mintstatus, MINTSTATUS_MIL) << 16;
-+        cause |= get_field(env->mstatus, MSTATUS_MPIE) << 27;
-+        cause = set_field(cause, MCAUSE_MPP, PRV_M);
-+        cause = set_field(cause, MCAUSE_INTERRUPT, 1);
-+
-+        env->mintstatus = set_field(env->mintstatus, MINTSTATUS_MIL, level);
-+    } else {
-+        cause = set_field(cause, MCAUSE_INTERRUPT, 0);
-+    }
-+
-     trace_riscv_trap(env->mhartid, async, cause, env->pc, tval,
-                      riscv_cpu_get_trap_name(cause, async));
- 
-@@ -1030,6 +1102,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-         riscv_cpu_set_mode(env, PRV_S);
-     } else {
-         /* handle the trap in M-mode */
-+
-         if (riscv_has_ext(env, RVH)) {
-             if (riscv_cpu_virt_enabled(env)) {
-                 riscv_cpu_swap_hypervisor_regs(env);
-@@ -1056,8 +1129,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-         env->mepc = env->pc;
-         env->mbadaddr = tval;
-         env->mtval2 = mtval2;
--        env->pc = (env->mtvec >> 2 << 2) +
--            ((async && (env->mtvec & 3) == 1) ? cause * 4 : 0);
-+        env->pc = riscv_intr_pc(env, async, eclic_flag, cause, mode);
-         riscv_cpu_set_mode(env, PRV_M);
-     }
- 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index d2585395bf..555b29d8f3 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -188,6 +188,11 @@ static int pmp(CPURISCVState *env, int csrno)
- {
-     return -!riscv_feature(env, RISCV_FEATURE_PMP);
- }
-+
-+static int eclic(CPURISCVState *env, int csrno)
-+{
-+    return !!env->eclic;
-+}
- #endif
- 
- /* User Floating-Point CSRs */
-@@ -623,11 +628,20 @@ static int read_mtvec(CPURISCVState *env, int csrno, target_ulong *val)
- 
- static int write_mtvec(CPURISCVState *env, int csrno, target_ulong val)
- {
-+    int mode1 = val & 0b11, mode2 = val & 0b111111;
-     /* bits [1:0] encode mode; 0 = direct, 1 = vectored, 2 >= reserved */
--    if ((val & 3) < 2) {
-+    if (mode1 < 2) {
-         env->mtvec = val;
-     } else {
--        qemu_log_mask(LOG_UNIMP, "CSR_MTVEC: reserved mode not supported\n");
-+        /* bits [5:0] encode extended modes currently used by the ECLIC */
-+        switch (mode2) {
-+        case 0b000011: /* ECLIC  mode */
-+            env->mtvec = val;
-+            break;
-+        default:
-+            qemu_log_mask(LOG_UNIMP,
-+                          "CSR_MTVEC: reserved mode not supported\n");
-+        }
-     }
-     return 0;
- }
-@@ -644,6 +658,300 @@ static int write_mcounteren(CPURISCVState *env, int csrno, target_ulong val)
-     return 0;
- }
- 
-+static int read_mtvt(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->mtvt;
-+    return 0;
-+}
-+
-+static int write_mtvt(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->mtvt = val;
-+    return 0;
-+}
-+
-+static int read_mnxti(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->mnxti;
-+    return 0;
-+}
-+
-+static int write_mnxti(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->mnxti = val;
-+    return 0;
-+}
-+
-+static int rmw_mnxti(CPURISCVState *env, int csrno, target_ulong *ret_value,
-+                target_ulong new_value, target_ulong write_mask)
-+{
-+    env->mstatus |= (new_value & write_mask) & 0b11111;
-+    if (ret_value) {
-+        *ret_value = 0;
-+    }
-+
-+    return 0;
-+}
-+
-+static int read_mintstatus(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->mintstatus;
-+    return 0;
-+}
-+
-+static int write_mintstatus(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->mintstatus = val;
-+    return 0;
-+}
-+
-+static int read_mscratchcsw(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->mscratchcsw;
-+    return 0;
-+}
-+
-+static int write_mscratchcsw(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->mscratchcsw = val;
-+    return 0;
-+}
-+
-+static int rmw_mscratchcsw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-+                target_ulong new_value, target_ulong write_mask)
-+{
-+    target_ulong t;
-+    if (get_field(env->mcause, MCAUSE_MPP) != PRV_M) {
-+        t = new_value;
-+        *ret_value = env->mscratch;
-+        env->mscratch = t;
-+    }else {
-+        *ret_value =  new_value;
-+    }
-+    return 0;
-+}
-+
-+static int read_mscratchcswl(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->mscratchcswl;
-+    return 0;
-+}
-+
-+static int write_mscratchcswl(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->mscratchcswl = val;
-+    return 0;
-+}
-+
-+static int rmw_mscratchcswl(CPURISCVState *env, int csrno,
-+                target_ulong *ret_value, target_ulong new_value,
-+                target_ulong write_mask)
-+{
-+    target_ulong t;
-+    if ((get_field(env->mcause, MCAUSE_MPIL) == 0) !=
-+         (get_field(env->mintstatus, MINTSTATUS_MIL) == 0)) {
-+        t = new_value;
-+        *ret_value = env->mscratch;
-+        env->mscratch = t;
-+    } else {
-+        *ret_value =  new_value;
-+    }
-+    return 0;
-+}
-+
-+static int read_mnvec(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->mnvec;
-+    return 0;
-+}
-+
-+static int write_mnvec(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->mnvec = val;
-+    return 0;
-+}
-+
-+static int read_msubm(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->msubm;
-+    return 0;
-+}
-+
-+static int write_msubm(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->msubm = val;
-+    return 0;
-+}
-+
-+static int read_mdcause(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->mdcause;
-+    return 0;
-+}
-+
-+static int write_mdcause(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->mdcause = val;
-+    return 0;
-+}
-+
-+static int read_mmisc_ctl(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->mmisc_ctl;
-+    return 0;
-+}
-+
-+static int write_mmisc_ctl(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->mmisc_ctl = val;
-+    return 0;
-+}
-+
-+static int read_msavestatus(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->msavestatus;
-+    return 0;
-+}
-+
-+static int write_msavestatus(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->msavestatus = val;
-+    return 0;
-+}
-+
-+static int read_msaveepc1(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->msaveepc1;
-+    return 0;
-+}
-+
-+static int write_msaveepc1(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->msaveepc1 = val;
-+    return 0;
-+}
-+
-+static int read_msavecause1(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->msavecause1;
-+    return 0;
-+}
-+
-+static int write_msavecause1(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->msavecause1 = val;
-+    return 0;
-+}
-+
-+static int read_msaveepc2(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->msaveepc2;
-+    return 0;
-+}
-+
-+static int write_msaveepc2(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->msaveepc2 = val;
-+    return 0;
-+}
-+
-+static int read_msavecause2(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->msavecause2;
-+    return 0;
-+}
-+
-+static int write_msavecause2(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->msavecause2 = val;
-+    return 0;
-+}
-+
-+static int read_msavedcause1(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->msavedcause1;
-+    return 0;
-+}
-+
-+static int write_msavedcause1(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->msavedcause1 = val;
-+    return 0;
-+}
-+
-+static int read_msavedcause2(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->msavedcause2;
-+    return 0;
-+}
-+
-+static int write_msavedcause2(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->msavedcause2 = val;
-+    return 0;
-+}
-+
-+static int rmw_pushmsubm(CPURISCVState *env, int csrno, target_ulong *ret_value,
-+                target_ulong new_value, target_ulong write_mask)
-+{
-+
-+    uint64_t notify_addr = new_value * 4 + env->gpr[2];
-+
-+    cpu_physical_memory_rw(notify_addr, &env->msubm,  4, 1);
-+
-+    return 0;
-+}
-+
-+static int read_mtvt2(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->mtvt2;
-+    return 0;
-+}
-+
-+static int write_mtvt2(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->mtvt2 = val;
-+    return 0;
-+}
-+
-+static int rmw_jalmnxti(CPURISCVState *env, int csrno,
-+                        target_ulong *ret_value, target_ulong new_value,
-+                        target_ulong write_mask)
-+{
-+    target_ulong addr;
-+
-+    if (env->irq_pending) {
-+        uint64_t vec_addr = (env->mcause & 0x3FF) * 4 + env->mtvt;
-+        cpu_physical_memory_rw(vec_addr, &addr, 4, 0);
-+        env->gpr[1] = env->pc + 4;
-+        env->gpr[5] = env->pc + 4;
-+        *ret_value = addr;
-+        riscv_cpu_eclic_clean_pending(env->eclic, env->mcause & 0x3ff);
-+        env->mstatus = set_field(env->mstatus, MSTATUS_MIE, 1);
-+    } else
-+        *ret_value = env->pc + 4;
-+    return 0;
-+}
-+
-+static int rmw_pushmcause(CPURISCVState *env, int csrno,
-+                target_ulong *ret_value, target_ulong new_value,
-+                target_ulong write_mask)
-+{
-+    uint64_t notify_addr = new_value * 4 + env->gpr[2];
-+    cpu_physical_memory_rw(notify_addr, &env->mcause,  4, 1);
-+
-+    return 0;
-+}
-+
-+static int rmw_pushmepc(CPURISCVState *env, int csrno,
-+                target_ulong *ret_value, target_ulong new_value,
-+                target_ulong write_mask)
-+{
-+    uint64_t notify_addr = new_value * 4 + env->gpr[2];
-+    cpu_physical_memory_rw(notify_addr, &env->mepc, 4, 1);
-+    return 0;
-+}
-+
- /* This regiser is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
- static int read_mscounteren(CPURISCVState *env, int csrno, target_ulong *val)
- {
-@@ -654,6 +962,19 @@ static int read_mscounteren(CPURISCVState *env, int csrno, target_ulong *val)
-     return 0;
- }
- 
-+static int read_mucounteren(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->scounteren;
-+    return 0;
-+}
-+
-+static int write_mucounteren(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->scounteren = val;
-+    return 0;
-+}
-+
-+
- /* This regiser is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
- static int write_mscounteren(CPURISCVState *env, int csrno, target_ulong val)
- {
-@@ -1416,9 +1737,31 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_MIE]         = { "mie",        any,   read_mie,         write_mie         },
-     [CSR_MTVEC]       = { "mtvec",      any,   read_mtvec,       write_mtvec       },
-     [CSR_MCOUNTEREN]  = { "mcounteren", any,   read_mcounteren,  write_mcounteren  },
-+    [CSR_MTVT] = { "mtvt", eclic,  read_mtvt,        write_mtvt        },
-+    [CSR_MNXTI] = { "mnxti", eclic,  read_mnxti,       write_mnxti, rmw_mnxti},
-+    [CSR_MINTSTATUS] = {"mintstatus", eclic,  read_mintstatus,  write_mintstatus  },
-+    [CSR_MSCRATCHCSW] =  {"mscratchcsw", any,  read_mscratchcsw, write_mscratchcsw, rmw_mscratchcsw},
-+    [CSR_MSCRATCHCSWL] =  { "mscratchcswl", any,  read_mscratchcswl, write_mscratchcswl,  rmw_mscratchcswl},
-+    [CSR_MNVEC] =  { "mnvec", any,  read_mnvec,       write_mnvec       },
-+    [CSR_MSUBM] =  { "msubm", any,  read_msubm,       write_msubm       },
-+    [CSR_MDCAUSE] =  { "mdcause", any,  read_mdcause,     write_mdcause     },
-+    [CSR_MMISC_CTL] =  { "mmisc_ctl", any,  read_mmisc_ctl,   write_mmisc_ctl   },
-+    [CSR_MSAVESTATUS] =  { "msavestatus", any,  read_msavestatus, write_msavestatus },
-+    [CSR_MSAVEEPC1] = { "msaveepc1", any,  read_msaveepc1,   write_msaveepc1   },
-+    [CSR_MSAVECAUSE1] =  { "msavecause1", any,  read_msavecause1, write_msavecause1 },
-+    [CSR_MSAVEEPC2] =  { "msaveepc2", any,  read_msaveepc2,   write_msaveepc2   },
-+    [CSR_MSAVECAUSE2] =  { "msavecause2", any,  read_msavecause2, write_msavecause2 },
-+    [CSR_MSAVEDCAUSE1] =  { "msavedcause1", any,  read_msavedcause1, write_msavedcause1 },
-+    [CSR_MSAVEDCAUSE2] =  { "msavedcause2", any,  read_msavedcause2, write_msavedcause2 },
-+    [CSR_PUSHMSUBM] =  { "pushmsubm", eclic,  NULL,   NULL, rmw_pushmsubm },
-+    [CSR_MTVT2] =  { "mtvt2", eclic,  read_mtvt2,       write_mtvt2       },
-+    [CSR_JALMNXTI] =  { "jalmnxti", eclic,  NULL,    NULL,  rmw_jalmnxti },
-+    [CSR_PUSHMCAUSE] =  { "pushmcause", eclic,  NULL,  NULL , rmw_pushmcause },
-+    [CSR_PUSHMEPC] =  { "pushmepc", eclic,  NULL,    NULL,  rmw_pushmepc },
- 
-     [CSR_MSTATUSH]    = { "mstatush",   any32, read_mstatush,    write_mstatush    },
- 
-+    [CSR_MUCOUNTEREN] = { "mucounteren", any,  read_mucounteren, write_mucounteren },
-     [CSR_MSCOUNTEREN] = { "msounteren", any,   read_mscounteren, write_mscounteren },
- 
-     /* Machine Trap Handling */
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index d04ca0394c..e4bf61f3c0 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -521,13 +521,27 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
-     tcg_temp_free(rs1_pass); \
- } while (0)
- 
-+#define RISCV_OP_CSR_JAL_POST do {\
-+    tcg_gen_mov_tl(cpu_pc, dest); \
-+    exit_tb(ctx); \
-+    ctx->base.is_jmp = DISAS_NORETURN; \
-+    tcg_temp_free(source1); \
-+    tcg_temp_free(csr_store); \
-+    tcg_temp_free(dest); \
-+    tcg_temp_free(rs1_pass); \
-+} while (0)
- 
- static bool trans_csrrw(DisasContext *ctx, arg_csrrw *a)
- {
-     TCGv source1, csr_store, dest, rs1_pass;
-     RISCV_OP_CSR_PRE;
-     gen_helper_csrrw(dest, cpu_env, source1, csr_store);
--    RISCV_OP_CSR_POST;
-+
-+    if(a->csr == CSR_JALMNXTI)
-+        RISCV_OP_CSR_JAL_POST;
-+    else
-+        RISCV_OP_CSR_POST;
-+
-     return true;
- }
- 
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index f0bbd73ca5..57eda9336a 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -171,6 +171,20 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
-         riscv_cpu_set_virt_enabled(env, prev_virt);
-     }
- 
-+    if ((env->mtvec & 0b111111) == 0b000011) {
-+        target_ulong mpil = get_field(env->mcause, MCAUSE_MPIL);
-+        env->mintstatus = set_field(env->mintstatus, MINTSTATUS_MIL, mpil);
-+
++    if (!qemu_mutex_iothread_locked()) {
++        locked = true;
 +        qemu_mutex_lock_iothread();
-+        riscv_cpu_eclic_get_next_interrupt(env->eclic);
-+        qemu_mutex_unlock_iothread();
-+
-+        if (get_field(env->mcause, MCAUSE_INTERRUPT) == 1) {
-+            env->mstatus = set_field(env->mstatus, MSTATUS_MPP,
-+                        get_field(env->mcause, MCAUSE_MPP));
-+        }
 +    }
 +
-     return retpc;
- }
- 
++    if (exccode != -1) {
++        env->irq_pending = true;
++        cpu_interrupt(CPU(cpu), CPU_INTERRUPT_ECLIC);
++    } else {
++        env->irq_pending = false;
++        cpu_reset_interrupt(CPU(cpu), CPU_INTERRUPT_ECLIC);
++    }
++
++    if (locked) {
++        qemu_mutex_unlock_iothread();
++    }
++}
++
++static int level_compare(NucLeiECLICState *eclic,
++                         ECLICPendingInterrupt *irq1,
++                         ECLICPendingInterrupt *irq2)
++{
++    if (irq1->level == irq2->level) {
++        if (irq1->prio == irq2->prio) {
++            if (irq1->irq >= irq2->irq) {
++                return 0;
++            } else {
++                return 1;
++            }
++        } else if (irq1->prio > irq2->level) {
++            return 0;
++        } else {
++            return 1;
++        }
++    } else if (irq1->level > irq2->level) {
++        return 0;
++    } else {
++        return 1;
++    }
++}
++
++static void nuclei_eclic_next_interrupt(void *eclic_ptr)
++{
++    RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(0));
++    CPURISCVState *env = &cpu->env;
++    NucLeiECLICState *eclic = (NucLeiECLICState *)eclic_ptr;
++    ECLICPendingInterrupt *active;
++    target_ulong mil;
++    int shv;
++
++    QLIST_FOREACH(active, &eclic->pending_list, next)
++    {
++        if (active->enable) {
++            mil = get_field(env->mintstatus, MINTSTATUS_MIL);
++            if (active->level >= eclic->mth && active->level > mil) {
++                shv = eclic->clicintattr[active->irq] & 0x1;
++                eclic->active_count++;
++                riscv_cpu_eclic_interrupt(cpu,
++                                          (active->irq & 0xFFF) | (shv << 12) | (active->level << 13));
++                return;
++            }
++        }
++    }
++}
++
++static void nuclei_eclic_update_intmth(NucLeiECLICState *eclic,
++                                       int irq, int mth)
++{
++    eclic->mth = mth;
++    nuclei_eclic_next_interrupt(eclic);
++}
++
++static void update_eclic_int_info(NucLeiECLICState *eclic, int irq)
++{
++    int level_width = (eclic->cliccfg >> 1) & 0xF;
++    if (level_width > CLICINTCTLBITS) {
++        level_width = CLICINTCTLBITS;
++    }
++    int prio_width = CLICINTCTLBITS - level_width;
++
++    if (level_width == 0) {
++        eclic->clicintlist[irq].level = 255;
++    } else {
++        eclic->clicintlist[irq].level = ((
++                                             (eclic->clicintctl[irq] >> (8 - level_width)) &
++                                             ~((char)0x80 >> (8 - level_width)))
++                                         << (8 - level_width)) |
++                                        (0xff >> level_width);
++    }
++
++    if (prio_width == 0) {
++        eclic->clicintlist[irq].prio = 0;
++    } else {
++        eclic->clicintlist[irq].prio =
++            (eclic->clicintctl[irq] >> (8 - level_width)) &
++            ~(0x80 >> (8 - prio_width));
++    }
++
++    eclic->clicintlist[irq].enable = eclic->clicintie[irq] & 0x1;
++    eclic->clicintlist[irq].trigger = (eclic->clicintattr[irq] >> 1) & 0x3;
++}
++
++static void eclic_remove_pending_list(NucLeiECLICState *eclic, int irq)
++{
++    QLIST_REMOVE(&eclic->clicintlist[irq], next);
++}
++
++static void eclic_insert_pending_list(NucLeiECLICState *eclic, int irq)
++{
++    ECLICPendingInterrupt *node;
++    if (QLIST_EMPTY(&eclic->pending_list)) {
++        QLIST_INSERT_HEAD(&eclic->pending_list, &eclic->clicintlist[irq], next);
++    } else {
++        QLIST_FOREACH(node, &eclic->pending_list, next)
++        {
++            if (level_compare(eclic, node, &eclic->clicintlist[irq])) {
++                QLIST_INSERT_BEFORE(node, &eclic->clicintlist[irq], next);
++                break;
++            } else if (node->next.le_next == NULL) {
++                QLIST_INSERT_AFTER(node, &eclic->clicintlist[irq], next);
++                break;
++            }
++        }
++    }
++}
++
++static void nuclei_eclic_update_intip(NucLeiECLICState *eclic, int irq, int new_intip)
++{
++
++    int old_intip = eclic->clicintlist[irq].sig;
++    int trigger = (eclic->clicintattr[irq] >> 1) & 0x3;
++    if (((trigger == 0) && new_intip) ||
++        ((trigger == 1) && !old_intip && new_intip) ||
++        ((trigger == 3) && old_intip && !new_intip)) {
++        eclic->clicintip[irq] = 1;
++        eclic->clicintlist[irq].sig = new_intip;
++        eclic_insert_pending_list(eclic, irq);
++    } else {
++        if (eclic->clicintip[irq]) {
++            eclic_remove_pending_list(eclic, irq);
++        }
++        eclic->clicintip[irq] = 0;
++        eclic->clicintlist[irq].sig = new_intip;
++    }
++
++    nuclei_eclic_next_interrupt(eclic);
++}
++
++static void nuclei_eclic_update_intie(NucLeiECLICState *eclic,
++                                      int irq, int new_intie)
++{
++    eclic->clicintie[irq] = new_intie;
++    update_eclic_int_info(eclic, irq);
++    nuclei_eclic_next_interrupt(eclic);
++}
++
++static void nuclei_eclic_update_intattr(NucLeiECLICState *eclic,
++                                        int irq, int new_intattr)
++{
++    eclic->clicintattr[irq] = new_intattr;
++    update_eclic_int_info(eclic, irq);
++    nuclei_eclic_next_interrupt(eclic);
++}
++
++static void nuclei_eclic_update_intctl(NucLeiECLICState *eclic,
++                                       int irq, int new_intctl)
++{
++    eclic->clicintctl[irq] = new_intctl;
++    update_eclic_int_info(eclic, irq);
++    nuclei_eclic_next_interrupt(eclic);
++}
++
++qemu_irq nuclei_eclic_get_irq(DeviceState *dev, int irq)
++{
++    NucLeiECLICState *eclic = NUCLEI_ECLIC(dev);
++    return eclic->irqs[irq];
++}
++
++static uint64_t nuclei_eclic_read(void *opaque, hwaddr offset, unsigned size)
++{
++    NucLeiECLICState *eclic = NUCLEI_ECLIC(opaque);
++    uint64_t value = 0;
++    uint32_t id = 0;
++    if (offset >= NUCLEI_ECLIC_REG_CLICINTIP_BASE) {
++        if ((offset - 0x1000) % 4 == 0) {
++            id = (offset - 0x1000) / 4;
++        } else if ((offset - 0x1001) % 4 == 0) {
++            id = (offset - 0x1001) / 4;
++        } else if ((offset - 0x1002) % 4 == 0) {
++            id = (offset - 0x1002) / 4;
++        } else if ((offset - 0x1003) % 4 == 0) {
++            id = (offset - 0x1003) / 4;
++        }
++        offset = offset - 4 * id;
++    }
++
++    switch (offset) {
++    case NUCLEI_ECLIC_REG_CLICCFG:
++        value = eclic->cliccfg & 0xFF;
++        break;
++    case NUCLEI_ECLIC_REG_CLICINFO:
++        value = (CLICINTCTLBITS << 21) & 0xFFFFFFFF;
++        break;
++    case NUCLEI_ECLIC_REG_MTH:
++        value = eclic->mth & 0xFF;
++        break;
++    case NUCLEI_ECLIC_REG_CLICINTIP_BASE:
++        value = eclic->clicintip[id] & 0xFF;
++        break;
++    case NUCLEI_ECLIC_REG_CLICINTIE_BASE:
++        value = eclic->clicintie[id] & 0xFF;
++        break;
++    case NUCLEI_ECLIC_REG_CLICINTATTR_BASE:
++        value = eclic->clicintattr[id] & 0xFF;
++        break;
++    case NUCLEI_ECLIC_REG_CLICINTCTL_BASE:
++        value = eclic->clicintctl[id] & 0xFF;
++        break;
++    default:
++        break;
++    }
++
++    return value;
++}
++
++static void nuclei_eclic_write(void *opaque, hwaddr offset, uint64_t value,
++                               unsigned size)
++{
++    NucLeiECLICState *eclic = NUCLEI_ECLIC(opaque);
++    uint32_t id = 0;
++    if (offset >= NUCLEI_ECLIC_REG_CLICINTIP_BASE) {
++
++        if ((offset - 0x1000) % 4 == 0) {
++            id = (offset - 0x1000) / 4;
++        } else if ((offset - 0x1001) % 4 == 0) {
++            id = (offset - 0x1001) / 4;
++        } else if ((offset - 0x1002) % 4 == 0) {
++            id = (offset - 0x1002) / 4;
++        } else if ((offset - 0x1003) % 4 == 0) {
++            id = (offset - 0x1003) / 4;
++        }
++        offset = offset - 4 * id;
++    }
++    switch (offset) {
++    case NUCLEI_ECLIC_REG_CLICCFG:
++        eclic->cliccfg = value & 0xFF;
++        for (id = 0; id < eclic->num_sources; id++) {
++            update_eclic_int_info(eclic, id);
++        }
++        break;
++    case NUCLEI_ECLIC_REG_MTH:
++        nuclei_eclic_update_intmth(eclic, id, value & 0xFF);
++        break;
++    case NUCLEI_ECLIC_REG_CLICINTIP_BASE:
++        if ((eclic->clicintlist[id].trigger & 0x1) != 0) {
++            if ((eclic->clicintip[id] == 0) && (value & 0x1) == 1) {
++                eclic->clicintip[id] = 1;
++                eclic_insert_pending_list(eclic, id);
++            } else if ((eclic->clicintip[id] == 1) && (value & 0x1) == 0) {
++                eclic->clicintip[id] = 0;
++                eclic_remove_pending_list(eclic, id);
++            }
++        }
++        nuclei_eclic_next_interrupt(eclic);
++        break;
++    case NUCLEI_ECLIC_REG_CLICINTIE_BASE:
++        nuclei_eclic_update_intie(eclic, id, value & 0xFF);
++        break;
++    case NUCLEI_ECLIC_REG_CLICINTATTR_BASE:
++        nuclei_eclic_update_intattr(eclic, id, value & 0xFF);
++        break;
++    case NUCLEI_ECLIC_REG_CLICINTCTL_BASE:
++        nuclei_eclic_update_intctl(eclic, id, value & 0xFF);
++        break;
++    default:
++        break;
++    }
++}
++
++static const MemoryRegionOps nuclei_eclic_ops = {
++    .read = nuclei_eclic_read,
++    .write = nuclei_eclic_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++void riscv_cpu_eclic_clean_pending(void *eclic_ptr, int irq)
++{
++    NucLeiECLICState *eclic = (NucLeiECLICState *)eclic_ptr;
++    if ((eclic->clicintlist[irq].trigger & 0x1) != 0 && irq >= 0) {
++        eclic->clicintip[irq] = 0;
++        eclic_remove_pending_list(eclic, irq);
++    }
++}
++
++void riscv_cpu_eclic_get_next_interrupt(void *eclic_ptr)
++{
++    NucLeiECLICState *eclic = (NucLeiECLICState *)eclic_ptr;
++    nuclei_eclic_next_interrupt(eclic);
++}
++
++
++
++static void nuclei_eclic_irq_request(void *opaque, int id, int new_intip)
++{
++    NucLeiECLICState *eclic = NUCLEI_ECLIC(opaque);
++    nuclei_eclic_update_intip(eclic, id, new_intip);
++}
++
++static void nuclei_eclic_realize(DeviceState *dev, Error **errp)
++{
++    NucLeiECLICState *eclic = NUCLEI_ECLIC(dev);
++    int id;
++
++    memory_region_init_io(&eclic->mmio, OBJECT(dev), &nuclei_eclic_ops, eclic,
++                          TYPE_NUCLEI_ECLIC, eclic->aperture_size);
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &eclic->mmio);
++
++    eclic->clicintip = g_new0(uint8_t, eclic->num_sources);
++    eclic->clicintlist = g_new0(ECLICPendingInterrupt, eclic->num_sources);
++    eclic->clicintie = g_new0(uint8_t, eclic->num_sources);
++    eclic->clicintattr = g_new0(uint8_t, eclic->num_sources);
++    eclic->clicintctl = g_new0(uint8_t, eclic->num_sources);
++    eclic->irqs = g_new0(qemu_irq, eclic->num_sources);
++    QLIST_INIT(&eclic->pending_list);
++    for (id = 0; id < eclic->num_sources; id++) {
++        eclic->clicintlist[id].irq = id;
++        update_eclic_int_info(eclic, id);
++    }
++    eclic->active_count = 0;
++
++    /* Init ECLIC IRQ */
++    eclic->irqs[Internal_SysTimerSW_IRQn] =
++        qemu_allocate_irq(nuclei_eclic_irq_request,
++                          eclic, Internal_SysTimerSW_IRQn);
++    eclic->irqs[Internal_SysTimer_IRQn] =
++        qemu_allocate_irq(nuclei_eclic_irq_request,
++                          eclic, Internal_SysTimer_IRQn);
++
++    for (id = Internal_Reserved_Max_IRQn; id < eclic->num_sources; id++) {
++        eclic->irqs[id] = qemu_allocate_irq(nuclei_eclic_irq_request,
++                                            eclic, id);
++    }
++
++    RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(0));
++    cpu->env.eclic = eclic;
++}
++
++static Property nuclei_eclic_properties[] = {
++    DEFINE_PROP_UINT32("aperture-size", NucLeiECLICState, aperture_size, 0),
++    DEFINE_PROP_UINT32("num-sources", NucLeiECLICState, num_sources, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void nuclei_eclic_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    device_class_set_props(dc, nuclei_eclic_properties);
++    dc->realize = nuclei_eclic_realize;
++}
++
++static const TypeInfo nuclei_eclic_info = {
++    .name = TYPE_NUCLEI_ECLIC,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(NucLeiECLICState),
++    .class_init = nuclei_eclic_class_init,
++};
++
++static void nuclei_eclic_register_types(void)
++{
++    type_register_static(&nuclei_eclic_info);
++}
++
++type_init(nuclei_eclic_register_types);
++
++void nuclei_eclic_systimer_cb(DeviceState *dev)
++{
++    NucLeiECLICState *eclic = NUCLEI_ECLIC(dev);
++    nuclei_eclic_irq_request(eclic, Internal_SysTimer_IRQn, 1);
++}
++
++DeviceState *nuclei_eclic_create(hwaddr addr,
++                                 uint32_t aperture_size, uint32_t num_sources)
++{
++    DeviceState *dev = qdev_new(TYPE_NUCLEI_ECLIC);
++
++    qdev_prop_set_uint32(dev, "aperture-size", aperture_size);
++    qdev_prop_set_uint32(dev, "num-sources", num_sources);
++
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
++    return dev;
++}
+diff --git a/include/hw/intc/nuclei_eclic.h b/include/hw/intc/nuclei_eclic.h
+new file mode 100644
+index 0000000000..18b25485b9
+--- /dev/null
++++ b/include/hw/intc/nuclei_eclic.h
+@@ -0,0 +1,115 @@
++/*
++ * NUCLEI ECLIC (Enhanced Core Local Interrupt Controller) interface
++ *
++ * Copyright (c) 2020 Gao ZhiYuan <alapha23@gmail.com>
++ * Copyright (c) 2020-2021 PLCT Lab.All rights reserved.
++ *
++ * This provides a parameterizable interrupt controller based on NucLei's ECLIC.
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 3 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef HW_NUCLEI_ECLIC_H
++#define HW_NUCLEI_ECLIC_H
++
++#include "hw/irq.h"
++#include "hw/sysbus.h"
++
++#define TYPE_NUCLEI_ECLIC "riscv.nuclei.eclic"
++
++#define INTERRUPT_SOURCE_MIN_ID (18)
++#define INTERRUPT_SOURCE_MAX_ID (4096)
++
++typedef struct NucLeiECLICState NucLeiECLICState;
++DECLARE_INSTANCE_CHECKER(NucLeiECLICState, NUCLEI_ECLIC,
++                         TYPE_NUCLEI_ECLIC)
++
++typedef struct ECLICPendingInterrupt {
++    int irq;
++    int prio;
++    int level;
++    int enable;
++    int trigger;
++    int sig;
++    QLIST_ENTRY(ECLICPendingInterrupt) next;
++} ECLICPendingInterrupt;
++
++#define NUCLEI_ECLIC_REG_CLICCFG          0x0000
++#define NUCLEI_ECLIC_REG_CLICINFO         0x0004
++#define NUCLEI_ECLIC_REG_MTH              0x000b
++#define NUCLEI_ECLIC_REG_CLICINTIP_BASE   0x1000
++#define NUCLEI_ECLIC_REG_CLICINTIE_BASE   0x1001
++#define NUCLEI_ECLIC_REG_CLICINTATTR_BASE 0x1002
++#define NUCLEI_ECLIC_REG_CLICINTCTL_BASE  0x1003
++
++#define CLICINTCTLBITS 0x6
++
++typedef struct NucLeiECLICState {
++    /*< private >*/
++    SysBusDevice parent_obj;
++
++    /*< public >*/
++    MemoryRegion mmio;
++
++    uint32_t num_sources; /* 4-1024 */
++
++    /* config */
++    uint32_t sources_id;
++    uint8_t cliccfg; /*  nlbits(1~4) */
++    uint32_t clicinfo;
++    uint8_t mth; /* mth(0~7) */
++    uint8_t *clicintip;
++    uint8_t *clicintie;
++    uint8_t *clicintattr; /* shv(0) trig(1~2)*/
++    uint8_t *clicintctl;
++    ECLICPendingInterrupt *clicintlist;
++    uint32_t aperture_size;
++
++    QLIST_HEAD(, ECLICPendingInterrupt)
++    pending_list;
++    size_t active_count;
++
++    /* ECLIC IRQ handlers */
++    qemu_irq *irqs;
++
++} NucLeiECLICState;
++
++enum {
++    Internal_Reserved0_IRQn = 0,     /*!<  Internal reserved */
++    Internal_Reserved1_IRQn = 1,     /*!<  Internal reserved */
++    Internal_Reserved2_IRQn = 2,     /*!<  Internal reserved */
++    Internal_SysTimerSW_IRQn = 3,    /*!<  System Timer SW interrupt */
++    Internal_Reserved3_IRQn = 4,     /*!<  Internal reserved */
++    Internal_Reserved4_IRQn = 5,     /*!<  Internal reserved */
++    Internal_Reserved5_IRQn = 6,     /*!<  Internal reserved */
++    Internal_SysTimer_IRQn = 7,      /*!<  System Timer Interrupt */
++    Internal_Reserved6_IRQn = 8,     /*!<  Internal reserved */
++    Internal_Reserved7_IRQn = 9,     /*!<  Internal reserved */
++    Internal_Reserved8_IRQn = 10,    /*!<  Internal reserved */
++    Internal_Reserved9_IRQn = 11,    /*!<  Internal reserved */
++    Internal_Reserved10_IRQn = 12,   /*!<  Internal reserved */
++    Internal_Reserved11_IRQn = 13,   /*!<  Internal reserved */
++    Internal_Reserved12_IRQn = 14,   /*!<  Internal reserved */
++    Internal_Reserved13_IRQn = 15,   /*!<  Internal reserved */
++    Internal_Reserved14_IRQn = 16,   /*!<  Internal reserved */
++    Internal_BusError_IRQn = 17,     /*!<  Bus Error interrupt */
++    Internal_PerfMon_IRQn = 18,      /*!<  Performance Monitor */
++    Internal_Reserved_Max_IRQn = 19, /*!<  Internal reserved  Max */
++};
++
++DeviceState *nuclei_eclic_create(hwaddr addr,
++                                 uint32_t aperture_size, uint32_t num_sources);
++qemu_irq nuclei_eclic_get_irq(DeviceState *dev, int irq);
++void nuclei_eclic_systimer_cb(DeviceState *dev);
++
++#endif
 -- 
 2.17.1
 
