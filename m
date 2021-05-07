@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AAB0376590
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:51:08 +0200 (CEST)
-Received: from localhost ([::1]:54024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E696837657A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:49:02 +0200 (CEST)
+Received: from localhost ([::1]:49302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lezwh-0002zz-J5
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:51:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57448)
+	id 1lezuf-00011m-Hj
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbY-0000q2-3L
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:16 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:50000)
+ id 1lezbW-0000mo-Sg
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:14 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:40652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbR-0001Uk-03
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:15 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CDvBm148756;
- Fri, 7 May 2021 12:29:06 GMT
+ id 1lezbT-0001Wk-Te
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:14 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CEAsD096895;
+ Fri, 7 May 2021 12:29:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=W9D93a69StMSST57/REUvy0BnsSr4UFvr3IDEErpitU=;
- b=uGN+PwWD1YVr4p5XreXV1OsA+4GqYRMWGJz8gPtv0wZGHxWArZywd+qdju4xv9ZbU6SU
- wi5R1M+1P6v0mUIDghJz049wKGwRSvcCpFNJ+ItDE5a0JiSlDGJpxG4Hwo2zLKK1ehQt
- 0vneU8K24HykwiTp4wxFrIHW9vnjEVKDve6E6+GV7V1NGh+jYKb+SqnnAZ863Q6jj2Pf
- apPQUpUWn50zhay7KmezJpMSrImTUf4CNFGwApEAzjVd5HGVSqj0YPAihbXvaKV5qjVy
- Of4AbeUuHLWlzXHIEP3idIfXWBf8Snroe2TbfA4ty/tyWsUyQvXK02W101t1yutpfaIp UA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 38csrd9ewr-1
+ bh=2hHfE6MEGogQzthqOH4vqs5xuVFIGzYUunqFpRHnOoY=;
+ b=JQFmzg7vDUfJQtebpqiKUZ+JGMcjUw5FGcLHRjrsUzj8cr0Vx+br1Mm1/vKimYkVGRJW
+ vJsaPbCcYl06YQZLR0KSU6yZcIHBd7lb958h67niIvLMQ1UIp0OqAUNNO2hMqirZYPHD
+ CeokcHggXNKVg6Gq08wgTLGazL3KV5O5Bl/1JQsy/+bNzdu3Y1H88sJWc2V/ASGxP5cS
+ 29Ur55UZf5AMC5M9DWRojfVddVoVnb08k07NuS0mC3EsP/79P8MNOgBs9F9Y9LqIeW5R
+ TBMEn8n5kTCXsIWkD45SRja7iR93Ga2zXrCXKZajRPvRQwZitifJ3ydLcCgWcSJWqAA3 jw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 38ctd89d1u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 07 May 2021 12:29:07 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CFk5w168050;
+ Fri, 7 May 2021 12:29:07 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by userp3020.oracle.com with ESMTP id 38csrh1tdd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 07 May 2021 12:29:07 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CT6J1014797;
+ Fri, 7 May 2021 12:29:06 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 38csrh1tbq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 07 May 2021 12:29:06 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CGOMw173596;
- Fri, 7 May 2021 12:29:05 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by aserp3020.oracle.com with ESMTP id 38csrtb6ab-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 May 2021 12:29:05 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CT5DB028264;
- Fri, 7 May 2021 12:29:05 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 38csrtb69x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 May 2021 12:29:05 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 147CT4eK019320;
- Fri, 7 May 2021 12:29:04 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 147CT5Yk017267;
+ Fri, 7 May 2021 12:29:05 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
  with ESMTP ; Fri, 07 May 2021 05:29:04 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V3 17/22] chardev: cpr for simple devices
-Date: Fri,  7 May 2021 05:25:15 -0700
-Message-Id: <1620390320-301716-18-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V3 18/22] chardev: cpr for pty
+Date: Fri,  7 May 2021 05:25:16 -0700
+Message-Id: <1620390320-301716-19-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
 References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-ORIG-GUID: pat0bwK6ypowFk_MEK-KAl9Hx7N6057i
-X-Proofpoint-GUID: pat0bwK6ypowFk_MEK-KAl9Hx7N6057i
+X-Proofpoint-GUID: pQkN0eIlm8dbRZYQcrHOUCR0KKiGDKA5
+X-Proofpoint-ORIG-GUID: pQkN0eIlm8dbRZYQcrHOUCR0KKiGDKA5
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- clxscore=1015
- malwarescore=0 adultscore=0 mlxlogscore=999 impostorscore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxscore=0 spamscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxscore=0 adultscore=0
+ clxscore=1015 spamscore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
  definitions=main-2105070085
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
@@ -109,114 +109,64 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set QEMU_CHAR_FEATURE_CPR for devices that trivially support cpr.
-char-stdio is slightly less trivial.  Allow the gdb server by
-closing it on exec.
+Save and restore pty descriptors across cprsave and cprload.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- chardev/char-mux.c     | 1 +
- chardev/char-null.c    | 1 +
- chardev/char-serial.c  | 1 +
- chardev/char-stdio.c   | 8 ++++++++
- gdbstub.c              | 1 +
- include/chardev/char.h | 1 +
- migration/cpr.c        | 1 +
- 7 files changed, 14 insertions(+)
+ chardev/char-pty.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/chardev/char-mux.c b/chardev/char-mux.c
-index 72beef2..af74eaf 100644
---- a/chardev/char-mux.c
-+++ b/chardev/char-mux.c
-@@ -337,6 +337,7 @@ static void qemu_chr_open_mux(Chardev *chr,
-      */
-     *be_opened = muxes_opened;
-     qemu_chr_fe_init(&d->chr, drv, errp);
-+    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
- }
+diff --git a/chardev/char-pty.c b/chardev/char-pty.c
+index a2d1e7c..c91151d 100644
+--- a/chardev/char-pty.c
++++ b/chardev/char-pty.c
+@@ -30,6 +30,7 @@
+ #include "qemu/sockets.h"
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
++#include "qemu/env.h"
+ #include "qemu/qemu-print.h"
  
- static void qemu_chr_parse_mux(QemuOpts *opts, ChardevBackend *backend,
-diff --git a/chardev/char-null.c b/chardev/char-null.c
-index 1c6a290..02acaff 100644
---- a/chardev/char-null.c
-+++ b/chardev/char-null.c
-@@ -32,6 +32,7 @@ static void null_chr_open(Chardev *chr,
-                           Error **errp)
- {
-     *be_opened = false;
-+    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
- }
+ #include "chardev/char-io.h"
+@@ -191,6 +192,7 @@ static void char_pty_finalize(Object *obj)
+     Chardev *chr = CHARDEV(obj);
+     PtyChardev *s = PTY_CHARDEV(obj);
  
- static void char_null_class_init(ObjectClass *oc, void *data)
-diff --git a/chardev/char-serial.c b/chardev/char-serial.c
-index 7c3d84a..b585085 100644
---- a/chardev/char-serial.c
-+++ b/chardev/char-serial.c
-@@ -274,6 +274,7 @@ static void qmp_chardev_open_serial(Chardev *chr,
-     qemu_set_nonblock(fd);
-     tty_serial_init(fd, 115200, 'N', 8, 1);
++    unsetenv_fd(chr->label);
+     pty_chr_state(chr, 0);
+     object_unref(OBJECT(s->ioc));
+     pty_chr_timer_cancel(s);
+@@ -207,19 +209,28 @@ static void char_pty_open(Chardev *chr,
+     char pty_name[PATH_MAX];
+     char *name;
  
-+    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
-     qemu_chr_open_fd(chr, fd, fd);
- }
- #endif /* __linux__ || __sun__ */
-diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
-index 403da30..9410c16 100644
---- a/chardev/char-stdio.c
-+++ b/chardev/char-stdio.c
-@@ -114,9 +114,17 @@ static void qemu_chr_open_stdio(Chardev *chr,
- 
-     stdio_allow_signal = !opts->has_signal || opts->signal;
-     qemu_chr_set_echo_stdio(chr, false);
-+    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
- }
- #endif
- 
-+void qemu_term_exit(void)
-+{
-+#ifndef _WIN32
-+    term_exit();
-+#endif
-+}
++    master_fd = getenv_fd(chr->label);
++    if (master_fd >= 0) {
++        chr->filename = g_strdup_printf("pty:unknown");
++        goto have_fd;
++    }
 +
- static void qemu_chr_parse_stdio(QemuOpts *opts, ChardevBackend *backend,
-                                  Error **errp)
- {
-diff --git a/gdbstub.c b/gdbstub.c
-index 054665e..fdbf531 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -3540,6 +3540,7 @@ int gdbserver_start(const char *device)
-         mon_chr = gdbserver_state.mon_chr;
-         reset_gdbserver_state();
+     master_fd = qemu_openpty_raw(&slave_fd, pty_name);
+     if (master_fd < 0) {
+         error_setg_errno(errp, errno, "Failed to create PTY");
+         return;
      }
-+    mon_chr->close_on_cpr = true;
+-
++    if (!chr->close_on_cpr) {
++        setenv_fd(chr->label, master_fd);
++    }
+     close(slave_fd);
+     qemu_set_nonblock(master_fd);
+-
+     chr->filename = g_strdup_printf("pty:%s", pty_name);
+     qemu_printf("char device redirected to %s (label %s)\n",
+                 pty_name, chr->label);
  
-     create_processes(&gdbserver_state);
- 
-diff --git a/include/chardev/char.h b/include/chardev/char.h
-index e488ad1..96e5570 100644
---- a/include/chardev/char.h
-+++ b/include/chardev/char.h
-@@ -295,5 +295,6 @@ void resume_mux_open(void);
- void qemu_chr_parse_vc(QemuOpts *opts, ChardevBackend *backend, Error **errp);
- 
- bool qemu_chr_cpr_capable(Error **errp);
-+void qemu_term_exit(void);
- 
- #endif
-diff --git a/migration/cpr.c b/migration/cpr.c
-index 8dfd5f1..a65a671 100644
---- a/migration/cpr.c
-+++ b/migration/cpr.c
-@@ -140,6 +140,7 @@ void cprsave(const char *file, CprMode mode, Error **errp)
-         }
-         walkenv(FD_PREFIX, preserve_fd, 0);
-         vhost_dev_reset_all();
-+        qemu_term_exit();
-         setenv("QEMU_START_FREEZE", "", 1);
-         qemu_system_exec_request();
-     }
++have_fd:
++    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
+     s = PTY_CHARDEV(chr);
+     s->ioc = QIO_CHANNEL(qio_channel_file_new_fd(master_fd));
+     name = g_strdup_printf("chardev-pty-%s", chr->label);
 -- 
 1.8.3.1
 
