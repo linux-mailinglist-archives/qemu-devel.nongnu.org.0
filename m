@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC4C376712
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 16:33:18 +0200 (CEST)
-Received: from localhost ([::1]:56852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6460C376715
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 16:35:24 +0200 (CEST)
+Received: from localhost ([::1]:59072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf1XZ-0004Ik-3u
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 10:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36294)
+	id 1lf1Zb-0005FH-GS
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 10:35:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lf1WU-0003sD-6v
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:32:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28448)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lf1YM-0004oZ-JH
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 10:34:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lf1WQ-00020c-OX
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:32:08 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lf1YL-00033z-4b
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 10:34:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620397925;
+ s=mimecast20190719; t=1620398044;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oeUia1exX74HRcUR3HIHXsZN/1G8uTAF7cU4nBEvdmM=;
- b=RrnAo0A5gWOGp0GwDx3HNTXdTez0EtVtm/q8sv9dwhzrajt9cU/ym1fwyWAN54djwbY/Hk
- rLmvrEkB9bXRbT01uNwIWq7nd+Ajx8UhjDZ7m5MgTGwnffL7j5lxRfgAWlj0dPk4XUi9KI
- 2VBaN0jO5Einz/hw9R3kK+V+N1PQugw=
+ bh=w9OvK+6BrGw3MzbHmr/IX151SkuAVU+jaDpaue+3Jdw=;
+ b=KGjc49gxK5VDJW5S13m9zkLBxUir9cIFhCl8lCbDA7eyY6xIEkhQ/GpC8+29X7bGgu4zv0
+ DCBiysCBe4/IzeD9ph05IUYNqgX03Gf1MmC3csj8AhfPhn1f02EJvR3JwzMhaf5LBjXr7u
+ gEhj3kKHANX+98Xm6xonJ0MCeNx195Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-7RwRE2vfNJ-0_PmJhWmbuA-1; Fri, 07 May 2021 10:32:03 -0400
-X-MC-Unique: 7RwRE2vfNJ-0_PmJhWmbuA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-566-aDt3b-1ZPIGg1MysL6_6pg-1; Fri, 07 May 2021 10:33:59 -0400
+X-MC-Unique: aDt3b-1ZPIGg1MysL6_6pg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 829C1C7441;
- Fri,  7 May 2021 14:32:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B7AF1800D50;
+ Fri,  7 May 2021 14:33:58 +0000 (UTC)
 Received: from [10.3.113.56] (ovpn-113-56.phx2.redhat.com [10.3.113.56])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C5565D9CC;
- Fri,  7 May 2021 14:31:43 +0000 (UTC)
-Subject: Re: [PATCH V3 06/22] vl: add helper to request re-exec
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DCC3E144;
+ Fri,  7 May 2021 14:33:22 +0000 (UTC)
+Subject: Re: [PATCH V3 16/22] chardev: cpr framework
 To: Steve Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org
 References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
- <1620390320-301716-7-git-send-email-steven.sistare@oracle.com>
+ <1620390320-301716-17-git-send-email-steven.sistare@oracle.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <e1a9e3ff-6708-f0a0-6f04-d3756aa84c15@redhat.com>
-Date: Fri, 7 May 2021 09:31:42 -0500
+Message-ID: <a02486f7-3882-1117-d60b-9775d534576e@redhat.com>
+Date: Fri, 7 May 2021 09:33:21 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <1620390320-301716-7-git-send-email-steven.sistare@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <1620390320-301716-17-git-send-email-steven.sistare@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -97,33 +97,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/7/21 7:25 AM, Steve Sistare wrote:
-> Add a qemu_exec_requested() hook that causes the main loop to exit and
-> re-exec qemu using the same initial arguments.  If /usr/bin/qemu-exec
-> exists, exec that instead.  This is an optional site-specific trampoline
-> that may alter the environment before exec'ing the qemu binary.
+> Add QEMU_CHAR_FEATURE_CPR for devices that support cpr.
+> Add the chardev close_on_cpr option for devices that can be closed on cpr
+> and reopened after exec.
+> cpr is allowed only if either QEMU_CHAR_FEATURE_CPR or close_on_cpr is set
+> for all chardevs in the configuration.
 > 
 > Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 > ---
 
-> +static void qemu_exec(void)
-> +{
-> +    const char *helper = "/usr/bin/qemu-exec";
-> +    const char *bin = !access(helper, X_OK) ? helper : argv_main[0];
+> +++ b/qapi/char.json
+> @@ -204,12 +204,15 @@
+>  # @logfile: The name of a logfile to save output
+>  # @logappend: true to append instead of truncate
+>  #             (default to false to truncate)
+> +# @close-on-cpr: if true, close device's fd on cprsave. defaults to false.
+> +#                since 6.0.
 
-Reads awkwardly; I would have used '...= access(helper, X_OK) == 0 ?...'
+6.1, actually.
 
+
+> @@ -3182,6 +3196,10 @@ The general form of a character device option is:
+>      ``logappend`` option controls whether the log file will be truncated
+>      or appended to when opened.
+>  
+> +    Every backend supports the ``close-on-cpr`` option.  If on, the
+> +    devices's descriptor is closed during cprsave, and reopened after exec.
+
+device's
+
+> +    This is useful for devices that do not support cpr.
 > +
-> +    execvp(bin, argv_main);
-> +    error_report("execvp failed, errno %d.", errno);
-
-error_report should not be used with a trailing dot.  Also, %d for errno
-is awkward, better is:
-
-error_report("execvp failed: %s", strerror(errno));
-
-> +    exit(1);
-
-We aren't consistent about use of EXIT_FAILED.
+>  The available backends are:
+>  
+>  ``-chardev null,id=id``
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
