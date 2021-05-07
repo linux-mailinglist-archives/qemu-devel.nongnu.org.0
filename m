@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BEA23767DE
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 17:25:45 +0200 (CEST)
-Received: from localhost ([::1]:53262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D5A3767E2
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 17:26:11 +0200 (CEST)
+Received: from localhost ([::1]:55252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf2MK-0006jc-BI
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 11:25:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48086)
+	id 1lf2Mk-0007dX-Ic
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 11:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lf2K4-00062Q-ED
- for qemu-devel@nongnu.org; Fri, 07 May 2021 11:23:24 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:43767)
+ id 1lf2KO-0006LA-8H
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 11:23:44 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:37640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lf2K1-0008FC-T8
- for qemu-devel@nongnu.org; Fri, 07 May 2021 11:23:24 -0400
-Received: by mail-ej1-x635.google.com with SMTP id l4so14191826ejc.10
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 08:23:20 -0700 (PDT)
+ id 1lf2KM-00007i-7a
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 11:23:43 -0400
+Received: by mail-ed1-x529.google.com with SMTP id y26so10690551eds.4
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 08:23:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mKmcYNKi2df4KBVfdjk64vv96c/MRVRjiOTRDEe4e6o=;
- b=NlkL9E6QdFWYCEoWG4X71YQFDyByMJW5eoG6eZg4kqqhY0U/M0D5H4aaFVDoNoDRsr
- LiIszPi7zcbrXEfKFuZgvNB4ja6LglPEsg+YwHw+qOsNNxCjmDBE/Drn9ZKrB3doYHcC
- yWk9pI5y5U2zXgN4yIWBWu3VAXXDkLuVek1DZr5v6Ll6bRbbwyGc0ZA/AYWeJcSv4XWS
- xZbBgLYHbd5bUFgXAPFl3knrBD/XJztyrvBgaT5Ez5zPe9+hM7ko069uiitvHHOZnbxz
- 8qYnQwbEvh9vf2SDdrxlFbK/Qf4Vp6Zzyr3iGPZlEO8yqSBmKxnJUJR4KufhrvjF0iYo
- V0ZQ==
+ :cc; bh=EyPCLD+wdfWldIXMisna6COEYCMmWb7r6varf5LT1uw=;
+ b=D0fI6DNPR9TGa569AoNoBl6aexcPxFVTiOYSQiXp2LLTOVWILrSvc1YlVc/rMXyZyz
+ 7Nnxm88/ONi3qQOfSOw6/EtAw3m5Tw1zfxd7v+sfiTvEXPg34HVZ0rwfNa/h144/VNYM
+ oYKDu5M0rkWCBw1grtcyqNvPZWkwE31x9RRudE+ft+hrRwORoIS5gnP9J+NAA1ZsEfWC
+ dSrjPKdlY3H+YsfuOMum0pMb8DpMyhmC0UFwprLEBQjyZhzQ+eNvnzKdlFGywmub92SF
+ 8calgp+61Udom0FmuZ8H8mdn3+Qhynvl+CcdKrx/z92dMFzfGcBbbNLKzC6mGkBWPtIX
+ V9Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mKmcYNKi2df4KBVfdjk64vv96c/MRVRjiOTRDEe4e6o=;
- b=kpjKzi70/qhWYcnbwud/fJTUGdBmt7zhU6ZOtyPO4VBAbq3H0aYWQg34diToJjWmfk
- TQ0Fq494StjZJiUed+dDs7iCio8bV/m5SeJp03IC8fWQ1wWNKxWwlh7ySdZ876iNYDAk
- F5EQLQiG7PP1w+ASLIEviIF4RLFweHXYcMl8iHEJu1M5EpvmN5SprSLCHcTqEDUkydPl
- 85HrClFVWA8Qbb9344hegIudZ0U6F9TxoWwPSTtDyZKZduCGNtg0ZhnykI9IGPwmr3qg
- x3tIs/ZaRQM0w3MJCMGXHMvMBXQlGFCJ98Ln9apddXGlOTUr7IYW6jsqXEDmU3M3UFFW
- w3Jw==
-X-Gm-Message-State: AOAM532y/QG5bQSdjBnXWUokDGyZbLwSoajcPVo4kr9fzP/QyosYEltS
- KiB2MTc63nQxNILX9ApdgqxSlL2tKilE7e6CoAg=
-X-Google-Smtp-Source: ABdhPJyiCY+pmeZ45dRyysVIqwnytXWSGRywcgmtYBUy2pXfDOndkITATGX1F3ocKTqPsd21eMylC2jRB21FxM1m7/4=
-X-Received: by 2002:a17:906:80cd:: with SMTP id
- a13mr10521484ejx.109.1620400999688; 
- Fri, 07 May 2021 08:23:19 -0700 (PDT)
+ bh=EyPCLD+wdfWldIXMisna6COEYCMmWb7r6varf5LT1uw=;
+ b=HPXyC+9bDf8n74lXMw0rFH5Xo6B1IBi0KvDqC3PYtvNDformW0yR6q6Xh3lVELMaWc
+ SWqBOevMMdJp3M5WFvmPTMlc9Us2YAuuse6xwl60IT55QzPYUALTT8XTNSc0pRV/uIm4
+ 1j4z4JuNCzHYsqSG63w+Ii5Ir0iFmrcstGggxD2EJFwBRzvjyC67lmBDvO7NYHe74LA4
+ 8s6MN5HDV3pJaQNxZuZ3Xpod/VXPvKkx7zCJMDh/NDUb5BOi9SMBSOSL0mwUihmQPwq+
+ e27x1szBziOlx8P7S3N+g37bcVpJyMjHU1iOTrLOkTaJmokl8lInU1MI3MtL7SnKktmF
+ eAZw==
+X-Gm-Message-State: AOAM533tTI2d1WgJwF2SRKBmPQwBwZdApr0/OLrgkUQSTPXGncLaG5wo
+ Ayh9Qsf0Mn1e5VpNV34I+zHzn9aEdEQ0LeSrvHc=
+X-Google-Smtp-Source: ABdhPJzeiugH9MnOqkmM+oWdJYYnxqEx+9QP5Z//wKRETd+6BkbiZ1ivsn21qmjGVWVHcjP8YJcLHbMxD5UwGcgJOxI=
+X-Received: by 2002:aa7:d1d9:: with SMTP id g25mr12455705edp.30.1620401020270; 
+ Fri, 07 May 2021 08:23:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210415033925.1290401-1-dje@google.com>
- <20210415033925.1290401-2-dje@google.com>
-In-Reply-To: <20210415033925.1290401-2-dje@google.com>
+ <20210415033925.1290401-3-dje@google.com>
+In-Reply-To: <20210415033925.1290401-3-dje@google.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 7 May 2021 19:23:07 +0400
-Message-ID: <CAJ+F1CJZSbH-QsaAYFWc6kU++vQXcTdmaLsno8dXX5uVrhrLCA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] slirp: Advance libslirp submodule to add ipv6
- host-forward support
+Date: Fri, 7 May 2021 19:23:28 +0400
+Message-ID: <CAJ+F1CJUzAbZmfY59x6YYLWba-TMyZYwW7Pqu75zs93qbscr3Q@mail.gmail.com>
+Subject: Re: [PATCH v6 2/4] util/qemu-sockets.c: Split host:port parsing out
+ of inet_parse
 To: Doug Evans <dje@google.com>
-Content-Type: multipart/alternative; boundary="000000000000faed6705c1bf0151"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x635.google.com
+Content-Type: multipart/alternative; boundary="00000000000035055205c1bf03d3"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,194 +84,163 @@ Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000faed6705c1bf0151
+--00000000000035055205c1bf03d3
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Thu, Apr 15, 2021 at 7:40 AM Doug Evans <dje@google.com> wrote:
 
-On Thu, Apr 15, 2021 at 7:41 AM Doug Evans <dje@google.com> wrote:
-
-> 5eraph (2):
->       disable_dns option
->       limit vnameserver_addr to port 53
->
-> Akihiro Suda (1):
->       libslirp.h: fix SlirpConfig v3 documentation
->
-> Doug Evans (11):
->       Add ipv6 host forward support
->       tcpx_listen: Pass sizeof(addr) to memset
->       Reject host forwarding to ipv6 "addr-any"
->       Add /build/ to .gitignore
->       New utility slirp_ether_ntoa
->       m_cleanup_list: make static
->       New API routine slirp_neighbor_info
->       Move DEBUG_CALL("if_start") to DEBUG_VERBOSE_CALL
->       tcpx_listen: tcp_newtcpcb doesn't fail
->       slirp_add_host*fwd: Ensure all error paths set errno
->       Perform lazy guest address resolution for IPv6
->
-> Dr. David Alan Gilbert (1):
->       ip_stripoptions use memmove
->
-> Giuseppe Scrivano (1):
->       socket: consume empty packets
->
-> Hafiz Abid Qadeer (1):
->       Fix a typo that can cause slow socket response on Windows.
->
-> Jindrich Novy (4):
->       Fix possible infinite loops and use-after-free
->       Use secure string copy to avoid overflow
->       Be sure to initialize sockaddr structure
->       Check lseek() for failure
->
-> Marc-Andr=C3=A9 Lureau (26):
->       Merge branch 'master' into 'master'
->       Merge branch 'fix-slirpconfig-3-doc' into 'master'
->       Fix use-afte-free in ip_reass() (CVE-2020-1983)
->       Update CHANGELOG
->       Merge branch 'cve-2020-1983' into 'master'
->       Release v4.3.0
->       Merge branch 'release-v4.3.0' into 'master'
->       changelog: post-release
->       util: do not silently truncate
->       Merge branch 'slirp-fmt-truncate' into 'master'
->       Release v4.3.1
->       Merge branch 'release-v4.3.1' into 'master'
->       changelog: post-release
->       .gitlab-ci: add a Coverity stage
->       Merge branch 'coverity' into 'master'
->       Merge branch 'ios-support' into 'master'
->       Merge branch 'master' into 'master'
->       Remove the QEMU-special make build-system
->       Merge branch 'qemu' into 'master'
->       Release v4.4.0
->       Merge branch '4.4.0-release' into 'master'
->       changelog: post-release
->       Remove some needless (void)casts
->       Fix unused variables
->       Merge branch 'gitignore-build' into 'master'
->       Merge branch 'macos-deployment-target' into 'master'
->
-> Nathaniel Wesley Filardo (1):
->       fork_exec_child_setup: improve signal handling
->
-> Paolo Bonzini (2):
->       meson: remove meson-dist script
->       meson: support compiling as subproject
->
-> Philippe Mathieu-Daud=C3=A9 (3):
->       Fix win32 builds by using the SLIRP_PACKED definition
->       Fix constness warnings
->       Remove unnecessary break
->
-> Prasad J Pandit (1):
->       slirp: check pkt_len before reading protocol header
->
-> Ralf Haferkamp (2):
->       Drop bogus IPv6 messages
->       Fix MTU check
->
-> Samuel Thibault (45):
->       Merge branch 'ip6_payload_len' into 'master'
->       Merge branch 'lp1878043' into 'master'
->       udp, udp6, icmp: handle TTL value
->       icmp, icmp6: Add icmp_forward_error and icmp6_forward_error
->       udp, udp6, icmp, icmp6: Enable forwarding errors on Linux
->       TCPIPHDR_DELTA: Fix potential negative value
->       sosendoob: better document what urgc is used for
->       Merge branch 'G_GNUC_PRINTF' into 'master'
->       Merge branch 'CVE-2020-29129' into 'master'
->       Merge branch 'ttl' into 'master'
->       Merge branch 'errors' into 'master'
->       Merge branch 'consume-empty-packet' into 'master'
->       Merge branch 'void' into 'master'
->       Merge branch 'master' into 'master'
->       Merge branch 'unused' into 'master'
->       Merge branch 'socket_delay' into 'master'
->       tcp_subr: simplify code
->       Merge branch 'ipv6-host-fwd-9-patch' into 'master'
->       Document the slirp API
->       Complete timeout documentation
->       Merge branch 'memset-sizeof' into 'master'
->       Merge branch 'reject-ipv6-addr-any' into 'master'
->       ip6_output: fix memory leak on fast-send
->       Merge branch 'ndp-leak' into 'master'
->       Merge branch 'memory_leaks' into 'master'
->       TODO for generalizing the hostfwd calls
->       socket.h: add missing sbuf.h inclusion
->       Expose udpx_listen and tcpx_listen as taking sockaddr
->       Disable polling for PRI on MacOS
->       Merge branch 'macos-pri' into 'master'
->       Merge branch 'x_listen' into 'master'
->       udpx/tcpx_listen: Add missing const qualifier
->       sockaddr_*: add missing const qualifiers
->       Merge branch 'm-cleanup-list-prototype' into 'master'
->       Merge branch 'neighbor-info' into 'master'
->       udpx/tcpx_listen: Use struct sockaddr * types
->       Add ipv4/ipv6-agnostic host forwarding functions
->       hostfwd: Add SLIRP_HOSTFWD_V6ONLY flag
->       Merge branch 'hostxfwd' into 'master'
->       Merge branch 'verbose-if-start' into 'master'
->       Remove slirp_add/remove_ipv6_hostfwd
->       Merge branch 'listen-errno' into 'master'
->       Merge branch 'newtcpcb-no-fail' into 'master'
->       Merge branch 'listen_v6only' into 'master'
->       Merge branch 'lazy-ipv6-resolution' into 'master'
->
-> Stefan Weil (1):
->       Add G_GNUC_PRINTF to local function slirp_vsnprintf
->
-> WaluigiWare64 (1):
->       Set macOS deployment target to macOS 10.4 Without a macOS deploymen=
-t
-> target, the resulting library does not work on macOS versions lower than =
-it
-> was currently built on. For example, if libslirp was built on macOS 10.15=
-,
-> it would not work on macOS 10.14.
->
-> jeremy marchand (4):
->       m_free: remove the M_EXT flag after freeing the mbuf extended buffe=
-r
->       refactor m_cleanup as requested in slirp/libslirp!68
->       m_cleanup: fix memory leaks
->       m_cleanup: set qh_link and qh_rlink to the list head
->
-> osy (1):
->       Add DNS resolving for iOS
+> The parsing is moved into new function inet_parse_host_port.
+> Also split out is ipv4=3Dflag, ipv6=3Dflag processing into inet_parse_ipv=
+46.
+> This is done in preparation for using these functions in net/slirp.c.
 >
 > Signed-off-by: Doug Evans <dje@google.com>
-> ---
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+---
 >
 > Changes from v5:
 >
-> 1/4 slirp: Advance libslirp submodule to current master
-> NOTE TO REVIEWERS: It may be a better use of everyone's time if a
-> maintainer takes on advancing QEMU's libslirp to libslirp's master.
-> Beyond that, I really don't know what to do except submit this patch as
-> is currently provided.
+> Also split out parsing of ipv4=3Don|off, ipv6=3Don|off
 >
+>  include/qemu/sockets.h |  3 ++
+>  util/qemu-sockets.c    | 65 +++++++++++++++++++++++++++++-------------
+>  2 files changed, 48 insertions(+), 20 deletions(-)
 >
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-It can do, but it should rather be a diff of the commits that are new,
-those that were not in the stable branch.
-
-
-
->  slirp | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+> index 7d1f813576..94f4e8de83 100644
+> --- a/include/qemu/sockets.h
+> +++ b/include/qemu/sockets.h
+> @@ -31,6 +31,9 @@ int socket_set_fast_reuse(int fd);
 >
-> diff --git a/slirp b/slirp
-> index 8f43a99191..4e6444e842 160000
-> --- a/slirp
-> +++ b/slirp
-> @@ -1 +1 @@
-> -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
-> +Subproject commit 4e6444e842695a6bfb00e15a8d0edfceb5c4628d
+>  int inet_ai_family_from_address(InetSocketAddress *addr,
+>                                  Error **errp);
+> +const char *inet_parse_host_port(InetSocketAddress *addr,
+> +                                 const char *str, Error **errp);
+> +int inet_parse_ipv46(InetSocketAddress *addr, const char *optstr, Error
+> **errp);
+>  int inet_parse(InetSocketAddress *addr, const char *str, Error **errp);
+>  int inet_connect(const char *str, Error **errp);
+>  int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);
+> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+> index 8af0278f15..c0069f2565 100644
+> --- a/util/qemu-sockets.c
+> +++ b/util/qemu-sockets.c
+> @@ -615,14 +615,12 @@ static int inet_parse_flag(const char *flagname,
+> const char *optstr, bool *val,
+>      return 0;
+>  }
+>
+> -int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
+> +const char *inet_parse_host_port(InetSocketAddress *addr, const char *st=
+r,
+> +                                 Error **errp)
+>  {
+> -    const char *optstr, *h;
+>      char host[65];
+>      char port[33];
+> -    int to;
+>      int pos;
+> -    char *begin;
+>
+>      memset(addr, 0, sizeof(*addr));
+>
+> @@ -632,38 +630,32 @@ int inet_parse(InetSocketAddress *addr, const char
+> *str, Error **errp)
+>          host[0] =3D '\0';
+>          if (sscanf(str, ":%32[^,]%n", port, &pos) !=3D 1) {
+>              error_setg(errp, "error parsing port in address '%s'", str);
+> -            return -1;
+> +            return NULL;
+>          }
+>      } else if (str[0] =3D=3D '[') {
+>          /* IPv6 addr */
+>          if (sscanf(str, "[%64[^]]]:%32[^,]%n", host, port, &pos) !=3D 2)=
+ {
+>              error_setg(errp, "error parsing IPv6 address '%s'", str);
+> -            return -1;
+> +            return NULL;
+>          }
+>      } else {
+>          /* hostname or IPv4 addr */
+>          if (sscanf(str, "%64[^:]:%32[^,]%n", host, port, &pos) !=3D 2) {
+>              error_setg(errp, "error parsing address '%s'", str);
+> -            return -1;
+> +            return NULL;
+>          }
+>      }
+>
+>      addr->host =3D g_strdup(host);
+>      addr->port =3D g_strdup(port);
+>
+> -    /* parse options */
+> -    optstr =3D str + pos;
+> -    h =3D strstr(optstr, ",to=3D");
+> -    if (h) {
+> -        h +=3D 4;
+> -        if (sscanf(h, "%d%n", &to, &pos) !=3D 1 ||
+> -            (h[pos] !=3D '\0' && h[pos] !=3D ',')) {
+> -            error_setg(errp, "error parsing to=3D argument");
+> -            return -1;
+> -        }
+> -        addr->has_to =3D true;
+> -        addr->to =3D to;
+> -    }
+> +    return str + pos;
+> +}
+> +
+> +int inet_parse_ipv46(InetSocketAddress *addr, const char *optstr, Error
+> **errp)
+> +{
+> +    char *begin;
+> +
+>      begin =3D strstr(optstr, ",ipv4");
+>      if (begin) {
+>          if (inet_parse_flag("ipv4", begin + 5, &addr->ipv4, errp) < 0) {
+> @@ -678,6 +670,39 @@ int inet_parse(InetSocketAddress *addr, const char
+> *str, Error **errp)
+>          }
+>          addr->has_ipv6 =3D true;
+>      }
+> +
+> +    return 0;
+> +}
+> +
+> +int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
+> +{
+> +    const char *optstr, *h;
+> +    int to;
+> +    int pos;
+> +    char *begin;
+> +
+> +    optstr =3D inet_parse_host_port(addr, str, errp);
+> +    if (optstr =3D=3D NULL) {
+> +        return -1;
+> +    }
+> +
+> +    /* parse options */
+> +
+> +    if (inet_parse_ipv46(addr, optstr, errp) < 0) {
+> +        return -1;
+> +    }
+> +
+> +    h =3D strstr(optstr, ",to=3D");
+> +    if (h) {
+> +        h +=3D 4;
+> +        if (sscanf(h, "%d%n", &to, &pos) !=3D 1 ||
+> +            (h[pos] !=3D '\0' && h[pos] !=3D ',')) {
+> +            error_setg(errp, "error parsing to=3D argument");
+> +            return -1;
+> +        }
+> +        addr->has_to =3D true;
+> +        addr->to =3D to;
+> +    }
+>      begin =3D strstr(optstr, ",keep-alive");
+>      if (begin) {
+>          if (inet_parse_flag("keep-alive", begin + strlen(",keep-alive"),
 > --
 > 2.31.1.295.g9ea45b61b8-goog
 >
@@ -282,240 +250,186 @@ those that were not in the stable branch.
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000faed6705c1bf0151
+--00000000000035055205c1bf03d3
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 15, 2021 at 7:41 AM Dou=
-g Evans &lt;<a href=3D"mailto:dje@google.com">dje@google.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">5eraph (2):<br>
-=C2=A0 =C2=A0 =C2=A0 disable_dns option<br>
-=C2=A0 =C2=A0 =C2=A0 limit vnameserver_addr to port 53<br>
-<br>
-Akihiro Suda (1):<br>
-=C2=A0 =C2=A0 =C2=A0 libslirp.h: fix SlirpConfig v3 documentation<br>
-<br>
-Doug Evans (11):<br>
-=C2=A0 =C2=A0 =C2=A0 Add ipv6 host forward support<br>
-=C2=A0 =C2=A0 =C2=A0 tcpx_listen: Pass sizeof(addr) to memset<br>
-=C2=A0 =C2=A0 =C2=A0 Reject host forwarding to ipv6 &quot;addr-any&quot;<br=
->
-=C2=A0 =C2=A0 =C2=A0 Add /build/ to .gitignore<br>
-=C2=A0 =C2=A0 =C2=A0 New utility slirp_ether_ntoa<br>
-=C2=A0 =C2=A0 =C2=A0 m_cleanup_list: make static<br>
-=C2=A0 =C2=A0 =C2=A0 New API routine slirp_neighbor_info<br>
-=C2=A0 =C2=A0 =C2=A0 Move DEBUG_CALL(&quot;if_start&quot;) to DEBUG_VERBOSE=
-_CALL<br>
-=C2=A0 =C2=A0 =C2=A0 tcpx_listen: tcp_newtcpcb doesn&#39;t fail<br>
-=C2=A0 =C2=A0 =C2=A0 slirp_add_host*fwd: Ensure all error paths set errno<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 Perform lazy guest address resolution for IPv6<br>
-<br>
-Dr. David Alan Gilbert (1):<br>
-=C2=A0 =C2=A0 =C2=A0 ip_stripoptions use memmove<br>
-<br>
-Giuseppe Scrivano (1):<br>
-=C2=A0 =C2=A0 =C2=A0 socket: consume empty packets<br>
-<br>
-Hafiz Abid Qadeer (1):<br>
-=C2=A0 =C2=A0 =C2=A0 Fix a typo that can cause slow socket response on Wind=
-ows.<br>
-<br>
-Jindrich Novy (4):<br>
-=C2=A0 =C2=A0 =C2=A0 Fix possible infinite loops and use-after-free<br>
-=C2=A0 =C2=A0 =C2=A0 Use secure string copy to avoid overflow<br>
-=C2=A0 =C2=A0 =C2=A0 Be sure to initialize sockaddr structure<br>
-=C2=A0 =C2=A0 =C2=A0 Check lseek() for failure<br>
-<br>
-Marc-Andr=C3=A9 Lureau (26):<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;master&#39; into &#39;master&#39;<br=
->
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;fix-slirpconfig-3-doc&#39; into &#39=
-;master&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Fix use-afte-free in ip_reass() (CVE-2020-1983)<br>
-=C2=A0 =C2=A0 =C2=A0 Update CHANGELOG<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;cve-2020-1983&#39; into &#39;master&=
-#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Release v4.3.0<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;release-v4.3.0&#39; into &#39;master=
-&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 changelog: post-release<br>
-=C2=A0 =C2=A0 =C2=A0 util: do not silently truncate<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;slirp-fmt-truncate&#39; into &#39;ma=
-ster&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Release v4.3.1<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;release-v4.3.1&#39; into &#39;master=
-&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 changelog: post-release<br>
-=C2=A0 =C2=A0 =C2=A0 .gitlab-ci: add a Coverity stage<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;coverity&#39; into &#39;master&#39;<=
-br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;ios-support&#39; into &#39;master&#3=
-9;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;master&#39; into &#39;master&#39;<br=
->
-=C2=A0 =C2=A0 =C2=A0 Remove the QEMU-special make build-system<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;qemu&#39; into &#39;master&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Release v4.4.0<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;4.4.0-release&#39; into &#39;master&=
-#39;<br>
-=C2=A0 =C2=A0 =C2=A0 changelog: post-release<br>
-=C2=A0 =C2=A0 =C2=A0 Remove some needless (void)casts<br>
-=C2=A0 =C2=A0 =C2=A0 Fix unused variables<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;gitignore-build&#39; into &#39;maste=
-r&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;macos-deployment-target&#39; into &#=
-39;master&#39;<br>
-<br>
-Nathaniel Wesley Filardo (1):<br>
-=C2=A0 =C2=A0 =C2=A0 fork_exec_child_setup: improve signal handling<br>
-<br>
-Paolo Bonzini (2):<br>
-=C2=A0 =C2=A0 =C2=A0 meson: remove meson-dist script<br>
-=C2=A0 =C2=A0 =C2=A0 meson: support compiling as subproject<br>
-<br>
-Philippe Mathieu-Daud=C3=A9 (3):<br>
-=C2=A0 =C2=A0 =C2=A0 Fix win32 builds by using the SLIRP_PACKED definition<=
-br>
-=C2=A0 =C2=A0 =C2=A0 Fix constness warnings<br>
-=C2=A0 =C2=A0 =C2=A0 Remove unnecessary break<br>
-<br>
-Prasad J Pandit (1):<br>
-=C2=A0 =C2=A0 =C2=A0 slirp: check pkt_len before reading protocol header<br=
->
-<br>
-Ralf Haferkamp (2):<br>
-=C2=A0 =C2=A0 =C2=A0 Drop bogus IPv6 messages<br>
-=C2=A0 =C2=A0 =C2=A0 Fix MTU check<br>
-<br>
-Samuel Thibault (45):<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;ip6_payload_len&#39; into &#39;maste=
-r&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;lp1878043&#39; into &#39;master&#39;=
-<br>
-=C2=A0 =C2=A0 =C2=A0 udp, udp6, icmp: handle TTL value<br>
-=C2=A0 =C2=A0 =C2=A0 icmp, icmp6: Add icmp_forward_error and icmp6_forward_=
-error<br>
-=C2=A0 =C2=A0 =C2=A0 udp, udp6, icmp, icmp6: Enable forwarding errors on Li=
-nux<br>
-=C2=A0 =C2=A0 =C2=A0 TCPIPHDR_DELTA: Fix potential negative value<br>
-=C2=A0 =C2=A0 =C2=A0 sosendoob: better document what urgc is used for<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;G_GNUC_PRINTF&#39; into &#39;master&=
-#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;CVE-2020-29129&#39; into &#39;master=
-&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;ttl&#39; into &#39;master&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;errors&#39; into &#39;master&#39;<br=
->
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;consume-empty-packet&#39; into &#39;=
-master&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;void&#39; into &#39;master&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;master&#39; into &#39;master&#39;<br=
->
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;unused&#39; into &#39;master&#39;<br=
->
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;socket_delay&#39; into &#39;master&#=
-39;<br>
-=C2=A0 =C2=A0 =C2=A0 tcp_subr: simplify code<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;ipv6-host-fwd-9-patch&#39; into &#39=
-;master&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Document the slirp API<br>
-=C2=A0 =C2=A0 =C2=A0 Complete timeout documentation<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;memset-sizeof&#39; into &#39;master&=
-#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;reject-ipv6-addr-any&#39; into &#39;=
-master&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 ip6_output: fix memory leak on fast-send<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;ndp-leak&#39; into &#39;master&#39;<=
-br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;memory_leaks&#39; into &#39;master&#=
-39;<br>
-=C2=A0 =C2=A0 =C2=A0 TODO for generalizing the hostfwd calls<br>
-=C2=A0 =C2=A0 =C2=A0 socket.h: add missing sbuf.h inclusion<br>
-=C2=A0 =C2=A0 =C2=A0 Expose udpx_listen and tcpx_listen as taking sockaddr<=
-br>
-=C2=A0 =C2=A0 =C2=A0 Disable polling for PRI on MacOS<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;macos-pri&#39; into &#39;master&#39;=
-<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;x_listen&#39; into &#39;master&#39;<=
-br>
-=C2=A0 =C2=A0 =C2=A0 udpx/tcpx_listen: Add missing const qualifier<br>
-=C2=A0 =C2=A0 =C2=A0 sockaddr_*: add missing const qualifiers<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;m-cleanup-list-prototype&#39; into &=
-#39;master&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;neighbor-info&#39; into &#39;master&=
-#39;<br>
-=C2=A0 =C2=A0 =C2=A0 udpx/tcpx_listen: Use struct sockaddr * types<br>
-=C2=A0 =C2=A0 =C2=A0 Add ipv4/ipv6-agnostic host forwarding functions<br>
-=C2=A0 =C2=A0 =C2=A0 hostfwd: Add SLIRP_HOSTFWD_V6ONLY flag<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;hostxfwd&#39; into &#39;master&#39;<=
-br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;verbose-if-start&#39; into &#39;mast=
-er&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Remove slirp_add/remove_ipv6_hostfwd<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;listen-errno&#39; into &#39;master&#=
-39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;newtcpcb-no-fail&#39; into &#39;mast=
-er&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;listen_v6only&#39; into &#39;master&=
-#39;<br>
-=C2=A0 =C2=A0 =C2=A0 Merge branch &#39;lazy-ipv6-resolution&#39; into &#39;=
-master&#39;<br>
-<br>
-Stefan Weil (1):<br>
-=C2=A0 =C2=A0 =C2=A0 Add G_GNUC_PRINTF to local function slirp_vsnprintf<br=
->
-<br>
-WaluigiWare64 (1):<br>
-=C2=A0 =C2=A0 =C2=A0 Set macOS deployment target to macOS 10.4 Without a ma=
-cOS deployment target, the resulting library does not work on macOS version=
-s lower than it was currently built on. For example, if libslirp was built =
-on macOS 10.15, it would not work on macOS 10.14.<br>
-<br>
-jeremy marchand (4):<br>
-=C2=A0 =C2=A0 =C2=A0 m_free: remove the M_EXT flag after freeing the mbuf e=
-xtended buffer<br>
-=C2=A0 =C2=A0 =C2=A0 refactor m_cleanup as requested in slirp/libslirp!68<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 m_cleanup: fix memory leaks<br>
-=C2=A0 =C2=A0 =C2=A0 m_cleanup: set qh_link and qh_rlink to the list head<b=
-r>
-<br>
-osy (1):<br>
-=C2=A0 =C2=A0 =C2=A0 Add DNS resolving for iOS<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 15, 2021 at 7:40 AM Doug =
+Evans &lt;<a href=3D"mailto:dje@google.com">dje@google.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">The parsing is mo=
+ved into new function inet_parse_host_port.<br>
+Also split out is ipv4=3Dflag, ipv6=3Dflag processing into inet_parse_ipv46=
+.<br>
+This is done in preparation for using these functions in net/slirp.c.<br>
 <br>
 Signed-off-by: Doug Evans &lt;<a href=3D"mailto:dje@google.com" target=3D"_=
-blank">dje@google.com</a>&gt;<br>
+blank">dje@google.com</a>&gt;<br></blockquote><div><br></div><div>Reviewed-=
+by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.co=
+m">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">
 ---<br>
 <br>
 Changes from v5:<br>
 <br>
-1/4 slirp: Advance libslirp submodule to current master<br>
-NOTE TO REVIEWERS: It may be a better use of everyone&#39;s time if a<br>
-maintainer takes on advancing QEMU&#39;s libslirp to libslirp&#39;s master.=
+Also split out parsing of ipv4=3Don|off, ipv6=3Don|off<br>
 <br>
-Beyond that, I really don&#39;t know what to do except submit this patch as=
+=C2=A0include/qemu/sockets.h |=C2=A0 3 ++<br>
+=C2=A0util/qemu-sockets.c=C2=A0 =C2=A0 | 65 +++++++++++++++++++++++++++++--=
+-----------<br>
+=C2=A02 files changed, 48 insertions(+), 20 deletions(-)<br>
 <br>
-is currently provided.<br>
-<br></blockquote><div><br></div><div><div>Reviewed-by: Marc-Andr=C3=A9 Lure=
-au &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redh=
-at.com</a>&gt;<br></div></div><br></div><div class=3D"gmail_quote">It can d=
-o, but it should rather be a diff of the commits that are new, those that w=
-ere not in the stable branch.<br><div><br></div><div>=C2=A0</div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
-=C2=A0slirp | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h<br>
+index 7d1f813576..94f4e8de83 100644<br>
+--- a/include/qemu/sockets.h<br>
++++ b/include/qemu/sockets.h<br>
+@@ -31,6 +31,9 @@ int socket_set_fast_reuse(int fd);<br>
 <br>
-diff --git a/slirp b/slirp<br>
-index 8f43a99191..4e6444e842 160000<br>
---- a/slirp<br>
-+++ b/slirp<br>
-@@ -1 +1 @@<br>
--Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece<br>
-+Subproject commit 4e6444e842695a6bfb00e15a8d0edfceb5c4628d<br>
+=C2=A0int inet_ai_family_from_address(InetSocketAddress *addr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp);<br>
++const char *inet_parse_host_port(InetSocketAddress *addr,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *str, Error **errp)=
+;<br>
++int inet_parse_ipv46(InetSocketAddress *addr, const char *optstr, Error **=
+errp);<br>
+=C2=A0int inet_parse(InetSocketAddress *addr, const char *str, Error **errp=
+);<br>
+=C2=A0int inet_connect(const char *str, Error **errp);<br>
+=C2=A0int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);<br>
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c<br>
+index 8af0278f15..c0069f2565 100644<br>
+--- a/util/qemu-sockets.c<br>
++++ b/util/qemu-sockets.c<br>
+@@ -615,14 +615,12 @@ static int inet_parse_flag(const char *flagname, cons=
+t char *optstr, bool *val,<br>
+=C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+-int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)<br>
++const char *inet_parse_host_port(InetSocketAddress *addr, const char *str,=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 const char *optstr, *h;<br>
+=C2=A0 =C2=A0 =C2=A0char host[65];<br>
+=C2=A0 =C2=A0 =C2=A0char port[33];<br>
+-=C2=A0 =C2=A0 int to;<br>
+=C2=A0 =C2=A0 =C2=A0int pos;<br>
+-=C2=A0 =C2=A0 char *begin;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0memset(addr, 0, sizeof(*addr));<br>
+<br>
+@@ -632,38 +630,32 @@ int inet_parse(InetSocketAddress *addr, const char *s=
+tr, Error **errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0host[0] =3D &#39;\0&#39;;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sscanf(str, &quot;:%32[^,]%n&quot;, p=
+ort, &amp;pos) !=3D 1) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;erro=
+r parsing port in address &#39;%s&#39;&quot;, str);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0} else if (str[0] =3D=3D &#39;[&#39;) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* IPv6 addr */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sscanf(str, &quot;[%64[^]]]:%32[^,]%n=
+&quot;, host, port, &amp;pos) !=3D 2) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;erro=
+r parsing IPv6 address &#39;%s&#39;&quot;, str);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0} else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* hostname or IPv4 addr */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (sscanf(str, &quot;%64[^:]:%32[^,]%n&q=
+uot;, host, port, &amp;pos) !=3D 2) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;erro=
+r parsing address &#39;%s&#39;&quot;, str);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0addr-&gt;host =3D g_strdup(host);<br>
+=C2=A0 =C2=A0 =C2=A0addr-&gt;port =3D g_strdup(port);<br>
+<br>
+-=C2=A0 =C2=A0 /* parse options */<br>
+-=C2=A0 =C2=A0 optstr =3D str + pos;<br>
+-=C2=A0 =C2=A0 h =3D strstr(optstr, &quot;,to=3D&quot;);<br>
+-=C2=A0 =C2=A0 if (h) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 h +=3D 4;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sscanf(h, &quot;%d%n&quot;, &amp;to, &amp;=
+pos) !=3D 1 ||<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (h[pos] !=3D &#39;\0&#39; &amp;&=
+amp; h[pos] !=3D &#39;,&#39;)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;error par=
+sing to=3D argument&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;has_to =3D true;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;to =3D to;<br>
+-=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 return str + pos;<br>
++}<br>
++<br>
++int inet_parse_ipv46(InetSocketAddress *addr, const char *optstr, Error **=
+errp)<br>
++{<br>
++=C2=A0 =C2=A0 char *begin;<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0begin =3D strstr(optstr, &quot;,ipv4&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0if (begin) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (inet_parse_flag(&quot;ipv4&quot;, beg=
+in + 5, &amp;addr-&gt;ipv4, errp) &lt; 0) {<br>
+@@ -678,6 +670,39 @@ int inet_parse(InetSocketAddress *addr, const char *st=
+r, Error **errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr-&gt;has_ipv6 =3D true;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
++<br>
++int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 const char *optstr, *h;<br>
++=C2=A0 =C2=A0 int to;<br>
++=C2=A0 =C2=A0 int pos;<br>
++=C2=A0 =C2=A0 char *begin;<br>
++<br>
++=C2=A0 =C2=A0 optstr =3D inet_parse_host_port(addr, str, errp);<br>
++=C2=A0 =C2=A0 if (optstr =3D=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /* parse options */<br>
++<br>
++=C2=A0 =C2=A0 if (inet_parse_ipv46(addr, optstr, errp) &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 h =3D strstr(optstr, &quot;,to=3D&quot;);<br>
++=C2=A0 =C2=A0 if (h) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 h +=3D 4;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sscanf(h, &quot;%d%n&quot;, &amp;to, &amp;=
+pos) !=3D 1 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (h[pos] !=3D &#39;\0&#39; &amp;&=
+amp; h[pos] !=3D &#39;,&#39;)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;error par=
+sing to=3D argument&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;has_to =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;to =3D to;<br>
++=C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0begin =3D strstr(optstr, &quot;,keep-alive&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0if (begin) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (inet_parse_flag(&quot;keep-alive&quot=
+;, begin + strlen(&quot;,keep-alive&quot;),<br>
 -- <br>
 2.31.1.295.g9ea45b61b8-goog<br>
 <br>
@@ -523,5 +437,5 @@ index 8f43a99191..4e6444e842 160000<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000faed6705c1bf0151--
+--00000000000035055205c1bf03d3--
 
