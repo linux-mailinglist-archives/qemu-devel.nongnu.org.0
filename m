@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4627B376567
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:43:51 +0200 (CEST)
-Received: from localhost ([::1]:37786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1BF376540
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:37:09 +0200 (CEST)
+Received: from localhost ([::1]:48934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lezpe-0004V1-AC
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:43:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57340)
+	id 1lezjA-0005mq-2m
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:37:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbU-0000g2-3s
+ id 1lezbU-0000hF-Kq
  for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:12 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:49986)
+Received: from aserp2130.oracle.com ([141.146.126.79]:49994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbP-0001Tr-TO
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:11 -0400
+ id 1lezbQ-0001U6-L1
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:12 -0400
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CEJtJ148872;
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CEs7u149340;
  Fri, 7 May 2021 12:29:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=JfjHWFHUNhb7JM67PxW1K1BAotVKjQnVbNBqz87553U=;
- b=aIQNWHXzKS1n0T6GUQeUQ4k7pUFITq8pSxmsH+iiykdut9mnuURuhxFfermOa2Ehb8tH
- lOC6EvNRtdg3ez4GE2ae8S+oGITnz8Rj74T9Lz+tgLpO2H/mRV8uNOKPVHEKdDULx1eR
- N3x6d8NKm+1NGbVFfMdjJDrXIYI6LkDFN11W0V2uNdS8GKci5Q84VJPo4gWM7+sRvqTR
- LoZ4i4Lc1HAjIUtSHJV0/A2svyKjFKiECoap4E5iWe9vKGggUvBm5+1vQg6P518dken4
- rrkfQUKmiOcIoLdknqRaHY8DGagbk2BnpLthDXqg3R4OqEURTLyAbHd5H7yi1vhOgpVH +Q== 
+ bh=c0E/zcDJGjSGN7JHoqA7EjNGE+X5H2Tp4mcfHSW8Qr4=;
+ b=gu0MAozimc0XuUCL4QzEZ7HW30F1vYofIgRACYwdeejRAY76Dg7x+u0rAbAzjgz9B1U2
+ cNq2J2EZ6dzjwEdpJNk6S3xfGXigfubVFNWo9823a+A9hWObgpKVnvoHrZFaCRSCzLNd
+ ehC3QVwmapLXihafgJd3GgDLj/raWsmV2/DiPtj7M9N1lG3rB3HposbnPbkEPpRKCFzf
+ gsMbV/5LN0MIbfNQa+KQlmhyEpHihT+eMJhMMRumdCpXWjO+krdBXT1F0Wc0Rx6xJBPP
+ 5f5tKzuE3ftGcQm7ANhIRMtVCCD9f2scrKp+050tvbBBUvBnQ7CMeTRnepfiXcNiUDVe qQ== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2130.oracle.com with ESMTP id 38csrd9ewm-1
+ by aserp2130.oracle.com with ESMTP id 38csrd9ewn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 May 2021 12:29:04 +0000
+ Fri, 07 May 2021 12:29:05 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CFkMl168017;
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CFl05168295;
  Fri, 7 May 2021 12:29:04 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by userp3020.oracle.com with ESMTP id 38csrh1t9r-1
+ by userp3020.oracle.com with ESMTP id 38csrh1tac-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 07 May 2021 12:29:04 +0000
 Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CT3K6014655;
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CT31n014690;
  Fri, 7 May 2021 12:29:03 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 38csrh1t8c-1
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 38csrh1t8k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 07 May 2021 12:29:03 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 147CT1Vm016430;
- Fri, 7 May 2021 12:29:01 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 147CT2Uo017250;
+ Fri, 7 May 2021 12:29:02 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 07 May 2021 05:29:01 -0700
+ with ESMTP ; Fri, 07 May 2021 05:29:02 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V3 14/22] vhost: reset vhost devices upon cprsave
-Date: Fri,  7 May 2021 05:25:12 -0700
-Message-Id: <1620390320-301716-15-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V3 15/22] hostmem-memfd: cpr support
+Date: Fri,  7 May 2021 05:25:13 -0700
+Message-Id: <1620390320-301716-16-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
 References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-ORIG-GUID: iqFO6HJQCikgcx2EFq3caxffR8ecit2d
-X-Proofpoint-GUID: iqFO6HJQCikgcx2EFq3caxffR8ecit2d
+X-Proofpoint-ORIG-GUID: 6m-KbUIzjW9l9fxyUapDCqG7Hir5Qox1
+X-Proofpoint-GUID: 6m-KbUIzjW9l9fxyUapDCqG7Hir5Qox1
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
@@ -109,66 +109,60 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A vhost device is implicitly preserved across re-exec because its fd is not
-closed, and the value of the fd is specified on the command line for the
-new qemu to find.  However, new qemu issues an VHOST_RESET_OWNER ioctl,
-which fails because the device already has an owner.  To fix, reset the
-owner prior to exec.
+Preserve memory-backend-memfd memory objects during cpr.
 
-Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hw/virtio/vhost.c         | 11 +++++++++++
- include/hw/virtio/vhost.h |  1 +
- migration/cpr.c           |  1 +
- 3 files changed, 13 insertions(+)
+ backends/hostmem-memfd.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index e2163a0..8c0c9c3 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1820,6 +1820,17 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
-     hdev->vdev = NULL;
- }
- 
-+void vhost_dev_reset_all(void)
-+{
-+    struct vhost_dev *dev;
-+
-+    QLIST_FOREACH(dev, &vhost_devices, entry) {
-+        if (dev->vhost_ops->vhost_reset_device(dev) < 0) {
-+            VHOST_OPS_DEBUG("vhost_reset_device failed");
-+        }
-+    }
-+}
-+
- int vhost_net_set_backend(struct vhost_dev *hdev,
-                           struct vhost_vring_file *file)
+diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
+index 69b0ae3..3503c89 100644
+--- a/backends/hostmem-memfd.c
++++ b/backends/hostmem-memfd.c
+@@ -15,6 +15,7 @@
+ #include "sysemu/sysemu.h"
+ #include "qom/object_interfaces.h"
+ #include "qemu/memfd.h"
++#include "qemu/env.h"
+ #include "qemu/module.h"
+ #include "qapi/error.h"
+ #include "qom/object.h"
+@@ -36,23 +37,25 @@ static void
+ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
  {
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 4a8bc75..71704d4 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -106,6 +106,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
- void vhost_dev_cleanup(struct vhost_dev *hdev);
- int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
- void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
-+void vhost_dev_reset_all(void);
- int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
- void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
+     HostMemoryBackendMemfd *m = MEMORY_BACKEND_MEMFD(backend);
+-    char *name;
+-    int fd;
++    char *name = host_memory_backend_get_name(backend);
++    int fd = getenv_fd(name);
  
-diff --git a/migration/cpr.c b/migration/cpr.c
-index e9a189b..3cde26f 100644
---- a/migration/cpr.c
-+++ b/migration/cpr.c
-@@ -136,6 +136,7 @@ void cprsave(const char *file, CprMode mode, Error **errp)
-             goto err;
-         }
-         walkenv(FD_PREFIX, preserve_fd, 0);
-+        vhost_dev_reset_all();
-         setenv("QEMU_START_FREEZE", "", 1);
-         qemu_system_exec_request();
+     if (!backend->size) {
+         error_setg(errp, "can't create backend with size 0");
+         return;
      }
+ 
+-    fd = qemu_memfd_create(TYPE_MEMORY_BACKEND_MEMFD, backend->size,
+-                           m->hugetlb, m->hugetlbsize, m->seal ?
+-                           F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL : 0,
+-                           errp);
+-    if (fd == -1) {
+-        return;
++    if (fd < 0) {
++        fd = qemu_memfd_create(TYPE_MEMORY_BACKEND_MEMFD, backend->size,
++                               m->hugetlb, m->hugetlbsize, m->seal ?
++                               F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL : 0,
++                               errp);
++        if (fd == -1) {
++            return;
++        }
++        setenv_fd(name, fd);
+     }
+ 
+-    name = host_memory_backend_get_name(backend);
+     memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
+                                    name, backend->size,
+                                    backend->share, fd, 0, errp);
 -- 
 1.8.3.1
 
