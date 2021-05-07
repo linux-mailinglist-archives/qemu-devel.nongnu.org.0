@@ -2,67 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917B03760AC
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 08:47:28 +0200 (CEST)
-Received: from localhost ([::1]:47996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F63F376102
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 09:12:52 +0200 (CEST)
+Received: from localhost ([::1]:55896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leuGl-0005uG-IN
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 02:47:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46580)
+	id 1leufK-0001qj-QD
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 03:12:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leuFQ-0005Tp-9R
- for qemu-devel@nongnu.org; Fri, 07 May 2021 02:46:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49568)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1leuF3-0001i5-AD
- for qemu-devel@nongnu.org; Fri, 07 May 2021 02:46:04 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1leuF2-00027O-14
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 06:45:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 06FB12E8136
- for <qemu-devel@nongnu.org>; Fri,  7 May 2021 06:45:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1leueV-0001LR-8N; Fri, 07 May 2021 03:11:59 -0400
+Received: from mail-eopbgr40090.outbound.protection.outlook.com
+ ([40.107.4.90]:64799 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1leueQ-0004lA-5V; Fri, 07 May 2021 03:11:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hqCBF0SeoENBF059Wx3/LuZg4OPG+wSNxe3UsjGB9+udtxxD3U1akQ4zf/acQrW42nlsDtZEOipxUc8K04aW0+IW+ny8417Rdl3awfuw/sC7TT1eCWw+70DmSbVx2AFYR5vlIllz7RtNiAgR414zUNDbhXzujvI4yFH9CDBSUEF4JlDNbr7gaNZpaWjELoo06TAY7yLpPm4eOrxKSS5vozJxawmbtQSiU/UCDtFoVWhDHvgI74ltmcr4+OTjuK/B+5avq94K1MiOfgCjw9gFkYhjPXH3f3GskwZvY9zExG7JJMQvg+vIEL542aXvNBPxWt9RhM49lfHQsgiCaSQr0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N4HC+cBZOTbsFwH2kanAx6SGjWcJogk1cSpSR0GF1+w=;
+ b=eNHMRWqGh07BJa3uDmoWuHyy5IBRkH81Z7Wvnp2Q/PFh8dB+uwH4ISgqlcQPV+4G8nUlWO2PQtpihsBH4s58C+KVFV8wB/z0mMwGF7qa1N9GF50Pe/NEskXoG/z5ZDzEr4frwUWGOEnnQQo7ygaYzXP3Zf0SpxhWL28Xv6XAtxix4/7TOHDxSLvkkRDiFhkO638ofgp3C4PIvmfI4zYYmurPP9ihLQZPo3YUES35nbo4lz+gFRREbSp/VCbLGov4yib08hZyTL//R1und8w7ovn0UR+uiSaZKxKZ+xM2uQ253yFOKC6Xrvup7xjc6kYzodH57juBNE28Xx1Kv8lY2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N4HC+cBZOTbsFwH2kanAx6SGjWcJogk1cSpSR0GF1+w=;
+ b=iyg1XG+jpAJrMCUPW5FnU+J6+b9rtPUrZbEwQKmPE7o6hjC58MFCnDIBDk/j6y7WEoUPCnimMRHbRG9I/AOj2MiXEQ4c++ysAHD03l3YtZCLRKdWKZqRO4sLHD8LafX5gjOBYkrFz7i1BGV4hc6OCERZsKLVea2X7wrW68ceUIA=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5077.eurprd08.prod.outlook.com (2603:10a6:20b:e6::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.27; Fri, 7 May
+ 2021 07:11:49 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.029; Fri, 7 May 2021
+ 07:11:49 +0000
+Subject: Re: [PATCH v4 2/6] block: Allow changing bs->file on reopen
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
+References: <cover.1616000692.git.berto@igalia.com>
+ <31ccb1061199ee11bf9879f6c60608a19b83263d.1616000692.git.berto@igalia.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <eaa0b429-223a-dd84-9e14-ba37fb0ad03e@virtuozzo.com>
+Date: Fri, 7 May 2021 10:11:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+In-Reply-To: <31ccb1061199ee11bf9879f6c60608a19b83263d.1616000692.git.berto@igalia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.236]
+X-ClientProxiedBy: AM4PR0902CA0015.eurprd09.prod.outlook.com
+ (2603:10a6:200:9b::25) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 May 2021 06:38:24 -0000
-From: =?utf-8?q?Eugenio_P=C3=A9rez?= <1885175@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: iommu
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: eperezma th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Eugenio_P=C3=A9rez_=28eperezma=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Eugenio_P=C3=A9rez_=28eperezma=29?=
-References: <159311159018.14164.3191713731245794696.malonedeb@wampee.canonical.com>
-Message-Id: <162036950562.14295.12479052355353493850.launchpad@soybean.canonical.com>
-Subject: [Bug 1885175] Re: memory.c range assertion hit at full invalidating
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: 038fb47b3ba377352e02084773734494d6c52815
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.236) by
+ AM4PR0902CA0015.eurprd09.prod.outlook.com (2603:10a6:200:9b::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend
+ Transport; Fri, 7 May 2021 07:11:49 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2e170019-968d-455c-ac5d-08d9112761f8
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5077:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB50772FCD74B2457BB311C3A4C1579@AM6PR08MB5077.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qjRAgrtPl96P/ODbKFbm8VFez4+yZlNaSVO78+hs0m4nSgDg4R0zUCFvd6G2U0+WBlHuRM9Vf8keo+oaIHKweddYkwAu7ln9FvmThzQFTKmFt8vG5+Qhv2AkL3vRa98hV9uSeDtcfiMvAS4GjchAGdqb1REbmiywkOuL5wWPCLV3hfkPFjaeTgKSkvOtz3CRYOiRGNCXL6L+15MK5dPACpaz2I7QsRaT5nMNRzc1jn27baTHCDmOaAoHaWnoRtj2CvVPrXvkVdl+SY+Sd88xf7x3Z3RjgH/jlgDwsDcobt6KR2rRbFq3uFeTYQWB1VOgXXN3HBq/9jE14Kl43LEaFNnaNveaeRZpIwQpNX7iXvWf7Yi8LSmkYGzDz02oSMzLMBtC3YWDFiBmGjbeNh/JDBIXjLRVEW1ucN3fbVbmF2a7YDZzf54ltAlGroTBco+my0r8HxlXydilv42eJVefg7ZWc3YIDS9IC03LZQRgws3aJvlqcqFYlLYXt91e9BHQqHBJwIyOfbCenk7irz1Ma9CG7GxhZqz1iphxg8yC8ijTMlUcoD07pnizi8N47gqg+fzdmUVlcPStjvbGzpmyGbi1Q/3XtdDhbZL9R3BPuiXURF9PplHic15aJwPAHIhtO4B4r+lzDet9/8wZPL5jGloLLiLYRsFRAornhJk983dXyUtDttR+VihWi+N4h4Dz2ap6U/6xMIB2SDaY7p0yTasaBei6C0ZZBkUw5IoXLvc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(39830400003)(346002)(376002)(366004)(956004)(86362001)(26005)(478600001)(31696002)(2906002)(16526019)(8936002)(38100700002)(8676002)(38350700002)(54906003)(4326008)(52116002)(186003)(66946007)(5660300002)(36756003)(2616005)(83380400001)(16576012)(31686004)(66476007)(316002)(66556008)(6486002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?NDFBWi9ETFVaNTJ2OGNrZWg0bDdWcFNuZTdBbmREeUFuMGNQK01iVk5DL0Ry?=
+ =?utf-8?B?Z2NLMkVSZ0phcmJPVitLUmpOSmhUZHRQZ1pwYTNURW5MSFlZbWx6WnErWWQz?=
+ =?utf-8?B?ZVQ5NWhQeWlhRTAwemRvOHdVSlRLUGFTUFhjOXdkejhXckRCOW51NWhPZHJB?=
+ =?utf-8?B?R1h1U0dmNTFLRFNVQkdjVVFsM0hnbGxEL211YzhCODloaW1leGNtb3Boa3VC?=
+ =?utf-8?B?N0Iwbm1WamgrZWxtY3Q5ekFIZ2RkMFFmblJYdFZ2N0dlaVB1OWhUeU00bFQ2?=
+ =?utf-8?B?RXYyc3d4cURGbURvWDNxMHAwT1l5Vmx3UEFPT2QwdzMvbng4ZGRGMnVsVXlr?=
+ =?utf-8?B?WC91ZU1vdlNIVVpkOHAwam1Rdmo0NkZtcFVyeWI2MW1HOXZxVW93UnFFM2xh?=
+ =?utf-8?B?ay82dmpHT01YN0Q0cndpbWt3dkhaMkFqcFNGRVArTG44RmhrbVl5UTE3bld6?=
+ =?utf-8?B?SlZPWU1heEtRSkdnSlZQQTFOcWFZZG9TZFprMDdkZjI4SFpQUXE1WW83WWla?=
+ =?utf-8?B?eHUrNnhjZUFraU42dExBNW5JR1Rxc2QrM0NSb0hjL0oyTGFUSWwxZnlnc1Bz?=
+ =?utf-8?B?QzJCd0g3VE9jRFVVSTVJa2pBcTVxNkUrTHhsNGNtbXpmSWFDb2VPQjY4YzNp?=
+ =?utf-8?B?TjAvRFpiVXZJdThHYkdFbDc0YlpXT2pFTUhMOEY1OWxvMzJuS1ZqcUJXZVdC?=
+ =?utf-8?B?eVNRUlNEb0dEcjR4cm9sc0Y3WVp4bjM3Mm11WWVsV0d4ZmZZRnZIS25pcUJX?=
+ =?utf-8?B?Z2tzSzJlYU1sTHRHbTB5c3hhbnBEeXExck5KbkZJeGhVbW5pKzhLaXBXT1hk?=
+ =?utf-8?B?ZXdJUkdlU0IwR25qNTR3MXYxclYzbjJKVm5VWDJOUENGVjBkV0ozNGJSMTB6?=
+ =?utf-8?B?ZGZnV3oyVFI2b2xlaERwcFVGY1FBNURzWjExVE5pTG84YWtLSVhVZmNrUWZt?=
+ =?utf-8?B?QWhvVXJRMExHZTJwMEpjeFAxSTIxWGFvamlJWjNweWI1MUV3cTBmSVpvUUt0?=
+ =?utf-8?B?MTE2cXMzVE0zOXNCUjczZlVGbkMyOWlUUWVBNUI0WmxZUFlmQkJsN3BtdFk3?=
+ =?utf-8?B?QTlaMWhHczR6V0NKbWFkempKZHM2QU1kbjRGR2x6TjJEaEl2TTIvYmRDTkRZ?=
+ =?utf-8?B?TnFXa09TRDZwWVdibjJCZzNiSjhxNVVLNTNGay9ndmo3Q21DdmNhTUpDYmpt?=
+ =?utf-8?B?cC9zbmhUVm14eWl1ajhiM2tPQndDeHl1ZXB1ZWJsazBkU1NFbkV5bkdsR2tD?=
+ =?utf-8?B?R0tqL3VXd3U0d2JHOGthcU9DZXRxZHVuUlpPWnhodlFMYks5dUI1d0VFL3RP?=
+ =?utf-8?B?REZmU2JwdFZ5YnV6TnZ0cjFKYUduTDhFSWdQMXdOemo3QUllVWFBbnBna2l1?=
+ =?utf-8?B?T0lPNTNnWk1NcFFhdnQrRkc5RE5jTThwc3ZuVldtTWNBQkkrTVd0bGx6TTZR?=
+ =?utf-8?B?NzJSMGo1Z3pmRE9QMWdFTVZaamdrK1kxbE54U3RDK2VneWEwWUFyVlBmZEZn?=
+ =?utf-8?B?RU9QOWt3R1BmQ2RGeVR4c3kzdlhiZnhwNkx3bmh6TjkxYXpPb3dwWUdNaVhY?=
+ =?utf-8?B?Z1dVbXhkaE8zOUo0R2RtbU93Z085REplYU9ZOUNUV0J0MktXV1BrY0JGdXpN?=
+ =?utf-8?B?T3gzRWJPVmMrOVp3bklkMkdQZFZxK3JlWkUwVkJxcXMzaklYZ3dpV21FTVNt?=
+ =?utf-8?B?WWxaSXZZMnNFQnRVZHJ1eU5sTVNrUVMvSGxBMlR2cnNDejQvSm5TeDFUWklT?=
+ =?utf-8?Q?+v3yG4MwL6BcWKsf0A/EQNrwL+RKd+ORC+YYw+I?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e170019-968d-455c-ac5d-08d9112761f8
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2021 07:11:49.6063 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gk0n7yErs6tTFBr6p1IuFsWsfWd5EfzY9BwrBztk6+WxG7rKSTlo5svRzfDEnk+5tNQsZVwivWbHfT2IYqhzHBBlJzyspCKWtVxL3Q89doQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5077
+Received-SPF: pass client-ip=40.107.4.90;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,154 +145,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1885175 <1885175@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+17.03.2021 20:15, Alberto Garcia wrote:
+> When the x-blockdev-reopen was added it allowed reconfiguring the
+> graph by replacing backing files, but changing the 'file' option was
+> forbidden. Because of this restriction some operations are not
+> possible, notably inserting and removing block filters.
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1885175
+I now started to work on making backup-top filter public..
 
-Title:
-  memory.c range assertion hit at full invalidating
+And I think, we'll need separate commands to insert/remove filters anyway.. As blockdev-reopen has the following problems:
 
-Status in QEMU:
-  Fix Released
+1. It can't append filter above top node, connected to block-device. (but bdrv_append() can do it)
 
-Bug description:
-  I am able to hit this assertion when a Red Hat 7 guest virtio_net
-  device raises an "Invalidation" of all the TLB entries. This happens
-  in the guest's startup if 'intel_iommu=3Don' argument is passed to the
-  guest kernel and right IOMMU/ATS devices are declared in qemu's
-  command line.
+2. It can't simultaneously create new node and append it. This is important for backup-top filter, which unshares write even when has no writing parent. Now bdrv_append() works in a smart way for it: it first do both graph modification (add child to filter, and replace original node by filter) and then update graph permissions. So, we'll need a command which in one roll create filter node and inserts it where needed.
 
-  Command line: /home/qemu/x86_64-softmmu/qemu-system-x86_64 -name
-  guest=3Drhel7-test,debug-threads=3Don -machine
-  pc-q35-5.1,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff,kernel_irqchip=3Ds=
-plit
-  -cpu
-  Broadwell,vme=3Don,ss=3Don,vmx=3Don,f16c=3Don,rdrand=3Don,hypervisor=3Don=
-,arat=3Don
-  ,tsc-adjust=3Don,umip=3Don,arch-
-  capabilities=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=3Don,skip-l1dfl-
-  vmentry=3Don,rtm=3Don,hle=3Don -m 8096 -realtime mlock=3Doff -smp
-  2,sockets=3D2,cores=3D1,threads=3D1 -uuid d022ecbf-679e-4755-87ce-
-  eb87fc5bbc5d -display none -no-user-config -nodefaults -rtc
-  base=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -no-h=
-pet
-  -no-shutdown -global ICH9-LPC.disable_s3=3D1 -global
-  ICH9-LPC.disable_s4=3D1 -boot strict=3Don -device intel-iommu,intremap=3D=
-on
-  ,device-iotlb=3Don -device pcie-root-
-  port,port=3D0x8,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,multifunction=3Don,ad=
-dr=3D0x1
-  -device pcie-root-
-  port,port=3D0x9,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0,addr=3D0x1.0x1 -devic=
-e pcie-
-  root-port,port=3D0xa,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,addr=3D0x1.0x2 -=
-device
-  pcie-root-port,port=3D0xb,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x1.=
-0x3
-  -device pcie-root-
-  port,port=3D0xc,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x1.0x4 -devic=
-e pcie-
-  root-port,port=3D0xd,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,addr=3D0x1.0x5 -=
-device
-  pcie-root-port,port=3D0xe,chassis=3D7,id=3Dpci.7,bus=3Dpcie.0,addr=3D0x1.=
-0x6
-  -device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 -device
-  virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.3,addr=3D0x0 -drive
-  file=3D/home/virtio-test2.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-virti=
-o-
-  disk0 -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.4,addr=3D0x0,drive=3Ddr=
-ive-
-  virtio-disk0,id=3Dvirtio-disk0,bootindex=3D1 -netdev
-  tap,id=3Dhostnet0,vhost=3Don,vhostforce=3Don -device virtio-net-
-  pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:0d:1d:f2,bus=3Dpci.1,addr=
-=3D0x0,iommu_platform=3Don,ats=3Don
-  -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.5,addr=3D0x0 -object r=
-ng-
-  random,id=3Dobjrng0,filename=3D/dev/urandom -device virtio-rng-
-  pci,rng=3Dobjrng0,id=3Drng0,bus=3Dpci.6,addr=3D0x0 -s -msg timestamp=3Don
+3. blockdev-reopen requires to specify all options (otherwise, they will be changed to default). So it requires passing a lot of information. But we don't need to touch any option of original bs parent to insert a filter between parent and bs. In other words, we don't want to reopen something. We want to insert filter.
 
-  Full backtrace:
 
-  #0  0x00007ffff521370f in raise () at /lib64/libc.so.6
-  #1  0x00007ffff51fdb25 in abort () at /lib64/libc.so.6
-  #2  0x00007ffff51fd9f9 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
-  #3  0x00007ffff520bcc6 in .annobin_assert.c_end () at /lib64/libc.so.6
-  #4  0x0000555555888171 in memory_region_notify_one (notifier=3D0x7ffde05d=
-fde8, entry=3D0x7ffde5dfe200) at /home/qemu/memory.c:1918
-  #5  0x0000555555888247 in memory_region_notify_iommu (iommu_mr=3D0x555556=
-f6c0b0, iommu_idx=3D0, entry=3D...) at /home/qemu/memory.c:1941
-  #6  0x0000555555951c8d in vtd_process_device_iotlb_desc (s=3D0x5555576090=
-00, inv_desc=3D0x7ffde5dfe2d0)
-  =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/hw/i386/intel_iommu.c:2468
-  #7  0x0000555555951e6a in vtd_process_inv_desc (s=3D0x555557609000) at /h=
-ome/qemu/hw/i386/intel_iommu.c:2531
-  #8  0x0000555555951fa5 in vtd_fetch_inv_desc (s=3D0x555557609000) at /hom=
-e/qemu/hw/i386/intel_iommu.c:2563
-  #9  0x00005555559520e5 in vtd_handle_iqt_write (s=3D0x555557609000) at /h=
-ome/qemu/hw/i386/intel_iommu.c:2590
-  #10 0x0000555555952b45 in vtd_mem_write (opaque=3D0x555557609000, addr=3D=
-136, val=3D2688, size=3D4) at /home/qemu/hw/i386/intel_iommu.c:2837
-  #11 0x0000555555883e17 in memory_region_write_accessor
-  =C2=A0=C2=A0=C2=A0=C2=A0(mr=3D0x555557609330, addr=3D136, value=3D0x7ffde=
-5dfe478, size=3D4, shift=3D0, mask=3D4294967295, attrs=3D...) at /home/qemu=
-/memory.c:483
-  #12 0x000055555588401d in access_with_adjusted_size
-  =C2=A0=C2=A0=C2=A0=C2=A0(addr=3D136, value=3D0x7ffde5dfe478, size=3D4, ac=
-cess_size_min=3D4, access_size_max=3D8, access_fn=3D
-  =C2=A0=C2=A0=C2=A0=C2=A00x555555883d38 <memory_region_write_accessor>, mr=
-=3D0x555557609330, attrs=3D...) at /home/qemu/memory.c:544
-  #13 0x0000555555886f37 in memory_region_dispatch_write (mr=3D0x5555576093=
-30, addr=3D136, data=3D2688, op=3DMO_32, attrs=3D...)
-  =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/memory.c:1476
-  #14 0x0000555555827a03 in flatview_write_continue
-  =C2=A0=C2=A0=C2=A0=C2=A0(fv=3D0x7ffde00935d0, addr=3D4275634312, attrs=3D=
-..., ptr=3D0x7ffff7ff0028, len=3D4, addr1=3D136, l=3D4, mr=3D0x555557609330=
-) at /home/qemu/exec.c:3146
-  #15 0x0000555555827b48 in flatview_write (fv=3D0x7ffde00935d0, addr=3D427=
-5634312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4)
-  =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/exec.c:3186
-  #16 0x0000555555827e9d in address_space_write
-  =C2=A0=C2=A0=C2=A0=C2=A0(as=3D0x5555567ca640 <address_space_memory>, addr=
-=3D4275634312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4) at /home/qemu/ex=
-ec.c:3277
-  #17 0x0000555555827f0a in address_space_rw
-  =C2=A0=C2=A0=C2=A0=C2=A0(as=3D0x5555567ca640 <address_space_memory>, addr=
-=3D4275634312, attrs=3D..., buf=3D0x7ffff7ff0028, len=3D4, is_write=3Dtrue)
-  =C2=A0=C2=A0=C2=A0=C2=A0at /home/qemu/exec.c:3287
-  #18 0x000055555589b633 in kvm_cpu_exec (cpu=3D0x555556b65640) at /home/qe=
-mu/accel/kvm/kvm-all.c:2511
-  #19 0x0000555555876ba8 in qemu_kvm_cpu_thread_fn (arg=3D0x555556b65640) a=
-t /home/qemu/cpus.c:1284
-  #20 0x0000555555dafff1 in qemu_thread_start (args=3D0x555556b8c3b0) at ut=
-il/qemu-thread-posix.c:521
-  #21 0x00007ffff55a62de in start_thread () at /lib64/libpthread.so.0
-  #22 0x00007ffff52d7e83 in clone () at /lib64/libc.so.6
+===
 
-  --
+Hmm, another mentioned use of blockdev-reopen was reopening some RO node to RW, to modify bitmaps.. And here again, blockdev-reopen is not very convenient:
 
-  If we examinate *entry in frame 4 of backtrace:
-  *entry =3D {target_as =3D 0x555556f6c050, iova =3D 0x0, translated_addr =
-=3D 0x0, addr_mask =3D 0xffffffffffffffff, perm =3D 0x0}
+1. Again, it requires to specify all options (at least, that was not default on node open).. And this only to change one property: read-only. Seems overcomplicated.
 
-  Which (I think) tries to invalidate all the TLB registers of the
-  device.
+2. Bitmaps modifications are usually done in transactions. Adding a clean transaction support for small command that reopens only to RW, and back to RO on transaction finalization seems simpler, than for entire generic blockdev-reopen.
 
-  Just deleting that assert is enough for the VM to start and
-  communicate using IOMMU, but maybe a better alternative is possible.
-  We could move it to the caller functions in other cases than IOMMU
-  invalidation, or make it conditional only if not invalidating.
 
-  Guest kernel version: kernel-3.10.0-1151.el7.x86_64
+===
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1885175/+subscriptions
+Hmm, interesting. x-blockdev-reopen says that not specified options are reset to default. x-blockdev-reopen works through bdrv_reopen_multiple, so I think bdrv_reopen_mutliple should reset options to default as well. Now look at bdrv_reopen_set_read_only(): it specifies only one option: "read-only". This means that all other options will be reset to default. But for sure, callers of bdrv_reopen_set_read_only() want only to change read-only status of node, not all other options. Do we have a bug here?
+
+-- 
+Best regards,
+Vladimir
 
