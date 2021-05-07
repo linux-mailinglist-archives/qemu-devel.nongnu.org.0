@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28AEF376572
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:47:49 +0200 (CEST)
-Received: from localhost ([::1]:46150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40025376598
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:52:07 +0200 (CEST)
+Received: from localhost ([::1]:56274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leztU-00089o-6b
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:47:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57470)
+	id 1lezxe-00040B-AU
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbZ-0000u6-GW
+ id 1lezbZ-0000uH-Jj
  for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:18 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:60458)
+Received: from aserp2130.oracle.com ([141.146.126.79]:50044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbX-0001Ym-0g
+ id 1lezbV-0001YB-Tv
  for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:17 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CEDuY126682;
- Fri, 7 May 2021 12:29:11 GMT
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CES77148914;
+ Fri, 7 May 2021 12:29:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=jwSUd3eBPptGZN8xtVowoLPdImw26KI32p0lOJ+9RV0=;
- b=YvdTn1NQECvzAIsI1TaLU078RbV0h6G4ZeiKJfwdxFX338tABtrj+BchO0a0/TwP/UZw
- W3CvSBzixqKmlst0Zh57Q8ah9AVCdEd04O3kdnk2PUBdq6nokC7Ld0HpxP+zZd7ZjZ7D
- UF+X8Kn9xBlZikOJX5Z1dZLRbCSPQdn9PYDS5OzlSn3KZdnfu8KW3deu6yR6SfJaX6a+
- ZwTDrwMgJqWIH1ju+bO/NuvFOvu3A4/XjehnZ82UvCIo9U7N+kd3w6IJqnIMmAn7t8P2
- FDILMB9t7plVTk8wCVXzkK91HKaV7Bd/snD8KHeAzVbvtauFWDey8uAyC7xLwM4sDaBh yg== 
+ bh=+vyo8cyFeJn4HRpXZj3DzYe6S1G5SWpclntcSWRLX3c=;
+ b=NZYoKEPUtlciKqYbtFrrhs6rPqs7XhVusLOKv+zhiOFgaFCJ1JLFZWaFSXQod2gh0hk8
+ MKbC+dVADeQ69/xCjdG12uXgn/nfHvwxktEgc/uyqUOwC69iEIzgCr/gHT7w4+yegiTQ
+ F8PsH9p7ZkZcYu2m34FWFSrsqHbmSgIG3XDraWMvCz9tl4+Rj18FIrBJ8zR4FnxcDwWL
+ VbgIH0Tn0Bn4YHiBYxjmjb0Wc719S18rsi0aorV2z+SZWGfC6yvy3iYUkNgz1h500YRP
+ bwc2X0swLns0zhUh6LVYOFBwv9reyvzrldXrBf0c/Tw+p8mVujY7ofiFM3Vp2nghcD/B 2w== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 38ctjv1cc4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 May 2021 12:29:11 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CGQA9173756;
- Fri, 7 May 2021 12:29:11 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by aserp3020.oracle.com with ESMTP id 38csrtb6ek-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 May 2021 12:29:11 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CNPDV005557;
- Fri, 7 May 2021 12:29:10 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 38csrtb6cs-1
+ by aserp2130.oracle.com with ESMTP id 38csrd9ewx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 07 May 2021 12:29:10 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CGRC8174290;
+ Fri, 7 May 2021 12:29:10 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3020.oracle.com with ESMTP id 38csrtb6de-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 07 May 2021 12:29:10 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CP1Zx010092;
+ Fri, 7 May 2021 12:29:09 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 38csrtb6cj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 07 May 2021 12:29:09 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 147CT76v016467;
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 147CT8dZ019345;
  Fri, 7 May 2021 12:29:08 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 07 May 2021 05:29:07 -0700
+ with ESMTP ; Fri, 07 May 2021 05:29:08 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V3 21/22] cpr: maintainers
-Date: Fri,  7 May 2021 05:25:19 -0700
-Message-Id: <1620390320-301716-22-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V3 22/22] simplify savevm
+Date: Fri,  7 May 2021 05:25:20 -0700
+Message-Id: <1620390320-301716-23-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
 References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-ORIG-GUID: 9eA8Rol-ji44VjzrGSrqn2n0UnFKW-p0
-X-Proofpoint-GUID: 9eA8Rol-ji44VjzrGSrqn2n0UnFKW-p0
+X-Proofpoint-ORIG-GUID: UlBFNy98ERtzMxsnbvdEAn9lgbBVBB-z
+X-Proofpoint-GUID: UlBFNy98ERtzMxsnbvdEAn9lgbBVBB-z
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
- mlxlogscore=999
- malwarescore=0 phishscore=0 mlxscore=0 clxscore=1015 priorityscore=1501
- bulkscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ clxscore=1015
+ malwarescore=0 adultscore=0 mlxlogscore=999 impostorscore=0 phishscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxscore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
  definitions=main-2105070085
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
 X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L4=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,35 +109,73 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the maintainers for cpr related files.
+Use qf_file_open to simplify a few functions in savevm.c.
+No functional change.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ migration/savevm.c | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 36055f1..b69bbf5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2843,6 +2843,17 @@ F: net/colo*
- F: net/filter-rewriter.c
- F: net/filter-mirror.c
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 52e2d72..d02bce2 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2904,8 +2904,9 @@ bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
+ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
+                                 Error **errp)
+ {
++    const char *ioc_name = "migration-xen-save-state";
++    int flags = O_WRONLY | O_CREAT | O_TRUNC;
+     QEMUFile *f;
+-    QIOChannelFile *ioc;
+     int saved_vm_running;
+     int ret;
  
-+CPR
-+M: Steve Sistare <steven.sistare@oracle.com>
-+M: Mark Kanda <mark.kanda@oracle.com>
-+S: Maintained
-+F: hw/vfio/cpr.c
-+F: include/migration/cpr.h
-+F: migration/cpr.c
-+F: qapi/cpr.json
-+F: include/qemu/env.h
-+F: util/env.c
-+
- Record/replay
- M: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
- R: Paolo Bonzini <pbonzini@redhat.com>
+@@ -2919,14 +2920,10 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
+     vm_stop(RUN_STATE_SAVE_VM);
+     global_state_store_running();
+ 
+-    ioc = qio_channel_file_new_path(filename, O_WRONLY | O_CREAT | O_TRUNC,
+-                                    0660, errp);
+-    if (!ioc) {
++    f = qf_file_open(filename, flags, 0660, ioc_name, errp);
++    if (!f) {
+         goto the_end;
+     }
+-    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-save-state");
+-    f = qemu_fopen_channel_output(QIO_CHANNEL(ioc));
+-    object_unref(OBJECT(ioc));
+     ret = qemu_save_device_state(f);
+     if (ret < 0 || qemu_fclose(f) < 0) {
+         error_setg(errp, QERR_IO_ERROR);
+@@ -2954,8 +2951,8 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
+ 
+ void qmp_xen_load_devices_state(const char *filename, Error **errp)
+ {
++    const char *ioc_name = "migration-xen-load-state";
+     QEMUFile *f;
+-    QIOChannelFile *ioc;
+     int ret;
+ 
+     /* Guest must be paused before loading the device state; the RAM state
+@@ -2967,14 +2964,10 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
+     }
+     vm_stop(RUN_STATE_RESTORE_VM);
+ 
+-    ioc = qio_channel_file_new_path(filename, O_RDONLY | O_BINARY, 0, errp);
+-    if (!ioc) {
++    f = qf_file_open(filename, O_RDONLY | O_BINARY, 0, ioc_name, errp);
++    if (!f) {
+         return;
+     }
+-    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-load-state");
+-    f = qemu_fopen_channel_input(QIO_CHANNEL(ioc));
+-    object_unref(OBJECT(ioc));
+-
+     ret = qemu_loadvm_state(f);
+     qemu_fclose(f);
+     if (ret < 0) {
 -- 
 1.8.3.1
 
