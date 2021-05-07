@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680A3376964
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 19:18:58 +0200 (CEST)
-Received: from localhost ([::1]:48398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73717376978
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 19:23:16 +0200 (CEST)
+Received: from localhost ([::1]:55134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf47t-00027u-4s
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 13:18:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44294)
+	id 1lf4C3-0005N2-HD
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 13:23:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf44U-0000cB-7M
- for qemu-devel@nongnu.org; Fri, 07 May 2021 13:15:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22301)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf48x-0003is-Cw
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 13:20:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf44H-0004Bb-FE
- for qemu-devel@nongnu.org; Fri, 07 May 2021 13:15:24 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf48v-0006BW-Oh
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 13:20:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620407711;
+ s=mimecast20190719; t=1620408000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uTyDKyOPg1mkUq53+v02Ub+Jg9GMqLoeGEEmOXgo2O4=;
- b=J3pUZVegE1EI0yumEL1F333rtd+6ni1Qn/gUm+vXtWW4iZN0zxf85IUTTGXIukSpcp7fiG
- pkfT6gp1OK92wY9ytDwCUW7vUE1pSrxUY+H4cMqYJF95BL4dHDjxUWNeNlyNE/QWs2RCz7
- gD5RFZfDX0cm0PdtlQF4iRcORky1dP8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-K0UMR9fDNmuXSoAm1TBY0Q-1; Fri, 07 May 2021 13:15:10 -0400
-X-MC-Unique: K0UMR9fDNmuXSoAm1TBY0Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 67-20020adf81490000b029010756d109e6so3821887wrm.13
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 10:15:09 -0700 (PDT)
+ bh=wOFcyNIJjuiw01s2VBdGQ50UDrGE+IFT929JvHJBSgU=;
+ b=QV1FKTqj1W14XJOBqxjr+6gNbZjXaEvJG9NnRtnCvE0YVe5etOt9/Kdmj6Zpy1l6mQt1L5
+ pxGT3Mw0xtgEGa42yayur0RQt4Q5lxmoGb0UT3zD7Y3Giq2pVp0pmB9GVcz17VItwbSxfy
+ xQ3LbGVx3I90O2ofjR1WSZtDy1PUerA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-6BBUGffTPDWlLZQIloiv5g-1; Fri, 07 May 2021 13:19:58 -0400
+X-MC-Unique: 6BBUGffTPDWlLZQIloiv5g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ y193-20020a1c32ca0000b029014cbf30c3f2so4095183wmy.1
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 10:19:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uTyDKyOPg1mkUq53+v02Ub+Jg9GMqLoeGEEmOXgo2O4=;
- b=Ddbb4omWR0W8Ek4Uw65zRdgKrEoGZ6RQsHX0ANOn7PXwBLMlMhAZ9armay9YeEYcHO
- 5Elf4Mzjz84F54XYiWode/XZ1ag0K6t3FKtq/Vvb8N2uTiKqbfsZCpv6apI+FU+p/wog
- F6SHCjlMSodISfCv2l59BbTOFaT1FFNp4r0gv7BFptG6EO07XLQj81x5T7zQHj1QB3Jf
- ZBycM2g3lfEud9ERgi9ldTJIlWyPxBXidNjyJQMsdEz7hPZNok2zW7siPN2Hb78ekaO2
- ratEwNAXOHJMxSA6tFyJzLBywrU3otNL2oVZ+7R7NC4N4hlBzdUlEmsK2UrzHx+/UqEs
- nGQw==
-X-Gm-Message-State: AOAM532yA8k4K7nF0YryxrONjIhlv9ZlQh/uvVDSvxZZgUvMdu8Mj4pd
- 2rOsok8uyCUCPDES6bEnQsDHQdfIUHL0WhlbmjNbHOAflLcWryKYclMfubxrzjvzwgSdgEe7R0k
- o0bgzMMpsbOD2Lg0=
-X-Received: by 2002:a05:600c:4f49:: with SMTP id
- m9mr17638984wmq.78.1620407708955; 
- Fri, 07 May 2021 10:15:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzjem0ls7raS3UMzqyfwEq7FubFHH9scruWbZ08QkLcYKMtrComMFpoArXPNd6k+bOrLlo08w==
-X-Received: by 2002:a05:600c:4f49:: with SMTP id
- m9mr17638973wmq.78.1620407708837; 
- Fri, 07 May 2021 10:15:08 -0700 (PDT)
-Received: from [192.168.1.19] (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr.
- [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id a9sm7539023wmj.1.2021.05.07.10.15.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 May 2021 10:15:08 -0700 (PDT)
-Subject: Re: [NOTFORMERGE PATCH v3 17/17] configure: libSLiRP buildsys kludge
-To: qemu-devel@nongnu.org
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=wOFcyNIJjuiw01s2VBdGQ50UDrGE+IFT929JvHJBSgU=;
+ b=phxVyYc4lL3cV77IKDSv3iUZP+lZedJeFyY5lFMnrIQP6VXYU0IzyfYvUP8zGg/pkh
+ 5jmBL693FHjDhg0lRMBAy/HQ5EfJqsFeIkkVoe1QIFIBQbHdT4ltwW9fzH5Tv1QlsGsl
+ 1UCzNMj99LybWo2NyiF3OoS5BMI3R1APRUo8LrsTcsDGlFxG1qS3f2z/k+UDoNV9gQ2v
+ 1I6giDhaf5XyazmAkNA4ZMbDVdQbwiznIb3Dleyt6NyQEC4uRdaCJrH0R70AFFFmg22o
+ YXZa1oS1xPW3MkYRj8zPCKtEtL6taA06hqdGDOmsJcOMr9mz1hBjVa2dIB2oY/HMe9xN
+ DeeA==
+X-Gm-Message-State: AOAM533sqIR+W5ax3EBoRAqOfv5BWT2I6mlnnTd0N8UlOEM6pP/2K3D6
+ c8AIaaLw1zGBwjJYq5Dwr85GVJnM97GhfA3FdRttWSZ3jrNA90Ak38Nkhg6fUWK3kxPVQXsA0BP
+ 8+GAMIy6GQscfbaY=
+X-Received: by 2002:a05:6000:508:: with SMTP id
+ a8mr13680522wrf.315.1620407997132; 
+ Fri, 07 May 2021 10:19:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwg84xHcRqOfwXcWS/7YUAZoCtC8jV/rXCCK4OED+w2zkmovp5Als6sBpwh/F9cPaEN8+yiqQ==
+X-Received: by 2002:a05:6000:508:: with SMTP id
+ a8mr13680500wrf.315.1620407996964; 
+ Fri, 07 May 2021 10:19:56 -0700 (PDT)
+Received: from localhost.localdomain
+ (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr. [90.40.114.60])
+ by smtp.gmail.com with ESMTPSA id z14sm10304337wrt.54.2021.05.07.10.19.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 May 2021 10:19:56 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: 
+Subject: [PATCH v3 18/17] tests/unit/test-char: Replace g_alloca() by buffer
+ on the stack
+Date: Fri,  7 May 2021 19:19:48 +0200
+Message-Id: <20210507171948.2062076-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210507144315.1994337-1-philmd@redhat.com>
 References: <20210507144315.1994337-1-philmd@redhat.com>
- <20210507144315.1994337-18-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <781a5288-f1f7-de29-cdc0-b71fe38e7468@redhat.com>
-Date: Fri, 7 May 2021 19:15:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210507144315.1994337-18-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,9 +83,8 @@ X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,24 +97,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/7/21 4:43 PM, Philippe Mathieu-Daudé wrote:
-> Only enable -Walloca when libSLiRP is not built.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  configure | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+The ALLOCA(3) man-page mentions its "use is discouraged".
 
-> +# Kludge pending an alloca() call removed from libSLiRP, see:
-> +# https://lists.freedesktop.org/archives/slirp/2021-May/000150.html
+Directly reserve the CharBackend on the stack.
 
-FYI it has already been merged, thanks to Marc-André :)
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ tests/unit/test-char.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/tests/unit/test-char.c b/tests/unit/test-char.c
+index 5b3b48ebacd..54ce26226b3 100644
+--- a/tests/unit/test-char.c
++++ b/tests/unit/test-char.c
+@@ -574,7 +574,7 @@ static void char_udp_test_internal(Chardev *reuse_chr, int sock)
+     struct sockaddr_in other;
+     SocketIdleData d = { 0, };
+     Chardev *chr;
+-    CharBackend *be;
++    CharBackend tmpbe, *be = &tmpbe;
+     socklen_t alen = sizeof(other);
+     int ret;
+     char buf[10];
+@@ -590,7 +590,6 @@ static void char_udp_test_internal(Chardev *reuse_chr, int sock)
+         chr = qemu_chr_new("client", tmp, NULL);
+         g_assert_nonnull(chr);
+ 
+-        be = g_alloca(sizeof(CharBackend));
+         qemu_chr_fe_init(be, chr, &error_abort);
+     }
+ 
+-- 
+2.26.3
 
 
