@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37BC3769FA
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 20:25:39 +0200 (CEST)
-Received: from localhost ([::1]:34274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A293769F5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 20:25:03 +0200 (CEST)
+Received: from localhost ([::1]:33068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf5AR-0001WB-0c
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 14:25:39 -0400
+	id 1lf59q-0000iA-B7
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 14:25:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:60650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1lf51B-0000b2-56
- for qemu-devel@nongnu.org; Fri, 07 May 2021 14:16:05 -0400
-Received: from mailout10.t-online.de ([194.25.134.21]:37692)
+ id 1lf51A-0000b2-JW
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 14:16:04 -0400
+Received: from mailout09.t-online.de ([194.25.134.84]:40914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1lf4va-0001b9-T1
- for qemu-devel@nongnu.org; Fri, 07 May 2021 14:10:32 -0400
-Received: from fwd17.aul.t-online.de (fwd17.aul.t-online.de [172.20.27.64])
- by mailout10.t-online.de (Postfix) with SMTP id C10CF6FBBF;
- Fri,  7 May 2021 20:10:15 +0200 (CEST)
+ id 1lf4vm-0001bl-TR
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 14:10:36 -0400
+Received: from fwd27.aul.t-online.de (fwd27.aul.t-online.de [172.20.26.132])
+ by mailout09.t-online.de (Postfix) with SMTP id 806775A70D;
+ Fri,  7 May 2021 20:10:24 +0200 (CEST)
 Received: from linpower.localnet
- (ZZ+97UZFrhEvqQlKJWCFPOF+Wq-Os9dIBVPyAg8YDVf9klOvkDJWoUwXBjujIZLQuS@[46.86.52.8])
- by fwd17.t-online.de
+ (SrgmIvZaohpbcsB5MBcdcFV7-au+YJR2eCs-raEEwxPVgAvXtzD-OBg2hbw14Z-gE0@[46.86.52.8])
+ by fwd27.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1lf4vU-0cPtdQ0; Fri, 7 May 2021 20:10:12 +0200
+ esmtp id 1lf4vZ-0fF3my0; Fri, 7 May 2021 20:10:17 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 6C3A12006F8; Fri,  7 May 2021 20:09:53 +0200 (CEST)
+ id 7095A2006FE; Fri,  7 May 2021 20:09:53 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v2 08/11] pckbd: add controller response queue
-Date: Fri,  7 May 2021 20:09:50 +0200
-Message-Id: <20210507180953.8530-8-vr_qemu@t-online.de>
+Subject: [PATCH v2 10/11] pckbd: correctly disable PS/2 communication
+Date: Fri,  7 May 2021 20:09:52 +0200
+Message-Id: <20210507180953.8530-10-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <a898b0d5-7086-9699-ae8b-9524ad319b01@t-online.de>
 References: <a898b0d5-7086-9699-ae8b-9524ad319b01@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: ZZ+97UZFrhEvqQlKJWCFPOF+Wq-Os9dIBVPyAg8YDVf9klOvkDJWoUwXBjujIZLQuS
-X-TOI-EXPURGATEID: 150726::1620411012-0000EBC3-3EADA505/0/0 CLEAN NORMAL
-X-TOI-MSGID: 1c654dd2-88c9-407a-8e0d-f2e4e9c4a600
-Received-SPF: none client-ip=194.25.134.21;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout10.t-online.de
+X-ID: SrgmIvZaohpbcsB5MBcdcFV7-au+YJR2eCs-raEEwxPVgAvXtzD-OBg2hbw14Z-gE0
+X-TOI-EXPURGATEID: 150726::1620411017-000107BB-2671AA0E/0/0 CLEAN NORMAL
+X-TOI-MSGID: c1d42b8b-43bf-458f-88ef-828046e0e5c7
+Received-SPF: none client-ip=194.25.134.84;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout09.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -68,109 +68,113 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a separate queue for PS/2 controller responses. The
-responses no longer get queued in the keyboard or mouse queues.
-The advantage of this can be seen after the next two patches,
-where the guest can disable the PS/2 communication with keyboard
-and mouse and still talk to the PS/2 controller.
+Currently the PS/2 controller command KBD_CCMD_MOUSE_DISABLE
+doesn't disable the PS/2 mouse communication at all, and the
+PS/2 controller commands KBD_CCMD_KBD_DISABLE and
+KBD_CCMD_KBD_ENABLE disable and enable the keyboard interrupt,
+which is very different from what a real PS/2 controller does.
+A guest may notice the difference.
+
+Mask out pending data on disabled queues to correctly disable
+the PS/2 controller communication.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- hw/input/pckbd.c | 38 +++++++++++++++++++++++++++++++-------
- 1 file changed, 31 insertions(+), 7 deletions(-)
+ hw/input/pckbd.c | 29 ++++++++++++++++++++++-------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
 
 diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index f8f3859b17..3c41c11841 100644
+index 3ecc9c74ab..7c476f7a3e 100644
 --- a/hw/input/pckbd.c
 +++ b/hw/input/pckbd.c
-@@ -132,11 +132,14 @@
+@@ -130,10 +130,12 @@
+ #define MOUSE_STATUS_ENABLED    0x20
+ #define MOUSE_STATUS_SCALE21    0x10
  
- #define KBD_PENDING_KBD         1
- #define KBD_PENDING_AUX         2
-+#define KBD_PENDING_CTRL_KBD    0x04
-+#define KBD_PENDING_CTRL_AUX    0x08
+-#define KBD_PENDING_KBD         1
+-#define KBD_PENDING_AUX         2
++#define KBD_PENDING_KBD_V3      0x01
++#define KBD_PENDING_AUX_V3      0x02
+ #define KBD_PENDING_CTRL_KBD    0x04
+ #define KBD_PENDING_CTRL_AUX    0x08
++#define KBD_PENDING_KBD         KBD_MODE_DISABLE_KBD    /* 0x10 */
++#define KBD_PENDING_AUX         KBD_MODE_DISABLE_MOUSE  /* 0x20 */
  
  #define KBD_MIGR_TIMER_PENDING  0x1
  
- #define KBD_OBSRC_KBD           0x01
- #define KBD_OBSRC_MOUSE         0x02
-+#define KBD_OBSRC_CTRL          0x04
+@@ -163,8 +165,6 @@ typedef struct KBDState {
+     hwaddr mask;
+ } KBDState;
  
- typedef struct KBDState {
-     uint8_t write_cmd; /* if non zero, write data to port 60 is expected */
-@@ -149,6 +152,7 @@ typedef struct KBDState {
-     /* Bitmask of devices with data available.  */
-     uint8_t pending;
-     uint8_t obdata;
-+    uint8_t cbdata;
-     void *kbd;
-     void *mouse;
-     QEMUTimer *throttle_timer;
-@@ -199,12 +203,18 @@ static void kbd_update_irq(KBDState *s)
-     if (s->pending) {
-         s->status |= KBD_STAT_OBF;
-         s->outport |= KBD_OUT_OBF;
--        if (s->pending == KBD_PENDING_AUX) {
-+        if (s->pending & KBD_PENDING_CTRL_KBD) {
-+            s->obsrc = KBD_OBSRC_CTRL;
-+        } else if (s->pending & KBD_PENDING_CTRL_AUX) {
-             s->status |= KBD_STAT_MOUSE_OBF;
-             s->outport |= KBD_OUT_MOUSE_OBF;
--            s->obsrc = KBD_OBSRC_MOUSE;
--        } else {
-+            s->obsrc = KBD_OBSRC_CTRL;
-+        } else if (s->pending & KBD_PENDING_KBD) {
-             s->obsrc = KBD_OBSRC_KBD;
-+        } else {
-+            s->status |= KBD_STAT_MOUSE_OBF;
-+            s->outport |= KBD_OUT_MOUSE_OBF;
-+            s->obsrc = KBD_OBSRC_MOUSE;
-         }
-     }
-     kbd_update_irq_lines(s);
-@@ -276,10 +286,21 @@ static uint64_t kbd_read_status(void *opaque, hwaddr addr,
- 
- static void kbd_queue(KBDState *s, int b, int aux)
+-/* XXX: not generating the irqs if KBD_MODE_DISABLE_KBD is set may be
+-   incorrect, but it avoids having to simulate exact delays */
+ static void kbd_update_irq_lines(KBDState *s)
  {
--    if (aux)
--        ps2_queue(s->mouse, b);
--    else
--        ps2_queue(s->kbd, b);
-+    s->cbdata = b;
-+    s->pending &= ~KBD_PENDING_CTRL_KBD & ~KBD_PENDING_CTRL_AUX;
-+    s->pending |= aux ? KBD_PENDING_CTRL_AUX : KBD_PENDING_CTRL_KBD;
-+    kbd_safe_update_irq(s);
-+}
-+
-+static uint8_t kbd_dequeue(KBDState *s)
-+{
-+    uint8_t b = s->cbdata;
-+
-+    s->pending &= ~KBD_PENDING_CTRL_KBD & ~KBD_PENDING_CTRL_AUX;
-+    if (s->pending) {
-+        kbd_update_irq(s);
-+    }
-+    return b;
+     int irq_kbd_level, irq_mouse_level;
+@@ -178,8 +178,7 @@ static void kbd_update_irq_lines(KBDState *s)
+                 irq_mouse_level = 1;
+             }
+         } else {
+-            if ((s->mode & KBD_MODE_KBD_INT) &&
+-                !(s->mode & KBD_MODE_DISABLE_KBD)) {
++            if (s->mode & KBD_MODE_KBD_INT) {
+                 irq_kbd_level = 1;
+             }
+         }
+@@ -197,7 +196,7 @@ static void kbd_deassert_irq(KBDState *s)
+ 
+ static uint8_t kbd_pending(KBDState *s)
+ {
+-    return s->pending;
++    return s->pending & (~s->mode | ~(KBD_PENDING_KBD | KBD_PENDING_AUX));
  }
  
- static void outport_write(KBDState *s, uint32_t val)
-@@ -389,6 +410,8 @@ static uint64_t kbd_read_data(void *opaque, hwaddr addr,
-             s->obdata = ps2_read_data(s->kbd);
-         } else if (s->obsrc & KBD_OBSRC_MOUSE) {
-             s->obdata = ps2_read_data(s->mouse);
-+        } else if (s->obsrc & KBD_OBSRC_CTRL) {
-+            s->obdata = kbd_dequeue(s);
-         }
+ /* update irq and KBD_STAT_[MOUSE_]OBF */
+@@ -357,6 +356,7 @@ static void kbd_write_command(void *opaque, hwaddr addr,
+         break;
+     case KBD_CCMD_MOUSE_ENABLE:
+         s->mode &= ~KBD_MODE_DISABLE_MOUSE;
++        kbd_safe_update_irq(s);
+         break;
+     case KBD_CCMD_TEST_MOUSE:
+         kbd_queue(s, 0x00, 0);
+@@ -436,6 +436,9 @@ static void kbd_write_data(void *opaque, hwaddr addr,
+     switch(s->write_cmd) {
+     case 0:
+         ps2_write_keyboard(s->kbd, val);
++        /* sending data to the keyboard reenables PS/2 communication */
++        s->mode &= ~KBD_MODE_DISABLE_KBD;
++        kbd_safe_update_irq(s);
+         break;
+     case KBD_CCMD_WRITE_MODE:
+         s->mode = val;
+@@ -462,6 +465,9 @@ static void kbd_write_data(void *opaque, hwaddr addr,
+         break;
+     case KBD_CCMD_WRITE_MOUSE:
+         ps2_write_mouse(s->mouse, val);
++        /* sending data to the mouse reenables PS/2 communication */
++        s->mode &= ~KBD_MODE_DISABLE_MOUSE;
++        kbd_safe_update_irq(s);
+         break;
+     default:
+         break;
+@@ -539,7 +545,16 @@ static int kbd_post_load(void *opaque, int version_id)
+         s->obsrc = s->status & KBD_STAT_OBF ?
+             (s->status & KBD_STAT_MOUSE_OBF ? KBD_OBSRC_MOUSE : KBD_OBSRC_KBD) :
+             0;
++        if (s->pending & KBD_PENDING_KBD_V3) {
++            s->pending |= KBD_PENDING_KBD;
++        }
++        if (s->pending & KBD_PENDING_AUX_V3) {
++            s->pending |= KBD_PENDING_AUX;
++        }
      }
- 
-@@ -530,6 +553,7 @@ static const VMStateDescription vmstate_kbd = {
-         VMSTATE_UINT32_V(migration_flags, KBDState, 4),
-         VMSTATE_UINT32_V(obsrc, KBDState, 4),
-         VMSTATE_UINT8_V(obdata, KBDState, 4),
-+        VMSTATE_UINT8_V(cbdata, KBDState, 4),
-         VMSTATE_END_OF_LIST()
-     },
-     .subsections = (const VMStateDescription*[]) {
++    /* clear all unused flags */
++    s->pending &= KBD_PENDING_CTRL_KBD | KBD_PENDING_CTRL_AUX |
++                  KBD_PENDING_KBD | KBD_PENDING_AUX;
+     if (s->migration_flags & KBD_MIGR_TIMER_PENDING) {
+         kbd_throttle_timeout(s);
+     }
 -- 
 2.26.2
 
