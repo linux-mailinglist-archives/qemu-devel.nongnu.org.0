@@ -2,83 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA56376867
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 18:03:12 +0200 (CEST)
-Received: from localhost ([::1]:34856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBBA376868
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 18:05:46 +0200 (CEST)
+Received: from localhost ([::1]:41446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf2wY-0007hW-N3
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 12:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56424)
+	id 1lf2z3-0001uR-0L
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 12:05:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lf2t5-0006En-V6
- for qemu-devel@nongnu.org; Fri, 07 May 2021 11:59:40 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:43586)
+ (Exim 4.90_1) (envelope-from <susinilorenzo1@gmail.com>)
+ id 1lf2uv-0007DB-L8
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 12:01:31 -0400
+Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:39578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lf2ss-00064V-J1
- for qemu-devel@nongnu.org; Fri, 07 May 2021 11:59:33 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- cl24-20020a17090af698b0290157efd14899so5580127pjb.2
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 08:59:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=d7jv4zOm3ReTIeRrS+13gTyx4T6znAQLdZT0jfWV9Mg=;
- b=BvksK0Ks0r5FKrZiEpT3wVjPf/32vZ6B2Odz7lMbkA2XTJN8E2ZBUuc2/fcZfc6fhD
- ujoO/tQI8k9XoeShNHq1E2ZWYbhrp1psPBsnuNy7WE6v/GHbATuMhFwX7tdH6yhUYN7d
- O6wXZ7ipk5/b2aOUqY9IVuT/LkYWieZtr3eAj6SdURLzQ3qccgO382dCX7br21z0hNlm
- n0zCqFKL0j+mTiLn4WxdeVbD3kAuAPORvbqDs7SR8rRWLwXsSe9c7obFnf2dwHCgG26M
- 6ruxC+653+2tSXV/u1hfEiAX2HBDFhvdm2BC3ZoDRGsEv1lwkWZN7V/xLWZjy4ZBlsSk
- zaQQ==
+ (Exim 4.90_1) (envelope-from <susinilorenzo1@gmail.com>)
+ id 1lf2ul-0007FM-7S
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 12:01:29 -0400
+Received: by mail-vs1-xe34.google.com with SMTP id v188so4917856vsb.6
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 09:01:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=WZggkCbc/y2l7PN87RnDAEK25jfge/Oktmd9TQqeO7s=;
+ b=gxT/jYpAfcpMdVr1ZwO5Yei/H9lP6PoM1Pm/Ky6tcF4n6aHZN0Ymu1Z1PI6VDqLfVk
+ tRmK++EeY2PdtqvgFOlwYvdlw68JkTNpeuwejwJZQVA7lSqmiOTKiVwWguE0WprROPrJ
+ sww3WM7HlhsH/YwNEsziOgJniayrT/US9+nHerkpT3zy9yytUHx/bIRZ4LjvAIkZkGmK
+ s8EoxL/xJFe22/yk9yZ3lUIM9ImCAZNsBfLTsrejiYXOirZA8B6XMJMJjXV6t9JwXCv8
+ 23aIaP2g1UDPzXvgs+qsvxnagPUkazRsTzBHLYxEyiR0bn9ClRbIrLdHSSv04v0Hb23l
+ MEbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=d7jv4zOm3ReTIeRrS+13gTyx4T6znAQLdZT0jfWV9Mg=;
- b=Gzwad50xHzWTIcJFLMFWoutrn0Yg/sVeBFFBp6Km1vZu6ej2ifdbpW3pqnODUN4nfW
- UBbn3ZPcR1lpoFuZq0FWbG2YU+gwIAh8V0Tv3MHWnSFaIMawqgZtpNanyZiUGM96ciC/
- +QHnzVgyO9AcK9rHIgvq5PkAYOGJ4r7m6sM1cEGVOV/cx4wjmOJW7Anhky7cXmj8aiz4
- /1D1hqrPn+5Hl+HCMKT7KUHvBN5nfIafdJEWkfd9ZteClceONaxi+3YllX9wjsKayc80
- wsQhT1aQxcY9gfC4TSPoj1gVL/hu6L1986lIoA7UPfpAh0I4u+GkDAQtiJAux6oItbYc
- bp5Q==
-X-Gm-Message-State: AOAM5318oa364xW1tJZmLTM2xqYrxvNp+n5W/ONaKVpfPlkLKgnuBpAo
- Dbs4lneEbHFe40ar8mlc1VeSug==
-X-Google-Smtp-Source: ABdhPJwy3gQYbPBZlaz5S5bNPH4VouquSPnEbMp9T3ml1AGB5vbVtXY+gEMtUS8o2nKFdrJyXamn+g==
-X-Received: by 2002:a17:902:e5cb:b029:ed:64d5:afee with SMTP id
- u11-20020a170902e5cbb02900ed64d5afeemr10517733plf.41.1620403160865; 
- Fri, 07 May 2021 08:59:20 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id a129sm5299173pfa.36.2021.05.07.08.59.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 May 2021 08:59:20 -0700 (PDT)
-Subject: Re: [PATCH 07/23] hw/block/nvme: Use definition to avoid dynamic
- stack allocation
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210505211047.1496765-1-philmd@redhat.com>
- <20210505211047.1496765-8-philmd@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0161c3a7-c3e8-d69b-8c60-fc63927e34af@linaro.org>
-Date: Fri, 7 May 2021 08:59:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=WZggkCbc/y2l7PN87RnDAEK25jfge/Oktmd9TQqeO7s=;
+ b=VkDHBdrNvzpQSFb3xBOMpa9l/mUoMMCiVj+pwLZBCzkC5JUQfnJbJQd3Yo8eo3OXnT
+ hpOJFoi97qdW1h4gWB2FWQurXP5iZdGZjKN1Xr6e55FcN0ELARndCSCKmuLsNIGo6MDv
+ p7GKDj76RfQdF6bjDQ4gmyXxueQXj/Q7JVaItdVdlrK/3bJQlcWA8ujdAzxeSZL60Zb/
+ oFPb0L55leToytjFiDns9S/17ebkYR/nS1LUiOpvrbKsLCN9FMWMbgWQdzTtS8nJRlc4
+ 3zJDcChaet707ZSoo6rrdzl+So5IgFX4m5kf0lOfyHbgUjnL3TBcuv+HwLLDUxhaci62
+ wmxA==
+X-Gm-Message-State: AOAM531h0LPLtWn9sZLUyXNf8fNy6InI95eKEx7vhtv3ZPZ+ZA1eh+80
+ PvBqvPfthOcrJ2V89IFEkQ81UD5AoPQjOI67GFfCKiamw40=
+X-Google-Smtp-Source: ABdhPJx2AP9K8XI+u2Kkk9R3uLR5/GL2xpuT3jLsTqn5q1hCsYkelyaJUzU/ac5yXaqbeZG93W/sXuU+83uT+tslaRA=
+X-Received: by 2002:a05:6102:21c8:: with SMTP id
+ r8mr9147878vsg.59.1620403274391; 
+ Fri, 07 May 2021 09:01:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210505211047.1496765-8-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+From: Lorenzo Susini <susinilorenzo1@gmail.com>
+Date: Fri, 7 May 2021 18:01:02 +0200
+Message-ID: <CAHFRQs0Y8Cey4UbN08v0SV796xVgp_c-d6ucqq3FOtPPAXLLog@mail.gmail.com>
+Subject: Implementing an access log
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000090236305c1bf8911"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
+ envelope-from=susinilorenzo1@gmail.com; helo=mail-vs1-xe34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,34 +75,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/21 2:10 PM, Philippe Mathieu-Daudé wrote:
-> The compiler isn't clever enough to figure 'SEG_CHUNK_SIZE' is
-> a constant! Help it by using a definitions instead.
+--00000000000090236305c1bf8911
+Content-Type: text/plain; charset="UTF-8"
 
-This isn't about being clever or not, it's semantics.
+Hi all,
 
-In C++, "const int" is a proper constant, but in C it is a variable with a 
-constant value.  Thus the use of the symbol in the array bounds is, by 
-definition, variable.
+I'm a student and am working on a personal project, I would like to receive
+some feedback on implementing a memory access log
+in QEMU (or in KVM, since I'm always enabling it). In particular, I want to
+keep track of the guest physical pages which are accessed during a certain
+interval of time. To implement it, I was thinking about these two options:
 
+1. To keep track of each memory access, one could potentially unmap each
+memory slot of the currently running VM. This way, every memory access
+should
+trap to KVM and then to userspace QEMU. Userspace will satisfy the request
+by reading or writing memory using its virtual address space (actually
+translating
+the guest physical address to the corresponding host virtual address) and
+it can record which page was accessed. This approach led me to a
+KVM_EXIT_SHUTDOWN
+and I did not know how to go further.
 
-> -    const int SEG_CHUNK_SIZE = 256;
-> +#define SEG_CHUNK_SIZE 256
+2. Another way to do it would be by introducing two new ioctls in KVM and
+using the tdp mmu. The first one, let's call it KVM_CLEAR_ACCESS_LOG, takes
+as input a memslot id. By iterating over
+the paging structures leading to the translation of each gfn in the slot,
+it reset the access bit. Then, the second, KVM_GET_ACCESS_LOG, will
+generate a bitmap
+containing one bit for each page of the memslot, pretty much like the
+bitmap already implemented for the dirty log. I've tried to implement the
+first ioctl, iterating the paging
+structures using tdp_iter. When it comes to reset the access bit, my system
+freezes. The output of dmesg is the following:
 
-enum { SEG_CHUNK_SIZE = 256 };
+get_mmio_spte: detect reserved bits on spte, addr 0x....
 
-would retain the function scope for the symbol, if that's desirable.
+I would like to receive any suggestions on the feasibility of these two
+approaches, what do you think would be better and maybe some hints on how
+to solve the problem.
+Anyway, am I missing something similar that is already implemented? Other
+ideas to implement this are welcome too.
 
+Kind regards,
+Lorenzo
 
-r~
+--00000000000090236305c1bf8911
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi all,=C2=A0<div><br></div><div>I&#39;m a student and am =
+working on a personal project, I would like to receive some feedback on imp=
+lementing a memory access log=C2=A0</div><div>in QEMU (or in KVM, since I&#=
+39;m always enabling it). In particular, I want to keep track of the guest =
+physical pages which are accessed during a certain</div><div>interval of ti=
+me. To implement it, I was thinking=C2=A0about=C2=A0these two options:=C2=
+=A0</div><div><br></div><div>1. To keep track of each memory access, one co=
+uld potentially unmap each memory slot of the currently running VM. This wa=
+y, every memory access should</div><div>trap to KVM and then to userspace Q=
+EMU. Userspace will satisfy=C2=A0the request by reading or writing memory u=
+sing its virtual address space (actually translating=C2=A0</div><div>the gu=
+est=C2=A0physical address to the corresponding host virtual address) and it=
+ can record which page was accessed. This approach led me to a KVM_EXIT_SHU=
+TDOWN</div><div>and I did not know how to go further.</div><div><br></div><=
+div>2. Another way to do it would be by introducing two new ioctls in KVM a=
+nd using the=C2=A0tdp mmu. The first one, let&#39;s call it KVM_CLEAR_ACCES=
+S_LOG, takes as input a memslot id. By iterating over=C2=A0</div><div>the p=
+aging structures leading to the translation of each gfn in the slot, it res=
+et the access bit. Then, the second, KVM_GET_ACCESS_LOG, will generate a bi=
+tmap=C2=A0</div><div>containing one bit for each page of the memslot, prett=
+y much like the bitmap already implemented for the dirty log. I&#39;ve trie=
+d to implement the first ioctl, iterating the paging</div><div>structures u=
+sing tdp_iter. When it comes to reset the access bit, my system freezes. Th=
+e output of dmesg is the following:</div><div><br></div><div>get_mmio_spte:=
+ detect reserved bits on spte, addr 0x....</div><div><br></div><div>I would=
+ like to receive any suggestions on the feasibility of these two approaches=
+, what do you think would be better and maybe some hints on how to solve th=
+e problem.=C2=A0</div><div>Anyway, am I missing something similar that is a=
+lready implemented? Other ideas to implement this are welcome too.=C2=A0</d=
+iv><div><br></div><div>Kind regards,=C2=A0</div><div>Lorenzo</div></div>
+
+--00000000000090236305c1bf8911--
 
