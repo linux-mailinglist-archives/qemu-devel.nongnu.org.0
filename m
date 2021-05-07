@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD5337662A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 15:29:14 +0200 (CEST)
-Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ECF837661E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 15:26:13 +0200 (CEST)
+Received: from localhost ([::1]:51440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf0XZ-00051j-ON
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 09:29:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60728)
+	id 1lf0Ue-0000yr-2e
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 09:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangjunqiang@iscas.ac.cn>)
- id 1levgX-0004aM-RP; Fri, 07 May 2021 04:18:09 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25]:50030 helo=cstnet.cn)
+ id 1levgW-0004Zx-JY; Fri, 07 May 2021 04:18:08 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25]:50026 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <wangjunqiang@iscas.ac.cn>)
- id 1levgS-0005jj-D6; Fri, 07 May 2021 04:18:09 -0400
+ id 1levgS-0005jl-7t; Fri, 07 May 2021 04:18:08 -0400
 Received: from localhost.localdomain (unknown [121.232.13.213])
- by APP-05 (Coremail) with SMTP id zQCowAB3fSnh9pRgTQ5HAQ--.1834S5;
- Fri, 07 May 2021 16:14:27 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowAB3fSnh9pRgTQ5HAQ--.1834S6;
+ Fri, 07 May 2021 16:14:28 +0800 (CST)
 From: wangjunqiang <wangjunqiang@iscas.ac.cn>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH 3/5] hw/intc: Add Nuclei Systimer
-Date: Fri,  7 May 2021 16:16:52 +0800
-Message-Id: <20210507081654.11056-4-wangjunqiang@iscas.ac.cn>
+Subject: [RFC PATCH 4/5] hw/char: Add Nuclei Uart
+Date: Fri,  7 May 2021 16:16:53 +0800
+Message-Id: <20210507081654.11056-5-wangjunqiang@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210507081654.11056-1-wangjunqiang@iscas.ac.cn>
 References: <20210507081654.11056-1-wangjunqiang@iscas.ac.cn>
-X-CM-TRANSID: zQCowAB3fSnh9pRgTQ5HAQ--.1834S5
-X-Coremail-Antispam: 1UD129KBjvJXoW3urykCw4DGw1fuFW5Ww4UArb_yoWktFWxpF
- WkKa43Kw1UGF47G397Cw1DXFn3JwsrCF4DJ3Z7Ca12kF47G348G34qkFWayFZ7AFWkWFWr
- JF95XF15GF45A3DanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBa14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
- x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
- 8EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
- vE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
- r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8ZwCF04k20x
- vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
- 3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
- AIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAI
- cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2js
- IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUBWlkUUUUU=
+X-CM-TRANSID: zQCowAB3fSnh9pRgTQ5HAQ--.1834S6
+X-Coremail-Antispam: 1UD129KBjvJXoWxKF18KrW3GryDAFy3Gry7trb_yoWfWF4kpF
+ W5CFy5Ka1UKF13G393Ga17JF4fJF1kAF1DWa4xG3yvvr47Kr40yF92gayavFWDArWfGr45
+ AFZxXFWUG3W8XFJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBm14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+ kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+ z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+ 4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
+ 3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+ IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+ M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GFyl42
+ xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+ GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI4
+ 8JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4U
+ MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I
+ 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYyxRDUUUU
 X-Originating-IP: [121.232.13.213]
-X-CM-SenderInfo: pzdqwy5xqtxt1qj6x2xfdvhtffof0/1tbiCwoOAFz4kC9qyQABs2
+X-CM-SenderInfo: pzdqwy5xqtxt1qj6x2xfdvhtffof0/1tbiCwgOAFz4kC9qzQAAsx
 Received-SPF: none client-ip=159.226.251.25;
  envelope-from=wangjunqiang@iscas.ac.cn; helo=cstnet.cn
 X-Spam_score_int: -31
@@ -75,59 +75,52 @@ Cc: liweiwei@iscas.ac.cn, wangjunqiang <wangjunqiang@iscas.ac.cn>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch provides an implementation of Nuclei Systimer,
-which like clint. In MCU mode, It only work for hart-0.
-MultiCore support will run on 200t board for Linux.
-
-https://doc.nucleisys.com/nuclei_spec/isa/timer.html
+This patch provides the initial implementation of Nuclei Uart
+which is opensource in Nuclei's Hummingbird Project.
 
 Signed-off-by: Wang Junqiang <wangjunqiang@iscas.ac.cn>
 ---
- hw/intc/Kconfig                   |   3 +
- hw/intc/meson.build               |   1 +
- hw/intc/nuclei_systimer.c         | 254 ++++++++++++++++++++++++++++++
- include/hw/intc/nuclei_systimer.h |  70 ++++++++
- 4 files changed, 328 insertions(+)
- create mode 100644 hw/intc/nuclei_systimer.c
- create mode 100644 include/hw/intc/nuclei_systimer.h
+ hw/char/Kconfig               |   3 +
+ hw/char/meson.build           |   1 +
+ hw/char/nuclei_uart.c         | 208 ++++++++++++++++++++++++++++++++++
+ include/hw/char/nuclei_uart.h |  73 ++++++++++++
+ 4 files changed, 285 insertions(+)
+ create mode 100644 hw/char/nuclei_uart.c
+ create mode 100644 include/hw/char/nuclei_uart.h
 
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index eab30f6ffd..70059d96fa 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -76,3 +76,6 @@ config M68K_IRQC
+diff --git a/hw/char/Kconfig b/hw/char/Kconfig
+index 4cf36ac637..de003d0609 100644
+--- a/hw/char/Kconfig
++++ b/hw/char/Kconfig
+@@ -67,3 +67,6 @@ config SIFIVE_UART
  
- config NUCLEI_ECLIC
+ config GOLDFISH_TTY
      bool
 +
-+config NUCLEI_SYSTIMER
++config NUCLEI_UART
 +    bool
-\ No newline at end of file
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index 7577ba69d2..d064f769ee 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -51,6 +51,7 @@ specific_ss.add(when: 'CONFIG_SH_INTC', if_true: files('sh_intc.c'))
- specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.c'))
- specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'))
- specific_ss.add(when: 'CONFIG_NUCLEI_ECLIC', if_true: files('nuclei_eclic.c'))
-+specific_ss.add(when: 'CONFIG_NUCLEI_SYSTIMER', if_true: files('nuclei_systimer.c'))
- specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
- specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
- 		if_true: files('xics_kvm.c'))
-diff --git a/hw/intc/nuclei_systimer.c b/hw/intc/nuclei_systimer.c
+diff --git a/hw/char/meson.build b/hw/char/meson.build
+index da5bb8b762..fd0a0a34f4 100644
+--- a/hw/char/meson.build
++++ b/hw/char/meson.build
+@@ -34,6 +34,7 @@ softmmu_ss.add(when: 'CONFIG_SIFIVE_UART', if_true: files('sifive_uart.c'))
+ softmmu_ss.add(when: 'CONFIG_SH_SCI', if_true: files('sh_serial.c'))
+ softmmu_ss.add(when: 'CONFIG_STM32F2XX_USART', if_true: files('stm32f2xx_usart.c'))
+ softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_MMUART', if_true: files('mchp_pfsoc_mmuart.c'))
++softmmu_ss.add(when: 'CONFIG_NUCLEI_UART', if_true: files('nuclei_uart.c'))
+ 
+ specific_ss.add(when: 'CONFIG_HTIF', if_true: files('riscv_htif.c'))
+ specific_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('terminal3270.c'))
+diff --git a/hw/char/nuclei_uart.c b/hw/char/nuclei_uart.c
 new file mode 100644
-index 0000000000..7d5f97b54c
+index 0000000000..0b6bfa33a7
 --- /dev/null
-+++ b/hw/intc/nuclei_systimer.c
-@@ -0,0 +1,254 @@
++++ b/hw/char/nuclei_uart.c
+@@ -0,0 +1,208 @@
 +/*
-+ *  NUCLEI TIMER (Timer Unit) interface
++ *  NUCLEI Hummingbird Evaluation Kit  100T/200T UART interface
 + *
-+ * Copyright (c) 2020 Gao ZhiYuan <alapha23@gmail.com>
 + * Copyright (c) 2020-2021 PLCT Lab.All rights reserved.
-+ *
-+ * This provides a parameterizable timer controller based on NucLei's Systimer.
 + *
 + * This program is free software: you can redistribute it and/or modify
 + * it under the terms of the GNU General Public License as published by
@@ -144,250 +137,204 @@ index 0000000000..7d5f97b54c
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/log.h"
 +#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qemu/timer.h"
-+#include "target/riscv/cpu.h"
-+#include "hw/intc/nuclei_systimer.h"
-+#include "hw/intc/nuclei_eclic.h"
-+#include "hw/registerfields.h"
-+#include "hw/qdev-properties.h"
-+#include "migration/vmstate.h"
-+#include "trace.h"
++#include "qemu/log.h"
++#include "hw/sysbus.h"
++#include "chardev/char.h"
++#include "chardev/char-fe.h"
++#include "hw/hw.h"
++#include "hw/irq.h"
++#include "hw/char/nuclei_uart.h"
 +
-+static uint64_t cpu_riscv_read_rtc(uint64_t timebase_freq)
++/*
++ * Not yet implemented:
++ *
++ * Transmit FIFO using "qemu/fifo8.h"
++ */
++static uint64_t uart_ip(NucLeiUARTState *s)
 +{
-+    return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-+                    timebase_freq, NANOSECONDS_PER_SECOND);
++    uint64_t ret = 0;
++
++    uint64_t txcnt = NUCLEI_UART_GET_TXCNT(s->txctrl);
++    uint64_t rxcnt = NUCLEI_UART_GET_RXCNT(s->rxctrl);
++
++    if (txcnt != 0) {
++        ret |= NUCLEI_UART_IP_TXWM;
++    }
++    if (s->rx_fifo_len > rxcnt) {
++        ret |= NUCLEI_UART_IP_RXWM;
++    }
++
++    return ret;
 +}
 +
-+static void nuclei_timer_update_compare(NucLeiSYSTIMERState *s)
++static void update_irq(NucLeiUARTState *s)
 +{
-+    CPUState *cpu = qemu_get_cpu(0);
-+    CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
-+    uint64_t cmp, real_time;
-+    int64_t diff;
-+
-+    real_time = s->mtime_lo | ((uint64_t)s->mtime_hi << 32);
-+
-+    cmp = (uint64_t)s->mtimecmp_lo | ((uint64_t)s->mtimecmp_hi << 32);
-+    env->mtimecmp = cmp;
-+    env->timecmp = cmp;
-+
-+    diff = cmp - real_time;
-+
-+    if (real_time >= cmp) {
-+        qemu_set_irq(*(s->timer_irq), 1);
++    int cond = 0;
++    s->txctrl |= 0x1;
++    if (s->rx_fifo_len) {
++        s->rxctrl &= ~0x1;
 +    } else {
-+        qemu_set_irq(*(s->timer_irq), 0);
++        s->rxctrl |= 0x1;
++    }
 +
-+        if (s->mtimecmp_hi != 0xffffffff) {
-+            uint64_t next_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-+            muldiv64(diff, NANOSECONDS_PER_SECOND, s->timebase_freq);
-+            timer_mod(env->mtimer, next_ns);
-+        }
++    if ((s->ie & NUCLEI_UART_IE_TXWM) ||
++        ((s->ie & NUCLEI_UART_IE_RXWM) && s->rx_fifo_len)) {
++        cond = 1;
++    }
++
++    if (cond) {
++        qemu_irq_raise(s->irq);
++    } else {
++        qemu_irq_lower(s->irq);
 +    }
 +}
 +
-+static void nuclei_timer_reset(DeviceState *dev)
++static uint64_t
++uart_read(void *opaque, hwaddr offset, unsigned int size)
 +{
-+    NucLeiSYSTIMERState *s = NUCLEI_SYSTIMER(dev);
-+    s->mtime_lo = 0x0;
-+    s->mtime_hi = 0x0;
-+    s->mtimecmp_lo = 0xFFFFFFFF;
-+    s->mtimecmp_hi = 0xFFFFFFFF;
-+    s->mstop = 0x0;
-+    s->mstop = 0x0;
-+}
-+
-+static uint64_t nuclei_timer_read(void *opaque, hwaddr offset,
-+                                  unsigned size)
-+{
-+    NucLeiSYSTIMERState *s = NUCLEI_SYSTIMER(opaque);
-+    CPUState *cpu = qemu_get_cpu(0);
-+    CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
++    NucLeiUARTState *s = opaque;
 +    uint64_t value = 0;
++    uint8_t fifo_val;
 +
 +    switch (offset) {
-+    case NUCLEI_SYSTIMER_REG_MTIMELO:
-+        value = cpu_riscv_read_rtc(s->timebase_freq);
-+        s->mtime_lo = value & 0xffffffff;
-+        s->mtime_hi = (value >> 32) & 0xffffffff;
-+        value = s->mtime_lo;
++    case NUCLEI_UART_REG_TXDATA:
++        return 0;
++    case NUCLEI_UART_REG_RXDATA:
++        if (s->rx_fifo_len) {
++            fifo_val = s->rx_fifo[0];
++            memmove(s->rx_fifo, s->rx_fifo + 1, s->rx_fifo_len - 1);
++            s->rx_fifo_len--;
++            qemu_chr_fe_accept_input(&s->chr);
++            update_irq(s);
++            return fifo_val;
++        }
++        return 0x80000000;
++    case NUCLEI_UART_REG_TXCTRL:
++        value = s->txctrl;
 +        break;
-+    case NUCLEI_SYSTIMER_REG_MTIMEHI:
-+        value = s->mtime_hi;
++    case NUCLEI_UART_REG_RXCTRL:
++        value = s->rxctrl;
 +        break;
-+    case NUCLEI_SYSTIMER_REG_MTIMECMPLO:
-+        s->mtimecmp_lo = (env->mtimecmp) & 0xFFFFFFFF;
-+        value = s->mtimecmp_lo;
++    case NUCLEI_UART_REG_IE:
++        value = s->ie;
 +        break;
-+    case NUCLEI_SYSTIMER_REG_MTIMECMPHI:
-+        s->mtimecmp_hi = (env->mtimecmp >> 32) & 0xFFFFFFFF;
-+        value = s->mtimecmp_hi;
++    case NUCLEI_UART_REG_IP:
++        value = uart_ip(s);
 +        break;
-+    case NUCLEI_SYSTIMER_REG_MSFTRST:
-+        break;
-+    case NUCLEI_SYSTIMER_REG_MSTOP:
-+        value = s->mstop;
-+        break;
-+    case NUCLEI_SYSTIMER_REG_MSIP:
-+        value = s->msip;
++    case NUCLEI_UART_REG_DIV:
++        value = s->div;
 +        break;
 +    default:
 +        break;
 +    }
-+    value &= 0xFFFFFFFF;
 +    return value;
-+
 +}
 +
-+static void nuclei_timer_write(void *opaque, hwaddr offset,
-+                               uint64_t value, unsigned size)
++static void
++uart_write(void *opaque, hwaddr offset,
++           uint64_t value, unsigned int size)
 +{
-+    NucLeiSYSTIMERState *s = NUCLEI_SYSTIMER(opaque);
-+    CPUState *cpu = qemu_get_cpu(0);
-+    CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
++    NucLeiUARTState *s = opaque;
++    unsigned char ch = value;
 +
-+    value = value & 0xFFFFFFFF;
 +    switch (offset) {
-+    case NUCLEI_SYSTIMER_REG_MTIMELO:
-+        s->mtime_lo = value;
-+        env->mtimer->expire_time |= (value & 0xFFFFFFFF);
++    case NUCLEI_UART_REG_TXDATA:
++        qemu_chr_fe_write(&s->chr, &ch, 1);
++        update_irq(s);
 +        break;
-+    case NUCLEI_SYSTIMER_REG_MTIMEHI:
-+        s->mtime_hi = value;
-+        env->mtimer->expire_time |= ((value << 32) & 0xFFFFFFFF);
++    case NUCLEI_UART_REG_TXCTRL:
++        s->txctrl = value;
 +        break;
-+    case NUCLEI_SYSTIMER_REG_MTIMECMPLO:
-+        s->mtimecmp_lo = value;
-+        s->mtimecmp_hi = 0xFFFFFFFF;
-+        env->mtimecmp |= (value & 0xFFFFFFFF);
-+        nuclei_timer_update_compare(s);
++    case NUCLEI_UART_REG_RXCTRL:
++        s->rxctrl = value;
 +        break;
-+    case NUCLEI_SYSTIMER_REG_MTIMECMPHI:
-+        s->mtimecmp_hi = value;
-+        env->mtimecmp |= ((value << 32) & 0xFFFFFFFF);
-+        nuclei_timer_update_compare(s);
++    case NUCLEI_UART_REG_IE:
++        s->ie = value;
++        update_irq(s);
 +        break;
-+    case NUCLEI_SYSTIMER_REG_MSFTRST:
-+        if (!(value & 0x80000000) == 0) {
-+            nuclei_timer_reset((DeviceState *)s);
-+        }
++    case NUCLEI_UART_REG_IP:
++        s->ip = value;
 +        break;
-+    case NUCLEI_SYSTIMER_REG_MSTOP:
-+        s->mstop = value;
-+        break;
-+    case NUCLEI_SYSTIMER_REG_MSIP:
-+        s->msip = value;
-+        if ((s->msip & 0x1) == 1) {
-+            qemu_set_irq(*(s->soft_irq), 1);
-+        } else {
-+            qemu_set_irq(*(s->soft_irq), 0);
-+        }
-+
++    case NUCLEI_UART_REG_DIV:
++        s->div = value;
 +        break;
 +    default:
 +        break;
 +    }
 +}
 +
-+static const MemoryRegionOps nuclei_timer_ops = {
-+    .read = nuclei_timer_read,
-+    .write = nuclei_timer_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .impl = {
++static const MemoryRegionOps uart_ops = {
++    .read = uart_read,
++    .write = uart_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid = {
 +        .min_access_size = 4,
 +        .max_access_size = 4,
-+    },
++        }
 +};
 +
-+static Property nuclei_systimer_properties[] = {
-+    DEFINE_PROP_UINT32("aperture-size", NucLeiSYSTIMERState, aperture_size, 0),
-+    DEFINE_PROP_UINT32("timebase-freq", NucLeiSYSTIMERState, timebase_freq, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void nuclei_timer_realize(DeviceState *dev, Error **errp)
++static void uart_rx(void *opaque, const uint8_t *buf, int size)
 +{
-+    NucLeiSYSTIMERState *s = NUCLEI_SYSTIMER(dev);
++    NucLeiUARTState *s = opaque;
 +
-+    if (s->aperture_size == 0) {
-+        s->aperture_size = 0x1000;
++    /* Got a byte.  */
++    if (s->rx_fifo_len >= sizeof(s->rx_fifo)) {
++        printf("WARNING: UART dropped char.\n");
++        return;
 +    }
-+    memory_region_init_io(&s->iomem, OBJECT(dev), &nuclei_timer_ops,
-+                          s, TYPE_NUCLEI_SYSTIMER, s->aperture_size);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
++    s->rx_fifo[s->rx_fifo_len++] = *buf;
++
++    update_irq(s);
 +}
 +
-+static void nuclei_timer_class_init(ObjectClass *klass, void *data)
++static int uart_can_rx(void *opaque)
 +{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    dc->realize = nuclei_timer_realize;
-+    dc->reset = nuclei_timer_reset;
-+    dc->desc = "NucLei Systimer Timer";
-+    device_class_set_props(dc, nuclei_systimer_properties);
++    NucLeiUARTState *s = opaque;
++    return s->rx_fifo_len < sizeof(s->rx_fifo);
 +}
 +
-+static const TypeInfo nuclei_timer_info = {
-+    .name = TYPE_NUCLEI_SYSTIMER,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(NucLeiSYSTIMERState),
-+    .class_init = nuclei_timer_class_init,
-+};
-+
-+static void nuclei_timer_register_types(void)
++static void uart_event(void *opaque, QEMUChrEvent event)
 +{
-+    type_register_static(&nuclei_timer_info);
 +}
-+type_init(nuclei_timer_register_types);
 +
-+static void nuclei_mtimecmp_cb(void *opaque)
++static int uart_be_change(void *opaque)
 +{
-+    RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(0));
-+    CPURISCVState *env = &cpu->env;
-+    nuclei_eclic_systimer_cb(((RISCVCPU *)cpu)->env.eclic);
-+    timer_del(env->mtimer);
++    NucLeiUARTState *s = opaque;
++
++    qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
++                             uart_be_change, s, NULL, true);
++
++    return 0;
 +}
 +
-+DeviceState *nuclei_systimer_create(hwaddr addr, hwaddr size,
-+                                    DeviceState *eclic, uint32_t timebase_freq)
-+{
-+    RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(0));
-+    CPURISCVState *env = &cpu->env;
-+
-+    env->features |= (1ULL << RISCV_FEATURE_ECLIC);
-+    env->mtimer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                               &nuclei_mtimecmp_cb, cpu);
-+    env->mtimecmp = 0;
-+
-+    DeviceState *dev = qdev_new(TYPE_NUCLEI_SYSTIMER);
-+    qdev_prop_set_uint32(dev, "aperture-size", size);
-+    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-+    NucLeiSYSTIMERState *s = NUCLEI_SYSTIMER(dev);
-+    if (eclic != NULL) {
-+        s->eclic = eclic;
-+        s->soft_irq = &(NUCLEI_ECLIC(eclic)->irqs[Internal_SysTimerSW_IRQn]);
-+        s->timer_irq = &(NUCLEI_ECLIC(eclic)->irqs[Internal_SysTimer_IRQn]);
-+    }
-+    return dev;
-+}
-diff --git a/include/hw/intc/nuclei_systimer.h b/include/hw/intc/nuclei_systimer.h
-new file mode 100644
-index 0000000000..1f7756bb6f
---- /dev/null
-+++ b/include/hw/intc/nuclei_systimer.h
-@@ -0,0 +1,70 @@
 +/*
-+ *  NUCLEI TIMER (Timer Unit) interface
++ * Create UART device.
++ */
++NucLeiUARTState *nuclei_uart_create(MemoryRegion *address_space,
++                    hwaddr base, uint64_t size, Chardev *chr, qemu_irq irq)
++{
++    NucLeiUARTState *s = g_malloc0(sizeof(NucLeiUARTState));
++    s->irq = irq;
++    qemu_chr_fe_init(&s->chr, chr, &error_abort);
++    qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
++                             uart_be_change, s, NULL, true);
++    memory_region_init_io(&s->mmio, NULL, &uart_ops, s,
++                          TYPE_NUCLEI_UART, size);
++    memory_region_add_subregion(address_space, base, &s->mmio);
++
++    return s;
++}
+diff --git a/include/hw/char/nuclei_uart.h b/include/hw/char/nuclei_uart.h
+new file mode 100644
+index 0000000000..a7f2c72fb7
+--- /dev/null
++++ b/include/hw/char/nuclei_uart.h
+@@ -0,0 +1,73 @@
++/*
++ *  NUCLEI Hummingbird Evaluation Kit  100T/200T UART interface
 + *
-+ * Copyright (c) 2020 Gao ZhiYuan <alapha23@gmail.com>
 + * Copyright (c) 2020-2021 PLCT Lab.All rights reserved.
-+ *
-+ * This provides a parameterizable timer controller based on NucLei's Systimer.
 + *
 + * This program is free software: you can redistribute it and/or modify
 + * it under the terms of the GNU General Public License as published by
@@ -402,54 +349,60 @@ index 0000000000..1f7756bb6f
 + *  You should have received a copy of the GNU General Public License
 + *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
-+#ifndef HW_NUCLEI_SYSTIMER_H
-+#define HW_NUCLEI_SYSTIMER_H
 +
-+#include "hw/intc/nuclei_eclic.h"
++#ifndef HW_NUCLEI_UART_H
++#define HW_NUCLEI_UART_H
++
++#include "chardev/char-fe.h"
 +#include "hw/irq.h"
 +#include "hw/sysbus.h"
 +
-+#define TYPE_NUCLEI_SYSTIMER "riscv.nuclei.systimer"
++#define TYPE_NUCLEI_UART "riscv.nuclei.uart"
++OBJECT_DECLARE_SIMPLE_TYPE(NucLeiUARTState, NUCLEI_UART)
 +
-+#define NUCLEI_SYSTIMER(obj) \
-+    OBJECT_CHECK(NucLeiSYSTIMERState, (obj), TYPE_NUCLEI_SYSTIMER)
++#define NUCLEI_UART_REG_TXDATA 0x000
++#define NUCLEI_UART_REG_RXDATA 0x004
++#define NUCLEI_UART_REG_TXCTRL 0x008
++#define NUCLEI_UART_REG_RXCTRL 0x00C
++#define NUCLEI_UART_REG_IE     0x010
++#define NUCLEI_UART_REG_IP     0x014
++#define NUCLEI_UART_REG_DIV    0x018
 +
-+#define NUCLEI_SYSTIMER_REG_MTIMELO    0x0000
-+#define NUCLEI_SYSTIMER_REG_MTIMEHI    0x0004
-+#define NUCLEI_SYSTIMER_REG_MTIMECMPLO 0x0008
-+#define NUCLEI_SYSTIMER_REG_MTIMECMPHI 0x000C
-+#define NUCLEI_SYSTIMER_REG_MSFTRST    0xFF0
-+#define NUCLEI_SYSTIMER_REG_MSTOP      0xFF8
-+#define NUCLEI_SYSTIMER_REG_MSIP       0xFFC
++#define NUCLEI_UART_GET_TXCNT(txctrl) (txctrl & 0x1)
++#define NUCLEI_UART_GET_RXCNT(rxctrl) (rxctrl & 0x1)
 +
-+typedef struct NucLeiSYSTIMERState {
++enum {
++    NUCLEI_UART_IE_TXWM = 1, /* Transmit watermark interrupt enable */
++    NUCLEI_UART_IE_RXWM = 2  /* Receive watermark interrupt enable */
++};
++
++enum {
++    NUCLEI_UART_IP_TXWM = 1, /* Transmit watermark interrupt pending */
++    NUCLEI_UART_IP_RXWM = 2  /* Receive watermark interrupt pending */
++};
++
++typedef struct NucLeiUARTState {
 +    /*< private >*/
 +    SysBusDevice parent_obj;
 +
 +    /*< public >*/
-+    MemoryRegion iomem;
-+    qemu_irq *timer_irq;
-+    qemu_irq *soft_irq;
++    qemu_irq irq;
++    MemoryRegion mmio;
++    CharBackend chr;
++    uint8_t rx_fifo[8];
++    unsigned int rx_fifo_len;
 +
-+    DeviceState *eclic;
++    uint32_t txdata;
++    uint32_t rxdata;
++    uint32_t txctrl;
++    uint32_t rxctrl;
++    uint32_t ie;
++    uint32_t ip;
++    uint32_t div;
++} NucLeiUARTState;
 +
-+    uint32_t mtime_lo;
-+    uint32_t mtime_hi;
-+    uint32_t mtimecmp_lo;
-+    uint32_t mtimecmp_hi;
-+    uint32_t mstop;
-+    uint32_t msip;
-+
-+    uint32_t aperture_size;
-+    uint32_t timebase_freq;
-+
-+} NucLeiSYSTIMERState;
-+
-+#define NUCLEI_GD32_TIMEBASE_FREQ  (108000000 * 2)
-+#define NUCLEI_HBIRD_TIMEBASE_FREQ (10000000)
-+
-+DeviceState *nuclei_systimer_create(hwaddr addr, hwaddr size,
-+                                    DeviceState *eclic, uint32_t timebase_freq);
++NucLeiUARTState *nuclei_uart_create(MemoryRegion *address_space,
++                    hwaddr base, uint64_t size, Chardev *chr, qemu_irq irq);
 +#endif
 -- 
 2.17.1
