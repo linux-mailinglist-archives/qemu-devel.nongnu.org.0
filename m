@@ -2,48 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54350376410
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 12:47:44 +0200 (CEST)
-Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB153764BA
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 13:53:46 +0200 (CEST)
+Received: from localhost ([::1]:39914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ley1G-0002WC-TU
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 06:47:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35062)
+	id 1lez3B-0005Qx-Dg
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 07:53:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lexze-00020I-RP
- for qemu-devel@nongnu.org; Fri, 07 May 2021 06:46:02 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:36026)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lexzc-0005LZ-GA
- for qemu-devel@nongnu.org; Fri, 07 May 2021 06:46:02 -0400
-Received: from [192.168.0.92] (unknown [62.118.138.151])
- by mail.ispras.ru (Postfix) with ESMTPSA id A5A254076B49;
- Fri,  7 May 2021 10:45:42 +0000 (UTC)
-Subject: Re: [PATCH] hw/virtio: enable ioeventfd configuring for mmio
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <161700379211.1135943.8859209566937991305.stgit@pasha-ThinkPad-X280>
- <d5119624-9658-2cbb-e1c7-9e85bd22b532@ispras.ru>
- <20210406054157-mutt-send-email-mst@kernel.org>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <9b36a884-ec9f-3698-a6bf-536b141a257c@ispras.ru>
-Date: Fri, 7 May 2021 13:45:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1lez22-0004aa-Mu; Fri, 07 May 2021 07:52:34 -0400
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:34481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1lez20-00055D-VA; Fri, 07 May 2021 07:52:34 -0400
+Received: by mail-lj1-x233.google.com with SMTP id p12so11210710ljg.1;
+ Fri, 07 May 2021 04:52:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=slbWWk2Y39cU/AdGIxISFDdichHsEEYEnOwaEDeM5zM=;
+ b=EcwDgSRFnxiQHmTsexe+BvKboWpauVbgrjJHq0t7ntIya+GIFLHu5ocW76P+JRHq3F
+ csoueE7vz3SSpHWnU8C6YvaA1jReajhFQBqk9bKqKi7W3Bx0xaZuhga6Mzh7pYihIaTC
+ y9j3brw3unehfuNAzmK6GGhNAlZqp/tDEYI0183oBBErvZUAifgThr7kW7I9dmn8rFkm
+ 2J9mcTtKVaveq3qAI5XaMtOt/oC3fC7BDLc05kjtpLy6nt2ztEe/9hEkAB4axd+Lj3TD
+ FPmOSm9lg+e1nwRwWn25jYE5LTlJMUzd5gdOdWqbzlXvc6wKV3eyM2E7yH+SI+c8kqIu
+ wV0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=slbWWk2Y39cU/AdGIxISFDdichHsEEYEnOwaEDeM5zM=;
+ b=tag87mitoGW1gqYUPiQ/SvkYx5sayM9EBMKQd9Q/Prn6gOiP7Nm49OSMnofRTeP1kI
+ mG5HQE9r94VSQICMkbUzfi5vD/6msjtP6J1oQYBk791nMdGZJR+ObgBmuVt0p/XlyFqz
+ GRPQOwYXAbVHPWZlU5YLlKAVr0gUXRCMWSnep6h5LsMEAptkIsxxwzM5TLtEvumSWab0
+ UII0WghS+/lfZVpKzBMl788/umYWgSEQxS2Hnvf+MVlX31jdZic1pVcf/vdp39gNSATh
+ GKPxdZD3AWBkPqyU3/jbs5sK9YEqy2SqfOzmT2tqmpfLnKYenSnEPcgww4tIFjBRUc9l
+ lJyw==
+X-Gm-Message-State: AOAM533fkJUMYdJTLB4hxsFH5nFbgWWKFgkpXdrTXVuurenTx61UKvLC
+ J18JjQiNIa30Cgpm/xevRjA=
+X-Google-Smtp-Source: ABdhPJzAMvUYR5mHOVUN/Xp6bUZlFDVCIy2E800lLlR2wRJb9XKzMNqfp1CRk7JMlkS63r3W7qXpDg==
+X-Received: by 2002:a2e:1541:: with SMTP id 1mr7538370ljv.80.1620388350201;
+ Fri, 07 May 2021 04:52:30 -0700 (PDT)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id x207sm1349250lff.234.2021.05.07.04.52.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 May 2021 04:52:29 -0700 (PDT)
+Date: Fri, 7 May 2021 13:52:28 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] hw/arm/xlnx: Fix PHY address for xilinx-zynq-a9
+Message-ID: <20210507115228.GF477672@toto>
+References: <20210504124140.1100346-1-linux@roeck-us.net>
 MIME-Version: 1.0
-In-Reply-To: <20210406054157-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210504124140.1100346-1-linux@roeck-us.net>
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x233.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,85 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping
+On Tue, May 04, 2021 at 05:41:40AM -0700, Guenter Roeck wrote:
+> Commit dfc388797cc4 ("hw/arm: xlnx: Set all boards' GEM 'phy-addr'
+> property value to 23") configured the PHY address for xilinx-zynq-a9
+> to 23. When trying to boot xilinx-zynq-a9 with zynq-zc702.dtb or
+> zynq-zc706.dtb, this results in the following error message when
+> trying to use the Ethernet interface.
+> 
+> macb e000b000.ethernet eth0: Could not attach PHY (-19)
+> 
+> The devicetree files for ZC702 and ZC706 configure PHY address 7. The
+> documentation for the ZC702 and ZC706 evaluation boards suggest that the
+> PHY address is 7, not 23. Other boards use PHY address 0, 1, 3, or 7.
+> I was unable to find a documentation or a devicetree file suggesting
+> or using PHY address 23. The Ethernet interface starts working with
+> zynq-zc702.dtb and zynq-zc706.dtb when setting the PHY address to 7,
+> so let's use it.
+> 
+> Cc: Bin Meng <bin.meng@windriver.com>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-On 06.04.2021 13:02, Michael S. Tsirkin wrote:
-> i tagged it for 6.1
-> pls remind me after release so it's not lost
-> 
-> 
-> On Mon, Apr 05, 2021 at 08:50:31AM +0300, Pavel Dovgalyuk wrote:
->> ping
->>
->> On 29.03.2021 10:43, Pavel Dovgalyuk wrote:
->>> This patch adds ioeventfd flag for virtio-mmio configuration.
->>> It allows switching ioeventfd on and off.
->>>
->>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
->>> ---
->>>    hw/virtio/virtio-mmio.c         |   11 ++++++++++-
->>>    include/hw/virtio/virtio-mmio.h |    5 +++++
->>>    2 files changed, 15 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
->>> index 342c918ea7..5952471b38 100644
->>> --- a/hw/virtio/virtio-mmio.c
->>> +++ b/hw/virtio/virtio-mmio.c
->>> @@ -36,7 +36,9 @@
->>>    static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
->>>    {
->>> -    return kvm_eventfds_enabled();
->>> +    VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
->>> +
->>> +    return (proxy->flags & VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD) != 0;
->>>    }
->>>    static int virtio_mmio_ioeventfd_assign(DeviceState *d,
->>> @@ -720,6 +722,8 @@ static Property virtio_mmio_properties[] = {
->>>        DEFINE_PROP_BOOL("format_transport_address", VirtIOMMIOProxy,
->>>                         format_transport_address, true),
->>>        DEFINE_PROP_BOOL("force-legacy", VirtIOMMIOProxy, legacy, true),
->>> +    DEFINE_PROP_BIT("ioeventfd", VirtIOMMIOProxy, flags,
->>> +                    VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT, true),
->>>        DEFINE_PROP_END_OF_LIST(),
->>>    };
->>> @@ -731,6 +735,11 @@ static void virtio_mmio_realizefn(DeviceState *d, Error **errp)
->>>        qbus_create_inplace(&proxy->bus, sizeof(proxy->bus), TYPE_VIRTIO_MMIO_BUS,
->>>                            d, NULL);
->>>        sysbus_init_irq(sbd, &proxy->irq);
->>> +
->>> +    if (!kvm_eventfds_enabled()) {
->>> +        proxy->flags &= ~VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD;
->>> +    }
->>> +
->>>        if (proxy->legacy) {
->>>            memory_region_init_io(&proxy->iomem, OBJECT(d),
->>>                                  &virtio_legacy_mem_ops, proxy,
->>> diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-mmio.h
->>> index d4c4c386ab..090f7730e7 100644
->>> --- a/include/hw/virtio/virtio-mmio.h
->>> +++ b/include/hw/virtio/virtio-mmio.h
->>> @@ -49,12 +49,17 @@ typedef struct VirtIOMMIOQueue {
->>>        uint32_t used[2];
->>>    } VirtIOMMIOQueue;
->>> +#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT 1
->>> +#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD \
->>> +        (1 << VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT)
->>> +
->>>    struct VirtIOMMIOProxy {
->>>        /* Generic */
->>>        SysBusDevice parent_obj;
->>>        MemoryRegion iomem;
->>>        qemu_irq irq;
->>>        bool legacy;
->>> +    uint32_t flags;
->>>        /* Guest accessible state needing migration and reset */
->>>        uint32_t host_features_sel;
->>>        uint32_t guest_features_sel;
->>>
-> 
+Acked-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
+
+
+
+> ---
+>  hw/arm/xilinx_zynq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+> index 8db6cfd47f..5ac0294f9e 100644
+> --- a/hw/arm/xilinx_zynq.c
+> +++ b/hw/arm/xilinx_zynq.c
+> @@ -119,7 +119,7 @@ static void gem_init(NICInfo *nd, uint32_t base, qemu_irq irq)
+>          qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
+>          qdev_set_nic_properties(dev, nd);
+>      }
+> -    object_property_set_int(OBJECT(dev), "phy-addr", 23, &error_abort);
+> +    object_property_set_int(OBJECT(dev), "phy-addr", 7, &error_abort);
+>      s = SYS_BUS_DEVICE(dev);
+>      sysbus_realize_and_unref(s, &error_fatal);
+>      sysbus_mmio_map(s, 0, base);
+> -- 
+> 2.25.1
+> 
 
