@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D10376735
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C970376734
 	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 16:48:30 +0200 (CEST)
-Received: from localhost ([::1]:40862 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:40748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf1mH-0001kS-OW
+	id 1lf1mH-0001hY-8V
 	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 10:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38770)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1hY-0007YA-94
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:43:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54585)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1hb-0007fF-Ft
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 10:43:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1hU-0000aG-KM
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:43:35 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1hZ-0000eg-PD
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 10:43:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620398611;
+ s=mimecast20190719; t=1620398617;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cWe+dxIQxlwOjXTVq4nmSO21Ag5LIQeGVfXOgPjRmt8=;
- b=ZaB6gKevzPVzKBe3fJgPItBVYmUHv/bwN0gfdmm0dfg3tRtRd/R1l1o9zO3oT88Uy2AMvE
- ZwUNW4L9mhpu6QkIWk0o7qcUf63+fo3ZjHtuOGU4r3FFOZKzmjrI9XvOA8iN/fYZToI9EO
- /Pl48VEDcNb0G5bhepCWg7Scn6UTGBc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-LfkmTJtnNaWIuXSdolMoCw-1; Fri, 07 May 2021 10:43:29 -0400
-X-MC-Unique: LfkmTJtnNaWIuXSdolMoCw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- x10-20020adfc18a0000b029010d83c83f2aso3695189wre.8
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 07:43:28 -0700 (PDT)
+ bh=q+bUpux/oO0InwS7O+3v+yDI8KzcveNX4OlpMmGvtIA=;
+ b=RqX2sDCfg/Ljhm8GoECKUtCPfVD7QowQQvshscBbcNqkS8tur9nyvA9DQdgrraVGpg/SnK
+ mIsmB2olNwGeypF4Yxb89AW/2hBs+4Wn/eV9ru0PoXs30q6HWVTIx17i/7r15XapUY0Mjo
+ qr7AlCerfwL/lBr75CScD36rU9yVGRc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-602-g4VYKLy-MLea2A4Lfs7MyQ-1; Fri, 07 May 2021 10:43:33 -0400
+X-MC-Unique: g4VYKLy-MLea2A4Lfs7MyQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ y193-20020a1c32ca0000b029014cbf30c3f2so3952033wmy.1
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 07:43:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cWe+dxIQxlwOjXTVq4nmSO21Ag5LIQeGVfXOgPjRmt8=;
- b=uBMdc1sg+cIIy9gpi6xFReb8tZAZKOXUb1OoFjXpVSPpirYAWSvSh+foSX/N0aUkvh
- pCpwrNMuDLwSdVC6VDSihFCRRoqnZLZiVPkyEIfdG8SCLODcuGIKtROWJlBMqwD3Aqof
- Q18xYFvOSt9eexyOG9ly1LuFji3cIK2BLIks+5qmTzRQi2zXVo/zbMGip/BhvHY+tWN9
- AlYGZ3xWuM0AeOD48pL+GKqVEa8JYyYVdQ3v1dMOwSfeg/W00TEGcBQ6V2mwkJ4GsbZa
- yZA8+h1XFAtqJ1b+ELjphtr19QjiuaBrSeArCyVGRUuDWMst+YEsosOe0CmlyVti/QRL
- XC8g==
-X-Gm-Message-State: AOAM531s6v5eHWH52zNhHMlLmj45SZs9FFP8rYXc0Xkx2YfpfLTlSmqO
- NxZccuSc8gQxGAwQCbaHxeQR+zS0k8bzuZAJ0kKaDq/+hJEaMTgak/atiy7S1/xFz09bsNQxbTv
- t9S+mCHUZ8vpGgWOKEfGzd3i5WFGfaevMLqft/06MjnWEXFl/4Iu0oe5efunjvcK7
-X-Received: by 2002:a05:600c:293:: with SMTP id
- 19mr10481696wmk.144.1620398607383; 
- Fri, 07 May 2021 07:43:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzJXjh5EIUZ5UvBdcTDtVAODkhggy3oiheKgCV4ZKOSMg1GrJfTFeIVPOdUMHt/oXW6+6GrQ==
-X-Received: by 2002:a05:600c:293:: with SMTP id
- 19mr10481664wmk.144.1620398607116; 
- Fri, 07 May 2021 07:43:27 -0700 (PDT)
+ bh=q+bUpux/oO0InwS7O+3v+yDI8KzcveNX4OlpMmGvtIA=;
+ b=oalzdU8pfJdbMdMNzkcnNzMp5VXvQSfAI1P+FlO5G2n5sWhmzCFT3/KAAVDrwi9RrE
+ X/HTJ2n+J/WNIgQxJ8Y7lRzo1c1OkyG7s6faLeMeNv9CnVGZlsqcHXkaSPugxuUm9WsO
+ HY8alPqHlhmihRgaT8W/2ikfgSNOhGYBK5PLc4ZphxXeMqYHEss3q1JiZDZbUMNaEhSf
+ VlEGSZaAtqWjuRgjFxLHFW1RohVHNqq82OVDV4H50HPIraRUGdWZ2If/P22CQ+z/Ojcv
+ +REQ2IsBF+BkxdWoBVUo60Uw16Z8psLuoVZIejtZsMzREkhMvw0xcY7J8xuDB6sYCspM
+ GV7Q==
+X-Gm-Message-State: AOAM532W+MCOwzheaT5yi80kgaxdwbjjCua/tE9vgkilWh/j6hb80HM+
+ y2B7Im5MdBPKE5oTIBjzydW+lA+EIFybDjT7pyWEnpfbZv233BuhzosF/nLO1rCt+aBJ8k/NPd3
+ UYGP9TGSv+RSTr7O///kLlmwRf+U5Be8Vty3/xIOdUqHlQk2T37WTUogaEEkjBkMf
+X-Received: by 2002:a05:600c:89a:: with SMTP id
+ l26mr21147126wmp.18.1620398612199; 
+ Fri, 07 May 2021 07:43:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTDpcS06ZVNaty9w4yRm1eFVAUeaEhTHfn0l9iOi64at9nD5MlVi8qUE4UwL2wbZeJV4QBHA==
+X-Received: by 2002:a05:600c:89a:: with SMTP id
+ l26mr21147100wmp.18.1620398611969; 
+ Fri, 07 May 2021 07:43:31 -0700 (PDT)
 Received: from localhost.localdomain
  (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr. [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id o15sm8521863wru.42.2021.05.07.07.43.26
+ by smtp.gmail.com with ESMTPSA id f7sm10176565wrg.34.2021.05.07.07.43.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 07:43:26 -0700 (PDT)
+ Fri, 07 May 2021 07:43:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/17] linux-user/elfload: Replace alloca() by
- g_try_malloc()
-Date: Fri,  7 May 2021 16:43:00 +0200
-Message-Id: <20210507144315.1994337-3-philmd@redhat.com>
+Subject: [PATCH v3 03/17] linux-user/syscall: Replace alloca() by g_try_new()
+Date: Fri,  7 May 2021 16:43:01 +0200
+Message-Id: <20210507144315.1994337-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210507144315.1994337-1-philmd@redhat.com>
 References: <20210507144315.1994337-1-philmd@redhat.com>
@@ -84,7 +83,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,54 +111,74 @@ Use autofree heap allocation instead (returning ENOMEM on failure).
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- linux-user/elfload.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ linux-user/syscall.c | 25 +++++++++++++++++--------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index c6731013fde..dad2dac24a4 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2591,6 +2591,7 @@ static void load_elf_image(const char *image_name, int image_fd,
- {
-     struct elfhdr *ehdr = (struct elfhdr *)bprm_buf;
-     struct elf_phdr *phdr;
-+    g_autofree void *phdr_alloc = NULL;
-     abi_ulong load_addr, load_bias, loaddr, hiaddr, error;
-     int i, retval, prot_exec;
-     Error *err = NULL;
-@@ -2610,7 +2611,12 @@ static void load_elf_image(const char *image_name, int image_fd,
-     if (ehdr->e_phoff + i <= BPRM_BUF_SIZE) {
-         phdr = (struct elf_phdr *)(bprm_buf + ehdr->e_phoff);
-     } else {
--        phdr = (struct elf_phdr *) alloca(i);
-+        phdr_alloc = g_try_malloc(i);
-+        if (!phdr_alloc) {
-+            error_setg(&err, "Not enough memory to load ELF program header");
-+            goto exit_errmsg;
-+        }
-+        phdr = (struct elf_phdr *) phdr_alloc;
-         retval = pread(image_fd, phdr, i, ehdr->e_phoff);
-         if (retval != i) {
-             goto exit_read;
-@@ -2979,15 +2985,15 @@ static void load_symbols(struct elfhdr *hdr, int fd, abi_ulong load_bias)
- {
-     int i, shnum, nsyms, sym_idx = 0, str_idx = 0;
-     uint64_t segsz;
--    struct elf_shdr *shdr;
-+    g_autofree struct elf_shdr *shdr;
-     char *strings = NULL;
-     struct syminfo *s = NULL;
-     struct elf_sym *new_syms, *syms = NULL;
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 95d79ddc437..08ab4cee805 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11417,10 +11417,12 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         {
+             int gidsetsize = arg1;
+             target_id *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = g_try_new(gid_t, gidsetsize);
+             int i;
  
-     shnum = hdr->e_shnum;
-     i = shnum * sizeof(struct elf_shdr);
--    shdr = (struct elf_shdr *)alloca(i);
--    if (pread(fd, shdr, i, hdr->e_shoff) != i) {
-+    shdr = (struct elf_shdr *)g_try_malloc(i);
-+    if (shdr == NULL || pread(fd, shdr, i, hdr->e_shoff) != i) {
-         return;
-     }
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
++            if (!grouplist) {
++                return -TARGET_ENOMEM;
++            }
+             ret = get_errno(getgroups(gidsetsize, grouplist));
+             if (gidsetsize == 0)
+                 return ret;
+@@ -11438,10 +11440,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         {
+             int gidsetsize = arg1;
+             target_id *target_grouplist;
+-            gid_t *grouplist = NULL;
++            g_autofree gid_t *grouplist = NULL;
+             int i;
+             if (gidsetsize) {
+-                grouplist = alloca(gidsetsize * sizeof(gid_t));
++                grouplist = g_try_new(gid_t, gidsetsize);
++                if (!grouplist) {
++                    return -TARGET_ENOMEM;
++                }
+                 target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * sizeof(target_id), 1);
+                 if (!target_grouplist) {
+                     return -TARGET_EFAULT;
+@@ -11736,10 +11741,12 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         {
+             int gidsetsize = arg1;
+             uint32_t *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = g_try_new(gid_t, gidsetsize);
+             int i;
  
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
++            if (!grouplist) {
++                return -TARGET_ENOMEM;
++            }
+             ret = get_errno(getgroups(gidsetsize, grouplist));
+             if (gidsetsize == 0)
+                 return ret;
+@@ -11760,10 +11767,12 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         {
+             int gidsetsize = arg1;
+             uint32_t *target_grouplist;
+-            gid_t *grouplist;
++            g_autofree gid_t *grouplist = g_try_new(gid_t, gidsetsize);
+             int i;
+ 
+-            grouplist = alloca(gidsetsize * sizeof(gid_t));
++            if (!grouplist) {
++                return -TARGET_ENOMEM;
++            }
+             target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * 4, 1);
+             if (!target_grouplist) {
+                 return -TARGET_EFAULT;
 -- 
 2.26.3
 
