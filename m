@@ -2,84 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389133767A7
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 17:07:01 +0200 (CEST)
-Received: from localhost ([::1]:59996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB3F3767BF
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 17:13:57 +0200 (CEST)
+Received: from localhost ([::1]:37882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf24C-00051Y-A0
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 11:07:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41622)
+	id 1lf2Au-0008Pd-63
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 11:13:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lf1uu-0005jt-9T
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:57:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54248)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lf29D-0006vE-R4
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 11:12:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lf1ur-0008JK-ST
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:57:23 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lf29C-0001kZ-At
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 11:12:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620399440;
+ s=mimecast20190719; t=1620400328;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d0GpYguGvmotRnNwEDh6iAOSU3f9Ji/CbxQP0MKpGsI=;
- b=ZBIMHX4YWNKSYMea3zXO6BrQvZuRSBtXw4O5kPahCI1pn++2D+rDzO+eeJ9sZr3jDp25b8
- i07c217WTq86ZMKaoBZpPP0doWg3qnB4gpxAIWANSU5z+/FAlug9n/Qulw+QBvaNAzbSls
- 5gtYF3ij2aYdkKbzmjLe9CsLazgH+Jw=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-pgIZQAG2M32JN4op0-kLsQ-1; Fri, 07 May 2021 10:57:18 -0400
-X-MC-Unique: pgIZQAG2M32JN4op0-kLsQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- y24-20020a0ca9180000b02901d367101f9dso6835874qva.1
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 07:57:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=d0GpYguGvmotRnNwEDh6iAOSU3f9Ji/CbxQP0MKpGsI=;
- b=GZAl6NvXMty6t4VxCKXd3vHlp1rV21B6oPagPo3Tbu8Kpl3aOE3bHSNykacTwEMqVa
- nAsn8Khd/qyQSoTXWDiHPej97EfoPRfGevjKjzOZcEHCyTGz/yrAsjMME5dmCrelaQwy
- 2uYIeaSnUqEDWsIrYWPwbd6FxcAMrp9Bv8em07XUyFz2z9zjuSvsHAoZmqvsT59i4Hsn
- s6HU8pOayGUXvSg7qMJdfkpaXp7Eyr2Q8vUcpCnvrLBNHd4Wsb8SJ7qudupG7Tnj2buV
- 9b4J1JMm4NK2PtZmxen97FU5be3w8l+Uqp7hyfvQJDCvOxDiWt40iFNVNhT8antV037C
- 1IvQ==
-X-Gm-Message-State: AOAM53130tRpg5mYnQq7FnuEoIXAjhmuwdGtXTCZ2ThKAH8PdcPjjZef
- GpJSBYZLhGQvVhc0HUss0EyGsyaNLJuw4BJDVplsjx5GwYaDomxOu3Jva7/FZ962L8jhttb3tik
- PR/AEjbpNiy+5a9g=
-X-Received: by 2002:a05:620a:2912:: with SMTP id
- m18mr10347532qkp.475.1620399438044; 
- Fri, 07 May 2021 07:57:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwkqKjFZoiWVCoz80Hjatbw+vCy925ULPGZe9lCdeEeeafUf0JQqH6XPO9In9tB3Is5p7hhlA==
-X-Received: by 2002:a05:620a:2912:: with SMTP id
- m18mr10347507qkp.475.1620399437796; 
- Fri, 07 May 2021 07:57:17 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca.
- [184.145.4.219])
- by smtp.gmail.com with ESMTPSA id g140sm3662918qke.32.2021.05.07.07.57.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 07:57:16 -0700 (PDT)
-Date: Fri, 7 May 2021 10:57:15 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Kunkun Jiang <jiangkunkun@huawei.com>
-Subject: Re: [question] The source cannot recover, if the destination fails
- in the last round of live migration
-Message-ID: <YJVVS3K3TW8RwfuS@t490s>
-References: <7d87a3b7-86c9-9248-59dc-e1612a00e7c3@huawei.com>
- <YJPpr0z+sV3lQMxZ@work-vm>
- <dd990878-fb0f-5bfc-f390-d6807b158372@huawei.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sndvpNBq0S3byPe6Cp4nMD6mnPnRjLT4cV0HU8ZEFyc=;
+ b=gAaJcJiiGATHdG1ovIOtAPkEmxf250aniiIS6tUnuslbGfzUeSA3YkpvbHRoQgGITsNlgQ
+ N24ldrnlsCRRGG0dnpupZaiZ/TjbaxyT+1a3HoghDNGKIJwfi/yjQ6MBXHDXU4iCJLjR1N
+ bZPcb2IIazLFLXUp5xX1nphnDzSXbaQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-429-TElBM3ipNKKPV3qvPupwXQ-1; Fri, 07 May 2021 11:12:07 -0400
+X-MC-Unique: TElBM3ipNKKPV3qvPupwXQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 562751006C80;
+ Fri,  7 May 2021 15:12:06 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-113-137.ams2.redhat.com
+ [10.36.113.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE9D75D9CC;
+ Fri,  7 May 2021 15:12:04 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/5] blkdebug: fix racing condition when iterating on
+Date: Fri,  7 May 2021 17:11:58 +0200
+Message-Id: <20210507151203.39643-1-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <dd990878-fb0f-5bfc-f390-d6807b158372@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -100,54 +76,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, David Edmondson <dme@dme.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- Keqian Zhu <zhukeqian1@huawei.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 07, 2021 at 05:46:44PM +0800, Kunkun Jiang wrote:
-> Hi Dave,
-> 
-> On 2021/5/6 21:05, Dr. David Alan Gilbert wrote:
-> > * Kunkun Jiang (jiangkunkun@huawei.com) wrote:
-> > > Hi all,
-> > Hi,
-> > 
-> > > Recently I am learning about the part of live migration.
-> > > I have a question about the last round.
-> > > 
-> > > When the pending_size is less than the threshold, it will enter
-> > > the last round and call migration_completion(). It will stop the
-> > > source and sent the remaining dirty pages and devices' status
-> > > information to the destination. The destination will load these
-> > > information and start the VM.
-> > > 
-> > > If there is an error at the destination at this time, it will exit
-> > > directly, and the source will not be able to detect the error
-> > > and recover. Because the source will not call
-> > > migration_detect_error().
-> > > 
-> > > Is my understanding correct?
-> > > Should the source wait the result of the last round of destination ?
-> > Try setting the 'return-path' migration capability on both the source
-> > and destination;  I think it's that option will cause the destination to
-> > send an OK/error at the end and the source to wait for it.
-> Thank you for your reply!
-> The 'return-path' migration capability solved my question. 😁
-> 
-> But why not set it as the default? In my opinion, it is a basic ability
-> of live migration. We need it to judge whether the last round of the
-> destination is successful in the way of 'precopy'.
+When qemu_coroutine_enter is executed in a loop
+(even QEMU_FOREACH_SAFE), the new routine can modify the list,
+for example removing an element, causing problem when control
+is given back to the caller that continues iterating on the same list. 
 
-I think it should be enabled as long as both sides support it; though may not
-be suitable as default (at least in QEMU) so as to consider old binaries.
+Patch 1 solves the issue in blkdebug_debug_resume by restarting
+the list walk after every coroutine_enter if list has to be fully iterated.
+Patches 2,3,4 aim to fix blkdebug_debug_event by gathering
+all actions that the rules make in a counter and invoking 
+the respective coroutine_yeld only after processing all requests.
 
-Thanks,
+Patch 5 is somewhat independent of the others, it adds a lock to
+protect rules and suspended_reqs; right now everything works because
+it's protected by the AioContext lock.
+This is a preparation for the current proposal of removing the AioContext
+lock and instead using smaller granularity locks to allow multiple
+iothread execution in the same block device.
+
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+v1 -> v2
+* Change commit message of patch 4 and cover letter
+
+Emanuele Giuseppe Esposito (5):
+  blkdebug: refactor removal of a suspended request
+  blkdebug: move post-resume handling to resume_req_by_tag
+  blkdebug: track all actions
+  blkdebug: do not suspend in the middle of QLIST_FOREACH_SAFE
+  blkdebug: protect rules and suspended_reqs with a lock
+
+ block/blkdebug.c | 113 +++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 79 insertions(+), 34 deletions(-)
 
 -- 
-Peter Xu
+2.30.2
 
 
