@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F1C376749
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 16:53:48 +0200 (CEST)
-Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713C9376750
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 16:56:58 +0200 (CEST)
+Received: from localhost ([::1]:38630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf1rP-0000Od-O5
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 10:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39106)
+	id 1lf1uT-0003pz-FV
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 10:56:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1i6-0007q4-9N
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:44:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31962)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1i9-0007s7-7a
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 10:44:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1i3-0000nJ-LX
- for qemu-devel@nongnu.org; Fri, 07 May 2021 10:44:10 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lf1i5-0000oT-2w
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 10:44:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620398643;
+ s=mimecast20190719; t=1620398648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VXb/SdsglaW/QeR809+FkWbDDukXToeT9LG+jBzD2Ak=;
- b=NdV3KcBaBxPdcdPawJGW+qo0sV7BVOUVGrszLU/9qcz7zpAPjXoHay0i9/pdpiM+Kq0Dgg
- 316Xc/zDa6O27uQm2rcM8antPHx1WVFHMjwuQa43L+Nn+Z/xGEFMeZ0JOHKJSYR46s1oKf
- 7XYtQy536rtL4oGTXN6gj+qbsJmU73c=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-Lty4evigOQWdlqHgvfzylQ-1; Fri, 07 May 2021 10:44:02 -0400
-X-MC-Unique: Lty4evigOQWdlqHgvfzylQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h104-20020adf90710000b029010de8455a3aso3686385wrh.12
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 07:44:02 -0700 (PDT)
+ bh=/bdOhY3sBOcIHJeoCe6CkJ1QfZvAaT12hvfPxmFulM0=;
+ b=RBmkarIQePHLIY2cHeYblK3Le+SfkAv/DMlfnWz3Z80p4bfKAtHk9C0ErRYKaZyZ8YGo0F
+ FpmJVndZIkwN0Rd9LgDGpBsUoNqJ4lFKq8Ziv3sH+snifJQh7Qf9rULgip1liuMTEgsBQh
+ qExhO4BWsLQaKm/GOMqSghWN4Tsa720=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-o28EOKUwOAOyS25y7haaPw-1; Fri, 07 May 2021 10:44:07 -0400
+X-MC-Unique: o28EOKUwOAOyS25y7haaPw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ t7-20020a1cc3070000b029014131bbe82eso3990978wmf.3
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 07:44:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VXb/SdsglaW/QeR809+FkWbDDukXToeT9LG+jBzD2Ak=;
- b=d4C1Rhdi2Y5bSEdKWp0Ncvgq6gAziaPcKls5Ej7uvsfThi0QPB1UwShaimdo2mX8AD
- BsRVVFsZnpHoXjyXpHvg3WmBFWUUTtRGk9qu87gT2aL6Yrd0QQUGf2sk+YUYQDOVXD/G
- PCx0/1CQHT0r4VytoM7qCPxpnTUfFH1GyDEg/9S9EmqddAKu3eqmyGvNNfk19g2j+/nQ
- hsn0xE/Se2GRRFA15GhXvOBL/RDNt6LDDQnvwXvOBwx6hYCJicOVJZ1l75R1fwyvhSE7
- FQj6OE0MeVfZiFSDM0YPG6+MlBh1+bfIwpaRVKz6XNahI8Vt+8AcIX4iF5puqcmFkEPZ
- xACg==
-X-Gm-Message-State: AOAM533ae7czLzsepcnUCaVR29QM8QKaq75Mbn/nJ3WtpJsonBgLxdsb
- JxC9HiDvcuPg7QLg9Jq7yIWEMwTK+IYFhJhPrIQdbLraZiyzFFyTrHyKuB26UxBz9FlVT7tXC/v
- hnvg/F8F5f19cCOTWci5p7rGquGkBStrhl5JcgkyxHgJbVtnjOcuisUF9B7Ogu4Xj
-X-Received: by 2002:adf:f5c6:: with SMTP id k6mr13450308wrp.338.1620398640790; 
- Fri, 07 May 2021 07:44:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyIYqu7g0FIq8SCVQnMmTws2rDcXfTUEbAeQnUtRQ+O103KeVplYGEoYEo0zclOShBCiqkK6w==
-X-Received: by 2002:adf:f5c6:: with SMTP id k6mr13450277wrp.338.1620398640536; 
- Fri, 07 May 2021 07:44:00 -0700 (PDT)
+ bh=/bdOhY3sBOcIHJeoCe6CkJ1QfZvAaT12hvfPxmFulM0=;
+ b=afM9w84B+3xaTKnbZ1rXmh8/zNA2byYuWJUqD6LNfcnhi00rRlHhKpOBrWAtE89wIT
+ 7rLj9Dwc1ma169biXKtV7OlB9Wc+j3Cv6rCe0sNjVdtD7btY2zqhGUwtoCknO+vcq1I/
+ rvpNKWpFLXutKpx9Exi1+ZdKVNuJrhXB7IL6m6T7hydqIfcdMNKl3kpF5Pa/990raqkX
+ DMZU4bRXHEkm4qcGk7qU2kn5mmUNSgqXq/q9WAPWXCHyHvu7d8/x/JIfzURIzmF6boZo
+ 64yeEM7jDfeYyc5fx4AzRxK8QukOZEwqXfAvt6vbHKdKqTS2GaZRiZwgXMKOBp9gCK3f
+ Cmyg==
+X-Gm-Message-State: AOAM530HZyc52FOuZydekbi0z6IFhUg47quHReZZrA8CaB1GaQgPmH4A
+ cXbEJ/xmJiRKY8/aNO3oZwuYVdBTGzSdN1nUgOdN+oghu97/sb3nIZMxQYCVAV3moWCClt/QpWq
+ obvHshjc3HXlKmZRGW+i5xPrsHvfxu21Y7t3zFDmLTg/v2O/B5UqU6J3QoYqDhyZn
+X-Received: by 2002:a5d:4a51:: with SMTP id v17mr9368909wrs.259.1620398645592; 
+ Fri, 07 May 2021 07:44:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzAGBqHXqPnxWmUTdUgr41RWwEb2R01PCsDEiapDu7vy61qLy24zEvVbo/zgUT9ufemsXGN8A==
+X-Received: by 2002:a5d:4a51:: with SMTP id v17mr9368879wrs.259.1620398645319; 
+ Fri, 07 May 2021 07:44:05 -0700 (PDT)
 Received: from localhost.localdomain
  (astrasbourg-652-1-219-60.w90-40.abo.wanadoo.fr. [90.40.114.60])
- by smtp.gmail.com with ESMTPSA id v13sm8883864wrt.65.2021.05.07.07.43.59
+ by smtp.gmail.com with ESMTPSA id r5sm7924414wmh.23.2021.05.07.07.44.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 07:44:00 -0700 (PDT)
+ Fri, 07 May 2021 07:44:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/17] linux-user/syscall: Replace alloca() by GLib alloc()
- in sendrecvmsg
-Date: Fri,  7 May 2021 16:43:07 +0200
-Message-Id: <20210507144315.1994337-10-philmd@redhat.com>
+Subject: [PATCH v3 10/17] audio/alsaaudio: Replace ALSA alloca() by malloc()
+ equivalent
+Date: Fri,  7 May 2021 16:43:08 +0200
+Message-Id: <20210507144315.1994337-11-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210507144315.1994337-1-philmd@redhat.com>
 References: <20210507144315.1994337-1-philmd@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -82,7 +82,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,49 +105,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The ALLOCA(3) man-page mentions its "use is discouraged".
 
-Use autofree heap allocation instead (returning ENOMEM on failure).
+Define the cleanup functions for the snd_pcm_[hw/sw]_params_t types,
+and replace the ALSA alloca() calls by equivalent ALSA malloc().
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- linux-user/syscall.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ audio/alsaaudio.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 593241362a9..c88e240ff93 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -3358,13 +3358,19 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
-     abi_ulong count;
-     struct iovec *vec;
-     abi_ulong target_vec;
-+    g_autofree void *msg_control = NULL;
+diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+index fcc2f62864f..f39061ebc42 100644
+--- a/audio/alsaaudio.c
++++ b/audio/alsaaudio.c
+@@ -70,6 +70,9 @@ struct alsa_params_obt {
+     snd_pcm_uframes_t samples;
+ };
  
-     if (msgp->msg_name) {
-         msg.msg_namelen = tswap32(msgp->msg_namelen);
--        msg.msg_name = alloca(msg.msg_namelen+1);
-+        msg.msg_name = g_try_malloc(msg.msg_namelen + 1);
-+        if (!msg.msg_name) {
-+            ret = -TARGET_ENOMEM;
-+            goto out2;
-+        }
-         ret = target_to_host_sockaddr(fd, msg.msg_name,
-                                       tswapal(msgp->msg_name),
-                                       msg.msg_namelen);
-+        g_free(msg.msg_name);
-         if (ret == -TARGET_EFAULT) {
-             /* For connected sockets msg_name and msg_namelen must
-              * be ignored, so returning EFAULT immediately is wrong.
-@@ -3401,8 +3407,7 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
-     msg.msg_iov = vec;
-     msg.msg_flags = tswap32(msgp->msg_flags);
-     msg.msg_controllen = 2 * tswapal(msgp->msg_controllen);
--    msg.msg_control = alloca(msg.msg_controllen);
--    memset(msg.msg_control, 0, msg.msg_controllen);
-+    msg.msg_control = msg_control = g_malloc0(msg.msg_controllen);
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(snd_pcm_hw_params_t, snd_pcm_hw_params_free)
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(snd_pcm_sw_params_t, snd_pcm_sw_params_free)
++
+ static void GCC_FMT_ATTR (2, 3) alsa_logerr (int err, const char *fmt, ...)
+ {
+     va_list ap;
+@@ -410,9 +413,9 @@ static void alsa_dump_info (struct alsa_params_req *req,
+ static void alsa_set_threshold (snd_pcm_t *handle, snd_pcm_uframes_t threshold)
+ {
+     int err;
+-    snd_pcm_sw_params_t *sw_params;
++    g_autoptr(snd_pcm_sw_params_t) sw_params = NULL;
  
-     if (send) {
-         if (fd_trans_target_to_host_data(fd)) {
+-    snd_pcm_sw_params_alloca (&sw_params);
++    snd_pcm_sw_params_malloc(&sw_params);
+ 
+     err = snd_pcm_sw_params_current (handle, sw_params);
+     if (err < 0) {
+@@ -444,7 +447,7 @@ static int alsa_open(bool in, struct alsa_params_req *req,
+     AudiodevAlsaOptions *aopts = &dev->u.alsa;
+     AudiodevAlsaPerDirectionOptions *apdo = in ? aopts->in : aopts->out;
+     snd_pcm_t *handle;
+-    snd_pcm_hw_params_t *hw_params;
++    g_autoptr(snd_pcm_hw_params_t) hw_params = NULL;
+     int err;
+     unsigned int freq, nchannels;
+     const char *pcm_name = apdo->has_dev ? apdo->dev : "default";
+@@ -455,7 +458,7 @@ static int alsa_open(bool in, struct alsa_params_req *req,
+     freq = req->freq;
+     nchannels = req->nchannels;
+ 
+-    snd_pcm_hw_params_alloca (&hw_params);
++    snd_pcm_hw_params_malloc(&hw_params);
+ 
+     err = snd_pcm_open (
+         &handle,
 -- 
 2.26.3
 
