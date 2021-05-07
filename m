@@ -2,44 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43393376906
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 18:49:53 +0200 (CEST)
-Received: from localhost ([::1]:34498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA5B376900
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 18:45:00 +0200 (CEST)
+Received: from localhost ([::1]:59456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf3fk-0000BQ-9Q
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 12:49:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38034)
+	id 1lf3b1-00079a-Sf
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 12:44:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1lf3Y8-00056i-Vy; Fri, 07 May 2021 12:42:01 -0400
-Received: from [201.28.113.2] (port=46166 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1lf3Y6-0004U0-Vo; Fri, 07 May 2021 12:42:00 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 7 May 2021 13:41:54 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 4B45980139F;
- Fri,  7 May 2021 13:41:54 -0300 (-03)
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v4] hw/ppc: moved has_spr to cpu.h
-Date: Fri,  7 May 2021 13:41:46 -0300
-Message-Id: <20210507164146.67086-1-lucas.araujo@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-Based-on: <20210506163941.106984-1-lucas.araujo@eldorado.org.br>
-X-OriginalArrivalTime: 07 May 2021 16:41:54.0441 (UTC)
- FILETIME=[E341BF90:01D7435F]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lf3Yl-0005bZ-Hg
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 12:42:39 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:41480)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lf3Yi-0004kk-Mm
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 12:42:39 -0400
+Received: by mail-pl1-x634.google.com with SMTP id z18so1827326plg.8
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 09:42:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VGbyLTG/ae6YxmlCvWygJRPj6FSCaRvBqpKMeTMO9rU=;
+ b=wEdkYh+2stxn9SUaMA0OHh5H21Ef/3oNYlh4oe7qdA5jiuoOB1JSwONooKFlqqBWt+
+ YrxHwT0akmJCOWuzPa7SZCqyHdB044Rr0weoNllsIutvNY/AigBpQuu2s1bKKx9eFqzx
+ raUhsspPhzfcLymWlf/D5HDkBF9d0ajhCLMVaCYW2ardW911mdJwCFvUv0Dr9GBG0uwQ
+ go2eGniWTUu/U61zJnHBcn8b1e9xEhwgN+ErsKExNM9uz3FLlurImmixVCZ0pJyi0UBw
+ KlaR8XG3IPa7ccVSjq7aLUrggheiQGQw6pqiqLTBkLhKUrGYmQf/DBr2oAjPS4OnXNZL
+ cs4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VGbyLTG/ae6YxmlCvWygJRPj6FSCaRvBqpKMeTMO9rU=;
+ b=fUSGTdAW41ghqy2OyXABYv+j8/iaD2Uc8kGQMWAEJyW506uPvnvU3CacFmdJUt79Tp
+ r5xr0Jz7VIxTVOT5BqODRBK7RPhnoVOgw9Y+ht8hDacKfmjSL9Gwcftw4ReTKCpnbNqU
+ lxDt3fe9N1AfhWiDnI4YkZU8qHYSv6BybIEipTi8SMvkYuSejzWMpY/M7QekqV60C5RY
+ zxdsrIDB8T4DXXHQCFuO2nb2FVij9o+gM3jgp7Ou2uujZAwQzuKygZduB976TpIvu/Np
+ HborBWpAIFovKkABFIYg6HnFCzEGUfoWhRs5vMaymOpYiKwY8JtLfi9Pq47XDjSZaT35
+ 5QbA==
+X-Gm-Message-State: AOAM532wbAT7AovGeQXfMIRXWnDG7DdFUj2ugpZrEnUHMob4Hhto9+3E
+ ie/SqLAkpOkBfEhE1t588h5iog==
+X-Google-Smtp-Source: ABdhPJxXr6rgcdx3qWP6zP2VzMs7H9JJwZjBaMXCinmCLBellNtfd48dX8kX9Lui1N3pPdbR9vzAYw==
+X-Received: by 2002:a17:902:d681:b029:ed:6877:376 with SMTP id
+ v1-20020a170902d681b02900ed68770376mr10470884ply.58.1620405755168; 
+ Fri, 07 May 2021 09:42:35 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.144.24])
+ by smtp.gmail.com with ESMTPSA id o12sm4787850pjr.43.2021.05.07.09.42.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 May 2021 09:42:34 -0700 (PDT)
+Subject: Re: [PATCH 16/23] ui/curses: Avoid dynamic stack allocation
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210505211047.1496765-1-philmd@redhat.com>
+ <20210505211047.1496765-17-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <652ab80d-72eb-cbd0-02d3-32f09b4f39b0@linaro.org>
+Date: Fri, 7 May 2021 09:42:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <20210505211047.1496765-17-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,113 +89,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bruno.larsen@eldorado.org.br,
- "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Moved has_spr to cpu.h as ppc_has_spr and turned it into an inline function.
-Change spr verification in pnv.c and spapr.c to a version that can
-compile in a !TCG environment.
+On 5/5/21 2:10 PM, Philippe Mathieu-Daudé wrote:
+> Use autofree heap allocation instead of variable-length
+> array on the stack.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
+> ---
+>   ui/curses.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
----
- hw/ppc/pnv.c         |  2 +-
- hw/ppc/spapr.c       |  4 ++--
- hw/ppc/spapr_hcall.c | 12 +++---------
- target/ppc/cpu.h     |  6 ++++++
- 4 files changed, 12 insertions(+), 12 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index ffe01977cd..d16dd2d080 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -196,7 +196,7 @@ static void pnv_dt_core(PnvChip *chip, PnvCore *pc, void *fdt)
-     _FDT((fdt_setprop_string(fdt, offset, "status", "okay")));
-     _FDT((fdt_setprop(fdt, offset, "64-bit", NULL, 0)));
- 
--    if (env->spr_cb[SPR_PURR].oea_read) {
-+    if (ppc_has_spr(cpu, SPR_PURR)) {
-         _FDT((fdt_setprop(fdt, offset, "ibm,purr", NULL, 0)));
-     }
- 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 4db448d63e..c23bcc4490 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -703,10 +703,10 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, int offset,
-     _FDT((fdt_setprop_string(fdt, offset, "status", "okay")));
-     _FDT((fdt_setprop(fdt, offset, "64-bit", NULL, 0)));
- 
--    if (env->spr_cb[SPR_PURR].oea_read) {
-+    if (ppc_has_spr(cpu, SPR_PURR)) {
-         _FDT((fdt_setprop_cell(fdt, offset, "ibm,purr", 1)));
-     }
--    if (env->spr_cb[SPR_SPURR].oea_read) {
-+    if (ppc_has_spr(cpu, SPR_PURR)) {
-         _FDT((fdt_setprop_cell(fdt, offset, "ibm,spurr", 1)));
-     }
- 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 6dbaa93d15..f25014afda 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -20,12 +20,6 @@
- #include "mmu-book3s-v3.h"
- #include "hw/mem/memory-device.h"
- 
--static bool has_spr(PowerPCCPU *cpu, int spr)
--{
--    /* We can test whether the SPR is defined by checking for a valid name */
--    return cpu->env.spr_cb[spr].name != NULL;
--}
--
- bool is_ram_address(SpaprMachineState *spapr, hwaddr addr)
- {
-     MachineState *machine = MACHINE(spapr);
-@@ -212,12 +206,12 @@ static target_ulong h_set_sprg0(PowerPCCPU *cpu, SpaprMachineState *spapr,
- static target_ulong h_set_dabr(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                                target_ulong opcode, target_ulong *args)
- {
--    if (!has_spr(cpu, SPR_DABR)) {
-+    if (!ppc_has_spr(cpu, SPR_DABR)) {
-         return H_HARDWARE;              /* DABR register not available */
-     }
-     cpu_synchronize_state(CPU(cpu));
- 
--    if (has_spr(cpu, SPR_DABRX)) {
-+    if (ppc_has_spr(cpu, SPR_DABRX)) {
-         cpu->env.spr[SPR_DABRX] = 0x3;  /* Use Problem and Privileged state */
-     } else if (!(args[0] & 0x4)) {      /* Breakpoint Translation set? */
-         return H_RESERVED_DABR;
-@@ -232,7 +226,7 @@ static target_ulong h_set_xdabr(PowerPCCPU *cpu, SpaprMachineState *spapr,
- {
-     target_ulong dabrx = args[1];
- 
--    if (!has_spr(cpu, SPR_DABR) || !has_spr(cpu, SPR_DABRX)) {
-+    if (!ppc_has_spr(cpu, SPR_DABR) || !ppc_has_spr(cpu, SPR_DABRX)) {
-         return H_HARDWARE;
-     }
- 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index a976e7f7b0..98fcf1c4d6 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2642,6 +2642,12 @@ static inline ppc_avr_t *cpu_avr_ptr(CPUPPCState *env, int i)
-     return (ppc_avr_t *)((uintptr_t)env + avr_full_offset(i));
- }
- 
-+static inline bool ppc_has_spr(PowerPCCPU *cpu, int spr)
-+{
-+    /* We can test whether the SPR is defined by checking for a valid name */
-+    return cpu->env.spr_cb[spr].name != NULL;
-+}
-+
- void dump_mmu(CPUPPCState *env);
- 
- void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len);
--- 
-2.17.1
-
+r~
 
