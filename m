@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51F3375F92
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 06:51:31 +0200 (CEST)
-Received: from localhost ([::1]:50226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873D2375F93
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 06:52:22 +0200 (CEST)
+Received: from localhost ([::1]:52360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lesSY-0006Xz-Ju
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 00:51:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59948)
+	id 1lesTN-0007PD-Lk
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 00:52:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lesRg-00062c-U2
- for qemu-devel@nongnu.org; Fri, 07 May 2021 00:50:36 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37320)
+ id 1lesRi-00063m-5h
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 00:50:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lesRf-0005LG-7W
- for qemu-devel@nongnu.org; Fri, 07 May 2021 00:50:36 -0400
+ id 1lesRg-0005Lb-CF
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 00:50:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lesRd-00057q-Qk
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 04:50:33 +0000
+ id 1lesRf-00058m-1b
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 04:50:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A04BB2E8186
- for <qemu-devel@nongnu.org>; Fri,  7 May 2021 04:50:33 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 06A062E813A
+ for <qemu-devel@nongnu.org>; Fri,  7 May 2021 04:50:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 May 2021 04:40:50 -0000
-From: Thomas Huth <1887604@bugs.launchpad.net>
+Date: Fri, 07 May 2021 04:41:15 -0000
+From: Thomas Huth <1887306@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: feature-request
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: superflip th-huth
-X-Launchpad-Bug-Reporter: Ralph G (superflip)
+X-Launchpad-Bug-Commenters: izbyshev th-huth
+X-Launchpad-Bug-Reporter: Alexey Izbyshev (izbyshev)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159478506417.12547.6442940817184262205.malonedeb@soybean.canonical.com>
-Message-Id: <162036245049.404.3838814147814429536.malone@chaenomeles.canonical.com>
-Subject: [Bug 1887604] Re: Forward host UNIX socket to guest TCP port
+References: <159458406053.7310.1285869489559583574.malonedeb@wampee.canonical.com>
+Message-Id: <162036247580.14776.9218620078622173874.malone@soybean.canonical.com>
+Subject: [Bug 1887306] Re: qemu-user deadlocks when forked in a multithreaded
+ process
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: b6cd6c5304ce7db78e3887ac5d6e7853ba95cd92
+X-Launchpad-Hash: 5869e333f160a31d59512585b544f07eb69f9a67
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1887604 <1887604@bugs.launchpad.net>
+Reply-To: Bug 1887306 <1887306@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -111,49 +111,78 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1887604
+https://bugs.launchpad.net/bugs/1887306
 
 Title:
-  Forward host UNIX socket to guest TCP port
+  qemu-user deadlocks when forked in a multithreaded process
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Hello. I've been racking my brain trying to work out if this is
-  possible.
+  The following program (also attached) deadlocks when run under QEMU
+  user on Linux.
 
-  I would like to be able to forward to a guest TCP port, via a host
-  UNIX socket to avoid opening a TCP port on the host. For example:
+  #include <pthread.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <sys/types.h>
+  #include <sys/wait.h>
+  #include <unistd.h>
 
-  qemu-system-i386 [...] -nic user,hostfwd=3Dunix:/path/to/socket-:22
+  #define NUM_THREADS 100
+  #define NUM_FORKS 10
 
-  and then connect to the VM like:
+  pthread_barrier_t barrier;
 
-  ssh -o "ProxyCommand socat - unix-connect:/path/to/socket"
-  user@0.0.0.0
+  void *t(void *arg) {
+      for (int i =3D 0; i < NUM_FORKS; i++) {
+          pid_t pid =3D fork();
+          if (pid < 0)
+              abort();
+          if (!pid)
+              _exit(0);
+          if (waitpid(pid, NULL, 0) < 0)
+              abort();
+      }
+      //pthread_barrier_wait(&barrier);
+      return NULL;
+  }
 
-  QEMU, as versatile as it is, doesn't appreciate my intuited syntax
-  "hostfwd=3Dunix:...". It is also unhappy with:
+  int main(void) {
+      pthread_barrier_init(&barrier, NULL, NUM_THREADS);
+      pthread_t ts[NUM_THREADS];
+      for (size_t i =3D 0; i < NUM_THREADS; i++) {
+          if (pthread_create(&ts[i], NULL, t, NULL))
+              abort();
+      }
+      for (size_t i =3D 0; i < NUM_THREADS; i++) {
+          pthread_join(ts[i], NULL);
+      }
+      printf("Done: %d\n", getpid());
+      return 0;
+  }
 
-  qemu-system-i386 [...] \
-      -chardev socket,id=3Dfoo,path=3D/path/to/socket,server,nowait \
-      -nic user,hostfwd=3Dchardev:foo-:22
+  To reproduce:
+  $ gcc test.c -pthread
+  $ while qemu-x86_64 ./a.out; do :; done
 
-  And:
+  (Be careful, Ctrl-C/SIGINT doesn't kill the deadlocked child).
 
-  qemu-system-i386 [...] \
-      -nic user \
-      -chardev socket,id=3Dfoo,path=3D/path/to/socket,server,nowait \
-      -chardev socket,id=3Dfoo,host=3D10.0.2.15,port=3D22
+  Larger values of NUM_THREADS/NUM_FORKS lead to more often deadlocks.
+  With the values above it often deadlocks on the first try on my
+  machine. When it deadlocks, there is a child qemu process with two
+  threads which is waited upon by one of the worker threads of the
+  parent.
 
-  I already found out how to connect in the opposite direction, **from**
-  guest TCP to host UNIX, via guestfwd -> cmd -> socat. So I feel like
-  there ought to be a way.
+  I tried to avoid the deadlock by serializing fork() with a mutex, but
+  it didn't help. However, ensuring that no thread exits until all forks
+  are done (by adding a barrier to t()) does seem to help, at least, the
+  program above could run for a half an hour until I terminated it.
 
-  If this is not yet a feature I would like to request it, and if it is,
-  please tell me how!
+  Tested on QEMU 5.0.0, 4.2.0 and 2.11.1, with x86_64 and AArch64 linux-
+  user targets.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1887604/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1887306/+subscriptions
 
