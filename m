@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C2F3764E1
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:07:07 +0200 (CEST)
-Received: from localhost ([::1]:54164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C3D3764E2
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:08:39 +0200 (CEST)
+Received: from localhost ([::1]:56344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lezG5-0003Z0-N8
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:07:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51422)
+	id 1lezHY-0004Sx-Dq
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lezF1-00037Q-PM
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:05:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35002)
+ id 1lezF2-00037Z-Rj
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:06:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lezEz-0004l5-H4
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:05:59 -0400
+ id 1lezEz-0004le-Jk
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:06:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lezEw-0007JI-BI
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 12:05:54 +0000
+ id 1lezEx-0007M6-Ea
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 12:05:55 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F0D252E8194
- for <qemu-devel@nongnu.org>; Fri,  7 May 2021 12:05:53 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3DB772E8194
+ for <qemu-devel@nongnu.org>; Fri,  7 May 2021 12:05:55 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 May 2021 11:55:41 -0000
+Date: Fri, 07 May 2021 11:55:58 -0000
 From: Justin Cichra <1880066@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,7 +44,7 @@ X-Launchpad-Bug-Commenters: csl-ubuntuone jrcichra th-huth
 X-Launchpad-Bug-Reporter: Justin Cichra (jrcichra)
 X-Launchpad-Bug-Modifier: Justin Cichra (jrcichra)
 References: <159011868752.31342.14577516157927235828.malonedeb@wampee.canonical.com>
-Message-Id: <162038854157.4018.3602861275022990647.malone@gac.canonical.com>
+Message-Id: <162038855879.6471.7177637814505053448.malone@wampee.canonical.com>
 Subject: [Bug 1880066] Re: Microphone input dies in guest when switching evdev
  input
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -52,7 +52,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="d6ba96cccb3d3e356754af3137c6128a6c17e2a8"; Instance="production"
-X-Launchpad-Hash: bdc2233692413e1ac840712a18bd60286f184b03
+X-Launchpad-Hash: de191b605a7e18d398311002af38ba0989f03eda
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -79,8 +79,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Was fixed when moving to QEMU 5.x in Ubuntu 20.10.
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+** Changed in: qemu (Fedora)
+       Status: New =3D> Fix Released
 
 -- =
 
