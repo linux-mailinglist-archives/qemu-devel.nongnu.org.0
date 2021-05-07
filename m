@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09F737664C
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 15:39:11 +0200 (CEST)
-Received: from localhost ([::1]:50838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7574837664D
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 15:39:30 +0200 (CEST)
+Received: from localhost ([::1]:51086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lf0hD-0004E5-0e
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 09:39:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46756)
+	id 1lf0hV-0004KD-I5
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 09:39:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lf0fH-000314-6D
- for qemu-devel@nongnu.org; Fri, 07 May 2021 09:37:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33743)
+ id 1lf0fJ-000345-E0
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 09:37:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lf0fD-0007oA-Nw
- for qemu-devel@nongnu.org; Fri, 07 May 2021 09:37:10 -0400
+ id 1lf0fH-0007qp-KX
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 09:37:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620394626;
+ s=mimecast20190719; t=1620394631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t+nz8EIx6Ic9JNK1EG/yRx/rTKBBEddPgLboNm3zYVw=;
- b=MBYR3Uyzm6VeowuWTmxOKxEr8ph8qZRuNFR+dbgBVMTnknhi17la61Nz2y9ECqW+w7ygfP
- l+wFBLx9G4C4t39DgF3A1R2KOm8ZjyNRUUzne2WjBnLVLVG88QDcfp5cEq/4+ughKiecTZ
- XCypCeRyYJsin8vzlbxvQDbbDMQJF9c=
+ bh=92EeYZOu06Q4N1NX/KAu1nGW97uioCRslZXaUDcKljI=;
+ b=Ig/5tOK+TfSXE3RLuHbh2lHSLrKutbFZF9/9KVF6avsLuHzkvIshrGOJWNSaaHzQqN3ueq
+ SufF3GmPKroeaHq7BhHUexQr1UN2vSeBVKjNwx/N9Lo8b6CzWroDG9BE5XWjDVv2WGxSio
+ 5B943hkKlZSozbgLVtpUAHuBSiV4Cp8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-DSCdYdi7MrOs3GLbPvvzmQ-1; Fri, 07 May 2021 09:37:05 -0400
-X-MC-Unique: DSCdYdi7MrOs3GLbPvvzmQ-1
+ us-mta-261-E6wUs6n4M9GEDr2jTmyVPw-1; Fri, 07 May 2021 09:37:09 -0400
+X-MC-Unique: E6wUs6n4M9GEDr2jTmyVPw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD34C107ACCA;
- Fri,  7 May 2021 13:37:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 865218030CF;
+ Fri,  7 May 2021 13:37:08 +0000 (UTC)
 Received: from foo.redhat.com (ovpn-114-155.ams2.redhat.com [10.36.114.155])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 230625C1C5;
- Fri,  7 May 2021 13:37:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 494FA5C1C5;
+ Fri,  7 May 2021 13:37:03 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] i386: use better matching family/model/stepping for
- 'qemu64' CPU
-Date: Fri,  7 May 2021 14:36:49 +0100
-Message-Id: <20210507133650.645526-2-berrange@redhat.com>
+Subject: [PATCH 2/2] i386: use better matching family/model/stepping for 'max'
+ CPU
+Date: Fri,  7 May 2021 14:36:50 +0100
+Message-Id: <20210507133650.645526-3-berrange@redhat.com>
 In-Reply-To: <20210507133650.645526-1-berrange@redhat.com>
 References: <20210507133650.645526-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -86,7 +86,7 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'qemu64' CPUID currently reports a family/model/stepping that
+The 'max' CPU under TCG currently reports a family/model/stepping that
 approximately corresponds to an AMD K7 vintage architecture.
 The K7 series predates the introduction of 64-bit support by AMD
 in the K8 series. This has been reported to lead to LLVM complaints
@@ -97,7 +97,7 @@ about generating 64-bit code for a 32-bit CPU target
 It appears LLVM looks at the family/model/stepping, despite qemu64
 reporting it is 64-bit capable.
 
-This patch changes 'qemu64' to report a CPUID with the family, model
+This patch changes 'max' to report a CPUID with the family, model
 and stepping taken from a
 
  AMD Athlon(tm) 64 X2 Dual Core Processor 4000+
@@ -107,44 +107,29 @@ which is one of the first 64-bit AMD CPUs.
 Closes https://gitlab.com/qemu-project/qemu/-/issues/191
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hw/i386/pc.c      | 6 +++++-
- target/i386/cpu.c | 6 +++---
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ target/i386/cpu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 364816efc9..35d7a8122a 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -96,7 +96,11 @@
- #include "trace.h"
- #include CONFIG_DEVICES
- 
--GlobalProperty pc_compat_6_0[] = {};
-+GlobalProperty pc_compat_6_0[] = {
-+    { "qemu64" "-" TYPE_X86_CPU, "family", "6" },
-+    { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
-+    { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
-+};
- const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
- 
- GlobalProperty pc_compat_5_2[] = {
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index ad99cad0e7..99caa3deae 100644
+index 99caa3deae..80de5b04eb 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -1881,9 +1881,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .name = "qemu64",
-         .level = 0xd,
-         .vendor = CPUID_VENDOR_AMD,
--        .family = 6,
--        .model = 6,
--        .stepping = 3,
-+        .family = 15,
-+        .model = 107,
-+        .stepping = 1,
-         .features[FEAT_1_EDX] =
-             PPRO_FEATURES |
-             CPUID_MTRR | CPUID_CLFLUSH | CPUID_MCA |
+@@ -4440,9 +4440,15 @@ static void max_x86_cpu_initfn(Object *obj)
+     } else {
+         object_property_set_str(OBJECT(cpu), "vendor", CPUID_VENDOR_AMD,
+                                 &error_abort);
++#ifdef TARGET_X86_64
++        object_property_set_int(OBJECT(cpu), "family", 15, &error_abort);
++        object_property_set_int(OBJECT(cpu), "model", 107, &error_abort);
++        object_property_set_int(OBJECT(cpu), "stepping", 1, &error_abort);
++#else
+         object_property_set_int(OBJECT(cpu), "family", 6, &error_abort);
+         object_property_set_int(OBJECT(cpu), "model", 6, &error_abort);
+         object_property_set_int(OBJECT(cpu), "stepping", 3, &error_abort);
++#endif
+         object_property_set_str(OBJECT(cpu), "model-id",
+                                 "QEMU TCG CPU version " QEMU_HW_VERSION,
+                                 &error_abort);
 -- 
 2.31.1
 
