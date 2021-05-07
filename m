@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330E8376573
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:47:50 +0200 (CEST)
-Received: from localhost ([::1]:46210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4627B376567
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 May 2021 14:43:51 +0200 (CEST)
+Received: from localhost ([::1]:37786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1leztV-0008BO-7b
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:47:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57380)
+	id 1lezpe-0004V1-AC
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 08:43:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbV-0000jA-Dg
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:13 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:49960)
+ id 1lezbU-0000g2-3s
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:12 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:49986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1lezbO-0001Tb-HR
- for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:13 -0400
+ id 1lezbP-0001Tr-TO
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 08:29:11 -0400
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CDbak148649;
- Fri, 7 May 2021 12:29:03 GMT
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CEJtJ148872;
+ Fri, 7 May 2021 12:29:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=610NsNf8Rel74OcPl+ylnlOHqqH7HT/kL5NeuPJY+JI=;
- b=j0KOGWgVqgKYSTzHigOSMhBFaRpM0DugtnEprUyh5GhWomyRiU6a/Rl6Z+rH4hhMPzl8
- sMdXjqYBNBXXh3C+lBFUntMkKTq5TiVf72L5DCYxl1PWHjx45Enq1WG0ggteiUEvfEdn
- MK9q2iGTX3tM4ML3Og57NvYyBdqdtQWcnTWsoNNF85p0EUFNMGCRJ5TDm2D4BKH2hajI
- 44TLsin0hb/ranaK71qjHgxabQ2elxeVt19sgwuB5O3V04DVNuGzUg87cBBeTF6ynyNm
- VcxJcwCtxsFRTnY4JJahJTqEBz1sHkqzdEsx3VA9t6tqKB2mfH87Antm5z0GeW+giDYZ Kw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2130.oracle.com with ESMTP id 38csrd9ewj-1
+ bh=JfjHWFHUNhb7JM67PxW1K1BAotVKjQnVbNBqz87553U=;
+ b=aIQNWHXzKS1n0T6GUQeUQ4k7pUFITq8pSxmsH+iiykdut9mnuURuhxFfermOa2Ehb8tH
+ lOC6EvNRtdg3ez4GE2ae8S+oGITnz8Rj74T9Lz+tgLpO2H/mRV8uNOKPVHEKdDULx1eR
+ N3x6d8NKm+1NGbVFfMdjJDrXIYI6LkDFN11W0V2uNdS8GKci5Q84VJPo4gWM7+sRvqTR
+ LoZ4i4Lc1HAjIUtSHJV0/A2svyKjFKiECoap4E5iWe9vKGggUvBm5+1vQg6P518dken4
+ rrkfQUKmiOcIoLdknqRaHY8DGagbk2BnpLthDXqg3R4OqEURTLyAbHd5H7yi1vhOgpVH +Q== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 38csrd9ewm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 May 2021 12:29:03 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CFX6F068826;
- Fri, 7 May 2021 12:29:03 GMT
+ Fri, 07 May 2021 12:29:04 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 147CFkMl168017;
+ Fri, 7 May 2021 12:29:04 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by aserp3030.oracle.com with ESMTP id 38csrev2km-1
+ by userp3020.oracle.com with ESMTP id 38csrh1t9r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 07 May 2021 12:29:04 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CT3K6014655;
+ Fri, 7 May 2021 12:29:03 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 38csrh1t8c-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 07 May 2021 12:29:03 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 147CPqAF098030;
- Fri, 7 May 2021 12:29:02 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 38csrev2ju-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 May 2021 12:29:02 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 147CT0Wd016424;
- Fri, 7 May 2021 12:29:00 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 147CT1Vm016430;
+ Fri, 7 May 2021 12:29:01 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 07 May 2021 05:29:00 -0700
+ with ESMTP ; Fri, 07 May 2021 05:29:01 -0700
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V3 13/22] vfio-pci: cpr part 2
-Date: Fri,  7 May 2021 05:25:11 -0700
-Message-Id: <1620390320-301716-14-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V3 14/22] vhost: reset vhost devices upon cprsave
+Date: Fri,  7 May 2021 05:25:12 -0700
+Message-Id: <1620390320-301716-15-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
 References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-ORIG-GUID: HWA7JgLFdeHbHGWQkC6ZWdiRPq-r1QqF
-X-Proofpoint-GUID: HWA7JgLFdeHbHGWQkC6ZWdiRPq-r1QqF
+X-Proofpoint-ORIG-GUID: iqFO6HJQCikgcx2EFq3caxffR8ecit2d
+X-Proofpoint-GUID: iqFO6HJQCikgcx2EFq3caxffR8ecit2d
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9976
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
@@ -109,170 +109,66 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Finish cpr for vfio-pci by preserving eventfd's and vector state.
+A vhost device is implicitly preserved across re-exec because its fd is not
+closed, and the value of the fd is specified on the command line for the
+new qemu to find.  However, new qemu issues an VHOST_RESET_OWNER ioctl,
+which fails because the device already has an owner.  To fix, reset the
+owner prior to exec.
 
+Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hw/vfio/pci.c | 110 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 108 insertions(+), 2 deletions(-)
+ hw/virtio/vhost.c         | 11 +++++++++++
+ include/hw/virtio/vhost.h |  1 +
+ migration/cpr.c           |  1 +
+ 3 files changed, 13 insertions(+)
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index f7ac9f03..e983db4 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2661,6 +2661,27 @@ static void vfio_put_device(VFIOPCIDevice *vdev)
-     vfio_put_base_device(&vdev->vbasedev);
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index e2163a0..8c0c9c3 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1820,6 +1820,17 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
+     hdev->vdev = NULL;
  }
  
-+static void setenv_event_fd(VFIOPCIDevice *vdev, int nr, const char *name,
-+                            EventNotifier *ev)
++void vhost_dev_reset_all(void)
 +{
-+    char envname[256];
-+    int fd = event_notifier_get_fd(ev);
-+    const char *vfname = vdev->vbasedev.name;
++    struct vhost_dev *dev;
 +
-+    if (fd >= 0) {
-+        snprintf(envname, sizeof(envname), "%s_%s_%d", vfname, name, nr);
-+        setenv_fd(envname, fd);
++    QLIST_FOREACH(dev, &vhost_devices, entry) {
++        if (dev->vhost_ops->vhost_reset_device(dev) < 0) {
++            VHOST_OPS_DEBUG("vhost_reset_device failed");
++        }
 +    }
 +}
 +
-+static int getenv_event_fd(VFIOPCIDevice *vdev, int nr, const char *name)
-+{
-+    char envname[256];
-+    const char *vfname = vdev->vbasedev.name;
-+    snprintf(envname, sizeof(envname), "%s_%s_%d", vfname, name, nr);
-+    return getenv_fd(envname);
-+}
-+
- static void vfio_err_notifier_handler(void *opaque)
+ int vhost_net_set_backend(struct vhost_dev *hdev,
+                           struct vhost_vring_file *file)
  {
-     VFIOPCIDevice *vdev = opaque;
-@@ -2692,7 +2713,13 @@ static void vfio_err_notifier_handler(void *opaque)
- static void vfio_register_err_notifier(VFIOPCIDevice *vdev)
- {
-     Error *err = NULL;
--    int32_t fd;
-+    int32_t fd = getenv_event_fd(vdev, 0, "err");
-+
-+    if (fd >= 0) {
-+        event_notifier_init_fd(&vdev->err_notifier, fd);
-+        qemu_set_fd_handler(fd, vfio_err_notifier_handler, NULL, vdev);
-+        return;
-+    }
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 4a8bc75..71704d4 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -106,6 +106,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+ void vhost_dev_cleanup(struct vhost_dev *hdev);
+ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
+ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
++void vhost_dev_reset_all(void);
+ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
+ void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
  
-     if (!vdev->pci_aer) {
-         return;
-@@ -2753,7 +2780,14 @@ static void vfio_register_req_notifier(VFIOPCIDevice *vdev)
-     struct vfio_irq_info irq_info = { .argsz = sizeof(irq_info),
-                                       .index = VFIO_PCI_REQ_IRQ_INDEX };
-     Error *err = NULL;
--    int32_t fd;
-+    int32_t fd = getenv_event_fd(vdev, 0, "req");
-+
-+    if (fd >= 0) {
-+        event_notifier_init_fd(&vdev->req_notifier, fd);
-+        qemu_set_fd_handler(fd, vfio_req_notifier_handler, NULL, vdev);
-+        vdev->req_enabled = true;
-+        return;
-+    }
- 
-     if (!(vdev->features & VFIO_FEATURE_ENABLE_REQ)) {
-         return;
-@@ -3286,12 +3320,82 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-+static int vfio_pci_pre_save(void *opaque)
-+{
-+    VFIOPCIDevice *vdev = opaque;
-+    int i;
-+
-+    for (i = 0; i < vdev->nr_vectors; i++) {
-+        VFIOMSIVector *vector = &vdev->msi_vectors[i];
-+        if (vector->use) {
-+            setenv_event_fd(vdev, i, "interrupt", &vector->interrupt);
-+            if (vector->virq >= 0) {
-+                setenv_event_fd(vdev, i, "kvm_interrupt",
-+                                &vector->kvm_interrupt);
-+            }
-+        }
-+    }
-+    setenv_event_fd(vdev, 0, "err", &vdev->err_notifier);
-+    setenv_event_fd(vdev, 0, "req", &vdev->req_notifier);
-+    return 0;
-+}
-+
-+static void vfio_claim_vectors(VFIOPCIDevice *vdev, int nr_vectors, bool msix)
-+{
-+    int i, fd;
-+    bool pending = false;
-+    PCIDevice *pdev = &vdev->pdev;
-+
-+    vdev->nr_vectors = nr_vectors;
-+    vdev->msi_vectors = g_new0(VFIOMSIVector, nr_vectors);
-+    vdev->interrupt = msix ? VFIO_INT_MSIX : VFIO_INT_MSI;
-+
-+    for (i = 0; i < nr_vectors; i++) {
-+        VFIOMSIVector *vector = &vdev->msi_vectors[i];
-+
-+        fd = getenv_event_fd(vdev, i, "interrupt");
-+        if (fd >= 0) {
-+            vfio_vector_init(vdev, i, fd);
-+            qemu_set_fd_handler(fd, vfio_msi_interrupt, NULL, vector);
-+        }
-+
-+        fd = getenv_event_fd(vdev, i, "kvm_interrupt");
-+        if (fd >= 0) {
-+            vfio_add_kvm_msi_virq(vdev, vector, i, msix, fd);
-+        }
-+
-+        if (msix && msix_is_pending(pdev, i) && msix_is_masked(pdev, i)) {
-+            set_bit(i, vdev->msix->pending);
-+            pending = true;
-+        }
-+    }
-+
-+    if (msix) {
-+        memory_region_set_enabled(&pdev->msix_pba_mmio, pending);
-+    }
-+}
-+
- static int vfio_pci_post_load(void *opaque, int version_id)
- {
-     VFIOPCIDevice *vdev = opaque;
-     PCIDevice *pdev = &vdev->pdev;
-+    int nr_vectors;
-     bool enabled;
- 
-+    if (msix_enabled(pdev)) {
-+        nr_vectors = vdev->msix->entries;
-+        vfio_claim_vectors(vdev, nr_vectors, true);
-+        msix_init_vector_notifiers(pdev, vfio_msix_vector_use,
-+                                   vfio_msix_vector_release, NULL);
-+
-+    } else if (msi_enabled(pdev)) {
-+        nr_vectors = msi_nr_vectors_allocated(pdev);
-+        vfio_claim_vectors(vdev, nr_vectors, false);
-+
-+    } else if (vfio_pci_read_config(pdev, PCI_INTERRUPT_PIN, 1)) {
-+        error_report("vfio_pci_post_load does not support INTX");
-+    }
-+
-     pdev->reused = false;
-     enabled = pci_get_word(pdev->config + PCI_COMMAND) & PCI_COMMAND_MASTER;
-     memory_region_set_enabled(&pdev->bus_master_enable_region, enabled);
-@@ -3310,8 +3414,10 @@ static const VMStateDescription vfio_pci_vmstate = {
-     .version_id = 0,
-     .minimum_version_id = 0,
-     .post_load = vfio_pci_post_load,
-+    .pre_save = vfio_pci_pre_save,
-     .needed = vfio_pci_needed,
-     .fields = (VMStateField[]) {
-+        VMSTATE_MSIX(pdev, VFIOPCIDevice),
-         VMSTATE_END_OF_LIST()
+diff --git a/migration/cpr.c b/migration/cpr.c
+index e9a189b..3cde26f 100644
+--- a/migration/cpr.c
++++ b/migration/cpr.c
+@@ -136,6 +136,7 @@ void cprsave(const char *file, CprMode mode, Error **errp)
+             goto err;
+         }
+         walkenv(FD_PREFIX, preserve_fd, 0);
++        vhost_dev_reset_all();
+         setenv("QEMU_START_FREEZE", "", 1);
+         qemu_system_exec_request();
      }
- };
 -- 
 1.8.3.1
 
