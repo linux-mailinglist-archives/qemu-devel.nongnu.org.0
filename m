@@ -2,101 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3912F37724B
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 16:05:38 +0200 (CEST)
-Received: from localhost ([::1]:47602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04A337726A
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 16:32:14 +0200 (CEST)
+Received: from localhost ([::1]:53462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfNaK-0008Rb-LF
-	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 10:05:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32906)
+	id 1lfNzz-00055X-SW
+	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 10:32:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dannyedykes@hotmail.com>)
- id 1lfKXy-0000SZ-Mf
- for qemu-devel@nongnu.org; Sat, 08 May 2021 06:50:58 -0400
-Received: from mail-mw2nam08olkn2073.outbound.protection.outlook.com
- ([40.92.46.73]:37344 helo=NAM04-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dannyedykes@hotmail.com>)
- id 1lfKXu-0005gm-18
- for qemu-devel@nongnu.org; Sat, 08 May 2021 06:50:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MQWKwrOv2t/lU6Jy7/HVzHTdZJIx/10yx+Wha0JWXjgI8L4J4i3n73RJBL4YyO0BNXiZgc4oqW7BipdkTzxFTdMklDrNv99w0xrFMJjApNw8jSHE7RmHFBZyNHOtB8cSkWPFZDjvSgiXl5FJ0hxL0Vz1n9hWv92nzXgXX+Jpqv1YdHeNRP+S05Fstn22nN7l8Gqpb0FYBngfmeSb9egWJWJVXlLONWPReIqwD3PUDYzKJ1xeaUo2ZpETyQynD98F4bPXqum4bdmlp8Fjn4Zx+5TRHbkFOf5kVUfjR60W4JXFtF+KeXkpf+zpAgk5dsUeha9y20f3oWuzosSQiczoXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AZUrm+nliruBRjuG503srCFX1lBfd15dHiqaac5rLHw=;
- b=IduWTDU4Y6J3fMBfPqq0AfSczkdWY2S/1jQoTNoRPoIuKUkIuZt1Ys9e/0mlOp4jQIY2Ko/g0L/QXjCeP027ImQY8EuGvZGjdXKfxYpfKaBMw56M+HwS+T60ZVXzZcs01HZ509UEiXdb8RrqLXkFOZMPfMmj54WVQNKcCthckrrMQiyefPW7PHF4Etllp2piXATsfVyXB2V4I+/T+EoZ8fYi08QEy5USOw7N2cPXvRaJF0cQmlTl07ZsnHegycQLGlhRyq6zuJigyHZ+NUVFdlNC55and8nNQFFDl96DbjMecjH/HrMCeCRlUB8AiKR0QSZsmodVSRXb2C+sHS63ZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AZUrm+nliruBRjuG503srCFX1lBfd15dHiqaac5rLHw=;
- b=bgdIcI/sBYNu9uXlHLf/eQgnvU8oUu5UnEAouli9/FlTePq9ENlU1UiMC5n32hOcIFLM8cP98krWdo2OL550JSM6koL3LV20NxjJVQMPC9bQ626V+8r9DbJUKq56TAIg0673D6yIzQ8F51t/AOlL21hPWlmuQTX1O72+o4Bq56p6ayGSmculit22am90IfsV/oYECoY7pv5EJPW5V5rOBRR8q0I5TAig8X4zvZot6scpcM6wAc6sXF+wAarZN0LJ3GVSqzUjOm47Bq4JORR2B9Ft1sJFdYHRuLczg1aVBxzPk01zFldU7TQKCaXUzULdUMlnMo0a93D0Ph4zQroEcA==
-Received: from SN1NAM04FT049.eop-NAM04.prod.protection.outlook.com
- (10.152.88.52) by SN1NAM04HT012.eop-NAM04.prod.protection.outlook.com
- (10.152.88.122) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25; Sat, 8 May
- 2021 10:35:48 +0000
-Received: from AT5PR8401MB0898.NAMPRD84.PROD.OUTLOOK.COM
- (2a01:111:e400:7e4c::4f) by SN1NAM04FT049.mail.protection.outlook.com
- (2a01:111:e400:7e4c::416) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.21 via Frontend
- Transport; Sat, 8 May 2021 10:35:48 +0000
-Received: from AT5PR8401MB0898.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::b890:6132:de68:1a12]) by AT5PR8401MB0898.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::b890:6132:de68:1a12%11]) with mapi id 15.20.4108.031; Sat, 8 May 2021
- 10:35:47 +0000
-From: Danny Dykes <dannyedykes@hotmail.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: disconnect from all devices 
-Thread-Topic: disconnect from all devices 
-Thread-Index: AQHXQ/W0AxPkgfnNKUSmzgq6Oe4PzA==
-Date: Sat, 8 May 2021 10:35:47 +0000
-Message-ID: <AT5PR8401MB08987F6D019F74E7E96F5CA0B6569@AT5PR8401MB0898.NAMPRD84.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-incomingtopheadermarker: OriginalChecksum:C8EBF372CA97519EF9012A70882E215D0C365F5076142E5002115D11747EA6AE;
- UpperCasedChecksum:CAABBACFDB74A738A27355E7E1CC4BB4DAB2F91866C3AB8C663D08A7C6C01DF0;
- SizeAsReceived:6626; Count:41
-x-tmn: [wticE9y2l/ZZQBLdqGNxEDsbxuE5AhQh]
-x-ms-publictraffictype: Email
-x-incomingheadercount: 41
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: c4f338a4-ef8b-4bca-44ad-08d9120d0af1
-x-ms-traffictypediagnostic: SN1NAM04HT012:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vqzqdk+sArHL+OWdYDU+R0uHCQVqwKK21L9/cL9qlwHRxj8eFk+gpDbjdy7+lSTaR6DQ7g/TS3uQF56tx9Dxmdj4Nd+fXfzirYHh7PpVV4qCfOY0bzxXMTUj3twtrxu8k/Nv9ruX4aI5l6QHd365NXLTZfQjTgJi0H8t4IEAYPDG6hotbFtlZTZSmBc2RHEXy4lgxi9V/sSS0kh2CbZnVkFdE9yw+aIfMYsp+Fb5FVilS2WrEJsobNMqhsc5p9oQAJMbiW4FpHLa699YGq0S6a1VHFNJUAxmRMG/sy+G3cC96xsARNW18tsIfvQBt8qHZx2SafAzlJ9wsiuyPqYAyLd4Ygq5aZjiwmfKpuAOU7FR+OONlWqziVYjh9TIzYNfAIeDRL4G2uj65uLyb5JOyfwV5/ro2D9ht9fiqxY8qgO11RFuiqcQ7ekcMquVjSoRCRrjo3n/q5W/oyhPY4yTqWtr+MsDvDbyB6rfzG1vxiM=
-x-ms-exchange-antispam-messagedata: a+OgSIP/rvJwthyXRKFEhTGpzJ6jROOPl6gvy2I9cT/RyDLAMq2EJ7j2u9GeXjYtk/+IPPih6vYmFS7jSZjM1pIjUop9tm7aGTcaFW5oXPpSNrpABiHMvvhtSm+/7kZ5ZW4SyykqtW4UlB6qga8CRQ==
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_AT5PR8401MB08987F6D019F74E7E96F5CA0B6569AT5PR8401MB0898_"
+ (Exim 4.90_1) (envelope-from <reinoud@13thmonkey.org>)
+ id 1lfNvp-0004KK-2W
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 10:27:49 -0400
+Received: from 13thmonkey.org ([80.100.255.32]:55629
+ helo=dropje.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <reinoud@13thmonkey.org>) id 1lfNvm-0000nl-4j
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 10:27:48 -0400
+Received: by dropje.13thmonkey.org (Postfix, from userid 103)
+ id 87B3FC1EEA9; Sat,  8 May 2021 16:27:43 +0200 (CEST)
+Date: Sat, 8 May 2021 16:27:43 +0200
+From: Reinoud Zandijk <reinoud@NetBSD.org>
+To: Reinoud Zandijk <reinoud@NetBSD.org>
+Subject: Re: [PATCH v8 0/4] Implements the NetBSD Virtual Machine Monitor
+ accelerator
+Message-ID: <YJaf3+2gzM7K0m2Q@dropje.13thmonkey.org>
+References: <20210407161631.1780-1-reinoud@NetBSD.org>
 MIME-Version: 1.0
-X-OriginatorOrg: hotmail.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM04FT049.eop-NAM04.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4f338a4-ef8b-4bca-44ad-08d9120d0af1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 May 2021 10:35:47.6404 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1NAM04HT012
-Received-SPF: pass client-ip=40.92.46.73; envelope-from=dannyedykes@hotmail.com;
- helo=NAM04-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: 56
-X-Spam_score: 5.6
-X-Spam_bar: +++++
-X-Spam_report: (5.6 / 5.0 requ) BAYES_99=4, BAYES_999=0.2, BAYES_99_FREEMAIL=1,
- BAYES_99_HTML=0.6, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210407161631.1780-1-reinoud@NetBSD.org>
+Received-SPF: pass client-ip=80.100.255.32;
+ envelope-from=reinoud@13thmonkey.org; helo=dropje.13thmonkey.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
-X-Spam_action: reject
-X-Mailman-Approved-At: Sat, 08 May 2021 10:02:41 -0400
+X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,68 +51,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Kamil Rytarowski <kamil@NetBSD.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Ryo ONODERA <ryoon@netbsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_AT5PR8401MB08987F6D019F74E7E96F5CA0B6569AT5PR8401MB0898_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ping?
 
-PLEASE!! Disconnect from all devices.
-
-Sent from Mail<https://go.microsoft.com/fwlink/?LinkId=3D550986> for Window=
-s 10
-
-
---_000_AT5PR8401MB08987F6D019F74E7E96F5CA0B6569AT5PR8401MB0898_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
-hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
-fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style>
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"#954F72" style=3D"word-wrap:bre=
-ak-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">PLEASE!! Disconnect from all devices.</p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Sent from <a href=3D"https://go.microsoft.com/fwlink=
-/?LinkId=3D550986">
-Mail</a> for Windows 10</p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_AT5PR8401MB08987F6D019F74E7E96F5CA0B6569AT5PR8401MB0898_--
+On Wed, Apr 07, 2021 at 04:16:27PM +0000, Reinoud Zandijk wrote:
+> The NetBSD team has implemented its new hypervisor called NVMM. It has been
+> included since NetBSD 9.0 and has been in use now for quite some time. NVMM
+> adds user-mode capabilities to create and manage virtual machines, configure
+> memory mappings for guest machines, and create and control execution of
+> virtual processors.
+> 
+> With this new API we are now able to bring our hypervisor to the QEMU
+> community! The following patches implement the NetBSD Virtual Machine Monitor
+> accelerator (NVMM) for QEMU on NetBSD 9.0 and newer hosts.
+> 
+> When compiling QEMU for x86_64 it will autodetect nvmm and will compile the
+> accelerator for use if found. At runtime using the '-accel nvmm' should see a
+> significant performance improvement over emulation, much like when using 'hax'
+> on NetBSD.
+> 
+> The documentation for this new API is visible at https://man.netbsd.org under
+> the libnvmm(3) and nvmm(4) pages.
+> 
+> NVMM was designed and implemented by Maxime Villard <max@m00nbsd.net>
+> 
+> Thank you for your feedback.
+> 
+> Refrences:
+> https://m00nbsd.net/4e0798b7f2620c965d0dd9d6a7a2f296.html
+> 
+> 
+> Test plan:
+> 
+> 1. Download a NetBSD 9.1 release:
+> http://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/amd64/installation/cdrom/boot.iso
+> 
+> 2. Install it natively on a not too old x86_64 hardware (Intel or AMD).
+> 
+> There is no support for nested virtualization in NVMM.
+> 
+> 3. Setup the system.
+> 
+>  export PKG_PATH=http://cdn.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/9.0/All/
+>  pkg_add git gmake python37 glib2 bison pkgconf pixman
+>  
+> Install mozilla-rootcerts and follow post-install instructions.
+> 
+>  pkg_add mozilla-rootcerts
+> 
+> More information: https://wiki.qemu.org/Hosts/BSD#NetBSD
+> 
+> 4. Build qemu
+> 
+>  mkdir build
+>  cd build
+>  ../configure --python=python3.7
+>  gmake
+>  gmake check
+> 
+> 5. Test
+> 
+>  qemu -accel nvmm ...
+> 
+> History:
+> v7 -> v8:
+>  - Minor fixup in target/i386/nvmm/meson.build
+> v6 -> v7:
+>  - Remove small patches from pkgsrc that krept in
+>  - Enhance the possible race on exit fix
+>  - update the build system to only link the nvmm library for targets that
+>    support NVMM
+> v5 -> v6:
+>  - Ported to updated Qemu 6.0 build system, reshuffeling and refactoring
+>  - Improved auto detection
+>  - Added support for improved NVMM interface fixing feedback on the use of
+>    signals
+> v4 -> v5:
+>  - Mainly cosmetic
+>  - Automatic detection
+> v3 -> v4:
+>  - Correct build warning by adding a missing include
+>  - Do not set R8-R16 registers unless TARGET_X86_64
+> v2 -> v3:
+>  - Register nvmm in targetos NetBSD check
+>  - Stop including hw/boards.h
+>  - Rephrase old code comments (remove XXX)
+> v1 -> v2:
+>  - Included the testing plan as requested by Philippe Mathieu-Daude
+>  - Formatting nit fix in qemu-options.hx
+>  - Document NVMM in the accel section of qemu-options.hx
+> 
+> 
+> Signed-off-by: Kamil Rytarowski <kamil@NetBSD.org>
+> Signed-off-by: Reinoud Zandijk <reinoud@NetBSD.org>
+> 
+> 
+> Reinoud Zandijk (4):
+>   Add NVMM accelerator: configure and build logic
+>   Add NVMM accelerator: x86 CPU support
+>   Add NVMM accelerator: acceleration enlightenments
+>   Add NVMM Accelerator: add maintainers for NetBSD/NVMM
+> 
+>  MAINTAINERS                       |   11 +
+>  accel/Kconfig                     |    3 +
+>  configure                         |    8 +-
+>  include/sysemu/hw_accel.h         |    1 +
+>  include/sysemu/nvmm.h             |   26 +
+>  meson.build                       |   14 +
+>  meson_options.txt                 |    2 +
+>  qemu-options.hx                   |    8 +-
+>  target/i386/helper.c              |    2 +-
+>  target/i386/meson.build           |    1 +
+>  target/i386/nvmm/meson.build      |    8 +
+>  target/i386/nvmm/nvmm-accel-ops.c |  111 +++
+>  target/i386/nvmm/nvmm-accel-ops.h |   24 +
+>  target/i386/nvmm/nvmm-all.c       | 1226 +++++++++++++++++++++++++++++
+>  14 files changed, 1439 insertions(+), 6 deletions(-)
+>  create mode 100644 include/sysemu/nvmm.h
+>  create mode 100644 target/i386/nvmm/meson.build
+>  create mode 100644 target/i386/nvmm/nvmm-accel-ops.c
+>  create mode 100644 target/i386/nvmm/nvmm-accel-ops.h
+>  create mode 100644 target/i386/nvmm/nvmm-all.c
+> 
+> -- 
+> 2.31.1
 
