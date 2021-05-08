@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75337376FE3
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 07:55:11 +0200 (CEST)
-Received: from localhost ([::1]:42468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2C6376FED
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 08:02:17 +0200 (CEST)
+Received: from localhost ([::1]:53248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfFvi-0003Qo-JT
-	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 01:55:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49920)
+	id 1lfG2a-0002Zg-NE
+	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 02:02:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
- id 1lfFuc-00024P-4t
- for qemu-devel@nongnu.org; Sat, 08 May 2021 01:54:02 -0400
-Received: from mga18.intel.com ([134.134.136.126]:46725)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
- id 1lfFuX-0004pl-PM
- for qemu-devel@nongnu.org; Sat, 08 May 2021 01:54:01 -0400
-IronPort-SDR: ThJLIgX2Usr1mmFOHp8lXbfc9AVuZguBCOhE+Ito8WA7GArCkvGMXSQ2hNRmMQ85i9Nax7bKRh
- v7aOOkLDRuVg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9977"; a="186322598"
-X-IronPort-AV: E=Sophos;i="5.82,282,1613462400"; d="scan'208";a="186322598"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2021 22:53:47 -0700
-IronPort-SDR: vVelElTdnM3bN41kqDDjd6LPFw07n9vLjXblRfZmwyjL8beM+gddm7nnZQNaJ6akqyS1bJ1Tsj
- tqEs90OLN7PA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,282,1613462400"; d="scan'208";a="466375873"
-Received: from clx-ap-likexu.sh.intel.com ([10.239.48.108])
- by fmsmga002.fm.intel.com with ESMTP; 07 May 2021 22:53:45 -0700
-From: Like Xu <like.xu@linux.intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v3 2/2] target/i386: add "-cpu,
- lbr-fmt=*" support to enable guest LBR
-Date: Sat,  8 May 2021 13:52:59 +0800
-Message-Id: <20210508055259.128025-2-like.xu@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210508055259.128025-1-like.xu@linux.intel.com>
-References: <20210508055259.128025-1-like.xu@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lfG1L-0001tp-EO
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 02:00:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lfG1I-00026b-Vk
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 02:00:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lfG1H-0006Rp-63
+ for <qemu-devel@nongnu.org>; Sat, 08 May 2021 06:00:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F35152E813A
+ for <qemu-devel@nongnu.org>; Sat,  8 May 2021 06:00:54 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=134.134.136.126;
- envelope-from=like.xu@linux.intel.com; helo=mga18.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 08 May 2021 05:51:41 -0000
+From: Thomas Huth <1890395@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: hmp qmp
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: raphaelpour th-huth
+X-Launchpad-Bug-Reporter: Raphael Pour (raphaelpour)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159661313818.3099.8994646384897614812.malonedeb@gac.canonical.com>
+Message-Id: <162045310177.17197.14534457628651024027.malone@soybean.canonical.com>
+Subject: [Bug 1890395] Re: qmp/hmp: crash if client closes socket too early
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
+X-Launchpad-Hash: 962ffc96acb7c988cffab80e29b871a2e2d1118e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,146 +71,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9=3F?= <berrange@redhat.com>,
- Like Xu <like.xu@linux.intel.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, weijiang.yang@intel.com,
- wei.w.wang@intel.com
+Reply-To: Bug 1890395 <1890395@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The last branch recording (LBR) is a performance monitor unit (PMU)
-feature on Intel processors that records a running trace of the most
-recent branches taken by the processor in the LBR stack. The QEMU
-could configure whether it's enabled or not for each guest via CLI.
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting the bug state to "Incomplete" now.
 
-The LBR feature would be enabled on the guest if:
-- the KVM is enabled and the PMU is enabled and,
-- the msr-based-feature IA32_PERF_CAPABILITIES is supporterd on KVM and,
-- the supported returned value for lbr_fmt from this msr is not zero and,
-- the requested guest vcpu model does support FEAT_1_ECX.CPUID_EXT_PDCM,
-- the user-provided lbr-fmt value should not violate its bitmask (0x3f)
-  and it should be the same as the host lbr_fmt value or just use the
-  QEMU option "-cpu host,migratable=no" to enable guest LBR.
+If the bug has already been fixed in the latest upstream version of QEMU,
+then please close this ticket as "Fix released".
 
-Signed-off-by: Like Xu <like.xu@linux.intel.com>
----
-v2-v3 Changelog:
-- Add a new generic property macro to validate its bitmask;
-- Differentiate "lbr-fmt=0" from "lbr-fmt not set";
-- Do what the user asked for whenever possible;
-- Treat mismatch or violatation as an error rather than warning;
+If it is not fixed yet and you think that this bug report here is still
+valid, then you have two options:
 
-Testcases for a lbr-fmt=5 host:
+1) If you already have an account on gitlab.com, please open a new ticket
+for this problem in our new tracker here:
 
- "-cpu host" --> "Disable LBR"
- "-cpu host,lbr-fmt=0" --> "Disable LBR"
- "-cpu host,lbr-fmt=5" --> "Enable LBR"
- "-cpu host,lbr-fmt=6" --> "Error out, lbr mismatch"
- "-cpu host,lbr-fmt=0xff" --> "Error out, bitmask violatation"
- "-cpu host,migratable=no" --> "Enable LBR"
- "-cpu host,migratable=no,lbr-fmt=0" --> "Disable LBR"
- "-cpu host,migratable=no,lbr-fmt=5" --> "Enable LBR"
- "-cpu host,migratable=no,lbr-fmt=6" --> "Error out, lbr mismatch"
- "-cpu host,migratable=no,lbr-fmt=0xff" --> "Error out, bitmask violatation"
+    https://gitlab.com/qemu-project/qemu/-/issues
 
- target/i386/cpu.c | 39 +++++++++++++++++++++++++++++++++++++++
- target/i386/cpu.h | 10 ++++++++++
- 2 files changed, 49 insertions(+)
+and then close this ticket here on Launchpad (or let it expire auto-
+matically after 60 days). Please mention the URL of this bug ticket on
+Launchpad in the new ticket on GitLab.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index ad99cad0e7..d03306179a 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6748,6 +6748,41 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-         goto out;
-     }
- 
-+    /*
-+     * Override env->features[FEAT_PERF_CAPABILITIES]
-+     * with explicit user-provided settings.
-+     */
-+    if (cpu->lbr_fmt != ~PERF_CAP_LBR_FMT) {
-+        if ((cpu->lbr_fmt & PERF_CAP_LBR_FMT) != cpu->lbr_fmt) {
-+            error_setg(errp, "invalid lbr-fmt");
-+            return;
-+        }
-+        env->features[FEAT_PERF_CAPABILITIES] &= ~PERF_CAP_LBR_FMT;
-+        env->features[FEAT_PERF_CAPABILITIES] |= cpu->lbr_fmt;
-+    }
-+
-+    /*
-+     * We can always validate env->features[FEAT_PERF_CAPABILITIES],
-+     * no matter how it was initialized:
-+     */
-+    uint64_t requested_lbr_fmt =
-+        env->features[FEAT_PERF_CAPABILITIES] & PERF_CAP_LBR_FMT;
-+    if (requested_lbr_fmt && kvm_enabled()) {
-+        uint64_t host_perf_cap =
-+            x86_cpu_get_supported_feature_word(FEAT_PERF_CAPABILITIES, false);
-+        uint64_t host_lbr_fmt = host_perf_cap & PERF_CAP_LBR_FMT;
-+        if (!cpu->enable_pmu) {
-+            error_setg(errp, "vPMU: LBR is unsupported without pmu=on");
-+            return;
-+        }
-+        if (requested_lbr_fmt != host_lbr_fmt) {
-+            error_setg(errp, "vPMU: the lbr-fmt value (0x%lx) mismatches "
-+                        "the host supported value (0x%lx).",
-+                        requested_lbr_fmt, host_lbr_fmt);
-+            return;
-+        }
-+    }
-+
-     x86_cpu_filter_features(cpu, cpu->check_cpuid || cpu->enforce_cpuid);
- 
-     if (cpu->enforce_cpuid && x86_cpu_have_filtered_features(cpu)) {
-@@ -7150,6 +7185,9 @@ static void x86_cpu_initfn(Object *obj)
-     object_property_add_alias(obj, "sse4_1", obj, "sse4.1");
-     object_property_add_alias(obj, "sse4_2", obj, "sse4.2");
- 
-+    cpu->lbr_fmt = ~PERF_CAP_LBR_FMT;
-+    object_property_add_alias(obj, "lbr_fmt", obj, "lbr-fmt");
-+
-     if (xcc->model) {
-         x86_cpu_load_model(cpu, xcc->model);
-     }
-@@ -7300,6 +7338,7 @@ static Property x86_cpu_properties[] = {
- #endif
-     DEFINE_PROP_INT32("node-id", X86CPU, node_id, CPU_UNSET_NUMA_NODE_ID),
-     DEFINE_PROP_BOOL("pmu", X86CPU, enable_pmu, false),
-+    DEFINE_PROP_BITMASK_UINT64("lbr-fmt", X86CPU, lbr_fmt, PERF_CAP_LBR_FMT),
- 
-     DEFINE_PROP_UINT32("hv-spinlocks", X86CPU, hyperv_spinlock_attempts,
-                        HYPERV_SPINLOCK_NEVER_NOTIFY),
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 1bc300ce85..bab394e18e 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -354,6 +354,7 @@ typedef enum X86Seg {
- #define ARCH_CAP_TSX_CTRL_MSR		(1<<7)
- 
- #define MSR_IA32_PERF_CAPABILITIES      0x345
-+#define PERF_CAP_LBR_FMT                0x3f
- 
- #define MSR_IA32_TSX_CTRL		0x122
- #define MSR_IA32_TSCDEADLINE            0x6e0
-@@ -1726,6 +1727,15 @@ struct X86CPU {
-      */
-     bool enable_pmu;
- 
-+    /*
-+     * Configure LBR_FMT bits on IA32_PERF_CAPABILITIES MSR.
-+     * This can't be enabled by default yet because it doesn't have
-+     * ABI stability guarantees, as it is only allowed to pass all
-+     * LBR_FMT bits returned by kvm_arch_get_supported_msr_feature()
-+     * (that depends on host CPU and kernel capabilities) to the guest.
-+     */
-+    uint64_t lbr_fmt;
-+
-     /* LMCE support can be enabled/disabled via cpu option 'lmce=on/off'. It is
-      * disabled by default to avoid breaking migration between QEMU with
-      * different LMCE configurations.
--- 
-2.30.2
+2) If you don't have an account on gitlab.com and don't intend to get
+one, but still would like to keep this ticket opened, then please switch
+the state back to "New" or "Confirmed" within the next 60 days (other-
+wise it will get closed as "Expired"). We will then eventually migrate
+the ticket automatically to the new system (but you won't be the reporter
+of the bug in the new system and thus you won't get notified on changes
+anymore).
 
+Thank you and sorry for the inconvenience.
+
+
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1890395
+
+Title:
+  qmp/hmp: crash if client closes socket too early
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Qemu crashes on qmp/hmp command if client closes connection before
+  reading the whole response from the socket.
+
+  Reproducer:
+
+  1. Start arbitrary vm via qemu
+  2. Send e.g. hmp command 'info mem'
+  3. Abort before whole response came back
+
+  =
+
+  Stack Trace:
+
+  Stack trace of thread 6493:
+  #0  0x0000559902fd2d30 object_get_class (qemu-system-x86_64)
+  #1  0x0000559903071020 qio_channel_create_watch (qemu-system-x86_64)
+  #2  0x000055990305f437 qemu_chr_fe_add_watch (qemu-system-x86_64)
+  #3  0x0000559902f7340d monitor_flush_locked (qemu-system-x86_64)
+  #4  0x0000559902f7360e monitor_flush_locked (qemu-system-x86_64)
+  #5  0x0000559902f74342 qmp_send_response (qemu-system-x86_64)
+  #6  0x0000559902f74409 monitor_qmp_respond (qemu-system-x86_64)
+  #7  0x0000559902f74bc0 monitor_qmp_bh_dispatcher (qemu-system-x86_64)
+  #8  0x00005599030c37be aio_bh_call (qemu-system-x86_64)
+  #9  0x00005599030c6dd0 aio_dispatch (qemu-system-x86_64)
+  #10 0x00005599030c369e aio_ctx_dispatch (qemu-system-x86_64)
+  #11 0x00007f5b6d37f417 g_main_context_dispatch (libglib-2.0.so.0)
+  #12 0x00005599030c5e0a glib_pollfds_poll (qemu-system-x86_64)
+  #13 0x0000559902dd75df main_loop (qemu-system-x86_64)
+  #14 0x0000559902c59f49 main (qemu-system-x86_64)
+  #15 0x00007f5b6bfeab97 __libc_start_main (libc.so.6)
+  #16 0x0000559902c5d38a _start (qemu-system-x86_64)
+
+  #0  0x0000559902fd2d30 in object_get_class (obj=3Dobj@entry=3D0x0) at ./q=
+om/object.c:909
+  #1  0x0000559903071020 in qio_channel_create_watch (ioc=3D0x0, condition=
+=3D(G_IO_OUT | G_IO_HUP)) at ./io/channel.c:281
+          klass =3D <optimized out>
+          __func__ =3D "qio_channel_create_watch"
+          ret =3D <optimized out>
+  #2  0x000055990305f437 in qemu_chr_fe_add_watch (be=3Dbe@entry=3D0x559905=
+a7f460, cond=3Dcond@entry=3D(G_IO_OUT | G_IO_HUP), func=3Dfunc@entry=3D0x55=
+9902f734b0 <monitor_unblocked>, user_data=3Duser_data@entry=3D0x559905a7f46=
+0) at ./chardev/char-fe.c:367
+          s =3D 0x5599055782c0
+          src =3D <optimized out>
+          tag =3D <optimized out>
+          __func__ =3D "qemu_chr_fe_add_watch"
+  #3  0x0000559902f7340d in monitor_flush_locked (mon=3Dmon@entry=3D0x55990=
+5a7f460) at ./monitor/monitor.c:140
+          rc =3D 219264
+          len =3D 3865832
+          buf =3D 0x7f5afc00e480 "{\"return\": \"ffff9eb480000000-ffff9eb48=
+0099000 ", '0' <repeats 11 times>, "99000 -rw\\r\\nffff9eb480099000-ffff9eb=
+48009b000 ", '0' <repeats 12 times>, "2000 -r-\\r\\nffff9eb48009b000-ffff9e=
+b486800000 0000000006765000 -rw\\r\\nffff9eb4868000"...
+  #4  0x0000559902f7360e in monitor_flush_locked (mon=3D0x559905a7f460) at =
+./monitor/monitor.c:160
+          i =3D 3865830
+          c =3D <optimized out>
+  #5  0x0000559902f7360e in monitor_puts (mon=3Dmon@entry=3D0x559905a7f460,=
+ str=3D0x7f5aa1eda010 "{\"return\": \"ffff9eb480000000-ffff9eb480099000 ", =
+'0' <repeats 11 times>, "99000 -rw\\r\\nffff9eb480099000-ffff9eb48009b000 "=
+, '0' <repeats 12 times>, "2000 -r-\\r\\nffff9eb48009b000-ffff9eb486800000 =
+0000000006765000 -rw\\r\\nffff9eb4868000"...) at ./monitor/monitor.c:167
+          i =3D 3865830
+          c =3D <optimized out>
+  #6  0x0000559902f74342 in qmp_send_response (mon=3D0x559905a7f460, rsp=3D=
+<optimized out>) at ./monitor/qmp.c:119
+          data =3D <optimized out>
+          json =3D 0x559906c88380
+  #7  0x0000559902f74409 in monitor_qmp_respond (rsp=3D0x559905bbf740, mon=
+=3D0x559905a7f460) at ./monitor/qmp.c:132
+          old_mon =3D <optimized out>
+          rsp =3D 0x559905bbf740
+          error =3D <optimized out>
+  #8  0x0000559902f74409 in monitor_qmp_dispatch (mon=3D0x559905a7f460, req=
+=3D<optimized out>) at ./monitor/qmp.c:161
+          old_mon =3D <optimized out>
+          rsp =3D 0x559905bbf740
+          error =3D <optimized out>
+  #9  0x0000559902f74bc0 in monitor_qmp_bh_dispatcher (data=3D<optimized ou=
+t>) at ./monitor/qmp.c:234
+          id =3D <optimized out>
+          rsp =3D <optimized out>
+          need_resume =3D true
+          mon =3D 0x559905a7f460
+          __PRETTY_FUNCTION__ =3D "monitor_qmp_bh_dispatcher"
+  #10 0x00005599030c37be in aio_bh_call (bh=3D0x559905571b40) at ./util/asy=
+nc.c:89
+          bh =3D 0x559905571b40
+          bhp =3D <optimized out>
+          next =3D 0x5599055718f0
+          ret =3D 1
+          deleted =3D false
+  #11 0x00005599030c37be in aio_bh_poll (ctx=3Dctx@entry=3D0x5599055706f0) =
+at ./util/async.c:117
+          bh =3D 0x559905571b40
+          bhp =3D <optimized out>
+          next =3D 0x5599055718f0
+          ret =3D 1
+          deleted =3D false
+  #12 0x00005599030c6dd0 in aio_dispatch (ctx=3D0x5599055706f0) at ./util/a=
+io-posix.c:459
+  #13 0x00005599030c369e in aio_ctx_dispatch (source=3D<optimized out>, cal=
+lback=3D<optimized out>, user_data=3D<optimized out>) at ./util/async.c:260
+          ctx =3D <optimized out>
+  #14 0x00007f5b6d37f417 in g_main_context_dispatch () at /usr/lib/x86_64-l=
+inux-gnu/libglib-2.0.so.0
+  #15 0x00005599030c5e0a in glib_pollfds_poll () at ./util/main-loop.c:219
+          context =3D 0x559905652420
+          pfds =3D <optimized out>
+          context =3D 0x559905652420
+          ret =3D 1
+          mlpoll =3D {state =3D 0, timeout =3D 4294967295, pollfds =3D 0x55=
+9905651800}
+  #16 0x00005599030c5e0a in os_host_main_loop_wait (timeout=3D14451267) at =
+./util/main-loop.c:242
+          context =3D 0x559905652420
+          ret =3D 1
+          mlpoll =3D {state =3D 0, timeout =3D 4294967295, pollfds =3D 0x55=
+9905651800}
+  #17 0x00005599030c5e0a in main_loop_wait (nonblocking=3D<optimized out>) =
+at ./util/main-loop.c:518
+          mlpoll =3D {state =3D 0, timeout =3D 4294967295, pollfds =3D 0x55=
+9905651800}
+  #18 0x0000559902dd75df in main_loop () at ./vl.c:1810
+  #19 0x0000559902c59f49 in main (argc=3D<optimized out>, argv=3D<optimized=
+ out>, envp=3D<optimized out>) at ./vl.c:4466
+          i =3D <optimized out>
+          snapshot =3D 0
+          linux_boot =3D <optimized out>
+          initrd_filename =3D 0x0
+          kernel_filename =3D <optimized out>
+          kernel_cmdline =3D <optimized out>
+          boot_order =3D 0x55990318bc94 "cad"
+          boot_once =3D <optimized out>
+          ds =3D <optimized out>
+          opts =3D <optimized out>
+          icount_opts =3D <optimized out>
+          accel_opts =3D 0x0
+          olist =3D <optimized out>
+          optind =3D 100
+          optarg =3D 0x7ffe0ca05e74 "timestamp=3Don"
+          loadvm =3D 0x0
+          cpu_option =3D 0x7ffe0ca05d42 "SandyBridge-IBRS,-kvm_steal_time,+=
+pcid,+ssbd,+spec-ctrl,+md-clear"
+          vga_model =3D 0x0
+          qtest_chrdev =3D 0x0
+          qtest_log =3D 0x0
+          incoming =3D 0x0
+          userconfig =3D <optimized out>
+          nographic =3D false
+          display_remote =3D <optimized out>
+          log_mask =3D <optimized out>
+          log_file =3D 0x0
+          trace_file =3D <optimized out>
+          maxram_size =3D <optimized out>
+          ram_slots =3D 0
+          vmstate_dump_file =3D 0x0
+          main_loop_err =3D 0x0
+          err =3D 0x0
+          list_data_dirs =3D false
+          dirs =3D <optimized out>
+          bdo_queue =3D {sqh_first =3D 0x0, sqh_last =3D 0x7ffe0ca03540}
+          plugin_list =3D {tqh_first =3D 0x0, tqh_circ =3D {tql_next =3D 0x=
+0, tql_prev =3D 0x7ffe0ca03550}}
+          __func__ =3D "main"
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1890395/+subscriptions
 
