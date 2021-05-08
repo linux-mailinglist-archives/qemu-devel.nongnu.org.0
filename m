@@ -2,61 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC3D377027
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 08:44:23 +0200 (CEST)
-Received: from localhost ([::1]:47028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C67237702D
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 08:50:41 +0200 (CEST)
+Received: from localhost ([::1]:49878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfGhK-0004EQ-4l
-	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 02:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56634)
+	id 1lfGnQ-0006Oc-Ig
+	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 02:50:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lfGfo-0003Y4-LY
- for qemu-devel@nongnu.org; Sat, 08 May 2021 02:42:48 -0400
-Received: from mga01.intel.com ([192.55.52.88]:23768)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lfGmY-0005W0-Cj; Sat, 08 May 2021 02:49:46 -0400
+Received: from ozlabs.org ([203.11.71.1]:60849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lfGfm-0005kL-2N
- for qemu-devel@nongnu.org; Sat, 08 May 2021 02:42:48 -0400
-IronPort-SDR: FxCqMPXBYXjJAE8LjzDZGO0Y0W/4/n7SSREeQIeB+R+iu0arrUa48R2U/7tks1xLl1GOKZ78X8
- 8S56xdaTVbjA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9977"; a="219790960"
-X-IronPort-AV: E=Sophos;i="5.82,282,1613462400"; d="scan'208";a="219790960"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2021 23:42:40 -0700
-IronPort-SDR: 2ubldhmFmQ3BRAb7jdvxqpcD9i92fZU+2N5fBpOuNjIvBh3g8sfL9452WJRWuTFH0mIZhKdOoT
- Ybov5fSVyfoQ==
-X-IronPort-AV: E=Sophos;i="5.82,282,1613462400"; d="scan'208";a="435259590"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.144.101])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 07 May 2021 23:42:38 -0700
-Date: Sat, 8 May 2021 14:30:08 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RESEND PATCH 01/32] memory: Add RAM_PROTECTED flag to skip
- IOMMU mappings
-Message-ID: <20210508063008.GA24876@yangzhon-Virtual>
-References: <20210430062455.8117-1-yang.zhong@intel.com>
- <20210430062455.8117-2-yang.zhong@intel.com>
- <b216c2e4-abcb-d7bd-b461-96b731472b4d@redhat.com>
- <20210507052443.GA23130@yangzhon-Virtual>
- <14990ed0-6e94-1c80-d8e0-d863b05d3d6d@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lfGmV-00014M-LO; Sat, 08 May 2021 02:49:46 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FcdGK6JDmz9sWq; Sat,  8 May 2021 16:49:29 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1620456569;
+ bh=iUAdnPYlozotqMf7VnG3OVAa5C4lMc7OcpgmEbBChh4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EBuY+/FCPjLfT1NtwxRV3D3A32NLpYR6JSIG8AvAS7+AgvZV4KiZGn2uFPbFnStTD
+ jD7Kbj6VMZ7Kxdn5Ft9OuBS/Jk0iA6vnGQWIoA6bwc61TMj1/R3kUPJnHoVwQJdy28
+ kmBLrUKOmED36i2KD/Vy8sqBYAbMhGezYA7hH/Us=
+Date: Sat, 8 May 2021 16:42:48 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+Subject: Re: [PATCH v4] hw/ppc: moved has_spr to cpu.h
+Message-ID: <YJYy6KofLUGnbZNy@yekko>
+References: <20210507164146.67086-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6jV5o5VUycfYllb/"
 Content-Disposition: inline
-In-Reply-To: <14990ed0-6e94-1c80-d8e0-d863b05d3d6d@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=yang.zhong@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210507164146.67086-1-lucas.araujo@eldorado.org.br>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,72 +57,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
- qemu-devel@nongnu.org
+Cc: bruno.larsen@eldorado.org.br, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 07, 2021 at 02:45:21PM +0200, Paolo Bonzini wrote:
-> On 07/05/21 07:24, Yang Zhong wrote:
-> >   Paolo, i will revert this patch, but in order to disable sgx epc memory region
-> >   as DMA target, we still need to skip this memory region while adding this memory
-> >   region.
-> >
-> >   So, my plan is to revert this patch, and then add one new bool variable in the
-> >   struct MemoryRegion.
-> >
-> >   The new patch as below and it will be as patch 2 in the next version
-> >
-> >   diff --git a/backends/hostmem-epc.c b/backends/hostmem-epc.c
-> >   index 0c98812f0d..316e1ee688 100644
-> >   --- a/backends/hostmem-epc.c
-> >   +++ b/backends/hostmem-epc.c
-> >   @@ -67,6 +67,7 @@ void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
-> >        }
-> >
-> >        sgx_epc_backend_memory_alloc(backend, errp);
-> >   +    mr->sgx_epc_device = true;
-> >   }
-> >
-> >   static void sgx_epc_backend_instance_init(Object *obj)
-> >   diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> >   index 5bc5d29358..7a53855436 100644
-> >   --- a/hw/vfio/common.c
-> >   +++ b/hw/vfio/common.c
-> >   @@ -538,7 +538,7 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
-> >    {
-> >        return (!memory_region_is_ram(section->mr) &&
-> >                !memory_region_is_iommu(section->mr)) ||
-> >   +            section->mr->sgx_epc_device ||
-> >                /*
-> >                 * Sizing an enabled 64-bit BAR can cause spurious mappings to
-> >                 * addresses in the upper part of the 64-bit address space.  These
-> >    diff --git a/include/exec/memory.h b/include/exec/memory.h
-> >    index 2816e52be3..9bba0a1590 100644
-> >    --- a/include/exec/memory.h
-> >    +++ b/include/exec/memory.h
-> >    @@ -463,6 +463,7 @@ struct MemoryRegion {
-> >         bool readonly; /* For RAM regions */
-> >         bool nonvolatile;
-> >         bool rom_device;
-> >    +    bool sgx_epc_device;
-> >         bool flush_coalesced_mmio;
-> >         uint8_t dirty_log_mask;
-> >         bool is_iommu;
-> >   If this patch is not suitable to skip this memory region, any suggestion is
-> >   appreciated, thanks!
-> 
-> No, you can keep RAM_PROTECTED.  I was just remarking on the new
-> bool argument, and suggesting passing the flags (RAM_SHARED and
-> RAM_PROTECTED) directly  tot he memory_region_init* functions.
->
 
-  Paolo, thanks! If there is no new comments from community, i will send the V2
-  in the next week. thanks!
+--6jV5o5VUycfYllb/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Yang
+On Fri, May 07, 2021 at 01:41:46PM -0300, Lucas Mateus Castro (alqotel) wro=
+te:
+> Moved has_spr to cpu.h as ppc_has_spr and turned it into an inline functi=
+on.
+> Change spr verification in pnv.c and spapr.c to a version that can
+> compile in a !TCG environment.
+>=20
+> Signed-off-by: Lucas Mateus Castro (alqotel)
+> <lucas.araujo@eldorado.org.br>
 
+Applied to ppc-for-6.1, thanks.
 
- 
-> Paolo
+> ---
+>  hw/ppc/pnv.c         |  2 +-
+>  hw/ppc/spapr.c       |  4 ++--
+>  hw/ppc/spapr_hcall.c | 12 +++---------
+>  target/ppc/cpu.h     |  6 ++++++
+>  4 files changed, 12 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index ffe01977cd..d16dd2d080 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -196,7 +196,7 @@ static void pnv_dt_core(PnvChip *chip, PnvCore *pc, v=
+oid *fdt)
+>      _FDT((fdt_setprop_string(fdt, offset, "status", "okay")));
+>      _FDT((fdt_setprop(fdt, offset, "64-bit", NULL, 0)));
+> =20
+> -    if (env->spr_cb[SPR_PURR].oea_read) {
+> +    if (ppc_has_spr(cpu, SPR_PURR)) {
+>          _FDT((fdt_setprop(fdt, offset, "ibm,purr", NULL, 0)));
+>      }
+> =20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 4db448d63e..c23bcc4490 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -703,10 +703,10 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, i=
+nt offset,
+>      _FDT((fdt_setprop_string(fdt, offset, "status", "okay")));
+>      _FDT((fdt_setprop(fdt, offset, "64-bit", NULL, 0)));
+> =20
+> -    if (env->spr_cb[SPR_PURR].oea_read) {
+> +    if (ppc_has_spr(cpu, SPR_PURR)) {
+>          _FDT((fdt_setprop_cell(fdt, offset, "ibm,purr", 1)));
+>      }
+> -    if (env->spr_cb[SPR_SPURR].oea_read) {
+> +    if (ppc_has_spr(cpu, SPR_PURR)) {
+>          _FDT((fdt_setprop_cell(fdt, offset, "ibm,spurr", 1)));
+>      }
+> =20
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 6dbaa93d15..f25014afda 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -20,12 +20,6 @@
+>  #include "mmu-book3s-v3.h"
+>  #include "hw/mem/memory-device.h"
+> =20
+> -static bool has_spr(PowerPCCPU *cpu, int spr)
+> -{
+> -    /* We can test whether the SPR is defined by checking for a valid na=
+me */
+> -    return cpu->env.spr_cb[spr].name !=3D NULL;
+> -}
+> -
+>  bool is_ram_address(SpaprMachineState *spapr, hwaddr addr)
+>  {
+>      MachineState *machine =3D MACHINE(spapr);
+> @@ -212,12 +206,12 @@ static target_ulong h_set_sprg0(PowerPCCPU *cpu, Sp=
+aprMachineState *spapr,
+>  static target_ulong h_set_dabr(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>                                 target_ulong opcode, target_ulong *args)
+>  {
+> -    if (!has_spr(cpu, SPR_DABR)) {
+> +    if (!ppc_has_spr(cpu, SPR_DABR)) {
+>          return H_HARDWARE;              /* DABR register not available */
+>      }
+>      cpu_synchronize_state(CPU(cpu));
+> =20
+> -    if (has_spr(cpu, SPR_DABRX)) {
+> +    if (ppc_has_spr(cpu, SPR_DABRX)) {
+>          cpu->env.spr[SPR_DABRX] =3D 0x3;  /* Use Problem and Privileged =
+state */
+>      } else if (!(args[0] & 0x4)) {      /* Breakpoint Translation set? */
+>          return H_RESERVED_DABR;
+> @@ -232,7 +226,7 @@ static target_ulong h_set_xdabr(PowerPCCPU *cpu, Spap=
+rMachineState *spapr,
+>  {
+>      target_ulong dabrx =3D args[1];
+> =20
+> -    if (!has_spr(cpu, SPR_DABR) || !has_spr(cpu, SPR_DABRX)) {
+> +    if (!ppc_has_spr(cpu, SPR_DABR) || !ppc_has_spr(cpu, SPR_DABRX)) {
+>          return H_HARDWARE;
+>      }
+> =20
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index a976e7f7b0..98fcf1c4d6 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -2642,6 +2642,12 @@ static inline ppc_avr_t *cpu_avr_ptr(CPUPPCState *=
+env, int i)
+>      return (ppc_avr_t *)((uintptr_t)env + avr_full_offset(i));
+>  }
+> =20
+> +static inline bool ppc_has_spr(PowerPCCPU *cpu, int spr)
+> +{
+> +    /* We can test whether the SPR is defined by checking for a valid na=
+me */
+> +    return cpu->env.spr_cb[spr].name !=3D NULL;
+> +}
+> +
+>  void dump_mmu(CPUPPCState *env);
+> =20
+>  void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int le=
+n);
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--6jV5o5VUycfYllb/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCWMuYACgkQbDjKyiDZ
+s5Lg4xAAmLu1nfvhxEySGTTqbk1s5Ft98Wp0C6LSOBKEA8TfQPJoZrCvZOM2xB0L
+WvdTAkx/5P72lWVKdexmDegLrUgAoeBh1gsP86/2WM2Cmos1H0ie1SrqjEf8J9Pe
+rS+hMVcu6p4Ahagrq61eIds4dua4/TFuLcywJM+L+JxZm5FLLv49JOqiyy2uG1yR
+1LkcxJlX55p9sBU3Gpla6vSxYPi195iC2APM+rXqa3flGL7aKucs7GqB8MNyqjm/
++fAi5K9eHjl8lSvaSPJCkn9e9f1wSr2imBEwQSRoHZ4vSwJsHUMm7N/ryCpI8J7L
+1jSqaZ2jnhwVGdkqmLjJARsuAyBtz+i6dYQN573zXIaSZJCsX68AU7PJPg8NR+kD
+SuL09hUoM4zATXzo0Az8+M+KTXi0H4TMN3aTamIK7js55BvPPofdur/WsnyDX7JH
+Ke2bpHmiPe1uvfdaSVrCPNCGUda4mdLxI5RBElFtFaLTEK8as+581YTmlEErKVJD
+Ng1h1kDdR2tvLJVTinvTfyIkZpAzNotPVQU24/FOUEHaCw44yvzS6FSMyRWS9i89
+ZO4WxHZpy0MJc5+UmL3rjIQKuEvCQvjvJOGU8x3hdLlaosTF4PoBrTHCQUJKY7rw
+pF7LOhl8vD3rq83xLNLKtzDzMlqdYKfz4oYDl8uhQD6XQVGp/Bk=
+=dkRA
+-----END PGP SIGNATURE-----
+
+--6jV5o5VUycfYllb/--
 
