@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170F2376E77
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:17:18 +0200 (CEST)
-Received: from localhost ([::1]:34472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79093376E64
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:08:16 +0200 (CEST)
+Received: from localhost ([::1]:37168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfCWr-0004sk-5Y
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:17:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40904)
+	id 1lfCO7-0004Y8-F9
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC59-0004W6-5J
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:39 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:43697)
+ id 1lfC5B-0004cm-8n
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:41 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:34603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC4w-0003eS-7s
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:38 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id b21so2035424pft.10
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:48:24 -0700 (PDT)
+ id 1lfC4w-0003eb-Vn
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:40 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ t2-20020a17090a0242b0290155433387beso5535188pje.1
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:48:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GGsOu93kCXzgLCre7662W7PfQMUfYI0BS7BA7WHvNaE=;
- b=mauqWjXXLNO3oAjslCx2AUlP9OcSoCnJJXhtVtkFJjmpDeWSUTHSIOmtnu0T02SulB
- CNVzmFCUgL7a97KjStwRHaUaJLdaYd/DlqBrsxlls73Ti97wGboeBn8BkEDA0Lqqif45
- UomxKTch7hot6MaWZ//hr7RwV4cQeUZfQOX2YAMHDJSMWRWu6SkZ+ay2fQLYavijQDEW
- VHc9j9+TvXAPUyPOZm/P4XjO+33v68q1rUIV8I4hTqMZlDBA+txyH8LANd84OmHEkqww
- YkBM2uXj+1Q8Fy2x1S6iJypN6FqOu33E99sP5O5SE2C9ko1+XIEi2OQyfBhbdQyR96Dh
- XGlw==
+ bh=NGpOakjV0VOj6azWVGKzsBGpzQYOaN2R/8eKbyrZbMU=;
+ b=fLkgAwwHg5gJQi23BooROnxI7JKl/nKSMGwyBQHIJWLlCJbtySSnOF6L2BOk752N8C
+ P4EA4VdwLdpqlKk8dQOQlD35v+5cIuY96edZVw48Ud+5MyshnbeLJ7iCXjd5WHTv66v/
+ QKiqulcOHTbSTTL1cT5plxymw0ij6VuuyBe63hLCnyB7e3nNbM9JifLU8//SFY+OP8Lp
+ iNDjz9ROQlgRuRuAFNkAtmwuxO6oWb+ceDJBQeUyxYHZXeeKWMm6U6luAl11/KAfY1NC
+ RUji72/3PxQGye/qpwds8YmnhCkPjdy5GW1xZSx/dUy0+RA2rVwrYZqI0BCuyHqeaYbg
+ m/sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GGsOu93kCXzgLCre7662W7PfQMUfYI0BS7BA7WHvNaE=;
- b=M8VNi8N/jsV7V3wgkSRvW0AffC6Dwf59KIHhvxYzDHy35fzVsk5Y5+NZCJ5YtXQ2UV
- m6ZfvRkvwEKZryEz3yVrfZB2E1Psu3Qe8B8mUSLTy6+5rF6VrVKs9KgchVdYLeAwfoku
- UrnF/+FgQ4fDbddBi92v+gLwtC7trT0vSevSl/o928jz9XnFAsGcDQPpoQFT/iwHXt37
- aXGp7r0yHMBIi5CNpj98g4GBsf1H6TU05Gcfug/a4bgUl+dBhTu731VDlWavRYDcHEEe
- /vr5NNsbKqQsmsvKZdhAVsjTh0fPyLkSCGduk8NA09Q/LEiXk5hHqPVpt3t6/V6khru/
- IC+Q==
-X-Gm-Message-State: AOAM533BmPHnkhoV6UbxnmoLm3o4gl1hab+6PJOqtwLISOEYx2sHi83s
- fox1OqgNWXFYeFZ40axCNnsqqwwgGEtSuw==
-X-Google-Smtp-Source: ABdhPJzacCBcTfGOvhriu/dfwYvSjaUlROm1gbB2taznsSF3iD9tojERYwJAuGmw3yuwkybHpdZ1gQ==
-X-Received: by 2002:a62:1ec1:0:b029:24d:b3de:25be with SMTP id
- e184-20020a621ec10000b029024db3de25bemr13052237pfe.17.1620438503828; 
- Fri, 07 May 2021 18:48:23 -0700 (PDT)
+ bh=NGpOakjV0VOj6azWVGKzsBGpzQYOaN2R/8eKbyrZbMU=;
+ b=czqD0PycV2Zr9w+Dq14CTUTIBlCnfQTXQh1jVUcvWX8Jprvx2yETzOFe/JnoGSxsmJ
+ 8IzIWNUBxlPTj7evVB6ZPMKZLZoSugdzHnqr/3UTRbO/pln5VsJZjqTxjcWORKlf3Fus
+ Sw1wqOYR0iIruj5fp0VEVLfIkIyz1XxotvDk6xkHewAfWNXkxPPN+YqRSVINbl7fNmf5
+ g/k3pClN+O+DCb5Of5a+iIGsVpsYClISpC3tdg9KIXOKgVa7GwOshnpmDMHGZO2rym4Y
+ mKiCxY5JIAwkCW8hDdnXcQdi7QQSDS1d1SdHsh3WmF2yPnToV/2e1tuWek+MV07D1O+Z
+ ba9Q==
+X-Gm-Message-State: AOAM530AVUiGjQ4DbnF/xUF8EbdpoaSCbz+3/ojfpxAJUkj2u8pyQe43
+ xrgH02BoI8anF6gx4mY7gPYIU5ybXrvSHw==
+X-Google-Smtp-Source: ABdhPJy79x5Ck4KQBUi4NCsimPpQL9jOLFJY2suXjkmqCiHxWtYUyAylUuXxkgkAiaqIHy8syQr+WA==
+X-Received: by 2002:a17:902:4d:b029:ec:94df:c9aa with SMTP id
+ 71-20020a170902004db02900ec94dfc9aamr13263991pla.7.1620438504470; 
+ Fri, 07 May 2021 18:48:24 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id t4sm5819681pfq.165.2021.05.07.18.48.23
+ by smtp.gmail.com with ESMTPSA id t4sm5819681pfq.165.2021.05.07.18.48.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 18:48:23 -0700 (PDT)
+ Fri, 07 May 2021 18:48:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 31/72] softfloat: Move sf_canonicalize to softfloat-parts.c.inc
-Date: Fri,  7 May 2021 18:47:21 -0700
-Message-Id: <20210508014802.892561-32-richard.henderson@linaro.org>
+Subject: [PATCH 32/72] softfloat: Move round_canonical to softfloat-parts.c.inc
+Date: Fri,  7 May 2021 18:47:22 -0700
+Message-Id: <20210508014802.892561-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210508014802.892561-1-richard.henderson@linaro.org>
 References: <20210508014802.892561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,230 +88,427 @@ Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the same time, convert to pointers, rename to parts$N_canonicalize
-and define a macro for parts_canonicalize using QEMU_GENERIC.
+At the same time, convert to pointers, renaming to parts$N_uncanon,
+and define a macro for parts_uncanon using QEMU_GENERIC.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c           | 117 +++++++++++++++++++++++++-------------
- fpu/softfloat-parts.c.inc |  33 +++++++++++
- 2 files changed, 112 insertions(+), 38 deletions(-)
+ fpu/softfloat.c           | 201 +++++++++-----------------------------
+ fpu/softfloat-parts.c.inc | 148 ++++++++++++++++++++++++++++
+ 2 files changed, 193 insertions(+), 156 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 40ee294e35..bad4b54cd2 100644
+index bad4b54cd2..e9d644385d 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -732,6 +732,14 @@ static FloatParts128 *parts128_pick_nan_muladd(FloatParts128 *a,
- #define parts_pick_nan_muladd(A, B, C, S, ABM, ABCM) \
-     PARTS_GENERIC_64_128(pick_nan_muladd, A)(A, B, C, S, ABM, ABCM)
+@@ -740,6 +740,14 @@ static void parts128_canonicalize(FloatParts128 *p, float_status *status,
+ #define parts_canonicalize(A, S, F) \
+     PARTS_GENERIC_64_128(canonicalize, A)(A, S, F)
  
-+static void parts64_canonicalize(FloatParts64 *p, float_status *status,
-+                                 const FloatFmt *fmt);
-+static void parts128_canonicalize(FloatParts128 *p, float_status *status,
-+                                  const FloatFmt *fmt);
++static void parts64_uncanon(FloatParts64 *p, float_status *status,
++                            const FloatFmt *fmt);
++static void parts128_uncanon(FloatParts128 *p, float_status *status,
++                             const FloatFmt *fmt);
 +
-+#define parts_canonicalize(A, S, F) \
-+    PARTS_GENERIC_64_128(canonicalize, A)(A, S, F)
++#define parts_uncanon(A, S, F) \
++    PARTS_GENERIC_64_128(uncanon, A)(A, S, F)
 +
  /*
   * Helper functions for softfloat-parts.c.inc, per-size operations.
   */
-@@ -758,52 +766,85 @@ static int frac128_cmp(FloatParts128 *a, FloatParts128 *b)
+@@ -747,6 +755,31 @@ static void parts128_canonicalize(FloatParts128 *p, float_status *status,
+ #define FRAC_GENERIC_64_128(NAME, P) \
+     QEMU_GENERIC(P, (FloatParts128 *, frac128_##NAME), frac64_##NAME)
  
- #define frac_cmp(A, B)  FRAC_GENERIC_64_128(cmp, A)(A, B)
- 
-+static void frac64_clear(FloatParts64 *a)
++static bool frac64_addi(FloatParts64 *r, FloatParts64 *a, uint64_t c)
 +{
-+    a->frac = 0;
++    return uadd64_overflow(a->frac, c, &r->frac);
 +}
 +
-+static void frac128_clear(FloatParts128 *a)
++static bool frac128_addi(FloatParts128 *r, FloatParts128 *a, uint64_t c)
 +{
-+    a->frac_hi = a->frac_lo = 0;
++    c = uadd64_overflow(a->frac_lo, c, &r->frac_lo);
++    return uadd64_overflow(a->frac_hi, c, &r->frac_hi);
 +}
 +
-+#define frac_clear(A)  FRAC_GENERIC_64_128(clear, A)(A)
++#define frac_addi(R, A, C)  FRAC_GENERIC_64_128(addi, R)(R, A, C)
 +
-+static bool frac64_eqz(FloatParts64 *a)
++static void frac64_allones(FloatParts64 *a)
 +{
-+    return a->frac == 0;
++    a->frac = -1;
 +}
 +
-+static bool frac128_eqz(FloatParts128 *a)
++static void frac128_allones(FloatParts128 *a)
 +{
-+    return (a->frac_hi | a->frac_lo) == 0;
++    a->frac_hi = a->frac_lo = -1;
 +}
 +
-+#define frac_eqz(A)  FRAC_GENERIC_64_128(eqz, A)(A)
++#define frac_allones(A)  FRAC_GENERIC_64_128(allones, A)(A)
 +
-+static int frac64_normalize(FloatParts64 *a)
-+{
-+    if (a->frac) {
-+        int shift = clz64(a->frac);
-+        a->frac <<= shift;
-+        return shift;
-+    }
-+    return 64;
-+}
-+
-+static int frac128_normalize(FloatParts128 *a)
-+{
-+    if (a->frac_hi) {
-+        int shl = clz64(a->frac_hi);
-+        if (shl) {
-+            int shr = 64 - shl;
-+            a->frac_hi = (a->frac_hi << shl) | (a->frac_lo >> shr);
-+            a->frac_lo = (a->frac_lo << shl);
-+        }
-+        return shl;
-+    } else if (a->frac_lo) {
-+        int shl = clz64(a->frac_lo);
-+        a->frac_hi = (a->frac_lo << shl);
-+        a->frac_lo = 0;
-+        return shl + 64;
-+    }
-+    return 128;
-+}
-+
-+#define frac_normalize(A)  FRAC_GENERIC_64_128(normalize, A)(A)
-+
-+static void frac64_shl(FloatParts64 *a, int c)
-+{
-+    a->frac <<= c;
-+}
-+
- static void frac128_shl(FloatParts128 *a, int c)
+ static int frac64_cmp(FloatParts64 *a, FloatParts64 *b)
  {
-     shift128Left(a->frac_hi, a->frac_lo, c, &a->frac_hi, &a->frac_lo);
- }
+     return a->frac == b->frac ? 0 : a->frac < b->frac ? -1 : 1;
+@@ -845,161 +878,17 @@ static void frac128_shr(FloatParts128 *a, int c)
  
--#define frac_shl(A, C)             frac128_shl(A, C)
-+#define frac_shl(A, C)  FRAC_GENERIC_64_128(shl, A)(A, C)
-+
-+static void frac64_shr(FloatParts64 *a, int c)
-+{
-+    a->frac >>= c;
-+}
+ #define frac_shr(A, C)  FRAC_GENERIC_64_128(shr, A)(A, C)
  
- static void frac128_shr(FloatParts128 *a, int c)
+-
+-/* Round and uncanonicalize a floating-point number by parts. There
+- * are FRAC_SHIFT bits that may require rounding at the bottom of the
+- * fraction; these bits will be removed. The exponent will be biased
+- * by EXP_BIAS and must be bounded by [EXP_MAX-1, 0].
+- */
+-
+-static FloatParts64 round_canonical(FloatParts64 p, float_status *s,
+-                                  const FloatFmt *parm)
++static void frac64_shrjam(FloatParts64 *a, int c)
  {
-     shift128Right(a->frac_hi, a->frac_lo, c, &a->frac_hi, &a->frac_lo);
- }
- 
--#define frac_shr(A, C)             frac128_shr(A, C)
-+#define frac_shr(A, C)  FRAC_GENERIC_64_128(shr, A)(A, C)
- 
--/* Canonicalize EXP and FRAC, setting CLS.  */
--static FloatParts64 sf_canonicalize(FloatParts64 part, const FloatFmt *parm,
--                                  float_status *status)
--{
--    if (part.exp == parm->exp_max && !parm->arm_althp) {
--        if (part.frac == 0) {
--            part.cls = float_class_inf;
--        } else {
--            part.frac <<= parm->frac_shift;
--            part.cls = (parts_is_snan_frac(part.frac, status)
--                        ? float_class_snan : float_class_qnan);
+-    const uint64_t frac_lsb = parm->frac_lsb;
+-    const uint64_t frac_lsbm1 = parm->frac_lsbm1;
+-    const uint64_t round_mask = parm->round_mask;
+-    const uint64_t roundeven_mask = parm->roundeven_mask;
+-    const int exp_max = parm->exp_max;
+-    const int frac_shift = parm->frac_shift;
+-    uint64_t frac, inc;
+-    int exp, flags = 0;
+-    bool overflow_norm;
+-
+-    frac = p.frac;
+-    exp = p.exp;
+-
+-    switch (p.cls) {
+-    case float_class_normal:
+-        switch (s->float_rounding_mode) {
+-        case float_round_nearest_even:
+-            overflow_norm = false;
+-            inc = ((frac & roundeven_mask) != frac_lsbm1 ? frac_lsbm1 : 0);
+-            break;
+-        case float_round_ties_away:
+-            overflow_norm = false;
+-            inc = frac_lsbm1;
+-            break;
+-        case float_round_to_zero:
+-            overflow_norm = true;
+-            inc = 0;
+-            break;
+-        case float_round_up:
+-            inc = p.sign ? 0 : round_mask;
+-            overflow_norm = p.sign;
+-            break;
+-        case float_round_down:
+-            inc = p.sign ? round_mask : 0;
+-            overflow_norm = !p.sign;
+-            break;
+-        case float_round_to_odd:
+-            overflow_norm = true;
+-            inc = frac & frac_lsb ? 0 : round_mask;
+-            break;
+-        default:
+-            g_assert_not_reached();
 -        }
--    } else if (part.exp == 0) {
--        if (likely(part.frac == 0)) {
--            part.cls = float_class_zero;
--        } else if (status->flush_inputs_to_zero) {
--            float_raise(float_flag_input_denormal, status);
--            part.cls = float_class_zero;
--            part.frac = 0;
+-
+-        exp += parm->exp_bias;
+-        if (likely(exp > 0)) {
+-            if (frac & round_mask) {
+-                flags |= float_flag_inexact;
+-                if (uadd64_overflow(frac, inc, &frac)) {
+-                    frac = (frac >> 1) | DECOMPOSED_IMPLICIT_BIT;
+-                    exp++;
+-                }
+-            }
+-            frac >>= frac_shift;
+-
+-            if (parm->arm_althp) {
+-                /* ARM Alt HP eschews Inf and NaN for a wider exponent.  */
+-                if (unlikely(exp > exp_max)) {
+-                    /* Overflow.  Return the maximum normal.  */
+-                    flags = float_flag_invalid;
+-                    exp = exp_max;
+-                    frac = -1;
+-                }
+-            } else if (unlikely(exp >= exp_max)) {
+-                flags |= float_flag_overflow | float_flag_inexact;
+-                if (overflow_norm) {
+-                    exp = exp_max - 1;
+-                    frac = -1;
+-                } else {
+-                    p.cls = float_class_inf;
+-                    goto do_inf;
+-                }
+-            }
+-        } else if (s->flush_to_zero) {
+-            flags |= float_flag_output_denormal;
+-            p.cls = float_class_zero;
+-            goto do_zero;
 -        } else {
--            int shift = clz64(part.frac);
--            part.cls = float_class_normal;
--            part.exp = parm->frac_shift - parm->exp_bias - shift + 1;
--            part.frac <<= shift;
+-            bool is_tiny = s->tininess_before_rounding || (exp < 0);
+-
+-            if (!is_tiny) {
+-                uint64_t discard;
+-                is_tiny = !uadd64_overflow(frac, inc, &discard);
+-            }
+-
+-            shift64RightJamming(frac, 1 - exp, &frac);
+-            if (frac & round_mask) {
+-                /* Need to recompute round-to-even.  */
+-                switch (s->float_rounding_mode) {
+-                case float_round_nearest_even:
+-                    inc = ((frac & roundeven_mask) != frac_lsbm1
+-                           ? frac_lsbm1 : 0);
+-                    break;
+-                case float_round_to_odd:
+-                    inc = frac & frac_lsb ? 0 : round_mask;
+-                    break;
+-                default:
+-                    break;
+-                }
+-                flags |= float_flag_inexact;
+-                frac += inc;
+-            }
+-
+-            exp = (frac & DECOMPOSED_IMPLICIT_BIT ? 1 : 0);
+-            frac >>= frac_shift;
+-
+-            if (is_tiny && (flags & float_flag_inexact)) {
+-                flags |= float_flag_underflow;
+-            }
+-            if (exp == 0 && frac == 0) {
+-                p.cls = float_class_zero;
+-            }
 -        }
--    } else {
--        part.cls = float_class_normal;
--        part.exp -= parm->exp_bias;
--        part.frac = DECOMPOSED_IMPLICIT_BIT + (part.frac << parm->frac_shift);
+-        break;
+-
+-    case float_class_zero:
+-    do_zero:
+-        exp = 0;
+-        frac = 0;
+-        break;
+-
+-    case float_class_inf:
+-    do_inf:
+-        assert(!parm->arm_althp);
+-        exp = exp_max;
+-        frac = 0;
+-        break;
+-
+-    case float_class_qnan:
+-    case float_class_snan:
+-        assert(!parm->arm_althp);
+-        exp = exp_max;
+-        frac >>= parm->frac_shift;
+-        break;
+-
+-    default:
+-        g_assert_not_reached();
 -    }
--    return part;
--}
- 
- /* Round and uncanonicalize a floating-point number by parts. There
-  * are FRAC_SHIFT bits that may require rounding at the bottom of the
-@@ -983,7 +1024,7 @@ static void float16a_unpack_canonical(FloatParts64 *p, float16 f,
-                                       float_status *s, const FloatFmt *params)
- {
-     float16_unpack_raw(p, f);
--    *p = sf_canonicalize(*p, params, s);
-+    parts_canonicalize(p, s, params);
+-
+-    float_raise(flags, s);
+-    p.exp = exp;
+-    p.frac = frac;
+-    return p;
++    shift64RightJamming(a->frac, c, &a->frac);
  }
  
- static void float16_unpack_canonical(FloatParts64 *p, float16 f,
-@@ -996,7 +1037,7 @@ static void bfloat16_unpack_canonical(FloatParts64 *p, bfloat16 f,
-                                       float_status *s)
++static void frac128_shrjam(FloatParts128 *a, int c)
++{
++    shift128RightJamming(a->frac_hi, a->frac_lo, c, &a->frac_hi, &a->frac_lo);
++}
++
++#define frac_shrjam(A, C)  FRAC_GENERIC_64_128(shrjam, A)(A, C)
+ 
+ #define partsN(NAME)   parts64_##NAME
+ #define FloatPartsN    FloatParts64
+@@ -1044,7 +933,7 @@ static float16 float16a_round_pack_canonical(FloatParts64 *p,
+                                              float_status *s,
+                                              const FloatFmt *params)
  {
-     bfloat16_unpack_raw(p, f);
--    *p = sf_canonicalize(*p, &bfloat16_params, s);
-+    parts_canonicalize(p, s, &bfloat16_params);
+-    *p = round_canonical(*p, s, params);
++    parts_uncanon(p, s, params);
+     return float16_pack_raw(p);
  }
  
- static float16 float16a_round_pack_canonical(FloatParts64 *p,
-@@ -1024,7 +1065,7 @@ static void float32_unpack_canonical(FloatParts64 *p, float32 f,
-                                      float_status *s)
+@@ -1057,7 +946,7 @@ static float16 float16_round_pack_canonical(FloatParts64 *p,
+ static bfloat16 bfloat16_round_pack_canonical(FloatParts64 *p,
+                                               float_status *s)
  {
-     float32_unpack_raw(p, f);
--    *p = sf_canonicalize(*p, &float32_params, s);
-+    parts_canonicalize(p, s, &float32_params);
+-    *p = round_canonical(*p, s, &bfloat16_params);
++    parts_uncanon(p, s, &bfloat16_params);
+     return bfloat16_pack_raw(p);
  }
  
+@@ -1071,7 +960,7 @@ static void float32_unpack_canonical(FloatParts64 *p, float32 f,
  static float32 float32_round_pack_canonical(FloatParts64 *p,
-@@ -1038,7 +1079,7 @@ static void float64_unpack_canonical(FloatParts64 *p, float64 f,
-                                      float_status *s)
+                                             float_status *s)
  {
-     float64_unpack_raw(p, f);
--    *p = sf_canonicalize(*p, &float64_params, s);
-+    parts_canonicalize(p, s, &float64_params);
+-    *p = round_canonical(*p, s, &float32_params);
++    parts_uncanon(p, s, &float32_params);
+     return float32_pack_raw(p);
  }
  
+@@ -1085,7 +974,7 @@ static void float64_unpack_canonical(FloatParts64 *p, float64 f,
  static float64 float64_round_pack_canonical(FloatParts64 *p,
+                                             float_status *s)
+ {
+-    *p = round_canonical(*p, s, &float64_params);
++    parts_uncanon(p, s, &float64_params);
+     return float64_pack_raw(p);
+ }
+ 
 diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index a78d61ea07..25bf99bd0f 100644
+index 25bf99bd0f..efdc724770 100644
 --- a/fpu/softfloat-parts.c.inc
 +++ b/fpu/softfloat-parts.c.inc
-@@ -100,3 +100,36 @@ static FloatPartsN *partsN(pick_nan_muladd)(FloatPartsN *a, FloatPartsN *b,
+@@ -133,3 +133,151 @@ static void partsN(canonicalize)(FloatPartsN *p, float_status *status,
+                   ? float_class_snan : float_class_qnan);
      }
-     return a;
  }
 +
 +/*
-+ * Canonicalize the FloatParts structure.  Determine the class,
-+ * unbias the exponent, and normalize the fraction.
++ * Round and uncanonicalize a floating-point number by parts. There
++ * are FRAC_SHIFT bits that may require rounding at the bottom of the
++ * fraction; these bits will be removed. The exponent will be biased
++ * by EXP_BIAS and must be bounded by [EXP_MAX-1, 0].
 + */
-+static void partsN(canonicalize)(FloatPartsN *p, float_status *status,
-+                                 const FloatFmt *fmt)
++static void partsN(uncanon)(FloatPartsN *p, float_status *s,
++                            const FloatFmt *fmt)
 +{
-+    if (unlikely(p->exp == 0)) {
-+        if (likely(frac_eqz(p))) {
-+            p->cls = float_class_zero;
-+        } else if (status->flush_inputs_to_zero) {
-+            float_raise(float_flag_input_denormal, status);
-+            p->cls = float_class_zero;
++    const int exp_max = fmt->exp_max;
++    const int frac_shift = fmt->frac_shift;
++    const uint64_t frac_lsb = fmt->frac_lsb;
++    const uint64_t frac_lsbm1 = fmt->frac_lsbm1;
++    const uint64_t round_mask = fmt->round_mask;
++    const uint64_t roundeven_mask = fmt->roundeven_mask;
++    uint64_t inc;
++    bool overflow_norm;
++    int exp, flags = 0;
++
++    if (unlikely(p->cls != float_class_normal)) {
++        switch (p->cls) {
++        case float_class_zero:
++            p->exp = 0;
 +            frac_clear(p);
-+        } else {
-+            int shift = frac_normalize(p);
-+            p->cls = float_class_normal;
-+            p->exp = fmt->frac_shift - fmt->exp_bias - shift + 1;
++            return;
++        case float_class_inf:
++            g_assert(!fmt->arm_althp);
++            p->exp = fmt->exp_max;
++            frac_clear(p);
++            return;
++        case float_class_qnan:
++        case float_class_snan:
++            g_assert(!fmt->arm_althp);
++            p->exp = fmt->exp_max;
++            frac_shr(p, fmt->frac_shift);
++            return;
++        default:
++            break;
 +        }
-+    } else if (likely(p->exp < fmt->exp_max) || fmt->arm_althp) {
-+        p->cls = float_class_normal;
-+        p->exp -= fmt->exp_bias;
-+        frac_shl(p, fmt->frac_shift);
-+        p->frac_hi |= DECOMPOSED_IMPLICIT_BIT;
-+    } else if (likely(frac_eqz(p))) {
-+        p->cls = float_class_inf;
-+    } else {
-+        frac_shl(p, fmt->frac_shift);
-+        p->cls = (parts_is_snan_frac(p->frac_hi, status)
-+                  ? float_class_snan : float_class_qnan);
++        g_assert_not_reached();
 +    }
++
++    switch (s->float_rounding_mode) {
++    case float_round_nearest_even:
++        overflow_norm = false;
++        inc = ((p->frac_lo & roundeven_mask) != frac_lsbm1 ? frac_lsbm1 : 0);
++        break;
++    case float_round_ties_away:
++        overflow_norm = false;
++        inc = frac_lsbm1;
++        break;
++    case float_round_to_zero:
++        overflow_norm = true;
++        inc = 0;
++        break;
++    case float_round_up:
++        inc = p->sign ? 0 : round_mask;
++        overflow_norm = p->sign;
++        break;
++    case float_round_down:
++        inc = p->sign ? round_mask : 0;
++        overflow_norm = !p->sign;
++        break;
++    case float_round_to_odd:
++        overflow_norm = true;
++        inc = p->frac_lo & frac_lsb ? 0 : round_mask;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    exp = p->exp + fmt->exp_bias;
++    if (likely(exp > 0)) {
++        if (p->frac_lo & round_mask) {
++            flags |= float_flag_inexact;
++            if (frac_addi(p, p, inc)) {
++                frac_shr(p, 1);
++                p->frac_hi |= DECOMPOSED_IMPLICIT_BIT;
++                exp++;
++            }
++        }
++        frac_shr(p, frac_shift);
++
++        if (fmt->arm_althp) {
++            /* ARM Alt HP eschews Inf and NaN for a wider exponent.  */
++            if (unlikely(exp > exp_max)) {
++                /* Overflow.  Return the maximum normal.  */
++                flags = float_flag_invalid;
++                exp = exp_max;
++                frac_allones(p);
++            }
++        } else if (unlikely(exp >= exp_max)) {
++            flags |= float_flag_overflow | float_flag_inexact;
++            if (overflow_norm) {
++                exp = exp_max - 1;
++                frac_allones(p);
++            } else {
++                p->cls = float_class_inf;
++                exp = exp_max;
++                frac_clear(p);
++            }
++        }
++    } else if (s->flush_to_zero) {
++        flags |= float_flag_output_denormal;
++        p->cls = float_class_zero;
++        exp = 0;
++        frac_clear(p);
++    } else {
++        bool is_tiny = s->tininess_before_rounding || exp < 0;
++
++        if (!is_tiny) {
++            FloatPartsN discard;
++            is_tiny = !frac_addi(&discard, p, inc);
++        }
++
++        frac_shrjam(p, 1 - exp);
++
++        if (p->frac_lo & round_mask) {
++            /* Need to recompute round-to-even/round-to-odd. */
++            switch (s->float_rounding_mode) {
++            case float_round_nearest_even:
++                inc = ((p->frac_lo & roundeven_mask) != frac_lsbm1
++                       ? frac_lsbm1 : 0);
++                break;
++            case float_round_to_odd:
++                inc = p->frac_lo & frac_lsb ? 0 : round_mask;
++                break;
++            default:
++                break;
++            }
++            flags |= float_flag_inexact;
++            frac_addi(p, p, inc);
++        }
++
++        exp = (p->frac_hi & DECOMPOSED_IMPLICIT_BIT) != 0;
++        frac_shr(p, frac_shift);
++
++        if (is_tiny && (flags & float_flag_inexact)) {
++            flags |= float_flag_underflow;
++        }
++        if (exp == 0 && frac_eqz(p)) {
++            p->cls = float_class_zero;
++        }
++    }
++    p->exp = exp;
++    float_raise(flags, s);
 +}
 -- 
 2.25.1
