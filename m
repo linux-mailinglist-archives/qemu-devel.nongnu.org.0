@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC840376ECD
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:32:39 +0200 (CEST)
-Received: from localhost ([::1]:49450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83CE9376ED5
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:34:59 +0200 (CEST)
+Received: from localhost ([::1]:58036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfClj-0000Ea-0s
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:32:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41598)
+	id 1lfCny-0005tG-Ir
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC86-0003Bl-Pu
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:42 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:45657)
+ id 1lfC88-0003IR-JW
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:44 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:42952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC82-0005UC-V7
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:42 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id i190so9084664pfc.12
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:51:38 -0700 (PDT)
+ id 1lfC84-0005US-1O
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:44 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id m12so8627274pgr.9
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:51:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eMIJGqBzed5Gqno92wb2fBBiT03MKVRcpl3Hpjjr9sA=;
- b=WB2XNQ1yGN4oLJb3r3tnLj+wjaa/nwWP8mPVhL+0H2oONQ722gMg4ATft46RjusWdl
- A34AN/izQw1MtDrY4oeITQLY56A1Zgw8XeIb8BcSoGIWxCry7pJQO+QnrOfz9TfOP57L
- CqpNwpo6u+MkELA2Mk4iwvv3jRMcn05OTjIYuPpa6Y8g5EvjkuQQQxyNfsHddsHQozwA
- GCvH1D02moeuVnWt5l8ew0shbMwh4JN8fCK7Qf6VZSPqNJsBKI5xnWKYprf7yUkUHM/9
- W3WU/KcfQAPB8l7qx0JJoZo9rgsF1FF/dcm5zDR44nLcPw2MfjVUHt0zEbUmHorV30RC
- Gb5A==
+ bh=vX4LKvyYIDcCSlAmcHQYpRFHW+uxfOceE/Raw8onmTE=;
+ b=Ec42+a+nqkzm6WmFPLp0gs1+KxvCtwhc/kEAtoTAWZJqfNf39pL4a0xDkJ/1F9bfm+
+ rzzFYJAfOYeRoPfJLP21LXnzTQk71Trp3nQoxU/DvK3ZTs8Hj/5MkjyVGkv54gKZvOd5
+ TMt0H+ciE8coUn1c2m/Ni352icSPHmI/bTkU/hW75q963of8m+57nJQbOG56b1odMK0J
+ iRnIeicyad5ODIS3TOVus/fm7rFF67Fi/W/lrq9ivH7Trowt6yhK9byMv7+l5ogtEd7x
+ 0db1sk66fl4lLILBvbw3RjS+I9It7WZoUQvYNeWYrbXFUzelZYrAEC726amBzmIiOePR
+ /rMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eMIJGqBzed5Gqno92wb2fBBiT03MKVRcpl3Hpjjr9sA=;
- b=QPXYZsbRLyjkAAKkPb0FOaV+OXx1ON0h1etmF2AtXGWYA2DHqlJ3DuJHbsLLwwO5J6
- FKNSH2xi9Wg3OPiJviocgS1Hk0agVdVHeuxUkotwJkfMuO2nuc9QdyPEnyiC5wGf+Esf
- 12zSUJQF84T/V5hhPUAkRFP4a9Vt8BOQ5Na3dl5upPL76jS/Cisf5/vRZW1q184OFhKz
- 2DiqY4ZCvmIETbn/LjeMwQ+Dj4chl1tpPqJi7neeVIap80atVR4caXcOA4u9U8xFf6sY
- 9wy13MUEFT2sX6v+aZfb3c/N3A0kN08EeVzifLK4M//X4130YtOGxSYr7U0kMyLVi7PQ
- 9V1A==
-X-Gm-Message-State: AOAM533i04Jay2J1sriMuWI0IBL7R5Dh/6WsZ/2czPTkGPMm3wo7UaHC
- OCRVfZRRr/Jbm87FaAWYb7SylAhtQD1uIg==
-X-Google-Smtp-Source: ABdhPJwxWMW7kM/Gvg8ugzCZBSE1BsooiXy6Hpl3/xPpxSREUQhrf8MutnZpnka+56nzOQuwu/Zaag==
-X-Received: by 2002:aa7:87d9:0:b029:28e:af66:d71d with SMTP id
- i25-20020aa787d90000b029028eaf66d71dmr13658492pfo.28.1620438697557; 
- Fri, 07 May 2021 18:51:37 -0700 (PDT)
+ bh=vX4LKvyYIDcCSlAmcHQYpRFHW+uxfOceE/Raw8onmTE=;
+ b=Ngy64TwtaINu/neWy7lalocSKkPUCn2GVkJqMRiaaD0z2m/ynwPSsmxrP/PjR841b/
+ JnBDxY74upV0TG4Z023ilRo9yAfqFbeWn302IimyEX8WuNE8abNWQ7dd4/+LN7JMUYmy
+ fmjHgOCBHLHS+ke08JhR3+YTynq0mcC5xa27DqmhOQxy/MlCGNZkjVJSfgDJA1v0fB3+
+ RmsbLo6m+Q0CND8u6XiC3Tp7QVFAlUbfufDBTEyPA/BKU4xppAWHMkn9FB0gYrvomSWm
+ bYqpXjQaFGvrdS1maAV7LVe6kRJPbom7ge4evpIv4xylzCdsQAQ02jKFTflSSYj7jcTA
+ FdNA==
+X-Gm-Message-State: AOAM533HP4ZIXZf362LzwwjlMjR8FJRxB9W7R6/A2FvBsMD3WfmynsgW
+ 0P8USec8lguqBVBOcp2kKPFn8Z7vTiQqrg==
+X-Google-Smtp-Source: ABdhPJzecPbpgZUVCo0GMdOyG0+pMZw/K++Z2BndpClFd/BhIiuY87ZQYqoVZZ5Zb4+CcGbCCwVPpw==
+X-Received: by 2002:aa7:96ea:0:b029:28c:e131:f0f with SMTP id
+ i10-20020aa796ea0000b029028ce1310f0fmr13509190pfq.11.1620438698453; 
+ Fri, 07 May 2021 18:51:38 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 204sm5861396pfw.158.2021.05.07.18.51.37
+ by smtp.gmail.com with ESMTPSA id 204sm5861396pfw.158.2021.05.07.18.51.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 18:51:37 -0700 (PDT)
+ Fri, 07 May 2021 18:51:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 52/72] softfloat: Move scalbn_decomposed to
- softfloat-parts.c.inc
-Date: Fri,  7 May 2021 18:47:42 -0700
-Message-Id: <20210508014802.892561-53-richard.henderson@linaro.org>
+Subject: [PATCH 53/72] softfloat: Move sqrt_float to softfloat-parts.c.inc
+Date: Fri,  7 May 2021 18:47:43 -0700
+Message-Id: <20210508014802.892561-54-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210508014802.892561-1-richard.henderson@linaro.org>
 References: <20210508014802.892561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,191 +87,504 @@ Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename to parts$N_scalbn.
-Reimplement float128_scalbn with FloatParts128.
+Rename to parts$N_sqrt.
+Reimplement float128_sqrt with FloatParts128.
+
+Reimplement with the inverse sqrt newton-raphson algorithm from musl.
+This is significantly faster than even the berkeley sqrt n-r algorithm,
+because it does not use division instructions, only multiplication.
+
+Ordinarily, changing algorithms at the same time as migrating code is
+a bad idea, but this is the only way I found that didn't break one of
+the routines at the same time.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c           | 103 +++++++++++++-------------------------
- fpu/softfloat-parts.c.inc |  21 ++++++++
- 2 files changed, 55 insertions(+), 69 deletions(-)
+ fpu/softfloat.c           | 207 ++++++++++----------------------------
+ fpu/softfloat-parts.c.inc | 206 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 261 insertions(+), 152 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 2faceadf8b..f83ca20000 100644
+index f83ca20000..75a3bb881d 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -889,6 +889,12 @@ static int parts128_compare(FloatParts128 *a, FloatParts128 *b,
- #define parts_compare(A, B, S, Q) \
-     PARTS_GENERIC_64_128(compare, A)(A, B, S, Q)
+@@ -819,6 +819,12 @@ static FloatParts128 *parts128_div(FloatParts128 *a, FloatParts128 *b,
+ #define parts_div(A, B, S) \
+     PARTS_GENERIC_64_128(div, A)(A, B, S)
  
-+static void parts64_scalbn(FloatParts64 *a, int n, float_status *s);
-+static void parts128_scalbn(FloatParts128 *a, int n, float_status *s);
++static void parts64_sqrt(FloatParts64 *a, float_status *s, const FloatFmt *f);
++static void parts128_sqrt(FloatParts128 *a, float_status *s, const FloatFmt *f);
 +
-+#define parts_scalbn(A, N, S) \
-+    PARTS_GENERIC_64_128(scalbn, A)(A, N, S)
++#define parts_sqrt(A, S, F) \
++    PARTS_GENERIC_64_128(sqrt, A)(A, S, F)
 +
+ static bool parts64_round_to_int_normal(FloatParts64 *a, FloatRoundMode rm,
+                                         int scale, int frac_size);
+ static bool parts128_round_to_int_normal(FloatParts128 *a, FloatRoundMode r,
+@@ -1385,6 +1391,30 @@ static void frac128_widen(FloatParts256 *r, FloatParts128 *a)
+ 
+ #define frac_widen(A, B)  FRAC_GENERIC_64_128(widen, B)(A, B)
+ 
++/*
++ * Reciprocal sqrt table.  1 bit of exponent, 6-bits of mantessa.
++ * From https://git.musl-libc.org/cgit/musl/tree/src/math/sqrt_data.c
++ * and thus MIT licenced.
++ */
++static const uint16_t rsqrt_tab[128] = {
++    0xb451, 0xb2f0, 0xb196, 0xb044, 0xaef9, 0xadb6, 0xac79, 0xab43,
++    0xaa14, 0xa8eb, 0xa7c8, 0xa6aa, 0xa592, 0xa480, 0xa373, 0xa26b,
++    0xa168, 0xa06a, 0x9f70, 0x9e7b, 0x9d8a, 0x9c9d, 0x9bb5, 0x9ad1,
++    0x99f0, 0x9913, 0x983a, 0x9765, 0x9693, 0x95c4, 0x94f8, 0x9430,
++    0x936b, 0x92a9, 0x91ea, 0x912e, 0x9075, 0x8fbe, 0x8f0a, 0x8e59,
++    0x8daa, 0x8cfe, 0x8c54, 0x8bac, 0x8b07, 0x8a64, 0x89c4, 0x8925,
++    0x8889, 0x87ee, 0x8756, 0x86c0, 0x862b, 0x8599, 0x8508, 0x8479,
++    0x83ec, 0x8361, 0x82d8, 0x8250, 0x81c9, 0x8145, 0x80c2, 0x8040,
++    0xff02, 0xfd0e, 0xfb25, 0xf947, 0xf773, 0xf5aa, 0xf3ea, 0xf234,
++    0xf087, 0xeee3, 0xed47, 0xebb3, 0xea27, 0xe8a3, 0xe727, 0xe5b2,
++    0xe443, 0xe2dc, 0xe17a, 0xe020, 0xdecb, 0xdd7d, 0xdc34, 0xdaf1,
++    0xd9b3, 0xd87b, 0xd748, 0xd61a, 0xd4f1, 0xd3cd, 0xd2ad, 0xd192,
++    0xd07b, 0xcf69, 0xce5b, 0xcd51, 0xcc4a, 0xcb48, 0xca4a, 0xc94f,
++    0xc858, 0xc764, 0xc674, 0xc587, 0xc49d, 0xc3b7, 0xc2d4, 0xc1f4,
++    0xc116, 0xc03c, 0xbf65, 0xbe90, 0xbdbe, 0xbcef, 0xbc23, 0xbb59,
++    0xba91, 0xb9cc, 0xb90a, 0xb84a, 0xb78c, 0xb6d0, 0xb617, 0xb560,
++};
++
+ #define partsN(NAME)   glue(glue(glue(parts,N),_),NAME)
+ #define FloatPartsN    glue(FloatParts,N)
+ #define FloatPartsW    glue(FloatParts,W)
+@@ -3588,103 +3618,35 @@ float128 float128_scalbn(float128 a, int n, float_status *status)
+ 
  /*
-  * Helper functions for softfloat-parts.c.inc, per-size operations.
+  * Square Root
+- *
+- * The old softfloat code did an approximation step before zeroing in
+- * on the final result. However for simpleness we just compute the
+- * square root by iterating down from the implicit bit to enough extra
+- * bits to ensure we get a correctly rounded result.
+- *
+- * This does mean however the calculation is slower than before,
+- * especially for 64 bit floats.
   */
-@@ -3531,58 +3537,53 @@ FloatRelation float128_compare_quiet(float128 a, float128 b, float_status *s)
-     return float128_do_compare(a, b, s, true);
- }
  
--/* Multiply A by 2 raised to the power N.  */
--static FloatParts64 scalbn_decomposed(FloatParts64 a, int n, float_status *s)
+-static FloatParts64 sqrt_float(FloatParts64 a, float_status *s, const FloatFmt *p)
 -{
--    if (unlikely(is_nan(a.cls))) {
+-    uint64_t a_frac, r_frac, s_frac;
+-    int bit, last_bit;
+-
+-    if (is_nan(a.cls)) {
 -        parts_return_nan(&a, s);
+-        return a;
 -    }
--    if (a.cls == float_class_normal) {
--        /* The largest float type (even though not supported by FloatParts64)
--         * is float128, which has a 15 bit exponent.  Bounding N to 16 bits
--         * still allows rounding to infinity, without allowing overflow
--         * within the int32_t that backs FloatParts64.exp.
--         */
--        n = MIN(MAX(n, -0x10000), 0x10000);
--        a.exp += n;
+-    if (a.cls == float_class_zero) {
+-        return a;  /* sqrt(+-0) = +-0 */
 -    }
+-    if (a.sign) {
+-        float_raise(float_flag_invalid, s);
+-        parts_default_nan(&a, s);
+-        return a;
+-    }
+-    if (a.cls == float_class_inf) {
+-        return a;  /* sqrt(+inf) = +inf */
+-    }
+-
+-    assert(a.cls == float_class_normal);
+-
+-    /* We need two overflow bits at the top. Adding room for that is a
+-     * right shift. If the exponent is odd, we can discard the low bit
+-     * by multiplying the fraction by 2; that's a left shift. Combine
+-     * those and we shift right by 1 if the exponent is odd, otherwise 2.
+-     */
+-    a_frac = a.frac >> (2 - (a.exp & 1));
+-    a.exp >>= 1;
+-
+-    /* Bit-by-bit computation of sqrt.  */
+-    r_frac = 0;
+-    s_frac = 0;
+-
+-    /* Iterate from implicit bit down to the 3 extra bits to compute a
+-     * properly rounded result. Remember we've inserted two more bits
+-     * at the top, so these positions are two less.
+-     */
+-    bit = DECOMPOSED_BINARY_POINT - 2;
+-    last_bit = MAX(p->frac_shift - 4, 0);
+-    do {
+-        uint64_t q = 1ULL << bit;
+-        uint64_t t_frac = s_frac + q;
+-        if (t_frac <= a_frac) {
+-            s_frac = t_frac + q;
+-            a_frac -= t_frac;
+-            r_frac += q;
+-        }
+-        a_frac <<= 1;
+-    } while (--bit >= last_bit);
+-
+-    /* Undo the right shift done above. If there is any remaining
+-     * fraction, the result is inexact. Set the sticky bit.
+-     */
+-    a.frac = (r_frac << 2) + (a_frac != 0);
+-
 -    return a;
 -}
-+/*
-+ * Scale by 2**N
-+ */
- 
- float16 float16_scalbn(float16 a, int n, float_status *status)
+-
+ float16 QEMU_FLATTEN float16_sqrt(float16 a, float_status *status)
  {
 -    FloatParts64 pa, pr;
 +    FloatParts64 p;
  
 -    float16_unpack_canonical(&pa, a, status);
--    pr = scalbn_decomposed(pa, n, status);
+-    pr = sqrt_float(pa, status, &float16_params);
 -    return float16_round_pack_canonical(&pr, status);
 +    float16_unpack_canonical(&p, a, status);
-+    parts_scalbn(&p, n, status);
++    parts_sqrt(&p, status, &float16_params);
 +    return float16_round_pack_canonical(&p, status);
  }
  
- float32 float32_scalbn(float32 a, int n, float_status *status)
+ static float32 QEMU_SOFTFLOAT_ATTR
+ soft_f32_sqrt(float32 a, float_status *status)
  {
 -    FloatParts64 pa, pr;
 +    FloatParts64 p;
  
 -    float32_unpack_canonical(&pa, a, status);
--    pr = scalbn_decomposed(pa, n, status);
+-    pr = sqrt_float(pa, status, &float32_params);
 -    return float32_round_pack_canonical(&pr, status);
 +    float32_unpack_canonical(&p, a, status);
-+    parts_scalbn(&p, n, status);
++    parts_sqrt(&p, status, &float32_params);
 +    return float32_round_pack_canonical(&p, status);
  }
  
- float64 float64_scalbn(float64 a, int n, float_status *status)
+ static float64 QEMU_SOFTFLOAT_ATTR
+ soft_f64_sqrt(float64 a, float_status *status)
  {
 -    FloatParts64 pa, pr;
 +    FloatParts64 p;
  
 -    float64_unpack_canonical(&pa, a, status);
--    pr = scalbn_decomposed(pa, n, status);
+-    pr = sqrt_float(pa, status, &float64_params);
 -    return float64_round_pack_canonical(&pr, status);
 +    float64_unpack_canonical(&p, a, status);
-+    parts_scalbn(&p, n, status);
++    parts_sqrt(&p, status, &float64_params);
 +    return float64_round_pack_canonical(&p, status);
  }
  
- bfloat16 bfloat16_scalbn(bfloat16 a, int n, float_status *status)
+ float32 QEMU_FLATTEN float32_sqrt(float32 xa, float_status *s)
+@@ -3743,11 +3705,20 @@ float64 QEMU_FLATTEN float64_sqrt(float64 xa, float_status *s)
+ 
+ bfloat16 QEMU_FLATTEN bfloat16_sqrt(bfloat16 a, float_status *status)
  {
 -    FloatParts64 pa, pr;
 +    FloatParts64 p;
  
 -    bfloat16_unpack_canonical(&pa, a, status);
--    pr = scalbn_decomposed(pa, n, status);
+-    pr = sqrt_float(pa, status, &bfloat16_params);
 -    return bfloat16_round_pack_canonical(&pr, status);
 +    bfloat16_unpack_canonical(&p, a, status);
-+    parts_scalbn(&p, n, status);
++    parts_sqrt(&p, status, &bfloat16_params);
 +    return bfloat16_round_pack_canonical(&p, status);
 +}
 +
-+float128 float128_scalbn(float128 a, int n, float_status *status)
++float128 QEMU_FLATTEN float128_sqrt(float128 a, float_status *status)
 +{
 +    FloatParts128 p;
 +
 +    float128_unpack_canonical(&p, a, status);
-+    parts_scalbn(&p, n, status);
++    parts_sqrt(&p, status, &float128_params);
 +    return float128_round_pack_canonical(&p, status);
  }
  
- /*
-@@ -6640,42 +6641,6 @@ floatx80 floatx80_scalbn(floatx80 a, int n, float_status *status)
-                                          aSign, aExp, aSig, 0, status);
+ /*----------------------------------------------------------------------------
+@@ -6475,74 +6446,6 @@ float128 float128_rem(float128 a, float128 b, float_status *status)
+                                          status);
  }
  
--float128 float128_scalbn(float128 a, int n, float_status *status)
+-/*----------------------------------------------------------------------------
+-| Returns the square root of the quadruple-precision floating-point value `a'.
+-| The operation is performed according to the IEC/IEEE Standard for Binary
+-| Floating-Point Arithmetic.
+-*----------------------------------------------------------------------------*/
+-
+-float128 float128_sqrt(float128 a, float_status *status)
 -{
 -    bool aSign;
--    int32_t aExp;
--    uint64_t aSig0, aSig1;
+-    int32_t aExp, zExp;
+-    uint64_t aSig0, aSig1, zSig0, zSig1, zSig2, doubleZSig0;
+-    uint64_t rem0, rem1, rem2, rem3, term0, term1, term2, term3;
 -
 -    aSig1 = extractFloat128Frac1( a );
 -    aSig0 = extractFloat128Frac0( a );
 -    aExp = extractFloat128Exp( a );
 -    aSign = extractFloat128Sign( a );
 -    if ( aExp == 0x7FFF ) {
--        if ( aSig0 | aSig1 ) {
+-        if (aSig0 | aSig1) {
 -            return propagateFloat128NaN(a, a, status);
 -        }
--        return a;
+-        if ( ! aSign ) return a;
+-        goto invalid;
 -    }
--    if (aExp != 0) {
--        aSig0 |= UINT64_C(0x0001000000000000);
--    } else if (aSig0 == 0 && aSig1 == 0) {
--        return a;
--    } else {
--        aExp++;
+-    if ( aSign ) {
+-        if ( ( aExp | aSig0 | aSig1 ) == 0 ) return a;
+- invalid:
+-        float_raise(float_flag_invalid, status);
+-        return float128_default_nan(status);
 -    }
--
--    if (n > 0x10000) {
--        n = 0x10000;
--    } else if (n < -0x10000) {
--        n = -0x10000;
+-    if ( aExp == 0 ) {
+-        if ( ( aSig0 | aSig1 ) == 0 ) return packFloat128( 0, 0, 0, 0 );
+-        normalizeFloat128Subnormal( aSig0, aSig1, &aExp, &aSig0, &aSig1 );
 -    }
--
--    aExp += n - 1;
--    return normalizeRoundAndPackFloat128( aSign, aExp, aSig0, aSig1
--                                         , status);
+-    zExp = ( ( aExp - 0x3FFF )>>1 ) + 0x3FFE;
+-    aSig0 |= UINT64_C(0x0001000000000000);
+-    zSig0 = estimateSqrt32( aExp, aSig0>>17 );
+-    shortShift128Left( aSig0, aSig1, 13 - ( aExp & 1 ), &aSig0, &aSig1 );
+-    zSig0 = estimateDiv128To64( aSig0, aSig1, zSig0<<32 ) + ( zSig0<<30 );
+-    doubleZSig0 = zSig0<<1;
+-    mul64To128( zSig0, zSig0, &term0, &term1 );
+-    sub128( aSig0, aSig1, term0, term1, &rem0, &rem1 );
+-    while ( (int64_t) rem0 < 0 ) {
+-        --zSig0;
+-        doubleZSig0 -= 2;
+-        add128( rem0, rem1, zSig0>>63, doubleZSig0 | 1, &rem0, &rem1 );
+-    }
+-    zSig1 = estimateDiv128To64( rem1, 0, doubleZSig0 );
+-    if ( ( zSig1 & 0x1FFF ) <= 5 ) {
+-        if ( zSig1 == 0 ) zSig1 = 1;
+-        mul64To128( doubleZSig0, zSig1, &term1, &term2 );
+-        sub128( rem1, 0, term1, term2, &rem1, &rem2 );
+-        mul64To128( zSig1, zSig1, &term2, &term3 );
+-        sub192( rem1, rem2, 0, 0, term2, term3, &rem1, &rem2, &rem3 );
+-        while ( (int64_t) rem1 < 0 ) {
+-            --zSig1;
+-            shortShift128Left( 0, zSig1, 1, &term2, &term3 );
+-            term3 |= 1;
+-            term2 |= doubleZSig0;
+-            add192( rem1, rem2, rem3, 0, term2, term3, &rem1, &rem2, &rem3 );
+-        }
+-        zSig1 |= ( ( rem1 | rem2 | rem3 ) != 0 );
+-    }
+-    shift128ExtraRightJamming( zSig0, zSig1, 0, 14, &zSig0, &zSig1, &zSig2 );
+-    return roundAndPackFloat128(0, zExp, zSig0, zSig1, zSig2, status);
 -
 -}
 -
- static void __attribute__((constructor)) softfloat_init(void)
- {
-     union_float64 ua, ub, uc, ur;
+ static inline FloatRelation
+ floatx80_compare_internal(floatx80 a, floatx80 b, bool is_quiet,
+                           float_status *status)
 diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index 4e11aa8b3b..9749c11a6b 100644
+index 9749c11a6b..293029711c 100644
 --- a/fpu/softfloat-parts.c.inc
 +++ b/fpu/softfloat-parts.c.inc
-@@ -1062,3 +1062,24 @@ static FloatRelation partsN(compare)(FloatPartsN *a, FloatPartsN *b,
-  b_sign:
-     return b->sign ? float_relation_greater : float_relation_less;
+@@ -595,6 +595,212 @@ static FloatPartsN *partsN(div)(FloatPartsN *a, FloatPartsN *b,
+     return a;
  }
-+
+ 
 +/*
-+ * Multiply A by 2 raised to the power N.
++ * Square Root
++ *
++ * The base algorithm is lifted from
++ * https://git.musl-libc.org/cgit/musl/tree/src/math/sqrtf.c
++ * https://git.musl-libc.org/cgit/musl/tree/src/math/sqrt.c
++ * https://git.musl-libc.org/cgit/musl/tree/src/math/sqrtl.c
++ * and is thus MIT licenced.
 + */
-+static void partsN(scalbn)(FloatPartsN *a, int n, float_status *s)
++static void partsN(sqrt)(FloatPartsN *a, float_status *status,
++                         const FloatFmt *fmt)
 +{
-+    switch (a->cls) {
-+    case float_class_snan:
-+    case float_class_qnan:
-+        parts_return_nan(a, s);
-+        break;
-+    case float_class_zero:
-+    case float_class_inf:
-+        break;
-+    case float_class_normal:
-+        a->exp += MIN(MAX(n, -0x10000), 0x10000);
-+        break;
-+    default:
-+        g_assert_not_reached();
++    const uint32_t three32 = 3u << 30;
++    const uint64_t three64 = 3ull << 62;
++    uint32_t d32, m32, r32, s32, u32;            /* 32-bit computation */
++    uint64_t d64, m64, r64, s64, u64;            /* 64-bit computation */
++    uint64_t dh, dl, rh, rl, sh, sl, uh, ul;     /* 128-bit computation */
++    uint64_t d0h, d0l, d1h, d1l, d2h, d2l;
++    uint64_t discard;
++    bool exp_odd;
++    size_t index;
++
++    if (unlikely(a->cls != float_class_normal)) {
++        switch (a->cls) {
++        case float_class_snan:
++        case float_class_qnan:
++            parts_return_nan(a, status);
++            return;
++        case float_class_zero:
++            return;
++        case float_class_inf:
++            if (unlikely(a->sign)) {
++                goto d_nan;
++            }
++            return;
++        default:
++            g_assert_not_reached();
++        }
 +    }
++
++    if (unlikely(a->sign)) {
++        goto d_nan;
++    }
++
++    /*
++     * Argument reduction.
++     * x = 4^e frac; with integer e, and frac in [1, 4)
++     * m = frac fixed point at bit 62, since we're in base 4.
++     * If base-2 exponent is odd, exchange that for multiply by 2,
++     * which results in no shift.
++     */
++    exp_odd = a->exp & 1;
++    index = extract64(a->frac_hi, 57, 6) | (!exp_odd << 6);
++    if (!exp_odd) {
++        frac_shr(a, 1);
++    }
++
++    /*
++     * Approximate r ~= 1/sqrt(m) and s ~= sqrt(m) when m in [1, 4).
++     *
++     * Initial estimate:
++     * 7-bit lookup table (1-bit exponent and 6-bit significand).
++     *
++     * The relative error (e = r0*sqrt(m)-1) of a linear estimate
++     * (r0 = a*m + b) is |e| < 0.085955 ~ 0x1.6p-4 at best;
++     * a table lookup is faster and needs one less iteration.
++     * The 7-bit table gives |e| < 0x1.fdp-9.
++     *
++     * A Newton-Raphson iteration for r is
++     *   s = m*r
++     *   d = s*r
++     *   u = 3 - d
++     *   r = r*u/2
++     *
++     * Fixed point representations:
++     *   m, s, d, u, three are all 2.30; r is 0.32
++     */
++    m64 = a->frac_hi;
++    m32 = m64 >> 32;
++
++    r32 = rsqrt_tab[index] << 16;
++    /* |r*sqrt(m) - 1| < 0x1.FDp-9 */
++
++    s32 = ((uint64_t)m32 * r32) >> 32;
++    d32 = ((uint64_t)s32 * r32) >> 32;
++    u32 = three32 - d32;
++
++    if (N == 64) {
++        /* float64 or smaller */
++
++        r32 = ((uint64_t)r32 * u32) >> 31;
++        /* |r*sqrt(m) - 1| < 0x1.7Bp-16 */
++
++        s32 = ((uint64_t)m32 * r32) >> 32;
++        d32 = ((uint64_t)s32 * r32) >> 32;
++        u32 = three32 - d32;
++
++        if (fmt->frac_size <= 23) {
++            /* float32 or smaller */
++
++            s32 = ((uint64_t)s32 * u32) >> 32;  /* 3.29 */
++            s32 = (s32 - 1) >> 6;               /* 9.23 */
++            /* s < sqrt(m) < s + 0x1.08p-23 */
++
++            /* compute nearest rounded result to 2.23 bits */
++            uint32_t d0 = (m32 << 16) - s32 * s32;
++            uint32_t d1 = s32 - d0;
++            uint32_t d2 = d1 + s32 + 1;
++            s32 += d1 >> 31;
++            a->frac_hi = (uint64_t)s32 << (64 - 25);
++
++            /* increment or decrement for inexact */
++            if (d2 != 0) {
++                a->frac_hi += ((int32_t)(d1 ^ d2) < 0 ? -1 : 1);
++            }
++            goto done;
++        }
++
++        /* float64 */
++
++        r64 = (uint64_t)r32 * u32 * 2;
++        /* |r*sqrt(m) - 1| < 0x1.37-p29; convert to 64-bit arithmetic */
++        mul64To128(m64, r64, &s64, &discard);
++        mul64To128(s64, r64, &d64, &discard);
++        u64 = three64 - d64;
++
++        mul64To128(s64, u64, &s64, &discard);  /* 3.61 */
++        s64 = (s64 - 2) >> 9;                  /* 12.52 */
++
++        /* Compute nearest rounded result */
++        uint64_t d0 = (m64 << 42) - s64 * s64;
++        uint64_t d1 = s64 - d0;
++        uint64_t d2 = d1 + s64 + 1;
++        s64 += d1 >> 63;
++        a->frac_hi = s64 << (64 - 54);
++
++        /* increment or decrement for inexact */
++        if (d2 != 0) {
++            a->frac_hi += ((int64_t)(d1 ^ d2) < 0 ? -1 : 1);
++        }
++        goto done;
++    }
++
++    r64 = (uint64_t)r32 * u32 * 2;
++    /* |r*sqrt(m) - 1| < 0x1.7Bp-16; convert to 64-bit arithmetic */
++
++    mul64To128(m64, r64, &s64, &discard);
++    mul64To128(s64, r64, &d64, &discard);
++    u64 = three64 - d64;
++    mul64To128(u64, r64, &r64, &discard);
++    r64 <<= 1;
++    /* |r*sqrt(m) - 1| < 0x1.a5p-31 */
++
++    mul64To128(m64, r64, &s64, &discard);
++    mul64To128(s64, r64, &d64, &discard);
++    u64 = three64 - d64;
++    mul64To128(u64, r64, &rh, &rl);
++    add128(rh, rl, rh, rl, &rh, &rl);
++    /* |r*sqrt(m) - 1| < 0x1.c001p-59; change to 128-bit arithmetic */
++
++    mul128To256(a->frac_hi, a->frac_lo, rh, rl, &sh, &sl, &discard, &discard);
++    mul128To256(sh, sl, rh, rl, &dh, &dl, &discard, &discard);
++    sub128(three64, 0, dh, dl, &uh, &ul);
++    mul128To256(uh, ul, sh, sl, &sh, &sl, &discard, &discard);  /* 3.125 */
++    /* -0x1p-116 < s - sqrt(m) < 0x3.8001p-125 */
++
++    sub128(sh, sl, 0, 4, &sh, &sl);
++    shift128Right(sh, sl, 13, &sh, &sl);  /* 16.112 */
++    /* s < sqrt(m) < s + 1ulp */
++
++    /* Compute nearest rounded result */
++    mul64To128(sl, sl, &d0h, &d0l);
++    d0h += 2 * sh * sl;
++    sub128(a->frac_lo << 34, 0, d0h, d0l, &d0h, &d0l);
++    sub128(sh, sl, d0h, d0l, &d1h, &d1l);
++    add128(sh, sl, 0, 1, &d2h, &d2l);
++    add128(d2h, d2l, d1h, d1l, &d2h, &d2l);
++    add128(sh, sl, 0, d1h >> 63, &sh, &sl);
++    shift128Left(sh, sl, 128 - 114, &sh, &sl);
++
++    /* increment or decrement for inexact */
++    if (d2h | d2l) {
++        if ((int64_t)(d1h ^ d2h) < 0) {
++            sub128(sh, sl, 0, 1, &sh, &sl);
++        } else {
++            add128(sh, sl, 0, 1, &sh, &sl);
++        }
++    }
++    a->frac_lo = sl;
++    a->frac_hi = sh;
++
++ done:
++    /* Convert back from base 4 to base 2. */
++    a->exp >>= 1;
++    if (!(a->frac_hi & DECOMPOSED_IMPLICIT_BIT)) {
++        frac_add(a, a, a);
++    } else {
++        a->exp += 1;
++    }
++    return;
++
++ d_nan:
++    float_raise(float_flag_invalid, status);
++    parts_default_nan(a, status);
 +}
++
+ /*
+  * Rounds the floating-point value `a' to an integer, and returns the
+  * result as a floating-point value. The operation is performed
 -- 
 2.25.1
 
