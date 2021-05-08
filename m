@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD31376E20
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 03:51:03 +0200 (CEST)
-Received: from localhost ([::1]:47268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 056C0376E21
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 03:51:06 +0200 (CEST)
+Received: from localhost ([::1]:47560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfC7S-0006le-E8
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 21:51:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40440)
+	id 1lfC7V-0006yF-24
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 21:51:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC4f-0003vE-9B
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:09 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:35769)
+ id 1lfC4i-00042p-IT
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:12 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:55160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC4d-0003VU-KW
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:09 -0400
-Received: by mail-pg1-x534.google.com with SMTP id m190so8677876pga.2
+ id 1lfC4d-0003Ve-Pl
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:12 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id g24so6197601pji.4
  for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:48:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eUjZLMLZ+rzu+K8ZyMeakxAgdcLDgDe+zwm00dqzTMc=;
- b=nIAB2VEtfa2gXqOqdaCdTEHW4cUoGqKq980h/JSdtE2kzIoEocv5LClngB/UT9ptGm
- 77+Fq/QXFPtEgOEsn9lq5VRGxLy8PG+VaN4PGmP2IVr73UN1IvKIT4WYkiwMmkbvKwYt
- KvXQdOvn3tFJ+ydALq6OO40KVAV2uAQ1t/BXm9PcSK4a8jlxw2VV/RlcgEl4FZKTTsu4
- 8PfyX8GEPC/tqI30zgqaeYxCwqwTpKILSlpWoh51IvHTRDvLcobdBm7aeMh0pWdkRPLc
- MmDPDI9NY6Q9ZyZtgyK/SG+0mK7qKG0E+Nbm4kKqNkq4BQ+gJcX0xLeqqLFZIRTb2DZW
- LVog==
+ bh=62inUraaTVgAI6l4Edj8J42LMU7wWh7GjwLbvqFnK/4=;
+ b=fFy18+OadbygXgGrQQ4cw0p2IgbCeFaCIXub/VlDcu/WP2pP0CL0izgWE2HhFVSrtF
+ KhN/ApbxwfwBC+6Oi7+XOcEJ2wh+qLNCnGxVvsWFWPgFPY4qnO45LDCqfPVvIwQsnKen
+ nFH/Rm0M2RjWE5cNLEFsKeKrzAlZKs4BQVTnNVwrAHK3RErmxSSvSL7UUfNpM/sVQsua
+ 2ssrns8Xv/FSRSY8SMKs5E8m0lGwU8OgkZdl90kCUcivQ6jfaqesI07sSRdkFvgfDngS
+ XI/Qxm2AdltXkPTqHB55JgcwemBpKEPcdnR289z0gZVj4FDvDpP+jPFwVZf6iM3vDReb
+ ZZ1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eUjZLMLZ+rzu+K8ZyMeakxAgdcLDgDe+zwm00dqzTMc=;
- b=RbjAWcXiu4ipCIkLgo8OSvwDC1qO4kY3WmAz+psH7WbiCcd5h5lJ8VZg/rmlKQ4HcM
- WMiepd7wmvS6QdDcmn0az58wqAr6HHp/UCyucJhaZQPF6qsinNsSMf+30VjZrI96Yk15
- fLHJF11rjyczxpvKIDIg8pDniER1cxkxwc3VmRPkLx3jBwWb1Jt2JJQDcSVGaj707ZDI
- 6XqnncOsxAfuKBQX0K8YYCh2QB2qmTVKpgWf1lBsjSL2ACq+7WMb3XoI9PksWhwc7C3u
- 29UfsTCcqOZJCtbLvS/hnRKTG4C9PQVZyg0n6c39YdFUvb4slOhZ6weiJy8vMCSMHYc6
- 9gww==
-X-Gm-Message-State: AOAM530Gi4Uf6xHh1l8cwfeVN5Z/bLy5QF1hZyYao0cIoQKjqSHpclEc
- CsPtwSx22rsc5LrHDepviXpXJtXGyAcpfQ==
-X-Google-Smtp-Source: ABdhPJxWAjLgvIqRHn2k8YEyS2ACEmif6H5E2V1WQd+HVSB8B58aFobiUvgj0YxpgfwnynKxI6YbvA==
-X-Received: by 2002:a05:6a00:87:b029:28d:f62f:a749 with SMTP id
- c7-20020a056a000087b029028df62fa749mr13354023pfj.54.1620438485997; 
- Fri, 07 May 2021 18:48:05 -0700 (PDT)
+ bh=62inUraaTVgAI6l4Edj8J42LMU7wWh7GjwLbvqFnK/4=;
+ b=Hg3i8ySDQXIp5fDuthe7nMRqsDpTJETcczZSJWqH3z4eDwcgNjh7SghfmyQzNZJc93
+ X2fS4R+wWotPmxgKGQX+SmWxjkY4BTjtcwttyMWqZdpYA0hbuCObziJEnGKiiQpcyqL2
+ OuJu1NAs7Y86Z8lrMGmo58koC4K/zMiZ0iUGzmvffFR+Eru/XRkCYDhAJCKTaTxy1v0d
+ cWd2kBDKDlmp0XoZJEDECM8g68QG3VE6vdLhIPyJybu2+I+XAAj2P+sSafMKio2vM3Td
+ QoLinwv0s3h8v95PS8NgS9LAtwOomP+8WEEKI0EAFrF6eRT3PrN1dFgHBaeFV4W3nFOz
+ uXIw==
+X-Gm-Message-State: AOAM532Jx3mPf665LOLuH+dLHJ/ERE+anJX0pfHTNJO1uS8Kmzff6e0s
+ QQQZ7d26u3MEF2GGtz5v9yjtXyMuxvJHVQ==
+X-Google-Smtp-Source: ABdhPJyO5i++x7gCTwjUNbeacpnamd00adP4QhJVM4siy8lfNfFzS7hnmJXwcT5FLPbSlDlqFJNg4w==
+X-Received: by 2002:a17:90a:ea92:: with SMTP id
+ h18mr14025808pjz.105.1620438486534; 
+ Fri, 07 May 2021 18:48:06 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id t4sm5819681pfq.165.2021.05.07.18.48.05
+ by smtp.gmail.com with ESMTPSA id t4sm5819681pfq.165.2021.05.07.18.48.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 18:48:05 -0700 (PDT)
+ Fri, 07 May 2021 18:48:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/72] qemu/host-utils: Add wrappers for carry builtins
-Date: Fri,  7 May 2021 18:46:53 -0700
-Message-Id: <20210508014802.892561-4-richard.henderson@linaro.org>
+Subject: [PATCH 04/72] accel/tcg: Use add/sub overflow routines in
+ tcg-runtime-gvec.c
+Date: Fri,  7 May 2021 18:46:54 -0700
+Message-Id: <20210508014802.892561-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210508014802.892561-1-richard.henderson@linaro.org>
 References: <20210508014802.892561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,83 +88,109 @@ Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These builtins came in clang 3.8, but are not present in gcc through
-version 11.  Even in clang the optimization is not ideal except for
-x86_64, but no worse than the hand-coding that we currently do.
+Obvious uses of the new functions.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/host-utils.h | 50 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+ accel/tcg/tcg-runtime-gvec.c | 36 ++++++++++++++++--------------------
+ 1 file changed, 16 insertions(+), 20 deletions(-)
 
-diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index fd76f0cbd3..2ea8b3000b 100644
---- a/include/qemu/host-utils.h
-+++ b/include/qemu/host-utils.h
-@@ -26,6 +26,7 @@
- #ifndef HOST_UTILS_H
- #define HOST_UTILS_H
- 
-+#include "qemu/compiler.h"
- #include "qemu/bswap.h"
- 
- #ifdef CONFIG_INT128
-@@ -581,6 +582,55 @@ static inline bool umul64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
- #endif
- }
- 
-+/**
-+ * uadd64_carry - addition with carry-in and carry-out
-+ * @x, @y: addends
-+ * @pcarry: in-out carry value
-+ *
-+ * Computes @x + @y + *@pcarry, placing the carry-out back
-+ * into *@pcarry and returning the 64-bit sum.
-+ */
-+static inline uint64_t uadd64_carry(uint64_t x, uint64_t y, bool *pcarry)
-+{
-+#if __has_builtin(__builtin_addcll)
-+    unsigned long long c = *pcarry;
-+    x = __builtin_addcll(x, y, c, &c);
-+    *pcarry = c & 1;
-+    return x;
-+#else
-+    bool c = *pcarry;
-+    /* This is clang's internal expansion of __builtin_addc. */
-+    c = uadd64_overflow(x, c, &x);
-+    c |= uadd64_overflow(x, y, &x);
-+    *pcarry = c;
-+    return x;
-+#endif
-+}
-+
-+/**
-+ * usub64_borrow - subtraction with borrow-in and borrow-out
-+ * @x, @y: addends
-+ * @pborrow: in-out borrow value
-+ *
-+ * Computes @x - @y - *@pborrow, placing the borrow-out back
-+ * into *@pborrow and returning the 64-bit sum.
-+ */
-+static inline uint64_t usub64_borrow(uint64_t x, uint64_t y, bool *pborrow)
-+{
-+#if __has_builtin(__builtin_subcll)
-+    unsigned long long b = *pborrow;
-+    x = __builtin_subcll(x, y, b, &b);
-+    *pborrow = b & 1;
-+    return x;
-+#else
-+    bool b = *pborrow;
-+    b = usub64_overflow(x, b, &x);
-+    b |= usub64_overflow(x, y, &x);
-+    *pborrow = b;
-+    return x;
-+#endif
-+}
-+
- /* Host type specific sizes of these routines.  */
- 
- #if ULONG_MAX == UINT32_MAX
+diff --git a/accel/tcg/tcg-runtime-gvec.c b/accel/tcg/tcg-runtime-gvec.c
+index 521da4a813..ac7d28c251 100644
+--- a/accel/tcg/tcg-runtime-gvec.c
++++ b/accel/tcg/tcg-runtime-gvec.c
+@@ -1073,9 +1073,8 @@ void HELPER(gvec_ssadd32)(void *d, void *a, void *b, uint32_t desc)
+     for (i = 0; i < oprsz; i += sizeof(int32_t)) {
+         int32_t ai = *(int32_t *)(a + i);
+         int32_t bi = *(int32_t *)(b + i);
+-        int32_t di = ai + bi;
+-        if (((di ^ ai) &~ (ai ^ bi)) < 0) {
+-            /* Signed overflow.  */
++        int32_t di;
++        if (sadd32_overflow(ai, bi, &di)) {
+             di = (di < 0 ? INT32_MAX : INT32_MIN);
+         }
+         *(int32_t *)(d + i) = di;
+@@ -1091,9 +1090,8 @@ void HELPER(gvec_ssadd64)(void *d, void *a, void *b, uint32_t desc)
+     for (i = 0; i < oprsz; i += sizeof(int64_t)) {
+         int64_t ai = *(int64_t *)(a + i);
+         int64_t bi = *(int64_t *)(b + i);
+-        int64_t di = ai + bi;
+-        if (((di ^ ai) &~ (ai ^ bi)) < 0) {
+-            /* Signed overflow.  */
++        int64_t di;
++        if (sadd64_overflow(ai, bi, &di)) {
+             di = (di < 0 ? INT64_MAX : INT64_MIN);
+         }
+         *(int64_t *)(d + i) = di;
+@@ -1143,9 +1141,8 @@ void HELPER(gvec_sssub32)(void *d, void *a, void *b, uint32_t desc)
+     for (i = 0; i < oprsz; i += sizeof(int32_t)) {
+         int32_t ai = *(int32_t *)(a + i);
+         int32_t bi = *(int32_t *)(b + i);
+-        int32_t di = ai - bi;
+-        if (((di ^ ai) & (ai ^ bi)) < 0) {
+-            /* Signed overflow.  */
++        int32_t di;
++        if (ssub32_overflow(ai, bi, &di)) {
+             di = (di < 0 ? INT32_MAX : INT32_MIN);
+         }
+         *(int32_t *)(d + i) = di;
+@@ -1161,9 +1158,8 @@ void HELPER(gvec_sssub64)(void *d, void *a, void *b, uint32_t desc)
+     for (i = 0; i < oprsz; i += sizeof(int64_t)) {
+         int64_t ai = *(int64_t *)(a + i);
+         int64_t bi = *(int64_t *)(b + i);
+-        int64_t di = ai - bi;
+-        if (((di ^ ai) & (ai ^ bi)) < 0) {
+-            /* Signed overflow.  */
++        int64_t di;
++        if (ssub64_overflow(ai, bi, &di)) {
+             di = (di < 0 ? INT64_MAX : INT64_MIN);
+         }
+         *(int64_t *)(d + i) = di;
+@@ -1209,8 +1205,8 @@ void HELPER(gvec_usadd32)(void *d, void *a, void *b, uint32_t desc)
+     for (i = 0; i < oprsz; i += sizeof(uint32_t)) {
+         uint32_t ai = *(uint32_t *)(a + i);
+         uint32_t bi = *(uint32_t *)(b + i);
+-        uint32_t di = ai + bi;
+-        if (di < ai) {
++        uint32_t di;
++        if (uadd32_overflow(ai, bi, &di)) {
+             di = UINT32_MAX;
+         }
+         *(uint32_t *)(d + i) = di;
+@@ -1226,8 +1222,8 @@ void HELPER(gvec_usadd64)(void *d, void *a, void *b, uint32_t desc)
+     for (i = 0; i < oprsz; i += sizeof(uint64_t)) {
+         uint64_t ai = *(uint64_t *)(a + i);
+         uint64_t bi = *(uint64_t *)(b + i);
+-        uint64_t di = ai + bi;
+-        if (di < ai) {
++        uint64_t di;
++        if (uadd64_overflow(ai, bi, &di)) {
+             di = UINT64_MAX;
+         }
+         *(uint64_t *)(d + i) = di;
+@@ -1273,8 +1269,8 @@ void HELPER(gvec_ussub32)(void *d, void *a, void *b, uint32_t desc)
+     for (i = 0; i < oprsz; i += sizeof(uint32_t)) {
+         uint32_t ai = *(uint32_t *)(a + i);
+         uint32_t bi = *(uint32_t *)(b + i);
+-        uint32_t di = ai - bi;
+-        if (ai < bi) {
++        uint32_t di;
++        if (usub32_overflow(ai, bi, &di)) {
+             di = 0;
+         }
+         *(uint32_t *)(d + i) = di;
+@@ -1290,8 +1286,8 @@ void HELPER(gvec_ussub64)(void *d, void *a, void *b, uint32_t desc)
+     for (i = 0; i < oprsz; i += sizeof(uint64_t)) {
+         uint64_t ai = *(uint64_t *)(a + i);
+         uint64_t bi = *(uint64_t *)(b + i);
+-        uint64_t di = ai - bi;
+-        if (ai < bi) {
++        uint64_t di;
++        if (usub64_overflow(ai, bi, &di)) {
+             di = 0;
+         }
+         *(uint64_t *)(d + i) = di;
 -- 
 2.25.1
 
