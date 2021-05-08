@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27756376E51
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:00:24 +0200 (CEST)
-Received: from localhost ([::1]:44814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0CB376E49
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 03:57:49 +0200 (CEST)
+Received: from localhost ([::1]:36516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfCGV-0007Mq-5H
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:00:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40600)
+	id 1lfCE0-0001p1-Ig
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 21:57:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC4n-0004Aw-L1
+ id 1lfC4n-0004Ax-M1
  for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:21 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:33518)
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:33520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC4i-0003YT-4o
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:15 -0400
-Received: by mail-pg1-x534.google.com with SMTP id i5so3882987pgm.0
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:48:11 -0700 (PDT)
+ id 1lfC4k-0003ae-5e
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:17 -0400
+Received: by mail-pg1-x536.google.com with SMTP id i5so3883015pgm.0
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:48:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6bhXtvo5B12zNIaDrjXDyWAVuDsp1zJyuk3Qd7d0A8g=;
- b=GUM1XZJtgPGv8gnfU70ZwCBSdA0Y3DDOfjdadwgvfTdqcVO7You0cVocqwAl4IkCU1
- 2hbd0bxtPHu61Mq4RLa8WTtaATkyAwmBwxrJhWqrER0WpaGSBUo5IMP2Xkw32V4WMuUs
- KRksm/6KZFfpWJHVS6PnC2HLe6w1YQKgFACXMkc4jX777gczRe61lNpbRLiBuPsr3d2F
- LZODvex5X0oQ3AD1i5yBLzVA5+4tIxal4e7yMibiNLLZ1+0kMsyNdZUGF16A3Xx3Rbcz
- qgWM14lwDaZLge+apmRr69Czch07WeErrywvoSM5up0ZBG4HpaE+YdLVLrzxbSbD5B1i
- Uy0w==
+ bh=1XFPaqmhZZujk8i6xDVlzhC8z+OKd1ONOKE68PwhM5k=;
+ b=pHgCeEDUGQ6Mq8uCqlSnqh15GPZooAPbosj5Lz8PHc7EH7BAHWag7WXLJtL3AUcvR9
+ qmdx5OZ561cqrUDdnHV/FO9uS/hW8/gMm1NBwDkMq0DndEUZVU2NnwfPGTxgUPWPnTEn
+ U1+gYqx1agVUiuRhH+L9cmGnatQ/Xd/r2ulGyaG5eDYopYGwa1+B8tp3LGwnJbzDiM+c
+ NCnmqxsq4N89QuTkSDYQ8eEI8DRurfBAOfg45LWeY7GOd3KJrbYp9Aap9XBRCvYqP/Fe
+ sxpohvIj0pZWmMxABWjBLI3bGnmkGbup1m3OhM0G0dBTc0f4znwCYzLFJcVuMVFf98In
+ 7tDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6bhXtvo5B12zNIaDrjXDyWAVuDsp1zJyuk3Qd7d0A8g=;
- b=IEAfvOLRLw9C6FFWCvFdpw4alVle1Npbx3cxprgOi3hi0oFa/QSXBRWtpZSoM68uFo
- K7Ax5wHQ7bP2eZxymulWRfvkDyl666khAKA1J1/eGEhG6AJTNJ4Mk89e69ULneHfRUf3
- /gCUFkHmxHEGQmu6qOo+wSbkO3TFnGYXZEbX4yaqlPKugs+ztV8kjSKsnL/gK2DeTc47
- 4boa0zyFsDSGXHYgtPJP8HN2ImF4ZmlQ7yIBgwOrvkDdcxo0Gjjqoks2L9cAcu2IOr+m
- 9QfCsJbk9kMmPweEqia4mXwxwBcASElgV123eluQgl7bABR92K+1SOescGoHBsZESSiF
- XQ+Q==
-X-Gm-Message-State: AOAM532Ulu7Vptqx9XINhmoJRDs8r8t9fPV1sHyolY1qO5HnTn6j0vv6
- zkqBWSmOd87KzHlMPpYc304KosScAGkBCg==
-X-Google-Smtp-Source: ABdhPJxaF43GM4J//lfyyw7WSz0T3ElFriAkYmrouj3cA6afYgqHd29E1alAjdRsVm9RLxVIuozqKA==
-X-Received: by 2002:a05:6a00:16c2:b029:228:964e:8b36 with SMTP id
- l2-20020a056a0016c2b0290228964e8b36mr13539356pfc.11.1620438490910; 
- Fri, 07 May 2021 18:48:10 -0700 (PDT)
+ bh=1XFPaqmhZZujk8i6xDVlzhC8z+OKd1ONOKE68PwhM5k=;
+ b=NKnfMLtGHKyaekvows1hF1io2pVIhUIl/NZNL64Mvke0xxKwxds+4igGJcR16XHMFa
+ AToOCtNp4PlfPJLGgKEmRC6FUgg/fOrYuPf2FNITd+gL0/r/yhsT+jRCRLS65nggvOZV
+ XvHrKK4jKcjUkOzWrTHgFByuE6l4HMnfR3zQ84muLkzZuOYiD9TMIHnKKwE+YG1oEObZ
+ gKBJ72HRNxPCnxt62DJi/xAKsWNfOe7K2WHNC1EolQTWdARbN5Tf8ey2buMHzjsZOsMn
+ VqqbstCiHcI6UtcQaSiyEzkYt6Tu8gt/K6MNMK9qxtqa3yNnXCO0a73Z+gctr93oS737
+ o2pA==
+X-Gm-Message-State: AOAM533T4WiPoRuAkPZMhrvKjhby058wTenv+UuXV/RYzbijkX98u1IG
+ 74UhHk6IEBsJJvlj4gEjN+rM8jG2j2Fo4Q==
+X-Google-Smtp-Source: ABdhPJw9LG/RkL427QOY3JzEhz3Ejc4S2JB4yHhUcp7V4Qf7RJ6hsuAb7TiQkTr3UC7K179Q/CwWHg==
+X-Received: by 2002:aa7:8113:0:b029:278:dfa6:8ac with SMTP id
+ b19-20020aa781130000b0290278dfa608acmr13327701pfi.57.1620438492745; 
+ Fri, 07 May 2021 18:48:12 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id t4sm5819681pfq.165.2021.05.07.18.48.10
+ by smtp.gmail.com with ESMTPSA id t4sm5819681pfq.165.2021.05.07.18.48.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 18:48:10 -0700 (PDT)
+ Fri, 07 May 2021 18:48:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/72] softfloat: Use return_nan in float_to_float
-Date: Fri,  7 May 2021 18:47:01 -0700
-Message-Id: <20210508014802.892561-12-richard.henderson@linaro.org>
+Subject: [PATCH 14/72] softfloat: Do not produce a default_nan from
+ parts_silence_nan
+Date: Fri,  7 May 2021 18:47:04 -0700
+Message-Id: <20210508014802.892561-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210508014802.892561-1-richard.henderson@linaro.org>
 References: <20210508014802.892561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,28 +88,37 @@ Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Require default_nan_mode to be set instead.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ fpu/softfloat-specialize.c.inc | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 64edb23793..b694e38522 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -1931,13 +1931,7 @@ static FloatParts float_to_float(FloatParts a, const FloatFmt *dstf,
-             break;
-         }
-     } else if (is_nan(a.cls)) {
--        if (is_snan(a.cls)) {
--            float_raise(float_flag_invalid, s);
--            a = parts_silence_nan(a, s);
--        }
--        if (s->default_nan_mode) {
--            return parts_default_nan(s);
--        }
-+        return return_nan(a, s);
+diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
+index 487b29155c..5988830c16 100644
+--- a/fpu/softfloat-specialize.c.inc
++++ b/fpu/softfloat-specialize.c.inc
+@@ -180,16 +180,15 @@ static FloatParts parts_default_nan(float_status *status)
+ static FloatParts parts_silence_nan(FloatParts a, float_status *status)
+ {
+     g_assert(!no_signaling_nans(status));
+-#if defined(TARGET_HPPA)
+-    a.frac &= ~(1ULL << (DECOMPOSED_BINARY_POINT - 1));
+-    a.frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 2);
+-#else
++    g_assert(!status->default_nan_mode);
++
++    /* The only snan_bit_is_one target without default_nan_mode is HPPA. */
+     if (snan_bit_is_one(status)) {
+-        return parts_default_nan(status);
++        a.frac &= ~(1ULL << (DECOMPOSED_BINARY_POINT - 1));
++        a.frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 2);
+     } else {
+         a.frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 1);
      }
+-#endif
+     a.cls = float_class_qnan;
      return a;
  }
 -- 
