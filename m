@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A058A376FFF
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 08:12:00 +0200 (CEST)
-Received: from localhost ([::1]:33472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2842377006
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 08:17:51 +0200 (CEST)
+Received: from localhost ([::1]:43462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfGBz-0000Z3-Fq
-	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 02:11:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52102)
+	id 1lfGHe-0007MK-Or
+	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 02:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfGAq-0008Hh-OX
- for qemu-devel@nongnu.org; Sat, 08 May 2021 02:10:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54082)
+ id 1lfGFY-0005Gi-Fe
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 02:15:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfGAm-00019c-HB
- for qemu-devel@nongnu.org; Sat, 08 May 2021 02:10:48 -0400
+ id 1lfGFW-0004l2-NU
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 02:15:40 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfGAl-0006um-17
- for <qemu-devel@nongnu.org>; Sat, 08 May 2021 06:10:43 +0000
+ id 1lfGFU-0007Ez-Uy
+ for <qemu-devel@nongnu.org>; Sat, 08 May 2021 06:15:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E8A252E80F3
- for <qemu-devel@nongnu.org>; Sat,  8 May 2021 06:10:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E18AE2E8135
+ for <qemu-devel@nongnu.org>; Sat,  8 May 2021 06:15:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 May 2021 06:04:16 -0000
-From: Thomas Huth <1895219@bugs.launchpad.net>
+Date: Sat, 08 May 2021 06:05:49 -0000
+From: Thomas Huth <1895122@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: install keymaps meson vnc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr bladeboy2000au dmbtech th-huth
-X-Launchpad-Bug-Reporter: Darren Blaber (dmbtech)
+X-Launchpad-Bug-Commenters: luoyonggang th-huth
+X-Launchpad-Bug-Reporter: Yonggang Luo (luoyonggang)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159978635021.22139.4037516560250644869.malonedeb@wampee.canonical.com>
-Message-Id: <162045385664.16724.15118924377981837951.malone@soybean.canonical.com>
-Subject: [Bug 1895219] Re: qemu git -vnc fails due to missing en-us keymap
+References: <159973447247.11849.9583651644725576217.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162045394940.2679.4209680360706079382.malone@wampee.canonical.com>
+Subject: [Bug 1895122] Re: qemu on wsl tests failed, this configured with debug
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 4be43482c6b50246ed93b3c2839a96003bfc838c
+X-Launchpad-Hash: 70bc7a4ade3e231f7fe8a2036e1c228076b4ef02
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895219 <1895219@bugs.launchpad.net>
+Reply-To: Bug 1895122 <1895122@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -79,8 +78,8 @@ The QEMU project is currently moving its bug tracking to another system.
 For this we need to know which bugs are still valid and which could be
 closed already. Thus we are setting the bug state to "Incomplete" now.
 
-If the bug has already been fixed in the latest upstream version of QEMU
-(currently version 6.0), then please close this ticket as "Fix released".
+If the bug has already been fixed in the latest upstream version of QEMU,
+then please close this ticket as "Fix released".
 
 If it is not fixed yet and you think that this bug report here is still
 valid, then you have two options:
@@ -112,26 +111,76 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895219
+https://bugs.launchpad.net/bugs/1895122
 
 Title:
-  qemu git -vnc fails due to missing en-us keymap
+  qemu on wsl tests failed, this configured with debug
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  If trying to run qemu with -vnc :0, it will fail with:
-  ./qemu-system-x86_64 -vnc :2
-  qemu-system-x86_64: -vnc :2: could not read keymap file: 'en-us'
+  =
 
-  share/keymaps is missing en-us keymap and only has sl and sv,
-  confirmed previous stable versions had en-us.
+  ../configure --enable-debug-info --enable-debug
 
-  Tried with multiple targets, on arm64 and amd64
+  **
+  ERROR:../tests/test-util-filemonitor.c:704:test_file_monitor_events: asse=
+rtion failed: (err =3D=3D 0)
+  Aborted (core dumped)
 
-  Git commit hash: 9435a8b3dd35f1f926f1b9127e8a906217a5518a (head)
+  =
+
+    TEST    iotest-qcow2: 271 [fail]
+  QEMU          -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
+/qemu-system-x86_64" -nodefaults -display none -accel qtest
+  QEMU_IMG      -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
+/qemu-img" =
+
+  QEMU_IO       -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
+/qemu-io"  --cache writeback --aio threads -f qcow2
+  QEMU_NBD      -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
+/qemu-nbd" =
+
+  IMGFMT        -- qcow2 (compat=3D1.1)
+  IMGPROTO      -- file
+  PLATFORM      -- Linux/x86_64 DESKTOP-BLLJ03T 4.4.0-19041-Microsoft
+  TEST_DIR      -- /home/lygstate/work/qemu/build/tests/qemu-iotests/scratch
+  SOCK_DIR      -- /tmp/tmp.eyVcw8nLNQ
+  SOCKET_SCM_HELPER -- /home/lygstate/work/qemu/build/tests/qemu-iotests/so=
+cket_scm_helper
+
+  --- /home/lygstate/work/qemu/tests/qemu-iotests/271.out	2020-09-10 15:00:=
+58.190763400 +0800
+  +++ /home/lygstate/work/qemu/build/tests/qemu-iotests/271.out.bad	2020-09=
+-10 18:38:25.625090800 +0800
+  @@ -37,6 +37,7 @@
+   write -q -P PATTERN 0 64k
+   L2 entry #0: 0x8000000000050000 00000000ffffffff
+   discard -q 0 64k
+  +Content mismatch at offset 0!
+   L2 entry #0: 0x0000000000000000 ffffffff00000000
+   write -q -c -P PATTERN 0 64k
+   L2 entry #0: 0x4000000000050000 0000000000000000
+  @@ -79,6 +80,7 @@
+   write -q -P PATTERN 0 64k
+   L2 entry #0: 0x8000000000050000 00000000ffffffff
+   discard -q 0 64k
+  +Content mismatch at offset 0!
+   L2 entry #0: 0x0000000000000000 ffffffff00000000
+   write -q -c -P PATTERN 0 64k
+   L2 entry #0: 0x4000000000050000 0000000000000000
+    TEST    iotest-qcow2: 283
+    TEST    iotest-qcow2: 287
+    TEST    iotest-qcow2: 290
+    TEST    iotest-qcow2: 292
+    TEST    iotest-qcow2: 299
+  Not run: 060 181 220 259
+  Failures: 271
+  Failed 1 of 118 iotests
+  make: [/home/lygstate/work/qemu/tests/Makefile.include:144: check-block] =
+Error 1 (ignored)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895219/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1895122/+subscriptions
 
