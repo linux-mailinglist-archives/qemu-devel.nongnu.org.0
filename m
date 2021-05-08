@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C16937700E
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 08:22:54 +0200 (CEST)
-Received: from localhost ([::1]:53170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BC337700F
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 08:22:58 +0200 (CEST)
+Received: from localhost ([::1]:53250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfGMW-0005Vh-OE
-	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 02:22:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53314)
+	id 1lfGMb-0005Yz-62
+	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 02:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfGKN-0003Vm-4W
- for qemu-devel@nongnu.org; Sat, 08 May 2021 02:20:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54980)
+ id 1lfGKQ-0003XR-5n
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 02:20:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfGKL-0008VH-Ck
- for qemu-devel@nongnu.org; Sat, 08 May 2021 02:20:38 -0400
+ id 1lfGKL-0008WP-NU
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 02:20:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfGKJ-0000Os-Qt
- for <qemu-devel@nongnu.org>; Sat, 08 May 2021 06:20:35 +0000
+ id 1lfGKK-0000No-Gt
+ for <qemu-devel@nongnu.org>; Sat, 08 May 2021 06:20:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C42852E8135
- for <qemu-devel@nongnu.org>; Sat,  8 May 2021 06:20:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7DBA12E8010
+ for <qemu-devel@nongnu.org>; Sat,  8 May 2021 06:20:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 May 2021 06:10:06 -0000
-From: Thomas Huth <1894617@bugs.launchpad.net>
+Date: Sat, 08 May 2021 06:10:52 -0000
+From: Thomas Huth <1893807@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: i386 linux-user
+X-Launchpad-Bug-Tags: windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bigboy0822 th-huth
-X-Launchpad-Bug-Reporter: Tony.LI (bigboy0822)
+X-Launchpad-Bug-Commenters: jesussanz2003 th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Jes=C3=BAs_Sanz_del_Rey_=28jesussanz200?=
+ =?utf-8?q?3=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159947176304.11179.15547014994707599381.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162045420672.3040.17859022009872440555.malone@wampee.canonical.com>
-Subject: [Bug 1894617] Re: qemu-i386 mmap but offset greater than 32 bits
+References: <159897706621.21998.10972908941872978580.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162045425282.10688.17488262048368237700.malone@chaenomeles.canonical.com>
+Subject: [Bug 1893807] Re: Crash when launching windows qemu version from WSL2
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 1f2f47cfa840ce24c3280eb3a3e86cc62db1a04e
+X-Launchpad-Hash: 0b362bef9fcfc074e5373ae0e4d8272505d770e4
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1894617 <1894617@bugs.launchpad.net>
+Reply-To: Bug 1893807 <1893807@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -108,51 +109,37 @@ Thank you and sorry for the inconvenience.
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
-** Tags added: i386 linux-user
-
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1894617
+https://bugs.launchpad.net/bugs/1893807
 
 Title:
-  qemu-i386 mmap but offset greater than 32 bits
+  Crash when launching windows qemu version from WSL2
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I don't know if it's a problem, but I did, and it bothered me for a long =
-time.
-  When I use qemu-i386 and interact with the video card device,an error has=
- occurred:
+  Version: 5.1.0
+  Command line from WSL2:
+  qemu-system-x86_64.exe -hdd /home/jesus/proyectos/RWivOS/bin/RELEASE/imag=
+e.hdd -m 4G -smp 4 -machine q35 -debugcon stdio
 
-  18534 ioctl(4,DRM_IOCTL_MODE_GETENCODER,{39,0,0,0,0}) =3D 0 ({39,4,34,3,0=
-})
-  18534 ioctl(4,DRM_IOCTL_MODE_CREATE_DUMB,{1080,1920,32,0,0,0,0}) =3D 0 ({=
-1080,1920,32,0,1,7680,8294400})
-  18534 ioctl(4,DRM_IOCTL_MODE_ADDFB,{0,1920,1080,7680,32,24,1}) =3D 0 ({66=
-,1920,1080,7680,32,24,1})
-  18534 ioctl(4,DRM_IOCTL_MODE_MAP_DUMB,{1,0,0}) =3D 0 ({1,0,5543018496})
-  18534 mmap2(NULL,8294400,PROT_READ|PROT_WRITE,MAP_SHARED,4,0x14a63c) =3D =
--1 errno=3D22 (Invalid argument)
+  OS: Windows 10(64 bits) from WSL2 Ubuntu 18.04
 
-  "5543018496" is the offset through ioctl() and it is "0x14a63c000".
-  In qemu=EF=BC=9A
-  ret =3D target_mmap(arg1, arg2, arg3,
-        target_to_host_bitmask(arg4, mmap_flags_tbl),
-        arg5, arg6 << MMAP_SHIFT);
+  The error:
+  ERROR:/home/stefan/src/qemu/repo.or.cz/qemu/ar7/block.c:1325:bdrv_open_dr=
+iver: assertion
+  =C2=A0failed: (is_power_of_2(bs->bl.request_alignment))
 
-  The type of "arg6" is ulong.When use qemu-i386, arg6 can't be set to
-  "0x14a63c000".So it's wrong for my program.
+  The problem i'm seeing when i lauch from wsl2 only occurs when
+  launched with argument -hdd from WSL2, if i launch it from Windows
+  pointing to the WSL path where the file is stored works.
 
-  I want to find a good way to deal with this kind of problem, but I'm not =
-very familiar with QEMU=EF=BC=8C
-  so I came to ask how to deal with this problem.
-
-  Thank you=EF=BC=81
+  It occurs on other versions, i tried 4.1.0 too.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1894617/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1893807/+subscriptions
 
