@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2842377006
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 08:17:51 +0200 (CEST)
-Received: from localhost ([::1]:43462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42731377007
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 08:17:53 +0200 (CEST)
+Received: from localhost ([::1]:43638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfGHe-0007MK-Or
-	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 02:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52664)
+	id 1lfGHg-0007Ua-7m
+	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 02:17:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfGFY-0005Gi-Fe
- for qemu-devel@nongnu.org; Sat, 08 May 2021 02:15:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54510)
+ id 1lfGFa-0005If-3o
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 02:15:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfGFW-0004l2-NU
- for qemu-devel@nongnu.org; Sat, 08 May 2021 02:15:40 -0400
+ id 1lfGFW-0004lL-Sp
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 02:15:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfGFU-0007Ez-Uy
- for <qemu-devel@nongnu.org>; Sat, 08 May 2021 06:15:36 +0000
+ id 1lfGFV-0007F1-Gj
+ for <qemu-devel@nongnu.org>; Sat, 08 May 2021 06:15:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E18AE2E8135
- for <qemu-devel@nongnu.org>; Sat,  8 May 2021 06:15:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 795DB2E8186
+ for <qemu-devel@nongnu.org>; Sat,  8 May 2021 06:15:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 May 2021 06:05:49 -0000
-From: Thomas Huth <1895122@bugs.launchpad.net>
+Date: Sat, 08 May 2021 06:07:02 -0000
+From: Thomas Huth <1895053@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: luoyonggang th-huth
-X-Launchpad-Bug-Reporter: Yonggang Luo (luoyonggang)
+X-Launchpad-Bug-Commenters: laurent-vivier pauldzim petunia2000 th-huth
+X-Launchpad-Bug-Reporter: Petunia (petunia2000)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159973447247.11849.9583651644725576217.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162045394940.2679.4209680360706079382.malone@wampee.canonical.com>
-Subject: [Bug 1895122] Re: qemu on wsl tests failed, this configured with debug
+References: <159968542073.11462.1191604929312152807.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162045402296.6759.4247379905880975068.malone@gac.canonical.com>
+Subject: [Bug 1895053] Re: Cannot nspawn raspbian 10 [FAILED] Failed to start
+ Journal Service.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 70bc7a4ade3e231f7fe8a2036e1c228076b4ef02
+X-Launchpad-Hash: c08870a88c16a29bba918110cdb4ce3ae0f6294f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895122 <1895122@bugs.launchpad.net>
+Reply-To: Bug 1895053 <1895053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -111,76 +113,50 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895122
+https://bugs.launchpad.net/bugs/1895053
 
 Title:
-  qemu on wsl tests failed, this configured with debug
+  Cannot nspawn raspbian 10 [FAILED] Failed to start Journal Service.
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  =
+  Hi, I'm using nspawn and asked the question @systemd-devel. They redirect=
+ed me to you, guessing that nspawn calls a syscall or ioctl qemu isnt aware=
+ of and can't implement properly?
+  They were like: "Sorry, that's not my department." ^^
 
-  ../configure --enable-debug-info --enable-debug
+  Maybe you can reproduce the issue or help me investigating whats wrong
+  or put the ball right back into their court? :D
 
-  **
-  ERROR:../tests/test-util-filemonitor.c:704:test_file_monitor_events: asse=
-rtion failed: (err =3D=3D 0)
-  Aborted (core dumped)
+  Testscript:
+  wget https://downloads.raspberrypi.org/raspios_lite_armhf_latest -o r.zip
+  unzip r.zip
+  LOOP=3D$(losetup --show -Pf *raspios-buster-armhf-lite.img)
+  mount ${LOOP}p2 /mnt
+  mount ${LOOP}p1 /mnt/boot
+  systemd-nspawn --bind /usr/bin/qemu-arm-static --boot --directory=3D/mnt =
+-- systemd.log_level=3Ddebug
 
-  =
+  Output:
+  see attachment
 
-    TEST    iotest-qcow2: 271 [fail]
-  QEMU          -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
-/qemu-system-x86_64" -nodefaults -display none -accel qtest
-  QEMU_IMG      -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
-/qemu-img" =
+  System:
+  uname -a
+  Linux MArch 5.8.7-arch1-1 #1 SMP PREEMPT Sat, 05 Sep 2020 12:31:32 +0000
+  x86_64 GNU/Linux
 
-  QEMU_IO       -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
-/qemu-io"  --cache writeback --aio threads -f qcow2
-  QEMU_NBD      -- "/home/lygstate/work/qemu/build/tests/qemu-iotests/../..=
-/qemu-nbd" =
+  qemu-arm-static --version
+  qemu-arm version 5.1.0
 
-  IMGFMT        -- qcow2 (compat=3D1.1)
-  IMGPROTO      -- file
-  PLATFORM      -- Linux/x86_64 DESKTOP-BLLJ03T 4.4.0-19041-Microsoft
-  TEST_DIR      -- /home/lygstate/work/qemu/build/tests/qemu-iotests/scratch
-  SOCK_DIR      -- /tmp/tmp.eyVcw8nLNQ
-  SOCKET_SCM_HELPER -- /home/lygstate/work/qemu/build/tests/qemu-iotests/so=
-cket_scm_helper
-
-  --- /home/lygstate/work/qemu/tests/qemu-iotests/271.out	2020-09-10 15:00:=
-58.190763400 +0800
-  +++ /home/lygstate/work/qemu/build/tests/qemu-iotests/271.out.bad	2020-09=
--10 18:38:25.625090800 +0800
-  @@ -37,6 +37,7 @@
-   write -q -P PATTERN 0 64k
-   L2 entry #0: 0x8000000000050000 00000000ffffffff
-   discard -q 0 64k
-  +Content mismatch at offset 0!
-   L2 entry #0: 0x0000000000000000 ffffffff00000000
-   write -q -c -P PATTERN 0 64k
-   L2 entry #0: 0x4000000000050000 0000000000000000
-  @@ -79,6 +80,7 @@
-   write -q -P PATTERN 0 64k
-   L2 entry #0: 0x8000000000050000 00000000ffffffff
-   discard -q 0 64k
-  +Content mismatch at offset 0!
-   L2 entry #0: 0x0000000000000000 ffffffff00000000
-   write -q -c -P PATTERN 0 64k
-   L2 entry #0: 0x4000000000050000 0000000000000000
-    TEST    iotest-qcow2: 283
-    TEST    iotest-qcow2: 287
-    TEST    iotest-qcow2: 290
-    TEST    iotest-qcow2: 292
-    TEST    iotest-qcow2: 299
-  Not run: 060 181 220 259
-  Failures: 271
-  Failed 1 of 118 iotests
-  make: [/home/lygstate/work/qemu/tests/Makefile.include:144: check-block] =
-Error 1 (ignored)
+  systemd-nspawn --version
+  systemd 246 (246.4-1-arch)
+  +PAM +AUDIT -SELINUX -IMA -APPARMOR +SMACK -SYSVINIT +UTMP +LIBCRYPTSETUP
+  +GCRYPT +GNUTLS +ACL +XZ +LZ4 +ZSTD +SECCOMP +BLKID +ELFUTILS +KMOD +IDN2=
+ -IDN
+  +PCRE2 default-hierarchy=3Dhybrid
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895122/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1895053/+subscriptions
 
