@@ -2,57 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39CAA376F18
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 05:18:19 +0200 (CEST)
-Received: from localhost ([::1]:55638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8045D376F59
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 06:21:52 +0200 (CEST)
+Received: from localhost ([::1]:59510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfDTt-00016o-No
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 23:18:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55990)
+	id 1lfETP-0006cr-4T
+	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 00:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lfDSr-0000SU-0E
- for qemu-devel@nongnu.org; Fri, 07 May 2021 23:17:13 -0400
-Received: from mga09.intel.com ([134.134.136.24]:45037)
+ (Exim 4.90_1) (envelope-from <vincent@bernat.ch>) id 1lfESB-0005vP-7I
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 00:20:35 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:38691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1lfDSm-0003st-ER
- for qemu-devel@nongnu.org; Fri, 07 May 2021 23:17:10 -0400
-IronPort-SDR: XAYq4jIlkGqTcYh+FrzcIC0oAI3g75tn9USuUnudy9UmUOqVJqAM/U/U5LZkDrM+Ije6JOTb77
- W5Brq4BY9oMA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9977"; a="198939506"
-X-IronPort-AV: E=Sophos;i="5.82,282,1613462400"; d="scan'208";a="198939506"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2021 20:16:59 -0700
-IronPort-SDR: aVBjmdkm9PHpVwiHHCW0a7hX4spIT+ZqsKI4w9rGXrsyDIDbsb0TQxlYLKMthXAzXW/avSC8lX
- 6rEysXFcPO1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,282,1613462400"; d="scan'208";a="429225726"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by orsmga007.jf.intel.com with ESMTP; 07 May 2021 20:16:58 -0700
-Message-ID: <7a73c09fd325e162e8dc595b31bb5b414c4962e7.camel@linux.intel.com>
-Subject: Re: [PATCH v3] i386/cpu: Remove the deprecated cpu model
- 'Icelake-Client'
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com
-Date: Sat, 08 May 2021 11:16:57 +0800
-In-Reply-To: <1619660147-136679-1-git-send-email-robert.hu@linux.intel.com>
-References: <1619660147-136679-1-git-send-email-robert.hu@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-8.el7) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=134.134.136.24;
- envelope-from=robert.hu@linux.intel.com; helo=mga09.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <vincent@bernat.ch>) id 1lfES9-0003vn-2n
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 00:20:34 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 7F6581587;
+ Sat,  8 May 2021 00:20:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Sat, 08 May 2021 00:20:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bernat.ch; h=
+ from:to:cc:subject:references:date:in-reply-to:message-id
+ :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
+ bk5J2TUYoXgs7p7APzHANnPCskVDHkTj1mYyFWfi1tw=; b=F78ViGQydpH4DUSj
+ mYjxSQGMqoWwpX09cuSRT3kcarUVZiuF2Ya3L2V3fLOUr+uNV/r7BmJfoo4NeM87
+ 6cfRW96d2KAx7oJHqaRiNuR7mOnTxm9e104cVaIBAqwNYim2Ep+B4VH9AL9gJBZ2
+ +rUuKDUVOl5yufOXw0TAQOzeYy0TbmSHSDQLRywKEtxqHp3t/nusoyoVZzufytXW
+ 0t0dzaJ8u8DsaW/EJS2x+cUk9oW/vBrc/zJJU7XG+mn15+O6jYT9v4lghFXPm6Fd
+ 5upL4j/Cevl4ZxM84MBrlPRAgVZvR+WJum69696VqRreFXj0pvE0UsNn+RDHK+TK
+ EsCNBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=bk5J2TUYoXgs7p7APzHANnPCskVDHkTj1mYyFWfi1
+ tw=; b=UQhUOUX6ZNewBVQM42zoyodJln7gMjMic3meWQcDF/zSw2XOXGxgEW1df
+ gLDmJSksrwucq++s1Flh29EKynDScQztatXWrwC8F5L8mz1uOFEDs6LH/A3t7ENB
+ rsmPI5u4JG2cZDpMPVqnY2BHosHoSwn/me2AOgQhIXHWEjC42kOfF83xZPpfVtv5
+ I93v//ybnzAXD8TBMs8Ukz9PgdZh68UKNpboaKsK9EoNUWoyxZ4kTU/cIbk4lYd5
+ 9FI6D9xm42KJXOmecPAMUPmJ1b4Fmog5q9xG0pMyzAtfpMWIwACZus018fnG7FwN
+ VFH4Yt+jM7n769rRgjRRpMDLqp/nA==
+X-ME-Sender: <xms:jBGWYFymfb9briGGlnNjrgFeMVY_OEnpntCg4EBLX1VS-Dj_7ncTHg>
+ <xme:jBGWYFSZvNjpoTVfLDHGYYFScfZaIf2LqR__jEeYlZ79zu6t7u0nhU3qzNs7cH-D4
+ 5TlqQW5m8tJgeoY3CY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegfedgkedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufhfffgjkfgfgggtgfesthekredttderjeenucfhrhhomhepgghinhgt
+ vghnthcuuegvrhhnrghtuceovhhinhgtvghnthessggvrhhnrghtrdgthheqnecuggftrf
+ grthhtvghrnhepudeuveeggedtveduudejgfeiffeiveduiedvjedvudefleetgfefvdfh
+ kedtieejnecukfhppeeltddrledtrdeltddrfeehnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepvhhinhgtvghnthessggvrhhnrghtrdgthh
+X-ME-Proxy: <xmx:jBGWYPUY3-KRhWoZrXXfVTvBSo7NsC1q56dn2h_4n2ZWcnoJ9kjCJQ>
+ <xmx:jBGWYHgqKcYs2Kb7chkTnvmwzy7SR2K5dNBqYxVo6mvJr-qDhOPGNw>
+ <xmx:jBGWYHCpks7dvo8qPlhf5Wps1XV3DWwWPyZI3snR6HTjhRRezeSp4A>
+ <xmx:jRGWYM4MXuOeSfI_OnycsHA9kgQWq1S8W1sdesMn4BmTxaWjcx9HAA>
+Received: from guybrush.luffy.cx (lfbn-idf1-1-1655-35.w90-90.abo.wanadoo.fr
+ [90.90.90.35]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Sat,  8 May 2021 00:20:28 -0400 (EDT)
+Received: by guybrush.luffy.cx (Postfix, from userid 1000)
+ id AD5A91FE81; Sat,  8 May 2021 06:20:27 +0200 (CEST)
+From: Vincent Bernat <vincent@bernat.ch>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v4] hw/smbios: support for type 41 (onboard devices
+ extended information)
+References: <20210401171138.62970-1-vincent@bernat.ch>
+ <20210503170539.5e813f89@redhat.com> <m3sg338vcd.fsf@bernat.ch>
+ <20210503154024-mutt-send-email-mst@kernel.org>
+Date: Sat, 08 May 2021 06:20:27 +0200
+In-Reply-To: <20210503154024-mutt-send-email-mst@kernel.org> (Michael S.
+ Tsirkin's message of "Mon, 3 May 2021 15:42:16 -0400")
+Message-ID: <877dk9luus.fsf@bernat.ch>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=vincent@bernat.ch;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,244 +99,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.hu@intel.com, qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ "Daniel P . =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+ ❦  3 mai 2021 15:42 -04, Michael S. Tsirkin:
 
-Ping...
+>> >> +            /*
+>> >> +             * We only handle the case were the device is attached to
+>> >> +             * the PCI root bus. The general case is more complex as
+>> >> +             * bridges are enumerated later and the table would need
+>> >> +             * to be updated at this moment.
+>> >> +             */
+>> >> +            if (!pci_bus_is_root(pci_get_bus(pdev))) {
+>> >> +                error_setg(errp,
+>> >> +                           "Cannot create type 41 entry for PCI device %s: "
+>> >> +                           "not attached to the root bus",
+>> >> +                           t41->pcidev);
+>> >> +                return;
+>> >> +            }
+>> > Is this limitation really necessary?
+>> >
+>> > As far as I see caller of this smbios_get_tables(), is called at machine_done time
+>> > when all devices (including bridges) present on CLI are created.
+>> 
+>> I wasn't sure how to get the segment group number in this case. It seems
+>> this is not exposed directly. There is a root_bus_path method returning
+>> a string that would need to be parsed to extract the segment group
+>> number. Looking a bit, it seems to be always 0.
+>
+> and not just that. the code comments explains the motivation even
+> with a single segment.
 
-Thanks.
-
-On Thu, 2021-04-29 at 09:35 +0800, Robert Hoo wrote:
-> As it's been marked deprecated since v5.2, now I think it's time
-> remove it
-> from code.
-> 
-> Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-> ---
-> Changelog:
-> v3:
-> 	Update deprecated.rst. (Sorry for my carelessness in last
-> search. I
-> sware I did search.)
-> v2:
->     Update removed-features.rst.
-> ---
->  docs/system/deprecated.rst       |   6 --
->  docs/system/removed-features.rst |   5 ++
->  target/i386/cpu.c                | 118 ---------------------------
-> ------------
->  3 files changed, 5 insertions(+), 124 deletions(-)
-> 
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index 80cae86..780b756 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -222,12 +222,6 @@ a future version of QEMU. Support for this CPU
-> was removed from the
->  upstream Linux kernel, and there is no available upstream toolchain
->  to build binaries for it.
->  
-> -``Icelake-Client`` CPU Model (since 5.2.0)
-> -''''''''''''''''''''''''''''''''''''''''''
-> -
-> -``Icelake-Client`` CPU Models are deprecated. Use ``Icelake-Server`` 
-> CPU
-> -Models instead.
-> -
->  MIPS ``I7200`` CPU Model (since 5.2)
->  ''''''''''''''''''''''''''''''''''''
->  
-> diff --git a/docs/system/removed-features.rst b/docs/system/removed-
-> features.rst
-> index 29e9060..f1b5a16 100644
-> --- a/docs/system/removed-features.rst
-> +++ b/docs/system/removed-features.rst
-> @@ -285,6 +285,11 @@ The RISC-V no MMU cpus have been removed. The
-> two CPUs: ``rv32imacu-nommu`` and
->  ``rv64imacu-nommu`` can no longer be used. Instead the MMU status
-> can be specified
->  via the CPU ``mmu`` option when using the ``rv32`` or ``rv64`` CPUs.
->  
-> +x86 Icelake-Client CPU (removed in 6.1)
-> +'''''''''''''''''''''''''''''''''''''''
-> +
-> +``Icelake-Client`` cpu can no longer be used. Use ``Icelake-Server`` 
-> instead.
-> +
->  System emulator machines
->  ------------------------
->  
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index ad99cad..75f2ad1 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -3338,124 +3338,6 @@ static X86CPUDefinition builtin_x86_defs[] =
-> {
->          .model_id = "Intel Xeon Processor (Cooperlake)",
->      },
->      {
-> -        .name = "Icelake-Client",
-> -        .level = 0xd,
-> -        .vendor = CPUID_VENDOR_INTEL,
-> -        .family = 6,
-> -        .model = 126,
-> -        .stepping = 0,
-> -        .features[FEAT_1_EDX] =
-> -            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR |
-> CPUID_MMX |
-> -            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV |
-> CPUID_MCA |
-> -            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC |
-> CPUID_CX8 |
-> -            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC |
-> CPUID_PSE |
-> -            CPUID_DE | CPUID_FP87,
-> -        .features[FEAT_1_ECX] =
-> -            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
-> -            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
-> -            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
-> -            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
-> -            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA |
-> CPUID_EXT_MOVBE |
-> -            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
-> -        .features[FEAT_8000_0001_EDX] =
-> -            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
-> -            CPUID_EXT2_SYSCALL,
-> -        .features[FEAT_8000_0001_ECX] =
-> -            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM |
-> CPUID_EXT3_3DNOWPREFETCH,
-> -        .features[FEAT_8000_0008_EBX] =
-> -            CPUID_8000_0008_EBX_WBNOINVD,
-> -        .features[FEAT_7_0_EBX] =
-> -            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
-> -            CPUID_7_0_EBX_HLE | CPUID_7_0_EBX_AVX2 |
-> CPUID_7_0_EBX_SMEP |
-> -            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS |
-> CPUID_7_0_EBX_INVPCID |
-> -            CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_RDSEED |
-> CPUID_7_0_EBX_ADX |
-> -            CPUID_7_0_EBX_SMAP,
-> -        .features[FEAT_7_0_ECX] =
-> -            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP |
-> CPUID_7_0_ECX_PKU |
-> -            CPUID_7_0_ECX_AVX512_VBMI2 | CPUID_7_0_ECX_GFNI |
-> -            CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
-> -            CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
-> -            CPUID_7_0_ECX_AVX512_VPOPCNTDQ,
-> -        .features[FEAT_7_0_EDX] =
-> -            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
-> -        /* Missing: XSAVES (not supported by some Linux versions,
-> -                * including v4.1 to v4.12).
-> -                * KVM doesn't yet expose any XSAVES state save
-> component,
-> -                * and the only one defined in Skylake (processor
-> tracing)
-> -                * probably will block migration anyway.
-> -                */
-> -        .features[FEAT_XSAVE] =
-> -            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
-> -            CPUID_XSAVE_XGETBV1,
-> -        .features[FEAT_6_EAX] =
-> -            CPUID_6_EAX_ARAT,
-> -        /* Missing: Mode-based execute control (XS/XU), processor
-> tracing, TSC scaling */
-> -        .features[FEAT_VMX_BASIC] = MSR_VMX_BASIC_INS_OUTS |
-> -             MSR_VMX_BASIC_TRUE_CTLS,
-> -        .features[FEAT_VMX_ENTRY_CTLS] = VMX_VM_ENTRY_IA32E_MODE |
-> -             VMX_VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL |
-> VMX_VM_ENTRY_LOAD_IA32_PAT |
-> -             VMX_VM_ENTRY_LOAD_DEBUG_CONTROLS |
-> VMX_VM_ENTRY_LOAD_IA32_EFER,
-> -        .features[FEAT_VMX_EPT_VPID_CAPS] = MSR_VMX_EPT_EXECONLY |
-> -             MSR_VMX_EPT_PAGE_WALK_LENGTH_4 | MSR_VMX_EPT_WB |
-> MSR_VMX_EPT_2MB |
-> -             MSR_VMX_EPT_1GB | MSR_VMX_EPT_INVEPT |
-> -             MSR_VMX_EPT_INVEPT_SINGLE_CONTEXT |
-> MSR_VMX_EPT_INVEPT_ALL_CONTEXT |
-> -             MSR_VMX_EPT_INVVPID | MSR_VMX_EPT_INVVPID_SINGLE_ADDR |
-> -             MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT |
-> MSR_VMX_EPT_INVVPID_ALL_CONTEXT |
-> -             MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT_NOGLOBALS |
-> MSR_VMX_EPT_AD_BITS,
-> -        .features[FEAT_VMX_EXIT_CTLS] =
-> -             VMX_VM_EXIT_ACK_INTR_ON_EXIT |
-> VMX_VM_EXIT_SAVE_DEBUG_CONTROLS |
-> -             VMX_VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |
-> -             VMX_VM_EXIT_LOAD_IA32_PAT | VMX_VM_EXIT_LOAD_IA32_EFER
-> |
-> -             VMX_VM_EXIT_SAVE_IA32_PAT | VMX_VM_EXIT_SAVE_IA32_EFER
-> |
-> -             VMX_VM_EXIT_SAVE_VMX_PREEMPTION_TIMER,
-> -        .features[FEAT_VMX_MISC] = MSR_VMX_MISC_ACTIVITY_HLT |
-> -             MSR_VMX_MISC_STORE_LMA | MSR_VMX_MISC_VMWRITE_VMEXIT,
-> -        .features[FEAT_VMX_PINBASED_CTLS] =
-> VMX_PIN_BASED_EXT_INTR_MASK |
-> -             VMX_PIN_BASED_NMI_EXITING | VMX_PIN_BASED_VIRTUAL_NMIS
-> |
-> -             VMX_PIN_BASED_VMX_PREEMPTION_TIMER,
-> -        .features[FEAT_VMX_PROCBASED_CTLS] =
-> VMX_CPU_BASED_VIRTUAL_INTR_PENDING |
-> -             VMX_CPU_BASED_USE_TSC_OFFSETING |
-> VMX_CPU_BASED_HLT_EXITING |
-> -             VMX_CPU_BASED_INVLPG_EXITING |
-> VMX_CPU_BASED_MWAIT_EXITING |
-> -             VMX_CPU_BASED_RDPMC_EXITING |
-> VMX_CPU_BASED_RDTSC_EXITING |
-> -             VMX_CPU_BASED_CR8_LOAD_EXITING |
-> VMX_CPU_BASED_CR8_STORE_EXITING |
-> -             VMX_CPU_BASED_TPR_SHADOW | VMX_CPU_BASED_MOV_DR_EXITING
-> |
-> -             VMX_CPU_BASED_UNCOND_IO_EXITING |
-> VMX_CPU_BASED_USE_IO_BITMAPS |
-> -             VMX_CPU_BASED_MONITOR_EXITING |
-> VMX_CPU_BASED_PAUSE_EXITING |
-> -             VMX_CPU_BASED_VIRTUAL_NMI_PENDING |
-> VMX_CPU_BASED_USE_MSR_BITMAPS |
-> -             VMX_CPU_BASED_CR3_LOAD_EXITING |
-> VMX_CPU_BASED_CR3_STORE_EXITING |
-> -             VMX_CPU_BASED_MONITOR_TRAP_FLAG |
-> -             VMX_CPU_BASED_ACTIVATE_SECONDARY_CONTROLS,
-> -        .features[FEAT_VMX_SECONDARY_CTLS] =
-> -             VMX_SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES |
-> -             VMX_SECONDARY_EXEC_WBINVD_EXITING |
-> VMX_SECONDARY_EXEC_ENABLE_EPT |
-> -             VMX_SECONDARY_EXEC_DESC | VMX_SECONDARY_EXEC_RDTSCP |
-> -             VMX_SECONDARY_EXEC_ENABLE_VPID |
-> VMX_SECONDARY_EXEC_UNRESTRICTED_GUEST |
-> -             VMX_SECONDARY_EXEC_RDRAND_EXITING |
-> VMX_SECONDARY_EXEC_ENABLE_INVPCID |
-> -             VMX_SECONDARY_EXEC_ENABLE_VMFUNC |
-> VMX_SECONDARY_EXEC_SHADOW_VMCS |
-> -             VMX_SECONDARY_EXEC_RDSEED_EXITING |
-> VMX_SECONDARY_EXEC_ENABLE_PML,
-> -        .features[FEAT_VMX_VMFUNC] = MSR_VMX_VMFUNC_EPT_SWITCHING,
-> -        .xlevel = 0x80000008,
-> -        .model_id = "Intel Core Processor (Icelake)",
-> -        .versions = (X86CPUVersionDefinition[]) {
-> -            {
-> -                .version = 1,
-> -                .note = "deprecated"
-> -            },
-> -            {
-> -                .version = 2,
-> -                .note = "no TSX, deprecated",
-> -                .alias = "Icelake-Client-noTSX",
-> -                .props = (PropValue[]) {
-> -                    { "hle", "off" },
-> -                    { "rtm", "off" },
-> -                    { /* end of list */ }
-> -                },
-> -            },
-> -            { /* end of list */ }
-> -        },
-> -        .deprecation_note = "use Icelake-Server instead"
-> -    },
-> -    {
->          .name = "Icelake-Server",
->          .level = 0xd,
->          .vendor = CPUID_VENDOR_INTEL,
-
+Yes, now I remember you told me that in complex cases, the bus is
+configured by guest and therefore, we cannot get the right address at
+boot. I could update the comment to say "enumerated by guest" or
+"configured by guest" if it makes the reason clearer.
+-- 
+Suspicion always haunts the guilty mind.
+		-- Wm. Shakespeare
 
