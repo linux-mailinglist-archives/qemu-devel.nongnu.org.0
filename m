@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D5D376FDA
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 07:50:33 +0200 (CEST)
-Received: from localhost ([::1]:39012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 114D2376FD6
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 07:49:49 +0200 (CEST)
+Received: from localhost ([::1]:36850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfFrE-0000qi-4N
-	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 01:50:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49334)
+	id 1lfFqW-0007rO-6S
+	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 01:49:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfFqK-00086b-Ey
- for qemu-devel@nongnu.org; Sat, 08 May 2021 01:49:36 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52272)
+ id 1lfFmb-0002cw-Di
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 01:45:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfFqI-0001Hy-PJ
- for qemu-devel@nongnu.org; Sat, 08 May 2021 01:49:36 -0400
+ id 1lfFmY-0006Zb-7x
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 01:45:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfFqE-00053g-Qr
- for <qemu-devel@nongnu.org>; Sat, 08 May 2021 05:49:30 +0000
+ id 1lfFmW-0003ce-Lx
+ for <qemu-devel@nongnu.org>; Sat, 08 May 2021 05:45:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C82142E8186
- for <qemu-devel@nongnu.org>; Sat,  8 May 2021 05:49:30 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A3EF82E8135
+ for <qemu-devel@nongnu.org>; Sat,  8 May 2021 05:45:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 May 2021 05:37:01 -0000
-From: Thomas Huth <1625216@bugs.launchpad.net>
+Date: Sat, 08 May 2021 05:37:13 -0000
+From: Thomas Huth <1652286@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: gdb gdbstub mmio write
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andreas-rasmusson pmaydell th-huth
-X-Launchpad-Bug-Reporter: Andreas Rasmusson (andreas-rasmusson)
+X-Launchpad-Bug-Commenters: lpnow pmaydell th-huth
+X-Launchpad-Bug-Reporter: LPNow (lpnow)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160919143701.1959.82839.malonedeb@soybean.canonical.com>
-Message-Id: <162045222180.6707.5023283149317643700.malone@gac.canonical.com>
-Subject: [Bug 1625216] Re: memory writes via gdb don't work for memory mapped
- hardware
+References: <20161223114830.15083.74920.malonedeb@wampee.canonical.com>
+Message-Id: <162045223385.17032.18084472659915688498.malone@soybean.canonical.com>
+Subject: [Bug 1652286] Re: QEMU manpages provoke man(1) "can't break line"
+ warnings
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: e39710eb3f9a0a55eb686ea2197e9dff447fa4c7
+X-Launchpad-Hash: 7e7bfef97caf12548239dc5200011d4f52c1fb77
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1625216 <1625216@bugs.launchpad.net>
+Reply-To: Bug 1652286 <1652286@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,116 +79,38 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/213
+ https://gitlab.com/qemu-project/qemu/-/issues/214
 
 
 ** Changed in: qemu
        Status: Confirmed =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #213
-   https://gitlab.com/qemu-project/qemu/-/issues/213
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #214
+   https://gitlab.com/qemu-project/qemu/-/issues/214
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1625216
+https://bugs.launchpad.net/bugs/1652286
 
 Title:
-  memory writes via gdb don't work for memory mapped hardware
+  QEMU manpages provoke man(1) "can't break line" warnings
 
 Status in QEMU:
   Expired
 
 Bug description:
-  When I remote-debug a qemu-guest and attempt to write to a memory mapped =
-location, the
-  write-handler for the concerned device will not be called. All write-requ=
-iests from
-  gdb are delegated to cpu_physical_memory_write_rom(...). a function that =
-writes to the =
-
-  underlying ram-block.
-
-  I believe requests to memory mapped hardware should be delegated to =
-
-  address_space_rw(). =
-
-
-  example:
-  ;; a memory mapped device. No effect, the write-handler is not called
-  (gdb) set *0xfff3c000 =3D 48
-
-  ;; a ram or rom-block. Thos works. The value is changed.
-  (gdb) set *0x100000 =3D 48
+  I noticed when I ran 'man qemu' for version 2.8.0 I am getting this
+  back at the terminal;
 
   =
 
-  ----------------------------------------
-
-  Here's my suggested patch. As noted in the comment, it could perhaps be
-  improved for the (rare) case when the write-request from gdb spans multip=
-le =
-
-  memory regions.
-
-  $ git diff   85bc2a15121e8bcd9f15eb75794a1eacca9d84bd HEAD ../exec.c
-  diff --git a/exec.c b/exec.c
-  index c4f9036..45ef896 100644
-  --- a/exec.c
-  +++ b/exec.c
-  @@ -3676,6 +3676,7 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong=
- addr,
-       int l;
-       hwaddr phys_addr;
-       target_ulong page;
-  +    bool is_memcpy_access;
-   =
-
-       while (len > 0) {
-           int asidx;
-  @@ -3691,13 +3692,32 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulo=
-ng addr,
-           if (l > len)
-               l =3D len;
-           phys_addr +=3D (addr & ~TARGET_PAGE_MASK);
-  +
-           if (is_write) {
-  +            /* if ram/rom region we access the memory =
-
-  +               via memcpy instead of via the cpu */
-  +            hwaddr mr_len, addr1;
-  +            AddressSpace *as =3D cpu->cpu_ases[asidx].as;
-  +            MemoryRegion *mr =3D address_space_translate(as, phys_addr, =
-&addr1, &mr_len, is_write);
-  +            is_memcpy_access  =3D memory_region_is_ram(mr) || memory_reg=
-ion_is_romd(mr);
-  +            if(mr_len < len) {
-  +                /* TODO, mimic more of the loop over mr chunks as =
-
-  +                   done in cpu_physical_memory_write_internal */ =
-
-  +                printf("warning: we dont know whether all bytes "
-  +                       "to be written are ram/rom or io\n");
-  +            }
-  +        }
-  +        else {
-  +            is_memcpy_access =3D false;
-  +        }
-  +        =
-
-  +        if (is_write && is_memcpy_access) {
-               cpu_physical_memory_write_rom(cpu->cpu_ases[asidx].as,
-                                             phys_addr, buf, l);
-           } else {
-               address_space_rw(cpu->cpu_ases[asidx].as, phys_addr,
-                                MEMTXATTRS_UNSPECIFIED,
-  -                             buf, l, 0);
-  +                             buf, l, is_write);
-           }
-           len -=3D l;
-           buf +=3D l;
+  <standard input>:1674: warning [p 1, 188.5i, div `an-div', 0.2i]: can't b=
+reak line
+  <standard input>:1677: warning [p 1, 188.8i, div `an-div', 0.2i]: can't b=
+reak line
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1625216/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1652286/+subscriptions
 
