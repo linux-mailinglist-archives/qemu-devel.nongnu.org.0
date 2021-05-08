@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D1E376E7F
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:20:35 +0200 (CEST)
-Received: from localhost ([::1]:42866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3081376E89
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:27:06 +0200 (CEST)
+Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfCa2-00023l-U4
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:20:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41004)
+	id 1lfCgL-00036Z-PP
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:27:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC5G-0004ro-1o
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:46 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:38815)
+ id 1lfC5E-0004pG-3m
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:44 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:46740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC50-0003g1-45
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:45 -0400
-Received: by mail-pl1-x634.google.com with SMTP id 69so1536078plc.5
+ id 1lfC50-0003gC-UF
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:43 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id s20so6128494plr.13
  for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:48:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RndXytbTpyoZf87SoTBz0zxUXITxwgpEDPn6NB45UNI=;
- b=c6tA/hOmsdMywC7W6Ey8D5CCg+Rr2zLDoZgOe0uv18/UucQXgny8Uul1FftPE34/rw
- cXNLzgkJLuYZaFVgzX6J14kK6Hxp1jU7XOoQqRqoNFMbNoooL5qPZDQL1gmgAQELRa8u
- hH6amW3qXptSWEc14UNCwr93OnEvNqu2dQK3WddfS8SEeFDmyu+USLYn+fZMe5tG8JVT
- cHZPIpzff7CLJyajAtyVSxN98mte6WvoX7bq+Fy1OVAuyx8a8Y4E/JLMhWqAUoANy7JL
- ThffoUiqX2jrcdGJpGzFBXW5J10HWYESFYkAz/57aEScwvdFs/jzU8J6e+qT8lc4UXhr
- vqWg==
+ bh=MnGbP0t9ipMuFDDfgVLV3xJxRcipksJ9kWE5+MnyCZM=;
+ b=tijmRvN3nJP+w/YSkX7nG8pcWswdCBBCCN9akvBgFgKdbtEeMRbNwBwuIs3zXG1f2R
+ ijrMr6pn2X03jmO8CGPK5S1hBCN7MnxtI/tm1UxcEAS39tt9qvxUyxumRzrzYNorwIGW
+ BYTTE3Dqg6aYAbjQHrv9rMbFA7HdvLpMlXUCGejPkDjpR/20VEfIb0HlVV2tHDt0WRFF
+ zAL1GiV4sAbu4fT3iodC1DZSCDTRveVg+Op/l4RXeERTfp/85em/OqNaiRhqRbZiMgun
+ EgVO7lfCTC2m9sd0MI3LLsP8LFJ6/J6O4eReSRN/1kb/t6IropD+P5JFH7szjDISDbW3
+ scCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RndXytbTpyoZf87SoTBz0zxUXITxwgpEDPn6NB45UNI=;
- b=rVFr6l1mYHa20vI1528ERaEClsTTsjZkhjqPNm8jsjV++bFKtU5N37rRT+II7uqxC9
- SXyj6bgPXs4lFOExdLTXZ6uieiFRuCI+m2SzsK5h+zIuXEsUXiUwvKQgmJNu2cmJeVeW
- PgCWmie7A26uPSFUCVB/gZ4N3icCMpCqIRfLUxmUh6/FMOmL9eu+nDkm8bLchOhkEOZN
- DEwbtN0EVgTEApsdj7WeQ9UIRykhpv6x3AlNHAOq0DJRc1N7sQkqXDNsGV3YBY4pRUMv
- r2BbuoKGHszKoUuP3oEx+APEl2wO3x+22uiJj9IYe8TILiHTsVxKOqV5ewQJcARUR09D
- vkgQ==
-X-Gm-Message-State: AOAM532gxzju3dx2VALkPaIyZRft1sLm7K9aqpeL5kv8vQyW1FxMhb+H
- uc1U+fj8mvGOddp1/evGtqbavpu8WKkudA==
-X-Google-Smtp-Source: ABdhPJxct59W6X+6AxKcvJkDerATd0RDWxCQpzf/iL4f6VzDrB5VER+ZDXW+pOekakaM4+kHdjHilA==
-X-Received: by 2002:a17:902:a9cb:b029:ed:61be:2cfb with SMTP id
- b11-20020a170902a9cbb02900ed61be2cfbmr13180155plr.9.1620438508352; 
+ bh=MnGbP0t9ipMuFDDfgVLV3xJxRcipksJ9kWE5+MnyCZM=;
+ b=dPdktfxHNM9aBYkhE/dusScA4avpLFc6PkcZy1GUEw4SNfd8DEZ74524ayt9yoMcOi
+ 2Uda5znABO3Sm1aWrFS4UnKoOZ6FhYgYh/eKEpgg8Ffg45FP7LTjAiTfkg7qW/XHNL1q
+ 1Y9v999AdVcaGzVhSS06OtK3tamoc7OxfZvrbrxzGViJd648wzirkmWZM74/xB5P6LnJ
+ /PvRwH5S+0k79U43r2Tdxhhzrj04wFxPGUehmqQKe2lWZqRZctJtdvD2yfV5LMuvuRBW
+ u5f0+JhXLBN44M7GgmSMcW3nUb7+YbOQGPWl4psEFZp19Rh7HTKn/nOBxBtkSLID28uh
+ nAKA==
+X-Gm-Message-State: AOAM531q6XXV3fvr92sU7spIeL4NRQWPGfJuK6jCDV9oBMrMbu6HcLPj
+ 4v+vcOGOfup1K5jX5hwM0nLYjX6emVLPVg==
+X-Google-Smtp-Source: ABdhPJw0gFDm1v5eqyaa2iwxpbBqISPGXG+/AWCv8KIygkGQOjkRm6dP/TKWCyUZxgCVL9+GHY5x0w==
+X-Received: by 2002:a17:903:230a:b029:ee:a909:4f92 with SMTP id
+ d10-20020a170903230ab02900eea9094f92mr13467728plh.44.1620438508939; 
  Fri, 07 May 2021 18:48:28 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id t4sm5819681pfq.165.2021.05.07.18.48.27
+ by smtp.gmail.com with ESMTPSA id t4sm5819681pfq.165.2021.05.07.18.48.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 07 May 2021 18:48:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 38/72] softfloat: Use mulu64 for mul64To128
-Date: Fri,  7 May 2021 18:47:28 -0700
-Message-Id: <20210508014802.892561-39-richard.henderson@linaro.org>
+Subject: [PATCH 39/72] softfloat: Use add192 in mul128To256
+Date: Fri,  7 May 2021 18:47:29 -0700
+Message-Id: <20210508014802.892561-40-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210508014802.892561-1-richard.henderson@linaro.org>
 References: <20210508014802.892561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,48 +87,61 @@ Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Via host-utils.h, we use a host widening multiply for
-64-bit hosts, and a common subroutine for 32-bit hosts.
+We can perform the operation in 6 total adds instead of 8.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/fpu/softfloat-macros.h | 23 +++--------------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
+ include/fpu/softfloat-macros.h | 37 +++++++++++-----------------------
+ 1 file changed, 12 insertions(+), 25 deletions(-)
 
 diff --git a/include/fpu/softfloat-macros.h b/include/fpu/softfloat-macros.h
-index 2e3760a9c1..f6dfbe108d 100644
+index f6dfbe108d..76327d844d 100644
 --- a/include/fpu/softfloat-macros.h
 +++ b/include/fpu/softfloat-macros.h
-@@ -470,27 +470,10 @@ static inline void sub192(uint64_t a0, uint64_t a1, uint64_t a2,
- | `z0Ptr' and `z1Ptr'.
+@@ -511,34 +511,21 @@ static inline void
+ | the locations pointed to by `z0Ptr', `z1Ptr', `z2Ptr', and `z3Ptr'.
  *----------------------------------------------------------------------------*/
  
--static inline void mul64To128( uint64_t a, uint64_t b, uint64_t *z0Ptr, uint64_t *z1Ptr )
-+static inline void
-+mul64To128(uint64_t a, uint64_t b, uint64_t *z0Ptr, uint64_t *z1Ptr)
+-static inline void
+- mul128To256(
+-     uint64_t a0,
+-     uint64_t a1,
+-     uint64_t b0,
+-     uint64_t b1,
+-     uint64_t *z0Ptr,
+-     uint64_t *z1Ptr,
+-     uint64_t *z2Ptr,
+-     uint64_t *z3Ptr
+- )
++static inline void mul128To256(uint64_t a0, uint64_t a1,
++                               uint64_t b0, uint64_t b1,
++                               uint64_t *z0Ptr, uint64_t *z1Ptr,
++                               uint64_t *z2Ptr, uint64_t *z3Ptr)
  {
--    uint32_t aHigh, aLow, bHigh, bLow;
--    uint64_t z0, zMiddleA, zMiddleB, z1;
--
--    aLow = a;
--    aHigh = a>>32;
--    bLow = b;
--    bHigh = b>>32;
--    z1 = ( (uint64_t) aLow ) * bLow;
--    zMiddleA = ( (uint64_t) aLow ) * bHigh;
--    zMiddleB = ( (uint64_t) aHigh ) * bLow;
--    z0 = ( (uint64_t) aHigh ) * bHigh;
--    zMiddleA += zMiddleB;
--    z0 += ( ( (uint64_t) ( zMiddleA < zMiddleB ) )<<32 ) + ( zMiddleA>>32 );
--    zMiddleA <<= 32;
--    z1 += zMiddleA;
--    z0 += ( z1 < zMiddleA );
+-    uint64_t z0, z1, z2, z3;
+-    uint64_t more1, more2;
++    uint64_t z0, z1, z2;
++    uint64_t m0, m1, m2, n1, n2;
+ 
+-    mul64To128( a1, b1, &z2, &z3 );
+-    mul64To128( a1, b0, &z1, &more2 );
+-    add128( z1, more2, 0, z2, &z1, &z2 );
+-    mul64To128( a0, b0, &z0, &more1 );
+-    add128( z0, more1, 0, z1, &z0, &z1 );
+-    mul64To128( a0, b1, &more1, &more2 );
+-    add128( more1, more2, 0, z2, &more1, &z2 );
+-    add128( z0, z1, 0, more1, &z0, &z1 );
+-    *z3Ptr = z3;
+-    *z2Ptr = z2;
 -    *z1Ptr = z1;
 -    *z0Ptr = z0;
--
-+    mulu64(z1Ptr, z0Ptr, a, b);
++    mul64To128(a1, b0, &m1, &m2);
++    mul64To128(a0, b1, &n1, &n2);
++    mul64To128(a1, b1, &z2, z3Ptr);
++    mul64To128(a0, b0, &z0, &z1);
+ 
++    add192( 0, m1, m2,  0, n1, n2, &m0, &m1, &m2);
++    add192(m0, m1, m2, z0, z1, z2, z0Ptr, z1Ptr, z2Ptr);
  }
  
  /*----------------------------------------------------------------------------
