@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC4A376E67
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:10:37 +0200 (CEST)
-Received: from localhost ([::1]:42774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C69376E60
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:05:08 +0200 (CEST)
+Received: from localhost ([::1]:56966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfCQO-0008GQ-GW
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:10:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40820)
+	id 1lfCL5-0007IV-QI
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:05:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC53-0004GW-6r
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:35 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:41898)
+ id 1lfC58-0004Rf-2E
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:38 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:37543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC4r-0003dA-I6
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:32 -0400
-Received: by mail-pl1-x635.google.com with SMTP id z18so2556712plg.8
+ id 1lfC4r-0003dE-IC
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:48:37 -0400
+Received: by mail-pf1-x432.google.com with SMTP id b15so9152597pfl.4
  for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7MJgtQMBS2ngXY709lmeRGrslyeOuJRTB/k5dCBY0b0=;
- b=ZEzQ62fuZL23i3KzUSjzVnFtRoMPgOLRz60W8vDr/iS/hpaEKguU9nNJbtqx7fos+j
- UakYvqmu3lgKRABCV3KAi8ie9klJvm0KW6lekdVZ97b+w+gFKDB/w2ztwMVbsty0Y1o1
- kapRnJcqpxNGUrHEY7IUYScIqtbrH1Bq4fM7KWMg4hCdISa8I7AFeyMxUdvg1TUE7Jej
- T2hZyhKHrQlf6NngHDQG+tZ+qmMO7f1WTntO50v1J4hwXR6N9GEGNHp58CcZ4PMtDP4Q
- /pvWJpVelHzh25NIcy+etZRJHOlm4DCwnRMLFhDfwSWGqUiDtKJNGhogQKSxVxO+KK20
- Pzrg==
+ bh=qte4K79lCpY0AmN2YUzdHn4+5EUkv6ETvmLEVo/dFmc=;
+ b=JH2aEN4ZqIL/iOdwfWrKgMfSk/aLY1x6rO0gC4ew+UAFVNc9BW8LiNBOGo91dEAkXm
+ ooyDbuJxWMZpWiWnP6PkSA4Un//SyxZvqbzTREJSqh6sjFO2LhEIcI8mZrpPO8SZYd69
+ rqYtPugg1uKZjqhxuNpXsBoGoJ+g3bTN1nFwa9RDMQbxoSwlvW9dPd8FaGLB1CvI1mj5
+ F6eHCGt7fIXJMT/6CfssFU7UsZoE5p/ZWfD0sne/WTIBZzMlPmkXt3oEvJ96p8fWmo/m
+ NzkP1x7uds2BHnbFFrju71hrMmkUy4Cij2MdmTKFxXPj9ueMvGRO0iqZx5KJA9qzjbeP
+ +J8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7MJgtQMBS2ngXY709lmeRGrslyeOuJRTB/k5dCBY0b0=;
- b=BMQRvuV7VvUp4R9aaOmK6azY+5R+gBc0VZqCY+dqHe+DYWvFhgJ6KDYTOodan0K8FP
- v5wZPDogmfcB5Z38bKGeWRwan/Vut0FQ5d/ckhdgtMCW+VcWYg24d5Nc0fY8lDExuPj1
- Em1GNFtcDZgRqvi0plZr1pH/McCFnBXSqqEBhEVyXL1H1XSdx/wL8EP5sf+5ROPmg/+K
- +QHPdUM+1gR3rXfR8WV82AZ5eAN6iboH1oPVK/wN6ED6xZQeR5EQwl/EoQftMLZVZnJF
- AxbKDasdWD+I9aBNt47mjnThpP81EHTNU/k0VhBmPXdrp6U+jC1jYR+QMywUR/Tj15q7
- h2Kw==
-X-Gm-Message-State: AOAM530tVDyHr+BvmDNumAyxfL6fMGq/TVrC14o8WOG/iUUFtBhEpzQf
- 1JMngnKJKW3zoccw3gfq4/7Uz9WKA6+pnQ==
-X-Google-Smtp-Source: ABdhPJwEMXsPs+bVzMlQGYffoOm4wFYKsfeIBRI1e4BRHa/PWn6zRX8yQ1wd5sU5GUkZVhSLg4tzQA==
-X-Received: by 2002:a17:90a:6289:: with SMTP id
- d9mr13725072pjj.84.1620438499617; 
- Fri, 07 May 2021 18:48:19 -0700 (PDT)
+ bh=qte4K79lCpY0AmN2YUzdHn4+5EUkv6ETvmLEVo/dFmc=;
+ b=mCdjQbgUzsbT3hGSbkUsWgfLOMULOj95CxfME9CKBntZZo4UnIl0LFX4zhQwSX0Y0T
+ R1ibBvD22ibN/3S3NFRgYqjyFC2k6btUXoHUt66kCfpgd9UGD7w2rVarfI3AHqSGbwxK
+ edreehh/tM54Uh4MNLbF7xPIWv53ILl82iJhHrNgVAZ+256682ZDOq2Vr+rFitVHzDJg
+ WS4jzU/10o1Ss9JoWVTGouYzKV1eMIg2s+Oz6e0vVxRlV7oGCPnd15yeIIa9eWJfDpx+
+ ZDyZ8rKORc/xbZ7OpucCKjNnnQ9Hl03Xex8TCb/X8jlpUiSY/9+wuSnxrRjfS9lfy0Xw
+ o+HQ==
+X-Gm-Message-State: AOAM531nBXDm9eehUccBvLmJAiyr4M8aWiGh/zRvFmjrgaNOXbjigKGW
+ Kr/QjQAOm+IVtvfcHXuQwNI0MzotRz5n9w==
+X-Google-Smtp-Source: ABdhPJy7w6q8MkrWwxB5epPsnWXuhXkDVkuqStSuhQHoSsrcDUEnQ/kljg7M9bcJbQ5MIFMbrpz3gw==
+X-Received: by 2002:a62:aa04:0:b029:28e:f2ee:f7a8 with SMTP id
+ e4-20020a62aa040000b029028ef2eef7a8mr13726888pff.62.1620438500101; 
+ Fri, 07 May 2021 18:48:20 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
  by smtp.gmail.com with ESMTPSA id t4sm5819681pfq.165.2021.05.07.18.48.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 07 May 2021 18:48:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/72] softfloat: Use pointers with parts_silence_nan
-Date: Fri,  7 May 2021 18:47:14 -0700
-Message-Id: <20210508014802.892561-25-richard.henderson@linaro.org>
+Subject: [PATCH 25/72] softfloat: Rearrange FloatParts64
+Date: Fri,  7 May 2021 18:47:15 -0700
+Message-Id: <20210508014802.892561-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210508014802.892561-1-richard.henderson@linaro.org>
 References: <20210508014802.892561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,127 +87,40 @@ Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the same time, rename to parts64_silence_nan, split out
-parts_silence_nan_frac, and define a macro for parts_silence_nan.
+Shuffle the fraction to the end, otherwise sort by size.
+Add frac_hi and frac_lo members to alias frac.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c                | 16 +++++++++-------
- fpu/softfloat-specialize.c.inc | 17 +++++++++++------
- 2 files changed, 20 insertions(+), 13 deletions(-)
+ fpu/softfloat.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index b0cbd5941c..2123453d40 100644
+index 2123453d40..2d6f61ee7a 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -657,6 +657,7 @@ static inline float64 float64_pack_raw(const FloatParts64 *p)
- #include "softfloat-specialize.c.inc"
+@@ -511,10 +511,19 @@ static inline __attribute__((unused)) bool is_qnan(FloatClass c)
+  */
  
- #define parts_default_nan  parts64_default_nan
-+#define parts_silence_nan  parts64_silence_nan
+ typedef struct {
+-    uint64_t frac;
+-    int32_t  exp;
+     FloatClass cls;
+     bool sign;
++    int32_t exp;
++    union {
++        /* Routines that know the structure may reference the singular name. */
++        uint64_t frac;
++        /*
++         * Routines expanded with multiple structures reference "hi" and "lo".
++         * In this structure, the one word is both highest and lowest.
++         */
++        uint64_t frac_hi;
++        uint64_t frac_lo;
++    };
+ } FloatParts64;
  
- /* Canonicalize EXP and FRAC, setting CLS.  */
- static FloatParts64 sf_canonicalize(FloatParts64 part, const FloatFmt *parm,
-@@ -851,7 +852,8 @@ static FloatParts64 return_nan(FloatParts64 a, float_status *s)
-     if (is_snan(a.cls)) {
-         float_raise(float_flag_invalid, s);
-         if (!s->default_nan_mode) {
--            return parts_silence_nan(a, s);
-+            parts_silence_nan(&a, s);
-+            return a;
-         }
-     } else if (!s->default_nan_mode) {
-         return a;
-@@ -875,7 +877,7 @@ static FloatParts64 pick_nan(FloatParts64 a, FloatParts64 b, float_status *s)
-             a = b;
-         }
-         if (is_snan(a.cls)) {
--            return parts_silence_nan(a, s);
-+            parts_silence_nan(&a, s);
-         }
-     }
-     return a;
-@@ -916,7 +918,7 @@ static FloatParts64 pick_nan_muladd(FloatParts64 a, FloatParts64 b, FloatParts64
-     }
- 
-     if (is_snan(a.cls)) {
--        return parts_silence_nan(a, s);
-+        parts_silence_nan(&a, s);
-     }
-     return a;
- }
-@@ -3801,7 +3803,7 @@ float16 float16_silence_nan(float16 a, float_status *status)
- 
-     float16_unpack_raw(&p, a);
-     p.frac <<= float16_params.frac_shift;
--    p = parts_silence_nan(p, status);
-+    parts_silence_nan(&p, status);
-     p.frac >>= float16_params.frac_shift;
-     return float16_pack_raw(&p);
- }
-@@ -3812,7 +3814,7 @@ float32 float32_silence_nan(float32 a, float_status *status)
- 
-     float32_unpack_raw(&p, a);
-     p.frac <<= float32_params.frac_shift;
--    p = parts_silence_nan(p, status);
-+    parts_silence_nan(&p, status);
-     p.frac >>= float32_params.frac_shift;
-     return float32_pack_raw(&p);
- }
-@@ -3823,7 +3825,7 @@ float64 float64_silence_nan(float64 a, float_status *status)
- 
-     float64_unpack_raw(&p, a);
-     p.frac <<= float64_params.frac_shift;
--    p = parts_silence_nan(p, status);
-+    parts_silence_nan(&p, status);
-     p.frac >>= float64_params.frac_shift;
-     return float64_pack_raw(&p);
- }
-@@ -3834,7 +3836,7 @@ bfloat16 bfloat16_silence_nan(bfloat16 a, float_status *status)
- 
-     bfloat16_unpack_raw(&p, a);
-     p.frac <<= bfloat16_params.frac_shift;
--    p = parts_silence_nan(p, status);
-+    parts_silence_nan(&p, status);
-     p.frac >>= bfloat16_params.frac_shift;
-     return bfloat16_pack_raw(&p);
- }
-diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
-index 085ddea62b..2a1bc66633 100644
---- a/fpu/softfloat-specialize.c.inc
-+++ b/fpu/softfloat-specialize.c.inc
-@@ -177,20 +177,25 @@ static void parts64_default_nan(FloatParts64 *p, float_status *status)
- | floating-point parts.
- *----------------------------------------------------------------------------*/
- 
--static FloatParts64 parts_silence_nan(FloatParts64 a, float_status *status)
-+static uint64_t parts_silence_nan_frac(uint64_t frac, float_status *status)
- {
-     g_assert(!no_signaling_nans(status));
-     g_assert(!status->default_nan_mode);
- 
-     /* The only snan_bit_is_one target without default_nan_mode is HPPA. */
-     if (snan_bit_is_one(status)) {
--        a.frac &= ~(1ULL << (DECOMPOSED_BINARY_POINT - 1));
--        a.frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 2);
-+        frac &= ~(1ULL << (DECOMPOSED_BINARY_POINT - 1));
-+        frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 2);
-     } else {
--        a.frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 1);
-+        frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 1);
-     }
--    a.cls = float_class_qnan;
--    return a;
-+    return frac;
-+}
-+
-+static void parts64_silence_nan(FloatParts64 *p, float_status *status)
-+{
-+    p->frac = parts_silence_nan_frac(p->frac, status);
-+    p->cls = float_class_qnan;
- }
- 
- /*----------------------------------------------------------------------------
+ #define DECOMPOSED_BINARY_POINT    63
 -- 
 2.25.1
 
