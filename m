@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952C3376EC4
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:29:46 +0200 (CEST)
-Received: from localhost ([::1]:35134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE295376ECC
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:32:00 +0200 (CEST)
+Received: from localhost ([::1]:45622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfCiv-0007bU-Ky
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:29:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41624)
+	id 1lfCl5-00068P-Q0
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:31:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC88-0003Gz-6J
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:44 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:47040)
+ id 1lfC80-0002kn-1P
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:36 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:33530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC84-0005Vp-Uf
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:43 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- fa21-20020a17090af0d5b0290157eb6b590fso6554012pjb.5
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:51:40 -0700 (PDT)
+ id 1lfC7x-0005Qd-Sd
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:35 -0400
+Received: by mail-pg1-x530.google.com with SMTP id i5so3886826pgm.0
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:51:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JS8tZ6x51imi92atbxTjzW0YkjZEJbOn/9U4cbpj3JE=;
- b=Jzx+hLB96tOM3ip4mAYtlxwCUdA5jv8aSxM/7533rNlGuuudI25kMLvmb00hmFgwMp
- uFrFu2Ywl6M3ZIt9y3ZqQwiFlroQyQ0HB/+5Fp/jkqIN9E5yc7ePAkhfqDohDMs4ABLn
- DIvjrjQEUl3XMQewrH6qOxRMo07C1vJIDKZnLcYQxe4Hc/C4Y7IAsvLUvbQZ8/oaq1op
- 14XbLOB4NeZYJONrL1XwCKgpgAAWIU+ixDbvBi5daBXdwLiXwnX+6X/+XOdi5fO43xd5
- y9qT2rI6soW1WhuewUOtgLwpLaHzW24W6xGOSQjkU4U6uefeWimfSVB0rRyMN0hom0JK
- ylbA==
+ bh=NmfQRKXb4KL5cYYsxkAJAYTlB0HbS3cmX2hT3HN7i+I=;
+ b=bf2u63eVDvx6kgXw1fwgCnw3JkMlxALkwMBy6d6uIWrBH6aw+Nr3tqm2RyvZNomg5p
+ Mrm495QltmimR2Hy+CPDXQBLKCtTR1CCmj/vxihUbxfEfxFiMAlpBfExSOOKTsoEUpGu
+ NknGXBrWuSMwWPrJxHLAnBQrlw5eA285WmdKbHpQkC20PWY4ETOZx5yPBcYEfbMsLvPa
+ 09sJ6pI6MQVih8FgPdmoA+C4mOeqCP8srDbKsLICarBh4e9QZcCYFzo8+/uwsYuygLYH
+ zKnwXiDutqYghT0ulArXOAGA3iBVXVnlQ0zAi7cFfw6gw9pGKVphwhaS+y9eFYDXlvlE
+ PHng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JS8tZ6x51imi92atbxTjzW0YkjZEJbOn/9U4cbpj3JE=;
- b=a9QvkLfjwJbgxac3KYwf/LeGQgF+sjcNNIZ+MPeN8wpeiju5BSHWP1tariZzw07PEI
- QT3MtfgE+9/cHlfHLP9qGm9T71huP0Wg28IEU4BSXakUKuJTetFvxxv2v9zNOPfnAa4r
- EJ/vGGqG1zd0sHlLx2XrDDlmfKz/McaRtgDjH6XLytMARDzwx8VxhTQPGoy7ccH173fb
- +zvcqZKqQYOH/a9q+MgQPhlC/psM7rUNxYtHTWufRxjViXFHg37R6/+07MmfBx3AtlQT
- EtzOQCK7Vx8exBylunL66eb93/iDnZ9FURlu7s8fi0pqmi7tqrtkOnV/dOzDMIdPbZq+
- 1c3Q==
-X-Gm-Message-State: AOAM531Ww4PeVtO7cr56HVsYOwVC7eZGECtQVmsHAVsOHSBgEmiITHKe
- pDWeUGnaMEPN7LHzauWrTs1fFG0JtmQlWA==
-X-Google-Smtp-Source: ABdhPJwjlrkEwIWUYgNP79GHIUVkF2GLkOLClTQOMEYTNiqODnMSnYSkC289dxcWQUvMUvl6DaRhSg==
-X-Received: by 2002:a17:90a:4588:: with SMTP id
- v8mr26156047pjg.195.1620438699612; 
- Fri, 07 May 2021 18:51:39 -0700 (PDT)
+ bh=NmfQRKXb4KL5cYYsxkAJAYTlB0HbS3cmX2hT3HN7i+I=;
+ b=TDilsDk2Wcs7U/O/ABMExC0Ycd+j215G6h0+ebnRGMuwkKGE8rHh8bcFjAA9tNpEbr
+ Zq00bm0GYYwkBYI7nT1q1vkMr7qRtujKPKE2eRvV6fGhxCW+5I5G0YEYxxR8B/AH2FmF
+ dI1kwTz5he9NGGLDarWVpu0F3w2zjUfCm0PeA8SNTOaJ0wT01iyprRnITVYWaRUXnmHM
+ 8aQ0zcMFVT+F/WpC7jDLLV96A84v7Xcd7BZ+dziuGRPaXPJwGHBE9bkuOC6pEIxBLVFJ
+ 0YGZ9KFpDwj6omyACb1hOZikt9EWlB2eIHhXWqk1S3BLfQnEZPBTSmmeYXdybq+2w+zD
+ fu7Q==
+X-Gm-Message-State: AOAM533U83PIAf0DgQOYuxCxjEF+Hp8VY2bFmSwf1FR0LipAU/2Ov9ww
+ zKVYthV0P702ehFsl5G76R/eb7xAWwilEw==
+X-Google-Smtp-Source: ABdhPJwiigpFzl1gTb2+p7QNxEoqYReqOi79QCZ2EduukE1Psq1VtQmOIuUA7nSdJKJ6M5aG3ytDKQ==
+X-Received: by 2002:a63:ff45:: with SMTP id s5mr13065095pgk.274.1620438692482; 
+ Fri, 07 May 2021 18:51:32 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
- by smtp.gmail.com with ESMTPSA id 204sm5861396pfw.158.2021.05.07.18.51.39
+ by smtp.gmail.com with ESMTPSA id 204sm5861396pfw.158.2021.05.07.18.51.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 18:51:39 -0700 (PDT)
+ Fri, 07 May 2021 18:51:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 55/72] softfloat: Reduce FloatFmt
-Date: Fri,  7 May 2021 18:47:45 -0700
-Message-Id: <20210508014802.892561-56-richard.henderson@linaro.org>
+Subject: [PATCH 44/72] softfloat: Convert float-to-float conversions with
+ float128
+Date: Fri,  7 May 2021 18:47:34 -0700
+Message-Id: <20210508014802.892561-45-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210508014802.892561-1-richard.henderson@linaro.org>
 References: <20210508014802.892561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,87 +87,256 @@ Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove frac_lsb, frac_lsbm1, roundeven_mask.  Compute
-these from round_mask in parts$N_uncanon_normal.
-
-With floatx80, round_mask will not be tied to frac_shift.
-Everything else is easily computable.
+Introduce parts_float_to_float_widen and parts_float_to_float_narrow.
+Use them for float128_to_float{32,64} and float{32,64}_to_float128.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c           | 29 ++++++++++++-----------------
- fpu/softfloat-parts.c.inc |  6 +++---
- 2 files changed, 15 insertions(+), 20 deletions(-)
+ fpu/softfloat.c | 203 ++++++++++++++++--------------------------------
+ 1 file changed, 69 insertions(+), 134 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 4df69029ec..6a77e35663 100644
+index 06fac8f41c..1b86111279 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -562,9 +562,7 @@ typedef struct {
-  *   frac_size: the size of the fraction field
-  *   frac_shift: shift to normalise the fraction with DECOMPOSED_BINARY_POINT
-  * The following are computed based the size of fraction
-- *   frac_lsb: least significant bit of fraction
-- *   frac_lsbm1: the bit below the least significant bit (for rounding)
-- *   round_mask/roundeven_mask: masks used for rounding
-+ *   round_mask: bits below lsb which must be rounded
-  * The following optional modifiers are available:
-  *   arm_althp: handle ARM Alternative Half Precision
-  */
-@@ -574,24 +572,21 @@ typedef struct {
-     int exp_max;
-     int frac_size;
-     int frac_shift;
--    uint64_t frac_lsb;
--    uint64_t frac_lsbm1;
--    uint64_t round_mask;
--    uint64_t roundeven_mask;
-     bool arm_althp;
-+    uint64_t round_mask;
- } FloatFmt;
+@@ -2091,6 +2091,35 @@ static void parts128_float_to_float(FloatParts128 *a, float_status *s)
+ #define parts_float_to_float(P, S) \
+     PARTS_GENERIC_64_128(float_to_float, P)(P, S)
  
- /* Expand fields based on the size of exponent and fraction */
--#define FLOAT_PARAMS(E, F)                                           \
--    .exp_size       = E,                                             \
--    .exp_bias       = ((1 << E) - 1) >> 1,                           \
--    .exp_max        = (1 << E) - 1,                                  \
--    .frac_size      = F,                                             \
--    .frac_shift     = (-F - 1) & 63,                                 \
--    .frac_lsb       = 1ull << ((-F - 1) & 63),                       \
--    .frac_lsbm1     = 1ull << ((-F - 2) & 63),                       \
--    .round_mask     = (1ull << ((-F - 1) & 63)) - 1,                 \
--    .roundeven_mask = (2ull << ((-F - 1) & 63)) - 1
-+#define FLOAT_PARAMS_(E, F)                             \
-+    .exp_size       = E,                                \
-+    .exp_bias       = ((1 << E) - 1) >> 1,              \
-+    .exp_max        = (1 << E) - 1,                     \
-+    .frac_size      = F
++static void parts_float_to_float_narrow(FloatParts64 *a, FloatParts128 *b,
++                                        float_status *s)
++{
++    a->cls = b->cls;
++    a->sign = b->sign;
++    a->exp = b->exp;
 +
-+#define FLOAT_PARAMS(E, F)                              \
-+    FLOAT_PARAMS_(E, F),                                \
-+    .frac_shift     = (-F - 1) & 63,                    \
-+    .round_mask     = (1ull << ((-F - 1) & 63)) - 1
- 
- static const FloatFmt float16_params = {
-     FLOAT_PARAMS(5, 10)
-diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index 65462bf6cb..3ee6552d5a 100644
---- a/fpu/softfloat-parts.c.inc
-+++ b/fpu/softfloat-parts.c.inc
-@@ -145,10 +145,10 @@ static void partsN(uncanon_normal)(FloatPartsN *p, float_status *s,
++    if (a->cls == float_class_normal) {
++        frac_truncjam(a, b);
++    } else if (is_nan(a->cls)) {
++        /* Discard the low bits of the NaN. */
++        a->frac = b->frac_hi;
++        parts_return_nan(a, s);
++    }
++}
++
++static void parts_float_to_float_widen(FloatParts128 *a, FloatParts64 *b,
++                                       float_status *s)
++{
++    a->cls = b->cls;
++    a->sign = b->sign;
++    a->exp = b->exp;
++    frac_widen(a, b);
++
++    if (is_nan(a->cls)) {
++        parts_return_nan(a, s);
++    }
++}
++
+ float32 float16_to_float32(float16 a, bool ieee, float_status *s)
  {
-     const int exp_max = fmt->exp_max;
-     const int frac_shift = fmt->frac_shift;
--    const uint64_t frac_lsb = fmt->frac_lsb;
--    const uint64_t frac_lsbm1 = fmt->frac_lsbm1;
-     const uint64_t round_mask = fmt->round_mask;
--    const uint64_t roundeven_mask = fmt->roundeven_mask;
-+    const uint64_t frac_lsb = round_mask + 1;
-+    const uint64_t frac_lsbm1 = round_mask ^ (round_mask >> 1);
-+    const uint64_t roundeven_mask = round_mask | frac_lsb;
-     uint64_t inc;
-     bool overflow_norm;
-     int exp, flags = 0;
+     const FloatFmt *fmt16 = ieee ? &float16_params : &float16_params_ahp;
+@@ -2214,6 +2243,46 @@ bfloat16 float64_to_bfloat16(float64 a, float_status *s)
+     return bfloat16_round_pack_canonical(&p, s);
+ }
+ 
++float32 float128_to_float32(float128 a, float_status *s)
++{
++    FloatParts64 p64;
++    FloatParts128 p128;
++
++    float128_unpack_canonical(&p128, a, s);
++    parts_float_to_float_narrow(&p64, &p128, s);
++    return float32_round_pack_canonical(&p64, s);
++}
++
++float64 float128_to_float64(float128 a, float_status *s)
++{
++    FloatParts64 p64;
++    FloatParts128 p128;
++
++    float128_unpack_canonical(&p128, a, s);
++    parts_float_to_float_narrow(&p64, &p128, s);
++    return float64_round_pack_canonical(&p64, s);
++}
++
++float128 float32_to_float128(float32 a, float_status *s)
++{
++    FloatParts64 p64;
++    FloatParts128 p128;
++
++    float32_unpack_canonical(&p64, a, s);
++    parts_float_to_float_widen(&p128, &p64, s);
++    return float128_round_pack_canonical(&p128, s);
++}
++
++float128 float64_to_float128(float64 a, float_status *s)
++{
++    FloatParts64 p64;
++    FloatParts128 p128;
++
++    float64_unpack_canonical(&p64, a, s);
++    parts_float_to_float_widen(&p128, &p64, s);
++    return float128_round_pack_canonical(&p128, s);
++}
++
+ /*
+  * Rounds the floating-point value `a' to an integer, and returns the
+  * result as a floating-point value. The operation is performed
+@@ -5174,38 +5243,6 @@ floatx80 float32_to_floatx80(float32 a, float_status *status)
+ 
+ }
+ 
+-/*----------------------------------------------------------------------------
+-| Returns the result of converting the single-precision floating-point value
+-| `a' to the double-precision floating-point format.  The conversion is
+-| performed according to the IEC/IEEE Standard for Binary Floating-Point
+-| Arithmetic.
+-*----------------------------------------------------------------------------*/
+-
+-float128 float32_to_float128(float32 a, float_status *status)
+-{
+-    bool aSign;
+-    int aExp;
+-    uint32_t aSig;
+-
+-    a = float32_squash_input_denormal(a, status);
+-    aSig = extractFloat32Frac( a );
+-    aExp = extractFloat32Exp( a );
+-    aSign = extractFloat32Sign( a );
+-    if ( aExp == 0xFF ) {
+-        if (aSig) {
+-            return commonNaNToFloat128(float32ToCommonNaN(a, status), status);
+-        }
+-        return packFloat128( aSign, 0x7FFF, 0, 0 );
+-    }
+-    if ( aExp == 0 ) {
+-        if ( aSig == 0 ) return packFloat128( aSign, 0, 0, 0 );
+-        normalizeFloat32Subnormal( aSig, &aExp, &aSig );
+-        --aExp;
+-    }
+-    return packFloat128( aSign, aExp + 0x3F80, ( (uint64_t) aSig )<<25, 0 );
+-
+-}
+-
+ /*----------------------------------------------------------------------------
+ | Returns the remainder of the single-precision floating-point value `a'
+ | with respect to the corresponding value `b'.  The operation is performed
+@@ -5479,40 +5516,6 @@ floatx80 float64_to_floatx80(float64 a, float_status *status)
+ 
+ }
+ 
+-/*----------------------------------------------------------------------------
+-| Returns the result of converting the double-precision floating-point value
+-| `a' to the quadruple-precision floating-point format.  The conversion is
+-| performed according to the IEC/IEEE Standard for Binary Floating-Point
+-| Arithmetic.
+-*----------------------------------------------------------------------------*/
+-
+-float128 float64_to_float128(float64 a, float_status *status)
+-{
+-    bool aSign;
+-    int aExp;
+-    uint64_t aSig, zSig0, zSig1;
+-
+-    a = float64_squash_input_denormal(a, status);
+-    aSig = extractFloat64Frac( a );
+-    aExp = extractFloat64Exp( a );
+-    aSign = extractFloat64Sign( a );
+-    if ( aExp == 0x7FF ) {
+-        if (aSig) {
+-            return commonNaNToFloat128(float64ToCommonNaN(a, status), status);
+-        }
+-        return packFloat128( aSign, 0x7FFF, 0, 0 );
+-    }
+-    if ( aExp == 0 ) {
+-        if ( aSig == 0 ) return packFloat128( aSign, 0, 0, 0 );
+-        normalizeFloat64Subnormal( aSig, &aExp, &aSig );
+-        --aExp;
+-    }
+-    shift128Right( aSig, 0, 4, &zSig0, &zSig1 );
+-    return packFloat128( aSign, aExp + 0x3C00, zSig0, zSig1 );
+-
+-}
+-
+-
+ /*----------------------------------------------------------------------------
+ | Returns the remainder of the double-precision floating-point value `a'
+ | with respect to the corresponding value `b'.  The operation is performed
+@@ -6914,74 +6917,6 @@ uint32_t float128_to_uint32(float128 a, float_status *status)
+     return res;
+ }
+ 
+-/*----------------------------------------------------------------------------
+-| Returns the result of converting the quadruple-precision floating-point
+-| value `a' to the single-precision floating-point format.  The conversion
+-| is performed according to the IEC/IEEE Standard for Binary Floating-Point
+-| Arithmetic.
+-*----------------------------------------------------------------------------*/
+-
+-float32 float128_to_float32(float128 a, float_status *status)
+-{
+-    bool aSign;
+-    int32_t aExp;
+-    uint64_t aSig0, aSig1;
+-    uint32_t zSig;
+-
+-    aSig1 = extractFloat128Frac1( a );
+-    aSig0 = extractFloat128Frac0( a );
+-    aExp = extractFloat128Exp( a );
+-    aSign = extractFloat128Sign( a );
+-    if ( aExp == 0x7FFF ) {
+-        if ( aSig0 | aSig1 ) {
+-            return commonNaNToFloat32(float128ToCommonNaN(a, status), status);
+-        }
+-        return packFloat32( aSign, 0xFF, 0 );
+-    }
+-    aSig0 |= ( aSig1 != 0 );
+-    shift64RightJamming( aSig0, 18, &aSig0 );
+-    zSig = aSig0;
+-    if ( aExp || zSig ) {
+-        zSig |= 0x40000000;
+-        aExp -= 0x3F81;
+-    }
+-    return roundAndPackFloat32(aSign, aExp, zSig, status);
+-
+-}
+-
+-/*----------------------------------------------------------------------------
+-| Returns the result of converting the quadruple-precision floating-point
+-| value `a' to the double-precision floating-point format.  The conversion
+-| is performed according to the IEC/IEEE Standard for Binary Floating-Point
+-| Arithmetic.
+-*----------------------------------------------------------------------------*/
+-
+-float64 float128_to_float64(float128 a, float_status *status)
+-{
+-    bool aSign;
+-    int32_t aExp;
+-    uint64_t aSig0, aSig1;
+-
+-    aSig1 = extractFloat128Frac1( a );
+-    aSig0 = extractFloat128Frac0( a );
+-    aExp = extractFloat128Exp( a );
+-    aSign = extractFloat128Sign( a );
+-    if ( aExp == 0x7FFF ) {
+-        if ( aSig0 | aSig1 ) {
+-            return commonNaNToFloat64(float128ToCommonNaN(a, status), status);
+-        }
+-        return packFloat64( aSign, 0x7FF, 0 );
+-    }
+-    shortShift128Left( aSig0, aSig1, 14, &aSig0, &aSig1 );
+-    aSig0 |= ( aSig1 != 0 );
+-    if ( aExp || aSig0 ) {
+-        aSig0 |= UINT64_C(0x4000000000000000);
+-        aExp -= 0x3C01;
+-    }
+-    return roundAndPackFloat64(aSign, aExp, aSig0, status);
+-
+-}
+-
+ /*----------------------------------------------------------------------------
+ | Returns the result of converting the quadruple-precision floating-point
+ | value `a' to the extended double-precision floating-point format.  The
 -- 
 2.25.1
 
