@@ -2,59 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE64E37706C
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 09:32:19 +0200 (CEST)
-Received: from localhost ([::1]:32978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA2737708C
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 10:01:29 +0200 (CEST)
+Received: from localhost ([::1]:34770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfHRi-00017b-Nd
-	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 03:32:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33604)
+	id 1lfHtv-0005lt-SC
+	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 04:01:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lfHQj-0008EQ-MT
- for qemu-devel@nongnu.org; Sat, 08 May 2021 03:31:17 -0400
-Resent-Date: Sat, 08 May 2021 03:31:17 -0400
-Resent-Message-Id: <E1lfHQj-0008EQ-MT@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21329)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lfHsg-0004vS-9s
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 04:00:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lfHQg-0002kE-DC
- for qemu-devel@nongnu.org; Sat, 08 May 2021 03:31:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1620459063; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=izWMVz79q+Uugf0Rqzk0xH0/rX8pQ51qS6JS5w8FSUUoNbGq+xOCtOwZCKhsJKSu6AQMGKmepxJ3S++IwEnSKITbSLlgtZ+YQgQ21A3DmaKO9fvV46ZNvutQq7va0Zuyq2fRieKah8mmzsS0DaKkz11jmx7C2Nb9sURnDWOMyGg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1620459063;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=x7SS10HVCq8YR0A2TEHPY1l9dLKVTk62qPVoHsAgVMs=; 
- b=fvFDL6Vybrts+JWQF504LkaF1uDUsS4pMB538FzMe+dnHxOVlNiyPoSdbDSBbHqzUSk+xz4QtirDVJfl7VniJn9TnX+xsA8IDwRDaGBw+xrDOieSpp5YpyTPq24P1ENaL3lHaaPgAmLdVUM3bw5B1PCQhcOKOHqwdV2UGjVzfyc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1620459061399937.0029605791343;
- Sat, 8 May 2021 00:31:01 -0700 (PDT)
-In-Reply-To: <1620458319-5670-1-git-send-email-jasowang@redhat.com>
-Subject: Re: [PULL 00/10] Net patches
-Message-ID: <162045906038.18374.9779364641733516022@d887ba82c771>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lfHsX-0004uh-DW
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 04:00:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620460799;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TWJ01udfSU2X02ftV6JvWiWDxbbfvO5Ag72j32ane4w=;
+ b=hHjkVeZUY76HTBjHzZikHjYMsPxxCxRph2Y1nR9/tjrmbkQ2IVGk2uJKQSQLAAleamTjnu
+ WbsQDW7/FvqZHPt/Uou9I8SOeug6teQF5LttbcENa+g6SRL8pj32he90j5HhD+laNd26CT
+ Khfeycrkiv4ndKW0ePzdn2J3Qo6rJpM=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-hWsyL7nrNX6At1Gr6KoluQ-1; Sat, 08 May 2021 03:59:56 -0400
+X-MC-Unique: hWsyL7nrNX6At1Gr6KoluQ-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ g6-20020a05651c0446b02900dee525f111so5920624ljg.19
+ for <qemu-devel@nongnu.org>; Sat, 08 May 2021 00:59:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TWJ01udfSU2X02ftV6JvWiWDxbbfvO5Ag72j32ane4w=;
+ b=TATV5XnL92E0sLH5Bk4xd9V0J7vgyGClTt+L6bhbZI0DhfRfgGTETMV1n7axn4xDIu
+ 3V41qciuJ9C1+co9judatDcHXZtggvxHUUiT173gjSm7h2rhOBVSEJY7wEfzKCikOS10
+ Oh85cUlMxfP3PU7nfARK6EPCX+2DI6mgpTEQoHE4vrFcjPkUWSglymN4k+1qImdxp5iA
+ 6HDj3v7aUkuyiqUHvmPxH/b6fsWUpkWKhjd9RQUh2niVd8iW6/Q67z4cwg3ITRNg91Bf
+ jlgjXtrH+XOO0Oy8LoRlbB/RzRr/IMAXmQV/3oDcCCS/nO75L/duPCiDzPvNCQPWX9Sv
+ 6GHQ==
+X-Gm-Message-State: AOAM533Vlrc1iWBblBf7xXAohc3xI7XUwKmrrIxAFbun0sPOWH31UErx
+ FWjfIy8PUNk3BthKrcQaSSqZqgHH95PSvxol9vJcji9MtC6Q9f4qXzMfSRzM53anPzniKa4md4K
+ 6UwfhYfz6wHpeohY20czkUc91Hwcusmg=
+X-Received: by 2002:a2e:b0cb:: with SMTP id g11mr11309045ljl.261.1620460794330; 
+ Sat, 08 May 2021 00:59:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwjIp5OkMNRJ0FvZwoBy3dtCtoDCv68CaQ0ZQipYCIn8Xfu4wa5gFMm9INPU0JccyOJqkZlO+LvMq3Jsp03EZE=
+X-Received: by 2002:a2e:b0cb:: with SMTP id g11mr11309028ljl.261.1620460793946; 
+ Sat, 08 May 2021 00:59:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: jasowang@redhat.com
-Date: Sat, 8 May 2021 00:31:01 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UC_GIBBERISH_OBFU=1 autolearn=no autolearn_force=no
+References: <1620458319-5670-1-git-send-email-jasowang@redhat.com>
+ <162045906038.18374.9779364641733516022@d887ba82c771>
+In-Reply-To: <162045906038.18374.9779364641733516022@d887ba82c771>
+From: Jason Wang <jasowang@redhat.com>
+Date: Sat, 8 May 2021 15:59:42 +0800
+Message-ID: <CACGkMEuuLEi+JVpacDiBxk8pg5ZS-v+8xVYWq8NAQLgxN2LDhA@mail.gmail.com>
+Subject: Re: [PULL 00/10] Net patches
+To: qemu-devel <qemu-devel@nongnu.org>, andrew@daynix.com
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,272 +89,485 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNjIwNDU4MzE5LTU2NzAtMS1n
-aXQtc2VuZC1lbWFpbC1qYXNvd2FuZ0ByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMTYyMDQ1ODMx
-OS01NjcwLTEtZ2l0LXNlbmQtZW1haWwtamFzb3dhbmdAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVM
-TCAwMC8xMF0gTmV0IHBhdGNoZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jh
-c2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMg
-VHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0
-cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09
-CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20g
-aHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAg
-ICAgIHBhdGNoZXcvMTYyMDQwMjgwMy05MjM3LTEtZ2l0LXNlbmQtZW1haWwtamFnLnJhbWFuQG9y
-YWNsZS5jb20gLT4gcGF0Y2hldy8xNjIwNDAyODAzLTkyMzctMS1naXQtc2VuZC1lbWFpbC1qYWcu
-cmFtYW5Ab3JhY2xlLmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzE2MjA0NTgzMTkt
-NTY3MC0xLWdpdC1zZW5kLWVtYWlsLWphc293YW5nQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8xNjIw
-NDU4MzE5LTU2NzAtMS1naXQtc2VuZC1lbWFpbC1qYXNvd2FuZ0ByZWRoYXQuY29tClN3aXRjaGVk
-IHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYTM0ZDgxYSB0YXAtYnNkOiBSZW1vdmUgc3BlY2lhbCBj
-YXNpbmcgZm9yIG9sZGVyIE9wZW5CU0QgcmVsZWFzZXMKNGI5ODdmNCB2aXJ0aW8tbmV0OiBmYWls
-b3ZlcjogYWRkIG1pc3NpbmcgcmVtb3ZlX21pZ3JhdGlvbl9zdGF0ZV9jaGFuZ2Vfbm90aWZpZXIo
-KQozZGMyOTlkIGh3L25ldC9pbXhfZmVjOiByZXR1cm4gMHhmZmZmIHdoZW4gYWNjZXNzaW5nIG5v
-bi1leGlzdGluZyBQSFkKNzI5ZThkZiBNQUlOVEFJTkVSUzogQWRkZWQgZUJQRiBtYWludGFpbmVy
-cyBpbmZvcm1hdGlvbi4KYWI2NWQ5OCBkb2NzOiBBZGRlZCBlQlBGIGRvY3VtZW50YXRpb24uCjkw
-NTcyOWEgdmlydGlvLW5ldDogQWRkZWQgZUJQRiBSU1MgdG8gdmlydGlvLW5ldC4KNWE3ZDM5MyBl
-YnBmOiBBZGRlZCBlQlBGIFJTUyBsb2FkZXIuCmVhZTk0NjIgZWJwZjogQWRkZWQgZUJQRiBSU1Mg
-cHJvZ3JhbS4KYjY5NjJiZSBuZXQ6IEFkZGVkIFNldFN0ZWVyaW5nRUJQRiBtZXRob2QgZm9yIE5l
-dENsaWVudFN0YXRlLgoxMjA3YzhlIG5ldC90YXA6IEFkZGVkIFRVTlNFVFNURUVSSU5HRUJQRiBj
-b2RlLgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8xMCBDaGVja2luZyBjb21taXQgMTIwN2M4ZTJh
-MDc2IChuZXQvdGFwOiBBZGRlZCBUVU5TRVRTVEVFUklOR0VCUEYgY29kZS4pCjIvMTAgQ2hlY2tp
-bmcgY29tbWl0IGI2OTYyYmU5Y2E5MSAobmV0OiBBZGRlZCBTZXRTdGVlcmluZ0VCUEYgbWV0aG9k
-IGZvciBOZXRDbGllbnRTdGF0ZS4pCjMvMTAgQ2hlY2tpbmcgY29tbWl0IGVhZTk0NjIxYTRiMSAo
-ZWJwZjogQWRkZWQgZUJQRiBSU1MgcHJvZ3JhbS4pClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVl
-ICRhY3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gu
-cGwgbGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
-b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyMzogCm5ldyBmaWxlIG1vZGUgMTAwNzU1
-CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjExOiBGSUxFOiB0b29scy9lYnBm
-L3Jzcy5icGYuYzoxNTc6CisgKiBBY2NvcmRpbmcgdG8gaHR0cHM6Ly93d3cuaWFuYS5vcmcvYXNz
-aWdubWVudHMvaXB2Ni1wYXJhbWV0ZXJzL2lwdjYtcGFyYW1ldGVycy54aHRtbAoKV0FSTklORzog
-bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzIxNDogRklMRTogdG9vbHMvZWJwZi9yc3MuYnBmLmM6
-MTYwOgorICogTmVlZCB0byBjaG9vc2UgcmVhc29uYWJsZSBhbW91bnQgb2YgbWF4aW11bSBleHRl
-bnNpb25zL29wdGlvbnMgd2UgbWF5IGNoZWNrIHRvIGZpbmQKCldBUk5JTkc6IGxpbmUgb3ZlciA4
-MCBjaGFyYWN0ZXJzCiMyODE6IEZJTEU6IHRvb2xzL2VicGYvcnNzLmJwZi5jOjIyNzoKKyAgICAg
-ICAgICAgICAgICAgICAgICAgICpsNF9vZmZzZXQgKyBvcHRfb2Zmc2V0ICsgb2Zmc2V0b2Yoc3Ry
-dWN0IGlwdjZfZGVzdG9wdF9oYW8sIGFkZHIpLAoKdG90YWw6IDAgZXJyb3JzLCA0IHdhcm5pbmdz
-LCA1OTAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
-ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
-b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
-Lgo0LzEwIENoZWNraW5nIGNvbW1pdCA1YTdkMzkzM2JmYTMgKGVicGY6IEFkZGVkIGVCUEYgUlNT
-IGxvYWRlci4pClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVlICRhY3BpX3Rlc3RleHBlY3RlZCBp
-biBzdHJpbmcgZXEgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAxNTI5LgpXQVJOSU5H
-OiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQg
-dXBkYXRpbmc/CiM3MjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpXQVJOSU5HOiBhcmNoaXRlY3R1
-cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojMzU0OiBGSUxFOiBlYnBmL3Jz
-cy5icGYuc2tlbGV0b24uaDo0OgorI2lmbmRlZiBfX1JTU19CUEZfU0tFTF9IX18KCkVSUk9SOiBj
-b2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzM2MTogRklMRTogZWJwZi9yc3MuYnBm
-LnNrZWxldG9uLmg6MTE6CiteSXN0cnVjdCBicGZfb2JqZWN0X3NrZWxldG9uICpza2VsZXRvbjsk
-CgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMzNjI6IEZJTEU6IGVi
-cGYvcnNzLmJwZi5za2VsZXRvbi5oOjEyOgorXklzdHJ1Y3QgYnBmX29iamVjdCAqb2JqOyQKCkVS
-Uk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzM2MzogRklMRTogZWJwZi9y
-c3MuYnBmLnNrZWxldG9uLmg6MTM6CiteSXN0cnVjdCB7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNo
-b3VsZCBuZXZlciB1c2UgdGFicwojMzY0OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDox
-NDoKK15JXklzdHJ1Y3QgYnBmX21hcCAqdGFwX3Jzc19tYXBfY29uZmlndXJhdGlvbnM7JAoKRVJS
-T1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMzY1OiBGSUxFOiBlYnBmL3Jz
-cy5icGYuc2tlbGV0b24uaDoxNToKK15JXklzdHJ1Y3QgYnBmX21hcCAqdGFwX3Jzc19tYXBfaW5k
-aXJlY3Rpb25fdGFibGU7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFi
-cwojMzY2OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxNjoKK15JXklzdHJ1Y3QgYnBm
-X21hcCAqdGFwX3Jzc19tYXBfdG9lcGxpdHpfa2V5OyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91
-bGQgbmV2ZXIgdXNlIHRhYnMKIzM2NzogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MTc6
-CiteSX0gbWFwczskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMz
-Njg6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjE4OgorXklzdHJ1Y3QgeyQKCkVSUk9S
-OiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzM2OTogRklMRTogZWJwZi9yc3Mu
-YnBmLnNrZWxldG9uLmg6MTk6CiteSV5Jc3RydWN0IGJwZl9wcm9ncmFtICp0dW5fcnNzX3N0ZWVy
-aW5nX3Byb2c7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMzcw
-OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoyMDoKK15JfSBwcm9nczskCgpFUlJPUjog
-Y29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMzNzE6IEZJTEU6IGVicGYvcnNzLmJw
-Zi5za2VsZXRvbi5oOjIxOgorXklzdHJ1Y3QgeyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQg
-bmV2ZXIgdXNlIHRhYnMKIzM3MjogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MjI6Cite
-SV5Jc3RydWN0IGJwZl9saW5rICp0dW5fcnNzX3N0ZWVyaW5nX3Byb2c7JAoKRVJST1I6IGNvZGUg
-aW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMzczOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tl
-bGV0b24uaDoyMzoKK15JfSBsaW5rczskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVy
-IHVzZSB0YWJzCiMzNzk6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjI5OgorXklpZiAo
-IW9iaikkCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRo
-aXMgc3RhdGVtZW50CiMzNzk6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjI5OgorICAg
-ICAgIGlmICghb2JqKQpbLi4uXQoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2Ug
-dGFicwojMzgwOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDozMDoKK15JXklyZXR1cm47
-JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMzgxOiBGSUxFOiBl
-YnBmL3Jzcy5icGYuc2tlbGV0b24uaDozMToKK15JaWYgKG9iai0+c2tlbGV0b24pJAoKRVJST1I6
-IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAoj
-MzgxOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDozMToKKyAgICAgICBpZiAob2JqLT5z
-a2VsZXRvbikKWy4uLl0KCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMK
-IzM4MjogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MzI6CiteSV5JYnBmX29iamVjdF9f
-ZGVzdHJveV9za2VsZXRvbihvYmotPnNrZWxldG9uKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hv
-dWxkIG5ldmVyIHVzZSB0YWJzCiMzODM6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjMz
-OgorXklmcmVlKG9iaik7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFi
-cwojMzkyOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo0MjoKK15Jc3RydWN0IHJzc19i
-cGYgKm9iajskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMzOTQ6
-IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjQ0OgorXklvYmogPSAoc3RydWN0IHJzc19i
-cGYgKiljYWxsb2MoMSwgc2l6ZW9mKCpvYmopKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxk
-IG5ldmVyIHVzZSB0YWJzCiMzOTU6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjQ1Ogor
-XklpZiAoIW9iaikkCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1z
-IG9mIHRoaXMgc3RhdGVtZW50CiMzOTU6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjQ1
-OgorICAgICAgIGlmICghb2JqKQpbLi4uXQoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZl
-ciB1c2UgdGFicwojMzk2OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo0NjoKK15JXkly
-ZXR1cm4gTlVMTDskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMz
-OTc6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjQ3OgorXklpZiAocnNzX2JwZl9fY3Jl
-YXRlX3NrZWxldG9uKG9iaikpJAoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBh
-bGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMzk3OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0
-b24uaDo0NzoKKyAgICAgICBpZiAocnNzX2JwZl9fY3JlYXRlX3NrZWxldG9uKG9iaikpClsuLi5d
-CgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMzOTg6IEZJTEU6IGVi
-cGYvcnNzLmJwZi5za2VsZXRvbi5oOjQ4OgorXkleSWdvdG8gZXJyOyQKCkVSUk9SOiBjb2RlIGlu
-ZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzM5OTogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxl
-dG9uLmg6NDk6CiteSWlmIChicGZfb2JqZWN0X19vcGVuX3NrZWxldG9uKG9iai0+c2tlbGV0b24s
-IG9wdHMpKSQKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2Yg
-dGhpcyBzdGF0ZW1lbnQKIzM5OTogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6NDk6Cisg
-ICAgICAgaWYgKGJwZl9vYmplY3RfX29wZW5fc2tlbGV0b24ob2JqLT5za2VsZXRvbiwgb3B0cykp
-ClsuLi5dCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0MDA6IEZJ
-TEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjUwOgorXkleSWdvdG8gZXJyOyQKCkVSUk9SOiBj
-b2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQwMjogRklMRTogZWJwZi9yc3MuYnBm
-LnNrZWxldG9uLmg6NTI6CiteSXJldHVybiBvYmo7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3Vs
-ZCBuZXZlciB1c2UgdGFicwojNDA0OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo1NDoK
-K15JcnNzX2JwZl9fZGVzdHJveShvYmopOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2
-ZXIgdXNlIHRhYnMKIzQwNTogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6NTU6CiteSXJl
-dHVybiBOVUxMOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQx
-MTogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6NjE6CiteSXJldHVybiByc3NfYnBmX19v
-cGVuX29wdHMoTlVMTCk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFi
-cwojNDE3OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo2NzoKK15JcmV0dXJuIGJwZl9v
-YmplY3RfX2xvYWRfc2tlbGV0b24ob2JqLT5za2VsZXRvbik7JAoKRVJST1I6IGNvZGUgaW5kZW50
-IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDIzOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24u
-aDo3MzoKK15Jc3RydWN0IHJzc19icGYgKm9iajskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxk
-IG5ldmVyIHVzZSB0YWJzCiM0MjU6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjc1Ogor
-XklvYmogPSByc3NfYnBmX19vcGVuKCk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZl
-ciB1c2UgdGFicwojNDI2OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo3NjoKK15JaWYg
-KCFvYmopJAoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0
-aGlzIHN0YXRlbWVudAojNDI2OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo3NjoKKyAg
-ICAgICBpZiAoIW9iaikKWy4uLl0KCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNl
-IHRhYnMKIzQyNzogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6Nzc6CiteSV5JcmV0dXJu
-IE5VTEw7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDI4OiBG
-SUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo3ODoKK15JaWYgKHJzc19icGZfX2xvYWQob2Jq
-KSkgeyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQyOTogRklM
-RTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6Nzk6CiteSV5JcnNzX2JwZl9fZGVzdHJveShvYmop
-OyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQzMDogRklMRTog
-ZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6ODA6CiteSV5JcmV0dXJuIE5VTEw7JAoKRVJST1I6IGNv
-ZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDMxOiBGSUxFOiBlYnBmL3Jzcy5icGYu
-c2tlbGV0b24uaDo4MToKK15JfSQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNl
-IHRhYnMKIzQzMjogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6ODI6CiteSXJldHVybiBv
-Ymo7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDM4OiBGSUxF
-OiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDo4ODoKK15JcmV0dXJuIGJwZl9vYmplY3RfX2F0dGFj
-aF9za2VsZXRvbihvYmotPnNrZWxldG9uKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5l
-dmVyIHVzZSB0YWJzCiM0NDQ6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjk0OgorXkly
-ZXR1cm4gYnBmX29iamVjdF9fZGV0YWNoX3NrZWxldG9uKG9iai0+c2tlbGV0b24pOyQKCkVSUk9S
-OiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ1MDogRklMRTogZWJwZi9yc3Mu
-YnBmLnNrZWxldG9uLmg6MTAwOgorXklzdHJ1Y3QgYnBmX29iamVjdF9za2VsZXRvbiAqczskCgpF
-UlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0NTI6IEZJTEU6IGVicGYv
-cnNzLmJwZi5za2VsZXRvbi5oOjEwMjoKK15JcyA9IChzdHJ1Y3QgYnBmX29iamVjdF9za2VsZXRv
-biAqKWNhbGxvYygxLCBzaXplb2YoKnMpKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5l
-dmVyIHVzZSB0YWJzCiM0NTM6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEwMzoKK15J
-aWYgKCFzKSQKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2Yg
-dGhpcyBzdGF0ZW1lbnQKIzQ1MzogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MTAzOgor
-ICAgICAgIGlmICghcykKWy4uLl0KCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNl
-IHRhYnMKIzQ1NDogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MTA0OgorXkleSXJldHVy
-biAtMTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0NTU6IEZJ
-TEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEwNToKK15Jb2JqLT5za2VsZXRvbiA9IHM7JAoK
-RVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDU3OiBGSUxFOiBlYnBm
-L3Jzcy5icGYuc2tlbGV0b24uaDoxMDc6CiteSXMtPnN6ID0gc2l6ZW9mKCpzKTskCgpFUlJPUjog
-Y29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0NTg6IEZJTEU6IGVicGYvcnNzLmJw
-Zi5za2VsZXRvbi5oOjEwODoKK15Jcy0+bmFtZSA9ICJyc3NfYnBmIjskCgpFUlJPUjogY29kZSBp
-bmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0NTk6IEZJTEU6IGVicGYvcnNzLmJwZi5za2Vs
-ZXRvbi5oOjEwOToKK15Jcy0+b2JqID0gJm9iai0+b2JqOyQKCkVSUk9SOiBjb2RlIGluZGVudCBz
-aG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ2MTogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6
-MTExOgorXkkvKiBtYXBzICovJAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2Ug
-dGFicwojNDYyOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMTI6CiteSXMtPm1hcF9j
-bnQgPSAzOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ2Mzog
-RklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MTEzOgorXklzLT5tYXBfc2tlbF9zeiA9IHNp
-emVvZigqcy0+bWFwcyk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFi
-cwojNDY0OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMTQ6CiteSXMtPm1hcHMgPSAo
-c3RydWN0IGJwZl9tYXBfc2tlbGV0b24gKiljYWxsb2Mocy0+bWFwX2NudCwgcy0+bWFwX3NrZWxf
-c3opOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ2NTogRklM
-RTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MTE1OgorXklpZiAoIXMtPm1hcHMpJAoKRVJST1I6
-IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAoj
-NDY1OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMTU6CisgICAgICAgaWYgKCFzLT5t
-YXBzKQpbLi4uXQoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDY2
-OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMTY6CiteSV5JZ290byBlcnI7JAoKRVJS
-T1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDY4OiBGSUxFOiBlYnBmL3Jz
-cy5icGYuc2tlbGV0b24uaDoxMTg6CiteSXMtPm1hcHNbMF0ubmFtZSA9ICJ0YXBfcnNzX21hcF9j
-b25maWd1cmF0aW9ucyI7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFi
-cwojNDY5OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMTk6CiteSXMtPm1hcHNbMF0u
-bWFwID0gJm9iai0+bWFwcy50YXBfcnNzX21hcF9jb25maWd1cmF0aW9uczskCgpFUlJPUjogY29k
-ZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0NzE6IEZJTEU6IGVicGYvcnNzLmJwZi5z
-a2VsZXRvbi5oOjEyMToKK15Jcy0+bWFwc1sxXS5uYW1lID0gInRhcF9yc3NfbWFwX2luZGlyZWN0
-aW9uX3RhYmxlIjskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0
-NzI6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEyMjoKK15Jcy0+bWFwc1sxXS5tYXAg
-PSAmb2JqLT5tYXBzLnRhcF9yc3NfbWFwX2luZGlyZWN0aW9uX3RhYmxlOyQKCkVSUk9SOiBjb2Rl
-IGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ3NDogRklMRTogZWJwZi9yc3MuYnBmLnNr
-ZWxldG9uLmg6MTI0OgorXklzLT5tYXBzWzJdLm5hbWUgPSAidGFwX3Jzc19tYXBfdG9lcGxpdHpf
-a2V5IjskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0NzU6IEZJ
-TEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEyNToKK15Jcy0+bWFwc1syXS5tYXAgPSAmb2Jq
-LT5tYXBzLnRhcF9yc3NfbWFwX3RvZXBsaXR6X2tleTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hv
-dWxkIG5ldmVyIHVzZSB0YWJzCiM0Nzc6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEy
-NzoKK15JLyogcHJvZ3JhbXMgKi8kCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVz
-ZSB0YWJzCiM0Nzg6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEyODoKK15Jcy0+cHJv
-Z19jbnQgPSAxOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ3
-OTogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6MTI5OgorXklzLT5wcm9nX3NrZWxfc3og
-PSBzaXplb2YoKnMtPnByb2dzKTskCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwoj
-NDgwOiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMzA6CisgICAgICAgcy0+cHJvZ3Mg
-PSAoc3RydWN0IGJwZl9wcm9nX3NrZWxldG9uICopY2FsbG9jKHMtPnByb2dfY250LCBzLT5wcm9n
-X3NrZWxfc3opOwoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDgw
-OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMzA6CiteSXMtPnByb2dzID0gKHN0cnVj
-dCBicGZfcHJvZ19za2VsZXRvbiAqKWNhbGxvYyhzLT5wcm9nX2NudCwgcy0+cHJvZ19za2VsX3N6
-KTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0ODE6IEZJTEU6
-IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEzMToKK15JaWYgKCFzLT5wcm9ncykkCgpFUlJPUjog
-YnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM0
-ODE6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEzMToKKyAgICAgICBpZiAoIXMtPnBy
-b2dzKQpbLi4uXQoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDgy
-OiBGSUxFOiBlYnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMzI6CiteSV5JZ290byBlcnI7JAoKRVJS
-T1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDg0OiBGSUxFOiBlYnBmL3Jz
-cy5icGYuc2tlbGV0b24uaDoxMzQ6CiteSXMtPnByb2dzWzBdLm5hbWUgPSAidHVuX3Jzc19zdGVl
-cmluZ19wcm9nIjskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0
-ODU6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEzNToKK15Jcy0+cHJvZ3NbMF0ucHJv
-ZyA9ICZvYmotPnByb2dzLnR1bl9yc3Nfc3RlZXJpbmdfcHJvZzskCgpFUlJPUjogY29kZSBpbmRl
-bnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0ODY6IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRv
-bi5oOjEzNjoKK15Jcy0+cHJvZ3NbMF0ubGluayA9ICZvYmotPmxpbmtzLnR1bl9yc3Nfc3RlZXJp
-bmdfcHJvZzskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0ODg6
-IEZJTEU6IGVicGYvcnNzLmJwZi5za2VsZXRvbi5oOjEzODoKK15Jcy0+ZGF0YV9zeiA9IDgwODg7
-JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDg5OiBGSUxFOiBl
-YnBmL3Jzcy5icGYuc2tlbGV0b24uaDoxMzk6CiteSXMtPmRhdGEgPSAodm9pZCAqKSJcJAoKRVJS
-T1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNzc1OiBGSUxFOiBlYnBmL3Jz
-cy5icGYuc2tlbGV0b24uaDo0MjU6CiteSXJldHVybiAwOyQKCkVSUk9SOiBjb2RlIGluZGVudCBz
-aG91bGQgbmV2ZXIgdXNlIHRhYnMKIzc3NzogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxldG9uLmg6
-NDI3OgorXklicGZfb2JqZWN0X19kZXN0cm95X3NrZWxldG9uKHMpOyQKCkVSUk9SOiBjb2RlIGlu
-ZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzc3ODogRklMRTogZWJwZi9yc3MuYnBmLnNrZWxl
-dG9uLmg6NDI4OgorXklyZXR1cm4gLTE7JAoKdG90YWw6IDg1IGVycm9ycywgMyB3YXJuaW5ncywg
-Nzc5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDQvMTAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-CjUvMTAgQ2hlY2tpbmcgY29tbWl0IDkwNTcyOWFmYmIzZiAodmlydGlvLW5ldDogQWRkZWQgZUJQ
-RiBSU1MgdG8gdmlydGlvLW5ldC4pCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMx
-ODY6IEZJTEU6IGh3L25ldC92aXJ0aW8tbmV0LmM6Mjg2ODoKKyAgICAgICAgICAgICAgICAgICAg
-d2Fybl9yZXBvcnQoIkNhbid0IHBvc3QtbG9hZCBlQlBGIFJTUyAtIGZhbGxiYWNrIHRvIHNvZnR3
-YXJlIFJTUyIpOwoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAyMTQgbGluZXMgY2hlY2tl
-ZAoKUGF0Y2ggNS8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2LzEwIENoZWNraW5nIGNv
-bW1pdCBhYjY1ZDk4MmQzN2QgKGRvY3M6IEFkZGVkIGVCUEYgZG9jdW1lbnRhdGlvbi4pClVzZSBv
-ZiB1bmluaXRpYWxpemVkIHZhbHVlICRhY3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcgZXEgYXQg
-Li9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQg
-b3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxNzog
-Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDEyOSBs
-aW5lcyBjaGVja2VkCgpQYXRjaCA2LzEwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
-dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
-bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjcvMTAg
-Q2hlY2tpbmcgY29tbWl0IDcyOWU4ZGYwMmYwYiAoTUFJTlRBSU5FUlM6IEFkZGVkIGVCUEYgbWFp
-bnRhaW5lcnMgaW5mb3JtYXRpb24uKQo4LzEwIENoZWNraW5nIGNvbW1pdCAzZGMyOTlkZmM0Yjcg
-KGh3L25ldC9pbXhfZmVjOiByZXR1cm4gMHhmZmZmIHdoZW4gYWNjZXNzaW5nIG5vbi1leGlzdGlu
-ZyBQSFkpCjkvMTAgQ2hlY2tpbmcgY29tbWl0IDRiOTg3ZjRkNjNkNyAodmlydGlvLW5ldDogZmFp
-bG92ZXI6IGFkZCBtaXNzaW5nIHJlbW92ZV9taWdyYXRpb25fc3RhdGVfY2hhbmdlX25vdGlmaWVy
-KCkpCjEwLzEwIENoZWNraW5nIGNvbW1pdCBhMzRkODFhYTUxNzkgKHRhcC1ic2Q6IFJlbW92ZSBz
-cGVjaWFsIGNhc2luZyBmb3Igb2xkZXIgT3BlbkJTRCByZWxlYXNlcykKPT09IE9VVFBVVCBFTkQg
-PT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTYyMDQ1ODMxOS01NjcwLTEtZ2l0
-LXNlbmQtZW1haWwtamFzb3dhbmdAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9
-bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
-dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
-LWRldmVsQHJlZGhhdC5jb20=
+On Sat, May 8, 2021 at 3:31 PM <no-reply@patchew.org> wrote:
+>
+> Patchew URL: https://patchew.org/QEMU/1620458319-5670-1-git-send-email-jasowang@redhat.com/
+>
+>
+>
+> Hi,
+>
+> This series seems to have some coding style problems. See output below for
+> more information:
+>
+> Type: series
+> Message-id: 1620458319-5670-1-git-send-email-jasowang@redhat.com
+> Subject: [PULL 00/10] Net patches
+>
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
+> === TEST SCRIPT END ===
+>
+> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
+> From https://github.com/patchew-project/qemu
+>  - [tag update]      patchew/1620402803-9237-1-git-send-email-jag.raman@oracle.com -> patchew/1620402803-9237-1-git-send-email-jag.raman@oracle.com
+>  * [new tag]         patchew/1620458319-5670-1-git-send-email-jasowang@redhat.com -> patchew/1620458319-5670-1-git-send-email-jasowang@redhat.com
+> Switched to a new branch 'test'
+> a34d81a tap-bsd: Remove special casing for older OpenBSD releases
+> 4b987f4 virtio-net: failover: add missing remove_migration_state_change_notifier()
+> 3dc299d hw/net/imx_fec: return 0xffff when accessing non-existing PHY
+> 729e8df MAINTAINERS: Added eBPF maintainers information.
+> ab65d98 docs: Added eBPF documentation.
+> 905729a virtio-net: Added eBPF RSS to virtio-net.
+> 5a7d393 ebpf: Added eBPF RSS loader.
+> eae9462 ebpf: Added eBPF RSS program.
+> b6962be net: Added SetSteeringEBPF method for NetClientState.
+> 1207c8e net/tap: Added TUNSETSTEERINGEBPF code.
+
+
+
+Andrew, please fix those style issues except for the skeleton which is
+generated by bpftool and I will send a new version of pull request.
+
+>
+> === OUTPUT BEGIN ===
+> 1/10 Checking commit 1207c8e2a076 (net/tap: Added TUNSETSTEERINGEBPF code.)
+> 2/10 Checking commit b6962be9ca91 (net: Added SetSteeringEBPF method for NetClientState.)
+> 3/10 Checking commit eae94621a4b1 (ebpf: Added eBPF RSS program.)
+> Use of uninitialized value $acpi_testexpected in string eq at ./scripts/checkpatch.pl line 1529.
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> #23:
+> new file mode 100755
+>
+> WARNING: line over 80 characters
+> #211: FILE: tools/ebpf/rss.bpf.c:157:
+> + * According to https://www.iana.org/assignments/ipv6-parameters/ipv6-parameters.xhtml
+>
+> WARNING: line over 80 characters
+> #214: FILE: tools/ebpf/rss.bpf.c:160:
+> + * Need to choose reasonable amount of maximum extensions/options we may check to find
+>
+> WARNING: line over 80 characters
+> #281: FILE: tools/ebpf/rss.bpf.c:227:
+> +                        *l4_offset + opt_offset + offsetof(struct ipv6_destopt_hao, addr),
+>
+> total: 0 errors, 4 warnings, 590 lines checked
+>
+> Patch 3/10 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 4/10 Checking commit 5a7d3933bfa3 (ebpf: Added eBPF RSS loader.)
+> Use of uninitialized value $acpi_testexpected in string eq at ./scripts/checkpatch.pl line 1529.
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> #72:
+> new file mode 100644
+>
+> WARNING: architecture specific defines should be avoided
+> #354: FILE: ebpf/rss.bpf.skeleton.h:4:
+> +#ifndef __RSS_BPF_SKEL_H__
+>
+> ERROR: code indent should never use tabs
+> #361: FILE: ebpf/rss.bpf.skeleton.h:11:
+> +^Istruct bpf_object_skeleton *skeleton;$
+>
+> ERROR: code indent should never use tabs
+> #362: FILE: ebpf/rss.bpf.skeleton.h:12:
+> +^Istruct bpf_object *obj;$
+>
+> ERROR: code indent should never use tabs
+> #363: FILE: ebpf/rss.bpf.skeleton.h:13:
+> +^Istruct {$
+>
+> ERROR: code indent should never use tabs
+> #364: FILE: ebpf/rss.bpf.skeleton.h:14:
+> +^I^Istruct bpf_map *tap_rss_map_configurations;$
+>
+> ERROR: code indent should never use tabs
+> #365: FILE: ebpf/rss.bpf.skeleton.h:15:
+> +^I^Istruct bpf_map *tap_rss_map_indirection_table;$
+>
+> ERROR: code indent should never use tabs
+> #366: FILE: ebpf/rss.bpf.skeleton.h:16:
+> +^I^Istruct bpf_map *tap_rss_map_toeplitz_key;$
+>
+> ERROR: code indent should never use tabs
+> #367: FILE: ebpf/rss.bpf.skeleton.h:17:
+> +^I} maps;$
+>
+> ERROR: code indent should never use tabs
+> #368: FILE: ebpf/rss.bpf.skeleton.h:18:
+> +^Istruct {$
+>
+> ERROR: code indent should never use tabs
+> #369: FILE: ebpf/rss.bpf.skeleton.h:19:
+> +^I^Istruct bpf_program *tun_rss_steering_prog;$
+>
+> ERROR: code indent should never use tabs
+> #370: FILE: ebpf/rss.bpf.skeleton.h:20:
+> +^I} progs;$
+>
+> ERROR: code indent should never use tabs
+> #371: FILE: ebpf/rss.bpf.skeleton.h:21:
+> +^Istruct {$
+>
+> ERROR: code indent should never use tabs
+> #372: FILE: ebpf/rss.bpf.skeleton.h:22:
+> +^I^Istruct bpf_link *tun_rss_steering_prog;$
+>
+> ERROR: code indent should never use tabs
+> #373: FILE: ebpf/rss.bpf.skeleton.h:23:
+> +^I} links;$
+>
+> ERROR: code indent should never use tabs
+> #379: FILE: ebpf/rss.bpf.skeleton.h:29:
+> +^Iif (!obj)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #379: FILE: ebpf/rss.bpf.skeleton.h:29:
+> +       if (!obj)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #380: FILE: ebpf/rss.bpf.skeleton.h:30:
+> +^I^Ireturn;$
+>
+> ERROR: code indent should never use tabs
+> #381: FILE: ebpf/rss.bpf.skeleton.h:31:
+> +^Iif (obj->skeleton)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #381: FILE: ebpf/rss.bpf.skeleton.h:31:
+> +       if (obj->skeleton)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #382: FILE: ebpf/rss.bpf.skeleton.h:32:
+> +^I^Ibpf_object__destroy_skeleton(obj->skeleton);$
+>
+> ERROR: code indent should never use tabs
+> #383: FILE: ebpf/rss.bpf.skeleton.h:33:
+> +^Ifree(obj);$
+>
+> ERROR: code indent should never use tabs
+> #392: FILE: ebpf/rss.bpf.skeleton.h:42:
+> +^Istruct rss_bpf *obj;$
+>
+> ERROR: code indent should never use tabs
+> #394: FILE: ebpf/rss.bpf.skeleton.h:44:
+> +^Iobj = (struct rss_bpf *)calloc(1, sizeof(*obj));$
+>
+> ERROR: code indent should never use tabs
+> #395: FILE: ebpf/rss.bpf.skeleton.h:45:
+> +^Iif (!obj)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #395: FILE: ebpf/rss.bpf.skeleton.h:45:
+> +       if (!obj)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #396: FILE: ebpf/rss.bpf.skeleton.h:46:
+> +^I^Ireturn NULL;$
+>
+> ERROR: code indent should never use tabs
+> #397: FILE: ebpf/rss.bpf.skeleton.h:47:
+> +^Iif (rss_bpf__create_skeleton(obj))$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #397: FILE: ebpf/rss.bpf.skeleton.h:47:
+> +       if (rss_bpf__create_skeleton(obj))
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #398: FILE: ebpf/rss.bpf.skeleton.h:48:
+> +^I^Igoto err;$
+>
+> ERROR: code indent should never use tabs
+> #399: FILE: ebpf/rss.bpf.skeleton.h:49:
+> +^Iif (bpf_object__open_skeleton(obj->skeleton, opts))$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #399: FILE: ebpf/rss.bpf.skeleton.h:49:
+> +       if (bpf_object__open_skeleton(obj->skeleton, opts))
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #400: FILE: ebpf/rss.bpf.skeleton.h:50:
+> +^I^Igoto err;$
+>
+> ERROR: code indent should never use tabs
+> #402: FILE: ebpf/rss.bpf.skeleton.h:52:
+> +^Ireturn obj;$
+>
+> ERROR: code indent should never use tabs
+> #404: FILE: ebpf/rss.bpf.skeleton.h:54:
+> +^Irss_bpf__destroy(obj);$
+>
+> ERROR: code indent should never use tabs
+> #405: FILE: ebpf/rss.bpf.skeleton.h:55:
+> +^Ireturn NULL;$
+>
+> ERROR: code indent should never use tabs
+> #411: FILE: ebpf/rss.bpf.skeleton.h:61:
+> +^Ireturn rss_bpf__open_opts(NULL);$
+>
+> ERROR: code indent should never use tabs
+> #417: FILE: ebpf/rss.bpf.skeleton.h:67:
+> +^Ireturn bpf_object__load_skeleton(obj->skeleton);$
+>
+> ERROR: code indent should never use tabs
+> #423: FILE: ebpf/rss.bpf.skeleton.h:73:
+> +^Istruct rss_bpf *obj;$
+>
+> ERROR: code indent should never use tabs
+> #425: FILE: ebpf/rss.bpf.skeleton.h:75:
+> +^Iobj = rss_bpf__open();$
+>
+> ERROR: code indent should never use tabs
+> #426: FILE: ebpf/rss.bpf.skeleton.h:76:
+> +^Iif (!obj)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #426: FILE: ebpf/rss.bpf.skeleton.h:76:
+> +       if (!obj)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #427: FILE: ebpf/rss.bpf.skeleton.h:77:
+> +^I^Ireturn NULL;$
+>
+> ERROR: code indent should never use tabs
+> #428: FILE: ebpf/rss.bpf.skeleton.h:78:
+> +^Iif (rss_bpf__load(obj)) {$
+>
+> ERROR: code indent should never use tabs
+> #429: FILE: ebpf/rss.bpf.skeleton.h:79:
+> +^I^Irss_bpf__destroy(obj);$
+>
+> ERROR: code indent should never use tabs
+> #430: FILE: ebpf/rss.bpf.skeleton.h:80:
+> +^I^Ireturn NULL;$
+>
+> ERROR: code indent should never use tabs
+> #431: FILE: ebpf/rss.bpf.skeleton.h:81:
+> +^I}$
+>
+> ERROR: code indent should never use tabs
+> #432: FILE: ebpf/rss.bpf.skeleton.h:82:
+> +^Ireturn obj;$
+>
+> ERROR: code indent should never use tabs
+> #438: FILE: ebpf/rss.bpf.skeleton.h:88:
+> +^Ireturn bpf_object__attach_skeleton(obj->skeleton);$
+>
+> ERROR: code indent should never use tabs
+> #444: FILE: ebpf/rss.bpf.skeleton.h:94:
+> +^Ireturn bpf_object__detach_skeleton(obj->skeleton);$
+>
+> ERROR: code indent should never use tabs
+> #450: FILE: ebpf/rss.bpf.skeleton.h:100:
+> +^Istruct bpf_object_skeleton *s;$
+>
+> ERROR: code indent should never use tabs
+> #452: FILE: ebpf/rss.bpf.skeleton.h:102:
+> +^Is = (struct bpf_object_skeleton *)calloc(1, sizeof(*s));$
+>
+> ERROR: code indent should never use tabs
+> #453: FILE: ebpf/rss.bpf.skeleton.h:103:
+> +^Iif (!s)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #453: FILE: ebpf/rss.bpf.skeleton.h:103:
+> +       if (!s)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #454: FILE: ebpf/rss.bpf.skeleton.h:104:
+> +^I^Ireturn -1;$
+>
+> ERROR: code indent should never use tabs
+> #455: FILE: ebpf/rss.bpf.skeleton.h:105:
+> +^Iobj->skeleton = s;$
+>
+> ERROR: code indent should never use tabs
+> #457: FILE: ebpf/rss.bpf.skeleton.h:107:
+> +^Is->sz = sizeof(*s);$
+>
+> ERROR: code indent should never use tabs
+> #458: FILE: ebpf/rss.bpf.skeleton.h:108:
+> +^Is->name = "rss_bpf";$
+>
+> ERROR: code indent should never use tabs
+> #459: FILE: ebpf/rss.bpf.skeleton.h:109:
+> +^Is->obj = &obj->obj;$
+>
+> ERROR: code indent should never use tabs
+> #461: FILE: ebpf/rss.bpf.skeleton.h:111:
+> +^I/* maps */$
+>
+> ERROR: code indent should never use tabs
+> #462: FILE: ebpf/rss.bpf.skeleton.h:112:
+> +^Is->map_cnt = 3;$
+>
+> ERROR: code indent should never use tabs
+> #463: FILE: ebpf/rss.bpf.skeleton.h:113:
+> +^Is->map_skel_sz = sizeof(*s->maps);$
+>
+> ERROR: code indent should never use tabs
+> #464: FILE: ebpf/rss.bpf.skeleton.h:114:
+> +^Is->maps = (struct bpf_map_skeleton *)calloc(s->map_cnt, s->map_skel_sz);$
+>
+> ERROR: code indent should never use tabs
+> #465: FILE: ebpf/rss.bpf.skeleton.h:115:
+> +^Iif (!s->maps)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #465: FILE: ebpf/rss.bpf.skeleton.h:115:
+> +       if (!s->maps)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #466: FILE: ebpf/rss.bpf.skeleton.h:116:
+> +^I^Igoto err;$
+>
+> ERROR: code indent should never use tabs
+> #468: FILE: ebpf/rss.bpf.skeleton.h:118:
+> +^Is->maps[0].name = "tap_rss_map_configurations";$
+>
+> ERROR: code indent should never use tabs
+> #469: FILE: ebpf/rss.bpf.skeleton.h:119:
+> +^Is->maps[0].map = &obj->maps.tap_rss_map_configurations;$
+>
+> ERROR: code indent should never use tabs
+> #471: FILE: ebpf/rss.bpf.skeleton.h:121:
+> +^Is->maps[1].name = "tap_rss_map_indirection_table";$
+>
+> ERROR: code indent should never use tabs
+> #472: FILE: ebpf/rss.bpf.skeleton.h:122:
+> +^Is->maps[1].map = &obj->maps.tap_rss_map_indirection_table;$
+>
+> ERROR: code indent should never use tabs
+> #474: FILE: ebpf/rss.bpf.skeleton.h:124:
+> +^Is->maps[2].name = "tap_rss_map_toeplitz_key";$
+>
+> ERROR: code indent should never use tabs
+> #475: FILE: ebpf/rss.bpf.skeleton.h:125:
+> +^Is->maps[2].map = &obj->maps.tap_rss_map_toeplitz_key;$
+>
+> ERROR: code indent should never use tabs
+> #477: FILE: ebpf/rss.bpf.skeleton.h:127:
+> +^I/* programs */$
+>
+> ERROR: code indent should never use tabs
+> #478: FILE: ebpf/rss.bpf.skeleton.h:128:
+> +^Is->prog_cnt = 1;$
+>
+> ERROR: code indent should never use tabs
+> #479: FILE: ebpf/rss.bpf.skeleton.h:129:
+> +^Is->prog_skel_sz = sizeof(*s->progs);$
+>
+> WARNING: line over 80 characters
+> #480: FILE: ebpf/rss.bpf.skeleton.h:130:
+> +       s->progs = (struct bpf_prog_skeleton *)calloc(s->prog_cnt, s->prog_skel_sz);
+>
+> ERROR: code indent should never use tabs
+> #480: FILE: ebpf/rss.bpf.skeleton.h:130:
+> +^Is->progs = (struct bpf_prog_skeleton *)calloc(s->prog_cnt, s->prog_skel_sz);$
+>
+> ERROR: code indent should never use tabs
+> #481: FILE: ebpf/rss.bpf.skeleton.h:131:
+> +^Iif (!s->progs)$
+>
+> ERROR: braces {} are necessary for all arms of this statement
+> #481: FILE: ebpf/rss.bpf.skeleton.h:131:
+> +       if (!s->progs)
+> [...]
+>
+> ERROR: code indent should never use tabs
+> #482: FILE: ebpf/rss.bpf.skeleton.h:132:
+> +^I^Igoto err;$
+>
+> ERROR: code indent should never use tabs
+> #484: FILE: ebpf/rss.bpf.skeleton.h:134:
+> +^Is->progs[0].name = "tun_rss_steering_prog";$
+>
+> ERROR: code indent should never use tabs
+> #485: FILE: ebpf/rss.bpf.skeleton.h:135:
+> +^Is->progs[0].prog = &obj->progs.tun_rss_steering_prog;$
+>
+> ERROR: code indent should never use tabs
+> #486: FILE: ebpf/rss.bpf.skeleton.h:136:
+> +^Is->progs[0].link = &obj->links.tun_rss_steering_prog;$
+>
+> ERROR: code indent should never use tabs
+> #488: FILE: ebpf/rss.bpf.skeleton.h:138:
+> +^Is->data_sz = 8088;$
+>
+> ERROR: code indent should never use tabs
+> #489: FILE: ebpf/rss.bpf.skeleton.h:139:
+> +^Is->data = (void *)"\$
+>
+> ERROR: code indent should never use tabs
+> #775: FILE: ebpf/rss.bpf.skeleton.h:425:
+> +^Ireturn 0;$
+>
+> ERROR: code indent should never use tabs
+> #777: FILE: ebpf/rss.bpf.skeleton.h:427:
+> +^Ibpf_object__destroy_skeleton(s);$
+>
+> ERROR: code indent should never use tabs
+> #778: FILE: ebpf/rss.bpf.skeleton.h:428:
+> +^Ireturn -1;$
+>
+> total: 85 errors, 3 warnings, 779 lines checked
+>
+> Patch 4/10 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+>
+> 5/10 Checking commit 905729afbb3f (virtio-net: Added eBPF RSS to virtio-net.)
+> WARNING: line over 80 characters
+> #186: FILE: hw/net/virtio-net.c:2868:
+> +                    warn_report("Can't post-load eBPF RSS - fallback to software RSS");
+>
+> total: 0 errors, 1 warnings, 214 lines checked
+>
+> Patch 5/10 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 6/10 Checking commit ab65d982d37d (docs: Added eBPF documentation.)
+> Use of uninitialized value $acpi_testexpected in string eq at ./scripts/checkpatch.pl line 1529.
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> #17:
+> new file mode 100644
+>
+> total: 0 errors, 1 warnings, 129 lines checked
+>
+> Patch 6/10 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 7/10 Checking commit 729e8df02f0b (MAINTAINERS: Added eBPF maintainers information.)
+> 8/10 Checking commit 3dc299dfc4b7 (hw/net/imx_fec: return 0xffff when accessing non-existing PHY)
+> 9/10 Checking commit 4b987f4d63d7 (virtio-net: failover: add missing remove_migration_state_change_notifier())
+> 10/10 Checking commit a34d81aa5179 (tap-bsd: Remove special casing for older OpenBSD releases)
+> === OUTPUT END ===
+>
+> Test command exited with code: 1
+>
+>
+> The full log is available at
+> http://patchew.org/logs/1620458319-5670-1-git-send-email-jasowang@redhat.com/testing.checkpatch/?type=message.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
+
 
