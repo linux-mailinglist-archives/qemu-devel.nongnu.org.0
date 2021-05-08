@@ -2,67 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B4F376FE8
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 07:58:58 +0200 (CEST)
-Received: from localhost ([::1]:50704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FB6376FE1
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 07:55:05 +0200 (CEST)
+Received: from localhost ([::1]:42118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfFzN-0000gd-C8
-	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 01:58:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50260)
+	id 1lfFvc-0003CY-TO
+	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 01:55:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfFwE-0004zr-Ke
- for qemu-devel@nongnu.org; Sat, 08 May 2021 01:55:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfFwB-0006Yo-Az
- for qemu-devel@nongnu.org; Sat, 08 May 2021 01:55:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfFw9-0005Vy-Sl
- for <qemu-devel@nongnu.org>; Sat, 08 May 2021 05:55:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D62E52E80F3
- for <qemu-devel@nongnu.org>; Sat,  8 May 2021 05:55:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
+ id 1lfFuX-0001z5-FI
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 01:53:57 -0400
+Received: from mga18.intel.com ([134.134.136.126]:46725)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
+ id 1lfFuV-0004pl-BO
+ for qemu-devel@nongnu.org; Sat, 08 May 2021 01:53:57 -0400
+IronPort-SDR: BU3ya/ZRUgqkvUBW7vJO86WbIbANJ52D00N3fut+FN3HYOAY0ymO3KXupH2K3EmpNUtBYQhHwr
+ yLE2XIUDGXGQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9977"; a="186322595"
+X-IronPort-AV: E=Sophos;i="5.82,282,1613462400"; d="scan'208";a="186322595"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2021 22:53:45 -0700
+IronPort-SDR: 8NO9XZmzt7DoTvwAI91n+PIL3SVinrm98jxPBSID6TBlL/L6aTrBpq1kiscdRQE9IZOwKocmMf
+ A5Fqu6w0dXQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,282,1613462400"; d="scan'208";a="466375848"
+Received: from clx-ap-likexu.sh.intel.com ([10.239.48.108])
+ by fmsmga002.fm.intel.com with ESMTP; 07 May 2021 22:53:43 -0700
+From: Like Xu <like.xu@linux.intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Subject: [PATCH v3 1/2] qdev-properties: Add a new macro to validate bitmask
+ for setter
+Date: Sat,  8 May 2021 13:52:58 +0800
+Message-Id: <20210508055259.128025-1-like.xu@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 08 May 2021 05:49:37 -0000
-From: Thomas Huth <1890775@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jacoka th-huth
-X-Launchpad-Bug-Reporter: Laci (jacoka)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159677829829.10348.2497937987968118298.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162045297797.7395.4984090166629759132.malone@gac.canonical.com>
-Subject: [Bug 1890775] Re: Aten USB to Serial bridge does not work with qemu
- under Windows 10
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: dddb1fdcd780120ccd94743a97d8c054a5286952
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=134.134.136.126;
+ envelope-from=like.xu@linux.intel.com; helo=mga18.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,80 +60,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890775 <1890775@bugs.launchpad.net>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9=3F?= <berrange@redhat.com>,
+ Like Xu <like.xu@linux.intel.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, weijiang.yang@intel.com,
+ wei.w.wang@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
+The new generic DEFINE_PROP_BITMASK_UINT64 could be used to ensure
+that a user-provided property value complies with its bitmask rule
+and the default value is recommended to be set in instance_init().
 
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
+Signed-off-by: Like Xu <like.xu@linux.intel.com>
+---
+ hw/core/qdev-properties.c    | 19 +++++++++++++++++++
+ include/hw/qdev-properties.h | 12 ++++++++++++
+ include/qapi/qmp/qerror.h    |  3 +++
+ 3 files changed, 34 insertions(+)
 
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 50f40949f5..3784d3b30d 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -428,6 +428,25 @@ const PropertyInfo qdev_prop_int64 = {
+     .set_default_value = qdev_propinfo_set_default_value_int,
+ };
+ 
++static void set_bitmask_uint64(Object *obj, Visitor *v, const char *name,
++                      void *opaque, Error **errp)
++{
++    Property *prop = opaque;
++    uint64_t *ptr = object_field_prop_ptr(obj, prop);
++
++    visit_type_uint64(v, name, ptr, errp);
++
++    if (*ptr & ~prop->bitmask) {
++        error_setg(errp, QERR_INVALID_BITMASK_VALUE, name, prop->bitmask);
++    }
++}
++
++const PropertyInfo qdev_prop_bitmask_uint64 = {
++    .name  = "int64",
++    .get   = get_uint64,
++    .set   = set_bitmask_uint64,
++};
++
+ /* --- string --- */
+ 
+ static void release_string(Object *obj, const char *name, void *opaque)
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index 0ef97d60ce..42f0112e14 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -17,6 +17,7 @@ struct Property {
+     const PropertyInfo *info;
+     ptrdiff_t    offset;
+     uint8_t      bitnr;
++    uint64_t     bitmask;
+     bool         set_default;
+     union {
+         int64_t i;
+@@ -53,6 +54,7 @@ extern const PropertyInfo qdev_prop_uint16;
+ extern const PropertyInfo qdev_prop_uint32;
+ extern const PropertyInfo qdev_prop_int32;
+ extern const PropertyInfo qdev_prop_uint64;
++extern const PropertyInfo qdev_prop_bitmask_uint64;
+ extern const PropertyInfo qdev_prop_int64;
+ extern const PropertyInfo qdev_prop_size;
+ extern const PropertyInfo qdev_prop_string;
+@@ -102,6 +104,16 @@ extern const PropertyInfo qdev_prop_link;
+                 .set_default = true,                         \
+                 .defval.u    = (bool)_defval)
+ 
++/**
++ * The DEFINE_PROP_BITMASK_UINT64 could be used to ensure that
++ * a user-provided value complies with certain bitmask rule and
++ * the default value is recommended to be set in instance_init().
++ */
++#define DEFINE_PROP_BITMASK_UINT64(_name, _state, _field, _bitmask)   \
++    DEFINE_PROP(_name, _state, _field, qdev_prop_bitmask_uint64, uint64_t, \
++                .bitmask    = (_bitmask),                     \
++                .set_default = false)
++
+ #define PROP_ARRAY_LEN_PREFIX "len-"
+ 
+ /**
+diff --git a/include/qapi/qmp/qerror.h b/include/qapi/qmp/qerror.h
+index 596fce0c54..aab7902760 100644
+--- a/include/qapi/qmp/qerror.h
++++ b/include/qapi/qmp/qerror.h
+@@ -68,4 +68,7 @@
+ #define QERR_UNSUPPORTED \
+     "this feature or command is not currently supported"
+ 
++#define QERR_INVALID_BITMASK_VALUE \
++    "the requested value for '%s' violates its bitmask '0x%lx'"
++
+ #endif /* QERROR_H */
+-- 
+2.30.2
 
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
-
-    https://gitlab.com/qemu-project/qemu/-/issues
-
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
-
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" or "Confirmed" within the next 60 days (other-
-wise it will get closed as "Expired"). We will then eventually migrate
-the ticket automatically to the new system (but you won't be the reporter
-of the bug in the new system and thus you won't get notified on changes
-anymore).
-
-Thank you and sorry for the inconvenience.
-
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890775
-
-Title:
-  Aten USB to Serial bridge does not work with qemu under Windows 10
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  I would like to use MSDOS 6.22 with qemu (unfortunatelly lot of our test =
-programs has been written in dos).
-  I tried to connect two laptop by RS232 port, one of the machine have a bu=
-ilt-in serial port and run with native MSDOS 6.22 with 4.0 norton commander=
-. Another machine have only USB ports and i try to use a new Aten USB to Se=
-rial device. Ok. Has been started qemu with -serial and -chardev parameters=
-, at startup appear a window with serial port setting such as baud rate, st=
-art bit, etc...
-
-  Quemu has been satrted succeeded but serial port cannot be used
-  becouse was nothing activited on usb serial adapter :(
-
-  I tried same configuration with VirtualBox and everything was worked
-  fine (serial connection was estabiled and copied several files from
-  one machine into another machine), seems to be the emulated serial
-  port has been worked fine.
-
-  I would like to use qemu, i just thougt qemu is better, simple and
-  faster...
-
-  Exists solution or is this a qemu bug?
-
-  Thank you!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890775/+subscriptions
 
