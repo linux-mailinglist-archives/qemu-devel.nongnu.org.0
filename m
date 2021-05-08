@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6757376E82
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:24:47 +0200 (CEST)
-Received: from localhost ([::1]:51770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D321E376E93
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 May 2021 04:28:45 +0200 (CEST)
+Received: from localhost ([::1]:60362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfCe6-00089w-QD
-	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41410)
+	id 1lfChw-0005Yc-OG
+	for lists+qemu-devel@lfdr.de; Fri, 07 May 2021 22:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC7y-0002ct-6P
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:34 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:37664)
+ id 1lfC80-0002nG-Lp
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:36 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:34603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lfC7w-0005P4-2p
- for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:33 -0400
-Received: by mail-pl1-x630.google.com with SMTP id h20so6154138plr.4
- for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:51:31 -0700 (PDT)
+ id 1lfC7w-0005PE-JD
+ for qemu-devel@nongnu.org; Fri, 07 May 2021 21:51:36 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ t2-20020a17090a0242b0290155433387beso5537710pje.1
+ for <qemu-devel@nongnu.org>; Fri, 07 May 2021 18:51:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DbYb1T7r/x3Vwe1nQCdfG81vfl3PJk8e2zSpVeaOReo=;
- b=Jk9Rb53gn0a4EI/UwbCmmd2tlpBEsza6c5Z065EydPF+WDTo15koUsSumX+ApKlae7
- BS093z7uml3IfHXxYTI0jc7EnZB9NXUYCZDx9o2DQSQZHrz451x+WMHCp67rATlqk8LD
- rO2u/B2FAZ3bVKDEyWzwIK8NY2nsmRKKpMhW4gr6wXDDW0qI9NtM+In3Y2tJK7Hx9Tey
- 4G29RTe0ZTa+3Y2h1R7u0AI3r6CcyHTOWv/7AKFVz2hXrWVBbczVi8T70C0G1nn8L/A2
- G2o3w44fPYCOQISWogTKIuJ41pcmPqFjP3C+/7fGztdG8RLbe1vPBClzw+Yvd3D3cSsY
- XDGw==
+ bh=MZJE8gIUuQfpQ/ySHho/M1CJLdsIgFJthIThLJ57+OM=;
+ b=rfgv0g4EaOS+NX+CqNbaaYLU/Oq4n3Ga6J1Te6/0GyVL2YteqXrHuz8t54AwsxC9pE
+ brQ3MsOtbpG5BvweiTo7HopYU8v09tcGZEnHwf67FhwVvstG3OFf84NMbmrNNM3H2x48
+ ZrRsu1rhUFAhsPn3XL7kSjqcEThN21h6lXlg6sQSAqz8MqJGiTbWqVZrA5/3ZTrrTWEV
+ 7E9S31OrG3sVcIHhAI/Tv8DmrkYBy2l584u4GJRHuYsKWyWRwo30Vo+TrQ58M9bxhKc+
+ 3Aoj7KESNg1/YRmq9MIm5nH+XPK5tqWTwqejehlzRJQ1sU0s+JjcO8s+a7gibBfaXeqb
+ pYkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DbYb1T7r/x3Vwe1nQCdfG81vfl3PJk8e2zSpVeaOReo=;
- b=tky9zVBkx+MFb3uQv0pvu9sBlLT6ggOyukQfOxDp1l6ZzwCtN5/ydA9MJ6XUMOcf8N
- Gg4dnsRXzr6u4LivC+VQpLV6tGUgiQXZya+6z5JVRBzkoiTxVUkS2YG9oPPAkH5Zd+fb
- PHO2W2rO/lW3SUYvlUjMojx0FDTDUdAKDj8aPsFyCyKI8MKzfFt5Y/Kt5uwXY13bh+Yv
- HDIw6KeIgD41DncHGen6x0u641nuNVIG9WQZz/67bNefoB4vrrGAtvTUdmfTzkp8B1KG
- lxl59fA8M7NX2/kkBMyeMpNkt+nhiZdqPwA/+fj0Dchkp/b+xlVP5+hwUvYZ1t2YvO7N
- vKpA==
-X-Gm-Message-State: AOAM531IS+bh0QE50K8J43wvTBkldMVhMDUGGcF7fow1DlIuaf1YpF30
- q9XkvyhbLtvmSnzb0PLN9VIMzQNfb+IprA==
-X-Google-Smtp-Source: ABdhPJwAvFVrKa1r8CZvT82AoofUiiJrh2Y+iP4qaG2sVHy3LDEWNt3anX6D84vJMVLcMNXwpHFa5w==
-X-Received: by 2002:a17:90a:5806:: with SMTP id
- h6mr13646331pji.14.1620438690628; 
- Fri, 07 May 2021 18:51:30 -0700 (PDT)
+ bh=MZJE8gIUuQfpQ/ySHho/M1CJLdsIgFJthIThLJ57+OM=;
+ b=DkXUMP0tWHQrthwB+GEFb2osc9thPwgvlB6x4Oe84AOmPACqcgGNMPSJLD/G3+Ixon
+ zfxZlQ9hbwUwEfp1MEBmu/TtIqtHLiLDWk4AY/kOLFI1aMJI/PIa/XTot0UA7F8j4wIK
+ LJ93fcCVvmdzm67kjY/EEXjfmuWvFeO/UnqRz3td9FKt+Z0qwZm5dBvt6OTLpLT1kMgQ
+ w6awafFMzT2eL8MSa+tg2lrx2GBJcK9PpNUPzEp1OBuQV0YqeWvM9qJRl2g48Skze8Xa
+ 4Ibb1nuOh8d/Y2WGr+gKFNSHKJBgxPwvA4a5QwxZ1DvhT5sSKxX/gLaZ3XCgTmNz+3j3
+ poRA==
+X-Gm-Message-State: AOAM531hdRnkpc3fBvifxb+rnJ2Tz0XM2A9/RLTBppTSQuxW1YmvCNr0
+ 3l0uUnTuRCrnwT2unkCqxMTrT9k+EkMTbA==
+X-Google-Smtp-Source: ABdhPJx8uThVNBQYy07gpMOc50J7o+OE26b67GTfhYqb1K9QoUZI3XFyhlIAxlWbM44bvsVgq3i99w==
+X-Received: by 2002:a17:90b:4b11:: with SMTP id
+ lx17mr25878155pjb.130.1620438691261; 
+ Fri, 07 May 2021 18:51:31 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.144.24])
  by smtp.gmail.com with ESMTPSA id 204sm5861396pfw.158.2021.05.07.18.51.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 May 2021 18:51:30 -0700 (PDT)
+ Fri, 07 May 2021 18:51:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 41/72] softfloat: Introduce sh[lr]_double primitives
-Date: Fri,  7 May 2021 18:47:31 -0700
-Message-Id: <20210508014802.892561-42-richard.henderson@linaro.org>
+Subject: [PATCH 42/72] softfloat: Move div_floats to softfloat-parts.c.inc
+Date: Fri,  7 May 2021 18:47:32 -0700
+Message-Id: <20210508014802.892561-43-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210508014802.892561-1-richard.henderson@linaro.org>
 References: <20210508014802.892561-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,230 +88,438 @@ Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Have x86_64 assembly for them, with a fallback.
-This avoids shuffling values through %cl in the x86 case.
+Rename to parts$N_div.
+Implement float128_div with FloatParts128.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/fpu/softfloat-macros.h |  36 ++++++++++++
- fpu/softfloat.c                | 102 +++++++++++++++++++++++++--------
- 2 files changed, 115 insertions(+), 23 deletions(-)
+ fpu/softfloat.c           | 290 +++++++++++++++-----------------------
+ fpu/softfloat-parts.c.inc |  55 ++++++++
+ 2 files changed, 171 insertions(+), 174 deletions(-)
 
-diff --git a/include/fpu/softfloat-macros.h b/include/fpu/softfloat-macros.h
-index 672c1db555..ec4e27a595 100644
---- a/include/fpu/softfloat-macros.h
-+++ b/include/fpu/softfloat-macros.h
-@@ -85,6 +85,42 @@ this code that are retained.
- #include "fpu/softfloat-types.h"
- #include "qemu/host-utils.h"
- 
-+/**
-+ * shl_double: double-word merging left shift
-+ * @l: left or most-significant word
-+ * @r: right or least-significant word
-+ * @c: shift count
-+ *
-+ * Shift @l left by @c bits, shifting in bits from @r.
-+ */
-+static inline uint64_t shl_double(uint64_t l, uint64_t r, int c)
-+{
-+#if defined(__x86_64__)
-+    asm("shld %b2, %1, %0" : "+r"(l) : "r"(r), "ci"(c));
-+    return l;
-+#else
-+    return c ? (l << c) | (r >> (64 - c)) : l;
-+#endif
-+}
-+
-+/**
-+ * shr_double: double-word merging right shift
-+ * @l: left or most-significant word
-+ * @r: right or least-significant word
-+ * @c: shift count
-+ *
-+ * Shift @r right by @c bits, shifting in bits from @l.
-+ */
-+static inline uint64_t shr_double(uint64_t l, uint64_t r, int c)
-+{
-+#if defined(__x86_64__)
-+    asm("shrd %b2, %1, %0" : "+r"(r) : "r"(l), "ci"(c));
-+    return r;
-+#else
-+    return c ? (r >> c) | (l << (64 - c)) : r;
-+#endif
-+}
-+
- /*----------------------------------------------------------------------------
- | Shifts `a' right by the number of bits given in `count'.  If any nonzero
- | bits are shifted off, they are ``jammed'' into the least significant bit of
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index a9ee8498ae..a42c297828 100644
+index a42c297828..8efa52f7ec 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -956,15 +956,12 @@ static int frac128_normalize(FloatParts128 *a)
- {
-     if (a->frac_hi) {
-         int shl = clz64(a->frac_hi);
--        if (shl) {
--            int shr = 64 - shl;
--            a->frac_hi = (a->frac_hi << shl) | (a->frac_lo >> shr);
--            a->frac_lo = (a->frac_lo << shl);
--        }
-+        a->frac_hi = shl_double(a->frac_hi, a->frac_lo, shl);
-+        a->frac_lo <<= shl;
-         return shl;
-     } else if (a->frac_lo) {
-         int shl = clz64(a->frac_lo);
--        a->frac_hi = (a->frac_lo << shl);
-+        a->frac_hi = a->frac_lo << shl;
-         a->frac_lo = 0;
-         return shl + 64;
-     }
-@@ -975,7 +972,7 @@ static int frac256_normalize(FloatParts256 *a)
- {
-     uint64_t a0 = a->frac_hi, a1 = a->frac_hm;
-     uint64_t a2 = a->frac_lm, a3 = a->frac_lo;
--    int ret, shl, shr;
-+    int ret, shl;
+@@ -802,6 +802,14 @@ static FloatParts128 *parts128_muladd(FloatParts128 *a, FloatParts128 *b,
+ #define parts_muladd(A, B, C, Z, S) \
+     PARTS_GENERIC_64_128(muladd, A)(A, B, C, Z, S)
  
-     if (likely(a0)) {
-         shl = clz64(a0);
-@@ -1005,11 +1002,10 @@ static int frac256_normalize(FloatParts256 *a)
-         ret += shl;
-     }
- 
--    shr = -shl & 63;
--    a0 = (a0 << shl) | (a1 >> shr);
--    a1 = (a1 << shl) | (a2 >> shr);
--    a2 = (a2 << shl) | (a3 >> shr);
--    a3 = (a3 << shl);
-+    a0 = shl_double(a0, a1, shl);
-+    a1 = shl_double(a1, a2, shl);
-+    a2 = shl_double(a2, a3, shl);
-+    a3 <<= shl;
- 
-  done:
-     a->frac_hi = a0;
-@@ -1028,7 +1024,20 @@ static void frac64_shl(FloatParts64 *a, int c)
- 
- static void frac128_shl(FloatParts128 *a, int c)
- {
--    shift128Left(a->frac_hi, a->frac_lo, c, &a->frac_hi, &a->frac_lo);
-+    uint64_t a0 = a->frac_hi, a1 = a->frac_lo;
++static FloatParts64 *parts64_div(FloatParts64 *a, FloatParts64 *b,
++                                 float_status *s);
++static FloatParts128 *parts128_div(FloatParts128 *a, FloatParts128 *b,
++                                   float_status *s);
 +
-+    if (c & 64) {
-+        a0 = a1, a1 = 0;
-+    }
++#define parts_div(A, B, S) \
++    PARTS_GENERIC_64_128(div, A)(A, B, S)
 +
-+    c &= 63;
-+    if (c) {
-+        a0 = shl_double(a0, a1, c);
-+        a1 = a1 << c;
-+    }
-+
-+    a->frac_hi = a0;
-+    a->frac_lo = a1;
- }
+ /*
+  * Helper functions for softfloat-parts.c.inc, per-size operations.
+  */
+@@ -894,6 +902,87 @@ static void frac128_clear(FloatParts128 *a)
  
- #define frac_shl(A, C)  FRAC_GENERIC_64_128(shl, A)(A, C)
-@@ -1040,19 +1049,68 @@ static void frac64_shr(FloatParts64 *a, int c)
+ #define frac_clear(A)  FRAC_GENERIC_64_128(clear, A)(A)
  
- static void frac128_shr(FloatParts128 *a, int c)
- {
--    shift128Right(a->frac_hi, a->frac_lo, c, &a->frac_hi, &a->frac_lo);
-+    uint64_t a0 = a->frac_hi, a1 = a->frac_lo;
++static bool frac64_div(FloatParts64 *a, FloatParts64 *b)
++{
++    uint64_t n1, n0, r, q;
++    bool ret;
 +
-+    if (c & 64) {
-+        a1 = a0, a0 = 0;
-+    }
-+
-+    c &= 63;
-+    if (c) {
-+        a1 = shr_double(a0, a1, c);
-+        a0 = a0 >> c;
-+    }
-+
-+    a->frac_hi = a0;
-+    a->frac_lo = a1;
- }
- 
- #define frac_shr(A, C)  FRAC_GENERIC_64_128(shr, A)(A, C)
- 
- static void frac64_shrjam(FloatParts64 *a, int c)
- {
--    shift64RightJamming(a->frac, c, &a->frac);
-+    uint64_t a0 = a->frac;
-+
-+    if (likely(c != 0)) {
-+        if (likely(c < 64)) {
-+            a0 = (a0 >> c) | (shr_double(a0, 0, c) != 0);
-+        } else {
-+            a0 = a0 != 0;
-+        }
-+        a->frac = a0;
-+    }
- }
- 
- static void frac128_shrjam(FloatParts128 *a, int c)
- {
--    shift128RightJamming(a->frac_hi, a->frac_lo, c, &a->frac_hi, &a->frac_lo);
-+    uint64_t a0 = a->frac_hi, a1 = a->frac_lo;
-+    uint64_t sticky = 0;
-+
-+    if (unlikely(c == 0)) {
-+        return;
-+    } else if (likely(c < 64)) {
-+        /* nothing */
-+    } else if (likely(c < 128)) {
-+        sticky = a1;
-+        a1 = a0;
-+        a0 = 0;
-+        c &= 63;
-+        if (c == 0) {
-+            goto done;
-+        }
++    /*
++     * We want a 2*N / N-bit division to produce exactly an N-bit
++     * result, so that we do not lose any precision and so that we
++     * do not have to renormalize afterward.  If A.frac < B.frac,
++     * then division would produce an (N-1)-bit result; shift A left
++     * by one to produce the an N-bit result, and return true to
++     * decrement the exponent to match.
++     *
++     * The udiv_qrnnd algorithm that we're using requires normalization,
++     * i.e. the msb of the denominator must be set, which is already true.
++     */
++    ret = a->frac < b->frac;
++    if (ret) {
++        n0 = a->frac;
++        n1 = 0;
 +    } else {
-+        sticky = a0 | a1;
-+        a0 = a1 = 0;
-+        goto done;
++        n0 = a->frac >> 1;
++        n1 = a->frac << 63;
++    }
++    q = udiv_qrnnd(&r, n0, n1, b->frac);
++
++    /* Set lsb if there is a remainder, to set inexact. */
++    a->frac = q | (r != 0);
++
++    return ret;
++}
++
++static bool frac128_div(FloatParts128 *a, FloatParts128 *b)
++{
++    uint64_t q0, q1, a0, a1, b0, b1;
++    uint64_t r0, r1, r2, r3, t0, t1, t2, t3;
++    bool ret = false;
++
++    a0 = a->frac_hi, a1 = a->frac_lo;
++    b0 = b->frac_hi, b1 = b->frac_lo;
++
++    ret = lt128(a0, a1, b0, b1);
++    if (!ret) {
++        a1 = shr_double(a0, a1, 1);
++        a0 = a0 >> 1;
 +    }
 +
-+    sticky |= shr_double(a1, 0, c);
-+    a1 = shr_double(a0, a1, c);
-+    a0 = a0 >> c;
++    /* Use 128/64 -> 64 division as estimate for 192/128 -> 128 division. */
++    q0 = estimateDiv128To64(a0, a1, b0);
 +
-+ done:
-+    a->frac_lo = a1 | (sticky != 0);
-+    a->frac_hi = a0;
++    /*
++     * Estimate is high because B1 was not included (unless B1 == 0).
++     * Reduce quotient and increase remainder until remainder is non-negative.
++     * This loop will execute 0 to 2 times.
++     */
++    mul128By64To192(b0, b1, q0, &t0, &t1, &t2);
++    sub192(a0, a1, 0, t0, t1, t2, &r0, &r1, &r2);
++    while (r0 != 0) {
++        q0--;
++        add192(r0, r1, r2, 0, b0, b1, &r0, &r1, &r2);
++    }
++
++    /* Repeat using the remainder, producing a second word of quotient. */
++    q1 = estimateDiv128To64(r1, r2, b0);
++    mul128By64To192(b0, b1, q1, &t1, &t2, &t3);
++    sub192(r1, r2, 0, t1, t2, t3, &r1, &r2, &r3);
++    while (r1 != 0) {
++        q1--;
++        add192(r1, r2, r3, 0, b0, b1, &r1, &r2, &r3);
++    }
++
++    /* Any remainder indicates inexact; set sticky bit. */
++    q1 |= (r2 | r3) != 0;
++
++    a->frac_hi = q0;
++    a->frac_lo = q1;
++    return ret;
++}
++
++#define frac_div(A, B)  FRAC_GENERIC_64_128(div, A)(A, B)
++
+ static bool frac64_eqz(FloatParts64 *a)
+ {
+     return a->frac == 0;
+@@ -1820,110 +1909,42 @@ float128 QEMU_FLATTEN float128_muladd(float128 a, float128 b, float128 c,
  }
  
- static void frac256_shrjam(FloatParts256 *a, int c)
-@@ -1060,7 +1118,6 @@ static void frac256_shrjam(FloatParts256 *a, int c)
-     uint64_t a0 = a->frac_hi, a1 = a->frac_hm;
-     uint64_t a2 = a->frac_lm, a3 = a->frac_lo;
-     uint64_t sticky = 0;
--    int invc;
+ /*
+- * Returns the result of dividing the floating-point value `a' by the
+- * corresponding value `b'. The operation is performed according to
+- * the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
++ * Division
+  */
  
-     if (unlikely(c == 0)) {
-         return;
-@@ -1085,12 +1142,11 @@ static void frac256_shrjam(FloatParts256 *a, int c)
-         goto done;
-     }
+-static FloatParts64 div_floats(FloatParts64 a, FloatParts64 b, float_status *s)
+-{
+-    bool sign = a.sign ^ b.sign;
+-
+-    if (a.cls == float_class_normal && b.cls == float_class_normal) {
+-        uint64_t n0, n1, q, r;
+-        int exp = a.exp - b.exp;
+-
+-        /*
+-         * We want a 2*N / N-bit division to produce exactly an N-bit
+-         * result, so that we do not lose any precision and so that we
+-         * do not have to renormalize afterward.  If A.frac < B.frac,
+-         * then division would produce an (N-1)-bit result; shift A left
+-         * by one to produce the an N-bit result, and decrement the
+-         * exponent to match.
+-         *
+-         * The udiv_qrnnd algorithm that we're using requires normalization,
+-         * i.e. the msb of the denominator must be set, which is already true.
+-         */
+-        if (a.frac < b.frac) {
+-            exp -= 1;
+-            shift128Left(0, a.frac, DECOMPOSED_BINARY_POINT + 1, &n1, &n0);
+-        } else {
+-            shift128Left(0, a.frac, DECOMPOSED_BINARY_POINT, &n1, &n0);
+-        }
+-        q = udiv_qrnnd(&r, n1, n0, b.frac);
+-
+-        /* Set lsb if there is a remainder, to set inexact. */
+-        a.frac = q | (r != 0);
+-        a.sign = sign;
+-        a.exp = exp;
+-        return a;
+-    }
+-    /* handle all the NaN cases */
+-    if (is_nan(a.cls) || is_nan(b.cls)) {
+-        return *parts_pick_nan(&a, &b, s);
+-    }
+-    /* 0/0 or Inf/Inf */
+-    if (a.cls == b.cls
+-        &&
+-        (a.cls == float_class_inf || a.cls == float_class_zero)) {
+-        float_raise(float_flag_invalid, s);
+-        parts_default_nan(&a, s);
+-        return a;
+-    }
+-    /* Inf / x or 0 / x */
+-    if (a.cls == float_class_inf || a.cls == float_class_zero) {
+-        a.sign = sign;
+-        return a;
+-    }
+-    /* Div 0 => Inf */
+-    if (b.cls == float_class_zero) {
+-        float_raise(float_flag_divbyzero, s);
+-        a.cls = float_class_inf;
+-        a.sign = sign;
+-        return a;
+-    }
+-    /* Div by Inf */
+-    if (b.cls == float_class_inf) {
+-        a.cls = float_class_zero;
+-        a.sign = sign;
+-        return a;
+-    }
+-    g_assert_not_reached();
+-}
+-
+ float16 float16_div(float16 a, float16 b, float_status *status)
+ {
+-    FloatParts64 pa, pb, pr;
++    FloatParts64 pa, pb, *pr;
  
--    invc = -c & 63;
--    sticky |= a3 << invc;
--    a3 = (a3 >> c) | (a2 << invc);
--    a2 = (a2 >> c) | (a1 << invc);
--    a1 = (a1 >> c) | (a0 << invc);
--    a0 = (a0 >> c);
-+    sticky |= shr_double(a3, 0, c);
-+    a3 = shr_double(a2, a3, c);
-+    a2 = shr_double(a1, a2, c);
-+    a1 = shr_double(a0, a1, c);
-+    a0 = a0 >> c;
+     float16_unpack_canonical(&pa, a, status);
+     float16_unpack_canonical(&pb, b, status);
+-    pr = div_floats(pa, pb, status);
++    pr = parts_div(&pa, &pb, status);
  
-  done:
-     a->frac_lo = a3 | (sticky != 0);
+-    return float16_round_pack_canonical(&pr, status);
++    return float16_round_pack_canonical(pr, status);
+ }
+ 
+ static float32 QEMU_SOFTFLOAT_ATTR
+ soft_f32_div(float32 a, float32 b, float_status *status)
+ {
+-    FloatParts64 pa, pb, pr;
++    FloatParts64 pa, pb, *pr;
+ 
+     float32_unpack_canonical(&pa, a, status);
+     float32_unpack_canonical(&pb, b, status);
+-    pr = div_floats(pa, pb, status);
++    pr = parts_div(&pa, &pb, status);
+ 
+-    return float32_round_pack_canonical(&pr, status);
++    return float32_round_pack_canonical(pr, status);
+ }
+ 
+ static float64 QEMU_SOFTFLOAT_ATTR
+ soft_f64_div(float64 a, float64 b, float_status *status)
+ {
+-    FloatParts64 pa, pb, pr;
++    FloatParts64 pa, pb, *pr;
+ 
+     float64_unpack_canonical(&pa, a, status);
+     float64_unpack_canonical(&pb, b, status);
+-    pr = div_floats(pa, pb, status);
++    pr = parts_div(&pa, &pb, status);
+ 
+-    return float64_round_pack_canonical(&pr, status);
++    return float64_round_pack_canonical(pr, status);
+ }
+ 
+ static float hard_f32_div(float a, float b)
+@@ -1984,20 +2005,28 @@ float64_div(float64 a, float64 b, float_status *s)
+                         f64_div_pre, f64_div_post);
+ }
+ 
+-/*
+- * Returns the result of dividing the bfloat16
+- * value `a' by the corresponding value `b'.
+- */
+-
+-bfloat16 bfloat16_div(bfloat16 a, bfloat16 b, float_status *status)
++bfloat16 QEMU_FLATTEN
++bfloat16_div(bfloat16 a, bfloat16 b, float_status *status)
+ {
+-    FloatParts64 pa, pb, pr;
++    FloatParts64 pa, pb, *pr;
+ 
+     bfloat16_unpack_canonical(&pa, a, status);
+     bfloat16_unpack_canonical(&pb, b, status);
+-    pr = div_floats(pa, pb, status);
++    pr = parts_div(&pa, &pb, status);
+ 
+-    return bfloat16_round_pack_canonical(&pr, status);
++    return bfloat16_round_pack_canonical(pr, status);
++}
++
++float128 QEMU_FLATTEN
++float128_div(float128 a, float128 b, float_status *status)
++{
++    FloatParts128 pa, pb, *pr;
++
++    float128_unpack_canonical(&pa, a, status);
++    float128_unpack_canonical(&pb, b, status);
++    pr = parts_div(&pa, &pb, status);
++
++    return float128_round_pack_canonical(pr, status);
+ }
+ 
+ /*
+@@ -7122,93 +7151,6 @@ float128 float128_round_to_int(float128 a, float_status *status)
+ 
+ }
+ 
+-/*----------------------------------------------------------------------------
+-| Returns the result of dividing the quadruple-precision floating-point value
+-| `a' by the corresponding value `b'.  The operation is performed according to
+-| the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
+-*----------------------------------------------------------------------------*/
+-
+-float128 float128_div(float128 a, float128 b, float_status *status)
+-{
+-    bool aSign, bSign, zSign;
+-    int32_t aExp, bExp, zExp;
+-    uint64_t aSig0, aSig1, bSig0, bSig1, zSig0, zSig1, zSig2;
+-    uint64_t rem0, rem1, rem2, rem3, term0, term1, term2, term3;
+-
+-    aSig1 = extractFloat128Frac1( a );
+-    aSig0 = extractFloat128Frac0( a );
+-    aExp = extractFloat128Exp( a );
+-    aSign = extractFloat128Sign( a );
+-    bSig1 = extractFloat128Frac1( b );
+-    bSig0 = extractFloat128Frac0( b );
+-    bExp = extractFloat128Exp( b );
+-    bSign = extractFloat128Sign( b );
+-    zSign = aSign ^ bSign;
+-    if ( aExp == 0x7FFF ) {
+-        if (aSig0 | aSig1) {
+-            return propagateFloat128NaN(a, b, status);
+-        }
+-        if ( bExp == 0x7FFF ) {
+-            if (bSig0 | bSig1) {
+-                return propagateFloat128NaN(a, b, status);
+-            }
+-            goto invalid;
+-        }
+-        return packFloat128( zSign, 0x7FFF, 0, 0 );
+-    }
+-    if ( bExp == 0x7FFF ) {
+-        if (bSig0 | bSig1) {
+-            return propagateFloat128NaN(a, b, status);
+-        }
+-        return packFloat128( zSign, 0, 0, 0 );
+-    }
+-    if ( bExp == 0 ) {
+-        if ( ( bSig0 | bSig1 ) == 0 ) {
+-            if ( ( aExp | aSig0 | aSig1 ) == 0 ) {
+- invalid:
+-                float_raise(float_flag_invalid, status);
+-                return float128_default_nan(status);
+-            }
+-            float_raise(float_flag_divbyzero, status);
+-            return packFloat128( zSign, 0x7FFF, 0, 0 );
+-        }
+-        normalizeFloat128Subnormal( bSig0, bSig1, &bExp, &bSig0, &bSig1 );
+-    }
+-    if ( aExp == 0 ) {
+-        if ( ( aSig0 | aSig1 ) == 0 ) return packFloat128( zSign, 0, 0, 0 );
+-        normalizeFloat128Subnormal( aSig0, aSig1, &aExp, &aSig0, &aSig1 );
+-    }
+-    zExp = aExp - bExp + 0x3FFD;
+-    shortShift128Left(
+-        aSig0 | UINT64_C(0x0001000000000000), aSig1, 15, &aSig0, &aSig1 );
+-    shortShift128Left(
+-        bSig0 | UINT64_C(0x0001000000000000), bSig1, 15, &bSig0, &bSig1 );
+-    if ( le128( bSig0, bSig1, aSig0, aSig1 ) ) {
+-        shift128Right( aSig0, aSig1, 1, &aSig0, &aSig1 );
+-        ++zExp;
+-    }
+-    zSig0 = estimateDiv128To64( aSig0, aSig1, bSig0 );
+-    mul128By64To192( bSig0, bSig1, zSig0, &term0, &term1, &term2 );
+-    sub192( aSig0, aSig1, 0, term0, term1, term2, &rem0, &rem1, &rem2 );
+-    while ( (int64_t) rem0 < 0 ) {
+-        --zSig0;
+-        add192( rem0, rem1, rem2, 0, bSig0, bSig1, &rem0, &rem1, &rem2 );
+-    }
+-    zSig1 = estimateDiv128To64( rem1, rem2, bSig0 );
+-    if ( ( zSig1 & 0x3FFF ) <= 4 ) {
+-        mul128By64To192( bSig0, bSig1, zSig1, &term1, &term2, &term3 );
+-        sub192( rem1, rem2, 0, term1, term2, term3, &rem1, &rem2, &rem3 );
+-        while ( (int64_t) rem1 < 0 ) {
+-            --zSig1;
+-            add192( rem1, rem2, rem3, 0, bSig0, bSig1, &rem1, &rem2, &rem3 );
+-        }
+-        zSig1 |= ( ( rem1 | rem2 | rem3 ) != 0 );
+-    }
+-    shift128ExtraRightJamming( zSig0, zSig1, 0, 15, &zSig0, &zSig1, &zSig2 );
+-    return roundAndPackFloat128(zSign, zExp, zSig0, zSig1, zSig2, status);
+-
+-}
+-
+ /*----------------------------------------------------------------------------
+ | Returns the remainder of the quadruple-precision floating-point value `a'
+ | with respect to the corresponding value `b'.  The operation is performed
+diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
+index a203811299..f8165d92f9 100644
+--- a/fpu/softfloat-parts.c.inc
++++ b/fpu/softfloat-parts.c.inc
+@@ -539,3 +539,58 @@ static FloatPartsN *partsN(muladd)(FloatPartsN *a, FloatPartsN *b,
+     parts_default_nan(a, s);
+     return a;
+ }
++
++/*
++ * Returns the result of dividing the floating-point value `a' by the
++ * corresponding value `b'. The operation is performed according to
++ * the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
++ */
++static FloatPartsN *partsN(div)(FloatPartsN *a, FloatPartsN *b,
++                                float_status *s)
++{
++    int ab_mask = float_cmask(a->cls) | float_cmask(b->cls);
++    bool sign = a->sign ^ b->sign;
++
++    if (likely(ab_mask == float_cmask_normal)) {
++        a->sign = sign;
++        a->exp -= b->exp + frac_div(a, b);
++        return a;
++    }
++
++    /* 0/0 or Inf/Inf => NaN */
++    if (unlikely(ab_mask == float_cmask_zero) ||
++        unlikely(ab_mask == float_cmask_inf)) {
++        float_raise(float_flag_invalid, s);
++        parts_default_nan(a, s);
++        return a;
++    }
++
++    /* All the NaN cases */
++    if (unlikely(ab_mask & float_cmask_anynan)) {
++        return parts_pick_nan(a, b, s);
++    }
++
++    a->sign = sign;
++
++    /* Inf / X */
++    if (a->cls == float_class_inf) {
++        return a;
++    }
++
++    /* 0 / X */
++    if (a->cls == float_class_zero) {
++        return a;
++    }
++
++    /* X / Inf */
++    if (b->cls == float_class_inf) {
++        a->cls = float_class_zero;
++        return a;
++    }
++
++    /* X / 0 => Inf */
++    g_assert(b->cls == float_class_zero);
++    float_raise(float_flag_divbyzero, s);
++    a->cls = float_class_inf;
++    return a;
++}
 -- 
 2.25.1
 
