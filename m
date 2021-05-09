@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B03937771A
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 17:03:56 +0200 (CEST)
-Received: from localhost ([::1]:48338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 381CE37771E
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 17:07:24 +0200 (CEST)
+Received: from localhost ([::1]:53864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfkyI-0000eG-Pd
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 11:03:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41030)
+	id 1lfl1f-0004mF-32
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 11:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkvT-0007UC-Ag
- for qemu-devel@nongnu.org; Sun, 09 May 2021 11:01:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54840)
+ id 1lfkzz-0003Cr-6h
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 11:05:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkvJ-0006hq-Nz
- for qemu-devel@nongnu.org; Sun, 09 May 2021 11:00:58 -0400
+ id 1lfkzx-0000hD-As
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 11:05:38 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfkvF-0007z8-KQ
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 15:00:45 +0000
+ id 1lfkzv-0008Ep-ER
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 15:05:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 986142E806D
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 15:00:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 61C2B2E813A
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 15:05:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 14:55:21 -0000
-From: Thomas Huth <1902777@bugs.launchpad.net>
+Date: Sun, 09 May 2021 14:56:09 -0000
+From: Thomas Huth <1902451@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: vmx whpx
+X-Launchpad-Bug-Tags: cpuid i386
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: rcprior th-huth
-X-Launchpad-Bug-Reporter: Rui Prior (rcprior)
+X-Launchpad-Bug-Commenters: qubasa th-huth
+X-Launchpad-Bug-Reporter: Luis (qubasa)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160443143159.15248.310211538041972922.malonedeb@wampee.canonical.com>
-Message-Id: <162057212137.6325.6800492502405758041.malone@gac.canonical.com>
-Subject: [Bug 1902777] Re: qemu with whpx acceleration crashes with vmx=on
+References: <160426338728.14730.2439588061093712843.malonedeb@wampee.canonical.com>
+Message-Id: <162057216916.16126.5333833489938775787.malone@soybean.canonical.com>
+Subject: [Bug 1902451] Re: incorrect cpuid feature detection
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: c4bea5ab82f331ded1daf65197c46d3cccb2b74b
+X-Launchpad-Hash: a8805928d4eff84657762c09ee5325824a405aa5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1902777 <1902777@bugs.launchpad.net>
+Reply-To: Bug 1902451 <1902451@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -108,34 +108,61 @@ Thank you and sorry for the inconvenience.
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
+** Tags added: i386
+
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1902777
+https://bugs.launchpad.net/bugs/1902451
 
 Title:
-  qemu with whpx acceleration crashes with vmx=3Don
+  incorrect cpuid feature detection
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Under Windows 10, qemu crashes when using whpx acceleration and the vmx=
-=3Don option.  The reported error is
-    qemu-system-x86_64.exe: WHPX: Unexpected VP exit code 4
-  Before the error, it reports
-    Windows Hypervisor Platform accelerator is operational
+  Hello,
 
-  The command line is the following:
-    "C:\Program Files\qemu\qemu-system-x86_64.exe" -accel whpx -cpu qemu64,=
-vmx=3Don
-  It crashes with any model of CPU as long as the "vmx=3Don" option is adde=
-d.  Without this option it runs fine (but no nested virtualization).
+  I am currently developing a x64 kernel and I wanted to check through
+  cpuid if some features are available in the guest. When I try to
+  enable cpu features like vmcb_clean or constant_tsc qemu is saying
+  that my host doesn't support the requested features. However cat
+  /proc/cpuinfo tells a different story:
 
-  My processor is an Intel i7-10510U, and I am running Windows 10 2004
-  (build 19041.572).
+  model name:  AMD Ryzen 5 3500U
+  flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pa=
+t pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdt=
+scp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf =
+pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave a=
+vx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalign=
+sse 3dnowprefetch osvw skinit wdt tce topoext perfctr_core perfctr_nb bpext=
+ perfctr_llc mwaitx cpb hw_pstate sme pti ssbd sev ibpb vmmcall fsgsbase bm=
+i1 avx2 smep bmi2 rdseed adx smap clflushopt sha_ni xsaveopt xsavec xgetbv1=
+ xsaves clzero irperf xsaveerptr arat npt lbrv svm_lock nrip_save tsc_scale=
+ vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave=
+_vmload vgif overflow_recov succor smca
+
+  I also checked it myself by running cpuid and check the bits as in the
+  AMD Manual. Everything checks out but qemu still fails.
+
+  QEMU version: QEMU emulator version 4.2.0
+
+  $ qemu-system-x86_64 -cpu host,+vmcb_clean,enforce -enable-kvm -drive for=
+mat=3Draw,file=3Dtarget/x86_64-os/debug/bootimage-my_kernel.bin -serial std=
+io -display none
+  qemu-system-x86_64: warning: host doesn't support requested feature: CPUI=
+D.8000000AH:EDX.vmcb-clean [bit 5]
+  qemu-system-x86_64: Host doesn't support requested features
+
+  or
+
+  $ qemu-system-x86_64 -cpu host,+constant_tsc,enforce -enable-kvm -drive f=
+ormat=3Draw,file=3Dtarget/x86_64-os/debug/bootimage-my_kernel.bin -serial s=
+tdio -display none
+  qemu-system-x86_64: Property '.constant_tsc' not found
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1902777/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1902451/+subscriptions
 
