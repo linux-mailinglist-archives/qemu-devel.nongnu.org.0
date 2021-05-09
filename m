@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4DC3777EC
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 20:19:01 +0200 (CEST)
-Received: from localhost ([::1]:58098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5033777F5
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 20:42:05 +0200 (CEST)
+Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfo15-0000B5-KS
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 14:18:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43330)
+	id 1lfoNO-0001Pb-PM
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 14:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lfnyw-0007gz-Um
- for qemu-devel@nongnu.org; Sun, 09 May 2021 14:16:46 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40515)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lfoMK-0000io-T0
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 14:40:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lfnyu-0007FK-6W
- for qemu-devel@nongnu.org; Sun, 09 May 2021 14:16:46 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so9876236wmy.5
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 11:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=YLBJl6ZuIQzPy8HS1eTa2lIwQhoJAFI+uv+WhmfTixc=;
- b=yib7YD+I8Tl/TXQKIu3/Y7qBNdVunTi2X/UDixyHfkNznNH26HtNd/Mvox+zZtFmNr
- iz33SrPAnea+8C1fK61wnsY1pRDnHt9raSrGp/5IxUNvtmWziv70EHyF+Ebg6Wyh79mQ
- 6m92CYg83y4L706ZhlGLBjEUy2ng9NuLSK2Pg6n7VC/gbdGTbORBYQsGlzcsBynIOwgM
- pjKvpMv0SH4/kxCD+JX5iHjBclrYu8Nb1apG1qyx2nkCiCHlfFF0rlhxN+lCXcqkdVJk
- Q1w5FjRJagQqt23eFFE3rs6N5Tk7iVXKVMW6Ja9FZzlW/rsl2jBq7j6dDTUhrfJGGZCk
- UEVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=YLBJl6ZuIQzPy8HS1eTa2lIwQhoJAFI+uv+WhmfTixc=;
- b=VZp+0GOdiiftpRsRj+SOx3MFvmpjTav2Y7Xqj+eGoQFJnybsxja6l3PJm4ofq+ULDC
- 6iYscqryXdzax1aTrVxBGEG+SPVhacdO8STkeW0z5d7Rdt23jF+Ds9o9KqGSN8gMOuuZ
- gD49UA/zNmtFvP6JS2HoWwf+QpU9egB5uwzSLeZ5e8tnycGYPf5BAMsJwGEnmlFsis2F
- JfDs1cuztNVMcSw9ZyyjFL5DGtCRoNM+GxSq2S/9YM+MdwePtbdfhejNAVAvSho91BC4
- 92CdlX/Rzjo7I0ySrpZ5bAnDwRU2QaftSv2zLK8+RAkDQkNGHG2lnlfEXblDfAZwXTDY
- 6uiw==
-X-Gm-Message-State: AOAM5314OMYXq4BGUS6iAUTvj3Nq8p26eSrxjHMAf3a5SID3GgSVGoKi
- X8hNkfy6UeNf5leMnyCaOlbc0g==
-X-Google-Smtp-Source: ABdhPJwLqOUICg2u8odhNpQ7vpR3/nbRalVHm+hJVAS18QddZzdw6b7WaPff6HPXYmiFEE8S5Tq90A==
-X-Received: by 2002:a7b:c7d0:: with SMTP id z16mr21915296wmk.22.1620584201555; 
- Sun, 09 May 2021 11:16:41 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 3sm16106840wms.30.2021.05.09.11.16.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 May 2021 11:16:39 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1EC601FF7E;
- Sun,  9 May 2021 19:16:38 +0100 (BST)
-References: <FITkUaiC5DeyCU3e1T6EisgkkQ8Fnrwf2WZTBGE@cp4-web-031.plabs.ch>
- <f3e79a92-802d-b9d0-048a-cf8d80309388@linaro.org>
- <d18gk-AF0Wjro1nZkvwjmqlM5mzXO9j68Pp5aELgxzTnI6SMj8tuekbHJ8--baeNWr_zeWw-6BLzTm07cz1T_oxwFuxyAtmgGiV-XYpLL88=@remexre.xyz>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Nathan Ringo <nathan@remexre.xyz>
-Subject: Re: [PATCH v2] This makes it easier to figure out whether a
- particular instruction was actually translated.
-Date: Sun, 09 May 2021 19:15:41 +0100
-In-reply-to: <d18gk-AF0Wjro1nZkvwjmqlM5mzXO9j68Pp5aELgxzTnI6SMj8tuekbHJ8--baeNWr_zeWw-6BLzTm07cz1T_oxwFuxyAtmgGiV-XYpLL88=@remexre.xyz>
-Message-ID: <87lf8nhiwq.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lfoMH-00051a-1G
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 14:40:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lfoMF-0000hl-0N
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 18:40:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 017712E8135
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 18:40:51 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Date: Sun, 09 May 2021 18:33:46 -0000
+From: Stefan Weil <1879672@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange jnsnow philmd ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Stefan Weil (ubuntu-weilnetz)
+References: <158996968484.21371.12685815665992748631.malonedeb@wampee.canonical.com>
+Message-Id: <162058522704.10404.4939063094574313441.malone@chaenomeles.canonical.com>
+Subject: [Bug 1879672] Re: QEMU installer with WHPX support
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
+X-Launchpad-Hash: 41eb74725abfad7f4be73478062bdef4068f16d0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,30 +72,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Reply-To: Bug 1879672 <1879672@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Meanwhile QEMU builds for CI and also my inofficial QEMU installers for
+Windows use free WHPX headers instead of the copyrighted MS ones, so
+this issue is fixed.
 
-Nathan Ringo <nathan@remexre.xyz> writes:
+** Changed in: qemu
+       Status: Invalid =3D> Fix Released
 
-> I'm mostly looking at AArch64, so they're the same there :) I'm using
-> this to collect code coverage information, so I have the disassembly,
-> and it's slightly easier to report it that way;
+-- =
 
-Have you considered collecting this information with TCG plugins? That
-way you can instrument what was actually instrumented directly.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1879672
 
-> if you think it'd be
-> more useful on other architectures to report the byte range instead,
-> it'd be an easy change to my scripts.
->
-> Also, noticed I accidentally deleted the first line of the commit
-> message when I updated the patch... I can fix that if you want me to
-> switch the size metric.
+Title:
+  QEMU installer with WHPX support
 
+Status in QEMU:
+  Fix Released
 
---=20
-Alex Benn=C3=A9e
+Bug description:
+  People often ask the community to add WHPX support to the QEMU installer =
+for Windows,
+  but it is impossible due to the license limitations of the WHPX SDK.
+
+  The WinHvEmulation.h and WinHvPlatform.h header files needed are "All
+  rights reserved".
+
+  However these headers only contain struct definitions and integer constan=
+ts,
+  no functional code in macros or inline functions. See:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg645815.html
+  It is questionable whether the headers alone can be considered copyrighta=
+ble material.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1879672/+subscriptions
 
