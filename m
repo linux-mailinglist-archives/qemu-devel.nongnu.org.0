@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DC437770F
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:44:35 +0200 (CEST)
-Received: from localhost ([::1]:37346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993B9377710
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:47:36 +0200 (CEST)
+Received: from localhost ([::1]:40760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfkfa-0000JB-Fp
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:44:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38372)
+	id 1lfkiV-000309-EQ
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkc1-0002oi-SO
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:40:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53350)
+ id 1lfkgc-0002Dn-32
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:45:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkbw-0002Em-9h
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:40:53 -0400
+ id 1lfkga-0005Ms-DJ
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:45:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfkbu-0005dO-GX
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:40:46 +0000
+ id 1lfkgZ-0005pO-71
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:45:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 656642E800F
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:40:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1E3F22E8187
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:45:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 14:34:24 -0000
-From: Thomas Huth <1901068@bugs.launchpad.net>
+Date: Sun, 09 May 2021 14:37:08 -0000
+From: Thomas Huth <1901359@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hskinnemoen th-huth
-X-Launchpad-Bug-Reporter: Havard Skinnemoen (hskinnemoen)
+X-Launchpad-Bug-Commenters: cinaplenrek th-huth
+X-Launchpad-Bug-Reporter: cinap_lenrek (cinaplenrek)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160338607829.11651.9676394433586315544.malonedeb@soybean.canonical.com>
-Message-Id: <162057086423.10352.6266597221077527912.malone@chaenomeles.canonical.com>
-Subject: [Bug 1901068] Re: Deleted tests are still run if they exist in the
- build tree
+References: <160358192028.26978.16757353407676731946.malonedeb@wampee.canonical.com>
+Message-Id: <162057102864.9948.3396644056903566295.malone@chaenomeles.canonical.com>
+Subject: [Bug 1901359] Re: ignore bit 0 in pci CONFIG_ADDRESS register write
+ for Type 1 access
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: acb673eacbf5f084e76be3362b8d835b0d80dc37
+X-Launchpad-Hash: 244bc909a2975ec6ee53f8633ef79402d027c24b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,10 +71,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1901068 <1901068@bugs.launchpad.net>
+Reply-To: Bug 1901359 <1901359@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Yeah, the bug tracker here on Launchpad is somewhat neglected ... Therefore:
 The QEMU project is currently moving its bug tracking to another system.
 For this we need to know which bugs are still valid and which could be
 closed already. Thus we are setting the bug state to "Incomplete" now.
@@ -112,28 +113,45 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1901068
+https://bugs.launchpad.net/bugs/1901359
 
 Title:
-  Deleted tests are still run if they exist in the build tree
+  ignore bit 0 in pci CONFIG_ADDRESS register write for Type 1 access
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Steps to reproduce:
-  1. Add a new device along with a qtest to exercise it.
-  2. Run make check-qtest. It passes.
-  3. Revert the commit that added the device and qtest.
-  4. Run make check-qtest again. It now fails because the device no longer =
-exists, but the test is somehow still there even though the source files ar=
-e gone and it's not mentioned in tests/qtest/meson.build.
+  I'v recently stumbled upon a bug in the Plan9 PCI config space access
+  routines for config mode #1.
 
-  After running make clean, make check-qtest passes again.
+  The code used to set bit 0 in the CONFIG_ADDRESS register for a Type 1
+  access.
 
-  $ git describe
-  v5.1.0-2465-g4c5b97bfd0
+  This was most likely a misreading of the PCI local bus specification
+  on our side.
+
+  However, in the PCI local bus specification 3.0, it states the
+  following:
+
+  > 3.2.2.3.2 Software Generation of Configuration Transactions
+  > ...
+  > For Type 1 translations, the host bridge directly copies the contents o=
+f the
+  > CONFIG_ADDRESS register (excluding bits 31 and 0) onto the PCI AD lines=
+ during the
+  > address phase of a configuration transaction making sure that AD[1::0] =
+is "01".
+
+  note the: "excluding bits 31 and 0"
+
+  What happens in qemu instead is that it uses bit 0 of the CONFIG_ADDRESS
+  register as part of the register offset (when it probably should ignore i=
+t)
+  when translating from Type 1 to Type 0 address. So once it reaches the de=
+vice
+  behind the bridge the register address is off by one.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1901068/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1901359/+subscriptions
 
