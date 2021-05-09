@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427C937778B
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 18:21:29 +0200 (CEST)
-Received: from localhost ([::1]:57816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C44E377792
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 18:27:44 +0200 (CEST)
+Received: from localhost ([::1]:33306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfmBM-0005Fo-CH
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 12:21:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53748)
+	id 1lfmHP-0008AX-Kd
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 12:27:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfmAb-0004Um-7J
- for qemu-devel@nongnu.org; Sun, 09 May 2021 12:20:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60242)
+ id 1lfmFO-0006f4-4E
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 12:25:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfmAX-0003Lw-0X
- for qemu-devel@nongnu.org; Sun, 09 May 2021 12:20:40 -0400
+ id 1lfmFL-00071q-Kr
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 12:25:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfmAV-0006lG-Ox
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 16:20:35 +0000
+ id 1lfmFK-0006vH-0r
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 16:25:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B3CCF2E8010
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 16:20:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id EBCC72E8010
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 16:25:33 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 16:11:04 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1811888@bugs.launchpad.net>
+Date: Sun, 09 May 2021 16:16:21 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1926277@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Wishlist;
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: dvpe evpe mips mt
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd th-huth xyz-k
-X-Launchpad-Bug-Reporter: Lukasz Janyst (xyz-k)
+X-Launchpad-Bug-Commenters: hansni philmd
+X-Launchpad-Bug-Reporter: Hansni Bu (hansni)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-References: <154758033350.20612.10612778559248871550.malonedeb@soybean.canonical.com>
-Message-Id: <162057666431.10101.18206755993046010007.malone@chaenomeles.canonical.com>
-Subject: [Bug 1811888] Re: Qemu refuses to multiboot Elf64 kernels
+References: <161951518027.9817.15696784713381088226.malonedeb@soybean.canonical.com>
+Message-Id: <162057698151.16081.8909716252694469134.malone@soybean.canonical.com>
+Subject: [Bug 1926277] Re: MIPS MT dvpe does not regard VPEConf0.MVP  
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: f33ac369df28d21491950bcb3f1c18a09ae04ed2
+X-Launchpad-Hash: d1709a7d8b16252c2c37842dc2968e2d50fed0cb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1811888 <1811888@bugs.launchpad.net>
+Reply-To: Bug 1926277 <1926277@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -79,51 +80,71 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'invalid' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/243
+ https://gitlab.com/qemu-project/qemu/-/issues/244
 
 
 ** Changed in: qemu
-       Status: New =3D> Invalid
+       Status: Confirmed =3D> Invalid
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #243
-   https://gitlab.com/qemu-project/qemu/-/issues/243
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #244
+   https://gitlab.com/qemu-project/qemu/-/issues/244
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1811888
+https://bugs.launchpad.net/bugs/1926277
 
 Title:
-  Qemu refuses to multiboot Elf64 kernels
+  MIPS MT dvpe does not regard VPEConf0.MVP
 
 Status in QEMU:
   Invalid
 
 Bug description:
-  Qemu does not multiboot Elf64 bit kernels when emulating x86_64
-  systems. This is unfortunate because it renders the `-kernel` option
-  quite useless. It's true that a multiboot compatible bootloader puts
-  you in protected mode by default, and you have to set up the long mode
-  yourself. While it is easy to put such 32-bit bootstrap code in a 64
-  bit binary, it is not possible to compile a 64 bit kernel into a 32
-  bit binary.
+  Hi,
 
-  After quick search, it turned out that loading 64 bit elf binaries has
-  been disabled to be compatible with GRUB. However, since that time,
-  both GRUB and Syslinux load 64 bit ELF kernels just fine, which makes
-  qemu incompatible with them. Furthermore, it seems that this feature
-  does and has always worked fine and that people have since submitted
-  patches to re-enable it.
+  According to MIPS32=C2=AE Architecture for Programmers VolumeIV-f: The
+  MIPS=C2=AE MT Application-Speci=EF=AC=81c Extension to the MIPS32=C2=AE A=
+rchitecture,
+  for instruction: dvpe, evpe:
 
-  https://patchwork.ozlabs.org/patch/62142/
-  https://patchwork.kernel.org/patch/9770523/
+  If the VPE executing the instruction is not a Master VPE, with the MVP
+  bit of the VPEConf0 register set, the EVP bit is unchanged by the
+  instruction.
 
-  Please consider applying the attached patch.
+  The pseudo code is:
 
-  Best Regards,
-  Lukasz Janyst
+  data =E2=86=90  MVPControl
+  GPR[rt] =E2=86=90  data
+  if(VPEConf0.MVP =3D 1) then
+    MVPControl.EVP =E2=86=90  sc
+  endif
+
+  However the helper functions of dvpe, evpe does not regard the
+  VPEConf0.MVP bit, namely, it does not check if the VPE is a master
+  VPE. Code is copied below as:
+
+  target_ulong helper_dvpe(CPUMIPSState *env)
+  {
+      CPUState *other_cs =3D first_cpu;
+      target_ulong prev =3D env->mvp->CP0_MVPControl;
+
+      CPU_FOREACH(other_cs) {
+          MIPSCPU *other_cpu =3D MIPS_CPU(other_cs);
+          /* Turn off all VPEs except the one executing the dvpe.  */
+          if (&other_cpu->env !=3D env) {
+              other_cpu->env.mvp->CP0_MVPControl &=3D ~(1 << CP0MVPCo_EVP);
+              mips_vpe_sleep(other_cpu);
+          }
+      }
+      return prev;
+  }
+
+  Is this a bug?
+
+  QEMU head commit: 0cef06d18762374c94eb4d511717a4735d668a24 is checked.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1811888/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926277/+subscriptions
 
