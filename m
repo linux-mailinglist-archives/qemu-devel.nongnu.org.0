@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE6A3776F5
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:21:27 +0200 (CEST)
-Received: from localhost ([::1]:53594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E9F3776F9
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:32:15 +0200 (CEST)
+Received: from localhost ([::1]:34466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfkJC-0006JW-EI
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34564)
+	id 1lfkTe-0004Vy-96
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:32:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkIP-0005Wu-93
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:20:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52574)
+ id 1lfkS8-0002WJ-DP
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:30:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkIN-0006F7-MF
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:20:37 -0400
+ id 1lfkS6-0004R3-HD
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:30:40 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfkIM-0004m0-1i
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:20:34 +0000
+ id 1lfkS4-0005Cx-Em
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:30:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 05F182E8139
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:20:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 68F6D2E8136
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:30:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 14:10:48 -0000
-From: Thomas Huth <1904210@bugs.launchpad.net>
+Date: Sun, 09 May 2021 14:20:52 -0000
+From: Thomas Huth <1903493@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: k1eee pmaydell th-huth
-X-Launchpad-Bug-Reporter: Wang Zhongwei (k1eee)
+X-Launchpad-Bug-Commenters: s12a th-huth
+X-Launchpad-Bug-Reporter: ssedt (s12a)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160527852783.476.2473984132248883691.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162056944842.10829.2412329397902876186.malone@chaenomeles.canonical.com>
-Subject: [Bug 1904210] Re: Crashed with 'uncaught target signal SIGILL' while
- program has registered by signal(SIGILL, handler)
+References: <160490836647.18396.16400473727011669931.malonedeb@wampee.canonical.com>
+Message-Id: <162057005273.10201.1915629590270913309.malone@chaenomeles.canonical.com>
+Subject: [Bug 1903493] Re: About wireless network card bridging
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: d16e1cf2531676be81247987d46010e7992668b9
+X-Launchpad-Hash: afbe79ca13b84d21a661ce86a151a026788acf96
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,91 +70,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904210 <1904210@bugs.launchpad.net>
+Reply-To: Bug 1903493 <1903493@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter's patch had been included here:
-https://gitlab.com/qemu-project/qemu/-/commit/acebed948c4f2f3be89
-... so I'm closing this issue now. If you still think that there is anythin=
-g left to do here, please open a new ticket in our new bug tracker here: ht=
-tps://gitlab.com/qemu-project/qemu/-/issues
+Sorry, but at least I have a hard time to understand what you exactly
+are requesting here? Why should bridging via a wireless card on the host
+be much different to bridging via an ethernet interface on the host? Or
+do you expect to see a wireless network card in the guest?
 
 ** Changed in: qemu
-       Status: New =3D> Fix Released
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904210
+https://bugs.launchpad.net/bugs/1903493
 
 Title:
-  Crashed with 'uncaught target signal SIGILL' while program has
-  registered by signal(SIGILL, handler)
+  About wireless network card bridging
 
 Status in QEMU:
-  Fix Released
+  Incomplete
 
 Bug description:
-  This binary is an CTF reverse challenge binary, it registers signal
-  handler via 'signal(SIGILL, 0x1193D);' while 0x1193D is the SIGILL
-  handler.
-
-  Please see the attachment, the file 'repair' is the binary i mentioned
-  above, the file 'qemu-arm' is an old version qemu at 2.5.0, and it
-  seems an official release (not modified).
-
-  Which means, it could be a bug in recent release.
-
-  You need to input 'flag{' to the stdin to let the binary execute the
-  illegal instruction at 0x10A68.
-
-  In 2.5.0 version the -strace logs:
-  116 uname(0xf6ffed40) =3D 0
-  116 brk(NULL) =3D 0x0009f000
-  116 brk(0x0009fd00) =3D 0x0009fd00
-  116 readlink("/proc/self/exe",0xf6ffde78,4096) =3D 21
-  116 brk(0x000c0d00) =3D 0x000c0d00
-  116 brk(0x000c1000) =3D 0x000c1000
-  116 access("/etc/ld.so.nohwcap",F_OK) =3D -1 errno=3D2 (No such file or d=
-irectory)
-  116 rt_sigaction(SIGILL,0xf6ffec48,0xf6ffecd4) =3D 0
-  116 fstat64(1,0xf6ffe8e8) =3D 0
-  116 ioctl(1,21505,-151000980,-151000924,652480,640808) =3D 0
-  116 fstat64(0,0xf6ffe7d0) =3D 0
-  116 ioctl(0,21505,-151001260,-151001204,652480,641152) =3D 0
-  116 write(1,0xa5548,6)input: =3D 6
-  116 read(0,0xa6550,4096)flag{
-   =3D 6
-  116 write(1,0xa5548,7)wrong!
-   =3D 7
-  116 _llseek(0,4294967295,4294967295,0xf6ffee18,SEEK_CUR) =3D -1 errno=3D2=
-9 (Illegal seek)
-  116 exit_group(0)
-
-  In 2.11.1, it shows:
-  113 uname(0xfffeed30) =3D 0
-  113 brk(NULL) =3D 0x0009f000
-  113 brk(0x0009fd00) =3D 0x0009fd00
-  113 readlink("/proc/self/exe",0xfffede68,4096) =3D 21
-  113 brk(0x000c0d00) =3D 0x000c0d00
-  113 brk(0x000c1000) =3D 0x000c1000
-  113 access("/etc/ld.so.nohwcap",F_OK) =3D -1 errno=3D2 (No such file or d=
-irectory)
-  113 rt_sigaction(SIGILL,0xfffeec38,0xfffeecc4) =3D 0
-  113 fstat64(1,0xfffee8d8) =3D 0
-  113 ioctl(1,21505,-71588,-71532,652480,640808) =3D 0
-  113 fstat64(0,0xfffee7c0) =3D 0
-  113 ioctl(0,21505,-71868,-71812,652480,641152) =3D 0
-  113 write(1,0xa5548,6)input: =3D 6
-  113 read(0,0xa6550,4096)flag{
-   =3D 6
-  --- SIGILL {si_signo=3DSIGILL, si_code=3D2, si_addr=3D0x00010a68} ---
-  --- SIGILL {si_signo=3DSIGILL, si_code=3D2, si_addr=3D0x0001182c} ---
-  qemu: uncaught target signal 4 (Illegal instruction) - core dumped
-  Illegal instruction (core dumped)
+  As a rookie, I don=E2=80=99t know if I should ask this question here. If =
+it=E2=80=99s
+  not right, I hope people who see it can help submit it to the right
+  place.Can Qemu or kvm add wireless network card bridging ? after all,
+  now you see that vbox and vmware can directly choose wireless network
+  card bridging, and even hyper-v can be easily set up, arp proxy is too
+  difficult for us rookies . I hope that qemu or other links can add a
+  function to bridge the wireless network card, which can be directly
+  set in virt-manager (for so many years, it seems that I can only use
+  bridge-utils to bridge the Ethernet,and Now more and more laptops
+  don't have Ethernet ports)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904210/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1903493/+subscriptions
 
