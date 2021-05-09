@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B833778A8
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 23:21:54 +0200 (CEST)
-Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59363778E9
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 23:51:39 +0200 (CEST)
+Received: from localhost ([::1]:47204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfqs4-0006wb-IA
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 17:21:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41686)
+	id 1lfrKs-00043u-6v
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 17:51:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfqr1-00062q-4q
- for qemu-devel@nongnu.org; Sun, 09 May 2021 17:20:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47282)
+ id 1lfrJs-0003C0-Kq
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 17:50:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfqqx-0004hi-O0
- for qemu-devel@nongnu.org; Sun, 09 May 2021 17:20:46 -0400
+ id 1lfrJq-0007qo-TG
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 17:50:36 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfqqu-0003b3-TJ
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 21:20:40 +0000
+ id 1lfrJo-0007BP-L0
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 21:50:32 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C2BC02E8187
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 21:20:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9D3742E804B
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 21:50:32 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 21:14:30 -0000
+Date: Sun, 09 May 2021 21:42:55 -0000
 From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1920602@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -39,12 +39,12 @@ X-Launchpad-Bug-Tags: i386 tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aaro-koskinen
+X-Launchpad-Bug-Commenters: aaro-koskinen philmd
 X-Launchpad-Bug-Reporter: Aaro Koskinen (aaro-koskinen)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 References: <161624570188.19824.1091833072893020317.malonedeb@wampee.canonical.com>
-Message-Id: <162059487141.10782.14743681190982120848.launchpad@chaenomeles.canonical.com>
+Message-Id: <162059657583.16724.10333572444964791151.malone@soybean.canonical.com>
 Subject: [Bug 1920602] Re: QEMU crash after a QuickBASIC program integer
  overflow
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -52,7 +52,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 3b904aa3ad5668b4090a9165e9d713c5ccb9d452
+X-Launchpad-Hash: 9e676eb24abea4bd9d76c302202a17931fba1cb1
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -77,10 +77,7 @@ Reply-To: Bug 1920602 <1920602@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Confirmed
-
-** Tags added: i386 tcg
+Since commit 975af797f1e helper_fist_ST0() sets float_flag_invalid.
 
 -- =
 
