@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13493776EF
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:14:00 +0200 (CEST)
-Received: from localhost ([::1]:45288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119C23776F3
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:17:04 +0200 (CEST)
+Received: from localhost ([::1]:50544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfkBz-0000CD-Sc
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:13:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33192)
+	id 1lfkEx-000421-5a
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:17:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfk8w-0003QH-CM
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:10:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52320)
+ id 1lfkDc-0003K5-1i
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:15:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfk8o-0000Ex-Us
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:10:50 -0400
+ id 1lfkDW-0002yx-Ex
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:15:38 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfk8n-0003eo-5h
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:10:41 +0000
+ id 1lfkDU-0003mV-RI
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:15:32 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 27EEE2E8026
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:10:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C1BB22E8135
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:15:32 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 14:05:05 -0000
-From: Thomas Huth <1895471@bugs.launchpad.net>
+Date: Sun, 09 May 2021 14:06:19 -0000
+From: Thomas Huth <1895399@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ameynarkhede stefanha th-huth
-X-Launchpad-Bug-Reporter: Amey Narkhede (ameynarkhede)
+X-Launchpad-Bug-Commenters: hcoin stefanha th-huth
+X-Launchpad-Bug-Reporter: Harry Coin (hcoin)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160002337216.747.16078826830052525094.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162056910512.17197.5347109553459299643.malone@soybean.canonical.com>
-Subject: [Bug 1895471] Re: compilation error with clang in util/async.c
+References: <159992963448.16886.7579356964954187024.malonedeb@soybean.canonical.com>
+Message-Id: <162056917964.7198.9874801776205683673.malone@gac.canonical.com>
+Subject: [Bug 1895399] Re: Docfix: add missing virtiofsd cache default 'auto'
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 27ad16662a8416c6a0d67a2c320dd2d33a71be5f
+X-Launchpad-Hash: 23283e9404c67163d774252374ee5b6c63578592
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -70,15 +70,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895471 <1895471@bugs.launchpad.net>
+Reply-To: Bug 1895399 <1895399@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think this has been fixed here:
-https://gitlab.com/qemu-project/qemu/-/commit/d73415a315471a
-... so I'm closing this now. If you still have problems, please open a new =
-ticket in our new issue tracker here: https://gitlab.com/qemu-project/qemu/=
--/issues
+Fix had been included here:
+https://gitlab.com/qemu-project/qemu/-/commit/f1303afe222759105f
 
 ** Changed in: qemu
        Status: New =3D> Fix Released
@@ -87,63 +84,46 @@ ticket in our new issue tracker here: https://gitlab.com/qemu-project/qemu/=
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895471
+https://bugs.launchpad.net/bugs/1895399
 
 Title:
-  compilation error with clang in util/async.c
+  Docfix: add missing virtiofsd cache default 'auto'
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  configured with ` CC=3Dclang CXX=3Dclang++ ../configure --target-
-  list=3Dx86_64-softmmu --enable-kvm --enable-curl --enable-debug
-  --enable-jemalloc --enable-fuzzing --enable-sdl` and after make I get
-  the following error related to c11 atomics. I'm using clang because
-  I'm experimenting with fuzzer
+  The usage command line for virtiofsd has:
 
-  [glitz@archlinux /code/qemu/build]$ ninja -j5
-  [479/2290] Compiling C object libqemuutil.a.p/util_async.c.o
-  FAILED: libqemuutil.a.p/util_async.c.o
-  clang -Ilibqemuutil.a.p -I. -I.. -Iqapi -Itrace -Iui -Iui/shader -I/usr/i=
-nclude/p11-kit-1 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr=
-/include/libmount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -Ilinux-=
-headers -Xclang -fcolor-diagnostics -pipe -Wall -Winvalid-pch -Werror -std=
-=3Dgnu99 -g -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE=
-_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmis=
-sing-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-defini=
-tion -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qua=
-lifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined=
- -Wno-initializer-overrides -Wno-missing-include-dirs -Wno-shift-negative-v=
-alue -Wno-string-plus-int -Wno-typedef-redefinition -Wno-tautological-type-=
-limit-compare -fstack-protector-strong -fsanitize=3Dfuzzer-no-link -iquote =
-/code/qemu/tcg/i386 -isystem /code/qemu/linux-headers -iquote . -iquote /co=
-de/qemu -iquote /code/qemu/accel/tcg -iquote /code/qemu/include -iquote /co=
-de/qemu/disas/libvixl -pthread -fPIC -MD -MQ libqemuutil.a.p/util_async.c.o=
- -MF libqemuutil.a.p/util_async.c.o.d -o libqemuutil.a.p/util_async.c.o -c =
-../util/async.c
-  ../util/async.c:79:17: error: address argument to atomic operation must b=
-e a pointer to _Atomic type ('unsigned int *' invalid)
-      old_flags =3D atomic_fetch_or(&bh->flags, BH_PENDING | new_flags);
-                  ^               ~~~~~~~~~~
-  /usr/lib/clang/10.0.1/include/stdatomic.h:138:42: note: expanded from mac=
-ro 'atomic_fetch_or'
-  #define atomic_fetch_or(object, operand) __c11_atomic_fetch_or(object, op=
-erand, __ATOMIC_SEQ_CST)
-                                           ^                     ~~~~~~
-  ../util/async.c:105:14: error: address argument to atomic operation must =
-be a pointer to _Atomic type ('unsigned int *' invalid)
-      *flags =3D atomic_fetch_and(&bh->flags,
-               ^                ~~~~~~~~~~
-  /usr/lib/clang/10.0.1/include/stdatomic.h:144:43: note: expanded from mac=
-ro 'atomic_fetch_and'
-  #define atomic_fetch_and(object, operand) __c11_atomic_fetch_and(object, =
-operand, __ATOMIC_SEQ_CST)
-                                            ^                      ~~~~~~
-  2 errors generated.
-  [483/2290] Compiling C object libqemuutil.a.p/util_qemu-error.c.o
-  ninja: build stopped: subcommand failed.
+  void fuse_cmdline_help(void)
+  {
+      printf("    -h   --help                print help\n"
+  ...
+             "    -o cache=3D<mode>            cache mode. could be one of =
+\"auto, "
+             "always, none\"\n"
+             "                               default: auto\n"
+
+  =
+
+  But the default: auto info is missing from the man page.  I suggest this =
+patch:
+
+  --- docs/tools/virtiofsd.rst    2020-09-10 18:07:45.380430677 -0500
+  +++ /tmp/virtiofsd.rst  2020-09-12 11:48:10.440815204 -0500
+  @@ -106,6 +106,7 @@
+     forbids the FUSE client from caching to achieve best coherency at the =
+cost of
+     performance.  ``auto`` acts similar to NFS with a 1 second metadata ca=
+che
+     timeout.  ``always`` sets a long cache lifetime at the expense of cohe=
+rency.
+  +  The default is ``auto``.
+   =
+
+   Examples
+   --------
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895471/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1895399/+subscriptions
 
