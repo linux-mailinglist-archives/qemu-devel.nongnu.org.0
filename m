@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E1E3776EB
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:11:21 +0200 (CEST)
-Received: from localhost ([::1]:36174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40063776EE
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:13:34 +0200 (CEST)
+Received: from localhost ([::1]:44652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfk9Q-0002Zb-HF
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:11:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60680)
+	id 1lfkBa-0008CC-1w
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:13:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfk42-0003tE-SI
+ id 1lfk44-0003vu-SH
  for qemu-devel@nongnu.org; Sun, 09 May 2021 10:05:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52134)
+Received: from indium.canonical.com ([91.189.90.7]:52024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfk3w-0005kk-85
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:05:45 -0400
+ id 1lfk3s-0005jk-UR
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:05:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfk3t-0003NT-KQ
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:05:37 +0000
+ id 1lfk3q-0003JJ-Mr
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:05:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 997832E8135
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:05:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A52D22E8139
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:05:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 13:56:31 -0000
-From: Thomas Huth <1895363@bugs.launchpad.net>
+Date: Sun, 09 May 2021 13:58:58 -0000
+From: Thomas Huth <1896754@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mslade philmd
-X-Launchpad-Bug-Reporter: Michael Slade (mslade)
+X-Launchpad-Bug-Commenters: ruspartisan th-huth
+X-Launchpad-Bug-Reporter: Maskim Bakulin (ruspartisan)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159987499082.17652.11658819873688678558.malonedeb@soybean.canonical.com>
-Message-Id: <162056859179.7144.9931735730788711477.launchpad@gac.canonical.com>
-Subject: [Bug 1895363] Re: borland IDEs double up cursor key presses (need
- timing on PS2 port input)
+References: <160086081591.406.2004357727821714311.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162056873855.6816.13224477695330224342.malone@gac.canonical.com>
+Subject: [Bug 1896754] Re: Performance degradation for WinXP boot time after
+ b55f54bc
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 1903e893afc4e65375f909a69cbb9d23cc12ec21
+X-Launchpad-Hash: 9f7212baa0b0018dc07448af366f98e697a68923
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -59,7 +59,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,45 +71,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895363 <1895363@bugs.launchpad.net>
+Reply-To: Bug 1896754 <1896754@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting the bug state to "Incomplete" now.
+
+If the bug has already been fixed in the latest upstream version of QEMU,
+then please close this ticket as "Fix released".
+
+If it is not fixed yet and you think that this bug report here is still
+valid, then you have two options:
+
+1) If you already have an account on gitlab.com, please open a new ticket
+for this problem in our new tracker here:
+
+    https://gitlab.com/qemu-project/qemu/-/issues
+
+and then close this ticket here on Launchpad (or let it expire auto-
+matically after 60 days). Please mention the URL of this bug ticket on
+Launchpad in the new ticket on GitLab.
+
+2) If you don't have an account on gitlab.com and don't intend to get
+one, but still would like to keep this ticket opened, then please switch
+the state back to "New" or "Confirmed" within the next 60 days (other-
+wise it will get closed as "Expired"). We will then eventually migrate
+the ticket automatically to the new system (but you won't be the reporter
+of the bug in the new system and thus you won't get notified on changes
+anymore).
+
+Thank you and sorry for the inconvenience.
+
+
 ** Changed in: qemu
-       Status: Confirmed =3D> In Progress
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895363
+https://bugs.launchpad.net/bugs/1896754
 
 Title:
-  borland IDEs double up cursor key presses (need timing on PS2 port
-  input)
+  Performance degradation for WinXP boot time after b55f54bc
 
 Status in QEMU:
-  In Progress
+  Incomplete
 
 Bug description:
-  Most DOS-era IDEs from Borland (I have tried Borland C++ 2.0, Borland
-  C++ 3.1 and Turbo Pascal 7.1) exhibit strange responses to the
-  keyboard.  Cursor keys are registered twice, so each press of a cursor
-  key causes the cursor to move twice. Also the other keys occasionally
-  are missed or duplicated.
+  Qemu 5.1 loads Windows XP in TCG mode 5-6 times slower (~2 minutes)
+  than 4.2 (25 seconds), I git bisected it, and it appears that commit
+  b55f54bc965607c45b5010a107a792ba333ba654 causes this issue. Probably
+  similar to an older fixed bug
+  https://bugs.launchpad.net/qemu/+bug/1672383
 
-  From an internet search, the problem appears to be this.  These
-  programs read the PS2 input register multiple times per incoming byte,
-  on the assumption that the byte will remain there for at least a few
-  hundred microseconds, before the next byte (if any) appears there.
-  qemu treats a read of the register by the guest as an acknowledgement
-  of the incoming byte and puts the next byte into the register
-  immediately, thus breaking the programs that expect each successive
-  byte to stay in place for a while.
-
-  The obvious solution is to use a timer to advance through the queued
-  bytes.
+  Command line is trivial: qemu-system-x86_64 -nodefaults -vga std -m
+  4096M -hda WinXP.qcow2 -monitor stdio -snapshot
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895363/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1896754/+subscriptions
 
