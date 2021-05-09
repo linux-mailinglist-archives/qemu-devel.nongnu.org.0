@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E84377709
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:39:14 +0200 (CEST)
-Received: from localhost ([::1]:51200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85911377707
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:37:45 +0200 (CEST)
+Received: from localhost ([::1]:44938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfkaP-0007S9-3B
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37292)
+	id 1lfkYy-0003JJ-Iq
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:37:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkWt-0001GS-Rp
+ id 1lfkWt-0001FU-2g
  for qemu-devel@nongnu.org; Sun, 09 May 2021 10:35:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53196)
+Received: from indium.canonical.com ([91.189.90.7]:53174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkWq-0007UU-KN
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:35:35 -0400
+ id 1lfkWq-0007TK-3D
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:35:34 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfkWp-0005Od-C6
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:35:31 +0000
+ id 1lfkWo-0005Pb-Ql
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:35:30 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5A4112E800F
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:35:31 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C956F2E800F
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:35:30 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 14:28:10 -0000
-From: Thomas Huth <1898490@bugs.launchpad.net>
+Date: Sun, 09 May 2021 14:28:37 -0000
+From: Thomas Huth <1898954@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ethannij noneenon novhak s-launchpad-paulsd-com
- th-huth
-X-Launchpad-Bug-Reporter: Ethan (ethannij)
+X-Launchpad-Bug-Commenters: 0qivronovrpmqmcl th-huth
+X-Launchpad-Bug-Reporter: pat leese (0qivronovrpmqmcl)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160185589302.24503.10461684970761806737.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162057049081.16222.12376444704432889329.malone@soybean.canonical.com>
-Subject: [Bug 1898490] Re: gtk with virtio and opengl black screen
+References: <160211647401.12043.14789296539766807523.malonedeb@gac.canonical.com>
+Message-Id: <162057051712.16081.7876019943158371696.malone@soybean.canonical.com>
+Subject: [Bug 1898954] Re: x86 f1 opcode hangs qemu
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 46099a10044190d9630e1350aa373d5b32872e3f
+X-Launchpad-Hash: b3442e0aa428b14361f8f8946c8ebcd18c8b2879
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1898490 <1898490@bugs.launchpad.net>
+Reply-To: Bug 1898954 <1898954@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -112,40 +111,45 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1898490
+https://bugs.launchpad.net/bugs/1898954
 
 Title:
-  gtk with virtio and opengl black screen
+  x86 f1 opcode hangs qemu
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  qemu-system-x86_64 -name manjaro -enable-kvm -cpu host -smp
-  cores=3D4,threads=3D1 -M q35 -m 8G -cdrom /mnt/Storage/ISO/manjaro-
-  gnome-20.0.3-minimal-200606-linux56.iso -machine type=3Dpc,accel=3Dkvm
-  -vga virtio -display sdl,gl=3Don Boots properly and has working 3d
-  acceleration with virgl.
+  I have qemu installed and running in linux and windows
+  in linux i execute the following simple code in real mode of cpu in my vm
+  90 nop
+  90 nop
+  90 nop
+  f1         ;this should conjure up my interrupt handler from ivt int 1
+  --------- end of code ----
+  it works properly in vbox,qemu linux,and even in my boot loder
+  on a real platform
+     it doeas not work fine in windows 10 (32 bit efi) based qemu
+  ---
+  all of the below was retyped there may be typo
+  so onwards to the flawed software =
 
-  Running qemu-system-x86_64 -name manjaro -enable-kvm -cpu host -smp
-  cores=3D4,threads=3D1 -M q35 -m 8G -cdrom /mnt/Storage/ISO/manjaro-
-  gnome-20.0.3-minimal-200606-linux56.iso -machine type=3Dpc,accel=3Dkvm
-  -vga virtio -display gtk,gl=3Don however, (difference being gtk instead
-  of sdl), the screen is black, and the vm still starts.
+  ********** for qemu-system-x86_64.exe **********
+  info version =
 
-  System Specs
-  Gentoo Linux 64bit
-  Gentoo-Sources 5.8.13 Kernel
-  Qemu 5.10.0-r1 compiled with USE=3D"aio bzip2 caps curl fdt filecaps gtk =
-jpeg ncurses nls opengl oss pin-upstream-blobs png pulseaudio sdl seccomp s=
-lirp spice usb usbredir vhost-net virgl vnc xattr xkb" PYTHON_TARGETS=3D"py=
-thon3_7" QEMU_SOFTMMU_TARGETS=3D"x86_64" QEMU_USER_TARGETS=3D"x86_64"
+  4.2.0v4.2.0.11797-g2890edc853-dirty
+  ********** for qemu-system-i386.exe **********
+  info version =
 
-  Ryzen 7 2700x
-  Nvidia 1070ti GPU
-
-  I can confirm the same issue when using libvirt with opengl.
+  4.2.0v4.2.0.11797-g2890edc853-dirty
+  ***********************************************
+  my startup code is
+  "d:\programs\qemu\qemu-system-x86_64.exe" -m 16M -boot a -fda "d:\floppy.=
+img" -cpu Nehalem -machine pc
+  ---
+  also same flaw if i change above section to
+  "d:\programs\qemu\qemu-system-i386.exe"
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1898490/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1898954/+subscriptions
 
