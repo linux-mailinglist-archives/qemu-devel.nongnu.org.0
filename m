@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040CC3776E9
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:07:54 +0200 (CEST)
-Received: from localhost ([::1]:57672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D13493776EF
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:14:00 +0200 (CEST)
+Received: from localhost ([::1]:45288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfk64-0006N2-HI
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:07:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60682)
+	id 1lfkBz-0000CD-Sc
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:13:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfk42-0003tj-UV
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:05:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52112)
+ id 1lfk8w-0003QH-CM
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:10:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfk3v-0005kh-Rr
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:05:46 -0400
+ id 1lfk8o-0000Ex-Us
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:10:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfk3t-0003NL-5R
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:05:37 +0000
+ id 1lfk8n-0003eo-5h
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:10:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1A9062E8026
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:05:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 27EEE2E8026
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:10:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 14:00:00 -0000
-From: Thomas Huth <1895602@bugs.launchpad.net>
+Date: Sun, 09 May 2021 14:05:05 -0000
+From: Thomas Huth <1895471@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mslade th-huth
-X-Launchpad-Bug-Reporter: Michael Slade (mslade)
+X-Launchpad-Bug-Commenters: ameynarkhede stefanha th-huth
+X-Launchpad-Bug-Reporter: Amey Narkhede (ameynarkhede)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160013465143.17527.17390472512040751238.malonedeb@soybean.canonical.com>
-Message-Id: <162056880066.9882.11124639859660532153.malone@chaenomeles.canonical.com>
-Subject: [Bug 1895602] Re: older OS's do not detect CD change
+References: <160002337216.747.16078826830052525094.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162056910512.17197.5347109553459299643.malone@soybean.canonical.com>
+Subject: [Bug 1895471] Re: compilation error with clang in util/async.c
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: f58eb86bf4e5c7e5ceac9d1fdc75aea67c800319
+X-Launchpad-Hash: 27ad16662a8416c6a0d67a2c320dd2d33a71be5f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -70,74 +70,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895602 <1895602@bugs.launchpad.net>
+Reply-To: Bug 1895471 <1895471@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
-
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
-
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
-
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
-
-    https://gitlab.com/qemu-project/qemu/-/issues
-
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
-
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" or "Confirmed" within the next 60 days (other-
-wise it will get closed as "Expired"). We will then eventually migrate
-the ticket automatically to the new system (but you won't be the reporter
-of the bug in the new system and thus you won't get notified on changes
-anymore).
-
-Thank you and sorry for the inconvenience.
-
+I think this has been fixed here:
+https://gitlab.com/qemu-project/qemu/-/commit/d73415a315471a
+... so I'm closing this now. If you still have problems, please open a new =
+ticket in our new issue tracker here: https://gitlab.com/qemu-project/qemu/=
+-/issues
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895602
+https://bugs.launchpad.net/bugs/1895471
 
 Title:
-  older OS's do not detect CD change
+  compilation error with clang in util/async.c
 
 Status in QEMU:
-  Incomplete
+  Fix Released
 
 Bug description:
-  There are at least two older operating systems, being FreeBSD 2.2 and
-  FreeDOS 1.2, that misbehave when the change command is used on the IDE
-  CD drive, and work fine on a real machine.  In both cases, changing
-  the CD causes the guest to either refuse to read the disc or appear to
-  read bad data, and in both cases the guest read the disc without issue
-  after a system_reset.
+  configured with ` CC=3Dclang CXX=3Dclang++ ../configure --target-
+  list=3Dx86_64-softmmu --enable-kvm --enable-curl --enable-debug
+  --enable-jemalloc --enable-fuzzing --enable-sdl` and after make I get
+  the following error related to c11 atomics. I'm using clang because
+  I'm experimenting with fuzzer
 
-  A HD image that demonstrates this behavior can be produced if
-  necessary, however the FreeDOS 1.2 CD can be booted directly and used
-  to test:
-
-  http://freedos.org/download/download/FD12CD.iso
-
-  (choose install then abort and you get a prompt in which you can type
-  "dir D:", say)
-
-  note, running eject before the change command does nothing to help.
+  [glitz@archlinux /code/qemu/build]$ ninja -j5
+  [479/2290] Compiling C object libqemuutil.a.p/util_async.c.o
+  FAILED: libqemuutil.a.p/util_async.c.o
+  clang -Ilibqemuutil.a.p -I. -I.. -Iqapi -Itrace -Iui -Iui/shader -I/usr/i=
+nclude/p11-kit-1 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr=
+/include/libmount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -Ilinux-=
+headers -Xclang -fcolor-diagnostics -pipe -Wall -Winvalid-pch -Werror -std=
+=3Dgnu99 -g -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE=
+_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmis=
+sing-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-defini=
+tion -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qua=
+lifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined=
+ -Wno-initializer-overrides -Wno-missing-include-dirs -Wno-shift-negative-v=
+alue -Wno-string-plus-int -Wno-typedef-redefinition -Wno-tautological-type-=
+limit-compare -fstack-protector-strong -fsanitize=3Dfuzzer-no-link -iquote =
+/code/qemu/tcg/i386 -isystem /code/qemu/linux-headers -iquote . -iquote /co=
+de/qemu -iquote /code/qemu/accel/tcg -iquote /code/qemu/include -iquote /co=
+de/qemu/disas/libvixl -pthread -fPIC -MD -MQ libqemuutil.a.p/util_async.c.o=
+ -MF libqemuutil.a.p/util_async.c.o.d -o libqemuutil.a.p/util_async.c.o -c =
+../util/async.c
+  ../util/async.c:79:17: error: address argument to atomic operation must b=
+e a pointer to _Atomic type ('unsigned int *' invalid)
+      old_flags =3D atomic_fetch_or(&bh->flags, BH_PENDING | new_flags);
+                  ^               ~~~~~~~~~~
+  /usr/lib/clang/10.0.1/include/stdatomic.h:138:42: note: expanded from mac=
+ro 'atomic_fetch_or'
+  #define atomic_fetch_or(object, operand) __c11_atomic_fetch_or(object, op=
+erand, __ATOMIC_SEQ_CST)
+                                           ^                     ~~~~~~
+  ../util/async.c:105:14: error: address argument to atomic operation must =
+be a pointer to _Atomic type ('unsigned int *' invalid)
+      *flags =3D atomic_fetch_and(&bh->flags,
+               ^                ~~~~~~~~~~
+  /usr/lib/clang/10.0.1/include/stdatomic.h:144:43: note: expanded from mac=
+ro 'atomic_fetch_and'
+  #define atomic_fetch_and(object, operand) __c11_atomic_fetch_and(object, =
+operand, __ATOMIC_SEQ_CST)
+                                            ^                      ~~~~~~
+  2 errors generated.
+  [483/2290] Compiling C object libqemuutil.a.p/util_qemu-error.c.o
+  ninja: build stopped: subcommand failed.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895602/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1895471/+subscriptions
 
