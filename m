@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A11B37776E
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 17:52:01 +0200 (CEST)
-Received: from localhost ([::1]:59448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFC5377770
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 17:52:04 +0200 (CEST)
+Received: from localhost ([::1]:59716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfliq-0008Iv-7b
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 11:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49042)
+	id 1lflit-0008Tv-60
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 11:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lflhV-0006RR-20
+ id 1lflhV-0006RZ-Q6
  for qemu-devel@nongnu.org; Sun, 09 May 2021 11:50:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58082)
+Received: from indium.canonical.com ([91.189.90.7]:58134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lflhT-00014I-I9
- for qemu-devel@nongnu.org; Sun, 09 May 2021 11:50:36 -0400
+ id 1lflhU-00014S-0A
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 11:50:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lflhR-0003nY-IQ
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 15:50:33 +0000
+ id 1lflhS-0003nr-Hd
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 15:50:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8343E2E8136
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 15:50:33 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8455B2E8136
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 15:50:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 15:43:43 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1925449@bugs.launchpad.net>
+Date: Sun, 09 May 2021 15:44:09 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1910505@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
@@ -43,15 +43,16 @@ X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-References: <161908205011.22595.14403926604204873586.malonedeb@gac.canonical.com>
-Message-Id: <162057502388.2775.17368306774255340344.malone@wampee.canonical.com>
-Subject: [Bug 1925449] Re: Failure building with clang-10 and libssh 
+References: <161000881348.18330.2540162310564338256.malonedeb@gac.canonical.com>
+Message-Id: <162057504916.2626.11690747108729537045.malone@wampee.canonical.com>
+Subject: [Bug 1910505] Re: atomic failure linking with --enable-sanitizers on
+ 32-bit Linux hosts
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 86c74350a25b8b9793554a7765734e63f346e7fc
+X-Launchpad-Hash: 49ffd4cbc06ba41388df7687eef4641318d2e0fb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -72,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1925449 <1925449@bugs.launchpad.net>
+Reply-To: Bug 1910505 <1910505@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,73 +81,94 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'invalid' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/234
+ https://gitlab.com/qemu-project/qemu/-/issues/235
 
 
 ** Changed in: qemu
        Status: New =3D> Invalid
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #234
-   https://gitlab.com/qemu-project/qemu/-/issues/234
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #235
+   https://gitlab.com/qemu-project/qemu/-/issues/235
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1925449
+https://bugs.launchpad.net/bugs/1910505
 
 Title:
-  Failure building with clang-10 and libssh
+  atomic failure linking with --enable-sanitizers on 32-bit Linux hosts
 
 Status in QEMU:
   Invalid
 
 Bug description:
-  On Fedora 32, configuring with --enable-libssh and building with
-  clang:
+  As of commit 50536341b47, using --enable-sanitizers on 32-bit Linux host:
+  - displays various warnings
+  - fails linking
 
-  qemu 5.2.94
+  Using Ubuntu 18.04 (release 20201211.1) and Clang10 on i386:
 
-    Compilation
-      host CPU                     : x86_64
-      host endianness              : little
-      C compiler                   : clang-10
-      Host C compiler              : clang-10
+  [139/675] Compiling C object softmmu.fa.p/softmmu_icount.c.o
+  In file included from ../softmmu/icount.c:31:
+  In file included from include/exec/exec-all.h:23:
+  In file included from ../target/mips/cpu.h:4:
+  In file included from ../target/mips/cpu-qom.h:23:
+  In file included from include/hw/core/cpu.h:23:
+  In file included from include/hw/qdev-core.h:5:
+  In file included from include/qemu/bitmap.h:16:
+  In file included from include/qemu/bitops.h:17:
+  include/qemu/atomic.h:463:12: warning: misaligned atomic operation may
+  incur significant performance penalty [-Watomic-alignment]
+      return qatomic_read__nocheck(ptr);
+             ^
+  include/qemu/atomic.h:129:5: note: expanded from macro
+  'qatomic_read__nocheck'
+      __atomic_load_n(ptr, __ATOMIC_RELAXED)
+      ^
+  include/qemu/atomic.h:473:5: warning: misaligned atomic operation may
+  incur significant performance penalty [-Watomic-alignment]
+      qatomic_set__nocheck(ptr, val);
+      ^
+  include/qemu/atomic.h:138:5: note: expanded from macro
+  'qatomic_set__nocheck'
+      __atomic_store_n(ptr, i, __ATOMIC_RELAXED)
+      ^
+  2 warnings generated.
+  [...]
 
-    Dependencies
-      libssh support               : YES
+  [850/2216] Linking target tests/test-hbitmap
+  FAILED: tests/test-hbitmap
+  clang  -o tests/test-hbitmap tests/test-hbitmap.p/test-hbitmap.c.o
+  tests/test-hbitmap.p/iothread.c.o -Wl,--as-needed -Wl,--no-undefined
+  -pie -Wl,--whole-archive libblock.fa libcrypto.fa libauthz.fa libqom.fa
+  libio.fa -Wl,--no-whole-archive -Wl,--warn-common -fsanitize=3Dundefined
+  -fsanitize=3Daddress -Wl,-z,relro -Wl,-z,now -m32 -ggdb
+  -fstack-protector-strong -Wl,--start-group libqemuutil.a
+  subprojects/libvhost-user/libvhost-user-glib.a
+  subprojects/libvhost-user/libvhost-user.a libblock.fa libcrypto.fa
+  libauthz.fa libqom.fa libio.fa @block.syms -lgio-2.0 -lgobject-2.0
+  -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -pthread -lutil -lgnutls
+  -lm -lgthread-2.0 -lglib-2.0 /usr/lib/i386-linux-gnu/libglib-2.0.so
+  -liscsi -lgthread-2.0 -lglib-2.0 -laio -lcurl
+  /usr/lib/i386-linux-gnu/libz.so -lrbd -lrados -lnettle -lgnutls
+  -Wl,--end-group
+  libblock.fa(block_io.c.o): In function `stat64_max':
+  include/qemu/stats64.h:58: undefined reference to `__atomic_load_8'
+  include/qemu/stats64.h:60: undefined reference to
+  `__atomic_compare_exchange_8'
+  libblock.fa(block_qapi.c.o): In function `stat64_get':
+  include/qemu/stats64.h:40: undefined reference to `__atomic_load_8'
+  libqemuutil.a(util_qsp.c.o): In function `qatomic_set_u64':
+  include/qemu/atomic.h:478: undefined reference to `__atomic_store_8'
+  libqemuutil.a(util_qsp.c.o): In function `qatomic_read_u64':
+  include/qemu/atomic.h:468: undefined reference to `__atomic_load_8'
+  clang: error: linker command failed with exit code 1 (use -v to see
+  invocation)
 
-  triggers:
-
-  FAILED: libblock.fa.p/block_ssh.c.o =
-
-  block/ssh.c:349:13: error: 'ssh_is_server_known' is deprecated [-Werror,-=
-Wdeprecated-declarations]
-      state =3D ssh_is_server_known(s->session);
-              ^
-  /usr/include/libssh/libssh.h:546:1: note: 'ssh_is_server_known' has been =
-explicitly marked deprecated here
-  SSH_DEPRECATED LIBSSH_API int ssh_is_server_known(ssh_session session);
-  ^
-  /usr/include/libssh/libssh.h:84:40: note: expanded from macro 'SSH_DEPREC=
-ATED'
-  #define SSH_DEPRECATED __attribute__ ((deprecated))
-                                         ^
-  block/ssh.c:444:9: error: 'ssh_get_publickey' is deprecated [-Werror,-Wde=
-precated-declarations]
-      r =3D ssh_get_publickey(s->session, &pubkey);
-          ^
-  /usr/include/libssh/libssh.h:543:1: note: 'ssh_get_publickey' has been ex=
-plicitly marked deprecated here
-  SSH_DEPRECATED LIBSSH_API int ssh_get_publickey(ssh_session session, ssh_=
-key *key);
-  ^
-  /usr/include/libssh/libssh.h:84:40: note: expanded from macro 'SSH_DEPREC=
-ATED'
-  #define SSH_DEPRECATED __attribute__ ((deprecated))
-                                         ^
-  2 errors generated.
+  Issue previously reported on the list here:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg770128.html
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1925449/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1910505/+subscriptions
 
