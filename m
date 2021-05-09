@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BC337771B
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 17:04:15 +0200 (CEST)
-Received: from localhost ([::1]:48416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B03937771A
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 17:03:56 +0200 (CEST)
+Received: from localhost ([::1]:48338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfkyb-0000hl-Ua
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 11:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41074)
+	id 1lfkyI-0000eG-Pd
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 11:03:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkvf-0007Ub-6N
- for qemu-devel@nongnu.org; Sun, 09 May 2021 11:01:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54880)
+ id 1lfkvT-0007UC-Ag
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 11:01:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkvL-0006kN-71
- for qemu-devel@nongnu.org; Sun, 09 May 2021 11:01:03 -0400
+ id 1lfkvJ-0006hq-Nz
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 11:00:58 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfkvH-0007zF-8Z
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 15:00:47 +0000
+ id 1lfkvF-0007z8-KQ
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 15:00:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 372252E806D
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 15:00:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 986142E806D
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 15:00:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 14:54:28 -0000
-From: Thomas Huth <1835865@bugs.launchpad.net>
+Date: Sun, 09 May 2021 14:55:21 -0000
+From: Thomas Huth <1902777@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: acpi piix
+X-Launchpad-Bug-Tags: vmx whpx
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: amarkovic philmd th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
+X-Launchpad-Bug-Commenters: rcprior th-huth
+X-Launchpad-Bug-Reporter: Rui Prior (rcprior)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156264634854.21327.17484948855790653898.malonedeb@gac.canonical.com>
-Message-Id: <162057206903.10201.17694360286427885141.malone@chaenomeles.canonical.com>
-Subject: [Bug 1835865] Re: piix crashes on mips when accessing acpi-pci-hotplug
+References: <160443143159.15248.310211538041972922.malonedeb@wampee.canonical.com>
+Message-Id: <162057212137.6325.6800492502405758041.malone@gac.canonical.com>
+Subject: [Bug 1902777] Re: qemu with whpx acceleration crashes with vmx=on
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 0d0f0dff6841e497f9c2583426ae9f810617f5ff
+X-Launchpad-Hash: c4bea5ab82f331ded1daf65197c46d3cccb2b74b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -72,120 +71,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835865 <1835865@bugs.launchpad.net>
+Reply-To: Bug 1902777 <1902777@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bug has been moved to the new issue tracker here:
-https://gitlab.com/qemu-project/qemu/-/issues/221
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting the bug state to "Incomplete" now.
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #221
-   https://gitlab.com/qemu-project/qemu/-/issues/221
+If the bug has already been fixed in the latest upstream version of QEMU,
+then please close this ticket as "Fix released".
+
+If it is not fixed yet and you think that this bug report here is still
+valid, then you have two options:
+
+1) If you already have an account on gitlab.com, please open a new ticket
+for this problem in our new tracker here:
+
+    https://gitlab.com/qemu-project/qemu/-/issues
+
+and then close this ticket here on Launchpad (or let it expire auto-
+matically after 60 days). Please mention the URL of this bug ticket on
+Launchpad in the new ticket on GitLab.
+
+2) If you don't have an account on gitlab.com and don't intend to get
+one, but still would like to keep this ticket opened, then please switch
+the state back to "New" or "Confirmed" within the next 60 days (other-
+wise it will get closed as "Expired"). We will then eventually migrate
+the ticket automatically to the new system (but you won't be the reporter
+of the bug in the new system and thus you won't get notified on changes
+anymore).
+
+Thank you and sorry for the inconvenience.
+
 
 ** Changed in: qemu
-       Status: Confirmed =3D> Invalid
+       Status: New =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835865
+https://bugs.launchpad.net/bugs/1902777
 
 Title:
-  piix crashes on mips when accessing acpi-pci-hotplug
+  qemu with whpx acceleration crashes with vmx=3Don
 
 Status in QEMU:
-  Invalid
+  Incomplete
 
 Bug description:
-  $ qemu-system-mips --version
-  QEMU emulator version 4.0.50 (v4.0.0-1975-gf34edbc760)
+  Under Windows 10, qemu crashes when using whpx acceleration and the vmx=
+=3Don option.  The reported error is
+    qemu-system-x86_64.exe: WHPX: Unexpected VP exit code 4
+  Before the error, it reports
+    Windows Hypervisor Platform accelerator is operational
 
-  $ qemu-system-mips -machine malta -bios /dev/null -nodefaults -monitor st=
-dio -S
-  (qemu) o 0xaf00 0
-  qemu-system-mips: hw/acpi/cpu.c:197: cpu_hotplug_hw_init: Assertion `mc->=
-possible_cpu_arch_ids' failed.
-  Aborted (core dumped)
+  The command line is the following:
+    "C:\Program Files\qemu\qemu-system-x86_64.exe" -accel whpx -cpu qemu64,=
+vmx=3Don
+  It crashes with any model of CPU as long as the "vmx=3Don" option is adde=
+d.  Without this option it runs fine (but no nested virtualization).
 
-  (gdb) bt
-  #0  0x00007f6fd748957f in raise () at /lib64/libc.so.6
-  #1  0x00007f6fd7473895 in abort () at /lib64/libc.so.6
-  #2  0x00007f6fd7473769 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
-  #3  0x00007f6fd7481a26 in .annobin_assert.c_end () at /lib64/libc.so.6
-  #4  0x00005646d58ca7bd in cpu_hotplug_hw_init (as=3D0x5646d6ae3300, owner=
-=3D0x5646d6fd5b10, state=3D0x5646d6fd7a30, base_addr=3D44800) at hw/acpi/cp=
-u.c:197
-  #5  0x00005646d58c5284 in acpi_switch_to_modern_cphp (gpe_cpu=3D0x5646d6f=
-d7910, cpuhp_state=3D0x5646d6fd7a30, io_port=3D44800) at hw/acpi/cpu_hotplu=
-g.c:107
-  #6  0x00005646d58c3431 in piix4_set_cpu_hotplug_legacy (obj=3D0x5646d6fd5=
-b10, value=3Dfalse, errp=3D0x5646d61cdb28 <error_abort>) at hw/acpi/piix4.c=
-:617
-  #7  0x00005646d5b00c70 in property_set_bool (obj=3D0x5646d6fd5b10, v=3D0x=
-5646d7697d30, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", opaque=3D0x5646d7=
-07d110, errp=3D0x5646d61cdb28 <error_abort>) at qom/object.c:2076
-  #8  0x00005646d5afeee6 in object_property_set (obj=3D0x5646d6fd5b10, v=3D=
-0x5646d7697d30, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", errp=3D0x5646d6=
-1cdb28 <error_abort>) at qom/object.c:1268
-  #9  0x00005646d5b01fb8 in object_property_set_qobject (obj=3D0x5646d6fd5b=
-10, value=3D0x5646d75b5450, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", err=
-p=3D0x5646d61cdb28 <error_abort>) at qom/qom-qobject.c:26
-  #10 0x00005646d5aff1cb in object_property_set_bool (obj=3D0x5646d6fd5b10,=
- value=3Dfalse, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", errp=3D0x5646d6=
-1cdb28 <error_abort>) at qom/object.c:1334
-  #11 0x00005646d58c4fce in cpu_status_write (opaque=3D0x5646d6fd7910, addr=
-=3D0, data=3D0, size=3D1) at hw/acpi/cpu_hotplug.c:44
-  #12 0x00005646d569c707 in memory_region_write_accessor (mr=3D0x5646d6fd79=
-20, addr=3D0, value=3D0x7ffc18053068, size=3D1, shift=3D0, mask=3D255, attr=
-s=3D...) at memory.c:503
-  #13 0x00005646d569c917 in access_with_adjusted_size (addr=3D0, value=3D0x=
-7ffc18053068, size=3D1, access_size_min=3D1, access_size_max=3D4, access_fn=
-=3D0x5646d569c61e <memory_region_write_accessor>, mr=3D0x5646d6fd7920, attr=
-s=3D...)
-      at memory.c:569
-  #14 0x00005646d569f8f3 in memory_region_dispatch_write (mr=3D0x5646d6fd79=
-20, addr=3D0, data=3D0, size=3D1, attrs=3D...) at memory.c:1497
-  #15 0x00005646d563e5c5 in flatview_write_continue (fv=3D0x5646d751b000, a=
-ddr=3D44800, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4, addr1=3D0, l=3D=
-1, mr=3D0x5646d6fd7920) at exec.c:3324
-  #16 0x00005646d563e70a in flatview_write (fv=3D0x5646d751b000, addr=3D448=
-00, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4) at exec.c:3363
-  #17 0x00005646d563ea0f in address_space_write (as=3D0x5646d618abc0 <addre=
-ss_space_io>, addr=3D44800, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4) =
-at exec.c:3453
-  #18 0x00005646d5696ee5 in cpu_outl (addr=3D44800, val=3D0) at ioport.c:80
-  #19 0x00005646d57585d0 in hmp_ioport_write (mon=3D0x5646d6bc70e0, qdict=
-=3D0x5646d6cf7140) at monitor/misc.c:1058
-  #20 0x00005646d5a77b99 in handle_hmp_command (mon=3D0x5646d6bc70e0, cmdli=
-ne=3D0x5646d6bc2542 "0xaf00 0") at monitor/hmp.c:1082
-  #21 0x00005646d5a7540a in monitor_command_cb (opaque=3D0x5646d6bc70e0, cm=
-dline=3D0x5646d6bc2540 "o 0xaf00 0", readline_opaque=3D0x0) at monitor/hmp.=
-c:47
-  #22 0x00005646d5c71450 in readline_handle_byte (rs=3D0x5646d6bc2540, ch=
-=3D13) at util/readline.c:408
-  #23 0x00005646d5a7858f in monitor_read (opaque=3D0x5646d6bc70e0, buf=3D0x=
-7ffc180533d0 "\rtc\327FV", size=3D1) at monitor/hmp.c:1312
-  #24 0x00005646d5bc8d17 in qemu_chr_be_write_impl (s=3D0x5646d6add000, buf=
-=3D0x7ffc180533d0 "\rtc\327FV", len=3D1) at chardev/char.c:177
-  #25 0x00005646d5bc8d7b in qemu_chr_be_write (s=3D0x5646d6add000, buf=3D0x=
-7ffc180533d0 "\rtc\327FV", len=3D1) at chardev/char.c:189
-  #26 0x00005646d5bcb6bf in fd_chr_read (chan=3D0x5646d6a80d60, cond=3DG_IO=
-_IN, opaque=3D0x5646d6add000) at chardev/char-fd.c:68
-  #27 0x00005646d5bec485 in qio_channel_fd_source_dispatch (source=3D0x5646=
-d765a480, callback=3D0x5646d5bcb561 <fd_chr_read>, user_data=3D0x5646d6add0=
-00) at io/channel-watch.c:84
-  #28 0x00007f6fd9c1606d in g_main_context_dispatch () at /lib64/libglib-2.=
-0.so.0
-  #29 0x00005646d5c5323a in glib_pollfds_poll () at util/main-loop.c:213
-  #30 0x00005646d5c532b4 in os_host_main_loop_wait (timeout=3D29821719) at =
-util/main-loop.c:236
-  #31 0x00005646d5c533b9 in main_loop_wait (nonblocking=3D0) at util/main-l=
-oop.c:512
-  #32 0x00005646d581d1a1 in main_loop () at vl.c:1791
-  #33 0x00005646d582485f in main (argc=3D11, argv=3D0x7ffc18054868, envp=3D=
-0x7ffc180548c8) at vl.c:4473
+  My processor is an Intel i7-10510U, and I am running Windows 10 2004
+  (build 19041.572).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835865/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1902777/+subscriptions
 
