@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463EB3776FB
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:32:20 +0200 (CEST)
-Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1413776FD
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 16:33:50 +0200 (CEST)
+Received: from localhost ([::1]:39262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfkTj-0004iZ-AZ
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36280)
+	id 1lfkVB-0007l1-8Z
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 10:33:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkSB-0002Y2-Fi
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:30:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53030)
+ id 1lfkSA-0002Wb-6L
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:30:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfkS9-0004Sx-0s
- for qemu-devel@nongnu.org; Sun, 09 May 2021 10:30:43 -0400
+ id 1lfkS8-0004SJ-GB
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 10:30:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfkS7-0005G3-Ox
+ id 1lfkS7-0005F8-7K
  for <qemu-devel@nongnu.org>; Sun, 09 May 2021 14:30:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id ABB6D2E8186
+ by loganberry.canonical.com (Postfix) with ESMTP id 2FFC12E8135
  for <qemu-devel@nongnu.org>; Sun,  9 May 2021 14:30:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 14:24:13 -0000
-From: Thomas Huth <1902262@bugs.launchpad.net>
+Date: Sun, 09 May 2021 14:24:32 -0000
+From: Thomas Huth <1902267@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jl939612 th-huth
-X-Launchpad-Bug-Reporter: Jingtao (jl939612)
+X-Launchpad-Bug-Commenters: candyman30 th-huth
+X-Launchpad-Bug-Reporter: CandyMan (candyman30)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160407285408.8291.17235632998408436942.malonedeb@soybean.canonical.com>
-Message-Id: <162057025388.16222.17773499472315334175.malone@soybean.canonical.com>
-Subject: [Bug 1902262] Re: vmstate_load_state return error into virtio_load
- function
+References: <160407399412.14863.7198304237559619710.malonedeb@wampee.canonical.com>
+Message-Id: <162057027284.10300.7839487939381143519.malone@chaenomeles.canonical.com>
+Subject: [Bug 1902267] Re: CPU not support 32-bit stack in 32-bit unreal mode
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 271db113a5e07334822b346be3fffe8283301fbd
+X-Launchpad-Hash: 1193ea009284dbee5efb991fff77ea44b6951fdb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,11 +70,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1902262 <1902262@bugs.launchpad.net>
+Reply-To: Bug 1902267 <1902267@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you also reproduce this with the latest version of QEMU? Anyway:
 The QEMU project is currently moving its bug tracking to another system.
 For this we need to know which bugs are still valid and which could be
 closed already. Thus we are setting the bug state to "Incomplete" now.
@@ -113,41 +111,48 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1902262
+https://bugs.launchpad.net/bugs/1902267
 
 Title:
-  vmstate_load_state return error into virtio_load function
+  CPU not support 32-bit stack in 32-bit unreal mode
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Qemu version 4.2.1
+  QEMU version 5.0.0 supports 32-bit and 16-bit unreal mode. Great!
+  Unfortunately, QEMU does not support 32-bit stack in unreal 32-bit mode.
+  After the INT instruction, the stack is switched to 16-bit, which should =
+not be the case. =
 
-  In the function of virtio_load, the vmstate_load_state will return
-  error in the following case.
+  At BOCHS, my code works 100%. At QEMU not works.
 
-  The virtio is legacy mode(disable-modern=3Don,disable-legacy=3Doff),
-  virtio_device is in reset state.
+  Sample code to find out:
 
-  In the the function of "vmstate_load_state", it will load all subsection.=
- For the vmstate_virtio_extra_state subsection. =
+  use32
+  cli
+  mov ax,cs
+  shl eax,16
+  mov ax,NewInt80h
+  mov [IDT32+4*80h],eax
+  mov edx,esp
+  mov esp,0x10000
+  int 80h
+  NewInt80h:
+  xchg esp,edx
+  cmp edx,0x10000-6
+  jnz IsStack16Bit
 
-  It will execute:
-  vmstate_load_state   -->
-            ret =3D field->info->get(f, curr_elem, size, field);    line 14=
-3  vmstate.c.
-             -->virtio_pci_load_extra_state
-                          -->  vmstate_load_state
-                                   -->qemu_peek_byte
-  But if the f->buf_index is same with buf_size, qemu_peek_byte function wi=
-ll set "-EIO" error. =
+  Stack selector loaded from GDT:
+  GDT:
+  real32_GDT            =
 
-  the field->info->get will return 0, then it will get the error "ret =3D q=
-emu_file_get_error(f);". then the vmstate_load_state will return error.
-
-  It output is "Failed to load virtio/extra_state:extra_state"
+  dq 0
+  dw 0xFFFF,0x0000,9A00h,0xCF     ; 32-bit code descriptor
+  dw 0xFFFF,0x0000,9200h,0x8F     ;   4 GB data descriptor
+  dw 0xFFFF,0x0000,9A00h,0x00     ; 16-bit code descriptor
+  dw 0xFFFF,0x0000,9200h,0xCF     ; 32-bit data descriptor stack
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1902262/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1902267/+subscriptions
 
