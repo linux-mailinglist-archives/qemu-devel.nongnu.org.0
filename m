@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADDF137774A
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 17:24:20 +0200 (CEST)
-Received: from localhost ([::1]:45316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9600937774B
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 17:24:28 +0200 (CEST)
+Received: from localhost ([::1]:45772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lflI3-00047n-P6
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 11:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43916)
+	id 1lflIB-0004QJ-NV
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 11:24:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lflAy-0005dS-8P
- for qemu-devel@nongnu.org; Sun, 09 May 2021 11:17:00 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:47075)
+ id 1lflAz-0005hF-FV
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 11:17:02 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lflAt-0005Xw-12
- for qemu-devel@nongnu.org; Sun, 09 May 2021 11:16:57 -0400
-Received: by mail-wr1-x429.google.com with SMTP id x5so13976248wrv.13
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 08:16:54 -0700 (PDT)
+ id 1lflAy-0005b1-0w
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 11:17:01 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id d4so13977038wru.7
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 08:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SCTOx52drStOjJYnYYWJbRH789MMpjX8vG5a6xW98dQ=;
- b=NSU64zPYmZnqixhPtvUi6X7zufYLr2P7blPUIikQSxYw+uHgoYd/MNkTT1BQNYyt+W
- Ofg1D5Ta/3m5olbdVck00XWlevNDGDXjYVY8XtcIZyp7NxIDHbNAsDih3xMA2YoWMi/P
- Z3wzKtYI4ZF2nBxPzLX1Btiz8VFKkMBGRyHQ3jTRXguy7BkI5z000JIPMDoLQQMKfl0a
- vmVanWA5W+LTRh5p72QswrAjzBUAKM1qS8gUn9Wtyi5xGNjYOsKEbccilCWsPAOgIfzP
- joT4Ctb0CppRgLfUAhbicj9kLKWILmE0yvGRXgVBK/6uok02zwzP4nULHEwJZRoj7Ygy
- 6JyQ==
+ bh=KfEaQ4EAwk2GCSA1RWFu6Z5MyJScidZlbaMXLPjmHKE=;
+ b=UP8p4G6rA/RVX2OKyHprWHy4N0nuUZqLfWQ/U/+0QvWs+YMLjAIzV4C701tY0p47SK
+ HidqmYLj36nzXXxm2QWIkY1bxW357BMBK8WghoFdsW3tXcAcBy6F5wsKxBUH0f/gjLmS
+ TqzUi+6t7tX8OZtO82Zn41lzRJ0VXLGDuwMNFYZwcs6MNl3edoAiTtA1f/iJRdx5rZqM
+ NHJhQoBOadyJd9DjDB/DygetL8S8AqkJOYtEZ1Qd+WccgDKiXU/jbyqWDJ/wdK3BMBwj
+ TN8DRqBIyfGdm6cyevX1Z/01KQ+Id41LbHXacP6vxtOLwP2UYPgLkSUiewIlVf/Wn6ii
+ bhIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SCTOx52drStOjJYnYYWJbRH789MMpjX8vG5a6xW98dQ=;
- b=LHQoEF5ZuLdHvH5kNBMG/YO1dHXnE3zIWWQRH0ACc2m7mbFjgYU6XUjmfd192fhkzf
- dJJ7kyTN8EgBcGxAfut/55kSvYHa7r8fi1Hc2It2E4wqzoxfZxay2o4ZLj6INGyEsNSR
- HK2PMcp0YiwwtnZxO6rZo9W8J59RfBdtjLYYJRh2miVw1RhbgWwEIlBeiLu/oiWwMhco
- 3O4VERm/iZvOTChOvoOTc8SmcCZSMtUD4Ps9nVNB9do2+4waWdekc4b7THx8szyAwG9M
- UfmIKWRM5/iFEjkhLZ89m6+1uXIav9QmYL5DqXZBbPAHPLCsmVpqWUPJ4Sf+JiFPZ/gO
- 3c4A==
-X-Gm-Message-State: AOAM532FBESTYo0HMUc9/HOkoTqA6k4E82NOdKEVFdqZaSrIq4vu4t4R
- dH7CNoJo9f1eoEytOQv2/atWMSPYzQBv3BFD
-X-Google-Smtp-Source: ABdhPJwBSaN0h39LSdW3fu5YdXKHDkLIsBGf+G0rJ1vFrk3fplnqo+14gnEnmB2LyQEE+z24YdbSqg==
-X-Received: by 2002:adf:eb86:: with SMTP id t6mr25841657wrn.253.1620573413449; 
- Sun, 09 May 2021 08:16:53 -0700 (PDT)
+ bh=KfEaQ4EAwk2GCSA1RWFu6Z5MyJScidZlbaMXLPjmHKE=;
+ b=GajJVHuot8gfNMedJPPILZhPCDbH8mwFZClPVpxxzYg1LD04zy/O5lE1MyOTD7X5nT
+ QmZhLzex+Ofsi695qbXeJ/Ar+fpniqa14u1d46WSJfLoGQNiyESSIOL9fVlENqBWFH1d
+ 0wQfvABlmwko1MbpkoDqXD01/z6IKBA9rl7Fhz20ig6m4eYpFLe6RKiefLzF4zz46FOO
+ aew+QhndAhTRxI+w4gYU9MuxOoEaG2+E0xsQ0ajbza8CN7l21wJFhYOGHyiPDXsAFCYT
+ u5Pwwsiz17/1tWyc4bGpYCzBlYbgrzi2L9uN3yCFtjB4qtInFnyORJxBgKBbaH7/dO4+
+ YKrA==
+X-Gm-Message-State: AOAM5332pn9SJrpNGBeSrXR44aWGCKH5z0J1+kIeblmAgVSfDnY7u+7Q
+ u7GBXkr/W0FNUc5Gxa+hW4gY2WZ86jwxyVLE
+X-Google-Smtp-Source: ABdhPJyWzFy7thHUevzSrmW7x5SHu0PBD1fWozzcKZ0PbNnbtyUuKCWwHuqv4f/sR5G74KZjciG7bQ==
+X-Received: by 2002:a5d:59a9:: with SMTP id p9mr25027460wrr.289.1620573418039; 
+ Sun, 09 May 2021 08:16:58 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id m5sm4561059wrs.76.2021.05.09.08.16.52
+ by smtp.gmail.com with ESMTPSA id h9sm15788362wmb.35.2021.05.09.08.16.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 May 2021 08:16:53 -0700 (PDT)
+ Sun, 09 May 2021 08:16:57 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/9] accel/tcg: Rename tlb_flush_page_bits ->
- range]_by_mmuidx_async_0
-Date: Sun,  9 May 2021 17:16:16 +0200
-Message-Id: <20210509151618.2331764-8-f4bug@amsat.org>
+Subject: [PATCH 8/9] accel/tlb: Rename tlb_flush_[page_bits >
+ range]_by_mmuidx_async_[2 > 1]
+Date: Sun,  9 May 2021 17:16:17 +0200
+Message-Id: <20210509151618.2331764-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210509151618.2331764-1-f4bug@amsat.org>
 References: <20210509151618.2331764-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,60 +99,58 @@ Message-Id: <20210508201640.1045808-1-richard.henderson@linaro.org>
 [PMD: Split from bigger patch]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- accel/tcg/cputlb.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ accel/tcg/cputlb.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index bc4370f4e21..47c83f0fc83 100644
+index 47c83f0fc83..ad0e44bce63 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -764,9 +764,8 @@ typedef struct {
-     uint16_t bits;
- } TLBFlushRangeData;
- 
--static void
--tlb_flush_page_bits_by_mmuidx_async_0(CPUState *cpu,
--                                      TLBFlushRangeData d)
-+static void tlb_flush_range_by_mmuidx_async_0(CPUState *cpu,
-+                                              TLBFlushRangeData d)
- {
-     CPUArchState *env = cpu->env_ptr;
-     int mmu_idx;
-@@ -814,14 +813,14 @@ decode_runon_to_pbm(run_on_cpu_data data)
- static void tlb_flush_page_bits_by_mmuidx_async_1(CPUState *cpu,
-                                                   run_on_cpu_data runon)
- {
--    tlb_flush_page_bits_by_mmuidx_async_0(cpu, decode_runon_to_pbm(runon));
-+    tlb_flush_range_by_mmuidx_async_0(cpu, decode_runon_to_pbm(runon));
+@@ -816,8 +816,8 @@ static void tlb_flush_page_bits_by_mmuidx_async_1(CPUState *cpu,
+     tlb_flush_range_by_mmuidx_async_0(cpu, decode_runon_to_pbm(runon));
  }
  
- static void tlb_flush_page_bits_by_mmuidx_async_2(CPUState *cpu,
-                                                   run_on_cpu_data data)
+-static void tlb_flush_page_bits_by_mmuidx_async_2(CPUState *cpu,
+-                                                  run_on_cpu_data data)
++static void tlb_flush_range_by_mmuidx_async_1(CPUState *cpu,
++                                              run_on_cpu_data data)
  {
      TLBFlushRangeData *d = data.host_ptr;
--    tlb_flush_page_bits_by_mmuidx_async_0(cpu, *d);
-+    tlb_flush_range_by_mmuidx_async_0(cpu, *d);
-     g_free(d);
- }
- 
-@@ -853,7 +852,7 @@ void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
-     d.bits = bits;
- 
-     if (qemu_cpu_is_self(cpu)) {
--        tlb_flush_page_bits_by_mmuidx_async_0(cpu, d);
-+        tlb_flush_range_by_mmuidx_async_0(cpu, d);
-     } else if (encode_pbm_to_runon(&runon, d)) {
-         async_run_on_cpu(cpu, tlb_flush_page_bits_by_mmuidx_async_1, runon);
+     tlb_flush_range_by_mmuidx_async_0(cpu, *d);
+@@ -858,7 +858,7 @@ void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
      } else {
-@@ -913,7 +912,7 @@ void tlb_flush_range_by_mmuidx_all_cpus(CPUState *src_cpu,
-         }
+         /* Otherwise allocate a structure, freed by the worker.  */
+         TLBFlushRangeData *p = g_memdup(&d, sizeof(d));
+-        async_run_on_cpu(cpu, tlb_flush_page_bits_by_mmuidx_async_2,
++        async_run_on_cpu(cpu, tlb_flush_range_by_mmuidx_async_1,
+                          RUN_ON_CPU_HOST_PTR(p));
      }
- 
--    tlb_flush_page_bits_by_mmuidx_async_0(src_cpu, d);
-+    tlb_flush_range_by_mmuidx_async_0(src_cpu, d);
  }
+@@ -906,7 +906,7 @@ void tlb_flush_range_by_mmuidx_all_cpus(CPUState *src_cpu,
+             if (dst_cpu != src_cpu) {
+                 TLBFlushRangeData *p = g_memdup(&d, sizeof(d));
+                 async_run_on_cpu(dst_cpu,
+-                                 tlb_flush_page_bits_by_mmuidx_async_2,
++                                 tlb_flush_range_by_mmuidx_async_1,
+                                  RUN_ON_CPU_HOST_PTR(p));
+             }
+         }
+@@ -964,13 +964,13 @@ void tlb_flush_range_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
+         CPU_FOREACH(dst_cpu) {
+             if (dst_cpu != src_cpu) {
+                 p = g_memdup(&d, sizeof(d));
+-                async_run_on_cpu(dst_cpu, tlb_flush_page_bits_by_mmuidx_async_2,
++                async_run_on_cpu(dst_cpu, tlb_flush_range_by_mmuidx_async_1,
+                                  RUN_ON_CPU_HOST_PTR(p));
+             }
+         }
  
- void tlb_flush_page_bits_by_mmuidx_all_cpus(CPUState *src_cpu,
+         p = g_memdup(&d, sizeof(d));
+-        async_safe_run_on_cpu(src_cpu, tlb_flush_page_bits_by_mmuidx_async_2,
++        async_safe_run_on_cpu(src_cpu, tlb_flush_range_by_mmuidx_async_1,
+                               RUN_ON_CPU_HOST_PTR(p));
+     }
+ }
 -- 
 2.26.3
 
