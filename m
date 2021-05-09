@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244533774E6
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 03:58:45 +0200 (CEST)
-Received: from localhost ([::1]:54776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9DA377592
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 07:01:59 +0200 (CEST)
+Received: from localhost ([::1]:42616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfYiR-0006DS-R5
-	for lists+qemu-devel@lfdr.de; Sat, 08 May 2021 21:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53364)
+	id 1lfbZm-0001Dr-As
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 01:01:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nathan@remexre.xyz>)
- id 1lfYhY-0005Mo-Gq
- for qemu-devel@nongnu.org; Sat, 08 May 2021 21:57:48 -0400
-Received: from mail-40131.protonmail.ch ([185.70.40.131]:10234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nathan@remexre.xyz>)
- id 1lfYhU-0004zK-Oi
- for qemu-devel@nongnu.org; Sat, 08 May 2021 21:57:48 -0400
-Date: Sun, 09 May 2021 01:57:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=remexre.xyz;
- s=protonmail3; t=1620525460;
- bh=6DYn2/vCkJx7pxblYaGXnljXWBvipKw3Ah+F4DTtPgs=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=ScxuYnm9PDfe9fYUVeENLEyn6lxqZwlTSEpiQmOd79x2GrBeHf0VSMbwOP1EWbC2r
- SAxQgbbAkMJxD/8WZPDu/NsGxdMxGh9YH/dVHHxiZUMR1OjDrj8B4GIX7ojisuTKnK
- MpR9UCryll0xS1BR7AK9LPVPsvgNDECWD+dD0ssWiuKcVfYC5sdxtTorg3FsNy4BMx
- D75B18So/uHp0+VLIsIeLEFbB2kw8IJMGQVHj9Di5EleVtKzWbomq2wcEmDsWhBold
- EQ9gNDvdlZKN6SsWzVE5QTp7rQpgTpng5Wdl33nDRD5mvu60+LiocSIctF0AafXNyV
- qvi27I/tZ1dxw==
-To: Richard Henderson <richard.henderson@linaro.org>
-From: Nathan Ringo <nathan@remexre.xyz>
-Subject: Re: [PATCH v2] This makes it easier to figure out whether a
- particular instruction was actually translated.
-Message-ID: <d18gk-AF0Wjro1nZkvwjmqlM5mzXO9j68Pp5aELgxzTnI6SMj8tuekbHJ8--baeNWr_zeWw-6BLzTm07cz1T_oxwFuxyAtmgGiV-XYpLL88=@remexre.xyz>
-In-Reply-To: <f3e79a92-802d-b9d0-048a-cf8d80309388@linaro.org>
-References: <FITkUaiC5DeyCU3e1T6EisgkkQ8Fnrwf2WZTBGE@cp4-web-031.plabs.ch>
- <f3e79a92-802d-b9d0-048a-cf8d80309388@linaro.org>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1lfbXL-0000Dr-Nt
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 00:59:27 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:35254
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lfbXJ-00038A-Ck
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 00:59:27 -0400
+HMM_SOURCE_IP: 172.18.0.48:38286.1053259207
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-125.69.42.176?logid-af031413614441dfa86a5a68a29d1972
+ (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id C212D2800A8;
+ Sun,  9 May 2021 12:59:15 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id af031413614441dfa86a5a68a29d1972 for
+ qemu-devel@nongnu.org; Sun May  9 12:59:13 2021
+X-Transaction-ID: af031413614441dfa86a5a68a29d1972
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v2] make sample page count configurable 
+Date: Sun,  9 May 2021 12:58:58 +0800
+Message-Id: <cover.1620536022.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=185.70.40.131; envelope-from=nathan@remexre.xyz;
- helo=mail-40131.protonmail.ch
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_SUSPICIOUS_NTLD=0.498, PDS_OTHER_BAD_TLD=1.997, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,20 +62,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Nathan Ringo <nathan@remexre.xyz>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?=
+ <huangy81@chinatelecom.cn>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm mostly looking at AArch64, so they're the same there :) I'm using
-this to collect code coverage information, so I have the disassembly,
-and it's slightly easier to report it that way; if you think it'd be
-more useful on other architectures to report the byte range instead,
-it'd be an easy change to my scripts.
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Also, noticed I accidentally deleted the first line of the commit
-message when I updated the patch... I can fix that if you want me to
-switch the size metric.
+This is v2 of introducing sample pages argument to dirty rate interface 
+
+v2:
+- do the code clean on the basis of review by David
+- add qemu version to 6.1 since which the argument introduced
+- raise the upper limit of sample pages refer as MAX_SAMPLE_PAGE_COUNT
+
+v1:
+- code clean: rename the parameter of the is_sample_valid function 
+
+Hyman Huang(黄勇) (1):
+  migration/dirtyrate: make sample page count configurable
+
+ migration/dirtyrate.c | 31 ++++++++++++++++---
+ migration/dirtyrate.h |  8 ++++-
+ qapi/migration.json   | 85 ++++++++++++++++++++++++++++-----------------------
+ 3 files changed, 80 insertions(+), 44 deletions(-)
+
+-- 
+1.8.3.1
 
 
