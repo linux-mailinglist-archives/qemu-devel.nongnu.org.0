@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A58377740
+	by mail.lfdr.de (Postfix) with ESMTPS id C8646377741
 	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 17:18:22 +0200 (CEST)
-Received: from localhost ([::1]:52158 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:52262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lflCH-0006Wd-94
+	id 1lflCH-0006b3-SW
 	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 11:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43646)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfl9g-0003hR-97
- for qemu-devel@nongnu.org; Sun, 09 May 2021 11:15:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55818)
+ id 1lfl9n-0003pt-Oh
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 11:15:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfl9b-0004oe-LT
- for qemu-devel@nongnu.org; Sun, 09 May 2021 11:15:39 -0400
+ id 1lfl9a-0004nd-UO
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 11:15:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfl9a-0000VQ-1W
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 15:15:34 +0000
+ id 1lfl9Z-0000VU-HZ
+ for <qemu-devel@nongnu.org>; Sun, 09 May 2021 15:15:33 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 04F012E8186
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 15:15:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7EB942E813A
+ for <qemu-devel@nongnu.org>; Sun,  9 May 2021 15:15:33 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 15:07:48 -0000
-From: Thomas Huth <1839807@bugs.launchpad.net>
+Date: Sun, 09 May 2021 15:09:18 -0000
+From: Thomas Huth <1861161@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm snapshots
+X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alsn pmaydell th-huth
-X-Launchpad-Bug-Reporter: Al Sn (alsn)
+X-Launchpad-Bug-Commenters: philippe-vaucher pmaydell th-huth
+X-Launchpad-Bug-Reporter: Philippe Vaucher (philippe-vaucher)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156559266426.18172.16579923111498222299.malonedeb@wampee.canonical.com>
-Message-Id: <162057286880.2325.270756400623662630.malone@wampee.canonical.com>
-Subject: [Bug 1839807] Re: Snapshots freeze guest Sabrelite IMX.6 board
+References: <158022582642.18726.3284794136336139049.malonedeb@gac.canonical.com>
+Message-Id: <162057295874.16222.919760122404084346.malone@soybean.canonical.com>
+Subject: [Bug 1861161] Re: qemu-arm-static stuck with 100% CPU when
+ cross-compiling emacs
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 125b585221534a58a701f18314142e390bb2f287
+X-Launchpad-Hash: ce93225a3fe6dc61587707683809c5937b13e97e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1839807 <1839807@bugs.launchpad.net>
+Reply-To: Bug 1861161 <1861161@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -112,10 +113,10 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1839807
+https://bugs.launchpad.net/bugs/1861161
 
 Title:
-  Snapshots freeze guest Sabrelite IMX.6 board
+  qemu-arm-static stuck with 100% CPU when cross-compiling emacs
 
 Status in QEMU:
   Incomplete
@@ -123,76 +124,80 @@ Status in QEMU:
 Bug description:
   Hello,
 
-  I'm trying to take and restore  a snapshot with the whole system state of=
- the Sabrelite IMX.6 board running on QEMU with commands savevm/loadvm.
-  It seems that I am able to take a snapshot but loading the snapshot fails.
+  I'm trying to build multi-arch docker images for
+  https://hub.docker.com/r/silex/emacs.
 
-  For comparison I checked out snapshots on 32bit ARM Virt with Debian as w=
-ell as on the Versatilepb board with a bare metal application and it works =
-fine.
-  The problem occurs only with that one particular board.
+  Here is the machine I'm building on (hetzner cloud machine):
 
-  My environment is:
-  Ubuntu 18.04
-  QEMU 3.0.1 (I see the same issue in QEMU 4.0.0 as well)
-  The kernel and device tree used for the board was 5.1.14 version from ker=
-nel.org
+  root@ubuntu-4gb-fsn1-1:~# lsb_release -a
+  No LSB modules are available.
+  Distributor ID: Ubuntu
+  Description:    Ubuntu 18.04.3 LTS
+  Release:        18.04
+  Codename:       bionic
+  root@ubuntu-4gb-fsn1-1:~# uname -a
+  Linux ubuntu-4gb-fsn1-1 4.15.0-74-generic #84-Ubuntu SMP Thu Dec 19 08:06=
+:28 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
 
-  The file system was build from imx_v6_v7_defconfig config in buildroot
-  as and sd card image.
+  Whenever I try to build the following alpine Dockerfile
+  https://gitlab.com/Silex777/docker-
+  emacs/blob/master/26.3/alpine/3.9/dev/Dockerfile like this:
 
-  Problem:
+  $ sysctl kernel.randomize_va_space=3D0
+  $ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  $ docker build --pull -t test --platform arm .
 
-  Loading snapshot stops the whole machine and it's impossible to resume
-  it.
+  It builds fine until this:
 
-  Steps to reproduce problem:
+  root@ubuntu-4gb-fsn1-1:~# ps -ef | grep qemu
+  root     26473 26465 99 14:26 pts/0    01:59:58 /usr/bin/qemu-arm-static =
+../src/bootstrap-emacs -batch --no-site-file --no-site-lisp --eval (setq lo=
+ad-prefer-newer t) -f batch-byte-compile emacs-lisp/macroexp.el
 
-  1.      I converted the sdcard.img built from the buildroot to qcow2
-  using command qemu-img convert -f raw -O qcow2 sdcard.img
-  sdcard.qcow2, since the raw doesn't support snapshots.
+  This is supposed to take a few seconds, but here it takes 100% CPU and
+  never ends. When I strace the process I see a never ending loop like
+  this:
 
-  2.      I start QEMU with a command
-  ./arm-softmmu/qemu-system-arm -m 512 -M sabrelite -kernel zImage -append =
-"rootfstype=3Dext4 root=3D/dev/mmcblk2p2 rw rootwait" -rtc base=3Dlocaltime=
-,clock=3Dvm -dtb imx6dl-sabresd.dtb -drive file=3Dsdcard.qcow2,index=3D2,fo=
-rmat=3Dqcow2,id=3Dmycard -device sd-card,drive=3Dmycard -nographic -net nic=
- -net user
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
 
-  3.      I run a simple program which print characters to the console
-  in the background and add some files in user directory, to differ from
-  original image.
+  It happens with all the QEMU versions I tested:
+  - 2.11.1 (OS version)
+  - 4.1.1-1 (from multiarch/qemu-user-static:4.1.1-1)
+  - 4.2.0-2 (from multiarch/qemu-user-static)
 
-  4.      I switch to QEMU monitor, and type =E2=80=9Csavevm <name>=E2=80=
-=9D.
-  When I type =E2=80=9Cinfo snapshots=E2=80=9D, the snapshot is listed.
-  So I assume it was saved correctly.
+  Any ideas of what I could do to debug it further?
 
-  5.      Then I switch back to Linux console from monitor, remove the
-  added files and stop the background printing process.
+  Kind regards,
+  Philippe
 
-  6.      I switch back to monitor and I'm trying now to load the
-  snapshot by =E2=80=9Cloadvm <name>=E2=80=9D command.
-
-  That=E2=80=99s where the problem occurs. QEMU stops and I can't switch ba=
-ck from monitor to Linux.
-  Typing =E2=80=9Ccont=E2=80=9D doesn=E2=80=99t help.
-  It seems like the simulation has freezed. CPU usage on my Laptop machine =
-equals 100% until I exit QEMU.
-
-  =
-
-  What=E2=80=99s interesting when I exit the QEMU and then start it again t=
-he Linux boots and after it reaches the command prompt I can see the files =
-which were removed after saving the snapshot.
-
-  It looks like loading the snapshots works for restoring disk space but
-  it fails for restoring the running processes.
-
-  Due to the answer on QEMU mailing list
-  (https://lists.nongnu.org/archive/html/qemu-
-  discuss/2019-08/msg00016.html) it is QEMUs bug.
+  p.s: Everything builds fine when the base image is ubuntu. I also had
+  similar hangs with basic commands like "apt-get install foo"
+  sometimes.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1839807/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1861161/+subscriptions
 
