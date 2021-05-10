@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864B8378C47
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:31:46 +0200 (CEST)
-Received: from localhost ([::1]:54864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48043378C4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:32:13 +0200 (CEST)
+Received: from localhost ([::1]:55554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg54a-0005Pi-BH
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:31:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37390)
+	id 1lg552-0005rd-9l
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:32:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4yz-0005Zk-BW
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:57 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43720)
+ id 1lg4z1-0005fo-8E
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:59 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4yx-0003AJ-Cb
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:57 -0400
-Received: by mail-wr1-x434.google.com with SMTP id s8so16430905wrw.10
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:25:54 -0700 (PDT)
+ id 1lg4yy-0003B9-F8
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:59 -0400
+Received: by mail-wr1-x432.google.com with SMTP id a4so16430930wrr.2
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=eNgDwIHAHZi/N+OKQ2tL85y+Mlg0PqWvQx6aJ/qV3gs=;
- b=xYIA2krQXBgOdz3tA04a3MOKjbgN5jxpPiEVkb3MIKj5etkz4j73qR2vwdAX1M8Bba
- iKVeRJiYlRK5OPGRDDpWqyH47uSLKtrP99HmTOi2giP7qaYE20qluSPX3mWpLtGQa+tp
- oM0VsClLqx9AN4eIhyadTesa17gtPtoUYTECRtbhYhMhryOTVnr0e69pGS0P40Qm7nSD
- 7C0nGA2mit3vZAK1DoEHOXFcwbtWB6FVhIW3JMN5ZH8r1mmz+h3MR50TkZ3BWi/Q+a16
- Et1/fezkQaL281OhMUwiHGy8SklbEcifx/9p6FHHO8vSMrDjEWTxRwqgbZ47T1qawBUw
- Ne3A==
+ bh=yRSiZALFT64qDrmSPtMVCE1BqJtBCIPc/VUBPEipLiw=;
+ b=g76r0Ret83CIlEtPIsEuQxeeLLDw876BGcGKW+1bLo1yEThXeYL53MlmOed22jaVbm
+ Jgg09agaoeJnkWzKyFGjTxtKK5B436dWXG1XYvC9zCalSyjrPOCisRRfoC1hDdgB6T50
+ lvyt61O7qW7WAhUUdcYEuYHszJ92GPjymIxSUcALXL5tcg7zu3Fyc3y+LEZdedVlnZWI
+ E8luLTftVssul2s1pP3GcCdDFjKQUsgv0xpwarUJs7CEfTY3RuSHwqbH192RU3U0t1Ju
+ zgHxRsusbfrJ+K69kW6UAWp3bPTTYguYwiL9jAwgiRg6LtHctwoivqQnbHwKdJmlEF3l
+ zL8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eNgDwIHAHZi/N+OKQ2tL85y+Mlg0PqWvQx6aJ/qV3gs=;
- b=jUW6JGQHznlsNf/uPIIg6lh/qYByCkVVSHRTibL5w/l/T6F0VDUF48mDRt2jJ8U4en
- O13G4q/D0TKARXxFGYL3PX6bL0YGiPtue4BQv4IECEk3WzlWWQfNTtHzyfa9+TxHl5SE
- CJXS2M9+FOnZQIhYywqDobcIAeF1cu1uww9Id+y6RQiLFD0YiaoB7NeYnmSqB0N6oSBY
- v7NtzWWHFye/yPDwcRzFoKU+OdgtX41vD2ka0ejR9mEINSNTvWaLrkpNq4x7WHHQUKlR
- QHXwG4un0l+3lWlflzErV/wkSt7YyMHRV9m2ecDZVbZyldEBDbdTYi0oBsyiMwVbI+0k
- eIwg==
-X-Gm-Message-State: AOAM531iri2Q625kfihCodQ91K813oZM0BIKlj8KkzxIGVuVOC0qurCg
- UH7fmlc5KcwfuQK9cGi4IQH2bh8Oq6KxlA==
-X-Google-Smtp-Source: ABdhPJy2PcfNEWSXFUTkjDNQ0SVkqPXb6nLYz5HzGkx/gJUMR9i3FmHlGt25zfs4fJkoxQw8wQ19og==
-X-Received: by 2002:a05:6000:1846:: with SMTP id
- c6mr29730110wri.129.1620649554127; 
- Mon, 10 May 2021 05:25:54 -0700 (PDT)
+ bh=yRSiZALFT64qDrmSPtMVCE1BqJtBCIPc/VUBPEipLiw=;
+ b=kJdN7I7q7knSBONZYFS5MmNRmH/6LxFUDgtIqgVtB75DosIMeN9coLHesFLQohQxv6
+ NiwsOeDyHEaY8FlgWEXPpNheFeqV8aQYDH/uCVYTTYIBqrnlYOxw4/HCVP9GmDfaxcw8
+ 4xquQzWo1b0Sz9DI4jl898lTMfmLzNaVGAecYOTZEjsAHh21CI/bmz7sE0Iswc2rmtEL
+ f3YN6SqEVxyUo26m/xdqRvWAcPDcfAmbvxmduF/OnXwIv9z+kagFjOCe0GN0vMrSt5NM
+ 25NOSXJzMKoKf+aV1WzVRpwFgHAP5uBB/tbltf4+5ivZBuPHx4xzsF/t6SfNblpJNwio
+ 40Cw==
+X-Gm-Message-State: AOAM533Hl8G4GZdL5z9dgOJRaAOtei+QtFVd02PtCk26WXEbIYmqUVts
+ D2PItZX3zLNq9FzXU3dJfnPjwzVT18iSkA==
+X-Google-Smtp-Source: ABdhPJx4CIXnXWkdH087fSkNY9bB1S59f0woMlc3pYzDkfJGl77VWelAa8bPeaa6POxFsxVAf9O/IA==
+X-Received: by 2002:a5d:6402:: with SMTP id z2mr30036650wru.7.1620649555063;
+ Mon, 10 May 2021 05:25:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.25.53
+ by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.25.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 05:25:53 -0700 (PDT)
+ Mon, 10 May 2021 05:25:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/26] target/arm: Make functions used by m-nocp global
-Date: Mon, 10 May 2021 13:25:28 +0100
-Message-Id: <20210510122548.28638-7-peter.maydell@linaro.org>
+Subject: [PULL 07/26] target/arm: Split m-nocp trans functions into their own
+ file
+Date: Mon, 10 May 2021 13:25:29 +0100
+Message-Id: <20210510122548.28638-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210510122548.28638-1-peter.maydell@linaro.org>
 References: <20210510122548.28638-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,40 +87,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to split out the .c.inc files which are currently included
-into translate.c so they are separate compilation units.  To do this
-we need to make some functions which are currently file-local to
-translate.c have global scope; create a translate-a32.h paralleling
-the existing translate-a64.h as a place for these declarations to
-live, so that code moved into the new compilation units can call
-them.
+Currently the trans functions for m-nocp.decode all live in
+translate-vfp.inc.c; move them out into their own translation unit,
+translate-m-nocp.c.
 
-The functions made global here are those required by the
-m-nocp.decode functions, except that I have converted the whole
-family of {read,write}_neon_element* and also both the load_cpu and
-store_cpu functions for consistency, even though m-nocp only wants a
-few functions from each.
+The trans_* functions here are pure code motion with no changes.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210430132740.10391-4-peter.maydell@linaro.org
+Message-id: 20210430132740.10391-5-peter.maydell@linaro.org
 ---
- target/arm/translate-a32.h     | 57 ++++++++++++++++++++++++++++++++++
- target/arm/translate.c         | 39 +++++------------------
- target/arm/translate-vfp.c.inc |  2 +-
- 3 files changed, 65 insertions(+), 33 deletions(-)
- create mode 100644 target/arm/translate-a32.h
+ target/arm/translate-a32.h     |   3 +
+ target/arm/translate-m-nocp.c  | 221 +++++++++++++++++++++++++++++++++
+ target/arm/translate.c         |   1 -
+ target/arm/translate-vfp.c.inc | 196 -----------------------------
+ target/arm/meson.build         |   3 +-
+ 5 files changed, 226 insertions(+), 198 deletions(-)
+ create mode 100644 target/arm/translate-m-nocp.c
 
 diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
-new file mode 100644
-index 00000000000..c5d937b27e8
---- /dev/null
+index c5d937b27e8..cb451f70a42 100644
+--- a/target/arm/translate-a32.h
 +++ b/target/arm/translate-a32.h
-@@ -0,0 +1,57 @@
+@@ -20,6 +20,9 @@
+ #ifndef TARGET_ARM_TRANSLATE_A64_H
+ #define TARGET_ARM_TRANSLATE_A64_H
+ 
++/* Prototypes for autogenerated disassembler functions */
++bool disas_m_nocp(DisasContext *dc, uint32_t insn);
++
+ void load_reg_var(DisasContext *s, TCGv_i32 var, int reg);
+ void arm_gen_condlabel(DisasContext *s);
+ bool vfp_access_check(DisasContext *s);
+diff --git a/target/arm/translate-m-nocp.c b/target/arm/translate-m-nocp.c
+new file mode 100644
+index 00000000000..d47eb8e1535
+--- /dev/null
++++ b/target/arm/translate-m-nocp.c
+@@ -0,0 +1,221 @@
 +/*
-+ *  AArch32 translation, common definitions.
++ *  ARM translation: M-profile NOCP special-case instructions
 + *
-+ * Copyright (c) 2021 Linaro, Ltd.
++ *  Copyright (c) 2020 Linaro, Ltd.
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
@@ -136,163 +144,448 @@ index 00000000000..c5d937b27e8
 + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef TARGET_ARM_TRANSLATE_A64_H
-+#define TARGET_ARM_TRANSLATE_A64_H
++#include "qemu/osdep.h"
++#include "tcg/tcg-op.h"
++#include "translate.h"
++#include "translate-a32.h"
 +
-+void load_reg_var(DisasContext *s, TCGv_i32 var, int reg);
-+void arm_gen_condlabel(DisasContext *s);
-+bool vfp_access_check(DisasContext *s);
-+void read_neon_element32(TCGv_i32 dest, int reg, int ele, MemOp memop);
-+void read_neon_element64(TCGv_i64 dest, int reg, int ele, MemOp memop);
-+void write_neon_element32(TCGv_i32 src, int reg, int ele, MemOp memop);
-+void write_neon_element64(TCGv_i64 src, int reg, int ele, MemOp memop);
++#include "decode-m-nocp.c.inc"
 +
-+static inline TCGv_i32 load_cpu_offset(int offset)
++/*
++ * Decode VLLDM and VLSTM are nonstandard because:
++ *  * if there is no FPU then these insns must NOP in
++ *    Secure state and UNDEF in Nonsecure state
++ *  * if there is an FPU then these insns do not have
++ *    the usual behaviour that vfp_access_check() provides of
++ *    being controlled by CPACR/NSACR enable bits or the
++ *    lazy-stacking logic.
++ */
++static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
 +{
-+    TCGv_i32 tmp = tcg_temp_new_i32();
-+    tcg_gen_ld_i32(tmp, cpu_env, offset);
-+    return tmp;
++    TCGv_i32 fptr;
++
++    if (!arm_dc_feature(s, ARM_FEATURE_M) ||
++        !arm_dc_feature(s, ARM_FEATURE_V8)) {
++        return false;
++    }
++
++    if (a->op) {
++        /*
++         * T2 encoding ({D0-D31} reglist): v8.1M and up. We choose not
++         * to take the IMPDEF option to make memory accesses to the stack
++         * slots that correspond to the D16-D31 registers (discarding
++         * read data and writing UNKNOWN values), so for us the T2
++         * encoding behaves identically to the T1 encoding.
++         */
++        if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
++            return false;
++        }
++    } else {
++        /*
++         * T1 encoding ({D0-D15} reglist); undef if we have 32 Dregs.
++         * This is currently architecturally impossible, but we add the
++         * check to stay in line with the pseudocode. Note that we must
++         * emit code for the UNDEF so it takes precedence over the NOCP.
++         */
++        if (dc_isar_feature(aa32_simd_r32, s)) {
++            unallocated_encoding(s);
++            return true;
++        }
++    }
++
++    /*
++     * If not secure, UNDEF. We must emit code for this
++     * rather than returning false so that this takes
++     * precedence over the m-nocp.decode NOCP fallback.
++     */
++    if (!s->v8m_secure) {
++        unallocated_encoding(s);
++        return true;
++    }
++    /* If no fpu, NOP. */
++    if (!dc_isar_feature(aa32_vfp, s)) {
++        return true;
++    }
++
++    fptr = load_reg(s, a->rn);
++    if (a->l) {
++        gen_helper_v7m_vlldm(cpu_env, fptr);
++    } else {
++        gen_helper_v7m_vlstm(cpu_env, fptr);
++    }
++    tcg_temp_free_i32(fptr);
++
++    /* End the TB, because we have updated FP control bits */
++    s->base.is_jmp = DISAS_UPDATE_EXIT;
++    return true;
 +}
 +
-+#define load_cpu_field(name) load_cpu_offset(offsetof(CPUARMState, name))
-+
-+static inline void store_cpu_offset(TCGv_i32 var, int offset)
++static bool trans_VSCCLRM(DisasContext *s, arg_VSCCLRM *a)
 +{
-+    tcg_gen_st_i32(var, cpu_env, offset);
-+    tcg_temp_free_i32(var);
++    int btmreg, topreg;
++    TCGv_i64 zero;
++    TCGv_i32 aspen, sfpa;
++
++    if (!dc_isar_feature(aa32_m_sec_state, s)) {
++        /* Before v8.1M, fall through in decode to NOCP check */
++        return false;
++    }
++
++    /* Explicitly UNDEF because this takes precedence over NOCP */
++    if (!arm_dc_feature(s, ARM_FEATURE_M_MAIN) || !s->v8m_secure) {
++        unallocated_encoding(s);
++        return true;
++    }
++
++    if (!dc_isar_feature(aa32_vfp_simd, s)) {
++        /* NOP if we have neither FP nor MVE */
++        return true;
++    }
++
++    /*
++     * If FPCCR.ASPEN != 0 && CONTROL_S.SFPA == 0 then there is no
++     * active floating point context so we must NOP (without doing
++     * any lazy state preservation or the NOCP check).
++     */
++    aspen = load_cpu_field(v7m.fpccr[M_REG_S]);
++    sfpa = load_cpu_field(v7m.control[M_REG_S]);
++    tcg_gen_andi_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
++    tcg_gen_xori_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
++    tcg_gen_andi_i32(sfpa, sfpa, R_V7M_CONTROL_SFPA_MASK);
++    tcg_gen_or_i32(sfpa, sfpa, aspen);
++    arm_gen_condlabel(s);
++    tcg_gen_brcondi_i32(TCG_COND_EQ, sfpa, 0, s->condlabel);
++
++    if (s->fp_excp_el != 0) {
++        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
++                           syn_uncategorized(), s->fp_excp_el);
++        return true;
++    }
++
++    topreg = a->vd + a->imm - 1;
++    btmreg = a->vd;
++
++    /* Convert to Sreg numbers if the insn specified in Dregs */
++    if (a->size == 3) {
++        topreg = topreg * 2 + 1;
++        btmreg *= 2;
++    }
++
++    if (topreg > 63 || (topreg > 31 && !(topreg & 1))) {
++        /* UNPREDICTABLE: we choose to undef */
++        unallocated_encoding(s);
++        return true;
++    }
++
++    /* Silently ignore requests to clear D16-D31 if they don't exist */
++    if (topreg > 31 && !dc_isar_feature(aa32_simd_r32, s)) {
++        topreg = 31;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    /* Zero the Sregs from btmreg to topreg inclusive. */
++    zero = tcg_const_i64(0);
++    if (btmreg & 1) {
++        write_neon_element64(zero, btmreg >> 1, 1, MO_32);
++        btmreg++;
++    }
++    for (; btmreg + 1 <= topreg; btmreg += 2) {
++        write_neon_element64(zero, btmreg >> 1, 0, MO_64);
++    }
++    if (btmreg == topreg) {
++        write_neon_element64(zero, btmreg >> 1, 0, MO_32);
++        btmreg++;
++    }
++    assert(btmreg == topreg + 1);
++    /* TODO: when MVE is implemented, zero VPR here */
++    return true;
 +}
 +
-+#define store_cpu_field(var, name) \
-+    store_cpu_offset(var, offsetof(CPUARMState, name))
-+
-+/* Create a new temporary and set it to the value of a CPU register.  */
-+static inline TCGv_i32 load_reg(DisasContext *s, int reg)
++static bool trans_NOCP(DisasContext *s, arg_nocp *a)
 +{
-+    TCGv_i32 tmp = tcg_temp_new_i32();
-+    load_reg_var(s, tmp, reg);
-+    return tmp;
++    /*
++     * Handle M-profile early check for disabled coprocessor:
++     * all we need to do here is emit the NOCP exception if
++     * the coprocessor is disabled. Otherwise we return false
++     * and the real VFP/etc decode will handle the insn.
++     */
++    assert(arm_dc_feature(s, ARM_FEATURE_M));
++
++    if (a->cp == 11) {
++        a->cp = 10;
++    }
++    if (arm_dc_feature(s, ARM_FEATURE_V8_1M) &&
++        (a->cp == 8 || a->cp == 9 || a->cp == 14 || a->cp == 15)) {
++        /* in v8.1M cp 8, 9, 14, 15 also are governed by the cp10 enable */
++        a->cp = 10;
++    }
++
++    if (a->cp != 10) {
++        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
++                           syn_uncategorized(), default_exception_el(s));
++        return true;
++    }
++
++    if (s->fp_excp_el != 0) {
++        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
++                           syn_uncategorized(), s->fp_excp_el);
++        return true;
++    }
++
++    return false;
 +}
 +
-+#endif
++static bool trans_NOCP_8_1(DisasContext *s, arg_nocp *a)
++{
++    /* This range needs a coprocessor check for v8.1M and later only */
++    if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
++        return false;
++    }
++    return trans_NOCP(s, a);
++}
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 8b71b1c41b6..3c1d52279bc 100644
+index 3c1d52279bc..46f6dfcf421 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -50,6 +50,7 @@
- #define ENABLE_ARCH_8     arm_dc_feature(s, ARM_FEATURE_V8)
+@@ -1273,7 +1273,6 @@ static TCGv_ptr vfp_reg_ptr(bool dp, int reg)
+ #define ARM_CP_RW_BIT   (1 << 20)
  
- #include "translate.h"
-+#include "translate-a32.h"
- 
- #if defined(CONFIG_USER_ONLY)
- #define IS_USER(s) 1
-@@ -101,7 +102,7 @@ void arm_translate_init(void)
- }
- 
- /* Generate a label used for skipping this instruction */
--static void arm_gen_condlabel(DisasContext *s)
-+void arm_gen_condlabel(DisasContext *s)
- {
-     if (!s->condjmp) {
-         s->condlabel = gen_new_label();
-@@ -187,24 +188,6 @@ static inline int get_a32_user_mem_index(DisasContext *s)
-     }
- }
- 
--static inline TCGv_i32 load_cpu_offset(int offset)
--{
--    TCGv_i32 tmp = tcg_temp_new_i32();
--    tcg_gen_ld_i32(tmp, cpu_env, offset);
--    return tmp;
--}
--
--#define load_cpu_field(name) load_cpu_offset(offsetof(CPUARMState, name))
--
--static inline void store_cpu_offset(TCGv_i32 var, int offset)
--{
--    tcg_gen_st_i32(var, cpu_env, offset);
--    tcg_temp_free_i32(var);
--}
--
--#define store_cpu_field(var, name) \
--    store_cpu_offset(var, offsetof(CPUARMState, name))
--
- /* The architectural value of PC.  */
- static uint32_t read_pc(DisasContext *s)
- {
-@@ -212,7 +195,7 @@ static uint32_t read_pc(DisasContext *s)
- }
- 
- /* Set a variable to the value of a CPU register.  */
--static void load_reg_var(DisasContext *s, TCGv_i32 var, int reg)
-+void load_reg_var(DisasContext *s, TCGv_i32 var, int reg)
- {
-     if (reg == 15) {
-         tcg_gen_movi_i32(var, read_pc(s));
-@@ -221,14 +204,6 @@ static void load_reg_var(DisasContext *s, TCGv_i32 var, int reg)
-     }
- }
- 
--/* Create a new temporary and set it to the value of a CPU register.  */
--static inline TCGv_i32 load_reg(DisasContext *s, int reg)
--{
--    TCGv_i32 tmp = tcg_temp_new_i32();
--    load_reg_var(s, tmp, reg);
--    return tmp;
--}
--
- /*
-  * Create a new temp, REG + OFS, except PC is ALIGN(PC, 4).
-  * This is used for load/store for which use of PC implies (literal),
-@@ -1208,7 +1183,7 @@ static inline void vfp_store_reg32(TCGv_i32 var, int reg)
-     tcg_gen_st_i32(var, cpu_env, vfp_reg_offset(false, reg));
- }
- 
--static void read_neon_element32(TCGv_i32 dest, int reg, int ele, MemOp memop)
-+void read_neon_element32(TCGv_i32 dest, int reg, int ele, MemOp memop)
- {
-     long off = neon_element_offset(reg, ele, memop);
- 
-@@ -1234,7 +1209,7 @@ static void read_neon_element32(TCGv_i32 dest, int reg, int ele, MemOp memop)
-     }
- }
- 
--static void read_neon_element64(TCGv_i64 dest, int reg, int ele, MemOp memop)
-+void read_neon_element64(TCGv_i64 dest, int reg, int ele, MemOp memop)
- {
-     long off = neon_element_offset(reg, ele, memop);
- 
-@@ -1253,7 +1228,7 @@ static void read_neon_element64(TCGv_i64 dest, int reg, int ele, MemOp memop)
-     }
- }
- 
--static void write_neon_element32(TCGv_i32 src, int reg, int ele, MemOp memop)
-+void write_neon_element32(TCGv_i32 src, int reg, int ele, MemOp memop)
- {
-     long off = neon_element_offset(reg, ele, memop);
- 
-@@ -1272,7 +1247,7 @@ static void write_neon_element32(TCGv_i32 src, int reg, int ele, MemOp memop)
-     }
- }
- 
--static void write_neon_element64(TCGv_i64 src, int reg, int ele, MemOp memop)
-+void write_neon_element64(TCGv_i64 src, int reg, int ele, MemOp memop)
- {
-     long off = neon_element_offset(reg, ele, memop);
+ /* Include the VFP and Neon decoders */
+-#include "decode-m-nocp.c.inc"
+ #include "translate-vfp.c.inc"
+ #include "translate-neon.c.inc"
  
 diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index e20d9c7ba66..c368ada877b 100644
+index c368ada877b..500492f02fb 100644
 --- a/target/arm/translate-vfp.c.inc
 +++ b/target/arm/translate-vfp.c.inc
-@@ -191,7 +191,7 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
-  * The most usual kind of VFP access check, for everything except
-  * FMXR/FMRX to the always-available special registers.
-  */
--static bool vfp_access_check(DisasContext *s)
-+bool vfp_access_check(DisasContext *s)
- {
-     return full_vfp_access_check(s, false);
+@@ -3800,202 +3800,6 @@ static bool trans_VCVT_dp_int(DisasContext *s, arg_VCVT_dp_int *a)
+     return true;
  }
+ 
+-/*
+- * Decode VLLDM and VLSTM are nonstandard because:
+- *  * if there is no FPU then these insns must NOP in
+- *    Secure state and UNDEF in Nonsecure state
+- *  * if there is an FPU then these insns do not have
+- *    the usual behaviour that vfp_access_check() provides of
+- *    being controlled by CPACR/NSACR enable bits or the
+- *    lazy-stacking logic.
+- */
+-static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
+-{
+-    TCGv_i32 fptr;
+-
+-    if (!arm_dc_feature(s, ARM_FEATURE_M) ||
+-        !arm_dc_feature(s, ARM_FEATURE_V8)) {
+-        return false;
+-    }
+-
+-    if (a->op) {
+-        /*
+-         * T2 encoding ({D0-D31} reglist): v8.1M and up. We choose not
+-         * to take the IMPDEF option to make memory accesses to the stack
+-         * slots that correspond to the D16-D31 registers (discarding
+-         * read data and writing UNKNOWN values), so for us the T2
+-         * encoding behaves identically to the T1 encoding.
+-         */
+-        if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
+-            return false;
+-        }
+-    } else {
+-        /*
+-         * T1 encoding ({D0-D15} reglist); undef if we have 32 Dregs.
+-         * This is currently architecturally impossible, but we add the
+-         * check to stay in line with the pseudocode. Note that we must
+-         * emit code for the UNDEF so it takes precedence over the NOCP.
+-         */
+-        if (dc_isar_feature(aa32_simd_r32, s)) {
+-            unallocated_encoding(s);
+-            return true;
+-        }
+-    }
+-
+-    /*
+-     * If not secure, UNDEF. We must emit code for this
+-     * rather than returning false so that this takes
+-     * precedence over the m-nocp.decode NOCP fallback.
+-     */
+-    if (!s->v8m_secure) {
+-        unallocated_encoding(s);
+-        return true;
+-    }
+-    /* If no fpu, NOP. */
+-    if (!dc_isar_feature(aa32_vfp, s)) {
+-        return true;
+-    }
+-
+-    fptr = load_reg(s, a->rn);
+-    if (a->l) {
+-        gen_helper_v7m_vlldm(cpu_env, fptr);
+-    } else {
+-        gen_helper_v7m_vlstm(cpu_env, fptr);
+-    }
+-    tcg_temp_free_i32(fptr);
+-
+-    /* End the TB, because we have updated FP control bits */
+-    s->base.is_jmp = DISAS_UPDATE_EXIT;
+-    return true;
+-}
+-
+-static bool trans_VSCCLRM(DisasContext *s, arg_VSCCLRM *a)
+-{
+-    int btmreg, topreg;
+-    TCGv_i64 zero;
+-    TCGv_i32 aspen, sfpa;
+-
+-    if (!dc_isar_feature(aa32_m_sec_state, s)) {
+-        /* Before v8.1M, fall through in decode to NOCP check */
+-        return false;
+-    }
+-
+-    /* Explicitly UNDEF because this takes precedence over NOCP */
+-    if (!arm_dc_feature(s, ARM_FEATURE_M_MAIN) || !s->v8m_secure) {
+-        unallocated_encoding(s);
+-        return true;
+-    }
+-
+-    if (!dc_isar_feature(aa32_vfp_simd, s)) {
+-        /* NOP if we have neither FP nor MVE */
+-        return true;
+-    }
+-
+-    /*
+-     * If FPCCR.ASPEN != 0 && CONTROL_S.SFPA == 0 then there is no
+-     * active floating point context so we must NOP (without doing
+-     * any lazy state preservation or the NOCP check).
+-     */
+-    aspen = load_cpu_field(v7m.fpccr[M_REG_S]);
+-    sfpa = load_cpu_field(v7m.control[M_REG_S]);
+-    tcg_gen_andi_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
+-    tcg_gen_xori_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
+-    tcg_gen_andi_i32(sfpa, sfpa, R_V7M_CONTROL_SFPA_MASK);
+-    tcg_gen_or_i32(sfpa, sfpa, aspen);
+-    arm_gen_condlabel(s);
+-    tcg_gen_brcondi_i32(TCG_COND_EQ, sfpa, 0, s->condlabel);
+-
+-    if (s->fp_excp_el != 0) {
+-        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
+-                           syn_uncategorized(), s->fp_excp_el);
+-        return true;
+-    }
+-
+-    topreg = a->vd + a->imm - 1;
+-    btmreg = a->vd;
+-
+-    /* Convert to Sreg numbers if the insn specified in Dregs */
+-    if (a->size == 3) {
+-        topreg = topreg * 2 + 1;
+-        btmreg *= 2;
+-    }
+-
+-    if (topreg > 63 || (topreg > 31 && !(topreg & 1))) {
+-        /* UNPREDICTABLE: we choose to undef */
+-        unallocated_encoding(s);
+-        return true;
+-    }
+-
+-    /* Silently ignore requests to clear D16-D31 if they don't exist */
+-    if (topreg > 31 && !dc_isar_feature(aa32_simd_r32, s)) {
+-        topreg = 31;
+-    }
+-
+-    if (!vfp_access_check(s)) {
+-        return true;
+-    }
+-
+-    /* Zero the Sregs from btmreg to topreg inclusive. */
+-    zero = tcg_const_i64(0);
+-    if (btmreg & 1) {
+-        write_neon_element64(zero, btmreg >> 1, 1, MO_32);
+-        btmreg++;
+-    }
+-    for (; btmreg + 1 <= topreg; btmreg += 2) {
+-        write_neon_element64(zero, btmreg >> 1, 0, MO_64);
+-    }
+-    if (btmreg == topreg) {
+-        write_neon_element64(zero, btmreg >> 1, 0, MO_32);
+-        btmreg++;
+-    }
+-    assert(btmreg == topreg + 1);
+-    /* TODO: when MVE is implemented, zero VPR here */
+-    return true;
+-}
+-
+-static bool trans_NOCP(DisasContext *s, arg_nocp *a)
+-{
+-    /*
+-     * Handle M-profile early check for disabled coprocessor:
+-     * all we need to do here is emit the NOCP exception if
+-     * the coprocessor is disabled. Otherwise we return false
+-     * and the real VFP/etc decode will handle the insn.
+-     */
+-    assert(arm_dc_feature(s, ARM_FEATURE_M));
+-
+-    if (a->cp == 11) {
+-        a->cp = 10;
+-    }
+-    if (arm_dc_feature(s, ARM_FEATURE_V8_1M) &&
+-        (a->cp == 8 || a->cp == 9 || a->cp == 14 || a->cp == 15)) {
+-        /* in v8.1M cp 8, 9, 14, 15 also are governed by the cp10 enable */
+-        a->cp = 10;
+-    }
+-
+-    if (a->cp != 10) {
+-        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
+-                           syn_uncategorized(), default_exception_el(s));
+-        return true;
+-    }
+-
+-    if (s->fp_excp_el != 0) {
+-        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
+-                           syn_uncategorized(), s->fp_excp_el);
+-        return true;
+-    }
+-
+-    return false;
+-}
+-
+-static bool trans_NOCP_8_1(DisasContext *s, arg_nocp *a)
+-{
+-    /* This range needs a coprocessor check for v8.1M and later only */
+-    if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
+-        return false;
+-    }
+-    return trans_NOCP(s, a);
+-}
+-
+ static bool trans_VINS(DisasContext *s, arg_VINS *a)
+ {
+     TCGv_i32 rd, rm;
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 15b936c1010..bbee1325bc4 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -5,7 +5,7 @@ gen = [
+   decodetree.process('neon-ls.decode', extra_args: '--static-decode=disas_neon_ls'),
+   decodetree.process('vfp.decode', extra_args: '--static-decode=disas_vfp'),
+   decodetree.process('vfp-uncond.decode', extra_args: '--static-decode=disas_vfp_uncond'),
+-  decodetree.process('m-nocp.decode', extra_args: '--static-decode=disas_m_nocp'),
++  decodetree.process('m-nocp.decode', extra_args: '--decode=disas_m_nocp'),
+   decodetree.process('a32.decode', extra_args: '--static-decode=disas_a32'),
+   decodetree.process('a32-uncond.decode', extra_args: '--static-decode=disas_a32_uncond'),
+   decodetree.process('t32.decode', extra_args: '--static-decode=disas_t32'),
+@@ -26,6 +26,7 @@ arm_ss.add(files(
+   'op_helper.c',
+   'tlb_helper.c',
+   'translate.c',
++  'translate-m-nocp.c',
+   'vec_helper.c',
+   'vfp_helper.c',
+   'cpu_tcg.c',
 -- 
 2.20.1
 
