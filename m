@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6CC377B55
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 06:53:54 +0200 (CEST)
-Received: from localhost ([::1]:52004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C45D377B51
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 06:52:36 +0200 (CEST)
+Received: from localhost ([::1]:45192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfxvV-0000Qv-B2
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 00:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43612)
+	id 1lfxuF-0004MJ-5t
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 00:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfxsS-0001wl-9J
- for qemu-devel@nongnu.org; Mon, 10 May 2021 00:50:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51800)
+ id 1lfxsQ-0001vl-PR
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 00:50:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfxsP-0002sE-55
- for qemu-devel@nongnu.org; Mon, 10 May 2021 00:50:44 -0400
+ id 1lfxsO-0002sB-S8
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 00:50:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfxsM-00018P-Hz
+ id 1lfxsM-00018h-4x
  for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:50:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 871F52E8187
+ by loganberry.canonical.com (Postfix) with ESMTP id 2450A2E818E
  for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:50:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 04:44:30 -0000
-From: Thomas Huth <1906181@bugs.launchpad.net>
+Date: Mon, 10 May 2021 04:44:42 -0000
+From: Thomas Huth <1906184@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: input linux mouse
+X-Launchpad-Bug-Tags: linux sound stuttering
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: fghgfh832 th-huth
 X-Launchpad-Bug-Reporter: johannes (fghgfh832)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160668155380.20995.12801548194687420676.malonedeb@gac.canonical.com>
-Message-Id: <162062187080.3040.9256845056780388854.malone@wampee.canonical.com>
-Subject: [Bug 1906181] Re: Mouse starts jumping wildly on guest desktop
+References: <160668360643.8467.1174467621705698044.malonedeb@soybean.canonical.com>
+Message-Id: <162062188229.1943.12892065973278974492.malone@wampee.canonical.com>
+Subject: [Bug 1906184] Re: Lots of stuttering/crackling in guest sound
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: ba30d15f90e1061d098cf4205c855c7251e57a5f
+X-Launchpad-Hash: 601bb35a175c25ea99d5b368a5540aa054c8de64
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906181 <1906181@bugs.launchpad.net>
+Reply-To: Bug 1906184 <1906184@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -112,34 +112,57 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906181
+https://bugs.launchpad.net/bugs/1906184
 
 Title:
-  Mouse starts jumping wildly on guest desktop
+  Lots of stuttering/crackling in guest sound
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Sometimes mouse goes completely crazy and starts jumping around the
-  guest desktop by itself and becomes completely unusable.
-
-  This does not happen on every boot, only sometimes. It may be caused
-  by some input combination but I haven't yet found any specific cause.
-  It happens soon after the desktop has been loaded and rebooting seems
-  to be the only way to resolve the situation.
+  When listening to music (e.g. with VLC) or watching Youtube on the
+  guest, there's lots of stuttering and crackling in the sound.
 
   =
 
-  Guest: Kubuntu 20.04 64-bit (live), with KDE desktop
-  Host: Arch Linux, with KDE desktop
-  QEMU version: 5.1.0
+  Tested with the following QEMU start commands:
 
-  QEMU start command:
-  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom ./linux/kubu=
-ntu-20.04-desktop-amd64.iso -boot d -vga virtio -soundhw hda -display sdl,g=
-l=3Don
+  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+  ./linux/kubuntu-20.04-desktop-amd64.iso -boot d -vga virtio -soundhw
+  hda -display sdl,gl=3Don
+
+  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+  ./linux/kubuntu-20.04-desktop-amd64.iso -boot d -vga qxl -soundhw hda
+  -display sdl
+
+  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+  ./linux/kubuntu-20.04-desktop-amd64.iso -boot d -vga qxl -soundhw hda
+  -display gtk
+
+  =
+
+  If I use the following command (QXL graphics, "remote" access via SPICE o=
+ver unix socket), stuttering is not completely gone but MUCH less annoying:
+
+  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+  ./linux/kubuntu-20.04-desktop-amd64.iso -boot d -soundhw hda -vga qxl
+  -device virtio-serial-pci -device
+  virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.spice.0 -chardev
+  spicevmc,id=3Dspicechannel0,name=3Dvdagent -spice
+  unix,addr=3D/tmp/vm_spice.socket,disable-ticketing
+
+  and this command for accessing the VM:
+  remote-viewer spice+unix:///tmp/vm_spice.socket =
+
+
+
+  Guest: Kubuntu 20.04 64-bit (live), but occurs with many other as well
+  Host: Arch Linux, with KDE desktop
+  CPU: Intel Xeon E3-1230v2 (4 cores + hyperthreading)
+  RAM: 16 GB
+  GPU: Nvidia GTX 980 Ti
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906181/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1906184/+subscriptions
 
