@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C2D378C73
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:46:47 +0200 (CEST)
-Received: from localhost ([::1]:49410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76709378C78
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:49:19 +0200 (CEST)
+Received: from localhost ([::1]:55180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg5J8-0005gr-N3
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:46:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37720)
+	id 1lg5La-00016m-I0
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4zE-0006Tg-8n
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:12 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41961)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4zB-0003Jl-2o
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:11 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id d11so16410471wrw.8
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:26:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=CpwUsW78mEI5XjMCiM9bT5wLiUV9J5cA8qAnD0ZM2bc=;
- b=zmlGde6ZSO/yhD7Ev8OVqXW/N+GKPRF4BFHfYq05t0qw3TCizhbM3DdPHp7ZudZN3D
- t/kfkNZGLf79HNjdbfYUIlo40nR8lz0mlrB0hWrleDVVRRD49WSs82TxIXMK2Dmq+OYJ
- LGpn9qAzlL9+Jrx6zegHHuda63zOugBrxtgrUY3M3IogwJP/PPabOrcZK/k+sPpcL/x8
- Yvl0PqmGRWyXfdtzAyxgQ+whXbQOOSEs3dUstZzbkHCKhhoCi5lrtgLJMDddyC5NLdsr
- PoDqlOUMpHzLtglPIkuPEd78GOcxQNhS7kLx80xl/hePPGEGNVNuTqiHhBNu9V3Amtch
- RCeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CpwUsW78mEI5XjMCiM9bT5wLiUV9J5cA8qAnD0ZM2bc=;
- b=dOhW2Jw8ygThfApRcm2ImGc30DD06mn6JlrfPv8lyzC15d9GYadAurnGknlBbKpOUE
- aSokrZzQKv3vIFfQUF4VLx3yVqxqDsH1Ft6wCJ6BWxhfyPKe3RqQO9LcWPoMDnBnKW/d
- Aq8K6+fVlEWhPNe5zv/8pxq9fHati2DObNUEbmStKZNLbv0lS9wGs3Fnakjk5XoqdaaH
- 3i3ZnbekDS57Q9Jg7Qt59oSmsQnJO+m34IZkVnEybAxzZtHOerRYZ8lFsYTQ96oHk83D
- GRmDmHIMITsf2opVmShY2MqWB1wcjwj97f1ixVw/C+uGQ3Hp33lQ+DYk+/utprSg+INE
- 4ILg==
-X-Gm-Message-State: AOAM5329TI+D8+wbD/c/dmnr/TAlytxYkb4/qSACn725MKhIBvf53b4E
- l2lpjLhC8AE2tVbbzE4fYjfG3yQ17mBNDg==
-X-Google-Smtp-Source: ABdhPJxXsuhrfNF56F0sdotXFaHJpfM74M0DnYNYLkDpibo8qj2tlIbyMDbkGHNzDB7Pgld2pqapzQ==
-X-Received: by 2002:a5d:678d:: with SMTP id v13mr29614024wru.85.1620649567709; 
- Mon, 10 May 2021 05:26:07 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.26.07
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 05:26:07 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 26/26] hw/arm/xlnx: Fix PHY address for xilinx-zynq-a9
-Date: Mon, 10 May 2021 13:25:48 +0100
-Message-Id: <20210510122548.28638-27-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210510122548.28638-1-peter.maydell@linaro.org>
-References: <20210510122548.28638-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lg5KT-00087U-3w
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:48:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31752)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lg5KO-0007QQ-CB
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:48:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620650882;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OMI88+LkaEF7zvc/XQ6whHSr4GOiL29BWy09otZ1xIA=;
+ b=K3eSvLUyZp8K9KsuE9g3AntyEtTRkNBKU74+HbLga13ymD0bkK3v52MXH1L9iMGqk0LDA1
+ cDMY4YLzhLvML4gM36Hy+1HdLcSoQJrpd4eIGspGcsyiySCFAHy9q3RodZGximDZlR7HRX
+ +RNxgvo9Cqw59kPTAaNYWMljt7j/DNk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-554-B8SConBYN4WERtBRm9vENA-1; Mon, 10 May 2021 08:48:01 -0400
+X-MC-Unique: B8SConBYN4WERtBRm9vENA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D153107ACC7;
+ Mon, 10 May 2021 12:48:00 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-113-168.ams2.redhat.com [10.36.113.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26D861724D;
+ Mon, 10 May 2021 12:47:50 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org
+Subject: [PATCH v2] hw/arm/smmuv3: Another range invalidation fix
+Date: Mon, 10 May 2021 14:47:47 +0200
+Message-Id: <20210510124747.780877-1-eric.auger@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,51 +76,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: jiangkunkun@huawei.com, peterx@redhat.com,
+ shameerali.kolothum.thodi@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guenter Roeck <linux@roeck-us.net>
+6d9cd115b9 ("hw/arm/smmuv3: Enforce invalidation on a power of two range")
+failed to completely fix misalignment issues with range
+invalidation. For instance invalidations patterns like "invalidate 32
+4kB pages starting from 0xff395000 are not correctly handled" due
+to the fact the previous fix only made sure the number of invalidated
+pages were a power of 2 but did not properly handle the start
+address was not aligned with the range. This can be noticed when
+boothing a fedora 33 with protected virtio-blk-pci.
 
-Commit dfc388797cc4 ("hw/arm: xlnx: Set all boards' GEM 'phy-addr'
-property value to 23") configured the PHY address for xilinx-zynq-a9
-to 23. When trying to boot xilinx-zynq-a9 with zynq-zc702.dtb or
-zynq-zc706.dtb, this results in the following error message when
-trying to use the Ethernet interface.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Fixes: 6d9cd115b9 ("hw/arm/smmuv3: Enforce invalidation on a power of two range")
 
-macb e000b000.ethernet eth0: Could not attach PHY (-19)
-
-The devicetree files for ZC702 and ZC706 configure PHY address 7. The
-documentation for the ZC702 and ZC706 evaluation boards suggest that the
-PHY address is 7, not 23. Other boards use PHY address 0, 1, 3, or 7.
-I was unable to find a documentation or a devicetree file suggesting
-or using PHY address 23. The Ethernet interface starts working with
-zynq-zc702.dtb and zynq-zc706.dtb when setting the PHY address to 7,
-so let's use it.
-
-Cc: Bin Meng <bin.meng@windriver.com>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Acked-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20210504124140.1100346-1-linux@roeck-us.net
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/xilinx_zynq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 85f25d15dbf..81af32dc428 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -118,7 +118,7 @@ static void gem_init(NICInfo *nd, uint32_t base, qemu_irq irq)
-         qemu_check_nic_model(nd, TYPE_CADENCE_GEM);
-         qdev_set_nic_properties(dev, nd);
+This bug was found with SMMU RIL avocado-qemu acceptance tests
+
+v1 -> v2:
+- add return in !tg block
+---
+ hw/arm/smmuv3.c | 50 +++++++++++++++++++++++++------------------------
+ 1 file changed, 26 insertions(+), 24 deletions(-)
+
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 7bed2ac520..01b60bee49 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -857,43 +857,45 @@ static void smmuv3_inv_notifiers_iova(SMMUState *s, int asid, dma_addr_t iova,
+ 
+ static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
+ {
+-    uint8_t scale = 0, num = 0, ttl = 0;
+-    dma_addr_t addr = CMD_ADDR(cmd);
++    dma_addr_t end, addr = CMD_ADDR(cmd);
+     uint8_t type = CMD_TYPE(cmd);
+     uint16_t vmid = CMD_VMID(cmd);
++    uint8_t scale = CMD_SCALE(cmd);
++    uint8_t num = CMD_NUM(cmd);
++    uint8_t ttl = CMD_TTL(cmd);
+     bool leaf = CMD_LEAF(cmd);
+     uint8_t tg = CMD_TG(cmd);
+-    uint64_t first_page = 0, last_page;
+-    uint64_t num_pages = 1;
++    uint64_t num_pages;
++    uint8_t granule;
+     int asid = -1;
+ 
+-    if (tg) {
+-        scale = CMD_SCALE(cmd);
+-        num = CMD_NUM(cmd);
+-        ttl = CMD_TTL(cmd);
+-        num_pages = (num + 1) * BIT_ULL(scale);
+-    }
+-
+     if (type == SMMU_CMD_TLBI_NH_VA) {
+         asid = CMD_ASID(cmd);
      }
--    object_property_set_int(OBJECT(dev), "phy-addr", 23, &error_abort);
-+    object_property_set_int(OBJECT(dev), "phy-addr", 7, &error_abort);
-     s = SYS_BUS_DEVICE(dev);
-     sysbus_realize_and_unref(s, &error_fatal);
-     sysbus_mmio_map(s, 0, base);
+ 
++    if (!tg) {
++        trace_smmuv3_s1_range_inval(vmid, asid, addr, tg, 1, ttl, leaf);
++        smmuv3_inv_notifiers_iova(s, asid, addr, tg, 1);
++        smmu_iotlb_inv_iova(s, asid, addr, tg, 1, ttl);
++        return;
++    }
++
++    /* RIL in use */
++
++    num_pages = (num + 1) * BIT_ULL(scale);
++    granule = tg * 2 + 10;
++
+     /* Split invalidations into ^2 range invalidations */
+-    last_page = num_pages - 1;
+-    while (num_pages) {
+-        uint8_t granule = tg * 2 + 10;
+-        uint64_t mask, count;
++    end = addr + (num_pages << granule) - 1;
+ 
+-        mask = dma_aligned_pow2_mask(first_page, last_page, 64 - granule);
+-        count = mask + 1;
++    while (addr != end + 1) {
++        uint64_t mask = dma_aligned_pow2_mask(addr, end, 64);
+ 
+-        trace_smmuv3_s1_range_inval(vmid, asid, addr, tg, count, ttl, leaf);
+-        smmuv3_inv_notifiers_iova(s, asid, addr, tg, count);
+-        smmu_iotlb_inv_iova(s, asid, addr, tg, count, ttl);
+-
+-        num_pages -= count;
+-        first_page += count;
+-        addr += count * BIT_ULL(granule);
++        num_pages = (mask + 1) >> granule;
++        trace_smmuv3_s1_range_inval(vmid, asid, addr, tg, num_pages, ttl, leaf);
++        smmuv3_inv_notifiers_iova(s, asid, addr, tg, num_pages);
++        smmu_iotlb_inv_iova(s, asid, addr, tg, num_pages, ttl);
++        addr += mask + 1;
+     }
+ }
+ 
 -- 
-2.20.1
+2.26.3
 
 
