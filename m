@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D76379760
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:06:16 +0200 (CEST)
-Received: from localhost ([::1]:52892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B5C37975B
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:03:50 +0200 (CEST)
+Received: from localhost ([::1]:49836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgBEN-0003aO-QE
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:06:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35952)
+	id 1lgBBy-0001W0-OA
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:03:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgB9H-0006eM-Ge
- for qemu-devel@nongnu.org; Mon, 10 May 2021 15:00:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42220)
+ id 1lgB9G-0006cO-Cp
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:00:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgB97-0000Pg-TY
- for qemu-devel@nongnu.org; Mon, 10 May 2021 15:00:59 -0400
+ id 1lgB99-0000QH-NE
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:00:58 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgB95-00017t-V6
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 19:00:47 +0000
+ id 1lgB96-00018n-L4
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 19:00:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E2DE32E8187
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 19:00:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9E4DE2E8186
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 19:00:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 18:52:36 -0000
-From: Thomas Huth <1908489@bugs.launchpad.net>
+Date: Mon, 10 May 2021 18:53:25 -0000
+From: Thomas Huth <1908062@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=centos; sourcepackage=qemu-kvm; component=None; 
- status=Unknown; importance=Unknown; assignee=None; 
+X-Launchpad-Bug-Tags: fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: amdnative bonzini luqmana th-huth
-X-Launchpad-Bug-Reporter: Luqman (luqmana)
+X-Launchpad-Bug-Commenters: qiuhao th-huth
+X-Launchpad-Bug-Reporter: Qiuhao Li (qiuhao)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160818582988.15420.16250079431178848252.malonedeb@soybean.canonical.com>
-Message-Id: <162067275654.2626.15477157003647112273.malone@wampee.canonical.com>
-Subject: [Bug 1908489] Re: qemu 4.2 bootloops with -cpu host and nested
- hypervisor
+References: <160794824793.5567.9855788232054277622.malonedeb@gac.canonical.com>
+Message-Id: <162067280541.6615.2505449057779726897.malone@gac.canonical.com>
+Subject: [Bug 1908062] Re: qemu-system-i386 virtio-vga: Assertion in
+ address_space_stw_le_cached failed again
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 1dd28374e0512d92a237b51845dc77d0a0d63987
+X-Launchpad-Hash: 23d2290f9d624771bc7255664fd13f50068c5e4b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908489 <1908489@bugs.launchpad.net>
+Reply-To: Bug 1908062 <1908062@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -114,46 +113,98 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908489
+https://bugs.launchpad.net/bugs/1908062
 
 Title:
-  qemu 4.2 bootloops with -cpu host and nested hypervisor
+  qemu-system-i386 virtio-vga: Assertion in address_space_stw_le_cached
+  failed again
 
 Status in QEMU:
   Incomplete
-Status in qemu-kvm package in CentOS:
-  Unknown
 
 Bug description:
-  I've noticed that after upgrading from Ubuntu 18.04 to 20.04 that
-  nested virtualization isn't working anymore.
+  When I was fuzzing virtio-vga device of the latest QEMU (1758428, Dec
+  12, built with --enable-sanitizers --enable-fuzzing), an assertion
+  failed in include/exec/memory_ldst_cached.h.inc.
 
-  I have a simple repro where I create a Windows 10 2004 guest and
-  enable Hyper-V in it. This worked fine in 18.04 and specifically qemu
-  <4.2 (I specifically tested Qemu 2.11-4.1 which work fine).
+  --[ Reproducer
 
-  The -cpu arg I'm passing is simply:
-      -cpu host,l3-cache=3Don,hv_relaxed,hv_spinlocks=3D0x1fff,hv_vapic,hv_=
-time
+  cat << EOF | ./build/i386-softmmu/qemu-system-i386 -machine accel=3Dqtest=
+ \
+  -machine q35 -display none -nodefaults -device virtio-vga -qtest stdio
+  outl 0xcf8 0x8000081c
+  outb 0xcfc 0xc3
+  outl 0xcf8 0x80000804
+  outb 0xcfc 0x06
+  write 0xc300001024 0x2 0x0040
+  write 0xc300001028 0x1 0x5a
+  write 0xc30000101c 0x1 0x01
+  writel 0xc30000100c 0x20000000
+  write 0xc300001016 0x3 0x80a080
+  write 0xc300003002 0x1 0x80
+  write 0x5c 0x1 0x10
+  EOF
 
-  Using that Windows won't boot because the nested hypervisor (Hyper-V)
-  is unable to be initialize and so it just boot loops. Using the exact
-  same qemu command works fine with 4.1 and lower.
+  --[ Output
 
-  Switching to a named CPU model like Skylake-Client-noTSX-IBRS instead
-  of host lets the VM boot but causes some weird behaviour later trying
-  to use nested VMs.
+  =3D=3D35337=3D=3DWARNING: ASan doesn't fully support makecontext/swapcont=
+ext functions and may produce false positives in some cases!
+  [I 1607946348.442865] OPENED
+  [R +0.059305] outl 0xcf8 0x8000081c
+  OK
+  [S +0.059326] OK
+  [R +0.059338] outb 0xcfc 0xc3
+  OK
+  [S +0.059355] OK
+  [R +0.059363] outl 0xcf8 0x80000804
+  OK
+  [S +0.059369] OK
+  [R +0.059381] outb 0xcfc 0x06
+  OK
+  [S +0.061094] OK
+  [R +0.061107] write 0xc300001024 0x2 0x0040
+  OK
+  [S +0.061120] OK
+  [R +0.061127] write 0xc300001028 0x1 0x5a
+  OK
+  [S +0.061135] OK
+  [R +0.061142] write 0xc30000101c 0x1 0x01
+  OK
+  [S +0.061158] OK
+  [R +0.061167] writel 0xc30000100c 0x20000000
+  OK
+  [S +0.061212] OK
+  [R +0.061222] write 0xc300001016 0x3 0x80a080
+  OK
+  [S +0.061231] OK
+  [R +0.061238] write 0xc300003002 0x1 0x80
+  OK
+  [S +0.061247] OK
+  [R +0.061253] write 0x5c 0x1 0x10
+  OK
+  [S +0.061403] OK
+  qemu-system-i386: /home/qiuhao/hack/qemu/include/exec/memory_ldst_cached.=
+h.inc:88: void address_space_stw_le_cached(MemoryRegionCache *, hwaddr, uin=
+t32_t, MemTxAttrs, MemTxResult *): Assertion `addr < cache->len && 2 <=3D c=
+ache->len - addr' failed.
 
-  If I had to guess I think it would probably be related to this change
-  https://github.com/qemu/qemu/commit/20a78b02d31534ae478779c2f2816c273601e=
-869
-  which would line up with 4.2 being the first bad version but unsure.
+  --[ Environment
 
-  For now I just have to keep an older build of QEMU to work around
-  this. Let me know if there's anything else needed. I can also try out
-  any patches. I already have at least a dozen copies of qemu lying
-  around now.
+  Ubuntu 20.04.1 5.4.0-58-generic x86_64
+  clang: 10.0.0-4ubuntu1
+  glibc: 2.31-0ubuntu9.1
+  libglib2.0-dev: 2.64.3-1~ubuntu20.04.1
+
+  --[ Note
+
+  Alexander Bulekov found the same assertion failure on 2020-08-04,
+  https://bugs.launchpad.net/qemu/+bug/1890333, and it had been fixed in
+  commit 2d69eba5fe52045b2c8b0d04fd3806414352afc1.
+
+  Fam Zheng found the same assertion failure on 2018-09-29,
+  https://bugs.launchpad.net/qemu/+bug/1795148, and it had been fixed in
+  commit db812c4073c77c8a64db8d6663b3416a587c7b4a.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908489/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1908062/+subscriptions
 
