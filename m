@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AA9377CEF
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 09:09:39 +0200 (CEST)
-Received: from localhost ([::1]:46894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17F9377D14
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 09:24:59 +0200 (CEST)
+Received: from localhost ([::1]:54314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg02r-0006mf-J6
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 03:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
+	id 1lg0Hi-00043A-7V
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 03:24:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1lfzzF-0005rq-Op; Mon, 10 May 2021 03:05:53 -0400
-Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:45713)
+ id 1lg0DF-0001kO-5a; Mon, 10 May 2021 03:20:21 -0400
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:34659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1lfzzD-0002iI-MS; Mon, 10 May 2021 03:05:53 -0400
-Received: by mail-qv1-xf34.google.com with SMTP id u7so7821282qvv.12;
- Mon, 10 May 2021 00:05:50 -0700 (PDT)
+ id 1lg0DD-0002tf-9I; Mon, 10 May 2021 03:20:20 -0400
+Received: by mail-qk1-x736.google.com with SMTP id q127so14486802qkb.1;
+ Mon, 10 May 2021 00:20:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a+YNb5mD3l8IIwUuWm1uPtMvJvJNOsmnq/UPShCNDek=;
- b=lGFg8aFl1nsCaKlneHvPEVMtsduSEy4arjkO0jCFmEecSUh6LumgNNMRn5se0zcydI
- oKup3kyIcA0dpCkMvjxhORG5zCABnwJrb0OpaLAokFz9m+e7i+FVQ5O20H7OAUkDEIPs
- A/C31SbXiW6dnl7NT+10jAQaK9fUZyAw9DagY=
+ :cc; bh=w6Iq2HqplC+makTPcxbfwWjM3P10y//4+6kOL15hviM=;
+ b=iKgKXnKh7HXyuV6RgGtdl0fRM6YYvkur0DOKn/YnPaM/kEq58wPdF8I6YPWIruOXTB
+ 6mi/BapExxFOfYSnZQZihP18fs1yocdeldx56X5iNztL/CD7iIX0Eu5rTcN3vTQFCqDx
+ zs7zDotl8kR+Q9Fp3FxAFhLM7dqpFhJz5mUug=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=a+YNb5mD3l8IIwUuWm1uPtMvJvJNOsmnq/UPShCNDek=;
- b=LiXf4XX4UVs/daHl9m6kLs0x+NKGHtrgE+tShOLJxNftL9Zw+U9hMzwkDbrIwkXOBu
- ekQeTCGAfzdvQDmrfe8PG1BKKIFyF1x18UTCtvA8PkQiql8sGrOmfGTEbu2UYzA0SLeB
- 84x9YRKOf0B/vxx+q0AMutJ10f2R98vT/YQnmqeAtF4c+iyGO+GC1Yqaq5oQ6I/42n56
- O/s69VpssYJo7svYFxmuRfSmkk3ZV6hj1T/5xgRj/LadIFe5heOUldou53Um7j8IWbpD
- QxaXcar/i3lJH3ZKP8jlMHFWrUSfBgBDiS0jM/rmrex6G3wwzbmJN/TmxuvX55e4Rub+
- W98A==
-X-Gm-Message-State: AOAM530D5nWU8ptOoYd3V1iwkwYoj3xlO6IYWQlLfrc0HOC10oVv+Ra6
- 7FfWoVHtEDkSK7fn/YOSmrIL2XQnjm7JwCf09xE=
-X-Google-Smtp-Source: ABdhPJwIbTSWiqa9sqvRm+D9YWCxmRDCaPLVotGkU/UBDc3VPVpToG6Zxpz31ZeQ9QRBBYsGmoBnR1w55ngHRaJHCaM=
-X-Received: by 2002:a0c:d786:: with SMTP id z6mr21969057qvi.18.1620630349765; 
- Mon, 10 May 2021 00:05:49 -0700 (PDT)
+ bh=w6Iq2HqplC+makTPcxbfwWjM3P10y//4+6kOL15hviM=;
+ b=PdDF0Ep7ZHL3XXEQ3Z3xzDf9qGsK4y58rloGkV/d+z8G7FSrUg9gXPCuwBNZlFfHbq
+ g68UYuGTgW9BYsmVd2T3uJliAsNCaPeobJdSr2xsY1IIJT6QNS2r0vfKxhm1HVKecYA8
+ uQkXFbFxyEAndFS+a+CuikBCUiG5VuDpxHoSh/YwAg3H0Ar0k+bdau8IzGjLqXNDYs5N
+ S1nACwLzQcN5S1U7EY5id0euczKtY5j7BDdJ+kMA5h/OMcXFgEr8eemCRUvDzSmCdFX6
+ 8ckKNkdhWfA+EdKweZbWthA8S5rAtN6DQhamRJwKj459qiZaGmMDe6YVW3+tFkGbof/y
+ jJvg==
+X-Gm-Message-State: AOAM531t3DAUka9qThIh99qIgUDdtumN34tlbtoue+qsEzpyZZRb7DDb
+ lthWE0/JmqNxoH98ob5UCxBZKLmNpLhYAwhZSJM=
+X-Google-Smtp-Source: ABdhPJyB3qZ61csD4LX5AYsbXQEjVvjPK57NAqJtG8FOIAOf0uYG17jgDqiIWe1TpOXzL2gxj5N5CJHeTmPiHxXuCpE=
+X-Received: by 2002:a37:f91a:: with SMTP id l26mr21250961qkj.55.1620631216774; 
+ Mon, 10 May 2021 00:20:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210505170101.3297395-1-titusr@google.com>
- <20210505170101.3297395-2-titusr@google.com>
-In-Reply-To: <20210505170101.3297395-2-titusr@google.com>
+ <20210505170101.3297395-3-titusr@google.com>
+In-Reply-To: <20210505170101.3297395-3-titusr@google.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 10 May 2021 07:05:37 +0000
-Message-ID: <CACPK8XfkEdA1TLFm5W3rs0UHVVJ03e2mtgZJ+1caNt9NA0ZEWA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] hw/i2c: add support for PMBus
+Date: Mon, 10 May 2021 07:20:04 +0000
+Message-ID: <CACPK8Xc+iPifDBgo7B0VjYFCwtJMpf3unJ0CC_qPYNX5VLeEjg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] hw/misc: add ADM1272 device
 To: Titus Rwantare <titusr@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
- envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=joel.stan@gmail.com; helo=mail-qk1-x736.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -78,13 +78,15 @@ Cc: Hao Wu <wuhaotsh@google.com>, Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 5 May 2021 at 17:14, Titus Rwantare <titusr@google.com> wrote:
+On Wed, 5 May 2021 at 17:07, Titus Rwantare <titusr@google.com> wrote:
 >
-> QEMU has support for SMBus devices, and PMBus is a more specific
-> implementation of SMBus. The additions made in this commit makes it easier to
-> add new PMBus devices to QEMU.
+> The ADM1272 is a PMBus compliant Hot Swap Controller and Digital Power
+> Monitor by Analog Devices.
 >
-> https://pmbus.org/specification-archives/
+> This commit adds support for interfacing with it, and support for
+> setting and monitoring sensor limits.
+>
+> Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ADM1272.pdf
 >
 > Reviewed-by: Hao Wu <wuhaotsh@google.com>
 > Signed-off-by: Titus Rwantare <titusr@google.com>
