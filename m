@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A8F379759
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:03:10 +0200 (CEST)
-Received: from localhost ([::1]:48010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7BD3379767
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:08:21 +0200 (CEST)
+Received: from localhost ([::1]:58072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgBBN-0000JQ-QK
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:03:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35918)
+	id 1lgBGP-00078N-17
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:08:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgB9F-0006ar-MH
- for qemu-devel@nongnu.org; Mon, 10 May 2021 15:00:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42266)
+ id 1lgBDu-0004Ot-Kj
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:05:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgB99-0000Qh-Kz
- for qemu-devel@nongnu.org; Mon, 10 May 2021 15:00:55 -0400
+ id 1lgBDs-0003DI-Ko
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:05:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgB97-00017j-5i
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 19:00:49 +0000
+ id 1lgBDq-0001ZW-JY
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 19:05:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2931A2E8135
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 19:00:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8CBF22E8030
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 19:05:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 18:55:28 -0000
-From: Thomas Huth <1907926@bugs.launchpad.net>
+Date: Mon, 10 May 2021 18:56:56 -0000
+From: Thomas Huth <1907776@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: feature-request
+X-Launchpad-Bug-Tags: vfat
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anatol th-huth
-X-Launchpad-Bug-Reporter: Anatol Pomozov (anatol)
+X-Launchpad-Bug-Commenters: th-huth user4592
+X-Launchpad-Bug-Reporter: John Doe (user4592)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160781457931.10726.5957154717089218073.malonedeb@wampee.canonical.com>
-Message-Id: <162067292827.7395.18371055512816308826.malone@gac.canonical.com>
-Subject: [Bug 1907926] Re: Implement TPM2 configuration for emulators that
- provide TCP interface
+References: <160767424861.11774.3900541063456386240.malonedeb@wampee.canonical.com>
+Message-Id: <162067301670.17080.13777180234710104761.malone@soybean.canonical.com>
+Subject: [Bug 1907776] Re: Mounting VFat drive yields error messages.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 9c90c14ca216f9e28b638b4d82ddeffaabe3621b
+X-Launchpad-Hash: 6451627f9ab5ebd34a57e68097a2870abd43ff37
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907926 <1907926@bugs.launchpad.net>
+Reply-To: Bug 1907776 <1907776@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -106,11 +105,6 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
-** Tags added: feature-request
-
-** Changed in: qemu
-   Importance: Undecided =3D> Wishlist
-
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
@@ -118,23 +112,41 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907926
+https://bugs.launchpad.net/bugs/1907776
 
 Title:
-  Implement TPM2 configuration for emulators that provide TCP interface
+  Mounting VFat drive yields error messages.
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  swtpm provides several interfaces for its emulated device: unix socket
-  (can be used by qemu), chardev. swtpm also provides TCP interface for
-  the device which is very convenient for testing as it does not require
-  root permissions.
+  Mounting a virtual Fat drive results in error messages (see attached
+  image).
 
-  It would be very useful to have QEMU to work with TPM devices emulated
-  via TCP.
+  * https://www.qemu.org/docs/master/system/images.html#virtual-fat-
+  disk-images
+
+  The "drive" is however mounted, and as a test, saving a text file to
+  the drive is successfully stored in the directory `/tmp`, which can be
+  read after shutdown of Qemu.
+
+      Archlinux 5.9.11-arch2-1 (64-bit)
+      qemu-headless 5.1.0-3
+    =
+
+      qemu-system-x86_64 -boot order=3Dd -name test \
+        -enable-kvm -m 2G -cpu host -k sv \
+        -daemonize \
+        -drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/edk2-ovm=
+f/x64/OVMF_CODE.fd \
+        -drive if=3Dpflash,format=3Draw,file=3D~/vm/OVMF_VARS.local.fd \
+        -drive if=3Dide,format=3Draw,media=3Ddisk,index=3D1,file=3Dfat:rw:/=
+tmp \
+        -vnc :1 \
+        -cdrom /obj/archlinux/release/2020.10.01-x86_64.iso \
+        -drive format=3Draw,index=3D0,media=3Ddisk,file=3D~/vm/qemu.raw
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907926/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1907776/+subscriptions
 
