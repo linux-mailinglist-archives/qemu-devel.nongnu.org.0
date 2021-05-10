@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414E33788F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 13:49:32 +0200 (CEST)
-Received: from localhost ([::1]:54352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E313A378A1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 13:55:46 +0200 (CEST)
+Received: from localhost ([::1]:46356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg4Pj-0007xo-91
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 07:49:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57372)
+	id 1lg4Vm-0004rT-1Z
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 07:55:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4Kt-00017L-HE
- for qemu-devel@nongnu.org; Mon, 10 May 2021 07:44:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46972)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4Ku-0001Ai-5Y
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 07:44:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4Kq-0003qu-4S
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4Ks-0003sV-Ay
  for qemu-devel@nongnu.org; Mon, 10 May 2021 07:44:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620647067;
+ s=mimecast20190719; t=1620647069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZacCp3jZkietsRPTeV5HCeGZSGU00S880UbdMRTwnys=;
- b=QuQshbUbp5Ia4PoTLYTmNCyt4ZZdYcAMPctAiu56PK6oOq9tc2BoswX2lAmig/ODM8vxJT
- bS7qybm9n3hMU6EIJsEGeCnmNdQKz5jE/noN2/QMywePXK240UXAMaJroXNMbafCLWpr1I
- ZA4jmBH7F4MHSovdQF8/oGFQE+yazbs=
+ bh=EZcBREX11EcBhJU/zRoS5Ly0VAJn/b6xYn0UDMt7+fk=;
+ b=ayz4gvEECdf8/6iVFdYlt1s8OlgTx8TjH96zJxdAgGcF96zpbRiqgztzvD/A7XjYP5SzDx
+ KPYiIsS3sx1Cr2W5kQUZOvWufsGQhIg93h+J7WaNg2lFUk7toUU3rS0ye6WMq3wL8Dx+SD
+ 5TlqZgUrB1A5atZeXJLlxCUOC+L/n/o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120--BsD5EpyMl-i0eKWf-y3eQ-1; Mon, 10 May 2021 07:44:25 -0400
-X-MC-Unique: -BsD5EpyMl-i0eKWf-y3eQ-1
+ us-mta-339-Mjof7mfaMcSjsJgwHNF3Zw-1; Mon, 10 May 2021 07:44:28 -0400
+X-MC-Unique: Mjof7mfaMcSjsJgwHNF3Zw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB501802690
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 11:44:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2305A1854E25
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 11:44:27 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-137.ams2.redhat.com [10.36.114.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 338FC1037F20;
- Mon, 10 May 2021 11:44:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F01D1037F20;
+ Mon, 10 May 2021 11:44:25 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 11/15] qmp: Clarify memory backend properties returned via
- query-memdev
-Date: Mon, 10 May 2021 13:43:24 +0200
-Message-Id: <20210510114328.21835-12-david@redhat.com>
+Subject: [PATCH v8 12/15] qmp: Include "share" property of memory backends
+Date: Mon, 10 May 2021 13:43:25 +0200
+Message-Id: <20210510114328.21835-13-david@redhat.com>
 In-Reply-To: <20210510114328.21835-1-david@redhat.com>
 References: <20210510114328.21835-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -83,42 +82,58 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We return information on the currently configured memory backends and
-don't configure them, so decribe what the currently set properties
-express.
+Let's include the property, which can be helpful when debugging,
+for example, to spot misuse of MAP_PRIVATE which can result in some ugly
+corner cases (e.g., double-memory consumption on shmem).
+
+Use the same description we also use for describing the property.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Suggested-by: Markus Armbruster <armbru@redhat.com>
 Acked-by: Eduardo Habkost <ehabkost@redhat.com> for memory backend and machine core
 Cc: Eric Blake <eblake@redhat.com>
 Cc: Markus Armbruster <armbru@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- qapi/machine.json | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/core/machine-qmp-cmds.c | 1 +
+ qapi/machine.json          | 3 +++
+ 2 files changed, 4 insertions(+)
 
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index a36c96608f..a36ceaf4f3 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -172,6 +172,7 @@ static int query_memdev(Object *obj, void *opaque)
+         m->merge = object_property_get_bool(obj, "merge", &error_abort);
+         m->dump = object_property_get_bool(obj, "dump", &error_abort);
+         m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
++        m->share = object_property_get_bool(obj, "share", &error_abort);
+         m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
+                                              &error_abort);
+         host_nodes = object_property_get_qobject(obj,
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 6e90d463fc..758b901185 100644
+index 758b901185..32650bfe9e 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -790,11 +790,11 @@
+@@ -796,6 +796,8 @@
  #
- # @size: memory backend size
+ # @prealloc: whether memory was preallocated
  #
--# @merge: enables or disables memory merge support
-+# @merge: whether memory merge support is enabled
- #
--# @dump: includes memory backend's memory in a core dump or not
-+# @dump: whether memory backend's memory is included in a core dump
- #
--# @prealloc: enables or disables memory preallocation
-+# @prealloc: whether memory was preallocated
- #
++# @share: whether memory is private to QEMU or shared (since 6.1)
++#
  # @host-nodes: host nodes for its memory policy
  #
+ # @policy: memory policy of memory backend
+@@ -809,6 +811,7 @@
+     'merge':      'bool',
+     'dump':       'bool',
+     'prealloc':   'bool',
++    'share':      'bool',
+     'host-nodes': ['uint16'],
+     'policy':     'HostMemPolicy' }}
+ 
 -- 
 2.30.2
 
