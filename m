@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42765378CB7
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 15:24:58 +0200 (CEST)
-Received: from localhost ([::1]:47814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C584378CC3
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 15:29:32 +0200 (CEST)
+Received: from localhost ([::1]:38942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg5u5-0001T6-8l
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 09:24:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50032)
+	id 1lg5yV-00060q-A4
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 09:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lg5r4-00046z-1M
- for qemu-devel@nongnu.org; Mon, 10 May 2021 09:21:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35933)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lg5rG-0004wF-Rj
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 09:22:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lg5r2-0002pu-3V
- for qemu-devel@nongnu.org; Mon, 10 May 2021 09:21:49 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lg5rD-0002xJ-Na
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 09:22:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620652907;
+ s=mimecast20190719; t=1620652919;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5KnnY3yWbYCOfuDDfYYtvRWQI9t+tkxXq6PKPA0opAU=;
- b=YpvFmB8wlEOxKcQSJO5Vie9NBYMecwYznZsAcraDbn3Gqx6mn51yI7RyxcKxSMPRl3YR3t
- OLI4c9T97d4VnjxPbXD+0sPn2xGO2UjD0GlUG+6YqNExvb3XP2xvpt9bUjKjlH0nwZEbtd
- vQuomsz1QVoELlZocCHYQyQy8RMYKN4=
+ bh=1jgolTzqCiC0POG3pNNyLFYJ43yHlCdS2iGPYwEwBSo=;
+ b=Ss7O5lZDsooa+u3nM8tSXmqMh9IzmPMl7Bqjcg0GMwbpn69evGxL6rurbxkY3J2L/Cbhme
+ o4ZA9wPUwE1/677iZHNN6vAJBYi4ic1UZWSWLem+WyvCsIbcVDN6Ca7wV4bmj5JuUJ/1Fi
+ RJCprbubbyiZjNhEBv3xKkwiYKxfC14=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-cU86JygjMmqyybc4Qjo2zg-1; Mon, 10 May 2021 09:21:45 -0400
-X-MC-Unique: cU86JygjMmqyybc4Qjo2zg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-417-8tDSHnCBNxaKn0EVB2l5vg-1; Mon, 10 May 2021 09:21:57 -0400
+X-MC-Unique: 8tDSHnCBNxaKn0EVB2l5vg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C65048015F3;
- Mon, 10 May 2021 13:21:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 801A01927800
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 13:21:56 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-11.ams2.redhat.com
  [10.36.112.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46ACB2BFF6;
- Mon, 10 May 2021 13:21:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FFE619C45;
+ Mon, 10 May 2021 13:21:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 72D501800602; Mon, 10 May 2021 15:20:51 +0200 (CEST)
+ id 83915180060F; Mon, 10 May 2021 15:20:51 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/25] edid: add support for DisplayID extension (5k resolution)
-Date: Mon, 10 May 2021 15:20:34 +0200
-Message-Id: <20210510132051.2208563-9-kraxel@redhat.com>
+Subject: [PULL 09/25] virtio-gpu: handle partial maps properly
+Date: Mon, 10 May 2021 15:20:35 +0200
+Message-Id: <20210510132051.2208563-10-kraxel@redhat.com>
 In-Reply-To: <20210510132051.2208563-1-kraxel@redhat.com>
 References: <20210510132051.2208563-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -79,185 +79,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Konstantin Nazarov <mail@knazarov.com>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Konstantin Nazarov <mail@knazarov.com>
+dma_memory_map() may map only a part of the request.  Happens if the
+request can't be mapped in one go, for example due to a iommu creating
+a linear dma mapping for scattered physical pages.  Should that be the
+case virtio-gpu must call dma_memory_map() again with the remaining
+range instead of simply throwing an error.
 
-The Detailed Timing Descriptor has only 12 bits to store the
-resolution. This limits the guest to 4095 pixels.
+Note that this change implies the number of iov entries may differ from
+the number of mapping entries sent by the guest.  Therefore the iov_len
+bookkeeping needs some updates too, we have to explicitly pass around
+the iov length now.
 
-This patch adds support for the DisplayID extension, that has 2 full
-bytes for that purpose, thus allowing 5k resolutions and above.
-
-Based-on: <20210303152948.59943-2-akihiko.odaki@gmail.com>
-Signed-off-by: Konstantin Nazarov <mail@knazarov.com>
-Message-Id: <20210315114639.91953-3-mail@knazarov.com>
-
-[ kraxel: minor workflow tweaks ]
-
+Reported-by: Auger Eric <eric.auger@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20210427150824.638359-1-kraxel@redhat.com
-Message-Id: <20210427150824.638359-9-kraxel@redhat.com>
+Message-id: 20210506091001.1301250-1-kraxel@redhat.com
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Tested-by: Eric Auger <eric.auger@redhat.com>
+Message-Id: <20210506091001.1301250-1-kraxel@redhat.com>
 ---
- hw/display/edid-generate.c | 78 +++++++++++++++++++++++++++++++++++---
- hw/display/vga-pci.c       |  2 +-
- 2 files changed, 74 insertions(+), 6 deletions(-)
+ include/hw/virtio/virtio-gpu.h |  3 +-
+ hw/display/virtio-gpu-3d.c     |  7 ++--
+ hw/display/virtio-gpu.c        | 76 ++++++++++++++++++++--------------
+ 3 files changed, 52 insertions(+), 34 deletions(-)
 
-diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
-index bdd01571fc9b..f2b874d5e358 100644
---- a/hw/display/edid-generate.c
-+++ b/hw/display/edid-generate.c
-@@ -229,8 +229,8 @@ static void edid_desc_ranges(uint8_t *desc)
-     desc[7] =  30;
-     desc[8] = 160;
- 
--    /* max dot clock (1200 MHz) */
--    desc[9] = 1200 / 10;
-+    /* max dot clock (2550 MHz) */
-+    desc[9] = 2550 / 10;
- 
-     /* no extended timing information */
-     desc[10] = 0x01;
-@@ -336,15 +336,61 @@ uint32_t qemu_edid_dpi_to_mm(uint32_t dpi, uint32_t res)
-     return res * 254 / 10 / dpi;
- }
- 
-+static void init_displayid(uint8_t *did)
-+{
-+    did[0] = 0x70; /* display id extension */
-+    did[1] = 0x13; /* version 1.3 */
-+    did[2] = 4;    /* length */
-+    did[3] = 0x03; /* product type (0x03 == standalone display device) */
-+    edid_checksum(did + 1, did[2] + 4);
-+}
-+
-+static void qemu_displayid_generate(uint8_t *did, uint32_t refresh_rate,
-+                                    uint32_t xres, uint32_t yres,
-+                                    uint32_t xmm, uint32_t ymm)
-+{
-+    Timings timings;
-+    generate_timings(&timings, refresh_rate, xres, yres);
-+
-+    did[0] = 0x70; /* display id extension */
-+    did[1] = 0x13; /* version 1.3 */
-+    did[2] = 23;   /* length */
-+    did[3] = 0x03; /* product type (0x03 == standalone display device) */
-+
-+    did[5] = 0x03; /* Detailed Timings Data Block */
-+    did[6] = 0x00; /* revision */
-+    did[7] = 0x14; /* block length */
-+
-+    did[8]  = timings.clock  & 0xff;
-+    did[9]  = (timings.clock & 0xff00) >> 8;
-+    did[10] = (timings.clock & 0xff0000) >> 16;
-+
-+    did[11] = 0x88; /* leave aspect ratio undefined */
-+
-+    stw_le_p(did + 12, 0xffff & (xres - 1));
-+    stw_le_p(did + 14, 0xffff & (timings.xblank - 1));
-+    stw_le_p(did + 16, 0xffff & (timings.xfront - 1));
-+    stw_le_p(did + 18, 0xffff & (timings.xsync - 1));
-+
-+    stw_le_p(did + 20, 0xffff & (yres - 1));
-+    stw_le_p(did + 22, 0xffff & (timings.yblank - 1));
-+    stw_le_p(did + 24, 0xffff & (timings.yfront - 1));
-+    stw_le_p(did + 26, 0xffff & (timings.ysync - 1));
-+
-+    edid_checksum(did + 1, did[2] + 4);
-+}
-+
- void qemu_edid_generate(uint8_t *edid, size_t size,
-                         qemu_edid_info *info)
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index fae149235c58..0d15af41d96d 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -209,7 +209,8 @@ void virtio_gpu_get_edid(VirtIOGPU *g,
+ int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
+                                   struct virtio_gpu_resource_attach_backing *ab,
+                                   struct virtio_gpu_ctrl_command *cmd,
+-                                  uint64_t **addr, struct iovec **iov);
++                                  uint64_t **addr, struct iovec **iov,
++                                  uint32_t *niov);
+ void virtio_gpu_cleanup_mapping_iov(VirtIOGPU *g,
+                                     struct iovec *iov, uint32_t count);
+ void virtio_gpu_process_cmdq(VirtIOGPU *g);
+diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
+index d98964858e13..72c14d91324b 100644
+--- a/hw/display/virtio-gpu-3d.c
++++ b/hw/display/virtio-gpu-3d.c
+@@ -283,22 +283,23 @@ static void virgl_resource_attach_backing(VirtIOGPU *g,
  {
-     uint8_t *desc = edid + 54;
-     uint8_t *xtra3 = NULL;
-     uint8_t *dta = NULL;
-+    uint8_t *did = NULL;
-     uint32_t width_mm, height_mm;
-     uint32_t refresh_rate = info->refresh_rate ? info->refresh_rate : 75000;
-     uint32_t dpi = 100; /* if no width_mm/height_mm */
-+    uint32_t large_screen = 0;
+     struct virtio_gpu_resource_attach_backing att_rb;
+     struct iovec *res_iovs;
++    uint32_t res_niov;
+     int ret;
  
-     /* =============== set defaults  =============== */
+     VIRTIO_GPU_FILL_CMD(att_rb);
+     trace_virtio_gpu_cmd_res_back_attach(att_rb.resource_id);
  
-@@ -360,6 +406,9 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
-     if (!info->prefy) {
-         info->prefy = 768;
-     }
-+    if (info->prefx >= 4096 || info->prefy >= 4096) {
-+        large_screen = 1;
-+    }
-     if (info->width_mm && info->height_mm) {
-         width_mm = info->width_mm;
-         height_mm = info->height_mm;
-@@ -377,6 +426,12 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
-         edid_ext_dta(dta);
+-    ret = virtio_gpu_create_mapping_iov(g, &att_rb, cmd, NULL, &res_iovs);
++    ret = virtio_gpu_create_mapping_iov(g, &att_rb, cmd, NULL, &res_iovs, &res_niov);
+     if (ret != 0) {
+         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
+         return;
      }
  
-+    if (size >= 384 && large_screen) {
-+        did = edid + 256;
-+        edid[126]++;
-+        init_displayid(did);
-+    }
-+
-     /* =============== header information =============== */
+     ret = virgl_renderer_resource_attach_iov(att_rb.resource_id,
+-                                             res_iovs, att_rb.nr_entries);
++                                             res_iovs, res_niov);
  
-     /* fixed */
-@@ -441,9 +496,12 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
- 
-     /* =============== descriptor blocks =============== */
- 
--    edid_desc_timing(desc, refresh_rate, info->prefx, info->prefy,
--                     width_mm, height_mm);
--    desc = edid_desc_next(edid, dta, desc);
-+    if (!large_screen) {
-+        /* The DTD section has only 12 bits to store the resolution */
-+        edid_desc_timing(desc, refresh_rate, info->prefx, info->prefy,
-+                         width_mm, height_mm);
-+        desc = edid_desc_next(edid, dta, desc);
-+    }
- 
-     xtra3 = desc;
-     edid_desc_xtra3_std(xtra3);
-@@ -472,12 +530,22 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
-         desc = edid_desc_next(edid, dta, desc);
-     }
- 
-+    /* =============== display id extensions =============== */
-+
-+    if (did && large_screen) {
-+        qemu_displayid_generate(did, refresh_rate, info->prefx, info->prefy,
-+                                width_mm, height_mm);
-+    }
-+
-     /* =============== finish up =============== */
- 
-     edid_checksum(edid, 127);
-     if (dta) {
-         edid_checksum(dta, 127);
-     }
-+    if (did) {
-+        edid_checksum(did, 127);
-+    }
+     if (ret != 0)
+-        virtio_gpu_cleanup_mapping_iov(g, res_iovs, att_rb.nr_entries);
++        virtio_gpu_cleanup_mapping_iov(g, res_iovs, res_niov);
  }
  
- size_t qemu_edid_size(uint8_t *edid)
-diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-index 48d29630ab77..62fb5c38c1fd 100644
---- a/hw/display/vga-pci.c
-+++ b/hw/display/vga-pci.c
-@@ -49,7 +49,7 @@ struct PCIVGAState {
-     qemu_edid_info edid_info;
-     MemoryRegion mmio;
-     MemoryRegion mrs[4];
--    uint8_t edid[256];
-+    uint8_t edid[384];
- };
+ static void virgl_resource_detach_backing(VirtIOGPU *g,
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index c9f5e36fd076..6f3791deb3ae 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -608,11 +608,12 @@ static void virtio_gpu_set_scanout(VirtIOGPU *g,
+ int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
+                                   struct virtio_gpu_resource_attach_backing *ab,
+                                   struct virtio_gpu_ctrl_command *cmd,
+-                                  uint64_t **addr, struct iovec **iov)
++                                  uint64_t **addr, struct iovec **iov,
++                                  uint32_t *niov)
+ {
+     struct virtio_gpu_mem_entry *ents;
+     size_t esize, s;
+-    int i;
++    int e, v;
  
- #define TYPE_PCI_VGA "pci-vga"
+     if (ab->nr_entries > 16384) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+@@ -633,37 +634,53 @@ int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
+         return -1;
+     }
+ 
+-    *iov = g_malloc0(sizeof(struct iovec) * ab->nr_entries);
++    *iov = NULL;
+     if (addr) {
+-        *addr = g_malloc0(sizeof(uint64_t) * ab->nr_entries);
++        *addr = NULL;
+     }
+-    for (i = 0; i < ab->nr_entries; i++) {
+-        uint64_t a = le64_to_cpu(ents[i].addr);
+-        uint32_t l = le32_to_cpu(ents[i].length);
+-        hwaddr len = l;
+-        (*iov)[i].iov_base = dma_memory_map(VIRTIO_DEVICE(g)->dma_as,
+-                                            a, &len, DMA_DIRECTION_TO_DEVICE);
+-        (*iov)[i].iov_len = len;
+-        if (addr) {
+-            (*addr)[i] = a;
+-        }
+-        if (!(*iov)[i].iov_base || len != l) {
+-            qemu_log_mask(LOG_GUEST_ERROR, "%s: failed to map MMIO memory for"
+-                          " resource %d element %d\n",
+-                          __func__, ab->resource_id, i);
+-            if ((*iov)[i].iov_base) {
+-                i++; /* cleanup the 'i'th map */
++    for (e = 0, v = 0; e < ab->nr_entries; e++) {
++        uint64_t a = le64_to_cpu(ents[e].addr);
++        uint32_t l = le32_to_cpu(ents[e].length);
++        hwaddr len;
++        void *map;
++
++        do {
++            len = l;
++            map = dma_memory_map(VIRTIO_DEVICE(g)->dma_as,
++                                 a, &len, DMA_DIRECTION_TO_DEVICE);
++            if (!map) {
++                qemu_log_mask(LOG_GUEST_ERROR, "%s: failed to map MMIO memory for"
++                              " resource %d element %d\n",
++                              __func__, ab->resource_id, e);
++                virtio_gpu_cleanup_mapping_iov(g, *iov, v);
++                g_free(ents);
++                *iov = NULL;
++                if (addr) {
++                    g_free(*addr);
++                    *addr = NULL;
++                }
++                return -1;
+             }
+-            virtio_gpu_cleanup_mapping_iov(g, *iov, i);
+-            g_free(ents);
+-            *iov = NULL;
++
++            if (!(v % 16)) {
++                *iov = g_realloc(*iov, sizeof(struct iovec) * (v + 16));
++                if (addr) {
++                    *addr = g_realloc(*addr, sizeof(uint64_t) * (v + 16));
++                }
++            }
++            (*iov)[v].iov_base = map;
++            (*iov)[v].iov_len = len;
+             if (addr) {
+-                g_free(*addr);
+-                *addr = NULL;
++                (*addr)[v] = a;
+             }
+-            return -1;
+-        }
++
++            a += len;
++            l -= len;
++            v += 1;
++        } while (l > 0);
+     }
++    *niov = v;
++
+     g_free(ents);
+     return 0;
+ }
+@@ -717,13 +734,12 @@ virtio_gpu_resource_attach_backing(VirtIOGPU *g,
+         return;
+     }
+ 
+-    ret = virtio_gpu_create_mapping_iov(g, &ab, cmd, &res->addrs, &res->iov);
++    ret = virtio_gpu_create_mapping_iov(g, &ab, cmd, &res->addrs,
++                                        &res->iov, &res->iov_cnt);
+     if (ret != 0) {
+         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
+         return;
+     }
+-
+-    res->iov_cnt = ab.nr_entries;
+ }
+ 
+ static void
 -- 
 2.31.1
 
