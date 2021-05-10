@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81019378C4C
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:34:32 +0200 (CEST)
-Received: from localhost ([::1]:35336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD78378C53
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:36:37 +0200 (CEST)
+Received: from localhost ([::1]:43958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg57H-0002o5-GO
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:34:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37496)
+	id 1lg59I-000056-6Q
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4z4-0005qM-3y
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:02 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:47065)
+ id 1lg4z5-0005tq-0l
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:03 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4z2-0003Dt-EY
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:01 -0400
-Received: by mail-wr1-x432.google.com with SMTP id x5so16404065wrv.13
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:25:59 -0700 (PDT)
+ id 1lg4z3-0003E5-62
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:02 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id v12so16410937wrq.6
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:26:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=npXNIiYkeWt5H2uCDWYRlI5CamdzntGn3P3qzZfcjMs=;
- b=JRlLrIsRKJGGbovlOGiY2o9e0uyuegJN96HmHlgCE3d4cwaKTu2zQKUaC8ed58kFKV
- DXF9lOvHu+E7WNTomksN3EQ0vAO+sl6CpuCaaFS72p57YzOnG+6HUPzMptCtbBLzE/IY
- ulS0M3u8g3VA5n9xCloJlhS33GmnWrEutk2U6z3SU8m+844VTtakXYceUnK8U3QyrYmm
- 5+FQmnHawp7NwXcYm9L29dmdPrumJbsYU/M/f/MgMju5lOMeDZaD4EEl+83x+4I3VtZ6
- U4pG8EentSMZeJx8x6Ff6kIv92PXyJPBnrshHXhSFWAxS30sEXToMO/XAafux8euQitU
- DWYw==
+ bh=9vWwmItMfiJpiaUNbqSiAbeORN9VsWlu2JR+tQ7wf/s=;
+ b=L7GIEp7xKpTDgxif6xZU5+L7nBOJJ/zAEEzJw2AXhOub8w4JY4BBCg48mmTMxayJsT
+ 8Xgeq6hxvPnF0uxRP642rGVIEYAwF0Zs9UVw1/GwfDOJy6bE2LVANsa5+2KxiN8vloXX
+ 2KLkfoj+dIOXZSiTfomEfI0pG3pjNEkED5UNMf2U2wnL5ovAyVfry34ilKdEMQgqe2Be
+ k0ykKSant6gz6x3xkhkYdTgFofbIaLSIcacD78fVIAt02D9phd+6QkAct39bgA7UN5sx
+ lMFKa2Wm38oG3863FTFu6r4n2ho13D/4QsMR42RyUwQSJRAShHYHlENEtSpMQLlfqNiK
+ bh1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=npXNIiYkeWt5H2uCDWYRlI5CamdzntGn3P3qzZfcjMs=;
- b=AgeE0NZtRV5ZVN/qJIf7OGaNtq0t9mdjxH8MWb5EoEUvC4o7Z14C+6rB4g5ytdbacC
- O1RVHzpyvGQbd1/V5CwUA43rvg8IaXi8hutJ9P4K91i9URK+K57DNTfeSxtXeuObA8lF
- unsyujvVpt3wwIkG+WdXUSq6Xnf7iAVFnYPmtyXDhkecoUTEGPFh3CdBVVVU/J7HdUuL
- Y74MKfQ6075KUdNeREtSDmtNDETsxpqQ4FPkHVFJEfIPkK4L+Dv2HxNQAqFXahfBBWNc
- TLTf2FrT6AIXDOmiXzvZq5dqu22zylutjHuqEYBzD5V/yBtbgLJctDHO7s90JP+zB3/d
- eSZA==
-X-Gm-Message-State: AOAM532KUoazH+4KDQGEM38+ODgdkBzAjgAhTgoIDZ6UxNbMbkHifVDS
- srNtv40VJe4rHk293CvmgpfTXCzjNNL4wQ==
-X-Google-Smtp-Source: ABdhPJyJUnWL6Nh5M1tjo1pbNeZHju3trhRkRhx0JffTZKDJCNpEXPzK8Is5JnKnQfKq/6LlB2cdnA==
-X-Received: by 2002:adf:dcc5:: with SMTP id x5mr31003477wrm.1.1620649559162;
+ bh=9vWwmItMfiJpiaUNbqSiAbeORN9VsWlu2JR+tQ7wf/s=;
+ b=omSTusacsIC96Z2yrZfd1++K+sJrMKwOInS8orq1TRDRGgs7N5+DxQyii/XKvLhR0G
+ /DlQlVOQaygZyngyVlWEd5yIaMxOIN5Y7MDze79U0jMRiHDboeTt2ZugKnH/Exynmak5
+ XGRpdimOBWmlonXWxXRYi1xphJAN8asB5Kmnl3b1DnBKC4FeU3+DFbVRu08cP9UwmFmQ
+ SWKhiz8zbq81/+vG9M4FNO8VzL03Ek3njo0GFlMy4Q9UA2UcaFiJFqwWnfx+H8ptEoxQ
+ 2qR8B0jFGG4A4TRSbzb8w/x+beDAyKyVsej/c06QhPwEFG2BkLkX+6JGn1bcEaZ6smqU
+ qWrQ==
+X-Gm-Message-State: AOAM531HR2dI9I1Z+HgHtCNTSavSF3UfjkEFIkE2KBr2W25cfa0s2h1e
+ X9XE45B+WkMuyEEzbvsavZ0AeP1v4fxF3Q==
+X-Google-Smtp-Source: ABdhPJwKJBhYPcx6YljICxEzJBrVZMEWH4rXJKLp3YVX9vrKL1ZgH1nR4XGAPwK6synVlmv1pY6MwQ==
+X-Received: by 2002:a5d:6088:: with SMTP id w8mr29639823wrt.424.1620649559861; 
  Mon, 10 May 2021 05:25:59 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.25.58
+ by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.25.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 05:25:58 -0700 (PDT)
+ Mon, 10 May 2021 05:25:59 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/26] target/arm: Delete unused typedef
-Date: Mon, 10 May 2021 13:25:35 +0100
-Message-Id: <20210510122548.28638-14-peter.maydell@linaro.org>
+Subject: [PULL 14/26] target/arm: Move NeonGenThreeOpEnvFn typedef to
+ translate.h
+Date: Mon, 10 May 2021 13:25:36 +0100
+Message-Id: <20210510122548.28638-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210510122548.28638-1-peter.maydell@linaro.org>
 References: <20210510122548.28638-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,26 +88,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VFPGenFixPointFn typedef is unused; delete it.
+Move the NeonGenThreeOpEnvFn typedef to translate.h together
+with the other similar typedefs.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210430132740.10391-11-peter.maydell@linaro.org
+Message-id: 20210430132740.10391-12-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/arm/translate.h | 2 ++
+ target/arm/translate.c | 3 ---
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 8130a3be29d..12c28b0d32c 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -409,6 +409,8 @@ typedef void NeonGenOneOpFn(TCGv_i32, TCGv_i32);
+ typedef void NeonGenOneOpEnvFn(TCGv_i32, TCGv_ptr, TCGv_i32);
+ typedef void NeonGenTwoOpFn(TCGv_i32, TCGv_i32, TCGv_i32);
+ typedef void NeonGenTwoOpEnvFn(TCGv_i32, TCGv_ptr, TCGv_i32, TCGv_i32);
++typedef void NeonGenThreeOpEnvFn(TCGv_i32, TCGv_env, TCGv_i32,
++                                 TCGv_i32, TCGv_i32);
+ typedef void NeonGenTwo64OpFn(TCGv_i64, TCGv_i64, TCGv_i64);
+ typedef void NeonGenTwo64OpEnvFn(TCGv_i64, TCGv_ptr, TCGv_i64, TCGv_i64);
+ typedef void NeonGenNarrowFn(TCGv_i32, TCGv_i64);
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 095b5c509e1..58cb3e8aafe 100644
+index 58cb3e8aafe..7ff0425c752 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -69,8 +69,6 @@ static const char * const regnames[] =
- /* Function prototypes for gen_ functions calling Neon helpers.  */
- typedef void NeonGenThreeOpEnvFn(TCGv_i32, TCGv_env, TCGv_i32,
-                                  TCGv_i32, TCGv_i32);
--/* Function prototypes for gen_ functions for fix point conversions */
--typedef void VFPGenFixPointFn(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_ptr);
+@@ -66,9 +66,6 @@ static const char * const regnames[] =
+     { "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
+       "r8", "r9", "r10", "r11", "r12", "r13", "r14", "pc" };
+ 
+-/* Function prototypes for gen_ functions calling Neon helpers.  */
+-typedef void NeonGenThreeOpEnvFn(TCGv_i32, TCGv_env, TCGv_i32,
+-                                 TCGv_i32, TCGv_i32);
  
  /* initialize TCG globals.  */
  void arm_translate_init(void)
