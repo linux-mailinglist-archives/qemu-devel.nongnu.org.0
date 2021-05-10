@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD78378C53
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:36:37 +0200 (CEST)
-Received: from localhost ([::1]:43958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6180378C54
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:36:41 +0200 (CEST)
+Received: from localhost ([::1]:44386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg59I-000056-6Q
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:36:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37512)
+	id 1lg59M-0000N8-Vy
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4z5-0005tq-0l
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:03 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39602)
+ id 1lg4z6-0005zt-IC
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:04 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4z3-0003E5-62
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:02 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id v12so16410937wrq.6
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:26:00 -0700 (PDT)
+ id 1lg4z3-0003EF-Pd
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:04 -0400
+Received: by mail-wr1-x432.google.com with SMTP id t18so16432074wry.1
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9vWwmItMfiJpiaUNbqSiAbeORN9VsWlu2JR+tQ7wf/s=;
- b=L7GIEp7xKpTDgxif6xZU5+L7nBOJJ/zAEEzJw2AXhOub8w4JY4BBCg48mmTMxayJsT
- 8Xgeq6hxvPnF0uxRP642rGVIEYAwF0Zs9UVw1/GwfDOJy6bE2LVANsa5+2KxiN8vloXX
- 2KLkfoj+dIOXZSiTfomEfI0pG3pjNEkED5UNMf2U2wnL5ovAyVfry34ilKdEMQgqe2Be
- k0ykKSant6gz6x3xkhkYdTgFofbIaLSIcacD78fVIAt02D9phd+6QkAct39bgA7UN5sx
- lMFKa2Wm38oG3863FTFu6r4n2ho13D/4QsMR42RyUwQSJRAShHYHlENEtSpMQLlfqNiK
- bh1A==
+ bh=YHOfv/PBxmnVIlFlC3MHXDqVhwWqJxzCamVnqIwXV4Y=;
+ b=GRB0ym43etGNDWQHugaw3JdHAm2dC532LMyiK+sdqwbBDLMcOXQgMeL4Zma46zPS3M
+ S27yyrD0VfxBX8BRoEi6ASOtd6w9t7DTqkPN3gswSZBiIf1oPvZnlX2vGMqsltaiXuDC
+ 9tYErKkHOw2xc031c/cL8tQSd+jQl5vpA8sOOmxLT02rAYb9Z2Rpk8XUCUO1bLMGnWHk
+ UUVkJZD9Elfg2WrdIzw9RP/vtkygMmpEBQyArTipMqsf2+LptiQdeFLRlp+Po2oEHDDk
+ mmq6W+iANEsP++RlODUPGzn+OpkrIzeow9VLgk6dbH4EJH1Z8BvG7XXVDWtjEtNejrLV
+ 5iYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9vWwmItMfiJpiaUNbqSiAbeORN9VsWlu2JR+tQ7wf/s=;
- b=omSTusacsIC96Z2yrZfd1++K+sJrMKwOInS8orq1TRDRGgs7N5+DxQyii/XKvLhR0G
- /DlQlVOQaygZyngyVlWEd5yIaMxOIN5Y7MDze79U0jMRiHDboeTt2ZugKnH/Exynmak5
- XGRpdimOBWmlonXWxXRYi1xphJAN8asB5Kmnl3b1DnBKC4FeU3+DFbVRu08cP9UwmFmQ
- SWKhiz8zbq81/+vG9M4FNO8VzL03Ek3njo0GFlMy4Q9UA2UcaFiJFqwWnfx+H8ptEoxQ
- 2qR8B0jFGG4A4TRSbzb8w/x+beDAyKyVsej/c06QhPwEFG2BkLkX+6JGn1bcEaZ6smqU
- qWrQ==
-X-Gm-Message-State: AOAM531HR2dI9I1Z+HgHtCNTSavSF3UfjkEFIkE2KBr2W25cfa0s2h1e
- X9XE45B+WkMuyEEzbvsavZ0AeP1v4fxF3Q==
-X-Google-Smtp-Source: ABdhPJwKJBhYPcx6YljICxEzJBrVZMEWH4rXJKLp3YVX9vrKL1ZgH1nR4XGAPwK6synVlmv1pY6MwQ==
-X-Received: by 2002:a5d:6088:: with SMTP id w8mr29639823wrt.424.1620649559861; 
- Mon, 10 May 2021 05:25:59 -0700 (PDT)
+ bh=YHOfv/PBxmnVIlFlC3MHXDqVhwWqJxzCamVnqIwXV4Y=;
+ b=oiWuVWNBjjvOO9FI2hgqoFxz8qYuwGe9nJP0JbE7ttMkgWCCwNgFpSJgQ86UzKdrly
+ bSv53pFlhR8OWw0X2O+NA5MFpsNtuyIjskLhZUKDpsvSUwsPrW5LzknFtCqo2qGKQDm4
+ Wbd953SpRb+Qb5HWmSxNsCwtsw2UY6mLNoZR7kXAlxzAC+61Wpr6KJhq73GYPcN8RS/Q
+ 7+cAcDGYjJaQSQtVCIFjEM1uGtxZkLzLbs1fPp7iYS6tRE7934fgNNDZ4yZpmzlMelOk
+ w7uB8yUV6Z2NzVB/f77L/ndyGP7Ww2HY+3675MCtESYHTaifBxo5KnRIBRhGSYQhSx4J
+ raNw==
+X-Gm-Message-State: AOAM533DT+oy+5Q4SILGqSGbgsWOUqF/ThxdYj74qWEnQ54q67+SK+rd
+ pGiLtlGDaEyTaTSIOj/G/TR5N52/HTmciQ==
+X-Google-Smtp-Source: ABdhPJzWf21vQysycJcAh+6qTHHyH7nvXUYq6WFBoQ/Kk7BRf9GXxGdm8EyQ+QfKFJNv1QgY6IZWFw==
+X-Received: by 2002:adf:e98c:: with SMTP id h12mr29718179wrm.314.1620649560521; 
+ Mon, 10 May 2021 05:26:00 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.25.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 05:25:59 -0700 (PDT)
+ Mon, 10 May 2021 05:26:00 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/26] target/arm: Move NeonGenThreeOpEnvFn typedef to
- translate.h
-Date: Mon, 10 May 2021 13:25:36 +0100
-Message-Id: <20210510122548.28638-15-peter.maydell@linaro.org>
+Subject: [PULL 15/26] target/arm: Make functions used by translate-neon global
+Date: Mon, 10 May 2021 13:25:37 +0100
+Message-Id: <20210510122548.28638-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210510122548.28638-1-peter.maydell@linaro.org>
 References: <20210510122548.28638-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,45 +87,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the NeonGenThreeOpEnvFn typedef to translate.h together
-with the other similar typedefs.
+Make the remaining functions needed by the translate-neon code
+global.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210430132740.10391-12-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210430132740.10391-13-peter.maydell@linaro.org
 ---
- target/arm/translate.h | 2 ++
- target/arm/translate.c | 3 ---
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ target/arm/translate-a32.h |  8 ++++++++
+ target/arm/translate.c     | 10 ++--------
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 8130a3be29d..12c28b0d32c 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -409,6 +409,8 @@ typedef void NeonGenOneOpFn(TCGv_i32, TCGv_i32);
- typedef void NeonGenOneOpEnvFn(TCGv_i32, TCGv_ptr, TCGv_i32);
- typedef void NeonGenTwoOpFn(TCGv_i32, TCGv_i32, TCGv_i32);
- typedef void NeonGenTwoOpEnvFn(TCGv_i32, TCGv_ptr, TCGv_i32, TCGv_i32);
-+typedef void NeonGenThreeOpEnvFn(TCGv_i32, TCGv_env, TCGv_i32,
-+                                 TCGv_i32, TCGv_i32);
- typedef void NeonGenTwo64OpFn(TCGv_i64, TCGv_i64, TCGv_i64);
- typedef void NeonGenTwo64OpEnvFn(TCGv_i64, TCGv_ptr, TCGv_i64, TCGv_i64);
- typedef void NeonGenNarrowFn(TCGv_i32, TCGv_i64);
+diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
+index e767366f694..3ddb76b76b5 100644
+--- a/target/arm/translate-a32.h
++++ b/target/arm/translate-a32.h
+@@ -39,6 +39,8 @@ void gen_set_pc_im(DisasContext *s, target_ulong val);
+ void gen_lookup_tb(DisasContext *s);
+ long vfp_reg_offset(bool dp, unsigned reg);
+ long neon_full_reg_offset(unsigned reg);
++long neon_element_offset(int reg, int element, MemOp memop);
++void gen_rev16(TCGv_i32 dest, TCGv_i32 var);
+ 
+ static inline TCGv_i32 load_cpu_offset(int offset)
+ {
+@@ -130,4 +132,10 @@ DO_GEN_ST(32, MO_UL)
+ /* Set NZCV flags from the high 4 bits of var.  */
+ #define gen_set_nzcv(var) gen_set_cpsr(var, CPSR_NZCV)
+ 
++/* Swap low and high halfwords.  */
++static inline void gen_swap_half(TCGv_i32 dest, TCGv_i32 var)
++{
++    tcg_gen_rotri_i32(dest, var, 16);
++}
++
+ #endif
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 58cb3e8aafe..7ff0425c752 100644
+index 7ff0425c752..18de16ebd0a 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -66,9 +66,6 @@ static const char * const regnames[] =
-     { "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
-       "r8", "r9", "r10", "r11", "r12", "r13", "r14", "pc" };
+@@ -325,7 +325,7 @@ static void gen_smul_dual(TCGv_i32 a, TCGv_i32 b)
+ }
  
--/* Function prototypes for gen_ functions calling Neon helpers.  */
--typedef void NeonGenThreeOpEnvFn(TCGv_i32, TCGv_env, TCGv_i32,
--                                 TCGv_i32, TCGv_i32);
+ /* Byteswap each halfword.  */
+-static void gen_rev16(TCGv_i32 dest, TCGv_i32 var)
++void gen_rev16(TCGv_i32 dest, TCGv_i32 var)
+ {
+     TCGv_i32 tmp = tcg_temp_new_i32();
+     TCGv_i32 mask = tcg_const_i32(0x00ff00ff);
+@@ -346,12 +346,6 @@ static void gen_revsh(TCGv_i32 dest, TCGv_i32 var)
+     tcg_gen_ext16s_i32(dest, var);
+ }
  
- /* initialize TCG globals.  */
- void arm_translate_init(void)
+-/* Swap low and high halfwords.  */
+-static void gen_swap_half(TCGv_i32 dest, TCGv_i32 var)
+-{
+-    tcg_gen_rotri_i32(dest, var, 16);
+-}
+-
+ /* Dual 16-bit add.  Result placed in t0 and t1 is marked as dead.
+     tmp = (t0 ^ t1) & 0x8000;
+     t0 &= ~0x8000;
+@@ -1104,7 +1098,7 @@ long neon_full_reg_offset(unsigned reg)
+  * Return the offset of a 2**SIZE piece of a NEON register, at index ELE,
+  * where 0 is the least significant end of the register.
+  */
+-static long neon_element_offset(int reg, int element, MemOp memop)
++long neon_element_offset(int reg, int element, MemOp memop)
+ {
+     int element_size = 1 << (memop & MO_SIZE);
+     int ofs = element * element_size;
 -- 
 2.20.1
 
