@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDDE8378C81
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:58:04 +0200 (CEST)
-Received: from localhost ([::1]:40656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 817DF378C7C
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:56:03 +0200 (CEST)
+Received: from localhost ([::1]:36108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg5U3-00028n-Qj
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:58:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43210)
+	id 1lg5S6-0007Rj-Im
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1lg5Q2-00058h-El
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:53:54 -0400
-Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:29307)
+ id 1lg5Q0-00054H-NO
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:53:52 -0400
+Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168]:62940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1lg5Q0-0002LF-Ik
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:53:54 -0400
+ id 1lg5Py-0002LK-T6
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:53:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1620651232;
+ d=citrix.com; s=securemail; t=1620651230;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=qxnni0A9eL6zKhHtldQizgIwzPgiDEvjSI22O1dRui0=;
- b=YqUGlJXCjXoh0tFVy1aUSqTzWypJSJC7F/WZFFE3fXy7Wd0EMwJG1pdv
- kGd3RR6LrbJkyLlq2YLfjY/X4ctRoZLsPXuhDes/sFnbYsq0+zuRYpkHp
- 6O5izd5+mZfrLPciWjxOy6Ne9yYVN6d52dyNxHD9X79txM+hRDi4sURcO 0=;
-Authentication-Results: esa2.hc3370-68.iphmx.com;
+ bh=luRpTb3ZsBRtDzz5jNYYhXTNfJ+3+seFm54k7RxAH0M=;
+ b=IorLLTvDXUpbF0Ql5u29kswnjtPYSnQBFgLMYFyLHMtjvZhMBQ1jNKFw
+ +mLWefwN4VaaOR2SdpQqNatDivPdzptwNnvwQq//UuNdHZqzYSd1XBed3
+ Ds6zBsYMbL5huZbA4cF2JWYa0X+ypovyOFTD6v+0/zIsn42xs98rAp9Xc E=;
+Authentication-Results: esa5.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
-IronPort-SDR: PkKXSDtAjaDFOOQRbZn0k9IaLjO3BMQWCnzZ85V1fHRFwePEEdABWzUO+LbkP83ZVQg6tJ8lJs
- +Q7DZ5yE1JttZ72LgzK2SehRl30S+hCwMW5tWLM/Fklrr989sIkeb3MYw8K7jv+HgzcvDdMTdV
- fTg7YbsCP42ww1HzOxFW4XZlDRl3YKI0uXLvU+0dGSFzD19slg7IC4Z1FY3sC7WESG3M6xd+Jq
- NVUE0eAhZ6GT1UNo2A/R/tfQNrLV/dxvgdskWzAne2r3kqUFXWo42h9wHlTvE6xBQHGC83b0+l
- gN8=
+IronPort-SDR: OZiHAEwjijUrvENaT0OVXNjp8reLCAPLGcQq2ThmZQ9HvuA17R+pyRpzvMPLLSpz8eh57ScLAN
+ bqgJ97t6/2vcQmFdLB+eNFw98/a0u2iCnUOsb2En0X0fW368MjXM3+t28Bhclxq4WZ4nMSK2df
+ jkFCyj5hrILAX2+mk09a4ldk0RelqiHTSFgNw9WxlEt4yLuY3h73XYBtBIycOizkHGyle6ilfB
+ bttJjX3ooVdfodNJPeTnFyKF3bOPBEi+NC4yOviQSR3hIjt7ITTDyjbU5VoD7WqKKgF8XGXMPE
+ CEM=
 X-SBRS: 5.1
-X-MesageID: 43429923
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
+X-MesageID: 43235992
+X-Ironport-Server: esa5.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
-IronPort-HdrOrdr: A9a23:vHHm6aCSYganiFLlHemq55DYdb4zR+YMi2TC1yhKJiC9Ffbo8P
- xG/c5rrCMc5wxxZJhNo7290ey7MBHhHP1OkO0s1NWZPDUO0VHAROoJ0WKh+UyEJ8SXzJ866U
- 4KScZD4bPLYWSS9fyKgzWFLw==
-X-IronPort-AV: E=Sophos;i="5.82,287,1613451600"; d="scan'208";a="43429923"
+IronPort-HdrOrdr: A9a23:jfQ64ao9RTgVVkZ3T51Q2FMaV5oteYIsimQD101hICG8cqSj+P
+ xG+85rsiMc6QxhIU3I9urgBEDtex7hHNtOkOss1NSZLW3bUQmTTL2KhLGKq1aLJ8S9zJ856U
+ 4JSdkZNDSaNzZHZKjBjDVQa+xQo+W6zA==
+X-IronPort-AV: E=Sophos;i="5.82,287,1613451600"; d="scan'208";a="43235992"
 To: <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Igor Druzhinin
- <igor.druzhinin@citrix.com>, Anthony PERARD <anthony.perard@citrix.com>
-Subject: [PULL 1/3] xen-mapcache: avoid a race on memory map while using
- MAP_FIXED
-Date: Mon, 10 May 2021 13:53:38 +0100
-Message-ID: <20210510125340.903323-2-anthony.perard@citrix.com>
+CC: Peter Maydell <peter.maydell@linaro.org>, Anthony PERARD
+ <anthony.perard@citrix.com>
+Subject: [PULL 2/3] xen: Free xenforeignmemory_resource at exit
+Date: Mon, 10 May 2021 13:53:39 +0100
+Message-ID: <20210510125340.903323-3-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210510125340.903323-1-anthony.perard@citrix.com>
 References: <20210510125340.903323-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.145.153;
- envelope-from=anthony.perard@citrix.com; helo=esa2.hc3370-68.iphmx.com
+Received-SPF: pass client-ip=216.71.155.168;
+ envelope-from=anthony.perard@citrix.com; helo=esa5.hc3370-68.iphmx.com
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
@@ -82,57 +81,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
 From:  Anthony PERARD via <qemu-devel@nongnu.org>
 
-From: Igor Druzhinin <igor.druzhinin@citrix.com>
+Because Coverity complains about it and this is one leak that Valgrind
+reports.
 
-When we're replacing the existing mapping there is possibility of a race
-on memory map with other threads doing mmap operations - the address being
-unmapped/re-mapped could be occupied by another thread in between.
-
-Linux mmap man page recommends keeping the existing mappings in place to
-reserve the place and instead utilize the fact that the next mmap operation
-with MAP_FIXED flag passed will implicitly destroy the existing mappings
-behind the chosen address. This behavior is guaranteed by POSIX / BSD and
-therefore is portable.
-
-Note that it wouldn't make the replacement atomic for parallel accesses to
-the replaced region - those might still fail with SIGBUS due to
-xenforeignmemory_map not being atomic. So we're still not expecting those.
-
-Tested-by: Anthony PERARD <anthony.perard@citrix.com>
-Signed-off-by: Igor Druzhinin <igor.druzhinin@citrix.com>
-Reviewed-by: Paul Durrant <paul@xen.org>
-Message-Id: <1618889702-13104-1-git-send-email-igor.druzhinin@citrix.com>
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+Acked-by: Paul Durrant <paul@xen.org>
+Message-Id: <20210430163742.469739-1-anthony.perard@citrix.com>
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
- hw/i386/xen/xen-mapcache.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ hw/i386/xen/xen-hvm.c       | 9 ++++++---
+ include/hw/xen/xen_common.h | 6 ++++++
+ 2 files changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/xen/xen-mapcache.c b/hw/i386/xen/xen-mapcache.c
-index 5b120ed44b..e82b7dcdd2 100644
---- a/hw/i386/xen/xen-mapcache.c
-+++ b/hw/i386/xen/xen-mapcache.c
-@@ -171,7 +171,20 @@ static void xen_remap_bucket(MapCacheEntry *entry,
-         if (!(entry->flags & XEN_MAPCACHE_ENTRY_DUMMY)) {
-             ram_block_notify_remove(entry->vaddr_base, entry->size);
-         }
--        if (munmap(entry->vaddr_base, entry->size) != 0) {
+diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+index c53fa17c50..9b432773f0 100644
+--- a/hw/i386/xen/xen-hvm.c
++++ b/hw/i386/xen/xen-hvm.c
+@@ -108,6 +108,7 @@ typedef struct XenIOState {
+     shared_iopage_t *shared_page;
+     shared_vmport_iopage_t *shared_vmport_page;
+     buffered_iopage_t *buffered_io_page;
++    xenforeignmemory_resource_handle *fres;
+     QEMUTimer *buffered_io_timer;
+     CPUState **cpu_by_vcpu_id;
+     /* the evtchn port for polling the notification, */
+@@ -1253,6 +1254,9 @@ static void xen_exit_notifier(Notifier *n, void *data)
+     XenIOState *state = container_of(n, XenIOState, exit);
+ 
+     xen_destroy_ioreq_server(xen_domid, state->ioservid);
++    if (state->fres != NULL) {
++        xenforeignmemory_unmap_resource(xen_fmem, state->fres);
++    }
+ 
+     xenevtchn_close(state->xce_handle);
+     xs_daemon_close(state->xenstore);
+@@ -1320,7 +1324,6 @@ static void xen_wakeup_notifier(Notifier *notifier, void *data)
+ static int xen_map_ioreq_server(XenIOState *state)
+ {
+     void *addr = NULL;
+-    xenforeignmemory_resource_handle *fres;
+     xen_pfn_t ioreq_pfn;
+     xen_pfn_t bufioreq_pfn;
+     evtchn_port_t bufioreq_evtchn;
+@@ -1332,12 +1335,12 @@ static int xen_map_ioreq_server(XenIOState *state)
+      */
+     QEMU_BUILD_BUG_ON(XENMEM_resource_ioreq_server_frame_bufioreq != 0);
+     QEMU_BUILD_BUG_ON(XENMEM_resource_ioreq_server_frame_ioreq(0) != 1);
+-    fres = xenforeignmemory_map_resource(xen_fmem, xen_domid,
++    state->fres = xenforeignmemory_map_resource(xen_fmem, xen_domid,
+                                          XENMEM_resource_ioreq_server,
+                                          state->ioservid, 0, 2,
+                                          &addr,
+                                          PROT_READ | PROT_WRITE, 0);
+-    if (fres != NULL) {
++    if (state->fres != NULL) {
+         trace_xen_map_resource_ioreq(state->ioservid, addr);
+         state->buffered_io_page = addr;
+         state->shared_page = addr + TARGET_PAGE_SIZE;
+diff --git a/include/hw/xen/xen_common.h b/include/hw/xen/xen_common.h
+index 82e56339dd..a8118b41ac 100644
+--- a/include/hw/xen/xen_common.h
++++ b/include/hw/xen/xen_common.h
+@@ -134,6 +134,12 @@ static inline xenforeignmemory_resource_handle *xenforeignmemory_map_resource(
+     return NULL;
+ }
+ 
++static inline int xenforeignmemory_unmap_resource(
++    xenforeignmemory_handle *fmem, xenforeignmemory_resource_handle *fres)
++{
++    return 0;
++}
 +
-+        /*
-+         * If an entry is being replaced by another mapping and we're using
-+         * MAP_FIXED flag for it - there is possibility of a race for vaddr
-+         * address with another thread doing an mmap call itself
-+         * (see man 2 mmap). To avoid that we skip explicit unmapping here
-+         * and allow the kernel to destroy the previous mappings by replacing
-+         * them in mmap call later.
-+         *
-+         * Non-identical replacements are not allowed therefore.
-+         */
-+        assert(!vaddr || (entry->vaddr_base == vaddr && entry->size == size));
-+
-+        if (!vaddr && munmap(entry->vaddr_base, entry->size) != 0) {
-             perror("unmap fails");
-             exit(-1);
-         }
+ #endif /* CONFIG_XEN_CTRL_INTERFACE_VERSION < 41100 */
+ 
+ #if CONFIG_XEN_CTRL_INTERFACE_VERSION < 41000
 -- 
 Anthony PERARD
 
