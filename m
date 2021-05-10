@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4733791D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 17:03:44 +0200 (CEST)
-Received: from localhost ([::1]:43748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1830379226
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 17:10:14 +0200 (CEST)
+Received: from localhost ([::1]:47562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg7Rf-0003ky-3B
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 11:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44364)
+	id 1lg7Xx-0007Hk-L6
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 11:10:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg7OR-0001A0-EH
- for qemu-devel@nongnu.org; Mon, 10 May 2021 11:00:23 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42548)
+ id 1lg7Wt-0006b0-B7
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 11:09:07 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg7OO-0004tz-Mi
- for qemu-devel@nongnu.org; Mon, 10 May 2021 11:00:23 -0400
-Received: by mail-wr1-x435.google.com with SMTP id l2so16964191wrm.9
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 08:00:20 -0700 (PDT)
+ id 1lg7Wr-0001bO-3X
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 11:09:07 -0400
+Received: by mail-ej1-x635.google.com with SMTP id n2so25041127ejy.7
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 08:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=K/FNff2LAuvSwfSN8kNH1SIRafomx8yjd+eXfYkv1a0=;
- b=y4O8BTsXHQwap60+p6j11NiScwk73IhhFX+F0vVFLwqQzU06QwwIo8+4Tf+idppOdn
- 0sOj6JG3HDeQ6DY5XnnIf19X2v1uQBUaY3Q7xi+3RtnrjtBIMEADRcqPRVqUOFsL6mhS
- s0qxjuXPNoD9vbSRzOOHH4u+iJQtAB6hctqHlg6vWQc3h22O+ZGvY+j02l5zPJbzk/wE
- oyz1boXrW553tjIQcDMzHCUU5tTg6iC9Xi1bjYreJC9yr4PuqeSiJpVTHzXXF2jlKO7r
- hMJNdKapK+FexCcwTxA8vZaaoZxsa1kD52l8JcgRZXgsdGtzxoEw0+nk5tzXuQ220QsN
- Kk9A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TRK8z9stCSdtC2xIOjMqSHQH1q8esAjO/u3pL+VY+aQ=;
+ b=uCo0ErzmX+Nq0Tn6TB1m1eY/KOCCFBuYBgugnFqnQifX4GS4Jubaasx62SBqEvNZH+
+ kCrnAXtZ2MBio8wkOjfBcMZ6Cr7MuZeK7LKaJRbNwf3h2AXCMW2urK9HqDAcii4JoCQ9
+ uYPunFgh+RjxpvejxU0t012C7WroG0LLTw6IorVw9FjbBK+pM3AlmJrM4k1hBPaxMBT6
+ BstLap7JPw5Xe5mGvLp1YQAW1j5113bgOoRBr/f6vwRAhWbyzTb0sSSv9vUOXb7N93fs
+ S4ZNU8iamo+QJhdlMdV5DRrVnwwBja+cSag/rLPHMK21NXfL2DWYxqmPNrthyrfrJI5k
+ DtHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=K/FNff2LAuvSwfSN8kNH1SIRafomx8yjd+eXfYkv1a0=;
- b=KZSbeJtH2w4DfEyH9VYS5VcdhBzdafjcTJD+MjDotLfRNlJWe6tSmIzDRt/oGcFjfW
- a34ley/nvnvgymMuSSOMHKVAdVRJ8rU2xG0nHenjH9ZFEhpOoi8hgpY/Zrd2MyLTVoFs
- dumFCQS5uWTCfgIbJfZlGjTSCk1fFduy/Qq3tuwlVifQ6g9KOZnB3sRgSuZeG0z595a1
- lNOWOrTDlQTBSpw7L8xQCGddJALL9gax+xMttgln9kgSqM/GOHDjN9PVL0PGlF3f+Ijp
- +eNGGLAivCAC/4hYlR4AF7lDeEIxG2KtOoq8DzlgLZ1a8jsTruANEh5SyT5JNRozObh0
- z+Dw==
-X-Gm-Message-State: AOAM532nTzYAHwX3GB0CT+SNyTUiMyH6lF9nscnTxg4evJyd5IfBXYTN
- ngN2z/JSnPNqJv54/FpRpNBBoQ==
-X-Google-Smtp-Source: ABdhPJw0eJFXTPLLXNo6uPbV5BDqk0Vg5YC7/4UNPrBWVaN3p+K8XzXMHim70bGmyhUodhsIUO23NA==
-X-Received: by 2002:adf:fa4c:: with SMTP id y12mr31165040wrr.393.1620658819088; 
- Mon, 10 May 2021 08:00:19 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p10sm22499619wrr.58.2021.05.10.08.00.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 08:00:18 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] hw/intc/arm_gicv3_cpuif: Fix EOIR write access check logic
-Date: Mon, 10 May 2021 16:00:16 +0100
-Message-Id: <20210510150016.24910-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TRK8z9stCSdtC2xIOjMqSHQH1q8esAjO/u3pL+VY+aQ=;
+ b=qoJwU6O9zYgR6euAQymyOxx4uSgOj80C8IT99s7mFugn81HPfgWSRI3RZtj8ag68eC
+ pNiIeRbj2yl/p/fN/rTRqZ7EatK7k8yqDzvzYBQ2Ii/oVQUDAQa9GqdH7IvqfPGkb+/n
+ IbhhqpKJXWHg9mqVQ+GYaoExjzzngevQbGcSYpBhH4OBtFUO4o+kFRw1us9vLYGKMb6m
+ ikn4vQ/cksLT1FIBK5v+kPGQ58VQzHw+4ydO+m5voyRf8MppMEEpL0wctPW2EAyA/QSV
+ wJOCV6M45qippHkYNOnmzAw1fUz5GlkeI6TEmYSSUp5OCCi14rPwObhjD6lXuP6MWDbm
+ U7cQ==
+X-Gm-Message-State: AOAM533wbYbolUNOMmtgXGQAh0PvZ36OLxApcxI15SIX6Jr6gLCX/2jo
+ WI+BoT7O9FfqbEV9mRBrLl7WvGwTXwm8DWaok7TCwQ==
+X-Google-Smtp-Source: ABdhPJx+St+H3AIccpkeI5kR2vvRp/iCuHj71JbMHZoIJKaCwPMMZdaarUJeB6YwmqWGbV34d2ldxNEmeQvN5eoNRAA=
+X-Received: by 2002:a17:906:364d:: with SMTP id
+ r13mr26995852ejb.250.1620659342997; 
+ Mon, 10 May 2021 08:09:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+References: <20210510141148.3138904-1-wangjie88@huawei.com>
+In-Reply-To: <20210510141148.3138904-1-wangjie88@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 May 2021 16:07:51 +0100
+Message-ID: <CAFEAcA9g8XWrvZGSOFdHQEkabGSDbcxQCnD8adfxR=0KLK=GeQ@mail.gmail.com>
+Subject: Re: [PATCH v2] util: fix fd leak in qemu_write_pidfile()
+To: Jie Wang <wangjie88@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,110 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chan Kim <ckim@etri.re.kr>
+Cc: wangxinxin.wang@huawei.com, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In icc_eoir_write() we assume that we can identify the group of the
-IRQ being completed based purely on which register is being written
-to and the current CPU state, and that "CPU state matches group
-indicated by register" is the only necessary access check.
+On Mon, 10 May 2021 at 15:15, Jie Wang <wangjie88@huawei.com> wrote:
+>
+> if execute qemu_open success, have no branch to free the fd,
+> so unlink it inadvance, let it free by process exit.
+>
+> Signed-off-by: Jie Wang <wangjie88@huawei.com>
+> ---
+>  util/oslib-posix.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 36820fec16..fa881f2ee8 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -131,6 +131,7 @@ bool qemu_write_pidfile(const char *path, Error **errp)
+>              error_setg_errno(errp, errno, "Cannot open pid file");
+>              return false;
+>          }
+> +        unlink(path);
+>
+>          if (fstat(fd, &b) < 0) {
+>              error_setg_errno(errp, errno, "Cannot stat file");
 
-This isn't correct: if the CPU is not in Secure state then EOIR1 will
-only complete Group 1 NS IRQs, but if the CPU is in EL3 it can
-complete both Group 1 S and Group 1 NS IRQs.  (The pseudocode
-ICC_EOIR1_EL1 makes this clear.) We were also missing the logic to
-prevent EOIR0 writes completing G0 IRQs when they should not.
+This code change doesn't match the commit message -- the commit
+message says it's trying to free a filedescriptor, but the code
+change is unlinking a file.
 
-Rearrange the logic to first identify the group of the current
-highest priority interrupt and then look at whether we should
-complete it or ignore the access based on which register was accessed
-and the state of the CPU.  The resulting behavioural change is:
- * EL3 can now complete G1NS interrupts
- * G0 interrupt completion is now ignored if the GIC
-   and the CPU have the security extension enabled and
-   the CPU is not secure
+Unlinking the file is definitely wrong, because the purpose of the
+pidfile is to comminucate the QEMU PID to other processes -- if we
+delete the file then those other processes can't find it. (The file
+gets deleted when QEMU exits -- see qemu_unlink_pidfile() and the code
+that calls it.)
 
-Reported-by: Chan Kim <ckim@etri.re.kr>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/intc/arm_gicv3_cpuif.c | 48 ++++++++++++++++++++++++++-------------
- 1 file changed, 32 insertions(+), 16 deletions(-)
-
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 43ef1d7a840..81f94c7f4ad 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -1307,27 +1307,16 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     GICv3CPUState *cs = icc_cs_from_env(env);
-     int irq = value & 0xffffff;
-     int grp;
-+    bool is_eoir0 = ri->crm == 8;
- 
--    if (icv_access(env, ri->crm == 8 ? HCR_FMO : HCR_IMO)) {
-+    if (icv_access(env, is_eoir0 ? HCR_FMO : HCR_IMO)) {
-         icv_eoir_write(env, ri, value);
-         return;
-     }
- 
--    trace_gicv3_icc_eoir_write(ri->crm == 8 ? 0 : 1,
-+    trace_gicv3_icc_eoir_write(is_eoir0 ? 0 : 1,
-                                gicv3_redist_affid(cs), value);
- 
--    if (ri->crm == 8) {
--        /* EOIR0 */
--        grp = GICV3_G0;
--    } else {
--        /* EOIR1 */
--        if (arm_is_secure(env)) {
--            grp = GICV3_G1;
--        } else {
--            grp = GICV3_G1NS;
--        }
--    }
--
-     if (irq >= cs->gic->num_irq) {
-         /* This handles two cases:
-          * 1. If software writes the ID of a spurious interrupt [ie 1020-1023]
-@@ -1340,8 +1329,35 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
-         return;
-     }
- 
--    if (icc_highest_active_group(cs) != grp) {
--        return;
-+    grp = icc_highest_active_group(cs);
-+    switch (grp) {
-+    case GICV3_G0:
-+        if (!is_eoir0) {
-+            return;
-+        }
-+        if (!(cs->gic->gicd_ctlr & GICD_CTLR_DS)
-+            && arm_feature(env, ARM_FEATURE_EL3) && !arm_is_secure(env)) {
-+            return;
-+        }
-+        break;
-+    case GICV3_G1:
-+        if (is_eoir0) {
-+            return;
-+        }
-+        if (!arm_is_secure(env)) {
-+            return;
-+        }
-+        break;
-+    case GICV3_G1NS:
-+        if (is_eoir0) {
-+            return;
-+        }
-+        if (!arm_is_el3_or_mon(env) && arm_is_secure(env)) {
-+            return;
-+        }
-+        break;
-+    default:
-+        g_assert_not_reached();
-     }
- 
-     icc_drop_prio(cs, grp);
--- 
-2.20.1
-
+thanks
+-- PMM
 
