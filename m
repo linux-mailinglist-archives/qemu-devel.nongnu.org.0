@@ -2,56 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836D737934F
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 18:01:19 +0200 (CEST)
-Received: from localhost ([::1]:51604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFF0379355
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 18:04:53 +0200 (CEST)
+Received: from localhost ([::1]:59504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg8LO-0008Kn-Gr
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 12:01:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56384)
+	id 1lg8Oq-0005Pm-C4
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 12:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lg8GF-00030a-E4
- for qemu-devel@nongnu.org; Mon, 10 May 2021 11:55:59 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:23192)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lg8I7-0006kh-TI
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 11:57:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lg8GD-0000gq-Mu
- for qemu-devel@nongnu.org; Mon, 10 May 2021 11:55:59 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-P45J3x4rN4eaZkSPEhBiJw-1; Mon, 10 May 2021 11:55:53 -0400
-X-MC-Unique: P45J3x4rN4eaZkSPEhBiJw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15144803620;
- Mon, 10 May 2021 15:55:52 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-112-152.ams2.redhat.com [10.36.112.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C10CA19C44;
- Mon, 10 May 2021 15:55:49 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [for-6.1 v3 3/3] virtiofsd: Add support for FUSE_SYNCFS request
-Date: Mon, 10 May 2021 17:55:39 +0200
-Message-Id: <20210510155539.998747-4-groug@kaod.org>
-In-Reply-To: <20210510155539.998747-1-groug@kaod.org>
-References: <20210510155539.998747-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lg8I0-0000w2-K8
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 11:57:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620662266;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RZw1jFC2P7vzQaRG/Q4BNw61NHhwKmc/W8+5LPn5+EI=;
+ b=eVxK0ZxRuvXxLOPwOMFqHMlq9pcONg04WtJzQJl3MgriTfzFeDYdCSjOJzl84ElWN9JN07
+ 7tC60EbaRbpIa6bPV5wDLo6YJ+B3VA8xv8LgA1cB7MMX5CaYGm5PpkjBibAjZiklHi9TKz
+ HUBG4jKF4Rp/5ZmcL7/YOVPG5iV0DMA=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-85-NNTMZd9zPkSETxudLskBog-1; Mon, 10 May 2021 11:57:42 -0400
+X-MC-Unique: NNTMZd9zPkSETxudLskBog-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ gt39-20020a1709072da7b02903a8f7736a08so3833659ejc.1
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 08:57:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RZw1jFC2P7vzQaRG/Q4BNw61NHhwKmc/W8+5LPn5+EI=;
+ b=WrUU5x00u1+kg333UxIQRRHAzbiPa9XdddM1elWNbpF6e52/P7PBBQUVTi/+FnXRhu
+ WJ9tBZRLJ9UOUtpoIVhASoo/gmLisdo9n9xXPQ6E6wAxqixyFCeGYnAqAaA+C9ikZTpQ
+ EkbWJOngo72h7Zm9gPQstk80IY2308/aBDSzzzc9LbnvJDFmfDCT7f5HNptx95L26xd8
+ nxIm4FvNPCOweddTznnHbyYdqjx/zB//2nGPMnOSu+PJ5Dr/uqX9HEjTT8trCaGHz1K+
+ qc5S3r7lFcryriYPXM03/TVfR3tKQW5ruvEyn0hJG6xQp07rg+35+D4mThBmO9bOQ6vP
+ Dzeg==
+X-Gm-Message-State: AOAM5322fei1SilM14u9AhigFYvKgE0inX2dVj/GDVIPq1CKWcQAI1k1
+ KYX2qgzq7SYbqWNpBblulfGKgtKBaQS28SjRfg5GW5FBvrbnUtkvK9PUcCOfky365apzHR54vDn
+ kBTzONl90YdqmGC8=
+X-Received: by 2002:a17:906:3d7:: with SMTP id
+ c23mr27088494eja.188.1620662261202; 
+ Mon, 10 May 2021 08:57:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzzrc7tLHdQQDt8tobng7lXZ5HE7+JdDl6QummKpL3mLXVzffvc8iaqWQijpyJXx7VKiJJQWg==
+X-Received: by 2002:a17:906:3d7:: with SMTP id
+ c23mr27088479eja.188.1620662261021; 
+ Mon, 10 May 2021 08:57:41 -0700 (PDT)
+Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
+ [79.18.148.79])
+ by smtp.gmail.com with ESMTPSA id x7sm9406487ejc.116.2021.05.10.08.57.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 May 2021 08:57:40 -0700 (PDT)
+Date: Mon, 10 May 2021 17:57:38 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] cutils: fix memory leak in get_relocated_path()
+Message-ID: <20210510155738.a4jk42yb2vqubblj@steredhat>
+References: <20210412170255.231406-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210412170255.231406-1-sgarzare@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,158 +96,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- virtio-fs@redhat.com, Miklos Szeredi <miklos@szeredi.hu>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Honor the expected behavior of syncfs() to synchronously flush all data
-and metadata on linux systems. Simply loop on all known submounts and
-call syncfs() on them.
+Ping :-)
 
-Note that syncfs() might suffer from a time penalty if the submounts
-are being hammered by some unrelated workload on the host. The only
-solution to avoid that is to avoid shared submounts.
+Should I resend for 6.1?
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- tools/virtiofsd/fuse_lowlevel.c       | 11 ++++++++
- tools/virtiofsd/fuse_lowlevel.h       | 12 +++++++++
- tools/virtiofsd/passthrough_ll.c      | 38 +++++++++++++++++++++++++++
- tools/virtiofsd/passthrough_seccomp.c |  1 +
- 4 files changed, 62 insertions(+)
+Thanks
+Stefano
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index 58e32fc96369..3be95ec903c9 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1870,6 +1870,16 @@ static void do_lseek(fuse_req_t req, fuse_ino_t node=
-id,
-     }
- }
-=20
-+static void do_syncfs(fuse_req_t req, fuse_ino_t nodeid,
-+                      struct fuse_mbuf_iter *iter)
-+{
-+    if (req->se->op.syncfs) {
-+        req->se->op.syncfs(req);
-+    } else {
-+        fuse_reply_err(req, ENOSYS);
-+    }
-+}
-+
- static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-                     struct fuse_mbuf_iter *iter)
- {
-@@ -2267,6 +2277,7 @@ static struct {
-     [FUSE_RENAME2] =3D { do_rename2, "RENAME2" },
-     [FUSE_COPY_FILE_RANGE] =3D { do_copy_file_range, "COPY_FILE_RANGE" },
-     [FUSE_LSEEK] =3D { do_lseek, "LSEEK" },
-+    [FUSE_SYNCFS] =3D { do_syncfs, "SYNCFS" },
- };
-=20
- #define FUSE_MAXOP (sizeof(fuse_ll_ops) / sizeof(fuse_ll_ops[0]))
-diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowleve=
-l.h
-index 3bf786b03485..890c520b195a 100644
---- a/tools/virtiofsd/fuse_lowlevel.h
-+++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -1225,6 +1225,18 @@ struct fuse_lowlevel_ops {
-      */
-     void (*lseek)(fuse_req_t req, fuse_ino_t ino, off_t off, int whence,
-                   struct fuse_file_info *fi);
-+
-+    /**
-+     * Synchronize file system content
-+     *
-+     * If this request is answered with an error code of ENOSYS,
-+     * this is treated as success and future calls to syncfs() will
-+     * succeed automatically without being sent to the filesystem
-+     * process.
-+     *
-+     * @param req request handle
-+     */
-+    void (*syncfs)(fuse_req_t req);
- };
-=20
- /**
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index dc940a1d048b..289900c6d274 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -3153,6 +3153,43 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino,=
- off_t off, int whence,
-     }
- }
-=20
-+static void lo_syncfs(fuse_req_t req)
-+{
-+    struct lo_data *lo =3D lo_data(req);
-+    GHashTableIter iter;
-+    gpointer key, value;
-+    int err =3D 0;
-+
-+    pthread_mutex_lock(&lo->mutex);
-+
-+    g_hash_table_iter_init(&iter, lo->mnt_inodes);
-+    while (g_hash_table_iter_next(&iter, &key, &value)) {
-+        struct lo_inode *inode =3D value;
-+        int fd;
-+
-+        fuse_log(FUSE_LOG_DEBUG, "lo_syncfs(ino=3D%" PRIu64 ")\n",
-+                 inode->fuse_ino);
-+
-+        fd =3D lo_inode_open(lo, inode, O_RDONLY);
-+        if (fd < 0) {
-+            err =3D -fd;
-+            break;
-+        }
-+
-+        if (syncfs(fd) < 0) {
-+            err =3D errno;
-+            close(fd);
-+            break;
-+        }
-+
-+        close(fd);
-+    }
-+
-+    pthread_mutex_unlock(&lo->mutex);
-+
-+    fuse_reply_err(req, err);
-+}
-+
- static void lo_destroy(void *userdata)
- {
-     struct lo_data *lo =3D (struct lo_data *)userdata;
-@@ -3214,6 +3251,7 @@ static struct fuse_lowlevel_ops lo_oper =3D {
-     .copy_file_range =3D lo_copy_file_range,
- #endif
-     .lseek =3D lo_lseek,
-+    .syncfs =3D lo_syncfs,
-     .destroy =3D lo_destroy,
- };
-=20
-diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passth=
-rough_seccomp.c
-index 62441cfcdb95..343188447901 100644
---- a/tools/virtiofsd/passthrough_seccomp.c
-+++ b/tools/virtiofsd/passthrough_seccomp.c
-@@ -107,6 +107,7 @@ static const int syscall_allowlist[] =3D {
-     SCMP_SYS(set_robust_list),
-     SCMP_SYS(setxattr),
-     SCMP_SYS(symlinkat),
-+    SCMP_SYS(syncfs),
-     SCMP_SYS(time), /* Rarely needed, except on static builds */
-     SCMP_SYS(tgkill),
-     SCMP_SYS(unlinkat),
---=20
-2.26.3
+On Mon, Apr 12, 2021 at 07:02:55PM +0200, Stefano Garzarella wrote:
+>get_relocated_path() allocates a GString object and returns the
+>character data (C string) to the caller without freeing the memory
+>allocated for that object as reported by valgrind:
+>
+>  24 bytes in 1 blocks are definitely lost in loss record 2,805 of 6,532
+>     at 0x4839809: malloc (vg_replace_malloc.c:307)
+>     by 0x55AABB8: g_malloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
+>     by 0x55C2481: g_slice_alloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
+>     by 0x55C4827: g_string_sized_new (in /usr/lib64/libglib-2.0.so.0.6600.8)
+>     by 0x55C4CEA: g_string_new (in /usr/lib64/libglib-2.0.so.0.6600.8)
+>     by 0x906314: get_relocated_path (cutils.c:1036)
+>     by 0x6E1F77: qemu_read_default_config_file (vl.c:2122)
+>     by 0x6E1F77: qemu_init (vl.c:2687)
+>     by 0x3E3AF8: main (main.c:49)
+>
+>Let's use g_string_free(gstring, false) to free only the GString object
+>and transfer the ownership of the character data to the caller.
+>
+>Fixes: f4f5ed2cbd ("cutils: introduce get_relocated_path")
+>Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>---
+> util/cutils.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/util/cutils.c b/util/cutils.c
+>index ee908486da..c9b91e7535 100644
+>--- a/util/cutils.c
+>+++ b/util/cutils.c
+>@@ -1055,5 +1055,5 @@ char *get_relocated_path(const char *dir)
+>         assert(G_IS_DIR_SEPARATOR(dir[-1]));
+>         g_string_append(result, dir - 1);
+>     }
+>-    return result->str;
+>+    return g_string_free(result, false);
+> }
+>-- 
+>2.30.2
+>
+>
 
 
