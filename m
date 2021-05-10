@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249C7377B49
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 06:37:18 +0200 (CEST)
-Received: from localhost ([::1]:58842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F4B377B47
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 06:37:15 +0200 (CEST)
+Received: from localhost ([::1]:58548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfxfR-0002YF-88
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 00:37:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41436)
+	id 1lfxfO-0002MK-F7
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 00:37:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfxdn-0000Se-IS
- for qemu-devel@nongnu.org; Mon, 10 May 2021 00:35:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50498)
+ id 1lfxdl-0000Rb-UI
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 00:35:33 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfxdk-0001kB-NJ
- for qemu-devel@nongnu.org; Mon, 10 May 2021 00:35:35 -0400
+ id 1lfxdk-0001jp-CA
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 00:35:33 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfxdj-0007m5-8v
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:35:31 +0000
+ id 1lfxdi-0007lj-Lw
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:35:30 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 179F72E8187
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:35:31 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9A44C2E8187
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:35:30 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 04:25:52 -0000
-From: Thomas Huth <1904317@bugs.launchpad.net>
+Date: Mon, 10 May 2021 04:28:40 -0000
+From: Thomas Huth <1904464@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: whpx
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chapuni philmd th-huth
-X-Launchpad-Bug-Reporter: Takumi Nakamura (chapuni)
+X-Launchpad-Bug-Commenters: ffontaine th-huth
+X-Launchpad-Bug-Reporter: Fabrice Fontaine (ffontaine)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160543118215.29327.13808899207251644228.malonedeb@wampee.canonical.com>
-Message-Id: <162062075272.16458.3632369085342415736.malone@soybean.canonical.com>
-Subject: [Bug 1904317] Re: cpu feature selection is not affected to guest 's
- cpuid with whpx
+References: <160555959985.17306.1370815502265671907.malonedeb@wampee.canonical.com>
+Message-Id: <162062092098.7349.2936639440499593916.malone@gac.canonical.com>
+Subject: [Bug 1904464] Re: Build fails with 64 bits time_t
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 1701965ea64559f363d6360240d959dfadb6f424
+X-Launchpad-Hash: 2c518a59055232a46ab0a80b80f0361a458985d5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -72,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904317 <1904317@bugs.launchpad.net>
+Reply-To: Bug 1904464 <1904464@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -106,8 +104,6 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
-** Tags added: whpx
-
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
@@ -115,39 +111,37 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904317
+https://bugs.launchpad.net/bugs/1904464
 
 Title:
-  cpu feature selection is not affected to guest 's cpuid with whpx
+  Build fails with 64 bits time_t
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  On windows with -accel whpx, "-cpu" is ignored without any messages.
-  Guest recognizes features as same as host's.
+  time element is deprecated on new input_event structure in kernel's
+  input.h [1]
 
-  Confirmed on v5.2.0-rc1.
+  This will avoid the following build failure:
 
-  I suggest qemu may do,
+  hw/input/virtio-input-host.c: In function 'virtio_input_host_handle_statu=
+s':
+  hw/input/virtio-input-host.c:198:28: error: 'struct input_event' has no m=
+ember named 'time'
+    198 |     if (gettimeofday(&evdev.time, NULL)) {
+        |                            ^
 
-  - Warn with incompatible -cpu options were given.
-  - Enhance cpuid handling.
+  Fixes:
+   - http://autobuild.buildroot.org/results/a538167e288c14208d557cd45446df8=
+6d3d599d5
+   - http://autobuild.buildroot.org/results/efd4474fb4b6c0ce0ab3838ce130429=
+c51e43bbb
 
-  Background:
-  I was investigated mmio and block copy issue in Linux kernel.
-  I met a problem that Linux went ill for touching mmio with whpx. (not wit=
-h tcg)
-  I suspect erms(enhanced rep movs) might trigger.
-  I tried to mask erms on qemu with -feature,erms, but it was ineffective.
-
-  At last, I disabled erms manually, to tweak whpx-all.c to mask erms in
-  cpuid.
-
-  FYI, qemu with whpx from/to mmio, "rep movsb" does byte access regardless=
- of erms.
-  Linux kernel tends to choose not "rep movsq" but "rep movsb" with erms.
+  [1]
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+?id=3D152194fe9c3f
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904317/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1904464/+subscriptions
 
