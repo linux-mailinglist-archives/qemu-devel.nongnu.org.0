@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C3C379782
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:16:19 +0200 (CEST)
-Received: from localhost ([::1]:45666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB3C3797AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:23:53 +0200 (CEST)
+Received: from localhost ([::1]:33170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgBO6-0000zu-O7
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:16:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37360)
+	id 1lgBVQ-0003U6-Fg
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgBH5-0000dM-68
- for qemu-devel@nongnu.org; Mon, 10 May 2021 15:09:03 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:47100)
+ id 1lgBH7-0000fM-KT
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:09:07 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgBGw-0004zC-HH
- for qemu-devel@nongnu.org; Mon, 10 May 2021 15:09:02 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- p14-20020a05600c358eb029015c01f207d7so3764701wmq.5
+ id 1lgBGx-00050O-9d
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:09:05 -0400
+Received: by mail-wm1-x335.google.com with SMTP id g65so9801571wmg.2
  for <qemu-devel@nongnu.org>; Mon, 10 May 2021 12:08:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xPwV84wK51NRUaX+1XqI0uenRCE3AdgkV7fRnhwYUkk=;
- b=ifHqjlt5x9ShrajOCE8DvFBhzcqVMCO/NNt4FfmgV9OfDC8n4RFb6icSxdNu/Ficgh
- iyhMpzd6pwyJ/n6saMUmHKybLZIkR+0WfDdJ7vu4Tox/YhpM9Ot0A8aLWK5+vhH3dHuG
- Zf53LMy0/VL/l9+uSPOftNxQARM7lpyz7oq/WF+3Vs1+r+jT5TxkN6p6ysBQGJiANNQc
- c/x9KaWpSN+aoS0CriaVmFEdr1aGIT/grqZlCcD/zPljVw4rb5gKO0OBAHUJdqZIji70
- CvE1pfOItlp03r/M8PoPU7CZKui2VdAAat4ihMYh01UDgPKwb8lYT+V1rocrKwAhTJLM
- c8pA==
+ bh=jPFTO/Pkb0tpTTdt3nZWuAHHHRL642BlgSkp2Crh+Tw=;
+ b=R7JhgUncdY4QoKikAyCvhBR9CiMM1jj5r3eSQCPudffcgFUN0xWwBrL/p6rOYusfk2
+ 1WVuaWAjUdi7DO+NJ6pRTKQM+XNhgyt255iltsr5WRpTCily+WJ/61sRmK4yxmYpuMmg
+ WQuMFYW6fq6VCH2Cwr3XaAgBu3CpG0R9KWbvgaqCeWiigvq9MKapuKn5I+0zz2MbstcI
+ CMRe5XuEZ63xuKyNMecB5CvO/zwB/l2rYGmNPsWcRA7M/eDh+0GPwopYhCcI/goEhpZu
+ ezt1UrKMW59SSd0XThzwDwYC9f7bnwixD3ObW20hA15VSPGmg78BTQjzTDVyK1NVqyF9
+ JH/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xPwV84wK51NRUaX+1XqI0uenRCE3AdgkV7fRnhwYUkk=;
- b=btEXxfh6l6hkxnHaNV0oJ/KH7FSqtXHe7H66tN3Wq7Y6O8YgJnKRO+4b4IqJuzLEMx
- NbPKm1RfBJsVVvs3J8tcJDH3utoCt2rEpyoofyJ5rQmYyOfUfnKxUGQR+I/i2P/AARrg
- dsJ+OY2esqbtDs/UhFqkV5L7oGY6j0wx/P6jBMyvFEZcxYlXgUVONYiZf4ujHeLacuph
- n/BfrATVwq3h3oWpzSDR9Sakw+bsXomR32GVSMuxaPYWLE6QMTXw7H3gLejJdDgh+Fxv
- IhXTt62WJhXTm/TnKbXuWOpstezKv91IA7WwZLqCqTwasLxdMUOZRSzKIEIdNcAoYNym
- zmUw==
-X-Gm-Message-State: AOAM531XbDVfeooD2uSC5yJoFDUx1cmgJ/ThjoY/oZAYwoS8dlnO+GZV
- CssFWPMmSb7dwjJY4Ap/+Vcodg==
-X-Google-Smtp-Source: ABdhPJz7Hm+xzLgEII/xBeUd34YHznKPqoy9vxcqUeF4/ykGiFG6+4tMkXpaHO/tbHlRnL9fdhd3IQ==
-X-Received: by 2002:a1c:415:: with SMTP id 21mr28594697wme.132.1620673733102; 
- Mon, 10 May 2021 12:08:53 -0700 (PDT)
+ bh=jPFTO/Pkb0tpTTdt3nZWuAHHHRL642BlgSkp2Crh+Tw=;
+ b=g07P5ucF8dnUSmuOCEvqZcDm31toPAHOj9NCHiGCI4XGDVqlaNzbOUKBNn765gQALg
+ Msesu8Rx49uGneNNeMaEUtxPcGA5g5P+I5tbV0dqwXzRtBtp4O8cAJXl3qoOOYb6Ayua
+ 5tMAi4m8EeDQW6M7bvJ/U2AemA4FIJEvku16mqUjgpytBsLuEUK6MkIbGkGtPQX65pgw
+ mnR1rAeRIj19Wq6+eQaBAzFb0W+Xprb1tXhMnvqbiJWqxhdHpIjQ40jvBxh9781q1IqH
+ vKHsxJRX9QQkEzFrhoZSQKxCFeuAwlMLYDVLYTMtdkQNKIGivg6qUyEnQ7RtAQDuyDJl
+ OMzg==
+X-Gm-Message-State: AOAM532HQauKwg/vgoKpaJ94Q78DJV+jvYZTpoIOQKKKWd0Bm6S6Z87A
+ cFAnSPRIpjaFX0oOF9zXVPsaeA==
+X-Google-Smtp-Source: ABdhPJwSA1JIG+ExFPvHX9glIDtEwX/yt2UssQXq5KtEYbbZ/k3uvbrq/sYxvoPOoqMeaqqVny3l6A==
+X-Received: by 2002:a05:600c:4f93:: with SMTP id
+ n19mr733428wmq.100.1620673734048; 
+ Mon, 10 May 2021 12:08:54 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t23sm463892wmj.31.2021.05.10.12.08.52
+ by smtp.gmail.com with ESMTPSA id t23sm463892wmj.31.2021.05.10.12.08.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 12:08:52 -0700 (PDT)
+ Mon, 10 May 2021 12:08:53 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 5/6] hw/arm/mps2-tz: Allow board to specify a boot RAM size
-Date: Mon, 10 May 2021 20:08:43 +0100
-Message-Id: <20210510190844.17799-6-peter.maydell@linaro.org>
+Subject: [PATCH 6/6] hw/arm: Model TCMs in the SSE-300, not the AN547
+Date: Mon, 10 May 2021 20:08:44 +0100
+Message-Id: <20210510190844.17799-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210510190844.17799-1-peter.maydell@linaro.org>
 References: <20210510190844.17799-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,81 +91,126 @@ Cc: Kumar Gala <kumar.gala@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we model the ITCM in the AN547's RAMInfo list. This is incorrect
-because this RAM is really a part of the SSE-300. We can't just delete
-it from the RAMInfo list, though, because this would make boot_ram_size()
-assert because it wouldn't be able to find an entry in the list covering
-guest address 0.
+The SSE-300 has an ITCM at 0x0000_0000 and a DTCM at 0x2000_0000.
+Currently we model these in the AN547 board, but this is conceptually
+wrong, because they are a part of the SSE-300 itself. Move the
+modelling of the TCMs out of mps2-tz.c into sse300.c.
 
-Allow a board to specify a boot RAM size manually if it doesn't have
-any RAM itself at address 0 and is relying on the SSE for that, and
-set the correct value for the AN547. The other boards can continue
-to use the "look it up from the RAMInfo list" logic.
+This has no guest-visible effects.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2-tz.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ include/hw/arm/armsse.h |  2 ++
+ hw/arm/armsse.c         | 19 +++++++++++++++++++
+ hw/arm/mps2-tz.c        | 12 ------------
+ 3 files changed, 21 insertions(+), 12 deletions(-)
 
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index f2595b1c7f7..8d921afec14 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -126,6 +126,7 @@ struct MPS2TZMachineClass {
-     uint32_t sram_addr_width; /* SRAM_ADDR_WIDTH setting for SSE */
-     const RAMInfo *raminfo;
-     const char *armsse_type;
-+    uint32_t boot_ram_size; /* size of ram at address 0; 0 == find in raminfo */
- };
+diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
+index 36592be62c5..9648e7a4193 100644
+--- a/include/hw/arm/armsse.h
++++ b/include/hw/arm/armsse.h
+@@ -198,6 +198,8 @@ struct ARMSSE {
+     MemoryRegion alias2;
+     MemoryRegion alias3[SSE_MAX_CPUS];
+     MemoryRegion sram[MAX_SRAM_BANKS];
++    MemoryRegion itcm;
++    MemoryRegion dtcm;
  
- struct MPS2TZMachineState {
-@@ -761,6 +762,14 @@ static uint32_t boot_ram_size(MPS2TZMachineState *mms)
-     const RAMInfo *p;
-     MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
+     qemu_irq *exp_irqs[SSE_MAX_CPUS];
+     qemu_irq ppc0_irq;
+diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+index be5aa1f113a..a1456cb0f42 100644
+--- a/hw/arm/armsse.c
++++ b/hw/arm/armsse.c
+@@ -13,6 +13,7 @@
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "qemu/bitops.h"
++#include "qemu/units.h"
+ #include "qapi/error.h"
+ #include "trace.h"
+ #include "hw/sysbus.h"
+@@ -70,6 +71,7 @@ struct ARMSSEInfo {
+     bool has_cpuid;
+     bool has_cpu_pwrctrl;
+     bool has_sse_counter;
++    bool has_tcms;
+     Property *props;
+     const ARMSSEDeviceInfo *devinfo;
+     const bool *irq_is_common;
+@@ -516,6 +518,7 @@ static const ARMSSEInfo armsse_variants[] = {
+         .has_cpuid = false,
+         .has_cpu_pwrctrl = false,
+         .has_sse_counter = false,
++        .has_tcms = false,
+         .props = iotkit_properties,
+         .devinfo = iotkit_devices,
+         .irq_is_common = sse200_irq_is_common,
+@@ -536,6 +539,7 @@ static const ARMSSEInfo armsse_variants[] = {
+         .has_cpuid = true,
+         .has_cpu_pwrctrl = false,
+         .has_sse_counter = false,
++        .has_tcms = false,
+         .props = sse200_properties,
+         .devinfo = sse200_devices,
+         .irq_is_common = sse200_irq_is_common,
+@@ -556,6 +560,7 @@ static const ARMSSEInfo armsse_variants[] = {
+         .has_cpuid = true,
+         .has_cpu_pwrctrl = true,
+         .has_sse_counter = true,
++        .has_tcms = true,
+         .props = sse300_properties,
+         .devinfo = sse300_devices,
+         .irq_is_common = sse300_irq_is_common,
+@@ -1214,6 +1219,20 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+                                     sysbus_mmio_get_region(sbd, 1));
+     }
  
-+    /*
-+     * Use a per-board specification (for when the boot RAM is in
-+     * the SSE and so doesn't have a RAMInfo list entry)
-+     */
-+    if (mmc->boot_ram_size) {
-+        return mmc->boot_ram_size;
++    if (info->has_tcms) {
++        /* The SSE-300 has an ITCM at 0x0000_0000 and a DTCM at 0x2000_0000 */
++        memory_region_init_ram(&s->itcm, NULL, "sse300-itcm", 512 * KiB, errp);
++        if (*errp) {
++            return;
++        }
++        memory_region_init_ram(&s->dtcm, NULL, "sse300-dtcm", 512 * KiB, errp);
++        if (*errp) {
++            return;
++        }
++        memory_region_add_subregion(&s->container, 0x00000000, &s->itcm);
++        memory_region_add_subregion(&s->container, 0x20000000, &s->dtcm);
 +    }
 +
-     for (p = mmc->raminfo; p->name; p++) {
-         if (p->base == boot_mem_base(mms)) {
-             return p->size;
-@@ -1268,6 +1277,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
-     mmc->sram_addr_width = 15;
-     mmc->raminfo = an505_raminfo;
-     mmc->armsse_type = TYPE_IOTKIT;
-+    mmc->boot_ram_size = 0;
-     mps2tz_set_default_ram_info(mmc);
- }
+     /* Devices behind APB PPC0:
+      *   0x40000000: timer0
+      *   0x40001000: timer1
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 8d921afec14..e23830f4b7d 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -265,23 +265,11 @@ static const RAMInfo an524_raminfo[] = { {
+ };
  
-@@ -1296,6 +1306,7 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
-     mmc->sram_addr_width = 15;
-     mmc->raminfo = an505_raminfo; /* AN521 is the same as AN505 here */
-     mmc->armsse_type = TYPE_SSE200;
-+    mmc->boot_ram_size = 0;
-     mps2tz_set_default_ram_info(mmc);
- }
- 
-@@ -1324,6 +1335,7 @@ static void mps3tz_an524_class_init(ObjectClass *oc, void *data)
-     mmc->sram_addr_width = 15;
-     mmc->raminfo = an524_raminfo;
-     mmc->armsse_type = TYPE_SSE200;
-+    mmc->boot_ram_size = 0;
-     mps2tz_set_default_ram_info(mmc);
- 
-     object_class_property_add_str(oc, "remap", mps2_get_remap, mps2_set_remap);
-@@ -1357,6 +1369,7 @@ static void mps3tz_an547_class_init(ObjectClass *oc, void *data)
-     mmc->sram_addr_width = 21;
-     mmc->raminfo = an547_raminfo;
-     mmc->armsse_type = TYPE_SSE300;
-+    mmc->boot_ram_size = 512 * KiB;
-     mps2tz_set_default_ram_info(mmc);
- }
- 
+ static const RAMInfo an547_raminfo[] = { {
+-        .name = "itcm",
+-        .base = 0x00000000,
+-        .size = 512 * KiB,
+-        .mpc = -1,
+-        .mrindex = 0,
+-    }, {
+         .name = "sram",
+         .base = 0x01000000,
+         .size = 2 * MiB,
+         .mpc = 0,
+         .mrindex = 1,
+-    }, {
+-        .name = "dtcm",
+-        .base = 0x20000000,
+-        .size = 4 * 128 * KiB,
+-        .mpc = -1,
+-        .mrindex = 2,
+     }, {
+         .name = "sram 2",
+         .base = 0x21000000,
 -- 
 2.20.1
 
