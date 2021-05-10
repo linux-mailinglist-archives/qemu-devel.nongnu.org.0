@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EFE5377B59
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 06:57:05 +0200 (CEST)
-Received: from localhost ([::1]:58806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6713D377B58
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 06:57:03 +0200 (CEST)
+Received: from localhost ([::1]:58720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfxya-0004yk-Fe
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 00:57:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44384)
+	id 1lfxyY-0004u0-Gk
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 00:57:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfxxK-0003c8-VQ
- for qemu-devel@nongnu.org; Mon, 10 May 2021 00:55:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52468)
+ id 1lfxxJ-0003bt-Ci
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 00:55:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfxxH-00066E-Iv
- for qemu-devel@nongnu.org; Mon, 10 May 2021 00:55:46 -0400
+ id 1lfxxH-00066C-KW
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 00:55:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfxxF-0001dL-W9
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:55:42 +0000
+ id 1lfxxF-0001bb-ET
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:55:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F08BB2E8187
+ by loganberry.canonical.com (Postfix) with ESMTP id 5A6DD2E8187
  for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:55:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 04:46:15 -0000
-From: Thomas Huth <1906516@bugs.launchpad.net>
+Date: Mon, 10 May 2021 04:47:30 -0000
+From: Thomas Huth <1906536@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: tcg
+X-Launchpad-Bug-Tags: arm linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: phantom1003 th-huth
-X-Launchpad-Bug-Reporter: jinyan (phantom1003)
+X-Launchpad-Bug-Commenters: ajbennee alecop philmd pmaydell th-huth
+X-Launchpad-Bug-Reporter: Alex Coplan (alecop)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160691732836.26002.10346003915035160514.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162062197517.10300.11316562518570049938.malone@chaenomeles.canonical.com>
-Subject: [Bug 1906516] Re: [RISCV] sfence.vma need to end the translation block
+References: <160692480491.27592.13493676422712150173.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162062205033.2278.6799448046398109667.malone@wampee.canonical.com>
+Subject: [Bug 1906536] Re: Unable to set SVE VL to 1024 bits or above since
+ 7b6a2198
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 004dbe7e47c89bb73e186fb459a9dc06da52dc6b
+X-Launchpad-Hash: fa2159a52513b7bcf1c75263bc17661965b41ae7
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906516 <1906516@bugs.launchpad.net>
+Reply-To: Bug 1906536 <1906536@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -105,8 +106,6 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
-** Tags added: tcg
-
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
@@ -114,115 +113,50 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906516
+https://bugs.launchpad.net/bugs/1906536
 
 Title:
-  [RISCV] sfence.vma need to end the translation block
+  Unable to set SVE VL to 1024 bits or above since 7b6a2198
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  QEMU emulator version 5.0.0
+  Prior to 7b6a2198e71794c851f39ac7a92d39692c786820, the QEMU option
+  sve-max-vq could be used to set the vector length of the
+  implementation. This is useful (among other reasons) for testing
+  software compiled with a fixed SVE vector length. Since this commit,
+  the vector length is capped at 512 bits.
 
-  sfence.vma will flush the tlb, so after this instruction, the translation=
- block should be end. The following code will only work in single step mode:
-  ```
-  relocate:
-  =C2=A0li a0, OFFSET
+  To reproduce the issue:
 
-  =C2=A0la t0, 1f
-  =C2=A0add t0, t0, a0
-  =C2=A0csrw stvec, t0
+  $ cat rdvl.s
+  .global _start
+  _start:
+    rdvl x0, #1
+    asr x0, x0, #4
+    mov x8, #93 // exit
+    svc #0
+  $ aarch64-linux-gnu-as -march=3Darmv8.2-a+sve rdvl.s -o rdvl.o
+  $ aarch64-linux-gnu-ld rdvl.o
+  $ for vl in 1 2 4 8 16; do ../build-qemu/aarch64-linux-user/qemu-aarch64 =
+-cpu max,sve-max-vq=3D$vl a.out; echo $?; done
+  1
+  2
+  4
+  4
+  4
 
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0la t0, early_pgtbl
-  =C2=A0srl t0, t0, PAGE_SHIFT
-  =C2=A0li t1, SATP_SV39
-  =C2=A0or t0, t1, t0
+  For a QEMU built prior to the above revision, we get the output:
+  1
+  2
+  4
+  8
+  16
 
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0csrw satp, t0
-  1:
-  =C2=A0sfence.vma
-  =C2=A0la t0, trap_s
-  =C2=A0csrw stvec, t0
-  =C2=A0ret
-  ```
-
-  In this code, I want to relocate pc to virtual address with the OFFSET
-  prefix. Before writing to satp, pc run at physic address, stvec has
-  been set to label 1 with a virtual prefix and virtual address has been
-  mapping in early_pgtbl, after writing satp, qemu will throw a page
-  fault, and pc will set to virtual address of label 1.
-
-  The problem is that, in this situation, the translation block will not
-  end after sfence.vma, and stvec will be set to trap_s,
-
-  ```
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000dc:  00a080b3          add             ra,ra,a0
-  0x00000000800000e0:  00007297          auipc           t0,28672        # =
-0x800070e0
-  0x00000000800000e4:  f2028293          addi            t0,t0,-224
-  0x00000000800000e8:  00c2d293          srli            t0,t0,12
-  0x00000000800000ec:  fff0031b          addiw           t1,zero,-1
-  0x00000000800000f0:  03f31313          slli            t1,t1,63
-  0x00000000800000f4:  005362b3          or              t0,t1,t0
-  0x00000000800000f8:  18029073          csrrw           zero,satp,t0
-
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000fc:  12000073          sfence.vma      zero,zero
-  0x0000000080000100:  00000297          auipc           t0,0            # =
-0x80000100
-  0x0000000080000104:  1c828293          addi            t0,t0,456
-  0x0000000080000108:  10529073          csrrw           zero,stvec,t0
-
-  riscv_raise_exception: 12
-  riscv_raise_exception: 12
-  riscv_raise_exception: 12
-  riscv_raise_exception: 12
-  ...
-  ```
-
-  So, the program will crash, and the program will work in single step mode:
-  ```
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000f8:  18029073          csrrw           zero,satp,t0
-
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000fc:  12000073          sfence.vma      zero,zero
-
-  riscv_raise_exception: 12
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0xffffffff800000fc:  12000073          sfence.vma      zero,zero
-
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0xffffffff80000100:  00000297          auipc           t0,0            # =
-0xffffffff80000100
-
-  ```
-  The pc will set to label 1, instead of trap_s.
-
-  I try to patch the code in fence.i in trans_rvi.inc.c to sfence.vma:
-  ```
-  =C2=A0=C2=A0=C2=A0=C2=A0tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
-  =C2=A0=C2=A0=C2=A0=C2=A0exit_tb(ctx);
-  =C2=A0=C2=A0=C2=A0=C2=A0ctx->base.is_jmp =3D DISAS_NORETURN;
-  ```
-  This codes can help to end the tranlate block, since I'm not a qemu guy, =
-I'm not sure if this is a corret method.
+  as expected. It seems that either the old behavior should be restored,
+  or there should be an option to force a higher vector length?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906516/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1906536/+subscriptions
 
