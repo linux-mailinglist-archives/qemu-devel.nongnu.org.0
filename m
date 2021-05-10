@@ -2,93 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402DD3780D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 12:07:45 +0200 (CEST)
-Received: from localhost ([::1]:54710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC023780E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 12:11:43 +0200 (CEST)
+Received: from localhost ([::1]:59700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg2pD-0006GC-Bj
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 06:07:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38160)
+	id 1lg2t5-0001L8-0h
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 06:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg2hx-0006m5-NY
- for qemu-devel@nongnu.org; Mon, 10 May 2021 06:00:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53631)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lg2iH-0007PY-6J
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 06:00:36 -0400
+Received: from mail-eopbgr70098.outbound.protection.outlook.com
+ ([40.107.7.98]:64386 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg2hs-00009l-2n
- for qemu-devel@nongnu.org; Mon, 10 May 2021 06:00:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620640806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LP/UxqtZg4lBUjcrVcWr800Kl2bWKnPY1npxhHpO4x8=;
- b=BIthLEjIMoO+NiBoNppbXg0q727iFUYkGCjLBsc/PKCyltl0PjXmWi9SJT9AeuOOt14q1g
- T4dcFTlAvAqnMjHCnAdipg+DMbdXJ+iPnppghqnDI0VRxBS73nDPPKkoXAQmmRHmn7ktiB
- bHznmU4nUbELTSC8sQBklzvdXO0jWCY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-D48UBL3ePLSedAeUcyD_Mw-1; Mon, 10 May 2021 06:00:05 -0400
-X-MC-Unique: D48UBL3ePLSedAeUcyD_Mw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- p19-20020adfc3930000b029010e10128a04so7224768wrf.3
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 03:00:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=LP/UxqtZg4lBUjcrVcWr800Kl2bWKnPY1npxhHpO4x8=;
- b=aJQcmW0+bs3uShBn2KW7CO8aHtR7z5Hy4Osul/sxiBy2wWvAej9wYd3ak8qgR3FbDa
- qz0JIU4uYMim13hzwjmK+3YbbuYquSaaUaRWbzbFN7lFXkg446Iqf50zHSdIYKZjKA8n
- OM4IAmXHBsVmrP5D/bJcoV73e06+X4ic5iZs3iAP68mqI3J1Sf2MDLjKKYQ3pLQQCKsO
- 443tE6tai1ceYhORRvhYzjpuqUJQR7WDPgX4si4hF/5qQDlvjeMpxxTtrmtA/9XtvvMX
- 4M2gFDfihgx33uyoyoFQ/+I9KavZHCHW5rOyyl7n4PNLWLfozUqdfEyCWWc1LPIIZGju
- o6Cw==
-X-Gm-Message-State: AOAM531PJy4gr2x5ceNz6N8QfsGaIQKKPbsOo1wpQQ5A2spwT07dvtYN
- 3TT2U1EfsnCQrJ+nIQgPrV3qawCkQNdM8iGwz3PLYscPQRe5//jIhLf6StgbiGE4Bcwkh+RcdFS
- zsg6uVlEJYWf6GMM=
-X-Received: by 2002:a5d:5989:: with SMTP id n9mr29312359wri.60.1620640804020; 
- Mon, 10 May 2021 03:00:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzJk0ypBRG6LLJmZrI8gnfAtCKfuj3jktXurzUP+7Pc0UOBZsGL2II//QTigo8T6WnwVctvjw==
-X-Received: by 2002:a5d:5989:: with SMTP id n9mr29312336wri.60.1620640803812; 
- Mon, 10 May 2021 03:00:03 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c676a.dip0.t-ipconnect.de. [91.12.103.106])
- by smtp.gmail.com with ESMTPSA id l12sm25138560wrq.36.2021.05.10.03.00.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 May 2021 03:00:03 -0700 (PDT)
-Subject: Re: [PATCH v1 01/20] softfloat: Implement
- float128_(min|minnum|minnummag|max|maxnum|maxnummag)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200930145523.71087-1-david@redhat.com>
- <20200930145523.71087-2-david@redhat.com> <87o8lnnt3m.fsf@linaro.org>
- <1294d810-64a7-7e4d-fb73-238378e2197c@redhat.com> <87a6x6nl3q.fsf@linaro.org>
- <8ba9536d-dec1-54a2-d3e1-157beff16502@redhat.com> <87sg2uyknl.fsf@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <5f43bced-2624-9bee-5c92-bd655c1b8410@redhat.com>
-Date: Mon, 10 May 2021 12:00:02 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lg2iA-0000Jm-9b
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 06:00:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g+NgWkCUyLiCsOamNooaRQ+76p5Y4D/sDPWo7wHtzv2xYmrVDoWWOCi+QojceRD6NVq5eckZCU2pg5y2/t7QVuFPjwOuaFr4/UEdurGbzIqGn979shBVIA8A1KK3bIfdh4KUO9Cr7SW9FaH9dzDv6PnrMaGuzU7Mg3gPgVpovARPv2/63lKJf2ZQlpVP7yDA0LwmeoDOiybRdrRzXgMDHX88xLrzJQvatUEKg0NH7eQuw9FaXnASo3i1L1eG743FNCbe8wxRhVKgHMK1Y6AzyXfb5pcJjhk9hqCY8vNuLFMpVmu8XU9Fuk9H/UxMHslfCWsAJzBhAnmeaqQCMIDEMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fiKcJq8SMtQGkKKXyqT2hXoyVp+VE7sx664brwjL+Y8=;
+ b=lUeMzXi7ZjpExkTKIuFAovQEsrr9fH7znQCpODhU1n5FmukOAIZH7YQaStc62sOLyZxsJjiLglFZp3pCl+z751rQJU3a/5TztTtAGZp64pbugj4fXDGnGR+Sg/K6h/jMJwgt8qrkKVZiPrVNgdO43IL8e+2jS3+BALdFLg14kWoDycZmPRS3Q6LGaC2kl2/SA4zJhejXyEztZmN4FJYYt1HZ3VmIS5b6Sl6qZVde4KV3FvqnVGPNimDqBmXGd/orBodz83izyTQ+nJZPrJh00jSeBj7Rk5dWBVRzjXD1YC3IhX+ySS+sIR7ugaHwB2AOMDD4keG55uqciKIExP7W5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fiKcJq8SMtQGkKKXyqT2hXoyVp+VE7sx664brwjL+Y8=;
+ b=GUABbK4XFPwruLNkNm4z8fB08tMpg1LYeNyy7xedyuFXZOJIK8+zQM2fgk1FOCgw4/vUpArWRRPmjqSecytS4DyHbt9ypBObh/lw9IvjPiVDMQ4wUwsK6dD8AmJubOjnylFGNUW3Ai3N7xDiLt0A6e2VtW1KwYARUt+qwU4DbQM=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1969.eurprd08.prod.outlook.com (2603:10a6:203:4c::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.26; Mon, 10 May
+ 2021 10:00:23 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.031; Mon, 10 May 2021
+ 10:00:23 +0000
+Subject: Re: [PATCH 1/6] coroutine-sleep: use a stack-allocated timer
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: eesposit@redhat.com, stefanha@redhat.com
+References: <20210503112550.478521-1-pbonzini@redhat.com>
+ <20210503112550.478521-2-pbonzini@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <28052a35-422f-2d5f-10ed-201468132ef9@virtuozzo.com>
+Date: Mon, 10 May 2021 13:00:21 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <87sg2uyknl.fsf@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/78.10.1
+In-Reply-To: <20210503112550.478521-2-pbonzini@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.203]
+X-ClientProxiedBy: PR3P193CA0020.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:102:50::25) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.203) by
+ PR3P193CA0020.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:50::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4108.25 via Frontend Transport; Mon, 10 May 2021 10:00:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3b6f4a05-af6c-462a-b528-08d9139a6d95
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1969:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB1969905F33E17B661C782134C1549@AM5PR0801MB1969.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5LGMOmTJ4r83e+Qs9xFZbsi3r0VrAEAYC2ZfPOzR5+PJsUnVCp2PDQZmdxUW8RkIrmiyJGQ3iu3O3BTCZ0xt2+94E07ESL4+BQU57k+7TvB1saH5l4dBVtW4+jftrnEPgzsSCAhw0U+0RviTv3ZnSoV1mVz6XPpcimPUg1FItG4u3SnqHyIxRBXv46z2PNHcUTyAlosLiEuDgrBMgqEQyssPzlngeAvkzico3UPZDcYrHU4rRIty9AiWyvwC+vmCPPH30ElNIB9KnBvxQhzONnq+dGPIyLc+Mjwcs5xPSJ7rLKgxvHNUf03dsirX/ZSluyAz2g3djW/EiEFWoOwiyQDPdWOOJ8k5DSqZ3khtMhbcD9jWHbTIVvXwdi03kxFZRDkrc+proBUepqMiTeoqtcAiKUB9/6eY+kia0pdvbafb40qwlNb3KigalqaoCsjMZvmQTP93nIGGUvOS3q1GS+VHL3uAo27Hn99swOADqvvgNQXZ/53K7+KweUU3z3YwHWTF/sT4Jtf5gTI9i6BEy2pCN9rduKHUG46OeI8TdOM+Guv+L5YszBnJbnYsbr3Or1tuIZIoPEoSI8v3UJIdqkv+corvGfeBdg+O79333ab8XZaDPyBEh8qdkJyqDCFFEsZsxEPM2EgXgFoMsX6vVQ9ssWX2bceThj2nxFcrf5p1hMzN9E407sTeoq4ox3tjLdjt6N7Bld3bTG2hb/KKiM8rGIefNSSIGGZ5CcbGDjA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(366004)(346002)(376002)(39840400004)(66556008)(66476007)(4326008)(66946007)(38100700002)(31686004)(38350700002)(478600001)(16526019)(26005)(186003)(83380400001)(4744005)(2906002)(956004)(2616005)(36756003)(52116002)(8676002)(8936002)(316002)(86362001)(5660300002)(6486002)(31696002)(16576012)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dnVXdHZVY1I0bElBYTBDNENTdzRKY0swVENtdjB2NVZCNlRFcW9yVzJPUjY4?=
+ =?utf-8?B?V2p6UUJWSGczMkY3SFdXQXFVNVBtQlZqSXNSb2NybWtpeUgvSmtRNjZYWXJI?=
+ =?utf-8?B?Vnk1a3hSTjNVRDdUa3RCMEZCaVpsY3d2Y0UyMiticVRnS1dNbzYxaEtETGJZ?=
+ =?utf-8?B?cGdvNHdWdnIyRGF6QXVIcFhrRTI5ZnBjTDRKbXNSMWhCQzVHdHdqOU5mSjJa?=
+ =?utf-8?B?MVFHOUNPeGY0MFdTRFlzc3cwdkJESXRQM3lCZzVLOS9UaHVWUE5LOXlsWHFi?=
+ =?utf-8?B?a3BGK2pmSFlmMks4dlpQOUV4dTY2eTd0WTd0cHhWaDVBZHdJSWFEQnFNQlNr?=
+ =?utf-8?B?U25pUk9LcmpOQVRLTWFlUkxsdWEzaHdmd0JLTjhFS3BmOWRweHdPV1ZPR29X?=
+ =?utf-8?B?bzR3b0NTblZ6b1kyVW9mTVIyRkRWc1EvcVZGdUhWSERIdDVkYzErYml0OHRO?=
+ =?utf-8?B?RnpmMDIvTDQwWmJYSm0vdmJyTmg4YWFuQ2p1cXJrNmU2dDBHemhKRDJxMzNZ?=
+ =?utf-8?B?VDQ4WFd6VW1ncnFvZE5oK1VoZ0ZzeGhrWFVab2Rkc1VBOTM4UmJLV3F6Rmg5?=
+ =?utf-8?B?akNGSTB6NkwrbThEdFQvUFR1aXpwSCtaa3NnUnMxekFqK2dtRXJaQjB4WFlX?=
+ =?utf-8?B?MktEa2U2bFV6UHdvV2o5V2xlVlhBMk5qUFNpdmpqaTZuSVRjUGV6bjhMbzBR?=
+ =?utf-8?B?S01yNGxNRi9DT096Y0pyTTRWL3F2d2xINW45TlY0SHNKdFdyMnlhbE95OFd2?=
+ =?utf-8?B?My8wSWdDcXk5ZnV1Ymx6S1lwM1l4VlFhQnlLL1dZc3JEckw4bFZMOUpOeHpE?=
+ =?utf-8?B?R1U4QVYxRUNHcEhsRW5mQ0xaRXdqaTBEVFRveTUyOElVaWJ5U1l1L2VUMS82?=
+ =?utf-8?B?UVlJUGp1ZlVHUlByTGlqUzNqTXFrY0k4WjdHZFpBdVhJM2hvSXBOSnN2RWtx?=
+ =?utf-8?B?ZXFPL2FaUFo4VVNRTEwxNXp1TEg3NTFWS2dxVXJleEpNcG9UR29VYkp2U05K?=
+ =?utf-8?B?L2J2dTJPKzJDMjJYOVhwSy9Eb1dIS1BEL0FVWkw2emlaTWUrMHphZDBwM21H?=
+ =?utf-8?B?SWpIYWR5ZzZLTkplNWpQOWR4K29SalBSMzFTeXlpY0phS0R2TTE0N1BVTm45?=
+ =?utf-8?B?TWYwMHFQR2Q4U3dPVjVsbGJ0N1BCUUJqbWdJSHN1SGc5Mnpra3h3NHpwR3VC?=
+ =?utf-8?B?R0lXMnNtb2pqOWhnQ1h0SUFlN0pJaWNsSEhRby9scm9pV0xWN0tqMVdlWUpG?=
+ =?utf-8?B?dUVoR045RTBKYWloK2xNcU9HRTNIaUtGRWZydFdDRUhWZnBNTDVyRVhPaU45?=
+ =?utf-8?B?SDBwdForTWhUQmJGR003RDBma0hQN3RzYXZUN3lwQjNTYURZaWZuMGRyZWcv?=
+ =?utf-8?B?Smd4aWRKWCtjTWRXVjh3dmdBMDZxWTJEVkhjeWd6NUl5Y0pZbm05ays4SmFI?=
+ =?utf-8?B?WFMzblZyTVBnalNNT000Mk9HMjFoNzMwT3Y3V3lqKzV5NE1QRzI3Z1J2dk1n?=
+ =?utf-8?B?anhROWtCRi82YXhsRlcrZGw4Q2s1N05zcVZvNFhlZjBNbGMrendjNW05MUpx?=
+ =?utf-8?B?ZUc0am5uZXFwRDFNaHFoVDhpZjBKSldGc3A5dVhzTm5ERjk3U3Ywa0hvTmNW?=
+ =?utf-8?B?L3NwUXJDbEVEeWNXVEgwcWMrTmExUFNHc1Ezb2NsRFRhemE5YWxodXBRTU1M?=
+ =?utf-8?B?Vzk4L2RhM24rQzlYMWFZcFpsZEZvM2sxbndjb3RmVUlJajVDVDNvYVRLK2tN?=
+ =?utf-8?Q?OfVGU4Cn792jXwa1fLprWpFzQmZMxl83KhzujrS?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b6f4a05-af6c-462a-b528-08d9139a6d95
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2021 10:00:23.5628 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PLihNz5wDsanfWKzVTuCJmNbBfQNhRS9J0RYJH4CG9jHtO9s87A7XCBOfgO1OiQ3T1CLn8Xte9j+5c69ayc3wdpP9sr7Dfk9SynbFVDWKrU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1969
+Received-SPF: pass client-ip=40.107.7.98;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,129 +145,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10.05.21 11:57, Alex Bennée wrote:
+03.05.2021 14:25, Paolo Bonzini wrote:
+> The lifetime of the timer is well-known (it cannot outlive
+> qemu_co_sleep_ns_wakeable, because it's deleted by the time the
+> coroutine resumes), so it is not necessary to place it on the heap.
 > 
-> David Hildenbrand <david@redhat.com> writes:
-> 
->> On 01.10.20 15:15, Alex Bennée wrote:
->>> David Hildenbrand <david@redhat.com> writes:
->>>
->>>> On 30.09.20 18:10, Alex Bennée wrote:
->>>>>
->>>>> David Hildenbrand <david@redhat.com> writes:
->>>>>
->>>>>> Implementation inspired by minmax_floats(). Unfortuantely, we don't have
->>>>>> any tests we can simply adjust/unlock.
->>>>>>
->>>>>> Cc: Aurelien Jarno <aurelien@aurel32.net>
->>>>>> Cc: Peter Maydell <peter.maydell@linaro.org>
->>>>>> Cc: "Alex Bennée" <alex.bennee@linaro.org>
->>>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>>>> ---
->>>>>>    fpu/softfloat.c         | 100 ++++++++++++++++++++++++++++++++++++++++
->>>>>>    include/fpu/softfloat.h |   6 +++
->>>>>>    2 files changed, 106 insertions(+)
->>>>>>
->>>>>> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
->>>>>> index 9af75b9146..9463c5ea56 100644
->>>>>> --- a/fpu/softfloat.c
->>>>>> +++ b/fpu/softfloat.c
->>>>>> @@ -621,6 +621,8 @@ static inline FloatParts float64_unpack_raw(float64 f)
->>>>>>        return unpack_raw(float64_params, f);
->>>>>>    }
->>>>>>    +static void float128_unpack(FloatParts128 *p, float128 a,
->>>>>> float_status *status);
->>>>>> +
->>>>>>    /* Pack a float from parts, but do not canonicalize.  */
->>>>>>    static inline uint64_t pack_raw(FloatFmt fmt, FloatParts p)
->>>>>>    {
->>>>>> @@ -3180,6 +3182,89 @@ static FloatParts minmax_floats(FloatParts a, FloatParts b, bool ismin,
->>>>>>        }
->>>>>>    }
->>>>>
->>>>> It would be desirable to share as much logic for this as possible with
->>>>> the existing minmax_floats code. I appreciate at some point we end up
->>>>> having to deal with fractions and we haven't found a good way to
->>>>> efficiently handle dealing with FloatParts and FloatParts128 in the same
->>>>> unrolled code, however:
->>>>>
->>>>>>    +static float128 float128_minmax(float128 a, float128 b, bool
->>>>>> ismin, bool ieee,
->>>>>> +                                bool ismag, float_status *s)
->>>>>> +{
->>>>>> +    FloatParts128 pa, pb;
->>>>>> +    int a_exp, b_exp;
->>>>>> +    bool a_less;
->>>>>> +
->>>>>> +    float128_unpack(&pa, a, s);
->>>>>> +    float128_unpack(&pb, b, s);
->>>>>> +
->>>>>
->>>>>   From here:
->>>>>> +    if (unlikely(is_nan(pa.cls) || is_nan(pb.cls))) {
->>>>>> +        /* See comment in minmax_floats() */
->>>>>> +        if (ieee && !is_snan(pa.cls) && !is_snan(pb.cls)) {
->>>>>> +            if (is_nan(pa.cls) && !is_nan(pb.cls)) {
->>>>>> +                return b;
->>>>>> +            } else if (is_nan(pb.cls) && !is_nan(pa.cls)) {
->>>>>> +                return a;
->>>>>> +            }
->>>>>> +        }
->>>>>> +
->>>>>> +        /* Similar logic to pick_nan(), avoiding re-packing. */
->>>>>> +        if (is_snan(pa.cls) || is_snan(pb.cls)) {
->>>>>> +            s->float_exception_flags |= float_flag_invalid;
->>>>>> +        }
->>>>>> +        if (s->default_nan_mode) {
->>>>>> +            return float128_default_nan(s);
->>>>>> +        }
->>>>>
->>>>> to here is common logic - is there anyway we could share it?
->>>>
->>>> I can try to factor it out, similar to pickNaN() - passing weird boolean
->>>> flags and such. It most certainly won't win in a beauty contest, that's
->>>> for sure.
->>>>>
->>>>> Likewise I wonder if there is scope for a float_minmax_exp helper that
->>>>> could be shared here?
->>>>
->>>> I'll try, but I have the feeling that it might make the code harder to
->>>> read than actually help. Will give it a try.
->>> Give it a try - if it really does become harder to follow then we'll
->>> stick with the duplication however if we can have common code you'll
->>> know at least the nan handling and minmax behaviour for float128 will be
->>> partially tested by the 16/32/64 float code.
->>
->> (finally had time to look into this)
->>
->> What about something like this:
->>
-> 
-> I was just about to look this morning but I see Richard has posted his
-> mega series:
-> 
->    From: Richard Henderson <richard.henderson@linaro.org>
->    Subject: [PATCH 00/72] Convert floatx80 and float128 to FloatParts
->    Date: Fri,  7 May 2021 18:46:50 -0700
->    Message-Id: <20210508014802.892561-1-richard.henderson@linaro.org>
-> 
-> which I think also includes the
-> float128_(min|minnum|minnummag|max|maxnum|maxnummag) functions. I'm
-> going to have a look at that first if that's ok.
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
 
-Sure, I have the gut feeling that it follows a similar approach :)
-
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Best regards,
+Vladimir
 
