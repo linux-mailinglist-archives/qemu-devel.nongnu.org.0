@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FEA8377E99
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 10:50:36 +0200 (CEST)
-Received: from localhost ([::1]:34936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A2F377EE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 11:03:09 +0200 (CEST)
+Received: from localhost ([::1]:51222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg1cZ-00034S-5z
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 04:50:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53636)
+	id 1lg1oh-0005yB-1R
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 05:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lg1Z0-0001fv-J3
- for qemu-devel@nongnu.org; Mon, 10 May 2021 04:46:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58623)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lg1lb-0003Al-Qe
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 04:59:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lg1Yy-0006Mr-7g
- for qemu-devel@nongnu.org; Mon, 10 May 2021 04:46:54 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lg1lY-0005cH-Rc
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 04:59:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620636411;
+ s=mimecast20190719; t=1620637192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4CmNfSepy6orHOk2Hr7XdXesmzQVRWUXkptxljbewMM=;
- b=dMrY0R4oBPM+z12K3mcecTOXkCMR+xNHpdqvo227uvHUpjX5sRRuHjSIHa8TsHxa/Yr2NM
- //krCkQ93HcUYZTBI2MBFMqfHbGgm9zmjhln+XeHd0U/oy+D2Vzmzxa63qcawtMI3g4fdL
- S0Hkz3Z1ass0OxQactafyYyRPfVVYMI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=raIE54VZxVBOTKQq9Gl6U8FS8oEtlBb6Seet9Y0SmXY=;
+ b=c+vOV9xDmjqyWQPxHbVoiW/8Ak401VK3ViHMZVtiEvElXUnxgZHe78MeLNXCY2sgabRq0z
+ pCzeTo9YAOnop1VGX19K5e2JPhWGpifwRdfAyHzpWwP8ufflD1aGonECvNAq26BxbnSbIS
+ r9VDrH4GrzON5DfS4Y9Xv4nTDG+AaLc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-RKg2OwkNO_So6sBozHPPTg-1; Mon, 10 May 2021 04:46:45 -0400
-X-MC-Unique: RKg2OwkNO_So6sBozHPPTg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-600-zEBxZjeiN_WA_TEXu7W8aQ-1; Mon, 10 May 2021 04:59:49 -0400
+X-MC-Unique: zEBxZjeiN_WA_TEXu7W8aQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F25C501E3;
- Mon, 10 May 2021 08:46:44 +0000 (UTC)
-Received: from work-vm (ovpn-115-16.ams2.redhat.com [10.36.115.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 898A419C44;
- Mon, 10 May 2021 08:46:39 +0000 (UTC)
-Date: Mon, 10 May 2021 09:46:36 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [question] The source cannot recover, if the destination fails
- in the last round of live migration
-Message-ID: <YJjy7AorcAExxXRP@work-vm>
-References: <7d87a3b7-86c9-9248-59dc-e1612a00e7c3@huawei.com>
- <YJPpr0z+sV3lQMxZ@work-vm>
- <dd990878-fb0f-5bfc-f390-d6807b158372@huawei.com>
- <YJVVS3K3TW8RwfuS@t490s>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD55F195D560;
+ Mon, 10 May 2021 08:59:48 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-113-184.ams2.redhat.com
+ [10.36.113.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EA386294D;
+ Mon, 10 May 2021 08:59:42 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/6] block-copy: make helper APIs thread safe
+Date: Mon, 10 May 2021 10:59:35 +0200
+Message-Id: <20210510085941.22769-1-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YJVVS3K3TW8RwfuS@t490s>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -84,66 +76,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <dme@dme.org>, Juan Quintela <quintela@redhat.com>,
- Kunkun Jiang <jiangkunkun@huawei.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- Keqian Zhu <zhukeqian1@huawei.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> On Fri, May 07, 2021 at 05:46:44PM +0800, Kunkun Jiang wrote:
-> > Hi Dave,
-> > 
-> > On 2021/5/6 21:05, Dr. David Alan Gilbert wrote:
-> > > * Kunkun Jiang (jiangkunkun@huawei.com) wrote:
-> > > > Hi all,
-> > > Hi,
-> > > 
-> > > > Recently I am learning about the part of live migration.
-> > > > I have a question about the last round.
-> > > > 
-> > > > When the pending_size is less than the threshold, it will enter
-> > > > the last round and call migration_completion(). It will stop the
-> > > > source and sent the remaining dirty pages and devices' status
-> > > > information to the destination. The destination will load these
-> > > > information and start the VM.
-> > > > 
-> > > > If there is an error at the destination at this time, it will exit
-> > > > directly, and the source will not be able to detect the error
-> > > > and recover. Because the source will not call
-> > > > migration_detect_error().
-> > > > 
-> > > > Is my understanding correct?
-> > > > Should the source wait the result of the last round of destination ?
-> > > Try setting the 'return-path' migration capability on both the source
-> > > and destination;  I think it's that option will cause the destination to
-> > > send an OK/error at the end and the source to wait for it.
-> > Thank you for your reply!
-> > The 'return-path' migration capability solved my question. 😁
-> > 
-> > But why not set it as the default? In my opinion, it is a basic ability
-> > of live migration. We need it to judge whether the last round of the
-> > destination is successful in the way of 'precopy'.
-> 
-> I think it should be enabled as long as both sides support it; though may not
-> be suitable as default (at least in QEMU) so as to consider old binaries.
+This serie of patches bring thread safety to the smaller APIs used by
+block-copy, namely ratelimit, progressmeter, co-shared-resource
+and aiotask.
+The end goal is to reduce the usage of the global
+AioContexlock in block-copy, by introducing smaller granularity
+locks thus on making the block layer thread safe. 
 
-Right, we can't break migration from old qemu's (I think libvirt will
-use it if available by default).
+This serie depends on Paolo's coroutine_sleep API.
 
-(Maybe some day we should enable it by default and deprecate turning it
-off)
+What's missing for block-copy to be fully thread-safe is fixing
+the CoSleep API to allow cross-thread sleep and wakeup.
+Paolo is working on it and will post the patches once his new
+CoSleep API is accepted.
 
-Dave
+Patches 1-3 work on ratelimit (they are also based on the first
+ratelimit patch sent by Paolo), 4 covers progressmeter,
+5 co-shared-resources and 6 aiopool.
 
-> Thanks,
-> 
-> -- 
-> Peter Xu
-> 
+Based-on: <20210503112550.478521-1-pbonzini@redhat.com> [coroutine_sleep]
+Based-on: <20210413125533.217440-1-pbonzini@redhat.com> [ratelimit]
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+v1 -> v2:
+* More field categorized as IN/State/OUT in the various struct
+* Fix a couple of places where I missed locks [Vladimir, Paolo]
+
+Emanuele Giuseppe Esposito (3):
+  progressmeter: protect with a mutex
+  co-shared-resource: protect with a mutex
+  aiopool: protect with a mutex
+
+Paolo Bonzini (3):
+  ratelimit: treat zero speed as unlimited
+  block-copy: let ratelimit handle a speed of 0
+  blockjob: let ratelimit handle a speed of 0
+
+ block/aio_task.c               | 63 ++++++++++++++++++++--------------
+ block/block-copy.c             | 28 ++++++---------
+ blockjob.c                     | 45 +++++++++++++++---------
+ include/block/aio_task.h       |  2 +-
+ include/qemu/progress_meter.h  | 31 +++++++++++++++++
+ include/qemu/ratelimit.h       | 12 +++++--
+ job-qmp.c                      |  8 +++--
+ job.c                          |  3 ++
+ qemu-img.c                     |  9 +++--
+ util/qemu-co-shared-resource.c | 26 +++++++++++---
+ 10 files changed, 155 insertions(+), 72 deletions(-)
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.30.2
 
 
