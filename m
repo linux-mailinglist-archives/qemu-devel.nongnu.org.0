@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26473788F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 13:49:40 +0200 (CEST)
-Received: from localhost ([::1]:55196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A8CF378987
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 13:51:54 +0200 (CEST)
+Received: from localhost ([::1]:35008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg4Pr-00005y-R0
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 07:49:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57242)
+	id 1lg4S1-0005ZU-Ln
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 07:51:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4Kc-0000Ol-FK
- for qemu-devel@nongnu.org; Mon, 10 May 2021 07:44:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55576)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4Kg-0000hH-QG
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 07:44:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4KZ-0003ho-Rl
- for qemu-devel@nongnu.org; Mon, 10 May 2021 07:44:14 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4Ke-0003kr-NY
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 07:44:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620647051;
+ s=mimecast20190719; t=1620647056;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pg6T/UFb2UD6NVpK1Q/nWln1mtcCS/74JJKpmUMEt6M=;
- b=aiiB9F6JmlNdnPu7UKGH+QOkeOGUj+nH9ohbJi81HCUIOfxo4ALIR2q8Fm/vASl2UJ8dwC
- MJm21iIpjQrJmtvRF9FnaDilmF5og8M1sLtc47Lmov0xs7YJjGSB+uJmDkxSBRU4TbROe2
- Tge5UBp7HzCf6fjxeEKR+p/I0i9V030=
+ bh=nCDi+GsLb2OY0kivT/l1k7sPXbfHbgSt0Qa0PUnPaMY=;
+ b=TQnt/i5RYYywJXLa+JTOHntCW/TpbyvHbwCK0DPuMmtyk4raa89RV5/cNeY3HhRZJ9/k7I
+ 5W3/rUQgYoGpPI5cv0+skCX+/5bx80kHyUHBkKdiDjQ0GXCY04dqTC43tJJ4Yr7WDMk7Q/
+ PL+07V7ozMHqkAbT9ChyQOR5LkhJOF4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-NLwSI4yeOXmntF_bJGtLJw-1; Mon, 10 May 2021 07:44:09 -0400
-X-MC-Unique: NLwSI4yeOXmntF_bJGtLJw-1
+ us-mta-564-2PL7rzMRPQKe_r_g2dIORg-1; Mon, 10 May 2021 07:44:14 -0400
+X-MC-Unique: 2PL7rzMRPQKe_r_g2dIORg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A98CC10066E6
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 11:44:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B04488014D8
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 11:44:13 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-137.ams2.redhat.com [10.36.114.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 661861037F2C;
- Mon, 10 May 2021 11:44:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1393B1007606;
+ Mon, 10 May 2021 11:44:08 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 06/15] softmmu/memory: Pass ram_flags to qemu_ram_alloc()
- and qemu_ram_alloc_internal()
-Date: Mon, 10 May 2021 13:43:19 +0200
-Message-Id: <20210510114328.21835-7-david@redhat.com>
+Subject: [PATCH v8 07/15] util/mmap-alloc: Pass flags instead of separate
+ bools to qemu_ram_mmap()
+Date: Mon, 10 May 2021 13:43:20 +0200
+Message-Id: <20210510114328.21835-8-david@redhat.com>
 In-Reply-To: <20210510114328.21835-1-david@redhat.com>
 References: <20210510114328.21835-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,127 +78,198 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's pass ram_flags to qemu_ram_alloc() and qemu_ram_alloc_internal(),
-preparing for passing additional flags.
+Let's pass flags instead of bools to prepare for passing other flags and
+update the documentation of qemu_ram_mmap(). Introduce new QEMU_MAP_
+flags that abstract the mmap() PROT_ and MAP_ flag handling and simplify
+it.
+
+We expose only flags that are currently supported by qemu_ram_mmap().
+Maybe, we'll see qemu_mmap() in the future as well that can implement these
+flags.
+
+Note: We don't use MAP_ flags as some flags (e.g., MAP_SYNC) are only
+defined for some systems and we want to always be able to identify
+these flags reliably inside qemu_ram_mmap() -- for example, to properly
+warn when some future flags are not available or effective on a system.
+Also, this way we can simplify PROT_ handling as well.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Acked-by: Eduardo Habkost <ehabkost@redhat.com> for memory backend and machine core
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/exec/ram_addr.h |  2 +-
- softmmu/memory.c        |  4 ++--
- softmmu/physmem.c       | 29 ++++++++++++-----------------
- 3 files changed, 15 insertions(+), 20 deletions(-)
+ include/qemu/mmap-alloc.h | 16 +++++++++-------
+ include/qemu/osdep.h      | 18 ++++++++++++++++++
+ softmmu/physmem.c         |  8 +++++---
+ util/mmap-alloc.c         | 15 ++++++++-------
+ util/oslib-posix.c        |  3 ++-
+ 5 files changed, 42 insertions(+), 18 deletions(-)
 
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index a7e3378340..6d4513f8e2 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -122,7 +122,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
+index 456ff87df1..90d0eee705 100644
+--- a/include/qemu/mmap-alloc.h
++++ b/include/qemu/mmap-alloc.h
+@@ -7,18 +7,22 @@ size_t qemu_fd_getpagesize(int fd);
+ size_t qemu_mempath_getpagesize(const char *mem_path);
  
- RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
-                                   MemoryRegion *mr, Error **errp);
--RAMBlock *qemu_ram_alloc(ram_addr_t size, bool share, MemoryRegion *mr,
-+RAMBlock *qemu_ram_alloc(ram_addr_t size, uint32_t ram_flags, MemoryRegion *mr,
-                          Error **errp);
- RAMBlock *qemu_ram_alloc_resizeable(ram_addr_t size, ram_addr_t max_size,
-                                     void (*resized)(const char*,
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 27b17a7c99..172527e89f 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1546,7 +1546,7 @@ void memory_region_init_ram_flags_nomigrate(MemoryRegion *mr,
-     mr->ram = true;
-     mr->terminates = true;
-     mr->destructor = memory_region_destructor_ram;
--    mr->ram_block = qemu_ram_alloc(size, ram_flags & RAM_SHARED, mr, &err);
-+    mr->ram_block = qemu_ram_alloc(size, ram_flags, mr, &err);
-     if (err) {
-         mr->size = int128_zero();
-         object_unparent(OBJECT(mr));
-@@ -1702,7 +1702,7 @@ void memory_region_init_rom_device_nomigrate(MemoryRegion *mr,
-     mr->terminates = true;
-     mr->rom_device = true;
-     mr->destructor = memory_region_destructor_ram;
--    mr->ram_block = qemu_ram_alloc(size, false,  mr, &err);
-+    mr->ram_block = qemu_ram_alloc(size, 0, mr, &err);
-     if (err) {
-         mr->size = int128_zero();
-         object_unparent(OBJECT(mr));
+ /**
+- * qemu_ram_mmap: mmap the specified file or device.
++ * qemu_ram_mmap: mmap anonymous memory, the specified file or device.
++ *
++ * mmap() abstraction to map guest RAM, simplifying flag handling, taking
++ * care of alignment requirements and installing guard pages.
+  *
+  * Parameters:
+  *  @fd: the file or the device to mmap
+  *  @size: the number of bytes to be mmaped
+  *  @align: if not zero, specify the alignment of the starting mapping address;
+  *          otherwise, the alignment in use will be determined by QEMU.
+- *  @readonly: true for a read-only mapping, false for read/write.
+- *  @shared: map has RAM_SHARED flag.
+- *  @is_pmem: map has RAM_PMEM flag.
++ *  @qemu_map_flags: QEMU_MAP_* flags
+  *  @map_offset: map starts at offset of map_offset from the start of fd
+  *
++ * Internally, MAP_PRIVATE, MAP_ANONYMOUS and MAP_SHARED_VALIDATE are set
++ * implicitly based on other parameters.
++ *
+  * Return:
+  *  On success, return a pointer to the mapped area.
+  *  On failure, return MAP_FAILED.
+@@ -26,9 +30,7 @@ size_t qemu_mempath_getpagesize(const char *mem_path);
+ void *qemu_ram_mmap(int fd,
+                     size_t size,
+                     size_t align,
+-                    bool readonly,
+-                    bool shared,
+-                    bool is_pmem,
++                    uint32_t qemu_map_flags,
+                     off_t map_offset);
+ 
+ void qemu_ram_munmap(int fd, void *ptr, size_t size);
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index cb2a07e472..a96d6cb7ac 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -366,6 +366,24 @@ void *qemu_anon_ram_alloc(size_t size, uint64_t *align, bool shared);
+ void qemu_vfree(void *ptr);
+ void qemu_anon_ram_free(void *ptr, size_t size);
+ 
++/*
++ * Abstraction of PROT_ and MAP_ flags as passed to mmap(), for example,
++ * consumed by qemu_ram_mmap().
++ */
++
++/* Map PROT_READ instead of PROT_READ | PROT_WRITE. */
++#define QEMU_MAP_READONLY   (1 << 0)
++
++/* Use MAP_SHARED instead of MAP_PRIVATE. */
++#define QEMU_MAP_SHARED     (1 << 1)
++
++/*
++ * Use MAP_SYNC | MAP_SHARED_VALIDATE if supported. Ignored without
++ * QEMU_MAP_SHARED. If mapping fails, warn and fallback to !QEMU_MAP_SYNC.
++ */
++#define QEMU_MAP_SYNC       (1 << 2)
++
++
+ #define QEMU_MADV_INVALID -1
+ 
+ #if defined(CONFIG_MADVISE)
 diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 98d41b0138..7fc3151fd2 100644
+index 7fc3151fd2..0138b7c31a 100644
 --- a/softmmu/physmem.c
 +++ b/softmmu/physmem.c
-@@ -2105,12 +2105,15 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
-                                   void (*resized)(const char*,
-                                                   uint64_t length,
-                                                   void *host),
--                                  void *host, bool resizeable, bool share,
-+                                  void *host, uint32_t ram_flags,
-                                   MemoryRegion *mr, Error **errp)
+@@ -1530,6 +1530,7 @@ static void *file_ram_alloc(RAMBlock *block,
+                             off_t offset,
+                             Error **errp)
  {
-     RAMBlock *new_block;
-     Error *local_err = NULL;
++    uint32_t qemu_map_flags;
+     void *area;
  
-+    assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC)) == 0);
-+    assert(!host ^ (ram_flags & RAM_PREALLOC));
-+
-     size = HOST_PAGE_ALIGN(size);
-     max_size = HOST_PAGE_ALIGN(max_size);
-     new_block = g_malloc0(sizeof(*new_block));
-@@ -2122,15 +2125,7 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
-     new_block->fd = -1;
-     new_block->page_size = qemu_real_host_page_size;
-     new_block->host = host;
--    if (host) {
--        new_block->flags |= RAM_PREALLOC;
--    }
--    if (share) {
--        new_block->flags |= RAM_SHARED;
--    }
--    if (resizeable) {
--        new_block->flags |= RAM_RESIZEABLE;
--    }
-+    new_block->flags = ram_flags;
-     ram_block_add(new_block, &local_err);
-     if (local_err) {
-         g_free(new_block);
-@@ -2143,15 +2138,15 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
- RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
-                                    MemoryRegion *mr, Error **errp)
+     block->page_size = qemu_fd_getpagesize(fd);
+@@ -1577,9 +1578,10 @@ static void *file_ram_alloc(RAMBlock *block,
+         perror("ftruncate");
+     }
+ 
+-    area = qemu_ram_mmap(fd, memory, block->mr->align, readonly,
+-                         block->flags & RAM_SHARED, block->flags & RAM_PMEM,
+-                         offset);
++    qemu_map_flags = readonly ? QEMU_MAP_READONLY : 0;
++    qemu_map_flags |= (block->flags & RAM_SHARED) ? QEMU_MAP_SHARED : 0;
++    qemu_map_flags |= (block->flags & RAM_PMEM) ? QEMU_MAP_SYNC : 0;
++    area = qemu_ram_mmap(fd, memory, block->mr->align, qemu_map_flags, offset);
+     if (area == MAP_FAILED) {
+         error_setg_errno(errp, errno,
+                          "unable to map backing store for guest RAM");
+diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+index 0e2bd7bc0e..1ddc0e2a1e 100644
+--- a/util/mmap-alloc.c
++++ b/util/mmap-alloc.c
+@@ -118,9 +118,12 @@ static void *mmap_reserve(size_t size, int fd)
+  * Activate memory in a reserved region from the given fd (if any), to make
+  * it accessible.
+  */
+-static void *mmap_activate(void *ptr, size_t size, int fd, bool readonly,
+-                           bool shared, bool is_pmem, off_t map_offset)
++static void *mmap_activate(void *ptr, size_t size, int fd,
++                           uint32_t qemu_map_flags, off_t map_offset)
  {
--    return qemu_ram_alloc_internal(size, size, NULL, host, false,
--                                   false, mr, errp);
-+    return qemu_ram_alloc_internal(size, size, NULL, host, RAM_PREALLOC, mr,
-+                                   errp);
- }
++    const bool readonly = qemu_map_flags & QEMU_MAP_READONLY;
++    const bool shared = qemu_map_flags & QEMU_MAP_SHARED;
++    const bool sync = qemu_map_flags & QEMU_MAP_SYNC;
+     const int prot = PROT_READ | (readonly ? 0 : PROT_WRITE);
+     int map_sync_flags = 0;
+     int flags = MAP_FIXED;
+@@ -128,7 +131,7 @@ static void *mmap_activate(void *ptr, size_t size, int fd, bool readonly,
  
--RAMBlock *qemu_ram_alloc(ram_addr_t size, bool share,
-+RAMBlock *qemu_ram_alloc(ram_addr_t size, uint32_t ram_flags,
-                          MemoryRegion *mr, Error **errp)
+     flags |= fd == -1 ? MAP_ANONYMOUS : 0;
+     flags |= shared ? MAP_SHARED : MAP_PRIVATE;
+-    if (shared && is_pmem) {
++    if (shared && sync) {
+         map_sync_flags = MAP_SYNC | MAP_SHARED_VALIDATE;
+     }
+ 
+@@ -173,9 +176,7 @@ static inline size_t mmap_guard_pagesize(int fd)
+ void *qemu_ram_mmap(int fd,
+                     size_t size,
+                     size_t align,
+-                    bool readonly,
+-                    bool shared,
+-                    bool is_pmem,
++                    uint32_t qemu_map_flags,
+                     off_t map_offset)
  {
--    return qemu_ram_alloc_internal(size, size, NULL, NULL, false,
--                                   share, mr, errp);
-+    assert((ram_flags & ~RAM_SHARED) == 0);
-+    return qemu_ram_alloc_internal(size, size, NULL, NULL, ram_flags, mr, errp);
- }
+     const size_t guard_pagesize = mmap_guard_pagesize(fd);
+@@ -199,7 +200,7 @@ void *qemu_ram_mmap(int fd,
  
- RAMBlock *qemu_ram_alloc_resizeable(ram_addr_t size, ram_addr_t maxsz,
-@@ -2160,8 +2155,8 @@ RAMBlock *qemu_ram_alloc_resizeable(ram_addr_t size, ram_addr_t maxsz,
-                                                      void *host),
-                                      MemoryRegion *mr, Error **errp)
+     offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guardptr;
+ 
+-    ptr = mmap_activate(guardptr + offset, size, fd, readonly, shared, is_pmem,
++    ptr = mmap_activate(guardptr + offset, size, fd, qemu_map_flags,
+                         map_offset);
+     if (ptr == MAP_FAILED) {
+         munmap(guardptr, total);
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 36820fec16..c12108c6cb 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -229,8 +229,9 @@ void *qemu_memalign(size_t alignment, size_t size)
+ /* alloc shared memory pages */
+ void *qemu_anon_ram_alloc(size_t size, uint64_t *alignment, bool shared)
  {
--    return qemu_ram_alloc_internal(size, maxsz, resized, NULL, true,
--                                   false, mr, errp);
-+    return qemu_ram_alloc_internal(size, maxsz, resized, NULL,
-+                                   RAM_RESIZEABLE, mr, errp);
- }
++    const uint32_t qemu_map_flags = shared ? QEMU_MAP_SHARED : 0;
+     size_t align = QEMU_VMALLOC_ALIGN;
+-    void *ptr = qemu_ram_mmap(-1, size, align, false, shared, false, 0);
++    void *ptr = qemu_ram_mmap(-1, size, align, qemu_map_flags, 0);
  
- static void reclaim_ramblock(RAMBlock *block)
+     if (ptr == MAP_FAILED) {
+         return NULL;
 -- 
 2.30.2
 
