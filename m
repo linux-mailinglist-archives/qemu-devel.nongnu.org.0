@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F408B379820
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 22:09:04 +0200 (CEST)
-Received: from localhost ([::1]:50336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DAD379824
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 22:10:44 +0200 (CEST)
+Received: from localhost ([::1]:54140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgCDA-0002Nf-3H
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 16:09:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49132)
+	id 1lgCEl-0004uG-W2
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 16:10:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgCCG-00012t-NQ
- for qemu-devel@nongnu.org; Mon, 10 May 2021 16:08:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54016)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgCCI-00014I-Vi
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 16:08:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgCCE-00060K-7l
- for qemu-devel@nongnu.org; Mon, 10 May 2021 16:08:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgCCH-00062g-Dv
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 16:08:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620677284;
+ s=mimecast20190719; t=1620677288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WPB8O0AGwVFsco1VHBpjwbNUXRBhhSil1k+Q8Nm/o2U=;
- b=TEUjO+d+EmZQpM7i+C4kpIW7RCBdkbEyZ2XoKXLacwEhluDpt21mYg6mWSuCv3e1FK9BE3
- +ByQe2xXS2v0AmJqhj/WbgR0Oqf6jnT9D1gIjNjmOUP7UcC9kK6BB1prxp/PfpLaDLcxg8
- 8ctzztb5en0Rf2tSNgEcH92tO6fob+o=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PY2uspWQizT0OsgRvnrGyb/uvN3JDAbEU0Ccc5/rcB0=;
+ b=dbktCEfK6CGyaCLmfypC3S/qdO1D04Y8SQA2xA/DLg4Fgl0nsDa1bdTytqgYKtf+F9MC7t
+ wvHVFlrCHGaD+z/MuYjFPeZDMFmtz5CiPnZCCkb7sFfS2u3i1wo6ABtsxGVqAmyn5QECNb
+ uG3eVKKmOw+HKRs6+Z+sBOT2prh/2cw=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-GzKCI8GLNAqlBBhn8F3PZA-1; Mon, 10 May 2021 16:08:02 -0400
-X-MC-Unique: GzKCI8GLNAqlBBhn8F3PZA-1
+ us-mta-58-ZM2oCpoaM4GpJs10-TUniA-1; Mon, 10 May 2021 16:08:07 -0400
+X-MC-Unique: ZM2oCpoaM4GpJs10-TUniA-1
 Received: by mail-ed1-f69.google.com with SMTP id
- z12-20020aa7d40c0000b0290388179cc8bfso9592325edq.21
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 13:08:01 -0700 (PDT)
+ f8-20020a0564020688b029038840895df2so9669288edy.17
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 13:08:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=47EqsuOBfHDcA/37gKpWU22c19DuvodmXPC5UxKB3NU=;
- b=FCSw/mteJlYX9P5hx25WDL7kooe1HEaLrj1zE3cvKviH7ulHn1P/93bFqaSID6sUvP
- pDWy8PIWXKoeTBh15sxxu0Ej/CqXkjlgZAZSPaGT7IRJayYTlP/p/MNNmNLWK4Gn2JI7
- UBP4suuw+gLvxcsX1W//Synl5Kk/jaxDFZrtGaPPnhxcCuMERezjUzSEXvDV4SWZAxWW
- ae74LNJrRGlqmKAtCoAelNCnPKlj5HEPEPsHejMsxzpZBFvSUf4RIPee/33PRH5rNItV
- Ir8nWi0iWH0fPZXseihwd3CTi0RoAcNilUIP4hQGxrz6p4DFiMzfZ18E8mw53tWsOBpy
- ncmw==
-X-Gm-Message-State: AOAM5327FTXPWUHmmDe4FNZMZ+luTlGEWsKK/Ik8W0DsToMkVlbUxm4n
- HvPSy1rWXQa2rco9Asl8bQcKzUVEitbmvEX+HOpayaPqOrX6Z8nkz0nreaG++bMav6ljU6df5aC
- xnRTpdN/2QN88/ofm+JBqg26HhFzFPVt5OweeDViMXiS0lV7nLmJyfzUBx8/mYElF
-X-Received: by 2002:a17:906:3e89:: with SMTP id
- a9mr26873247ejj.405.1620677280517; 
- Mon, 10 May 2021 13:08:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxu0A5QtShcdk2hDbqiDp7j1vK8Xj1pRqdu5FTaLduaJNCnD0X+7O/j/5DUfF3ZJV5twj53xA==
-X-Received: by 2002:a17:906:3e89:: with SMTP id
- a9mr26873214ejj.405.1620677280210; 
- Mon, 10 May 2021 13:08:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=PY2uspWQizT0OsgRvnrGyb/uvN3JDAbEU0Ccc5/rcB0=;
+ b=GQczBUUfIgg0QXp1NAJmISv7Cp0lP6mWs024pSLmjZ2XSivz7W4/u4dZC574qkRJc4
+ /ejwh8RZnOPhk6u2bYCf4CtRW9r9b9w+dYNjKbrkW8TJV1m+LHJzXTpUSQPCp50ZeHKr
+ pUwCI2MvNvxLox+IIcbIP2xS2tPT206Epeta53G3VThreROrD4dVRDcPquXnb8aiA9u3
+ ZsT+0AmNjA7rCBtRsm8XtqoHtiNm5r8F7KfwSvsHtLS6ETbKc7R9cXmD1SIDbUQ12MlE
+ YXb7RI+9wTO4/CZMA2j2ETtTZoRr+vjQkCuM+lGAxirRomCrS7skpbsf3FzN1xQY7K08
+ Dzmg==
+X-Gm-Message-State: AOAM533OW2aC4Y4Xwh6QqKSzTYZtVwWfdLKP2xypBoWKJdPeL/ivkRnn
+ Ktu0XyjfAZmPq5s7YBt7EYFA1U1nlcY0E4BLziUh5xcdf7tKim0ygYa8tGshv2dbz+F3yWuq1Z2
+ nKrujo2/XSoxsrBXgIsB7zqvbCA0EsB4wXA350x+pr2h6yF2jVK1p/wPgfN8ze+o1
+X-Received: by 2002:a05:6402:234b:: with SMTP id
+ r11mr31441286eda.137.1620677285778; 
+ Mon, 10 May 2021 13:08:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx5e47iTwtxQbH1Q3pkRPqYKXp7ISyBVc++aS377RGFr245sMe6vqS42Uve0X4I9ajEC/zT/g==
+X-Received: by 2002:a05:6402:234b:: with SMTP id
+ r11mr31441243eda.137.1620677285556; 
+ Mon, 10 May 2021 13:08:05 -0700 (PDT)
 Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id zh16sm9964249ejb.10.2021.05.10.13.07.58
+ by smtp.gmail.com with ESMTPSA id k26sm9870163eje.67.2021.05.10.13.08.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 13:07:59 -0700 (PDT)
+ Mon, 10 May 2021 13:08:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/2] virtio-blk: Convert QEMUBH callback to "bitops.h" API
-Date: Mon, 10 May 2021 22:07:56 +0200
-Message-Id: <20210510200758.2623154-1-philmd@redhat.com>
+Subject: [PATCH v3 1/2] bitops.h: Improve find_xxx_bit() documentation
+Date: Mon, 10 May 2021 22:07:57 +0200
+Message-Id: <20210510200758.2623154-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210510200758.2623154-1-philmd@redhat.com>
+References: <20210510200758.2623154-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -80,7 +83,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,29 +104,76 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series follow a suggestion from Stefan to use the bitops=0D
-API in virtio-blk:=0D
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg805139.html=0D
-=0D
-Since v2:=0D
-- clear bitmap to avoid spurious interrupts! (Stefan)=0D
-- use 'further' in find_next docstring (Eric)=0D
-- added Richard R-b tag=0D
-=0D
-Since v1:=0D
-- improved "bitops.h" docstring=0D
-- addressed Richard's review comments=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  bitops.h: Improve find_xxx_bit() documentation=0D
-  virtio-blk: Convert QEMUBH callback to "bitops.h" API=0D
-=0D
- include/qemu/bitops.h           | 15 ++++++++++++---=0D
- hw/block/dataplane/virtio-blk.c | 20 +++++---------------=0D
- 2 files changed, 17 insertions(+), 18 deletions(-)=0D
-=0D
---=20=0D
-2.26.3=0D
-=0D
+Document the following functions return the bitmap size
+if no matching bit is found:
+
+- find_first_bit
+- find_next_bit
+- find_last_bit
+- find_first_zero_bit
+- find_next_zero_bit
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/qemu/bitops.h | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 3acbf3384c6..a72f69fea85 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -140,7 +140,8 @@ static inline int test_bit(long nr, const unsigned long *addr)
+  * @addr: The address to start the search at
+  * @size: The maximum size to search
+  *
+- * Returns the bit number of the first set bit, or size.
++ * Returns the bit number of the last set bit,
++ * or @size if there is no set bit in the bitmap.
+  */
+ unsigned long find_last_bit(const unsigned long *addr,
+                             unsigned long size);
+@@ -150,6 +151,9 @@ unsigned long find_last_bit(const unsigned long *addr,
+  * @addr: The address to base the search on
+  * @offset: The bitnumber to start searching at
+  * @size: The bitmap size in bits
++ *
++ * Returns the bit number of the next set bit,
++ * or @size if there are no further set bits in the bitmap.
+  */
+ unsigned long find_next_bit(const unsigned long *addr,
+                             unsigned long size,
+@@ -160,6 +164,9 @@ unsigned long find_next_bit(const unsigned long *addr,
+  * @addr: The address to base the search on
+  * @offset: The bitnumber to start searching at
+  * @size: The bitmap size in bits
++ *
++ * Returns the bit number of the next cleared bit,
++ * or @size if there are no further clear bits in the bitmap.
+  */
+ 
+ unsigned long find_next_zero_bit(const unsigned long *addr,
+@@ -171,7 +178,8 @@ unsigned long find_next_zero_bit(const unsigned long *addr,
+  * @addr: The address to start the search at
+  * @size: The maximum size to search
+  *
+- * Returns the bit number of the first set bit.
++ * Returns the bit number of the first set bit,
++ * or @size if there is no set bit in the bitmap.
+  */
+ static inline unsigned long find_first_bit(const unsigned long *addr,
+                                            unsigned long size)
+@@ -194,7 +202,8 @@ static inline unsigned long find_first_bit(const unsigned long *addr,
+  * @addr: The address to start the search at
+  * @size: The maximum size to search
+  *
+- * Returns the bit number of the first cleared bit.
++ * Returns the bit number of the first cleared bit,
++ * or @size if there is no clear bit in the bitmap.
+  */
+ static inline unsigned long find_first_zero_bit(const unsigned long *addr,
+                                                 unsigned long size)
+-- 
+2.26.3
 
 
