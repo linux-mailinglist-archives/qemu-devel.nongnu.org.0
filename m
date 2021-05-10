@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE5E3378CDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 15:35:25 +0200 (CEST)
-Received: from localhost ([::1]:57964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDBF378CDD
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 15:37:26 +0200 (CEST)
+Received: from localhost ([::1]:37110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg64C-0001t3-Rp
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 09:35:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50446)
+	id 1lg66A-0006qm-0b
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 09:37:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lg5sH-0006kx-Hh
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lg5sH-0006m8-S4
  for qemu-devel@nongnu.org; Mon, 10 May 2021 09:23:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33691)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lg5sF-0003VY-RP
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lg5sF-0003Va-TA
  for qemu-devel@nongnu.org; Mon, 10 May 2021 09:23:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1620652983;
@@ -23,42 +23,42 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MTLAzDXu+Z7uVkge683MtXOOEQFJZJxUd3kvLcjVku8=;
- b=aao7ed86/WNgMxmAJ2dT+KGclCa3uqO704uiXgZi8FxXIccMtF8WlZTVlMGOQanKwdpcMS
- X9g3EBHOqpq0e0ERq64X/ONp59FJxzkGHQ/HCl0LIpEWW6uvq2c+byVRCkFMTrLsv+Q/l0
- ANY3W0jEbvPuT0p0X6+x84yZ6XkHUJY=
+ bh=eoFyKsSFk8GJAfA1oW6HnVClxWcBlMQLcfatjKnEVrk=;
+ b=AVJd4ks7fkQLMUyF1vJxB34q+d2IzKc+ZIXBpTrcF+KQ2f+/ZMkKwfNQvKOCSp/hsa5zwK
+ C1rmD3C3Ex+g09MfTDkGKNiu4cBZXATCg+u8Szm9OYcsyJsKnl/vbEX9OXDqtYvoxC5O2P
+ UZEkmXunPRj5cH/Zesy9FLUYQCI4T1Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-601-bgyafF6xP_q8VXAKnuy5Fw-1; Mon, 10 May 2021 09:22:59 -0400
-X-MC-Unique: bgyafF6xP_q8VXAKnuy5Fw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-152-ycFoLSyZMbyrNde-1ljJWw-1; Mon, 10 May 2021 09:23:01 -0400
+X-MC-Unique: ycFoLSyZMbyrNde-1ljJWw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BD26107ACF4
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 13:22:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2989107ACF4
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 13:23:00 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-11.ams2.redhat.com
  [10.36.112.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD83CE157;
- Mon, 10 May 2021 13:22:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E66F2C14A;
+ Mon, 10 May 2021 13:22:53 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6BE211800903; Mon, 10 May 2021 15:20:52 +0200 (CEST)
+ id 7C0241800904; Mon, 10 May 2021 15:20:52 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/25] modules: add have_vga
-Date: Mon, 10 May 2021 15:20:50 +0200
-Message-Id: <20210510132051.2208563-25-kraxel@redhat.com>
+Subject: [PULL 25/25] virtio-gpu: add virtio-vga-gl
+Date: Mon, 10 May 2021 15:20:51 +0200
+Message-Id: <20210510132051.2208563-26-kraxel@redhat.com>
 In-Reply-To: <20210510132051.2208563-1-kraxel@redhat.com>
 References: <20210510132051.2208563-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -84,47 +84,107 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a symbol which can be used to prevent display modules which
-need vga support being loaded into system emulators with CONFIG_VGA=n.
+Add pci proxy for virtio-gpu-gl-device, with vga compatibility.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Message-id: 20210430113547.1816178-1-kraxel@redhat.com
-Message-Id: <20210430113547.1816178-16-kraxel@redhat.com>
+Message-Id: <20210430113547.1816178-17-kraxel@redhat.com>
 ---
- include/hw/display/vga.h | 6 ++++++
- hw/display/vga.c         | 2 ++
- 2 files changed, 8 insertions(+)
+ hw/display/virtio-vga-gl.c | 47 ++++++++++++++++++++++++++++++++++++++
+ util/module.c              |  2 ++
+ hw/display/meson.build     |  5 ++++
+ 3 files changed, 54 insertions(+)
+ create mode 100644 hw/display/virtio-vga-gl.c
 
-diff --git a/include/hw/display/vga.h b/include/hw/display/vga.h
-index ca0003dbfd92..5f7825e0e368 100644
---- a/include/hw/display/vga.h
-+++ b/include/hw/display/vga.h
-@@ -11,6 +11,12 @@
- 
- #include "exec/hwaddr.h"
- 
-+/*
-+ * modules can reference this symbol to avoid being loaded
-+ * into system emulators without vga support
-+ */
-+extern bool have_vga;
+diff --git a/hw/display/virtio-vga-gl.c b/hw/display/virtio-vga-gl.c
+new file mode 100644
+index 000000000000..c971340ebb1a
+--- /dev/null
++++ b/hw/display/virtio-vga-gl.c
+@@ -0,0 +1,47 @@
++#include "qemu/osdep.h"
++#include "hw/pci/pci.h"
++#include "hw/qdev-properties.h"
++#include "hw/virtio/virtio-gpu.h"
++#include "hw/display/vga.h"
++#include "qapi/error.h"
++#include "qemu/module.h"
++#include "virtio-vga.h"
++#include "qom/object.h"
 +
- enum vga_retrace_method {
-     VGA_RETRACE_DUMB,
-     VGA_RETRACE_PRECISE
-diff --git a/hw/display/vga.c b/hw/display/vga.c
-index 836ad50c7b6d..28a90e30d0cf 100644
---- a/hw/display/vga.c
-+++ b/hw/display/vga.c
-@@ -39,6 +39,8 @@
- //#define DEBUG_VGA_MEM
- //#define DEBUG_VGA_REG
- 
-+bool have_vga = true;
++#define TYPE_VIRTIO_VGA_GL "virtio-vga-gl"
 +
- /* 16 state changes per vertical frame @60 Hz */
- #define VGA_TEXT_CURSOR_PERIOD_MS       (1000 * 2 * 16 / 60)
++typedef struct VirtIOVGAGL VirtIOVGAGL;
++DECLARE_INSTANCE_CHECKER(VirtIOVGAGL, VIRTIO_VGA_GL,
++                         TYPE_VIRTIO_VGA_GL)
++
++struct VirtIOVGAGL {
++    VirtIOVGABase parent_obj;
++
++    VirtIOGPUGL   vdev;
++};
++
++static void virtio_vga_gl_inst_initfn(Object *obj)
++{
++    VirtIOVGAGL *dev = VIRTIO_VGA_GL(obj);
++
++    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
++                                TYPE_VIRTIO_GPU_GL);
++    VIRTIO_VGA_BASE(dev)->vgpu = VIRTIO_GPU_BASE(&dev->vdev);
++}
++
++
++static VirtioPCIDeviceTypeInfo virtio_vga_gl_info = {
++    .generic_name  = TYPE_VIRTIO_VGA_GL,
++    .parent        = TYPE_VIRTIO_VGA_BASE,
++    .instance_size = sizeof(VirtIOVGAGL),
++    .instance_init = virtio_vga_gl_inst_initfn,
++};
++
++static void virtio_vga_register_types(void)
++{
++    if (have_vga) {
++        virtio_pci_types_register(&virtio_vga_gl_info);
++    }
++}
++
++type_init(virtio_vga_register_types)
+diff --git a/util/module.c b/util/module.c
+index fc545c35bcd2..eee8ff2de136 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -184,6 +184,7 @@ static const struct {
  
+     { "hw-display-virtio-gpu-gl", "hw-display-virtio-gpu" },
+     { "hw-display-virtio-gpu-pci-gl", "hw-display-virtio-gpu-pci" },
++    { "hw-display-virtio-vga-gl", "hw-display-virtio-vga" },
+ 
+ #ifdef CONFIG_OPENGL
+     { "ui-egl-headless", "ui-opengl"    },
+@@ -313,6 +314,7 @@ static struct {
+     { "virtio-gpu-ccw",        "hw-", "s390x-virtio-gpu-ccw"   },
+     { "virtio-vga-base",       "hw-", "display-virtio-vga"    },
+     { "virtio-vga",            "hw-", "display-virtio-vga"    },
++    { "virtio-vga-gl",         "hw-", "display-virtio-vga-gl" },
+     { "vhost-user-vga",        "hw-", "display-virtio-vga"    },
+     { "chardev-braille",       "chardev-", "baum"             },
+     { "chardev-spicevmc",      "chardev-", "spice"            },
+diff --git a/hw/display/meson.build b/hw/display/meson.build
+index 8ca2e7ab6362..612cd6582d0c 100644
+--- a/hw/display/meson.build
++++ b/hw/display/meson.build
+@@ -87,6 +87,11 @@ if config_all_devices.has_key('CONFIG_VIRTIO_VGA')
+   virtio_vga_ss.add(when: 'CONFIG_VHOST_USER_VGA',
+                     if_true: files('vhost-user-vga.c'))
+   hw_display_modules += {'virtio-vga': virtio_vga_ss}
++
++  virtio_vga_gl_ss = ss.source_set()
++  virtio_vga_gl_ss.add(when: ['CONFIG_VIRTIO_VGA', 'CONFIG_VIRGL', opengl],
++                       if_true: [files('virtio-vga-gl.c'), pixman])
++  hw_display_modules += {'virtio-vga-gl': virtio_vga_gl_ss}
+ endif
+ 
+ specific_ss.add(when: [x11, opengl, 'CONFIG_MILKYMIST_TMU2'], if_true: files('milkymist-tmu2.c'))
 -- 
 2.31.1
 
