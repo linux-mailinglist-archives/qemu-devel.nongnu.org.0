@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17810377EA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 10:53:09 +0200 (CEST)
-Received: from localhost ([::1]:40306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379C8377EA1
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 10:53:03 +0200 (CEST)
+Received: from localhost ([::1]:40130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg1f2-0006it-6v
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 04:53:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54506)
+	id 1lg1ew-0006bK-9H
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 04:53:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lg1dE-00040R-8y
- for qemu-devel@nongnu.org; Mon, 10 May 2021 04:51:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34084)
+ id 1lg1dD-0003zy-5F
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 04:51:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lg1dC-0008Qh-Fz
- for qemu-devel@nongnu.org; Mon, 10 May 2021 04:51:16 -0400
+ id 1lg1dB-0008Pv-IB
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 04:51:14 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lg1d8-0002ei-BS
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 08:51:10 +0000
+ id 1lg1d7-0002eq-77
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 08:51:09 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5CE1C2E81AA
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 08:51:05 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CC27D2E821F
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 08:51:03 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 08:42:08 -0000
-From: Thomas Huth <1873340@bugs.launchpad.net>
+Date: Mon, 10 May 2021 08:42:16 -0000
+From: Thomas Huth <1873341@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -41,15 +41,16 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: ruthan th-huth
 X-Launchpad-Bug-Reporter: ruthan (ruthan)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158706597063.17331.9857104872351030807.malonedeb@wampee.canonical.com>
-Message-Id: <162063612828.16552.6487367584602626725.malone@soybean.canonical.com>
-Subject: [Bug 1873340] Re: KVM Old ATI(pre) AMD card passthrough is not working
+References: <158706625888.5694.6270218999335358584.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162063613703.2111.17943552857782134003.malone@wampee.canonical.com>
+Subject: [Bug 1873341] Re: Qemu Win98 VM with KVM videocard passthrough DOS
+ mode video is not working for most of games..
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 91ca688aad50811d53a85efdc4a0554cdbb5f589
+X-Launchpad-Hash: a1cebc7c7f5a0c205685136d2e165980762541be
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1873340 <1873340@bugs.launchpad.net>
+Reply-To: Bug 1873341 <1873341@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -78,49 +79,44 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/252
+ https://gitlab.com/qemu-project/qemu/-/issues/253
 
 
 ** Changed in: qemu
        Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #252
-   https://gitlab.com/qemu-project/qemu/-/issues/252
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #253
+   https://gitlab.com/qemu-project/qemu/-/issues/253
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1873340
+https://bugs.launchpad.net/bugs/1873341
 
 Title:
-  KVM Old ATI(pre) AMD card passthrough is not working
+  Qemu Win98 VM with KVM videocard passthrough DOS mode video is not
+  working for most of games..
 
 Status in QEMU:
   Expired
 
 Bug description:
   Hello,
-  tried to passthroug old ATI pre AMD PCI / PCI-E cards, on machine where a=
-nything else is working - Nvidia /Matrox / 3dfx cards..
+  im using Win98 machine with KVM videocards passthrough which is working f=
+ine, but when i try Windows 98 - Dosbox mode, there is something work with =
+all videocards which i tried PCI-E/PCI - Nvidia, 3Dfx, Matrox.
 
-  Here are results:
-  ATI Mach 64 PCI - videocard - machine start segfault
-  ATI Rage XL PCI - videocard - machine start segfault
-  ATI Radeon 7000 PCI - Segmentation fault
-  ATI X600 Giabyte GV-RX60P128D - Segmentation fault
-  ATI X700 PCI-E Legend - videocard - completely broken picture from boot
-  ATI X800 XL PCI-E Gigabyte - videocard - completely broken picture from b=
-oot
-  =C2=A0=C2=A0All cards have last bioses.
+  =C2=A0Often is framerate is very slow, as slideshow:
+  Doom 2,Battle Arena Toshidden 1 demo, Blood, even for Fdisk start - i can=
+ see how its slowly rendering individual lines, or its not working at all -=
+ freeze / black screen only - Warcraft 2 demo (vesa 640x480).
 
-  ATI X600 - HP one professional with DMS-59 connector, im unable to
-  make passthrough, but im not able to set in Windows 98/WinXP machine..
-  anything less than 16 bit colors.. Im getting VM crashes or boot
-  freezes, when i try to boot with more colors.
+  =C2=A0There is something wrong with it. I can add more games info if is
+  needed, most of games which i tried are not working.
 
-  =C2=A0Qemu 2.11 and 4.2, is the same, Mint Linux 19.3. Giabyte Z170 MB.
+  =C2=A0Qemu 2.11 + 4.2, Linux Mint 19.3. Gigabyte Z170 MB.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1873340/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1873341/+subscriptions
 
