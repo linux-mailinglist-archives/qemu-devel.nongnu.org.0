@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2A5378B6C
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:09:58 +0200 (CEST)
-Received: from localhost ([::1]:36532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3AF2378C3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:27:36 +0200 (CEST)
+Received: from localhost ([::1]:46316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg4jV-0000st-Pc
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:09:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33870)
+	id 1lg50Z-0008Cs-G0
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:27:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dja@axtens.net>) id 1lg4h1-0007fm-Ag
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:07:23 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:35487)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lg4yw-0005XJ-Tr
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:54 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:47056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dja@axtens.net>) id 1lg4gz-0000eB-6f
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:07:23 -0400
-Received: by mail-pf1-x430.google.com with SMTP id i13so13577677pfu.2
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:07:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axtens.net; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lg4yv-00038m-3S
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:54 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id x5so16403576wrv.13
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=EZjBTCjfLjuw+fMtZby49poKJKIsVUn8rmA8SEDnUfc=;
- b=YgC8uMIiU4nV3mshNswsTcHHNLAMytLLva8RoIiQJqWUSRtsO+AunFnlFD0+HEeQWC
- Uq4Zfx/GVkJ0lBBn22a56sGzOBuLkcvzVxvYlRvodE5KjIPy7ReK1vdHmHs1Fiyp6oi2
- 8PFP8TTRJEhdcv4z6WR2Tr4pITeiG8y2mTZRM=
+ bh=SY9Eq14QwthAWesAyMtT78+tvNWJIa5qNzpG4zNe6V0=;
+ b=VQB0Sp7mg22cLnnYLLq4fd9/DEHZIoQdDw8+saruK+ACYtTRoqmcKlVOm9+7JR6QqK
+ 4go8vG8bEPZrRkhnN2nS4peJ1BCDOc76fzUSzN1Fhui9bQtQA6I2WSELxmhAtcrhem2B
+ mwF4DFx9KXpp5U5M2XRXyvrpAe2c+VbU5LdLEaJ4Sv47D8SB+J9lfdXxritGv21HLfG4
+ 3u9A8IVAs+R/H0A0pbeNThRI8TiIM9r2/eampdsJrVQ6APeH5dfSUWeVKAwFzFF+Nj1C
+ V2xyu2eq3f1xDEnoegoNWh9v8YU7jB8E/GfOG8Y6TakgWz4vjlrhtxuYPFCAXXoxd3B1
+ a7Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EZjBTCjfLjuw+fMtZby49poKJKIsVUn8rmA8SEDnUfc=;
- b=pOxQ45Ikf+qCUPFfrKKjOFbf4yiqZguFSFlm7oUEHIxSpyQrk/iAHHzgNp+trM+FAw
- nzZNN8Wd1DSsgdZyCfAD6TJHadaoCQlI+Rq85mbpt+kvxLBXQcgigSq4sI8NkTMBLWj7
- nRIoWVFFxp//9zr01rM6NxVQJErOC9wxtBCO6lYQc0lTUdHJaowEIC6MbKV8K1w4gRf2
- iBL3qgb6PWBrnZF+5Daaa5C8SF9w5Fb18PEVDxGEnxesC+Gn+LSkrP3pz1JLitS0pQU3
- eE0Ys7erHzksVilkR9xYyVBRd1waZ3G6Qc0D+tE6u7LuEGVkqsuLmKyjvjZ6blrmz8XV
- h0tw==
-X-Gm-Message-State: AOAM531IkQ4Y7rMrDJZNnG/b6lApT1RDYp1Sp86apcbBrtwZTy6XIQZB
- aLrH+f03wambftw5fIHLtpHhGQ==
-X-Google-Smtp-Source: ABdhPJzICCcB19A+6zdbe6pTjxw8Ds9LTGfoTk5pRvs2Hyesv8yxXG5NPFjKT/N5XQQ5IBGHCvmduw==
-X-Received: by 2002:a63:338b:: with SMTP id
- z133mr24379977pgz.442.1620648438464; 
- Mon, 10 May 2021 05:07:18 -0700 (PDT)
-Received: from localhost ([120.18.209.143])
- by smtp.gmail.com with ESMTPSA id 1sm10866501pfv.159.2021.05.10.05.07.17
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SY9Eq14QwthAWesAyMtT78+tvNWJIa5qNzpG4zNe6V0=;
+ b=BchU/Y8NlFOq2Ycqah6vvxN5rN1fOw1LnN1t+uXttPa2JOn6iD25Vtl8Nyd1kbSU/V
+ fwTp7nO+UxqOYfvKOEm0sqFgvt9+KP9UgEZe/xaJJwnHn3Q7S4Xvr65wG5LO3ekEkftS
+ 8m1T1mHNPCesOctbbPKJjL0smXW8C1xW1eg81dEQS04vXblnyfO09O/yS3Hl5X6RVbzp
+ wuiUiF2YZTwf3+y83obGcWN/2UaBLuAvG0n5251Dra3gH61zqJFQ13sGdhl+UCwYF/Ck
+ sBUlO8yWut9Mqp7erp0x5+KDfvPrTdBRaDVwvZTmrMOtjj8aK6uguU+q3Vofp0hE+C/e
+ dybg==
+X-Gm-Message-State: AOAM532eNZ+ETC85aVphBXzmWI7YifEsQV2QxcOpa63UEjb6pkWgOdTH
+ CJQgvhZawyKO3mbBoBpwIfzT+Oysx7QxHg==
+X-Google-Smtp-Source: ABdhPJxPVIGuaiJnb4HVkTuiswFpBSL2maD6SyUtPQ5xMhkqrBlcoa9G0B1yBKlpRtmsIh+82UNd3g==
+X-Received: by 2002:a5d:4d52:: with SMTP id a18mr30322493wru.45.1620649550909; 
+ Mon, 10 May 2021 05:25:50 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.25.50
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 05:07:18 -0700 (PDT)
-From: Daniel Axtens <dja@axtens.net>
-To: qemu-ppc@nongnu.org,
-	david@gibson.dropbear.id.au
-Subject: [PATCH] ppc/spapr: advertise secure boot in the guest device tree
-Date: Mon, 10 May 2021 22:07:13 +1000
-Message-Id: <20210510120713.90053-1-dja@axtens.net>
-X-Mailer: git-send-email 2.27.0
+ Mon, 10 May 2021 05:25:50 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 01/26] docs: fix link in sbsa description
+Date: Mon, 10 May 2021 13:25:23 +0100
+Message-Id: <20210510122548.28638-2-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210510122548.28638-1-peter.maydell@linaro.org>
+References: <20210510122548.28638-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=dja@axtens.net; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,134 +84,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Daniel Axtens <dja@axtens.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ibm,secure-boot property of the / node determines how firmware
-and the operating system should enforce secure boot. The meaning
-of the various values are:
+From: Alex Bennée <alex.bennee@linaro.org>
 
- 0   - secure boot is disabled
- 1   - secure boot in log-only mode
- 2   - secure boot enabled and enforced
- 3-9 - secure boot enabled and enforced; requirements at the
-         discretion of the operating system
+A trailing _ makes all the difference to the rendered link.
 
-We expose this as two properties:
-
- - secure-boot: determines whether the property is advertised in the
-                guest device tree. The default is false.
-
- - secure-boot-level: what value is advertised if enabled?
-                      The default is 2.
-
-This doesn't make the firmware or OS actually _do_ any verification, it
-just advises them that they should.
-
-Signed-off-by: Daniel Axtens <dja@axtens.net>
-
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-id: 20210428131316.31390-1-alex.bennee@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
+ docs/system/arm/sbsa.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Linux already reads this property. Versions of SLOF and grub that do
-verification are available on my GitHub:
- - github.com/daxtens/SLOF branch ibm,secure-boot (not production ready!)
- - github.com/daxtens/grub branch appendedsig-2.06
----
- hw/ppc/spapr.c         | 42 ++++++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr.h |  4 ++++
- 2 files changed, 46 insertions(+)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 3b1a5ed86518..544a412c3d18 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1157,6 +1157,20 @@ static void spapr_dt_hypervisor(SpaprMachineState *spapr, void *fdt)
-     }
- }
- 
-+static void spapr_dt_stb(SpaprMachineState *spapr, void *fdt)
-+{
-+    /*
-+     * PowerVM may provide fw-secure-boot, which purports to tell a partition
-+     * if the underlying firmware was booted securely. It's not meaningful
-+     * for KVM as there are no agreed semantics for what it would mean (host
-+     * secure boot only gives you integrity for the host kernel, not host
-+     * qemu). So we omit the property for now.
-+     */
-+    if (spapr->secure_boot)
-+        _FDT(fdt_setprop_cell(fdt, 0, "ibm,secure-boot",
-+            spapr->secure_boot_level));
-+}
-+
- void *spapr_build_fdt(SpaprMachineState *spapr, bool reset, size_t space)
- {
-     MachineState *machine = MACHINE(spapr);
-@@ -1263,6 +1277,9 @@ void *spapr_build_fdt(SpaprMachineState *spapr, bool reset, size_t space)
-         spapr_dt_hypervisor(spapr, fdt);
-     }
- 
-+    /* /ibm,secureboot */
-+    spapr_dt_stb(spapr, fdt);
-+
-     /* Build memory reserve map */
-     if (reset) {
-         if (spapr->kernel_size) {
-@@ -3298,6 +3315,20 @@ static void spapr_set_host_serial(Object *obj, const char *value, Error **errp)
-     spapr->host_serial = g_strdup(value);
- }
- 
-+static bool spapr_get_secure_boot(Object *obj, Error **errp)
-+{
-+    SpaprMachineState *spapr = SPAPR_MACHINE(obj);
-+
-+    return spapr->secure_boot;
-+}
-+
-+static void spapr_set_secure_boot(Object *obj, bool value, Error **errp)
-+{
-+    SpaprMachineState *spapr = SPAPR_MACHINE(obj);
-+
-+    spapr->secure_boot = value;
-+}
-+
- static void spapr_instance_init(Object *obj)
- {
-     SpaprMachineState *spapr = SPAPR_MACHINE(obj);
-@@ -3353,6 +3384,17 @@ static void spapr_instance_init(Object *obj)
-         spapr_get_host_serial, spapr_set_host_serial);
-     object_property_set_description(obj, "host-serial",
-         "Host serial number to advertise in guest device tree");
-+
-+    /* If we have secure boot, the default level is 2: enable and enforce */
-+    spapr->secure_boot_level = 2;
-+    object_property_add_bool(obj, "secure-boot",
-+        spapr_get_secure_boot, spapr_set_secure_boot);
-+    object_property_set_description(obj, "secure-boot",
-+        "Advertise secure boot in the guest device tree");
-+    object_property_add_uint8_ptr(obj, "secure-boot-level",
-+        &spapr->secure_boot_level, OBJ_PROP_FLAG_READWRITE);
-+    object_property_set_description(obj, "secure-boot-level",
-+        "Level of secure boot advertised in the guest device tree");
- }
- 
- static void spapr_machine_finalizefn(Object *obj)
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index c421410e3fb8..d829d0c27011 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -210,6 +210,10 @@ struct SpaprMachineState {
-     int fwnmi_machine_check_interlock;
-     QemuCond fwnmi_machine_check_interlock_cond;
- 
-+    /* Secure Boot */
-+    bool secure_boot;
-+    uint8_t secure_boot_level;
-+
-     /*< public >*/
-     char *kvm_type;
-     char *host_model;
+diff --git a/docs/system/arm/sbsa.rst b/docs/system/arm/sbsa.rst
+index b8ecfdb62fd..27b0999aaca 100644
+--- a/docs/system/arm/sbsa.rst
++++ b/docs/system/arm/sbsa.rst
+@@ -4,7 +4,7 @@ Arm Server Base System Architecture Reference board (``sbsa-ref``)
+ While the `virt` board is a generic board platform that doesn't match
+ any real hardware the `sbsa-ref` board intends to look like real
+ hardware. The `Server Base System Architecture
+-<https://developer.arm.com/documentation/den0029/latest>` defines a
++<https://developer.arm.com/documentation/den0029/latest>`_ defines a
+ minimum base line of hardware support and importantly how the firmware
+ reports that to any operating system. It is a static system that
+ reports a very minimal DT to the firmware for non-discoverable
 -- 
-2.27.0
+2.20.1
 
 
