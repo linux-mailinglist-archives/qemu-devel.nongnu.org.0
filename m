@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3AF2378C3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:27:36 +0200 (CEST)
-Received: from localhost ([::1]:46316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE69378C40
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:27:39 +0200 (CEST)
+Received: from localhost ([::1]:46420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg50Z-0008Cs-G0
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:27:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37324)
+	id 1lg50c-0008HL-C4
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4yw-0005XJ-Tr
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:54 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:47056)
+ id 1lg4yx-0005XR-Bc
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:55 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4yv-00038m-3S
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:54 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id x5so16403576wrv.13
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:25:51 -0700 (PDT)
+ id 1lg4yv-00038q-3M
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:55 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id n2so16476754wrm.0
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:25:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=SY9Eq14QwthAWesAyMtT78+tvNWJIa5qNzpG4zNe6V0=;
- b=VQB0Sp7mg22cLnnYLLq4fd9/DEHZIoQdDw8+saruK+ACYtTRoqmcKlVOm9+7JR6QqK
- 4go8vG8bEPZrRkhnN2nS4peJ1BCDOc76fzUSzN1Fhui9bQtQA6I2WSELxmhAtcrhem2B
- mwF4DFx9KXpp5U5M2XRXyvrpAe2c+VbU5LdLEaJ4Sv47D8SB+J9lfdXxritGv21HLfG4
- 3u9A8IVAs+R/H0A0pbeNThRI8TiIM9r2/eampdsJrVQ6APeH5dfSUWeVKAwFzFF+Nj1C
- V2xyu2eq3f1xDEnoegoNWh9v8YU7jB8E/GfOG8Y6TakgWz4vjlrhtxuYPFCAXXoxd3B1
- a7Hg==
+ bh=toJACPBD+agquDJNeNcjG7zq9jkLnO9aVFHB2e+yE4E=;
+ b=FhSqu6T1mT/f9nwoF7e6KsBelEk847slEF/6uxSahdZeMEQ4BMbwNYSK4kYeuYMl5e
+ J8ZBb5aF4SMNgpiWc/aPqGbYgoSd5n4cVLx58yOvbX4ZOOlXys5b8f/ab6/rytLxxtmx
+ Cxj8b2GRsxT0kYko53IwRUe8Lea18yHaqc/GJ27mrrOH9+08cIZpEfVWg8NXxYhdL4Qc
+ cJwRFu+Ijd6Jth1537B2QnnrbXGevIyiYSKqWLiUewI9SWstopBaUXq8Gsa6TOFF+Xw4
+ r1tkxpYPAWf0lMNZqccJo0eNIyYw5izqWNuII5tD312XcvFwzHKsa4Td4Z0+D9R1A+5+
+ Zztw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SY9Eq14QwthAWesAyMtT78+tvNWJIa5qNzpG4zNe6V0=;
- b=BchU/Y8NlFOq2Ycqah6vvxN5rN1fOw1LnN1t+uXttPa2JOn6iD25Vtl8Nyd1kbSU/V
- fwTp7nO+UxqOYfvKOEm0sqFgvt9+KP9UgEZe/xaJJwnHn3Q7S4Xvr65wG5LO3ekEkftS
- 8m1T1mHNPCesOctbbPKJjL0smXW8C1xW1eg81dEQS04vXblnyfO09O/yS3Hl5X6RVbzp
- wuiUiF2YZTwf3+y83obGcWN/2UaBLuAvG0n5251Dra3gH61zqJFQ13sGdhl+UCwYF/Ck
- sBUlO8yWut9Mqp7erp0x5+KDfvPrTdBRaDVwvZTmrMOtjj8aK6uguU+q3Vofp0hE+C/e
- dybg==
-X-Gm-Message-State: AOAM532eNZ+ETC85aVphBXzmWI7YifEsQV2QxcOpa63UEjb6pkWgOdTH
- CJQgvhZawyKO3mbBoBpwIfzT+Oysx7QxHg==
-X-Google-Smtp-Source: ABdhPJxPVIGuaiJnb4HVkTuiswFpBSL2maD6SyUtPQ5xMhkqrBlcoa9G0B1yBKlpRtmsIh+82UNd3g==
-X-Received: by 2002:a5d:4d52:: with SMTP id a18mr30322493wru.45.1620649550909; 
- Mon, 10 May 2021 05:25:50 -0700 (PDT)
+ bh=toJACPBD+agquDJNeNcjG7zq9jkLnO9aVFHB2e+yE4E=;
+ b=Nry/liVyhNzlkFk625umyqyteoqGHCHgXnuH33EqmcdA1Ty+G1gCrWDXyyrm3JYVni
+ LpW2XFNnYf2SyztdNsDysID8SEf/7vi9IncCP91/O4JrfHubwzedfDqWquUMLtxLcpCz
+ sS6rF94g5Xe2fzhrf99XRkMsrHHH3lzJXbnH0ue8EqDyHzfe7V+P6qA9oX9/w3Eqlh3E
+ T+IhOm6bLPyj7pC3Lrh9YrrX1vI/wXrXll0kDUvwVLresYH76ha+LdilO72aKEBOf0up
+ 7B8UpNVxwlCIsSrPK5+u6jgJkxjFSqD4G+GY4hom7Lo4orxmihevEQ6LpkxERyPxzUZk
+ toOA==
+X-Gm-Message-State: AOAM5325nyCdQ1rObtk0BLIm4tng/zJTDkA2xKHowmTVMp4fHfgMwU81
+ YJybS0wPNps+/jR7lMC3Sn8clPFq2aMotw==
+X-Google-Smtp-Source: ABdhPJyivbZZOKUrjhULpFnGL85Kq1RWyPWZh8mCvOWAEl6ZfaGjEj+g/NWl1A2Al5fQwZ5zq8k0yA==
+X-Received: by 2002:adf:cc8c:: with SMTP id p12mr30388590wrj.407.1620649551510; 
+ Mon, 10 May 2021 05:25:51 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.25.50
+ by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.25.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 05:25:50 -0700 (PDT)
+ Mon, 10 May 2021 05:25:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/26] docs: fix link in sbsa description
-Date: Mon, 10 May 2021 13:25:23 +0100
-Message-Id: <20210510122548.28638-2-peter.maydell@linaro.org>
+Subject: [PULL 02/26] linux-user/aarch64: Enable hwcap for RND, BTI, and MTE
+Date: Mon, 10 May 2021 13:25:24 +0100
+Message-Id: <20210510122548.28638-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210510122548.28638-1-peter.maydell@linaro.org>
 References: <20210510122548.28638-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,31 +86,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-A trailing _ makes all the difference to the rendered link.
+These three features are already enabled by TCG, but are missing
+their hwcap bits.  Update HWCAP2 from linux v5.12.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20210428131316.31390-1-alex.bennee@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-stable@nongnu.org (for 6.0.1)
+Buglink: https://bugs.launchpad.net/bugs/1926044
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210427214108.88503-1-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/sbsa.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/elfload.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/docs/system/arm/sbsa.rst b/docs/system/arm/sbsa.rst
-index b8ecfdb62fd..27b0999aaca 100644
---- a/docs/system/arm/sbsa.rst
-+++ b/docs/system/arm/sbsa.rst
-@@ -4,7 +4,7 @@ Arm Server Base System Architecture Reference board (``sbsa-ref``)
- While the `virt` board is a generic board platform that doesn't match
- any real hardware the `sbsa-ref` board intends to look like real
- hardware. The `Server Base System Architecture
--<https://developer.arm.com/documentation/den0029/latest>` defines a
-+<https://developer.arm.com/documentation/den0029/latest>`_ defines a
- minimum base line of hardware support and importantly how the firmware
- reports that to any operating system. It is a static system that
- reports a very minimal DT to the firmware for non-discoverable
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index c6731013fde..fc9c4f12be9 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -586,6 +586,16 @@ enum {
+     ARM_HWCAP2_A64_SVESM4       = 1 << 6,
+     ARM_HWCAP2_A64_FLAGM2       = 1 << 7,
+     ARM_HWCAP2_A64_FRINT        = 1 << 8,
++    ARM_HWCAP2_A64_SVEI8MM      = 1 << 9,
++    ARM_HWCAP2_A64_SVEF32MM     = 1 << 10,
++    ARM_HWCAP2_A64_SVEF64MM     = 1 << 11,
++    ARM_HWCAP2_A64_SVEBF16      = 1 << 12,
++    ARM_HWCAP2_A64_I8MM         = 1 << 13,
++    ARM_HWCAP2_A64_BF16         = 1 << 14,
++    ARM_HWCAP2_A64_DGH          = 1 << 15,
++    ARM_HWCAP2_A64_RNG          = 1 << 16,
++    ARM_HWCAP2_A64_BTI          = 1 << 17,
++    ARM_HWCAP2_A64_MTE          = 1 << 18,
+ };
+ 
+ #define ELF_HWCAP   get_elf_hwcap()
+@@ -640,6 +650,9 @@ static uint32_t get_elf_hwcap2(void)
+     GET_FEATURE_ID(aa64_dcpodp, ARM_HWCAP2_A64_DCPODP);
+     GET_FEATURE_ID(aa64_condm_5, ARM_HWCAP2_A64_FLAGM2);
+     GET_FEATURE_ID(aa64_frint, ARM_HWCAP2_A64_FRINT);
++    GET_FEATURE_ID(aa64_rndr, ARM_HWCAP2_A64_RNG);
++    GET_FEATURE_ID(aa64_bti, ARM_HWCAP2_A64_BTI);
++    GET_FEATURE_ID(aa64_mte, ARM_HWCAP2_A64_MTE);
+ 
+     return hwcaps;
+ }
 -- 
 2.20.1
 
