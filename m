@@ -2,164 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A3383790DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 16:34:49 +0200 (CEST)
-Received: from localhost ([::1]:46520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE43379104
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 16:39:26 +0200 (CEST)
+Received: from localhost ([::1]:51036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg6zg-0002Ib-62
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 10:34:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38380)
+	id 1lg749-0005Tw-68
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 10:39:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1lg6yB-0001Kv-Kl
- for qemu-devel@nongnu.org; Mon, 10 May 2021 10:33:15 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:53480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1lg6y9-0005F9-BT
- for qemu-devel@nongnu.org; Mon, 10 May 2021 10:33:15 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14AEScij168990
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 14:33:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=eBPJQzdVqKoFbvLjN90j9xOg2gZ4raNZfKsC69JZMkI=;
- b=xk+6oXGHPpnnDk9AP3ekGk9/i4VIaJH2J8zEXqIi6o/6b62CRtiKDSlME+gyhiDLI2mO
- YFE63fPLusOQpXbHgcZuBqP8M39iYfQ1/vb3shUD6qxGzg/JhxtDaT6SHHOqNnIq8Eej
- xs2wY/t6RKxN7J9oNJbMP9BIuJvPrD0HOW0RCpj2kOgsVfSkhEv+tQmzmWd8hAvYb93L
- zg6EXrFWMslrd3BCJaXOHF9rXBPFF5xhGy679lP3NDGo8Jbj2a8dETWAlLEZOa42/yfM
- Lt/UohShQoo7hPylCsGAYihx8eCKWF38FSlcVaF/Ed2tou/gu0Neotx0jS8AqPiAS9vT cQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 38dk9nbdrg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 14:33:07 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 14AEUdNC024577
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 14:33:06 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam08lp2041.outbound.protection.outlook.com [104.47.73.41])
- by aserp3020.oracle.com with ESMTP id 38djf6tyj0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 14:33:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K8Wa1TnsNXdhD6tXrYkTDEVoxpLPDdOv+pqoTg93Yu/qIwmCvfQZQZbZ2Jbs7AmtjPvksTV84T2kzHSGZebLZ/Aq6WdugYsEafPhCVukzPyAL6kIFIvCUrMKI/WtFQP7/1vKdGucbFNcHLEarki8qMk51K/Gsa88sPnsOqa2tWv3gZ5t3IiuY0PjpvHHJb3jypJH4W7oUNcB6XREwy5e3Vqab960H7qaFa8kkIo+W5fGRmRk9GA3kEXAxsRZ1jf3RNgfndtMdL+dehLmDRfxtH6Ef8OOWURj2I21Zero+9Frb3BKoOKA3FeCS94SRl17AQQivQY0FvU0BBpH7cDk9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eBPJQzdVqKoFbvLjN90j9xOg2gZ4raNZfKsC69JZMkI=;
- b=LFQRNxq7ZKPcrM6NRgZ9K8TA+1TKacmtXzoYVQidx7aQKVJRGC2bE+nnRQwHzgdNss2b1roWY9/5nwIPaBfeIhmRoo1+QsiJtYAc7kLkHsexFKOOkcdR6BynY80QWDv1MQSCWfIJM4u5d9L75uKfb4rtR2aS4fFHZeSs0FQGIj+M0vwxgiPQ0qscIkhPNsITKmQSU5DoBAxZBcIi1IrfCq0Pgv3WxC5Xg23K64wqrQ+JEFm1g96PcDpahaXjar7FADkPTOjDJoji/BzbeHYjVoW284eK6ANDyeAZVq3npAwR8wiXUw09KFhIgwu5QNRbYp35pI6pvziik2czeOGrJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1lg73C-0004Jz-O6
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 10:38:26 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:46743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
+ id 1lg735-0008Pw-Kw
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 10:38:23 -0400
+Received: by mail-qt1-x833.google.com with SMTP id p6so12036728qtk.13
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 07:38:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eBPJQzdVqKoFbvLjN90j9xOg2gZ4raNZfKsC69JZMkI=;
- b=ree3HwxImzWD2dgOzANIK2ruJmks/ovQqVsAXvw53Tz3hub5tJDqkHj+n/7dddHyXD4rS/YebXIy9G0P/+YSg4pNdxBANIG10XIpGg7Kpp7UylGTxmU9o2DEOlzy/czWu27gKFcffF7SKmtABz2OOOBo8ryn+b/n/KYhOoIm4Ao=
-Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
- by MN2PR10MB3838.namprd10.prod.outlook.com (2603:10b6:208:1b8::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.27; Mon, 10 May
- 2021 14:33:04 +0000
-Received: from MN2PR10MB4013.namprd10.prod.outlook.com
- ([fe80::508:17b9:6da6:5246]) by MN2PR10MB4013.namprd10.prod.outlook.com
- ([fe80::508:17b9:6da6:5246%6]) with mapi id 15.20.4108.031; Mon, 10 May 2021
- 14:33:04 +0000
-From: Jag Raman <jag.raman@oracle.com>
-To: Dongli Zhang <dongli.zhang@oracle.com>
-Subject: Re: [PATCH 1/1] multi-process: fix usage information
-Thread-Topic: [PATCH 1/1] multi-process: fix usage information
-Thread-Index: AQHXQ9MjWsCKD1i7C0CepRrK3fl5q6rcyx6A
-Date: Mon, 10 May 2021 14:33:04 +0000
-Message-ID: <2E3658B8-DE76-46CB-8E2F-E344637F5E6B@oracle.com>
-References: <20210508062632.9039-1-dongli.zhang@oracle.com>
-In-Reply-To: <20210508062632.9039-1-dongli.zhang@oracle.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3654.60.0.2.21)
-x-originating-ip: [2601:18c:d07f:b000:70ac:1d9c:d38c:6398]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f56da2b3-6783-4d76-520c-08d913c0857a
-x-ms-traffictypediagnostic: MN2PR10MB3838:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR10MB38385CE3EC51EC1E3A874E1D90549@MN2PR10MB3838.namprd10.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3173;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3RgHvORngj7xek2Stipjcx2+gMRfb93UNtWdh41iiNt6O4ygXyW8huUlR0bHYbESCBGmbDZylQdFyRmfPgcQQIE0VLDUa5PXCuQTq5bz1xu5phlK5EJDljVm929Ex09DkwjO4IsWCZT/O1e0OLsRgwnCC8j35NZdCGI3hTniT+Rxi8RMjY14PkVuI8Uax2TFj/Bxrm0ERx3CP77iBUsvqEkxz7qhC/vId80HVoRdsP3oXUmHaK2q5TqByKiz1afgie8AUfCcUMofD4zl4BDBdSDUGM6s3085cSe1tax5nJEM9v4SKs1/S9/27fvTwMrM5pEUu0th1+Sv/1aLpRe0kDFKPO+gg2n1otF3YksuhTXM+eRNfsrb0t+oUbMV5tsUms9tFI01KCHCEomBX8bAGqJhHafKmsR339p9UGFq2WPSrp3xrWF5CYUM4o7X737lyU2enOWUTMNuSnTtLdO4mi2YV8Uwg497G6ecE4veTOYGZcdqqZkO60TlNQgfVcn+ytrzgPJdg7qcYjovJIErnJWG6/bWJWui34vnep6up1f/7cnfRr1bcMQVPIytIyoGFlgjMoVHU/EYS7tUB0IVkabUlatnMSKM46l8SSMBUcJ4kd2sty074sLrP+zXubT/WQtX3BVKl8uO2wcsOtgha0LKCUhd7/CSznXb2jNuOiXXA5rWJI/dzEDYbbyZC+BQ53QLZ8ZZtSQQ1tgNOo5cW2pmV9QjcWj7vub2kPPdgvY=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(498600001)(53546011)(186003)(38100700002)(122000001)(5660300002)(2906002)(6486002)(6512007)(86362001)(6506007)(966005)(107886003)(36756003)(91956017)(54906003)(76116006)(66946007)(66556008)(37006003)(71200400001)(66476007)(66446008)(6862004)(2616005)(64756008)(33656002)(83380400001)(44832011)(8936002)(4326008)(6636002)(8676002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?pvFMl3U37R7z9L9Ohc7pLnh56Jw06537YgvXzhkzEcNPzBwAbEAYV2no6Bx6?=
- =?us-ascii?Q?JGR0M1mjQ4sdyYzXTd5WWm/lOErILwkkf7+6RTdBGwlISm/3ij3pwN1u/8Kb?=
- =?us-ascii?Q?VQ60R4gUDOh09yva0TTVk6BPwYwqXvXboqz5/PDSjJGlA95BEIt7prA3aLfH?=
- =?us-ascii?Q?aYnYDKj+9QMU0t1hpTxJPu9I9rmjnQb2vn/Jyh0HN4eocswJL0XjtjL1WiEP?=
- =?us-ascii?Q?bkDcrF4pBvsS6yQ60iAJIslikTBx3wSf5zM831P9SWyDQ7h6s1n78OL4x7fa?=
- =?us-ascii?Q?qnU25eV8kN3bbCyoVgyBEd2jwTAGYxkoHXDqCh85y/6eVT2i31ZHgVIJnz0Y?=
- =?us-ascii?Q?FseZlVFiqCH5QPL/8UFKK7BofviWA5x1X/sJ1/6YQnvJ9dB06gQ652vs0omA?=
- =?us-ascii?Q?9Y77g+05Fkun2cqG74pD9JHxgFEeXHs7vOxtiolTMf5Z3T5wJHGeUFZK/oTK?=
- =?us-ascii?Q?xhO5bkSecgUX8O+/e+u3RBjiIeqdG1ix1KiIddKIyYr0SgJCj4y+dzETwplW?=
- =?us-ascii?Q?P/yGs6JKIAQguNBr5BYurQ7K78Y6qez21UY3y5kwbqDTrLuDqB+PEqZbTUTm?=
- =?us-ascii?Q?XRh5qAue5tVrDzq/skaapdO7/MjRF74XkIf41S9zSXhn7ICM71Qxc8M3cIh5?=
- =?us-ascii?Q?KkAQqBKDieafKp8Y0ouTNlsw5oL/pGD+7yeT5molLoDqjOHJtbkrCd1n6U62?=
- =?us-ascii?Q?+A7Ay7WKGwcpXWxkVpS7WQfOn13b56bNVZZjtkWzKyE4LLALnCuf5QqSxnUs?=
- =?us-ascii?Q?u53sPdsIuquSnA/Oxfu1HW9k5S0jChB21lzn2hKHWjjQYxzg7Er6en/tsLGu?=
- =?us-ascii?Q?6uZrH0cs8cqVrZ70imVPIHgt21VhAya7T1yWYUJrYa0/tivgltZtZL6w7WbZ?=
- =?us-ascii?Q?U2TcMdyfYVdATB8HF8k+6yNs6Yj5EyFD+8gEV7Knndt7V75oWPfOqD7b9sly?=
- =?us-ascii?Q?TkHWlzn4SO92vVQP8b+GP9Qn27w7bxQUHH+x9EeN7nZkXMUNFelRnMDfEZNQ?=
- =?us-ascii?Q?V4U3PHrwrXCfsyjuaXY9lYTRgYSB65rQsXZjE0eYtj/ZmQOvxn3iWSs8IxPU?=
- =?us-ascii?Q?EZXTAFQIifhOad+6GUaA/EJ+7gWRDen5a895Cafdv9J3dsSJIrKFE6Czjrcq?=
- =?us-ascii?Q?tB+IrWkTwOlYgiBomRo65iKOjiCvq/lnPRn5yzwA1hXCqHlEpIpcuYRNRgm1?=
- =?us-ascii?Q?VSry5W2AKgsOAkO452SLDyUzI7E1rd3BTeYNEs7QzuzclUa5cJ5z2EMTsibk?=
- =?us-ascii?Q?+nfRzINt6FOfpm64/9JHqKhseFiUsPlcqtWQK/4xLy5bhhSNizTKifE8z6Bt?=
- =?us-ascii?Q?fyRWC3vKu3+BIHKCRs4TrnVFVNGslifu4UOL1W9v6peD2/HEMxKgdOHKXSXs?=
- =?us-ascii?Q?NvhS62gm2NxlVpgUBHnKizRseRs0?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <A21346AE5A06E742BACC2DAD6D329628@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=I1Joo4rParNjPzCRgaXVEjG+974jeh84Imc9fO6ZUqY=;
+ b=DFqwvtytg66O9yOA22LitFJb2lxeHRUWK0sconMhixxJjHAza/mdDjVIoEwzeigjK/
+ qfpQgazkMttM7QVyoqeSEI2sA87K3+KqIE7n+6pqSdCe+N7xJBj5KQrR2pRQHLOiaF4T
+ tM+XYuxcO2kC1h65i8gPNVd4iMsvpHz6L+vTU3QQ14mHhNl6sQ+PcoMTCyCZy7ydodAn
+ 7o0XS33q6PLaVMs0U36rvZb7rHIbA6nDQVbYVHAknfo8Q5xDwe3/vbJKXdGPmIZWu7AV
+ mUwupJ0/48xY70DCDxEQdWEwrKoRLHtaqFmwUzRt3wBDB/LC5UwyQskoPWsuLJFGag1a
+ HQCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=I1Joo4rParNjPzCRgaXVEjG+974jeh84Imc9fO6ZUqY=;
+ b=sdUE8y6ZR5KrRrBhOqJmsSCJ/sPUk+nKXvNtEeLxy1CIG+VYlLDLpoAu6/2NaWL/zx
+ rmGLVHhMMswZnsTM2zcOebuaHU66e4w3IRrm9SqvNBrQahMsONfTP965laivmC8Z5n1p
+ c7I8wZQXBAF21UixkCfxOZtURpOhPzm02hbP6zoxkGvJj5RmAOoWBZgfN8wSDG/JfbiI
+ RYjW0dH3ckqdGLOcSXYFkh8yQel9mZcyqUtxTnhZpRCDsnVQtAh6wY45wJv6ghKUaQQr
+ GOYgIDmI0/hH9ZB/pHSCTwqAJE8h/ztK5M4TF2uBUlJdmhUjgpYfvAJSnXAq4U9h86JR
+ Fbsw==
+X-Gm-Message-State: AOAM532JdvCDYYCpaxqL43zG1lMmmc7qOp1oIUONrKtaX3uihuBtuNsk
+ dgX5M1RgvOwZ8iVCUU7EkJ4kAewa+wEN1XBQH3c2kA==
+X-Google-Smtp-Source: ABdhPJwSiRfJkKSf/MpneXm4t+O/AB/9LElJExtcnwM9Mrfd4gyRsmzwSquAjsatRQsFcswf8HV/oefENVB79YMiBxw=
+X-Received: by 2002:a05:622a:1044:: with SMTP id
+ f4mr7333952qte.181.1620657496532; 
+ Mon, 10 May 2021 07:38:16 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f56da2b3-6783-4d76-520c-08d913c0857a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2021 14:33:04.1521 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: C/DDALTEzuLnb1BdGdQF/7OIJCA6OLm0x1HWjHk3JRdVQJ3Hn0s4ySmyp23RAtqe38XYvtpqt/713M9d1CE7Rg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3838
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9980
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- spamscore=0 mlxlogscore=999
- adultscore=0 phishscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105100105
-X-Proofpoint-ORIG-GUID: z7kSunAyUofeSGi1G7I6klplFYxI3erA
-X-Proofpoint-GUID: z7kSunAyUofeSGi1G7I6klplFYxI3erA
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9980
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- phishscore=0
- adultscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 lowpriorityscore=0
- malwarescore=0 priorityscore=1501 clxscore=1015 bulkscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2105100105
-Received-SPF: pass client-ip=156.151.31.85; envelope-from=jag.raman@oracle.com;
- helo=userp2120.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
+In-Reply-To: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
+From: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+Date: Mon, 10 May 2021 22:38:05 +0800
+Message-ID: <CAFQAk7gH7DUi0-wDANQQBHTPgdtQxv34k+6tr9vzftPLqJt6KQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/9] Support for Virtio-fs daemon crash reconnection
+To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Xie Yongji <xieyongji@bytedance.com>
+Content-Type: multipart/alternative; boundary="0000000000006264f905c1faba43"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=zhangjiachen.jaycee@bytedance.com; helo=mail-qt1-x833.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -172,51 +79,407 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000006264f905c1faba43
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
 
 
-> On May 8, 2021, at 2:26 AM, Dongli Zhang <dongli.zhang@oracle.com> wrote:
->=20
-> From source code, the 'devid' of x-remote-object should be one of devices
-> in remote QEMU process.
->=20
-> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+We are going to develop the v2 patch for virtio-fs crash reconnection. As
+suggested by Marc-Andr=C3=A9 and Stefan, except for the inflight I/O tracki=
+ng
+log area, all the other internal statuses of virtiofsd will be saved to
+some places other than QEMU. Specifically, the three lo_maps (ino_map,
+dirp_map, and fd_map) could be saved to several mmapped files, and the
+opened fds could be saved to systemd. I'd like to get some feedback on our
+further thoughts before we work on the revision.
 
-Reviewed-by: Jagannathan Raman <jag.raman@oracle.com>
 
-> ---
-> I have verified by reading the code and playing with below orchestrator.
-> https://github.com/finallyjustice/sample/blob/master/kvm/multiprocess/orc=
-hestrator.py
->=20
-> docs/system/multi-process.rst | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/docs/system/multi-process.rst b/docs/system/multi-process.rs=
-t
-> index 46bb0cafc2..210531ee17 100644
-> --- a/docs/system/multi-process.rst
-> +++ b/docs/system/multi-process.rst
-> @@ -45,7 +45,7 @@ Following is a description of command-line used to laun=
-ch mpqemu.
->       -device lsi53c895a,id=3Dlsi0                                       =
-  \
->       -drive id=3Ddrive_image2,file=3D/build/ol7-nvme-test-1.qcow2       =
-    \
->       -device scsi-hd,id=3Ddrive2,drive=3Ddrive_image2,bus=3Dlsi0.0,scsi-=
-id=3D0  \
-> -      -object x-remote-object,id=3Drobj1,devid=3Dlsi1,fd=3D4,
-> +      -object x-remote-object,id=3Drobj1,devid=3Dlsi0,fd=3D4,
->=20
-> * QEMU:
->=20
-> --=20
-> 2.17.1
->=20
+1. What about by default save the opened fds as file handles to host
+kernel, instead of saving them to systemd. After some internal discussion,
+we think introducing systemd may introduce more uncertainness to the
+system, as we need to create one service for each daemon, and all the
+daemons may suffer the single-point failure of the systemd process.
 
+
+2. Like the btree map implementation (multikey.rs) of virtiofsd-rs, what
+about splitting the flatten lo_map implementation, which supports to be
+persisted to files, from passhtrough_ll.c to a new separated source file.
+This way, maybe we can more easily wrap it with some Rust compatible
+interfaces, and enable crash recovery for virtiofsd-rs based on it.
+
+
+3. What about dropping the dirp_map, and integrate the opened directory fds
+to fd_map. The virtiofsd-rs implementation only has two maps (inodes and
+handles). In the C version, dirp_map may also unnecessary.
+
+
+All the best,
+
+Jiachen
+
+On Wed, Dec 16, 2020 at 12:21 AM Jiachen Zhang <
+zhangjiachen.jaycee@bytedance.com> wrote:
+
+> Hi, all
+>
+> We implement virtio-fs crash reconnection in this patchset. The crash
+> reconnection of virtiofsd here is completely transparent to guest, no
+> remount in guest is needed, even the inflight requests can be handled
+> normally after reconnection. We are looking forward to any comments.
+>
+> Thanks,
+> Jiachen
+>
+>
+> OVERVIEW:
+>
+> To support virtio-fs crash reconnection, we need to support the recovery
+> of 1) inflight FUSE request, and 2) virtiofsd internal status information=
+.
+>
+> Fortunately, QEMU's vhost-user reconnection framework already supports
+> inflight I/O tracking by using VHOST_USER_GET_INFLIGHT_FD and
+> VHOST_USER_SET_INFLIGHT_FD (see 5ad204bf2 and 5f9ff1eff for details).
+> As the FUSE requests are transferred by virtqueue I/O requests, by using
+> the vhost-user inflight I/O tracking, we can recover the inflight FUSE
+> requests.
+>
+> To support virtiofsd internal status recovery, we introduce 4 new
+> vhost-user message types. As shown in the following diagram, two of them
+> are used to persist shared lo_maps and opened fds to QEMU, the other two
+> message types are used to restore the status when reconnecting.
+>
+>                                VHOST_USER_SLAVE_SHM
+>                                VHOST_USER_SLAVE_FD
+>     +--------------+       Persist       +--------------------+
+>     |              <---------------------+                    |
+>     |     QEMU     |                     |  Virtio-fs Daemon  |
+>     |              +--------------------->                    |
+>     +--------------+       Restore       +--------------------+
+>             VHOST_USER_SET_SHM
+>             VHOST_USER_SET_FD
+>
+> Although the 4 newly added message types are to support virtiofsd
+> reconnection in this patchset, it might be potential in other situation.
+> So we keep in mind to make them more general when add them to vhost
+> related source files. VHOST_USER_SLAVE_SHM and VHOST_USER_SET_SHM can be
+> used for memory sharing between a vhost-user daemon and QEMU,
+> VHOST_USER_SLAVE_FD and VHOST_USER_SET_FD would be useful if we want to
+> shared opened fds between QEMU process and vhost-user daemon process.
+>
+>
+> USAGE and NOTES:
+>
+> - The commits are rebased to a recent QEMU master commit b4d939133dca0fa2=
+b.
+>
+> - ",reconnect=3D1" should be added to the "-chardev socket" of
+> vhost-user-fs-pci
+> in the QEMU command line, for example:
+>
+>     qemu-system-x86_64 ... \
+>     -chardev socket,id=3Dchar0,path=3D/tmp/vhostqemu,reconnect=3D1 \
+>     -device vhost-user-fs-pci,queue-size=3D1024,chardev=3Dchar0,tag=3Dmyf=
+s \
+>     ...
+>
+> - We add new options for virtiofsd to enable or disable crash reconnectio=
+n.
+> And some options are not supported by crash reconnection. So add followin=
+g
+> options to virtiofsd to enable reconnection:
+>
+>     virtiofsd ... -o reconnect -o no_mount_ns -o no_flock -o no_posix_loc=
+k
+>     -o no_xattr ...
+>
+> - The reasons why virtiofsd-side locking, extended attributes, and mount
+> namespace are not supported is explained in the commit message of the 6th
+> patch (virtiofsd: Add two new options for crash reconnection).
+>
+> - The 9th patch is a work-around that will not affect the overall
+> correctness.
+> We remove the qsort related codes because we found that when resubmit_num
+> is
+> larger than 64, seccomp will kill the virtiofsd process.
+>
+> - Support for dax version virtiofsd is very possible and requires almost =
+no
+> additional change to this patchset.
+>
+>
+> Jiachen Zhang (9):
+>   vhost-user-fs: Add support for reconnection of vhost-user-fs backend
+>   vhost: Add vhost-user message types for sending shared memory and file
+>     fds
+>   vhost-user-fs: Support virtiofsd crash reconnection
+>   libvhost-user: Add vhost-user message types for sending shared memory
+>     and file fds
+>   virtiofsd: Convert the struct lo_map array to a more flatten layout
+>   virtiofsd: Add two new options for crash reconnection
+>   virtiofsd: Persist/restore lo_map and opened fds to/from QEMU
+>   virtiofsd: Ensure crash consistency after reconnection
+>   virtiofsd: (work around) Comment qsort in inflight I/O tracking
+>
+>  contrib/libvhost-user/libvhost-user.c | 106 +++-
+>  contrib/libvhost-user/libvhost-user.h |  70 +++
+>  docs/interop/vhost-user.rst           |  41 ++
+>  hw/virtio/vhost-user-fs.c             | 334 ++++++++++-
+>  hw/virtio/vhost-user.c                | 123 ++++
+>  hw/virtio/vhost.c                     |  42 ++
+>  include/hw/virtio/vhost-backend.h     |   6 +
+>  include/hw/virtio/vhost-user-fs.h     |  16 +-
+>  include/hw/virtio/vhost.h             |  42 ++
+>  tools/virtiofsd/fuse_lowlevel.c       |  24 +-
+>  tools/virtiofsd/fuse_virtio.c         |  44 ++
+>  tools/virtiofsd/fuse_virtio.h         |   1 +
+>  tools/virtiofsd/helper.c              |   9 +
+>  tools/virtiofsd/passthrough_helpers.h |   2 +-
+>  tools/virtiofsd/passthrough_ll.c      | 830 ++++++++++++++++++--------
+>  tools/virtiofsd/passthrough_seccomp.c |   1 +
+>  16 files changed, 1413 insertions(+), 278 deletions(-)
+>
+> --
+> 2.20.1
+>
+>
+
+--0000000000006264f905c1faba43
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">
+
+
+
+
+
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;">Hi all,</p>
+<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;;min-height:15px"><br></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;">We are going to=C2=A0develop t=
+he v2 patch for virtio-fs crash reconnection. As suggested by Marc-Andr=C3=
+=A9 and Stefan, except for the inflight I/O tracking log area, all the othe=
+r internal statuses of virtiofsd will be saved to some places other than QE=
+MU. Specifically, the three lo_maps (ino_map, dirp_map, and fd_map) could b=
+e saved to several mmapped files, and the opened fds could be saved to syst=
+emd. I&#39;d like to get some feedback on our further thoughts before we wo=
+rk on the revision.</p>
+<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;;min-height:15px"><br></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;">1. What about by default save =
+the opened fds as file handles to host kernel, instead of saving them to sy=
+stemd. After some internal discussion, we think introducing systemd may int=
+roduce more uncertainness to the system, as we need to create one service f=
+or each daemon, and all the daemons may suffer the single-point failure of =
+the systemd process.</p>
+<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;;min-height:15px"><br></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;">2. Like the btree map implemen=
+tation (<a href=3D"http://multikey.rs">multikey.rs</a>) of virtiofsd-rs, wh=
+at about splitting the flatten lo_map implementation, which supports to be =
+persisted to files, from passhtrough_ll.c to a new separated=C2=A0source fi=
+le. This way, maybe we can more=C2=A0easily wrap it=C2=A0with some Rust com=
+patible interfaces, and enable crash recovery for virtiofsd-rs=C2=A0based o=
+n it.</p>
+<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;;min-height:15px"><br></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;">3. What about dropping the dir=
+p_map, and integrate the opened directory fds to fd_map. The virtiofsd-rs=
+=C2=A0implementation only has two maps (inodes and handles). In the C versi=
+on, dirp_map may also unnecessary.</p>
+<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;;min-height:15px"><br></p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;">All the best,</p>
+<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
+rmal;font-family:&quot;Helvetica Neue&quot;">Jiachen</p></div><br><div clas=
+s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 16, 202=
+0 at 12:21 AM Jiachen Zhang &lt;<a href=3D"mailto:zhangjiachen.jaycee@byted=
+ance.com">zhangjiachen.jaycee@bytedance.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">Hi, all<br>
+<br>
+We implement virtio-fs crash reconnection in this patchset. The crash<br>
+reconnection of virtiofsd here is completely transparent to guest, no<br>
+remount in guest is needed, even the inflight requests can be handled<br>
+normally after reconnection. We are looking forward to any comments. <br>
+<br>
+Thanks,<br>
+Jiachen<br>
+<br>
+<br>
+OVERVIEW:<br>
+<br>
+To support virtio-fs crash reconnection, we need to support the recovery<br=
+>
+of 1) inflight FUSE request, and 2) virtiofsd internal status information.<=
+br>
+<br>
+Fortunately, QEMU&#39;s vhost-user reconnection framework already supports<=
+br>
+inflight I/O tracking by using VHOST_USER_GET_INFLIGHT_FD and<br>
+VHOST_USER_SET_INFLIGHT_FD (see 5ad204bf2 and 5f9ff1eff for details).<br>
+As the FUSE requests are transferred by virtqueue I/O requests, by using<br=
+>
+the vhost-user inflight I/O tracking, we can recover the inflight FUSE<br>
+requests.<br>
+<br>
+To support virtiofsd internal status recovery, we introduce 4 new<br>
+vhost-user message types. As shown in the following diagram, two of them<br=
+>
+are used to persist shared lo_maps and opened fds to QEMU, the other two<br=
+>
+message types are used to restore the status when reconnecting.<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VHOST_USER_SLAVE_SHM<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VHOST_USER_SLAVE_FD<br>
+=C2=A0 =C2=A0 +--------------+=C2=A0 =C2=A0 =C2=A0 =C2=A0Persist=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0+--------------------+<br>
+=C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;-------=
+--------------+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |<br>
+=C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0QEMU=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 Virti=
+o-fs Daemon=C2=A0 |<br>
+=C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +----------=
+-----------&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |<br>
+=C2=A0 =C2=A0 +--------------+=C2=A0 =C2=A0 =C2=A0 =C2=A0Restore=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0+--------------------+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VHOST_USER_SET_SHM<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VHOST_USER_SET_FD<br>
+<br>
+Although the 4 newly added message types are to support virtiofsd<br>
+reconnection in this patchset, it might be potential in other situation.<br=
+>
+So we keep in mind to make them more general when add them to vhost<br>
+related source files. VHOST_USER_SLAVE_SHM and VHOST_USER_SET_SHM can be<br=
+>
+used for memory sharing between a vhost-user daemon and QEMU,<br>
+VHOST_USER_SLAVE_FD and VHOST_USER_SET_FD would be useful if we want to<br>
+shared opened fds between QEMU process and vhost-user daemon process.<br>
+<br>
+<br>
+USAGE and NOTES:<br>
+<br>
+- The commits are rebased to a recent QEMU master commit b4d939133dca0fa2b.=
+<br>
+<br>
+- &quot;,reconnect=3D1&quot; should be added to the &quot;-chardev socket&q=
+uot; of vhost-user-fs-pci<br>
+in the QEMU command line, for example:<br>
+<br>
+=C2=A0 =C2=A0 qemu-system-x86_64 ... \<br>
+=C2=A0 =C2=A0 -chardev socket,id=3Dchar0,path=3D/tmp/vhostqemu,reconnect=3D=
+1 \<br>
+=C2=A0 =C2=A0 -device vhost-user-fs-pci,queue-size=3D1024,chardev=3Dchar0,t=
+ag=3Dmyfs \<br>
+=C2=A0 =C2=A0 ...<br>
+<br>
+- We add new options for virtiofsd to enable or disable crash reconnection.=
+<br>
+And some options are not supported by crash reconnection. So add following<=
+br>
+options to virtiofsd to enable reconnection:<br>
+<br>
+=C2=A0 =C2=A0 virtiofsd ... -o reconnect -o no_mount_ns -o no_flock -o no_p=
+osix_lock<br>
+=C2=A0 =C2=A0 -o no_xattr ...<br>
+<br>
+- The reasons why virtiofsd-side locking, extended attributes, and mount<br=
+>
+namespace are not supported is explained in the commit message of the 6th<b=
+r>
+patch (virtiofsd: Add two new options for crash reconnection).<br>
+<br>
+- The 9th patch is a work-around that will not affect the overall correctne=
+ss.<br>
+We remove the qsort related codes because we found that when resubmit_num i=
+s<br>
+larger than 64, seccomp will kill the virtiofsd process.<br>
+<br>
+- Support for dax version virtiofsd is very possible and requires almost no=
+<br>
+additional change to this patchset.<br>
+<br>
+<br>
+Jiachen Zhang (9):<br>
+=C2=A0 vhost-user-fs: Add support for reconnection of vhost-user-fs backend=
+<br>
+=C2=A0 vhost: Add vhost-user message types for sending shared memory and fi=
+le<br>
+=C2=A0 =C2=A0 fds<br>
+=C2=A0 vhost-user-fs: Support virtiofsd crash reconnection<br>
+=C2=A0 libvhost-user: Add vhost-user message types for sending shared memor=
+y<br>
+=C2=A0 =C2=A0 and file fds<br>
+=C2=A0 virtiofsd: Convert the struct lo_map array to a more flatten layout<=
+br>
+=C2=A0 virtiofsd: Add two new options for crash reconnection<br>
+=C2=A0 virtiofsd: Persist/restore lo_map and opened fds to/from QEMU<br>
+=C2=A0 virtiofsd: Ensure crash consistency after reconnection<br>
+=C2=A0 virtiofsd: (work around) Comment qsort in inflight I/O tracking<br>
+<br>
+=C2=A0contrib/libvhost-user/libvhost-user.c | 106 +++-<br>
+=C2=A0contrib/libvhost-user/libvhost-user.h |=C2=A0 70 +++<br>
+=C2=A0docs/interop/vhost-user.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 41 ++<br>
+=C2=A0hw/virtio/vhost-user-fs.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| 334 ++++++++++-<br>
+=C2=A0hw/virtio/vhost-user.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | 123 ++++<br>
+=C2=A0hw/virtio/vhost.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 42 ++<br>
+=C2=A0include/hw/virtio/vhost-backend.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A06 =
++<br>
+=C2=A0include/hw/virtio/vhost-user-fs.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 16 +-<br=
+>
+=C2=A0include/hw/virtio/vhost.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 42 ++<br>
+=C2=A0tools/virtiofsd/fuse_lowlevel.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 24 =
++-<br>
+=C2=A0tools/virtiofsd/fuse_virtio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 44 ++<br>
+=C2=A0tools/virtiofsd/fuse_virtio.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 =C2=A01 +<br>
+=C2=A0tools/virtiofsd/helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A09 +<br>
+=C2=A0tools/virtiofsd/passthrough_helpers.h |=C2=A0 =C2=A02 +-<br>
+=C2=A0tools/virtiofsd/passthrough_ll.c=C2=A0 =C2=A0 =C2=A0 | 830 ++++++++++=
+++++++++--------<br>
+=C2=A0tools/virtiofsd/passthrough_seccomp.c |=C2=A0 =C2=A01 +<br>
+=C2=A016 files changed, 1413 insertions(+), 278 deletions(-)<br>
+<br>
+-- <br>
+2.20.1<br>
+<br>
+</blockquote></div>
+
+--0000000000006264f905c1faba43--
 
