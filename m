@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E34377D7F
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA7D377D7E
 	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 09:52:27 +0200 (CEST)
-Received: from localhost ([::1]:56626 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:56704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg0iI-0002OW-Ji
+	id 1lg0iI-0002T5-Fg
 	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 03:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42948)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lg0gc-00083V-Tc
- for qemu-devel@nongnu.org; Mon, 10 May 2021 03:50:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50440)
+ id 1lg0gb-0007zl-FD
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 03:50:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lg0ga-0004ts-Cx
- for qemu-devel@nongnu.org; Mon, 10 May 2021 03:50:42 -0400
+ id 1lg0gZ-0004sn-M3
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 03:50:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lg0gZ-0001MR-1M
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 07:50:39 +0000
+ id 1lg0gY-0001KR-4q
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 07:50:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 07D9A2E8135
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 07:50:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 20BB72E806D
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 07:50:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 07:43:27 -0000
-From: Thomas Huth <1751674@bugs.launchpad.net>
+Date: Mon, 10 May 2021 07:43:44 -0000
+From: Thomas Huth <1863200@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm dump memory pmemsave segfault
+X-Launchpad-Bug-Tags: mode packed ring server
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gmoreira pmaydell th-huth
-X-Launchpad-Bug-Reporter: Gustavo Moreira (gmoreira)
+X-Launchpad-Bug-Commenters: th-huth xavier-ding
+X-Launchpad-Bug-Reporter: xuan (xavier-ding)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <151960470707.11772.10064243852456470443.malonedeb@gac.canonical.com>
-Message-Id: <162063260752.9822.15170918414913496478.malone@chaenomeles.canonical.com>
-Subject: [Bug 1751674] Re: qemu-system-arm segmentation fault using pmemsave
- on the interrupt controller registers
+References: <158165197713.30147.2525334191220612578.malonedeb@wampee.canonical.com>
+Message-Id: <162063262447.7198.1341062625150436708.malone@gac.canonical.com>
+Subject: [Bug 1863200] Re: Reconnect failed with loopback virtio1.1 server
+ mode test
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: cc7930e5afc69dcc66b16f90a9e94e8d738c37c7
+X-Launchpad-Hash: f568b7ff515d43a1d5a5ab4d0cdacc1424d40f1e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1751674 <1751674@bugs.launchpad.net>
+Reply-To: Bug 1863200 <1863200@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,52 +80,120 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/247
+ https://gitlab.com/qemu-project/qemu/-/issues/248
 
 
 ** Changed in: qemu
-       Status: Confirmed =3D> Expired
+       Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #247
-   https://gitlab.com/qemu-project/qemu/-/issues/247
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #248
+   https://gitlab.com/qemu-project/qemu/-/issues/248
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1751674
+https://bugs.launchpad.net/bugs/1863200
 
 Title:
-  qemu-system-arm segmentation fault using pmemsave on the interrupt
-  controller registers
+  Reconnect failed with loopback virtio1.1 server mode test
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Qemu segfaults trying to generate a VM memory dump:
+  Issue discription=EF=BC=9A
+  Packed ring server mode is a new feature to enable the virtio-user or vir=
+tio-pmd(in VM) as the server, vhost as the client, then when the vhost-user=
+ is killed then re-launched, the vhost-user can connect back to virtio-user=
+/virtio-pmd again. Test with dpdk 20.02 ,virtio-pmd loopback reconnect from=
+ vhost-user failed.
 
-  $ QEMU_AUDIO_DRV=3Dnone qemu-git-src/arm-softmmu/qemu-system-arm -M vexpr=
-ess-a9 -smp 4 -m 1024 -machine secure=3Doff,dump-guest-core=3Don -kernel li=
-nux-4.9.75/arch/arm/boot/zImage -append "root=3D/dev/mmcblk0 rw rootfstype=
-=3Dext4 mem=3D1024M net.ifnames=3D0 console=3DttyAMA0" -dtb vexpress-v2p-ca=
-9.dtb -sd armv7-hd.qcow2 -netdev tap,ifname=3Dtap_armv7,script=3Dno,downscr=
-ipt=3Dno,id=3Dnet0 -device virtio-net-device,mac=3D00:AA:AD:BB:FF:02,netdev=
-=3Dnet0  -monitor stdio -serial vc  -loadvm SS0
-  QEMU 2.11.50 monitor - type 'help' for more information
-  (qemu) pmemsave 0 0x3FFFFFFF memory.dmp
-  Segmentation fault (core dumped)
+  Test Environment:
+  DPDK version: DPDK v20.02
+  Other software versions: virtio1.1
+  Qemu versions:4.2.0
+  OS: Linux 4.15.0-20-generic
+  Compiler: gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
+  Hardware platform: R2208WFTZSR.
 
-  $ git rev-parse HEAD
-  b384cd95eb9c6f73ad84ed1bb0717a26e29cc78f
+  The reproduce step is :
+  Test Case: vhost-user/virtio-pmd loopback reconnect from vhost-user
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  Flow: Vhost-user --> Virtio --> Vhost-user
 
-  It's the second time I try to submit this bug, I think last time it
-  failed because the attached core dump size (400M compressed). Have a
-  look if you can get that file, otherwise I will try to update this
-  ticket once it's created:
+  1. Launch vhost-user with client mode by below commands::
 
-  (Error ID: OOPS-65553b72bc14be693eb1e37814ff9267)
+      ./testpmd -c 0x30 -n 4 --socket-mem 1024,1024 --legacy-mem --vdev 'et=
+h_vhost0,iface=3D/tmp/vhost-net,client=3D1,queues=3D1' -- -i --nb-cores=3D1
+      testpmd>set fwd mac
+
+  2. Start VM with 1 virtio device, and set the qemu as server mode::
+
+      ./qemu-system-x86_64 -name vm2 -enable-kvm -cpu host -smp 100 -m 8G \
+      -object memory-backend-file,id=3Dmem,size=3D8192M,mem-path=3D/mnt/hug=
+e,share=3Don \
+      -numa node,memdev=3Dmem -mem-prealloc -drive file=3D/home/xuan/dpdk_p=
+roject/shell/u18.img  \
+      -chardev socket,path=3D/tmp/vm2_qga0.sock,server,nowait,id=3Dvm2_qga0=
+ -device virtio-serial \
+      -device virtserialport,chardev=3Dvm2_qga0,name=3Dorg.qemu.guest_agent=
+.2 -daemonize \
+      -monitor unix:/tmp/vm2_monitor.sock,server,nowait -net nic,macaddr=3D=
+00:00:00:08:e8:aa,addr=3D1f \
+      -net user,hostfwd=3Dtcp:127.0.0.1:6002-:22 \
+      -chardev socket,id=3Dchar0,path=3D/tmp/vhost-net,server \
+      -netdev type=3Dvhost-user,id=3Dnetdev0,chardev=3Dchar0,vhostforce \
+      -device virtio-net-pci,netdev=3Dnetdev0,mac=3D52:54:00:00:00:01,mrg_r=
+xbuf=3Don,rx_queue_size=3D1024,tx_queue_size=3D1024,packed=3Don \
+      -vnc :10
+
+  3. On VM, bind virtio net to igb_uio and run testpmd::
+
+      ./testpmd -c 0x3 -n 4 -- -i --nb-cores=3D1 --txd=3D1024 --rxd=3D1024
+      testpmd>set fwd mac
+      testpmd>start
+
+  4. Send packets by vhost-user, check if packets can be RX/TX with
+  virtio-pmd::
+
+      testpmd>start tx_first 32
+      testpmd>show port stats all
+
+  5. On host, quit vhost-user, then re-launch the vhost-user with below
+  command::
+
+      testpmd>quit
+      ./testpmd -c 0x30 -n 4 --socket-mem 1024,1024 --legacy-mem --vdev 'et=
+h_vhost0,iface=3D/tmp/vhost-net,client=3D1,queues=3D1' -- -i --nb-cores=3D1
+      testpmd>set fwd mac
+      testpmd>start tx_first 32
+
+  6. Check if the reconnection can work, still send packets by vhost-
+  user, check if packets can be RX/TX with virtio-pmd::
+
+      testpmd>show port stats all
+
+  Expected result::
+
+  After the vhost-user is killed then re-launched, the VM can connect
+  back to vhost-user again with throughput.
+
+  Real result::
+
+  After the vhost-user is killed then re-launched, no throughput with
+  PVP.
+
+  Analysis::
+
+  QEMU has its own way to handle reconnect function for virtio server
+  mode. However, for packed ring, when reconnecting to virtio, vhost
+  cannot get the status of descriptors via the descriptor ring. This bug
+  is caused since the reconnection for packed ring need additional reset
+  operation.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1751674/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1863200/+subscriptions
 
