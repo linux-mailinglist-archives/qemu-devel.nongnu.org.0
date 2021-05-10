@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64E237978E
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:21:46 +0200 (CEST)
-Received: from localhost ([::1]:56354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E336379762
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:07:25 +0200 (CEST)
+Received: from localhost ([::1]:55206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgBTN-0008SQ-Qi
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37872)
+	id 1lgBFU-0005DY-G0
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:07:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgBJ4-00027x-3V
- for qemu-devel@nongnu.org; Mon, 10 May 2021 15:11:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43440)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgBIu-00065S-A0
- for qemu-devel@nongnu.org; Mon, 10 May 2021 15:11:04 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgBIr-0002Jh-Uv
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 19:10:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E08F32E8136
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 19:10:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lgBD9-0003C4-D6
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:04:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28040)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lgBD7-0002hY-9e
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:04:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620673496;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=N+pIP/fT2VezBrtqSGcpzz4BWRTNW5CuU1UpooxXiAg=;
+ b=cfkrSWa9JZt93kgMTNXyXoX5SqPwvPSBsavGlWH+db0h9QkIwihWfn7ga4p8Jxyf9V5QMT
+ ntASZFyf75Xyz1iBad1E594kbtM3PRSIE3yc+qsQGko0kmwil5pTWUXm3TXTAj5NdBljUl
+ O/vQMXCYaRk9NTb4A61gtWmx6tmeVFM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-t1dmRU7tPMSMgvGk8BWLNQ-1; Mon, 10 May 2021 15:04:54 -0400
+X-MC-Unique: t1dmRU7tPMSMgvGk8BWLNQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0986501E0;
+ Mon, 10 May 2021 19:04:53 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F30A260CC5;
+ Mon, 10 May 2021 19:04:51 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2] qemu-iotests: fix pylint 2.8 consider-using-with error
+Date: Mon, 10 May 2021 21:04:49 +0200
+Message-Id: <20210510190449.65948-1-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 19:03:05 -0000
-From: Thomas Huth <1906608@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
- assignee=None; 
-X-Launchpad-Bug-Tags: feature-request usb
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ruimeiyan th-huth
-X-Launchpad-Bug-Reporter: ruimeiyan (ruimeiyan)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160697929082.24737.7684799499074231317.malonedeb@gac.canonical.com>
-Message-Id: <162067338532.10300.17985067269223094525.malone@chaenomeles.canonical.com>
-Subject: [Bug 1906608] Re:  [Feature request]For some ehci controller,
- qemu should implement using portsc[26-27] to detect the speed of
- device.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 2e94c497b22e4177b4dec6e2100d9bc5729a32d7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,82 +76,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906608 <1906608@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
+pylint 2.8 introduces consider-using-with error, suggesting
+to use the 'with' block statement when possible.
 
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
+Modify all subprocess.Popen call to use the 'with' statement,
+except the one in __init__ of QemuIoInteractive class, since
+it is assigned to a class field and used in other methods.
 
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+v1 -> v2:
+* fix indentation [Max]
+* explain why we disabled the check in QemuIoInteractive's __init__ [Max]
 
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
+ tests/qemu-iotests/iotests.py    | 65 ++++++++++++++++----------------
+ tests/qemu-iotests/testrunner.py | 22 +++++------
+ 2 files changed, 44 insertions(+), 43 deletions(-)
 
-    https://gitlab.com/qemu-project/qemu/-/issues
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 5af0182895..ec3c69daf1 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -113,15 +113,14 @@ def qemu_tool_pipe_and_status(tool: str, args: Sequence[str],
+     Run a tool and return both its output and its exit code
+     """
+     stderr = subprocess.STDOUT if connect_stderr else None
+-    subp = subprocess.Popen(args,
+-                            stdout=subprocess.PIPE,
+-                            stderr=stderr,
+-                            universal_newlines=True)
+-    output = subp.communicate()[0]
+-    if subp.returncode < 0:
+-        cmd = ' '.join(args)
+-        sys.stderr.write(f'{tool} received signal {-subp.returncode}: {cmd}\n')
+-    return (output, subp.returncode)
++    with subprocess.Popen(args, stdout=subprocess.PIPE,
++                          stderr=stderr, universal_newlines=True) as subp:
++        output = subp.communicate()[0]
++        if subp.returncode < 0:
++            cmd = ' '.join(args)
++            sys.stderr.write(f'{tool} received signal \
++                               {-subp.returncode}: {cmd}\n')
++        return (output, subp.returncode)
+ 
+ def qemu_img_pipe_and_status(*args: str) -> Tuple[str, int]:
+     """
+@@ -237,6 +236,9 @@ def qemu_io_silent_check(*args):
+ class QemuIoInteractive:
+     def __init__(self, *args):
+         self.args = qemu_io_args_no_fmt + list(args)
++        # We need to keep the Popen objext around, and not
++        # close it immediately. Therefore, disable the pylint check:
++        # pylint: disable=consider-using-with
+         self._p = subprocess.Popen(self.args, stdin=subprocess.PIPE,
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.STDOUT,
+@@ -310,22 +312,22 @@ def qemu_nbd_popen(*args):
+     cmd.extend(args)
+ 
+     log('Start NBD server')
+-    p = subprocess.Popen(cmd)
+-    try:
+-        while not os.path.exists(pid_file):
+-            if p.poll() is not None:
+-                raise RuntimeError(
+-                    "qemu-nbd terminated with exit code {}: {}"
+-                    .format(p.returncode, ' '.join(cmd)))
+-
+-            time.sleep(0.01)
+-        yield
+-    finally:
+-        if os.path.exists(pid_file):
+-            os.remove(pid_file)
+-        log('Kill NBD server')
+-        p.kill()
+-        p.wait()
++    with subprocess.Popen(cmd) as p:
++        try:
++            while not os.path.exists(pid_file):
++                if p.poll() is not None:
++                    raise RuntimeError(
++                        "qemu-nbd terminated with exit code {}: {}"
++                        .format(p.returncode, ' '.join(cmd)))
++
++                time.sleep(0.01)
++            yield
++        finally:
++            if os.path.exists(pid_file):
++                os.remove(pid_file)
++            log('Kill NBD server')
++            p.kill()
++            p.wait()
+ 
+ def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
+     '''Return True if two image files are identical'''
+@@ -334,13 +336,12 @@ def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
+ 
+ def create_image(name, size):
+     '''Create a fully-allocated raw image with sector markers'''
+-    file = open(name, 'wb')
+-    i = 0
+-    while i < size:
+-        sector = struct.pack('>l504xl', i // 512, i // 512)
+-        file.write(sector)
+-        i = i + 512
+-    file.close()
++    with open(name, 'wb') as file:
++        i = 0
++        while i < size:
++            sector = struct.pack('>l504xl', i // 512, i // 512)
++            file.write(sector)
++            i = i + 512
+ 
+ def image_size(img):
+     '''Return image's virtual size'''
+diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+index 1fc61fcaa3..eddceeb4ae 100644
+--- a/tests/qemu-iotests/testrunner.py
++++ b/tests/qemu-iotests/testrunner.py
+@@ -258,17 +258,17 @@ def do_run_test(self, test: str) -> TestResult:
+ 
+         t0 = time.time()
+         with f_bad.open('w', encoding="utf-8") as f:
+-            proc = subprocess.Popen(args, cwd=str(f_test.parent), env=env,
+-                                    stdout=f, stderr=subprocess.STDOUT)
+-            try:
+-                proc.wait()
+-            except KeyboardInterrupt:
+-                proc.terminate()
+-                proc.wait()
+-                return TestResult(status='not run',
+-                                  description='Interrupted by user',
+-                                  interrupted=True)
+-            ret = proc.returncode
++            with subprocess.Popen(args, cwd=str(f_test.parent), env=env,
++                                  stdout=f, stderr=subprocess.STDOUT) as proc:
++                try:
++                    proc.wait()
++                except KeyboardInterrupt:
++                    proc.terminate()
++                    proc.wait()
++                    return TestResult(status='not run',
++                                      description='Interrupted by user',
++                                      interrupted=True)
++                ret = proc.returncode
+ 
+         elapsed = round(time.time() - t0, 1)
+ 
+-- 
+2.30.2
 
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
-
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" or "Confirmed" within the next 60 days (other-
-wise it will get closed as "Expired"). We will then eventually migrate
-the ticket automatically to the new system (but you won't be the reporter
-of the bug in the new system and thus you won't get notified on changes
-anymore).
-
-Thank you and sorry for the inconvenience.
-
-
-** Tags added: feature-request usb
-
-** Changed in: qemu
-   Importance: Undecided =3D> Wishlist
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906608
-
-Title:
-   [Feature request]For some ehci controller, qemu should implement
-  using portsc[26-27]  to detect the speed of device.
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  for some ehci controller ,for example ehci controller on fsl_imx6,it
-  using portsc[26-27] to decide a full speed device or high speed device
-  was connected, hub-ehci.c should set the portsc[26-27] to return the
-  right speed.
-
-  line:1001 in hub-ehci.c
-          if (dev && dev->attached && (dev->speedmask & USB_SPEED_MASK_HIGH=
-)) {
-              val |=3D PORTSC_PED;
-          }
-
-  below is the spec for fsl_imx6 USB PART.
-  PORTSC:27=E2=80=9326 :PSPD
-  Port Speed - Read Only.
-  This register field indicates the speed at which the port is operating.
-  00 Full Speed
-  01 Low Speed
-  10 High Speed
-  11 Undefined
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906608/+subscriptions
 
