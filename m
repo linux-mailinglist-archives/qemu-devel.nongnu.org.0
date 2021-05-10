@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90CF3793C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 18:29:42 +0200 (CEST)
-Received: from localhost ([::1]:59272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A803793E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 18:32:31 +0200 (CEST)
+Received: from localhost ([::1]:33776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg8mr-0001nu-JG
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 12:29:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34808)
+	id 1lg8pa-0003qg-Jw
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 12:32:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg8ky-0000pY-4T
- for qemu-devel@nongnu.org; Mon, 10 May 2021 12:27:46 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg8kt-0006b7-22
- for qemu-devel@nongnu.org; Mon, 10 May 2021 12:27:41 -0400
-Received: by mail-wr1-x436.google.com with SMTP id z6so17271200wrm.4
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 09:27:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bx0BGQAi0S+F37QeuoGMa97g1xe1Uk0YyJT6Ip7gC4w=;
- b=ZwI0iIketFJdL3VzwbFC7zRi9f3mIMoF6R+oEW0GzdbCwbk4/qpgxDQ8Xh2Xdrow37
- PrlbweUr5vEjdFc8aQhEt2sXaw0TKbOujjm09sQiyVd164N1CpDaPSh7Xaah4MZ+GIYg
- tCOxCHVI3pds0qqRo9lZ+ABkDD/G370UT4XDvBgtlekScXEf7rDN0P9W8jk1SODj7mCy
- Nkug3Y73ui22h6Oafv++mrlyfm64dWc8olZ9klSRCimuvOfQPw8BNexIeko6hyFLITm5
- l40mG0A+gzN4tJmA3rt1FM0ArzNbjKNgqCAgTDd8m4Hoz8GFBheT6ZIRUi7KZKfFX09T
- PpGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bx0BGQAi0S+F37QeuoGMa97g1xe1Uk0YyJT6Ip7gC4w=;
- b=Ez5JqgbyvABBqXOk6c2qXbOONLpAK+gy9gA+jf+GaDBdvqHsKLo56IVQiFauv7B9Zh
- yI2Ow1CPb1kYnlKEEi7WKEyqZTV62uLaz8wAM/vIs6boW5yHOGnUQ9vUPWsdnpa0jQoz
- G3w92vLNWYnqrLCG8tNvTPZqEUcNwAF6HgqVSIkzScBwzRk7TYNyI4oxVnuNWX4wL/BM
- hXvvgUTUMphcFuCbH820sZwhpTT+3W1Qc510o29ZKj8EC4SjUdz4GvrcHD4k1flnpjVs
- cQNmSJYaT35o8vRnyQwsvqYv6LOjg71FFBBWXS7GJ7IWD1W8gwYp/Wjtit457rkqS7uM
- vdMg==
-X-Gm-Message-State: AOAM531Zem/gvR/N1wDo/AsC2QrLqLCdS6cISN9ctsbo4GV0f8twatM7
- zGMNjxPvm7pFcKaRkTfG6jCwdRm3fUyYVQ==
-X-Google-Smtp-Source: ABdhPJxtHTiBU2L89+Ni5UxS53XqluP2m6ytDjDIQkDjllMSpLXd1fm/fhkoLlrEAHkL65/NsJ+N1w==
-X-Received: by 2002:adf:f3c1:: with SMTP id g1mr32542399wrp.242.1620664055563; 
- Mon, 10 May 2021 09:27:35 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f184sm15142251wmf.0.2021.05.10.09.27.34
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 09:27:35 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/26] target-arm queue
-Date: Mon, 10 May 2021 17:27:33 +0100
-Message-Id: <20210510162733.2366-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lg8mB-0001W2-G0
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 12:28:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32525)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lg8m7-0006lB-Kr
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 12:28:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620664134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lLcQ2QOZ6Z3suC3qrYmvhVII8FyfhPFFc/ola4MCRJw=;
+ b=BkkmaU4ZjMsqDxgKJNnjD19Y1ywbjsmPLSWiUeRwTX9xVEg+wfqmVys+Hna06XJmtajaOA
+ ApGBTsG0FErNxHDmlvnfHvldwTDF1I1yChIJWDk6aMlviq5E8ZriNI9wfqx22iB3ZsfAew
+ XdtPdQBFfFZortAhSrFnfPwuyrnabn8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-591-2Nm_2L0cPoOtlyWbCgymXw-1; Mon, 10 May 2021 12:28:50 -0400
+X-MC-Unique: 2Nm_2L0cPoOtlyWbCgymXw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FB378014D8;
+ Mon, 10 May 2021 16:28:49 +0000 (UTC)
+Received: from work-vm (ovpn-115-16.ams2.redhat.com [10.36.115.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8459D19C44;
+ Mon, 10 May 2021 16:28:47 +0000 (UTC)
+Date: Mon, 10 May 2021 17:28:44 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] tests/qtest/migration-test: Use g_autofree to avoid
+ leaks on error paths
+Message-ID: <YJlfPD8NOTUqDMMf@work-vm>
+References: <20210506185819.9010-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210506185819.9010-1-peter.maydell@linaro.org>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,107 +79,302 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2: fix compile issue when building user-mode emulators with clang
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> Coverity notices that several places in the migration-test code fail
+> to free memory in error-exit paths.  This is pretty unimportant in
+> test case code, but we can avoid having to manually free the memory
+> entirely by using g_autofree.
+> 
+> The places where Coverity spotted a leak were relating to early exits
+> not freeing 'uri' in test_precopy_unix(), do_test_validate_uuid(),
+> migrate_postcopy_prepare() and test_migrate_auto_converge().  This
+> patch converts all the string-allocation in the test code to
+> g_autofree for consistency.
+> 
+> Fixes: Coverity CID 1432313, 1432315, 1432352, 1432364
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
--- PMM
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-The following changes since commit 4cc10cae64c51e17844dc4358481c393d7bf1ed4:
+> ---
+>  tests/qtest/migration-test.c | 61 ++++++++++++------------------------
+>  1 file changed, 20 insertions(+), 41 deletions(-)
+> 
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 3a711bb4929..a0c9b72b951 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -110,13 +110,12 @@ static void init_bootfile(const char *bootpath, void *content, size_t len)
+>   */
+>  static void wait_for_serial(const char *side)
+>  {
+> -    char *serialpath = g_strdup_printf("%s/%s", tmpfs, side);
+> +    g_autofree char *serialpath = g_strdup_printf("%s/%s", tmpfs, side);
+>      FILE *serialfile = fopen(serialpath, "r");
+>      const char *arch = qtest_get_arch();
+>      int started = (strcmp(side, "src_serial") == 0 &&
+>                     strcmp(arch, "ppc64") == 0) ? 0 : 1;
+>  
+> -    g_free(serialpath);
+>      do {
+>          int readvalue = fgetc(serialfile);
+>  
+> @@ -274,10 +273,9 @@ static void check_guests_ram(QTestState *who)
+>  
+>  static void cleanup(const char *filename)
+>  {
+> -    char *path = g_strdup_printf("%s/%s", tmpfs, filename);
+> +    g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
+>  
+>      unlink(path);
+> -    g_free(path);
+>  }
+>  
+>  static char *SocketAddress_to_str(SocketAddress *addr)
+> @@ -374,11 +372,8 @@ static char *migrate_get_parameter_str(QTestState *who,
+>  static void migrate_check_parameter_str(QTestState *who, const char *parameter,
+>                                          const char *value)
+>  {
+> -    char *result;
+> -
+> -    result = migrate_get_parameter_str(who, parameter);
+> +    g_autofree char *result = migrate_get_parameter_str(who, parameter);
+>      g_assert_cmpstr(result, ==, value);
+> -    g_free(result);
+>  }
+>  
+>  static void migrate_set_parameter_str(QTestState *who, const char *parameter,
+> @@ -495,12 +490,14 @@ static void migrate_start_destroy(MigrateStart *args)
+>  static int test_migrate_start(QTestState **from, QTestState **to,
+>                                const char *uri, MigrateStart *args)
+>  {
+> -    gchar *arch_source, *arch_target;
+> -    gchar *cmd_source, *cmd_target;
+> +    g_autofree gchar *arch_source = NULL;
+> +    g_autofree gchar *arch_target = NULL;
+> +    g_autofree gchar *cmd_source = NULL;
+> +    g_autofree gchar *cmd_target = NULL;
+>      const gchar *ignore_stderr;
+> -    char *bootpath = NULL;
+> -    char *shmem_opts;
+> -    char *shmem_path;
+> +    g_autofree char *bootpath = NULL;
+> +    g_autofree char *shmem_opts = NULL;
+> +    g_autofree char *shmem_path = NULL;
+>      const char *arch = qtest_get_arch();
+>      const char *machine_opts = NULL;
+>      const char *memory_size;
+> @@ -559,8 +556,6 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+>          g_assert_not_reached();
+>      }
+>  
+> -    g_free(bootpath);
+> -
+>      if (!getenv("QTEST_LOG") && args->hide_stderr) {
+>          ignore_stderr = "2>/dev/null";
+>      } else {
+> @@ -588,11 +583,9 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+>                                   memory_size, tmpfs,
+>                                   arch_source, shmem_opts, args->opts_source,
+>                                   ignore_stderr);
+> -    g_free(arch_source);
+>      if (!args->only_target) {
+>          *from = qtest_init(cmd_source);
+>      }
+> -    g_free(cmd_source);
+>  
+>      cmd_target = g_strdup_printf("-accel kvm -accel tcg%s%s "
+>                                   "-name target,debug-threads=on "
+> @@ -605,18 +598,14 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+>                                   memory_size, tmpfs, uri,
+>                                   arch_target, shmem_opts,
+>                                   args->opts_target, ignore_stderr);
+> -    g_free(arch_target);
+>      *to = qtest_init(cmd_target);
+> -    g_free(cmd_target);
+>  
+> -    g_free(shmem_opts);
+>      /*
+>       * Remove shmem file immediately to avoid memory leak in test failed case.
+>       * It's valid becase QEMU has already opened this file
+>       */
+>      if (args->use_shmem) {
+>          unlink(shmem_path);
+> -        g_free(shmem_path);
+>      }
+>  
+>  out:
+> @@ -662,7 +651,7 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>                                      QTestState **to_ptr,
+>                                      MigrateStart *args)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>      QTestState *from, *to;
+>  
+>      if (test_migrate_start(&from, &to, uri, args)) {
+> @@ -684,7 +673,6 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>      wait_for_serial("src_serial");
+>  
+>      migrate_qmp(from, uri, "{}");
+> -    g_free(uri);
+>  
+>      wait_for_migration_pass(from);
+>  
+> @@ -724,7 +712,7 @@ static void test_postcopy_recovery(void)
+>  {
+>      MigrateStart *args = migrate_start_new();
+>      QTestState *from, *to;
+> -    char *uri;
+> +    g_autofree char *uri = NULL;
+>  
+>      args->hide_stderr = true;
+>  
+> @@ -775,7 +763,6 @@ static void test_postcopy_recovery(void)
+>                                (const char * []) { "failed", "active",
+>                                                    "completed", NULL });
+>      migrate_qmp(from, uri, "{'resume': true}");
+> -    g_free(uri);
+>  
+>      /* Restore the postcopy bandwidth to unlimited */
+>      migrate_set_parameter_int(from, "max-postcopy-bandwidth", 0);
+> @@ -800,7 +787,7 @@ static void test_baddest(void)
+>  
+>  static void test_precopy_unix(void)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>      MigrateStart *args = migrate_start_new();
+>      QTestState *from, *to;
+>  
+> @@ -836,14 +823,13 @@ static void test_precopy_unix(void)
+>      wait_for_migration_complete(from);
+>  
+>      test_migrate_end(from, to, true);
+> -    g_free(uri);
+>  }
+>  
+>  #if 0
+>  /* Currently upset on aarch64 TCG */
+>  static void test_ignore_shared(void)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>      QTestState *from, *to;
+>  
+>      if (test_migrate_start(&from, &to, uri, false, true, NULL, NULL)) {
+> @@ -873,7 +859,6 @@ static void test_ignore_shared(void)
+>      g_assert_cmpint(read_ram_property_int(from, "transferred"), <, 1024 * 1024);
+>  
+>      test_migrate_end(from, to, true);
+> -    g_free(uri);
+>  }
+>  #endif
+>  
+> @@ -925,16 +910,15 @@ static void test_xbzrle(const char *uri)
+>  
+>  static void test_xbzrle_unix(void)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>  
+>      test_xbzrle(uri);
+> -    g_free(uri);
+>  }
+>  
+>  static void test_precopy_tcp(void)
+>  {
+>      MigrateStart *args = migrate_start_new();
+> -    char *uri;
+> +    g_autofree char *uri = NULL;
+>      QTestState *from, *to;
+>  
+>      if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", args)) {
+> @@ -971,7 +955,6 @@ static void test_precopy_tcp(void)
+>      wait_for_migration_complete(from);
+>  
+>      test_migrate_end(from, to, true);
+> -    g_free(uri);
+>  }
+>  
+>  static void test_migrate_fd_proto(void)
+> @@ -1060,7 +1043,7 @@ static void test_migrate_fd_proto(void)
+>  
+>  static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>      QTestState *from, *to;
+>  
+>      if (test_migrate_start(&from, &to, uri, args)) {
+> @@ -1088,7 +1071,6 @@ static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
+>      }
+>  
+>      test_migrate_end(from, to, false);
+> -    g_free(uri);
+>  }
+>  
+>  static void test_validate_uuid(void)
+> @@ -1136,7 +1118,7 @@ static void test_validate_uuid_dst_not_set(void)
+>  
+>  static void test_migrate_auto_converge(void)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>      MigrateStart *args = migrate_start_new();
+>      QTestState *from, *to;
+>      int64_t remaining, percentage;
+> @@ -1214,7 +1196,6 @@ static void test_migrate_auto_converge(void)
+>      wait_for_serial("dest_serial");
+>      wait_for_migration_complete(from);
+>  
+> -    g_free(uri);
+>  
+>      test_migrate_end(from, to, true);
+>  }
+> @@ -1224,7 +1205,7 @@ static void test_multifd_tcp(const char *method)
+>      MigrateStart *args = migrate_start_new();
+>      QTestState *from, *to;
+>      QDict *rsp;
+> -    char *uri;
+> +    g_autofree char *uri = NULL;
+>  
+>      if (test_migrate_start(&from, &to, "defer", args)) {
+>          return;
+> @@ -1273,7 +1254,6 @@ static void test_multifd_tcp(const char *method)
+>      wait_for_serial("dest_serial");
+>      wait_for_migration_complete(from);
+>      test_migrate_end(from, to, true);
+> -    g_free(uri);
+>  }
+>  
+>  static void test_multifd_tcp_none(void)
+> @@ -1309,7 +1289,7 @@ static void test_multifd_tcp_cancel(void)
+>      MigrateStart *args = migrate_start_new();
+>      QTestState *from, *to, *to2;
+>      QDict *rsp;
+> -    char *uri;
+> +    g_autofree char *uri = NULL;
+>  
+>      args->hide_stderr = true;
+>  
+> @@ -1387,7 +1367,6 @@ static void test_multifd_tcp_cancel(void)
+>      wait_for_serial("dest_serial");
+>      wait_for_migration_complete(from);
+>      test_migrate_end(from, to2, true);
+> -    g_free(uri);
+>  }
+>  
+>  int main(int argc, char **argv)
+> -- 
+> 2.20.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-05-06 18:56:17 +0100)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210510-1
-
-for you to fetch changes up to c3080fbdaa381012666428fef2e5f7ce422ecfee:
-
-  hw/arm/xlnx: Fix PHY address for xilinx-zynq-a9 (2021-05-10 17:21:54 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * docs: fix link in sbsa description
- * linux-user/aarch64: Enable hwcap for RND, BTI, and MTE
- * target/arm: Fix tlbbits calculation in tlbi_aa64_vae2is_write()
- * target/arm: Split neon and vfp translation to their own
-   compilation units
- * target/arm: Make WFI a NOP for userspace emulators
- * hw/sd/omap_mmc: Use device_cold_reset() instead of
-   device_legacy_reset()
- * include: More fixes for 'extern "C"' block use
- * hw/arm/imx25_pdk: Fix error message for invalid RAM size
- * hw/arm/mps2-tz: Implement AN524 memory remapping via machine property
- * hw/arm/xlnx: Fix PHY address for xilinx-zynq-a9
-
-----------------------------------------------------------------
-Alex Bennée (1):
-      docs: fix link in sbsa description
-
-Guenter Roeck (1):
-      hw/arm/xlnx: Fix PHY address for xilinx-zynq-a9
-
-Peter Maydell (22):
-      target/arm: Fix tlbbits calculation in tlbi_aa64_vae2is_write()
-      target/arm: Move constant expanders to translate.h
-      target/arm: Share unallocated_encoding() and gen_exception_insn()
-      target/arm: Make functions used by m-nocp global
-      target/arm: Split m-nocp trans functions into their own file
-      target/arm: Move gen_aa32 functions to translate-a32.h
-      target/arm: Move vfp_{load, store}_reg{32, 64} to translate-vfp.c.inc
-      target/arm: Make functions used by translate-vfp global
-      target/arm: Make translate-vfp.c.inc its own compilation unit
-      target/arm: Move vfp_reg_ptr() to translate-neon.c.inc
-      target/arm: Delete unused typedef
-      target/arm: Move NeonGenThreeOpEnvFn typedef to translate.h
-      target/arm: Make functions used by translate-neon global
-      target/arm: Make translate-neon.c.inc its own compilation unit
-      target/arm: Make WFI a NOP for userspace emulators
-      hw/sd/omap_mmc: Use device_cold_reset() instead of device_legacy_reset()
-      osdep: Make os-win32.h and os-posix.h handle 'extern "C"' themselves
-      include/qemu/bswap.h: Handle being included outside extern "C" block
-      include/disas/dis-asm.h: Handle being included outside 'extern "C"'
-      hw/misc/mps2-scc: Add "QEMU interface" comment
-      hw/misc/mps2-scc: Support using CFG0 bit 0 for remapping
-      hw/arm/mps2-tz: Implement AN524 memory remapping via machine property
-
-Philippe Mathieu-Daudé (1):
-      hw/arm/imx25_pdk: Fix error message for invalid RAM size
-
-Richard Henderson (1):
-      linux-user/aarch64: Enable hwcap for RND, BTI, and MTE
-
- docs/system/arm/mps2.rst                           |  10 +
- docs/system/arm/sbsa.rst                           |   2 +-
- include/disas/dis-asm.h                            |  12 +-
- include/hw/misc/mps2-scc.h                         |  21 ++
- include/qemu/bswap.h                               |  26 ++-
- include/qemu/osdep.h                               |   8 +-
- include/sysemu/os-posix.h                          |   8 +
- include/sysemu/os-win32.h                          |   8 +
- target/arm/translate-a32.h                         | 144 +++++++++++++
- target/arm/translate-a64.h                         |   2 -
- target/arm/translate.h                             |  29 +++
- hw/arm/imx25_pdk.c                                 |   5 +-
- hw/arm/mps2-tz.c                                   | 108 +++++++++-
- hw/arm/xilinx_zynq.c                               |   2 +-
- hw/misc/mps2-scc.c                                 |  13 +-
- hw/sd/omap_mmc.c                                   |   2 +-
- linux-user/elfload.c                               |  13 ++
- target/arm/helper.c                                |   2 +-
- target/arm/op_helper.c                             |  14 ++
- target/arm/translate-a64.c                         |  15 --
- target/arm/translate-m-nocp.c                      | 221 ++++++++++++++++++++
- .../arm/{translate-neon.c.inc => translate-neon.c} |  19 +-
- .../arm/{translate-vfp.c.inc => translate-vfp.c}   | 230 +++------------------
- target/arm/translate.c                             | 200 ++++--------------
- disas/arm-a64.cc                                   |   2 -
- disas/nanomips.cpp                                 |   2 -
- target/arm/meson.build                             |  15 +-
- 27 files changed, 720 insertions(+), 413 deletions(-)
- create mode 100644 target/arm/translate-a32.h
- create mode 100644 target/arm/translate-m-nocp.c
- rename target/arm/{translate-neon.c.inc => translate-neon.c} (99%)
- rename target/arm/{translate-vfp.c.inc => translate-vfp.c} (94%)
 
