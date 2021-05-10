@@ -2,72 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF7B3780AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 11:57:54 +0200 (CEST)
-Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 800263780CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 12:03:35 +0200 (CEST)
+Received: from localhost ([::1]:48290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg2fh-0003bP-9i
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 05:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37598)
+	id 1lg2lC-0001uN-Ic
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 06:03:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lg2eZ-0002wO-UF
- for qemu-devel@nongnu.org; Mon, 10 May 2021 05:56:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22454)
+ (Exim 4.90_1) (envelope-from <wangjie88@huawei.com>)
+ id 1lg2hV-0005NI-RI
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 05:59:45 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lg2eX-0006PV-8w
- for qemu-devel@nongnu.org; Mon, 10 May 2021 05:56:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620640600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wr7gEr49JgWcjy0kptHQ279uuy5uzf9FfRPOQWelO0o=;
- b=VDLj+fpQDu2A6Vwfrh9qezTqiXDq3P+kUx139NO1FwmSLnjmobUTzbdoOYqOiTgD0/JO2d
- YMlM5RoBuH8ItSX2EXJ4tdWwJ1flL0OraaTHOlVPYhZyHUWXyOmJDdWdxQKOUg2f5jNEir
- vimaGVNQooUwlZmPeQktQrRi2Wg+NQE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-0yqqCkYzOuSZ7H558kOqqQ-1; Mon, 10 May 2021 05:56:36 -0400
-X-MC-Unique: 0yqqCkYzOuSZ7H558kOqqQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91C7C107ACF3;
- Mon, 10 May 2021 09:56:35 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-11.ams2.redhat.com
- [10.36.112.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D73F7059C;
- Mon, 10 May 2021 09:56:34 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 48E2118000B9; Mon, 10 May 2021 11:56:33 +0200 (CEST)
-Date: Mon, 10 May 2021 11:56:33 +0200
-From: 'Gerd Hoffmann ' <kraxel@redhat.com>
-To: gustavo@noronha.eti.br
-Subject: Re: [PATCH v3 1/2] ui/cocoa: capture all keys and combos when mouse
- is grabbed
-Message-ID: <20210510095633.dtj4cqniiofhgzwv@sirius.home.kraxel.org>
-References: <20210504233232.28423-1-gustavo@noronha.eti.br>
- <20210504233232.28423-2-gustavo@noronha.eti.br>
+ (Exim 4.90_1) (envelope-from <wangjie88@huawei.com>)
+ id 1lg2hT-0008G7-3o
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 05:59:45 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4FdxKh0W4GzCr7P
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 17:56:56 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.498.0; Mon, 10 May 2021
+ 17:59:27 +0800
+From: Jie Wang <wangjie88@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] util: fix fd leak in qemu_write_pidfile()
+Date: Mon, 10 May 2021 17:57:08 +0800
+Message-ID: <20210510095708.950474-1-wangjie88@huawei.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20210504233232.28423-2-gustavo@noronha.eti.br>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=wangjie88@huawei.com;
+ helo=szxga07-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,35 +56,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 'Peter Maydell ' <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- 'Markus Armbruster ' <armbru@redhat.com>
+Cc: wangxinxin.wang@huawei.com, wangjie88@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 04, 2021 at 08:32:31PM -0300, gustavo@noronha.eti.br wrote:
-> From: Gustavo Noronha Silva <gustavo@noronha.eti.br>
-> 
-> Applications such as Gnome may use Alt-Tab and Super-Tab for different
-> purposes, some use Ctrl-arrows so we want to allow qemu to handle
-> everything when it captures the mouse/keyboard.
-> 
-> However, Mac OS handles some combos like Command-Tab and Ctrl-arrows
-> at an earlier part of the event handling chain, not letting qemu see it.
-> 
-> We add a global Event Tap that allows qemu to see all events when the
-> mouse is grabbed. Note that this requires additional permissions.
-> 
-> See:
-> 
-> https://developer.apple.com/documentation/coregraphics/1454426-cgeventtapcreate?language=objc#discussion
-> https://support.apple.com/en-in/guide/mac-help/mh32356/mac
-> 
-> Acked-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.eti.br>
+if execute qemu_open success, have no branch to free the fd,
+so unlink it inadvance, let it free by process exit.
 
-Ping.  Any comment from the macos guys on this one?
+Signed-off-by: Jie Wang <wangjie88@huawei.com>
+---
+ util/oslib-posix.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-thanks,
-  Gerd
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 36820fec16..30bf39bf4f 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -131,6 +131,7 @@ bool qemu_write_pidfile(const char *path, Error **errp)
+             error_setg_errno(errp, errno, "Cannot open pid file");
+             return false;
+         }
++	unlink(path);
+ 
+         if (fstat(fd, &b) < 0) {
+             error_setg_errno(errp, errno, "Cannot stat file");
+-- 
+2.23.0
 
 
