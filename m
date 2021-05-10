@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FCD1378C59
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:39:01 +0200 (CEST)
-Received: from localhost ([::1]:53026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62869378C60
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:42:34 +0200 (CEST)
+Received: from localhost ([::1]:36502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg5Bc-00064T-HP
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:39:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37622)
+	id 1lg5F3-0005R2-Ex
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4z8-000673-Eq
+ id 1lg4z8-00066B-8K
  for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:06 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36655)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4z5-0003FH-6c
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:06 -0400
-Received: by mail-wr1-x430.google.com with SMTP id m9so16437496wrx.3
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:26:02 -0700 (PDT)
+ id 1lg4z5-0003Fm-P2
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:05 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id d4so16408610wru.7
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:26:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=JL7HH1O51sX2ceg9tbB6Rc1ZArs66XI/7qZrVHYeGK8=;
- b=OXA5Mh3Hm41Dn5xwmqhzHyxWGmDVLG26MccGUbL70LwtX+UhyCG8KZ6uCeLRDA+cK4
- FEaXBKvIGfE0lI7X3+GsOPoKewjX//Oh6F5s9Xw3+dX9u4AzxsCNgMuxlgqSUzJYl2+E
- rN2vkrL/PCz9mQSmmzboYOD/+lMQLPXbwDNeY3tAtusT6Tkbno0sfCtDBggelXAtyQvE
- M4YIJa/UBknLDAw8VAf67Kmj7/U/36CQJXLyqMs1KObk2FVMgCxR1JG1uQEn33YFPY3l
- AZdZqbAI9WsAiVBX9xvZpVSLeopsOPzx9ON/sPurJn6tlWbWCCuLH5P1u+xk/yoznYCr
- jzYg==
+ bh=NwdX6azGIkk9RW5w8G/+mwtZRtmOOUwHdFzdJF/aMkw=;
+ b=XJKzl2gP+a0CoHFbJLf1g1cqUlGuKJCIArd7A5KGKBetziWfzT3b/FFC7Ly/CjyUxB
+ Xib/7dUfn+TV2cpn4t4pOEKpaVoXCpEQwwOfgIKly+lazwWwG5wcXt6YHbnMacQeW2UA
+ HJI98chOBDoYnzWiMhm7EdqUwUXKLEJO161n66OCxe670MCnmrH/rk/dc6Ny7JM5T59t
+ k3n/OlHKDll/EeaPAUlmwkboQhXarECggTD9cCGl8Yw2AGSMUf5Hq4xO1QTYxQw1XGhf
+ FK/KZode0Ouxz8mA+vlEw6l2AlXH5gzDjPX9DFcXz3uWgPC0BZQzY9d+iakv3kiUIp6W
+ mfwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JL7HH1O51sX2ceg9tbB6Rc1ZArs66XI/7qZrVHYeGK8=;
- b=Ubz2OfBlS81ExCM5IrpSFnruUClc26vIK/8TIG6OxQ9yNU7z+S5Eh+nzNPbmBjTd7d
- qkMKMwp5PFvfSrw7NXEjy9nGZ8IdryI+mmoAlOj63L53rDOtAGu6RlMST7iVsR952SmK
- u5j8mXceA5UrqjbKW6a2LXozJ3qVQhQLcwOhagU8TGeruN1LAqaKN0NDc6NSR5bTWXyb
- neUFyq83ERHATsavfV+2P43demkng3u4v3SzWdZXWA/Q6w6Cpeeipk6/C1b8FWvcvxBm
- ihM9SMC8tRrnWY1b8QBk5gan7zn7UDDrtyrsbSuIBwGgL6S+PXT/9OrE6K+JZtsXUBIG
- AzLg==
-X-Gm-Message-State: AOAM530cwteT7ViB8hpiM7q0i7oemsD/ps2fQhtxgA62SPp2E2CHqMTD
- /50e2AT040lOb5qc0hLmo7qlOULH/PWL5g==
-X-Google-Smtp-Source: ABdhPJxqcbzFp1SnPvSixiG0euIL46p1skYILZWpRicpwRFS+09qvz61N2GWFFzgxBHoIgcSVI+Cew==
-X-Received: by 2002:a05:6000:108f:: with SMTP id
- y15mr31362080wrw.115.1620649561878; 
- Mon, 10 May 2021 05:26:01 -0700 (PDT)
+ bh=NwdX6azGIkk9RW5w8G/+mwtZRtmOOUwHdFzdJF/aMkw=;
+ b=piDJEz5sSnVRvU2JLKWIaNQC0/TvjVPt0jO4RYu6+FUK+CH6oH2HHSutl5Fhl4Khww
+ 50n+JcOqohFkw4R1y3rexAteGEbGwCO1/hbbvhfxzrnAHWEsui1aQS+lDKHMctpOlS3u
+ vsUwnKAl33/wrswPfDTVf9i9WOVbUkygCzjprb+2IyFGZ/5IYZ5jb2BzWJRABhY+diUn
+ 0v7PEedtix0T2lnlW+v2t9DVBPZYeLWyW9SAnCMZZ9fFUDdrnth+zuloE3IaJbcAl32v
+ k+uctMzwdNv5zAvCIXwa2GwN84wkBoVVkEKQNuoT8OLrohA2xOKNOrDqUaCB095wisDy
+ NH0Q==
+X-Gm-Message-State: AOAM530n6MCf4yhi0YmWc6mWZQPK8VfqMd8a7HKymp2hwrLuxtQ/psZ9
+ wr3mkl+okO5Ok4id+KfIxbsOIV3EoVUzsA==
+X-Google-Smtp-Source: ABdhPJyDvl5HzC8E2+lzOJ+bmKvocStC6erNYU9ugg4BRqYSDb7AMVzou6LSsMzd3Iae5okGuLQrYg==
+X-Received: by 2002:a5d:45cb:: with SMTP id b11mr30692843wrs.343.1620649562463; 
+ Mon, 10 May 2021 05:26:02 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.26.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 05:26:01 -0700 (PDT)
+ Mon, 10 May 2021 05:26:02 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/26] target/arm: Make WFI a NOP for userspace emulators
-Date: Mon, 10 May 2021 13:25:39 +0100
-Message-Id: <20210510122548.28638-18-peter.maydell@linaro.org>
+Subject: [PULL 18/26] hw/sd/omap_mmc: Use device_cold_reset() instead of
+ device_legacy_reset()
+Date: Mon, 10 May 2021 13:25:40 +0100
+Message-Id: <20210510122548.28638-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210510122548.28638-1-peter.maydell@linaro.org>
 References: <20210510122548.28638-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,72 +88,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The WFI insn is not system-mode only, though it doesn't usually make
-a huge amount of sense for userspace code to execute it.  Currently
-if you try it in qemu-arm then the helper function will raise an
-EXCP_HLT exception, which is not covered by the switch in cpu_loop()
-and results in an abort:
+The omap_mmc_reset() function resets its SD card via
+device_legacy_reset().  We know that the SD card does not have a qbus
+of its own, so the new device_cold_reset() function (which resets
+both the device and its child buses) is equivalent here to
+device_legacy_reset() and we can just switch to the new API.
 
-qemu: unhandled CPU exception 0x10001 - aborting
-R00=00000001 R01=408003e4 R02=408003ec R03=000102ec
-R04=00010a28 R05=00010158 R06=00087460 R07=00010158
-R08=00000000 R09=00000000 R10=00085b7c R11=408002a4
-R12=408002b8 R13=408002a0 R14=0001057c R15=000102f8
-PSR=60000010 -ZC- A usr32
-qemu:handle_cpu_signal received signal outside vCPU context @ pc=0x7fcbfa4f0a12
-
-Make the WFI helper function return immediately in the usermode
-emulator. This turns WFI into a NOP, which is OK because:
- * architecturally "WFI is a NOP" is a permitted implementation
- * aarch64 Linux kernels use the SCTLR_EL1.nTWI bit to trap
-   userspace WFI and NOP it (though aarch32 kernels currently
-   just let WFI do whatever it would do)
-
-We could in theory make the translate.c code special case user-mode
-emulation and NOP the insn entirely rather than making the helper
-do nothing, but because no real world code will be trying to
-execute WFI we don't care about efficiency and the helper provides
-a single place where we can make the change rather than having
-to touch multiple places in translate.c and translate-a64.c.
-
-Fixes: https://bugs.launchpad.net/qemu/+bug/1926759
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210430162212.825-1-peter.maydell@linaro.org
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20210430222348.8514-1-peter.maydell@linaro.org
 ---
- target/arm/op_helper.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/sd/omap_mmc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 78b831f1811..381f7857efb 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -285,6 +285,17 @@ static inline int check_wfx_trap(CPUARMState *env, bool is_wfe)
- 
- void HELPER(wfi)(CPUARMState *env, uint32_t insn_len)
- {
-+#ifdef CONFIG_USER_ONLY
-+    /*
-+     * WFI in the user-mode emulator is technically permitted but not
-+     * something any real-world code would do. AArch64 Linux kernels
-+     * trap it via SCTRL_EL1.nTWI and make it an (expensive) NOP;
-+     * AArch32 kernels don't trap it so it will delay a bit.
-+     * For QEMU, make it NOP here, because trying to raise EXCP_HLT
-+     * would trigger an abort.
-+     */
-+    return;
-+#else
-     CPUState *cs = env_cpu(env);
-     int target_el = check_wfx_trap(env, false);
- 
-@@ -309,6 +320,7 @@ void HELPER(wfi)(CPUARMState *env, uint32_t insn_len)
-     cs->exception_index = EXCP_HLT;
-     cs->halted = 1;
-     cpu_loop_exit(cs);
-+#endif
+diff --git a/hw/sd/omap_mmc.c b/hw/sd/omap_mmc.c
+index 1f946908fe1..b67def63813 100644
+--- a/hw/sd/omap_mmc.c
++++ b/hw/sd/omap_mmc.c
+@@ -318,7 +318,7 @@ void omap_mmc_reset(struct omap_mmc_s *host)
+      * into any bus, and we must reset it manually. When omap_mmc is
+      * QOMified this must move into the QOM reset function.
+      */
+-    device_legacy_reset(DEVICE(host->card));
++    device_cold_reset(DEVICE(host->card));
  }
  
- void HELPER(wfe)(CPUARMState *env)
+ static uint64_t omap_mmc_read(void *opaque, hwaddr offset,
 -- 
 2.20.1
 
