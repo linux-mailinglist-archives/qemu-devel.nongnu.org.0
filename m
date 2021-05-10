@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06F1378C5A
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:39:06 +0200 (CEST)
-Received: from localhost ([::1]:53466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7296378C5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:41:58 +0200 (CEST)
+Received: from localhost ([::1]:33908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg5Bi-0006M7-1f
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37636)
+	id 1lg5ET-0003dv-PH
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4z9-00069H-0H
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:07 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:47062)
+ id 1lg4zB-0006JR-NX
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:09 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:40554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4z7-0003Gz-3Z
- for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:06 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id x5so16404324wrv.13
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:26:04 -0700 (PDT)
+ id 1lg4z7-0003HB-On
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 08:26:09 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so11040499wmy.5
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:26:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=+F6jleEXVhgO8uJKJxLCSJYICGeVWVwwC0zqjUCJ2F8=;
- b=eCstmKh4h7H92VgQYnQCoCE0If4SdYdx3o96Efo5RaD0LHvGvPQBS/Q0vUm60dQJNi
- 0Dwu4ZVuRU2YnYS+6qz2AygmNixw7kpwMII+ssEtVpiIswpXb+1gNCFAX+yliS4cspYW
- D28YlGhmHSwHRiP3UdxFfRxjnSK1FlhDCH9DNVUAscPlooU3X8ub1rDiUKTi5N1uMWHv
- smxN/KObS61UZXQmX2IUiYRuSFlGz5nnppMMvc8aj00EXJXCMgpwZRvhdcfFGRhoJX/b
- Zob4b6MuY1DVH20pIZdLOUPV1O93Ld2zZeaNM359dFsPDvjkK8P4QS+JlALCNPsxdRG2
- SosA==
+ bh=OR9pef3HduyOmvWH82pNcRMO4dLmxiN0+TVKetu9P78=;
+ b=K2oagKTxhtSLw/i+ufp40hNXRveWuaKvXfLyPvThCK4+y+etStfDhYHtnKG8wmNYae
+ DRfOxLcjRT65ICBMUWRgismjDoMS51EkcDOGJ8ZTInfgM8CPgf6xeXggiFJNAZ9O4+Lb
+ zgVswkzGr2eH4sQMX8fdoBdRnw496zNcQH+v/BV3DOslysj7HgYaTa+ZKhQa06Wqlk2/
+ cvXyBvWWXdUN0KWMmpsVOmFACa9CFFBXuDRefk8svl5S63uSMAWzPmoRPjGPltIzrAj+
+ Fdda1xXaaLxwF72WGW26uxtHqZv6VQilmjKsczznyXRqlzECyPNBbD9WnZD/VZ72NRAi
+ MhRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+F6jleEXVhgO8uJKJxLCSJYICGeVWVwwC0zqjUCJ2F8=;
- b=qvelcRZLRNhpDyK1JIQli1u3sXtUsDWZF0Bafft8Y0/SdFl4aPC1q22ramJAPImdhX
- WNU3iFy6HOJwpHVCA4dFPirewnpW4ylA0K0Z/qR0kLKm/LkwyNYqj5knOnMD7LlMXyw1
- qorWqUJvdFQSHvBsN9FeX27S4jWrxPujdeoMB0oGSBUnsbFUVWhDZtlWk61LHFKVRfig
- 0Ru4Ws3rsf3po6501h/bTWZKAege5iYy2DZ6OV5Q1xumOT5OT4UcAl2XV6wD5lcJZ6pY
- zitpQRy/UGuG0a6whFX04z1WdS0fLaS+2G6VAbbSqPxxvX2mbp96OzHJRVO+kVZzBzM5
- 44jA==
-X-Gm-Message-State: AOAM5307OMZxcQUTWHvc+4fq4cLXPpDocUrmpyz+wMc6d3GXyslLABFz
- TfBDQIc5//zOSOybvSq41geeX3tYh3HlmQ==
-X-Google-Smtp-Source: ABdhPJztLFlWwdhyzpkJeH8IhzJCxSVN0+USfqlFBEn4Zab/C7fvU6G107LsG7utlXTLMjS8eO5wWA==
-X-Received: by 2002:adf:e40f:: with SMTP id g15mr29971856wrm.392.1620649563794; 
- Mon, 10 May 2021 05:26:03 -0700 (PDT)
+ bh=OR9pef3HduyOmvWH82pNcRMO4dLmxiN0+TVKetu9P78=;
+ b=lyAsWaeIE8ByavexHsuHYqKGVVQJ8RUs9r1A7IZEPmRcDxgV1spqff0WzP9xXMM9qB
+ ZBy0tAQ848gjbDzyIsXzY5hnnS/H81dsA8jUpx2YJ5gd1KQFi62/czr4oZkdC8vXwPAz
+ cW/4L23F+u/SR97GHoGDMMvUjpZPjMH/Xj2otLnyMTTnp1P/mWeIxP96DcDGTYr/AtvT
+ CkFQR2lHTHppt3rk0i//xyuUsOVo7Q+BA/dw0Chhzq2+WrRf6BIUHtJ7Rw4/wrYblqZs
+ n0MrENOjpS/OTKTzGjToYLD17gukeL0Qzbseacl0WAEG5ZFHzo7R5J5vEIknOv8iqdEd
+ +gwg==
+X-Gm-Message-State: AOAM531icx+FKLXA/mtvg/6U4U1E95QF9Rwgipt7WORABg0ysWjfFSl2
+ xUQXMTkr8zit8buMYFe1pQ87yaoQHrHeWQ==
+X-Google-Smtp-Source: ABdhPJymbjcAYViTMyUQdvmVZpVzBqGKIApq8YFcoRVYuPEa5v20ASKUlW8lnqdLl8+sdyzudU0rYg==
+X-Received: by 2002:a05:600c:4998:: with SMTP id
+ h24mr36808508wmp.10.1620649564379; 
+ Mon, 10 May 2021 05:26:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.26.03
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 05:26:03 -0700 (PDT)
+ Mon, 10 May 2021 05:26:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/26] include/qemu/bswap.h: Handle being included outside
- extern "C" block
-Date: Mon, 10 May 2021 13:25:42 +0100
-Message-Id: <20210510122548.28638-21-peter.maydell@linaro.org>
+Subject: [PULL 21/26] include/disas/dis-asm.h: Handle being included outside
+ 'extern "C"'
+Date: Mon, 10 May 2021 13:25:43 +0100
+Message-Id: <20210510122548.28638-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210510122548.28638-1-peter.maydell@linaro.org>
 References: <20210510122548.28638-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,88 +89,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make bswap.h handle being included outside an 'extern "C"' block:
-all system headers are included first, then all declarations are
-put inside an 'extern "C"' block.
-
-This requires a little rearrangement as currently we have an ifdef
-ladder that has some system includes and some local declarations
-or definitions, and we need to separate those out.
-
-We want to do this because dis-asm.h includes bswap.h, dis-asm.h
-may need to be included from C++ files, and system headers should
-not be included within 'extern "C"' blocks.
+Make dis-asm.h handle being included outside an 'extern "C"' block;
+this allows us to remove the 'extern "C"' blocks that our two C++
+files that include it are using.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/bswap.h | 26 ++++++++++++++++++++++----
- 1 file changed, 22 insertions(+), 4 deletions(-)
+ include/disas/dis-asm.h | 12 ++++++++++--
+ disas/arm-a64.cc        |  2 --
+ disas/nanomips.cpp      |  2 --
+ 3 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 4aaf992b5d7..2d3bb8bbedd 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -1,8 +1,6 @@
- #ifndef BSWAP_H
- #define BSWAP_H
+diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+index 13fa1edd411..4701445e806 100644
+--- a/include/disas/dis-asm.h
++++ b/include/disas/dis-asm.h
+@@ -9,6 +9,12 @@
+ #ifndef DISAS_DIS_ASM_H
+ #define DISAS_DIS_ASM_H
  
--#include "fpu/softfloat-types.h"
--
- #ifdef CONFIG_MACHINE_BSWAP_H
- # include <sys/endian.h>
- # include <machine/bswap.h>
-@@ -12,7 +10,18 @@
- # include <endian.h>
- #elif defined(CONFIG_BYTESWAP_H)
- # include <byteswap.h>
-+#define BSWAP_FROM_BYTESWAP
-+# else
-+#define BSWAP_FROM_FALLBACKS
-+#endif /* ! CONFIG_MACHINE_BSWAP_H */
- 
++#include "qemu/bswap.h"
++
 +#ifdef __cplusplus
 +extern "C" {
 +#endif
 +
-+#include "fpu/softfloat-types.h"
-+
-+#ifdef BSWAP_FROM_BYTESWAP
- static inline uint16_t bswap16(uint16_t x)
- {
-     return bswap_16(x);
-@@ -27,7 +36,9 @@ static inline uint64_t bswap64(uint64_t x)
- {
-     return bswap_64(x);
- }
--# else
-+#endif
-+
-+#ifdef BSWAP_FROM_FALLBACKS
- static inline uint16_t bswap16(uint16_t x)
- {
-     return (((x & 0x00ff) << 8) |
-@@ -53,7 +64,10 @@ static inline uint64_t bswap64(uint64_t x)
-             ((x & 0x00ff000000000000ULL) >> 40) |
-             ((x & 0xff00000000000000ULL) >> 56));
- }
--#endif /* ! CONFIG_MACHINE_BSWAP_H */
-+#endif
-+
-+#undef BSWAP_FROM_BYTESWAP
-+#undef BSWAP_FROM_FALLBACKS
+ typedef void *PTR;
+ typedef uint64_t bfd_vma;
+ typedef int64_t bfd_signed_vma;
+@@ -479,8 +485,6 @@ bool cap_disas_plugin(disassemble_info *info, uint64_t pc, size_t size);
  
- static inline void bswap16s(uint16_t *s)
+ /* from libbfd */
+ 
+-#include "qemu/bswap.h"
+-
+ static inline bfd_vma bfd_getl64(const bfd_byte *addr)
  {
-@@ -494,4 +508,8 @@ DO_STN_LDN_P(be)
- #undef le_bswaps
- #undef be_bswaps
+     return ldq_le_p(addr);
+@@ -508,4 +512,8 @@ static inline bfd_vma bfd_getb16(const bfd_byte *addr)
+ 
+ typedef bool bfd_boolean;
  
 +#ifdef __cplusplus
 +}
 +#endif
 +
- #endif /* BSWAP_H */
+ #endif /* DISAS_DIS_ASM_H */
+diff --git a/disas/arm-a64.cc b/disas/arm-a64.cc
+index 27613d4b256..a1402a2e071 100644
+--- a/disas/arm-a64.cc
++++ b/disas/arm-a64.cc
+@@ -18,9 +18,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-extern "C" {
+ #include "disas/dis-asm.h"
+-}
+ 
+ #include "vixl/a64/disasm-a64.h"
+ 
+diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
+index 8ddef897f0d..9be8df75dd6 100644
+--- a/disas/nanomips.cpp
++++ b/disas/nanomips.cpp
+@@ -28,9 +28,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-extern "C" {
+ #include "disas/dis-asm.h"
+-}
+ 
+ #include <cstring>
+ #include <stdexcept>
 -- 
 2.20.1
 
