@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1830379226
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 17:10:14 +0200 (CEST)
-Received: from localhost ([::1]:47562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E5037922C
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 17:12:06 +0200 (CEST)
+Received: from localhost ([::1]:51236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg7Xx-0007Hk-L6
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 11:10:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46102)
+	id 1lg7Zl-0001Ph-WD
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 11:12:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg7Wt-0006b0-B7
- for qemu-devel@nongnu.org; Mon, 10 May 2021 11:09:07 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40651)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lg7YE-00081X-9Q
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 11:10:30 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg7Wr-0001bO-3X
- for qemu-devel@nongnu.org; Mon, 10 May 2021 11:09:07 -0400
-Received: by mail-ej1-x635.google.com with SMTP id n2so25041127ejy.7
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 08:09:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lg7YC-0001qb-IQ
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 11:10:30 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id a4so17015926wrr.2
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 08:10:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TRK8z9stCSdtC2xIOjMqSHQH1q8esAjO/u3pL+VY+aQ=;
- b=uCo0ErzmX+Nq0Tn6TB1m1eY/KOCCFBuYBgugnFqnQifX4GS4Jubaasx62SBqEvNZH+
- kCrnAXtZ2MBio8wkOjfBcMZ6Cr7MuZeK7LKaJRbNwf3h2AXCMW2urK9HqDAcii4JoCQ9
- uYPunFgh+RjxpvejxU0t012C7WroG0LLTw6IorVw9FjbBK+pM3AlmJrM4k1hBPaxMBT6
- BstLap7JPw5Xe5mGvLp1YQAW1j5113bgOoRBr/f6vwRAhWbyzTb0sSSv9vUOXb7N93fs
- S4ZNU8iamo+QJhdlMdV5DRrVnwwBja+cSag/rLPHMK21NXfL2DWYxqmPNrthyrfrJI5k
- DtHA==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=KF+Y67CHwziG9gmlLcq+a/I9IthDalJBqNb5ThLFzSHxaOppPkVCWlpJWf/43boLUk
+ l5wPMvgT9loebji+vc0RKVdl9ayqUWMwUJ3/IJCnMm/Uyx4Iyv8gIQ5xBpnoQHu0ccaG
+ U8aSizKs9CHP1oxPxAMHzVCknaHxsTxDoLLcV1bYHsg/IWg43cqlxEXXsKOVwJoN5uR1
+ pDXRhE/ic8/+ad/ORnnQDxqxANn437A0ZXND+nYGLHsrS122zXbP+Z63IHc8X11BolYt
+ VIPUzMXUuEyZYZZ4OtkESlQEqxpRi4OwbZSgDQL/oxFDJXiDn8MoF7RFlIaNqeENOLNT
+ W90w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TRK8z9stCSdtC2xIOjMqSHQH1q8esAjO/u3pL+VY+aQ=;
- b=qoJwU6O9zYgR6euAQymyOxx4uSgOj80C8IT99s7mFugn81HPfgWSRI3RZtj8ag68eC
- pNiIeRbj2yl/p/fN/rTRqZ7EatK7k8yqDzvzYBQ2Ii/oVQUDAQa9GqdH7IvqfPGkb+/n
- IbhhqpKJXWHg9mqVQ+GYaoExjzzngevQbGcSYpBhH4OBtFUO4o+kFRw1us9vLYGKMb6m
- ikn4vQ/cksLT1FIBK5v+kPGQ58VQzHw+4ydO+m5voyRf8MppMEEpL0wctPW2EAyA/QSV
- wJOCV6M45qippHkYNOnmzAw1fUz5GlkeI6TEmYSSUp5OCCi14rPwObhjD6lXuP6MWDbm
- U7cQ==
-X-Gm-Message-State: AOAM533wbYbolUNOMmtgXGQAh0PvZ36OLxApcxI15SIX6Jr6gLCX/2jo
- WI+BoT7O9FfqbEV9mRBrLl7WvGwTXwm8DWaok7TCwQ==
-X-Google-Smtp-Source: ABdhPJx+St+H3AIccpkeI5kR2vvRp/iCuHj71JbMHZoIJKaCwPMMZdaarUJeB6YwmqWGbV34d2ldxNEmeQvN5eoNRAA=
-X-Received: by 2002:a17:906:364d:: with SMTP id
- r13mr26995852ejb.250.1620659342997; 
- Mon, 10 May 2021 08:09:02 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=U52m1XbmAmFv3FSWBpD5y7B3unHqyW+7I/uOGTTAfX8zcaqhmVEFbd2nbBKU9sbXgZ
+ PCtp25DMoAAEQA8HTj8Mj9JUHHhdga2JKKZ41wnOHyTMjp9RW7iZwHooFAXJ54NewUIO
+ w4MEYPBVeAAD2bmfknZ3NsfZpo1LZIHdN1wFVx5s9hm1xoMfjJFxiFMovZYmUZq9KWpV
+ qYeRSelUdqqV6TuuxmLzfHgaFvqdW1tLnm35D6jyNwSmO6Q19GsUz2zjAE+gQ9oArYtA
+ m/yc2gEfwz/TBhEbaVIAg/u7j4+wf9RJn7musF6ia4Ozqh5yh/UoqF5015wAploo4b//
+ sAdw==
+X-Gm-Message-State: AOAM531osCtvzCjhpah3A19sk6ODg61xei8JZdjEULEsPSnDIkjIzE1j
+ xGySJvpMPMK44EWyfWK6bHVrtg==
+X-Google-Smtp-Source: ABdhPJyqc1JEGD86K02HC6q0tSr9lMgKzo7jx7HhXTiYkofgFB22xg7f5o6m0mDZf/kyHrIfcIff4w==
+X-Received: by 2002:adf:ee83:: with SMTP id b3mr30667545wro.329.1620659426894; 
+ Mon, 10 May 2021 08:10:26 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q12sm24905207wmj.7.2021.05.10.08.10.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 May 2021 08:10:26 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 574701FF7E;
+ Mon, 10 May 2021 16:10:25 +0100 (BST)
+References: <20210508014802.892561-1-richard.henderson@linaro.org>
+ <20210508014802.892561-12-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 11/72] softfloat: Use return_nan in float_to_float
+Date: Mon, 10 May 2021 16:10:21 +0100
+In-reply-to: <20210508014802.892561-12-richard.henderson@linaro.org>
+Message-ID: <878s4my68u.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210510141148.3138904-1-wangjie88@huawei.com>
-In-Reply-To: <20210510141148.3138904-1-wangjie88@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 May 2021 16:07:51 +0100
-Message-ID: <CAFEAcA9g8XWrvZGSOFdHQEkabGSDbcxQCnD8adfxR=0KLK=GeQ@mail.gmail.com>
-Subject: Re: [PATCH v2] util: fix fd leak in qemu_write_pidfile()
-To: Jie Wang <wangjie88@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,43 +87,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangxinxin.wang@huawei.com, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 May 2021 at 15:15, Jie Wang <wangjie88@huawei.com> wrote:
->
-> if execute qemu_open success, have no branch to free the fd,
-> so unlink it inadvance, let it free by process exit.
->
-> Signed-off-by: Jie Wang <wangjie88@huawei.com>
-> ---
->  util/oslib-posix.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> index 36820fec16..fa881f2ee8 100644
-> --- a/util/oslib-posix.c
-> +++ b/util/oslib-posix.c
-> @@ -131,6 +131,7 @@ bool qemu_write_pidfile(const char *path, Error **errp)
->              error_setg_errno(errp, errno, "Cannot open pid file");
->              return false;
->          }
-> +        unlink(path);
->
->          if (fstat(fd, &b) < 0) {
->              error_setg_errno(errp, errno, "Cannot stat file");
 
-This code change doesn't match the commit message -- the commit
-message says it's trying to free a filedescriptor, but the code
-change is unlinking a file.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Unlinking the file is definitely wrong, because the purpose of the
-pidfile is to comminucate the QEMU PID to other processes -- if we
-delete the file then those other processes can't find it. (The file
-gets deleted when QEMU exits -- see qemu_unlink_pidfile() and the code
-that calls it.)
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-thanks
--- PMM
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
