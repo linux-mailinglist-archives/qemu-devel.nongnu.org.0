@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91D03791A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 16:55:36 +0200 (CEST)
-Received: from localhost ([::1]:36998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4733791D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 17:03:44 +0200 (CEST)
+Received: from localhost ([::1]:43748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg7Jn-0007DY-Al
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 10:55:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
+	id 1lg7Rf-0003ky-3B
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 11:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lg7IF-0006NF-A2
- for qemu-devel@nongnu.org; Mon, 10 May 2021 10:53:59 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:37592)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lg7OR-0001A0-EH
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 11:00:23 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lg7ID-0001b4-Fi
- for qemu-devel@nongnu.org; Mon, 10 May 2021 10:53:58 -0400
-Received: by mail-ej1-x635.google.com with SMTP id w3so24984622ejc.4
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 07:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=F34SCvJZUHHFBh/puHAqfxoydrVnsiZs7V5CBZki8V8=;
- b=P7rUb7sXIpzpjvyjvgBUPnp8DPvrRXGmSsUz1lVyEARQ9B76v6FM8Ey465uvUP5vIE
- X3rM/zaG8fC5yw3XKEAc5STzUWLl6KoddlT1Y6FGnZ8FPDqS6Jheu3OKBPWb1zfxAcL0
- LFG2ZE0ibeD/mAt+s4zQtqL2quTGMesCTc8V6fr69RZsnDIgtXiJB8qlmX6/Dltd5gPg
- Llxj0LV0rwWYnMLwChAvJSxwXaVieJg6dYreTVEiu4f7nT/pjg0ckD2ZmtPl8JgcCL77
- t/poa1X8aQP+0dEtWwHBL8qEFjNfTiVA08IiSaoB0+URF+/eghvsq/8PFAPIzuEoJ4js
- gOqw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lg7OO-0004tz-Mi
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 11:00:23 -0400
+Received: by mail-wr1-x435.google.com with SMTP id l2so16964191wrm.9
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 08:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K/FNff2LAuvSwfSN8kNH1SIRafomx8yjd+eXfYkv1a0=;
+ b=y4O8BTsXHQwap60+p6j11NiScwk73IhhFX+F0vVFLwqQzU06QwwIo8+4Tf+idppOdn
+ 0sOj6JG3HDeQ6DY5XnnIf19X2v1uQBUaY3Q7xi+3RtnrjtBIMEADRcqPRVqUOFsL6mhS
+ s0qxjuXPNoD9vbSRzOOHH4u+iJQtAB6hctqHlg6vWQc3h22O+ZGvY+j02l5zPJbzk/wE
+ oyz1boXrW553tjIQcDMzHCUU5tTg6iC9Xi1bjYreJC9yr4PuqeSiJpVTHzXXF2jlKO7r
+ hMJNdKapK+FexCcwTxA8vZaaoZxsa1kD52l8JcgRZXgsdGtzxoEw0+nk5tzXuQ220QsN
+ Kk9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=F34SCvJZUHHFBh/puHAqfxoydrVnsiZs7V5CBZki8V8=;
- b=HgOX16yDl9zY4vWgrvQwRMFfUVKlX2sC44RVBA+adTlRUJWPJDPW6M6gTvSg1EaLgg
- oVrWrmeJwTwe9AqseAUYtH/Q2530I1beLsj16qiY1xOIV9Vc3ZINuv9kXB1CnqzXzTIX
- U/gnPIy6Wa4lEFEqyvJ3cp1txEFShqoPruQQRvNU2m2P138wOaRd/7o8EzsnTKc97Lb6
- L7fGCIfwUXmQEtwPxP0SZCa+94HAup7X8Cy5b3CbEqHpp+Shvj0sIvcyaaJ/Kwky+9pP
- HCibN2g7d+WNg1KaZUiMBX7mkeKj57rNF2b3OFtOxxRTjqzXwom0D06I/5yyVW6OI6bf
- rT+Q==
-X-Gm-Message-State: AOAM533KpTe9W1fjutYGE7XQYMxsxdEm8tCgXdq5qBf5pmS8fVdg6VFY
- i437+B9Yh10O8jpqZWk51Ig=
-X-Google-Smtp-Source: ABdhPJx3U7zYA73aWlgpyDmpY2Rp+jZMEUnfkGV7o0cPWpG6DmkMCVkuR+jaNb7JMt9GfmkTSYaVcA==
-X-Received: by 2002:a17:906:dc4c:: with SMTP id
- yz12mr26557400ejb.284.1620658435417; 
- Mon, 10 May 2021 07:53:55 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id g11sm9250451eje.7.2021.05.10.07.53.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 May 2021 07:53:54 -0700 (PDT)
-Subject: Re: [PATCH] gitlab-ci: Restrict jobs using Docker to runners having
- 'docker' tag
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210319004300.3800583-1-f4bug@amsat.org>
- <9cdb9c79-2466-93fa-a01a-f38532f2bd6f@redhat.com>
- <a4147360-9cb4-1e8a-570d-e41dbe6ddf5c@amsat.org>
-Message-ID: <6ece59c7-6e1c-245d-6b65-93dd374b6810@amsat.org>
-Date: Mon, 10 May 2021 16:53:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=K/FNff2LAuvSwfSN8kNH1SIRafomx8yjd+eXfYkv1a0=;
+ b=KZSbeJtH2w4DfEyH9VYS5VcdhBzdafjcTJD+MjDotLfRNlJWe6tSmIzDRt/oGcFjfW
+ a34ley/nvnvgymMuSSOMHKVAdVRJ8rU2xG0nHenjH9ZFEhpOoi8hgpY/Zrd2MyLTVoFs
+ dumFCQS5uWTCfgIbJfZlGjTSCk1fFduy/Qq3tuwlVifQ6g9KOZnB3sRgSuZeG0z595a1
+ lNOWOrTDlQTBSpw7L8xQCGddJALL9gax+xMttgln9kgSqM/GOHDjN9PVL0PGlF3f+Ijp
+ +eNGGLAivCAC/4hYlR4AF7lDeEIxG2KtOoq8DzlgLZ1a8jsTruANEh5SyT5JNRozObh0
+ z+Dw==
+X-Gm-Message-State: AOAM532nTzYAHwX3GB0CT+SNyTUiMyH6lF9nscnTxg4evJyd5IfBXYTN
+ ngN2z/JSnPNqJv54/FpRpNBBoQ==
+X-Google-Smtp-Source: ABdhPJw0eJFXTPLLXNo6uPbV5BDqk0Vg5YC7/4UNPrBWVaN3p+K8XzXMHim70bGmyhUodhsIUO23NA==
+X-Received: by 2002:adf:fa4c:: with SMTP id y12mr31165040wrr.393.1620658819088; 
+ Mon, 10 May 2021 08:00:19 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id p10sm22499619wrr.58.2021.05.10.08.00.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 May 2021 08:00:18 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] hw/intc/arm_gicv3_cpuif: Fix EOIR write access check logic
+Date: Mon, 10 May 2021 16:00:16 +0100
+Message-Id: <20210510150016.24910-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <a4147360-9cb4-1e8a-570d-e41dbe6ddf5c@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,83 +81,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: Chan Kim <ckim@etri.re.kr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/14/21 12:10 PM, Philippe Mathieu-Daudé wrote:
-> On 3/19/21 6:40 AM, Thomas Huth wrote:
->> On 19/03/2021 01.43, Philippe Mathieu-Daudé wrote:
->>> When a job is based on a Docker image [1], or is using a Docker
->>> service, it requires a runner with Docker installed.
->>>
->>> Gitlab shared runners provide the 'docker' tag when they have it
->>> installed.
->>>
->>> Are Gitlab shared runners are limited resources, we'd like to
->>
->> s/Are/As/
->>
->>> add more runners to QEMU repositories hosted on Gitlab. If a
->>> runner doesn't provide Docker, our jobs requiring it will fail.
->>>
->>> Use the standard 'docker' tag to mark the jobs requiring Docker
->>> on the runner.
->>>
->>> [1] https://docs.gitlab.com/ee/ci/yaml/#image
->>> [2] https://docs.gitlab.com/ee/ci/yaml/#services
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> [...]
->>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->>> index f65cb11c4d3..d4511cf7dea 100644
->>> --- a/.gitlab-ci.yml
->>> +++ b/.gitlab-ci.yml
->>> @@ -14,6 +14,8 @@ include:
->>>     - local: '/.gitlab-ci.d/crossbuilds.yml'
->>>     .native_build_job_template: &native_build_job_definition
->>> +  tags:
->>> +  - docker
->>>     stage: build
->>>     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->>>     before_script:
->>> @@ -38,6 +40,8 @@ include:
->>>         fi
->>>     .native_test_job_template: &native_test_job_definition
->>> +  tags:
->>> +  - docker
->>>     stage: test
->>>     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->>>     script:
->>
->> If you add it to the templates ... won't this disable most of the jobs
->> on the dedicated runners that don't have docker? Wouldn't it be better
->> to add the tag only to the jobs that run "make check-tcg" ?
-> 
-> But this is the point, if a runner doesn't have Docker, it can not
-> run the job...
+In icc_eoir_write() we assume that we can identify the group of the
+IRQ being completed based purely on which register is being written
+to and the current CPU state, and that "CPU state matches group
+indicated by register" is the only necessary access check.
 
-Apparently gitlab isn't clever enough to figure the 'image:' tag implies
-we are expecting Docker... I suppose they wanted to keep it simple and
-filter with runner tags.
+This isn't correct: if the CPU is not in Secure state then EOIR1 will
+only complete Group 1 NS IRQs, but if the CPU is in EL3 it can
+complete both Group 1 S and Group 1 NS IRQs.  (The pseudocode
+ICC_EOIR1_EL1 makes this clear.) We were also missing the logic to
+prevent EOIR0 writes completing G0 IRQs when they should not.
 
-Now the public runners are named 'gitlab-org-docker', see:
+Rearrange the logic to first identify the group of the current
+highest priority interrupt and then look at whether we should
+complete it or ignore the access based on which register was accessed
+and the state of the CPU.  The resulting behavioural change is:
+ * EL3 can now complete G1NS interrupts
+ * G0 interrupt completion is now ignored if the GIC
+   and the CPU have the security extension enabled and
+   the CPU is not secure
 
-https://gitlab.com/gitlab-org/gitlab-ui/-/merge_requests/1267/diffs
-https://gitlab.com/gitlab-org/gitlab-docs/-/merge_requests/800/diffs
-https://gitlab.com/gitlab-org/gitlab-docs/blob/master/.gitlab-ci.yml#L483
-https://gitlab.com/gitlab-com/gl-infra/infrastructure/-/issues/9685
+Reported-by: Chan Kim <ckim@etri.re.kr>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/intc/arm_gicv3_cpuif.c | 48 ++++++++++++++++++++++++++-------------
+ 1 file changed, 32 insertions(+), 16 deletions(-)
 
-Long term it would be simpler if we use gitlab recommended templates,
-so we don't have to update ours when they change.
+diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+index 43ef1d7a840..81f94c7f4ad 100644
+--- a/hw/intc/arm_gicv3_cpuif.c
++++ b/hw/intc/arm_gicv3_cpuif.c
+@@ -1307,27 +1307,16 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     GICv3CPUState *cs = icc_cs_from_env(env);
+     int irq = value & 0xffffff;
+     int grp;
++    bool is_eoir0 = ri->crm == 8;
+ 
+-    if (icv_access(env, ri->crm == 8 ? HCR_FMO : HCR_IMO)) {
++    if (icv_access(env, is_eoir0 ? HCR_FMO : HCR_IMO)) {
+         icv_eoir_write(env, ri, value);
+         return;
+     }
+ 
+-    trace_gicv3_icc_eoir_write(ri->crm == 8 ? 0 : 1,
++    trace_gicv3_icc_eoir_write(is_eoir0 ? 0 : 1,
+                                gicv3_redist_affid(cs), value);
+ 
+-    if (ri->crm == 8) {
+-        /* EOIR0 */
+-        grp = GICV3_G0;
+-    } else {
+-        /* EOIR1 */
+-        if (arm_is_secure(env)) {
+-            grp = GICV3_G1;
+-        } else {
+-            grp = GICV3_G1NS;
+-        }
+-    }
+-
+     if (irq >= cs->gic->num_irq) {
+         /* This handles two cases:
+          * 1. If software writes the ID of a spurious interrupt [ie 1020-1023]
+@@ -1340,8 +1329,35 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
+         return;
+     }
+ 
+-    if (icc_highest_active_group(cs) != grp) {
+-        return;
++    grp = icc_highest_active_group(cs);
++    switch (grp) {
++    case GICV3_G0:
++        if (!is_eoir0) {
++            return;
++        }
++        if (!(cs->gic->gicd_ctlr & GICD_CTLR_DS)
++            && arm_feature(env, ARM_FEATURE_EL3) && !arm_is_secure(env)) {
++            return;
++        }
++        break;
++    case GICV3_G1:
++        if (is_eoir0) {
++            return;
++        }
++        if (!arm_is_secure(env)) {
++            return;
++        }
++        break;
++    case GICV3_G1NS:
++        if (is_eoir0) {
++            return;
++        }
++        if (!arm_is_el3_or_mon(env) && arm_is_secure(env)) {
++            return;
++        }
++        break;
++    default:
++        g_assert_not_reached();
+     }
+ 
+     icc_drop_prio(cs, grp);
+-- 
+2.20.1
 
-Meanwhile I'll simpy respin using 'gitlab-org-docker'.
-
-Regards,
-
-Phil.
 
