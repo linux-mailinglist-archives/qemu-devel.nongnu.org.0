@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F6D37798A
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 02:41:16 +0200 (CEST)
-Received: from localhost ([::1]:52566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B70377989
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 02:38:34 +0200 (CEST)
+Received: from localhost ([::1]:50106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lftz1-0001ws-34
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 20:41:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39696)
+	id 1lftwP-00009R-GW
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 20:38:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lftte-0007tf-Tx
- for qemu-devel@nongnu.org; Sun, 09 May 2021 20:35:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59690)
+ id 1lfttc-0007tX-T8
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 20:35:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lftta-0002eX-Mb
- for qemu-devel@nongnu.org; Sun, 09 May 2021 20:35:42 -0400
+ id 1lftta-0002ea-Mf
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 20:35:40 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfttW-0002Kk-5r
+ id 1lfttW-0002Lt-Po
  for <qemu-devel@nongnu.org>; Mon, 10 May 2021 00:35:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2B2D92E8186
+ by loganberry.canonical.com (Postfix) with ESMTP id 8FC3C2E8186
  for <qemu-devel@nongnu.org>; Mon, 10 May 2021 00:35:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 00:23:59 -0000
+Date: Mon, 10 May 2021 00:27:54 -0000
 From: Adriano Marto Reis <1890208@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: adrianomarto th-huth
 X-Launchpad-Bug-Reporter: Adriano Marto Reis (adrianomarto)
 X-Launchpad-Bug-Modifier: Adriano Marto Reis (adrianomarto)
 References: <159649385359.2765.12928081922733657659.malonedeb@gac.canonical.com>
-Message-Id: <162060623965.3040.192630371220550832.malone@wampee.canonical.com>
+Message-Id: <162060647499.9822.9407379629947811877.malone@chaenomeles.canonical.com>
 Subject: [Bug 1890208] Re: Mouse pointer disappears when it is over console
  window
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: f028bffe9143870cfe2fd56a3e8ca0ef1ccf2c42
+X-Launchpad-Hash: dbb0f3df789dd04d14789996c7700feb4661f9e3
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -75,21 +75,8 @@ Reply-To: Bug 1890208 <1890208@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The emulated machine (guest) has the following graphics card, according to =
-lspci:
-00:01.0 VGA compatible controller: Red Hat, Inc. QXL paravirtual graphic ca=
-rd (rev 04)
-
-The host machine has the following graphics card:
-01:00.0 VGA compatible controller: NVIDIA Corporation GM107GLM [Quadro M100=
-0M] (rev a2)
-
-I haven't tried to report the issue to virt-manager, but I have another
-computer running Debian with a similar setup and the problem does not
-happen there.
-
-** Bug watch added: github.com/virt-manager/virt-manager/issues #251
-   https://github.com/virt-manager/virt-manager/issues/251
+I also reported this issue in:
+https://github.com/virt-manager/virt-manager/issues/251
 
 -- =
 
