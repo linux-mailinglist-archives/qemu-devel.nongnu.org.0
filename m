@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0328B378872
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 13:46:50 +0200 (CEST)
-Received: from localhost ([::1]:47332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36493788F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 13:49:46 +0200 (CEST)
+Received: from localhost ([::1]:55754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg4N7-00033m-0B
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 07:46:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57208)
+	id 1lg4Py-0000V5-2P
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 07:49:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4KZ-0000E5-OJ
- for qemu-devel@nongnu.org; Mon, 10 May 2021 07:44:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48312)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4Kb-0000Kv-EF
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 07:44:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4KX-0003gz-LG
- for qemu-devel@nongnu.org; Mon, 10 May 2021 07:44:11 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lg4KY-0003h6-1i
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 07:44:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1620647049;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=buUe3eaXC3j+5RL9lDMrx2vngFVR1N18ca4zebC123E=;
- b=iDam70fawN16Ay0RepyHoB5vvttu0dlYqhcaizM52XBH2mLj8wKmZ4ZMoymbVW14Vkdtgl
- TGTVFMQ9cecryNfQ+XJHt16UP0HCuZGYYMLH+9fNBVSR3QkPiHs5Lt6xnrbjwlyOJZQgP1
- 3z8OmtrHVsFtvBTgtW9VOT9cdIheWgc=
+ bh=icjc+emxQgamcTnGwGmD5ldPMwyUSfjztoslpNOGJKk=;
+ b=CCNiGAu5CrdSrGIV17v++bj3NTuwcmtpzoFF6ByUKXKUWgtnhkMQu0GfV7luvUgsRUUDdr
+ GqURMA9kbrteKm8tlcGw/BRBeoGZkmMLuEAdz7qoTELQYPyybIA+lJwrjyXhNNd5FybmaZ
+ rg05zw3tyIWVwwJGes0YfBOOd8YevhA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-575-fT36RbwmMYa1Yy0jhSyXRA-1; Mon, 10 May 2021 07:44:06 -0400
-X-MC-Unique: fT36RbwmMYa1Yy0jhSyXRA-1
+ us-mta-370-yljr25nYNlSy7gi8Vhe3Gw-1; Mon, 10 May 2021 07:44:07 -0400
+X-MC-Unique: yljr25nYNlSy7gi8Vhe3Gw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EEC0107ACC7
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 11:44:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12781107ACC7
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 11:44:07 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-137.ams2.redhat.com [10.36.114.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8DF31037F20;
- Mon, 10 May 2021 11:44:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB3821037F20;
+ Mon, 10 May 2021 11:44:05 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 04/15] softmmu/memory: Pass ram_flags to
- qemu_ram_alloc_from_fd()
-Date: Mon, 10 May 2021 13:43:17 +0200
-Message-Id: <20210510114328.21835-5-david@redhat.com>
+Subject: [PATCH v8 05/15] softmmu/memory: Pass ram_flags to
+ memory_region_init_ram_shared_nomigrate()
+Date: Mon, 10 May 2021 13:43:18 +0200
+Message-Id: <20210510114328.21835-6-david@redhat.com>
 In-Reply-To: <20210510114328.21835-1-david@redhat.com>
 References: <20210510114328.21835-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -83,142 +83,175 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's pass in ram flags just like we do with qemu_ram_alloc_from_file(),
-to clean up and prepare for more flags.
-
-Simplify the documentation of passed ram flags: Looking at our
-documentation of RAM_SHARED and RAM_PMEM is sufficient, no need to be
-repetitive.
+Let's forward ram_flags instead, renaming
+memory_region_init_ram_shared_nomigrate() into
+memory_region_init_ram_flags_nomigrate().
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Acked-by: Eduardo Habkost <ehabkost@redhat.com> for memory backend and machine core
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- backends/hostmem-memfd.c | 7 ++++---
- hw/misc/ivshmem.c        | 5 ++---
- include/exec/memory.h    | 9 +++------
- include/exec/ram_addr.h  | 6 +-----
- softmmu/memory.c         | 7 +++----
- 5 files changed, 13 insertions(+), 21 deletions(-)
+ backends/hostmem-ram.c                        |  6 +++--
+ hw/m68k/next-cube.c                           |  4 ++--
+ include/exec/memory.h                         | 24 +++++++++----------
+ .../memory-region-housekeeping.cocci          |  8 +++----
+ softmmu/memory.c                              | 18 +++++++-------
+ 5 files changed, 31 insertions(+), 29 deletions(-)
 
-diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
-index da75e27057..3076da146d 100644
---- a/backends/hostmem-memfd.c
-+++ b/backends/hostmem-memfd.c
-@@ -35,6 +35,7 @@ static void
- memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+diff --git a/backends/hostmem-ram.c b/backends/hostmem-ram.c
+index 5cc53e76c9..741e701062 100644
+--- a/backends/hostmem-ram.c
++++ b/backends/hostmem-ram.c
+@@ -19,6 +19,7 @@
+ static void
+ ram_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
  {
-     HostMemoryBackendMemfd *m = MEMORY_BACKEND_MEMFD(backend);
 +    uint32_t ram_flags;
      char *name;
-     int fd;
  
-@@ -52,9 +53,9 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+     if (!backend->size) {
+@@ -27,8 +28,9 @@ ram_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
      }
  
      name = host_memory_backend_get_name(backend);
--    memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
--                                   name, backend->size,
--                                   backend->share, fd, 0, errp);
+-    memory_region_init_ram_shared_nomigrate(&backend->mr, OBJECT(backend), name,
+-                           backend->size, backend->share, errp);
 +    ram_flags = backend->share ? RAM_SHARED : 0;
-+    memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend), name,
-+                                   backend->size, ram_flags, fd, 0, errp);
++    memory_region_init_ram_flags_nomigrate(&backend->mr, OBJECT(backend), name,
++                                           backend->size, ram_flags, errp);
      g_free(name);
  }
  
-diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-index a1fa4878be..1ba4a98377 100644
---- a/hw/misc/ivshmem.c
-+++ b/hw/misc/ivshmem.c
-@@ -493,9 +493,8 @@ static void process_msg_shmem(IVShmemState *s, int fd, Error **errp)
-     size = buf.st_size;
+diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
+index de951ffe5d..e0d4a94f9d 100644
+--- a/hw/m68k/next-cube.c
++++ b/hw/m68k/next-cube.c
+@@ -984,8 +984,8 @@ static void next_cube_init(MachineState *machine)
+     sysbus_mmio_map(SYS_BUS_DEVICE(pcdev), 1, 0x02100000);
  
-     /* mmap the region and map into the BAR2 */
--    memory_region_init_ram_from_fd(&s->server_bar2, OBJECT(s),
--                                   "ivshmem.bar2", size, true, fd, 0,
--                                   &local_err);
-+    memory_region_init_ram_from_fd(&s->server_bar2, OBJECT(s), "ivshmem.bar2",
-+                                   size, RAM_SHARED, fd, 0, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
+     /* BMAP memory */
+-    memory_region_init_ram_shared_nomigrate(bmapm1, NULL, "next.bmapmem", 64,
+-                                            true, &error_fatal);
++    memory_region_init_ram_flags_nomigrate(bmapm1, NULL, "next.bmapmem", 64,
++                                           RAM_SHARED, &error_fatal);
+     memory_region_add_subregion(sysmem, 0x020c0000, bmapm1);
+     /* The Rev_2.5_v66.bin firmware accesses it at 0x820c0020, too */
+     memory_region_init_alias(bmapm2, NULL, "next.bmapmem2", bmapm1, 0x0, 64);
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 5728a681b2..8ad280e532 100644
+index 8ad280e532..10179c6695 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
-@@ -991,10 +991,7 @@ void memory_region_init_resizeable_ram(MemoryRegion *mr,
-  * @size: size of the region.
-  * @align: alignment of the region base address; if 0, the default alignment
-  *         (getpagesize()) will be used.
-- * @ram_flags: Memory region features:
-- *             - RAM_SHARED: memory must be mmaped with the MAP_SHARED flag
-- *             - RAM_PMEM: the memory is persistent memory
-- *             Other bits are ignored now.
-+ * @ram_flags: RamBlock flags. Supported flags: RAM_SHARED, RAM_PMEM.
-  * @path: the path in which to allocate the RAM.
-  * @readonly: true to open @path for reading, false for read/write.
-  * @errp: pointer to Error*, to store an error if it happens.
-@@ -1020,7 +1017,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+@@ -928,27 +928,27 @@ void memory_region_init_ram_nomigrate(MemoryRegion *mr,
+                                       Error **errp);
+ 
+ /**
+- * memory_region_init_ram_shared_nomigrate:  Initialize RAM memory region.
+- *                                           Accesses into the region will
+- *                                           modify memory directly.
++ * memory_region_init_ram_flags_nomigrate:  Initialize RAM memory region.
++ *                                          Accesses into the region will
++ *                                          modify memory directly.
+  *
+  * @mr: the #MemoryRegion to be initialized.
   * @owner: the object that tracks the region's reference count
-  * @name: the name of the region.
+  * @name: Region name, becomes part of RAMBlock name used in migration stream
+  *        must be unique within any device
   * @size: size of the region.
-- * @share: %true if memory must be mmaped with the MAP_SHARED flag
-+ * @ram_flags: RamBlock flags. Supported flags: RAM_SHARED, RAM_PMEM.
-  * @fd: the fd to mmap.
-  * @offset: offset within the file referenced by fd
+- * @share: allow remapping RAM to different addresses
++ * @ram_flags: RamBlock flags. Supported flags: RAM_SHARED.
   * @errp: pointer to Error*, to store an error if it happens.
-@@ -1032,7 +1029,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
-                                     Object *owner,
-                                     const char *name,
-                                     uint64_t size,
--                                    bool share,
-+                                    uint32_t ram_flags,
-                                     int fd,
-                                     ram_addr_t offset,
-                                     Error **errp);
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 3cb9791df3..a7e3378340 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -104,11 +104,7 @@ long qemu_maxrampagesize(void);
-  * Parameters:
-  *  @size: the size in bytes of the ram block
-  *  @mr: the memory region where the ram block is
-- *  @ram_flags: specify the properties of the ram block, which can be one
-- *              or bit-or of following values
-- *              - RAM_SHARED: mmap the backing file or device with MAP_SHARED
-- *              - RAM_PMEM: the backend @mem_path or @fd is persistent memory
-- *              Other bits are ignored.
-+ *  @ram_flags: RamBlock flags. Supported flags: RAM_SHARED, RAM_PMEM.
-  *  @mem_path or @fd: specify the backing file or device
-  *  @readonly: true to open @path for reading, false for read/write.
-  *  @errp: pointer to Error*, to store an error if it happens
+  *
+- * Note that this function is similar to memory_region_init_ram_nomigrate.
+- * The only difference is part of the RAM region can be remapped.
++ * Note that this function does not do anything to cause the data in the
++ * RAM memory region to be migrated; that is the responsibility of the caller.
+  */
+-void memory_region_init_ram_shared_nomigrate(MemoryRegion *mr,
+-                                             Object *owner,
+-                                             const char *name,
+-                                             uint64_t size,
+-                                             bool share,
+-                                             Error **errp);
++void memory_region_init_ram_flags_nomigrate(MemoryRegion *mr,
++                                            Object *owner,
++                                            const char *name,
++                                            uint64_t size,
++                                            uint32_t ram_flags,
++                                            Error **errp);
+ 
+ /**
+  * memory_region_init_resizeable_ram:  Initialize memory region with resizeable
+diff --git a/scripts/coccinelle/memory-region-housekeeping.cocci b/scripts/coccinelle/memory-region-housekeeping.cocci
+index c768d8140a..29651ebde9 100644
+--- a/scripts/coccinelle/memory-region-housekeeping.cocci
++++ b/scripts/coccinelle/memory-region-housekeeping.cocci
+@@ -127,8 +127,8 @@ static void device_fn(DeviceState *dev, ...)
+ - memory_region_init_rom(E1, NULL, E2, E3, E4);
+ + memory_region_init_rom(E1, obj, E2, E3, E4);
+ |
+-- memory_region_init_ram_shared_nomigrate(E1, NULL, E2, E3, E4, E5);
+-+ memory_region_init_ram_shared_nomigrate(E1, obj, E2, E3, E4, E5);
++- memory_region_init_ram_flags_nomigrate(E1, NULL, E2, E3, E4, E5);
+++ memory_region_init_ram_flags_nomigrate(E1, obj, E2, E3, E4, E5);
+ )
+   ...+>
+ }
+@@ -152,8 +152,8 @@ static void device_fn(DeviceState *dev, ...)
+ - memory_region_init_rom(E1, NULL, E2, E3, E4);
+ + memory_region_init_rom(E1, OBJECT(dev), E2, E3, E4);
+ |
+-- memory_region_init_ram_shared_nomigrate(E1, NULL, E2, E3, E4, E5);
+-+ memory_region_init_ram_shared_nomigrate(E1, OBJECT(dev), E2, E3, E4, E5);
++- memory_region_init_ram_flags_nomigrate(E1, NULL, E2, E3, E4, E5);
+++ memory_region_init_ram_flags_nomigrate(E1, OBJECT(dev), E2, E3, E4, E5);
+ )
+   ...+>
+ }
 diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 3bb533c0bc..7501c5e767 100644
+index 7501c5e767..27b17a7c99 100644
 --- a/softmmu/memory.c
 +++ b/softmmu/memory.c
-@@ -1609,7 +1609,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
-                                     Object *owner,
-                                     const char *name,
-                                     uint64_t size,
--                                    bool share,
-+                                    uint32_t ram_flags,
-                                     int fd,
-                                     ram_addr_t offset,
-                                     Error **errp)
-@@ -1619,9 +1619,8 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+@@ -1531,22 +1531,22 @@ void memory_region_init_ram_nomigrate(MemoryRegion *mr,
+                                       uint64_t size,
+                                       Error **errp)
+ {
+-    memory_region_init_ram_shared_nomigrate(mr, owner, name, size, false, errp);
++    memory_region_init_ram_flags_nomigrate(mr, owner, name, size, 0, errp);
+ }
+ 
+-void memory_region_init_ram_shared_nomigrate(MemoryRegion *mr,
+-                                             Object *owner,
+-                                             const char *name,
+-                                             uint64_t size,
+-                                             bool share,
+-                                             Error **errp)
++void memory_region_init_ram_flags_nomigrate(MemoryRegion *mr,
++                                            Object *owner,
++                                            const char *name,
++                                            uint64_t size,
++                                            uint32_t ram_flags,
++                                            Error **errp)
+ {
+     Error *err = NULL;
+     memory_region_init(mr, owner, name, size);
      mr->ram = true;
      mr->terminates = true;
      mr->destructor = memory_region_destructor_ram;
--    mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
--                                           share ? RAM_SHARED : 0,
--                                           fd, offset, false, &err);
-+    mr->ram_block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, offset,
-+                                           false, &err);
+-    mr->ram_block = qemu_ram_alloc(size, share, mr, &err);
++    mr->ram_block = qemu_ram_alloc(size, ram_flags & RAM_SHARED, mr, &err);
      if (err) {
          mr->size = int128_zero();
          object_unparent(OBJECT(mr));
+@@ -1682,7 +1682,7 @@ void memory_region_init_rom_nomigrate(MemoryRegion *mr,
+                                       uint64_t size,
+                                       Error **errp)
+ {
+-    memory_region_init_ram_shared_nomigrate(mr, owner, name, size, false, errp);
++    memory_region_init_ram_flags_nomigrate(mr, owner, name, size, 0, errp);
+     mr->readonly = true;
+ }
+ 
 -- 
 2.30.2
 
