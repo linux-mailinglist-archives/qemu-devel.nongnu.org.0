@@ -2,74 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319AD3799E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 00:17:02 +0200 (CEST)
-Received: from localhost ([::1]:41502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71D33799F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 00:22:49 +0200 (CEST)
+Received: from localhost ([::1]:48774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgECy-0006Ri-Fi
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 18:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42348)
+	id 1lgEIa-00032F-Tk
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 18:22:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgEBX-0004Nk-T0
- for qemu-devel@nongnu.org; Mon, 10 May 2021 18:15:31 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:35744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgEBW-00018g-8Y
- for qemu-devel@nongnu.org; Mon, 10 May 2021 18:15:31 -0400
-Received: by mail-ot1-x336.google.com with SMTP id
- 69-20020a9d0a4b0000b02902ed42f141e1so5667596otg.2
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 15:15:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IZfggWCaQ+1RfHRqfpMCTeEbyU3GDPb25L1jnEm8AZs=;
- b=zf7/YaHnNcQtsRCNm4TJiG7xitgcpjtlue4mKDJJgpGlaKhBUFztuCsmB0h7Y7PsAS
- 0yDaOKZ3oiQZHEn9aXi5ViMJ9mA1cFdSdMWVU4FKoy+4cETRWOG8oij1YY1DWLkPaXnY
- irHld5d/9dZCTaQqgxQw66tCLEz58eTk3BTKw11iKapYHH9PiZMjjW7p3/EXdq9y3SGc
- Y7oHwaGdVbLraJJpEt0IBlOnz201o8G2wSu9XMy/4CP2xoXniSAXEo01CbY84G+Cf4TE
- 5PMi9XN039LK26LF1P2wpj4kn71Om88w7geExymBYIRVbkyyfCYkXIrkIKaTkRRBYRP1
- NIyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IZfggWCaQ+1RfHRqfpMCTeEbyU3GDPb25L1jnEm8AZs=;
- b=RJksmO7BcFCnpJN0QXtbwv0WjeC43YLMVZkoA0WaLKtF9qhLV1pTLKbM7ugxEORv4G
- BCToJyWNQxW/olKu5I5HEXUYI7P1fDlVGuEsZY9/+qERArHqgWpG7DapN9JFuMEEXsOg
- vJQ2mBbHbbNAFdouNXLDMq8bYA8ZPMcCCXJOOd+KquXOiUhNvBsbdoTErUs09r0bVryR
- Tj2ms+IYcKFSc2TzIt8KtdPdumWAGsLYe31P4lHiy8/DuUKO+LrNXc5xmAmb7j56WPPo
- Hki0nPJNA3hN9y3SL3MWKvYHrLGsrZNLtQf+fnR+TRgkGV6S/CjbYbLL3mm33jPVeM/i
- 2YzQ==
-X-Gm-Message-State: AOAM530AFFX4AsRHVca4Qf1Ld+CJUqBdSFLsFfDdgm8eJcqnn9/OOi63
- qnwNMzqwQ7PZilV9fccOjCieo1OJTIlfAg==
-X-Google-Smtp-Source: ABdhPJwfnKUxZh6oF+Hs5RAPEQEWFjcwDt84gMw4g7O6uyzHxRoYfQg2PRsENYuvaS9racNobqXlHw==
-X-Received: by 2002:a9d:425:: with SMTP id 34mr23379081otc.25.1620684928593;
- Mon, 10 May 2021 15:15:28 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id p64sm2874405oib.57.2021.05.10.15.15.27
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 10 May 2021 15:15:27 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] bsd-user: rename linux_binprm to bsd_binprm
-Date: Mon, 10 May 2021 16:15:11 -0600
-Message-Id: <20210510221511.14205-4-imp@bsdimp.com>
-X-Mailer: git-send-email 2.22.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lgEHp-0002O8-Gi
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 18:22:01 -0400
+Resent-Date: Mon, 10 May 2021 18:22:01 -0400
+Resent-Message-Id: <E1lgEHp-0002O8-Gi@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21312)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lgEHm-000526-0H
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 18:22:01 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1620685309; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=OuCVANUwZSGKPDettEbBRXSmaIILGJyk/Z65uRY2w+wg2Tvjrz9MMinyW2TtFZPOCorztpd1nK2Ip1eYWIqK2nCw3ORVxPjEMbQ3744oF5WuGGg6zbX3lvyqETEndT+T1mGILbccX43M2xvLDYtZp3gkVpPqfD6esgHxME6bE+Q=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1620685309;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=mOp+G8ASf+wYCabJ56I6dPX4vCKVUforSTmQZQPbZiU=; 
+ b=YLQgJ6M487P7zHFHEJK/NU5mitPCbhxHMZ3tLqR+bghcvR8Fbmjjo6MaHnYSztHGgRjgmTi3LlrRpyR2fsZrufYCG3M9H85h+piVccaJ58eeC6pW5aWQTzAWdc2Kl8dGyOyOTBj3H9eyvXoLKFLWR7SSgUTLmSP0rmtk0qW76GA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 16206853084395.263403977839175;
+ Mon, 10 May 2021 15:21:48 -0700 (PDT)
 In-Reply-To: <20210510221511.14205-1-imp@bsdimp.com>
-References: <20210510221511.14205-1-imp@bsdimp.com>
+Subject: Re: [PATCH 0/3] bsd-user cleanup
+Message-ID: <162068530688.31054.12454363904138902731@d887ba82c771>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::336;
- envelope-from=imp@bsdimp.com; helo=mail-ot1-x336.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: imp@bsdimp.com
+Date: Mon, 10 May 2021 15:21:48 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,90 +67,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Warner Losh <imp@bsdimp.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kevans@freebsd.org, qemu-devel@nongnu.org, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename linux_binprm to bsd_binprm to reflect that we're loading BSD binaries,
-not ELF ones.
-
-Signed-off-by: Warner Losh <imp@bsdimp.com>
----
- bsd-user/bsdload.c | 4 ++--
- bsd-user/elfload.c | 4 ++--
- bsd-user/qemu.h    | 6 +++---
- 3 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/bsd-user/bsdload.c b/bsd-user/bsdload.c
-index e1ed3b7b60..8d83f21eda 100644
---- a/bsd-user/bsdload.c
-+++ b/bsd-user/bsdload.c
-@@ -32,7 +32,7 @@ static int count(char **vec)
-     return i;
- }
- 
--static int prepare_binprm(struct linux_binprm *bprm)
-+static int prepare_binprm(struct bsd_binprm *bprm)
- {
-     struct stat         st;
-     int mode;
-@@ -127,7 +127,7 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
- int loader_exec(const char *filename, char **argv, char **envp,
-              struct target_pt_regs *regs, struct image_info *infop)
- {
--    struct linux_binprm bprm;
-+    struct bsd_binprm bprm;
-     int retval;
-     int i;
- 
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index 5f4d824d78..d658d722a5 100644
---- a/bsd-user/elfload.c
-+++ b/bsd-user/elfload.c
-@@ -662,7 +662,7 @@ static abi_ulong copy_elf_strings(int argc,char ** argv, void **page,
-     return p;
- }
- 
--static abi_ulong setup_arg_pages(abi_ulong p, struct linux_binprm *bprm,
-+static abi_ulong setup_arg_pages(abi_ulong p, struct bsd_binprm *bprm,
-                                  struct image_info *info)
- {
-     abi_ulong stack_base, size, error;
-@@ -1143,7 +1143,7 @@ static void load_symbols(struct elfhdr *hdr, int fd)
-     syminfos = s;
- }
- 
--int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-+int load_elf_binary(struct bsd_binprm * bprm, struct target_pt_regs * regs,
-                     struct image_info * info)
- {
-     struct elfhdr elf_ex;
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 369c649fe5..5c33b4279f 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -114,7 +114,7 @@ extern unsigned long mmap_min_addr;
-  * This structure is used to hold the arguments that are
-  * used when loading binaries.
-  */
--struct linux_binprm {
-+struct bsd_binprm {
-         char buf[128];
-         void *page[MAX_ARG_PAGES];
-         abi_ulong p;
-@@ -132,9 +132,9 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
- int loader_exec(const char * filename, char ** argv, char ** envp,
-              struct target_pt_regs * regs, struct image_info *infop);
- 
--int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-+int load_elf_binary(struct bsd_binprm * bprm, struct target_pt_regs * regs,
-                     struct image_info * info);
--int load_flt_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-+int load_flt_binary(struct bsd_binprm * bprm, struct target_pt_regs * regs,
-                     struct image_info * info);
- 
- abi_long memcpy_to_target(abi_ulong dest, const void *src,
--- 
-2.22.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUxMDIyMTUxMS4xNDIw
+NS0xLWltcEBic2RpbXAuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
+ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
+YXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA1MTAyMjE1MTEuMTQyMDUtMS1p
+bXBAYnNkaW1wLmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC8zXSBic2QtdXNlciBjbGVhbnVwCgo9PT0g
+VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9k
+ZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApn
+aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
+ZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNr
+IGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3
+ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3
+LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNTEwMjIxNTEx
+LjE0MjA1LTEtaW1wQGJzZGltcC5jb20gLT4gcGF0Y2hldy8yMDIxMDUxMDIyMTUxMS4xNDIwNS0x
+LWltcEBic2RpbXAuY29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvYTg5OGIwZDUtNzA4
+Ni05Njk5LWFlOGItOTUyNGFkMzE5YjAxQHQtb25saW5lLmRlIC0+IHBhdGNoZXcvYTg5OGIwZDUt
+NzA4Ni05Njk5LWFlOGItOTUyNGFkMzE5YjAxQHQtb25saW5lLmRlClN3aXRjaGVkIHRvIGEgbmV3
+IGJyYW5jaCAndGVzdCcKMjk0MzZiMiBic2QtdXNlcjogcmVuYW1lIGxpbnV4X2JpbnBybSB0byBi
+c2RfYmlucHJtCjZkZmM2M2IgYnNkLXVzZXI6IFN0b3AgYnVpbGRpbmcgdGhlIHNwYXJjIHBsYXRm
+b3Jtcwo3NjY0YmZkIGJzZC11c2VyOiByZW1vdmUgdGFyZ2V0X3NpZ25hbC5oLCBpdCdzIHVudXNl
+ZAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8zIENoZWNraW5nIGNvbW1pdCA3NjY0YmZkZThkYWYg
+KGJzZC11c2VyOiByZW1vdmUgdGFyZ2V0X3NpZ25hbC5oLCBpdCdzIHVudXNlZCkKVXNlIG9mIHVu
+aW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0cmluZyBlcSBhdCAuL3Nj
+cmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
+ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIyOiAKZGVs
+ZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDE0IGxp
+bmVzIGNoZWNrZWQKClBhdGNoIDEvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
+ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
+dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyLzMgQ2hl
+Y2tpbmcgY29tbWl0IDZkZmM2M2I5OGVmMSAoYnNkLXVzZXI6IFN0b3AgYnVpbGRpbmcgdGhlIHNw
+YXJjIHBsYXRmb3JtcykKVXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVj
+dGVkIGluIHN0cmluZyBlcSBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldB
+Uk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMg
+bmVlZCB1cGRhdGluZz8KIzIxOiAKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBl
+cnJvcnMsIDEgd2FybmluZ3MsIDAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8zIGhhcyBzdHlsZSBw
+cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
+IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
+aW4gTUFJTlRBSU5FUlMuCjMvMyBDaGVja2luZyBjb21taXQgMjk0MzZiMmJlOTg1IChic2QtdXNl
+cjogcmVuYW1lIGxpbnV4X2JpbnBybSB0byBic2RfYmlucHJtKQpFUlJPUjogImZvbyAqIGJhciIg
+c2hvdWxkIGJlICJmb28gKmJhciIKIzU4OiBGSUxFOiBic2QtdXNlci9lbGZsb2FkLmM6MTE0NjoK
+K2ludCBsb2FkX2VsZl9iaW5hcnkoc3RydWN0IGJzZF9iaW5wcm0gKiBicHJtLCBzdHJ1Y3QgdGFy
+Z2V0X3B0X3JlZ3MgKiByZWdzLAoKRVJST1I6ICJmb28gKiBiYXIiIHNob3VsZCBiZSAiZm9vICpi
+YXIiCiM4MDogRklMRTogYnNkLXVzZXIvcWVtdS5oOjEzNDoKK2ludCBsb2FkX2VsZl9iaW5hcnko
+c3RydWN0IGJzZF9iaW5wcm0gKiBicHJtLCBzdHJ1Y3QgdGFyZ2V0X3B0X3JlZ3MgKiByZWdzLAoK
+RVJST1I6ICJmb28gKiBiYXIiIHNob3VsZCBiZSAiZm9vICpiYXIiCiM4MzogRklMRTogYnNkLXVz
+ZXIvcWVtdS5oOjEzNjoKK2ludCBsb2FkX2ZsdF9iaW5hcnkoc3RydWN0IGJzZF9iaW5wcm0gKiBi
+cHJtLCBzdHJ1Y3QgdGFyZ2V0X3B0X3JlZ3MgKiByZWdzLAoKdG90YWw6IDMgZXJyb3JzLCAwIHdh
+cm5pbmdzLCA1MSBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzMgaGFzIHN0eWxlIHByb2JsZW1zLCBw
+bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
+IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
+TkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6
+IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
+LzIwMjEwNTEwMjIxNTExLjE0MjA1LTEtaW1wQGJzZGltcC5jb20vdGVzdGluZy5jaGVja3BhdGNo
+Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
+aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
+cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
