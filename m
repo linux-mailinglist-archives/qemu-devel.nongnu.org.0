@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F46B3797CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:38:58 +0200 (CEST)
-Received: from localhost ([::1]:58550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924DE3797D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:40:48 +0200 (CEST)
+Received: from localhost ([::1]:33262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgBk1-0004KY-7W
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:38:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43152)
+	id 1lgBln-0006LG-M7
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:40:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgBiP-0002t1-Ki; Mon, 10 May 2021 15:37:17 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:45686)
+ id 1lgBk0-0005Kw-Rd
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:38:56 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:45651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgBiN-0003sA-Ic; Mon, 10 May 2021 15:37:17 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id ga25so460245ejb.12;
- Mon, 10 May 2021 12:37:12 -0700 (PDT)
+ id 1lgBju-0004oS-Rp
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:38:53 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id s7so15406470edq.12
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 12:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OxL4eyduhFG08wBLSX8Edl4A1+GWoqutuGYlt2ApjCo=;
- b=dZv3ZCcF9yDwBrMMTKDAKFmSg1ME5eA+W3HC8I39xGi7qq6udLnzEcBII11dTYjIdD
- hkAmiWHyJ7ulP8TWUhp1ooIhNeh+DIijK17k4lm7b2kJGshsbe9W/Pc+eaM3OVbDfNX9
- JEaaYR39HI+E5WBJU3DhyR5KJUBWL1YpzhBfPa3aO6dwuzgQsTjcjTSAhWpV5Y26L4pB
- ENAWtfVkwYqdUWpZlq1VTD/u0AveD1Llt367NQ1V+5NAiYrE6agvie6Vr42Uot13CXAb
- x1TrmoXJUW40H5EJNNhZ00HJ3GaJbTYFAbjyN4I3j2lc25qfACKVmvgaAk3Mt7/Zgzhv
- bxUg==
+ bh=MpLfVT1Eovb727ZrYKvMaxlw90H+YnhTbdd9um9EEGY=;
+ b=MKccqMsE66J3aX6GXf4AgVUfXxkJvWfsZAgVnPbl9HBw2g5e74grBgksXvA6X4zXIS
+ YQfqToAdPwm/6gAE+eqS1PNEgs3pvxIri6YewjM6aNP1+lKi+f7Ya+J3wDyjZSql9oTE
+ ytxAjIbziEFxc+YpkcU7XcxyCndg+OrOBh1mEFqdg6gMwTVnN25FqlJS/lAJJslDCl9q
+ 4Y767rjF0nJzbLM79OzdV7DfO8AWE2+dq5aQF0NBoWsKF+5IbgWMwuFZYv5/7QImId2N
+ bE9j6IGG+WqHEiBASUb64aaxo5Nrbr6dKbRLCHLO4MiqmgDvggxmsST90KKIn4Tq3p7e
+ dxhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=OxL4eyduhFG08wBLSX8Edl4A1+GWoqutuGYlt2ApjCo=;
- b=ovj1dPcBqhiUeO8EvsCWQ7QJ1/qVgZOz9QdYBikUfz8jnnaOV2BlckadhwSz+C9J25
- OwAJQuUL7O4HrjdJujCOs0WjdCMBpjBgZtAAdSu7DSKg2zUDgD4lMMXzZsnL5B1J9Mrh
- tR1N0/Kcb3clobbnHKKlHCpLQhOxSMX3kFTymIAn505WHjRMoUdF5PejT47ci+g59//X
- 5DgwscQj0LQtp8UEYscXTVFsyPrhZ8bztD4ghhiyb46gioIcdZdPm2qe/tnKu6QxViRr
- 1IJQP9/zfnknkjPNYfSNiBKDoCUM4aD8Dpb+lAJ7dxr1brGqoT9Q56LcxXx+GedOd01N
- FiFA==
-X-Gm-Message-State: AOAM530wXDIXOAHCsi/g2lNjIfq6YHQtK2vttiamwrGoFazmpLM1Qoh7
- K05b0nUbTSPQ4c9nmEmTmSw=
-X-Google-Smtp-Source: ABdhPJyKjSnHO4JsLrXf/+/swKMeJEiMNSiITT1AUuDs96EBuBhDj3/dCiZuJNfrBSmkl+EiUOl/ug==
-X-Received: by 2002:a17:907:1181:: with SMTP id
- uz1mr27445037ejb.194.1620675431752; 
- Mon, 10 May 2021 12:37:11 -0700 (PDT)
+ bh=MpLfVT1Eovb727ZrYKvMaxlw90H+YnhTbdd9um9EEGY=;
+ b=Gr+MW5Gd3F2oK6B5m0f+GPCOoxMRs3Je50G2xEWAhRvHp/1xvQ61P2xpoGrkyk0DGP
+ ZhccW42DUceylyLHI2TLhJqkrh/kPyjHf4znYgmNxWdL7b2i8r/IRY1t4lCntDj5tdbs
+ X1V+jGq4eSBYGvFII2qVlwB8bPbs28o6T5Gs9Am3avh76uNq5ojptcOWAbmWoYUp+0y1
+ yOpBF+fYcqcHOc2OPU+Zy+rf8cpXo5prHkwhSM1OXsObr/pHUZbb0gBWpr2Temqtnmis
+ yWPIdvt3FNZv9PANMjHw+T7zlOfvshoeDhfkE+nZOa0PoOpCWSwaJdoILyp5me4MNC8V
+ G2+Q==
+X-Gm-Message-State: AOAM532C1UK28t6ROI1WKjrjaQFeXa9OACUX+AY/KU1ikgHbiYZttMBy
+ tgwqAt1WogN8tpM8pWM3Dy0=
+X-Google-Smtp-Source: ABdhPJwfqBzWUKewOTEsPxrE3XCmRXFdCT1ddvlSt8LDElZlcvs+oLCPTeUXyv7Bx0+lbMyh3N+VNw==
+X-Received: by 2002:aa7:cd0c:: with SMTP id b12mr31145887edw.236.1620675529008; 
+ Mon, 10 May 2021 12:38:49 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id n15sm10181575eje.118.2021.05.10.12.37.10
+ by smtp.gmail.com with ESMTPSA id v26sm10265386ejk.66.2021.05.10.12.38.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 May 2021 12:37:11 -0700 (PDT)
-Subject: Re: [PATCH 0/6] hw/arm: Fix modelling of SSE-300 TCMs and SRAM
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210510190844.17799-1-peter.maydell@linaro.org>
- <71d9367e-efbf-5051-68ac-df1dc7f53531@amsat.org>
- <CAFEAcA8L=iPhyxuJo49eNHuy+0zPAuKeHxxhMJRwoxcFhptuQQ@mail.gmail.com>
+ Mon, 10 May 2021 12:38:48 -0700 (PDT)
+Subject: Re: [PATCH 3/4] gitlab-ci: Run GNU make via the $MAKE variable
+To: qemu-devel@nongnu.org
+References: <20210510152254.2543047-1-f4bug@amsat.org>
+ <20210510152254.2543047-4-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6757b72e-715e-2fc7-aa4d-fa2803081c80@amsat.org>
-Date: Mon, 10 May 2021 21:37:09 +0200
+Message-ID: <3c682d11-35f8-39e2-54dc-3743e5c0b62c@amsat.org>
+Date: Mon, 10 May 2021 21:38:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8L=iPhyxuJo49eNHuy+0zPAuKeHxxhMJRwoxcFhptuQQ@mail.gmail.com>
+In-Reply-To: <20210510152254.2543047-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,38 +89,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kumar Gala <kumar.gala@linaro.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Devaraj Ranganna <devaraj.ranganna@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- Kevin Townsend <kevin.townsend@linaro.org>,
- Jimmy Brisson <jimmy.brisson@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Kyle Evans <kevans@freebsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/10/21 9:22 PM, Peter Maydell wrote:
-> On Mon, 10 May 2021 at 20:14, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Hi Peter,
->>
->> On 5/10/21 9:08 PM, Peter Maydell wrote:
->>> This patchset fixes some bugs in how we were modelling the
->>> TCMs and the SRAM in the SSE-300 which were preventing
->>> Arm TF-M from booting on our AN547 model; there are also
->>> some fixes to things I noticed while I was in the code.
->>>
->>> The specific bugs preventing boot were:
->>>  * SRAM_ADDR_WIDTH for the AN547 is 21, not 15, so the SRAM
->>>    area was too small
->>>  * we were putting the SRAMs at the wrong address (0x2100_0000
->>>    for SSE-300, not 0x2000_0000 as for SSE-200)
->>
->> How can we test it?
+On 5/10/21 5:22 PM, Philippe Mathieu-Daudé wrote:
+> Add the $MAKE variable to call GNU make, and set it to 'gmake'
+> on FreeBSD to avoid:
 > 
-> I tested using a binary that Devaraj provided me. As usual,
-> I don't know if there's anything that would be a sufficiently
-> "publicly hosted, with associated source for licensing purposes"
-> binary that we could put into tests/acceptance.
+>   $ make -j"$JOBS"
+>   make: Unknown modifier ','
+>   make: "/builds/dTyar424/0/qemu/build/Makefile" line 3: Need an operator
+>   make: "/builds/dTyar424/0/qemu/build/Makefile" line 4: Missing dependency operator
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  .gitlab-ci.yml | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index aceaac5a398..a33e51bf453 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -19,9 +19,11 @@ include:
+>          test $(uname) = "FreeBSD"
+>          ;
+>        then
+> +        MAKE=gmake
+>          JOBS=$(sysctl -n hw.ncpu)
+>          ;
+>        else
+> +        MAKE=make
+>          JOBS=$(expr $(nproc) + 1)
+>          ;
+>        fi
+> @@ -44,22 +46,23 @@ include:
+>        then
+>          meson configure . -Dbackend_max_links="$LD_JOBS" ;
+>        fi || exit 1;
+> -    - make -j"$JOBS"
+> +    - $MAKE -j"$JOBS"
+>      - if test -n "$MAKE_CHECK_ARGS";
+>        then
+> -        make -j"$JOBS" $MAKE_CHECK_ARGS ;
+> +        $MAKE -j"$JOBS" $MAKE_CHECK_ARGS ;
+>        fi
+>  
+>  .native_test_job_template:
+>    stage: test
+>    image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+> +  extends: .environment_variables_template
+>    script:
+>      - scripts/git-submodule.sh update
+>          $(sed -n '/GIT_SUBMODULES=/ s/.*=// p' build/config-host.mak)
+>      - cd build
+>      - find . -type f -exec touch {} +
+>      # Avoid recompiling by hiding ninja with NINJA=":"
+> -    - make NINJA=":" $MAKE_CHECK_ARGS
+> +    - $MAKE NINJA=":" $MAKE_CHECK_ARGS
+>  
+>  .acceptance_template: &acceptance_definition
+>    cache:
 
-OK, thank you.
+I forgot this hunk:
 
-Phil.
+-- >8 --
+@@ -70,6 +70,7 @@ include:
+     - $MAKE NINJA=":" $MAKE_CHECK_ARGS
+
+ .acceptance_template: &acceptance_definition
++  extends: .environment_variables_template
+   cache:
+     key: "${CI_JOB_NAME}-cache"
+     paths:
+---
+
+> @@ -833,17 +836,18 @@ build-tools-and-docs-debian:
+>  pages:
+>    image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
+>    stage: test
+> +  extends: .environment_variables_template
+>    needs:
+>      - job: build-tools-and-docs-debian
+>    script:
+>      - mkdir -p public
+>      # HTML-ised source tree
+> -    - make gtags
+> +    - $MAKE gtags
+>      - htags -anT --tree-view=filetree -m qemu_init
+>          -t "Welcome to the QEMU sourcecode"
+>      - mv HTML public/src
+>      # Project documentation
+> -    - make -C build install DESTDIR=$(pwd)/temp-install
+> +    - $MAKE -C build install DESTDIR=$(pwd)/temp-install
+>      - mv temp-install/usr/local/share/doc/qemu/* public/
+>    artifacts:
+>      paths:
+> 
 
