@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2E337987D
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 22:43:02 +0200 (CEST)
-Received: from localhost ([::1]:34738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C22B3799DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 00:16:54 +0200 (CEST)
+Received: from localhost ([::1]:41216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgCk1-0003q2-Fo
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 16:43:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55410)
+	id 1lgECq-0006GL-Ul
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 18:16:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1lgCj5-0003BS-GO
- for qemu-devel@nongnu.org; Mon, 10 May 2021 16:42:03 -0400
-Received: from mailout05.t-online.de ([194.25.134.82]:46114)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1lgCj1-0001r8-LP
- for qemu-devel@nongnu.org; Mon, 10 May 2021 16:42:03 -0400
-Received: from fwd13.aul.t-online.de (fwd13.aul.t-online.de [172.20.27.62])
- by mailout05.t-online.de (Postfix) with SMTP id 3C9F16809D;
- Mon, 10 May 2021 22:41:20 +0200 (CEST)
-Received: from [192.168.211.200]
- (TErciTZvZh4vCsf9zGmNLb9yI4R60+ThuyiE6-tEOUejACXQrWJ12mHKQu2ZoBnw4S@[46.86.48.198])
- by fwd13.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1lgCiN-0Z25Jo0; Mon, 10 May 2021 22:41:19 +0200
-Subject: Re: [PATCH v2 00/11] PS/2 controller related fixes
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <a898b0d5-7086-9699-ae8b-9524ad319b01@t-online.de>
- <bca8cfb0-06b5-2665-c36e-d2da5cb818d1@t-online.de>
-Message-ID: <f0562d4f-af20-0ec6-eb69-7bcaae33726f@t-online.de>
-Date: Mon, 10 May 2021 22:41:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgEBU-0004In-8O
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 18:15:28 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:41536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgEBR-00013n-34
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 18:15:27 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id c3so17168308oic.8
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 15:15:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AI91YiaGIw4KNvoUgx32LJKteAfmEdbhm/HFd4ivYXw=;
+ b=RnYScSqz4j6g84uzK6d/n7/H3/dQyrSxcHvHBYvuM8MU2aS3kv1fIhG5rt9qzseWjB
+ eBnxLL5J/9I0qyS/5U4u8iDwZqf0EL+upebxi0G6Q6QBcmidS8kkSWq41mgL9cCOxiTm
+ oM1j0qwZPn87g28EYv5Q8u73gPWLU28ojbSZPpvMjdgu911/MrghnbVJ9wPln+EH9CnQ
+ rF4MXSgmoN/NaEGo05IpL2RrexCcfnaGLuV+WGm15K4XyhDL+lfHwP9H24SCeJulI+Rn
+ OSKqZA5OIY0XoBeeoT4wbTZbXrBN+gCN3aZjNBfCOSZylmZsz2ZncoGJBeg8Xvobc1Vf
+ fTQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AI91YiaGIw4KNvoUgx32LJKteAfmEdbhm/HFd4ivYXw=;
+ b=AWPdquzWo/9nwlz3zMG4ZU2SfNRoG7owLz6RaRIWFUD5Oqyd/r76cdtilxDhW89yNb
+ JQVbSezALNxuHexi/6GNVri49ew0G42/AIeBf+1ekzkesLNTtraHNx4l9QHpuN6OiP3Y
+ KKhl2Fdz9pD3p9TU32X3gtGWETiEn9RZ9Mh03axx5Hybj0uD7jEYJxS/MAZGcU8kv4C/
+ bfdcX4zq0l9w6PBVTo3u9me9SgPACpq17TEb4+vdpzrSQM1Z45RiOvww91tKjpvssxVs
+ LGntSY7u0FbYtRbKUO4GUmJDqIRhYxPoct5fkunUnwW1UeR+PeU4WJU/YKfWr2EY/y2c
+ sweQ==
+X-Gm-Message-State: AOAM530hXWpRrbwS97UQjbSkujBYq/qr1c5fkkMHi7E94ozVK3Nbg9aX
+ wO4RH03rEbYIeRXa1zQfHlvbahoBPWyZAA==
+X-Google-Smtp-Source: ABdhPJyu9OrYBAvaEgJgrL7oAuo8EQfFa0lwpBgLwqhph8KcdetUFjD2ekS8kB1B0dIfUbmqVEpiSw==
+X-Received: by 2002:aca:f1c6:: with SMTP id
+ p189mr19546648oih.135.1620684920605; 
+ Mon, 10 May 2021 15:15:20 -0700 (PDT)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174])
+ by smtp.gmail.com with ESMTPSA id p64sm2874405oib.57.2021.05.10.15.15.19
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 10 May 2021 15:15:20 -0700 (PDT)
+From: Warner Losh <imp@bsdimp.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] bsd-user cleanup
+Date: Mon, 10 May 2021 16:15:08 -0600
+Message-Id: <20210510221511.14205-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-In-Reply-To: <bca8cfb0-06b5-2665-c36e-d2da5cb818d1@t-online.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ID: TErciTZvZh4vCsf9zGmNLb9yI4R60+ThuyiE6-tEOUejACXQrWJ12mHKQu2ZoBnw4S
-X-TOI-EXPURGATEID: 150726::1620679279-00014A6A-66964577/0/0 CLEAN NORMAL
-X-TOI-MSGID: e97be6f7-b221-430f-85e5-06388b63423d
-Received-SPF: none client-ip=194.25.134.82; envelope-from=vr_qemu@t-online.de;
- helo=mailout05.t-online.de
+Received-SPF: none client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=imp@bsdimp.com; helo=mail-oi1-x22b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,51 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: kevans@freebsd.org, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> This patch series fixes two different PS/2 mouse stream corruptions
->> and adds a feature that allows some old misbehaving DOS programs to
->> have a working keyboard. With the last few patches, the PS/2 con-
->> troller behaves more like a real controller.
->>
->> v2:
->> Introduce the function kbd_pending() in a preliminary patch to ease
->> the review of patch "pckbd: correctly disable PS/2 communication",
->> as Philippe suggested.
->>
->> Volker Rümelin (11):
->>   ps2: fix mouse stream corruption
->>   ps2: don't raise an interrupt if queue is full
->>   ps2: don't deassert irq twice if queue is empty
->>   pckbd: split out interrupt line changing code
->>   pckbd: don't update OBF flags if KBD_STAT_OBF is set
->>   pckbd: PS/2 keyboard throttle
->>   pckbd: add state variable for interrupt source
->>   pckbd: add controller response queue
->>   pckbd: add function kbd_pending()
->>   pckbd: correctly disable PS/2 communication
->>   pckbd: remove duplicated keyboard and mouse defines
->
-> I'm sorry, there is a bug somewhere in this series. Seabios sometimes
-> doesn't detect the PS/2 keyboard. Please ignore this series for now.
->
+Three more bsd-user cleanups.
 
-This is a Seabios bug. Seabios expects the PS/2 controller doesn't
-generate interrupts after it sends the command KBD_CCMD_KBD_DISABLE
-to the controller. Even the original author of the pckbd code wrote
-in a comment that this is incorrect. I will send a version 3 series
-where I don't fix the incorrectness.
+The general plan after these patches is to get and keep i386 working as I flush
+out the loader, the basic system calls, system tracing, etc.  I'll move files
+around so they are like the current bsd-user tree.  Once that's all done, I'll
+add the different architectures we currently support. Sparc64 was removed from
+FreeBSD and never really worked in bsd-user, so would need to be deleted
+eventually anyway. If we do it at the start of the series, we'll reduce the
+burden on getting the other things in w/o ditching functionality we'll need in
+the end.
 
-> With best regards,
-> Volker
->
->>
->>  hw/input/pckbd.c | 293 ++++++++++++++++++++++++++++++++++-------------
->>  hw/input/ps2.c   |  11 +-
->>  2 files changed, 223 insertions(+), 81 deletions(-)
->>
->
+Short term, this just removes sparc from the build, deletes a file that's
+not in the final product and renames a bsd-specific structure to have
+a bsd name, not a linux one.
+
+Warner Losh (3):
+  bsd-user: remove target_signal.h, it's unused
+  bsd-user: Stop building the sparc platforms
+  bsd-user: rename linux_binprm to bsd_binprm
+
+ bsd-user/bsdload.c                           |  4 +--
+ bsd-user/elfload.c                           |  4 +--
+ bsd-user/i386/target_signal.h                | 20 ---------------
+ bsd-user/qemu.h                              |  7 +++--
+ bsd-user/signal.c                            |  1 -
+ bsd-user/sparc/target_signal.h               | 27 --------------------
+ bsd-user/sparc64/target_signal.h             | 27 --------------------
+ bsd-user/x86_64/target_signal.h              | 19 --------------
+ default-configs/targets/sparc-bsd-user.mak   |  3 ---
+ default-configs/targets/sparc64-bsd-user.mak |  4 ---
+ 10 files changed, 7 insertions(+), 109 deletions(-)
+ delete mode 100644 bsd-user/i386/target_signal.h
+ delete mode 100644 bsd-user/sparc/target_signal.h
+ delete mode 100644 bsd-user/sparc64/target_signal.h
+ delete mode 100644 bsd-user/x86_64/target_signal.h
+ delete mode 100644 default-configs/targets/sparc-bsd-user.mak
+ delete mode 100644 default-configs/targets/sparc64-bsd-user.mak
+
+-- 
+2.22.1
 
 
