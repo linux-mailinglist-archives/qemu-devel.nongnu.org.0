@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3150378C89
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 15:03:51 +0200 (CEST)
-Received: from localhost ([::1]:46490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4E8378C8E
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 15:08:35 +0200 (CEST)
+Received: from localhost ([::1]:52250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg5Ze-0006G3-Ux
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 09:03:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45312)
+	id 1lg5eE-0001nq-Oc
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 09:08:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lg5YI-0004sH-ES
- for qemu-devel@nongnu.org; Mon, 10 May 2021 09:02:26 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:42536)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lg5YF-0007Fd-C9
- for qemu-devel@nongnu.org; Mon, 10 May 2021 09:02:26 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- 4-20020a05600c26c4b0290146e1feccd8so8831695wmv.1
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 06:02:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=bfSFOv2Jh60xPL7y7VCtDogHMdyZqX6JuR0cwDwVJQc=;
- b=D2VaszXBeqilROCUw90lpDMPN/oQH/WIPEKOPeujVPU0sWV2wShQCuLaZm8mo8SDNs
- BuuMVI7f83NdRK8Vw1XyH5o8vxKyIjlrwc/JypUJsH887h78kWkZd+UpeNtRGBhnmwwo
- 1OOnnPjF2wc98El0WlN018w47tErodNd7ZZjXc9THoji+fTk0JyRBTDfKb9EIibF3vqh
- tF4rvV1126/SmegZfyPtbPRG1W+1htF5QNSugdj+XNFhyOI2jDE1si33a9B0gKArdOJ9
- wtobhrs19N1CrhUbsI8XKhd4eBCiWthr0kX2wqQzChHBHL5pfBkL3JdW8lWN6nmgHkfv
- 0jPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=bfSFOv2Jh60xPL7y7VCtDogHMdyZqX6JuR0cwDwVJQc=;
- b=mYm+2LNsnwpS8ZtZzLVNgay0u4cZazZ4jfNYeY4lhk2pvd7gsHBskNqDHO+2kfPSQL
- W/HODN+abCGGEx8aZG+Lx6pv12PWrBkbcXvwAxVv8EThvM0y6WwQfw+zgFrlJhAHmwlk
- lhuO92WQINEU1WnN3nv3utQnAcqpLeYee0kbEbkC6SjyW6KWLS46EsKBZ/8cXbY2tdhd
- kw+6TAL10LfybxBO1+4nerQOqQlH4vXVy4MCgvnsHogF4o4sEGFexfIcSo6uJgWqWZul
- FVGBSNYthrtrItRN2VJag0eU8WsorgPAqwCUZY7N6zlB0DfnECjy0UA5uZLlEHJdMrbO
- +BmQ==
-X-Gm-Message-State: AOAM532ZPX6NuXF5iqYQoCGQMwL1f0HB/onTneRiHqKPHqwfI0PPBLBv
- i+a/iQ0acBUfPQwWMJyjuzQK0A==
-X-Google-Smtp-Source: ABdhPJxMAyLAOW26th6+8zZAn9Wvv3nawD2IWyg0XIFJj7ze0P8PdYvOiixL81XJq+rqqL0y293MQQ==
-X-Received: by 2002:a1c:1d50:: with SMTP id d77mr38342278wmd.114.1620651742094; 
- Mon, 10 May 2021 06:02:22 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q10sm22093555wre.92.2021.05.10.06.02.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 06:02:21 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1C8211FF7E;
- Mon, 10 May 2021 14:02:20 +0100 (BST)
-References: <20210508014802.892561-1-richard.henderson@linaro.org>
- <20210508014802.892561-5-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 04/72] accel/tcg: Use add/sub overflow routines in
- tcg-runtime-gvec.c
-Date: Mon, 10 May 2021 14:02:16 +0100
-In-reply-to: <20210508014802.892561-5-richard.henderson@linaro.org>
-Message-ID: <87h7jayc6b.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lg5cK-0008HW-S6
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 09:06:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40390)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lg5cH-0001NN-OX
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 09:06:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620651991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=u8C4Mz0dpZ7SjJ6dUs+gfTYF5C/bW9ZCmJcnqsiTrAc=;
+ b=PKcP1HG+jqkEEm17M1MOkKiB2oyVQFLqgi1S/zeQ2SP5Wq2oETmkHBitvtc0mRKu2SKSTB
+ zWAAwYAc6OwOccPC6cjYLn+6P7MBJdZMgGtK1fga4VHaqG6piT+hF20hfzgA9KMbr4pKAf
+ Y0R74MAH4UMgbELt2Sa+qUP1E3/cntM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-293-ujlAjXNJN3-n-p6BYO2vTw-1; Mon, 10 May 2021 09:06:27 -0400
+X-MC-Unique: ujlAjXNJN3-n-p6BYO2vTw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CFF88042AD;
+ Mon, 10 May 2021 13:06:26 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0EEEF60D54;
+ Mon, 10 May 2021 13:06:20 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 0/1] readthedoc theme patch
+Date: Mon, 10 May 2021 17:06:16 +0400
+Message-Id: <20210510130617.320981-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,19 +76,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, david@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+The following changes since commit d90f154867ec0ec22fd719164b88716e8fd48672=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504=
+' into staging (2021-05-05 20:29:14 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git@gitlab.com:marcandre.lureau/qemu.git tags/rtd-pull-request=0D
+=0D
+for you to fetch changes up to f1852f5d7e6fc2ead874261c0388b18898257000:=0D
+=0D
+  sphinx: adopt kernel readthedoc theme (2021-05-10 15:12:09 +0400)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Marc-Andr=C3=A9 Lureau (1):=0D
+  sphinx: adopt kernel readthedoc theme=0D
+=0D
+ docs/_templates/editpage.html              |   5 -=0D
+ docs/conf.py                               |  51 ++++---=0D
+ docs/devel/_templates/editpage.html        |   5 -=0D
+ docs/interop/_templates/editpage.html      |   5 -=0D
+ docs/meson.build                           |   5 +-=0D
+ docs/specs/_templates/editpage.html        |   5 -=0D
+ docs/sphinx-static/theme_overrides.css     | 161 +++++++++++++++++++++=0D
+ docs/system/_templates/editpage.html       |   5 -=0D
+ docs/tools/_templates/editpage.html        |   5 -=0D
+ docs/user/_templates/editpage.html         |   5 -=0D
+ tests/docker/dockerfiles/alpine.docker     |   1 +=0D
+ tests/docker/dockerfiles/debian10.docker   |   1 +=0D
+ tests/docker/dockerfiles/fedora.docker     |   1 +=0D
+ tests/docker/dockerfiles/ubuntu.docker     |   1 +=0D
+ tests/docker/dockerfiles/ubuntu1804.docker |   1 +=0D
+ tests/docker/dockerfiles/ubuntu2004.docker |   1 +=0D
+ 16 files changed, 199 insertions(+), 59 deletions(-)=0D
+ delete mode 100644 docs/_templates/editpage.html=0D
+ delete mode 100644 docs/devel/_templates/editpage.html=0D
+ delete mode 100644 docs/interop/_templates/editpage.html=0D
+ delete mode 100644 docs/specs/_templates/editpage.html=0D
+ create mode 100644 docs/sphinx-static/theme_overrides.css=0D
+ delete mode 100644 docs/system/_templates/editpage.html=0D
+ delete mode 100644 docs/tools/_templates/editpage.html=0D
+ delete mode 100644 docs/user/_templates/editpage.html=0D
+=0D
+--=20=0D
+2.29.0=0D
+=0D
 
-> Obvious uses of the new functions.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
