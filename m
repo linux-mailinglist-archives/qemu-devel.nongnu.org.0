@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4ECE377C3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 08:23:05 +0200 (CEST)
-Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13AA9377CEF
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 09:09:39 +0200 (CEST)
+Received: from localhost ([::1]:46894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfzJo-0008Lq-AK
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 02:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55872)
+	id 1lg02r-0006mf-J6
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 03:09:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfzHc-0007e6-4L
- for qemu-devel@nongnu.org; Mon, 10 May 2021 02:20:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35874)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1lfzzF-0005rq-Op; Mon, 10 May 2021 03:05:53 -0400
+Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:45713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfzHX-00011J-Mq
- for qemu-devel@nongnu.org; Mon, 10 May 2021 02:20:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfzHV-000596-AB
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 06:20:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 24AD82E8194
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 06:20:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1lfzzD-0002iI-MS; Mon, 10 May 2021 03:05:53 -0400
+Received: by mail-qv1-xf34.google.com with SMTP id u7so7821282qvv.12;
+ Mon, 10 May 2021 00:05:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=a+YNb5mD3l8IIwUuWm1uPtMvJvJNOsmnq/UPShCNDek=;
+ b=lGFg8aFl1nsCaKlneHvPEVMtsduSEy4arjkO0jCFmEecSUh6LumgNNMRn5se0zcydI
+ oKup3kyIcA0dpCkMvjxhORG5zCABnwJrb0OpaLAokFz9m+e7i+FVQ5O20H7OAUkDEIPs
+ A/C31SbXiW6dnl7NT+10jAQaK9fUZyAw9DagY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=a+YNb5mD3l8IIwUuWm1uPtMvJvJNOsmnq/UPShCNDek=;
+ b=LiXf4XX4UVs/daHl9m6kLs0x+NKGHtrgE+tShOLJxNftL9Zw+U9hMzwkDbrIwkXOBu
+ ekQeTCGAfzdvQDmrfe8PG1BKKIFyF1x18UTCtvA8PkQiql8sGrOmfGTEbu2UYzA0SLeB
+ 84x9YRKOf0B/vxx+q0AMutJ10f2R98vT/YQnmqeAtF4c+iyGO+GC1Yqaq5oQ6I/42n56
+ O/s69VpssYJo7svYFxmuRfSmkk3ZV6hj1T/5xgRj/LadIFe5heOUldou53Um7j8IWbpD
+ QxaXcar/i3lJH3ZKP8jlMHFWrUSfBgBDiS0jM/rmrex6G3wwzbmJN/TmxuvX55e4Rub+
+ W98A==
+X-Gm-Message-State: AOAM530D5nWU8ptOoYd3V1iwkwYoj3xlO6IYWQlLfrc0HOC10oVv+Ra6
+ 7FfWoVHtEDkSK7fn/YOSmrIL2XQnjm7JwCf09xE=
+X-Google-Smtp-Source: ABdhPJwIbTSWiqa9sqvRm+D9YWCxmRDCaPLVotGkU/UBDc3VPVpToG6Zxpz31ZeQ9QRBBYsGmoBnR1w55ngHRaJHCaM=
+X-Received: by 2002:a0c:d786:: with SMTP id z6mr21969057qvi.18.1620630349765; 
+ Mon, 10 May 2021 00:05:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 06:07:35 -0000
-From: Thomas Huth <1904464@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ffontaine th-huth
-X-Launchpad-Bug-Reporter: Fabrice Fontaine (ffontaine)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160555959985.17306.1370815502265671907.malonedeb@wampee.canonical.com>
-Message-Id: <162062685587.3111.5720450728247974776.malone@wampee.canonical.com>
-Subject: [Bug 1904464] Re: Build fails with 64 bits time_t
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: fe20657b8599de841f803e93c9c680ed2ff537f1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210505170101.3297395-1-titusr@google.com>
+ <20210505170101.3297395-2-titusr@google.com>
+In-Reply-To: <20210505170101.3297395-2-titusr@google.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 10 May 2021 07:05:37 +0000
+Message-ID: <CACPK8XfkEdA1TLFm5W3rs0UHVVJ03e2mtgZJ+1caNt9NA0ZEWA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] hw/i2c: add support for PMBus
+To: Titus Rwantare <titusr@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
+ envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf34.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,55 +73,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904464 <1904464@bugs.launchpad.net>
+Cc: Hao Wu <wuhaotsh@google.com>, Corey Minyard <cminyard@mvista.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fabrice, thanks for moving the ticket here:
-https://gitlab.com/qemu-project/qemu/-/issues/246
-... so I'm closing this one on Launchpad now.
+On Wed, 5 May 2021 at 17:14, Titus Rwantare <titusr@google.com> wrote:
+>
+> QEMU has support for SMBus devices, and PMBus is a more specific
+> implementation of SMBus. The additions made in this commit makes it easier to
+> add new PMBus devices to QEMU.
+>
+> https://pmbus.org/specification-archives/
+>
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Signed-off-by: Titus Rwantare <titusr@google.com>
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #246
-   https://gitlab.com/qemu-project/qemu/-/issues/246
-
-** Changed in: qemu
-       Status: Incomplete =3D> Invalid
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904464
-
-Title:
-  Build fails with 64 bits time_t
-
-Status in QEMU:
-  Invalid
-
-Bug description:
-  time element is deprecated on new input_event structure in kernel's
-  input.h [1]
-
-  This will avoid the following build failure:
-
-  hw/input/virtio-input-host.c: In function 'virtio_input_host_handle_statu=
-s':
-  hw/input/virtio-input-host.c:198:28: error: 'struct input_event' has no m=
-ember named 'time'
-    198 |     if (gettimeofday(&evdev.time, NULL)) {
-        |                            ^
-
-  Fixes:
-   - http://autobuild.buildroot.org/results/a538167e288c14208d557cd45446df8=
-6d3d599d5
-   - http://autobuild.buildroot.org/results/efd4474fb4b6c0ce0ab3838ce130429=
-c51e43bbb
-
-  [1]
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-?id=3D152194fe9c3f
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904464/+subscriptions
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
