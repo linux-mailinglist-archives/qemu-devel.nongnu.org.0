@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0246377B3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 06:32:16 +0200 (CEST)
-Received: from localhost ([::1]:52188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249C7377B49
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 06:37:18 +0200 (CEST)
+Received: from localhost ([::1]:58842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfxaZ-0006Oj-9Z
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 00:32:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40898)
+	id 1lfxfR-0002YF-88
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 00:37:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfxZ7-0005eJ-DN
- for qemu-devel@nongnu.org; Mon, 10 May 2021 00:30:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50150)
+ id 1lfxdn-0000Se-IS
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 00:35:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfxZ5-0007Ly-C7
- for qemu-devel@nongnu.org; Mon, 10 May 2021 00:30:45 -0400
+ id 1lfxdk-0001kB-NJ
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 00:35:35 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfxZ2-0007W1-M2
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:30:40 +0000
+ id 1lfxdj-0007m5-8v
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:35:31 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9F8582E8187
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:30:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 179F72E8187
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:35:31 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 04:24:39 -0000
-From: Thomas Huth <1904315@bugs.launchpad.net>
+Date: Mon, 10 May 2021 04:25:52 -0000
+From: Thomas Huth <1904317@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: whpx
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chapuni th-huth
+X-Launchpad-Bug-Commenters: chapuni philmd th-huth
 X-Launchpad-Bug-Reporter: Takumi Nakamura (chapuni)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160542909340.674.17512745365232880697.malonedeb@gac.canonical.com>
-Message-Id: <162062068014.16316.9882767126687870580.malone@soybean.canonical.com>
-Subject: [Bug 1904315] Re: CTRL+ALT is ignored on gtk window (configured with
- gtk and sdl)
+References: <160543118215.29327.13808899207251644228.malonedeb@wampee.canonical.com>
+Message-Id: <162062075272.16458.3632369085342415736.malone@soybean.canonical.com>
+Subject: [Bug 1904317] Re: cpu feature selection is not affected to guest 's
+ cpuid with whpx
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 33110151ba4eb698f5a80bae30b03b783fc98080
+X-Launchpad-Hash: 1701965ea64559f363d6360240d959dfadb6f424
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,11 +72,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904315 <1904315@bugs.launchpad.net>
+Reply-To: Bug 1904317 <1904317@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-Can you still reproduce the issue with the latest release QEMU v6.0?
 
 The QEMU project is currently moving its bug tracking to another system.
 For this we need to know which bugs are still valid and which could be
@@ -107,6 +106,8 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
+** Tags added: whpx
+
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
@@ -114,41 +115,39 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904315
+https://bugs.launchpad.net/bugs/1904317
 
 Title:
-  CTRL+ALT is ignored on gtk window (configured with gtk and sdl)
+  cpu feature selection is not affected to guest 's cpuid with whpx
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I am building and using qemu on Windows 10 via git.
-  Building for targeting windows, on debian.
+  On windows with -accel whpx, "-cpu" is ignored without any messages.
+  Guest recognizes features as same as host's.
 
-  Since meson is introduced, my executable, qemu-system-x86_64.exe, tends t=
-o ignore hotkeys
-  (like CTRL+ATL+G, CTRL+ALT+2)
+  Confirmed on v5.2.0-rc1.
 
-  As far as I have been investigating the issue, I am suspicious that gtk a=
-nd sdl might be incompatible.
-  With configure --disable-sdl, my executable works fine.
-  My application doesn't require sdl.
+  I suggest qemu may do,
 
-  Possibly due to link order, especially SDLmain, I guess.
+  - Warn with incompatible -cpu options were given.
+  - Enhance cpuid handling.
 
-  I suggest;
-  - Clarify that gtk and sdl are incompatible.
-  - Tweak built script or startup not to prevent gtk and sdl each other.
+  Background:
+  I was investigated mmio and block copy issue in Linux kernel.
+  I met a problem that Linux went ill for touching mmio with whpx. (not wit=
+h tcg)
+  I suspect erms(enhanced rep movs) might trigger.
+  I tried to mask erms on qemu with -feature,erms, but it was ineffective.
 
-  Excuse me, the issue has not been reproduced at home yet. I met it at wor=
-k.
-  (My manager said it's fine to report issues by me at home)
-  I will construct reproducible environment at home, if my further investig=
-ation would be required.
+  At last, I disabled erms manually, to tweak whpx-all.c to mask erms in
+  cpuid.
 
-  Thanks.
+  FYI, qemu with whpx from/to mmio, "rep movsb" does byte access regardless=
+ of erms.
+  Linux kernel tends to choose not "rep movsq" but "rep movsb" with erms.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904315/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1904317/+subscriptions
 
