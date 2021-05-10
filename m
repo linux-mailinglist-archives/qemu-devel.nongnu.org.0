@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59363778E9
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 May 2021 23:51:39 +0200 (CEST)
-Received: from localhost ([::1]:47204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F6D37798A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 02:41:16 +0200 (CEST)
+Received: from localhost ([::1]:52566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfrKs-00043u-6v
-	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 17:51:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46140)
+	id 1lftz1-0001ws-34
+	for lists+qemu-devel@lfdr.de; Sun, 09 May 2021 20:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfrJs-0003C0-Kq
- for qemu-devel@nongnu.org; Sun, 09 May 2021 17:50:36 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50456)
+ id 1lftte-0007tf-Tx
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 20:35:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfrJq-0007qo-TG
- for qemu-devel@nongnu.org; Sun, 09 May 2021 17:50:36 -0400
+ id 1lftta-0002eX-Mb
+ for qemu-devel@nongnu.org; Sun, 09 May 2021 20:35:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfrJo-0007BP-L0
- for <qemu-devel@nongnu.org>; Sun, 09 May 2021 21:50:32 +0000
+ id 1lfttW-0002Kk-5r
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 00:35:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9D3742E804B
- for <qemu-devel@nongnu.org>; Sun,  9 May 2021 21:50:32 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2B2D92E8186
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 00:35:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 09 May 2021 21:42:55 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1920602@bugs.launchpad.net>
+Date: Mon, 10 May 2021 00:23:59 -0000
+From: Adriano Marto Reis <1890208@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: i386 tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aaro-koskinen philmd
-X-Launchpad-Bug-Reporter: Aaro Koskinen (aaro-koskinen)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <161624570188.19824.1091833072893020317.malonedeb@wampee.canonical.com>
-Message-Id: <162059657583.16724.10333572444964791151.malone@soybean.canonical.com>
-Subject: [Bug 1920602] Re: QEMU crash after a QuickBASIC program integer
- overflow
+X-Launchpad-Bug-Commenters: adrianomarto th-huth
+X-Launchpad-Bug-Reporter: Adriano Marto Reis (adrianomarto)
+X-Launchpad-Bug-Modifier: Adriano Marto Reis (adrianomarto)
+References: <159649385359.2765.12928081922733657659.malonedeb@gac.canonical.com>
+Message-Id: <162060623965.3040.192630371220550832.malone@wampee.canonical.com>
+Subject: [Bug 1890208] Re: Mouse pointer disappears when it is over console
+ window
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 9e676eb24abea4bd9d76c302202a17931fba1cb1
+X-Launchpad-Hash: f028bffe9143870cfe2fd56a3e8ca0ef1ccf2c42
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -73,47 +71,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920602 <1920602@bugs.launchpad.net>
+Reply-To: Bug 1890208 <1890208@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 975af797f1e helper_fist_ST0() sets float_flag_invalid.
+The emulated machine (guest) has the following graphics card, according to =
+lspci:
+00:01.0 VGA compatible controller: Red Hat, Inc. QXL paravirtual graphic ca=
+rd (rev 04)
+
+The host machine has the following graphics card:
+01:00.0 VGA compatible controller: NVIDIA Corporation GM107GLM [Quadro M100=
+0M] (rev a2)
+
+I haven't tried to report the issue to virt-manager, but I have another
+computer running Debian with a similar setup and the problem does not
+happen there.
+
+** Bug watch added: github.com/virt-manager/virt-manager/issues #251
+   https://github.com/virt-manager/virt-manager/issues/251
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920602
+https://bugs.launchpad.net/bugs/1890208
 
 Title:
-  QEMU crash after a QuickBASIC program integer overflow
+  Mouse pointer disappears when it is over console window
 
 Status in QEMU:
-  Confirmed
+  Incomplete
 
 Bug description:
-  A trivial program compiled with QuickBASIC 4.5 with integer overflow
-  will crash QEMU when ran under MS-DOS 5.0 or FreeDOS 1.2:
+  The host mouse pointer disappears when it is over a console window.
 
-  C:\KILLER>type killer.bas
-  A% =3D VAL("99999"):PRINT A%
+  I am emulating quite simple hardware: just text console and no mouse.
+  I don't expect the mouse to have any effect on the emulated computers,
+  but I need to know where the mouse pointer is. That is  important
+  because I need to use the mouse to switch between applications and to
+  switch between virtual machines (QEMU grabs Alt+Tab events). Also, it
+  is quite tricky to work with multiple screens when we don't know where
+  the mouse pointer is.
 
-  C:\KILLER>killer.exe
-  **
-  =C2=A0=C2=A0ERROR:../qemu-5.2.0/accel/tcg/tcg-cpus.c:541:tcg_handle_inter=
-rupt: assertion failed: (qemu_mutex_iothread_locked())
-  Aborted
-
-  QEMU version v5.2, compiler for ARM, and started with command line:
-
-  qemu-system-i386 -curses -cpu 486 -m 1 -drive dos.img
-
-  The same test under Ubuntu QEMU and KVM/x86_64 (QEMU emulator version
-  4.2.1 (Debian 1:4.2-3ubuntu6.14)) will just silently hang the QEMU. On
-  DOSBOX, the machine does not die and program outputs the value -31073.
-
-  The EXE to reproduce the issue is attached.
+  I am using:
+  * Virtual Machine Manager 2.2.1
+  * QEMU 4.2.0
+  * Fedora 32
+  * KDE Plasma 5.18.5
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920602/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1890208/+subscriptions
 
