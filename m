@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E88BF377EE4
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 11:03:28 +0200 (CEST)
-Received: from localhost ([::1]:51914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9668377EE6
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 11:03:56 +0200 (CEST)
+Received: from localhost ([::1]:52870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg1p2-0006SI-0U
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 05:03:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55976)
+	id 1lg1pT-00075A-RY
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 05:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lg1lc-0003B2-CJ
- for qemu-devel@nongnu.org; Mon, 10 May 2021 04:59:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35339)
+ id 1lg1m6-000487-TJ
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 05:00:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lg1la-0005da-Sc
- for qemu-devel@nongnu.org; Mon, 10 May 2021 04:59:56 -0400
+ id 1lg1lw-0005vH-UT
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 05:00:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620637194;
+ s=mimecast20190719; t=1620637216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=71j0q2fNtlHCJ9PQYUaCJ1Q3f0+hrP1j+qWjuLpkOUc=;
- b=CoWJRVnXCS5/G+L30olcacE6xDuoSZ3kQmja/nCCW3U6vFmnCxup/y4CGvBFscxiQyst0R
- 7olBpoooml5Xq9rHVnXayNlvII7hJq+yIq0rsoczuIToRYNetK93FE4l6xbqmFVCRfJTei
- pBO8p0GRZ1peluUGT++nys9/u17k9PM=
+ bh=ZJ/AB8Vi0nkp+ugLaGTjDja6Nl2eYXX5P1QMpx7KlnA=;
+ b=SU1UlpnhzeBDjVv/+H1HmCK4tFpjB24l1eD+4BkAz2IObBFm9BcCpCtQjkXxk+eQekrYI4
+ 9LEAg1/d4/OsFtW2rBK6M0WN1+dSR114nFdcFdw5QyKld+RIJdMpmnqx7ii45i9NnEcJHh
+ Peh5vw6EjyTndI25SYlgyHATCQnM3vw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-_-JSVOsHMaOQd1RyDFzDuw-1; Mon, 10 May 2021 04:59:52 -0400
-X-MC-Unique: _-JSVOsHMaOQd1RyDFzDuw-1
+ us-mta-517-j2KoLWpfN2Ky78JT8fYBjA-1; Mon, 10 May 2021 04:59:58 -0400
+X-MC-Unique: j2KoLWpfN2Ky78JT8fYBjA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 488A8801107;
- Mon, 10 May 2021 08:59:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C80CA195D560;
+ Mon, 10 May 2021 08:59:53 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-113-184.ams2.redhat.com
  [10.36.113.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27D876267D;
- Mon, 10 May 2021 08:59:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A810962923;
+ Mon, 10 May 2021 08:59:51 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/6] ratelimit: treat zero speed as unlimited
-Date: Mon, 10 May 2021 10:59:36 +0200
-Message-Id: <20210510085941.22769-2-eesposit@redhat.com>
+Subject: [PATCH 2/6] block-copy: let ratelimit handle a speed of 0
+Date: Mon, 10 May 2021 10:59:37 +0200
+Message-Id: <20210510085941.22769-3-eesposit@redhat.com>
 In-Reply-To: <20210510085941.22769-1-eesposit@redhat.com>
 References: <20210510085941.22769-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -89,48 +89,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Both users of RateLimit, block-copy.c and blockjob.c, treat
-a speed of zero as unlimited, while RateLimit treats it as
-"as slow as possible".  The latter is nicer from the code
-point of view but pretty useless, so disable rate limiting
-if a speed of zero is provided.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/qemu/ratelimit.h | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ block/block-copy.c | 28 ++++++++++------------------
+ 1 file changed, 10 insertions(+), 18 deletions(-)
 
-diff --git a/include/qemu/ratelimit.h b/include/qemu/ratelimit.h
-index 003ea6d5a3..48bf59e857 100644
---- a/include/qemu/ratelimit.h
-+++ b/include/qemu/ratelimit.h
-@@ -43,7 +43,11 @@ static inline int64_t ratelimit_calculate_delay(RateLimit *limit, uint64_t n)
-     double delay_slices;
+diff --git a/block/block-copy.c b/block/block-copy.c
+index c2e5090412..7e9467d48a 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -113,7 +113,6 @@ typedef struct BlockCopyState {
  
-     QEMU_LOCK_GUARD(&limit->lock);
--    assert(limit->slice_quota && limit->slice_ns);
-+    if (!limit->slice_quota) {
-+        /* Throttling disabled.  */
-+        return 0;
-+    }
-+    assert(limit->slice_ns);
+     SharedResource *mem;
  
-     if (limit->slice_end_time < now) {
-         /* Previous, possibly extended, time slice finished; reset the
-@@ -83,7 +87,11 @@ static inline void ratelimit_set_speed(RateLimit *limit, uint64_t speed,
+-    uint64_t speed;
+     RateLimit rate_limit;
+ } BlockCopyState;
+ 
+@@ -619,23 +618,19 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
+         }
+         task->zeroes = ret & BDRV_BLOCK_ZERO;
+ 
+-        if (s->speed) {
+-            if (!call_state->ignore_ratelimit) {
+-                uint64_t ns = ratelimit_calculate_delay(&s->rate_limit, 0);
+-                if (ns > 0) {
+-                    block_copy_task_end(task, -EAGAIN);
+-                    g_free(task);
+-                    qemu_co_sleep_ns_wakeable(&call_state->sleep,
+-                                              QEMU_CLOCK_REALTIME, ns);
+-                    continue;
+-                }
++        if (!call_state->ignore_ratelimit) {
++            uint64_t ns = ratelimit_calculate_delay(&s->rate_limit, 0);
++            if (ns > 0) {
++                block_copy_task_end(task, -EAGAIN);
++                g_free(task);
++                qemu_co_sleep_ns_wakeable(&call_state->sleep,
++                                            QEMU_CLOCK_REALTIME, ns);
++                continue;
+             }
+-
+-            ratelimit_calculate_delay(&s->rate_limit, task->bytes);
+         }
+ 
++        ratelimit_calculate_delay(&s->rate_limit, task->bytes);
+         trace_block_copy_process(s, task->offset);
+-
+         co_get_from_shres(s->mem, task->bytes);
+ 
+         offset = task_end(task);
+@@ -825,10 +820,7 @@ void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip)
+ 
+ void block_copy_set_speed(BlockCopyState *s, uint64_t speed)
  {
-     QEMU_LOCK_GUARD(&limit->lock);
-     limit->slice_ns = slice_ns;
--    limit->slice_quota = MAX(((double)speed * slice_ns) / 1000000000ULL, 1);
-+    if (speed == 0) {
-+        limit->slice_quota = 0;
-+    } else {
-+        limit->slice_quota = MAX(((double)speed * slice_ns) / 1000000000ULL, 1);
-+    }
- }
+-    s->speed = speed;
+-    if (speed > 0) {
+-        ratelimit_set_speed(&s->rate_limit, speed, BLOCK_COPY_SLICE_TIME);
+-    }
++    ratelimit_set_speed(&s->rate_limit, speed, BLOCK_COPY_SLICE_TIME);
  
- #endif
+     /*
+      * Note: it's good to kick all call states from here, but it should be done
 -- 
 2.30.2
 
