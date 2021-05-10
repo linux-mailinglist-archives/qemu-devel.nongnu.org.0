@@ -2,71 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083E1378C8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 15:08:42 +0200 (CEST)
-Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4E4378C90
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 15:08:58 +0200 (CEST)
+Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg5eL-00025B-2h
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 09:08:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46800)
+	id 1lg5ec-00035R-2e
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 09:08:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lg5cZ-0008Ml-4t
- for qemu-devel@nongnu.org; Mon, 10 May 2021 09:06:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46306)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lg5dH-0000pK-D8; Mon, 10 May 2021 09:07:37 -0400
+Received: from mail-eopbgr00120.outbound.protection.outlook.com
+ ([40.107.0.120]:9814 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lg5cT-0001Tx-Dy
- for qemu-devel@nongnu.org; Mon, 10 May 2021 09:06:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620652004;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FSf2L7Kex+5v95xy77YavkOede0IoVeiNpcK0UiCXj8=;
- b=UgmvKFFpUFRtcd3G4spH0eDUve0EJ/KQ/tvRpVek4aYdT7b3k0AyYL9FOdBTXVhlon1BZ9
- DyNEYgVRn4pZdHGS7QSdKiEArfyqd+swxoxN7/wwuEfey03e/O6R5SymZFhl+Aa39uO4Xx
- migBOBn27lulDr+zBMy/3fAnc6iTyps=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-hBK8BnBOOfyFj0FK0zqIZg-1; Mon, 10 May 2021 09:06:38 -0400
-X-MC-Unique: hBK8BnBOOfyFj0FK0zqIZg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 201F91935780;
- Mon, 10 May 2021 13:06:37 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F61C60FC2;
- Mon, 10 May 2021 13:06:30 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 1/1] sphinx: adopt kernel readthedoc theme
-Date: Mon, 10 May 2021 17:06:17 +0400
-Message-Id: <20210510130617.320981-2-marcandre.lureau@redhat.com>
-In-Reply-To: <20210510130617.320981-1-marcandre.lureau@redhat.com>
-References: <20210510130617.320981-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lg5dC-0001rN-Mf; Mon, 10 May 2021 09:07:33 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YEXzUOOg9ctkZuf2DBqaqInun8YIAX6+bdel0gmJH6LE6A/ysvVmdU+P3IAAmBYupbGBfYwK9ZrVdBhTHaJ+6TSEEAeUHeJv91wKuQYrB6F2Ok4LncZv2hdyMzQ+k/JDU96VA1tXefuUgJ62VAUKQdnsiwZEhURFiEzFzHZpYpfec2s7sZBLs/ZEbekHMce5Z0RiTLjOgzBqM1guBjRgf/zYgMhnzic8nLhcXQPUGH37BMA/nuajBj4oZfesz+Q5+QBaWNWrslo8doGe1A+GnQXH4CmCF2O0w211hLOOo2aPXtIIEON1f6l08gvIvUiBtUaUEb+pjfbcKfEHCg1L7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tAFX5ZG4Qqp2DTi8FkLP18IjOB4bqRUgraSX+W2oWQo=;
+ b=QkmZ1pORApjKKyKFjOuCC5MI5l7bSQA9zAJy6NhPlLwb9M3JuBCgCQI4eszdyRbEuGnF4M/UCnHE/mrBKy+sXC/IyUkFmGhQFvRqk4A9Ds/XgUjuf+CG8pH8q8W+YEgn4/lhO9qd1eDN/wiysEh8Z3iV0ElKx6nZUdXJZwaSt5paXTXWwRnfUqAvJ2ez5rBAe3UnmQxWmUJHe+i41kF+RMIP+KItyJ+4VFakJdLdhXJAB3nqcqmOT2Fm612aw124xcd7MeoK9BK0p55OSH1dGvH4Jg5DcKI56qWYPw1F5esv1u0LI7uAF1+PV1e7a6DaXro2MnfsObkl1yuGjdhCTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tAFX5ZG4Qqp2DTi8FkLP18IjOB4bqRUgraSX+W2oWQo=;
+ b=ZOzlPAvQ3SBCTXNmfddy2vI2OiG4mWrTA/lxVEPgKlwLW9eMRHubNcUMC5XGg2Dj3uhXBOnqbfWMRuNyg0dxdb3VJ21D8m4fbyF9o/Vqj3RZGNusEeYJf0P3qBJJxYwMxlMCkUmNX9XpuBjmXfai1DljhkhDsr8beSyNYcf5Gl8=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4470.eurprd08.prod.outlook.com (2603:10a6:20b:b5::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.24; Mon, 10 May
+ 2021 13:07:26 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.031; Mon, 10 May 2021
+ 13:07:26 +0000
+Subject: Re: [PATCH v6 00/12] qcow2: fix parallel rewrite and discard
+ (lockless)
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
+References: <20210422163046.442932-1-vsementsov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <29c89914-dd9e-1426-3596-7f8d8684b68d@virtuozzo.com>
+Date: Mon, 10 May 2021 16:07:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+In-Reply-To: <20210422163046.442932-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.203]
+X-ClientProxiedBy: FR3P281CA0047.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::10) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.203) by
+ FR3P281CA0047.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4a::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4129.12 via Frontend Transport; Mon, 10 May 2021 13:07:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 22f9388e-8c65-4aa9-5325-08d913b48f14
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4470:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB447006848F8331639C06C2BBC1549@AM6PR08MB4470.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NreX2WWmn6L3TwY++mOWR4ZmLUhnuHmd/930w4oLptqXF1EbAr2xjjVFnPv0LzRkJ7TTwHFjkipIZAPy5fONWbs0R0+SiQoUauPI6IPc/726Z6J6U0B8iJJHm91saQI+6Il+OSMD+FyIR2uojp105/ODoNccp2AqLBl9IBEGvESV2isWZLPs9AnDWNYIDr0FV2YlQAuQPyqQvEyXajxm/lf/oWeTPXt9MPToeh2nS4qCQjzWp7j0hrtHRgy1l2M6AM2f3VCTXuUxZ8G2dr4Lgpaq+9wa1h/CZrRCcZ2xwSY8emIACPdr2VWs4J4LDGAO9IQz2NAMFkoSjlpsZOeQ9JeD/o2H1ToW99TGDcKdDbkAhdjJMbQ0nhbJDg+RzqImLLyjvE6k+/TBoB2p3OkLq4HPAeGGd7WLqqnRcoeJp31+RjHpKj1dIzP/XyoEI6yzblKzwF4maWb7/NIe1rMeE+Dhi5AkuZ6L8irQyMwOjjYCBcrN1y/nN0imFYnjcrCprHUdo48PLvg/E4nHxQQkB1SRC2T8CRviI07VdBB0BCTko1mx4BgmHnxe0sRHmqh6E/s6DfIMIaQWgXErWQtKNkOu97SK7SCr6JhSevTutAjJ/siwV7pTAxH8V0SI7Bugf84taqLulgSsrHvR6kArIWgEg9TfB+SqckiZPff8hmQL40fclvr4AbI2eTTC3oqmrw2ZmBEopiLxdu/w+x9GiTbejpQLJMJLwgxcWzw54EA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39830400003)(396003)(376002)(366004)(346002)(478600001)(16526019)(8676002)(6916009)(4326008)(316002)(16576012)(186003)(36756003)(8936002)(5660300002)(66476007)(66556008)(66946007)(6486002)(2906002)(38100700002)(38350700002)(31686004)(52116002)(107886003)(83380400001)(31696002)(26005)(86362001)(2616005)(956004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SE13ZnQ1K3hEVHJOSmRyZnBHZnZ6enVJVlBYbkQ3djRRY2srNUlJTGtwUS9z?=
+ =?utf-8?B?cDg5NVpGL3dVZkczUzlGcWV3bDlVdXJUNWJxMnRGL1hnUEFTMWxRSlZoMWFz?=
+ =?utf-8?B?emlrdUlpalZjRFBoUmo1d3BBblhMMkFyUExqM2FFRWxYNnNka1IxODF1dUV3?=
+ =?utf-8?B?QVNTQ0dJVjh2clh3OTNmT3kvRnhnN1VFc1BtNGJQQzFvM2RHQzFGUWNpczgw?=
+ =?utf-8?B?cUwySUlldGJGTGlJZTQ3cFc2SnVtYVdSTWpUdVZBaCtIOHlGZmM3M1Zvb1h5?=
+ =?utf-8?B?OHYxOW1FVnZUdHNueWxqMVlHZ3ZVMDE4aDRoNVprTy9BL2ZPeVB0Z1h0Yndk?=
+ =?utf-8?B?aENsZzliT0VjMDlyUThVWGY0R2JpZU5NbVlBTXJROG0wRjFpOXNIbm9lYWl3?=
+ =?utf-8?B?STMxakFTK090dUZldFl6WDRrWFJTamlsRnd2ejV2NmQxOXFJSDkrcDQzNHQ1?=
+ =?utf-8?B?YlV6THoyUVUrTGhOelJETWZ5ZnFaUzBpZWNpUmhLTVRkbFcvTk4xMG5MTEEv?=
+ =?utf-8?B?bWp0YjlqY2FvU0k4eTVGc3grdWpRUTE5VmZPVXFXSWlPZFMvc3JvZEd0Nnlu?=
+ =?utf-8?B?SXNDcllSa1d3VEh1VC9CYTZtL1Z4d1UwOTRQVDRSRHBKSmpMOGxvQzdOTjVP?=
+ =?utf-8?B?TmJSZ3EwbHpSeXAzUWI1SEJSMEJJK1pqMkhvbmdwUnY0bWpOS0RGMkhPMFZS?=
+ =?utf-8?B?MWpiZ0ZlRk1qTS9NaFJWL0RKUk5yMnYxWCttQUYrbkZEZURsZFdRVThGVlc5?=
+ =?utf-8?B?Q2hvVEdIKzcyRmI2OG1aLzgvekg3Q25jekE2dGpjSDFtbHlLcnBCMytNdTdF?=
+ =?utf-8?B?SHpFb0VPYmtVcHVoOHp5Uy9QdXRDSHRwUTJoUFhrcEd3VlY0elRBRWNYNWho?=
+ =?utf-8?B?MUR3TGQ4K080dFpUL0tTZDljM2ZvTEdhbyt4cVlVcTlBNnhTd3BvaVJwNGpE?=
+ =?utf-8?B?UmlXL1FBMUlqZkhSZmVTQXBXeW1BeWVOcFFVenloNFVodFhaZkt0ZVdQTjdO?=
+ =?utf-8?B?ZG4zQVNFNGVHdGptYkt4bEtzVnRwNjJWdzRQUGNtaFlwSmF2YmxWSDBYOEJl?=
+ =?utf-8?B?bXVGSktlU2ovV0VmZTk5UlVMT2N5Q3NtVzRJdGV2Y2VOdjRwTlRMZzVFUkJS?=
+ =?utf-8?B?a3JGb1ZBS1Y4OW1sdEtTVGM2Z1BUS2lIdGxib2doZ2Ezb2NrMExhamVBdXpG?=
+ =?utf-8?B?Q2V4QXIwci9GZGQzdDd6L1VMNW5qMkxDWFlQdTNkYm1qbk9CaE5xMFF6UnJZ?=
+ =?utf-8?B?RnVLM3MxdDJEVXpyL0t3RzlabmVkaUZYUXVVSTRRZERCcm5TQ3Q4RzQyWXlM?=
+ =?utf-8?B?RmlSMWY5TnpNVjRJRkdiVDNVaDZHL2ZUZE1qNTVaTFpoMjVObE81dGlUb0M4?=
+ =?utf-8?B?d0dLRnpnWjNtdXl5MlNNdVVWMjFTb1VwOGl6QUd6SEYvVGNxbWJ5NERkeHZ4?=
+ =?utf-8?B?ZEdsTS8xblhPc3dxd252b013K2xtU0kvVUt1V0dYc0M3alBNU0RjZ21XTzht?=
+ =?utf-8?B?RlZZQit1bEk4WEd2NGlHa1J2dDR2d3BuR01ZRllwcktncmllYlF1R3ZucEtO?=
+ =?utf-8?B?VHpSMndoZXRvTE40bU1CYUxnWi9FQUVLcjJRajhYRFU4YzM3Q2IrZE9qSHUr?=
+ =?utf-8?B?UWxoQ0JoSUtwNW9BbG5CczBKYmZqb2wrMWNlYlNqNGdFTFhxejhINnNFTFZp?=
+ =?utf-8?B?dWJ1U0tudFNhUHpwODh3aFZSUGtBaWxnVWFuSll2SUQvZ1I3UDBIYXRWYlVI?=
+ =?utf-8?Q?DZNVFB8U2rImG1JALTFdy8kCzHxNIiJZDhzOL19?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22f9388e-8c65-4aa9-5325-08d913b48f14
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2021 13:07:26.6574 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: edglBJdFgv2If/uexL9T87R79vE62miCKMQIZ71+qE2CQzm7fmErnXpj9UF6mU080Vp/lKQWucXV1UjA+UG6Y2JL5HAbCtla9LRYYCBCDyg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4470
+Received-SPF: pass client-ip=40.107.0.120;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,463 +144,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Hi!
 
-The default "alabaster" sphinx theme has a couple shortcomings:
-- the navbar moves along the page
-- the search bar is not always at the same place
-- it lacks some contrast and colours
+Kevin, what do think on this now? Do you think "[PATCH v4 0/3] qcow2: fix parallel rewrite and discard (rw-lock)" still worth to update to cover reads and resend? (consider also my replies to "[PATCH v4 0/3] qcow2: fix parallel rewrite and discard (rw-lock)" branch)
 
-The "rtd" theme from readthedocs.org is a popular third party theme used
-notably by the kernel, with a custom style sheet. I like it better,
-perhaps others do too. It also simplifies the "Edit on Gitlab" links.
+22.04.2021 19:30, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+> 
+> It's an alternative lock-less solution to
+>    [PATCH v4 0/3] qcow2: fix parallel rewrite and discard (rw-lock)
+> 
+> In v6 a lot of things are rewritten.
+> 
+> What is changed:
+> 
+> 1. rename the feature to host_range_refcnt, move it to separate file
+> 2. better naming for everything (I hope)
+> 3. cover reads, not only writes
+> 4. do "ref" in qcow2_get_host_offset(), qcow2_alloc_host_offset(),
+>      qcow2_alloc_compressed_cluster_offset().
+>     and callers do "unref" appropriately.
+> 
+> Vladimir Sementsov-Ogievskiy (12):
+>    iotests: add qcow2-discard-during-rewrite
+>    qcow2: fix cache discarding in update_refcount()
+>    block/qcow2-cluster: assert no data_file on compressed write path
+>    block/qcow2-refcount: rename and publish update_refcount_discard()
+>    block/qcow2: introduce qcow2_parse_compressed_cluster_descriptor()
+>    block/qcow2: refactor qcow2_co_preadv_task() to have one return
+>    block/qcow2: qcow2_co_pwrite_zeroes: use QEMU_LOCK_GUARD
+>    qcow2: introduce is_cluster_free() helper
+>    qcow2: introduce host-range-refs
+>    qcow2: introduce qcow2_host_cluster_postponed_discard()
+>    qcow2: protect data writing by host range reference
+>    qcow2: protect data reading by host range reference
+> 
+>   block/qcow2.h                                 |  26 +++
+>   block/qcow2-cluster.c                         |  55 +++++-
+>   block/qcow2-host-range-refs.c                 | 174 ++++++++++++++++++
+>   block/qcow2-refcount.c                        |  61 ++++--
+>   block/qcow2.c                                 | 118 ++++++++----
+>   block/meson.build                             |   1 +
+>   .../tests/qcow2-discard-during-rewrite        |  72 ++++++++
+>   .../tests/qcow2-discard-during-rewrite.out    |  21 +++
+>   8 files changed, 475 insertions(+), 53 deletions(-)
+>   create mode 100644 block/qcow2-host-range-refs.c
+>   create mode 100755 tests/qemu-iotests/tests/qcow2-discard-during-rewrite
+>   create mode 100644 tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
+> 
 
-Tweak a bit the custom theme to match qemu.org style, use the
-QEMU logo, and favicon etc.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20210323115328.4146052-1-marcandre.lureau@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
----
- docs/_templates/editpage.html              |   5 -
- docs/conf.py                               |  51 ++++---
- docs/devel/_templates/editpage.html        |   5 -
- docs/interop/_templates/editpage.html      |   5 -
- docs/meson.build                           |   5 +-
- docs/specs/_templates/editpage.html        |   5 -
- docs/sphinx-static/theme_overrides.css     | 161 +++++++++++++++++++++
- docs/system/_templates/editpage.html       |   5 -
- docs/tools/_templates/editpage.html        |   5 -
- docs/user/_templates/editpage.html         |   5 -
- tests/docker/dockerfiles/alpine.docker     |   1 +
- tests/docker/dockerfiles/debian10.docker   |   1 +
- tests/docker/dockerfiles/fedora.docker     |   1 +
- tests/docker/dockerfiles/ubuntu.docker     |   1 +
- tests/docker/dockerfiles/ubuntu1804.docker |   1 +
- tests/docker/dockerfiles/ubuntu2004.docker |   1 +
- 16 files changed, 199 insertions(+), 59 deletions(-)
- delete mode 100644 docs/_templates/editpage.html
- delete mode 100644 docs/devel/_templates/editpage.html
- delete mode 100644 docs/interop/_templates/editpage.html
- delete mode 100644 docs/specs/_templates/editpage.html
- create mode 100644 docs/sphinx-static/theme_overrides.css
- delete mode 100644 docs/system/_templates/editpage.html
- delete mode 100644 docs/tools/_templates/editpage.html
- delete mode 100644 docs/user/_templates/editpage.html
-
-diff --git a/docs/_templates/editpage.html b/docs/_templates/editpage.html
-deleted file mode 100644
-index 4319b0f5ac..0000000000
---- a/docs/_templates/editpage.html
-+++ /dev/null
-@@ -1,5 +0,0 @@
--<div id="editpage">
--  <ul>
--    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/{{pagename}}.rst">Page source</a></li>
--  </ul>
--</div>
-diff --git a/docs/conf.py b/docs/conf.py
-index 2ee6111872..3802b70d62 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -150,38 +150,47 @@
- # The theme to use for HTML and HTML Help pages.  See the documentation for
- # a list of builtin themes.
- #
--html_theme = 'alabaster'
-+try:
-+    import sphinx_rtd_theme
-+except ImportError:
-+    raise ConfigError(
-+        'The Sphinx \'sphinx_rtd_theme\' HTML theme was not found.\n'
-+    )
-+
-+html_theme = 'sphinx_rtd_theme'
- 
- # Theme options are theme-specific and customize the look and feel of a theme
- # further.  For a list of options available for each theme, see the
- # documentation.
--# We initialize this to empty here, so the per-manual conf.py can just
--# add individual key/value entries.
--html_theme_options = {
--}
-+if html_theme == 'sphinx_rtd_theme':
-+    html_theme_options = {
-+        "style_nav_header_background": "#802400",
-+    }
-+
-+html_logo = os.path.join(qemu_docdir, "../ui/icons/qemu_128x128.png")
-+
-+html_favicon = os.path.join(qemu_docdir, "../ui/icons/qemu_32x32.png")
- 
- # Add any paths that contain custom static files (such as style sheets) here,
- # relative to this directory. They are copied after the builtin static files,
- # so a file named "default.css" will overwrite the builtin "default.css".
--# QEMU doesn't yet have any static files, so comment this out so we don't
--# get a warning about a missing directory.
--# If we do ever add this then it would probably be better to call the
--# subdirectory sphinx_static, as the Linux kernel does.
--# html_static_path = ['_static']
-+html_static_path = [os.path.join(qemu_docdir, "sphinx-static")]
-+
-+html_css_files = [
-+    'theme_overrides.css',
-+]
-+
-+html_context = {
-+    "display_gitlab": True,
-+    "gitlab_user": "qemu-project",
-+    "gitlab_repo": "qemu",
-+    "gitlab_version": "master",
-+    "conf_py_path": "/docs/", # Path in the checkout to the docs root
-+}
- 
- # Custom sidebar templates, must be a dictionary that maps document names
- # to template names.
--#
--# This is required for the alabaster theme
--# refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
--html_sidebars = {
--    '**': [
--        'about.html',
--        'editpage.html',
--        'navigation.html',
--        'searchbox.html',
--    ]
--}
-+#html_sidebars = {}
- 
- # Don't copy the rST source files to the HTML output directory,
- # and don't put links to the sources into the output HTML.
-diff --git a/docs/devel/_templates/editpage.html b/docs/devel/_templates/editpage.html
-deleted file mode 100644
-index a86d22bca8..0000000000
---- a/docs/devel/_templates/editpage.html
-+++ /dev/null
-@@ -1,5 +0,0 @@
--<div id="editpage">
--  <ul>
--    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/devel/{{pagename}}.rst">Page source</a></li>
--  </ul>
--</div>
-diff --git a/docs/interop/_templates/editpage.html b/docs/interop/_templates/editpage.html
-deleted file mode 100644
-index 215e562681..0000000000
---- a/docs/interop/_templates/editpage.html
-+++ /dev/null
-@@ -1,5 +0,0 @@
--<div id="editpage">
--  <ul>
--    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/interop/{{pagename}}.rst">Page source</a></li>
--  </ul>
--</div>
-diff --git a/docs/meson.build b/docs/meson.build
-index f84306ba7e..855e3916e9 100644
---- a/docs/meson.build
-+++ b/docs/meson.build
-@@ -27,10 +27,9 @@ if sphinx_build.found()
-   build_docs = (sphinx_build_test_out.returncode() == 0)
- 
-   if not build_docs
--    warning('@0@ is either too old or uses too old a Python version'
--            .format(sphinx_build.full_path()))
-+    warning('@0@: @1@'.format(sphinx_build.full_path(), sphinx_build_test_out.stderr()))
-     if get_option('docs').enabled()
--      error('Install a Python 3 version of python-sphinx')
-+      error('Install a Python 3 version of python-sphinx and the readthedoc theme')
-     endif
-   endif
- endif
-diff --git a/docs/specs/_templates/editpage.html b/docs/specs/_templates/editpage.html
-deleted file mode 100644
-index aaa468aa98..0000000000
---- a/docs/specs/_templates/editpage.html
-+++ /dev/null
-@@ -1,5 +0,0 @@
--<div id="editpage">
--  <ul>
--    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/specs/{{pagename}}.rst">Page source</a></li>
--  </ul>
--</div>
-diff --git a/docs/sphinx-static/theme_overrides.css b/docs/sphinx-static/theme_overrides.css
-new file mode 100644
-index 0000000000..c70ef95128
---- /dev/null
-+++ b/docs/sphinx-static/theme_overrides.css
-@@ -0,0 +1,161 @@
-+/* -*- coding: utf-8; mode: css -*-
-+ *
-+ * Sphinx HTML theme customization: read the doc
-+ * Based on Linux Documentation/sphinx-static/theme_overrides.css
-+ */
-+
-+/* Improve contrast and increase size for easier reading. */
-+
-+body {
-+    font-family: serif;
-+    color: black;
-+    font-size: 100%;
-+}
-+
-+h1, h2, .rst-content .toctree-wrapper p.caption, h3, h4, h5, h6, legend {
-+    font-family: sans-serif;
-+}
-+
-+.rst-content dl:not(.docutils) dt {
-+    border-top: none;
-+    border-left: solid 3px #ccc;
-+    background-color: #f0f0f0;
-+    color: black;
-+}
-+
-+.wy-nav-top {
-+    background: #802400;
-+}
-+
-+.wy-side-nav-search input[type="text"] {
-+    border-color: #f60;
-+}
-+
-+.wy-menu-vertical p.caption {
-+    color: white;
-+}
-+
-+.wy-menu-vertical li.current a {
-+    color: #505050;
-+}
-+
-+.wy-menu-vertical li.on a, .wy-menu-vertical li.current > a {
-+    color: #303030;
-+}
-+
-+.fa-gitlab {
-+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
-+      border-radius: 5px;
-+}
-+
-+div[class^="highlight"] pre {
-+    font-family: monospace;
-+    color: black;
-+    font-size: 100%;
-+}
-+
-+.wy-menu-vertical {
-+    font-family: sans-serif;
-+}
-+
-+.c {
-+    font-style: normal;
-+}
-+
-+p {
-+    font-size: 100%;
-+}
-+
-+/* Interim: Code-blocks with line nos - lines and line numbers don't line up.
-+ * see: https://github.com/rtfd/sphinx_rtd_theme/issues/419
-+ */
-+
-+div[class^="highlight"] pre {
-+    line-height: normal;
-+}
-+.rst-content .highlight > pre {
-+    line-height: normal;
-+}
-+
-+/* Keep fields from being strangely far apart due to inheirited table CSS. */
-+.rst-content table.field-list th.field-name {
-+    padding-top: 1px;
-+    padding-bottom: 1px;
-+}
-+.rst-content table.field-list td.field-body {
-+    padding-top: 1px;
-+    padding-bottom: 1px;
-+}
-+
-+@media screen {
-+
-+    /* content column
-+     *
-+     * RTD theme's default is 800px as max width for the content, but we have
-+     * tables with tons of columns, which need the full width of the view-port.
-+     */
-+
-+    .wy-nav-content{max-width: none; }
-+
-+    /* table:
-+     *
-+     *   - Sequences of whitespace should collapse into a single whitespace.
-+     *   - make the overflow auto (scrollbar if needed)
-+     *   - align caption "left" ("center" is unsuitable on vast tables)
-+     */
-+
-+    .wy-table-responsive table td { white-space: normal; }
-+    .wy-table-responsive { overflow: auto; }
-+    .rst-content table.docutils caption { text-align: left; font-size: 100%; }
-+
-+    /* captions:
-+     *
-+     *   - captions should have 100% (not 85%) font size
-+     *   - hide the permalink symbol as long as link is not hovered
-+     */
-+
-+    .toc-title {
-+        font-size: 150%;
-+        font-weight: bold;
-+    }
-+
-+    caption, .wy-table caption, .rst-content table.field-list caption {
-+        font-size: 100%;
-+    }
-+    caption a.headerlink { opacity: 0; }
-+    caption a.headerlink:hover { opacity: 1; }
-+
-+    /* Menu selection and keystrokes */
-+
-+    span.menuselection {
-+        color: blue;
-+        font-family: "Courier New", Courier, monospace
-+    }
-+
-+    code.kbd, code.kbd span {
-+        color: white;
-+        background-color: darkblue;
-+        font-weight: bold;
-+        font-family: "Courier New", Courier, monospace
-+    }
-+
-+    /* fix bottom margin of lists items */
-+
-+    .rst-content .section ul li:last-child, .rst-content .section ul li p:last-child {
-+          margin-bottom: 12px;
-+    }
-+
-+    /* inline literal: drop the borderbox, padding and red color */
-+
-+    code, .rst-content tt, .rst-content code {
-+        color: inherit;
-+        border: none;
-+        padding: unset;
-+        background: inherit;
-+        font-size: 85%;
-+    }
-+
-+    .rst-content tt.literal,.rst-content tt.literal,.rst-content code.literal {
-+        color: inherit;
-+    }
-+}
-diff --git a/docs/system/_templates/editpage.html b/docs/system/_templates/editpage.html
-deleted file mode 100644
-index 6586b2e257..0000000000
---- a/docs/system/_templates/editpage.html
-+++ /dev/null
-@@ -1,5 +0,0 @@
--<div id="editpage">
--  <ul>
--    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/system/{{pagename}}.rst">Page source</a></li>
--  </ul>
--</div>
-diff --git a/docs/tools/_templates/editpage.html b/docs/tools/_templates/editpage.html
-deleted file mode 100644
-index 2a9c8fc92b..0000000000
---- a/docs/tools/_templates/editpage.html
-+++ /dev/null
-@@ -1,5 +0,0 @@
--<div id="editpage">
--  <ul>
--    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/tools/{{pagename}}.rst">Page source</a></li>
--  </ul>
--</div>
-diff --git a/docs/user/_templates/editpage.html b/docs/user/_templates/editpage.html
-deleted file mode 100644
-index 1f5ee01e60..0000000000
---- a/docs/user/_templates/editpage.html
-+++ /dev/null
-@@ -1,5 +0,0 @@
--<div id="editpage">
--  <ul>
--    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/user/{{pagename}}.rst">Page source</a></li>
--  </ul>
--</div>
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index d63a269aef..88d3bbe5f2 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -39,6 +39,7 @@ ENV PACKAGES \
- 	pulseaudio-dev \
- 	python3 \
- 	py3-sphinx \
-+	py3-sphinx_rtd_theme \
- 	shadow \
- 	snappy-dev \
- 	spice-dev \
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index d034acbd25..63cf835ec5 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -32,6 +32,7 @@ RUN apt update && \
-         psmisc \
-         python3 \
-         python3-sphinx \
-+        python3-sphinx-rtd-theme \
-         $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
- 
- ENV FEATURES docs
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 915fdc1845..d8fa16372d 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -92,6 +92,7 @@ ENV PACKAGES \
-     python3-pillow \
-     python3-pip \
-     python3-sphinx \
-+    python3-sphinx_rtd_theme \
-     python3-virtualenv \
-     rdma-core-devel \
-     SDL2-devel \
-diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
-index b5ef7a8198..98a527361c 100644
---- a/tests/docker/dockerfiles/ubuntu.docker
-+++ b/tests/docker/dockerfiles/ubuntu.docker
-@@ -63,6 +63,7 @@ ENV PACKAGES \
-     ninja-build \
-     python3-yaml \
-     python3-sphinx \
-+    python3-sphinx-rtd-theme \
-     sparse \
-     xfslibs-dev
- RUN apt-get update && \
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 9b0a19ba5e..c0d3642507 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -48,6 +48,7 @@ ENV PACKAGES \
-     make \
-     python3-yaml \
-     python3-sphinx \
-+    python3-sphinx-rtd-theme \
-     ninja-build \
-     sparse \
-     xfslibs-dev
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 9750016e51..f1e0ebad49 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -58,6 +58,7 @@ ENV PACKAGES flex bison \
-     python3-pil \
-     python3-pip \
-     python3-sphinx \
-+    python3-sphinx-rtd-theme \
-     python3-venv \
-     python3-yaml \
-     rpm2cpio \
 -- 
-2.29.0
-
+Best regards,
+Vladimir
 
