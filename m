@@ -2,88 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AFF0379355
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 18:04:53 +0200 (CEST)
-Received: from localhost ([::1]:59504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5D3379352
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 18:04:04 +0200 (CEST)
+Received: from localhost ([::1]:57860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg8Oq-0005Pm-C4
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 12:04:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56662)
+	id 1lg8O2-0004Kf-U6
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 12:04:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lg8I7-0006kh-TI
- for qemu-devel@nongnu.org; Mon, 10 May 2021 11:57:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46157)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lg8J3-0008EE-Gs
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 11:58:53 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:60690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lg8I0-0000w2-K8
- for qemu-devel@nongnu.org; Mon, 10 May 2021 11:57:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620662266;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RZw1jFC2P7vzQaRG/Q4BNw61NHhwKmc/W8+5LPn5+EI=;
- b=eVxK0ZxRuvXxLOPwOMFqHMlq9pcONg04WtJzQJl3MgriTfzFeDYdCSjOJzl84ElWN9JN07
- 7tC60EbaRbpIa6bPV5wDLo6YJ+B3VA8xv8LgA1cB7MMX5CaYGm5PpkjBibAjZiklHi9TKz
- HUBG4jKF4Rp/5ZmcL7/YOVPG5iV0DMA=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-NNTMZd9zPkSETxudLskBog-1; Mon, 10 May 2021 11:57:42 -0400
-X-MC-Unique: NNTMZd9zPkSETxudLskBog-1
-Received: by mail-ej1-f70.google.com with SMTP id
- gt39-20020a1709072da7b02903a8f7736a08so3833659ejc.1
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 08:57:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=RZw1jFC2P7vzQaRG/Q4BNw61NHhwKmc/W8+5LPn5+EI=;
- b=WrUU5x00u1+kg333UxIQRRHAzbiPa9XdddM1elWNbpF6e52/P7PBBQUVTi/+FnXRhu
- WJ9tBZRLJ9UOUtpoIVhASoo/gmLisdo9n9xXPQ6E6wAxqixyFCeGYnAqAaA+C9ikZTpQ
- EkbWJOngo72h7Zm9gPQstk80IY2308/aBDSzzzc9LbnvJDFmfDCT7f5HNptx95L26xd8
- nxIm4FvNPCOweddTznnHbyYdqjx/zB//2nGPMnOSu+PJ5Dr/uqX9HEjTT8trCaGHz1K+
- qc5S3r7lFcryriYPXM03/TVfR3tKQW5ruvEyn0hJG6xQp07rg+35+D4mThBmO9bOQ6vP
- Dzeg==
-X-Gm-Message-State: AOAM5322fei1SilM14u9AhigFYvKgE0inX2dVj/GDVIPq1CKWcQAI1k1
- KYX2qgzq7SYbqWNpBblulfGKgtKBaQS28SjRfg5GW5FBvrbnUtkvK9PUcCOfky365apzHR54vDn
- kBTzONl90YdqmGC8=
-X-Received: by 2002:a17:906:3d7:: with SMTP id
- c23mr27088494eja.188.1620662261202; 
- Mon, 10 May 2021 08:57:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzzrc7tLHdQQDt8tobng7lXZ5HE7+JdDl6QummKpL3mLXVzffvc8iaqWQijpyJXx7VKiJJQWg==
-X-Received: by 2002:a17:906:3d7:: with SMTP id
- c23mr27088479eja.188.1620662261021; 
- Mon, 10 May 2021 08:57:41 -0700 (PDT)
-Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
- [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id x7sm9406487ejc.116.2021.05.10.08.57.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 08:57:40 -0700 (PDT)
-Date: Mon, 10 May 2021 17:57:38 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] cutils: fix memory leak in get_relocated_path()
-Message-ID: <20210510155738.a4jk42yb2vqubblj@steredhat>
-References: <20210412170255.231406-1-sgarzare@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lg8J2-00013C-2U
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 11:58:53 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-222-xF9t8Ye-MUm4kxt_D1nlfA-1; Mon, 10 May 2021 11:58:49 -0400
+X-MC-Unique: xF9t8Ye-MUm4kxt_D1nlfA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F33D5107ACE8;
+ Mon, 10 May 2021 15:58:48 +0000 (UTC)
+Received: from bahia.lan (ovpn-112-152.ams2.redhat.com [10.36.112.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F244360BD8;
+ Mon, 10 May 2021 15:58:36 +0000 (UTC)
+Date: Mon, 10 May 2021 17:58:35 +0200
+From: Greg Kurz <groug@kaod.org>
+To: <qemu-devel@nongnu.org>
+Subject: Re: [for-6.1 v3 0/3] virtiofsd: Add support for FUSE_SYNCFS request
+Message-ID: <20210510175835.3ee2d4cf@bahia.lan>
+In-Reply-To: <20210510155539.998747-1-groug@kaod.org>
+References: <20210510155539.998747-1-groug@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20210412170255.231406-1-sgarzare@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,58 +62,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: kvm@vger.kernel.org, "Michael S.
+ Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
+ Miklos Szeredi <miklos@szeredi.hu>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping :-)
+Of course, I forgot to drop the for-6.1 prefix in git publish...
 
-Should I resend for 6.1?
+On Mon, 10 May 2021 17:55:36 +0200
+Greg Kurz <groug@kaod.org> wrote:
 
-Thanks
-Stefano
-
-On Mon, Apr 12, 2021 at 07:02:55PM +0200, Stefano Garzarella wrote:
->get_relocated_path() allocates a GString object and returns the
->character data (C string) to the caller without freeing the memory
->allocated for that object as reported by valgrind:
->
->  24 bytes in 1 blocks are definitely lost in loss record 2,805 of 6,532
->     at 0x4839809: malloc (vg_replace_malloc.c:307)
->     by 0x55AABB8: g_malloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
->     by 0x55C2481: g_slice_alloc (in /usr/lib64/libglib-2.0.so.0.6600.8)
->     by 0x55C4827: g_string_sized_new (in /usr/lib64/libglib-2.0.so.0.6600.8)
->     by 0x55C4CEA: g_string_new (in /usr/lib64/libglib-2.0.so.0.6600.8)
->     by 0x906314: get_relocated_path (cutils.c:1036)
->     by 0x6E1F77: qemu_read_default_config_file (vl.c:2122)
->     by 0x6E1F77: qemu_init (vl.c:2687)
->     by 0x3E3AF8: main (main.c:49)
->
->Let's use g_string_free(gstring, false) to free only the GString object
->and transfer the ownership of the character data to the caller.
->
->Fixes: f4f5ed2cbd ("cutils: introduce get_relocated_path")
->Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
->---
-> util/cutils.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/util/cutils.c b/util/cutils.c
->index ee908486da..c9b91e7535 100644
->--- a/util/cutils.c
->+++ b/util/cutils.c
->@@ -1055,5 +1055,5 @@ char *get_relocated_path(const char *dir)
->         assert(G_IS_DIR_SEPARATOR(dir[-1]));
->         g_string_append(result, dir - 1);
->     }
->-    return result->str;
->+    return g_string_free(result, false);
-> }
->-- 
->2.30.2
->
->
+> FUSE_SYNCFS allows the client to flush the host page cache.
+> This isn't available in upstream linux yet, but the following
+> tree can be used to test:
+>=20
+> https://gitlab.com/gkurz/linux/-/tree/virtio-fs-sync
+>=20
+> v3: - track submounts and do per-submount syncfs() (Vivek)
+>     - based on new version of FUSE_SYNCFS (still not upstream)
+>       https://listman.redhat.com/archives/virtio-fs/2021-May/msg00025.htm=
+l
+>=20
+> v2: - based on new version of FUSE_SYNCFS
+>       https://listman.redhat.com/archives/virtio-fs/2021-April/msg00166.h=
+tml
+>     - propagate syncfs() errors to client (Vivek)
+>=20
+> Greg Kurz (3):
+>   Update linux headers to 5.13-rc1 + FUSE_SYNCFS
+>   virtiofsd: Track mounts
+>   virtiofsd: Add support for FUSE_SYNCFS request
+>=20
+>  .../infiniband/hw/vmw_pvrdma/pvrdma_verbs.h   |  35 -
+>  include/standard-headers/drm/drm_fourcc.h     |  23 +-
+>  include/standard-headers/linux/ethtool.h      | 109 ++-
+>  include/standard-headers/linux/fuse.h         |  27 +-
+>  include/standard-headers/linux/input.h        |   2 +-
+>  include/standard-headers/linux/virtio_ids.h   |   2 +
+>  .../standard-headers/rdma/vmw_pvrdma-abi.h    |   7 +
+>  linux-headers/asm-generic/unistd.h            |  13 +-
+>  linux-headers/asm-mips/unistd_n32.h           | 752 +++++++--------
+>  linux-headers/asm-mips/unistd_n64.h           | 704 +++++++-------
+>  linux-headers/asm-mips/unistd_o32.h           | 844 ++++++++---------
+>  linux-headers/asm-powerpc/kvm.h               |   2 +
+>  linux-headers/asm-powerpc/unistd_32.h         | 857 +++++++++---------
+>  linux-headers/asm-powerpc/unistd_64.h         | 801 ++++++++--------
+>  linux-headers/asm-s390/unistd_32.h            |   5 +
+>  linux-headers/asm-s390/unistd_64.h            |   5 +
+>  linux-headers/asm-x86/kvm.h                   |   1 +
+>  linux-headers/asm-x86/unistd_32.h             |   5 +
+>  linux-headers/asm-x86/unistd_64.h             |   5 +
+>  linux-headers/asm-x86/unistd_x32.h            |   5 +
+>  linux-headers/linux/kvm.h                     | 134 +++
+>  linux-headers/linux/userfaultfd.h             |  36 +-
+>  linux-headers/linux/vfio.h                    |  35 +
+>  tools/virtiofsd/fuse_lowlevel.c               |  11 +
+>  tools/virtiofsd/fuse_lowlevel.h               |  12 +
+>  tools/virtiofsd/passthrough_ll.c              |  80 +-
+>  tools/virtiofsd/passthrough_seccomp.c         |   1 +
+>  27 files changed, 2465 insertions(+), 2048 deletions(-)
+>=20
 
 
