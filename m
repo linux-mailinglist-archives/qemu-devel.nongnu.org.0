@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6713D377B58
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 06:57:03 +0200 (CEST)
-Received: from localhost ([::1]:58720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741FB377B83
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 07:27:28 +0200 (CEST)
+Received: from localhost ([::1]:45496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfxyY-0004u0-Gk
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 00:57:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44380)
+	id 1lfyRz-0007fK-0s
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 01:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfxxJ-0003bt-Ci
- for qemu-devel@nongnu.org; Mon, 10 May 2021 00:55:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52462)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lfyRA-0006uo-Jg; Mon, 10 May 2021 01:26:36 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:43774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lfxxH-00066C-KW
- for qemu-devel@nongnu.org; Mon, 10 May 2021 00:55:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lfxxF-0001bb-ET
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:55:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5A6DD2E8187
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 04:55:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lfyR8-0001Pl-Q2; Mon, 10 May 2021 01:26:36 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id e190so20027734ybb.10;
+ Sun, 09 May 2021 22:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7ZqvoEnTOqt0swW0DlaOQeRnStnBoCwK/jwamwKc1o8=;
+ b=QayvpaCeJX9ZMqz47lTWD2CYaD6VddnUwCVCeHAi565Tqy2e3JPaF8vKbewL6L9mGt
+ dZ7VdVi5IEXR9yf+Tq6OA0/5DH2sYmWoyxPKMtrAdGwJO0mVenO6sxMc/cbRhjsl5ahw
+ tawyYNGQ0Xqez7j5TeNp3A7TLRY8hsRUwb06ZFXtZx1+/FqnQ5yMAxTa3UDOfiSgHuLk
+ qMMSwk8H/3TPJtmZ1n9uaMQIuMge6XSIpM6kwmSNPT1KNVkVUBD9YhJmL40Cd5Vzcssi
+ zDmhBr7zbdWEgh2Ai/G/9p3wUNarlA6cKpCPc+FhT3B/1eQf2OTk6r5DiLz9SsF7Ww0X
+ 0KNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7ZqvoEnTOqt0swW0DlaOQeRnStnBoCwK/jwamwKc1o8=;
+ b=aqB8EHZLnkhwKBg+N3VoEJhr0h2q4xr5JCOB0OUu+WzpMmMacT7qrCaVEJUno6nQDD
+ k1HZCWt02Z636LXkftiTaeIieFDOtfIPF/db1kj/zh7M5Y1AYQVKbfI4P9OY3wni5PCc
+ 83Qpwwrjny5BLvprmrt54nSPybaMpNnAvQhSXCwVp8OTjlTybmEaE/p73S392bXy2FwE
+ 54ssbG7YFlL9GVzJs2K1vn/PPK3YwCJJsAZRzztGJt1GE00Elldj4Mtdk4Bd9xQLaLrE
+ NNLZPGMFgwOArmfqzS9yp/Pq5Tse72+2R7DiBPolFhbe8m9uvYamfQQIiKdDxNy1f8nY
+ C16A==
+X-Gm-Message-State: AOAM530/W0obaDVKafQPMY06XenSBGn9i9hirke64ThlpSdrvN55fsjU
+ 7uZc/f/UgBD6j05padVvhGdI6EB3zvGmXaBs8to=
+X-Google-Smtp-Source: ABdhPJwLfG1wdcaFEBV5+DCw2L17WTecvRfbGOVS7Nn/ICvnbvZoEAbtxqTondyRxqqe9fnDLXZq9bnocggFcD/PIFg=
+X-Received: by 2002:a25:5146:: with SMTP id f67mr29754092ybb.332.1620624393118; 
+ Sun, 09 May 2021 22:26:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 May 2021 04:47:30 -0000
-From: Thomas Huth <1906536@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee alecop philmd pmaydell th-huth
-X-Launchpad-Bug-Reporter: Alex Coplan (alecop)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160692480491.27592.13493676422712150173.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162062205033.2278.6799448046398109667.malone@wampee.canonical.com>
-Subject: [Bug 1906536] Re: Unable to set SVE VL to 1024 bits or above since
- 7b6a2198
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: fa2159a52513b7bcf1c75263bc17661965b41ae7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210507081654.11056-1-wangjunqiang@iscas.ac.cn>
+ <20210507081654.11056-3-wangjunqiang@iscas.ac.cn>
+ <CAKmqyKPVYuESf0TQM8M-KE-72PftMeNCfmQLdEj4Siy9TZxuBA@mail.gmail.com>
+ <CAEUhbmVL6wRtxk4M+SCSbrQbY02vtzoYuuesAYuBP-tJvBz9VA@mail.gmail.com>
+In-Reply-To: <CAEUhbmVL6wRtxk4M+SCSbrQbY02vtzoYuuesAYuBP-tJvBz9VA@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 10 May 2021 13:26:21 +0800
+Message-ID: <CAEUhbmU-XGYF7iVqmYFnzWF9m=rnrqHzLnStq2pLoLkTKj=cXA@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/5] hw/intc: Add Nuclei ECLIC device
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,91 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906536 <1906536@bugs.launchpad.net>
+Cc: liweiwei@iscas.ac.cn, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, alapha23@gmail.com,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
+On Mon, May 10, 2021 at 10:27 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Mon, May 10, 2021 at 10:21 AM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Fri, May 7, 2021 at 11:24 PM wangjunqiang <wangjunqiang@iscas.ac.cn> wrote:
+> > >
+> > > This patch provides an implementation of Nuclei ECLIC Device.
+> > > Nuclei processor core have been equipped with an Enhanced Core Local
+> > > Interrupt Controller (ECLIC), which is optimized based on the RISC-V
+> > > standard CLIC, to manage all interrupt sources.
+> > >
+> > > https://doc.nucleisys.com/nuclei_spec/isa/eclic.html
+> >
+> > Hello,
+> >
+> > There are patches on the QEMU list adding support for the CLIC. How
+> > different is the ECLIC from the CLIC? Could you use the CLIC as a
+> > starting point instead of implementing a new interrupt controller?
+> >
+>
+> That's my thought too when I saw this patch at first.
+>
+> A better way is to scandalize the CLIC support in QEMU first, then we
 
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
+Sorry for the typo. I meant to say: standardize the CLIC support
 
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
+> will see how Nuclei's eCLIC could be built on top of that. Thanks!
 
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
-
-    https://gitlab.com/qemu-project/qemu/-/issues
-
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
-
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" or "Confirmed" within the next 60 days (other-
-wise it will get closed as "Expired"). We will then eventually migrate
-the ticket automatically to the new system (but you won't be the reporter
-of the bug in the new system and thus you won't get notified on changes
-anymore).
-
-Thank you and sorry for the inconvenience.
-
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906536
-
-Title:
-  Unable to set SVE VL to 1024 bits or above since 7b6a2198
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Prior to 7b6a2198e71794c851f39ac7a92d39692c786820, the QEMU option
-  sve-max-vq could be used to set the vector length of the
-  implementation. This is useful (among other reasons) for testing
-  software compiled with a fixed SVE vector length. Since this commit,
-  the vector length is capped at 512 bits.
-
-  To reproduce the issue:
-
-  $ cat rdvl.s
-  .global _start
-  _start:
-    rdvl x0, #1
-    asr x0, x0, #4
-    mov x8, #93 // exit
-    svc #0
-  $ aarch64-linux-gnu-as -march=3Darmv8.2-a+sve rdvl.s -o rdvl.o
-  $ aarch64-linux-gnu-ld rdvl.o
-  $ for vl in 1 2 4 8 16; do ../build-qemu/aarch64-linux-user/qemu-aarch64 =
--cpu max,sve-max-vq=3D$vl a.out; echo $?; done
-  1
-  2
-  4
-  4
-  4
-
-  For a QEMU built prior to the above revision, we get the output:
-  1
-  2
-  4
-  8
-  16
-
-  as expected. It seems that either the old behavior should be restored,
-  or there should be an option to force a higher vector length?
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906536/+subscriptions
+Regards,
+Bin
 
