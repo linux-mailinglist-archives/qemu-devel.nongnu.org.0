@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE43379104
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 16:39:26 +0200 (CEST)
-Received: from localhost ([::1]:51036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A91D03791A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 16:55:36 +0200 (CEST)
+Received: from localhost ([::1]:36998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg749-0005Tw-68
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 10:39:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39448)
+	id 1lg7Jn-0007DY-Al
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 10:55:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
- id 1lg73C-0004Jz-O6
- for qemu-devel@nongnu.org; Mon, 10 May 2021 10:38:26 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:46743)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lg7IF-0006NF-A2
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 10:53:59 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:37592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
- id 1lg735-0008Pw-Kw
- for qemu-devel@nongnu.org; Mon, 10 May 2021 10:38:23 -0400
-Received: by mail-qt1-x833.google.com with SMTP id p6so12036728qtk.13
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 07:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=I1Joo4rParNjPzCRgaXVEjG+974jeh84Imc9fO6ZUqY=;
- b=DFqwvtytg66O9yOA22LitFJb2lxeHRUWK0sconMhixxJjHAza/mdDjVIoEwzeigjK/
- qfpQgazkMttM7QVyoqeSEI2sA87K3+KqIE7n+6pqSdCe+N7xJBj5KQrR2pRQHLOiaF4T
- tM+XYuxcO2kC1h65i8gPNVd4iMsvpHz6L+vTU3QQ14mHhNl6sQ+PcoMTCyCZy7ydodAn
- 7o0XS33q6PLaVMs0U36rvZb7rHIbA6nDQVbYVHAknfo8Q5xDwe3/vbJKXdGPmIZWu7AV
- mUwupJ0/48xY70DCDxEQdWEwrKoRLHtaqFmwUzRt3wBDB/LC5UwyQskoPWsuLJFGag1a
- HQCw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lg7ID-0001b4-Fi
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 10:53:58 -0400
+Received: by mail-ej1-x635.google.com with SMTP id w3so24984622ejc.4
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 07:53:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=F34SCvJZUHHFBh/puHAqfxoydrVnsiZs7V5CBZki8V8=;
+ b=P7rUb7sXIpzpjvyjvgBUPnp8DPvrRXGmSsUz1lVyEARQ9B76v6FM8Ey465uvUP5vIE
+ X3rM/zaG8fC5yw3XKEAc5STzUWLl6KoddlT1Y6FGnZ8FPDqS6Jheu3OKBPWb1zfxAcL0
+ LFG2ZE0ibeD/mAt+s4zQtqL2quTGMesCTc8V6fr69RZsnDIgtXiJB8qlmX6/Dltd5gPg
+ Llxj0LV0rwWYnMLwChAvJSxwXaVieJg6dYreTVEiu4f7nT/pjg0ckD2ZmtPl8JgcCL77
+ t/poa1X8aQP+0dEtWwHBL8qEFjNfTiVA08IiSaoB0+URF+/eghvsq/8PFAPIzuEoJ4js
+ gOqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=I1Joo4rParNjPzCRgaXVEjG+974jeh84Imc9fO6ZUqY=;
- b=sdUE8y6ZR5KrRrBhOqJmsSCJ/sPUk+nKXvNtEeLxy1CIG+VYlLDLpoAu6/2NaWL/zx
- rmGLVHhMMswZnsTM2zcOebuaHU66e4w3IRrm9SqvNBrQahMsONfTP965laivmC8Z5n1p
- c7I8wZQXBAF21UixkCfxOZtURpOhPzm02hbP6zoxkGvJj5RmAOoWBZgfN8wSDG/JfbiI
- RYjW0dH3ckqdGLOcSXYFkh8yQel9mZcyqUtxTnhZpRCDsnVQtAh6wY45wJv6ghKUaQQr
- GOYgIDmI0/hH9ZB/pHSCTwqAJE8h/ztK5M4TF2uBUlJdmhUjgpYfvAJSnXAq4U9h86JR
- Fbsw==
-X-Gm-Message-State: AOAM532JdvCDYYCpaxqL43zG1lMmmc7qOp1oIUONrKtaX3uihuBtuNsk
- dgX5M1RgvOwZ8iVCUU7EkJ4kAewa+wEN1XBQH3c2kA==
-X-Google-Smtp-Source: ABdhPJwSiRfJkKSf/MpneXm4t+O/AB/9LElJExtcnwM9Mrfd4gyRsmzwSquAjsatRQsFcswf8HV/oefENVB79YMiBxw=
-X-Received: by 2002:a05:622a:1044:: with SMTP id
- f4mr7333952qte.181.1620657496532; 
- Mon, 10 May 2021 07:38:16 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=F34SCvJZUHHFBh/puHAqfxoydrVnsiZs7V5CBZki8V8=;
+ b=HgOX16yDl9zY4vWgrvQwRMFfUVKlX2sC44RVBA+adTlRUJWPJDPW6M6gTvSg1EaLgg
+ oVrWrmeJwTwe9AqseAUYtH/Q2530I1beLsj16qiY1xOIV9Vc3ZINuv9kXB1CnqzXzTIX
+ U/gnPIy6Wa4lEFEqyvJ3cp1txEFShqoPruQQRvNU2m2P138wOaRd/7o8EzsnTKc97Lb6
+ L7fGCIfwUXmQEtwPxP0SZCa+94HAup7X8Cy5b3CbEqHpp+Shvj0sIvcyaaJ/Kwky+9pP
+ HCibN2g7d+WNg1KaZUiMBX7mkeKj57rNF2b3OFtOxxRTjqzXwom0D06I/5yyVW6OI6bf
+ rT+Q==
+X-Gm-Message-State: AOAM533KpTe9W1fjutYGE7XQYMxsxdEm8tCgXdq5qBf5pmS8fVdg6VFY
+ i437+B9Yh10O8jpqZWk51Ig=
+X-Google-Smtp-Source: ABdhPJx3U7zYA73aWlgpyDmpY2Rp+jZMEUnfkGV7o0cPWpG6DmkMCVkuR+jaNb7JMt9GfmkTSYaVcA==
+X-Received: by 2002:a17:906:dc4c:: with SMTP id
+ yz12mr26557400ejb.284.1620658435417; 
+ Mon, 10 May 2021 07:53:55 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id g11sm9250451eje.7.2021.05.10.07.53.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 May 2021 07:53:54 -0700 (PDT)
+Subject: Re: [PATCH] gitlab-ci: Restrict jobs using Docker to runners having
+ 'docker' tag
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210319004300.3800583-1-f4bug@amsat.org>
+ <9cdb9c79-2466-93fa-a01a-f38532f2bd6f@redhat.com>
+ <a4147360-9cb4-1e8a-570d-e41dbe6ddf5c@amsat.org>
+Message-ID: <6ece59c7-6e1c-245d-6b65-93dd374b6810@amsat.org>
+Date: Mon, 10 May 2021 16:53:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
-In-Reply-To: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
-From: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-Date: Mon, 10 May 2021 22:38:05 +0800
-Message-ID: <CAFQAk7gH7DUi0-wDANQQBHTPgdtQxv34k+6tr9vzftPLqJt6KQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/9] Support for Virtio-fs daemon crash reconnection
-To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Xie Yongji <xieyongji@bytedance.com>
-Content-Type: multipart/alternative; boundary="0000000000006264f905c1faba43"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=zhangjiachen.jaycee@bytedance.com; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <a4147360-9cb4-1e8a-570d-e41dbe6ddf5c@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,407 +92,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006264f905c1faba43
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 4/14/21 12:10 PM, Philippe Mathieu-Daudé wrote:
+> On 3/19/21 6:40 AM, Thomas Huth wrote:
+>> On 19/03/2021 01.43, Philippe Mathieu-Daudé wrote:
+>>> When a job is based on a Docker image [1], or is using a Docker
+>>> service, it requires a runner with Docker installed.
+>>>
+>>> Gitlab shared runners provide the 'docker' tag when they have it
+>>> installed.
+>>>
+>>> Are Gitlab shared runners are limited resources, we'd like to
+>>
+>> s/Are/As/
+>>
+>>> add more runners to QEMU repositories hosted on Gitlab. If a
+>>> runner doesn't provide Docker, our jobs requiring it will fail.
+>>>
+>>> Use the standard 'docker' tag to mark the jobs requiring Docker
+>>> on the runner.
+>>>
+>>> [1] https://docs.gitlab.com/ee/ci/yaml/#image
+>>> [2] https://docs.gitlab.com/ee/ci/yaml/#services
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> [...]
+>>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>>> index f65cb11c4d3..d4511cf7dea 100644
+>>> --- a/.gitlab-ci.yml
+>>> +++ b/.gitlab-ci.yml
+>>> @@ -14,6 +14,8 @@ include:
+>>>     - local: '/.gitlab-ci.d/crossbuilds.yml'
+>>>     .native_build_job_template: &native_build_job_definition
+>>> +  tags:
+>>> +  - docker
+>>>     stage: build
+>>>     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+>>>     before_script:
+>>> @@ -38,6 +40,8 @@ include:
+>>>         fi
+>>>     .native_test_job_template: &native_test_job_definition
+>>> +  tags:
+>>> +  - docker
+>>>     stage: test
+>>>     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+>>>     script:
+>>
+>> If you add it to the templates ... won't this disable most of the jobs
+>> on the dedicated runners that don't have docker? Wouldn't it be better
+>> to add the tag only to the jobs that run "make check-tcg" ?
+> 
+> But this is the point, if a runner doesn't have Docker, it can not
+> run the job...
 
-Hi all,
+Apparently gitlab isn't clever enough to figure the 'image:' tag implies
+we are expecting Docker... I suppose they wanted to keep it simple and
+filter with runner tags.
 
+Now the public runners are named 'gitlab-org-docker', see:
 
-We are going to develop the v2 patch for virtio-fs crash reconnection. As
-suggested by Marc-Andr=C3=A9 and Stefan, except for the inflight I/O tracki=
-ng
-log area, all the other internal statuses of virtiofsd will be saved to
-some places other than QEMU. Specifically, the three lo_maps (ino_map,
-dirp_map, and fd_map) could be saved to several mmapped files, and the
-opened fds could be saved to systemd. I'd like to get some feedback on our
-further thoughts before we work on the revision.
+https://gitlab.com/gitlab-org/gitlab-ui/-/merge_requests/1267/diffs
+https://gitlab.com/gitlab-org/gitlab-docs/-/merge_requests/800/diffs
+https://gitlab.com/gitlab-org/gitlab-docs/blob/master/.gitlab-ci.yml#L483
+https://gitlab.com/gitlab-com/gl-infra/infrastructure/-/issues/9685
 
+Long term it would be simpler if we use gitlab recommended templates,
+so we don't have to update ours when they change.
 
-1. What about by default save the opened fds as file handles to host
-kernel, instead of saving them to systemd. After some internal discussion,
-we think introducing systemd may introduce more uncertainness to the
-system, as we need to create one service for each daemon, and all the
-daemons may suffer the single-point failure of the systemd process.
+Meanwhile I'll simpy respin using 'gitlab-org-docker'.
 
+Regards,
 
-2. Like the btree map implementation (multikey.rs) of virtiofsd-rs, what
-about splitting the flatten lo_map implementation, which supports to be
-persisted to files, from passhtrough_ll.c to a new separated source file.
-This way, maybe we can more easily wrap it with some Rust compatible
-interfaces, and enable crash recovery for virtiofsd-rs based on it.
-
-
-3. What about dropping the dirp_map, and integrate the opened directory fds
-to fd_map. The virtiofsd-rs implementation only has two maps (inodes and
-handles). In the C version, dirp_map may also unnecessary.
-
-
-All the best,
-
-Jiachen
-
-On Wed, Dec 16, 2020 at 12:21 AM Jiachen Zhang <
-zhangjiachen.jaycee@bytedance.com> wrote:
-
-> Hi, all
->
-> We implement virtio-fs crash reconnection in this patchset. The crash
-> reconnection of virtiofsd here is completely transparent to guest, no
-> remount in guest is needed, even the inflight requests can be handled
-> normally after reconnection. We are looking forward to any comments.
->
-> Thanks,
-> Jiachen
->
->
-> OVERVIEW:
->
-> To support virtio-fs crash reconnection, we need to support the recovery
-> of 1) inflight FUSE request, and 2) virtiofsd internal status information=
-.
->
-> Fortunately, QEMU's vhost-user reconnection framework already supports
-> inflight I/O tracking by using VHOST_USER_GET_INFLIGHT_FD and
-> VHOST_USER_SET_INFLIGHT_FD (see 5ad204bf2 and 5f9ff1eff for details).
-> As the FUSE requests are transferred by virtqueue I/O requests, by using
-> the vhost-user inflight I/O tracking, we can recover the inflight FUSE
-> requests.
->
-> To support virtiofsd internal status recovery, we introduce 4 new
-> vhost-user message types. As shown in the following diagram, two of them
-> are used to persist shared lo_maps and opened fds to QEMU, the other two
-> message types are used to restore the status when reconnecting.
->
->                                VHOST_USER_SLAVE_SHM
->                                VHOST_USER_SLAVE_FD
->     +--------------+       Persist       +--------------------+
->     |              <---------------------+                    |
->     |     QEMU     |                     |  Virtio-fs Daemon  |
->     |              +--------------------->                    |
->     +--------------+       Restore       +--------------------+
->             VHOST_USER_SET_SHM
->             VHOST_USER_SET_FD
->
-> Although the 4 newly added message types are to support virtiofsd
-> reconnection in this patchset, it might be potential in other situation.
-> So we keep in mind to make them more general when add them to vhost
-> related source files. VHOST_USER_SLAVE_SHM and VHOST_USER_SET_SHM can be
-> used for memory sharing between a vhost-user daemon and QEMU,
-> VHOST_USER_SLAVE_FD and VHOST_USER_SET_FD would be useful if we want to
-> shared opened fds between QEMU process and vhost-user daemon process.
->
->
-> USAGE and NOTES:
->
-> - The commits are rebased to a recent QEMU master commit b4d939133dca0fa2=
-b.
->
-> - ",reconnect=3D1" should be added to the "-chardev socket" of
-> vhost-user-fs-pci
-> in the QEMU command line, for example:
->
->     qemu-system-x86_64 ... \
->     -chardev socket,id=3Dchar0,path=3D/tmp/vhostqemu,reconnect=3D1 \
->     -device vhost-user-fs-pci,queue-size=3D1024,chardev=3Dchar0,tag=3Dmyf=
-s \
->     ...
->
-> - We add new options for virtiofsd to enable or disable crash reconnectio=
-n.
-> And some options are not supported by crash reconnection. So add followin=
-g
-> options to virtiofsd to enable reconnection:
->
->     virtiofsd ... -o reconnect -o no_mount_ns -o no_flock -o no_posix_loc=
-k
->     -o no_xattr ...
->
-> - The reasons why virtiofsd-side locking, extended attributes, and mount
-> namespace are not supported is explained in the commit message of the 6th
-> patch (virtiofsd: Add two new options for crash reconnection).
->
-> - The 9th patch is a work-around that will not affect the overall
-> correctness.
-> We remove the qsort related codes because we found that when resubmit_num
-> is
-> larger than 64, seccomp will kill the virtiofsd process.
->
-> - Support for dax version virtiofsd is very possible and requires almost =
-no
-> additional change to this patchset.
->
->
-> Jiachen Zhang (9):
->   vhost-user-fs: Add support for reconnection of vhost-user-fs backend
->   vhost: Add vhost-user message types for sending shared memory and file
->     fds
->   vhost-user-fs: Support virtiofsd crash reconnection
->   libvhost-user: Add vhost-user message types for sending shared memory
->     and file fds
->   virtiofsd: Convert the struct lo_map array to a more flatten layout
->   virtiofsd: Add two new options for crash reconnection
->   virtiofsd: Persist/restore lo_map and opened fds to/from QEMU
->   virtiofsd: Ensure crash consistency after reconnection
->   virtiofsd: (work around) Comment qsort in inflight I/O tracking
->
->  contrib/libvhost-user/libvhost-user.c | 106 +++-
->  contrib/libvhost-user/libvhost-user.h |  70 +++
->  docs/interop/vhost-user.rst           |  41 ++
->  hw/virtio/vhost-user-fs.c             | 334 ++++++++++-
->  hw/virtio/vhost-user.c                | 123 ++++
->  hw/virtio/vhost.c                     |  42 ++
->  include/hw/virtio/vhost-backend.h     |   6 +
->  include/hw/virtio/vhost-user-fs.h     |  16 +-
->  include/hw/virtio/vhost.h             |  42 ++
->  tools/virtiofsd/fuse_lowlevel.c       |  24 +-
->  tools/virtiofsd/fuse_virtio.c         |  44 ++
->  tools/virtiofsd/fuse_virtio.h         |   1 +
->  tools/virtiofsd/helper.c              |   9 +
->  tools/virtiofsd/passthrough_helpers.h |   2 +-
->  tools/virtiofsd/passthrough_ll.c      | 830 ++++++++++++++++++--------
->  tools/virtiofsd/passthrough_seccomp.c |   1 +
->  16 files changed, 1413 insertions(+), 278 deletions(-)
->
-> --
-> 2.20.1
->
->
-
---0000000000006264f905c1faba43
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">
-
-
-
-
-
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;">Hi all,</p>
-<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;;min-height:15px"><br></p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;">We are going to=C2=A0develop t=
-he v2 patch for virtio-fs crash reconnection. As suggested by Marc-Andr=C3=
-=A9 and Stefan, except for the inflight I/O tracking log area, all the othe=
-r internal statuses of virtiofsd will be saved to some places other than QE=
-MU. Specifically, the three lo_maps (ino_map, dirp_map, and fd_map) could b=
-e saved to several mmapped files, and the opened fds could be saved to syst=
-emd. I&#39;d like to get some feedback on our further thoughts before we wo=
-rk on the revision.</p>
-<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;;min-height:15px"><br></p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;">1. What about by default save =
-the opened fds as file handles to host kernel, instead of saving them to sy=
-stemd. After some internal discussion, we think introducing systemd may int=
-roduce more uncertainness to the system, as we need to create one service f=
-or each daemon, and all the daemons may suffer the single-point failure of =
-the systemd process.</p>
-<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;;min-height:15px"><br></p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;">2. Like the btree map implemen=
-tation (<a href=3D"http://multikey.rs">multikey.rs</a>) of virtiofsd-rs, wh=
-at about splitting the flatten lo_map implementation, which supports to be =
-persisted to files, from passhtrough_ll.c to a new separated=C2=A0source fi=
-le. This way, maybe we can more=C2=A0easily wrap it=C2=A0with some Rust com=
-patible interfaces, and enable crash recovery for virtiofsd-rs=C2=A0based o=
-n it.</p>
-<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;;min-height:15px"><br></p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;">3. What about dropping the dir=
-p_map, and integrate the opened directory fds to fd_map. The virtiofsd-rs=
-=C2=A0implementation only has two maps (inodes and handles). In the C versi=
-on, dirp_map may also unnecessary.</p>
-<p class=3D"gmail-p2" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;;min-height:15px"><br></p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;">All the best,</p>
-<p class=3D"gmail-p1" style=3D"margin:0px;font-variant-numeric:normal;font-=
-variant-east-asian:normal;font-stretch:normal;font-size:13px;line-height:no=
-rmal;font-family:&quot;Helvetica Neue&quot;">Jiachen</p></div><br><div clas=
-s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 16, 202=
-0 at 12:21 AM Jiachen Zhang &lt;<a href=3D"mailto:zhangjiachen.jaycee@byted=
-ance.com">zhangjiachen.jaycee@bytedance.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">Hi, all<br>
-<br>
-We implement virtio-fs crash reconnection in this patchset. The crash<br>
-reconnection of virtiofsd here is completely transparent to guest, no<br>
-remount in guest is needed, even the inflight requests can be handled<br>
-normally after reconnection. We are looking forward to any comments. <br>
-<br>
-Thanks,<br>
-Jiachen<br>
-<br>
-<br>
-OVERVIEW:<br>
-<br>
-To support virtio-fs crash reconnection, we need to support the recovery<br=
->
-of 1) inflight FUSE request, and 2) virtiofsd internal status information.<=
-br>
-<br>
-Fortunately, QEMU&#39;s vhost-user reconnection framework already supports<=
-br>
-inflight I/O tracking by using VHOST_USER_GET_INFLIGHT_FD and<br>
-VHOST_USER_SET_INFLIGHT_FD (see 5ad204bf2 and 5f9ff1eff for details).<br>
-As the FUSE requests are transferred by virtqueue I/O requests, by using<br=
->
-the vhost-user inflight I/O tracking, we can recover the inflight FUSE<br>
-requests.<br>
-<br>
-To support virtiofsd internal status recovery, we introduce 4 new<br>
-vhost-user message types. As shown in the following diagram, two of them<br=
->
-are used to persist shared lo_maps and opened fds to QEMU, the other two<br=
->
-message types are used to restore the status when reconnecting.<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VHOST_USER_SLAVE_SHM<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VHOST_USER_SLAVE_FD<br>
-=C2=A0 =C2=A0 +--------------+=C2=A0 =C2=A0 =C2=A0 =C2=A0Persist=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0+--------------------+<br>
-=C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;-------=
---------------+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |<br>
-=C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0QEMU=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 Virti=
-o-fs Daemon=C2=A0 |<br>
-=C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +----------=
------------&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |<br>
-=C2=A0 =C2=A0 +--------------+=C2=A0 =C2=A0 =C2=A0 =C2=A0Restore=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0+--------------------+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VHOST_USER_SET_SHM<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 VHOST_USER_SET_FD<br>
-<br>
-Although the 4 newly added message types are to support virtiofsd<br>
-reconnection in this patchset, it might be potential in other situation.<br=
->
-So we keep in mind to make them more general when add them to vhost<br>
-related source files. VHOST_USER_SLAVE_SHM and VHOST_USER_SET_SHM can be<br=
->
-used for memory sharing between a vhost-user daemon and QEMU,<br>
-VHOST_USER_SLAVE_FD and VHOST_USER_SET_FD would be useful if we want to<br>
-shared opened fds between QEMU process and vhost-user daemon process.<br>
-<br>
-<br>
-USAGE and NOTES:<br>
-<br>
-- The commits are rebased to a recent QEMU master commit b4d939133dca0fa2b.=
-<br>
-<br>
-- &quot;,reconnect=3D1&quot; should be added to the &quot;-chardev socket&q=
-uot; of vhost-user-fs-pci<br>
-in the QEMU command line, for example:<br>
-<br>
-=C2=A0 =C2=A0 qemu-system-x86_64 ... \<br>
-=C2=A0 =C2=A0 -chardev socket,id=3Dchar0,path=3D/tmp/vhostqemu,reconnect=3D=
-1 \<br>
-=C2=A0 =C2=A0 -device vhost-user-fs-pci,queue-size=3D1024,chardev=3Dchar0,t=
-ag=3Dmyfs \<br>
-=C2=A0 =C2=A0 ...<br>
-<br>
-- We add new options for virtiofsd to enable or disable crash reconnection.=
-<br>
-And some options are not supported by crash reconnection. So add following<=
-br>
-options to virtiofsd to enable reconnection:<br>
-<br>
-=C2=A0 =C2=A0 virtiofsd ... -o reconnect -o no_mount_ns -o no_flock -o no_p=
-osix_lock<br>
-=C2=A0 =C2=A0 -o no_xattr ...<br>
-<br>
-- The reasons why virtiofsd-side locking, extended attributes, and mount<br=
->
-namespace are not supported is explained in the commit message of the 6th<b=
-r>
-patch (virtiofsd: Add two new options for crash reconnection).<br>
-<br>
-- The 9th patch is a work-around that will not affect the overall correctne=
-ss.<br>
-We remove the qsort related codes because we found that when resubmit_num i=
-s<br>
-larger than 64, seccomp will kill the virtiofsd process.<br>
-<br>
-- Support for dax version virtiofsd is very possible and requires almost no=
-<br>
-additional change to this patchset.<br>
-<br>
-<br>
-Jiachen Zhang (9):<br>
-=C2=A0 vhost-user-fs: Add support for reconnection of vhost-user-fs backend=
-<br>
-=C2=A0 vhost: Add vhost-user message types for sending shared memory and fi=
-le<br>
-=C2=A0 =C2=A0 fds<br>
-=C2=A0 vhost-user-fs: Support virtiofsd crash reconnection<br>
-=C2=A0 libvhost-user: Add vhost-user message types for sending shared memor=
-y<br>
-=C2=A0 =C2=A0 and file fds<br>
-=C2=A0 virtiofsd: Convert the struct lo_map array to a more flatten layout<=
-br>
-=C2=A0 virtiofsd: Add two new options for crash reconnection<br>
-=C2=A0 virtiofsd: Persist/restore lo_map and opened fds to/from QEMU<br>
-=C2=A0 virtiofsd: Ensure crash consistency after reconnection<br>
-=C2=A0 virtiofsd: (work around) Comment qsort in inflight I/O tracking<br>
-<br>
-=C2=A0contrib/libvhost-user/libvhost-user.c | 106 +++-<br>
-=C2=A0contrib/libvhost-user/libvhost-user.h |=C2=A0 70 +++<br>
-=C2=A0docs/interop/vhost-user.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 41 ++<br>
-=C2=A0hw/virtio/vhost-user-fs.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 334 ++++++++++-<br>
-=C2=A0hw/virtio/vhost-user.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | 123 ++++<br>
-=C2=A0hw/virtio/vhost.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 42 ++<br>
-=C2=A0include/hw/virtio/vhost-backend.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A06 =
-+<br>
-=C2=A0include/hw/virtio/vhost-user-fs.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 16 +-<br=
->
-=C2=A0include/hw/virtio/vhost.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 42 ++<br>
-=C2=A0tools/virtiofsd/fuse_lowlevel.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 24 =
-+-<br>
-=C2=A0tools/virtiofsd/fuse_virtio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 44 ++<br>
-=C2=A0tools/virtiofsd/fuse_virtio.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 =C2=A01 +<br>
-=C2=A0tools/virtiofsd/helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A09 +<br>
-=C2=A0tools/virtiofsd/passthrough_helpers.h |=C2=A0 =C2=A02 +-<br>
-=C2=A0tools/virtiofsd/passthrough_ll.c=C2=A0 =C2=A0 =C2=A0 | 830 ++++++++++=
-++++++++--------<br>
-=C2=A0tools/virtiofsd/passthrough_seccomp.c |=C2=A0 =C2=A01 +<br>
-=C2=A016 files changed, 1413 insertions(+), 278 deletions(-)<br>
-<br>
--- <br>
-2.20.1<br>
-<br>
-</blockquote></div>
-
---0000000000006264f905c1faba43--
+Phil.
 
