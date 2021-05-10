@@ -2,49 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD093377BF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 07:55:37 +0200 (CEST)
-Received: from localhost ([::1]:53520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C434A377C06
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 08:01:28 +0200 (CEST)
+Received: from localhost ([::1]:60756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lfytB-0005i2-Ke
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 01:55:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52458)
+	id 1lfyyt-0002LT-Tt
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 02:01:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lfyrp-0003qk-NA; Mon, 10 May 2021 01:54:09 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:48891 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lfyxX-0001IC-AC; Mon, 10 May 2021 02:00:03 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:56793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lfyrn-00013D-Nh; Mon, 10 May 2021 01:54:09 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FdqxK1hq0z9vFw; Mon, 10 May 2021 15:53:57 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620626037;
- bh=S8KeLHpcAY1u2PlRQaUt5r11nYniUCfBkDBRW4AzMVA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XtdIXpa8VPnSjiAZ8pyoLXBSrAhRP9nOwgvDUUuCqbWW51HEsJBX+Y12E6pes8PAp
- jxPLlO+7psf8NS4tJzd7mjHkJDSinkckyntMQJYE45h7EmdxEGRobC9qEfLVOHzu5K
- 9OzLRDwYB8dtV+ktPu/aw6UknATm/Yf3xSYG409U=
-Date: Mon, 10 May 2021 15:53:50 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 0/2] ppc/pnv: Add support for the POWER10 DD2 CPU
-Message-ID: <YJjKbhmdoTApPrqC@yekko>
-References: <20210505090609.593194-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lfyxV-0004lT-70; Mon, 10 May 2021 02:00:03 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.132])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 3AA6AA36E862;
+ Mon, 10 May 2021 07:59:49 +0200 (CEST)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 10 May
+ 2021 07:59:41 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R0046650abbe-2ab8-44b3-bb76-d83df9c50929,
+ EC2BFC7B1AED95346F6AF274786A4EFCDB415F6D) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.73.13
+Subject: Re: [PATCH v3 14/17] hw/misc/pca9552: Replace g_newa() by g_new()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>
+References: <20210507144315.1994337-1-philmd@redhat.com>
+ <20210507144315.1994337-15-philmd@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <9dc562b9-ba4d-0832-951a-5040d9d540db@kaod.org>
+Date: Mon, 10 May 2021 07:59:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nO2zzBtZkE5CZ8Ku"
-Content-Disposition: inline
-In-Reply-To: <20210505090609.593194-1-clg@kaod.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <20210507144315.1994337-15-philmd@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: ca5f8019-3b94-4721-b6bc-9cee1c76e1ad
+X-Ovh-Tracer-Id: 14687645762622688245
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdegjedgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehphhhilhhmugesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,62 +71,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/7/21 4:43 PM, Philippe Mathieu-Daudé wrote:
+> The ALLOCA(3) man-page mentions its "use is discouraged".
+> 
+> Use autofree heap allocation instead, replacing g_newa() by g_new().
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
---nO2zzBtZkE5CZ8Ku
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-On Wed, May 05, 2021 at 11:06:07AM +0200, C=E9dric Le Goater wrote:
-> Hello,
->=20
-> The POWER10 DD2 CPU adds an extra LPCR[HAIL] bit which is a requirement
-> to support the scv instruction on PowerNV POWER10 platforms (glibc-2.33).
->=20
-> These changes add a POWER10 DD2 CPU and switch the default chip model
-> of the powernv10 machine to use this CPU. This to make sure that the
-> machine can boot the latest distros.
 
-LGTM as far as it goes.  Couple of points
+> ---
+>  hw/misc/pca9552.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
+> index b7686e27d7f..facf103cbfb 100644
+> --- a/hw/misc/pca9552.c
+> +++ b/hw/misc/pca9552.c
+> @@ -71,7 +71,7 @@ static void pca955x_display_pins_status(PCA955xState *s,
+>          return;
+>      }
+>      if (trace_event_get_state_backends(TRACE_PCA955X_GPIO_STATUS)) {
+> -        char *buf = g_newa(char, k->pin_count + 1);
+> +        g_autofree char *buf = g_new(char, k->pin_count + 1);
+>  
+>          for (i = 0; i < k->pin_count; i++) {
+>              if (extract32(pins_status, i, 1)) {
+> 
 
- * I'd prefer to combine the two patches together, basically
-   atomically replacing DD1 with DD2
- * I'd like to sort out the DAWR1 support first, or at the same time.
-   I think it's reasonable to treat anything about POWER10 emulation
-   as experimental and unstable until we put an actually publically
-   available chip in there.  If we sort out DAWR1 support now, it
-   means we can avoid having another spapr capability flag to handle
-   the case of qemu versions that support DD2, but not DAWR1.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---nO2zzBtZkE5CZ8Ku
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCYymwACgkQbDjKyiDZ
-s5JDeBAAuV8byNEd7oPCyH/69uHJojj5RKBO4rfsb7eSeI+nvOYdHnpfjRHKXvoJ
-Xpj04Vh6+HmYdiudjvH42IiJpgYO+IfoxgyUbn/DYw4uxszCijb02TbGm23vcqxY
-heurGeKdF78WPzHwht9/onFrkbvZ5VdHfRdMsp/gAMyvsM3KRXaR7Ngi3B7JSkJs
-HaYng0Pzrw16cqHOYNKbAhh4BHIhfuC5Z1bpGlS9APECPmSgJq9Je3k9GAFWIAsS
-ImHjw3NTP9x7hrOabsTUvjkQtBQIBGL6iq/Dmp4fE/MKJIrp8ryRKra4zITHBhVq
-t/jIb1eCanDUQlYIaI9zSh2NMQCxGwa8Owzhg1YujSSCITXlqFR1u6Cb4GgK/dH+
-ywJrPlWfnSqM86/+7bE7dbWfjkReF2fuYjmiizDONi/zwDrNKphiYI2SXzCrXnRy
-jJ/+1wtPpMlhRzBNgFmPnYTtPzJGfLo0TY1usnOHv9tZWHwRKruJCAOI4dLAZ7pt
-0lOSHRGvJcrJXIhxlTIqWs+cjLWNIHv/1FKrzMETbh9SwrL+Rlg7hEtC7bWLD58Z
-tTJs+En73qr8nvoRmA/suggasny8wtT5+yBWOEIk9JZj/gu7hSA+md3WEJFdNoiR
-hPuL0Vcxsqu3ozBGyW3gWxBgBM4qtniNEuUUiNfFShxzWUeY7Hw=
-=Fsh7
------END PGP SIGNATURE-----
-
---nO2zzBtZkE5CZ8Ku--
 
