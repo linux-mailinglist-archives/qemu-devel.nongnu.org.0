@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF311378C48
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:32:03 +0200 (CEST)
-Received: from localhost ([::1]:55012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B969378C4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 14:34:34 +0200 (CEST)
+Received: from localhost ([::1]:35450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lg54s-0005Vn-Ex
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:32:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37384)
+	id 1lg57J-0002sN-B3
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 08:34:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4yy-0005YN-Ke
+ id 1lg4yy-0005Xx-CK
  for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:56 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39600)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lg4yv-00038S-4f
+ id 1lg4yv-000391-Vt
  for qemu-devel@nongnu.org; Mon, 10 May 2021 08:25:56 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id v12so16410441wrq.6
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:25:51 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id h4so16399113wrt.12
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 05:25:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ZYVk2o1Cu3wH134bVf/D9vTaTrzssqs1D6MFr2Lw7og=;
- b=Jve63ssAsVk3TGiZC63iqiXEBHKIUEiuG+NTqkOcN2on/pApf5p4Nz9Ii2bq/WmlXW
- QbmjvgMB/BJ8R7I4QM3YgtvS6QNLnduX6xzfLKAHfxkMt+Y4d+qZ05olUch44n4KrM/5
- MMhXjTM5smtNHODfGxHTBxa9KPJ6CT27bft7vE14kpyxLw6y/CJOIe8WIQ6O2xDj7MCT
- JPqDrK8tN17x0u0COiXf5Up/ON7wrZRYbP0QIcJwmX+gY6yx2NWa5pYDCHq+lXDxPeU2
- lBKVSJQKmnL6BvQCnPUNkcDwi1kCkn9vmaQjQGQAgIQVBkbqMlDm7HQaXIz5VRnKO+3j
- BWrg==
+ bh=6v1BFUcHTHuknKkZHtkSafnfLAhD43tM7z8g+lL3ix0=;
+ b=On+j3o3Iel7K5u61OE/pGWmx0QgVOWl5SGi0tmOk7dW/imQVTDYFl03K6FWiKn0Rot
+ gvN7Z0eTTf8K5u75SnTZMhLPXW7mNoWlkYUCRIo4BU/AKLBqSm5b0Qq89DWCBngBPaJb
+ fYNup2NGzRLlucxcW+1HovawQKVhpVuaNGJaw+AUw8MuaD1YPP1SCY1ZY+7LQU1/W+sx
+ JYkxKoB7Q2rpJD01+H77uZcJfctq86dr9o2k4mi1q/B+J2x12C3eFbigR8wQ9BOq/EnN
+ meDJ4xa6BBiJYcgR1QmBv3TkOWcSeL6tNiSl64ak74HwyENopxkaUf70gpaunOd3RDId
+ e5Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZYVk2o1Cu3wH134bVf/D9vTaTrzssqs1D6MFr2Lw7og=;
- b=aR2D3ngaPexdiA+3B5h/i2dFRFhnlrJp1B2/91eRbZuzYPZ7JtGtjmyNMslib4nE2B
- HWHpYO/jzwEFTKb3RDsB6feoEnqSYIAkppR8ftdBatFIa562eLmXn+lTLcQILPiE0F9b
- xlKR2bhDQITCSzQLLoKoMnuheLEslTRaboqlFVKPaldXXw9wx5tFenrkMTMne4spLpwe
- AEywC5CPYnAM3bKhdlHiUzPBgf9sEgnxspCp9HThEPtGELGx3kfChGDjtjWBpjS7FZMI
- CHpV30oogcyGCXfkK0ohUScNbUWeSUkpEGzZKQnZXiut+xlXyt9J94BRr8GiYLRt+fRw
- ukuQ==
-X-Gm-Message-State: AOAM532DNkfzejaEvMiRpsqe1OeqcSQ1aUK49eoLXjiSan6/jyt589De
- jV4ALbE7jGLC/Vo5c/a6NCWzGKJMvr/C5w==
-X-Google-Smtp-Source: ABdhPJye/IFe3ZXJ2VLMmJaA51DVKEuG7oB3lOvn1MPC7S1nfzdp7i7hVWkSoQpzcUX7BHZxAmCBjw==
-X-Received: by 2002:a5d:6088:: with SMTP id w8mr29638968wrt.424.1620649550324; 
- Mon, 10 May 2021 05:25:50 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6v1BFUcHTHuknKkZHtkSafnfLAhD43tM7z8g+lL3ix0=;
+ b=Xvxicf4PkBUusgAv4BpGExL03PrJ3oe1mkPNVrn/GJwdVyoz/i9PkYnJzXufAZuiI/
+ I96USsIPoaFi8LNdRbM1XusjZpoMR5vkdAdpQ8N+NprgEGmCpJubliad3eqk84OCK61o
+ 99I5hulx4JthI5GIguD5dxtXmAxnCDUhyESkOCMvPzj+VyVBzMhPxui/OQHD2IEoPxIi
+ v3kPWr7G8jWSsKkxnPMOmXwrqA/h4jBCLoDZEwX/j/ZRVjX5D2P4YUHnysuAZueFT5nS
+ ysJVjRzwbsYqXMIcSp4uZpIRdiZh7/hvl50U6lCQC/TseDCW8UEx28TDpOurBBKgBW7q
+ +RMA==
+X-Gm-Message-State: AOAM5308TuY6t+yKOTvTqetNGsl9DFWgNTjkqe0w0ikG4zdUYVje8EmH
+ ZjfyY/D0B3G/jS+IvnRHGWufRJPRb9RnMg==
+X-Google-Smtp-Source: ABdhPJyykHr3RVumpT7ojpzpkN+vaLvXr1HGCsYXlWx/vylQgzbsNU3UMiVyKsUxD/nz31iygsr2WQ==
+X-Received: by 2002:adf:ef90:: with SMTP id d16mr30323003wro.359.1620649552776; 
+ Mon, 10 May 2021 05:25:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.25.49
+ by smtp.gmail.com with ESMTPSA id d9sm22749897wrp.47.2021.05.10.05.25.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 05:25:49 -0700 (PDT)
+ Mon, 10 May 2021 05:25:52 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/26] target-arm queue
-Date: Mon, 10 May 2021 13:25:22 +0100
-Message-Id: <20210510122548.28638-1-peter.maydell@linaro.org>
+Subject: [PULL 04/26] target/arm: Move constant expanders to translate.h
+Date: Mon, 10 May 2021 13:25:26 +0100
+Message-Id: <20210510122548.28638-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210510122548.28638-1-peter.maydell@linaro.org>
+References: <20210510122548.28638-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,100 +87,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4cc10cae64c51e17844dc4358481c393d7bf1ed4:
+Some of the constant expanders defined in translate.c are generically
+useful and will be used by the separate C files for VFP and Neon once
+they are created; move the expander definitions to translate.h.
 
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-05-06 18:56:17 +0100)
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210430132740.10391-2-peter.maydell@linaro.org
+---
+ target/arm/translate.h | 24 ++++++++++++++++++++++++
+ target/arm/translate.c | 24 ------------------------
+ 2 files changed, 24 insertions(+), 24 deletions(-)
 
-are available in the Git repository at:
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index ccf60c96d84..b5b21619597 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -118,6 +118,30 @@ extern TCGv_i32 cpu_NF, cpu_ZF, cpu_CF, cpu_VF;
+ extern TCGv_i64 cpu_exclusive_addr;
+ extern TCGv_i64 cpu_exclusive_val;
+ 
++/*
++ * Constant expanders for the decoders.
++ */
++
++static inline int negate(DisasContext *s, int x)
++{
++    return -x;
++}
++
++static inline int plus_2(DisasContext *s, int x)
++{
++    return x + 2;
++}
++
++static inline int times_2(DisasContext *s, int x)
++{
++    return x * 2;
++}
++
++static inline int times_4(DisasContext *s, int x)
++{
++    return x * 4;
++}
++
+ static inline int arm_dc_feature(DisasContext *dc, int feature)
+ {
+     return (dc->features & (1ULL << feature)) != 0;
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 43ff0d4b8ac..bb9e228d1ae 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -109,30 +109,6 @@ static void arm_gen_condlabel(DisasContext *s)
+     }
+ }
+ 
+-/*
+- * Constant expanders for the decoders.
+- */
+-
+-static int negate(DisasContext *s, int x)
+-{
+-    return -x;
+-}
+-
+-static int plus_2(DisasContext *s, int x)
+-{
+-    return x + 2;
+-}
+-
+-static int times_2(DisasContext *s, int x)
+-{
+-    return x * 2;
+-}
+-
+-static int times_4(DisasContext *s, int x)
+-{
+-    return x * 4;
+-}
+-
+ /* Flags for the disas_set_da_iss info argument:
+  * lower bits hold the Rt register number, higher bits are flags.
+  */
+-- 
+2.20.1
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210510
-
-for you to fetch changes up to 8f96812baa53005f32aece3e30b140826c20aa19:
-
-  hw/arm/xlnx: Fix PHY address for xilinx-zynq-a9 (2021-05-10 13:24:09 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * docs: fix link in sbsa description
- * linux-user/aarch64: Enable hwcap for RND, BTI, and MTE
- * target/arm: Fix tlbbits calculation in tlbi_aa64_vae2is_write()
- * target/arm: Split neon and vfp translation to their own
-   compilation units
- * target/arm: Make WFI a NOP for userspace emulators
- * hw/sd/omap_mmc: Use device_cold_reset() instead of
-   device_legacy_reset()
- * include: More fixes for 'extern "C"' block use
- * hw/arm/imx25_pdk: Fix error message for invalid RAM size
- * hw/arm/mps2-tz: Implement AN524 memory remapping via machine property
- * hw/arm/xlnx: Fix PHY address for xilinx-zynq-a9
-
-----------------------------------------------------------------
-Alex Bennée (1):
-      docs: fix link in sbsa description
-
-Guenter Roeck (1):
-      hw/arm/xlnx: Fix PHY address for xilinx-zynq-a9
-
-Peter Maydell (22):
-      target/arm: Fix tlbbits calculation in tlbi_aa64_vae2is_write()
-      target/arm: Move constant expanders to translate.h
-      target/arm: Share unallocated_encoding() and gen_exception_insn()
-      target/arm: Make functions used by m-nocp global
-      target/arm: Split m-nocp trans functions into their own file
-      target/arm: Move gen_aa32 functions to translate-a32.h
-      target/arm: Move vfp_{load, store}_reg{32, 64} to translate-vfp.c.inc
-      target/arm: Make functions used by translate-vfp global
-      target/arm: Make translate-vfp.c.inc its own compilation unit
-      target/arm: Move vfp_reg_ptr() to translate-neon.c.inc
-      target/arm: Delete unused typedef
-      target/arm: Move NeonGenThreeOpEnvFn typedef to translate.h
-      target/arm: Make functions used by translate-neon global
-      target/arm: Make translate-neon.c.inc its own compilation unit
-      target/arm: Make WFI a NOP for userspace emulators
-      hw/sd/omap_mmc: Use device_cold_reset() instead of device_legacy_reset()
-      osdep: Make os-win32.h and os-posix.h handle 'extern "C"' themselves
-      include/qemu/bswap.h: Handle being included outside extern "C" block
-      include/disas/dis-asm.h: Handle being included outside 'extern "C"'
-      hw/misc/mps2-scc: Add "QEMU interface" comment
-      hw/misc/mps2-scc: Support using CFG0 bit 0 for remapping
-      hw/arm/mps2-tz: Implement AN524 memory remapping via machine property
-
-Philippe Mathieu-Daudé (1):
-      hw/arm/imx25_pdk: Fix error message for invalid RAM size
-
-Richard Henderson (1):
-      linux-user/aarch64: Enable hwcap for RND, BTI, and MTE
-
- docs/system/arm/mps2.rst                           |  10 +
- docs/system/arm/sbsa.rst                           |   2 +-
- include/disas/dis-asm.h                            |  12 +-
- include/hw/misc/mps2-scc.h                         |  21 ++
- include/qemu/bswap.h                               |  26 ++-
- include/qemu/osdep.h                               |   8 +-
- include/sysemu/os-posix.h                          |   8 +
- include/sysemu/os-win32.h                          |   8 +
- target/arm/translate-a32.h                         | 144 +++++++++++++
- target/arm/translate-a64.h                         |   2 -
- target/arm/translate.h                             |  29 +++
- hw/arm/imx25_pdk.c                                 |   5 +-
- hw/arm/mps2-tz.c                                   | 108 +++++++++-
- hw/arm/xilinx_zynq.c                               |   2 +-
- hw/misc/mps2-scc.c                                 |  13 +-
- hw/sd/omap_mmc.c                                   |   2 +-
- linux-user/elfload.c                               |  13 ++
- target/arm/helper.c                                |   2 +-
- target/arm/op_helper.c                             |  12 ++
- target/arm/translate-a64.c                         |  15 --
- target/arm/translate-m-nocp.c                      | 221 ++++++++++++++++++++
- .../arm/{translate-neon.c.inc => translate-neon.c} |  19 +-
- .../arm/{translate-vfp.c.inc => translate-vfp.c}   | 230 +++------------------
- target/arm/translate.c                             | 200 ++++--------------
- disas/arm-a64.cc                                   |   2 -
- disas/nanomips.cpp                                 |   2 -
- target/arm/meson.build                             |  15 +-
- 27 files changed, 718 insertions(+), 413 deletions(-)
- create mode 100644 target/arm/translate-a32.h
- create mode 100644 target/arm/translate-m-nocp.c
- rename target/arm/{translate-neon.c.inc => translate-neon.c} (99%)
- rename target/arm/{translate-vfp.c.inc => translate-vfp.c} (94%)
 
