@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E336379762
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:07:25 +0200 (CEST)
-Received: from localhost ([::1]:55206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B92C837977C
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 May 2021 21:12:43 +0200 (CEST)
+Received: from localhost ([::1]:36920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgBFU-0005DY-G0
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:07:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36544)
+	id 1lgBKc-0003cx-RB
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 15:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lgBD9-0003C4-D6
- for qemu-devel@nongnu.org; Mon, 10 May 2021 15:04:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28040)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lgBD7-0002hY-9e
- for qemu-devel@nongnu.org; Mon, 10 May 2021 15:04:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620673496;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=N+pIP/fT2VezBrtqSGcpzz4BWRTNW5CuU1UpooxXiAg=;
- b=cfkrSWa9JZt93kgMTNXyXoX5SqPwvPSBsavGlWH+db0h9QkIwihWfn7ga4p8Jxyf9V5QMT
- ntASZFyf75Xyz1iBad1E594kbtM3PRSIE3yc+qsQGko0kmwil5pTWUXm3TXTAj5NdBljUl
- O/vQMXCYaRk9NTb4A61gtWmx6tmeVFM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-t1dmRU7tPMSMgvGk8BWLNQ-1; Mon, 10 May 2021 15:04:54 -0400
-X-MC-Unique: t1dmRU7tPMSMgvGk8BWLNQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0986501E0;
- Mon, 10 May 2021 19:04:53 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F30A260CC5;
- Mon, 10 May 2021 19:04:51 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2] qemu-iotests: fix pylint 2.8 consider-using-with error
-Date: Mon, 10 May 2021 21:04:49 +0200
-Message-Id: <20210510190449.65948-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgBGx-0000Zd-8d
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:08:55 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33302)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgBGr-0004uR-9E
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 15:08:55 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id n2so17781726wrm.0
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 12:08:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Brpjl91FNbgNkC1s6ukF6xIzfG/+Bi80rWCJ3iDuHSY=;
+ b=T07b31jken9Y0vfNN1MvjuKwcmxntlqLD32YhNiql3iECMlywhuSHRKJdl/JERp5Ne
+ dbI7iT+jv/46jsazGzI9sZuQFnF3QHsAM+m0Ljn2JX8DFp+vtj3miubCpZbfmiLA21fl
+ 9LdInlQy79UV7SLe7Minx1BPHXogZFo7ucIE32zRUO7kalHINx7Zf3m1QgVLjEd7QDVF
+ E+gtx5GQCuAgRzITp6Zv6AR0dPjcjQM0WurJmsRjTJ/OgFUeW/1c3ZWIk7hIygjG+0+t
+ KiadzDOBjE4MfscHhktyu11hVqtyCv/vRzFIXfqqlITIpQOizQPGfngE7I2aTYt9xfb/
+ MO8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Brpjl91FNbgNkC1s6ukF6xIzfG/+Bi80rWCJ3iDuHSY=;
+ b=bvByl2qg2so8/V+QM3B5LM5D19VTL8BSsFdshedM5PosMYc0vkfTRbloOfQ64YRaLn
+ FtNoZgdFdtDB8q/FIaYJn/DQpIEEGyRQx+g0Hve1fHPqDpq+Ol+tvRt7x0AiHGjezA9T
+ RK7yi532FptdY6jWjizxYaGPpRgZtoNBeyvJR2gWPY3GKEsRBeuYQVBP9U4ajr4CMeCM
+ kSlBMznIJzq+Ps2U73jL4bLGp3an+kcVjoNL5xv4JvUj+CC3pa6TLpbVKb1EWcoD/0K5
+ KuO+mw0UVe3nr8CZerB+z3Teld/HjsnTCgijwP1UVG/tdOsbjB+tZYOXAcKMrx7wyMUC
+ 5jDA==
+X-Gm-Message-State: AOAM531zzORnMuXJptB2843s8KrcBTS+NDNRUsnWTCiIN/xUgl+GfiyJ
+ hJoMkeyjmGFrlzOyMMvbAtYw2A==
+X-Google-Smtp-Source: ABdhPJxemyIgVYkhqtqkeoik4Dfz18NP3AB1lEASzoVb4ZmuO7AeTsdaJ/A7Q5v67zOhDgu9MFZNjg==
+X-Received: by 2002:adf:e845:: with SMTP id d5mr32267824wrn.96.1620673727616; 
+ Mon, 10 May 2021 12:08:47 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id t23sm463892wmj.31.2021.05.10.12.08.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 May 2021 12:08:47 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/6] hw/arm: Fix modelling of SSE-300 TCMs and SRAM
+Date: Mon, 10 May 2021 20:08:38 +0100
+Message-Id: <20210510190844.17799-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,160 +81,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Kumar Gala <kumar.gala@linaro.org>,
+ Jimmy Brisson <jimmy.brisson@linaro.org>,
+ Kevin Townsend <kevin.townsend@linaro.org>,
+ Devaraj Ranganna <devaraj.ranganna@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pylint 2.8 introduces consider-using-with error, suggesting
-to use the 'with' block statement when possible.
+This patchset fixes some bugs in how we were modelling the
+TCMs and the SRAM in the SSE-300 which were preventing
+Arm TF-M from booting on our AN547 model; there are also
+some fixes to things I noticed while I was in the code.
 
-Modify all subprocess.Popen call to use the 'with' statement,
-except the one in __init__ of QemuIoInteractive class, since
-it is assigned to a class field and used in other methods.
+The specific bugs preventing boot were:
+ * SRAM_ADDR_WIDTH for the AN547 is 21, not 15, so the SRAM
+   area was too small
+ * we were putting the SRAMs at the wrong address (0x2100_0000
+   for SSE-300, not 0x2000_0000 as for SSE-200)
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
-v1 -> v2:
-* fix indentation [Max]
-* explain why we disabled the check in QemuIoInteractive's __init__ [Max]
+The other stuff I've fixed is:
+ * we were modelling the SRAM in the AN524 both in the SSE
+   and in the board model (harmlessly, as the board-model
+   memory was just always shadowed in the memory map and
+   unreachable)
+ * we were modelling the TCMs in the AN547 board model,
+   which is conceptually wrong because in hardware they're
+   part of the SSE-300. No guest-visible change, but it will
+   avoid problems if/when we add another SSE-300 board model
 
- tests/qemu-iotests/iotests.py    | 65 ++++++++++++++++----------------
- tests/qemu-iotests/testrunner.py | 22 +++++------
- 2 files changed, 44 insertions(+), 43 deletions(-)
+thanks
+-- PMM
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 5af0182895..ec3c69daf1 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -113,15 +113,14 @@ def qemu_tool_pipe_and_status(tool: str, args: Sequence[str],
-     Run a tool and return both its output and its exit code
-     """
-     stderr = subprocess.STDOUT if connect_stderr else None
--    subp = subprocess.Popen(args,
--                            stdout=subprocess.PIPE,
--                            stderr=stderr,
--                            universal_newlines=True)
--    output = subp.communicate()[0]
--    if subp.returncode < 0:
--        cmd = ' '.join(args)
--        sys.stderr.write(f'{tool} received signal {-subp.returncode}: {cmd}\n')
--    return (output, subp.returncode)
-+    with subprocess.Popen(args, stdout=subprocess.PIPE,
-+                          stderr=stderr, universal_newlines=True) as subp:
-+        output = subp.communicate()[0]
-+        if subp.returncode < 0:
-+            cmd = ' '.join(args)
-+            sys.stderr.write(f'{tool} received signal \
-+                               {-subp.returncode}: {cmd}\n')
-+        return (output, subp.returncode)
- 
- def qemu_img_pipe_and_status(*args: str) -> Tuple[str, int]:
-     """
-@@ -237,6 +236,9 @@ def qemu_io_silent_check(*args):
- class QemuIoInteractive:
-     def __init__(self, *args):
-         self.args = qemu_io_args_no_fmt + list(args)
-+        # We need to keep the Popen objext around, and not
-+        # close it immediately. Therefore, disable the pylint check:
-+        # pylint: disable=consider-using-with
-         self._p = subprocess.Popen(self.args, stdin=subprocess.PIPE,
-                                    stdout=subprocess.PIPE,
-                                    stderr=subprocess.STDOUT,
-@@ -310,22 +312,22 @@ def qemu_nbd_popen(*args):
-     cmd.extend(args)
- 
-     log('Start NBD server')
--    p = subprocess.Popen(cmd)
--    try:
--        while not os.path.exists(pid_file):
--            if p.poll() is not None:
--                raise RuntimeError(
--                    "qemu-nbd terminated with exit code {}: {}"
--                    .format(p.returncode, ' '.join(cmd)))
--
--            time.sleep(0.01)
--        yield
--    finally:
--        if os.path.exists(pid_file):
--            os.remove(pid_file)
--        log('Kill NBD server')
--        p.kill()
--        p.wait()
-+    with subprocess.Popen(cmd) as p:
-+        try:
-+            while not os.path.exists(pid_file):
-+                if p.poll() is not None:
-+                    raise RuntimeError(
-+                        "qemu-nbd terminated with exit code {}: {}"
-+                        .format(p.returncode, ' '.join(cmd)))
-+
-+                time.sleep(0.01)
-+            yield
-+        finally:
-+            if os.path.exists(pid_file):
-+                os.remove(pid_file)
-+            log('Kill NBD server')
-+            p.kill()
-+            p.wait()
- 
- def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
-     '''Return True if two image files are identical'''
-@@ -334,13 +336,12 @@ def compare_images(img1, img2, fmt1=imgfmt, fmt2=imgfmt):
- 
- def create_image(name, size):
-     '''Create a fully-allocated raw image with sector markers'''
--    file = open(name, 'wb')
--    i = 0
--    while i < size:
--        sector = struct.pack('>l504xl', i // 512, i // 512)
--        file.write(sector)
--        i = i + 512
--    file.close()
-+    with open(name, 'wb') as file:
-+        i = 0
-+        while i < size:
-+            sector = struct.pack('>l504xl', i // 512, i // 512)
-+            file.write(sector)
-+            i = i + 512
- 
- def image_size(img):
-     '''Return image's virtual size'''
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index 1fc61fcaa3..eddceeb4ae 100644
---- a/tests/qemu-iotests/testrunner.py
-+++ b/tests/qemu-iotests/testrunner.py
-@@ -258,17 +258,17 @@ def do_run_test(self, test: str) -> TestResult:
- 
-         t0 = time.time()
-         with f_bad.open('w', encoding="utf-8") as f:
--            proc = subprocess.Popen(args, cwd=str(f_test.parent), env=env,
--                                    stdout=f, stderr=subprocess.STDOUT)
--            try:
--                proc.wait()
--            except KeyboardInterrupt:
--                proc.terminate()
--                proc.wait()
--                return TestResult(status='not run',
--                                  description='Interrupted by user',
--                                  interrupted=True)
--            ret = proc.returncode
-+            with subprocess.Popen(args, cwd=str(f_test.parent), env=env,
-+                                  stdout=f, stderr=subprocess.STDOUT) as proc:
-+                try:
-+                    proc.wait()
-+                except KeyboardInterrupt:
-+                    proc.terminate()
-+                    proc.wait()
-+                    return TestResult(status='not run',
-+                                      description='Interrupted by user',
-+                                      interrupted=True)
-+                ret = proc.returncode
- 
-         elapsed = round(time.time() - t0, 1)
- 
+Peter Maydell (6):
+  hw/arm/mps2-tz: Don't duplicate modelling of SRAM in AN524
+  hw/arm/mps2-tz: Make SRAM_ADDR_WIDTH board-specific
+  hw/arm/armsse.c: Correct modelling of SSE-300 internal SRAMs
+  hw/arm/armsse: Convert armsse_realize() to use ERRP_GUARD
+  hw/arm/mps2-tz: Allow board to specify a boot RAM size
+  hw/arm: Model TCMs in the SSE-300, not the AN547
+
+ include/hw/arm/armsse.h |  2 ++
+ hw/arm/armsse.c         | 35 +++++++++++++++++++++++++++++------
+ hw/arm/mps2-tz.c        | 39 ++++++++++++++++++++-------------------
+ 3 files changed, 51 insertions(+), 25 deletions(-)
+
 -- 
-2.30.2
+2.20.1
 
 
