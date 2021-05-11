@@ -2,47 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2B937A5C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 13:29:52 +0200 (CEST)
-Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707C137A5D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 13:34:09 +0200 (CEST)
+Received: from localhost ([::1]:44594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgQaF-00049P-5n
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 07:29:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
+	id 1lgQeJ-00078x-E8
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 07:34:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lgQZ2-0003FZ-AF; Tue, 11 May 2021 07:28:36 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:59159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lgQYy-0004Hc-GU; Tue, 11 May 2021 07:28:35 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7529D74570D;
- Tue, 11 May 2021 13:28:27 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 50186745709; Tue, 11 May 2021 13:28:27 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4E7897456E3;
- Tue, 11 May 2021 13:28:27 +0200 (CEST)
-Date: Tue, 11 May 2021 13:28:27 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 0/6] hw/southbridge: QOM'ify vt82c686 as
- VT82C686B_SOUTHBRIDGE
-In-Reply-To: <20210511041848.2743312-1-f4bug@amsat.org>
-Message-ID: <ecdd9299-ec2-5049-fe1e-d3c7d261d@eik.bme.hu>
-References: <20210511041848.2743312-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgQbd-0005Z3-Rp
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 07:31:17 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:47035)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgQbc-0006Kj-6F
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 07:31:17 -0400
+Received: by mail-wr1-x433.google.com with SMTP id x5so19754517wrv.13
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 04:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=jAcEm26UkQQUJTcXkvuYyE5Q3BLrUS6kfRL0m3u2JLtnPFOwaY5Go2kwUJCJdC34Qm
+ mk+oFjMuwrasb1RXBtMlZq9SJY/eJpv84LOThYS0BzFFDjLuDYlem20N3wrxdNu12bwv
+ 1/aqEnBmp4SbZ90yzT1XwiVg15S6WCDKO/z8nOYQVkOw06Ez+MzNa5Mc7IJURrt+xlQm
+ p+nNi2aDoEvKo9TsJ0TD/RgyBJLrEoxnJv/XWMt8Lgt67TqJirffJLzm4TGwSh6J9t2m
+ Xq5I9N7kMFhKX3wMxXxAINk/+Pmd1OCu6D0agqwzQLylrBde5YS86Oc4rXf5XoMdcLON
+ 5ahg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=Zj8jDvfUcNWi5wv16LZTsMrSI8v0mQphgR7RZmZMvrZ7VJ7s8QCG0Es0vEnYSBYnN9
+ THKCCLHj8HnB5lJz/kX6n4s2OjYM07iHfQfDjtbiKsYQ0jTQy0vN+0B38vyyOshptrbg
+ x8PFoBNrXezYluHyvYNJQh+bbb2lU5no9pyg1D+io+ZrZX/Uh19NRSMoLWNz5vU4Ao+b
+ 1FkGkpZTxvJAI7UOyRwdoLoVvptyXcTSnMklwi5xBu65Ov+gbdPdz3W8S5HeDlVcp9Kn
+ +O4cZWDZxWpCV7Pkx6+YuenhsSBebNPQ7FnnX0HOByqbMIZnEgO4P+oPJhrjKW2Ve7yS
+ arCw==
+X-Gm-Message-State: AOAM532eZcNyWY1K3Yx2K4/8Gzh6+tSTgqyYPO0fE62ya34fhBFO1k3c
+ 4fou8zmuMqD/kkMCW2k+FjQm7g==
+X-Google-Smtp-Source: ABdhPJwh8GZP+imL8c9WqDnwGrSgR1VzcNwn7rQZG42PmoEtTBmRZg52M1bHYD5/af2HO2dURc9WYg==
+X-Received: by 2002:a05:6000:144f:: with SMTP id
+ v15mr36287931wrx.182.1620732674295; 
+ Tue, 11 May 2021 04:31:14 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y21sm3416435wmi.15.2021.05.11.04.31.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 May 2021 04:31:13 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7AE8B1FF7E;
+ Tue, 11 May 2021 12:31:12 +0100 (BST)
+References: <20210508014802.892561-1-richard.henderson@linaro.org>
+ <20210508014802.892561-20-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 19/72] softfloat: Use pointers with ftype_unpack_raw
+Date: Tue, 11 May 2021 12:31:07 +0100
+In-reply-to: <20210508014802.892561-20-richard.henderson@linaro.org>
+Message-ID: <87mtt1jym7.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-51727942-1620732507=:99606"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,64 +88,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
- Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-51727942-1620732507=:99606
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-On Tue, 11 May 2021, Philippe Mathieu-Daudé wrote:
-> The motivation behind this series is to remove the
-> isa_get_irq(NULL) call to simplify the ISA generic model.
->
-> Since v1:
-> - rebased on top of remotes/dg-gitlab/tags/ppc-for-6.1-20210504
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-I'll try to have a look at these later but some notes: The pegasos2 
-changes are now in master so if this was before that maybe rebasing on 
-master is now enough. However I wonder if any changes to pegasos2.c is 
-needed due to changed init of the chip model or is that only affecting 
-82c686b? Please also note that pegasos2 is not enabled by default due to 
-needing undistributable firmware ROM so to test it you need to enable it 
-in default-configs/devices/ppc-softmmu.mak
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Regards,
-BALATON Zoltan
-
-> Philippe Mathieu-Daudé (6):
->  hw/isa/vt82c686: Name output IRQ as 'intr'
->  hw/isa/vt82c686: Simplify removing unuseful qemu_allocate_irqs() call
->  hw/isa/vt82c686: Let ISA function expose ISA IRQs
->  hw/ide/via: Replace magic 2 value by ARRAY_SIZE / MAX_IDE_DEVS
->  hw/ide/via: Connect IDE function output IRQs to the ISA function input
->  hw/southbridge/vt82c686: Introduce VT82C686B_SOUTHBRIDGE
->
-> hw/ide/via.c               |  31 ++++++++---
-> hw/isa/vt82c686.c          |  27 +++++-----
-> hw/mips/fuloong2e.c        |  35 +++---------
-> hw/southbridge/vt82c686.c  | 107 +++++++++++++++++++++++++++++++++++++
-> MAINTAINERS                |   1 +
-> hw/Kconfig                 |   1 +
-> hw/isa/Kconfig             |   9 ----
-> hw/meson.build             |   1 +
-> hw/southbridge/Kconfig     |   8 +++
-> hw/southbridge/meson.build |   1 +
-> 10 files changed, 164 insertions(+), 57 deletions(-)
-> create mode 100644 hw/southbridge/vt82c686.c
-> create mode 100644 hw/southbridge/Kconfig
-> create mode 100644 hw/southbridge/meson.build
->
-> --
-> 2.26.3
->
->
->
---3866299591-51727942-1620732507=:99606--
+--=20
+Alex Benn=C3=A9e
 
