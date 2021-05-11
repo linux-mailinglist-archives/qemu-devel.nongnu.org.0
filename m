@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75FD637B00A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 22:21:26 +0200 (CEST)
-Received: from localhost ([::1]:48842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5E737B00D
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 22:22:38 +0200 (CEST)
+Received: from localhost ([::1]:51328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgYsd-0005wd-AJ
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 16:21:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38072)
+	id 1lgYtp-0007dO-Jd
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 16:22:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgYqu-0004DV-KG
- for qemu-devel@nongnu.org; Tue, 11 May 2021 16:19:36 -0400
-Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e]:38816)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgYsm-0006m3-Uw
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 16:21:33 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:42745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgYqr-0007eY-VB
- for qemu-devel@nongnu.org; Tue, 11 May 2021 16:19:36 -0400
-Received: by mail-oo1-xc2e.google.com with SMTP id
- h9-20020a4a94090000b02901f9d4f64172so4466371ooi.5
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 13:19:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgYsl-0000VN-BG
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 16:21:32 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id s20so26131792ejr.9
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 13:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JqjKTHZqypm4X4wjTccX8ifbLmSB0rHGaFhfkwzX464=;
- b=fROo8nRfRKw2cwCPQ9hFdr586F0Kdx+1kVkYxTY8s4Q3xuSEDRvALLnrgNNv7FQMmf
- g8aHfL1/dzK1b1e+vTKSabaHYMu+PoWPb8mT6bpVPtB/NjErSR9zsR5WflOLGeATbIIN
- 142fke1D4eE0F4/bfA/daHnSyc5bpBigiUd8eudEpDMAZP2CUzQIV9fGtLWtrqDwMePo
- R6ZXA5/RvpLdqceB8hmyyTG0RUcIvrr1V7Ab53hm52vXUvu9icwCfN//xO1oBhJsXhaC
- 0QcDbJUrPoM0+cOckJdKAkFm9hUd02dDUe7JdM+hHR7+QBno4h3ongRw8ihdeuQHq9Ax
- m56A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w3QG6oE6XFxK+C8mxpRyc8xyhWT1b4/Q8Xqo5OjgPlg=;
+ b=SwIBaArByIxrtLw1F3QPbRlG1FsXkrqQuc3yzDlCg7m0J+px1TUKl2MyTeko4ineFD
+ bgw5tkVwQIMhBSS1S0HuErchLiWLVE2cafrznY5TUY4J9hqtlo5wry7ylnVRxcD6WsOI
+ 871tStm6VPFnsuSy3sl98sWfyQDf11ddXeO4TvN0exXtNLC2iiD7dNQEflnLdXOq/lmT
+ +EZpluhcOUV75bYEWmA071tmqiVRaTeV57TQ5/5sGNZgApFJm8L0X4xotA0I3fNC7syt
+ GZYF6mhZyLuaMRHtDhPbHHKkc2/Eg/i1p621UkMA0dBE1641isrjy+IT3cVj1GCCdVbD
+ WKzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JqjKTHZqypm4X4wjTccX8ifbLmSB0rHGaFhfkwzX464=;
- b=TZbG1ePz4kShdbhsyw0UZzNsXD575g6h70CM0UWAwqjgy6vXzC4NXgACdYzVWmmRmr
- begx5gdwSYWiZ01vViFw2EaEADugxDjL0AvQuusBnvUjshCyxUsFuqg3PT+7h7hFRr+v
- IbvFgWBzTLWV2eP7vU3zid6W8EkGh82NLaJX/OioAxD6Ms5/Lcj/73MMNyJ3DkKzA8m3
- SpJcA7H/gEL8OoLe6CVpXd9+phfelBSTbFVwVQwjTa2n7boBKPznFepaiQoOOPy2vyzX
- 0uM8ny3CpV6ODrB5tmFbXE3zbmlAbgLzMN2jq1MmQLHjEle1mI6ZlzW5ctDTe0/9tiqL
- 60Eg==
-X-Gm-Message-State: AOAM533rkWSdf4/2aOMeHVehzklwHfvcaKvJFuZfzisHJ4ptIrU+UdMS
- ctPtbSPWlFNTCuWkKmbyjGmrRQ==
-X-Google-Smtp-Source: ABdhPJwM9BpsLpYq4qMhF+hkvCqI2NA6qpTbN6vsY5Zdt9XUJhOk0/kvmq4pizGJAx4eDsXMDZbRug==
-X-Received: by 2002:a4a:2743:: with SMTP id w3mr24645985oow.29.1620764371361; 
- Tue, 11 May 2021 13:19:31 -0700 (PDT)
-Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
- [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id z25sm2800140oic.30.2021.05.11.13.19.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 13:19:31 -0700 (PDT)
-Subject: Re: [PATCH 17/72] softfloat: Use pointers with parts_default_nan
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210508014802.892561-1-richard.henderson@linaro.org>
- <20210508014802.892561-18-richard.henderson@linaro.org>
- <bb440bc3-b75e-cc5c-7a2c-d44dabc98118@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <307d7801-3e2a-7df3-d82d-5bb3b68fc4d0@linaro.org>
-Date: Tue, 11 May 2021 15:19:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w3QG6oE6XFxK+C8mxpRyc8xyhWT1b4/Q8Xqo5OjgPlg=;
+ b=doHqkPgj4yBMhtUyGyIVBu4e+Elr9ufR9ONkd7b0/y/oSmzKMHCQOUrnl83h5gTgsI
+ ZDKoGvqEYN1n5YP25aRyK0UP5wKJ3ZOXjUwVOh+3I3s+wSyLsSS+8Hj9+kM9e3/Zlkbs
+ Gt87e97I8pIFq/cS3ODIQrsjgRruzU/KcCrVq5Dn4klNu3JnQq8BsJx2r/9zyJ40qgQR
+ 56yuFH/smuN0zvQ6CwXh1In2kZ4uDDfzh6aaSlrjaIz5dlnSWCXuh21dBsWzaCOGhbxY
+ 4X+nr41n4kIkUt4tb4IJ3WxM4I8LIJbtHry3J3R+voYocDCR5asQZb0UIfp/FrHUty0J
+ Ydbw==
+X-Gm-Message-State: AOAM532DO/1k+clACAGtw52EGVwzol8lkjEX7BL/OXcV1+3FPtDQK9iR
+ 9bWvwj6k7iPIgL66h18By2lSFMFAQa6L63ARyiHT+Q==
+X-Google-Smtp-Source: ABdhPJy/HwfcNppRp/bK8/4nd1gi9jr5FAwxpSzQM4n0+YHiMitLkcxxoW+l42JSea0KOqDQmVSeazq8UDmVHW45J4A=
+X-Received: by 2002:a17:906:eced:: with SMTP id
+ qt13mr33320407ejb.382.1620764489601; 
+ Tue, 11 May 2021 13:21:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <bb440bc3-b75e-cc5c-7a2c-d44dabc98118@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2e.google.com
+References: <1620458319-5670-1-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1620458319-5670-1-git-send-email-jasowang@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 11 May 2021 21:20:16 +0100
+Message-ID: <CAFEAcA9uVxbnJt_kcuy5RE3n2sDYk4y3bsEQCPFchvqbpmUMxQ@mail.gmail.com>
+Subject: Re: [PULL 00/10] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,25 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/21 5:22 AM, David Hildenbrand wrote:
-> On 08.05.21 03:47, Richard Henderson wrote:
->> At the same time, rename to parts64_default_nan and define
->> a macro for parts_default_nan using QEMU_GENERIC.
-> 
-> All I can spot is "#define parts_default_nan  parts64_default_nan" -- what am I 
-> missing?
-> 
-> apart from that
-> 
-> Reviewed-by: David Hildenbrand <david@redhat.com>
+On Sat, 8 May 2021 at 08:18, Jason Wang <jasowang@redhat.com> wrote:
+>
+> The following changes since commit d90f154867ec0ec22fd719164b88716e8fd48672:
+>
+>   Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504' into staging (2021-05-05 20:29:14 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/jasowang/qemu.git tags/net-pull-request
+>
+> for you to fetch changes up to 2bdeb0c2564c36b218ac73e21d7a6f6accb49091:
+>
+>   tap-bsd: Remove special casing for older OpenBSD releases (2021-05-08 13:59:12 +0800)
+>
+> ----------------------------------------------------------------
+>
+> ---------------------------------------------------------------
 
-Commit message not updated as the code changed.
-Fixed, thanks.
+This causes meson to emit a warning on one of my build machines:
+
+Run-time dependency libkeyutils found: NO (tried pkgconfig)
+Checking for function "gettid" : NO (cached)
+Run-time dependency fuse3 found: NO (tried pkgconfig)
+Found CMake: /usr/bin/cmake (2.8.12.2)
+WARNING: The version of CMake /usr/bin/cmake is 2.8.12.2 but version
+>=3.4 is required
+Run-time dependency libbpf found: NO (tried pkgconfig and cmake)
+Has header "linux/btrfs.h" : YES (cached)
+Has header "libdrm/drm.h" : YES (cached)
 
 
-r~
+We shouldn't be looking for cmake at all.
+
+thanks
+-- PMM
 
