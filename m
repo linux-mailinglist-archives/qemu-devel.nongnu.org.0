@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1283837A0F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 09:37:46 +0200 (CEST)
-Received: from localhost ([::1]:56880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1314F37A0E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 09:35:10 +0200 (CEST)
+Received: from localhost ([::1]:50574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgMxd-0006eU-5G
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 03:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51954)
+	id 1lgMv7-0002Da-2x
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 03:35:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgMqV-00047Z-76
+ id 1lgMqV-00047Y-69
  for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:23 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:45653)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgMqR-0008FK-W7
+ id 1lgMqT-0008Iv-6C
  for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:22 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- s5-20020a7bc0c50000b0290147d0c21c51so651521wmh.4
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 00:30:15 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id n2so19098040wrm.0
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 00:30:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yPW/vWw/DYoYJxDKWIvJOoYPABx6estNS+RutNHnWXY=;
- b=o8VG16ZICoeldN9dqd2unuDJYF+4zflcS1lo45WRRCkBpoH75y2D9AmEzgAkckxWak
- yNOYhN5gbEtC1TH7MV7XZyWrfdxh1A/NATw/GUOx7Toizai8CcGV8dT7hjci2bdQk5mW
- F5mx9BwO+rWDszGyDCEYWGVHrPGEXNULdAGZyXrheipPDP/G7tdVLdDHPzMmW5fumtWh
- g0wRtI4GL73fLyia8v/uY19yb5SZVvZdGQfh5PLGEGM5J/I+xVeKfYp8oDq2dFsaVO34
- Mz68Vu0vVUHyLIqSr5WM9ZQYPwIWvHYe4ID5BfAV6H2R9sQJTwsET5FrkSlLirTNSjDq
- p9HQ==
+ bh=cMLF+DiYB05VGczsv0EHFzokHqtb7UOcx/SnibJim1g=;
+ b=d6okAlqbrVmawA1Y1tE6/sHsdh8ch4YpcEafWeOXftdL70tbkzgRarGND23SiHXIej
+ Aq9f97SFLPJWe6mBSH6FfSFydJpuXOcBleSjrqIGnSynNUdxElz5NE3KP/hh76oUQObC
+ YfNJsmX02k1lCEJsEJqp78YPvoTUCLqFNHNRCjoSalF8XuKf/TgYKcp5WKydcK8oTJSP
+ zbale9YCDM08dQMgpi6aQy8Nw3noh4J07XU5DUfkZUy1whW//tzzZ6j3p+KLE68LaJwg
+ FukPZ1wtFPOSOhK2Q0UvE/3PNAt/uOnSNWgoecy2w9B5+S3u3pDyAAAVksqvzc9n1cWG
+ Osdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yPW/vWw/DYoYJxDKWIvJOoYPABx6estNS+RutNHnWXY=;
- b=RBP4CVc5S8DtWfAY+ag0N49WL9fDeo7LROrax+i8MNqNbRxlcwjygqbvF4S+wuJ9GG
- 2mCL33SR8HhaZB09Yek1GiICuOoPfhL5cB2Kaoy6eQiNvywydpQwwsTjiKQeu9G9f3Me
- e4U+YGGIBjeptA3DpEClyeDfbSvUKAJwcOfEl7efl+iNScSR/9BX0D/ng4WdJgBRkU9U
- VVeQcOnTo8zZb1jY8M0wINFFd8bCv+tiYEsH2o9kwA+LP1fBHp8Z+zz+Snl0SSC2GJmg
- bxo9PgYVn4ehLvXl9I4NvpE8pr0ty4lz/Yd7y4GeA6loW4FhrQI+9UkeHFEhR+kk2Sts
- d7pw==
-X-Gm-Message-State: AOAM533VGOKsqRjZocAROOukJDdME0DjhKtMxP6k9PudvLL7QMi8Tm/D
- aq1YWSEy42yZ3udR5QnFcIqVXcmSxwUEWg==
-X-Google-Smtp-Source: ABdhPJzlmUsX+Yjo6KEmz/is/GZSeJyFUo8crOgHVDxq7oFA4+M2Si4SqQVnxjXD9gWKY7uqXR69Sw==
-X-Received: by 2002:a1c:cc12:: with SMTP id h18mr30164855wmb.141.1620718213896; 
- Tue, 11 May 2021 00:30:13 -0700 (PDT)
+ bh=cMLF+DiYB05VGczsv0EHFzokHqtb7UOcx/SnibJim1g=;
+ b=uGxjby1mmrj8pavRBaijjsWAFDeho486I5Kf9A+riLHGN9HwI5v9S/1rg9R9cUrpOg
+ /vzu3YBIaP63tZr5swpBRnrf8tkU7DjqgfjdBP19CjO7NgXpR5dZKy8DqX+VLJV7FlAg
+ bTyd9plPkDjBPqToKNhY1GiXt4nLZ09J/+2kV1gUA5C284XBq430QyumcTseHfBQYP4r
+ s/ms7s6aCuips1en4Wz76ySM39T2ViG9PHDTsVTmMLY61wY0n8hBLvOI+DJSf1ct9X/7
+ D8DOEu7GvVgERhpXn3oeCJsPIHkwZOy+p4WPj/p69sVAptwU5vz9+TeqvmkwYm8hI7ie
+ kYyw==
+X-Gm-Message-State: AOAM531HN/+q6ylgZTYU+JBaujuP6UDvd93Oa00XdJoEVTLwyahJZkAp
+ AKl1TAg+QE4/q+lBOmomfaA7UVS0eN5OLg==
+X-Google-Smtp-Source: ABdhPJzvtxYXjHxOcQ5ByOMI0THqw7/+CVyY6YcZcqjpuN06PPwyfOftvjPFK9zjCTdEeM+eA+FVSw==
+X-Received: by 2002:adf:cc85:: with SMTP id p5mr35828809wrj.75.1620718218539; 
+ Tue, 11 May 2021 00:30:18 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id 3sm22880446wms.30.2021.05.11.00.30.12
+ by smtp.gmail.com with ESMTPSA id b10sm30859762wrr.27.2021.05.11.00.30.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 00:30:13 -0700 (PDT)
+ Tue, 11 May 2021 00:30:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/10] gitlab-ci: Extract crossbuild job templates to
- crossbuild-template.yml
-Date: Tue, 11 May 2021 09:29:46 +0200
-Message-Id: <20210511072952.2813358-5-f4bug@amsat.org>
+Subject: [PATCH v2 05/10] gitlab-ci: Extract DCO/style check jobs to
+ static_checks.yml
+Date: Tue, 11 May 2021 09:29:47 +0200
+Message-Id: <20210511072952.2813358-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210511072952.2813358-1-f4bug@amsat.org>
 References: <20210511072952.2813358-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,116 +95,96 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract the crossbuild job templates to a new file
-(crossbuild-template.yml) to be able to reuse them
-without having to run all the jobs included, which
-are mainly useful for mainstream CI.
+Extract the DCO / checkpatch jobs to a new file (static_checks.yml)
+to be able to run them without having to run all the jobs included
+in the default .gitlab-ci.yml, which are mainly useful for the
+mainstream CI.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/crossbuild-template.yml | 41 ++++++++++++++++++++++++++
- .gitlab-ci.d/crossbuilds.yml         | 43 ++--------------------------
- 2 files changed, 43 insertions(+), 41 deletions(-)
- create mode 100644 .gitlab-ci.d/crossbuild-template.yml
+v2:
+- renamed static_checks.yml (Wainer)
+- removed moved jobs (Thomas)
+---
+ .gitlab-ci.d/static_checks.yml | 24 ++++++++++++++++++++++++
+ .gitlab-ci.yml                 | 26 +-------------------------
+ 2 files changed, 25 insertions(+), 25 deletions(-)
+ create mode 100644 .gitlab-ci.d/static_checks.yml
 
-diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
+diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
 new file mode 100644
-index 00000000000..bc790a43486
+index 00000000000..f695627b7cd
 --- /dev/null
-+++ b/.gitlab-ci.d/crossbuild-template.yml
-@@ -0,0 +1,41 @@
-+.cross_system_build_job:
++++ b/.gitlab-ci.d/static_checks.yml
+@@ -0,0 +1,24 @@
++check-patch:
 +  stage: build
-+  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-+  timeout: 80m
-+  script:
-+    - mkdir build
-+    - cd build
-+    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-+      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-+        --disable-user --target-list-exclude="arm-softmmu cris-softmmu
-+          i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
-+          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
-+    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
++  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
++  needs:
++    job: amd64-centos8-container
++  script: .gitlab-ci.d/check-patch.py
++  except:
++    variables:
++      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
++  variables:
++    GIT_DEPTH: 1000
++  allow_failure: true
 +
-+# Job to cross-build specific accelerators.
-+#
-+# Set the $ACCEL variable to select the specific accelerator (default to
-+# KVM), and set extra options (such disabling other accelerators) via the
-+# $ACCEL_CONFIGURE_OPTS variable.
-+.cross_accel_build_job:
++check-dco:
 +  stage: build
-+  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-+  timeout: 30m
-+  script:
-+    - mkdir build
-+    - cd build
-+    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-+      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-+        --disable-tools --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
-+    - make -j$(expr $(nproc) + 1) all check-build
-+
-+.cross_user_build_job:
-+  stage: build
-+  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-+  script:
-+    - mkdir build
-+    - cd build
-+    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-+      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-+        --disable-system
-+    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index e44e4b49a25..bf626bed1cc 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -1,44 +1,5 @@
--.cross_system_build_job:
--  stage: build
--  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
--  timeout: 80m
--  script:
--    - mkdir build
--    - cd build
--    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
--      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
--        --disable-user --target-list-exclude="arm-softmmu cris-softmmu
--          i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
--          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
--    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
--
--# Job to cross-build specific accelerators.
--#
--# Set the $ACCEL variable to select the specific accelerator (default to
--# KVM), and set extra options (such disabling other accelerators) via the
--# $ACCEL_CONFIGURE_OPTS variable.
--.cross_accel_build_job:
--  stage: build
--  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
--  timeout: 30m
--  script:
--    - mkdir build
--    - cd build
--    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
--      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
--        --disable-tools --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
--    - make -j$(expr $(nproc) + 1) all check-build
--
--.cross_user_build_job:
--  stage: build
--  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
--  script:
--    - mkdir build
--    - cd build
--    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
--      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
--        --disable-system
--    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
-+include:
-+  - local: '/.gitlab-ci.d/crossbuild-template.yml'
++  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
++  needs:
++    job: amd64-centos8-container
++  script: .gitlab-ci.d/check-dco.py
++  except:
++    variables:
++      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
++  variables:
++    GIT_DEPTH: 1000
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index d474ffa030a..ab9edc78879 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -12,6 +12,7 @@ include:
+   - local: '/.gitlab-ci.d/opensbi.yml'
+   - local: '/.gitlab-ci.d/containers.yml'
+   - local: '/.gitlab-ci.d/crossbuilds.yml'
++  - local: '/.gitlab-ci.d/static_checks.yml'
  
- cross-armel-system:
-   extends: .cross_system_build_job
+ .native_build_job_template:
+   stage: build
+@@ -758,31 +759,6 @@ build-without-default-features:
+         --target-list-exclude=arm-softmmu,i386-softmmu,mipsel-softmmu,mips64-softmmu,ppc-softmmu
+     MAKE_CHECK_ARGS: check-unit
+ 
+-check-patch:
+-  stage: build
+-  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+-  needs:
+-    job: amd64-centos8-container
+-  script: .gitlab-ci.d/check-patch.py
+-  except:
+-    variables:
+-      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
+-  variables:
+-    GIT_DEPTH: 1000
+-  allow_failure: true
+-
+-check-dco:
+-  stage: build
+-  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+-  needs:
+-    job: amd64-centos8-container
+-  script: .gitlab-ci.d/check-dco.py
+-  except:
+-    variables:
+-      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
+-  variables:
+-    GIT_DEPTH: 1000
+-
+ build-libvhost-user:
+   stage: build
+   image: $CI_REGISTRY_IMAGE/qemu/fedora:latest
 -- 
 2.26.3
 
