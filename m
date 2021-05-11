@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CDD37A4A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:35:55 +0200 (CEST)
-Received: from localhost ([::1]:40258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E234C37A4AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:36:25 +0200 (CEST)
+Received: from localhost ([::1]:40928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgPk3-0001Hv-0d
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:35:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37896)
+	id 1lgPkW-0001kF-Uw
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:36:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPVh-0000Fh-BO
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:05 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41098)
+ id 1lgPVj-0000Jm-Lc
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:11 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPVV-0006V6-Fi
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:05 -0400
+ id 1lgPVf-0006X1-G6
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620728453; x=1652264453;
+ t=1620728462; x=1652264462;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lTWmHLSJ/1zeLY+vPzxAeYV0kg5U5ryvxxKuI70GuU4=;
- b=fzqrnPl7KWmkn420hD5Lgu8mmmAVoju0mrYCpvGWiLpW9/WaHW4DaY3O
- TrXp1yKjMrSMjgPK6IhoX6TsxVmdwjWPMxlr6JV69N2+ZXuJeMeD61ETj
- fSR8K3AzRHLE0xfFE5Y4kWhfcpXlwJGcjPkmfuxcYQskafriw9QE8dEEP
- gAZjzEUp6h6jlE+Gc+3xCCw5J7RqabJ1mHFYcYnOQ7BaGnPPIvBNOeAis
- TLgzq6n27avf9HQQwhpnwHBCOPu2OMKNjicV6tRFTkIM3Sq0YmTeve4Yu
- 3uAvA0+deQAfa7TH/MevpEUQWkAaw1ruPyhM7DViZ46P6gaNj+M6vQU/4 w==;
-IronPort-SDR: 0ct/gPSCei1CLSjbacEGUMrz/zOgjQ0A4Pd8cOboBF1JbXRpdQmODp7Qn1sZCUdEaiYq823Gm6
- 6ClmsFaQP4p0vM1GtK1WsUkUUeTBIrXgoypRRZ8xY8TfXV+CQ7zn107fc9PP4AX2doGY8TskBn
- WPWPy2ehzcyyISzC59BFfqwFxSLwhjcNkCfXFfrLaBektSXoHe7AuIfzgHlu5fytsf3pDExvmY
- dshHHw084DmHaY8Igj8UhUI5sD8iCagPS7XQ7ikTjgud1somH8UOG4K/nEQB6342XSEbuMoKru
- Z/8=
-X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735386"
+ bh=YgQJw7SjjqySGEU0p7K3VL1nspJ4011lufPoQdJ7iF0=;
+ b=mljbZxKRh+/93BSZ0CmEsI9mf6ZCv5xjXRI5riP+mltvSYsii2E7rCg1
+ vJSkHM7CKUQJHLHF3xZ/d+DycToE+f0HgNsAs9ZS/Xlk//SmSsFRlHkHk
+ iprW4+wOGd0MWAcGx74d7us3QARPxIfgBMY1cLXhpn/ESMjYJSgYZBqH/
+ vryw2ORhEj40PoDyeGa/JFZxhsBI/lmckm1NBBBsiCKFconWeUGcXYBSf
+ 0DDq1T06lFzluuzPZ4DSDMtZTMHLLqKqp/CSpxhjm08mzRUO9ZAVRs2Xe
+ pwBI0ZaJ+FKK7kCK60Umd2cDa217qFvgLaKbHjFeXymhgwiRZVrwR/23u w==;
+IronPort-SDR: HF9grLUzryuz3n5lz8Zuor6rjL6Wei0ZJk0ppm+0DtzFXLZxW8UPI/sFtB0Z/dSkLAi7i0yYHd
+ RdCClAul+0MMbr+M1wb5NoOSJD25MFiDCdVVVcUXLJ7jmwjR5tMGaAoT/aWu8VNLlCA3SyV6C/
+ AubSmAMeLSOZqDBzaBxnI+KL36bupmgCOInORcIm3KT9KSNHU+f3ompfEBM46+zJ6Q9IsljWWx
+ J4Szmofg0bJ3NUC0TZs7g1keqDmcoE5WPzfYSZ3+4FoAtHxtk6RMfM/YM95rD0idmXOJRjbuMm
+ HIA=
+X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735389"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:20:43 +0800
-IronPort-SDR: LyUyb7y2XvuPvvzP2BIZRwBUx6R8JdJ8GbvHw0WFbUhYp0jLJEBum2YMEqMRamfSIRo4K6Z3Fu
- H6rkCLItaG6pV0FmepabS6mdZKRV5lKPwJDqs49wInKbPXIPK5Be0E9fcF3dpfkHzJyQJS+07O
- atGCpitIxftSVJz9UsXcgdiIpvjYrXFkyFv7aditoEFKUxYaH8EQY6ixbvfki/BbeY4vMhBj+U
- QrZ9yh93DCdlp+4KfrCySSB9lKjf1z5G3AIr75KSDiMQ+JIfMF6Nwl19AEtZDt34zvccnLCUhz
- sWrv+KzqaqvygTuRyjqzFvwe
+ by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:20:47 +0800
+IronPort-SDR: XAnVxEF5C3+pUudpYDgPj7q/enVmp6bc71mc0VX2vomzZ40vpzAZZpPXHdWIzkleTg55v7F50s
+ Zo76C3lG/Y3/BvuRiNYFG0EyUKc2Ilobw6EA6qk3wUv8DIUeEBlezzInX5kwx1G6tgwe+QktMS
+ OZa/WOLcwtrTfbDHxDSlpVErjggNF7Lf5zVVBrdry8bP98fkqPv3Jj1IO8zTKbCc1+wdR2iRjp
+ zsFp5wnHe3NfT5P4N1Ik0JMUdbtT4IYJo8oS/fpWaSDT8ij1SiOthYSphvZOB9tpAYR/e+PsnV
+ ZQIlq4gVo7pwjdATxuF5TMTV
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 03:00:43 -0700
-IronPort-SDR: KrdjlYgkwjpxZUmi0ZA4E7gkvwgGixTvHxFgTR1XoCo6fy8wwLdubl2BawhdMpmPWeBORUurhm
- 0AdDvRRZw+FDNGcqDf5NhJPoQSMj07kFo8yaHBBGxuwbq6VmfB89E/CBb1FQVddrZzignMSdJl
- YNALZJWTCmEW2n/44Ixgri2BTiVqLlMYzFyjTxDKCsBc0ADYajHNG318vBZptJ1u42RGmiRrpR
- qFqN0pPUJV5CDh8FQ2qbYI9/k+dsVHL2EPUxEUCp0QMVMBoXEaJzKOpQCy6BxmZ7jskUeW83Ym
- Y7I=
+ 11 May 2021 03:00:47 -0700
+IronPort-SDR: g46sVhfQqGDgqq+vPEBe2vTi9r3tKoAxNh6VODK9qsIiFX/9rhiMFucJSx1uvQEWomdeOuBB3z
+ 01t0vSgyDOmJeI1+Vyj+IyOJ5m5Bsa7Y8Pck1lKjDADdpVE4vJM/s2kauKK3fCRLWDYv13pZF7
+ cnxg5+nosmytC5Haybrsfsfyp9JfmBgSR0QhniV9R9B6a0j9MhsE9qNkW+xyrLDwRoEs5xvLAO
+ 6KV1Kdwg3keYWliBxIbkeo/13MgijzXfG+9avKUcYktJRqpKw72D2QahNu3XbgIDgF36a0Pid6
+ +Bg=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.48])
- by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:20:42 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:20:46 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v3 13/42] target/riscv: Use RISCVException enum for CSR access
-Date: Tue, 11 May 2021 20:19:22 +1000
-Message-Id: <20210511101951.165287-14-alistair.francis@wdc.com>
+Subject: [PULL v3 14/42] MAINTAINERS: Update the RISC-V CPU Maintainers
+Date: Tue, 11 May 2021 20:19:23 +1000
+Message-Id: <20210511101951.165287-15-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210511101951.165287-1-alistair.francis@wdc.com>
 References: <20210511101951.165287-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=7584e029c=alistair.francis@wdc.com;
@@ -90,232 +91,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 302b208f40373557fa11b351b5c9f43039ca8ea3.1617290165.git.alistair.francis@wdc.com
----
- target/riscv/cpu.h       | 11 +++++++----
- target/riscv/csr.c       | 37 ++++++++++++++++++-------------------
- target/riscv/gdbstub.c   |  8 ++++----
- target/riscv/op_helper.c | 18 +++++++++---------
- 4 files changed, 38 insertions(+), 36 deletions(-)
+Update the RISC-V maintainers by removing Sagar and Bastian who haven't
+been involved recently.
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index a7b8876ea0..842d3ab810 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -454,10 +454,13 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-     *pflags = flags;
- }
+Also add Bin who has been helping with reviews.
+
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Bin Meng <bin.meng@windriver.com>
+Acked-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 6564ba829c40ad9aa7d28f43be69d8eb5cf4b56b.1617749142.git.alistair.francis@wdc.com
+---
+ MAINTAINERS | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7aaa304b1e..3ace764d29 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -295,9 +295,8 @@ F: tests/acceptance/machine_ppc.py
  
--int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
--                target_ulong new_value, target_ulong write_mask);
--int riscv_csrrw_debug(CPURISCVState *env, int csrno, target_ulong *ret_value,
--                      target_ulong new_value, target_ulong write_mask);
-+RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
-+                           target_ulong *ret_value,
-+                           target_ulong new_value, target_ulong write_mask);
-+RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
-+                                 target_ulong *ret_value,
-+                                 target_ulong new_value,
-+                                 target_ulong write_mask);
- 
- static inline void riscv_csr_write(CPURISCVState *env, int csrno,
-                                    target_ulong val)
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index f67eaf4042..f0a74f0eb8 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1382,10 +1382,11 @@ static RISCVException write_pmpaddr(CPURISCVState *env, int csrno,
-  * csrrc  <->  riscv_csrrw(env, csrno, ret_value, 0, value);
-  */
- 
--int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
--                target_ulong new_value, target_ulong write_mask)
-+RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
-+                           target_ulong *ret_value,
-+                           target_ulong new_value, target_ulong write_mask)
- {
--    int ret;
-+    RISCVException ret;
-     target_ulong old_value;
-     RISCVCPU *cpu = env_archcpu(env);
- 
-@@ -1407,41 +1408,37 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
- 
-     if ((write_mask && read_only) ||
-         (!env->debugger && (effective_priv < get_field(csrno, 0x300)))) {
--        return -RISCV_EXCP_ILLEGAL_INST;
-+        return RISCV_EXCP_ILLEGAL_INST;
-     }
- #endif
- 
-     /* ensure the CSR extension is enabled. */
-     if (!cpu->cfg.ext_icsr) {
--        return -RISCV_EXCP_ILLEGAL_INST;
-+        return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-     /* check predicate */
-     if (!csr_ops[csrno].predicate) {
--        return -RISCV_EXCP_ILLEGAL_INST;
-+        return RISCV_EXCP_ILLEGAL_INST;
-     }
-     ret = csr_ops[csrno].predicate(env, csrno);
-     if (ret != RISCV_EXCP_NONE) {
--        return -ret;
-+        return ret;
-     }
- 
-     /* execute combined read/write operation if it exists */
-     if (csr_ops[csrno].op) {
--        ret = csr_ops[csrno].op(env, csrno, ret_value, new_value, write_mask);
--        if (ret != RISCV_EXCP_NONE) {
--            return -ret;
--        }
--        return 0;
-+        return csr_ops[csrno].op(env, csrno, ret_value, new_value, write_mask);
-     }
- 
-     /* if no accessor exists then return failure */
-     if (!csr_ops[csrno].read) {
--        return -RISCV_EXCP_ILLEGAL_INST;
-+        return RISCV_EXCP_ILLEGAL_INST;
-     }
-     /* read old value */
-     ret = csr_ops[csrno].read(env, csrno, &old_value);
-     if (ret != RISCV_EXCP_NONE) {
--        return -ret;
-+        return ret;
-     }
- 
-     /* write value if writable and write mask set, otherwise drop writes */
-@@ -1450,7 +1447,7 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-         if (csr_ops[csrno].write) {
-             ret = csr_ops[csrno].write(env, csrno, new_value);
-             if (ret != RISCV_EXCP_NONE) {
--                return -ret;
-+                return ret;
-             }
-         }
-     }
-@@ -1460,17 +1457,19 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-         *ret_value = old_value;
-     }
- 
--    return 0;
-+    return RISCV_EXCP_NONE;
- }
- 
- /*
-  * Debugger support.  If not in user mode, set env->debugger before the
-  * riscv_csrrw call and clear it after the call.
-  */
--int riscv_csrrw_debug(CPURISCVState *env, int csrno, target_ulong *ret_value,
--                target_ulong new_value, target_ulong write_mask)
-+RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
-+                                 target_ulong *ret_value,
-+                                 target_ulong new_value,
-+                                 target_ulong write_mask)
- {
--    int ret;
-+    RISCVException ret;
- #if !defined(CONFIG_USER_ONLY)
-     env->debugger = true;
- #endif
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index 5f96b7ea2a..ca78682cf4 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -71,7 +71,7 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
-          */
-         result = riscv_csrrw_debug(env, n - 32, &val,
-                                    0, 0);
--        if (result == 0) {
-+        if (result == RISCV_EXCP_NONE) {
-             return gdb_get_regl(buf, val);
-         }
-     }
-@@ -94,7 +94,7 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
-          */
-         result = riscv_csrrw_debug(env, n - 32, NULL,
-                                    val, -1);
--        if (result == 0) {
-+        if (result == RISCV_EXCP_NONE) {
-             return sizeof(target_ulong);
-         }
-     }
-@@ -108,7 +108,7 @@ static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
-         int result;
- 
-         result = riscv_csrrw_debug(env, n, &val, 0, 0);
--        if (result == 0) {
-+        if (result == RISCV_EXCP_NONE) {
-             return gdb_get_regl(buf, val);
-         }
-     }
-@@ -122,7 +122,7 @@ static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
-         int result;
- 
-         result = riscv_csrrw_debug(env, n, NULL, val, -1);
--        if (result == 0) {
-+        if (result == RISCV_EXCP_NONE) {
-             return sizeof(target_ulong);
-         }
-     }
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index f0bbd73ca5..170b494227 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -41,10 +41,10 @@ target_ulong helper_csrrw(CPURISCVState *env, target_ulong src,
-         target_ulong csr)
- {
-     target_ulong val = 0;
--    int ret = riscv_csrrw(env, csr, &val, src, -1);
-+    RISCVException ret = riscv_csrrw(env, csr, &val, src, -1);
- 
--    if (ret < 0) {
--        riscv_raise_exception(env, -ret, GETPC());
-+    if (ret != RISCV_EXCP_NONE) {
-+        riscv_raise_exception(env, ret, GETPC());
-     }
-     return val;
- }
-@@ -53,10 +53,10 @@ target_ulong helper_csrrs(CPURISCVState *env, target_ulong src,
-         target_ulong csr, target_ulong rs1_pass)
- {
-     target_ulong val = 0;
--    int ret = riscv_csrrw(env, csr, &val, -1, rs1_pass ? src : 0);
-+    RISCVException ret = riscv_csrrw(env, csr, &val, -1, rs1_pass ? src : 0);
- 
--    if (ret < 0) {
--        riscv_raise_exception(env, -ret, GETPC());
-+    if (ret != RISCV_EXCP_NONE) {
-+        riscv_raise_exception(env, ret, GETPC());
-     }
-     return val;
- }
-@@ -65,10 +65,10 @@ target_ulong helper_csrrc(CPURISCVState *env, target_ulong src,
-         target_ulong csr, target_ulong rs1_pass)
- {
-     target_ulong val = 0;
--    int ret = riscv_csrrw(env, csr, &val, 0, rs1_pass ? src : 0);
-+    RISCVException ret = riscv_csrrw(env, csr, &val, 0, rs1_pass ? src : 0);
- 
--    if (ret < 0) {
--        riscv_raise_exception(env, -ret, GETPC());
-+    if (ret != RISCV_EXCP_NONE) {
-+        riscv_raise_exception(env, ret, GETPC());
-     }
-     return val;
- }
+ RISC-V TCG CPUs
+ M: Palmer Dabbelt <palmer@dabbelt.com>
+-M: Alistair Francis <Alistair.Francis@wdc.com>
+-M: Sagar Karandikar <sagark@eecs.berkeley.edu>
+-M: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
++M: Alistair Francis <alistair.francis@wdc.com>
++M: Bin Meng <bin.meng@windriver.com>
+ L: qemu-riscv@nongnu.org
+ S: Supported
+ F: target/riscv/
 -- 
 2.31.1
 
