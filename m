@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2050537B237
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 01:10:02 +0200 (CEST)
-Received: from localhost ([::1]:42704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7505F37B20D
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 01:02:22 +0200 (CEST)
+Received: from localhost ([::1]:48120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgbVp-0000un-7G
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 19:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36116)
+	id 1lgbOP-0002Qf-FM
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 19:02:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lgbM8-0007hw-ID
- for qemu-devel@nongnu.org; Tue, 11 May 2021 19:00:00 -0400
-Received: from mga05.intel.com ([192.55.52.43]:2826)
+ id 1lgbMQ-00082i-Lj
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 19:00:20 -0400
+Received: from mga05.intel.com ([192.55.52.43]:2837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lgbM6-000674-OH
- for qemu-devel@nongnu.org; Tue, 11 May 2021 19:00:00 -0400
-IronPort-SDR: 7DOB6Em5l0FTOKlXjqeK8Fiy0TPR+6lz9mhSXBN5zPNcmpVDGKNWD1oR4SlUixEWwwwUXFnyzW
- 5VZouX8XBcvQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="285065724"
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="285065724"
+ id 1lgbMI-0006DO-5o
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 19:00:18 -0400
+IronPort-SDR: TJYXGSrDCwFTf7CPj+FRAgk1nYC/dxD6q0TV/frs0eA44ZHdjtnEqjwxhoR4hGRrvz3av1uSha
+ gNU8choDaeDA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="285065725"
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="285065725"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 May 2021 15:59:42 -0700
-IronPort-SDR: 0ThoJ1w6nbBq2gi6fGCkXBqsDzMgx60F7Wgm2Y4/R/ls/JwlxPJm4pdasbV0pDuNicZJHckmb+
- LZml7cyKuH9A==
-X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="436883313"
+IronPort-SDR: A9n3tD+zR9NjPdj7Vv6+jFA/2UEnoI8aF/umI6FWIS9jQBbjYLoicf36vCeUZoSRgURRD/Vegz
+ x7dZaXh9PfwQ==
+X-IronPort-AV: E=Sophos;i="5.82,291,1613462400"; d="scan'208";a="436883318"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 May 2021 15:59:42 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/13] ui/pixman: Add qemu_pixman_to_drm_format()
-Date: Tue, 11 May 2021 15:47:15 -0700
-Message-Id: <20210511224719.387443-10-vivek.kasireddy@intel.com>
+Subject: [PATCH v4 10/13] virtio-gpu: Add helpers to create and destroy dmabuf
+ objects
+Date: Tue, 11 May 2021 15:47:16 -0700
+Message-Id: <20210511224719.387443-11-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210511224719.387443-1-vivek.kasireddy@intel.com>
 References: <20210511224719.387443-1-vivek.kasireddy@intel.com>
@@ -66,79 +67,146 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new function to get the drm_format associated with a pixman
-format will be useful while creating a dmabuf.
+These helpers can be useful for creating dmabuf objects from blobs
+and submitting them to the UI.
 
-Based-on-patch-by: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/ui/qemu-pixman.h |  1 +
- ui/qemu-pixman.c         | 35 ++++++++++++++++++++++++-----------
- 2 files changed, 25 insertions(+), 11 deletions(-)
+ hw/display/virtio-gpu-udmabuf.c | 74 +++++++++++++++++++++++++++++++++
+ include/hw/virtio/virtio-gpu.h  | 15 +++++++
+ 2 files changed, 89 insertions(+)
 
-diff --git a/include/ui/qemu-pixman.h b/include/ui/qemu-pixman.h
-index 87737a6f16..806ddcd7cd 100644
---- a/include/ui/qemu-pixman.h
-+++ b/include/ui/qemu-pixman.h
-@@ -62,6 +62,7 @@ typedef struct PixelFormat {
- PixelFormat qemu_pixelformat_from_pixman(pixman_format_code_t format);
- pixman_format_code_t qemu_default_pixman_format(int bpp, bool native_endian);
- pixman_format_code_t qemu_drm_format_to_pixman(uint32_t drm_format);
-+uint32_t qemu_pixman_to_drm_format(pixman_format_code_t pixman);
- int qemu_pixman_get_type(int rshift, int gshift, int bshift);
- pixman_format_code_t qemu_pixman_get_format(PixelFormat *pf);
- bool qemu_pixman_check_format(DisplayChangeListener *dcl,
-diff --git a/ui/qemu-pixman.c b/ui/qemu-pixman.c
-index 85f2945e88..3ab7e2e958 100644
---- a/ui/qemu-pixman.c
-+++ b/ui/qemu-pixman.c
-@@ -89,21 +89,34 @@ pixman_format_code_t qemu_default_pixman_format(int bpp, bool native_endian)
+diff --git a/hw/display/virtio-gpu-udmabuf.c b/hw/display/virtio-gpu-udmabuf.c
+index 3f569ae9c8..d486419a26 100644
+--- a/hw/display/virtio-gpu-udmabuf.c
++++ b/hw/display/virtio-gpu-udmabuf.c
+@@ -159,6 +159,71 @@ void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res)
+     }
  }
  
- /* Note: drm is little endian, pixman is native endian */
-+static const struct {
-+    uint32_t drm_format;
-+    pixman_format_code_t pixman_format;
-+} drm_format_pixman_map[] = {
-+    { DRM_FORMAT_RGB888,   PIXMAN_LE_r8g8b8   },
-+    { DRM_FORMAT_ARGB8888, PIXMAN_LE_a8r8g8b8 },
-+    { DRM_FORMAT_XRGB8888, PIXMAN_LE_x8r8g8b8 }
-+};
++static void virtio_gpu_free_dmabuf(VirtIOGPU *g, VGPUDMABuf *dmabuf)
++{
++    struct virtio_gpu_scanout *scanout;
 +
- pixman_format_code_t qemu_drm_format_to_pixman(uint32_t drm_format)
- {
--    static const struct {
--        uint32_t drm_format;
--        pixman_format_code_t pixman;
--    } map[] = {
--        { DRM_FORMAT_RGB888,   PIXMAN_LE_r8g8b8   },
--        { DRM_FORMAT_ARGB8888, PIXMAN_LE_a8r8g8b8 },
--        { DRM_FORMAT_XRGB8888, PIXMAN_LE_x8r8g8b8 }
--    };
-     int i;
- 
--    for (i = 0; i < ARRAY_SIZE(map); i++) {
--        if (drm_format == map[i].drm_format) {
--            return map[i].pixman;
-+    for (i = 0; i < ARRAY_SIZE(drm_format_pixman_map); i++) {
-+        if (drm_format == drm_format_pixman_map[i].drm_format) {
-+            return drm_format_pixman_map[i].pixman_format;
-+        }
++    scanout = &g->parent_obj.scanout[dmabuf->scanout_id];
++    dpy_gl_release_dmabuf(scanout->con, &dmabuf->buf);
++    QTAILQ_REMOVE(&g->dmabuf.bufs, dmabuf, next);
++    g_free(dmabuf);
++}
++
++static VGPUDMABuf
++*virtio_gpu_create_dmabuf(VirtIOGPU *g,
++                          uint32_t scanout_id,
++                          struct virtio_gpu_simple_resource *res,
++                          struct virtio_gpu_framebuffer *fb)
++{
++    VGPUDMABuf *dmabuf;
++
++    if (res->dmabuf_fd < 0) {
++        return NULL;
 +    }
++
++    dmabuf = g_new0(VGPUDMABuf, 1);
++    dmabuf->buf.width = fb->width;
++    dmabuf->buf.height = fb->height;
++    dmabuf->buf.stride = fb->stride;
++    dmabuf->buf.fourcc = qemu_pixman_to_drm_format(fb->format);
++    dmabuf->buf.fd = res->dmabuf_fd;
++
++    dmabuf->scanout_id = scanout_id;
++    QTAILQ_INSERT_HEAD(&g->dmabuf.bufs, dmabuf, next);
++
++    return dmabuf;
++}
++
++int virtio_gpu_update_dmabuf(VirtIOGPU *g,
++                             uint32_t scanout_id,
++                             struct virtio_gpu_simple_resource *res,
++                             struct virtio_gpu_framebuffer *fb)
++{
++    struct virtio_gpu_scanout *scanout = &g->parent_obj.scanout[scanout_id];
++    VGPUDMABuf *new_primary, *old_primary;
++
++    new_primary = virtio_gpu_create_dmabuf(g, scanout_id, res, fb);
++    if (!new_primary) {
++        return -EINVAL;
++    }
++
++    if (g->dmabuf.primary) {
++        old_primary = g->dmabuf.primary;
++    }
++
++    g->dmabuf.primary = new_primary;
++    qemu_console_resize(scanout->con,
++			new_primary->buf.width,
++                        new_primary->buf.height);
++    dpy_gl_scanout_dmabuf(scanout->con, &new_primary->buf);
++
++    if (old_primary) {
++        virtio_gpu_free_dmabuf(g, old_primary);
++    }
++
 +    return 0;
 +}
 +
-+uint32_t qemu_pixman_to_drm_format(pixman_format_code_t pixman_format)
+ #else
+ 
+ bool virtio_gpu_have_udmabuf(void)
+@@ -178,4 +243,13 @@ void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res)
+     /* nothing (stub) */
+ }
+ 
++int virtio_gpu_update_dmabuf(VirtIOGPU *g,
++                             uint32_t scanout_id,
++                             struct virtio_gpu_simple_resource *res,
++                             struct virtio_gpu_framebuffer *fb)
 +{
-+    int i;
++    /* nothing (stub) */
++    return 0;
++}
 +
-+    for (i = 0; i < ARRAY_SIZE(drm_format_pixman_map); i++) {
-+        if (pixman_format == drm_format_pixman_map[i].pixman_format) {
-+            return drm_format_pixman_map[i].drm_format;
-         }
-     }
-     return 0;
+ #endif
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 66e7aaad0e..bcf54d970f 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -150,6 +150,12 @@ struct VirtIOGPUBaseClass {
+     DEFINE_PROP_UINT32("xres", _state, _conf.xres, 1024), \
+     DEFINE_PROP_UINT32("yres", _state, _conf.yres, 768)
+ 
++typedef struct VGPUDMABuf {
++    QemuDmaBuf buf;
++    uint32_t scanout_id;
++    QTAILQ_ENTRY(VGPUDMABuf) next;
++} VGPUDMABuf;
++
+ struct VirtIOGPU {
+     VirtIOGPUBase parent_obj;
+ 
+@@ -178,6 +184,11 @@ struct VirtIOGPU {
+         uint32_t req_3d;
+         uint32_t bytes_3d;
+     } stats;
++
++    struct {
++        QTAILQ_HEAD(, VGPUDMABuf) bufs;
++        VGPUDMABuf *primary;
++    } dmabuf;
+ };
+ 
+ struct VirtIOGPUClass {
+@@ -259,6 +270,10 @@ void virtio_gpu_update_cursor_data(VirtIOGPU *g,
+ bool virtio_gpu_have_udmabuf(void);
+ void virtio_gpu_init_udmabuf(struct virtio_gpu_simple_resource *res);
+ void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res);
++int virtio_gpu_update_dmabuf(VirtIOGPU *g,
++                             uint32_t scanout_id,
++                             struct virtio_gpu_simple_resource *res,
++                             struct virtio_gpu_framebuffer *fb);
+ 
+ /* virtio-gpu-3d.c */
+ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
 -- 
 2.30.2
 
