@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A159037A4A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:34:19 +0200 (CEST)
-Received: from localhost ([::1]:37198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84FD37A4C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:41:49 +0200 (CEST)
+Received: from localhost ([::1]:54906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgPiU-0007a5-JO
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:34:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38002)
+	id 1lgPpj-0002xx-6o
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:41:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPVu-0000j0-TI
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:19 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41098)
+ id 1lgPW5-0000xI-PN
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:31 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPVt-0006V6-7O
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:18 -0400
+ id 1lgPVx-0006X1-JG
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620728476; x=1652264476;
+ t=1620728480; x=1652264480;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=otQOSwcYVr7RAj/nWvFHEWoMMJh10b7Yi4YNSpL0/3M=;
- b=jQJvsyzQdkOEhBfV64Qkr7LaymZ8IajNoBfmFef8pb/uQ4KA+Aijpyzg
- T9o3WY8ZUCdGTf3do6d1/iaxQdALVQluMA0x38dRTYCYWVXGv86oqwTBq
- 4jMma9oWdAZc9e0MEesUMrJ1y/yJ/CTZH7FxXYdaQebs70N3SnHsyupmD
- qj2g5nIhqHRg3U/guU2s32UpA4pWE6sC3SJwCD4XTKI63WSfY1rTQqWMN
- GXInL6LBOy3Kq1FBrnwU6N9ioATG0BlLnrLc0hhlCwF5ICBA0olDF1JWZ
- qMqonWuZvl5z7mqwY+cHw6OhrXcVl9ukVqGmm+tz6UfY4WRKvIyR84sv0 Q==;
-IronPort-SDR: u2aI8KtZdjQ7K/OgRhXkwqKPNc4m0Xu93zwgutUou5OUi72I01oNwCFQmt7s0Fipppgqyre352
- xsXuOhHucLCmHE8gYDljc+TIzkWt346yaQb6azO+BKek9Pu6CXLE5NwZGC3Fo2duN4JqnZJ9PM
- S0HR9cEwTG0TMDSNzL5mf8RxrTb/aLvc6gsWsAP1ADOMEi/nyOSc/vLtNQnwboH3zpBzqF5W3B
- nk0A7rQP4CEUSadq9E4xCbr5Vgq0odjvcg+wF3QnBlWzdUT7qeqwudih8KARXyt47A62r+NyGN
- pWA=
-X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735393"
+ bh=yFRLTCdAcyqhfcygvlqGQ7lXNGX9GsANpwxchwLWEg0=;
+ b=GT+EwpeloRar5M1I171SsdVPrumbVSEvYA9EeEgl6EElhJp+FaH93oIC
+ aIkKp2fPIiodNRqz66AFjJIvKK57TG4mwELN4mXM8kXHjpY41mpScqJBl
+ TWRBD3nBzr5U2Tik59Q2ffJf/ACwJb2+2I2Rk1U4yDoG3jSgNx+TWSUaM
+ 7yb84nqmpqyZ0WQZITO7JZjFIo9X5VQFy/1BBjtfBMJWZfftYeh9yfK1P
+ Hk1cs8OkJGflcHk8gF6RPo/q8EnQ/RkSGFSxSKvG6JoLEkRC5n34NYflC
+ yTGh1rGzifEtDCyfyTbdlaOtkhTYISX/1avNjGnpgyDxeoj0WAdxmH5xZ A==;
+IronPort-SDR: cMussp7QcIrC8TrHS7BQzB/ebDuGpYxMTK/hS8zQ22xmV1jjJXQeOHnmlTbVAbONxde8uiD2s8
+ clOHHNSkk5rf4iy1Le76S99gP6gLjMjZ3HqGFB0sSQIcFX4rA4tL72Ieiny0z/44T17U4rlttV
+ Z7RxMNMIgvYuZjScEtTu+hZSZ71A6LqBZSFYG+Ss7PGQk6A1l9qjVMdZNexAw2P5KyeFgZ5aXu
+ j/ZJNjfapAzWU+odmqf7KSTOP/HqtpAhqxAHHDrsFTl2DGcHisv4lQM5cgceu2EhSyqUsmjJoX
+ 4aI=
+X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735397"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:20:54 +0800
-IronPort-SDR: efO8vcwkrs8SNk8uWXk0H9hjVku1htzBL3hfK6A7DfcRVKDqFpOsCyE2nCzVXUQO5GwlJuR+SW
- 5s4rR58T9q3DbzJnyIrobpst2g3PtlA2MXJzAmStwHkryP0wuua128wrUIN7Awd2jsGLeOI9Dv
- i7HVQ3BeJcyEDrX0AtIZFdp9ctMC8YD6bdMyfWT0ihbsJ0ToytzLqMYnWYPG1peK7Whc/VZp5d
- eaUMpruUxrp4JyadwKmsi4qTJh5CaVh3rt+ARziU7bEr139cMOCjDdFR7ZMypDwjS3HUcPaS7N
- bZEVhIvYCpoQMWT8+MVXLcrV
+ by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:20:57 +0800
+IronPort-SDR: DC780OlySbHWSXkTpjB23bcdJlxEyxm70klgabuVbXdk7yHr6ansnc3wPIzy5RR+AHHYZaHZ3Q
+ uisFroCQWlfyCKnzvJWMctK1/CPh5QdiaQKqqAI7I3NRMQJIWL4P2I7zIUC85I9TWVB5nzBwkI
+ GESekVQXx9Xmd0Fxt1ETNTjxf69LGmQMv6O8TUBqq4wt+mZsyQw1bEJJPo3KsixjZ/Aehi/c5R
+ mZ0Wnox3AujJU0ft9CK7hC+JMKyggBP3IDRq2zGcktcR/VHCgunFvNS4VI3Rc+p1FcyxREoEJV
+ zeixoWYM+Xx1v808MZUn+AIU
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 03:00:53 -0700
-IronPort-SDR: 3JFu3rzpO7lEo4R9wKNRsHVXYPewsY1YzFdn5fPi8WUGXTsDsL+AgCwj3MiynF+j271bBIYmqB
- e9KfLJVIrRR4f+KpJ3sRuozxBLbZpz0Rr27DsFVo1SeiWvw6b9j1apkuPsrohjbPcV7YIdPMYB
- Vv58MQOWpFbpVHniBGwTIpuYi3jyf8ANszIrKGv2Rl+xFO1NWX+D58ganTKbEUDc384Zma+EB4
- yK+CfegCwVE9KybhQTXqpbEhbXpPulBRxoIIG9TV84Kupjjx/DhIz6MLSlRJcJalzUgsGxttbJ
- iB8=
+ 11 May 2021 03:00:56 -0700
+IronPort-SDR: VT4lCKtvdGENIOMUB2rBl4Tbu5V000ZhYkryxaeowS3/vnmhFfGT9OntpeasnFsQ0InLywOF1d
+ HupOaxM1Ge3m6I6wPswQ3Aod31nII1r6oFP8TldZLYxfXUTXNBC7/TSlvy29P1ug9w4J4kgsMM
+ mhIPU4/2qJb82Tqw6a1/L/0uFoIADOcwwnCySymk0PY1fJnO2kpbiuQGo3ezvHeI2mq3rTgCgr
+ ovRfp9O57QDKYlMJ5n/Pb5pbMM205AHSPAbgzIAkesh3t2DQlDdEUz7eQL5gOnEJXcn3Ch4z36
+ sRM=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.48])
- by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:20:52 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:20:55 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v3 16/42] hw/riscv: Enable VIRTIO_VGA for RISC-V virt machine
-Date: Tue, 11 May 2021 20:19:25 +1000
-Message-Id: <20210511101951.165287-17-alistair.francis@wdc.com>
+Subject: [PULL v3 17/42] riscv: don't look at SUM when accessing memory from a
+ debugger context
+Date: Tue, 11 May 2021 20:19:26 +1000
+Message-Id: <20210511101951.165287-18-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210511101951.165287-1-alistair.francis@wdc.com>
 References: <20210511101951.165287-1-alistair.francis@wdc.com>
@@ -90,35 +91,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ qemu-devel@nongnu.org, Jade Fink <qemu@jade.fyi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-imply VIRTIO_VGA for the virt machine, this fixes the following error
-when specifying `-vga virtio` as a command line argument:
+From: Jade Fink <qemu@jade.fyi>
 
-qemu-system-riscv64: Virtio VGA not available
+Previously the qemu monitor and gdbstub looked at SUM and refused to
+perform accesses to user memory if it is off, which was an impediment to
+debugging.
 
+Signed-off-by: Jade Fink <qemu@jade.fyi>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210406113109.1031033-1-qemu@jade.fyi
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 7ac26fafee8bd59d2a0640f3233f8ad1ab270e1e.1617367317.git.alistair.francis@wdc.com
 ---
- hw/riscv/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/cpu_helper.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index a0225716b5..86957ec7b0 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -32,6 +32,7 @@ config SHAKTI_C
- config RISCV_VIRT
-     bool
-     imply PCI_DEVICES
-+    imply VIRTIO_VGA
-     imply TEST_DEVICES
-     select GOLDFISH_RTC
-     select MSI_NONBROKEN
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 99cc388db9..659ca8a173 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -342,12 +342,14 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
+  * @first_stage: Are we in first stage translation?
+  *               Second stage is used for hypervisor guest translation
+  * @two_stage: Are we going to perform two stage translation
++ * @is_debug: Is this access from a debugger or the monitor?
+  */
+ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+                                 int *prot, target_ulong addr,
+                                 target_ulong *fault_pte_addr,
+                                 int access_type, int mmu_idx,
+-                                bool first_stage, bool two_stage)
++                                bool first_stage, bool two_stage,
++                                bool is_debug)
+ {
+     /* NOTE: the env->pc value visible here will not be
+      * correct, but the value visible to the exception handler
+@@ -416,7 +418,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+         widened = 2;
+     }
+     /* status.SUM will be ignored if execute on background */
+-    sum = get_field(env->mstatus, MSTATUS_SUM) || use_background;
++    sum = get_field(env->mstatus, MSTATUS_SUM) || use_background || is_debug;
+     switch (vm) {
+     case VM_1_10_SV32:
+       levels = 2; ptidxbits = 10; ptesize = 4; break;
+@@ -475,7 +477,8 @@ restart:
+             /* Do the second stage translation on the base PTE address. */
+             int vbase_ret = get_physical_address(env, &vbase, &vbase_prot,
+                                                  base, NULL, MMU_DATA_LOAD,
+-                                                 mmu_idx, false, true);
++                                                 mmu_idx, false, true,
++                                                 is_debug);
+ 
+             if (vbase_ret != TRANSLATE_SUCCESS) {
+                 if (fault_pte_addr) {
+@@ -666,13 +669,13 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+     int mmu_idx = cpu_mmu_index(&cpu->env, false);
+ 
+     if (get_physical_address(env, &phys_addr, &prot, addr, NULL, 0, mmu_idx,
+-                             true, riscv_cpu_virt_enabled(env))) {
++                             true, riscv_cpu_virt_enabled(env), true)) {
+         return -1;
+     }
+ 
+     if (riscv_cpu_virt_enabled(env)) {
+         if (get_physical_address(env, &phys_addr, &prot, phys_addr, NULL,
+-                                 0, mmu_idx, false, true)) {
++                                 0, mmu_idx, false, true, true)) {
+             return -1;
+         }
+     }
+@@ -768,7 +771,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+         /* Two stage lookup */
+         ret = get_physical_address(env, &pa, &prot, address,
+                                    &env->guest_phys_fault_addr, access_type,
+-                                   mmu_idx, true, true);
++                                   mmu_idx, true, true, false);
+ 
+         /*
+          * A G-stage exception may be triggered during two state lookup.
+@@ -790,7 +793,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+             im_address = pa;
+ 
+             ret = get_physical_address(env, &pa, &prot2, im_address, NULL,
+-                                       access_type, mmu_idx, false, true);
++                                       access_type, mmu_idx, false, true,
++                                       false);
+ 
+             qemu_log_mask(CPU_LOG_MMU,
+                     "%s 2nd-stage address=%" VADDR_PRIx " ret %d physical "
+@@ -825,7 +829,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     } else {
+         /* Single stage lookup */
+         ret = get_physical_address(env, &pa, &prot, address, NULL,
+-                                   access_type, mmu_idx, true, false);
++                                   access_type, mmu_idx, true, false, false);
+ 
+         qemu_log_mask(CPU_LOG_MMU,
+                       "%s address=%" VADDR_PRIx " ret %d physical "
 -- 
 2.31.1
 
