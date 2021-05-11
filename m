@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A6B37A19B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:18:49 +0200 (CEST)
-Received: from localhost ([::1]:36672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4658237A19F
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:21:33 +0200 (CEST)
+Received: from localhost ([::1]:43552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgNbM-0001hH-4w
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:18:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34476)
+	id 1lgNe0-0006Ko-8Z
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:21:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWk-0001TP-Bt
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39209)
+ id 1lgNWm-0001bO-NF
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWh-0000hi-4d
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:02 -0400
+ id 1lgNWi-0000j2-5s
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620720838;
+ s=mimecast20190719; t=1620720839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vgJNJcqzKUtK71HTcL6PL4MDg3HF99xzRQyW+AwEq5A=;
- b=aTeL4tg1VGCrlMcP4rJMC8yAozj/g6obcUVbVcrhnqMLYUgoPGNAw22hgwIgSouFm2k7+j
- U1wlg8rsz5QCOTzmifLLaKiv+fLikl7MXqOfYzXP0eN741EPCjl+M+w1/WFic7eghsQ2T0
- QMDIeHf+QVAo581AuoNfDmHb5vo108U=
+ bh=5Q40wmbqBAMVqecV8VMuWM2pj+vJUZbaBPje2e4px8Q=;
+ b=ErbTSUDQQM2a+ASVizoJbqpu/mxsjmiuN2qk4yoY/5wjEuuYyMxgYQ2sX6RcWZ3WtF/PkY
+ 2E0dhJxDN8cL8WvqWjlJwDfBSw6+b4xTfHqG14bs3AMNomhntJXr2dXsB2fhsUjibSB3kt
+ Yu7yclmgn0qtxpOweyI94fb2X1a1gT0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-hKI3rgl2MPqsmTWLFM7hvA-1; Tue, 11 May 2021 04:13:56 -0400
-X-MC-Unique: hKI3rgl2MPqsmTWLFM7hvA-1
+ us-mta-401-iqHxlBGaMvekmdGiD6zerw-1; Tue, 11 May 2021 04:13:57 -0400
+X-MC-Unique: iqHxlBGaMvekmdGiD6zerw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A82BC107ACC7;
- Tue, 11 May 2021 08:13:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40EFD801817;
+ Tue, 11 May 2021 08:13:56 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 579675D9E3;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C240C5D9E3;
  Tue, 11 May 2021 08:13:55 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/33] i386: split off sysemu-only functionality in tcg-cpu
-Date: Tue, 11 May 2021 04:13:25 -0400
-Message-Id: <20210511081350.419428-9-pbonzini@redhat.com>
+Subject: [PULL 09/33] i386: split smm helper (sysemu)
+Date: Tue, 11 May 2021 04:13:26 -0400
+Message-Id: <20210511081350.419428-10-pbonzini@redhat.com>
 In-Reply-To: <20210511081350.419428-1-pbonzini@redhat.com>
 References: <20210511081350.419428-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -84,289 +84,152 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Claudio Fontana <cfontana@suse.de>
+
+smm is only really useful for sysemu, split in two modules
+around the CONFIG_USER_ONLY, in order to remove the ifdef
+and use the build system instead.
+
+add cpu_abort() when detecting attempts to enter SMM mode via
+SMI interrupt in user-mode, and assert that the cpu is not
+in SMM mode while translating RSM instructions.
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210322132800.7470-11-cfontana@suse.de>
+Message-Id: <20210322132800.7470-12-cfontana@suse.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/meson.build            |  2 +
- target/i386/tcg/meson.build        |  3 ++
- target/i386/tcg/sysemu/meson.build |  3 ++
- target/i386/tcg/sysemu/tcg-cpu.c   | 83 ++++++++++++++++++++++++++++++
- target/i386/tcg/tcg-cpu.c          | 75 ++-------------------------
- target/i386/tcg/tcg-cpu.h          | 24 +++++++++
- target/i386/tcg/user/meson.build   |  2 +
- 7 files changed, 121 insertions(+), 71 deletions(-)
- create mode 100644 target/i386/tcg/sysemu/meson.build
- create mode 100644 target/i386/tcg/sysemu/tcg-cpu.c
- create mode 100644 target/i386/tcg/tcg-cpu.h
- create mode 100644 target/i386/tcg/user/meson.build
+ target/i386/helper.h                      |  4 ++++
+ target/i386/tcg/meson.build               |  1 -
+ target/i386/tcg/seg_helper.c              |  4 ++++
+ target/i386/tcg/sysemu/meson.build        |  1 +
+ target/i386/tcg/{ => sysemu}/smm_helper.c | 19 ++-----------------
+ target/i386/tcg/translate.c               |  5 +++++
+ 6 files changed, 16 insertions(+), 18 deletions(-)
+ rename target/i386/tcg/{ => sysemu}/smm_helper.c (98%)
 
-diff --git a/target/i386/meson.build b/target/i386/meson.build
-index 6f3b0255c0..94571317f6 100644
---- a/target/i386/meson.build
-+++ b/target/i386/meson.build
-@@ -19,6 +19,7 @@ i386_softmmu_ss.add(files(
-   'machine.c',
-   'monitor.c',
- ))
-+i386_user_ss = ss.source_set()
- 
- subdir('kvm')
- subdir('hax')
-@@ -29,3 +30,4 @@ subdir('tcg')
- 
- target_arch += {'i386': i386_ss}
- target_softmmu_arch += {'i386': i386_softmmu_ss}
-+target_user_arch += {'i386': i386_user_ss}
+diff --git a/target/i386/helper.h b/target/i386/helper.h
+index c2ae2f7e61..8ffda4cdc6 100644
+--- a/target/i386/helper.h
++++ b/target/i386/helper.h
+@@ -70,7 +70,11 @@ DEF_HELPER_1(clac, void, env)
+ DEF_HELPER_1(stac, void, env)
+ DEF_HELPER_3(boundw, void, env, tl, int)
+ DEF_HELPER_3(boundl, void, env, tl, int)
++
++#ifndef CONFIG_USER_ONLY
+ DEF_HELPER_1(rsm, void, env)
++#endif /* !CONFIG_USER_ONLY */
++
+ DEF_HELPER_2(into, void, env, int)
+ DEF_HELPER_2(cmpxchg8b_unlocked, void, env, tl)
+ DEF_HELPER_2(cmpxchg8b, void, env, tl)
 diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
-index 6a1a73cdbf..320bcd1e46 100644
+index 320bcd1e46..449d9719ef 100644
 --- a/target/i386/tcg/meson.build
 +++ b/target/i386/tcg/meson.build
-@@ -12,3 +12,6 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
+@@ -8,7 +8,6 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'misc_helper.c',
+   'mpx_helper.c',
+   'seg_helper.c',
+-  'smm_helper.c',
    'svm_helper.c',
    'tcg-cpu.c',
    'translate.c'), if_false: files('tcg-stub.c'))
-+
-+subdir('sysemu')
-+subdir('user')
+diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
+index d180a381d1..b6230ebdf4 100644
+--- a/target/i386/tcg/seg_helper.c
++++ b/target/i386/tcg/seg_helper.c
+@@ -1351,7 +1351,11 @@ bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     case CPU_INTERRUPT_SMI:
+         cpu_svm_check_intercept_param(env, SVM_EXIT_SMI, 0, 0);
+         cs->interrupt_request &= ~CPU_INTERRUPT_SMI;
++#ifdef CONFIG_USER_ONLY
++        cpu_abort(CPU(cpu), "SMI interrupt: cannot enter SMM in user-mode");
++#else
+         do_smm_enter(cpu);
++#endif /* CONFIG_USER_ONLY */
+         break;
+     case CPU_INTERRUPT_NMI:
+         cpu_svm_check_intercept_param(env, SVM_EXIT_NMI, 0, 0);
 diff --git a/target/i386/tcg/sysemu/meson.build b/target/i386/tcg/sysemu/meson.build
-new file mode 100644
-index 0000000000..4ab30cc32e
---- /dev/null
+index 4ab30cc32e..35ba16dc3d 100644
+--- a/target/i386/tcg/sysemu/meson.build
 +++ b/target/i386/tcg/sysemu/meson.build
-@@ -0,0 +1,3 @@
-+i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
-+  'tcg-cpu.c',
-+))
-diff --git a/target/i386/tcg/sysemu/tcg-cpu.c b/target/i386/tcg/sysemu/tcg-cpu.c
-new file mode 100644
-index 0000000000..c223c0fe9b
---- /dev/null
-+++ b/target/i386/tcg/sysemu/tcg-cpu.c
-@@ -0,0 +1,83 @@
-+/*
-+ * i386 TCG cpu class initialization functions specific to sysemu
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
+@@ -1,3 +1,4 @@
+ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
+   'tcg-cpu.c',
++  'smm_helper.c',
+ ))
+diff --git a/target/i386/tcg/smm_helper.c b/target/i386/tcg/sysemu/smm_helper.c
+similarity index 98%
+rename from target/i386/tcg/smm_helper.c
+rename to target/i386/tcg/sysemu/smm_helper.c
+index 62d027abd3..a45b5651c3 100644
+--- a/target/i386/tcg/smm_helper.c
++++ b/target/i386/tcg/sysemu/smm_helper.c
+@@ -1,5 +1,5 @@
+ /*
+- *  x86 SMM helpers
++ *  x86 SMM helpers (sysemu-only)
+  *
+  *  Copyright (c) 2003 Fabrice Bellard
+  *
+@@ -18,27 +18,14 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu/main-loop.h"
+ #include "cpu.h"
+ #include "exec/helper-proto.h"
+ #include "exec/log.h"
+-#include "helper-tcg.h"
 +#include "tcg/helper-tcg.h"
-+
-+#include "sysemu/sysemu.h"
-+#include "qemu/units.h"
-+#include "exec/address-spaces.h"
-+
-+#include "tcg/tcg-cpu.h"
-+
-+static void tcg_cpu_machine_done(Notifier *n, void *unused)
-+{
-+    X86CPU *cpu = container_of(n, X86CPU, machine_done);
-+    MemoryRegion *smram =
-+        (MemoryRegion *) object_resolve_path("/machine/smram", NULL);
-+
-+    if (smram) {
-+        cpu->smram = g_new(MemoryRegion, 1);
-+        memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
-+                                 smram, 0, 4 * GiB);
-+        memory_region_set_enabled(cpu->smram, true);
-+        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0,
-+                                            cpu->smram, 1);
-+    }
-+}
-+
-+bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+
-+    /*
-+     * The realize order is important, since x86_cpu_realize() checks if
-+     * nothing else has been set by the user (or by accelerators) in
-+     * cpu->ucode_rev and cpu->phys_bits, and the memory regions
-+     * initialized here are needed for the vcpu initialization.
-+     *
-+     * realize order:
-+     * tcg_cpu -> host_cpu -> x86_cpu
-+     */
-+    cpu->cpu_as_mem = g_new(MemoryRegion, 1);
-+    cpu->cpu_as_root = g_new(MemoryRegion, 1);
-+
-+    /* Outer container... */
-+    memory_region_init(cpu->cpu_as_root, OBJECT(cpu), "memory", ~0ull);
-+    memory_region_set_enabled(cpu->cpu_as_root, true);
-+
-+    /*
-+     * ... with two regions inside: normal system memory with low
-+     * priority, and...
-+     */
-+    memory_region_init_alias(cpu->cpu_as_mem, OBJECT(cpu), "memory",
-+                             get_system_memory(), 0, ~0ull);
-+    memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->cpu_as_mem, 0);
-+    memory_region_set_enabled(cpu->cpu_as_mem, true);
-+
-+    cs->num_ases = 2;
-+    cpu_address_space_init(cs, 0, "cpu-memory", cs->memory);
-+    cpu_address_space_init(cs, 1, "cpu-smm", cpu->cpu_as_root);
-+
-+    /* ... SMRAM with higher priority, linked from /machine/smram.  */
-+    cpu->machine_done.notify = tcg_cpu_machine_done;
-+    qemu_add_machine_init_done_notifier(&cpu->machine_done);
-+    return true;
-+}
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 23e1f5f0c3..e311f52855 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -23,11 +23,7 @@
- #include "qemu/accel.h"
- #include "hw/core/accel-cpu.h"
  
--#ifndef CONFIG_USER_ONLY
--#include "sysemu/sysemu.h"
--#include "qemu/units.h"
--#include "exec/address-spaces.h"
--#endif
-+#include "tcg-cpu.h"
  
- /* Frob eflags into and out of the CPU temporary format.  */
+ /* SMM support */
  
-@@ -78,72 +74,6 @@ static void tcg_cpu_class_init(CPUClass *cc)
-     cc->tcg_ops = &x86_tcg_ops;
+-#if defined(CONFIG_USER_ONLY)
+-
+-void do_smm_enter(X86CPU *cpu)
+-{
+-}
+-
+-void helper_rsm(CPUX86State *env)
+-{
+-}
+-
+-#else
+-
+ #ifdef TARGET_X86_64
+ #define SMM_REVISION_ID 0x00020064
+ #else
+@@ -330,5 +317,3 @@ void helper_rsm(CPUX86State *env)
+     qemu_log_mask(CPU_LOG_INT, "SMM: after RSM\n");
+     log_cpu_state_mask(CPU_LOG_INT, CPU(cpu), CPU_DUMP_CCOP);
  }
- 
--#ifndef CONFIG_USER_ONLY
--
--static void x86_cpu_machine_done(Notifier *n, void *unused)
--{
--    X86CPU *cpu = container_of(n, X86CPU, machine_done);
--    MemoryRegion *smram =
--        (MemoryRegion *) object_resolve_path("/machine/smram", NULL);
--
--    if (smram) {
--        cpu->smram = g_new(MemoryRegion, 1);
--        memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
--                                 smram, 0, 4 * GiB);
--        memory_region_set_enabled(cpu->smram, true);
--        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0,
--                                            cpu->smram, 1);
--    }
--}
--
--static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
--{
--    X86CPU *cpu = X86_CPU(cs);
--
--    /*
--     * The realize order is important, since x86_cpu_realize() checks if
--     * nothing else has been set by the user (or by accelerators) in
--     * cpu->ucode_rev and cpu->phys_bits, and the memory regions
--     * initialized here are needed for the vcpu initialization.
--     *
--     * realize order:
--     * tcg_cpu -> host_cpu -> x86_cpu
--     */
--    cpu->cpu_as_mem = g_new(MemoryRegion, 1);
--    cpu->cpu_as_root = g_new(MemoryRegion, 1);
--
--    /* Outer container... */
--    memory_region_init(cpu->cpu_as_root, OBJECT(cpu), "memory", ~0ull);
--    memory_region_set_enabled(cpu->cpu_as_root, true);
--
--    /*
--     * ... with two regions inside: normal system memory with low
--     * priority, and...
--     */
--    memory_region_init_alias(cpu->cpu_as_mem, OBJECT(cpu), "memory",
--                             get_system_memory(), 0, ~0ull);
--    memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->cpu_as_mem, 0);
--    memory_region_set_enabled(cpu->cpu_as_mem, true);
--
--    cs->num_ases = 2;
--    cpu_address_space_init(cs, 0, "cpu-memory", cs->memory);
--    cpu_address_space_init(cs, 1, "cpu-smm", cpu->cpu_as_root);
--
--    /* ... SMRAM with higher priority, linked from /machine/smram.  */
--    cpu->machine_done.notify = x86_cpu_machine_done;
--    qemu_add_machine_init_done_notifier(&cpu->machine_done);
--    return true;
--}
--
--#else /* CONFIG_USER_ONLY */
--
--static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
--{
--    return true;
--}
 -
 -#endif /* !CONFIG_USER_ONLY */
--
- /*
-  * TCG-specific defaults that override all CPU models when using TCG
-  */
-@@ -163,7 +93,10 @@ static void tcg_cpu_accel_class_init(ObjectClass *oc, void *data)
- {
-     AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
- 
-+#ifndef CONFIG_USER_ONLY
-     acc->cpu_realizefn = tcg_cpu_realizefn;
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 880bc45561..b02bdf5ea2 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -8325,9 +8325,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         gen_svm_check_intercept(s, pc_start, SVM_EXIT_RSM);
+         if (!(s->flags & HF_SMM_MASK))
+             goto illegal_op;
++#ifdef CONFIG_USER_ONLY
++        /* we should not be in SMM mode */
++        g_assert_not_reached();
++#else
+         gen_update_cc_op(s);
+         gen_jmp_im(s, s->pc - s->cs_base);
+         gen_helper_rsm(cpu_env);
 +#endif /* CONFIG_USER_ONLY */
-+
-     acc->cpu_class_init = tcg_cpu_class_init;
-     acc->cpu_instance_init = tcg_cpu_instance_init;
- }
-diff --git a/target/i386/tcg/tcg-cpu.h b/target/i386/tcg/tcg-cpu.h
-new file mode 100644
-index 0000000000..36bd300af0
---- /dev/null
-+++ b/target/i386/tcg/tcg-cpu.h
-@@ -0,0 +1,24 @@
-+/*
-+ * i386 TCG cpu class initialization functions
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+#ifndef TCG_CPU_H
-+#define TCG_CPU_H
-+
-+bool tcg_cpu_realizefn(CPUState *cs, Error **errp);
-+
-+#endif /* TCG_CPU_H */
-diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
-new file mode 100644
-index 0000000000..7aecc53155
---- /dev/null
-+++ b/target/i386/tcg/user/meson.build
-@@ -0,0 +1,2 @@
-+i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
-+))
+         gen_eob(s);
+         break;
+     case 0x1b8: /* SSE4.2 popcnt */
 -- 
 2.26.2
 
