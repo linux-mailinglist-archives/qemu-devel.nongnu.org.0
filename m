@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75CFA37A591
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 13:19:35 +0200 (CEST)
-Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73FF37A5A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 13:22:12 +0200 (CEST)
+Received: from localhost ([::1]:56554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgQQI-0000nn-IV
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 07:19:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39464)
+	id 1lgQSp-0004CW-Ok
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 07:22:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPY9-0004aV-Nx
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:23:38 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPY7-0006TG-Uz
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:23:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620728615; x=1652264615;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Hm1PZz5zTe2h985zHWYZPUO7Ex1Xb0pRXXDGBKNcQMc=;
- b=iB1JMC7O0CEvCuD5Wyl8NpsLwUHwREA9lbmPX4Dh7IpNFSno7l4H7dMF
- 41eKndIy6mDleGnTGkxkTTmw37FwgknphDrTt2W0DtVfXen/pg8pzCq5n
- bJRC1yPMWEeCWFy1eC9cDrHVRoA+Q3CuwAs2ap0DdPuOBc/S9FFcrp5bU
- WAeZC0YM4cd5VM3olEFk2uUSXZ6IQs8yTbh3phYgeSp0vGZBTrR0LO0kK
- u3QNEk156gWS5wzfskGz0r1DxF2ftUNKcVaOv6WfnRYeEA24P1lfCT71r
- 18irauS8U5SoS67XgVGREDL/tTGPb7EH4ehxfpqdk6z2WzzWwoCvOdoq5 A==;
-IronPort-SDR: Bqk4oZEe8M8ok184uOt97z6r6ynpGIV9K9QVOM6gwI7kiFzBxjPth2GPjZxTo5MgifVUPUXuQ8
- nykTmyNNSIXJFFcLt3tKfHeMV77lr+tL/EsITcS8Q6vXemHpiyfEgbgZV3zv8POkyuFYVstXmr
- LC+etDe63HFor1PbBP1izDV4Qmc38hyGn6cJ62jH2NraNSgWqpgvAFxq6wht1jlJZdkS1qQ9aw
- 3Tagaz719vXLM4sJTZQzrLzMjWY0UYGzyWbLdFsjuV/VbfFlzOxNrVRjjwP62ZbIHi7C1T7x4+
- eS0=
-X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735527"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:22:19 +0800
-IronPort-SDR: nQRTfTcM29Og3lgT6lBsEM3GGoLSIIuErIHQweNRPXniSYJTUyUWT5SxDBVuRhz95Xc+2PpAwD
- gRx0GCX/sPfBh09T0NLjgs5MjoyWQhHX9aWBo2U7uP8k8tXYHH/+zNfIoUwg3rW31ZOmgp2Kvo
- 6TWFo9NcMD/tQKM8aKoRPk7NkU8ORXajGOasfTMlyIs2pBiWiRTK5x8FfPeRCnE24hG1c3uCme
- leaaib4GhzMyj/1UPKypGTOLQ+FWkXEdK9uCQxWXROPfQmXLv7UiNnSpP152uxDGPP7jInUJtj
- KAgsC7UBIYlzdYktzZ7w0wvD
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 03:02:18 -0700
-IronPort-SDR: zMKZSO+fHpfohjH/kuuvG3upQoSZMUE0mtUqQrP+A2zgJQAxWsQ7h2sDgrI8Y58fio/Iv6szkb
- Xv8Fr2qKOPrKtUFsBHuMzXqTB4T6CYrSekmO9qcrgF4/+P75RMwQLjJzHGXh3fNk6lazJuznGS
- Ioah6lctruNl37nGUooaN9yWCJ3C9KMqkyh5Q7n9v0gfgSnRdlKl4DlIl4PllEJ8dH3KowY5rP
- LBK836tMQPc+QMn3a8UcHZCKC4fD7mCOgrjFyHwMDU/TP0pkjf8GMEyeTt/qthy1JN5FEFu6t8
- GS8=
-WDCIronportException: Internal
-Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.48])
- by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:22:17 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: peter.maydell@linaro.org
-Subject: [PULL v3 42/42] target/riscv: Fix the RV64H decode comment
-Date: Tue, 11 May 2021 20:19:51 +1000
-Message-Id: <20210511101951.165287-43-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210511101951.165287-1-alistair.francis@wdc.com>
-References: <20210511101951.165287-1-alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgPgb-000734-1u
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:32:22 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:42881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgPgS-00059o-7n
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:32:20 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ 4-20020a05600c26c4b0290146e1feccd8so951047wmv.1
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 03:32:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=YyIaGtPEBgOwd01GHdADaAMEoNRnsJSAN/05VEo45Gc=;
+ b=t0A9MvIwwSvS3aVHnJoPGXTuQO5c9xNkRfFCoB13LQt24rnzZMLV81IcZfIYCaW9UN
+ dtM0cKw/6uia/o38qMUsM+0iMABYX4igfVlRejA35vlFNYKuwb6+ofmBxNJHdYTQ8IMq
+ IWP8AhrWAd1QxuPgn1hXq9PrlDieqC+iaaYYhDn78GJTtnLGBlG3d5Lm+fYykBnltWVN
+ W7iuAWCUlDKno0EbOv69Xp/UDgfKLjsvZ00YWGiLtVSju+KYG/S9oxWULjM3FYGVM3XS
+ yu8EF2nJ+e5mMMoq07OaWyUc2vYegfkjZnSrPvJWe131m8Zssb79wRzk+ieMJCFqOKmy
+ U0zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=YyIaGtPEBgOwd01GHdADaAMEoNRnsJSAN/05VEo45Gc=;
+ b=Y4p91hpkoph2IZ285pCSLa/eXbUB8j7lVUUmloJwXCI02CVkPO7hfxPWFOozzD0lL5
+ 6fWVDg7fnLeMWAro6D5SQQZTQm9B3HBk6UupLXnxK0CnphqymIRxYfKXS10wk4ofVFH1
+ iO6sxaR/4BOoRq9nQHqSY73zGMVAH+zXEipxHlx85DhcZZmgMKlV0JoWxcF4i6bgFxeE
+ GZ/EIWSSmsUPYt0u/wd46JoV5cfPlZmt20nxACGCelemKlnokH12UN+mnj9+TS047M6t
+ VG5N103QuXKBsYRYjNKrNKkdjmjKQPwGSdA7edYK2/P6mC7RAqPGq0QGpTWdSFahw0vg
+ sCuQ==
+X-Gm-Message-State: AOAM532vmFZIDEbyB3JzYBEUg+twiRsDYN2OhtEBKItPJ10xY8wC53DG
+ nNftYgogIA7J615jNkgqhAc98w==
+X-Google-Smtp-Source: ABdhPJzHiaGHBOfP8U0EUVTExFd2Zk1DhZcz8edgojQYpCJRssYI+xMeRTjMon8Y86urAFr8FxHS6w==
+X-Received: by 2002:a1c:bb05:: with SMTP id l5mr2072695wmf.27.1620729127674;
+ Tue, 11 May 2021 03:32:07 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p187sm20069338wmp.8.2021.05.11.03.32.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 May 2021 03:32:07 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3A49E1FF7E;
+ Tue, 11 May 2021 11:32:06 +0100 (BST)
+References: <20210508014802.892561-1-richard.henderson@linaro.org>
+ <20210508014802.892561-15-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 14/72] softfloat: Do not produce a default_nan from
+ parts_silence_nan
+Date: Tue, 11 May 2021 11:32:01 +0100
+In-reply-to: <20210508014802.892561-15-richard.henderson@linaro.org>
+Message-ID: <87pmxxk1cp.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=7584e029c=alistair.francis@wdc.com;
- helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,33 +89,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BugLink: https://gitlab.com/qemu-project/qemu/-/issues/47
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 024ce841221c1d15c74b253512428c4baca7e4ba.1619234854.git.alistair.francis@wdc.com
----
- target/riscv/insn32.decode | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index fecf0f15d5..8901ba1e1b 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -288,7 +288,7 @@ hsv_w       0110101  .....  ..... 100 00000 1110011 @r2_s
- hfence_gvma 0110001  .....  ..... 000 00000 1110011 @hfence_gvma
- hfence_vvma 0010001  .....  ..... 000 00000 1110011 @hfence_vvma
- 
--# *** RV32H Base Instruction Set ***
-+# *** RV64H Base Instruction Set ***
- hlv_wu    0110100  00001   ..... 100 ..... 1110011 @r2
- hlv_d     0110110  00000   ..... 100 ..... 1110011 @r2
- hsv_d     0110111  .....   ..... 100 00000 1110011 @r2_s
--- 
-2.31.1
+Richard Henderson <richard.henderson@linaro.org> writes:
 
+> Require default_nan_mode to be set instead.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+
+--=20
+Alex Benn=C3=A9e
 
