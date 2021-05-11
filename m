@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F0537B0EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 23:42:06 +0200 (CEST)
-Received: from localhost ([::1]:57428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E087237B0E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 23:40:13 +0200 (CEST)
+Received: from localhost ([::1]:50004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lga8k-0006lb-1U
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 17:42:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51088)
+	id 1lga6u-0001Zy-Uc
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 17:40:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lga4h-0007Nn-Io
- for qemu-devel@nongnu.org; Tue, 11 May 2021 17:37:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58734)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lga4f-0007MS-Qr
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 17:37:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lga4d-0005sq-BY
- for qemu-devel@nongnu.org; Tue, 11 May 2021 17:37:55 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lga4d-0005tA-BM
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 17:37:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1620769069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UGS/2Mrg64jg532EjeIMu5B4QnOmsl0KcW1Ak1wu4rE=;
- b=UgumRU/0coP6irqXsnlH5Iuryvc0m24QAr5O2Z8uwiAn2NdrwYAnn/nd7MczEPbMT/IlJ0
- xZ/SBwliAlG0VGHOGEIf3+EX4xI9t+zllbLLFMP+d49jUlpoH9rk/5WJnV+Kw3a58A5mc2
- wk8Dp9/s4a4GiUmZwjzmSAYTHdoK7EM=
+ bh=PCqw1KRSIxu8BfBco+eNjqr0c/L/FZCMOAxIgy9bAyY=;
+ b=MiHu5OYNzduXtnen4d6VamgYFEItzIIyXoGM2fwvdqQnFaWXrhPkE7VwxXBLchPAI7NoAX
+ gtQN66OTyix/I8lgh8io9o8pS80U1OQaycAE0MucGxFq4v+qX24PKlav2MAFIyiIFuDjYp
+ lxulAdeUJEh6nh20BirLFgchFvjR8d0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-15pVkTtZNM2iPE3JsaopUA-1; Tue, 11 May 2021 17:37:47 -0400
-X-MC-Unique: 15pVkTtZNM2iPE3JsaopUA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-524-eLd8P5EwM2G2daKmD3s5cw-1; Tue, 11 May 2021 17:37:47 -0400
+X-MC-Unique: eLd8P5EwM2G2daKmD3s5cw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D434107ACCD
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34E5E107ACE3
  for <qemu-devel@nongnu.org>; Tue, 11 May 2021 21:37:47 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-115-221.rdu2.redhat.com [10.10.115.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C55B06A033;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C570718024;
  Tue, 11 May 2021 21:37:43 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 41B96225FCE; Tue, 11 May 2021 17:37:43 -0400 (EDT)
+ id 47009225FCF; Tue, 11 May 2021 17:37:43 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH 2/7] virtiofsd: Get rid of unreachable code in read
-Date: Tue, 11 May 2021 17:37:31 -0400
-Message-Id: <20210511213736.281016-3-vgoyal@redhat.com>
+Subject: [PATCH 3/7] virtiofsd: Use iov_discard_front() to skip bytes
+Date: Tue, 11 May 2021 17:37:32 -0400
+Message-Id: <20210511213736.281016-4-vgoyal@redhat.com>
 In-Reply-To: <20210511213736.281016-1-vgoyal@redhat.com>
 References: <20210511213736.281016-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,37 +83,46 @@ Cc: dgilbert@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pvreadv() can return following.
-
-- error
-- 0 in case of EOF
-- short read
-
-We seem to handle all the cases already. We are retrying read in case
-of short read. So another check for short read seems like dead code.
-Get rid of it.
+There are places where we need to skip few bytes from front of the iovec
+array. We have our own custom code for that. Looks like iov_discard_front()
+can do same thing. So use that helper instead.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 5 -----
- 1 file changed, 5 deletions(-)
+ tools/virtiofsd/fuse_virtio.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
 diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 32914f7e95..5dcd08fccb 100644
+index 5dcd08fccb..d56b225800 100644
 --- a/tools/virtiofsd/fuse_virtio.c
 +++ b/tools/virtiofsd/fuse_virtio.c
-@@ -446,11 +446,6 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-                      in_sg_left);
-             break;
+@@ -389,23 +389,15 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
+     memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
+     /* These get updated as we skip */
+     struct iovec *in_sg_ptr = in_sg_cpy;
+-    int in_sg_cpy_count = in_num;
++    unsigned int in_sg_cpy_count = in_num;
+ 
+     /* skip over parts of in_sg that contained the header iov */
+     size_t skip_size = iov_len;
+ 
+     size_t in_sg_left = 0;
+     do {
+-        while (skip_size != 0 && in_sg_cpy_count) {
+-            if (skip_size >= in_sg_ptr[0].iov_len) {
+-                skip_size -= in_sg_ptr[0].iov_len;
+-                in_sg_ptr++;
+-                in_sg_cpy_count--;
+-            } else {
+-                in_sg_ptr[0].iov_len -= skip_size;
+-                in_sg_ptr[0].iov_base += skip_size;
+-                break;
+-            }
++        if (skip_size != 0) {
++	    iov_discard_front(&in_sg_ptr, &in_sg_cpy_count, skip_size);
          }
--        if (ret != len) {
--            fuse_log(FUSE_LOG_DEBUG, "%s: ret!=len\n", __func__);
--            ret = EIO;
--            goto err;
--        }
-         in_sg_left -= ret;
-         len -= ret;
-     } while (in_sg_left);
+ 
+         int i;
 -- 
 2.25.4
 
