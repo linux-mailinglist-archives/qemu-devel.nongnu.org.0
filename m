@@ -2,71 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806B237AC8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 19:00:31 +0200 (CEST)
-Received: from localhost ([::1]:47128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B581237AC65
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:51:02 +0200 (CEST)
+Received: from localhost ([::1]:54682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgVkE-00026d-Jz
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 13:00:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52574)
+	id 1lgVb3-0004Pi-BC
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:51:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgViq-0000LA-4E
- for qemu-devel@nongnu.org; Tue, 11 May 2021 12:59:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30890)
+ (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
+ id 1lgVZd-0003Ek-NC; Tue, 11 May 2021 12:49:33 -0400
+Received: from relay.sw.ru ([185.231.240.75]:59386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgVio-0006dZ-Be
- for qemu-devel@nongnu.org; Tue, 11 May 2021 12:59:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620752341;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=s/4Jby1q68mQMPbxMj+J8ZEsxNoJAQv3qIuWNxzPoMU=;
- b=SQteyXkxGXA/qsVR2Oy35t5roNYboKd9HjoQn5gYp5K+D0rZtbfkSGaOKJ6CKsd6Lf6+oc
- kJxVHR97vwBKrDEBy0jzC9VTPFpg57iHiVXgb2cXm4PmgZXz0afVV06sakCGkseH4VhsQN
- IjfAAjHZminvIdbI2ayS82MN92RmbPw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-jiu9uYxYNDO6dxQhb-w_0A-1; Tue, 11 May 2021 12:49:08 -0400
-X-MC-Unique: jiu9uYxYNDO6dxQhb-w_0A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D4D61008064;
- Tue, 11 May 2021 16:49:07 +0000 (UTC)
-Received: from redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 86DD12CE01;
- Tue, 11 May 2021 16:49:05 +0000 (UTC)
-Date: Tue, 11 May 2021 17:49:02 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH] hmp: Fix loadvm to resume the VM on success instead of
- failure
-Message-ID: <YJq1fq57yQGFjw/E@redhat.com>
-References: <20210511163151.45167-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
+ id 1lgVZa-0001vq-9V; Tue, 11 May 2021 12:49:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=virtuozzo.com; s=relay; h=Content-Type:MIME-Version:Date:Message-ID:From:
+ Subject; bh=vU51FdrovyHjJYmKSNc4zPJEC89wiiFiq7kjL2TMaR8=; b=jd+AoWzgyxBWmq8uW
+ 8B7g5zBtYX78u9S2J4sKUCSMNyOVp4S3Rskg1lQgCctaNYn71s+pZIlYqLEUHHidl0OYjdDciP2nr
+ Htn7rDp0lkvHmpE0zktmG8JyMtEjaendf7pNl7cWEXBoi3pBK0IjxalxVT2hvgJpx2MgioHahclF0
+ =;
+Received: from [192.168.15.129] by relay.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <ktkhai@virtuozzo.com>)
+ id 1lgVZM-0027km-Uk; Tue, 11 May 2021 19:49:16 +0300
+Subject: Re: [PATCH v2 06/10] qcow2-refcount: check_refcounts_l2(): check
+ l2_bitmap
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ den@openvz.org, eblake@redhat.com, berto@igalia.com
+References: <20210505065955.13964-1-vsementsov@virtuozzo.com>
+ <20210505065955.13964-7-vsementsov@virtuozzo.com>
+From: Kirill Tkhai <ktkhai@virtuozzo.com>
+Message-ID: <be316573-90cc-f4e3-11ab-10f0354cd870@virtuozzo.com>
+Date: Tue, 11 May 2021 19:49:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210511163151.45167-1-kwolf@redhat.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210505065955.13964-7-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=185.231.240.75; envelope-from=ktkhai@virtuozzo.com;
+ helo=relay.sw.ru
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,107 +64,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-stable@nongnu.org, yama@redhat.com, dgilbert@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 11, 2021 at 06:31:51PM +0200, Kevin Wolf wrote:
-> Commit f61fe11aa6f broke hmp_loadvm() by adding an incorrect negation
-> when converting from 0/-errno return values to a bool value. The result
-> is that loadvm resumes the VM now if it failed and keeps it stopped if
-> it failed. Fix it to restore the old behaviour and do it the other way
-> around.
+On 05.05.2021 09:59, Vladimir Sementsov-Ogievskiy wrote:
+> Check subcluster bitmap of the l2 entry for different types of
+> clusters:
 > 
-> Fixes: f61fe11aa6f7f8f0ffe4ddaa56a8108f3ab57854
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Yanhui Ma <yama@redhat.com>
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>  - for compressed it must be zero
+>  - for allocated check consistency of two parts of the bitmap
+>  - for unallocated all subclusters should be unallocated
+>    (or zero-plain)
+> 
+> For unallocated clusters we can safely fix the entry by making it
+> zero-plain.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+
+Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
+
 > ---
->  monitor/hmp-cmds.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  block/qcow2-refcount.c | 30 +++++++++++++++++++++++++++++-
+>  1 file changed, 29 insertions(+), 1 deletion(-)
 > 
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 0ad5b77477..cc15d9b6ee 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1133,7 +1133,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict)
+> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+> index f48c5e1b5d..062ec48a15 100644
+> --- a/block/qcow2-refcount.c
+> +++ b/block/qcow2-refcount.c
+> @@ -1681,6 +1681,7 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+>          uint64_t coffset;
+>          int csize;
+>          l2_entry = get_l2_entry(s, l2_table, i);
+> +        uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, i);
 >  
->      vm_stop(RUN_STATE_RESTORE_VM);
+>          switch (qcow2_get_cluster_type(bs, l2_entry)) {
+>          case QCOW2_CLUSTER_COMPRESSED:
+> @@ -1700,6 +1701,14 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+>                  break;
+>              }
 >  
-> -    if (!load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
-> +    if (load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
->          vm_start();
->      }
->      hmp_handle_error(mon, err);
-
-Paolo had sent a different fix here:
-
-  https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01093.html
-
-As with my feedback there, I think we should be adding test coverage
-when fixing this. How about this:
-
-diff --git a/tests/qemu-iotests/068 b/tests/qemu-iotests/068
-index 54e49c8ffa..137c5d0577 100755
---- a/tests/qemu-iotests/068
-+++ b/tests/qemu-iotests/068
-@@ -77,7 +77,7 @@ for extra_args in \
-     # Give qemu some time to boot before saving the VM state
-     { sleep 1; printf "savevm 0\nquit\n"; } | _qemu $extra_args
-     # Now try to continue from that VM state (this should just work)
--    { sleep 1; printf "loadvm 0\nloadvm 0\nquit\n"; } | _qemu $extra_args -S
-+    { sleep 1; printf "info status\nloadvm 0\ninfo status\ncont\ninfo status\nloadvm 0\ninfo status\nquit\n"; } | _qemu $extra_args -S
- done
- 
- # success, all done
-diff --git a/tests/qemu-iotests/068.out b/tests/qemu-iotests/068.out
-index f07a938a38..75c0a5df5f 100644
---- a/tests/qemu-iotests/068.out
-+++ b/tests/qemu-iotests/068.out
-@@ -7,8 +7,17 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm 0
- (qemu) quit
- QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) info status
-+VM status: paused (prelaunch)
- (qemu) loadvm 0
-+(qemu) info status
-+VM status: paused (prelaunch)
-+(qemu) cont
-+(qemu) info status
-+VM status: running
- (qemu) loadvm 0
-+(qemu) info status
-+VM status: running
- (qemu) quit
- 
- === Saving and reloading a VM state to/from a qcow2 image (-object iothread,id=iothread0 -set device.hba0.iothread=iothread0) ===
-@@ -18,7 +27,16 @@ QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) savevm 0
- (qemu) quit
- QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) info status
-+VM status: paused (prelaunch)
- (qemu) loadvm 0
-+(qemu) info status
-+VM status: paused (prelaunch)
-+(qemu) cont
-+(qemu) info status
-+VM status: running
- (qemu) loadvm 0
-+(qemu) info status
-+VM status: running
- (qemu) quit
- *** done
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> +            if (l2_bitmap) {
+> +                fprintf(stderr, "ERROR compressed cluster %d with non-zero "
+> +                        "subcluster allocation bitmap, entry=0x%" PRIx64 "\n",
+> +                        i, l2_entry);
+> +                res->corruptions++;
+> +                break;
+> +            }
+> +
+>              /* Mark cluster as used */
+>              qcow2_parse_compressed_l2_entry(bs, l2_entry, &coffset, &csize);
+>              ret = qcow2_inc_refcounts_imrt(
+> @@ -1727,13 +1736,19 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+>          {
+>              uint64_t offset = l2_entry & L2E_OFFSET_MASK;
+>  
+> +            if ((l2_bitmap >> 32) & l2_bitmap) {
+> +                res->corruptions++;
+> +                fprintf(stderr, "ERROR offset=%" PRIx64 ": Allocated "
+> +                        "cluster has corrupted subcluster allocation bitmap\n",
+> +                        offset);
+> +            }
+> +
+>              /* Correct offsets are cluster aligned */
+>              if (offset_into_cluster(s, offset)) {
+>                  bool contains_data;
+>                  res->corruptions++;
+>  
+>                  if (has_subclusters(s)) {
+> -                    uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, i);
+>                      contains_data = (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC);
+>                  } else {
+>                      contains_data = !(l2_entry & QCOW_OFLAG_ZERO);
+> @@ -1800,6 +1815,19 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+>  
+>          case QCOW2_CLUSTER_ZERO_PLAIN:
+>          case QCOW2_CLUSTER_UNALLOCATED:
+> +            if (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC) {
+> +                res->corruptions++;
+> +                fprintf(stderr, "%s: Unallocated "
+> +                        "cluster has non-zero subcluster allocation map\n",
+> +                        fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR");
+> +                if (fix & BDRV_FIX_ERRORS) {
+> +                    ret = fix_l2_entry_by_zero(bs, res, l2_offset, l2_table, i,
+> +                                               active, &metadata_overlap);
+> +                    if (metadata_overlap) {
+> +                        return ret;
+> +                    }
+> +                }
+> +            }
+>              break;
+>  
+>          default:
+> 
 
 
