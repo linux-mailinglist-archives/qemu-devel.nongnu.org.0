@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F95037A472
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:19:28 +0200 (CEST)
-Received: from localhost ([::1]:54760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD99737A482
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:23:56 +0200 (CEST)
+Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgPU7-0005bp-4l
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36822)
+	id 1lgPYR-00039L-Nm
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lgPRP-0003hK-3V
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:16:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34367)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lgPRT-0003qh-Jp
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:16:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lgPRN-0004X9-Hp
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:16:38 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lgPRR-0004a7-W4
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:16:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620728196;
+ s=mimecast20190719; t=1620728201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=411Hei8yCW/9L68yDGYV+/52o2WqZoCu/aKGWTjUm/4=;
- b=E8YF+yjFx4NeMLCMoMr/16p8gcuzah05cbJIBECOVt7MRzgFZgoUtNea4W+kyrK1dYv0Vi
- hSIjJM81RN5FjFnW2E7RISUmQH38p9vDAPkwhba00zlFiHkgTb6V9H2WTVUisRocupqwaI
- inJwPxffk0b8vwMrFe1k+IGGYLK/erk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-6_k2wTDqMc2jW_3RkKYUQQ-1; Tue, 11 May 2021 06:16:35 -0400
-X-MC-Unique: 6_k2wTDqMc2jW_3RkKYUQQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 7-20020a05600c2307b02901432673350dso549521wmo.9
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 03:16:34 -0700 (PDT)
+ bh=Gso3ajPZOVdZI/H8ZMPJVVyCvkk9YSfItKNHcsS+R6k=;
+ b=W3Xx0sur3DgRDCn4L/xLc1C000In6mFze9HaFn1dw6SKWwE8rZXu9avw82dGkh5GH83Zqo
+ 5fL/nay9tqlLpkq9mJl1vDuRp9H0OvxRDKp3SaZh2p7FoHYNnN6637rAsWcMWvX7+vHUaY
+ uj4CTtk9FNrmfc1YmQauGtCImssk9hI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-yQQex7GJNl-ESLNJ0FjdTQ-1; Tue, 11 May 2021 06:16:39 -0400
+X-MC-Unique: yQQex7GJNl-ESLNJ0FjdTQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ l2-20020adf9f020000b029010d6bb7f1cbso8542723wrf.7
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 03:16:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:organization
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=411Hei8yCW/9L68yDGYV+/52o2WqZoCu/aKGWTjUm/4=;
- b=mAYzNiDnM6qCmc5Wt+K57iqZD5mA2EEusjcO++IIE/MRWBOX6dQOkjqnQMWybwzy0x
- sl8oJJfhyCE2dkhTnEKYNJnKar6/Wrii3yDGQHjAD2h9PSbY86mH9G89RDq/ZJnO/JDY
- c0cz+WxWJkfKlHzlHjaDlOclb7ZSQqKhwuFmCjN3I8NW/0jcBEq/HBCFKplphwTDetGF
- g9uVeJNsGnHAQ6DrhWgzHmdISQ3m+Bx7j8gEkbWFT9QbjkQoZQ7x2GphiujZOtmm7FYX
- P+CFXLAU4dast8ayE6quSgvgrVhdklRrW86wdapowEqJ6l63WK7qw6toDiRTqZbcFzUB
- lIqg==
-X-Gm-Message-State: AOAM532ZU6aOE6XaEYv1blHwKdXCrchtPhDzoaMLanBGkjyNqYw3/Ito
- UtDDQUW1hGg3HPLnpcb6D+du472TMjTmfI3QDqLfjhlwRtZvhFc8EblOt40LWTZU1EwVFL2zpbD
- LksjNCklaylww2zw=
-X-Received: by 2002:a1c:c5:: with SMTP id 188mr32488952wma.5.1620728193926;
- Tue, 11 May 2021 03:16:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvt/P7WIoTej/9+AHJRKuzWuEEtX0JnEcLCaU3kzlUvS8I0wtCX6Lwr90F9D6X8tdOD/O1Rg==
-X-Received: by 2002:a1c:c5:: with SMTP id 188mr32488920wma.5.1620728193504;
- Tue, 11 May 2021 03:16:33 -0700 (PDT)
+ bh=Gso3ajPZOVdZI/H8ZMPJVVyCvkk9YSfItKNHcsS+R6k=;
+ b=M4SGIwEyixnK9SSFNGmNxJ/f+0F09CoZRPBcgGJJqZCOY5F7BDE1ZpFo18qFbcHtOR
+ vvhcxmBCzErVpg2sKJTDZ+YgUlslXRnr9sVVKd5NUxvB1wX2b7ojkBQWcBK2wX644x1R
+ YdBUYx2u606YRUt+aF3TVxdhGZy/GbAhM5IuEesRC5JrIJ5anM3jAuyArWhhpng3Fd5L
+ D1bqWMZ/2+BG45UV+9jDK5AksiowQZJ+omm/aiLV7e3R4KLDOLa7G/zsYVHp1YcFFmvh
+ ei6v98gHR9pLyNrPGJUaH71HxnOh3YU8u54wTq1qph5qVpIZl1XTYLCPtwulpI8lhWY1
+ OntA==
+X-Gm-Message-State: AOAM530+Me2bP+d6bBz3cd4ku3OVZyi4HtgXAy7Pb/dKJiKZn4HkSX5/
+ 8TnQbUomqvtF7EBE/xrPuhCB9i0R6FnT9oFct58VDtJiK62V+zUPRcsr2JED/4uhXyUOEiYNarH
+ Sn6zxfhcvGrJhxpY=
+X-Received: by 2002:adf:f3c1:: with SMTP id g1mr37773102wrp.242.1620728198405; 
+ Tue, 11 May 2021 03:16:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxn1bq2k4H5soWCb+DOZkJd1PUYjunhSLLxhDMfQBDDKOEkV1inmkdz4UVd3YTFLVUv/9LI/Q==
+X-Received: by 2002:adf:f3c1:: with SMTP id g1mr37773084wrp.242.1620728198235; 
+ Tue, 11 May 2021 03:16:38 -0700 (PDT)
 Received: from [192.168.3.132] (p5b0c6329.dip0.t-ipconnect.de. [91.12.99.41])
  by smtp.gmail.com with ESMTPSA id
- j13sm27140384wrw.93.2021.05.11.03.16.33
+ q4sm26115102wrs.21.2021.05.11.03.16.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 03:16:33 -0700 (PDT)
-Subject: Re: [PATCH 14/72] softfloat: Do not produce a default_nan from
- parts_silence_nan
+ Tue, 11 May 2021 03:16:38 -0700 (PDT)
+Subject: Re: [PATCH 13/72] target/mips: Set set_default_nan_mode with
+ set_snan_bit_is_one
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210508014802.892561-1-richard.henderson@linaro.org>
- <20210508014802.892561-15-richard.henderson@linaro.org>
+ <20210508014802.892561-14-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Message-ID: <54481b9a-7080-a071-cf43-5d132637c930@redhat.com>
-Date: Tue, 11 May 2021 12:16:32 +0200
+Message-ID: <d1c83f24-e163-9e1b-abfd-fafedee49b86@redhat.com>
+Date: Tue, 11 May 2021 12:16:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210508014802.892561-15-richard.henderson@linaro.org>
+In-Reply-To: <20210508014802.892561-14-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +79,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -106,39 +106,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 08.05.21 03:47, Richard Henderson wrote:
-> Require default_nan_mode to be set instead.
+> This behavior is currently hard-coded in parts_silence_nan,
+> but setting this bit properly will allow this to be cleaned up.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   fpu/softfloat-specialize.c.inc | 11 +++++------
->   1 file changed, 5 insertions(+), 6 deletions(-)
+>   target/mips/fpu_helper.h | 10 ++++++++--
+>   1 file changed, 8 insertions(+), 2 deletions(-)
 > 
-> diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
-> index 487b29155c..5988830c16 100644
-> --- a/fpu/softfloat-specialize.c.inc
-> +++ b/fpu/softfloat-specialize.c.inc
-> @@ -180,16 +180,15 @@ static FloatParts parts_default_nan(float_status *status)
->   static FloatParts parts_silence_nan(FloatParts a, float_status *status)
+> diff --git a/target/mips/fpu_helper.h b/target/mips/fpu_helper.h
+> index 1c2d6d35a7..ad1116e8c1 100644
+> --- a/target/mips/fpu_helper.h
+> +++ b/target/mips/fpu_helper.h
+> @@ -27,8 +27,14 @@ static inline void restore_flush_mode(CPUMIPSState *env)
+>   
+>   static inline void restore_snan_bit_mode(CPUMIPSState *env)
 >   {
->       g_assert(!no_signaling_nans(status));
-> -#if defined(TARGET_HPPA)
-> -    a.frac &= ~(1ULL << (DECOMPOSED_BINARY_POINT - 1));
-> -    a.frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 2);
-> -#else
-> +    g_assert(!status->default_nan_mode);
+> -    set_snan_bit_is_one((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) == 0,
+> -                        &env->active_fpu.fp_status);
+> +    bool nan2008 = env->active_fpu.fcr31 & (1 << FCR31_NAN2008);
 > +
-> +    /* The only snan_bit_is_one target without default_nan_mode is HPPA. */
->       if (snan_bit_is_one(status)) {
-> -        return parts_default_nan(status);
-> +        a.frac &= ~(1ULL << (DECOMPOSED_BINARY_POINT - 1));
-> +        a.frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 2);
->       } else {
->           a.frac |= 1ULL << (DECOMPOSED_BINARY_POINT - 1);
->       }
-> -#endif
->       a.cls = float_class_qnan;
->       return a;
+> +    /*
+> +     * With nan2008, SNaNs are silenced in the usual way.
+> +     * Before that, SNaNs are not silenced; default nans are produced.
+> +     */
+> +    set_snan_bit_is_one(!nan2008, &env->active_fpu.fp_status);
+> +    set_default_nan_mode(!nan2008, &env->active_fpu.fp_status);
 >   }
+>   
+>   static inline void restore_fp_status(CPUMIPSState *env)
 > 
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
