@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 986B437A453
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:09:40 +0200 (CEST)
-Received: from localhost ([::1]:38514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD39337A460
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:13:14 +0200 (CEST)
+Received: from localhost ([::1]:42832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgPKd-0002QJ-Nt
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:09:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34314)
+	id 1lgPO5-0005mx-Ni
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lgPIN-0007t6-Um
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:07:19 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:51027)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lgPKg-0003hm-K6
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:09:42 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:45080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lgPIM-0007RO-0h
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:07:19 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lgPKf-0000WK-0z
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:09:42 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-2FsjIJRtO-mChO6UtihqnQ-1; Tue, 11 May 2021 06:07:10 -0400
-X-MC-Unique: 2FsjIJRtO-mChO6UtihqnQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-561-lrD21_EpNbGUvjV5ZkV2Xg-1; Tue, 11 May 2021 06:09:39 -0400
+X-MC-Unique: lrD21_EpNbGUvjV5ZkV2Xg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFE80801B15;
- Tue, 11 May 2021 10:07:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 272861883520;
+ Tue, 11 May 2021 10:09:38 +0000 (UTC)
 Received: from bahia.lan (ovpn-112-143.ams2.redhat.com [10.36.112.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC9BD7013B;
- Tue, 11 May 2021 10:06:56 +0000 (UTC)
-Date: Tue, 11 May 2021 12:06:55 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 031C25D9D5;
+ Tue, 11 May 2021 10:09:25 +0000 (UTC)
+Date: Tue, 11 May 2021 12:09:24 +0200
 From: Greg Kurz <groug@kaod.org>
 To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [for-6.1 v3 2/3] virtiofsd: Track mounts
-Message-ID: <20210511120655.379c99fb@bahia.lan>
-In-Reply-To: <20210510191839.GB193692@horse>
+Subject: Re: [for-6.1 v3 3/3] virtiofsd: Add support for FUSE_SYNCFS request
+Message-ID: <20210511120924.1cf2ee60@bahia.lan>
+In-Reply-To: <20210510191502.GA193692@horse>
 References: <20210510155539.998747-1-groug@kaod.org>
- <20210510155539.998747-3-groug@kaod.org>
- <20210510191839.GB193692@horse>
+ <20210510155539.998747-4-groug@kaod.org>
+ <20210510191502.GA193692@horse>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=WINDOWS-1252
@@ -72,216 +72,170 @@ Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 May 2021 15:18:39 -0400
+On Mon, 10 May 2021 15:15:02 -0400
 Vivek Goyal <vgoyal@redhat.com> wrote:
 
-> On Mon, May 10, 2021 at 05:55:38PM +0200, Greg Kurz wrote:
-> > The upcoming implementation of ->sync_fs() needs to know about all
-> > submounts in order to call syncfs() on all of them.
+> On Mon, May 10, 2021 at 05:55:39PM +0200, Greg Kurz wrote:
+> > Honor the expected behavior of syncfs() to synchronously flush all data
+> > and metadata on linux systems. Simply loop on all known submounts and
+> > call syncfs() on them.
 > >=20
-> > Track every inode that comes up with a new mount id in a GHashTable.
-> > If the mount id isn't available, e.g. no statx() on the host, fallback
-> > on the device id for the key. This is done during lookup because we
-> > only care for the submounts that the client knows about. The inode
-> > is removed from the hash table when ultimately unreferenced. This
-> > can happen on a per-mount basis when the client posts a FUSE_FORGET
-> > request or for all submounts at once with FUSE_DESTROY.
+> > Note that syncfs() might suffer from a time penalty if the submounts
+> > are being hammered by some unrelated workload on the host. The only
+> > solution to avoid that is to avoid shared submounts.
 > >=20
 > > Signed-off-by: Greg Kurz <groug@kaod.org>
 > > ---
-> >  tools/virtiofsd/passthrough_ll.c | 42 +++++++++++++++++++++++++++++---
-> >  1 file changed, 39 insertions(+), 3 deletions(-)
+> >  tools/virtiofsd/fuse_lowlevel.c       | 11 ++++++++
+> >  tools/virtiofsd/fuse_lowlevel.h       | 12 +++++++++
+> >  tools/virtiofsd/passthrough_ll.c      | 38 +++++++++++++++++++++++++++
+> >  tools/virtiofsd/passthrough_seccomp.c |  1 +
+> >  4 files changed, 62 insertions(+)
 > >=20
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
-ough_ll.c
-> > index 1553d2ef454f..dc940a1d048b 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -117,6 +117,7 @@ struct lo_inode {
-> >      GHashTable *posix_locks; /* protected by lo_inode->plock_mutex */
+> > diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_low=
+level.c
+> > index 58e32fc96369..3be95ec903c9 100644
+> > --- a/tools/virtiofsd/fuse_lowlevel.c
+> > +++ b/tools/virtiofsd/fuse_lowlevel.c
+> > @@ -1870,6 +1870,16 @@ static void do_lseek(fuse_req_t req, fuse_ino_t =
+nodeid,
+> >      }
+> >  }
 > > =20
-> >      mode_t filetype;
-> > +    bool is_mnt;
+> > +static void do_syncfs(fuse_req_t req, fuse_ino_t nodeid,
+> > +                      struct fuse_mbuf_iter *iter)
+> > +{
+> > +    if (req->se->op.syncfs) {
+> > +        req->se->op.syncfs(req);
+> > +    } else {
+> > +        fuse_reply_err(req, ENOSYS);
+> > +    }
+> > +}
+> > +
+> >  static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+> >                      struct fuse_mbuf_iter *iter)
+> >  {
+> > @@ -2267,6 +2277,7 @@ static struct {
+> >      [FUSE_RENAME2] =3D { do_rename2, "RENAME2" },
+> >      [FUSE_COPY_FILE_RANGE] =3D { do_copy_file_range, "COPY_FILE_RANGE"=
+ },
+> >      [FUSE_LSEEK] =3D { do_lseek, "LSEEK" },
+> > +    [FUSE_SYNCFS] =3D { do_syncfs, "SYNCFS" },
 > >  };
 > > =20
-> >  struct lo_cred {
-> > @@ -163,6 +164,7 @@ struct lo_data {
-> >      bool use_statx;
-> >      struct lo_inode root;
-> >      GHashTable *inodes; /* protected by lo->mutex */
-> > +    GHashTable *mnt_inodes; /* protected by lo->mutex */
-> >      struct lo_map ino_map; /* protected by lo->mutex */
-> >      struct lo_map dirp_map; /* protected by lo->mutex */
-> >      struct lo_map fd_map; /* protected by lo->mutex */
-> > @@ -968,6 +970,31 @@ static int do_statx(struct lo_data *lo, int dirfd,=
- const char *pathname,
-> >      return 0;
+> >  #define FUSE_MAXOP (sizeof(fuse_ll_ops) / sizeof(fuse_ll_ops[0]))
+> > diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_low=
+level.h
+> > index 3bf786b03485..890c520b195a 100644
+> > --- a/tools/virtiofsd/fuse_lowlevel.h
+> > +++ b/tools/virtiofsd/fuse_lowlevel.h
+> > @@ -1225,6 +1225,18 @@ struct fuse_lowlevel_ops {
+> >       */
+> >      void (*lseek)(fuse_req_t req, fuse_ino_t ino, off_t off, int whenc=
+e,
+> >                    struct fuse_file_info *fi);
+> > +
+> > +    /**
+> > +     * Synchronize file system content
+> > +     *
+> > +     * If this request is answered with an error code of ENOSYS,
+> > +     * this is treated as success and future calls to syncfs() will
+> > +     * succeed automatically without being sent to the filesystem
+> > +     * process.
+> > +     *
+> > +     * @param req request handle
+> > +     */
+> > +    void (*syncfs)(fuse_req_t req);
+> >  };
+> > =20
+> >  /**
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
+ough_ll.c
+> > index dc940a1d048b..289900c6d274 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -3153,6 +3153,43 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t =
+ino, off_t off, int whence,
+> >      }
 > >  }
 > > =20
-> > +static uint64_t mnt_inode_key(struct lo_inode *inode)
+> > +static void lo_syncfs(fuse_req_t req)
 > > +{
-> > +    /* Prefer mnt_id, fallback on dev */
-> > +    return inode->key.mnt_id ? inode->key.mnt_id : inode->key.dev;
-> > +}
+> > +    struct lo_data *lo =3D lo_data(req);
+> > +    GHashTableIter iter;
+> > +    gpointer key, value;
+> > +    int err =3D 0;
 > > +
-> > +static void add_mnt_inode(struct lo_data *lo, struct lo_inode *inode)
-> > +{
-> > +    uint64_t mnt_key =3D mnt_inode_key(inode);
+> > +    pthread_mutex_lock(&lo->mutex);
 > > +
-> > +    if (!g_hash_table_contains(lo->mnt_inodes, &mnt_key)) {
-> > +        inode->is_mnt =3D true;
-> > +        g_hash_table_insert(lo->mnt_inodes, &mnt_key, inode);
-> > +    }
-> > +}
+> > +    g_hash_table_iter_init(&iter, lo->mnt_inodes);
+> > +    while (g_hash_table_iter_next(&iter, &key, &value)) {
+> > +        struct lo_inode *inode =3D value;
+> > +        int fd;
 > > +
-> > +static void remove_mnt_inode(struct lo_data *lo, struct lo_inode *inod=
-e)
-> > +{
-> > +    uint64_t mnt_key =3D mnt_inode_key(inode);
+> > +        fuse_log(FUSE_LOG_DEBUG, "lo_syncfs(ino=3D%" PRIu64 ")\n",
+> > +                 inode->fuse_ino);
 > > +
-> > +    if (inode->is_mnt) {
-> > +        g_hash_table_remove(lo->mnt_inodes, &mnt_key);
-> > +    }
+> > +        fd =3D lo_inode_open(lo, inode, O_RDONLY);
+> > +        if (fd < 0) {
+> > +            err =3D -fd;
+> > +            break;
+> > +        }
+> > +
+> > +        if (syncfs(fd) < 0) {
 >=20
-> What if same filesystem is mounted at two different mount points. Say at
-> foo/ and bar/. Now when we lookup foo, we will add that inode to=20
-
-e.g.
-
-mount --bind /var/tmp ${virtiofs_path}/foo
-mount --bind /var/tmp ${virtiofs_path}/bar
-
-?
-
-> hash table. But when we lookup bar, we will not add it. Now say foo
-> is unmounted, and inode is going away, then we will remove super block
-> of fs from hash table (while it is still mounted at bar/ ?). Do I
-> understand it right?
-
-If the host provides mount ids in statx(), each of these has a different
-mnt_id and is thus considered as a distinct super block.
-
-On a host with an older kernel, the fallback on dev_t would cause them
-to be considered the same indeed. But in this case, foo and bar are
-already confounded in the inode list, i.e. we can't have one removed
-and the other one still around AFAICT.
-
-If virtiofsd still has an inode for foo, it cannot be unmounted in the
-host. The client needs to forget the inode first, in which case it
-seems we don't care anymore for foo's super block.
-
+> I don't have a good feeling about calling syncfs() with lo->mutex held.
+> This seems to be that global mutex which is held at so many places
+> and will serialize everything else. I think we agreed that syncfs()
+> can take 10s of seconds if fs is busy. And that means we will stall
+> other filesystem operations too.
 >=20
-> If yes, we probably will need another refcounted object to keep track
-> of all the instances of the same fs?
+> So will be good if we can call syncfs() outside the lock. May be prepare
+> a list of inodes which are there, take a reference and drop the lock.
+> call syncfs and then drop the reference on inode.
 >=20
 
-I wanted to do that at first but it seemed unnecessary in the end,
-because I couldn't come up with a scenario where we could evict
-a super block while some inode under it is still referenced by the
-client.
+You're right. I'll do that.
 
-Anyway, I need to respin the patch because I misused the glib
-hash table API, i.e. use g_int64_*() functions on unallocated
-keys while I should use g_direct_*() to do this optimization.
-This has the effect of never removing super blocks and ending
-with stale inode pointers in the hash. This is what caused
-the EBADF error with syncfs() you reported on irc.
-
-> Thanks
 > Vivek
 >=20
-
-Cheers,
-
---
-Greg
-
->=20
-> > +}
+> > +            err =3D errno;
+> > +            close(fd);
+> > +            break;
+> > +        }
 > > +
->=20
-> >  /*
-> >   * Increments nlookup on the inode on success. unref_inode_lolocked() =
-must be
-> >   * called eventually to decrement nlookup again. If inodep is non-NULL=
-, the
-> > @@ -1054,10 +1081,14 @@ static int lo_do_lookup(fuse_req_t req, fuse_in=
-o_t parent, const char *name,
-> >          pthread_mutex_lock(&lo->mutex);
-> >          inode->fuse_ino =3D lo_add_inode_mapping(req, inode);
-> >          g_hash_table_insert(lo->inodes, &inode->key, inode);
-> > +        add_mnt_inode(lo, inode);
-> >          pthread_mutex_unlock(&lo->mutex);
-> >      }
-> >      e->ino =3D inode->fuse_ino;
-> > =20
-> > +    fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli%s\n", (unsigned long l=
-ong)parent,
-> > +             name, (unsigned long long)e->ino, inode->is_mnt ? " (moun=
-t)" : "");
-> > +
-> >      /* Transfer ownership of inode pointer to caller or drop it */
-> >      if (inodep) {
-> >          *inodep =3D inode;
-> > @@ -1067,9 +1098,6 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_=
-t parent, const char *name,
-> > =20
-> >      lo_inode_put(lo, &dir);
-> > =20
-> > -    fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n", (unsigned long lon=
-g)parent,
-> > -             name, (unsigned long long)e->ino);
-> > -
-> >      return 0;
-> > =20
-> >  out_err:
-> > @@ -1479,6 +1507,7 @@ static void unref_inode(struct lo_data *lo, struc=
-t lo_inode *inode, uint64_t n)
-> >              g_hash_table_destroy(inode->posix_locks);
-> >              pthread_mutex_destroy(&inode->plock_mutex);
-> >          }
-> > +        remove_mnt_inode(lo, inode);
-> >          /* Drop our refcount from lo_do_lookup() */
-> >          lo_inode_put(lo, &inode);
-> >      }
-> > @@ -3129,6 +3158,7 @@ static void lo_destroy(void *userdata)
-> >      struct lo_data *lo =3D (struct lo_data *)userdata;
-> > =20
-> >      pthread_mutex_lock(&lo->mutex);
-> > +    g_hash_table_remove_all(lo->mnt_inodes);
-> >      while (true) {
-> >          GHashTableIter iter;
-> >          gpointer key, value;
-> > @@ -3659,6 +3689,7 @@ static void setup_root(struct lo_data *lo, struct=
- lo_inode *root)
-> >          root->posix_locks =3D g_hash_table_new_full(
-> >              g_direct_hash, g_direct_equal, NULL, posix_locks_value_des=
-troy);
-> >      }
-> > +    add_mnt_inode(lo, root);
-> >  }
-> > =20
-> >  static guint lo_key_hash(gconstpointer key)
-> > @@ -3678,6 +3709,10 @@ static gboolean lo_key_equal(gconstpointer a, gc=
-onstpointer b)
-> > =20
-> >  static void fuse_lo_data_cleanup(struct lo_data *lo)
-> >  {
-> > +    if (lo->mnt_inodes) {
-> > +        g_hash_table_destroy(lo->mnt_inodes);
+> > +        close(fd);
 > > +    }
 > > +
-> >      if (lo->inodes) {
-> >          g_hash_table_destroy(lo->inodes);
-> >      }
-> > @@ -3739,6 +3774,7 @@ int main(int argc, char *argv[])
-> >      lo.root.fd =3D -1;
-> >      lo.root.fuse_ino =3D FUSE_ROOT_ID;
-> >      lo.cache =3D CACHE_AUTO;
-> > +    lo.mnt_inodes =3D g_hash_table_new(g_int64_hash, g_int64_equal);
+> > +    pthread_mutex_unlock(&lo->mutex);
+> > +
+> > +    fuse_reply_err(req, err);
+> > +}
+> > +
+> >  static void lo_destroy(void *userdata)
+> >  {
+> >      struct lo_data *lo =3D (struct lo_data *)userdata;
+> > @@ -3214,6 +3251,7 @@ static struct fuse_lowlevel_ops lo_oper =3D {
+> >      .copy_file_range =3D lo_copy_file_range,
+> >  #endif
+> >      .lseek =3D lo_lseek,
+> > +    .syncfs =3D lo_syncfs,
+> >      .destroy =3D lo_destroy,
+> >  };
 > > =20
-> >      /*
-> >       * Set up the ino map like this:
+> > diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/pa=
+ssthrough_seccomp.c
+> > index 62441cfcdb95..343188447901 100644
+> > --- a/tools/virtiofsd/passthrough_seccomp.c
+> > +++ b/tools/virtiofsd/passthrough_seccomp.c
+> > @@ -107,6 +107,7 @@ static const int syscall_allowlist[] =3D {
+> >      SCMP_SYS(set_robust_list),
+> >      SCMP_SYS(setxattr),
+> >      SCMP_SYS(symlinkat),
+> > +    SCMP_SYS(syncfs),
+> >      SCMP_SYS(time), /* Rarely needed, except on static builds */
+> >      SCMP_SYS(tgkill),
+> >      SCMP_SYS(unlinkat),
 > > --=20
 > > 2.26.3
 > >=20
