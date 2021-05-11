@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62907379F5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 07:52:40 +0200 (CEST)
-Received: from localhost ([::1]:54120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5A1379F71
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 07:58:49 +0200 (CEST)
+Received: from localhost ([::1]:39286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgLJv-0006uQ-FR
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 01:52:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33522)
+	id 1lgLPs-0007Y9-Nz
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 01:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgLDR-0006iU-JM
- for qemu-devel@nongnu.org; Tue, 11 May 2021 01:45:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33614)
+ id 1lgLDP-0006i5-7u
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 01:45:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgLDN-0006RW-VQ
- for qemu-devel@nongnu.org; Tue, 11 May 2021 01:45:57 -0400
+ id 1lgLDN-0006RH-7I
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 01:45:54 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgLDM-0004Hv-Cp
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:45:52 +0000
+ id 1lgLDL-0004Gh-Cr
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:45:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5E6BA2E8188
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:45:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5C8512E818D
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:45:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 May 2021 05:36:39 -0000
-From: Thomas Huth <1806196@bugs.launchpad.net>
+Date: Tue, 11 May 2021 05:36:52 -0000
+From: Thomas Huth <1824344@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Tags: amd64 i386
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: socketpair stefanha th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?0JrQvtGA0LXQvdCx0LXRgNCzINCc0LDRgNC6?=
- =?utf-8?q?_=28socketpair=29?=
+X-Launchpad-Bug-Commenters: mhodog th-huth zsojka
+X-Launchpad-Bug-Reporter: =?utf-8?q?Zden=C4=9Bk_Sojka_=28zsojka=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154368343637.32200.15942853285785778925.malonedeb@wampee.canonical.com>
-Message-Id: <162071139969.16316.11196264670830621769.malone@soybean.canonical.com>
-Subject: [Bug 1806196] Re: qed leaked clusters
+References: <155498568620.8246.6921870539036246816.malonedeb@wampee.canonical.com>
+Message-Id: <162071141211.6558.2175089457205565623.malone@gac.canonical.com>
+Subject: [Bug 1824344] Re: x86: retf or iret pagefault sets wrong error code
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: db7e98cf7ea8d4c29a039ac91e796c1708044fa6
+X-Launchpad-Hash: e256306c4b81ecab002aeefe8e2530170318db54
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1806196 <1806196@bugs.launchpad.net>
+Reply-To: Bug 1824344 <1824344@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,41 +79,77 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/264
+ https://gitlab.com/qemu-project/qemu/-/issues/265
 
 
 ** Changed in: qemu
        Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #264
-   https://gitlab.com/qemu-project/qemu/-/issues/264
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #265
+   https://gitlab.com/qemu-project/qemu/-/issues/265
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1806196
+https://bugs.launchpad.net/bugs/1824344
 
 Title:
-  qed leaked clusters
+  x86: retf or iret pagefault sets wrong error code
 
 Status in QEMU:
   Expired
 
 Bug description:
-  There are examples of two QED files which AFAIK does not have any
-  errors both. But `qemu-img check` says that one of them has 1 leaked
-  cluster.
+  With a x86_64 or i386 guest, non-KVM, when trying to execute a
+  "iret/iretq/retf" instruction in userspace with invalid stack pointer
+  (under a protected mode OS, like Linux), wrong bits are set in the
+  pushed error code; bit 2 is not set, indicating the error comes from
+  kernel space.
 
-  I wrote my own tool and it does not find any error. Both files
-  attached, as well as debug output from my program.
+  If the guest OS is using this flag to decide whether this was a kernel
+  or user page fault, it will mistakenly decide a kernel has irrecoverably
+  faulted, possibly causing guest OS panic.
 
-  Both files are about 4G in size after unpacking. Unpack with `tar -S`
-  to handle sparse files.
+  =
 
-  And also, I know, that QED is deprecated, but anyway, seems qemu-img
-  has bug.
+  How to reproduce the problem a guest (non-KVM) Linux:
+  Note, on recent Linux kernel version, this needs a CPU with SMAP support
+  (eg. -cpu max)
+
+  $ cat tst.c
+  int main()
+  {
+  __asm__ volatile (
+  "mov $0,%esp\n"
+  "retf"
+  );
+  return 0;
+  }
+
+  $ gcc tst.c
+  $ ./a.out
+  Killed
+
+  =
+
+  "dmesg" shows the kernel has in fact triggered a "BUG: unable to handle
+  kernel NULL pointer dereference...", but it has "recovered" by killing
+  the faulting process (see attached screenshot).
+
+  =
+
+  Using self-compiled qemu from git:
+  commit 532cc6da74ec25b5ba6893b5757c977d54582949 (HEAD -> master, tag: v4.=
+0.0-rc3, origin/master, origin/HEAD)
+  Author: Peter Maydell <peter.maydell@linaro.org>
+  Date:   Wed Apr 10 15:38:59 2019 +0100
+
+      Update version for v4.0.0-rc3 release
+      =
+
+      Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1806196/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1824344/+subscriptions
 
