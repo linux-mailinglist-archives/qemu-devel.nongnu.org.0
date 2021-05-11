@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A1337A0DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 09:33:31 +0200 (CEST)
-Received: from localhost ([::1]:44296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B81337A0DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 09:33:30 +0200 (CEST)
+Received: from localhost ([::1]:44218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgMtW-0006Nn-JI
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 03:33:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51848)
+	id 1lgMtV-0006Jx-Fm
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 03:33:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgMqC-00043N-6c
- for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:04 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42870)
+ id 1lgMqG-00044K-Da
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:09 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgMq9-00084j-5S
- for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:03 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id l2so19029427wrm.9
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 00:30:00 -0700 (PDT)
+ id 1lgMqE-00089h-2L
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:07 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id n2so19097346wrm.0
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 00:30:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=j5Sxu4ctDafvDSNcFbyYbFbbcAFEWQpn+j7ohAb2sA4=;
- b=T5/gT1u1zbZYfqXgAxbthqe2XBSC9jqM9dyo6tulbTvdWSShXWdB/pSiMduNQDwnId
- 6CzQpoAfrZVSYx1hId4z8j3fMculbh00M6I6x1eQMDBAAhLJbSZ3tUB8GLWmYGg3F3WA
- ccl8FyO5i5nkNDXL0AQJ20sQEAaH5iSLL9fGDR8IGxBVDH6yMD3u+TGe2w3CqKbU9pk9
- 2FQXBNr03v2Wj0i5n4pRCv1qtmR3TJvpS1M10ETvPLFd1VlldDBGpzjjaS9BePm6J2oY
- 9aXdQQ14UDF8QGx9ywdgnzlEcgYkqY8GC8cNkzJx37BEvjZCVlBNLWtjDh4JQj84e7hI
- mV1g==
+ bh=HSxyb2XLxEd7xp/LblnlIgvehK/JlbNRJcr6qBoGWfk=;
+ b=AmFCgAQjjCHN+mTMM5XI5bCzZQUBXTRQaDWfkJII50Ss+MmlInevvbFJ3iJKF4JaOp
+ 09mA4tpI+xCKTwDPy+X+LMAr/ASmk0phTR4PG7KrXVeTW040MI25cG7HLE5BWDoqLsGw
+ L4Me0Y/Q5ga3ULte9mINKCrJjTlOejRtV9fQr3vNXYR+L3evs4t1WfE2boUqoKWQ6CIq
+ RtUxEt1Jn8GsQC/bqTDV1SlOYqb2QhA2B2NN0TmR/vv3S1aLfCqHRBiksnyF2pUksp4J
+ 0B5tuIMtG30Hei7374mCvafH3qDRkEHc3BluHn5rMIWYkbxVB76Fj3CEBpCa5agrzGe/
+ lrkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=j5Sxu4ctDafvDSNcFbyYbFbbcAFEWQpn+j7ohAb2sA4=;
- b=ScowMPeChD+O87yvzm8COwt7MvvX91EMq5vTYJnO3stcyriTTP0eQpklOAWSSZwXll
- fffzCQhLvCyZHydX3G/psMyEOBl6ZSNNhUaBVu25NVlmkRVYbfFZ1EQIaEUU/ls2/QvN
- k63Vs7fFCNb3cho8NLom8NgOlgc7DVz1LVqHSn6pue0rDI5oDg7ZCGMWMxZ6ha801EZk
- 2Z9kMSmGPas9bhaypz4AEvtiS1RZOnXsRMEHDG0Sp4pys7AHqrL+klG1x25WreX+Pwhg
- PWpI3U1SVEr5IrrBhEQyOoh7BpKqgJX4FPxxpOWk4jQadH3WWCILUTtC/LRksOhOVnLb
- 9xPg==
-X-Gm-Message-State: AOAM5325j0tcT7mvY1/QaXZEZ04JndPwa/1c9q+Q7VghdATapLDvtG6o
- z63Iqw3lkK2QVtOneVEyFGo1Lg2FKhXueA==
-X-Google-Smtp-Source: ABdhPJxnsig6bHEiUDTiKDQznPdOnRjToCkyylWOgMa+F6cMdH5eeOCTOeGhk5CE/6mXbImkcJ0VVQ==
-X-Received: by 2002:a5d:4a81:: with SMTP id o1mr1599563wrq.177.1620718199386; 
- Tue, 11 May 2021 00:29:59 -0700 (PDT)
+ bh=HSxyb2XLxEd7xp/LblnlIgvehK/JlbNRJcr6qBoGWfk=;
+ b=MRAYRpU3KJz1r6TZPPvMZeWejoshaZNDMy95FlOLKLgbs+jlxdRTAVy1sazf5PolYG
+ 6yr2Fi1WGBEXz11ZzLIeN9q7rceTxn9hRM+1/osUbz+C/BP3KdnLg0ycFvRe+gQKaUXX
+ Y8d5ywug7s7psMCeDtaGBE2OLHPNawEURPJddfnRPNScw7Ee9ec/OPK0psmSZCVXHg0j
+ COjVAvDS0HOi48BmN9Hhmcw0YWIzt+hAisaaxklfr2iKOh+DE/mV9qRrCj6isWX2moSb
+ 8JD6NrsVsYmmj+2s8Qhd7n82P+MbwCKtChb2yBj/XkVxyIqvPTL+mrPCbgAwpoUTZpuQ
+ 3PXg==
+X-Gm-Message-State: AOAM53376YFRFNefOOX8YnfUAX9ZOyjRiOJT88XgG6rz8pcJg1bg1nzL
+ TDNc9OrlUdnnW2LktTmDVThIjaQaL3wVaQ==
+X-Google-Smtp-Source: ABdhPJyHbSXBfcFIi/dQyXTw6qos9YOk0FF8wFs4Yt59HNPwOLHjYoj+2IlmD6aguKfwHmbSbHTB+g==
+X-Received: by 2002:adf:e9cf:: with SMTP id l15mr26623043wrn.209.1620718204256; 
+ Tue, 11 May 2021 00:30:04 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id g129sm2807281wmg.27.2021.05.11.00.29.58
+ by smtp.gmail.com with ESMTPSA id o13sm24078131wrf.91.2021.05.11.00.30.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 00:29:58 -0700 (PDT)
+ Tue, 11 May 2021 00:30:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/10] gitlab-ci: Replace YAML anchors by extends
- (acceptance_test_job)
-Date: Tue, 11 May 2021 09:29:43 +0200
-Message-Id: <20210511072952.2813358-2-f4bug@amsat.org>
+Subject: [PATCH v2 02/10] gitlab-ci: Rename acceptance_test_job ->
+ integration_test_job
+Date: Tue, 11 May 2021 09:29:44 +0200
+Message-Id: <20210511072952.2813358-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210511072952.2813358-1-f4bug@amsat.org>
 References: <20210511072952.2813358-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,174 +98,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-'extends' is an alternative to using YAML anchors
-and is a little more flexible and readable. See:
-https://docs.gitlab.com/ee/ci/yaml/#extends
+The acceptance tests aren't accepting anything,
+rename them as integration tests.
 
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.yml | 30 +++++++++++-------------------
- 1 file changed, 11 insertions(+), 19 deletions(-)
+ .gitlab-ci.yml | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 66b3d8602ca..1d8ecc281b4 100644
+index 1d8ecc281b4..d474ffa030a 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -52,7 +52,8 @@ include:
+@@ -52,7 +52,7 @@ include:
      # Avoid recompiling by hiding ninja with NINJA=":"
      - make NINJA=":" $MAKE_CHECK_ARGS
  
--.acceptance_template: &acceptance_definition
-+.acceptance_test_job_template:
-+  extends: .native_test_job_template
+-.acceptance_test_job_template:
++.integration_test_job_template:
+   extends: .native_test_job_template
    cache:
      key: "${CI_JOB_NAME}-cache"
-     paths:
-@@ -108,14 +109,13 @@ check-system-alpine:
+@@ -109,7 +109,7 @@ check-system-alpine:
      MAKE_CHECK_ARGS: check
  
  acceptance-system-alpine:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
+-  extends: .acceptance_test_job_template
++  extends: .integration_test_job_template
    needs:
      - job: build-system-alpine
        artifacts: true
-   variables:
-     IMAGE: alpine
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- build-system-ubuntu:
-   extends: .native_build_job_template
-@@ -142,14 +142,13 @@ check-system-ubuntu:
+@@ -142,7 +142,7 @@ check-system-ubuntu:
      MAKE_CHECK_ARGS: check
  
  acceptance-system-ubuntu:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
+-  extends: .acceptance_test_job_template
++  extends: .integration_test_job_template
    needs:
      - job: build-system-ubuntu
        artifacts: true
-   variables:
-     IMAGE: ubuntu2004
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- build-system-debian:
-   extends: .native_build_job_template
-@@ -176,14 +175,13 @@ check-system-debian:
+@@ -175,7 +175,7 @@ check-system-debian:
      MAKE_CHECK_ARGS: check
  
  acceptance-system-debian:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
+-  extends: .acceptance_test_job_template
++  extends: .integration_test_job_template
    needs:
      - job: build-system-debian
        artifacts: true
-   variables:
-     IMAGE: debian-amd64
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- build-system-fedora:
-   extends: .native_build_job_template
-@@ -211,14 +209,13 @@ check-system-fedora:
+@@ -209,7 +209,7 @@ check-system-fedora:
      MAKE_CHECK_ARGS: check
  
  acceptance-system-fedora:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
+-  extends: .acceptance_test_job_template
++  extends: .integration_test_job_template
    needs:
      - job: build-system-fedora
        artifacts: true
-   variables:
-     IMAGE: fedora
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- build-system-centos:
-   extends: .native_build_job_template
-@@ -246,14 +243,13 @@ check-system-centos:
+@@ -243,7 +243,7 @@ check-system-centos:
      MAKE_CHECK_ARGS: check
  
  acceptance-system-centos:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
+-  extends: .acceptance_test_job_template
++  extends: .integration_test_job_template
    needs:
      - job: build-system-centos
        artifacts: true
-   variables:
-     IMAGE: centos8
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- build-system-opensuse:
-   extends: .native_build_job_template
-@@ -279,14 +275,13 @@ check-system-opensuse:
+@@ -275,7 +275,7 @@ check-system-opensuse:
      MAKE_CHECK_ARGS: check
  
  acceptance-system-opensuse:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
+-  extends: .acceptance_test_job_template
++  extends: .integration_test_job_template
    needs:
      - job: build-system-opensuse
        artifacts: true
-   variables:
-     IMAGE: opensuse-leap
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- 
- build-disabled:
-@@ -522,14 +517,13 @@ check-cfi-aarch64:
+@@ -517,7 +517,7 @@ check-cfi-aarch64:
      MAKE_CHECK_ARGS: check
  
  acceptance-cfi-aarch64:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
+-  extends: .acceptance_test_job_template
++  extends: .integration_test_job_template
    needs:
      - job: build-cfi-aarch64
        artifacts: true
-   variables:
-     IMAGE: fedora
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- build-cfi-ppc64-s390x:
-   extends: .native_build_job_template
-@@ -559,14 +553,13 @@ check-cfi-ppc64-s390x:
+@@ -553,7 +553,7 @@ check-cfi-ppc64-s390x:
      MAKE_CHECK_ARGS: check
  
  acceptance-cfi-ppc64-s390x:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
+-  extends: .acceptance_test_job_template
++  extends: .integration_test_job_template
    needs:
      - job: build-cfi-ppc64-s390x
        artifacts: true
-   variables:
-     IMAGE: fedora
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- build-cfi-x86_64:
-   extends: .native_build_job_template
-@@ -596,14 +589,13 @@ check-cfi-x86_64:
+@@ -589,7 +589,7 @@ check-cfi-x86_64:
      MAKE_CHECK_ARGS: check
  
  acceptance-cfi-x86_64:
--  extends: .native_test_job_template
-+  extends: .acceptance_test_job_template
+-  extends: .acceptance_test_job_template
++  extends: .integration_test_job_template
    needs:
      - job: build-cfi-x86_64
        artifacts: true
-   variables:
-     IMAGE: fedora
-     MAKE_CHECK_ARGS: check-acceptance
--  <<: *acceptance_definition
- 
- tsan-build:
-   extends: .native_build_job_template
 -- 
 2.26.3
 
