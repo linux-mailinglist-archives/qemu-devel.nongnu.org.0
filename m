@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1314F37A0E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 09:35:10 +0200 (CEST)
-Received: from localhost ([::1]:50574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF83E37A0FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 09:40:51 +0200 (CEST)
+Received: from localhost ([::1]:35982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgMv7-0002Da-2x
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 03:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51952)
+	id 1lgN0c-0003Gz-Mm
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 03:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgMqV-00047Y-69
- for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:23 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33686)
+ id 1lgMqY-0004Cx-3J
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:26 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgMqT-0008Iv-6C
- for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:22 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id n2so19098040wrm.0
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 00:30:19 -0700 (PDT)
+ id 1lgMqW-0008ME-L1
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:25 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id a4so19045580wrr.2
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 00:30:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cMLF+DiYB05VGczsv0EHFzokHqtb7UOcx/SnibJim1g=;
- b=d6okAlqbrVmawA1Y1tE6/sHsdh8ch4YpcEafWeOXftdL70tbkzgRarGND23SiHXIej
- Aq9f97SFLPJWe6mBSH6FfSFydJpuXOcBleSjrqIGnSynNUdxElz5NE3KP/hh76oUQObC
- YfNJsmX02k1lCEJsEJqp78YPvoTUCLqFNHNRCjoSalF8XuKf/TgYKcp5WKydcK8oTJSP
- zbale9YCDM08dQMgpi6aQy8Nw3noh4J07XU5DUfkZUy1whW//tzzZ6j3p+KLE68LaJwg
- FukPZ1wtFPOSOhK2Q0UvE/3PNAt/uOnSNWgoecy2w9B5+S3u3pDyAAAVksqvzc9n1cWG
- Osdg==
+ bh=Qj+Lzfuwxy78ivp7wbT+ICY6VHgDT26ec+hxPTVL25Q=;
+ b=LPBmz3bv+m0KKs1egWy/N0fQBMwA3yUgeHAWGnsghLx99+F/ElebC6nq5WJn64NUqT
+ HAwAVRXnCds5U1GWLFEzOR2dcqR2W5qqEphBHfKHafuGmt1BMjsZjjG85nLlTnvD4nj+
+ uFRPRyTWyFrgsUlYmUkjrzwSr1sqtUBWo2/DUABVrUFeRI+Kf1q94anKDyGCisJ6FKRl
+ PrSde5KIsoWtDXo58y82aPo8wHT25NaW0zRZ0i6ZRYZ8M3D37dJ5K0kL/kuzceJROqpc
+ HV+cW8IgkFFMWP26it8iH3M/T5574btOPu7AX7to81KI444ZS7vf9nvqz+59BX92nxBu
+ PtQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cMLF+DiYB05VGczsv0EHFzokHqtb7UOcx/SnibJim1g=;
- b=uGxjby1mmrj8pavRBaijjsWAFDeho486I5Kf9A+riLHGN9HwI5v9S/1rg9R9cUrpOg
- /vzu3YBIaP63tZr5swpBRnrf8tkU7DjqgfjdBP19CjO7NgXpR5dZKy8DqX+VLJV7FlAg
- bTyd9plPkDjBPqToKNhY1GiXt4nLZ09J/+2kV1gUA5C284XBq430QyumcTseHfBQYP4r
- s/ms7s6aCuips1en4Wz76ySM39T2ViG9PHDTsVTmMLY61wY0n8hBLvOI+DJSf1ct9X/7
- D8DOEu7GvVgERhpXn3oeCJsPIHkwZOy+p4WPj/p69sVAptwU5vz9+TeqvmkwYm8hI7ie
- kYyw==
-X-Gm-Message-State: AOAM531HN/+q6ylgZTYU+JBaujuP6UDvd93Oa00XdJoEVTLwyahJZkAp
- AKl1TAg+QE4/q+lBOmomfaA7UVS0eN5OLg==
-X-Google-Smtp-Source: ABdhPJzvtxYXjHxOcQ5ByOMI0THqw7/+CVyY6YcZcqjpuN06PPwyfOftvjPFK9zjCTdEeM+eA+FVSw==
-X-Received: by 2002:adf:cc85:: with SMTP id p5mr35828809wrj.75.1620718218539; 
- Tue, 11 May 2021 00:30:18 -0700 (PDT)
+ bh=Qj+Lzfuwxy78ivp7wbT+ICY6VHgDT26ec+hxPTVL25Q=;
+ b=GnVt9cg1bjTv6WYyMN4VB1tVRd0QImOIyNDC2Mm9uVgBTVvlLgsBysq0hOwYLC8nZS
+ qTN4K+cZdMZMqStcrqdnl5ZIrbHQaXoRH1SpCSc9FU3D1kJX8yaJCCPXLDWEkW4I5074
+ Yq3Ys540zb/TEGwOcJtcP5kweYy2EHugrvMdf9sLPLAbeBcsBWYOrDcKeuc3GeT2JSar
+ umqLhL+BKjYmszghC+Mt3aqmuD5OdPqr+fITzsBI+O7JokwVZfAxge8y2guFG8bPlGo9
+ 0OdnkQitGeQHB4FuhME83AHZvRzQFC2syqezgdBntH7Wmg782FzbwMNWkwfWgQckm5mR
+ H3mQ==
+X-Gm-Message-State: AOAM533NO2pmwLKBu7Ezx7ZI0V1/02HJXDBNaFegdLaCXBdp3/S0Vbs6
+ Pnk2Ta08kjb8q4YtWh3ou/4hnmSa1rB7GA==
+X-Google-Smtp-Source: ABdhPJwtS7hffTmDc8yjjSzGD1CRBFfI/qEsbCCjjf1WBhXM8ObNjq0e/fI8Y1GXvPGz0tk2f+wvIQ==
+X-Received: by 2002:a5d:6885:: with SMTP id h5mr36144550wru.229.1620718223251; 
+ Tue, 11 May 2021 00:30:23 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id b10sm30859762wrr.27.2021.05.11.00.30.17
+ by smtp.gmail.com with ESMTPSA id y12sm22788431wma.47.2021.05.11.00.30.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 00:30:18 -0700 (PDT)
+ Tue, 11 May 2021 00:30:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/10] gitlab-ci: Extract DCO/style check jobs to
- static_checks.yml
-Date: Tue, 11 May 2021 09:29:47 +0200
-Message-Id: <20210511072952.2813358-6-f4bug@amsat.org>
+Subject: [PATCH v2 06/10] gitlab-ci: Extract build stages to stages.yml
+Date: Tue, 11 May 2021 09:29:48 +0200
+Message-Id: <20210511072952.2813358-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210511072952.2813358-1-f4bug@amsat.org>
 References: <20210511072952.2813358-1-f4bug@amsat.org>
@@ -95,96 +94,51 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract the DCO / checkpatch jobs to a new file (static_checks.yml)
-to be able to run them without having to run all the jobs included
-in the default .gitlab-ci.yml, which are mainly useful for the
-mainstream CI.
+Extract the build stages used by our job templates to a new file
+(stages.yml) to be able to include it with the other templates,
+without having to run all the jobs included in the default
+.gitlab-ci.yml, which are mainly useful for mainstream CI.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v2:
-- renamed static_checks.yml (Wainer)
-- removed moved jobs (Thomas)
----
- .gitlab-ci.d/static_checks.yml | 24 ++++++++++++++++++++++++
- .gitlab-ci.yml                 | 26 +-------------------------
- 2 files changed, 25 insertions(+), 25 deletions(-)
- create mode 100644 .gitlab-ci.d/static_checks.yml
+ .gitlab-ci.d/stages.yml |  8 ++++++++
+ .gitlab-ci.yml          | 10 +---------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+ create mode 100644 .gitlab-ci.d/stages.yml
 
-diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
+diff --git a/.gitlab-ci.d/stages.yml b/.gitlab-ci.d/stages.yml
 new file mode 100644
-index 00000000000..f695627b7cd
+index 00000000000..f50826018df
 --- /dev/null
-+++ b/.gitlab-ci.d/static_checks.yml
-@@ -0,0 +1,24 @@
-+check-patch:
-+  stage: build
-+  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
-+  needs:
-+    job: amd64-centos8-container
-+  script: .gitlab-ci.d/check-patch.py
-+  except:
-+    variables:
-+      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
-+  variables:
-+    GIT_DEPTH: 1000
-+  allow_failure: true
-+
-+check-dco:
-+  stage: build
-+  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
-+  needs:
-+    job: amd64-centos8-container
-+  script: .gitlab-ci.d/check-dco.py
-+  except:
-+    variables:
-+      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
-+  variables:
-+    GIT_DEPTH: 1000
++++ b/.gitlab-ci.d/stages.yml
+@@ -0,0 +1,8 @@
++# Currently we have two build stages after our containers are built:
++#  - build (for traditional build and test or first stage build)
++#  - test (for test stages, using build artefacts from a build stage)
++stages:
++  - containers
++  - containers-layer2
++  - build
++  - test
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index d474ffa030a..ab9edc78879 100644
+index ab9edc78879..5bfcd8aaca4 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -12,6 +12,7 @@ include:
+@@ -1,13 +1,5 @@
+-# Currently we have two build stages after our containers are built:
+-#  - build (for traditional build and test or first stage build)
+-#  - test (for test stages, using build artefacts from a build stage)
+-stages:
+-  - containers
+-  - containers-layer2
+-  - build
+-  - test
+-
+ include:
++  - local: '/.gitlab-ci.d/stages.yml'
+   - local: '/.gitlab-ci.d/edk2.yml'
    - local: '/.gitlab-ci.d/opensbi.yml'
    - local: '/.gitlab-ci.d/containers.yml'
-   - local: '/.gitlab-ci.d/crossbuilds.yml'
-+  - local: '/.gitlab-ci.d/static_checks.yml'
- 
- .native_build_job_template:
-   stage: build
-@@ -758,31 +759,6 @@ build-without-default-features:
-         --target-list-exclude=arm-softmmu,i386-softmmu,mipsel-softmmu,mips64-softmmu,ppc-softmmu
-     MAKE_CHECK_ARGS: check-unit
- 
--check-patch:
--  stage: build
--  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
--  needs:
--    job: amd64-centos8-container
--  script: .gitlab-ci.d/check-patch.py
--  except:
--    variables:
--      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
--  variables:
--    GIT_DEPTH: 1000
--  allow_failure: true
--
--check-dco:
--  stage: build
--  image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
--  needs:
--    job: amd64-centos8-container
--  script: .gitlab-ci.d/check-dco.py
--  except:
--    variables:
--      - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
--  variables:
--    GIT_DEPTH: 1000
--
- build-libvhost-user:
-   stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/fedora:latest
 -- 
 2.26.3
 
