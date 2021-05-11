@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C3D37B173
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 00:12:26 +0200 (CEST)
-Received: from localhost ([::1]:33800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6036837B16D
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 00:11:25 +0200 (CEST)
+Received: from localhost ([::1]:56978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgac5-0005HF-1w
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 18:12:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55702)
+	id 1lgab6-0001ju-E8
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 18:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaW8-0007Uz-UD
- for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44088)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaWA-0007Z4-6U
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaW6-0006Rd-Ob
- for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:16 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaW8-0006SS-5s
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620770774;
+ s=mimecast20190719; t=1620770775;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8nOQsNt8acyCnBU2ptkWNXXNpOfhla1lorwI4QOI0Pc=;
- b=b6h4Jv6zFb/tmP+UCa7ZOqb3Vp5jRGyVqPBqK6w/6hGr2S4pxyREKSbSbb7Joef+BOZDKa
- kuFghMEB8eN1ZfoSX+tpTmUMpm3loVl8LsozQHsMBvZTqCmehH8OsbVaXEIs0A5DEtQeaA
- Jc7dK/r3+rHaJZWcEzDlHhCAe3oe8/0=
+ bh=rIOtzahELHFPo7dqKUXPYk1QumpQPPrSmIDVsNa1JFI=;
+ b=Dn1M8LI1xt2MjMPEK44Z2/nbeiIDuE08nRPkaF3OqaDEnk43cN8SbQ7aWXD3MD3dlwsSiW
+ L6+gWKG4YSc7qa24pZJ9MyJ7prIM+4Pn0kBEkupCzTNwfjFn+VIm9bsfxihz0RcjrPKauT
+ UzqcV4lKT5vFr5ytog1EHsO1+tYM7/w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-7nbL9VY_P4qLoGJU-ooZRw-1; Tue, 11 May 2021 18:06:12 -0400
-X-MC-Unique: 7nbL9VY_P4qLoGJU-ooZRw-1
+ us-mta-455-jilDcniJPN6gg22fxyFniw-1; Tue, 11 May 2021 18:06:13 -0400
+X-MC-Unique: jilDcniJPN6gg22fxyFniw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1553101371B;
- Tue, 11 May 2021 22:06:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B199107ACE4;
+ Tue, 11 May 2021 22:06:12 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94BD960CC9;
- Tue, 11 May 2021 22:06:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4B8D60CC9;
+ Tue, 11 May 2021 22:06:11 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/21] qapi: add must_match helper
-Date: Tue, 11 May 2021 18:05:49 -0400
-Message-Id: <20210511220601.2110055-10-jsnow@redhat.com>
+Subject: [PATCH v2 10/21] qapi/parser: Fix token membership tests when token
+ can be None
+Date: Tue, 11 May 2021 18:05:50 -0400
+Message-Id: <20210511220601.2110055-11-jsnow@redhat.com>
 In-Reply-To: <20210511220601.2110055-1-jsnow@redhat.com>
 References: <20210511220601.2110055-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -82,127 +83,108 @@ Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mypy cannot generally understand that these regex functions cannot
-possibly fail. Add a "must_match" helper that makes this clear for
-mypy.
+When the token can be None (EOF), we can't use 'x in "abc"' style
+membership tests to group types of tokens together, because 'None in
+"abc"' is a TypeError.
+
+Easy enough to fix. (Use a tuple: It's neither a static typing error nor
+a runtime error to check for None in Tuple[str, ...])
+
+Add tests to prevent a regression. (Note: they cannot be added prior to
+this fix, as the unhandled stack trace will not match test output in the
+CI system.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/common.py |  8 +++++++-
- scripts/qapi/main.py   |  6 ++----
- scripts/qapi/parser.py | 13 +++++++------
- 3 files changed, 16 insertions(+), 11 deletions(-)
+ scripts/qapi/parser.py                               | 5 +++--
+ tests/qapi-schema/meson.build                        | 2 ++
+ tests/qapi-schema/missing-array-rsqb.err             | 1 +
+ tests/qapi-schema/missing-array-rsqb.json            | 1 +
+ tests/qapi-schema/missing-array-rsqb.out             | 0
+ tests/qapi-schema/missing-object-member-element.err  | 1 +
+ tests/qapi-schema/missing-object-member-element.json | 1 +
+ tests/qapi-schema/missing-object-member-element.out  | 0
+ 8 files changed, 9 insertions(+), 2 deletions(-)
+ create mode 100644 tests/qapi-schema/missing-array-rsqb.err
+ create mode 100644 tests/qapi-schema/missing-array-rsqb.json
+ create mode 100644 tests/qapi-schema/missing-array-rsqb.out
+ create mode 100644 tests/qapi-schema/missing-object-member-element.err
+ create mode 100644 tests/qapi-schema/missing-object-member-element.json
+ create mode 100644 tests/qapi-schema/missing-object-member-element.out
 
-diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index cbd3fd81d36..6ad1eeb61d4 100644
---- a/scripts/qapi/common.py
-+++ b/scripts/qapi/common.py
-@@ -12,7 +12,7 @@
- # See the COPYING file in the top-level directory.
- 
- import re
--from typing import Optional, Sequence
-+from typing import Match, Optional, Sequence
- 
- 
- #: Magic string that gets removed along with all space to its right.
-@@ -210,3 +210,9 @@ def gen_endif(ifcond: Sequence[str]) -> str:
- #endif /* %(cond)s */
- ''', cond=ifc)
-     return ret
-+
-+
-+def must_match(pattern: str, string: str) -> Match[str]:
-+    match = re.match(pattern, string)
-+    assert match is not None
-+    return match
-diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-index 703e7ed1ed5..f2ea6e0ce4a 100644
---- a/scripts/qapi/main.py
-+++ b/scripts/qapi/main.py
-@@ -8,11 +8,11 @@
- """
- 
- import argparse
--import re
- import sys
- from typing import Optional
- 
- from .commands import gen_commands
-+from .common import must_match
- from .error import QAPIError
- from .events import gen_events
- from .introspect import gen_introspect
-@@ -22,9 +22,7 @@
- 
- 
- def invalid_prefix_char(prefix: str) -> Optional[str]:
--    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
--    # match cannot be None, but mypy cannot infer that.
--    assert match is not None
-+    match = must_match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
-     if match.end() != len(prefix):
-         return prefix[match.end()]
-     return None
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 5ef1b8935e6..39de24785ac 100644
+index 39de24785ac..959214b7042 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -18,6 +18,7 @@
- import os
- import re
- 
-+from .common import must_match
- from .error import QAPISemError, QAPISourceError
- from .source import QAPISourceInfo
- 
-@@ -238,8 +239,8 @@ def accept(self, skip_comment=True):
-             elif not self.tok.isspace():
-                 # Show up to next structural, whitespace or quote
-                 # character
--                match = re.match('[^[\\]{}:,\\s\'"]+',
--                                 self.src[self.cursor-1:])
-+                match = must_match('[^[\\]{}:,\\s\'"]+',
-+                                   self.src[self.cursor-1:])
-                 raise QAPIParseError(self, "stray '%s'" % match.group(0))
- 
-     def get_members(self):
-@@ -369,7 +370,7 @@ def append(self, line):
-             # Strip leading spaces corresponding to the expected indent level
-             # Blank lines are always OK.
-             if line:
--                indent = re.match(r'\s*', line).end()
-+                indent = must_match(r'\s*', line).end()
-                 if indent < self._indent:
-                     raise QAPIParseError(
-                         self._parser,
-@@ -505,7 +506,7 @@ def _append_args_line(self, line):
-             # from line and replace it with spaces so that 'f' has the
-             # same index as it did in the original line and can be
-             # handled the same way we will handle following lines.
--            indent = re.match(r'@\S*:\s*', line).end()
-+            indent = must_match(r'@\S*:\s*', line).end()
-             line = line[indent:]
-             if not line:
-                 # Line was just the "@arg:" header; following lines
-@@ -540,7 +541,7 @@ def _append_features_line(self, line):
-             # from line and replace it with spaces so that 'f' has the
-             # same index as it did in the original line and can be
-             # handled the same way we will handle following lines.
--            indent = re.match(r'@\S*:\s*', line).end()
-+            indent = must_match(r'@\S*:\s*', line).end()
-             line = line[indent:]
-             if not line:
-                 # Line was just the "@arg:" header; following lines
-@@ -586,7 +587,7 @@ def _append_various_line(self, line):
-             # from line and replace it with spaces so that 'f' has the
-             # same index as it did in the original line and can be
-             # handled the same way we will handle following lines.
--            indent = re.match(r'\S*:\s*', line).end()
-+            indent = must_match(r'\S*:\s*', line).end()
-             line = line[indent:]
-             if not line:
-                 # Line was just the "Section:" header; following lines
+@@ -275,7 +275,7 @@ def get_values(self):
+         if self.tok == ']':
+             self.accept()
+             return expr
+-        if self.tok not in "{['tf":
++        if self.tok not in tuple("{['tf"):
+             raise QAPIParseError(
+                 self, "expected '{', '[', ']', string, or boolean")
+         while True:
+@@ -294,7 +294,8 @@ def get_expr(self):
+         elif self.tok == '[':
+             self.accept()
+             expr = self.get_values()
+-        elif self.tok in "'tf":
++        elif self.tok in tuple("'tf"):
++            assert isinstance(self.val, (str, bool))
+             expr = self.val
+             self.accept()
+         else:
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index dc448e8f74d..9e8f658ce38 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -134,9 +134,11 @@ schemas = [
+   'indented-expr.json',
+   'leading-comma-list.json',
+   'leading-comma-object.json',
++  'missing-array-rsqb.json',
+   'missing-colon.json',
+   'missing-comma-list.json',
+   'missing-comma-object.json',
++  'missing-object-member-element.json',
+   'missing-type.json',
+   'nested-struct-data.json',
+   'nested-struct-data-invalid-dict.json',
+diff --git a/tests/qapi-schema/missing-array-rsqb.err b/tests/qapi-schema/missing-array-rsqb.err
+new file mode 100644
+index 00000000000..b5f58b8c12a
+--- /dev/null
++++ b/tests/qapi-schema/missing-array-rsqb.err
+@@ -0,0 +1 @@
++missing-array-rsqb.json:1:44: expected '{', '[', string, or boolean
+diff --git a/tests/qapi-schema/missing-array-rsqb.json b/tests/qapi-schema/missing-array-rsqb.json
+new file mode 100644
+index 00000000000..7fca1df923c
+--- /dev/null
++++ b/tests/qapi-schema/missing-array-rsqb.json
+@@ -0,0 +1 @@
++['Daisy,', 'Daisy,', 'Give me your answer',
+diff --git a/tests/qapi-schema/missing-array-rsqb.out b/tests/qapi-schema/missing-array-rsqb.out
+new file mode 100644
+index 00000000000..e69de29bb2d
+diff --git a/tests/qapi-schema/missing-object-member-element.err b/tests/qapi-schema/missing-object-member-element.err
+new file mode 100644
+index 00000000000..c08a3dc307f
+--- /dev/null
++++ b/tests/qapi-schema/missing-object-member-element.err
+@@ -0,0 +1 @@
++missing-object-member-element.json:1:8: expected '{', '[', string, or boolean
+diff --git a/tests/qapi-schema/missing-object-member-element.json b/tests/qapi-schema/missing-object-member-element.json
+new file mode 100644
+index 00000000000..f52d0106f31
+--- /dev/null
++++ b/tests/qapi-schema/missing-object-member-element.json
+@@ -0,0 +1 @@
++{'key':
+diff --git a/tests/qapi-schema/missing-object-member-element.out b/tests/qapi-schema/missing-object-member-element.out
+new file mode 100644
+index 00000000000..e69de29bb2d
 -- 
 2.30.2
 
