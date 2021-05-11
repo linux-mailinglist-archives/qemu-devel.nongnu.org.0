@@ -2,58 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E3537A78B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:28:37 +0200 (CEST)
-Received: from localhost ([::1]:45272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C4737A78D
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:29:08 +0200 (CEST)
+Received: from localhost ([::1]:46302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgSR9-0007BZ-Fa
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:28:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57654)
+	id 1lgSRa-0007uL-PP
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:29:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgSPo-0005Wu-Qp
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:27:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46841)
+ id 1lgSQ2-0005wj-HU
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:27:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgSPl-0000J5-Dd
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:27:11 -0400
+ id 1lgSQ0-0000Va-2k
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:27:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620739627;
+ s=mimecast20190719; t=1620739642;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1PhfcqQyB0SOMvyC867ZjCRMntl/09zTSepdxIw/HYo=;
- b=IRT0gAnpZs/oGIrasmMF2lRESWxtaNUxETn7DgoLwNH1cFptdhY9GjpEvMr04yL/zk/WTq
- RArweTuDrdNF1FfuQ2T4PPvIP76fZ8XegTzHPGJtE29tyIRnD0uaUUlrcthNVO3oiLMiXQ
- KJXWbNOMUkB5YH6XMr4RgqcOnr6NV+Y=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r1uV31mwj4VV484kb2155hY7KbQDX2kssaks4YZlX8E=;
+ b=TbYRxFp/JIg5qtnime1sZCj9a8obq5na3DGJwWLnkstM0motMBadwPVPqquCy6wEziBo4w
+ u1QbfGUgIrePKwGIm4RkRfpS0hpmGPznhdDBTOvDi5M2YZt69RCKzNo2EO8bXWu6H6unAx
+ Zel5o1WzYgHLqwPWIkGUABshk4je4gE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-Mr68ltlhNPugqLr3KD1Diw-1; Tue, 11 May 2021 09:27:04 -0400
-X-MC-Unique: Mr68ltlhNPugqLr3KD1Diw-1
+ us-mta-214-91QT_EgbO-Wh5wnoRYwxvQ-1; Tue, 11 May 2021 09:27:21 -0400
+X-MC-Unique: 91QT_EgbO-Wh5wnoRYwxvQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 424B28015F5;
- Tue, 11 May 2021 13:27:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25608106BB29;
+ Tue, 11 May 2021 13:27:20 +0000 (UTC)
 Received: from foo.redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 91D8E39A71;
- Tue, 11 May 2021 13:26:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88C0F6E6F5;
+ Tue, 11 May 2021 13:27:03 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/12] Wave goodbye to RHEL 7 vintage distros
-Date: Tue, 11 May 2021 14:26:29 +0100
-Message-Id: <20210511132641.1022161-1-berrange@redhat.com>
+Subject: [PATCH 01/12] gitlab: move linux user build job from CentOS 7 to
+ CentOS 8
+Date: Tue, 11 May 2021 14:26:30 +0100
+Message-Id: <20210511132641.1022161-2-berrange@redhat.com>
+In-Reply-To: <20210511132641.1022161-1-berrange@redhat.com>
+References: <20210511132641.1022161-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -85,52 +89,49 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The main motivation for this series is to eliminate some backcompat=0D
-logic in the crypto code only needed for RHEL-7. I take the opportunity=0D
-to also bump the min required versions of glib, gcc and clang since we=0D
-have dropped many distros since they were last bumped.=0D
-=0D
-There are possibly some more cleanups that can be done as a side effect=0D
-of these new min versions, but I leave that for other interested people=0D
-to look at.=0D
-=0D
-One that might be intesting is switching from std=3Dgnu99 to gnu11 since=0D
-we're no longer constrainted by the 4.8.x vintage GCC which marked gnu11=0D
-as experimental (see 7be41675f7cb16be7c8d2554add7a63fa43781a8)=0D
-=0D
-Daniel P. Berrang=C3=A9 (12):=0D
-  gitlab: move linux user build job from CentOS 7 to CentOS 8=0D
-  patchew: move quick build job from CentOS 7 to CentOS 8 container=0D
-  crypto: bump min nettle to 3.3, dropping RHEL-7 support=0D
-  crypto: drop back compatibility typedefs for nettle=0D
-  crypto: bump min gcrypt to 1.7.6, dropping RHEL-7 support=0D
-  crypto: bump min gnutls to 3.5.8, dropping RHEL-7 support=0D
-  crypto: drop used conditional check=0D
-  tests/vm: convert centos VM recipe to CentOS 8=0D
-  tests/docker: drop CentOS 7 container=0D
-  bump min required glib version to 2.50=0D
-  configure: bump min required GCC to 6.3.0=0D
-  configure: bump min required CLang to 7.0.0 / XCode 10.2=0D
-=0D
- .gitlab-ci.d/containers.yml             |   5 -=0D
- .gitlab-ci.yml                          |  41 +----=0D
- .patchew.yml                            |   6 +-=0D
- configure                               |  40 ++---=0D
- crypto/cipher-nettle.c.inc              |  91 +++--------=0D
- crypto/hash-nettle.c                    |  10 +-=0D
- crypto/hmac-nettle.c                    |  12 +-=0D
- crypto/meson.build                      |   6 +-=0D
- crypto/tlscredsx509.c                   |   2 -=0D
- include/glib-compat.h                   |   9 --=0D
- tests/docker/dockerfiles/centos7.docker |  43 -----=0D
- tests/docker/dockerfiles/centos8.docker |   1 +=0D
- tests/vm/centos                         |   6 +-=0D
- util/oslib-win32.c                      | 204 ------------------------=0D
- 14 files changed, 52 insertions(+), 424 deletions(-)=0D
- delete mode 100644 tests/docker/dockerfiles/centos7.docker=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+It has been over two years since RHEL-8 was released, and thus per the
+platform build policy, we no longer need to support RHEL-7 as a build
+target.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ .gitlab-ci.yml                          | 6 +++---
+ tests/docker/dockerfiles/centos8.docker | 1 +
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index dcb6317aac..23917d6d73 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -441,12 +441,12 @@ build-user-plugins:
+     MAKE_CHECK_ARGS: check-tcg
+   timeout: 1h 30m
+ 
+-build-user-centos7:
++build-user-centos8:
+   <<: *native_build_job_definition
+   needs:
+-    job: amd64-centos7-container
++    job: amd64-centos8-container
+   variables:
+-    IMAGE: centos7
++    IMAGE: centos8
+     CONFIGURE_ARGS: --disable-system --disable-tools --disable-docs
+     MAKE_CHECK_ARGS: check-tcg
+ 
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index a8c6c528b0..b00809e9fc 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -13,6 +13,7 @@ ENV PACKAGES \
+     gettext \
+     git \
+     glib2-devel \
++    glibc-static \
+     libaio-devel \
+     libepoxy-devel \
+     libfdt-devel \
+-- 
+2.31.1
 
 
