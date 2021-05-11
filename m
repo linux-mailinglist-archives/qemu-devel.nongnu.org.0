@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3128F379F7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:03:04 +0200 (CEST)
-Received: from localhost ([::1]:47184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC7C379F81
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:05:31 +0200 (CEST)
+Received: from localhost ([::1]:49830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgLTz-0004Y3-AW
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:03:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33988)
+	id 1lgLWM-0006Mj-MQ
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:05:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgLHz-0005ZJ-LH
- for qemu-devel@nongnu.org; Tue, 11 May 2021 01:50:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34212)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgLHx-0000d6-P5
- for qemu-devel@nongnu.org; Tue, 11 May 2021 01:50:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgLHw-0005H5-ET
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:50:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4AC1B2E8190
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:50:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
+ id 1lgLNA-0004uD-P2; Tue, 11 May 2021 01:56:00 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:3603
+ helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lizhijian@fujitsu.com>)
+ id 1lgLN7-0003UO-Qb; Tue, 11 May 2021 01:56:00 -0400
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3ASMU+PK5N1yHmB7nhQQPXwPTXdLJyesId70hD?=
+ =?us-ascii?q?6qkRc20wTiX8ra2TdZsguyMc9wx6ZJhNo7G90cq7MBbhHPxOkOos1N6ZNWGIhI?=
+ =?us-ascii?q?LCFvAB0WKN+V3dMhy73utc+IMlSKJmFeD3ZGIQse/KpCW+DPYsqePqzJyV?=
+X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="108115337"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+ by heian.cn.fujitsu.com with ESMTP; 11 May 2021 13:55:50 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+ by cn.fujitsu.com (Postfix) with ESMTP id 5E4734D0BA7A;
+ Tue, 11 May 2021 13:55:49 +0800 (CST)
+Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 11 May 2021 13:55:43 +0800
+Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
+ G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
+ id 15.0.1497.2 via Frontend Transport; Tue, 11 May 2021 13:55:45 +0800
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+To: <berrange@redhat.com>, <kwolf@redhat.com>, <mreitz@redhat.com>,
+ <qemu-block@nongnu.org>
+Subject: [PATCH v2] block: Improve backing file validation
+Date: Tue, 11 May 2021 13:55:18 +0800
+Message-ID: <20210511055518.31876-1-lizhijian@cn.fujitsu.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 May 2021 05:42:51 -0000
-From: Marco <1862986@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor jermy-07 laurent-vivier rth th-huth
-X-Launchpad-Bug-Reporter: Marco (jermy-07)
-X-Launchpad-Bug-Modifier: Marco (jermy-07)
-References: <158152698766.24807.871332888169155245.malonedeb@gac.canonical.com>
-Message-Id: <162071177200.6615.7224069674429308535.malone@gac.canonical.com>
-Subject: [Bug 1862986] Re: qemu-s390x segfaults
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 21765f8b134b73ae4a4324741fd1b9145a6c8947
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-yoursite-MailScanner-ID: 5E4734D0BA7A.AE945
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lizhijian@fujitsu.com
+Received-SPF: neutral client-ip=183.91.158.132;
+ envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,105 +64,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862986 <1862986@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed in qemu-s390x version 5.2.0 (Debian 1:5.2+dfsg-10)
+Image below user cases:
+case 1:
+```
+$ qemu-img create -f raw source.raw 1G
+$ qemu-img create -f qcow2 -F raw -b source.raw ./source.raw
+qemu-img info source.raw
+image: source.raw
+file format: qcow2
+virtual size: 193K (197120 bytes)
+disk size: 196K
+cluster_size: 65536
+backing file: source.raw <<<<<<
+backing file format: raw
+Format specific information:
+    compat: 1.1
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+```
+
+case 2:
+```
+$ qemu-img create -f raw source.raw 1G
+$ ln -sf source.raw destination.qcow2
+$ qemu-img create -f qcow2 -F raw -b source.raw ./destination.qcow2
+qemu-img info source.raw
+image: source.raw
+file format: qcow2 <<<<<<
+virtual size: 2.0G (2147483648 bytes)
+disk size: 196K
+cluster_size: 65536
+backing file: source.raw
+backing file format: raw
+Format specific information:
+    compat: 1.1
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+```
+Generally, we don't expect to corrupte the source.raw anyway, while
+actually it does.
+
+Here we check their inode number instead of file name.
+
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+
+---
+v2: utilize stat() instead of realpath() (Daniel)
+
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+---
+ block.c | 39 ++++++++++++++++++++++++++++++++-------
+ 1 file changed, 32 insertions(+), 7 deletions(-)
+
+diff --git a/block.c b/block.c
+index 9ad725d205..db4ae57959 100644
+--- a/block.c
++++ b/block.c
+@@ -6431,6 +6431,37 @@ bool bdrv_op_blocker_is_empty(BlockDriverState *bs)
+     return true;
+ }
+ 
++static bool validate_backing_file(const char *filename,
++                                  const char *backing_file, Error **errp)
++{
++    struct stat filename_stat, backing_stat;
++
++    if (backing_file[0] == '\0') {
++        error_setg(errp, "Expected backing file name, got empty string");
++        goto out;
++    }
++
++    /* check whether filename and backing_file are refering to the same file */
++    if (stat(backing_file, &backing_stat) == -1) {
++        error_setg(errp, "Cannot stat backing file %s", backing_file);
++        goto out;
++    }
++    if (stat(filename, &filename_stat) == -1) {
++        /* Simply consider filename doesn't exist, no need to further check */
++        return true;
++    }
++    if ((filename_stat.st_dev == backing_stat.st_dev) &&
++        (filename_stat.st_ino == backing_stat.st_ino)) {
++        error_setg(errp, "Error: Trying to create an image with the "
++                         "same filename as the backing file");
++        goto out;
++    }
++
++    return true;
++out:
++    return false;
++}
++
+ void bdrv_img_create(const char *filename, const char *fmt,
+                      const char *base_filename, const char *base_fmt,
+                      char *options, uint64_t img_size, int flags, bool quiet,
+@@ -6507,13 +6538,7 @@ void bdrv_img_create(const char *filename, const char *fmt,
+ 
+     backing_file = qemu_opt_get(opts, BLOCK_OPT_BACKING_FILE);
+     if (backing_file) {
+-        if (!strcmp(filename, backing_file)) {
+-            error_setg(errp, "Error: Trying to create an image with the "
+-                             "same filename as the backing file");
+-            goto out;
+-        }
+-        if (backing_file[0] == '\0') {
+-            error_setg(errp, "Expected backing file name, got empty string");
++        if (!validate_backing_file(filename, backing_file, errp)) {
+             goto out;
+         }
+     }
+-- 
+2.30.2
 
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862986
-
-Title:
-  qemu-s390x segfaults
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  All tested versions (2.11 and 4.2) qemu-s390x crashes with a segfault
-  when run on an aarch64 odroid Ubuntu.
-
-
-  Steps to reproduce:
-
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x "/root/wo=
-rkspace/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_or=
-ig"
-  Segmentation fault (core dumped)
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x --version
-  qemu-s390x version 4.2.0
-  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x "/root/workspac=
-e/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig"
-  Segmentation fault (core dumped)
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x --version
-  qemu-s390x version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.22)
-  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
-
-  qemu-arm does work on the same machine:
-
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-arm bitcoin-0.19.0.1-=
-armhf/bin/test_bitcoin -t amount_tests
-  Running 4 test cases...
-
-  *** No errors detected
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-arm bitcoin-0.1=
-9.0.1-armhf/bin/test_bitcoin -t amount_tests
-  Running 4 test cases...
-
-  *** No errors detected
-
-
-  =
-
-  What kind of debug information would be helpful for this issue report?
-  GDB for the self-compiled latest release is not particularly helpful:
-
-  (gdb) run
-  Starting program: /usr/local/bin/qemu-s390x /root/workspace/bitcoin-core/=
-build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
-".
-  [New Thread 0x7fb7a2a140 (LWP 28264)]
-
-  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
-  0x000000555596b218 in __bss_start__ ()
-  (gdb) bt
-  #0  0x000000555596b218 in __bss_start__ ()
-  #1  0x00000055556120a8 in ?? ()
-  #2  0x00000055579904b0 in ?? ()
-  Backtrace stopped: previous frame inner to this frame (corrupt stack?)
-
-
-  =
-
-  A bit more information is available in the version shipped by Ubuntu:
-
-  (gdb) run
-  Starting program: /usr/bin/qemu-s390x /root/workspace/bitcoin-core/build/=
-bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
-".
-  [New Thread 0x7fb7a01180 (LWP 28271)]
-
-  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
-  0x0000005555738f98 in code_gen_buffer ()
-  (gdb) bt
-  #0  0x0000005555738f98 in code_gen_buffer ()
-  #1  0x00000055555e96c8 in cpu_exec ()
-  #2  0x00000055555ee430 in cpu_loop ()
-  #3  0x00000055555c3328 in main ()
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862986/+subscriptions
 
