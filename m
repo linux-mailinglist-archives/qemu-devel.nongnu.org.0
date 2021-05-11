@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4977E37B157
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 00:08:26 +0200 (CEST)
-Received: from localhost ([::1]:44714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821B437B171
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 00:12:23 +0200 (CEST)
+Received: from localhost ([::1]:33570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgaYD-0001hc-Aw
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 18:08:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55642)
+	id 1lgac2-000585-J5
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 18:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaW5-0007MJ-41
- for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37783)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaW7-0007QV-8V
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaW3-0006PB-EA
- for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:12 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaW3-0006PL-Ul
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620770770;
+ s=mimecast20190719; t=1620770771;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MDjVSiuSSGwztDqXk3c2sk74qecBq7DNE6dMOBfqomI=;
- b=O7kCd/gKNNyB7B9GQuLxXkO+lxDzX+slwMXSxPPtALrplF2+UyBtcX10vLFEKXahL2E++O
- 4/ctW8dbXz+VxP0T6vStqaO7jNz4Ws37tRPp3a7ySkCmjvMJU9LSpI0LdcMaxPXVRqp9/H
- rqefpw2swBXUiJzD8Q/9A6TQ1MZSy7w=
+ bh=aMjGy3T5CZh1IFB/T9rfdu3J+isxuMjRFjNguqzECBs=;
+ b=gfst/u7CLaEfWr4qKtqVHBvf+bBTNlcXbOQYrVPpZQo0WcR2Tlm6VdTTvSOx50GAr1TbqA
+ vD5lFC1rvwwc4ZaYy2oCD9X0UfExKFvvQPeS45v1f68bhoQfq9WlQpM/7J0q6BxWicIGN2
+ mVYXrTxZ8niRWp4cpU6O1SOraF2fcFg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-MQtRNZ9dOOWm7RfGomsZnQ-1; Tue, 11 May 2021 18:06:08 -0400
-X-MC-Unique: MQtRNZ9dOOWm7RfGomsZnQ-1
+ us-mta-598-SvUJ4OnYNQS9D_-1wYv0fQ-1; Tue, 11 May 2021 18:06:09 -0400
+X-MC-Unique: SvUJ4OnYNQS9D_-1wYv0fQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D83E2FC80;
- Tue, 11 May 2021 22:06:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED4AB803620;
+ Tue, 11 May 2021 22:06:08 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E46AABA6F;
- Tue, 11 May 2021 22:06:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07F6DBA6F;
+ Tue, 11 May 2021 22:06:07 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/21] qapi/parser: enforce all top-level expressions must
- be dict in _parse()
-Date: Tue, 11 May 2021 18:05:46 -0400
-Message-Id: <20210511220601.2110055-7-jsnow@redhat.com>
+Subject: [PATCH v2 07/21] qapi/parser: assert object keys are strings
+Date: Tue, 11 May 2021 18:05:47 -0400
+Message-Id: <20210511220601.2110055-8-jsnow@redhat.com>
 In-Reply-To: <20210511220601.2110055-1-jsnow@redhat.com>
 References: <20210511220601.2110055-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -83,92 +82,27 @@ Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using get_expr nested=False, allow get_expr to always return
-any expression. In exchange, add a new error message to the top-level
-parser that explains the semantic error: Top-level expressions must
-always be JSON objects.
-
-This helps mypy understand the rest of this function which assumes that
-get_expr did indeed return a dict.
-
-The exception type changes from QAPIParseError to QAPISemError as a
-result, and the error message in two tests now changes.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-
----
-
-Thanks Markus, I like this quite a bit better. I think I swung the
-pendulum back too far away from "try not to change anything". This is
-cleaner.
+The single quote token implies the value is a string. Assert this to be
+the case, to allow us to write an accurate return type for get_members.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py                        | 14 ++++++++------
- tests/qapi-schema/non-objects.err             |  2 +-
- tests/qapi-schema/quoted-structural-chars.err |  2 +-
- 3 files changed, 10 insertions(+), 8 deletions(-)
+ scripts/qapi/parser.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index ba17f1357ad..d554b5485a6 100644
+index d554b5485a6..6d774df6d0a 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -78,7 +78,11 @@ def _parse(self):
-                     self.docs.append(cur_doc)
-                 continue
- 
--            expr = self.get_expr(False)
-+            expr = self.get_expr()
-+            if not isinstance(expr, dict):
-+                raise QAPISemError(
-+                    info, "top-level expression must be an object")
-+
-             if 'include' in expr:
-                 self.reject_expr_doc(cur_doc)
-                 if len(expr) != 1:
-@@ -251,7 +255,7 @@ def get_members(self):
-             self.accept()
-             if key in expr:
-                 raise QAPIParseError(self, "duplicate key '%s'" % key)
--            expr[key] = self.get_expr(True)
-+            expr[key] = self.get_expr()
-             if self.tok == '}':
-                 self.accept()
-                 return expr
-@@ -270,7 +274,7 @@ def get_values(self):
-             raise QAPIParseError(
-                 self, "expected '{', '[', ']', string, or boolean")
+@@ -249,6 +249,8 @@ def get_members(self):
+             raise QAPIParseError(self, "expected string or '}'")
          while True:
--            expr.append(self.get_expr(True))
-+            expr.append(self.get_expr())
-             if self.tok == ']':
-                 self.accept()
-                 return expr
-@@ -278,9 +282,7 @@ def get_values(self):
-                 raise QAPIParseError(self, "expected ',' or ']'")
+             key = self.val
++            assert isinstance(key, str)  # Guaranteed by tok == "'"
++
              self.accept()
- 
--    def get_expr(self, nested):
--        if self.tok != '{' and not nested:
--            raise QAPIParseError(self, "expected '{'")
-+    def get_expr(self):
-         if self.tok == '{':
-             self.accept()
-             expr = self.get_members()
-diff --git a/tests/qapi-schema/non-objects.err b/tests/qapi-schema/non-objects.err
-index 3a4ea36966e..23bdb69c711 100644
---- a/tests/qapi-schema/non-objects.err
-+++ b/tests/qapi-schema/non-objects.err
-@@ -1 +1 @@
--non-objects.json:1:1: expected '{'
-+non-objects.json:1: top-level expression must be an object
-diff --git a/tests/qapi-schema/quoted-structural-chars.err b/tests/qapi-schema/quoted-structural-chars.err
-index 07d1561d1f7..af6c1e173db 100644
---- a/tests/qapi-schema/quoted-structural-chars.err
-+++ b/tests/qapi-schema/quoted-structural-chars.err
-@@ -1 +1 @@
--quoted-structural-chars.json:1:1: expected '{'
-+quoted-structural-chars.json:1: top-level expression must be an object
+             if self.tok != ':':
+                 raise QAPIParseError(self, "expected ':'")
 -- 
 2.30.2
 
