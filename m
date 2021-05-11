@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC7837AA34
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:06:26 +0200 (CEST)
-Received: from localhost ([::1]:45178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4880D37AA3F
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:08:12 +0200 (CEST)
+Received: from localhost ([::1]:48744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgTxk-0001a3-Rr
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:06:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54808)
+	id 1lgTzX-0004bn-C7
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:08:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgTwK-00006L-UW
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:04:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgTwH-0001H4-Kj
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:04:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620745488;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lWgw8ZVcJy5YjS2fKVu5zseityOb6kODo0ZM/+FlAtI=;
- b=I86qRrHJtTWv674zJReLESv8mILsW9pi31h7E7/y5oGrol0mxL0a3L9zDnhZOpkE/ssxXa
- Ijbg7JOzLDKoo5DxZXBEAVcROQkCLu2WiqV7VCen+swQRT6oBWqMNeEPkgNNiXkCiH1aJY
- sE67VhueCFhAqbKv7baGa2GE/3ZbvGw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-Pdz7ZpT6MuGx7Y9BjnPhjQ-1; Tue, 11 May 2021 11:04:38 -0400
-X-MC-Unique: Pdz7ZpT6MuGx7Y9BjnPhjQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A76D100806B;
- Tue, 11 May 2021 15:04:37 +0000 (UTC)
-Received: from redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6097A60C04;
- Tue, 11 May 2021 15:04:27 +0000 (UTC)
-Date: Tue, 11 May 2021 16:04:23 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 08/12] tests/vm: convert centos VM recipe to CentOS 8
-Message-ID: <YJqc90tEbGktCBt1@redhat.com>
-References: <20210511132641.1022161-1-berrange@redhat.com>
- <20210511132641.1022161-9-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgTyU-0003jI-8q
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:07:06 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:44977)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgTyS-00038n-2t
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:07:06 -0400
+Received: by mail-ej1-x631.google.com with SMTP id gx5so30240850ejb.11
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 08:07:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Itbc+MfmGLBMUTcUcELl/tiyn5Dn5aegR1Exr/slsDw=;
+ b=HsMMf9QEX0Ks1yzt8tnphrs/smWSRfiHUlrRrd/Tam1RHIvUgFvrDqDzCVb42vEI6l
+ 008hy5+F97U07P9vCHU9cH5UKUkalNYFP3qOM7IHR1MhRVOLC/E/2ADw9AATSxwBvg8E
+ necGgBAFCCRmSd21o8SgxQ5HjWOXlGtwpKxPLmE1bADAuxShc/jwHArxaqfwXaS4zoRs
+ ES8FQppouT5NtSzZtbTjdX6a23sENgsonNsbPjO25bs3Vw82g5IrThX8Zz8BI0daflZF
+ hK/I35G6yeL1VEA5aQRsfZEbclJ9HW5Y1ALhmbHa2glGCCzFJFUSpUhL3KBFrZpKMECk
+ RRmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Itbc+MfmGLBMUTcUcELl/tiyn5Dn5aegR1Exr/slsDw=;
+ b=Nirui0uBtJL4M5kSvyMP5Ari1DHGoLzCNjH3oigQ0Ryfauv7W9T9me9SH9bGddpEVx
+ GR+x/tU16LVE6eE0lbLngw3NHBTFwiqJK/jNC+iXrs31hAGSbf7m29+VR1+r7sBej6IC
+ WHb9ptcVA3cyCRdAsa8tlCZXeRD170Y62ilf/+oe3tjtwepi4+Def0RA6KWJYeBzn6w8
+ Hetb9NuqUsNK2W3t397AacGCLPLB3SJMgzECRrNr6CyOTo6b2lQmRfr400dgZUAyCHSA
+ 26EdX4Xmi64QM2J3uZbI0J/aHL+zQr+po5ga3TcsyQD6Ca9M8Z2ZC23C2wWKO5GsnqwB
+ /+9w==
+X-Gm-Message-State: AOAM530R7uOyY3WbciZfEF5/S6RVM2wz28K3dDqLp4xOmoQM6HIb+hJc
+ sFWpqNtggKOZec5+B1EPqsKbvEFgtACJhKlXwufPAA==
+X-Google-Smtp-Source: ABdhPJwHZXeR0PUKNAHBMznD6k7ogc7ESIT5Qu7FSHX3YvMbrrb0RvZ9C11EB+B5Dgs2Bq+sQZHgQ899C2kiQe9Nifs=
+X-Received: by 2002:a17:906:d1d2:: with SMTP id
+ bs18mr10187256ejb.56.1620745622169; 
+ Tue, 11 May 2021 08:07:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210511132641.1022161-9-berrange@redhat.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210506185641.284821-1-dgilbert@redhat.com>
+In-Reply-To: <20210506185641.284821-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 11 May 2021 16:05:49 +0100
+Message-ID: <CAFEAcA9h47gUWtUHOmtgWskaXEVgXs9T6FiD2EO-wJgZCKmK6g@mail.gmail.com>
+Subject: Re: [PULL 00/12] virtiofs queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,51 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: jose.carlos.venegas.munoz@intel.com,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 11, 2021 at 02:26:37PM +0100, Daniel P. Berrangé wrote:
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  tests/vm/centos | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tests/vm/centos b/tests/vm/centos
-> index efe3dbbb36..215da14c23 100755
-> --- a/tests/vm/centos
-> +++ b/tests/vm/centos
-> @@ -26,13 +26,13 @@ class CentosVM(basevm.BaseVM):
->          export SRC_ARCHIVE=/dev/vdb;
->          sudo chmod a+r $SRC_ARCHIVE;
->          tar -xf $SRC_ARCHIVE;
-> -        make docker-test-block@centos7 {verbose} J={jobs} NETWORK=1;
-> -        make docker-test-quick@centos7 {verbose} J={jobs} NETWORK=1;
-> +        make docker-test-block@centos8 {verbose} J={jobs} NETWORK=1;
-> +        make docker-test-quick@centos8 {verbose} J={jobs} NETWORK=1;
->          make docker-test-mingw@fedora  {verbose} J={jobs} NETWORK=1;
->      """
->  
->      def build_image(self, img):
-> -        cimg = self._download_with_cache("https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1802.qcow2.xz")
-> +        cimg = self._download_with_cache("https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2")
->          img_tmp = img + ".tmp"
->          sys.stderr.write("Extracting the image...\n")
->          subprocess.check_call(["ln", "-f", cimg, img_tmp + ".xz"])
+On Thu, 6 May 2021 at 20:05, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> The following changes since commit d90f154867ec0ec22fd719164b88716e8fd48672:
+>
+>   Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504' into staging (2021-05-05 20:29:14 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20210506
+>
+> for you to fetch changes up to 67a010f64cc9e33ba19ab389dedaa52013a9de8a:
+>
+>   virtiofsd/fuse_virtio.c: Changed allocations of locals to GLib (2021-05-06 19:47:44 +0100)
+>
+> ----------------------------------------------------------------
+> virtiofsd pull 2021-05-06
+>
+> A pile of cleanups:
+>
+>   Use of glib allocators from Mahmoud
+>   Virtio spec compliance and printf cleanup from me.
+>   Sugar to turn on xattr when defining xattr mapping from Carlos
+>   an assert cleanup from Greg
+>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-This patch is broken in many ways, and I forgot to test it :-(
 
+Applied, thanks.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
+-- PMM
 
