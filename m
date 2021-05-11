@@ -2,136 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C040E37A43B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:05:01 +0200 (CEST)
-Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646B437A44D
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:07:13 +0200 (CEST)
+Received: from localhost ([::1]:60460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgPG8-0003ja-Rd
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:05:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32786)
+	id 1lgPIG-0006U2-GP
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:07:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lgPDW-00027H-GU; Tue, 11 May 2021 06:02:18 -0400
-Received: from mail-eopbgr60099.outbound.protection.outlook.com
- ([40.107.6.99]:41868 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lgPFd-00046m-Fo
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:04:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lgPDT-0004IZ-4C; Tue, 11 May 2021 06:02:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kJWc6wxj1FZjX3/jzoqWCq+7XHKpxK8Iln/RcFWjV4GJVVH6HSTNm0BsNSXPlmHhBunQaXaJvK/88d3F9K5GomkwTTxiox5dzWUMT/iUNNCqlWEw88oPJw0zy3YJ7zzKgSp9QUoWEvt87Gz3f6W1qX2T5wXPStk/yz65HQH0ut8YM1nAH2wb8UWwtlMsFlyXEtTn+qvJh9Vkp3sDbvCjgHOm175pty3Oypy/7emV8zKeuhz0w5WNFNkz3uPyiVDpXYUZucV83535vLlx1snoqC6lRJehvKssefmREHfHbrOpns+7N6Bi6+T5mybHPJ4Eofk5v8ueFchKRw5BkSCdsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=izf7O8oLvbLnLbkPh4x5CWxymawrip5tISXRLrZUcK8=;
- b=LIen04TKBwJESyz0KvJzq/+I/kh5ZLuq7lkMstXp8r8oHzO4JMaSyWwmwd05WaoJdozV3QrR2CovqnU17YsxLO20bSQOAk2ioS/nzPQaQLDAzVM0xd7bDPAyMhuN7gEns/TjXFw5dnOl2OkIWOUjWgEhgE0t8UJNtkRIv/WjVt/91R5UYLT0ctAM3oR8NUObh38gb0rFk6e+CkvUjoEYglPb/fHeyeQ4bvA3k77BhT6cFVnkV5AKcZ0ULu9yJ9GTQNKUmTf9+toVjY0L6FOmPMD4CmWcCWxGNw+YaE1laOcEVQABXeeeZDqX7N4m9ZPsRw11ylv/HTcXB7S+ZqpZ6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=izf7O8oLvbLnLbkPh4x5CWxymawrip5tISXRLrZUcK8=;
- b=Foicz7/DBexaH3Pvr8gewxgmo9WSBrV+kS0qLToxmoUkxpFDxDkIXhOxe14sbdnnWLjYSoVSDxolczF+OmpN88a6PyHpygALXWzojUbRrgM09tJVEr2hWfbu5xCu4yLzLWNVY3ICoAe5hwlU+v2v/EkPn15RKzQUSHdzgxNxZjQ=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4851.eurprd08.prod.outlook.com (2603:10a6:20b:c9::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.26; Tue, 11 May
- 2021 10:02:08 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4108.031; Tue, 11 May 2021
- 10:02:08 +0000
-Subject: Re: [PULL 0/9] scripts/simplebench patches
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-References: <20210504090113.21311-1-vsementsov@virtuozzo.com>
- <e54ddd00-b0c0-a998-60fc-ab491c23b5f7@virtuozzo.com>
- <CAFEAcA_GEth6Ar9PW4YppAUgQ2+20iCZKLnB-AYATeiHvc04VA@mail.gmail.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <a10b3781-5a88-08c7-bb2f-d274685b150b@virtuozzo.com>
-Date: Tue, 11 May 2021 13:02:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-In-Reply-To: <CAFEAcA_GEth6Ar9PW4YppAUgQ2+20iCZKLnB-AYATeiHvc04VA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.203]
-X-ClientProxiedBy: PR3P189CA0064.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:b4::9) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lgPFb-0005gr-Mh
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:04:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620727467;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4teVhw+1KYGNAP9J+WHdPTGKiV+5tUCgVOJy2G8lcAU=;
+ b=CTcGQFAwgQXKH/n5RhKJONII2drZ/kpGbv8BXZiE2u2EGjkzlJTG6dadlNbqiddlUxZGbo
+ zZ6qj4Gr5MTm7HDUFY9u5aLUPIhabBuPfa0mFSIZUCWSDInsLMhrRAL8CTQrtClhziYZoi
+ r5vz3SNtj6hwOb5UmZ+qmoNaXcj9fZ8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-tonc6-cWM8KS04GVc7feQQ-1; Tue, 11 May 2021 06:04:24 -0400
+X-MC-Unique: tonc6-cWM8KS04GVc7feQQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4424107ACC7
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 10:04:23 +0000 (UTC)
+Received: from redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 164085D6A8;
+ Tue, 11 May 2021 10:04:14 +0000 (UTC)
+Date: Tue, 11 May 2021 11:04:12 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 5/5] sockets: Support multipath TCP
+Message-ID: <YJpWnFyk9Jv7kupn@redhat.com>
+References: <20210421112834.107651-1-dgilbert@redhat.com>
+ <20210421112834.107651-6-dgilbert@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.203) by
- PR3P189CA0064.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:b4::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.25 via Frontend Transport; Tue, 11 May 2021 10:02:08 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a37ec29c-5005-4ed9-f04f-08d91463d697
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4851:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB48516239E19569216EB6C72DC1539@AM6PR08MB4851.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XkB02s8VxVz3/yNO6Az7RtUL98NS3brmCLARcmgChmxizy0DV2UExtk015iyV+Si7uXmap7CDfuqkCRny+aaLV+ZhVFI4ekEcMxIo2kD+r5GPbuhNV2YPKQhdt64IMtOEtA/T25wTP4QKdCrl7LokWkICAs2793FlIAKeGdwjkg7lOkgXQbDmE16CH3bC4AF9zdL07pY8CnR6F1j8msHDR70ZZteJnUQDY0VjKyjgfw9Ku8giuiq9hN0yULYlIYLAd+G2iu4WsqKxNq9mwIw6Pc6ld0qpsW3aK0oCjb5tHVHu6xLDEnumZRmHRHPttY/DsyUErfTVTX0ivarNGLUIBoLjBxuXCXUqP5bkIu1TDADOi9ptn4x7dYMrM67rFgwPTlGCHNX6tISuLSAo73peLOtizJGn34+2gMead3u8DoQvTCXRGnPjnp7G5/ARB/uYEidMwPAuzUtYDn+lm1438m5uKR2FzdAryNF0jwetd63IetJzKN38ex0BMaVaiEce+Dlr/HkrRmpUWJ/QMXlZTv07WqIHcj/CODROypb7sopYzgMz5268GDSfJmxyFmgc5l1pbcKVAHerBKKYSzulfYxyTDxucDviKd5NOiG2643Gn28hcUrRpTBlqEMVY5NKKLOFOZFij+hOgx+qJazVVe/ubCVC+MqgInfu94gpx5xqtoSQV0N5V/1zqR0zNRslXPAEdDgLWfr24YBNpaF24rB7XkX0CILkH6hpkYM3Ok=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(39840400004)(136003)(376002)(346002)(4744005)(31696002)(956004)(186003)(86362001)(16526019)(4326008)(83380400001)(2616005)(6486002)(38100700002)(36756003)(31686004)(478600001)(316002)(8936002)(5660300002)(54906003)(6916009)(52116002)(8676002)(16576012)(38350700002)(26005)(66556008)(66476007)(2906002)(66946007)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MlNsOGlKNEhicS85TEQxMEhQNzZXdnR5dnhIY01pVHAybmkwV3NRbWxhV3dj?=
- =?utf-8?B?eUprdldXTm1vNXgxelNxbVhZdldGeDFtM1l2RXRxQjVHRzN3RG1wZndwdGxt?=
- =?utf-8?B?RUNRNzdINDNvb3RtL29IVklPMkJhamlua0pDclh0ajhSWGVLMGp6M3grVE03?=
- =?utf-8?B?TUt6UHlTd2oraDUya2hrL1dEcmJlQnFkbHppNEZSdnUyYlBPNTBrbFo1Tmgv?=
- =?utf-8?B?QjNSU21YL2h0TTU4dkpnOFhQdzFNR2FpRkdFMkRLbTlHVTBIR1JFV2pwZXZk?=
- =?utf-8?B?djh3QTlxNEcwVVpJcnpUOW9nMzlKanJyNkFjUVAxbWtOeDFUV1l2b1RQTk0r?=
- =?utf-8?B?Y2Z0eXNvSTJ0SVN4R1R1V0lyVGkxekF1ZDhlL3MvRWtQMi85ZWxGOHpjZTNW?=
- =?utf-8?B?dm04RWcwaExEa3RveWVtcjg4V3ZIaU5nVm4za3psM3FYQy9rbThJc3VXZkhX?=
- =?utf-8?B?TE4zYWNSbTF1TlZlNHRjWWhlTjEyb3BBOHBiSW9qNnJhaThEYkdFWitUd1Yv?=
- =?utf-8?B?NnFsSlJ3UERSVEhpaUg0NFF3VUJLWDd0dDFhd1M2d1IyVUtsUWdoWGxBS2J5?=
- =?utf-8?B?TFpvdXJaeDFhQ1laak1xTkZxYk9PRExqakNZMG9MTmxUc3FacUNRT0NWWlAy?=
- =?utf-8?B?Z0Q3cDVpTlRNU2tQcGpqdDdUS3ZZNXZTMUdGQlhqc3BKM3NhQkg4cTIzeCt5?=
- =?utf-8?B?OEJzR3FDR0NXMEVjVXlKb0Z0N1M3RmVaOVYwcDI3eTVDVVJEZk1HWGdkcWVC?=
- =?utf-8?B?RkNOUW9QSm9tcGlHdmhhSmVUQWRHajlsK0JXNWpyb2lLcGFJWHhFR0dYVklu?=
- =?utf-8?B?M1V4b3c2YkxnQkdqaU9kRGtzaVkzbG82QzZ4RVhnU0ZjNGpDTGRtTHBqTEpj?=
- =?utf-8?B?UVpuVGM4TTVGVWhsMnkwdWpOa09SSVZzQ00rdEszYjcvMStwek5IM2tsb0lz?=
- =?utf-8?B?K2c3UEUrdVNiaGVqWjc1ZDVyc0JhYWJkQkJjRlJjU2ZTd3UxdEpKU2l6YWgx?=
- =?utf-8?B?dFFHb215Q1B5c3FNWW9UdkE0czNVM2xGcDZLajdBNXlsS21nTERWMGQzazhn?=
- =?utf-8?B?ckVickI1UVRMUDRYckdxOXBVUGJ4UkJ3a283UVdwUlA1VVR2Q1hSUm5rd01W?=
- =?utf-8?B?TkhGajRORHFzZGxnSTNuODBnOWw1b3NzYkkzZjNvbE5aamppbTQrZjBTOTdu?=
- =?utf-8?B?bnVtYlExalViUnhZa2EyVVBCYXVJWkhyVWRYb2t0ZSs3cWl4bTJnN3F5NEx6?=
- =?utf-8?B?bFQ3alhaeHEzT2VIWGdYWlJsbGxpRDNPWnBIQjF0WHZaSHg2MkUvdmhwOHg0?=
- =?utf-8?B?RzduZDZ3M1Y4NGYxbExyL0Rpa05KbklMSElCZFpjaG85YkdITi9QVGlEaE0z?=
- =?utf-8?B?VG10TEp3UmxDTmpMOEFWWEVBSFNtL3ZQMzU5V0swdG5zZEswWk1Laks5a3dO?=
- =?utf-8?B?dzFQWlpVNWswc0RCbWxCaEpWdkI4WExyV0RnWjZ5WUhZWWdXY080SVVybTVC?=
- =?utf-8?B?V3VONXoxcnJqRFBoTERNaDQ1b0Zjckl6aXBRc0xlSWI0ZTZ0SzFwQmd0ZlUx?=
- =?utf-8?B?SnFIQzY2Wm1KeWVGNWo3Y3hjbm5DZ2tMbXV1UHpMbEFkYVhNL3ExWHBCNWpu?=
- =?utf-8?B?emVhUDZmbk9ST2lXSGV0NjlEVGpIS1lVd3pxRWlJeHYyaGNZMFVjQjBrMVJC?=
- =?utf-8?B?b1dGZTZnNHpBanR6a1FYMlZVU2VsQWhLNTJqQlppRWQ0ZHRXZWdSMGdZSXZH?=
- =?utf-8?Q?ThN/ZrJAkPn8VO3xI30BprE5EwmFBBHQL07Xaat?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a37ec29c-5005-4ed9-f04f-08d91463d697
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2021 10:02:08.6475 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kPCvtrTj7lvj9NCDhPXBtl07I+d2v2mvFETxYTIY6NO96h389aV6AWTR5BB0dRQd2RGnl+9Q1N44SaxIcUaVrbSXslV3I0wC6CULE3Yk7ak=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4851
-Received-SPF: pass client-ip=40.107.6.99;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210421112834.107651-6-dgilbert@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -144,27 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: quintela@redhat.com, armbru@redhat.com, peterx@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com, pabeni@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-11.05.2021 10:39, Peter Maydell wrote:
-> On Tue, 11 May 2021 at 06:59, Vladimir Sementsov-Ogievskiy
-> <vsementsov@virtuozzo.com> wrote:
->>
->> Hi!
->>
->> Kindly ping, or what's wrong with it?
+On Wed, Apr 21, 2021 at 12:28:34PM +0100, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
-> You've never sent me a pullreq before. Pull requests from new
-> people are a pain and take more time to deal with, so I only
-> look at them when I have the time to do that. Pull requests
-> from established submaintainers are easy because I know they
-> know the process and they have their gpg key set up and so on.
+> Multipath TCP allows combining multiple interfaces/routes into a single
+> socket, with very little work for the user/admin.
 > 
+> It's enabled by 'mptcp' on most socket addresses:
+> 
+>    ./qemu-system-x86_64 -nographic -incoming tcp:0:4444,mptcp
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  io/dns-resolver.c   |  4 ++++
+>  qapi/sockets.json   |  5 ++++-
+>  util/qemu-sockets.c | 23 +++++++++++++++++++++++
+>  3 files changed, 31 insertions(+), 1 deletion(-)
 
-OK, I'll wait)
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
+
+Regards,
+Daniel
 -- 
-Best regards,
-Vladimir
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
