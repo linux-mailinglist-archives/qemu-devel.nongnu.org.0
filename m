@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8D037A751
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:10:42 +0200 (CEST)
-Received: from localhost ([::1]:32900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DB537A757
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:13:00 +0200 (CEST)
+Received: from localhost ([::1]:35496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgS9p-0005yt-81
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53356)
+	id 1lgSC3-0007rl-Ts
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lgS8N-0004ak-Tg; Tue, 11 May 2021 09:09:11 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:36708)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1lgSBH-00073x-2G; Tue, 11 May 2021 09:12:11 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lgS8K-0006F9-Om; Tue, 11 May 2021 09:09:11 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A27107457E7;
- Tue, 11 May 2021 15:09:05 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2A55C745709; Tue, 11 May 2021 15:09:05 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 290967456E3;
- Tue, 11 May 2021 15:09:05 +0200 (CEST)
-Date: Tue, 11 May 2021 15:09:05 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 0/6] hw/southbridge: QOM'ify vt82c686 as
- VT82C686B_SOUTHBRIDGE
-In-Reply-To: <6e9cad77-bb24-6c0a-f841-1f8a1f3515e6@amsat.org>
-Message-ID: <211f4a16-a521-512c-ff52-aabf7a5f13@eik.bme.hu>
-References: <20210511041848.2743312-1-f4bug@amsat.org>
- <ecdd9299-ec2-5049-fe1e-d3c7d261d@eik.bme.hu>
- <6e9cad77-bb24-6c0a-f841-1f8a1f3515e6@amsat.org>
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1lgSBF-0008KL-CQ; Tue, 11 May 2021 09:12:10 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 449A2AEFE;
+ Tue, 11 May 2021 13:12:07 +0000 (UTC)
+To: Klaus Jensen <its@irrelevant.dk>
+References: <20210511073511.32511-1-hare@suse.de>
+ <YJp2/AeqfgQ46ZyV@apples.localdomain>
+From: Hannes Reinecke <hare@suse.de>
+Organization: SUSE Linux GmbH
+Subject: Re: [PATCH] hw/block/nvme: re-enable NVMe PCI hotplug
+Message-ID: <5fe71d92-842b-2b86-1d5e-c7a106753d2a@suse.de>
+Date: Tue, 11 May 2021 15:12:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-39243802-1620738545=:14150"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
+In-Reply-To: <YJp2/AeqfgQ46ZyV@apples.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=hare@suse.de;
+ helo=mx2.suse.de
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,70 +56,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
- Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Keith Busch <keith.busch@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-39243802-1620738545=:14150
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Tue, 11 May 2021, Philippe Mathieu-Daudé wrote:
-> Hi Zoltan,
->
-> On 5/11/21 1:28 PM, BALATON Zoltan wrote:
->> On Tue, 11 May 2021, Philippe Mathieu-Daudé wrote:
->>> The motivation behind this series is to remove the
->>> isa_get_irq(NULL) call to simplify the ISA generic model.
->>>
->>> Since v1:
->>> - rebased on top of remotes/dg-gitlab/tags/ppc-for-6.1-20210504
+On 5/11/21 2:22 PM, Klaus Jensen wrote:
+> On May 11 09:35, Hannes Reinecke wrote:
+>> Ever since commit e570768566 ("hw/block/nvme: support for shared
+>> namespace in subsystem") NVMe PCI hotplug is broken, as the PCI
+>> hotplug infrastructure will only work for the nvme devices (which
+>> are PCI devices), but not for any attached namespaces.
+>> So when re-adding the NVMe PCI device via 'device_add' the NVMe
+>> controller is added, but all namespaces are missing.
+>> This patch adds device hotplug hooks for NVMe namespaces, such that one
+>> can call 'device_add nvme-ns' to (re-)attach the namespaces after
+>> the PCI NVMe device 'device_add nvme' hotplug call.
 >>
->> I'll try to have a look at these later but some notes: The pegasos2
->> changes are now in master so if this was before that maybe rebasing on
->> master is now enough.
->
-> This is what this series does, simply rebase on top of your merged
-> patches.
->
->> However I wonder if any changes to pegasos2.c is
->> needed due to changed init of the chip model or is that only affecting
->> 82c686b?
->
-> There is no change in 'init' in this series, it is only QOM boilerplate
-> code churn, no logical change intended.
->
->> Please also note that pegasos2 is not enabled by default due to
->> needing undistributable firmware ROM so to test it you need to enable it
->> in default-configs/devices/ppc-softmmu.mak
->
-> I remember you said you were mostly interested in the VT8231, not
-> the VT82C686. This series only QOM'ify the latter.
+> 
+> Hi Hannes,
+> 
+> Thanks for this.
+> 
+> The real fix here is that namespaces are properly detached from other
+> controllers that it may be shared on.
+> 
+> But is this really the behavior we want? That nvme-ns devices always
+> "belongs to" (in QEMU qdev terms) an nvme device is an artifact of the
+> Bus/Device architecture and not really how an NVM subsystem should
+> behave. Removing a controller should not cause shared namespaces to
+> disappear from other controllers.
+> 
+> I have a WIP that instead adds an NvmeBus to the nvme-subsys device and
+> reparents the nvme-ns devices to that if the parent controller is linked
+> to a sybsystem. This way, nvme-ns devices wont be unrealized under the
+> feet of other controllers.
+> 
+That would be the other direction I thought of; _technically_ NVMe
+namespaces are objects of the subsystem, and 'controllers' are just
+temporary objects providing access to the namespaces presented by the
+subsystem.
+So if you are going to rework it I'd rather make the namespaces children
+objects of the subsystem, and have nsid maps per controller detailing
+which nsids are accessible from the individual controllers.
+That would probably a simple memcpy() to start with, but it would allow
+us to modify that map via NVMe-MI and stuff.
 
-OK as I said I haven't looked at it in detail.
+However, if you do that you'll find that subsystems can't be hotplugged,
+too; but I'm sure you'll be able to fix it up :-)
 
-> What is your idea? Send the firmware off-list and explain how
-> the OS works and how (what) to test?
+> The hotplug fix looks good - I'll post a series that tries to integrate
+> both.
+> 
+Ta.
 
-I've already sent you this info:
+The more I think about it, the more I think we should be looking into
+reparenting the namespaces to the subsystem.
+That would have the _immediate_ benefit that 'device_del' and
+'device_add' becomes symmetric (ie one doesn't have to do a separate
+'device_add nvme-ns'), as the nvme namespace is not affected by the
+hotplug event.
 
-https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg01553.html
+This really was a quick hack to demonstrate a shortcoming in the linux
+NVMe stack (cf 'nvme-mpath: delete disk after last connection' if you
+are interested in details), so I'm sure there is room for improvement.
 
-but I can't write a test case so if you want to automate this and make it 
-part of QEMU tests then some help with that would be appreciated.
+And the prime reason for sending it out was to gauge interest by
+qemu-devel; I have a somewhat mixed experience when sending patches to
+the qemu ML ...
 
-As for the firmware, once Alexey's VOF (Virtual Open Firmware, minimial OF 
-emulation in QEMU) is merged I plan to try to use that to make it possible 
-to boot some guests with that so no firmware image would be needed and 
-pegasos2 could be enabled by default. But for now a firmware image is 
-needed as guests expect an OF environment to boot.
+Cheers,
 
-Regards,
-BALATON Zoltan
---3866299591-39243802-1620738545=:14150--
+Hannes
+-- 
+Dr. Hannes Reinecke		        Kernel Storage Architect
+hare@suse.de			               +49 911 74053 688
+SUSE Software Solutions Germany GmbH, 90409 Nürnberg
+GF: F. Imendörffer, HRB 36809 (AG Nürnberg)
 
