@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B13A37A78E
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:29:17 +0200 (CEST)
-Received: from localhost ([::1]:47224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB4337A799
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:30:44 +0200 (CEST)
+Received: from localhost ([::1]:50428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgSRo-00007k-BZ
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:29:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58018)
+	id 1lgSTD-0002Iy-Jj
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:30:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgSQC-0006FQ-Tw
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:27:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51919)
+ id 1lgSQr-0007tr-Cu
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgSQA-0000bN-TV
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:27:36 -0400
+ id 1lgSQp-00011O-Ix
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620739654;
+ s=mimecast20190719; t=1620739694;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fjGv+pg1NQQyZlLaqmNbc+6hWXAk36eXjqKFoxFvng8=;
- b=CFiufIpzXo0Wh108d4DUG08d9FfPvZw+gJ4VJm5107L7MY17L9plkVsMCSHGcZFVDXXZyu
- 4PAqTE965Ua6axrpPnxhjoxLga0zv7E89ppbLXpyXN8H9s3XepuZNMJBQqJNO3pSp3N2fl
- nIi0AIwaZGNRFmI0e5ZWK+qSlu5SVgQ=
+ bh=xKCoOKvp/V4b9LWXPqSP6TUaKrKrR2QI86JsE378fZg=;
+ b=GO0MujUKbiDfCoj2BkZWBKtG/ey8vGeuObBukM/52DbkSs7I+/Z7xlrN3nIIpr//avrQEH
+ Sl1m46PmGJNyRztNX3Yg35zoH80bybDVfpxEcKsuNFT634M+voDBez0g2+VitKOiE2gaZu
+ AJe47g+zijWHmalI0C+e4mrldNVdwV8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-nucAUfRLP6GQru4EipKo1w-1; Tue, 11 May 2021 09:27:32 -0400
-X-MC-Unique: nucAUfRLP6GQru4EipKo1w-1
+ us-mta-141-k9bjZnQEMi6hzrPw60MGbg-1; Tue, 11 May 2021 09:28:11 -0400
+X-MC-Unique: k9bjZnQEMi6hzrPw60MGbg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 571FB107ACCD;
- Tue, 11 May 2021 13:27:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1C4F8049D6;
+ Tue, 11 May 2021 13:28:09 +0000 (UTC)
 Received: from foo.redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C83D19809;
- Tue, 11 May 2021 13:27:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0655B9CA0;
+ Tue, 11 May 2021 13:28:06 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/12] patchew: move quick build job from CentOS 7 to CentOS 8
- container
-Date: Tue, 11 May 2021 14:26:31 +0100
-Message-Id: <20210511132641.1022161-3-berrange@redhat.com>
+Subject: [PATCH 05/12] crypto: bump min gcrypt to 1.7.6,
+ dropping RHEL-7 support
+Date: Tue, 11 May 2021 14:26:34 +0100
+Message-Id: <20210511132641.1022161-6-berrange@redhat.com>
 In-Reply-To: <20210511132641.1022161-1-berrange@redhat.com>
 References: <20210511132641.1022161-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -91,42 +91,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 It has been over two years since RHEL-8 was released, and thus per the
 platform build policy, we no longer need to support RHEL-7 as a build
-target.
+target. This lets us increment the minimum required gcrypt version and
+assume that HMAC is always supported
+
+Per repology, current shipping versions are:
+
+             RHEL-8: 1.8.5
+     Debian Stretch: 1.7.6
+      Debian Buster: 1.8.4
+ openSUSE Leap 15.2: 1.8.2
+   Ubuntu LTS 18.04: 1.8.1
+   Ubuntu LTS 20.04: 1.8.5
+            FreeBSD: 1.9.2
+          Fedora 33: 1.8.6
+          Fedora 34: 1.9.3
+            OpenBSD: 1.9.3
+     macOS HomeBrew: 1.9.3
+
+Debian Stretch has the oldest version and so 1.7.6 is the new minimum.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- .patchew.yml | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .gitlab-ci.yml     | 10 ----------
+ configure          | 18 +-----------------
+ crypto/meson.build |  6 +-----
+ 3 files changed, 2 insertions(+), 32 deletions(-)
 
-diff --git a/.patchew.yml b/.patchew.yml
-index 988c29261f..2638b7f564 100644
---- a/.patchew.yml
-+++ b/.patchew.yml
-@@ -88,7 +88,7 @@ email:
-         more information:
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index aef16515d3..0fefda2674 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -716,16 +716,6 @@ build-coroutine-sigaltstack:
+ #
+ # These jobs test old gcrypt and nettle from RHEL7
+ # which had some API differences.
+-crypto-old-gcrypt:
+-  <<: *native_build_job_definition
+-  needs:
+-    job: amd64-centos7-container
+-  variables:
+-    IMAGE: centos7
+-    TARGETS: x86_64-softmmu x86_64-linux-user
+-    CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
+-    MAKE_CHECK_ARGS: check
+-
+ crypto-only-gnutls:
+   <<: *native_build_job_definition
+   needs:
+diff --git a/configure b/configure
+index 53902d9c02..d5569f9252 100755
+--- a/configure
++++ b/configure
+@@ -426,7 +426,6 @@ gnutls="$default_feature"
+ nettle="$default_feature"
+ nettle_xts="no"
+ gcrypt="$default_feature"
+-gcrypt_hmac="no"
+ gcrypt_xts="no"
+ qemu_private_xts="yes"
+ auth_pam="$default_feature"
+@@ -2849,7 +2848,7 @@ has_libgcrypt() {
+     maj=`libgcrypt-config --version | awk -F . '{print $1}'`
+     min=`libgcrypt-config --version | awk -F . '{print $2}'`
  
-         {{ logtext }}
--        {% elif test == "docker-mingw@fedora" or test == "docker-quick@centos7" or test == "asan" %}
-+        {% elif test == "docker-mingw@fedora" or test == "docker-quick@centos8" or test == "asan" %}
-         Hi,
- 
-         This series failed the {{ test }} build test. Please find the testing commands and
-@@ -124,13 +124,13 @@ testing:
-       script: |
-         #!/bin/bash
-         time make docker-test-debug@fedora TARGET_LIST=x86_64-softmmu J=14 NETWORK=1
--    docker-quick@centos7:
-+    docker-quick@centos8:
-       enabled: false
-       requirements: docker,x86_64
-       timeout: 3600
-       script: |
-         #!/bin/bash
--        time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
-+        time make docker-test-quick@centos8 SHOW_ENV=1 J=14 NETWORK=1
-     checkpatch:
-       enabled: true
-       requirements: ''
+-    if test $maj != 1 || test $min -lt 5
++    if test $maj != 1 || test $min -lt 7
+     then
+        return 1
+     fi
+@@ -2915,18 +2914,6 @@ if test "$gcrypt" != "no"; then
+         gcrypt="yes"
+         cat > $TMPC << EOF
+ #include <gcrypt.h>
+-int main(void) {
+-  gcry_mac_hd_t handle;
+-  gcry_mac_open(&handle, GCRY_MAC_HMAC_MD5,
+-                GCRY_MAC_FLAG_SECURE, NULL);
+-  return 0;
+-}
+-EOF
+-        if compile_prog "$gcrypt_cflags" "$gcrypt_libs" ; then
+-            gcrypt_hmac=yes
+-        fi
+-        cat > $TMPC << EOF
+-#include <gcrypt.h>
+ int main(void) {
+   gcry_cipher_hd_t handle;
+   gcry_cipher_open(&handle, GCRY_CIPHER_AES, GCRY_CIPHER_MODE_XTS, 0);
+@@ -5713,9 +5700,6 @@ if test "$gnutls" = "yes" ; then
+ fi
+ if test "$gcrypt" = "yes" ; then
+   echo "CONFIG_GCRYPT=y" >> $config_host_mak
+-  if test "$gcrypt_hmac" = "yes" ; then
+-    echo "CONFIG_GCRYPT_HMAC=y" >> $config_host_mak
+-  fi
+   echo "GCRYPT_CFLAGS=$gcrypt_cflags" >> $config_host_mak
+   echo "GCRYPT_LIBS=$gcrypt_libs" >> $config_host_mak
+ fi
+diff --git a/crypto/meson.build b/crypto/meson.build
+index 7f37b5d335..af7e80c6f6 100644
+--- a/crypto/meson.build
++++ b/crypto/meson.build
+@@ -26,11 +26,7 @@ if 'CONFIG_NETTLE' in config_host
+   crypto_ss.add(files('hash-nettle.c', 'hmac-nettle.c', 'pbkdf-nettle.c'))
+ elif 'CONFIG_GCRYPT' in config_host
+   crypto_ss.add(files('hash-gcrypt.c', 'pbkdf-gcrypt.c'))
+-  if 'CONFIG_GCRYPT_HMAC' in config_host
+-    crypto_ss.add(files('hmac-gcrypt.c'))
+-  else
+-    crypto_ss.add(files('hmac-glib.c'))
+-  endif
++  crypto_ss.add(files('hmac-gcrypt.c'))
+ else
+   crypto_ss.add(files('hash-glib.c', 'hmac-glib.c', 'pbkdf-stub.c'))
+ endif
 -- 
 2.31.1
 
