@@ -2,56 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B581237AC65
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:51:02 +0200 (CEST)
-Received: from localhost ([::1]:54682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D30537AC7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:53:33 +0200 (CEST)
+Received: from localhost ([::1]:57268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgVb3-0004Pi-BC
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:51:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
+	id 1lgVdU-0006WU-G1
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
- id 1lgVZd-0003Ek-NC; Tue, 11 May 2021 12:49:33 -0400
-Received: from relay.sw.ru ([185.231.240.75]:59386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
- id 1lgVZa-0001vq-9V; Tue, 11 May 2021 12:49:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=virtuozzo.com; s=relay; h=Content-Type:MIME-Version:Date:Message-ID:From:
- Subject; bh=vU51FdrovyHjJYmKSNc4zPJEC89wiiFiq7kjL2TMaR8=; b=jd+AoWzgyxBWmq8uW
- 8B7g5zBtYX78u9S2J4sKUCSMNyOVp4S3Rskg1lQgCctaNYn71s+pZIlYqLEUHHidl0OYjdDciP2nr
- Htn7rDp0lkvHmpE0zktmG8JyMtEjaendf7pNl7cWEXBoi3pBK0IjxalxVT2hvgJpx2MgioHahclF0
- =;
-Received: from [192.168.15.129] by relay.sw.ru with esmtp (Exim 4.94)
- (envelope-from <ktkhai@virtuozzo.com>)
- id 1lgVZM-0027km-Uk; Tue, 11 May 2021 19:49:16 +0300
-Subject: Re: [PATCH v2 06/10] qcow2-refcount: check_refcounts_l2(): check
- l2_bitmap
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
- den@openvz.org, eblake@redhat.com, berto@igalia.com
-References: <20210505065955.13964-1-vsementsov@virtuozzo.com>
- <20210505065955.13964-7-vsementsov@virtuozzo.com>
-From: Kirill Tkhai <ktkhai@virtuozzo.com>
-Message-ID: <be316573-90cc-f4e3-11ab-10f0354cd870@virtuozzo.com>
-Date: Tue, 11 May 2021 19:49:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1lgVcY-0005pe-UY
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 12:52:34 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1lgVcT-0003K7-CL
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 12:52:34 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id q5so1380973wrs.4
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 09:52:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=wM2nBn/URnnPl7igdAL5nxF6hPffUIdTypbDYPISLkg=;
+ b=aBoEJgj5IoEiaGRAW/soQZVMJrzCNQimF+Jmc+YH0P7eCDKQDLf3Fxv4F9qNtXGUgN
+ aRveAhpGqdX3Npw4c3QdlXS1+di81WSqYulAVUmN+EFZRllaIRSp7CK0IOSMh6eU2W1H
+ KVZk3zrdC76w5pFxM7HB3ZZ3raEkYdLlXaKbUlL0dR+5ePbOLuf9y+EhCR7Rq2HDO9Cb
+ x4XKgDMglEzJZAp7iSwM1XvbDS7VKQCtgS0+aRJys77zfq9l5JIT8MJaWnv7EGjGTfNo
+ d3oV2XRqXQWvK7Zq3TrybWVzur2PTOPm9fReTYnT1OCH6AB5bt0beJ7pQhHqI+8Gnc/4
+ umZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wM2nBn/URnnPl7igdAL5nxF6hPffUIdTypbDYPISLkg=;
+ b=TRuhu9qlK1hwyZ2agIU67dYVkyrhhejRx4/CPeY2TclA8Tthob6SkU0YGqQSbu/WP7
+ ItYgpHa7AziJ9u/gBOyryQJCaLle4QDudGhDO/WlkJPej+1iSUqul0UnSOqaIVCdiefT
+ 8sUf7vqiookLpxTmXeVfCd3h7vlonMG5RXwyzgmmnpgkv8iIERg7rG0EKN5xSXZ4V8P/
+ zdyrQHAhndoVDgUh5hw2qhZEJ6p8Cocad5JYhP84s8cfwEQE1K8tU0Rm7gM+MDSKIreP
+ pakAUSmWngKMCyfnSa+gUCwe0uAHSOtzXpvNl3bq6Fyo6C2nt1fWxvoR9Di5sXu96MjL
+ N9PA==
+X-Gm-Message-State: AOAM532gjuLZuasw9olJzfatekzu4Q86SE60G7vYDM4CGOPjUz7/uoOz
+ W1GIiee1VuJRY4B3FYj994o=
+X-Google-Smtp-Source: ABdhPJzHcrygn9jv3zkAlrlEW4wSk6heXVUvxAjqTqgZXqbMiLpZSWbueOjGaV2g6m7U0p+YhmbFUQ==
+X-Received: by 2002:a05:6000:2c2:: with SMTP id
+ o2mr6647135wry.398.1620751947745; 
+ Tue, 11 May 2021 09:52:27 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id x65sm4654119wmg.36.2021.05.11.09.52.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 May 2021 09:52:27 -0700 (PDT)
+Date: Tue, 11 May 2021 17:52:25 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH v3 0/9] qapi: untie 'if' conditions from C preprocessor
+Message-ID: <YJq2SXW1kSyDZ7WX@stefanha-x1.localdomain>
+References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210505065955.13964-7-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=185.231.240.75; envelope-from=ktkhai@virtuozzo.com;
- helo=relay.sw.ru
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="uSNoUiMeOqt2LT+Q"
+Content-Disposition: inline
+In-Reply-To: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,98 +84,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.05.2021 09:59, Vladimir Sementsov-Ogievskiy wrote:
-> Check subcluster bitmap of the l2 entry for different types of
-> clusters:
-> 
->  - for compressed it must be zero
->  - for allocated check consistency of two parts of the bitmap
->  - for unallocated all subclusters should be unallocated
->    (or zero-plain)
-> 
-> For unallocated clusters we can safely fix the entry by making it
-> zero-plain.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
+--uSNoUiMeOqt2LT+Q
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  block/qcow2-refcount.c | 30 +++++++++++++++++++++++++++++-
->  1 file changed, 29 insertions(+), 1 deletion(-)
-> 
-> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-> index f48c5e1b5d..062ec48a15 100644
-> --- a/block/qcow2-refcount.c
-> +++ b/block/qcow2-refcount.c
-> @@ -1681,6 +1681,7 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
->          uint64_t coffset;
->          int csize;
->          l2_entry = get_l2_entry(s, l2_table, i);
-> +        uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, i);
->  
->          switch (qcow2_get_cluster_type(bs, l2_entry)) {
->          case QCOW2_CLUSTER_COMPRESSED:
-> @@ -1700,6 +1701,14 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
->                  break;
->              }
->  
-> +            if (l2_bitmap) {
-> +                fprintf(stderr, "ERROR compressed cluster %d with non-zero "
-> +                        "subcluster allocation bitmap, entry=0x%" PRIx64 "\n",
-> +                        i, l2_entry);
-> +                res->corruptions++;
-> +                break;
-> +            }
-> +
->              /* Mark cluster as used */
->              qcow2_parse_compressed_l2_entry(bs, l2_entry, &coffset, &csize);
->              ret = qcow2_inc_refcounts_imrt(
-> @@ -1727,13 +1736,19 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
->          {
->              uint64_t offset = l2_entry & L2E_OFFSET_MASK;
->  
-> +            if ((l2_bitmap >> 32) & l2_bitmap) {
-> +                res->corruptions++;
-> +                fprintf(stderr, "ERROR offset=%" PRIx64 ": Allocated "
-> +                        "cluster has corrupted subcluster allocation bitmap\n",
-> +                        offset);
-> +            }
-> +
->              /* Correct offsets are cluster aligned */
->              if (offset_into_cluster(s, offset)) {
->                  bool contains_data;
->                  res->corruptions++;
->  
->                  if (has_subclusters(s)) {
-> -                    uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, i);
->                      contains_data = (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC);
->                  } else {
->                      contains_data = !(l2_entry & QCOW_OFLAG_ZERO);
-> @@ -1800,6 +1815,19 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
->  
->          case QCOW2_CLUSTER_ZERO_PLAIN:
->          case QCOW2_CLUSTER_UNALLOCATED:
-> +            if (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC) {
-> +                res->corruptions++;
-> +                fprintf(stderr, "%s: Unallocated "
-> +                        "cluster has non-zero subcluster allocation map\n",
-> +                        fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR");
-> +                if (fix & BDRV_FIX_ERRORS) {
-> +                    ret = fix_l2_entry_by_zero(bs, res, l2_offset, l2_table, i,
-> +                                               active, &metadata_overlap);
-> +                    if (metadata_overlap) {
-> +                        return ret;
-> +                    }
-> +                }
-> +            }
->              break;
->  
->          default:
-> 
+On Thu, Apr 29, 2021 at 05:40:23PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
+>=20
+> Hi,
+>=20
+> This series makes the 'if' conditions less liberal, by formalizing a simp=
+le
+> expression tree based on bare boolean logic of configure option identifie=
+rs.
+>=20
+> (this allows to express conditions in Rust in my QAPI-Rust PoC series)
+>=20
+> This is based on John Snow QAPI pt4:
+> https://patchew.org/QEMU/20210421192233.3542904-1-jsnow@redhat.com/
+>=20
+> Based-on: <20210421192233.3542904-2-jsnow@redhat.com>
+>=20
+> thanks
+>=20
+> v3:
+>  - rebasing on queued pt4 (after waiting for it to land)
+>  - improve documentation generation, to be more human-friendly
+>  - drop typing annotations from schema.py (not yet queued)
+>  - commit message tweaks
+>=20
+> v2:
+>  - fix the normalization step to handle recursive expr
+>  - replace IfCond by QAPISchemaIf (JohnS)
+>  - commit message and documentation tweaks
+>  - mypy/flake8/isort
+>=20
+> Marc-Andr=E9 Lureau (9):
+>   qapi: replace List[str] by QAPISchemaIfCond
+>   qapi: move gen_if/gen_endif to QAPISchemaIfCond
+>   qapi: start building an 'if' predicate tree
+>   qapi: introduce IfPredicateList and IfAny
+>   qapi: add IfNot
+>   qapi: normalize 'if' condition to IfPredicate tree
+>   qapi: convert 'if' C-expressions to the new syntax tree
+>   qapi: make 'if' condition strings simple identifiers
+>   docs: update the documentation about schema configuration
+>=20
+>  docs/devel/qapi-code-gen.txt                  |  33 +++---
+>  docs/sphinx/qapidoc.py                        |   6 +-
+>  qapi/block-core.json                          |  16 +--
+>  qapi/block-export.json                        |   6 +-
+>  qapi/char.json                                |   8 +-
+>  qapi/machine-target.json                      |  28 +++--
+>  qapi/migration.json                           |  10 +-
+>  qapi/misc-target.json                         |  37 +++---
+>  qapi/qom.json                                 |  10 +-
+>  qapi/sockets.json                             |   4 +-
+>  qapi/ui.json                                  |  48 ++++----
+>  qga/qapi-schema.json                          |   8 +-
+>  tests/unit/test-qmp-cmds.c                    |   1 +
+>  scripts/qapi/commands.py                      |   4 +-
+>  scripts/qapi/common.py                        | 106 +++++++++++++++---
+>  scripts/qapi/events.py                        |   5 +-
+>  scripts/qapi/expr.py                          |  62 +++++++---
+>  scripts/qapi/gen.py                           |  16 ++-
+>  scripts/qapi/introspect.py                    |  33 +++---
+>  scripts/qapi/schema.py                        |  99 ++++++++++++----
+>  scripts/qapi/types.py                         |  43 ++++---
+>  scripts/qapi/visit.py                         |  25 ++---
+>  .../alternate-branch-if-invalid.err           |   2 +-
+>  tests/qapi-schema/bad-if-empty.err            |   2 +-
+>  tests/qapi-schema/bad-if-list.err             |   2 +-
+>  tests/qapi-schema/bad-if.err                  |   3 +-
+>  tests/qapi-schema/bad-if.json                 |   2 +-
+>  tests/qapi-schema/doc-good.json               |   6 +-
+>  tests/qapi-schema/doc-good.out                |  12 +-
+>  tests/qapi-schema/doc-good.txt                |   6 +-
+>  tests/qapi-schema/enum-if-invalid.err         |   3 +-
+>  tests/qapi-schema/features-if-invalid.err     |   2 +-
+>  tests/qapi-schema/features-missing-name.json  |   2 +-
+>  tests/qapi-schema/qapi-schema-test.json       |  58 +++++-----
+>  tests/qapi-schema/qapi-schema-test.out        |  67 ++++++-----
+>  .../qapi-schema/struct-member-if-invalid.err  |   2 +-
+>  tests/qapi-schema/union-branch-if-invalid.err |   2 +-
+>  37 files changed, 482 insertions(+), 297 deletions(-)
+>=20
+> --=20
+> 2.29.0
+>=20
+>=20
+>=20
 
+Please double-check that the build and tests pass after each commit (for
+bisectability).
+
+I'm not familiar with the details of the QAPI code generator but in
+overall this looks like a nice step:
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--uSNoUiMeOqt2LT+Q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCatkkACgkQnKSrs4Gr
+c8ihbgf+OFVfn5c2ZYANuTG+wBC9acvSrr7Ks/UikFMG3oAmocIAZGOt/jdzrvz9
+5TswccMCjuKlytCQFFps/z/Jt6csSxV+rxgJA7Ule57GRaNza9ZLeqKtdgVh++my
+O6I7Gms54RrWtlg30ggUMvgAe8xECgoOT4mCMPQxnlF+la0eFBtNjsBm3vppqRHx
+IqKq3Hk+eglyZJQ+YrnrYsIZt8ToE9RKngCCNIe1F7fzV+13di5/Lh/CHs8+aweN
+V6PXW4g28R6rcuFFwH3k0YQogQ0LW7CGnP1QMewHbJpXeoHgizGC4xoR8BoHCFhN
+lysoYNAgBCrfokYtgcRzlJ6xLnTH5Q==
+=X+eh
+-----END PGP SIGNATURE-----
+
+--uSNoUiMeOqt2LT+Q--
 
