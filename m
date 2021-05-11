@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB4337A799
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:30:44 +0200 (CEST)
-Received: from localhost ([::1]:50428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973E537A7AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:33:03 +0200 (CEST)
+Received: from localhost ([::1]:56032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgSTD-0002Iy-Jj
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:30:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58218)
+	id 1lgSVS-0006Cn-HE
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgSQr-0007tr-Cu
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58433)
+ id 1lgSQj-0007SK-8Q
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgSQp-00011O-Ix
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:17 -0400
+ id 1lgSQh-0000um-9u
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620739694;
+ s=mimecast20190719; t=1620739686;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xKCoOKvp/V4b9LWXPqSP6TUaKrKrR2QI86JsE378fZg=;
- b=GO0MujUKbiDfCoj2BkZWBKtG/ey8vGeuObBukM/52DbkSs7I+/Z7xlrN3nIIpr//avrQEH
- Sl1m46PmGJNyRztNX3Yg35zoH80bybDVfpxEcKsuNFT634M+voDBez0g2+VitKOiE2gaZu
- AJe47g+zijWHmalI0C+e4mrldNVdwV8=
+ bh=5Ll+XB2WpVJW2oul37pM4a12d/mXt7DY3igx/4bTbQ8=;
+ b=Q9FdSTXGua6P3G1xVHTlp35RX2pwWlosBSlH7uXbkVrYZlLW9VA0i2JZvQ18ybxvm49YuX
+ T6ahHUOPtxSbZHKVlS3Zxu7GsqUEt23L2te4TOTthVaBIKbXwV6nrgz1DOsvLPJzB4xCqB
+ dCV7Bm3l6rW5boDuOq6YdfEMdeR0I0s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-k9bjZnQEMi6hzrPw60MGbg-1; Tue, 11 May 2021 09:28:11 -0400
-X-MC-Unique: k9bjZnQEMi6hzrPw60MGbg-1
+ us-mta-266-ak3ETgcXMgO42CVofmtiGQ-1; Tue, 11 May 2021 09:28:05 -0400
+X-MC-Unique: ak3ETgcXMgO42CVofmtiGQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1C4F8049D6;
- Tue, 11 May 2021 13:28:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C9FF9F951;
+ Tue, 11 May 2021 13:28:04 +0000 (UTC)
 Received: from foo.redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0655B9CA0;
- Tue, 11 May 2021 13:28:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B541F6E700;
+ Tue, 11 May 2021 13:27:31 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/12] crypto: bump min gcrypt to 1.7.6,
- dropping RHEL-7 support
-Date: Tue, 11 May 2021 14:26:34 +0100
-Message-Id: <20210511132641.1022161-6-berrange@redhat.com>
+Subject: [PATCH 03/12] crypto: bump min nettle to 3.3, dropping RHEL-7 support
+Date: Tue, 11 May 2021 14:26:32 +0100
+Message-Id: <20210511132641.1022161-4-berrange@redhat.com>
 In-Reply-To: <20210511132641.1022161-1-berrange@redhat.com>
 References: <20210511132641.1022161-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -91,120 +90,157 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 It has been over two years since RHEL-8 was released, and thus per the
 platform build policy, we no longer need to support RHEL-7 as a build
-target. This lets us increment the minimum required gcrypt version and
-assume that HMAC is always supported
+target. This lets us increment the minimum required nettle version and
+drop a lot of backwards compatibility code for 2.x series of nettle.
 
 Per repology, current shipping versions are:
 
-             RHEL-8: 1.8.5
-     Debian Stretch: 1.7.6
-      Debian Buster: 1.8.4
- openSUSE Leap 15.2: 1.8.2
-   Ubuntu LTS 18.04: 1.8.1
-   Ubuntu LTS 20.04: 1.8.5
-            FreeBSD: 1.9.2
-          Fedora 33: 1.8.6
-          Fedora 34: 1.9.3
-            OpenBSD: 1.9.3
-     macOS HomeBrew: 1.9.3
+             RHEL-8: 3.4.1
+     Debian Stretch: 3.3
+      Debian Buster: 3.4.1
+ openSUSE Leap 15.2: 3.4.1
+   Ubuntu LTS 18.04: 3.4
+   Ubuntu LTS 20.04: 3.5.1
+            FreeBSD: 3.7.2
+          Fedora 33: 3.5.1
+          Fedora 34: 3.7.2
+            OpenBSD: 3.7.2
+     macOS HomeBrew: 3.7.2
 
-Debian Stretch has the oldest version and so 1.7.6 is the new minimum.
+Debian Stretch has the oldest version and so 3.3 is the new minimum.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- .gitlab-ci.yml     | 10 ----------
- configure          | 18 +-----------------
- crypto/meson.build |  6 +-----
- 3 files changed, 2 insertions(+), 32 deletions(-)
+ .gitlab-ci.yml             | 10 ----------
+ configure                  |  4 +---
+ crypto/cipher-nettle.c.inc | 31 -------------------------------
+ crypto/hash-nettle.c       |  4 ----
+ crypto/hmac-nettle.c       |  4 ----
+ 5 files changed, 1 insertion(+), 52 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index aef16515d3..0fefda2674 100644
+index 23917d6d73..aef16515d3 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
 @@ -716,16 +716,6 @@ build-coroutine-sigaltstack:
  #
  # These jobs test old gcrypt and nettle from RHEL7
  # which had some API differences.
--crypto-old-gcrypt:
+-crypto-old-nettle:
 -  <<: *native_build_job_definition
 -  needs:
 -    job: amd64-centos7-container
 -  variables:
 -    IMAGE: centos7
 -    TARGETS: x86_64-softmmu x86_64-linux-user
--    CONFIGURE_ARGS: --disable-nettle --enable-gcrypt
+-    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
 -    MAKE_CHECK_ARGS: check
 -
- crypto-only-gnutls:
+ crypto-old-gcrypt:
    <<: *native_build_job_definition
    needs:
 diff --git a/configure b/configure
-index 53902d9c02..d5569f9252 100755
+index 54f8475444..53902d9c02 100755
 --- a/configure
 +++ b/configure
-@@ -426,7 +426,6 @@ gnutls="$default_feature"
- nettle="$default_feature"
- nettle_xts="no"
- gcrypt="$default_feature"
--gcrypt_hmac="no"
- gcrypt_xts="no"
- qemu_private_xts="yes"
- auth_pam="$default_feature"
-@@ -2849,7 +2848,7 @@ has_libgcrypt() {
-     maj=`libgcrypt-config --version | awk -F . '{print $1}'`
-     min=`libgcrypt-config --version | awk -F . '{print $2}'`
+@@ -2860,10 +2860,9 @@ has_libgcrypt() {
  
--    if test $maj != 1 || test $min -lt 5
-+    if test $maj != 1 || test $min -lt 7
-     then
-        return 1
-     fi
-@@ -2915,18 +2914,6 @@ if test "$gcrypt" != "no"; then
-         gcrypt="yes"
-         cat > $TMPC << EOF
- #include <gcrypt.h>
--int main(void) {
--  gcry_mac_hd_t handle;
--  gcry_mac_open(&handle, GCRY_MAC_HMAC_MD5,
--                GCRY_MAC_FLAG_SECURE, NULL);
--  return 0;
--}
--EOF
--        if compile_prog "$gcrypt_cflags" "$gcrypt_libs" ; then
--            gcrypt_hmac=yes
--        fi
--        cat > $TMPC << EOF
--#include <gcrypt.h>
- int main(void) {
-   gcry_cipher_hd_t handle;
-   gcry_cipher_open(&handle, GCRY_CIPHER_AES, GCRY_CIPHER_MODE_XTS, 0);
-@@ -5713,9 +5700,6 @@ if test "$gnutls" = "yes" ; then
+ if test "$nettle" != "no"; then
+     pass="no"
+-    if $pkg_config --exists "nettle >= 2.7.1"; then
++    if $pkg_config --exists "nettle >= 3.3"; then
+         nettle_cflags=$($pkg_config --cflags nettle)
+         nettle_libs=$($pkg_config --libs nettle)
+-        nettle_version=$($pkg_config --modversion nettle)
+         # Link test to make sure the given libraries work (e.g for static).
+         write_c_skeleton
+         if compile_prog "" "$nettle_libs" ; then
+@@ -5722,7 +5721,6 @@ if test "$gcrypt" = "yes" ; then
  fi
- if test "$gcrypt" = "yes" ; then
-   echo "CONFIG_GCRYPT=y" >> $config_host_mak
--  if test "$gcrypt_hmac" = "yes" ; then
--    echo "CONFIG_GCRYPT_HMAC=y" >> $config_host_mak
--  fi
-   echo "GCRYPT_CFLAGS=$gcrypt_cflags" >> $config_host_mak
-   echo "GCRYPT_LIBS=$gcrypt_libs" >> $config_host_mak
+ if test "$nettle" = "yes" ; then
+   echo "CONFIG_NETTLE=y" >> $config_host_mak
+-  echo "CONFIG_NETTLE_VERSION_MAJOR=${nettle_version%%.*}" >> $config_host_mak
+   echo "NETTLE_CFLAGS=$nettle_cflags" >> $config_host_mak
+   echo "NETTLE_LIBS=$nettle_libs" >> $config_host_mak
  fi
-diff --git a/crypto/meson.build b/crypto/meson.build
-index 7f37b5d335..af7e80c6f6 100644
---- a/crypto/meson.build
-+++ b/crypto/meson.build
-@@ -26,11 +26,7 @@ if 'CONFIG_NETTLE' in config_host
-   crypto_ss.add(files('hash-nettle.c', 'hmac-nettle.c', 'pbkdf-nettle.c'))
- elif 'CONFIG_GCRYPT' in config_host
-   crypto_ss.add(files('hash-gcrypt.c', 'pbkdf-gcrypt.c'))
--  if 'CONFIG_GCRYPT_HMAC' in config_host
--    crypto_ss.add(files('hmac-gcrypt.c'))
--  else
--    crypto_ss.add(files('hmac-glib.c'))
--  endif
-+  crypto_ss.add(files('hmac-gcrypt.c'))
- else
-   crypto_ss.add(files('hash-glib.c', 'hmac-glib.c', 'pbkdf-stub.c'))
- endif
+diff --git a/crypto/cipher-nettle.c.inc b/crypto/cipher-nettle.c.inc
+index cac771e4ff..490472656c 100644
+--- a/crypto/cipher-nettle.c.inc
++++ b/crypto/cipher-nettle.c.inc
+@@ -39,41 +39,10 @@ typedef void (*QCryptoCipherNettleFuncWrapper)(const void *ctx,
+                                                uint8_t *dst,
+                                                const uint8_t *src);
+ 
+-#if CONFIG_NETTLE_VERSION_MAJOR < 3
+-typedef nettle_crypt_func * QCryptoCipherNettleFuncNative;
+-typedef void *       cipher_ctx_t;
+-typedef unsigned     cipher_length_t;
+-#define CONST_CTX
+-
+-#define cast5_set_key cast128_set_key
+-
+-#define aes128_ctx aes_ctx
+-#define aes192_ctx aes_ctx
+-#define aes256_ctx aes_ctx
+-#define aes128_set_encrypt_key(c, k) \
+-    aes_set_encrypt_key(c, 16, k)
+-#define aes192_set_encrypt_key(c, k) \
+-    aes_set_encrypt_key(c, 24, k)
+-#define aes256_set_encrypt_key(c, k) \
+-    aes_set_encrypt_key(c, 32, k)
+-#define aes128_set_decrypt_key(c, k) \
+-    aes_set_decrypt_key(c, 16, k)
+-#define aes192_set_decrypt_key(c, k) \
+-    aes_set_decrypt_key(c, 24, k)
+-#define aes256_set_decrypt_key(c, k) \
+-    aes_set_decrypt_key(c, 32, k)
+-#define aes128_encrypt aes_encrypt
+-#define aes192_encrypt aes_encrypt
+-#define aes256_encrypt aes_encrypt
+-#define aes128_decrypt aes_decrypt
+-#define aes192_decrypt aes_decrypt
+-#define aes256_decrypt aes_decrypt
+-#else
+ typedef nettle_cipher_func * QCryptoCipherNettleFuncNative;
+ typedef const void * cipher_ctx_t;
+ typedef size_t       cipher_length_t;
+ #define CONST_CTX    const
+-#endif
+ 
+ static inline bool qcrypto_length_check(size_t len, size_t blocksize,
+                                         Error **errp)
+diff --git a/crypto/hash-nettle.c b/crypto/hash-nettle.c
+index 2a6ee7c7d5..5c8977fb80 100644
+--- a/crypto/hash-nettle.c
++++ b/crypto/hash-nettle.c
+@@ -26,11 +26,7 @@
+ #include <nettle/sha.h>
+ #include <nettle/ripemd160.h>
+ 
+-#if CONFIG_NETTLE_VERSION_MAJOR < 3
+-typedef unsigned int     hash_length_t;
+-#else
+ typedef size_t       hash_length_t;
+-#endif
+ 
+ typedef void (*qcrypto_nettle_init)(void *ctx);
+ typedef void (*qcrypto_nettle_write)(void *ctx,
+diff --git a/crypto/hmac-nettle.c b/crypto/hmac-nettle.c
+index 1152b741fd..da6b6fa014 100644
+--- a/crypto/hmac-nettle.c
++++ b/crypto/hmac-nettle.c
+@@ -18,11 +18,7 @@
+ #include "hmacpriv.h"
+ #include <nettle/hmac.h>
+ 
+-#if CONFIG_NETTLE_VERSION_MAJOR < 3
+-typedef unsigned int hmac_length_t;
+-#else
+ typedef size_t hmac_length_t;
+-#endif
+ 
+ typedef void (*qcrypto_nettle_hmac_setkey)(void *ctx,
+                                            hmac_length_t key_length,
 -- 
 2.31.1
 
