@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95AE37A48E
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:26:32 +0200 (CEST)
-Received: from localhost ([::1]:42956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518A137A493
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:27:21 +0200 (CEST)
+Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgPax-0000Vf-NT
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:26:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37690)
+	id 1lgPbj-0003Vt-VV
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPVE-0008MP-Sw
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:20:36 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41095)
+ id 1lgPVF-0008Oi-OO
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:20:38 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPV0-0006TG-BN
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:20:36 -0400
+ id 1lgPV0-0006X1-BX
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:20:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1620728421; x=1652264421;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=NQcnq47NunDV4WKlnP2K9I0LwZt5ImuM/NUAvOuKrLw=;
- b=XPAjvXyKL2hckDcxBbiC3pt9NoisOosdxWVC0Nvgw1Zz26ReelJz8Cxo
- WucRNxdfkmT/npI1Nxn8K+FFGVKBlg7OXPAD1pqHHaOrn0xTG9R7h8ijn
- A6gPmUVpNHpVWoXjT+kFuwjcddAClh8c9GAzl0hDmNBa4qLqKDG3nMRzV
- e6cwrlEHukd5DfZ+UK5pLDh7D4pzgbB9ljqexLXxEMSQB4oIvro00JS6T
- 48djvu7efnQHFG8HUpmR6qE+fdoK4NPsRsNmkQbu33gQN0CnEeMKJayma
- EysBgE4OwNAVxBOzPwb0OcuSEv+S15MuWS9tzHF8CSeovw++LgASbdPIc A==;
-IronPort-SDR: tmvvUCKPNfJSikrhRSR02J6r5TpCXz2unfCcqcZwF0sx8yWZK7QBgtvVuTxGh2UfwWImy5ogYG
- AJVAKx9STF7GRAonKuCNRv42Ch9I51S6HqmSNB1qgvjsFrsZyUq5WxVXN2cQglDG4ElhntAvsl
- DqSspoAyhLwh7UKS9M2W1wq795KqirgiHt90Yx7tHU2tpwTX3dbpx6QWnZDzPlp2EIYeQLf/Xw
- MjkCNnTHqkgZL2vGS1nfOB8o+Bbzq11qFJZtZVbGVGKK5gxImptn5ZMR5xR47smfj2pMO80k9g
- 0NU=
-X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735352"
+ bh=qPCk4g3W8fX2UrYqx8Ha0jhj3mJEcwbKzn0C8s8q6fI=;
+ b=oucN2XWPcy2mxLi1q3oBgP07ckU/klG2fa0+UQNDGFPL2Ak1vJkJ6dy9
+ NbrLZl7hYO7MKMKAz9O/YV/iYRCkRobg+dnrnmn7B4lOB/3aGBiEhBjqS
+ 4ihDBZUgag81N1V2DMjBMkPOHXW9UrWM5d6CFaZAD4DsPEh68idUb0XxZ
+ 4BkwFUcFt5IfxXM0aIbe4A6z8FNhZszH/2BE+nKKDi8hmXnAqFcUlnr0x
+ K1mtzj5mz38d/dOLWuBGypzMnub4Fw++vlgdfF43Cpv7lhKbTxfmm5q+U
+ dPlfkjdk0NwKgnOLlVPAfwe5EzjJul+VlahZgztUfJDo07dqubEOM5eMb Q==;
+IronPort-SDR: WN7CcicTR0CLIbcPUFEsE3MyEgSq45zJ3FtwYb3UrZzHmj/Xfqjfw6q5VqtbJjclnUBABzNsO5
+ SzqiSmpC2EDdowO4AGpJV1cWoXoeeNewGnuc96CYvvm05/bWe1xN8P35PdV+QVWrEmLIxypGfj
+ Lf/5NvvGFnIRuVWLnwcmWhveKrB22jcTbshSlokM+UOQTIRN+T33s0j8Jjhnc0FYlYQMT4TZ7Z
+ 035pe4J818TxJxsZPeH0l8feZvkQ1WWLNZJx6phAQYyLTKzzMsg9XQyqL0uUI8UwTaum/XHQrF
+ uGc=
+X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735356"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:20:15 +0800
-IronPort-SDR: IgjYJ3obNL1a9Ddjlw1ZBUIRa45viY+ZzVKvJoBJzizMMzt9uk7FAUpI7+a8rTIAZThxQDmm1w
- 7mvczgUhKlXbtcKRvoa4+Gka+xCs+dPntuT9e/oLI5vjVHzkk5vUShJlMu1RYA1mefxKa5iOFn
- qggg6RPyQLj6LU1jiinb8Ok9xWyFEkTexz2TTJO7rphtmPSAeP4HGthGL//prNO5zRgTjv7Ny6
- R3zQyMJ1kvp4RNncWVXMgu/OkN/W6bXp8rtNZDSjEnGiDiKrExmjCh16y+2rQJamzRGcLaHVRq
- aVg4JVxxqfuunlLD/2EPCtBo
+ by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:20:18 +0800
+IronPort-SDR: LLCOLY+5mvGnK4hcPqrLolHfLpDOtJ3/PFgQIMhv7uTLkNEOTXe8u8sLs88hIrX/tE6SsWzuYA
+ ENSnZEuUkMYh9+/ENo46cmh5lhzUS8R4hwwfYHnwyRTjFKVlgjuHr5guxmoFkfedj3zWDWTQDN
+ WrslTPHp0SFXGoRmej7S/+c3g2MjpAUSC96XKv4PbnSDiT6psw2KfZ3wdIGPwrgM8525q5cpIY
+ sUyy0tYqgqAjrRytGIu8X1bY1Sp071vjiPxRPu5HlwspThTWgiwQ9FNc5eG7y1BfdRhWNKXOxt
+ 4Pev1Zq/WHmEFrKF3nhofbmt
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 03:00:14 -0700
-IronPort-SDR: cYmOPwZYIQJcEpbmXs4MssrZB4QgYbjLOCi1hXLgHV8aoB6jWHzEywtRSfdEZq5KiFBsai/GaB
- 1Fg/7pTrS4nCmxAcHe7YcSjQpw6pEaBtPE0r0z/tUgr4QExSA3Wor7APofNtyMSsQaYbrlmfEM
- ozjy0MwXTf+NLI3ZBdFiSGYcwJ1z/gJ3HoUvSwk/WVg19la6o9pQTJrWsaIJpt7gkbxRQolWz8
- LlLk3fAuvuR8yTXlfdfmoG70Sq4QNjJt0RoYyii5tT+6DXzcRDPItmF6OorxU3U2PoTqfACNcp
- GnE=
+ 11 May 2021 03:00:17 -0700
+IronPort-SDR: HNgN7+MuSBShX5Oo/q/Qf09Hg4k2pAuSMHug0m1rkByavrbmHIZMA/CeLq2I4Kgfs1l72XypY2
+ VVXI91e9QcxyE/ESEPMnt4lUxH/Q+wJyySrkIa6c5vLFQ/gBzKsqpZEE9ZzOlNjAnoVmW3tkM3
+ PmGCaZ33C7uZyh9wV7MmQE8jlvOtDif+GO0KGIleETVWM4defo5z2DwR6dG8PcUfVikDKGleCt
+ 7xsdt+gE3PjIrjWKugrgf/jf7IaagDMjk3ZfGCOdrOnHSUnhOj0ZB1Brr25fHSS1ksTtpJdgoj
+ NYA=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.48])
- by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:20:13 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:20:17 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v3 04/42] hw/riscv: sifive_e: Add 'const' to sifive_e_memmap[]
-Date: Tue, 11 May 2021 20:19:13 +1000
-Message-Id: <20210511101951.165287-5-alistair.francis@wdc.com>
+Subject: [PULL v3 05/42] target/riscv: Add Shakti C class CPU
+Date: Tue, 11 May 2021 20:19:14 +1000
+Message-Id: <20210511101951.165287-6-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210511101951.165287-1-alistair.francis@wdc.com>
 References: <20210511101951.165287-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=7584e029c=alistair.francis@wdc.com;
@@ -78,7 +77,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,41 +90,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Emmanuel Blot <eblot.ml@gmail.com>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alistair Francis <alistair.francis@wdc.com>, alistair23@gmail.com,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: Vijai Kumar K <vijai@behindbytes.com>, alistair23@gmail.com,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+From: Vijai Kumar K <vijai@behindbytes.com>
 
-This was accidentally dropped before. Add it back.
+C-Class is a member of the SHAKTI family of processors from IIT-M.
 
-Fixes: 732612856a8 ("hw/riscv: Drop 'struct MemmapEntry'")
-Reported-by: Emmanuel Blot <eblot.ml@gmail.com>
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+It is an extremely configurable and commercial-grade 5-stage in-order
+core supporting the standard RV64GCSUN ISA extensions.
+
+Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210331103612.654261-1-bmeng.cn@gmail.com
+Message-id: 20210401181457.73039-2-vijai@behindbytes.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_e.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/cpu.h | 1 +
+ target/riscv/cpu.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 3e8b44b2c0..ddc658c8d6 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -48,7 +48,7 @@
- #include "sysemu/arch_init.h"
- #include "sysemu/sysemu.h"
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 311b1db875..8079da8fa8 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -38,6 +38,7 @@
+ #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
+ #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
+ #define TYPE_RISCV_CPU_IBEX             RISCV_CPU_TYPE_NAME("lowrisc-ibex")
++#define TYPE_RISCV_CPU_SHAKTI_C         RISCV_CPU_TYPE_NAME("shakti-c")
+ #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
+ #define TYPE_RISCV_CPU_SIFIVE_E34       RISCV_CPU_TYPE_NAME("sifive-e34")
+ #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 047d6344fe..6842626c69 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -708,6 +708,7 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+     DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_SHAKTI_C,         rv64_sifive_u_cpu_init),
+ #endif
+ };
  
--static MemMapEntry sifive_e_memmap[] = {
-+static const MemMapEntry sifive_e_memmap[] = {
-     [SIFIVE_E_DEV_DEBUG] =    {        0x0,     0x1000 },
-     [SIFIVE_E_DEV_MROM] =     {     0x1000,     0x2000 },
-     [SIFIVE_E_DEV_OTP] =      {    0x20000,     0x2000 },
 -- 
 2.31.1
 
