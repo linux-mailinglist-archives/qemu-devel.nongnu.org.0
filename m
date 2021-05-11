@@ -2,94 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C616379DEF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 05:49:52 +0200 (CEST)
-Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B57379E06
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 06:02:43 +0200 (CEST)
+Received: from localhost ([::1]:35950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgJP5-00078D-8q
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 23:49:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45020)
+	id 1lgJbW-00019P-7j
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 00:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgJNs-0006A9-Ol
- for qemu-devel@nongnu.org; Mon, 10 May 2021 23:48:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20825)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgJNq-0002By-9j
- for qemu-devel@nongnu.org; Mon, 10 May 2021 23:48:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620704913;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IqEo5Qw9lSgAeADNlf9Um8/oIHZMJ2xDdqsbcEfsQuQ=;
- b=NIeZMs2TGjEw2gWeYGD46iYfKfbjXX+C97R/DhC4e0ORy9M7eaHWfOw7km7uod1T7t/h0l
- 89y5EK/jIFKMuXcjaUxfRxI35WxhyNAzIrPUTbrcUJErf7GQ2BkI24qK5W38dayfX09Tv6
- Ik5sUSRXQsOHNxmuNBdMbS/BQm5zy5U=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-ZyDqfyp2OHGC_ouMdBiILQ-1; Mon, 10 May 2021 23:48:31 -0400
-X-MC-Unique: ZyDqfyp2OHGC_ouMdBiILQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- zo1-20020a170906ff41b02903973107d7b5so5434262ejb.21
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 20:48:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IqEo5Qw9lSgAeADNlf9Um8/oIHZMJ2xDdqsbcEfsQuQ=;
- b=UN5YHXuRj3ARwXonIw07sVUYaaydC8VMvef22AsA8uDWFEYLvT74KsS/wGF2JU5Isx
- NhuxV0lwbRTvUrklkTwchYlZ1v5xk6hqFrIE2LnyyyTtTFtr+Dsw3U1OPn4LhbBYPbU4
- UFCGv22dvEymSpUixCCExS66ooBUn6h7KRigDznFu96tx4Ce3YGbt84CaziBS4Hk4JPC
- 3x0G0mfiiyOstXFRJDzp0TcFvtUykikK3gTEAnsT7ohXpx1zZWsCo+lIvHgtvDYaH6Nj
- 8ySFYE8RD6ukV5i1QtHa2Q7WXhlG3Jk08NzIJgs7AjDFxbmll3px8UICC+xZ/YQGOJ3b
- uwRQ==
-X-Gm-Message-State: AOAM53313nGec4TvUBgj+JLQBNIbIJcT53kQ46qA3SXetAcjjKlvCaT0
- f7vGYwyfUFYyDPWYnLcTEHl1ELhp2wKeBv2QCfh/9qQoc+6dnnodaThuXJUFRwa2w2vcCJdhQUK
- n0QnzK+0rbexj80w=
-X-Received: by 2002:a17:906:91d3:: with SMTP id
- b19mr29347244ejx.242.1620704909860; 
- Mon, 10 May 2021 20:48:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyK/C9QoZgE83kf7GQdvk+WbJOp645EFvCmUI5wNMOp5TCcqBFFDKLSQHXmo7Jn0zLXf7ZFIA==
-X-Received: by 2002:a17:906:91d3:: with SMTP id
- b19mr29347229ejx.242.1620704909686; 
- Mon, 10 May 2021 20:48:29 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id n12sm13185788edw.95.2021.05.10.20.48.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 May 2021 20:48:29 -0700 (PDT)
-Subject: Re: [PATCH-for-6.0] hw/mem/meson: Fix linking sparse-mem device with
- fuzzer
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Alexander Bulekov <alxndr@bu.edu>, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20210406133944.4193691-1-philmd@redhat.com>
- <20210406143928.shfhgsdupbjqgohc@mozz.bu.edu>
- <31e0de30-c461-33d5-9f12-0f2505aed049@redhat.com>
-Message-ID: <60e2df83-b2e2-e710-5abf-ab3b812e7465@redhat.com>
-Date: Tue, 11 May 2021 05:48:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <wangjunqiang@iscas.ac.cn>)
+ id 1lgJZv-0000Jx-Qm; Tue, 11 May 2021 00:01:08 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25]:39454 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <wangjunqiang@iscas.ac.cn>)
+ id 1lgJZk-00037Z-Rl; Tue, 11 May 2021 00:00:57 -0400
+Received: from [172.16.211.231] (unknown [58.221.119.46])
+ by APP-05 (Coremail) with SMTP id zQCowAA3PSl8AJpg3cOkAQ--.40047S3;
+ Tue, 11 May 2021 11:56:44 +0800 (CST)
+Subject: Re: [RFC PATCH 1/5] target/riscv: Add Nuclei CSR and Update interrupt
+ handling
+To: Alistair Francis <alistair23@gmail.com>
+References: <20210507081654.11056-1-wangjunqiang@iscas.ac.cn>
+ <20210507081654.11056-2-wangjunqiang@iscas.ac.cn>
+ <CAKmqyKPE8O6LbZQc2H+kkWvVqf9qW705S85XGGWpUtQTWjzE8Q@mail.gmail.com>
+ <e97fecab-78d2-1a55-c7ad-c542ab5d1fbf@iscas.ac.cn>
+ <CAKmqyKNLqqbPJ+kaOnY-m0MtXabyEU_xuhcKE+YMRRJwnuysag@mail.gmail.com>
+From: Wang Junqiang <wangjunqiang@iscas.ac.cn>
+Message-ID: <73ddc087-241e-cb83-3161-e49829bc089c@iscas.ac.cn>
+Date: Tue, 11 May 2021 12:00:38 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <31e0de30-c461-33d5-9f12-0f2505aed049@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAKmqyKNLqqbPJ+kaOnY-m0MtXabyEU_xuhcKE+YMRRJwnuysag@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-CM-TRANSID: zQCowAA3PSl8AJpg3cOkAQ--.40047S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3tF1fKr17uryUCryxXF4DXFb_yoWktw4xpF
+ 4UGF45ua1UJrZxJ3ySqw1DJFn3tw1UKrW5Ww1rJay8Jwn0qFWxGr1DtFWYkF1kZF4rur1j
+ vF4UuFW3uF4YvFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvSb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
+ C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+ 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l
+ c2xSY4AK67AK6r48MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+ 0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+ tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
+ CY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280
+ aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43
+ ZEXa7IU5G4iUUUUUU==
+X-Originating-IP: [58.221.119.46]
+X-CM-SenderInfo: pzdqwy5xqtxt1qj6x2xfdvhtffof0/1tbiCQkSAF02aKrnhAAAsY
+Received-SPF: pass client-ip=159.226.251.25;
+ envelope-from=wangjunqiang@iscas.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,61 +77,331 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Darren Kenny <darren.kenny@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>
+Cc: liweiwei@iscas.ac.cn, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, alapha23@gmail.com,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing qemu-trivial (patch reviewed).
 
-On 4/12/21 1:07 PM, Philippe Mathieu-Daudé wrote:
-> ping?
+
+On 2021/5/11 上午11:43, Alistair Francis wrote:
+> On Tue, May 11, 2021 at 1:14 PM Wang Junqiang <wangjunqiang@iscas.ac.cn> wrote:
+>>
+>>
+>>
+>> On 2021/5/10 上午10:17, Alistair Francis wrote:
+>>>    C isOn Fri, May 7, 2021 at 11:25 PM wangjunqiang
+>>> <wangjunqiang@iscas.ac.cn> wrote:
+>>>>
+>>>> This patch adds Nuclei CSR support for ECLIC and update the
+>>>> related interrupt handling.
+>>>>
+>>>> https://doc.nucleisys.com/nuclei_spec/isa/core_csr.html
+>>>
+>>> Hello,
+>>>
+>>> Thanks for the patches!
+>>>
+>>> This patch is very long and you will need to split it up before it can
+>>> be merged. I understand this is just an RFC, but it's still best to
+>>> start with small patches. Generally each patch should add a feature
+>>> and it seems like you have added lots of features in this patch. This
+>>> patch could probably be broken into at least 4 different patches.
+>>>
+>>> As well as that you will want to ensure that your commit message and
+>>> description explains what you are doing in that patch and in some
+>>> cases justify the change. For example adding a new CPU doesn't need a
+>>> justification (as that's easy for me to understand), but changing some
+>>> existing code might need an explanation of why we need/want that
+>>> change.
+>>>
+>>> This is still a great start though! I look forward to your future patches.
+>>>
+>>> I have left a few comments below as well.
+>>
+>> Thank you for your reply and comments.I will split it into small patches
+>> by feature in next version.And add more detailed description. To make a
+>> brief explanation, add cpu here to simplify the command line when using
+>> -cpu.
+>>
+>>>
+>>>> ---
+>>>>    target/riscv/cpu.c                      |  25 +-
+>>>>    target/riscv/cpu.h                      |  42 ++-
+>>>>    target/riscv/cpu_bits.h                 |  37 +++
+>>>>    target/riscv/cpu_helper.c               |  80 +++++-
+>>>>    target/riscv/csr.c                      | 347 +++++++++++++++++++++++-
+>>>>    target/riscv/insn_trans/trans_rvi.c.inc |  16 +-
+>>>>    target/riscv/op_helper.c                |  14 +
+>>>>    7 files changed, 552 insertions(+), 9 deletions(-)
+>>>>
+>>>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>>>> index 7d6ed80f6b..b2a96effbc 100644
+>>>> --- a/target/riscv/cpu.c
+>>>> +++ b/target/riscv/cpu.c
+>>>> @@ -173,6 +173,16 @@ static void rv64_sifive_e_cpu_init(Object *obj)
+>>>>        set_priv_version(env, PRIV_VERSION_1_10_0);
+>>>>        qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+>>>>    }
+>>>> +
+>>>> +static void rv64imafdcu_nuclei_cpu_init(Object *obj)
+>>>> +{
+>>>> +    CPURISCVState *env = &RISCV_CPU(obj)->env;
+>>>> +    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+>>>> +    set_priv_version(env, PRIV_VERSION_1_10_0);
+>>>> +    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+>>>> +    set_resetvec(env, DEFAULT_RSTVEC);
+>>>> +    set_feature(env, RISCV_FEATURE_PMP);
+>>>> +}
+>>>>    #else
+>>>>    static void rv32_base_cpu_init(Object *obj)
+>>>>    {
+>>>> @@ -212,6 +222,16 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+>>>>        set_resetvec(env, DEFAULT_RSTVEC);
+>>>>        qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+>>>>    }
+>>>> +
+>>>> +static void rv32imafdcu_nuclei_cpu_init(Object *obj)
+>>>> +{
+>>>> +    CPURISCVState *env = &RISCV_CPU(obj)->env;
+>>>> +    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+>>>> +    set_priv_version(env, PRIV_VERSION_1_10_0);
+>>>> +    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+>>>> +    set_resetvec(env, DEFAULT_RSTVEC);
+>>>> +    set_feature(env, RISCV_FEATURE_PMP);
+>>>> +}
+>>>>    #endif
+>>>>
+>>>>    static ObjectClass *riscv_cpu_class_by_name(const char *cpu_model)
+>>>> @@ -331,7 +351,7 @@ static bool riscv_cpu_has_work(CPUState *cs)
+>>>>         * Definition of the WFI instruction requires it to ignore the privilege
+>>>>         * mode and delegation registers, but respect individual enables
+>>>>         */
+>>>> -    return (env->mip & env->mie) != 0;
+>>>> +    return ((env->mip & env->mie) != 0  || (env->exccode != -1));
+>>>
+>>> This change for example needs to be explained, I'm not sure what exccode is
+>>>
+>>>>    #else
+>>>>        return true;
+>>>>    #endif
+>>>> @@ -356,6 +376,7 @@ static void riscv_cpu_reset(DeviceState *dev)
+>>>>        env->mstatus &= ~(MSTATUS_MIE | MSTATUS_MPRV);
+>>>>        env->mcause = 0;
+>>>>        env->pc = env->resetvec;
+>>>> +    env->exccode = -1;
+>>>>        env->two_stage_lookup = false;
+>>>>    #endif
+>>>>        cs->exception_index = EXCP_NONE;
+>>>> @@ -704,10 +725,12 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+>>>>        DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32_sifive_e_cpu_init),
+>>>>        DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
+>>>>        DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
+>>>> +    DEFINE_CPU(TYPE_RISCV_CPU_NUCLEI_N307FD,    rv32imafdcu_nuclei_cpu_init),
+>>>>    #elif defined(TARGET_RISCV64)
+>>>>        DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
+>>>>        DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
+>>>>        DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
+>>>> +    DEFINE_CPU(TYPE_RISCV_CPU_NUCLEI_NX600FD,    rv64imafdcu_nuclei_cpu_init),
+>>>>    #endif
+>>>>    };
+>>>>
+>>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>>>> index 0a33d387ba..1d3a1986a6 100644
+>>>> --- a/target/riscv/cpu.h
+>>>> +++ b/target/riscv/cpu.h
+>>>> @@ -33,6 +33,7 @@
+>>>>    #define RISCV_CPU_TYPE_SUFFIX "-" TYPE_RISCV_CPU
+>>>>    #define RISCV_CPU_TYPE_NAME(name) (name RISCV_CPU_TYPE_SUFFIX)
+>>>>    #define CPU_RESOLVING_TYPE TYPE_RISCV_CPU
+>>>> +#define CPU_INTERRUPT_ECLIC CPU_INTERRUPT_TGT_EXT_0
+>>>>
+>>>>    #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
+>>>>    #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
+>>>> @@ -43,6 +44,8 @@
+>>>>    #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
+>>>>    #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
+>>>>    #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
+>>>> +#define TYPE_RISCV_CPU_NUCLEI_N307FD    RISCV_CPU_TYPE_NAME("nuclei-n307fd")
+>>>> +#define TYPE_RISCV_CPU_NUCLEI_NX600FD    RISCV_CPU_TYPE_NAME("nuclei-nx600fd")
+>>>>
+>>>>    #if defined(TARGET_RISCV32)
+>>>>    # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE32
+>>>> @@ -80,7 +83,8 @@
+>>>>    enum {
+>>>>        RISCV_FEATURE_MMU,
+>>>>        RISCV_FEATURE_PMP,
+>>>> -    RISCV_FEATURE_MISA
+>>>> +    RISCV_FEATURE_MISA,
+>>>> +    RISCV_FEATURE_ECLIC
+>>>
+>>> The same here, what is ECLIC? The ECLIC should be added in a seperate patch.
+>>>
+>>
+>> ECLIC is Enhanced Core Local Interrupt Controller.And added some
+>> customized csr on the basis of clic to speed up Tail-Chaining processing.
+>>
+>> https://doc.nucleisys.com/nuclei_spec/isa/eclic.html
+>>
+>>>>    };
+>>>>
+>>>>    #define PRIV_VERSION_1_10_0 0x00011000
+>>>> @@ -174,10 +178,34 @@ struct CPURISCVState {
+>>>>        target_ulong scause;
+>>>>
+>>>>        target_ulong mtvec;
+>>>> +    target_ulong mtvt;   /* eclic */
+>>>>        target_ulong mepc;
+>>>>        target_ulong mcause;
+>>>>        target_ulong mtval;  /* since: priv-1.10.0 */
+>>>>
+>>>> +    target_ulong mnxti; /* eclic */
+>>>> +    target_ulong mintstatus; /* eclic */
+>>>> +    target_ulong mscratchcsw;
+>>>> +    target_ulong mscratchcswl;
+>>>> +
+>>>> +    /* NMI  CSR*/
+>>>> +    target_ulong mnvec;
+>>>> +    target_ulong msubm;
+>>>> +    target_ulong mdcause;
+>>>> +    target_ulong mmisc_ctl;
+>>>> +    target_ulong msavestatus;
+>>>> +    target_ulong msaveepc1;
+>>>> +    target_ulong msavecause1;
+>>>> +    target_ulong msaveepc2;
+>>>> +    target_ulong msavecause2;
+>>>> +    target_ulong msavedcause1;
+>>>> +    target_ulong msavedcause2;
+>>>> +    target_ulong pushmsubm;
+>>>> +    target_ulong mtvt2;
+>>>> +    target_ulong jalmnxti;
+>>>> +    target_ulong pushmcause;
+>>>> +    target_ulong pushmepc;
+>>>
+>>> What are NMI CSRs?
+>>>
+>>
+>> Nuclei's Customized registers are used for NMI related processing
+>>
+>> https://doc.nucleisys.com/nuclei_spec/isa/core_csr.html
+>>
+>>
+>>>> +
+>>>>        /* Hypervisor CSRs */
+>>>>        target_ulong hstatus;
+>>>>        target_ulong hedeleg;
+>>>> @@ -228,6 +256,9 @@ struct CPURISCVState {
+>>>>        uint64_t mtohost;
+>>>>        uint64_t timecmp;
+>>>>
+>>>> +    /*nuclei timer comparators */
+>>>> +    uint64_t mtimecmp;
+>>>
+>>> RISC-V has a mtimecmp, does nuclei add another one?
+>>>
+>>
+>> I will delete it, it was originally used for Shadow copy, I can move it
+>> to the device
+>>
+>> https://doc.nucleisys.com/nuclei_spec/isa/timer.html
+>>
+>>>> +
+>>>>        /* physical memory protection */
+>>>>        pmp_table_t pmp_state;
+>>>>
+>>>> @@ -243,6 +274,13 @@ struct CPURISCVState {
+>>>>
+>>>>        /* Fields from here on are preserved across CPU reset. */
+>>>>        QEMUTimer *timer; /* Internal timer */
+>>>> +
+>>>> +    QEMUTimer *mtimer; /* Nuclei Internal timer */
+>>>
+>>> Why do you need a timer here just for the Nuclei CPU?
+>>>
+>>
+>> same as above
+>>
+>>>> +    void *eclic;
+>>>> +    uint32_t exccode;    /* irq id: 0~11  shv: 12 */
+>>>> +    uint32_t eclic_flag;
+>>>> +
+>>>> +    bool irq_pending;
+>>>>    };
+>>>>
+>>>>    OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
+>>>> @@ -364,6 +402,8 @@ void riscv_cpu_list(void);
+>>>>    void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
+>>>>    int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts);
+>>>>    uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
+>>>> +void riscv_cpu_eclic_clean_pending(void *eclic, int irq);
+>>>> +void riscv_cpu_eclic_get_next_interrupt(void *eclic);
+>>>>    #define BOOL_TO_MASK(x) (-!!(x)) /* helper for riscv_cpu_update_mip value */
+>>>>    void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
+>>>>                                 uint32_t arg);
+>>>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+>>>> index caf4599207..24ed7a99e1 100644
+>>>> --- a/target/riscv/cpu_bits.h
+>>>> +++ b/target/riscv/cpu_bits.h
+>>>> @@ -149,6 +149,7 @@
+>>>>    #define CSR_MIE             0x304
+>>>>    #define CSR_MTVEC           0x305
+>>>>    #define CSR_MCOUNTEREN      0x306
+>>>> +#define CSR_MTVT      0x307 /* customized */
+>>>
+>>> So I'm not sure what to do here. This seems to be a custom CSR just
+>>> for the Nuclei that isn't part of the RISC-V spec or a draft spec.
+>>>
+>>> The problem is that accepting custom specs into QEMU makes it hard for
+>>> us to maintain the RISC-V port. After it has been merged the
+>>> maintainers now have to understand the Nuclei CPU and support it as
+>>> part of the core RISC-V code.
+>>>
+>>> On the other hand I have seen a few CPUs that use CSRs and I don't
+>>> want to not allow implementations that use custom CSRs. I think there
+>>> is a compromise here. We probably don't want to support really custom
+>>> features, but we probably can afford to support some extra CSRs.
+>>>
+>>> I think the best course of action here is to split this patch up and
+>>> we can then think about each custom feature/CSR and accept some
+>>> depending on how intrusive they are into the QEMU code. It will also
+>>> have to be added in a way that allows other implementations to have
+>>> different custom CSRs. We (the QEMU RISC-V community) can help you
+>>> with this.
+>>>
+>>> Alistair
+>>>
+>>
+>> Thanks for your comment. About customized csr, I have a rough idea,
+>> whether it is possible to open the interface for manufacturers to allow
+>> them to implement their own csr.To implement the registration callback
+>> interface, add a branch to the riscv_csrrw function, and define a switch
+>> for the cpu. When a custom csr is supported, the vendor registration is
+>> preferred.The manufacturer maintains its own csr and does not invade the
+>> qemu code much. Of course, there may be some unknown security and
+>> stability issues.
 > 
-> On 4/6/21 4:39 PM, Alexander Bulekov wrote:
->> On 210406 1539, Philippe Mathieu-Daudé wrote:
->>> sparse-mem.c is added to the 'mem_ss' source set, which itself
->>> is conditionally added to softmmu_ss if CONFIG_MEM_DEVICE is
->>> selected.
->>> But if CONFIG_MEM_DEVICE isn't selected, we get a link failure
->>> even if CONFIG_FUZZ is selected:
->>>
->>>   /usr/bin/ld: tests_qtest_fuzz_generic_fuzz.c.o: in function `generic_pre_fuzz':
->>>   tests/qtest/fuzz/generic_fuzz.c:826: undefined reference to `sparse_mem_init'
->>>   clang-10: error: linker command failed with exit code 1 (use -v to see invocation)
->>>
->>> Fix by adding sparse-mem.c directly to the softmmu_ss set.
->>>
->>> Fixes: 230376d285b ("memory: add a sparse memory device for fuzzing")
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> That sounds like a great idea!
+> 
+> If we could contain all vendor changes to a single file (for example a
+> nuclei.c file in target/riscv/) I think it would be much easier to
+> maintain.
+> 
+> Do you want to start by adding something like that in the next patch series?
+> 
+> Alistair
+> 
+
+OK, I will try to do it and separate the custom CSR of nuclei into the 
+new file.
+
 >>
->> Oops..
->> Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
->>
->>> ---
->>>  hw/mem/meson.build | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/mem/meson.build b/hw/mem/meson.build
->>> index ef79e046787..3c8fdef9f9e 100644
->>> --- a/hw/mem/meson.build
->>> +++ b/hw/mem/meson.build
->>> @@ -1,8 +1,9 @@
->>>  mem_ss = ss.source_set()
->>>  mem_ss.add(files('memory-device.c'))
->>> -mem_ss.add(when: 'CONFIG_FUZZ', if_true: files('sparse-mem.c'))
->>>  mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
->>>  mem_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_mc.c'))
->>>  mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
->>>  
->>>  softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
->>> +
->>> +softmmu_ss.add(when: 'CONFIG_FUZZ', if_true: files('sparse-mem.c'))
->>> -- 
->>> 2.26.3
->>>
->>>
+>> Regards
+>> Wang Junqiang
 >>
 > 
+
 
 
