@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0784337A1F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:29:14 +0200 (CEST)
-Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3B937A1A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:21:58 +0200 (CEST)
+Received: from localhost ([::1]:44928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgNlR-0007pA-1X
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:29:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34642)
+	id 1lgNeP-0007G1-UX
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWs-0001p6-Cm
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26122)
+ id 1lgNWo-0001jT-Qg
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWk-0000kp-Rg
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:10 -0400
+ id 1lgNWk-0000kn-M4
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620720842;
+ s=mimecast20190719; t=1620720841;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8TMZiQ6cnCKAENVrLRU8lzTu06xHD8+0Q2KCz9ExqG4=;
- b=K45oPQU8WOU87VybGRnTZNyof8FmI45QO7/wAJaqE7CSMFiV49+KwAzg7f4kaGMC7TJ0Pr
- KbGdQLrinM0hN0HUIZ4Tos9PO0puHsu7NiyLakLRCDlNGEqvf9CVouKusG2zJfgpTu7i1U
- LumB63CSegbm/4VX853h0C2NjT87x0Y=
+ bh=7777hvSMy0VCT8106OmBqPDTCRQ3h6Megi6JP/KEMso=;
+ b=WvAwZpJVF7SdkI46Cl2e8YRRqaiTn1n9OGgbP5IDUIEPmAX5V2GbM8Fnwq7bOPnH2ooTrP
+ d6UKQGOGWrYuxhqQXvJN2UlhEPs7qVtcQ2GtS1x2ZBOg57icsRfzG0kfyluDRPEqTu6aqV
+ RewPwDQ2GWx/yNhY6toBMOtdCLkdwSY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-njvGFpYCMt-uIhEojfKAOg-1; Tue, 11 May 2021 04:13:59 -0400
-X-MC-Unique: njvGFpYCMt-uIhEojfKAOg-1
+ us-mta-146-jvLKcqLBP7iu9Nqrd1uJtg-1; Tue, 11 May 2021 04:13:59 -0400
+X-MC-Unique: jvLKcqLBP7iu9Nqrd1uJtg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B3786D249;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7E5B1006C82;
  Tue, 11 May 2021 08:13:58 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A0662B45D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 856F254342;
  Tue, 11 May 2021 08:13:58 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/33] i386: separate fpu_helper sysemu-only parts
-Date: Tue, 11 May 2021 04:13:30 -0400
-Message-Id: <20210511081350.419428-14-pbonzini@redhat.com>
+Subject: [PULL 14/33] i386: split svm_helper into sysemu and stub-only user
+Date: Tue, 11 May 2021 04:13:31 -0400
+Message-Id: <20210511081350.419428-15-pbonzini@redhat.com>
 In-Reply-To: <20210511081350.419428-1-pbonzini@redhat.com>
 References: <20210511081350.419428-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -86,116 +86,169 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@suse.de>
 
-create a separate tcg/sysemu/fpu_helper.c for the sysemu-only parts.
+For now we just copy over the previous user stubs, but really,
 
-For user mode, some small #ifdefs remain in tcg/fpu_helper.c
-which do not seem worth splitting into their own user-mode module.
+everything that requires s->cpl == 0 should be impossible
+to trigger from user-mode emulation.
+
+Later on we should add a check that asserts this easily f.e.:
+
+static bool check_cpl0(DisasContext *s)
+{
+     int cpl = s->cpl;
+ #ifdef CONFIG_USER_ONLY
+     assert(cpl == 3);
+ #endif
+     if (cpl != 0) {
+         gen_exception(s, EXCP0D_GPF, s->pc_start - s->cs_base);
+         return false;
+     }
+     return true;
+}
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210322132800.7470-16-cfontana@suse.de>
+Message-Id: <20210322132800.7470-17-cfontana@suse.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h                   |  3 ++
- target/i386/tcg/fpu_helper.c        | 41 +--------------------
- target/i386/tcg/sysemu/fpu_helper.c | 57 +++++++++++++++++++++++++++++
- target/i386/tcg/sysemu/meson.build  |  1 +
- 4 files changed, 63 insertions(+), 39 deletions(-)
- create mode 100644 target/i386/tcg/sysemu/fpu_helper.c
+ target/i386/tcg/meson.build               |  1 -
+ target/i386/tcg/sysemu/meson.build        |  1 +
+ target/i386/tcg/{ => sysemu}/svm_helper.c | 62 +-----------------
+ target/i386/tcg/user/meson.build          |  1 +
+ target/i386/tcg/user/svm_stubs.c          | 76 +++++++++++++++++++++++
+ 5 files changed, 80 insertions(+), 61 deletions(-)
+ rename target/i386/tcg/{ => sysemu}/svm_helper.c (96%)
+ create mode 100644 target/i386/tcg/user/svm_stubs.c
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 4776daad23..5aae3ec0f4 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1817,7 +1817,10 @@ int cpu_x86_support_mca_broadcast(CPUX86State *env);
- int cpu_get_pic_interrupt(CPUX86State *s);
- /* MSDOS compatibility mode FPU exception support */
- void x86_register_ferr_irq(qemu_irq irq);
-+void fpu_check_raise_ferr_irq(CPUX86State *s);
- void cpu_set_ignne(void);
-+void cpu_clear_ignne(void);
-+
- /* mpx_helper.c */
- void cpu_sync_bndcs_hflags(CPUX86State *env);
+diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
+index 449d9719ef..f9110e890c 100644
+--- a/target/i386/tcg/meson.build
++++ b/target/i386/tcg/meson.build
+@@ -8,7 +8,6 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'misc_helper.c',
+   'mpx_helper.c',
+   'seg_helper.c',
+-  'svm_helper.c',
+   'tcg-cpu.c',
+   'translate.c'), if_false: files('tcg-stub.c'))
  
-diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-index 20e4d2e715..1b30f1bb73 100644
---- a/target/i386/tcg/fpu_helper.c
-+++ b/target/i386/tcg/fpu_helper.c
-@@ -21,17 +21,10 @@
- #include <math.h>
- #include "cpu.h"
+diff --git a/target/i386/tcg/sysemu/meson.build b/target/i386/tcg/sysemu/meson.build
+index f84519a213..126528d0c9 100644
+--- a/target/i386/tcg/sysemu/meson.build
++++ b/target/i386/tcg/sysemu/meson.build
+@@ -5,4 +5,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
+   'bpt_helper.c',
+   'misc_helper.c',
+   'fpu_helper.c',
++  'svm_helper.c',
+ ))
+diff --git a/target/i386/tcg/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+similarity index 96%
+rename from target/i386/tcg/svm_helper.c
+rename to target/i386/tcg/sysemu/svm_helper.c
+index 0145afceae..d6c2cccda6 100644
+--- a/target/i386/tcg/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -1,5 +1,5 @@
+ /*
+- *  x86 SVM helpers
++ *  x86 SVM helpers (sysemu only)
+  *
+  *  Copyright (c) 2003 Fabrice Bellard
+  *
+@@ -22,66 +22,10 @@
  #include "exec/helper-proto.h"
--#include "qemu/host-utils.h"
--#include "exec/exec-all.h"
--#include "exec/cpu_ldst.h"
- #include "fpu/softfloat.h"
- #include "fpu/softfloat-macros.h"
- #include "helper-tcg.h"
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+-#include "helper-tcg.h"
++#include "tcg/helper-tcg.h"
  
--#ifdef CONFIG_SOFTMMU
--#include "hw/irq.h"
--#endif
--
- /* float macros */
- #define FT0    (env->ft0)
- #define ST0    (env->fpregs[env->fpstt].d)
-@@ -75,36 +68,6 @@
- #define floatx80_ln2_d make_floatx80(0x3ffe, 0xb17217f7d1cf79abLL)
- #define floatx80_pi_d make_floatx80(0x4000, 0xc90fdaa22168c234LL)
+ /* Secure Virtual Machine helpers */
  
--#if !defined(CONFIG_USER_ONLY)
--static qemu_irq ferr_irq;
+-#if defined(CONFIG_USER_ONLY)
 -
--void x86_register_ferr_irq(qemu_irq irq)
+-void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
 -{
--    ferr_irq = irq;
 -}
 -
--static void cpu_clear_ignne(void)
+-void helper_vmmcall(CPUX86State *env)
 -{
--    CPUX86State *env = &X86_CPU(first_cpu)->env;
--    env->hflags2 &= ~HF2_IGNNE_MASK;
 -}
 -
--void cpu_set_ignne(void)
+-void helper_vmload(CPUX86State *env, int aflag)
 -{
--    CPUX86State *env = &X86_CPU(first_cpu)->env;
--    env->hflags2 |= HF2_IGNNE_MASK;
--    /*
--     * We get here in response to a write to port F0h.  The chipset should
--     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
--     * cleared, because FERR# and FP_IRQ are two separate pins on real
--     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
--     * do directly what the chipset would do, i.e. deassert FP_IRQ.
--     */
--    qemu_irq_lower(ferr_irq);
 -}
--#endif
 -
+-void helper_vmsave(CPUX86State *env, int aflag)
+-{
+-}
 -
- static inline void fpush(CPUX86State *env)
+-void helper_stgi(CPUX86State *env)
+-{
+-}
+-
+-void helper_clgi(CPUX86State *env)
+-{
+-}
+-
+-void helper_skinit(CPUX86State *env)
+-{
+-}
+-
+-void helper_invlpga(CPUX86State *env, int aflag)
+-{
+-}
+-
+-void cpu_vmexit(CPUX86State *nenv, uint32_t exit_code, uint64_t exit_info_1,
+-                uintptr_t retaddr)
+-{
+-    assert(0);
+-}
+-
+-void helper_svm_check_intercept_param(CPUX86State *env, uint32_t type,
+-                                      uint64_t param)
+-{
+-}
+-
+-void cpu_svm_check_intercept_param(CPUX86State *env, uint32_t type,
+-                                   uint64_t param, uintptr_t retaddr)
+-{
+-}
+-
+-void helper_svm_check_io(CPUX86State *env, uint32_t port, uint32_t param,
+-                         uint32_t next_eip_addend)
+-{
+-}
+-#else
+-
+ static inline void svm_save_seg(CPUX86State *env, hwaddr addr,
+                                 const SegmentCache *sc)
  {
-     env->fpstt = (env->fpstt - 1) & 7;
-@@ -202,8 +165,8 @@ static void fpu_raise_exception(CPUX86State *env, uintptr_t retaddr)
-         raise_exception_ra(env, EXCP10_COPR, retaddr);
-     }
- #if !defined(CONFIG_USER_ONLY)
--    else if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
--        qemu_irq_raise(ferr_irq);
-+    else {
-+        fpu_check_raise_ferr_irq(env);
-     }
- #endif
+@@ -796,5 +740,3 @@ void do_vmexit(CPUX86State *env)
+        host's code segment or non-canonical (in the case of long mode), a
+        #GP fault is delivered inside the host. */
  }
-diff --git a/target/i386/tcg/sysemu/fpu_helper.c b/target/i386/tcg/sysemu/fpu_helper.c
+-
+-#endif
+diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
+index 2ab8bd903c..3edaee7402 100644
+--- a/target/i386/tcg/user/meson.build
++++ b/target/i386/tcg/user/meson.build
+@@ -1,4 +1,5 @@
+ i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
+   'excp_helper.c',
+   'misc_stubs.c',
++  'svm_stubs.c',
+ ))
+diff --git a/target/i386/tcg/user/svm_stubs.c b/target/i386/tcg/user/svm_stubs.c
 new file mode 100644
-index 0000000000..1c3610da3b
+index 0000000000..97528b56ad
 --- /dev/null
-+++ b/target/i386/tcg/sysemu/fpu_helper.c
-@@ -0,0 +1,57 @@
++++ b/target/i386/tcg/user/svm_stubs.c
+@@ -0,0 +1,76 @@
 +/*
-+ *  x86 FPU, MMX/3DNow!/SSE/SSE2/SSE3/SSSE3/SSE4/PNI helpers (sysemu code)
++ *  x86 SVM helpers (user-mode)
 + *
 + *  Copyright (c) 2003 Fabrice Bellard
 + *
@@ -215,52 +268,61 @@ index 0000000000..1c3610da3b
 +
 +#include "qemu/osdep.h"
 +#include "cpu.h"
-+#include "hw/irq.h"
++#include "exec/helper-proto.h"
++#include "tcg/helper-tcg.h"
 +
-+static qemu_irq ferr_irq;
-+
-+void x86_register_ferr_irq(qemu_irq irq)
++void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
 +{
-+    ferr_irq = irq;
 +}
 +
-+void fpu_check_raise_ferr_irq(CPUX86State *env)
++void helper_vmmcall(CPUX86State *env)
 +{
-+    if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
-+        qemu_irq_raise(ferr_irq);
-+        return;
-+    }
 +}
 +
-+void cpu_clear_ignne(void)
++void helper_vmload(CPUX86State *env, int aflag)
 +{
-+    CPUX86State *env = &X86_CPU(first_cpu)->env;
-+    env->hflags2 &= ~HF2_IGNNE_MASK;
 +}
 +
-+void cpu_set_ignne(void)
++void helper_vmsave(CPUX86State *env, int aflag)
 +{
-+    CPUX86State *env = &X86_CPU(first_cpu)->env;
-+    env->hflags2 |= HF2_IGNNE_MASK;
-+    /*
-+     * We get here in response to a write to port F0h.  The chipset should
-+     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
-+     * cleared, because FERR# and FP_IRQ are two separate pins on real
-+     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
-+     * do directly what the chipset would do, i.e. deassert FP_IRQ.
-+     */
-+    qemu_irq_lower(ferr_irq);
 +}
-diff --git a/target/i386/tcg/sysemu/meson.build b/target/i386/tcg/sysemu/meson.build
-index b2aaab6eef..f84519a213 100644
---- a/target/i386/tcg/sysemu/meson.build
-+++ b/target/i386/tcg/sysemu/meson.build
-@@ -4,4 +4,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
-   'excp_helper.c',
-   'bpt_helper.c',
-   'misc_helper.c',
-+  'fpu_helper.c',
- ))
++
++void helper_stgi(CPUX86State *env)
++{
++}
++
++void helper_clgi(CPUX86State *env)
++{
++}
++
++void helper_skinit(CPUX86State *env)
++{
++}
++
++void helper_invlpga(CPUX86State *env, int aflag)
++{
++}
++
++void cpu_vmexit(CPUX86State *nenv, uint32_t exit_code, uint64_t exit_info_1,
++                uintptr_t retaddr)
++{
++    assert(0);
++}
++
++void helper_svm_check_intercept_param(CPUX86State *env, uint32_t type,
++                                      uint64_t param)
++{
++}
++
++void cpu_svm_check_intercept_param(CPUX86State *env, uint32_t type,
++                                   uint64_t param, uintptr_t retaddr)
++{
++}
++
++void helper_svm_check_io(CPUX86State *env, uint32_t port, uint32_t param,
++                         uint32_t next_eip_addend)
++{
++}
 -- 
 2.26.2
 
