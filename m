@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D067737AD11
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 19:25:12 +0200 (CEST)
-Received: from localhost ([::1]:41338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BBDE37ACC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 19:12:22 +0200 (CEST)
+Received: from localhost ([::1]:58490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgW87-0002XI-Hb
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 13:25:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57584)
+	id 1lgVvh-0002rn-9y
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 13:12:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgW4q-0008KI-1x
- for qemu-devel@nongnu.org; Tue, 11 May 2021 13:21:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48540)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgW4l-0001CT-8E
- for qemu-devel@nongnu.org; Tue, 11 May 2021 13:21:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgW4h-0001Dt-7d
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 17:21:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B238C2E818E
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 17:21:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
+ id 1lgVt1-0001N9-5h; Tue, 11 May 2021 13:09:35 -0400
+Received: from relay.sw.ru ([185.231.240.75]:40416)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
+ id 1lgVsy-0003YJ-Es; Tue, 11 May 2021 13:09:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=virtuozzo.com; s=relay; h=Content-Type:MIME-Version:Date:Message-ID:From:
+ Subject; bh=mNYbtKzz7jcp841Z9dCAsnKf3QUUA9156kWnEVzPKEc=; b=ef8Xylbok/XKlqkjd
+ Tm+S1sUn4/G5fTmdduzMKaKl2gY/B7YTNAdmtPunYbW+nZxtIR8FosN2uqcxXcZD1DxEi0Basi+jW
+ hxa1fF3zmuApZp0jARgLMmLMC/f+nN/t5sVgwzkpy/sW3YuhnY18k3mzghkSyOsJsBwarxjJEuqsY
+ =;
+Received: from [192.168.15.129] by relay.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <ktkhai@virtuozzo.com>)
+ id 1lgVsn-0027oM-IO; Tue, 11 May 2021 20:09:21 +0300
+Subject: Re: [PATCH v2 10/10] qcow2-refcount: check_refblocks(): add separate
+ message for reserved
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ den@openvz.org, eblake@redhat.com, berto@igalia.com
+References: <20210505065955.13964-1-vsementsov@virtuozzo.com>
+ <20210505065955.13964-11-vsementsov@virtuozzo.com>
+From: Kirill Tkhai <ktkhai@virtuozzo.com>
+Message-ID: <a1168389-2ebc-fcc8-178f-34e5e59e050e@virtuozzo.com>
+Date: Tue, 11 May 2021 20:09:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 May 2021 17:08:38 -0000
-From: Thomas Huth <1883729@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: usb
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr bugs-syssec th-huth
-X-Launchpad-Bug-Reporter: Bugs SysSec (bugs-syssec)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159232162102.10413.11793430476734031615.malonedeb@gac.canonical.com>
-Message-Id: <162075291887.31231.9082900369757461746.malone@gac.canonical.com>
-Subject: [Bug 1883729] Re: xhci_find_stream: Assertion `streamid != 0' failed.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
-X-Launchpad-Hash: 9f666fe9b9110e732697f2a3ee7f4fb5d06d8567
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210505065955.13964-11-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=185.231.240.75; envelope-from=ktkhai@virtuozzo.com;
+ helo=relay.sw.ru
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,45 +64,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883729 <1883729@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you still reproduce this assertion with the latest version 6.0 of
-QEMU? ... I cannot trigger it here, so I assume this issue has been
-fixed?
+On 05.05.2021 09:59, Vladimir Sementsov-Ogievskiy wrote:
+> Split checking for reserved bits out of aligned offset check.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
 
--- =
+> ---
+>  block/qcow2.h          |  1 +
+>  block/qcow2-refcount.c | 10 +++++++++-
+>  2 files changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/qcow2.h b/block/qcow2.h
+> index 58fd7f1678..fd48a89d45 100644
+> --- a/block/qcow2.h
+> +++ b/block/qcow2.h
+> @@ -591,6 +591,7 @@ typedef enum QCow2MetadataOverlap {
+>  #define L2E_STD_RESERVED_MASK 0x3f000000000001feULL
+>  
+>  #define REFT_OFFSET_MASK 0xfffffffffffffe00ULL
+> +#define REFT_RESERVED_MASK 0x1ffULL
+>  
+>  #define INV_OFFSET (-1ULL)
+>  
+> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+> index 15c4f6b075..472a7026db 100644
+> --- a/block/qcow2-refcount.c
+> +++ b/block/qcow2-refcount.c
+> @@ -2091,9 +2091,17 @@ static int check_refblocks(BlockDriverState *bs, BdrvCheckResult *res,
+>  
+>      for(i = 0; i < s->refcount_table_size; i++) {
+>          uint64_t offset, cluster;
+> -        offset = s->refcount_table[i];
+> +        offset = s->refcount_table[i] & REFT_OFFSET_MASK;
+>          cluster = offset >> s->cluster_bits;
+>  
+> +        if (s->refcount_table[i] & REFT_RESERVED_MASK) {
+> +            fprintf(stderr, "ERROR refcount table entry %" PRId64 " has "
+> +                    "reserved bits set\n", i);
+> +            res->corruptions++;
+> +            *rebuild = true;
+> +            continue;
+> +        }
+> +
+>          /* Refcount blocks are cluster aligned */
+>          if (offset_into_cluster(s, offset)) {
+>              fprintf(stderr, "ERROR refcount block %" PRId64 " is not "
+> 
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883729
-
-Title:
-  xhci_find_stream: Assertion `streamid !=3D 0' failed.
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  To reproduce run the QEMU with the following command line:
-  ```
-  qemu-system-x86_64 -cdrom hypertrash_os_bios_crash.iso -nographic -m 100 =
--enable-kvm -device virtio-gpu-pci -device nec-usb-xhci -device usb-audio
-  ```
-
-  QEMU Version:
-  ```
-  # qemu-5.0.0
-  $ ./configure --target-list=3Dx86_64-softmmu --enable-sanitizers; make
-  $ x86_64-softmmu/qemu-system-x86_64 --version
-  QEMU emulator version 5.0.0
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883729/+subscriptions
 
