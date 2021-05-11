@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9422D37A872
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 16:06:33 +0200 (CEST)
-Received: from localhost ([::1]:39220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B9537A88D
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 16:09:18 +0200 (CEST)
+Received: from localhost ([::1]:47810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgT1s-0003TZ-M8
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 10:06:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39502)
+	id 1lgT4X-0000xS-W2
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 10:09:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgSys-0001Dh-12
- for qemu-devel@nongnu.org; Tue, 11 May 2021 10:03:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36950)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lgT0D-0002rC-LZ
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 10:04:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgSyi-0005r8-Dv
- for qemu-devel@nongnu.org; Tue, 11 May 2021 10:03:25 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lgT0B-0006b4-FR
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 10:04:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620741795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1620741886;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0SpoEl24Eoic+pgyBKpgiQ9WVfalnAX50QUU0F3+ZtM=;
- b=Vo1ssgCmH9wVH27qehJEuhO0OugZ92JRDsOSJn/cVP0a5BtrrctdcM7T7Aq3KLrpFpVLeb
- v6/G8IOSbXjPQHBr5iLDn/koIVeXXxh11gPuOY5/BCZt7X9mGb2PdGJU1hV2OQe8tvmTnl
- bQKWPcfrXjyg8yH7oq1zyQQlagydEjU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-s3CZ8qyVOdSFc73TFvo35w-1; Tue, 11 May 2021 10:03:12 -0400
-X-MC-Unique: s3CZ8qyVOdSFc73TFvo35w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g206-20020a1c39d70000b029016ac627fbe9so164292wma.9
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 07:03:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0SpoEl24Eoic+pgyBKpgiQ9WVfalnAX50QUU0F3+ZtM=;
- b=SL+yokpwht233WG71X4GtvTtthZIZsu8BdFddbK2wj8Pz/yfSQCCsqdrlbsFVhZEmE
- U/UyP44ia3dAjijkBgV7p2SS64O/uaJuYeXNbskRxYVPK/fQywYn4YgApS0Bo2nvH/03
- 95k17QqS+nvEq85EE6++Xn4tkC4X+9WpbOBHThMOY1fyBjUXk8z1L3oHTlX1YUQLTxiv
- d2NeHXbRB+XErwl4AwVD42HvqA9C2NbupFxbq3fyCKw0hrFUOiV/lDKcXubmdkAL+wBW
- IJFVjQEIthi8XNICc5vnhMNJ11YF26jbCm7te0sv/yfu5pN3NzUWD7BveitvHX7vmM+w
- ELkQ==
-X-Gm-Message-State: AOAM530yy7BZaTOo/RgVJoGhPuSD0ujHmkRzNy820zzSVgz37txo5zjZ
- cluzfLCpo1pXUlymnp2b7tlzvBCtQ9TjhlbaWWfZQUOF9YQxGOuDkehE5tkgMEM0RxWEcn0nb65
- ObBRJq5Drra7JQc4=
-X-Received: by 2002:adf:d227:: with SMTP id k7mr39157918wrh.390.1620741791769; 
- Tue, 11 May 2021 07:03:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxgyxd0TVkDMPHrklwG4dGdd+7bubqhHvjzYcwp5jB1+S3MLFMM71voozXpDqCQcpZQGQfonw==
-X-Received: by 2002:adf:d227:: with SMTP id k7mr39157888wrh.390.1620741791603; 
- Tue, 11 May 2021 07:03:11 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e835ac.dip0.t-ipconnect.de.
- [217.232.53.172])
- by smtp.gmail.com with ESMTPSA id h9sm23982149wmb.35.2021.05.11.07.03.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 07:03:11 -0700 (PDT)
-Subject: Re: [PATCH 04/12] crypto: drop back compatibility typedefs for nettle
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+ bh=nNSsYqTp28tvWPaJuGUgjMIi3KK8o860C8MgGkXCeSU=;
+ b=OpdIpDmY9MnATW26I0kXlP2PMVFgi67xSsK6sovi9g6jiu+KiC41n3fwSw5jJ2JzBjEj2V
+ 8iyiAHQw1xNEI1/FHFub5ZkD9p4trCa1roNozb/pEtVn4QwIpWy+FLyrtKrMzFNMoQd7X5
+ U0gUDBxs8vu4y0QKTGZJC1aZm1okIes=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-wpfFvh2EMNaM5PDuRZ6_QQ-1; Tue, 11 May 2021 10:04:40 -0400
+X-MC-Unique: wpfFvh2EMNaM5PDuRZ6_QQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00DC5107ACCA;
+ Tue, 11 May 2021 14:04:39 +0000 (UTC)
+Received: from redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2314619C44;
+ Tue, 11 May 2021 14:04:30 +0000 (UTC)
+Date: Tue, 11 May 2021 15:04:27 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 01/12] gitlab: move linux user build job from CentOS 7 to
+ CentOS 8
+Message-ID: <YJqO6++eBH28sRtO@redhat.com>
 References: <20210511132641.1022161-1-berrange@redhat.com>
- <20210511132641.1022161-5-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <47c5e4e3-0e7b-9710-020c-3137bd92d9c6@redhat.com>
-Date: Tue, 11 May 2021 16:03:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ <20210511132641.1022161-2-berrange@redhat.com>
+ <4f6620fd-bfed-7c35-4711-79d1625f9c7c@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210511132641.1022161-5-berrange@redhat.com>
+In-Reply-To: <4f6620fd-bfed-7c35-4711-79d1625f9c7c@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,24 +84,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/05/2021 15.26, Daniel P. Berrangé wrote:
-> Now that we only support modern nettle, we don't need to have local
-> typedefs to mask the real nettle types.
+On Tue, May 11, 2021 at 03:54:26PM +0200, Thomas Huth wrote:
+> On 11/05/2021 15.26, Daniel P. Berrangé wrote:
+> > It has been over two years since RHEL-8 was released, and thus per the
+> > platform build policy, we no longer need to support RHEL-7 as a build
+> > target.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >   .gitlab-ci.yml                          | 6 +++---
+> >   tests/docker/dockerfiles/centos8.docker | 1 +
+> >   2 files changed, 4 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> > index dcb6317aac..23917d6d73 100644
+> > --- a/.gitlab-ci.yml
+> > +++ b/.gitlab-ci.yml
+> > @@ -441,12 +441,12 @@ build-user-plugins:
+> >       MAKE_CHECK_ARGS: check-tcg
+> >     timeout: 1h 30m
+> > -build-user-centos7:
+> > +build-user-centos8:
+> >     <<: *native_build_job_definition
+> >     needs:
+> > -    job: amd64-centos7-container
+> > +    job: amd64-centos8-container
+> >     variables:
+> > -    IMAGE: centos7
+> > +    IMAGE: centos8
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   crypto/cipher-nettle.c.inc | 60 ++++++++++++++++----------------------
->   crypto/hash-nettle.c       |  6 ++--
->   crypto/hmac-nettle.c       |  8 ++---
->   3 files changed, 30 insertions(+), 44 deletions(-)
+> We urgently should decrease our huge amount of jobs ... What about removing
+> this job completely? We already have the "build-user" job that tests the
+> compilation on Debian, which is likely at a similar library level as
+> centos8, so I doubt that we get much additional test coverage from this job
+> here when it's running on Centos 8.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+This job was added by Philippe just a couple of months ago
+
+
+commit 4e41d4a34e4d9f11a99a03c2279f84e98df21984
+Author: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Date:   Thu Jan 21 18:28:29 2021 +0100
+
+    gitlab-ci: Test building linux-user targets on CentOS 7
+    
+    Add a configuration tested by Peter Maydell (see [1] and [2])
+    but not covered in our CI [3]:
+    
+      [705/2910] Compiling C object libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
+      FAILED: libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
+      ../linux-user/strace.c: In function 'do_print_sockopt':
+      ../linux-user/strace.c:2831:14: error: 'IPV6_ADDR_PREFERENCES' undeclared (first use in this function)
+               case IPV6_ADDR_PREFERENCES:
+                    ^
+    
+    This job currently takes 31 minutes 32 seconds ([4]).
+    
+    [1] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05086.html
+    [2] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05379.html
+    [3] https://gitlab.com/philmd/qemu/-/jobs/977408284
+    [4] https://gitlab.com/philmd/qemu/-/jobs/978223286
+    
+    Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+    Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+    Reviewed-by: Thomas Huth <thuth@redhat.com>
+    Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+    Message-Id: <20210121172829.1643620-3-f4bug@amsat.org>
+    Signed-off-by: Thomas Huth <thuth@redhat.com>
+
+
+I looked at the quoted thread, but I can't tell what the actual missing
+scenario was that motivated this. The threads don't appear to specifically
+mention CentOS 7, but if the issue was indeed specific to CentOS 7 we can
+certainly drop the job. If it was some other scenario, I defer the
+answer to someone who knows....
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
