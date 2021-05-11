@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF4B437A040
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 09:00:32 +0200 (CEST)
-Received: from localhost ([::1]:53642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6D037A0BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 09:21:28 +0200 (CEST)
+Received: from localhost ([::1]:36916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgMNb-0000dc-R7
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 03:00:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44582)
+	id 1lgMhq-0000qF-SV
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 03:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgMCH-0007Q0-He
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:48:50 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36765)
+ id 1lgMgI-0007n6-HI
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 03:19:50 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:43638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgMCF-0007dC-N6
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:48:49 -0400
-Received: by mail-wr1-x430.google.com with SMTP id m9so18939552wrx.3
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 23:48:47 -0700 (PDT)
+ id 1lgMgG-0001QH-8K
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 03:19:49 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ b19-20020a05600c06d3b029014258a636e8so639779wmn.2
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 00:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=t6gMK3WNXsjF6I6dDyJvOkv80qtADCktkgyd6bY68pM=;
- b=t4UFwrEoIwalNBumcshg8nZ5T4sO1O7WeEKNEzhvC126s0f8GUfONlTpDU/sfB8waq
- ovKnXbK5olCxRqFPH3rrybYt7q4rGfHFTa29e6mBe9K9iRzoEXUp3QK0gxdxzB500sLY
- 259fx/5C3SKnuzIcx4U4Dl+PjZcxrgxGTgYmfPaLztSreRijfXjgbk90yvjbiN5phKnb
- zmml8y0eLu3GV9sG0WgK0Mc/PURWtTuEChags26M1DrgEz7yPY2yTwo7TQOhNba8mgUQ
- CrPwXW1UXThaY8WULlh0jdY0EQY/6FuLKKx8dmo0fkpy2kq32ChEh+5vywyzMI4Ea2QQ
- ySkw==
+ bh=E5Ckh6aBciz0pOZNtjabyXj6UNekOuKG6kHRoH2tf/0=;
+ b=CJ5D82xLHv5WCeNJyyGIFcPqj0CWxeJXWHwOsscrndeVLbWDwyC3IoOvk1itBKTDGR
+ +cLOAF90aoSfedoVb6g5ooXubQZgmGE9pf3xgASSYfmCEkdjfTPt/UlMS/V2A3PVhwMt
+ QhcIVBXr2ZQhmi0LT4Vtrco4TB4yZIlxjGL8Tz7mC4LNspcKXgELhLkHLLs6CGhn98Va
+ +2K7VEQprxuq3feQ+TnHBhMURFhJDn1BUl9/k5Ofgg981c9ux7OlW/LrfZHRhJoE77Jc
+ m8SgJLkc/2+riFy4Yzr9LogkpBe5/9f2n9zk7I41NNK5SRXhVRHBP8IOQnNpSzwDPBg3
+ UQjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=t6gMK3WNXsjF6I6dDyJvOkv80qtADCktkgyd6bY68pM=;
- b=K43XmnLipg7LMyQ1REDk4rAjiUysXi1L8lzM2HvSyqpXrLC7EAfJaTaX5bTnhdi+4y
- 3yhUhr3HcnIwkDofgQNKjg7v2JM/n40ErIALBCJl5AhotekTxEyYLfo1JOQq2BU/wAhB
- qdYj56V24IcEujetfTOyR1O4v/Dz+XpVLxUkoThlbXNzP4o+4yoX9AUajMIf0V4dyt/i
- tFz4lAnzREOmmh4ll9odnKMCorNYRh799A1J1c7SF14FVWbYg/WdPo9Acpi7XfQQOBCz
- 91TAw4XRN+0PFIjX4kBqzh+IllyPxqT2bmY/6f+A9VUqOka8uStDXJqEJh9dMUOjs1Xq
- Sxlw==
-X-Gm-Message-State: AOAM532OjmIgT3q81dHmOECyOo3W/yoFvawuXO2j0X++iNUr5FB9vLMG
- fs/33fWSVBnhFAJUDALIn3k=
-X-Google-Smtp-Source: ABdhPJwXWE9phekaxEMBMNKGEi5Sm5q9KGUBv5bV1hjEMTAGUzd7fT33Oh8ucB+Oxuw5kLE2ie3bLA==
-X-Received: by 2002:a05:6000:50d:: with SMTP id
- a13mr35061700wrf.130.1620715726127; 
- Mon, 10 May 2021 23:48:46 -0700 (PDT)
+ bh=E5Ckh6aBciz0pOZNtjabyXj6UNekOuKG6kHRoH2tf/0=;
+ b=amqjNWunI+bo0uYurjpkhGjJ2WLkuZX5akXJNMgmK6vCpGH9dTgLjZTmytZq/xo681
+ 8GeVa0VgJjzXk2HW/Hvbo4ucmQ+304HZ0jCpbz0f1DS8n19Tn2KIU6l4xUnqD7GzXYp4
+ qv48LTKu2ZuuDh525hvTezBQqfEbzhQ9Q876DwzmG8ohHoLXmajW5OXxvSgtoG4G0RDj
+ pOEW3zEsFpqF3tfjMQoWIL5p2pkI5AHD8T5y/nm+w+eEspzhzsc6jKw8GrymE54ymk3d
+ LIvGKnl6i2KQ2BUcxxm7GR6tkVWEncAlC1S+S1Yc/Lfm2jzV9gMbs+bLdjKfGXxgitEA
+ B1nQ==
+X-Gm-Message-State: AOAM530UJUX8j6kbW2I0+TiAbzXKO7+nceczELcD3WDffErdn6rKJ4gT
+ l9F/2iwSqjGudd1HuRJ6oY4=
+X-Google-Smtp-Source: ABdhPJyf/Y6Zo9snP4QyJV+018gK4CPX5lFuGWTJcSpCRp26GRXhFxCUs8IgtzLnv0pfamEiVg7usg==
+X-Received: by 2002:a05:600c:1551:: with SMTP id
+ f17mr30087490wmg.124.1620717586530; 
+ Tue, 11 May 2021 00:19:46 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id b6sm2449324wmj.2.2021.05.10.23.48.44
+ by smtp.gmail.com with ESMTPSA id m9sm1040742wrq.78.2021.05.11.00.19.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 May 2021 23:48:45 -0700 (PDT)
-Subject: Re: [RFC PATCH 14/15] gitlab-ci: Allow forks to use different set of
- jobs
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
+ Tue, 11 May 2021 00:19:46 -0700 (PDT)
+Subject: Re: [PATCH 10/15] gitlab-ci: Extract all default build/test jobs to
+ buildtest.yml
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210418233448.1267991-1-f4bug@amsat.org>
- <20210418233448.1267991-15-f4bug@amsat.org> <YH1QJZGYQXc6x9Et@redhat.com>
- <YH1XLd34h7OXXqYR@nautilus.local>
- <1140e403-fbb0-8021-f2b6-9528247dfbc7@redhat.com>
- <YH1dQfy3H80/p0Ch@redhat.com>
- <f9bc5520-3cda-0904-241d-e3ee7b918b73@redhat.com>
- <YH1gtK/JFtVE4lF1@redhat.com>
- <49bd757d-5fe8-e5c2-cb9c-4dc0fbf37648@redhat.com>
+ <20210418233448.1267991-11-f4bug@amsat.org> <87a6pu9u65.fsf@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a0e83ef7-13ee-6f45-96b5-b9d848bb8a43@amsat.org>
-Date: Tue, 11 May 2021 08:48:44 +0200
+Message-ID: <70b58436-b153-fa7d-4be8-80cd7c2b4366@amsat.org>
+Date: Tue, 11 May 2021 09:19:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <49bd757d-5fe8-e5c2-cb9c-4dc0fbf37648@redhat.com>
+In-Reply-To: <87a6pu9u65.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,125 +92,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Erik Skultety <eskultet@redhat.com>, qemu-devel@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Stefan/Peter
+Hi Alex,
 
-On 4/19/21 12:59 PM, Thomas Huth wrote:
-> On 19/04/2021 12.51, Daniel P. Berrangé wrote:
->> On Mon, Apr 19, 2021 at 12:48:25PM +0200, Thomas Huth wrote:
->>> On 19/04/2021 12.36, Daniel P. Berrangé wrote:
->>>> On Mon, Apr 19, 2021 at 12:20:55PM +0200, Thomas Huth wrote:
->>>>> On 19/04/2021 12.10, Erik Skultety wrote:
->>>>>> On Mon, Apr 19, 2021 at 10:40:53AM +0100, Daniel P. Berrangé wrote:
->>>>>>> On Mon, Apr 19, 2021 at 01:34:47AM +0200, Philippe Mathieu-Daudé
->>>>>>> wrote:
->>>>>>>> Forks run the same jobs than mainstream, which might be overkill.
->>>>>>>> Allow them to easily rebase their custom set, while keeping using
->>>>>>>> the mainstream templates, and ability to pick specific jobs from
->>>>>>>> the mainstream set.
->>>>>>>>
->>>>>>>> To switch to your set, simply add your .gitlab-ci.yml as
->>>>>>>> .gitlab-ci.d/${CI_PROJECT_NAMESPACE}.yml (where
->>>>>>>> CI_PROJECT_NAMESPACE
->>>>>>>> is your gitlab 'namespace', usually username). This file will be
->>>>>>>> used instead of the default mainstream set.
->>>>>>>
->>>>>>> I find this approach undesirable, because AFAICT, it means you have
->>>>>>> to commit this extra file to any of your downstream branches that
->>>>>>> you want this to be used for.  Then you have to be either delete it
->>>>>>> again before sending patches upstream, or tell git-publish to
->>>>>>> exclude the commit that adds this.
->>>>>>>
->>>>>>> IMHO any per-contributor overhead needs to not involve committing
->>>>>>> stuff to their git branches, that isn't intended to go upstream.
->>>>>>
->>>>>> Not just that, ideally, they should also run all the upstream
->>>>>> workloads before
->>>>>> submitting a PR or posting patches because they'd have to respin
->>>>>> because of a
->>>>>> potential failure in upstream pipelines anyway.
->>>>>
->>>>> It's pretty clear that you want to run the full QEMU CI before
->>>>> submitting
->>>>> patches to the QEMU project, but I think we are rather talking
->>>>> about forks
->>>>> here that are meant not meant for immediately contributing to upstream
->>>>> again, like RHEL where we only build the KVM-related targets and
->>>>> certainly
->>>>> do not want to test other things like CPUs that are not capable of
->>>>> KVM, or a
->>>>> branch where Philippe only wants to check his MIPS-related work during
->>>>> development.
->>>>> For contributing patches to upstream, you certainly have to run the
->>>>> full CI,
->>>>> but for other things, it's sometimes really useful to cut down the CI
->>>>> machinery (I'm also doing this in my development branches manually
->>>>> some
->>>>> times to speed up the CI), so I think this series make sense, indeed.
->>>>
->>>> For a downstream like RHEL, I'd just expect them to replace the main
->>>> .gitlab-ci.yml entirely to suit their downstream needs.
->>>
->>> But that still means that we should clean up the main .gitlab-ci.yml
->>> file
->>> anyway, like it is done in this series, to avoid that you always get
->>> conflicts in this big file with your downstream-only modifications.
->>> So at
->>> least up to patch 11 or 12, I think this is a very valuable work that
->>> Philippe is doing here.
->>
->> I don't see a real issue with downstream conflicts. They'll just
->> periodically pick a release to base themselves off and change once
->> every 6 months or more.
+On 4/19/21 5:11 PM, Alex Bennée wrote:
 > 
-> It's not only downstream distros that rebase every 6 month. Like
-> Philippe, I'm sometimes hacking my .gitlab-ci.yml of my development
-> branch to speed up the CI during my development cycles (i.e. I'm
-> removing the jobs that I do not need). And I'm regularly rebasing my
-> development branchs. Conflicts in .gitlab-ci.yml are then always
-> painful, so a leaner main .gitlab-ci.yml file would be helpful for me,
-> too, indeed.
+> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+> 
+>> Extract the build/test jobs run by default on the mainstream
+>> CI into a new file (buildtest.yml) and their templates into
+>> (buildtest-template.yml), to be able to reuse the templates
+>> without having to run all these mainstream jobs by default.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  .gitlab-ci.d/buildtest-template.yml |  80 +++
+>>  .gitlab-ci.d/buildtest.yml          | 744 +++++++++++++++++++++++++
+>>  .gitlab-ci.yml                      | 824 +---------------------------
+>>  3 files changed, 825 insertions(+), 823 deletions(-)
+>>  create mode 100644 .gitlab-ci.d/buildtest-template.yml
+>>  create mode 100644 .gitlab-ci.d/buildtest.yml
 
-Not sure if following up this thread or start a new one, but I got
-blocked again from Gitlab, tagged as a crypto miner for running QEMU
-CI...
-[1]
-https://about.gitlab.com/handbook/support/workflows/investigate_blocked_pipeline.html#trends--high-priority-cases
+> I don't know if my suggestion further bellow requires moving the above:
+> 
+>> +build-system-alpine:
+>> +check-system-alpine:
+>> +acceptance-system-alpine:
+> 
+> Maybe these can be moved into buildtest-rolling? Or maybe buildtest-[unsupported|other]?
 
-I pushed 5 different branches to my repository in less than 1h,
-kicking 580 jobs [*].
+As I temporarily can't test your suggestions, I'll send v2 without
+them, and will try to address them on v3 (I am not ignoring them).
 
-I didn't try to stress Gitlab, it was a simple "one time in the month
-rebase unmerged branches, push them before respining on the mailing
-list".
-
-I'm considering changing my workflow:
-- not push more than 2 branches per hour (I know 3/h works, so choose
-  a lower number, as we want to add more tests).
-- merge multiple branches locally and push the merged result and
-  bisect / re-push on failure
-- run less testing
-- do not run testing
-
-This sounds counter productive and doesn't scale to a community of
-contributors asked to use Gitlab.
-
-So far I don't have better idea than this series.
-
-Who is interested in sending patches to improve our workflow?
-
-Thanks,
-
-Phil.
-
-[*] NB I have 3 extra runners added to my namespace, but it didn't
-help, as per [1] I got blocked by reaching an API rate limit.
+> <snip>
+> <snip>
+> 
+>> +build-disabled:
+>> +build-tcg-disabled:
+> 
+> to buildtest-custom?
+> 
+> 
+>> +build-user-plugins:
+>> +build-some-softmmu-plugins:
+>> +clang-system:
+>> +clang-user:
+>> +build-cfi-aarch64:
+>> +check-cfi-aarch64:
+>> +acceptance-cfi-aarch64:
+>> +build-cfi-ppc64-s390x:
+>> +check-cfi-ppc64-s390x:
+>> +acceptance-cfi-ppc64-s390x:
+>> +build-cfi-x86_64:
+>> +check-cfi-x86_64:
+>> +acceptance-cfi-x86_64:
+>> +tsan-build:
+> 
+> to buildtest-developer? is CFI a dev feature or a distro feature?
+> Arguably they could be grouped together.
+> 
+> <snip>
+>> +# These targets are on the way out
+>> +build-deprecated:
+>> +check-deprecated:
+> 
+> buildtest-developer or even buildtest-deprecated?
+> 
+> <snip>
+>> +gprof-gcov:
+>> +build-oss-fuzz:
+> 
+> buildtest-developer?
+> 
+>> +build-tci:
+>> +build-coroutine-sigaltstack:
+> 
+> buildtest-custom?
+> 
+> <snip>
+>> +crypto-old-nettle:
+>> +crypto-old-gcrypt:
+> 
+> buildtest-custom or buildtest-legacy?
+> 
+>> +crypto-only-gnutls:
+>> +build-without-default-devices:
+>> +build-without-default-features:
+> 
+> buildtest-custom.
+> 
+>> +check-patch:
+>> +check-dco:
+> 
+> buildtest-developer or maybe their own pr-qa?
+> 
+>> +build-libvhost-user:
+>> +  stage: build
+>> +  image: $CI_REGISTRY_IMAGE/qemu/fedora:latest
+>> +  needs:
+>> +    job: amd64-fedora-container
+>> +  before_script:
+>> +    - dnf install -y meson ninja-build
+>> +  script:
+>> +    - mkdir subprojects/libvhost-user/build
+>> +    - cd subprojects/libvhost-user/build
+>> +    - meson
+>> +    - ninja
+> 
+> I dunno, buildtest-misc?
+> 
+>> +# No targets are built here, just tools, docs, and unit tests. This
+>> +# also feeds into the eventual documentation deployment steps later
+>> +build-tools-and-docs-debian:
+>> +pages:
+> 
+> Seems these could be under their own documentation section?
+> 
 
