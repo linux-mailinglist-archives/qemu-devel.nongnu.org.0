@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B461737A19A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:18:47 +0200 (CEST)
-Received: from localhost ([::1]:36546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C4F37A196
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:18:16 +0200 (CEST)
+Received: from localhost ([::1]:35050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgNbK-0001cI-Nz
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34506)
+	id 1lgNap-0000d7-DQ
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWm-0001aB-9l
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26671)
+ id 1lgNWl-0001YS-Ri
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWg-0000hF-L6
+ id 1lgNWh-0000he-3z
  for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1620720838;
@@ -25,29 +25,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CRfifRRU6iDZU0CbyJ9ZL7nfHYUy2lzv/0Zzl+Op7ys=;
- b=hUBW9ORctc5UHSI/3kYB2jmRfqNgb4uF9Ys2veNYh+2Suk/qSO54W9aQH6/XkFwj8OygIT
- 64ec+8UrHWmOrwRA+42/xxyjz0gV0Ltj8YV9WkK4b3wUyaeA2bfDqb7I3a809qpbmgD5Qg
- yhGnhZy7tB3SCjGfDXep2i+kSgDLYIE=
+ bh=EJ4eSq8p5vK4NJafQPGABPQ+1aZyk2CTHqY8mHKQT1M=;
+ b=Gkp/+LKL3XSMQWwRXR3N5e4GyS1rc4cDo2wJ1ntE+NmV1pHcCAAe+nNEfGMx2nqL4RQ47v
+ UqDYzjAC4V5raCIffS+RAAUUyZvNkFhuiIluyYzgmIgm+WpSOmToB9OAhovvpN5mVzAvpR
+ u9ZAgUfeAmpvHPxaTeM6f69VMWLTdO0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-dRKEO_oONRGX1gBpER3UYQ-1; Tue, 11 May 2021 04:13:55 -0400
-X-MC-Unique: dRKEO_oONRGX1gBpER3UYQ-1
+ us-mta-180-xafr3ZtkOOGxKkDJh9jmnA-1; Tue, 11 May 2021 04:13:56 -0400
+X-MC-Unique: xafr3ZtkOOGxKkDJh9jmnA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9F1C107ACCD;
- Tue, 11 May 2021 08:13:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D9F91854E21;
+ Tue, 11 May 2021 08:13:55 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3ACE45D9E3;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C35EF5D9E3;
  Tue, 11 May 2021 08:13:54 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/33] target/i386: fix host_cpu_adjust_phys_bits error handling
-Date: Tue, 11 May 2021 04:13:23 -0400
-Message-Id: <20210511081350.419428-7-pbonzini@redhat.com>
+Subject: [PULL 07/33] accel-cpu: make cpu_realizefn return a bool
+Date: Tue, 11 May 2021 04:13:24 -0400
+Message-Id: <20210511081350.419428-8-pbonzini@redhat.com>
 In-Reply-To: <20210511081350.419428-1-pbonzini@redhat.com>
 References: <20210511081350.419428-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -88,67 +88,188 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@suse.de>
 
-move the check for phys_bits outside of host_cpu_adjust_phys_bits,
-because otherwise it is impossible to return an error condition
-explicitly.
+overall, all devices' realize functions take an Error **errp, but return void.
+
+hw/core/qdev.c code, which realizes devices, therefore does:
+
+local_err = NULL;
+dc->realize(dev, &local_err);
+if (local_err != NULL) {
+    goto fail;
+}
+
+However, we can improve at least accel_cpu to return a meaningful bool value.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210322132800.7470-8-cfontana@suse.de>
+Message-Id: <20210322132800.7470-9-cfontana@suse.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/host-cpu.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ accel/accel-common.c        | 6 +++---
+ cpu.c                       | 5 +++--
+ include/hw/core/accel-cpu.h | 2 +-
+ include/qemu/accel.h        | 2 +-
+ target/i386/host-cpu.c      | 5 +++--
+ target/i386/host-cpu.h      | 2 +-
+ target/i386/kvm/kvm-cpu.c   | 4 ++--
+ target/i386/tcg/tcg-cpu.c   | 6 ++++--
+ 8 files changed, 18 insertions(+), 14 deletions(-)
 
-diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
-index 9cfe56ce41..d07d41c34c 100644
---- a/target/i386/host-cpu.c
-+++ b/target/i386/host-cpu.c
-@@ -50,7 +50,7 @@ static void host_cpu_enable_cpu_pm(X86CPU *cpu)
-     env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
+diff --git a/accel/accel-common.c b/accel/accel-common.c
+index 0f6fb4fb66..d77c09d7b5 100644
+--- a/accel/accel-common.c
++++ b/accel/accel-common.c
+@@ -98,14 +98,14 @@ void accel_cpu_instance_init(CPUState *cpu)
+     }
  }
  
--static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu, Error **errp)
-+static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu)
+-void accel_cpu_realizefn(CPUState *cpu, Error **errp)
++bool accel_cpu_realizefn(CPUState *cpu, Error **errp)
  {
-     uint32_t host_phys_bits = host_cpu_phys_bits();
-     uint32_t phys_bits = cpu->phys_bits;
-@@ -77,14 +77,6 @@ static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu, Error **errp)
-         }
-     }
+     CPUClass *cc = CPU_GET_CLASS(cpu);
  
--    if (phys_bits &&
--        (phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
--         phys_bits < 32)) {
--        error_setg(errp, "phys-bits should be between 32 and %u "
--                   " (but is %u)",
--                   TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
--    }
+     if (cc->accel_cpu && cc->accel_cpu->cpu_realizefn) {
+-        /* NB: errp parameter is unused currently */
+-        cc->accel_cpu->cpu_realizefn(cpu, errp);
++        return cc->accel_cpu->cpu_realizefn(cpu, errp);
+     }
++    return true;
+ }
+ 
+ static const TypeInfo accel_cpu_type = {
+diff --git a/cpu.c b/cpu.c
+index 25e6fbfa2c..34a0484bf4 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -130,8 +130,9 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+ 
+     cpu_list_add(cpu);
+-    accel_cpu_realizefn(cpu, errp);
 -
++    if (!accel_cpu_realizefn(cpu, errp)) {
++        return;
++    }
+ #ifdef CONFIG_TCG
+     /* NB: errp parameter is unused currently */
+     if (tcg_enabled()) {
+diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
+index 24a6697412..5dbfd79955 100644
+--- a/include/hw/core/accel-cpu.h
++++ b/include/hw/core/accel-cpu.h
+@@ -32,7 +32,7 @@ typedef struct AccelCPUClass {
+ 
+     void (*cpu_class_init)(CPUClass *cc);
+     void (*cpu_instance_init)(CPUState *cpu);
+-    void (*cpu_realizefn)(CPUState *cpu, Error **errp);
++    bool (*cpu_realizefn)(CPUState *cpu, Error **errp);
+ } AccelCPUClass;
+ 
+ #endif /* ACCEL_CPU_H */
+diff --git a/include/qemu/accel.h b/include/qemu/accel.h
+index da0c8ab523..4f4c283f6f 100644
+--- a/include/qemu/accel.h
++++ b/include/qemu/accel.h
+@@ -89,6 +89,6 @@ void accel_cpu_instance_init(CPUState *cpu);
+  * @cpu: The CPU that needs to call accel-specific cpu realization.
+  * @errp: currently unused.
+  */
+-void accel_cpu_realizefn(CPUState *cpu, Error **errp);
++bool accel_cpu_realizefn(CPUState *cpu, Error **errp);
+ 
+ #endif /* QEMU_ACCEL_H */
+diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
+index d07d41c34c..4ea9e354ea 100644
+--- a/target/i386/host-cpu.c
++++ b/target/i386/host-cpu.c
+@@ -80,7 +80,7 @@ static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu)
      return phys_bits;
  }
  
-@@ -97,7 +89,17 @@ void host_cpu_realizefn(CPUState *cs, Error **errp)
-         host_cpu_enable_cpu_pm(cpu);
+-void host_cpu_realizefn(CPUState *cs, Error **errp)
++bool host_cpu_realizefn(CPUState *cs, Error **errp)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *env = &cpu->env;
+@@ -97,10 +97,11 @@ void host_cpu_realizefn(CPUState *cs, Error **errp)
+             error_setg(errp, "phys-bits should be between 32 and %u "
+                        " (but is %u)",
+                        TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
+-            return;
++            return false;
+         }
+         cpu->phys_bits = phys_bits;
      }
-     if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
--        cpu->phys_bits = host_cpu_adjust_phys_bits(cpu, errp);
-+        uint32_t phys_bits = host_cpu_adjust_phys_bits(cpu);
-+
-+        if (phys_bits &&
-+            (phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
-+             phys_bits < 32)) {
-+            error_setg(errp, "phys-bits should be between 32 and %u "
-+                       " (but is %u)",
-+                       TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
-+            return;
-+        }
-+        cpu->phys_bits = phys_bits;
++    return true;
+ }
+ 
+ #define CPUID_MODEL_ID_SZ 48
+diff --git a/target/i386/host-cpu.h b/target/i386/host-cpu.h
+index b47bc0943f..6a9bc918ba 100644
+--- a/target/i386/host-cpu.h
++++ b/target/i386/host-cpu.h
+@@ -12,7 +12,7 @@
+ 
+ void host_cpu_instance_init(X86CPU *cpu);
+ void host_cpu_max_instance_init(X86CPU *cpu);
+-void host_cpu_realizefn(CPUState *cs, Error **errp);
++bool host_cpu_realizefn(CPUState *cs, Error **errp);
+ 
+ void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping);
+ 
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index c23bbe6c50..c660ad4293 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -18,7 +18,7 @@
+ #include "kvm_i386.h"
+ #include "hw/core/accel-cpu.h"
+ 
+-static void kvm_cpu_realizefn(CPUState *cs, Error **errp)
++static bool kvm_cpu_realizefn(CPUState *cs, Error **errp)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *env = &cpu->env;
+@@ -41,7 +41,7 @@ static void kvm_cpu_realizefn(CPUState *cs, Error **errp)
+                                                    MSR_IA32_UCODE_REV);
+         }
+     }
+-    host_cpu_realizefn(cs, errp);
++    return host_cpu_realizefn(cs, errp);
+ }
+ 
+ /*
+diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+index 1d3d6d1c6a..23e1f5f0c3 100644
+--- a/target/i386/tcg/tcg-cpu.c
++++ b/target/i386/tcg/tcg-cpu.c
+@@ -96,7 +96,7 @@ static void x86_cpu_machine_done(Notifier *n, void *unused)
      }
  }
  
+-static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
++static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+ 
+@@ -132,12 +132,14 @@ static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
+     /* ... SMRAM with higher priority, linked from /machine/smram.  */
+     cpu->machine_done.notify = x86_cpu_machine_done;
+     qemu_add_machine_init_done_notifier(&cpu->machine_done);
++    return true;
+ }
+ 
+ #else /* CONFIG_USER_ONLY */
+ 
+-static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
++static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
+ {
++    return true;
+ }
+ 
+ #endif /* !CONFIG_USER_ONLY */
 -- 
 2.26.2
 
