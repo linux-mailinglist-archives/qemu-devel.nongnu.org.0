@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F8437A180
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:16:09 +0200 (CEST)
-Received: from localhost ([::1]:56314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F3937A1A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:22:00 +0200 (CEST)
+Received: from localhost ([::1]:45136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgNYm-0004Jo-1u
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:16:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34412)
+	id 1lgNeR-0007OC-Uo
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:21:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWh-0001N2-OE
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:13:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28604)
+ id 1lgNWo-0001hV-8C
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWf-0000ge-T1
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:13:59 -0400
+ id 1lgNWh-0000i6-FK
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620720837;
+ s=mimecast20190719; t=1620720838;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Oik8IFTeBv6jNvNUoWrJU2eOqfLcIDd2Jzvyt6ZQcGI=;
- b=SRLGOi9gXPiETlS7T20feZ8LFDo1A4GF3jGwUVKbvyx3Xo1IHGlftv7qvkMjmeA9HK0pcE
- SCYg8fFflDtVRBt2mbVnYpsyYjhXy2+Cc0gFEOsEMR3GycYUSd/Iocf71qYIvzDLckZ6XT
- J9kEMjKW+eEiK9gToX6/B/8KzW4ycQo=
+ bh=9PmpnED5fUrD9QZqsJgK7n1PianKfhxxvBKHprYuBe4=;
+ b=PYxV18+xNDP6H3pfKSgwA6A+G/9I8gvGbMz5VLqKOxPFutoQzo8CXM6WLWZ1t4Xvv8vr8g
+ s7Y606ztdoSgpQMHVPMX4o0J28/1TGvhQXBIeQyaoOqFtKuo7nMf3+lJ2zgdpzahtrjqZK
+ bQuPtXQ2O4/iG0yH5bpIBfnEMKEJnzc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-48KfOOBiMLOD1u7uT8ElNA-1; Tue, 11 May 2021 04:13:54 -0400
-X-MC-Unique: 48KfOOBiMLOD1u7uT8ElNA-1
+ us-mta-150-YgblzeA3OASnM_YEecmNhg-1; Tue, 11 May 2021 04:13:55 -0400
+X-MC-Unique: YgblzeA3OASnM_YEecmNhg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BCC01854E24;
- Tue, 11 May 2021 08:13:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22BE36D246;
+ Tue, 11 May 2021 08:13:54 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3A4EC5D9E3;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B567E5D9E3;
  Tue, 11 May 2021 08:13:53 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/33] cpu: call AccelCPUClass::cpu_realizefn in
- cpu_exec_realizefn
-Date: Tue, 11 May 2021 04:13:21 -0400
-Message-Id: <20210511081350.419428-5-pbonzini@redhat.com>
+Subject: [PULL 05/33] accel: introduce new accessor functions
+Date: Tue, 11 May 2021 04:13:22 -0400
+Message-Id: <20210511081350.419428-6-pbonzini@redhat.com>
 In-Reply-To: <20210511081350.419428-1-pbonzini@redhat.com>
 References: <20210511081350.419428-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -88,88 +87,130 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@suse.de>
 
-move the call to accel_cpu->cpu_realizefn to the general
-cpu_exec_realizefn from target/i386, so it does not need to be
-called for every target explicitly as we enable more targets.
+avoid open coding the accesses to cpu->accel_cpu interfaces,
+and instead introduce:
+
+accel_cpu_instance_init,
+accel_cpu_realizefn
+
+to be used by the targets/ initfn code,
+and by cpu_exec_realizefn respectively.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210322132800.7470-6-cfontana@suse.de>
+Message-Id: <20210322132800.7470-7-cfontana@suse.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- cpu.c             |  6 ++++++
- target/i386/cpu.c | 20 +++++++-------------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ accel/accel-common.c | 19 +++++++++++++++++++
+ cpu.c                |  6 +-----
+ include/qemu/accel.h | 13 +++++++++++++
+ target/i386/cpu.c    |  9 ++-------
+ 4 files changed, 35 insertions(+), 12 deletions(-)
 
-diff --git a/cpu.c b/cpu.c
-index bfbe5a66f9..ba5d272c1e 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -36,6 +36,7 @@
- #include "sysemu/replay.h"
- #include "exec/translate-all.h"
- #include "exec/log.h"
-+#include "hw/core/accel-cpu.h"
+diff --git a/accel/accel-common.c b/accel/accel-common.c
+index 9901b0531c..0f6fb4fb66 100644
+--- a/accel/accel-common.c
++++ b/accel/accel-common.c
+@@ -89,6 +89,25 @@ void accel_init_interfaces(AccelClass *ac)
+     accel_init_cpu_interfaces(ac);
+ }
  
- uintptr_t qemu_host_page_size;
- intptr_t qemu_host_page_mask;
-@@ -130,6 +131,11 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
- 
-     cpu_list_add(cpu);
- 
-+    if (cc->accel_cpu) {
++void accel_cpu_instance_init(CPUState *cpu)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    if (cc->accel_cpu && cc->accel_cpu->cpu_instance_init) {
++        cc->accel_cpu->cpu_instance_init(cpu);
++    }
++}
++
++void accel_cpu_realizefn(CPUState *cpu, Error **errp)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    if (cc->accel_cpu && cc->accel_cpu->cpu_realizefn) {
 +        /* NB: errp parameter is unused currently */
 +        cc->accel_cpu->cpu_realizefn(cpu, errp);
 +    }
++}
 +
+ static const TypeInfo accel_cpu_type = {
+     .name = TYPE_ACCEL_CPU,
+     .parent = TYPE_OBJECT,
+diff --git a/cpu.c b/cpu.c
+index ba5d272c1e..25e6fbfa2c 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -130,11 +130,7 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+ 
+     cpu_list_add(cpu);
+-
+-    if (cc->accel_cpu) {
+-        /* NB: errp parameter is unused currently */
+-        cc->accel_cpu->cpu_realizefn(cpu, errp);
+-    }
++    accel_cpu_realizefn(cpu, errp);
+ 
  #ifdef CONFIG_TCG
      /* NB: errp parameter is unused currently */
-     if (tcg_enabled()) {
+diff --git a/include/qemu/accel.h b/include/qemu/accel.h
+index b9d6d69eb8..da0c8ab523 100644
+--- a/include/qemu/accel.h
++++ b/include/qemu/accel.h
+@@ -78,4 +78,17 @@ int accel_init_machine(AccelState *accel, MachineState *ms);
+ void accel_setup_post(MachineState *ms);
+ #endif /* !CONFIG_USER_ONLY */
+ 
++/**
++ * accel_cpu_instance_init:
++ * @cpu: The CPU that needs to do accel-specific object initializations.
++ */
++void accel_cpu_instance_init(CPUState *cpu);
++
++/**
++ * accel_cpu_realizefn:
++ * @cpu: The CPU that needs to call accel-specific cpu realization.
++ * @errp: currently unused.
++ */
++void accel_cpu_realizefn(CPUState *cpu, Error **errp);
++
+ #endif /* QEMU_ACCEL_H */
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index da4142a69f..fb7a7be2fd 100644
+index fb7a7be2fd..010db23379 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -6457,16 +6457,19 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
- static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+@@ -28,7 +28,6 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/hvf.h"
+-#include "hw/core/accel-cpu.h"
+ #include "sysemu/xen.h"
+ #include "sysemu/whpx.h"
+ #include "kvm/kvm_i386.h"
+@@ -6800,8 +6799,6 @@ static void x86_cpu_initfn(Object *obj)
  {
-     CPUState *cs = CPU(dev);
--    CPUClass *cc = CPU_GET_CLASS(cs);
-     X86CPU *cpu = X86_CPU(dev);
-     X86CPUClass *xcc = X86_CPU_GET_CLASS(dev);
+     X86CPU *cpu = X86_CPU(obj);
+     X86CPUClass *xcc = X86_CPU_GET_CLASS(obj);
+-    CPUClass *cc = CPU_CLASS(xcc);
+-
      CPUX86State *env = &cpu->env;
-     Error *local_err = NULL;
-     static bool ht_warned;
  
--    /* The accelerator realizefn needs to be called first. */
+     env->nr_dies = 1;
+@@ -6850,10 +6847,8 @@ static void x86_cpu_initfn(Object *obj)
+         x86_cpu_load_model(cpu, xcc->model);
+     }
+ 
+-    /* if required, do the accelerator-specific cpu initialization */
 -    if (cc->accel_cpu) {
--        cc->accel_cpu->cpu_realizefn(cs, errp);
-+    /* Process Hyper-V enlightenments */
-+    x86_cpu_hyperv_realize(cpu);
-+
-+    cpu_exec_realizefn(cs, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
-     }
- 
-     if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
-@@ -6584,15 +6587,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-         env->cache_info_amd.l3_cache = &legacy_l3_cache;
-     }
- 
--    /* Process Hyper-V enlightenments */
--    x86_cpu_hyperv_realize(cpu);
--
--    cpu_exec_realizefn(cs, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
--        return;
+-        cc->accel_cpu->cpu_instance_init(CPU(obj));
 -    }
--
- #ifndef CONFIG_USER_ONLY
-     MachineState *ms = MACHINE(qdev_get_machine());
-     qemu_register_reset(x86_cpu_machine_reset_cb, cpu);
++    /* if required, do accelerator-specific cpu initializations */
++    accel_cpu_instance_init(CPU(obj));
+ }
+ 
+ static int64_t x86_cpu_get_arch_id(CPUState *cs)
 -- 
 2.26.2
 
