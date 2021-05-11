@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBD737A03F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 09:00:32 +0200 (CEST)
-Received: from localhost ([::1]:53760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F9237A011
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:52:49 +0200 (CEST)
+Received: from localhost ([::1]:35576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgMNb-0000iI-L1
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 03:00:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40834)
+	id 1lgMG8-0004w3-ED
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:52:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLtK-0007q9-P4
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:29:14 -0400
-Received: from mga06.intel.com ([134.134.136.31]:46423)
+ id 1lgLtZ-0008Dv-NM
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 02:29:30 -0400
+Received: from mga06.intel.com ([134.134.136.31]:46441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLtI-0004ZR-M3
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:29:14 -0400
-IronPort-SDR: Cu2F4W7SkWrV7QSEiDlIdDT4lyx1CfIiCGRefieGEEgZPwRahMSs0Fi7J6flhOcd96PJiZDuu3
- pVTOvCI7vaZA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631585"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631585"
+ id 1lgLtT-0004it-E0
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 02:29:29 -0400
+IronPort-SDR: bJZ4umAGrl3qyMemxkYWiLWkLLWPatP/gs6AA5VeNcQk/0XfdRwDBBHikds5F+9NlMZJ9QjiSB
+ Jfn5pBxlbgag==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631590"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631590"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2021 23:28:22 -0700
-IronPort-SDR: rpdY+i1dakaOjof7gqh2AY+6zJ39gfz3EvKVTP9WpuBbcL+8S+IJcBf6hVJo9hjWDYyDmDinOE
- cNyaLe4MWG4Q==
+ 10 May 2021 23:28:24 -0700
+IronPort-SDR: Bw5iPAoOTDwoPfBVbkIYcCbaV78BgdDlVCa1m0gyziW7zqdoL0Heq+XmNmIPf0GgsG6WIwnTkt
+ D32B/waT/5Fw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281385"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281400"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:28:20 -0700
+ by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:28:22 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 27/32] i386: Add sgx_get_info() interface
-Date: Tue, 11 May 2021 14:20:46 +0800
-Message-Id: <20210511062051.41948-28-yang.zhong@intel.com>
+Subject: [PATCH v2 28/32] bitops: Support 32 and 64 bit mask macro
+Date: Tue, 11 May 2021 14:20:47 +0800
+Message-Id: <20210511062051.41948-29-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210511062051.41948-1-yang.zhong@intel.com>
 References: <20210511062051.41948-1-yang.zhong@intel.com>
@@ -66,157 +66,40 @@ Cc: yang.zhong@intel.com, pbonzini@redhat.com, kai.huang@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the sgx_get_info() interface for hmp and QMP usage, which
-will get the SGX info from this API.
+The Qemu should enable bit mask macro like Linux did in the
+kernel, the GENMASK(h, l) and GENMASK_ULL(h, l) will set the
+bit to 1 from l to h bit in the 32 bit or 64 bit long type.
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/i386/sgx-epc.c         | 22 ++++++++++++++++++++++
- include/hw/i386/pc.h      |  1 +
- include/hw/i386/sgx-epc.h |  1 +
- monitor/hmp-cmds.c        | 20 ++++++++++++++++++--
- monitor/qmp-cmds.c        | 12 ++++++++++--
- stubs/meson.build         |  1 +
- stubs/sgx-stub.c          |  7 +++++++
- 7 files changed, 60 insertions(+), 4 deletions(-)
- create mode 100644 stubs/sgx-stub.c
+ include/qemu/bitops.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-index fbacec6e00..7daea0613b 100644
---- a/hw/i386/sgx-epc.c
-+++ b/hw/i386/sgx-epc.c
-@@ -322,6 +322,28 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
-     memory_region_set_size(&sgx_epc->mr, sgx_epc->size);
- }
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 3acbf3384c..8678c8dcd5 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -18,6 +18,7 @@
  
-+SGXInfo *sgx_get_info(void)
-+{
-+    SGXInfo *info;
-+
-+    info = g_new0(SGXInfo, 1);
-+    if (sgx_epc_enabled) {
-+        PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-+        SGXEPCState *sgx_epc = pcms->sgx_epc;
-+
-+        info->sgx = true;
-+        info->sgx1 = true;
-+        info->sgx2 = true;
-+        info->flc = true;
-+
-+        if (sgx_epc) {
-+            info->section_size = sgx_epc->size;
-+        }
-+    }
-+
-+    return info;
-+}
-+
- static QemuOptsList sgx_epc_opts = {
-     .name = "sgx-epc",
-     .implied_opt_name = "id",
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index a9167e3c3f..021de8026f 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -207,6 +207,7 @@ extern const size_t pc_compat_6_0_len;
- void pc_machine_init_sgx_epc(PCMachineState *pcms);
- void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
-                               Error **errp);
-+SGXInfo *sgx_get_info(void);
+ #define BITS_PER_BYTE           CHAR_BIT
+ #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
++#define BITS_PER_LONG_LONG       64
  
- extern GlobalProperty pc_compat_5_2[];
- extern const size_t pc_compat_5_2_len;
-diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
-index 743d0a943c..30a1c61b60 100644
---- a/include/hw/i386/sgx-epc.h
-+++ b/include/hw/i386/sgx-epc.h
-@@ -13,6 +13,7 @@
- #define QEMU_SGX_EPC_H
+ #define BIT(nr)                 (1UL << (nr))
+ #define BIT_ULL(nr)             (1ULL << (nr))
+@@ -28,6 +29,12 @@
+ #define MAKE_64BIT_MASK(shift, length) \
+     (((~0ULL) >> (64 - (length))) << (shift))
  
- #include "sysemu/hostmem.h"
-+#include "qapi/qapi-types-misc.h"
- 
- #define TYPE_SGX_EPC "sgx-epc"
- #define SGX_EPC(obj) \
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 1d1efca713..bd539e0c1e 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -2229,6 +2229,22 @@ void hmp_info_memory_size_summary(Monitor *mon, const QDict *qdict)
- 
- void hmp_info_sgx(Monitor *mon, const QDict *qdict)
- {
--    error_setg(errp, QERR_FEATURE_DISABLED, "query-sgx");
--    return NULL;
-+    SGXInfo *info = qmp_query_sgx(NULL);
++#define GENMASK(h, l) \
++    (((~0UL) << (l)) & (~0UL >> (BITS_PER_LONG - 1 - (h))))
 +
-+    if (info && info->sgx) {
-+        monitor_printf(mon, "SGX support: %s\n",
-+                       info->sgx ? "enabled" : "disabled");
-+        monitor_printf(mon, "SGX1 support: %s\n",
-+                       info->sgx1 ? "enabled" : "disabled");
-+        monitor_printf(mon, "SGX2 support: %s\n",
-+                       info->sgx2 ? "enabled" : "disabled");
-+        monitor_printf(mon, "FLC support: %s\n",
-+                       info->flc ? "enabled" : "disabled");
-+        monitor_printf(mon, "size: %" PRIu64 "\n",
-+                       info->section_size);
-+    } else {
-+        monitor_printf(mon, "SGX is not enabled\n");
-+    }
++#define GENMASK_ULL(h, l) \
++    (((~0ULL) << (l)) & (~0ULL >> (BITS_PER_LONG_LONG - 1 - (h))))
 +
-+    qapi_free_SGXInfo(info);
- }
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index d63d59149f..48f7708ffe 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -40,6 +40,7 @@
- #include "qapi/qmp/qerror.h"
- #include "hw/mem/memory-device.h"
- #include "hw/acpi/acpi_dev_interface.h"
-+#include "hw/i386/pc.h"
- 
- NameInfo *qmp_query_name(Error **errp)
- {
-@@ -354,6 +355,13 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
- 
- SGXInfo *qmp_query_sgx(Error **errp)
- {
--    error_setg(errp, QERR_FEATURE_DISABLED, "query-sgx");
--    return NULL;
-+    SGXInfo *info;
-+
-+    info = sgx_get_info();
-+    if (!info) {
-+        error_setg(errp, "SGX features are not available");
-+        return NULL;
-+    }
-+
-+    return info;
- }
-diff --git a/stubs/meson.build b/stubs/meson.build
-index be6f6d609e..1cba20a9a8 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -54,3 +54,4 @@ if have_system
- else
-   stub_ss.add(files('qdev.c'))
- endif
-+stub_ss.add(files('sgx-stub.c'))
-diff --git a/stubs/sgx-stub.c b/stubs/sgx-stub.c
-new file mode 100644
-index 0000000000..c2b59a88fd
---- /dev/null
-+++ b/stubs/sgx-stub.c
-@@ -0,0 +1,7 @@
-+#include "qemu/osdep.h"
-+#include "hw/i386/pc.h"
-+
-+SGXInfo *sgx_get_info(void)
-+{
-+    return NULL;
-+}
+ /**
+  * set_bit - Set a bit in memory
+  * @nr: the bit to set
 -- 
 2.29.2.334.gfaefdd61ec
 
