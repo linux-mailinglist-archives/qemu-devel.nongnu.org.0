@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4161937B08C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 23:08:09 +0200 (CEST)
-Received: from localhost ([::1]:33596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE5C37B090
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 23:09:44 +0200 (CEST)
+Received: from localhost ([::1]:36064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgZbs-0005LM-Cp
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 17:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46430)
+	id 1lgZdP-00072t-7T
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 17:09:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lgZaC-0003tv-IG
- for qemu-devel@nongnu.org; Tue, 11 May 2021 17:06:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32867)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lgZcN-0006Ca-UF; Tue, 11 May 2021 17:08:39 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:45628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lgZaA-0003Ox-E8
- for qemu-devel@nongnu.org; Tue, 11 May 2021 17:06:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620767181;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/dpmVvKEIKulLI2H2Ho5oBSuqUzC6wBkUg5JNjEmXjk=;
- b=TaJwsCIqkLiBdIvPTk5eHmBpDwIC8dt6FjkiCKo3QZdAakEnwh05x8B01XsjBTxr2Fsuig
- YamGCi9sucP8ZHvbNYL4tc44GxehRFid2wcPHhxjgN5dFH9iJvBIiajJxo+tVlEULsrjDF
- YMvKU/hP2rrFqV7T5MqIW/W5sJJBpiE=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-Si3MpMHWOIKbjIpgGk9kcQ-1; Tue, 11 May 2021 17:06:20 -0400
-X-MC-Unique: Si3MpMHWOIKbjIpgGk9kcQ-1
-Received: by mail-vk1-f199.google.com with SMTP id
- d76-20020a1f364f0000b02901d17a7dfce5so2798690vka.3
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 14:06:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/dpmVvKEIKulLI2H2Ho5oBSuqUzC6wBkUg5JNjEmXjk=;
- b=VuIgaL6bn0+KyH+S2z2KB8Xkg5ijTPdcytV1MNCcD3ovPg3yzpy8mfEIeyMmThIzIT
- GGPyB7iAGMPwn+HFPMr3g+XUBFz9EC/rgL2xtw6pokV4QGBg5Cpjkb44pan6RWprpJf3
- xaCKb9cxTMuAKIfUV+3hAa+7B6wU0qjddhNrF1hGlGy/ICmwGfr1R26RUh211Sg1s7CK
- /4QLZ00kfs4+KLzAI9cx23MRymv8cAWajE8kRBViSGgcT7r+UV1luc8tzHKGq57/IRfz
- 0drTVOz1Zu2UdLBKv7P3jR7CQYvj0Osf+RZLrbDz6bEJGcW31SSMjRBKKfDL1kih33VC
- Q4OA==
-X-Gm-Message-State: AOAM533Uvg68TwbnxR8GSu5fsWXFPi7KhNoEV7D75DbRd9zRQzSGsOMd
- TgS+LpC6ZaBUiKfA2eSXCbbXeIYbvmiYi9IEv/iNZwaIbZmNoEe7M53dDQzagcCIIjMiLaWYsZ4
- bFfOtG5hnIOnL2mot78VTDiG1K6Z424k=
-X-Received: by 2002:a05:6102:149:: with SMTP id
- a9mr13701038vsr.1.1620767179793; 
- Tue, 11 May 2021 14:06:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy0luV5TEJu7MGG9t3zDbvKrYL0k4aDLc5nQyat220oC1K7xJMa8f4gaE+3/KGK+M5d9byWyL2gUP+qSAbS/Zo=
-X-Received: by 2002:a05:6102:149:: with SMTP id
- a9mr13701011vsr.1.1620767179590; 
- Tue, 11 May 2021 14:06:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1lgZcJ-0004kQ-H9; Tue, 11 May 2021 17:08:38 -0400
+Received: from myt5-23f0be3aa648.qloud-c.yandex.net
+ (myt5-23f0be3aa648.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 673282E1818;
+ Wed, 12 May 2021 00:08:30 +0300 (MSK)
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ mYyQGPYMca-8T0aiG7a; Wed, 12 May 2021 00:08:30 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1620767310; bh=pMuLBobOkO0gFSJv5NbYHGXb/4r9jDuzlFyzcOHOyOA=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=d7dwK/x6LsYQ2cSVKvqDOpdbkHj61yzexdmbFUbp6TIsXOvf8nO4Y2XjBcN15Xn4l
+ 4p07ZWDL81QkgXVsAV4g/3o4KOnoxaHLfh38u5ZtDSL1Yl/9xRkTrJll4/IDfjc3GB
+ aI8aESaX0d31NyuxitJVywPCFDHOaTj1g/BLIoDY=
+Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:1211::1:8])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ T84VrKAvB9-8To4q2Y1; Wed, 12 May 2021 00:08:29 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Wed, 12 May 2021 00:08:26 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 18/33] nbd/client-connection: shutdown connection on
+ release
+Message-ID: <YJryStl6HOR9VJIa@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, eblake@redhat.com,
+ mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
+References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
+ <20210416080911.83197-19-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-References: <20210511132641.1022161-1-berrange@redhat.com>
- <20210511132641.1022161-13-berrange@redhat.com>
-In-Reply-To: <20210511132641.1022161-13-berrange@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 11 May 2021 18:05:53 -0300
-Message-ID: <CAKJDGDZLr7Df28iqjGsanmpuRcUN0N0uB5kiKtzPi2za_ZQpCQ@mail.gmail.com>
-Subject: Re: [PATCH 12/12] configure: bump min required CLang to 7.0.0 / XCode
- 10.2
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210416080911.83197-19-vsementsov@virtuozzo.com>
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,43 +78,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 11, 2021 at 10:28 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
->
-> Several distros have been dropped since the last time we bumped the
-> minimum required CLang version.
->
-> Per repology, currently shipping versions are:
->
->              RHEL-8: 10.0.1
->      Debian Stretch: 7.0.1
->       Debian Buster: 7.0.1
->  openSUSE Leap 15.2: 9.0.1
->    Ubuntu LTS 18.04: 10.0.0
->    Ubuntu LTS 20.04: 11.0.0
->          FreeBSD 12: 8.0.1
->           Fedora 33: 11.0.0
->           Fedora 34: 11.1.0
->
-> With this list Debian Stretch is the constraint at 7.0.1
->
-> An LLVM version of 7.0.1 corresponds to macOS XCode version of 10.2
-> which dates from March 2019.
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+On Fri, Apr 16, 2021 at 11:08:56AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Now, when thread can do negotiation and retry, it may run relatively
+> long. We need a mechanism to stop it, when user is not interested in
+> result anymore. So, on nbd_client_connection_release() let's shutdown
+> the socked, and do not retry connection if thread is detached.
+
+This kinda answers my question to the previous patch about reconnect
+cancellation.
+
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  configure | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
+>  nbd/client-connection.c | 36 ++++++++++++++++++++++++++----------
+>  1 file changed, 26 insertions(+), 10 deletions(-)
+> 
+> diff --git a/nbd/client-connection.c b/nbd/client-connection.c
+> index 002bd91f42..54f73c6c24 100644
+> --- a/nbd/client-connection.c
+> +++ b/nbd/client-connection.c
+> @@ -158,9 +158,13 @@ static void *connect_thread_func(void *opaque)
+>      uint64_t timeout = 1;
+>      uint64_t max_timeout = 16;
+>  
+> -    while (true) {
+> +    qemu_mutex_lock(&conn->mutex);
+> +    while (!conn->detached) {
+> +        assert(!conn->sioc);
+>          conn->sioc = qio_channel_socket_new();
+>  
+> +        qemu_mutex_unlock(&conn->mutex);
+> +
+>          error_free(conn->err);
+>          conn->err = NULL;
+>          conn->updated_info = conn->initial_info;
+> @@ -171,14 +175,20 @@ static void *connect_thread_func(void *opaque)
+>          conn->updated_info.x_dirty_bitmap = NULL;
+>          conn->updated_info.name = NULL;
+>  
+> +        qemu_mutex_lock(&conn->mutex);
+> +
+>          if (ret < 0) {
+>              object_unref(OBJECT(conn->sioc));
+>              conn->sioc = NULL;
+> -            if (conn->do_retry) {
+> +            if (conn->do_retry && !conn->detached) {
+> +                qemu_mutex_unlock(&conn->mutex);
+> +
+>                  sleep(timeout);
+>                  if (timeout < max_timeout) {
+>                      timeout *= 2;
+>                  }
+> +
+> +                qemu_mutex_lock(&conn->mutex);
+>                  continue;
+>              }
+>          }
+> @@ -186,15 +196,17 @@ static void *connect_thread_func(void *opaque)
+>          break;
+>      }
+>  
+> -    WITH_QEMU_LOCK_GUARD(&conn->mutex) {
+> -        assert(conn->running);
+> -        conn->running = false;
+> -        if (conn->wait_co) {
+> -            aio_co_schedule(NULL, conn->wait_co);
+> -            conn->wait_co = NULL;
+> -        }
+> -        do_free = conn->detached;
+> +    /* mutex is locked */
+> +
+> +    assert(conn->running);
+> +    conn->running = false;
+> +    if (conn->wait_co) {
+> +        aio_co_schedule(NULL, conn->wait_co);
+> +        conn->wait_co = NULL;
+>      }
+> +    do_free = conn->detached;
+> +
+> +    qemu_mutex_unlock(&conn->mutex);
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+This basically reverts some hunks from patch 15 "nbd/client-connection:
+use QEMU_LOCK_GUARD".  How about dropping them there (they weren't an
+obvious improvement even then).
 
+Roman.
+
+>  
+>      if (do_free) {
+>          nbd_client_connection_do_free(conn);
+> @@ -215,6 +227,10 @@ void nbd_client_connection_release(NBDClientConnection *conn)
+>      if (conn->running) {
+>          conn->detached = true;
+>      }
+> +    if (conn->sioc) {
+> +        qio_channel_shutdown(QIO_CHANNEL(conn->sioc),
+> +                             QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+> +    }
+>      do_free = !conn->running && !conn->detached;
+>      qemu_mutex_unlock(&conn->mutex);
+>  
+> -- 
+> 2.29.2
+> 
 
