@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0015B37ACAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 19:07:18 +0200 (CEST)
-Received: from localhost ([::1]:51474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2438B37ACAC
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 19:07:34 +0200 (CEST)
+Received: from localhost ([::1]:52562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgVqo-0005Z1-26
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 13:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54166)
+	id 1lgVr3-0006Id-8G
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 13:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgVpO-00049l-VT
- for qemu-devel@nongnu.org; Tue, 11 May 2021 13:05:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21914)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgVpI-0001aB-Sc
- for qemu-devel@nongnu.org; Tue, 11 May 2021 13:05:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620752743;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9vFz1npm9w8Tmsn1M23GzSluTr/VhGdd/MJZXZ2ZSH8=;
- b=i+U0jzEM1jPfcJZOa5gpYhMdCdIbHK8/CrL1QsVoHKW1w60iPmn5SdBiviOadma7iZXp7i
- mx2qKOIChSF4+QPqhIJW9Oze69RGedbV7hPfkIfr6fjXc1iMFySAgzMHtbRTnfUSDHdaSw
- TyAhw/ckOL77libxoeuTDnr1S6LXGJs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-lbtL8TwPOB6KTtJD9LGB-w-1; Tue, 11 May 2021 13:05:41 -0400
-X-MC-Unique: lbtL8TwPOB6KTtJD9LGB-w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A9831854E2A;
- Tue, 11 May 2021 17:05:40 +0000 (UTC)
-Received: from redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FEAA10016FC;
- Tue, 11 May 2021 17:05:37 +0000 (UTC)
-Date: Tue, 11 May 2021 18:05:35 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH] hmp: Fix loadvm to resume the VM on success instead of
- failure
-Message-ID: <YJq5X/3P12YT8hHo@redhat.com>
-References: <20210511163151.45167-1-kwolf@redhat.com>
- <YJq1fq57yQGFjw/E@redhat.com> <YJq3mYxNtqidONkg@merkur.fritz.box>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lgVps-0004ug-AO
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 13:06:21 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:45958)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lgVpm-0001pH-N5
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 13:06:19 -0400
+Received: by mail-ot1-x335.google.com with SMTP id
+ f75-20020a9d03d10000b0290280def9ab76so18091098otf.12
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 10:06:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DjFhBAckUTEs19yXhIbpfm8JP/0ss7bQdXGj88VxZL4=;
+ b=k6F/1FWIljmbu40WkUUvJCjttINaPgkVFJ6w8u2nYhTzYyeInoBSAwWJiei7kKMVxf
+ 0ubOr+D2e/pqN7mGrLdIiutZs9wVB/8KGcZr9kQxPgGj+o7bc02/QBPhB5xXS7Lfqipm
+ AlS4ncXlwuKjGPWO2eWclqJyHF55bSQ0kJz/cYD4SFRft4Ig5+EyqC4NlkWb8+J2vjQQ
+ jfAgs67srQhNzYhvnQwAuIE/WsB2RIENn74yd+iSnO/7qGRnqkRTEbWK+pheFkkKLxHT
+ Gtd/nluq/Ttde8TUscPd0wr7sN51l1ZdLW7qesXQp5ZdBBSGkKp1SkTiNKxMh49brgy7
+ XF4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DjFhBAckUTEs19yXhIbpfm8JP/0ss7bQdXGj88VxZL4=;
+ b=pvRplYiZIfSj0Dapj/v6NqpSOAK0H9strFJJlTcx1UJkpZdh/cCcPEBCNTtH+lDF0d
+ EAiw5UykRF12hSh5b+1LSYJTP+DVhrB63OpCgaPdtDOrJbENKK/G3Xx3Rmj5YDDTypLO
+ sV9tBtS/1IyyGmUVtj8t21YDiWloHCIXmqag+ngNbBHbfG+fC49wq7p5Nb7Gyx0qFFvZ
+ FLcCDkFWI5qgi+9JHGJhLxzapQyCYyF3DHRtcgVH0cUrgXs6Ybt8npWwEcBUjnDPjyZk
+ YShvMtu3qj4qiD87F7lATZuZxFo08U+5BBTFH1ZJr0L4V8+5UYMupHJCFjqv5dC623Yx
+ k7iw==
+X-Gm-Message-State: AOAM532kZA55gKg8KUMRxhJytA87RHl2smVG5qZ4cO5hBUJpxsZRF4lY
+ ItHnt3ZVtyIuz8QnpikOtdKk5Q==
+X-Google-Smtp-Source: ABdhPJx3mQ9Ro77tNJDnX0maHwAIAQh3NJm4Ycbfs53kbDdc5nwMWj+FID0237RHWzSaCBu5AlS2hQ==
+X-Received: by 2002:a05:6830:1c31:: with SMTP id
+ f17mr26906726ote.332.1620752772967; 
+ Tue, 11 May 2021 10:06:12 -0700 (PDT)
+Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id f38sm3916463otf.72.2021.05.11.10.06.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 May 2021 10:06:12 -0700 (PDT)
+Subject: Re: [PATCH 0/3] bsd-user cleanup
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20210510221511.14205-1-imp@bsdimp.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ec1952f4-50b0-8782-7141-1f55cd0193d5@linaro.org>
+Date: Tue, 11 May 2021 12:06:10 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YJq3mYxNtqidONkg@merkur.fritz.box>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210510221511.14205-1-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,59 +89,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-stable@nongnu.org, yama@redhat.com, dgilbert@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: kevans@freebsd.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 11, 2021 at 06:58:01PM +0200, Kevin Wolf wrote:
-> Am 11.05.2021 um 18:49 hat Daniel P. Berrangé geschrieben:
-> > On Tue, May 11, 2021 at 06:31:51PM +0200, Kevin Wolf wrote:
-> > > Commit f61fe11aa6f broke hmp_loadvm() by adding an incorrect negation
-> > > when converting from 0/-errno return values to a bool value. The result
-> > > is that loadvm resumes the VM now if it failed and keeps it stopped if
-> > > it failed. Fix it to restore the old behaviour and do it the other way
-> > > around.
-> > > 
-> > > Fixes: f61fe11aa6f7f8f0ffe4ddaa56a8108f3ab57854
-> > > Cc: qemu-stable@nongnu.org
-> > > Reported-by: Yanhui Ma <yama@redhat.com>
-> > > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > > ---
-> > >  monitor/hmp-cmds.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> > > index 0ad5b77477..cc15d9b6ee 100644
-> > > --- a/monitor/hmp-cmds.c
-> > > +++ b/monitor/hmp-cmds.c
-> > > @@ -1133,7 +1133,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict)
-> > >  
-> > >      vm_stop(RUN_STATE_RESTORE_VM);
-> > >  
-> > > -    if (!load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
-> > > +    if (load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
-> > >          vm_start();
-> > >      }
-> > >      hmp_handle_error(mon, err);
-> > 
-> > Paolo had sent a different fix here:
-> > 
-> >   https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01093.html
-> 
-> Hm... I missed that patch, but doesn't it just generalise the buggy HMP
-> code instead of fixing it? That is, we still resume the VM on failure
-> rather than on success?
+On 5/10/21 5:15 PM, Warner Losh wrote:
+> Warner Losh (3):
+>    bsd-user: remove target_signal.h, it's unused
+>    bsd-user: Stop building the sparc platforms
+>    bsd-user: rename linux_binprm to bsd_binprm
 
-Yes, if I use my iotest patch on Paolo's patch it shows that it is
-still broken.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+r~
 
