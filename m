@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CB8379F53
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 07:49:23 +0200 (CEST)
-Received: from localhost ([::1]:45564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912B5379F43
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 07:42:12 +0200 (CEST)
+Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgLGk-00012u-B4
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 01:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33428)
+	id 1lgL9n-0002dN-Ju
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 01:42:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgLDI-0006de-EG
- for qemu-devel@nongnu.org; Tue, 11 May 2021 01:45:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33008)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgLDE-0006L3-Bc
- for qemu-devel@nongnu.org; Tue, 11 May 2021 01:45:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgLDA-00046t-LL
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:45:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 792F32E8194
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:45:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lgL6l-0001fJ-1m
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 01:39:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lgL6e-0002qo-Er
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 01:39:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620711534;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zTlO3RIIkuaCAwnsOgT1BfSOTjehApxlBJP4gZMmE+Y=;
+ b=Hixd/IasAq8qiYpGuYLQonwmms9oZMptMwjJPcHBYmiJl8xVJbzQP7Zg9fB1BpeB+8vds2
+ +AT3q+Qp39co1t6yEGQeNU3gb7CxXA4rbIpICkYW155dnoMFUofOro/+YWdsXuG5r+iAr9
+ 0KE181cldEM3wKPMb4ZERbgDKraSpqA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-hcScbUs4Ob29Ux9Kx6yHnA-1; Tue, 11 May 2021 01:38:51 -0400
+X-MC-Unique: hcScbUs4Ob29Ux9Kx6yHnA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10E151854E21;
+ Tue, 11 May 2021 05:38:50 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
+ [10.36.114.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0B471037F26;
+ Tue, 11 May 2021 05:38:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 46A70113865F; Tue, 11 May 2021 07:38:48 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH] cutils: fix memory leak in get_relocated_path()
+References: <20210412170255.231406-1-sgarzare@redhat.com>
+ <20210510155738.a4jk42yb2vqubblj@steredhat>
+Date: Tue, 11 May 2021 07:38:48 +0200
+In-Reply-To: <20210510155738.a4jk42yb2vqubblj@steredhat> (Stefano Garzarella's
+ message of "Mon, 10 May 2021 17:57:38 +0200")
+Message-ID: <878s4lbziv.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 May 2021 05:38:33 -0000
-From: Thomas Huth <1882123@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm armhf debian regression
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: joveler pmaydell th-huth
-X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159129432300.4081.5698403082350753204.malonedeb@soybean.canonical.com>
-Message-Id: <162071151343.6448.636822869901031408.malone@gac.canonical.com>
-Subject: [Bug 1882123] Re: ARM cpu emulation regression on QEMU 4.2.0
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 2a8841cc9db0b2c31938c10ba54fcc4e6a4d1495
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,104 +80,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882123 <1882123@bugs.launchpad.net>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mat?= =?utf-8?Q?hieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
+Stefano Garzarella <sgarzare@redhat.com> writes:
 
- https://gitlab.com/qemu-project/qemu/-/issues/271
+> Ping :-)
+>
+> Should I resend for 6.1?
 
+I'm cc'ing qemu-trivial.
 
-** Changed in: qemu
-       Status: Confirmed =3D> Expired
+For good measure:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #271
-   https://gitlab.com/qemu-project/qemu/-/issues/271
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882123
-
-Title:
-  ARM cpu emulation regression on QEMU 4.2.0
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  [*] Summary
-
-  Latest QEMU has an ARM CPU emulation regression.
-  Regression is reproducible by building any C# project with .NET Core SDK =
-3.1.300 on Debian 10 armhf guest OS.
-
-  Releases affected: QEMU 4.2.0, 5.0.0
-  Releases not affected: QEMU 4.1.0, QEMU 4.1.1
-
-  [*] Detail
-
-  .NET Core SDK 3.1 fails to run on Debian 10 emulated by qemu-system-
-  arm.
-
-  I occasionally test my C# projects on the virtual armhf/arm64 system
-  emulated by QEMU. MSBuild, a build engine of the .NET Core SDK,
-  crashes on QEMU 4.2.0 or later. The crash only happens when MSBuild
-  tries to do any JIT compiling (dotnet build / dotnet test).
-
-  I attached the MSBuild crash logs. MSBuild always crashes with
-  SEHException, which means it tried to call C binary from .NET binary.
-
-  I think the ARM CPU emulation regression happened between QEMU 4.1.1 ~
-  4.2.0. The issue affects QEMU 4.2.0 and 5.0.0. QEMU 4.1.0, 4.1.1, and
-  real Raspberry Pi 2 are not affected by this issue, and .NET Core SDK
-  works completely fine.
-
-  [*] Environment
-
-  [Host OS]
-  Distribution: Linux Mint 19.3 amd64
-  CPU: AMD Ryzen 5 3600
-  Kernel: Ubuntu 5.3.0-51-generic
-
-  [QEMU Guest OS]
-  Distribution: Debian 10 Buster armhf
-  Kernel: Debian 4.19.0-9-armmp-lpae
-  .NET Core SDK: 3.1.300
-
-  [Raspberry Pi 2]
-  Distribution: Raspberry Pi OS Buster armhf
-  Kernel: 4.19.118-v7+
-
-  [Tested C# Projects]
-  This is a list of C# projects I have tested on QEMU and RPI2.
-  - https://github.com/ied206/Joveler.DynLoader
-  - https://github.com/ied206/Joveler.Compression
-  - https://github.com/ied206/ManagedWimLib
-
-  [QEMU Launch Arguments]
-  qemu-system-arm \
-  =C2=A0=C2=A0=C2=A0=C2=A0-smp 3 -M virt -m 4096 \
-  =C2=A0=C2=A0=C2=A0=C2=A0-kernel vmlinuz-4.19.0-9-armmp-lpae \
-  =C2=A0=C2=A0=C2=A0=C2=A0-initrd initrd.img-4.19.0-9-armmp-lpae \
-  =C2=A0=C2=A0=C2=A0=C2=A0-append "root=3D/dev/vda2" \
-  =C2=A0=C2=A0=C2=A0=C2=A0-drive if=3Dnone,file=3Ddebian_arm.qcow2,format=
-=3Dqcow2,id=3Dhd \
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-blk-device,drive=3Dhd \
-  =C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet,hostfwd=3Dtcp::<PORT>-:22=
- \
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-device,netdev=3Dmynet \
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-device
-
-  [QEMU Configure Arguments]
-  ./configure --enable-spice --enable-gtk --enable-vnc-jpeg --enable-vnc-pn=
-g --enable-avx2 --enable-libusb --enable-opengl --enable-virglrenderer --en=
-able-kvm --enable-system --enable-modules --audio-drv-list=3Dpa
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882123/+subscriptions
 
