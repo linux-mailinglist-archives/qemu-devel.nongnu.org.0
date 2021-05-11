@@ -2,82 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06951379DCC
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 05:30:12 +0200 (CEST)
-Received: from localhost ([::1]:49068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 257FF379DDE
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 05:35:57 +0200 (CEST)
+Received: from localhost ([::1]:53732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgJ63-0006E3-4A
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 23:30:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41112)
+	id 1lgJBb-0001A3-V2
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 23:35:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgJ56-0005Ya-3V
- for qemu-devel@nongnu.org; Mon, 10 May 2021 23:29:12 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:41945)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgJ54-0003zd-Me
- for qemu-devel@nongnu.org; Mon, 10 May 2021 23:29:11 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id zg3so27610155ejb.8
- for <qemu-devel@nongnu.org>; Mon, 10 May 2021 20:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lG5UeI8yLN2lePu+a+ZMhWohxlpHlbeT1dTgMa9+Q+0=;
- b=NN2m+cy3tgse1ltaeheF8MYnak3wR7E3UdO28wwzyw4O4qwALCqSyexOZ0XcYJJhh/
- IpEqwRvk56lz/ER6ElBdTRvvsZJogIfFIDvkM7GvkbT+XTZDMTe0XZOu5XukLfkD67Oh
- wnag8yXNxTx0SsBpiG6Z6tFx1lQq44UWH5UdsZbudnpetGQqTDMRU3PmLPo0qhvc5DgZ
- iDM/PUabQXtBc2yjseLYiFGD1mczbLpxS0Vi+53W06ay0t7G/j+PLodmmBnb3hbB3883
- BUTebccUO60hO2wFeVyxYEYoXSGNU3miDYujuLs7wkuQ+Pk5HGnWP5pOmEnoUP0IowOm
- uSOA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgJAY-0008Vv-VE
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 23:34:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27531)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgJAW-0008Mc-El
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 23:34:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620704087;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1kY04rf/+FYLT2Si5bLMoshdBGdTWYQRYMVCcAJiLGI=;
+ b=SMQVkIsOs69jb97yLPpNAtiu0kaUJ8kFYyUpvRGRE1g2XW2FqwjcA0U4G4gkoD0CCKenxV
+ y+S5ZYn0mT/tiVguxaU+OR08QrzQWh6yyFgUJFyFadIb2bFsxNKc9zjcceLLxcxw6vkCf3
+ +/VBQnJ10UXBSZvdXrx8tGypYxWJCvc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-OpTuCJaQO3CGCi4mtbCx2g-1; Mon, 10 May 2021 23:34:45 -0400
+X-MC-Unique: OpTuCJaQO3CGCi4mtbCx2g-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ nd10-20020a170907628ab02903a324b229bfso5473969ejc.7
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 20:34:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lG5UeI8yLN2lePu+a+ZMhWohxlpHlbeT1dTgMa9+Q+0=;
- b=CDGOQdI00Bo+E4paA2Wu79NTpDvVE2AhWYUeG9DAdh76tdBuYxJ6wvHyF/g5YHz2IL
- TkQrAe9BKpC2XEba6shrV045jS5ZnvRydzoREYRI1Ed06+LHKhU7S4o+gRf0gJwXXKqA
- F0yqBqGN3ZijARrOFRzRlbuVKX1sZEvvE/F25a23ScUaqQQi7YuTlAt2F8GfEozIcJ+X
- KRbK7p2S6itmVjb0K1SW7V3D9EKwxQdGXNHlC9QqvsIOhDs7M0xmYJWxbRUPXGRenm0q
- pOoppEC02Sy+wr6aYcOtmjyXqfgKOwHl5yv+7/4+oqtm2FFP7bf1UzCftuezdAH2vb9D
- 1e6w==
-X-Gm-Message-State: AOAM5330tH7PFY+Hyhp51FXPc6DYC9VYiZTIy3LbEwVa41Y3zyYVV09i
- ozi3UF2kdp00IFs7MdQ8DDk=
-X-Google-Smtp-Source: ABdhPJw1bhRDkt79+BZJYELsZ7BDELPieJICsxUgtrwDD3tOkVViCeXZ5YtH7Fz60uzdzY5RvQG27g==
-X-Received: by 2002:a17:906:28d4:: with SMTP id
- p20mr29520722ejd.552.1620703749308; 
- Mon, 10 May 2021 20:29:09 -0700 (PDT)
+ bh=1kY04rf/+FYLT2Si5bLMoshdBGdTWYQRYMVCcAJiLGI=;
+ b=j+fmIw49oMb/oE+HgHxtQwxC45ZtY+/IesdJPNe5gFzxMAwzJHbi9k9cC/+Ga33OfP
+ bqtU2/PAFlP7sfjeLTj+nuB1XP3oZ88Z5bd7Pq2czD9kGFMmtUIGbFXoS4bgnAxlI9JX
+ 3KYcrvqbBDiNvbwwOZyLKdTD9jZxtDzHpfq8CvjZWGHANAXXmenYLQMHOH4q48zV3R1w
+ KBzBMVqinyjQocjdqeFA0jHoh5YRqU6CcblQ/KgkDvw7We5djAwgKnoFCfqcddRZP1ZB
+ iq8TQNE5oV7y7mao7z4Mv2X5uced37Yo8WBD0dSQqJDOE2I8YpmWTAfQo4Ph5/TH/LgQ
+ zKbg==
+X-Gm-Message-State: AOAM533/F1ouqCc6lPvA+qwyreCj4QKVWoBaEJlPFBE1Hu9/W6FqxCXL
+ a4MCGJaIKE+PnrcQh02s9YJY7q0VCKu3fwrNq6UdAP/F3BDLpDANmZNh0fyx9dxXh7IN34dSbwR
+ OCr57C/rkQkKwI+M=
+X-Received: by 2002:a05:6402:b91:: with SMTP id
+ cf17mr34277126edb.19.1620704084508; 
+ Mon, 10 May 2021 20:34:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxvbkN7jmqC5fLCGyab07AZhEX/1CItqymjTNDOpOL5OnK5lMQ24AfEYApFJHeQttR66xt+KA==
+X-Received: by 2002:a05:6402:b91:: with SMTP id
+ cf17mr34277109edb.19.1620704084353; 
+ Mon, 10 May 2021 20:34:44 -0700 (PDT)
 Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id v12sm13550846edb.81.2021.05.10.20.29.07
+ by smtp.gmail.com with ESMTPSA id p2sm10388746ejo.108.2021.05.10.20.34.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 May 2021 20:29:08 -0700 (PDT)
-Subject: Re: [PATCH v3 0/2] hw: Convert mc146818rtc & etraxfs_timer to 3-phase
- reset interface
-To: qemu-devel@nongnu.org
-References: <20210502163931.552675-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <89ae6ce0-7959-0d74-2f14-f5943a74bec2@amsat.org>
-Date: Tue, 11 May 2021 05:29:06 +0200
+ Mon, 10 May 2021 20:34:43 -0700 (PDT)
+Subject: Re: [PATCH v2 0/8] hw/block/fdc: Allow Kconfig-selecting ISA
+ bus/SysBus floppy controllers
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210428125104.358535-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a0e1177b-7021-f4ae-4c12-664fc5ad035e@redhat.com>
+Date: Tue, 11 May 2021 05:34:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210502163931.552675-1-f4bug@amsat.org>
+In-Reply-To: <20210428125104.358535-1-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,37 +101,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Miroslav Rezanina <mrezanin@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Laurent,
+Hi John,
 
-I addressed your comments from v1, and this series is
-now reviewed. Can it get merged via your qemu-trivial tree?
+This series is fully reviewed; can it go via your block tree?
 
-On 5/2/21 6:39 PM, Philippe Mathieu-Daudé wrote:
-> Remove qemu_register_reset() when a qdev type has a qbus parent,
-> implementing the 3-phase Resettable interface.
+On 4/28/21 2:50 PM, Philippe Mathieu-Daudé wrote:
+> Hi,
 > 
-> Since v2:
-> - Lower IRQ in 'hold' phase, not 'exit' one (Edgar)
+> The floppy disc controllers pulls in irrelevant devices (sysbus in
+> an ISA-only machine, ISA bus + isa devices on a sysbus-only machine).
+> 
+> This series clean that by extracting each device in its own file,
+> adding the corresponding Kconfig symbols: FDC_ISA and FDC_SYSBUS.
 > 
 > Since v1:
-> - Use 3-phase reset interface instead of qdev one (Laurent)
-> 
-> Supersedes: <20210423233652.3042941-1-f4bug@amsat.org>
-> 
-> Philippe Mathieu-Daudé (2):
->   hw/timer/etraxfs_timer: Convert to 3-phase reset (Resettable
->     interface)
->   hw/rtc/mc146818rtc: Convert to 3-phase reset (Resettable interface)
-> 
->  hw/rtc/mc146818rtc.c     | 42 +++++++++++++++++++++-------------------
->  hw/timer/etraxfs_timer.c | 14 +++++++++++---
->  2 files changed, 33 insertions(+), 23 deletions(-)
-> 
+> - added missing "hw/block/block.h" header (jsnow)
+> - inlined hardware specific calls (Mark)
+> - added R-b/A-b tags
+
+> Philippe Mathieu-Daudé (8):
+>   hw/block/fdc: Replace disabled fprintf() by trace event
+>   hw/block/fdc: Declare shared prototypes in fdc-internal.h
+>   hw/block/fdc: Extract ISA floppy controllers to fdc-isa.c
+>   hw/block/fdc: Extract SysBus floppy controllers to fdc-sysbus.c
+>   hw/block/fdc: Add sysbus_fdc_init_drives() method
+>   hw/sparc/sun4m: Inline sun4m_fdctrl_init()
+>   hw/block/fdc-sysbus: Add 'dma-channel' property
+>   hw/mips/jazz: Inline fdctrl_init_sysbus()
+
 
