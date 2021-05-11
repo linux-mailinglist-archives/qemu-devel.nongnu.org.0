@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B3A37A327
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:12:53 +0200 (CEST)
-Received: from localhost ([::1]:58440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C2D37A33E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:15:57 +0200 (CEST)
+Received: from localhost ([::1]:38186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgORg-0002At-Gt
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:12:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36606)
+	id 1lgOUe-0007op-6K
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:15:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lgNe5-00005Q-Sf
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:21:37 -0400
+ id 1lgNeK-0000yz-OP
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:21:52 -0400
 Received: from mga17.intel.com ([192.55.52.151]:32215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lgNe0-0004r8-ET
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:21:37 -0400
-IronPort-SDR: NQq/VNw7it1K0vMLvcXLSJucRFB9bNCgnoOYTpfKUyHGN1BYbNFPAZhgLxxaiCSgTqgl4sRhe+
- 8hc/aW0RdVUg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="179649395"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="179649395"
+ id 1lgNeG-0004r8-9q
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:21:52 -0400
+IronPort-SDR: IEmpkwsbSrSb18g8ljOlptJs//DcJTFljcC7XMNYA8zGFhSSGSRaue7O8L3Lj8uh/cCx5aDkbF
+ JIT4I7YjR/Pw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="179649398"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="179649398"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 May 2021 01:20:49 -0700
-IronPort-SDR: Q7uf276u4hsmh+Jd67d3Z33YtWVfTgHwDVR3/TK/eKNYIo3smR4SQ8TUQE5dn71hS7p0MyymYl
- 9r+qtT5+Dk5g==
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="536892215"
+IronPort-SDR: gM9ZwpS+GcUMT6z8g3TQ6YDo3MieX0GfCbiE5v+fpXv9RvASD036S9wxe4VSWb9qC2a/KEVl0z
+ j1oWq/MxIw9w==
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="536892224"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 May 2021 01:20:49 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/20] virtio-gpu: Add initial definitions for explict
- flush feature
-Date: Tue, 11 May 2021 01:08:12 -0700
-Message-Id: <20210511080818.366985-15-vivek.kasireddy@intel.com>
+Subject: [PATCH v3 17/20] ui: Add egl helpers for synchronization
+Date: Tue, 11 May 2021 01:08:15 -0700
+Message-Id: <20210511080818.366985-18-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210511080818.366985-1-vivek.kasireddy@intel.com>
 References: <20210511080818.366985-1-vivek.kasireddy@intel.com>
@@ -67,92 +66,211 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the property bit, conf flag and other relevant declarations
-associated with this feature.
+These egl helpers will be useful for creating a sync object
+and waiting on it when called from the virtio-gpu wait_flush
+API.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- hw/display/virtio-gpu-base.c                | 3 +++
- hw/display/virtio-gpu.c                     | 9 +++++++++
- include/hw/virtio/virtio-gpu.h              | 3 +++
- include/standard-headers/linux/virtio_gpu.h | 2 ++
- 4 files changed, 17 insertions(+)
+ include/ui/console.h     |  2 ++
+ include/ui/egl-helpers.h |  4 ++++
+ ui/egl-helpers.c         | 44 ++++++++++++++++++++++++++++++++++++++++
+ ui/gtk-egl.c             | 10 +++++++++
+ ui/gtk-gl-area.c         |  8 ++++++++
+ ui/gtk.c                 | 15 ++++++++++++++
+ 6 files changed, 83 insertions(+)
 
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index dd294276cb..c9af4c6117 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -211,6 +211,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
-     if (virtio_gpu_blob_enabled(g->conf)) {
-         features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
-     }
-+    if (virtio_gpu_expflush_enabled(g->conf)) {
-+        features |= (1 << VIRTIO_GPU_F_EXPLICIT_FLUSH);
-+    }
+diff --git a/include/ui/console.h b/include/ui/console.h
+index 3b0e377923..15a92dd87a 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -169,6 +169,8 @@ typedef struct QemuDmaBuf {
+     uint32_t  texture;
+     bool      y0_top;
+     void      *sync;
++    bool      blob;
++    int       fence_fd;
+ } QemuDmaBuf;
  
-     return features;
+ typedef struct DisplayState DisplayState;
+diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
+index f1bf8f97fc..1bc0e31b03 100644
+--- a/include/ui/egl-helpers.h
++++ b/include/ui/egl-helpers.h
+@@ -19,6 +19,7 @@ typedef struct egl_fb {
+     GLuint texture;
+     GLuint framebuffer;
+     bool delete_texture;
++    QemuDmaBuf *dmabuf;
+ } egl_fb;
+ 
+ void egl_fb_destroy(egl_fb *fb);
+@@ -45,6 +46,9 @@ int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc,
+ 
+ void egl_dmabuf_import_texture(QemuDmaBuf *dmabuf);
+ void egl_dmabuf_release_texture(QemuDmaBuf *dmabuf);
++void egl_dmabuf_create_sync(QemuDmaBuf *dmabuf);
++void egl_dmabuf_create_fence(QemuDmaBuf *dmabuf);
++void egl_dmabuf_wait_sync(QemuDmaBuf *dmabuf);
+ 
+ #endif
+ 
+diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
+index 6d0cb2b5cb..47220b66e0 100644
+--- a/ui/egl-helpers.c
++++ b/ui/egl-helpers.c
+@@ -76,6 +76,50 @@ void egl_fb_setup_for_tex(egl_fb *fb, int width, int height,
+                               GL_TEXTURE_2D, fb->texture, 0);
  }
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index cc2a0af21a..694d8f550c 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -1298,6 +1298,13 @@ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
-         }
-     }
  
-+    if (virtio_gpu_expflush_enabled(g->parent_obj.conf)) {
-+        if (!virtio_gpu_blob_enabled(g->parent_obj.conf)) {
-+            error_setg(errp, "cannot enable expflush without blob resources");
-+            return;
++void egl_dmabuf_create_sync(QemuDmaBuf *dmabuf)
++{
++    EGLSyncKHR sync;
++
++    if (epoxy_has_egl_extension(qemu_egl_display,
++                                "EGL_KHR_fence_sync") &&
++        epoxy_has_egl_extension(qemu_egl_display,
++                                "EGL_ANDROID_native_fence_sync")) {
++        sync = eglCreateSyncKHR(qemu_egl_display,
++				EGL_SYNC_NATIVE_FENCE_ANDROID, NULL);
++        if (sync != EGL_NO_SYNC_KHR) {
++            dmabuf->sync = sync;
 +        }
 +    }
++}
 +
-     if (!virtio_gpu_base_device_realize(qdev,
-                                         virtio_gpu_handle_ctrl_cb,
-                                         virtio_gpu_handle_cursor_cb,
-@@ -1393,6 +1400,8 @@ static Property virtio_gpu_properties[] = {
-                      256 * MiB),
-     DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
-                     VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
-+    DEFINE_PROP_BIT("expflush", VirtIOGPU, parent_obj.conf.flags,
-+                    VIRTIO_GPU_FLAG_EXPFLUSH_ENABLED, false),
-     DEFINE_PROP_END_OF_LIST(),
++void egl_dmabuf_create_fence(QemuDmaBuf *dmabuf)
++{
++    if (dmabuf->sync) {
++        dmabuf->fence_fd = eglDupNativeFenceFDANDROID(qemu_egl_display,
++                                                      dmabuf->sync);
++        eglDestroySyncKHR(qemu_egl_display, dmabuf->sync);
++        dmabuf->sync = NULL;
++    }
++}
++
++void egl_dmabuf_wait_sync(QemuDmaBuf *dmabuf)
++{
++    EGLSyncKHR sync;
++    EGLint attrib_list[] = {
++        EGL_SYNC_NATIVE_FENCE_FD_ANDROID, dmabuf->fence_fd,
++        EGL_NONE,
++    };
++
++    sync = eglCreateSyncKHR(qemu_egl_display,
++                            EGL_SYNC_NATIVE_FENCE_ANDROID, attrib_list);
++    if (sync != EGL_NO_SYNC_KHR) {
++        eglClientWaitSyncKHR(qemu_egl_display, sync,
++                             0, EGL_FOREVER_KHR);
++        eglDestroySyncKHR(qemu_egl_display, sync);
++        dmabuf->fence_fd = -1;
++    }
++}
++
+ void egl_fb_setup_new_tex(egl_fb *fb, int width, int height)
+ {
+     GLuint texture;
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index 2a2e6d3a17..e7117695f0 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -209,6 +209,8 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
+                            QemuDmaBuf *dmabuf)
+ {
+ #ifdef CONFIG_GBM
++    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
++
+     egl_dmabuf_import_texture(dmabuf);
+     if (!dmabuf->texture) {
+         return;
+@@ -217,6 +219,10 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
+     gd_egl_scanout_texture(dcl, dmabuf->texture,
+                            false, dmabuf->width, dmabuf->height,
+                            0, 0, dmabuf->width, dmabuf->height);
++
++    if (dmabuf->blob) {
++        vc->gfx.guest_fb.dmabuf = dmabuf;
++    }
+ #endif
+ }
+ 
+@@ -289,6 +295,10 @@ void gd_egl_scanout_flush(DisplayChangeListener *dcl,
+         egl_fb_blit(&vc->gfx.win_fb, &vc->gfx.guest_fb, !vc->gfx.y0_top);
+     }
+ 
++    if (vc->gfx.guest_fb.dmabuf) {
++        egl_dmabuf_create_sync(vc->gfx.guest_fb.dmabuf);
++    }
++
+     eglSwapBuffers(qemu_egl_display, vc->gfx.esurface);
+ }
+ 
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+index dd5783fec7..94f3b87c42 100644
+--- a/ui/gtk-gl-area.c
++++ b/ui/gtk-gl-area.c
+@@ -71,6 +71,10 @@ void gd_gl_area_draw(VirtualConsole *vc)
+         surface_gl_render_texture(vc->gfx.gls, vc->gfx.ds);
+     }
+ 
++    if (vc->gfx.guest_fb.dmabuf) {
++        egl_dmabuf_create_sync(vc->gfx.guest_fb.dmabuf);
++    }
++
+     glFlush();
+     graphic_hw_gl_flushed(vc->gfx.dcl.con);
+ }
+@@ -231,6 +235,10 @@ void gd_gl_area_scanout_dmabuf(DisplayChangeListener *dcl,
+     gd_gl_area_scanout_texture(dcl, dmabuf->texture,
+                                false, dmabuf->width, dmabuf->height,
+                                0, 0, dmabuf->width, dmabuf->height);
++
++    if (dmabuf->blob) {
++        vc->gfx.guest_fb.dmabuf = dmabuf;
++    }
+ #endif
+ }
+ 
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 1ea1253528..7465aa7552 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -630,6 +630,19 @@ static bool gd_has_dmabuf(DisplayChangeListener *dcl)
+     return vc->gfx.has_dmabuf;
+ }
+ 
++static void gd_gl_wait_dmabuf(DisplayChangeListener *dcl,
++                              QemuDmaBuf *dmabuf)
++{
++#ifdef CONFIG_GBM
++    egl_dmabuf_create_fence(dmabuf);
++    if (dmabuf->fence_fd <= 0) {
++        return;
++    }
++
++    egl_dmabuf_wait_sync(dmabuf);
++#endif
++}
++
+ /** DisplayState Callbacks (opengl version) **/
+ 
+ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+@@ -648,6 +661,7 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+     .dpy_gl_scanout_disable  = gd_gl_area_scanout_disable,
+     .dpy_gl_update           = gd_gl_area_scanout_flush,
+     .dpy_gl_scanout_dmabuf   = gd_gl_area_scanout_dmabuf,
++    .dpy_gl_wait_dmabuf      = gd_gl_wait_dmabuf,
+     .dpy_has_dmabuf          = gd_has_dmabuf,
  };
  
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 31b2bcc57b..4a827454f5 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -90,6 +90,7 @@ enum virtio_gpu_base_conf_flags {
-     VIRTIO_GPU_FLAG_EDID_ENABLED,
-     VIRTIO_GPU_FLAG_DMABUF_ENABLED,
-     VIRTIO_GPU_FLAG_BLOB_ENABLED,
-+    VIRTIO_GPU_FLAG_EXPFLUSH_ENABLED,
+@@ -672,6 +686,7 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
+     .dpy_gl_cursor_position  = gd_egl_cursor_position,
+     .dpy_gl_release_dmabuf   = gd_egl_release_dmabuf,
+     .dpy_gl_update           = gd_egl_scanout_flush,
++    .dpy_gl_wait_dmabuf      = gd_gl_wait_dmabuf,
+     .dpy_has_dmabuf          = gd_has_dmabuf,
  };
- 
- #define virtio_gpu_virgl_enabled(_cfg) \
-@@ -102,6 +103,8 @@ enum virtio_gpu_base_conf_flags {
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
- #define virtio_gpu_blob_enabled(_cfg) \
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
-+#define virtio_gpu_expflush_enabled(_cfg) \
-+    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_EXPFLUSH_ENABLED))
- 
- struct virtio_gpu_base_conf {
-     uint32_t max_outputs;
-diff --git a/include/standard-headers/linux/virtio_gpu.h b/include/standard-headers/linux/virtio_gpu.h
-index 1357e4774e..d015741f0b 100644
---- a/include/standard-headers/linux/virtio_gpu.h
-+++ b/include/standard-headers/linux/virtio_gpu.h
-@@ -60,6 +60,8 @@
-  */
- #define VIRTIO_GPU_F_RESOURCE_BLOB       3
- 
-+#define VIRTIO_GPU_F_EXPLICIT_FLUSH      4
-+
- enum virtio_gpu_ctrl_type {
- 	VIRTIO_GPU_UNDEFINED = 0,
  
 -- 
 2.30.2
