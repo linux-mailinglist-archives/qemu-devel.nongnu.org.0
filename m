@@ -2,58 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72F837AAB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:28:23 +0200 (CEST)
-Received: from localhost ([::1]:46130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D7C37AA81
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:20:03 +0200 (CEST)
+Received: from localhost ([::1]:48506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgUIz-0008Pi-Vl
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:28:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56574)
+	id 1lgUB0-0007Af-6m
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:20:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lgU2v-0002jm-6j
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:11:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58804)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lgU7s-0004ID-Gy
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:16:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52292)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lgU2t-0005Uz-DH
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:11:40 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lgU7p-0007sy-1p
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:16:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620745898;
+ s=mimecast20190719; t=1620746192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=2PyFznFveNCG5KwLVbcmm04Gz+OBsW0l24Gnvhx9maU=;
- b=Dw7XEi6A23qhXCy6XaRkDCoGZDcI+VdbVsJvP+ve4A1HmNJtXekP5v6+ufvZ3noSaQPLuU
- kBEvkUL/vIlrudlrS9yEtJDkxXXpuV/UU6FbJ0ipVYZK5hflI2nWQnL6UwCS1nxVh8K5li
- 7zDNwBVpOVHw/FpFYmOj4BobSWefSV8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-l41qzwwvNLiELZw4TC3_OA-1; Tue, 11 May 2021 11:11:36 -0400
-X-MC-Unique: l41qzwwvNLiELZw4TC3_OA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D67D1854E26;
- Tue, 11 May 2021 15:11:35 +0000 (UTC)
-Received: from gondolin.fritz.box (ovpn-113-172.ams2.redhat.com
- [10.36.113.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FBCC60C04;
- Tue, 11 May 2021 15:11:33 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>
-Subject: [PATCH RFC] vfio-ccw: forward halt/clear errors
-Date: Tue, 11 May 2021 17:11:29 +0200
-Message-Id: <20210511151129.77051-1-cohuck@redhat.com>
+ in-reply-to:in-reply-to:references:references;
+ bh=ofC0rBi4DPPTj74xp81sP5GGpV+ugu6+KkhMIEvk3x4=;
+ b=QVMUru55BGaags89wlea8hAtJ76iONgOtdtfjQDyDZ1DA7HDMLw5psfg5L2WfYkBk0C6qv
+ JZb4kDpoD0Jn4KbsQ4ZJSvonJ2SvSodLUn0ydqFOw2wp4jIfdfuwqlN04n5vZFFEbH+cqJ
+ Oeo00AWBVaVz+SHQ3StYgI5h2ba+Y1A=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-ZIX8lk4CMeyGOWPE3TEyCQ-1; Tue, 11 May 2021 11:16:29 -0400
+X-MC-Unique: ZIX8lk4CMeyGOWPE3TEyCQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ y18-20020a0cd9920000b02901c32e3e18f7so15755225qvj.15
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 08:16:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ofC0rBi4DPPTj74xp81sP5GGpV+ugu6+KkhMIEvk3x4=;
+ b=RVnVVLmfI8Y/QfXxyOH01PD+7mOs3MKookbQjhL5Pubrg2aL7CV/uw23kTJPOskt09
+ XSRLAaRr7wu2GG6oGLRewash7dVd/Q9gZ+onwEM4bsDD5+ilrhtm2jDzzWWFPRGpnYen
+ sEaOheNW1bINp66t1HJF4w6RzW//IiNJAZGEL5ldtzSbHmOZJSLnI+c/C03WsBgHp80N
+ 7zPSiKko8qOgJa8OxIsJ+1ekCgF41Tm2Rn/wi33PHshyBYEZLRDWrrQpW7gmierd9a56
+ n8q2bjgFoTW7KCMsTjsuHDOi8E9Pl5lOq+SEHb0/EvwA0rljgwCB8aJyr6LwaNRx6/6w
+ FgVQ==
+X-Gm-Message-State: AOAM5314c2WWurMPP15Luel/TTbJzKng2MgNUjUYUSM+cn1ViOEYQmSy
+ 1AJ7lj+cA5ftwhQrY8adIEQJuoBBtuEieOrlsvopCsFCxS0bneNHEeyR0NwC915f8QpU6yn136b
+ 9bAVTBBUNm+RthAw=
+X-Received: by 2002:a0c:c447:: with SMTP id t7mr30058991qvi.60.1620746189187; 
+ Tue, 11 May 2021 08:16:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw4aJlekwQNcRyqocU4BWwi3mAVhpr5Mu7ViTGISYvK4QWRRRcGQUhLMl9d/MYz4rhlALi3FQ==
+X-Received: by 2002:a0c:c447:: with SMTP id t7mr30058966qvi.60.1620746188974; 
+ Tue, 11 May 2021 08:16:28 -0700 (PDT)
+Received: from horse (pool-173-76-174-238.bstnma.fios.verizon.net.
+ [173.76.174.238])
+ by smtp.gmail.com with ESMTPSA id b7sm12579971qte.80.2021.05.11.08.16.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 May 2021 08:16:28 -0700 (PDT)
+Date: Tue, 11 May 2021 11:16:26 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Subject: Re: [Virtio-fs] [for-6.1 v3 3/3] virtiofsd: Add support for
+ FUSE_SYNCFS request
+Message-ID: <20210511151626.GC238488@horse>
+References: <20210510155539.998747-1-groug@kaod.org>
+ <20210510155539.998747-4-groug@kaod.org>
+ <CAOssrKfbzCnpHma-=tTRvwUecy_9RtJADzMb_uQ1yzzJStz1PA@mail.gmail.com>
+ <20210511125409.GA234533@horse> <20210511144923.GA238488@horse>
+ <CAOssrKeSBnDTa3SF0y49ZuoFMJPr1iq6KqzPCkXYmNsRxXP7vQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAOssrKeSBnDTa3SF0y49ZuoFMJPr1iq6KqzPCkXYmNsRxXP7vQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -74,133 +97,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, virtio-fs-list <virtio-fs@redhat.com>,
+ Miklos Szeredi <miklos@szeredi.hu>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hsch and csch basically have two parts: execute the command,
-and perform the halt/clear function. For fully emulated
-subchannels, it is pretty clear how it will work: check the
-subchannel state, and actually 'perform the halt/clear function'
-and set cc 0 if everything looks good.
+On Tue, May 11, 2021 at 05:08:42PM +0200, Miklos Szeredi wrote:
+> On Tue, May 11, 2021 at 4:49 PM Vivek Goyal <vgoyal@redhat.com> wrote:
+> >
+> > On Tue, May 11, 2021 at 08:54:09AM -0400, Vivek Goyal wrote:
+> > > On Tue, May 11, 2021 at 02:31:14PM +0200, Miklos Szeredi wrote:
+> > > > On Mon, May 10, 2021 at 5:55 PM Greg Kurz <groug@kaod.org> wrote:
+> > > > >
+> > > > > Honor the expected behavior of syncfs() to synchronously flush all data
+> > > > > and metadata on linux systems. Simply loop on all known submounts and
+> > > > > call syncfs() on them.
+> > > >
+> > > > Why not pass the submount's root to the server, so it can do just one
+> > > > targeted syncfs?
+> > > >
+> > > > E.g. somehting like this in fuse_sync_fs():
+> > > >
+> > > > args.nodeid = get_node_id(sb->s_root->d_inode);
+> > >
+> > > Hi Miklos,
+> > >
+> > > I think current proposal was due to lack of full understanding on my part.
+> > > I was assuming we have one super block in client and that's not the case
+> > > looks like. For every submount, we will have another superblock known
+> > > to vfs, IIUC. That means when sync() happens, we will receive ->syncfs()
+> > > for each of those super blocks. And that means file server does not
+> > > have to keep track of submounts explicitly and it will either receive
+> > > a single targeted SYNCFS (for the case of syncfs(fd)) or receive
+> > > multile SYNCFS calls (one for each submount when sync() is called).
+> >
+> > Tried sync() with submounts enabled and we are seeing a SYNCFS call
+> > only for top level super block and not for submounts.
+> >
+> > Greg noticed that it probably is due to the fact that iterate_super()
+> > skips super blocks which don't have SB_BORN flag set.
+> >
+> > Only vfs_get_tree() seems to set SB_BORN and for our submounts we
+> > are not calling vfs_get_tree(), hence SB_BORN is not set. NFS seems
+> > to call vfs_get_tree() and hence SB_BORN must be set for submounts.
+> >
+> > Maybe we need to modify virtio_fs_get_tree() so that it can deal with
+> > mount as well as submounts and then fuse_dentry_automount() should
+> > probably call vfs_get_tree() and that should set SB_BORN and hopefully
+> > sync() will work with it. Greg is planning to give it a try.
+> >
+> > Does it sound reasonable.
+> 
+> Just setting SB_BORN sounds much simpler.  What's the disadvantage?
 
-For passthrough subchannels, some of the checking is done
-within QEMU, but some has to be done within the kernel. QEMU's
-subchannel state may be such that we can perform the async
-function, but the kernel may still get a cc != 0 when it is
-actually executing the instruction. In that case, we need to
-set the condition actually encountered by the kernel; if we
-set cc 0 on error, we would actually need to inject an interrupt
-as well.
+I was little hesitant to set it directly because no other filesystem
+seems to be doing it. Hence I assumed that VFS expects filesystems to
+not set SB_BORN.
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
+But I do agree that setting SB_BORN in automount code is much simpler
+solution.
 
-Stumbled over this during the vfio-ccw kernel locking discussions.
-
-This is probably a corner case, and I'm not sure how I can actually
-get this path excercised, but it passes my smoke tests.
-
-Not sure whether this is the way to go. The unit exceptions in the
-halt/clear error paths also seem slightly fishy.
-
----
- hw/s390x/css.c | 34 ++++++++++++++++++++++++++++++----
- hw/vfio/ccw.c  |  4 ++--
- 2 files changed, 32 insertions(+), 6 deletions(-)
-
-diff --git a/hw/s390x/css.c b/hw/s390x/css.c
-index bed46f5ec3a2..ce2e903ca25a 100644
---- a/hw/s390x/css.c
-+++ b/hw/s390x/css.c
-@@ -1206,23 +1206,49 @@ static void sch_handle_start_func_virtual(SubchDev *sch)
- 
- }
- 
--static void sch_handle_halt_func_passthrough(SubchDev *sch)
-+static IOInstEnding sch_handle_halt_func_passthrough(SubchDev *sch)
- {
-     int ret;
- 
-     ret = s390_ccw_halt(sch);
-     if (ret == -ENOSYS) {
-         sch_handle_halt_func(sch);
-+        return IOINST_CC_EXPECTED;
-+    }
-+    /*
-+     * Some conditions may have been detected prior to starting the halt
-+     * function; map them to the correct cc.
-+     */
-+    switch (ret) {
-+    case -EBUSY:
-+        return IOINST_CC_BUSY;
-+    case -ENODEV:
-+    case -EACCES:
-+        return IOINST_CC_NOT_OPERATIONAL;
-+    default:
-+        return IOINST_CC_EXPECTED;
-     }
- }
- 
--static void sch_handle_clear_func_passthrough(SubchDev *sch)
-+static IOInstEnding sch_handle_clear_func_passthrough(SubchDev *sch)
- {
-     int ret;
- 
-     ret = s390_ccw_clear(sch);
-     if (ret == -ENOSYS) {
-         sch_handle_clear_func(sch);
-+        return IOINST_CC_EXPECTED;
-+    }
-+    /*
-+     * Some conditions may have been detected prior to starting the clear
-+     * function; map them to the correct cc.
-+     */
-+    switch (ret) {
-+    case -ENODEV:
-+    case -EACCES:
-+        return IOINST_CC_NOT_OPERATIONAL;
-+    default:
-+        return IOINST_CC_EXPECTED;
-     }
- }
- 
-@@ -1265,9 +1291,9 @@ IOInstEnding do_subchannel_work_passthrough(SubchDev *sch)
-     SCHIB *schib = &sch->curr_status;
- 
-     if (schib->scsw.ctrl & SCSW_FCTL_CLEAR_FUNC) {
--        sch_handle_clear_func_passthrough(sch);
-+        return sch_handle_clear_func_passthrough(sch);
-     } else if (schib->scsw.ctrl & SCSW_FCTL_HALT_FUNC) {
--        sch_handle_halt_func_passthrough(sch);
-+        return sch_handle_halt_func_passthrough(sch);
-     } else if (schib->scsw.ctrl & SCSW_FCTL_START_FUNC) {
-         return sch_handle_start_func_passthrough(sch);
-     }
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index e752c845e9e4..39275a917bd2 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -199,7 +199,7 @@ again:
-     case 0:
-     case -ENODEV:
-     case -EACCES:
--        return 0;
-+        return ret;
-     case -EFAULT:
-     default:
-         sch_gen_unit_exception(sch);
-@@ -240,7 +240,7 @@ again:
-     case -EBUSY:
-     case -ENODEV:
-     case -EACCES:
--        return 0;
-+        return ret;
-     case -EFAULT:
-     default:
-         sch_gen_unit_exception(sch);
--- 
-2.31.1
+Thanks
+Vivek
 
 
