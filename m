@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491B037A1DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:27:33 +0200 (CEST)
-Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0784337A1F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:29:14 +0200 (CEST)
+Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgNjo-0003Uc-Bm
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:27:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34672)
+	id 1lgNlR-0007pA-1X
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:29:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWu-0001qG-8l
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39730)
+ id 1lgNWs-0001p6-Cm
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWl-0000lt-B0
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:12 -0400
+ id 1lgNWk-0000kp-Rg
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1620720842;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=12O0ldUiwIDnZFPc+oLneWe8Z7yPCaCQY2mFBpyF4mc=;
- b=JWPWWfzPGqlQHer0zWSprArJg6mOmKyVhVeOX2ob/C2KyseWAjL8E9lXGm4hHvLZFfqkCT
- OOwJdN3GzampDwe2aW64Bd1jvFzhUZE4bh7rzWniklfvFG67gosg+azkhr6N0HhU2HGOQ9
- o1kbyYAW2KXYca+sGWUq8Edu0v+6xSI=
+ bh=8TMZiQ6cnCKAENVrLRU8lzTu06xHD8+0Q2KCz9ExqG4=;
+ b=K45oPQU8WOU87VybGRnTZNyof8FmI45QO7/wAJaqE7CSMFiV49+KwAzg7f4kaGMC7TJ0Pr
+ KbGdQLrinM0hN0HUIZ4Tos9PO0puHsu7NiyLakLRCDlNGEqvf9CVouKusG2zJfgpTu7i1U
+ LumB63CSegbm/4VX853h0C2NjT87x0Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-90-EFIzwj_WO2uMJAWCi7XP4Q-1; Tue, 11 May 2021 04:13:58 -0400
-X-MC-Unique: EFIzwj_WO2uMJAWCi7XP4Q-1
+ us-mta-531-njvGFpYCMt-uIhEojfKAOg-1; Tue, 11 May 2021 04:13:59 -0400
+X-MC-Unique: njvGFpYCMt-uIhEojfKAOg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3DB5107ACC7;
- Tue, 11 May 2021 08:13:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B3786D249;
+ Tue, 11 May 2021 08:13:58 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 944D719D9D;
- Tue, 11 May 2021 08:13:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A0662B45D;
+ Tue, 11 May 2021 08:13:58 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/33] i386: split misc helper user stubs and sysemu part
-Date: Tue, 11 May 2021 04:13:29 -0400
-Message-Id: <20210511081350.419428-13-pbonzini@redhat.com>
+Subject: [PULL 13/33] i386: separate fpu_helper sysemu-only parts
+Date: Tue, 11 May 2021 04:13:30 -0400
+Message-Id: <20210511081350.419428-14-pbonzini@redhat.com>
 In-Reply-To: <20210511081350.419428-1-pbonzini@redhat.com>
 References: <20210511081350.419428-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -86,1075 +86,181 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@suse.de>
 
+create a separate tcg/sysemu/fpu_helper.c for the sysemu-only parts.
+
+For user mode, some small #ifdefs remain in tcg/fpu_helper.c
+which do not seem worth splitting into their own user-mode module.
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-[claudio]:
-Rebased on da3f3b02("target/i386: fail if toggling LA57 in 64-bitmode")
-
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Message-Id: <20210322132800.7470-15-cfontana@suse.de>
+Message-Id: <20210322132800.7470-16-cfontana@suse.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/misc_helper.c        | 467 ---------------------------
- target/i386/tcg/sysemu/meson.build   |   1 +
- target/i386/tcg/sysemu/misc_helper.c | 442 +++++++++++++++++++++++++
- target/i386/tcg/user/meson.build     |   1 +
- target/i386/tcg/user/misc_stubs.c    |  75 +++++
- 5 files changed, 519 insertions(+), 467 deletions(-)
- create mode 100644 target/i386/tcg/sysemu/misc_helper.c
- create mode 100644 target/i386/tcg/user/misc_stubs.c
+ target/i386/cpu.h                   |  3 ++
+ target/i386/tcg/fpu_helper.c        | 41 +--------------------
+ target/i386/tcg/sysemu/fpu_helper.c | 57 +++++++++++++++++++++++++++++
+ target/i386/tcg/sysemu/meson.build  |  1 +
+ 4 files changed, 63 insertions(+), 39 deletions(-)
+ create mode 100644 target/i386/tcg/sysemu/fpu_helper.c
 
-diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
-index a25428c36e..a30379283e 100644
---- a/target/i386/tcg/misc_helper.c
-+++ b/target/i386/tcg/misc_helper.c
-@@ -18,12 +18,9 @@
-  */
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 4776daad23..5aae3ec0f4 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1817,7 +1817,10 @@ int cpu_x86_support_mca_broadcast(CPUX86State *env);
+ int cpu_get_pic_interrupt(CPUX86State *s);
+ /* MSDOS compatibility mode FPU exception support */
+ void x86_register_ferr_irq(qemu_irq irq);
++void fpu_check_raise_ferr_irq(CPUX86State *s);
+ void cpu_set_ignne(void);
++void cpu_clear_ignne(void);
++
+ /* mpx_helper.c */
+ void cpu_sync_bndcs_hflags(CPUX86State *env);
  
- #include "qemu/osdep.h"
--#include "qemu/main-loop.h"
+diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+index 20e4d2e715..1b30f1bb73 100644
+--- a/target/i386/tcg/fpu_helper.c
++++ b/target/i386/tcg/fpu_helper.c
+@@ -21,17 +21,10 @@
+ #include <math.h>
  #include "cpu.h"
  #include "exec/helper-proto.h"
- #include "exec/exec-all.h"
+-#include "qemu/host-utils.h"
+-#include "exec/exec-all.h"
 -#include "exec/cpu_ldst.h"
--#include "exec/address-spaces.h"
+ #include "fpu/softfloat.h"
+ #include "fpu/softfloat-macros.h"
  #include "helper-tcg.h"
  
- /*
-@@ -39,69 +36,6 @@ void cpu_load_eflags(CPUX86State *env, int eflags, int update_mask)
-         (eflags & update_mask) | 0x2;
- }
+-#ifdef CONFIG_SOFTMMU
+-#include "hw/irq.h"
+-#endif
+-
+ /* float macros */
+ #define FT0    (env->ft0)
+ #define ST0    (env->fpregs[env->fpstt].d)
+@@ -75,36 +68,6 @@
+ #define floatx80_ln2_d make_floatx80(0x3ffe, 0xb17217f7d1cf79abLL)
+ #define floatx80_pi_d make_floatx80(0x4000, 0xc90fdaa22168c234LL)
  
--void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
+-#if !defined(CONFIG_USER_ONLY)
+-static qemu_irq ferr_irq;
+-
+-void x86_register_ferr_irq(qemu_irq irq)
 -{
--#ifdef CONFIG_USER_ONLY
--    fprintf(stderr, "outb: port=0x%04x, data=%02x\n", port, data);
--#else
--    address_space_stb(&address_space_io, port, data,
--                      cpu_get_mem_attrs(env), NULL);
--#endif
+-    ferr_irq = irq;
 -}
 -
--target_ulong helper_inb(CPUX86State *env, uint32_t port)
+-static void cpu_clear_ignne(void)
 -{
--#ifdef CONFIG_USER_ONLY
--    fprintf(stderr, "inb: port=0x%04x\n", port);
--    return 0;
--#else
--    return address_space_ldub(&address_space_io, port,
--                              cpu_get_mem_attrs(env), NULL);
--#endif
+-    CPUX86State *env = &X86_CPU(first_cpu)->env;
+-    env->hflags2 &= ~HF2_IGNNE_MASK;
 -}
 -
--void helper_outw(CPUX86State *env, uint32_t port, uint32_t data)
+-void cpu_set_ignne(void)
 -{
--#ifdef CONFIG_USER_ONLY
--    fprintf(stderr, "outw: port=0x%04x, data=%04x\n", port, data);
--#else
--    address_space_stw(&address_space_io, port, data,
--                      cpu_get_mem_attrs(env), NULL);
--#endif
+-    CPUX86State *env = &X86_CPU(first_cpu)->env;
+-    env->hflags2 |= HF2_IGNNE_MASK;
+-    /*
+-     * We get here in response to a write to port F0h.  The chipset should
+-     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
+-     * cleared, because FERR# and FP_IRQ are two separate pins on real
+-     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
+-     * do directly what the chipset would do, i.e. deassert FP_IRQ.
+-     */
+-    qemu_irq_lower(ferr_irq);
 -}
--
--target_ulong helper_inw(CPUX86State *env, uint32_t port)
--{
--#ifdef CONFIG_USER_ONLY
--    fprintf(stderr, "inw: port=0x%04x\n", port);
--    return 0;
--#else
--    return address_space_lduw(&address_space_io, port,
--                              cpu_get_mem_attrs(env), NULL);
 -#endif
--}
 -
--void helper_outl(CPUX86State *env, uint32_t port, uint32_t data)
--{
--#ifdef CONFIG_USER_ONLY
--    fprintf(stderr, "outl: port=0x%04x, data=%08x\n", port, data);
--#else
--    address_space_stl(&address_space_io, port, data,
--                      cpu_get_mem_attrs(env), NULL);
--#endif
--}
 -
--target_ulong helper_inl(CPUX86State *env, uint32_t port)
--{
--#ifdef CONFIG_USER_ONLY
--    fprintf(stderr, "inl: port=0x%04x\n", port);
--    return 0;
--#else
--    return address_space_ldl(&address_space_io, port,
--                             cpu_get_mem_attrs(env), NULL);
--#endif
--}
--
- void helper_into(CPUX86State *env, int next_eip_addend)
+ static inline void fpush(CPUX86State *env)
  {
-     int eflags;
-@@ -126,68 +60,6 @@ void helper_cpuid(CPUX86State *env)
-     env->regs[R_EDX] = edx;
+     env->fpstt = (env->fpstt - 1) & 7;
+@@ -202,8 +165,8 @@ static void fpu_raise_exception(CPUX86State *env, uintptr_t retaddr)
+         raise_exception_ra(env, EXCP10_COPR, retaddr);
+     }
+ #if !defined(CONFIG_USER_ONLY)
+-    else if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
+-        qemu_irq_raise(ferr_irq);
++    else {
++        fpu_check_raise_ferr_irq(env);
+     }
+ #endif
  }
- 
--#if defined(CONFIG_USER_ONLY)
--target_ulong helper_read_crN(CPUX86State *env, int reg)
--{
--    return 0;
--}
--
--void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
--{
--}
--#else
--target_ulong helper_read_crN(CPUX86State *env, int reg)
--{
--    target_ulong val;
--
--    cpu_svm_check_intercept_param(env, SVM_EXIT_READ_CR0 + reg, 0, GETPC());
--    switch (reg) {
--    default:
--        val = env->cr[reg];
--        break;
--    case 8:
--        if (!(env->hflags2 & HF2_VINTR_MASK)) {
--            val = cpu_get_apic_tpr(env_archcpu(env)->apic_state);
--        } else {
--            val = env->v_tpr;
--        }
--        break;
--    }
--    return val;
--}
--
--void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
--{
--    cpu_svm_check_intercept_param(env, SVM_EXIT_WRITE_CR0 + reg, 0, GETPC());
--    switch (reg) {
--    case 0:
--        cpu_x86_update_cr0(env, t0);
--        break;
--    case 3:
--        cpu_x86_update_cr3(env, t0);
--        break;
--    case 4:
--        if (((t0 ^ env->cr[4]) & CR4_LA57_MASK) &&
--            (env->hflags & HF_CS64_MASK)) {
--             raise_exception_ra(env, EXCP0D_GPF, GETPC());
--        }
--        cpu_x86_update_cr4(env, t0);
--        break;
--    case 8:
--        if (!(env->hflags2 & HF2_VINTR_MASK)) {
--            qemu_mutex_lock_iothread();
--            cpu_set_apic_tpr(env_archcpu(env)->apic_state, t0);
--            qemu_mutex_unlock_iothread();
--        }
--        env->v_tpr = t0 & 0x0f;
--        break;
--    default:
--        env->cr[reg] = t0;
--        break;
--    }
--}
--#endif
--
- void helper_lmsw(CPUX86State *env, target_ulong t0)
- {
-     /* only 4 lower bits of CR0 are modified. PE cannot be set to zero
-@@ -237,345 +109,6 @@ void helper_rdpmc(CPUX86State *env)
-     raise_exception_err(env, EXCP06_ILLOP, 0);
- }
- 
--#if defined(CONFIG_USER_ONLY)
--void helper_wrmsr(CPUX86State *env)
--{
--}
--
--void helper_rdmsr(CPUX86State *env)
--{
--}
--#else
--void helper_wrmsr(CPUX86State *env)
--{
--    uint64_t val;
--    CPUState *cs = env_cpu(env);
--
--    cpu_svm_check_intercept_param(env, SVM_EXIT_MSR, 1, GETPC());
--
--    val = ((uint32_t)env->regs[R_EAX]) |
--        ((uint64_t)((uint32_t)env->regs[R_EDX]) << 32);
--
--    switch ((uint32_t)env->regs[R_ECX]) {
--    case MSR_IA32_SYSENTER_CS:
--        env->sysenter_cs = val & 0xffff;
--        break;
--    case MSR_IA32_SYSENTER_ESP:
--        env->sysenter_esp = val;
--        break;
--    case MSR_IA32_SYSENTER_EIP:
--        env->sysenter_eip = val;
--        break;
--    case MSR_IA32_APICBASE:
--        cpu_set_apic_base(env_archcpu(env)->apic_state, val);
--        break;
--    case MSR_EFER:
--        {
--            uint64_t update_mask;
--
--            update_mask = 0;
--            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_SYSCALL) {
--                update_mask |= MSR_EFER_SCE;
--            }
--            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
--                update_mask |= MSR_EFER_LME;
--            }
--            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_FFXSR) {
--                update_mask |= MSR_EFER_FFXSR;
--            }
--            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_NX) {
--                update_mask |= MSR_EFER_NXE;
--            }
--            if (env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_SVM) {
--                update_mask |= MSR_EFER_SVME;
--            }
--            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_FFXSR) {
--                update_mask |= MSR_EFER_FFXSR;
--            }
--            cpu_load_efer(env, (env->efer & ~update_mask) |
--                          (val & update_mask));
--        }
--        break;
--    case MSR_STAR:
--        env->star = val;
--        break;
--    case MSR_PAT:
--        env->pat = val;
--        break;
--    case MSR_IA32_PKRS:
--        if (val & 0xFFFFFFFF00000000ull) {
--            goto error;
--        }
--        env->pkrs = val;
--        tlb_flush(cs);
--        break;
--    case MSR_VM_HSAVE_PA:
--        env->vm_hsave = val;
--        break;
--#ifdef TARGET_X86_64
--    case MSR_LSTAR:
--        env->lstar = val;
--        break;
--    case MSR_CSTAR:
--        env->cstar = val;
--        break;
--    case MSR_FMASK:
--        env->fmask = val;
--        break;
--    case MSR_FSBASE:
--        env->segs[R_FS].base = val;
--        break;
--    case MSR_GSBASE:
--        env->segs[R_GS].base = val;
--        break;
--    case MSR_KERNELGSBASE:
--        env->kernelgsbase = val;
--        break;
--#endif
--    case MSR_MTRRphysBase(0):
--    case MSR_MTRRphysBase(1):
--    case MSR_MTRRphysBase(2):
--    case MSR_MTRRphysBase(3):
--    case MSR_MTRRphysBase(4):
--    case MSR_MTRRphysBase(5):
--    case MSR_MTRRphysBase(6):
--    case MSR_MTRRphysBase(7):
--        env->mtrr_var[((uint32_t)env->regs[R_ECX] -
--                       MSR_MTRRphysBase(0)) / 2].base = val;
--        break;
--    case MSR_MTRRphysMask(0):
--    case MSR_MTRRphysMask(1):
--    case MSR_MTRRphysMask(2):
--    case MSR_MTRRphysMask(3):
--    case MSR_MTRRphysMask(4):
--    case MSR_MTRRphysMask(5):
--    case MSR_MTRRphysMask(6):
--    case MSR_MTRRphysMask(7):
--        env->mtrr_var[((uint32_t)env->regs[R_ECX] -
--                       MSR_MTRRphysMask(0)) / 2].mask = val;
--        break;
--    case MSR_MTRRfix64K_00000:
--        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
--                        MSR_MTRRfix64K_00000] = val;
--        break;
--    case MSR_MTRRfix16K_80000:
--    case MSR_MTRRfix16K_A0000:
--        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
--                        MSR_MTRRfix16K_80000 + 1] = val;
--        break;
--    case MSR_MTRRfix4K_C0000:
--    case MSR_MTRRfix4K_C8000:
--    case MSR_MTRRfix4K_D0000:
--    case MSR_MTRRfix4K_D8000:
--    case MSR_MTRRfix4K_E0000:
--    case MSR_MTRRfix4K_E8000:
--    case MSR_MTRRfix4K_F0000:
--    case MSR_MTRRfix4K_F8000:
--        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
--                        MSR_MTRRfix4K_C0000 + 3] = val;
--        break;
--    case MSR_MTRRdefType:
--        env->mtrr_deftype = val;
--        break;
--    case MSR_MCG_STATUS:
--        env->mcg_status = val;
--        break;
--    case MSR_MCG_CTL:
--        if ((env->mcg_cap & MCG_CTL_P)
--            && (val == 0 || val == ~(uint64_t)0)) {
--            env->mcg_ctl = val;
--        }
--        break;
--    case MSR_TSC_AUX:
--        env->tsc_aux = val;
--        break;
--    case MSR_IA32_MISC_ENABLE:
--        env->msr_ia32_misc_enable = val;
--        break;
--    case MSR_IA32_BNDCFGS:
--        /* FIXME: #GP if reserved bits are set.  */
--        /* FIXME: Extend highest implemented bit of linear address.  */
--        env->msr_bndcfgs = val;
--        cpu_sync_bndcs_hflags(env);
--        break;
--    default:
--        if ((uint32_t)env->regs[R_ECX] >= MSR_MC0_CTL
--            && (uint32_t)env->regs[R_ECX] < MSR_MC0_CTL +
--            (4 * env->mcg_cap & 0xff)) {
--            uint32_t offset = (uint32_t)env->regs[R_ECX] - MSR_MC0_CTL;
--            if ((offset & 0x3) != 0
--                || (val == 0 || val == ~(uint64_t)0)) {
--                env->mce_banks[offset] = val;
--            }
--            break;
--        }
--        /* XXX: exception? */
--        break;
--    }
--    return;
--error:
--    raise_exception_err_ra(env, EXCP0D_GPF, 0, GETPC());
--}
--
--void helper_rdmsr(CPUX86State *env)
--{
--    X86CPU *x86_cpu = env_archcpu(env);
--    uint64_t val;
--
--    cpu_svm_check_intercept_param(env, SVM_EXIT_MSR, 0, GETPC());
--
--    switch ((uint32_t)env->regs[R_ECX]) {
--    case MSR_IA32_SYSENTER_CS:
--        val = env->sysenter_cs;
--        break;
--    case MSR_IA32_SYSENTER_ESP:
--        val = env->sysenter_esp;
--        break;
--    case MSR_IA32_SYSENTER_EIP:
--        val = env->sysenter_eip;
--        break;
--    case MSR_IA32_APICBASE:
--        val = cpu_get_apic_base(env_archcpu(env)->apic_state);
--        break;
--    case MSR_EFER:
--        val = env->efer;
--        break;
--    case MSR_STAR:
--        val = env->star;
--        break;
--    case MSR_PAT:
--        val = env->pat;
--        break;
--    case MSR_IA32_PKRS:
--        val = env->pkrs;
--        break;
--    case MSR_VM_HSAVE_PA:
--        val = env->vm_hsave;
--        break;
--    case MSR_IA32_PERF_STATUS:
--        /* tsc_increment_by_tick */
--        val = 1000ULL;
--        /* CPU multiplier */
--        val |= (((uint64_t)4ULL) << 40);
--        break;
--#ifdef TARGET_X86_64
--    case MSR_LSTAR:
--        val = env->lstar;
--        break;
--    case MSR_CSTAR:
--        val = env->cstar;
--        break;
--    case MSR_FMASK:
--        val = env->fmask;
--        break;
--    case MSR_FSBASE:
--        val = env->segs[R_FS].base;
--        break;
--    case MSR_GSBASE:
--        val = env->segs[R_GS].base;
--        break;
--    case MSR_KERNELGSBASE:
--        val = env->kernelgsbase;
--        break;
--    case MSR_TSC_AUX:
--        val = env->tsc_aux;
--        break;
--#endif
--    case MSR_SMI_COUNT:
--        val = env->msr_smi_count;
--        break;
--    case MSR_MTRRphysBase(0):
--    case MSR_MTRRphysBase(1):
--    case MSR_MTRRphysBase(2):
--    case MSR_MTRRphysBase(3):
--    case MSR_MTRRphysBase(4):
--    case MSR_MTRRphysBase(5):
--    case MSR_MTRRphysBase(6):
--    case MSR_MTRRphysBase(7):
--        val = env->mtrr_var[((uint32_t)env->regs[R_ECX] -
--                             MSR_MTRRphysBase(0)) / 2].base;
--        break;
--    case MSR_MTRRphysMask(0):
--    case MSR_MTRRphysMask(1):
--    case MSR_MTRRphysMask(2):
--    case MSR_MTRRphysMask(3):
--    case MSR_MTRRphysMask(4):
--    case MSR_MTRRphysMask(5):
--    case MSR_MTRRphysMask(6):
--    case MSR_MTRRphysMask(7):
--        val = env->mtrr_var[((uint32_t)env->regs[R_ECX] -
--                             MSR_MTRRphysMask(0)) / 2].mask;
--        break;
--    case MSR_MTRRfix64K_00000:
--        val = env->mtrr_fixed[0];
--        break;
--    case MSR_MTRRfix16K_80000:
--    case MSR_MTRRfix16K_A0000:
--        val = env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
--                              MSR_MTRRfix16K_80000 + 1];
--        break;
--    case MSR_MTRRfix4K_C0000:
--    case MSR_MTRRfix4K_C8000:
--    case MSR_MTRRfix4K_D0000:
--    case MSR_MTRRfix4K_D8000:
--    case MSR_MTRRfix4K_E0000:
--    case MSR_MTRRfix4K_E8000:
--    case MSR_MTRRfix4K_F0000:
--    case MSR_MTRRfix4K_F8000:
--        val = env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
--                              MSR_MTRRfix4K_C0000 + 3];
--        break;
--    case MSR_MTRRdefType:
--        val = env->mtrr_deftype;
--        break;
--    case MSR_MTRRcap:
--        if (env->features[FEAT_1_EDX] & CPUID_MTRR) {
--            val = MSR_MTRRcap_VCNT | MSR_MTRRcap_FIXRANGE_SUPPORT |
--                MSR_MTRRcap_WC_SUPPORTED;
--        } else {
--            /* XXX: exception? */
--            val = 0;
--        }
--        break;
--    case MSR_MCG_CAP:
--        val = env->mcg_cap;
--        break;
--    case MSR_MCG_CTL:
--        if (env->mcg_cap & MCG_CTL_P) {
--            val = env->mcg_ctl;
--        } else {
--            val = 0;
--        }
--        break;
--    case MSR_MCG_STATUS:
--        val = env->mcg_status;
--        break;
--    case MSR_IA32_MISC_ENABLE:
--        val = env->msr_ia32_misc_enable;
--        break;
--    case MSR_IA32_BNDCFGS:
--        val = env->msr_bndcfgs;
--        break;
--     case MSR_IA32_UCODE_REV:
--        val = x86_cpu->ucode_rev;
--        break;
--    default:
--        if ((uint32_t)env->regs[R_ECX] >= MSR_MC0_CTL
--            && (uint32_t)env->regs[R_ECX] < MSR_MC0_CTL +
--            (4 * env->mcg_cap & 0xff)) {
--            uint32_t offset = (uint32_t)env->regs[R_ECX] - MSR_MC0_CTL;
--            val = env->mce_banks[offset];
--            break;
--        }
--        /* XXX: exception? */
--        val = 0;
--        break;
--    }
--    env->regs[R_EAX] = (uint32_t)(val);
--    env->regs[R_EDX] = (uint32_t)(val >> 32);
--}
--#endif
--
- static void do_pause(X86CPU *cpu)
- {
-     CPUState *cs = CPU(cpu);
+diff --git a/target/i386/tcg/sysemu/fpu_helper.c b/target/i386/tcg/sysemu/fpu_helper.c
+new file mode 100644
+index 0000000000..1c3610da3b
+--- /dev/null
++++ b/target/i386/tcg/sysemu/fpu_helper.c
+@@ -0,0 +1,57 @@
++/*
++ *  x86 FPU, MMX/3DNow!/SSE/SSE2/SSE3/SSSE3/SSE4/PNI helpers (sysemu code)
++ *
++ *  Copyright (c) 2003 Fabrice Bellard
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "hw/irq.h"
++
++static qemu_irq ferr_irq;
++
++void x86_register_ferr_irq(qemu_irq irq)
++{
++    ferr_irq = irq;
++}
++
++void fpu_check_raise_ferr_irq(CPUX86State *env)
++{
++    if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
++        qemu_irq_raise(ferr_irq);
++        return;
++    }
++}
++
++void cpu_clear_ignne(void)
++{
++    CPUX86State *env = &X86_CPU(first_cpu)->env;
++    env->hflags2 &= ~HF2_IGNNE_MASK;
++}
++
++void cpu_set_ignne(void)
++{
++    CPUX86State *env = &X86_CPU(first_cpu)->env;
++    env->hflags2 |= HF2_IGNNE_MASK;
++    /*
++     * We get here in response to a write to port F0h.  The chipset should
++     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
++     * cleared, because FERR# and FP_IRQ are two separate pins on real
++     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
++     * do directly what the chipset would do, i.e. deassert FP_IRQ.
++     */
++    qemu_irq_lower(ferr_irq);
++}
 diff --git a/target/i386/tcg/sysemu/meson.build b/target/i386/tcg/sysemu/meson.build
-index 1580950141..b2aaab6eef 100644
+index b2aaab6eef..f84519a213 100644
 --- a/target/i386/tcg/sysemu/meson.build
 +++ b/target/i386/tcg/sysemu/meson.build
-@@ -3,4 +3,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
-   'smm_helper.c',
+@@ -4,4 +4,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
    'excp_helper.c',
    'bpt_helper.c',
-+  'misc_helper.c',
+   'misc_helper.c',
++  'fpu_helper.c',
  ))
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-new file mode 100644
-index 0000000000..66e7939537
---- /dev/null
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -0,0 +1,442 @@
-+/*
-+ *  x86 misc helpers - sysemu code
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/main-loop.h"
-+#include "cpu.h"
-+#include "exec/helper-proto.h"
-+#include "exec/cpu_ldst.h"
-+#include "exec/address-spaces.h"
-+#include "tcg/helper-tcg.h"
-+
-+void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
-+{
-+    address_space_stb(&address_space_io, port, data,
-+                      cpu_get_mem_attrs(env), NULL);
-+}
-+
-+target_ulong helper_inb(CPUX86State *env, uint32_t port)
-+{
-+    return address_space_ldub(&address_space_io, port,
-+                              cpu_get_mem_attrs(env), NULL);
-+}
-+
-+void helper_outw(CPUX86State *env, uint32_t port, uint32_t data)
-+{
-+    address_space_stw(&address_space_io, port, data,
-+                      cpu_get_mem_attrs(env), NULL);
-+}
-+
-+target_ulong helper_inw(CPUX86State *env, uint32_t port)
-+{
-+    return address_space_lduw(&address_space_io, port,
-+                              cpu_get_mem_attrs(env), NULL);
-+}
-+
-+void helper_outl(CPUX86State *env, uint32_t port, uint32_t data)
-+{
-+    address_space_stl(&address_space_io, port, data,
-+                      cpu_get_mem_attrs(env), NULL);
-+}
-+
-+target_ulong helper_inl(CPUX86State *env, uint32_t port)
-+{
-+    return address_space_ldl(&address_space_io, port,
-+                             cpu_get_mem_attrs(env), NULL);
-+}
-+
-+target_ulong helper_read_crN(CPUX86State *env, int reg)
-+{
-+    target_ulong val;
-+
-+    cpu_svm_check_intercept_param(env, SVM_EXIT_READ_CR0 + reg, 0, GETPC());
-+    switch (reg) {
-+    default:
-+        val = env->cr[reg];
-+        break;
-+    case 8:
-+        if (!(env->hflags2 & HF2_VINTR_MASK)) {
-+            val = cpu_get_apic_tpr(env_archcpu(env)->apic_state);
-+        } else {
-+            val = env->v_tpr;
-+        }
-+        break;
-+    }
-+    return val;
-+}
-+
-+void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
-+{
-+    cpu_svm_check_intercept_param(env, SVM_EXIT_WRITE_CR0 + reg, 0, GETPC());
-+    switch (reg) {
-+    case 0:
-+        cpu_x86_update_cr0(env, t0);
-+        break;
-+    case 3:
-+        cpu_x86_update_cr3(env, t0);
-+        break;
-+    case 4:
-+        if (((t0 ^ env->cr[4]) & CR4_LA57_MASK) &&
-+            (env->hflags & HF_CS64_MASK)) {
-+            raise_exception_ra(env, EXCP0D_GPF, GETPC());
-+        }
-+        cpu_x86_update_cr4(env, t0);
-+        break;
-+    case 8:
-+        if (!(env->hflags2 & HF2_VINTR_MASK)) {
-+            qemu_mutex_lock_iothread();
-+            cpu_set_apic_tpr(env_archcpu(env)->apic_state, t0);
-+            qemu_mutex_unlock_iothread();
-+        }
-+        env->v_tpr = t0 & 0x0f;
-+        break;
-+    default:
-+        env->cr[reg] = t0;
-+        break;
-+    }
-+}
-+
-+void helper_wrmsr(CPUX86State *env)
-+{
-+    uint64_t val;
-+    CPUState *cs = env_cpu(env);
-+
-+    cpu_svm_check_intercept_param(env, SVM_EXIT_MSR, 1, GETPC());
-+
-+    val = ((uint32_t)env->regs[R_EAX]) |
-+        ((uint64_t)((uint32_t)env->regs[R_EDX]) << 32);
-+
-+    switch ((uint32_t)env->regs[R_ECX]) {
-+    case MSR_IA32_SYSENTER_CS:
-+        env->sysenter_cs = val & 0xffff;
-+        break;
-+    case MSR_IA32_SYSENTER_ESP:
-+        env->sysenter_esp = val;
-+        break;
-+    case MSR_IA32_SYSENTER_EIP:
-+        env->sysenter_eip = val;
-+        break;
-+    case MSR_IA32_APICBASE:
-+        cpu_set_apic_base(env_archcpu(env)->apic_state, val);
-+        break;
-+    case MSR_EFER:
-+        {
-+            uint64_t update_mask;
-+
-+            update_mask = 0;
-+            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_SYSCALL) {
-+                update_mask |= MSR_EFER_SCE;
-+            }
-+            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
-+                update_mask |= MSR_EFER_LME;
-+            }
-+            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_FFXSR) {
-+                update_mask |= MSR_EFER_FFXSR;
-+            }
-+            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_NX) {
-+                update_mask |= MSR_EFER_NXE;
-+            }
-+            if (env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_SVM) {
-+                update_mask |= MSR_EFER_SVME;
-+            }
-+            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_FFXSR) {
-+                update_mask |= MSR_EFER_FFXSR;
-+            }
-+            cpu_load_efer(env, (env->efer & ~update_mask) |
-+                          (val & update_mask));
-+        }
-+        break;
-+    case MSR_STAR:
-+        env->star = val;
-+        break;
-+    case MSR_PAT:
-+        env->pat = val;
-+        break;
-+    case MSR_IA32_PKRS:
-+        if (val & 0xFFFFFFFF00000000ull) {
-+            goto error;
-+        }
-+        env->pkrs = val;
-+        tlb_flush(cs);
-+        break;
-+    case MSR_VM_HSAVE_PA:
-+        env->vm_hsave = val;
-+        break;
-+#ifdef TARGET_X86_64
-+    case MSR_LSTAR:
-+        env->lstar = val;
-+        break;
-+    case MSR_CSTAR:
-+        env->cstar = val;
-+        break;
-+    case MSR_FMASK:
-+        env->fmask = val;
-+        break;
-+    case MSR_FSBASE:
-+        env->segs[R_FS].base = val;
-+        break;
-+    case MSR_GSBASE:
-+        env->segs[R_GS].base = val;
-+        break;
-+    case MSR_KERNELGSBASE:
-+        env->kernelgsbase = val;
-+        break;
-+#endif
-+    case MSR_MTRRphysBase(0):
-+    case MSR_MTRRphysBase(1):
-+    case MSR_MTRRphysBase(2):
-+    case MSR_MTRRphysBase(3):
-+    case MSR_MTRRphysBase(4):
-+    case MSR_MTRRphysBase(5):
-+    case MSR_MTRRphysBase(6):
-+    case MSR_MTRRphysBase(7):
-+        env->mtrr_var[((uint32_t)env->regs[R_ECX] -
-+                       MSR_MTRRphysBase(0)) / 2].base = val;
-+        break;
-+    case MSR_MTRRphysMask(0):
-+    case MSR_MTRRphysMask(1):
-+    case MSR_MTRRphysMask(2):
-+    case MSR_MTRRphysMask(3):
-+    case MSR_MTRRphysMask(4):
-+    case MSR_MTRRphysMask(5):
-+    case MSR_MTRRphysMask(6):
-+    case MSR_MTRRphysMask(7):
-+        env->mtrr_var[((uint32_t)env->regs[R_ECX] -
-+                       MSR_MTRRphysMask(0)) / 2].mask = val;
-+        break;
-+    case MSR_MTRRfix64K_00000:
-+        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
-+                        MSR_MTRRfix64K_00000] = val;
-+        break;
-+    case MSR_MTRRfix16K_80000:
-+    case MSR_MTRRfix16K_A0000:
-+        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
-+                        MSR_MTRRfix16K_80000 + 1] = val;
-+        break;
-+    case MSR_MTRRfix4K_C0000:
-+    case MSR_MTRRfix4K_C8000:
-+    case MSR_MTRRfix4K_D0000:
-+    case MSR_MTRRfix4K_D8000:
-+    case MSR_MTRRfix4K_E0000:
-+    case MSR_MTRRfix4K_E8000:
-+    case MSR_MTRRfix4K_F0000:
-+    case MSR_MTRRfix4K_F8000:
-+        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
-+                        MSR_MTRRfix4K_C0000 + 3] = val;
-+        break;
-+    case MSR_MTRRdefType:
-+        env->mtrr_deftype = val;
-+        break;
-+    case MSR_MCG_STATUS:
-+        env->mcg_status = val;
-+        break;
-+    case MSR_MCG_CTL:
-+        if ((env->mcg_cap & MCG_CTL_P)
-+            && (val == 0 || val == ~(uint64_t)0)) {
-+            env->mcg_ctl = val;
-+        }
-+        break;
-+    case MSR_TSC_AUX:
-+        env->tsc_aux = val;
-+        break;
-+    case MSR_IA32_MISC_ENABLE:
-+        env->msr_ia32_misc_enable = val;
-+        break;
-+    case MSR_IA32_BNDCFGS:
-+        /* FIXME: #GP if reserved bits are set.  */
-+        /* FIXME: Extend highest implemented bit of linear address.  */
-+        env->msr_bndcfgs = val;
-+        cpu_sync_bndcs_hflags(env);
-+        break;
-+    default:
-+        if ((uint32_t)env->regs[R_ECX] >= MSR_MC0_CTL
-+            && (uint32_t)env->regs[R_ECX] < MSR_MC0_CTL +
-+            (4 * env->mcg_cap & 0xff)) {
-+            uint32_t offset = (uint32_t)env->regs[R_ECX] - MSR_MC0_CTL;
-+            if ((offset & 0x3) != 0
-+                || (val == 0 || val == ~(uint64_t)0)) {
-+                env->mce_banks[offset] = val;
-+            }
-+            break;
-+        }
-+        /* XXX: exception? */
-+        break;
-+    }
-+    return;
-+error:
-+    raise_exception_err_ra(env, EXCP0D_GPF, 0, GETPC());
-+}
-+
-+void helper_rdmsr(CPUX86State *env)
-+{
-+    X86CPU *x86_cpu = env_archcpu(env);
-+    uint64_t val;
-+
-+    cpu_svm_check_intercept_param(env, SVM_EXIT_MSR, 0, GETPC());
-+
-+    switch ((uint32_t)env->regs[R_ECX]) {
-+    case MSR_IA32_SYSENTER_CS:
-+        val = env->sysenter_cs;
-+        break;
-+    case MSR_IA32_SYSENTER_ESP:
-+        val = env->sysenter_esp;
-+        break;
-+    case MSR_IA32_SYSENTER_EIP:
-+        val = env->sysenter_eip;
-+        break;
-+    case MSR_IA32_APICBASE:
-+        val = cpu_get_apic_base(env_archcpu(env)->apic_state);
-+        break;
-+    case MSR_EFER:
-+        val = env->efer;
-+        break;
-+    case MSR_STAR:
-+        val = env->star;
-+        break;
-+    case MSR_PAT:
-+        val = env->pat;
-+        break;
-+    case MSR_IA32_PKRS:
-+        val = env->pkrs;
-+        break;
-+    case MSR_VM_HSAVE_PA:
-+        val = env->vm_hsave;
-+        break;
-+    case MSR_IA32_PERF_STATUS:
-+        /* tsc_increment_by_tick */
-+        val = 1000ULL;
-+        /* CPU multiplier */
-+        val |= (((uint64_t)4ULL) << 40);
-+        break;
-+#ifdef TARGET_X86_64
-+    case MSR_LSTAR:
-+        val = env->lstar;
-+        break;
-+    case MSR_CSTAR:
-+        val = env->cstar;
-+        break;
-+    case MSR_FMASK:
-+        val = env->fmask;
-+        break;
-+    case MSR_FSBASE:
-+        val = env->segs[R_FS].base;
-+        break;
-+    case MSR_GSBASE:
-+        val = env->segs[R_GS].base;
-+        break;
-+    case MSR_KERNELGSBASE:
-+        val = env->kernelgsbase;
-+        break;
-+    case MSR_TSC_AUX:
-+        val = env->tsc_aux;
-+        break;
-+#endif
-+    case MSR_SMI_COUNT:
-+        val = env->msr_smi_count;
-+        break;
-+    case MSR_MTRRphysBase(0):
-+    case MSR_MTRRphysBase(1):
-+    case MSR_MTRRphysBase(2):
-+    case MSR_MTRRphysBase(3):
-+    case MSR_MTRRphysBase(4):
-+    case MSR_MTRRphysBase(5):
-+    case MSR_MTRRphysBase(6):
-+    case MSR_MTRRphysBase(7):
-+        val = env->mtrr_var[((uint32_t)env->regs[R_ECX] -
-+                             MSR_MTRRphysBase(0)) / 2].base;
-+        break;
-+    case MSR_MTRRphysMask(0):
-+    case MSR_MTRRphysMask(1):
-+    case MSR_MTRRphysMask(2):
-+    case MSR_MTRRphysMask(3):
-+    case MSR_MTRRphysMask(4):
-+    case MSR_MTRRphysMask(5):
-+    case MSR_MTRRphysMask(6):
-+    case MSR_MTRRphysMask(7):
-+        val = env->mtrr_var[((uint32_t)env->regs[R_ECX] -
-+                             MSR_MTRRphysMask(0)) / 2].mask;
-+        break;
-+    case MSR_MTRRfix64K_00000:
-+        val = env->mtrr_fixed[0];
-+        break;
-+    case MSR_MTRRfix16K_80000:
-+    case MSR_MTRRfix16K_A0000:
-+        val = env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
-+                              MSR_MTRRfix16K_80000 + 1];
-+        break;
-+    case MSR_MTRRfix4K_C0000:
-+    case MSR_MTRRfix4K_C8000:
-+    case MSR_MTRRfix4K_D0000:
-+    case MSR_MTRRfix4K_D8000:
-+    case MSR_MTRRfix4K_E0000:
-+    case MSR_MTRRfix4K_E8000:
-+    case MSR_MTRRfix4K_F0000:
-+    case MSR_MTRRfix4K_F8000:
-+        val = env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
-+                              MSR_MTRRfix4K_C0000 + 3];
-+        break;
-+    case MSR_MTRRdefType:
-+        val = env->mtrr_deftype;
-+        break;
-+    case MSR_MTRRcap:
-+        if (env->features[FEAT_1_EDX] & CPUID_MTRR) {
-+            val = MSR_MTRRcap_VCNT | MSR_MTRRcap_FIXRANGE_SUPPORT |
-+                MSR_MTRRcap_WC_SUPPORTED;
-+        } else {
-+            /* XXX: exception? */
-+            val = 0;
-+        }
-+        break;
-+    case MSR_MCG_CAP:
-+        val = env->mcg_cap;
-+        break;
-+    case MSR_MCG_CTL:
-+        if (env->mcg_cap & MCG_CTL_P) {
-+            val = env->mcg_ctl;
-+        } else {
-+            val = 0;
-+        }
-+        break;
-+    case MSR_MCG_STATUS:
-+        val = env->mcg_status;
-+        break;
-+    case MSR_IA32_MISC_ENABLE:
-+        val = env->msr_ia32_misc_enable;
-+        break;
-+    case MSR_IA32_BNDCFGS:
-+        val = env->msr_bndcfgs;
-+        break;
-+     case MSR_IA32_UCODE_REV:
-+        val = x86_cpu->ucode_rev;
-+        break;
-+    default:
-+        if ((uint32_t)env->regs[R_ECX] >= MSR_MC0_CTL
-+            && (uint32_t)env->regs[R_ECX] < MSR_MC0_CTL +
-+            (4 * env->mcg_cap & 0xff)) {
-+            uint32_t offset = (uint32_t)env->regs[R_ECX] - MSR_MC0_CTL;
-+            val = env->mce_banks[offset];
-+            break;
-+        }
-+        /* XXX: exception? */
-+        val = 0;
-+        break;
-+    }
-+    env->regs[R_EAX] = (uint32_t)(val);
-+    env->regs[R_EDX] = (uint32_t)(val >> 32);
-+}
-diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
-index e0ef0f02e2..2ab8bd903c 100644
---- a/target/i386/tcg/user/meson.build
-+++ b/target/i386/tcg/user/meson.build
-@@ -1,3 +1,4 @@
- i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
-   'excp_helper.c',
-+  'misc_stubs.c',
- ))
-diff --git a/target/i386/tcg/user/misc_stubs.c b/target/i386/tcg/user/misc_stubs.c
-new file mode 100644
-index 0000000000..84df4e65ff
---- /dev/null
-+++ b/target/i386/tcg/user/misc_stubs.c
-@@ -0,0 +1,75 @@
-+/*
-+ *  x86 misc helpers
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/helper-proto.h"
-+
-+void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
-+{
-+    g_assert_not_reached();
-+}
-+
-+target_ulong helper_inb(CPUX86State *env, uint32_t port)
-+{
-+    g_assert_not_reached();
-+    return 0;
-+}
-+
-+void helper_outw(CPUX86State *env, uint32_t port, uint32_t data)
-+{
-+    g_assert_not_reached();
-+}
-+
-+target_ulong helper_inw(CPUX86State *env, uint32_t port)
-+{
-+    g_assert_not_reached();
-+    return 0;
-+}
-+
-+void helper_outl(CPUX86State *env, uint32_t port, uint32_t data)
-+{
-+    g_assert_not_reached();
-+}
-+
-+target_ulong helper_inl(CPUX86State *env, uint32_t port)
-+{
-+    g_assert_not_reached();
-+    return 0;
-+}
-+
-+target_ulong helper_read_crN(CPUX86State *env, int reg)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void helper_wrmsr(CPUX86State *env)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void helper_rdmsr(CPUX86State *env)
-+{
-+    g_assert_not_reached();
-+}
 -- 
 2.26.2
 
