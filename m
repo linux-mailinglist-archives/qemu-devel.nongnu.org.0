@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0DD837A2DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:01:01 +0200 (CEST)
-Received: from localhost ([::1]:60484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB26937A2D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:00:41 +0200 (CEST)
+Received: from localhost ([::1]:60180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgOGC-0000mO-O3
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36748)
+	id 1lgOFs-0000Z5-Lj
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:00:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lgNeL-00011E-BL
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:21:53 -0400
-Received: from mga17.intel.com ([192.55.52.151]:32226)
+ id 1lgNeW-0001Rk-51
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:22:04 -0400
+Received: from mga17.intel.com ([192.55.52.151]:32223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lgNeJ-0004x4-Bb
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:21:53 -0400
-IronPort-SDR: d4/VEjqE5eYW5lj4geIrHJJkMZRs/k9aDee8SUNh01LnkvxwcLwsO/IccTb6j8DloytfTbfcM5
- SjFnmgOUR/RA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="179649400"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="179649400"
+ id 1lgNeU-0004ul-9p
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:22:03 -0400
+IronPort-SDR: bGBq1JvLE6mqEvHtBwY111K8ed2CoBGjjEbjAKXqjXujVimuTvZgsl03VzX5JXL5EUR2kSguhK
+ NKrYrP7NIvLA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="179649401"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="179649401"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 May 2021 01:20:49 -0700
-IronPort-SDR: isdhtGoK9KzN6uoghXUa2nRJusUwYM6yXqH7jKn5ZI8OHhfRKBo/wNyQL6PJulShJpreM5tgtH
- emHckS5zjTaw==
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="536892230"
+IronPort-SDR: Ud7JgZJfXX7wL12rlWNgFXb4SHQ2sI693pSYdwhI38jdKewAVUSv1hZaFNzW5+v2TFpiOww+lz
+ pxVlSEWMQEZA==
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="536892232"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 May 2021 01:20:49 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/20] ui/gtk: Create a common release_dmabuf helper
-Date: Tue, 11 May 2021 01:08:17 -0700
-Message-Id: <20210511080818.366985-20-vivek.kasireddy@intel.com>
+Subject: [PATCH v3 20/20] virtio-gpu: Add gl_flushed callback
+Date: Tue, 11 May 2021 01:08:18 -0700
+Message-Id: <20210511080818.366985-21-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210511080818.366985-1-vivek.kasireddy@intel.com>
 References: <20210511080818.366985-1-vivek.kasireddy@intel.com>
@@ -66,86 +66,102 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the texture release mechanism is same for both gtk-egl
-and gtk-glarea, move the helper from gtk-egl into common gtk
-area so that it can be shared by both gtk backends.
+Adding this callback provides a way to determine when the UI
+has submitted the buffer to the Host windowing system. Making
+the guest wait for this event will ensure that the dmabuf/buffer
+updates are synchronized.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/ui/gtk.h |  2 --
- ui/gtk-egl.c     |  8 --------
- ui/gtk.c         | 11 ++++++++++-
- 3 files changed, 10 insertions(+), 11 deletions(-)
+ hw/display/virtio-gpu.c        | 47 +++++++++++++++++++++++++++++++++-
+ include/hw/virtio/virtio-gpu.h |  1 +
+ 2 files changed, 47 insertions(+), 1 deletion(-)
 
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index 0929e658f2..95506aa13b 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -114,8 +114,6 @@ void gd_egl_cursor_dmabuf(DisplayChangeListener *dcl,
-                           uint32_t hot_x, uint32_t hot_y);
- void gd_egl_cursor_position(DisplayChangeListener *dcl,
-                             uint32_t pos_x, uint32_t pos_y);
--void gd_egl_release_dmabuf(DisplayChangeListener *dcl,
--                           QemuDmaBuf *dmabuf);
- void gd_egl_flush(DisplayChangeListener *dcl,
-                   uint32_t x, uint32_t y, uint32_t w, uint32_t h);
- void gd_egl_scanout_flush(DisplayChangeListener *dcl,
-diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
-index 799e3cbc78..a5655b6bbc 100644
---- a/ui/gtk-egl.c
-+++ b/ui/gtk-egl.c
-@@ -255,14 +255,6 @@ void gd_egl_cursor_position(DisplayChangeListener *dcl,
-     vc->gfx.cursor_y = pos_y * vc->gfx.scale_y;
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 59cbc2b1df..47b3b2b244 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -1016,7 +1016,8 @@ void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
+         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
+         break;
+     }
+-    if (!cmd->finished) {
++    if ((!cmd->finished && !(cmd->cmd_hdr.flags & VIRTIO_GPU_FLAG_FENCE)) ||
++        (cmd->finished && (cmd->cmd_hdr.flags & VIRTIO_GPU_FLAG_FENCE))) {
+         virtio_gpu_ctrl_response_nodata(g, cmd, cmd->error ? cmd->error :
+                                         VIRTIO_GPU_RESP_OK_NODATA);
+     }
+@@ -1074,6 +1075,49 @@ void virtio_gpu_process_cmdq(VirtIOGPU *g)
+     g->processing_cmdq = false;
  }
  
--void gd_egl_release_dmabuf(DisplayChangeListener *dcl,
--                           QemuDmaBuf *dmabuf)
--{
--#ifdef CONFIG_GBM
--    egl_dmabuf_release_texture(dmabuf);
--#endif
--}
--
- void gd_egl_scanout_flush(DisplayChangeListener *dcl,
-                           uint32_t x, uint32_t y, uint32_t w, uint32_t h)
- {
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 4c6066b015..621dcf3f9e 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -630,6 +630,14 @@ static bool gd_has_dmabuf(DisplayChangeListener *dcl)
-     return vc->gfx.has_dmabuf;
- }
- 
-+static void gd_gl_release_dmabuf(DisplayChangeListener *dcl,
-+                                 QemuDmaBuf *dmabuf)
++static void virtio_gpu_signal_fence(VirtIOGPU *g,
++                                    struct virtio_gpu_ctrl_command *cmd,
++                                    enum virtio_gpu_ctrl_type type)
 +{
-+#ifdef CONFIG_GBM
-+    egl_dmabuf_release_texture(dmabuf);
-+#endif
++    struct virtio_gpu_simple_resource *res;
++    struct virtio_gpu_wait_flush wf;
++
++    VIRTIO_GPU_FILL_CMD(wf);
++    virtio_gpu_bswap_32(&wf, sizeof(wf));
++
++    res = virtio_gpu_find_check_resource(g, wf.resource_id, true,
++                                         __func__, &cmd->error);
++    if (res && virtio_gpu_resource_has_sync(g, res)) {
++        virtio_gpu_resource_wait_sync(g, res);
++    }
++
++    virtio_gpu_ctrl_response_nodata(g, cmd, VIRTIO_GPU_RESP_OK_NODATA);
 +}
 +
- static void gd_gl_wait_dmabuf(DisplayChangeListener *dcl,
-                               QemuDmaBuf *dmabuf)
++static void virtio_gpu_process_fenceq(VirtIOGPU *g)
++{
++    struct virtio_gpu_ctrl_command *cmd, *tmp;
++
++    QTAILQ_FOREACH_SAFE(cmd, &g->fenceq, next, tmp) {
++        trace_virtio_gpu_fence_resp(cmd->cmd_hdr.fence_id);
++        virtio_gpu_signal_fence(g, cmd, VIRTIO_GPU_RESP_OK_NODATA);
++        QTAILQ_REMOVE(&g->fenceq, cmd, next);
++
++        g_free(cmd);
++        g->inflight--;
++        if (virtio_gpu_stats_enabled(g->parent_obj.conf)) {
++            fprintf(stderr, "inflight: %3d (-)\r", g->inflight);
++        }
++    }
++}
++
++static void virtio_gpu_gl_flushed(VirtIOGPU *g)
++{
++    if (virtio_gpu_expflush_enabled(g->parent_obj.conf)) {
++        virtio_gpu_process_fenceq(g);
++    }
++}
++
+ static void virtio_gpu_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
  {
-@@ -661,6 +669,7 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
-     .dpy_gl_scanout_disable  = gd_gl_area_scanout_disable,
-     .dpy_gl_update           = gd_gl_area_scanout_flush,
-     .dpy_gl_scanout_dmabuf   = gd_gl_area_scanout_dmabuf,
-+    .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
-     .dpy_gl_wait_dmabuf      = gd_gl_wait_dmabuf,
-     .dpy_has_dmabuf          = gd_has_dmabuf,
+     VirtIOGPU *g = VIRTIO_GPU(vdev);
+@@ -1445,6 +1489,7 @@ static void virtio_gpu_class_init(ObjectClass *klass, void *data)
+     vgc->handle_ctrl = virtio_gpu_handle_ctrl;
+     vgc->process_cmd = virtio_gpu_simple_process_cmd;
+     vgc->update_cursor_data = virtio_gpu_update_cursor_data;
++    vgc->gl_flushed = virtio_gpu_gl_flushed;
+ 
+     vdc->realize = virtio_gpu_device_realize;
+     vdc->reset = virtio_gpu_reset;
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 41f74e9286..59edd6da7f 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -202,6 +202,7 @@ struct VirtIOGPUClass {
+     void (*update_cursor_data)(VirtIOGPU *g,
+                                struct virtio_gpu_scanout *s,
+                                uint32_t resource_id);
++    void (*gl_flushed)(VirtIOGPU *g);
  };
-@@ -684,7 +693,7 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
-     .dpy_gl_scanout_dmabuf   = gd_egl_scanout_dmabuf,
-     .dpy_gl_cursor_dmabuf    = gd_egl_cursor_dmabuf,
-     .dpy_gl_cursor_position  = gd_egl_cursor_position,
--    .dpy_gl_release_dmabuf   = gd_egl_release_dmabuf,
-+    .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
-     .dpy_gl_update           = gd_egl_flush,
-     .dpy_gl_wait_dmabuf      = gd_gl_wait_dmabuf,
-     .dpy_has_dmabuf          = gd_has_dmabuf,
+ 
+ struct VirtIOGPUGL {
 -- 
 2.30.2
 
