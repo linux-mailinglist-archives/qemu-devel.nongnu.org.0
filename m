@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5F137A3CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:38:27 +0200 (CEST)
-Received: from localhost ([::1]:37180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 788A637A3CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:38:29 +0200 (CEST)
+Received: from localhost ([::1]:36858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgOqQ-0004je-RA
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:38:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47392)
+	id 1lgOqN-0004WU-Aj
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:38:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgOR9-0003JB-9w
- for qemu-devel@nongnu.org; Tue, 11 May 2021 05:12:19 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:40757)
+ id 1lgOSl-0006jC-NY
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 05:13:59 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:35464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgOR4-00084k-J7
- for qemu-devel@nongnu.org; Tue, 11 May 2021 05:12:19 -0400
-Received: by mail-ed1-x535.google.com with SMTP id c22so21983012edn.7
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 02:12:14 -0700 (PDT)
+ id 1lgOSd-0000UB-G9
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 05:13:59 -0400
+Received: by mail-ej1-x632.google.com with SMTP id m12so28712123eja.2
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 02:13:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=G9tUcGCyL6KxP6G7vp+hswa9mhFZ8w8MdNCqspqj99E=;
- b=pxe7t3iXInVQ2n1AkKfGB5My102ENdw+SQnYWmhm4xX9u6p9Wzi3LMZuv5meyloEqT
- R1XTn/Q+aOUQJzSTlbJOqOpy+EhTULShTDCSbxO/Wscs44ACE48+6cqWcAC2tQExyH0E
- nsw0zuwHvtYaTvo32puyquObnTooSB1qZCKBntD2CO+HXEAPSnm62bpMi0CfBIXEMUYm
- 0Z/nb5YR0/WZtp/5oNkJWsZaKD0QTZBTksKOMc+pGtLXyap3rPUSkhWyhZ0eA94PhsZU
- Bp+xY4u/+2VPZHQSnr+nZ4KnDlvF60zU76GtPvgNg7YU47qrdAoHljOIQ0+2yhD6ql33
- KdNQ==
+ :cc; bh=0QxbAp7FgGeCC81Z1BKW2veeLkx9WqVARj9kyfd4fzU=;
+ b=YL4klpZ/qQjvoaAAfHaCOJsVmZkKvhj0yf3Nj66tUrQiyrlxwVTG23fMXQ+GGKxp0w
+ Kje5xuwcsxWoBeMT5z/aFIvweeQDue6LwXPOLTZ/9YT7IlqV041B0VWu6g3ss9fcYP9T
+ EuHTZjbpgHZoKtxv8TnYuCyu7p//eqhLl4A7hQuwANNh/5qVN5SpNu2W6QvEyKwlYZvF
+ twJ6QsInWdyAamNKaeXNd/byVwmbJTB1bBt189Trwc8tjdp/s4Um5ue/VEaGxL5CQfZK
+ AbYekwEV7UD2qNtzNc9qvr/sPAZAMg2PQhDUC7rm0Pplgj4ReCGOYbIRfZQi8KZk550D
+ iWZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=G9tUcGCyL6KxP6G7vp+hswa9mhFZ8w8MdNCqspqj99E=;
- b=gujMejIgt9jk33T6/Y3OtmD3Dz9K6hyid7YlcFGsb769BZ7BY3TAS32OPUjutdY15I
- Hq//f+687EwXOu13BRyHs+q7QGM+wUHu6+sBnr4gVi36KrlLfpKbI4/6xXHTndLBt0h7
- sHwIjl/LXjUytWsq0wB/r3++qNhkrdoUSiLnQK4Rd7k0/wMZ/alh5+nzLSn0bc+d2lNe
- ICqRmpv7UQ7xYJjUrxsAXX5HQ7ULRVXFXV0FBYkmBrdhwk9pqlJVVJ9rF6b5dabT1s7k
- L2ki9rs20CoqE3JpRHFgLXPPn8rNIZT+k/73fGXcAVsJJ3NGBqVv5d+N5IcfnQckyzpx
- NWOQ==
-X-Gm-Message-State: AOAM532zijiZzJhe3oeALs7Sn4hyQQKbxrLlWFL7s3XX077+/xkIOM6r
- XmUC+xdual6+n9oslk4zvSL0TaTyUbx5R4MT2IWBnQ==
-X-Google-Smtp-Source: ABdhPJzbQA7/Tnqa41UcwC8d0FYoXIrFp4+1kcpJE5jjdbpo2uytNEHteH3xKzgjLhwXC3hPqX2qIxg55lPYTUCJUxw=
-X-Received: by 2002:a05:6402:1d8f:: with SMTP id
- dk15mr32479326edb.146.1620724333248; 
- Tue, 11 May 2021 02:12:13 -0700 (PDT)
+ bh=0QxbAp7FgGeCC81Z1BKW2veeLkx9WqVARj9kyfd4fzU=;
+ b=RP7dkRptdiO/LzXJWtKuk6HzvBrUz1bZiqe8wqd0U02icubt+TXbxTpjKzkok8UqfR
+ 7hLSEUct73DytSObkik6XCSEo8ipVexjfr8mWm/G5eGqb1z0BU70IWf1eQYjetbmRmQv
+ fOtXnVOJvNRjnZofsfsv9lH4y2Bl3KiLcX14RCK+xjiA161iJjhYFeLiuEo+j/oAWKVa
+ SZSuE48IgoZu9jUpCEqPDfgLRQeyW4hd0jWZeznn2BxM18deckrvZHYkeAJjA0VgvXg+
+ L2E6Fbap32adkX56E5fbWdYhpvt4vZrReUsHQ9xFL1M2xvsbmMxWnqtWfcnSR4Zlyk0J
+ Glig==
+X-Gm-Message-State: AOAM530C5ymL4GBDvLspJApKNbAyI5medu6nzNbVDNwLOTqMaJe5oDDO
+ iHc5Vtq/0jL6I048At5+C009LxCIdrcpo7AWUdIzrg==
+X-Google-Smtp-Source: ABdhPJxdrIzRYsd/Ro2y0PNAGkJ+dJTOJ+9MZTPzpoCOC0m78vPSM4sI7G9aTld/y+Z7YChJ9rH5Gm+Jii5cE6HVZN4=
+X-Received: by 2002:a17:906:364d:: with SMTP id
+ r13mr31321347ejb.250.1620724429359; 
+ Tue, 11 May 2021 02:13:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-11-richard.henderson@linaro.org>
-In-Reply-To: <20210430202610.1136687-11-richard.henderson@linaro.org>
+ <20210430202610.1136687-12-richard.henderson@linaro.org>
+In-Reply-To: <20210430202610.1136687-12-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 May 2021 10:11:01 +0100
-Message-ID: <CAFEAcA_tfckLfk8SmqyZVrM5vxZ74P_9yx9NR=_d7utT-17hTA@mail.gmail.com>
-Subject: Re: [PATCH v6 10/82] target/arm: Implement SVE2 integer add/subtract
- long
+Date: Tue, 11 May 2021 10:12:37 +0100
+Message-ID: <CAFEAcA8nBUhjsZb8vvFmj1zrxL+M_wZ5u_tDNcBfcrY1SM4LHw@mail.gmail.com>
+Subject: Re: [PATCH v6 11/82] target/arm: Implement SVE2 integer add/subtract
+ interleaved long
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,20 +88,13 @@ On Fri, 30 Apr 2021 at 21:36, Richard Henderson
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> v2: Fix select offsets (laurent desnogues).
-> ---
->  target/arm/helper-sve.h    | 24 ++++++++++++++++++++
->  target/arm/sve.decode      | 19 ++++++++++++++++
->  target/arm/sve_helper.c    | 43 +++++++++++++++++++++++++++++++++++
->  target/arm/translate-sve.c | 46 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 132 insertions(+)
+>  target/arm/sve.decode      | 6 ++++++
+>  target/arm/translate-sve.c | 4 ++++
+>  2 files changed, 10 insertions(+)
 >
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
