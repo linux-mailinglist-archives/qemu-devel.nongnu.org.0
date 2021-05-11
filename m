@@ -2,58 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBEED379F5C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 07:52:41 +0200 (CEST)
-Received: from localhost ([::1]:54100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D9E379F63
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 07:54:37 +0200 (CEST)
+Received: from localhost ([::1]:57494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgLJw-0006tW-W7
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 01:52:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33472)
+	id 1lgLLo-0000i4-PA
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 01:54:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgLDM-0006fd-6n
+ id 1lgLDM-0006g6-SH
  for qemu-devel@nongnu.org; Tue, 11 May 2021 01:45:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33378)
+Received: from indium.canonical.com ([91.189.90.7]:33322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgLDK-0006Pa-08
- for qemu-devel@nongnu.org; Tue, 11 May 2021 01:45:51 -0400
+ id 1lgLDJ-0006PN-WC
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 01:45:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgLDI-0004Gp-7Q
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:45:48 +0000
+ id 1lgLDG-0004GU-ST
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:45:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 36D8C2E8188
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:45:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C9F3F2E804B
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:45:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 May 2021 05:37:43 -0000
-From: Thomas Huth <1859384@bugs.launchpad.net>
+Date: Tue, 11 May 2021 05:37:55 -0000
+From: Thomas Huth <1874264@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm gic testcase
+X-Launchpad-Bug-Tags: ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee alexlngw pmaydell th-huth
-X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
+X-Launchpad-Bug-Commenters: kennethsalerno th-huth
+X-Launchpad-Bug-Reporter: Kenneth Salerno (kennethsalerno)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157887973843.5281.117317310678495552.malonedeb@gac.canonical.com>
-Message-Id: <162071146337.10352.4105756069760687325.malone@chaenomeles.canonical.com>
-Subject: [Bug 1859384] Re: arm gic: gic_acknowledge_irq doesn't clear line
- level for other cores for 1-n level-sensitive interrupts and
- gic_clear_pending uses GIC_DIST_TEST_MODEL (even on v2 where it always read 0
- - "N-N")
+References: <158756466889.23136.4781024661991862847.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162071147516.15943.17867246824102304939.malone@soybean.canonical.com>
+Subject: [Bug 1874264] Re: AIX 7.2 TL4 SP1 cannot IPL with QEMU >2.11.2
+ ppc64-softmmu
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 6ba2a3be34ae7588c99b3e57b1585c2a45f1a72e
+X-Launchpad-Hash: 1c25c0d5ea622f32dd77a3f62b66a44e4497cf69
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -62,7 +60,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859384 <1859384@bugs.launchpad.net>
+Reply-To: Bug 1874264 <1874264@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -82,98 +80,420 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/268
+ https://gitlab.com/qemu-project/qemu/-/issues/269
 
 
 ** Changed in: qemu
        Status: Confirmed =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #268
-   https://gitlab.com/qemu-project/qemu/-/issues/268
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #269
+   https://gitlab.com/qemu-project/qemu/-/issues/269
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859384
+https://bugs.launchpad.net/bugs/1874264
 
 Title:
-  arm gic: gic_acknowledge_irq doesn't clear line level for other cores
-  for 1-n level-sensitive interrupts and gic_clear_pending uses
-  GIC_DIST_TEST_MODEL (even on v2 where it always read 0 - "N-N")
+  AIX 7.2 TL4 SP1 cannot IPL with QEMU >2.11.2 ppc64-softmmu
 
 Status in QEMU:
   Expired
 
 Bug description:
-  For a 1-N interrupt (any SPI on the GICv2), as mandated by the TRM,
-  only one CPU can acknowledge the IRQ until it becomes inactive.
+  kens@LAPTOP-JN77KAC2$ qemu-system-ppc64 -version
+  QEMU emulator version 4.2.93 (v5.0.0-rc3-8-g3119154db0-dirty)
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
 
-  The TRM also mandates that SGIs and PPIs follow the N-N model and that
-  SPIs follow the 1-N model.
+  qemu-system-ppc64 \
+    -name "IBM AIX - IBM POWER9" \
+    -M pseries \
+    -cpu POWER9 \
+    -smp 8 \
+    -m 8192 \
+    -nodefaults \
+    -nographic \
+    -prom-env input-device=3D/vdevice/vty@71000000 \
+    -prom-env output-device=3D/vdevice/vty@71000000 \
+    -serial tcp::9019,server,nowait \
+    -monitor tcp::9020,server,nowait \
+    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
+22 \
+    -device virtio-net-pci,netdev=3Dmynet0 \
+    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
+ia=3Ddisk,cache=3Dunsafe \
+    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
+    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
+=3Dunsafe
 
-  However this is not currently the case with QEMU. I have locally (no
-  minimal test case) seen e.g. uart interrupts being acknowledged twice
-  before having been deactivated (expected: irqId on one CPU and 1023 on
-  the other instead).
+  -------------------------------------------------------------------------=
+------
+                                  Welcome to AIX.
+                     boot image timestamp: 14:18:40 03/27/2020
+          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
+           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
+  =0CAIX vm,uuid property contains invalid data
+  processing splpar characteristic: MaxEntCap
+  processing splpar characteristic: DesMem
+  processing splpar characteristic: DesProcs
+  processing splpar characteristic: MaxPlatProcs
+  processing splpar characteristic: HostThrs
 
-  I have narrowed the issue down to the following:
+  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
+rgument
+  -------------------------------------------------------------------------=
+------
+  =0CStarqemu-system-ppc64: OS terminated: 888 102 700 C20
 
-  1) arm_gic_common_reset resets all irq_state[id] fields to 0. This
-  means all IRQ will use the N-N model, and if s->revision !=3D
-  REV_11MPCORE, then there's no way to set any interrupt to 1-N.
+  =
 
-  If ""fixed"" locally with a hackjob, I still have the following trace:
+  qemu-system-ppc64 \
+    -name "IBM AIX - IBM POWER8" \
+    -M pseries \
+    -cpu POWER8 \
+    -smp 8 \
+    -m 8192 \
+    -nodefaults \
+    -nographic \
+    -prom-env input-device=3D/vdevice/vty@71000000 \
+    -prom-env output-device=3D/vdevice/vty@71000000 \
+    -serial tcp::9019,server,nowait \
+    -monitor tcp::9020,server,nowait \
+    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
+22 \
+    -device virtio-net-pci,netdev=3Dmynet0 \
+    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
+ia=3Ddisk,cache=3Dunsafe \
+    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
+    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
+=3Dunsafe
 
-  pl011_irq_state 534130.800 pid=3D2424 level=3D0x1
-  gic_set_irq 2.900 pid=3D2424 irq=3D0x21 level=3D0x1 cpumask=3D0xff target=
-=3D0xff
-  gic_update_set_irq 3.300 pid=3D2424 cpu=3D0x0 name=3Dirq level=3D0x1
-  gic_update_set_irq 4.200 pid=3D2424 cpu=3D0x1 name=3Dirq level=3D0x1
-  gic_acknowledge_irq 539.400 pid=3D2424 s=3Dcpu cpu=3D0x1 irq=3D0x21
-  gic_update_set_irq 269.800 pid=3D2424 cpu=3D0x0 name=3Dirq level=3D0x1
-  gic_cpu_read 4.100 pid=3D2424 s=3Dcpu cpu=3D0x1 addr=3D0xc val=3D0x21
-  gic_acknowledge_irq 15.600 pid=3D2424 s=3Dcpu cpu=3D0x0 irq=3D0x21
-  gic_cpu_read 265.000 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0xc val=3D0x21
-  pl011_write 1594.700 pid=3D2424 addr=3D0x44 value=3D0x50
-  pl011_irq_state 2.000 pid=3D2424 level=3D0x0
-  gic_set_irq 1.300 pid=3D2424 irq=3D0x21 level=3D0x0 cpumask=3D0xff target=
-=3D0xff
-  pl011_write 30.700 pid=3D2424 addr=3D0x38 value=3D0x0
-  pl011_irq_state 1.200 pid=3D2424 level=3D0x0
-  gic_cpu_write 110.600 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0x10 val=3D0x21
-  gic_cpu_write 193.400 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0x1000 val=3D0x=
-21
-  pl011_irq_state 1169.500 pid=3D2424 level=3D0x0
+  -------------------------------------------------------------------------=
+------
+                                  Welcome to AIX.
+                     boot image timestamp: 14:18:40 03/27/2020
+          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
+           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
+  =0CAIX vm,uuid property contains invalid data
+  processing splpar characteristic: MaxEntCap
+  processing splpar characteristic: DesMem
+  processing splpar characteristic: DesProcs
+  processing splpar characteristic: MaxPlatProcs
+  processing splpar characteristic: HostThrs
 
-  This is because:
+  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
+rgument
+  -------------------------------------------------------------------------=
+------
+  =0CStar**
+  ERROR:/home/kens/tmp/qemu/cpus.c:1727:qemu_tcg_cpu_thread_fn: assertion f=
+ailed: (cpu->halted)
 
-  2) gic_acknowledge_irq calls gic_clear_pending which uses
-  GIC_DIST_CLEAR_PENDING but this usually has no effect on level-
-  sensitive interrupts.
+  =
 
-  With this often being a no-op (ie. assuming ispendr was not written
-  to), any 1-n level-sensitive interrupt is still improperly pending on
-  all the other cores.
+  kens@LAPTOP-JN77KAC2$ qemu-system-ppc64 -version
+  QEMU emulator version 2.11.2
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
 
-  (Also, I don't really know how the qemu thread model works, there
-  might be race conditions in the acknowledgment logic if
-  gic_acknowledge_irq is called by multiple threads, too.)
+  qemu-system-ppc64 \
+    -name "IBM AIX - IBM POWER9" \
+    -M pseries,cap-htm=3Doff \
+    -cpu POWER9 \
+    -smp 8 \
+    -m 8192 \
+    -nodefaults \
+    -nographic \
+    -prom-env input-device=3D/vdevice/vty@71000000 \
+    -prom-env output-device=3D/vdevice/vty@71000000 \
+    -serial tcp::9019,server,nowait \
+    -monitor tcp::9020,server,nowait \
+    -netdev type=3Duser,id=3Dmynet0,hostfwd=3Dtcp:127.0.0.1:9018-10.0.2.18:=
+22 \
+    -device virtio-net-pci,netdev=3Dmynet0 \
+    -drive file=3Dimages/aix-ppc64.img,format=3Dqcow2,if=3Dnone,id=3Dhd,med=
+ia=3Ddisk,cache=3Dunsafe \
+    -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd \
+    -drive file=3Dimages/iso/blank-cdrom,format=3Draw,media=3Dcdrom,cache=
+=3Dunsafe
 
-  Option used:
-  -nographic -machine virt,virtualization=3Don,accel=3Dtcg,gic-version=3D2 =
--cpu cortex-a57 -smp 4 -m 1024
-  -kernel whatever.elf -d unimp,guest_errors -semihosting-config enable,tar=
-get=3Dnative
-  -chardev stdio,id=3Duart -serial chardev:uart -monitor none
-  -trace gic_update_set_irq -trace gic_acknowledge_irq -trace pl011_irq_sta=
-te -trace pl011_write -trace gic_cpu_read -trace gic_cpu_write
-  -trace gic_set_irq
+  -------------------------------------------------------------------------=
+------
+                                  Welcome to AIX.
+                     boot image timestamp: 14:18:40 03/27/2020
+          processor count: 8;  memory size: 8192MB;  kernel size: 45422205
+           boot device: /pci@800000020000000/scsi@1/disk@100000000000000
+  =0CAIX vm,uuid property contains invalid data
+  processing splpar characteristic: MaxEntCap
+  processing splpar characteristic: DesMem
+  processing splpar characteristic: DesProcs
+  processing splpar characteristic: MaxPlatProcs
 
-  Commit used: dc65a5bdc9fa543690a775b50d4ffbeb22c56d6d "Merge remote-
-  tracking branch 'remotes/dgibson/tags/ppc-for-5.0-20200108' into
-  staging"
+  AKVM: hcall-multi-tce detected but overridden, allow with "multce" boot a=
+rgument
+  -------------------------------------------------------------------------=
+------
+  =0CStar
+  0539
+  0811
+  0539
+  0812
+  0708
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  078c
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  078c
+  0539
+  2071
+  0539
+  2073
+  0539
+  25b3vscsi_send_capabilities: capabilities size mismatch !
+  VSCSI: Unknown MAD type 09
+
+  0539
+  0538
+  0539
+  0591
+  0539
+  0538
+  0539
+  0538
+  0539
+  25b0
+  0539
+
+  0511
+  0551
+  0517
+  0517
+  0517
+  0517
+  0553
+  0517
+  0517
+  0538
+  0539
+  0538
+  0539
+  270b
+  0539
+  0538
+  0539
+  2070
+  0539
+  0538
+  0539
+  0811
+  0539
+  0811
+  0539
+  0812
+  0708
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  0811
+  078c
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  25b6
+  078c
+  04ee
+  078c
+  0727
+  0727
+  2071
+  2072
+  2072
+  2071
+  0539
+  25b3
+  0539
+  25b5
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0581
+  0539
+  0538
+  0539
+  7000
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0581
+  0581
+  0539
+  0538
+  0539
+  25b0
+  0539
+  0538
+  0539
+  0538
+  0539
+  0731
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  0538
+  0539
+  2028
+  0539
+  0538
+  0539
+
+  0c33
+  Saving Base Customize Data to boot disk
+  Starting the sync daemon
+  Starting the error daemon
+
+  System initialization completed.
+  TE=3DOFF
+  CHKEXEC=3DOFF
+  CHKSHLIB=3DOFF
+  CHKSCRIPT=3DOFF
+  CHKKERNEXT=3DOFF
+  STOP_UNTRUSTD=3DOFF
+  STOP_ON_CHKFAIL=3DOFF
+  LOCK_KERN_POLICIES=3DOFF
+  TSD_FILES_LOCK=3DOFF
+  TSD_LOCK=3DOFF
+  TEP=3DOFF
+  TLP=3DOFF
+  Successfully updated the Kernel Authorization Table.
+  Successfully updated the Kernel Role Table.
+  Successfully updated the Kernel Command Table.
+  Successfully updated the Kernel Device Table.
+  Successfully updated the Kernel Object Domain Table.
+  Successfully updated the Kernel Domains Table.
+  Successfully updated the Kernel RBAC log level.
+  Successfully updated the Kernel RBAC log level.
+  OPERATIONAL MODE Security Flags
+  ROOT                      :    ENABLED
+  TRACEAUTH                 :   DISABLED
+  System runtime mode is now OPERATIONAL MODE.
+  Setting tunable parameters...complete
+  Checking for srcmstr active...complete
+  Starting tcpip daemons:
+  0513-059 The sendmail Subsystem has been started. Subsystem PID is 445684=
+6.
+  0513-059 The syslogd Subsystem has been started. Subsystem PID is 4522382.
+  0513-059 The portmap Subsystem has been started. Subsystem PID is 4194776.
+  0513-059 The inetd Subsystem has been started. Subsystem PID is 4129230.
+  0513-059 The snmpmibd Subsystem has been started. Subsystem PID is 432567=
+2.
+  Finished starting tcpip daemons.
+
+  =
+
+  AIX Version 7
+  Copyright IBM Corporation, 1982, 2019.
+  Console login: root
+  root's Password:
+
+  *************************************************************************=
+******
+  *                                                                        =
+     *
+  *                                                                        =
+     *
+  *  Welcome to AIX Version 7.2!                                           =
+     *
+  *                                                                        =
+     *
+  *                                                                        =
+     *
+  *  Please see the README file in /usr/lpp/bos for information pertinent t=
+o    *
+  *  this release of the AIX Operating System.                             =
+     *
+  *                                                                        =
+     *
+  *                                                                        =
+     *
+  *************************************************************************=
+******
+  Last login: Wed Apr 22 07:21:19 EDT 2020 on /dev/vty0
+
+  root@aix-ppc64# oslevel -s
+  7200-04-01-1939
+  root@aix-ppc64#
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859384/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1874264/+subscriptions
 
