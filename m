@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E788379FB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:35:33 +0200 (CEST)
-Received: from localhost ([::1]:44024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90736379FAA
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:31:50 +0200 (CEST)
+Received: from localhost ([::1]:35500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgLzP-0005qp-TX
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:35:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
+	id 1lgLvp-0008Tj-8I
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:31:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLrz-0005qm-Vc
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:27:52 -0400
-Received: from mga06.intel.com ([134.134.136.31]:46423)
+ id 1lgLrp-0005nH-EZ
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 02:27:42 -0400
+Received: from mga06.intel.com ([134.134.136.31]:46437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLrv-0004ZR-00
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:27:51 -0400
-IronPort-SDR: W2fAXHh/ho5oRU+kDAERznc+DtT4KTJdkRnx4jeOJWvK4kM8QSh8CCKVhnpaobgQtsjg9Ruw6m
- JqVIViFQWsZg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631473"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631473"
+ id 1lgLrk-0004hV-En
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 02:27:40 -0400
+IronPort-SDR: Ha/TJ3kRdwTdiwhREuMvfE1cHW6p7iSBYQx/d+rYmObyldjwnkQR1/N9frf6hHeJltVIG38Zhr
+ zIxek5mkVJxQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631476"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631476"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2021 23:27:20 -0700
-IronPort-SDR: xeICYAZF3a0teHyDVesgyXjqNk3E14uzD7HkS9MSQ9AJHbc5mdWYbiwkEzAdXGQ6WIBJdgmFrO
- muLFd01/nv5Q==
+ 10 May 2021 23:27:22 -0700
+IronPort-SDR: 0SiQc0KO9t8Bv34/WQAfUuWRFdD6HsWWKPOzS4Ww3G8KZ/vD7ar3VzUuFlgRxNcWaKzj7+21d3
+ W7p9+4wAC6jQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281001"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281010"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:27:18 -0700
+ by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:27:20 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/32] Qemu SGX virtualization
-Date: Tue, 11 May 2021 14:20:19 +0800
-Message-Id: <20210511062051.41948-1-yang.zhong@intel.com>
+Subject: [PATCH v2 01/32] memory: Add RAM_PROTECTED flag to skip IOMMU mappings
+Date: Tue, 11 May 2021 14:20:20 +0800
+Message-Id: <20210511062051.41948-2-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
+In-Reply-To: <20210511062051.41948-1-yang.zhong@intel.com>
+References: <20210511062051.41948-1-yang.zhong@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
@@ -64,163 +66,185 @@ Cc: yang.zhong@intel.com, pbonzini@redhat.com, kai.huang@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since Sean Christopherson has left Intel and i am responsible for Qemu SGX
-upstream work. His @intel.com address will be bouncing and his new email(
-seanjc@google.com) is also in CC lists.
+From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-This series is Qemu SGX virtualization implementation rebased on latest
-Qemu release.
+Add a new RAMBlock flag to denote "protected" memory, i.e. memory that
+looks and acts like RAM but is inaccessible via normal mechanisms,
+including DMA.  Use the flag to skip protected memory regions when
+mapping RAM for DMA in VFIO.
 
-You can find Qemu repo here:
-
-     https://github.com/intel/qemu-sgx.git upstream
-
-If you want to try SGX, you can directly install the linux release(at least 5.13.0-rc1+)
-since kvm SGX has been merged into linux release.
-
-     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-
-To simplify, you'd better install kvm-sgx on host and guest, which can support
-SGX on host and guest kernel. And to me, use below reference command to boot
-SGX guest:
-
-     #qemu-system-x86_64 \
-         ...... \
-         -cpu host,+sgx_provisionkey \
-         -sgx-epc id=epc1,memdev=mem1 \
-         -object memory-backend-epc,id=mem1,size=64M,prealloc=on
-
-Overview
-========
-
-Intel Software Guard eXtensions (SGX) is a set of instructions and mechanisms
-for memory accesses in order to provide security accesses for sensitive
-applications and data. SGX allows an application to use it's pariticular
-address space as an *enclave*, which is a protected area provides confidentiality
-and integrity even in the presence of privileged malware. Accesses to the
-enclave memory area from any software not resident in the enclave are prevented,
-including those from privileged software.
-
-SGX virtaulization
-==================
-
-The KVM SGX creates one new misc device, sgx_vepc, and Qemu will open '/dev/sgx_vepc'
-device node to mmap() host EPC memory to guest. The Qemu also adds 'sgx-epc' device
-to expose EPC sections to guest through CPUID and ACPI table.  The Qemu SGX also
-supports multiple virtual EPC sections to guest, we just put them together physically
-contiguous for the sake of simplicity. The kernel SGX NUMA has been merged into Linux
-tip tree, we will support this function in the next phase.
-
-Although the current host SGX subsystem can not support SGX2 feature, the KVM/Qemu
-implementation still expose this feature to guest. Guest SGX2 support doesn't have
-interaction with host kernel SGX driver, the SGX guest can normally use those new
-instructions.
-
-As for SGX virtualization detailed infomation, please reference docs/intel-sgx.txt
-docuement(patch 32).
-
-Changelog:
-=========
-
-(Changelog here is for global changes, please see each patch's changelog for changes
- made to specific patch.)
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 
 v1-->v2:
-   - Rebased the sgx patches into latest Qemu release.
    - Unified the "share" and "protected" arguments with ram_flags in the
      memory_region_init_ram_from_fd()(Paolo).
-   - Added the new MemoryBackendEpcProperties and related documents(Eric Blake).
-   - Changed the KVM_CAP_SGX_ATTRIBUTE from 195 to 196(Kai).
-   - Changed the version and some grammar issues(Eric Blake).
+---
+ backends/hostmem-memfd.c |  3 ++-
+ hw/misc/ivshmem.c        |  4 ++--
+ hw/remote/memory.c       |  2 +-
+ hw/vfio/common.c         |  1 +
+ include/exec/memory.h    | 20 ++++++++++++++++++--
+ softmmu/memory.c         | 11 ++++++++---
+ softmmu/physmem.c        |  2 +-
+ 7 files changed, 33 insertions(+), 10 deletions(-)
 
-
-Sean Christopherson (22):
-  memory: Add RAM_PROTECTED flag to skip IOMMU mappings
-  hostmem: Add hostmem-epc as a backend for SGX EPC
-  i386: Add 'sgx-epc' device to expose EPC sections to guest
-  vl: Add "sgx-epc" option to expose SGX EPC sections to guest
-  i386: Add primary SGX CPUID and MSR defines
-  i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
-  i386: Add SGX CPUID leaf FEAT_SGX_12_0_EBX
-  i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
-  i386: Add get/set/migrate support for SGX_LEPUBKEYHASH MSRs
-  i386: Add feature control MSR dependency when SGX is enabled
-  i386: Update SGX CPUID info according to hardware/KVM/user input
-  linux-headers: Add placeholder for KVM_CAP_SGX_ATTRIBUTE
-  i386: kvm: Add support for exposing PROVISIONKEY to guest
-  i386: Propagate SGX CPUID sub-leafs to KVM
-  Adjust min CPUID level to 0x12 when SGX is enabled
-  hw/i386/fw_cfg: Set SGX bits in feature control fw_cfg accordingly
-  hw/i386/pc: Account for SGX EPC sections when calculating device
-    memory
-  i386/pc: Add e820 entry for SGX EPC section(s)
-  i386: acpi: Add SGX EPC entry to ACPI tables
-  q35: Add support for SGX EPC
-  i440fx: Add support for SGX EPC
-  doc: Add the SGX doc
-
-Yang Zhong (10):
-  qom: Add memory-backend-epc ObjectOptions support
-  hostmem: Add the reset interface for EPC backend reset
-  sgx-epc: Add the reset interface for sgx-epc virt device
-  qmp: Add query-sgx command
-  hmp: Add 'info sgx' command
-  i386: Add sgx_get_info() interface
-  bitops: Support 32 and 64 bit mask macro
-  qmp: Add the qmp_query_sgx_capabilities()
-  Kconfig: Add CONFIG_SGX support
-  sgx-epc: Add the fill_device_info() callback support
-
- backends/hostmem-epc.c                   | 108 ++++++
- backends/hostmem-memfd.c                 |   3 +-
- backends/meson.build                     |   1 +
- default-configs/devices/i386-softmmu.mak |   1 +
- docs/intel-sgx.txt                       | 173 +++++++++
- hmp-commands-info.hx                     |  15 +
- hw/i386/Kconfig                          |   5 +
- hw/i386/acpi-build.c                     |  22 ++
- hw/i386/fw_cfg.c                         |  10 +-
- hw/i386/meson.build                      |   1 +
- hw/i386/pc.c                             |  15 +-
- hw/i386/pc_piix.c                        |   4 +
- hw/i386/pc_q35.c                         |   3 +
- hw/i386/sgx-epc.c                        | 451 +++++++++++++++++++++++
- hw/i386/sgx-stub.c                       |  13 +
- hw/misc/ivshmem.c                        |   4 +-
- hw/remote/memory.c                       |   2 +-
- hw/vfio/common.c                         |   1 +
- include/exec/memory.h                    |  20 +-
- include/hw/i386/pc.h                     |  10 +
- include/hw/i386/sgx-epc.h                |  70 ++++
- include/monitor/hmp.h                    |   1 +
- include/qemu/bitops.h                    |   7 +
- linux-headers/linux/kvm.h                |   1 +
- monitor/hmp-cmds.c                       |  32 ++
- monitor/qmp-cmds.c                       |  19 +
- qapi/machine.json                        |  26 +-
- qapi/misc.json                           |  61 +++
- qapi/qom.json                            |  19 +
- qemu-options.hx                          |   8 +
- softmmu/globals.c                        |   1 +
- softmmu/memory.c                         |  11 +-
- softmmu/physmem.c                        |   2 +-
- softmmu/vl.c                             |   9 +
- stubs/meson.build                        |   1 +
- stubs/sgx-stub.c                         |  12 +
- target/i386/cpu.c                        | 168 ++++++++-
- target/i386/cpu.h                        |  16 +
- target/i386/kvm/kvm.c                    |  75 ++++
- target/i386/kvm/kvm_i386.h               |   2 +
- target/i386/machine.c                    |  20 +
- tests/qtest/qmp-cmd-test.c               |   2 +
- 42 files changed, 1409 insertions(+), 16 deletions(-)
- create mode 100644 backends/hostmem-epc.c
- create mode 100644 docs/intel-sgx.txt
- create mode 100644 hw/i386/sgx-epc.c
- create mode 100644 hw/i386/sgx-stub.c
- create mode 100644 include/hw/i386/sgx-epc.h
- create mode 100644 stubs/sgx-stub.c
-
+diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
+index da75e27057..d95376411c 100644
+--- a/backends/hostmem-memfd.c
++++ b/backends/hostmem-memfd.c
+@@ -54,7 +54,8 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+     name = host_memory_backend_get_name(backend);
+     memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
+                                    name, backend->size,
+-                                   backend->share, fd, 0, errp);
++                                   backend->share ? RAM_SHARED : 0,
++                                   fd, 0, errp);
+     g_free(name);
+ }
+ 
+diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+index a1fa4878be..89badb98f6 100644
+--- a/hw/misc/ivshmem.c
++++ b/hw/misc/ivshmem.c
+@@ -494,8 +494,8 @@ static void process_msg_shmem(IVShmemState *s, int fd, Error **errp)
+ 
+     /* mmap the region and map into the BAR2 */
+     memory_region_init_ram_from_fd(&s->server_bar2, OBJECT(s),
+-                                   "ivshmem.bar2", size, true, fd, 0,
+-                                   &local_err);
++                                   "ivshmem.bar2", size,
++                                   RAM_SHARED, fd, 0, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+diff --git a/hw/remote/memory.c b/hw/remote/memory.c
+index 2d4174614a..f5fc80ebb4 100644
+--- a/hw/remote/memory.c
++++ b/hw/remote/memory.c
+@@ -47,7 +47,7 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
+         name = g_strdup_printf("remote-mem-%u", suffix++);
+         memory_region_init_ram_from_fd(subregion, NULL,
+                                        name, sysmem_info->sizes[region],
+-                                       true, msg->fds[region],
++                                       RAM_SHARED, msg->fds[region],
+                                        sysmem_info->offsets[region],
+                                        errp);
+ 
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index ae5654fcdb..5bc5d29358 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -538,6 +538,7 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+ {
+     return (!memory_region_is_ram(section->mr) &&
+             !memory_region_is_iommu(section->mr)) ||
++           memory_region_is_protected(section->mr) ||
+            /*
+             * Sizing an enabled 64-bit BAR can cause spurious mappings to
+             * addresses in the upper part of the 64-bit address space.  These
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 5728a681b2..0cad2495de 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -155,6 +155,9 @@ typedef struct IOMMUTLBEvent {
+  */
+ #define RAM_UF_WRITEPROTECT (1 << 6)
+ 
++/* RAM that isn't accessible through normal means. */
++#define RAM_PROTECTED (1 << 7)
++
+ static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
+                                        IOMMUNotifierFlag flags,
+                                        hwaddr start, hwaddr end,
+@@ -1020,7 +1023,10 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+  * @owner: the object that tracks the region's reference count
+  * @name: the name of the region.
+  * @size: size of the region.
+- * @share: %true if memory must be mmaped with the MAP_SHARED flag
++ * @ram_flags: Memory region features:
++ *             - RAM_SHARED: memory must be mmaped with the MAP_SHARED flag
++ *             - RAM_PROTECTED: the memory is protected memory
++ *             Other bits are ignored now.
+  * @fd: the fd to mmap.
+  * @offset: offset within the file referenced by fd
+  * @errp: pointer to Error*, to store an error if it happens.
+@@ -1032,7 +1038,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+                                     Object *owner,
+                                     const char *name,
+                                     uint64_t size,
+-                                    bool share,
++                                    uint32_t ram_flags,
+                                     int fd,
+                                     ram_addr_t offset,
+                                     Error **errp);
+@@ -1321,6 +1327,16 @@ static inline bool memory_region_is_romd(MemoryRegion *mr)
+     return mr->rom_device && mr->romd_mode;
+ }
+ 
++/**
++ * memory_region_is_protected: check whether a memory region is protected
++ *
++ * Returns %true if a memory region is protected RAM and cannot be accessed
++ * via standard mechanisms, e.g. DMA.
++ *
++ * @mr: the memory region being queried
++ */
++bool memory_region_is_protected(MemoryRegion *mr);
++
+ /**
+  * memory_region_get_iommu: check whether a memory region is an iommu
+  *
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 3bb533c0bc..f0ba8209ca 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1609,7 +1609,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+                                     Object *owner,
+                                     const char *name,
+                                     uint64_t size,
+-                                    bool share,
++                                    uint32_t ram_flags,
+                                     int fd,
+                                     ram_addr_t offset,
+                                     Error **errp)
+@@ -1619,9 +1619,9 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+     mr->ram = true;
+     mr->terminates = true;
+     mr->destructor = memory_region_destructor_ram;
+-    mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
+-                                           share ? RAM_SHARED : 0,
++    mr->ram_block = qemu_ram_alloc_from_fd(size, mr, ram_flags,
+                                            fd, offset, false, &err);
++
+     if (err) {
+         mr->size = int128_zero();
+         object_unparent(OBJECT(mr));
+@@ -1808,6 +1808,11 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
+     return mr->ram_device;
+ }
+ 
++bool memory_region_is_protected(MemoryRegion *mr)
++{
++    return mr->ram && (mr->ram_block->flags & RAM_PROTECTED);
++}
++
+ uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
+ {
+     uint8_t mask = mr->dirty_log_mask;
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 5232696571..e601d86d63 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2019,7 +2019,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+     int64_t file_size, file_align;
+ 
+     /* Just support these ram flags by now. */
+-    assert((ram_flags & ~(RAM_SHARED | RAM_PMEM)) == 0);
++    assert((ram_flags & ~(RAM_SHARED | RAM_PMEM | RAM_PROTECTED)) == 0);
+ 
+     if (xen_enabled()) {
+         error_setg(errp, "-mem-path not supported with Xen");
 -- 
 2.29.2.334.gfaefdd61ec
 
