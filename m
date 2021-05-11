@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE63637A24C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:37:57 +0200 (CEST)
-Received: from localhost ([::1]:33640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E0937A244
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:36:56 +0200 (CEST)
+Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgNts-0004dd-SK
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34840)
+	id 1lgNsr-0002qk-NY
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:36:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNXH-0002Gd-4a
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43004)
+ id 1lgNXE-00026t-TF
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWq-0000p4-KK
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:34 -0400
+ id 1lgNWr-0000pf-U6
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1620720848;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=niDzH7Z9FhD+NjMo3uH/iqmL93VSD1+pHNt26Miilak=;
- b=R6aNMTdb/J0RllwmxT78hdC5t2fnEpzA5QgIkaC9kKhSq9XLXYFF3auU3xj1adGJoEllkX
- LekUfSJyaDjEcgkFIQjqXyoPVH9J2zEH1G1QTDzo/D8Gp7LfrjUobBUXng5SGcs75VFJ5y
- 77wepjCDZfpkA9Nvk1rVgSV/9TORnhk=
+ bh=xHH2rqCNUObnMk1i36cH363z47DcN4mqhwv7prq11gI=;
+ b=DbWYoJTHwLUCZPH8FieECF/4qbcYzA+HHyoSybKUQQ7zJZyaCBzbsgncC+Ux1vUf6GawvE
+ rkbvCq4LI+UYhLEKorNSMWNHcn8mcjPqVs0TD6gfModY76FLWCZ/NkVc5ZUZbT7TsgRSWI
+ leS7nPOFvgRoopQSRB/hjBeMLJT5ZDE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-NG50l3FHOwGZwLldWFsA6g-1; Tue, 11 May 2021 04:14:06 -0400
-X-MC-Unique: NG50l3FHOwGZwLldWFsA6g-1
+ us-mta-563-VjSbGpyjOXShHB1ecJQofg-1; Tue, 11 May 2021 04:14:06 -0400
+X-MC-Unique: VjSbGpyjOXShHB1ecJQofg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 857A8107ACCA
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEDA46D246
  for <qemu-devel@nongnu.org>; Tue, 11 May 2021 08:14:05 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54ACF62499
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 08:14:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F88E62923;
+ Tue, 11 May 2021 08:14:05 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/33] qemu-option: support accept-any QemuOptsList in
- qemu_opts_absorb_qdict
-Date: Tue, 11 May 2021 04:13:48 -0400
-Message-Id: <20210511081350.419428-32-pbonzini@redhat.com>
+Subject: [PULL 32/33] configure: fix detection of gdbus-codegen
+Date: Tue, 11 May 2021 04:13:49 -0400
+Message-Id: <20210511081350.419428-33-pbonzini@redhat.com>
 In-Reply-To: <20210511081350.419428-1-pbonzini@redhat.com>
 References: <20210511081350.419428-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -80,28 +79,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Sebastian Mitterle <smitterl@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+"pkg-config --variable=gdbus_codegen gio-2.0" returns "gdbus-codegen",
+and it does not pass test -x (which does not walk the path).
+
+Meson 0.58.0 notices that something is iffy, as the dbus_vmstate1
+assignment in tests/qtest/meson.build uses an empty string as the
+command, and fails very eloquently:
+
+../tests/qtest/meson.build:92:2: ERROR: No program name specified.
+
+Use the "has" function instead of test -x, and fix the generation
+of config-host.mak since meson.build expects that GDBUS_CODEGEN
+is absent, rather than empty, if the tool is unavailable.
+
+Reported-by: Sebastian Mitterle <smitterl@redhat.com>
+Fixes: #178
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/qemu-option.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ configure | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 9678d5b682..4944015a25 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -1056,7 +1056,8 @@ bool qemu_opts_absorb_qdict(QemuOpts *opts, QDict *qdict, Error **errp)
-     while (entry != NULL) {
-         next = qdict_next(qdict, entry);
- 
--        if (find_desc_by_name(opts->list->desc, entry->key)) {
-+        if (opts_accepts_any(opts->list) ||
-+            find_desc_by_name(opts->list->desc, entry->key)) {
-             if (!qemu_opts_from_qdict_entry(opts, entry, errp)) {
-                 return false;
-             }
+diff --git a/configure b/configure
+index 54f8475444..5877a6b2bf 100755
+--- a/configure
++++ b/configure
+@@ -3341,7 +3341,7 @@ if ! test "$gio" = "no"; then
+         gio_cflags=$($pkg_config --cflags gio-2.0)
+         gio_libs=$($pkg_config --libs gio-2.0)
+         gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
+-        if [ ! -x "$gdbus_codegen" ]; then
++        if ! has "$gdbus_codegen"; then
+             gdbus_codegen=
+         fi
+         # Check that the libraries actually work -- Ubuntu 18.04 ships
+@@ -5704,6 +5704,8 @@ if test "$gio" = "yes" ; then
+     echo "CONFIG_GIO=y" >> $config_host_mak
+     echo "GIO_CFLAGS=$gio_cflags" >> $config_host_mak
+     echo "GIO_LIBS=$gio_libs" >> $config_host_mak
++fi
++if test "$gdbus_codegen" != "" ; then
+     echo "GDBUS_CODEGEN=$gdbus_codegen" >> $config_host_mak
+ fi
+ echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
 -- 
 2.26.2
 
