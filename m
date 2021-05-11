@@ -2,70 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07F537A5B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 13:24:14 +0200 (CEST)
-Received: from localhost ([::1]:32980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2B937A5C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 13:29:52 +0200 (CEST)
+Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgQUn-0007NM-Qv
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 07:24:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53638)
+	id 1lgQaF-00049P-5n
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 07:29:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lgQT7-0005Oj-OD
- for qemu-devel@nongnu.org; Tue, 11 May 2021 07:22:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25486)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lgQZ2-0003FZ-AF; Tue, 11 May 2021 07:28:36 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:59159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lgQT0-0000fV-4t
- for qemu-devel@nongnu.org; Tue, 11 May 2021 07:22:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620732141;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RG8T1iAyeLN0djsxCKLK1mvTZosoRglYv+1SEnrSSLc=;
- b=DIiK4fL912PKPwwlyn0qefwK/kNEW5h1ZY/tXW7Lc6xXqRGRFEg5Na89xiLlfl21ogvcH7
- bmuyfsM0rX2fcZA40wRJl4P3d9XDcst6846B7EABb3yjZTFp+mHt65NqzeX0McOeHVLaGe
- ee08A/O2jlY72xhPI73lDaPb8lR1XRc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-Zt5EuMYzMM2t4DxFgDxG2g-1; Tue, 11 May 2021 07:22:19 -0400
-X-MC-Unique: Zt5EuMYzMM2t4DxFgDxG2g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A802803620;
- Tue, 11 May 2021 11:22:18 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-11.ams2.redhat.com
- [10.36.112.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE43C63C40;
- Tue, 11 May 2021 11:22:17 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 258F91800399; Tue, 11 May 2021 13:22:16 +0200 (CEST)
-Date: Tue, 11 May 2021 13:22:16 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v3 03/20] virtio-gpu: Add udmabuf helpers
-Message-ID: <20210511112216.za6wa54nmrxs7sil@sirius.home.kraxel.org>
-References: <20210511080818.366985-1-vivek.kasireddy@intel.com>
- <20210511080818.366985-4-vivek.kasireddy@intel.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lgQYy-0004Hc-GU; Tue, 11 May 2021 07:28:35 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7529D74570D;
+ Tue, 11 May 2021 13:28:27 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 50186745709; Tue, 11 May 2021 13:28:27 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4E7897456E3;
+ Tue, 11 May 2021 13:28:27 +0200 (CEST)
+Date: Tue, 11 May 2021 13:28:27 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 0/6] hw/southbridge: QOM'ify vt82c686 as
+ VT82C686B_SOUTHBRIDGE
+In-Reply-To: <20210511041848.2743312-1-f4bug@amsat.org>
+Message-ID: <ecdd9299-ec2-5049-fe1e-d3c7d261d@eik.bme.hu>
+References: <20210511041848.2743312-1-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210511080818.366985-4-vivek.kasireddy@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: multipart/mixed; boundary="3866299591-51727942-1620732507=:99606"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,20 +55,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> +void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res)
-> +{
-> +    uint32_t size = res->width * res->height * 4;
+--3866299591-51727942-1620732507=:99606
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Hmm, no.  We'll go use udmabufs for blob resources only, so this should
-not be needed.  Maybe squash this with patch #8?
+On Tue, 11 May 2021, Philippe Mathieu-Daudé wrote:
+> The motivation behind this series is to remove the
+> isa_get_irq(NULL) call to simplify the ISA generic model.
+>
+> Since v1:
+> - rebased on top of remotes/dg-gitlab/tags/ppc-for-6.1-20210504
 
-take care,
-  Gerd
+I'll try to have a look at these later but some notes: The pegasos2 
+changes are now in master so if this was before that maybe rebasing on 
+master is now enough. However I wonder if any changes to pegasos2.c is 
+needed due to changed init of the chip model or is that only affecting 
+82c686b? Please also note that pegasos2 is not enabled by default due to 
+needing undistributable firmware ROM so to test it you need to enable it 
+in default-configs/devices/ppc-softmmu.mak
 
+Regards,
+BALATON Zoltan
+
+> Philippe Mathieu-Daudé (6):
+>  hw/isa/vt82c686: Name output IRQ as 'intr'
+>  hw/isa/vt82c686: Simplify removing unuseful qemu_allocate_irqs() call
+>  hw/isa/vt82c686: Let ISA function expose ISA IRQs
+>  hw/ide/via: Replace magic 2 value by ARRAY_SIZE / MAX_IDE_DEVS
+>  hw/ide/via: Connect IDE function output IRQs to the ISA function input
+>  hw/southbridge/vt82c686: Introduce VT82C686B_SOUTHBRIDGE
+>
+> hw/ide/via.c               |  31 ++++++++---
+> hw/isa/vt82c686.c          |  27 +++++-----
+> hw/mips/fuloong2e.c        |  35 +++---------
+> hw/southbridge/vt82c686.c  | 107 +++++++++++++++++++++++++++++++++++++
+> MAINTAINERS                |   1 +
+> hw/Kconfig                 |   1 +
+> hw/isa/Kconfig             |   9 ----
+> hw/meson.build             |   1 +
+> hw/southbridge/Kconfig     |   8 +++
+> hw/southbridge/meson.build |   1 +
+> 10 files changed, 164 insertions(+), 57 deletions(-)
+> create mode 100644 hw/southbridge/vt82c686.c
+> create mode 100644 hw/southbridge/Kconfig
+> create mode 100644 hw/southbridge/meson.build
+>
+> --
+> 2.26.3
+>
+>
+>
+--3866299591-51727942-1620732507=:99606--
 
