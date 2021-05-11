@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E7937A4CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:44:10 +0200 (CEST)
-Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4872237A4E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:46:27 +0200 (CEST)
+Received: from localhost ([::1]:42064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgPs1-0007tD-Og
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38076)
+	id 1lgPuE-0004zD-Ac
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:46:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPW8-0000xw-3C
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:32 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41098)
+ id 1lgPWL-00016m-E5
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:45 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPW5-0006V6-BV
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:31 -0400
+ id 1lgPWG-0006X1-Gp
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620728488; x=1652264488;
+ t=1620728499; x=1652264499;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wAdLscB027NRqcQ0ba/KeWpvwnrXo8RKVmBCua1qbhw=;
- b=UnX+JeyxI18nEzAyh6YluSkHh443lmzUSILPZw4TsEd4ROotyDu8kWYL
- drJS+ge9DfBzyGbCl6zJ0hR7loIPWsTKvsCQeekyXYCFb6IaKPHcs5IaA
- 79CmuqYWayy9wAVT+sVYa6vdflOeWENHuqTpPjSuTESWwMc5QstlfQxGL
- mFFpysZXrVYniWtANjnWUqmFiNxxoytD5yTEQVhSV0/4inC28qnGE4oOw
- 98NCfdYrUmXkmZ0tR6rt+hdDGAYloj0SYn0Q4mDOGkUxqSH9X9y2rLjX7
- nV/0UBCQZKre0tr88m2W/gJhwRJRAdJGX3cdkFafNQ0Tq/bnVO6cye+il Q==;
-IronPort-SDR: 88W68D1BtFr4wcFOAbc5Dr/2mjP0BHjWJNoeH1616qe2+sRxzJdReA6HCJxDjeKLorFxroV+R8
- joOYQQ/hPoudI61n1RTbuaxHL1niaWQoxPDbQpi5/F5M3URCVcYDjvk5R3qIvGE9Zo3wv+8Jdr
- 0NJ4TuxpxMd1Tu4DQQq9EdVSRQjl5ZgQdP23HrlSCkJjaPkcCN2MjxGNMt/scXfcaAuVtMtUJB
- 0wr5T23h3is7euacDOAqK+ffwBfh/tGqBL5sLrVkrC0TsP8ywbXkfv+HA69ILEGyihSR3eZ1MK
- X9Y=
-X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735406"
+ bh=d+NPft2RyN4RxgurmCoyTVD5EaivC4NQIQYrLmDjJmk=;
+ b=WaDEUtaHz0aAVnar1UCGGnUZD663mELnukEcozW52KJXvZHqbzZYVnRe
+ MQ6Xc//3G7K9lrERqJ/vQNK11439rmCCepQHm6yEHSJagc9Q4ypEQ10ru
+ KGZJY1FWxqtK0L9Z2AbftnQnSlk7hNQe9O6uh9UWCCBIegctxr185IWM8
+ co4vRk7fOhEfhC6ZElF10WOCEt4RZ4DyF7OoGBzpFKMVXvcjS35fmY+yv
+ J5b79XpTD+Ind44nfpf5j4XMV+t7F/Q6JMLhW2p15D019XLkerdJr1z7E
+ rATFHoovqkSxEsnOnloKK6vM33opPYuFPuFYx1xGhc/rlR9OkXULC//Fj w==;
+IronPort-SDR: AZxSc/UWlG6E9NatSM+0xMkQ/QtkMt4ssgGjjybjmy0gtg1DDkXETZcTaTYW7pyubIsxKf+cI3
+ sCy6YeHeMPGiXZg3srAABALKhbGbPVKpQsutpZz69FIYQpX0dZsE7yRUa3EeAMdCwzWAzTutt8
+ xuEFG+3TMOKZ48H4kmUC1HFtfWhB8CuhWymWQK4hbr8XcqmdBqM/nLMQCLW4JGAtrKeGx9lXhw
+ 9RMjAFNRB+GKEZEI0K4puWXDpdl0if/Qw3kAZkjgFKld+9MWGV9VQTd/1swyREL2ixf6lDGUkB
+ tuM=
+X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735413"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:21:02 +0800
-IronPort-SDR: Vp0DvXhLuZyGtghWltTHxKS6pfxzFXasRWPGET5rxEgbzMx6za9zj/6/1leQ/L5QruV8fGYqH0
- KzDLwSURaeO9xmAymX7SWCPVo3C1uOchIPiXV7g76+r6FTw3BYCFA/4PXbe18PxHxSkrnc9mIY
- HQeYmoPtmfMdB05kWcLNk20gRed/wNOWaqt4zgTQQRc+rRug93WmYoGgurr07ZsG91LgHlnrFg
- Gwi37qlkYM+vC1+bWn6BfGE7jpKvWoBUFV7uilcPj2hAeIvhJwks0dEo9UiJ1kpSWxTycCJgGP
- lW8/3tjIIWpf8sSVd5Oqi3z2
+ by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:21:05 +0800
+IronPort-SDR: 4xYaoSmSvCM5kwU59IAh2kMWKDj/Hat6EWSOdYtx11jGVVuHwNZvNt5p7AqljDXupP856UAkhP
+ A1Is9OkQJpYAqVU58vlSRRx2STQIL8hVRMFuw9o9S8E4Y4KnuW2EYqyMHOkRh0gCOxas+n509A
+ 9HD3g64S9in66QpKEzpu3a9nLF3cnBfE7/qfz+RK0eZ2bHSUEZkS6oMuSJoaf3rHGp1RvMreEg
+ rJq4L0CJi5Ylj56kWJHXLDsQVR78aVnFr5sMcmJzUFGLowt0WW+rZXadzeYygwLMZ4ZvBei4+V
+ kJ5fIlyJmqBaV3h7LWGTmyUW
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 03:01:02 -0700
-IronPort-SDR: MjSh96011M9ZMz8TVvDL9h/BnUbeQjMyiNVFjioaKaHpU5p4MhRebIBAv2YnK3vt/N1PJvUIL0
- U/0gFRF8WEIs+u8JTWEgOJDyf8Djza6kssUtIKTAUxOBde8OifcnzFz9cVADmgdOdjLpc/WEAO
- NOluKwZT+Y/bxqS6RA86TVpaIaBRsyLgix8utxk7u5fel4cKkVEDGTMHVkd5pMx3UGtiNQWu2j
- DF9rpIT1m1bwFKLiopl2IQgg0+0tCie2Yttmc09HKM6kRikO8f+t3xE9nNAvrFmREb3W93LC9T
- Gfg=
+ 11 May 2021 03:01:05 -0700
+IronPort-SDR: 9V6CReCCR+GUdSTBCl5zTBnj+Jw2AZJkZiNx6OL1SHTxqnJSw2KMIFFsDWBvq0xj7DpDaz2K+w
+ kMzQ2AbwbDs9QNQ0Qmmxu8m6N263tujOiGU9ucIi3jqHLHzR5lDXsqJ7gtt8zB4wrx4SpRHSD0
+ VWLHl1c+bnOqKFNmKq8JMTrTNI1K/AFmO4LkLv7AGQc+rl4i0P1Se4uC4756YVi2K+h96IsxZx
+ E2mK2Hh1IUsZAwuvwANFM7rVwRSUL6sSUgpeA/uAovWdAiOwp4Fr0yDX24m/Y9dadSokXzXIY4
+ q/w=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.48])
- by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:21:01 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:21:04 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v3 19/42] docs: Add documentation for shakti_c machine
-Date: Tue, 11 May 2021 20:19:28 +1000
-Message-Id: <20210511101951.165287-20-alistair.francis@wdc.com>
+Subject: [PULL v3 20/42] target/riscv: Fix the PMP is locked check when using
+ TOR
+Date: Tue, 11 May 2021 20:19:29 +1000
+Message-Id: <20210511101951.165287-21-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210511101951.165287-1-alistair.francis@wdc.com>
 References: <20210511101951.165287-1-alistair.francis@wdc.com>
@@ -90,131 +91,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vijai Kumar K <vijai@behindbytes.com>, alistair23@gmail.com,
- Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
- qemu-devel@nongnu.org
+Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vijai Kumar K <vijai@behindbytes.com>
+The RISC-V spec says:
+    if PMP entry i is locked and pmpicfg.A is set to TOR, writes to
+    pmpaddri-1 are ignored.
 
-Add documentation for Shakti C reference platform.
+The current QEMU code ignores accesses to pmpaddri-1 and pmpcfgi-1 which
+is incorrect.
 
-Signed-off-by: Vijai Kumar K <vijai@behindbytes.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210412174248.8668-1-vijai@behindbytes.com
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-[ Changes from Bin Meng:
- - Add missing TOC
- Message-id: 20210430070534.1487242-1-bmeng.cn@gmail.com
-]
+Update the pmp_is_locked() function to not check the supporting fields
+and instead enforce the lock functionality in the pmpaddr write operation.
+
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-id: 2831241458163f445a89bd59c59990247265b0c6.1618812899.git.alistair.francis@wdc.com
 ---
- docs/system/riscv/shakti-c.rst | 82 ++++++++++++++++++++++++++++++++++
- docs/system/target-riscv.rst   |  1 +
- 2 files changed, 83 insertions(+)
- create mode 100644 docs/system/riscv/shakti-c.rst
+ target/riscv/pmp.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/docs/system/riscv/shakti-c.rst b/docs/system/riscv/shakti-c.rst
-new file mode 100644
-index 0000000000..a6035d42b0
---- /dev/null
-+++ b/docs/system/riscv/shakti-c.rst
-@@ -0,0 +1,82 @@
-+Shakti C Reference Platform (``shakti_c``)
-+==========================================
-+
-+Shakti C Reference Platform is a reference platform based on arty a7 100t
-+for the Shakti SoC.
-+
-+Shakti SoC is a SoC based on the Shakti C-class processor core. Shakti C
-+is a 64bit RV64GCSUN processor core.
-+
-+For more details on Shakti SoC, please see:
-+https://gitlab.com/shaktiproject/cores/shakti-soc/-/blob/master/fpga/boards/artya7-100t/c-class/README.rst
-+
-+For more info on the Shakti C-class core, please see:
-+https://c-class.readthedocs.io/en/latest/
-+
-+Supported devices
-+-----------------
-+
-+The ``shakti_c`` machine supports the following devices:
-+
-+ * 1 C-class core
-+ * Core Level Interruptor (CLINT)
-+ * Platform-Level Interrupt Controller (PLIC)
-+ * 1 UART
-+
-+Boot options
-+------------
-+
-+The ``shakti_c`` machine can start using the standard -bios
-+functionality for loading the baremetal application or opensbi.
-+
-+Boot the machine
-+----------------
-+
-+Shakti SDK
-+~~~~~~~~~~
-+Shakti SDK can be used to generate the baremetal example UART applications.
-+
-+.. code-block:: bash
-+
-+   $ git clone https://gitlab.com/behindbytes/shakti-sdk.git
-+   $ cd shakti-sdk
-+   $ make software PROGRAM=loopback TARGET=artix7_100t
-+
-+Binary would be generated in:
-+  software/examples/uart_applns/loopback/output/loopback.shakti
-+
-+You could also download the precompiled example applicatons using below
-+commands.
-+
-+.. code-block:: bash
-+
-+   $ wget -c https://gitlab.com/behindbytes/shakti-binaries/-/raw/master/sdk/shakti_sdk_qemu.zip
-+   $ unzip shakti_sdk_qemu.zip
-+
-+Then we can run the UART example using:
-+
-+.. code-block:: bash
-+
-+   $ qemu-system-riscv64 -M shakti_c -nographic \
-+      -bios path/to/shakti_sdk_qemu/loopback.shakti
-+
-+OpenSBI
-+~~~~~~~
-+We can also run OpenSBI with Test Payload.
-+
-+.. code-block:: bash
-+
-+   $ git clone https://github.com/riscv/opensbi.git -b v0.9
-+   $ cd opensbi
-+   $ wget -c https://gitlab.com/behindbytes/shakti-binaries/-/raw/master/dts/shakti.dtb
-+   $ export CROSS_COMPILE=riscv64-unknown-elf-
-+   $ export FW_FDT_PATH=./shakti.dtb
-+   $ make PLATFORM=generic
-+
-+fw_payload.elf would be generated in build/platform/generic/firmware/fw_payload.elf.
-+Boot it using the below qemu command.
-+
-+.. code-block:: bash
-+
-+   $ qemu-system-riscv64 -M shakti_c -nographic \
-+      -bios path/to/fw_payload.elf
-diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
-index 8d5946fbbb..4b3c78382c 100644
---- a/docs/system/target-riscv.rst
-+++ b/docs/system/target-riscv.rst
-@@ -67,6 +67,7 @@ undocumented; you can get a complete list by running
-    :maxdepth: 1
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index cff020122a..a3b253bb15 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -59,16 +59,6 @@ static inline int pmp_is_locked(CPURISCVState *env, uint32_t pmp_index)
+         return 0;
+     }
  
-    riscv/microchip-icicle-kit
-+   riscv/shakti-c
-    riscv/sifive_u
+-    /* In TOR mode, need to check the lock bit of the next pmp
+-     * (if there is a next)
+-     */
+-    const uint8_t a_field =
+-        pmp_get_a_field(env->pmp_state.pmp[pmp_index + 1].cfg_reg);
+-    if ((env->pmp_state.pmp[pmp_index + 1u].cfg_reg & PMP_LOCK) &&
+-         (PMP_AMATCH_TOR == a_field)) {
+-        return 1;
+-    }
+-
+     return 0;
+ }
  
- RISC-V CPU features
+@@ -380,7 +370,23 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+     target_ulong val)
+ {
+     trace_pmpaddr_csr_write(env->mhartid, addr_index, val);
++
+     if (addr_index < MAX_RISCV_PMPS) {
++        /*
++         * In TOR mode, need to check the lock bit of the next pmp
++         * (if there is a next).
++         */
++        if (addr_index + 1 < MAX_RISCV_PMPS) {
++            uint8_t pmp_cfg = env->pmp_state.pmp[addr_index + 1].cfg_reg;
++
++            if (pmp_cfg & PMP_LOCK &&
++                PMP_AMATCH_TOR == pmp_get_a_field(pmp_cfg)) {
++                qemu_log_mask(LOG_GUEST_ERROR,
++                              "ignoring pmpaddr write - pmpcfg + 1 locked\n");
++                return;
++            }
++        }
++
+         if (!pmp_is_locked(env, addr_index)) {
+             env->pmp_state.pmp[addr_index].addr_reg = val;
+             pmp_update_rule(env, addr_index);
 -- 
 2.31.1
 
