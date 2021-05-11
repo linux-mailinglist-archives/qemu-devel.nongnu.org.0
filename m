@@ -2,80 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7DA37A84E
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:59:24 +0200 (CEST)
-Received: from localhost ([::1]:51846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4D037A87A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 16:07:18 +0200 (CEST)
+Received: from localhost ([::1]:41884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgSuy-0001Eu-1g
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:59:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36870)
+	id 1lgT2b-0005MV-JB
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 10:07:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgSsS-0005lO-5d
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:56:48 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42897)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgSsQ-0001kQ-JM
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:56:47 -0400
-Received: by mail-wr1-x436.google.com with SMTP id l2so20240498wrm.9
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 06:56:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=r8dVmqHWAHKeRXBaBur+amyGR5QHspG5CU8Z2jF96gU=;
- b=NvldRZ7T5+/9PREHYk5ELO9esty5ci83J9UPRynkovaEI/cr3M//x+2gcG7q0JrXAX
- CS1qxneHCN7jNXRU7eCpM8H1aZ94cGENagieR/27YYkgQyHQx7PuZNFJu2a0cblQgVoZ
- 2mwr8nGiJBoyBKILKOVJ1H4tEhyGZATQG5DNKHt+1d7slcLjX66CN92SyBF7dRxmYwnT
- Hwr6F8E3rFEEv2QYQnPJm0wjG9C7SnfPFsmCbTCTTNyHP3F+Gz+r2SQEMijlIcroo5Hv
- p6UrRgbyFZBoOViu5S8H6jMBW0KC/A0SCRQqJKjXnzoTLeJX9NgvO8pn+4o6yi0GjGXR
- bTAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=r8dVmqHWAHKeRXBaBur+amyGR5QHspG5CU8Z2jF96gU=;
- b=GvWlA5xlwznzGJAfiJPo7rY0WxYHCIpD8xIY2tzuGyT5sMgOmuADP93IdX5WhOvkdY
- LOM9AwkN19XMY7po6pg3en0dyevPRFyLTklx6A3AeZtax6bu2WcMC9KQt5SDYYl/QBgz
- 1KNNm8x0vQdHPH4U28e0x/GI9hdr/Nj1aS2FpWz/pxGJn3h/3LigrUWthckozx6XjIoW
- qfLA72yMpwDytnSIHqh44bQISU7rB+YHAxLayGLozqSNtE7ICCuNWcetIXLGkmy7qe+w
- 7Y481UMnb6KT8400gd+iDlIOg2B5bVOwZQfDayBsLhUsGfUVdxPENXF5VRMd/N6bQjOV
- yowA==
-X-Gm-Message-State: AOAM533Z46MXbkS3IXEcGjEzRLzyY1ZAx82EP6SDr9bH/bgPgizjPvjg
- 7KdVp89W3tgtbKAeh+R1QC4MLMWNpU/hXg==
-X-Google-Smtp-Source: ABdhPJz+GrpMxcuhqDActeFbnLszJ8BtVfvoiOa0eKWij721TKtfCpzYn7CaVGs/ssHRnMyb1GaPhg==
-X-Received: by 2002:adf:f48e:: with SMTP id l14mr11776010wro.88.1620741404259; 
- Tue, 11 May 2021 06:56:44 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r18sm1833779wmp.0.2021.05.11.06.56.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 06:56:43 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BEC031FF7E;
- Tue, 11 May 2021 14:56:42 +0100 (BST)
-References: <20210508014802.892561-1-richard.henderson@linaro.org>
- <20210508014802.892561-25-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 24/72] softfloat: Use pointers with parts_silence_nan
-Date: Tue, 11 May 2021 14:56:36 +0100
-In-reply-to: <20210508014802.892561-25-richard.henderson@linaro.org>
-Message-ID: <87cztxgyqt.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1lgJKY-0005O5-1k
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 23:45:10 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2048)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1lgJKU-0007jM-SY
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 23:45:09 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FfNy762Z9zmg73;
+ Tue, 11 May 2021 11:41:35 +0800 (CST)
+Received: from [127.0.0.1] (10.69.38.196) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.498.0; Tue, 11 May 2021
+ 11:44:49 +0800
+Subject: Re: [Question] Indefinitely block in the host when remove the PF
+ driver
+To: Alex Williamson <alex.williamson@redhat.com>, <qemu-devel@nongnu.org>
+References: <c9466e2c-385d-8298-d03c-80dcfc359f52@hisilicon.com>
+ <20210430082940.4b0e0397@redhat.com>
+From: Yicong Yang <yangyicong@hisilicon.com>
+Message-ID: <c09fed39-bde5-b7a9-d945-79ef85260e5a@hisilicon.com>
+Date: Tue, 11 May 2021 11:44:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210430082940.4b0e0397@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.69.38.196]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=yangyicong@huawei.com; helo=szxga04-in.huawei.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 11 May 2021 09:59:56 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,18 +63,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, david@redhat.com
+Cc: cohuck@redhat.com, "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+ Linuxarm <linuxarm@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+[ +qemu-devel ]
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+On 2021/4/30 22:29, Alex Williamson wrote:
+> On Fri, 30 Apr 2021 15:57:47 +0800
+> Yicong Yang <yangyicong@hisilicon.com> wrote:
+> 
+>> When I try to remove the PF driver in the host, the process will be blocked
+>> if the related VF of the device is added in the Qemu as an iEP.
+>>
+>> here's what I got in the host:
+>>
+>> [root@localhost 0000:75:00.0]# rmmod hisi_zip
+>> [99760.571352] vfio-pci 0000:75:00.1: Relaying device request to user (#0)
+>> [99862.992099] vfio-pci 0000:75:00.1: Relaying device request to user (#10)
+>> [...]
+>>
+>> and in the Qemu:
+>>
+>> estuary:/$ lspci -tv
+>> -[0000:00]-+-00.0  Device 1b36:0008
+>>            +-01.0  Device 1af4:1000
+>>            +-02.0  Device 1af4:1009
+>>            \-03.0  Device 19e5:a251 <----- the related VF device
+>> estuary:/$ qemu-system-aarch64: warning: vfio 0000:75:00.1: Bus 'pcie.0' does not support hotplugging
+>> qemu-system-aarch64: warning: vfio 0000:75:00.1: Bus 'pcie.0' does not support hotplugging
+>> qemu-system-aarch64: warning: vfio 0000:75:00.1: Bus 'pcie.0' does not support hotplugging
+>> qemu-system-aarch64: warning: vfio 0000:75:00.1: Bus 'pcie.0' does not support hotplugging
+>> [...]
+>>
+>> The rmmod process will be blocked until I kill the Qemu process. That's the only way if I
+>> want to end the rmmod.
+>>
+>> So my question is: is such block reasonable? If the VF devcie is occupied or doesn't
+>> support hotplug in the Qemu, shouldn't we fail the rmmod and return something like -EBUSY
+>> rather than make the host blocked indefinitely?
+> 
+> Where would we return -EBUSY?  pci_driver.remove() returns void.
+> Without blocking, I think our only option would be to kill the user
+> process.
+>  
 
-> At the same time, rename to parts64_silence_nan, split out
-> parts_silence_nan_frac, and define a macro for parts_silence_nan.
+yes. the remove() callback of pci_driver doesn't provide a way to abort the process.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Add the VF under a pcie root port will avoid this. Is it encouraged to always
+>> add the VF under a pcie root port rather than directly add it as an iEP?
+> 
+> Releasing a device via the vfio request interrupt is always a
+> cooperative process currently, the VM needs to be configured such that
+> the device is capable of being unplugged and the guest needs to respond
+> to the ejection request.  Thanks,
+> 
 
---=20
-Alex Benn=C3=A9e
+Does it make sense to abort the VM creation and give some warnings if user try to
+pass a vfio pci device to the Qemu and doesn't attach it to a hotpluggable
+bridge? Currently I think there isn't such a mechanism in Qemu.
+
+Thanks,
+Yicong
+
 
