@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B4337AC01
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:33:53 +0200 (CEST)
-Received: from localhost ([::1]:42046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF29837AC2B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:42:26 +0200 (CEST)
+Received: from localhost ([::1]:50002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgVKS-0003Dj-L0
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:33:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47332)
+	id 1lgVSj-0000bH-I8
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:42:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lgVIv-000285-AL
- for qemu-devel@nongnu.org; Tue, 11 May 2021 12:32:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36947)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lgVIq-0002fG-5i
- for qemu-devel@nongnu.org; Tue, 11 May 2021 12:32:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620750730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=OI8C4F44mdqR45dClMu3SVv0srsHjCDQ6EpXfzfmACw=;
- b=ShRrEQTYvpRwrHijHDtN+CtQ+WnS2LiE9XaBfHTqbx4jEUF+3rHySvoQG6FeVGiqnQ3Jqt
- EMzqX9A5l3Hlq3C1Tgp9XvvQ0TOlOX9gJqcaEG2tx2dOGqSPzB+/e6j6P20MZKdqUURmjw
- kBORB5gtNME5uqoQIbU5uWCA5t4JQNg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-539-pWSP0XL1Mu6bG9nTBvQIVw-1; Tue, 11 May 2021 12:32:08 -0400
-X-MC-Unique: pWSP0XL1Mu6bG9nTBvQIVw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 584651926DB5;
- Tue, 11 May 2021 16:32:03 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-102.ams2.redhat.com [10.36.114.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E913E61094;
- Tue, 11 May 2021 16:32:01 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] hmp: Fix loadvm to resume the VM on success instead of failure
-Date: Tue, 11 May 2021 18:31:51 +0200
-Message-Id: <20210511163151.45167-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1lgVQK-0008FT-O8
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 12:39:57 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1lgVQI-0006Lv-Lc
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 12:39:56 -0400
+Received: by mail-wm1-x329.google.com with SMTP id o127so11476406wmo.4
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 09:39:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=654aLg8cJvZRFsRQpQlrwE1XM96VydsUbEQhfkoaMao=;
+ b=ERCL3Sv0LAn4ZHcUYQ+UJzKzDX7BCK2PiBkr9Mlj8/Mn0l1CuExGCcFNngMFeuHtKR
+ xwf9WZMjH38p00QFw+XB4Cd5vA4uPjxM+al1i6Vzm8GS1fiuoKPKmLhZY7EaQ/6hSvWZ
+ mG2Sw8a3UMfGh1E7xWd0CJtt6yvO7MX3mT7YDkVdQ+UmrR84Z/VV/MMw7BKf+kEybZsw
+ fWlPiAIbsgFUH+R57CIWdZtRm6iQx4JnfARaUbWrUjPVuTlP+yuEP5rr1VBschmM2WRz
+ d+MuZmCM55wxqH8LjwtJ9xXGRh9MY8S6lVHA9us25qB8MpqBdiZvfRce7jV+GcBVJxlD
+ GM9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=654aLg8cJvZRFsRQpQlrwE1XM96VydsUbEQhfkoaMao=;
+ b=fPb9pElYHk9tlEvBPLg4M85Dy1GOYqer2FZShN6Sbjz4/afr6vOU4RpzNcANuuPufm
+ zQSrCrSWO9OckLf6YjpliZdMYg6sQPUzWsdE7/I5HM7BctvEMpfs2FOnJgTwkPikCg9e
+ JUTWedsGA6ar1RDsAstAOtkn3xmLNHss69ICqCrF44bltUmw2Ffv9WzlKJkoecWo1zK+
+ LixCctV1Euejkrz4wGiV92ROXZr0oNXgk7IpIMuNdB7C1aM82j9FbRd82AiNL152f6/Q
+ Ce1XoHReuo5zl0uQ/aeCT9V5GhWZ75t8gF1G6Q0UVvymxkceqhIIHoYv+RqZK0+o3QwF
+ ZzhA==
+X-Gm-Message-State: AOAM532HXkkxuWRVqQ9i7zFrvorRozOZSYFJtOeZnii+/JPULOA3P6E/
+ OOByWGwSLTvdYY1NH1Tmszs=
+X-Google-Smtp-Source: ABdhPJxnfCnnRaqm1s9AlC/jtAW0TjWA77RkVBzjhhGWMjXcnGtFJuIIt6/YwLIeT43Kz67lRpn8Vg==
+X-Received: by 2002:a1c:3b44:: with SMTP id i65mr6598337wma.31.1620751192386; 
+ Tue, 11 May 2021 09:39:52 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id k11sm28176189wrm.62.2021.05.11.09.39.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 May 2021 09:39:51 -0700 (PDT)
+Date: Tue, 11 May 2021 17:39:50 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH v3 2/9] qapi: move gen_if/gen_endif to QAPISchemaIfCond
+Message-ID: <YJqzVkWfOo3MPzj2@stefanha-x1.localdomain>
+References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
+ <20210429134032.1125111-3-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ikLrr1GhRERMwfwL"
+Content-Disposition: inline
+In-Reply-To: <20210429134032.1125111-3-marcandre.lureau@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,39 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, dgilbert@redhat.com, yama@redhat.com
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit f61fe11aa6f broke hmp_loadvm() by adding an incorrect negation
-when converting from 0/-errno return values to a bool value. The result
-is that loadvm resumes the VM now if it failed and keeps it stopped if
-it failed. Fix it to restore the old behaviour and do it the other way
-around.
 
-Fixes: f61fe11aa6f7f8f0ffe4ddaa56a8108f3ab57854
-Cc: qemu-stable@nongnu.org
-Reported-by: Yanhui Ma <yama@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- monitor/hmp-cmds.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--ikLrr1GhRERMwfwL
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 0ad5b77477..cc15d9b6ee 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1133,7 +1133,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict)
- 
-     vm_stop(RUN_STATE_RESTORE_VM);
- 
--    if (!load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
-+    if (load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
-         vm_start();
-     }
-     hmp_handle_error(mon, err);
--- 
-2.30.2
+On Thu, Apr 29, 2021 at 05:40:25PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
+>=20
+> Move the generating function to the QAPISchemaIfCond class.
 
+I'm not familiar enough with the QAPI code generator to know whether
+schema.py is supposed to generate C code directly. Otherwise this
+refactoring makes sense.
+
+--ikLrr1GhRERMwfwL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCas1YACgkQnKSrs4Gr
+c8icWwf+P/sekL9UPBtfgEbfgOCVXwoRze2k3mgsZu1MhlrgUE4f3yfm3iu7Q6zt
+CTnFrJomJtZPsepzccYNTD4pZ1KuLptsd9edUYpjZ/Es2yZehqgC24gBKNcMMsEH
+CdJwsl7TDdcJG8/knY7Lp3lTdgorcQt2VrcvHLFa8ersE/Uk7GM8GK0+/yCsQrhj
+a8rYkB7n4VG5HIWHW39oqPK3Wme++rkQNxqb5FViTMQwigcMa8K0UHu6xePwccli
+TbhAG3ENN9bmpKnNRtR5Ci0uxnt890TMD9WtNQr+N2aYmZwRZ2EkBCABHTmH8UJ9
+1VbWQq3MzLIXEKYZsijOFIPb2GSt0Q==
+=otp3
+-----END PGP SIGNATURE-----
+
+--ikLrr1GhRERMwfwL--
 
