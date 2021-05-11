@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD30E379CE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 04:24:53 +0200 (CEST)
-Received: from localhost ([::1]:51550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA87379D2A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 04:52:03 +0200 (CEST)
+Received: from localhost ([::1]:58202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgI4q-00036O-Vh
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 22:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56532)
+	id 1lgIV7-0000OZ-VZ
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 22:52:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lgI3h-0002BM-5T; Mon, 10 May 2021 22:23:41 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2144)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lgI3f-00057v-4u; Mon, 10 May 2021 22:23:40 -0400
-Received: from dggeml765-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4FfM943050z61NS;
- Tue, 11 May 2021 10:20:56 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- dggeml765-chm.china.huawei.com (10.1.199.175) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Tue, 11 May 2021 10:23:35 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Tue, 11 May 2021 10:23:34 +0800
-Subject: Re: [RFC PATCH v2 0/4] Add migration support for VFIO PCI devices in
- SMMUv3 nested stage mode
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-To: Eric Auger <eric.auger@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Alex Williamson <alex.williamson@redhat.com>,
- <kevin.tian@intel.com>, Yi Sun <yi.y.sun@linux.intel.com>, "open list:ARM
- SMMU" <qemu-arm@nongnu.org>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-References: <20210331101259.2153-1-jiangkunkun@huawei.com>
-Message-ID: <fde02107-2b8c-7ace-2eb1-79b072c5f448@huawei.com>
-Date: Tue, 11 May 2021 10:23:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1lgITc-00089g-Cb
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 22:50:28 -0400
+Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:38417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1lgITa-0007h2-OC
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 22:50:28 -0400
+Received: by mail-qt1-x836.google.com with SMTP id h21so9861092qtu.5
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 19:50:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eM8UqhK1b+Jr3mM+8g5e/qpOH8suvWtE2+2dlMuS/RM=;
+ b=EzFzwvKmDCaVW+pW54hQ7WtSlwkk84DRItzIT6r5KCbBHFwBs6CPJaD+VFo/x6lZL7
+ S1aOtmgLAo42QVboycyAt0dII7MTAo2j5CsqwsQcalkihBAliPOIyphJeUUDVTkF4C1+
+ ZCH+HF4upXV2hGvbxu/14jcqLP2j/Od1rV1Qxg4RzLVkEyeiVANt7nsF/uxq2DKTqCct
+ VdKTsTayWRDb4ErONTJphQV0Yl/wT9JRy0aTkXAA4LExHy/lK9BKeFjZ2cv92bfCDH2g
+ aprbxrSR89Lb0p0MwXMV8NpLh4zUShlGjmEG5WIUnFrv79auzTae8sY3o7GHy2LW22+B
+ IiXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eM8UqhK1b+Jr3mM+8g5e/qpOH8suvWtE2+2dlMuS/RM=;
+ b=uMLWg8DIZtg/tTfxTQXBg9tsKI3GxGhrBHBfpqRDvJHorfd2vu2WSZFLCJHoVlSRjF
+ dJ8Cvj8Bp3aEKGscoxRKT5uYzNFSLv4sX6ABD+haDyle2XW7u8i9gseBaiRNiQQIvPfX
+ Apn6Y3FkJpuGQ4daET0APkbGQGrsXAs6zmV76pc1/m5F0q21plg7m/rESIhO5sLkkKjJ
+ PhXVhrx3vbnqxjtBqBwRgFmsZ47BWzOZd8Tmnyb22Oph34A/KGfZwNleXTZaLoQWhP4w
+ uC3tOrDn495qp/e7qbACPRWyNdi6abtaC8ntYyEJII9CQOAUAkB86uzpl9/zOZt1tslw
+ 9oFw==
+X-Gm-Message-State: AOAM532PpQaZtM0T477OVz0Pizn5Cca1uBKg9hKVTyIpU7bRPZtB0mo+
+ qX92GdKUZRb3sk9Mz281aejLS1fZ9ViCk7citTs=
+X-Google-Smtp-Source: ABdhPJxyhcyNli5e1rJfrnNdXzmhVhocFLWRfKWTIJISceVXFaL4vAbNHut9+60FQBKGtyhWCNeJCf69R+5Zj+JfyPg=
+X-Received: by 2002:ac8:543:: with SMTP id c3mr25306833qth.241.1620701425419; 
+ Mon, 10 May 2021 19:50:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210331101259.2153-1-jiangkunkun@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme707-chm.china.huawei.com (10.1.199.103) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20210505045824.33880-1-liq3ea@163.com>
+ <CAJ+F1CLym=c1hBXeC9-_bVR5RBKhS8fVwbianjnJAUBVz+_foQ@mail.gmail.com>
+ <CAKXe6SLyzGUDG6Tex2QnCMk4CWbEWVZd66Q_=iBwDoqf5=R-Jw@mail.gmail.com>
+ <CAJ+F1CKgZzKzCurGSyQ7s2ZOADgX7BbWgvDVV=ejgthdA3K+pQ@mail.gmail.com>
+ <fc38a372-57ad-6c22-c4e8-cfe56ad35d05@redhat.com>
+In-Reply-To: <fc38a372-57ad-6c22-c4e8-cfe56ad35d05@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Tue, 11 May 2021 10:49:49 +0800
+Message-ID: <CAKXe6SJYi5PKHSJU7U6h08ihZsmSGY7-j2rQhVtsryD8ioxhyA@mail.gmail.com>
+Subject: Re: [PATCH 0/7] vhost-user-gpu: fix several security issues
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
+ Prasad J Pandit <pjp@fedoraproject.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
+ envelope-from=liq3ea@gmail.com; helo=mail-qt1-x836.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,80 +81,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liu Yi L <yi.l.liu@intel.com>, shameerali.kolothum.thodi@huawei.com,
- Kirti Wankhede <kwankhede@nvidia.com>, Zenghui Yu <yuzenghui@huawei.com>,
- wanghaibin.wang@huawei.com, Keqian Zhu <zhukeqian1@huawei.com>
+Cc: Li Qiang <liq3ea@163.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2021=E5=B9=B45=E6=
+=9C=8811=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=883:25=E5=86=99=E9=81=
+=93=EF=BC=9A
+>
+> On 5/5/21 11:35 AM, Marc-Andr=C3=A9 Lureau wrote:
+> > Hi
+> >
+> > On Wed, May 5, 2021 at 1:28 PM Li Qiang <liq3ea@gmail.com
+> > <mailto:liq3ea@gmail.com>> wrote:
+> >
+> >     Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com
+> >     <mailto:marcandre.lureau@gmail.com>> =E4=BA=8E2021=E5=B9=B45=E6=9C=
+=885=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=885:10=E5=86=99=E9=81=93=EF=
+=BC=9A
+> >     >
+> >     > Hi
+> >     >
+> >     > On Wed, May 5, 2021 at 9:21 AM Li Qiang <liq3ea@163.com
+> >     <mailto:liq3ea@163.com>> wrote:
+> >     >>
+> >     >> These security issue is low severity and is similar with the
+> >     >> virtio-vga/virtio-gpu device. All of them can be triggered by
+> >     >> the guest user.
+> >     >>
+> >     >> Li Qiang (7):
+> >     >>   vhost-user-gpu: fix memory disclosure in virgl_cmd_get_capset_=
+info
+> >     >>   vhost-user-gpu: fix resource leak in 'vg_resource_create_2d'
+> >     >>   vhost-user-gpu: fix memory leak in vg_resource_attach_backing
+> >     >>   vhost-user-gpu: fix memory link while calling 'vg_resource_unr=
+ef'
+> >     >>   vhost-user-gpu: fix memory leak in 'virgl_cmd_resource_unref'
+> >     >>   vhost-user-gpu: fix memory leak in 'virgl_resource_attach_back=
+ing'
+> >     >>   vhost-user-gpu: fix OOB write in 'virgl_cmd_get_capset'
+> >     >>
+> >     >>  contrib/vhost-user-gpu/vhost-user-gpu.c |  7 +++++++
+> >     >>  contrib/vhost-user-gpu/virgl.c          | 17 ++++++++++++++++-
+> >     >>  2 files changed, 23 insertions(+), 1 deletion(-)
+> >     >>
+> >     >> --
+> >     >
+> >     >
+> >     > The whole series looks good to me, and applies fixes that were
+> >     done earlier in virtio-gpu.
+> >
+> >     Do you mean you have merged this series?
+> >     Should I tweak something such as "adding the original fix in
+> >     virtio-gpu"/"better mapping iov cleanup"?
+>
+> Yes, and please also mention the corresponding CVE (CVE-2021-3544,
+> CVE-2021-3545, CVE-2021-3546).
+>
 
-This series has been updated to v3.[1]
-Any comments and reviews are welcome.
+OK, I'm still waiting for the some of the patch's response from
+Prasad. Kindly ping @Prasad
+
 
 Thanks,
-Kunkun Jiang
+Li Qiang
 
-[1] [RFC PATCH v3 0/4] Add migration support for VFIO PCI devices in 
-SMMUv3 nested mode
-https://lore.kernel.org/qemu-devel/20210511020816.2905-1-jiangkunkun@huawei.com/
-
-On 2021/3/31 18:12, Kunkun Jiang wrote:
-> Hi all,
+> >
+> >
+> > No I didn't. I was waiting for the answers to Prasad questions, and
+> > eventually v2.
+> >
+> > Then either Gerd or me can queue this imho.
+> >
+> > --
+> > Marc-Andr=C3=A9 Lureau
 >
-> Since the SMMUv3's nested translation stages[1] has been introduced by Eric, we
-> need to pay attention to the migration of VFIO PCI devices in SMMUv3 nested stage
-> mode. At present, it is not yet supported in QEMU. There are two problems in the
-> existing framework.
->
-> First, the current way to get dirty pages is not applicable to nested stage mode.
-> Because of the "Caching Mode", VTD can map the RAM through the host single stage
-> (giova->hpa). "vfio_listener_log_sync" gets dirty pages by transferring "giova"
-> to the kernel for the RAM block section of mapped MMIO region. In nested stage
-> mode, we setup the stage 2 (gpa->hpa) and the stage 1(giova->gpa) separately. So
-> it is inapplicable to get dirty pages by the current way in nested stage mode.
->
-> Second, it also need to pass stage 1 configurations to the destination host after
-> the migration. In Eric's patch, it passes the stage 1 configuration to the host on
-> each STE update for the devices set the PASID PciOps. The configuration will be
-> applied at physical level. But the data of physical level will not be sent to the
-> destination host. So we have to pass stage 1 configurations to the destination
-> host after the migration.
->
-> Best Regards,
-> Kunkun Jiang
->
-> [1] [RFC,v8,00/28] vSMMUv3/pSMMUv3 2 stage VFIO integration
-> http://patchwork.ozlabs.org/project/qemu-devel/cover/20210225105233.650545-1-eric.auger@redhat.com/
->
-> This Patch set includes patches as below:
-> Patch 1-2:
-> - Refactor the vfio_listener_log_sync and added a new function to get dirty pages
-> in nested stage mode.
->
-> Patch 3:
-> - Added global_log_start/stop interface in vfio_memory_prereg_listener
->
-> Patch 4:
-> - Added the post_load function to vmstate_smmuv3 for passing stage 1 configuration
-> to the destination host after the migration.
->
-> History:
->
-> v1 -> v2:
-> - Add global_log_start/stop interface in vfio_memory_prereg_listener
-> - Add support for repass stage 1 configs with multiple CDs to the host
->
-> Kunkun Jiang (4):
->    vfio: Introduce helpers to mark dirty pages of a RAM section
->    vfio: Add vfio_prereg_listener_log_sync in nested stage
->    vfio: Add vfio_prereg_listener_global_log_start/stop in nested stage
->    hw/arm/smmuv3: Post-load stage 1 configurations to the host
->
->   hw/arm/smmuv3.c     | 62 +++++++++++++++++++++++++++++++++++++++
->   hw/arm/trace-events |  1 +
->   hw/vfio/common.c    | 71 ++++++++++++++++++++++++++++++++++++++++-----
->   3 files changed, 126 insertions(+), 8 deletions(-)
->
-
 
