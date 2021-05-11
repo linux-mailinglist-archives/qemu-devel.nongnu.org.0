@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F4337AA92
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:23:23 +0200 (CEST)
-Received: from localhost ([::1]:58702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B4137AAA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:25:43 +0200 (CEST)
+Received: from localhost ([::1]:38348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgUEE-0005sw-KS
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:23:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56022)
+	id 1lgUGT-0002sh-VF
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:25:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lgU1T-0008OW-C9
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:10:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27176)
+ id 1lgU1Z-00007e-4q
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:10:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28228)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lgU1R-0004gq-GL
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:10:11 -0400
+ id 1lgU1W-0004iz-F3
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:10:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620745808;
+ s=mimecast20190719; t=1620745813;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i9HNFa3YZSZS9VVIJ5u+MfN+wq+MtWfjvAyhFk37GTA=;
- b=EgCHitkIQl6I8ah6YCqztJbB/Rsl8jIQQz9ig/05K1A1TVrXhORkQtkw/y6WmIAz3m2PET
- Fv38HAEdOU/vMC0LWoS7ugPR8+hrwVRsWNVCPiL4Xs1Q2rpMMJa6d33278jJbR1/Q4AGU0
- 20hd84e4GtOG1Mye1WWj8VYlfXj08zQ=
+ bh=33BsZ3D0txt869AfvviqCxMv4hSNDlrsUfKXxCD/PEI=;
+ b=cIdPLD6L+XKOfyy6Fb+VgkCcXNG2pC14yPq69ovcHdJ312PUuI4AI1twKy0VqJyWwgjCTU
+ UMuZnWpJSh5mhm+sA8Tn0V8WLtf4pD6121oDXxZyOpTkk+pi2lT62vnba/OJAmFiiBiOiJ
+ j4usRiQX+WMTDIZi/tAXp4adWxwAeRk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-sfkPDa75PZSaCOziZWuMNg-1; Tue, 11 May 2021 11:10:04 -0400
-X-MC-Unique: sfkPDa75PZSaCOziZWuMNg-1
+ us-mta-260-iZTmmoj_NGGpNmdU5MI8Ow-1; Tue, 11 May 2021 11:10:10 -0400
+X-MC-Unique: iZTmmoj_NGGpNmdU5MI8Ow-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DA611006C81;
- Tue, 11 May 2021 15:10:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE2A91854E24;
+ Tue, 11 May 2021 15:10:09 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-51.ams2.redhat.com
  [10.36.113.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63C7E579B1;
- Tue, 11 May 2021 15:09:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 560FF6A940;
+ Tue, 11 May 2021 15:10:03 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, zhukeqian1@huawei.com,
  jiangkunkun@huawei.com, armbru@redhat.com, peter.maydell@linaro.org,
  huangy81@chinatelecom.cn
-Subject: [PULL 13/17] migration/multifd: Print used_length of memory block
-Date: Tue, 11 May 2021 16:08:38 +0100
-Message-Id: <20210511150842.207155-14-dgilbert@redhat.com>
+Subject: [PULL 14/17] migration/ram: Use offset_in_ramblock() in range checks
+Date: Tue, 11 May 2021 16:08:39 +0100
+Message-Id: <20210511150842.207155-15-dgilbert@redhat.com>
 In-Reply-To: <20210511150842.207155-1-dgilbert@redhat.com>
 References: <20210511150842.207155-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -87,29 +87,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We actually want to print the used_length, against which we check.
+We never read or write beyond the used_length of memory blocks when
+migrating. Make this clearer by using offset_in_ramblock() consistently.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210429112708.12291-10-david@redhat.com>
+Message-Id: <20210429112708.12291-11-david@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/multifd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ migration/ram.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index a6677c45c8..0a4803cfcc 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -361,7 +361,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
-         if (offset > (block->used_length - qemu_target_page_size())) {
-             error_setg(errp, "multifd: offset too long %" PRIu64
-                        " (max " RAM_ADDR_FMT ")",
--                       offset, block->max_length);
-+                       offset, block->used_length);
-             return -1;
-         }
-         p->pages->iov[i].iov_base = block->host + offset;
+diff --git a/migration/ram.c b/migration/ram.c
+index 0ed1005f1a..7ea9c779cc 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1342,8 +1342,8 @@ static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
+         *again = false;
+         return false;
+     }
+-    if ((((ram_addr_t)pss->page) << TARGET_PAGE_BITS)
+-        >= pss->block->used_length) {
++    if (!offset_in_ramblock(pss->block,
++                            ((ram_addr_t)pss->page) << TARGET_PAGE_BITS)) {
+         /* Didn't find anything in this RAM Block */
+         pss->page = 0;
+         pss->block = QLIST_NEXT_RCU(pss->block, next);
+@@ -1863,7 +1863,7 @@ int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len)
+         rs->last_req_rb = ramblock;
+     }
+     trace_ram_save_queue_pages(ramblock->idstr, start, len);
+-    if (start + len > ramblock->used_length) {
++    if (!offset_in_ramblock(ramblock, start + len - 1)) {
+         error_report("%s request overrun start=" RAM_ADDR_FMT " len="
+                      RAM_ADDR_FMT " blocklen=" RAM_ADDR_FMT,
+                      __func__, start, len, ramblock->used_length);
+@@ -3696,8 +3696,8 @@ void colo_flush_ram_cache(void)
+         while (block) {
+             offset = migration_bitmap_find_dirty(ram_state, block, offset);
+ 
+-            if (((ram_addr_t)offset) << TARGET_PAGE_BITS
+-                >= block->used_length) {
++            if (!offset_in_ramblock(block,
++                                    ((ram_addr_t)offset) << TARGET_PAGE_BITS)) {
+                 offset = 0;
+                 block = QLIST_NEXT_RCU(block, next);
+             } else {
 -- 
 2.31.1
 
