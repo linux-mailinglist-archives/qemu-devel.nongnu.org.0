@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF0D37A5F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 13:45:19 +0200 (CEST)
-Received: from localhost ([::1]:57986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8604837A5F3
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 13:45:39 +0200 (CEST)
+Received: from localhost ([::1]:58598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgQpC-0008E9-0q
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 07:45:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57548)
+	id 1lgQpW-0000CB-GI
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 07:45:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1lgQhp-0004rW-TU; Tue, 11 May 2021 07:37:41 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:60652)
+ id 1lgQiR-00054v-Rw; Tue, 11 May 2021 07:38:19 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:60674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1lgQhn-0001dy-Do; Tue, 11 May 2021 07:37:41 -0400
+ id 1lgQiO-0001xo-3w; Tue, 11 May 2021 07:38:19 -0400
 Received: from [172.17.10.10] (unknown [172.17.10.10])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 3E04320776;
- Tue, 11 May 2021 11:37:35 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 5729A20895;
+ Tue, 11 May 2021 11:38:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1620733055;
+ s=mail; t=1620733093;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9zi3vyPoMCCd3SeM6Y38hVc1crKqCrWYmhyXBYjkYDQ=;
- b=B3vpv5VbM6rpuLIVb8lyijBuKD4N7O9yapRZffYwPo6OeGzgYQNcVXMiVLrNdL6rEpE2uK
- W3zQaT6hIsBmBOoHUQKxNp7RNQ0g76TUpkPOmTig04Kgma13UTl0r6NCofRkqppztGWrY/
- EPwiKEGRj1axjx1Bo7nmtBucxwIRyZk=
-Subject: Re: [PATCH 1/2] Consistent function names for sifive uart read and
- write function
+ bh=g++42F52WL7Uqwf3Q3A/hv8b3xjKeGA3mWpBp48augA=;
+ b=nBjZmf4ZZAIffM+1xnJeTYvZd44qtgiCb4M0Zy819p8mhrUzlE9oawyq6OXDzm8y6rOnXd
+ 6278YHOBKUSbKcjKEM6tWp/nyjV3g2LN6tR95X64aY9BIT4CTS36qI4vhhbbySj3hS7q0f
+ kldbPfaQNHDBlL7htZuHvQeshxfBLEk=
+Subject: Re: [PATCH 2/2] QOMify sifive_uart model
 To: =?UTF-8?Q?Lukas_J=c3=bcnger?= <lukas.juenger@greensocs.com>,
  qemu-devel@nongnu.org
 References: <20210504153456.927083-1-lukas.juenger@greensocs.com>
- <20210504153456.927083-2-lukas.juenger@greensocs.com>
+ <20210504153456.927083-3-lukas.juenger@greensocs.com>
 From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <55618060-76e7-1276-1698-c01eea721b43@greensocs.com>
-Date: Tue, 11 May 2021 13:38:50 +0200
+Message-ID: <db034556-100d-7856-13b0-ea451d6fb1cb@greensocs.com>
+Date: Tue, 11 May 2021 13:39:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210504153456.927083-2-lukas.juenger@greensocs.com>
+In-Reply-To: <20210504153456.927083-3-lukas.juenger@greensocs.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -78,54 +77,127 @@ On 5/4/21 5:34 PM, Lukas Jünger wrote:
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
 > ---
->   hw/char/sifive_uart.c | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
+>   include/hw/char/sifive_uart.h |  6 +--
+>   hw/char/sifive_uart.c         | 72 ++++++++++++++++++++++++++++++-----
+>   2 files changed, 65 insertions(+), 13 deletions(-)
 > 
+> diff --git a/include/hw/char/sifive_uart.h b/include/hw/char/sifive_uart.h
+> index 3e962be659..45d66b1db5 100644
+> --- a/include/hw/char/sifive_uart.h
+> +++ b/include/hw/char/sifive_uart.h
+> @@ -21,6 +21,7 @@
+>   #define HW_SIFIVE_UART_H
+>   
+>   #include "chardev/char-fe.h"
+> +#include "hw/qdev-properties.h"
+>   #include "hw/sysbus.h"
+>   #include "qom/object.h"
+>   
+> @@ -51,10 +52,7 @@ enum {
+>   #define SIFIVE_UART_GET_RXCNT(rxctrl)   ((rxctrl >> 16) & 0x7)
+>   
+>   #define TYPE_SIFIVE_UART "riscv.sifive.uart"
+> -
+> -typedef struct SiFiveUARTState SiFiveUARTState;
+> -DECLARE_INSTANCE_CHECKER(SiFiveUARTState, SIFIVE_UART,
+> -                         TYPE_SIFIVE_UART)
+> +OBJECT_DECLARE_SIMPLE_TYPE(SiFiveUARTState, SIFIVE_UART)
+>   
+>   struct SiFiveUARTState {
+>       /*< private >*/
 > diff --git a/hw/char/sifive_uart.c b/hw/char/sifive_uart.c
-> index 3a00ba7f00..cb70374ead 100644
+> index cb70374ead..0307568d0a 100644
 > --- a/hw/char/sifive_uart.c
 > +++ b/hw/char/sifive_uart.c
-> @@ -65,7 +65,7 @@ static void update_irq(SiFiveUARTState *s)
+> @@ -25,6 +25,7 @@
+>   #include "hw/hw.h"
+>   #include "hw/irq.h"
+>   #include "hw/char/sifive_uart.h"
+> +#include "hw/qdev-properties-system.h"
+>   
+>   /*
+>    * Not yet implemented:
+> @@ -176,19 +177,72 @@ static int uart_be_change(void *opaque)
+>       return 0;
 >   }
 >   
->   static uint64_t
-> -uart_read(void *opaque, hwaddr addr, unsigned int size)
-> +sifive_uart_read(void *opaque, hwaddr addr, unsigned int size)
+> +static Property sifive_uart_properties[] = {
+> +    DEFINE_PROP_CHR("chardev", SiFiveUARTState, chr),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void sifive_uart_init(Object *obj)
+> +{
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+> +    SiFiveUARTState *s = SIFIVE_UART(obj);
+> +
+> +    memory_region_init_io(&s->mmio, OBJECT(s), &sifive_uart_ops, s,
+> +                          TYPE_SIFIVE_UART, SIFIVE_UART_MAX);
+> +    sysbus_init_mmio(sbd, &s->mmio);
+> +    sysbus_init_irq(sbd, &s->irq);
+> +}
+> +
+> +static void sifive_uart_realize(DeviceState *dev, Error **errp)
+> +{
+> +    SiFiveUARTState *s = SIFIVE_UART(dev);
+> +
+> +    qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
+> +                             uart_be_change, s, NULL, true);
+> +
+> +}
+> +
+> +static void sifive_uart_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->realize = sifive_uart_realize;
+> +    device_class_set_props(dc, sifive_uart_properties);
+> +}
+> +
+> +static const TypeInfo sifive_uart_info = {
+> +    .name          = TYPE_SIFIVE_UART,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(SiFiveUARTState),
+> +    .instance_init = sifive_uart_init,
+> +    .class_init    = sifive_uart_class_init,
+> +};
+> +
+> +static void sifive_uart_register_types(void)
+> +{
+> +    type_register_static(&sifive_uart_info);
+> +}
+> +
+> +type_init(sifive_uart_register_types)
+> +
+>   /*
+>    * Create UART device.
+>    */
+>   SiFiveUARTState *sifive_uart_create(MemoryRegion *address_space, hwaddr base,
+>       Chardev *chr, qemu_irq irq)
 >   {
->       SiFiveUARTState *s = opaque;
->       unsigned char r;
-> @@ -101,8 +101,8 @@ uart_read(void *opaque, hwaddr addr, unsigned int size)
+> -    SiFiveUARTState *s = g_malloc0(sizeof(SiFiveUARTState));
+> -    s->irq = irq;
+> -    qemu_chr_fe_init(&s->chr, chr, &error_abort);
+> -    qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
+> -        uart_be_change, s, NULL, true);
+> -    memory_region_init_io(&s->mmio, NULL, &sifive_uart_ops, s,
+> -                          TYPE_SIFIVE_UART, SIFIVE_UART_MAX);
+> -    memory_region_add_subregion(address_space, base, &s->mmio);
+> -    return s;
+> +    DeviceState *dev;
+> +    SysBusDevice *s;
+> +    SiFiveUARTState *r;
+> +
+> +    dev = qdev_new("riscv.sifive.uart");
+> +    s = SYS_BUS_DEVICE(dev);
+> +    qdev_prop_set_chr(dev, "chardev", chr);
+> +    sysbus_realize_and_unref(s, &error_fatal);
+> +    memory_region_add_subregion(address_space, base,
+> +                                sysbus_mmio_get_region(s, 0));
+> +    sysbus_connect_irq(s, 0, irq);
+> +
+> +    r = SIFIVE_UART(dev);
+> +    return r;
 >   }
->   
->   static void
-> -uart_write(void *opaque, hwaddr addr,
-> -           uint64_t val64, unsigned int size)
-> +sifive_uart_write(void *opaque, hwaddr addr,
-> +                  uint64_t val64, unsigned int size)
->   {
->       SiFiveUARTState *s = opaque;
->       uint32_t value = val64;
-> @@ -131,9 +131,9 @@ uart_write(void *opaque, hwaddr addr,
->                     __func__, (int)addr, (int)value);
->   }
->   
-> -static const MemoryRegionOps uart_ops = {
-> -    .read = uart_read,
-> -    .write = uart_write,
-> +static const MemoryRegionOps sifive_uart_ops = {
-> +    .read = sifive_uart_read,
-> +    .write = sifive_uart_write,
->       .endianness = DEVICE_NATIVE_ENDIAN,
->       .valid = {
->           .min_access_size = 4,
-> @@ -187,7 +187,7 @@ SiFiveUARTState *sifive_uart_create(MemoryRegion *address_space, hwaddr base,
->       qemu_chr_fe_init(&s->chr, chr, &error_abort);
->       qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
->           uart_be_change, s, NULL, true);
-> -    memory_region_init_io(&s->mmio, NULL, &uart_ops, s,
-> +    memory_region_init_io(&s->mmio, NULL, &sifive_uart_ops, s,
->                             TYPE_SIFIVE_UART, SIFIVE_UART_MAX);
->       memory_region_add_subregion(address_space, base, &s->mmio);
->       return s;
 > 
 
