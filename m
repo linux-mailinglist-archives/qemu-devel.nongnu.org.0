@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013DF37A56F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 13:08:39 +0200 (CEST)
-Received: from localhost ([::1]:60008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5DAC37A566
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 13:03:16 +0200 (CEST)
+Received: from localhost ([::1]:52582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgQFh-0003yp-SF
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 07:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38646)
+	id 1lgQAV-0007Da-Qe
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 07:03:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPXD-0002gw-G8
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:22:39 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41095)
+ id 1lgPXC-0002cY-BG
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:22:38 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPX2-0006TG-5h
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:22:39 -0400
+ id 1lgPX2-0006X1-Pc
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:22:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1620728546; x=1652264546;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XfXgYxiYX5i1x54fnTk0QzFVD6VSA4CU3S+I1f1IWWg=;
- b=cCK6MSIs1Dm2fbs3tVS6tEGWRj6J7NLQEndb9ZsbUxl/WYFs3W09cLFW
- 2zsS3+nnotrMsXmTBRmfSVA1UZtQHEnnbiOyJwtRvMrXRFWoy58n4yByP
- deB1ysYtzDovBMeMN78MYGGl5aDh7fkm2zvhU8I+UNXJJm7z8/OEchClL
- edCP+IKNmxd5UKiFMm3ayvY22lCdxITlCvM6xQnLM5DwdMvqJXzPLCrlX
- p+hHyPxyhNpoBXty+w/0oM/yibieVW4+QpUX54IynOFgwQdBafyy6fNIb
- 8/K4gMJcrdtAAN8C6/1JY/y40PI01fC3k/MFsfpvHge5ihzNrWkuoT8Vg w==;
-IronPort-SDR: CpqrA0gWL6sx7/TW36kPTFZAxwtkdF7xYsW3X7vuKGhPe2ACETOsnj7yaB5OJEpibFtEmARjtV
- 1w2wLeZNR4gIVSbb+sJckR5L2FluBy87QnWbRCbdYK7bSRRiFQXeLMVMuP47uZmdYJnNRoKo9k
- 1thwIn2BoNiRMuEy8MAcRMXTdEnH8lmkk20dQXwA/HgHWUlIIyDuC+u4m3eW5fajbRBfGHRyQu
- 3cGvbK37v4QRviyX5P5pBqn3hB7BwNatAmjgJDxFt9KFzpZJXO9gdt1EJgwOWQ4DbFBk8wHpbV
- R+w=
-X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735470"
+ bh=AqdonLUuZyYbToc+r7mOqmQfOKiL5G8dfgQnAVG1UWQ=;
+ b=LZxMRbb09tROEzyUijtNZLYuu1IZGljPr0gTcPyPgbVkUhJ+rRia5fSH
+ A/bFUguTAk4Eatq72i3bKgbYIQXu37GyAuHNwqaKpKxcG8cCruhqehG3A
+ fYJ+yLETxFNeu0QtI6B56BXC272GUwcki9KXfijdaWA16vGZgH++qlHNb
+ IGwpN2PlBCThth0gQ8zLH+CzArpqa9ksjjhNqktYNE4+on2KuQERA5eZB
+ VLbGhIws0/GRwq1nAAcAhiFfqMfWPObAEWffFJDXkDArIldrUyuHIK7ws
+ 3MQyc1jro2PlldIS/CuWrnWK+SmtUlevf/ollrZjVxAcXqqG4k2UA4Ybp Q==;
+IronPort-SDR: 5T198sX1/wjDlWZO5AF29uA31sxUincAdmqTulDaWRjfkNVYNdw3x5G8LFf1wsvQND2DeKIF9w
+ 1SlDTjLd9e5YD9jvzKZQqwlIG9a6yoeHaM7WDz6lC6dopXfUXVkWVcPd87B5FMbQfmJqYP4Lvk
+ GR5FH3YS+8EnekG4iGtfopoMgWQkf1p1ZVYQvXT+QeWh8nFhAE6i/LK1vPSw1XRKXFV633/N1h
+ JhPdP+h2So1a0ke7XQcCNfSOTJbPUFYqhrJVhXiZnI+vo2EsvICQIUhe05aLW3Bl6DyLeowGiy
+ 1no=
+X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735482"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:21:37 +0800
-IronPort-SDR: y/pRBR1xwoipKG2Zf0s/unhxdT+wlb6dMH+G3F5v98Jyk/UJjI2BTVpHJPKqGZjWp0qbg6mYBu
- kfJ8+/CExPumdL10ccCxoX3pkcv0R78ZG6ppAhMlRjOWr8rLfmqelPIGtZ6jIGPOnT280F9rwq
- lgL5x+q207xJ6aOR2US0trXn+FP74kSUka4vkwbTRAA7sg0OEL3Ijc4bQ4b3eNVihPbdmEvyDJ
- 6QLyu7AMtJjMvUWWB+1BnIV74CbI7od8f/+KyK2lUapWCmP7ttDti6H+mZqwv2LFh9b773u+bR
- cIKvPkR4AG7S27cpLVV5v/Qm
+ by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:21:42 +0800
+IronPort-SDR: zSHzThHs/0WWY+TJ4S6NBPWjputc37JI6CD9E9uQxD0JmEXUY2JW865OUhQDZj3nsMV3YdbnWF
+ zjmN9IbkS4KJybqZ07Dr7AIBPn2bWFwBIoE9es1YKg+w7Z+NCTDF3QBvn3aAV81AtyvSDliWTw
+ dN9gTj8N2nsPdKXGrVaHRqhgeFR+2pz7DZBkciodLPnrngdM0MtS2cT3TyaRK7CbbcvyQMZgmR
+ Dv2/oTMDVeFMhJzzZ0Cv/BDXcyK0sfX3+qa3pDmODsw6fyeDA/EYi0QirZLtAaOpPIVxEmwyei
+ 4pwH/3AX3km+UUQgHdv7xY75
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 03:01:37 -0700
-IronPort-SDR: 4fw3k+Lirku+C/1xsyfww02JxzE71pIgTm+Y1ayxcNcfwl1VFtbyti4n1McbmZzqEa2gn8/ln5
- XZpo2n1zHjNHyQzkRBDN0DQtDkech8W3942NGaqouusGTysm2qgBsYFb2VaS3O1Hj516U3Wsm3
- 4PB2058pVTDiH0bAFiUgantN2UrSqW68DQlVR19keZlBCfoGGczcAb8riX19K6j5264+c06LyD
- wKiLAE0ZPmDi6JZh83nxTgRXpm91L5tvfzCHtzuXDk/63rcxIgAliOHzt0KDG4HD7DNUMQaWJq
- Zjg=
+ 11 May 2021 03:01:43 -0700
+IronPort-SDR: gfoA+7xRFjMs41qasJfwx5sdXdy2t7alYJHX2uZN+vUB9BuDoPl/cNRRxXovs94Pqp/zAnKTpE
+ mbcRk2VCkYYiZZvvJFDVzyt0s8OnB35FSlEJpWryno8nX72nhAXfk/TqC6j//jPPT7/ywWRKnj
+ twAj7ESLc/nXgM2DLExtiW8pFqn52SDmMPahpQ7ZVQOJvHiL+OniQ2FM/NqLFdXGhD/NXnYqAH
+ w624GjuD7E7JwS1K7I/+1v7Dvac3NUhGlcpYQ6fwiXa6JtCAUaqCKqE24WvuIFJ0Br/49xNsgq
+ Uq8=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.48])
- by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:21:36 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:21:42 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v3 29/42] target/riscv: fix exception index on instruction
- access fault
-Date: Tue, 11 May 2021 20:19:38 +1000
-Message-Id: <20210511101951.165287-30-alistair.francis@wdc.com>
+Subject: [PULL v3 31/42] fpu/softfloat: set invalid excp flag for RISC-V
+ muladd instructions
+Date: Tue, 11 May 2021 20:19:40 +1000
+Message-Id: <20210511101951.165287-32-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210511101951.165287-1-alistair.francis@wdc.com>
 References: <20210511101951.165287-1-alistair.francis@wdc.com>
@@ -91,41 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- qemu-devel@nongnu.org, Emmanuel Blot <emmanuel.blot@sifive.com>
+Cc: Frank Chang <frank.chang@sifive.com>, alistair23@gmail.com,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Emmanuel Blot <emmanuel.blot@sifive.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-When no MMU is used and the guest code attempts to fetch an instruction
-from an invalid memory location, the exception index defaults to a data
-load access fault, rather an instruction access fault.
+In IEEE 754-2008 spec:
+  Invalid operation exception is signaled when doing:
+  fusedMultiplyAdd(0, Inf, c) or fusedMultiplyAdd(Inf, 0, c)
+  unless c is a quiet NaN; if c is a quiet NaN then it is
+  implementation defined whether the invalid operation exception
+  is signaled.
 
-Signed-off-by: Emmanuel Blot <emmanuel.blot@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: FB9EA197-B018-4879-AB0F-922C2047A08B@sifive.com
+In RISC-V Unprivileged ISA spec:
+  The fused multiply-add instructions must set the invalid
+  operation exception flag when the multiplicands are Inf and
+  zero, even when the addend is a quiet NaN.
+
+This commit set invalid operation execption flag for RISC-V when
+multiplicands of muladd instructions are Inf and zero.
+
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210420013150.21992-1-frank.chang@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ fpu/softfloat-specialize.c.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 659ca8a173..1018c0036d 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -694,8 +694,10 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
- 
-     if (access_type == MMU_DATA_STORE) {
-         cs->exception_index = RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
--    } else {
-+    } else if (access_type == MMU_DATA_LOAD) {
-         cs->exception_index = RISCV_EXCP_LOAD_ACCESS_FAULT;
-+    } else {
-+        cs->exception_index = RISCV_EXCP_INST_ACCESS_FAULT;
+diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
+index 9ea318f3e2..78f699d6f8 100644
+--- a/fpu/softfloat-specialize.c.inc
++++ b/fpu/softfloat-specialize.c.inc
+@@ -627,6 +627,12 @@ static int pickNaNMulAdd(FloatClass a_cls, FloatClass b_cls, FloatClass c_cls,
+     } else {
+         return 1;
      }
- 
-     env->badaddr = addr;
++#elif defined(TARGET_RISCV)
++    /* For RISC-V, InvalidOp is set when multiplicands are Inf and zero */
++    if (infzero) {
++        float_raise(float_flag_invalid, status);
++    }
++    return 3; /* default NaN */
+ #elif defined(TARGET_XTENSA)
+     /*
+      * For Xtensa, the (inf,zero,nan) case sets InvalidOp and returns
 -- 
 2.31.1
 
