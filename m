@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E82B37B190
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 00:22:33 +0200 (CEST)
-Received: from localhost ([::1]:59224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B98037B198
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 00:23:28 +0200 (CEST)
+Received: from localhost ([::1]:33126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgals-0005oi-38
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 18:22:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55810)
+	id 1lgaml-0007Gs-ID
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 18:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaWL-0008LK-SH
- for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44975)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaWO-00006f-VV
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaWK-0006aA-4I
- for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:29 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaWM-0006eP-Sr
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620770787;
+ s=mimecast20190719; t=1620770790;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tneFAuEEdfRYrPTC2/pL/p2ptFZFTWRvmzSGabmBn7A=;
- b=atSpsBIAvysKnDWlQM4//h/BECnAibvCLIz054ikbDNWuafmu3deVD0g5pur04L/4serfq
- Y8x6a7qztZ3wwIg34oIBKnyGWDfnWLTtzWnM/X9f7yi4tUVWpARWYG9iCReVdUkVD7qrmX
- JMvDYg0/HGXT15b/Jqqt3i/ejFMK3zE=
+ bh=L22ohg11je14HGZTcuKIEY1RXGdhUyC06NJGTwse8Ms=;
+ b=Hn28Wjh7Wf9vUo8IsDJi0887XsJ8NFEtXqrirAg2JQxPHXvKI3dVmv5/JBAEwLDZLMZFym
+ yukeDOtb1t2X0+U+e398wIQoAfI/q0craa9qnPnDsZerVZmmNqbSq4vi0urnC4PpHK6upy
+ GYTFFJuGZLmqrjSsecEqbbgThUQlwwk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-JKeWmSpONAaxc7V5k_QWpQ-1; Tue, 11 May 2021 18:06:25 -0400
-X-MC-Unique: JKeWmSpONAaxc7V5k_QWpQ-1
+ us-mta-299-6VMxeuXFMzKw7ImoLPUb6g-1; Tue, 11 May 2021 18:06:26 -0400
+X-MC-Unique: 6VMxeuXFMzKw7ImoLPUb6g-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0F06101371B;
- Tue, 11 May 2021 22:06:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFEBA107ACCA;
+ Tue, 11 May 2021 22:06:25 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4228ABA6F;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0EC69BA6F;
  Tue, 11 May 2021 22:06:24 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/21] qapi: [WIP] Import QAPIDoc from qapidoc
- Signed-off-by: John Snow <jsnow@redhat.com>
-Date: Tue, 11 May 2021 18:05:59 -0400
-Message-Id: <20210511220601.2110055-20-jsnow@redhat.com>
+Subject: [PATCH v2 20/21] qapi: [WIP] Add QAPIDocError
+Date: Tue, 11 May 2021 18:06:00 -0400
+Message-Id: <20210511220601.2110055-21-jsnow@redhat.com>
 In-Reply-To: <20210511220601.2110055-1-jsnow@redhat.com>
 References: <20210511220601.2110055-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -83,37 +82,160 @@ Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Raise this error instead of QAPIParseError and delegate the context up
+to the parent parser.
+
+In a chat off-list, we discussed how this design forces us to continue
+having less accurate error context information.
+
+Still, it's useful for an extremely simple split without a lot of fuss.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/expr.py   | 2 +-
- scripts/qapi/parser.py | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ scripts/qapi/parser.py  | 12 ++++++++++--
+ scripts/qapi/qapidoc.py | 36 +++++++++++++++++-------------------
+ 2 files changed, 27 insertions(+), 21 deletions(-)
 
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 496f7e0333e..7616646e43d 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -44,7 +44,7 @@
- 
- from .common import c_name
- from .error import QAPISemError
--from .parser import QAPIDoc
-+from .qapidoc import QAPIDoc
- from .source import QAPISourceInfo
- 
- 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 54df1bfd499..940a427b1ae 100644
+index 940a427b1ae..cde9782c5b0 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -26,6 +26,7 @@
+@@ -26,7 +26,7 @@
  
  from .common import must_match
  from .error import QAPISemError, QAPISourceError
-+from .qapidoc import QAPIDoc
+-from .qapidoc import QAPIDoc
++from .qapidoc import QAPIDoc, QAPIDocError
  from .source import QAPISourceInfo
  
  
+@@ -391,7 +391,7 @@ def get_expr(self) -> _ExprValue:
+                 self, "expected '{', '[', string, or boolean")
+         return expr
+ 
+-    def get_doc(self, info: QAPISourceInfo) -> List['QAPIDoc']:
++    def _get_doc(self, info: QAPISourceInfo) -> List['QAPIDoc']:
+         if self.val != '##':
+             raise QAPIParseError(
+                 self, "junk after '##' at start of documentation comment")
+@@ -424,3 +424,11 @@ def get_doc(self, info: QAPISourceInfo) -> List['QAPIDoc']:
+             self.accept(False)
+ 
+         raise QAPIParseError(self, "documentation comment must end with '##'")
++
++    def get_doc(self, info: QAPISourceInfo) -> List['QAPIDoc']:
++        # Tie QAPIDocError exceptions to the current parser state,
++        # re-raise as QAPIParseError.
++        try:
++            return self._get_doc(info)
++        except QAPIDocError as err:
++            raise QAPIParseError(self, str(err)) from err
+diff --git a/scripts/qapi/qapidoc.py b/scripts/qapi/qapidoc.py
+index 4985d9565b8..938e2009dcd 100644
+--- a/scripts/qapi/qapidoc.py
++++ b/scripts/qapi/qapidoc.py
+@@ -18,7 +18,11 @@
+ import re
+ 
+ from .common import must_match
+-from .error import QAPISemError
++from .error import QAPIError, QAPISemError
++
++
++class QAPIDocError(QAPIError):
++    """QAPIDoc parsing errors."""
+ 
+ 
+ class QAPIDoc:
+@@ -56,8 +60,7 @@ def append(self, line):
+             if line:
+                 indent = must_match(r'\s*', line).end()
+                 if indent < self._indent:
+-                    raise QAPIParseError(
+-                        self._parser,
++                    raise QAPIDocError(
+                         "unexpected de-indent (expected at least %d spaces)" %
+                         self._indent)
+                 line = line[self._indent:]
+@@ -114,7 +117,7 @@ def append(self, line):
+             return
+ 
+         if line[0] != ' ':
+-            raise QAPIParseError(self._parser, "missing space after #")
++            raise QAPIDocError("missing space after #")
+         line = line[1:]
+         self._append_line(line)
+ 
+@@ -148,11 +151,11 @@ def _append_body_line(self, line):
+         # recognized, and get silently treated as ordinary text
+         if not self.symbol and not self.body.text and line.startswith('@'):
+             if not line.endswith(':'):
+-                raise QAPIParseError(self._parser, "line should end with ':'")
++                raise QAPIDocError("line should end with ':'")
+             self.symbol = line[1:-1]
+             # FIXME invalid names other than the empty string aren't flagged
+             if not self.symbol:
+-                raise QAPIParseError(self._parser, "invalid name")
++                raise QAPIDocError("invalid name")
+         elif self.symbol:
+             # This is a definition documentation block
+             if name.startswith('@') and name.endswith(':'):
+@@ -261,9 +264,8 @@ def _append_various_line(self, line):
+         name = line.split(' ', 1)[0]
+ 
+         if name.startswith('@') and name.endswith(':'):
+-            raise QAPIParseError(self._parser,
+-                                 "'%s' can't follow '%s' section"
+-                                 % (name, self.sections[0].name))
++            raise QAPIDocError("'%s' can't follow '%s' section"
++                               % (name, self.sections[0].name))
+         if self._is_section_tag(name):
+             # If line is "Section:   first line of description", find
+             # the index of 'f', which is the indent we expect for any
+@@ -286,10 +288,9 @@ def _append_various_line(self, line):
+     def _start_symbol_section(self, symbols_dict, name, indent):
+         # FIXME invalid names other than the empty string aren't flagged
+         if not name:
+-            raise QAPIParseError(self._parser, "invalid parameter name")
++            raise QAPIDocError("invalid parameter name")
+         if name in symbols_dict:
+-            raise QAPIParseError(self._parser,
+-                                 "'%s' parameter name duplicated" % name)
++            raise QAPIDocError("'%s' parameter name duplicated" % name)
+         assert not self.sections
+         self._end_section()
+         self._section = QAPIDoc.ArgSection(self._parser, name, indent)
+@@ -303,8 +304,7 @@ def _start_features_section(self, name, indent):
+ 
+     def _start_section(self, name=None, indent=0):
+         if name in ('Returns', 'Since') and self.has_section(name):
+-            raise QAPIParseError(self._parser,
+-                                 "duplicated '%s' section" % name)
++            raise QAPIDocError("duplicated '%s' section" % name)
+         self._end_section()
+         self._section = QAPIDoc.Section(self._parser, name, indent)
+         self.sections.append(self._section)
+@@ -313,17 +313,15 @@ def _end_section(self):
+         if self._section:
+             text = self._section.text = self._section.text.strip()
+             if self._section.name and (not text or text.isspace()):
+-                raise QAPIParseError(
+-                    self._parser,
++                raise QAPIDocError(
+                     "empty doc section '%s'" % self._section.name)
+             self._section = None
+ 
+     def _append_freeform(self, line):
+         match = re.match(r'(@\S+:)', line)
+         if match:
+-            raise QAPIParseError(self._parser,
+-                                 "'%s' not allowed in free-form documentation"
+-                                 % match.group(1))
++            raise QAPIDocError("'%s' not allowed in free-form documentation"
++                               % match.group(1))
+         self._section.append(line)
+ 
+     def connect_member(self, member):
 -- 
 2.30.2
 
