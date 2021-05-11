@@ -2,92 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4FA37A986
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 16:37:12 +0200 (CEST)
-Received: from localhost ([::1]:45788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C2A37A9D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 16:48:43 +0200 (CEST)
+Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgTVX-00053w-BL
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 10:37:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48054)
+	id 1lgTgg-0005M9-GH
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 10:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgTRz-0000kC-56
- for qemu-devel@nongnu.org; Tue, 11 May 2021 10:33:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43461)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgTRx-00070Z-HF
- for qemu-devel@nongnu.org; Tue, 11 May 2021 10:33:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620743609;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=syawARIA69dDM9hTqkcDeQLaPH54MR8KpZs2rTjb4kg=;
- b=CegclDq+ygoxACTfodXiWqOGb7IxUjs88SRckeKW/BPPhPhWEf9fMqQTtiPB+1A8m3MRYI
- G9s1ESyf00wSCQ+bagYKQLBEtOXPllm+lrY6Dp58aNf5oPaT9iqmc7L5zcvrfCkJS9/F9v
- P4EkJ2A9vg0dFHAAmqcXGOgpi6foJNM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-Q4rimoV-P_mioH_jzgVhKg-1; Tue, 11 May 2021 10:33:27 -0400
-X-MC-Unique: Q4rimoV-P_mioH_jzgVhKg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- r12-20020adfc10c0000b029010d83323601so8798368wre.22
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 07:33:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgTeJ-0003Km-8r
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 10:46:16 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgTeE-0006cq-Nr
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 10:46:14 -0400
+Received: by mail-wr1-x433.google.com with SMTP id m9so20433285wrx.3
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 07:46:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=/EjaigTzXCfuCoU1KhLlL1gvBuLwPYAaPp+N6ctAMIY=;
+ b=mTIOH8xLEu+Omyo4AWB9WkmTUXN6mGnH6Ydx7NMhounRsdftyepeiv2Z5e+D6x09xC
+ /6GWZBX3uRncxoIaM9u2hVs/hYtYGNo/ZnAd3VVF1yOCMCECSzxgNq0e+vw2XpooEWOm
+ m+i2Sh31Dbbs4FIPgNHS3J0Mt6zpSyENe4TTQZzcDthk3lU1mKo+E/ftsw0lD4F5GJ/2
+ 4i8fyz9TZHp33rlQgtV8J2cEe9tB1vo6Rrt9uICSxfrCNUulWWrWsIaJpsNoxCknAK4W
+ pdqdsw8zFLylFLFkiM0L1GiTQmnjdAHEfJqG27hLmcz8YLlOrEV09dLmSCeZFrmZ3BDa
+ 1NoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=syawARIA69dDM9hTqkcDeQLaPH54MR8KpZs2rTjb4kg=;
- b=Zw0ljQLpp2aiXqWEYHx1g3Ah2W8dqV+xTXmCVO5EF96bTzo42tyj0q7cK846WyDAXN
- jl17qkhLmlh99VDF38Ybgjbbsu6NR7p58CEEOjvL7CyYZBfmbe715zud5A8gZIBeD8R3
- jZ+uiADQuduC8E/YjIf8mxMC9FL8sj8E2EaOdMhAAumSepaoqyAx73XUGjRUhVN/deGs
- ojsKvn8vmsypgsOzZU1VwBTKYQl5Za/DBGapBfY0Bx6BgcX7eJzmbLE7yzbDUJgiswXQ
- fBeUAT9+tTzHyfnsh/tACj2viRZfeEWcOe0N6emEBmumA7+rdrmj4S6GDknjC2z4k+UG
- RA5w==
-X-Gm-Message-State: AOAM533qH/l/ZWY6bx9i/mzDOjKcXttNJUAyDCVnqblpKVa6aCPLafqk
- 8H6tb3Nr0OIp2O5GMDy02Hhgv6+ZRZ4MwjbQENfKM9TEJcsnC9CSkwfONlOr/nnUJTHsvJq+td9
- iZd/lxr2wF0e7+mA=
-X-Received: by 2002:a05:600c:41d4:: with SMTP id
- t20mr5984844wmh.46.1620743606248; 
- Tue, 11 May 2021 07:33:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdVtQUqJ/VPsqi6cyJIcWOClpsDGN2yS9dMX3lhVmoeTIkSKc1g4l+chJ1Y7uA3+e0AdkCzw==
-X-Received: by 2002:a05:600c:41d4:: with SMTP id
- t20mr5984819wmh.46.1620743606050; 
- Tue, 11 May 2021 07:33:26 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e835ac.dip0.t-ipconnect.de.
- [217.232.53.172])
- by smtp.gmail.com with ESMTPSA id n123sm3723433wme.24.2021.05.11.07.33.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 07:33:25 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210511132641.1022161-1-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 00/12] Wave goodbye to RHEL 7 vintage distros
-Message-ID: <b3b927c8-9988-afe8-5d17-f0f619cca5d6@redhat.com>
-Date: Tue, 11 May 2021 16:33:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=/EjaigTzXCfuCoU1KhLlL1gvBuLwPYAaPp+N6ctAMIY=;
+ b=HAB3P10aL1WxZVVEoteDKIv2QZ9Sbr3yjkWGRIxQUvx4OntQ8bZumiPoX5wQ0GiN9r
+ MwmxAKP66wD6lS373Iuq6VTciL7XGsfPjnFfcAI1xvS1uh4f4/UfjPAXW28cPI9gSRb9
+ Hdj0SO36/88FjkLjz74l3d54QAAXGELfW1nBVANofvFJ28yX5xTKNRbiI1oqDR378iDd
+ RBMdR1m5gmBC1Sx5tk+P/RWL5wlZ14/9vW3SQ7g+eEom3oUxOceKk/+xUP0BUloTxcuS
+ 4Sk2NDCOj3Q+x6DaDLCj5Zvkz/IebZsK4YgD9un5qwrOSRkqVrfUrHVTuY/1POji9yxV
+ WeSw==
+X-Gm-Message-State: AOAM532cIsmNuzWsi5bfrjn1+sGqWbzmfJ+41K+T3wphFeLOjdHczzXL
+ yy39KdZF/Y767+8n84ylz+/LSw==
+X-Google-Smtp-Source: ABdhPJyiLbA/fp4jtOl89Ko+tGtUzCKQaMJ0Gk22RxU2/NNh3gBYxIYZsTlDabHteKpD9ZFm3QeUXg==
+X-Received: by 2002:a5d:59af:: with SMTP id p15mr39042627wrr.19.1620744368992; 
+ Tue, 11 May 2021 07:46:08 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o17sm27154779wrs.48.2021.05.11.07.46.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 May 2021 07:46:08 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6B9E91FF7E;
+ Tue, 11 May 2021 15:46:07 +0100 (BST)
+References: <20210419145435.14083-1-alex.bennee@linaro.org>
+ <20210419145435.14083-9-alex.bennee@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH  v1 08/25] gitlab: add build-user-hexagon test
+Date: Tue, 11 May 2021 15:41:51 +0100
+In-reply-to: <20210419145435.14083-9-alex.bennee@linaro.org>
+Message-ID: <871radgwgg.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210511132641.1022161-1-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,32 +87,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: fam@euphon.net, Brian Cain <bcain@quicinc.com>,
+ Thomas Huth <thuth@redhat.com>, berrange@redhat.com, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/05/2021 15.26, Daniel P. Berrangé wrote:
-> The main motivation for this series is to eliminate some backcompat
-> logic in the crypto code only needed for RHEL-7. I take the opportunity
-> to also bump the min required versions of glib, gcc and clang since we
-> have dropped many distros since they were last bumped.
-> 
-> There are possibly some more cleanups that can be done as a side effect
-> of these new min versions, but I leave that for other interested people
-> to look at.
-> 
-> One that might be intesting is switching from std=gnu99 to gnu11 since
-> we're no longer constrainted by the 4.8.x vintage GCC which marked gnu11
-> as experimental (see 7be41675f7cb16be7c8d2554add7a63fa43781a8)
 
-If you've got some spare minutes, could you please add a patch to bump the 
-minimum version of libssh to 0.8.1 at least? ... since Ubuntu 18.04 ships 
-with this utterly broken libssh 0.8.0 that is a Frankenstein-monster 0.7 
-under the hood which we do not support in QEMU ...
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-  Thomas
+> We special case this as the container with the cross compiler for the
+> tests takes so long to build it is manually uploaded into the
+> registry.
 
+Gahh, something changed underneath me with the inclusion of:
+
+  commit 46ef47e2a77d1a34996964760b4a0d2b19476f25
+  Author: Taylor Simpson <tsimpson@quicinc.com>
+  Date:   Thu Apr 8 20:07:50 2021 -0500
+
+      Hexagon (target/hexagon) circular addressing
+
+Which leads to the compiler complaining:
+
+  hexagon-unknown-linux-musl-clang  -Wno-incompatible-pointer-types -Wno-un=
+defined-internal -fno-unroll-loops -Wall -Werror -O0 -g -fno-strict-aliasin=
+g -mv67 -O2 -static /home
+  /alex.bennee/lsrc/qemu.git/tests/tcg/hexagon/circ.c -o circ  -static
+  /home/alex.bennee/lsrc/qemu.git/tests/tcg/hexagon/circ.c:257:1: error: un=
+known register name 'cs0' in asm
+  TEST_LOAD_IMM(b,  char,           bbuf, NBYTES, 1, d)
+  ^
+  /home/alex.bennee/lsrc/qemu.git/tests/tcg/hexagon/circ.c:242:9: note: exp=
+anded from macro 'TEST_LOAD_IMM'
+          CIRC_LOAD_IMM_##SZ(element, p, BUF, size * sizeof(TYPE), (INC)); \
+          ^
+  <scratch space>:9:1: note: expanded from here
+  CIRC_LOAD_IMM_b
+  ^
+  /home/alex.bennee/lsrc/qemu.git/tests/tcg/hexagon/circ.c:75:5: note: expa=
+nded from macro 'CIRC_LOAD_IMM_b'
+      CIRC_LOAD_IMM(b, RES, ADDR, START, LEN, INC)
+      ^
+  /home/alex.bennee/lsrc/qemu.git/tests/tcg/hexagon/circ.c:73:23: note: exp=
+anded from macro 'CIRC_LOAD_IMM'
+          : "r4", "m0", "cs0")
+
+I suspect the easiest thing to do is to drop the patches again so I
+don't hold up the rest of testing/next. I can include the initial docker
+image patch but I won't enable it in configure.sh/gitlab.
+
+Would one of the hexagon guys be able to send a new image and verify it
+works with the current tests in master?
+
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Message-Id: <20210305092328.31792-7-alex.bennee@linaro.org>
+> ---
+>  .gitlab-ci.yml | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 52d65d6c04..87d1172b03 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -413,6 +413,17 @@ build-user-static:
+>      CONFIGURE_ARGS: --disable-tools --disable-system --static
+>      MAKE_CHECK_ARGS: check-tcg
+>=20=20
+> +# Because the hexagon cross-compiler takes so long to build we don't rely
+> +# on the CI system to build it and hence this job has no dependency
+> +# declared. The image is manually uploaded.
+> +build-user-hexagon:
+> +  <<: *native_build_job_definition
+> +  variables:
+> +    IMAGE: debian-hexagon-cross
+> +    TARGETS: hexagon-linux-user
+> +    CONFIGURE_ARGS: --disable-tools --disable-docs --enable-debug-tcg
+> +    MAKE_CHECK_ARGS: check-tcg
+> +
+>  # Only build the softmmu targets we have check-tcg tests for
+>  build-some-softmmu:
+>    <<: *native_build_job_definition
+
+
+--=20
+Alex Benn=C3=A9e
 
