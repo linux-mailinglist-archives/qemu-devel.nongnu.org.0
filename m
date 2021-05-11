@@ -2,56 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DB337A92C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 16:26:42 +0200 (CEST)
-Received: from localhost ([::1]:49750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3684F37A94B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 16:29:53 +0200 (CEST)
+Received: from localhost ([::1]:60590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgTLM-0005Fj-M2
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 10:26:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44928)
+	id 1lgTOS-0004C0-Au
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 10:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lgTGa-0008Fa-5c
- for qemu-devel@nongnu.org; Tue, 11 May 2021 10:21:44 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:41708
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lgTGX-0008Ak-Pq
- for qemu-devel@nongnu.org; Tue, 11 May 2021 10:21:43 -0400
-HMM_SOURCE_IP: 172.18.0.48:44992.1763519599
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-125.69.42.176?logid-5a4d4e9e6fb4410b9568f14056fd327e
- (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 9584A280081;
- Tue, 11 May 2021 22:21:40 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 5a4d4e9e6fb4410b9568f14056fd327e for
- qemu-devel@nongnu.org; Tue May 11 22:21:37 2021
-X-Transaction-ID: 5a4d4e9e6fb4410b9568f14056fd327e
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v3] migration/dirtyrate: make sample page count configurable
-Date: Tue, 11 May 2021 22:21:23 +0800
-Message-Id: <1fc52dd5abfa7590f516c3e97878ee263bff105a.1620742417.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1620742417.git.huangy81@chinatelecom.cn>
-References: <cover.1620742417.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lgTHA-0000yg-In
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 10:22:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60630)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lgTH7-00004r-Tt
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 10:22:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620742937;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XjBC18Nf7vAugpXiHZ0FxXOgYrVaIM8oOXmHAhBydl8=;
+ b=L2tJyQ0Fp+Q4E5uldioVFlXJGqOrfZoQEWbW0/BULixV7yailHPyiAXZuqrRCg6Hulfnd7
+ SQIkm3F2VkC7TKm/cGXHdEDV0wQSNsz6O5jn7KI7tzLxLyqnSWeWE25cR7uD5MsXWangEm
+ UxyM4u0yUc4LWbBn7hITjKrHPpWx224=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-NzSnmMnyNXmqiAaAXz9vXg-1; Tue, 11 May 2021 10:22:07 -0400
+X-MC-Unique: NzSnmMnyNXmqiAaAXz9vXg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9857107ACF7;
+ Tue, 11 May 2021 14:22:05 +0000 (UTC)
+Received: from redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4EEAC5434E;
+ Tue, 11 May 2021 14:21:49 +0000 (UTC)
+Date: Tue, 11 May 2021 15:21:44 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 14/15] gitlab-ci: Allow forks to use different set of
+ jobs
+Message-ID: <YJqS+FqVttnrw6zb@redhat.com>
+References: <20210418233448.1267991-1-f4bug@amsat.org>
+ <20210418233448.1267991-15-f4bug@amsat.org>
+ <YH1QJZGYQXc6x9Et@redhat.com> <YH1XLd34h7OXXqYR@nautilus.local>
+ <1140e403-fbb0-8021-f2b6-9528247dfbc7@redhat.com>
+ <YH1dQfy3H80/p0Ch@redhat.com>
+ <f9bc5520-3cda-0904-241d-e3ee7b918b73@redhat.com>
+ <YH1gtK/JFtVE4lF1@redhat.com>
+ <49bd757d-5fe8-e5c2-cb9c-4dc0fbf37648@redhat.com>
+ <a0e83ef7-13ee-6f45-96b5-b9d848bb8a43@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <a0e83ef7-13ee-6f45-96b5-b9d848bb8a43@amsat.org>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.220;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,199 +90,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?=
- <huangy81@chinatelecom.cn>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Erik Skultety <eskultet@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On Tue, May 11, 2021 at 08:48:44AM +0200, Philippe Mathieu-Daudé wrote:
+> +Stefan/Peter
+> 
+> Not sure if following up this thread or start a new one, but I got
+> blocked again from Gitlab, tagged as a crypto miner for running QEMU
+> CI...
+> [1]
+> https://about.gitlab.com/handbook/support/workflows/investigate_blocked_pipeline.html#trends--high-priority-cases
+> 
+> I pushed 5 different branches to my repository in less than 1h,
+> kicking 580 jobs [*].
+> 
+> I didn't try to stress Gitlab, it was a simple "one time in the month
+> rebase unmerged branches, push them before respining on the mailing
+> list".
+> 
+> I'm considering changing my workflow:
+> - not push more than 2 branches per hour (I know 3/h works, so choose
+>   a lower number, as we want to add more tests).
+> - merge multiple branches locally and push the merged result and
+>   bisect / re-push on failure
+> - run less testing
+> - do not run testing
+> 
+> This sounds counter productive and doesn't scale to a community of
+> contributors asked to use Gitlab.
+> 
+> So far I don't have better idea than this series.
+> 
+> Who is interested in sending patches to improve our workflow?
 
-introduce optional sample-pages argument in calc-dirty-rate,
-making sample page count per GB configurable so that more
-accurate dirtyrate can be calculated.
+So we have a few scenarios for using the CI
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- migration/dirtyrate.c | 31 +++++++++++++++++++++++++++----
- migration/dirtyrate.h |  8 +++++++-
- qapi/migration.json   | 13 ++++++++++---
- 3 files changed, 44 insertions(+), 8 deletions(-)
+ 1. Running gating CI before merging to master
+ 2. Subsystem maintainers running CI before sending a PULL req
+ 3. Contributors running CI before sending a patch series
 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index ccb9814..2ee3890 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -48,6 +48,12 @@ static bool is_sample_period_valid(int64_t sec)
-     return true;
- }
- 
-+static bool is_sample_pages_valid(int64_t pages)
-+{
-+    return pages >= MIN_SAMPLE_PAGE_COUNT &&
-+           pages <= MAX_SAMPLE_PAGE_COUNT;
-+}
-+
- static int dirtyrate_set_state(int *state, int old_state, int new_state)
- {
-     assert(new_state < DIRTY_RATE_STATUS__MAX);
-@@ -72,13 +78,15 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     info->status = CalculatingState;
-     info->start_time = DirtyStat.start_time;
-     info->calc_time = DirtyStat.calc_time;
-+    info->sample_pages = DirtyStat.sample_pages;
- 
-     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
- 
-     return info;
- }
- 
--static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
-+static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time,
-+                                uint64_t sample_pages)
- {
-     DirtyStat.total_dirty_samples = 0;
-     DirtyStat.total_sample_count = 0;
-@@ -86,6 +94,7 @@ static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
-     DirtyStat.dirty_rate = -1;
-     DirtyStat.start_time = start_time;
-     DirtyStat.calc_time = calc_time;
-+    DirtyStat.sample_pages = sample_pages;
- }
- 
- static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
-@@ -361,6 +370,7 @@ void *get_dirtyrate_thread(void *arg)
-     int ret;
-     int64_t start_time;
-     int64_t calc_time;
-+    uint64_t sample_pages;
- 
-     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
-                               DIRTY_RATE_STATUS_MEASURING);
-@@ -371,7 +381,8 @@ void *get_dirtyrate_thread(void *arg)
- 
-     start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
-     calc_time = config.sample_period_seconds;
--    init_dirtyrate_stat(start_time, calc_time);
-+    sample_pages = config.sample_pages_per_gigabytes;
-+    init_dirtyrate_stat(start_time, calc_time, sample_pages);
- 
-     calculate_dirtyrate(config);
- 
-@@ -383,7 +394,8 @@ void *get_dirtyrate_thread(void *arg)
-     return NULL;
- }
- 
--void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
-+void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
-+                         int64_t sample_pages, Error **errp)
- {
-     static struct DirtyRateConfig config;
-     QemuThread thread;
-@@ -404,6 +416,17 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
-         return;
-     }
- 
-+    if (has_sample_pages) {
-+        if (!is_sample_pages_valid(sample_pages)) {
-+            error_setg(errp, "sample-pages is out of range[%d, %d].",
-+                            MIN_SAMPLE_PAGE_COUNT,
-+                            MAX_SAMPLE_PAGE_COUNT);
-+            return;
-+        }
-+    } else {
-+        sample_pages = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
-+    }
-+
-     /*
-      * Init calculation state as unstarted.
-      */
-@@ -415,7 +438,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
-     }
- 
-     config.sample_period_seconds = calc_time;
--    config.sample_pages_per_gigabytes = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
-+    config.sample_pages_per_gigabytes = sample_pages;
-     qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
-                        (void *)&config, QEMU_THREAD_DETACHED);
- }
-diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-index 6ec4295..e1fd290 100644
---- a/migration/dirtyrate.h
-+++ b/migration/dirtyrate.h
-@@ -15,7 +15,6 @@
- 
- /*
-  * Sample 512 pages per GB as default.
-- * TODO: Make it configurable.
-  */
- #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
- 
-@@ -35,6 +34,12 @@
- #define MIN_FETCH_DIRTYRATE_TIME_SEC              1
- #define MAX_FETCH_DIRTYRATE_TIME_SEC              60
- 
-+/*
-+ * Take 1/16 pages in 1G as the maxmum sample page count
-+ */
-+#define MIN_SAMPLE_PAGE_COUNT                     128
-+#define MAX_SAMPLE_PAGE_COUNT                     16384
-+
- struct DirtyRateConfig {
-     uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
-     int64_t sample_period_seconds; /* time duration between two sampling */
-@@ -63,6 +68,7 @@ struct DirtyRateStat {
-     int64_t dirty_rate; /* dirty rate in MB/s */
-     int64_t start_time; /* calculation start time in units of second */
-     int64_t calc_time; /* time duration of two sampling in units of second */
-+    uint64_t sample_pages; /* sample pages per GB */
- };
- 
- void *get_dirtyrate_thread(void *arg);
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 0b17cce..890e745 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1746,6 +1746,9 @@
- #
- # @calc-time: time in units of second for sample dirty pages
- #
-+# @sample-pages: page count per GB for sample dirty pages
-+#                the default value is 512 (since 6.1)
-+#
- # Since: 5.2
- #
- ##
-@@ -1753,7 +1756,8 @@
-   'data': {'*dirty-rate': 'int64',
-            'status': 'DirtyRateStatus',
-            'start-time': 'int64',
--           'calc-time': 'int64'} }
-+           'calc-time': 'int64',
-+           'sample-pages': 'uint64'} }
- 
- ##
- # @calc-dirty-rate:
-@@ -1762,13 +1766,16 @@
- #
- # @calc-time: time in units of second for sample dirty pages
- #
-+# @sample-pages: page count per GB for sample dirty pages
-+#                the default value is 512 (since 6.1)
-+#
- # Since: 5.2
- #
- # Example:
--#   {"command": "calc-dirty-rate", "data": {"calc-time": 1} }
-+#   {"command": "calc-dirty-rate", "data": {"calc-time": 1, 'sample-pages': 512} }
- #
- ##
--{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
-+{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64', '*sample-pages': 'int'} }
- 
- ##
- # @query-dirty-rate:
+Right now we have the same jobs running in all three scenarios.
+
+Given the increasing restrictions on usage, we clearly need to cut
+down in general and also make it so that it is harder to accidentally
+burn all your available CI allowance.
+
+Currently we always run CI whenever pushing to gitlab. This is
+convenient but in retrospect it is overkill. People often push
+to gitlab simply as their backup strategy and thus don't need
+CI run every time.
+
+Not all changes require all possible jobs to by run, but it is hard
+to filter jobs when we're triggering them based on pushes, as the
+baseline against which file changes are identified is ill-defined.
+
+
+For scenario (1) we need all the jobs run to maximise quality.
+This is also a case where we're most likely to have custom runners
+available, so CI allowance is less of a concern. The job count still
+needs to be reasonable to avoid hitting issues at times when the
+merges are frequent (just before freeze).
+
+
+For scenario (2) subsys maintainers, we want them to minimize
+the liklihood that a pull request will fail scenario (1) and
+require a respin.  Running all jobs achieces this but it is
+likely overkill.
+
+eg we have 24 cross compiler builds. If we expect most maintainers
+will have either x86-64 or aarch64 hardware for their primary dev
+platform, then the key benefit of cross compilers is getting coverage
+of
+
+ - 32-bit
+ - big endian
+ - windows
+
+We don't need 24 jobs todo that. We could simply pick armel as the
+most relevant 32-bit arch and s390x as the most relevant big endian
+arch, and then the win32/64 platforms. IOW we could potentially only
+run 4-6 jobs instead of 24, and still get excellant arch coverage.
+
+Similarly for native builds we test quite alot of different distros.
+I think we probably can rationalize that down to just 2 distros,
+one covering oldest packages (Debian Stretch) and one covering newest
+(Fedora 34), and a "build everything" config.
+
+We have many other jobs that are testing various obscure combinations
+of configure args. I'd suggest these rarely fail for most pull requests
+so are overkill.
+
+For subsystem maintainers we could potentially get down to just 10-15
+jobs if we're ambitious. Leave everything else as manual trigger only.
+
+Perhaps set all the jobs to only run on certain branch name patterns.
+eg perhaps "*-next" filter is common for subsystem maintainer's pending
+branches ?
+
+For general contributors a similarly short set of jobs to subsystem
+maintainers is viable. Perhaps again just let then use a "-next"
+branch.
+
+If we can enable manual triggers on any other branches that's good.
+
+Regards,
+Daniel
 -- 
-1.8.3.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
