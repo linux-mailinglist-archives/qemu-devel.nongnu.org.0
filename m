@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F229937A403
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:49:33 +0200 (CEST)
-Received: from localhost ([::1]:39758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEAD37A40F
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:53:09 +0200 (CEST)
+Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgP10-0000Fc-Lj
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57356)
+	id 1lgP4e-0004kD-O6
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:53:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lgOzB-0006PB-DF
- for qemu-devel@nongnu.org; Tue, 11 May 2021 05:47:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24860)
+ id 1lgP2M-00038O-8s
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 05:50:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lgOz9-0003m4-NH
- for qemu-devel@nongnu.org; Tue, 11 May 2021 05:47:29 -0400
+ id 1lgP2K-0005cz-2R
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 05:50:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620726446;
+ s=mimecast20190719; t=1620726643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=N+eHbiBDb2gLmZtfQE1kNem8MIIERjxSSDOQ04CzfgY=;
- b=E8mIPOe1F0ZNOU8WGm2b145CBEFBlmUooCeibLRsL1wFSNEpvq+bwa40YIipZ+Z2qXcPSl
- GHjmVbfmBC6RqU7tv2LteYe5QGKPEs0W1wmrBrjPDMrtXRRpO9nFMQ8puy7qfy9d0hmw5r
- y/3hKgU1CXQXaKA1BCkbzn6h35Bj1AQ=
+ bh=bND+/iOWU9Gzev4YzLpeE9NAyt4Tb14yn6/VTmtok0k=;
+ b=AD8XS9Anpd5RjTV9PKZitsVhzrWIPAItgjg0UBQfjjRmB4tuRNelFqWvI/5oQXbOcoJJz3
+ xc4H5AWDUh6k8QE6zUalXa3HkLb6D2zoNxINuPXgoWOBEep4H7BacNUFWPVJA1L6otb8uc
+ E/UqV+PkdM6mhDB4TIhLkGTFj4biv58=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-ooiA29cfP9erm71qVzec8Q-1; Tue, 11 May 2021 05:47:25 -0400
-X-MC-Unique: ooiA29cfP9erm71qVzec8Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-18-d0HmxWCANb-TmiOkEOqKrw-1; Tue, 11 May 2021 05:50:41 -0400
+X-MC-Unique: d0HmxWCANb-TmiOkEOqKrw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15A708014D8;
- Tue, 11 May 2021 09:47:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFB6FC7406;
+ Tue, 11 May 2021 09:50:40 +0000 (UTC)
 Received: from work-vm (ovpn-113-51.ams2.redhat.com [10.36.113.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10DF81037F24;
- Tue, 11 May 2021 09:47:22 +0000 (UTC)
-Date: Tue, 11 May 2021 10:47:20 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 78D085D9D7;
+ Tue, 11 May 2021 09:50:39 +0000 (UTC)
+Date: Tue, 11 May 2021 10:50:36 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, thuth@redhat.com, lvivier@redhat.com,
- peter.maydell@linaro.org
-Subject: Re: [PATCH] tests/migration-test: Fix "true" vs true
-Message-ID: <YJpSqP18ebF5RO2/@work-vm>
-References: <20210504100545.112213-1-dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] tests/qtest/migration-test: Use g_autofree to avoid
+ leaks on error paths
+Message-ID: <YJpTbPZcd0tMj1pt@work-vm>
+References: <20210506185819.9010-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210504100545.112213-1-dgilbert@redhat.com>
+In-Reply-To: <20210506185819.9010-1-peter.maydell@linaro.org>
 User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -79,75 +79,300 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> Coverity notices that several places in the migration-test code fail
+> to free memory in error-exit paths.  This is pretty unimportant in
+> test case code, but we can avoid having to manually free the memory
+> entirely by using g_autofree.
 > 
-> Accidental use of "true" as a boolean; spotted by coverity
-> and Peter.
+> The places where Coverity spotted a leak were relating to early exits
+> not freeing 'uri' in test_precopy_unix(), do_test_validate_uuid(),
+> migrate_postcopy_prepare() and test_migrate_auto_converge().  This
+> patch converts all the string-allocation in the test code to
+> g_autofree for consistency.
 > 
-> Fixes: b99784ef6c3
-> Fixes: d795f47466e
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Reported-by: Coverity (CID 1432373, 1432292, 1432288)
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Fixes: Coverity CID 1432313, 1432315, 1432352, 1432364
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Queued
 
 > ---
->  tests/qtest/migration-test.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>  tests/qtest/migration-test.c | 61 ++++++++++++------------------------
+>  1 file changed, 20 insertions(+), 41 deletions(-)
 > 
 > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 3a711bb492..4d989f191b 100644
+> index 3a711bb4929..a0c9b72b951 100644
 > --- a/tests/qtest/migration-test.c
 > +++ b/tests/qtest/migration-test.c
-> @@ -898,8 +898,8 @@ static void test_xbzrle(const char *uri)
+> @@ -110,13 +110,12 @@ static void init_bootfile(const char *bootpath, void *content, size_t len)
+>   */
+>  static void wait_for_serial(const char *side)
+>  {
+> -    char *serialpath = g_strdup_printf("%s/%s", tmpfs, side);
+> +    g_autofree char *serialpath = g_strdup_printf("%s/%s", tmpfs, side);
+>      FILE *serialfile = fopen(serialpath, "r");
+>      const char *arch = qtest_get_arch();
+>      int started = (strcmp(side, "src_serial") == 0 &&
+>                     strcmp(arch, "ppc64") == 0) ? 0 : 1;
 >  
->      migrate_set_parameter_int(from, "xbzrle-cache-size", 33554432);
+> -    g_free(serialpath);
+>      do {
+>          int readvalue = fgetc(serialfile);
 >  
-> -    migrate_set_capability(from, "xbzrle", "true");
-> -    migrate_set_capability(to, "xbzrle", "true");
-> +    migrate_set_capability(from, "xbzrle", true);
-> +    migrate_set_capability(to, "xbzrle", true);
->      /* Wait for the first serial output from the source */
+> @@ -274,10 +273,9 @@ static void check_guests_ram(QTestState *who)
+>  
+>  static void cleanup(const char *filename)
+>  {
+> -    char *path = g_strdup_printf("%s/%s", tmpfs, filename);
+> +    g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
+>  
+>      unlink(path);
+> -    g_free(path);
+>  }
+>  
+>  static char *SocketAddress_to_str(SocketAddress *addr)
+> @@ -374,11 +372,8 @@ static char *migrate_get_parameter_str(QTestState *who,
+>  static void migrate_check_parameter_str(QTestState *who, const char *parameter,
+>                                          const char *value)
+>  {
+> -    char *result;
+> -
+> -    result = migrate_get_parameter_str(who, parameter);
+> +    g_autofree char *result = migrate_get_parameter_str(who, parameter);
+>      g_assert_cmpstr(result, ==, value);
+> -    g_free(result);
+>  }
+>  
+>  static void migrate_set_parameter_str(QTestState *who, const char *parameter,
+> @@ -495,12 +490,14 @@ static void migrate_start_destroy(MigrateStart *args)
+>  static int test_migrate_start(QTestState **from, QTestState **to,
+>                                const char *uri, MigrateStart *args)
+>  {
+> -    gchar *arch_source, *arch_target;
+> -    gchar *cmd_source, *cmd_target;
+> +    g_autofree gchar *arch_source = NULL;
+> +    g_autofree gchar *arch_target = NULL;
+> +    g_autofree gchar *cmd_source = NULL;
+> +    g_autofree gchar *cmd_target = NULL;
+>      const gchar *ignore_stderr;
+> -    char *bootpath = NULL;
+> -    char *shmem_opts;
+> -    char *shmem_path;
+> +    g_autofree char *bootpath = NULL;
+> +    g_autofree char *shmem_opts = NULL;
+> +    g_autofree char *shmem_path = NULL;
+>      const char *arch = qtest_get_arch();
+>      const char *machine_opts = NULL;
+>      const char *memory_size;
+> @@ -559,8 +556,6 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+>          g_assert_not_reached();
+>      }
+>  
+> -    g_free(bootpath);
+> -
+>      if (!getenv("QTEST_LOG") && args->hide_stderr) {
+>          ignore_stderr = "2>/dev/null";
+>      } else {
+> @@ -588,11 +583,9 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+>                                   memory_size, tmpfs,
+>                                   arch_source, shmem_opts, args->opts_source,
+>                                   ignore_stderr);
+> -    g_free(arch_source);
+>      if (!args->only_target) {
+>          *from = qtest_init(cmd_source);
+>      }
+> -    g_free(cmd_source);
+>  
+>      cmd_target = g_strdup_printf("-accel kvm -accel tcg%s%s "
+>                                   "-name target,debug-threads=on "
+> @@ -605,18 +598,14 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+>                                   memory_size, tmpfs, uri,
+>                                   arch_target, shmem_opts,
+>                                   args->opts_target, ignore_stderr);
+> -    g_free(arch_target);
+>      *to = qtest_init(cmd_target);
+> -    g_free(cmd_target);
+>  
+> -    g_free(shmem_opts);
+>      /*
+>       * Remove shmem file immediately to avoid memory leak in test failed case.
+>       * It's valid becase QEMU has already opened this file
+>       */
+>      if (args->use_shmem) {
+>          unlink(shmem_path);
+> -        g_free(shmem_path);
+>      }
+>  
+>  out:
+> @@ -662,7 +651,7 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>                                      QTestState **to_ptr,
+>                                      MigrateStart *args)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>      QTestState *from, *to;
+>  
+>      if (test_migrate_start(&from, &to, uri, args)) {
+> @@ -684,7 +673,6 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
 >      wait_for_serial("src_serial");
 >  
-> @@ -1246,8 +1246,8 @@ static void test_multifd_tcp(const char *method)
->      migrate_set_parameter_str(from, "multifd-compression", method);
->      migrate_set_parameter_str(to, "multifd-compression", method);
+>      migrate_qmp(from, uri, "{}");
+> -    g_free(uri);
 >  
-> -    migrate_set_capability(from, "multifd", "true");
-> -    migrate_set_capability(to, "multifd", "true");
-> +    migrate_set_capability(from, "multifd", true);
-> +    migrate_set_capability(to, "multifd", true);
+>      wait_for_migration_pass(from);
 >  
->      /* Start incoming migration from the 1st socket */
->      rsp = wait_command(to, "{ 'execute': 'migrate-incoming',"
-> @@ -1330,8 +1330,8 @@ static void test_multifd_tcp_cancel(void)
->      migrate_set_parameter_int(from, "multifd-channels", 16);
->      migrate_set_parameter_int(to, "multifd-channels", 16);
+> @@ -724,7 +712,7 @@ static void test_postcopy_recovery(void)
+>  {
+>      MigrateStart *args = migrate_start_new();
+>      QTestState *from, *to;
+> -    char *uri;
+> +    g_autofree char *uri = NULL;
 >  
-> -    migrate_set_capability(from, "multifd", "true");
-> -    migrate_set_capability(to, "multifd", "true");
-> +    migrate_set_capability(from, "multifd", true);
-> +    migrate_set_capability(to, "multifd", true);
+>      args->hide_stderr = true;
 >  
->      /* Start incoming migration from the 1st socket */
->      rsp = wait_command(to, "{ 'execute': 'migrate-incoming',"
-> @@ -1358,7 +1358,7 @@ static void test_multifd_tcp_cancel(void)
+> @@ -775,7 +763,6 @@ static void test_postcopy_recovery(void)
+>                                (const char * []) { "failed", "active",
+>                                                    "completed", NULL });
+>      migrate_qmp(from, uri, "{'resume': true}");
+> -    g_free(uri);
 >  
->      migrate_set_parameter_int(to2, "multifd-channels", 16);
+>      /* Restore the postcopy bandwidth to unlimited */
+>      migrate_set_parameter_int(from, "max-postcopy-bandwidth", 0);
+> @@ -800,7 +787,7 @@ static void test_baddest(void)
 >  
-> -    migrate_set_capability(to2, "multifd", "true");
-> +    migrate_set_capability(to2, "multifd", true);
+>  static void test_precopy_unix(void)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>      MigrateStart *args = migrate_start_new();
+>      QTestState *from, *to;
 >  
->      /* Start incoming migration from the 1st socket */
->      rsp = wait_command(to2, "{ 'execute': 'migrate-incoming',"
+> @@ -836,14 +823,13 @@ static void test_precopy_unix(void)
+>      wait_for_migration_complete(from);
+>  
+>      test_migrate_end(from, to, true);
+> -    g_free(uri);
+>  }
+>  
+>  #if 0
+>  /* Currently upset on aarch64 TCG */
+>  static void test_ignore_shared(void)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>      QTestState *from, *to;
+>  
+>      if (test_migrate_start(&from, &to, uri, false, true, NULL, NULL)) {
+> @@ -873,7 +859,6 @@ static void test_ignore_shared(void)
+>      g_assert_cmpint(read_ram_property_int(from, "transferred"), <, 1024 * 1024);
+>  
+>      test_migrate_end(from, to, true);
+> -    g_free(uri);
+>  }
+>  #endif
+>  
+> @@ -925,16 +910,15 @@ static void test_xbzrle(const char *uri)
+>  
+>  static void test_xbzrle_unix(void)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>  
+>      test_xbzrle(uri);
+> -    g_free(uri);
+>  }
+>  
+>  static void test_precopy_tcp(void)
+>  {
+>      MigrateStart *args = migrate_start_new();
+> -    char *uri;
+> +    g_autofree char *uri = NULL;
+>      QTestState *from, *to;
+>  
+>      if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", args)) {
+> @@ -971,7 +955,6 @@ static void test_precopy_tcp(void)
+>      wait_for_migration_complete(from);
+>  
+>      test_migrate_end(from, to, true);
+> -    g_free(uri);
+>  }
+>  
+>  static void test_migrate_fd_proto(void)
+> @@ -1060,7 +1043,7 @@ static void test_migrate_fd_proto(void)
+>  
+>  static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>      QTestState *from, *to;
+>  
+>      if (test_migrate_start(&from, &to, uri, args)) {
+> @@ -1088,7 +1071,6 @@ static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
+>      }
+>  
+>      test_migrate_end(from, to, false);
+> -    g_free(uri);
+>  }
+>  
+>  static void test_validate_uuid(void)
+> @@ -1136,7 +1118,7 @@ static void test_validate_uuid_dst_not_set(void)
+>  
+>  static void test_migrate_auto_converge(void)
+>  {
+> -    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> +    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+>      MigrateStart *args = migrate_start_new();
+>      QTestState *from, *to;
+>      int64_t remaining, percentage;
+> @@ -1214,7 +1196,6 @@ static void test_migrate_auto_converge(void)
+>      wait_for_serial("dest_serial");
+>      wait_for_migration_complete(from);
+>  
+> -    g_free(uri);
+>  
+>      test_migrate_end(from, to, true);
+>  }
+> @@ -1224,7 +1205,7 @@ static void test_multifd_tcp(const char *method)
+>      MigrateStart *args = migrate_start_new();
+>      QTestState *from, *to;
+>      QDict *rsp;
+> -    char *uri;
+> +    g_autofree char *uri = NULL;
+>  
+>      if (test_migrate_start(&from, &to, "defer", args)) {
+>          return;
+> @@ -1273,7 +1254,6 @@ static void test_multifd_tcp(const char *method)
+>      wait_for_serial("dest_serial");
+>      wait_for_migration_complete(from);
+>      test_migrate_end(from, to, true);
+> -    g_free(uri);
+>  }
+>  
+>  static void test_multifd_tcp_none(void)
+> @@ -1309,7 +1289,7 @@ static void test_multifd_tcp_cancel(void)
+>      MigrateStart *args = migrate_start_new();
+>      QTestState *from, *to, *to2;
+>      QDict *rsp;
+> -    char *uri;
+> +    g_autofree char *uri = NULL;
+>  
+>      args->hide_stderr = true;
+>  
+> @@ -1387,7 +1367,6 @@ static void test_multifd_tcp_cancel(void)
+>      wait_for_serial("dest_serial");
+>      wait_for_migration_complete(from);
+>      test_migrate_end(from, to2, true);
+> -    g_free(uri);
+>  }
+>  
+>  int main(int argc, char **argv)
 > -- 
-> 2.31.1
+> 2.20.1
 > 
 > 
 -- 
