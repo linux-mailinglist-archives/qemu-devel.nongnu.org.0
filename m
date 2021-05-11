@@ -2,81 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C6537A4E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:48:12 +0200 (CEST)
-Received: from localhost ([::1]:45358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4E437A508
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:52:08 +0200 (CEST)
+Received: from localhost ([::1]:56284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgPvv-0007GS-IH
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:48:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39428)
+	id 1lgPzj-0006DM-8J
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:52:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPY6-0004Vp-G7
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:23:34 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41101)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lgPXd-00035Z-6I
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:23:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPXy-0006X1-L4
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:23:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620728606; x=1652264606;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=se8lfUOqpnCd33IAE3PZjy5dFjxaV2X6rgujV44CGDs=;
- b=RG5NXTryd0PotkUa2dgrMU7LG1E3awsB6txmxX/uypvLLE1idXKNNKhA
- VvaUryA53fR+rXBBEt6QcOsngN7T+ybfVe+p1NyL2vCnXKE3jgA8j9Cvi
- KcuXaIymVVAvdFq8Kh7CrAudKrtGBWFpP1RUssuVCqrMV73pho9PtV+zM
- Ki/P7B0I9OpCJj4FsG9vTHyHEVvSbYDkCz/tefSRqETEjTD+EGsFHc+dd
- 71JoV9c0sTInyMO6tMX8aFKf+e+Dx+9er57G9ajj0UUyf3pOnX6oiWNBW
- q0sP9GUMa7fETt0r2ACds7eiszz9GbPgDvvh+8m7RqKjTSqP6xFv9yskg A==;
-IronPort-SDR: kqBaiRMBIo31jH9yYDk91rW5l5Rfnfhtau8BaS9wGCetyOfEOX4OYznTb0jkKvZdeBCfIpZyL0
- 6pSm5HXX0s1rzBpJSnV6CPr7bMDwuGut6S3uZ9dj9oFL+ME104P8n0TGksDBVgX+BiqiC6vlrU
- UaKG/04+9D6CSxZJLpY0MT8gwXBEDYObUmDmpkfeuoIFRyX1rD96KUGE13Y+suMEABKtDiudGh
- oFiBkCAj/FcL/pA2zDagH6FlUwFIhNAIRnteXH6++1wPxL0IWZ+INK/8r3hxBz7pQUbWQZux04
- bKg=
-X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735519"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:22:12 +0800
-IronPort-SDR: +AjY4fo6EnhyqHowAWwff3ELjy85ziHZKiP0/TDWB4V/vTdnPbSgmpBaveeR0ULle/PubJkxWV
- Gfjxsst+6qJd0gpuUupX48Pr36g2hRSIlbZZA37J8DLpidAo5vfpznnkWHFKwGT1Q2jpEhj4bO
- 4al8eI/pbI18Dxh17+n1BBfJUVYe8wmkzhpz92AO7ccelDTu+4n5s5U5CmWv2/5v3S2Nq4d6xm
- MemzYIbOa/gM7JRUs+auWYMVc4jAbaIGIQbcykfCfPsonrsJPzS4OAQ2j7EcWgJI4Zxl5CfY2M
- McaJdt1pdRIOwMv9Qxhmu0OU
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 03:02:12 -0700
-IronPort-SDR: Y8gF+vxbiZLWwqyokgZmgbCdk3cwJkVE+MGEGuBNI8VKSa7PDtP3Z+h0685Uv/qdIPWBKuyptD
- L8YMvuQQhpCvXcT+ddXXs3ber7jOBGsfSFzG8jP4awI5lfUI4RbGY7ac1k9n6mca4JCJdOfI3C
- txghVjAHFyQM2Vus5Opn3chNipkUI5nLpmfBqwt5RR70awkz474Skmix1KU17s240JG14IcK74
- 3DlVFrNhjNBB3rTnhIxbEKR/4NjlwKprc62kVstE/27hcx7Jeu/4mGW7UWJW7dg8TX47NlLnpc
- yUg=
-WDCIronportException: Internal
-Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.48])
- by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:22:11 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: peter.maydell@linaro.org
-Subject: [PULL v3 40/42] target/riscv: Consolidate RV32/64 32-bit instructions
-Date: Tue, 11 May 2021 20:19:49 +1000
-Message-Id: <20210511101951.165287-41-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210511101951.165287-1-alistair.francis@wdc.com>
-References: <20210511101951.165287-1-alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lgPXY-0007lo-Lo
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:23:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620728576;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7olOPCSRPXLqU41i95O63Kl8XOWGfantaeo94ENIDDg=;
+ b=XEZINSHksPSUM+8md4gSRpB/excaUVugypuSHwmDNWqciTjJ4unMUWFbMMX0ZvUGRyJOaL
+ e9zvfLuFU2KN602TLsEhVAJ0WAztxjAJkGbOhZaRytLmF8B5KhpQYNXERPsgxESdla93jj
+ 9MdBmtLsPMFr2IF94kbnDSlCiRKkEDw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-NMmVrSckMuG8mgNW5szUjg-1; Tue, 11 May 2021 06:22:55 -0400
+X-MC-Unique: NMmVrSckMuG8mgNW5szUjg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ u5-20020adf9e050000b029010df603f280so8559900wre.18
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 03:22:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=7olOPCSRPXLqU41i95O63Kl8XOWGfantaeo94ENIDDg=;
+ b=gF8HErl7HpSNTiPHaaQx30nSlEA+2tXIfuhgp5uYikQxzLstizRtwDbG77fpFtomU8
+ ij8h9k8hn9U3y4JKNKMNN/TwTYVs4XplglVimQr2K3cU1ZBmWw1NtuY/F0J2Kfp7KKX5
+ nZAvlHzBiMdcYxfiCHVdgNHOyb0HRxhjjJzs5NfeDB/pN9h5zoqO1PJkqH3fLNVd4rGW
+ EUfAcw/TRqFqFnnbCXfHA5vhAYnEZU2gTGQpz9JLYAzYmEWbV4+ZQbyFtmLSEhdCva/U
+ khqRu5o03dLgDUKYXGfeJLs0nXYlizmRO8+hPVXWadsUwZc+LFhjiGt7TX1md2Tk13LW
+ gSew==
+X-Gm-Message-State: AOAM530sv9y7DW7GeKsE+qM6HUn3Lcjb3EhUCqJsCEjogby2wsPC8LFi
+ jydCOB3ehGr72AJovYdGGtmZSLv/XVFRldgkyfJ6s7EZl78wpKkSvd31krZtSXxDo+4eMj/4Y3P
+ ynGV1MqYj6TTNHNk=
+X-Received: by 2002:a7b:c101:: with SMTP id w1mr4653228wmi.164.1620728574071; 
+ Tue, 11 May 2021 03:22:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzDjd6qeRN0sU+YO1kNwC19B42oFmbLEPTt6DZMUd+LrJ6Qr7/WGaZQELlH8V0lmsa06tEMsQ==
+X-Received: by 2002:a7b:c101:: with SMTP id w1mr4653199wmi.164.1620728573693; 
+ Tue, 11 May 2021 03:22:53 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6329.dip0.t-ipconnect.de. [91.12.99.41])
+ by smtp.gmail.com with ESMTPSA id
+ r2sm28311534wrv.39.2021.05.11.03.22.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 May 2021 03:22:53 -0700 (PDT)
+Subject: Re: [PATCH 17/72] softfloat: Use pointers with parts_default_nan
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210508014802.892561-1-richard.henderson@linaro.org>
+ <20210508014802.892561-18-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <bb440bc3-b75e-cc5c-7a2c-d44dabc98118@redhat.com>
+Date: Tue, 11 May 2021 12:22:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=7584e029c=alistair.francis@wdc.com;
- helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210508014802.892561-18-richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,944 +100,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch removes the insn32-64.decode decode file and consolidates the
-instructions into the general RISC-V insn32.decode decode tree.
+On 08.05.21 03:47, Richard Henderson wrote:
+> At the same time, rename to parts64_default_nan and define
+> a macro for parts_default_nan using QEMU_GENERIC.
 
-This means that all of the instructions are avaliable in both the 32-bit
-and 64-bit builds. This also means that we run a check to ensure we are
-running a 64-bit softmmu before we execute the 64-bit only instructions.
-This allows us to include the 32-bit instructions in the 64-bit build,
-while also ensuring that 32-bit only software can not execute the
-instructions.
+All I can spot is "#define parts_default_nan  parts64_default_nan" -- 
+what am I missing?
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: db709360e2be47d2f9c6483ab973fe4791aefa77.1619234854.git.alistair.francis@wdc.com
----
- target/riscv/helper.h                   | 18 +++--
- target/riscv/insn32-64.decode           | 88 -------------------------
- target/riscv/insn32.decode              | 67 ++++++++++++++++++-
- target/riscv/fpu_helper.c               | 16 ++---
- target/riscv/translate.c                |  9 ++-
- target/riscv/vector_helper.c            |  4 --
- target/riscv/insn_trans/trans_rva.c.inc | 14 +++-
- target/riscv/insn_trans/trans_rvd.c.inc | 17 ++++-
- target/riscv/insn_trans/trans_rvf.c.inc |  6 +-
- target/riscv/insn_trans/trans_rvh.c.inc |  8 ++-
- target/riscv/insn_trans/trans_rvi.c.inc | 16 +++--
- target/riscv/insn_trans/trans_rvm.c.inc | 12 +++-
- target/riscv/insn_trans/trans_rvv.c.inc | 39 +++++------
- target/riscv/meson.build                |  2 +-
- 14 files changed, 166 insertions(+), 150 deletions(-)
- delete mode 100644 target/riscv/insn32-64.decode
+apart from that
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index e3f3f41e89..c7267593c3 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -27,12 +27,12 @@ DEF_HELPER_FLAGS_3(flt_s, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_3(feq_s, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_2(fcvt_w_s, TCG_CALL_NO_RWG, tl, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_wu_s, TCG_CALL_NO_RWG, tl, env, i64)
--DEF_HELPER_FLAGS_2(fcvt_l_s, TCG_CALL_NO_RWG, i64, env, i64)
--DEF_HELPER_FLAGS_2(fcvt_lu_s, TCG_CALL_NO_RWG, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_l_s, TCG_CALL_NO_RWG, tl, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_lu_s, TCG_CALL_NO_RWG, tl, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_s_w, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fcvt_s_wu, TCG_CALL_NO_RWG, i64, env, tl)
--DEF_HELPER_FLAGS_2(fcvt_s_l, TCG_CALL_NO_RWG, i64, env, i64)
--DEF_HELPER_FLAGS_2(fcvt_s_lu, TCG_CALL_NO_RWG, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_s_l, TCG_CALL_NO_RWG, i64, env, tl)
-+DEF_HELPER_FLAGS_2(fcvt_s_lu, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_1(fclass_s, TCG_CALL_NO_RWG_SE, tl, i64)
- 
- /* Floating Point - Double Precision */
-@@ -50,12 +50,12 @@ DEF_HELPER_FLAGS_3(flt_d, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_3(feq_d, TCG_CALL_NO_RWG, tl, env, i64, i64)
- DEF_HELPER_FLAGS_2(fcvt_w_d, TCG_CALL_NO_RWG, tl, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_wu_d, TCG_CALL_NO_RWG, tl, env, i64)
--DEF_HELPER_FLAGS_2(fcvt_l_d, TCG_CALL_NO_RWG, i64, env, i64)
--DEF_HELPER_FLAGS_2(fcvt_lu_d, TCG_CALL_NO_RWG, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_l_d, TCG_CALL_NO_RWG, tl, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_lu_d, TCG_CALL_NO_RWG, tl, env, i64)
- DEF_HELPER_FLAGS_2(fcvt_d_w, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_2(fcvt_d_wu, TCG_CALL_NO_RWG, i64, env, tl)
--DEF_HELPER_FLAGS_2(fcvt_d_l, TCG_CALL_NO_RWG, i64, env, i64)
--DEF_HELPER_FLAGS_2(fcvt_d_lu, TCG_CALL_NO_RWG, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_d_l, TCG_CALL_NO_RWG, i64, env, tl)
-+DEF_HELPER_FLAGS_2(fcvt_d_lu, TCG_CALL_NO_RWG, i64, env, tl)
- DEF_HELPER_FLAGS_1(fclass_d, TCG_CALL_NO_RWG_SE, tl, i64)
- 
- /* Special functions */
-@@ -241,7 +241,6 @@ DEF_HELPER_5(vlhuff_v_w, void, ptr, ptr, tl, env, i32)
- DEF_HELPER_5(vlhuff_v_d, void, ptr, ptr, tl, env, i32)
- DEF_HELPER_5(vlwuff_v_w, void, ptr, ptr, tl, env, i32)
- DEF_HELPER_5(vlwuff_v_d, void, ptr, ptr, tl, env, i32)
--#ifdef TARGET_RISCV64
- DEF_HELPER_6(vamoswapw_v_d, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vamoswapd_v_d, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vamoaddw_v_d,  void, ptr, ptr, tl, ptr, env, i32)
-@@ -260,7 +259,6 @@ DEF_HELPER_6(vamominuw_v_d, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vamominud_v_d, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vamomaxuw_v_d, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vamomaxud_v_d, void, ptr, ptr, tl, ptr, env, i32)
--#endif
- DEF_HELPER_6(vamoswapw_v_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vamoaddw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vamoxorw_v_w,  void, ptr, ptr, tl, ptr, env, i32)
-diff --git a/target/riscv/insn32-64.decode b/target/riscv/insn32-64.decode
-deleted file mode 100644
-index 8157dee8b7..0000000000
---- a/target/riscv/insn32-64.decode
-+++ /dev/null
-@@ -1,88 +0,0 @@
--#
--# RISC-V translation routines for the RV Instruction Set.
--#
--# Copyright (c) 2018 Peer Adelt, peer.adelt@hni.uni-paderborn.de
--#                    Bastian Koppelmann, kbastian@mail.uni-paderborn.de
--#
--# This program is free software; you can redistribute it and/or modify it
--# under the terms and conditions of the GNU General Public License,
--# version 2 or later, as published by the Free Software Foundation.
--#
--# This program is distributed in the hope it will be useful, but WITHOUT
--# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
--# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
--# more details.
--#
--# You should have received a copy of the GNU General Public License along with
--# this program.  If not, see <http://www.gnu.org/licenses/>.
--
--# This is concatenated with insn32.decode for risc64 targets.
--# Most of the fields and formats are there.
--
--%sh5    20:5
--
--@sh5     .......  ..... .....  ... ..... ....... &shift  shamt=%sh5      %rs1 %rd
--
--# *** RV64I Base Instruction Set (in addition to RV32I) ***
--lwu      ............   ..... 110 ..... 0000011 @i
--ld       ............   ..... 011 ..... 0000011 @i
--sd       ....... .....  ..... 011 ..... 0100011 @s
--addiw    ............   ..... 000 ..... 0011011 @i
--slliw    0000000 .....  ..... 001 ..... 0011011 @sh5
--srliw    0000000 .....  ..... 101 ..... 0011011 @sh5
--sraiw    0100000 .....  ..... 101 ..... 0011011 @sh5
--addw     0000000 .....  ..... 000 ..... 0111011 @r
--subw     0100000 .....  ..... 000 ..... 0111011 @r
--sllw     0000000 .....  ..... 001 ..... 0111011 @r
--srlw     0000000 .....  ..... 101 ..... 0111011 @r
--sraw     0100000 .....  ..... 101 ..... 0111011 @r
--
--# *** RV64M Standard Extension (in addition to RV32M) ***
--mulw     0000001 .....  ..... 000 ..... 0111011 @r
--divw     0000001 .....  ..... 100 ..... 0111011 @r
--divuw    0000001 .....  ..... 101 ..... 0111011 @r
--remw     0000001 .....  ..... 110 ..... 0111011 @r
--remuw    0000001 .....  ..... 111 ..... 0111011 @r
--
--# *** RV64A Standard Extension (in addition to RV32A) ***
--lr_d       00010 . . 00000 ..... 011 ..... 0101111 @atom_ld
--sc_d       00011 . . ..... ..... 011 ..... 0101111 @atom_st
--amoswap_d  00001 . . ..... ..... 011 ..... 0101111 @atom_st
--amoadd_d   00000 . . ..... ..... 011 ..... 0101111 @atom_st
--amoxor_d   00100 . . ..... ..... 011 ..... 0101111 @atom_st
--amoand_d   01100 . . ..... ..... 011 ..... 0101111 @atom_st
--amoor_d    01000 . . ..... ..... 011 ..... 0101111 @atom_st
--amomin_d   10000 . . ..... ..... 011 ..... 0101111 @atom_st
--amomax_d   10100 . . ..... ..... 011 ..... 0101111 @atom_st
--amominu_d  11000 . . ..... ..... 011 ..... 0101111 @atom_st
--amomaxu_d  11100 . . ..... ..... 011 ..... 0101111 @atom_st
--
--#*** Vector AMO operations (in addition to Zvamo) ***
--vamoswapd_v     00001 . . ..... ..... 111 ..... 0101111 @r_wdvm
--vamoaddd_v      00000 . . ..... ..... 111 ..... 0101111 @r_wdvm
--vamoxord_v      00100 . . ..... ..... 111 ..... 0101111 @r_wdvm
--vamoandd_v      01100 . . ..... ..... 111 ..... 0101111 @r_wdvm
--vamoord_v       01000 . . ..... ..... 111 ..... 0101111 @r_wdvm
--vamomind_v      10000 . . ..... ..... 111 ..... 0101111 @r_wdvm
--vamomaxd_v      10100 . . ..... ..... 111 ..... 0101111 @r_wdvm
--vamominud_v     11000 . . ..... ..... 111 ..... 0101111 @r_wdvm
--vamomaxud_v     11100 . . ..... ..... 111 ..... 0101111 @r_wdvm
--
--# *** RV64F Standard Extension (in addition to RV32F) ***
--fcvt_l_s   1100000  00010 ..... ... ..... 1010011 @r2_rm
--fcvt_lu_s  1100000  00011 ..... ... ..... 1010011 @r2_rm
--fcvt_s_l   1101000  00010 ..... ... ..... 1010011 @r2_rm
--fcvt_s_lu  1101000  00011 ..... ... ..... 1010011 @r2_rm
--
--# *** RV64D Standard Extension (in addition to RV32D) ***
--fcvt_l_d   1100001  00010 ..... ... ..... 1010011 @r2_rm
--fcvt_lu_d  1100001  00011 ..... ... ..... 1010011 @r2_rm
--fmv_x_d    1110001  00000 ..... 000 ..... 1010011 @r2
--fcvt_d_l   1101001  00010 ..... ... ..... 1010011 @r2_rm
--fcvt_d_lu  1101001  00011 ..... ... ..... 1010011 @r2_rm
--fmv_d_x    1111001  00000 ..... 000 ..... 1010011 @r2
--
--# *** RV32H Base Instruction Set ***
--hlv_wu    0110100  00001   ..... 100 ..... 1110011 @r2
--hlv_d     0110110  00000   ..... 100 ..... 1110011 @r2
--hsv_d     0110111  .....   ..... 100 00000 1110011 @r2_s
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 84080dd18c..fecf0f15d5 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -21,6 +21,7 @@
- %rs2       20:5
- %rs1       15:5
- %rd        7:5
-+%sh5       20:5
- 
- %sh10    20:10
- %csr    20:12
-@@ -86,6 +87,8 @@
- @sfence_vma ....... ..... .....   ... ..... ....... %rs2 %rs1
- @sfence_vm  ....... ..... .....   ... ..... ....... %rs1
- 
-+# Formats 64:
-+@sh5     .......  ..... .....  ... ..... ....... &shift  shamt=%sh5      %rs1 %rd
- 
- # *** Privileged Instructions ***
- ecall       000000000000     00000 000 00000 1110011
-@@ -144,6 +147,20 @@ csrrwi   ............     ..... 101 ..... 1110011 @csr
- csrrsi   ............     ..... 110 ..... 1110011 @csr
- csrrci   ............     ..... 111 ..... 1110011 @csr
- 
-+# *** RV64I Base Instruction Set (in addition to RV32I) ***
-+lwu      ............   ..... 110 ..... 0000011 @i
-+ld       ............   ..... 011 ..... 0000011 @i
-+sd       ....... .....  ..... 011 ..... 0100011 @s
-+addiw    ............   ..... 000 ..... 0011011 @i
-+slliw    0000000 .....  ..... 001 ..... 0011011 @sh5
-+srliw    0000000 .....  ..... 101 ..... 0011011 @sh5
-+sraiw    0100000 .....  ..... 101 ..... 0011011 @sh5
-+addw     0000000 .....  ..... 000 ..... 0111011 @r
-+subw     0100000 .....  ..... 000 ..... 0111011 @r
-+sllw     0000000 .....  ..... 001 ..... 0111011 @r
-+srlw     0000000 .....  ..... 101 ..... 0111011 @r
-+sraw     0100000 .....  ..... 101 ..... 0111011 @r
-+
- # *** RV32M Standard Extension ***
- mul      0000001 .....  ..... 000 ..... 0110011 @r
- mulh     0000001 .....  ..... 001 ..... 0110011 @r
-@@ -154,6 +171,13 @@ divu     0000001 .....  ..... 101 ..... 0110011 @r
- rem      0000001 .....  ..... 110 ..... 0110011 @r
- remu     0000001 .....  ..... 111 ..... 0110011 @r
- 
-+# *** RV64M Standard Extension (in addition to RV32M) ***
-+mulw     0000001 .....  ..... 000 ..... 0111011 @r
-+divw     0000001 .....  ..... 100 ..... 0111011 @r
-+divuw    0000001 .....  ..... 101 ..... 0111011 @r
-+remw     0000001 .....  ..... 110 ..... 0111011 @r
-+remuw    0000001 .....  ..... 111 ..... 0111011 @r
-+
- # *** RV32A Standard Extension ***
- lr_w       00010 . . 00000 ..... 010 ..... 0101111 @atom_ld
- sc_w       00011 . . ..... ..... 010 ..... 0101111 @atom_st
-@@ -167,6 +191,19 @@ amomax_w   10100 . . ..... ..... 010 ..... 0101111 @atom_st
- amominu_w  11000 . . ..... ..... 010 ..... 0101111 @atom_st
- amomaxu_w  11100 . . ..... ..... 010 ..... 0101111 @atom_st
- 
-+# *** RV64A Standard Extension (in addition to RV32A) ***
-+lr_d       00010 . . 00000 ..... 011 ..... 0101111 @atom_ld
-+sc_d       00011 . . ..... ..... 011 ..... 0101111 @atom_st
-+amoswap_d  00001 . . ..... ..... 011 ..... 0101111 @atom_st
-+amoadd_d   00000 . . ..... ..... 011 ..... 0101111 @atom_st
-+amoxor_d   00100 . . ..... ..... 011 ..... 0101111 @atom_st
-+amoand_d   01100 . . ..... ..... 011 ..... 0101111 @atom_st
-+amoor_d    01000 . . ..... ..... 011 ..... 0101111 @atom_st
-+amomin_d   10000 . . ..... ..... 011 ..... 0101111 @atom_st
-+amomax_d   10100 . . ..... ..... 011 ..... 0101111 @atom_st
-+amominu_d  11000 . . ..... ..... 011 ..... 0101111 @atom_st
-+amomaxu_d  11100 . . ..... ..... 011 ..... 0101111 @atom_st
-+
- # *** RV32F Standard Extension ***
- flw        ............   ..... 010 ..... 0000111 @i
- fsw        .......  ..... ..... 010 ..... 0100111 @s
-@@ -195,6 +232,12 @@ fcvt_s_w   1101000  00000 ..... ... ..... 1010011 @r2_rm
- fcvt_s_wu  1101000  00001 ..... ... ..... 1010011 @r2_rm
- fmv_w_x    1111000  00000 ..... 000 ..... 1010011 @r2
- 
-+# *** RV64F Standard Extension (in addition to RV32F) ***
-+fcvt_l_s   1100000  00010 ..... ... ..... 1010011 @r2_rm
-+fcvt_lu_s  1100000  00011 ..... ... ..... 1010011 @r2_rm
-+fcvt_s_l   1101000  00010 ..... ... ..... 1010011 @r2_rm
-+fcvt_s_lu  1101000  00011 ..... ... ..... 1010011 @r2_rm
-+
- # *** RV32D Standard Extension ***
- fld        ............   ..... 011 ..... 0000111 @i
- fsd        ....... .....  ..... 011 ..... 0100111 @s
-@@ -223,6 +266,14 @@ fcvt_wu_d  1100001  00001 ..... ... ..... 1010011 @r2_rm
- fcvt_d_w   1101001  00000 ..... ... ..... 1010011 @r2_rm
- fcvt_d_wu  1101001  00001 ..... ... ..... 1010011 @r2_rm
- 
-+# *** RV64D Standard Extension (in addition to RV32D) ***
-+fcvt_l_d   1100001  00010 ..... ... ..... 1010011 @r2_rm
-+fcvt_lu_d  1100001  00011 ..... ... ..... 1010011 @r2_rm
-+fmv_x_d    1110001  00000 ..... 000 ..... 1010011 @r2
-+fcvt_d_l   1101001  00010 ..... ... ..... 1010011 @r2_rm
-+fcvt_d_lu  1101001  00011 ..... ... ..... 1010011 @r2_rm
-+fmv_d_x    1111001  00000 ..... 000 ..... 1010011 @r2
-+
- # *** RV32H Base Instruction Set ***
- hlv_b       0110000  00000  ..... 100 ..... 1110011 @r2
- hlv_bu      0110000  00001  ..... 100 ..... 1110011 @r2
-@@ -237,7 +288,10 @@ hsv_w       0110101  .....  ..... 100 00000 1110011 @r2_s
- hfence_gvma 0110001  .....  ..... 000 00000 1110011 @hfence_gvma
- hfence_vvma 0010001  .....  ..... 000 00000 1110011 @hfence_vvma
- 
--# *** RV32V Extension ***
-+# *** RV32H Base Instruction Set ***
-+hlv_wu    0110100  00001   ..... 100 ..... 1110011 @r2
-+hlv_d     0110110  00000   ..... 100 ..... 1110011 @r2
-+hsv_d     0110111  .....   ..... 100 00000 1110011 @r2_s
- 
- # *** Vector loads and stores are encoded within LOADFP/STORE-FP ***
- vlb_v      ... 100 . 00000 ..... 000 ..... 0000111 @r2_nfvm
-@@ -592,3 +646,14 @@ vcompress_vm    010111 - ..... ..... 010 ..... 1010111 @r
- 
- vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
- vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-+
-+#*** Vector AMO operations (in addition to Zvamo) ***
-+vamoswapd_v     00001 . . ..... ..... 111 ..... 0101111 @r_wdvm
-+vamoaddd_v      00000 . . ..... ..... 111 ..... 0101111 @r_wdvm
-+vamoxord_v      00100 . . ..... ..... 111 ..... 0101111 @r_wdvm
-+vamoandd_v      01100 . . ..... ..... 111 ..... 0101111 @r_wdvm
-+vamoord_v       01000 . . ..... ..... 111 ..... 0101111 @r_wdvm
-+vamomind_v      10000 . . ..... ..... 111 ..... 0101111 @r_wdvm
-+vamomaxd_v      10100 . . ..... ..... 111 ..... 0101111 @r_wdvm
-+vamominud_v     11000 . . ..... ..... 111 ..... 0101111 @r_wdvm
-+vamomaxud_v     11100 . . ..... ..... 111 ..... 0101111 @r_wdvm
-diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-index 7c4ab92ecb..8700516a14 100644
---- a/target/riscv/fpu_helper.c
-+++ b/target/riscv/fpu_helper.c
-@@ -223,13 +223,13 @@ target_ulong helper_fcvt_wu_s(CPURISCVState *env, uint64_t rs1)
-     return (int32_t)float32_to_uint32(frs1, &env->fp_status);
- }
- 
--uint64_t helper_fcvt_l_s(CPURISCVState *env, uint64_t rs1)
-+target_ulong helper_fcvt_l_s(CPURISCVState *env, uint64_t rs1)
- {
-     float32 frs1 = check_nanbox_s(rs1);
-     return float32_to_int64(frs1, &env->fp_status);
- }
- 
--uint64_t helper_fcvt_lu_s(CPURISCVState *env, uint64_t rs1)
-+target_ulong helper_fcvt_lu_s(CPURISCVState *env, uint64_t rs1)
- {
-     float32 frs1 = check_nanbox_s(rs1);
-     return float32_to_uint64(frs1, &env->fp_status);
-@@ -245,12 +245,12 @@ uint64_t helper_fcvt_s_wu(CPURISCVState *env, target_ulong rs1)
-     return nanbox_s(uint32_to_float32((uint32_t)rs1, &env->fp_status));
- }
- 
--uint64_t helper_fcvt_s_l(CPURISCVState *env, uint64_t rs1)
-+uint64_t helper_fcvt_s_l(CPURISCVState *env, target_ulong rs1)
- {
-     return nanbox_s(int64_to_float32(rs1, &env->fp_status));
- }
- 
--uint64_t helper_fcvt_s_lu(CPURISCVState *env, uint64_t rs1)
-+uint64_t helper_fcvt_s_lu(CPURISCVState *env, target_ulong rs1)
- {
-     return nanbox_s(uint64_to_float32(rs1, &env->fp_status));
- }
-@@ -332,12 +332,12 @@ target_ulong helper_fcvt_wu_d(CPURISCVState *env, uint64_t frs1)
-     return (int32_t)float64_to_uint32(frs1, &env->fp_status);
- }
- 
--uint64_t helper_fcvt_l_d(CPURISCVState *env, uint64_t frs1)
-+target_ulong helper_fcvt_l_d(CPURISCVState *env, uint64_t frs1)
- {
-     return float64_to_int64(frs1, &env->fp_status);
- }
- 
--uint64_t helper_fcvt_lu_d(CPURISCVState *env, uint64_t frs1)
-+target_ulong helper_fcvt_lu_d(CPURISCVState *env, uint64_t frs1)
- {
-     return float64_to_uint64(frs1, &env->fp_status);
- }
-@@ -352,12 +352,12 @@ uint64_t helper_fcvt_d_wu(CPURISCVState *env, target_ulong rs1)
-     return uint32_to_float64((uint32_t)rs1, &env->fp_status);
- }
- 
--uint64_t helper_fcvt_d_l(CPURISCVState *env, uint64_t rs1)
-+uint64_t helper_fcvt_d_l(CPURISCVState *env, target_ulong rs1)
- {
-     return int64_to_float64(rs1, &env->fp_status);
- }
- 
--uint64_t helper_fcvt_d_lu(CPURISCVState *env, uint64_t rs1)
-+uint64_t helper_fcvt_d_lu(CPURISCVState *env, target_ulong rs1)
- {
-     return uint64_to_float64(rs1, &env->fp_status);
- }
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index a1f794ffda..e945352bca 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -435,6 +435,12 @@ EX_SH(12)
-     }                              \
- } while (0)
- 
-+#define REQUIRE_64BIT(ctx) do { \
-+    if (is_32bit(ctx)) {        \
-+        return false;           \
-+    }                           \
-+} while (0)
-+
- static int ex_rvc_register(DisasContext *ctx, int reg)
- {
-     return 8 + reg;
-@@ -482,7 +488,6 @@ static bool gen_arith_imm_tl(DisasContext *ctx, arg_i *a,
-     return true;
- }
- 
--#ifdef TARGET_RISCV64
- static void gen_addw(TCGv ret, TCGv arg1, TCGv arg2)
- {
-     tcg_gen_add_tl(ret, arg1, arg2);
-@@ -543,8 +548,6 @@ static bool gen_arith_div_uw(DisasContext *ctx, arg_r *a,
-     return true;
- }
- 
--#endif
--
- static bool gen_arith(DisasContext *ctx, arg_r *a,
-                       void(*func)(TCGv, TCGv, TCGv))
- {
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 4651a1e224..12c31aa4b4 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -751,7 +751,6 @@ GEN_VEXT_AMO_NOATOMIC_OP(vamominw_v_w,  32, 32, H4, DO_MIN,  l)
- GEN_VEXT_AMO_NOATOMIC_OP(vamomaxw_v_w,  32, 32, H4, DO_MAX,  l)
- GEN_VEXT_AMO_NOATOMIC_OP(vamominuw_v_w, 32, 32, H4, DO_MINU, l)
- GEN_VEXT_AMO_NOATOMIC_OP(vamomaxuw_v_w, 32, 32, H4, DO_MAXU, l)
--#ifdef TARGET_RISCV64
- GEN_VEXT_AMO_NOATOMIC_OP(vamoswapw_v_d, 64, 32, H8, DO_SWAP, l)
- GEN_VEXT_AMO_NOATOMIC_OP(vamoswapd_v_d, 64, 64, H8, DO_SWAP, q)
- GEN_VEXT_AMO_NOATOMIC_OP(vamoaddw_v_d,  64, 32, H8, DO_ADD,  l)
-@@ -770,7 +769,6 @@ GEN_VEXT_AMO_NOATOMIC_OP(vamominuw_v_d, 64, 32, H8, DO_MINU, l)
- GEN_VEXT_AMO_NOATOMIC_OP(vamominud_v_d, 64, 64, H8, DO_MINU, q)
- GEN_VEXT_AMO_NOATOMIC_OP(vamomaxuw_v_d, 64, 32, H8, DO_MAXU, l)
- GEN_VEXT_AMO_NOATOMIC_OP(vamomaxud_v_d, 64, 64, H8, DO_MAXU, q)
--#endif
- 
- static inline void
- vext_amo_noatomic(void *vs3, void *v0, target_ulong base,
-@@ -814,7 +812,6 @@ void HELPER(NAME)(void *vs3, void *v0, target_ulong base,       \
-                       GETPC());                                 \
- }
- 
--#ifdef TARGET_RISCV64
- GEN_VEXT_AMO(vamoswapw_v_d, int32_t,  int64_t,  idx_d, clearq)
- GEN_VEXT_AMO(vamoswapd_v_d, int64_t,  int64_t,  idx_d, clearq)
- GEN_VEXT_AMO(vamoaddw_v_d,  int32_t,  int64_t,  idx_d, clearq)
-@@ -833,7 +830,6 @@ GEN_VEXT_AMO(vamominuw_v_d, uint32_t, uint64_t, idx_d, clearq)
- GEN_VEXT_AMO(vamominud_v_d, uint64_t, uint64_t, idx_d, clearq)
- GEN_VEXT_AMO(vamomaxuw_v_d, uint32_t, uint64_t, idx_d, clearq)
- GEN_VEXT_AMO(vamomaxud_v_d, uint64_t, uint64_t, idx_d, clearq)
--#endif
- GEN_VEXT_AMO(vamoswapw_v_w, int32_t,  int32_t,  idx_w, clearl)
- GEN_VEXT_AMO(vamoaddw_v_w,  int32_t,  int32_t,  idx_w, clearl)
- GEN_VEXT_AMO(vamoxorw_v_w,  int32_t,  int32_t,  idx_w, clearl)
-diff --git a/target/riscv/insn_trans/trans_rva.c.inc b/target/riscv/insn_trans/trans_rva.c.inc
-index be8a9f06dd..ab2ec4f0a5 100644
---- a/target/riscv/insn_trans/trans_rva.c.inc
-+++ b/target/riscv/insn_trans/trans_rva.c.inc
-@@ -165,60 +165,68 @@ static bool trans_amomaxu_w(DisasContext *ctx, arg_amomaxu_w *a)
-     return gen_amo(ctx, a, &tcg_gen_atomic_fetch_umax_tl, (MO_ALIGN | MO_TESL));
- }
- 
--#ifdef TARGET_RISCV64
--
- static bool trans_lr_d(DisasContext *ctx, arg_lr_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_lr(ctx, a, MO_ALIGN | MO_TEQ);
- }
- 
- static bool trans_sc_d(DisasContext *ctx, arg_sc_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_sc(ctx, a, (MO_ALIGN | MO_TEQ));
- }
- 
- static bool trans_amoswap_d(DisasContext *ctx, arg_amoswap_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_amo(ctx, a, &tcg_gen_atomic_xchg_tl, (MO_ALIGN | MO_TEQ));
- }
- 
- static bool trans_amoadd_d(DisasContext *ctx, arg_amoadd_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_amo(ctx, a, &tcg_gen_atomic_fetch_add_tl, (MO_ALIGN | MO_TEQ));
- }
- 
- static bool trans_amoxor_d(DisasContext *ctx, arg_amoxor_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_amo(ctx, a, &tcg_gen_atomic_fetch_xor_tl, (MO_ALIGN | MO_TEQ));
- }
- 
- static bool trans_amoand_d(DisasContext *ctx, arg_amoand_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_amo(ctx, a, &tcg_gen_atomic_fetch_and_tl, (MO_ALIGN | MO_TEQ));
- }
- 
- static bool trans_amoor_d(DisasContext *ctx, arg_amoor_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_amo(ctx, a, &tcg_gen_atomic_fetch_or_tl, (MO_ALIGN | MO_TEQ));
- }
- 
- static bool trans_amomin_d(DisasContext *ctx, arg_amomin_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_amo(ctx, a, &tcg_gen_atomic_fetch_smin_tl, (MO_ALIGN | MO_TEQ));
- }
- 
- static bool trans_amomax_d(DisasContext *ctx, arg_amomax_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_amo(ctx, a, &tcg_gen_atomic_fetch_smax_tl, (MO_ALIGN | MO_TEQ));
- }
- 
- static bool trans_amominu_d(DisasContext *ctx, arg_amominu_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_amo(ctx, a, &tcg_gen_atomic_fetch_umin_tl, (MO_ALIGN | MO_TEQ));
- }
- 
- static bool trans_amomaxu_d(DisasContext *ctx, arg_amomaxu_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_amo(ctx, a, &tcg_gen_atomic_fetch_umax_tl, (MO_ALIGN | MO_TEQ));
- }
--#endif
-diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
-index 4f832637fa..7e45538ae0 100644
---- a/target/riscv/insn_trans/trans_rvd.c.inc
-+++ b/target/riscv/insn_trans/trans_rvd.c.inc
-@@ -358,10 +358,9 @@ static bool trans_fcvt_d_wu(DisasContext *ctx, arg_fcvt_d_wu *a)
-     return true;
- }
- 
--#ifdef TARGET_RISCV64
--
- static bool trans_fcvt_l_d(DisasContext *ctx, arg_fcvt_l_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
-@@ -375,6 +374,7 @@ static bool trans_fcvt_l_d(DisasContext *ctx, arg_fcvt_l_d *a)
- 
- static bool trans_fcvt_lu_d(DisasContext *ctx, arg_fcvt_lu_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
-@@ -388,15 +388,21 @@ static bool trans_fcvt_lu_d(DisasContext *ctx, arg_fcvt_lu_d *a)
- 
- static bool trans_fmv_x_d(DisasContext *ctx, arg_fmv_x_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
-+#ifdef TARGET_RISCV64
-     gen_set_gpr(a->rd, cpu_fpr[a->rs1]);
-     return true;
-+#else
-+    qemu_build_not_reached();
-+#endif
- }
- 
- static bool trans_fcvt_d_l(DisasContext *ctx, arg_fcvt_d_l *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
-@@ -412,6 +418,7 @@ static bool trans_fcvt_d_l(DisasContext *ctx, arg_fcvt_d_l *a)
- 
- static bool trans_fcvt_d_lu(DisasContext *ctx, arg_fcvt_d_lu *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
-@@ -427,9 +434,11 @@ static bool trans_fcvt_d_lu(DisasContext *ctx, arg_fcvt_d_lu *a)
- 
- static bool trans_fmv_d_x(DisasContext *ctx, arg_fmv_d_x *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
-+#ifdef TARGET_RISCV64
-     TCGv t0 = tcg_temp_new();
-     gen_get_gpr(t0, a->rs1);
- 
-@@ -437,5 +446,7 @@ static bool trans_fmv_d_x(DisasContext *ctx, arg_fmv_d_x *a)
-     tcg_temp_free(t0);
-     mark_fs_dirty(ctx);
-     return true;
--}
-+#else
-+    qemu_build_not_reached();
- #endif
-+}
-diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
-index 3dfec8211d..db1c0c9974 100644
---- a/target/riscv/insn_trans/trans_rvf.c.inc
-+++ b/target/riscv/insn_trans/trans_rvf.c.inc
-@@ -415,9 +415,9 @@ static bool trans_fmv_w_x(DisasContext *ctx, arg_fmv_w_x *a)
-     return true;
- }
- 
--#ifdef TARGET_RISCV64
- static bool trans_fcvt_l_s(DisasContext *ctx, arg_fcvt_l_s *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
- 
-@@ -431,6 +431,7 @@ static bool trans_fcvt_l_s(DisasContext *ctx, arg_fcvt_l_s *a)
- 
- static bool trans_fcvt_lu_s(DisasContext *ctx, arg_fcvt_lu_s *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
- 
-@@ -444,6 +445,7 @@ static bool trans_fcvt_lu_s(DisasContext *ctx, arg_fcvt_lu_s *a)
- 
- static bool trans_fcvt_s_l(DisasContext *ctx, arg_fcvt_s_l *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
- 
-@@ -460,6 +462,7 @@ static bool trans_fcvt_s_l(DisasContext *ctx, arg_fcvt_s_l *a)
- 
- static bool trans_fcvt_s_lu(DisasContext *ctx, arg_fcvt_s_lu *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
- 
-@@ -473,4 +476,3 @@ static bool trans_fcvt_s_lu(DisasContext *ctx, arg_fcvt_s_lu *a)
-     tcg_temp_free(t0);
-     return true;
- }
--#endif
-diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
-index ce7ed5affb..6b5edf82b7 100644
---- a/target/riscv/insn_trans/trans_rvh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvh.c.inc
-@@ -203,10 +203,11 @@ static bool trans_hsv_w(DisasContext *ctx, arg_hsv_w *a)
- #endif
- }
- 
--#ifdef TARGET_RISCV64
- static bool trans_hlv_wu(DisasContext *ctx, arg_hlv_wu *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVH);
-+
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
-@@ -228,7 +229,9 @@ static bool trans_hlv_wu(DisasContext *ctx, arg_hlv_wu *a)
- 
- static bool trans_hlv_d(DisasContext *ctx, arg_hlv_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVH);
-+
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
-@@ -250,7 +253,9 @@ static bool trans_hlv_d(DisasContext *ctx, arg_hlv_d *a)
- 
- static bool trans_hsv_d(DisasContext *ctx, arg_hsv_d *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVH);
-+
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv dat = tcg_temp_new();
-@@ -269,7 +274,6 @@ static bool trans_hsv_d(DisasContext *ctx, arg_hsv_d *a)
-     return false;
- #endif
- }
--#endif
- 
- static bool trans_hlvx_hu(DisasContext *ctx, arg_hlvx_hu *a)
- {
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index d04ca0394c..1340676209 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -204,22 +204,23 @@ static bool trans_sw(DisasContext *ctx, arg_sw *a)
-     return gen_store(ctx, a, MO_TESL);
- }
- 
--#ifdef TARGET_RISCV64
- static bool trans_lwu(DisasContext *ctx, arg_lwu *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_load(ctx, a, MO_TEUL);
- }
- 
- static bool trans_ld(DisasContext *ctx, arg_ld *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_load(ctx, a, MO_TEQ);
- }
- 
- static bool trans_sd(DisasContext *ctx, arg_sd *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_store(ctx, a, MO_TEQ);
- }
--#endif
- 
- static bool trans_addi(DisasContext *ctx, arg_addi *a)
- {
-@@ -361,14 +362,15 @@ static bool trans_and(DisasContext *ctx, arg_and *a)
-     return gen_arith(ctx, a, &tcg_gen_and_tl);
- }
- 
--#ifdef TARGET_RISCV64
- static bool trans_addiw(DisasContext *ctx, arg_addiw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_arith_imm_tl(ctx, a, &gen_addw);
- }
- 
- static bool trans_slliw(DisasContext *ctx, arg_slliw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     TCGv source1;
-     source1 = tcg_temp_new();
-     gen_get_gpr(source1, a->rs1);
-@@ -383,6 +385,7 @@ static bool trans_slliw(DisasContext *ctx, arg_slliw *a)
- 
- static bool trans_srliw(DisasContext *ctx, arg_srliw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     TCGv t = tcg_temp_new();
-     gen_get_gpr(t, a->rs1);
-     tcg_gen_extract_tl(t, t, a->shamt, 32 - a->shamt);
-@@ -395,6 +398,7 @@ static bool trans_srliw(DisasContext *ctx, arg_srliw *a)
- 
- static bool trans_sraiw(DisasContext *ctx, arg_sraiw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     TCGv t = tcg_temp_new();
-     gen_get_gpr(t, a->rs1);
-     tcg_gen_sextract_tl(t, t, a->shamt, 32 - a->shamt);
-@@ -405,16 +409,19 @@ static bool trans_sraiw(DisasContext *ctx, arg_sraiw *a)
- 
- static bool trans_addw(DisasContext *ctx, arg_addw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_arith(ctx, a, &gen_addw);
- }
- 
- static bool trans_subw(DisasContext *ctx, arg_subw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     return gen_arith(ctx, a, &gen_subw);
- }
- 
- static bool trans_sllw(DisasContext *ctx, arg_sllw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     TCGv source1 = tcg_temp_new();
-     TCGv source2 = tcg_temp_new();
- 
-@@ -433,6 +440,7 @@ static bool trans_sllw(DisasContext *ctx, arg_sllw *a)
- 
- static bool trans_srlw(DisasContext *ctx, arg_srlw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     TCGv source1 = tcg_temp_new();
-     TCGv source2 = tcg_temp_new();
- 
-@@ -453,6 +461,7 @@ static bool trans_srlw(DisasContext *ctx, arg_srlw *a)
- 
- static bool trans_sraw(DisasContext *ctx, arg_sraw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     TCGv source1 = tcg_temp_new();
-     TCGv source2 = tcg_temp_new();
- 
-@@ -473,7 +482,6 @@ static bool trans_sraw(DisasContext *ctx, arg_sraw *a)
- 
-     return true;
- }
--#endif
- 
- static bool trans_fence(DisasContext *ctx, arg_fence *a)
- {
-diff --git a/target/riscv/insn_trans/trans_rvm.c.inc b/target/riscv/insn_trans/trans_rvm.c.inc
-index 47cd6edc72..10ecc456fc 100644
---- a/target/riscv/insn_trans/trans_rvm.c.inc
-+++ b/target/riscv/insn_trans/trans_rvm.c.inc
-@@ -87,34 +87,42 @@ static bool trans_remu(DisasContext *ctx, arg_remu *a)
-     return gen_arith(ctx, a, &gen_remu);
- }
- 
--#ifdef TARGET_RISCV64
- static bool trans_mulw(DisasContext *ctx, arg_mulw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
-+
-     return gen_arith(ctx, a, &gen_mulw);
- }
- 
- static bool trans_divw(DisasContext *ctx, arg_divw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
-+
-     return gen_arith_div_w(ctx, a, &gen_div);
- }
- 
- static bool trans_divuw(DisasContext *ctx, arg_divuw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
-+
-     return gen_arith_div_uw(ctx, a, &gen_divu);
- }
- 
- static bool trans_remw(DisasContext *ctx, arg_remw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
-+
-     return gen_arith_div_w(ctx, a, &gen_rem);
- }
- 
- static bool trans_remuw(DisasContext *ctx, arg_remuw *a)
- {
-+    REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
-+
-     return gen_arith_div_uw(ctx, a, &gen_remu);
- }
--#endif
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 887c6b8883..47914a3b69 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -705,7 +705,6 @@ static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
-         gen_helper_vamominuw_v_w,
-         gen_helper_vamomaxuw_v_w
-     };
--#ifdef TARGET_RISCV64
-     static gen_helper_amo *const fnsd[18] = {
-         gen_helper_vamoswapw_v_d,
-         gen_helper_vamoaddw_v_d,
-@@ -726,7 +725,6 @@ static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
-         gen_helper_vamominud_v_d,
-         gen_helper_vamomaxud_v_d
-     };
--#endif
- 
-     if (tb_cflags(s->base.tb) & CF_PARALLEL) {
-         gen_helper_exit_atomic(cpu_env);
-@@ -734,12 +732,12 @@ static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
-         return true;
-     } else {
-         if (s->sew == 3) {
--#ifdef TARGET_RISCV64
--            fn = fnsd[seq];
--#else
--            /* Check done in amo_check(). */
--            g_assert_not_reached();
--#endif
-+            if (!is_32bit(s)) {
-+                fn = fnsd[seq];
-+            } else {
-+                /* Check done in amo_check(). */
-+                g_assert_not_reached();
-+            }
-         } else {
-             assert(seq < ARRAY_SIZE(fnsw));
-             fn = fnsw[seq];
-@@ -769,6 +767,11 @@ static bool amo_check(DisasContext *s, arg_rwdvm* a)
-             ((1 << s->sew) >= 4));
- }
- 
-+static bool amo_check64(DisasContext *s, arg_rwdvm* a)
-+{
-+    return !is_32bit(s) && amo_check(s, a);
-+}
-+
- GEN_VEXT_TRANS(vamoswapw_v, 0, rwdvm, amo_op, amo_check)
- GEN_VEXT_TRANS(vamoaddw_v, 1, rwdvm, amo_op, amo_check)
- GEN_VEXT_TRANS(vamoxorw_v, 2, rwdvm, amo_op, amo_check)
-@@ -778,17 +781,15 @@ GEN_VEXT_TRANS(vamominw_v, 5, rwdvm, amo_op, amo_check)
- GEN_VEXT_TRANS(vamomaxw_v, 6, rwdvm, amo_op, amo_check)
- GEN_VEXT_TRANS(vamominuw_v, 7, rwdvm, amo_op, amo_check)
- GEN_VEXT_TRANS(vamomaxuw_v, 8, rwdvm, amo_op, amo_check)
--#ifdef TARGET_RISCV64
--GEN_VEXT_TRANS(vamoswapd_v, 9, rwdvm, amo_op, amo_check)
--GEN_VEXT_TRANS(vamoaddd_v, 10, rwdvm, amo_op, amo_check)
--GEN_VEXT_TRANS(vamoxord_v, 11, rwdvm, amo_op, amo_check)
--GEN_VEXT_TRANS(vamoandd_v, 12, rwdvm, amo_op, amo_check)
--GEN_VEXT_TRANS(vamoord_v, 13, rwdvm, amo_op, amo_check)
--GEN_VEXT_TRANS(vamomind_v, 14, rwdvm, amo_op, amo_check)
--GEN_VEXT_TRANS(vamomaxd_v, 15, rwdvm, amo_op, amo_check)
--GEN_VEXT_TRANS(vamominud_v, 16, rwdvm, amo_op, amo_check)
--GEN_VEXT_TRANS(vamomaxud_v, 17, rwdvm, amo_op, amo_check)
--#endif
-+GEN_VEXT_TRANS(vamoswapd_v, 9, rwdvm, amo_op, amo_check64)
-+GEN_VEXT_TRANS(vamoaddd_v, 10, rwdvm, amo_op, amo_check64)
-+GEN_VEXT_TRANS(vamoxord_v, 11, rwdvm, amo_op, amo_check64)
-+GEN_VEXT_TRANS(vamoandd_v, 12, rwdvm, amo_op, amo_check64)
-+GEN_VEXT_TRANS(vamoord_v, 13, rwdvm, amo_op, amo_check64)
-+GEN_VEXT_TRANS(vamomind_v, 14, rwdvm, amo_op, amo_check64)
-+GEN_VEXT_TRANS(vamomaxd_v, 15, rwdvm, amo_op, amo_check64)
-+GEN_VEXT_TRANS(vamominud_v, 16, rwdvm, amo_op, amo_check64)
-+GEN_VEXT_TRANS(vamomaxud_v, 17, rwdvm, amo_op, amo_check64)
- 
- /*
-  *** Vector Integer Arithmetic Instructions
-diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-index 88ab850682..24bf049164 100644
---- a/target/riscv/meson.build
-+++ b/target/riscv/meson.build
-@@ -7,7 +7,7 @@ gen32 = [
- 
- gen64 = [
-   decodetree.process('insn16.decode', extra_args: [dir / 'insn16-64.decode', '--static-decode=decode_insn16', '--insnwidth=16']),
--  decodetree.process('insn32.decode', extra_args: [dir / 'insn32-64.decode', '--static-decode=decode_insn32']),
-+  decodetree.process('insn32.decode', extra_args: '--static-decode=decode_insn32'),
- ]
- 
- riscv_ss = ss.source_set()
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   fpu/softfloat.c                | 47 +++++++++++++++++++++++-----------
+>   fpu/softfloat-specialize.c.inc |  4 +--
+>   2 files changed, 34 insertions(+), 17 deletions(-)
+> 
+> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+> index 398a068b58..c7f95961cf 100644
+> --- a/fpu/softfloat.c
+> +++ b/fpu/softfloat.c
+> @@ -650,6 +650,8 @@ static inline float64 float64_pack_raw(FloatParts64 p)
+>   *----------------------------------------------------------------------------*/
+>   #include "softfloat-specialize.c.inc"
+>   
+> +#define parts_default_nan  parts64_default_nan
+> +
+>   /* Canonicalize EXP and FRAC, setting CLS.  */
+>   static FloatParts64 sf_canonicalize(FloatParts64 part, const FloatFmt *parm,
+>                                     float_status *status)
+> @@ -848,7 +850,8 @@ static FloatParts64 return_nan(FloatParts64 a, float_status *s)
+>       } else if (!s->default_nan_mode) {
+>           return a;
+>       }
+> -    return parts_default_nan(s);
+> +    parts_default_nan(&a, s);
+> +    return a;
+>   }
+>   
+>   static FloatParts64 pick_nan(FloatParts64 a, FloatParts64 b, float_status *s)
+> @@ -858,7 +861,7 @@ static FloatParts64 pick_nan(FloatParts64 a, FloatParts64 b, float_status *s)
+>       }
+>   
+>       if (s->default_nan_mode) {
+> -        return parts_default_nan(s);
+> +        parts_default_nan(&a, s);
+>       } else {
+>           if (pickNaN(a.cls, b.cls,
+>                       a.frac > b.frac ||
+> @@ -900,7 +903,8 @@ static FloatParts64 pick_nan_muladd(FloatParts64 a, FloatParts64 b, FloatParts64
+>           a = c;
+>           break;
+>       case 3:
+> -        return parts_default_nan(s);
+> +        parts_default_nan(&a, s);
+> +        break;
+>       default:
+>           g_assert_not_reached();
+>       }
+> @@ -1011,7 +1015,7 @@ static FloatParts64 addsub_floats(FloatParts64 a, FloatParts64 b, bool subtract,
+>           if (a.cls == float_class_inf) {
+>               if (b.cls == float_class_inf) {
+>                   float_raise(float_flag_invalid, s);
+> -                return parts_default_nan(s);
+> +                parts_default_nan(&a, s);
+>               }
+>               return a;
+>           }
+> @@ -1254,7 +1258,8 @@ static FloatParts64 mul_floats(FloatParts64 a, FloatParts64 b, float_status *s)
+>       if ((a.cls == float_class_inf && b.cls == float_class_zero) ||
+>           (a.cls == float_class_zero && b.cls == float_class_inf)) {
+>           float_raise(float_flag_invalid, s);
+> -        return parts_default_nan(s);
+> +        parts_default_nan(&a, s);
+> +        return a;
+>       }
+>       /* Multiply by 0 or Inf */
+>       if (a.cls == float_class_inf || a.cls == float_class_zero) {
+> @@ -1372,7 +1377,8 @@ static FloatParts64 muladd_floats(FloatParts64 a, FloatParts64 b, FloatParts64 c
+>   
+>       if (inf_zero) {
+>           float_raise(float_flag_invalid, s);
+> -        return parts_default_nan(s);
+> +        parts_default_nan(&a, s);
+> +        return a;
+>       }
+>   
+>       if (flags & float_muladd_negate_c) {
+> @@ -1396,11 +1402,11 @@ static FloatParts64 muladd_floats(FloatParts64 a, FloatParts64 b, FloatParts64 c
+>       if (c.cls == float_class_inf) {
+>           if (p_class == float_class_inf && p_sign != c.sign) {
+>               float_raise(float_flag_invalid, s);
+> -            return parts_default_nan(s);
+> +            parts_default_nan(&c, s);
+>           } else {
+>               c.sign ^= sign_flip;
+> -            return c;
+>           }
+> +        return c;
+>       }
+>   
+>       if (p_class == float_class_inf) {
+> @@ -1764,7 +1770,8 @@ static FloatParts64 div_floats(FloatParts64 a, FloatParts64 b, float_status *s)
+>           &&
+>           (a.cls == float_class_inf || a.cls == float_class_zero)) {
+>           float_raise(float_flag_invalid, s);
+> -        return parts_default_nan(s);
+> +        parts_default_nan(&a, s);
+> +        return a;
+>       }
+>       /* Inf / x or 0 / x */
+>       if (a.cls == float_class_inf || a.cls == float_class_zero) {
+> @@ -3438,7 +3445,8 @@ static FloatParts64 sqrt_float(FloatParts64 a, float_status *s, const FloatFmt *
+>       }
+>       if (a.sign) {
+>           float_raise(float_flag_invalid, s);
+> -        return parts_default_nan(s);
+> +        parts_default_nan(&a, s);
+> +        return a;
+>       }
+>       if (a.cls == float_class_inf) {
+>           return a;  /* sqrt(+inf) = +inf */
+> @@ -3573,30 +3581,37 @@ bfloat16 QEMU_FLATTEN bfloat16_sqrt(bfloat16 a, float_status *status)
+>   
+>   float16 float16_default_nan(float_status *status)
+>   {
+> -    FloatParts64 p = parts_default_nan(status);
+> +    FloatParts64 p;
+> +
+> +    parts_default_nan(&p, status);
+>       p.frac >>= float16_params.frac_shift;
+>       return float16_pack_raw(p);
+>   }
+>   
+>   float32 float32_default_nan(float_status *status)
+>   {
+> -    FloatParts64 p = parts_default_nan(status);
+> +    FloatParts64 p;
+> +
+> +    parts_default_nan(&p, status);
+>       p.frac >>= float32_params.frac_shift;
+>       return float32_pack_raw(p);
+>   }
+>   
+>   float64 float64_default_nan(float_status *status)
+>   {
+> -    FloatParts64 p = parts_default_nan(status);
+> +    FloatParts64 p;
+> +
+> +    parts_default_nan(&p, status);
+>       p.frac >>= float64_params.frac_shift;
+>       return float64_pack_raw(p);
+>   }
+>   
+>   float128 float128_default_nan(float_status *status)
+>   {
+> -    FloatParts64 p = parts_default_nan(status);
+> +    FloatParts64 p;
+>       float128 r;
+>   
+> +    parts_default_nan(&p, status);
+>       /* Extrapolate from the choices made by parts_default_nan to fill
+>        * in the quad-floating format.  If the low bit is set, assume we
+>        * want to set all non-snan bits.
+> @@ -3611,7 +3626,9 @@ float128 float128_default_nan(float_status *status)
+>   
+>   bfloat16 bfloat16_default_nan(float_status *status)
+>   {
+> -    FloatParts64 p = parts_default_nan(status);
+> +    FloatParts64 p;
+> +
+> +    parts_default_nan(&p, status);
+>       p.frac >>= bfloat16_params.frac_shift;
+>       return bfloat16_pack_raw(p);
+>   }
+> diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
+> index 52fc76d800..085ddea62b 100644
+> --- a/fpu/softfloat-specialize.c.inc
+> +++ b/fpu/softfloat-specialize.c.inc
+> @@ -129,7 +129,7 @@ static bool parts_is_snan_frac(uint64_t frac, float_status *status)
+>   | The pattern for a default generated deconstructed floating-point NaN.
+>   *----------------------------------------------------------------------------*/
+>   
+> -static FloatParts64 parts_default_nan(float_status *status)
+> +static void parts64_default_nan(FloatParts64 *p, float_status *status)
+>   {
+>       bool sign = 0;
+>       uint64_t frac;
+> @@ -164,7 +164,7 @@ static FloatParts64 parts_default_nan(float_status *status)
+>       }
+>   #endif
+>   
+> -    return (FloatParts64) {
+> +    *p = (FloatParts64) {
+>           .cls = float_class_qnan,
+>           .sign = sign,
+>           .exp = INT_MAX,
+> 
+
+
 -- 
-2.31.1
+Thanks,
+
+David / dhildenb
 
 
