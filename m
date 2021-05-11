@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9025E37A1C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:27:06 +0200 (CEST)
-Received: from localhost ([::1]:34016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AC2D37A1B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:24:57 +0200 (CEST)
+Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgNjN-0002Ht-JX
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:27:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34652)
+	id 1lgNhI-0004zU-8Q
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:24:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWs-0001pX-UR
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56073)
+ id 1lgNWw-0001ts-Uv
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNWm-0000m8-C9
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:10 -0400
+ id 1lgNWn-0000mW-7m
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:14:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620720843;
+ s=mimecast20190719; t=1620720844;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c0OSnY2GQ5IRrGmFOKggWZRRaN+aU5hoWc5lqlha5w8=;
- b=CIECnOrCk9pO6344sfqDTtLu6ngJemHX/BzYCd0/bKWgqdIKsr4MKBX966/NEB7CIPYybj
- W8YZLknjpH8YZRXP7mWs+/OlNwvCYMk+DtY0VVu2YTbsF1EmZ0lsUb/BZVkuWKr+AMXaDp
- H9VLaBXPlUzO8OIZM16I4sm4eRhA1pM=
+ bh=U9PUJQqH8xfgcO+OEAyS6xoWcjiu0j48SD+Ck06CFc8=;
+ b=jKjYMqBb59fTAsY0EyifEDjoIjcFmmjxRs/oX7tI4qQKUl0BbV/sMwb5CzljyAfklBE9MG
+ 2ecCEsP2QmHOcH3m25NK2HV6ggtpcbm0AOf+zyLLbgGtsYOLpWVGKnF/yV4J28JHBzZpFt
+ lpENopZJhHlH8nDG2GuuFX2h+Pj1IdQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-0wuqOomTNBuNjPU52pHRmg-1; Tue, 11 May 2021 04:14:01 -0400
-X-MC-Unique: 0wuqOomTNBuNjPU52pHRmg-1
+ us-mta-573-qzaSwquLNFeX8Dxp27A18g-1; Tue, 11 May 2021 04:14:02 -0400
+X-MC-Unique: qzaSwquLNFeX8Dxp27A18g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A98418030CF;
- Tue, 11 May 2021 08:14:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24BCA801817;
+ Tue, 11 May 2021 08:14:01 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57FD419D9D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C421619D9D;
  Tue, 11 May 2021 08:14:00 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/33] target/i386: gdbstub: only write CR0/CR2/CR3/EFER for
- sysemu
-Date: Tue, 11 May 2021 04:13:35 -0400
-Message-Id: <20210511081350.419428-19-pbonzini@redhat.com>
+Subject: [PULL 19/33] i386: make cpu_load_efer sysemu-only
+Date: Tue, 11 May 2021 04:13:36 -0400
+Message-Id: <20210511081350.419428-20-pbonzini@redhat.com>
 In-Reply-To: <20210511081350.419428-1-pbonzini@redhat.com>
 References: <20210511081350.419428-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -87,60 +86,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@suse.de>
 
+cpu_load_efer is now used only for sysemu code.
+
+Therefore, move this function implementation to
+sysemu-only section of helper.c
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210322132800.7470-21-cfontana@suse.de>
+Message-Id: <20210322132800.7470-22-cfontana@suse.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/gdbstub.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ target/i386/cpu.h    | 20 +++++---------------
+ target/i386/helper.c | 13 +++++++++++++
+ 2 files changed, 18 insertions(+), 15 deletions(-)
 
-diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-index 4ad1295425..098a2ad15a 100644
---- a/target/i386/gdbstub.c
-+++ b/target/i386/gdbstub.c
-@@ -351,22 +351,30 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 5aae3ec0f4..0b182b7a5f 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1958,6 +1958,11 @@ static inline AddressSpace *cpu_addressspace(CPUState *cs, MemTxAttrs attrs)
+     return cpu_get_address_space(cs, cpu_asidx_from_attrs(cs, attrs));
+ }
  
-         case IDX_CTL_CR0_REG:
-             len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
-+#ifndef CONFIG_USER_ONLY
-             cpu_x86_update_cr0(env, tmp);
-+#endif
-             return len;
++/*
++ * load efer and update the corresponding hflags. XXX: do consistency
++ * checks with cpuid bits?
++ */
++void cpu_load_efer(CPUX86State *env, uint64_t val);
+ uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr);
+ uint32_t x86_lduw_phys(CPUState *cs, hwaddr addr);
+ uint32_t x86_ldl_phys(CPUState *cs, hwaddr addr);
+@@ -2054,21 +2059,6 @@ static inline uint32_t cpu_compute_eflags(CPUX86State *env)
+     return eflags;
+ }
  
-         case IDX_CTL_CR2_REG:
-             len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
-+#ifndef CONFIG_USER_ONLY
-             env->cr[2] = tmp;
-+#endif
-             return len;
+-
+-/* load efer and update the corresponding hflags. XXX: do consistency
+-   checks with cpuid bits? */
+-static inline void cpu_load_efer(CPUX86State *env, uint64_t val)
+-{
+-    env->efer = val;
+-    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
+-    if (env->efer & MSR_EFER_LMA) {
+-        env->hflags |= HF_LMA_MASK;
+-    }
+-    if (env->efer & MSR_EFER_SVME) {
+-        env->hflags |= HF_SVME_MASK;
+-    }
+-}
+-
+ static inline MemTxAttrs cpu_get_mem_attrs(CPUX86State *env)
+ {
+     return ((MemTxAttrs) { .secure = (env->hflags & HF_SMM_MASK) != 0 });
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 8c180b5b2b..533b29cb91 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -574,6 +574,19 @@ void do_cpu_sipi(X86CPU *cpu)
+ #endif
  
-         case IDX_CTL_CR3_REG:
-             len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
-+#ifndef CONFIG_USER_ONLY
-             cpu_x86_update_cr3(env, tmp);
-+#endif
-             return len;
- 
-         case IDX_CTL_CR4_REG:
-             len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
-+#ifndef CONFIG_USER_ONLY
-             cpu_x86_update_cr4(env, tmp);
-+#endif
-             return len;
- 
-         case IDX_CTL_CR8_REG:
-@@ -378,7 +386,9 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
- 
-         case IDX_CTL_EFER_REG:
-             len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
-+#ifndef CONFIG_USER_ONLY
-             cpu_load_efer(env, tmp);
-+#endif
-             return len;
-         }
-     }
+ #ifndef CONFIG_USER_ONLY
++
++void cpu_load_efer(CPUX86State *env, uint64_t val)
++{
++    env->efer = val;
++    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
++    if (env->efer & MSR_EFER_LMA) {
++        env->hflags |= HF_LMA_MASK;
++    }
++    if (env->efer & MSR_EFER_SVME) {
++        env->hflags |= HF_SVME_MASK;
++    }
++}
++
+ uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr)
+ {
+     X86CPU *cpu = X86_CPU(cs);
 -- 
 2.26.2
 
