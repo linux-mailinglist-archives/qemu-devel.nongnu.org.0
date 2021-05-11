@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE5C37B090
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 23:09:44 +0200 (CEST)
-Received: from localhost ([::1]:36064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CE937B0A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 23:16:52 +0200 (CEST)
+Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgZdP-00072t-7T
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 17:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46808)
+	id 1lgZkJ-0001F5-Cd
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 17:16:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lgZcN-0006Ca-UF; Tue, 11 May 2021 17:08:39 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:45628)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lgZie-0000Ky-Qi
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 17:15:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1lgZcJ-0004kQ-H9; Tue, 11 May 2021 17:08:38 -0400
-Received: from myt5-23f0be3aa648.qloud-c.yandex.net
- (myt5-23f0be3aa648.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 673282E1818;
- Wed, 12 May 2021 00:08:30 +0300 (MSK)
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- mYyQGPYMca-8T0aiG7a; Wed, 12 May 2021 00:08:30 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1620767310; bh=pMuLBobOkO0gFSJv5NbYHGXb/4r9jDuzlFyzcOHOyOA=;
- h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
- b=d7dwK/x6LsYQ2cSVKvqDOpdbkHj61yzexdmbFUbp6TIsXOvf8nO4Y2XjBcN15Xn4l
- 4p07ZWDL81QkgXVsAV4g/3o4KOnoxaHLfh38u5ZtDSL1Yl/9xRkTrJll4/IDfjc3GB
- aI8aESaX0d31NyuxitJVywPCFDHOaTj1g/BLIoDY=
-Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:1211::1:8])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- T84VrKAvB9-8To4q2Y1; Wed, 12 May 2021 00:08:29 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Date: Wed, 12 May 2021 00:08:26 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 18/33] nbd/client-connection: shutdown connection on
- release
-Message-ID: <YJryStl6HOR9VJIa@rvkaganb.lan>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, eblake@redhat.com,
- mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
-References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
- <20210416080911.83197-19-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lgZid-0000B2-4U
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 17:15:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620767706;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2G5gRgrWpM0DK1+EHBdWIFlzMcGn0KMdeO4LnAS0w0w=;
+ b=iAU7BAFHvOGq62oZY+34sLpq3F9H6CXSbqFe62yc+pZrOxSRoP4Zc8rvYXExHnAS6zUzv2
+ Pa+WgYqxkluh9XuUnQkusozU+7O9kkRQ8LzJY5jX43UaOr9sXqZhYsrUMCyXHPQip42D6l
+ UcZeMzbMNlcCRy+VGpo81zZPG32yhBA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-y7A0bYXFMfCjPsGLMeXSFA-1; Tue, 11 May 2021 17:15:03 -0400
+X-MC-Unique: y7A0bYXFMfCjPsGLMeXSFA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62EF4107ACCD;
+ Tue, 11 May 2021 21:15:01 +0000 (UTC)
+Received: from [10.3.114.221] (ovpn-114-221.phx2.redhat.com [10.3.114.221])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5353B60C04;
+ Tue, 11 May 2021 21:14:52 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210324205132.464899-1-vsementsov@virtuozzo.com>
+ <20210324205132.464899-6-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH v4 05/11] block: use int64_t instead of uint64_t in
+ copy_range driver handlers
+Message-ID: <0d5f5ba8-97f4-ce8d-311f-795458df6399@redhat.com>
+Date: Tue, 11 May 2021 16:14:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210416080911.83197-19-vsementsov@virtuozzo.com>
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210324205132.464899-6-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,111 +84,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org
+Cc: fam@euphon.net, kwolf@redhat.com, integration@gluster.org, berto@igalia.com,
+ stefanha@redhat.com, pavel.dovgaluk@ispras.ru, sw@weilnetz.de, pl@kamp.de,
+ qemu-devel@nongnu.org, mreitz@redhat.com, jsnow@redhat.com,
+ ronniesahlberg@gmail.com, pbonzini@redhat.com, namei.unix@gmail.com,
+ dillaman@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 16, 2021 at 11:08:56AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Now, when thread can do negotiation and retry, it may run relatively
-> long. We need a mechanism to stop it, when user is not interested in
-> result anymore. So, on nbd_client_connection_release() let's shutdown
-> the socked, and do not retry connection if thread is detached.
+On 3/24/21 3:51 PM, Vladimir Sementsov-Ogievskiy wrote:
+> We are generally moving to int64_t for both offset and bytes parameters
+> on all io paths.
+> 
+> Main motivation is realization of 64-bit write_zeroes operation for
+> fast zeroing large disk chunks, up to the whole disk.
+> 
+> We chose signed type, to be consistent with off_t (which is signed) and
+> with possibility for signed return type (where negative value means
+> error).
+> 
+> So, convert driver copy_range handlers parameters which are already
+> 64bit to signed type.
+> 
+> Now let's consider all callers. Simple
+> 
+>   git grep '\->bdrv_co_copy_range'
+> 
+> shows the only caller:
+> 
+>   bdrv_co_copy_range_internal(), which doesn bdrv_check_request32(),
 
-This kinda answers my question to the previous patch about reconnect
-cancellation.
+s/doesn/does/
 
+>   so everything is OK.
+> 
+> Still, the functions may be called directly, not only by drv->...
+> Let's check:
+> 
+> git grep '\.bdrv_co_copy_range_\(from\|to\)\s*=' | \
+> awk '{print $4}' | sed 's/,//' | sed 's/&//' | sort | uniq | \
+> while read func; do git grep "$func(" | \
+> grep -v "$func(BlockDriverState"; done
+> 
+> shows no more callers. So, we are done.
+> 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  nbd/client-connection.c | 36 ++++++++++++++++++++++++++----------
->  1 file changed, 26 insertions(+), 10 deletions(-)
-> 
-> diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-> index 002bd91f42..54f73c6c24 100644
-> --- a/nbd/client-connection.c
-> +++ b/nbd/client-connection.c
-> @@ -158,9 +158,13 @@ static void *connect_thread_func(void *opaque)
->      uint64_t timeout = 1;
->      uint64_t max_timeout = 16;
->  
-> -    while (true) {
-> +    qemu_mutex_lock(&conn->mutex);
-> +    while (!conn->detached) {
-> +        assert(!conn->sioc);
->          conn->sioc = qio_channel_socket_new();
->  
-> +        qemu_mutex_unlock(&conn->mutex);
-> +
->          error_free(conn->err);
->          conn->err = NULL;
->          conn->updated_info = conn->initial_info;
-> @@ -171,14 +175,20 @@ static void *connect_thread_func(void *opaque)
->          conn->updated_info.x_dirty_bitmap = NULL;
->          conn->updated_info.name = NULL;
->  
-> +        qemu_mutex_lock(&conn->mutex);
-> +
->          if (ret < 0) {
->              object_unref(OBJECT(conn->sioc));
->              conn->sioc = NULL;
-> -            if (conn->do_retry) {
-> +            if (conn->do_retry && !conn->detached) {
-> +                qemu_mutex_unlock(&conn->mutex);
-> +
->                  sleep(timeout);
->                  if (timeout < max_timeout) {
->                      timeout *= 2;
->                  }
-> +
-> +                qemu_mutex_lock(&conn->mutex);
->                  continue;
->              }
->          }
-> @@ -186,15 +196,17 @@ static void *connect_thread_func(void *opaque)
->          break;
->      }
->  
-> -    WITH_QEMU_LOCK_GUARD(&conn->mutex) {
-> -        assert(conn->running);
-> -        conn->running = false;
-> -        if (conn->wait_co) {
-> -            aio_co_schedule(NULL, conn->wait_co);
-> -            conn->wait_co = NULL;
-> -        }
-> -        do_free = conn->detached;
-> +    /* mutex is locked */
-> +
-> +    assert(conn->running);
-> +    conn->running = false;
-> +    if (conn->wait_co) {
-> +        aio_co_schedule(NULL, conn->wait_co);
-> +        conn->wait_co = NULL;
->      }
-> +    do_free = conn->detached;
-> +
-> +    qemu_mutex_unlock(&conn->mutex);
+>  include/block/block_int.h | 12 ++++++------
+>  block/file-posix.c        | 10 +++++-----
+>  block/iscsi.c             | 12 ++++++------
+>  block/qcow2.c             | 12 ++++++------
+>  block/raw-format.c        | 16 ++++++++--------
+>  5 files changed, 31 insertions(+), 31 deletions(-)
 
-This basically reverts some hunks from patch 15 "nbd/client-connection:
-use QEMU_LOCK_GUARD".  How about dropping them there (they weren't an
-obvious improvement even then).
+Fewer drivers implement this, so easier review :)
 
-Roman.
+> +++ b/block/qcow2.c
+> @@ -3975,9 +3975,9 @@ static coroutine_fn int qcow2_co_pdiscard(BlockDriverState *bs,
+>  
+>  static int coroutine_fn
+>  qcow2_co_copy_range_from(BlockDriverState *bs,
+> -                         BdrvChild *src, uint64_t src_offset,
+> -                         BdrvChild *dst, uint64_t dst_offset,
+> -                         uint64_t bytes, BdrvRequestFlags read_flags,
+> +                         BdrvChild *src, int64_t src_offset,
+> +                         BdrvChild *dst, int64_t dst_offset,
+> +                         int64_t bytes, BdrvRequestFlags read_flags,
+>                           BdrvRequestFlags write_flags)
+>  {
+>      BDRVQcow2State *s = bs->opaque;
 
->  
->      if (do_free) {
->          nbd_client_connection_do_free(conn);
-> @@ -215,6 +227,10 @@ void nbd_client_connection_release(NBDClientConnection *conn)
->      if (conn->running) {
->          conn->detached = true;
->      }
-> +    if (conn->sioc) {
-> +        qio_channel_shutdown(QIO_CHANNEL(conn->sioc),
-> +                             QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-> +    }
->      do_free = !conn->running && !conn->detached;
->      qemu_mutex_unlock(&conn->mutex);
->  
-> -- 
-> 2.29.2
-> 
+The use of cur_bytes = MIN(bytes, INT_MAX) looks odd, when we could
+instead clamp to a nicer aligned boundary.  As noted before,
+qcow2_get_host_offset() then further clamps cur_bytes, and the caller is
+already splitting up requests larger than 2G, but copy_from is one of
+those interfaces that is actually designed to have potentially nice
+speedups with large byte ranges within the same filesystem (faster than
+what is possible with usual pread/pwrite).  Then again, that's probably
+more for file-posix (where we know the bytes are contiguous) than qcow2
+(where we do have to worry about whether clusters are contiguous), so
+we'll still have to keep a while(bytes) fragmenting loop in this
+function.  Thoughts for a future patch, doesn't affect correctness of
+this one.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
