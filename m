@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E32237AD8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 20:02:36 +0200 (CEST)
-Received: from localhost ([::1]:39366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E11C37AE18
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 20:10:36 +0200 (CEST)
+Received: from localhost ([::1]:44086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgWiJ-0006FC-Ev
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 14:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36834)
+	id 1lgWq3-00026K-1s
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 14:10:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgWgy-0005XD-Uh
- for qemu-devel@nongnu.org; Tue, 11 May 2021 14:01:15 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54582)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lgWoO-0001Pu-JW
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 14:08:52 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:52874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgWgu-0007dr-KN
- for qemu-devel@nongnu.org; Tue, 11 May 2021 14:01:12 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgWgr-0006na-Mr
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 18:01:05 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A71202E8188
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 18:01:05 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lgWoN-0003V0-3y
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 14:08:52 -0400
+Received: by mail-wm1-x331.google.com with SMTP id g65so11624119wmg.2
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 11:08:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qgW1jSHOhqn4nypYVW5ZeeYO2K0skvXgH+lYSSXf6rU=;
+ b=DCdcT7vY1ASUZ5UCdBHPVWNR9Y5L0YeScsrpTsZ2hitbtc4225zteCuvMzT80kRlHr
+ J16x20c1FOmqVyUQ35L0efRJ9JiutcsSoOzxbb5rxKCbMmjkmHK3QsP9qN0Df5Th0loM
+ 6745rsvo0xqIMRyPtif7Ohf1URqrudtHvCkFe8EZzsYmIk/ugYdEflHuK6CjFWrKXhF3
+ g1E8wiIhaSkvIik8omWG0y+Jab3H2+sO/gx26909JTUpK9h5kKzVerChuU6akpN1eGu2
+ bnBy7gU5RscojVLoBM7sXA+vMnGMjaqD8dJJUwaVDVn1gn/c+hUfWff2ngJ6EBr+Q3zp
+ L37A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qgW1jSHOhqn4nypYVW5ZeeYO2K0skvXgH+lYSSXf6rU=;
+ b=RtvMjlF7HULRPUdJEnZJ4AkmDjJojUopsm9fwUYvLuUIepTnuWbIxzVUAD9CGCOigW
+ 32mreFglZL/ilyK1NvfIw6x4PF/w22JmIPEUbWm25zJdO0+ut10ygdoSGwqKJYJzZvUg
+ 5LH1lf2TKMTevmMKEwxCOq3r3cY17g30C7HHdS5Wst8EZ9vUEcg6IxbDUOcYhI2jYA+y
+ 4ltjgiI6ai3++j4EN1BQV/yH/UjawerjK5Z4ccdhpwjP6Av6PCbM0xnKE17qDbwBL437
+ qj6i6rFvoTslZyVeXcnJjE2xF97c1NLlDjFLHTxGO9CRRimfMZdt03p0qgbqs+zNEH6A
+ GwxQ==
+X-Gm-Message-State: AOAM5332vYCc+1CMfNGtHdqDSTosooVyptWP8xvEqzfDVMXcTWUFvSjb
+ zUlKoxE/of2B5z2gIYR0EOI=
+X-Google-Smtp-Source: ABdhPJxkI8m3e7TZnwxTu5Ju40l9jBht8URV6KuLfREwn+m6UHZ6AV93nsKls2u0zZMIsZ1fSME/mA==
+X-Received: by 2002:a7b:c016:: with SMTP id c22mr6994101wmb.96.1620756524514; 
+ Tue, 11 May 2021 11:08:44 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id x4sm4032993wmj.17.2021.05.11.11.08.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 May 2021 11:08:43 -0700 (PDT)
+Subject: Re: [PATCH 2/3] bsd-user: Stop building the sparc platforms
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20210510221511.14205-1-imp@bsdimp.com>
+ <20210510221511.14205-3-imp@bsdimp.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <bbb73203-0a3e-5b1e-30a7-9d213e75392c@amsat.org>
+Date: Tue, 11 May 2021 20:08:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 May 2021 17:52:09 -0000
-From: Alexander Bulekov <1883729@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: usb
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr bugs-syssec th-huth
-X-Launchpad-Bug-Reporter: Bugs SysSec (bugs-syssec)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <159232162102.10413.11793430476734031615.malonedeb@gac.canonical.com>
-Message-Id: <162075552972.7821.14354744486093705680.malone@wampee.canonical.com>
-Subject: [Bug 1883729] Re: xhci_find_stream: Assertion `streamid != 0' failed.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
-X-Launchpad-Hash: 3e66b611d083978cb2b6551c097d4841a9926469
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210510221511.14205-3-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,42 +89,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883729 <1883729@bugs.launchpad.net>
+Cc: kevans@freebsd.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "attachment"
-   https://bugs.launchpad.net/qemu/+bug/1883729/+attachment/5496430/+files/=
-attachment
+On 5/11/21 12:15 AM, Warner Losh wrote:
+> The forked bsd-user tree doesn't really support these platforms.  They aren't
+> functional at the moment anyway. Remove them from the build so that the major
+> reorg patch series can focus on one platform (x86) before adding addition
+> platforms once things are shuffled. This should make it easier to review
+> and satisfy that all revisions of a patch series are buildable.
 
--- =
+I'd s/platform/target/ in subject and description to make it clearer.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883729
-
-Title:
-  xhci_find_stream: Assertion `streamid !=3D 0' failed.
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  To reproduce run the QEMU with the following command line:
-  ```
-  qemu-system-x86_64 -cdrom hypertrash_os_bios_crash.iso -nographic -m 100 =
--enable-kvm -device virtio-gpu-pci -device nec-usb-xhci -device usb-audio
-  ```
-
-  QEMU Version:
-  ```
-  # qemu-5.0.0
-  $ ./configure --target-list=3Dx86_64-softmmu --enable-sanitizers; make
-  $ x86_64-softmmu/qemu-system-x86_64 --version
-  QEMU emulator version 5.0.0
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883729/+subscriptions
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>  default-configs/targets/sparc-bsd-user.mak   | 3 ---
+>  default-configs/targets/sparc64-bsd-user.mak | 4 ----
+>  2 files changed, 7 deletions(-)
+>  delete mode 100644 default-configs/targets/sparc-bsd-user.mak
+>  delete mode 100644 default-configs/targets/sparc64-bsd-user.mak
 
