@@ -2,65 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA2B37AAA0
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:25:29 +0200 (CEST)
-Received: from localhost ([::1]:37402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72F837AAB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:28:23 +0200 (CEST)
+Received: from localhost ([::1]:46130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgUGH-0002Ev-0w
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:25:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56262)
+	id 1lgUIz-0008Pi-Vl
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lgU1m-0000Lt-37
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:10:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51579)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lgU2v-0002jm-6j
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:11:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lgU1j-0004vE-VO
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:10:29 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lgU2t-0005Uz-DH
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:11:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620745827;
+ s=mimecast20190719; t=1620745898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iISPOJMl6FBrBs5a39QG2IKjK56eVxk9sjFG32WpU9I=;
- b=BTBkmXF7N0N47f3QChBmK4Q3xRHWRqKFwqy0S3ZYfxMWTRzE97i5cwUOYD0OUQlCkrZyGP
- Hg/ZvXZBa2YNl2D4e4oi5AwafUjtnuC14VQZuv+7McZH7SV5cUwvcYUvERqGALBUxaUPR7
- m4/TnJLslPzKTz/fBXrfLTGDNWTBZVE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2PyFznFveNCG5KwLVbcmm04Gz+OBsW0l24Gnvhx9maU=;
+ b=Dw7XEi6A23qhXCy6XaRkDCoGZDcI+VdbVsJvP+ve4A1HmNJtXekP5v6+ufvZ3noSaQPLuU
+ kBEvkUL/vIlrudlrS9yEtJDkxXXpuV/UU6FbJ0ipVYZK5hflI2nWQnL6UwCS1nxVh8K5li
+ 7zDNwBVpOVHw/FpFYmOj4BobSWefSV8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-2lM6o7oSPfO-_Tct037yqA-1; Tue, 11 May 2021 11:10:25 -0400
-X-MC-Unique: 2lM6o7oSPfO-_Tct037yqA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-319-l41qzwwvNLiELZw4TC3_OA-1; Tue, 11 May 2021 11:11:36 -0400
+X-MC-Unique: l41qzwwvNLiELZw4TC3_OA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8DF280ED8E;
- Tue, 11 May 2021 15:10:23 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-113-51.ams2.redhat.com
- [10.36.113.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E53CC6A033;
- Tue, 11 May 2021 15:10:17 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, david@redhat.com, zhukeqian1@huawei.com,
- jiangkunkun@huawei.com, armbru@redhat.com, peter.maydell@linaro.org,
- huangy81@chinatelecom.cn
-Subject: [PULL 17/17] tests/migration: introduce multifd into guestperf
-Date: Tue, 11 May 2021 16:08:42 +0100
-Message-Id: <20210511150842.207155-18-dgilbert@redhat.com>
-In-Reply-To: <20210511150842.207155-1-dgilbert@redhat.com>
-References: <20210511150842.207155-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D67D1854E26;
+ Tue, 11 May 2021 15:11:35 +0000 (UTC)
+Received: from gondolin.fritz.box (ovpn-113-172.ams2.redhat.com
+ [10.36.113.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FBCC60C04;
+ Tue, 11 May 2021 15:11:33 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: [PATCH RFC] vfio-ccw: forward halt/clear errors
+Date: Tue, 11 May 2021 17:11:29 +0200
+Message-Id: <20210511151129.77051-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,157 +74,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peterx@redhat.com
+Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman <huangy81@chinatelecom.cn>
+hsch and csch basically have two parts: execute the command,
+and perform the halt/clear function. For fully emulated
+subchannels, it is pretty clear how it will work: check the
+subchannel state, and actually 'perform the halt/clear function'
+and set cc 0 if everything looks good.
 
-Guestperf tool does not cover the multifd-enabled migration
-currently, it is worth supporting so that developers can
-analysis the migration performance with all kinds of
-migration.
+For passthrough subchannels, some of the checking is done
+within QEMU, but some has to be done within the kernel. QEMU's
+subchannel state may be such that we can perform the async
+function, but the kernel may still get a cc != 0 when it is
+actually executing the instruction. In that case, we need to
+set the condition actually encountered by the kernel; if we
+set cc 0 on error, we would actually need to inject an interrupt
+as well.
 
-To request that multifd is enabled, with 4 channels:
-$ ./tests/migration/guestperf.py \
-    --multifd --multifd-channels 4 --output output.json
-
-To run the entire standardized set of multifd-enabled
-comparisons, with unix migration:
-$ ./tests/migration/guestperf-batch.py \
-    --dst-host localhost --transport unix \
-    --filter compr-multifd* --output outputdir
-
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Message-Id: <cfeeb04d17ad932c42a9871294058b77429ad1b7.1616171924.git.huangy81@chinatelecom.cn>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- tests/migration/guestperf/comparison.py | 14 ++++++++++++++
- tests/migration/guestperf/engine.py     | 16 ++++++++++++++++
- tests/migration/guestperf/scenario.py   | 12 ++++++++++--
- tests/migration/guestperf/shell.py      | 10 +++++++++-
- 4 files changed, 49 insertions(+), 3 deletions(-)
 
-diff --git a/tests/migration/guestperf/comparison.py b/tests/migration/guestperf/comparison.py
-index ba2edbe546..c03b3f6d7e 100644
---- a/tests/migration/guestperf/comparison.py
-+++ b/tests/migration/guestperf/comparison.py
-@@ -121,4 +121,18 @@ def __init__(self, name, scenarios):
-         Scenario("compr-xbzrle-cache-50",
-                  compression_xbzrle=True, compression_xbzrle_cache=50),
-     ]),
-+
-+
-+    # Looking at effect of multifd with
-+    # varying numbers of channels
-+    Comparison("compr-multifd", scenarios = [
-+        Scenario("compr-multifd-channels-4",
-+                 multifd=True, multifd_channels=2),
-+        Scenario("compr-multifd-channels-8",
-+                 multifd=True, multifd_channels=8),
-+        Scenario("compr-multifd-channels-32",
-+                 multifd=True, multifd_channels=32),
-+        Scenario("compr-multifd-channels-64",
-+                 multifd=True, multifd_channels=64),
-+    ]),
- ]
-diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-index 6b49aed579..208e095794 100644
---- a/tests/migration/guestperf/engine.py
-+++ b/tests/migration/guestperf/engine.py
-@@ -188,6 +188,22 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
-                                    1024 * 1024 * 1024 / 100 *
-                                    scenario._compression_xbzrle_cache))
+Stumbled over this during the vfio-ccw kernel locking discussions.
+
+This is probably a corner case, and I'm not sure how I can actually
+get this path excercised, but it passes my smoke tests.
+
+Not sure whether this is the way to go. The unit exceptions in the
+halt/clear error paths also seem slightly fishy.
+
+---
+ hw/s390x/css.c | 34 ++++++++++++++++++++++++++++++----
+ hw/vfio/ccw.c  |  4 ++--
+ 2 files changed, 32 insertions(+), 6 deletions(-)
+
+diff --git a/hw/s390x/css.c b/hw/s390x/css.c
+index bed46f5ec3a2..ce2e903ca25a 100644
+--- a/hw/s390x/css.c
++++ b/hw/s390x/css.c
+@@ -1206,23 +1206,49 @@ static void sch_handle_start_func_virtual(SubchDev *sch)
  
-+        if scenario._multifd:
-+            resp = src.command("migrate-set-capabilities",
-+                               capabilities = [
-+                                   { "capability": "multifd",
-+                                     "state": True }
-+                               ])
-+            resp = src.command("migrate-set-parameters",
-+                               multifd_channels=scenario._multifd_channels)
-+            resp = dst.command("migrate-set-capabilities",
-+                               capabilities = [
-+                                   { "capability": "multifd",
-+                                     "state": True }
-+                               ])
-+            resp = dst.command("migrate-set-parameters",
-+                               multifd_channels=scenario._multifd_channels)
-+
-         resp = src.command("migrate", uri=connect_uri)
+ }
  
-         post_copy = False
-diff --git a/tests/migration/guestperf/scenario.py b/tests/migration/guestperf/scenario.py
-index 28ef36c26d..de70d9b2f5 100644
---- a/tests/migration/guestperf/scenario.py
-+++ b/tests/migration/guestperf/scenario.py
-@@ -29,7 +29,8 @@ def __init__(self, name,
-                  post_copy=False, post_copy_iters=5,
-                  auto_converge=False, auto_converge_step=10,
-                  compression_mt=False, compression_mt_threads=1,
--                 compression_xbzrle=False, compression_xbzrle_cache=10):
-+                 compression_xbzrle=False, compression_xbzrle_cache=10,
-+                 multifd=False, multifd_channels=2):
+-static void sch_handle_halt_func_passthrough(SubchDev *sch)
++static IOInstEnding sch_handle_halt_func_passthrough(SubchDev *sch)
+ {
+     int ret;
  
-         self._name = name
+     ret = s390_ccw_halt(sch);
+     if (ret == -ENOSYS) {
+         sch_handle_halt_func(sch);
++        return IOINST_CC_EXPECTED;
++    }
++    /*
++     * Some conditions may have been detected prior to starting the halt
++     * function; map them to the correct cc.
++     */
++    switch (ret) {
++    case -EBUSY:
++        return IOINST_CC_BUSY;
++    case -ENODEV:
++    case -EACCES:
++        return IOINST_CC_NOT_OPERATIONAL;
++    default:
++        return IOINST_CC_EXPECTED;
+     }
+ }
  
-@@ -56,6 +57,9 @@ def __init__(self, name,
-         self._compression_xbzrle = compression_xbzrle
-         self._compression_xbzrle_cache = compression_xbzrle_cache # percentage of guest RAM
+-static void sch_handle_clear_func_passthrough(SubchDev *sch)
++static IOInstEnding sch_handle_clear_func_passthrough(SubchDev *sch)
+ {
+     int ret;
  
-+        self._multifd = multifd
-+        self._multifd_channels = multifd_channels
-+
-     def serialize(self):
-         return {
-             "name": self._name,
-@@ -73,6 +77,8 @@ def serialize(self):
-             "compression_mt_threads": self._compression_mt_threads,
-             "compression_xbzrle": self._compression_xbzrle,
-             "compression_xbzrle_cache": self._compression_xbzrle_cache,
-+            "multifd": self._multifd,
-+            "multifd_channels": self._multifd_channels,
-         }
+     ret = s390_ccw_clear(sch);
+     if (ret == -ENOSYS) {
+         sch_handle_clear_func(sch);
++        return IOINST_CC_EXPECTED;
++    }
++    /*
++     * Some conditions may have been detected prior to starting the clear
++     * function; map them to the correct cc.
++     */
++    switch (ret) {
++    case -ENODEV:
++    case -EACCES:
++        return IOINST_CC_NOT_OPERATIONAL;
++    default:
++        return IOINST_CC_EXPECTED;
+     }
+ }
  
-     @classmethod
-@@ -92,4 +98,6 @@ def deserialize(cls, data):
-             data["compression_mt"],
-             data["compression_mt_threads"],
-             data["compression_xbzrle"],
--            data["compression_xbzrle_cache"])
-+            data["compression_xbzrle_cache"],
-+            data["multifd"],
-+            data["multifd_channels"])
-diff --git a/tests/migration/guestperf/shell.py b/tests/migration/guestperf/shell.py
-index f838888809..8a809e3dda 100644
---- a/tests/migration/guestperf/shell.py
-+++ b/tests/migration/guestperf/shell.py
-@@ -122,6 +122,11 @@ def __init__(self):
-         parser.add_argument("--compression-xbzrle", dest="compression_xbzrle", default=False, action="store_true")
-         parser.add_argument("--compression-xbzrle-cache", dest="compression_xbzrle_cache", default=10, type=int)
+@@ -1265,9 +1291,9 @@ IOInstEnding do_subchannel_work_passthrough(SubchDev *sch)
+     SCHIB *schib = &sch->curr_status;
  
-+        parser.add_argument("--multifd", dest="multifd", default=False,
-+                            action="store_true")
-+        parser.add_argument("--multifd-channels", dest="multifd_channels",
-+                            default=2, type=int)
-+
-     def get_scenario(self, args):
-         return Scenario(name="perfreport",
-                         downtime=args.downtime,
-@@ -142,7 +147,10 @@ def get_scenario(self, args):
-                         compression_mt_threads=args.compression_mt_threads,
- 
-                         compression_xbzrle=args.compression_xbzrle,
--                        compression_xbzrle_cache=args.compression_xbzrle_cache)
-+                        compression_xbzrle_cache=args.compression_xbzrle_cache,
-+
-+                        multifd=args.multifd,
-+                        multifd_channels=args.multifd_channels)
- 
-     def run(self, argv):
-         args = self._parser.parse_args(argv)
+     if (schib->scsw.ctrl & SCSW_FCTL_CLEAR_FUNC) {
+-        sch_handle_clear_func_passthrough(sch);
++        return sch_handle_clear_func_passthrough(sch);
+     } else if (schib->scsw.ctrl & SCSW_FCTL_HALT_FUNC) {
+-        sch_handle_halt_func_passthrough(sch);
++        return sch_handle_halt_func_passthrough(sch);
+     } else if (schib->scsw.ctrl & SCSW_FCTL_START_FUNC) {
+         return sch_handle_start_func_passthrough(sch);
+     }
+diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+index e752c845e9e4..39275a917bd2 100644
+--- a/hw/vfio/ccw.c
++++ b/hw/vfio/ccw.c
+@@ -199,7 +199,7 @@ again:
+     case 0:
+     case -ENODEV:
+     case -EACCES:
+-        return 0;
++        return ret;
+     case -EFAULT:
+     default:
+         sch_gen_unit_exception(sch);
+@@ -240,7 +240,7 @@ again:
+     case -EBUSY:
+     case -ENODEV:
+     case -EACCES:
+-        return 0;
++        return ret;
+     case -EFAULT:
+     default:
+         sch_gen_unit_exception(sch);
 -- 
 2.31.1
 
