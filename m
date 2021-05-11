@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760B837A0E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 09:35:10 +0200 (CEST)
-Received: from localhost ([::1]:50600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1283837A0F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 09:37:46 +0200 (CEST)
+Received: from localhost ([::1]:56880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgMv7-0002EX-IW
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 03:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51920)
+	id 1lgMxd-0006eU-5G
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 03:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgMqM-00046O-J5
- for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:15 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35577)
+ id 1lgMqV-00047Z-76
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:23 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:45653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgMqJ-0008Bu-LC
- for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:13 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id a4so19044928wrr.2
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 00:30:10 -0700 (PDT)
+ id 1lgMqR-0008FK-W7
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 03:30:22 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ s5-20020a7bc0c50000b0290147d0c21c51so651521wmh.4
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 00:30:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IZMKyCqMyO5bHC9zaYKJDMgMEQPBUUEp167PbRshw9g=;
- b=jrhMpAWT7XBRSY4S1eJkgi6NUF+eIdmpAOlSayloWLYkN7Iwg/FSKukr3jSbxQpzMR
- 3l0wZ4A3yxub4T58Icr4rqMS9Ymh6r/ZvGB3U/PBeT/DkshHVTxWgQh8imiU6Qm5nAVj
- 4eQSabSrAHGdnknUNiJQsAdYrJR6Qtq9x0XRN0LV2IU0SmqQXiCuzfdXxGwUdjUaYEax
- Yn+OMKYT2kSipyq706hssHKTuR5tbK/9N4cHSwpE6gKXDS/HVe7fXoRY8EPcKwPNfIYY
- TnEYjVEtKWz4sY2nMe8jGiLNqGd8KUBDZhup4bTU0GqpYG3uVUHFDWRb7G20xCDN1D2q
- cnSA==
+ bh=yPW/vWw/DYoYJxDKWIvJOoYPABx6estNS+RutNHnWXY=;
+ b=o8VG16ZICoeldN9dqd2unuDJYF+4zflcS1lo45WRRCkBpoH75y2D9AmEzgAkckxWak
+ yNOYhN5gbEtC1TH7MV7XZyWrfdxh1A/NATw/GUOx7Toizai8CcGV8dT7hjci2bdQk5mW
+ F5mx9BwO+rWDszGyDCEYWGVHrPGEXNULdAGZyXrheipPDP/G7tdVLdDHPzMmW5fumtWh
+ g0wRtI4GL73fLyia8v/uY19yb5SZVvZdGQfh5PLGEGM5J/I+xVeKfYp8oDq2dFsaVO34
+ Mz68Vu0vVUHyLIqSr5WM9ZQYPwIWvHYe4ID5BfAV6H2R9sQJTwsET5FrkSlLirTNSjDq
+ p9HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IZMKyCqMyO5bHC9zaYKJDMgMEQPBUUEp167PbRshw9g=;
- b=fiB5RnYDKnFEMZWxHuG0uA6gukroIGwgNZ23dauPz/RkA1mmcY3vegJt1VbMq1KcES
- YhaDJn61n3X+0Y8GQZGQPcQu9fig5ZkJ0JSkX5Py33s5HBUK06PdZc+M1+HrG8Rz/Zc2
- 78o0voGBpStbMtlWr4z7v29Ux9KC+ENlNaFcKnO6VCzGiTZjzN8UUzpuctpAxTB4LVIg
- Lbh/H02Xf3lVIr9t5oyBwL2KLhI6mlcue5o5o8XuSv/FOCxXrZ473BYkUAFVVZI1ZEr6
- JKYWn0GjsQ6wZ5xTYD2oWumW65wJLL8RDEANeOES67nAJd7TfYuJBjH0IxX+1thFzkMb
- DHpA==
-X-Gm-Message-State: AOAM532eFh0RFWCsG7G77sRL5XalUP8q6nvbMma2QKGtce5v20vlkuyu
- ZLKQiyAQJoJ9s5vwD5wcERRYsUrql7lXXA==
-X-Google-Smtp-Source: ABdhPJyOnr7vureBpXbqKCpB/z8JCajKgoheRFHe7fakX93LvMzvFjdc6wyS2i1Unp/Kq19dOPPGbg==
-X-Received: by 2002:adf:e552:: with SMTP id z18mr34851602wrm.226.1620718209151; 
- Tue, 11 May 2021 00:30:09 -0700 (PDT)
+ bh=yPW/vWw/DYoYJxDKWIvJOoYPABx6estNS+RutNHnWXY=;
+ b=RBP4CVc5S8DtWfAY+ag0N49WL9fDeo7LROrax+i8MNqNbRxlcwjygqbvF4S+wuJ9GG
+ 2mCL33SR8HhaZB09Yek1GiICuOoPfhL5cB2Kaoy6eQiNvywydpQwwsTjiKQeu9G9f3Me
+ e4U+YGGIBjeptA3DpEClyeDfbSvUKAJwcOfEl7efl+iNScSR/9BX0D/ng4WdJgBRkU9U
+ VVeQcOnTo8zZb1jY8M0wINFFd8bCv+tiYEsH2o9kwA+LP1fBHp8Z+zz+Snl0SSC2GJmg
+ bxo9PgYVn4ehLvXl9I4NvpE8pr0ty4lz/Yd7y4GeA6loW4FhrQI+9UkeHFEhR+kk2Sts
+ d7pw==
+X-Gm-Message-State: AOAM533VGOKsqRjZocAROOukJDdME0DjhKtMxP6k9PudvLL7QMi8Tm/D
+ aq1YWSEy42yZ3udR5QnFcIqVXcmSxwUEWg==
+X-Google-Smtp-Source: ABdhPJzlmUsX+Yjo6KEmz/is/GZSeJyFUo8crOgHVDxq7oFA4+M2Si4SqQVnxjXD9gWKY7uqXR69Sw==
+X-Received: by 2002:a1c:cc12:: with SMTP id h18mr30164855wmb.141.1620718213896; 
+ Tue, 11 May 2021 00:30:13 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id s15sm25779125wrt.19.2021.05.11.00.30.08
+ by smtp.gmail.com with ESMTPSA id 3sm22880446wms.30.2021.05.11.00.30.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 00:30:08 -0700 (PDT)
+ Tue, 11 May 2021 00:30:13 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/10] gitlab-ci: Extract container job template to
- container-template.yml
-Date: Tue, 11 May 2021 09:29:45 +0200
-Message-Id: <20210511072952.2813358-4-f4bug@amsat.org>
+Subject: [PATCH v2 04/10] gitlab-ci: Extract crossbuild job templates to
+ crossbuild-template.yml
+Date: Tue, 11 May 2021 09:29:46 +0200
+Message-Id: <20210511072952.2813358-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210511072952.2813358-1-f4bug@amsat.org>
 References: <20210511072952.2813358-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,78 +96,116 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract the container job template to a new file
-(container-template.yml) to be able to reuse it
+Extract the crossbuild job templates to a new file
+(crossbuild-template.yml) to be able to reuse them
 without having to run all the jobs included, which
 are mainly useful for mainstream CI.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/container-template.yml | 22 ++++++++++++++++++++++
- .gitlab-ci.d/containers.yml         | 24 ++----------------------
- 2 files changed, 24 insertions(+), 22 deletions(-)
- create mode 100644 .gitlab-ci.d/container-template.yml
+ .gitlab-ci.d/crossbuild-template.yml | 41 ++++++++++++++++++++++++++
+ .gitlab-ci.d/crossbuilds.yml         | 43 ++--------------------------
+ 2 files changed, 43 insertions(+), 41 deletions(-)
+ create mode 100644 .gitlab-ci.d/crossbuild-template.yml
 
-diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
+diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
 new file mode 100644
-index 00000000000..9e3f3ae3c26
+index 00000000000..bc790a43486
 --- /dev/null
-+++ b/.gitlab-ci.d/container-template.yml
-@@ -0,0 +1,22 @@
-+.container_job_template:
-+  image: docker:stable
-+  stage: containers
-+  services:
-+    - docker:dind
-+  before_script:
-+    - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
-+    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
-+    - apk add python3
-+    - docker info
-+    - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
++++ b/.gitlab-ci.d/crossbuild-template.yml
+@@ -0,0 +1,41 @@
++.cross_system_build_job:
++  stage: build
++  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  timeout: 80m
 +  script:
-+    - echo "TAG:$TAG"
-+    - echo "COMMON_TAG:$COMMON_TAG"
-+    - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
-+    - ./tests/docker/docker.py --engine docker build
-+          -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
-+          -r $CI_REGISTRY_IMAGE
-+    - docker tag "qemu/$NAME" "$TAG"
-+    - docker push "$TAG"
-+  after_script:
-+    - docker logout
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 4ef76d1f54d..0bf4899df10 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -1,25 +1,5 @@
--.container_job_template:
--  image: docker:stable
--  stage: containers
--  services:
--    - docker:dind
--  before_script:
--    - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
--    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
--    - apk add python3
--    - docker info
--    - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
++    - mkdir build
++    - cd build
++    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
++      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
++        --disable-user --target-list-exclude="arm-softmmu cris-softmmu
++          i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
++          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
++    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
++
++# Job to cross-build specific accelerators.
++#
++# Set the $ACCEL variable to select the specific accelerator (default to
++# KVM), and set extra options (such disabling other accelerators) via the
++# $ACCEL_CONFIGURE_OPTS variable.
++.cross_accel_build_job:
++  stage: build
++  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  timeout: 30m
++  script:
++    - mkdir build
++    - cd build
++    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
++      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
++        --disable-tools --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
++    - make -j$(expr $(nproc) + 1) all check-build
++
++.cross_user_build_job:
++  stage: build
++  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  script:
++    - mkdir build
++    - cd build
++    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
++      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
++        --disable-system
++    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index e44e4b49a25..bf626bed1cc 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -1,44 +1,5 @@
+-.cross_system_build_job:
+-  stage: build
+-  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+-  timeout: 80m
 -  script:
--    - echo "TAG:$TAG"
--    - echo "COMMON_TAG:$COMMON_TAG"
--    - docker pull "$TAG" || docker pull "$COMMON_TAG" || true
--    - ./tests/docker/docker.py --engine docker build
--          -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
--          -r $CI_REGISTRY_IMAGE
--    - docker tag "qemu/$NAME" "$TAG"
--    - docker push "$TAG"
--  after_script:
--    - docker logout
+-    - mkdir build
+-    - cd build
+-    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+-      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
+-        --disable-user --target-list-exclude="arm-softmmu cris-softmmu
+-          i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
+-          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
+-    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+-
+-# Job to cross-build specific accelerators.
+-#
+-# Set the $ACCEL variable to select the specific accelerator (default to
+-# KVM), and set extra options (such disabling other accelerators) via the
+-# $ACCEL_CONFIGURE_OPTS variable.
+-.cross_accel_build_job:
+-  stage: build
+-  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+-  timeout: 30m
+-  script:
+-    - mkdir build
+-    - cd build
+-    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+-      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
+-        --disable-tools --enable-${ACCEL:-kvm} $ACCEL_CONFIGURE_OPTS
+-    - make -j$(expr $(nproc) + 1) all check-build
+-
+-.cross_user_build_job:
+-  stage: build
+-  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+-  script:
+-    - mkdir build
+-    - cd build
+-    - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+-      ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
+-        --disable-system
+-    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
 +include:
-+  - local: '/.gitlab-ci.d/container-template.yml'
++  - local: '/.gitlab-ci.d/crossbuild-template.yml'
  
- amd64-alpine-container:
-   extends: .container_job_template
+ cross-armel-system:
+   extends: .cross_system_build_job
 -- 
 2.26.3
 
