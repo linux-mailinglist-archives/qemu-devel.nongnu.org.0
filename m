@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F02B37AAC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:34:30 +0200 (CEST)
-Received: from localhost ([::1]:57884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBDE637AAD4
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:38:30 +0200 (CEST)
+Received: from localhost ([::1]:40446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgUOz-0008HY-26
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:34:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60044)
+	id 1lgUSr-0007Ei-Ih
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:38:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgUJ0-0001cm-Ou
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:28:18 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:45712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgUIx-0005HN-LY
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:28:18 -0400
-Received: by mail-ed1-x531.google.com with SMTP id j19so998297edr.12
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 08:28:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JQ0BWn84RGaHdcxv5AFPpzgujy+QwPh+goRgEMr16f8=;
- b=RT2nAFqPC9RY1JN2hny5fFkxpO6cliKaUji9lwU3xV0MAo7jKeNf3krD3FZKJCaxwz
- H1mId0gtpg7CkHZFUvTFk78hTah/50fkKv/hoxbouwaRtWhn9qJbJXB7g9SD7o9kbZHy
- 8vvxy0RrmvQnVd1cBsTlZNOgFAg8w4k5dJzwfNHiwa3WJQEZsbpZQWRNzaF/YKqyhggQ
- GFKEG6cOXUzhdbK6OnYWzJOa7MrLP1fo1+G6Yk3tQRY2D7a9toRFrZDfWn1BY963UfOB
- CNC7vOOG/aSkdWhMhdKDO5eb6QYg1yrsr91Z+XPUcIdqx5z0KHyciQiE6FWjA+SPfOkZ
- 0A3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JQ0BWn84RGaHdcxv5AFPpzgujy+QwPh+goRgEMr16f8=;
- b=Yq7/xQJV2tkgfXc9MOQ4lmaUAzgi3v7JqssOEJ+2MQRnkOt8rMxCt13Ff4DjknJXdM
- MJMP4iuXFBLu2rnBDaB/aZQZXdQYF2lebXMnmlKEDqKaC3bvXBi/aUS11pwCkP4MDGyR
- Kn2rWeFrgl/5z+iSOvvqKZD4nNmXVbdoQF4yM73YQC6NnKJpGGnW3L5kDa1js05SFJzX
- aGgNXQrMpE/Dz2muk5H/9B5oppB90scaRdsgmlUsaB0ZYJPB6rAQSg4UvJ5uDvPP3uZr
- oODHGYPFDaK5IjxU84y6nhN7xh5/81FQTJulaDoYV3HnopBiB+HOgUHZ9zJckojZ8CfN
- 9r5Q==
-X-Gm-Message-State: AOAM531FmpeokPV7jUI3QmwJUY+vCoQfQ+kV1HSFOjVaW1itmr1H1MUt
- V9GRx+IUi2hA4MvrgDLPItVcqeJHHGcFXcGD5WY0AQ==
-X-Google-Smtp-Source: ABdhPJx/B+QAJK2bhClcpF1Kx7C1IFECcX0FViPWpUfDL8ogm9DjYv4jaWELsoFvLIa/8OBWz24QzLzf0B2LdsuY/AA=
-X-Received: by 2002:a50:ab06:: with SMTP id s6mr28455809edc.100.1620746893784; 
- Tue, 11 May 2021 08:28:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lgURr-0005y2-3y
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:37:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21007)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lgURn-0001NH-Vj
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:37:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620747442;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gYDFZpj+zEYq3n2kMbzev8EcTrmfDeKFq77GDOryE+E=;
+ b=Zs5blkKHOXwiPg9bwDxCOWA4ZG+9oWgidbaptkDUlktRfKaG2wrX43CqLOnb/+7zGRneR5
+ VS3Jo822zT51lfeNKWsiLfS9bvsVto7DHVgdx7XVaFc+xiPpCkupI2hqyi5I+YhitNrJMn
+ YexFaMmFn7NPQP0N30AbcmImQF8Bhvg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154-R_zcaKUvOPuMRm5YrnzHHw-1; Tue, 11 May 2021 11:37:20 -0400
+X-MC-Unique: R_zcaKUvOPuMRm5YrnzHHw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99DE81083E9C;
+ Tue, 11 May 2021 15:37:19 +0000 (UTC)
+Received: from localhost (ovpn-112-6.ams2.redhat.com [10.36.112.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96F9A19CBF;
+ Tue, 11 May 2021 15:37:14 +0000 (UTC)
+Date: Tue, 11 May 2021 16:37:13 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Boeuf, Sebastien" <sebastien.boeuf@intel.com>
+Subject: Re: vhost-user reconnection and crash recovery
+Message-ID: <YJqkqYvWAAw3hZBG@stefanha-x1.localdomain>
+References: <BY5PR11MB44018CADDC7A5C04F3D32BC4EA539@BY5PR11MB4401.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-20-richard.henderson@linaro.org>
-In-Reply-To: <20210430202610.1136687-20-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 May 2021 16:27:01 +0100
-Message-ID: <CAFEAcA-+cMkkfORKqDp9vmBEvwYLVcqdYF9DK6M2de5WDy5bzQ@mail.gmail.com>
-Subject: Re: [PATCH v6 19/82] target/arm: Implement SVE2 integer absolute
- difference and accumulate long
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <BY5PR11MB44018CADDC7A5C04F3D32BC4EA539@BY5PR11MB4401.namprd11.prod.outlook.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EpkZhP9CHS3Tbg1c"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,25 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 21:44, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> v2: Fix select offsetting and argument order (laurent desnogues).
-> ---
->  target/arm/helper-sve.h    | 14 ++++++++++
->  target/arm/sve.decode      | 12 +++++++++
->  target/arm/sve_helper.c    | 23 ++++++++++++++++
->  target/arm/translate-sve.c | 55 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 104 insertions(+)
+--EpkZhP9CHS3Tbg1c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+On Tue, May 11, 2021 at 03:00:05PM +0000, Boeuf, Sebastien wrote:
+> But what about the vhost-user backend initialization? Does
+> QEMU go again through initializing memory table, vrings, etc...
+> since it can't assume anything from the backend?
 
-thanks
--- PMM
+Yes, the initial protocol messages are the same after reconnection.
+
+In QEMU's vhost-user-blk implementation there is a special code path
+involving vhost_dev_get_inflight(). This fetches and restores inflight
+virtqueue request state. The restore logic is called by
+vhost_user_blk_connect(). Aside from that reconnect is the same as
+establishing a new connection.
+
+Stefan
+
+--EpkZhP9CHS3Tbg1c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCapKkACgkQnKSrs4Gr
+c8gNMgf+LzkxGK+rAezE6rmKw5eBWnTropxCouXYMwtLqrMhzJjjrxV5GUwiQSyG
+08xsNOvph3M+HGbB+EU3YFxBMTqGdvlgcrGdp9GoO6hrEI2eKMUVFtJQGxh8WMcD
+u04bc2vdYUnip8CeX7/3t8SQzEpBeJVYwrH/Pewpu8v2vktfFqGu9J7yjAQTHG/A
+jl/+2C0v5E0lqq8Pw4eJBy2eMC7UncfItFIRJqB6SkML8AcKzBWRSmm/H8E2/KDT
+p4rGYMHdsJqpzviuZiut2AdFqCSWr8VXjP8jgAkYSb4ZB6Bw+XyeN6Z1iXcNmOHh
+m6zoZ7b8eN0loaMo9Yxn/d2mjVU8dA==
+=4Jtb
+-----END PGP SIGNATURE-----
+
+--EpkZhP9CHS3Tbg1c--
+
 
