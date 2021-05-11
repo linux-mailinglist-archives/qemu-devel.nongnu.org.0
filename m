@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6577E37AFF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 22:12:28 +0200 (CEST)
-Received: from localhost ([::1]:42136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C9137AFF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 22:11:48 +0200 (CEST)
+Received: from localhost ([::1]:39736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgYjz-0000vx-GR
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 16:12:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
+	id 1lgYjL-0007dP-3W
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 16:11:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
- id 1lgWXi-0001UI-Tb; Tue, 11 May 2021 13:51:38 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2483)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
- id 1lgWXY-00021U-SG; Tue, 11 May 2021 13:51:38 -0400
-Received: from dggeml756-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Ffljg1wjVzWhKk;
- Wed, 12 May 2021 01:47:03 +0800 (CST)
-Received: from dggpemm100008.china.huawei.com (7.185.36.125) by
- dggeml756-chm.china.huawei.com (10.1.199.158) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Wed, 12 May 2021 01:51:17 +0800
-Received: from dggpemm500011.china.huawei.com (7.185.36.110) by
- dggpemm100008.china.huawei.com (7.185.36.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 12 May 2021 01:51:17 +0800
-Received: from dggpemm500011.china.huawei.com ([7.185.36.110]) by
- dggpemm500011.china.huawei.com ([7.185.36.110]) with mapi id 15.01.2176.012;
- Wed, 12 May 2021 01:51:17 +0800
-From: Andrey Shinkevich <andrey.shinkevich@huawei.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: GICv3 for MTTCG
-Thread-Topic: GICv3 for MTTCG
-Thread-Index: AQHXRo49QQoDTg/5kkqOfm/tGkugzg==
-Date: Tue, 11 May 2021 17:51:17 +0000
-Message-ID: <1f157423cc544731beb743287a4be5cb@huawei.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.227.155.55]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lgYiG-0006db-M3
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 16:10:40 -0400
+Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29]:41799)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lgYiE-0001a4-O8
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 16:10:40 -0400
+Received: by mail-oo1-xc29.google.com with SMTP id
+ e7-20020a4ad2470000b02902088d0512ceso1629562oos.8
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 13:10:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XiwRmd44CX7fE0kPLO8T0UUgg/JAieQXeSKiJSpVhaE=;
+ b=M1XSrN4BeVsZ71TZcSfp2AGVooE4NKdGXxhJUlm1l+x7IORGvzJlS2WPiNrHW5IXPo
+ TczU5wDkoZXubsnXGa7Me27RMv/wDvqUKQ0YhCQ4ewM9k/YQPP/wsKQSHVJgv9QZr3Rs
+ bqUoe2wx/V1ZzmtNITEURbZtWV96HUp+j8GRPtJHpDQU/fJ6z4+M8O+7LUDztXAQPh0H
+ pm539UA/zAqTHxeWn7Y2E0plaTaL8NpUu18RvTnWgIu/X+OjllMV/bGmsDTjcLS40K8r
+ D0X3cmC21LbodCzcyH2V81Gt4EpZLAdD3mIlZrPe/kNgRmLyYQT4jNIKXx9EP9gRc6q7
+ XLHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XiwRmd44CX7fE0kPLO8T0UUgg/JAieQXeSKiJSpVhaE=;
+ b=pIBH8rV3wlHUOK3t3SLUugf1KMIukQqPl86zyyabevhfPm4xDuoVmoo1kJnjjnoOKA
+ LUmiJxq6yViB3BwcIlLGAkmi8fRNIjVS201/rJ39NLcP4R89izy0PBOL8JXMEdbtAAa5
+ jsjRvfA6q0xKVJZ0vqCWlEoT9XY4I6wBnsRwfeCQWdMsmknNWmJqdIiVrJAeIWZ7Tnl8
+ j2NvT6k+docqFG5zsQ7rUVOLTt4VQyCmb4oBvt0B6ZhVRiiMsOyN9rvNuaTc87PJIWD2
+ Ma4rN1PXmEyhgs/TVLf1rvye/iLa1lOIMSzLVPSGmPBGwDlIgV1qJHU8R5aZYdJWgnTh
+ 6pKw==
+X-Gm-Message-State: AOAM530fXom4t88ylIhQTVttfQm6MU7S+jNrv/CPD9TapmZamZLnvNee
+ xhCh5WVKHujO6/dGdRSDSP26oQ==
+X-Google-Smtp-Source: ABdhPJwb/rauYPiwtFdEBJmzlb3ZKsLOqf4tl87uUuEuBb34K/5NtheGQBACDHaIXFyEJ1y8N3/Udg==
+X-Received: by 2002:a4a:a702:: with SMTP id g2mr15699568oom.86.1620763837389; 
+ Tue, 11 May 2021 13:10:37 -0700 (PDT)
+Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id z6sm2508601oiz.39.2021.05.11.13.10.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 May 2021 13:10:36 -0700 (PDT)
+Subject: Re: [PATCH 03/72] qemu/host-utils: Add wrappers for carry builtins
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210508014802.892561-1-richard.henderson@linaro.org>
+ <20210508014802.892561-4-richard.henderson@linaro.org>
+ <87k0o6yc74.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <90dc8203-522a-d3d2-15b8-ad95fd654f93@linaro.org>
+Date: Tue, 11 May 2021 15:10:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=andrey.shinkevich@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87k0o6yc74.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c29;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 11 May 2021 16:11:23 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,35 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "drjones@redhat.com" <drjones@redhat.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Chengen \(William,
- FixNet\)" <chengen@huawei.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dear colleagues,=0A=
-=0A=
-I am looking for ways to accelerate the MTTCG for ARM guest on x86-64 host.=
-=0A=
-The maximum number of CPUs for MTTCG that uses GICv2 is limited by 8:=0A=
-=0A=
-include/hw/intc/arm_gic_common.h:#define GIC_NCPU 8=0A=
-=0A=
-The version 3 of the Generic Interrupt Controller (GICv3) is not=0A=
-supported in QEMU for some reason unknown to me. It would allow to=0A=
-increase the limit of CPUs and accelerate the MTTCG performance on a=0A=
-multiple core hypervisor.=0A=
-I have got an idea to implement the Interrupt Translation Service (ITS)=0A=
-for using by MTTCG for ARM architecture.=0A=
-=0A=
-Do you find that idea useful and feasible?=0A=
-If yes, how much time do you estimate for such a project to complete by=0A=
-one developer?=0A=
-If no, what are reasons for not implementing GICv3 for MTTCG in QEMU?=0A=
-=0A=
-Best regards,=0A=
-Andrey Shinkevich=0A=
+On 5/10/21 7:57 AM, Alex Bennée wrote:
+> 
+> Richard Henderson <richard.henderson@linaro.org> writes:
+> 
+>> These builtins came in clang 3.8, but are not present in gcc through
+>> version 11.  Even in clang the optimization is not ideal except for
+>> x86_64, but no worse than the hand-coding that we currently do.
+> 
+> Given this statement....
+
+I think you mis-read the "except for x86_64" part?
+
+Anyway, these are simply bugs to be filed against clang, so that hopefully 
+clang-12 will do a good job with the builtin.  And as I said, while the 
+generated code is not ideal, it's no worse.
+
+>> +static inline uint64_t uadd64_carry(uint64_t x, uint64_t y, bool *pcarry)
+>> +{
+>> +#if __has_builtin(__builtin_addcll)
+>> +    unsigned long long c = *pcarry;
+>> +    x = __builtin_addcll(x, y, c, &c);
+> 
+> what happens when unsigned long long isn't the same as uint64_t? Doesn't
+> C99 only specify a minimum?
+
+If you only look at C99, sure.  But looking at the set of supported hosts, 
+unsigned long long is always a 64-bit type.
+
+>> +    *pcarry = c & 1;
+> 
+> Why do we need to clamp it here? Shouldn't the compiler automatically do
+> that due to the bool?
+
+This produces a single AND insn, instead of CMP + SETcc.
+
+
+r~
 
