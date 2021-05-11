@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF29837AC2B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:42:26 +0200 (CEST)
-Received: from localhost ([::1]:50002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806B237AC8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 19:00:31 +0200 (CEST)
+Received: from localhost ([::1]:47128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgVSj-0000bH-I8
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:42:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49014)
+	id 1lgVkE-00026d-Jz
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 13:00:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1lgVQK-0008FT-O8
- for qemu-devel@nongnu.org; Tue, 11 May 2021 12:39:57 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54798)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1lgVQI-0006Lv-Lc
- for qemu-devel@nongnu.org; Tue, 11 May 2021 12:39:56 -0400
-Received: by mail-wm1-x329.google.com with SMTP id o127so11476406wmo.4
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 09:39:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=654aLg8cJvZRFsRQpQlrwE1XM96VydsUbEQhfkoaMao=;
- b=ERCL3Sv0LAn4ZHcUYQ+UJzKzDX7BCK2PiBkr9Mlj8/Mn0l1CuExGCcFNngMFeuHtKR
- xwf9WZMjH38p00QFw+XB4Cd5vA4uPjxM+al1i6Vzm8GS1fiuoKPKmLhZY7EaQ/6hSvWZ
- mG2Sw8a3UMfGh1E7xWd0CJtt6yvO7MX3mT7YDkVdQ+UmrR84Z/VV/MMw7BKf+kEybZsw
- fWlPiAIbsgFUH+R57CIWdZtRm6iQx4JnfARaUbWrUjPVuTlP+yuEP5rr1VBschmM2WRz
- d+MuZmCM55wxqH8LjwtJ9xXGRh9MY8S6lVHA9us25qB8MpqBdiZvfRce7jV+GcBVJxlD
- GM9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=654aLg8cJvZRFsRQpQlrwE1XM96VydsUbEQhfkoaMao=;
- b=fPb9pElYHk9tlEvBPLg4M85Dy1GOYqer2FZShN6Sbjz4/afr6vOU4RpzNcANuuPufm
- zQSrCrSWO9OckLf6YjpliZdMYg6sQPUzWsdE7/I5HM7BctvEMpfs2FOnJgTwkPikCg9e
- JUTWedsGA6ar1RDsAstAOtkn3xmLNHss69ICqCrF44bltUmw2Ffv9WzlKJkoecWo1zK+
- LixCctV1Euejkrz4wGiV92ROXZr0oNXgk7IpIMuNdB7C1aM82j9FbRd82AiNL152f6/Q
- Ce1XoHReuo5zl0uQ/aeCT9V5GhWZ75t8gF1G6Q0UVvymxkceqhIIHoYv+RqZK0+o3QwF
- ZzhA==
-X-Gm-Message-State: AOAM532HXkkxuWRVqQ9i7zFrvorRozOZSYFJtOeZnii+/JPULOA3P6E/
- OOByWGwSLTvdYY1NH1Tmszs=
-X-Google-Smtp-Source: ABdhPJxnfCnnRaqm1s9AlC/jtAW0TjWA77RkVBzjhhGWMjXcnGtFJuIIt6/YwLIeT43Kz67lRpn8Vg==
-X-Received: by 2002:a1c:3b44:: with SMTP id i65mr6598337wma.31.1620751192386; 
- Tue, 11 May 2021 09:39:52 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id k11sm28176189wrm.62.2021.05.11.09.39.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 09:39:51 -0700 (PDT)
-Date: Tue, 11 May 2021 17:39:50 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH v3 2/9] qapi: move gen_if/gen_endif to QAPISchemaIfCond
-Message-ID: <YJqzVkWfOo3MPzj2@stefanha-x1.localdomain>
-References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
- <20210429134032.1125111-3-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lgViq-0000LA-4E
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 12:59:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lgVio-0006dZ-Be
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 12:59:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620752341;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=s/4Jby1q68mQMPbxMj+J8ZEsxNoJAQv3qIuWNxzPoMU=;
+ b=SQteyXkxGXA/qsVR2Oy35t5roNYboKd9HjoQn5gYp5K+D0rZtbfkSGaOKJ6CKsd6Lf6+oc
+ kJxVHR97vwBKrDEBy0jzC9VTPFpg57iHiVXgb2cXm4PmgZXz0afVV06sakCGkseH4VhsQN
+ IjfAAjHZminvIdbI2ayS82MN92RmbPw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-jiu9uYxYNDO6dxQhb-w_0A-1; Tue, 11 May 2021 12:49:08 -0400
+X-MC-Unique: jiu9uYxYNDO6dxQhb-w_0A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D4D61008064;
+ Tue, 11 May 2021 16:49:07 +0000 (UTC)
+Received: from redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 86DD12CE01;
+ Tue, 11 May 2021 16:49:05 +0000 (UTC)
+Date: Tue, 11 May 2021 17:49:02 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] hmp: Fix loadvm to resume the VM on success instead of
+ failure
+Message-ID: <YJq1fq57yQGFjw/E@redhat.com>
+References: <20210511163151.45167-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ikLrr1GhRERMwfwL"
+In-Reply-To: <20210511163151.45167-1-kwolf@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210429134032.1125111-3-marcandre.lureau@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,39 +79,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-stable@nongnu.org, yama@redhat.com, dgilbert@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, May 11, 2021 at 06:31:51PM +0200, Kevin Wolf wrote:
+> Commit f61fe11aa6f broke hmp_loadvm() by adding an incorrect negation
+> when converting from 0/-errno return values to a bool value. The result
+> is that loadvm resumes the VM now if it failed and keeps it stopped if
+> it failed. Fix it to restore the old behaviour and do it the other way
+> around.
+> 
+> Fixes: f61fe11aa6f7f8f0ffe4ddaa56a8108f3ab57854
+> Cc: qemu-stable@nongnu.org
+> Reported-by: Yanhui Ma <yama@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  monitor/hmp-cmds.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 0ad5b77477..cc15d9b6ee 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -1133,7 +1133,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict)
+>  
+>      vm_stop(RUN_STATE_RESTORE_VM);
+>  
+> -    if (!load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
+> +    if (load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
+>          vm_start();
+>      }
+>      hmp_handle_error(mon, err);
 
---ikLrr1GhRERMwfwL
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Paolo had sent a different fix here:
 
-On Thu, Apr 29, 2021 at 05:40:25PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
->=20
-> Move the generating function to the QAPISchemaIfCond class.
+  https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01093.html
 
-I'm not familiar enough with the QAPI code generator to know whether
-schema.py is supposed to generate C code directly. Otherwise this
-refactoring makes sense.
+As with my feedback there, I think we should be adding test coverage
+when fixing this. How about this:
 
---ikLrr1GhRERMwfwL
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/tests/qemu-iotests/068 b/tests/qemu-iotests/068
+index 54e49c8ffa..137c5d0577 100755
+--- a/tests/qemu-iotests/068
++++ b/tests/qemu-iotests/068
+@@ -77,7 +77,7 @@ for extra_args in \
+     # Give qemu some time to boot before saving the VM state
+     { sleep 1; printf "savevm 0\nquit\n"; } | _qemu $extra_args
+     # Now try to continue from that VM state (this should just work)
+-    { sleep 1; printf "loadvm 0\nloadvm 0\nquit\n"; } | _qemu $extra_args -S
++    { sleep 1; printf "info status\nloadvm 0\ninfo status\ncont\ninfo status\nloadvm 0\ninfo status\nquit\n"; } | _qemu $extra_args -S
+ done
+ 
+ # success, all done
+diff --git a/tests/qemu-iotests/068.out b/tests/qemu-iotests/068.out
+index f07a938a38..75c0a5df5f 100644
+--- a/tests/qemu-iotests/068.out
++++ b/tests/qemu-iotests/068.out
+@@ -7,8 +7,17 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm 0
+ (qemu) quit
+ QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) info status
++VM status: paused (prelaunch)
+ (qemu) loadvm 0
++(qemu) info status
++VM status: paused (prelaunch)
++(qemu) cont
++(qemu) info status
++VM status: running
+ (qemu) loadvm 0
++(qemu) info status
++VM status: running
+ (qemu) quit
+ 
+ === Saving and reloading a VM state to/from a qcow2 image (-object iothread,id=iothread0 -set device.hba0.iothread=iothread0) ===
+@@ -18,7 +27,16 @@ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) savevm 0
+ (qemu) quit
+ QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) info status
++VM status: paused (prelaunch)
+ (qemu) loadvm 0
++(qemu) info status
++VM status: paused (prelaunch)
++(qemu) cont
++(qemu) info status
++VM status: running
+ (qemu) loadvm 0
++(qemu) info status
++VM status: running
+ (qemu) quit
+ *** done
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCas1YACgkQnKSrs4Gr
-c8icWwf+P/sekL9UPBtfgEbfgOCVXwoRze2k3mgsZu1MhlrgUE4f3yfm3iu7Q6zt
-CTnFrJomJtZPsepzccYNTD4pZ1KuLptsd9edUYpjZ/Es2yZehqgC24gBKNcMMsEH
-CdJwsl7TDdcJG8/knY7Lp3lTdgorcQt2VrcvHLFa8ersE/Uk7GM8GK0+/yCsQrhj
-a8rYkB7n4VG5HIWHW39oqPK3Wme++rkQNxqb5FViTMQwigcMa8K0UHu6xePwccli
-TbhAG3ENN9bmpKnNRtR5Ci0uxnt890TMD9WtNQr+N2aYmZwRZ2EkBCABHTmH8UJ9
-1VbWQq3MzLIXEKYZsijOFIPb2GSt0Q==
-=otp3
------END PGP SIGNATURE-----
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---ikLrr1GhRERMwfwL--
 
