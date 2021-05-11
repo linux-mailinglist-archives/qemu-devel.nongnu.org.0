@@ -2,97 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB87E37A336
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:14:01 +0200 (CEST)
-Received: from localhost ([::1]:33520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1DAE37A2EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:04:05 +0200 (CEST)
+Received: from localhost ([::1]:39572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgOSm-0004e3-Q5
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:14:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39376)
+	id 1lgOJA-0005qi-Qa
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNqR-0008QC-L7
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:34:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37686)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lgNry-0003cT-A8
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:35:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34193)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgNqL-00046A-JV
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:34:21 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lgNrv-00055g-3N
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:35:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620722057;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1620722154;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CI9y4u5GoGanqT2gamg6x0bucQSkKIoIsEtjEK2kZl0=;
- b=Nxsar5SXYjEuM8juuhdANIwISqsS3RqEdTITI29GwiFTcu/umhevMsGP13TWXAhNpx8zFU
- kowmsAumrpNXagwsrz+HgCtVWevlaR582pAel5dTXvfO03LWmavA1i960tZ+5oTMEeF7yi
- 38MdUlDtUFUuYJg0QYy8VJdXQLw/ioU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-Gfd-GM7qOvOY1o3AyEjPvA-1; Tue, 11 May 2021 04:34:15 -0400
-X-MC-Unique: Gfd-GM7qOvOY1o3AyEjPvA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- c21-20020a0564021015b029038c3f08ce5aso5029718edu.18
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 01:34:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CI9y4u5GoGanqT2gamg6x0bucQSkKIoIsEtjEK2kZl0=;
- b=fs755ZO1pm3fULIEEN3uY7zvQdaVISfdejmUhx4rin6F075SDxuFFIibSRpwszkgzN
- OPkNPYhnKM1G2iVYz8jYqe14XrYih41s4WJ8Zmcn5Lw3I+Yegy9vrh+a4Cdzu/t/5LJ6
- L7+Sjp21z6Xh93oLb3ArO3gWCJ0WxyzRvbUUWtYEYLU2+D0pzZCI+M0d4YT9QMXKBJ3r
- aY/uBRmwj0bNqfOay+fD0PfqycFvgmrT+gZidZRnJ8si8JQ+yeT+gWPlABonPnqMIGX/
- NjYw15Jr/UjX/pu0FeJJoAu7EJKZi0qc/lCvQOh+aaGu+9+LfeehDY1r9LqGDLhASAsn
- LUMw==
-X-Gm-Message-State: AOAM532Z1Bzid48Oy5xTsQ/+uUg3PjNpJH0rTOgRlV7c5i4nmKA/9wnZ
- GVJ4dYObHziAi4dlHRUApWseIkE8q+5fhExrzVZ3/kfofSSP8TWDdAdEJPxrPdaUA2UE2hF+uRx
- V66Zkcx2p0xA9Uqc=
-X-Received: by 2002:a17:906:768f:: with SMTP id
- o15mr7894358ejm.455.1620722054319; 
- Tue, 11 May 2021 01:34:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxYT7Ig6XuOSgI2ELc3MnViQQT1gKxntTaTTNunxO6oDp3ujCuENFkPqHQYtrciMKiofBFb9g==
-X-Received: by 2002:a17:906:768f:: with SMTP id
- o15mr7894342ejm.455.1620722054091; 
- Tue, 11 May 2021 01:34:14 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id g13sm11112876ejx.51.2021.05.11.01.34.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 01:34:13 -0700 (PDT)
-Subject: Re: [PATCH 6/6] aiopool: protect with a mutex
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20210510085941.22769-1-eesposit@redhat.com>
- <20210510085941.22769-7-eesposit@redhat.com>
- <bb9be29f-a3ef-3869-ba6f-20a7acc1fe2a@virtuozzo.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b77ec798-3af7-c0e8-ade1-0b13d745908b@redhat.com>
-Date: Tue, 11 May 2021 10:34:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=tncpYjac+AV0k7sXsaic4YCrCF2ds6Bc8+b13W/ntwc=;
+ b=cI7Dge0xDxo8gZ+qvFA8NuI/Z9UJ8Fs3QRO9oDjSgUeDF/x70kXS+gBTg3s0C+eckIc/1c
+ dWrjwzQKtllkoLAiQoCy3ugFzCQbMRXJ/wo4KzmNCEhiWNXPu6Xyn6pBqDvym0cHQLsrbt
+ 2z7U7F2/AB6ZSi1vNXr5TuXA2ChzcBw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-hyrYMhrJNiqbGnyem-yY_Q-1; Tue, 11 May 2021 04:35:49 -0400
+X-MC-Unique: hyrYMhrJNiqbGnyem-yY_Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AB3194C;
+ Tue, 11 May 2021 08:35:48 +0000 (UTC)
+Received: from redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 244085D9D7;
+ Tue, 11 May 2021 08:35:46 +0000 (UTC)
+Date: Tue, 11 May 2021 09:35:44 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Li Zhijian <lizhijian@cn.fujitsu.com>
+Subject: Re: [PATCH v2] block: Improve backing file validation
+Message-ID: <YJpB4IVbg8vHBiOZ@redhat.com>
+References: <20210511055518.31876-1-lizhijian@cn.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <bb9be29f-a3ef-3869-ba6f-20a7acc1fe2a@virtuozzo.com>
+In-Reply-To: <20210511055518.31876-1-lizhijian@cn.fujitsu.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,46 +81,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>, John Snow <jsnow@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/05/21 13:56, Vladimir Sementsov-Ogievskiy wrote:
->>
->> +    }
->> -    if (task->ret < 0 && pool->status == 0) {
->> -        pool->status = task->ret;
->> +    if (ret < 0) {
->> +        qatomic_cmpxchg(&pool->status, 0, ret);
->>       }
+On Tue, May 11, 2021 at 01:55:18PM +0800, Li Zhijian wrote:
+> Image below user cases:
+> case 1:
+> ```
+> $ qemu-img create -f raw source.raw 1G
+> $ qemu-img create -f qcow2 -F raw -b source.raw ./source.raw
+> qemu-img info source.raw
+> image: source.raw
+> file format: qcow2
+> virtual size: 193K (197120 bytes)
+> disk size: 196K
+> cluster_size: 65536
+> backing file: source.raw <<<<<<
+> backing file format: raw
+> Format specific information:
+>     compat: 1.1
+>     lazy refcounts: false
+>     refcount bits: 16
+>     corrupt: false
+> ```
 > 
-> Can we just do it inside critical section above and avoid extra cmpxchg? 
-> We'll need just qatomic_set as a pair to qatomic_read()
-
-Good idea.
-
->>       g_free(task);
->> -    if (pool->waiting) {
->> -        pool->waiting = false;
->> -        aio_co_wake(pool->main_co);
->> -    }
->> +    qemu_co_queue_next(&pool->queue);
+> case 2:
+> ```
+> $ qemu-img create -f raw source.raw 1G
+> $ ln -sf source.raw destination.qcow2
+> $ qemu-img create -f qcow2 -F raw -b source.raw ./destination.qcow2
+> qemu-img info source.raw
+> image: source.raw
+> file format: qcow2 <<<<<<
+> virtual size: 2.0G (2147483648 bytes)
+> disk size: 196K
+> cluster_size: 65536
+> backing file: source.raw
+> backing file format: raw
+> Format specific information:
+>     compat: 1.1
+>     lazy refcounts: false
+>     refcount bits: 16
+>     corrupt: false
+> ```
+> Generally, we don't expect to corrupte the source.raw anyway, while
+> actually it does.
 > 
-> this call doesn't need mutex protection?
-
-It does indeed.
-
-I second the idea of "stealing" Denis's two patches to block/aio_task 
-and only adding the mutex (plus qatomic_read/set) here.
-
-Paolo
-
-> Then we should modify comment 
-> insid AioTaskPool structure.
+> Here we check their inode number instead of file name.
 > 
-> Anyway, I think it's simpler to just have one QEMU_MUTEX_GUARD() for the 
-> whole function.
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+> 
+> ---
+> v2: utilize stat() instead of realpath() (Daniel)
+> 
+> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+> ---
+>  block.c | 39 ++++++++++++++++++++++++++++++++-------
+>  1 file changed, 32 insertions(+), 7 deletions(-)
+> 
+> diff --git a/block.c b/block.c
+> index 9ad725d205..db4ae57959 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -6431,6 +6431,37 @@ bool bdrv_op_blocker_is_empty(BlockDriverState *bs)
+>      return true;
+>  }
+>  
+> +static bool validate_backing_file(const char *filename,
+> +                                  const char *backing_file, Error **errp)
+> +{
+> +    struct stat filename_stat, backing_stat;
+> +
+> +    if (backing_file[0] == '\0') {
+> +        error_setg(errp, "Expected backing file name, got empty string");
+> +        goto out;
+> +    }
+> +
+> +    /* check whether filename and backing_file are refering to the same file */
+> +    if (stat(backing_file, &backing_stat) == -1) {
+> +        error_setg(errp, "Cannot stat backing file %s", backing_file);
+> +        goto out;
+> +    }
+> +    if (stat(filename, &filename_stat) == -1) {
+> +        /* Simply consider filename doesn't exist, no need to further check */
+> +        return true;
+> +    }
+> +    if ((filename_stat.st_dev == backing_stat.st_dev) &&
+> +        (filename_stat.st_ino == backing_stat.st_ino)) {
+> +        error_setg(errp, "Error: Trying to create an image with the "
+> +                         "same filename as the backing file");
+> +        goto out;
+> +    }
+> +
+> +    return true;
+> +out:
+> +    return false;
+> +}
+> +
+>  void bdrv_img_create(const char *filename, const char *fmt,
+>                       const char *base_filename, const char *base_fmt,
+>                       char *options, uint64_t img_size, int flags, bool quiet,
+> @@ -6507,13 +6538,7 @@ void bdrv_img_create(const char *filename, const char *fmt,
+>  
+>      backing_file = qemu_opt_get(opts, BLOCK_OPT_BACKING_FILE);
+>      if (backing_file) {
+> -        if (!strcmp(filename, backing_file)) {
+> -            error_setg(errp, "Error: Trying to create an image with the "
+> -                             "same filename as the backing file");
+> -            goto out;
+> -        }
+> -        if (backing_file[0] == '\0') {
+> -            error_setg(errp, "Expected backing file name, got empty string");
+> +        if (!validate_backing_file(filename, backing_file, errp)) {
+>              goto out;
+>          }
+>      }
+
+Thinking about this again, this seems to be quite high in the generic block
+layer code. As such I don't think we can assume that the backing file here
+is actually a plain file on disk. IIUC the backing file could still be any
+of the block drivers. Only once we get down into the protocol specific
+drivers can be validate the type of backend.
+
+I'm not sure what the right way to deal with that is, so perhaps Kevin or
+Max can make a suggestion.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
