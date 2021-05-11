@@ -2,80 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED5E37AC80
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:55:55 +0200 (CEST)
-Received: from localhost ([::1]:33040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E206537AC82
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:56:24 +0200 (CEST)
+Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgVfm-0000vN-Vh
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:55:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51496)
+	id 1lgVgG-0002Dd-0i
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgVdZ-0007Ah-2R
- for qemu-devel@nongnu.org; Tue, 11 May 2021 12:53:37 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:35789)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgVdW-0003iz-Qe
- for qemu-devel@nongnu.org; Tue, 11 May 2021 12:53:36 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id v22so14744063oic.2
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 09:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GA9gHVc9QHEP6D570KuJv8b5TUCnI0Ii6zSM5zOiBQs=;
- b=D12tc0TYP26eQs8f5Su0mH4k5J65pPSy0bdm5KZOxv9rAb5iI4tK4wEdbK9qeFVm9I
- s+ZRU4hkkyQwzJSw0dUW1+A1mS2C5SToSGDxOuYgNLAC/QQGg0sr6iL8/+mxaMLKZF4V
- HVY5x7JtxH+t0/c01H6a02Xv6b/Dw3b5Vp0RzAxUwXEm/copC7/Z3FIdgbDT3TL9/bOj
- fRFMA3YxlQJ43/2I+zHj3sTlhAKNZ67b+wT8nXB09aTsFIfsubprf3OVsP39dENV5RM2
- LIPQkxNuTCH3DV2Bp+iBgi0SZ7zROMgO2/gVcwFpxHXX5o959yjSqnn9hdcVTVB+8gWy
- Yjsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GA9gHVc9QHEP6D570KuJv8b5TUCnI0Ii6zSM5zOiBQs=;
- b=J5N5bsw/zVeO3ReT1qTKJDz+XcIeAE4cOKuOod7XX6slLfDrNvG92mN0vl19IsJTUP
- +bQm1/CYiYrCGD9URjXZvVXQO0xfrbL4WMXsDLue9m4ejZF/DVrvBIJcY0X293Yx9iD0
- Id+jWMGK1HKfJlyBXM272Txh+CyrrWvf36de/JQJIadr35syxGVgbesqOLNRS8DsiXWJ
- 4uJ3FhyV3G0wgssON5ytsAPxA5cwV9Yf2Hzr8w2O4c1TvaalI0x/q/omDFlQQVVFE69/
- VvImKaYZIQBMag4Ds9F2+qMmpsEfIKLWHbFDyeXQFTbr80HyU2FOTYElV0/S9mHG2bbS
- kTgA==
-X-Gm-Message-State: AOAM532TO6mpSZTb/1ezl1CXTm+AfH7oS3XFz0VkR4zqWgUjrZV7Z35e
- fYRd+Sp+7YYLNdd3AimXQ0qhZg==
-X-Google-Smtp-Source: ABdhPJy0QPtq1oaIv7sWunqwKOEYJbAy4Ris9DULLsMGV2Hr8Pnk+U9iNW081bx8s7ACZakZ3e/kxQ==
-X-Received: by 2002:a54:4e96:: with SMTP id c22mr22875750oiy.176.1620752013481; 
- Tue, 11 May 2021 09:53:33 -0700 (PDT)
-Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
- [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id 7sm1197435oti.30.2021.05.11.09.53.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 09:53:33 -0700 (PDT)
-Subject: Re: [PATCH] Constify bitmask_transtbl fcntl/mmap flags_tlb[]
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210511103502.2875844-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <76a41faf-b7d2-1ce5-32e5-f30020edcd6c@linaro.org>
-Date: Tue, 11 May 2021 11:53:30 -0500
+ (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
+ id 1lgVeP-0007y6-JQ; Tue, 11 May 2021 12:54:29 -0400
+Received: from relay.sw.ru ([185.231.240.75]:34466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
+ id 1lgVeJ-0004BI-Fp; Tue, 11 May 2021 12:54:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=virtuozzo.com; s=relay; h=Content-Type:MIME-Version:Date:Message-ID:From:
+ Subject; bh=hVWZvl2rUMjURuoY68EXBwnvJTB6JL3Ginql6QPAkcA=; b=Xg2XidkCWFI4WN9kh
+ 7KRXyvQ/8hO7gsHnyGoqAIS4WKj49/mAHk6v2eNyWUmI1Zk/BS68+ANgs2aPF9yhoV4enLKN3zpWk
+ xqWe+TUssqa1Tyq/DdP+Pu7CPRp+Iu05fiS+C7mXc1ktkQBAb5t0C//3h5SqCz+VHgu0tdpLeCxww
+ =;
+Received: from [192.168.15.129] by relay.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <ktkhai@virtuozzo.com>)
+ id 1lgVeA-0027lk-2i; Tue, 11 May 2021 19:54:14 +0300
+Subject: Re: [PATCH v2 07/10] qcow2-refcount: check_refcounts_l2(): check
+ reserved bits
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ den@openvz.org, eblake@redhat.com, berto@igalia.com
+References: <20210505065955.13964-1-vsementsov@virtuozzo.com>
+ <20210505065955.13964-8-vsementsov@virtuozzo.com>
+From: Kirill Tkhai <ktkhai@virtuozzo.com>
+Message-ID: <64fdd6a2-231b-8425-ffe5-cc16aefe69f1@virtuozzo.com>
+Date: Tue, 11 May 2021 19:54:13 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210511103502.2875844-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210505065955.13964-8-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=185.231.240.75; envelope-from=ktkhai@virtuozzo.com;
+ helo=relay.sw.ru
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,19 +64,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/21 5:35 AM, Philippe Mathieu-Daudé wrote:
-> Keep bitmask_transtbl in .rodata by marking the arrays const.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+On 05.05.2021 09:59, Vladimir Sementsov-Ogievskiy wrote:
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 > ---
->   linux-user/syscall.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>  block/qcow2.h          |  1 +
+>  block/qcow2-refcount.c | 12 +++++++++++-
+>  2 files changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/qcow2.h b/block/qcow2.h
+> index c0e1e83796..b8b1093b61 100644
+> --- a/block/qcow2.h
+> +++ b/block/qcow2.h
+> @@ -587,6 +587,7 @@ typedef enum QCow2MetadataOverlap {
+>  
+>  #define L1E_OFFSET_MASK 0x00fffffffffffe00ULL
+>  #define L2E_OFFSET_MASK 0x00fffffffffffe00ULL
+> +#define L2E_STD_RESERVED_MASK 0x3f000000000001feULL
+>  
+>  #define REFT_OFFSET_MASK 0xfffffffffffffe00ULL
+>  
+> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+> index 062ec48a15..47cc82449b 100644
+> --- a/block/qcow2-refcount.c
+> +++ b/block/qcow2-refcount.c
+> @@ -1682,8 +1682,18 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+>          int csize;
+>          l2_entry = get_l2_entry(s, l2_table, i);
+>          uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, i);
+> +        QCow2ClusterType type = qcow2_get_cluster_type(bs, l2_entry);
+>  
+> -        switch (qcow2_get_cluster_type(bs, l2_entry)) {
+> +        if (type != QCOW2_CLUSTER_COMPRESSED) {
+> +            /* Check reserved bits of Standard Cluster Descriptor */
+> +            if (l2_entry & L2E_STD_RESERVED_MASK) {
+> +                fprintf(stderr, "ERROR found l2 entry with reserved bits set: "
+> +                        "%" PRIx64, l2_entry);
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+'\n' is missed.
 
-r~
+The rest is OK for me.
+
+Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
+
+> +                res->corruptions++;
+> +            }
+> +        }
+> +
+> +        switch (type) {
+>          case QCOW2_CLUSTER_COMPRESSED:
+>              /* Compressed clusters don't have QCOW_OFLAG_COPIED */
+>              if (l2_entry & QCOW_OFLAG_COPIED) {
+> 
+
 
