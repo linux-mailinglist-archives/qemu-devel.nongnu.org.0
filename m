@@ -2,79 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C2A37A9D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 16:48:43 +0200 (CEST)
-Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB89637A9DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 16:51:00 +0200 (CEST)
+Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgTgg-0005M9-GH
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 10:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50888)
+	id 1lgTiu-0007Wj-1Y
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 10:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgTeJ-0003Km-8r
- for qemu-devel@nongnu.org; Tue, 11 May 2021 10:46:16 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgTeE-0006cq-Nr
- for qemu-devel@nongnu.org; Tue, 11 May 2021 10:46:14 -0400
-Received: by mail-wr1-x433.google.com with SMTP id m9so20433285wrx.3
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 07:46:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=/EjaigTzXCfuCoU1KhLlL1gvBuLwPYAaPp+N6ctAMIY=;
- b=mTIOH8xLEu+Omyo4AWB9WkmTUXN6mGnH6Ydx7NMhounRsdftyepeiv2Z5e+D6x09xC
- /6GWZBX3uRncxoIaM9u2hVs/hYtYGNo/ZnAd3VVF1yOCMCECSzxgNq0e+vw2XpooEWOm
- m+i2Sh31Dbbs4FIPgNHS3J0Mt6zpSyENe4TTQZzcDthk3lU1mKo+E/ftsw0lD4F5GJ/2
- 4i8fyz9TZHp33rlQgtV8J2cEe9tB1vo6Rrt9uICSxfrCNUulWWrWsIaJpsNoxCknAK4W
- pdqdsw8zFLylFLFkiM0L1GiTQmnjdAHEfJqG27hLmcz8YLlOrEV09dLmSCeZFrmZ3BDa
- 1NoQ==
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lgThX-0006Z7-O7
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 10:49:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21875)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lgThS-0000AI-AD
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 10:49:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620744568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sK89xM0IJpifEl5nJO0LrHw28zaa90RKXG5Ozyo+9NA=;
+ b=Q9c4DNePuj6Q2YNW4j17cISONwgHz9MBmgRZsYv4Vb5CxHMwE1la2FPWn2Yr4EP39HOJMb
+ jVHMXQvaZeuDyV6SOVdwmj5Y0ng57I6jt4c9pQKYfIKJ4Tc9jWnEN958Y/yTWf8XP1D3sI
+ P9dSSjv7JMuOvlw0ipZ81CaeLpaeGn4=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-459-SQwad5PWOwikj4joQ-6qEw-1; Tue, 11 May 2021 10:49:27 -0400
+X-MC-Unique: SQwad5PWOwikj4joQ-6qEw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ c20-20020a0cf2d40000b02901e8759f1f5eso5096937qvm.10
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 07:49:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=/EjaigTzXCfuCoU1KhLlL1gvBuLwPYAaPp+N6ctAMIY=;
- b=HAB3P10aL1WxZVVEoteDKIv2QZ9Sbr3yjkWGRIxQUvx4OntQ8bZumiPoX5wQ0GiN9r
- MwmxAKP66wD6lS373Iuq6VTciL7XGsfPjnFfcAI1xvS1uh4f4/UfjPAXW28cPI9gSRb9
- Hdj0SO36/88FjkLjz74l3d54QAAXGELfW1nBVANofvFJ28yX5xTKNRbiI1oqDR378iDd
- RBMdR1m5gmBC1Sx5tk+P/RWL5wlZ14/9vW3SQ7g+eEom3oUxOceKk/+xUP0BUloTxcuS
- 4Sk2NDCOj3Q+x6DaDLCj5Zvkz/IebZsK4YgD9un5qwrOSRkqVrfUrHVTuY/1POji9yxV
- WeSw==
-X-Gm-Message-State: AOAM532cIsmNuzWsi5bfrjn1+sGqWbzmfJ+41K+T3wphFeLOjdHczzXL
- yy39KdZF/Y767+8n84ylz+/LSw==
-X-Google-Smtp-Source: ABdhPJyiLbA/fp4jtOl89Ko+tGtUzCKQaMJ0Gk22RxU2/NNh3gBYxIYZsTlDabHteKpD9ZFm3QeUXg==
-X-Received: by 2002:a5d:59af:: with SMTP id p15mr39042627wrr.19.1620744368992; 
- Tue, 11 May 2021 07:46:08 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o17sm27154779wrs.48.2021.05.11.07.46.08
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sK89xM0IJpifEl5nJO0LrHw28zaa90RKXG5Ozyo+9NA=;
+ b=n3COfxAbBKEA+LDcwc4mmX5cBeIzTsBKST6gTZ1RmWLuArAyemBW7lV2Fs2mrhDa9T
+ JCHe41yRDFySDDl8B7n6+cB0TVpXJzTo04Y8ajxIf9I9Fb5xiZDS0kYi4/DS4eYSQa8r
+ tp2AQtx3tAGv3ztE8OwcJPZCLEuAtnRW75tAua9xTlislvUM6ccZEo1oI0szcJ6qp1Uk
+ ZqGkVvb/FHnN/ew0rtmYLxKe+df+VrnxGEatzxTL+nHjt27vgEsbmtGHyAv9GOqvTsB5
+ 9yovhn/9a1auQPrI6tF0UnIX5RErQJdXGBOK14Rk9bkRALt6MzWxCYP8xQun4jo/oIwL
+ QX3A==
+X-Gm-Message-State: AOAM530QO8uQxO4+UVkq7/SsPVeefZustm1MsTNx7Xf2fEWFtjxItUIR
+ PTdC4MuNTvQAC7TUFv5T4it79Oa+KebJDkCvtqFeUefNG81gTQgCk8nnmzH+M1lS7NPQ9xrUKQG
+ LZyZfUKMLgG9T8DU=
+X-Received: by 2002:a05:620a:2a0f:: with SMTP id
+ o15mr7237406qkp.295.1620744566679; 
+ Tue, 11 May 2021 07:49:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy4kb0sbCk8RoX36mgYeXs6qO+ZFWTiKfRQIfvbaE3YAJhFIYVluBL/QqwriBOoPmGZyMrLbQ==
+X-Received: by 2002:a05:620a:2a0f:: with SMTP id
+ o15mr7237375qkp.295.1620744566335; 
+ Tue, 11 May 2021 07:49:26 -0700 (PDT)
+Received: from horse (pool-173-76-174-238.bstnma.fios.verizon.net.
+ [173.76.174.238])
+ by smtp.gmail.com with ESMTPSA id v65sm14768708qkc.125.2021.05.11.07.49.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 07:46:08 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6B9E91FF7E;
- Tue, 11 May 2021 15:46:07 +0100 (BST)
-References: <20210419145435.14083-1-alex.bennee@linaro.org>
- <20210419145435.14083-9-alex.bennee@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH  v1 08/25] gitlab: add build-user-hexagon test
-Date: Tue, 11 May 2021 15:41:51 +0100
-In-reply-to: <20210419145435.14083-9-alex.bennee@linaro.org>
-Message-ID: <871radgwgg.fsf@linaro.org>
+ Tue, 11 May 2021 07:49:25 -0700 (PDT)
+Date: Tue, 11 May 2021 10:49:23 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Subject: Re: [Virtio-fs] [for-6.1 v3 3/3] virtiofsd: Add support for
+ FUSE_SYNCFS request
+Message-ID: <20210511144923.GA238488@horse>
+References: <20210510155539.998747-1-groug@kaod.org>
+ <20210510155539.998747-4-groug@kaod.org>
+ <CAOssrKfbzCnpHma-=tTRvwUecy_9RtJADzMb_uQ1yzzJStz1PA@mail.gmail.com>
+ <20210511125409.GA234533@horse>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210511125409.GA234533@horse>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,95 +98,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Brian Cain <bcain@quicinc.com>,
- Thomas Huth <thuth@redhat.com>, berrange@redhat.com, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, virtio-fs-list <virtio-fs@redhat.com>,
+ Miklos Szeredi <miklos@szeredi.hu>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, May 11, 2021 at 08:54:09AM -0400, Vivek Goyal wrote:
+> On Tue, May 11, 2021 at 02:31:14PM +0200, Miklos Szeredi wrote:
+> > On Mon, May 10, 2021 at 5:55 PM Greg Kurz <groug@kaod.org> wrote:
+> > >
+> > > Honor the expected behavior of syncfs() to synchronously flush all data
+> > > and metadata on linux systems. Simply loop on all known submounts and
+> > > call syncfs() on them.
+> > 
+> > Why not pass the submount's root to the server, so it can do just one
+> > targeted syncfs?
+> > 
+> > E.g. somehting like this in fuse_sync_fs():
+> > 
+> > args.nodeid = get_node_id(sb->s_root->d_inode);
+> 
+> Hi Miklos,
+> 
+> I think current proposal was due to lack of full understanding on my part.
+> I was assuming we have one super block in client and that's not the case
+> looks like. For every submount, we will have another superblock known
+> to vfs, IIUC. That means when sync() happens, we will receive ->syncfs()
+> for each of those super blocks. And that means file server does not
+> have to keep track of submounts explicitly and it will either receive
+> a single targeted SYNCFS (for the case of syncfs(fd)) or receive
+> multile SYNCFS calls (one for each submount when sync() is called).
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+Tried sync() with submounts enabled and we are seeing a SYNCFS call
+only for top level super block and not for submounts.
 
-> We special case this as the container with the cross compiler for the
-> tests takes so long to build it is manually uploaded into the
-> registry.
+Greg noticed that it probably is due to the fact that iterate_super()
+skips super blocks which don't have SB_BORN flag set. 
 
-Gahh, something changed underneath me with the inclusion of:
+Only vfs_get_tree() seems to set SB_BORN and for our submounts we
+are not calling vfs_get_tree(), hence SB_BORN is not set. NFS seems
+to call vfs_get_tree() and hence SB_BORN must be set for submounts.
 
-  commit 46ef47e2a77d1a34996964760b4a0d2b19476f25
-  Author: Taylor Simpson <tsimpson@quicinc.com>
-  Date:   Thu Apr 8 20:07:50 2021 -0500
+Maybe we need to modify virtio_fs_get_tree() so that it can deal with
+mount as well as submounts and then fuse_dentry_automount() should
+probably call vfs_get_tree() and that should set SB_BORN and hopefully
+sync() will work with it. Greg is planning to give it a try.
 
-      Hexagon (target/hexagon) circular addressing
+Does it sound reasonable.
 
-Which leads to the compiler complaining:
+Thanks
+Vivek
 
-  hexagon-unknown-linux-musl-clang  -Wno-incompatible-pointer-types -Wno-un=
-defined-internal -fno-unroll-loops -Wall -Werror -O0 -g -fno-strict-aliasin=
-g -mv67 -O2 -static /home
-  /alex.bennee/lsrc/qemu.git/tests/tcg/hexagon/circ.c -o circ  -static
-  /home/alex.bennee/lsrc/qemu.git/tests/tcg/hexagon/circ.c:257:1: error: un=
-known register name 'cs0' in asm
-  TEST_LOAD_IMM(b,  char,           bbuf, NBYTES, 1, d)
-  ^
-  /home/alex.bennee/lsrc/qemu.git/tests/tcg/hexagon/circ.c:242:9: note: exp=
-anded from macro 'TEST_LOAD_IMM'
-          CIRC_LOAD_IMM_##SZ(element, p, BUF, size * sizeof(TYPE), (INC)); \
-          ^
-  <scratch space>:9:1: note: expanded from here
-  CIRC_LOAD_IMM_b
-  ^
-  /home/alex.bennee/lsrc/qemu.git/tests/tcg/hexagon/circ.c:75:5: note: expa=
-nded from macro 'CIRC_LOAD_IMM_b'
-      CIRC_LOAD_IMM(b, RES, ADDR, START, LEN, INC)
-      ^
-  /home/alex.bennee/lsrc/qemu.git/tests/tcg/hexagon/circ.c:73:23: note: exp=
-anded from macro 'CIRC_LOAD_IMM'
-          : "r4", "m0", "cs0")
-
-I suspect the easiest thing to do is to drop the patches again so I
-don't hold up the rest of testing/next. I can include the initial docker
-image patch but I won't enable it in configure.sh/gitlab.
-
-Would one of the hexagon guys be able to send a new image and verify it
-works with the current tests in master?
-
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Message-Id: <20210305092328.31792-7-alex.bennee@linaro.org>
-> ---
->  .gitlab-ci.yml | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 52d65d6c04..87d1172b03 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -413,6 +413,17 @@ build-user-static:
->      CONFIGURE_ARGS: --disable-tools --disable-system --static
->      MAKE_CHECK_ARGS: check-tcg
->=20=20
-> +# Because the hexagon cross-compiler takes so long to build we don't rely
-> +# on the CI system to build it and hence this job has no dependency
-> +# declared. The image is manually uploaded.
-> +build-user-hexagon:
-> +  <<: *native_build_job_definition
-> +  variables:
-> +    IMAGE: debian-hexagon-cross
-> +    TARGETS: hexagon-linux-user
-> +    CONFIGURE_ARGS: --disable-tools --disable-docs --enable-debug-tcg
-> +    MAKE_CHECK_ARGS: check-tcg
-> +
->  # Only build the softmmu targets we have check-tcg tests for
->  build-some-softmmu:
->    <<: *native_build_job_definition
-
-
---=20
-Alex Benn=C3=A9e
 
