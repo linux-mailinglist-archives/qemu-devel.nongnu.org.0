@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D7937A3EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:43:57 +0200 (CEST)
-Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56A437A3E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:40:07 +0200 (CEST)
+Received: from localhost ([::1]:41062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgOvk-0007o5-5h
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:43:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51154)
+	id 1lgOs2-0007Ku-KU
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lgOgZ-00059Q-5a
- for qemu-devel@nongnu.org; Tue, 11 May 2021 05:28:15 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:47066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lgOgW-00006E-PZ
- for qemu-devel@nongnu.org; Tue, 11 May 2021 05:28:14 -0400
-Received: by mail-ed1-x532.google.com with SMTP id r11so7194662edt.13
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 02:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=euWgkOnSIyiYrHuRxYSQwMZnQgiFTmiCaURh6tfU/4s=;
- b=Q4TlUOFMVd4lrf39XFPAYNgN0UwE0wRY7tyFi+LA+7vWK1uJSoPHZWuU5eKVFxZPsw
- w1s8alXaMzcyc+V7WtkeS2ZH4mJY/0ayW/YEV+rwxEP3FmSYnm9wjZw06GOlVJyoNEoi
- szcGuKRX/aNQ1OqJojdPJquVlSAPyvkRfd4SFAMBLNmNWiOn+i3EMmjYWCF2ZFXDqGal
- fJfnk1bcz0f0T0uKU+KOopb1YSDk1CDNgxXZqoZEruWc9zntPKxet7Fv68/pFs1zxDQe
- qWaizKHHzZmWbH6P2PPfFJMijYJvwutIoPxVCchB+MPCBFaQhdznArlqhAAme10LR1Fn
- 340g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=euWgkOnSIyiYrHuRxYSQwMZnQgiFTmiCaURh6tfU/4s=;
- b=ekhAPdVCiinY4x7FOgxSUuWA+erH5EZQ6spMJr3SPAOUCnw+U54IF0IfYjD69L8Q5j
- zFqtrMgRAL2OpzqJ5LU8nKSXOuJN4sKW36JQA1/y2jmLAEgOH3TOckuROOhVDIPjWol+
- xsr7imBQuZPOBN8ppifnDaMQgCyEBo1Z06JLV1+nlasbOe0l2bE9bPaPzRvisizRpLXZ
- dkOAkL48kdLGwsZnMLgDOGC+HE6Q5kZxfqpnZNd9BiLiycekv7XQ3mycLwaF2a72LS+y
- gPR3YDrCBEOziYQl7m/K03lgk/bnDh0iMbCLs7PCpiSwoNq+7/wxBZ6aSR7Axveka/oq
- NzQQ==
-X-Gm-Message-State: AOAM532hgY92xMx1asFFbtSqS/Fo3EIqGzeDCe0H2z883eWSEZHCIJb4
- Go11vO3sTichy4pwYwKOIFpQZh2IHvh67PSsB84=
-X-Google-Smtp-Source: ABdhPJxh75HKPDGtSpP0DzRxNZAEqvsKeJY+GQE8lUHndPP+eqsa7s+E9kR5mMNUMhlQMIzaxL+fPpzmAnPeWSmkkRk=
-X-Received: by 2002:aa7:cc10:: with SMTP id q16mr14763927edt.53.1620725290490; 
- Tue, 11 May 2021 02:28:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lgOnb-0000M4-Pi
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 05:35:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30149)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lgOnZ-0004a4-6N
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 05:35:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620725728;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SDoK/KESNoNxdWY7PwY8bdEAia/yj963lNvrYjewCLs=;
+ b=ZeXIDIK3+KYrOl4qUzRRl407wwtlJfZE7KVLe5IicmbXwein0JSHnJA6+gfDIO8mxylsB9
+ BJEoVQ+VztkngOxdZxch6eS3iSBqHMs3rllELe4leX1DMjBFw1oRCv52891QGvJAd+9kkY
+ PXr8InZuRAV7PChp+FYXO6F+TY45V44=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-9rXk9lQpMd-G73urBuPM3Q-1; Tue, 11 May 2021 05:35:26 -0400
+X-MC-Unique: 9rXk9lQpMd-G73urBuPM3Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 979B9800FF0;
+ Tue, 11 May 2021 09:35:25 +0000 (UTC)
+Received: from work-vm (ovpn-113-51.ams2.redhat.com [10.36.113.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 262C75D6A8;
+ Tue, 11 May 2021 09:35:23 +0000 (UTC)
+Date: Tue, 11 May 2021 10:35:21 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH v2] migration/dirtyrate: make sample page count
+ configurable
+Message-ID: <YJpP2SUrkZcNirES@work-vm>
+References: <cover.1620536022.git.huangy81@chinatelecom.cn>
+ <255a27d0f05053d56ae9e5920e815ab9b2bfdeee.1620536022.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-References: <20210505060901.828658-1-kraxel@redhat.com>
- <20210505060901.828658-5-kraxel@redhat.com>
- <CAJ+F1CKJyE3P7DX6tewSBHUBrqsc_h5CNZi95VpT9bGu=eVgFQ@mail.gmail.com>
- <20210511090419.nl6akk43mt4g5rua@sirius.home.kraxel.org>
-In-Reply-To: <20210511090419.nl6akk43mt4g5rua@sirius.home.kraxel.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 11 May 2021 13:27:58 +0400
-Message-ID: <CAJ+F1C+5znoXc9Dy5+q86LkJhY6U6a4Q6yBcPRhQp58w6kRpwQ@mail.gmail.com>
-Subject: Re: [PATCH v5 4/9] ui/vdagent: core infrastructure
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000037de0f05c20a8308"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <255a27d0f05053d56ae9e5920e815ab9b2bfdeee.1620536022.git.huangy81@chinatelecom.cn>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,387 +82,279 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: armbru@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000037de0f05c20a8308
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+* huangy81@chinatelecom.cn (huangy81@chinatelecom.cn) wrote:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> 
+> introduce optional sample-pages argument in calc-dirty-rate,
+> making sample page count per GB configurable so that more
+> accurate dirtyrate can be calculated.
+> 
+> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Hi
+The json change is a bit bigger now than the previous version, and it shouldn't be.
 
-On Tue, May 11, 2021 at 1:04 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-
-> > > +/* -----------------------------------------------------------------=
--
-> */
-> > > +/* send messages
-> */
-> > > +
-> > > +static void vdagent_send_buf(VDAgentChardev *vd, void *ptr, uint32_t
-> > > msgsize)
-> > > +{
-> > > +    uint8_t *msgbuf =3D ptr;
-> > > +    uint32_t len, pos =3D 0;
-> > > +
-> > > +    while (pos < msgsize) {
-> > > +        len =3D qemu_chr_be_can_write(CHARDEV(vd));
-> > > +        if (len > msgsize - pos) {
-> > > +            len =3D msgsize - pos;
-> > > +        }
-> > > +        qemu_chr_be_write(CHARDEV(vd), msgbuf + pos, len);
-> > > +        pos +=3D len;
-> > > +    }
-> > >
-> >
-> > This looks like it could easily busy loop. Have you thought about fixin=
-g
-> > this?
->
-> Incremental fix [ to be squashed ]
->
->
-thanks, a few comments below
-
-take care,
->   Gerd
->
-> diff --git a/ui/vdagent.c b/ui/vdagent.c
-> index 64213aa25a06..efa98725fb22 100644
-> --- a/ui/vdagent.c
-> +++ b/ui/vdagent.c
-> @@ -3,7 +3,9 @@
->  #include "include/qemu-common.h"
->  #include "chardev/char.h"
->  #include "hw/qdev-core.h"
-> +#include "qemu/buffer.h"
->  #include "qemu/option.h"
-> +#include "qemu/units.h"
->  #include "ui/clipboard.h"
->  #include "ui/console.h"
->  #include "ui/input.h"
-> @@ -16,6 +18,7 @@
->
->  #define VDAGENT_MOUSE_DEFAULT true
->  #define VDAGENT_CLIPBOARD_DEFAULT false
-> +#define VDAGENT_BUFFER_LIMIT (1 * MiB)
->
->  struct VDAgentChardev {
->      Chardev parent;
-> @@ -32,6 +35,7 @@ struct VDAgentChardev {
->      uint32_t msgsize;
->      uint8_t *xbuf;
->      uint32_t xoff, xsize;
-> +    Buffer outbuf;
->
->      /* mouse */
->      DeviceState mouse_dev;
-> @@ -124,18 +128,20 @@ static const char *type_name[] =3D {
->  /* ------------------------------------------------------------------ */
->  /* send messages                                                      */
->
-> -static void vdagent_send_buf(VDAgentChardev *vd, void *ptr, uint32_t
-> msgsize)
-> +static void vdagent_send_buf(VDAgentChardev *vd)
->  {
-> -    uint8_t *msgbuf =3D ptr;
-> -    uint32_t len, pos =3D 0;
-> +    uint32_t len;
->
-> -    while (pos < msgsize) {
-> +    while (!buffer_empty(&vd->outbuf)) {
->          len =3D qemu_chr_be_can_write(CHARDEV(vd));
-> -        if (len > msgsize - pos) {
-> -            len =3D msgsize - pos;
-> +        if (len =3D=3D 0) {
-> +            return;
->          }
-> -        qemu_chr_be_write(CHARDEV(vd), msgbuf + pos, len);
-> -        pos +=3D len;
-> +        if (len > vd->outbuf.offset) {
-> +            len =3D vd->outbuf.offset;
-> +        }
-> +        qemu_chr_be_write(CHARDEV(vd), vd->outbuf.buffer, len);
-> +        buffer_advance(&vd->outbuf, len);
->      }
+> ---
+>  migration/dirtyrate.c | 31 ++++++++++++++++---
+>  migration/dirtyrate.h |  8 ++++-
+>  qapi/migration.json   | 85 ++++++++++++++++++++++++++++-----------------------
+>  3 files changed, 80 insertions(+), 44 deletions(-)
+> 
+> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+> index ccb9814..2ee3890 100644
+> --- a/migration/dirtyrate.c
+> +++ b/migration/dirtyrate.c
+> @@ -48,6 +48,12 @@ static bool is_sample_period_valid(int64_t sec)
+>      return true;
 >  }
->
-> @@ -150,16 +156,22 @@ static void vdagent_send_msg(VDAgentChardev *vd,
-> VDAgentMessage *msg)
->
->      msg->protocol =3D VD_AGENT_PROTOCOL;
->
-> +    if (vd->outbuf.offset + msgsize > VDAGENT_BUFFER_LIMIT) {
-> +        return;
-> +    }
->
-
-Silently dropping messages, there might be some bad consequences. At least
-I think we should error_report(). Eventually, the caller should be informed
-too.
-
-
-> +
->      while (msgoff < msgsize) {
->          chunk.port =3D VDP_CLIENT_PORT;
->          chunk.size =3D msgsize - msgoff;
->          if (chunk.size > 1024) {
->              chunk.size =3D 1024;
->          }
-> -        vdagent_send_buf(vd, &chunk, sizeof(chunk));
-> -        vdagent_send_buf(vd, msgbuf + msgoff, chunk.size);
-> +        buffer_reserve(&vd->outbuf, sizeof(chunk) + chunk.size);
-> +        buffer_append(&vd->outbuf, &chunk, sizeof(chunk));
-> +        buffer_append(&vd->outbuf, msgbuf + msgoff, chunk.size);
->          msgoff +=3D chunk.size;
->      }
-> +    vdagent_send_buf(vd);
->  }
->
->  static void vdagent_send_caps(VDAgentChardev *vd)
-> @@ -550,6 +562,7 @@ static void vdagent_chr_open(Chardev *chr,
->
-> &vdagent_mouse_handler);
->      }
->
-> +    buffer_init(&vd->outbuf, "vdagent-outbuf");
->
-
-Needs a buffer_free(). Move it to object init/finalize ?
-
-     *be_opened =3D true;
->  }
->
-> @@ -702,6 +715,13 @@ static int vdagent_chr_write(Chardev *chr, const
-> uint8_t *buf, int len)
->      return ret;
->  }
->
-> +static void vdagent_chr_accept_input(Chardev *chr)
+>  
+> +static bool is_sample_pages_valid(int64_t pages)
 > +{
-> +    VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(chr);
-> +
-> +    vdagent_send_buf(vd);
+> +    return pages >= MIN_SAMPLE_PAGE_COUNT &&
+> +           pages <= MAX_SAMPLE_PAGE_COUNT;
 > +}
 > +
->  static void vdagent_chr_set_fe_open(struct Chardev *chr, int fe_open)
+>  static int dirtyrate_set_state(int *state, int old_state, int new_state)
 >  {
->      VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(chr);
-> @@ -748,6 +768,7 @@ static void vdagent_chr_class_init(ObjectClass *oc,
-> void *data)
->      cc->open             =3D vdagent_chr_open;
->      cc->chr_write        =3D vdagent_chr_write;
->      cc->chr_set_fe_open  =3D vdagent_chr_set_fe_open;
-> +    cc->chr_accept_input =3D vdagent_chr_accept_input;
+>      assert(new_state < DIRTY_RATE_STATUS__MAX);
+> @@ -72,13 +78,15 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+>      info->status = CalculatingState;
+>      info->start_time = DirtyStat.start_time;
+>      info->calc_time = DirtyStat.calc_time;
+> +    info->sample_pages = DirtyStat.sample_pages;
+>  
+>      trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
+>  
+>      return info;
 >  }
->
->  static const TypeInfo vdagent_chr_type_info =3D {
-> --
-> 2.31.1
->
->
+>  
+> -static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
+> +static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time,
+> +                                uint64_t sample_pages)
+>  {
+>      DirtyStat.total_dirty_samples = 0;
+>      DirtyStat.total_sample_count = 0;
+> @@ -86,6 +94,7 @@ static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
+>      DirtyStat.dirty_rate = -1;
+>      DirtyStat.start_time = start_time;
+>      DirtyStat.calc_time = calc_time;
+> +    DirtyStat.sample_pages = sample_pages;
+>  }
+>  
+>  static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
+> @@ -361,6 +370,7 @@ void *get_dirtyrate_thread(void *arg)
+>      int ret;
+>      int64_t start_time;
+>      int64_t calc_time;
+> +    uint64_t sample_pages;
+>  
+>      ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
+>                                DIRTY_RATE_STATUS_MEASURING);
+> @@ -371,7 +381,8 @@ void *get_dirtyrate_thread(void *arg)
+>  
+>      start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
+>      calc_time = config.sample_period_seconds;
+> -    init_dirtyrate_stat(start_time, calc_time);
+> +    sample_pages = config.sample_pages_per_gigabytes;
+> +    init_dirtyrate_stat(start_time, calc_time, sample_pages);
+>  
+>      calculate_dirtyrate(config);
+>  
+> @@ -383,7 +394,8 @@ void *get_dirtyrate_thread(void *arg)
+>      return NULL;
+>  }
+>  
+> -void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
+> +void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
+> +                         int64_t sample_pages, Error **errp)
+>  {
+>      static struct DirtyRateConfig config;
+>      QemuThread thread;
+> @@ -404,6 +416,17 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
+>          return;
+>      }
+>  
+> +    if (has_sample_pages) {
+> +        if (!is_sample_pages_valid(sample_pages)) {
+> +            error_setg(errp, "sample-pages is out of range[%d, %d].",
+> +                            MIN_SAMPLE_PAGE_COUNT,
+> +                            MAX_SAMPLE_PAGE_COUNT);
+> +            return;
+> +        }
+> +    } else {
+> +        sample_pages = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
+> +    }
+> +
+>      /*
+>       * Init calculation state as unstarted.
+>       */
+> @@ -415,7 +438,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
+>      }
+>  
+>      config.sample_period_seconds = calc_time;
+> -    config.sample_pages_per_gigabytes = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
+> +    config.sample_pages_per_gigabytes = sample_pages;
+>      qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
+>                         (void *)&config, QEMU_THREAD_DETACHED);
+>  }
+> diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+> index 6ec4295..e1fd290 100644
+> --- a/migration/dirtyrate.h
+> +++ b/migration/dirtyrate.h
+> @@ -15,7 +15,6 @@
+>  
+>  /*
+>   * Sample 512 pages per GB as default.
+> - * TODO: Make it configurable.
+>   */
+>  #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
+>  
+> @@ -35,6 +34,12 @@
+>  #define MIN_FETCH_DIRTYRATE_TIME_SEC              1
+>  #define MAX_FETCH_DIRTYRATE_TIME_SEC              60
+>  
+> +/*
+> + * Take 1/16 pages in 1G as the maxmum sample page count
+> + */
+> +#define MIN_SAMPLE_PAGE_COUNT                     128
+> +#define MAX_SAMPLE_PAGE_COUNT                     16384
+> +
+>  struct DirtyRateConfig {
+>      uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
+>      int64_t sample_period_seconds; /* time duration between two sampling */
+> @@ -63,6 +68,7 @@ struct DirtyRateStat {
+>      int64_t dirty_rate; /* dirty rate in MB/s */
+>      int64_t start_time; /* calculation start time in units of second */
+>      int64_t calc_time; /* time duration of two sampling in units of second */
+> +    uint64_t sample_pages; /* sample pages per GB */
+>  };
+>  
+>  void *get_dirtyrate_thread(void *arg);
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 0b17cce..b8f0bb5 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1732,45 +1732,6 @@
+>    'data': [ 'unstarted', 'measuring', 'measured'] }
+>  
+>  ##
+> -# @DirtyRateInfo:
+> -#
+> -# Information about current dirty page rate of vm.
+> -#
+> -# @dirty-rate: an estimate of the dirty page rate of the VM in units of
+> -#              MB/s, present only when estimating the rate has completed.
+> -#
+> -# @status: status containing dirtyrate query status includes
+> -#          'unstarted' or 'measuring' or 'measured'
+> -#
+> -# @start-time: start time in units of second for calculation
+> -#
+> -# @calc-time: time in units of second for sample dirty pages
+> -#
+> -# Since: 5.2
+> -#
+> -##
+> -{ 'struct': 'DirtyRateInfo',
+> -  'data': {'*dirty-rate': 'int64',
+> -           'status': 'DirtyRateStatus',
+> -           'start-time': 'int64',
+> -           'calc-time': 'int64'} }
+> -
+> -##
+> -# @calc-dirty-rate:
+> -#
+> -# start calculating dirty page rate for vm
+> -#
+> -# @calc-time: time in units of second for sample dirty pages
+> -#
+> -# Since: 5.2
+> -#
+> -# Example:
+> -#   {"command": "calc-dirty-rate", "data": {"calc-time": 1} }
+> -#
+> -##
+> -{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
+> -
+> -##
 
---=20
-Marc-Andr=C3=A9 Lureau
+I don't see why you're moving the exisitn DirtyRateInfoa nd
+calc-dirty-rate.
 
---00000000000037de0f05c20a8308
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>  # @query-dirty-rate:
+>  #
+>  # query dirty page rate in units of MB/s for vm
+> @@ -1951,3 +1912,49 @@
+>    'data': { 'job-id': 'str',
+>              'tag': 'str',
+>              'devices': ['str'] } }
+> +
+> +##
+> +# @DirtyRateInfo:
+> +#
+> +# Information about current dirty page rate of vm.
+> +#
+> +# @dirty-rate: an estimate of the dirty page rate of the VM in units of
+> +#              MB/s, present only when estimating the rate has completed.
+> +#
+> +# @status: status containing dirtyrate query status includes
+> +#          'unstarted' or 'measuring' or 'measured'
+> +#
+> +# @start-time: start time in units of second for calculation
+> +#
+> +# @calc-time: time in units of second for sample dirty pages
+> +#
+> +# @sample-pages: page count per GB for sample dirty pages
+> +#                the default value is 512
+> +#
+> +# Since: 6.1
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 11, 2021 at 1:04 PM Ger=
-d Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; &=
-gt; +/* ------------------------------------------------------------------ =
-*/<br>
-&gt; &gt; +/* send messages=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-&gt; &gt; +<br>
-&gt; &gt; +static void vdagent_send_buf(VDAgentChardev *vd, void *ptr, uint=
-32_t<br>
-&gt; &gt; msgsize)<br>
-&gt; &gt; +{<br>
-&gt; &gt; +=C2=A0 =C2=A0 uint8_t *msgbuf =3D ptr;<br>
-&gt; &gt; +=C2=A0 =C2=A0 uint32_t len, pos =3D 0;<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 while (pos &lt; msgsize) {<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D qemu_chr_be_can_write(CHARDE=
-V(vd));<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len &gt; msgsize - pos) {<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D msgsize - pos;=
-<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_chr_be_write(CHARDEV(vd), msgbu=
-f + pos, len);<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pos +=3D len;<br>
-&gt; &gt; +=C2=A0 =C2=A0 }<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; This looks like it could easily busy loop. Have you thought about fixi=
-ng<br>
-&gt; this?<br>
-<br>
-Incremental fix [ to be squashed ]<br>
-<br></blockquote><div><br></div><div>thanks, a few comments below</div><div=
-> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-take care,<br>
-=C2=A0 Gerd<br>
-<br>
-diff --git a/ui/vdagent.c b/ui/vdagent.c<br>
-index 64213aa25a06..efa98725fb22 100644<br>
---- a/ui/vdagent.c<br>
-+++ b/ui/vdagent.c<br>
-@@ -3,7 +3,9 @@<br>
-=C2=A0#include &quot;include/qemu-common.h&quot;<br>
-=C2=A0#include &quot;chardev/char.h&quot;<br>
-=C2=A0#include &quot;hw/qdev-core.h&quot;<br>
-+#include &quot;qemu/buffer.h&quot;<br>
-=C2=A0#include &quot;qemu/option.h&quot;<br>
-+#include &quot;qemu/units.h&quot;<br>
-=C2=A0#include &quot;ui/clipboard.h&quot;<br>
-=C2=A0#include &quot;ui/console.h&quot;<br>
-=C2=A0#include &quot;ui/input.h&quot;<br>
-@@ -16,6 +18,7 @@<br>
-<br>
-=C2=A0#define VDAGENT_MOUSE_DEFAULT true<br>
-=C2=A0#define VDAGENT_CLIPBOARD_DEFAULT false<br>
-+#define VDAGENT_BUFFER_LIMIT (1 * MiB)<br>
-<br>
-=C2=A0struct VDAgentChardev {<br>
-=C2=A0 =C2=A0 =C2=A0Chardev parent;<br>
-@@ -32,6 +35,7 @@ struct VDAgentChardev {<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t msgsize;<br>
-=C2=A0 =C2=A0 =C2=A0uint8_t *xbuf;<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t xoff, xsize;<br>
-+=C2=A0 =C2=A0 Buffer outbuf;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* mouse */<br>
-=C2=A0 =C2=A0 =C2=A0DeviceState mouse_dev;<br>
-@@ -124,18 +128,20 @@ static const char *type_name[] =3D {<br>
-=C2=A0/* ------------------------------------------------------------------=
- */<br>
-=C2=A0/* send messages=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-<br>
--static void vdagent_send_buf(VDAgentChardev *vd, void *ptr, uint32_t msgsi=
-ze)<br>
-+static void vdagent_send_buf(VDAgentChardev *vd)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 uint8_t *msgbuf =3D ptr;<br>
--=C2=A0 =C2=A0 uint32_t len, pos =3D 0;<br>
-+=C2=A0 =C2=A0 uint32_t len;<br>
-<br>
--=C2=A0 =C2=A0 while (pos &lt; msgsize) {<br>
-+=C2=A0 =C2=A0 while (!buffer_empty(&amp;vd-&gt;outbuf)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0len =3D qemu_chr_be_can_write(CHARDEV(vd)=
-);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len &gt; msgsize - pos) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D msgsize - pos;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_chr_be_write(CHARDEV(vd), msgbuf + pos, l=
-en);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 pos +=3D len;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len &gt; vd-&gt;outbuf.offset) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D vd-&gt;outbuf.offset;<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_chr_be_write(CHARDEV(vd), vd-&gt;outbuf.b=
-uffer, len);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buffer_advance(&amp;vd-&gt;outbuf, len);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
-@@ -150,16 +156,22 @@ static void vdagent_send_msg(VDAgentChardev *vd, VDAg=
-entMessage *msg)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0msg-&gt;protocol =3D VD_AGENT_PROTOCOL;<br>
-<br>
-+=C2=A0 =C2=A0 if (vd-&gt;outbuf.offset + msgsize &gt; VDAGENT_BUFFER_LIMIT=
-) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>Silently dropping mess=
-ages, there might be some bad consequences. At least I think we should erro=
-r_report(). Eventually, the caller should be informed too.<br></div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-=C2=A0 =C2=A0 =C2=A0while (msgoff &lt; msgsize) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0chunk.port =3D VDP_CLIENT_PORT;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0chunk.size =3D msgsize - msgoff;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (chunk.size &gt; 1024) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0chunk.size =3D 1024;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_send_buf(vd, &amp;chunk, sizeof(chunk)=
-);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_send_buf(vd, msgbuf + msgoff, chunk.si=
-ze);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buffer_reserve(&amp;vd-&gt;outbuf, sizeof(chun=
-k) + chunk.size);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buffer_append(&amp;vd-&gt;outbuf, &amp;chunk, =
-sizeof(chunk));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buffer_append(&amp;vd-&gt;outbuf, msgbuf + msg=
-off, chunk.size);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0msgoff +=3D chunk.size;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 vdagent_send_buf(vd);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void vdagent_send_caps(VDAgentChardev *vd)<br>
-@@ -550,6 +562,7 @@ static void vdagent_chr_open(Chardev *chr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;vdagent_mouse_handler);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+=C2=A0 =C2=A0 buffer_init(&amp;vd-&gt;outbuf, &quot;vdagent-outbuf&quot;);=
-<br></blockquote><div><br></div><div>Needs a buffer_free(). Move it to obje=
-ct init/finalize ?<br></div><div><br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0*be_opened =3D true;<br>
-=C2=A0}<br>
-<br>
-@@ -702,6 +715,13 @@ static int vdagent_chr_write(Chardev *chr, const uint8=
-_t *buf, int len)<br>
-=C2=A0 =C2=A0 =C2=A0return ret;<br>
-=C2=A0}<br>
-<br>
-+static void vdagent_chr_accept_input(Chardev *chr)<br>
-+{<br>
-+=C2=A0 =C2=A0 VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(chr);<br>
-+<br>
-+=C2=A0 =C2=A0 vdagent_send_buf(vd);<br>
-+}<br>
-+<br>
-=C2=A0static void vdagent_chr_set_fe_open(struct Chardev *chr, int fe_open)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0VDAgentChardev *vd =3D QEMU_VDAGENT_CHARDEV(chr);<br>
-@@ -748,6 +768,7 @@ static void vdagent_chr_class_init(ObjectClass *oc, voi=
-d *data)<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;open=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0=3D vdagent_chr_open;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_write=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D vdagent=
-_chr_write;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_set_fe_open=C2=A0 =3D vdagent_chr_set_fe_ope=
-n;<br>
-+=C2=A0 =C2=A0 cc-&gt;chr_accept_input =3D vdagent_chr_accept_input;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static const TypeInfo vdagent_chr_type_info =3D {<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+These are still since 5.2;  the only difference is the new
+ @sample-pages,  so it should be something like:
 
---00000000000037de0f05c20a8308--
++# @calc-time: time in units of second for sample dirty pages
++#
++# @sample-pages: page count per GB for sample dirty pages
++#                the default value is 512 (since 6.1)
++#
++# Since: 5.2
+
+to indicate just that field has been added.
+
+> +##
+> +{ 'struct': 'DirtyRateInfo',
+> +  'data': {'*dirty-rate': 'int64',
+> +           'status': 'DirtyRateStatus',
+> +           'start-time': 'int64',
+> +           'calc-time': 'int64',
+> +           'sample-pages': 'uint64'} }
+> +
+> +##
+> +# @calc-dirty-rate:
+> +#
+> +# start calculating dirty page rate for vm
+> +#
+> +# @calc-time: time in units of second for sample dirty pages
+> +#
+> +# @sample-pages: page count per GB for sample dirty pages
+> +#                the default value is 512
+> +#
+> +# Since: 6.1
+> +#
+> +# Example:
+> +#   {"command": "calc-dirty-rate", "data": {"calc-time": 1, 'sample-pages': 512} }
+> +#
+> +##
+> +{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64', '*sample-pages': 'int'} }
+> -- 
+> 1.8.3.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
