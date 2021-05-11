@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ACF637B168
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 00:10:33 +0200 (CEST)
-Received: from localhost ([::1]:53362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5026A37B169
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 00:10:34 +0200 (CEST)
+Received: from localhost ([::1]:53376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgaaG-0007d8-6U
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 18:10:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55658)
+	id 1lgaaH-0007dg-9l
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 18:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaW5-0007NK-UK
- for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51549)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaW6-0007Nw-8q
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaW1-0006Nd-RB
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgaW1-0006O1-Uk
  for qemu-devel@nongnu.org; Tue, 11 May 2021 18:06:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620770768;
+ s=mimecast20190719; t=1620770769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2Zw/1IFeRgebH6yrdkTw5SelFOgt1TKw/afQTI5DhMA=;
- b=O0ksdT6xIVR9kpF+w/Nip09o9oaalyjN/GD+ajUtqGOpKf4apXH+6QK2O8MqE0U7qoJV29
- 2XE4taLUNlhvbu7p8X4MOVNcyosBxDqUOJ3lwD5m8PO1GNafxOGSXtedgsf7PoNnkY+FWC
- 685KvdbAlLDEKNAiBsO8NCvSiIBEqY4=
+ bh=XcLCBJp2GifzvxOzMbM4f59L5eLSU4faCfjRnldxOV4=;
+ b=KoW1IDw1ulf81Cj9X3a/fdfPRSGFXFgkPXoEhpp2npbOlQrWLIpjyPnTW+xum3zzDR4ALd
+ chGe8RSbR5NjgxU1ddewi5pvfyJqjrmZSEG7t0IELLTKeKgd+b2ziaybPTRuoFXRI4u74t
+ FcQeHZzwUCwAFvFSuMhUzH9g7o9yFpw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-amMImJB_Nf2-hMW46Km4hA-1; Tue, 11 May 2021 18:06:05 -0400
-X-MC-Unique: amMImJB_Nf2-hMW46Km4hA-1
+ us-mta-439-F9KTpqmpOzOl8ESNw8s3nA-1; Tue, 11 May 2021 18:06:05 -0400
+X-MC-Unique: F9KTpqmpOzOl8ESNw8s3nA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26187101371D;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F40D81854E21;
  Tue, 11 May 2021 22:06:04 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D46360CC9;
- Tue, 11 May 2021 22:06:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A33ABA6F;
+ Tue, 11 May 2021 22:06:04 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/21] qapi: Add test for nonexistent schema file
-Date: Tue, 11 May 2021 18:05:42 -0400
-Message-Id: <20210511220601.2110055-3-jsnow@redhat.com>
+Subject: [PATCH v2 03/21] qapi/source: Remove line number from QAPISourceInfo
+ initializer
+Date: Tue, 11 May 2021 18:05:43 -0400
+Message-Id: <20210511220601.2110055-4-jsnow@redhat.com>
 In-Reply-To: <20210511220601.2110055-1-jsnow@redhat.com>
 References: <20210511220601.2110055-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,59 +83,61 @@ Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests the error-return pathway introduced in the previous commit.
-(Thanks to Paolo for the help with the Meson magic.)
+With the QAPISourceInfo(None, None, None) construct gone, there's no
+longer any reason to have to specify that a file starts on the first
+line. Remove it from the initializer and default it to 1.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-
----
-
-This went after the previous patch instead of before because prior to
-removing the sys.argv[0] bit from QAPISourceInfo, I can't filter the
-test to pass the diff. Instead of writing something new to get a better
-patch ordering, just add the test after.
+Remove the last vestiges where we check for 'line' being unset, that
+can't happen, now.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qapi-schema/meson.build        | 7 ++++++-
- tests/qapi-schema/missing-schema.err | 1 +
- tests/qapi-schema/missing-schema.out | 0
- 3 files changed, 7 insertions(+), 1 deletion(-)
- create mode 100644 tests/qapi-schema/missing-schema.err
- create mode 100644 tests/qapi-schema/missing-schema.out
+ scripts/qapi/parser.py |  2 +-
+ scripts/qapi/source.py | 10 +++-------
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index d7163e6601c..dc448e8f74d 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -199,11 +199,16 @@ schemas = [
-   'unknown-escape.json',
-   'unknown-expr-key.json',
- ]
-+schemas = files(schemas)
-+
-+# Intentionally missing schema file test -- not passed through files():
-+schemas += [meson.current_source_dir() / 'missing-schema.json']
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index a53b735e7de..39dbcc4eacc 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -47,7 +47,7 @@ def __init__(self, fname, previously_included=None, incl_info=None):
+         if self.src == '' or self.src[-1] != '\n':
+             self.src += '\n'
+         self.cursor = 0
+-        self.info = QAPISourceInfo(fname, 1, incl_info)
++        self.info = QAPISourceInfo(fname, incl_info)
+         self.line_pos = 0
+         self.exprs = []
+         self.docs = []
+diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
+index 1ade864d7b9..04193cc9643 100644
+--- a/scripts/qapi/source.py
++++ b/scripts/qapi/source.py
+@@ -31,10 +31,9 @@ def __init__(self) -> None:
+ class QAPISourceInfo:
+     T = TypeVar('T', bound='QAPISourceInfo')
  
- # Because people may want to use test-qapi.py from the command line, we
- # are not using the "#! /usr/bin/env python3" trick here.  See
- # docs/devel/build-system.txt
--test('QAPI schema regression tests', python, args: files('test-qapi.py', schemas),
-+test('QAPI schema regression tests', python,
-+     args: files('test-qapi.py') + schemas,
-      env: test_env, suite: ['qapi-schema', 'qapi-frontend'])
+-    def __init__(self, fname: str, line: int,
+-                 parent: Optional['QAPISourceInfo']):
++    def __init__(self, fname: str, parent: Optional['QAPISourceInfo']):
+         self.fname = fname
+-        self.line = line
++        self.line = 1
+         self.parent = parent
+         self.pragma: QAPISchemaPragma = (
+             parent.pragma if parent else QAPISchemaPragma()
+@@ -52,10 +51,7 @@ def next_line(self: T) -> T:
+         return info
  
- diff = find_program('diff')
-diff --git a/tests/qapi-schema/missing-schema.err b/tests/qapi-schema/missing-schema.err
-new file mode 100644
-index 00000000000..b4d9ff1fb2b
---- /dev/null
-+++ b/tests/qapi-schema/missing-schema.err
-@@ -0,0 +1 @@
-+can't read schema file 'missing-schema.json': No such file or directory
-diff --git a/tests/qapi-schema/missing-schema.out b/tests/qapi-schema/missing-schema.out
-new file mode 100644
-index 00000000000..e69de29bb2d
+     def loc(self) -> str:
+-        ret = self.fname
+-        if self.line is not None:
+-            ret += ':%d' % self.line
+-        return ret
++        return f"{self.fname}:{self.line}"
+ 
+     def in_defn(self) -> str:
+         if self.defn_name:
 -- 
 2.30.2
 
