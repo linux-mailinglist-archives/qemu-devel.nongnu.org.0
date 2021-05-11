@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8B7379FFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:50:15 +0200 (CEST)
-Received: from localhost ([::1]:57908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B236379FEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:46:21 +0200 (CEST)
+Received: from localhost ([::1]:44394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgMDe-0000p1-QD
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:50:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40662)
+	id 1lgM9s-0008Py-9O
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:46:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLse-0006VM-GP
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:28:32 -0400
-Received: from mga06.intel.com ([134.134.136.31]:46423)
+ id 1lgLsg-0006Wy-Ak
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 02:28:34 -0400
+Received: from mga06.intel.com ([134.134.136.31]:46437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLsb-0004ZR-Kl
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:28:32 -0400
-IronPort-SDR: KLwvX9jrn5P9fsyGCPOO6YHBOkvHlHfGoF+FHtdKyVPey9x+ICkQyKf5gIQXyzvFnlE7kR/Ja1
- /+nUVM2qGSdw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631545"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631545"
+ id 1lgLsc-0004hV-Bg
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 02:28:34 -0400
+IronPort-SDR: h8BONVQzKGOozf32Z7xvyfRavuFpUhyq83thgKl4TAAswcndMuKqdG/I6oCEioZVUvX5i+S3HA
+ XB3DAMhz3KQA==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631556"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631556"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2021 23:28:01 -0700
-IronPort-SDR: 3SBcHZOzC2rUeZXHpRCoHp3RO3ERx9Q5dZ+yp240NkGF/TddTcAgiWi13NloAy51aH0iDebCwT
- zhbhsfCsR02g==
+ 10 May 2021 23:28:03 -0700
+IronPort-SDR: qIhtq5VnbvCC0sfmAE1d8JpWqJeGQHoim8jNn54gFw/venUp33YTo4RWfcZspmMtug/vumI3oN
+ jUL/EsmxgCLw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281249"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281265"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:28:00 -0700
+ by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:28:02 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/32] hw/i386/fw_cfg: Set SGX bits in feature control
- fw_cfg accordingly
-Date: Tue, 11 May 2021 14:20:36 +0800
-Message-Id: <20210511062051.41948-18-yang.zhong@intel.com>
+Subject: [PATCH v2 18/32] hw/i386/pc: Account for SGX EPC sections when
+ calculating device memory
+Date: Tue, 11 May 2021 14:20:37 +0800
+Message-Id: <20210511062051.41948-19-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210511062051.41948-1-yang.zhong@intel.com>
 References: <20210511062051.41948-1-yang.zhong@intel.com>
@@ -69,45 +69,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Request SGX an SGX Launch Control to be enabled in FEATURE_CONTROL
-when the features are exposed to the guest. Our design is the SGX
-Launch Control bit will be unconditionally set in FEATURE_CONTROL,
-which is unlike host bios.
+Add helpers to detect if SGX EPC exists above 4g, and if so, where SGX
+EPC above 4g ends.  Use the helpers to adjust the device memory range
+if SGX EPC exists above 4g.
+
+For multiple virtual EPC sections, we just put them together physically
+contiguous for the simplicity because we don't support EPC NUMA affinity
+now. Once the SGX EPC NUMA support in the kernel SGX driver, we will
+support this in the future.
+
+Note that SGX EPC is currently hardcoded to reside above 4g.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/i386/fw_cfg.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ hw/i386/pc.c              | 11 ++++++++++-
+ include/hw/i386/sgx-epc.h |  7 +++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-index e48a54fa36..ec99743c22 100644
---- a/hw/i386/fw_cfg.c
-+++ b/hw/i386/fw_cfg.c
-@@ -157,7 +157,7 @@ void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
- {
-     X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
-     CPUX86State *env = &cpu->env;
--    uint32_t unused, ecx, edx;
-+    uint32_t unused, ebx, ecx, edx;
-     uint64_t feature_control_bits = 0;
-     uint64_t *val;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 8cfaf216e7..d727993dfe 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -926,8 +926,15 @@ void pc_memory_init(PCMachineState *pcms,
+             exit(EXIT_FAILURE);
+         }
  
-@@ -172,6 +172,14 @@ void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
-         feature_control_bits |= FEATURE_CONTROL_LMCE;
-     }
- 
-+    cpu_x86_cpuid(env, 0x7, 0, &unused, &ebx, &ecx, &unused);
-+    if (ebx & CPUID_7_0_EBX_SGX) {
-+        feature_control_bits |= FEATURE_CONTROL_SGX;
-+    }
-+    if (ecx & CPUID_7_0_ECX_SGX_LC) {
-+        feature_control_bits |= FEATURE_CONTROL_SGX_LC;
-+    }
++        if (pcms->sgx_epc != NULL) {
++            machine->device_memory->base = sgx_epc_above_4g_end(pcms->sgx_epc);
++        } else {
++            machine->device_memory->base =
++                0x100000000ULL + x86ms->above_4g_mem_size;
++        }
 +
-     if (!feature_control_bits) {
-         return;
+         machine->device_memory->base =
+-            ROUND_UP(0x100000000ULL + x86ms->above_4g_mem_size, 1 * GiB);
++            ROUND_UP(machine->device_memory->base, 1 * GiB);
+ 
+         if (pcmc->enforce_aligned_dimm) {
+             /* size device region assuming 1G page max alignment per slot */
+@@ -1012,6 +1019,8 @@ uint64_t pc_pci_hole64_start(void)
+         if (!pcmc->broken_reserved_end) {
+             hole64_start += memory_region_size(&ms->device_memory->mr);
+         }
++    } else if (pcms->sgx_epc != NULL) {
++            hole64_start = sgx_epc_above_4g_end(pcms->sgx_epc);
+     } else {
+         hole64_start = 0x100000000ULL + x86ms->above_4g_mem_size;
      }
+diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
+index 8d80b34fb7..743d0a943c 100644
+--- a/include/hw/i386/sgx-epc.h
++++ b/include/hw/i386/sgx-epc.h
+@@ -59,4 +59,11 @@ extern int sgx_epc_enabled;
+ 
+ int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size);
+ 
++static inline uint64_t sgx_epc_above_4g_end(SGXEPCState *sgx_epc)
++{
++    assert(sgx_epc != NULL && sgx_epc->base >= 0x100000000ULL);
++
++    return sgx_epc->base + sgx_epc->size;
++}
++
+ #endif
 -- 
 2.29.2.334.gfaefdd61ec
 
