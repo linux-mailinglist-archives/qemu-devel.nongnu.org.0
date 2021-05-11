@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD5537A2AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:55:14 +0200 (CEST)
-Received: from localhost ([::1]:43102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820B237A2AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:55:17 +0200 (CEST)
+Received: from localhost ([::1]:43356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgOAb-0005vh-KN
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36624)
+	id 1lgOAe-00065p-H5
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:55:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lgNe7-0000Bj-HV
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:21:39 -0400
-Received: from mga17.intel.com ([192.55.52.151]:32223)
+ id 1lgNe8-0000HT-Se
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:21:40 -0400
+Received: from mga17.intel.com ([192.55.52.151]:32226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lgNe4-0004ul-Hj
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:21:39 -0400
-IronPort-SDR: fxsdHQT/XXiPF/ILdqEB3lX+1A11PTtBcJqhM5f58qCfR2Cu2KJOfOsJ6hQ8WI90FLEu5Aa77u
- 5gbLS1TVUErA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="179649396"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="179649396"
+ id 1lgNe5-0004x4-3O
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:21:40 -0400
+IronPort-SDR: W5/uZQ/U0zApG3u+S71Bzo427f0WP9KvMTF285YEYE7lKi+FsAYrw28nCyX/FZQttfaNgyvwCK
+ 8Z9X8RLJaMAQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="179649397"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="179649397"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 May 2021 01:20:49 -0700
-IronPort-SDR: lmof1W5dq6khbjRoA4m5+byQhzogu/x0cyHGalMkGnbcoSMzcncQlvcJpvHK+sMrhtnkod+Kf/
- Xz3Cf97eTm/Q==
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="536892218"
+IronPort-SDR: YF2i2PBW8U/INCtP9KjeT8gNVblw0pL8Syks74MXoyzOr8CEHOfYGseuC+zeIqmMTXZD0vEZGa
+ MaAbM2J1+J9g==
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="536892221"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 May 2021 01:20:49 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/20] virtio-gpu: Add dmabuf helpers for synchronization
-Date: Tue, 11 May 2021 01:08:13 -0700
-Message-Id: <20210511080818.366985-16-vivek.kasireddy@intel.com>
+Subject: [PATCH v3 16/20] virtio-gpu: Add virtio_gpu_wait_flush API
+Date: Tue, 11 May 2021 01:08:14 -0700
+Message-Id: <20210511080818.366985-17-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210511080818.366985-1-vivek.kasireddy@intel.com>
 References: <20210511080818.366985-1-vivek.kasireddy@intel.com>
@@ -66,146 +66,101 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These helpers will be used in the next subsequent patches to
-wait until a dmabuf object (via a texture) has been used
-by the UI to render and submit its buffer.
+This new command can be used by the Guest Compositor as a way to
+synchronize its updates (repaint/redraw) with Host UI buffer
+submissions (redraw). In other words, the Guest can wait until
+the buffer it has submitted has been used by the Host before it
+starts it new repaint cycle.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- hw/display/virtio-gpu-udmabuf.c | 42 +++++++++++++++++++++++++++++++++
- include/hw/virtio/virtio-gpu.h  |  4 ++++
- include/ui/console.h            |  6 +++++
- ui/console.c                    | 10 ++++++++
- 4 files changed, 62 insertions(+)
+ hw/display/virtio-gpu.c                     | 31 +++++++++++++++++++++
+ include/standard-headers/linux/virtio_gpu.h | 10 +++++++
+ 2 files changed, 41 insertions(+)
 
-diff --git a/hw/display/virtio-gpu-udmabuf.c b/hw/display/virtio-gpu-udmabuf.c
-index a9cb83d686..57bddd4d01 100644
---- a/hw/display/virtio-gpu-udmabuf.c
-+++ b/hw/display/virtio-gpu-udmabuf.c
-@@ -178,6 +178,47 @@ static void virtio_gpu_free_dmabuf(VirtIOGPU *g, VGPUDMABuf *dmabuf)
-     g_free(dmabuf);
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 694d8f550c..59cbc2b1df 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -933,6 +933,30 @@ virtio_gpu_resource_detach_backing(VirtIOGPU *g,
+     virtio_gpu_cleanup_mapping(g, res);
  }
  
-+static VGPUDMABuf
-+*virtio_gpu_find_dmabuf(VirtIOGPU *g,
-+                        struct virtio_gpu_simple_resource *res)
++static void virtio_gpu_wait_flush(VirtIOGPU *g,
++                                  struct virtio_gpu_ctrl_command *cmd)
 +{
-+    VGPUDMABuf *dmabuf, *tmp;
++    struct virtio_gpu_simple_resource *res;
++    struct virtio_gpu_wait_flush wf;
 +
-+    QTAILQ_FOREACH_SAFE(dmabuf, &g->dmabuf.bufs, next, tmp) {
-+        if (dmabuf->buf.fd == res->dmabuf_fd) {
-+            return dmabuf;
++    VIRTIO_GPU_FILL_CMD(wf);
++    virtio_gpu_bswap_32(&wf, sizeof(wf));
++
++    res = virtio_gpu_find_check_resource(g, wf.resource_id, true,
++                                         __func__, &cmd->error);
++    if (!res) {
++        return;
++    }
++
++    if (res->blob) {
++        if (cmd->cmd_hdr.flags & VIRTIO_GPU_FLAG_FENCE &&
++            virtio_gpu_resource_has_sync(g, res)) {
++            virtio_gpu_resource_wait_sync(g, res);
++            cmd->finished = true;
 +        }
 +    }
-+
-+    return NULL;
 +}
 +
-+void virtio_gpu_resource_wait_sync(VirtIOGPU *g,
-+                                   struct virtio_gpu_simple_resource *res)
-+{
-+    struct virtio_gpu_scanout *scanout;
-+    VGPUDMABuf *dmabuf;
-+
-+    dmabuf = virtio_gpu_find_dmabuf(g, res);
-+    if (dmabuf) {
-+        scanout = &g->parent_obj.scanout[dmabuf->scanout_id];
-+        dpy_gl_wait_dmabuf(scanout->con, &dmabuf->buf);
-+    }
-+}
-+
-+bool virtio_gpu_resource_has_sync(VirtIOGPU *g,
-+                                  struct virtio_gpu_simple_resource *res)
-+{
-+    VGPUDMABuf *dmabuf;
-+
-+    dmabuf = virtio_gpu_find_dmabuf(g, res);
-+    if (dmabuf && dmabuf->buf.sync) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
- static VGPUDMABuf
- *virtio_gpu_create_dmabuf(VirtIOGPU *g,
-                           uint32_t scanout_id,
-@@ -196,6 +237,7 @@ static VGPUDMABuf
-     dmabuf->buf.stride = fb->stride;
-     dmabuf->buf.fourcc = qemu_pixman_to_drm_format(fb->format);
-     dmabuf->buf.fd = res->dmabuf_fd;
-+    dmabuf->buf.sync = NULL;
- 
-     dmabuf->scanout_id = scanout_id;
-     QTAILQ_INSERT_HEAD(&g->dmabuf.bufs, dmabuf, next);
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 4a827454f5..41f74e9286 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -277,6 +277,10 @@ int virtio_gpu_update_dmabuf(VirtIOGPU *g,
-                              uint32_t scanout_id,
-                              struct virtio_gpu_simple_resource *res,
-                              struct virtio_gpu_framebuffer *fb);
-+void virtio_gpu_resource_wait_sync(VirtIOGPU *g,
-+                                   struct virtio_gpu_simple_resource *res);
-+bool virtio_gpu_resource_has_sync(VirtIOGPU *g,
-+                                  struct virtio_gpu_simple_resource *res);
- 
- /* virtio-gpu-3d.c */
- void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
-diff --git a/include/ui/console.h b/include/ui/console.h
-index b30b63976a..3b0e377923 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -168,6 +168,7 @@ typedef struct QemuDmaBuf {
-     uint64_t  modifier;
-     uint32_t  texture;
-     bool      y0_top;
-+    void      *sync;
- } QemuDmaBuf;
- 
- typedef struct DisplayState DisplayState;
-@@ -240,6 +241,9 @@ typedef struct DisplayChangeListenerOps {
-     /* optional */
-     void (*dpy_gl_release_dmabuf)(DisplayChangeListener *dcl,
-                                   QemuDmaBuf *dmabuf);
-+    /* optional */
-+    void (*dpy_gl_wait_dmabuf)(DisplayChangeListener *dcl,
-+                               QemuDmaBuf *dmabuf);
-     /* required if GL */
-     void (*dpy_gl_update)(DisplayChangeListener *dcl,
-                           uint32_t x, uint32_t y, uint32_t w, uint32_t h);
-@@ -312,6 +316,8 @@ void dpy_gl_cursor_position(QemuConsole *con,
-                             uint32_t pos_x, uint32_t pos_y);
- void dpy_gl_release_dmabuf(QemuConsole *con,
-                            QemuDmaBuf *dmabuf);
-+void dpy_gl_wait_dmabuf(QemuConsole *con,
-+                        QemuDmaBuf *dmabuf);
- void dpy_gl_update(QemuConsole *con,
-                    uint32_t x, uint32_t y, uint32_t w, uint32_t h);
- 
-diff --git a/ui/console.c b/ui/console.c
-index 2de5f4105b..b0abfd2246 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1917,6 +1917,16 @@ void dpy_gl_release_dmabuf(QemuConsole *con,
-     }
- }
- 
-+void dpy_gl_wait_dmabuf(QemuConsole *con,
-+                        QemuDmaBuf *dmabuf)
-+{
-+    assert(con->gl);
-+
-+    if (con->gl->ops->dpy_gl_wait_dmabuf) {
-+        con->gl->ops->dpy_gl_wait_dmabuf(con->gl, dmabuf);
-+    }
-+}
-+
- void dpy_gl_update(QemuConsole *con,
-                    uint32_t x, uint32_t y, uint32_t w, uint32_t h)
+ void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
+                                    struct virtio_gpu_ctrl_command *cmd)
  {
+@@ -981,6 +1005,13 @@ void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
+     case VIRTIO_GPU_CMD_RESOURCE_DETACH_BACKING:
+         virtio_gpu_resource_detach_backing(g, cmd);
+         break;
++    case VIRTIO_GPU_CMD_WAIT_FLUSH:
++        if (!virtio_gpu_expflush_enabled(g->parent_obj.conf)) {
++            cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
++            break;
++        }
++        virtio_gpu_wait_flush(g, cmd);
++        break;
+     default:
+         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
+         break;
+diff --git a/include/standard-headers/linux/virtio_gpu.h b/include/standard-headers/linux/virtio_gpu.h
+index d015741f0b..f9aba84174 100644
+--- a/include/standard-headers/linux/virtio_gpu.h
++++ b/include/standard-headers/linux/virtio_gpu.h
+@@ -60,6 +60,9 @@
+  */
+ #define VIRTIO_GPU_F_RESOURCE_BLOB       3
+ 
++/*
++ * VIRTIO_GPU_CMD_WAIT_FLUSH
++ */
+ #define VIRTIO_GPU_F_EXPLICIT_FLUSH      4
+ 
+ enum virtio_gpu_ctrl_type {
+@@ -80,6 +83,7 @@ enum virtio_gpu_ctrl_type {
+ 	VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID,
+ 	VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB,
+ 	VIRTIO_GPU_CMD_SET_SCANOUT_BLOB,
++	VIRTIO_GPU_CMD_WAIT_FLUSH,
+ 
+ 	/* 3d commands */
+ 	VIRTIO_GPU_CMD_CTX_CREATE = 0x0200,
+@@ -443,4 +447,10 @@ struct virtio_gpu_resource_unmap_blob {
+ 	uint32_t padding;
+ };
+ 
++/* VIRTIO_GPU_CMD_WAIT_FLUSH */
++struct virtio_gpu_wait_flush {
++	struct virtio_gpu_ctrl_hdr hdr;
++	uint32_t resource_id;
++};
++
+ #endif
 -- 
 2.30.2
 
