@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA6237A2AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:54:06 +0200 (CEST)
-Received: from localhost ([::1]:39470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C254F37A2B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 10:56:36 +0200 (CEST)
+Received: from localhost ([::1]:48404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgO9V-0003WF-IK
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:54:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37126)
+	id 1lgOBv-00012j-Sw
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 04:56:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgNgH-0005O0-6S
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:23:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60062)
+ id 1lgNhz-0000Jd-UN
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:25:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgNgB-0006Rx-SG
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:23:49 -0400
+ id 1lgNhy-0007kt-4n
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:25:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620721427;
+ s=mimecast20190719; t=1620721537;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FXKU8cBeeGCJwmkSXs6r0J/Gb0gJHNwCZvdXGPOZmIU=;
- b=R6K5MGQzjhj86plMFjzXrRNb2BJFWjZCivZRLPFUX+51jrvhpY9CTOwrh1lJbtB+jJ/2yX
- M6h9pJ3FkWAAVGy7IAMXUXN+utmE2Ypg4YASZWQ0WYxzFIEI1mG0OIZqxZJBp+EQrtu3zl
- nSv7xhA/6GuefTRGBRHAeSRRtJ1hclI=
+ bh=wue5+BJ4fAfzeGMDCXekZlOoOE/PN8k9ZZgnjldxlmo=;
+ b=BndAwpJUeqWx5pHX51M3KkWY4V5HUR2DJaaOhTqNRrqspY8MRw6sQ5kuhW/3q10e3i+8w9
+ ZjI1MH3JVVKnWYFiTjkUxWuo+A2FPs4LFlvuYhGreJLjSioHYor76nfJDmFbrIAcu0pw+H
+ OJ1JI0fGWEpfViUb8sJV2K8j7xFy7qw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-RrezICLGM5CKe3MNCwF9MQ-1; Tue, 11 May 2021 04:23:43 -0400
-X-MC-Unique: RrezICLGM5CKe3MNCwF9MQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-185-OyRPVfLxNlyFGvUNHKUUiA-1; Tue, 11 May 2021 04:25:35 -0400
+X-MC-Unique: OyRPVfLxNlyFGvUNHKUUiA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61BCA107ACCA;
- Tue, 11 May 2021 08:23:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1C298014D8;
+ Tue, 11 May 2021 08:25:33 +0000 (UTC)
 Received: from localhost (ovpn-112-6.ams2.redhat.com [10.36.112.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DF186E6F7;
- Tue, 11 May 2021 08:23:41 +0000 (UTC)
-Date: Tue, 11 May 2021 09:23:41 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 987726727F;
+ Tue, 11 May 2021 08:25:33 +0000 (UTC)
+Date: Tue, 11 May 2021 09:25:32 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/3] vhost-user-blk-test: add tests for the
- vhost-user-blk server
-Message-ID: <YJo/Db3oifY5e6os@stefanha-x1.localdomain>
-References: <20210322092327.150720-1-stefanha@redhat.com>
+Subject: Re: [PATCH] block/export: improve vu_blk_sect_range_ok()
+Message-ID: <YJo/fGeyttorPzWQ@stefanha-x1.localdomain>
+References: <20210331142727.391465-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210322092327.150720-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210331142727.391465-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+VPXs7KPZnZTtpOJ"
+ protocol="application/pgp-signature"; boundary="Zx+bFqE09OG4b6Ru"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -79,61 +78,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Coiby Xu <Coiby.Xu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---+VPXs7KPZnZTtpOJ
+--Zx+bFqE09OG4b6Ru
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 22, 2021 at 09:23:24AM +0000, Stefan Hajnoczi wrote:
-> These patches add a qtest for the vhost-user-blk server. CI found several
-> issues that caused these patches to be dropped from Michael Tsirkin and K=
-evin
-> Wolf's pull requests in the past. Hopefully they will go in smoothly this=
- time!
+On Wed, Mar 31, 2021 at 03:27:27PM +0100, Stefan Hajnoczi wrote:
+> The checks in vu_blk_sect_range_ok() assume VIRTIO_BLK_SECTOR_SIZE is
+> equal to BDRV_SECTOR_SIZE. This is true, but let's add a
+> QEMU_BUILD_BUG_ON() to make it explicit.
 >=20
-> Coiby Xu (1):
->   test: new qTest case to test the vhost-user-blk-server
+> We might as well check that the request buffer size is a multiple of
+> VIRTIO_BLK_SECTOR_SIZE while we're at it.
 >=20
-> Stefan Hajnoczi (2):
->   tests/qtest: add multi-queue test case to vhost-user-blk-test
->   vhost-user-blk-test: test discard/write zeroes invalid inputs
->=20
->  MAINTAINERS                         |   2 +
->  tests/qtest/libqos/vhost-user-blk.h |  48 ++
->  tests/qtest/libqos/vhost-user-blk.c | 130 ++++
->  tests/qtest/vhost-user-blk-test.c   | 989 ++++++++++++++++++++++++++++
->  tests/qtest/libqos/meson.build      |   1 +
->  tests/qtest/meson.build             |   4 +
->  6 files changed, 1174 insertions(+)
->  create mode 100644 tests/qtest/libqos/vhost-user-blk.h
->  create mode 100644 tests/qtest/libqos/vhost-user-blk.c
->  create mode 100644 tests/qtest/vhost-user-blk-test.c
+> Suggested-by: Max Reitz <mreitz@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  block/export/vhost-user-blk-server.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 
-Ping for QEMU 6.1
+Ping for QEMU 6.1.
 
 Stefan
 
---+VPXs7KPZnZTtpOJ
+>=20
+> diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-us=
+er-blk-server.c
+> index fa06996d37..1862563336 100644
+> --- a/block/export/vhost-user-blk-server.c
+> +++ b/block/export/vhost-user-blk-server.c
+> @@ -70,9 +70,16 @@ static void vu_blk_req_complete(VuBlkReq *req)
+>  static bool vu_blk_sect_range_ok(VuBlkExport *vexp, uint64_t sector,
+>                                   size_t size)
+>  {
+> -    uint64_t nb_sectors =3D size >> BDRV_SECTOR_BITS;
+> +    uint64_t nb_sectors;
+>      uint64_t total_sectors;
+> =20
+> +    if (size % VIRTIO_BLK_SECTOR_SIZE) {
+> +        return false;
+> +    }
+> +
+> +    nb_sectors =3D size >> VIRTIO_BLK_SECTOR_BITS;
+> +
+> +    QEMU_BUILD_BUG_ON(BDRV_SECTOR_SIZE !=3D VIRTIO_BLK_SECTOR_SIZE);
+>      if (nb_sectors > BDRV_REQUEST_MAX_SECTORS) {
+>          return false;
+>      }
+> --=20
+> 2.30.2
+>=20
+
+--Zx+bFqE09OG4b6Ru
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCaPwwACgkQnKSrs4Gr
-c8h0gggAhTESXTBmC6XTTVJgELUCKELr8oum/zvHyDLPpppeB8BdcLHw8Nm6J+Nz
-csd9VnIoRdJ1U5j41t+xuEtiD0DrG1EnU53tqY2ai90ZP1zv2b4PNb7KpTlfrG6/
-XKy6jsz2Nh4zBtZ3Mgx8lgi6FsJWv7Ga8Yre0Wfq/IOgTPGlACVuAWE7nIqE1q2M
-IO1L3yyIygix0I5bhr4pWcjmFdYUkvZTzJtAdglxY/zETLHwveMORQmbQz2oEJNk
-Dg0IfQJnUZhyTv8X31xYXwEPmfjh+hSHDFBqJnZtn5DpI7dlEASGmK5N9dUeKbj7
-9wNmzeiW4LERM2A5HsJNKmUEaizA8A==
-=VrjY
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCaP3wACgkQnKSrs4Gr
+c8jZmwf/Wi1tB0+E35WVvE7tX9qLf/I7clWL3CoiqrsDUNe6yuG2F8QIOfr0pS9z
+nQY4ej1rdCgmcCGchFIKwHzGpJ4tRnTl2PZRzZwaP7UJWGVaQU26OoBhF3H1GKaB
+Ya97rUhtuIEF043nT70zVRXe3ZK/uZX++/abrXQ4/LA+invf9Rbt6Pwajxa2RZx4
+f/vggYgUiHkYe95Wr76qnijc3Xe82g5ZTzlNkTch9U8O9/aacI+qOFB104kYOibd
+nJBD79hbKUirVHhkG3ehvH/hJYPPsB7De+8B1sc9Y6EZDbohaxbajX+si1Y1GzRx
+2woAd8bmqa67O9ceoT4Wo1b9qJl1/Q==
+=Ilax
 -----END PGP SIGNATURE-----
 
---+VPXs7KPZnZTtpOJ--
+--Zx+bFqE09OG4b6Ru--
 
 
