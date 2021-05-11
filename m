@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6CA37AD7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 19:59:34 +0200 (CEST)
-Received: from localhost ([::1]:37150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E7D37ADB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 20:04:29 +0200 (CEST)
+Received: from localhost ([::1]:41522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgWfN-0004Wx-M5
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 13:59:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36208)
+	id 1lgWk8-00084A-IO
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 14:04:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lgWdb-0003V0-UO
- for qemu-devel@nongnu.org; Tue, 11 May 2021 13:57:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59907)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lgWda-0005kh-C4
- for qemu-devel@nongnu.org; Tue, 11 May 2021 13:57:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620755861;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R77mwaH2Bm3PBbllSBun1G1KGY9sqEuyE3+hGfbUp6k=;
- b=Uw2T/OTa4TAQ91HDoJRZsKYglzZgWQaKPBfPwn0xXLBf65HSNAL3xGZ1fQZsNMUjTxfYaS
- N4O3WL9KZiXG7o4OTW2IcKYBe7kY5h9SqcomokFFmeqmYPCD1zaLZmXe/U5xgqPrs9Pl+M
- kPx6OSIOB0O4OfnuUQVe+qR5jW5aXzg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-L7YVzV09N-iKBP1ipiLWBA-1; Tue, 11 May 2021 13:57:40 -0400
-X-MC-Unique: L7YVzV09N-iKBP1ipiLWBA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D9E5189C440;
- Tue, 11 May 2021 17:57:38 +0000 (UTC)
-Received: from [10.3.114.221] (ovpn-114-221.phx2.redhat.com [10.3.114.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D8E1F19C44;
- Tue, 11 May 2021 17:57:29 +0000 (UTC)
-Subject: Re: [PATCH v4 02/11] qcow2: check request on vmstate save/load path
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210324205132.464899-1-vsementsov@virtuozzo.com>
- <20210324205132.464899-3-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <a75df8d0-85fb-dce2-05bd-6b305c356171@redhat.com>
-Date: Tue, 11 May 2021 12:57:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgWh4-0005Xf-Gk
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 14:01:20 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54580)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgWgu-0007dq-JW
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 14:01:18 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lgWgr-0006na-7t
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 18:01:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 062882E8188
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 18:01:05 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210324205132.464899-3-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 11 May 2021 17:51:34 -0000
+From: Alexander Bulekov <1883729@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: usb
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr bugs-syssec th-huth
+X-Launchpad-Bug-Reporter: Bugs SysSec (bugs-syssec)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <159232162102.10413.11793430476734031615.malonedeb@gac.canonical.com>
+Message-Id: <162075549498.7140.9108293702184667748.malone@wampee.canonical.com>
+Subject: [Bug 1883729] Re: xhci_find_stream: Assertion `streamid != 0' failed.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
+X-Launchpad-Hash: 52773fd406127fd046641b27adf4b4f17cfa520b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,32 +71,372 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, integration@gluster.org, berto@igalia.com,
- stefanha@redhat.com, pavel.dovgaluk@ispras.ru, sw@weilnetz.de, pl@kamp.de,
- qemu-devel@nongnu.org, mreitz@redhat.com, jsnow@redhat.com,
- ronniesahlberg@gmail.com, pbonzini@redhat.com, namei.unix@gmail.com,
- dillaman@redhat.com, ari@tuxera.com
+Reply-To: Bug 1883729 <1883729@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/24/21 3:51 PM, Vladimir Sementsov-Ogievskiy wrote:
-> We modify the request by adding an offset to vmstate. Let's check the
-> modified request. It will help us to safely move .bdrv_co_preadv_part
-> and .bdrv_co_pwritev_part to int64_t type of offset and bytes.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/block/block_int.h |  3 +++
->  block/io.c                |  6 +++---
->  block/qcow2.c             | 43 +++++++++++++++++++++++++++++++++------
->  3 files changed, 43 insertions(+), 9 deletions(-)
-> 
+I don't think it is fixed yet.. This is https://bugs.chromium.org/p/oss-
+fuzz/issues/detail?id=3D28571#c4
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Bash Reproducer:
+./qemu-system-i386 -display none -machine accel=3Dqtest, -m 512M \
+-machine q35 -nodefaults -drive \
+file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 -device qemu-xhci,id=3D=
+xhci \
+-device usb-tablet,bus=3Dxhci.0 -device usb-bot -device \
+usb-storage,drive=3Ddisk0 -chardev null,id=3Dcd0 -chardev null,id=3Dcd1 \
+-device usb-braille,chardev=3Dcd0 -device usb-ccid -device usb-ccid \
+-device usb-kbd -device usb-mouse -device usb-serial,chardev=3Dcd1 -device\
+ usb-tablet -device usb-wacom-tablet -device usb-audio -qtest /dev/null \
+-qtest stdio < attachment
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Testcase:
+/*
+ * Autogenerated Fuzzer Test Case
+ *
+ * Copyright (c) 2021 <name of author>
+ *
+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
+ * See the COPYING file in the top-level directory.
+ */
 
+#include "qemu/osdep.h"
+
+#include "libqos/libqtest.h"
+
+static void test_fuzz(void)
+{
+    QTestState *s =3D qtest_init(
+        "-display none , -m 512M -machine q35 -nodefaults -drive "
+        "file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 -device qemu-x=
+hci,id=3Dxhci -device "
+        "usb-tablet,bus=3Dxhci.0 -device usb-bot -device usb-storage,drive=
+=3Ddisk0 -chardev "
+        "null,id=3Dcd0 -chardev null,id=3Dcd1 -device usb-braille,chardev=
+=3Dcd0 -device "
+        "usb-ccid -device usb-ccid -device usb-kbd -device usb-mouse -devic=
+e "
+        "usb-serial,chardev=3Dcd1 -device usb-tablet -device usb-wacom-tabl=
+et -device "
+        "usb-audio -qtest /dev/null");
+    qtest_outl(s, 0xcf8, 0x80000816);
+    qtest_outl(s, 0xcfc, 0xffff);
+    qtest_outl(s, 0xcf8, 0x80000803);
+    qtest_outl(s, 0xcfc, 0x0600);
+    qtest_outl(s, 0xcf8, 0x80000810);
+    qtest_outl(s, 0xcfc, 0x2e654000);
+    qtest_writel(s, 0xffff00002e654040, 0xffffff05);
+    qtest_bufwrite(s, 0x4d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x5d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x6d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x7d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x8d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x9d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xad, "\x04", 0x1);
+    qtest_bufwrite(s, 0xbd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xcd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xdd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xed, "\x04", 0x1);
+    qtest_bufwrite(s, 0xfd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x10d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x11d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x12d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x13d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x14d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x15d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x16d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x17d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x18d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x19d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x1ad, "\x04", 0x1);
+    qtest_bufwrite(s, 0x1bd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x1cd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x1dd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x1ed, "\x04", 0x1);
+    qtest_bufwrite(s, 0x1fd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x20d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x21d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x22d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x23d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x24d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x25d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x26d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x27d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x28d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x29d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x2ad, "\x04", 0x1);
+    qtest_bufwrite(s, 0x2bd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x2cd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x2dd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x2ed, "\x04", 0x1);
+    qtest_bufwrite(s, 0x2fd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x30d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x31d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x32d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x33d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x34d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x35d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x36d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x37d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x38d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x39d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x3ad, "\x04", 0x1);
+    qtest_bufwrite(s, 0x3bd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x3cd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x3dd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x3ed, "\x04", 0x1);
+    qtest_bufwrite(s, 0x3fd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x40d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x41d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x42d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x43d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x44d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x45d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x46d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x47d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x48d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x49d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x4ad, "\x04", 0x1);
+    qtest_bufwrite(s, 0x4bd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x4cd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x4dd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x4ed, "\x04", 0x1);
+    qtest_bufwrite(s, 0x4fd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x50d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x51d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x52d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x53d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x54d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x55d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x56d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x57d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x58d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x59d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x5ad, "\x04", 0x1);
+    qtest_bufwrite(s, 0x5bd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x5cd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x5dd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x5ed, "\x04", 0x1);
+    qtest_bufwrite(s, 0x5fd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x60d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x61d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x62d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x63d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x64d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x65d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x66d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x67d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x68d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x69d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x6ad, "\x04", 0x1);
+    qtest_bufwrite(s, 0x6bd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x6cd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x6dd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x6ed, "\x04", 0x1);
+    qtest_bufwrite(s, 0x6fd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x70d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x71d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x72d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x73d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x74d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x75d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x76d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x77d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x78d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x79d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x7ad, "\x04", 0x1);
+    qtest_bufwrite(s, 0x7bd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x7cd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x7dd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x7ed, "\x04", 0x1);
+    qtest_bufwrite(s, 0x7fd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x80d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x81d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x82d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x83d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x84d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x85d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x86d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x87d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x88d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x89d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x8ad, "\x04", 0x1);
+    qtest_bufwrite(s, 0x8bd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x8cd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x8dd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x8ed, "\x04", 0x1);
+    qtest_bufwrite(s, 0x8fd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x90d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x91d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x92d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x93d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x94d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x95d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x96d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x97d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x98d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x99d, "\x04", 0x1);
+    qtest_bufwrite(s, 0x9ad, "\x04", 0x1);
+    qtest_bufwrite(s, 0x9bd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x9cd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x9dd, "\x04", 0x1);
+    qtest_bufwrite(s, 0x9ed, "\x04", 0x1);
+    qtest_bufwrite(s, 0x9fd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xa0d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xa1d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xa2d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xa3d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xa4d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xa5d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xa6d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xa7d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xa8d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xa9d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xaad, "\x04", 0x1);
+    qtest_bufwrite(s, 0xabd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xacd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xadd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xaed, "\x04", 0x1);
+    qtest_bufwrite(s, 0xafd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xb0d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xb1d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xb2d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xb3d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xb4d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xb5d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xb6d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xb7d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xb8d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xb9d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xbad, "\x04", 0x1);
+    qtest_bufwrite(s, 0xbbd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xbcd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xbdd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xbed, "\x04", 0x1);
+    qtest_bufwrite(s, 0xbfd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xc0d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xc1d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xc2d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xc3d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xc4d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xc5d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xc6d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xc7d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xc8d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xc9d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xcad, "\x04", 0x1);
+    qtest_bufwrite(s, 0xcbd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xccd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xcdd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xced, "\x04", 0x1);
+    qtest_bufwrite(s, 0xcfd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xd0d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xd1d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xd2d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xd3d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xd4d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xd5d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xd6d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xd7d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xd8d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xd9d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xdad, "\x04", 0x1);
+    qtest_bufwrite(s, 0xdbd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xdcd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xddd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xded, "\x04", 0x1);
+    qtest_bufwrite(s, 0xdfd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xe0d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xe1d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xe2d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xe3d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xe4d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xe5d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xe6d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xe7d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xe8d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xe9d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xead, "\x04", 0x1);
+    qtest_bufwrite(s, 0xebd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xecd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xedd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xeed, "\x04", 0x1);
+    qtest_bufwrite(s, 0xefd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xf0d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xf1d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xf2d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xf3d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xf4d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xf5d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xf6d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xf7d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xf8d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xf9d, "\x04", 0x1);
+    qtest_bufwrite(s, 0xfad, "\x04", 0x1);
+    qtest_bufwrite(s, 0xfbd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xfcd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xfdd, "\x04", 0x1);
+    qtest_bufwrite(s, 0xfed, "\x24", 0x1);
+    qtest_bufwrite(s, 0xffd, "\x24", 0x1);
+    qtest_bufwrite(s, 0x100d, "\x24", 0x1);
+    qtest_bufwrite(s, 0x101d, "\x24", 0x1);
+    qtest_bufwrite(s, 0x102d, "\x24", 0x1);
+    qtest_bufwrite(s, 0x1041, "\x6d", 0x1);
+    qtest_bufwrite(s, 0x104d, "\x2c", 0x1);
+    qtest_bufwrite(s, 0x104f, "\x05", 0x1);
+    qtest_writel(s, 0xffff00002e656000, 0x0);
+    qtest_writel(s, 0xffff00002e656000, 0x0);
+    qtest_writel(s, 0xffff00002e656000, 0x0);
+    qtest_writel(s, 0xffff00002e656000, 0x0);
+    qtest_bufwrite(s, 0x6d04, "\x03", 0x1);
+    qtest_bufwrite(s, 0x6d26, "\x04", 0x1);
+    qtest_bufwrite(s, 0x6d41, "\x04", 0x1);
+    qtest_writel(s, 0xffff00002e656000, 0x0);
+    qtest_writel(s, 0xffff00002e656000, 0x0);
+    qtest_bufwrite(s, 0xffff00002e656014, "\x01\x00\x00\x00", 0x4);
+    qtest_quit(s);
+}
+int main(int argc, char **argv)
+{
+    const char *arch =3D qtest_get_arch();
+
+    g_test_init(&argc, &argv, NULL);
+
+    if (strcmp(arch, "i386") =3D=3D 0) {
+        qtest_add_func("fuzz/test_fuzz", test_fuzz);
+    }
+
+    return g_test_run();
+}
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1883729
+
+Title:
+  xhci_find_stream: Assertion `streamid !=3D 0' failed.
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  To reproduce run the QEMU with the following command line:
+  ```
+  qemu-system-x86_64 -cdrom hypertrash_os_bios_crash.iso -nographic -m 100 =
+-enable-kvm -device virtio-gpu-pci -device nec-usb-xhci -device usb-audio
+  ```
+
+  QEMU Version:
+  ```
+  # qemu-5.0.0
+  $ ./configure --target-list=3Dx86_64-softmmu --enable-sanitizers; make
+  $ x86_64-softmmu/qemu-system-x86_64 --version
+  QEMU emulator version 5.0.0
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1883729/+subscriptions
 
