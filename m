@@ -2,51 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749D437ABB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:19:51 +0200 (CEST)
-Received: from localhost ([::1]:57318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F2837ABBE
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:20:45 +0200 (CEST)
+Received: from localhost ([::1]:59948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgV6s-0002BD-Iv
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43354)
+	id 1lgV7k-0003y7-6u
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:20:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1lgV08-0008VB-2m; Tue, 11 May 2021 12:12:52 -0400
-Received: from mx2.suse.de ([195.135.220.15]:53188)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgV2n-0004rI-Nj
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 12:15:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1lgV06-0001G2-5F; Tue, 11 May 2021 12:12:51 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 083E2B1AC;
- Tue, 11 May 2021 16:12:48 +0000 (UTC)
-Subject: Re: [PATCH] hw/block/nvme: re-enable NVMe PCI hotplug
-To: Klaus Jensen <its@irrelevant.dk>
-References: <20210511073511.32511-1-hare@suse.de>
- <YJp2/AeqfgQ46ZyV@apples.localdomain>
- <5fe71d92-842b-2b86-1d5e-c7a106753d2a@suse.de>
- <YJqImppDvOKSbgh2@apples.localdomain>
- <27cc0341-3a32-4a75-f5fd-9987b1b37799@suse.de>
- <YJqq6rTRTL3mxMK6@apples.localdomain>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <7f4c0a64-582b-edc7-7362-2da45c137702@suse.de>
-Date: Tue, 11 May 2021 18:12:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgV2m-0002k0-7g
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 12:15:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620749735;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3hcys1IdgjpHCZ86JomXIcny8CdJWkAW+7MTHwPPstA=;
+ b=eQT7snsntg3c6vnbwMvAlHsYMTEBvpFsJjJB3CCTWVZYwrpg4/N66iIucZeH5UcMhMqNrW
+ 4iNbo7Ke/qWZqHyZ74sX+KixtGrF46TfEi7JMHNBofS9af5Z0gU9Cog8XCnD9d0oVI99Is
+ x0vUwI9LPRqzdQxnGucK8DeDaRZvhGk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-EF-NT0-dO_KoTvUmLAEOmA-1; Tue, 11 May 2021 12:15:23 -0400
+X-MC-Unique: EF-NT0-dO_KoTvUmLAEOmA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ b128-20020a1c1b860000b029015b52bdb65aso65486wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 09:15:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Qcj1CC5JWaO2Z4YsdYDkjWm4HBh4cmgv6jL276eiDeU=;
+ b=CLpdIT8qH2V6iJ+1q2byNJ8Y5KL8+ZhTQMrFS5O62weEBNtboVGzvTsq57Mxxdxf40
+ NXS3TWPsMNMRjh/oS4tuxu+irGoLZM4oLZekLNRtwZBoBgyAsXejI9IccGmvFlpJJBZR
+ GWTsziOvkuMDiGiajLI3AzCa/Kl0SfcrOFaYXOWZULkR10fQbk1FH/f2uzurfN7endJa
+ nmAxhBXvMcjCVe9JeGA3iBhMs3Eg7SOFks8GfkjjWR2o85tSjoGZ78MLEJKgKW3yGqLe
+ S73LSkUGacnLBA+X986i3HMqCy2IRUk64+fySe9vPyyjHohba5/46Iy7FT94kI+650s2
+ 1Mgg==
+X-Gm-Message-State: AOAM533+MpwQtmAv0vBHfbybuP2g8NmHWSWPH8BW8xmZidKoBiVpdH4y
+ 72Vu1bhsZmsIl5EFMNBRKuVPQzg8cXoRTLTWIjqKUS/+BSAl2N561gpW+xQZvW525qOQRXPjMHg
+ RyGWhX9jklqW99WiUHpc4zeWw+Tm9xz77gXrIOxX00OchnVlN3t4xLX9h6cS1uqFF
+X-Received: by 2002:a5d:60cd:: with SMTP id x13mr37736870wrt.377.1620749721827; 
+ Tue, 11 May 2021 09:15:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz5FFiRFSxbd9LLypY3HnXCPThUAQehwCyaGXz3770LcZ+t5HmE1d3gHv7tYnpLfpEf56dLsg==
+X-Received: by 2002:a5d:60cd:: with SMTP id x13mr37736820wrt.377.1620749721489; 
+ Tue, 11 May 2021 09:15:21 -0700 (PDT)
+Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id y14sm27644627wrs.64.2021.05.11.09.15.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 May 2021 09:15:21 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/2] pflash patches for 2021-05-11
+Date: Tue, 11 May 2021 18:15:02 +0200
+Message-Id: <20210511161504.3076204-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <YJqq6rTRTL3mxMK6@apples.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=hare@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,113 +91,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Keith Busch <keith.busch@wdc.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/21 6:03 PM, Klaus Jensen wrote:
-> On May 11 16:54, Hannes Reinecke wrote:
->> On 5/11/21 3:37 PM, Klaus Jensen wrote:
->>> On May 11 15:12, Hannes Reinecke wrote:
->>>> On 5/11/21 2:22 PM, Klaus Jensen wrote:
->> [ .. ]
->>>>> The hotplug fix looks good - I'll post a series that tries to 
->>>>> integrate
->>>>> both.
->>>>>
->>>> Ta.
->>>>
->>>> The more I think about it, the more I think we should be looking into
->>>> reparenting the namespaces to the subsystem.
->>>> That would have the _immediate_ benefit that 'device_del' and
->>>> 'device_add' becomes symmetric (ie one doesn't have to do a separate
->>>> 'device_add nvme-ns'), as the nvme namespace is not affected by the
->>>> hotplug event.
->>>>
->>>
->>> I have that working, but I'm struggling with a QEMU API technicality in
->>> that I apparently cannot simply move the NvmeBus creation to the
->>> nvme-subsys device. For some reason the bus is not available for the
->>> nvme-ns devices. That is, if one does something like this:
->>>
->>>   -device nvme-subsys,...
->>>   -device nvme-ns,...
->>>
->>> Then I get an error that "no 'nvme-bus' bus found for device 'nvme'ns".
->>> This is probably just me not grok'ing the qdev well enough, so I'll keep
->>> trying to fix that. What works now is to have the regular setup:
->>>
->> _Normally_ the 'id' of the parent device spans a bus, so the syntax
->> should be
->>
->> -device nvme-subsys,id=subsys1,...
->> -device nvme-ns,bus=subsys1,...
-> 
-> Yeah, I know, I just oversimplified the example. This *is* how I wanted 
-> it to work ;)
-> 
->>
->> As for the nvme device I would initially expose any namespace from the
->> subsystem to the controller; the nvme spec has some concept of 'active'
->> or 'inactive' namespaces which would allow us to blank out individual
->> namespaces on a per-controller basis, but I fear that's not easy to
->> model with qdev and the structure above.
->>
-> 
-> The nvme-ns device already supports the boolean 'detached' parameter to 
-> support the concept of an inactive namespace.
-> 
-Yeah, but that doesn't really work if we move the namespace to the 
-subsystem; the 'detached' parameter is for the controller<->namespace
-relationship.
-That's why I meant we have to have some sort of NSID map for the 
-controller such that the controller knows with NSID to access.
-I guess we can copy the trick with the NSID array, and reverse the 
-operation we have now wrt subsystem; keep the main NSID array in the 
-subsystem, and per-controller NSID arrays holding those which can be 
-accessed.
+The following changes since commit f9a576a818044133f8564e0d243ebd97df0b3280=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-=
+20210506' into staging (2021-05-11 13:03:44 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://github.com/philmd/qemu.git tags/pflash-20210511=0D
+=0D
+for you to fetch changes up to 27545c9df24f509c6d1c1f17478281a357125554:=0D
+=0D
+  hw/block/pflash_cfi02: Do not create aliases when not necessary (2021-05-=
+11 18:11:02 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+Parallel NOR Flash patches queue=0D
+=0D
+- Simplify memory layout when no pflash_cfi02 mapping requested=0D
+----------------------------------------------------------------=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/block/pflash_cfi02: Set romd mode in pflash_cfi02_realize()=0D
+  hw/block/pflash_cfi02: Do not create aliases when not necessary=0D
+=0D
+ hw/block/pflash_cfi02.c | 10 +++++++---=0D
+ 1 file changed, 7 insertions(+), 3 deletions(-)=0D
+=0D
+--=20=0D
+2.26.3=0D
+=0D
 
-And ignore the commandline for now; figure that one out later.
-
-Cheers,
-
-Hannes
->>>   -device nvme-subsys,...
->>>   -device nvme,...
->>>   -device nvme-ns,...
->>>
->>> And the nvme-ns device will then reparent to the NvmeBus on nvme-subsys
->>> (which magically now IS available when nvme-ns is realized). This has
->>> the same end result, but I really would like that the namespaces could
->>> be specified as children of the subsys directly.
->>>
->> Shudder.
->> Automatic reparenting.
->> To my understanding from qdev that shouldn't even be possible.
->> Please don't.
->>
-> 
-> It's perfectly possible with the API and used to implement stuff like 
-> failover. We are not changing the parent object, we are changing the 
-> parent bus. hw/sd does something like this (but does mention that its a 
-> bit of a hack). In this case I'd say we could argue to get away with it 
-> as well.
-> Allowing the nvme-ns device to be a child of the controller allows the 
-> initially attached controller of non-shared namespaces to be easily 
-> expressible. But I agree, the approach is a bit wacky, which is why I 
-> havnt posted anything yet.
-
-Yep, I did try to implement multipathing for SCSI at one point, and that 
-became patently horrible as it would run against qdev where everything 
-is ordered within a tree.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
