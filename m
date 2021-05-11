@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A536D37A3B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:30:46 +0200 (CEST)
-Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A462337A39B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:28:19 +0200 (CEST)
+Received: from localhost ([::1]:38526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgOiy-0008Hu-Fi
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:30:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41450)
+	id 1lgOgc-0003K7-K5
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgO0M-0005qu-1b
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:44:39 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:39926)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgO0H-0001EW-Cu
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:44:37 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id g14so21925065edy.6
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 01:44:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+5yvXhbJtVqGWNybLiBSZ9WIxhPhjDKQ5VNXtWIJ33s=;
- b=ZCumT8YVoOgf4U0JxCjyNazyZ0TQu68njtq2xwNPzV8M7yIuCRCFWdQJIHng2590sJ
- V9cL3J6Hxc3pPZ0Zl4hmgNOOGDzSfxi7x7cP7UIcH7cjbUa4S9NY3SQwz/3Hd3t9ZuQZ
- dDwxlzU5WqLyqdhZ5xBpYwbEz8hY6rhTmBuD9BVdq52Z78qXQoYew03ocx60F9rtISGw
- KnaL0EAY9UXRN+ZI2O40rANSXRtQ7XXjzmTxNlSZ8q4wTinj18WfSylc1wJRwO3Nxpzm
- 4a2OKo/tT1597vCAPmPp2XJExghIRr0SyMP/5baAxLQQJait/wNuF7yKL5fkVRMvN/Xj
- nXcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+5yvXhbJtVqGWNybLiBSZ9WIxhPhjDKQ5VNXtWIJ33s=;
- b=a9ZbAC02SQ7vK1L8Pj4dzd4cZp0PaCgEgsWSAZ4YjPmk+6bohqRJeUcaAALODBfQny
- 9UhRXywksCBz16SALosC78qlVzmhX2dhlrL60Bd0eDWB7TJjzdH6bsWOWgHiToESx53/
- eOpX5YFeOVl+1vht903lsjSVZsCThG7k44GqXVj2YyhM1ZR1zZl75ZoDIdxvfTUwjU9Z
- pc+n7/ezuCZd2e9+vlUeXi6RUeS1sil+HNxPzh+H9mOzRoixiXPUZeTWUMHs3DuQhGOP
- wmusGl2aieiYwHRVhAV9P3gdzoohk9RFlo0dn+2lQf1ql9I/cpNc6N6L9BWUXYPbUrjP
- 3Mvg==
-X-Gm-Message-State: AOAM5339h7r26qYSWKBWmfRj1Qt/7Y9PFW19zswvNyhjxgUOE5Ys4FaH
- W1PrGFSGB5d6bOfrpOymOG1cXy5FcK+cjda7YUhPmg==
-X-Google-Smtp-Source: ABdhPJyFw1863GlvT7B4JITxxwyU+UklxFP7hcDO4QHCtg2R1muoNIU5zG5l5YJe7b0zFRzpAy9STN/o4oDF4LpXtJs=
-X-Received: by 2002:a05:6402:12d3:: with SMTP id
- k19mr34350563edx.52.1620722671863; 
- Tue, 11 May 2021 01:44:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lgOC7-0003eT-Gx
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:56:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lgOC4-0007wF-NN
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:56:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620723403;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2iyb+UyfICWpXLVYTZOsJtIabF9iQ8yhW2a8dAYfQpE=;
+ b=YIoT53ZxedBXptUkLCnHPAJ72qyXYJ6/ITw6wvdVpH8YIny1YCuL/M7kIrIaezBrgQDTIo
+ fJy1TwKiUAYLFVHzC8P841JdVJsg4PU5lSDTYO6ipQ6/ar2RKN1BYfg43o5Pcy/h8tDsol
+ vgZKXzgGIZlSITmwB0FsjGpy360OwWU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-367-RqkhgM2UNUSBIlAzzvuD0Q-1; Tue, 11 May 2021 04:56:40 -0400
+X-MC-Unique: RqkhgM2UNUSBIlAzzvuD0Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DEE3801817;
+ Tue, 11 May 2021 08:56:39 +0000 (UTC)
+Received: from work-vm (ovpn-113-51.ams2.redhat.com [10.36.113.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C23C554343;
+ Tue, 11 May 2021 08:56:38 +0000 (UTC)
+Date: Tue, 11 May 2021 09:56:36 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 30/33] migration: do not restart VM after successful
+ snapshot-load
+Message-ID: <YJpGxIcrLeZ21EUT@work-vm>
+References: <20210511081350.419428-1-pbonzini@redhat.com>
+ <20210511081350.419428-31-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-7-richard.henderson@linaro.org>
-In-Reply-To: <20210430202610.1136687-7-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 May 2021 09:43:19 +0100
-Message-ID: <CAFEAcA9Pv00takQH-2gJr27a58ivkcO8P+XowkziqDuf5BZKhQ@mail.gmail.com>
-Subject: Re: [PATCH v6 06/82] target/arm: Implement SVE2 saturating/rounding
- bitwise shift left (predicated)
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210511081350.419428-31-pbonzini@redhat.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,68 +80,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 21:34, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> The HMP loadvm code is calling load_snapshot rather than
+> qmp_snapshot_load, in order to bypass the job infrastructure.  The code
+> around it is almost the same, with one difference: hmp_loadvm is
+> restarting the VM if load_snapshot fails, qmp_snapshot_load is doing so
+> if load_snapshot succeeds.
+> 
+> Fix the bug in QMP by moving the common code to load_snapshot.
+
+See my comment:
+https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01103.html
+
+but you've also lost Eric's Rb.
+
+Dave
+
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
-> v2: Shift values are always signed (laurent desnogues).
-> ---
->  target/arm/helper-sve.h    | 54 ++++++++++++++++++++++++++
->  target/arm/sve.decode      | 17 +++++++++
->  target/arm/sve_helper.c    | 78 ++++++++++++++++++++++++++++++++++++++
->  target/arm/translate-sve.c | 18 +++++++++
->  4 files changed, 167 insertions(+)
->  /* Note that vector data is stored in host-endian 64-bit chunks,
-> @@ -561,6 +562,83 @@ DO_ZPZZ(sve2_uadalp_zpzz_h, uint16_t, H1_2, do_uadalp_h)
->  DO_ZPZZ(sve2_uadalp_zpzz_s, uint32_t, H1_4, do_uadalp_s)
->  DO_ZPZZ_D(sve2_uadalp_zpzz_d, uint64_t, do_uadalp_d)
->
-> +#define do_srshl_b(n, m)  do_sqrshl_bhs(n, m, 8, true, NULL)
-> +#define do_srshl_h(n, m)  do_sqrshl_bhs(n, m, 16, true, NULL)
-> +#define do_srshl_s(n, m)  do_sqrshl_bhs(n, m, 32, true, NULL)
-> +#define do_srshl_d(n, m)  do_sqrshl_d(n, m, true, NULL)
+>  migration/savevm.c | 16 ++++++++--------
+>  monitor/hmp-cmds.c |  7 +------
+>  2 files changed, 9 insertions(+), 14 deletions(-)
+> 
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 52e2d72e4b..a899191cbf 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2992,6 +2992,7 @@ bool load_snapshot(const char *name, const char *vmstate,
+>      int ret;
+>      AioContext *aio_context;
+>      MigrationIncomingState *mis = migration_incoming_get_current();
+> +    int saved_vm_running  = runstate_is_running();
+>  
+>      if (!bdrv_all_can_snapshot(has_devices, devices, errp)) {
+>          return false;
+> @@ -3024,6 +3025,8 @@ bool load_snapshot(const char *name, const char *vmstate,
+>          return false;
+>      }
+>  
+> +    vm_stop(RUN_STATE_RESTORE_VM);
 > +
-> +DO_ZPZZ(sve2_srshl_zpzz_b, int8_t, H1_2, do_srshl_b)
-> +DO_ZPZZ(sve2_srshl_zpzz_h, int16_t, H1_2, do_srshl_h)
-> +DO_ZPZZ(sve2_srshl_zpzz_s, int32_t, H1_4, do_srshl_s)
-> +DO_ZPZZ_D(sve2_srshl_zpzz_d, int64_t, do_srshl_d)
+>      /*
+>       * Flush the record/replay queue. Now the VM state is going
+>       * to change. Therefore we don't need to preserve its consistency
+> @@ -3061,13 +3064,17 @@ bool load_snapshot(const char *name, const char *vmstate,
+>  
+>      if (ret < 0) {
+>          error_setg(errp, "Error %d while loading VM state", ret);
+> -        return false;
+> +        goto err_restart;
+>      }
+>  
+>      return true;
+>  
+>  err_drain:
+>      bdrv_drain_all_end();
+> +err_restart:
+> +    if (saved_vm_running) {
+> +        vm_start();
+> +    }
+>      return false;
+>  }
+>  
+> @@ -3135,17 +3142,10 @@ static void snapshot_load_job_bh(void *opaque)
+>  {
+>      Job *job = opaque;
+>      SnapshotJob *s = container_of(job, SnapshotJob, common);
+> -    int orig_vm_running;
+>  
+>      job_progress_set_remaining(&s->common, 1);
+>  
+> -    orig_vm_running = runstate_is_running();
+> -    vm_stop(RUN_STATE_RESTORE_VM);
+> -
+>      s->ret = load_snapshot(s->tag, s->vmstate, true, s->devices, s->errp);
+> -    if (s->ret && orig_vm_running) {
+> -        vm_start();
+> -    }
+>  
+>      job_progress_update(&s->common, 1);
+>  
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 0ad5b77477..a39436c8cb 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -1127,15 +1127,10 @@ void hmp_balloon(Monitor *mon, const QDict *qdict)
+>  
+>  void hmp_loadvm(Monitor *mon, const QDict *qdict)
+>  {
+> -    int saved_vm_running  = runstate_is_running();
+>      const char *name = qdict_get_str(qdict, "name");
+>      Error *err = NULL;
+>  
+> -    vm_stop(RUN_STATE_RESTORE_VM);
+> -
+> -    if (!load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
+> -        vm_start();
+> -    }
+> +    load_snapshot(name, NULL, false, NULL, &err);
+>      hmp_handle_error(mon, err);
+>  }
+>  
+> -- 
+> 2.26.2
+> 
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Should the _b version really be using H1_2 ? Elsewhere the
-b/h/s/d usage is H1/H1_2/H1_4/"".
-
-Running whatever tests you have on a bigendian host would
-probably be a good idea.
-
-Similarly below.
-
-> +
-> +#define do_urshl_b(n, m)  do_uqrshl_bhs(n, (int8_t)m, 8, true, NULL)
-> +#define do_urshl_h(n, m)  do_uqrshl_bhs(n, (int16_t)m, 16, true, NULL)
-> +#define do_urshl_s(n, m)  do_uqrshl_bhs(n, m, 32, true, NULL)
-> +#define do_urshl_d(n, m)  do_uqrshl_d(n, m, true, NULL)
-> +
-> +DO_ZPZZ(sve2_urshl_zpzz_b, uint8_t, H1_2, do_urshl_b)
-> +DO_ZPZZ(sve2_urshl_zpzz_h, uint16_t, H1_2, do_urshl_h)
-> +DO_ZPZZ(sve2_urshl_zpzz_s, uint32_t, H1_4, do_urshl_s)
-> +DO_ZPZZ_D(sve2_urshl_zpzz_d, uint64_t, do_urshl_d)
-> +
-> +/* Unlike the NEON and AdvSIMD versions, there is no QC bit to set. */
-> +#define do_sqshl_b(n, m) \
-> +   ({ uint32_t discard; do_sqrshl_bhs(n, m, 8, false, &discard); })
-> +#define do_sqshl_h(n, m) \
-> +   ({ uint32_t discard; do_sqrshl_bhs(n, m, 16, false, &discard); })
-> +#define do_sqshl_s(n, m) \
-> +   ({ uint32_t discard; do_sqrshl_bhs(n, m, 32, false, &discard); })
-> +#define do_sqshl_d(n, m) \
-> +   ({ uint32_t discard; do_sqrshl_d(n, m, false, &discard); })
-
-Why pass in &discard rather than just NULL ? (Similarly below.)
-
-thanks
--- PMM
 
