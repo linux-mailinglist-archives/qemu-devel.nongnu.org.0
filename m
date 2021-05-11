@@ -2,49 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984C3379A0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 00:26:59 +0200 (CEST)
-Received: from localhost ([::1]:51140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9F9379C5E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 03:59:32 +0200 (CEST)
+Received: from localhost ([::1]:56916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgEMc-0004md-Ob
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 18:26:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43740)
+	id 1lgHgJ-0003f5-Ca
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 21:59:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <movement@li1368-133.members.linode.com>)
- id 1lgELh-00047c-UW
- for qemu-devel@nongnu.org; Mon, 10 May 2021 18:26:01 -0400
-Received: from ssh.movementarian.org ([2a01:7e00::f03c:92ff:fefb:3ad2]:58402
- helo=movementarian.org)
+ (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
+ id 1lgHf4-0002xj-P3; Mon, 10 May 2021 21:58:15 -0400
+Received: from esa3.fujitsucc.c3s2.iphmx.com ([68.232.151.212]:12789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <movement@li1368-133.members.linode.com>)
- id 1lgELb-0007fg-IO
- for qemu-devel@nongnu.org; Mon, 10 May 2021 18:26:01 -0400
-Received: from movement by movementarian.org with local (Exim 4.93)
- (envelope-from <movement@li1368-133.members.linode.com>)
- id 1lgELN-0083al-Dq; Mon, 10 May 2021 22:25:41 +0000
-Date: Mon, 10 May 2021 22:25:41 +0000
-From: John Levon <levon@movementarian.org>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v8] introduce vfio-user protocol specification
-Message-ID: <20210510222541.GA1916565@li1368-133.members.linode.com>
-References: <20210414114122.236193-1-thanos.makatos@nutanix.com>
- <YJlmARxX5ZADZD5w@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
+ id 1lgHez-0006SU-D1; Mon, 10 May 2021 21:58:13 -0400
+IronPort-SDR: rnGhj09ZoHbpeFt//Sp43+IzaXOKHMVQCs0nD6dEEtgchrleCCIgcRiDyAqF7MTv4qqYLk3IQN
+ 1H86RfHkCDKNpnmnEOoSXySiFY7gWq7812wn+c9ige9UDPGpl8CwgVFeXR9n32bZ3RijuE5+4f
+ bfln7nCDrWoEHpNMCUY+9lbs7oZkwkN0i8Th7+6DsL+0ENGiBZmJ8Gb48vxF+pCbsLO0QAl0QB
+ blqv5khVhhGVIK1YoQDVKjk/QmPd2M6O2d283BG0Fmd6EunK1vJVNRetcebn3MbLkKtRuZCAHm
+ ux0=
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="39174288"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613401200"; d="scan'208";a="39174288"
+Received: from mail-os2jpn01lp2052.outbound.protection.outlook.com (HELO
+ JPN01-OS2-obe.outbound.protection.outlook.com) ([104.47.92.52])
+ by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2021 10:58:03 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T1s2ll6x821hhOSPDY069qV7bXZylWMbINeuXdyOngI37xtujZ/Z1JWKwp6cTY06xDY2y2UTnsrYmMnVDMpUDIbvhQMnIsF2DjQNjs5WrfnwTysb35NZmA6GXHIuCqKXZPsjiLcSvakNlBNwT5E/1MSD3dri3+JlpRXMm/yuCU98TgQ5pqSar6upir8AozReqOzgn464mo7m0AwgHJ6S97dSllRN7foxGMxMK2lLc9r4EYjVJDuVNy/qw7/kztPrJX/dmtkO7AgQF6ucSXtoKN9l7WhGnPK/hCKHkBO+LefjJF6y8CDU7mmaEtG77St6Qk/AQMBSdo3Wq2Ei484eMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w4UemW2NlD32KDG4/eD8Adn6VX73X+JH2vLkpFvLDg0=;
+ b=NZOkMBscm3KsicGYffRTgPNINjpZnWideAbRnhepLksOZQG1Zy/2Tlz2gqX7jGg/UIehRx7MLT9EBZSBaWflmXQSZIeZcMATsX+lnVDuHfQawO4Rnk2YrAQ4JlnW6HHeOda133FYK9jT2oMEP7aVmDyUL9SvjAk5qnIJuJQ1Ng2Hw0SROAj8PqFtxYXmxqNOoP3jN/awJIyky+s9+SjWc51iOAFSLjYSMhmnQm38ZRnUgzs2FhQd6Siy8U4Fvzd60fBBT3doa7unq19Rv6DZ2A4Z8EySF/X7v2Imkjf3t1LoDWrrlMnFI2VyPd3JdItEXw4RZ6wGlh54f+/F62zPHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w4UemW2NlD32KDG4/eD8Adn6VX73X+JH2vLkpFvLDg0=;
+ b=doXRg7Fq/87GOch3FMGJXbfL6YYzSQSsmPaSz2Sy3+LUKwCmcT0QVS9lhCnTqyXYaS3jmTypPH2V0fxAvlTkM7LzD0O73JAYw6CDjbY8sAtdaSZ8XvuaGYLC/GPHGrlLWmLPWnnyKfrSndJtCh7fTapNm1IPI6HPzcJgupruORU=
+Received: from TY2PR01MB2571.jpnprd01.prod.outlook.com (2603:1096:404:6b::12)
+ by TYAPR01MB5643.jpnprd01.prod.outlook.com (2603:1096:404:8057::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25; Tue, 11 May
+ 2021 01:58:01 +0000
+Received: from TY2PR01MB2571.jpnprd01.prod.outlook.com
+ ([fe80::c81b:26d8:726b:4239]) by TY2PR01MB2571.jpnprd01.prod.outlook.com
+ ([fe80::c81b:26d8:726b:4239%5]) with mapi id 15.20.4108.031; Tue, 11 May 2021
+ 01:58:01 +0000
+From: "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>
+To: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>
+Subject: Re: [PATCH] block: Improve backing file validation
+Thread-Topic: [PATCH] block: Improve backing file validation
+Thread-Index: AQHXRVVQk6KVFl5E6UmjXQWAgUlha6rcZe8AgAEhf4A=
+Date: Tue, 11 May 2021 01:58:01 +0000
+Message-ID: <05844308-4078-f092-ff1c-4b9f7705ab2a@cn.fujitsu.com>
+References: <20210510043045.15238-1-lizhijian@cn.fujitsu.com>
+ <YJjxqqqEMwpyNB8y@redhat.com>
+In-Reply-To: <YJjxqqqEMwpyNB8y@redhat.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=fujitsu.com;
+x-originating-ip: [223.111.68.150]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 23bd2410-0d4b-49d7-ed90-08d91420351b
+x-ms-traffictypediagnostic: TYAPR01MB5643:
+x-microsoft-antispam-prvs: <TYAPR01MB56434792532EFC82723E7DB5A5539@TYAPR01MB5643.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yhRZ2sneF3dfbwO7WAf/4F4pRX3PFS+XL5XnLYxMjQXg0JdxFkdqFEQ1KPtatjA6pwpSuiTHdzpKQ88w/Ub3aXAOUCFRZCSU8yarBmC7F/uBgIIzg4YNvazvcPpkyYZV4hTQ/ZQ1JqyZWxXcELN+laEPx2Z0wLxGHNNq35URiI0XdVJDihr1W88Ms9+cHX5bCrDsjzwJdgwSnOgweFfbu0RJT80WR124kNpvlZbnpFhkoUO1B0zL3pYS+AyPc7quVlpmCqrrwPoGISx/oFCXFQSDSyOp1s+NDwXVJRcQ+r7sQfkOv3AFcD9fKtKHhyRx5CedYcmcC3YEaAhXgDFAsB1kghMkp+VHPMp1gaVqy9aFntA79GTK5HXeOopf1S802ehPX9JMhRa/OjOM2JlI01hNC3AGUI9XdmPgp2A3L/PyLAoaf7s1hwbaaqJpiWdzeHeXPQlPVpQ1KJZCXOmDoO0oQvYGYNCtDlYf5f5rHhYQgVTvsqUyIx8b6pghrRsFXodDoQTfB8D6NNE1RfEvVAfDiVOZGfUkNL8vmtYUr4pgrgTepJfkVtYzwRB7xWl86r/sd/vjUvQDSFMhMydbNAwVeYc0RzDVmZsPjom2hac=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TY2PR01MB2571.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(346002)(366004)(136003)(39860400002)(66946007)(6512007)(6916009)(54906003)(66476007)(76116006)(91956017)(26005)(66556008)(4326008)(6486002)(83380400001)(8676002)(66446008)(8936002)(6506007)(316002)(31686004)(186003)(71200400001)(38100700002)(53546011)(122000001)(31696002)(86362001)(478600001)(5660300002)(2906002)(85182001)(64756008);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?Y0Vmd0R3ZmMxMCtYam9Pb0wrYmV4R2RpaFpzSllWTHpodmJKbFNjSXY3bExr?=
+ =?utf-8?B?eXJib1RPaEFIRG0rOUZlQ0oxQ1AvVDA3TVZOMHFEWUoyTlEvSm5qbmZ6S0x4?=
+ =?utf-8?B?Mk1scU5Ud2ZtZmIyemNyNXZMdU5kM0hXQ1Fhek9XM2MwYVFaT1NiQ3NZT0Fm?=
+ =?utf-8?B?UGhYdDh0Q2Q4bnJSZ0MzUU9VVjRHUm10cEREYWM2QlZTSFQ0R283NWRSdFM0?=
+ =?utf-8?B?SnJXVGRBSGxrT1QxL2hzZitiRDV4Q0k0aE13ZFQ0ZVcwalRjVGV2SiszTlFl?=
+ =?utf-8?B?ZEc0Sm5xZ1J2L2VCTU8rL2FRaUxCeVVINkpZVUVvOXlvN3NCaDZvWHR3UHYz?=
+ =?utf-8?B?UlBnTzhuVDVuZlpXcElnaWdqaVFDYUpqV1E2UEVpK3EzVXZJMHlwUmVBWGdC?=
+ =?utf-8?B?R05lODhqVDVWN25xM3dJSmdmMkJVanEyTG5haGNPUzFpbUsyTWF4NUlPNGcr?=
+ =?utf-8?B?THhSRmovcGZCRDFlaWNKSGp3aTRKa1JKZW9Wb3FGTHBzYXRvSTZwTm53SkFX?=
+ =?utf-8?B?UUNTeUE0U3BvQlBiS2d0VTZ4a3U3QnB4VkNBQ2RxY0pjMG5JRHM3TW5yVDVo?=
+ =?utf-8?B?K091alFiZ2RoZ3NJSUcxQ3NIdnBIajdCbGFJQ0ZFN2NJUzUwR0FNcUlFWlRS?=
+ =?utf-8?B?am5qSXBNWUZyZUZuUWd4L0t4K3hYR1JtUUJzZ3NNSVJMa1BFT3VBU0xLQ0Nu?=
+ =?utf-8?B?Z2p3bVIvOWVoQTNUUmVkRkVvcUQ0NzhLQ1JDMzQxZVpiamdhVFZYL00xbDZO?=
+ =?utf-8?B?NTIvL0l5VXYreUV5RWRuM1ZxTE4zdVpxSHI4U2dGbVlvbndlKzUzOVdaelZS?=
+ =?utf-8?B?NHRWUUxuUUp0eHNBTnlHMlByV1UrZlZwS0pYUmJCczliaFoyTXUzOFR5azJ3?=
+ =?utf-8?B?RzJrbFZEMnJ5SGw4cHVFTzB5NHQzc0JkckJZcVJqMTh4dnp4Uk1SM0w5ZlYx?=
+ =?utf-8?B?TUR0cWJEQ2xXRmdVRGlIbFR0blczL0M5SktSbkRlZEpSQ2VuTGdtRHBna1U1?=
+ =?utf-8?B?R0Q5Z1B6a1NGMEQ0ajMyZlZyeHEzSG13enpOdzFBL3IrMkREamxtT1JING1o?=
+ =?utf-8?B?MW9BakFLbExBbXA4T2NTL203cG5mUnN6WWsyOTl2VU42MzN6U2IwV09iaENx?=
+ =?utf-8?B?NE5TbWZmRmVHRWt0T1hrT2FJUkJOeEdJTGxWelQwNjlJeXJRMDdhUHA4UnVF?=
+ =?utf-8?B?QURPMHFDekZFTWpVemQvRHBRVlA1TFFiME1RZmZCUjRUT0kwZlFxNXJnVGp3?=
+ =?utf-8?B?REhyVVVBRG1MZC82eDQ1LzRIQzNOaTFtTTVsdHFqalBaZjNxNU5nTTB6Um5o?=
+ =?utf-8?B?RTJ6d3UrTUNHYS9POHZUcm5SMnlBQTYzcWtaaE9YRENxNzJKWTNmL3RIRWRh?=
+ =?utf-8?B?USthQjhsd01SVVFnTGdrakc1eWpuZjdmMjlXdHl5YXl6ZlB5dTFKSTZzK1Zx?=
+ =?utf-8?B?bUo0MnFqNHdQSW5pZy80OTYycCtlR1M3eTNKUzNnZVIycnptaGhZTnVsR0tU?=
+ =?utf-8?B?YU1oN05SYTVQdUYxSHdhd051T0ZyMVpJckhEVzlBMkxYYytkQ21NZzJYelFF?=
+ =?utf-8?B?NHRaaDJyVjRtMUtiUzdFSGtacGNQV2dUbno2TGpNYWQ5ZkpRNGcrdll3V2sv?=
+ =?utf-8?B?NkpVZXgrVExTbG1NNHB4TnNpdWdkWDFGUXhmdCt6T1dFVEI1UTRHTGFnRGFF?=
+ =?utf-8?B?MWJITmhqWVVoUGduNDNOZzhzWW5hRGJEZ2l4YWsyUVptcCtiUmRoQmZtYWVw?=
+ =?utf-8?Q?0SMe5eWMdVszUek43HOHWpib3W9hZWWu4zrk0aL?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9C2E6DD017A2C142A80DE60E5E59A00A@jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YJlmARxX5ZADZD5w@stefanha-x1.localdomain>
-X-Url: http://www.movementarian.org/
-Received-SPF: none client-ip=2a01:7e00::f03c:92ff:fefb:3ad2;
- envelope-from=movement@li1368-133.members.linode.com; helo=movementarian.org
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, FORGED_SPF_HELO=1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, KHOP_HELO_FCRDNS=0.398,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB2571.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23bd2410-0d4b-49d7-ed90-08d91420351b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2021 01:58:01.0978 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UV4WzC7xV+8RvF+t8JivYadKq+xpEWKJFQIGRv5jPqGWC7PFGu3rTHDsK06gP4o9+UKj9SjjQUnAdAe474w0/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5643
+Received-SPF: pass client-ip=68.232.151.212;
+ envelope-from=lizhijian@fujitsu.com; helo=esa3.fujitsucc.c3s2.iphmx.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,473 +147,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: benjamin.walker@intel.com, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Christophe de Dinechin <cdupontd@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, jag.raman@oracle.com,
- james.r.harris@intel.com, John Levon <john.levon@nutanix.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Kanth.Ghatraju@oracle.com,
- Felipe Franciosi <felipe@nutanix.com>, marcandre.lureau@redhat.com,
- Yan Zhao <yan.y.zhao@intel.com>, konrad.wilk@oracle.com,
- yuvalkashtan@gmail.com, dgilbert@redhat.com, eafanasova@gmail.com,
- ismael@linux.com, Paolo Bonzini <pbonzini@redhat.com>, changpeng.liu@intel.com,
- tomassetti.andrea@gmail.com, mpiszczek@ddn.com,
- Cornelia Huck <cohuck@redhat.com>, alex.williamson@redhat.com,
- tina.zhang@intel.com, xiuchun.lu@intel.com,
- Thanos Makatos <thanos.makatos@nutanix.com>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 10, 2021 at 05:57:37PM +0100, Stefan Hajnoczi wrote:
-
-> On Wed, Apr 14, 2021 at 04:41:22AM -0700, Thanos Makatos wrote:
-> 
-> Elena A: I CCed you in case you want to review the
-
-Sorry, we should have included Elena already.
-
-> > +VFIO sparse mmap
-> > +^^^^^^^^^^^^^^^^
-> > +
-> > ++------------------+----------------------------------+
-> > +| Name             | Value                            |
-> > ++==================+==================================+
-> > +| id               | VFIO_REGION_INFO_CAP_SPARSE_MMAP |
-> > ++------------------+----------------------------------+
-> > +| version          | 0x1                              |
-> > ++------------------+----------------------------------+
-> > +| next             | <next>                           |
-> > ++------------------+----------------------------------+
-> > +| sparse mmap info | VFIO region info sparse mmap     |
-> > ++------------------+----------------------------------+
-> > +
-> > +This capability is defined when only a subrange of the region supports
-> > +direct access by the client via mmap(). The VFIO sparse mmap area is defined in
-> > +``<linux/vfio.h>`` (``struct vfio_region_sparse_mmap_area``).
-> 
-> It's a little early to reference struct vfio_region_sparse_mmap_area
-> here because the parent struct vfio_region_info_cap_sparse_mmap is only
-> referenced below. I suggest combining the two:
-> 
->   The VFIO sparse mmap area is defined in ``<linux/vfio.h>`` (``struct
->   vfio_region_info_cap_sparse_mmap`` and ``struct
->   vfio_region_sparse_mmap_area``).
-
-Good idea.
-
-> > +Region IO FD info format
-> > +^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > ++-------------+--------+------+
-> > +| Name        | Offset | Size |
-> > ++=============+========+======+
-> > +| argsz       | 16     | 4    |
-> > ++-------------+--------+------+
-> > +| flags       | 20     | 4    |
-> > ++-------------+--------+------+
-> > +| index       | 24     | 4    |
-> > ++-------------+--------+------+
-> > +| count       | 28     | 4    |
-> > ++-------------+--------+------+
-> > +| sub-regions | 32     | ...  |
-> > ++-------------+--------+------+
-> > +
-> > +* *argsz* is the size of the region IO FD info structure plus the
-> > +  total size of the sub-region array. Thus, each array entry "i" is at offset
-> > +  i * ((argsz - 32) / count). Note that currently this is 40 bytes for both IO
-> > +  FD types, but this is not to be relied on.
-> > +* *flags* must be zero
-> > +* *index* is the index of memory region being queried
-> > +* *count* is the number of sub-regions in the array
-> > +* *sub-regions* is the array of Sub-Region IO FD info structures
-> > +
-> > +The client must set ``flags`` to zero and specify the region being queried in
-> > +the ``index``.
-> > +
-> > +The client sets the ``argsz`` field to indicate the maximum size of the response
-> > +that the server can send, which must be at least the size of the response header
-> > +plus space for the sub-region array. If the full response size exceeds ``argsz``,
-> > +then the server must respond only with the response header and the Region IO FD
-> > +info structure, setting in ``argsz`` the buffer size required to store the full
-> > +response. In this case, no file descriptors are passed back.  The client then
-> > +retries the operation with a larger receive buffer.
-> > +
-> > +The reply message will additionally include at least one file descriptor in the
-> > +ancillary data. Note that more than one sub-region may share the same file
-> > +descriptor.
-> 
-> How does this interact with the maximum number of file descriptors,
-> max_fds? It is possible that there are more sub-regions than max_fds
-> allows...
-
-I think this would just be a matter of the client advertising a reasonably large
-enough size for max_msg_fds. Do we need to worry about this?
-
-> > +Each sub-region given in the response has one of two possible structures,
-> > +depending whether *type* is `VFIO_USER_IO_FD_TYPE_IOEVENTFD` or
-> > +`VFIO_USER_IO_FD_TYPE_IOREGIONFD`:
-> > +
-> > +Sub-Region IO FD info format (ioeventfd)
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > ++-----------+--------+------+
-> > +| Name      | Offset | Size |
-> > ++===========+========+======+
-> > +| offset    | 0      | 8    |
-> > ++-----------+--------+------+
-> > +| size      | 8      | 8    |
-> > ++-----------+--------+------+
-> > +| fd_index  | 16     | 4    |
-> > ++-----------+--------+------+
-> > +| type      | 20     | 4    |
-> > ++-----------+--------+------+
-> > +| flags     | 24     | 4    |
-> > ++-----------+--------+------+
-> > +| padding   | 28     | 4    |
-> > ++-----------+--------+------+
-> > +| datamatch | 32     | 8    |
-> > ++-----------+--------+------+
-> > +
-> > +* *offset* is the offset of the start of the sub-region within the region
-> > +  requested ("physical address offset" for the region)
-> > +* *size* is the length of the sub-region. This may be zero if the access size is
-> > +  not relevant, which may allow for optimizations
-> > +* *fd_index* is the index in the ancillary data of the FD to use for ioeventfd
-> > +  notification; it may be shared.
-> > +* *type* is `VFIO_USER_IO_FD_TYPE_IOEVENTFD`
-> > +* *flags* is any of:
-> > +  * `KVM_IOEVENTFD_FLAG_DATAMATCH`
-> > +  * `KVM_IOEVENTFD_FLAG_PIO`
-> 
-> The client must not trust the server, so care must be taken to validate
-> flags and offsets. Failure to do so would allow the server to hijack I/O
-> dispatch to addresses outside its regions (e.g. MMIO vs PIO or an offset
-> beyond the end of the region).
-> 
-> It would help to mention this explicitly in the spec so that client
-> implementors take care.
-
-I'll add a note.
-
-> > +  * `KVM_IOREGION_PIO`
-> > +  * `KVM_IOREGION_POSTED_WRITES`
-> > +* *user_data* is an opaque value passed back to the server via a message on the
-> > +  file descriptor
-> > +
-> > +For further information on the ioregionfd-specific fields, see:
-> > +https://lore.kernel.org/kvm/cover.1613828726.git.eafanasova@gmail.com/
-> > +
-> > +(FIXME: update with final API docs.)
-> 
-> I suggest postponing the ioregionfd part of the spec until the KVM code
-> lands. In general the approach makes sense to me though, so I think it
-> will be possible to merge it later with minimal changes.
-
-I think it's useful to have it now, still, at least until we hit 1.0 and can't
-make incompatible changes. We've already had several useful review comments from
-yourself and others.
- 
-I agree it shouldn't be in place in any final version, though. (Ideally, we'd
-have an implementation as well.)
-
-> > +VFIO IRQ info format
-> > +^^^^^^^^^^^^^^^^^^^^
-> > +
-> > ++-------+--------+---------------------------+
-> > +| Name  | Offset | Size                      |
-> > ++=======+========+===========================+
-> > +| argsz | 16     | 4                         |
-> > ++-------+--------+---------------------------+
-> > +| flags | 20     | 4                         |
-> > ++-------+--------+---------------------------+
-> > +|       | +-----+--------------------------+ |
-> > +|       | | Bit | Definition               | |
-> > +|       | +=====+==========================+ |
-> > +|       | | 0   | VFIO_IRQ_INFO_EVENTFD    | |
-> > +|       | +-----+--------------------------+ |
-> > +|       | | 1   | VFIO_IRQ_INFO_MASKABLE   | |
-> > +|       | +-----+--------------------------+ |
-> > +|       | | 2   | VFIO_IRQ_INFO_AUTOMASKED | |
-> > +|       | +-----+--------------------------+ |
-> > +|       | | 3   | VFIO_IRQ_INFO_NORESIZE   | |
-> > +|       | +-----+--------------------------+ |
-> > ++-------+--------+---------------------------+
-> > +| index | 24     | 4                         |
-> > ++-------+--------+---------------------------+
-> > +| count | 28     | 4                         |
-> > ++-------+--------+---------------------------+
-> > +
-> > +* *argsz* is the size of the VFIO IRQ info structure.
-> > +* *flags* defines IRQ attributes:
-> > +
-> > +  * *VFIO_IRQ_INFO_EVENTFD* indicates the IRQ type can support server eventfd
-> > +    signalling.
-> > +  * *VFIO_IRQ_INFO_MASKABLE* indicates that the IRQ type supports the MASK and
-> > +    UNMASK actions in a VFIO_USER_DEVICE_SET_IRQS message.
-> > +  * *VFIO_IRQ_INFO_AUTOMASKED* indicates the IRQ type masks itself after being
-> > +    triggered, and the client must send an UNMASK action to receive new
-> > +    interrupts.
-> > +  * *VFIO_IRQ_INFO_NORESIZE* indicates VFIO_USER_SET_IRQS operations setup
-> > +    interrupts as a set, and new sub-indexes cannot be enabled without disabling
-> > +    the entire type.
-> > +
-> > +* index is the index of IRQ type being queried, it is the only field that is
-> > +  required to be set in the command message.
-> > +* count describes the number of interrupts of the queried type.
-> 
-> Is count an output-only field since the previous sentence says index is
-> the only field required in the command message?
-> 
-> I find it confusing that the spec shows the input/output structs without
-> explicitly documenting that fields are input, output, or input & output.
-
-I agree. I'll take care of this.
-
-https://github.com/nutanix/libvfio-user/issues/486
-
-> > +VFIO IRQ set format
-> > +^^^^^^^^^^^^^^^^^^^
-> > +
-> > ++-------+--------+------------------------------+
-> > +| Name  | Offset | Size                         |
-> > ++=======+========+==============================+
-> > +| argsz | 16     | 4                            |
-> > ++-------+--------+------------------------------+
-> > +| flags | 20     | 4                            |
-> > ++-------+--------+------------------------------+
-> > +|       | +-----+-----------------------------+ |
-> > +|       | | Bit | Definition                  | |
-> > +|       | +=====+=============================+ |
-> > +|       | | 0   | VFIO_IRQ_SET_DATA_NONE      | |
-> > +|       | +-----+-----------------------------+ |
-> > +|       | | 1   | VFIO_IRQ_SET_DATA_BOOL      | |
-> > +|       | +-----+-----------------------------+ |
-> > +|       | | 2   | VFIO_IRQ_SET_DATA_EVENTFD   | |
-> > +|       | +-----+-----------------------------+ |
-> > +|       | | 3   | VFIO_IRQ_SET_ACTION_MASK    | |
-> > +|       | +-----+-----------------------------+ |
-> > +|       | | 4   | VFIO_IRQ_SET_ACTION_UNMASK  | |
-> > +|       | +-----+-----------------------------+ |
-> > +|       | | 5   | VFIO_IRQ_SET_ACTION_TRIGGER | |
-> > +|       | +-----+-----------------------------+ |
-> > ++-------+--------+------------------------------+
-> > +| index | 24     | 4                            |
-> > ++-------+--------+------------------------------+
-> > +| start | 28     | 4                            |
-> > ++-------+--------+------------------------------+
-> > +| count | 32     | 4                            |
-> > ++-------+--------+------------------------------+
-> > +| data  | 36     | variable                     |
-> > ++-------+--------+------------------------------+
-> > +
-> > +* *argsz* is the size of the VFIO IRQ set structure, including any *data* field.
-> > +* *flags* defines the action performed on the interrupt range. The DATA flags
-> > +  describe the data field sent in the message; the ACTION flags describe the
-> > +  action to be performed. The flags are mutually exclusive for both sets.
-> > +
-> > +  * *VFIO_IRQ_SET_DATA_NONE* indicates there is no data field in the command.
-> > +    The action is performed unconditionally.
-> > +  * *VFIO_IRQ_SET_DATA_BOOL* indicates the data field is an array of boolean
-> > +    bytes. The action is performed if the corresponding boolean is true.
-> > +  * *VFIO_IRQ_SET_DATA_EVENTFD* indicates an array of event file descriptors
-> > +    was sent in the message meta-data. These descriptors will be signalled when
-> 
-> signalled...by the client or by the server?
-
-Either.
-
-> For example, does VFIO_IRQ_SET_ACTION_TRIGGER +
-> VFIO_IRQ_SET_DATA_EVENTFD provide an eventfd that the server will signal
-> when the device raises the interrupt?
-
-The server can trigger it, but so can the client (for whatever reason) via a
-combination of VFIO_IRQ_SET_ACTION_TRIGGER+VFIO_IRQ_SET_DATA_BOOL/NONE.
-> 
-> On the other hand, VFIO_IRQ_SET_ACTION_MASK + VFIO_IRQ_SET_DATA_EVENTFD
-> seems to be the other way around. The server reads from the eventfd to
-> respond when the irq is masked.
-> 
-> > +    the action defined by the action flags occurs. In AF_UNIX sockets, the
-> > +    descriptors are sent as SCM_RIGHTS type ancillary data.
-> > +    If no file descriptors are provided, this de-assigns the specified
-> > +    previously configured interrupts.
-> > +  * *VFIO_IRQ_SET_ACTION_MASK* indicates a masking event. It can be used with
-> > +    VFIO_IRQ_SET_DATA_BOOL or VFIO_IRQ_SET_DATA_NONE to mask an interrupt, or
-> > +    with VFIO_IRQ_SET_DATA_EVENTFD to generate an event when the guest masks
-> > +    the interrupt.
-> > +  * *VFIO_IRQ_SET_ACTION_UNMASK* indicates an unmasking event. It can be used
-> > +    with VFIO_IRQ_SET_DATA_BOOL or VFIO_IRQ_SET_DATA_NONE to unmask an
-> > +    interrupt, or with VFIO_IRQ_SET_DATA_EVENTFD to generate an event when the
-> > +    guest unmasks the interrupt.
-> > +  * *VFIO_IRQ_SET_ACTION_TRIGGER* indicates a triggering event. It can be used
-> > +    with VFIO_IRQ_SET_DATA_BOOL or VFIO_IRQ_SET_DATA_NONE to trigger an
-> > +    interrupt, or with VFIO_IRQ_SET_DATA_EVENTFD to generate an event when the
-> > +    server triggers the interrupt.
-
-I believe (could be wrong) we inherited these semantics (and IMO rather
-unfortunate naming) from vfio.
-
-> Maybe the text can be restructured to make this clear.
-
-Yes, I think it probably can, let me take a pass.
-
-> > +VFIO_USER_REGION_READ
-> > +---------------------
-> > +
-> > +Message format
-> > +^^^^^^^^^^^^^^
-> > +
-> > ++--------------+------------------------+
-> > +| Name         | Value                  |
-> > ++==============+========================+
-> > +| Message ID   | <ID>                   |
-> > ++--------------+------------------------+
-> > +| Command      | 9                      |
-> > ++--------------+------------------------+
-> > +| Message size | 32 + data size         |
-> > ++--------------+------------------------+
-> > +| Flags        | Reply bit set in reply |
-> > ++--------------+------------------------+
-> > +| Error        | 0/errno                |
-> > ++--------------+------------------------+
-> > +| Read info    | REGION read/write data |
-> > ++--------------+------------------------+
-> > +
-> > +This command message is sent from the client to the server to read from server
-> > +memory.  In the command messages, there is no data, and the count is the amount
-> > +of data to be read. The reply message must include the data read, and its count
-> > +field is the amount of data read.
-> 
-> There is no data in command messages, but Message size is still 32 +
-> data size?
-
-It is not. Spec was unclear here, I've added some text to this and
-VFIO_DMA_READ.
-
-> > +VFIO_USER_VM_INTERRUPT
-> > +----------------------
-> > +
-> > +Message format
-> > +^^^^^^^^^^^^^^
-> > +
-> > ++----------------+------------------------+
-> > +| Name           | Value                  |
-> > ++================+========================+
-> > +| Message ID     | <ID>                   |
-> > ++----------------+------------------------+
-> > +| Command        | 13                     |
-> > ++----------------+------------------------+
-> > +| Message size   | 20                     |
-> > ++----------------+------------------------+
-> > +| Flags          | Reply bit set in reply |
-> > ++----------------+------------------------+
-> > +| Error          | 0/errno                |
-> > ++----------------+------------------------+
-> > +| Interrupt info | <interrupt>            |
-> > ++----------------+------------------------+
-> > +
-> > +This command message is sent from the server to the client to signal the device
-> > +has raised an interrupt.
-> 
-> Except if the client set up irq eventfds?
-
-Clarified.
-
-> > +Interrupt info format
-> > +^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > ++-----------+--------+------+
-> > +| Name      | Offset | Size |
-> > ++===========+========+======+
-> > +| Sub-index | 16     | 4    |
-> > ++-----------+--------+------+
-> > +
-> > +* *Sub-index* is relative to the IRQ index, e.g., the vector number used in PCI
-> > +  MSI/X type interrupts.
-> 
-> Hmm...this is weird. The server tells the client to raise an MSI-X
-> interrupt but does not include the MSI message that resides in the MSI-X
-> table BAR device region? Or should MSI-X interrupts be delivered to the
-> client via VFIO_USER_DMA_WRITE instead?
-> 
-> (Basically it's not clear to me how MSI-X interrupts would work with
-> vfio-user. Reading how they work in kernel VFIO might let me infer it,
-> but it's probably worth explaining this clearly in the spec.)
-
-It doesn't. We don't have an implementation, and the qemu patches don't get this
-right either - it treats the sub-index as the IRQ index AKA IRQ type.
-
-I'd be inclined to just remove this for now, until we have an implementation.
-Thoughts?
-
-> > +VFIO_USER_DEVICE_RESET
-> > +----------------------
-> > +
-> > +Message format
-> > +^^^^^^^^^^^^^^
-> > +
-> > ++--------------+------------------------+
-> > +| Name         | Value                  |
-> > ++==============+========================+
-> > +| Message ID   | <ID>                   |
-> > ++--------------+------------------------+
-> > +| Command      | 14                     |
-> > ++--------------+------------------------+
-> > +| Message size | 16                     |
-> > ++--------------+------------------------+
-> > +| Flags        | Reply bit set in reply |
-> > ++--------------+------------------------+
-> > +| Error        | 0/errno                |
-> > ++--------------+------------------------+
-> > +
-> > +This command message is sent from the client to the server to reset the device.
-> 
-> Any requirements for how long VFIO_USER_DEVICE_RESET takes to complete?
-> In some cases a reset involves the server communicating with other
-> systems or components and this can take an unbounded amount of time.
-> Therefore this message could hang. For example, if a vfio-user NVMe
-> device was accessing data on a hung NFS export and there were I/O
-> requests in flight that need to be aborted.
-
-I'm not sure this is something we could put in the generic spec. Perhaps a
-caveat?
-
-> > +VFIO_USER_DIRTY_PAGES
-> > +---------------------
-> > +
-> > +Message format
-> > +^^^^^^^^^^^^^^
-> > +
-> > ++--------------------+------------------------+
-> > +| Name               | Value                  |
-> > ++====================+========================+
-> > +| Message ID         | <ID>                   |
-> > ++--------------------+------------------------+
-> > +| Command            | 15                     |
-> > ++--------------------+------------------------+
-> > +| Message size       | 16                     |
-> > ++--------------------+------------------------+
-> > +| Flags              | Reply bit set in reply |
-> > ++--------------------+------------------------+
-> > +| Error              | 0/errno                |
-> > ++--------------------+------------------------+
-> > +| VFIO Dirty bitmap  | <dirty bitmap>         |
-> > ++--------------------+------------------------+
-> > +
-> > +This command is analogous to VFIO_IOMMU_DIRTY_PAGES. It is sent by the client
-> > +to the server in order to control logging of dirty pages, usually during a live
-> > +migration. The VFIO dirty bitmap structure is defined in ``<linux/vfio.h>``
-> > +(``struct vfio_iommu_type1_dirty_bitmap``).
-> 
-> Do all vfio-user servers need to implement VFIO_USER_DIRTY_PAGES? It's
-> common for some device implementations to omit migration support because
-> it increases implementation complexity and is not needed in certain use
-> cases.
-
-Added a note that this is optional.
-
-thanks
-john
+DQpPbiAyMDIxLzUvMTAgMTY6NDEsIERhbmllbCBQLiBCZXJyYW5nw6kgd3JvdGU6DQo+IE9uIE1v
+biwgTWF5IDEwLCAyMDIxIGF0IDEyOjMwOjQ1UE0gKzA4MDAsIExpIFpoaWppYW4gd3JvdGU6DQo+
+PiBJbWFnZSBiZWxvdyB1c2VyIGNhc2VzOg0KPj4gY2FzZSAxOg0KPj4gYGBgDQo+PiAkIHFlbXUt
+aW1nIGNyZWF0ZSAtZiByYXcgc291cmNlLnJhdyAxRw0KPj4gJCBxZW11LWltZyBjcmVhdGUgLWYg
+cWNvdzIgLUYgcmF3IC1iIHNvdXJjZS5yYXcgLi9zb3VyY2UucmF3DQo+PiBxZW11LWltZyBpbmZv
+IHNvdXJjZS5yYXcNCj4+IGltYWdlOiBzb3VyY2UucmF3DQo+PiBmaWxlIGZvcm1hdDogcWNvdzIN
+Cj4+IHZpcnR1YWwgc2l6ZTogMTkzSyAoMTk3MTIwIGJ5dGVzKQ0KPj4gZGlzayBzaXplOiAxOTZL
+DQo+PiBjbHVzdGVyX3NpemU6IDY1NTM2DQo+PiBiYWNraW5nIGZpbGU6IHNvdXJjZS5yYXcgPDw8
+PDw8DQo+PiBiYWNraW5nIGZpbGUgZm9ybWF0OiByYXcNCj4+IEZvcm1hdCBzcGVjaWZpYyBpbmZv
+cm1hdGlvbjoNCj4+ICAgICAgY29tcGF0OiAxLjENCj4+ICAgICAgbGF6eSByZWZjb3VudHM6IGZh
+bHNlDQo+PiAgICAgIHJlZmNvdW50IGJpdHM6IDE2DQo+PiAgICAgIGNvcnJ1cHQ6IGZhbHNlDQo+
+PiBgYGANCj4+DQo+PiBjYXNlIDI6DQo+PiBgYGANCj4+ICQgcWVtdS1pbWcgY3JlYXRlIC1mIHJh
+dyBzb3VyY2UucmF3IDFHDQo+PiAkIGxuIC1zZiBzb3VyY2UucmF3IGRlc3RpbmF0aW9uLnFjb3cy
+DQo+PiAkIHFlbXUtaW1nIGNyZWF0ZSAtZiBxY293MiAtRiByYXcgLWIgc291cmNlLnJhdyAuL2Rl
+c3RpbmF0aW9uLnFjb3cyDQo+PiBxZW11LWltZyBpbmZvIHNvdXJjZS5yYXcNCj4+IGltYWdlOiBz
+b3VyY2UucmF3DQo+PiBmaWxlIGZvcm1hdDogcWNvdzIgPDw8PDw8DQo+PiB2aXJ0dWFsIHNpemU6
+IDIuMEcgKDIxNDc0ODM2NDggYnl0ZXMpDQo+PiBkaXNrIHNpemU6IDE5NksNCj4+IGNsdXN0ZXJf
+c2l6ZTogNjU1MzYNCj4+IGJhY2tpbmcgZmlsZTogc291cmNlLnJhdw0KPj4gYmFja2luZyBmaWxl
+IGZvcm1hdDogcmF3DQo+PiBGb3JtYXQgc3BlY2lmaWMgaW5mb3JtYXRpb246DQo+PiAgICAgIGNv
+bXBhdDogMS4xDQo+PiAgICAgIGxhenkgcmVmY291bnRzOiBmYWxzZQ0KPj4gICAgICByZWZjb3Vu
+dCBiaXRzOiAxNg0KPj4gICAgICBjb3JydXB0OiBmYWxzZQ0KPj4gYGBgDQo+PiBHZW5lcmFsbHks
+IHdlIGRvbid0IGV4cGVjdCB0byBjb3JydXB0ZSB0aGUgc291cmNlLnJhdyBhbnl3YXksIHdoaWxl
+DQo+PiBhY3R1YWxseSBpdCBkb2VzLg0KPj4NCj4+IEhlcmUgd2UgdmFsaWRhdGUgdGhlIHJlYWxw
+YXRoIG9mIGZpbGUgaW5zdGVhZCB0aGUgaW5wdXQgc3RyaW5nLg0KPiBUaGF0IHN0aWxsIHdvbid0
+IGhhbmRsZSB0aGUgY2FzZSB3aGVyZSB5b3UgdXNlIGhhcmQgbGlua3MNCj4NCj4gICAgJCBsbiBz
+b3VyY2UucmF3IGRlc3RpbmF0aW9uLnFjb3cyDQo+DQo+IFRvIHByb3Blcmx5IHZhbGlkYXRlIHRo
+ZSBzY2VuYXJpb3MgSSB0aGluayBpdCBpcyBuZWNjZXNzYXJ5DQo+IHRvIGlnbm9yZSB0aGUgZmls
+ZW5hbWUgc2VudGlyZWx5Lg0KPg0KPiBJbnN0ZWFkIGF0dGVtcHQgdG8gb3BlbiBib3RoIGZpbGVz
+LCBhbmQgaWYgc3VjY2Vzc2Z1bCwgZnN0YXQoKQ0KPiB0aGVtIGJvdGgsIGFuZCB0aGVuIGNvbXBh
+cmUgdGhlIHN0X2RldiArIHN0X2lubyAgZmllbGRzLg0KDQoNClNvdW5kcyBncmVhdCwgaSB3aWxs
+IHVwZGF0ZSBpdC4NCg0KVGhhbmtzDQoNClpoaWppYW4NCg==
 
