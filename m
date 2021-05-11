@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154F237A4B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:39:27 +0200 (CEST)
-Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A159037A4A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:34:19 +0200 (CEST)
+Received: from localhost ([::1]:37198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgPnS-0006h8-4m
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:39:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37980)
+	id 1lgPiU-0007a5-JO
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPVs-0000bX-SG
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:16 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41095)
+ id 1lgPVu-0000j0-TI
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:19 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPVp-0006TG-7g
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:16 -0400
+ id 1lgPVt-0006V6-7O
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620728471; x=1652264471;
+ t=1620728476; x=1652264476;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CCgwUukf0mol48E+b6OjDya1sHpuv6iWQ9PgPgArBlM=;
- b=BMZ0DY93+XW3tJtTjIgVXNEXkkuSaKC5YQZfPOJ8EFqwxAyOXXcVpL5s
- y3gsYnDtT+XnPV6uB8oEnkGydDIsNUU9PubHDA/M7KWf6h6W+dH1fqph4
- +5WODTXvjSSeuMamQSLeMO2gN3QivG1FFbLUwHRxiotd6J7wchNjVYIIq
- jHb3WAuLJvW0KsxqUMpRoYaKN7rD9r1a+TOniMuyXEipeGZewWs+TV84a
- B1TcVCVZoQt2hgNrhmpsfeuetrUApPQkBN8n9psJhjb9okO9JGmoQRMMQ
- J3I4+yL9r86nphaEuq3OiIuy/aqMs2Yy/di9oTOUvVdKI/bMEX3gfwK2k w==;
-IronPort-SDR: jiSxbDcKxRJIKOX1yhObLjGDcQKUl6Dd1XfGBJsPkD0y1p/oPd/fONSo/Ord1Dt+vD+kIhtylg
- pixsoern8lFHqZTZOjZx6gO8lnGtDch0DO/5crDMYWPEZHAoWjGY4kJqYLQ43bVVjieH/sj7AS
- iezQHQ/hJH+LPU3USFf3txxEppXGnAQefqEa7xGtH8fE4piPfFmVlwwSLpfO20widm4hChFIPn
- b5ADPSBC8UAcm3JazVUObjzf3VGZZwL9KsEWIsVk7OY+joqN1UeI6EJwYlg6vQYkjanaIVDQRw
- VbU=
-X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735391"
+ bh=otQOSwcYVr7RAj/nWvFHEWoMMJh10b7Yi4YNSpL0/3M=;
+ b=jQJvsyzQdkOEhBfV64Qkr7LaymZ8IajNoBfmFef8pb/uQ4KA+Aijpyzg
+ T9o3WY8ZUCdGTf3do6d1/iaxQdALVQluMA0x38dRTYCYWVXGv86oqwTBq
+ 4jMma9oWdAZc9e0MEesUMrJ1y/yJ/CTZH7FxXYdaQebs70N3SnHsyupmD
+ qj2g5nIhqHRg3U/guU2s32UpA4pWE6sC3SJwCD4XTKI63WSfY1rTQqWMN
+ GXInL6LBOy3Kq1FBrnwU6N9ioATG0BlLnrLc0hhlCwF5ICBA0olDF1JWZ
+ qMqonWuZvl5z7mqwY+cHw6OhrXcVl9ukVqGmm+tz6UfY4WRKvIyR84sv0 Q==;
+IronPort-SDR: u2aI8KtZdjQ7K/OgRhXkwqKPNc4m0Xu93zwgutUou5OUi72I01oNwCFQmt7s0Fipppgqyre352
+ xsXuOhHucLCmHE8gYDljc+TIzkWt346yaQb6azO+BKek9Pu6CXLE5NwZGC3Fo2duN4JqnZJ9PM
+ S0HR9cEwTG0TMDSNzL5mf8RxrTb/aLvc6gsWsAP1ADOMEi/nyOSc/vLtNQnwboH3zpBzqF5W3B
+ nk0A7rQP4CEUSadq9E4xCbr5Vgq0odjvcg+wF3QnBlWzdUT7qeqwudih8KARXyt47A62r+NyGN
+ pWA=
+X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735393"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:20:51 +0800
-IronPort-SDR: EmWgKZbXIzRUpXldkuIk9bgKMKCyVX3YkH/MwcGJyEHtcOnyHl1SCr3rGLot1XCtkgdhGbk+fX
- LamhhuY8/fGUwpGHMWD9UBuj2CiZOqygSOpgtEgEfGLoDBRUnPxDP451RTWtuo0/J2or6iaHoc
- NvbgJ/x4okfzIgrov32KJboYJO0WOx8Z+3ZByVbpNyP3uqN6cpV6GpWOryCgZtP3yVQFOxrI2C
- tGJNEhANW1NgjU0dXRB1ASds6XFeIf1tygxWVxobxWE0Z84zrhb18k4YWwRDaEjkBWzPafN7ZJ
- UBCKwKOAAvs/M8skb+WEnK6h
+ by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:20:54 +0800
+IronPort-SDR: efO8vcwkrs8SNk8uWXk0H9hjVku1htzBL3hfK6A7DfcRVKDqFpOsCyE2nCzVXUQO5GwlJuR+SW
+ 5s4rR58T9q3DbzJnyIrobpst2g3PtlA2MXJzAmStwHkryP0wuua128wrUIN7Awd2jsGLeOI9Dv
+ i7HVQ3BeJcyEDrX0AtIZFdp9ctMC8YD6bdMyfWT0ihbsJ0ToytzLqMYnWYPG1peK7Whc/VZp5d
+ eaUMpruUxrp4JyadwKmsi4qTJh5CaVh3rt+ARziU7bEr139cMOCjDdFR7ZMypDwjS3HUcPaS7N
+ bZEVhIvYCpoQMWT8+MVXLcrV
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 03:00:50 -0700
-IronPort-SDR: xOpD93eXPHWFqOOtioJlAYWyaaB1ItWKj0OISja7oWhkGw3y2DLD53wCw5lREmI7tGC7ukLTZi
- Pqk+9v4gu1X0ajTdfFxOF/uX33uKVYMqrQH2sTlwJNRSa8A8b70+pEQYnjvhIJsv4W46Rqkgi1
- qEc4C1ZZ51dguLzT0OZdPsd0Zxxd4JqNELvQY0n5aKeD5DwPfRs4dCFbtZNz9NTY0XUAMjWa1x
- 0VqLPkQIgETtAUVKJSZCmyHsRT1QTMWeDT+VovekAja9b8BSTnHw5xHyohZWT15amIh6/CymJV
- 5Bk=
+ 11 May 2021 03:00:53 -0700
+IronPort-SDR: 3JFu3rzpO7lEo4R9wKNRsHVXYPewsY1YzFdn5fPi8WUGXTsDsL+AgCwj3MiynF+j271bBIYmqB
+ e9KfLJVIrRR4f+KpJ3sRuozxBLbZpz0Rr27DsFVo1SeiWvw6b9j1apkuPsrohjbPcV7YIdPMYB
+ Vv58MQOWpFbpVHniBGwTIpuYi3jyf8ANszIrKGv2Rl+xFO1NWX+D58ganTKbEUDc384Zma+EB4
+ yK+CfegCwVE9KybhQTXqpbEhbXpPulBRxoIIG9TV84Kupjjx/DhIz6MLSlRJcJalzUgsGxttbJ
+ iB8=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.48])
- by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:20:49 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:20:52 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v3 15/42] hw/opentitan: Update the interrupt layout
-Date: Tue, 11 May 2021 20:19:24 +1000
-Message-Id: <20210511101951.165287-16-alistair.francis@wdc.com>
+Subject: [PULL v3 16/42] hw/riscv: Enable VIRTIO_VGA for RISC-V virt machine
+Date: Tue, 11 May 2021 20:19:25 +1000
+Message-Id: <20210511101951.165287-17-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210511101951.165287-1-alistair.francis@wdc.com>
 References: <20210511101951.165287-1-alistair.francis@wdc.com>
@@ -95,109 +95,30 @@ Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the OpenTitan interrupt layout to match the latest OpenTitan
-bitstreams. This involves changing the Ibex PLIC memory layout and the
-UART interrupts.
+imply VIRTIO_VGA for the virt machine, this fixes the following error
+when specifying `-vga virtio` as a command line argument:
+
+qemu-system-riscv64: Virtio VGA not available
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: e92b696f1809c9fa4410da2e9f23c414db5a6960.1617202791.git.alistair.francis@wdc.com
+Message-id: 7ac26fafee8bd59d2a0640f3233f8ad1ab270e1e.1617367317.git.alistair.francis@wdc.com
 ---
- include/hw/riscv/opentitan.h | 16 ++++++++--------
- hw/intc/ibex_plic.c          | 20 ++++++++++----------
- hw/riscv/opentitan.c         |  8 ++++----
- 3 files changed, 22 insertions(+), 22 deletions(-)
+ hw/riscv/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index a5ea3a5e4e..aab9bc9245 100644
---- a/include/hw/riscv/opentitan.h
-+++ b/include/hw/riscv/opentitan.h
-@@ -82,14 +82,14 @@ enum {
- };
- 
- enum {
--    IBEX_UART_RX_PARITY_ERR_IRQ = 0x28,
--    IBEX_UART_RX_TIMEOUT_IRQ = 0x27,
--    IBEX_UART_RX_BREAK_ERR_IRQ = 0x26,
--    IBEX_UART_RX_FRAME_ERR_IRQ = 0x25,
--    IBEX_UART_RX_OVERFLOW_IRQ = 0x24,
--    IBEX_UART_TX_EMPTY_IRQ = 0x23,
--    IBEX_UART_RX_WATERMARK_IRQ = 0x22,
--    IBEX_UART_TX_WATERMARK_IRQ = 0x21,
-+    IBEX_UART0_RX_PARITY_ERR_IRQ = 8,
-+    IBEX_UART0_RX_TIMEOUT_IRQ = 7,
-+    IBEX_UART0_RX_BREAK_ERR_IRQ = 6,
-+    IBEX_UART0_RX_FRAME_ERR_IRQ = 5,
-+    IBEX_UART0_RX_OVERFLOW_IRQ = 4,
-+    IBEX_UART0_TX_EMPTY_IRQ = 3,
-+    IBEX_UART0_RX_WATERMARK_IRQ = 2,
-+    IBEX_UART0_TX_WATERMARK_IRQ = 1,
- };
- 
- #endif
-diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
-index c1b72fcab0..edf76e4f61 100644
---- a/hw/intc/ibex_plic.c
-+++ b/hw/intc/ibex_plic.c
-@@ -225,23 +225,23 @@ static void ibex_plic_irq_request(void *opaque, int irq, int level)
- 
- static Property ibex_plic_properties[] = {
-     DEFINE_PROP_UINT32("num-cpus", IbexPlicState, num_cpus, 1),
--    DEFINE_PROP_UINT32("num-sources", IbexPlicState, num_sources, 80),
-+    DEFINE_PROP_UINT32("num-sources", IbexPlicState, num_sources, 176),
- 
-     DEFINE_PROP_UINT32("pending-base", IbexPlicState, pending_base, 0),
--    DEFINE_PROP_UINT32("pending-num", IbexPlicState, pending_num, 3),
-+    DEFINE_PROP_UINT32("pending-num", IbexPlicState, pending_num, 6),
- 
--    DEFINE_PROP_UINT32("source-base", IbexPlicState, source_base, 0x0c),
--    DEFINE_PROP_UINT32("source-num", IbexPlicState, source_num, 3),
-+    DEFINE_PROP_UINT32("source-base", IbexPlicState, source_base, 0x18),
-+    DEFINE_PROP_UINT32("source-num", IbexPlicState, source_num, 6),
- 
--    DEFINE_PROP_UINT32("priority-base", IbexPlicState, priority_base, 0x18),
--    DEFINE_PROP_UINT32("priority-num", IbexPlicState, priority_num, 80),
-+    DEFINE_PROP_UINT32("priority-base", IbexPlicState, priority_base, 0x30),
-+    DEFINE_PROP_UINT32("priority-num", IbexPlicState, priority_num, 177),
- 
--    DEFINE_PROP_UINT32("enable-base", IbexPlicState, enable_base, 0x200),
--    DEFINE_PROP_UINT32("enable-num", IbexPlicState, enable_num, 3),
-+    DEFINE_PROP_UINT32("enable-base", IbexPlicState, enable_base, 0x300),
-+    DEFINE_PROP_UINT32("enable-num", IbexPlicState, enable_num, 6),
- 
--    DEFINE_PROP_UINT32("threshold-base", IbexPlicState, threshold_base, 0x20c),
-+    DEFINE_PROP_UINT32("threshold-base", IbexPlicState, threshold_base, 0x318),
- 
--    DEFINE_PROP_UINT32("claim-base", IbexPlicState, claim_base, 0x210),
-+    DEFINE_PROP_UINT32("claim-base", IbexPlicState, claim_base, 0x31c),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index dc9dea117e..557d73726b 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -148,16 +148,16 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->uart), 0, memmap[IBEX_DEV_UART].base);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
-                        0, qdev_get_gpio_in(DEVICE(&s->plic),
--                       IBEX_UART_TX_WATERMARK_IRQ));
-+                       IBEX_UART0_TX_WATERMARK_IRQ));
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
-                        1, qdev_get_gpio_in(DEVICE(&s->plic),
--                       IBEX_UART_RX_WATERMARK_IRQ));
-+                       IBEX_UART0_RX_WATERMARK_IRQ));
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
-                        2, qdev_get_gpio_in(DEVICE(&s->plic),
--                       IBEX_UART_TX_EMPTY_IRQ));
-+                       IBEX_UART0_TX_EMPTY_IRQ));
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->uart),
-                        3, qdev_get_gpio_in(DEVICE(&s->plic),
--                       IBEX_UART_RX_OVERFLOW_IRQ));
-+                       IBEX_UART0_RX_OVERFLOW_IRQ));
- 
-     create_unimplemented_device("riscv.lowrisc.ibex.gpio",
-         memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index a0225716b5..86957ec7b0 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -32,6 +32,7 @@ config SHAKTI_C
+ config RISCV_VIRT
+     bool
+     imply PCI_DEVICES
++    imply VIRTIO_VGA
+     imply TEST_DEVICES
+     select GOLDFISH_RTC
+     select MSI_NONBROKEN
 -- 
 2.31.1
 
