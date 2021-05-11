@@ -2,80 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DAFC37A6A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 14:29:34 +0200 (CEST)
-Received: from localhost ([::1]:41688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DC937A6B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 14:31:08 +0200 (CEST)
+Received: from localhost ([::1]:43190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgRW1-0004pq-9R
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 08:29:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40966)
+	id 1lgRXS-0005rU-3U
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 08:31:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgRTd-0003OJ-AR; Tue, 11 May 2021 08:27:05 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42904)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgRTb-0004wX-3P; Tue, 11 May 2021 08:27:04 -0400
-Received: by mail-wr1-x432.google.com with SMTP id l2so19934358wrm.9;
- Tue, 11 May 2021 05:27:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cUab8/BPpicqjRWLRsSe2OUGEVDu2PtuhV0srzfQJoA=;
- b=rM7SfMRrIXYGqH6UUlb9XxODJ2UkmuD/RnTwBLil0TEadQTkjrDQrX4AehRV9KGdev
- C2ZiIkQZJpRjVdf+JZRJzSL15x9n8dhBo4SBd8+exvSYDTzaEdYzokptdmuNJYU3Zcq+
- zKnqeltOkQt6pexIxBvqkMB8qyqOdpe1St0ddGrTPjxpmy5C6DTkTKt9kP/RzXia6zHw
- 0lsyqNwFS122CbjiUXXiCy6t9KKmmLj3O/OMuwowLEs11lhtHikWvkQTapASgkqrDpw+
- qJXe5yDYKqbUoNG4y3+hXSZU98okQg0RFZAAMenK6nVtnhdjKERLoX7gmlMGaHvbDGeL
- FSCg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgRUj-00044g-4q
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 08:28:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21849)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgRUd-0005Us-1B
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 08:28:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620736085;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IuRhTXXxrE3JcV67/Jq1mR6qQ/jrv2n8vOd9Kl/M7GE=;
+ b=HqrWbJacErmXAgGUBtCXLnCVX18HKq58M7EVRgKHjEBO4K+bg+Q8DmpDRcjR4mnSVvLUyt
+ OhrDHkDlXKSE95rAfleAzwG78mbO8Guh6T+SXfdx7QdMwixlyuSE4op9yRADXeNFosfa+O
+ RJfcA+KozDQz5Tkd2KtBbtAXaIGDpyk=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-wce-1rUoOkiR-vtDXQm8bA-1; Tue, 11 May 2021 08:28:03 -0400
+X-MC-Unique: wce-1rUoOkiR-vtDXQm8bA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ h9-20020a1709063c09b0290393e97fec0fso5883440ejg.13
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:28:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=cUab8/BPpicqjRWLRsSe2OUGEVDu2PtuhV0srzfQJoA=;
- b=iOcyUwLgx4p8N3IioZ+iV+bIXiqDxrI8tGJNa4nkasfTaUrE85YEY7DNDdW4/NUUZ1
- SNOINM9LBKzsfp/mLG14qk+Jrm09bWktXbH5dQ1zy47X1C6DYszWi3g4vEo6LG8RPlxV
- sKEZE5ByClphad6poJoAEA05q56TKQ1ab1IT5dbikWDZU9U6p+so5doKJu98ScWyHNU6
- uCskF44rUIIyihLpvVELROhbwuWWj6PMqUI9p4ecVldROftX4/Dimfr3EXoSJdq6rf3B
- 7QP9up/kdEm738aXv0/3t81Nx1VTaqzAzLU773iT1/WMyNDZTHNzeAHWblMqJw9juSRr
- IJGQ==
-X-Gm-Message-State: AOAM531MEXZz3YNgyDx5R4uQdJOFLOI/hrdOXmlqazED4wiZQ8JGmlnY
- GFQoNZErZtM3PAg+32u42Aw=
-X-Google-Smtp-Source: ABdhPJyiW+VmhLoClMBahbYmznlP6XZp8fpSfVeavugeDsV7ILN89H9ICmv3J5Y3cDgrBB5BiFGSSQ==
-X-Received: by 2002:adf:fc46:: with SMTP id e6mr37230603wrs.169.1620736020961; 
- Tue, 11 May 2021 05:27:00 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id f25sm27703375wrd.67.2021.05.11.05.26.59
+ bh=IuRhTXXxrE3JcV67/Jq1mR6qQ/jrv2n8vOd9Kl/M7GE=;
+ b=TVJdCBuqIRX0qCyE4uBBqD1WNNb+kkLrUjjCzArWCHPjj5q4UusYn96i3PEWoLXl+B
+ N8lcopnKrGMybGCReqh0ZP0yRJhTSpwA777nwjMKPT3lAqm2dniPkCMI2KfoDHII/JcQ
+ WsLUUQocpivu2haiAndt/RjRrRyZ5W++rc+uX78XxLT3uEmX6LScjOIiCqgqHL9ZuKJO
+ kiDuhvd03+bOwUuQuEYWj3olDPRPKzJ5YLbl+ZxrvNzyA2mJn2YjkV16QY9O7mbHuiTd
+ LUNGgd+QRSvrqdr1hbWq1yRNqjNU93NGwvPuTt1o51jjlR2bFl2LlA/a3GdbPE5FgFhg
+ nHpQ==
+X-Gm-Message-State: AOAM531OtSWEU+62smN+Y1cjEb1S9qyC+h2+cqTWyGn/43n783ujdYfh
+ SWeDZquIDQr5MhF3Z46eSt55kB5mLXYz0I+f27Yih+DZn7abuU92yE6LDJcgFsf/2qkPwtEol8T
+ HIVDQHhMIIoNyQxTD7rkL6swZ9XKzhDZ7gMQgMGoShZTVdkqGGSyYebF4YcWbgzkzYW4=
+X-Received: by 2002:a17:907:2cc1:: with SMTP id
+ hg1mr32112304ejc.453.1620736082477; 
+ Tue, 11 May 2021 05:28:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLE/dIbUM7zt2CeSTsgIquU9h4YJWNd5w3gG+Qkr3/bDQvrzX/N2xk096Gfz975qF7NG8r/g==
+X-Received: by 2002:a17:907:2cc1:: with SMTP id
+ hg1mr32112272ejc.453.1620736082246; 
+ Tue, 11 May 2021 05:28:02 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id e19sm13915938edv.10.2021.05.11.05.28.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 05:27:00 -0700 (PDT)
-Subject: Re: [PATCH 2/2] QOMify sifive_uart model
-To: =?UTF-8?Q?Lukas_J=c3=bcnger?= <lukas.juenger@greensocs.com>,
- qemu-devel@nongnu.org
-References: <20210504153456.927083-1-lukas.juenger@greensocs.com>
- <20210504153456.927083-3-lukas.juenger@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8471d630-72c1-aef0-a0cf-9f0417334c08@amsat.org>
-Date: Tue, 11 May 2021 14:26:54 +0200
+ Tue, 11 May 2021 05:28:01 -0700 (PDT)
+Subject: Re: [PATCH 4/6] progressmeter: protect with a mutex
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20210510085941.22769-1-eesposit@redhat.com>
+ <20210510085941.22769-5-eesposit@redhat.com>
+ <946e8544-8183-25b4-6a6a-17eed8c1b009@virtuozzo.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a8785afb-a7a3-0100-5c46-32914a273b63@redhat.com>
+Date: Tue, 11 May 2021 14:28:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210504153456.927083-3-lukas.juenger@greensocs.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <946e8544-8183-25b4-6a6a-17eed8c1b009@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,43 +105,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org, bin.meng@windriver.com,
- mark.burton@greensocs.com, palmer@dabbelt.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com, luc.michel@greensocs.com
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Lukas,
+On 10/05/21 13:28, Vladimir Sementsov-Ogievskiy wrote:
+> 
+> 
+> Could we instead add a c file and add the structure private? Then we'll 
+> have progress_new() and progress_free() APIs instead.
+> 
+> This way, it would be a lot simpler to control that nobady use structure 
+> fields directly.
 
-On 5/4/21 5:34 PM, Lukas Jünger wrote:
-> Signed-off-by: Lukas Jünger <lukas.juenger@greensocs.com>
-> ---
->  include/hw/char/sifive_uart.h |  6 +--
->  hw/char/sifive_uart.c         | 72 ++++++++++++++++++++++++++++++-----
->  2 files changed, 65 insertions(+), 13 deletions(-)
+I don't know...  I prefer embedding structs to heap allocation.
 
-> +static void sifive_uart_realize(DeviceState *dev, Error **errp)
-> +{
-> +    SiFiveUARTState *s = SIFIVE_UART(dev);
-> +
-> +    qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
-> +                             uart_be_change, s, NULL, true);
-> +
-> +}
-> +
-> +static void sifive_uart_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +
-> +    dc->realize = sifive_uart_realize;
-> +    device_class_set_props(dc, sifive_uart_properties);
-> +}
+Paolo
 
-You forgot to add the migration fields (VMState) of the SiFiveUARTState
-structure. You might want to convert to the Fifo8 API (like the
-SiFiveSPIState does) previous to this patch.
-
-Regards,
-
-Phil.
 
