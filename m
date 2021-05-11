@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F9237A011
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:52:49 +0200 (CEST)
-Received: from localhost ([::1]:35576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0A437A01F
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:55:14 +0200 (CEST)
+Received: from localhost ([::1]:42296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgMG8-0004w3-ED
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:52:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40924)
+	id 1lgMIT-0001PX-Jd
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:55:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLtZ-0008Dv-NM
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:29:30 -0400
-Received: from mga06.intel.com ([134.134.136.31]:46441)
+ id 1lgLtd-0008FK-Nr
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 02:29:35 -0400
+Received: from mga06.intel.com ([134.134.136.31]:46437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLtT-0004it-E0
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:29:29 -0400
-IronPort-SDR: bJZ4umAGrl3qyMemxkYWiLWkLLWPatP/gs6AA5VeNcQk/0XfdRwDBBHikds5F+9NlMZJ9QjiSB
- Jfn5pBxlbgag==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631590"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631590"
+ id 1lgLtV-0004hV-1o
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 02:29:33 -0400
+IronPort-SDR: j00LxtgjdeQ6ZYXJJZ36eGHgiWopDd/lakieuNlKXja/Kiwqk6UdvAHTMRSq0Z7374h4A6rlu2
+ /WFLB8WRA59Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631593"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631593"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2021 23:28:24 -0700
-IronPort-SDR: Bw5iPAoOTDwoPfBVbkIYcCbaV78BgdDlVCa1m0gyziW7zqdoL0Heq+XmNmIPf0GgsG6WIwnTkt
- D32B/waT/5Fw==
+ 10 May 2021 23:28:26 -0700
+IronPort-SDR: +M50JVNs95tobVngUVCjumRQZpacXR1wU5q7XEL5gEAunJlXZHIWZ3kDFuqnGTcyCd/DTCVvbC
+ tM99fvSDiwUQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281400"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281414"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:28:22 -0700
+ by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:28:24 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 28/32] bitops: Support 32 and 64 bit mask macro
-Date: Tue, 11 May 2021 14:20:47 +0800
-Message-Id: <20210511062051.41948-29-yang.zhong@intel.com>
+Subject: [PATCH v2 29/32] qmp: Add the qmp_query_sgx_capabilities()
+Date: Tue, 11 May 2021 14:20:48 +0800
+Message-Id: <20210511062051.41948-30-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210511062051.41948-1-yang.zhong@intel.com>
 References: <20210511062051.41948-1-yang.zhong@intel.com>
@@ -66,40 +66,183 @@ Cc: yang.zhong@intel.com, pbonzini@redhat.com, kai.huang@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Qemu should enable bit mask macro like Linux did in the
-kernel, the GENMASK(h, l) and GENMASK_ULL(h, l) will set the
-bit to 1 from l to h bit in the 32 bit or 64 bit long type.
+Libvirt can use qmp_query_sgx_capabilities() to get the host
+sgx capabilities.
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
----
- include/qemu/bitops.h | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
-index 3acbf3384c..8678c8dcd5 100644
---- a/include/qemu/bitops.h
-+++ b/include/qemu/bitops.h
-@@ -18,6 +18,7 @@
+v1-->v2:
+   - Changed the blurb error and "Since: 5.1" to "Since: 6.1"(Eric Blake).
+---
+ hw/i386/sgx-epc.c          | 66 ++++++++++++++++++++++++++++++++++++++
+ include/hw/i386/pc.h       |  1 +
+ monitor/qmp-cmds.c         |  5 +++
+ qapi/misc.json             | 19 +++++++++++
+ stubs/sgx-stub.c           |  5 +++
+ tests/qtest/qmp-cmd-test.c |  1 +
+ 6 files changed, 97 insertions(+)
+
+diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
+index 7daea0613b..0995956f99 100644
+--- a/hw/i386/sgx-epc.c
++++ b/hw/i386/sgx-epc.c
+@@ -27,6 +27,14 @@
  
- #define BITS_PER_BYTE           CHAR_BIT
- #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
-+#define BITS_PER_LONG_LONG       64
+ uint32_t epc_num;
  
- #define BIT(nr)                 (1UL << (nr))
- #define BIT_ULL(nr)             (1ULL << (nr))
-@@ -28,6 +29,12 @@
- #define MAKE_64BIT_MASK(shift, length) \
-     (((~0ULL) >> (64 - (length))) << (shift))
- 
-+#define GENMASK(h, l) \
-+    (((~0UL) << (l)) & (~0UL >> (BITS_PER_LONG - 1 - (h))))
++#define SGX_MAX_EPC_SECTIONS            8
++#define SGX_CPUID_EPC_INVALID           0x0
 +
-+#define GENMASK_ULL(h, l) \
-+    (((~0ULL) << (l)) & (~0ULL >> (BITS_PER_LONG_LONG - 1 - (h))))
++/* A valid EPC section. */
++#define SGX_CPUID_EPC_SECTION           0x1
 +
- /**
-  * set_bit - Set a bit in memory
-  * @nr: the bit to set
++#define SGX_CPUID_EPC_MASK              GENMASK(3, 0)
++
+ static Property sgx_epc_properties[] = {
+     DEFINE_PROP_UINT64(SGX_EPC_ADDR_PROP, SGXEPCDevice, addr, 0),
+     DEFINE_PROP_LINK(SGX_EPC_MEMDEV_PROP, SGXEPCDevice, hostmem,
+@@ -344,6 +352,64 @@ SGXInfo *sgx_get_info(void)
+     return info;
+ }
+ 
++static uint64_t sgx_calc_section_metric(uint64_t low, uint64_t high)
++{
++    return (low & GENMASK_ULL(31, 12)) +
++           ((high & GENMASK_ULL(19, 0)) << 32);
++}
++
++static uint64_t sgx_calc_host_epc_section_size(void)
++{
++    uint32_t i, type;
++    uint32_t eax, ebx, ecx, edx;
++    uint64_t size = 0;
++
++    for (i = 0; i < SGX_MAX_EPC_SECTIONS; i++) {
++        host_cpuid(0x12, i + 2, &eax, &ebx, &ecx, &edx);
++
++        type = eax & SGX_CPUID_EPC_MASK;
++        if (type == SGX_CPUID_EPC_INVALID) {
++            break;
++        }
++
++        if (type != SGX_CPUID_EPC_SECTION) {
++            break;
++        }
++
++        size += sgx_calc_section_metric(ecx, edx);
++    }
++
++    return size;
++}
++
++SGXInfo *sgx_get_capabilities(Error **errp)
++{
++    SGXInfo *info = NULL;
++    uint32_t eax, ebx, ecx, edx;
++
++    int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
++    if (fd < 0) {
++        error_setg(errp, "SGX is not enabled in KVM");
++        return NULL;
++    }
++
++    info = g_new0(SGXInfo, 1);
++    host_cpuid(0x7, 0, &eax, &ebx, &ecx, &edx);
++
++    info->sgx = ebx & (1U << 2) ? true : false;
++    info->flc = ecx & (1U << 30) ? true : false;
++
++    host_cpuid(0x12, 0, &eax, &ebx, &ecx, &edx);
++    info->sgx1 = eax & (1U << 0) ? true : false;
++    info->sgx2 = eax & (1U << 1) ? true : false;
++
++    info->section_size = sgx_calc_host_epc_section_size();
++
++    close(fd);
++
++    return info;
++}
++
+ static QemuOptsList sgx_epc_opts = {
+     .name = "sgx-epc",
+     .implied_opt_name = "id",
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 021de8026f..b3ce44099a 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -208,6 +208,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms);
+ void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
+                               Error **errp);
+ SGXInfo *sgx_get_info(void);
++SGXInfo *sgx_get_capabilities(Error **errp);
+ 
+ extern GlobalProperty pc_compat_5_2[];
+ extern const size_t pc_compat_5_2_len;
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 48f7708ffe..f1360e9f4e 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -365,3 +365,8 @@ SGXInfo *qmp_query_sgx(Error **errp)
+ 
+     return info;
+ }
++
++SGXInfo *qmp_query_sgx_capabilities(Error **errp)
++{
++    return sgx_get_capabilities(errp);
++}
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 83b45a1460..8d1a78d138 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -561,3 +561,22 @@
+ #
+ ##
+ { 'command': 'query-sgx', 'returns': 'SGXInfo' }
++
++
++##
++# @query-sgx-capabilities:
++#
++# Returns information from host SGX capabilities
++#
++# Returns: @SGXInfo
++#
++# Since: 6.1
++#
++# Example:
++#
++# -> { "execute": "query-sgx-capabilities" }
++# <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
++#                  "flc": true, "section-size" : 0 } }
++#
++##
++{ 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo' }
+diff --git a/stubs/sgx-stub.c b/stubs/sgx-stub.c
+index c2b59a88fd..1dedf3f3db 100644
+--- a/stubs/sgx-stub.c
++++ b/stubs/sgx-stub.c
+@@ -5,3 +5,8 @@ SGXInfo *sgx_get_info(void)
+ {
+     return NULL;
+ }
++
++SGXInfo *sgx_get_capabilities(Error **errp)
++{
++    return NULL;
++}
+diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+index b75f3364f3..1af2f74c28 100644
+--- a/tests/qtest/qmp-cmd-test.c
++++ b/tests/qtest/qmp-cmd-test.c
+@@ -101,6 +101,7 @@ static bool query_is_ignored(const char *cmd)
+         "query-sev",
+         "query-sev-capabilities",
+         "query-sgx",
++        "query-sgx-capabilities",
+         NULL
+     };
+     int i;
 -- 
 2.29.2.334.gfaefdd61ec
 
