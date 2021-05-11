@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557D9379E41
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 06:20:52 +0200 (CEST)
-Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1B2379E45
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 06:20:57 +0200 (CEST)
+Received: from localhost ([::1]:60972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgJt5-0001Ol-DP
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 00:20:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51056)
+	id 1lgJtA-0001gc-HC
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 00:20:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgJrI-0007K1-Kj; Tue, 11 May 2021 00:19:00 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:43601)
+ id 1lgJrN-0007S9-HN; Tue, 11 May 2021 00:19:06 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:43004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgJrG-0000TQ-IV; Tue, 11 May 2021 00:19:00 -0400
-Received: by mail-ed1-x536.google.com with SMTP id s6so21193029edu.10;
- Mon, 10 May 2021 21:18:57 -0700 (PDT)
+ id 1lgJrM-0000Y6-0W; Tue, 11 May 2021 00:19:05 -0400
+Received: by mail-ed1-x535.google.com with SMTP id j26so17551944edf.9;
+ Mon, 10 May 2021 21:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uvjYpJUwPPmwk0d8vTJ2ieq8cyVViRv2inIUUD5YBiM=;
- b=qmq4tvg6RUAds/rdzUzYtEPdOXhRk+Tjfa6JfMaJ07NWZUxWuPmFRRPe3qy9Psc2CZ
- dOIj9N2rQJP5sf7Vh6UvT0vXXoV6dsLYzkD2CZcB82KwXGz2A6jhjy0rK+QsaxvalA58
- clTs/yFpPEuLj6zMqWSMfs1yCSleeF9EnCW+YmBCRgZ7LdRLWX8YJc9Ez6ReQEThSNH/
- 79cvXPP9OY3k/m7s7FyqB1FDPs2Q+93fedUOB5ENGF+jjxVko8K1lfHq/9gekdWcIiqn
- FzmAJgGXIUR9nDo2kS/lGttQuiE26J4Q9n6R2XpGXba7Wxxu7orBhZ5tmxZfmioH/FQV
- Hfsw==
+ bh=DiFFH8O4TIOlJxeMKOOEACbUi4Vw6SFr1FrtvEk5qRE=;
+ b=Cq3bzcIjQIHrJrSKnHQOMDPGmQEvteAwjVoQ0IqnVsCKSDsQPZv7CCf0XDeYzfjIOv
+ BIbwfq4vQBfzigO1jy8ysnydjbkBS6/Yl9oiTJF2FUdZRXco7KdTiQx4GzbU1Nm09kxs
+ qDMdmS8cqo/8bVBRdxnhbJQhmJMKRjY3dHARpS7GlVK6LSOaJwBqCmLTvXI/KY8LnBzT
+ y0J8LWxMfYVSfXNWUoUbQuulfd+bkqIjXcA99yyyjytd/7TJ5w7rQmnyueN7KAw4lb2z
+ aNMdOWiC5nFgQU/Kxdk5ARas7en03K8LnLRioHHDtyAyB3XAmJRyKmMtEi1I6t4IhHPN
+ 3jeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uvjYpJUwPPmwk0d8vTJ2ieq8cyVViRv2inIUUD5YBiM=;
- b=ZibRXgnRZ2xw8+jfG4ej3qrg1pIGhLfk2OlFNM5URMf2T0n/qlbi9gnJZGcbM8wAA3
- za0n/wCvmSSwhYAT0u+kOSHGeq0fjWURURfhDw9reKN9BovzmtPfKORfiMExUBJuSky1
- pz4Cv0sLtDnbNxYAr4+H0SkX1xfL+jEjfkY8R5CH/Zc/61Z9AjhgbMHl8viQiXBE+27u
- q5xDYm/T6v8f6xifxJHiu8KAjBBySxax503Y0sdNo/Hp3MSbs0p+DqswbSH0n5wkfqr1
- KOuv9UAGSjoyRPbolPLDaYx0xuUe6g+Pxl2N8XZ8z6iETyqt/e3OSMlnDwT5CpZ+XgtO
- 6MSA==
-X-Gm-Message-State: AOAM533NHl9naBimyFWL8Pu3qcPbXMldUDsjCAAP6RELRTsWjPo6q0DC
- sWX7aXJEtIaS5QYqdV/39+tQRkytCmGFzg==
-X-Google-Smtp-Source: ABdhPJzmMxF7DAKKFb0gxgyqSH3oZLW1u6D8aKiTlq5BPjKA0AW6N3h5uRrhDC4AwlAB7JnB/YObUg==
-X-Received: by 2002:a50:fc0b:: with SMTP id i11mr34512393edr.259.1620706736519; 
- Mon, 10 May 2021 21:18:56 -0700 (PDT)
+ bh=DiFFH8O4TIOlJxeMKOOEACbUi4Vw6SFr1FrtvEk5qRE=;
+ b=g83lpqG/0dQEx1IBPf/AJ4RfUtnIHLF7vgy+mCV70F5oUfKdm2HCXwvz3kk/ovSNah
+ ICo/GmaunUrSGzLsZvdAN1RD311PhR+9Ii6top31h/QWefmgPAZceyLxp8bjSu3l17iE
+ 7U7nV5VmPZqK0kNOG3lF8vl/vY/+dsTcKXUySJdFUGbrbaK/8Lwfhs2Ij58ljIeSIoOj
+ CkqwrI/0Ad4voW4qUjQfYKQSgxBk4vLaUKNhvuvVuVoMHfMtpVjVRelQxfWSJgTRGG3h
+ ltth2cb+N5nbpPZMDIsqyk5TEkn9VZ3q0YqoF0mDaqh2tQRUFpLV9MiU9mX+wDYv349l
+ t79w==
+X-Gm-Message-State: AOAM530OVPX4iLxN8wd/HMR6eSdDooqNyNAwhzsgjONk5+dxMw7ESG23
+ YoPK2eunsX+aVOL56eKBCTz2LlhNJdVFQw==
+X-Google-Smtp-Source: ABdhPJyWUYTPZzrNyB/5Hf7Op/WCbE+5Cfz8A+1PSMeuHDR0mxT282UpV4In2loruKtE/pVUXFJ5wA==
+X-Received: by 2002:a05:6402:12c6:: with SMTP id
+ k6mr33326023edx.372.1620706742138; 
+ Mon, 10 May 2021 21:19:02 -0700 (PDT)
 Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id 11sm10228499ejx.55.2021.05.10.21.18.55
+ by smtp.gmail.com with ESMTPSA id g4sm13080055edq.0.2021.05.10.21.19.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 21:18:56 -0700 (PDT)
+ Mon, 10 May 2021 21:19:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/6] hw/isa/vt82c686: Name output IRQ as 'intr'
-Date: Tue, 11 May 2021 06:18:43 +0200
-Message-Id: <20210511041848.2743312-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/6] hw/isa/vt82c686: Simplify removing unuseful
+ qemu_allocate_irqs() call
+Date: Tue, 11 May 2021 06:18:44 +0200
+Message-Id: <20210511041848.2743312-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210511041848.2743312-1-f4bug@amsat.org>
 References: <20210511041848.2743312-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,41 +92,66 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Named IRQs are easier to understand in the monitor.
-Name the single output interrupt as 'intr'.
+Instead of creating an input IRQ with qemu_allocate_irqs()
+to pass it as output IRQ of the PIC, with its handler simply
+dispatching into the "intr" output IRQ, simplify by directly
+connecting the PIC to the "intr" named output.
 
+Fixes: 3dc31cb8490 ("vt82c686: Move creation of ISA devices to the ISA bridge")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/vt82c686.c   | 2 +-
- hw/mips/fuloong2e.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/isa/vt82c686.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index f57f3e70679..b177016125d 100644
+index b177016125d..2ce5c6cbb00 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -615,7 +615,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-     qemu_irq *isa_irq;
+@@ -566,12 +566,6 @@ static const TypeInfo via_isa_info = {
+     },
+ };
+ 
+-static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+-{
+-    ViaISAState *s = opaque;
+-    qemu_set_irq(s->cpu_intr, level);
+-}
+-
+ /* TYPE_VT82C686B_ISA */
+ 
+ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+@@ -612,14 +606,12 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     ViaISAState *s = VIA_ISA(d);
+     DeviceState *dev = DEVICE(d);
+     ISABus *isa_bus;
+-    qemu_irq *isa_irq;
      int i;
  
--    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-+    qdev_init_gpio_out_named(dev, &s->cpu_intr, "intr", 1);
-     isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
+     qdev_init_gpio_out_named(dev, &s->cpu_intr, "intr", 1);
+-    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
      isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
                            &error_fatal);
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index c1b8066a13b..3e7a7e4389d 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -204,7 +204,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+-    isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
++    isa_bus_irqs(isa_bus, i8259_init(isa_bus, s->cpu_intr));
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     i8257_dma_init(isa_bus, 0);
+     s->via_sio = VIA_SUPERIO(isa_create_simple(isa_bus,
+@@ -693,14 +685,12 @@ static void vt8231_realize(PCIDevice *d, Error **errp)
+     ViaISAState *s = VIA_ISA(d);
+     DeviceState *dev = DEVICE(d);
+     ISABus *isa_bus;
+-    qemu_irq *isa_irq;
+     int i;
  
-     dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
-                                           TYPE_VT82C686B_ISA);
--    qdev_connect_gpio_out(DEVICE(dev), 0, intc);
-+    qdev_connect_gpio_out_named(DEVICE(dev), "intr", 0, intc);
- 
-     dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
-     pci_ide_create_devs(dev);
+     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+-    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
+     isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
+                           &error_fatal);
+-    isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
++    isa_bus_irqs(isa_bus, i8259_init(isa_bus, s->cpu_intr));
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     i8257_dma_init(isa_bus, 0);
+     s->via_sio = VIA_SUPERIO(isa_create_simple(isa_bus, TYPE_VT8231_SUPERIO));
 -- 
 2.26.3
 
