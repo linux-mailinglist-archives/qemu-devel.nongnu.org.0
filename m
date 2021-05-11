@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C933E379F59
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 07:52:24 +0200 (CEST)
-Received: from localhost ([::1]:53058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62290379F56
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 07:50:34 +0200 (CEST)
+Received: from localhost ([::1]:48806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgLJf-0006BH-RL
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 01:52:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32894)
+	id 1lgLHt-0003HL-GD
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 01:50:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgL8e-0002lQ-Vo
- for qemu-devel@nongnu.org; Tue, 11 May 2021 01:41:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60812)
+ id 1lgL8e-0002kq-BQ
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 01:41:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgL8b-00042S-Px
+ id 1lgL8a-00042A-9y
  for qemu-devel@nongnu.org; Tue, 11 May 2021 01:41:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgL8a-0003sr-FL
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:40:56 +0000
+ id 1lgL8Y-0003p3-Lq
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:40:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 65B552E8139
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:40:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A33BD2E8135
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:40:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 May 2021 05:34:42 -0000
-From: Thomas Huth <1681439@bugs.launchpad.net>
+Date: Tue, 11 May 2021 05:34:57 -0000
+From: Thomas Huth <1699824@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr bugs-syssec janitor jnsnow kempniu stefanha
+X-Launchpad-Bug-Commenters: mark-cave-ayland michal-nowak-b mike-papersolve
  th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?b?TWljaGHFgiBLxJlwaWXFhCAoa2VtcG5pdSk=?=
+X-Launchpad-Bug-Reporter: Michal Nowak (michal-nowak-b)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170410132346.31250.84835.malonedeb@wampee.canonical.com>
-Message-Id: <162071128240.3040.6057298804607470733.malone@wampee.canonical.com>
-Subject: [Bug 1681439] Re: dma_blk_cb leaks memory map handles on misaligned IO
+References: <149814308281.29005.7778167417390248347.malonedeb@wampee.canonical.com>
+Message-Id: <162071129750.3111.1593628419515490050.malone@wampee.canonical.com>
+Subject: [Bug 1699824] Re: qemu-system-sparc64 -M sun4v aborts on
+ tribblix-sparc-0m16.iso
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 88ff0159bfdc7c97021e82a81f601389e7ec9d33
+X-Launchpad-Hash: 8ada4e48011ed42063043a0af558f3f94206ae30
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1681439 <1681439@bugs.launchpad.net>
+Reply-To: Bug 1699824 <1699824@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,86 +80,301 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/259
+ https://gitlab.com/qemu-project/qemu/-/issues/260
 
-
-** Tags added: fuzzer
 
 ** Changed in: qemu
        Status: Confirmed =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #259
-   https://gitlab.com/qemu-project/qemu/-/issues/259
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #260
+   https://gitlab.com/qemu-project/qemu/-/issues/260
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1681439
+https://bugs.launchpad.net/bugs/1699824
 
 Title:
-  dma_blk_cb leaks memory map handles on misaligned IO
+  qemu-system-sparc64 -M sun4v aborts on tribblix-sparc-0m16.iso
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Maintainer Edit:
+  qemu-system-sparc64 qemu-2.9.0-3.10.x86_64 on openSUSE Leap 42.3 using
+  'sun4v' machine aborts with tribblix. With 2048 MB of RAM it takes
+  considerably more time to abort (but the core is always truncated).
 
-  The functions in dma-helpers mismanage misaligned IO, badly enough to
-  cause an infinite loop where no progress can be made. This allows the
-  IDE state machine to get wedged such that cancelling DMA can fail;
-  because the DMA helpers have bodged the state of the DMA transfer. See
-  Comment #15 for the in-depth analysis.
+  > qemu-system-sparc64 -m 1024 -cdrom tribblix-sparc-0m16.iso -boot d -nog=
+raphic -M sun4v
+  qemu: fatal: Trap 0x0010 while trap level (6) >=3D MAXTL (6), Error state
+  pc: 0000000000000200  npc: 0000000000000204
+  %g0-3: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %g4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %o0-3: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
+0 =
 
-  I've updated the name of this bug to reflect the current status as I
-  understand it.
+  %o4-7: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
+0 =
 
-  --js
+  %l0-3: 000000003ff00000 000001ff00000000 000001fff0080000 000000000000000=
+0 =
+
+  %l4-7: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
+0 =
+
+  %i0-3: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
+0 =
+
+  %i4-7: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
+0 =
+
+  %f00:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f08:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f16:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f24:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f32:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f40:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f48:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f56:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  pstate: 00000014 ccr: 44 (icc: -Z-- xcc: -Z--) asi: 00 tl: 6 pil: 0 gl: 8
+  tbr: 0000000000000000 hpstate: 0000000000000004 htba: 0000000000000000
+  cansave: 6 canrestore: 0 otherwin: 0 wstate: 0 cleanwin: 6 cwp: 7
+  fsr: 0000000000000000 y: 0000000000000000 fprs: 0000000000000000
+
+  Aborted (core dumped)
 
   =
 
-  Original report:
+             PID: 26999 (qemu-system-spa)
+             UID: 1000 (newman)
+             GID: 100 (users)
+          Signal: 6 (ABRT)
+       Timestamp: Thu 2017-06-22 16:19:02 CEST (1min 5s ago)
+    Command Line: qemu-system-sparc64 -m 1024 -cdrom tribblix-sparc-0m16.is=
+o -boot d -nographic -M sun4v
+      Executable: /usr/bin/qemu-system-sparc64
+   Control Group: /
+           Slice: -.slice
+         Boot ID: aa7431274f854fb7a02a773eefa8a9bb
+      Machine ID: 89c660865c00403a9bacef32b6828556
+        Hostname: assam.suse.cz
+        Coredump: /var/lib/systemd/coredump/core.qemu-system-spa.1000.aa743=
+1274f854fb7a02a773eefa8a9bb.26999.1498141142000000.xz
+         Message: Process 26999 (qemu-system-spa) of user 1000 dumped core.
 
-  Since upgrading to QEMU 2.8.0, my Windows 7 64-bit virtual machines
-  started crashing due to the assertion quoted in the summary failing.
-  The assertion in question was added by commit 9972354856 ("block: add
-  BDS field to count in-flight requests").  My tests show that setting
-  discard=3Dunmap is needed to reproduce the issue.  Speaking of
-  reproduction, it is a bit flaky, because I have been unable to come up
-  with specific instructions that would allow the issue to be triggered
-  outside of my environment, but I do have a semi-sane way of testing that
-  appears to depend on a specific initial state of data on the underlying
-  storage volume, actions taken within the VM and waiting for about 20
-  minutes.
 
-  Here is the shortest QEMU command line that I managed to reproduce the
-  bug with:
+  (gdb) thread apply all bt full
 
-  =C2=A0=C2=A0=C2=A0=C2=A0qemu-system-x86_64 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-machine pc-i440fx-2.7,ac=
-cel=3Dkvm \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-m 3072 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-drive file=3D/dev/lvm/qe=
-mu,format=3Draw,if=3Dide,discard=3Dunmap \
-  =C2=A0-netdev tap,id=3Dhostnet0,ifname=3Dtap0,script=3Dno,downscript=3Dno=
-,vhost=3Don \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,ne=
-tdev=3Dhostnet0 \
-  =C2=A0-vnc :0
+  Thread 4 (Thread 0x7f3896aca700 (LWP 27001)):
+  #0  0x00007f38bb983295 in do_futex_wait () at /lib64/libpthread.so.0
+  #1  0x00007f38bb983349 in __new_sem_wait_slow () at /lib64/libpthread.so.0
+  #2  0x00007f38bb9833f7 in sem_timedwait () at /lib64/libpthread.so.0
+  #3  0x00005599ec6a1147 in qemu_sem_timedwait (sem=3Dsem@entry=3D0x5599ef1=
+68628, ms=3Dms@entry=3D10000) at util/qemu-thread-posix.c:255
+          rc =3D <optimized out>
+          ts =3D {tv_sec =3D 1498141152, tv_nsec =3D 280531000}
+          __func__ =3D "qemu_sem_timedwait"
+  #4  0x00005599ec69c83c in worker_thread (opaque=3D0x5599ef1685c0) at util=
+/thread-pool.c:92
+          req =3D <optimized out>
+          ret =3D <optimized out>
+          pool =3D 0x5599ef1685c0
+  #5  0x00007f38bb97c744 in start_thread () at /lib64/libpthread.so.0
+  #6  0x00007f38b79bdd3d in clone () at /lib64/libc.so.6
 
-  The underlying storage (/dev/lvm/qemu) is a thin LVM snapshot.
+  Thread 3 (Thread 0x7f38bee01c40 (LWP 26999)):
+  #0  0x00007f38b79b555f in ppoll () at /lib64/libc.so.6
+  #1  0x00005599ec69d289 in ppoll (__ss=3D0x0, __timeout=3D0x7ffd1dcf2a20, =
+__nfds=3D<optimized out>, __fds=3D<optimized out>) at /usr/include/bits/pol=
+l2.h:77
+          ts =3D {tv_sec =3D 1, tv_nsec =3D 0}
+  Python Exception <class 'gdb.error'> That operation is not available on i=
+ntegers of more than 8 bytes.: =
 
-  QEMU was compiled using:
+  #2  0x00005599ec69d289 in qemu_poll_ns (fds=3D<optimized out>, nfds=3D<op=
+timized out>, timeout=3Dtimeout@entry=3D1000000000) at util/qemu-timer.c:334
+          ts =3D {tv_sec =3D 1, tv_nsec =3D 0}
+  Python Exception <class 'gdb.error'> That operation is not available on i=
+ntegers of more than 8 bytes.: =
 
-  =C2=A0=C2=A0=C2=A0=C2=A0./configure --python=3D/usr/bin/python2.7 --targe=
-t-list=3Dx86_64-softmmu
-  =C2=A0=C2=A0=C2=A0=C2=A0make -j3
+  #3  0x00005599ec69dff8 in os_host_main_loop_wait (timeout=3D1000000000) a=
+t util/main-loop.c:255
+          context =3D 0x5599ef147470
+          ret =3D <optimized out>
+          spin_counter =3D 0
+          ret =3D -283872144
+          timeout =3D 1000
+  #4  0x00005599ec69dff8 in main_loop_wait (nonblocking=3D<optimized out>) =
+at util/main-loop.c:517
+          ret =3D -283872144
+          timeout =3D 1000
+  #5  0x00005599ec3c8c5f in main_loop () at vl.c:1900
+          i =3D <optimized out>
+          snapshot =3D <optimized out>
+          linux_boot =3D <optimized out>
+          initrd_filename =3D <optimized out>
+          kernel_filename =3D <optimized out>
+          kernel_cmdline =3D <optimized out>
+          boot_order =3D <optimized out>
+          boot_once =3D 0x0
+          ds =3D <optimized out>
+          cyls =3D <optimized out>
+          heads =3D <optimized out>
+          secs =3D <optimized out>
+          translation =3D <optimized out>
+          opts =3D <optimized out>
+          hda_opts =3D <optimized out>
+          icount_opts =3D <optimized out>
+          accel_opts =3D <optimized out>
+          olist =3D <optimized out>
+          optind =3D 10
+          optarg =3D 0x7ffd1dcf51d2 "sun4v"
+          loadvm =3D <optimized out>
+          machine_class =3D 0x5599ec6d6f6f
+          cpu_model =3D <optimized out>
+          vga_model =3D 0x5599ec6d6f81 "std"
+          qtest_chrdev =3D <optimized out>
+          qtest_log =3D <optimized out>
+          pid_file =3D <optimized out>
+          incoming =3D <optimized out>
+          defconfig =3D <optimized out>
+          userconfig =3D <optimized out>
+          nographic =3D <optimized out>
+          display_type =3D <optimized out>
+          display_remote =3D <optimized out>
+          log_mask =3D <optimized out>
+          log_file =3D <optimized out>
+          trace_file =3D <optimized out>
+          maxram_size =3D <optimized out>
+          ram_slots =3D <optimized out>
+          vmstate_dump_file =3D <optimized out>
+          main_loop_err =3D 0x0
+          err =3D 0x0
+          list_data_dirs =3D <optimized out>
+          bdo_queue =3D {sqh_first =3D 0x0, sqh_last =3D 0x7ffd1dcf2ba0}
+          rlimit_as =3D {rlim_cur =3D 18446744073709551615, rlim_max =3D 18=
+446744073709551615}
+          __func__ =3D "main"
+          __FUNCTION__ =3D "main"
+  #6  0x00005599ec3c8c5f in main (argc=3D<optimized out>, argv=3D<optimized=
+ out>, envp=3D<optimized out>) at vl.c:4730
+          i =3D <optimized out>
+          snapshot =3D <optimized out>
+          linux_boot =3D <optimized out>
+          initrd_filename =3D <optimized out>
+          kernel_filename =3D <optimized out>
+          kernel_cmdline =3D <optimized out>
+          boot_order =3D <optimized out>
+          boot_once =3D 0x0
+          ds =3D <optimized out>
+          cyls =3D <optimized out>
+          heads =3D <optimized out>
+          secs =3D <optimized out>
+          translation =3D <optimized out>
+          opts =3D <optimized out>
+          hda_opts =3D <optimized out>
+          icount_opts =3D <optimized out>
+          accel_opts =3D <optimized out>
+          olist =3D <optimized out>
+          optind =3D 10
+          optarg =3D 0x7ffd1dcf51d2 "sun4v"
+          loadvm =3D <optimized out>
+          machine_class =3D 0x5599ec6d6f6f
+          cpu_model =3D <optimized out>
+          vga_model =3D 0x5599ec6d6f81 "std"
+          qtest_chrdev =3D <optimized out>
+          qtest_log =3D <optimized out>
+          pid_file =3D <optimized out>
+          incoming =3D <optimized out>
+          defconfig =3D <optimized out>
+          userconfig =3D <optimized out>
+          nographic =3D <optimized out>
+          display_type =3D <optimized out>
+          display_remote =3D <optimized out>
+          log_mask =3D <optimized out>
+          log_file =3D <optimized out>
+          trace_file =3D <optimized out>
+          maxram_size =3D <optimized out>
+          ram_slots =3D <optimized out>
+          vmstate_dump_file =3D <optimized out>
+          main_loop_err =3D 0x0
+          err =3D 0x0
+          list_data_dirs =3D <optimized out>
+          bdo_queue =3D {sqh_first =3D 0x0, sqh_last =3D 0x7ffd1dcf2ba0}
+          rlimit_as =3D {rlim_cur =3D 18446744073709551615, rlim_max =3D 18=
+446744073709551615}
+          __func__ =3D "main"
+          __FUNCTION__ =3D "main"
 
-  My virtualization environment is not really a critical one and
-  reproduction is not that much of a hassle, so if you need me to gather
-  further diagnostic information or test patches, I will be happy to help.
+  Thread 2 (Thread 0x7f38abf99700 (LWP 27000)):
+  #0  0x00007f38b79b98e9 in syscall () at /lib64/libc.so.6
+  #1  0x00005599ec6a12d6 in qemu_futex_wait (val=3D<optimized out>, f=3D<op=
+timized out>) at /usr/src/debug/qemu-2.9.0/include/qemu/futex.h:26
+          value =3D <optimized out>
+  #2  0x00005599ec6a12d6 in qemu_event_wait (ev=3Dev@entry=3D0x5599ed0f1e40=
+ <rcu_gp_event>) at util/qemu-thread-posix.c:399
+          value =3D <optimized out>
+  #3  0x00005599ec6b0a78 in wait_for_readers () at util/rcu.c:131
+          qsreaders =3D {lh_first =3D 0x7f38abf99588}
+          index =3D <optimized out>
+          tmp =3D <optimized out>
+  #4  0x00005599ec6b0a78 in synchronize_rcu () at util/rcu.c:162
+  #5  0x00005599ec6b0c79 in call_rcu_thread (opaque=3D<optimized out>) at u=
+til/rcu.c:256
+          tries =3D 0
+          n =3D 565
+          node =3D <optimized out>
+  #6  0x00007f38bb97c744 in start_thread () at /lib64/libpthread.so.0
+  #7  0x00007f38b79bdd3d in clone () at /lib64/libc.so.6
+
+  Thread 1 (Thread 0x7f38962c9700 (LWP 27002)):
+  #0  0x00007f38b79088d7 in raise () at /lib64/libc.so.6
+  #1  0x00007f38b7909caa in abort () at /lib64/libc.so.6
+  #2  0x00005599ec3d1125 in cpu_abort (cpu=3Dcpu@entry=3D0x5599ef16f800, fm=
+t=3Dfmt@entry=3D0x5599ec6d3388 "Trap 0x%04x while trap level (%d) >=3D MAXT=
+L (%d), Error state") at /usr/src/debug/qemu-2.9.0/exec.c:962
+          ap =3D {{gp_offset =3D 40, fp_offset =3D 48, overflow_arg_area =
+=3D 0x7f38962c88b0, reg_save_area =3D 0x7f38962c87d0}}
+          ap2 =3D {{gp_offset =3D 16, fp_offset =3D 48, overflow_arg_area =
+=3D 0x7f38962c88b0, reg_save_area =3D 0x7f38962c87d0}}
+  #3  0x00005599ec4790b8 in sparc_cpu_do_interrupt (cs=3D0x5599ef16f800) at=
+ /usr/src/debug/qemu-2.9.0/target/sparc/int64_helper.c:119
+          cpu =3D 0x5599ef16f800
+          __func__ =3D "sparc_cpu_do_interrupt"
+          env =3D 0x5599ef177a98
+          intno =3D 16
+          tsptr =3D 0x6
+  #4  0x00005599ec3dcf54 in cpu_handle_exception (ret=3D<synthetic pointer>=
+, cpu=3D0x5599ef12e000) at /usr/src/debug/qemu-2.9.0/cpu-exec.c:463
+          cc =3D 0x5599ef12e000
+          cc =3D <optimized out>
+          __func__ =3D "cpu_exec"
+          ret =3D <optimized out>
+          sc =3D {diff_clk =3D 0, last_cpu_icount =3D 0, realtime_clock =3D=
+ <optimized out>}
+          __FUNCTION__ =3D "cpu_exec"
+  #5  0x00005599ec3dcf54 in cpu_exec (cpu=3Dcpu@entry=3D0x5599ef16f800) at =
+/usr/src/debug/qemu-2.9.0/cpu-exec.c:668
+          cc =3D <optimized out>
+          __func__ =3D "cpu_exec"
+          ret =3D <optimized out>
+          sc =3D {diff_clk =3D 0, last_cpu_icount =3D 0, realtime_clock =3D=
+ <optimized out>}
+          __FUNCTION__ =3D "cpu_exec"
+  #6  0x00005599ec40796d in tcg_cpu_exec (cpu=3D0x5599ef16f800) at /usr/src=
+/debug/qemu-2.9.0/cpus.c:1260
+          ret =3D <optimized out>
+          r =3D -1775462656
+          cpu =3D 0x5599ef16f800
+  #7  0x00005599ec40796d in qemu_tcg_rr_cpu_thread_fn (arg=3D<optimized out=
+>) at /usr/src/debug/qemu-2.9.0/cpus.c:1355
+          r =3D -1775462656
+          cpu =3D 0x5599ef16f800
+  #8  0x00007f38bb97c744 in start_thread () at /lib64/libpthread.so.0
+  #9  0x00007f38b79bdd3d in clone () at /lib64/libc.so.6
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1681439/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1699824/+subscriptions
 
