@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B236379FEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:46:21 +0200 (CEST)
-Received: from localhost ([::1]:44394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61717379FFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:48:56 +0200 (CEST)
+Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgM9s-0008Py-9O
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:46:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40664)
+	id 1lgMCN-0005hd-Ba
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:48:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLsg-0006Wy-Ak
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:28:34 -0400
-Received: from mga06.intel.com ([134.134.136.31]:46437)
+ id 1lgLsp-0006o0-QX
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 02:28:43 -0400
+Received: from mga06.intel.com ([134.134.136.31]:46441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLsc-0004hV-Bg
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:28:34 -0400
-IronPort-SDR: h8BONVQzKGOozf32Z7xvyfRavuFpUhyq83thgKl4TAAswcndMuKqdG/I6oCEioZVUvX5i+S3HA
- XB3DAMhz3KQA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631556"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631556"
+ id 1lgLsn-0004it-MJ
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 02:28:43 -0400
+IronPort-SDR: oi8PfIgax75ivexLR00nbjkDFWq0QOI5CIUksgGS9MfEFivfcjec6nchPLGgZFCM5wdPz5gLqx
+ 35ERmkYlH8xQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631558"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631558"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2021 23:28:03 -0700
-IronPort-SDR: qIhtq5VnbvCC0sfmAE1d8JpWqJeGQHoim8jNn54gFw/venUp33YTo4RWfcZspmMtug/vumI3oN
- jUL/EsmxgCLw==
+ 10 May 2021 23:28:05 -0700
+IronPort-SDR: PYAm6d+0dEADTbC304upljIGbAns8QYjofpnRhqVOST/plaJUbG33QZJ4swiM+BFqf7NKrc8qV
+ /B3iIeu8CFqw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281265"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281278"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:28:02 -0700
+ by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:28:04 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/32] hw/i386/pc: Account for SGX EPC sections when
- calculating device memory
-Date: Tue, 11 May 2021 14:20:37 +0800
-Message-Id: <20210511062051.41948-19-yang.zhong@intel.com>
+Subject: [PATCH v2 19/32] i386/pc: Add e820 entry for SGX EPC section(s)
+Date: Tue, 11 May 2021 14:20:38 +0800
+Message-Id: <20210511062051.41948-20-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210511062051.41948-1-yang.zhong@intel.com>
 References: <20210511062051.41948-1-yang.zhong@intel.com>
@@ -69,70 +68,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Add helpers to detect if SGX EPC exists above 4g, and if so, where SGX
-EPC above 4g ends.  Use the helpers to adjust the device memory range
-if SGX EPC exists above 4g.
-
-For multiple virtual EPC sections, we just put them together physically
-contiguous for the simplicity because we don't support EPC NUMA affinity
-now. Once the SGX EPC NUMA support in the kernel SGX driver, we will
-support this in the future.
-
-Note that SGX EPC is currently hardcoded to reside above 4g.
+Note that SGX EPC is currently guaranteed to reside in a single
+contiguous chunk of memory regardless of the number of EPC sections.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/i386/pc.c              | 11 ++++++++++-
- include/hw/i386/sgx-epc.h |  7 +++++++
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ hw/i386/pc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8cfaf216e7..d727993dfe 100644
+index d727993dfe..93a1124a6b 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -926,8 +926,15 @@ void pc_memory_init(PCMachineState *pcms,
-             exit(EXIT_FAILURE);
-         }
- 
-+        if (pcms->sgx_epc != NULL) {
-+            machine->device_memory->base = sgx_epc_above_4g_end(pcms->sgx_epc);
-+        } else {
-+            machine->device_memory->base =
-+                0x100000000ULL + x86ms->above_4g_mem_size;
-+        }
-+
-         machine->device_memory->base =
--            ROUND_UP(0x100000000ULL + x86ms->above_4g_mem_size, 1 * GiB);
-+            ROUND_UP(machine->device_memory->base, 1 * GiB);
- 
-         if (pcmc->enforce_aligned_dimm) {
-             /* size device region assuming 1G page max alignment per slot */
-@@ -1012,6 +1019,8 @@ uint64_t pc_pci_hole64_start(void)
-         if (!pcmc->broken_reserved_end) {
-             hole64_start += memory_region_size(&ms->device_memory->mr);
-         }
-+    } else if (pcms->sgx_epc != NULL) {
-+            hole64_start = sgx_epc_above_4g_end(pcms->sgx_epc);
-     } else {
-         hole64_start = 0x100000000ULL + x86ms->above_4g_mem_size;
+@@ -896,6 +896,10 @@ void pc_memory_init(PCMachineState *pcms,
+         e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
      }
-diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
-index 8d80b34fb7..743d0a943c 100644
---- a/include/hw/i386/sgx-epc.h
-+++ b/include/hw/i386/sgx-epc.h
-@@ -59,4 +59,11 @@ extern int sgx_epc_enabled;
  
- int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size);
- 
-+static inline uint64_t sgx_epc_above_4g_end(SGXEPCState *sgx_epc)
-+{
-+    assert(sgx_epc != NULL && sgx_epc->base >= 0x100000000ULL);
++    if (pcms->sgx_epc != NULL) {
++        e820_add_entry(pcms->sgx_epc->base, pcms->sgx_epc->size, E820_RESERVED);
++    }
 +
-+    return sgx_epc->base + sgx_epc->size;
-+}
-+
- #endif
+     if (!pcmc->has_reserved_memory &&
+         (machine->ram_slots ||
+          (machine->maxram_size > machine->ram_size))) {
 -- 
 2.29.2.334.gfaefdd61ec
 
