@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBDE637AAD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:38:30 +0200 (CEST)
-Received: from localhost ([::1]:40446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5273937AAF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:41:34 +0200 (CEST)
+Received: from localhost ([::1]:43360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgUSr-0007Ei-Ih
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:38:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
+	id 1lgUVp-000181-Bt
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:41:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgURr-0005y2-3y
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:37:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21007)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgUU4-0008QI-RC
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:39:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgURn-0001NH-Vj
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:37:25 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgUU3-0002Zs-B2
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:39:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620747442;
+ s=mimecast20190719; t=1620747582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gYDFZpj+zEYq3n2kMbzev8EcTrmfDeKFq77GDOryE+E=;
- b=Zs5blkKHOXwiPg9bwDxCOWA4ZG+9oWgidbaptkDUlktRfKaG2wrX43CqLOnb/+7zGRneR5
- VS3Jo822zT51lfeNKWsiLfS9bvsVto7DHVgdx7XVaFc+xiPpCkupI2hqyi5I+YhitNrJMn
- YexFaMmFn7NPQP0N30AbcmImQF8Bhvg=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=a61q3kMQ7ZSYJT7JxatZFK5aAgRH4JNCtClGRzfYnNI=;
+ b=ihHvuxzvHkvOPsv68cwJjJ8qlREXdTl+4/l8nwgK4gAD5LbQY0NZOoCnyJt5K9v08fDXhZ
+ HpnJ8CKuOdTkXd4RmzxgQQ1g2WipehjXzCc5g4TFjSSWwpjQdVBiOKRWykOQ/gJU3Jb221
+ mUyAtdqKYxvddTyRenM8V0nRJrxmt8A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-R_zcaKUvOPuMRm5YrnzHHw-1; Tue, 11 May 2021 11:37:20 -0400
-X-MC-Unique: R_zcaKUvOPuMRm5YrnzHHw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-264-x__PCvBmMxaHAs54Fk4WIw-1; Tue, 11 May 2021 11:39:40 -0400
+X-MC-Unique: x__PCvBmMxaHAs54Fk4WIw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99DE81083E9C;
- Tue, 11 May 2021 15:37:19 +0000 (UTC)
-Received: from localhost (ovpn-112-6.ams2.redhat.com [10.36.112.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 96F9A19CBF;
- Tue, 11 May 2021 15:37:14 +0000 (UTC)
-Date: Tue, 11 May 2021 16:37:13 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Boeuf, Sebastien" <sebastien.boeuf@intel.com>
-Subject: Re: vhost-user reconnection and crash recovery
-Message-ID: <YJqkqYvWAAw3hZBG@stefanha-x1.localdomain>
-References: <BY5PR11MB44018CADDC7A5C04F3D32BC4EA539@BY5PR11MB4401.namprd11.prod.outlook.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A204E8014D8
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 15:39:39 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71D645D6D1
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 15:39:39 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] object: add more commands to preconfig mode
+Date: Tue, 11 May 2021 11:39:38 -0400
+Message-Id: <20210511153938.505687-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <BY5PR11MB44018CADDC7A5C04F3D32BC4EA539@BY5PR11MB4401.namprd11.prod.outlook.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EpkZhP9CHS3Tbg1c"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -78,45 +76,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "virtio-fs@redhat.com" <virtio-fs@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---EpkZhP9CHS3Tbg1c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Creating and destroying QOM objects does not require a fully constructed
+machine.  Allow running object-add and object-del before machine
+initialization has concluded.
 
-On Tue, May 11, 2021 at 03:00:05PM +0000, Boeuf, Sebastien wrote:
-> But what about the vhost-user backend initialization? Does
-> QEMU go again through initializing memory table, vrings, etc...
-> since it can't assume anything from the backend?
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hmp-commands.hx | 2 ++
+ qapi/qom.json   | 6 ++++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-Yes, the initial protocol messages are the same after reconnection.
-
-In QEMU's vhost-user-blk implementation there is a special code path
-involving vhost_dev_get_inflight(). This fetches and restores inflight
-virtqueue request state. The restore logic is called by
-vhost_user_blk_connect(). Aside from that reconnect is the same as
-establishing a new connection.
-
-Stefan
-
---EpkZhP9CHS3Tbg1c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCapKkACgkQnKSrs4Gr
-c8gNMgf+LzkxGK+rAezE6rmKw5eBWnTropxCouXYMwtLqrMhzJjjrxV5GUwiQSyG
-08xsNOvph3M+HGbB+EU3YFxBMTqGdvlgcrGdp9GoO6hrEI2eKMUVFtJQGxh8WMcD
-u04bc2vdYUnip8CeX7/3t8SQzEpBeJVYwrH/Pewpu8v2vktfFqGu9J7yjAQTHG/A
-jl/+2C0v5E0lqq8Pw4eJBy2eMC7UncfItFIRJqB6SkML8AcKzBWRSmm/H8E2/KDT
-p4rGYMHdsJqpzviuZiut2AdFqCSWr8VXjP8jgAkYSb4ZB6Bw+XyeN6Z1iXcNmOHh
-m6zoZ7b8eN0loaMo9Yxn/d2mjVU8dA==
-=4Jtb
------END PGP SIGNATURE-----
-
---EpkZhP9CHS3Tbg1c--
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 435c591a1c..146a13c896 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1297,6 +1297,7 @@ ERST
+         .help       = "create QOM object",
+         .cmd        = hmp_object_add,
+         .command_completion = object_add_completion,
++        .flags      = "p",
+     },
+ 
+ SRST
+@@ -1311,6 +1312,7 @@ ERST
+         .help       = "destroy QOM object",
+         .cmd        = hmp_object_del,
+         .command_completion = object_del_completion,
++        .flags      = "p",
+     },
+ 
+ SRST
+diff --git a/qapi/qom.json b/qapi/qom.json
+index cd0e76d564..f1e243dbe5 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -857,7 +857,8 @@
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'object-add', 'data': 'ObjectOptions', 'boxed': true }
++{ 'command': 'object-add', 'data': 'ObjectOptions', 'boxed': true,
++  'allow-preconfig': true }
+ 
+ ##
+ # @object-del:
+@@ -877,4 +878,5 @@
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'object-del', 'data': {'id': 'str'} }
++{ 'command': 'object-del', 'data': {'id': 'str'},
++  'allow-preconfig': true }
+-- 
+2.26.2
 
 
