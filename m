@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C36F37AB7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:07:01 +0200 (CEST)
-Received: from localhost ([::1]:54572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58AF337AB46
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:02:31 +0200 (CEST)
+Received: from localhost ([::1]:46012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgUuR-0004BJ-Ko
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:06:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38392)
+	id 1lgUq6-0006dK-BG
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:02:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgUih-00066N-FF
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:54:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32801)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgUid-0001mr-BP
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:54:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620748486;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1HW5KiXU9x1fyjWrXkjRzFNAMXJe988ypEDYDhTK8zM=;
- b=Yiy1fLCmLILuq5x+MHcqOEMCqsJlDU+aLyLsft1eS9nRmgTqs6iSs7TYNwObdhjv+PU0Wa
- d+xyVTLbZZ7sGXgQvH04mcQFTLYyEYb+xL82pFsJdeJEivjYk60gcuS0gY5zpegSfoy/F/
- KDMyCocA9BkFOElgysmXlI3ytUPQ5kI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-LlOgz2s_N1i6F43h2BMxIg-1; Tue, 11 May 2021 11:54:42 -0400
-X-MC-Unique: LlOgz2s_N1i6F43h2BMxIg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f8-20020a1c1f080000b0290169855914dfso43091wmf.3
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 08:54:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgUlG-0001fa-TY
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:57:32 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:36421)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgUlA-0002zo-B7
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:57:30 -0400
+Received: by mail-ej1-x629.google.com with SMTP id j10so3465815ejb.3
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 08:57:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p2rJ0zoo8G2DJw8BhlBTljLEehJKUUHaIUJln9zB0Oo=;
+ b=tVKLeLOjIAbNuYC/UKdFt7maKQ4YbwfrXH0ONNBPE4TAFPuAa7lYdEU6AYqCSzzn6y
+ 2qqj+/N77mHQAxFBLA2ngqgvq8F0tc/UsYtQZm1WT5t+aB1cerUptwTjjHMAUb5GbJcn
+ ezpeHLkIRZFaXHl74f4/DE/eRe0EJweC5j+mEbnd7xEzzdcbeOUv8KwSE+pS+mcnPLes
+ AyGfpI38uoJ5czZqulsV88dankQ85kbISVyJoO37Xgjb00GsK9tNgUnsIHmDBozDEBus
+ uVQidaVzoBG5LFYuVVVYqnXAZ38fTn1ICwzH8gceEs+Z2bt4VoA9BOb+JFYIpc6B/5ny
+ 02yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1HW5KiXU9x1fyjWrXkjRzFNAMXJe988ypEDYDhTK8zM=;
- b=OutBSHfvxwZ3+vGGqAVvydnnSppmOXhIyVyTd+wKemZ/zqaz+pXceX3baqA6MkaSBW
- xluMUe4U4iKoG/UPAOAfFvE1+8sq48KKBnif3XftoGxzljaS5+9FgAP0On+/0L8JtpmV
- oVTXaaMvEFwk3RtjYeeW6ApI6kYn00Fzc67eTlvoLd8uaVyuSJOsaCbcPN8ROkPOhZX/
- bBc0UbcYE4p2UrJ7sffGXBv/iSKceXjB0iDoaBGBU3wMMWSu273Rv1W5PT1MlKR0QDeO
- Uy/zBwN8f+DOY6Z6yGdsGKTGgpx1VTKYP2e/+vI8bOWTqaM6M6SO6qqbwO77ytagmud/
- MbqA==
-X-Gm-Message-State: AOAM531gM32mamR+9yNATFbFOEmTaHqzxwteEwk6yzrtlQdf880krkSe
- R6OpuO4a/g9/c6qJuf9S0cXKaa9MggjH0OPV7ofrIB6GujbFA20imXt2hogdjQkITPIFSrfFHCq
- hs9ZnbYiYPlTPZAd7ELuvFhwynsJl2DedaPsCfcWHw7dZuZVd+7G/NOYypUX4081P
-X-Received: by 2002:a05:600c:3542:: with SMTP id
- i2mr6388874wmq.171.1620748481193; 
- Tue, 11 May 2021 08:54:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyxMHNyXU7OI0Rx0yEkzor2GY7dmBWwl1ffVtys89xpItKXh9siPamKM9v20ayzQsdaEWLxrw==
-X-Received: by 2002:a05:600c:3542:: with SMTP id
- i2mr6388849wmq.171.1620748480957; 
- Tue, 11 May 2021 08:54:40 -0700 (PDT)
-Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id f1sm691996wrr.63.2021.05.11.08.54.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 08:54:40 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 5/5] meson: Do not use internal fdt library if user asked
- for the system one
-Date: Tue, 11 May 2021 17:53:54 +0200
-Message-Id: <20210511155354.3069141-6-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210511155354.3069141-1-philmd@redhat.com>
-References: <20210511155354.3069141-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p2rJ0zoo8G2DJw8BhlBTljLEehJKUUHaIUJln9zB0Oo=;
+ b=UYQNQTXMIcqW9MyI+occnfLn17PMpepqNccaCb8io0KxmJJSpSGfCdLiJppCR3IRwN
+ nFlpamRxWta4L+gbVN94t2yt1nxC5VcnntmgSqealx6oDkf6Zdc00eiip5c70RFqZzsm
+ NqZEVXC+2Q67cmjzV0+HXC6T1cBAh9B9FluCe8VIReXI3oJCQfm1qe3PfhcTGbpDlBNq
+ YAZvHJEzA3km0sV9Mt6V+T+0Q6LPqlLs4VhD9iG8F9D0CPbJtjBP6emAgkyUB1aFVkSa
+ yWLwRYNIQqvyDbIOEkcAXZ+9CY2DXGORiYLVcPy9TlP8VUuxxIgbHxKAVvSWKRjKpcXr
+ 1NNw==
+X-Gm-Message-State: AOAM532IjCdt5CyOWR7WimeutONdRzznRGgjQwkD7qIaxp3809XlfJa0
+ FnKzzWf9Cl48/nPbMYgYIDp3ayBDCKgFyNMkRH6BYg==
+X-Google-Smtp-Source: ABdhPJy3vNoc72bYTM8vQe2RIOu9qAQu5KZHlMJLRI138bZf29PDBqqumLPRGdGPHRK84oipKNPcPR/YEf6a0j7TLwE=
+X-Received: by 2002:a17:906:b1cc:: with SMTP id
+ bv12mr32174913ejb.407.1620748642233; 
+ Tue, 11 May 2021 08:57:22 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ <20210430202610.1136687-7-richard.henderson@linaro.org>
+ <CAFEAcA9Pv00takQH-2gJr27a58ivkcO8P+XowkziqDuf5BZKhQ@mail.gmail.com>
+ <bf5b06b9-6b56-f006-eb58-5d5a9f249e07@linaro.org>
+In-Reply-To: <bf5b06b9-6b56-f006-eb58-5d5a9f249e07@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 11 May 2021 16:56:09 +0100
+Message-ID: <CAFEAcA8+4QE=dvn0v3bCBmNJe=BDJA3QmTyJE5RUwT2cCCnY9A@mail.gmail.com>
+Subject: Re: [PATCH v6 06/82] target/arm: Implement SVE2 saturating/rounding
+ bitwise shift left (predicated)
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,44 +81,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the user explicitly asked for the system libfdt library, but
-the library is not usable (usually too old), we should not silently
-default to the internal one.
-Respect the user decision, and only default to 'internal' if in
-auto mode.
+On Tue, 11 May 2021 at 16:40, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 5/11/21 3:43 AM, Peter Maydell wrote:
+> >> +#define do_sqshl_d(n, m) \
+> >> +   ({ uint32_t discard; do_sqrshl_d(n, m, false, &discard); })
+> > Why pass in &discard rather than just NULL ? (Similarly below.)
+>
+> sat != NULL means enable saturation.
+>
+> Discard the results because unlike NEON, there is no architectural SVE flag to
+> indicate that saturation has occurred.
 
-Fixes: fbb4121d592 ("dtc: Convert Makefile bits to meson bits")
-Reported-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-BugLink: https://bugs.launchpad.net/qemu/+bug/1907427
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/255
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Aha. Might be useful to expand the comment a little:
 
-diff --git a/meson.build b/meson.build
-index 0b41ff41188..1ffb4bccdb2 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1612,7 +1612,7 @@
-        int main(void) { fdt_check_full(NULL, 0); return 0; }''',
-          dependencies: fdt)
-       fdt_opt = 'system'
--    elif have_internal
-+    elif have_internal and fdt_opt in ['enabled', 'auto']
-       fdt_opt = 'internal'
-     else
-       fdt_opt = 'disabled'
--- 
-2.26.3
+/*
+ * Unlike the NEON and AdvSIMD versions, there is no QC bit to set.
+ * We pass in a pointer to a dummy saturation field to trigger
+ * the saturating arithmetic but discard the information about
+ * whether it has occurred.
+ */
 
+-- PMM
 
