@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C9237AA71
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:16:57 +0200 (CEST)
-Received: from localhost ([::1]:42118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277B637AA85
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 17:20:26 +0200 (CEST)
+Received: from localhost ([::1]:49244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgU7z-0002WA-0T
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:16:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55852)
+	id 1lgUBN-0007fX-7W
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 11:20:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lgU0k-0006rP-DU
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:09:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46463)
+ id 1lgU0m-0006sy-AH
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:09:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lgU0f-0004Pz-Ir
- for qemu-devel@nongnu.org; Tue, 11 May 2021 11:09:26 -0400
+ id 1lgU0h-0004Qc-1n
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 11:09:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620745761;
+ s=mimecast20190719; t=1620745762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vw95cKxCzTvbM7sY282jlQFGv5+hd6tDamm/50/e+qs=;
- b=Jz6soS+/V1uRsVvtD6WKSndq+GZRg3mSVjzVDpuVo6q2USngx+lp1OVGm3kJNOO0Ue0tng
- dW75ioXIK6msoPps3/pX0ZzPjjcavVfVId/lp7rJxCyWH6FXbgnl6SxxAwp64i8SZFos25
- OC67LJBwjEkE1D+dN82itjquG5nqhIQ=
+ bh=gKegqhLV3OcKU5QCDTDzxpjYunHfCSmacovWBEXJYoY=;
+ b=eBxeChL0tTuDBf10rzkgjhLTE8sxJck+rKod23Pg+0PlhKLl4DbudqMxieSYjmVsOG0Pxf
+ VQUQngHbpFDwdteDT9TBoXn4/T/DGN35rKAF6FXpRtmdFgnMhvQ+ag+p5ou1QDW7q11Qg4
+ V3aGY5EEm1Wq9KiEvidyhh+U0zgL1Yw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-CSIhIakYNSquGTGnIMJapQ-1; Tue, 11 May 2021 11:09:17 -0400
-X-MC-Unique: CSIhIakYNSquGTGnIMJapQ-1
+ us-mta-292-5yU6jXF6NiCbCGcqzi4Wew-1; Tue, 11 May 2021 11:09:19 -0400
+X-MC-Unique: 5yU6jXF6NiCbCGcqzi4Wew-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E683F1854E21;
- Tue, 11 May 2021 15:09:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E26D81006C80;
+ Tue, 11 May 2021 15:09:17 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-51.ams2.redhat.com
  [10.36.113.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 50138614EB;
- Tue, 11 May 2021 15:09:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A9626A97E;
+ Tue, 11 May 2021 15:09:16 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, zhukeqian1@huawei.com,
  jiangkunkun@huawei.com, armbru@redhat.com, peter.maydell@linaro.org,
  huangy81@chinatelecom.cn
-Subject: [PULL 04/17] migration: Drop redundant query-migrate result @blocked
-Date: Tue, 11 May 2021 16:08:29 +0100
-Message-Id: <20210511150842.207155-5-dgilbert@redhat.com>
+Subject: [PULL 05/17] util: vfio-helpers: Factor out and fix processing of
+ existing ram blocks
+Date: Tue, 11 May 2021 16:08:30 +0100
+Message-Id: <20210511150842.207155-6-dgilbert@redhat.com>
 In-Reply-To: <20210511150842.207155-1-dgilbert@redhat.com>
 References: <20210511150842.207155-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +59,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -85,108 +86,139 @@ Cc: peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: David Hildenbrand <david@redhat.com>
 
-Result @blocked is redundant.  Unfortunately, we realized this too
-close to the release to risk dropping it, so we deprecated it
-instead, in commit e11ce6c06.
+Factor it out into common code when a new notifier is registered, just
+as done with the memory region notifier. This keeps logic about how to
+process existing ram blocks at a central place.
 
-Since it was deprecated from the start, we can delete it without
-the customary grace period.  Do so.
+Just like when adding a new ram block, we have to register the max_length.
+Ram blocks are only "fake resized". All memory (max_length) is mapped.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210429140424.2802929-1-armbru@redhat.com>
+Print the warning from inside qemu_vfio_ram_block_added().
+
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20210429112708.12291-2-david@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 29 +++++++++++++----------------
- monitor/hmp-cmds.c    |  2 +-
- qapi/migration.json   |  6 ------
- 3 files changed, 14 insertions(+), 23 deletions(-)
+ hw/core/numa.c            | 14 ++++++++++++++
+ include/exec/cpu-common.h |  1 +
+ softmmu/physmem.c         |  5 +++++
+ util/vfio-helpers.c       | 29 ++++++++---------------------
+ 4 files changed, 28 insertions(+), 21 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 8ca034136b..fdadee290e 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1073,27 +1073,24 @@ static void populate_vfio_info(MigrationInfo *info)
- static void fill_source_migration_info(MigrationInfo *info)
- {
-     MigrationState *s = migrate_get_current();
-+    GSList *cur_blocker = migration_blockers;
- 
--    info->blocked = migration_is_blocked(NULL);
--    info->has_blocked_reasons = info->blocked;
-     info->blocked_reasons = NULL;
--    if (info->blocked) {
--        GSList *cur_blocker = migration_blockers;
- 
--        /*
--         * There are two types of reasons a migration might be blocked;
--         * a) devices marked in VMState as non-migratable, and
--         * b) Explicit migration blockers
--         * We need to add both of them here.
--         */
--        qemu_savevm_non_migratable_list(&info->blocked_reasons);
-+    /*
-+     * There are two types of reasons a migration might be blocked;
-+     * a) devices marked in VMState as non-migratable, and
-+     * b) Explicit migration blockers
-+     * We need to add both of them here.
-+     */
-+    qemu_savevm_non_migratable_list(&info->blocked_reasons);
- 
--        while (cur_blocker) {
--            QAPI_LIST_PREPEND(info->blocked_reasons,
--                              g_strdup(error_get_pretty(cur_blocker->data)));
--            cur_blocker = g_slist_next(cur_blocker);
--        }
-+    while (cur_blocker) {
-+        QAPI_LIST_PREPEND(info->blocked_reasons,
-+                          g_strdup(error_get_pretty(cur_blocker->data)));
-+        cur_blocker = g_slist_next(cur_blocker);
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index ac6bed5817..134ebc2b72 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -802,9 +802,23 @@ void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms)
      }
-+    info->has_blocked_reasons = info->blocked_reasons != NULL;
+ }
  
-     switch (s->state) {
-     case MIGRATION_STATUS_NONE:
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 0ad5b77477..d9bef63373 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -224,7 +224,7 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
++static int ram_block_notify_add_single(RAMBlock *rb, void *opaque)
++{
++    const ram_addr_t max_size = qemu_ram_get_max_length(rb);
++    void *host = qemu_ram_get_host_addr(rb);
++    RAMBlockNotifier *notifier = opaque;
++
++    if (host) {
++        notifier->ram_block_added(notifier, host, max_size);
++    }
++    return 0;
++}
++
+ void ram_block_notifier_add(RAMBlockNotifier *n)
+ {
+     QLIST_INSERT_HEAD(&ram_list.ramblock_notifiers, n, next);
++    /* Notify about all existing ram blocks. */
++    qemu_ram_foreach_block(ram_block_notify_add_single, n);
+ }
  
-     migration_global_dump(mon);
+ void ram_block_notifier_remove(RAMBlockNotifier *n)
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index 5a0a2d93e0..ccabed4003 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -57,6 +57,7 @@ const char *qemu_ram_get_idstr(RAMBlock *rb);
+ void *qemu_ram_get_host_addr(RAMBlock *rb);
+ ram_addr_t qemu_ram_get_offset(RAMBlock *rb);
+ ram_addr_t qemu_ram_get_used_length(RAMBlock *rb);
++ram_addr_t qemu_ram_get_max_length(RAMBlock *rb);
+ bool qemu_ram_is_shared(RAMBlock *rb);
+ bool qemu_ram_is_uf_zeroable(RAMBlock *rb);
+ void qemu_ram_set_uf_zeroable(RAMBlock *rb);
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 5232696571..0a05533ed0 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -1694,6 +1694,11 @@ ram_addr_t qemu_ram_get_used_length(RAMBlock *rb)
+     return rb->used_length;
+ }
  
--    if (info->blocked) {
-+    if (info->blocked_reasons) {
-         strList *reasons = info->blocked_reasons;
-         monitor_printf(mon, "Outgoing migration blocked:\n");
-         while (reasons) {
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 0b17cce46b..7a5bdf9a0d 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -228,11 +228,6 @@
- #                   Present and non-empty when migration is blocked.
- #                   (since 6.0)
- #
--# @blocked: True if outgoing migration is blocked (since 6.0)
--#
--# Features:
--# @deprecated: Member @blocked is deprecated.  Use @blocked-reasons instead.
--#
- # Since: 0.14
- ##
- { 'struct': 'MigrationInfo',
-@@ -246,7 +241,6 @@
-            '*setup-time': 'int',
-            '*cpu-throttle-percentage': 'int',
-            '*error-desc': 'str',
--           'blocked': { 'type': 'bool', 'features': [ 'deprecated' ] },
-            '*blocked-reasons': ['str'],
-            '*postcopy-blocktime' : 'uint32',
-            '*postcopy-vcpu-blocktime': ['uint32'],
++ram_addr_t qemu_ram_get_max_length(RAMBlock *rb)
++{
++    return rb->max_length;
++}
++
+ bool qemu_ram_is_shared(RAMBlock *rb)
+ {
+     return rb->flags & RAM_SHARED;
+diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+index 97dfa3fd57..92b9565797 100644
+--- a/util/vfio-helpers.c
++++ b/util/vfio-helpers.c
+@@ -463,8 +463,14 @@ static void qemu_vfio_ram_block_added(RAMBlockNotifier *n,
+                                       void *host, size_t size)
+ {
+     QEMUVFIOState *s = container_of(n, QEMUVFIOState, ram_notifier);
++    int ret;
++
+     trace_qemu_vfio_ram_block_added(s, host, size);
+-    qemu_vfio_dma_map(s, host, size, false, NULL);
++    ret = qemu_vfio_dma_map(s, host, size, false, NULL);
++    if (ret) {
++        error_report("qemu_vfio_dma_map(%p, %zu) failed: %s", host, size,
++                     strerror(-ret));
++    }
+ }
+ 
+ static void qemu_vfio_ram_block_removed(RAMBlockNotifier *n,
+@@ -477,33 +483,14 @@ static void qemu_vfio_ram_block_removed(RAMBlockNotifier *n,
+     }
+ }
+ 
+-static int qemu_vfio_init_ramblock(RAMBlock *rb, void *opaque)
+-{
+-    void *host_addr = qemu_ram_get_host_addr(rb);
+-    ram_addr_t length = qemu_ram_get_used_length(rb);
+-    int ret;
+-    QEMUVFIOState *s = opaque;
+-
+-    if (!host_addr) {
+-        return 0;
+-    }
+-    ret = qemu_vfio_dma_map(s, host_addr, length, false, NULL);
+-    if (ret) {
+-        fprintf(stderr, "qemu_vfio_init_ramblock: failed %p %" PRId64 "\n",
+-                host_addr, (uint64_t)length);
+-    }
+-    return 0;
+-}
+-
+ static void qemu_vfio_open_common(QEMUVFIOState *s)
+ {
+     qemu_mutex_init(&s->lock);
+     s->ram_notifier.ram_block_added = qemu_vfio_ram_block_added;
+     s->ram_notifier.ram_block_removed = qemu_vfio_ram_block_removed;
+-    ram_block_notifier_add(&s->ram_notifier);
+     s->low_water_mark = QEMU_VFIO_IOVA_MIN;
+     s->high_water_mark = QEMU_VFIO_IOVA_MAX;
+-    qemu_ram_foreach_block(qemu_vfio_init_ramblock, s);
++    ram_block_notifier_add(&s->ram_notifier);
+ }
+ 
+ /**
 -- 
 2.31.1
 
