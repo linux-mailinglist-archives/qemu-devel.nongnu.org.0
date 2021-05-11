@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DB937A698
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 14:25:55 +0200 (CEST)
-Received: from localhost ([::1]:37090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DAFC37A6A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 14:29:34 +0200 (CEST)
+Received: from localhost ([::1]:41688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgRSU-00015o-S5
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 08:25:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39830)
+	id 1lgRW1-0004pq-9R
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 08:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgRP5-00065H-3g
- for qemu-devel@nongnu.org; Tue, 11 May 2021 08:22:23 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:36843)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lgRTd-0003OJ-AR; Tue, 11 May 2021 08:27:05 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgROv-00025U-Si
- for qemu-devel@nongnu.org; Tue, 11 May 2021 08:22:22 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id j10so2389182ejb.3
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sZbnj/pfbAYwixvdzIkaLzIvHt97LUdySIhv7rguSSw=;
- b=W1AG0fZURuZ56UXPVU6qk09L48cNhTmvA7LCSFOYjKFSAHJfZXQULrdfiyzKpE1i7+
- SWVqaZsTqh0O1kySjDVcm0TtJwqkR0SL/SIoqeiW8lSXPge4menuHwr6taNwHbsdbiL5
- CNmWnSTPXZIZj1W60Bcx8AdSyWznoo5Bi+QXjco/E8RyqYZfvad33ZerSg/WVYgJqJjP
- +l8ZaqN0d63+M/+yx1BrwY+SGUad36ydPrdBbGLRJ4OQAq8VfjeHCu3Z/glIwPDD8QPp
- g45V0ELKEfaHIg/FN1/HYnfA40AMYDFKtSFGM9N3XOJdONHK7ynGbUo4U8armb5kl0B9
- bjNg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lgRTb-0004wX-3P; Tue, 11 May 2021 08:27:04 -0400
+Received: by mail-wr1-x432.google.com with SMTP id l2so19934358wrm.9;
+ Tue, 11 May 2021 05:27:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=cUab8/BPpicqjRWLRsSe2OUGEVDu2PtuhV0srzfQJoA=;
+ b=rM7SfMRrIXYGqH6UUlb9XxODJ2UkmuD/RnTwBLil0TEadQTkjrDQrX4AehRV9KGdev
+ C2ZiIkQZJpRjVdf+JZRJzSL15x9n8dhBo4SBd8+exvSYDTzaEdYzokptdmuNJYU3Zcq+
+ zKnqeltOkQt6pexIxBvqkMB8qyqOdpe1St0ddGrTPjxpmy5C6DTkTKt9kP/RzXia6zHw
+ 0lsyqNwFS122CbjiUXXiCy6t9KKmmLj3O/OMuwowLEs11lhtHikWvkQTapASgkqrDpw+
+ qJXe5yDYKqbUoNG4y3+hXSZU98okQg0RFZAAMenK6nVtnhdjKERLoX7gmlMGaHvbDGeL
+ FSCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sZbnj/pfbAYwixvdzIkaLzIvHt97LUdySIhv7rguSSw=;
- b=M+XUfjvyHI9EjdTfHwJ9EYoMqN3knsND+RSWJeqB0SWcthPCMK+YnKuyKXQf0MFiEO
- L/zJ2vwkZJrzJJkROsJgLcphkeJ9RC0Ep8WYxDDzTViOZWSp6XoKzUcGy8XI1AprED0e
- D4lmLcZz2EpgfSmTFd9JrNsbv5O11Eq/t9RLEM2PcBXUXc5tBLGeYtpEWCfTSMdLaOsO
- dwMR/LCw+9L6Br2YYY8ZD0pfzFvIVjhTsLPZ2JXepDqduYV2sRtbDmX7ypNp0d4Z3kXp
- YHCOOyhqPj0Vybzq1ZdlslBETLRa92zGDW0UD27zGVY2wGFCu7NCrf672wxkWvuxyXc/
- dvsA==
-X-Gm-Message-State: AOAM531LFMu34Gp/SDLhNM+Y59pDK7HL2A2D5jl/gpJyE0gcL2AnLl1p
- lzMiaJtv+nIzHslYnlWYKmw9bFvcxZgYaRC+cjokiQ==
-X-Google-Smtp-Source: ABdhPJx9qeJ6gg9zQqChHz73sp2k9qNjO77qSLQ5mONtHzI1FqWKaHCeGi0JzLHfOi+SJR5a9C5UCexdtDeKUAzhGM4=
-X-Received: by 2002:a17:906:d1d2:: with SMTP id
- bs18mr9302163ejb.56.1620735732459; 
- Tue, 11 May 2021 05:22:12 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cUab8/BPpicqjRWLRsSe2OUGEVDu2PtuhV0srzfQJoA=;
+ b=iOcyUwLgx4p8N3IioZ+iV+bIXiqDxrI8tGJNa4nkasfTaUrE85YEY7DNDdW4/NUUZ1
+ SNOINM9LBKzsfp/mLG14qk+Jrm09bWktXbH5dQ1zy47X1C6DYszWi3g4vEo6LG8RPlxV
+ sKEZE5ByClphad6poJoAEA05q56TKQ1ab1IT5dbikWDZU9U6p+so5doKJu98ScWyHNU6
+ uCskF44rUIIyihLpvVELROhbwuWWj6PMqUI9p4ecVldROftX4/Dimfr3EXoSJdq6rf3B
+ 7QP9up/kdEm738aXv0/3t81Nx1VTaqzAzLU773iT1/WMyNDZTHNzeAHWblMqJw9juSRr
+ IJGQ==
+X-Gm-Message-State: AOAM531MEXZz3YNgyDx5R4uQdJOFLOI/hrdOXmlqazED4wiZQ8JGmlnY
+ GFQoNZErZtM3PAg+32u42Aw=
+X-Google-Smtp-Source: ABdhPJyiW+VmhLoClMBahbYmznlP6XZp8fpSfVeavugeDsV7ILN89H9ICmv3J5Y3cDgrBB5BiFGSSQ==
+X-Received: by 2002:adf:fc46:: with SMTP id e6mr37230603wrs.169.1620736020961; 
+ Tue, 11 May 2021 05:27:00 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id f25sm27703375wrd.67.2021.05.11.05.26.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 May 2021 05:27:00 -0700 (PDT)
+Subject: Re: [PATCH 2/2] QOMify sifive_uart model
+To: =?UTF-8?Q?Lukas_J=c3=bcnger?= <lukas.juenger@greensocs.com>,
+ qemu-devel@nongnu.org
+References: <20210504153456.927083-1-lukas.juenger@greensocs.com>
+ <20210504153456.927083-3-lukas.juenger@greensocs.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8471d630-72c1-aef0-a0cf-9f0417334c08@amsat.org>
+Date: Tue, 11 May 2021 14:26:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-14-richard.henderson@linaro.org>
-In-Reply-To: <20210430202610.1136687-14-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 11 May 2021 13:21:00 +0100
-Message-ID: <CAFEAcA-yz0d+vUwf+YaarNBXK4vbtCWAe3M_W03pn43=1OMh6g@mail.gmail.com>
-Subject: Re: [PATCH v6 13/82] target/arm: Implement SVE2 integer multiply long
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210504153456.927083-3-lukas.juenger@greensocs.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,25 +88,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org, bin.meng@windriver.com,
+ mark.burton@greensocs.com, palmer@dabbelt.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 21:41, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Exclude PMULL from this category for the moment.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Hi Lukas,
+
+On 5/4/21 5:34 PM, Lukas Jünger wrote:
+> Signed-off-by: Lukas Jünger <lukas.juenger@greensocs.com>
 > ---
->  target/arm/helper-sve.h    | 15 +++++++++++++++
->  target/arm/sve.decode      |  9 +++++++++
->  target/arm/sve_helper.c    | 31 +++++++++++++++++++++++++++++++
->  target/arm/translate-sve.c |  9 +++++++++
->  4 files changed, 64 insertions(+)
+>  include/hw/char/sifive_uart.h |  6 +--
+>  hw/char/sifive_uart.c         | 72 ++++++++++++++++++++++++++++++-----
+>  2 files changed, 65 insertions(+), 13 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> +static void sifive_uart_realize(DeviceState *dev, Error **errp)
+> +{
+> +    SiFiveUARTState *s = SIFIVE_UART(dev);
+> +
+> +    qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
+> +                             uart_be_change, s, NULL, true);
+> +
+> +}
+> +
+> +static void sifive_uart_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->realize = sifive_uart_realize;
+> +    device_class_set_props(dc, sifive_uart_properties);
+> +}
 
-thanks
--- PMM
+You forgot to add the migration fields (VMState) of the SiFiveUARTState
+structure. You might want to convert to the Fifo8 API (like the
+SiFiveSPIState does) previous to this patch.
+
+Regards,
+
+Phil.
 
