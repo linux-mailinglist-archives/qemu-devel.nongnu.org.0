@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E41637A7BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:34:33 +0200 (CEST)
-Received: from localhost ([::1]:34114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28EA737A7AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:33:21 +0200 (CEST)
+Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgSWu-00020k-AM
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:34:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58230)
+	id 1lgSVk-0007L6-6H
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:33:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgSQu-000869-8s
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58055)
+ id 1lgSQy-0008OY-8b
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgSQs-00012v-J8
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:20 -0400
+ id 1lgSQv-00014X-99
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620739698;
+ s=mimecast20190719; t=1620739700;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YTr53wtUG6JqqhFOqEGJ3TxMVUA3Q1EX0AQ4lUvpWtI=;
- b=gvSYu4pAs5/eY/e5Fq+n8VHLGdx2BPQM5WVHjniWrCFwEFnJ4+xW36WDQ91v6oC4eApkub
- jKj20F2uIz3iqMw+WuHK2PoDgXZdHy1tCDxYTExiSo+WhkNDT0dRTP8/hsDVVeq5+wcknj
- NBzsCpcT6Sczh6hUCyLqULDEDsA2KQs=
+ bh=GeMQTSzzVOHwDZQ+Xq2Pg+vVFosbE7QueLpfUrF0YiI=;
+ b=D2YrRfD9+wSYUtUfiDNiq58rpTz443QRn61aZRFw9tDh4xBJdekmnNaWcQ3VOYYIu2aV6m
+ 5opufjts0mnYJrlF5y9725O5oALx/p68nyB7m1UnaL0NsaaO7oNFdLO2J8Vy0z9np07udD
+ DHinFEYZld4WPhxtvJYnrg9qIxL1F8o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-8sRpjh_TNg2Z-D43I706Lw-1; Tue, 11 May 2021 09:28:15 -0400
-X-MC-Unique: 8sRpjh_TNg2Z-D43I706Lw-1
+ us-mta-589-cCukfJb2MjGh4TbO9E13jg-1; Tue, 11 May 2021 09:28:17 -0400
+X-MC-Unique: cCukfJb2MjGh4TbO9E13jg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECC9DCC651;
- Tue, 11 May 2021 13:28:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 507D5801817;
+ Tue, 11 May 2021 13:28:16 +0000 (UTC)
 Received: from foo.redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B32B9CA0;
- Tue, 11 May 2021 13:28:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9894D19809;
+ Tue, 11 May 2021 13:28:13 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/12] crypto: bump min gnutls to 3.5.8,
- dropping RHEL-7 support
-Date: Tue, 11 May 2021 14:26:35 +0100
-Message-Id: <20210511132641.1022161-7-berrange@redhat.com>
+Subject: [PATCH 07/12] crypto: drop used conditional check
+Date: Tue, 11 May 2021 14:26:36 +0100
+Message-Id: <20210511132641.1022161-8-berrange@redhat.com>
 In-Reply-To: <20210511132641.1022161-1-berrange@redhat.com>
 References: <20210511132641.1022161-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -89,71 +88,30 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It has been over two years since RHEL-8 was released, and thus per the
-platform build policy, we no longer need to support RHEL-7 as a build
-target. This lets us increment the minimum required gnutls version
-
-Per repology, current shipping versions are:
-
-             RHEL-8: 3.6.14
-     Debian Stretch: 3.5.8
-      Debian Buster: 3.6.7
- openSUSE Leap 15.2: 3.6.7
-   Ubuntu LTS 18.04: 3.5.18
-   Ubuntu LTS 20.04: 3.6.13
-            FreeBSD: 3.6.15
-          Fedora 33: 3.6.16
-          Fedora 34: 3.7.1
-            OpenBSD: 3.6.15
-     macOS HomeBrew: 3.6.15
-
-Debian Stretch has the oldest version and so 1.7.6 is the new minimum.
+The condition being tested has never been set since the day the code was
+first introduced.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- .gitlab-ci.yml | 15 ---------------
- configure      |  2 +-
- 2 files changed, 1 insertion(+), 16 deletions(-)
+ crypto/tlscredsx509.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 0fefda2674..c5b8ea0d94 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -712,21 +712,6 @@ build-coroutine-sigaltstack:
-                     --enable-trace-backends=ftrace
-     MAKE_CHECK_ARGS: check-unit
+diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
+index bc503bab55..d9d6f4421e 100644
+--- a/crypto/tlscredsx509.c
++++ b/crypto/tlscredsx509.c
+@@ -354,11 +354,9 @@ qcrypto_tls_creds_check_cert_pair(gnutls_x509_crt_t cert,
+             reason = "The certificate has been revoked";
+         }
  
--# Most jobs test latest gcrypt or nettle builds
--#
--# These jobs test old gcrypt and nettle from RHEL7
--# which had some API differences.
--crypto-only-gnutls:
--  <<: *native_build_job_definition
--  needs:
--    job: amd64-centos7-container
--  variables:
--    IMAGE: centos7
--    TARGETS: x86_64-softmmu x86_64-linux-user
--    CONFIGURE_ARGS: --disable-nettle --disable-gcrypt --enable-gnutls
--    MAKE_CHECK_ARGS: check
--
--
- # Check our reduced build configurations
- build-without-default-devices:
-   <<: *native_build_job_definition
-diff --git a/configure b/configure
-index d5569f9252..69631fad3b 100755
---- a/configure
-+++ b/configure
-@@ -2790,7 +2790,7 @@ fi
+-#ifndef GNUTLS_1_0_COMPAT
+         if (status & GNUTLS_CERT_INSECURE_ALGORITHM) {
+             reason = "The certificate uses an insecure algorithm";
+         }
+-#endif
  
- if test "$gnutls" != "no"; then
-     pass="no"
--    if $pkg_config --exists "gnutls >= 3.1.18"; then
-+    if $pkg_config --exists "gnutls >= 3.5.8"; then
-         gnutls_cflags=$($pkg_config --cflags gnutls)
-         gnutls_libs=$($pkg_config --libs gnutls)
-         # Packaging for the static libraries is not always correct.
+         error_setg(errp,
+                    "Our own certificate %s failed validation against %s: %s",
 -- 
 2.31.1
 
