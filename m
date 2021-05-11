@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6800037ACB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 19:10:17 +0200 (CEST)
-Received: from localhost ([::1]:56144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D067737AD11
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 19:25:12 +0200 (CEST)
+Received: from localhost ([::1]:41338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgVtg-0001CK-FY
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 13:10:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54414)
+	id 1lgW87-0002XI-Hb
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 13:25:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgVqf-0006Wo-UI
- for qemu-devel@nongnu.org; Tue, 11 May 2021 13:07:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55597)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgVqd-0002Et-Jo
- for qemu-devel@nongnu.org; Tue, 11 May 2021 13:07:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620752826;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Q1bdOlwx5w6qOb0+8lnjQXaCMA4l4608fe+L3Z66HhI=;
- b=X43KtCyMLrFdNsqQ2SPey/xhdoRMNDwT2uVoVIRxqCvjTnuQl9VIxkVaMr3SZme7bhl3S9
- 8ey8CD4QOne/y6Wofcm+BG25ynOMKMdjotaKF6DJOlyrkA4R1BDi3uPCwU5Wi0niTwREVB
- nqqoxlZfMzT7nvyeKwJSocri2J4HRpU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-k7HpVUejPk-s5n_RZQ-GGg-1; Tue, 11 May 2021 13:07:04 -0400
-X-MC-Unique: k7HpVUejPk-s5n_RZQ-GGg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89F57801817;
- Tue, 11 May 2021 17:07:03 +0000 (UTC)
-Received: from redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 67B5610016FC;
- Tue, 11 May 2021 17:07:02 +0000 (UTC)
-Date: Tue, 11 May 2021 18:06:59 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL 30/33] migration: do not restart VM after successful
- snapshot-load
-Message-ID: <YJq5s+VJC52n+RlV@redhat.com>
-References: <20210511081350.419428-1-pbonzini@redhat.com>
- <20210511081350.419428-31-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgW4q-0008KI-1x
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 13:21:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgW4l-0001CT-8E
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 13:21:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lgW4h-0001Dt-7d
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 17:21:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B238C2E818E
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 17:21:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210511081350.419428-31-pbonzini@redhat.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 11 May 2021 17:08:38 -0000
+From: Thomas Huth <1883729@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: usb
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr bugs-syssec th-huth
+X-Launchpad-Bug-Reporter: Bugs SysSec (bugs-syssec)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159232162102.10413.11793430476734031615.malonedeb@gac.canonical.com>
+Message-Id: <162075291887.31231.9082900369757461746.malone@gac.canonical.com>
+Subject: [Bug 1883729] Re: xhci_find_stream: Assertion `streamid != 0' failed.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
+X-Launchpad-Hash: 9f666fe9b9110e732697f2a3ee7f4fb5d06d8567
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,35 +71,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Reply-To: Bug 1883729 <1883729@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 11, 2021 at 04:13:47AM -0400, Paolo Bonzini wrote:
-> The HMP loadvm code is calling load_snapshot rather than
-> qmp_snapshot_load, in order to bypass the job infrastructure.  The code
-> around it is almost the same, with one difference: hmp_loadvm is
-> restarting the VM if load_snapshot fails, qmp_snapshot_load is doing so
-> if load_snapshot succeeds.
-> 
-> Fix the bug in QMP by moving the common code to load_snapshot.
+Can you still reproduce this assertion with the latest version 6.0 of
+QEMU? ... I cannot trigger it here, so I assume this issue has been
+fixed?
 
-This doesn't appear to have actually fixed the HMP regression.
-Instead I think it is duplicated the HMP bug in the QMP code
-too.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-See the 068  iotest enhancement here that validates the expected
-state on success:
+-- =
 
-https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg03091.html
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1883729
 
+Title:
+  xhci_find_stream: Assertion `streamid !=3D 0' failed.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Status in QEMU:
+  Incomplete
 
+Bug description:
+  To reproduce run the QEMU with the following command line:
+  ```
+  qemu-system-x86_64 -cdrom hypertrash_os_bios_crash.iso -nographic -m 100 =
+-enable-kvm -device virtio-gpu-pci -device nec-usb-xhci -device usb-audio
+  ```
+
+  QEMU Version:
+  ```
+  # qemu-5.0.0
+  $ ./configure --target-list=3Dx86_64-softmmu --enable-sanitizers; make
+  $ x86_64-softmmu/qemu-system-x86_64 --version
+  QEMU emulator version 5.0.0
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1883729/+subscriptions
 
