@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289CC379FDF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:43:59 +0200 (CEST)
-Received: from localhost ([::1]:36092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8B7379FFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 08:50:15 +0200 (CEST)
+Received: from localhost ([::1]:57908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgM7a-0002jd-82
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:43:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40644)
+	id 1lgMDe-0000p1-QD
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 02:50:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLsd-0006V8-Ab
+ id 1lgLse-0006VM-GP
  for qemu-devel@nongnu.org; Tue, 11 May 2021 02:28:32 -0400
-Received: from mga06.intel.com ([134.134.136.31]:46441)
+Received: from mga06.intel.com ([134.134.136.31]:46423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1lgLsb-0004it-Kl
- for qemu-devel@nongnu.org; Tue, 11 May 2021 02:28:31 -0400
-IronPort-SDR: fO4cBLAE9D7fzS5YZzDsOUsvq/eHN0RK8SZmuVUznvo6I9MItUYFewnmhmnMWJLDnkGyCLDI3b
- s0WxZTt/DPFg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631533"
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631533"
+ id 1lgLsb-0004ZR-Kl
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 02:28:32 -0400
+IronPort-SDR: KLwvX9jrn5P9fsyGCPOO6YHBOkvHlHfGoF+FHtdKyVPey9x+ICkQyKf5gIQXyzvFnlE7kR/Ja1
+ /+nUVM2qGSdw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="260631545"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="260631545"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2021 23:27:59 -0700
-IronPort-SDR: 2ND7B5Pmc4oRdjxrZasJ3NzdoIXdov85latbagS5czQeHnM/Zr6b3shDjZGZWSiOezhpIQRqnv
- Vjtpudmjtm2A==
+ 10 May 2021 23:28:01 -0700
+IronPort-SDR: 3SBcHZOzC2rUeZXHpRCoHp3RO3ERx9Q5dZ+yp240NkGF/TddTcAgiWi13NloAy51aH0iDebCwT
+ zhbhsfCsR02g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281236"
+X-IronPort-AV: E=Sophos;i="5.82,290,1613462400"; d="scan'208";a="391281249"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:27:58 -0700
+ by orsmga003.jf.intel.com with ESMTP; 10 May 2021 23:28:00 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/32] Adjust min CPUID level to 0x12 when SGX is enabled
-Date: Tue, 11 May 2021 14:20:35 +0800
-Message-Id: <20210511062051.41948-17-yang.zhong@intel.com>
+Subject: [PATCH v2 17/32] hw/i386/fw_cfg: Set SGX bits in feature control
+ fw_cfg accordingly
+Date: Tue, 11 May 2021 14:20:36 +0800
+Message-Id: <20210511062051.41948-18-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210511062051.41948-1-yang.zhong@intel.com>
 References: <20210511062051.41948-1-yang.zhong@intel.com>
@@ -68,30 +69,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-SGX capabilities are enumerated through CPUID_0x12.
+Request SGX an SGX Launch Control to be enabled in FEATURE_CONTROL
+when the features are exposed to the guest. Our design is the SGX
+Launch Control bit will be unconditionally set in FEATURE_CONTROL,
+which is unlike host bios.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- target/i386/cpu.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/i386/fw_cfg.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 63253bf606..41050960c5 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6741,6 +6741,11 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-         if (sev_enabled()) {
-             x86_cpu_adjust_level(cpu, &env->cpuid_min_xlevel, 0x8000001F);
-         }
-+
-+        /* SGX requires CPUID[0x12] for EPC enumeration */
-+        if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_SGX) {
-+            x86_cpu_adjust_level(cpu, &env->cpuid_min_level, 0x12);
-+        }
+diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+index e48a54fa36..ec99743c22 100644
+--- a/hw/i386/fw_cfg.c
++++ b/hw/i386/fw_cfg.c
+@@ -157,7 +157,7 @@ void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
+ {
+     X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
+     CPUX86State *env = &cpu->env;
+-    uint32_t unused, ecx, edx;
++    uint32_t unused, ebx, ecx, edx;
+     uint64_t feature_control_bits = 0;
+     uint64_t *val;
+ 
+@@ -172,6 +172,14 @@ void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
+         feature_control_bits |= FEATURE_CONTROL_LMCE;
      }
  
-     /* Set cpuid_*level* based on cpuid_min_*level, if not explicitly set */
++    cpu_x86_cpuid(env, 0x7, 0, &unused, &ebx, &ecx, &unused);
++    if (ebx & CPUID_7_0_EBX_SGX) {
++        feature_control_bits |= FEATURE_CONTROL_SGX;
++    }
++    if (ecx & CPUID_7_0_ECX_SGX_LC) {
++        feature_control_bits |= FEATURE_CONTROL_SGX_LC;
++    }
++
+     if (!feature_control_bits) {
+         return;
+     }
 -- 
 2.29.2.334.gfaefdd61ec
 
