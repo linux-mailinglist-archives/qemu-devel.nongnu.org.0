@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BFD37A847
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:58:12 +0200 (CEST)
-Received: from localhost ([::1]:47548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7DA37A84E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:59:24 +0200 (CEST)
+Received: from localhost ([::1]:51846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgStn-0006hY-CN
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:58:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36558)
+	id 1lgSuy-0001Eu-1g
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:59:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgSrU-0003uI-T6
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:55:52 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:40534)
+ id 1lgSsS-0005lO-5d
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:56:48 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgSrR-00013j-Nv
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:55:48 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- y124-20020a1c32820000b029010c93864955so387635wmy.5
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 06:55:45 -0700 (PDT)
+ id 1lgSsQ-0001kQ-JM
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:56:47 -0400
+Received: by mail-wr1-x436.google.com with SMTP id l2so20240498wrm.9
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 06:56:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=lAHlXdICkT4vYr7qD2PWSaCVuqcClSIge/QJ9pCTg3RG4YSssRfoQvjU/iVdsnqFRO
- TSxPa3rWmTB+4o9PtQzZyRfBDaUxoRYdMcnh9Q+ZnTqdXlaw35OpBo+wzGWvFaAuItd8
- jmRKaMaT3JX4ShyzTNzbQ1lx+5UIhm3DUOUqnCBD5SINsx44RYr5NuCLQy8fzw6cFI8E
- azw7K7cBwwP6vAmvKn7Qq0CXYrS4sCUPVKP13vji9FAV6WTsztoBmsJUcy+1yzbwmYr7
- LzgpZ8QJetAkOOHRdcQe1ZHk7OfTYxNMj0IHiU0uv3XKBzG7gGshv1IjebUqT5ssZ8rZ
- pArg==
+ bh=r8dVmqHWAHKeRXBaBur+amyGR5QHspG5CU8Z2jF96gU=;
+ b=NvldRZ7T5+/9PREHYk5ELO9esty5ci83J9UPRynkovaEI/cr3M//x+2gcG7q0JrXAX
+ CS1qxneHCN7jNXRU7eCpM8H1aZ94cGENagieR/27YYkgQyHQx7PuZNFJu2a0cblQgVoZ
+ 2mwr8nGiJBoyBKILKOVJ1H4tEhyGZATQG5DNKHt+1d7slcLjX66CN92SyBF7dRxmYwnT
+ Hwr6F8E3rFEEv2QYQnPJm0wjG9C7SnfPFsmCbTCTTNyHP3F+Gz+r2SQEMijlIcroo5Hv
+ p6UrRgbyFZBoOViu5S8H6jMBW0KC/A0SCRQqJKjXnzoTLeJX9NgvO8pn+4o6yi0GjGXR
+ bTAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=gNmmXDXuVLERRpNcJImTn93sYd+9zf+c+FcjpZsN2OHJAYh8gjhyf6flBdvKZVCsB6
- rW25KFzitzfGVqPc43UtZD49bOWxt2i2NAjfdOQRQD21TthiXbbqkGkH/NFt3hgyCLEH
- Ja9+hLmnR6fUI5b/5dVl6EOzly/k8D2xjh3vaQaj/B5esg6j9uhPDd33eoanQf4CZut3
- CJAjMWtyd6Cqvz1w7njK6+8snanuZLVyVj88XP6QMDc9vfxazCqdp3MmieN3G8FGtahI
- timaGA2usSQ/Ypg2u14yXU8ZqcRmRrmeYaMrv/K4L5mRe4pVJiaUHmYQ5Nyh8TAhk1sF
- C+TA==
-X-Gm-Message-State: AOAM530HVB1gj6YLjqNvpcdgZzknuSuen4sTWCKalJly82emIvAO5fR1
- maAkZh/g7sfeHPiQetLhLdQi1g==
-X-Google-Smtp-Source: ABdhPJymdyQOQhkYjV37DN0pYqH4a4B1ZQNK8vlzkpCOIuYXGl1DFu+HQG08Do5cT7/dmWFt0WvOTw==
-X-Received: by 2002:a05:600c:1907:: with SMTP id
- j7mr32285116wmq.158.1620741344270; 
- Tue, 11 May 2021 06:55:44 -0700 (PDT)
+ bh=r8dVmqHWAHKeRXBaBur+amyGR5QHspG5CU8Z2jF96gU=;
+ b=GvWlA5xlwznzGJAfiJPo7rY0WxYHCIpD8xIY2tzuGyT5sMgOmuADP93IdX5WhOvkdY
+ LOM9AwkN19XMY7po6pg3en0dyevPRFyLTklx6A3AeZtax6bu2WcMC9KQt5SDYYl/QBgz
+ 1KNNm8x0vQdHPH4U28e0x/GI9hdr/Nj1aS2FpWz/pxGJn3h/3LigrUWthckozx6XjIoW
+ qfLA72yMpwDytnSIHqh44bQISU7rB+YHAxLayGLozqSNtE7ICCuNWcetIXLGkmy7qe+w
+ 7Y481UMnb6KT8400gd+iDlIOg2B5bVOwZQfDayBsLhUsGfUVdxPENXF5VRMd/N6bQjOV
+ yowA==
+X-Gm-Message-State: AOAM533Z46MXbkS3IXEcGjEzRLzyY1ZAx82EP6SDr9bH/bgPgizjPvjg
+ 7KdVp89W3tgtbKAeh+R1QC4MLMWNpU/hXg==
+X-Google-Smtp-Source: ABdhPJz+GrpMxcuhqDActeFbnLszJ8BtVfvoiOa0eKWij721TKtfCpzYn7CaVGs/ssHRnMyb1GaPhg==
+X-Received: by 2002:adf:f48e:: with SMTP id l14mr11776010wro.88.1620741404259; 
+ Tue, 11 May 2021 06:56:44 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y17sm30851703wrw.90.2021.05.11.06.55.43
+ by smtp.gmail.com with ESMTPSA id r18sm1833779wmp.0.2021.05.11.06.56.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 06:55:43 -0700 (PDT)
+ Tue, 11 May 2021 06:56:43 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 91DBE1FF7E;
- Tue, 11 May 2021 14:55:42 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id BEC031FF7E;
+ Tue, 11 May 2021 14:56:42 +0100 (BST)
 References: <20210508014802.892561-1-richard.henderson@linaro.org>
- <20210508014802.892561-24-richard.henderson@linaro.org>
+ <20210508014802.892561-25-richard.henderson@linaro.org>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 23/72] softfloat: Use pointers with
- ftype_round_pack_canonical
-Date: Tue, 11 May 2021 14:55:38 +0100
-In-reply-to: <20210508014802.892561-24-richard.henderson@linaro.org>
-Message-ID: <87fsytgysh.fsf@linaro.org>
+Subject: Re: [PATCH 24/72] softfloat: Use pointers with parts_silence_nan
+Date: Tue, 11 May 2021 14:56:36 +0100
+In-reply-to: <20210508014802.892561-25-richard.henderson@linaro.org>
+Message-ID: <87cztxgyqt.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,7 +94,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> At the same time, rename to parts64_silence_nan, split out
+> parts_silence_nan_frac, and define a macro for parts_silence_nan.
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
