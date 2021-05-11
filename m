@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68717379E40
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 06:20:48 +0200 (CEST)
-Received: from localhost ([::1]:60032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557D9379E41
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 06:20:52 +0200 (CEST)
+Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgJt1-00015K-Eh
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 00:20:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51020)
+	id 1lgJt5-0001Ol-DP
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 00:20:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgJrF-0007GR-Of; Tue, 11 May 2021 00:18:57 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:43542)
+ id 1lgJrI-0007K1-Kj; Tue, 11 May 2021 00:19:00 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:43601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lgJrB-0000Ql-QL; Tue, 11 May 2021 00:18:55 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id l4so27697150ejc.10;
- Mon, 10 May 2021 21:18:52 -0700 (PDT)
+ id 1lgJrG-0000TQ-IV; Tue, 11 May 2021 00:19:00 -0400
+Received: by mail-ed1-x536.google.com with SMTP id s6so21193029edu.10;
+ Mon, 10 May 2021 21:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AWOKFzYCzHQnZ4fDU+WMBlGxgwQG7csH3dWCf6w0BeA=;
- b=D0pGrcbYGLJSLfJllcdIzZEFlNd0D0cwuBJOrW3Ie09xjbMEyClJ9aHoBIoCQAybBS
- 2uoD+4+4ZWT3jfBXHI7ue4TYdwpFYxicjJ4AiJM16S8z9aznfHc0578f8YfYJ6Vhf3UE
- rFcMzlbIQ0P2++ObUdveIHVnZesnPC+OoyrL1i3ZpToEIzEeeNky52jKE+IEWLScA90v
- PVrQjqRzdmUX+KqQOSqpjGo9GhrWnk/s5zEgHkEUejNnnITMQ0cMpbW4e6I0Oh6HS+Oj
- sVY0nuw/sBqbDAr0f/Sq6Z2nCqDcjwO20no21H+XsiVAgseG1YGk3FFNN+Zo0344Ckad
- KByQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uvjYpJUwPPmwk0d8vTJ2ieq8cyVViRv2inIUUD5YBiM=;
+ b=qmq4tvg6RUAds/rdzUzYtEPdOXhRk+Tjfa6JfMaJ07NWZUxWuPmFRRPe3qy9Psc2CZ
+ dOIj9N2rQJP5sf7Vh6UvT0vXXoV6dsLYzkD2CZcB82KwXGz2A6jhjy0rK+QsaxvalA58
+ clTs/yFpPEuLj6zMqWSMfs1yCSleeF9EnCW+YmBCRgZ7LdRLWX8YJc9Ez6ReQEThSNH/
+ 79cvXPP9OY3k/m7s7FyqB1FDPs2Q+93fedUOB5ENGF+jjxVko8K1lfHq/9gekdWcIiqn
+ FzmAJgGXIUR9nDo2kS/lGttQuiE26J4Q9n6R2XpGXba7Wxxu7orBhZ5tmxZfmioH/FQV
+ Hfsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=AWOKFzYCzHQnZ4fDU+WMBlGxgwQG7csH3dWCf6w0BeA=;
- b=Oo+PLp3vG7LH+1DGTbge6dyAbQ+s/QD/K7E8JeWsROk4rn+Hndx4Yydm/uQ3Lo2xWW
- XAyMfnw0PGWN17FkOASgl9vwrm6SqGdsqDzfCHt1ul05kDEwQ1BWj1U761y63FEFPNif
- 1tfQx3oKPJ1rH3y0UVzfpcRCOdmScvEs6fYUnfDmeeohVf+vC0NGyNICbgDNnbH1FeLq
- NNy4vlEakUw5DwgaFIrJ2avkpXRuD+VgsLkEYStuRyOsjTMI7nfbuULphRPPZQ9w86wm
- L/2SCSpnUFr7PLqhWeRD+8V0jDYQpJGCNAYzfFIW9caqC+UKEn4s75tKJwEQeyb/Yk/T
- M1Nw==
-X-Gm-Message-State: AOAM533Y8oANohJfz+oy1zZtYxiL6OvowOt7mSAD3yi10EFF5KTAWrym
- owLY0UbpGPimt8svlh6cb6x1LQi8Ig37Zw==
-X-Google-Smtp-Source: ABdhPJw8H+/LFGPBuJNymhRmKhkH8hfdJoyZe18YafSBwuTLVyDzvXyysos6Iv77ko9CfvIYLRNeUg==
-X-Received: by 2002:a17:906:dbfd:: with SMTP id
- yd29mr12986725ejb.534.1620706731125; 
- Mon, 10 May 2021 21:18:51 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=uvjYpJUwPPmwk0d8vTJ2ieq8cyVViRv2inIUUD5YBiM=;
+ b=ZibRXgnRZ2xw8+jfG4ej3qrg1pIGhLfk2OlFNM5URMf2T0n/qlbi9gnJZGcbM8wAA3
+ za0n/wCvmSSwhYAT0u+kOSHGeq0fjWURURfhDw9reKN9BovzmtPfKORfiMExUBJuSky1
+ pz4Cv0sLtDnbNxYAr4+H0SkX1xfL+jEjfkY8R5CH/Zc/61Z9AjhgbMHl8viQiXBE+27u
+ q5xDYm/T6v8f6xifxJHiu8KAjBBySxax503Y0sdNo/Hp3MSbs0p+DqswbSH0n5wkfqr1
+ KOuv9UAGSjoyRPbolPLDaYx0xuUe6g+Pxl2N8XZ8z6iETyqt/e3OSMlnDwT5CpZ+XgtO
+ 6MSA==
+X-Gm-Message-State: AOAM533NHl9naBimyFWL8Pu3qcPbXMldUDsjCAAP6RELRTsWjPo6q0DC
+ sWX7aXJEtIaS5QYqdV/39+tQRkytCmGFzg==
+X-Google-Smtp-Source: ABdhPJzmMxF7DAKKFb0gxgyqSH3oZLW1u6D8aKiTlq5BPjKA0AW6N3h5uRrhDC4AwlAB7JnB/YObUg==
+X-Received: by 2002:a50:fc0b:: with SMTP id i11mr34512393edr.259.1620706736519; 
+ Mon, 10 May 2021 21:18:56 -0700 (PDT)
 Received: from x1w.redhat.com (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id r16sm13408675edq.87.2021.05.10.21.18.49
+ by smtp.gmail.com with ESMTPSA id 11sm10228499ejx.55.2021.05.10.21.18.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 21:18:50 -0700 (PDT)
+ Mon, 10 May 2021 21:18:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/6] hw/southbridge: QOM'ify vt82c686 as
- VT82C686B_SOUTHBRIDGE
-Date: Tue, 11 May 2021 06:18:42 +0200
-Message-Id: <20210511041848.2743312-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/6] hw/isa/vt82c686: Name output IRQ as 'intr'
+Date: Tue, 11 May 2021 06:18:43 +0200
+Message-Id: <20210511041848.2743312-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210511041848.2743312-1-f4bug@amsat.org>
+References: <20210511041848.2743312-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62e.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,36 +90,42 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The motivation behind this series is to remove the=0D
-isa_get_irq(NULL) call to simplify the ISA generic model.=0D
-=0D
-Since v1:=0D
-- rebased on top of remotes/dg-gitlab/tags/ppc-for-6.1-20210504=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (6):=0D
-  hw/isa/vt82c686: Name output IRQ as 'intr'=0D
-  hw/isa/vt82c686: Simplify removing unuseful qemu_allocate_irqs() call=0D
-  hw/isa/vt82c686: Let ISA function expose ISA IRQs=0D
-  hw/ide/via: Replace magic 2 value by ARRAY_SIZE / MAX_IDE_DEVS=0D
-  hw/ide/via: Connect IDE function output IRQs to the ISA function input=0D
-  hw/southbridge/vt82c686: Introduce VT82C686B_SOUTHBRIDGE=0D
-=0D
- hw/ide/via.c               |  31 ++++++++---=0D
- hw/isa/vt82c686.c          |  27 +++++-----=0D
- hw/mips/fuloong2e.c        |  35 +++---------=0D
- hw/southbridge/vt82c686.c  | 107 +++++++++++++++++++++++++++++++++++++=0D
- MAINTAINERS                |   1 +=0D
- hw/Kconfig                 |   1 +=0D
- hw/isa/Kconfig             |   9 ----=0D
- hw/meson.build             |   1 +=0D
- hw/southbridge/Kconfig     |   8 +++=0D
- hw/southbridge/meson.build |   1 +=0D
- 10 files changed, 164 insertions(+), 57 deletions(-)=0D
- create mode 100644 hw/southbridge/vt82c686.c=0D
- create mode 100644 hw/southbridge/Kconfig=0D
- create mode 100644 hw/southbridge/meson.build=0D
-=0D
--- =0D
-2.26.3=0D
-=0D
+Named IRQs are easier to understand in the monitor.
+Name the single output interrupt as 'intr'.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/isa/vt82c686.c   | 2 +-
+ hw/mips/fuloong2e.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index f57f3e70679..b177016125d 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -615,7 +615,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     qemu_irq *isa_irq;
+     int i;
+ 
+-    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
++    qdev_init_gpio_out_named(dev, &s->cpu_intr, "intr", 1);
+     isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
+     isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
+                           &error_fatal);
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index c1b8066a13b..3e7a7e4389d 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -204,7 +204,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+ 
+     dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
+                                           TYPE_VT82C686B_ISA);
+-    qdev_connect_gpio_out(DEVICE(dev), 0, intc);
++    qdev_connect_gpio_out_named(DEVICE(dev), "intr", 0, intc);
+ 
+     dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
+     pci_ide_create_devs(dev);
+-- 
+2.26.3
+
 
