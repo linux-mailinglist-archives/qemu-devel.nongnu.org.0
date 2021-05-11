@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711C937A8ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 16:18:57 +0200 (CEST)
-Received: from localhost ([::1]:35690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88F337A905
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 16:22:04 +0200 (CEST)
+Received: from localhost ([::1]:39860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgTDs-0003sb-H6
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 10:18:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43020)
+	id 1lgTGt-0006uX-T0
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 10:22:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgTB8-0002K1-93
- for qemu-devel@nongnu.org; Tue, 11 May 2021 10:16:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30747)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgTE9-0004nF-K7
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 10:19:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgTB6-0005Ap-0o
- for qemu-devel@nongnu.org; Tue, 11 May 2021 10:16:05 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgTDx-0006m2-QY
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 10:19:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620742562;
+ s=mimecast20190719; t=1620742738;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sVLZby8ThcFt5OjLjmZjc/UJ71xkrOP3rvuR9mZiSpw=;
- b=Rp21wNRk36E96E7/l0EYXHq7kEsTDmJaCavGik3suNl5CwmPiawz8ap8i6VU7mgaXPlGIW
- zt5JjbkTuCDXz30YmZHtx/Vv1k4mB4XVudQ7LLDPPOnww/KGeYCMIFyIKzawWJ6VPBLY9Q
- bDDSuGyr4Q6XWKXTBTWvIw2wO/Zi44Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-424-t113XPvxNZKsUZrgNeLtcQ-1; Tue, 11 May 2021 10:16:00 -0400
-X-MC-Unique: t113XPvxNZKsUZrgNeLtcQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- y184-20020a1ce1c10000b0290143299f39d7so1114773wmg.4
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 07:16:00 -0700 (PDT)
+ bh=95C69eGAdQijtmJ2tTH19PW+QPO0UX/G4p5dMzRBRNk=;
+ b=BLPT0vCM+M7www9u7hXuVP7c8/+YHiz0YzlYrULib/CjBwcEvcApzVv8Gv9vtmDSxDlJx7
+ KuVqsJ74rHhnTOqqttZxvltOImvj4ySV1PmudHj+H0XSF1jTfWN9M6qOu5kGKav8SSk8ZL
+ KBO6DOvjVJ0Jh8ArpIv2MFQiPQLQS2I=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-5oe5n1rfO8Wkzj90EtO2IQ-1; Tue, 11 May 2021 10:18:57 -0400
+X-MC-Unique: 5oe5n1rfO8Wkzj90EtO2IQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ 65-20020adf82c70000b0290107593a42c3so8846848wrc.5
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 07:18:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sVLZby8ThcFt5OjLjmZjc/UJ71xkrOP3rvuR9mZiSpw=;
- b=N6ehgvnyidExx2ZtLs/APG368rpISf27K8NXqh0ULXb3VodK00/kyG9TxgKDNZO6E7
- aFvx1HzoF7GlxKAvJHJazibB6k8st5vKDPvOp6KDqZM9bw7A5teoxmDU7EMYUaZl4PPX
- Oz4wkKddpEegFHKdNhYgehiOd2+nEYTc0Ffm6gEgc5317sLXVpYUpD2IX+9TnA8Kzg1U
- X2mQC+TY2WZ7mBMIIx/vYEeM8cxDme8bQBXKvCgzWVeoOijJLKS++jPIvBeddI/opa5z
- 9FAhLNzIxAdAxAaUp1zA1yVl4Hp/VjkukdfxWnnrSTPQsftcV7C0MO0t5YxaqK0eEdeF
- /QXA==
-X-Gm-Message-State: AOAM531g4y7SNLCFKIhNC3dfJD3y3f2GUcI8h26uRTGUQJrn+LcD4Hsa
- YskCgMhuoKj9ls6DeVAa6VOEMIyFlfx/U8mocnw2tKQFf9B4JzwKpowpZDLxGVI7DmMC91UTU6J
- awhTbg9tWD1e6jkU=
-X-Received: by 2002:a1c:1c2:: with SMTP id 185mr31973365wmb.66.1620742558960; 
- Tue, 11 May 2021 07:15:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwEWRg4AvkEyceToIFx1qM5Y2CILBwouwQ5xOmerRz6edva7coHNN+SD96094yNjwPDjEb+dg==
-X-Received: by 2002:a1c:1c2:: with SMTP id 185mr31973337wmb.66.1620742558729; 
- Tue, 11 May 2021 07:15:58 -0700 (PDT)
+ bh=95C69eGAdQijtmJ2tTH19PW+QPO0UX/G4p5dMzRBRNk=;
+ b=ZVvXglN+WtL8SUgfYatoLTjhHfFpEzz57bXHhGQXkRPaDgomMte3mAZVvALhE0/frE
+ SSbfknzBDJXTMauQB9s25ZIgBb7TyDbaof0p/QrG6T+4zzuxNKViNUemkLsdh5M7ZvYc
+ Kq5LIpM5YaMy3qcyxE5PObfTn5mvzBZ+r57cRjygASIeE2q26cii6H5j0DUNR8xOtA4s
+ v70Zx3Y4M+ZAYD14TcDQ0waXtpZm/rGKSUYJiaxvBWolMtdcVQ2hSYth76lV3edUxeoj
+ v5NFnNF5JmqYVwauN2DDjCs+0u9+OSMJo4qRZVg4ObxwDRSunMRo/DHOY92f4DkiUfdh
+ rNXg==
+X-Gm-Message-State: AOAM5303C58VPr7TiWvzTdlSIsoqGvzPzKdMsZFkLbo64ouBeVfi4tnD
+ er6M6lhNpWm3BhNxOpWGiA4rHvXj130+Z5HQEr4a7CySvQMAIH38tm4z6ZjmAOJY60Xm+/sf6Qh
+ MGtQDNarXxrZAB5o=
+X-Received: by 2002:a1c:2090:: with SMTP id g138mr32632748wmg.33.1620742736116; 
+ Tue, 11 May 2021 07:18:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzjTCzH2XLR1KpbpyyZq1566/v09uW20Q6XXHw4PyIiRYzsOHFhbfIURUu51tQ1v6Bsqd9INg==
+X-Received: by 2002:a1c:2090:: with SMTP id g138mr32632727wmg.33.1620742735930; 
+ Tue, 11 May 2021 07:18:55 -0700 (PDT)
 Received: from thuth.remote.csb (pd9e835ac.dip0.t-ipconnect.de.
  [217.232.53.172])
- by smtp.gmail.com with ESMTPSA id f6sm29662752wru.72.2021.05.11.07.15.57
+ by smtp.gmail.com with ESMTPSA id f25sm28006810wrd.67.2021.05.11.07.18.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 07:15:58 -0700 (PDT)
-Subject: Re: [PATCH 11/12] configure: bump min required GCC to 6.3.0
+ Tue, 11 May 2021 07:18:55 -0700 (PDT)
+Subject: Re: [PATCH 12/12] configure: bump min required CLang to 7.0.0 / XCode
+ 10.2
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210511132641.1022161-1-berrange@redhat.com>
- <20210511132641.1022161-12-berrange@redhat.com>
+ <20210511132641.1022161-13-berrange@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b84c71fd-e00f-3de1-c061-dadd44e55dab@redhat.com>
-Date: Tue, 11 May 2021 16:15:57 +0200
+Message-ID: <97e4071e-3d62-40f1-7d08-6718f2f7153a@redhat.com>
+Date: Tue, 11 May 2021 16:18:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210511132641.1022161-12-berrange@redhat.com>
+In-Reply-To: <20210511132641.1022161-13-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -109,57 +110,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/05/2021 15.26, Daniel P. Berrangé wrote:
 > Several distros have been dropped since the last time we bumped the
-> minimum required GCC version.
-> 
-> Per repology, currently shipping versions are:
-> 
->               RHEL-8: 8.3.1
->       Debian Stretch: 6.3.0
->        Debian Buster: 8.3.0
->   openSUSE Leap 15.2: 7.5.0
->     Ubuntu LTS 18.04: 7.5.0
->     Ubuntu LTS 20.04: 9.3.0
->              FreeBSD: 10.3.0
->            Fedora 33: 9.2.0
->            Fedora 34: 11.0.1
->              OpenBSD: 8.4.0
->       macOS HomeBrew: 11.1.0
-> 
-> With this list Debian Stretch is the constraint at 6.3.0
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   configure | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index a1a40577c9..43d2470bb6 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2059,8 +2059,8 @@ cat > $TMPC << EOF
->   #  endif
->   # endif
->   #elif defined(__GNUC__) && defined(__GNUC_MINOR__)
-> -# if __GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
-> -#  error You need at least GCC v4.8 to compile QEMU
-> +# if __GNUC__ < 6 || (__GNUC__ == 6 && __GNUC_MINOR__ < 3)
-> +#  error You need at least GCC v6.3.0 to compile QEMU
->   # endif
->   #else
->   # error You either need GCC or Clang to compiler QEMU
-> @@ -2068,7 +2068,7 @@ cat > $TMPC << EOF
->   int main (void) { return 0; }
->   EOF
->   if ! compile_prog "" "" ; then
-> -    error_exit "You need at least GCC v4.8 or Clang v3.4 (or XCode Clang v5.1)"
-> +    error_exit "You need at least GCC v6.3 or Clang v3.4 (or XCode Clang v5.1)"
->   fi
->   
->   # Accumulate -Wfoo and -Wno-bar separately.
+> minimum required CLang version.
+[...]
+> -#  if __clang_major__ < 3 || (__clang_major__ == 3 && __clang_minor__ < 4)
+> -#   error You need at least Clang v3.4 to compile QEMU
+> +#  if __clang_major__ < 7 || (__clang_major__ == 7 && __clang_minor__ < 0)
 
-I'm surprised that we could not remove some spots related to GCC 4.8 
-compatibility here, but if I grep'ed it right, there are indeed none ... thus:
+__clang_minor__ < 0 is very unlikely ... I think you could drop the part 
+after the "||".
 
+Anyway:
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
