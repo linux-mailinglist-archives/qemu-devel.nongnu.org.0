@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5153F379D95
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 05:19:55 +0200 (CEST)
-Received: from localhost ([::1]:40714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05283379D9A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 05:21:00 +0200 (CEST)
+Received: from localhost ([::1]:42912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgIw6-0000CA-Em
-	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 23:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38706)
+	id 1lgIx9-0001fe-5F
+	for lists+qemu-devel@lfdr.de; Mon, 10 May 2021 23:20:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangjunqiang@iscas.ac.cn>)
- id 1lgIv1-0007eu-NL; Mon, 10 May 2021 23:18:47 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:41154 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wangjunqiang@iscas.ac.cn>)
- id 1lgIuz-0003w4-9z; Mon, 10 May 2021 23:18:47 -0400
-Received: from [172.16.211.231] (unknown [58.221.119.46])
- by APP-01 (Coremail) with SMTP id qwCowACnrHR395lgBFN6AQ--.44698S3;
- Tue, 11 May 2021 11:18:16 +0800 (CST)
-Subject: Re: [RFC PATCH 2/5] hw/intc: Add Nuclei ECLIC device
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair23@gmail.com>
-References: <20210507081654.11056-1-wangjunqiang@iscas.ac.cn>
- <20210507081654.11056-3-wangjunqiang@iscas.ac.cn>
- <CAKmqyKPVYuESf0TQM8M-KE-72PftMeNCfmQLdEj4Siy9TZxuBA@mail.gmail.com>
- <CAEUhbmVL6wRtxk4M+SCSbrQbY02vtzoYuuesAYuBP-tJvBz9VA@mail.gmail.com>
- <CAEUhbmU-XGYF7iVqmYFnzWF9m=rnrqHzLnStq2pLoLkTKj=cXA@mail.gmail.com>
-From: Wang Junqiang <wangjunqiang@iscas.ac.cn>
-Message-ID: <d2536e2c-b558-78d8-1314-7901d172b90a@iscas.ac.cn>
-Date: Tue, 11 May 2021 11:18:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lgIvT-0000C6-Fn
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 23:19:15 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:42625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lgIvS-0004V1-6L
+ for qemu-devel@nongnu.org; Mon, 10 May 2021 23:19:15 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id j26so17440920edf.9
+ for <qemu-devel@nongnu.org>; Mon, 10 May 2021 20:19:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+w6G5QDG/j9gr2Aj010ZQ1JbxtyWY+vgFvXxQ0zrllY=;
+ b=UuIJ2LuswJvaez3DG2xOHBB8lEFgYh59G3u094BFG1KFg0QO0M1GapVJjf04kvlOwn
+ QF9l0u/syyDapmOZ6S0SD1oRhbToJ31upNFNG2ZXFVIEL6+wO0fAO5DCAUMiqFz+JZxy
+ FvBg/8vW23UplekDcR2OUWnVc64otbZKbrw2jod5A82O3dyiepvGnFdAnccAAH1QRF3Q
+ MuCQ9oKVTrknQ5wYvCcm94Fpq1lu4TXPf2fW2PfAO7rb+1lqpMa9ap5SotZCgJh9Yj0h
+ ZpnE+0GgLqHOHnWb5PnX+eTSQvmZB/T/O8VpercpKLwS6Od39z9NerT6uZ4BqTAl6ckg
+ PpPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+w6G5QDG/j9gr2Aj010ZQ1JbxtyWY+vgFvXxQ0zrllY=;
+ b=g/SbjF5SS2v9xeJ2Q9wmU9GKcx4f9VG7Wz0sG0skx1tOrFu8rZFZnxaxjG/gslgosq
+ pg4/8pJwEi9NkM587ExnahbAm7iqM2GNxcFwyLSJTB5wC3og7Lj1MLNsK0b4jCNiZXoU
+ rPBq6qjyJf3JV5HOblt/Z4GLhB9scp1DkgE6h9bLei0DOZeOya8EdjkC1EHLKIFhnAYi
+ jtR1gVN8SnTcADvvg0EBLyEk25KdKWxpU2USm21XDBukWvIEHwquQdbDZq7VLPwK3wKT
+ ciH+CP4rvuUSKjyshNOuV7PXq7IdS+Fajz4r+0LR56dwhwGP9T7/3hhbBWK6LwhAkETp
+ ss9Q==
+X-Gm-Message-State: AOAM531fKz6em09t20nUBBaZDouB4pZwD1B/I5Az0mE7iEVshp9uOSPE
+ HCXnDcu6CR5TFylOisyw204=
+X-Google-Smtp-Source: ABdhPJzwrgv1g7wV4DzD/cLekYdkhRAGMQTFP5h1QW3T1kK1I/WFmP76cKSkTf+OPrQPoQbUwD2SXw==
+X-Received: by 2002:aa7:cf07:: with SMTP id a7mr33268773edy.261.1620703152529; 
+ Mon, 10 May 2021 20:19:12 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id 20sm4867358ejm.72.2021.05.10.20.19.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 May 2021 20:19:11 -0700 (PDT)
+Subject: Re: [PATCH] target/mips: Fix potential integer overflow (CID 1452921)
+To: qemu-devel@nongnu.org
+References: <20210505215119.1517465-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f16b73f0-3a01-8a36-49c7-748c223ebcf8@amsat.org>
+Date: Tue, 11 May 2021 05:19:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmU-XGYF7iVqmYFnzWF9m=rnrqHzLnStq2pLoLkTKj=cXA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210505215119.1517465-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowACnrHR395lgBFN6AQ--.44698S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7AF18WF48ur1kJrW3Gw1xZrb_yoW8GF1UpF
- WfZa1fKFs5Grn8G3s2qr4xtFWIvr1fJryfW34DJw1jvwn8tw1rGr4UtFWY93WDCwn3KF12
- yrWj9F1fXFy5AaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvIb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
- C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
- 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr
- 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l
- c2xSY4AK67AK6r48MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
- 0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
- tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
- CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Zr0_Wr1UMIIF0xvEx4A2jsIE
- 14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
- 9x07jeFAJUUUUU=
-X-Originating-IP: [58.221.119.46]
-X-CM-SenderInfo: pzdqwy5xqtxt1qj6x2xfdvhtffof0/1tbiBgkSAF0TfNwXMgAAsW
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=wangjunqiang@iscas.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,54 +88,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liweiwei@iscas.ac.cn, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, alapha23@gmail.com,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 2021/5/10 下午1:26, Bin Meng wrote:
-> On Mon, May 10, 2021 at 10:27 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->>
->> On Mon, May 10, 2021 at 10:21 AM Alistair Francis <alistair23@gmail.com> wrote:
->>>
->>> On Fri, May 7, 2021 at 11:24 PM wangjunqiang <wangjunqiang@iscas.ac.cn> wrote:
->>>>
->>>> This patch provides an implementation of Nuclei ECLIC Device.
->>>> Nuclei processor core have been equipped with an Enhanced Core Local
->>>> Interrupt Controller (ECLIC), which is optimized based on the RISC-V
->>>> standard CLIC, to manage all interrupt sources.
->>>>
->>>> https://doc.nucleisys.com/nuclei_spec/isa/eclic.html
->>>
->>> Hello,
->>>
->>> There are patches on the QEMU list adding support for the CLIC. How
->>> different is the ECLIC from the CLIC? Could you use the CLIC as a
->>> starting point instead of implementing a new interrupt controller?
->>>
->>
->> That's my thought too when I saw this patch at first.
->>
->> A better way is to scandalize the CLIC support in QEMU first, then we
+On 5/5/21 11:51 PM, Philippe Mathieu-Daudé wrote:
+> Use the BIT_ULL() macro to ensure we use 64-bit arithmetic.
+> This fixes the following Coverity issue (OVERFLOW_BEFORE_WIDEN):
 > 
-> Sorry for the typo. I meant to say: standardize the CLIC support
+>   CID 1452921:  Integer handling issues:
 > 
->> will see how Nuclei's eCLIC could be built on top of that. Thanks!
+>     Potentially overflowing expression "1 << w" with type "int"
+>     (32 bits, signed) is evaluated using 32-bit arithmetic, and
+>     then used in a context that expects an expression of type
+>     "uint64_t" (64 bits, unsigned).
 > 
-> Regards,
-> Bin
-> 
+> Fixes: 074cfcb4dae ("target/mips: Implement hardware page table walker")
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/mips/tcg/sysemu/tlb_helper.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-I agree with both of you.the CLIC support in QEMU first. I read the 
-patch of clic, and there is no problem with compatibility in the 
-target/riscv directory.I will split eclic in next version. Thanks
-
-Regards
-Wang Junqiang
-
+Thanks, applied to mips-next.
 
