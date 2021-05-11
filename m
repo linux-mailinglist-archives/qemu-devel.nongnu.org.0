@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DAE37A2EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:04:05 +0200 (CEST)
-Received: from localhost ([::1]:39572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F9437A349
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 11:18:03 +0200 (CEST)
+Received: from localhost ([::1]:42900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgOJA-0005qi-Qa
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:04:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39580)
+	id 1lgOWh-0002h2-1h
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 05:18:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgNry-0003cT-A8
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:35:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34193)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgNrv-00055g-3N
- for qemu-devel@nongnu.org; Tue, 11 May 2021 04:35:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620722154;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tncpYjac+AV0k7sXsaic4YCrCF2ds6Bc8+b13W/ntwc=;
- b=cI7Dge0xDxo8gZ+qvFA8NuI/Z9UJ8Fs3QRO9oDjSgUeDF/x70kXS+gBTg3s0C+eckIc/1c
- dWrjwzQKtllkoLAiQoCy3ugFzCQbMRXJ/wo4KzmNCEhiWNXPu6Xyn6pBqDvym0cHQLsrbt
- 2z7U7F2/AB6ZSi1vNXr5TuXA2ChzcBw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-hyrYMhrJNiqbGnyem-yY_Q-1; Tue, 11 May 2021 04:35:49 -0400
-X-MC-Unique: hyrYMhrJNiqbGnyem-yY_Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AB3194C;
- Tue, 11 May 2021 08:35:48 +0000 (UTC)
-Received: from redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 244085D9D7;
- Tue, 11 May 2021 08:35:46 +0000 (UTC)
-Date: Tue, 11 May 2021 09:35:44 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: Re: [PATCH v2] block: Improve backing file validation
-Message-ID: <YJpB4IVbg8vHBiOZ@redhat.com>
-References: <20210511055518.31876-1-lizhijian@cn.fujitsu.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgNts-0006vl-7s
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:37:56 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:35427)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgNtq-00065c-84
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 04:37:55 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id m12so28569528eja.2
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 01:37:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=l1bl/sxawYntukRgrlubRtqJpmBHcGwA0ZwD8+RoYc0=;
+ b=dIXfMiHadfnLTvnr6GOLlx23lTLT+yqEKFvHMZq+7MjNgo4mJxgMjMKdHwbSz03Odm
+ HZ6+hl1NHG0Lh9kpXk7bDlzYi2pP0yVpBZrSxeBIfr10bryArCKPVeZ0OVoTLEcT+CUz
+ c49kTr38NAU6IBembefHsfxSS4zp9XRaK/e1hfnmfcDHmsIw2vjozsIIfFMtN6Aq4Uzr
+ hYNlCFLe2U0qkN7+fPmczoo6qWQ9O0R0BZC8SKQrL8C55Vs75Cv8osM1E/ulG2PdsvzB
+ dlcY2wf9uxfdViBKVceFJIICQ/IUb5RFVycYLMB1YTqYkyQdq0Qe+kDrjHlgGXSswuCd
+ 2wdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=l1bl/sxawYntukRgrlubRtqJpmBHcGwA0ZwD8+RoYc0=;
+ b=YQCcjHVMo/8LXcBWurt56sXdEKkcvXxasar6iZskSkZ65IMf30mwJHP0J70J/Wf5Dz
+ tYK9eqlu8Zom1W0Kbsdqb9Cb3PaX7VWwusKD/brQ45EA9uacEjzXoV8No43RTduCaTzI
+ 6U653nuVeJ3hjuW4pE0lnXNbgDPlAYph0ivn4MexwB+e3s9x3qjujT4bbrOmirymrAAA
+ SKpJRvXlJ/6NDjv3tlmkeabr8iQWywiLmdDk5fQw3akXBZ85My9CdUUE1m4SRMsWAcMq
+ ILMmAb7tLUXCJPDdnjV08Mm6vMlU4U7QmZDOhpEPKq/N+e5gR8NbUiStLtR+H88Zph3l
+ O1Dw==
+X-Gm-Message-State: AOAM5329GeN+TSIARPbhPnj8uLXlqwDPiLZhCTLvY2/cYzP0/rOpRyZH
+ gfQxLelGFMNUBSJh1loXIqy0wi1ddAwLdx2oCUZbOQ==
+X-Google-Smtp-Source: ABdhPJwpX82o4yNnoR566Ml1TGiy6JnKOBmUnTYhDrB7FNlTWERS4sy8LKkQF8B2R1LOOeUeRjLHz2RolcaEU1Te3Vk=
+X-Received: by 2002:a17:906:11cc:: with SMTP id
+ o12mr30658795eja.85.1620722272332; 
+ Tue, 11 May 2021 01:37:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210511055518.31876-1-lizhijian@cn.fujitsu.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ <20210430202610.1136687-6-richard.henderson@linaro.org>
+In-Reply-To: <20210430202610.1136687-6-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 11 May 2021 09:36:39 +0100
+Message-ID: <CAFEAcA8wrDyEMTvHR97BinJZm+CozffMWkefAmywU6t2fBbLjQ@mail.gmail.com>
+Subject: Re: [PATCH v6 05/82] target/arm: Split out saturating/rounding shifts
+ from neon
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,141 +79,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 11, 2021 at 01:55:18PM +0800, Li Zhijian wrote:
-> Image below user cases:
-> case 1:
-> ```
-> $ qemu-img create -f raw source.raw 1G
-> $ qemu-img create -f qcow2 -F raw -b source.raw ./source.raw
-> qemu-img info source.raw
-> image: source.raw
-> file format: qcow2
-> virtual size: 193K (197120 bytes)
-> disk size: 196K
-> cluster_size: 65536
-> backing file: source.raw <<<<<<
-> backing file format: raw
-> Format specific information:
->     compat: 1.1
->     lazy refcounts: false
->     refcount bits: 16
->     corrupt: false
-> ```
-> 
-> case 2:
-> ```
-> $ qemu-img create -f raw source.raw 1G
-> $ ln -sf source.raw destination.qcow2
-> $ qemu-img create -f qcow2 -F raw -b source.raw ./destination.qcow2
-> qemu-img info source.raw
-> image: source.raw
-> file format: qcow2 <<<<<<
-> virtual size: 2.0G (2147483648 bytes)
-> disk size: 196K
-> cluster_size: 65536
-> backing file: source.raw
-> backing file format: raw
-> Format specific information:
->     compat: 1.1
->     lazy refcounts: false
->     refcount bits: 16
->     corrupt: false
-> ```
-> Generally, we don't expect to corrupte the source.raw anyway, while
-> actually it does.
-> 
-> Here we check their inode number instead of file name.
-> 
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-> 
+On Fri, 30 Apr 2021 at 21:30, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Split these operations out into a header that can be shared
+> between neon and sve.  The "sat" pointer acts both as a boolean
+> for control of saturating behavior and controls the difference
+> in behavior between neon and sve -- QC bit or no QC bit.
+>
+> Widen the shift operand in the new helpers, as the SVE2 insns treat
+> the whole input element as significant.  For the neon uses, truncate
+> the shift to int8_t while passing the parameter.
+>
+> Implement right-shift rounding as
+>
+>     tmp = src >> (shift - 1);
+>     dst = (tmp >> 1) + (tmp & 1);
+>
+> This is the same number of instructions as the current
+>
+>     tmp = 1 << (shift - 1);
+>     dst = (src + tmp) >> shift;
+>
+> without any possibility of intermediate overflow.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> v2: utilize stat() instead of realpath() (Daniel)
-> 
-> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+> v2: Widen the shift operand (laurent desnouges)
 > ---
->  block.c | 39 ++++++++++++++++++++++++++++++++-------
->  1 file changed, 32 insertions(+), 7 deletions(-)
-> 
-> diff --git a/block.c b/block.c
-> index 9ad725d205..db4ae57959 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -6431,6 +6431,37 @@ bool bdrv_op_blocker_is_empty(BlockDriverState *bs)
->      return true;
+>  target/arm/vec_internal.h | 138 +++++++++++
+>  target/arm/neon_helper.c  | 507 +++++++-------------------------------
+>  2 files changed, 221 insertions(+), 424 deletions(-)
+>
+> diff --git a/target/arm/vec_internal.h b/target/arm/vec_internal.h
+> index e3eb3e7a6b..0102547a10 100644
+> --- a/target/arm/vec_internal.h
+> +++ b/target/arm/vec_internal.h
+> @@ -30,4 +30,142 @@ static inline void clear_tail(void *vd, uintptr_t opr_sz, uintptr_t max_sz)
+>      }
 >  }
->  
-> +static bool validate_backing_file(const char *filename,
-> +                                  const char *backing_file, Error **errp)
+>
+> +static inline int32_t do_sqrshl_bhs(int32_t src, int32_t shift, int bits,
+> +                                    bool round, uint32_t *sat)
 > +{
-> +    struct stat filename_stat, backing_stat;
-> +
-> +    if (backing_file[0] == '\0') {
-> +        error_setg(errp, "Expected backing file name, got empty string");
-> +        goto out;
+> +    if (shift <= -bits) {
+> +        /* Rounding the sign bit always produces 0. */
+> +        if (round) {
+> +            return 0;
+> +        }
+> +        return src >> 31;
+> +    } else if (shift < 0) {
+> +        if (round) {
+> +            src >>= -shift - 1;
+> +            return (src >> 1) + (src & 1);
+> +        }
+> +        return src >> -shift;
+> +    } else if (shift < bits) {
+> +        int32_t val = src << shift;
+> +        if (bits == 32) {
+> +            if (!sat || val >> shift == src) {
+> +                return val;
+> +            }
+> +        } else {
+> +            int32_t extval = sextract32(val, 0, bits);
+> +            if (!sat || val == extval) {
+> +                return extval;
+> +            }
+> +        }
+> +    } else if (!sat || src == 0) {
+> +        return 0;
 > +    }
 > +
-> +    /* check whether filename and backing_file are refering to the same file */
-> +    if (stat(backing_file, &backing_stat) == -1) {
-> +        error_setg(errp, "Cannot stat backing file %s", backing_file);
-> +        goto out;
-> +    }
-> +    if (stat(filename, &filename_stat) == -1) {
-> +        /* Simply consider filename doesn't exist, no need to further check */
-> +        return true;
-> +    }
-> +    if ((filename_stat.st_dev == backing_stat.st_dev) &&
-> +        (filename_stat.st_ino == backing_stat.st_ino)) {
-> +        error_setg(errp, "Error: Trying to create an image with the "
-> +                         "same filename as the backing file");
-> +        goto out;
-> +    }
-> +
-> +    return true;
-> +out:
-> +    return false;
+> +    *sat = 1;
+> +    return (1u << (bits - 1)) - (src >= 0);
 > +}
 > +
->  void bdrv_img_create(const char *filename, const char *fmt,
->                       const char *base_filename, const char *base_fmt,
->                       char *options, uint64_t img_size, int flags, bool quiet,
-> @@ -6507,13 +6538,7 @@ void bdrv_img_create(const char *filename, const char *fmt,
->  
->      backing_file = qemu_opt_get(opts, BLOCK_OPT_BACKING_FILE);
->      if (backing_file) {
-> -        if (!strcmp(filename, backing_file)) {
-> -            error_setg(errp, "Error: Trying to create an image with the "
-> -                             "same filename as the backing file");
-> -            goto out;
-> -        }
-> -        if (backing_file[0] == '\0') {
-> -            error_setg(errp, "Expected backing file name, got empty string");
-> +        if (!validate_backing_file(filename, backing_file, errp)) {
->              goto out;
->          }
->      }
+> +static inline uint32_t do_uqrshl_bhs(uint32_t src, int32_t shift, int bits,
+> +                                     bool round, uint32_t *sat)
+> +{
+> +    if (shift <= -(bits + round)) {
+> +        return 0;
+> +    } else if (shift < 0) {
+> +        if (round) {
+> +            src >>= -shift - 1;
+> +            return (src >> 1) + (src & 1);
+> +        }
+> +        return src >> -shift;
+> +    } else if (shift < bits) {
+> +        uint32_t val = src << shift;
+> +        if (bits == 32) {
+> +            if (!sat || val >> shift == src) {
+> +                return val;
+> +            }
+> +        } else {
+> +            uint32_t extval = extract32(val, 0, bits);
+> +            if (!sat || val == extval) {
+> +                return extval;
+> +            }
+> +        }
+> +    } else if (!sat || src == 0) {
+> +        return 0;
+> +    }
+> +
+> +    *sat = 1;
+> +    return MAKE_64BIT_MASK(0, bits);
+> +}
+> +
+> +static inline int32_t do_suqrshl_bhs(int32_t src, int32_t shift, int bits,
+> +                                     bool round, uint32_t *sat)
+> +{
+> +    if (src < 0) {
+> +        *sat = 1;
 
-Thinking about this again, this seems to be quite high in the generic block
-layer code. As such I don't think we can assume that the backing file here
-is actually a plain file on disk. IIUC the backing file could still be any
-of the block drivers. Only once we get down into the protocol specific
-drivers can be validate the type of backend.
+Shouldn't this check whether sat is NULL ?
 
-I'm not sure what the right way to deal with that is, so perhaps Kevin or
-Max can make a suggestion.
+> +        return 0;
+> +    }
+> +    return do_uqrshl_bhs(src, shift, bits, round, sat);
+> +}
+> +
+> +static inline int64_t do_sqrshl_d(int64_t src, int64_t shift,
+> +                                  bool round, uint32_t *sat)
+> +{
+> +    if (shift <= -64) {
+> +        /* Rounding the sign bit always produces 0. */
+> +        if (round) {
+> +            return 0;
+> +        }
+> +        return src >> 63;
+> +    } else if (shift < 0) {
+> +        if (round) {
+> +            src >>= -shift - 1;
+> +            return (src >> 1) + (src & 1);
+> +        }
+> +        return src >> -shift;
+> +    } else if (shift < 64) {
+> +        int64_t val = src << shift;
+> +        if (!sat || val >> shift == src) {
+> +            return val;
+> +        }
+> +    } else if (!sat || src == 0) {
+> +        return 0;
+> +    }
+> +
+> +    *sat = 1;
+> +    return src < 0 ? INT64_MIN : INT64_MAX;
+> +}
+> +
+> +static inline uint64_t do_uqrshl_d(uint64_t src, int64_t shift,
+> +                                   bool round, uint32_t *sat)
+> +{
+> +    if (shift <= -(64 + round)) {
+> +        return 0;
+> +    } else if (shift < 0) {
+> +        if (round) {
+> +            src >>= -shift - 1;
+> +            return (src >> 1) + (src & 1);
+> +        }
+> +        return src >> -shift;
+> +    } else if (shift < 64) {
+> +        uint64_t val = src << shift;
+> +        if (!sat || val >> shift == src) {
+> +            return val;
+> +        }
+> +    } else if (!sat || src == 0) {
+> +        return 0;
+> +    }
+> +
+> +    *sat = 1;
+> +    return UINT64_MAX;
+> +}
+> +
+> +static inline int64_t do_suqrshl_d(int64_t src, int64_t shift,
+> +                                   bool round, uint32_t *sat)
+> +{
+> +    if (src < 0) {
+> +        *sat = 1;
 
+Missing NULL check again.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> +        return 0;
+> +    }
+> +    return do_uqrshl_d(src, shift, round, sat);
+> +}
 
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
