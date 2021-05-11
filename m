@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328C1379F1B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 07:23:18 +0200 (CEST)
-Received: from localhost ([::1]:42202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F01379F1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 07:25:31 +0200 (CEST)
+Received: from localhost ([::1]:46448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgKrV-0004JA-8K
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 01:23:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58366)
+	id 1lgKte-00079d-MA
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 01:25:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgKpZ-0002EB-2A
- for qemu-devel@nongnu.org; Tue, 11 May 2021 01:21:17 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58536)
+ id 1lgKpQ-00029y-Vv
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 01:21:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgKpN-0000oz-PB
- for qemu-devel@nongnu.org; Tue, 11 May 2021 01:21:16 -0400
+ id 1lgKpO-0000p8-A6
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 01:21:08 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgKpK-00018d-Hc
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:21:02 +0000
+ id 1lgKpL-00018w-2m
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:21:03 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9E9A92E81AA
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:21:00 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 409C02E81AF
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 05:21:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 May 2021 05:14:38 -0000
-From: Thomas Huth <1779955@bugs.launchpad.net>
+Date: Tue, 11 May 2021 05:15:16 -0000
+From: Thomas Huth <1705118@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: likan pmaydell th-huth
-X-Launchpad-Bug-Reporter: Kan Li (likan)
+X-Launchpad-Bug-Commenters: bruno-clisp pmaydell th-huth
+X-Launchpad-Bug-Reporter: Bruno Haible (bruno-clisp)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153065712229.13372.17157400567540509420.malonedeb@gac.canonical.com>
-Message-Id: <162071007870.10641.8306173867945189523.malone@chaenomeles.canonical.com>
-Subject: [Bug 1779955] Re: qemu linux-user requires read permissions on memory
- passed to syscalls that should only need write access
+References: <150041005567.6544.17518405784140614257.malonedeb@gac.canonical.com>
+Message-Id: <162071011634.10453.12448025463739754254.malone@chaenomeles.canonical.com>
+Subject: [Bug 1705118] Re: qemu user mode: rt signals not implemented for
+ sparc guests
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="dccd804998035922efb3da0a725ecc923e2255f3"; Instance="production"
-X-Launchpad-Hash: 102bb365eefbff51b9e130399707de89a33ff33b
+X-Launchpad-Hash: 20d1cddc86061feb7566f89806dd4e868c6ea353
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1779955 <1779955@bugs.launchpad.net>
+Reply-To: Bug 1705118 <1705118@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -113,51 +113,76 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1779955
+https://bugs.launchpad.net/bugs/1705118
 
 Title:
-  qemu linux-user requires read permissions on memory passed to syscalls
-  that should only need write access
+  qemu user mode: rt signals not implemented for sparc guests
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  When read() function takes an mmap'ed address as output buffer, it
-  returns EFAULT. The expected behavior is it should just work.
+  The documentation
+  <https://qemu.weilnetz.de/doc/qemu-doc.html#Features> says that
+  qemu in user mode supports POSIX signal handling.
 
-  The following code works for qemu-system-arm, but not for qemu-arm-
-  static.
+  Catching SIGSEGV according to POSIX, however, does not work on
+    ppc, ppc64, ppc64le, s390x, sparc64.
+  It does work, however, on
+    aarch64, alpha, arm, hppa, m68k, mips, mips64, sh4.
 
-  QEMU version affected: latest release 2.12.0.
+  How to reproduce:
+  The attached program runs fine (exits with code 0) on
+    - real hardware Linux/PowerPC64 (in 32-bit and 64-bit mode),
+    - real hardware Linux/PowerPC64LE,
+    - qemu-system-s390x emulated Linux/s390x,
+    - real hardware Linux/SPARC64.
+  $ gcc -O -Wall testsigsegv.c; ./a.out; echo $?
+  0
 
-  Steps to reproduce (please substitute /path/to/qemu-arm-static with
-  the path of the binary, and /tmp/a.cpp with the example source code
-  attached):
+  For ppc:
+  $ powerpc-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv-p=
+pc
+  $ ~/inst-qemu/2.9.0/bin/qemu-ppc testsigsegv-ppc
+  $ echo $?
+  3
 
-  # First register binfmt_misc
-  [hidden]$ docker run --rm --privileged multiarch/qemu-user-static:registe=
-r --reset
+  For ppc64:
+  $ powerpc64-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv=
+-ppc64
+  $ ~/inst-qemu/2.9.0/bin/qemu-ppc64 testsigsegv-ppc64
+  $ echo $?
+  3
 
-  # Compile the code and run
-  [hidden]$ docker run --rm -it -v /tmp/a.cpp:/tmp/a.cpp -v /path/to/qemu-a=
-rm-static:/usr/bin/qemu-arm-static arm32v7/ubuntu:18.04 bash -c '{ apt upda=
-te -y && apt install -y g++; } >& /dev/null && g++ -std=3Dc++14 /tmp/a.cpp =
--o /tmp/a.out && echo hehe > /tmp/haha.txt && /tmp/a.out'
-  ofd=3D3
-  ftruncate=3D0
-  mmap=3D0xff3f5000
-  fd=3D4
-  0xff3f5023 -1 14
+  For ppc64le:
+  $ powerpc64le-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigse=
+gv-ppc64le
+  $ ~/inst-qemu/2.9.0/bin/qemu-ppc64le testsigsegv-ppc64le
+  $ echo $?
+  3
 
-  The expected result in qemu-system-arm as well as natively on x86_64 host:
-  hidden$ ./a.out
-  ofd=3D3
-  ftruncate=3D0
-  mmap=3D0xb6fb7000
-  fd=3D4
-  0xb6fb7023 5 0
+  For s390x:
+  $ s390x-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv-s39=
+0x
+  $ ~/inst-qemu/2.9.0/bin/qemu-s390x testsigsegv-s390x
+  $ echo $?
+  3
+  $ s390x-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -DAVOID_LINUX_S390=
+X_COMPAT -o testsigsegv-s390x-a
+  $ ~/inst-qemu/2.9.0/bin/qemu-s390x testsigsegv-s390x-a
+  $ echo $?
+  0
+  So, the test fails here because the Linux/s390x kernel omits the least
+  significant 12 bits of the fault address in the 'si_addr' field. But
+  qemu-s390x is not compatible with the Linux/s390x behaviour: it puts
+  the complete fault address in the 'si_addr' field.
+
+  For sparc64:
+  $ sparc64-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv-s=
+parc64
+  $ ~/inst-qemu/2.9.0/bin/qemu-sparc64 testsigsegv-sparc64
+  Segmentation fault (core dumped)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1779955/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1705118/+subscriptions
 
