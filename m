@@ -2,67 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8878B37A836
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:54:41 +0200 (CEST)
-Received: from localhost ([::1]:40164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2FF837A821
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:49:58 +0200 (CEST)
+Received: from localhost ([::1]:59920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgSqO-0001c1-1P
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:54:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
+	id 1lgSlp-00039e-9D
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:49:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgShn-0001vs-T9
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:45:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59156)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgShk-0003Zj-DY
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:45:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgShg-0001rf-50
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 13:45:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 24C302E8188
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 13:45:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lgSZs-0001bd-UV; Tue, 11 May 2021 09:37:36 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:50251)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lgSZq-0006lD-RB; Tue, 11 May 2021 09:37:36 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id DE6185C00E3;
+ Tue, 11 May 2021 09:37:33 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 11 May 2021 09:37:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=D64w9FnlxXhtWem+ImuimTCfFI7
+ ze3zMoYRYnD5bCqI=; b=brunsZlmXyLXZJ63/zjuHOgYTZtkLLB5dXFTHRVbVWW
+ fX5Qwuyhqv/Q4sWFxYuZWEBqNeGg0QPv171j1ymoSrdNFzfyMqgNJuvM5Y8TQef9
+ 2R+IX8nFXvTPLGwImHPUXGicWgf6hj2+6x+nhBTheMCuqmlcmXth4hjyLBeHU355
+ cn3HGCypCrCKM9qTxA1DSoYdimc3OacVKX+h7yZOB6HXnnehzB9Gp09x1NuSfU0m
+ y5HzndHa/10uec23ymIHNYlQCEJlPUGBwnfOMG+hIcWEHZJvbl/GJ6QYZ5xLeVoh
+ d6HsTE13afu7B0EPEBz/iHdRDfm2Dq0axuQyPkrOvrw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=D64w9F
+ nlxXhtWem+ImuimTCfFI7ze3zMoYRYnD5bCqI=; b=q3iOkvDJ+K9Wnn00GJaWlk
+ VLomNIFczGUkNtB48i5g4m4yw06TBjk5VmikJQFI4qVPqsoNvWU9UV6cWZjdviuX
+ y6ftZpye/vzafavDIQDs5NMjkNvj+OuiNy5qRbVAcFkQmWQOxhFmdj7dhVLTO7Ei
+ LIXZp2mN+bnb/erbCuO6KWlmjETLyFAgGjR0PPx6Ly/h5cjQ/vTaPnlC61kSQJvi
+ OqFFaY6b9hi0cQr+XR4Z5nt3asCCRmf6c7E71qgE535ilNK9QWLG8gfQiIL5ZTfM
+ Ne5au2hUfsC58VI06kkVIdtuK2JVDiCDOSYQU9Jb4BzzjZI2gtPhpAayJ9yFzdSA
+ ==
+X-ME-Sender: <xms:nIiaYMTPUK4BCG_GgFyiGhZ3_QrWde-77EB5fvpklMz54fE888wkyw>
+ <xme:nIiaYJyquJvD14O9UY4f0m5a_ym1QdjhROwJX_TavRcqveDssBVzLu8wTJtY8X7Dm
+ jZfQIxeY0vmVeW0E_I>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehtddgieejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:nIiaYJ0kGb5B9ecOGI-CzjZBayz9kXDWQZs_B8m0gsJspxaVN1SZ-Q>
+ <xmx:nIiaYAARObMbtIUUvSGhgd_iOF58mJIu5Hpc7DwTJGtra9BjeJns4w>
+ <xmx:nIiaYFgB1ny-A2tbufMC-TpAdMLRRGVgLD2eVeXoctUdNXAVO7HOJA>
+ <xmx:nYiaYKvze0GfRJL6NbeDeM7ec1dVNXtgovC_Sm2xsx4qYsWvO9c-fA>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190]) by mail.messagingengine.com (Postfix) with ESMTPA;
+ Tue, 11 May 2021 09:37:31 -0400 (EDT)
+Date: Tue, 11 May 2021 15:37:30 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH] hw/block/nvme: re-enable NVMe PCI hotplug
+Message-ID: <YJqImppDvOKSbgh2@apples.localdomain>
+References: <20210511073511.32511-1-hare@suse.de>
+ <YJp2/AeqfgQ46ZyV@apples.localdomain>
+ <5fe71d92-842b-2b86-1d5e-c7a106753d2a@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 May 2021 13:35:54 -0000
-From: Thomas Huth <1896298@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mslade th-huth
-X-Launchpad-Bug-Reporter: Michael Slade (mslade)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160046874518.13612.4861858859499751315.malonedeb@gac.canonical.com>
-Message-Id: <162074015505.30803.7455337007914935375.launchpad@gac.canonical.com>
-Subject: [Bug 1896298] Re: memory leak
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
-X-Launchpad-Hash: 2f38b126d730a9b7cce59c7d836fd0a9f1172ff4
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="t//O19GeymRbIzJh"
+Content-Disposition: inline
+In-Reply-To: <5fe71d92-842b-2b86-1d5e-c7a106753d2a@suse.de>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,45 +94,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1896298 <1896298@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Keith Busch <keith.busch@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: tcg
 
--- =
+--t//O19GeymRbIzJh
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1896298
+On May 11 15:12, Hannes Reinecke wrote:
+>On 5/11/21 2:22 PM, Klaus Jensen wrote:
+>> On May 11 09:35, Hannes Reinecke wrote:
+>>> Ever since commit e570768566 ("hw/block/nvme: support for shared
+>>> namespace in subsystem") NVMe PCI hotplug is broken, as the PCI
+>>> hotplug infrastructure will only work for the nvme devices (which
+>>> are PCI devices), but not for any attached namespaces.
+>>> So when re-adding the NVMe PCI device via 'device_add' the NVMe
+>>> controller is added, but all namespaces are missing.
+>>> This patch adds device hotplug hooks for NVMe namespaces, such that one
+>>> can call 'device_add nvme-ns' to (re-)attach the namespaces after
+>>> the PCI NVMe device 'device_add nvme' hotplug call.
+>>>
+>>
+>> Hi Hannes,
+>>
+>> Thanks for this.
+>>
+>> The real fix here is that namespaces are properly detached from other
+>> controllers that it may be shared on.
+>>
+>> But is this really the behavior we want? That nvme-ns devices always
+>> "belongs to" (in QEMU qdev terms) an nvme device is an artifact of the
+>> Bus/Device architecture and not really how an NVM subsystem should
+>> behave. Removing a controller should not cause shared namespaces to
+>> disappear from other controllers.
+>>
+>> I have a WIP that instead adds an NvmeBus to the nvme-subsys device and
+>> reparents the nvme-ns devices to that if the parent controller is linked
+>> to a sybsystem. This way, nvme-ns devices wont be unrealized under the
+>> feet of other controllers.
+>>
+>That would be the other direction I thought of; _technically_ NVMe
+>namespaces are objects of the subsystem, and 'controllers' are just
+>temporary objects providing access to the namespaces presented by the
+>subsystem.
+>So if you are going to rework it I'd rather make the namespaces children
+>objects of the subsystem, and have nsid maps per controller detailing
+>which nsids are accessible from the individual controllers.
+>That would probably a simple memcpy() to start with, but it would allow
+>us to modify that map via NVMe-MI and stuff.
+>
+>However, if you do that you'll find that subsystems can't be hotplugged,
+>too; but I'm sure you'll be able to fix it up :-)
+>
+>> The hotplug fix looks good - I'll post a series that tries to integrate
+>> both.
+>>
+>Ta.
+>
+>The more I think about it, the more I think we should be looking into
+>reparenting the namespaces to the subsystem.
+>That would have the _immediate_ benefit that 'device_del' and
+>'device_add' becomes symmetric (ie one doesn't have to do a separate
+>'device_add nvme-ns'), as the nvme namespace is not affected by the
+>hotplug event.
+>
 
-Title:
-  memory leak
+I have that working, but I'm struggling with a QEMU API technicality in=20
+that I apparently cannot simply move the NvmeBus creation to the=20
+nvme-subsys device. For some reason the bus is not available for the=20
+nvme-ns devices. That is, if one does something like this:
 
-Status in QEMU:
-  Confirmed
+   -device nvme-subsys,...
+   -device nvme-ns,...
 
-Bug description:
-  qemu trunk as of today leaks memory FAST when freedos' edit is
-  running.
+Then I get an error that "no 'nvme-bus' bus found for device 'nvme'ns".=20
+This is probably just me not grok'ing the qdev well enough, so I'll keep=20
+trying to fix that. What works now is to have the regular setup:
 
-  To reproduce, download:
+   -device nvme-subsys,...
+   -device nvme,...
+   -device nvme-ns,...
 
-  https://www.ibiblio.org/pub/micro/pc-
-  stuff/freedos/files/repositories/1.3/cdrom.iso
+And the nvme-ns device will then reparent to the NvmeBus on nvme-subsys=20
+(which magically now IS available when nvme-ns is realized). This has=20
+the same end result, but I really would like that the namespaces could=20
+be specified as children of the subsys directly.
 
-  Then run:
+Any help from qdev experts would be appreciated! :)
 
-  $ qemu-system-i386 -cdrom cdrom.iso
+>This really was a quick hack to demonstrate a shortcoming in the linux
+>NVMe stack (cf 'nvme-mpath: delete disk after last connection' if you
+>are interested in details), so I'm sure there is room for improvement.
+>
 
-  select your language then select "return to DOS", then type
+I follow linux-nvme, so I saw the patch ;)
 
-  > edit
+>And the prime reason for sending it out was to gauge interest by
+>qemu-devel; I have a somewhat mixed experience when sending patches to
+>the qemu ML ...
+>
 
-  it will consume memory at ~10MB/s
+Your contribution is very much appreciated :)
 
-  This does NOT happen when adding -enable-kvm
+--t//O19GeymRbIzJh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1896298/+subscriptions
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmCaiJgACgkQTeGvMW1P
+DekAMwf/U+DpSZs3Jt7F/D2oJsHqXpvaQ/h9NuqlpUhAJhF2klrihlbSJ/J1NfD7
+oQ8v9xrP/VVcl63Cpgdb96P2p0SQwZA9m7SID0dQilRls91fPBiWplLAJJMwEZ0q
+dYgI0zisKcbVFL+6r52YemknHTpwB+N5QSGu5JdQcDrQ7gyeisMRUuuEp6+4/BpE
+zlqgTnvrIiBIOvD6vJpK0JTSmgorXo4FxCkRnOk8dnHUs5/wck7gp2tbqEBpRq6Q
+q8aUBPC9lTxUxvHpjO6P7J28KOVSyEpi32272Ljm1t9f8YkFWuKkATqpIGW+e346
+6MzZN+fvWBbg1rFv0gfCBLYx5fzqkQ==
+=71Vo
+-----END PGP SIGNATURE-----
+
+--t//O19GeymRbIzJh--
 
