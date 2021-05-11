@@ -2,70 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE0837A74D
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:07:24 +0200 (CEST)
-Received: from localhost ([::1]:57796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8D037A751
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:10:42 +0200 (CEST)
+Received: from localhost ([::1]:32900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgS6d-0003ap-GU
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:07:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52852)
+	id 1lgS9p-0005yt-81
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:10:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lgS5e-0002pm-2b; Tue, 11 May 2021 09:06:22 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:39797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lgS5b-0004Sg-Hc; Tue, 11 May 2021 09:06:21 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id s37so1703446ybi.6;
- Tue, 11 May 2021 06:06:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=EZngYV9stFe3OHnNnsjqCw+QkdCUpg/+5rmM+vOq++0=;
- b=YGP141y0jIrLNxkdAXmZCoMoEpuNFFiAGqsUnk2Ah2EOonO4H0V18cjWY5Ffj4Du6U
- uQ8KPam51tzVePrifWwsb/Q4GGQa4xkpPD2YKDiDO6k6jW8wgmQdT6dwarCf807xbbz5
- +fPlWMolvArMv2+W5Gx/DDjlQGjHHBvU4DUo8ctC+P6JtXeBBqCP10Vy3gYDDJD5fgzG
- 783jRkT2nIMVMa0FTJp0qhrvlaJi7uYvS6Bjx/65vH6dcQbtdT3hfI/qjXaJkMW4AeWb
- ecHvqFaTxiMWxFdv2azTLj+qIgtZodKKPMvLXAPiXPlqOFRkO2hpmb2XoKS1XsUbOyj2
- URKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EZngYV9stFe3OHnNnsjqCw+QkdCUpg/+5rmM+vOq++0=;
- b=BY6m8Scas5meTRWGDxaV2fyQfDCeuttHPfIQqhqVcGkz//usfuPfk+/T1tWixq9bZl
- GikIwPIOVFZtQhrhIPEJKNhHc7nNdszivY/KreB1EIAZp/22pn27QESDp24hxy/abLIi
- KzRSNiwSRyld8oRYkIyJV84e+4SFKsN4ndsTt4jIjklBG+SWZ5b0E4GWURFF4M4Rl9di
- EUoPjePNDSLqR1mQmtIPZDeVQxUao4VQXN9LhkbWGwR7Rku5EmjB42yy4m83CT9gvNQ5
- BvLhM4cXOfpQyjk8lbUNJHUjnEWUVFDrcpjoUgFhq2T4WqZdUYRwLOdyWrktEF87PFJm
- smzA==
-X-Gm-Message-State: AOAM531D2wFYexTpi4jtnR8dTr+Gt3PCG/BXevPL4X2c38PirWhfTxrk
- EcFRl6DGgaVJvVlSvmxqYAOfP46RMIGL1XojEIg=
-X-Google-Smtp-Source: ABdhPJw8D1XnehRAPjlJfl5mIQtNfZr1iigitddEPQxbVHfL7zDlKAfgm5SXhTKwypue6ZDR6M72mwjXWWf5Yul4/0I=
-X-Received: by 2002:a25:be09:: with SMTP id h9mr42839805ybk.239.1620738377640; 
- Tue, 11 May 2021 06:06:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lgS8N-0004ak-Tg; Tue, 11 May 2021 09:09:11 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:36708)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lgS8K-0006F9-Om; Tue, 11 May 2021 09:09:11 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A27107457E7;
+ Tue, 11 May 2021 15:09:05 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 2A55C745709; Tue, 11 May 2021 15:09:05 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 290967456E3;
+ Tue, 11 May 2021 15:09:05 +0200 (CEST)
+Date: Tue, 11 May 2021 15:09:05 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 0/6] hw/southbridge: QOM'ify vt82c686 as
+ VT82C686B_SOUTHBRIDGE
+In-Reply-To: <6e9cad77-bb24-6c0a-f841-1f8a1f3515e6@amsat.org>
+Message-ID: <211f4a16-a521-512c-ff52-aabf7a5f13@eik.bme.hu>
+References: <20210511041848.2743312-1-f4bug@amsat.org>
+ <ecdd9299-ec2-5049-fe1e-d3c7d261d@eik.bme.hu>
+ <6e9cad77-bb24-6c0a-f841-1f8a1f3515e6@amsat.org>
 MIME-Version: 1.0
-References: <20210504153456.927083-1-lukas.juenger@greensocs.com>
- <20210504153456.927083-2-lukas.juenger@greensocs.com>
-In-Reply-To: <20210504153456.927083-2-lukas.juenger@greensocs.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 11 May 2021 21:06:06 +0800
-Message-ID: <CAEUhbmWCwyyj1jAnqeadoLCcJcrzP5agr_r7tzR5qBBm052VcQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Consistent function names for sifive uart read and
- write function
-To: =?UTF-8?Q?Lukas_J=C3=BCnger?= <lukas.juenger@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed; boundary="3866299591-39243802-1620738545=:14150"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,32 +57,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- mark.burton@greensocs.com,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- luc.michel@greensocs.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Lukas,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Wed, May 5, 2021 at 12:49 AM Lukas J=C3=BCnger
-<lukas.juenger@greensocs.com> wrote:
+--3866299591-39243802-1620738545=:14150
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Tue, 11 May 2021, Philippe Mathieu-Daudé wrote:
+> Hi Zoltan,
 >
-
-While we are here, could we make other functions sifive_ prefixed?
-
-Also the commit title should include a tag of "hw/char: sifive_uart"
-
-> Signed-off-by: Lukas J=C3=BCnger <lukas.juenger@greensocs.com>
-> ---
->  hw/char/sifive_uart.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+> On 5/11/21 1:28 PM, BALATON Zoltan wrote:
+>> On Tue, 11 May 2021, Philippe Mathieu-Daudé wrote:
+>>> The motivation behind this series is to remove the
+>>> isa_get_irq(NULL) call to simplify the ISA generic model.
+>>>
+>>> Since v1:
+>>> - rebased on top of remotes/dg-gitlab/tags/ppc-for-6.1-20210504
+>>
+>> I'll try to have a look at these later but some notes: The pegasos2
+>> changes are now in master so if this was before that maybe rebasing on
+>> master is now enough.
 >
+> This is what this series does, simply rebase on top of your merged
+> patches.
+>
+>> However I wonder if any changes to pegasos2.c is
+>> needed due to changed init of the chip model or is that only affecting
+>> 82c686b?
+>
+> There is no change in 'init' in this series, it is only QOM boilerplate
+> code churn, no logical change intended.
+>
+>> Please also note that pegasos2 is not enabled by default due to
+>> needing undistributable firmware ROM so to test it you need to enable it
+>> in default-configs/devices/ppc-softmmu.mak
+>
+> I remember you said you were mostly interested in the VT8231, not
+> the VT82C686. This series only QOM'ify the latter.
+
+OK as I said I haven't looked at it in detail.
+
+> What is your idea? Send the firmware off-list and explain how
+> the OS works and how (what) to test?
+
+I've already sent you this info:
+
+https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg01553.html
+
+but I can't write a test case so if you want to automate this and make it 
+part of QEMU tests then some help with that would be appreciated.
+
+As for the firmware, once Alexey's VOF (Virtual Open Firmware, minimial OF 
+emulation in QEMU) is merged I plan to try to use that to make it possible 
+to boot some guests with that so no firmware image would be needed and 
+pegasos2 could be enabled by default. But for now a firmware image is 
+needed as guests expect an OF environment to boot.
 
 Regards,
-Bin
+BALATON Zoltan
+--3866299591-39243802-1620738545=:14150--
 
