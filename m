@@ -2,55 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C7537AC85
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 18:59:12 +0200 (CEST)
-Received: from localhost ([::1]:43484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4650F37AC8B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 19:00:05 +0200 (CEST)
+Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgVix-00081x-9g
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 12:59:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51982)
+	id 1lgVjo-0001Iz-3G
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 13:00:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
- id 1lgVfn-0002ly-EJ; Tue, 11 May 2021 12:55:55 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35606)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lgVhy-0006mr-Ih
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 12:58:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ktkhai@virtuozzo.com>)
- id 1lgVfl-00058q-Rr; Tue, 11 May 2021 12:55:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=virtuozzo.com; s=relay; h=Content-Type:MIME-Version:Date:Message-ID:From:
- Subject; bh=jStKnK9jpz1//Gm7QIVOFmfiNZOSnVdloP9rzLn4M/0=; b=fwooRuH7PrYze9aGa
- JkNWVEs2w0WpdltZZgBcChBeRaEtiPVChvTGTUD6MM0IOtq1k87CEL9nRHFhvQg4b5gTdNcFkH2FI
- 1g39BvGk3VJWTUPnbawviuFCcXIAOyo9RyZPNy/hjrrLvWm7401fp/0m+HCiNJT1GtNaUeEQvjk58
- =;
-Received: from [192.168.15.129] by relay.sw.ru with esmtp (Exim 4.94)
- (envelope-from <ktkhai@virtuozzo.com>)
- id 1lgVfa-0027mI-JT; Tue, 11 May 2021 19:55:42 +0300
-Subject: Re: [PATCH v2 09/10] qcow2-refcount: check_refcounts_l1(): check
- reserved bits
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
- den@openvz.org, eblake@redhat.com, berto@igalia.com
-References: <20210505065955.13964-1-vsementsov@virtuozzo.com>
- <20210505065955.13964-10-vsementsov@virtuozzo.com>
-From: Kirill Tkhai <ktkhai@virtuozzo.com>
-Message-ID: <5bf37795-f905-66bb-518e-a899c27dbb2c@virtuozzo.com>
-Date: Tue, 11 May 2021 19:55:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lgVhw-0006EZ-JE
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 12:58:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620752287;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dnZeaySzVCwK3AfCZrVrj92eHbrQZHJp4jZiCDKGJpw=;
+ b=cOX/uMQ1DEnFNSanmyTKHHscfKmeQ67jZGozOhj6NJXbMPo3KOhwZXPMi5GpyDEmrs8FpK
+ eZwKz0tBOLpOZG911Pby3ox/eI7X5hnZYV4b/mLEo1lqAvkvxYQPOxQKuRanITjp8TVmFc
+ BwcZdHQ2zeE8NMNhWEGaIVBmaG7NDzs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-_UlbILvAMr-NUiVeduRLYw-1; Tue, 11 May 2021 12:58:05 -0400
+X-MC-Unique: _UlbILvAMr-NUiVeduRLYw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A895B107ACCA;
+ Tue, 11 May 2021 16:58:04 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-102.ams2.redhat.com [10.36.114.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C00BE160;
+ Tue, 11 May 2021 16:58:02 +0000 (UTC)
+Date: Tue, 11 May 2021 18:58:01 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] hmp: Fix loadvm to resume the VM on success instead of
+ failure
+Message-ID: <YJq3mYxNtqidONkg@merkur.fritz.box>
+References: <20210511163151.45167-1-kwolf@redhat.com>
+ <YJq1fq57yQGFjw/E@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210505065955.13964-10-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=185.231.240.75; envelope-from=ktkhai@virtuozzo.com;
- helo=relay.sw.ru
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+In-Reply-To: <YJq1fq57yQGFjw/E@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,53 +79,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-stable@nongnu.org, yama@redhat.com, dgilbert@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.05.2021 09:59, Vladimir Sementsov-Ogievskiy wrote:
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> ---
->  block/qcow2.h          | 1 +
->  block/qcow2-refcount.c | 6 ++++++
->  2 files changed, 7 insertions(+)
+Am 11.05.2021 um 18:49 hat Daniel P. Berrangé geschrieben:
+> On Tue, May 11, 2021 at 06:31:51PM +0200, Kevin Wolf wrote:
+> > Commit f61fe11aa6f broke hmp_loadvm() by adding an incorrect negation
+> > when converting from 0/-errno return values to a bool value. The result
+> > is that loadvm resumes the VM now if it failed and keeps it stopped if
+> > it failed. Fix it to restore the old behaviour and do it the other way
+> > around.
+> > 
+> > Fixes: f61fe11aa6f7f8f0ffe4ddaa56a8108f3ab57854
+> > Cc: qemu-stable@nongnu.org
+> > Reported-by: Yanhui Ma <yama@redhat.com>
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >  monitor/hmp-cmds.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> > index 0ad5b77477..cc15d9b6ee 100644
+> > --- a/monitor/hmp-cmds.c
+> > +++ b/monitor/hmp-cmds.c
+> > @@ -1133,7 +1133,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict)
+> >  
+> >      vm_stop(RUN_STATE_RESTORE_VM);
+> >  
+> > -    if (!load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
+> > +    if (load_snapshot(name, NULL, false, NULL, &err) && saved_vm_running) {
+> >          vm_start();
+> >      }
+> >      hmp_handle_error(mon, err);
 > 
-> diff --git a/block/qcow2.h b/block/qcow2.h
-> index b8b1093b61..58fd7f1678 100644
-> --- a/block/qcow2.h
-> +++ b/block/qcow2.h
-> @@ -586,6 +586,7 @@ typedef enum QCow2MetadataOverlap {
->      (QCOW2_OL_CACHED | QCOW2_OL_INACTIVE_L2)
->  
->  #define L1E_OFFSET_MASK 0x00fffffffffffe00ULL
-> +#define L1E_RESERVED_MASK 0x7f000000000001ffULL
->  #define L2E_OFFSET_MASK 0x00fffffffffffe00ULL
->  #define L2E_STD_RESERVED_MASK 0x3f000000000001feULL
->  
-> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-> index 69294a94fe..15c4f6b075 100644
-> --- a/block/qcow2-refcount.c
-> +++ b/block/qcow2-refcount.c
-> @@ -1904,6 +1904,12 @@ static int check_refcounts_l1(BlockDriverState *bs,
->              continue;
->          }
->  
-> +        if (l1_table[i] & L1E_RESERVED_MASK) {
-> +            fprintf(stderr, "ERROR found L1 entry with reserved bits set: "
-> +                    "%" PRIx64, l1_table[i]);
-
-'\n' is missed.
-
-The rest is OK for me.
-
-Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
-
-> +            res->corruptions++;
-> +        }
-> +
->          l2_offset = l1_table[i] & L1E_OFFSET_MASK;
->  
->          /* Mark L2 table as used */
+> Paolo had sent a different fix here:
 > 
+>   https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01093.html
+
+Hm... I missed that patch, but doesn't it just generalise the buggy HMP
+code instead of fixing it? That is, we still resume the VM on failure
+rather than on success?
+
+> As with my feedback there, I think we should be adding test coverage
+> when fixing this. How about this:
+> [...]
+
+Yes, this looks good.
+
+Kevin
 
 
