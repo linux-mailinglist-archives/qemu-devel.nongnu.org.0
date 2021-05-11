@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38BC37A7D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:37:16 +0200 (CEST)
-Received: from localhost ([::1]:43498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D1537A7DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 15:38:30 +0200 (CEST)
+Received: from localhost ([::1]:46654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgSZX-0008PF-Os
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58324)
+	id 1lgSak-000270-2h
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 09:38:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgSR7-0000cA-CJ
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59842)
+ id 1lgSRB-0000vR-RQ
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgSR5-0001Ay-OQ
- for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:33 -0400
+ id 1lgSRA-0001Et-CQ
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 09:28:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620739711;
+ s=mimecast20190719; t=1620739715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Lc2A1zh8nrAQXAHDxHLXVy8EpKc8QdPVvnaoEIWimJU=;
- b=G8J2WX0PO62RjfMLIGHQAnUXaK91GrA/k2cNZdPLMyyAJUrR6i19NwcAifdSaqTxeqcIQw
- Z1V4bzaSe79ULSVf/p+MZzqRzxr67eAZ5htdoQAlDmwiGZ58wFUPA1J1cbE1rkqvDY0yIN
- KE2jWuH+bUhfrDKp4xYKRJOs9GVc3lA=
+ bh=1Y6nJ+9b2prx5BuUeL8dWZ1NqwpahEg5UPQFlnZFkDI=;
+ b=i85srirrD6nkToX5QvnssIo8O1YiO78eG07CJSh3kUNL78jrOi1ID/nkSc9SC4sNGEokSg
+ xcVqbtRLmHHsb34eETFS2TBQo3UJ98hbPXcsrusAe8DJPOxUIi35HoTofJuDUM3qlHgfBR
+ axi6aNoBFub2cWD+hu4Kz4iQMeBJDGc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-FViSKNIYMJqPDKV0mgHEAw-1; Tue, 11 May 2021 09:28:29 -0400
-X-MC-Unique: FViSKNIYMJqPDKV0mgHEAw-1
+ us-mta-120-lNxealD7PsKOcYpQGcEgPw-1; Tue, 11 May 2021 09:28:32 -0400
+X-MC-Unique: lNxealD7PsKOcYpQGcEgPw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8B161083E93;
- Tue, 11 May 2021 13:28:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 704E81854E26;
+ Tue, 11 May 2021 13:28:31 +0000 (UTC)
 Received: from foo.redhat.com (ovpn-115-93.ams2.redhat.com [10.36.115.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 599B95946E;
- Tue, 11 May 2021 13:28:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C6695946E;
+ Tue, 11 May 2021 13:28:28 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/12] configure: bump min required GCC to 6.3.0
-Date: Tue, 11 May 2021 14:26:40 +0100
-Message-Id: <20210511132641.1022161-12-berrange@redhat.com>
+Subject: [PATCH 12/12] configure: bump min required CLang to 7.0.0 / XCode 10.2
+Date: Tue, 11 May 2021 14:26:41 +0100
+Message-Id: <20210511132641.1022161-13-berrange@redhat.com>
 In-Reply-To: <20210511132641.1022161-1-berrange@redhat.com>
 References: <20210511132641.1022161-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -89,50 +89,57 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Several distros have been dropped since the last time we bumped the
-minimum required GCC version.
+minimum required CLang version.
 
 Per repology, currently shipping versions are:
 
-             RHEL-8: 8.3.1
-     Debian Stretch: 6.3.0
-      Debian Buster: 8.3.0
- openSUSE Leap 15.2: 7.5.0
-   Ubuntu LTS 18.04: 7.5.0
-   Ubuntu LTS 20.04: 9.3.0
-            FreeBSD: 10.3.0
-          Fedora 33: 9.2.0
-          Fedora 34: 11.0.1
-            OpenBSD: 8.4.0
-     macOS HomeBrew: 11.1.0
+             RHEL-8: 10.0.1
+     Debian Stretch: 7.0.1
+      Debian Buster: 7.0.1
+ openSUSE Leap 15.2: 9.0.1
+   Ubuntu LTS 18.04: 10.0.0
+   Ubuntu LTS 20.04: 11.0.0
+         FreeBSD 12: 8.0.1
+          Fedora 33: 11.0.0
+          Fedora 34: 11.1.0
 
-With this list Debian Stretch is the constraint at 6.3.0
+With this list Debian Stretch is the constraint at 7.0.1
+
+An LLVM version of 7.0.1 corresponds to macOS XCode version of 10.2
+which dates from March 2019.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- configure | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ configure | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/configure b/configure
-index a1a40577c9..43d2470bb6 100755
+index 43d2470bb6..c41a3e5eef 100755
 --- a/configure
 +++ b/configure
-@@ -2059,8 +2059,8 @@ cat > $TMPC << EOF
+@@ -2050,12 +2050,12 @@ fi
+ cat > $TMPC << EOF
+ #if defined(__clang_major__) && defined(__clang_minor__)
+ # ifdef __apple_build_version__
+-#  if __clang_major__ < 5 || (__clang_major__ == 5 && __clang_minor__ < 1)
+-#   error You need at least XCode Clang v5.1 to compile QEMU
++#  if __clang_major__ < 10 || (__clang_major__ == 10 && __clang_minor__ < 2)
++#   error You need at least XCode Clang v10.2 to compile QEMU
+ #  endif
+ # else
+-#  if __clang_major__ < 3 || (__clang_major__ == 3 && __clang_minor__ < 4)
+-#   error You need at least Clang v3.4 to compile QEMU
++#  if __clang_major__ < 7 || (__clang_major__ == 7 && __clang_minor__ < 0)
++#   error You need at least Clang v7.0 to compile QEMU
  #  endif
  # endif
  #elif defined(__GNUC__) && defined(__GNUC_MINOR__)
--# if __GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 8)
--#  error You need at least GCC v4.8 to compile QEMU
-+# if __GNUC__ < 6 || (__GNUC__ == 6 && __GNUC_MINOR__ < 3)
-+#  error You need at least GCC v6.3.0 to compile QEMU
- # endif
- #else
- # error You either need GCC or Clang to compiler QEMU
 @@ -2068,7 +2068,7 @@ cat > $TMPC << EOF
  int main (void) { return 0; }
  EOF
  if ! compile_prog "" "" ; then
--    error_exit "You need at least GCC v4.8 or Clang v3.4 (or XCode Clang v5.1)"
-+    error_exit "You need at least GCC v6.3 or Clang v3.4 (or XCode Clang v5.1)"
+-    error_exit "You need at least GCC v6.3 or Clang v3.4 (or XCode Clang v5.1)"
++    error_exit "You need at least GCC v6.3 or Clang v7.0 (or XCode Clang v10.2)"
  fi
  
  # Accumulate -Wfoo and -Wno-bar separately.
