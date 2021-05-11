@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8353A37B067
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 22:58:12 +0200 (CEST)
-Received: from localhost ([::1]:42580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF0D37B06A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 23:00:08 +0200 (CEST)
+Received: from localhost ([::1]:45382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgZSF-0000LQ-L6
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 16:58:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44620)
+	id 1lgZU5-0002Ji-F5
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 17:00:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lgZRC-0007dr-8C
- for qemu-devel@nongnu.org; Tue, 11 May 2021 16:57:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38140)
+ id 1lgZT3-0001Tk-4G
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 16:59:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lgZR9-0006EI-Oo
- for qemu-devel@nongnu.org; Tue, 11 May 2021 16:57:05 -0400
+ id 1lgZT1-0007Rx-N8
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 16:59:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620766622;
+ s=mimecast20190719; t=1620766739;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TeDck3+QKdNlEjRIMvAwsnri8NTquF1K1SAUd/fCy9c=;
- b=QVV5dtAHo8ozr1n/vfIKo1fkAP5oc8qe/y5UerfEsDC5uB3uIfmVK4Xkt5D8LwXmJdX4uf
- HAVXHPInjsJFomIU66RRWZPH67jRs1JGbqJ7vWPiZCx2M59gAgb4/JjNzuJsyu4pfNSjWh
- kO5baTqhz1ovXdG65Vtkx0hbuvr2P1o=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-ezztMPJJNLqrMllkPQcLQw-1; Tue, 11 May 2021 16:56:59 -0400
-X-MC-Unique: ezztMPJJNLqrMllkPQcLQw-1
-Received: by mail-vs1-f70.google.com with SMTP id
- v27-20020a67c89b0000b02902227f70aa8fso10190814vsk.6
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 13:56:58 -0700 (PDT)
+ bh=yi2vqWXur7W2vFjJzhXkLj+xEjhMi03bMCFWbgl4xFI=;
+ b=IsSi4QBughNey7GBOqu1skmJmWwlXFYdLt5nmYwWFbwBHKh17LEzR467PCmXQOlYEgNU+I
+ Dg30ReJKv4Sm5+s4lSdj6f8eXRNvTy6Vo1iW0BBNxfZQfo5gZb5lfK0sJMPHLEiIozkrZX
+ qXgDtJ4bcAvqoxTMjpKnhAdl8EIH5c0=
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
+ [209.85.217.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-577-d0W13PAhMnSvRRPFS9iYBQ-1; Tue, 11 May 2021 16:58:57 -0400
+X-MC-Unique: d0W13PAhMnSvRRPFS9iYBQ-1
+Received: by mail-vs1-f69.google.com with SMTP id
+ x22-20020a67c0960000b02902259994ab39so10210149vsi.0
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 13:58:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=TeDck3+QKdNlEjRIMvAwsnri8NTquF1K1SAUd/fCy9c=;
- b=Ylu2amU6BceeCEsPhkwhl2verAlDTOxALUjCWeMdhePkoPv4OfOXLQ7csmk6r4R+/w
- +5qY2tuHghPaRTYRiKOAijCAiO5y20yAx6uCLzsSdzS+KFgJTZtyzVhjenkhSoWGtL/H
- VtfUgXSGFv24HBv+tJluRc2CT0fCV6R6asvaaNW7bC2/fmAA8UTXlBS9S2dnmmdgwDD1
- MDXAvWzMRHkJyEHhE4xAybdNWsUn0E1BHpTTtdFZuXqaY0872ybYoPbmYTY4jAmcQn/j
- mnj1AmK0IzTgvw+On/NoYdI2UiZUWJniaCAIX7jGtgx4bxR3nIBovTyXqoTGwIt9ba32
- iIvw==
-X-Gm-Message-State: AOAM533vnIq4LYMFfj3IrgBvm1qq6+M3dO0dZut2WDQ93M4xgOERuB0w
- 6zo56L5arqdfzPIe3YtTJJKOKsWqbXQVNC30tloP3IUp+dQj5p5x2zClG0+v0cBDrNaKRTB5DqT
- eBtmBDhpgIAGr1KkMjeIv+MXFLU1SuSQ=
-X-Received: by 2002:a67:2642:: with SMTP id m63mr27149994vsm.39.1620766618574; 
- Tue, 11 May 2021 13:56:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz5AAAkAsZEzp3tiqvOemk18Ohy4/YxxRDa25qb4/P5nKlvP3LwD4XC/Sc/5tDlOg6twumzARLIW3vuGrmg3IE=
-X-Received: by 2002:a67:2642:: with SMTP id m63mr27149980vsm.39.1620766618422; 
- Tue, 11 May 2021 13:56:58 -0700 (PDT)
+ bh=yi2vqWXur7W2vFjJzhXkLj+xEjhMi03bMCFWbgl4xFI=;
+ b=FGjCfDFW6qaGGjwskNSBBG0Xh3xqMoy3dRBk7CnY27DY4aLsVgrP7cY7SMEiRp4DTm
+ UZl7/Gce27n/WbgtYFByoPqFItqBthJDHmm0YtRuErp3tvxhpD3P46ZbhUlPn+NyswOl
+ n2xTd7uVLpksGeKT0rvEy84oXUF1TSIoBe6Ln6kIQz2CJY1/ISgdGpUiUKSjUSsHqMZx
+ Pv5N0fpOZaomZsSfhC9k0Nd07YBCpQNKZaN2XrQkcxteZTthLDs2YdsXyysBimNZCf73
+ cTSZpbLzWalhyLneOKoJ65nkpiuEHqgekCiFs9luWGm4l/nVa6vuBLV4PeZUQumZO0bH
+ IsfQ==
+X-Gm-Message-State: AOAM531awBQXfHrDMTV+vIIkojrIsIcq9rFEamti0fRGGWl9d8PUhCPl
+ HC4zhNGD5iySUcwp9Lbe4yNHVIWqANN5fO/blHcAezeuPekYlUUZRzP9RGwTgfEOrWanSdvg6fZ
+ qlwJKTl5Ww/f/oLmqo/SyQfYwtQWlDvM=
+X-Received: by 2002:a05:6102:a89:: with SMTP id
+ n9mr28378678vsg.45.1620766737148; 
+ Tue, 11 May 2021 13:58:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6fmc41EoPD15TtNxH6AYczkmIPKfUxsssPKrvM9kuGD3e36Ym6WokSPi/7DhAi6Gl+QDbo+NsC2OyamnWZHQ=
+X-Received: by 2002:a05:6102:a89:: with SMTP id
+ n9mr28378671vsg.45.1620766737001; 
+ Tue, 11 May 2021 13:58:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210511132641.1022161-1-berrange@redhat.com>
- <20210511132641.1022161-4-berrange@redhat.com>
-In-Reply-To: <20210511132641.1022161-4-berrange@redhat.com>
+ <20210511132641.1022161-6-berrange@redhat.com>
+In-Reply-To: <20210511132641.1022161-6-berrange@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 11 May 2021 17:56:32 -0300
-Message-ID: <CAKJDGDZ_Knmp0J-YETwEXC7gY7osz1SybjQ0bGS_GjVG7+jmOw@mail.gmail.com>
-Subject: Re: [PATCH 03/12] crypto: bump min nettle to 3.3,
+Date: Tue, 11 May 2021 17:58:31 -0300
+Message-ID: <CAKJDGDaWb1P9SUCAic11dfjRD08+2=r+5n+HUyX_PV1KYDV5tA@mail.gmail.com>
+Subject: Re: [PATCH 05/12] crypto: bump min gcrypt to 1.7.6,
  dropping RHEL-7 support
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
@@ -105,33 +107,31 @@ om> wrote:
 >
 > It has been over two years since RHEL-8 was released, and thus per the
 > platform build policy, we no longer need to support RHEL-7 as a build
-> target. This lets us increment the minimum required nettle version and
-> drop a lot of backwards compatibility code for 2.x series of nettle.
+> target. This lets us increment the minimum required gcrypt version and
+> assume that HMAC is always supported
 >
 > Per repology, current shipping versions are:
 >
->              RHEL-8: 3.4.1
->      Debian Stretch: 3.3
->       Debian Buster: 3.4.1
->  openSUSE Leap 15.2: 3.4.1
->    Ubuntu LTS 18.04: 3.4
->    Ubuntu LTS 20.04: 3.5.1
->             FreeBSD: 3.7.2
->           Fedora 33: 3.5.1
->           Fedora 34: 3.7.2
->             OpenBSD: 3.7.2
->      macOS HomeBrew: 3.7.2
+>              RHEL-8: 1.8.5
+>      Debian Stretch: 1.7.6
+>       Debian Buster: 1.8.4
+>  openSUSE Leap 15.2: 1.8.2
+>    Ubuntu LTS 18.04: 1.8.1
+>    Ubuntu LTS 20.04: 1.8.5
+>             FreeBSD: 1.9.2
+>           Fedora 33: 1.8.6
+>           Fedora 34: 1.9.3
+>             OpenBSD: 1.9.3
+>      macOS HomeBrew: 1.9.3
 >
-> Debian Stretch has the oldest version and so 3.3 is the new minimum.
+> Debian Stretch has the oldest version and so 1.7.6 is the new minimum.
 >
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  .gitlab-ci.yml             | 10 ----------
->  configure                  |  4 +---
->  crypto/cipher-nettle.c.inc | 31 -------------------------------
->  crypto/hash-nettle.c       |  4 ----
->  crypto/hmac-nettle.c       |  4 ----
->  5 files changed, 1 insertion(+), 52 deletions(-)
+>  .gitlab-ci.yml     | 10 ----------
+>  configure          | 18 +-----------------
+>  crypto/meson.build |  6 +-----
+>  3 files changed, 2 insertions(+), 32 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
