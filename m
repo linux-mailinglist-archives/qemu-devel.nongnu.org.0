@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84FD37A4C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:41:49 +0200 (CEST)
-Received: from localhost ([::1]:54906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7705637A4B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 May 2021 12:39:04 +0200 (CEST)
+Received: from localhost ([::1]:46544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgPpj-0002xx-6o
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:41:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38036)
+	id 1lgPn5-0005gt-Gh
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 06:39:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPW5-0000xI-PN
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:31 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41101)
+ id 1lgPWC-0000yx-4r
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:36 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7584e029c=alistair.francis@wdc.com>)
- id 1lgPVx-0006X1-JG
- for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:29 -0400
+ id 1lgPW3-0006TG-H5
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 06:21:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1620728480; x=1652264480;
+ t=1620728485; x=1652264485;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=yFRLTCdAcyqhfcygvlqGQ7lXNGX9GsANpwxchwLWEg0=;
- b=GT+EwpeloRar5M1I171SsdVPrumbVSEvYA9EeEgl6EElhJp+FaH93oIC
- aIkKp2fPIiodNRqz66AFjJIvKK57TG4mwELN4mXM8kXHjpY41mpScqJBl
- TWRBD3nBzr5U2Tik59Q2ffJf/ACwJb2+2I2Rk1U4yDoG3jSgNx+TWSUaM
- 7yb84nqmpqyZ0WQZITO7JZjFIo9X5VQFy/1BBjtfBMJWZfftYeh9yfK1P
- Hk1cs8OkJGflcHk8gF6RPo/q8EnQ/RkSGFSxSKvG6JoLEkRC5n34NYflC
- yTGh1rGzifEtDCyfyTbdlaOtkhTYISX/1avNjGnpgyDxeoj0WAdxmH5xZ A==;
-IronPort-SDR: cMussp7QcIrC8TrHS7BQzB/ebDuGpYxMTK/hS8zQ22xmV1jjJXQeOHnmlTbVAbONxde8uiD2s8
- clOHHNSkk5rf4iy1Le76S99gP6gLjMjZ3HqGFB0sSQIcFX4rA4tL72Ieiny0z/44T17U4rlttV
- Z7RxMNMIgvYuZjScEtTu+hZSZ71A6LqBZSFYG+Ss7PGQk6A1l9qjVMdZNexAw2P5KyeFgZ5aXu
- j/ZJNjfapAzWU+odmqf7KSTOP/HqtpAhqxAHHDrsFTl2DGcHisv4lQM5cgceu2EhSyqUsmjJoX
- 4aI=
-X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735397"
+ bh=eBNCyqtOfzNeogyxUlf2PGSAY8yQsrhavKYqjK6n7uE=;
+ b=DEd2RiKOq0ZSy0DHgRQidfRoLKWsdxeqZkjaPFMB0C/IcC+Z5hGgUSwC
+ T5xPgquqUC1bte5gGOpADfCPxv3CFd4hqdkhEnkx7/3Mo6WI1WnjKyNHM
+ Bcup2Z/wcUVDuEN//lbYQfnszm3O4wVEmX6D/4hzGVUcX0GGiWCydcpA8
+ ibKQVvpFkHJz5rwqqQSTP4DltW9vtJRaiUBpmhxZnlSxfBaYPMjmC1NH0
+ JBC4Zxm5RhhgtCnTi3o7i40rwaPdjqma36Al6CbeBvRJaMSDGJXWCNv1y
+ W6HJ9dwjb0cH+3fnIIMk3ABjiOBwvz/jOkPIfFW+sYrcg7nkZWmSJQRS3 w==;
+IronPort-SDR: JfGFTOijgSX9aBqlopLj5DsLUJ0yS5VWjLrxJz3b7CmSwkHWMfRs2ztvtGa/+x8T68ajKEfIVl
+ bS7sHpqosbXoOlrSxsfaresnJPhu5IS/kFVHIYUiqZYvF6w5/dXKiP0EDTqI/OWzpgceVb1BNH
+ yr/EJ7lwqVlxe4PRoCh0vBXVsJrxCSl/8bTFkgXu3zySwr8/616TFeccmrHmjaPUUfy0veG5ig
+ kYq3ChZaDNuhK4xzmrKaBpwm7a0DnIyqQ9UMI9RcNAOt8i60kCfL8IhVYsiyZuEYXCKThk+Ji5
+ 2EU=
+X-IronPort-AV: E=Sophos;i="5.82,290,1613404800"; d="scan'208";a="167735402"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:20:57 +0800
-IronPort-SDR: DC780OlySbHWSXkTpjB23bcdJlxEyxm70klgabuVbXdk7yHr6ansnc3wPIzy5RR+AHHYZaHZ3Q
- uisFroCQWlfyCKnzvJWMctK1/CPh5QdiaQKqqAI7I3NRMQJIWL4P2I7zIUC85I9TWVB5nzBwkI
- GESekVQXx9Xmd0Fxt1ETNTjxf69LGmQMv6O8TUBqq4wt+mZsyQw1bEJJPo3KsixjZ/Aehi/c5R
- mZ0Wnox3AujJU0ft9CK7hC+JMKyggBP3IDRq2zGcktcR/VHCgunFvNS4VI3Rc+p1FcyxREoEJV
- zeixoWYM+Xx1v808MZUn+AIU
+ by ob1.hgst.iphmx.com with ESMTP; 11 May 2021 18:20:59 +0800
+IronPort-SDR: 9m1BuC717QO7QIsy3ZTRVRbshUM3Bw+5e+ldxFR8hEM8Gqen04NX9xaK7aZT4mmps65PngXCb7
+ bYKyKSCAXUqpmiRzQSkb3F+Qb7IIfIeDxKzW0ETFCieTe6QFAz1nupv+Om+roxTo/qL2Fwb4p0
+ y/aF1TBjMFd5r8XazkKwNgHc27Vx4HkLFwENr6lzmMnOHKOhBayWf0P+K9WxxV/WE8fgxcsByL
+ ORbVWpG72USHzxl4PSNY6Pjjfw/zp6ElpS1Po2wu9eMPHfZa0aQb61fT5uT7cK2vaLGHhrZcd8
+ s68ipQAzaL/DKsecsozGRAR+
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2021 03:00:56 -0700
-IronPort-SDR: VT4lCKtvdGENIOMUB2rBl4Tbu5V000ZhYkryxaeowS3/vnmhFfGT9OntpeasnFsQ0InLywOF1d
- HupOaxM1Ge3m6I6wPswQ3Aod31nII1r6oFP8TldZLYxfXUTXNBC7/TSlvy29P1ug9w4J4kgsMM
- mhIPU4/2qJb82Tqw6a1/L/0uFoIADOcwwnCySymk0PY1fJnO2kpbiuQGo3ezvHeI2mq3rTgCgr
- ovRfp9O57QDKYlMJ5n/Pb5pbMM205AHSPAbgzIAkesh3t2DQlDdEUz7eQL5gOnEJXcn3Ch4z36
- sRM=
+ 11 May 2021 03:00:59 -0700
+IronPort-SDR: kui9oBkgCzOZVHXy/ensks9+ME4FPk+Dd03eXRbifl0x6wVGxWFmsn4W5NM4F2JFBIB9HiVtbg
+ Sd8i1C9ofmqpFR63fm916qX+ANyGy3cDirlr4MHZhxzfJgVkBWK/JqXU87QXXVz3F5fIciN5yx
+ GWk2wlp70cnQNJmhab/z4vGPIbJpRxYdvc280NCl83EzOGJjRi6ksIo+xz/5vbaO3TCdL7TNCL
+ IGPYU+ZiI0frCliTJY/3RxFJUicREeWSQuTgFnMDskjeTns1SK6OHokaSTikjg3aFhBesxH/wv
+ AoQ=
 WDCIronportException: Internal
 Received: from unknown (HELO alistair-risc6-laptop.wdc.com) ([10.225.165.48])
- by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:20:55 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 11 May 2021 03:20:58 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL v3 17/42] riscv: don't look at SUM when accessing memory from a
- debugger context
-Date: Tue, 11 May 2021 20:19:26 +1000
-Message-Id: <20210511101951.165287-18-alistair.francis@wdc.com>
+Subject: [PULL v3 18/42] target/riscv: Fixup saturate subtract function
+Date: Tue, 11 May 2021 20:19:27 +1000
+Message-Id: <20210511101951.165287-19-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210511101951.165287-1-alistair.francis@wdc.com>
 References: <20210511101951.165287-1-alistair.francis@wdc.com>
@@ -92,107 +91,65 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- qemu-devel@nongnu.org, Jade Fink <qemu@jade.fyi>
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jade Fink <qemu@jade.fyi>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Previously the qemu monitor and gdbstub looked at SUM and refused to
-perform accesses to user memory if it is off, which was an impediment to
-debugging.
+The overflow predication ((a - b) ^ a) & (a ^ b) & INT64_MIN is right.
+However, when the predication is ture and a is 0, it should return maximum.
 
-Signed-off-by: Jade Fink <qemu@jade.fyi>
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210406113109.1031033-1-qemu@jade.fyi
+Message-id: 20210212150256.885-4-zhiwei_liu@c-sky.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ target/riscv/vector_helper.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 99cc388db9..659ca8a173 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -342,12 +342,14 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
-  * @first_stage: Are we in first stage translation?
-  *               Second stage is used for hypervisor guest translation
-  * @two_stage: Are we going to perform two stage translation
-+ * @is_debug: Is this access from a debugger or the monitor?
-  */
- static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-                                 int *prot, target_ulong addr,
-                                 target_ulong *fault_pte_addr,
-                                 int access_type, int mmu_idx,
--                                bool first_stage, bool two_stage)
-+                                bool first_stage, bool two_stage,
-+                                bool is_debug)
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index a156573d28..356cef8a09 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -2451,7 +2451,7 @@ static inline int8_t ssub8(CPURISCVState *env, int vxrm, int8_t a, int8_t b)
  {
-     /* NOTE: the env->pc value visible here will not be
-      * correct, but the value visible to the exception handler
-@@ -416,7 +418,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-         widened = 2;
+     int8_t res = a - b;
+     if ((res ^ a) & (a ^ b) & INT8_MIN) {
+-        res = a > 0 ? INT8_MAX : INT8_MIN;
++        res = a >= 0 ? INT8_MAX : INT8_MIN;
+         env->vxsat = 0x1;
      }
-     /* status.SUM will be ignored if execute on background */
--    sum = get_field(env->mstatus, MSTATUS_SUM) || use_background;
-+    sum = get_field(env->mstatus, MSTATUS_SUM) || use_background || is_debug;
-     switch (vm) {
-     case VM_1_10_SV32:
-       levels = 2; ptidxbits = 10; ptesize = 4; break;
-@@ -475,7 +477,8 @@ restart:
-             /* Do the second stage translation on the base PTE address. */
-             int vbase_ret = get_physical_address(env, &vbase, &vbase_prot,
-                                                  base, NULL, MMU_DATA_LOAD,
--                                                 mmu_idx, false, true);
-+                                                 mmu_idx, false, true,
-+                                                 is_debug);
- 
-             if (vbase_ret != TRANSLATE_SUCCESS) {
-                 if (fault_pte_addr) {
-@@ -666,13 +669,13 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     int mmu_idx = cpu_mmu_index(&cpu->env, false);
- 
-     if (get_physical_address(env, &phys_addr, &prot, addr, NULL, 0, mmu_idx,
--                             true, riscv_cpu_virt_enabled(env))) {
-+                             true, riscv_cpu_virt_enabled(env), true)) {
-         return -1;
+     return res;
+@@ -2461,7 +2461,7 @@ static inline int16_t ssub16(CPURISCVState *env, int vxrm, int16_t a, int16_t b)
+ {
+     int16_t res = a - b;
+     if ((res ^ a) & (a ^ b) & INT16_MIN) {
+-        res = a > 0 ? INT16_MAX : INT16_MIN;
++        res = a >= 0 ? INT16_MAX : INT16_MIN;
+         env->vxsat = 0x1;
      }
- 
-     if (riscv_cpu_virt_enabled(env)) {
-         if (get_physical_address(env, &phys_addr, &prot, phys_addr, NULL,
--                                 0, mmu_idx, false, true)) {
-+                                 0, mmu_idx, false, true, true)) {
-             return -1;
-         }
+     return res;
+@@ -2471,7 +2471,7 @@ static inline int32_t ssub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
+ {
+     int32_t res = a - b;
+     if ((res ^ a) & (a ^ b) & INT32_MIN) {
+-        res = a > 0 ? INT32_MAX : INT32_MIN;
++        res = a >= 0 ? INT32_MAX : INT32_MIN;
+         env->vxsat = 0x1;
      }
-@@ -768,7 +771,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         /* Two stage lookup */
-         ret = get_physical_address(env, &pa, &prot, address,
-                                    &env->guest_phys_fault_addr, access_type,
--                                   mmu_idx, true, true);
-+                                   mmu_idx, true, true, false);
- 
-         /*
-          * A G-stage exception may be triggered during two state lookup.
-@@ -790,7 +793,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-             im_address = pa;
- 
-             ret = get_physical_address(env, &pa, &prot2, im_address, NULL,
--                                       access_type, mmu_idx, false, true);
-+                                       access_type, mmu_idx, false, true,
-+                                       false);
- 
-             qemu_log_mask(CPU_LOG_MMU,
-                     "%s 2nd-stage address=%" VADDR_PRIx " ret %d physical "
-@@ -825,7 +829,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     } else {
-         /* Single stage lookup */
-         ret = get_physical_address(env, &pa, &prot, address, NULL,
--                                   access_type, mmu_idx, true, false);
-+                                   access_type, mmu_idx, true, false, false);
- 
-         qemu_log_mask(CPU_LOG_MMU,
-                       "%s address=%" VADDR_PRIx " ret %d physical "
+     return res;
+@@ -2481,7 +2481,7 @@ static inline int64_t ssub64(CPURISCVState *env, int vxrm, int64_t a, int64_t b)
+ {
+     int64_t res = a - b;
+     if ((res ^ a) & (a ^ b) & INT64_MIN) {
+-        res = a > 0 ? INT64_MAX : INT64_MIN;
++        res = a >= 0 ? INT64_MAX : INT64_MIN;
+         env->vxsat = 0x1;
+     }
+     return res;
 -- 
 2.31.1
 
