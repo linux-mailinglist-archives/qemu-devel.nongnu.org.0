@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C66937C770
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:21:29 +0200 (CEST)
-Received: from localhost ([::1]:45488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E1C37C76C
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:19:32 +0200 (CEST)
+Received: from localhost ([::1]:40748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgrc0-0008Gc-FW
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:21:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38776)
+	id 1lgra6-0004q4-R0
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgrZF-0004d3-Hu
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:18:37 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:33764)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lgrYG-0003eq-Pz
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:17:40 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:33412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgrZD-0004Qc-DQ
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:18:37 -0400
-Received: by mail-ej1-x633.google.com with SMTP id t4so35917195ejo.0
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 09:18:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lgrYA-0003fh-T3
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:17:36 -0400
+Received: by mail-qk1-x735.google.com with SMTP id f29so10483195qka.0
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 09:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1CTVdN6oX5to/ullbOQmEafkbJqpMUF2CWPDPoLsbG0=;
- b=nJrReqP2tLCo++quek3sldHpMsGkauMnUfI5sAj9S4BjtVU+zPl7oTe5X4uNbKXDUL
- xJLC/u8oybOy43eqhqISYCRRnoYKq0lrOD21vy9L5N7FJv/5VLm92QyRTVF2e6GfMuCq
- B0ViAkgsi2bzVikWJfJBtd47z94eN3Y9+UmcnNkZ5mXUFhZ0MDqHVo8jbSPnI6Wtknrb
- wpojY0vjw6rmooVqsT+7aljWyjwRmn/j3MAmVbpxnFFZrpQPdikAbpUCCDUmCmpQSJhM
- Da0o7XPYXXbvBqV8QSvWZWX0BYDIAbfDXE8j/2iBTu0GqenlXTKlHFYTBJOznFnHmSvf
- fXfQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NYPSOK3bAWOTjjKwcZO5WYqRW3mN9ClMaw5o3tUdjDU=;
+ b=rLPVh5nOBNHgxPoAaxaf/Gp1nsbFKKvmgsAmdKR5j/7JWNxP2sHrqlYObbt92eDskN
+ 8fAB5GEEe44TJmu1kUgFZrbG0cSKsc+IQiDD9af1ZyDQqfm4cW0TX+5fih1EojLOpKSc
+ snZ4fgjCNP6AUgGJ6GMz1otR+TrIoe8RkUTCLlODZuDEvcNoHddMHUs6nVL1L8Of8ZlH
+ XE1+CiMMp7671ocOu57BOaLlJLsC2BKL89GA3N+UJxgKIKfI8sVQ3QqvVt9slJRLI9Qw
+ mEEl9E7rUz+vG84GUc+s8pTCNKzwwaypNaY5YWexcOLbJ2CHvshn6s3vW2uFpXQzo0CG
+ YW5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1CTVdN6oX5to/ullbOQmEafkbJqpMUF2CWPDPoLsbG0=;
- b=LTNfTP6ZOMjX43lsD3c6X/4nZSQ2i0Og8RR68Jl46rXjU3zR8S6S6I5knEE092Duag
- kW6CoTsU/KQCEuQ1lh2RYppmlX2m/JhHG0KUdxMi8cg2bFvLlXQftH3FkGBGh57uon3z
- awxw6l0IfXjfTx3T2psxZxsFAao7wAM6alK7R/2gAfLEeOzToLo6z1RT49BpjG9wEP68
- RyddBqDcrbtM1DqgVBBavkebkaEgj7GZkRHAL6nIAdVWWWJTWyZjgSo9wgJQqS0b7900
- vk6ZrCDgv+J0X0YLdSp/PXJuZtQSC1tzLXMvAgbwEnmbyhFvfCDbN/fvyTd8S8qT1G0S
- Q8IQ==
-X-Gm-Message-State: AOAM530qK+wRDsm8KXcXeG/ltlQwO7hcN0PutuCSydNDMgr/B4npNPFm
- EWpYurb37/XeXped8yOY+aI11VEF4+m3O22iB+3lr8mSrFE=
-X-Google-Smtp-Source: ABdhPJxsTVxYnhnS5SWLMdXMP9G5mW27J4NMWIwMC1J+ZIa/bFHydzoy7L6E4lSqk60klGePrYmys1ilITrB/wF76v4=
-X-Received: by 2002:a17:906:eced:: with SMTP id
- qt13mr38157554ejb.382.1620836313745; 
- Wed, 12 May 2021 09:18:33 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NYPSOK3bAWOTjjKwcZO5WYqRW3mN9ClMaw5o3tUdjDU=;
+ b=tWn9/mrACJmC7sDQo5Zjyes17TVmOMVQRxId6KxU1v6nBoIXYyjRhuQmH1eE03FBYf
+ SXSQ2inev3+Mn0bEiF60h1d/XCaRyKLsM/SCud10P0ytfHohrJJB8TNpGZ4SvRrJowsL
+ kcYx4HMRdKsAvyDatop2HKzBuR9NOtyOjBZSaKMuiibT5PcfrzVVi+Q55sdqCn0rxie7
+ Bj65bw2gRsHyTa2TcsNr+OUJ2IlktvTALjdVWVBh8k4gDycY0gMdtxTD3OmegfGpNrph
+ ZjS0ZAAlIoj4t7ZksC0lLI9jYkpvaJnRMsXsDTD/1Pp6PAgGeP9FsnHEqJENmRaJrblS
+ CeRg==
+X-Gm-Message-State: AOAM532RVPfcwz33nw79wTnyXeW90I3VWJ33jVn8WdAMga48x/QTxfp5
+ VxYXP1pCNmHipfKaARmFH2VE4w==
+X-Google-Smtp-Source: ABdhPJzGI7/q8ld6d4yn+uXqi6MUwnqW676cK0ri5gT4PfTher+GzuLhLOznYgvVUSCLWDyfVMP+Kw==
+X-Received: by 2002:a05:620a:2081:: with SMTP id
+ e1mr33205426qka.44.1620836249679; 
+ Wed, 12 May 2021 09:17:29 -0700 (PDT)
+Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id j196sm356278qke.25.2021.05.12.09.17.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 May 2021 09:17:29 -0700 (PDT)
+Subject: Re: [PATCH v6 38/82] target/arm: Implement SVE2 ADDHNB, ADDHNT
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ <20210430202610.1136687-39-richard.henderson@linaro.org>
+ <CAFEAcA9fwtJsQJcQQMF2VBVBWJDJgLCU1Eaq13-8PVSsTy4tUg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3be38343-23e5-ff64-1dae-ddcaa963732c@linaro.org>
+Date: Wed, 12 May 2021 11:17:25 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210510130617.320981-1-marcandre.lureau@redhat.com>
- <CAFEAcA_mj-9EC2WhUKd4QN8xGk4JMjyr6_ycOD5ukZAGRdrjMg@mail.gmail.com>
- <CAJ+F1CLB4uMQsggZKX5kGBtSr14rZ7mW5rr4dwMi=hn4TTpHag@mail.gmail.com>
- <CAFEAcA8L6Qks-bZtbpgbmSaKcGB2waTEKpOtvZ_PQ7vxdzZ2pg@mail.gmail.com>
- <CAJ+F1CKBk2450Y85bcyneYHCbzBFq42Cruf1fRunXuzWB8sUVA@mail.gmail.com>
-In-Reply-To: <CAJ+F1CKBk2450Y85bcyneYHCbzBFq42Cruf1fRunXuzWB8sUVA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 May 2021 17:17:19 +0100
-Message-ID: <CAFEAcA-ED+C+hnK_4jfK5JRLQ5mFW=XM-bPnD5O1ZmnEFH7XbA@mail.gmail.com>
-Subject: Re: [PULL v2 0/1] readthedoc theme patch
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+In-Reply-To: <CAFEAcA9fwtJsQJcQQMF2VBVBWJDJgLCU1Eaq13-8PVSsTy4tUg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x735.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,68 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 May 2021 at 17:02, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
-> On Wed, May 12, 2021 at 7:56 PM Peter Maydell <peter.maydell@linaro.org> =
-wrote:
->> >> NetBSD now complains:
->> >>
->> >> Configuring 60-edk2-x86_64.json using configuration
->> >> Program qemu-keymap found: NO
->> >> Program sphinx-build found: YES
->> >> ../docs/meson.build:30: WARNING: /usr/bin/sphinx-build:
->> >> Configuration error:
->> >> There is a programable error in your configuration file:
->> >>
->> >> Traceback (most recent call last):
->> >>   File "conf.py", line 154, in <module>
->> >>     import sphinx_rtd_theme
->> >> ModuleNotFoundError: No module named 'sphinx_rtd_theme'
->> >>
->> >> During handling of the above exception, another exception occurred:
->> >>
->> >> Traceback (most recent call last):
->> >>   File "/usr/lib/python3/dist-packages/sphinx/config.py", line 157, i=
-n __init__
->> >>     execfile_(filename, config)
->> >>   File "/usr/lib/python3/dist-packages/sphinx/util/pycompat.py", line
->> >> 150, in execfile_
->> >>     exec_(code, _globals)
->> >>   File "conf.py", line 157, in <module>
->> >>     'The Sphinx \'sphinx_rtd_theme\' HTML theme was not found.\n'
->> >> sphinx.errors.ConfigError: The Sphinx 'sphinx_rtd_theme' HTML theme
->> >> was not found.
->> >>
->> >>
->> >>
->> >> Program python3 found: YES (/usr/bin/python3)
->> >> Program diff found: YES
->> >> Program dbus-daemon found: YES
->> >>
->> >>
->> >> as does freebsd and openbsd. Can we get the theme added to the VM
->> >> configs for those ?
+On 5/12/21 10:23 AM, Peter Maydell wrote:
+> On Fri, 30 Apr 2021 at 22:00, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
 >>
->> > What is used for the BSD configs? If it's tests/vm, I don't see readth=
-edoc being installed there, and vm-build-* should work (at least some work =
-for me, freebsd fails with ssh issue here)
+>> From: Stephen Long <steplong@quicinc.com>
 >>
->> It's tests/vm.  The build doesn't fail, but the printing of the WARNING
->> is caught by my wrapper scripts (which grep for various warning/error
->> words to catch issues which don't trigger complete build failures).
->> Adding the theme to the configs would mean that we can continue to
->> test docs builds on those platforms.
->
->
-> Didn't you install readthedoc manually there? I don't see those warnings.
+>> Signed-off-by: Stephen Long <steplong@quicinc.com>
+>> Message-Id: <20200417162231.10374-2-steplong@quicinc.com>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+> 
+>> diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+>> index 572d41a26c..2dead1f056 100644
+>> --- a/target/arm/sve_helper.c
+>> +++ b/target/arm/sve_helper.c
+>> @@ -2112,6 +2112,42 @@ DO_SHRNT(sve2_uqrshrnt_d, uint64_t, uint32_t,     , H1_4, DO_UQRSHRN_D)
+>>   #undef DO_SHRNB
+>>   #undef DO_SHRNT
+>>
+>> +#define DO_BINOPNB(NAME, TYPEW, TYPEN, SHIFT, OP)                           \
+>> +void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)              \
+>> +{                                                                           \
+>> +    intptr_t i, opr_sz = simd_oprsz(desc);                                  \
+>> +    for (i = 0; i < opr_sz; i += sizeof(TYPEW)) {                           \
+>> +        TYPEW nn = *(TYPEW *)(vn + i);                                      \
+>> +        TYPEW mm = *(TYPEW *)(vm + i);                                      \
+>> +        *(TYPEW *)(vd + i) = (TYPEN)OP(nn, mm, SHIFT);                      \
+>> +    }                                                                       \
+>> +}
+> 
+> Doesn't this need H macros like the 'T' version ?
 
-No, I don't install anything manually on the BSD VM setups -- I just
-use the tests/vm makefile magic to run a build-and-test.
+No, all memory ops are the same TYPEW column.
 
-thanks
--- PMM
+
+r~
 
