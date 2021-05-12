@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E491237B456
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 04:57:57 +0200 (CEST)
-Received: from localhost ([::1]:50454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB35537B457
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 04:59:27 +0200 (CEST)
+Received: from localhost ([::1]:53466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgf4P-0004bP-14
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 22:57:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38022)
+	id 1lgf5q-0006gQ-Tm
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 22:59:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lgf3D-0002tH-KV
- for qemu-devel@nongnu.org; Tue, 11 May 2021 22:56:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27753)
+ id 1lgf3r-00040X-2U
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 22:57:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lgf3B-0005Qb-SG
- for qemu-devel@nongnu.org; Tue, 11 May 2021 22:56:43 -0400
+ id 1lgf3o-0005u2-Pj
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 22:57:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620788201;
+ s=mimecast20190719; t=1620788240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H7dgJ2VBvYgXlW8nrgz1xqOSk080AmTGIBqPcItbHJ8=;
- b=SFWdZyvSgl47wG4Ei0yYdiRMxoea0SmUuuK+w6Zv8m9XFTcn5xz09fycNFe0DoJKFI7V4s
- E0C8wDbTHpNx8q3o0ECWakmTMBjEEbpz+ogLk9wwa7S9cN1TiKw5q3ArKS1/3UDw7GmHwG
- WjMylHO7eOtqEonKfhhgduWdH9E7oo0=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-U6vCit2PPwedkJB9EqXcCw-1; Tue, 11 May 2021 22:56:39 -0400
-X-MC-Unique: U6vCit2PPwedkJB9EqXcCw-1
-Received: by mail-pf1-f199.google.com with SMTP id
- s5-20020aa78d450000b02902ace63a7e93so8477671pfe.8
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 19:56:39 -0700 (PDT)
+ bh=znSd28ZNJvaIgAyhqizi2Y0bkszVkdPi1gjXzRcoXyA=;
+ b=N1hKLNV/SIbKIDr/gJ8jUY5jmokvBYbz0V3wZrCXi1orRYeWv8QEByj9Z9Zjir2ewmBNq1
+ lIL4xdHL67+QScFYoSE6P1CITGefImm69QZYkgPgRlXyjvCwdcmR+tNaFkJLG24zaC5V6y
+ Evn9l3U2/S0eDJvQMoGj8ff4Wqm5tjI=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-520-3sF_PibqOZeucC8dsHHGug-1; Tue, 11 May 2021 22:57:14 -0400
+X-MC-Unique: 3sF_PibqOZeucC8dsHHGug-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ l25-20020a6357190000b02901f6df0d646eso13439574pgb.23
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 19:57:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=H7dgJ2VBvYgXlW8nrgz1xqOSk080AmTGIBqPcItbHJ8=;
- b=t0BbSkTBjeHJpDSC7PG/Ew+VfYS/P3re0u1UMb4QdcGV5OhBX62qvdJ1UoIACtlqxB
- K5YxzX1TCthE6nEbj/LgPez7Nw3jisH+oyfepuxXnqiAgiqPuBEdbCh87CWef7xGWeNc
- CqME6hw32fNC3XXNQz48n5UmWTDlOBSUmo6YkBtzswnyyesUxxvXZ6c4vXdoupiTrsYF
- UoY6gAzfYa6cCxmU4Na9OVTaU5kLmcPET1bcZHCzVfPTn5ylG4PpNEZ16XVR5LWSsCU7
- GywztM7XUTeFlHcCZPGEn07ttVWZdKN44XMOg0BQwY3yusG86Dpyi2Y0PkWMA/EfEoiU
- nIaA==
-X-Gm-Message-State: AOAM532G1yWMGvwiiLvx2L0zZVRGH3yp8XKEr7mUphbR5uUhQeNBdGD7
- TqRwg9UkOxG3A7+6Uhc9/ypokEAj4uLnkjzuiMueUPQMUpW6TSZbkwwyZyce5TxLHdXZj7ZveFY
- 7rplTCW82ko4f568=
-X-Received: by 2002:a17:90b:3781:: with SMTP id
- mz1mr5939444pjb.92.1620788198498; 
- Tue, 11 May 2021 19:56:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSQ2rjJhej6j6lVXtiuyX9Ti34Cim6flcy/ZudBCjb5vmVDZAeSFIqKEFIM6drUWAoT7BAVQ==
-X-Received: by 2002:a17:90b:3781:: with SMTP id
- mz1mr5939429pjb.92.1620788198246; 
- Tue, 11 May 2021 19:56:38 -0700 (PDT)
+ bh=znSd28ZNJvaIgAyhqizi2Y0bkszVkdPi1gjXzRcoXyA=;
+ b=M1VOeUqMEo6TuHEWYNIBpQxtwlm7kT6175Mq3kePqEiUsnA9wAVpiJ1hwTfXIGEz+y
+ YVOaVLR96DBcvBojyKj1viqFqWHfs0YmMmNa97i1Y7UYv5sdjj9AYTF5wzEgNMApmFgL
+ pF5Ea99ApN+VxD3jhhZU8X6cTV5GP2ZLE/wDt+DB5UIlvYkSOgu+RQyRiHpjqBvEp6E8
+ ePkt4Y6ZUdmUz3lJdJvgegu8CqNG3pzE+CJTZ9Es14Ti09pGvsvKzYaGVTGy9A4500+t
+ 1+6qmMaWXzsGSw8npWLsMkcBXodf7APEhqQVUYW56KKj//94p3MGCEbUa2RAO0Pjerjm
+ 045Q==
+X-Gm-Message-State: AOAM531xQVriZligD/V7PGeFYD/sWplOKa3E5vcNGON9Pr1bFpBrnvYV
+ aMpF526jZU6A0eThLIZ0HeBe3nfR4ij9xu6QFqjEa+7ZsaVL2nkIyqu8Tz1nf0ssA8chg/MUOpV
+ IAp0nDA6J3OTQGGo=
+X-Received: by 2002:a63:5049:: with SMTP id q9mr9751972pgl.123.1620788233058; 
+ Tue, 11 May 2021 19:57:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw73S8v94F64l2KzqcBwbrYFLIXWEnce9fRy+O18rplAUpyEbmVrYovKkCOg7j4WyppKK4izQ==
+X-Received: by 2002:a63:5049:: with SMTP id q9mr9751953pgl.123.1620788232804; 
+ Tue, 11 May 2021 19:57:12 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id m2sm4803460pgu.85.2021.05.11.19.56.34
+ by smtp.gmail.com with ESMTPSA id mg1sm3129286pjb.14.2021.05.11.19.57.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 19:56:37 -0700 (PDT)
-Subject: Re: [PATCH 2/3] virtio-blk: Constify VirtIOFeature feature_sizes[]
+ Tue, 11 May 2021 19:57:08 -0700 (PDT)
+Subject: Re: [PATCH 3/3] virtio-net: Constify VirtIOFeature feature_sizes[]
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210511104157.2880306-1-philmd@redhat.com>
- <20210511104157.2880306-3-philmd@redhat.com>
+ <20210511104157.2880306-4-philmd@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <ceeaa52d-4a76-4ce9-d355-61a909040ed8@redhat.com>
-Date: Wed, 12 May 2021 10:56:32 +0800
+Message-ID: <774a603f-f511-903a-2383-8d191ac27c7d@redhat.com>
+Date: Wed, 12 May 2021 10:57:03 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210511104157.2880306-3-philmd@redhat.com>
+In-Reply-To: <20210511104157.2880306-4-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,7 +88,7 @@ X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,22 +111,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 在 2021/5/11 下午6:41, Philippe Mathieu-Daudé 写道:
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->   hw/block/virtio-blk.c | 2 +-
+>   hw/net/virtio-net.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> index d28979efb8d..f139cd7cc9c 100644
-> --- a/hw/block/virtio-blk.c
-> +++ b/hw/block/virtio-blk.c
-> @@ -40,7 +40,7 @@
->    * Starting from the discard feature, we can use this array to properly
->    * set the config size depending on the features enabled.
->    */
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 66b9ff45118..6b7e8dd04ef 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -89,7 +89,7 @@
+>                                            VIRTIO_NET_RSS_HASH_TYPE_TCP_EX | \
+>                                            VIRTIO_NET_RSS_HASH_TYPE_UDP_EX)
+>   
 > -static VirtIOFeature feature_sizes[] = {
 > +static const VirtIOFeature feature_sizes[] = {
->       {.flags = 1ULL << VIRTIO_BLK_F_DISCARD,
->        .end = endof(struct virtio_blk_config, discard_sector_alignment)},
->       {.flags = 1ULL << VIRTIO_BLK_F_WRITE_ZEROES,
+>       {.flags = 1ULL << VIRTIO_NET_F_MAC,
+>        .end = endof(struct virtio_net_config, mac)},
+>       {.flags = 1ULL << VIRTIO_NET_F_STATUS,
 
 
 Acked-by: Jason Wang <jasowang@redhat.com>
