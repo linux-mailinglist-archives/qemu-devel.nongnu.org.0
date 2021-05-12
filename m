@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4913E37C77A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:28:02 +0200 (CEST)
-Received: from localhost ([::1]:54406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7574137C781
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:33:29 +0200 (CEST)
+Received: from localhost ([::1]:34324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgriL-0006m9-5N
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:28:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41258)
+	id 1lgrnc-0003xE-4q
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:33:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lgrf5-0003QF-FS
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:24:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55343)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lgrfB-0003RP-LF
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:24:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lgrer-0000Su-Ar
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:24:39 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lgret-0000U9-Ga
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:24:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620836664;
+ s=mimecast20190719; t=1620836666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0AhsLl2h6m6sddcjW3Y98q2EcGbMCAtYZabDtKmlPX0=;
- b=ZVBBYOP3pVm53cmUS5Xd7rR3snClUGF4Dx8it/KZBUh8owQuRnWQSX99rW04c9JfE0bknU
- hXH+vYO5GzzXyl/WG4nl6np5FQczxJXM1vOjdbbSNM3lv1mGzUqQBXr1uZJN3uNUXN7uyv
- 1XTCuZVKUlhS2i9LP+SiaPLKd1p2Rg0=
+ bh=E8NMNUFBNG9EQHkdmiGbWx7krC4oC0WA+Zc4CdgqQY0=;
+ b=E9zK5g/vApDl0yMB8HHyATlWREiRDFeFdUmRuk14jNvLcKPH58fbiaFommUkDeqazViYKR
+ eeiDd3yQKCSlTwInpFIIhO78YkzJoYTL7tJ8dzUvTdXGecsji8KhrhYU7u7RBlUT652Rx0
+ Isp5Tu3XetcgxtzJra4yEzGVVpJu5us=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-XNuiQOvjNaORfIb1SQlrGg-1; Wed, 12 May 2021 12:24:21 -0400
-X-MC-Unique: XNuiQOvjNaORfIb1SQlrGg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-374-6k8wXj0mMX-NMri4HjLtPA-1; Wed, 12 May 2021 12:24:22 -0400
+X-MC-Unique: 6k8wXj0mMX-NMri4HjLtPA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD534107ACE4;
- Wed, 12 May 2021 16:24:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D77D800D55;
+ Wed, 12 May 2021 16:24:21 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A16A75D6A8;
- Wed, 12 May 2021 16:24:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BC9816920;
+ Wed, 12 May 2021 16:24:20 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 212091138468; Wed, 12 May 2021 18:24:13 +0200 (CEST)
+ id 0A90111384A2; Wed, 12 May 2021 18:24:13 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] Drop the deprecated unicore32 target
-Date: Wed, 12 May 2021 18:24:12 +0200
-Message-Id: <20210512162412.338120-6-armbru@redhat.com>
+Subject: [PULL 3/5] block: Drop the sheepdog block driver
+Date: Wed, 12 May 2021 18:24:10 +0200
+Message-Id: <20210512162412.338120-4-armbru@redhat.com>
 In-Reply-To: <20210512162412.338120-1-armbru@redhat.com>
 References: <20210512162412.338120-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -79,5043 +79,3878 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>
+Cc: peter.maydell@linaro.org, Peter Krempa <pkrempa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Target unicore32 was deprecated in commit 8e4ff4a8d2b, v5.2.0.  See
-there for rationale.
+It was deprecated in commit e1c4269763, v5.2.0.  See that commit
+message for rationale.
 
-Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210503084034.3804963-3-armbru@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210501075747.3293186-1-armbru@redhat.com>
+ACKed-by: Peter Krempa <pkrempa@redhat.com>
 ---
- docs/system/deprecated.rst                    |    8 -
- docs/system/removed-features.rst              |    7 +
- configure                                     |    2 +-
- default-configs/devices/unicore32-softmmu.mak |    6 -
- default-configs/targets/unicore32-softmmu.mak |    1 -
- qapi/machine.json                             |    2 +-
- include/elf.h                                 |    3 +-
- include/exec/poison.h                         |    1 -
- include/hw/unicore32/puv3.h                   |   40 -
- include/sysemu/arch_init.h                    |    1 -
- target/unicore32/cpu-param.h                  |   17 -
- target/unicore32/cpu-qom.h                    |   37 -
- target/unicore32/cpu.h                        |  168 --
- target/unicore32/helper.h                     |   62 -
- hw/dma/puv3_dma.c                             |  119 -
- hw/gpio/puv3_gpio.c                           |  154 --
- hw/intc/puv3_intc.c                           |  147 --
- hw/misc/puv3_pm.c                             |  159 --
- hw/timer/puv3_ost.c                           |  166 --
- hw/unicore32/puv3.c                           |  145 --
- softmmu/arch_init.c                           |    2 -
- target/unicore32/cpu.c                        |  174 --
- target/unicore32/helper.c                     |  183 --
- target/unicore32/op_helper.c                  |  244 --
- target/unicore32/softmmu.c                    |  280 ---
- target/unicore32/translate.c                  | 2083 -----------------
- target/unicore32/ucf64_helper.c               |  324 ---
- tests/qtest/machine-none-test.c               |    1 -
- fpu/softfloat-specialize.c.inc                |   11 +-
- .gitlab-ci.yml                                |    2 +-
- MAINTAINERS                                   |   15 -
- hw/Kconfig                                    |    1 -
- hw/dma/meson.build                            |    1 -
- hw/gpio/meson.build                           |    1 -
- hw/intc/meson.build                           |    1 -
- hw/meson.build                                |    1 -
- hw/misc/meson.build                           |    3 -
- hw/timer/meson.build                          |    1 -
- hw/unicore32/Kconfig                          |    5 -
- hw/unicore32/meson.build                      |    5 -
- target/meson.build                            |    1 -
- target/unicore32/meson.build                  |   14 -
- 42 files changed, 16 insertions(+), 4582 deletions(-)
- delete mode 100644 default-configs/devices/unicore32-softmmu.mak
- delete mode 100644 default-configs/targets/unicore32-softmmu.mak
- delete mode 100644 include/hw/unicore32/puv3.h
- delete mode 100644 target/unicore32/cpu-param.h
- delete mode 100644 target/unicore32/cpu-qom.h
- delete mode 100644 target/unicore32/cpu.h
- delete mode 100644 target/unicore32/helper.h
- delete mode 100644 hw/dma/puv3_dma.c
- delete mode 100644 hw/gpio/puv3_gpio.c
- delete mode 100644 hw/intc/puv3_intc.c
- delete mode 100644 hw/misc/puv3_pm.c
- delete mode 100644 hw/timer/puv3_ost.c
- delete mode 100644 hw/unicore32/puv3.c
- delete mode 100644 target/unicore32/cpu.c
- delete mode 100644 target/unicore32/helper.c
- delete mode 100644 target/unicore32/op_helper.c
- delete mode 100644 target/unicore32/softmmu.c
- delete mode 100644 target/unicore32/translate.c
- delete mode 100644 target/unicore32/ucf64_helper.c
- delete mode 100644 hw/unicore32/Kconfig
- delete mode 100644 hw/unicore32/meson.build
- delete mode 100644 target/unicore32/meson.build
+ docs/system/deprecated.rst             |    9 -
+ docs/system/device-url-syntax.rst.inc  |   18 -
+ docs/system/qemu-block-drivers.rst.inc |   69 -
+ docs/system/removed-features.rst       |    7 +
+ configure                              |   10 -
+ meson.build                            |    1 -
+ qapi/block-core.json                   |   93 +-
+ qapi/transaction.json                  |    8 +-
+ block/sheepdog.c                       | 3356 ------------------------
+ .gitlab-ci.yml                         |    1 -
+ MAINTAINERS                            |    6 -
+ block/meson.build                      |    1 -
+ block/trace-events                     |   14 -
+ tests/qemu-iotests/005                 |    5 -
+ tests/qemu-iotests/025                 |    2 +-
+ tests/qemu-iotests/check               |    3 +-
+ tests/qemu-iotests/common.rc           |    4 -
+ 17 files changed, 14 insertions(+), 3593 deletions(-)
+ delete mode 100644 block/sheepdog.c
 
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 1199fe93c0..abbf8243a3 100644
+index cd91c4528f..7d34da9f68 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
-@@ -198,14 +198,6 @@ from Linux upstream kernel, declare it deprecated.
- System emulator CPUS
+@@ -285,15 +285,6 @@ The above, converted to the current supported format::
+ 
+   json:{"file.driver":"rbd", "file.pool":"rbd", "file.image":"name"}
+ 
+-``sheepdog`` driver (since 5.2.0)
+-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-
+-The ``sheepdog`` block device driver is deprecated. The corresponding upstream
+-server project is no longer actively maintained. Users are recommended to switch
+-to an alternative distributed block device driver such as RBD. The
+-``qemu-img convert`` command can be used to liberate existing data by moving
+-it out of sheepdog volumes into an alternative storage backend.
+-
+ linux-user mode CPUs
  --------------------
  
--``unicore32`` CPUs (since 5.2.0)
--''''''''''''''''''''''''''''''''
+diff --git a/docs/system/device-url-syntax.rst.inc b/docs/system/device-url-syntax.rst.inc
+index 6f6ec8366b..d15a021508 100644
+--- a/docs/system/device-url-syntax.rst.inc
++++ b/docs/system/device-url-syntax.rst.inc
+@@ -85,24 +85,6 @@ These are specified using a special URL syntax.
+    Currently authentication must be done using ssh-agent. Other
+    authentication methods may be supported in future.
+ 
+-``Sheepdog``
+-   Sheepdog is a distributed storage system for QEMU. QEMU supports
+-   using either local sheepdog devices or remote networked devices.
 -
--The ``unicore32`` guest CPU support is deprecated and will be removed in
--a future version of QEMU. Support for this CPU was removed from the
--upstream Linux kernel, and there is no available upstream toolchain
--to build binaries for it.
+-   Syntax for specifying a sheepdog device
 -
- ``Icelake-Client`` CPU Model (since 5.2.0)
- ''''''''''''''''''''''''''''''''''''''''''
+-   ::
+-
+-      sheepdog[+tcp|+unix]://[host:port]/vdiname[?socket=path][#snapid|#tag]
+-
+-   Example
+-
+-   .. parsed-literal::
+-
+-      |qemu_system| --drive file=sheepdog://192.0.2.1:30000/MyVirtualMachine
+-
+-   See also https://sheepdog.github.io/sheepdog/.
+-
+ ``GlusterFS``
+    GlusterFS is a user space distributed file system. QEMU supports the
+    use of GlusterFS volumes for hosting VM disk images using TCP, Unix
+diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
+index 60a064b232..16225710eb 100644
+--- a/docs/system/qemu-block-drivers.rst.inc
++++ b/docs/system/qemu-block-drivers.rst.inc
+@@ -547,75 +547,6 @@ also available.  Here are some example of the older syntax:
+   |qemu_system| linux2.img -hdb nbd:unix:/tmp/my_socket
+   |qemu_system| -cdrom nbd:localhost:10809:exportname=debian-500-ppc-netinst
+ 
+-
+-
+-Sheepdog disk images
+-~~~~~~~~~~~~~~~~~~~~
+-
+-Sheepdog is a distributed storage system for QEMU.  It provides highly
+-available block level storage volumes that can be attached to
+-QEMU-based virtual machines.
+-
+-You can create a Sheepdog disk image with the command:
+-
+-.. parsed-literal::
+-
+-  qemu-img create sheepdog:///IMAGE SIZE
+-
+-where *IMAGE* is the Sheepdog image name and *SIZE* is its
+-size.
+-
+-To import the existing *FILENAME* to Sheepdog, you can use a
+-convert command.
+-
+-.. parsed-literal::
+-
+-  qemu-img convert FILENAME sheepdog:///IMAGE
+-
+-You can boot from the Sheepdog disk image with the command:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| sheepdog:///IMAGE
+-
+-You can also create a snapshot of the Sheepdog image like qcow2.
+-
+-.. parsed-literal::
+-
+-  qemu-img snapshot -c TAG sheepdog:///IMAGE
+-
+-where *TAG* is a tag name of the newly created snapshot.
+-
+-To boot from the Sheepdog snapshot, specify the tag name of the
+-snapshot.
+-
+-.. parsed-literal::
+-
+-  |qemu_system| sheepdog:///IMAGE#TAG
+-
+-You can create a cloned image from the existing snapshot.
+-
+-.. parsed-literal::
+-
+-  qemu-img create -b sheepdog:///BASE#TAG sheepdog:///IMAGE
+-
+-where *BASE* is an image name of the source snapshot and *TAG*
+-is its tag name.
+-
+-You can use an unix socket instead of an inet socket:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| sheepdog+unix:///IMAGE?socket=PATH
+-
+-If the Sheepdog daemon doesn't run on the local host, you need to
+-specify one of the Sheepdog servers to connect to.
+-
+-.. parsed-literal::
+-
+-  qemu-img create sheepdog://HOSTNAME:PORT/IMAGE SIZE
+-  |qemu_system| sheepdog://HOSTNAME:PORT/IMAGE
+-
+ iSCSI LUNs
+ ~~~~~~~~~~
  
 diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index 4915bc3f63..5a462ac568 100644
+index f49737c4ef..51a79b39cb 100644
 --- a/docs/system/removed-features.rst
 +++ b/docs/system/removed-features.rst
-@@ -305,6 +305,13 @@ The only public user of this architecture was the milkymist project,
- which has been dead for years; there was never an upstream Linux
- port.  Removed without replacement.
+@@ -474,3 +474,10 @@ VXHS backend (removed in 5.1)
+ '''''''''''''''''''''''''''''
  
-+``unicore32`` CPUs (since 6.1.0)
-+''''''''''''''''''''''''''''''''
+ The VXHS code did not compile since v2.12.0. It was removed in 5.1.
 +
-+Support for this CPU was removed from the upstream Linux kernel, and
-+there is no available upstream toolchain to build binaries for it.
-+Removed without replacement.
++``sheepdog`` driver (removed in 6.0)
++''''''''''''''''''''''''''''''''''''
 +
- System emulator machines
- ------------------------
- 
++The corresponding upstream server project is no longer maintained.
++Users are recommended to switch to an alternative distributed block
++device driver such as RBD.
 diff --git a/configure b/configure
-index cae212988c..cc703b3e8d 100755
+index f3fe75db9d..87593045cf 100755
 --- a/configure
 +++ b/configure
-@@ -1663,7 +1663,7 @@ if [ "$ARCH" = "unknown" ]; then
+@@ -447,7 +447,6 @@ vdi=${default_feature:-yes}
+ vvfat=${default_feature:-yes}
+ qed=${default_feature:-yes}
+ parallels=${default_feature:-yes}
+-sheepdog="no"
+ libxml2="$default_feature"
+ debug_mutex="no"
+ libpmem="$default_feature"
+@@ -1478,10 +1477,6 @@ for opt do
+   ;;
+   --enable-parallels) parallels="yes"
+   ;;
+-  --disable-sheepdog) sheepdog="no"
+-  ;;
+-  --enable-sheepdog) sheepdog="yes"
+-  ;;
+   --disable-vhost-user) vhost_user="no"
+   ;;
+   --enable-vhost-user) vhost_user="yes"
+@@ -1916,7 +1911,6 @@ disabled with --disable-FEATURE, default is enabled if available
+   vvfat           vvfat image format support
+   qed             qed image format support
+   parallels       parallels image format support
+-  sheepdog        sheepdog block driver support (deprecated)
+   crypto-afalg    Linux AF_ALG crypto backend driver
+   capstone        capstone disassembler support
+   debug-mutex     mutex debugging support
+@@ -6106,10 +6100,6 @@ fi
+ if test "$parallels" = "yes" ; then
+   echo "CONFIG_PARALLELS=y" >> $config_host_mak
  fi
- 
- default_target_list=""
--deprecated_targets_list=ppc64abi32-linux-user,unicore32-softmmu
-+deprecated_targets_list=ppc64abi32-linux-user
- deprecated_features=""
- mak_wilds=""
- 
-diff --git a/default-configs/devices/unicore32-softmmu.mak b/default-configs/devices/unicore32-softmmu.mak
-deleted file mode 100644
-index 899288e3d7..0000000000
---- a/default-configs/devices/unicore32-softmmu.mak
-+++ /dev/null
-@@ -1,6 +0,0 @@
--# Default configuration for unicore32-softmmu
--
--# Boards:
--#
--CONFIG_PUV3=y
--CONFIG_SEMIHOSTING=y
-diff --git a/default-configs/targets/unicore32-softmmu.mak b/default-configs/targets/unicore32-softmmu.mak
-deleted file mode 100644
-index 57331e94fe..0000000000
---- a/default-configs/targets/unicore32-softmmu.mak
-+++ /dev/null
-@@ -1 +0,0 @@
--TARGET_ARCH=unicore32
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 37a7e34195..58a9c86b36 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -33,7 +33,7 @@
-              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-              'mips64el', 'mipsel', 'nios2', 'or1k', 'ppc',
-              'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
--             'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
-+             'sh4eb', 'sparc', 'sparc64', 'tricore',
-              'x86_64', 'xtensa', 'xtensaeb' ] }
+-if test "$sheepdog" = "yes" ; then
+-  add_to deprecated_features "sheepdog"
+-  echo "CONFIG_SHEEPDOG=y" >> $config_host_mak
+-fi
+ if test "$have_mlockall" = "yes" ; then
+   echo "HAVE_MLOCKALL=y" >> $config_host_mak
+ fi
+diff --git a/meson.build b/meson.build
+index 40e8f012ac..eeb82a4bc6 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2634,7 +2634,6 @@ if have_block
+   summary_info += {'vvfat support':     config_host.has_key('CONFIG_VVFAT')}
+   summary_info += {'qed support':       config_host.has_key('CONFIG_QED')}
+   summary_info += {'parallels support': config_host.has_key('CONFIG_PARALLELS')}
+-  summary_info += {'sheepdog support':  config_host.has_key('CONFIG_SHEEPDOG')}
+   summary_info += {'FUSE exports':      fuse.found()}
+ endif
+ summary(summary_info, bool_yn: true, section: 'Block layer support')
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 6d227924d0..2ea294129e 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2818,7 +2818,6 @@
+             'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
+             'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+             { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' },
+-            'sheepdog',
+             'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
  
  ##
-diff --git a/include/elf.h b/include/elf.h
-index 33ed830ec3..033bcc9576 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -174,9 +174,8 @@ typedef struct mips_elf_abiflags_v0 {
+@@ -3651,26 +3650,6 @@
+             '*key-secret': 'str',
+             '*server': ['InetSocketAddressBase'] } }
  
- #define EM_OPENRISC     92        /* OpenCores OpenRISC */
+-##
+-# @BlockdevOptionsSheepdog:
+-#
+-# Driver specific block device options for sheepdog
+-#
+-# @vdi: Virtual disk image name
+-# @server: The Sheepdog server to connect to
+-# @snap-id: Snapshot ID
+-# @tag: Snapshot tag name
+-#
+-# Only one of @snap-id and @tag may be present.
+-#
+-# Since: 2.9
+-##
+-{ 'struct': 'BlockdevOptionsSheepdog',
+-  'data': { 'server': 'SocketAddress',
+-            'vdi': 'str',
+-            '*snap-id': 'uint32',
+-            '*tag': 'str' } }
+-
+ ##
+ # @ReplicationMode:
+ #
+@@ -4037,7 +4016,6 @@
+       'rbd':        'BlockdevOptionsRbd',
+       'replication': { 'type': 'BlockdevOptionsReplication',
+                        'if': 'defined(CONFIG_REPLICATION)' },
+-      'sheepdog':   'BlockdevOptionsSheepdog',
+       'ssh':        'BlockdevOptionsSsh',
+       'throttle':   'BlockdevOptionsThrottle',
+       'vdi':        'BlockdevOptionsGenericFormat',
+@@ -4496,74 +4474,6 @@
+             '*zeroed-grain':    'bool' } }
  
--#define EM_UNICORE32    110     /* UniCore32 */
--
- #define EM_HEXAGON      164     /* Qualcomm Hexagon */
-+
- #define EM_RX           173     /* Renesas RX family */
  
- #define EM_RISCV        243     /* RISC-V */
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index b102e3cbf0..8fc7530b6e 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -30,7 +30,6 @@
- #pragma GCC poison TARGET_SPARC
- #pragma GCC poison TARGET_SPARC64
- #pragma GCC poison TARGET_TRICORE
--#pragma GCC poison TARGET_UNICORE32
- #pragma GCC poison TARGET_XTENSA
- 
- #pragma GCC poison TARGET_ALIGNED_ONLY
-diff --git a/include/hw/unicore32/puv3.h b/include/hw/unicore32/puv3.h
+-##
+-# @SheepdogRedundancyType:
+-#
+-# @full: Create a fully replicated vdi with x copies
+-# @erasure-coded: Create an erasure coded vdi with x data strips and
+-#                 y parity strips
+-#
+-# Since: 2.12
+-##
+-{ 'enum': 'SheepdogRedundancyType',
+-  'data': [ 'full', 'erasure-coded' ] }
+-
+-##
+-# @SheepdogRedundancyFull:
+-#
+-# @copies: Number of copies to use (between 1 and 31)
+-#
+-# Since: 2.12
+-##
+-{ 'struct': 'SheepdogRedundancyFull',
+-  'data': { 'copies': 'int' }}
+-
+-##
+-# @SheepdogRedundancyErasureCoded:
+-#
+-# @data-strips: Number of data strips to use (one of {2,4,8,16})
+-# @parity-strips: Number of parity strips to use (between 1 and 15)
+-#
+-# Since: 2.12
+-##
+-{ 'struct': 'SheepdogRedundancyErasureCoded',
+-  'data': { 'data-strips': 'int',
+-            'parity-strips': 'int' }}
+-
+-##
+-# @SheepdogRedundancy:
+-#
+-# Since: 2.12
+-##
+-{ 'union': 'SheepdogRedundancy',
+-  'base': { 'type': 'SheepdogRedundancyType' },
+-  'discriminator': 'type',
+-  'data': { 'full': 'SheepdogRedundancyFull',
+-            'erasure-coded': 'SheepdogRedundancyErasureCoded' } }
+-
+-##
+-# @BlockdevCreateOptionsSheepdog:
+-#
+-# Driver specific image creation options for Sheepdog.
+-#
+-# @location: Where to store the new image file
+-# @size: Size of the virtual disk in bytes
+-# @backing-file: File name of a base image
+-# @preallocation: Preallocation mode for the new image (default: off;
+-#                 allowed values: off, full)
+-# @redundancy: Redundancy of the image
+-# @object-size: Object size of the image
+-#
+-# Since: 2.12
+-##
+-{ 'struct': 'BlockdevCreateOptionsSheepdog',
+-  'data': { 'location':         'BlockdevOptionsSheepdog',
+-            'size':             'size',
+-            '*backing-file':    'str',
+-            '*preallocation':   'PreallocMode',
+-            '*redundancy':      'SheepdogRedundancy',
+-            '*object-size':     'size' } }
+-
+ ##
+ # @BlockdevCreateOptionsSsh:
+ #
+@@ -4687,7 +4597,6 @@
+       'qcow2':          'BlockdevCreateOptionsQcow2',
+       'qed':            'BlockdevCreateOptionsQed',
+       'rbd':            'BlockdevCreateOptionsRbd',
+-      'sheepdog':       'BlockdevCreateOptionsSheepdog',
+       'ssh':            'BlockdevCreateOptionsSsh',
+       'vdi':            'BlockdevCreateOptionsVdi',
+       'vhdx':           'BlockdevCreateOptionsVhdx',
+@@ -5322,7 +5231,7 @@
+ #
+ # Notes: In transaction, if @name is empty, or any snapshot matching @name
+ #        exists, the operation will fail. Only some image formats support it,
+-#        for example, qcow2, rbd, and sheepdog.
++#        for example, qcow2, and rbd.
+ #
+ # Since: 1.7
+ ##
+diff --git a/qapi/transaction.json b/qapi/transaction.json
+index 15ddebdbc3..894258d9e2 100644
+--- a/qapi/transaction.json
++++ b/qapi/transaction.json
+@@ -112,10 +112,10 @@
+ #
+ # On failure, the original disks pre-snapshot attempt will be used.
+ #
+-# For internal snapshots, the dictionary contains the device and the snapshot's
+-# name.  If an internal snapshot matching name already exists, the request will
+-# be rejected.  Only some image formats support it, for example, qcow2, rbd,
+-# and sheepdog.
++# For internal snapshots, the dictionary contains the device and the
++# snapshot's name.  If an internal snapshot matching name already exists,
++# the request will be rejected.  Only some image formats support it, for
++# example, qcow2, and rbd,
+ #
+ # On failure, qemu will try delete the newly created internal snapshot in the
+ # transaction.  When an I/O error occurs during deletion, the user needs to fix
+diff --git a/block/sheepdog.c b/block/sheepdog.c
 deleted file mode 100644
-index f587a1f622..0000000000
---- a/include/hw/unicore32/puv3.h
+index a45c73826d..0000000000
+--- a/block/sheepdog.c
 +++ /dev/null
-@@ -1,40 +0,0 @@
+@@ -1,3356 +0,0 @@
 -/*
-- * Misc PKUnity SoC declarations
+- * Copyright (C) 2009-2010 Nippon Telegraph and Telephone Corporation.
 - *
-- * Copyright (C) 2010-2012 Guan Xuetao
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU General Public License version
+- * 2 as published by the Free Software Foundation.
 - *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or any later version.
-- * See the COPYING file in the top-level directory.
-- */
--
--#ifndef QEMU_HW_PUV3_H
--#define QEMU_HW_PUV3_H
--
--#define PUV3_REGS_OFFSET        (0x1000) /* 4K is reasonable */
--
--/* Hardware interrupts */
--#define PUV3_IRQS_NR            (32)
--
--#define PUV3_IRQS_GPIOLOW0      (0)
--#define PUV3_IRQS_GPIOLOW1      (1)
--#define PUV3_IRQS_GPIOLOW2      (2)
--#define PUV3_IRQS_GPIOLOW3      (3)
--#define PUV3_IRQS_GPIOLOW4      (4)
--#define PUV3_IRQS_GPIOLOW5      (5)
--#define PUV3_IRQS_GPIOLOW6      (6)
--#define PUV3_IRQS_GPIOLOW7      (7)
--#define PUV3_IRQS_GPIOHIGH      (8)
--#define PUV3_IRQS_PS2_KBD       (22)
--#define PUV3_IRQS_PS2_AUX       (23)
--#define PUV3_IRQS_OST0          (26)
--
--/* All puv3_*.c use DPRINTF for debug. */
--#ifdef DEBUG_PUV3
--#define DPRINTF(fmt, ...) printf("%s: " fmt , __func__, ## __VA_ARGS__)
--#else
--#define DPRINTF(fmt, ...) do {} while (0)
--#endif
--
--#endif /* QEMU_HW_PUV3_H */
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index fc002b84de..e723c467eb 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -17,7 +17,6 @@ enum {
-     QEMU_ARCH_SPARC = (1 << 11),
-     QEMU_ARCH_XTENSA = (1 << 12),
-     QEMU_ARCH_OPENRISC = (1 << 13),
--    QEMU_ARCH_UNICORE32 = (1 << 14),
-     QEMU_ARCH_TRICORE = (1 << 16),
-     QEMU_ARCH_NIOS2 = (1 << 17),
-     QEMU_ARCH_HPPA = (1 << 18),
-diff --git a/target/unicore32/cpu-param.h b/target/unicore32/cpu-param.h
-deleted file mode 100644
-index 94d8a5daa1..0000000000
---- a/target/unicore32/cpu-param.h
-+++ /dev/null
-@@ -1,17 +0,0 @@
--/*
-- * UniCore32 cpu parameters for qemu.
+- * You should have received a copy of the GNU General Public License
+- * along with this program. If not, see <http://www.gnu.org/licenses/>.
 - *
-- * Copyright (C) 2010-2012 Guan Xuetao
-- * SPDX-License-Identifier: GPL-2.0+
-- */
--
--#ifndef UNICORE32_CPU_PARAM_H
--#define UNICORE32_CPU_PARAM_H 1
--
--#define TARGET_LONG_BITS                32
--#define TARGET_PAGE_BITS                12
--#define TARGET_PHYS_ADDR_SPACE_BITS     32
--#define TARGET_VIRT_ADDR_SPACE_BITS     32
--#define NB_MMU_MODES      2
--
--#endif
-diff --git a/target/unicore32/cpu-qom.h b/target/unicore32/cpu-qom.h
-deleted file mode 100644
-index 43621e7479..0000000000
---- a/target/unicore32/cpu-qom.h
-+++ /dev/null
-@@ -1,37 +0,0 @@
--/*
-- * QEMU UniCore32 CPU
-- *
-- * Copyright (c) 2012 SUSE LINUX Products GmbH
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or (at your option) any
-- * later version. See the COPYING file in the top-level directory.
-- */
--#ifndef QEMU_UC32_CPU_QOM_H
--#define QEMU_UC32_CPU_QOM_H
--
--#include "hw/core/cpu.h"
--#include "qom/object.h"
--
--#define TYPE_UNICORE32_CPU "unicore32-cpu"
--
--OBJECT_DECLARE_TYPE(UniCore32CPU, UniCore32CPUClass,
--                    UNICORE32_CPU)
--
--/**
-- * UniCore32CPUClass:
-- * @parent_realize: The parent class' realize handler.
-- *
-- * A UniCore32 CPU model.
-- */
--struct UniCore32CPUClass {
--    /*< private >*/
--    CPUClass parent_class;
--    /*< public >*/
--
--    DeviceRealize parent_realize;
--};
--
--
--#endif
-diff --git a/target/unicore32/cpu.h b/target/unicore32/cpu.h
-deleted file mode 100644
-index 7a32e086ed..0000000000
---- a/target/unicore32/cpu.h
-+++ /dev/null
-@@ -1,168 +0,0 @@
--/*
-- * UniCore32 virtual CPU header
-- *
-- * Copyright (C) 2010-2012 Guan Xuetao
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or (at your option) any
-- * later version. See the COPYING file in the top-level directory.
-- */
--
--#ifndef UNICORE32_CPU_H
--#define UNICORE32_CPU_H
--
--#include "cpu-qom.h"
--#include "exec/cpu-defs.h"
--
--typedef struct CPUUniCore32State {
--    /* Regs for current mode.  */
--    uint32_t regs[32];
--    /* Frequently accessed ASR bits are stored separately for efficiently.
--       This contains all the other bits.  Use asr_{read,write} to access
--       the whole ASR.  */
--    uint32_t uncached_asr;
--    uint32_t bsr;
--
--    /* Banked registers.  */
--    uint32_t banked_bsr[6];
--    uint32_t banked_r29[6];
--    uint32_t banked_r30[6];
--
--    /* asr flag cache for faster execution */
--    uint32_t CF; /* 0 or 1 */
--    uint32_t VF; /* V is the bit 31. All other bits are undefined */
--    uint32_t NF; /* N is bit 31. All other bits are undefined.  */
--    uint32_t ZF; /* Z set if zero.  */
--
--    /* System control coprocessor (cp0) */
--    struct {
--        uint32_t c0_cpuid;
--        uint32_t c0_cachetype;
--        uint32_t c1_sys; /* System control register.  */
--        uint32_t c2_base; /* MMU translation table base.  */
--        uint32_t c3_faultstatus; /* Fault status registers.  */
--        uint32_t c4_faultaddr; /* Fault address registers.  */
--        uint32_t c5_cacheop; /* Cache operation registers.  */
--        uint32_t c6_tlbop; /* TLB operation registers. */
--    } cp0;
--
--    /* UniCore-F64 coprocessor state.  */
--    struct {
--        float64 regs[16];
--        uint32_t xregs[32];
--        float_status fp_status;
--    } ucf64;
--
--    /* Internal CPU feature flags.  */
--    uint32_t features;
--
--} CPUUniCore32State;
--
--/**
-- * UniCore32CPU:
-- * @env: #CPUUniCore32State
-- *
-- * A UniCore32 CPU.
-- */
--struct UniCore32CPU {
--    /*< private >*/
--    CPUState parent_obj;
--    /*< public >*/
--
--    CPUNegativeOffsetState neg;
--    CPUUniCore32State env;
--};
--
--
--void uc32_cpu_do_interrupt(CPUState *cpu);
--bool uc32_cpu_exec_interrupt(CPUState *cpu, int int_req);
--void uc32_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
--hwaddr uc32_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
--
--#define ASR_M                   (0x1f)
--#define ASR_MODE_USER           (0x10)
--#define ASR_MODE_INTR           (0x12)
--#define ASR_MODE_PRIV           (0x13)
--#define ASR_MODE_TRAP           (0x17)
--#define ASR_MODE_EXTN           (0x1b)
--#define ASR_MODE_SUSR           (0x1f)
--#define ASR_I                   (1 << 7)
--#define ASR_V                   (1 << 28)
--#define ASR_C                   (1 << 29)
--#define ASR_Z                   (1 << 30)
--#define ASR_N                   (1 << 31)
--#define ASR_NZCV                (ASR_N | ASR_Z | ASR_C | ASR_V)
--#define ASR_RESERVED            (~(ASR_M | ASR_I | ASR_NZCV))
--
--#define UC32_EXCP_PRIV          (1)
--#define UC32_EXCP_ITRAP         (2)
--#define UC32_EXCP_DTRAP         (3)
--#define UC32_EXCP_INTR          (4)
--
--/* Return the current ASR value.  */
--target_ulong cpu_asr_read(CPUUniCore32State *env1);
--/* Set the ASR.  Note that some bits of mask must be all-set or all-clear.  */
--void cpu_asr_write(CPUUniCore32State *env1, target_ulong val, target_ulong mask);
--
--/* UniCore-F64 system registers.  */
--#define UC32_UCF64_FPSCR                (31)
--#define UCF64_FPSCR_MASK                (0x27ffffff)
--#define UCF64_FPSCR_RND_MASK            (0x7)
--#define UCF64_FPSCR_RND(r)              (((r) >>  0) & UCF64_FPSCR_RND_MASK)
--#define UCF64_FPSCR_TRAPEN_MASK         (0x7f)
--#define UCF64_FPSCR_TRAPEN(r)           (((r) >> 10) & UCF64_FPSCR_TRAPEN_MASK)
--#define UCF64_FPSCR_FLAG_MASK           (0x3ff)
--#define UCF64_FPSCR_FLAG(r)             (((r) >> 17) & UCF64_FPSCR_FLAG_MASK)
--#define UCF64_FPSCR_FLAG_ZERO           (1 << 17)
--#define UCF64_FPSCR_FLAG_INFINITY       (1 << 18)
--#define UCF64_FPSCR_FLAG_INVALID        (1 << 19)
--#define UCF64_FPSCR_FLAG_UNDERFLOW      (1 << 20)
--#define UCF64_FPSCR_FLAG_OVERFLOW       (1 << 21)
--#define UCF64_FPSCR_FLAG_INEXACT        (1 << 22)
--#define UCF64_FPSCR_FLAG_HUGEINT        (1 << 23)
--#define UCF64_FPSCR_FLAG_DENORMAL       (1 << 24)
--#define UCF64_FPSCR_FLAG_UNIMP          (1 << 25)
--#define UCF64_FPSCR_FLAG_DIVZERO        (1 << 26)
--
--#define UC32_HWCAP_CMOV                 4 /* 1 << 2 */
--#define UC32_HWCAP_UCF64                8 /* 1 << 3 */
--
--#define cpu_signal_handler              uc32_cpu_signal_handler
--
--int uc32_cpu_signal_handler(int host_signum, void *pinfo, void *puc);
--
--/* MMU modes definitions */
--#define MMU_USER_IDX 1
--static inline int cpu_mmu_index(CPUUniCore32State *env, bool ifetch)
--{
--    return (env->uncached_asr & ASR_M) == ASR_MODE_USER ? 1 : 0;
--}
--
--typedef CPUUniCore32State CPUArchState;
--typedef UniCore32CPU ArchCPU;
--
--#include "exec/cpu-all.h"
--
--#define UNICORE32_CPU_TYPE_SUFFIX "-" TYPE_UNICORE32_CPU
--#define UNICORE32_CPU_TYPE_NAME(model) model UNICORE32_CPU_TYPE_SUFFIX
--#define CPU_RESOLVING_TYPE TYPE_UNICORE32_CPU
--
--static inline void cpu_get_tb_cpu_state(CPUUniCore32State *env, target_ulong *pc,
--                                        target_ulong *cs_base, uint32_t *flags)
--{
--    *pc = env->regs[31];
--    *cs_base = 0;
--    *flags = 0;
--    if ((env->uncached_asr & ASR_M) != ASR_MODE_USER) {
--        *flags |= (1 << 6);
--    }
--}
--
--bool uc32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                       MMUAccessType access_type, int mmu_idx,
--                       bool probe, uintptr_t retaddr);
--void uc32_translate_init(void);
--void switch_mode(CPUUniCore32State *, int);
--
--#endif /* UNICORE32_CPU_H */
-diff --git a/target/unicore32/helper.h b/target/unicore32/helper.h
-deleted file mode 100644
-index a4a5d45d1d..0000000000
---- a/target/unicore32/helper.h
-+++ /dev/null
-@@ -1,62 +0,0 @@
--/*
-- * Copyright (C) 2010-2012 Guan Xuetao
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or (at your option) any
-- * later version. See the COPYING file in the top-level directory.
-- */
--
--#ifndef CONFIG_USER_ONLY
--DEF_HELPER_4(cp0_set, void, env, i32, i32, i32)
--DEF_HELPER_3(cp0_get, i32, env, i32, i32)
--DEF_HELPER_1(cp1_putc, void, i32)
--#endif
--
--DEF_HELPER_2(exception, void, env, i32)
--
--DEF_HELPER_3(asr_write, void, env, i32, i32)
--DEF_HELPER_1(asr_read, i32, env)
--
--DEF_HELPER_2(get_user_reg, i32, env, i32)
--DEF_HELPER_3(set_user_reg, void, env, i32, i32)
--
--DEF_HELPER_3(add_cc, i32, env, i32, i32)
--DEF_HELPER_3(adc_cc, i32, env, i32, i32)
--DEF_HELPER_3(sub_cc, i32, env, i32, i32)
--DEF_HELPER_3(sbc_cc, i32, env, i32, i32)
--
--DEF_HELPER_2(shl, i32, i32, i32)
--DEF_HELPER_2(shr, i32, i32, i32)
--DEF_HELPER_2(sar, i32, i32, i32)
--DEF_HELPER_3(shl_cc, i32, env, i32, i32)
--DEF_HELPER_3(shr_cc, i32, env, i32, i32)
--DEF_HELPER_3(sar_cc, i32, env, i32, i32)
--DEF_HELPER_3(ror_cc, i32, env, i32, i32)
--
--DEF_HELPER_1(ucf64_get_fpscr, i32, env)
--DEF_HELPER_2(ucf64_set_fpscr, void, env, i32)
--
--DEF_HELPER_3(ucf64_adds, f32, f32, f32, env)
--DEF_HELPER_3(ucf64_addd, f64, f64, f64, env)
--DEF_HELPER_3(ucf64_subs, f32, f32, f32, env)
--DEF_HELPER_3(ucf64_subd, f64, f64, f64, env)
--DEF_HELPER_3(ucf64_muls, f32, f32, f32, env)
--DEF_HELPER_3(ucf64_muld, f64, f64, f64, env)
--DEF_HELPER_3(ucf64_divs, f32, f32, f32, env)
--DEF_HELPER_3(ucf64_divd, f64, f64, f64, env)
--DEF_HELPER_1(ucf64_negs, f32, f32)
--DEF_HELPER_1(ucf64_negd, f64, f64)
--DEF_HELPER_1(ucf64_abss, f32, f32)
--DEF_HELPER_1(ucf64_absd, f64, f64)
--DEF_HELPER_4(ucf64_cmps, void, f32, f32, i32, env)
--DEF_HELPER_4(ucf64_cmpd, void, f64, f64, i32, env)
--
--DEF_HELPER_2(ucf64_sf2df, f64, f32, env)
--DEF_HELPER_2(ucf64_df2sf, f32, f64, env)
--
--DEF_HELPER_2(ucf64_si2sf, f32, f32, env)
--DEF_HELPER_2(ucf64_si2df, f64, f32, env)
--
--DEF_HELPER_2(ucf64_sf2si, f32, f32, env)
--DEF_HELPER_2(ucf64_df2si, f32, f64, env)
-diff --git a/hw/dma/puv3_dma.c b/hw/dma/puv3_dma.c
-deleted file mode 100644
-index cca1e9ec21..0000000000
---- a/hw/dma/puv3_dma.c
-+++ /dev/null
-@@ -1,119 +0,0 @@
--/*
-- * DMA device simulation in PKUnity SoC
-- *
-- * Copyright (C) 2010-2012 Guan Xuetao
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or any later version.
-- * See the COPYING file in the top-level directory.
+- * Contributions after 2012-01-13 are licensed under the terms of the
+- * GNU GPL, version 2 or (at your option) any later version.
 - */
 -
 -#include "qemu/osdep.h"
--#include "hw/sysbus.h"
--#include "qom/object.h"
--
--#undef DEBUG_PUV3
--#include "hw/unicore32/puv3.h"
--#include "qemu/module.h"
--#include "qemu/log.h"
--
--#define PUV3_DMA_CH_NR          (6)
--#define PUV3_DMA_CH_MASK        (0xff)
--#define PUV3_DMA_CH(offset)     ((offset) >> 8)
--
--#define TYPE_PUV3_DMA "puv3_dma"
--OBJECT_DECLARE_SIMPLE_TYPE(PUV3DMAState, PUV3_DMA)
--
--struct PUV3DMAState {
--    SysBusDevice parent_obj;
--
--    MemoryRegion iomem;
--    uint32_t reg_CFG[PUV3_DMA_CH_NR];
--};
--
--static uint64_t puv3_dma_read(void *opaque, hwaddr offset,
--        unsigned size)
--{
--    PUV3DMAState *s = opaque;
--    uint32_t ret = 0;
--
--    assert(PUV3_DMA_CH(offset) < PUV3_DMA_CH_NR);
--
--    switch (offset & PUV3_DMA_CH_MASK) {
--    case 0x10:
--        ret = s->reg_CFG[PUV3_DMA_CH(offset)];
--        break;
--    default:
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
--                      __func__, offset);
--    }
--    DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
--
--    return ret;
--}
--
--static void puv3_dma_write(void *opaque, hwaddr offset,
--        uint64_t value, unsigned size)
--{
--    PUV3DMAState *s = opaque;
--
--    assert(PUV3_DMA_CH(offset) < PUV3_DMA_CH_NR);
--
--    switch (offset & PUV3_DMA_CH_MASK) {
--    case 0x10:
--        s->reg_CFG[PUV3_DMA_CH(offset)] = value;
--        break;
--    default:
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
--                      __func__, offset);
--    }
--    DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
--}
--
--static const MemoryRegionOps puv3_dma_ops = {
--    .read = puv3_dma_read,
--    .write = puv3_dma_write,
--    .impl = {
--        .min_access_size = 4,
--        .max_access_size = 4,
--    },
--    .endianness = DEVICE_NATIVE_ENDIAN,
--};
--
--static void puv3_dma_realize(DeviceState *dev, Error **errp)
--{
--    PUV3DMAState *s = PUV3_DMA(dev);
--    int i;
--
--    for (i = 0; i < PUV3_DMA_CH_NR; i++) {
--        s->reg_CFG[i] = 0x0;
--    }
--
--    memory_region_init_io(&s->iomem, OBJECT(s), &puv3_dma_ops, s, "puv3_dma",
--            PUV3_REGS_OFFSET);
--    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
--}
--
--static void puv3_dma_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--
--    dc->realize = puv3_dma_realize;
--}
--
--static const TypeInfo puv3_dma_info = {
--    .name = TYPE_PUV3_DMA,
--    .parent = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(PUV3DMAState),
--    .class_init = puv3_dma_class_init,
--};
--
--static void puv3_dma_register_type(void)
--{
--    type_register_static(&puv3_dma_info);
--}
--
--type_init(puv3_dma_register_type)
-diff --git a/hw/gpio/puv3_gpio.c b/hw/gpio/puv3_gpio.c
-deleted file mode 100644
-index e003ae505c..0000000000
---- a/hw/gpio/puv3_gpio.c
-+++ /dev/null
-@@ -1,154 +0,0 @@
--/*
-- * GPIO device simulation in PKUnity SoC
-- *
-- * Copyright (C) 2010-2012 Guan Xuetao
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or any later version.
-- * See the COPYING file in the top-level directory.
-- */
--
--#include "qemu/osdep.h"
--#include "hw/sysbus.h"
--#include "qom/object.h"
--
--#undef DEBUG_PUV3
--#include "hw/unicore32/puv3.h"
--#include "qemu/module.h"
--#include "qemu/log.h"
--
--#define TYPE_PUV3_GPIO "puv3_gpio"
--OBJECT_DECLARE_SIMPLE_TYPE(PUV3GPIOState, PUV3_GPIO)
--
--struct PUV3GPIOState {
--    SysBusDevice parent_obj;
--
--    MemoryRegion iomem;
--    qemu_irq irq[9];
--
--    uint32_t reg_GPLR;
--    uint32_t reg_GPDR;
--    uint32_t reg_GPIR;
--};
--
--static uint64_t puv3_gpio_read(void *opaque, hwaddr offset,
--        unsigned size)
--{
--    PUV3GPIOState *s = opaque;
--    uint32_t ret = 0;
--
--    switch (offset) {
--    case 0x00:
--        ret = s->reg_GPLR;
--        break;
--    case 0x04:
--        ret = s->reg_GPDR;
--        break;
--    case 0x20:
--        ret = s->reg_GPIR;
--        break;
--    default:
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
--                      __func__, offset);
--    }
--    DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
--
--    return ret;
--}
--
--static void puv3_gpio_write(void *opaque, hwaddr offset,
--        uint64_t value, unsigned size)
--{
--    PUV3GPIOState *s = opaque;
--
--    DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
--    switch (offset) {
--    case 0x04:
--        s->reg_GPDR = value;
--        break;
--    case 0x08:
--        if (s->reg_GPDR & value) {
--            s->reg_GPLR |= value;
--        } else {
--            qemu_log_mask(LOG_GUEST_ERROR, "%s: Write gpio input port\n",
--                          __func__);
--        }
--        break;
--    case 0x0c:
--        if (s->reg_GPDR & value) {
--            s->reg_GPLR &= ~value;
--        } else {
--            qemu_log_mask(LOG_GUEST_ERROR, "%s: Write gpio input port\n",
--                          __func__);
--        }
--        break;
--    case 0x10: /* GRER */
--    case 0x14: /* GFER */
--    case 0x18: /* GEDR */
--        break;
--    case 0x20: /* GPIR */
--        s->reg_GPIR = value;
--        break;
--    default:
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
--                      __func__, offset);
--    }
--}
--
--static const MemoryRegionOps puv3_gpio_ops = {
--    .read = puv3_gpio_read,
--    .write = puv3_gpio_write,
--    .impl = {
--        .min_access_size = 4,
--        .max_access_size = 4,
--    },
--    .endianness = DEVICE_NATIVE_ENDIAN,
--};
--
--static void puv3_gpio_realize(DeviceState *dev, Error **errp)
--{
--    PUV3GPIOState *s = PUV3_GPIO(dev);
--    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--
--    s->reg_GPLR = 0;
--    s->reg_GPDR = 0;
--
--    /* FIXME: these irqs not handled yet */
--    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW0]);
--    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW1]);
--    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW2]);
--    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW3]);
--    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW4]);
--    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW5]);
--    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW6]);
--    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW7]);
--    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOHIGH]);
--
--    memory_region_init_io(&s->iomem, OBJECT(s), &puv3_gpio_ops, s, "puv3_gpio",
--            PUV3_REGS_OFFSET);
--    sysbus_init_mmio(sbd, &s->iomem);
--}
--
--static void puv3_gpio_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--
--    dc->realize = puv3_gpio_realize;
--}
--
--static const TypeInfo puv3_gpio_info = {
--    .name = TYPE_PUV3_GPIO,
--    .parent = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(PUV3GPIOState),
--    .class_init = puv3_gpio_class_init,
--};
--
--static void puv3_gpio_register_type(void)
--{
--    type_register_static(&puv3_gpio_info);
--}
--
--type_init(puv3_gpio_register_type)
-diff --git a/hw/intc/puv3_intc.c b/hw/intc/puv3_intc.c
-deleted file mode 100644
-index 65226f5e7c..0000000000
---- a/hw/intc/puv3_intc.c
-+++ /dev/null
-@@ -1,147 +0,0 @@
--/*
-- * INTC device simulation in PKUnity SoC
-- *
-- * Copyright (C) 2010-2012 Guan Xuetao
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or any later version.
-- * See the COPYING file in the top-level directory.
-- */
--
--#include "qemu/osdep.h"
--#include "hw/irq.h"
--#include "hw/sysbus.h"
--#include "qom/object.h"
--
--#undef DEBUG_PUV3
--#include "hw/unicore32/puv3.h"
--#include "qemu/module.h"
--#include "qemu/log.h"
--
--#define TYPE_PUV3_INTC "puv3_intc"
--OBJECT_DECLARE_SIMPLE_TYPE(PUV3INTCState, PUV3_INTC)
--
--struct PUV3INTCState {
--    SysBusDevice parent_obj;
--
--    MemoryRegion iomem;
--    qemu_irq parent_irq;
--
--    uint32_t reg_ICMR;
--    uint32_t reg_ICPR;
--};
--
--/* Update interrupt status after enabled or pending bits have been changed.  */
--static void puv3_intc_update(PUV3INTCState *s)
--{
--    if (s->reg_ICMR & s->reg_ICPR) {
--        qemu_irq_raise(s->parent_irq);
--    } else {
--        qemu_irq_lower(s->parent_irq);
--    }
--}
--
--/* Process a change in an external INTC input. */
--static void puv3_intc_handler(void *opaque, int irq, int level)
--{
--    PUV3INTCState *s = opaque;
--
--    DPRINTF("irq 0x%x, level 0x%x\n", irq, level);
--    if (level) {
--        s->reg_ICPR |= (1 << irq);
--    } else {
--        s->reg_ICPR &= ~(1 << irq);
--    }
--    puv3_intc_update(s);
--}
--
--static uint64_t puv3_intc_read(void *opaque, hwaddr offset,
--        unsigned size)
--{
--    PUV3INTCState *s = opaque;
--    uint32_t ret = 0;
--
--    switch (offset) {
--    case 0x04: /* INTC_ICMR */
--        ret = s->reg_ICMR;
--        break;
--    case 0x0c: /* INTC_ICIP */
--        ret = s->reg_ICPR; /* the same value with ICPR */
--        break;
--    default:
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
--                      __func__, offset);
--    }
--    DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
--    return ret;
--}
--
--static void puv3_intc_write(void *opaque, hwaddr offset,
--        uint64_t value, unsigned size)
--{
--    PUV3INTCState *s = opaque;
--
--    DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
--    switch (offset) {
--    case 0x00: /* INTC_ICLR */
--    case 0x14: /* INTC_ICCR */
--        break;
--    case 0x04: /* INTC_ICMR */
--        s->reg_ICMR = value;
--        break;
--    default:
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
--                      __func__, offset);
--        return;
--    }
--    puv3_intc_update(s);
--}
--
--static const MemoryRegionOps puv3_intc_ops = {
--    .read = puv3_intc_read,
--    .write = puv3_intc_write,
--    .impl = {
--        .min_access_size = 4,
--        .max_access_size = 4,
--    },
--    .endianness = DEVICE_NATIVE_ENDIAN,
--};
--
--static void puv3_intc_realize(DeviceState *dev, Error **errp)
--{
--    PUV3INTCState *s = PUV3_INTC(dev);
--    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--
--    qdev_init_gpio_in(dev, puv3_intc_handler, PUV3_IRQS_NR);
--    sysbus_init_irq(sbd, &s->parent_irq);
--
--    s->reg_ICMR = 0;
--    s->reg_ICPR = 0;
--
--    memory_region_init_io(&s->iomem, OBJECT(s), &puv3_intc_ops, s, "puv3_intc",
--                          PUV3_REGS_OFFSET);
--    sysbus_init_mmio(sbd, &s->iomem);
--}
--
--static void puv3_intc_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--    dc->realize = puv3_intc_realize;
--}
--
--static const TypeInfo puv3_intc_info = {
--    .name = TYPE_PUV3_INTC,
--    .parent = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(PUV3INTCState),
--    .class_init = puv3_intc_class_init,
--};
--
--static void puv3_intc_register_type(void)
--{
--    type_register_static(&puv3_intc_info);
--}
--
--type_init(puv3_intc_register_type)
-diff --git a/hw/misc/puv3_pm.c b/hw/misc/puv3_pm.c
-deleted file mode 100644
-index 676c23f7db..0000000000
---- a/hw/misc/puv3_pm.c
-+++ /dev/null
-@@ -1,159 +0,0 @@
--/*
-- * Power Management device simulation in PKUnity SoC
-- *
-- * Copyright (C) 2010-2012 Guan Xuetao
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or any later version.
-- * See the COPYING file in the top-level directory.
-- */
--
--#include "qemu/osdep.h"
--#include "hw/sysbus.h"
--#include "qom/object.h"
--
--#undef DEBUG_PUV3
--#include "hw/unicore32/puv3.h"
--#include "qemu/module.h"
--#include "qemu/log.h"
--
--#define TYPE_PUV3_PM "puv3_pm"
--OBJECT_DECLARE_SIMPLE_TYPE(PUV3PMState, PUV3_PM)
--
--struct PUV3PMState {
--    SysBusDevice parent_obj;
--
--    MemoryRegion iomem;
--
--    uint32_t reg_PMCR;
--    uint32_t reg_PCGR;
--    uint32_t reg_PLL_SYS_CFG;
--    uint32_t reg_PLL_DDR_CFG;
--    uint32_t reg_PLL_VGA_CFG;
--    uint32_t reg_DIVCFG;
--};
--
--static uint64_t puv3_pm_read(void *opaque, hwaddr offset,
--        unsigned size)
--{
--    PUV3PMState *s = opaque;
--    uint32_t ret = 0;
--
--    switch (offset) {
--    case 0x14:
--        ret = s->reg_PCGR;
--        break;
--    case 0x18:
--        ret = s->reg_PLL_SYS_CFG;
--        break;
--    case 0x1c:
--        ret = s->reg_PLL_DDR_CFG;
--        break;
--    case 0x20:
--        ret = s->reg_PLL_VGA_CFG;
--        break;
--    case 0x24:
--        ret = s->reg_DIVCFG;
--        break;
--    case 0x28: /* PLL SYS STATUS */
--        ret = 0x00002401;
--        break;
--    case 0x2c: /* PLL DDR STATUS */
--        ret = 0x00100c00;
--        break;
--    case 0x30: /* PLL VGA STATUS */
--        ret = 0x00003801;
--        break;
--    case 0x34: /* DIV STATUS */
--        ret = 0x22f52015;
--        break;
--    case 0x38: /* SW RESET */
--        ret = 0x0;
--        break;
--    case 0x44: /* PLL DFC DONE */
--        ret = 0x7;
--        break;
--    default:
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
--                      __func__, offset);
--    }
--    DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
--
--    return ret;
--}
--
--static void puv3_pm_write(void *opaque, hwaddr offset,
--        uint64_t value, unsigned size)
--{
--    PUV3PMState *s = opaque;
--
--    switch (offset) {
--    case 0x0:
--        s->reg_PMCR = value;
--        break;
--    case 0x14:
--        s->reg_PCGR = value;
--        break;
--    case 0x18:
--        s->reg_PLL_SYS_CFG = value;
--        break;
--    case 0x1c:
--        s->reg_PLL_DDR_CFG = value;
--        break;
--    case 0x20:
--        s->reg_PLL_VGA_CFG = value;
--        break;
--    case 0x24:
--    case 0x38:
--        break;
--    default:
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
--                      __func__, offset);
--    }
--    DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
--}
--
--static const MemoryRegionOps puv3_pm_ops = {
--    .read = puv3_pm_read,
--    .write = puv3_pm_write,
--    .impl = {
--        .min_access_size = 4,
--        .max_access_size = 4,
--    },
--    .endianness = DEVICE_NATIVE_ENDIAN,
--};
--
--static void puv3_pm_realize(DeviceState *dev, Error **errp)
--{
--    PUV3PMState *s = PUV3_PM(dev);
--
--    s->reg_PCGR = 0x0;
--
--    memory_region_init_io(&s->iomem, OBJECT(s), &puv3_pm_ops, s, "puv3_pm",
--            PUV3_REGS_OFFSET);
--    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
--}
--
--static void puv3_pm_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--
--    dc->realize = puv3_pm_realize;
--}
--
--static const TypeInfo puv3_pm_info = {
--    .name = TYPE_PUV3_PM,
--    .parent = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(PUV3PMState),
--    .class_init = puv3_pm_class_init,
--};
--
--static void puv3_pm_register_type(void)
--{
--    type_register_static(&puv3_pm_info);
--}
--
--type_init(puv3_pm_register_type)
-diff --git a/hw/timer/puv3_ost.c b/hw/timer/puv3_ost.c
-deleted file mode 100644
-index d5bf26b56b..0000000000
---- a/hw/timer/puv3_ost.c
-+++ /dev/null
-@@ -1,166 +0,0 @@
--/*
-- * OSTimer device simulation in PKUnity SoC
-- *
-- * Copyright (C) 2010-2012 Guan Xuetao
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or any later version.
-- * See the COPYING file in the top-level directory.
-- */
--
--#include "qemu/osdep.h"
--#include "hw/sysbus.h"
--#include "hw/irq.h"
--#include "hw/ptimer.h"
--#include "qemu/module.h"
--#include "qemu/log.h"
--#include "qom/object.h"
--
--#undef DEBUG_PUV3
--#include "hw/unicore32/puv3.h"
--
--#define TYPE_PUV3_OST "puv3_ost"
--OBJECT_DECLARE_SIMPLE_TYPE(PUV3OSTState, PUV3_OST)
--
--/* puv3 ostimer implementation. */
--struct PUV3OSTState {
--    SysBusDevice parent_obj;
--
--    MemoryRegion iomem;
--    qemu_irq irq;
--    ptimer_state *ptimer;
--
--    uint32_t reg_OSMR0;
--    uint32_t reg_OSCR;
--    uint32_t reg_OSSR;
--    uint32_t reg_OIER;
--};
--
--static uint64_t puv3_ost_read(void *opaque, hwaddr offset,
--        unsigned size)
--{
--    PUV3OSTState *s = opaque;
--    uint32_t ret = 0;
--
--    switch (offset) {
--    case 0x10: /* Counter Register */
--        ret = s->reg_OSMR0 - (uint32_t)ptimer_get_count(s->ptimer);
--        break;
--    case 0x14: /* Status Register */
--        ret = s->reg_OSSR;
--        break;
--    case 0x1c: /* Interrupt Enable Register */
--        ret = s->reg_OIER;
--        break;
--    default:
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
--                      __func__, offset);
--    }
--    DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
--    return ret;
--}
--
--static void puv3_ost_write(void *opaque, hwaddr offset,
--        uint64_t value, unsigned size)
--{
--    PUV3OSTState *s = opaque;
--
--    DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
--    switch (offset) {
--    case 0x00: /* Match Register 0 */
--        ptimer_transaction_begin(s->ptimer);
--        s->reg_OSMR0 = value;
--        if (s->reg_OSMR0 > s->reg_OSCR) {
--            ptimer_set_count(s->ptimer, s->reg_OSMR0 - s->reg_OSCR);
--        } else {
--            ptimer_set_count(s->ptimer, s->reg_OSMR0 +
--                    (0xffffffff - s->reg_OSCR));
--        }
--        ptimer_run(s->ptimer, 2);
--        ptimer_transaction_commit(s->ptimer);
--        break;
--    case 0x14: /* Status Register */
--        assert(value == 0);
--        if (s->reg_OSSR) {
--            s->reg_OSSR = value;
--            qemu_irq_lower(s->irq);
--        }
--        break;
--    case 0x1c: /* Interrupt Enable Register */
--        s->reg_OIER = value;
--        break;
--    default:
--        qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
--                      __func__, offset);
--    }
--}
--
--static const MemoryRegionOps puv3_ost_ops = {
--    .read = puv3_ost_read,
--    .write = puv3_ost_write,
--    .impl = {
--        .min_access_size = 4,
--        .max_access_size = 4,
--    },
--    .endianness = DEVICE_NATIVE_ENDIAN,
--};
--
--static void puv3_ost_tick(void *opaque)
--{
--    PUV3OSTState *s = opaque;
--
--    DPRINTF("ost hit when ptimer counter from 0x%x to 0x%x!\n",
--            s->reg_OSCR, s->reg_OSMR0);
--
--    s->reg_OSCR = s->reg_OSMR0;
--    if (s->reg_OIER) {
--        s->reg_OSSR = 1;
--        qemu_irq_raise(s->irq);
--    }
--}
--
--static void puv3_ost_realize(DeviceState *dev, Error **errp)
--{
--    PUV3OSTState *s = PUV3_OST(dev);
--    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--
--    s->reg_OIER = 0;
--    s->reg_OSSR = 0;
--    s->reg_OSMR0 = 0;
--    s->reg_OSCR = 0;
--
--    sysbus_init_irq(sbd, &s->irq);
--
--    s->ptimer = ptimer_init(puv3_ost_tick, s, PTIMER_POLICY_DEFAULT);
--    ptimer_transaction_begin(s->ptimer);
--    ptimer_set_freq(s->ptimer, 50 * 1000 * 1000);
--    ptimer_transaction_commit(s->ptimer);
--
--    memory_region_init_io(&s->iomem, OBJECT(s), &puv3_ost_ops, s, "puv3_ost",
--            PUV3_REGS_OFFSET);
--    sysbus_init_mmio(sbd, &s->iomem);
--}
--
--static void puv3_ost_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--
--    dc->realize = puv3_ost_realize;
--}
--
--static const TypeInfo puv3_ost_info = {
--    .name = TYPE_PUV3_OST,
--    .parent = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(PUV3OSTState),
--    .class_init = puv3_ost_class_init,
--};
--
--static void puv3_ost_register_type(void)
--{
--    type_register_static(&puv3_ost_info);
--}
--
--type_init(puv3_ost_register_type)
-diff --git a/hw/unicore32/puv3.c b/hw/unicore32/puv3.c
-deleted file mode 100644
-index eacacb4249..0000000000
---- a/hw/unicore32/puv3.c
-+++ /dev/null
-@@ -1,145 +0,0 @@
--/*
-- * Generic PKUnity SoC machine and board descriptor
-- *
-- * Copyright (C) 2010-2012 Guan Xuetao
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or any later version.
-- * See the COPYING file in the top-level directory.
-- */
--
--#include "qemu/osdep.h"
+-#include "qemu-common.h"
 -#include "qapi/error.h"
--#include "cpu.h"
--#include "ui/console.h"
--#include "hw/boards.h"
--#include "hw/loader.h"
--#include "sysemu/qtest.h"
--#include "hw/unicore32/puv3.h"
--#include "hw/input/i8042.h"
--#include "hw/irq.h"
+-#include "qapi/qapi-visit-sockets.h"
+-#include "qapi/qapi-visit-block-core.h"
+-#include "qapi/qmp/qdict.h"
+-#include "qapi/qobject-input-visitor.h"
+-#include "qapi/qobject-output-visitor.h"
+-#include "qemu/uri.h"
+-#include "qemu/error-report.h"
+-#include "qemu/main-loop.h"
+-#include "qemu/module.h"
+-#include "qemu/option.h"
+-#include "qemu/sockets.h"
+-#include "block/block_int.h"
+-#include "block/qdict.h"
+-#include "sysemu/block-backend.h"
+-#include "qemu/bitops.h"
+-#include "qemu/cutils.h"
+-#include "trace.h"
 -
--#define KERNEL_LOAD_ADDR        0x03000000
--#define KERNEL_MAX_SIZE         0x00800000 /* Just a guess */
+-#define SD_PROTO_VER 0x01
 -
--/* PKUnity System bus (AHB): 0xc0000000 - 0xedffffff (640MB) */
--#define PUV3_DMA_BASE           (0xc0200000) /* AHB-4 */
+-#define SD_DEFAULT_ADDR "localhost"
+-#define SD_DEFAULT_PORT 7000
 -
--/* PKUnity Peripheral bus (APB): 0xee000000 - 0xefffffff (128MB) */
--#define PUV3_GPIO_BASE          (0xee500000) /* APB-5 */
--#define PUV3_INTC_BASE          (0xee600000) /* APB-6 */
--#define PUV3_OST_BASE           (0xee800000) /* APB-8 */
--#define PUV3_PM_BASE            (0xeea00000) /* APB-10 */
--#define PUV3_PS2_BASE           (0xeeb00000) /* APB-11 */
+-#define SD_OP_CREATE_AND_WRITE_OBJ  0x01
+-#define SD_OP_READ_OBJ       0x02
+-#define SD_OP_WRITE_OBJ      0x03
+-/* 0x04 is used internally by Sheepdog */
 -
--static void puv3_intc_cpu_handler(void *opaque, int irq, int level)
--{
--    UniCore32CPU *cpu = opaque;
--    CPUState *cs = CPU(cpu);
+-#define SD_OP_NEW_VDI        0x11
+-#define SD_OP_LOCK_VDI       0x12
+-#define SD_OP_RELEASE_VDI    0x13
+-#define SD_OP_GET_VDI_INFO   0x14
+-#define SD_OP_READ_VDIS      0x15
+-#define SD_OP_FLUSH_VDI      0x16
+-#define SD_OP_DEL_VDI        0x17
+-#define SD_OP_GET_CLUSTER_DEFAULT   0x18
 -
--    assert(irq == 0);
--    if (level) {
--        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
--    } else {
--        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
--    }
--}
+-#define SD_FLAG_CMD_WRITE    0x01
+-#define SD_FLAG_CMD_COW      0x02
+-#define SD_FLAG_CMD_CACHE    0x04 /* Writeback mode for cache */
+-#define SD_FLAG_CMD_DIRECT   0x08 /* Don't use cache */
 -
--static void puv3_soc_init(CPUUniCore32State *env)
--{
--    qemu_irq cpu_intc, irqs[PUV3_IRQS_NR];
--    DeviceState *dev;
--    MemoryRegion *i8042 = g_new(MemoryRegion, 1);
--    int i;
+-#define SD_RES_SUCCESS       0x00 /* Success */
+-#define SD_RES_UNKNOWN       0x01 /* Unknown error */
+-#define SD_RES_NO_OBJ        0x02 /* No object found */
+-#define SD_RES_EIO           0x03 /* I/O error */
+-#define SD_RES_VDI_EXIST     0x04 /* Vdi exists already */
+-#define SD_RES_INVALID_PARMS 0x05 /* Invalid parameters */
+-#define SD_RES_SYSTEM_ERROR  0x06 /* System error */
+-#define SD_RES_VDI_LOCKED    0x07 /* Vdi is locked */
+-#define SD_RES_NO_VDI        0x08 /* No vdi found */
+-#define SD_RES_NO_BASE_VDI   0x09 /* No base vdi found */
+-#define SD_RES_VDI_READ      0x0A /* Cannot read requested vdi */
+-#define SD_RES_VDI_WRITE     0x0B /* Cannot write requested vdi */
+-#define SD_RES_BASE_VDI_READ 0x0C /* Cannot read base vdi */
+-#define SD_RES_BASE_VDI_WRITE   0x0D /* Cannot write base vdi */
+-#define SD_RES_NO_TAG        0x0E /* Requested tag is not found */
+-#define SD_RES_STARTUP       0x0F /* Sheepdog is on starting up */
+-#define SD_RES_VDI_NOT_LOCKED   0x10 /* Vdi is not locked */
+-#define SD_RES_SHUTDOWN      0x11 /* Sheepdog is shutting down */
+-#define SD_RES_NO_MEM        0x12 /* Cannot allocate memory */
+-#define SD_RES_FULL_VDI      0x13 /* we already have the maximum vdis */
+-#define SD_RES_VER_MISMATCH  0x14 /* Protocol version mismatch */
+-#define SD_RES_NO_SPACE      0x15 /* Server has no room for new objects */
+-#define SD_RES_WAIT_FOR_FORMAT  0x16 /* Waiting for a format operation */
+-#define SD_RES_WAIT_FOR_JOIN    0x17 /* Waiting for other nodes joining */
+-#define SD_RES_JOIN_FAILED   0x18 /* Target node had failed to join sheepdog */
+-#define SD_RES_HALT          0x19 /* Sheepdog is stopped serving IO request */
+-#define SD_RES_READONLY      0x1A /* Object is read-only */
 -
--    /* Initialize interrupt controller */
--    cpu_intc = qemu_allocate_irq(puv3_intc_cpu_handler,
--                                 env_archcpu(env), 0);
--    dev = sysbus_create_simple("puv3_intc", PUV3_INTC_BASE, cpu_intc);
--    for (i = 0; i < PUV3_IRQS_NR; i++) {
--        irqs[i] = qdev_get_gpio_in(dev, i);
--    }
--
--    /* Initialize minimal necessary devices for kernel booting */
--    sysbus_create_simple("puv3_pm", PUV3_PM_BASE, NULL);
--    sysbus_create_simple("puv3_dma", PUV3_DMA_BASE, NULL);
--    sysbus_create_simple("puv3_ost", PUV3_OST_BASE, irqs[PUV3_IRQS_OST0]);
--    sysbus_create_varargs("puv3_gpio", PUV3_GPIO_BASE,
--            irqs[PUV3_IRQS_GPIOLOW0], irqs[PUV3_IRQS_GPIOLOW1],
--            irqs[PUV3_IRQS_GPIOLOW2], irqs[PUV3_IRQS_GPIOLOW3],
--            irqs[PUV3_IRQS_GPIOLOW4], irqs[PUV3_IRQS_GPIOLOW5],
--            irqs[PUV3_IRQS_GPIOLOW6], irqs[PUV3_IRQS_GPIOLOW7],
--            irqs[PUV3_IRQS_GPIOHIGH], NULL);
--
--    /* Keyboard (i8042), mouse disabled for nographic */
--    i8042_mm_init(irqs[PUV3_IRQS_PS2_KBD], NULL, i8042, PUV3_REGS_OFFSET, 4);
--    memory_region_add_subregion(get_system_memory(), PUV3_PS2_BASE, i8042);
--}
--
--static void puv3_board_init(CPUUniCore32State *env, ram_addr_t ram_size)
--{
--    MemoryRegion *ram_memory = g_new(MemoryRegion, 1);
--
--    /* SDRAM at address zero.  */
--    memory_region_init_ram(ram_memory, NULL, "puv3.ram", ram_size,
--                           &error_fatal);
--    memory_region_add_subregion(get_system_memory(), 0, ram_memory);
--}
--
--static const GraphicHwOps no_ops;
--
--static void puv3_load_kernel(const char *kernel_filename)
--{
--    int size;
--
--    if (kernel_filename == NULL && qtest_enabled()) {
--        return;
--    }
--    if (kernel_filename == NULL) {
--        error_report("kernel parameter cannot be empty");
--        exit(1);
--    }
--
--    /* only zImage format supported */
--    size = load_image_targphys(kernel_filename, KERNEL_LOAD_ADDR,
--            KERNEL_MAX_SIZE);
--    if (size < 0) {
--        error_report("Load kernel error: '%s'", kernel_filename);
--        exit(1);
--    }
--
--    /* cheat curses that we have a graphic console, only under ocd console */
--    graphic_console_init(NULL, 0, &no_ops, NULL);
--}
--
--static void puv3_init(MachineState *machine)
--{
--    ram_addr_t ram_size = machine->ram_size;
--    const char *kernel_filename = machine->kernel_filename;
--    const char *initrd_filename = machine->initrd_filename;
--    CPUUniCore32State *env;
--    UniCore32CPU *cpu;
--
--    if (initrd_filename) {
--        error_report("Please use kernel built-in initramdisk");
--        exit(1);
--    }
--
--    cpu = UNICORE32_CPU(cpu_create(machine->cpu_type));
--    env = &cpu->env;
--
--    puv3_soc_init(env);
--    puv3_board_init(env, ram_size);
--    puv3_load_kernel(kernel_filename);
--}
--
--static void puv3_machine_init(MachineClass *mc)
--{
--    mc->desc = "PKUnity Version-3 based on UniCore32";
--    mc->init = puv3_init;
--    mc->is_default = true;
--    mc->default_cpu_type = UNICORE32_CPU_TYPE_NAME("UniCore-II");
--}
--
--DEFINE_MACHINE("puv3", puv3_machine_init)
-diff --git a/softmmu/arch_init.c b/softmmu/arch_init.c
-index 2b90884e3a..6ff9f30bad 100644
---- a/softmmu/arch_init.c
-+++ b/softmmu/arch_init.c
-@@ -80,8 +80,6 @@ int graphic_depth = 32;
- #define QEMU_ARCH QEMU_ARCH_SPARC
- #elif defined(TARGET_TRICORE)
- #define QEMU_ARCH QEMU_ARCH_TRICORE
--#elif defined(TARGET_UNICORE32)
--#define QEMU_ARCH QEMU_ARCH_UNICORE32
- #elif defined(TARGET_XTENSA)
- #define QEMU_ARCH QEMU_ARCH_XTENSA
- #elif defined(TARGET_AVR)
-diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
-deleted file mode 100644
-index 0258884f84..0000000000
---- a/target/unicore32/cpu.c
-+++ /dev/null
-@@ -1,174 +0,0 @@
 -/*
-- * QEMU UniCore32 CPU
+- * Object ID rules
 - *
-- * Copyright (c) 2010-2012 Guan Xuetao
-- * Copyright (c) 2012 SUSE LINUX Products GmbH
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- *
-- * Contributions from 2012-04-01 on are considered under GPL version 2,
-- * or (at your option) any later version.
+- *  0 - 19 (20 bits): data object space
+- * 20 - 31 (12 bits): reserved data object space
+- * 32 - 55 (24 bits): vdi object space
+- * 56 - 59 ( 4 bits): reserved vdi object space
+- * 60 - 63 ( 4 bits): object type identifier space
 - */
 -
--#include "qemu/osdep.h"
--#include "qapi/error.h"
--#include "cpu.h"
--#include "migration/vmstate.h"
--#include "exec/exec-all.h"
--
--static void uc32_cpu_set_pc(CPUState *cs, vaddr value)
--{
--    UniCore32CPU *cpu = UNICORE32_CPU(cs);
--
--    cpu->env.regs[31] = value;
--}
--
--static bool uc32_cpu_has_work(CPUState *cs)
--{
--    return cs->interrupt_request &
--        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_EXITTB);
--}
--
--static inline void set_feature(CPUUniCore32State *env, int feature)
--{
--    env->features |= feature;
--}
--
--/* CPU models */
--
--static ObjectClass *uc32_cpu_class_by_name(const char *cpu_model)
--{
--    ObjectClass *oc;
--    char *typename;
--
--    typename = g_strdup_printf(UNICORE32_CPU_TYPE_NAME("%s"), cpu_model);
--    oc = object_class_by_name(typename);
--    g_free(typename);
--    if (oc != NULL && (!object_class_dynamic_cast(oc, TYPE_UNICORE32_CPU) ||
--                       object_class_is_abstract(oc))) {
--        oc = NULL;
--    }
--    return oc;
--}
--
--static void unicore_ii_cpu_initfn(Object *obj)
--{
--    UniCore32CPU *cpu = UNICORE32_CPU(obj);
--    CPUUniCore32State *env = &cpu->env;
--
--    env->cp0.c0_cpuid = 0x4d000863;
--    env->cp0.c0_cachetype = 0x0d152152;
--    env->cp0.c1_sys = 0x2000;
--    env->cp0.c2_base = 0x0;
--    env->cp0.c3_faultstatus = 0x0;
--    env->cp0.c4_faultaddr = 0x0;
--    env->ucf64.xregs[UC32_UCF64_FPSCR] = 0;
--
--    set_feature(env, UC32_HWCAP_CMOV);
--    set_feature(env, UC32_HWCAP_UCF64);
--}
--
--static void uc32_any_cpu_initfn(Object *obj)
--{
--    UniCore32CPU *cpu = UNICORE32_CPU(obj);
--    CPUUniCore32State *env = &cpu->env;
--
--    env->cp0.c0_cpuid = 0xffffffff;
--    env->ucf64.xregs[UC32_UCF64_FPSCR] = 0;
--
--    set_feature(env, UC32_HWCAP_CMOV);
--    set_feature(env, UC32_HWCAP_UCF64);
--}
--
--static void uc32_cpu_realizefn(DeviceState *dev, Error **errp)
--{
--    CPUState *cs = CPU(dev);
--    UniCore32CPUClass *ucc = UNICORE32_CPU_GET_CLASS(dev);
--    Error *local_err = NULL;
--
--    cpu_exec_realizefn(cs, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
--        return;
--    }
--
--    qemu_init_vcpu(cs);
--
--    ucc->parent_realize(dev, errp);
--}
--
--static void uc32_cpu_initfn(Object *obj)
--{
--    UniCore32CPU *cpu = UNICORE32_CPU(obj);
--    CPUUniCore32State *env = &cpu->env;
--
--    cpu_set_cpustate_pointers(cpu);
--
--#ifdef CONFIG_USER_ONLY
--    env->uncached_asr = ASR_MODE_USER;
--    env->regs[31] = 0;
--#else
--    env->uncached_asr = ASR_MODE_PRIV;
--    env->regs[31] = 0x03000000;
--#endif
--}
--
--static const VMStateDescription vmstate_uc32_cpu = {
--    .name = "cpu",
--    .unmigratable = 1,
--};
--
--#include "hw/core/tcg-cpu-ops.h"
--
--static struct TCGCPUOps uc32_tcg_ops = {
--    .initialize = uc32_translate_init,
--    .cpu_exec_interrupt = uc32_cpu_exec_interrupt,
--    .tlb_fill = uc32_cpu_tlb_fill,
--
--#ifndef CONFIG_USER_ONLY
--    .do_interrupt = uc32_cpu_do_interrupt,
--#endif /* !CONFIG_USER_ONLY */
--};
--
--static void uc32_cpu_class_init(ObjectClass *oc, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(oc);
--    CPUClass *cc = CPU_CLASS(oc);
--    UniCore32CPUClass *ucc = UNICORE32_CPU_CLASS(oc);
--
--    device_class_set_parent_realize(dc, uc32_cpu_realizefn,
--                                    &ucc->parent_realize);
--
--    cc->class_by_name = uc32_cpu_class_by_name;
--    cc->has_work = uc32_cpu_has_work;
--    cc->dump_state = uc32_cpu_dump_state;
--    cc->set_pc = uc32_cpu_set_pc;
--    cc->get_phys_page_debug = uc32_cpu_get_phys_page_debug;
--    dc->vmsd = &vmstate_uc32_cpu;
--    cc->tcg_ops = &uc32_tcg_ops;
--}
--
--#define DEFINE_UNICORE32_CPU_TYPE(cpu_model, initfn) \
--    {                                                \
--        .parent = TYPE_UNICORE32_CPU,                \
--        .instance_init = initfn,                     \
--        .name = UNICORE32_CPU_TYPE_NAME(cpu_model),  \
--    }
--
--static const TypeInfo uc32_cpu_type_infos[] = {
--    {
--        .name = TYPE_UNICORE32_CPU,
--        .parent = TYPE_CPU,
--        .instance_size = sizeof(UniCore32CPU),
--        .instance_init = uc32_cpu_initfn,
--        .abstract = true,
--        .class_size = sizeof(UniCore32CPUClass),
--        .class_init = uc32_cpu_class_init,
--    },
--    DEFINE_UNICORE32_CPU_TYPE("UniCore-II", unicore_ii_cpu_initfn),
--    DEFINE_UNICORE32_CPU_TYPE("any", uc32_any_cpu_initfn),
--};
--
--DEFINE_TYPES(uc32_cpu_type_infos)
-diff --git a/target/unicore32/helper.c b/target/unicore32/helper.c
-deleted file mode 100644
-index 704393c27f..0000000000
---- a/target/unicore32/helper.c
-+++ /dev/null
-@@ -1,183 +0,0 @@
+-#define VDI_SPACE_SHIFT   32
+-#define VDI_BIT (UINT64_C(1) << 63)
+-#define VMSTATE_BIT (UINT64_C(1) << 62)
+-#define MAX_DATA_OBJS (UINT64_C(1) << 20)
+-#define MAX_CHILDREN 1024
+-#define SD_MAX_VDI_LEN 256
+-#define SD_MAX_VDI_TAG_LEN 256
+-#define SD_NR_VDIS   (1U << 24)
+-#define SD_DATA_OBJ_SIZE (UINT64_C(1) << 22)
+-#define SD_MAX_VDI_SIZE (SD_DATA_OBJ_SIZE * MAX_DATA_OBJS)
+-#define SD_DEFAULT_BLOCK_SIZE_SHIFT 22
 -/*
-- * Copyright (C) 2010-2012 Guan Xuetao
+- * For erasure coding, we use at most SD_EC_MAX_STRIP for data strips and
+- * (SD_EC_MAX_STRIP - 1) for parity strips
 - *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- *
-- * Contributions from 2012-04-01 on are considered under GPL version 2,
-- * or (at your option) any later version.
+- * SD_MAX_COPIES is sum of number of data strips and parity strips.
 - */
+-#define SD_EC_MAX_STRIP 16
+-#define SD_MAX_COPIES (SD_EC_MAX_STRIP * 2 - 1)
 -
--#include "qemu/osdep.h"
--#include "qemu/log.h"
--#include "cpu.h"
--#include "exec/exec-all.h"
--#include "exec/helper-proto.h"
--#include "semihosting/console.h"
+-#define SD_INODE_SIZE (sizeof(SheepdogInode))
+-#define CURRENT_VDI_ID 0
 -
--#undef DEBUG_UC32
+-#define LOCK_TYPE_NORMAL 0
+-#define LOCK_TYPE_SHARED 1      /* for iSCSI multipath */
 -
--#ifdef DEBUG_UC32
--#define DPRINTF(fmt, ...) printf("%s: " fmt , __func__, ## __VA_ARGS__)
--#else
--#define DPRINTF(fmt, ...) do {} while (0)
--#endif
+-typedef struct SheepdogReq {
+-    uint8_t proto_ver;
+-    uint8_t opcode;
+-    uint16_t flags;
+-    uint32_t epoch;
+-    uint32_t id;
+-    uint32_t data_length;
+-    uint32_t opcode_specific[8];
+-} SheepdogReq;
 -
--#ifndef CONFIG_USER_ONLY
--void helper_cp0_set(CPUUniCore32State *env, uint32_t val, uint32_t creg,
--        uint32_t cop)
+-typedef struct SheepdogRsp {
+-    uint8_t proto_ver;
+-    uint8_t opcode;
+-    uint16_t flags;
+-    uint32_t epoch;
+-    uint32_t id;
+-    uint32_t data_length;
+-    uint32_t result;
+-    uint32_t opcode_specific[7];
+-} SheepdogRsp;
+-
+-typedef struct SheepdogObjReq {
+-    uint8_t proto_ver;
+-    uint8_t opcode;
+-    uint16_t flags;
+-    uint32_t epoch;
+-    uint32_t id;
+-    uint32_t data_length;
+-    uint64_t oid;
+-    uint64_t cow_oid;
+-    uint8_t copies;
+-    uint8_t copy_policy;
+-    uint8_t reserved[6];
+-    uint64_t offset;
+-} SheepdogObjReq;
+-
+-typedef struct SheepdogObjRsp {
+-    uint8_t proto_ver;
+-    uint8_t opcode;
+-    uint16_t flags;
+-    uint32_t epoch;
+-    uint32_t id;
+-    uint32_t data_length;
+-    uint32_t result;
+-    uint8_t copies;
+-    uint8_t copy_policy;
+-    uint8_t reserved[2];
+-    uint32_t pad[6];
+-} SheepdogObjRsp;
+-
+-typedef struct SheepdogVdiReq {
+-    uint8_t proto_ver;
+-    uint8_t opcode;
+-    uint16_t flags;
+-    uint32_t epoch;
+-    uint32_t id;
+-    uint32_t data_length;
+-    uint64_t vdi_size;
+-    uint32_t base_vdi_id;
+-    uint8_t copies;
+-    uint8_t copy_policy;
+-    uint8_t store_policy;
+-    uint8_t block_size_shift;
+-    uint32_t snapid;
+-    uint32_t type;
+-    uint32_t pad[2];
+-} SheepdogVdiReq;
+-
+-typedef struct SheepdogVdiRsp {
+-    uint8_t proto_ver;
+-    uint8_t opcode;
+-    uint16_t flags;
+-    uint32_t epoch;
+-    uint32_t id;
+-    uint32_t data_length;
+-    uint32_t result;
+-    uint32_t rsvd;
+-    uint32_t vdi_id;
+-    uint32_t pad[5];
+-} SheepdogVdiRsp;
+-
+-typedef struct SheepdogClusterRsp {
+-    uint8_t proto_ver;
+-    uint8_t opcode;
+-    uint16_t flags;
+-    uint32_t epoch;
+-    uint32_t id;
+-    uint32_t data_length;
+-    uint32_t result;
+-    uint8_t nr_copies;
+-    uint8_t copy_policy;
+-    uint8_t block_size_shift;
+-    uint8_t __pad1;
+-    uint32_t __pad2[6];
+-} SheepdogClusterRsp;
+-
+-typedef struct SheepdogInode {
+-    char name[SD_MAX_VDI_LEN];
+-    char tag[SD_MAX_VDI_TAG_LEN];
+-    uint64_t ctime;
+-    uint64_t snap_ctime;
+-    uint64_t vm_clock_nsec;
+-    uint64_t vdi_size;
+-    uint64_t vm_state_size;
+-    uint16_t copy_policy;
+-    uint8_t nr_copies;
+-    uint8_t block_size_shift;
+-    uint32_t snap_id;
+-    uint32_t vdi_id;
+-    uint32_t parent_vdi_id;
+-    uint32_t child_vdi_id[MAX_CHILDREN];
+-    uint32_t data_vdi_id[MAX_DATA_OBJS];
+-} SheepdogInode;
+-
+-#define SD_INODE_HEADER_SIZE offsetof(SheepdogInode, data_vdi_id)
+-
+-/*
+- * 64 bit FNV-1a non-zero initial basis
+- */
+-#define FNV1A_64_INIT ((uint64_t)0xcbf29ce484222325ULL)
+-
+-static void deprecation_warning(void)
 -{
+-    static bool warned;
+-
+-    if (!warned) {
+-        warn_report("the sheepdog block driver is deprecated");
+-        warned = true;
+-    }
+-}
+-
+-/*
+- * 64 bit Fowler/Noll/Vo FNV-1a hash code
+- */
+-static inline uint64_t fnv_64a_buf(void *buf, size_t len, uint64_t hval)
+-{
+-    unsigned char *bp = buf;
+-    unsigned char *be = bp + len;
+-    while (bp < be) {
+-        hval ^= (uint64_t) *bp++;
+-        hval += (hval << 1) + (hval << 4) + (hval << 5) +
+-            (hval << 7) + (hval << 8) + (hval << 40);
+-    }
+-    return hval;
+-}
+-
+-static inline bool is_data_obj_writable(SheepdogInode *inode, unsigned int idx)
+-{
+-    return inode->vdi_id == inode->data_vdi_id[idx];
+-}
+-
+-static inline bool is_data_obj(uint64_t oid)
+-{
+-    return !(VDI_BIT & oid);
+-}
+-
+-static inline uint64_t data_oid_to_idx(uint64_t oid)
+-{
+-    return oid & (MAX_DATA_OBJS - 1);
+-}
+-
+-static inline uint32_t oid_to_vid(uint64_t oid)
+-{
+-    return (oid & ~VDI_BIT) >> VDI_SPACE_SHIFT;
+-}
+-
+-static inline uint64_t vid_to_vdi_oid(uint32_t vid)
+-{
+-    return VDI_BIT | ((uint64_t)vid << VDI_SPACE_SHIFT);
+-}
+-
+-static inline uint64_t vid_to_vmstate_oid(uint32_t vid, uint32_t idx)
+-{
+-    return VMSTATE_BIT | ((uint64_t)vid << VDI_SPACE_SHIFT) | idx;
+-}
+-
+-static inline uint64_t vid_to_data_oid(uint32_t vid, uint32_t idx)
+-{
+-    return ((uint64_t)vid << VDI_SPACE_SHIFT) | idx;
+-}
+-
+-static inline bool is_snapshot(struct SheepdogInode *inode)
+-{
+-    return !!inode->snap_ctime;
+-}
+-
+-static inline size_t count_data_objs(const struct SheepdogInode *inode)
+-{
+-    return DIV_ROUND_UP(inode->vdi_size,
+-                        (1UL << inode->block_size_shift));
+-}
+-
+-typedef struct SheepdogAIOCB SheepdogAIOCB;
+-typedef struct BDRVSheepdogState BDRVSheepdogState;
+-
+-typedef struct AIOReq {
+-    SheepdogAIOCB *aiocb;
+-    unsigned int iov_offset;
+-
+-    uint64_t oid;
+-    uint64_t base_oid;
+-    uint64_t offset;
+-    unsigned int data_len;
+-    uint8_t flags;
+-    uint32_t id;
+-    bool create;
+-
+-    QLIST_ENTRY(AIOReq) aio_siblings;
+-} AIOReq;
+-
+-enum AIOCBState {
+-    AIOCB_WRITE_UDATA,
+-    AIOCB_READ_UDATA,
+-    AIOCB_FLUSH_CACHE,
+-    AIOCB_DISCARD_OBJ,
+-};
+-
+-#define AIOCBOverlapping(x, y)                                 \
+-    (!(x->max_affect_data_idx < y->min_affect_data_idx          \
+-       || y->max_affect_data_idx < x->min_affect_data_idx))
+-
+-struct SheepdogAIOCB {
+-    BDRVSheepdogState *s;
+-
+-    QEMUIOVector *qiov;
+-
+-    int64_t sector_num;
+-    int nb_sectors;
+-
+-    int ret;
+-    enum AIOCBState aiocb_type;
+-
+-    Coroutine *coroutine;
+-    int nr_pending;
+-
+-    uint32_t min_affect_data_idx;
+-    uint32_t max_affect_data_idx;
+-
 -    /*
--     * movc pp.nn, rn, #imm9
--     *      rn: UCOP_REG_D
--     *      nn: UCOP_REG_N
--     *          1: sys control reg.
--     *          2: page table base reg.
--     *          3: data fault status reg.
--     *          4: insn fault status reg.
--     *          5: cache op. reg.
--     *          6: tlb op. reg.
--     *      imm9: split UCOP_IMM10 with bit5 is 0
+-     * The difference between affect_data_idx and dirty_data_idx:
+-     * affect_data_idx represents range of index of all request types.
+-     * dirty_data_idx represents range of index updated by COW requests.
+-     * dirty_data_idx is used for updating an inode object.
 -     */
--    switch (creg) {
--    case 1:
--        if (cop != 0) {
--            goto unrecognized;
+-    uint32_t min_dirty_data_idx;
+-    uint32_t max_dirty_data_idx;
+-
+-    QLIST_ENTRY(SheepdogAIOCB) aiocb_siblings;
+-};
+-
+-struct BDRVSheepdogState {
+-    BlockDriverState *bs;
+-    AioContext *aio_context;
+-
+-    SheepdogInode inode;
+-
+-    char name[SD_MAX_VDI_LEN];
+-    bool is_snapshot;
+-    uint32_t cache_flags;
+-    bool discard_supported;
+-
+-    SocketAddress *addr;
+-    int fd;
+-
+-    CoMutex lock;
+-    Coroutine *co_send;
+-    Coroutine *co_recv;
+-
+-    uint32_t aioreq_seq_num;
+-
+-    /* Every aio request must be linked to either of these queues. */
+-    QLIST_HEAD(, AIOReq) inflight_aio_head;
+-    QLIST_HEAD(, AIOReq) failed_aio_head;
+-
+-    CoMutex queue_lock;
+-    CoQueue overlapping_queue;
+-    QLIST_HEAD(, SheepdogAIOCB) inflight_aiocb_head;
+-};
+-
+-typedef struct BDRVSheepdogReopenState {
+-    int fd;
+-    int cache_flags;
+-} BDRVSheepdogReopenState;
+-
+-static const char *sd_strerror(int err)
+-{
+-    int i;
+-
+-    static const struct {
+-        int err;
+-        const char *desc;
+-    } errors[] = {
+-        {SD_RES_SUCCESS, "Success"},
+-        {SD_RES_UNKNOWN, "Unknown error"},
+-        {SD_RES_NO_OBJ, "No object found"},
+-        {SD_RES_EIO, "I/O error"},
+-        {SD_RES_VDI_EXIST, "VDI exists already"},
+-        {SD_RES_INVALID_PARMS, "Invalid parameters"},
+-        {SD_RES_SYSTEM_ERROR, "System error"},
+-        {SD_RES_VDI_LOCKED, "VDI is already locked"},
+-        {SD_RES_NO_VDI, "No vdi found"},
+-        {SD_RES_NO_BASE_VDI, "No base VDI found"},
+-        {SD_RES_VDI_READ, "Failed read the requested VDI"},
+-        {SD_RES_VDI_WRITE, "Failed to write the requested VDI"},
+-        {SD_RES_BASE_VDI_READ, "Failed to read the base VDI"},
+-        {SD_RES_BASE_VDI_WRITE, "Failed to write the base VDI"},
+-        {SD_RES_NO_TAG, "Failed to find the requested tag"},
+-        {SD_RES_STARTUP, "The system is still booting"},
+-        {SD_RES_VDI_NOT_LOCKED, "VDI isn't locked"},
+-        {SD_RES_SHUTDOWN, "The system is shutting down"},
+-        {SD_RES_NO_MEM, "Out of memory on the server"},
+-        {SD_RES_FULL_VDI, "We already have the maximum vdis"},
+-        {SD_RES_VER_MISMATCH, "Protocol version mismatch"},
+-        {SD_RES_NO_SPACE, "Server has no space for new objects"},
+-        {SD_RES_WAIT_FOR_FORMAT, "Sheepdog is waiting for a format operation"},
+-        {SD_RES_WAIT_FOR_JOIN, "Sheepdog is waiting for other nodes joining"},
+-        {SD_RES_JOIN_FAILED, "Target node had failed to join sheepdog"},
+-        {SD_RES_HALT, "Sheepdog is stopped serving IO request"},
+-        {SD_RES_READONLY, "Object is read-only"},
+-    };
+-
+-    for (i = 0; i < ARRAY_SIZE(errors); ++i) {
+-        if (errors[i].err == err) {
+-            return errors[i].desc;
 -        }
--        env->cp0.c1_sys = val;
--        break;
--    case 2:
--        if (cop != 0) {
--            goto unrecognized;
--        }
--        env->cp0.c2_base = val;
--        break;
--    case 3:
--        if (cop != 0) {
--            goto unrecognized;
--        }
--        env->cp0.c3_faultstatus = val;
--        break;
--    case 4:
--        if (cop != 0) {
--            goto unrecognized;
--        }
--        env->cp0.c4_faultaddr = val;
--        break;
--    case 5:
--        switch (cop) {
--        case 28:
--            DPRINTF("Invalidate Entire I&D cache\n");
--            return;
--        case 20:
--            DPRINTF("Invalidate Entire Icache\n");
--            return;
--        case 12:
--            DPRINTF("Invalidate Entire Dcache\n");
--            return;
--        case 10:
--            DPRINTF("Clean Entire Dcache\n");
--            return;
--        case 14:
--            DPRINTF("Flush Entire Dcache\n");
--            return;
--        case 13:
--            DPRINTF("Invalidate Dcache line\n");
--            return;
--        case 11:
--            DPRINTF("Clean Dcache line\n");
--            return;
--        case 15:
--            DPRINTF("Flush Dcache line\n");
--            return;
--        }
--        break;
--    case 6:
--        if ((cop <= 6) && (cop >= 2)) {
--            /* invalid all tlb */
--            tlb_flush(env_cpu(env));
--            return;
--        }
--        break;
--    default:
--        goto unrecognized;
 -    }
+-
+-    return "Invalid error code";
+-}
+-
+-/*
+- * Sheepdog I/O handling:
+- *
+- * 1. In sd_co_rw_vector, we send the I/O requests to the server and
+- *    link the requests to the inflight_list in the
+- *    BDRVSheepdogState.  The function yields while waiting for
+- *    receiving the response.
+- *
+- * 2. We receive the response in aio_read_response, the fd handler to
+- *    the sheepdog connection.  We switch back to sd_co_readv/sd_writev
+- *    after all the requests belonging to the AIOCB are finished.  If
+- *    needed, sd_co_writev will send another requests for the vdi object.
+- */
+-
+-static inline AIOReq *alloc_aio_req(BDRVSheepdogState *s, SheepdogAIOCB *acb,
+-                                    uint64_t oid, unsigned int data_len,
+-                                    uint64_t offset, uint8_t flags, bool create,
+-                                    uint64_t base_oid, unsigned int iov_offset)
+-{
+-    AIOReq *aio_req;
+-
+-    aio_req = g_malloc(sizeof(*aio_req));
+-    aio_req->aiocb = acb;
+-    aio_req->iov_offset = iov_offset;
+-    aio_req->oid = oid;
+-    aio_req->base_oid = base_oid;
+-    aio_req->offset = offset;
+-    aio_req->data_len = data_len;
+-    aio_req->flags = flags;
+-    aio_req->id = s->aioreq_seq_num++;
+-    aio_req->create = create;
+-
+-    acb->nr_pending++;
+-    return aio_req;
+-}
+-
+-static void wait_for_overlapping_aiocb(BDRVSheepdogState *s, SheepdogAIOCB *acb)
+-{
+-    SheepdogAIOCB *cb;
+-
+-retry:
+-    QLIST_FOREACH(cb, &s->inflight_aiocb_head, aiocb_siblings) {
+-        if (AIOCBOverlapping(acb, cb)) {
+-            qemu_co_queue_wait(&s->overlapping_queue, &s->queue_lock);
+-            goto retry;
+-        }
+-    }
+-}
+-
+-static void sd_aio_setup(SheepdogAIOCB *acb, BDRVSheepdogState *s,
+-                         QEMUIOVector *qiov, int64_t sector_num, int nb_sectors,
+-                         int type)
+-{
+-    uint32_t object_size;
+-
+-    object_size = (UINT32_C(1) << s->inode.block_size_shift);
+-
+-    acb->s = s;
+-
+-    acb->qiov = qiov;
+-
+-    acb->sector_num = sector_num;
+-    acb->nb_sectors = nb_sectors;
+-
+-    acb->coroutine = qemu_coroutine_self();
+-    acb->ret = 0;
+-    acb->nr_pending = 0;
+-
+-    acb->min_affect_data_idx = acb->sector_num * BDRV_SECTOR_SIZE / object_size;
+-    acb->max_affect_data_idx = (acb->sector_num * BDRV_SECTOR_SIZE +
+-                              acb->nb_sectors * BDRV_SECTOR_SIZE) / object_size;
+-
+-    acb->min_dirty_data_idx = UINT32_MAX;
+-    acb->max_dirty_data_idx = 0;
+-    acb->aiocb_type = type;
+-
+-    if (type == AIOCB_FLUSH_CACHE) {
+-        return;
+-    }
+-
+-    qemu_co_mutex_lock(&s->queue_lock);
+-    wait_for_overlapping_aiocb(s, acb);
+-    QLIST_INSERT_HEAD(&s->inflight_aiocb_head, acb, aiocb_siblings);
+-    qemu_co_mutex_unlock(&s->queue_lock);
+-}
+-
+-static SocketAddress *sd_server_config(QDict *options, Error **errp)
+-{
+-    QDict *server = NULL;
+-    Visitor *iv = NULL;
+-    SocketAddress *saddr = NULL;
+-
+-    qdict_extract_subqdict(options, &server, "server.");
+-
+-    iv = qobject_input_visitor_new_flat_confused(server, errp);
+-    if (!iv) {
+-        goto done;
+-    }
+-
+-    if (!visit_type_SocketAddress(iv, NULL, &saddr, errp)) {
+-        goto done;
+-    }
+-
+-done:
+-    visit_free(iv);
+-    qobject_unref(server);
+-    return saddr;
+-}
+-
+-/* Return -EIO in case of error, file descriptor on success */
+-static int connect_to_sdog(BDRVSheepdogState *s, Error **errp)
+-{
+-    int fd;
+-
+-    fd = socket_connect(s->addr, errp);
+-
+-    if (s->addr->type == SOCKET_ADDRESS_TYPE_INET && fd >= 0) {
+-        int ret = socket_set_nodelay(fd);
+-        if (ret < 0) {
+-            warn_report("can't set TCP_NODELAY: %s", strerror(errno));
+-        }
+-    }
+-
+-    if (fd >= 0) {
+-        qemu_set_nonblock(fd);
+-    } else {
+-        fd = -EIO;
+-    }
+-
+-    return fd;
+-}
+-
+-/* Return 0 on success and -errno in case of error */
+-static coroutine_fn int send_co_req(int sockfd, SheepdogReq *hdr, void *data,
+-                                    unsigned int *wlen)
+-{
+-    int ret;
+-
+-    ret = qemu_co_send(sockfd, hdr, sizeof(*hdr));
+-    if (ret != sizeof(*hdr)) {
+-        error_report("failed to send a req, %s", strerror(errno));
+-        return -errno;
+-    }
+-
+-    ret = qemu_co_send(sockfd, data, *wlen);
+-    if (ret != *wlen) {
+-        error_report("failed to send a req, %s", strerror(errno));
+-        return -errno;
+-    }
+-
+-    return ret;
+-}
+-
+-typedef struct SheepdogReqCo {
+-    int sockfd;
+-    BlockDriverState *bs;
+-    AioContext *aio_context;
+-    SheepdogReq *hdr;
+-    void *data;
+-    unsigned int *wlen;
+-    unsigned int *rlen;
+-    int ret;
+-    bool finished;
+-    Coroutine *co;
+-} SheepdogReqCo;
+-
+-static void restart_co_req(void *opaque)
+-{
+-    SheepdogReqCo *srco = opaque;
+-
+-    aio_co_wake(srco->co);
+-}
+-
+-static coroutine_fn void do_co_req(void *opaque)
+-{
+-    int ret;
+-    SheepdogReqCo *srco = opaque;
+-    int sockfd = srco->sockfd;
+-    SheepdogReq *hdr = srco->hdr;
+-    void *data = srco->data;
+-    unsigned int *wlen = srco->wlen;
+-    unsigned int *rlen = srco->rlen;
+-
+-    srco->co = qemu_coroutine_self();
+-    aio_set_fd_handler(srco->aio_context, sockfd, false,
+-                       NULL, restart_co_req, NULL, srco);
+-
+-    ret = send_co_req(sockfd, hdr, data, wlen);
+-    if (ret < 0) {
+-        goto out;
+-    }
+-
+-    aio_set_fd_handler(srco->aio_context, sockfd, false,
+-                       restart_co_req, NULL, NULL, srco);
+-
+-    ret = qemu_co_recv(sockfd, hdr, sizeof(*hdr));
+-    if (ret != sizeof(*hdr)) {
+-        error_report("failed to get a rsp, %s", strerror(errno));
+-        ret = -errno;
+-        goto out;
+-    }
+-
+-    if (*rlen > hdr->data_length) {
+-        *rlen = hdr->data_length;
+-    }
+-
+-    if (*rlen) {
+-        ret = qemu_co_recv(sockfd, data, *rlen);
+-        if (ret != *rlen) {
+-            error_report("failed to get the data, %s", strerror(errno));
+-            ret = -errno;
+-            goto out;
+-        }
+-    }
+-    ret = 0;
+-out:
+-    /* there is at most one request for this sockfd, so it is safe to
+-     * set each handler to NULL. */
+-    aio_set_fd_handler(srco->aio_context, sockfd, false,
+-                       NULL, NULL, NULL, NULL);
+-
+-    srco->co = NULL;
+-    srco->ret = ret;
+-    /* Set srco->finished before reading bs->wakeup.  */
+-    qatomic_mb_set(&srco->finished, true);
+-    if (srco->bs) {
+-        bdrv_wakeup(srco->bs);
+-    }
+-}
+-
+-/*
+- * Send the request to the sheep in a synchronous manner.
+- *
+- * Return 0 on success, -errno in case of error.
+- */
+-static int do_req(int sockfd, BlockDriverState *bs, SheepdogReq *hdr,
+-                  void *data, unsigned int *wlen, unsigned int *rlen)
+-{
+-    Coroutine *co;
+-    SheepdogReqCo srco = {
+-        .sockfd = sockfd,
+-        .aio_context = bs ? bdrv_get_aio_context(bs) : qemu_get_aio_context(),
+-        .bs = bs,
+-        .hdr = hdr,
+-        .data = data,
+-        .wlen = wlen,
+-        .rlen = rlen,
+-        .ret = 0,
+-        .finished = false,
+-    };
+-
+-    if (qemu_in_coroutine()) {
+-        do_co_req(&srco);
+-    } else {
+-        co = qemu_coroutine_create(do_co_req, &srco);
+-        if (bs) {
+-            bdrv_coroutine_enter(bs, co);
+-            BDRV_POLL_WHILE(bs, !srco.finished);
+-        } else {
+-            qemu_coroutine_enter(co);
+-            while (!srco.finished) {
+-                aio_poll(qemu_get_aio_context(), true);
+-            }
+-        }
+-    }
+-
+-    return srco.ret;
+-}
+-
+-static void coroutine_fn add_aio_request(BDRVSheepdogState *s, AIOReq *aio_req,
+-                                         struct iovec *iov, int niov,
+-                                         enum AIOCBState aiocb_type);
+-static void coroutine_fn resend_aioreq(BDRVSheepdogState *s, AIOReq *aio_req);
+-static int reload_inode(BDRVSheepdogState *s, uint32_t snapid, const char *tag);
+-static int get_sheep_fd(BDRVSheepdogState *s, Error **errp);
+-static void co_write_request(void *opaque);
+-
+-static coroutine_fn void reconnect_to_sdog(void *opaque)
+-{
+-    BDRVSheepdogState *s = opaque;
+-    AIOReq *aio_req, *next;
+-
+-    aio_set_fd_handler(s->aio_context, s->fd, false, NULL,
+-                       NULL, NULL, NULL);
+-    close(s->fd);
+-    s->fd = -1;
+-
+-    /* Wait for outstanding write requests to be completed. */
+-    while (s->co_send != NULL) {
+-        co_write_request(opaque);
+-    }
+-
+-    /* Try to reconnect the sheepdog server every one second. */
+-    while (s->fd < 0) {
+-        Error *local_err = NULL;
+-        s->fd = get_sheep_fd(s, &local_err);
+-        if (s->fd < 0) {
+-            trace_sheepdog_reconnect_to_sdog();
+-            error_report_err(local_err);
+-            qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, NANOSECONDS_PER_SECOND);
+-        }
+-    };
+-
+-    /*
+-     * Now we have to resend all the request in the inflight queue.  However,
+-     * resend_aioreq() can yield and newly created requests can be added to the
+-     * inflight queue before the coroutine is resumed.  To avoid mixing them, we
+-     * have to move all the inflight requests to the failed queue before
+-     * resend_aioreq() is called.
+-     */
+-    qemu_co_mutex_lock(&s->queue_lock);
+-    QLIST_FOREACH_SAFE(aio_req, &s->inflight_aio_head, aio_siblings, next) {
+-        QLIST_REMOVE(aio_req, aio_siblings);
+-        QLIST_INSERT_HEAD(&s->failed_aio_head, aio_req, aio_siblings);
+-    }
+-
+-    /* Resend all the failed aio requests. */
+-    while (!QLIST_EMPTY(&s->failed_aio_head)) {
+-        aio_req = QLIST_FIRST(&s->failed_aio_head);
+-        QLIST_REMOVE(aio_req, aio_siblings);
+-        qemu_co_mutex_unlock(&s->queue_lock);
+-        resend_aioreq(s, aio_req);
+-        qemu_co_mutex_lock(&s->queue_lock);
+-    }
+-    qemu_co_mutex_unlock(&s->queue_lock);
+-}
+-
+-/*
+- * Receive responses of the I/O requests.
+- *
+- * This function is registered as a fd handler, and called from the
+- * main loop when s->fd is ready for reading responses.
+- */
+-static void coroutine_fn aio_read_response(void *opaque)
+-{
+-    SheepdogObjRsp rsp;
+-    BDRVSheepdogState *s = opaque;
+-    int fd = s->fd;
+-    int ret;
+-    AIOReq *aio_req = NULL;
+-    SheepdogAIOCB *acb;
+-    uint64_t idx;
+-
+-    /* read a header */
+-    ret = qemu_co_recv(fd, &rsp, sizeof(rsp));
+-    if (ret != sizeof(rsp)) {
+-        error_report("failed to get the header, %s", strerror(errno));
+-        goto err;
+-    }
+-
+-    /* find the right aio_req from the inflight aio list */
+-    QLIST_FOREACH(aio_req, &s->inflight_aio_head, aio_siblings) {
+-        if (aio_req->id == rsp.id) {
+-            break;
+-        }
+-    }
+-    if (!aio_req) {
+-        error_report("cannot find aio_req %x", rsp.id);
+-        goto err;
+-    }
+-
+-    acb = aio_req->aiocb;
+-
+-    switch (acb->aiocb_type) {
+-    case AIOCB_WRITE_UDATA:
+-        if (!is_data_obj(aio_req->oid)) {
+-            break;
+-        }
+-        idx = data_oid_to_idx(aio_req->oid);
+-
+-        if (aio_req->create) {
+-            /*
+-             * If the object is newly created one, we need to update
+-             * the vdi object (metadata object).  min_dirty_data_idx
+-             * and max_dirty_data_idx are changed to include updated
+-             * index between them.
+-             */
+-            if (rsp.result == SD_RES_SUCCESS) {
+-                s->inode.data_vdi_id[idx] = s->inode.vdi_id;
+-                acb->max_dirty_data_idx = MAX(idx, acb->max_dirty_data_idx);
+-                acb->min_dirty_data_idx = MIN(idx, acb->min_dirty_data_idx);
+-            }
+-        }
+-        break;
+-    case AIOCB_READ_UDATA:
+-        ret = qemu_co_recvv(fd, acb->qiov->iov, acb->qiov->niov,
+-                            aio_req->iov_offset, rsp.data_length);
+-        if (ret != rsp.data_length) {
+-            error_report("failed to get the data, %s", strerror(errno));
+-            goto err;
+-        }
+-        break;
+-    case AIOCB_FLUSH_CACHE:
+-        if (rsp.result == SD_RES_INVALID_PARMS) {
+-            trace_sheepdog_aio_read_response();
+-            s->cache_flags = SD_FLAG_CMD_DIRECT;
+-            rsp.result = SD_RES_SUCCESS;
+-        }
+-        break;
+-    case AIOCB_DISCARD_OBJ:
+-        switch (rsp.result) {
+-        case SD_RES_INVALID_PARMS:
+-            error_report("server doesn't support discard command");
+-            rsp.result = SD_RES_SUCCESS;
+-            s->discard_supported = false;
+-            break;
+-        default:
+-            break;
+-        }
+-    }
+-
+-    /* No more data for this aio_req (reload_inode below uses its own file
+-     * descriptor handler which doesn't use co_recv).
+-    */
+-    s->co_recv = NULL;
+-
+-    qemu_co_mutex_lock(&s->queue_lock);
+-    QLIST_REMOVE(aio_req, aio_siblings);
+-    qemu_co_mutex_unlock(&s->queue_lock);
+-
+-    switch (rsp.result) {
+-    case SD_RES_SUCCESS:
+-        break;
+-    case SD_RES_READONLY:
+-        if (s->inode.vdi_id == oid_to_vid(aio_req->oid)) {
+-            ret = reload_inode(s, 0, "");
+-            if (ret < 0) {
+-                goto err;
+-            }
+-        }
+-        if (is_data_obj(aio_req->oid)) {
+-            aio_req->oid = vid_to_data_oid(s->inode.vdi_id,
+-                                           data_oid_to_idx(aio_req->oid));
+-        } else {
+-            aio_req->oid = vid_to_vdi_oid(s->inode.vdi_id);
+-        }
+-        resend_aioreq(s, aio_req);
+-        return;
+-    default:
+-        acb->ret = -EIO;
+-        error_report("%s", sd_strerror(rsp.result));
+-        break;
+-    }
+-
+-    g_free(aio_req);
+-
+-    if (!--acb->nr_pending) {
+-        /*
+-         * We've finished all requests which belong to the AIOCB, so
+-         * we can switch back to sd_co_readv/writev now.
+-         */
+-        aio_co_wake(acb->coroutine);
+-    }
+-
 -    return;
--unrecognized:
--    qemu_log_mask(LOG_GUEST_ERROR,
--                  "Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
--                  creg, cop);
+-
+-err:
+-    reconnect_to_sdog(opaque);
 -}
 -
--uint32_t helper_cp0_get(CPUUniCore32State *env, uint32_t creg, uint32_t cop)
+-static void co_read_response(void *opaque)
 -{
+-    BDRVSheepdogState *s = opaque;
+-
+-    if (!s->co_recv) {
+-        s->co_recv = qemu_coroutine_create(aio_read_response, opaque);
+-    }
+-
+-    aio_co_enter(s->aio_context, s->co_recv);
+-}
+-
+-static void co_write_request(void *opaque)
+-{
+-    BDRVSheepdogState *s = opaque;
+-
+-    aio_co_wake(s->co_send);
+-}
+-
+-/*
+- * Return a socket descriptor to read/write objects.
+- *
+- * We cannot use this descriptor for other operations because
+- * the block driver may be on waiting response from the server.
+- */
+-static int get_sheep_fd(BDRVSheepdogState *s, Error **errp)
+-{
+-    int fd;
+-
+-    fd = connect_to_sdog(s, errp);
+-    if (fd < 0) {
+-        return fd;
+-    }
+-
+-    aio_set_fd_handler(s->aio_context, fd, false,
+-                       co_read_response, NULL, NULL, s);
+-    return fd;
+-}
+-
+-/*
+- * Parse numeric snapshot ID in @str
+- * If @str can't be parsed as number, return false.
+- * Else, if the number is zero or too large, set *@snapid to zero and
+- * return true.
+- * Else, set *@snapid to the number and return true.
+- */
+-static bool sd_parse_snapid(const char *str, uint32_t *snapid)
+-{
+-    unsigned long ul;
+-    int ret;
+-
+-    ret = qemu_strtoul(str, NULL, 10, &ul);
+-    if (ret == -ERANGE) {
+-        ul = ret = 0;
+-    }
+-    if (ret) {
+-        return false;
+-    }
+-    if (ul > UINT32_MAX) {
+-        ul = 0;
+-    }
+-
+-    *snapid = ul;
+-    return true;
+-}
+-
+-static bool sd_parse_snapid_or_tag(const char *str,
+-                                   uint32_t *snapid, char tag[])
+-{
+-    if (!sd_parse_snapid(str, snapid)) {
+-        *snapid = 0;
+-        if (g_strlcpy(tag, str, SD_MAX_VDI_TAG_LEN) >= SD_MAX_VDI_TAG_LEN) {
+-            return false;
+-        }
+-    } else if (!*snapid) {
+-        return false;
+-    } else {
+-        tag[0] = 0;
+-    }
+-    return true;
+-}
+-
+-typedef struct {
+-    const char *path;           /* non-null iff transport is tcp */
+-    const char *host;           /* valid when transport is tcp */
+-    int port;                   /* valid when transport is tcp */
+-    char vdi[SD_MAX_VDI_LEN];
+-    char tag[SD_MAX_VDI_TAG_LEN];
+-    uint32_t snap_id;
+-    /* Remainder is only for sd_config_done() */
+-    URI *uri;
+-    QueryParams *qp;
+-} SheepdogConfig;
+-
+-static void sd_config_done(SheepdogConfig *cfg)
+-{
+-    if (cfg->qp) {
+-        query_params_free(cfg->qp);
+-    }
+-    uri_free(cfg->uri);
+-}
+-
+-static void sd_parse_uri(SheepdogConfig *cfg, const char *filename,
+-                         Error **errp)
+-{
+-    Error *err = NULL;
+-    QueryParams *qp = NULL;
+-    bool is_unix;
+-    URI *uri;
+-
+-    memset(cfg, 0, sizeof(*cfg));
+-
+-    cfg->uri = uri = uri_parse(filename);
+-    if (!uri) {
+-        error_setg(&err, "invalid URI '%s'", filename);
+-        goto out;
+-    }
+-
+-    /* transport */
+-    if (!g_strcmp0(uri->scheme, "sheepdog")) {
+-        is_unix = false;
+-    } else if (!g_strcmp0(uri->scheme, "sheepdog+tcp")) {
+-        is_unix = false;
+-    } else if (!g_strcmp0(uri->scheme, "sheepdog+unix")) {
+-        is_unix = true;
+-    } else {
+-        error_setg(&err, "URI scheme must be 'sheepdog', 'sheepdog+tcp',"
+-                   " or 'sheepdog+unix'");
+-        goto out;
+-    }
+-
+-    if (uri->path == NULL || !strcmp(uri->path, "/")) {
+-        error_setg(&err, "missing file path in URI");
+-        goto out;
+-    }
+-    if (g_strlcpy(cfg->vdi, uri->path + 1, SD_MAX_VDI_LEN)
+-        >= SD_MAX_VDI_LEN) {
+-        error_setg(&err, "VDI name is too long");
+-        goto out;
+-    }
+-
+-    cfg->qp = qp = query_params_parse(uri->query);
+-
+-    if (is_unix) {
+-        /* sheepdog+unix:///vdiname?socket=path */
+-        if (uri->server || uri->port) {
+-            error_setg(&err, "URI scheme %s doesn't accept a server address",
+-                       uri->scheme);
+-            goto out;
+-        }
+-        if (!qp->n) {
+-            error_setg(&err,
+-                       "URI scheme %s requires query parameter 'socket'",
+-                       uri->scheme);
+-            goto out;
+-        }
+-        if (qp->n != 1 || strcmp(qp->p[0].name, "socket")) {
+-            error_setg(&err, "unexpected query parameters");
+-            goto out;
+-        }
+-        cfg->path = qp->p[0].value;
+-    } else {
+-        /* sheepdog[+tcp]://[host:port]/vdiname */
+-        if (qp->n) {
+-            error_setg(&err, "unexpected query parameters");
+-            goto out;
+-        }
+-        cfg->host = uri->server;
+-        cfg->port = uri->port;
+-    }
+-
+-    /* snapshot tag */
+-    if (uri->fragment) {
+-        if (!sd_parse_snapid_or_tag(uri->fragment,
+-                                    &cfg->snap_id, cfg->tag)) {
+-            error_setg(&err, "'%s' is not a valid snapshot ID",
+-                       uri->fragment);
+-            goto out;
+-        }
+-    } else {
+-        cfg->snap_id = CURRENT_VDI_ID; /* search current vdi */
+-    }
+-
+-out:
+-    if (err) {
+-        error_propagate(errp, err);
+-        sd_config_done(cfg);
+-    }
+-}
+-
+-/*
+- * Parse a filename (old syntax)
+- *
+- * filename must be one of the following formats:
+- *   1. [vdiname]
+- *   2. [vdiname]:[snapid]
+- *   3. [vdiname]:[tag]
+- *   4. [hostname]:[port]:[vdiname]
+- *   5. [hostname]:[port]:[vdiname]:[snapid]
+- *   6. [hostname]:[port]:[vdiname]:[tag]
+- *
+- * You can boot from the snapshot images by specifying `snapid` or
+- * `tag'.
+- *
+- * You can run VMs outside the Sheepdog cluster by specifying
+- * `hostname' and `port' (experimental).
+- */
+-static void parse_vdiname(SheepdogConfig *cfg, const char *filename,
+-                          Error **errp)
+-{
+-    Error *err = NULL;
+-    char *p, *q, *uri;
+-    const char *host_spec, *vdi_spec;
+-    int nr_sep;
+-
+-    strstart(filename, "sheepdog:", &filename);
+-    p = q = g_strdup(filename);
+-
+-    /* count the number of separators */
+-    nr_sep = 0;
+-    while (*p) {
+-        if (*p == ':') {
+-            nr_sep++;
+-        }
+-        p++;
+-    }
+-    p = q;
+-
+-    /* use the first two tokens as host_spec. */
+-    if (nr_sep >= 2) {
+-        host_spec = p;
+-        p = strchr(p, ':');
+-        p++;
+-        p = strchr(p, ':');
+-        *p++ = '\0';
+-    } else {
+-        host_spec = "";
+-    }
+-
+-    vdi_spec = p;
+-
+-    p = strchr(vdi_spec, ':');
+-    if (p) {
+-        *p++ = '#';
+-    }
+-
+-    uri = g_strdup_printf("sheepdog://%s/%s", host_spec, vdi_spec);
+-
 -    /*
--     * movc rd, pp.nn, #imm9
--     *      rd: UCOP_REG_D
--     *      nn: UCOP_REG_N
--     *          0: cpuid and cachetype
--     *          1: sys control reg.
--     *          2: page table base reg.
--     *          3: data fault status reg.
--     *          4: insn fault status reg.
--     *      imm9: split UCOP_IMM10 with bit5 is 0
+-     * FIXME We to escape URI meta-characters, e.g. "x?y=z"
+-     * produces "sheepdog://x?y=z".  Because of that ...
 -     */
--    switch (creg) {
--    case 0:
--        switch (cop) {
--        case 0:
--            return env->cp0.c0_cpuid;
--        case 1:
--            return env->cp0.c0_cachetype;
+-    sd_parse_uri(cfg, uri, &err);
+-    if (err) {
+-        /*
+-         * ... this can fail, but the error message is misleading.
+-         * Replace it by the traditional useless one until the
+-         * escaping is fixed.
+-         */
+-        error_free(err);
+-        error_setg(errp, "Can't parse filename");
+-    }
+-
+-    g_free(q);
+-    g_free(uri);
+-}
+-
+-static void sd_parse_filename(const char *filename, QDict *options,
+-                              Error **errp)
+-{
+-    Error *err = NULL;
+-    SheepdogConfig cfg;
+-    char buf[32];
+-
+-    if (strstr(filename, "://")) {
+-        sd_parse_uri(&cfg, filename, &err);
+-    } else {
+-        parse_vdiname(&cfg, filename, &err);
+-    }
+-    if (err) {
+-        error_propagate(errp, err);
+-        return;
+-    }
+-
+-    if (cfg.path) {
+-        qdict_set_default_str(options, "server.path", cfg.path);
+-        qdict_set_default_str(options, "server.type", "unix");
+-    } else {
+-        qdict_set_default_str(options, "server.type", "inet");
+-        qdict_set_default_str(options, "server.host",
+-                              cfg.host ?: SD_DEFAULT_ADDR);
+-        snprintf(buf, sizeof(buf), "%d", cfg.port ?: SD_DEFAULT_PORT);
+-        qdict_set_default_str(options, "server.port", buf);
+-    }
+-    qdict_set_default_str(options, "vdi", cfg.vdi);
+-    qdict_set_default_str(options, "tag", cfg.tag);
+-    if (cfg.snap_id) {
+-        snprintf(buf, sizeof(buf), "%d", cfg.snap_id);
+-        qdict_set_default_str(options, "snap-id", buf);
+-    }
+-
+-    sd_config_done(&cfg);
+-}
+-
+-static int find_vdi_name(BDRVSheepdogState *s, const char *filename,
+-                         uint32_t snapid, const char *tag, uint32_t *vid,
+-                         bool lock, Error **errp)
+-{
+-    int ret, fd;
+-    SheepdogVdiReq hdr;
+-    SheepdogVdiRsp *rsp = (SheepdogVdiRsp *)&hdr;
+-    unsigned int wlen, rlen = 0;
+-    char buf[SD_MAX_VDI_LEN + SD_MAX_VDI_TAG_LEN] QEMU_NONSTRING;
+-
+-    fd = connect_to_sdog(s, errp);
+-    if (fd < 0) {
+-        return fd;
+-    }
+-
+-    /* This pair of strncpy calls ensures that the buffer is zero-filled,
+-     * which is desirable since we'll soon be sending those bytes, and
+-     * don't want the send_req to read uninitialized data.
+-     */
+-    strncpy(buf, filename, SD_MAX_VDI_LEN);
+-    strncpy(buf + SD_MAX_VDI_LEN, tag, SD_MAX_VDI_TAG_LEN);
+-
+-    memset(&hdr, 0, sizeof(hdr));
+-    if (lock) {
+-        hdr.opcode = SD_OP_LOCK_VDI;
+-        hdr.type = LOCK_TYPE_NORMAL;
+-    } else {
+-        hdr.opcode = SD_OP_GET_VDI_INFO;
+-    }
+-    wlen = SD_MAX_VDI_LEN + SD_MAX_VDI_TAG_LEN;
+-    hdr.proto_ver = SD_PROTO_VER;
+-    hdr.data_length = wlen;
+-    hdr.snapid = snapid;
+-    hdr.flags = SD_FLAG_CMD_WRITE;
+-
+-    ret = do_req(fd, s->bs, (SheepdogReq *)&hdr, buf, &wlen, &rlen);
+-    if (ret) {
+-        error_setg_errno(errp, -ret, "cannot get vdi info");
+-        goto out;
+-    }
+-
+-    if (rsp->result != SD_RES_SUCCESS) {
+-        error_setg(errp, "cannot get vdi info, %s, %s %" PRIu32 " %s",
+-                   sd_strerror(rsp->result), filename, snapid, tag);
+-        if (rsp->result == SD_RES_NO_VDI) {
+-            ret = -ENOENT;
+-        } else if (rsp->result == SD_RES_VDI_LOCKED) {
+-            ret = -EBUSY;
+-        } else {
+-            ret = -EIO;
 -        }
+-        goto out;
+-    }
+-    *vid = rsp->vdi_id;
+-
+-    ret = 0;
+-out:
+-    closesocket(fd);
+-    return ret;
+-}
+-
+-static void coroutine_fn add_aio_request(BDRVSheepdogState *s, AIOReq *aio_req,
+-                                         struct iovec *iov, int niov,
+-                                         enum AIOCBState aiocb_type)
+-{
+-    int nr_copies = s->inode.nr_copies;
+-    SheepdogObjReq hdr;
+-    unsigned int wlen = 0;
+-    int ret;
+-    uint64_t oid = aio_req->oid;
+-    unsigned int datalen = aio_req->data_len;
+-    uint64_t offset = aio_req->offset;
+-    uint8_t flags = aio_req->flags;
+-    uint64_t old_oid = aio_req->base_oid;
+-    bool create = aio_req->create;
+-
+-    qemu_co_mutex_lock(&s->queue_lock);
+-    QLIST_INSERT_HEAD(&s->inflight_aio_head, aio_req, aio_siblings);
+-    qemu_co_mutex_unlock(&s->queue_lock);
+-
+-    if (!nr_copies) {
+-        error_report("bug");
+-    }
+-
+-    memset(&hdr, 0, sizeof(hdr));
+-
+-    switch (aiocb_type) {
+-    case AIOCB_FLUSH_CACHE:
+-        hdr.opcode = SD_OP_FLUSH_VDI;
 -        break;
--    case 1:
--        if (cop == 0) {
--            return env->cp0.c1_sys;
--        }
+-    case AIOCB_READ_UDATA:
+-        hdr.opcode = SD_OP_READ_OBJ;
+-        hdr.flags = flags;
 -        break;
--    case 2:
--        if (cop == 0) {
--            return env->cp0.c2_base;
+-    case AIOCB_WRITE_UDATA:
+-        if (create) {
+-            hdr.opcode = SD_OP_CREATE_AND_WRITE_OBJ;
+-        } else {
+-            hdr.opcode = SD_OP_WRITE_OBJ;
 -        }
+-        wlen = datalen;
+-        hdr.flags = SD_FLAG_CMD_WRITE | flags;
 -        break;
--    case 3:
--        if (cop == 0) {
--            return env->cp0.c3_faultstatus;
--        }
--        break;
--    case 4:
--        if (cop == 0) {
--            return env->cp0.c4_faultaddr;
--        }
+-    case AIOCB_DISCARD_OBJ:
+-        hdr.opcode = SD_OP_WRITE_OBJ;
+-        hdr.flags = SD_FLAG_CMD_WRITE | flags;
+-        s->inode.data_vdi_id[data_oid_to_idx(oid)] = 0;
+-        offset = offsetof(SheepdogInode,
+-                          data_vdi_id[data_oid_to_idx(oid)]);
+-        oid = vid_to_vdi_oid(s->inode.vdi_id);
+-        wlen = datalen = sizeof(uint32_t);
 -        break;
 -    }
--    qemu_log_mask(LOG_GUEST_ERROR,
--                  "Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
--                  creg, cop);
+-
+-    if (s->cache_flags) {
+-        hdr.flags |= s->cache_flags;
+-    }
+-
+-    hdr.oid = oid;
+-    hdr.cow_oid = old_oid;
+-    hdr.copies = s->inode.nr_copies;
+-
+-    hdr.data_length = datalen;
+-    hdr.offset = offset;
+-
+-    hdr.id = aio_req->id;
+-
+-    qemu_co_mutex_lock(&s->lock);
+-    s->co_send = qemu_coroutine_self();
+-    aio_set_fd_handler(s->aio_context, s->fd, false,
+-                       co_read_response, co_write_request, NULL, s);
+-    socket_set_cork(s->fd, 1);
+-
+-    /* send a header */
+-    ret = qemu_co_send(s->fd, &hdr, sizeof(hdr));
+-    if (ret != sizeof(hdr)) {
+-        error_report("failed to send a req, %s", strerror(errno));
+-        goto out;
+-    }
+-
+-    if (wlen) {
+-        ret = qemu_co_sendv(s->fd, iov, niov, aio_req->iov_offset, wlen);
+-        if (ret != wlen) {
+-            error_report("failed to send a data, %s", strerror(errno));
+-        }
+-    }
+-out:
+-    socket_set_cork(s->fd, 0);
+-    aio_set_fd_handler(s->aio_context, s->fd, false,
+-                       co_read_response, NULL, NULL, s);
+-    s->co_send = NULL;
+-    qemu_co_mutex_unlock(&s->lock);
+-}
+-
+-static int read_write_object(int fd, BlockDriverState *bs, char *buf,
+-                             uint64_t oid, uint8_t copies,
+-                             unsigned int datalen, uint64_t offset,
+-                             bool write, bool create, uint32_t cache_flags)
+-{
+-    SheepdogObjReq hdr;
+-    SheepdogObjRsp *rsp = (SheepdogObjRsp *)&hdr;
+-    unsigned int wlen, rlen;
+-    int ret;
+-
+-    memset(&hdr, 0, sizeof(hdr));
+-
+-    if (write) {
+-        wlen = datalen;
+-        rlen = 0;
+-        hdr.flags = SD_FLAG_CMD_WRITE;
+-        if (create) {
+-            hdr.opcode = SD_OP_CREATE_AND_WRITE_OBJ;
+-        } else {
+-            hdr.opcode = SD_OP_WRITE_OBJ;
+-        }
+-    } else {
+-        wlen = 0;
+-        rlen = datalen;
+-        hdr.opcode = SD_OP_READ_OBJ;
+-    }
+-
+-    hdr.flags |= cache_flags;
+-
+-    hdr.oid = oid;
+-    hdr.data_length = datalen;
+-    hdr.offset = offset;
+-    hdr.copies = copies;
+-
+-    ret = do_req(fd, bs, (SheepdogReq *)&hdr, buf, &wlen, &rlen);
+-    if (ret) {
+-        error_report("failed to send a request to the sheep");
+-        return ret;
+-    }
+-
+-    switch (rsp->result) {
+-    case SD_RES_SUCCESS:
+-        return 0;
+-    default:
+-        error_report("%s", sd_strerror(rsp->result));
+-        return -EIO;
+-    }
+-}
+-
+-static int read_object(int fd, BlockDriverState *bs, char *buf,
+-                       uint64_t oid, uint8_t copies,
+-                       unsigned int datalen, uint64_t offset,
+-                       uint32_t cache_flags)
+-{
+-    return read_write_object(fd, bs, buf, oid, copies,
+-                             datalen, offset, false,
+-                             false, cache_flags);
+-}
+-
+-static int write_object(int fd, BlockDriverState *bs, char *buf,
+-                        uint64_t oid, uint8_t copies,
+-                        unsigned int datalen, uint64_t offset, bool create,
+-                        uint32_t cache_flags)
+-{
+-    return read_write_object(fd, bs, buf, oid, copies,
+-                             datalen, offset, true,
+-                             create, cache_flags);
+-}
+-
+-/* update inode with the latest state */
+-static int reload_inode(BDRVSheepdogState *s, uint32_t snapid, const char *tag)
+-{
+-    Error *local_err = NULL;
+-    SheepdogInode *inode;
+-    int ret = 0, fd;
+-    uint32_t vid = 0;
+-
+-    fd = connect_to_sdog(s, &local_err);
+-    if (fd < 0) {
+-        error_report_err(local_err);
+-        return -EIO;
+-    }
+-
+-    inode = g_malloc(SD_INODE_HEADER_SIZE);
+-
+-    ret = find_vdi_name(s, s->name, snapid, tag, &vid, false, &local_err);
+-    if (ret) {
+-        error_report_err(local_err);
+-        goto out;
+-    }
+-
+-    ret = read_object(fd, s->bs, (char *)inode, vid_to_vdi_oid(vid),
+-                      s->inode.nr_copies, SD_INODE_HEADER_SIZE, 0,
+-                      s->cache_flags);
+-    if (ret < 0) {
+-        goto out;
+-    }
+-
+-    if (inode->vdi_id != s->inode.vdi_id) {
+-        memcpy(&s->inode, inode, SD_INODE_HEADER_SIZE);
+-    }
+-
+-out:
+-    g_free(inode);
+-    closesocket(fd);
+-
+-    return ret;
+-}
+-
+-static void coroutine_fn resend_aioreq(BDRVSheepdogState *s, AIOReq *aio_req)
+-{
+-    SheepdogAIOCB *acb = aio_req->aiocb;
+-
+-    aio_req->create = false;
+-
+-    /* check whether this request becomes a CoW one */
+-    if (acb->aiocb_type == AIOCB_WRITE_UDATA && is_data_obj(aio_req->oid)) {
+-        int idx = data_oid_to_idx(aio_req->oid);
+-
+-        if (is_data_obj_writable(&s->inode, idx)) {
+-            goto out;
+-        }
+-
+-        if (s->inode.data_vdi_id[idx]) {
+-            aio_req->base_oid = vid_to_data_oid(s->inode.data_vdi_id[idx], idx);
+-            aio_req->flags |= SD_FLAG_CMD_COW;
+-        }
+-        aio_req->create = true;
+-    }
+-out:
+-    if (is_data_obj(aio_req->oid)) {
+-        add_aio_request(s, aio_req, acb->qiov->iov, acb->qiov->niov,
+-                        acb->aiocb_type);
+-    } else {
+-        struct iovec iov;
+-        iov.iov_base = &s->inode;
+-        iov.iov_len = sizeof(s->inode);
+-        add_aio_request(s, aio_req, &iov, 1, AIOCB_WRITE_UDATA);
+-    }
+-}
+-
+-static void sd_detach_aio_context(BlockDriverState *bs)
+-{
+-    BDRVSheepdogState *s = bs->opaque;
+-
+-    aio_set_fd_handler(s->aio_context, s->fd, false, NULL,
+-                       NULL, NULL, NULL);
+-}
+-
+-static void sd_attach_aio_context(BlockDriverState *bs,
+-                                  AioContext *new_context)
+-{
+-    BDRVSheepdogState *s = bs->opaque;
+-
+-    s->aio_context = new_context;
+-    aio_set_fd_handler(new_context, s->fd, false,
+-                       co_read_response, NULL, NULL, s);
+-}
+-
+-static QemuOptsList runtime_opts = {
+-    .name = "sheepdog",
+-    .head = QTAILQ_HEAD_INITIALIZER(runtime_opts.head),
+-    .desc = {
+-        {
+-            .name = "vdi",
+-            .type = QEMU_OPT_STRING,
+-        },
+-        {
+-            .name = "snap-id",
+-            .type = QEMU_OPT_NUMBER,
+-        },
+-        {
+-            .name = "tag",
+-            .type = QEMU_OPT_STRING,
+-        },
+-        { /* end of list */ }
+-    },
+-};
+-
+-static int sd_open(BlockDriverState *bs, QDict *options, int flags,
+-                   Error **errp)
+-{
+-    int ret, fd;
+-    uint32_t vid = 0;
+-    BDRVSheepdogState *s = bs->opaque;
+-    const char *vdi, *snap_id_str, *tag;
+-    uint64_t snap_id;
+-    char *buf = NULL;
+-    QemuOpts *opts;
+-
+-    deprecation_warning();
+-
+-    s->bs = bs;
+-    s->aio_context = bdrv_get_aio_context(bs);
+-
+-    opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
+-    if (!qemu_opts_absorb_qdict(opts, options, errp)) {
+-        ret = -EINVAL;
+-        goto err_no_fd;
+-    }
+-
+-    s->addr = sd_server_config(options, errp);
+-    if (!s->addr) {
+-        ret = -EINVAL;
+-        goto err_no_fd;
+-    }
+-
+-    vdi = qemu_opt_get(opts, "vdi");
+-    snap_id_str = qemu_opt_get(opts, "snap-id");
+-    snap_id = qemu_opt_get_number(opts, "snap-id", CURRENT_VDI_ID);
+-    tag = qemu_opt_get(opts, "tag");
+-
+-    if (!vdi) {
+-        error_setg(errp, "parameter 'vdi' is missing");
+-        ret = -EINVAL;
+-        goto err_no_fd;
+-    }
+-    if (strlen(vdi) >= SD_MAX_VDI_LEN) {
+-        error_setg(errp, "value of parameter 'vdi' is too long");
+-        ret = -EINVAL;
+-        goto err_no_fd;
+-    }
+-
+-    if (snap_id > UINT32_MAX) {
+-        snap_id = 0;
+-    }
+-    if (snap_id_str && !snap_id) {
+-        error_setg(errp, "'snap-id=%s' is not a valid snapshot ID",
+-                   snap_id_str);
+-        ret = -EINVAL;
+-        goto err_no_fd;
+-    }
+-
+-    if (!tag) {
+-        tag = "";
+-    }
+-    if (strlen(tag) >= SD_MAX_VDI_TAG_LEN) {
+-        error_setg(errp, "value of parameter 'tag' is too long");
+-        ret = -EINVAL;
+-        goto err_no_fd;
+-    }
+-
+-    QLIST_INIT(&s->inflight_aio_head);
+-    QLIST_INIT(&s->failed_aio_head);
+-    QLIST_INIT(&s->inflight_aiocb_head);
+-
+-    s->fd = get_sheep_fd(s, errp);
+-    if (s->fd < 0) {
+-        ret = s->fd;
+-        goto err_no_fd;
+-    }
+-
+-    ret = find_vdi_name(s, vdi, (uint32_t)snap_id, tag, &vid, true, errp);
+-    if (ret) {
+-        goto err;
+-    }
+-
+-    /*
+-     * QEMU block layer emulates writethrough cache as 'writeback + flush', so
+-     * we always set SD_FLAG_CMD_CACHE (writeback cache) as default.
+-     */
+-    s->cache_flags = SD_FLAG_CMD_CACHE;
+-    if (flags & BDRV_O_NOCACHE) {
+-        s->cache_flags = SD_FLAG_CMD_DIRECT;
+-    }
+-    s->discard_supported = true;
+-
+-    if (snap_id || tag[0]) {
+-        trace_sheepdog_open(vid);
+-        s->is_snapshot = true;
+-    }
+-
+-    fd = connect_to_sdog(s, errp);
+-    if (fd < 0) {
+-        ret = fd;
+-        goto err;
+-    }
+-
+-    buf = g_malloc(SD_INODE_SIZE);
+-    ret = read_object(fd, s->bs, buf, vid_to_vdi_oid(vid),
+-                      0, SD_INODE_SIZE, 0, s->cache_flags);
+-
+-    closesocket(fd);
+-
+-    if (ret) {
+-        error_setg(errp, "Can't read snapshot inode");
+-        goto err;
+-    }
+-
+-    memcpy(&s->inode, buf, sizeof(s->inode));
+-
+-    bs->total_sectors = s->inode.vdi_size / BDRV_SECTOR_SIZE;
+-    bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
+-    pstrcpy(s->name, sizeof(s->name), vdi);
+-    qemu_co_mutex_init(&s->lock);
+-    qemu_co_mutex_init(&s->queue_lock);
+-    qemu_co_queue_init(&s->overlapping_queue);
+-    qemu_opts_del(opts);
+-    g_free(buf);
+-    return 0;
+-
+-err:
+-    aio_set_fd_handler(bdrv_get_aio_context(bs), s->fd,
+-                       false, NULL, NULL, NULL, NULL);
+-    closesocket(s->fd);
+-err_no_fd:
+-    qemu_opts_del(opts);
+-    g_free(buf);
+-    return ret;
+-}
+-
+-static int sd_reopen_prepare(BDRVReopenState *state, BlockReopenQueue *queue,
+-                             Error **errp)
+-{
+-    BDRVSheepdogState *s = state->bs->opaque;
+-    BDRVSheepdogReopenState *re_s;
+-    int ret = 0;
+-
+-    re_s = state->opaque = g_new0(BDRVSheepdogReopenState, 1);
+-
+-    re_s->cache_flags = SD_FLAG_CMD_CACHE;
+-    if (state->flags & BDRV_O_NOCACHE) {
+-        re_s->cache_flags = SD_FLAG_CMD_DIRECT;
+-    }
+-
+-    re_s->fd = get_sheep_fd(s, errp);
+-    if (re_s->fd < 0) {
+-        ret = re_s->fd;
+-        return ret;
+-    }
+-
+-    return ret;
+-}
+-
+-static void sd_reopen_commit(BDRVReopenState *state)
+-{
+-    BDRVSheepdogReopenState *re_s = state->opaque;
+-    BDRVSheepdogState *s = state->bs->opaque;
+-
+-    if (s->fd) {
+-        aio_set_fd_handler(s->aio_context, s->fd, false,
+-                           NULL, NULL, NULL, NULL);
+-        closesocket(s->fd);
+-    }
+-
+-    s->fd = re_s->fd;
+-    s->cache_flags = re_s->cache_flags;
+-
+-    g_free(state->opaque);
+-    state->opaque = NULL;
+-
+-    return;
+-}
+-
+-static void sd_reopen_abort(BDRVReopenState *state)
+-{
+-    BDRVSheepdogReopenState *re_s = state->opaque;
+-    BDRVSheepdogState *s = state->bs->opaque;
+-
+-    if (re_s == NULL) {
+-        return;
+-    }
+-
+-    if (re_s->fd) {
+-        aio_set_fd_handler(s->aio_context, re_s->fd, false,
+-                           NULL, NULL, NULL, NULL);
+-        closesocket(re_s->fd);
+-    }
+-
+-    g_free(state->opaque);
+-    state->opaque = NULL;
+-
+-    return;
+-}
+-
+-static int do_sd_create(BDRVSheepdogState *s, uint32_t *vdi_id, int snapshot,
+-                        Error **errp)
+-{
+-    SheepdogVdiReq hdr;
+-    SheepdogVdiRsp *rsp = (SheepdogVdiRsp *)&hdr;
+-    int fd, ret;
+-    unsigned int wlen, rlen = 0;
+-    char buf[SD_MAX_VDI_LEN];
+-
+-    fd = connect_to_sdog(s, errp);
+-    if (fd < 0) {
+-        return fd;
+-    }
+-
+-    /* FIXME: would it be better to fail (e.g., return -EIO) when filename
+-     * does not fit in buf?  For now, just truncate and avoid buffer overrun.
+-     */
+-    memset(buf, 0, sizeof(buf));
+-    pstrcpy(buf, sizeof(buf), s->name);
+-
+-    memset(&hdr, 0, sizeof(hdr));
+-    hdr.opcode = SD_OP_NEW_VDI;
+-    hdr.base_vdi_id = s->inode.vdi_id;
+-
+-    wlen = SD_MAX_VDI_LEN;
+-
+-    hdr.flags = SD_FLAG_CMD_WRITE;
+-    hdr.snapid = snapshot;
+-
+-    hdr.data_length = wlen;
+-    hdr.vdi_size = s->inode.vdi_size;
+-    hdr.copy_policy = s->inode.copy_policy;
+-    hdr.copies = s->inode.nr_copies;
+-    hdr.block_size_shift = s->inode.block_size_shift;
+-
+-    ret = do_req(fd, NULL, (SheepdogReq *)&hdr, buf, &wlen, &rlen);
+-
+-    closesocket(fd);
+-
+-    if (ret) {
+-        error_setg_errno(errp, -ret, "create failed");
+-        return ret;
+-    }
+-
+-    if (rsp->result != SD_RES_SUCCESS) {
+-        error_setg(errp, "%s, %s", sd_strerror(rsp->result), s->inode.name);
+-        return -EIO;
+-    }
+-
+-    if (vdi_id) {
+-        *vdi_id = rsp->vdi_id;
+-    }
+-
 -    return 0;
 -}
 -
--void helper_cp1_putc(target_ulong regval)
+-static int sd_prealloc(BlockDriverState *bs, int64_t old_size, int64_t new_size,
+-                       Error **errp)
 -{
--    const char c = regval;
+-    BlockBackend *blk = NULL;
+-    BDRVSheepdogState *base = bs->opaque;
+-    unsigned long buf_size;
+-    uint32_t idx, max_idx;
+-    uint32_t object_size;
+-    void *buf = NULL;
+-    int ret;
 -
--    qemu_semihosting_log_out(&c, sizeof(c));
--}
--#endif /* !CONFIG_USER_ONLY */
+-    blk = blk_new_with_bs(bs,
+-                          BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE | BLK_PERM_RESIZE,
+-                          BLK_PERM_ALL, errp);
 -
--bool uc32_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
--{
--    if (interrupt_request & CPU_INTERRUPT_HARD) {
--        UniCore32CPU *cpu = UNICORE32_CPU(cs);
--        CPUUniCore32State *env = &cpu->env;
+-    if (!blk) {
+-        ret = -EPERM;
+-        goto out_with_err_set;
+-    }
 -
--        if (!(env->uncached_asr & ASR_I)) {
--            cs->exception_index = UC32_EXCP_INTR;
--            uc32_cpu_do_interrupt(cs);
--            return true;
+-    blk_set_allow_write_beyond_eof(blk, true);
+-
+-    object_size = (UINT32_C(1) << base->inode.block_size_shift);
+-    buf_size = MIN(object_size, SD_DATA_OBJ_SIZE);
+-    buf = g_malloc0(buf_size);
+-
+-    max_idx = DIV_ROUND_UP(new_size, buf_size);
+-
+-    for (idx = old_size / buf_size; idx < max_idx; idx++) {
+-        /*
+-         * The created image can be a cloned image, so we need to read
+-         * a data from the source image.
+-         */
+-        ret = blk_pread(blk, idx * buf_size, buf, buf_size);
+-        if (ret < 0) {
+-            goto out;
+-        }
+-        ret = blk_pwrite(blk, idx * buf_size, buf, buf_size, 0);
+-        if (ret < 0) {
+-            goto out;
 -        }
 -    }
--    return false;
+-
+-    ret = 0;
+-out:
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "Can't pre-allocate");
+-    }
+-out_with_err_set:
+-    blk_unref(blk);
+-    g_free(buf);
+-
+-    return ret;
 -}
-diff --git a/target/unicore32/op_helper.c b/target/unicore32/op_helper.c
-deleted file mode 100644
-index eeaa78601a..0000000000
---- a/target/unicore32/op_helper.c
-+++ /dev/null
-@@ -1,244 +0,0 @@
+-
+-static int sd_create_prealloc(BlockdevOptionsSheepdog *location, int64_t size,
+-                              Error **errp)
+-{
+-    BlockDriverState *bs;
+-    Visitor *v;
+-    QObject *obj = NULL;
+-    QDict *qdict;
+-    int ret;
+-
+-    v = qobject_output_visitor_new(&obj);
+-    visit_type_BlockdevOptionsSheepdog(v, NULL, &location, &error_abort);
+-    visit_free(v);
+-
+-    qdict = qobject_to(QDict, obj);
+-    qdict_flatten(qdict);
+-
+-    qdict_put_str(qdict, "driver", "sheepdog");
+-
+-    bs = bdrv_open(NULL, NULL, qdict, BDRV_O_PROTOCOL | BDRV_O_RDWR, errp);
+-    if (bs == NULL) {
+-        ret = -EIO;
+-        goto fail;
+-    }
+-
+-    ret = sd_prealloc(bs, 0, size, errp);
+-fail:
+-    bdrv_unref(bs);
+-    qobject_unref(qdict);
+-    return ret;
+-}
+-
+-static int parse_redundancy(BDRVSheepdogState *s, SheepdogRedundancy *opt)
+-{
+-    struct SheepdogInode *inode = &s->inode;
+-
+-    switch (opt->type) {
+-    case SHEEPDOG_REDUNDANCY_TYPE_FULL:
+-        if (opt->u.full.copies > SD_MAX_COPIES || opt->u.full.copies < 1) {
+-            return -EINVAL;
+-        }
+-        inode->copy_policy = 0;
+-        inode->nr_copies = opt->u.full.copies;
+-        return 0;
+-
+-    case SHEEPDOG_REDUNDANCY_TYPE_ERASURE_CODED:
+-    {
+-        int64_t copy = opt->u.erasure_coded.data_strips;
+-        int64_t parity = opt->u.erasure_coded.parity_strips;
+-
+-        if (copy != 2 && copy != 4 && copy != 8 && copy != 16) {
+-            return -EINVAL;
+-        }
+-
+-        if (parity >= SD_EC_MAX_STRIP || parity < 1) {
+-            return -EINVAL;
+-        }
+-
+-        /*
+-         * 4 bits for parity and 4 bits for data.
+-         * We have to compress upper data bits because it can't represent 16
+-         */
+-        inode->copy_policy = ((copy / 2) << 4) + parity;
+-        inode->nr_copies = copy + parity;
+-        return 0;
+-    }
+-
+-    default:
+-        g_assert_not_reached();
+-    }
+-
+-    return -EINVAL;
+-}
+-
 -/*
-- *  UniCore32 helper routines
+- * Sheepdog support two kinds of redundancy, full replication and erasure
+- * coding.
 - *
-- * Copyright (C) 2010-2012 Guan Xuetao
+- * # create a fully replicated vdi with x copies
+- * -o redundancy=x (1 <= x <= SD_MAX_COPIES)
 - *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or (at your option) any
-- * later version. See the COPYING file in the top-level directory.
+- * # create a erasure coded vdi with x data strips and y parity strips
+- * -o redundancy=x:y (x must be one of {2,4,8,16} and 1 <= y < SD_EC_MAX_STRIP)
 - */
--#include "qemu/osdep.h"
--#include "cpu.h"
--#include "exec/helper-proto.h"
--#include "exec/exec-all.h"
--#include "exec/cpu_ldst.h"
--
--#define SIGNBIT (uint32_t)0x80000000
--#define SIGNBIT64 ((uint64_t)1 << 63)
--
--void HELPER(exception)(CPUUniCore32State *env, uint32_t excp)
+-static SheepdogRedundancy *parse_redundancy_str(const char *opt)
 -{
--    CPUState *cs = env_cpu(env);
+-    SheepdogRedundancy *redundancy;
+-    const char *n1, *n2;
+-    long copy, parity;
+-    char p[10];
+-    int ret;
 -
--    cs->exception_index = excp;
--    cpu_loop_exit(cs);
--}
+-    pstrcpy(p, sizeof(p), opt);
+-    n1 = strtok(p, ":");
+-    n2 = strtok(NULL, ":");
 -
--static target_ulong asr_read(CPUUniCore32State *env)
--{
--    int ZF;
--    ZF = (env->ZF == 0);
--    return env->uncached_asr | (env->NF & 0x80000000) | (ZF << 30) |
--        (env->CF << 29) | ((env->VF & 0x80000000) >> 3);
--}
--
--target_ulong cpu_asr_read(CPUUniCore32State *env)
--{
--    return asr_read(env);
--}
--
--target_ulong HELPER(asr_read)(CPUUniCore32State *env)
--{
--    return asr_read(env);
--}
--
--static void asr_write(CPUUniCore32State *env, target_ulong val,
--                      target_ulong mask)
--{
--    if (mask & ASR_NZCV) {
--        env->ZF = (~val) & ASR_Z;
--        env->NF = val;
--        env->CF = (val >> 29) & 1;
--        env->VF = (val << 3) & 0x80000000;
+-    if (!n1) {
+-        return NULL;
 -    }
 -
--    if ((env->uncached_asr ^ val) & mask & ASR_M) {
--        switch_mode(env, val & ASR_M);
+-    ret = qemu_strtol(n1, NULL, 10, &copy);
+-    if (ret < 0) {
+-        return NULL;
 -    }
--    mask &= ~ASR_NZCV;
--    env->uncached_asr = (env->uncached_asr & ~mask) | (val & mask);
--}
 -
--void cpu_asr_write(CPUUniCore32State *env, target_ulong val, target_ulong mask)
--{
--    asr_write(env, val, mask);
--}
--
--void HELPER(asr_write)(CPUUniCore32State *env, target_ulong val,
--                       target_ulong mask)
--{
--    asr_write(env, val, mask);
--}
--
--/* Access to user mode registers from privileged modes.  */
--uint32_t HELPER(get_user_reg)(CPUUniCore32State *env, uint32_t regno)
--{
--    uint32_t val;
--
--    if (regno == 29) {
--        val = env->banked_r29[0];
--    } else if (regno == 30) {
--        val = env->banked_r30[0];
+-    redundancy = g_new0(SheepdogRedundancy, 1);
+-    if (!n2) {
+-        *redundancy = (SheepdogRedundancy) {
+-            .type               = SHEEPDOG_REDUNDANCY_TYPE_FULL,
+-            .u.full.copies      = copy,
+-        };
 -    } else {
--        val = env->regs[regno];
+-        ret = qemu_strtol(n2, NULL, 10, &parity);
+-        if (ret < 0) {
+-            g_free(redundancy);
+-            return NULL;
+-        }
+-
+-        *redundancy = (SheepdogRedundancy) {
+-            .type               = SHEEPDOG_REDUNDANCY_TYPE_ERASURE_CODED,
+-            .u.erasure_coded    = {
+-                .data_strips    = copy,
+-                .parity_strips  = parity,
+-            },
+-        };
 -    }
--    return val;
+-
+-    return redundancy;
 -}
 -
--void HELPER(set_user_reg)(CPUUniCore32State *env, uint32_t regno, uint32_t val)
+-static int parse_block_size_shift(BDRVSheepdogState *s,
+-                                  BlockdevCreateOptionsSheepdog *opts)
 -{
--    if (regno == 29) {
--        env->banked_r29[0] = val;
--    } else if (regno == 30) {
--        env->banked_r30[0] = val;
--    } else {
--        env->regs[regno] = val;
+-    struct SheepdogInode *inode = &s->inode;
+-    uint64_t object_size;
+-    int obj_order;
+-
+-    if (opts->has_object_size) {
+-        object_size = opts->object_size;
+-
+-        if ((object_size - 1) & object_size) {    /* not a power of 2? */
+-            return -EINVAL;
+-        }
+-        obj_order = ctz32(object_size);
+-        if (obj_order < 20 || obj_order > 31) {
+-            return -EINVAL;
+-        }
+-        inode->block_size_shift = (uint8_t)obj_order;
 -    }
+-
+-    return 0;
 -}
 -
--/* ??? Flag setting arithmetic is awkward because we need to do comparisons.
--   The only way to do that in TCG is a conditional branch, which clobbers
--   all our temporaries.  For now implement these as helper functions.  */
--
--uint32_t HELPER(add_cc)(CPUUniCore32State *env, uint32_t a, uint32_t b)
+-static int sd_co_create(BlockdevCreateOptions *options, Error **errp)
 -{
--    uint32_t result;
--    result = a + b;
--    env->NF = env->ZF = result;
--    env->CF = result < a;
--    env->VF = (a ^ b ^ -1) & (a ^ result);
--    return result;
--}
+-    BlockdevCreateOptionsSheepdog *opts = &options->u.sheepdog;
+-    int ret = 0;
+-    uint32_t vid = 0;
+-    char *backing_file = NULL;
+-    char *buf = NULL;
+-    BDRVSheepdogState *s;
+-    uint64_t max_vdi_size;
+-    bool prealloc = false;
 -
--uint32_t HELPER(adc_cc)(CPUUniCore32State *env, uint32_t a, uint32_t b)
--{
--    uint32_t result;
--    if (!env->CF) {
--        result = a + b;
--        env->CF = result < a;
--    } else {
--        result = a + b + 1;
--        env->CF = result <= a;
+-    assert(options->driver == BLOCKDEV_DRIVER_SHEEPDOG);
+-
+-    deprecation_warning();
+-
+-    s = g_new0(BDRVSheepdogState, 1);
+-
+-    /* Steal SocketAddress from QAPI, set NULL to prevent double free */
+-    s->addr = opts->location->server;
+-    opts->location->server = NULL;
+-
+-    if (strlen(opts->location->vdi) >= sizeof(s->name)) {
+-        error_setg(errp, "'vdi' string too long");
+-        ret = -EINVAL;
+-        goto out;
 -    }
--    env->VF = (a ^ b ^ -1) & (a ^ result);
--    env->NF = env->ZF = result;
--    return result;
--}
+-    pstrcpy(s->name, sizeof(s->name), opts->location->vdi);
 -
--uint32_t HELPER(sub_cc)(CPUUniCore32State *env, uint32_t a, uint32_t b)
--{
--    uint32_t result;
--    result = a - b;
--    env->NF = env->ZF = result;
--    env->CF = a >= b;
--    env->VF = (a ^ b) & (a ^ result);
--    return result;
--}
+-    s->inode.vdi_size = opts->size;
+-    backing_file = opts->backing_file;
 -
--uint32_t HELPER(sbc_cc)(CPUUniCore32State *env, uint32_t a, uint32_t b)
--{
--    uint32_t result;
--    if (!env->CF) {
--        result = a - b - 1;
--        env->CF = a > b;
--    } else {
--        result = a - b;
--        env->CF = a >= b;
+-    if (!opts->has_preallocation) {
+-        opts->preallocation = PREALLOC_MODE_OFF;
 -    }
--    env->VF = (a ^ b) & (a ^ result);
--    env->NF = env->ZF = result;
--    return result;
--}
--
--/* Similarly for variable shift instructions.  */
--
--uint32_t HELPER(shl)(uint32_t x, uint32_t i)
--{
--    int shift = i & 0xff;
--    if (shift >= 32) {
--        return 0;
+-    switch (opts->preallocation) {
+-    case PREALLOC_MODE_OFF:
+-        prealloc = false;
+-        break;
+-    case PREALLOC_MODE_FULL:
+-        prealloc = true;
+-        break;
+-    default:
+-        error_setg(errp, "Preallocation mode not supported for Sheepdog");
+-        ret = -EINVAL;
+-        goto out;
 -    }
--    return x << shift;
--}
 -
--uint32_t HELPER(shr)(uint32_t x, uint32_t i)
--{
--    int shift = i & 0xff;
--    if (shift >= 32) {
--        return 0;
+-    if (opts->has_redundancy) {
+-        ret = parse_redundancy(s, opts->redundancy);
+-        if (ret < 0) {
+-            error_setg(errp, "Invalid redundancy mode");
+-            goto out;
+-        }
 -    }
--    return (uint32_t)x >> shift;
--}
--
--uint32_t HELPER(sar)(uint32_t x, uint32_t i)
--{
--    int shift = i & 0xff;
--    if (shift >= 32) {
--        shift = 31;
+-    ret = parse_block_size_shift(s, opts);
+-    if (ret < 0) {
+-        error_setg(errp, "Invalid object_size."
+-                         " obect_size needs to be power of 2"
+-                         " and be limited from 2^20 to 2^31");
+-        goto out;
 -    }
--    return (int32_t)x >> shift;
--}
 -
--uint32_t HELPER(shl_cc)(CPUUniCore32State *env, uint32_t x, uint32_t i)
--{
--    int shift = i & 0xff;
--    if (shift >= 32) {
--        if (shift == 32) {
--            env->CF = x & 1;
+-    if (opts->has_backing_file) {
+-        BlockBackend *blk;
+-        BDRVSheepdogState *base;
+-        BlockDriver *drv;
+-
+-        /* Currently, only Sheepdog backing image is supported. */
+-        drv = bdrv_find_protocol(opts->backing_file, true, NULL);
+-        if (!drv || strcmp(drv->protocol_name, "sheepdog") != 0) {
+-            error_setg(errp, "backing_file must be a sheepdog image");
+-            ret = -EINVAL;
+-            goto out;
+-        }
+-
+-        blk = blk_new_open(opts->backing_file, NULL, NULL,
+-                           BDRV_O_PROTOCOL, errp);
+-        if (blk == NULL) {
+-            ret = -EIO;
+-            goto out;
+-        }
+-
+-        base = blk_bs(blk)->opaque;
+-
+-        if (!is_snapshot(&base->inode)) {
+-            error_setg(errp, "cannot clone from a non snapshot vdi");
+-            blk_unref(blk);
+-            ret = -EINVAL;
+-            goto out;
+-        }
+-        s->inode.vdi_id = base->inode.vdi_id;
+-        blk_unref(blk);
+-    }
+-
+-    s->aio_context = qemu_get_aio_context();
+-
+-    /* if block_size_shift is not specified, get cluster default value */
+-    if (s->inode.block_size_shift == 0) {
+-        SheepdogVdiReq hdr;
+-        SheepdogClusterRsp *rsp = (SheepdogClusterRsp *)&hdr;
+-        int fd;
+-        unsigned int wlen = 0, rlen = 0;
+-
+-        fd = connect_to_sdog(s, errp);
+-        if (fd < 0) {
+-            ret = fd;
+-            goto out;
+-        }
+-
+-        memset(&hdr, 0, sizeof(hdr));
+-        hdr.opcode = SD_OP_GET_CLUSTER_DEFAULT;
+-        hdr.proto_ver = SD_PROTO_VER;
+-
+-        ret = do_req(fd, NULL, (SheepdogReq *)&hdr,
+-                     NULL, &wlen, &rlen);
+-        closesocket(fd);
+-        if (ret) {
+-            error_setg_errno(errp, -ret, "failed to get cluster default");
+-            goto out;
+-        }
+-        if (rsp->result == SD_RES_SUCCESS) {
+-            s->inode.block_size_shift = rsp->block_size_shift;
 -        } else {
--            env->CF = 0;
+-            s->inode.block_size_shift = SD_DEFAULT_BLOCK_SIZE_SHIFT;
 -        }
--        return 0;
--    } else if (shift != 0) {
--        env->CF = (x >> (32 - shift)) & 1;
--        return x << shift;
 -    }
--    return x;
+-
+-    max_vdi_size = (UINT64_C(1) << s->inode.block_size_shift) * MAX_DATA_OBJS;
+-
+-    if (s->inode.vdi_size > max_vdi_size) {
+-        error_setg(errp, "An image is too large."
+-                         " The maximum image size is %"PRIu64 "GB",
+-                         max_vdi_size / 1024 / 1024 / 1024);
+-        ret = -EINVAL;
+-        goto out;
+-    }
+-
+-    ret = do_sd_create(s, &vid, 0, errp);
+-    if (ret) {
+-        goto out;
+-    }
+-
+-    if (prealloc) {
+-        ret = sd_create_prealloc(opts->location, opts->size, errp);
+-    }
+-out:
+-    g_free(backing_file);
+-    g_free(buf);
+-    g_free(s->addr);
+-    g_free(s);
+-    return ret;
 -}
 -
--uint32_t HELPER(shr_cc)(CPUUniCore32State *env, uint32_t x, uint32_t i)
+-static int coroutine_fn sd_co_create_opts(BlockDriver *drv,
+-                                          const char *filename,
+-                                          QemuOpts *opts,
+-                                          Error **errp)
 -{
--    int shift = i & 0xff;
--    if (shift >= 32) {
--        if (shift == 32) {
--            env->CF = (x >> 31) & 1;
--        } else {
--            env->CF = 0;
+-    BlockdevCreateOptions *create_options = NULL;
+-    QDict *qdict = NULL, *location_qdict;
+-    Visitor *v;
+-    char *redundancy = NULL;
+-    Error *local_err = NULL;
+-    int ret;
+-    char *backing_fmt = NULL;
+-
+-    redundancy = qemu_opt_get_del(opts, BLOCK_OPT_REDUNDANCY);
+-    backing_fmt = qemu_opt_get_del(opts, BLOCK_OPT_BACKING_FMT);
+-
+-    if (backing_fmt && strcmp(backing_fmt, "sheepdog") != 0) {
+-        error_setg(errp, "backing_file must be a sheepdog image");
+-        ret = -EINVAL;
+-        goto fail;
+-    }
+-
+-    qdict = qemu_opts_to_qdict(opts, NULL);
+-    qdict_put_str(qdict, "driver", "sheepdog");
+-
+-    location_qdict = qdict_new();
+-    qdict_put(qdict, "location", location_qdict);
+-
+-    sd_parse_filename(filename, location_qdict, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        ret = -EINVAL;
+-        goto fail;
+-    }
+-
+-    qdict_flatten(qdict);
+-
+-    /* Change legacy command line options into QMP ones */
+-    static const QDictRenames opt_renames[] = {
+-        { BLOCK_OPT_BACKING_FILE,       "backing-file" },
+-        { BLOCK_OPT_OBJECT_SIZE,        "object-size" },
+-        { NULL, NULL },
+-    };
+-
+-    if (!qdict_rename_keys(qdict, opt_renames, errp)) {
+-        ret = -EINVAL;
+-        goto fail;
+-    }
+-
+-    /* Get the QAPI object */
+-    v = qobject_input_visitor_new_flat_confused(qdict, errp);
+-    if (!v) {
+-        ret = -EINVAL;
+-        goto fail;
+-    }
+-
+-    visit_type_BlockdevCreateOptions(v, NULL, &create_options, errp);
+-    visit_free(v);
+-    if (!create_options) {
+-        ret = -EINVAL;
+-        goto fail;
+-    }
+-
+-    assert(create_options->driver == BLOCKDEV_DRIVER_SHEEPDOG);
+-    create_options->u.sheepdog.size =
+-        ROUND_UP(create_options->u.sheepdog.size, BDRV_SECTOR_SIZE);
+-
+-    if (redundancy) {
+-        create_options->u.sheepdog.has_redundancy = true;
+-        create_options->u.sheepdog.redundancy =
+-            parse_redundancy_str(redundancy);
+-        if (create_options->u.sheepdog.redundancy == NULL) {
+-            error_setg(errp, "Invalid redundancy mode");
+-            ret = -EINVAL;
+-            goto fail;
 -        }
--        return 0;
--    } else if (shift != 0) {
--        env->CF = (x >> (shift - 1)) & 1;
--        return x >> shift;
 -    }
--    return x;
+-
+-    ret = sd_co_create(create_options, errp);
+-fail:
+-    qapi_free_BlockdevCreateOptions(create_options);
+-    qobject_unref(qdict);
+-    g_free(redundancy);
+-    g_free(backing_fmt);
+-    return ret;
 -}
 -
--uint32_t HELPER(sar_cc)(CPUUniCore32State *env, uint32_t x, uint32_t i)
+-static void sd_close(BlockDriverState *bs)
 -{
--    int shift = i & 0xff;
--    if (shift >= 32) {
--        env->CF = (x >> 31) & 1;
--        return (int32_t)x >> 31;
--    } else if (shift != 0) {
--        env->CF = (x >> (shift - 1)) & 1;
--        return (int32_t)x >> shift;
--    }
--    return x;
--}
+-    Error *local_err = NULL;
+-    BDRVSheepdogState *s = bs->opaque;
+-    SheepdogVdiReq hdr;
+-    SheepdogVdiRsp *rsp = (SheepdogVdiRsp *)&hdr;
+-    unsigned int wlen, rlen = 0;
+-    int fd, ret;
 -
--uint32_t HELPER(ror_cc)(CPUUniCore32State *env, uint32_t x, uint32_t i)
--{
--    int shift1, shift;
--    shift1 = i & 0xff;
--    shift = shift1 & 0x1f;
--    if (shift == 0) {
--        if (shift1 != 0) {
--            env->CF = (x >> 31) & 1;
--        }
--        return x;
--    } else {
--        env->CF = (x >> (shift - 1)) & 1;
--        return ((uint32_t)x >> shift) | (x << (32 - shift));
--    }
--}
-diff --git a/target/unicore32/softmmu.c b/target/unicore32/softmmu.c
-deleted file mode 100644
-index cbdaa500b7..0000000000
---- a/target/unicore32/softmmu.c
-+++ /dev/null
-@@ -1,280 +0,0 @@
--/*
-- * Softmmu related functions
-- *
-- * Copyright (C) 2010-2012 Guan Xuetao
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or any later version.
-- * See the COPYING file in the top-level directory.
-- */
--#ifdef CONFIG_USER_ONLY
--#error This file only exist under softmmu circumstance
--#endif
+-    trace_sheepdog_close(s->name);
 -
--#include "qemu/osdep.h"
--#include "cpu.h"
--#include "exec/exec-all.h"
--#include "qemu/error-report.h"
--
--#undef DEBUG_UC32
--
--#ifdef DEBUG_UC32
--#define DPRINTF(fmt, ...) printf("%s: " fmt , __func__, ## __VA_ARGS__)
--#else
--#define DPRINTF(fmt, ...) do {} while (0)
--#endif
--
--#define SUPERPAGE_SIZE             (1 << 22)
--#define UC32_PAGETABLE_READ        (1 << 8)
--#define UC32_PAGETABLE_WRITE       (1 << 7)
--#define UC32_PAGETABLE_EXEC        (1 << 6)
--#define UC32_PAGETABLE_EXIST       (1 << 2)
--#define PAGETABLE_TYPE(x)          ((x) & 3)
--
--
--/* Map CPU modes onto saved register banks.  */
--static inline int bank_number(CPUUniCore32State *env, int mode)
--{
--    switch (mode) {
--    case ASR_MODE_USER:
--    case ASR_MODE_SUSR:
--        return 0;
--    case ASR_MODE_PRIV:
--        return 1;
--    case ASR_MODE_TRAP:
--        return 2;
--    case ASR_MODE_EXTN:
--        return 3;
--    case ASR_MODE_INTR:
--        return 4;
--    }
--    cpu_abort(env_cpu(env), "Bad mode %x\n", mode);
--    return -1;
--}
--
--void switch_mode(CPUUniCore32State *env, int mode)
--{
--    int old_mode;
--    int i;
--
--    old_mode = env->uncached_asr & ASR_M;
--    if (mode == old_mode) {
+-    fd = connect_to_sdog(s, &local_err);
+-    if (fd < 0) {
+-        error_report_err(local_err);
 -        return;
 -    }
 -
--    i = bank_number(env, old_mode);
--    env->banked_r29[i] = env->regs[29];
--    env->banked_r30[i] = env->regs[30];
--    env->banked_bsr[i] = env->bsr;
+-    memset(&hdr, 0, sizeof(hdr));
 -
--    i = bank_number(env, mode);
--    env->regs[29] = env->banked_r29[i];
--    env->regs[30] = env->banked_r30[i];
--    env->bsr = env->banked_bsr[i];
+-    hdr.opcode = SD_OP_RELEASE_VDI;
+-    hdr.type = LOCK_TYPE_NORMAL;
+-    hdr.base_vdi_id = s->inode.vdi_id;
+-    wlen = strlen(s->name) + 1;
+-    hdr.data_length = wlen;
+-    hdr.flags = SD_FLAG_CMD_WRITE;
+-
+-    ret = do_req(fd, s->bs, (SheepdogReq *)&hdr,
+-                 s->name, &wlen, &rlen);
+-
+-    closesocket(fd);
+-
+-    if (!ret && rsp->result != SD_RES_SUCCESS &&
+-        rsp->result != SD_RES_VDI_NOT_LOCKED) {
+-        error_report("%s, %s", sd_strerror(rsp->result), s->name);
+-    }
+-
+-    aio_set_fd_handler(bdrv_get_aio_context(bs), s->fd,
+-                       false, NULL, NULL, NULL, NULL);
+-    closesocket(s->fd);
+-    qapi_free_SocketAddress(s->addr);
 -}
 -
--/* Handle a CPU exception.  */
--void uc32_cpu_do_interrupt(CPUState *cs)
+-static int64_t sd_getlength(BlockDriverState *bs)
 -{
--    UniCore32CPU *cpu = UNICORE32_CPU(cs);
--    CPUUniCore32State *env = &cpu->env;
--    uint32_t addr;
--    int new_mode;
+-    BDRVSheepdogState *s = bs->opaque;
 -
--    switch (cs->exception_index) {
--    case UC32_EXCP_PRIV:
--        new_mode = ASR_MODE_PRIV;
--        addr = 0x08;
--        break;
--    case UC32_EXCP_ITRAP:
--        DPRINTF("itrap happened at %x\n", env->regs[31]);
--        new_mode = ASR_MODE_TRAP;
--        addr = 0x0c;
--        break;
--    case UC32_EXCP_DTRAP:
--        DPRINTF("dtrap happened at %x\n", env->regs[31]);
--        new_mode = ASR_MODE_TRAP;
--        addr = 0x10;
--        break;
--    case UC32_EXCP_INTR:
--        new_mode = ASR_MODE_INTR;
--        addr = 0x18;
--        break;
--    default:
--        cpu_abort(cs, "Unhandled exception 0x%x\n", cs->exception_index);
--        return;
--    }
--    /* High vectors.  */
--    if (env->cp0.c1_sys & (1 << 13)) {
--        addr += 0xffff0000;
--    }
--
--    switch_mode(env, new_mode);
--    env->bsr = cpu_asr_read(env);
--    env->uncached_asr = (env->uncached_asr & ~ASR_M) | new_mode;
--    env->uncached_asr |= ASR_I;
--    /* The PC already points to the proper instruction.  */
--    env->regs[30] = env->regs[31];
--    env->regs[31] = addr;
--    cs->interrupt_request |= CPU_INTERRUPT_EXITTB;
+-    return s->inode.vdi_size;
 -}
 -
--static int get_phys_addr_ucv2(CPUUniCore32State *env, uint32_t address,
--        int access_type, int is_user, uint32_t *phys_ptr, int *prot,
--        target_ulong *page_size)
+-static int coroutine_fn sd_co_truncate(BlockDriverState *bs, int64_t offset,
+-                                       bool exact, PreallocMode prealloc,
+-                                       BdrvRequestFlags flags, Error **errp)
 -{
--    CPUState *cs = env_cpu(env);
--    int code;
--    uint32_t table;
--    uint32_t desc;
--    uint32_t phys_addr;
+-    BDRVSheepdogState *s = bs->opaque;
+-    int ret, fd;
+-    unsigned int datalen;
+-    uint64_t max_vdi_size;
+-    int64_t old_size = s->inode.vdi_size;
 -
--    /* Pagetable walk.  */
--    /* Lookup l1 descriptor.  */
--    table = env->cp0.c2_base & 0xfffff000;
--    table |= (address >> 20) & 0xffc;
--    desc = ldl_phys(cs->as, table);
--    code = 0;
--    switch (PAGETABLE_TYPE(desc)) {
--    case 3:
--        /* Superpage  */
--        if (!(desc & UC32_PAGETABLE_EXIST)) {
--            code = 0x0b; /* superpage miss */
--            goto do_fault;
--        }
--        phys_addr = (desc & 0xffc00000) | (address & 0x003fffff);
--        *page_size = SUPERPAGE_SIZE;
--        break;
--    case 0:
--        /* Lookup l2 entry.  */
--        if (is_user) {
--            DPRINTF("PGD address %x, desc %x\n", table, desc);
--        }
--        if (!(desc & UC32_PAGETABLE_EXIST)) {
--            code = 0x05; /* second pagetable miss */
--            goto do_fault;
--        }
--        table = (desc & 0xfffff000) | ((address >> 10) & 0xffc);
--        desc = ldl_phys(cs->as, table);
--        /* 4k page.  */
--        if (is_user) {
--            DPRINTF("PTE address %x, desc %x\n", table, desc);
--        }
--        if (!(desc & UC32_PAGETABLE_EXIST)) {
--            code = 0x08; /* page miss */
--            goto do_fault;
--        }
--        switch (PAGETABLE_TYPE(desc)) {
--        case 0:
--            phys_addr = (desc & 0xfffff000) | (address & 0xfff);
--            *page_size = TARGET_PAGE_SIZE;
--            break;
--        default:
--            cpu_abort(cs, "wrong page type!");
--        }
--        break;
--    default:
--        cpu_abort(cs, "wrong page type!");
+-    if (prealloc != PREALLOC_MODE_OFF && prealloc != PREALLOC_MODE_FULL) {
+-        error_setg(errp, "Unsupported preallocation mode '%s'",
+-                   PreallocMode_str(prealloc));
+-        return -ENOTSUP;
 -    }
 -
--    *phys_ptr = phys_addr;
--    *prot = 0;
--    /* Check access permissions.  */
--    if (desc & UC32_PAGETABLE_READ) {
--        *prot |= PAGE_READ;
--    } else {
--        if (is_user && (access_type == 0)) {
--            code = 0x11; /* access unreadable area */
--            goto do_fault;
+-    max_vdi_size = (UINT64_C(1) << s->inode.block_size_shift) * MAX_DATA_OBJS;
+-    if (offset < old_size) {
+-        error_setg(errp, "shrinking is not supported");
+-        return -EINVAL;
+-    } else if (offset > max_vdi_size) {
+-        error_setg(errp, "too big image size");
+-        return -EINVAL;
+-    }
+-
+-    fd = connect_to_sdog(s, errp);
+-    if (fd < 0) {
+-        return fd;
+-    }
+-
+-    /* we don't need to update entire object */
+-    datalen = SD_INODE_HEADER_SIZE;
+-    s->inode.vdi_size = offset;
+-    ret = write_object(fd, s->bs, (char *)&s->inode,
+-                       vid_to_vdi_oid(s->inode.vdi_id), s->inode.nr_copies,
+-                       datalen, 0, false, s->cache_flags);
+-    close(fd);
+-
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "failed to update an inode");
+-        return ret;
+-    }
+-
+-    if (prealloc == PREALLOC_MODE_FULL) {
+-        ret = sd_prealloc(bs, old_size, offset, errp);
+-        if (ret < 0) {
+-            return ret;
 -        }
 -    }
 -
--    if (desc & UC32_PAGETABLE_WRITE) {
--        *prot |= PAGE_WRITE;
--    } else {
--        if (is_user && (access_type == 1)) {
--            code = 0x12; /* access unwritable area */
--            goto do_fault;
--        }
--    }
--
--    if (desc & UC32_PAGETABLE_EXEC) {
--        *prot |= PAGE_EXEC;
--    } else {
--        if (is_user && (access_type == 2)) {
--            code = 0x13; /* access unexecutable area */
--            goto do_fault;
--        }
--    }
--
--do_fault:
--    return code;
+-    return 0;
 -}
 -
--bool uc32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                       MMUAccessType access_type, int mmu_idx,
--                       bool probe, uintptr_t retaddr)
+-/*
+- * This function is called after writing data objects.  If we need to
+- * update metadata, this sends a write request to the vdi object.
+- */
+-static void coroutine_fn sd_write_done(SheepdogAIOCB *acb)
 -{
--    UniCore32CPU *cpu = UNICORE32_CPU(cs);
--    CPUUniCore32State *env = &cpu->env;
--    uint32_t phys_addr;
--    target_ulong page_size;
--    int prot;
--    int ret, is_user;
+-    BDRVSheepdogState *s = acb->s;
+-    struct iovec iov;
+-    AIOReq *aio_req;
+-    uint32_t offset, data_len, mn, mx;
 -
--    ret = 1;
--    is_user = mmu_idx == MMU_USER_IDX;
+-    mn = acb->min_dirty_data_idx;
+-    mx = acb->max_dirty_data_idx;
+-    if (mn <= mx) {
+-        /* we need to update the vdi object. */
+-        ++acb->nr_pending;
+-        offset = sizeof(s->inode) - sizeof(s->inode.data_vdi_id) +
+-            mn * sizeof(s->inode.data_vdi_id[0]);
+-        data_len = (mx - mn + 1) * sizeof(s->inode.data_vdi_id[0]);
 -
--    if ((env->cp0.c1_sys & 1) == 0) {
--        /* MMU disabled.  */
--        phys_addr = address;
--        prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
--        page_size = TARGET_PAGE_SIZE;
--        ret = 0;
--    } else {
--        if ((address & (1 << 31)) || (is_user)) {
--            ret = get_phys_addr_ucv2(env, address, access_type, is_user,
--                                    &phys_addr, &prot, &page_size);
--            if (is_user) {
--                DPRINTF("user space access: ret %x, address %" VADDR_PRIx ", "
--                        "access_type %x, phys_addr %x, prot %x\n",
--                        ret, address, access_type, phys_addr, prot);
--            }
--        } else {
--            /*IO memory */
--            phys_addr = address | (1 << 31);
--            prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
--            page_size = TARGET_PAGE_SIZE;
--            ret = 0;
+-        acb->min_dirty_data_idx = UINT32_MAX;
+-        acb->max_dirty_data_idx = 0;
+-
+-        iov.iov_base = &s->inode;
+-        iov.iov_len = sizeof(s->inode);
+-        aio_req = alloc_aio_req(s, acb, vid_to_vdi_oid(s->inode.vdi_id),
+-                                data_len, offset, 0, false, 0, offset);
+-        add_aio_request(s, aio_req, &iov, 1, AIOCB_WRITE_UDATA);
+-        if (--acb->nr_pending) {
+-            qemu_coroutine_yield();
 -        }
 -    }
+-}
 -
--    if (ret == 0) {
--        /* Map a single page.  */
--        phys_addr &= TARGET_PAGE_MASK;
--        address &= TARGET_PAGE_MASK;
--        tlb_set_page(cs, address, phys_addr, prot, mmu_idx, page_size);
--        return true;
--    }
+-/* Delete current working VDI on the snapshot chain */
+-static bool sd_delete(BDRVSheepdogState *s)
+-{
+-    Error *local_err = NULL;
+-    unsigned int wlen = SD_MAX_VDI_LEN, rlen = 0;
+-    SheepdogVdiReq hdr = {
+-        .opcode = SD_OP_DEL_VDI,
+-        .base_vdi_id = s->inode.vdi_id,
+-        .data_length = wlen,
+-        .flags = SD_FLAG_CMD_WRITE,
+-    };
+-    SheepdogVdiRsp *rsp = (SheepdogVdiRsp *)&hdr;
+-    int fd, ret;
 -
--    if (probe) {
+-    fd = connect_to_sdog(s, &local_err);
+-    if (fd < 0) {
+-        error_report_err(local_err);
 -        return false;
 -    }
 -
--    env->cp0.c3_faultstatus = ret;
--    env->cp0.c4_faultaddr = address;
--    if (access_type == 2) {
--        cs->exception_index = UC32_EXCP_ITRAP;
--    } else {
--        cs->exception_index = UC32_EXCP_DTRAP;
+-    ret = do_req(fd, s->bs, (SheepdogReq *)&hdr,
+-                 s->name, &wlen, &rlen);
+-    closesocket(fd);
+-    if (ret) {
+-        return false;
 -    }
--    cpu_loop_exit_restore(cs, retaddr);
--}
--
--hwaddr uc32_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
--{
--    error_report("function uc32_cpu_get_phys_page_debug not "
--                    "implemented, aborting");
--    return -1;
--}
-diff --git a/target/unicore32/translate.c b/target/unicore32/translate.c
-deleted file mode 100644
-index 370709c9ea..0000000000
---- a/target/unicore32/translate.c
-+++ /dev/null
-@@ -1,2083 +0,0 @@
--/*
-- *  UniCore32 translation
-- *
-- * Copyright (C) 2010-2012 Guan Xuetao
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or (at your option) any
-- * later version. See the COPYING file in the top-level directory.
-- */
--#include "qemu/osdep.h"
--
--#include "cpu.h"
--#include "disas/disas.h"
--#include "exec/exec-all.h"
--#include "tcg/tcg-op.h"
--#include "qemu/log.h"
--#include "exec/cpu_ldst.h"
--#include "exec/translator.h"
--#include "qemu/qemu-print.h"
--
--#include "exec/helper-proto.h"
--#include "exec/helper-gen.h"
--
--#include "trace-tcg.h"
--#include "exec/log.h"
--
--
--/* internal defines */
--typedef struct DisasContext {
--    target_ulong pc;
--    int is_jmp;
--    /* Nonzero if this instruction has been conditionally skipped.  */
--    int condjmp;
--    /* The label that will be jumped to when the instruction is skipped.  */
--    TCGLabel *condlabel;
--    TranslationBlock *tb;
--    int singlestep_enabled;
--#ifndef CONFIG_USER_ONLY
--    int user;
--#endif
--} DisasContext;
--
--#ifndef CONFIG_USER_ONLY
--#define IS_USER(s)      (s->user)
--#else
--#define IS_USER(s)      1
--#endif
--
--/* is_jmp field values */
--#define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
--#define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
--#define DISAS_TB_JUMP DISAS_TARGET_2 /* only pc was modified statically */
--/* These instructions trap after executing, so defer them until after the
--   conditional executions state has been updated.  */
--#define DISAS_SYSCALL DISAS_TARGET_3
--
--static TCGv_i32 cpu_R[32];
--
--/* FIXME:  These should be removed.  */
--static TCGv cpu_F0s, cpu_F1s;
--static TCGv_i64 cpu_F0d, cpu_F1d;
--
--#include "exec/gen-icount.h"
--
--static const char *regnames[] = {
--      "r00", "r01", "r02", "r03", "r04", "r05", "r06", "r07",
--      "r08", "r09", "r10", "r11", "r12", "r13", "r14", "r15",
--      "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
--      "r24", "r25", "r26", "r27", "r28", "r29", "r30", "pc" };
--
--/* initialize TCG globals.  */
--void uc32_translate_init(void)
--{
--    int i;
--
--    for (i = 0; i < 32; i++) {
--        cpu_R[i] = tcg_global_mem_new_i32(cpu_env,
--                                offsetof(CPUUniCore32State, regs[i]), regnames[i]);
--    }
--}
--
--static int num_temps;
--
--/* Allocate a temporary variable.  */
--static TCGv_i32 new_tmp(void)
--{
--    num_temps++;
--    return tcg_temp_new_i32();
--}
--
--/* Release a temporary variable.  */
--static void dead_tmp(TCGv tmp)
--{
--    tcg_temp_free(tmp);
--    num_temps--;
--}
--
--static inline TCGv load_cpu_offset(int offset)
--{
--    TCGv tmp = new_tmp();
--    tcg_gen_ld_i32(tmp, cpu_env, offset);
--    return tmp;
--}
--
--#define load_cpu_field(name) load_cpu_offset(offsetof(CPUUniCore32State, name))
--
--static inline void store_cpu_offset(TCGv var, int offset)
--{
--    tcg_gen_st_i32(var, cpu_env, offset);
--    dead_tmp(var);
--}
--
--#define store_cpu_field(var, name) \
--    store_cpu_offset(var, offsetof(CPUUniCore32State, name))
--
--/* Set a variable to the value of a CPU register.  */
--static void load_reg_var(DisasContext *s, TCGv var, int reg)
--{
--    if (reg == 31) {
--        uint32_t addr;
--        /* normaly, since we updated PC */
--        addr = (long)s->pc;
--        tcg_gen_movi_i32(var, addr);
--    } else {
--        tcg_gen_mov_i32(var, cpu_R[reg]);
--    }
--}
--
--/* Create a new temporary and set it to the value of a CPU register.  */
--static inline TCGv load_reg(DisasContext *s, int reg)
--{
--    TCGv tmp = new_tmp();
--    load_reg_var(s, tmp, reg);
--    return tmp;
--}
--
--/* Set a CPU register.  The source must be a temporary and will be
--   marked as dead.  */
--static void store_reg(DisasContext *s, int reg, TCGv var)
--{
--    if (reg == 31) {
--        tcg_gen_andi_i32(var, var, ~3);
--        s->is_jmp = DISAS_JUMP;
--    }
--    tcg_gen_mov_i32(cpu_R[reg], var);
--    dead_tmp(var);
--}
--
--/* Value extensions.  */
--#define gen_uxtb(var)           tcg_gen_ext8u_i32(var, var)
--#define gen_uxth(var)           tcg_gen_ext16u_i32(var, var)
--#define gen_sxtb(var)           tcg_gen_ext8s_i32(var, var)
--#define gen_sxth(var)           tcg_gen_ext16s_i32(var, var)
--
--#define UCOP_REG_M              (((insn) >>  0) & 0x1f)
--#define UCOP_REG_N              (((insn) >> 19) & 0x1f)
--#define UCOP_REG_D              (((insn) >> 14) & 0x1f)
--#define UCOP_REG_S              (((insn) >>  9) & 0x1f)
--#define UCOP_REG_LO             (((insn) >> 14) & 0x1f)
--#define UCOP_REG_HI             (((insn) >>  9) & 0x1f)
--#define UCOP_SH_OP              (((insn) >>  6) & 0x03)
--#define UCOP_SH_IM              (((insn) >>  9) & 0x1f)
--#define UCOP_OPCODES            (((insn) >> 25) & 0x0f)
--#define UCOP_IMM_9              (((insn) >>  0) & 0x1ff)
--#define UCOP_IMM10              (((insn) >>  0) & 0x3ff)
--#define UCOP_IMM14              (((insn) >>  0) & 0x3fff)
--#define UCOP_COND               (((insn) >> 25) & 0x0f)
--#define UCOP_CMOV_COND          (((insn) >> 19) & 0x0f)
--#define UCOP_CPNUM              (((insn) >> 10) & 0x0f)
--#define UCOP_UCF64_FMT          (((insn) >> 24) & 0x03)
--#define UCOP_UCF64_FUNC         (((insn) >>  6) & 0x0f)
--#define UCOP_UCF64_COND         (((insn) >>  6) & 0x0f)
--
--#define UCOP_SET(i)             ((insn) & (1 << (i)))
--#define UCOP_SET_P              UCOP_SET(28)
--#define UCOP_SET_U              UCOP_SET(27)
--#define UCOP_SET_B              UCOP_SET(26)
--#define UCOP_SET_W              UCOP_SET(25)
--#define UCOP_SET_L              UCOP_SET(24)
--#define UCOP_SET_S              UCOP_SET(24)
--
--#define ILLEGAL         cpu_abort(env_cpu(env),                         \
--                        "Illegal UniCore32 instruction %x at line %d!", \
--                        insn, __LINE__)
--
--#ifndef CONFIG_USER_ONLY
--static void disas_cp0_insn(CPUUniCore32State *env, DisasContext *s,
--        uint32_t insn)
--{
--    TCGv tmp, tmp2, tmp3;
--    if ((insn & 0xfe000000) == 0xe0000000) {
--        tmp2 = new_tmp();
--        tmp3 = new_tmp();
--        tcg_gen_movi_i32(tmp2, UCOP_REG_N);
--        tcg_gen_movi_i32(tmp3, UCOP_IMM10);
--        if (UCOP_SET_L) {
--            tmp = new_tmp();
--            gen_helper_cp0_get(tmp, cpu_env, tmp2, tmp3);
--            store_reg(s, UCOP_REG_D, tmp);
--        } else {
--            tmp = load_reg(s, UCOP_REG_D);
--            gen_helper_cp0_set(cpu_env, tmp, tmp2, tmp3);
--            dead_tmp(tmp);
--        }
--        dead_tmp(tmp2);
--        dead_tmp(tmp3);
--        return;
--    }
--    ILLEGAL;
--}
--
--static void disas_ocd_insn(CPUUniCore32State *env, DisasContext *s,
--        uint32_t insn)
--{
--    TCGv tmp;
--
--    if ((insn & 0xff003fff) == 0xe1000400) {
--        /*
--         * movc rd, pp.nn, #imm9
--         *      rd: UCOP_REG_D
--         *      nn: UCOP_REG_N (must be 0)
--         *      imm9: 0
--         */
--        if (UCOP_REG_N == 0) {
--            tmp = new_tmp();
--            tcg_gen_movi_i32(tmp, 0);
--            store_reg(s, UCOP_REG_D, tmp);
--            return;
--        } else {
--            ILLEGAL;
--        }
--    }
--    if ((insn & 0xff003fff) == 0xe0000401) {
--        /*
--         * movc pp.nn, rn, #imm9
--         *      rn: UCOP_REG_D
--         *      nn: UCOP_REG_N (must be 1)
--         *      imm9: 1
--         */
--        if (UCOP_REG_N == 1) {
--            tmp = load_reg(s, UCOP_REG_D);
--            gen_helper_cp1_putc(tmp);
--            dead_tmp(tmp);
--            return;
--        } else {
--            ILLEGAL;
--        }
--    }
--    ILLEGAL;
--}
--#endif
--
--static inline void gen_set_asr(TCGv var, uint32_t mask)
--{
--    TCGv tmp_mask = tcg_const_i32(mask);
--    gen_helper_asr_write(cpu_env, var, tmp_mask);
--    tcg_temp_free_i32(tmp_mask);
--}
--/* Set NZCV flags from the high 4 bits of var.  */
--#define gen_set_nzcv(var) gen_set_asr(var, ASR_NZCV)
--
--static void gen_exception(int excp)
--{
--    TCGv tmp = new_tmp();
--    tcg_gen_movi_i32(tmp, excp);
--    gen_helper_exception(cpu_env, tmp);
--    dead_tmp(tmp);
--}
--
--#define gen_set_CF(var) tcg_gen_st_i32(var, cpu_env, offsetof(CPUUniCore32State, CF))
--
--/* Set CF to the top bit of var.  */
--static void gen_set_CF_bit31(TCGv var)
--{
--    TCGv tmp = new_tmp();
--    tcg_gen_shri_i32(tmp, var, 31);
--    gen_set_CF(tmp);
--    dead_tmp(tmp);
--}
--
--/* Set N and Z flags from var.  */
--static inline void gen_logic_CC(TCGv var)
--{
--    tcg_gen_st_i32(var, cpu_env, offsetof(CPUUniCore32State, NF));
--    tcg_gen_st_i32(var, cpu_env, offsetof(CPUUniCore32State, ZF));
--}
--
--/* dest = T0 + T1 + CF. */
--static void gen_add_carry(TCGv dest, TCGv t0, TCGv t1)
--{
--    TCGv tmp;
--    tcg_gen_add_i32(dest, t0, t1);
--    tmp = load_cpu_field(CF);
--    tcg_gen_add_i32(dest, dest, tmp);
--    dead_tmp(tmp);
--}
--
--/* dest = T0 - T1 + CF - 1.  */
--static void gen_sub_carry(TCGv dest, TCGv t0, TCGv t1)
--{
--    TCGv tmp;
--    tcg_gen_sub_i32(dest, t0, t1);
--    tmp = load_cpu_field(CF);
--    tcg_gen_add_i32(dest, dest, tmp);
--    tcg_gen_subi_i32(dest, dest, 1);
--    dead_tmp(tmp);
--}
--
--static void shifter_out_im(TCGv var, int shift)
--{
--    TCGv tmp = new_tmp();
--    if (shift == 0) {
--        tcg_gen_andi_i32(tmp, var, 1);
--    } else {
--        tcg_gen_shri_i32(tmp, var, shift);
--        if (shift != 31) {
--            tcg_gen_andi_i32(tmp, tmp, 1);
--        }
--    }
--    gen_set_CF(tmp);
--    dead_tmp(tmp);
--}
--
--/* Shift by immediate.  Includes special handling for shift == 0.  */
--static inline void gen_uc32_shift_im(TCGv var, int shiftop, int shift,
--        int flags)
--{
--    switch (shiftop) {
--    case 0: /* LSL */
--        if (shift != 0) {
--            if (flags) {
--                shifter_out_im(var, 32 - shift);
--            }
--            tcg_gen_shli_i32(var, var, shift);
--        }
--        break;
--    case 1: /* LSR */
--        if (shift == 0) {
--            if (flags) {
--                tcg_gen_shri_i32(var, var, 31);
--                gen_set_CF(var);
--            }
--            tcg_gen_movi_i32(var, 0);
--        } else {
--            if (flags) {
--                shifter_out_im(var, shift - 1);
--            }
--            tcg_gen_shri_i32(var, var, shift);
--        }
--        break;
--    case 2: /* ASR */
--        if (shift == 0) {
--            shift = 32;
--        }
--        if (flags) {
--            shifter_out_im(var, shift - 1);
--        }
--        if (shift == 32) {
--            shift = 31;
--        }
--        tcg_gen_sari_i32(var, var, shift);
--        break;
--    case 3: /* ROR/RRX */
--        if (shift != 0) {
--            if (flags) {
--                shifter_out_im(var, shift - 1);
--            }
--            tcg_gen_rotri_i32(var, var, shift); break;
--        } else {
--            TCGv tmp = load_cpu_field(CF);
--            if (flags) {
--                shifter_out_im(var, 0);
--            }
--            tcg_gen_shri_i32(var, var, 1);
--            tcg_gen_shli_i32(tmp, tmp, 31);
--            tcg_gen_or_i32(var, var, tmp);
--            dead_tmp(tmp);
--        }
--    }
--};
--
--static inline void gen_uc32_shift_reg(TCGv var, int shiftop,
--                                     TCGv shift, int flags)
--{
--    if (flags) {
--        switch (shiftop) {
--        case 0:
--            gen_helper_shl_cc(var, cpu_env, var, shift);
--            break;
--        case 1:
--            gen_helper_shr_cc(var, cpu_env, var, shift);
--            break;
--        case 2:
--            gen_helper_sar_cc(var, cpu_env, var, shift);
--            break;
--        case 3:
--            gen_helper_ror_cc(var, cpu_env, var, shift);
--            break;
--        }
--    } else {
--        switch (shiftop) {
--        case 0:
--            gen_helper_shl(var, var, shift);
--            break;
--        case 1:
--            gen_helper_shr(var, var, shift);
--            break;
--        case 2:
--            gen_helper_sar(var, var, shift);
--            break;
--        case 3:
--            tcg_gen_andi_i32(shift, shift, 0x1f);
--            tcg_gen_rotr_i32(var, var, shift);
--            break;
--        }
--    }
--    dead_tmp(shift);
--}
--
--static void gen_test_cc(int cc, TCGLabel *label)
--{
--    TCGv tmp;
--    TCGv tmp2;
--    TCGLabel *inv;
--
--    switch (cc) {
--    case 0: /* eq: Z */
--        tmp = load_cpu_field(ZF);
--        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, label);
--        break;
--    case 1: /* ne: !Z */
--        tmp = load_cpu_field(ZF);
--        tcg_gen_brcondi_i32(TCG_COND_NE, tmp, 0, label);
--        break;
--    case 2: /* cs: C */
--        tmp = load_cpu_field(CF);
--        tcg_gen_brcondi_i32(TCG_COND_NE, tmp, 0, label);
--        break;
--    case 3: /* cc: !C */
--        tmp = load_cpu_field(CF);
--        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, label);
--        break;
--    case 4: /* mi: N */
--        tmp = load_cpu_field(NF);
--        tcg_gen_brcondi_i32(TCG_COND_LT, tmp, 0, label);
--        break;
--    case 5: /* pl: !N */
--        tmp = load_cpu_field(NF);
--        tcg_gen_brcondi_i32(TCG_COND_GE, tmp, 0, label);
--        break;
--    case 6: /* vs: V */
--        tmp = load_cpu_field(VF);
--        tcg_gen_brcondi_i32(TCG_COND_LT, tmp, 0, label);
--        break;
--    case 7: /* vc: !V */
--        tmp = load_cpu_field(VF);
--        tcg_gen_brcondi_i32(TCG_COND_GE, tmp, 0, label);
--        break;
--    case 8: /* hi: C && !Z */
--        inv = gen_new_label();
--        tmp = load_cpu_field(CF);
--        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, inv);
--        dead_tmp(tmp);
--        tmp = load_cpu_field(ZF);
--        tcg_gen_brcondi_i32(TCG_COND_NE, tmp, 0, label);
--        gen_set_label(inv);
--        break;
--    case 9: /* ls: !C || Z */
--        tmp = load_cpu_field(CF);
--        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, label);
--        dead_tmp(tmp);
--        tmp = load_cpu_field(ZF);
--        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, label);
--        break;
--    case 10: /* ge: N == V -> N ^ V == 0 */
--        tmp = load_cpu_field(VF);
--        tmp2 = load_cpu_field(NF);
--        tcg_gen_xor_i32(tmp, tmp, tmp2);
--        dead_tmp(tmp2);
--        tcg_gen_brcondi_i32(TCG_COND_GE, tmp, 0, label);
--        break;
--    case 11: /* lt: N != V -> N ^ V != 0 */
--        tmp = load_cpu_field(VF);
--        tmp2 = load_cpu_field(NF);
--        tcg_gen_xor_i32(tmp, tmp, tmp2);
--        dead_tmp(tmp2);
--        tcg_gen_brcondi_i32(TCG_COND_LT, tmp, 0, label);
--        break;
--    case 12: /* gt: !Z && N == V */
--        inv = gen_new_label();
--        tmp = load_cpu_field(ZF);
--        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, inv);
--        dead_tmp(tmp);
--        tmp = load_cpu_field(VF);
--        tmp2 = load_cpu_field(NF);
--        tcg_gen_xor_i32(tmp, tmp, tmp2);
--        dead_tmp(tmp2);
--        tcg_gen_brcondi_i32(TCG_COND_GE, tmp, 0, label);
--        gen_set_label(inv);
--        break;
--    case 13: /* le: Z || N != V */
--        tmp = load_cpu_field(ZF);
--        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, label);
--        dead_tmp(tmp);
--        tmp = load_cpu_field(VF);
--        tmp2 = load_cpu_field(NF);
--        tcg_gen_xor_i32(tmp, tmp, tmp2);
--        dead_tmp(tmp2);
--        tcg_gen_brcondi_i32(TCG_COND_LT, tmp, 0, label);
+-    switch (rsp->result) {
+-    case SD_RES_NO_VDI:
+-        error_report("%s was already deleted", s->name);
+-        /* fall through */
+-    case SD_RES_SUCCESS:
 -        break;
 -    default:
--        fprintf(stderr, "Bad condition code 0x%x\n", cc);
--        abort();
--    }
--    dead_tmp(tmp);
--}
--
--static const uint8_t table_logic_cc[16] = {
--    1, /* and */    1, /* xor */    0, /* sub */    0, /* rsb */
--    0, /* add */    0, /* adc */    0, /* sbc */    0, /* rsc */
--    1, /* andl */   1, /* xorl */   0, /* cmp */    0, /* cmn */
--    1, /* orr */    1, /* mov */    1, /* bic */    1, /* mvn */
--};
--
--/* Set PC state from an immediate address.  */
--static inline void gen_bx_im(DisasContext *s, uint32_t addr)
--{
--    s->is_jmp = DISAS_UPDATE;
--    tcg_gen_movi_i32(cpu_R[31], addr & ~3);
--}
--
--/* Set PC state from var.  var is marked as dead.  */
--static inline void gen_bx(DisasContext *s, TCGv var)
--{
--    s->is_jmp = DISAS_UPDATE;
--    tcg_gen_andi_i32(cpu_R[31], var, ~3);
--    dead_tmp(var);
--}
--
--static inline void store_reg_bx(DisasContext *s, int reg, TCGv var)
--{
--    store_reg(s, reg, var);
--}
--
--static inline TCGv gen_ld8s(TCGv addr, int index)
--{
--    TCGv tmp = new_tmp();
--    tcg_gen_qemu_ld8s(tmp, addr, index);
--    return tmp;
--}
--
--static inline TCGv gen_ld8u(TCGv addr, int index)
--{
--    TCGv tmp = new_tmp();
--    tcg_gen_qemu_ld8u(tmp, addr, index);
--    return tmp;
--}
--
--static inline TCGv gen_ld16s(TCGv addr, int index)
--{
--    TCGv tmp = new_tmp();
--    tcg_gen_qemu_ld16s(tmp, addr, index);
--    return tmp;
--}
--
--static inline TCGv gen_ld16u(TCGv addr, int index)
--{
--    TCGv tmp = new_tmp();
--    tcg_gen_qemu_ld16u(tmp, addr, index);
--    return tmp;
--}
--
--static inline TCGv gen_ld32(TCGv addr, int index)
--{
--    TCGv tmp = new_tmp();
--    tcg_gen_qemu_ld32u(tmp, addr, index);
--    return tmp;
--}
--
--static inline void gen_st8(TCGv val, TCGv addr, int index)
--{
--    tcg_gen_qemu_st8(val, addr, index);
--    dead_tmp(val);
--}
--
--static inline void gen_st16(TCGv val, TCGv addr, int index)
--{
--    tcg_gen_qemu_st16(val, addr, index);
--    dead_tmp(val);
--}
--
--static inline void gen_st32(TCGv val, TCGv addr, int index)
--{
--    tcg_gen_qemu_st32(val, addr, index);
--    dead_tmp(val);
--}
--
--static inline void gen_set_pc_im(uint32_t val)
--{
--    tcg_gen_movi_i32(cpu_R[31], val);
--}
--
--/* Force a TB lookup after an instruction that changes the CPU state.  */
--static inline void gen_lookup_tb(DisasContext *s)
--{
--    tcg_gen_movi_i32(cpu_R[31], s->pc & ~1);
--    s->is_jmp = DISAS_UPDATE;
--}
--
--static inline void gen_add_data_offset(DisasContext *s, unsigned int insn,
--        TCGv var)
--{
--    int val;
--    TCGv offset;
--
--    if (UCOP_SET(29)) {
--        /* immediate */
--        val = UCOP_IMM14;
--        if (!UCOP_SET_U) {
--            val = -val;
--        }
--        if (val != 0) {
--            tcg_gen_addi_i32(var, var, val);
--        }
--    } else {
--        /* shift/register */
--        offset = load_reg(s, UCOP_REG_M);
--        gen_uc32_shift_im(offset, UCOP_SH_OP, UCOP_SH_IM, 0);
--        if (!UCOP_SET_U) {
--            tcg_gen_sub_i32(var, var, offset);
--        } else {
--            tcg_gen_add_i32(var, var, offset);
--        }
--        dead_tmp(offset);
--    }
--}
--
--static inline void gen_add_datah_offset(DisasContext *s, unsigned int insn,
--        TCGv var)
--{
--    int val;
--    TCGv offset;
--
--    if (UCOP_SET(26)) {
--        /* immediate */
--        val = (insn & 0x1f) | ((insn >> 4) & 0x3e0);
--        if (!UCOP_SET_U) {
--            val = -val;
--        }
--        if (val != 0) {
--            tcg_gen_addi_i32(var, var, val);
--        }
--    } else {
--        /* register */
--        offset = load_reg(s, UCOP_REG_M);
--        if (!UCOP_SET_U) {
--            tcg_gen_sub_i32(var, var, offset);
--        } else {
--            tcg_gen_add_i32(var, var, offset);
--        }
--        dead_tmp(offset);
--    }
--}
--
--static inline long ucf64_reg_offset(int reg)
--{
--    if (reg & 1) {
--        return offsetof(CPUUniCore32State, ucf64.regs[reg >> 1])
--          + offsetof(CPU_DoubleU, l.upper);
--    } else {
--        return offsetof(CPUUniCore32State, ucf64.regs[reg >> 1])
--          + offsetof(CPU_DoubleU, l.lower);
--    }
--}
--
--#define ucf64_gen_ld32(reg)      load_cpu_offset(ucf64_reg_offset(reg))
--#define ucf64_gen_st32(var, reg) store_cpu_offset(var, ucf64_reg_offset(reg))
--
--/* UniCore-F64 single load/store I_offset */
--static void do_ucf64_ldst_i(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    int offset;
--    TCGv tmp;
--    TCGv addr;
--
--    addr = load_reg(s, UCOP_REG_N);
--    if (!UCOP_SET_P && !UCOP_SET_W) {
--        ILLEGAL;
+-        error_report("%s, %s", sd_strerror(rsp->result), s->name);
+-        return false;
 -    }
 -
--    if (UCOP_SET_P) {
--        offset = UCOP_IMM10 << 2;
--        if (!UCOP_SET_U) {
--            offset = -offset;
--        }
--        if (offset != 0) {
--            tcg_gen_addi_i32(addr, addr, offset);
--        }
--    }
--
--    if (UCOP_SET_L) { /* load */
--        tmp = gen_ld32(addr, IS_USER(s));
--        ucf64_gen_st32(tmp, UCOP_REG_D);
--    } else { /* store */
--        tmp = ucf64_gen_ld32(UCOP_REG_D);
--        gen_st32(tmp, addr, IS_USER(s));
--    }
--
--    if (!UCOP_SET_P) {
--        offset = UCOP_IMM10 << 2;
--        if (!UCOP_SET_U) {
--            offset = -offset;
--        }
--        if (offset != 0) {
--            tcg_gen_addi_i32(addr, addr, offset);
--        }
--    }
--    if (UCOP_SET_W) {
--        store_reg(s, UCOP_REG_N, addr);
--    } else {
--        dead_tmp(addr);
--    }
--}
--
--/* UniCore-F64 load/store multiple words */
--static void do_ucf64_ldst_m(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    unsigned int i;
--    int j, n, freg;
--    TCGv tmp;
--    TCGv addr;
--
--    if (UCOP_REG_D != 0) {
--        ILLEGAL;
--    }
--    if (UCOP_REG_N == 31) {
--        ILLEGAL;
--    }
--    if ((insn << 24) == 0) {
--        ILLEGAL;
--    }
--
--    addr = load_reg(s, UCOP_REG_N);
--
--    n = 0;
--    for (i = 0; i < 8; i++) {
--        if (UCOP_SET(i)) {
--            n++;
--        }
--    }
--
--    if (UCOP_SET_U) {
--        if (UCOP_SET_P) { /* pre increment */
--            tcg_gen_addi_i32(addr, addr, 4);
--        } /* unnecessary to do anything when post increment */
--    } else {
--        if (UCOP_SET_P) { /* pre decrement */
--            tcg_gen_addi_i32(addr, addr, -(n * 4));
--        } else { /* post decrement */
--            if (n != 1) {
--                tcg_gen_addi_i32(addr, addr, -((n - 1) * 4));
--            }
--        }
--    }
--
--    freg = ((insn >> 8) & 3) << 3; /* freg should be 0, 8, 16, 24 */
--
--    for (i = 0, j = 0; i < 8; i++, freg++) {
--        if (!UCOP_SET(i)) {
--            continue;
--        }
--
--        if (UCOP_SET_L) { /* load */
--            tmp = gen_ld32(addr, IS_USER(s));
--            ucf64_gen_st32(tmp, freg);
--        } else { /* store */
--            tmp = ucf64_gen_ld32(freg);
--            gen_st32(tmp, addr, IS_USER(s));
--        }
--
--        j++;
--        /* unnecessary to add after the last transfer */
--        if (j != n) {
--            tcg_gen_addi_i32(addr, addr, 4);
--        }
--    }
--
--    if (UCOP_SET_W) { /* write back */
--        if (UCOP_SET_U) {
--            if (!UCOP_SET_P) { /* post increment */
--                tcg_gen_addi_i32(addr, addr, 4);
--            } /* unnecessary to do anything when pre increment */
--        } else {
--            if (UCOP_SET_P) {
--                /* pre decrement */
--                if (n != 1) {
--                    tcg_gen_addi_i32(addr, addr, -((n - 1) * 4));
--                }
--            } else {
--                /* post decrement */
--                tcg_gen_addi_i32(addr, addr, -(n * 4));
--            }
--        }
--        store_reg(s, UCOP_REG_N, addr);
--    } else {
--        dead_tmp(addr);
--    }
--}
--
--/* UniCore-F64 mrc/mcr */
--static void do_ucf64_trans(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    TCGv tmp;
--
--    if ((insn & 0xfe0003ff) == 0xe2000000) {
--        /* control register */
--        if ((UCOP_REG_N != UC32_UCF64_FPSCR) || (UCOP_REG_D == 31)) {
--            ILLEGAL;
--        }
--        if (UCOP_SET(24)) {
--            /* CFF */
--            tmp = new_tmp();
--            gen_helper_ucf64_get_fpscr(tmp, cpu_env);
--            store_reg(s, UCOP_REG_D, tmp);
--        } else {
--            /* CTF */
--            tmp = load_reg(s, UCOP_REG_D);
--            gen_helper_ucf64_set_fpscr(cpu_env, tmp);
--            dead_tmp(tmp);
--            gen_lookup_tb(s);
--        }
--        return;
--    }
--    if ((insn & 0xfe0003ff) == 0xe0000000) {
--        /* general register */
--        if (UCOP_REG_D == 31) {
--            ILLEGAL;
--        }
--        if (UCOP_SET(24)) { /* MFF */
--            tmp = ucf64_gen_ld32(UCOP_REG_N);
--            store_reg(s, UCOP_REG_D, tmp);
--        } else { /* MTF */
--            tmp = load_reg(s, UCOP_REG_D);
--            ucf64_gen_st32(tmp, UCOP_REG_N);
--        }
--        return;
--    }
--    if ((insn & 0xfb000000) == 0xe9000000) {
--        /* MFFC */
--        if (UCOP_REG_D != 31) {
--            ILLEGAL;
--        }
--        if (UCOP_UCF64_COND & 0x8) {
--            ILLEGAL;
--        }
--
--        tmp = new_tmp();
--        tcg_gen_movi_i32(tmp, UCOP_UCF64_COND);
--        if (UCOP_SET(26)) {
--            tcg_gen_ld_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_N));
--            tcg_gen_ld_i64(cpu_F1d, cpu_env, ucf64_reg_offset(UCOP_REG_M));
--            gen_helper_ucf64_cmpd(cpu_F0d, cpu_F1d, tmp, cpu_env);
--        } else {
--            tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_N));
--            tcg_gen_ld_i32(cpu_F1s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
--            gen_helper_ucf64_cmps(cpu_F0s, cpu_F1s, tmp, cpu_env);
--        }
--        dead_tmp(tmp);
--        return;
--    }
--    ILLEGAL;
--}
--
--/* UniCore-F64 convert instructions */
--static void do_ucf64_fcvt(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    if (UCOP_UCF64_FMT == 3) {
--        ILLEGAL;
--    }
--    if (UCOP_REG_N != 0) {
--        ILLEGAL;
--    }
--    switch (UCOP_UCF64_FUNC) {
--    case 0: /* cvt.s */
--        switch (UCOP_UCF64_FMT) {
--        case 1 /* d */:
--            tcg_gen_ld_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_M));
--            gen_helper_ucf64_df2sf(cpu_F0s, cpu_F0d, cpu_env);
--            tcg_gen_st_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_D));
--            break;
--        case 2 /* w */:
--            tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
--            gen_helper_ucf64_si2sf(cpu_F0s, cpu_F0s, cpu_env);
--            tcg_gen_st_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_D));
--            break;
--        default /* s */:
--            ILLEGAL;
--            break;
--        }
--        break;
--    case 1: /* cvt.d */
--        switch (UCOP_UCF64_FMT) {
--        case 0 /* s */:
--            tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
--            gen_helper_ucf64_sf2df(cpu_F0d, cpu_F0s, cpu_env);
--            tcg_gen_st_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_D));
--            break;
--        case 2 /* w */:
--            tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
--            gen_helper_ucf64_si2df(cpu_F0d, cpu_F0s, cpu_env);
--            tcg_gen_st_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_D));
--            break;
--        default /* d */:
--            ILLEGAL;
--            break;
--        }
--        break;
--    case 4: /* cvt.w */
--        switch (UCOP_UCF64_FMT) {
--        case 0 /* s */:
--            tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
--            gen_helper_ucf64_sf2si(cpu_F0s, cpu_F0s, cpu_env);
--            tcg_gen_st_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_D));
--            break;
--        case 1 /* d */:
--            tcg_gen_ld_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_M));
--            gen_helper_ucf64_df2si(cpu_F0s, cpu_F0d, cpu_env);
--            tcg_gen_st_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_D));
--            break;
--    default /* w */:
--            ILLEGAL;
--            break;
--        }
--        break;
--    default:
--        ILLEGAL;
--    }
--}
--
--/* UniCore-F64 compare instructions */
--static void do_ucf64_fcmp(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    if (UCOP_SET(25)) {
--        ILLEGAL;
--    }
--    if (UCOP_REG_D != 0) {
--        ILLEGAL;
--    }
--
--    ILLEGAL; /* TODO */
--    if (UCOP_SET(24)) {
--        tcg_gen_ld_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_N));
--        tcg_gen_ld_i64(cpu_F1d, cpu_env, ucf64_reg_offset(UCOP_REG_M));
--        /* gen_helper_ucf64_cmpd(cpu_F0d, cpu_F1d, cpu_env); */
--    } else {
--        tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_N));
--        tcg_gen_ld_i32(cpu_F1s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
--        /* gen_helper_ucf64_cmps(cpu_F0s, cpu_F1s, cpu_env); */
--    }
--}
--
--#define gen_helper_ucf64_movs(x, y)      do { } while (0)
--#define gen_helper_ucf64_movd(x, y)      do { } while (0)
--
--#define UCF64_OP1(name)    do {                           \
--        if (UCOP_REG_N != 0) {                            \
--            ILLEGAL;                                      \
--        }                                                 \
--        switch (UCOP_UCF64_FMT) {                         \
--        case 0 /* s */:                                   \
--            tcg_gen_ld_i32(cpu_F0s, cpu_env,              \
--                           ucf64_reg_offset(UCOP_REG_M)); \
--            gen_helper_ucf64_##name##s(cpu_F0s, cpu_F0s); \
--            tcg_gen_st_i32(cpu_F0s, cpu_env,              \
--                           ucf64_reg_offset(UCOP_REG_D)); \
--            break;                                        \
--        case 1 /* d */:                                   \
--            tcg_gen_ld_i64(cpu_F0d, cpu_env,              \
--                           ucf64_reg_offset(UCOP_REG_M)); \
--            gen_helper_ucf64_##name##d(cpu_F0d, cpu_F0d); \
--            tcg_gen_st_i64(cpu_F0d, cpu_env,              \
--                           ucf64_reg_offset(UCOP_REG_D)); \
--            break;                                        \
--        case 2 /* w */:                                   \
--            ILLEGAL;                                      \
--            break;                                        \
--        }                                                 \
--    } while (0)
--
--#define UCF64_OP2(name)    do {                           \
--        switch (UCOP_UCF64_FMT) {                         \
--        case 0 /* s */:                                   \
--            tcg_gen_ld_i32(cpu_F0s, cpu_env,              \
--                           ucf64_reg_offset(UCOP_REG_N)); \
--            tcg_gen_ld_i32(cpu_F1s, cpu_env,              \
--                           ucf64_reg_offset(UCOP_REG_M)); \
--            gen_helper_ucf64_##name##s(cpu_F0s,           \
--                           cpu_F0s, cpu_F1s, cpu_env);    \
--            tcg_gen_st_i32(cpu_F0s, cpu_env,              \
--                           ucf64_reg_offset(UCOP_REG_D)); \
--            break;                                        \
--        case 1 /* d */:                                   \
--            tcg_gen_ld_i64(cpu_F0d, cpu_env,              \
--                           ucf64_reg_offset(UCOP_REG_N)); \
--            tcg_gen_ld_i64(cpu_F1d, cpu_env,              \
--                           ucf64_reg_offset(UCOP_REG_M)); \
--            gen_helper_ucf64_##name##d(cpu_F0d,           \
--                           cpu_F0d, cpu_F1d, cpu_env);    \
--            tcg_gen_st_i64(cpu_F0d, cpu_env,              \
--                           ucf64_reg_offset(UCOP_REG_D)); \
--            break;                                        \
--        case 2 /* w */:                                   \
--            ILLEGAL;                                      \
--            break;                                        \
--        }                                                 \
--    } while (0)
--
--/* UniCore-F64 data processing */
--static void do_ucf64_datap(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    if (UCOP_UCF64_FMT == 3) {
--        ILLEGAL;
--    }
--    switch (UCOP_UCF64_FUNC) {
--    case 0: /* add */
--        UCF64_OP2(add);
--        break;
--    case 1: /* sub */
--        UCF64_OP2(sub);
--        break;
--    case 2: /* mul */
--        UCF64_OP2(mul);
--        break;
--    case 4: /* div */
--        UCF64_OP2(div);
--        break;
--    case 5: /* abs */
--        UCF64_OP1(abs);
--        break;
--    case 6: /* mov */
--        UCF64_OP1(mov);
--        break;
--    case 7: /* neg */
--        UCF64_OP1(neg);
--        break;
--    default:
--        ILLEGAL;
--    }
--}
--
--/* Disassemble an F64 instruction */
--static void disas_ucf64_insn(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    if (!UCOP_SET(29)) {
--        if (UCOP_SET(26)) {
--            do_ucf64_ldst_m(env, s, insn);
--        } else {
--            do_ucf64_ldst_i(env, s, insn);
--        }
--    } else {
--        if (UCOP_SET(5)) {
--            switch ((insn >> 26) & 0x3) {
--            case 0:
--                do_ucf64_datap(env, s, insn);
--                break;
--            case 1:
--                ILLEGAL;
--                break;
--            case 2:
--                do_ucf64_fcvt(env, s, insn);
--                break;
--            case 3:
--                do_ucf64_fcmp(env, s, insn);
--                break;
--            }
--        } else {
--            do_ucf64_trans(env, s, insn);
--        }
--    }
--}
--
--static inline bool use_goto_tb(DisasContext *s, uint32_t dest)
--{
--#ifndef CONFIG_USER_ONLY
--    return (s->tb->pc & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
--#else
 -    return true;
--#endif
 -}
 -
--static inline void gen_goto_tb(DisasContext *s, int n, uint32_t dest)
+-/*
+- * Create a writable VDI from a snapshot
+- */
+-static int sd_create_branch(BDRVSheepdogState *s)
 -{
--    if (use_goto_tb(s, dest)) {
--        tcg_gen_goto_tb(n);
--        gen_set_pc_im(dest);
--        tcg_gen_exit_tb(s->tb, n);
--    } else {
--        gen_set_pc_im(dest);
--        tcg_gen_exit_tb(NULL, 0);
+-    Error *local_err = NULL;
+-    int ret, fd;
+-    uint32_t vid;
+-    char *buf;
+-    bool deleted;
+-
+-    trace_sheepdog_create_branch_snapshot(s->inode.vdi_id);
+-
+-    buf = g_malloc(SD_INODE_SIZE);
+-
+-    /*
+-     * Even If deletion fails, we will just create extra snapshot based on
+-     * the working VDI which was supposed to be deleted. So no need to
+-     * false bail out.
+-     */
+-    deleted = sd_delete(s);
+-    ret = do_sd_create(s, &vid, !deleted, &local_err);
+-    if (ret) {
+-        error_report_err(local_err);
+-        goto out;
 -    }
--}
 -
--static inline void gen_jmp(DisasContext *s, uint32_t dest)
--{
--    if (unlikely(s->singlestep_enabled)) {
--        /* An indirect jump so that we still trigger the debug exception.  */
--        gen_bx_im(s, dest);
--    } else {
--        gen_goto_tb(s, 0, dest);
--        s->is_jmp = DISAS_TB_JUMP;
+-    trace_sheepdog_create_branch_created(vid);
+-
+-    fd = connect_to_sdog(s, &local_err);
+-    if (fd < 0) {
+-        error_report_err(local_err);
+-        ret = fd;
+-        goto out;
 -    }
+-
+-    ret = read_object(fd, s->bs, buf, vid_to_vdi_oid(vid),
+-                      s->inode.nr_copies, SD_INODE_SIZE, 0, s->cache_flags);
+-
+-    closesocket(fd);
+-
+-    if (ret < 0) {
+-        goto out;
+-    }
+-
+-    memcpy(&s->inode, buf, sizeof(s->inode));
+-
+-    s->is_snapshot = false;
+-    ret = 0;
+-    trace_sheepdog_create_branch_new(s->inode.vdi_id);
+-
+-out:
+-    g_free(buf);
+-
+-    return ret;
 -}
 -
--/* Returns nonzero if access to the PSR is not permitted. Marks t0 as dead. */
--static int gen_set_psr(DisasContext *s, uint32_t mask, int bsr, TCGv t0)
+-/*
+- * Send I/O requests to the server.
+- *
+- * This function sends requests to the server, links the requests to
+- * the inflight_list in BDRVSheepdogState, and exits without
+- * waiting the response.  The responses are received in the
+- * `aio_read_response' function which is called from the main loop as
+- * a fd handler.
+- *
+- * Returns 1 when we need to wait a response, 0 when there is no sent
+- * request and -errno in error cases.
+- */
+-static void coroutine_fn sd_co_rw_vector(SheepdogAIOCB *acb)
 -{
--    TCGv tmp;
--    if (bsr) {
--        /* ??? This is also undefined in system mode.  */
--        if (IS_USER(s)) {
--            return 1;
+-    int ret = 0;
+-    unsigned long len, done = 0, total = acb->nb_sectors * BDRV_SECTOR_SIZE;
+-    unsigned long idx;
+-    uint32_t object_size;
+-    uint64_t oid;
+-    uint64_t offset;
+-    BDRVSheepdogState *s = acb->s;
+-    SheepdogInode *inode = &s->inode;
+-    AIOReq *aio_req;
+-
+-    if (acb->aiocb_type == AIOCB_WRITE_UDATA && s->is_snapshot) {
+-        /*
+-         * In the case we open the snapshot VDI, Sheepdog creates the
+-         * writable VDI when we do a write operation first.
+-         */
+-        ret = sd_create_branch(s);
+-        if (ret) {
+-            acb->ret = -EIO;
+-            return;
+-        }
+-    }
+-
+-    object_size = (UINT32_C(1) << inode->block_size_shift);
+-    idx = acb->sector_num * BDRV_SECTOR_SIZE / object_size;
+-    offset = (acb->sector_num * BDRV_SECTOR_SIZE) % object_size;
+-
+-    /*
+-     * Make sure we don't free the aiocb before we are done with all requests.
+-     * This additional reference is dropped at the end of this function.
+-     */
+-    acb->nr_pending++;
+-
+-    while (done != total) {
+-        uint8_t flags = 0;
+-        uint64_t old_oid = 0;
+-        bool create = false;
+-
+-        oid = vid_to_data_oid(inode->data_vdi_id[idx], idx);
+-
+-        len = MIN(total - done, object_size - offset);
+-
+-        switch (acb->aiocb_type) {
+-        case AIOCB_READ_UDATA:
+-            if (!inode->data_vdi_id[idx]) {
+-                qemu_iovec_memset(acb->qiov, done, 0, len);
+-                goto done;
+-            }
+-            break;
+-        case AIOCB_WRITE_UDATA:
+-            if (!inode->data_vdi_id[idx]) {
+-                create = true;
+-            } else if (!is_data_obj_writable(inode, idx)) {
+-                /* Copy-On-Write */
+-                create = true;
+-                old_oid = oid;
+-                flags = SD_FLAG_CMD_COW;
+-            }
+-            break;
+-        case AIOCB_DISCARD_OBJ:
+-            /*
+-             * We discard the object only when the whole object is
+-             * 1) allocated 2) trimmed. Otherwise, simply skip it.
+-             */
+-            if (len != object_size || inode->data_vdi_id[idx] == 0) {
+-                goto done;
+-            }
+-            break;
+-        default:
+-            break;
 -        }
 -
--        tmp = load_cpu_field(bsr);
--        tcg_gen_andi_i32(tmp, tmp, ~mask);
--        tcg_gen_andi_i32(t0, t0, mask);
--        tcg_gen_or_i32(tmp, tmp, t0);
--        store_cpu_field(tmp, bsr);
--    } else {
--        gen_set_asr(t0, mask);
+-        if (create) {
+-            trace_sheepdog_co_rw_vector_update(inode->vdi_id, oid,
+-                                  vid_to_data_oid(inode->data_vdi_id[idx], idx),
+-                                  idx);
+-            oid = vid_to_data_oid(inode->vdi_id, idx);
+-            trace_sheepdog_co_rw_vector_new(oid);
+-        }
+-
+-        aio_req = alloc_aio_req(s, acb, oid, len, offset, flags, create,
+-                                old_oid,
+-                                acb->aiocb_type == AIOCB_DISCARD_OBJ ?
+-                                0 : done);
+-        add_aio_request(s, aio_req, acb->qiov->iov, acb->qiov->niov,
+-                        acb->aiocb_type);
+-    done:
+-        offset = 0;
+-        idx++;
+-        done += len;
 -    }
--    dead_tmp(t0);
--    gen_lookup_tb(s);
+-    if (--acb->nr_pending) {
+-        qemu_coroutine_yield();
+-    }
+-}
+-
+-static void sd_aio_complete(SheepdogAIOCB *acb)
+-{
+-    BDRVSheepdogState *s;
+-    if (acb->aiocb_type == AIOCB_FLUSH_CACHE) {
+-        return;
+-    }
+-
+-    s = acb->s;
+-    qemu_co_mutex_lock(&s->queue_lock);
+-    QLIST_REMOVE(acb, aiocb_siblings);
+-    qemu_co_queue_restart_all(&s->overlapping_queue);
+-    qemu_co_mutex_unlock(&s->queue_lock);
+-}
+-
+-static coroutine_fn int sd_co_writev(BlockDriverState *bs, int64_t sector_num,
+-                                     int nb_sectors, QEMUIOVector *qiov,
+-                                     int flags)
+-{
+-    SheepdogAIOCB acb;
+-    int ret;
+-    int64_t offset = (sector_num + nb_sectors) * BDRV_SECTOR_SIZE;
+-    BDRVSheepdogState *s = bs->opaque;
+-
+-    assert(!flags);
+-    if (offset > s->inode.vdi_size) {
+-        ret = sd_co_truncate(bs, offset, false, PREALLOC_MODE_OFF, 0, NULL);
+-        if (ret < 0) {
+-            return ret;
+-        }
+-    }
+-
+-    sd_aio_setup(&acb, s, qiov, sector_num, nb_sectors, AIOCB_WRITE_UDATA);
+-    sd_co_rw_vector(&acb);
+-    sd_write_done(&acb);
+-    sd_aio_complete(&acb);
+-
+-    return acb.ret;
+-}
+-
+-static coroutine_fn int sd_co_readv(BlockDriverState *bs, int64_t sector_num,
+-                       int nb_sectors, QEMUIOVector *qiov)
+-{
+-    SheepdogAIOCB acb;
+-    BDRVSheepdogState *s = bs->opaque;
+-
+-    sd_aio_setup(&acb, s, qiov, sector_num, nb_sectors, AIOCB_READ_UDATA);
+-    sd_co_rw_vector(&acb);
+-    sd_aio_complete(&acb);
+-
+-    return acb.ret;
+-}
+-
+-static int coroutine_fn sd_co_flush_to_disk(BlockDriverState *bs)
+-{
+-    BDRVSheepdogState *s = bs->opaque;
+-    SheepdogAIOCB acb;
+-    AIOReq *aio_req;
+-
+-    if (s->cache_flags != SD_FLAG_CMD_CACHE) {
+-        return 0;
+-    }
+-
+-    sd_aio_setup(&acb, s, NULL, 0, 0, AIOCB_FLUSH_CACHE);
+-
+-    acb.nr_pending++;
+-    aio_req = alloc_aio_req(s, &acb, vid_to_vdi_oid(s->inode.vdi_id),
+-                            0, 0, 0, false, 0, 0);
+-    add_aio_request(s, aio_req, NULL, 0, acb.aiocb_type);
+-
+-    if (--acb.nr_pending) {
+-        qemu_coroutine_yield();
+-    }
+-
+-    sd_aio_complete(&acb);
+-    return acb.ret;
+-}
+-
+-static int sd_snapshot_create(BlockDriverState *bs, QEMUSnapshotInfo *sn_info)
+-{
+-    Error *local_err = NULL;
+-    BDRVSheepdogState *s = bs->opaque;
+-    int ret, fd;
+-    uint32_t new_vid;
+-    SheepdogInode *inode;
+-    unsigned int datalen;
+-
+-    trace_sheepdog_snapshot_create_info(sn_info->name, sn_info->id_str, s->name,
+-                                        sn_info->vm_state_size, s->is_snapshot);
+-
+-    if (s->is_snapshot) {
+-        error_report("You can't create a snapshot of a snapshot VDI, "
+-                     "%s (%" PRIu32 ").", s->name, s->inode.vdi_id);
+-
+-        return -EINVAL;
+-    }
+-
+-    trace_sheepdog_snapshot_create(sn_info->name, sn_info->id_str);
+-
+-    s->inode.vm_state_size = sn_info->vm_state_size;
+-    s->inode.vm_clock_nsec = sn_info->vm_clock_nsec;
+-    /* It appears that inode.tag does not require a NUL terminator,
+-     * which means this use of strncpy is ok.
+-     */
+-    strncpy(s->inode.tag, sn_info->name, sizeof(s->inode.tag));
+-    /* we don't need to update entire object */
+-    datalen = SD_INODE_HEADER_SIZE;
+-    inode = g_malloc(datalen);
+-
+-    /* refresh inode. */
+-    fd = connect_to_sdog(s, &local_err);
+-    if (fd < 0) {
+-        error_report_err(local_err);
+-        ret = fd;
+-        goto cleanup;
+-    }
+-
+-    ret = write_object(fd, s->bs, (char *)&s->inode,
+-                       vid_to_vdi_oid(s->inode.vdi_id), s->inode.nr_copies,
+-                       datalen, 0, false, s->cache_flags);
+-    if (ret < 0) {
+-        error_report("failed to write snapshot's inode.");
+-        goto cleanup;
+-    }
+-
+-    ret = do_sd_create(s, &new_vid, 1, &local_err);
+-    if (ret < 0) {
+-        error_reportf_err(local_err,
+-                          "failed to create inode for snapshot: ");
+-        goto cleanup;
+-    }
+-
+-    ret = read_object(fd, s->bs, (char *)inode,
+-                      vid_to_vdi_oid(new_vid), s->inode.nr_copies, datalen, 0,
+-                      s->cache_flags);
+-
+-    if (ret < 0) {
+-        error_report("failed to read new inode info. %s", strerror(errno));
+-        goto cleanup;
+-    }
+-
+-    memcpy(&s->inode, inode, datalen);
+-    trace_sheepdog_snapshot_create_inode(s->inode.name, s->inode.snap_id,
+-                                         s->inode.vdi_id);
+-
+-cleanup:
+-    g_free(inode);
+-    closesocket(fd);
+-    return ret;
+-}
+-
+-/*
+- * We implement rollback(loadvm) operation to the specified snapshot by
+- * 1) switch to the snapshot
+- * 2) rely on sd_create_branch to delete working VDI and
+- * 3) create a new working VDI based on the specified snapshot
+- */
+-static int sd_snapshot_goto(BlockDriverState *bs, const char *snapshot_id)
+-{
+-    BDRVSheepdogState *s = bs->opaque;
+-    BDRVSheepdogState *old_s;
+-    char tag[SD_MAX_VDI_TAG_LEN];
+-    uint32_t snapid = 0;
+-    int ret;
+-
+-    if (!sd_parse_snapid_or_tag(snapshot_id, &snapid, tag)) {
+-        return -EINVAL;
+-    }
+-
+-    old_s = g_new(BDRVSheepdogState, 1);
+-
+-    memcpy(old_s, s, sizeof(BDRVSheepdogState));
+-
+-    ret = reload_inode(s, snapid, tag);
+-    if (ret) {
+-        goto out;
+-    }
+-
+-    ret = sd_create_branch(s);
+-    if (ret) {
+-        goto out;
+-    }
+-
+-    g_free(old_s);
+-
+-    return 0;
+-out:
+-    /* recover bdrv_sd_state */
+-    memcpy(s, old_s, sizeof(BDRVSheepdogState));
+-    g_free(old_s);
+-
+-    error_report("failed to open. recover old bdrv_sd_state.");
+-
+-    return ret;
+-}
+-
+-#define NR_BATCHED_DISCARD 128
+-
+-static int remove_objects(BDRVSheepdogState *s, Error **errp)
+-{
+-    int fd, i = 0, nr_objs = 0;
+-    int ret;
+-    SheepdogInode *inode = &s->inode;
+-
+-    fd = connect_to_sdog(s, errp);
+-    if (fd < 0) {
+-        return fd;
+-    }
+-
+-    nr_objs = count_data_objs(inode);
+-    while (i < nr_objs) {
+-        int start_idx, nr_filled_idx;
+-
+-        while (i < nr_objs && !inode->data_vdi_id[i]) {
+-            i++;
+-        }
+-        start_idx = i;
+-
+-        nr_filled_idx = 0;
+-        while (i < nr_objs && nr_filled_idx < NR_BATCHED_DISCARD) {
+-            if (inode->data_vdi_id[i]) {
+-                inode->data_vdi_id[i] = 0;
+-                nr_filled_idx++;
+-            }
+-
+-            i++;
+-        }
+-
+-        ret = write_object(fd, s->bs,
+-                           (char *)&inode->data_vdi_id[start_idx],
+-                           vid_to_vdi_oid(s->inode.vdi_id), inode->nr_copies,
+-                           (i - start_idx) * sizeof(uint32_t),
+-                           offsetof(struct SheepdogInode,
+-                                    data_vdi_id[start_idx]),
+-                           false, s->cache_flags);
+-        if (ret < 0) {
+-            error_setg(errp, "Failed to discard snapshot inode");
+-            goto out;
+-        }
+-    }
+-
+-    ret = 0;
+-out:
+-    closesocket(fd);
+-    return ret;
+-}
+-
+-static int sd_snapshot_delete(BlockDriverState *bs,
+-                              const char *snapshot_id,
+-                              const char *name,
+-                              Error **errp)
+-{
+-    /*
+-     * FIXME should delete the snapshot matching both @snapshot_id and
+-     * @name, but @name not used here
+-     */
+-    unsigned long snap_id = 0;
+-    char snap_tag[SD_MAX_VDI_TAG_LEN];
+-    int fd, ret;
+-    char buf[SD_MAX_VDI_LEN + SD_MAX_VDI_TAG_LEN];
+-    BDRVSheepdogState *s = bs->opaque;
+-    unsigned int wlen = SD_MAX_VDI_LEN + SD_MAX_VDI_TAG_LEN, rlen = 0;
+-    uint32_t vid;
+-    SheepdogVdiReq hdr = {
+-        .opcode = SD_OP_DEL_VDI,
+-        .data_length = wlen,
+-        .flags = SD_FLAG_CMD_WRITE,
+-    };
+-    SheepdogVdiRsp *rsp = (SheepdogVdiRsp *)&hdr;
+-
+-    ret = remove_objects(s, errp);
+-    if (ret) {
+-        return ret;
+-    }
+-
+-    memset(buf, 0, sizeof(buf));
+-    memset(snap_tag, 0, sizeof(snap_tag));
+-    pstrcpy(buf, SD_MAX_VDI_LEN, s->name);
+-    /* TODO Use sd_parse_snapid() once this mess is cleaned up */
+-    ret = qemu_strtoul(snapshot_id, NULL, 10, &snap_id);
+-    if (ret || snap_id > UINT32_MAX) {
+-        /*
+-         * FIXME Since qemu_strtoul() returns -EINVAL when
+-         * @snapshot_id is null, @snapshot_id is mandatory.  Correct
+-         * would be to require at least one of @snapshot_id and @name.
+-         */
+-        error_setg(errp, "Invalid snapshot ID: %s",
+-                         snapshot_id ? snapshot_id : "<null>");
+-        return -EINVAL;
+-    }
+-
+-    if (snap_id) {
+-        hdr.snapid = (uint32_t) snap_id;
+-    } else {
+-        /* FIXME I suspect we should use @name here */
+-        /* FIXME don't truncate silently */
+-        pstrcpy(snap_tag, sizeof(snap_tag), snapshot_id);
+-        pstrcpy(buf + SD_MAX_VDI_LEN, SD_MAX_VDI_TAG_LEN, snap_tag);
+-    }
+-
+-    ret = find_vdi_name(s, s->name, snap_id, snap_tag, &vid, true, errp);
+-    if (ret) {
+-        return ret;
+-    }
+-
+-    fd = connect_to_sdog(s, errp);
+-    if (fd < 0) {
+-        return fd;
+-    }
+-
+-    ret = do_req(fd, s->bs, (SheepdogReq *)&hdr,
+-                 buf, &wlen, &rlen);
+-    closesocket(fd);
+-    if (ret) {
+-        error_setg_errno(errp, -ret, "Couldn't send request to server");
+-        return ret;
+-    }
+-
+-    switch (rsp->result) {
+-    case SD_RES_NO_VDI:
+-        error_setg(errp, "Can't find the snapshot");
+-        return -ENOENT;
+-    case SD_RES_SUCCESS:
+-        break;
+-    default:
+-        error_setg(errp, "%s", sd_strerror(rsp->result));
+-        return -EIO;
+-    }
+-
 -    return 0;
 -}
 -
--/* Generate an old-style exception return. Marks pc as dead. */
--static void gen_exception_return(DisasContext *s, TCGv pc)
+-static int sd_snapshot_list(BlockDriverState *bs, QEMUSnapshotInfo **psn_tab)
 -{
--    TCGv tmp;
--    store_reg(s, 31, pc);
--    tmp = load_cpu_field(bsr);
--    gen_set_asr(tmp, 0xffffffff);
--    dead_tmp(tmp);
--    s->is_jmp = DISAS_UPDATE;
--}
+-    Error *local_err = NULL;
+-    BDRVSheepdogState *s = bs->opaque;
+-    SheepdogReq req;
+-    int fd, nr = 1024, ret, max = BITS_TO_LONGS(SD_NR_VDIS) * sizeof(long);
+-    QEMUSnapshotInfo *sn_tab = NULL;
+-    unsigned wlen, rlen;
+-    int found = 0;
+-    SheepdogInode *inode;
+-    unsigned long *vdi_inuse;
+-    unsigned int start_nr;
+-    uint64_t hval;
+-    uint32_t vid;
 -
--static void disas_coproc_insn(CPUUniCore32State *env, DisasContext *s,
--        uint32_t insn)
--{
--    switch (UCOP_CPNUM) {
--#ifndef CONFIG_USER_ONLY
--    case 0:
--        disas_cp0_insn(env, s, insn);
--        break;
--    case 1:
--        disas_ocd_insn(env, s, insn);
--        break;
--#endif
--    case 2:
--        disas_ucf64_insn(env, s, insn);
--        break;
--    default:
--        /* Unknown coprocessor. */
--        cpu_abort(env_cpu(env), "Unknown coprocessor!");
--    }
--}
+-    vdi_inuse = g_malloc(max);
+-    inode = g_malloc(SD_INODE_HEADER_SIZE);
 -
--/* data processing instructions */
--static void do_datap(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    TCGv tmp;
--    TCGv tmp2;
--    int logic_cc;
--
--    if (UCOP_OPCODES == 0x0f || UCOP_OPCODES == 0x0d) {
--        if (UCOP_SET(23)) { /* CMOV instructions */
--            if ((UCOP_CMOV_COND == 0xe) || (UCOP_CMOV_COND == 0xf)) {
--                ILLEGAL;
--            }
--            /* if not always execute, we generate a conditional jump to
--               next instruction */
--            s->condlabel = gen_new_label();
--            gen_test_cc(UCOP_CMOV_COND ^ 1, s->condlabel);
--            s->condjmp = 1;
--        }
+-    fd = connect_to_sdog(s, &local_err);
+-    if (fd < 0) {
+-        error_report_err(local_err);
+-        ret = fd;
+-        goto out;
 -    }
 -
--    logic_cc = table_logic_cc[UCOP_OPCODES] & (UCOP_SET_S >> 24);
+-    rlen = max;
+-    wlen = 0;
 -
--    if (UCOP_SET(29)) {
--        unsigned int val;
--        /* immediate operand */
--        val = UCOP_IMM_9;
--        if (UCOP_SH_IM) {
--            val = (val >> UCOP_SH_IM) | (val << (32 - UCOP_SH_IM));
--        }
--        tmp2 = new_tmp();
--        tcg_gen_movi_i32(tmp2, val);
--        if (logic_cc && UCOP_SH_IM) {
--            gen_set_CF_bit31(tmp2);
--        }
--   } else {
--        /* register */
--        tmp2 = load_reg(s, UCOP_REG_M);
--        if (UCOP_SET(5)) {
--            tmp = load_reg(s, UCOP_REG_S);
--            gen_uc32_shift_reg(tmp2, UCOP_SH_OP, tmp, logic_cc);
--        } else {
--            gen_uc32_shift_im(tmp2, UCOP_SH_OP, UCOP_SH_IM, logic_cc);
--        }
+-    memset(&req, 0, sizeof(req));
+-
+-    req.opcode = SD_OP_READ_VDIS;
+-    req.data_length = max;
+-
+-    ret = do_req(fd, s->bs, &req, vdi_inuse, &wlen, &rlen);
+-
+-    closesocket(fd);
+-    if (ret) {
+-        goto out;
 -    }
 -
--    if (UCOP_OPCODES != 0x0f && UCOP_OPCODES != 0x0d) {
--        tmp = load_reg(s, UCOP_REG_N);
--    } else {
--        tmp = NULL;
+-    sn_tab = g_new0(QEMUSnapshotInfo, nr);
+-
+-    /* calculate a vdi id with hash function */
+-    hval = fnv_64a_buf(s->name, strlen(s->name), FNV1A_64_INIT);
+-    start_nr = hval & (SD_NR_VDIS - 1);
+-
+-    fd = connect_to_sdog(s, &local_err);
+-    if (fd < 0) {
+-        error_report_err(local_err);
+-        ret = fd;
+-        goto out;
 -    }
 -
--    switch (UCOP_OPCODES) {
--    case 0x00:
--        tcg_gen_and_i32(tmp, tmp, tmp2);
--        if (logic_cc) {
--            gen_logic_CC(tmp);
--        }
--        store_reg_bx(s, UCOP_REG_D, tmp);
--        break;
--    case 0x01:
--        tcg_gen_xor_i32(tmp, tmp, tmp2);
--        if (logic_cc) {
--            gen_logic_CC(tmp);
--        }
--        store_reg_bx(s, UCOP_REG_D, tmp);
--        break;
--    case 0x02:
--        if (UCOP_SET_S && UCOP_REG_D == 31) {
--            /* SUBS r31, ... is used for exception return.  */
--            if (IS_USER(s)) {
--                ILLEGAL;
--            }
--            gen_helper_sub_cc(tmp, cpu_env, tmp, tmp2);
--            gen_exception_return(s, tmp);
--        } else {
--            if (UCOP_SET_S) {
--                gen_helper_sub_cc(tmp, cpu_env, tmp, tmp2);
--            } else {
--                tcg_gen_sub_i32(tmp, tmp, tmp2);
--            }
--            store_reg_bx(s, UCOP_REG_D, tmp);
--        }
--        break;
--    case 0x03:
--        if (UCOP_SET_S) {
--            gen_helper_sub_cc(tmp, cpu_env, tmp2, tmp);
--        } else {
--            tcg_gen_sub_i32(tmp, tmp2, tmp);
--        }
--        store_reg_bx(s, UCOP_REG_D, tmp);
--        break;
--    case 0x04:
--        if (UCOP_SET_S) {
--            gen_helper_add_cc(tmp, cpu_env, tmp, tmp2);
--        } else {
--            tcg_gen_add_i32(tmp, tmp, tmp2);
--        }
--        store_reg_bx(s, UCOP_REG_D, tmp);
--        break;
--    case 0x05:
--        if (UCOP_SET_S) {
--            gen_helper_adc_cc(tmp, cpu_env, tmp, tmp2);
--        } else {
--            gen_add_carry(tmp, tmp, tmp2);
--        }
--        store_reg_bx(s, UCOP_REG_D, tmp);
--        break;
--    case 0x06:
--        if (UCOP_SET_S) {
--            gen_helper_sbc_cc(tmp, cpu_env, tmp, tmp2);
--        } else {
--            gen_sub_carry(tmp, tmp, tmp2);
--        }
--        store_reg_bx(s, UCOP_REG_D, tmp);
--        break;
--    case 0x07:
--        if (UCOP_SET_S) {
--            gen_helper_sbc_cc(tmp, cpu_env, tmp2, tmp);
--        } else {
--            gen_sub_carry(tmp, tmp2, tmp);
--        }
--        store_reg_bx(s, UCOP_REG_D, tmp);
--        break;
--    case 0x08:
--        if (UCOP_SET_S) {
--            tcg_gen_and_i32(tmp, tmp, tmp2);
--            gen_logic_CC(tmp);
--        }
--        dead_tmp(tmp);
--        break;
--    case 0x09:
--        if (UCOP_SET_S) {
--            tcg_gen_xor_i32(tmp, tmp, tmp2);
--            gen_logic_CC(tmp);
--        }
--        dead_tmp(tmp);
--        break;
--    case 0x0a:
--        if (UCOP_SET_S) {
--            gen_helper_sub_cc(tmp, cpu_env, tmp, tmp2);
--        }
--        dead_tmp(tmp);
--        break;
--    case 0x0b:
--        if (UCOP_SET_S) {
--            gen_helper_add_cc(tmp, cpu_env, tmp, tmp2);
--        }
--        dead_tmp(tmp);
--        break;
--    case 0x0c:
--        tcg_gen_or_i32(tmp, tmp, tmp2);
--        if (logic_cc) {
--            gen_logic_CC(tmp);
--        }
--        store_reg_bx(s, UCOP_REG_D, tmp);
--        break;
--    case 0x0d:
--        if (logic_cc && UCOP_REG_D == 31) {
--            /* MOVS r31, ... is used for exception return.  */
--            if (IS_USER(s)) {
--                ILLEGAL;
--            }
--            gen_exception_return(s, tmp2);
--        } else {
--            if (logic_cc) {
--                gen_logic_CC(tmp2);
--            }
--            store_reg_bx(s, UCOP_REG_D, tmp2);
--        }
--        break;
--    case 0x0e:
--        tcg_gen_andc_i32(tmp, tmp, tmp2);
--        if (logic_cc) {
--            gen_logic_CC(tmp);
--        }
--        store_reg_bx(s, UCOP_REG_D, tmp);
--        break;
--    default:
--    case 0x0f:
--        tcg_gen_not_i32(tmp2, tmp2);
--        if (logic_cc) {
--            gen_logic_CC(tmp2);
--        }
--        store_reg_bx(s, UCOP_REG_D, tmp2);
--        break;
--    }
--    if (UCOP_OPCODES != 0x0f && UCOP_OPCODES != 0x0d) {
--        dead_tmp(tmp2);
--    }
--}
--
--/* multiply */
--static void do_mult(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    TCGv tmp, tmp2, tmp3, tmp4;
--
--    if (UCOP_SET(27)) {
--        /* 64 bit mul */
--        tmp = load_reg(s, UCOP_REG_M);
--        tmp2 = load_reg(s, UCOP_REG_N);
--        if (UCOP_SET(26)) {
--            tcg_gen_muls2_i32(tmp, tmp2, tmp, tmp2);
--        } else {
--            tcg_gen_mulu2_i32(tmp, tmp2, tmp, tmp2);
--        }
--        if (UCOP_SET(25)) { /* mult accumulate */
--            tmp3 = load_reg(s, UCOP_REG_LO);
--            tmp4 = load_reg(s, UCOP_REG_HI);
--            tcg_gen_add2_i32(tmp, tmp2, tmp, tmp2, tmp3, tmp4);
--            dead_tmp(tmp3);
--            dead_tmp(tmp4);
--        }
--        store_reg(s, UCOP_REG_LO, tmp);
--        store_reg(s, UCOP_REG_HI, tmp2);
--    } else {
--        /* 32 bit mul */
--        tmp = load_reg(s, UCOP_REG_M);
--        tmp2 = load_reg(s, UCOP_REG_N);
--        tcg_gen_mul_i32(tmp, tmp, tmp2);
--        dead_tmp(tmp2);
--        if (UCOP_SET(25)) {
--            /* Add */
--            tmp2 = load_reg(s, UCOP_REG_S);
--            tcg_gen_add_i32(tmp, tmp, tmp2);
--            dead_tmp(tmp2);
--        }
--        if (UCOP_SET_S) {
--            gen_logic_CC(tmp);
--        }
--        store_reg(s, UCOP_REG_D, tmp);
--    }
--}
--
--/* miscellaneous instructions */
--static void do_misc(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    unsigned int val;
--    TCGv tmp;
--
--    if ((insn & 0xffffffe0) == 0x10ffc120) {
--        /* Trivial implementation equivalent to bx.  */
--        tmp = load_reg(s, UCOP_REG_M);
--        gen_bx(s, tmp);
--        return;
--    }
--
--    if ((insn & 0xfbffc000) == 0x30ffc000) {
--        /* PSR = immediate */
--        val = UCOP_IMM_9;
--        if (UCOP_SH_IM) {
--            val = (val >> UCOP_SH_IM) | (val << (32 - UCOP_SH_IM));
--        }
--        tmp = new_tmp();
--        tcg_gen_movi_i32(tmp, val);
--        if (gen_set_psr(s, ~ASR_RESERVED, UCOP_SET_B, tmp)) {
--            ILLEGAL;
--        }
--        return;
--    }
--
--    if ((insn & 0xfbffffe0) == 0x12ffc020) {
--        /* PSR.flag = reg */
--        tmp = load_reg(s, UCOP_REG_M);
--        if (gen_set_psr(s, ASR_NZCV, UCOP_SET_B, tmp)) {
--            ILLEGAL;
--        }
--        return;
--    }
--
--    if ((insn & 0xfbffffe0) == 0x10ffc020) {
--        /* PSR = reg */
--        tmp = load_reg(s, UCOP_REG_M);
--        if (gen_set_psr(s, ~ASR_RESERVED, UCOP_SET_B, tmp)) {
--            ILLEGAL;
--        }
--        return;
--    }
--
--    if ((insn & 0xfbf83fff) == 0x10f80000) {
--        /* reg = PSR */
--        if (UCOP_SET_B) {
--            if (IS_USER(s)) {
--                ILLEGAL;
--            }
--            tmp = load_cpu_field(bsr);
--        } else {
--            tmp = new_tmp();
--            gen_helper_asr_read(tmp, cpu_env);
--        }
--        store_reg(s, UCOP_REG_D, tmp);
--        return;
--    }
--
--    if ((insn & 0xfbf83fe0) == 0x12f80120) {
--        /* clz */
--        tmp = load_reg(s, UCOP_REG_M);
--        if (UCOP_SET(26)) {
--            /* clo */
--            tcg_gen_not_i32(tmp, tmp);
--        }
--        tcg_gen_clzi_i32(tmp, tmp, 32);
--        store_reg(s, UCOP_REG_D, tmp);
--        return;
--    }
--
--    /* otherwise */
--    ILLEGAL;
--}
--
--/* load/store I_offset and R_offset */
--static void do_ldst_ir(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    unsigned int mmu_idx;
--    TCGv tmp;
--    TCGv tmp2;
--
--    tmp2 = load_reg(s, UCOP_REG_N);
--    mmu_idx = (IS_USER(s) || (!UCOP_SET_P && UCOP_SET_W));
--
--    /* immediate */
--    if (UCOP_SET_P) {
--        gen_add_data_offset(s, insn, tmp2);
--    }
--
--    if (UCOP_SET_L) {
--        /* load */
--        if (UCOP_SET_B) {
--            tmp = gen_ld8u(tmp2, mmu_idx);
--        } else {
--            tmp = gen_ld32(tmp2, mmu_idx);
--        }
--    } else {
--        /* store */
--        tmp = load_reg(s, UCOP_REG_D);
--        if (UCOP_SET_B) {
--            gen_st8(tmp, tmp2, mmu_idx);
--        } else {
--            gen_st32(tmp, tmp2, mmu_idx);
--        }
--    }
--    if (!UCOP_SET_P) {
--        gen_add_data_offset(s, insn, tmp2);
--        store_reg(s, UCOP_REG_N, tmp2);
--    } else if (UCOP_SET_W) {
--        store_reg(s, UCOP_REG_N, tmp2);
--    } else {
--        dead_tmp(tmp2);
--    }
--    if (UCOP_SET_L) {
--        /* Complete the load.  */
--        if (UCOP_REG_D == 31) {
--            gen_bx(s, tmp);
--        } else {
--            store_reg(s, UCOP_REG_D, tmp);
--        }
--    }
--}
--
--/* SWP instruction */
--static void do_swap(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    TCGv addr;
--    TCGv tmp;
--    TCGv tmp2;
--
--    if ((insn & 0xff003fe0) != 0x40000120) {
--        ILLEGAL;
--    }
--
--    /* ??? This is not really atomic.  However we know
--       we never have multiple CPUs running in parallel,
--       so it is good enough.  */
--    addr = load_reg(s, UCOP_REG_N);
--    tmp = load_reg(s, UCOP_REG_M);
--    if (UCOP_SET_B) {
--        tmp2 = gen_ld8u(addr, IS_USER(s));
--        gen_st8(tmp, addr, IS_USER(s));
--    } else {
--        tmp2 = gen_ld32(addr, IS_USER(s));
--        gen_st32(tmp, addr, IS_USER(s));
--    }
--    dead_tmp(addr);
--    store_reg(s, UCOP_REG_D, tmp2);
--}
--
--/* load/store hw/sb */
--static void do_ldst_hwsb(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
--{
--    TCGv addr;
--    TCGv tmp;
--
--    if (UCOP_SH_OP == 0) {
--        do_swap(env, s, insn);
--        return;
--    }
--
--    addr = load_reg(s, UCOP_REG_N);
--    if (UCOP_SET_P) {
--        gen_add_datah_offset(s, insn, addr);
--    }
--
--    if (UCOP_SET_L) { /* load */
--        switch (UCOP_SH_OP) {
--        case 1:
--            tmp = gen_ld16u(addr, IS_USER(s));
--            break;
--        case 2:
--            tmp = gen_ld8s(addr, IS_USER(s));
--            break;
--        default: /* see do_swap */
--        case 3:
--            tmp = gen_ld16s(addr, IS_USER(s));
+-    for (vid = start_nr; found < nr; vid = (vid + 1) % SD_NR_VDIS) {
+-        if (!test_bit(vid, vdi_inuse)) {
 -            break;
 -        }
--    } else { /* store */
--        if (UCOP_SH_OP != 1) {
--            ILLEGAL;
+-
+-        /* we don't need to read entire object */
+-        ret = read_object(fd, s->bs, (char *)inode,
+-                          vid_to_vdi_oid(vid),
+-                          0, SD_INODE_HEADER_SIZE, 0,
+-                          s->cache_flags);
+-
+-        if (ret) {
+-            continue;
 -        }
--        tmp = load_reg(s, UCOP_REG_D);
--        gen_st16(tmp, addr, IS_USER(s));
+-
+-        if (!strcmp(inode->name, s->name) && is_snapshot(inode)) {
+-            sn_tab[found].date_sec = inode->snap_ctime >> 32;
+-            sn_tab[found].date_nsec = inode->snap_ctime & 0xffffffff;
+-            sn_tab[found].vm_state_size = inode->vm_state_size;
+-            sn_tab[found].vm_clock_nsec = inode->vm_clock_nsec;
+-
+-            snprintf(sn_tab[found].id_str, sizeof(sn_tab[found].id_str),
+-                     "%" PRIu32, inode->snap_id);
+-            pstrcpy(sn_tab[found].name,
+-                    MIN(sizeof(sn_tab[found].name), sizeof(inode->tag)),
+-                    inode->tag);
+-            found++;
+-        }
 -    }
--    /* Perform base writeback before the loaded value to
--       ensure correct behavior with overlapping index registers. */
--    if (!UCOP_SET_P) {
--        gen_add_datah_offset(s, insn, addr);
--        store_reg(s, UCOP_REG_N, addr);
--    } else if (UCOP_SET_W) {
--        store_reg(s, UCOP_REG_N, addr);
--    } else {
--        dead_tmp(addr);
+-
+-    closesocket(fd);
+-out:
+-    *psn_tab = sn_tab;
+-
+-    g_free(vdi_inuse);
+-    g_free(inode);
+-
+-    if (ret < 0) {
+-        return ret;
 -    }
--    if (UCOP_SET_L) {
--        /* Complete the load.  */
--        store_reg(s, UCOP_REG_D, tmp);
--    }
+-
+-    return found;
 -}
 -
--/* load/store multiple words */
--static void do_ldst_m(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-static int do_load_save_vmstate(BDRVSheepdogState *s, uint8_t *data,
+-                                int64_t pos, int size, int load)
 -{
--    unsigned int val, i, mmu_idx;
--    int j, n, reg, user, loaded_base;
--    TCGv tmp;
--    TCGv tmp2;
--    TCGv addr;
--    TCGv loaded_var;
+-    Error *local_err = NULL;
+-    bool create;
+-    int fd, ret = 0, remaining = size;
+-    unsigned int data_len;
+-    uint64_t vmstate_oid;
+-    uint64_t offset;
+-    uint32_t vdi_index;
+-    uint32_t vdi_id = load ? s->inode.parent_vdi_id : s->inode.vdi_id;
+-    uint32_t object_size = (UINT32_C(1) << s->inode.block_size_shift);
 -
--    if (UCOP_SET(7)) {
--        ILLEGAL;
--    }
--    /* XXX: store correct base if write back */
--    user = 0;
--    if (UCOP_SET_B) { /* S bit in instruction table */
--        if (IS_USER(s)) {
--            ILLEGAL; /* only usable in supervisor mode */
--        }
--        if (UCOP_SET(18) == 0) { /* pc reg */
--            user = 1;
--        }
+-    fd = connect_to_sdog(s, &local_err);
+-    if (fd < 0) {
+-        error_report_err(local_err);
+-        return fd;
 -    }
 -
--    mmu_idx = (IS_USER(s) || (!UCOP_SET_P && UCOP_SET_W));
--    addr = load_reg(s, UCOP_REG_N);
+-    while (remaining) {
+-        vdi_index = pos / object_size;
+-        offset = pos % object_size;
 -
--    /* compute total size */
--    loaded_base = 0;
--    loaded_var = NULL;
--    n = 0;
--    for (i = 0; i < 6; i++) {
--        if (UCOP_SET(i)) {
--            n++;
--        }
--    }
--    for (i = 9; i < 19; i++) {
--        if (UCOP_SET(i)) {
--            n++;
--        }
--    }
--    /* XXX: test invalid n == 0 case ? */
--    if (UCOP_SET_U) {
--        if (UCOP_SET_P) {
--            /* pre increment */
--            tcg_gen_addi_i32(addr, addr, 4);
+-        data_len = MIN(remaining, object_size - offset);
+-
+-        vmstate_oid = vid_to_vmstate_oid(vdi_id, vdi_index);
+-
+-        create = (offset == 0);
+-        if (load) {
+-            ret = read_object(fd, s->bs, (char *)data, vmstate_oid,
+-                              s->inode.nr_copies, data_len, offset,
+-                              s->cache_flags);
 -        } else {
--            /* post increment */
+-            ret = write_object(fd, s->bs, (char *)data, vmstate_oid,
+-                               s->inode.nr_copies, data_len, offset, create,
+-                               s->cache_flags);
 -        }
--    } else {
--        if (UCOP_SET_P) {
--            /* pre decrement */
--            tcg_gen_addi_i32(addr, addr, -(n * 4));
--        } else {
--            /* post decrement */
--            if (n != 1) {
--                tcg_gen_addi_i32(addr, addr, -((n - 1) * 4));
+-
+-        if (ret < 0) {
+-            error_report("failed to save vmstate %s", strerror(errno));
+-            goto cleanup;
+-        }
+-
+-        pos += data_len;
+-        data += data_len;
+-        remaining -= data_len;
+-    }
+-    ret = size;
+-cleanup:
+-    closesocket(fd);
+-    return ret;
+-}
+-
+-static int sd_save_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
+-                           int64_t pos)
+-{
+-    BDRVSheepdogState *s = bs->opaque;
+-    void *buf;
+-    int ret;
+-
+-    buf = qemu_blockalign(bs, qiov->size);
+-    qemu_iovec_to_buf(qiov, 0, buf, qiov->size);
+-    ret = do_load_save_vmstate(s, (uint8_t *) buf, pos, qiov->size, 0);
+-    qemu_vfree(buf);
+-
+-    return ret;
+-}
+-
+-static int sd_load_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
+-                           int64_t pos)
+-{
+-    BDRVSheepdogState *s = bs->opaque;
+-    void *buf;
+-    int ret;
+-
+-    buf = qemu_blockalign(bs, qiov->size);
+-    ret = do_load_save_vmstate(s, buf, pos, qiov->size, 1);
+-    qemu_iovec_from_buf(qiov, 0, buf, qiov->size);
+-    qemu_vfree(buf);
+-
+-    return ret;
+-}
+-
+-
+-static coroutine_fn int sd_co_pdiscard(BlockDriverState *bs, int64_t offset,
+-                                      int bytes)
+-{
+-    SheepdogAIOCB acb;
+-    BDRVSheepdogState *s = bs->opaque;
+-    QEMUIOVector discard_iov;
+-    struct iovec iov;
+-    uint32_t zero = 0;
+-
+-    if (!s->discard_supported) {
+-        return 0;
+-    }
+-
+-    memset(&discard_iov, 0, sizeof(discard_iov));
+-    memset(&iov, 0, sizeof(iov));
+-    iov.iov_base = &zero;
+-    iov.iov_len = sizeof(zero);
+-    discard_iov.iov = &iov;
+-    discard_iov.niov = 1;
+-    if (!QEMU_IS_ALIGNED(offset | bytes, BDRV_SECTOR_SIZE)) {
+-        return -ENOTSUP;
+-    }
+-    sd_aio_setup(&acb, s, &discard_iov, offset >> BDRV_SECTOR_BITS,
+-                 bytes >> BDRV_SECTOR_BITS, AIOCB_DISCARD_OBJ);
+-    sd_co_rw_vector(&acb);
+-    sd_aio_complete(&acb);
+-
+-    return acb.ret;
+-}
+-
+-static coroutine_fn int
+-sd_co_block_status(BlockDriverState *bs, bool want_zero, int64_t offset,
+-                   int64_t bytes, int64_t *pnum, int64_t *map,
+-                   BlockDriverState **file)
+-{
+-    BDRVSheepdogState *s = bs->opaque;
+-    SheepdogInode *inode = &s->inode;
+-    uint32_t object_size = (UINT32_C(1) << inode->block_size_shift);
+-    unsigned long start = offset / object_size,
+-                  end = DIV_ROUND_UP(offset + bytes, object_size);
+-    unsigned long idx;
+-    *map = offset;
+-    int ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
+-
+-    for (idx = start; idx < end; idx++) {
+-        if (inode->data_vdi_id[idx] == 0) {
+-            break;
+-        }
+-    }
+-    if (idx == start) {
+-        /* Get the longest length of unallocated sectors */
+-        ret = 0;
+-        for (idx = start + 1; idx < end; idx++) {
+-            if (inode->data_vdi_id[idx] != 0) {
+-                break;
 -            }
 -        }
 -    }
 -
--    j = 0;
--    reg = UCOP_SET(6) ? 16 : 0;
--    for (i = 0; i < 19; i++, reg++) {
--        if (i == 6) {
--            i = i + 3;
--        }
--        if (UCOP_SET(i)) {
--            if (UCOP_SET_L) { /* load */
--                tmp = gen_ld32(addr, mmu_idx);
--                if (reg == 31) {
--                    gen_bx(s, tmp);
--                } else if (user) {
--                    tmp2 = tcg_const_i32(reg);
--                    gen_helper_set_user_reg(cpu_env, tmp2, tmp);
--                    tcg_temp_free_i32(tmp2);
--                    dead_tmp(tmp);
--                } else if (reg == UCOP_REG_N) {
--                    loaded_var = tmp;
--                    loaded_base = 1;
--                } else {
--                    store_reg(s, reg, tmp);
--                }
--            } else { /* store */
--                if (reg == 31) {
--                    /* special case: r31 = PC + 4 */
--                    val = (long)s->pc;
--                    tmp = new_tmp();
--                    tcg_gen_movi_i32(tmp, val);
--                } else if (user) {
--                    tmp = new_tmp();
--                    tmp2 = tcg_const_i32(reg);
--                    gen_helper_get_user_reg(tmp, cpu_env, tmp2);
--                    tcg_temp_free_i32(tmp2);
--                } else {
--                    tmp = load_reg(s, reg);
--                }
--                gen_st32(tmp, addr, mmu_idx);
--            }
--            j++;
--            /* no need to add after the last transfer */
--            if (j != n) {
--                tcg_gen_addi_i32(addr, addr, 4);
--            }
--        }
+-    *pnum = (idx - start) * object_size;
+-    if (*pnum > bytes) {
+-        *pnum = bytes;
 -    }
--    if (UCOP_SET_W) { /* write back */
--        if (UCOP_SET_U) {
--            if (UCOP_SET_P) {
--                /* pre increment */
--            } else {
--                /* post increment */
--                tcg_gen_addi_i32(addr, addr, 4);
--            }
--        } else {
--            if (UCOP_SET_P) {
--                /* pre decrement */
--                if (n != 1) {
--                    tcg_gen_addi_i32(addr, addr, -((n - 1) * 4));
--                }
--            } else {
--                /* post decrement */
--                tcg_gen_addi_i32(addr, addr, -(n * 4));
--            }
--        }
--        store_reg(s, UCOP_REG_N, addr);
--    } else {
--        dead_tmp(addr);
+-    if (ret > 0 && ret & BDRV_BLOCK_OFFSET_VALID) {
+-        *file = bs;
 -    }
--    if (loaded_base) {
--        store_reg(s, UCOP_REG_N, loaded_var);
--    }
--    if (UCOP_SET_B && !user) {
--        /* Restore ASR from BSR.  */
--        tmp = load_cpu_field(bsr);
--        gen_set_asr(tmp, 0xffffffff);
--        dead_tmp(tmp);
--        s->is_jmp = DISAS_UPDATE;
--    }
+-    return ret;
 -}
 -
--/* branch (and link) */
--static void do_branch(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-static int64_t sd_get_allocated_file_size(BlockDriverState *bs)
 -{
--    unsigned int val;
--    int32_t offset;
--    TCGv tmp;
+-    BDRVSheepdogState *s = bs->opaque;
+-    SheepdogInode *inode = &s->inode;
+-    uint32_t object_size = (UINT32_C(1) << inode->block_size_shift);
+-    unsigned long i, last = DIV_ROUND_UP(inode->vdi_size, object_size);
+-    uint64_t size = 0;
 -
--    if (UCOP_COND == 0xf) {
--        ILLEGAL;
+-    for (i = 0; i < last; i++) {
+-        if (inode->data_vdi_id[i] == 0) {
+-            continue;
+-        }
+-        size += object_size;
 -    }
--
--    if (UCOP_COND != 0xe) {
--        /* if not always execute, we generate a conditional jump to
--           next instruction */
--        s->condlabel = gen_new_label();
--        gen_test_cc(UCOP_COND ^ 1, s->condlabel);
--        s->condjmp = 1;
--    }
--
--    val = (int32_t)s->pc;
--    if (UCOP_SET_L) {
--        tmp = new_tmp();
--        tcg_gen_movi_i32(tmp, val);
--        store_reg(s, 30, tmp);
--    }
--    offset = (((int32_t)insn << 8) >> 8);
--    val += (offset << 2); /* unicore is pc+4 */
--    gen_jmp(s, val);
+-    return size;
 -}
 -
--static void disas_uc32_insn(CPUUniCore32State *env, DisasContext *s)
--{
--    unsigned int insn;
--
--    insn = cpu_ldl_code(env, s->pc);
--    s->pc += 4;
--
--    /* UniCore instructions class:
--     * AAAB BBBC xxxx xxxx xxxx xxxD xxEx xxxx
--     * AAA  : see switch case
--     * BBBB : opcodes or cond or PUBW
--     * C    : S OR L
--     * D    : 8
--     * E    : 5
--     */
--    switch (insn >> 29) {
--    case 0x0:
--        if (UCOP_SET(5) && UCOP_SET(8) && !UCOP_SET(28)) {
--            do_mult(env, s, insn);
--            break;
--        }
--
--        if (UCOP_SET(8)) {
--            do_misc(env, s, insn);
--            break;
--        }
--        /* fallthrough */
--    case 0x1:
--        if (((UCOP_OPCODES >> 2) == 2) && !UCOP_SET_S) {
--            do_misc(env, s, insn);
--            break;
--        }
--        do_datap(env, s, insn);
--        break;
--
--    case 0x2:
--        if (UCOP_SET(8) && UCOP_SET(5)) {
--            do_ldst_hwsb(env, s, insn);
--            break;
--        }
--        if (UCOP_SET(8) || UCOP_SET(5)) {
--            ILLEGAL;
--        }
--        /* fallthrough */
--    case 0x3:
--        do_ldst_ir(env, s, insn);
--        break;
--
--    case 0x4:
--        if (UCOP_SET(8)) {
--            ILLEGAL; /* extended instructions */
--        }
--        do_ldst_m(env, s, insn);
--        break;
--    case 0x5:
--        do_branch(env, s, insn);
--        break;
--    case 0x6:
--        /* Coprocessor.  */
--        disas_coproc_insn(env, s, insn);
--        break;
--    case 0x7:
--        if (!UCOP_SET(28)) {
--            disas_coproc_insn(env, s, insn);
--            break;
--        }
--        if ((insn & 0xff000000) == 0xff000000) { /* syscall */
--            gen_set_pc_im(s->pc);
--            s->is_jmp = DISAS_SYSCALL;
--            break;
--        }
--        ILLEGAL;
+-static QemuOptsList sd_create_opts = {
+-    .name = "sheepdog-create-opts",
+-    .head = QTAILQ_HEAD_INITIALIZER(sd_create_opts.head),
+-    .desc = {
+-        {
+-            .name = BLOCK_OPT_SIZE,
+-            .type = QEMU_OPT_SIZE,
+-            .help = "Virtual disk size"
+-        },
+-        {
+-            .name = BLOCK_OPT_BACKING_FILE,
+-            .type = QEMU_OPT_STRING,
+-            .help = "File name of a base image"
+-        },
+-        {
+-            .name = BLOCK_OPT_BACKING_FMT,
+-            .type = QEMU_OPT_STRING,
+-            .help = "Must be 'sheepdog' if present",
+-        },
+-        {
+-            .name = BLOCK_OPT_PREALLOC,
+-            .type = QEMU_OPT_STRING,
+-            .help = "Preallocation mode (allowed values: off, full)"
+-        },
+-        {
+-            .name = BLOCK_OPT_REDUNDANCY,
+-            .type = QEMU_OPT_STRING,
+-            .help = "Redundancy of the image"
+-        },
+-        {
+-            .name = BLOCK_OPT_OBJECT_SIZE,
+-            .type = QEMU_OPT_SIZE,
+-            .help = "Object size of the image"
+-        },
+-        { /* end of list */ }
 -    }
--}
--
--/* generate intermediate code for basic block 'tb'.  */
--void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
--{
--    CPUUniCore32State *env = cs->env_ptr;
--    DisasContext dc1, *dc = &dc1;
--    target_ulong pc_start;
--    uint32_t page_start;
--    int num_insns;
--
--    /* generate intermediate code */
--    num_temps = 0;
--
--    pc_start = tb->pc;
--
--    dc->tb = tb;
--
--    dc->is_jmp = DISAS_NEXT;
--    dc->pc = pc_start;
--    dc->singlestep_enabled = cs->singlestep_enabled;
--    dc->condjmp = 0;
--    cpu_F0s = tcg_temp_new_i32();
--    cpu_F1s = tcg_temp_new_i32();
--    cpu_F0d = tcg_temp_new_i64();
--    cpu_F1d = tcg_temp_new_i64();
--    page_start = pc_start & TARGET_PAGE_MASK;
--    num_insns = 0;
--
--#ifndef CONFIG_USER_ONLY
--    if ((env->uncached_asr & ASR_M) == ASR_MODE_USER) {
--        dc->user = 1;
--    } else {
--        dc->user = 0;
--    }
--#endif
--
--    gen_tb_start(tb);
--    do {
--        tcg_gen_insn_start(dc->pc);
--        num_insns++;
--
--        if (unlikely(cpu_breakpoint_test(cs, dc->pc, BP_ANY))) {
--            gen_set_pc_im(dc->pc);
--            gen_exception(EXCP_DEBUG);
--            dc->is_jmp = DISAS_JUMP;
--            /* The address covered by the breakpoint must be included in
--               [tb->pc, tb->pc + tb->size) in order to for it to be
--               properly cleared -- thus we increment the PC here so that
--               the logic setting tb->size below does the right thing.  */
--            dc->pc += 4;
--            goto done_generating;
--        }
--
--        if (num_insns == max_insns && (tb_cflags(tb) & CF_LAST_IO)) {
--            gen_io_start();
--        }
--
--        disas_uc32_insn(env, dc);
--
--        if (num_temps) {
--            fprintf(stderr, "Internal resource leak before %08x\n", dc->pc);
--            num_temps = 0;
--        }
--
--        if (dc->condjmp && !dc->is_jmp) {
--            gen_set_label(dc->condlabel);
--            dc->condjmp = 0;
--        }
--        /* Translation stops when a conditional branch is encountered.
--         * Otherwise the subsequent code could get translated several times.
--         * Also stop translation when a page boundary is reached.  This
--         * ensures prefetch aborts occur at the right place.  */
--    } while (!dc->is_jmp && !tcg_op_buf_full() &&
--             !cs->singlestep_enabled &&
--             !singlestep &&
--             dc->pc - page_start < TARGET_PAGE_SIZE &&
--             num_insns < max_insns);
--
--    if (tb_cflags(tb) & CF_LAST_IO) {
--        if (dc->condjmp) {
--            /* FIXME:  This can theoretically happen with self-modifying
--               code.  */
--            cpu_abort(cs, "IO on conditional branch instruction");
--        }
--    }
--
--    /* At this stage dc->condjmp will only be set when the skipped
--       instruction was a conditional branch or trap, and the PC has
--       already been written.  */
--    if (unlikely(cs->singlestep_enabled)) {
--        /* Make sure the pc is updated, and raise a debug exception.  */
--        if (dc->condjmp) {
--            if (dc->is_jmp == DISAS_SYSCALL) {
--                gen_exception(UC32_EXCP_PRIV);
--            } else {
--                gen_exception(EXCP_DEBUG);
--            }
--            gen_set_label(dc->condlabel);
--        }
--        if (dc->condjmp || !dc->is_jmp) {
--            gen_set_pc_im(dc->pc);
--            dc->condjmp = 0;
--        }
--        if (dc->is_jmp == DISAS_SYSCALL && !dc->condjmp) {
--            gen_exception(UC32_EXCP_PRIV);
--        } else {
--            gen_exception(EXCP_DEBUG);
--        }
--    } else {
--        /* While branches must always occur at the end of an IT block,
--           there are a few other things that can cause us to terminate
--           the TB in the middel of an IT block:
--            - Exception generating instructions (bkpt, swi, undefined).
--            - Page boundaries.
--            - Hardware watchpoints.
--           Hardware breakpoints have already been handled and skip this code.
--         */
--        switch (dc->is_jmp) {
--        case DISAS_NEXT:
--            gen_goto_tb(dc, 1, dc->pc);
--            break;
--        default:
--        case DISAS_JUMP:
--        case DISAS_UPDATE:
--            /* indicate that the hash table must be used to find the next TB */
--            tcg_gen_exit_tb(NULL, 0);
--            break;
--        case DISAS_TB_JUMP:
--            /* nothing more to generate */
--            break;
--        case DISAS_SYSCALL:
--            gen_exception(UC32_EXCP_PRIV);
--            break;
--        }
--        if (dc->condjmp) {
--            gen_set_label(dc->condlabel);
--            gen_goto_tb(dc, 1, dc->pc);
--            dc->condjmp = 0;
--        }
--    }
--
--done_generating:
--    gen_tb_end(tb, num_insns);
--
--#ifdef DEBUG_DISAS
--    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
--        && qemu_log_in_addr_range(pc_start)) {
--        FILE *logfile = qemu_log_lock();
--        qemu_log("----------------\n");
--        qemu_log("IN: %s\n", lookup_symbol(pc_start));
--        log_target_disas(cs, pc_start, dc->pc - pc_start);
--        qemu_log("\n");
--        qemu_log_unlock(logfile);
--    }
--#endif
--    tb->size = dc->pc - pc_start;
--    tb->icount = num_insns;
--}
--
--static const char *cpu_mode_names[16] = {
--    "USER", "REAL", "INTR", "PRIV", "UM14", "UM15", "UM16", "TRAP",
--    "UM18", "UM19", "UM1A", "EXTN", "UM1C", "UM1D", "UM1E", "SUSR"
 -};
 -
--#undef UCF64_DUMP_STATE
--#ifdef UCF64_DUMP_STATE
--static void cpu_dump_state_ucf64(CPUUniCore32State *env, int flags)
+-static const char *const sd_strong_runtime_opts[] = {
+-    "vdi",
+-    "snap-id",
+-    "tag",
+-    "server.",
+-
+-    NULL
+-};
+-
+-static BlockDriver bdrv_sheepdog = {
+-    .format_name                  = "sheepdog",
+-    .protocol_name                = "sheepdog",
+-    .instance_size                = sizeof(BDRVSheepdogState),
+-    .bdrv_parse_filename          = sd_parse_filename,
+-    .bdrv_file_open               = sd_open,
+-    .bdrv_reopen_prepare          = sd_reopen_prepare,
+-    .bdrv_reopen_commit           = sd_reopen_commit,
+-    .bdrv_reopen_abort            = sd_reopen_abort,
+-    .bdrv_close                   = sd_close,
+-    .bdrv_co_create               = sd_co_create,
+-    .bdrv_co_create_opts          = sd_co_create_opts,
+-    .bdrv_has_zero_init           = bdrv_has_zero_init_1,
+-    .bdrv_getlength               = sd_getlength,
+-    .bdrv_get_allocated_file_size = sd_get_allocated_file_size,
+-    .bdrv_co_truncate             = sd_co_truncate,
+-
+-    .bdrv_co_readv                = sd_co_readv,
+-    .bdrv_co_writev               = sd_co_writev,
+-    .bdrv_co_flush_to_disk        = sd_co_flush_to_disk,
+-    .bdrv_co_pdiscard             = sd_co_pdiscard,
+-    .bdrv_co_block_status         = sd_co_block_status,
+-
+-    .bdrv_snapshot_create         = sd_snapshot_create,
+-    .bdrv_snapshot_goto           = sd_snapshot_goto,
+-    .bdrv_snapshot_delete         = sd_snapshot_delete,
+-    .bdrv_snapshot_list           = sd_snapshot_list,
+-
+-    .bdrv_save_vmstate            = sd_save_vmstate,
+-    .bdrv_load_vmstate            = sd_load_vmstate,
+-
+-    .bdrv_detach_aio_context      = sd_detach_aio_context,
+-    .bdrv_attach_aio_context      = sd_attach_aio_context,
+-
+-    .create_opts                  = &sd_create_opts,
+-    .strong_runtime_opts          = sd_strong_runtime_opts,
+-};
+-
+-static BlockDriver bdrv_sheepdog_tcp = {
+-    .format_name                  = "sheepdog",
+-    .protocol_name                = "sheepdog+tcp",
+-    .instance_size                = sizeof(BDRVSheepdogState),
+-    .bdrv_parse_filename          = sd_parse_filename,
+-    .bdrv_file_open               = sd_open,
+-    .bdrv_reopen_prepare          = sd_reopen_prepare,
+-    .bdrv_reopen_commit           = sd_reopen_commit,
+-    .bdrv_reopen_abort            = sd_reopen_abort,
+-    .bdrv_close                   = sd_close,
+-    .bdrv_co_create               = sd_co_create,
+-    .bdrv_co_create_opts          = sd_co_create_opts,
+-    .bdrv_has_zero_init           = bdrv_has_zero_init_1,
+-    .bdrv_getlength               = sd_getlength,
+-    .bdrv_get_allocated_file_size = sd_get_allocated_file_size,
+-    .bdrv_co_truncate             = sd_co_truncate,
+-
+-    .bdrv_co_readv                = sd_co_readv,
+-    .bdrv_co_writev               = sd_co_writev,
+-    .bdrv_co_flush_to_disk        = sd_co_flush_to_disk,
+-    .bdrv_co_pdiscard             = sd_co_pdiscard,
+-    .bdrv_co_block_status         = sd_co_block_status,
+-
+-    .bdrv_snapshot_create         = sd_snapshot_create,
+-    .bdrv_snapshot_goto           = sd_snapshot_goto,
+-    .bdrv_snapshot_delete         = sd_snapshot_delete,
+-    .bdrv_snapshot_list           = sd_snapshot_list,
+-
+-    .bdrv_save_vmstate            = sd_save_vmstate,
+-    .bdrv_load_vmstate            = sd_load_vmstate,
+-
+-    .bdrv_detach_aio_context      = sd_detach_aio_context,
+-    .bdrv_attach_aio_context      = sd_attach_aio_context,
+-
+-    .create_opts                  = &sd_create_opts,
+-    .strong_runtime_opts          = sd_strong_runtime_opts,
+-};
+-
+-static BlockDriver bdrv_sheepdog_unix = {
+-    .format_name                  = "sheepdog",
+-    .protocol_name                = "sheepdog+unix",
+-    .instance_size                = sizeof(BDRVSheepdogState),
+-    .bdrv_parse_filename          = sd_parse_filename,
+-    .bdrv_file_open               = sd_open,
+-    .bdrv_reopen_prepare          = sd_reopen_prepare,
+-    .bdrv_reopen_commit           = sd_reopen_commit,
+-    .bdrv_reopen_abort            = sd_reopen_abort,
+-    .bdrv_close                   = sd_close,
+-    .bdrv_co_create               = sd_co_create,
+-    .bdrv_co_create_opts          = sd_co_create_opts,
+-    .bdrv_has_zero_init           = bdrv_has_zero_init_1,
+-    .bdrv_getlength               = sd_getlength,
+-    .bdrv_get_allocated_file_size = sd_get_allocated_file_size,
+-    .bdrv_co_truncate             = sd_co_truncate,
+-
+-    .bdrv_co_readv                = sd_co_readv,
+-    .bdrv_co_writev               = sd_co_writev,
+-    .bdrv_co_flush_to_disk        = sd_co_flush_to_disk,
+-    .bdrv_co_pdiscard             = sd_co_pdiscard,
+-    .bdrv_co_block_status         = sd_co_block_status,
+-
+-    .bdrv_snapshot_create         = sd_snapshot_create,
+-    .bdrv_snapshot_goto           = sd_snapshot_goto,
+-    .bdrv_snapshot_delete         = sd_snapshot_delete,
+-    .bdrv_snapshot_list           = sd_snapshot_list,
+-
+-    .bdrv_save_vmstate            = sd_save_vmstate,
+-    .bdrv_load_vmstate            = sd_load_vmstate,
+-
+-    .bdrv_detach_aio_context      = sd_detach_aio_context,
+-    .bdrv_attach_aio_context      = sd_attach_aio_context,
+-
+-    .create_opts                  = &sd_create_opts,
+-    .strong_runtime_opts          = sd_strong_runtime_opts,
+-};
+-
+-static void bdrv_sheepdog_init(void)
 -{
--    int i;
--    union {
--        uint32_t i;
--        float s;
--    } s0, s1;
--    CPU_DoubleU d;
--    /* ??? This assumes float64 and double have the same layout.
--       Oh well, it's only debug dumps.  */
--    union {
--        float64 f64;
--        double d;
--    } d0;
--
--    for (i = 0; i < 16; i++) {
--        d.d = env->ucf64.regs[i];
--        s0.i = d.l.lower;
--        s1.i = d.l.upper;
--        d0.f64 = d.d;
--        qemu_fprintf(f, "s%02d=%08x(%8g) s%02d=%08x(%8g)",
--                     i * 2, (int)s0.i, s0.s,
--                     i * 2 + 1, (int)s1.i, s1.s);
--        qemu_fprintf(f, " d%02d=%" PRIx64 "(%8g)\n",
--                     i, (uint64_t)d0.f64, d0.d);
--    }
--    qemu_fprintf(f, "FPSCR: %08x\n", (int)env->ucf64.xregs[UC32_UCF64_FPSCR]);
+-    bdrv_register(&bdrv_sheepdog);
+-    bdrv_register(&bdrv_sheepdog_tcp);
+-    bdrv_register(&bdrv_sheepdog_unix);
 -}
--#else
--#define cpu_dump_state_ucf64(env, file, pr, flags)      do { } while (0)
--#endif
--
--void uc32_cpu_dump_state(CPUState *cs, FILE *f, int flags)
--{
--    UniCore32CPU *cpu = UNICORE32_CPU(cs);
--    CPUUniCore32State *env = &cpu->env;
--    int i;
--    uint32_t psr;
--
--    for (i = 0; i < 32; i++) {
--        qemu_fprintf(f, "R%02d=%08x", i, env->regs[i]);
--        if ((i % 4) == 3) {
--            qemu_fprintf(f, "\n");
--        } else {
--            qemu_fprintf(f, " ");
--        }
--    }
--    psr = cpu_asr_read(env);
--    qemu_fprintf(f, "PSR=%08x %c%c%c%c %s\n",
--                 psr,
--                 psr & (1 << 31) ? 'N' : '-',
--                 psr & (1 << 30) ? 'Z' : '-',
--                 psr & (1 << 29) ? 'C' : '-',
--                 psr & (1 << 28) ? 'V' : '-',
--                 cpu_mode_names[psr & 0xf]);
--
--    if (flags & CPU_DUMP_FPU) {
--        cpu_dump_state_ucf64(env, f, cpu_fprintf, flags);
--    }
--}
--
--void restore_state_to_opc(CPUUniCore32State *env, TranslationBlock *tb,
--                          target_ulong *data)
--{
--    env->regs[31] = data[0];
--}
-diff --git a/target/unicore32/ucf64_helper.c b/target/unicore32/ucf64_helper.c
-deleted file mode 100644
-index 12a91900f6..0000000000
---- a/target/unicore32/ucf64_helper.c
-+++ /dev/null
-@@ -1,324 +0,0 @@
--/*
-- * UniCore-F64 simulation helpers for QEMU.
-- *
-- * Copyright (C) 2010-2012 Guan Xuetao
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation, or any later version.
-- * See the COPYING file in the top-level directory.
-- */
--#include "qemu/osdep.h"
--#include "cpu.h"
--#include "exec/helper-proto.h"
--#include "fpu/softfloat.h"
--
--/*
-- * The convention used for UniCore-F64 instructions:
-- *  Single precition routines have a "s" suffix
-- *  Double precision routines have a "d" suffix.
-- */
--
--/* Convert host exception flags to f64 form.  */
--static inline int ucf64_exceptbits_from_host(int host_bits)
--{
--    int target_bits = 0;
--
--    if (host_bits & float_flag_invalid) {
--        target_bits |= UCF64_FPSCR_FLAG_INVALID;
--    }
--    if (host_bits & float_flag_divbyzero) {
--        target_bits |= UCF64_FPSCR_FLAG_DIVZERO;
--    }
--    if (host_bits & float_flag_overflow) {
--        target_bits |= UCF64_FPSCR_FLAG_OVERFLOW;
--    }
--    if (host_bits & float_flag_underflow) {
--        target_bits |= UCF64_FPSCR_FLAG_UNDERFLOW;
--    }
--    if (host_bits & float_flag_inexact) {
--        target_bits |= UCF64_FPSCR_FLAG_INEXACT;
--    }
--    return target_bits;
--}
--
--uint32_t HELPER(ucf64_get_fpscr)(CPUUniCore32State *env)
--{
--    int i;
--    uint32_t fpscr;
--
--    fpscr = (env->ucf64.xregs[UC32_UCF64_FPSCR] & UCF64_FPSCR_MASK);
--    i = get_float_exception_flags(&env->ucf64.fp_status);
--    fpscr |= ucf64_exceptbits_from_host(i);
--    return fpscr;
--}
--
--/* Convert ucf64 exception flags to target form.  */
--static inline int ucf64_exceptbits_to_host(int target_bits)
--{
--    int host_bits = 0;
--
--    if (target_bits & UCF64_FPSCR_FLAG_INVALID) {
--        host_bits |= float_flag_invalid;
--    }
--    if (target_bits & UCF64_FPSCR_FLAG_DIVZERO) {
--        host_bits |= float_flag_divbyzero;
--    }
--    if (target_bits & UCF64_FPSCR_FLAG_OVERFLOW) {
--        host_bits |= float_flag_overflow;
--    }
--    if (target_bits & UCF64_FPSCR_FLAG_UNDERFLOW) {
--        host_bits |= float_flag_underflow;
--    }
--    if (target_bits & UCF64_FPSCR_FLAG_INEXACT) {
--        host_bits |= float_flag_inexact;
--    }
--    return host_bits;
--}
--
--void HELPER(ucf64_set_fpscr)(CPUUniCore32State *env, uint32_t val)
--{
--    UniCore32CPU *cpu = env_archcpu(env);
--    int i;
--    uint32_t changed;
--
--    changed = env->ucf64.xregs[UC32_UCF64_FPSCR];
--    env->ucf64.xregs[UC32_UCF64_FPSCR] = (val & UCF64_FPSCR_MASK);
--
--    changed ^= val;
--    if (changed & (UCF64_FPSCR_RND_MASK)) {
--        i = UCF64_FPSCR_RND(val);
--        switch (i) {
--        case 0:
--            i = float_round_nearest_even;
--            break;
--        case 1:
--            i = float_round_to_zero;
--            break;
--        case 2:
--            i = float_round_up;
--            break;
--        case 3:
--            i = float_round_down;
--            break;
--        default: /* 100 and 101 not implement */
--            cpu_abort(CPU(cpu), "Unsupported UniCore-F64 round mode");
--        }
--        set_float_rounding_mode(i, &env->ucf64.fp_status);
--    }
--
--    i = ucf64_exceptbits_to_host(UCF64_FPSCR_TRAPEN(val));
--    set_float_exception_flags(i, &env->ucf64.fp_status);
--}
--
--float32 HELPER(ucf64_adds)(float32 a, float32 b, CPUUniCore32State *env)
--{
--    return float32_add(a, b, &env->ucf64.fp_status);
--}
--
--float64 HELPER(ucf64_addd)(float64 a, float64 b, CPUUniCore32State *env)
--{
--    return float64_add(a, b, &env->ucf64.fp_status);
--}
--
--float32 HELPER(ucf64_subs)(float32 a, float32 b, CPUUniCore32State *env)
--{
--    return float32_sub(a, b, &env->ucf64.fp_status);
--}
--
--float64 HELPER(ucf64_subd)(float64 a, float64 b, CPUUniCore32State *env)
--{
--    return float64_sub(a, b, &env->ucf64.fp_status);
--}
--
--float32 HELPER(ucf64_muls)(float32 a, float32 b, CPUUniCore32State *env)
--{
--    return float32_mul(a, b, &env->ucf64.fp_status);
--}
--
--float64 HELPER(ucf64_muld)(float64 a, float64 b, CPUUniCore32State *env)
--{
--    return float64_mul(a, b, &env->ucf64.fp_status);
--}
--
--float32 HELPER(ucf64_divs)(float32 a, float32 b, CPUUniCore32State *env)
--{
--    return float32_div(a, b, &env->ucf64.fp_status);
--}
--
--float64 HELPER(ucf64_divd)(float64 a, float64 b, CPUUniCore32State *env)
--{
--    return float64_div(a, b, &env->ucf64.fp_status);
--}
--
--float32 HELPER(ucf64_negs)(float32 a)
--{
--    return float32_chs(a);
--}
--
--float64 HELPER(ucf64_negd)(float64 a)
--{
--    return float64_chs(a);
--}
--
--float32 HELPER(ucf64_abss)(float32 a)
--{
--    return float32_abs(a);
--}
--
--float64 HELPER(ucf64_absd)(float64 a)
--{
--    return float64_abs(a);
--}
--
--void HELPER(ucf64_cmps)(float32 a, float32 b, uint32_t c,
--        CPUUniCore32State *env)
--{
--    FloatRelation flag = float32_compare_quiet(a, b, &env->ucf64.fp_status);
--    env->CF = 0;
--    switch (c & 0x7) {
--    case 0: /* F */
--        break;
--    case 1: /* UN */
--        if (flag == 2) {
--            env->CF = 1;
--        }
--        break;
--    case 2: /* EQ */
--        if (flag == 0) {
--            env->CF = 1;
--        }
--        break;
--    case 3: /* UEQ */
--        if ((flag == 0) || (flag == 2)) {
--            env->CF = 1;
--        }
--        break;
--    case 4: /* OLT */
--        if (flag == -1) {
--            env->CF = 1;
--        }
--        break;
--    case 5: /* ULT */
--        if ((flag == -1) || (flag == 2)) {
--            env->CF = 1;
--        }
--        break;
--    case 6: /* OLE */
--        if ((flag == -1) || (flag == 0)) {
--            env->CF = 1;
--        }
--        break;
--    case 7: /* ULE */
--        if (flag != 1) {
--            env->CF = 1;
--        }
--        break;
--    }
--    env->ucf64.xregs[UC32_UCF64_FPSCR] = (env->CF << 29)
--                    | (env->ucf64.xregs[UC32_UCF64_FPSCR] & 0x0fffffff);
--}
--
--void HELPER(ucf64_cmpd)(float64 a, float64 b, uint32_t c,
--        CPUUniCore32State *env)
--{
--    FloatRelation flag = float64_compare_quiet(a, b, &env->ucf64.fp_status);
--    env->CF = 0;
--    switch (c & 0x7) {
--    case 0: /* F */
--        break;
--    case 1: /* UN */
--        if (flag == 2) {
--            env->CF = 1;
--        }
--        break;
--    case 2: /* EQ */
--        if (flag == 0) {
--            env->CF = 1;
--        }
--        break;
--    case 3: /* UEQ */
--        if ((flag == 0) || (flag == 2)) {
--            env->CF = 1;
--        }
--        break;
--    case 4: /* OLT */
--        if (flag == -1) {
--            env->CF = 1;
--        }
--        break;
--    case 5: /* ULT */
--        if ((flag == -1) || (flag == 2)) {
--            env->CF = 1;
--        }
--        break;
--    case 6: /* OLE */
--        if ((flag == -1) || (flag == 0)) {
--            env->CF = 1;
--        }
--        break;
--    case 7: /* ULE */
--        if (flag != 1) {
--            env->CF = 1;
--        }
--        break;
--    }
--    env->ucf64.xregs[UC32_UCF64_FPSCR] = (env->CF << 29)
--                    | (env->ucf64.xregs[UC32_UCF64_FPSCR] & 0x0fffffff);
--}
--
--/* Helper routines to perform bitwise copies between float and int.  */
--static inline float32 ucf64_itos(uint32_t i)
--{
--    union {
--        uint32_t i;
--        float32 s;
--    } v;
--
--    v.i = i;
--    return v.s;
--}
--
--static inline uint32_t ucf64_stoi(float32 s)
--{
--    union {
--        uint32_t i;
--        float32 s;
--    } v;
--
--    v.s = s;
--    return v.i;
--}
--
--/* Integer to float conversion.  */
--float32 HELPER(ucf64_si2sf)(float32 x, CPUUniCore32State *env)
--{
--    return int32_to_float32(ucf64_stoi(x), &env->ucf64.fp_status);
--}
--
--float64 HELPER(ucf64_si2df)(float32 x, CPUUniCore32State *env)
--{
--    return int32_to_float64(ucf64_stoi(x), &env->ucf64.fp_status);
--}
--
--/* Float to integer conversion.  */
--float32 HELPER(ucf64_sf2si)(float32 x, CPUUniCore32State *env)
--{
--    return ucf64_itos(float32_to_int32(x, &env->ucf64.fp_status));
--}
--
--float32 HELPER(ucf64_df2si)(float64 x, CPUUniCore32State *env)
--{
--    return ucf64_itos(float64_to_int32(x, &env->ucf64.fp_status));
--}
--
--/* floating point conversion */
--float64 HELPER(ucf64_sf2df)(float32 x, CPUUniCore32State *env)
--{
--    return float32_to_float64(x, &env->ucf64.fp_status);
--}
--
--float32 HELPER(ucf64_df2sf)(float64 x, CPUUniCore32State *env)
--{
--    return float64_to_float32(x, &env->ucf64.fp_status);
--}
-diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
-index 0ec1549648..138101b46a 100644
---- a/tests/qtest/machine-none-test.c
-+++ b/tests/qtest/machine-none-test.c
-@@ -49,7 +49,6 @@ static struct arch2cpu cpus_map[] = {
-     { "sparc", "LEON2" },
-     { "sparc64", "Fujitsu Sparc64" },
-     { "tricore", "tc1796" },
--    { "unicore32", "UniCore-II" },
-     { "xtensa", "dc233c" },
-     { "xtensaeb", "fsf" },
-     { "hppa", "hppa" },
-diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
-index 9b4cbf4f98..3f01e1b8c5 100644
---- a/fpu/softfloat-specialize.c.inc
-+++ b/fpu/softfloat-specialize.c.inc
-@@ -103,7 +103,7 @@ static inline bool snan_bit_is_one(float_status *status)
- {
- #if defined(TARGET_MIPS)
-     return status->snan_bit_is_one;
--#elif defined(TARGET_HPPA) || defined(TARGET_UNICORE32) || defined(TARGET_SH4)
-+#elif defined(TARGET_HPPA) || defined(TARGET_SH4)
-     return 1;
- #else
-     return 0;
-@@ -149,11 +149,10 @@ static FloatParts parts_default_nan(float_status *status)
-     sign = 1;
-     frac = ~0ULL;
- #else
--    /* This case is true for Alpha, ARM, MIPS, OpenRISC, PPC, RISC-V,
--     * S390, SH4, TriCore, and Xtensa.  I cannot find documentation
--     * for Unicore32; the choice from the original commit is unchanged.
--     * Our other supported targets, CRIS, Nios2, and Tile,
--     * do not have floating-point.
-+    /*
-+     * This case is true for Alpha, ARM, MIPS, OpenRISC, PPC, RISC-V,
-+     * S390, SH4, TriCore, and Xtensa.  Our other supported targets,
-+     * CRIS, Nios2, and Tile, do not have floating-point.
-      */
-     if (snan_bit_is_one(status)) {
-         /* set all bits other than msb */
+-block_init(bdrv_sheepdog_init);
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index e0d941b779..9876f73040 100644
+index da6570799b..745fdaea92 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -624,7 +624,7 @@ build-deprecated:
-     IMAGE: debian-all-test-cross
-     CONFIGURE_ARGS: --disable-tools
-     MAKE_CHECK_ARGS: build-tcg
--    TARGETS: ppc64abi32-linux-user unicore32-softmmu
-+    TARGETS: ppc64abi32-linux-user
-   artifacts:
-     expire_in: 2 days
-     paths:
+@@ -342,7 +342,6 @@ build-disabled:
+       --disable-replication
+       --disable-sdl
+       --disable-seccomp
+-      --disable-sheepdog
+       --disable-slirp
+       --disable-smartcard
+       --disable-snappy
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 96855fbc73..607648b56c 100644
+index 50884fef15..c765165e5c 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -318,13 +318,6 @@ F: hw/sparc64/
- F: include/hw/sparc/sparc64.h
- F: disas/sparc.c
+@@ -3072,12 +3072,6 @@ L: qemu-block@nongnu.org
+ S: Supported
+ F: block/rbd.c
  
--UniCore32 TCG CPUs
--M: Guan Xuetao <gxt@mprc.pku.edu.cn>
--S: Maintained
--F: target/unicore32/
--F: hw/unicore32/
--F: include/hw/unicore32/
+-Sheepdog
+-M: Liu Yuan <namei.unix@gmail.com>
+-L: qemu-block@nongnu.org
+-S: Odd Fixes
+-F: block/sheepdog.c
 -
- X86 TCG CPUs
- M: Paolo Bonzini <pbonzini@redhat.com>
- M: Richard Henderson <richard.henderson@linaro.org>
-@@ -1508,14 +1501,6 @@ F: hw/s390x/s390-pci*
- F: include/hw/s390x/s390-pci*
- L: qemu-s390x@nongnu.org
+ VHDX
+ M: Jeff Cody <codyprime@gmail.com>
+ L: qemu-block@nongnu.org
+diff --git a/block/meson.build b/block/meson.build
+index d21990ec95..e687c54dbc 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -64,7 +64,6 @@ block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit
+ block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
+ block_ss.add(when: 'CONFIG_LINUX', if_true: files('nvme.c'))
+ block_ss.add(when: 'CONFIG_REPLICATION', if_true: files('replication.c'))
+-block_ss.add(when: 'CONFIG_SHEEPDOG', if_true: files('sheepdog.c'))
+ block_ss.add(when: ['CONFIG_LINUX_AIO', libaio], if_true: files('linux-aio.c'))
+ block_ss.add(when: ['CONFIG_LINUX_IO_URING', linux_io_uring], if_true: files('io_uring.c'))
  
--UniCore32 Machines
--------------------
--PKUnity-3 SoC initramfs-with-busybox
--M: Guan Xuetao <gxt@mprc.pku.edu.cn>
--S: Maintained
--F: hw/*/puv3*
--F: hw/unicore32/
--
- X86 Machines
- ------------
- PC
-diff --git a/hw/Kconfig b/hw/Kconfig
-index 10a48d1492..aa10357adf 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -60,7 +60,6 @@ source sh4/Kconfig
- source sparc/Kconfig
- source sparc64/Kconfig
- source tricore/Kconfig
--source unicore32/Kconfig
- source xtensa/Kconfig
+diff --git a/block/trace-events b/block/trace-events
+index 1a12d634e2..31062ed437 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -207,19 +207,5 @@ file_FindEjectableOpticalMedia(const char *media) "Matching using %s"
+ file_setup_cdrom(const char *partition) "Using %s as optical disc"
+ file_hdev_is_sg(int type, int version) "SG device found: type=%d, version=%d"
  
- # Symbols used by multiple targets
-diff --git a/hw/dma/meson.build b/hw/dma/meson.build
-index 5c78a4e05f..f3f0661bc3 100644
---- a/hw/dma/meson.build
-+++ b/hw/dma/meson.build
-@@ -1,4 +1,3 @@
--softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_dma.c'))
- softmmu_ss.add(when: 'CONFIG_RC4030', if_true: files('rc4030.c'))
- softmmu_ss.add(when: 'CONFIG_PL080', if_true: files('pl080.c'))
- softmmu_ss.add(when: 'CONFIG_PL330', if_true: files('pl330.c'))
-diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
-index 79568f00ce..7bd6a57264 100644
---- a/hw/gpio/meson.build
-+++ b/hw/gpio/meson.build
-@@ -3,7 +3,6 @@ softmmu_ss.add(when: 'CONFIG_GPIO_KEY', if_true: files('gpio_key.c'))
- softmmu_ss.add(when: 'CONFIG_GPIO_PWR', if_true: files('gpio_pwr.c'))
- softmmu_ss.add(when: 'CONFIG_MAX7310', if_true: files('max7310.c'))
- softmmu_ss.add(when: 'CONFIG_PL061', if_true: files('pl061.c'))
--softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_gpio.c'))
- softmmu_ss.add(when: 'CONFIG_ZAURUS', if_true: files('zaurus.c'))
+-# sheepdog.c
+-sheepdog_reconnect_to_sdog(void) "Wait for connection to be established"
+-sheepdog_aio_read_response(void) "disable cache since the server doesn't support it"
+-sheepdog_open(uint32_t vid) "0x%" PRIx32 " snapshot inode was open"
+-sheepdog_close(const char *name) "%s"
+-sheepdog_create_branch_snapshot(uint32_t vdi) "0x%" PRIx32 " is snapshot"
+-sheepdog_create_branch_created(uint32_t vdi) "0x%" PRIx32 " is created"
+-sheepdog_create_branch_new(uint32_t vdi) "0x%" PRIx32 " was newly created"
+-sheepdog_co_rw_vector_update(uint32_t vdi, uint64_t oid, uint64_t data, long idx) "update ino (%" PRIu32 ") %" PRIu64 " %" PRIu64 " %ld"
+-sheepdog_co_rw_vector_new(uint64_t oid) "new oid 0x%" PRIx64
+-sheepdog_snapshot_create_info(const char *sn_name, const char *id, const char *name, int64_t size, int is_snapshot) "sn_info: name %s id_str %s s: name %s vm_state_size %" PRId64 " " "is_snapshot %d"
+-sheepdog_snapshot_create(const char *sn_name, const char *id) "%s %s"
+-sheepdog_snapshot_create_inode(const char *name, uint32_t snap, uint32_t vdi) "s->inode: name %s snap_id 0x%" PRIx32 " vdi 0x%" PRIx32
+-
+ # ssh.c
+ sftp_error(const char *op, const char *ssh_err, int ssh_err_code, int sftp_err_code) "%s failed: %s (libssh error code: %d, sftp error code: %d)"
+diff --git a/tests/qemu-iotests/005 b/tests/qemu-iotests/005
+index 40e64a9a8f..ba377543b0 100755
+--- a/tests/qemu-iotests/005
++++ b/tests/qemu-iotests/005
+@@ -52,11 +52,6 @@ if [ "$IMGFMT" = "vpc" ]; then
+     _notrun "image format $IMGFMT does not support large image sizes"
+ fi
  
- softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_gpio.c'))
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index cc7a140f3f..6e52a166e3 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -16,7 +16,6 @@ softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_avic.c', 'imx_gpcv2.c'))
- softmmu_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic_common.c'))
- softmmu_ss.add(when: 'CONFIG_OPENPIC', if_true: files('openpic.c'))
- softmmu_ss.add(when: 'CONFIG_PL190', if_true: files('pl190.c'))
--softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_intc.c'))
- softmmu_ss.add(when: 'CONFIG_REALVIEW', if_true: files('realview_gic.c'))
- softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_intctl.c'))
- softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_intc.c'))
-diff --git a/hw/meson.build b/hw/meson.build
-index 56ce810c4b..6bdbae0e81 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -61,5 +61,4 @@ subdir('sh4')
- subdir('sparc')
- subdir('sparc64')
- subdir('tricore')
--subdir('unicore32')
- subdir('xtensa')
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index f934d79e29..66e1648533 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -36,9 +36,6 @@ softmmu_ss.add(when: 'CONFIG_SIFIVE_E_PRCI', if_true: files('sifive_e_prci.c'))
- softmmu_ss.add(when: 'CONFIG_SIFIVE_U_OTP', if_true: files('sifive_u_otp.c'))
- softmmu_ss.add(when: 'CONFIG_SIFIVE_U_PRCI', if_true: files('sifive_u_prci.c'))
+-# sheepdog image is limited to 4TB, so we can't test it here
+-if [ "$IMGPROTO" = "sheepdog" ]; then
+-    _notrun "image protocol $IMGPROTO does not support large image sizes"
+-fi
+-
+ # Sanity check: For raw, we require a file system that permits the creation
+ # of a HUGE (but very sparse) file. Check we can create it before continuing.
+ if [ "$IMGFMT" = "raw" ]; then
+diff --git a/tests/qemu-iotests/025 b/tests/qemu-iotests/025
+index da77ed3154..80686a30d5 100755
+--- a/tests/qemu-iotests/025
++++ b/tests/qemu-iotests/025
+@@ -39,7 +39,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.pattern
  
--# PKUnity SoC devices
--softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_pm.c'))
--
- subdir('macio')
+ _supported_fmt raw qcow2 qed luks
+-_supported_proto file sheepdog rbd nfs fuse
++_supported_proto file rbd nfs fuse
  
- softmmu_ss.add(when: 'CONFIG_IVSHMEM_DEVICE', if_true: files('ivshmem.c'))
-diff --git a/hw/timer/meson.build b/hw/timer/meson.build
-index f2081d261a..157f540ecd 100644
---- a/hw/timer/meson.build
-+++ b/hw/timer/meson.build
-@@ -25,7 +25,6 @@ softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_timer.c'))
- softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_timer.c'))
- softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_gptimer.c'))
- softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_synctimer.c'))
--softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_ost.c'))
- softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_timer.c'))
- softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_systmr.c'))
- softmmu_ss.add(when: 'CONFIG_SH_TIMER', if_true: files('sh_timer.c'))
-diff --git a/hw/unicore32/Kconfig b/hw/unicore32/Kconfig
-deleted file mode 100644
-index 4443a29dd2..0000000000
---- a/hw/unicore32/Kconfig
-+++ /dev/null
-@@ -1,5 +0,0 @@
--config PUV3
--    bool
--    select ISA_BUS
--    select PCKBD
--    select PTIMER
-diff --git a/hw/unicore32/meson.build b/hw/unicore32/meson.build
-deleted file mode 100644
-index fc26d6bcab..0000000000
---- a/hw/unicore32/meson.build
-+++ /dev/null
-@@ -1,5 +0,0 @@
--unicore32_ss = ss.source_set()
--# PKUnity-v3 SoC and board information
--unicore32_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3.c'))
+ echo "=== Creating image"
+ echo
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index d1c87ceaf1..08f51366f1 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -65,8 +65,7 @@ def make_argparser() -> argparse.ArgumentParser:
+         mg.add_argument('-' + fmt, dest='imgfmt', action='store_const',
+                         const=fmt, help=f'test {fmt}')
+ 
+-    protocol_list = ['file', 'rbd', 'sheepdog', 'nbd', 'ssh', 'nfs',
+-                     'fuse']
++    protocol_list = ['file', 'rbd', 'nbd', 'ssh', 'nfs', 'fuse']
+     g_prt = p.add_argument_group(
+         '  image protocol options',
+         'The following options set the IMGPROTO environment variable. '
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 7f49c9716d..cbbf6d7c7f 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -641,10 +641,6 @@ _cleanup_test_img()
+             rbd --no-progress rm "$TEST_DIR/t.$IMGFMT" > /dev/null
+             ;;
+ 
+-        sheepdog)
+-            collie vdi delete "$TEST_DIR/t.$IMGFMT"
+-            ;;
 -
--hw_arch += {'unicore32': unicore32_ss}
-diff --git a/target/meson.build b/target/meson.build
-index ccc87f30f3..2f6940255e 100644
---- a/target/meson.build
-+++ b/target/meson.build
-@@ -17,5 +17,4 @@ subdir('s390x')
- subdir('sh4')
- subdir('sparc')
- subdir('tricore')
--subdir('unicore32')
- subdir('xtensa')
-diff --git a/target/unicore32/meson.build b/target/unicore32/meson.build
-deleted file mode 100644
-index 0fa78772eb..0000000000
---- a/target/unicore32/meson.build
-+++ /dev/null
-@@ -1,14 +0,0 @@
--unicore32_ss = ss.source_set()
--unicore32_ss.add(files(
--  'cpu.c',
--  'helper.c',
--  'op_helper.c',
--  'translate.c',
--  'ucf64_helper.c',
--), curses)
--
--unicore32_softmmu_ss = ss.source_set()
--unicore32_softmmu_ss.add(files('softmmu.c'))
--
--target_arch += {'unicore32': unicore32_ss}
--target_softmmu_arch += {'unicore32': unicore32_softmmu_ss}
+     esac
+ }
+ 
 -- 
 2.26.3
 
