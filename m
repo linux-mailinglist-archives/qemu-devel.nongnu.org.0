@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA4B37B461
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 05:08:34 +0200 (CEST)
-Received: from localhost ([::1]:55744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B74A37B4A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 05:40:46 +0200 (CEST)
+Received: from localhost ([::1]:33038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgfEf-0000Bn-CD
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 23:08:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39636)
+	id 1lgfjp-0005VY-08
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 23:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lgfD9-0007wp-8k
- for qemu-devel@nongnu.org; Tue, 11 May 2021 23:06:59 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lgfD7-00058P-8b
- for qemu-devel@nongnu.org; Tue, 11 May 2021 23:06:59 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id n25so25292011edr.5
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 20:06:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Yqppu2Z83mKaILMxHgzqCQQSmAB/TnbtDtLCx8BOCIo=;
- b=RsDw0kayOVNnKmm2LG8urEJQapUX4HoE51Wwy2ffC3/lGX9mwwb8z+/wFNTHPeP9ak
- LX2/UbDpRS7fpNIWj0Mio6QV2U2Fqmvy+o4Q2UcCOe9Z4fkSJCka5ugx1GUWCN87qLmj
- 2FedFKeZVl4Te9dJ8SjPqAnajLJiU2ULRnM3OpWBc5BjZ7xgQUVUXtFfJaBQoxaGHTsy
- CmMfk3QW0kygjxVWOTGSfSP8ikXgN82peTybHLd1bYEzzPCXz35l2lCdx8gL3IcjPOIS
- 58av/rhRaLBm+lR1FcNpW0UXvmPHxzF+FHPyLImafmcSKFHZKXFrNtxFiCgYowVXEvNW
- AS9g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgfif-0004hf-3h
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 23:39:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58739)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgfic-0005EK-9C
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 23:39:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620790768;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=46SYdU6dj5cbgwM+AJutVCt93/auOeOXtO5BAwy/o/U=;
+ b=O9v8FYeBoirnmnCDOPAuXDtPY6MdFXPDh387HYMAGX35pAbUJKxBDpx+bP0HD9FNCpEN0d
+ 3AA4TBcwQKBSfTY68ALqEL3KTl2GuIgaNR3WASG2mz/lUMf7YHKwOW8UYi3diDK9ZKvr7+
+ w3NiCXzkMRHIjskMImtNHQjfn+ATXkE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-Wfck6iacNByS2K0vnwemMg-1; Tue, 11 May 2021 23:39:27 -0400
+X-MC-Unique: Wfck6iacNByS2K0vnwemMg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 65-20020adf82c70000b0290107593a42c3so9597413wrc.5
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 20:39:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Yqppu2Z83mKaILMxHgzqCQQSmAB/TnbtDtLCx8BOCIo=;
- b=PFt6vsk1UdMQZpYEuHC1W8UABHjSV1ypxl0Zl1lK1Y9nIBxSzAkeUDYvTOzf3lT9eU
- gsHmUEW/ir4F0zoXOgAKs5yX181dtsg4aoMJ4Q0yzUnG27xN/MROYS2L2mbrePSit1rh
- AJfSKJJNTCgkRtkaXHH76279+lv/WMZ4G2VoH5V15ArvnT2Hj4jgBAoh1pZ8ZNt/CQsc
- TKoSQMqtTTZiGewfucnCrQCtKzGHDTD/kmdkXGvY6FTBEsk8HpujEqkdqNdlCFkBbPIp
- ieJlAplvXFvTM2lWmAfShJjSanDJOZiEbNd+PPYY22XInNL4x5HzY2Gp7Uw144xm+4Qa
- hv/Q==
-X-Gm-Message-State: AOAM531ACXgApXLVVEvAJ6sYu8bkwcFFT16BnuBxlBgzeNm2eXVdMqwa
- N4MIyCE7+xbPNjLjl2ORati+R4aoGkXRDQ0m9WM=
-X-Google-Smtp-Source: ABdhPJxU7tCgYXfw1w3pkQnuzNSsDXzHfE/ycnH/upFFPVXJQexGXvZE07geesBxzIC4bqtgMNLuByT9fVdU1lQ+pvE=
-X-Received: by 2002:a05:6402:268f:: with SMTP id
- w15mr39585722edd.321.1620788813478; 
- Tue, 11 May 2021 20:06:53 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=46SYdU6dj5cbgwM+AJutVCt93/auOeOXtO5BAwy/o/U=;
+ b=A7SgHy+CSOK5vyvJsrDgxOcFlERJ1JJq+VSiyxLojIsDe9/O/WcnKXKBMEifrDOLl3
+ Sv4BkhUdbalrd+BuLJiiCG6dCPDb6XM+d1E30Hq68CKWJuUVZKTTaE21PUfuOChlgwxm
+ eKWwtUTT/fydYajhduQvA1izP4jFwk5k0Txxpn1+U+a8LRQQrytaAxT331TT+F5FnvfM
+ SnCaDU0ToXGsgnBJm9tx/sFQ7b6k96SGsxfTyz6EeBcHYmDuNQ9s6xpJy9A4X3psH0wE
+ L/u1W/rKU9EbU8cxijAvGQNRdSOc0oCpyvq3o2nuGRLfrbMYqstSLeX9TRMxasnDe0p9
+ bgIw==
+X-Gm-Message-State: AOAM530kkD/aTkS9nRM8dWDMl0B8AbnuqlOQC+hRqUhuOMyGV8B3fM3S
+ AiKnzS+WC2fIomQGehVvue/5HdF43ScRJVs+pSr7qGa+Sq9oDABoB4dokpNVPimYMZbF+UTrYfC
+ e923pNNuuyx3BYx0=
+X-Received: by 2002:a05:600c:b4c:: with SMTP id
+ k12mr9121826wmr.186.1620790766058; 
+ Tue, 11 May 2021 20:39:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaKuypEnkwmHBMC3V7JRAmXkhi7X/yOHhDlzlGakJTR+o2Ds7K7r2pOU4aUrkVjZVo8g+VBw==
+X-Received: by 2002:a05:600c:b4c:: with SMTP id
+ k12mr9121803wmr.186.1620790765822; 
+ Tue, 11 May 2021 20:39:25 -0700 (PDT)
+Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.39])
+ by smtp.gmail.com with ESMTPSA id h14sm33507629wrq.45.2021.05.11.20.39.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 May 2021 20:39:25 -0700 (PDT)
+Subject: Re: making a qdev bus available from a (non-qtree?) device
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <YJrKRsF4/38QheKn@apples.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8a68cd84-1ddf-361d-0f0d-bcf03e94363b@redhat.com>
+Date: Wed, 12 May 2021 05:39:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210511185538.29344-1-gustavo@noronha.eti.br>
- <20210511185538.29344-3-gustavo@noronha.eti.br>
-In-Reply-To: <20210511185538.29344-3-gustavo@noronha.eti.br>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Wed, 12 May 2021 12:06:42 +0900
-Message-ID: <CAMVc7JUQSM=9Nkyv-EZ86iozfyD6otocCjY3quOwzPMavNuL2Q@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] ui/cocoa: add option to swap Option and Command
-To: gustavo@noronha.eti.br
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YJrKRsF4/38QheKn@apples.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,227 +103,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-block@nongnu.org, stefanha@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+On 5/11/21 8:17 PM, Klaus Jensen wrote:
+> Hi all,
+> 
+> I need some help with grok'ing qdev busses. Stefan, Michael - David
+> suggested on IRC that I CC'ed you guys since you might have solved a
+> similar issue with virtio devices. I've tried to study how that works,
+> but I'm not exactly sure how to apply it to the issue I'm having.
 
-I applied them to my personal tree:
-https://github.com/akihikodaki/qemu/tree/macos
+The experts on this topic are Peter/Markus/Eduardo.
 
-2021=E5=B9=B45=E6=9C=8812=E6=97=A5(=E6=B0=B4) 3:56 <gustavo@noronha.eti.br>=
-:
->
-> From: Gustavo Noronha Silva <gustavo@noronha.eti.br>
->
-> On Mac OS X the Option key maps to Alt and Command to Super/Meta. This ch=
-ange
-> swaps them around so that Alt is the key closer to the space bar and Meta=
-/Super
-> is between Control and Alt, like on non-Mac keyboards.
->
-> It is a cocoa display option, disabled by default.
->
-> Acked-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.eti.br>
-> ---
->  qapi/ui.json    |  8 ++++++-
->  qemu-options.hx |  3 ++-
->  ui/cocoa.m      | 64 ++++++++++++++++++++++++++++++++++++++++++-------
->  3 files changed, 65 insertions(+), 10 deletions(-)
->
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 4ccfae4bbb..ee6fde46d5 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -1098,10 +1098,16 @@
->  #             a global grab on key events. (default: off)
->  #             See https://support.apple.com/en-in/guide/mac-help/mh32356=
-/mac
->  #
-> +# @swap-option-command: Swap the Option and Command keys so that their k=
-ey
-> +#                       codes match their position on non-Mac keyboards =
-and
-> +#                       you can use Meta/Super and Alt where you expect =
-them.
-> +#                       (default: off)
-> +#
->  # Since: 6.1
->  ##
->  { 'struct'  : 'DisplayCocoa',
-> -  'data'    : { '*full-grab'     : 'bool' } }
-> +  'data'    : { '*full-grab'           : 'bool',
-> +                '*swap-option-command' : 'bool' } }
->
->  ##
->  # @DisplayType:
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index eeaa5c73e9..e0e93724b1 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1784,7 +1784,8 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
->      "-display curses[,charset=3D<encoding>]\n"
->  #endif
->  #if defined(CONFIG_COCOA)
-> -    "-display cocoa[,full_grab=3Don|off]\n"
-> +    "-display cocoa[,full-grab=3Don|off]\n"
-> +    "              [,swap-option-command=3Don|off]\n"
->  #endif
->  #if defined(CONFIG_OPENGL)
->      "-display egl-headless[,rendernode=3D<file>]\n"
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index 236352deac..995301502b 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -72,6 +72,7 @@
->  typedef struct {
->      int width;
->      int height;
-> +    bool swap_option_command;
->  } QEMUScreen;
->
->  static void cocoa_update(DisplayChangeListener *dcl,
-> @@ -325,6 +326,7 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled;
->   */
->  - (BOOL) isMouseGrabbed;
->  - (BOOL) isAbsoluteEnabled;
-> +- (BOOL) isSwapOptionCommandEnabled;
->  - (float) cdx;
->  - (float) cdy;
->  - (QEMUScreen) gscreen;
-> @@ -643,6 +645,13 @@ - (void) setFullGrab:(id)sender
->      CFRelease(tapEventsSrc);
->  }
->
-> +- (void) setSwapOptionCommand:(id)sender
-> +{
-> +    COCOA_DEBUG("QemuCocoaView: setSwapOptionCommand\n");
-> +
-> +    screen.swap_option_command =3D true;
-> +}
-> +
->  - (void) toggleKey: (int)keycode {
->      qkbd_state_key_event(kbd, keycode, !qkbd_state_key_get(kbd, keycode)=
-);
->  }
-> @@ -792,12 +801,22 @@ - (bool) handleEventLocked:(NSEvent *)event
->          qkbd_state_key_event(kbd, Q_KEY_CODE_CTRL_R, false);
->      }
->      if (!(modifiers & NSEventModifierFlagOption)) {
-> -        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
-> -        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-> +        if ([self isSwapOptionCommandEnabled]) {
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-> +        } else {
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-> +        }
->      }
->      if (!(modifiers & NSEventModifierFlagCommand)) {
-> -        qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
-> -        qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-> +        if ([self isSwapOptionCommandEnabled]) {
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
-> +        } else {
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
-> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
-> +        }
->      }
->
->      switch ([event type]) {
-> @@ -829,13 +848,21 @@ - (bool) handleEventLocked:(NSEvent *)event
->
->                  case kVK_Option:
->                      if (!!(modifiers & NSEventModifierFlagOption)) {
-> -                        [self toggleKey:Q_KEY_CODE_ALT];
-> +                        if ([self isSwapOptionCommandEnabled]) {
-> +                            [self toggleKey:Q_KEY_CODE_META_L];
-> +                        } else {
-> +                            [self toggleKey:Q_KEY_CODE_ALT];
-> +                        }
->                      }
->                      break;
->
->                  case kVK_RightOption:
->                      if (!!(modifiers & NSEventModifierFlagOption)) {
-> -                        [self toggleKey:Q_KEY_CODE_ALT_R];
-> +                        if ([self isSwapOptionCommandEnabled]) {
-> +                            [self toggleKey:Q_KEY_CODE_META_R];
-> +                        } else {
-> +                            [self toggleKey:Q_KEY_CODE_ALT_R];
-> +                        }
->                      }
->                      break;
->
-> @@ -843,14 +870,22 @@ - (bool) handleEventLocked:(NSEvent *)event
->                  case kVK_Command:
->                      if (isMouseGrabbed &&
->                          !!(modifiers & NSEventModifierFlagCommand)) {
-> -                        [self toggleKey:Q_KEY_CODE_META_L];
-> +                        if ([self isSwapOptionCommandEnabled]) {
-> +                            [self toggleKey:Q_KEY_CODE_ALT];
-> +                        } else {
-> +                            [self toggleKey:Q_KEY_CODE_META_L];
-> +                        }
->                      }
->                      break;
->
->                  case kVK_RightCommand:
->                      if (isMouseGrabbed &&
->                          !!(modifiers & NSEventModifierFlagCommand)) {
-> -                        [self toggleKey:Q_KEY_CODE_META_R];
-> +                        if ([self isSwapOptionCommandEnabled]) {
-> +                            [self toggleKey:Q_KEY_CODE_ALT_R];
-> +                        } else {
-> +                            [self toggleKey:Q_KEY_CODE_META_R];
-> +                        }
->                      }
->                      break;
->              }
-> @@ -1079,6 +1114,7 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnable=
-d {
->  }
->  - (BOOL) isMouseGrabbed {return isMouseGrabbed;}
->  - (BOOL) isAbsoluteEnabled {return isAbsoluteEnabled;}
-> +- (BOOL) isSwapOptionCommandEnabled {return screen.swap_option_command;}
->  - (float) cdx {return cdx;}
->  - (float) cdy {return cdy;}
->  - (QEMUScreen) gscreen {return screen;}
-> @@ -1265,6 +1301,13 @@ - (void) setFullGrab:(id)sender
->      [cocoaView setFullGrab:sender];
->  }
->
-> +- (void) setSwapOptionCommand:(id)sender
-> +{
-> +    COCOA_DEBUG("QemuCocoaAppController: setSwapOptionCommand\n");
-> +
-> +    [cocoaView setSwapOptionCommand:sender];
-> +}
-> +
->  /* Tries to find then open the specified filename */
->  - (void) openDocumentation: (NSString *) filename
->  {
-> @@ -1947,6 +1990,11 @@ static void cocoa_display_init(DisplayState *ds, D=
-isplayOptions *opts)
->              [[controller delegate] setFullGrab: nil];
->          });
->      }
-> +    if (opts->u.cocoa.has_swap_option_command && opts->u.cocoa.swap_opti=
-on_command) {
-> +        dispatch_async(dispatch_get_main_queue(), ^{
-> +            [[controller delegate] setSwapOptionCommand: nil];
-> +        });
-> +    }
->      if (opts->has_show_cursor && opts->show_cursor) {
->          cursor_hide =3D 0;
->      }
-> --
-> 2.30.1 (Apple Git-130)
->
+> Currently, to support multiple namespaces on the emulated nvme device,
+> one can do something like this:
+> 
+>   -device nvme,id=nvme-ctrl-0,serial=foo,...
+>   -device nvme-ns,id=nvme-ns-0,bus=nvme-ctrl-0,...
+>   -device nvme-ns,id-nvme-ns-1,bus=nvme-ctrl-0,...
+> 
+> The nvme device creates an 'nvme-bus' and the nvme-ns devices has
+> dc->bus_type = TYPE_NVME_BUS. This all works very well and provides a
+> nice overview in `info qtree`:
+> 
+>   bus: main-system-bus
+>   type System
+>     ...
+>     dev: q35-pcihost, id ""
+>       ..
+>       bus: pcie.0
+>     type PCIE
+>     ..
+>     dev: nvme, id "nvme-ctrl-0"
+>       ..
+>       bus: nvme-ctrl-0
+>         type nvme-bus
+>         dev: nvme-ns, id "nvme-ns-0"
+>           ..
+>         dev: nvme-ns, id "nvme-ns-1"
+>           ..
+> 
+> 
+> Nice and qdevy.
+> 
+> We have since introduced support for NVM Subsystems through an
+> nvme-subsys device. The nvme-subsys device is just a TYPE_DEVICE and
+> does not show in `info qtree` (I wonder if this should actually just
+> have been an -object?). Anyway. The nvme device has a 'subsys' link
+> parameter and we use this to manage the namespaces across the subsystem
+> that may contain several nvme devices (controllers). The problem is that
+> this doesnt work too well with unplugging since if the nvme device is
+> `device_del`'ed, the nvme-ns devices on the nvme-bus are unrealized
+> which is not what we want. We really want the namespaces to linger,
+> preferably on an nvme-bus of the nvme-subsys device so they can be
+> attached to other nvme devices that may show up (or already exist) in
+> the subsystem.
+
+IIUC, while we can have unattached drives, we can't (by design) have
+qdev unattached to qbus.
+
+Not sure this is a good suggestion (bad design IMO) but you could add
+a fake nvme qbus to hold the lingering nvme devices...
+
+> The core problem I'm having is that I can't seem to create an nvme-bus
+> from the nvme-subsys device and make it available to the nvme-ns device
+> on the command line:
+> 
+>   -device nvme-subsys,id=nvme-subsys-0,...
+>   -device nvme-ns,bus=nvme-subsys-0
+> 
+> The above results in 'No 'nvme-bus' bus found for device 'nvme-ns', even
+> though I do `qbus_create_inplace()` just like the nvme device. However,
+> I *can* reparent the nvme-ns device in its realize() method, so if I
+> instead define it like so:
+> 
+>   -device nvme-subsys,id=nvme-subsys-0,...
+>   -device nvme,id=nvme-ctrl-0,subsys=nvme-subsys-0
+>   -device nvme-ns,bus=nvme-ctrl-0
+> 
+> I can then call `qdev_set_parent_bus()` and set the parent bus to the
+> bus creates in the nvme-subsys device. This solves the problem since the
+> namespaces are not "garbage collected" when the nvme device is removed,
+> but it just feels wrong you know? Also, if possible, I'd of course
+> really like to retain the nice entries in `info qtree`.
+> 
+> 
+> Thanks,
+> Klaus
+
 
