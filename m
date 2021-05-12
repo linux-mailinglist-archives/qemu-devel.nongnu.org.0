@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C06E37BB6E
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:05:49 +0200 (CEST)
-Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5838A37BB70
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:07:36 +0200 (CEST)
+Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgmgV-0001x5-Ii
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:05:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41060)
+	id 1lgmiF-0003vD-Fh
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgmem-0001I2-T6
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:04:00 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:37416)
+ id 1lgmfd-00029b-HI
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:04:53 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:43721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgmel-0003oG-6A
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:04:00 -0400
-Received: by mail-ed1-x529.google.com with SMTP id f1so4316273edt.4
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 04:03:58 -0700 (PDT)
+ id 1lgmfb-0004Kw-2m
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:04:53 -0400
+Received: by mail-ed1-x531.google.com with SMTP id s6so26503810edu.10
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 04:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h9I2zVvj2ZUli44kwo48oTtEn/c62YhcW49XVDqHrlU=;
- b=mmGx8JgHuBkjvKwTp+BZcMyYcXfCQnKJn6UDx2eEq6VDyVcfS6b5Lq94FcDgkJLsHk
- d3QUw4GFqwGGMzRVzRSShmNY5gBqDHiZA2XRS8N5UYxsQZ/puZnaQnAGT1t+C+FAadAI
- 0JcIW3e8AOZJ43QJP7/sKrgNuxiC4i4ylN7XTV6e/+d+6owgQA8jrp3fVqvDKqEXKG9o
- vdouENIDG3ZKSUQXA11MwSJlBQlgSpH7mhwAdnJXYjsfpjBs+SAMnO2prPByfMk21jzn
- haM73lyrLNCLPGWhmOnza9P5bDLyotXFZp1MHjgBb6sfKo13fZGN/4ImepdTUbkuJkXl
- wk8A==
+ :cc; bh=QwT480Ss6qwoth8rc0//EezPFJAIuWXxVMlCKTHHUUw=;
+ b=fRbobRCcQYsm3+ror8VqjAmMCH/ECAnG6f8MWPR9PoHHXHUU4qCvB+oRZGLb9ZgEHu
+ VAinFX7VrYmwyA0CItrKOrVfi6khW0dh02L40zuEcd/Z90VwFJyFU4oyH1to2RzKFmju
+ uWNKOHAKvctP39AAXiWgBwHWn3x+MFNYDdqhUmSbwhy06seBOiFoUCLNKPkV4C3AESqL
+ 88hllizwRXgay6NT9bY4l3pZ4CfwYyESabSvo2DnicSiSCIuoGyv9Xppg++fuYl31WiH
+ 3rWXS9UkXK2/Os5LOF8CjUQs3Igt9sBXXwnj9zEvF0EbOHSVJ/glQgswRjoIznE4rUst
+ EvsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=h9I2zVvj2ZUli44kwo48oTtEn/c62YhcW49XVDqHrlU=;
- b=rU/jmRhpnPXLg0RVaKGMMQE5S587+6JhT7mPvRtAFn5nKYSAHhOwKztsNdcE4cZU5C
- IZJQg6Onfn9SojI64NCXI9irYOCMjQE3j9hIW6i/TXEK23rVG1WjmfzsT8grEQjb+iEB
- qF5zeKb6iORlQYnUjDFrjArOqo8e9jGBwjOnSDzSb0DUQ4O/Tujec7zXfZb8MyMdNvbp
- eBf3kzwJeTuMStaVRE7mMFM4dI7TEbwD9whdib5GVU92JFKIwA+wokPgr3p0KIM6WZl2
- 9b7kH3ES8BZbOt/JO4XNto9RirOjYDZiQlZRqbWTzlkd4dnECGA3eL6mYJRcn10skkpP
- 9UmA==
-X-Gm-Message-State: AOAM5332ureQZxseUP11/PnhDpvBr5FkOzyfU/ZeWJ+uuqmxOqlcctsd
- gj39qaIhF0HntHHjcufCs6sgP3l4gHZ38ojf45SMSA==
-X-Google-Smtp-Source: ABdhPJwQNX2VNcAygLEJCMSG1eFcqnWq8pJ40ZBHoAbxHz55WmLD8JX/sV6k305+ODxkXTu28/T2E6eJ6tbJAcV2u+U=
-X-Received: by 2002:a05:6402:3548:: with SMTP id
- f8mr42028853edd.251.1620817437668; 
- Wed, 12 May 2021 04:03:57 -0700 (PDT)
+ bh=QwT480Ss6qwoth8rc0//EezPFJAIuWXxVMlCKTHHUUw=;
+ b=ObGLv0/QYzaO280BzZMkYy2tzne7ExR3gs9zROjiI25EfNJPpCIvAxI2D+dFSU+5wb
+ D1ZcZa69OmVcq8QpN1ccS631tV7QMgjJwIqOmXY3Qip1NFyROoCDMbxXG565XuHF00yz
+ yyHc+y6y8R7KjUvXQ5J5dMzMhSLRTgmh+OHyYbLP2YPRFA6GpvMaduTU3hfRKIRvRHta
+ Yzjex31NfJXxsT5Q6mzb4v+c+Ka2YV7xwopg7PSCcKRA/8C98aRZx/fcZSZgLKPno9Bi
+ 8Ez93E+Uwob1S4xzPcfyU3ELl/BDoPKEvy0R0X0AoXwYSC9MWcAaW16giT7hzVrU2K4f
+ XVJA==
+X-Gm-Message-State: AOAM531J4Du+8gtMl8K76NCMoO1nKaS3OAPlBvD1o8M4ZJm57FOl1Mhh
+ Jd3wlQWsGj4k1iT6/m2MzjgNF1nv18oOVUkVu6RprDklGj0=
+X-Google-Smtp-Source: ABdhPJz4hGFm7Cg/DlVWC6zWGe4WptPEY/QhB+HWDx7crvwtf+bPkKZyBOKPxphLxnY/y/deLSaC7+U81jf620FaYEI=
+X-Received: by 2002:a05:6402:416:: with SMTP id
+ q22mr42656067edv.204.1620817489446; 
+ Wed, 12 May 2021 04:04:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210512100906.621504-1-pbonzini@redhat.com>
-In-Reply-To: <20210512100906.621504-1-pbonzini@redhat.com>
+References: <20210510125340.903323-1-anthony.perard@citrix.com>
+In-Reply-To: <20210510125340.903323-1-anthony.perard@citrix.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 May 2021 12:02:44 +0100
-Message-ID: <CAFEAcA-Vy3uG=PjKnDfaX0BoCLUDS=Za=aZ7BgG6iHc0wRYopw@mail.gmail.com>
-Subject: Re: [PATCH] add Visual Studio Code configuration
-To: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 12 May 2021 12:03:36 +0100
+Message-ID: <CAFEAcA_Tu0NMZfVG44MUscDBX5i9Uz5rwqPWn5Gku8zN+T8ZpQ@mail.gmail.com>
+Subject: Re: [PULL 0/3] xen queue 2021-05-10
+To: Anthony PERARD <anthony.perard@citrix.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,39 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 May 2021 at 11:10, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Mon, 10 May 2021 at 13:53, Anthony PERARD <anthony.perard@citrix.com> wrote:
 >
-> Add configurations to build files with Visual Studio Code and
-> to retrieve the search path for headers from the compile_commands.json
-> file.
+> The following changes since commit 4cc10cae64c51e17844dc4358481c393d7bf1ed4:
 >
-> Using this configuration requires installing the Meson extension and
-> using a build subdirectory that matches the one configured in the
-> Meson extension itself.
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-05-06 18:56:17 +0100)
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>> diff --git a/scripts/rebuild.py b/scripts/rebuild.py
-> new file mode 100755
-> index 0000000000..e35e08f42d
-> --- /dev/null
-> +++ b/scripts/rebuild.py
-> @@ -0,0 +1,22 @@
-> +#! /usr/bin/env python3
-> +#
-> +# Author: Paolo Bonzini <pbonzini@redhat.com>
-> +#
-> +# This program compiles the input files using commands from the
-> +# compile_commands.json file.  (Unlike Make/ninja, the _source_
-> +# file is passed to the program rather than the targe).  It is
-> +# mostly intended to be called from editors.
+> are available in the Git repository at:
+>
+>   https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20210510
+>
+> for you to fetch changes up to 1898293990702c5601e225dac9afd2402fc46e2d:
+>
+>   xen-block: Use specific blockdev driver (2021-05-10 13:43:58 +0100)
+>
+> ----------------------------------------------------------------
+> Xen patches
+>
+> - Avoid mmap race involving Xen's mapcache
+> - Fix xenforeignmemory_resource leak at exit
+> - Fix xen-block to choose a driver for the disk image when created via
+>   xenstore.
+>
 
-This seems weird. I don't think we should try to support multiple
-ways of building QEMU -- editors should just run make the same
-way everybody else does...
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
 -- PMM
 
