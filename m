@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01EDA37CBFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:02:58 +0200 (CEST)
-Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C1137CCF2
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:07:23 +0200 (CEST)
+Received: from localhost ([::1]:33102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgsG9-0006PE-3a
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:02:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55256)
+	id 1lgsKQ-00018M-Eg
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:07:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgsDt-0005Oy-1c
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:00:37 -0400
-Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:35734)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgsDp-0006M6-D0
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:00:36 -0400
-Received: by mail-qk1-x732.google.com with SMTP id x8so22885655qkl.2
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 10:00:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=j6JnrqHLyOZnfREg7yIMLIp9nrSsTMmoCh7+gw4x8FA=;
- b=pQsy0R+8G/tsUvKIC6xjc9ZeVyT2mGGh5HbyJHHMbOOy5Q6hNtNPePylK6Ofk4m7/o
- auKB0Pur+emCNKHZ3tUOuRhIj+3Fmxyme2wh1jaX2k93R8YBK3Snzi8VWiw8C1l/o1Nd
- 5N34ZvPY3bzoX4+VCOB8NmkKKm0wED9NjOILhFvUybHbcQNEy5C9X/UKmleHAEyKBsYh
- aikD6DW5AuN3Ntc9SpNL1P1d8o6VR2xU3F3WlRKEFT4uoCaBw1feg/Fosi02Ar9TWSB+
- liREel33a3lNSBRfqaNiiMkPBIi6bZmnkjAUBvbnIQBscfY71icShnEdcj47ezSeYtCq
- xygw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=j6JnrqHLyOZnfREg7yIMLIp9nrSsTMmoCh7+gw4x8FA=;
- b=VBQVnkmBSB80AduTMfkjvlV1RoubAEMmjjTltIM+V9dEBlNJZ6pUHZl2S3kqOWFOfv
- hEw7ygo4rt89JqOUnZvqivJIIUf/LxEoct39jnDSotQ+q/fMn8yhWlr4FD5J7MBDXpBS
- sDFBHO5nzcQ1Z38JQN0cSyLFRZivwYzbUg2ziOCb5qjqDevObk0/jrJNjp6Tpnq8Q+Ub
- e10UeGiKrQqQ0NFGFxwhv/XEfmLBtp/2TsqHK18K4QS8xhtJjL03Kn7/hsDm4Ww2rXFr
- 1Oi9K2ZgJbjZFjIhQA7UNlnb7OuBYRjgjmS26Rb5p0L2Ov4jk1RjKMml2K8BC9AuJBw2
- X67Q==
-X-Gm-Message-State: AOAM531gu97Ktldbnenx6gbdhqAl9wsDaV3ympf1XqnleciUWpFozY1V
- RFrGrM8GD6WghnVdjv5DvnQt1Q==
-X-Google-Smtp-Source: ABdhPJzaRU1lKtuP3K1p/DyDmWD0kOzAtFY3U1TK7+Iz4CVyjTgYtpOAznVzVoSHSeWUiZOC+cdJ4w==
-X-Received: by 2002:a37:6891:: with SMTP id
- d139mr34316492qkc.466.1620838832308; 
- Wed, 12 May 2021 10:00:32 -0700 (PDT)
-Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
- [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id j10sm343626qtn.89.2021.05.12.10.00.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 May 2021 10:00:32 -0700 (PDT)
-Subject: Re: [PATCH 03/11] target/ppc: moved ppc_cpu_dump_state to cpu_init.c
-From: Richard Henderson <richard.henderson@linaro.org>
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- qemu-devel@nongnu.org
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-4-bruno.larsen@eldorado.org.br>
- <44ea8f63-4b6d-a06c-1c0b-4ab119a07115@linaro.org>
-Message-ID: <2e02b9a1-9559-7e8a-a934-81af512a86f3@linaro.org>
-Date: Wed, 12 May 2021 12:00:24 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lgsI6-0007se-7h
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:04:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23444)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lgsI0-0000dK-8x
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:04:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620839090;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ERYaULSt8FVoz/4iqaXcIbfipXk6zUrfFWcdyB9JlNk=;
+ b=URqN2N23MshN6nzc/tOxzLYLauc23sEMoVEJYhgkda4g8QQtoy+WjQMQqe4Ow5sIcma8mb
+ 6Nfg8BJG3RZ6cUkCzqVVtjQavJgrKnjgr0l9Gz7I5eDGekCo+TSZ38MNF/Gl1Q3YCgc1kW
+ 7VjIWuiWJtb9rAlEIfrXarJiFLwiJ9s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-xWDG7gqkPW6Y_0sSFR51Eg-1; Wed, 12 May 2021 13:04:47 -0400
+X-MC-Unique: xWDG7gqkPW6Y_0sSFR51Eg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB225801817;
+ Wed, 12 May 2021 17:04:46 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-121.ams2.redhat.com
+ [10.36.114.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D96445C8AA;
+ Wed, 12 May 2021 17:04:45 +0000 (UTC)
+Subject: Re: [PATCH v2] qemu-iotests: fix pylint 2.8 consider-using-with error
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20210510190449.65948-1-eesposit@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <d2253d8d-89dd-1acf-e005-0fb3aee6610d@redhat.com>
+Date: Wed, 12 May 2021 19:04:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <44ea8f63-4b6d-a06c-1c0b-4ab119a07115@linaro.org>
+In-Reply-To: <20210510190449.65948-1-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x732.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,32 +81,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/21 11:58 AM, Richard Henderson wrote:
-> On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
->> This function was forgotten in the cpu_init code motion series, but it
->> seems to be used regardless of TCG, and so needs to be moved to support
->> disabling TCG.
->>
->> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
->> ---
->>   target/ppc/cpu_init.c  | 182 +++++++++++++++++++++++++++++++++++++++
->>   target/ppc/translate.c | 187 -----------------------------------------
->>   2 files changed, 182 insertions(+), 187 deletions(-)
+On 10.05.21 21:04, Emanuele Giuseppe Esposito wrote:
+> pylint 2.8 introduces consider-using-with error, suggesting
+> to use the 'with' block statement when possible.
 > 
-> Not just "seems to be" -- "is".
+> Modify all subprocess.Popen call to use the 'with' statement,
+> except the one in __init__ of QemuIoInteractive class, since
+> it is assigned to a class field and used in other methods.
 > 
-> Indeed, cpu_dump_state is called from accel/kvm/kvm-all.c, and the monitor.
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+> v1 -> v2:
+> * fix indentation [Max]
+> * explain why we disabled the check in QemuIoInteractive's __init__ [Max]
 
-... and I meant to include
+Thanks!
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Applied to my block branch:
 
-r~
+https://github.com/XanClic/qemu/commits/block
+
+Max
+
 
