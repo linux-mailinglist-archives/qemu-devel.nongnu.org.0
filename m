@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5BA837BCB7
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 14:41:54 +0200 (CEST)
-Received: from localhost ([::1]:45568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7CB037BD84
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 14:57:42 +0200 (CEST)
+Received: from localhost ([::1]:34048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgoBV-0004E2-Da
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 08:41:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34896)
+	id 1lgoQn-0007mN-8E
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 08:57:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lgo9k-0002rT-7u
- for qemu-devel@nongnu.org; Wed, 12 May 2021 08:40:04 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:40515)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lgo9h-0002FK-Sn
- for qemu-devel@nongnu.org; Wed, 12 May 2021 08:40:04 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id n2so34750350ejy.7
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 05:40:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=72SMLUAo9Ubh4swJmxoxKJbEypxX6uJTozHl5AyR0Xw=;
- b=hQCBMW3aBeoddmerYeEFoZKwIUq7OhTG7og9M/Uvtzom/XFSewwXYzzSIiOLtHhIoD
- I+05+wZ7uidXA20JgD6Id+zu5wudduYpfLXXHdLl+31Mk7aRj5hM3oRZhEbDxV539JRG
- mhm4co3JXS2MWazjv7EOtctn/VC4Hiy/Ds9lqPBYVYD8h8/IOIyQiRr0FQ6Wt/JvTyjb
- huMYwApqcuGoI9uWen/9bqYCc8N7HsLtJdEzHP7g4fEymo9GIUs6m3TdyUVTq6xN4/9G
- P5ua9XY3z+6pdhxL62e1xBQIPuYhZqtyyG8W7menkABH1/AyNpWSIczp/8BaWHMcCK7j
- 1S2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=72SMLUAo9Ubh4swJmxoxKJbEypxX6uJTozHl5AyR0Xw=;
- b=lCvuaPK+bPJmMGjeXocFOpJWXy+CjNyzYS1ATuOWa8RB6CKMQ/IiaVPAfXmKjV9N5o
- d2czJmBuF7alUKYigjhD1+dF1kWnuuDftEokYXruYoRCrBQx1H1rkpeSA2dNTUtmYdNl
- nf1ZRJxVmni/d4Gnq/RUUoJ8kpNChRaigsgWH/M+AWYpEk1cITy/4p8W5LFYYMLzt4t9
- tK6qUzlizi86p5GLoOTKbhG64AIymTsPxGv5h8M5lQL5HuTQJo7cTNiTR8x0ObIFS0we
- FvGRix97H0lmp02sfzlJcwqineg6JxeyqBL7hBBKTxOaUYxb2w8tDmD3fqLNmt1FevBH
- aU/g==
-X-Gm-Message-State: AOAM532DdnSIDOfdE+HxU10VqqE/+tn23cWSFdyfletQ9wT5e8M/1ogF
- wLAIANayocsxEQ8AMrids90is6CUA9vxbS7uJD8=
-X-Google-Smtp-Source: ABdhPJwojgyLI1KjJU4Eok3Tec8XOvcfyiXLuxySviDvq7MPJWqbIcD1IvyC9bAUKRVZJZElezXhwv0JELKWv9yC/0g=
-X-Received: by 2002:a17:906:414d:: with SMTP id
- l13mr37080085ejk.527.1620823200286; 
- Wed, 12 May 2021 05:40:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lgoP5-0005ha-F0
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 08:55:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lgoP3-0004Ka-PK
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 08:55:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620824152;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=flaFSSUpHDaHSenoUVgdjAs7r79D4jlrMhV2bQnEetI=;
+ b=VW9j5VqBbLFNrEFWL6N/Jpm0o7miSurb/Lv2Y05fTmLJNO8uabnsf/2ZQ31p63e01rUji6
+ gjoLDHpic4rduOOWDfYMJHTqMWm6Cy8cP55P75YEfBm1DGFyt6LizcZ3x0SVvzem6yJxml
+ jRG2szlayo5zPZBuTJD9EYXGGFD5DJ0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-303-tiPNo9OiPWSZf8TR9agomA-1; Wed, 12 May 2021 08:55:50 -0400
+X-MC-Unique: tiPNo9OiPWSZf8TR9agomA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AFED801817
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 12:55:49 +0000 (UTC)
+Received: from localhost (ovpn-114-121.ams2.redhat.com [10.36.114.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE60FE150;
+ Wed, 12 May 2021 12:55:45 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] virtiofsd: Find original inode ID of mount points
+Date: Wed, 12 May 2021 14:55:41 +0200
+Message-Id: <20210512125544.9536-1-mreitz@redhat.com>
 MIME-Version: 1.0
-References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
- <YJq2SXW1kSyDZ7WX@stefanha-x1.localdomain>
-In-Reply-To: <YJq2SXW1kSyDZ7WX@stefanha-x1.localdomain>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 12 May 2021 16:39:48 +0400
-Message-ID: <CAJ+F1CJ4FNGJj7pVP90njGeyB0REoeBOf=29_6u-QCmJM+LSzA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/9] qapi: untie 'if' conditions from C preprocessor
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000018c97805c2214ff6"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,294 +73,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000018c97805c2214ff6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hi Markus
+Not announcing submounts to the guest may lead to duplicated
+st_dev/st_ino combinations, because inodes on different filesystems
+(different st_dev) may share the same inode ID (st_ino).  If the guest
+only sees a single st_dev, those inodes will appear to have the same
+st_dev/st_ino combination.
 
-On Tue, May 11, 2021 at 8:53 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+Announcing submounts is supposed to solve this problem by making the
+guest report different st_dev IDs for different filesystems.
 
-> On Thu, Apr 29, 2021 at 05:40:23PM +0400, marcandre.lureau@redhat.com
-> wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Hi,
-> >
-> > This series makes the 'if' conditions less liberal, by formalizing a
-> simple
-> > expression tree based on bare boolean logic of configure option
-> identifiers.
-> >
-> > (this allows to express conditions in Rust in my QAPI-Rust PoC series)
-> >
-> > This is based on John Snow QAPI pt4:
-> > https://patchew.org/QEMU/20210421192233.3542904-1-jsnow@redhat.com/
-> >
-> > Based-on: <20210421192233.3542904-2-jsnow@redhat.com>
-> >
->
+However, there is one loop hole: Submounts are implemented as
+auto-mounts, meaning when the virtio-fs filesystem is mounted, the
+submounts will not be mounted immediately.  In the guest, it is possible
+to stat() these mount points with AT_NO_AUTOMOUNT to receive information
+without mounting them, so they will then show whatever st_ino virtiofsd
+passes, and the st_dev of the parent filesystem.
 
-The patch series applies cleanly on top of master now. I checked no
-regression between each commit, including python style checks.
+Unfortunately, as far as we understood, the only st_ino that virtiofsd
+could inquire was the one on the submounted filesystem, i.e. the st_ino
+of that FS’s root node.
 
-If you are overloaded, can I make a pull request for it?
+Thus, we again got a collision: In said case, the guest would see st_dev
+of the parent FS, but st_ino of the submounted FS.  This is very likely
+to be the same st_dev/st_ino combination as the root node of the parent
+FS.
 
-thanks
+For nested mount structures, this can be reproduced with `find`:
+Mounting several filesystems under each other, passing everything into a
+guest, mounting the root virtio-fs FS there, and then invoking `find`
+would likely result in it complaining about filesystem loops and
+refusing to visit the submount points.  (These loops are reported
+because it takes notes of st_dev/st_ino combinations, and then reports a
+loop when some combination reappears.)  This can only be fixed by
+forcing all submounts to be (auto-)mounted.
 
-> thanks
-> >
-> > v3:
-> >  - rebasing on queued pt4 (after waiting for it to land)
-> >  - improve documentation generation, to be more human-friendly
-> >  - drop typing annotations from schema.py (not yet queued)
-> >  - commit message tweaks
-> >
-> > v2:
-> >  - fix the normalization step to handle recursive expr
-> >  - replace IfCond by QAPISchemaIf (JohnS)
-> >  - commit message and documentation tweaks
-> >  - mypy/flake8/isort
-> >
-> > Marc-Andr=C3=A9 Lureau (9):
-> >   qapi: replace List[str] by QAPISchemaIfCond
-> >   qapi: move gen_if/gen_endif to QAPISchemaIfCond
-> >   qapi: start building an 'if' predicate tree
-> >   qapi: introduce IfPredicateList and IfAny
-> >   qapi: add IfNot
-> >   qapi: normalize 'if' condition to IfPredicate tree
-> >   qapi: convert 'if' C-expressions to the new syntax tree
-> >   qapi: make 'if' condition strings simple identifiers
-> >   docs: update the documentation about schema configuration
-> >
-> >  docs/devel/qapi-code-gen.txt                  |  33 +++---
-> >  docs/sphinx/qapidoc.py                        |   6 +-
-> >  qapi/block-core.json                          |  16 +--
-> >  qapi/block-export.json                        |   6 +-
-> >  qapi/char.json                                |   8 +-
-> >  qapi/machine-target.json                      |  28 +++--
-> >  qapi/migration.json                           |  10 +-
-> >  qapi/misc-target.json                         |  37 +++---
-> >  qapi/qom.json                                 |  10 +-
-> >  qapi/sockets.json                             |   4 +-
-> >  qapi/ui.json                                  |  48 ++++----
-> >  qga/qapi-schema.json                          |   8 +-
-> >  tests/unit/test-qmp-cmds.c                    |   1 +
-> >  scripts/qapi/commands.py                      |   4 +-
-> >  scripts/qapi/common.py                        | 106 +++++++++++++++---
-> >  scripts/qapi/events.py                        |   5 +-
-> >  scripts/qapi/expr.py                          |  62 +++++++---
-> >  scripts/qapi/gen.py                           |  16 ++-
-> >  scripts/qapi/introspect.py                    |  33 +++---
-> >  scripts/qapi/schema.py                        |  99 ++++++++++++----
-> >  scripts/qapi/types.py                         |  43 ++++---
-> >  scripts/qapi/visit.py                         |  25 ++---
-> >  .../alternate-branch-if-invalid.err           |   2 +-
-> >  tests/qapi-schema/bad-if-empty.err            |   2 +-
-> >  tests/qapi-schema/bad-if-list.err             |   2 +-
-> >  tests/qapi-schema/bad-if.err                  |   3 +-
-> >  tests/qapi-schema/bad-if.json                 |   2 +-
-> >  tests/qapi-schema/doc-good.json               |   6 +-
-> >  tests/qapi-schema/doc-good.out                |  12 +-
-> >  tests/qapi-schema/doc-good.txt                |   6 +-
-> >  tests/qapi-schema/enum-if-invalid.err         |   3 +-
-> >  tests/qapi-schema/features-if-invalid.err     |   2 +-
-> >  tests/qapi-schema/features-missing-name.json  |   2 +-
-> >  tests/qapi-schema/qapi-schema-test.json       |  58 +++++-----
-> >  tests/qapi-schema/qapi-schema-test.out        |  67 ++++++-----
-> >  .../qapi-schema/struct-member-if-invalid.err  |   2 +-
-> >  tests/qapi-schema/union-branch-if-invalid.err |   2 +-
-> >  37 files changed, 482 insertions(+), 297 deletions(-)
-> >
-> > --
-> > 2.29.0
-> >
-> >
-> >
->
-> Please double-check that the build and tests pass after each commit (for
-> bisectability).
->
-> I'm not familiar with the details of the QAPI code generator but in
-> overall this looks like a nice step:
->
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->
+What we’d need to do is report the inode ID of the mount point directory
+that it has on the parent filesystem to the guest, until the submount is
+auto-mounted there.  It’s just that we thought there was no way to
+inquire this parent FS st_ino.
+
+It turns out that our understand was wrong, though: There is a way,
+namely readdir().  The dirent.d_ino field represents (in practice) the
+st_ino of some directory entry on the directory’s filesystem, and so is
+exactly the value we want to give to the guest.
+
+Let’s do that.
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+Max Reitz (3):
+  virtiofsd: Find original inode ID of mount points
+  virtiofs_submounts.py: Do not generate ssh key
+  virtiofs_submounts.py: Check `find`
 
---00000000000018c97805c2214ff6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ tools/virtiofsd/passthrough_ll.c              | 104 +++++++++++++++++-
+ tests/acceptance/virtiofs_submounts.py        |  10 +-
+ .../virtiofs_submounts.py.data/guest.sh       |  56 ++++------
+ 3 files changed, 122 insertions(+), 48 deletions(-)
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Markus<br></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 11, 2021 at 8:53=
- PM Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com">stefanha@gmai=
-l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">On Thu, Apr 29, 2021 at 05:40:23PM +0400, <a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> wrote:=
-<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; Hi,<br>
-&gt; <br>
-&gt; This series makes the &#39;if&#39; conditions less liberal, by formali=
-zing a simple<br>
-&gt; expression tree based on bare boolean logic of configure option identi=
-fiers.<br>
-&gt; <br>
-&gt; (this allows to express conditions in Rust in my QAPI-Rust PoC series)=
-<br>
-&gt; <br>
-&gt; This is based on John Snow QAPI pt4:<br>
-&gt; <a href=3D"https://patchew.org/QEMU/20210421192233.3542904-1-jsnow@red=
-hat.com/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/QEMU/202=
-10421192233.3542904-1-jsnow@redhat.com/</a><br>
-&gt; <br>
-&gt; Based-on: &lt;<a href=3D"mailto:20210421192233.3542904-2-jsnow@redhat.=
-com" target=3D"_blank">20210421192233.3542904-2-jsnow@redhat.com</a>&gt;<br=
->
-&gt; <br></blockquote><div><br></div><div>The patch series applies cleanly =
-on top of master now. I checked no regression between each commit, includin=
-g python style checks.</div><div><br></div><div>If you are overloaded, can =
-I make a pull request for it?<br></div><div><br> </div><div>thanks</div><di=
-v><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; thanks<br>
-&gt; <br>
-&gt; v3:<br>
-&gt;=C2=A0 - rebasing on queued pt4 (after waiting for it to land)<br>
-&gt;=C2=A0 - improve documentation generation, to be more human-friendly<br=
->
-&gt;=C2=A0 - drop typing annotations from schema.py (not yet queued)<br>
-&gt;=C2=A0 - commit message tweaks<br>
-&gt; <br>
-&gt; v2:<br>
-&gt;=C2=A0 - fix the normalization step to handle recursive expr<br>
-&gt;=C2=A0 - replace IfCond by QAPISchemaIf (JohnS)<br>
-&gt;=C2=A0 - commit message and documentation tweaks<br>
-&gt;=C2=A0 - mypy/flake8/isort<br>
-&gt; <br>
-&gt; Marc-Andr=C3=A9 Lureau (9):<br>
-&gt;=C2=A0 =C2=A0qapi: replace List[str] by QAPISchemaIfCond<br>
-&gt;=C2=A0 =C2=A0qapi: move gen_if/gen_endif to QAPISchemaIfCond<br>
-&gt;=C2=A0 =C2=A0qapi: start building an &#39;if&#39; predicate tree<br>
-&gt;=C2=A0 =C2=A0qapi: introduce IfPredicateList and IfAny<br>
-&gt;=C2=A0 =C2=A0qapi: add IfNot<br>
-&gt;=C2=A0 =C2=A0qapi: normalize &#39;if&#39; condition to IfPredicate tree=
-<br>
-&gt;=C2=A0 =C2=A0qapi: convert &#39;if&#39; C-expressions to the new syntax=
- tree<br>
-&gt;=C2=A0 =C2=A0qapi: make &#39;if&#39; condition strings simple identifie=
-rs<br>
-&gt;=C2=A0 =C2=A0docs: update the documentation about schema configuration<=
-br>
-&gt; <br>
-&gt;=C2=A0 docs/devel/qapi-code-gen.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 33 +++---<br>
-&gt;=C2=A0 docs/sphinx/qapidoc.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A06 +-<br>
-&gt;=C2=A0 qapi/block-core.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 16 +--<br>
-&gt;=C2=A0 qapi/block-export.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A06 +-<br>
-&gt;=C2=A0 qapi/char.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
-=A08 +-<br>
-&gt;=C2=A0 qapi/machine-target.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 28 +++--<br>
-&gt;=C2=A0 qapi/migration.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 10 +-<br>
-&gt;=C2=A0 qapi/misc-target.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 37 +++---<br>
-&gt;=C2=A0 qapi/qom.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 10 +-<br>
-&gt;=C2=A0 qapi/sockets.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A04 =
-+-<br>
-&gt;=C2=A0 qapi/ui.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-48 ++++----<br>
-&gt;=C2=A0 qga/qapi-schema.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A08 +-<br>
-&gt;=C2=A0 tests/unit/test-qmp-cmds.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 scripts/qapi/commands.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
-&gt;=C2=A0 scripts/qapi/common.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 106 +++++++++++++++---<br>
-&gt;=C2=A0 scripts/qapi/events.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A05 +-<br>
-&gt;=C2=A0 scripts/qapi/expr.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 62 +++++++---<br>
-&gt;=C2=A0 scripts/qapi/gen.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 16 ++-<br>
-&gt;=C2=A0 scripts/qapi/introspect.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 33 +++---<br>
-&gt;=C2=A0 scripts/qapi/schema.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 99 ++++++++++++----<br>
-&gt;=C2=A0 scripts/qapi/types.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 43 ++++---<br>
-&gt;=C2=A0 scripts/qapi/visit.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 25 ++---<br>
-&gt;=C2=A0 .../alternate-branch-if-invalid.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-&gt;=C2=A0 tests/qapi-schema/bad-if-empty.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
-&gt;=C2=A0 tests/qapi-schema/bad-if-list.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-&gt;=C2=A0 tests/qapi-schema/bad-if.err=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A03 +-<br>
-&gt;=C2=A0 tests/qapi-schema/bad-if.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-&gt;=C2=A0 tests/qapi-schema/doc-good.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A06 +-<br>
-&gt;=C2=A0 tests/qapi-schema/doc-good.out=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 12 +-<br>
-&gt;=C2=A0 tests/qapi-schema/doc-good.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A06 +-<br>
-&gt;=C2=A0 tests/qapi-schema/enum-if-invalid.err=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 =C2=A03 +-<br>
-&gt;=C2=A0 tests/qapi-schema/features-if-invalid.err=C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A02 +-<br>
-&gt;=C2=A0 tests/qapi-schema/features-missing-name.json=C2=A0 |=C2=A0 =C2=
-=A02 +-<br>
-&gt;=C2=A0 tests/qapi-schema/qapi-schema-test.json=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 58 +++++-----<br>
-&gt;=C2=A0 tests/qapi-schema/qapi-schema-test.out=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 67 ++++++-----<br>
-&gt;=C2=A0 .../qapi-schema/struct-member-if-invalid.err=C2=A0 |=C2=A0 =C2=
-=A02 +-<br>
-&gt;=C2=A0 tests/qapi-schema/union-branch-if-invalid.err |=C2=A0 =C2=A02 +-=
-<br>
-&gt;=C2=A0 37 files changed, 482 insertions(+), 297 deletions(-)<br>
-&gt; <br>
-&gt; -- <br>
-&gt; 2.29.0<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-Please double-check that the build and tests pass after each commit (for<br=
->
-bisectability).<br>
-<br>
-I&#39;m not familiar with the details of the QAPI code generator but in<br>
-overall this looks like a nice step:<br>
-<br>
-Reviewed-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" tar=
-get=3D"_blank">stefanha@redhat.com</a>&gt;<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+-- 
+2.31.1
 
---00000000000018c97805c2214ff6--
 
