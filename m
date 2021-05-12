@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C643D37C759
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:07:44 +0200 (CEST)
-Received: from localhost ([::1]:46176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7304137C761
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:11:45 +0200 (CEST)
+Received: from localhost ([::1]:59654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgrOh-0005DQ-2j
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:07:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57236)
+	id 1lgrSa-0005zr-H9
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:11:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lgrJW-0003wx-G1
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:02:26 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:38675)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lgrJR-0001kr-Gr
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:02:22 -0400
-Received: by mail-ej1-x631.google.com with SMTP id b25so35704348eju.5
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 09:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HaSnU5lco+xDqofHQOPkmuJjHDlKID4Hn6u6FJJ3AhE=;
- b=jK9xdWViTfOKgM7Ey4sfS+68biIKkP6BQfrZoQ/9gFqZN/t2s17x9r7WKeFB2BdDtP
- KOb+28OGU9zF6HBPUhXYNfJocYkqwerDJe9lrbfTQLTtFRILCTu4C1kiID360nAhzbrE
- xCa0qzeYsvQZxy5cayfT2mP2vmYOTl67QzAF0dERzjcVeVmJp14liCbEFQ8JVD2p6grF
- ExpaCBe2c2UBhXWmvHmbMp4iouEkx1lTXZ5Og56mohNjgx/XSqA/ZAaaN+hz1Mks7ry2
- LIgSFchSQsNEV8/IDoNyZdf3cGmnpEJ3DfbhkXq4puO/CU+jRG32crZTjpLOa0tgLS68
- xPJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HaSnU5lco+xDqofHQOPkmuJjHDlKID4Hn6u6FJJ3AhE=;
- b=BlET/XaO9cZMrjNgGnfj9r8LFwuRgvez9zswbLIjJDsXUfPzS6tm9HqSR4dYRRGJL2
- xhOR8m4YFOmgmvHa3EkXsy/wiiAvJNp4rLV1+E1ipw6OnrqxlFql3z2NH9RRg23dgNSJ
- hmDWvdhE4oDlJzMXbRERO0EakLhicJMdycSy9RUPH6rowJGHqfCZ0s9U3I9g7DvMQ1es
- FX3GAWZ+jOwcsV6DbgoSFQIVXqphyJAtnaKInDOS0GREGylDzr12sICd1+ts0Z396Qfh
- kTcCPMHJnjlbBuEEGq5B6rpsI/Fy5w68ePxNeinHDmkTIrSVEy5/YsDMAcyEg+mPy+m8
- IiTQ==
-X-Gm-Message-State: AOAM530RjmPyn5OhqXayzw5ecAomCReHt8WIngDn+/zwB9VeXd6Hl4nW
- aBGq1wI+B1EDEkm9Ss0uXSbB9O39mCuRPVNr7qg=
-X-Google-Smtp-Source: ABdhPJw/6maiExf4T4K6P+uA0PR7diOG6M9f83I23cRCBWcRzMVvF/nmqzg3DxIxcCJBp64ktWZOIKaTQG0iVTNSdlw=
-X-Received: by 2002:a17:906:46d0:: with SMTP id
- k16mr38839356ejs.105.1620835335632; 
- Wed, 12 May 2021 09:02:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lgrKq-0007F3-Cd
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:03:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51971)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lgrKj-0002U1-9q
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:03:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620835415;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EOGNlru/aUPqSwjfkzrFqZM2l8RHB3NatL67kuW6VQ0=;
+ b=GYM/Y5UV0/iQMcH51pbLLvXmAwBdJorOd+/mrGg0G43pcc0APToc6RhTdJ9di3cUeB/Jpd
+ M6zPMrvx0uq/c15BOH90YVa+ZbRXWFAGpwaMVrzZaCHSwRU/7vEawMjHPG0tC9lHN5SjsM
+ DYCLPf4ujqc6aWOFqk3Ry/RPCWHbQoY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-rfGfCZFZPcmhrI9-AU5r1g-1; Wed, 12 May 2021 12:03:33 -0400
+X-MC-Unique: rfGfCZFZPcmhrI9-AU5r1g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD25E1922036;
+ Wed, 12 May 2021 16:03:31 +0000 (UTC)
+Received: from localhost (ovpn-115-51.ams2.redhat.com [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C0FF60CE6;
+ Wed, 12 May 2021 16:03:31 +0000 (UTC)
+Date: Wed, 12 May 2021 17:03:29 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 0/8] block: refactor write threshold
+Message-ID: <YJv8UcCNd7Px1vRs@stefanha-x1.localdomain>
+References: <20210506090621.11848-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-References: <20210510130617.320981-1-marcandre.lureau@redhat.com>
- <CAFEAcA_mj-9EC2WhUKd4QN8xGk4JMjyr6_ycOD5ukZAGRdrjMg@mail.gmail.com>
- <CAJ+F1CLB4uMQsggZKX5kGBtSr14rZ7mW5rr4dwMi=hn4TTpHag@mail.gmail.com>
- <CAFEAcA8L6Qks-bZtbpgbmSaKcGB2waTEKpOtvZ_PQ7vxdzZ2pg@mail.gmail.com>
-In-Reply-To: <CAFEAcA8L6Qks-bZtbpgbmSaKcGB2waTEKpOtvZ_PQ7vxdzZ2pg@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 12 May 2021 20:02:03 +0400
-Message-ID: <CAJ+F1CKBk2450Y85bcyneYHCbzBFq42Cruf1fRunXuzWB8sUVA@mail.gmail.com>
-Subject: Re: [PULL v2 0/1] readthedoc theme patch
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000006b7ab305c22422a9"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210506090621.11848-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="h0jeazdoC2njA2UT"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,226 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ eesposit@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006b7ab305c22422a9
-Content-Type: text/plain; charset="UTF-8"
+--h0jeazdoC2njA2UT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Thu, May 06, 2021 at 12:06:13PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> Hi all!
+>=20
+> v3:
+> 01-04,06,07: add Max's r-b.
+> 01: improve commit msg and comments
+> 03: improve commit msg
+> 05: add more comments and qemu/atomic.h include
+> 08: new, replacement for v2:08,09
+>=20
+> Vladimir Sementsov-Ogievskiy (8):
+>   block/write-threshold: don't use write notifiers
+>   block: drop write notifiers
+>   test-write-threshold: rewrite test_threshold_(not_)trigger tests
+>   block/write-threshold: drop extra APIs
+>   block/write-threshold: don't use aio context lock
+>   test-write-threshold: drop extra tests
+>   test-write-threshold: drop extra TestStruct structure
+>   write-threshold: deal with includes
+>=20
+>  include/block/block_int.h         |  19 ++---
+>  include/block/write-threshold.h   |  31 +++------
+>  block.c                           |   1 -
+>  block/io.c                        |  11 +--
+>  block/write-threshold.c           | 111 +++++++-----------------------
+>  tests/unit/test-write-threshold.c |  90 ++----------------------
+>  6 files changed, 52 insertions(+), 211 deletions(-)
+>=20
+> --=20
+> 2.29.2
+>=20
 
-On Wed, May 12, 2021 at 7:56 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+Aside from comments:
 
-> On Wed, 12 May 2021 at 16:17, Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@gmail.com> wrote:
-> >
-> > Hi
-> >
-> > On Wed, May 12, 2021 at 5:47 PM Peter Maydell <peter.maydell@linaro.org=
->
-> wrote:
-> >>
-> >> On Mon, 10 May 2021 at 14:06, <marcandre.lureau@redhat.com> wrote:
-> >> >
-> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >> >
-> >> > The following changes since commit
-> d90f154867ec0ec22fd719164b88716e8fd48672:
-> >> >
-> >> >   Merge remote-tracking branch
-> 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504' into staging (2021-05-05
-> 20:29:14 +0100)
-> >> >
-> >> > are available in the Git repository at:
-> >> >
-> >> >   git@gitlab.com:marcandre.lureau/qemu.git tags/rtd-pull-request
-> >> >
-> >> > for you to fetch changes up to
-> f1852f5d7e6fc2ead874261c0388b18898257000:
-> >> >
-> >> >   sphinx: adopt kernel readthedoc theme (2021-05-10 15:12:09 +0400)
-> >> >
-> >> > ----------------------------------------------------------------
-> >> > Pull request
-> >> >
-> >> > ----------------------------------------------------------------
-> >> >
-> >> > Marc-Andr=C3=A9 Lureau (1):
-> >> >   sphinx: adopt kernel readthedoc theme
-> >>
-> >> NetBSD now complains:
-> >>
-> >> Configuring 60-edk2-x86_64.json using configuration
-> >> Program qemu-keymap found: NO
-> >> Program sphinx-build found: YES
-> >> ../docs/meson.build:30: WARNING: /usr/bin/sphinx-build:
-> >> Configuration error:
-> >> There is a programable error in your configuration file:
-> >>
-> >> Traceback (most recent call last):
-> >>   File "conf.py", line 154, in <module>
-> >>     import sphinx_rtd_theme
-> >> ModuleNotFoundError: No module named 'sphinx_rtd_theme'
-> >>
-> >> During handling of the above exception, another exception occurred:
-> >>
-> >> Traceback (most recent call last):
-> >>   File "/usr/lib/python3/dist-packages/sphinx/config.py", line 157, in
-> __init__
-> >>     execfile_(filename, config)
-> >>   File "/usr/lib/python3/dist-packages/sphinx/util/pycompat.py", line
-> >> 150, in execfile_
-> >>     exec_(code, _globals)
-> >>   File "conf.py", line 157, in <module>
-> >>     'The Sphinx \'sphinx_rtd_theme\' HTML theme was not found.\n'
-> >> sphinx.errors.ConfigError: The Sphinx 'sphinx_rtd_theme' HTML theme
-> >> was not found.
-> >>
-> >>
-> >>
-> >> Program python3 found: YES (/usr/bin/python3)
-> >> Program diff found: YES
-> >> Program dbus-daemon found: YES
-> >>
-> >>
-> >> as does freebsd and openbsd. Can we get the theme added to the VM
-> >> configs for those ?
->
-> > What is used for the BSD configs? If it's tests/vm, I don't see
-> readthedoc being installed there, and vm-build-* should work (at least so=
-me
-> work for me, freebsd fails with ssh issue here)
->
-> It's tests/vm.  The build doesn't fail, but the printing of the WARNING
-> is caught by my wrapper scripts (which grep for various warning/error
-> words to catch issues which don't trigger complete build failures).
-> Adding the theme to the configs would mean that we can continue to
-> test docs builds on those platforms.
->
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Didn't you install readthedoc manually there? I don't see those warnings.
+--h0jeazdoC2njA2UT
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Marc-Andr=C3=A9 Lureau
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCb/FEACgkQnKSrs4Gr
+c8i/+ggAhMaEHGCyfuH70WCfiYdvjJoEsBErZ7+l1UvqxxxkZ7se+6ycmfirzqmw
+V8wyrUhan+q3y0LNsxkSnWZfZdBQk5WttIaspeKE31Vn8NHA2BFTjo9lUT0Cs5Vp
+vUWiv0OQFY5flBih4jW0SQGYKKa6u6WDdICtllyOSEDPCh4U7HlrVGUIkmkQf3qo
+wPUn0wFX39vXmV8Z3D9SdH1mUhRuB3BcFdxIkIfUqPVNewiEZSTqSaZnOoz2OJjz
+KZkNHpt06gMrCTTZrW6CcwzBp86UEB2xm1XVemlkWV/8axfI0WLmMZ21X0FRrC0e
+Mn05qH1LcgAQBZV2LZYDxaJ8LzOdOw==
+=lTMa
+-----END PGP SIGNATURE-----
 
---0000000000006b7ab305c22422a9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--h0jeazdoC2njA2UT--
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 12, 2021 at 7:56 PM Pet=
-er Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@li=
-naro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On Wed, 12 May 2021 at 16:17, Marc-Andr=C3=A9 Lureau<br>
-&lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=3D"_blank">marcand=
-re.lureau@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Hi<br>
-&gt;<br>
-&gt; On Wed, May 12, 2021 at 5:47 PM Peter Maydell &lt;<a href=3D"mailto:pe=
-ter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; =
-wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Mon, 10 May 2021 at 14:06, &lt;<a href=3D"mailto:marcandre.lure=
-au@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:=
-<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; The following changes since commit d90f154867ec0ec22fd719164b=
-88716e8fd48672:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0Merge remote-tracking branch &#39;remotes/dg-gitl=
-ab/tags/ppc-for-6.1-20210504&#39; into staging (2021-05-05 20:29:14 +0100)<=
-br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; are available in the Git repository at:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0git@gitlab.com:marcandre.lureau/qemu.git tags/rtd=
--pull-request<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; for you to fetch changes up to f1852f5d7e6fc2ead874261c0388b1=
-8898257000:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0sphinx: adopt kernel readthedoc theme (2021-05-10=
- 15:12:09 +0400)<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; -------------------------------------------------------------=
----<br>
-&gt;&gt; &gt; Pull request<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; -------------------------------------------------------------=
----<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Marc-Andr=C3=A9 Lureau (1):<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0sphinx: adopt kernel readthedoc theme<br>
-&gt;&gt;<br>
-&gt;&gt; NetBSD now complains:<br>
-&gt;&gt;<br>
-&gt;&gt; Configuring 60-edk2-x86_64.json using configuration<br>
-&gt;&gt; Program qemu-keymap found: NO<br>
-&gt;&gt; Program sphinx-build found: YES<br>
-&gt;&gt; ../docs/meson.build:30: WARNING: /usr/bin/sphinx-build:<br>
-&gt;&gt; Configuration error:<br>
-&gt;&gt; There is a programable error in your configuration file:<br>
-&gt;&gt;<br>
-&gt;&gt; Traceback (most recent call last):<br>
-&gt;&gt;=C2=A0 =C2=A0File &quot;conf.py&quot;, line 154, in &lt;module&gt;<=
-br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0import sphinx_rtd_theme<br>
-&gt;&gt; ModuleNotFoundError: No module named &#39;sphinx_rtd_theme&#39;<br=
->
-&gt;&gt;<br>
-&gt;&gt; During handling of the above exception, another exception occurred=
-:<br>
-&gt;&gt;<br>
-&gt;&gt; Traceback (most recent call last):<br>
-&gt;&gt;=C2=A0 =C2=A0File &quot;/usr/lib/python3/dist-packages/sphinx/confi=
-g.py&quot;, line 157, in __init__<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0execfile_(filename, config)<br>
-&gt;&gt;=C2=A0 =C2=A0File &quot;/usr/lib/python3/dist-packages/sphinx/util/=
-pycompat.py&quot;, line<br>
-&gt;&gt; 150, in execfile_<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0exec_(code, _globals)<br>
-&gt;&gt;=C2=A0 =C2=A0File &quot;conf.py&quot;, line 157, in &lt;module&gt;<=
-br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0&#39;The Sphinx \&#39;sphinx_rtd_theme\&#39; HT=
-ML theme was not found.\n&#39;<br>
-&gt;&gt; sphinx.errors.ConfigError: The Sphinx &#39;sphinx_rtd_theme&#39; H=
-TML theme<br>
-&gt;&gt; was not found.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Program python3 found: YES (/usr/bin/python3)<br>
-&gt;&gt; Program diff found: YES<br>
-&gt;&gt; Program dbus-daemon found: YES<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; as does freebsd and openbsd. Can we get the theme added to the VM<=
-br>
-&gt;&gt; configs for those ?<br>
-<br>
-&gt; What is used for the BSD configs? If it&#39;s tests/vm, I don&#39;t se=
-e readthedoc being installed there, and vm-build-* should work (at least so=
-me work for me, freebsd fails with ssh issue here)<br>
-<br>
-It&#39;s tests/vm.=C2=A0 The build doesn&#39;t fail, but the printing of th=
-e WARNING<br>
-is caught by my wrapper scripts (which grep for various warning/error<br>
-words to catch issues which don&#39;t trigger complete build failures).<br>
-Adding the theme to the configs would mean that we can continue to<br>
-test docs builds on those platforms.<br></blockquote><div><br></div><div>Di=
-dn&#39;t you install readthedoc manually there? I don&#39;t see those warni=
-ngs. <br></div><br clear=3D"all"></div><br>-- <br><div dir=3D"ltr" class=3D=
-"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000006b7ab305c22422a9--
 
