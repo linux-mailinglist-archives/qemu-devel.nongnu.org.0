@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB35537B457
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 04:59:27 +0200 (CEST)
-Received: from localhost ([::1]:53466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA4B37B461
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 05:08:34 +0200 (CEST)
+Received: from localhost ([::1]:55744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgf5q-0006gQ-Tm
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 22:59:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38164)
+	id 1lgfEf-0000Bn-CD
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 23:08:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lgf3r-00040X-2U
- for qemu-devel@nongnu.org; Tue, 11 May 2021 22:57:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25525)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lgf3o-0005u2-Pj
- for qemu-devel@nongnu.org; Tue, 11 May 2021 22:57:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620788240;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=znSd28ZNJvaIgAyhqizi2Y0bkszVkdPi1gjXzRcoXyA=;
- b=N1hKLNV/SIbKIDr/gJ8jUY5jmokvBYbz0V3wZrCXi1orRYeWv8QEByj9Z9Zjir2ewmBNq1
- lIL4xdHL67+QScFYoSE6P1CITGefImm69QZYkgPgRlXyjvCwdcmR+tNaFkJLG24zaC5V6y
- Evn9l3U2/S0eDJvQMoGj8ff4Wqm5tjI=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-3sF_PibqOZeucC8dsHHGug-1; Tue, 11 May 2021 22:57:14 -0400
-X-MC-Unique: 3sF_PibqOZeucC8dsHHGug-1
-Received: by mail-pg1-f197.google.com with SMTP id
- l25-20020a6357190000b02901f6df0d646eso13439574pgb.23
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 19:57:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lgfD9-0007wp-8k
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 23:06:59 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lgfD7-00058P-8b
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 23:06:59 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id n25so25292011edr.5
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 20:06:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Yqppu2Z83mKaILMxHgzqCQQSmAB/TnbtDtLCx8BOCIo=;
+ b=RsDw0kayOVNnKmm2LG8urEJQapUX4HoE51Wwy2ffC3/lGX9mwwb8z+/wFNTHPeP9ak
+ LX2/UbDpRS7fpNIWj0Mio6QV2U2Fqmvy+o4Q2UcCOe9Z4fkSJCka5ugx1GUWCN87qLmj
+ 2FedFKeZVl4Te9dJ8SjPqAnajLJiU2ULRnM3OpWBc5BjZ7xgQUVUXtFfJaBQoxaGHTsy
+ CmMfk3QW0kygjxVWOTGSfSP8ikXgN82peTybHLd1bYEzzPCXz35l2lCdx8gL3IcjPOIS
+ 58av/rhRaLBm+lR1FcNpW0UXvmPHxzF+FHPyLImafmcSKFHZKXFrNtxFiCgYowVXEvNW
+ AS9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=znSd28ZNJvaIgAyhqizi2Y0bkszVkdPi1gjXzRcoXyA=;
- b=M1VOeUqMEo6TuHEWYNIBpQxtwlm7kT6175Mq3kePqEiUsnA9wAVpiJ1hwTfXIGEz+y
- YVOaVLR96DBcvBojyKj1viqFqWHfs0YmMmNa97i1Y7UYv5sdjj9AYTF5wzEgNMApmFgL
- pF5Ea99ApN+VxD3jhhZU8X6cTV5GP2ZLE/wDt+DB5UIlvYkSOgu+RQyRiHpjqBvEp6E8
- ePkt4Y6ZUdmUz3lJdJvgegu8CqNG3pzE+CJTZ9Es14Ti09pGvsvKzYaGVTGy9A4500+t
- 1+6qmMaWXzsGSw8npWLsMkcBXodf7APEhqQVUYW56KKj//94p3MGCEbUa2RAO0Pjerjm
- 045Q==
-X-Gm-Message-State: AOAM531xQVriZligD/V7PGeFYD/sWplOKa3E5vcNGON9Pr1bFpBrnvYV
- aMpF526jZU6A0eThLIZ0HeBe3nfR4ij9xu6QFqjEa+7ZsaVL2nkIyqu8Tz1nf0ssA8chg/MUOpV
- IAp0nDA6J3OTQGGo=
-X-Received: by 2002:a63:5049:: with SMTP id q9mr9751972pgl.123.1620788233058; 
- Tue, 11 May 2021 19:57:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw73S8v94F64l2KzqcBwbrYFLIXWEnce9fRy+O18rplAUpyEbmVrYovKkCOg7j4WyppKK4izQ==
-X-Received: by 2002:a63:5049:: with SMTP id q9mr9751953pgl.123.1620788232804; 
- Tue, 11 May 2021 19:57:12 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id mg1sm3129286pjb.14.2021.05.11.19.57.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 19:57:08 -0700 (PDT)
-Subject: Re: [PATCH 3/3] virtio-net: Constify VirtIOFeature feature_sizes[]
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210511104157.2880306-1-philmd@redhat.com>
- <20210511104157.2880306-4-philmd@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <774a603f-f511-903a-2383-8d191ac27c7d@redhat.com>
-Date: Wed, 12 May 2021 10:57:03 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Yqppu2Z83mKaILMxHgzqCQQSmAB/TnbtDtLCx8BOCIo=;
+ b=PFt6vsk1UdMQZpYEuHC1W8UABHjSV1ypxl0Zl1lK1Y9nIBxSzAkeUDYvTOzf3lT9eU
+ gsHmUEW/ir4F0zoXOgAKs5yX181dtsg4aoMJ4Q0yzUnG27xN/MROYS2L2mbrePSit1rh
+ AJfSKJJNTCgkRtkaXHH76279+lv/WMZ4G2VoH5V15ArvnT2Hj4jgBAoh1pZ8ZNt/CQsc
+ TKoSQMqtTTZiGewfucnCrQCtKzGHDTD/kmdkXGvY6FTBEsk8HpujEqkdqNdlCFkBbPIp
+ ieJlAplvXFvTM2lWmAfShJjSanDJOZiEbNd+PPYY22XInNL4x5HzY2Gp7Uw144xm+4Qa
+ hv/Q==
+X-Gm-Message-State: AOAM531ACXgApXLVVEvAJ6sYu8bkwcFFT16BnuBxlBgzeNm2eXVdMqwa
+ N4MIyCE7+xbPNjLjl2ORati+R4aoGkXRDQ0m9WM=
+X-Google-Smtp-Source: ABdhPJxU7tCgYXfw1w3pkQnuzNSsDXzHfE/ycnH/upFFPVXJQexGXvZE07geesBxzIC4bqtgMNLuByT9fVdU1lQ+pvE=
+X-Received: by 2002:a05:6402:268f:: with SMTP id
+ w15mr39585722edd.321.1620788813478; 
+ Tue, 11 May 2021 20:06:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210511104157.2880306-4-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210511185538.29344-1-gustavo@noronha.eti.br>
+ <20210511185538.29344-3-gustavo@noronha.eti.br>
+In-Reply-To: <20210511185538.29344-3-gustavo@noronha.eti.br>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Wed, 12 May 2021 12:06:42 +0900
+Message-ID: <CAMVc7JUQSM=9Nkyv-EZ86iozfyD6otocCjY3quOwzPMavNuL2Q@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] ui/cocoa: add option to swap Option and Command
+To: gustavo@noronha.eti.br
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,35 +80,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu Developers <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-在 2021/5/11 下午6:41, Philippe Mathieu-Daudé 写道:
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   hw/net/virtio-net.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+I applied them to my personal tree:
+https://github.com/akihikodaki/qemu/tree/macos
+
+2021=E5=B9=B45=E6=9C=8812=E6=97=A5(=E6=B0=B4) 3:56 <gustavo@noronha.eti.br>=
+:
 >
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 66b9ff45118..6b7e8dd04ef 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -89,7 +89,7 @@
->                                            VIRTIO_NET_RSS_HASH_TYPE_TCP_EX | \
->                                            VIRTIO_NET_RSS_HASH_TYPE_UDP_EX)
->   
-> -static VirtIOFeature feature_sizes[] = {
-> +static const VirtIOFeature feature_sizes[] = {
->       {.flags = 1ULL << VIRTIO_NET_F_MAC,
->        .end = endof(struct virtio_net_config, mac)},
->       {.flags = 1ULL << VIRTIO_NET_F_STATUS,
-
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
-
+> From: Gustavo Noronha Silva <gustavo@noronha.eti.br>
+>
+> On Mac OS X the Option key maps to Alt and Command to Super/Meta. This ch=
+ange
+> swaps them around so that Alt is the key closer to the space bar and Meta=
+/Super
+> is between Control and Alt, like on non-Mac keyboards.
+>
+> It is a cocoa display option, disabled by default.
+>
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.eti.br>
+> ---
+>  qapi/ui.json    |  8 ++++++-
+>  qemu-options.hx |  3 ++-
+>  ui/cocoa.m      | 64 ++++++++++++++++++++++++++++++++++++++++++-------
+>  3 files changed, 65 insertions(+), 10 deletions(-)
+>
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 4ccfae4bbb..ee6fde46d5 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -1098,10 +1098,16 @@
+>  #             a global grab on key events. (default: off)
+>  #             See https://support.apple.com/en-in/guide/mac-help/mh32356=
+/mac
+>  #
+> +# @swap-option-command: Swap the Option and Command keys so that their k=
+ey
+> +#                       codes match their position on non-Mac keyboards =
+and
+> +#                       you can use Meta/Super and Alt where you expect =
+them.
+> +#                       (default: off)
+> +#
+>  # Since: 6.1
+>  ##
+>  { 'struct'  : 'DisplayCocoa',
+> -  'data'    : { '*full-grab'     : 'bool' } }
+> +  'data'    : { '*full-grab'           : 'bool',
+> +                '*swap-option-command' : 'bool' } }
+>
+>  ##
+>  # @DisplayType:
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index eeaa5c73e9..e0e93724b1 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1784,7 +1784,8 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
+>      "-display curses[,charset=3D<encoding>]\n"
+>  #endif
+>  #if defined(CONFIG_COCOA)
+> -    "-display cocoa[,full_grab=3Don|off]\n"
+> +    "-display cocoa[,full-grab=3Don|off]\n"
+> +    "              [,swap-option-command=3Don|off]\n"
+>  #endif
+>  #if defined(CONFIG_OPENGL)
+>      "-display egl-headless[,rendernode=3D<file>]\n"
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index 236352deac..995301502b 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -72,6 +72,7 @@
+>  typedef struct {
+>      int width;
+>      int height;
+> +    bool swap_option_command;
+>  } QEMUScreen;
+>
+>  static void cocoa_update(DisplayChangeListener *dcl,
+> @@ -325,6 +326,7 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled;
+>   */
+>  - (BOOL) isMouseGrabbed;
+>  - (BOOL) isAbsoluteEnabled;
+> +- (BOOL) isSwapOptionCommandEnabled;
+>  - (float) cdx;
+>  - (float) cdy;
+>  - (QEMUScreen) gscreen;
+> @@ -643,6 +645,13 @@ - (void) setFullGrab:(id)sender
+>      CFRelease(tapEventsSrc);
+>  }
+>
+> +- (void) setSwapOptionCommand:(id)sender
+> +{
+> +    COCOA_DEBUG("QemuCocoaView: setSwapOptionCommand\n");
+> +
+> +    screen.swap_option_command =3D true;
+> +}
+> +
+>  - (void) toggleKey: (int)keycode {
+>      qkbd_state_key_event(kbd, keycode, !qkbd_state_key_get(kbd, keycode)=
+);
+>  }
+> @@ -792,12 +801,22 @@ - (bool) handleEventLocked:(NSEvent *)event
+>          qkbd_state_key_event(kbd, Q_KEY_CODE_CTRL_R, false);
+>      }
+>      if (!(modifiers & NSEventModifierFlagOption)) {
+> -        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
+> -        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
+> +        if ([self isSwapOptionCommandEnabled]) {
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
+> +        } else {
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
+> +        }
+>      }
+>      if (!(modifiers & NSEventModifierFlagCommand)) {
+> -        qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
+> -        qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
+> +        if ([self isSwapOptionCommandEnabled]) {
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
+> +        } else {
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
+> +        }
+>      }
+>
+>      switch ([event type]) {
+> @@ -829,13 +848,21 @@ - (bool) handleEventLocked:(NSEvent *)event
+>
+>                  case kVK_Option:
+>                      if (!!(modifiers & NSEventModifierFlagOption)) {
+> -                        [self toggleKey:Q_KEY_CODE_ALT];
+> +                        if ([self isSwapOptionCommandEnabled]) {
+> +                            [self toggleKey:Q_KEY_CODE_META_L];
+> +                        } else {
+> +                            [self toggleKey:Q_KEY_CODE_ALT];
+> +                        }
+>                      }
+>                      break;
+>
+>                  case kVK_RightOption:
+>                      if (!!(modifiers & NSEventModifierFlagOption)) {
+> -                        [self toggleKey:Q_KEY_CODE_ALT_R];
+> +                        if ([self isSwapOptionCommandEnabled]) {
+> +                            [self toggleKey:Q_KEY_CODE_META_R];
+> +                        } else {
+> +                            [self toggleKey:Q_KEY_CODE_ALT_R];
+> +                        }
+>                      }
+>                      break;
+>
+> @@ -843,14 +870,22 @@ - (bool) handleEventLocked:(NSEvent *)event
+>                  case kVK_Command:
+>                      if (isMouseGrabbed &&
+>                          !!(modifiers & NSEventModifierFlagCommand)) {
+> -                        [self toggleKey:Q_KEY_CODE_META_L];
+> +                        if ([self isSwapOptionCommandEnabled]) {
+> +                            [self toggleKey:Q_KEY_CODE_ALT];
+> +                        } else {
+> +                            [self toggleKey:Q_KEY_CODE_META_L];
+> +                        }
+>                      }
+>                      break;
+>
+>                  case kVK_RightCommand:
+>                      if (isMouseGrabbed &&
+>                          !!(modifiers & NSEventModifierFlagCommand)) {
+> -                        [self toggleKey:Q_KEY_CODE_META_R];
+> +                        if ([self isSwapOptionCommandEnabled]) {
+> +                            [self toggleKey:Q_KEY_CODE_ALT_R];
+> +                        } else {
+> +                            [self toggleKey:Q_KEY_CODE_META_R];
+> +                        }
+>                      }
+>                      break;
+>              }
+> @@ -1079,6 +1114,7 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnable=
+d {
+>  }
+>  - (BOOL) isMouseGrabbed {return isMouseGrabbed;}
+>  - (BOOL) isAbsoluteEnabled {return isAbsoluteEnabled;}
+> +- (BOOL) isSwapOptionCommandEnabled {return screen.swap_option_command;}
+>  - (float) cdx {return cdx;}
+>  - (float) cdy {return cdy;}
+>  - (QEMUScreen) gscreen {return screen;}
+> @@ -1265,6 +1301,13 @@ - (void) setFullGrab:(id)sender
+>      [cocoaView setFullGrab:sender];
+>  }
+>
+> +- (void) setSwapOptionCommand:(id)sender
+> +{
+> +    COCOA_DEBUG("QemuCocoaAppController: setSwapOptionCommand\n");
+> +
+> +    [cocoaView setSwapOptionCommand:sender];
+> +}
+> +
+>  /* Tries to find then open the specified filename */
+>  - (void) openDocumentation: (NSString *) filename
+>  {
+> @@ -1947,6 +1990,11 @@ static void cocoa_display_init(DisplayState *ds, D=
+isplayOptions *opts)
+>              [[controller delegate] setFullGrab: nil];
+>          });
+>      }
+> +    if (opts->u.cocoa.has_swap_option_command && opts->u.cocoa.swap_opti=
+on_command) {
+> +        dispatch_async(dispatch_get_main_queue(), ^{
+> +            [[controller delegate] setSwapOptionCommand: nil];
+> +        });
+> +    }
+>      if (opts->has_show_cursor && opts->show_cursor) {
+>          cursor_hide =3D 0;
+>      }
+> --
+> 2.30.1 (Apple Git-130)
+>
 
