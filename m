@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01D637D3E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:30:28 +0200 (CEST)
-Received: from localhost ([::1]:40446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94C337D3D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:22:13 +0200 (CEST)
+Received: from localhost ([::1]:48394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lguYt-00078F-LA
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:30:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54488)
+	id 1lguQu-0001Z3-Nk
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:22:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu6H-0002Ah-22; Wed, 12 May 2021 15:00:54 -0400
+ id 1lgu6j-0002Zx-8y; Wed, 12 May 2021 15:01:23 -0400
 Received: from [201.28.113.2] (port=1436 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu6D-0002Bm-77; Wed, 12 May 2021 15:00:50 -0400
+ id 1lgu6e-0002Bm-84; Wed, 12 May 2021 15:01:20 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 15:56:07 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 15:56:08 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 15D5B80139F;
- Wed, 12 May 2021 15:56:07 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 652A880139F;
+ Wed, 12 May 2021 15:56:08 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 25/31] target/ppc: Implement prefixed integer load
- instructions
-Date: Wed, 12 May 2021 15:54:35 -0300
-Message-Id: <20210512185441.3619828-26-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 29/31] target/ppc: Implement cfuged instruction
+Date: Wed, 12 May 2021 15:54:39 -0300
+Message-Id: <20210512185441.3619828-30-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 May 2021 18:56:07.0454 (UTC)
- FILETIME=[774AC3E0:01D74760]
+X-OriginalArrivalTime: 12 May 2021 18:56:08.0735 (UTC)
+ FILETIME=[780E3AF0:01D74760]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -62,107 +61,124 @@ Cc: richard.henderson@linaro.org, f4bug@amsat.org, luis.pires@eldorado.org.br,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
-v4:
-- prefixed and non-prefixed loads unfolded.
----
- target/ppc/insn64.decode                   | 15 +++++++++++++++
- target/ppc/translate/fixedpoint-impl.c.inc | 16 ++++++++++++++++
- 2 files changed, 31 insertions(+)
+ target/ppc/helper.h                        |  1 +
+ target/ppc/insn32.decode                   |  4 +++
+ target/ppc/int_helper.c                    | 39 ++++++++++++++++++++++
+ target/ppc/translate/fixedpoint-impl.c.inc | 16 +++++++--
+ 4 files changed, 58 insertions(+), 2 deletions(-)
 
-diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 56857b5e93..0c8264a194 100644
---- a/target/ppc/insn64.decode
-+++ b/target/ppc/insn64.decode
-@@ -24,6 +24,21 @@
-                 ...... rt:5 ra:5 ................       \
-                 &PLS_D si=%pls_si
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index ea9f2a236c..c517b9f025 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -46,6 +46,7 @@ DEF_HELPER_4(divwe, tl, env, tl, tl, i32)
+ DEF_HELPER_FLAGS_1(popcntb, TCG_CALL_NO_RWG_SE, tl, tl)
+ DEF_HELPER_FLAGS_2(cmpb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_3(sraw, tl, env, tl, tl)
++DEF_HELPER_FLAGS_2(cfuged, TCG_CALL_NO_RWG_SE, i64, i64, i64)
+ #if defined(TARGET_PPC64)
+ DEF_HELPER_FLAGS_2(cmpeqb, TCG_CALL_NO_RWG_SE, i32, tl, tl)
+ DEF_HELPER_FLAGS_1(popcntw, TCG_CALL_NO_RWG_SE, tl, tl)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index d69c0bc14c..64788e2a4b 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -87,6 +87,10 @@ STDUX           011111 ..... ..... ..... 0010110101 -   @X
+ ADDI            001110 ..... ..... ................     @D
+ ADDIS           001111 ..... ..... ................     @D
  
-+### Fixed-Point Load Instructions
++## Fixed-Point Logical Instructions
 +
-+PLBZ             000001 10 0--.-- .................. \
-+                100010 ..... ..... ................     @PLS_D
-+PLHZ             000001 10 0--.-- .................. \
-+                101000 ..... ..... ................     @PLS_D
-+PLHA             000001 10 0--.-- .................. \
-+                101010 ..... ..... ................     @PLS_D
-+PLWZ             000001 10 0--.-- .................. \
-+                100000 ..... ..... ................     @PLS_D
-+PLWA             000001 00 0--.-- .................. \
-+                101001 ..... ..... ................     @PLS_D
-+PLD              000001 00 0--.-- .................. \
-+                111001 ..... ..... ................     @PLS_D
++CFUGED          011111 ..... ..... ..... 0011011100 -   @X
 +
- ### Fixed-Point Arithmetic Instructions
+ ### Move To/From System Register Instructions
  
- PADDI           000001 10 0--.-- ..................     \
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index 4c3eff6979..67291e0b75 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -80,6 +80,16 @@ static bool do_ldst_D(DisasContext *ctx, arg_D *a, bool update, bool store,
-     return do_ldst(ctx, a->rt, a->ra, tcg_constant_tl(a->si), update, store, mop);
+ SETBC           011111 ..... ..... ----- 0110000000 -   @X_bi
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index a44c2d90ea..d1cfb915ae 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -320,6 +320,45 @@ target_ulong helper_popcntb(target_ulong val)
  }
+ #endif
  
-+static bool do_ldst_PLS_D(DisasContext *ctx, arg_PLS_D *a, bool update,
-+                          bool store, MemOp mop)
++uint64_t helper_cfuged(uint64_t src, uint64_t mask)
 +{
-+    arg_D d;
-+    if (!resolve_PLS_D(ctx, &d, a)) {
-+        return true;
++    target_ulong m, left = 0, right = 0;
++    unsigned int n, i = 64;
++    bool bit = 0;
++
++    if (mask == 0 || mask == -1) {
++        return src;
 +    }
-+    return do_ldst_D(ctx, &d, update, store, mop);
++
++    while (i) {
++        n = ctz64(mask);
++        if (n > i) {
++            n = i;
++        }
++
++        m = (1ll << n) - 1;
++        if (bit) {
++            right = ror64(right | (src & m), n);
++        } else {
++            left = ror64(left | (src & m), n);
++        }
++
++        src >>= n;
++        mask >>= n;
++        i -= n;
++        bit = !bit;
++        mask = ~mask;
++    }
++
++    if (bit) {
++        n = ctpop64(mask);
++    } else {
++        n = 64 - ctpop64(mask);
++    }
++
++    return left | (right >> n);
 +}
 +
- static bool do_ldst_X(DisasContext *ctx, arg_X *a, bool update,
-                       bool store, MemOp mop)
- {
-@@ -91,35 +101,41 @@ TRANS(LBZ, do_ldst_D, false, false, MO_UB)
- TRANS(LBZX, do_ldst_X, false, false, MO_UB)
- TRANS(LBZU, do_ldst_D, true, false, MO_UB)
- TRANS(LBZUX, do_ldst_X, true, false, MO_UB)
-+TRANS(PLBZ, do_ldst_PLS_D, false, false, MO_UB)
+ /*****************************************************************************/
+ /* PowerPC 601 specific instructions (POWER bridge) */
+ target_ulong helper_div(CPUPPCState *env, target_ulong arg1, target_ulong arg2)
+diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
+index 37dd25148c..4617f7356b 100644
+--- a/target/ppc/translate/fixedpoint-impl.c.inc
++++ b/target/ppc/translate/fixedpoint-impl.c.inc
+@@ -210,8 +210,8 @@ static bool do_set_bool_cond(DisasContext *ctx, arg_X_bi *a, bool neg, bool rev)
  
- /* Load Halfword and Zero */
- TRANS(LHZ, do_ldst_D, false, false, MO_UW)
- TRANS(LHZX, do_ldst_X, false, false, MO_UW)
- TRANS(LHZU, do_ldst_D, true, false, MO_UW)
- TRANS(LHZUX, do_ldst_X, true, false, MO_UW)
-+TRANS(PLHZ, do_ldst_PLS_D, false, false, MO_UW)
+     tcg_gen_extu_i32_tl(temp, cpu_crf[a->bi >> 2]);
+     tcg_gen_andi_tl(temp, temp, mask);
+-    tcg_gen_movcond_tl(a->r?TCG_COND_EQ:TCG_COND_NE, cpu_gpr[a->rt], temp,
+-                       tcg_constant_tl(0), tcg_constant_tl(a->n?-1:1),
++    tcg_gen_movcond_tl(rev?TCG_COND_EQ:TCG_COND_NE, cpu_gpr[a->rt], temp,
++                       tcg_constant_tl(0), tcg_constant_tl(neg?-1:1),
+                        tcg_constant_tl(0));
+     tcg_temp_free(temp);
  
- /* Load Halfword Algebraic */
- TRANS(LHA, do_ldst_D, false, false, MO_SW)
- TRANS(LHAX, do_ldst_X, false, false, MO_SW)
- TRANS(LHAU, do_ldst_D, true, false, MO_SW)
- TRANS(LHAXU, do_ldst_X, true, false, MO_SW)
-+TRANS(PLHA, do_ldst_PLS_D, false, false, MO_SW)
- 
- /* Load Word and Zero */
- TRANS(LWZ, do_ldst_D, false, false, MO_UL)
- TRANS(LWZX, do_ldst_X, false, false, MO_UL)
- TRANS(LWZU, do_ldst_D, true, false, MO_UL)
- TRANS(LWZUX, do_ldst_X, true, false, MO_UL)
-+TRANS(PLWZ, do_ldst_PLS_D, false, false, MO_UL)
- 
- /* Load Word Algebraic */
- TRANS64(LWA, do_ldst_D, false, false, MO_SL)
- TRANS64(LWAX, do_ldst_X, false, false, MO_SL)
- TRANS64(LWAUX, do_ldst_X, true, false, MO_SL)
-+TRANS64(PLWA, do_ldst_PLS_D, false, false, MO_SL)
- 
- /* Load Doubleword */
- TRANS64(LD, do_ldst_D, false, false, MO_Q)
- TRANS64(LDX, do_ldst_X, false, false, MO_Q)
- TRANS64(LDU, do_ldst_D, true, false, MO_Q)
- TRANS64(LDUX, do_ldst_X, true, false, MO_Q)
-+TRANS64(PLD, do_ldst_PLS_D, false, false, MO_Q)
- 
- /*
-  * Fixed-Point Arithmetic Instructions
+@@ -222,3 +222,15 @@ TRANS(SETBC, do_set_bool_cond, false, false)
+ TRANS(SETBCR, do_set_bool_cond, false, true)
+ TRANS(SETNBC, do_set_bool_cond, true, false)
+ TRANS(SETNBCR, do_set_bool_cond, true, true)
++
++static bool trans_CFUGED(DisasContext *ctx, arg_X *a)
++{
++    REQUIRE_64BIT(ctx);
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++#if defined(TARGET_PPC64)
++    gen_helper_cfuged(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
++#else
++    gen_invalid(ctx);
++#endif
++    return true;
++}
 -- 
 2.25.1
 
