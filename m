@@ -2,102 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE95A37D42C
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 22:21:04 +0200 (CEST)
-Received: from localhost ([::1]:60020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C3E37D436
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 22:27:27 +0200 (CEST)
+Received: from localhost ([::1]:45414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgvLr-0003aJ-TS
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 16:21:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42872)
+	id 1lgvS3-0004WZ-3F
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 16:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1lgvKH-0001N9-4o; Wed, 12 May 2021 16:19:25 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39476
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1lgvKE-0000Ff-JE; Wed, 12 May 2021 16:19:24 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14CK44YJ126545; Wed, 12 May 2021 16:19:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=w1Z069c7VFjdfmE2aOViI0fp5iUp/znDHSlRZatJxpQ=;
- b=OxbrxLuVpwpzDAcCIiY2JbcXsF3tPXT7UNtmck4v2ZYpZN+1+O2QmKOqEnlf4B6Fbjjz
- BcKYgHnKQ9DsTeF8mmSx6t8fspS3V7PZyWHsechk3WnWoNTYeFXf26FCQLTkYCsV7pLb
- 40CMuhq003LWoOBvPcAOHIGQvbzHmRVXICvvev5OBQDnqMSueFWYZAo8XzEiMMw9FTc1
- yBqakg0NwsUfBG72k/Zv6S+1PI8XgqR0H26DGO9BJvBPL1/No9UCxxds5k2qArNTSXuA
- dSPStEGeM5dgcyK/8LzXBKYC3CjwVWxBCBOHa7hiRQ//f0WWvRrDZP/hgSAlOChLGD3c ew== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38gman2esr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 May 2021 16:19:19 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14CK45w5126609;
- Wed, 12 May 2021 16:19:18 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38gman2esh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 May 2021 16:19:18 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14CKI3VV023206;
- Wed, 12 May 2021 20:19:18 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma03wdc.us.ibm.com with ESMTP id 38dj9980dr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 May 2021 20:19:18 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14CKJGge24838636
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 May 2021 20:19:16 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CCB067805E;
- Wed, 12 May 2021 20:19:16 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 289A97805C;
- Wed, 12 May 2021 20:19:16 +0000 (GMT)
-Received: from farman-thinkpad-t470p (unknown [9.160.49.189])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 12 May 2021 20:19:15 +0000 (GMT)
-Message-ID: <12fd64d4d368230b69f47a6ed67049b67553717b.camel@linux.ibm.com>
-Subject: Re: [PATCH RFC] vfio-ccw: forward halt/clear errors
-From: Eric Farman <farman@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
-Date: Wed, 12 May 2021 16:19:15 -0400
-In-Reply-To: <20210511151129.77051-1-cohuck@redhat.com>
-References: <20210511151129.77051-1-cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: i8ddk1tyfq7Ypc44-tQRPS42cIKECcpV
-X-Proofpoint-GUID: LvAXbmEpFNrd6v491Ui6Vz0jEUHmVA9v
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-12_11:2021-05-12,
- 2021-05-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- mlxscore=0 malwarescore=0 spamscore=0 bulkscore=0 mlxlogscore=999
- impostorscore=0 priorityscore=1501 adultscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105120130
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lgvQm-0003lv-Ha
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 16:26:08 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:33373)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lgvQh-0004dU-7L
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 16:26:08 -0400
+Received: by mail-qk1-x735.google.com with SMTP id f29so11318137qka.0
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 13:26:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=t2wzT8buG5g5nGlLGxKAYpy93Ujr62CFu4PSjlYXsBE=;
+ b=lVYHAkyOF6ewQPLdaBuQakT32Q/e7LcJkdF9lUIostFNCLQdMKDCC7asNLJSpuTbW0
+ KJRDZFoNKrYSWJe6BNj+axQbHm0aDo256xiy0nvnqexN+y7cS9EjgbbvI0YaWW0Z87ko
+ E2bcpW0fIK9eGPDo4F2Peg9/B6IKr6q4g6gS0MR9nWaACyKSveubcvEq7/X8S6VTJWL+
+ FIc9eSMzZJi4DRYYL3K9ptdQfUpuV4WnIy4UQPTUsYamOoe8ZhidYHeQCg5XvmoFhsA5
+ r9QLJEhQOeANBZAgDLkDR6B+us+akss4sOmgo2IeUAp6Pni9xirhp4TLn2FupHP0cuPU
+ HuuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=t2wzT8buG5g5nGlLGxKAYpy93Ujr62CFu4PSjlYXsBE=;
+ b=uUWkd8IRlBHZTXZKU2Uv7siDR+uSnT/2UD9E+7ZOmi2HBJ+lDjIDeISgSaZU1R/Kv+
+ ONENc8r+/oB07LG2bBFaf2ahDsFCGVMI+8zmfgC8Ad64lDTY+Xa57r112J1x2GQaj2sQ
+ Jw3Ay5H12j7AmfOxwJhoi1FCYdXXXVTgUW994af1opYCRg3WhC1+8ZrAchm9WUZxywEH
+ tBjEboVEMs0hUbb45fJ2sRUI9StgJWg2BOsIA2SypZJU9Ch9xLr2d1wOUFITq4wRzGg1
+ D/ea6/WRoNP/ffq0ZE51zGUP3TzroitjMketP0ctYMuv1tJU8DBe4xNbO2ljsMBu6kYP
+ IXdQ==
+X-Gm-Message-State: AOAM532cOVzSOunlIRzXnsQ2YBcdcvvIxwWSj9T0T9Dg8+9OyergcCBd
+ +sYge8W72cKwAEiJuVxmd/yAg7TLjgrokHPXYoonxA==
+X-Google-Smtp-Source: ABdhPJwBHxdaNDgRVuDibq99x9TO1k/cB6+f60I9LWdW8ipSXhS3KDYj2CUbm5+Gogiu+AJ7tarqY2Q+vuLm4umCyJE=
+X-Received: by 2002:a37:f512:: with SMTP id l18mr34570960qkk.89.1620851161269; 
+ Wed, 12 May 2021 13:26:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210512053714.3268162-1-f4bug@amsat.org>
+ <20210512053714.3268162-7-f4bug@amsat.org>
+In-Reply-To: <20210512053714.3268162-7-f4bug@amsat.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Wed, 12 May 2021 14:25:50 -0600
+Message-ID: <CANCZdfouF2RgQz55JDLEB8_aqKfc817f=a56Vj9VhEN=hrQMjw@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] gitlab-ci: Add FreeBSD jobs
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="000000000000b39ac505c227d161"
+Received-SPF: none client-ip=2607:f8b0:4864:20::735;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x735.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,175 +75,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Kyle Evans <kevans@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2021-05-11 at 17:11 +0200, Cornelia Huck wrote:
-> hsch and csch basically have two parts: execute the command,
-> and perform the halt/clear function. For fully emulated
-> subchannels, it is pretty clear how it will work: check the
-> subchannel state, and actually 'perform the halt/clear function'
-> and set cc 0 if everything looks good.
-> 
-> For passthrough subchannels, some of the checking is done
-> within QEMU, but some has to be done within the kernel. QEMU's
-> subchannel state may be such that we can perform the async
-> function, but the kernel may still get a cc != 0 when it is
-> actually executing the instruction. In that case, we need to
-> set the condition actually encountered by the kernel; if we
-> set cc 0 on error, we would actually need to inject an interrupt
-> as well.
-> 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+--000000000000b39ac505c227d161
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, May 11, 2021 at 11:37 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg>
+wrote:
+
+> Add system/user emulation jobs on FreeBSD host.
+>
+> To build these jobs, you need to add a FreeBSD runner and
+> add 'freebsd' to the QEMU_CUSTOM_RUNNER variable in your
+> GitLab project.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
-> 
-> Stumbled over this during the vfio-ccw kernel locking discussions.
-> 
-> This is probably a corner case, and I'm not sure how I can actually
-> get this path excercised, but it passes my smoke tests.
+>  .gitlab-ci.d/buildtest-freebsd.yml | 59 ++++++++++++++++++++++++++++++
+>  .gitlab-ci.d/qemu-project.yml      |  1 +
+>  2 files changed, 60 insertions(+)
+>  create mode 100644 .gitlab-ci.d/buildtest-freebsd.yml
+>
 
-I'll see if I can hammer my way into some of this.
+This looks good to my eye, modulo the typo below. Fix that and it's
 
-> 
-> Not sure whether this is the way to go. 
+Reviewed by: Warner Losh <imp@bsdimp.com>
 
-I think it seems reasonable.
+I can't wait to use it...
 
-> The unit exceptions in the
-> halt/clear error paths also seem slightly fishy.
+Warner
 
-It is peculiar. Looking at the old POPS references, the unit exception
-states that the --device-- detected something unusual, not really the
-subchannel (which is how vfio-ccw is behaving). But, providing some
-indication that something went seriously wrong is good. Which I guess
-was the point of the UE code, even though it's obviously set up to be
-generated after a failure on the START.
 
-I guess at the least, we need to clean up the FCTL based on the
-function that failed, rather than only cleaning up the START function.
-The UE itself may just be an extra "hey this is busted" indicator.
+> diff --git a/.gitlab-ci.d/buildtest-freebsd.yml
+> b/.gitlab-ci.d/buildtest-freebsd.yml
+> new file mode 100644
+> index 00000000000..683e815afbf
+> --- /dev/null
+> +++ b/.gitlab-ci.d/buildtest-freebsd.yml
+> @@ -0,0 +1,59 @@
+> +include:
+> +  - local: '/.gitlab-ci.d/buildtest-template.yml'
+> +
+> +.runner_freebsd_template:
+> +  rules:
+> +    # To enable thss job template, add 'freebsd' to the QEMU_CUSTOM_RUNN=
+ER
+>
 
-> 
-> ---
->  hw/s390x/css.c | 34 ++++++++++++++++++++++++++++++----
->  hw/vfio/ccw.c  |  4 ++--
->  2 files changed, 32 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/s390x/css.c b/hw/s390x/css.c
-> index bed46f5ec3a2..ce2e903ca25a 100644
-> --- a/hw/s390x/css.c
-> +++ b/hw/s390x/css.c
-> @@ -1206,23 +1206,49 @@ static void
-> sch_handle_start_func_virtual(SubchDev *sch)
->  
->  }
->  
-> -static void sch_handle_halt_func_passthrough(SubchDev *sch)
-> +static IOInstEnding sch_handle_halt_func_passthrough(SubchDev *sch)
->  {
->      int ret;
->  
->      ret = s390_ccw_halt(sch);
->      if (ret == -ENOSYS) {
->          sch_handle_halt_func(sch);
-> +        return IOINST_CC_EXPECTED;
+thss -> this
 
-This is the fallback, so makes sense. You could fold it into the switch
-table, but since that's for "stuff from the kernel" versus -ENOSYS says
-"there's no way to call the kernel" I guess this is fine too.
 
-> +    }
-> +    /*
-> +     * Some conditions may have been detected prior to starting the
-> halt
-> +     * function; map them to the correct cc.
-> +     */
-> +    switch (ret) {
-> +    case -EBUSY:
-> +        return IOINST_CC_BUSY;
-> +    case -ENODEV:
-> +    case -EACCES:
-> +        return IOINST_CC_NOT_OPERATIONAL;
-> +    default:
-> +        return IOINST_CC_EXPECTED;
->      }
->  }
->  
-> -static void sch_handle_clear_func_passthrough(SubchDev *sch)
-> +static IOInstEnding sch_handle_clear_func_passthrough(SubchDev *sch)
->  {
->      int ret;
->  
->      ret = s390_ccw_clear(sch);
->      if (ret == -ENOSYS) {
->          sch_handle_clear_func(sch);
-> +        return IOINST_CC_EXPECTED;
-> +    }
-> +    /*
-> +     * Some conditions may have been detected prior to starting the
-> clear
-> +     * function; map them to the correct cc.
-> +     */
-> +    switch (ret) {
-> +    case -ENODEV:
-> +    case -EACCES:
-> +        return IOINST_CC_NOT_OPERATIONAL;
-> +    default:
-> +        return IOINST_CC_EXPECTED;
->      }
->  }
->  
-> @@ -1265,9 +1291,9 @@ IOInstEnding
-> do_subchannel_work_passthrough(SubchDev *sch)
->      SCHIB *schib = &sch->curr_status;
->  
->      if (schib->scsw.ctrl & SCSW_FCTL_CLEAR_FUNC) {
-> -        sch_handle_clear_func_passthrough(sch);
-> +        return sch_handle_clear_func_passthrough(sch);
->      } else if (schib->scsw.ctrl & SCSW_FCTL_HALT_FUNC) {
-> -        sch_handle_halt_func_passthrough(sch);
-> +        return sch_handle_halt_func_passthrough(sch);
->      } else if (schib->scsw.ctrl & SCSW_FCTL_START_FUNC) {
->          return sch_handle_start_func_passthrough(sch);
->      }
-> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> index e752c845e9e4..39275a917bd2 100644
-> --- a/hw/vfio/ccw.c
-> +++ b/hw/vfio/ccw.c
-> @@ -199,7 +199,7 @@ again:
+> +    # variable in your project UI via Settings -> CI/CD -> Variables
+> +    #
+> https://docs.gitlab.com/ee/ci/variables/README.html#project-cicd-variable=
+s
+> +    - if: $QEMU_CUSTOM_RUNNER =3D~ /freebsd/
+> +      when: always
+> +    - when: never
+> +  tags:
+> +    - freebsd
+> +
+> +build-user-freebsd:
+> +  extends:
+> +    - .runner_freebsd_template
+> +    - .native_build_job_template
+> +  image:
+> +  variables:
+> +    MAKE_CHECK_ARGS: check-build
+> +    CONFIGURE_ARGS: --disable-system --python=3D/usr/local/bin/python3.7
+> +
+> +build-system-freebsd:
+> +  extends:
+> +    - .runner_freebsd_template
+> +    - .native_build_job_template
+> +  image:
+> +  variables:
+> +    TARGETS: aarch64-softmmu avr-softmmu hppa-softmmu ppc64-softmmu
+> +      riscv64-softmmu s390x-softmmu x86_64-softmmu
+> +    MAKE_CHECK_ARGS: check-build
+> +    CONFIGURE_ARGS: --enable-trace-backends=3Dlog,simple,syslog
+> +      --python=3D/usr/local/bin/python3.7
+> +  artifacts:
+> +    expire_in: 2 days
+> +    paths:
+> +      - .git-submodule-status
+> +      - build
+> +
+> +check-system-freebsd:
+> +  extends:
+> +    - .runner_freebsd_template
+> +    - .native_test_job_template
+> +  needs:
+> +    - job: build-system-freebsd
+> +      artifacts: true
+> +  variables:
+> +    MAKE_CHECK_ARGS: check
+> +
+> +acceptance-system-freebsd:
+> +  extends:
+> +    - .runner_freebsd_template
+> +    - .integration_test_job_template
+> +  needs:
+> +    - job: build-system-freebsd
+> +      artifacts: true
+> +  variables:
+> +    MAKE_CHECK_ARGS: check-acceptance
+> diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.ym=
+l
+> index 64cb2ba1da5..5dcf1d34c5b 100644
+> --- a/.gitlab-ci.d/qemu-project.yml
+> +++ b/.gitlab-ci.d/qemu-project.yml
+> @@ -8,4 +8,5 @@ include:
+>    - local: '/.gitlab-ci.d/containers.yml'
+>    - local: '/.gitlab-ci.d/crossbuilds.yml'
+>    - local: '/.gitlab-ci.d/buildtest.yml'
+> +  - local: '/.gitlab-ci.d/buildtest-freebsd.yml'
+>    - local: '/.gitlab-ci.d/static_checks.yml'
+> --
+> 2.26.3
+>
+>
 
-// This is for CLEAR
+--000000000000b39ac505c227d161
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->      case 0:
->      case -ENODEV:
->      case -EACCES:
-> -        return 0;
-> +        return ret;
->      case -EFAULT:
->      default:
->          sch_gen_unit_exception(sch);
-> @@ -240,7 +240,7 @@ again:
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 11, 2021 at 11:37 PM Phil=
+ippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.=
+org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">Add system/user emulation jobs on FreeBSD host.<br>
+<br>
+To build these jobs, you need to add a FreeBSD runner and<br>
+add &#39;freebsd&#39; to the QEMU_CUSTOM_RUNNER variable in your<br>
+GitLab project.<br>
+<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
+t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+---<br>
+=C2=A0.gitlab-ci.d/buildtest-freebsd.yml | 59 +++++++++++++++++++++++++++++=
++<br>
+=C2=A0.gitlab-ci.d/qemu-project.yml=C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+=C2=A02 files changed, 60 insertions(+)<br>
+=C2=A0create mode 100644 .gitlab-ci.d/buildtest-freebsd.yml<br></blockquote=
+><div><br></div><div>This looks good to my eye, modulo the typo below. Fix =
+that and it&#39;s</div><div><br></div><div>Reviewed by: Warner Losh &lt;<a =
+href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt;</div><div><br></div><=
+div>I can&#39;t wait to use it...</div><div><br></div><div>Warner</div><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+diff --git a/.gitlab-ci.d/buildtest-freebsd.yml b/.gitlab-ci.d/buildtest-fr=
+eebsd.yml<br>
+new file mode 100644<br>
+index 00000000000..683e815afbf<br>
+--- /dev/null<br>
++++ b/.gitlab-ci.d/buildtest-freebsd.yml<br>
+@@ -0,0 +1,59 @@<br>
++include:<br>
++=C2=A0 - local: &#39;/.gitlab-ci.d/buildtest-template.yml&#39;<br>
++<br>
++.runner_freebsd_template:<br>
++=C2=A0 rules:<br>
++=C2=A0 =C2=A0 # To enable thss job template, add &#39;freebsd&#39; to the =
+QEMU_CUSTOM_RUNNER<br></blockquote><div><br></div><div>thss -&gt; this</div=
+><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 # variable in your project UI via Settings -&gt; CI/CD -&gt;=
+ Variables<br>
++=C2=A0 =C2=A0 # <a href=3D"https://docs.gitlab.com/ee/ci/variables/README.=
+html#project-cicd-variables" rel=3D"noreferrer" target=3D"_blank">https://d=
+ocs.gitlab.com/ee/ci/variables/README.html#project-cicd-variables</a><br>
++=C2=A0 =C2=A0 - if: $QEMU_CUSTOM_RUNNER =3D~ /freebsd/<br>
++=C2=A0 =C2=A0 =C2=A0 when: always<br>
++=C2=A0 =C2=A0 - when: never<br>
++=C2=A0 tags:<br>
++=C2=A0 =C2=A0 - freebsd<br>
++<br>
++build-user-freebsd:<br>
++=C2=A0 extends:<br>
++=C2=A0 =C2=A0 - .runner_freebsd_template<br>
++=C2=A0 =C2=A0 - .native_build_job_template<br>
++=C2=A0 image:<br>
++=C2=A0 variables:<br>
++=C2=A0 =C2=A0 MAKE_CHECK_ARGS: check-build<br>
++=C2=A0 =C2=A0 CONFIGURE_ARGS: --disable-system --python=3D/usr/local/bin/p=
+ython3.7<br>
++<br>
++build-system-freebsd:<br>
++=C2=A0 extends:<br>
++=C2=A0 =C2=A0 - .runner_freebsd_template<br>
++=C2=A0 =C2=A0 - .native_build_job_template<br>
++=C2=A0 image:<br>
++=C2=A0 variables:<br>
++=C2=A0 =C2=A0 TARGETS: aarch64-softmmu avr-softmmu hppa-softmmu ppc64-soft=
+mmu<br>
++=C2=A0 =C2=A0 =C2=A0 riscv64-softmmu s390x-softmmu x86_64-softmmu<br>
++=C2=A0 =C2=A0 MAKE_CHECK_ARGS: check-build<br>
++=C2=A0 =C2=A0 CONFIGURE_ARGS: --enable-trace-backends=3Dlog,simple,syslog<=
+br>
++=C2=A0 =C2=A0 =C2=A0 --python=3D/usr/local/bin/python3.7<br>
++=C2=A0 artifacts:<br>
++=C2=A0 =C2=A0 expire_in: 2 days<br>
++=C2=A0 =C2=A0 paths:<br>
++=C2=A0 =C2=A0 =C2=A0 - .git-submodule-status<br>
++=C2=A0 =C2=A0 =C2=A0 - build<br>
++<br>
++check-system-freebsd:<br>
++=C2=A0 extends:<br>
++=C2=A0 =C2=A0 - .runner_freebsd_template<br>
++=C2=A0 =C2=A0 - .native_test_job_template<br>
++=C2=A0 needs:<br>
++=C2=A0 =C2=A0 - job: build-system-freebsd<br>
++=C2=A0 =C2=A0 =C2=A0 artifacts: true<br>
++=C2=A0 variables:<br>
++=C2=A0 =C2=A0 MAKE_CHECK_ARGS: check<br>
++<br>
++acceptance-system-freebsd:<br>
++=C2=A0 extends:<br>
++=C2=A0 =C2=A0 - .runner_freebsd_template<br>
++=C2=A0 =C2=A0 - .integration_test_job_template<br>
++=C2=A0 needs:<br>
++=C2=A0 =C2=A0 - job: build-system-freebsd<br>
++=C2=A0 =C2=A0 =C2=A0 artifacts: true<br>
++=C2=A0 variables:<br>
++=C2=A0 =C2=A0 MAKE_CHECK_ARGS: check-acceptance<br>
+diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.yml<=
+br>
+index 64cb2ba1da5..5dcf1d34c5b 100644<br>
+--- a/.gitlab-ci.d/qemu-project.yml<br>
++++ b/.gitlab-ci.d/qemu-project.yml<br>
+@@ -8,4 +8,5 @@ include:<br>
+=C2=A0 =C2=A0- local: &#39;/.gitlab-ci.d/containers.yml&#39;<br>
+=C2=A0 =C2=A0- local: &#39;/.gitlab-ci.d/crossbuilds.yml&#39;<br>
+=C2=A0 =C2=A0- local: &#39;/.gitlab-ci.d/buildtest.yml&#39;<br>
++=C2=A0 - local: &#39;/.gitlab-ci.d/buildtest-freebsd.yml&#39;<br>
+=C2=A0 =C2=A0- local: &#39;/.gitlab-ci.d/static_checks.yml&#39;<br>
+-- <br>
+2.26.3<br>
+<br>
+</blockquote></div></div>
 
-// This is for HALT
-
->      case -EBUSY:
->      case -ENODEV:
->      case -EACCES:
-> -        return 0;
-> +        return ret;
-
-Aside: How could we get EACCES for either HALT or CLEAR? I only see
-that set in the normal request path, if we got a CC3 on the SSCH.
-
-Can we scrub them, or do we need to update kernel
-Documentation/s390/vfio-ccw.rst ? :)
-
-Eric
-
->      case -EFAULT:
->      default:
->          sch_gen_unit_exception(sch);
-
+--000000000000b39ac505c227d161--
 
