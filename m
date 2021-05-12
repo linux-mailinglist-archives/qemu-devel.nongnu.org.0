@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28BD137D100
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:48:19 +0200 (CEST)
-Received: from localhost ([::1]:46276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA69237D179
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:56:48 +0200 (CEST)
+Received: from localhost ([::1]:38660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgsy2-0001dH-63
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:48:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38158)
+	id 1lgt6F-0007Pk-L2
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:56:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lgsvx-0007Hz-94
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:46:09 -0400
-Resent-Date: Wed, 12 May 2021 13:46:09 -0400
-Resent-Message-Id: <E1lgsvx-0007Hz-94@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21336)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lgsvu-0008Ee-24
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:46:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1620841556; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=hVxllVAUy+cYvW/NItBLqiPxCOhSo4dMBWGkMa4MkXWDc/HTfV5I2CwzSkCIcRmpYPlxNILSLbkiyDWYoIVGyLp6F5dQ7kPueQvu7DC6ZnLVCzhQ00CO4vWQhvuTUMmxz8Bz7KKE2oJcXs2M3vCn9GieDW+VL3EtRGtReYD8IeA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1620841556;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=nGl2Qf2ddr9wTXWEbpw1VGQp4bev+rj7BJS1qki+GU0=; 
- b=P9FP8czJvL+A+argHikYexCFt+DQo/rEoxD+oMRWCmE20BzRCSTfuAwj7I3rZuH/b8UT/lHUUhQCrBpaGoy6afsNAOUJgeW8kvu+qf7Rdv3/wov3gsKHVknSXlb3D0uA/QJ8bOH6ZYnesMXye6aLVItGcwZlGOaROxU2xz3PASc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1620841552879366.15763893211897;
- Wed, 12 May 2021 10:45:52 -0700 (PDT)
-In-Reply-To: <20210512171720.46744-1-imp@bsdimp.com>
-Subject: Re: [PULL 00/20] bsd-user style tweaks and start cleanup
-Message-ID: <162084155180.16870.14745068624383666871@d887ba82c771>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgt5G-0006du-CN
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:55:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60752)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgt5E-0005bl-6W
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:55:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lgt5C-0008AA-4P
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 17:55:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 152912E813A
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 17:55:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: imp@bsdimp.com
-Date: Wed, 12 May 2021 10:45:52 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 12 May 2021 17:46:59 -0000
+From: Izorkin <1924738@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h izorkin
+X-Launchpad-Bug-Reporter: Izorkin (izorkin)
+X-Launchpad-Bug-Modifier: Izorkin (izorkin)
+References: <161856700090.8743.17887923677613364195.malonedeb@gac.canonical.com>
+Message-Id: <162084161932.6944.5471131131576259415.malone@gac.canonical.com>
+Subject: [Bug 1924738] Re: Failed to restore domain - error load load
+ virtio-balloon:virtio
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
+X-Launchpad-Hash: 3758cce90d0de3feb503f30f7489b78c6603a3c0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,161 +71,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kevans@freebsd.org, qemu-devel@nongnu.org, imp@bsdimp.com
+Reply-To: Bug 1924738 <1924738@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUxMjE3MTcyMC40Njc0
-NC0xLWltcEBic2RpbXAuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
-ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
-YXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA1MTIxNzE3MjAuNDY3NDQtMS1p
-bXBAYnNkaW1wLmNvbQpTdWJqZWN0OiBbUFVMTCAwMC8yMF0gYnNkLXVzZXIgc3R5bGUgdHdlYWtz
-IGFuZCBzdGFydCBjbGVhbnVwCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
-CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
-dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
-Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
-VXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0
-dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAg
-ICBwYXRjaGV3LzIwMjEwNTEyMTcxNzIwLjQ2NzQ0LTEtaW1wQGJzZGltcC5jb20gLT4gcGF0Y2hl
-dy8yMDIxMDUxMjE3MTcyMC40Njc0NC0xLWltcEBic2RpbXAuY29tClN3aXRjaGVkIHRvIGEgbmV3
-IGJyYW5jaCAndGVzdCcKMmFhMGYwNiBic2QtdXNlcjogcmVuYW1lIGxpbnV4X2JpbnBybSB0byBi
-c2RfYmlucHJtCmU3NDQyNjQgYnNkLXVzZXI6IFN0b3AgYnVpbGRpbmcgdGhlIHNwYXJjIHRhcmdl
-dHMKNGZiNWFjZSBic2QtdXNlcjogcmVtb3ZlIHRhcmdldF9zaWduYWwuaCwgaXQncyB1bnVzZWQK
-OTk1MDg5MSBic2QtdXNlcjogc3R5bGUgdHdlYWs6IGtleXdvcmQgc3BhY2UgKAo5MWFjZDQ2IGJz
-ZC11c2VyOiBzdHlsZSB0d2VhazogUmVtb3ZlICNpZiAwJ2QgY29kZQo1ZTEzNmVhIGJzZC11c2Vy
-OiBzdHlsZSB0d2Vhazoga2V5d29yZCBzcGFjZSAoCjBmM2QxMDMgYnNkLXVzZXI6IHN0eWxlIHR3
-ZWFrOiBrZXl3b3JkIHNwYWNlICgKZGM5MzAzYSBic2QtdXNlcjogd2hpdGVzcGFjZSBjaGFuZ2Vz
-CjBhMDNiYjkgYnNkLXVzZXI6IHVzZSBxZW11X3N0cnRvdWwgaW4gcHJlZmVyZW5jZSB0byBzdHJ0
-b2wKNmVlODYyOCBic2QtdXNlcjogc3R5bGUgdHdlYWs6IHVzZSB7fSBjb25zaXN0ZW50bHkgaW4g
-Zm9yIC8gaWYgLyBlbHNlIHN0YXRlbWVudHMKMDE0NDAyOCBic2QtdXNlcjogc3R5bGUgdHdlYWs6
-IHVzZSB7fSBmb3IgYWxsIGlmIHN0YXRlbWVudHMsIGZvcm1hdCBlbHNlIGNvcnJlY3RseQozZDU5
-ZjE0IGJzZC11c2VyOiBzdHlsZSB0d2VhazogZG9uJ3QgYXNzaWduIGluIGlmIHN0YXRlbWVudHMK
-OTdjMGIzZSBic2QtdXNlcjogc3R5bGUgdHdlYWs6IFVzZSBwcmVmZXJyZWQgYmxvY2sgY29tbWVu
-dHMKNTg0YzRmZiBic2QtdXNlcjogc3R5bGUgdHdlYWs6IHJlbW92ZSBzcGFjaW5nIGFmdGVyICcq
-JyBhbmQgYWRkIGFmdGVyIH0KODIzOTAwNSBic2QtdXNlcjogc3R5bGUgdHdlYWs6IG1vdmUgZXh0
-ZXJuIHRvIGhlYWRlciBmaWxlCjdlN2Y5MzUgYnNkLXVzZXI6IFJlbW92ZSBjb21tZW50ZWQgb3V0
-IGNvZGUKNzY0YzFmZCBic2QtdXNlcjogc3R5bGUgdHdlYWs6IFVzZSBwcmVmZXJyZWQgYmxvY2sg
-Y29tbWVudHMKNWMyOGVkYiBic2QtdXNlcjogc3R5bGUgdHdlYWs6IFJlbW92ZSAjaWYgMCdkIGNv
-ZGUKZWIyNjQ5MCBic2QtdXNlcjogc3R5bGUgdHdlYWs6IHVzZSBDIG5vdCBDKysgY29tbWVudHMK
-ZmJiNzNhMiBic2QtdXNlcjogd2hpdGVzcGFjZSBjaGFuZ2VzCgo9PT0gT1VUUFVUIEJFR0lOID09
-PQoxLzIwIENoZWNraW5nIGNvbW1pdCBmYmI3M2EyZGNjNjcgKGJzZC11c2VyOiB3aGl0ZXNwYWNl
-IGNoYW5nZXMpCkVSUk9SOiBjb25zaWRlciB1c2luZyBxZW11X3N0cnRvbCBpbiBwcmVmZXJlbmNl
-IHRvIHN0cnRvbAojMTAyOiBGSUxFOiBic2QtdXNlci9tYWluLmM6ODM0OgorICAgICAgICAgICAg
-Z3Vlc3RfYmFzZSA9IHN0cnRvbChhcmd2W29wdGluZCsrXSwgTlVMTCwgMCk7CgpFUlJPUjogYnJh
-Y2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMxNDM6
-IEZJTEU6IGJzZC11c2VyL21haW4uYzoxMTI1OgorICAgICAgICBmb3IgKGkgPSAwOyBpIDwgODsg
-aSsrKQpbLi4uXQoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBv
-ZiB0aGlzIHN0YXRlbWVudAojMTQ2OiBGSUxFOiBic2QtdXNlci9tYWluLmM6MTEyNzoKKyAgICAg
-ICAgZm9yIChpID0gMDsgaSA8IDg7IGkrKykKWy4uLl0KCnRvdGFsOiAzIGVycm9ycywgMCB3YXJu
-aW5ncywgMTE5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMjAgaGFzIHN0eWxlIHByb2JsZW1zLCBw
-bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
-IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
-TkVSUy4KCjIvMjAgQ2hlY2tpbmcgY29tbWl0IGViMjY0OTAzYjU2NyAoYnNkLXVzZXI6IHN0eWxl
-IHR3ZWFrOiB1c2UgQyBub3QgQysrIGNvbW1lbnRzKQozLzIwIENoZWNraW5nIGNvbW1pdCA1YzI4
-ZWRiOTExYTcgKGJzZC11c2VyOiBzdHlsZSB0d2VhazogUmVtb3ZlICNpZiAwJ2QgY29kZSkKNC8y
-MCBDaGVja2luZyBjb21taXQgNzY0YzFmZDIzNTRkIChic2QtdXNlcjogc3R5bGUgdHdlYWs6IFVz
-ZSBwcmVmZXJyZWQgYmxvY2sgY29tbWVudHMpCjUvMjAgQ2hlY2tpbmcgY29tbWl0IDdlN2Y5MzU1
-YWNhOSAoYnNkLXVzZXI6IFJlbW92ZSBjb21tZW50ZWQgb3V0IGNvZGUpCjYvMjAgQ2hlY2tpbmcg
-Y29tbWl0IDgyMzkwMDViYjUyNiAoYnNkLXVzZXI6IHN0eWxlIHR3ZWFrOiBtb3ZlIGV4dGVybiB0
-byBoZWFkZXIgZmlsZSkKNy8yMCBDaGVja2luZyBjb21taXQgNTg0YzRmZmFhMjI5IChic2QtdXNl
-cjogc3R5bGUgdHdlYWs6IHJlbW92ZSBzcGFjaW5nIGFmdGVyICcqJyBhbmQgYWRkIGFmdGVyIH0p
-CjgvMjAgQ2hlY2tpbmcgY29tbWl0IDk3YzBiM2VlOGRjYiAoYnNkLXVzZXI6IHN0eWxlIHR3ZWFr
-OiBVc2UgcHJlZmVycmVkIGJsb2NrIGNvbW1lbnRzKQo5LzIwIENoZWNraW5nIGNvbW1pdCAzZDU5
-ZjE0MGRhMWIgKGJzZC11c2VyOiBzdHlsZSB0d2VhazogZG9uJ3QgYXNzaWduIGluIGlmIHN0YXRl
-bWVudHMpCjEwLzIwIENoZWNraW5nIGNvbW1pdCAwMTQ0MDI4ZWExOTcgKGJzZC11c2VyOiBzdHls
-ZSB0d2VhazogdXNlIHt9IGZvciBhbGwgaWYgc3RhdGVtZW50cywgZm9ybWF0IGVsc2UgY29ycmVj
-dGx5KQoxMS8yMCBDaGVja2luZyBjb21taXQgNmVlODYyOGUyMmU1IChic2QtdXNlcjogc3R5bGUg
-dHdlYWs6IHVzZSB7fSBjb25zaXN0ZW50bHkgaW4gZm9yIC8gaWYgLyBlbHNlIHN0YXRlbWVudHMp
-CjEyLzIwIENoZWNraW5nIGNvbW1pdCAwYTAzYmI5M2VhOGMgKGJzZC11c2VyOiB1c2UgcWVtdV9z
-dHJ0b3VsIGluIHByZWZlcmVuY2UgdG8gc3RydG9sKQoxMy8yMCBDaGVja2luZyBjb21taXQgZGM5
-MzAzYTBhMjhkIChic2QtdXNlcjogd2hpdGVzcGFjZSBjaGFuZ2VzKQpXQVJOSU5HOiBsaW5lIG92
-ZXIgODAgY2hhcmFjdGVycwojMTQ5OiBGSUxFOiBic2QtdXNlci9lbGZsb2FkLmM6NTQxOgorI2Rl
-ZmluZSBUQVJHRVRfRUxGX1BBR0VTVEFSVChfdikgKChfdikgJiB+KHVuc2lnbmVkIGxvbmcpKFRB
-UkdFVF9FTEZfRVhFQ19QQUdFU0laRSAtIDEpKQoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNz
-YXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMzMxOiBGSUxFOiBic2QtdXNlci9l
-bGZsb2FkLmM6ODY3OgorICAgIGlmIChzaXplb2Yoc3RydWN0IGVsZl9waGRyKSAqIGludGVycF9l
-bGZfZXgtPmVfcGhudW0gPiBUQVJHRVRfUEFHRV9TSVpFKQpbLi4uXQoKRVJST1I6IGJyYWNlcyB7
-fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMzQxOiBGSUxF
-OiBic2QtdXNlci9lbGZsb2FkLmM6ODczOgorICAgIGlmICghZWxmX3BoZGF0YSkKWy4uLl0KCkVS
-Uk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQgb3BlbiBwYXJl
-bnRoZXNpcyAnKCcKIzM4MjogRklMRTogYnNkLXVzZXIvZWxmbG9hZC5jOjg5NDoKKyAgICAgICAg
-ZnJlZSAoZWxmX3BoZGF0YSk7CgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc8
-JyAoY3R4OlZ4VikKIzM5MTogRklMRTogYnNkLXVzZXIvZWxmbG9hZC5jOjg5OToKKyAgICBmb3Ig
-KGkgPSAwOyBpPGludGVycF9lbGZfZXgtPmVfcGhudW07IGkrKywgZXBwbnQrKykgewogICAgICAg
-ICAgICAgICAgICBeCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9u
-IGEgc2VwYXJhdGUgbGluZQojNDA5OiBGSUxFOiBic2QtdXNlci9lbGZsb2FkLmM6OTA1OgorICAg
-ICAgICAvKiBpbiBvcmRlciB0byBhdm9pZCBoYXJkY29kaW5nIHRoZSBpbnRlcnByZXRlciBsb2Fk
-CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiM0MTA6
-IEZJTEU6IGJzZC11c2VyL2VsZmxvYWQuYzo5MDY6CisgICAgICAgIC8qIGluIG9yZGVyIHRvIGF2
-b2lkIGhhcmRjb2RpbmcgdGhlIGludGVycHJldGVyIGxvYWQKKyAgICAgICAgICAgYWRkcmVzcyBp
-biBxZW11LCB3ZSBhbGxvY2F0ZSBhIGJpZyBlbm91Z2ggbWVtb3J5IHpvbmUgKi8KCldBUk5JTkc6
-IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojNDEw
-OiBGSUxFOiBic2QtdXNlci9lbGZsb2FkLmM6OTA2OgorICAgICAgICAgICBhZGRyZXNzIGluIHFl
-bXUsIHdlIGFsbG9jYXRlIGEgYmlnIGVub3VnaCBtZW1vcnkgem9uZSAqLwoKV0FSTklORzogbGlu
-ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQ0MjogRklMRTogYnNkLXVzZXIvZWxmbG9hZC5jOjkzNDoK
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZXBwbnQtPnBfZmlsZXN6ICsgVEFSR0VU
-X0VMRl9QQUdFT0ZGU0VUKGVwcG50LT5wX3ZhZGRyKSwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBj
-aGFyYWN0ZXJzCiM0NDY6IEZJTEU6IGJzZC11c2VyL2VsZmxvYWQuYzo5Mzg6CisgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIGVwcG50LT5wX29mZnNldCAtIFRBUkdFVF9FTEZfUEFHRU9G
-RlNFVChlcHBudC0+cF92YWRkcikpOwoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM1
-MDc6IEZJTEU6IGJzZC11c2VyL2VsZmxvYWQuYzo5Nzg6CisgICAgZWxmX2JzcyA9IFRBUkdFVF9F
-TEZfUEFHRVNUQVJUKGVsZl9ic3MgKyBxZW11X2hvc3RfcGFnZV9zaXplIC0gMSk7IC8qIFdoYXQg
-d2UgaGF2ZSBtYXBwZWQgc28gZmFyICovCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhh
-dCAnLCcgKGN0eDpWeFYpCiM1NTQ6IEZJTEU6IGJzZC11c2VyL2VsZmxvYWQuYzoxMTg2OgorICAg
-IGJwcm0tPnAgPSBjb3B5X2VsZl9zdHJpbmdzKGJwcm0tPmVudmMsIGJwcm0tPmVudnAsIGJwcm0t
-PnBhZ2UsYnBybS0+cCk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBhZnRlciB0
-aGF0ICcsJyAoY3R4OlZ4VikKIzU1NTogRklMRTogYnNkLXVzZXIvZWxmbG9hZC5jOjExODc6Cisg
-ICAgYnBybS0+cCA9IGNvcHlfZWxmX3N0cmluZ3MoYnBybS0+YXJnYywgYnBybS0+YXJndiwgYnBy
-bS0+cGFnZSxicHJtLT5wKTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVy
-IHRoYXQgJzsnIChjdHg6VnhWKQojNTkwOiBGSUxFOiBic2QtdXNlci9lbGZsb2FkLmM6MTIzMDoK
-KyAgICBmb3IgKGkgPSAwO2kgPCBlbGZfZXguZV9waG51bTsgaSsrKSB7CiAgICAgICAgICAgICAg
-IF4KCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRz
-ICgxMiwgMTQpCiM2MjY6IEZJTEU6IGJzZC11c2VyL2VsZmxvYWQuYzoxMjY4OgorICAgICAgICAg
-ICAgaWYgKHN0cmNtcChlbGZfaW50ZXJwcmV0ZXIsICIvdXNyL2xpYi9saWJjLnNvLjEiKSA9PSAw
-IHx8ClsuLi5dCiAgICAgICAgICAgICAgIGliY3MyX2ludGVycHJldGVyID0gMTsKCnRvdGFsOiA5
-IGVycm9ycywgNiB3YXJuaW5ncywgNjY2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEzLzIwIGhhcyBz
-dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
-IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
-UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxNC8yMCBDaGVja2luZyBjb21taXQgMGYzZDEwMzFmZWJl
-IChic2QtdXNlcjogc3R5bGUgdHdlYWs6IGtleXdvcmQgc3BhY2UgKCkKRVJST1I6IHNwYWNlIHJl
-cXVpcmVkIGFmdGVyIHRoYXQgJzsnIChjdHg6VnhWKQojMzI6IEZJTEU6IGJzZC11c2VyL3N5c2Nh
-bGwuYzoyNzU6CisgICAgZm9yIChpID0gMDtpIDwgY291bnQ7IGkrKykgewogICAgICAgICAgICAg
-ICBeCgpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnOycgKGN0eDpWeFYpCiM0MTog
-RklMRTogYnNkLXVzZXIvc3lzY2FsbC5jOjMwMToKKyAgICBmb3IgKGkgPSAwO2kgPCBjb3VudDsg
-aSsrKSB7CiAgICAgICAgICAgICAgIF4KCnRvdGFsOiAyIGVycm9ycywgMCB3YXJuaW5ncywgNjAg
-bGluZXMgY2hlY2tlZAoKUGF0Y2ggMTQvMjAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjE1
-LzIwIENoZWNraW5nIGNvbW1pdCA1ZTEzNmVhYmUxYzggKGJzZC11c2VyOiBzdHlsZSB0d2Vhazog
-a2V5d29yZCBzcGFjZSAoKQoxNi8yMCBDaGVja2luZyBjb21taXQgOTFhY2Q0NjlkMmFjIChic2Qt
-dXNlcjogc3R5bGUgdHdlYWs6IFJlbW92ZSAjaWYgMCdkIGNvZGUpCjE3LzIwIENoZWNraW5nIGNv
-bW1pdCA5OTUwODkxNDZhM2YgKGJzZC11c2VyOiBzdHlsZSB0d2Vhazoga2V5d29yZCBzcGFjZSAo
-KQoxOC8yMCBDaGVja2luZyBjb21taXQgNGZiNWFjZTg0ZWJlIChic2QtdXNlcjogcmVtb3ZlIHRh
-cmdldF9zaWduYWwuaCwgaXQncyB1bnVzZWQpClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVlICRh
-Y3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwg
-bGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
-IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyMzogCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0
-NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxNCBsaW5lcyBjaGVja2VkCgpQYXRjaCAx
-OC8yMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
-ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
-IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxOS8yMCBDaGVja2luZyBjb21taXQgZTc0
-NDI2NDAwNTRlIChic2QtdXNlcjogU3RvcCBidWlsZGluZyB0aGUgc3BhcmMgdGFyZ2V0cykKVXNl
-IG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0cmluZyBlcSBh
-dCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFkZGVkLCBtb3Zl
-ZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIy
-OiAKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3Ms
-IDAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTkvMjAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-MjAvMjAgQ2hlY2tpbmcgY29tbWl0IDJhYTBmMDY4ZmY3OCAoYnNkLXVzZXI6IHJlbmFtZSBsaW51
-eF9iaW5wcm0gdG8gYnNkX2JpbnBybSkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQg
-ZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDov
-L3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA1MTIxNzE3MjAuNDY3NDQtMS1pbXBAYnNkaW1wLmNvbS90
-ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRv
-bWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQg
-eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+a) Checked for versions 5.2.0 and 6.0.0rc.
+b) Save and restore with pc-i440fx-5.1.
+c) Used OS Linux NixOS Unstable.
+If clean install NixOS system - the error is not reproduced. It was not pos=
+sible to track what affects the restore domain.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1924738
+
+Title:
+  Failed to restore domain - error load load virtio-balloon:virtio
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I noticed a domain restore error on my virtual machines.
+  I can't reproduce the error on a test virtual machine.
+
+  sudo virsh save linux2020 /var/lib/libvirt/qemu/save/linux2020.save
+  Domain 'linux2020' saved to /var/lib/libvirt/qemu/save/linux2020.save
+
+  sudo virsh restore /var/lib/libvirt/qemu/save/linux2020.save
+  error: Failed to restore domain from /var/lib/libvirt/qemu/save/linux2020=
+.save
+  error: =D0=B2=D0=BD=D1=83=D1=82=D1=80=D0=B5=D0=BD=D0=BD=D1=8F=D1=8F =D0=
+=BE=D1=88=D0=B8=D0=B1=D0=BA=D0=B0: QEMU =D0=BD=D0=B5=D0=BE=D0=B6=D0=B8=D0=
+=B4=D0=B0=D0=BD=D0=BD=D0=BE =D0=B7=D0=B0=D0=B2=D0=B5=D1=80=D1=88=D0=B8=D0=
+=BB =D1=80=D0=B0=D0=B1=D0=BE=D1=82=D1=83 =D0=BC=D0=BE=D0=BD=D0=B8=D1=82=D0=
+=BE=D1=80=D0=B0: qemu-system-x86_64: -chardev socket,id=3Dcharchannel0,fd=
+=3D52,server,nowait: warning: short-form boolean option 'server' deprecated
+  Please use server=3Don instead
+  qemu-system-x86_64: -chardev socket,id=3Dcharchannel0,fd=3D52,server,nowa=
+it: warning: short-form boolean option 'nowait' deprecated
+  Please use wait=3Doff instead
+  qemu-system-x86_64: -spice port=3D5900,addr=3D0.0.0.0,disable-ticketing,i=
+mage-compression=3Doff,seamless-migration=3Don: warning: short-form boolean=
+ option 'disable-ticketing' deprecated
+  Please use disable-ticketing=3Don instead
+  2021-04-16T09:47:15.037700Z qemu-system-x86_64: VQ 0 size 0x80 < last_ava=
+il_idx 0x0 - used_idx 0xcccc
+  2021-04-16T09:47:15.037737Z qemu-system-x86_64: Failed to load virtio-bal=
+loon:virtio
+  2021-04-16T09:47:15.037744Z qemu-system-x86_64: error while loading state=
+ for instance 0x0 of device '0000:00:02.0/virtio-balloon'
+  2021-04-16T09:47:15.037849Z qemu-system-x86_64: load of migration failed:=
+ Operation not permitted
+
+  If in the machine configuration replace
+  <type arch=3D"x86_64" machine=3D"pc-i440fx-5.1">hvm</type>
+  to
+  <type arch=3D"x86_64" machine=3D"pc-i440fx-5.0">hvm</type>
+  the virtual machine is recovering normally
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1924738/+subscriptions
 
