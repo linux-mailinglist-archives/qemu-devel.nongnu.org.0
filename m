@@ -2,70 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2FE37C036
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 16:32:53 +0200 (CEST)
-Received: from localhost ([::1]:57722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2458037C046
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 16:36:04 +0200 (CEST)
+Received: from localhost ([::1]:33206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgpuu-0002cl-Po
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 10:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60906)
+	id 1lgpxz-0005Dd-7S
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 10:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgpnX-00019U-Nt
- for qemu-devel@nongnu.org; Wed, 12 May 2021 10:25:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47744)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgpvu-0003rB-H3
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 10:33:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgpnU-00015G-Rj
- for qemu-devel@nongnu.org; Wed, 12 May 2021 10:25:15 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgpvr-0006DY-LW
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 10:33:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620829511;
+ s=mimecast20190719; t=1620830028;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BOX1HmFA5lpUJhLC7cPmulUnAg+eO2wHpLSpOJ7KaB4=;
- b=NP+5AGiNi3zEYwcm+Bkw6NvfqyaTmtMvqQ5sGRleE1GnQ7dz+lXB1z0v7Pj3HaFfjJRELh
- CZAi4rA2F2uX4xBy7jrWh8ZZ8clI4LykPQ176UI2sGgtJUPTOkLV/MotiTezwt6Kc7QE67
- vx/N8Rfa00tJa9fjbLIWxMus//X2BZM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-OpJwscYyNWmyNTQQqX6ixA-1; Wed, 12 May 2021 10:25:09 -0400
-X-MC-Unique: OpJwscYyNWmyNTQQqX6ixA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72EF01856A76;
- Wed, 12 May 2021 14:24:58 +0000 (UTC)
-Received: from localhost (ovpn-115-51.ams2.redhat.com [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4967D108463C;
- Wed, 12 May 2021 14:24:57 +0000 (UTC)
-Date: Wed, 12 May 2021 15:24:56 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 0/6] block-copy: make helper APIs thread safe
-Message-ID: <YJvlOPPwrCnV0hOg@stefanha-x1.localdomain>
-References: <20210510085941.22769-1-eesposit@redhat.com>
+ bh=VwlVa1K7+A0Y70xBRzBhyEJas9wvxA7cmKzKPiucpOw=;
+ b=jDyE+i9AlelcFu8Xm6BDkWQMeO2Ql8XU9EtvOFAezKvmpxr055KuonbyZfjNpnOB9rZf7T
+ YiQUY98At0gkS1dUK6VG/H7K9pH71RICLndCwM3CQsDzGqGfqH1XcYB5Lnc8WDE1sIQJut
+ 7g1RKEOUz6ViuQEv0WXewvZSEzUlZ6Y=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-s0RiDJKHOVqaUYdG7N2tog-1; Wed, 12 May 2021 10:33:45 -0400
+X-MC-Unique: s0RiDJKHOVqaUYdG7N2tog-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ s66-20020a1ca9450000b0290149fce15f03so641511wme.9
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 07:33:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VwlVa1K7+A0Y70xBRzBhyEJas9wvxA7cmKzKPiucpOw=;
+ b=JDJF4E5BkO1wpdkDflc+yJ4h0X0MpTQaEmm/DnpF/cc9QGr2xumcLPk7WdMcB218Sf
+ WmloEM/3vl6L/vX1u0r5HF1R7EY/l1iJMAQq5VGuRPCesIIGjr+Ljj6l3YYU8jLUjylc
+ VC+Rt19SVqClaDSub2x7wpfNhEsblkAr4n/LJztC5volfXE+LhzbUnUglBKVkbL84/Ht
+ Gqm/NEn/8xsHFMR2Yx63nPwusWiXE5pN3A6k+f69pWZmjDXo1urVMKIY+kLj1riTtG+P
+ 451i3VvuepTnW8jUalV0rCzqgq1afzJJ/K2M9u8KLNRNbdVNAMMdT9nFa5UfltH9vX7y
+ G8vw==
+X-Gm-Message-State: AOAM531Tv9CQsrN5tBCTwUKdm73HBg3+3B0g+Lqp1QLel/dh/VrkAvSs
+ Oqmahkha3qN9RSI1H6veWSD1CtT8698cpekIcNsz0+fYT5JPqkpnaAKmkoBgGhFoJygMrCZ62HU
+ rY1EDkwE5nh43ZLw=
+X-Received: by 2002:adf:ec4f:: with SMTP id w15mr45890340wrn.122.1620830024631; 
+ Wed, 12 May 2021 07:33:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyt/32f89Kq10XUSTqSbbG5WN2SHw7+xz+HZCwjjKk+CxmxPiJrP7ZdAWm1wOT6fNpJfJlqAw==
+X-Received: by 2002:adf:ec4f:: with SMTP id w15mr45890309wrn.122.1620830024442; 
+ Wed, 12 May 2021 07:33:44 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e832bb.dip0.t-ipconnect.de.
+ [217.232.50.187])
+ by smtp.gmail.com with ESMTPSA id x17sm6296248wmc.11.2021.05.12.07.33.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 May 2021 07:33:44 -0700 (PDT)
+To: Willian Rampazzo <wrampazz@redhat.com>
+References: <20210511132641.1022161-1-berrange@redhat.com>
+ <20210511132641.1022161-13-berrange@redhat.com>
+ <fcb6b808-c1de-d5f3-064c-1725c49999e0@redhat.com>
+ <5b582933-6004-3549-b5fe-208c182d5efe@redhat.com>
+ <CAKJDGDZUScyzVzhwpG+d6di3Wa0+Txk0SONVXiC++dukzNeTew@mail.gmail.com>
+ <93b24ba1-0898-250f-0f8c-87bc08934220@redhat.com>
+ <CAKJDGDbye98ftCQSrPbPTR6nrH9m54BupD+pZKkSCuqTYkt7BA@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: non-x86 runners in the Gitlab-CI (was: Re: [PATCH 12/12]
+ configure: bump min required CLang to 7.0.0 / XCode 10.2)
+Message-ID: <ff31a062-6511-ea00-c936-e096d0bee46c@redhat.com>
+Date: Wed, 12 May 2021 16:33:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210510085941.22769-1-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <CAKJDGDbye98ftCQSrPbPTR6nrH9m54BupD+pZKkSCuqTYkt7BA@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="K0gpM6Ks7kECf9d0"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,45 +105,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Ademar Reis Jr <areis@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---K0gpM6Ks7kECf9d0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/05/2021 15.59, Willian Rampazzo wrote:
+> On Wed, May 12, 2021 at 10:56 AM Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> On 12/05/2021 15.47, Willian Rampazzo wrote:
+>>> Hi Thomas,
+>>>
+>>> On Wed, May 12, 2021 at 8:54 AM Thomas Huth <thuth@redhat.com> wrote:
+>>>>
+>>>> On 12/05/2021 13.44, Philippe Mathieu-Daudé wrote:
+>>>>> On 5/11/21 3:26 PM, Daniel P. Berrangé wrote:
+>>>>>> Several distros have been dropped since the last time we bumped the
+>>>>>> minimum required CLang version.
+>>>>>>
+>>>>>> Per repology, currently shipping versions are:
+>>>>>>
+>>>>>>                 RHEL-8: 10.0.1
+>>>>>>         Debian Stretch: 7.0.1
+>>>>>>          Debian Buster: 7.0.1
+>>>>>>     openSUSE Leap 15.2: 9.0.1
+>>>>>>       Ubuntu LTS 18.04: 10.0.0
+>>>>>>       Ubuntu LTS 20.04: 11.0.0
+>>>>>>             FreeBSD 12: 8.0.1
+>>>>>>              Fedora 33: 11.0.0
+>>>>>>              Fedora 34: 11.1.0
+>>>>>>
+>>>>>> With this list Debian Stretch is the constraint at 7.0.1
+>>>>>>
+>>>>>> An LLVM version of 7.0.1 corresponds to macOS XCode version of 10.2
+>>>>>> which dates from March 2019.
+>>>>>
+>>>>> But we still rely on Travis-CI (Ubuntu Bionic 18.04 LTS)
+>>>>> for non-x86 targets until we have figured out who is willing
+>>>>> to share/maintain such non-x86 native runners on Gitlab.
+>>>>
+>>>>     Hi Cleber,
+>>>>
+>>>> by the way, what's the status of your patch series to get the dedicated CI
+>>>> machines (s390x, aarch64, ...) running in our Gitlab-CI? AFAIK the last
+>>>> iteration of your patches has been weeks ago, so I wonder whether you could
+>>>> finally send a new version with the requested fixes included? ... this topic
+>>>> slowly gets more and more urgent now that our Travis-CI is in process of
+>>>> dying...
+>>>
+>>> I don't know if you saw this:
+>>> https://docs.travis-ci.com/user/billing-overview/#partner-queue-solution.
+>>>
+>>> tl;dr, Travis now has support from partners to run non-x86 arch. It is
+>>> always good to have a plan B, like qemu own CI runners, but, at least,
+>>> with these non-x86 arch available on Travis, we will have some time to
+>>> breathe.
+>>
+>> Uh, that's what we're already using in our travis.yml ... but I guess you've
+>> rather missed:
+>>
+>>    https://blog.travis-ci.com/2021-05-07-orgshutdown
+>>
+>> and on travis-ci.com, the CI minutes are not for free anymore. At least not
+>> for the QEMU project. Or do you know of a sponsor who is going to pay the CI
+>> minutes for us there?
+>>
+> 
+> The link I posted tells arm and s390x will still be free for OSS projects.
+> 
+>  From that page:
+> 
+> IBM CPU builds in IBM Cloud (sponsored by IBM)
+> ARM64 CPU builds in Equinix Metal (former Packet) infrastructure
+> (sponsored by ARM)
 
-On Mon, May 10, 2021 at 10:59:35AM +0200, Emanuele Giuseppe Esposito wrote:
-> This serie of patches bring thread safety to the smaller APIs used by
-> block-copy, namely ratelimit, progressmeter, co-shared-resource
-> and aiotask.
-> The end goal is to reduce the usage of the global
-> AioContexlock in block-copy, by introducing smaller granularity
-> locks thus on making the block layer thread safe.=20
+Oh, wow, that's new, indeed! In late 2020 / early 2021, they only gave you 
+some few credits for a limited trial, and I quickly burnt them with some few 
+CI runs, ending in a negative credit balance. But I just checked again, and 
+they indeed reset my credit balance to 1 now (i.e. 1 minute for x86), and 
+indeed it seems like I can run the non-x86 pipelines again:
 
-I'm not sure "global" is accurate. Block jobs can deal with arbitrary
-AioContexts, not just a global AioContext. The lock is per-AioContext
-rather than global. Or did I miss something?
+  https://travis-ci.com/github/huth/qemu/builds/225749601
 
---K0gpM6Ks7kECf9d0
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks for the pointer, that made my day!
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCb5TcACgkQnKSrs4Gr
-c8gOtAgAhx+rGrKpIDE97GRuwNj//jlum6x0jXnGztBqgxr6URTWqAdgm5TE5OnA
-DUmv2XD3GgZXMGshk117wT8TrhXjEZSgmnnnFW1Pjk5NSIeqUyyHD+tvkhEj/j4n
-hYw6XlYIXL0TP91Z2kDF4I/WIkfnqGt2nletfmXvgdbUb3Qe0XhiJEONuUA7SHxj
-6PWo5+GalQ1u/HljCdiFiRl1vL208F5IXgU+LTLYjthyTouq5Li3Ns7bPv2v5QNe
-GBzCVY8aF1s9Iey4SPGWxcw/CO2em8sNm82Pu/hceC8BILlWhrFJY/rNPeoQvvtD
-4XT2mpShTykqyu3r3QOs9kIkMeKzVQ==
-=TvDb
------END PGP SIGNATURE-----
-
---K0gpM6Ks7kECf9d0--
+  Thomas
 
 
