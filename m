@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F151737D4F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 23:48:51 +0200 (CEST)
-Received: from localhost ([::1]:59360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E0637D563
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 23:52:48 +0200 (CEST)
+Received: from localhost ([::1]:45194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgwip-0003S9-1I
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 17:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35560)
+	id 1lgwmd-0004Zz-3e
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 17:52:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwgu-0000ky-SW
- for qemu-devel@nongnu.org; Wed, 12 May 2021 17:46:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43563)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwhD-0000yn-BI
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 17:47:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwgs-0007eA-5v
- for qemu-devel@nongnu.org; Wed, 12 May 2021 17:46:52 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwh3-0007lh-Bi
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 17:47:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620856009;
+ s=mimecast20190719; t=1620856019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j8nl0jcQO0S+XN6BD6lJAQ64y3jRqRoyQhzvjh6JnPs=;
- b=gfo/ddSdZyibhoIVRpvzZLAw9osjMdFLhnHOBI02/YgpMZtjgAYpQ0dSsO4UC72jYKdwiW
- y6vWXRmPqSM7VRhepbUbkQH6wnysR2P+l7SoKvSp7ffsfYQNyWIiYnkMmJhr4LKe4cSK3K
- md6VAOl0li33bu2EUNIaSgPFo+ve+iQ=
+ bh=Nsge9hZ9d41TehIGTBqpE3cG89Y7dT1ymp6CQUptFp4=;
+ b=hbJ3Yc9yfwvdqXV7HdbtIwBqYLut06+i6ARk74gU2es1CAaTQf/mi7Gny6MG+vvrEixz91
+ /a+KlZRFoEjHBHSLxUaraWFLs6hww/vVUpkb0e4GPsIJ+QpxGtcqC1qUrE9nYRRYX8Edoc
+ Gdfkfp8Qx0qy0hL6Ak6yz0YNhU+jBd0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-BNDC15DqMxifDqkeiXa0mg-1; Wed, 12 May 2021 17:46:47 -0400
-X-MC-Unique: BNDC15DqMxifDqkeiXa0mg-1
+ us-mta-499-EiSPTf91MiOoIZvg2d6qQg-1; Wed, 12 May 2021 17:46:49 -0400
+X-MC-Unique: EiSPTf91MiOoIZvg2d6qQg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADAD2FC9B;
- Wed, 12 May 2021 21:46:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DD68FC8C;
+ Wed, 12 May 2021 21:46:48 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FB715D6AC;
- Wed, 12 May 2021 21:46:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02BC05D6AC;
+ Wed, 12 May 2021 21:46:46 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/10] python/console_socket: avoid one-letter variable
-Date: Wed, 12 May 2021 17:46:33 -0400
-Message-Id: <20210512214642.2803189-2-jsnow@redhat.com>
+Subject: [PATCH 02/10] python/machine: use subprocess.DEVNULL instead of
+ open(os.path.devnull)
+Date: Wed, 12 May 2021 17:46:34 -0400
+Message-Id: <20210512214642.2803189-3-jsnow@redhat.com>
 In-Reply-To: <20210512214642.2803189-1-jsnow@redhat.com>
 References: <20210512214642.2803189-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -63,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,35 +83,46 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes pylint warnings.
+One less file resource to manage, and it helps quiet some pylint >=
+2.8.0 warnings about not using a with-context manager for the open call.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- python/qemu/console_socket.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ python/qemu/machine.py | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-index ac21130e446..87237bebef7 100644
---- a/python/qemu/console_socket.py
-+++ b/python/qemu/console_socket.py
-@@ -46,11 +46,11 @@ def __init__(self, address: str, file: Optional[str] = None,
-             self._drain_thread = self._thread_start()
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 6e44bda337e..41f51bd27d0 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -223,9 +223,8 @@ def send_fd_scm(self, fd: Optional[int] = None,
+             assert fd is not None
+             fd_param.append(str(fd))
  
-     def __repr__(self) -> str:
--        s = super().__repr__()
--        s = s.rstrip(">")
--        s = "%s,  logfile=%s, drain_thread=%s>" % (s, self._logfile,
--                                                   self._drain_thread)
--        return s
-+        tmp = super().__repr__()
-+        tmp = tmp.rstrip(">")
-+        tmp = "%s,  logfile=%s, drain_thread=%s>" % (tmp, self._logfile,
-+                                                     self._drain_thread)
-+        return tmp
- 
-     def _drain_fn(self) -> None:
-         """Drains the socket and runs while the socket is open."""
+-        devnull = open(os.path.devnull, 'rb')
+         proc = subprocess.Popen(
+-            fd_param, stdin=devnull, stdout=subprocess.PIPE,
++            fd_param, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+             stderr=subprocess.STDOUT, close_fds=False
+         )
+         output = proc.communicate()[0]
+@@ -393,7 +392,6 @@ def _launch(self) -> None:
+         """
+         Launch the VM and establish a QMP connection
+         """
+-        devnull = open(os.path.devnull, 'rb')
+         self._pre_launch()
+         self._qemu_full_args = tuple(
+             chain(self._wrapper,
+@@ -403,7 +401,7 @@ def _launch(self) -> None:
+         )
+         LOG.debug('VM launch command: %r', ' '.join(self._qemu_full_args))
+         self._popen = subprocess.Popen(self._qemu_full_args,
+-                                       stdin=devnull,
++                                       stdin=subprocess.DEVNULL,
+                                        stdout=self._qemu_log_file,
+                                        stderr=subprocess.STDOUT,
+                                        shell=False,
 -- 
 2.30.2
 
