@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D45A37EF7F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:20:14 +0200 (CEST)
-Received: from localhost ([::1]:33896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB88837EF70
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:18:08 +0200 (CEST)
+Received: from localhost ([::1]:54136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgy9F-0008Uq-9U
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:20:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50104)
+	id 1lgy7D-00038o-Sk
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:18:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgy2a-0001Vg-A7
- for qemu-devel@nongnu.org; Wed, 12 May 2021 19:13:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60850)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgy2g-0001ZU-4d
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 19:13:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgy2Y-00064u-LP
- for qemu-devel@nongnu.org; Wed, 12 May 2021 19:13:20 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgy2b-00066A-K3
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 19:13:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620861198;
+ s=mimecast20190719; t=1620861199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=USnY7FTrbETbCxMV7iz4jh4bCI8a7wc0GV28Z1+mF/E=;
- b=gu+29V+sJPHVZmdaoT+CLfV0B3bAAuPu83bmck6b29zMh1JgHK9YSqY1DWweB/x32lQPBd
- nYcAhC8dFOsMgtlyVYya7pMg6g5LKsAEZrrLU/OpJdHgp1bfnqm0YVwbRqHnSdby+vUyIn
- UzXMppfypmcK3jX6rexPM7ljMkGYUV4=
+ bh=DbkyiKgkxZTlGVNSXzdk6QUXJ0p3gkHt3sTWGe+uKM4=;
+ b=FPh+NdC2Ap/egUTjwBa/nmeyZ9eUPZBrqjf0LjqLIvqmaAy/JMj4/NdbmD8SxX4q+Mmg8T
+ rUWPUM5stwQnXPQ2yw70MQlnELLHPN5Pd0lHk/ndDngK62s3lRqL+JTxgD+c4htgC247ZU
+ LJMi80mHwic11jT+dJXbh4N+nSd3PuY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-U1LniBFWMbebTqiYR5FU4Q-1; Wed, 12 May 2021 19:13:15 -0400
-X-MC-Unique: U1LniBFWMbebTqiYR5FU4Q-1
+ us-mta-584-NR4ruPGqPamlN3abqUJSGA-1; Wed, 12 May 2021 19:13:16 -0400
+X-MC-Unique: NR4ruPGqPamlN3abqUJSGA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA8E31005D47;
- Wed, 12 May 2021 23:13:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59E0F801817;
+ Wed, 12 May 2021 23:13:15 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 367DF5D736;
- Wed, 12 May 2021 23:13:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD6885D736;
+ Wed, 12 May 2021 23:13:13 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 07/25] python: add MANIFEST.in
-Date: Wed, 12 May 2021 19:12:23 -0400
-Message-Id: <20210512231241.2816122-8-jsnow@redhat.com>
+Subject: [PATCH v6 08/25] python: Add pipenv support
+Date: Wed, 12 May 2021 19:12:24 -0400
+Message-Id: <20210512231241.2816122-9-jsnow@redhat.com>
 In-Reply-To: <20210512231241.2816122-1-jsnow@redhat.com>
 References: <20210512231241.2816122-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,43 +89,76 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When creating a source distribution via 'python3 setup.py sdist', the
-VERSION and PACKAGE.rst files aren't bundled by default. Create a
-MANIFEST.in file that instructs the build tools to include these so that
-installation from source dists won't fail.
+pipenv is a tool used for managing virtual environments with pinned,
+explicit dependencies. It is used for precisely recreating python
+virtual environments.
 
-(This invocation is required by 'tox', as well as by the tooling needed
-to upload packages to PyPI.)
+pipenv uses two files to do this:
+
+(1) Pipfile, which is similar in purpose and scope to what setup.cfg
+lists. It specifies the requisite minimum to get a functional
+environment for using this package.
+
+(2) Pipfile.lock, which is similar in purpose to `pip freeze >
+requirements.txt`. It specifies a canonical virtual environment used for
+deployment or testing. This ensures that all users have repeatable
+results.
+
+The primary benefit of using this tool is to ensure *rock solid*
+repeatable CI results with a known set of packages. Although I endeavor
+to support as many versions as I can, the fluid nature of the Python
+toolchain often means tailoring code for fairly specific versions.
+
+Note that pipenv is *not* required to install or use this module; this is
+purely for the sake of repeatable testing by CI or developers.
+
+Here, a "blank" pipfile is added with no dependencies, but specifies
+Python 3.6 for the virtual environment.
+
+Pipfile will specify our version minimums, while Pipfile.lock specifies
+an exact loadout of packages that were known to operate correctly. This
+latter file provides the real value for easy setup of container images
+and CI environments.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- python/README.rst  | 2 ++
- python/MANIFEST.in | 2 ++
- 2 files changed, 4 insertions(+)
- create mode 100644 python/MANIFEST.in
+ python/README.rst |  3 +++
+ python/Pipfile    | 11 +++++++++++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 python/Pipfile
 
 diff --git a/python/README.rst b/python/README.rst
-index 7a0dc5dff4a..86364367261 100644
+index 86364367261..e27ba0130ba 100644
 --- a/python/README.rst
 +++ b/python/README.rst
-@@ -33,6 +33,8 @@ Files in this directory
- -----------------------
- 
- - ``qemu/`` Python package source directory.
-+- ``MANIFEST.in`` is read by python setuptools, it specifies additional files
-+  that should be included by a source distribution.
+@@ -36,6 +36,9 @@ Files in this directory
+ - ``MANIFEST.in`` is read by python setuptools, it specifies additional files
+   that should be included by a source distribution.
  - ``PACKAGE.rst`` is used as the README file that is visible on PyPI.org.
++- ``Pipfile`` is used by Pipenv to generate ``Pipfile.lock``.
++- ``Pipfile.lock`` is a set of pinned package dependencies that this package
++  is tested under in our CI suite. It is used by ``make venv-check``.
  - ``README.rst`` you are here!
  - ``VERSION`` contains the PEP-440 compliant version used to describe
-diff --git a/python/MANIFEST.in b/python/MANIFEST.in
+   this package; it is referenced by ``setup.cfg``.
+diff --git a/python/Pipfile b/python/Pipfile
 new file mode 100644
-index 00000000000..2b1ee8b4e72
+index 00000000000..9534830b5eb
 --- /dev/null
-+++ b/python/MANIFEST.in
-@@ -0,0 +1,2 @@
-+include VERSION
-+include PACKAGE.rst
-\ No newline at end of file
++++ b/python/Pipfile
+@@ -0,0 +1,11 @@
++[[source]]
++name = "pypi"
++url = "https://pypi.org/simple"
++verify_ssl = true
++
++[dev-packages]
++
++[packages]
++
++[requires]
++python_version = "3.6"
 -- 
 2.30.2
 
