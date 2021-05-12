@@ -2,70 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AC737C010
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 16:27:40 +0200 (CEST)
-Received: from localhost ([::1]:46170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E323437C034
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 16:32:48 +0200 (CEST)
+Received: from localhost ([::1]:55408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgppr-000384-Qt
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 10:27:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60380)
+	id 1lgpup-0000xA-Rg
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 10:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgpko-0005YE-RZ
- for qemu-devel@nongnu.org; Wed, 12 May 2021 10:22:27 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:41639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgpkn-0007s2-4d
- for qemu-devel@nongnu.org; Wed, 12 May 2021 10:22:26 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id v5so16222987edc.8
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 07:22:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3HH8/4O46IlqqyMZ1moKMle08K+rG3d6DKkJns2xvxU=;
- b=RjrUCzTDswM4zstKXTHfbTgdLU/WK5LVKVfXqIQnBDp3M/8BkZU6szGGKpVtNrD81g
- Ky0fTCXZlG51PY/ajraKL9TiEVuefuBLbBK/C1CPWscLfW4+LZvkRLnrPZ/S8mcIwcng
- j0ZZ4ppqnGXHDuc0DjtosgPOUnSsASrBV1gKL4wpNp7DKDLq7mbfhqAvywrkq7eWOh9D
- OBs8aja6PJ3QHj8VVOgVVnZLbls0XSrMrFwfLSMJmyb51rISPdVOoa70nssjo501Lg3b
- /iKbBEaYDQ2mApUPxnvOUI1145TuyKI1FytEqInLHtAbwma3HMKPpvh+yqqpJPGhXONV
- kK7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3HH8/4O46IlqqyMZ1moKMle08K+rG3d6DKkJns2xvxU=;
- b=EgE911wh0uf/vXexvTp1RS37wWbMmE6Teexq6vPEEiqSkF9qFd2hRH+P4DxjpDrSLh
- 23rxEQGV270z4/7sMxjjDPDe2OYUYmX3c+7lDvVE2NwLZm1og8Dkb9cdp4yxUXI1fQyz
- ou5Cu1EyjapOCwZlsY5X6Y24fPFPe9sYRL4jU8Ukq6+GwFBpKpspsFf3ciZI3fn05dC5
- qcHp91COL2wdh/1FGXiGQhJBwuJHWcPz6MVEFRftwIid5dc8hMjou05a3v39ZrFPNMs+
- hcfU45e9LsNTHMG1OHzJwtuT93k05ag9Cbzu4DpVfzgS/vaHfSZmQ8XeI/2rSaeYMcq3
- oOHQ==
-X-Gm-Message-State: AOAM531A123Xh+LF76opS8Jm3RYrB1sPnIZ97UYFEwIgI6FA/54DNiO+
- nWMyHp92PwdHSZg5mTbIu46IJDMS2p/uoHzjgSLBOA==
-X-Google-Smtp-Source: ABdhPJz+ekimH/FvWDqmkCBmEVWmrA2OAVIl/sMtdX45cOxgT7LtHLZShXG32OOwq+WcxwGBjaEHkMTrpNCcyR5qGLw=
-X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr43278753edt.36.1620829343379; 
- Wed, 12 May 2021 07:22:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-35-richard.henderson@linaro.org>
-In-Reply-To: <20210430202610.1136687-35-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 May 2021 15:21:09 +0100
-Message-ID: <CAFEAcA_jBHGAB2xL5zJnz_Rix_sF+ge7d65ZfwPN6F5DaN=yRA@mail.gmail.com>
-Subject: Re: [PATCH v6 34/82] target/arm: Implement SVE2 saturating
- multiply-add long
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lgpZC-0006Bn-9I; Wed, 12 May 2021 10:10:29 -0400
+Received: from [201.28.113.2] (port=32758 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lgpZA-0000Pm-IZ; Wed, 12 May 2021 10:10:26 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 11:08:39 -0300
+Received: from eldorado.org.br (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTP id 5109680139F;
+ Wed, 12 May 2021 11:08:39 -0300 (-03)
+From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 08/11] target/ppc: wrapped some TCG only logic with ifdefs
+Date: Wed, 12 May 2021 11:08:10 -0300
+Message-Id: <20210512140813.112884-9-bruno.larsen@eldorado.org.br>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
+References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
+X-OriginalArrivalTime: 12 May 2021 14:08:39.0462 (UTC)
+ FILETIME=[4EB00C60:01D74738]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,24 +52,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
+ luis.pires@eldorado.org.br, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 21:53, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper-sve.h    | 14 ++++++++++
->  target/arm/sve.decode      | 14 ++++++++++
->  target/arm/sve_helper.c    | 30 +++++++++++++++++++++
->  target/arm/translate-sve.c | 54 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 112 insertions(+)
->
+Wrapped some function calls in cpu_init.c and gdbstub.c that were TCG only
+with ifdef CONFIG_TCG, to make it easier to build without it.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+This seemed to be the minimum amount of changes to make the project
+compile, but we wanted some feedback about wether we excluded something
+important or if we should reorder some code to minimize ifdef count
 
-thanks
--- PMM
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+---
+ include/exec/helper-proto.h | 2 ++
+ target/ppc/cpu_init.c       | 8 ++++++++
+ target/ppc/excp_helper.c    | 6 +++++-
+ 3 files changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
+index ba100793a7..ce287222ee 100644
+--- a/include/exec/helper-proto.h
++++ b/include/exec/helper-proto.h
+@@ -38,7 +38,9 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
+ #define IN_HELPER_PROTO
+ 
+ #include "helper.h"
++#ifdef CONFIG_TCG
+ #include "trace/generated-helpers.h"
++#endif
+ #include "accel/tcg/tcg-runtime.h"
+ #include "accel/tcg/plugin-helpers.h"
+ 
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index d0fa219880..9d72dc49cf 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -1204,11 +1204,13 @@ static void register_BookE206_sprs(CPUPPCState *env, uint32_t mas_mask,
+     /* TLB assist registers */
+     /* XXX : not implemented */
+     for (i = 0; i < 8; i++) {
++#ifdef CONFIG_TCG
+         void (*uea_write)(DisasContext *ctx, int sprn, int gprn) =
+             &spr_write_generic32;
+         if (i == 2 && (mas_mask & (1 << i)) && (env->insns_flags & PPC_64B)) {
+             uea_write = &spr_write_generic;
+         }
++#endif
+         if (mas_mask & (1 << i)) {
+             spr_register(env, mas_sprn[i], mas_names[i],
+                          SPR_NOACCESS, SPR_NOACCESS,
+@@ -8606,7 +8608,9 @@ static void ppc_cpu_realize(DeviceState *dev, Error **errp)
+         }
+     }
+ 
++#ifdef CONFIG_TCG
+     create_ppc_opcodes(cpu, &local_err);
++#endif
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         goto unrealize;
+@@ -8799,7 +8803,9 @@ static void ppc_cpu_unrealize(DeviceState *dev)
+ 
+     cpu_remove_sync(CPU(cpu));
+ 
++#ifdef CONFIG_TCG
+     destroy_ppc_opcodes(cpu);
++#endif
+ }
+ 
+ static gint ppc_cpu_compare_class_pvr(gconstpointer a, gconstpointer b)
+@@ -9297,7 +9303,9 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->class_by_name = ppc_cpu_class_by_name;
+     cc->has_work = ppc_cpu_has_work;
+     cc->dump_state = ppc_cpu_dump_state;
++#ifdef CONFIG_TCG
+     cc->dump_statistics = ppc_cpu_dump_statistics;
++#endif
+     cc->set_pc = ppc_cpu_set_pc;
+     cc->gdb_read_register = ppc_cpu_gdb_read_register;
+     cc->gdb_write_register = ppc_cpu_gdb_write_register;
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index f4f15279eb..824e16a32a 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -21,7 +21,9 @@
+ #include "cpu.h"
+ #include "exec/helper-proto.h"
+ #include "exec/exec-all.h"
++#ifdef CONFIG_TCG
+ #include "exec/cpu_ldst.h"
++#endif
+ #include "internal.h"
+ #include "helper_regs.h"
+ 
+@@ -1492,7 +1494,7 @@ void helper_book3s_msgsnd(target_ulong rb)
+     book3s_msgsnd_common(pir, PPC_INTERRUPT_HDOORBELL);
+ }
+ 
+-#if defined(TARGET_PPC64)
++#if defined(TARGET_PPC64) && defined(CONFIG_TCG)
+ void helper_book3s_msgclrp(CPUPPCState *env, target_ulong rb)
+ {
+     helper_hfscr_facility_check(env, HFSCR_MSGP, "msgclrp", HFSCR_IC_MSGP);
+@@ -1525,6 +1527,7 @@ void helper_book3s_msgsndp(CPUPPCState *env, target_ulong rb)
+ #endif
+ #endif
+ 
++#ifdef CONFIG_TCG
+ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+                                  MMUAccessType access_type,
+                                  int mmu_idx, uintptr_t retaddr)
+@@ -1540,3 +1543,4 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+     env->error_code = insn & 0x03FF0000;
+     cpu_loop_exit(cs);
+ }
++#endif
+-- 
+2.17.1
+
 
