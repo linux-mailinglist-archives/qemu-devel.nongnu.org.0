@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D91037B32D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 02:48:14 +0200 (CEST)
-Received: from localhost ([::1]:39440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1B837B32B
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 02:47:42 +0200 (CEST)
+Received: from localhost ([::1]:37936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgd2r-0005EB-F6
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 20:48:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48910)
+	id 1lgd2K-0004Dv-18
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 20:47:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgcw7-00064k-7J
- for qemu-devel@nongnu.org; Tue, 11 May 2021 20:41:15 -0400
-Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:33631)
+ id 1lgcyw-00017a-Ij
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 20:44:11 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:39740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgcw4-0002Ma-1T
- for qemu-devel@nongnu.org; Tue, 11 May 2021 20:41:14 -0400
-Received: by mail-ot1-x32a.google.com with SMTP id
- i23-20020a9d68d70000b02902dc19ed4c15so15156707oto.0
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 17:41:11 -0700 (PDT)
+ id 1lgcyp-0003p0-Nr
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 20:44:10 -0400
+Received: by mail-oi1-x235.google.com with SMTP id i81so20778241oif.6
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 17:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5g+jpRm92ogIBzxOm2tzS3hf9VZ0EaFFMXALrQIUkQI=;
- b=a1wQsFCwRWkFS3qCjpIQTpKAYcwuLZjeuoH+Ws74U64DEDKdekOuub/jweQExmyk02
- PO+Skuik5UexlK384pOe6k8fPpacSFuL3oE6IaDtXCGdM2C7hh8ITnxXvyH9v7e+LrpQ
- /kiYFNbNeWzMOkJykFi4/PJENNnIE+SZGJzRgx5uUsrbmdFaCwQpXslXK9DeVNhUaOL/
- Gv/ij0csDr2PLT5Vl00LVW6MAJpzl3Lu/4VjFoGwN77tbfw1EGo8ICUZ9q9FE4HR1Lm4
- 0Z1f6F7DhtXMQPQQVsDqJZAxcOO7JalHLzwbNN8r59/cYywKtUd0gEFXiN1/6sFYnxEo
- jawQ==
+ bh=1aKRkC/BqiDo+vUkxmlsbg4uXALv2Ven67Wp1mT86I0=;
+ b=t5CyvDzCj6iupC8SgucMwqT+p7dRSu29+TJ2Sdy1zL7z6RIXyFApuvIwS3PbOe4+Ah
+ +2kIbBaRAoThvnnOclnVG2UJugACkav378UaWWhzAOZuDcAaf7JU7NX4WBdykrF895SG
+ cjewlqdYbBJehh+K85S36ZNjZ+iTdssMxrPpirkXCGEUoV4lya9ngKUnv3Pg2GUllmws
+ LiLfGpzmLBxW8E7vzmyVuyaC4lZebnhi5SaB+QUhONwKDGo6wsYs/450M9VoArzgAfoZ
+ fmk80qBbxX/Zmb9P+H99tfJd2XLPYxu/JvwUHsfz9VYZ/U8Z3ZQlOH4TlErh9sQvx9yk
+ pR8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5g+jpRm92ogIBzxOm2tzS3hf9VZ0EaFFMXALrQIUkQI=;
- b=JsJjwJNM6tU4zz0JB8PqFxCjlCDnxLVDfRqiHzLRPkA4JYjd75NlSOWyfUw4i2JOii
- LM7UN0/p1ITtx/Hj2DJx338071Y/lTMlS7cnEGN1FJGsr/z6xXOQQKIbe+TPc29dAtAC
- vA9VmZ2G1hmEvehqPM6o2Btas1A4v6BUVjt0EqWSf/vbQDDQBvtPLc1kSPK4uquKN7f2
- 9cSVtapacZKtURPSIBDDuoDhruj83JnCE4oANMsUu9EnzeT2qa3t5CUQBEW0++sEI8L0
- Y72Mf9+EcLIgDQhNsTpfvEDTuiEZ0FCQveCCvVJ0j6HdxQ/sgD/t0Pj7E9O2og9AesjW
- U8VA==
-X-Gm-Message-State: AOAM532PV446mPPvTmUESAFfgK3MH9X19RJ2OGbfys9SgzA0z321ByDE
- JjDmjdFhNkrhUAyZEyXfhhyAiA==
-X-Google-Smtp-Source: ABdhPJyTkbwNs2nhfdwnuLOlYH/WPPNZn0Ig6UoIUi1YfesV1ZVDpOMfDBzAfY0Rs4kSeNMo9J9aYA==
-X-Received: by 2002:a05:6830:a:: with SMTP id
- c10mr19114618otp.114.1620780070702; 
- Tue, 11 May 2021 17:41:10 -0700 (PDT)
+ bh=1aKRkC/BqiDo+vUkxmlsbg4uXALv2Ven67Wp1mT86I0=;
+ b=BrGv0Q42mjzOWeJC1qcNjMGEGpHgFqPSOGE13u533gtFNSUBzvzWEj+xZWfhwRACh0
+ EO1j1CkmGlUQP7qxkwYbmwaVA16LzGQIgjnFPQ19ykaN8xPt/xCccDBZg5VmSlQINSo7
+ VQ6EUn6ILL3h6STCzAcP5iuk71+gdQx5Q0oG7mP5WJdg+W5YZynN/g2Vt/pFCENvhQVc
+ KEsjZsOUfRMji2GwSuNMODdWCA3J9XnXqEi8i4E1FX39JkulTUZWL8O+WVSagCng0Ml3
+ p5GqhGPc5TD8GBLjYj3ZlRdw8ns7gRhnPvOsYBt4TWrjgN2cG3ArKSXyDsynoA91sGil
+ SI+g==
+X-Gm-Message-State: AOAM532hc6Cai7g9STJY93pefyLuJUA4snaagVmZJu38LbXtTcnNTMdk
+ ROxH4jk7Z8zXRxld+EVh2QKXrw==
+X-Google-Smtp-Source: ABdhPJzWhoq5IxlXoewqViPsQr+j3OsNv8CGL1nfG8pRboKmc2mfW4qBGX623OVPEX6PKZr3jnNgVA==
+X-Received: by 2002:aca:2402:: with SMTP id n2mr5834214oic.113.1620780242530; 
+ Tue, 11 May 2021 17:44:02 -0700 (PDT)
 Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id y6sm4274062otk.42.2021.05.11.17.41.09
+ by smtp.gmail.com with ESMTPSA id y191sm2653091oia.50.2021.05.11.17.44.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 17:41:10 -0700 (PDT)
-Subject: Re: [PATCH 07/12] crypto: drop used conditional check
+ Tue, 11 May 2021 17:44:02 -0700 (PDT)
+Subject: Re: [PATCH 11/12] configure: bump min required GCC to 6.3.0
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210511132641.1022161-1-berrange@redhat.com>
- <20210511132641.1022161-8-berrange@redhat.com>
+ <20210511132641.1022161-12-berrange@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <52bab5fb-93de-9207-4b23-596c9c3c6216@linaro.org>
-Date: Tue, 11 May 2021 19:41:08 -0500
+Message-ID: <4224b3ac-ffae-af51-94ac-e2323c63ebdf@linaro.org>
+Date: Tue, 11 May 2021 19:43:59 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210511132641.1022161-8-berrange@redhat.com>
+In-Reply-To: <20210511132641.1022161-12-berrange@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x235.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,13 +98,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/11/21 8:26 AM, Daniel P. Berrangé wrote:
-> The condition being tested has never been set since the day the code was
-> first introduced.
+> Several distros have been dropped since the last time we bumped the
+> minimum required GCC version.
+> 
+> Per repology, currently shipping versions are:
+> 
+>               RHEL-8: 8.3.1
+>       Debian Stretch: 6.3.0
+>        Debian Buster: 8.3.0
+>   openSUSE Leap 15.2: 7.5.0
+>     Ubuntu LTS 18.04: 7.5.0
+>     Ubuntu LTS 20.04: 9.3.0
+>              FreeBSD: 10.3.0
+>            Fedora 33: 9.2.0
+>            Fedora 34: 11.0.1
+>              OpenBSD: 8.4.0
+>       macOS HomeBrew: 11.1.0
+> 
+> With this list Debian Stretch is the constraint at 6.3.0
 > 
 > Signed-off-by: Daniel P. Berrangé<berrange@redhat.com>
 > ---
->   crypto/tlscredsx509.c | 2 --
->   1 file changed, 2 deletions(-)
+>   configure | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+
+Yay!
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
