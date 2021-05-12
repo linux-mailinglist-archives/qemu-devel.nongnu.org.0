@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFACB37B6F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 09:36:52 +0200 (CEST)
-Received: from localhost ([::1]:49776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47A237B6FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 09:38:59 +0200 (CEST)
+Received: from localhost ([::1]:53578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgjQJ-0003SV-Qr
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 03:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53958)
+	id 1lgjSM-00061m-Vp
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 03:38:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgjOV-0001lX-2y
- for qemu-devel@nongnu.org; Wed, 12 May 2021 03:34:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46491)
+ id 1lgjRC-0005B0-12
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 03:37:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgjOT-0003u4-NK
- for qemu-devel@nongnu.org; Wed, 12 May 2021 03:34:58 -0400
+ id 1lgjRA-0005Ze-Gh
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 03:37:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620804897;
+ s=mimecast20190719; t=1620805063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cy5rZ7QA0vSy2CPqhMSqWSPxQAwO9UIDSQe55U8zvzg=;
- b=fG+i7CF41MlEKa21hmv18TQBASNQuozU9fDiBM0moi+3FXg2wt9z4T3JicEF3hczDkHGb1
- nkSKnY1mbAugAvEBGMO8bRbgfP6Ht82D56u6f6aew9fz65hZtsVcKwdIcDa3/WnynuBAP4
- FnK7jeSuFAQU2VANKoPxP7VA2/zFSlQ=
+ bh=ey4LzHArlRKXLCCVPHUFQ3BotpZb2rcCCR9e50mwpbM=;
+ b=C2Cz6sn9TfygGzn15Y7o3LLDDfLLo0zxUj1h6zimsOQalmc8OWUNQ9dK0nC+T/sIkTQK8S
+ XrxYJgGgirWU7DDyEe5u/K6J/8HyvBCVOHLLVWYzPDmP6fxEd7qPK0WMcWrH+3/COIFjKC
+ QvTUdO9XrIfgAXKhFCpL7vlbyhlavfg=
 Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
  [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-2vnRnolYOvCOMV8CBy4Tvw-1; Wed, 12 May 2021 03:34:53 -0400
-X-MC-Unique: 2vnRnolYOvCOMV8CBy4Tvw-1
+ us-mta-260-J0gNRDQFNCO5iJY4wBhTJw-1; Wed, 12 May 2021 03:37:39 -0400
+X-MC-Unique: J0gNRDQFNCO5iJY4wBhTJw-1
 Received: by mail-ej1-f71.google.com with SMTP id
- x20-20020a1709061354b02903cff4894505so233286ejb.14
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 00:34:53 -0700 (PDT)
+ k9-20020a17090646c9b029039d323bd239so6797040ejs.16
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 00:37:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Cy5rZ7QA0vSy2CPqhMSqWSPxQAwO9UIDSQe55U8zvzg=;
- b=uT1Wgxivq/gQzTghAoH0wPTUUnK8ZNNoNgFpxkfq1MsfZWJzcxz5my6VK7YwYU45Iw
- 7TdSpqcpk5AvEa1+cLgVuEBFqugtEN9CA91KFgvBLktHWQ5Rht4EHKQo/JkwqQzp0WN6
- MfT17jSG7SiYQEJybsmWAuq6RYZgDUAGQ0hLnwLeclYGmozVA+wJ1c2fnl2vS5nvZ+fy
- 4ke92d9Qt//WC80Y9cKaAIe674ESkWLI/ZeJVhMukMefqVTZkz25fdnavzzS1fENdvBJ
- IU0a4H3NuvL3VPXZvOIB+pyymwruyOHyBEVqjXLCx36Ust4ku1+obYUc7u4PBL8ek3JM
- Rf0g==
-X-Gm-Message-State: AOAM530cA5zkjOHo1ovejmLnL73K+B8q17gD3cs2NuUbiUGtQS6gWfXc
- PjKECmhQxfcwtvqydLr3pb3Q8A7S993IIxEY17LzzlKvSXQ9vJvGFGBWkp3Vp/IIh3BlHzoSd6+
- dzbsuFi8LE9ff16w=
-X-Received: by 2002:a05:6402:430e:: with SMTP id
- m14mr42244759edc.308.1620804892406; 
- Wed, 12 May 2021 00:34:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzWmaRIDPgycJ6rwQVgVAF38lVi2hrWrZKDDOTTmMsIu7KiOfTAlz8L2lPZRB7MOoRKMSgsTw==
-X-Received: by 2002:a05:6402:430e:: with SMTP id
- m14mr42244743edc.308.1620804892238; 
- Wed, 12 May 2021 00:34:52 -0700 (PDT)
+ bh=ey4LzHArlRKXLCCVPHUFQ3BotpZb2rcCCR9e50mwpbM=;
+ b=iYQEjHYChczfY2tWiRsY0l/iPjvOSPn1CDvuCR/HA7usgzBPk4SeLl5E1bnrRbXMo3
+ UJJnekY0re071jJpu/8pMgTXoGk5E7blZgAFGLHZqgiv7OKtv8KVPlVWmF2PkO0Ud+MC
+ +zGAtSXXl5Ycmi722cQYLM13LdK28yioC11nPGNB88y68VviqQhD0iuFokz+Tfrrw4pq
+ 4rioDMVkWfVLF9xgc/0sBz304FYPmtJz51pVWyCeT4mvfdE8eN06vIVVs5LV1MKSmkTY
+ 4tAtl+bJlhvsRC2AQaJUA7GL/V9epMT8q15bVBH8b0Ddp++US6V2tF16PPzKG45470m3
+ NfCw==
+X-Gm-Message-State: AOAM533bFLh+kcfLeb8PrFuacp0KpMPyis5BkXjvXuYOuZBaQ4fYjQ4N
+ fyOszLRPFjfEEeLK5/QX9LWjdkwEaKQvuwRDlp4Hz1gmCozf1ghqpNNfKQ/CrJT2Wa/Q3Ez7Zvl
+ ug+aEBMK71p+pr8A=
+X-Received: by 2002:a17:906:2dca:: with SMTP id
+ h10mr4396575eji.507.1620805058832; 
+ Wed, 12 May 2021 00:37:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzlJjGi0NZCV5Iavrz3ZqYqKSYfsVGyPuj/IQS0Ys6o6txHFKcS9HZyXMMgf1mlTX8i2h7aDQ==
+X-Received: by 2002:a17:906:2dca:: with SMTP id
+ h10mr4396557eji.507.1620805058649; 
+ Wed, 12 May 2021 00:37:38 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id w14sm17063113edj.6.2021.05.12.00.34.50
+ by smtp.gmail.com with ESMTPSA id nc42sm13044175ejc.103.2021.05.12.00.37.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 May 2021 00:34:51 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/5] buildsys: Do not use internal fdt library when
- asked for the system one
+ Wed, 12 May 2021 00:37:38 -0700 (PDT)
+Subject: Re: [RFC PATCH 2/5] Kconfig: Declare 'FDT' host symbol
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210511155354.3069141-1-philmd@redhat.com>
- <ed80da42-74e1-d112-5cd2-8c7456ce6e4b@redhat.com>
- <7eabc7c2-d2cd-2bbd-c5b5-85defc649b9b@redhat.com>
+ <20210511155354.3069141-3-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4df31517-38da-4863-4595-03523f5af7db@redhat.com>
-Date: Wed, 12 May 2021 09:34:50 +0200
+Message-ID: <f2c7fa41-c376-66c9-eb51-31120b2d5010@redhat.com>
+Date: Wed, 12 May 2021 09:37:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <7eabc7c2-d2cd-2bbd-c5b5-85defc649b9b@redhat.com>
+In-Reply-To: <20210511155354.3069141-3-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -113,33 +111,30 @@ Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/05/21 05:56, Philippe Mathieu-Daudé wrote:
->>    qemu/meson.build:1352:4: ERROR: Running configure command failed.
->>    The following clauses were found for PSERIES
->>
->>      CONFIG_PSERIES=y
->>      config PSERIES depends on FDT
->>
-> This is triggered with:
+On 11/05/21 17:53, Philippe Mathieu-Daudé wrote:
+> The CONFIG_FDT symbol depends on the availability of the
+> fdt library on the host. To be able to have other symbols
+> depends on it, declare it symbol in Kconfig.host.
 > 
->                 fdt support: NO
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   Kconfig.host | 3 +++
+>   1 file changed, 3 insertions(+)
 > 
-> having:
-> 
-> default-configs/targets/ppc64-softmmu.mak:6:TARGET_NEED_FDT=y
-> 
-> So this code doesn't seem to work:
-> 
-> if not fdt.found() and fdt_required.length() > 0
->    error('fdt not available but required by targets ' + ',
-> '.join(fdt_required))
-> endif
-> 
-> BTW I disagree FDT is target-dependent, it is machine-dependent IMO.
+> diff --git a/Kconfig.host b/Kconfig.host
+> index 24255ef4419..0a512696865 100644
+> --- a/Kconfig.host
+> +++ b/Kconfig.host
+> @@ -41,3 +41,6 @@ config PVRDMA
+>   config MULTIPROCESS_ALLOWED
+>       bool
+>       imply MULTIPROCESS
+> +
+> +config FDT
+> +    bool
 > 
 
-I agree.  It is much better to depend on FDT consistently for machines 
-that require it.
+You need to add it to host_kconfig as well, don't you?
 
 Paolo
 
