@@ -2,95 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F79A37B7F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 10:29:29 +0200 (CEST)
-Received: from localhost ([::1]:60316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B4C37B837
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 10:43:11 +0200 (CEST)
+Received: from localhost ([::1]:36588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgkFE-0006SM-6s
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 04:29:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36314)
+	id 1lgkSU-0001kF-0K
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 04:43:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgkDu-0005Wz-3o
- for qemu-devel@nongnu.org; Wed, 12 May 2021 04:28:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40429)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgkPy-0000y5-2H
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 04:40:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgkDk-0002ho-Fa
- for qemu-devel@nongnu.org; Wed, 12 May 2021 04:28:05 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgkPv-0001oZ-FE
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 04:40:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620808075;
+ s=mimecast20190719; t=1620808827;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BgSWjmpFiyYAac4u2q1cGgRwlk3GKZwGrH2RWVQjqIA=;
- b=iaDDBFLnWKpswo8mnsqpY0EfDipbZJIsFF3JOA4KQ2VHYVHASZRQRFd8nq1w61TIEIsG1O
- J7n/NFdJM6K/9HBrdE2YsLYIOsUN8fW9qaGaoGdui+Afpex1o4b6moN8ci0PLpIYIJuGz2
- yguIqehcsYK9phDnM4G6isBJk3HoK8U=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-G0sBPjF8PXe2WoEKveAgqQ-1; Wed, 12 May 2021 04:27:51 -0400
-X-MC-Unique: G0sBPjF8PXe2WoEKveAgqQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- y184-20020a1ce1c10000b0290143299f39d7so359855wmg.4
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 01:27:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BgSWjmpFiyYAac4u2q1cGgRwlk3GKZwGrH2RWVQjqIA=;
- b=tvrnZ5Cpa5I/b6DabyN7/WejvMLK3ClAtKfFLGjCAsb+LWlgQMXYl6wGOUTVvkAq3x
- GK00/hsnDWHyREPHERQ8SVP+kICMV3C1tpQkTolDBE+dEDGkITslQmQBF/JDuIDa6nuD
- XosbmQmvAmG1YR9oNT+JSFsbto+iiU0JukzhvGySXozddzkycJ542cejTsyWaWh6G8CI
- lkgchtUJqs79yrhQrZyhgZmNHO7FEq8muKZ0jSdvIGmcNKQz257ahDLHqupeCzHcIAfZ
- dlBSjiGRPFsPWzQuKAJMFh+kLoh57IDYM6r8d4G1i6FIiy5zRLiMBG7b7q69ua5Axg1R
- ZlpA==
-X-Gm-Message-State: AOAM533/cHy69sGWDKYLId8Uwk0O7CA0p+Bhdy5LZGE25bq2odvpPjmB
- C7f7SCGShMNVLCtiM1sqc/lHjJkf9ZkEGYpJmiJrwnBLID1q7oS6pEvQYyarL6mELworogHApn1
- +eJRRRqw3Qk3qla0=
-X-Received: by 2002:a05:600c:19c8:: with SMTP id
- u8mr10430795wmq.50.1620808070513; 
- Wed, 12 May 2021 01:27:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxJCXBBPbVq1TLNNuTDzivdEe05gW86tXyk029q0+8E6mnTxDbR2JWghSOJ+zhJGBSjAkqsGw==
-X-Received: by 2002:a05:600c:19c8:: with SMTP id
- u8mr10430767wmq.50.1620808070298; 
- Wed, 12 May 2021 01:27:50 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id b6sm5514659wmj.2.2021.05.12.01.27.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 May 2021 01:27:49 -0700 (PDT)
-Subject: Re: [RFC PATCH 3/5] hw/ppc: Have pSeries depends on libfdt (via host
- Kconfig FDT symbol)
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210511155354.3069141-1-philmd@redhat.com>
- <20210511155354.3069141-4-philmd@redhat.com>
- <28e52da6-6cfa-1653-79c7-fb2d857c8eeb@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <cf1f13e5-e466-0898-f503-7c12b45a2eb7@redhat.com>
-Date: Wed, 12 May 2021 10:27:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cpmCJ1TGD1ApKN8ld7X1V3n5B746NWTJgibTrWTyCzs=;
+ b=Lz51LXUBZ07gEJjuglciP+nk7GROuslHq7ryaIsiF2PGUYzWW+ida5aKxE8RobiYMpoHqX
+ K9NtEON9WHqH2/Gslz36RdHA3gf55wkiSoKdQF8xf0mVtBGWeP+Osj6Z+oilu3tU93m3KR
+ L7IhbOtZtw+K4OTW9YLVOg6/9CMzKbY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-pW6ox0nrOouu1NOTDNMC7A-1; Wed, 12 May 2021 04:40:22 -0400
+X-MC-Unique: pW6ox0nrOouu1NOTDNMC7A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80E55800D62
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 08:40:21 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F8085D6A8
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 08:40:21 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/32] Misc (mostly i386) patches for 2021-05-11
+Date: Wed, 12 May 2021 04:40:20 -0400
+Message-Id: <20210512084020.606871-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <28e52da6-6cfa-1653-79c7-fb2d857c8eeb@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,33 +76,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/21 9:45 AM, Paolo Bonzini wrote:
-> On 11/05/21 17:53, Philippe Mathieu-Daudé wrote:
->> Since commit fea35ca4b8e ("ppc/spapr: Receive and store device
->> tree blob from SLOF") the pSeries machine depends on the libfdt
->> fdt_check_full() call, which is available in libfdt v1.4.7.
->>
->> Add the corresponding Kconfig dependency.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> This is not the only one though.  In particular, there should be a
-> "depends on" also for MIPS_BOSTON (hw/mips), E500 (hw/ppc), POWERNV,
-> PPC440 (hw/ppc), (hw/ppc), SAM460EX (hw/ppc), VIRTEX (hw/ppc), RX_GDBSIM
-> (hw/rx), XTENSA_XTFPGA (hw/xtensa).
-> 
-> Once you do this, TARGET_NEED_FDT can go away for PPC, MIPS and.  The
-> remaining ones use fdt functions in hw/*/boot.c so they need libfdt
-> unconditionally RX (and TARGET_NEED_FDT should be added to
-> default-configs/targets/nios2-softmmu.mak for the same reason).
+The following changes since commit e58c7a3bba3076890592f02d2b0e596bf191b5c2:
 
-Got it, thanks!
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210510-1' into staging (2021-05-10 17:28:11 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to e804f892b90e58861edd79aafa4d1f4dbdeb3819:
+
+  coverity-scan: list components, move model to scripts/coverity-scan (2021-05-12 04:06:50 -0400)
+
+----------------------------------------------------------------
+* AccelCPUClass and sysemu/user split for i386 (Claudio)
+* i386 page walk unification
+* Fix detection of gdbus-codegen
+* Misc refactoring
+
+----------------------------------------------------------------
+v1->v2: dropped incorrect snapshot-load patch
+
+Claudio Fontana (18):
+      i386: split cpu accelerators from cpu.c, using AccelCPUClass
+      cpu: call AccelCPUClass::cpu_realizefn in cpu_exec_realizefn
+      accel: introduce new accessor functions
+      target/i386: fix host_cpu_adjust_phys_bits error handling
+      accel-cpu: make cpu_realizefn return a bool
+      i386: split smm helper (sysemu)
+      i386: split tcg excp_helper into sysemu and user parts
+      i386: move TCG bpt_helper into sysemu/
+      i386: split misc helper user stubs and sysemu part
+      i386: separate fpu_helper sysemu-only parts
+      i386: split svm_helper into sysemu and stub-only user
+      i386: split seg_helper into user-only and sysemu parts
+      i386: split off sysemu part of cpu.c
+      target/i386: gdbstub: introduce aux functions to read/write CS64 regs
+      target/i386: gdbstub: only write CR0/CR2/CR3/EFER for sysemu
+      i386: make cpu_load_efer sysemu-only
+      accel: move call to accel_init_interfaces
+      accel: add init_accel_cpu for adapting accel behavior to CPU type
+
+Paolo Bonzini (12):
+      i386: split off sysemu-only functionality in tcg-cpu
+      target/i386: merge SVM_NPTEXIT_* with PF_ERROR_* constants
+      target/i386: move paging mode constants from SVM to cpu.h
+      target/i386: extract mmu_translate
+      target/i386: pass cr3 to mmu_translate
+      target/i386: extend pg_mode to more CR0 and CR4 bits
+      target/i386: allow customizing the next phase of the translation
+      target/i386: use mmu_translate for NPT walk
+      main-loop: remove dead code
+      qemu-option: support accept-any QemuOptsList in qemu_opts_absorb_qdict
+      configure: fix detection of gdbus-codegen
+      coverity-scan: list components, move model to scripts/coverity-scan
+
+Richard Henderson (2):
+      target/i386: Rename helper_fldt, helper_fstt
+      target/i386: Split out do_fsave, do_frstor, do_fxsave, do_fxrstor
+
+ MAINTAINERS                                        |   2 +-
+ accel/accel-common.c                               |  32 +
+ bsd-user/main.c                                    |   2 +-
+ configure                                          |   4 +-
+ cpu.c                                              |   5 +-
+ hw/core/machine.c                                  |   1 +
+ hw/i386/pc_piix.c                                  |   1 +
+ include/hw/core/accel-cpu.h                        |   2 +-
+ include/hw/core/cpu.h                              |   6 +
+ include/qemu/accel.h                               |  13 +
+ include/qemu/main-loop.h                           |  18 -
+ linux-user/main.c                                  |   2 +-
+ scripts/coverity-scan/COMPONENTS.md                | 154 ++++
+ .../{coverity-model.c => coverity-scan/model.c}    |   0
+ softmmu/vl.c                                       |   1 -
+ target/i386/cpu-internal.h                         |  70 ++
+ target/i386/cpu-sysemu.c                           | 352 ++++++++++
+ target/i386/cpu.c                                  | 775 ++-------------------
+ target/i386/cpu.h                                  |  59 +-
+ target/i386/gdbstub.c                              | 165 ++---
+ target/i386/helper.c                               |  13 +
+ target/i386/helper.h                               |  11 +
+ target/i386/host-cpu.c                             | 204 ++++++
+ target/i386/host-cpu.h                             |  19 +
+ target/i386/hvf/hvf-cpu.c                          |  68 ++
+ target/i386/hvf/meson.build                        |   1 +
+ target/i386/kvm/kvm-cpu.c                          | 151 ++++
+ target/i386/kvm/kvm-cpu.h                          |  41 ++
+ target/i386/kvm/kvm.c                              |   3 +-
+ target/i386/kvm/meson.build                        |   7 +-
+ target/i386/meson.build                            |   9 +-
+ target/i386/svm.h                                  |  10 -
+ target/i386/tcg/bpt_helper.c                       | 276 --------
+ target/i386/tcg/excp_helper.c                      | 573 ---------------
+ target/i386/tcg/fpu_helper.c                       | 106 ++-
+ target/i386/tcg/helper-tcg.h                       |   8 +
+ target/i386/tcg/meson.build                        |   5 +-
+ target/i386/tcg/misc_helper.c                      | 467 -------------
+ target/i386/tcg/seg_helper.c                       | 237 +------
+ target/i386/tcg/seg_helper.h                       |  66 ++
+ target/i386/tcg/sysemu/bpt_helper.c                | 293 ++++++++
+ target/i386/tcg/sysemu/excp_helper.c               | 471 +++++++++++++
+ target/i386/tcg/sysemu/fpu_helper.c                |  57 ++
+ target/i386/tcg/sysemu/meson.build                 |  10 +
+ target/i386/tcg/sysemu/misc_helper.c               | 442 ++++++++++++
+ target/i386/tcg/sysemu/seg_helper.c                | 125 ++++
+ target/i386/tcg/{ => sysemu}/smm_helper.c          |  19 +-
+ target/i386/tcg/{ => sysemu}/svm_helper.c          |  75 +-
+ target/i386/tcg/sysemu/tcg-cpu.c                   |  83 +++
+ target/i386/tcg/tcg-cpu.c                          |  56 +-
+ target/i386/tcg/tcg-cpu.h                          |  21 +-
+ target/i386/tcg/translate.c                        |  13 +-
+ target/i386/tcg/user/excp_helper.c                 |  39 ++
+ target/i386/tcg/user/meson.build                   |   6 +
+ target/i386/tcg/user/misc_stubs.c                  |  75 ++
+ target/i386/tcg/user/seg_helper.c                  | 109 +++
+ target/i386/tcg/user/svm_stubs.c                   |  76 ++
+ util/main-loop.c                                   |  61 --
+ util/qemu-option.c                                 |   3 +-
+ 59 files changed, 3299 insertions(+), 2674 deletions(-)
+ create mode 100644 scripts/coverity-scan/COMPONENTS.md
+ rename scripts/{coverity-model.c => coverity-scan/model.c} (100%)
+ create mode 100644 target/i386/cpu-internal.h
+ create mode 100644 target/i386/cpu-sysemu.c
+ create mode 100644 target/i386/host-cpu.c
+ create mode 100644 target/i386/host-cpu.h
+ create mode 100644 target/i386/hvf/hvf-cpu.c
+ create mode 100644 target/i386/kvm/kvm-cpu.c
+ create mode 100644 target/i386/kvm/kvm-cpu.h
+ create mode 100644 target/i386/tcg/seg_helper.h
+ create mode 100644 target/i386/tcg/sysemu/bpt_helper.c
+ create mode 100644 target/i386/tcg/sysemu/excp_helper.c
+ create mode 100644 target/i386/tcg/sysemu/fpu_helper.c
+ create mode 100644 target/i386/tcg/sysemu/meson.build
+ create mode 100644 target/i386/tcg/sysemu/misc_helper.c
+ create mode 100644 target/i386/tcg/sysemu/seg_helper.c
+ rename target/i386/tcg/{ => sysemu}/smm_helper.c (98%)
+ rename target/i386/tcg/{ => sysemu}/svm_helper.c (95%)
+ create mode 100644 target/i386/tcg/sysemu/tcg-cpu.c
+ create mode 100644 target/i386/tcg/user/excp_helper.c
+ create mode 100644 target/i386/tcg/user/meson.build
+ create mode 100644 target/i386/tcg/user/misc_stubs.c
+ create mode 100644 target/i386/tcg/user/seg_helper.c
+ create mode 100644 target/i386/tcg/user/svm_stubs.c
+-- 
+2.26.2
 
 
