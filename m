@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B1137D59E
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 23:54:05 +0200 (CEST)
-Received: from localhost ([::1]:47728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 245D837EA15
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 23:57:13 +0200 (CEST)
+Received: from localhost ([::1]:54434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgwns-0006IT-TA
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 17:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35782)
+	id 1lgwqu-0002aj-8u
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 17:57:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwh7-0000tT-BF
- for qemu-devel@nongnu.org; Wed, 12 May 2021 17:47:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35384)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwhF-0000zF-0e
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 17:47:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwh1-0007kb-EF
- for qemu-devel@nongnu.org; Wed, 12 May 2021 17:47:03 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwh3-0007lE-9u
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 17:47:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620856017;
+ s=mimecast20190719; t=1620856019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4sFJv/DkragtqymWK3EGQqPEsOtYvbU9qn3Y2L90W4c=;
- b=Xi4cAUWeQu5jMVL15ubTU+Jr1/ujE9LvBz9etGPM6PyQrmAoF1JF+Oj4VC4iVOy8Nj2k4Q
- KmM3Cpv0jabp27wSYfN7yF/SPzMiwfpnD0Y4JGPdXAo/IxubYvy+HEKVuMb+TKNHXKmOZi
- xnNI1PfFhBWe/iS5pfD2t8gmA92DmQs=
+ bh=Oeno9likNB+jpO1aJh2/LCxbzeq2feGwPvH+914tnno=;
+ b=HV3dS4gLzLSmsNX7G+GpGaqsRXfGO9mzGKMSmjRmxDucfhhOl4Yxy18RTe/4mGF6o6EULZ
+ gZw1YqQppWEt0SWw9bLhliNU3LCd/S1T8o1px2GV9v46x7FPf3U4gGuBiKt+FzoBEL2Usf
+ En/boKFH5SjGS9ZWq38IOiE/EDxMySc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-5T9mPvooO-Gd5snqZw3o8w-1; Wed, 12 May 2021 17:46:56 -0400
-X-MC-Unique: 5T9mPvooO-Gd5snqZw3o8w-1
+ us-mta-471-limscjvROkSsmDcgZ5kbPQ-1; Wed, 12 May 2021 17:46:57 -0400
+X-MC-Unique: limscjvROkSsmDcgZ5kbPQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FC80107ACCA;
- Wed, 12 May 2021 21:46:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 455E6107ACE3;
+ Wed, 12 May 2021 21:46:56 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 705955D6AC;
- Wed, 12 May 2021 21:46:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 677395D6AC;
+ Wed, 12 May 2021 21:46:55 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/10] iotests: silence spurious consider-using-with warnings
-Date: Wed, 12 May 2021 17:46:41 -0400
-Message-Id: <20210512214642.2803189-10-jsnow@redhat.com>
+Subject: [PATCH 10/10] iotests: ensure that QemuIoInteractive definitely closes
+Date: Wed, 12 May 2021 17:46:42 -0400
+Message-Id: <20210512214642.2803189-11-jsnow@redhat.com>
 In-Reply-To: <20210512214642.2803189-1-jsnow@redhat.com>
 References: <20210512214642.2803189-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,41 +82,62 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In a few cases, we can't use 'with ...' because they belong to
-long-running classes that need those items to stay open at the end of
-the block. We're handling it, so tell pylint to shush.
+More on the lines of quieting pylint 2.8.x, though to make it obvious
+that we definitely handle the cleanup here, I elected to bolster the
+close() method here.
+
+1. Check for the process having terminated early more rigorously by
+checking poll() directly.
+
+2. Change the prompt read into an assertion.
+
+3. Ensure that the final communicate() call *definitely* closes the
+socket, adding a timeout and a final kill just in case.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/iotests.py    | 2 +-
- tests/qemu-iotests/testrunner.py | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/iotests.py | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 5d5ec40429b..e09c991b84e 100644
+index e09c991b84e..12e876fa67d 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -311,7 +311,7 @@ def qemu_nbd_popen(*args):
-     cmd.extend(args)
+@@ -238,20 +238,27 @@ def qemu_io_silent_check(*args):
+ class QemuIoInteractive:
+     def __init__(self, *args):
+         self.args = qemu_io_args_no_fmt + list(args)
++
++        # Resource cleaned up via close()
++        # pylint: disable=consider-using-with
+         self._p = subprocess.Popen(self.args, stdin=subprocess.PIPE,
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.STDOUT,
+                                    universal_newlines=True)
++        if self._p.poll():
++            # Failed to start.
++            out = self._p.stdout.read()
++            raise subprocess.SubprocessError(out, self._p.poll())
++
++        # Eat the first prompt
+         out = self._p.stdout.read(9)
+-        if out != 'qemu-io> ':
+-            # Most probably qemu-io just failed to start.
+-            # Let's collect the whole output and exit.
+-            out += self._p.stdout.read()
+-            self._p.wait(timeout=1)
+-            raise ValueError(out)
++        assert out == 'qemu-io> ', "Did not understand qemu-io prompt"
  
-     log('Start NBD server')
--    p = subprocess.Popen(cmd)
-+    p = subprocess.Popen(cmd)  # pylint: disable=consider-using-with
-     try:
-         while not os.path.exists(pid_file):
-             if p.poll() is not None:
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index 1fc61fcaa34..34fb551c01b 100644
---- a/tests/qemu-iotests/testrunner.py
-+++ b/tests/qemu-iotests/testrunner.py
-@@ -258,6 +258,7 @@ def do_run_test(self, test: str) -> TestResult:
+     def close(self):
+-        self._p.communicate('q\n')
++        try:
++            self._p.communicate('q\n', timeout=5)
++        except subprocess.TimeoutExpired:
++            self._p.kill()
  
-         t0 = time.time()
-         with f_bad.open('w', encoding="utf-8") as f:
-+            # pylint: disable=consider-using-with
-             proc = subprocess.Popen(args, cwd=str(f_test.parent), env=env,
-                                     stdout=f, stderr=subprocess.STDOUT)
-             try:
+     def _read_output(self):
+         pattern = 'qemu-io> '
 -- 
 2.30.2
 
