@@ -2,94 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6769E37D38D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:29:51 +0200 (CEST)
-Received: from localhost ([::1]:49988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E197037D388
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:23:51 +0200 (CEST)
+Received: from localhost ([::1]:40882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgtcE-0001pG-9Z
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:29:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45052)
+	id 1lgtWQ-0003s1-RO
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:23:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lgtQt-00056F-20
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:18:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27358)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lgtQr-0002lh-5x
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:18:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620843484;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/7NcXz555jLGDeOFv4TUHJUgFt9mi2DyCHniPDNHK0o=;
- b=ThR8wMOn5BNAygh5pFbk10lMHUYaAwHd2GkW/BU92x0S3hdd/O58onnsUOodPFqGAYyeME
- fTlNv7ZBve3oNbmMF8emsuF49EWZ+QKFrKBpFygbpcPT7EaPuH0S46SxAuKV248XsFM/2s
- Fs+YeEfV04B+BmuOZy9USgOOOh8GvVQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-524-JUoi3n5zM8WkaOAYfxjHBQ-1; Wed, 12 May 2021 14:18:02 -0400
-X-MC-Unique: JUoi3n5zM8WkaOAYfxjHBQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- bm3-20020a0564020b03b0290387c8b79486so13256024edb.20
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:18:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lgtT5-0000EG-5q
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:20:23 -0400
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:41657)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lgtT1-0003qJ-51
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:20:22 -0400
+Received: by mail-qk1-x72c.google.com with SMTP id l129so23141187qke.8
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:20:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZvY9QSjy81jn8oTFimr9EM1j8zt9ktsZmA3DSotjzSc=;
+ b=u3Ea4Hu53osoDTCBvKP/b9xjyEbNkunofOeekzFJfUlcA26yzQsVsjQ0JTpS/yt1QB
+ Obge2Gv8uFUlWFuHCEosTqJXcF7q3l5YuA3w70nGtVit+Bbd3xmG4NCRTM5rJMCt2BOn
+ oZ0TbYsPknVKIw9ALixiavrtfzUyFya0f0IESgquzGYSVtk0xatZW/6bz6zgaG7/DZGG
+ k00euIQW8EvKAafIEuUGY+sl7BCWgCXnviuRxJvPvAkGxJGFD00vEhJ4NN/jhOrA2hFf
+ I3aNsdBxxI6bOj4NV9GKFYg+28tiCu8Wd75HE+L/vmT9ML6PzPJ+TK2Vu/2hZStU892N
+ XvRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=/7NcXz555jLGDeOFv4TUHJUgFt9mi2DyCHniPDNHK0o=;
- b=keWLJ80l24+uYkJ77BwfyW0KnN19f2IJ7pVrTTZtOyMyqRwN6JLCyfA6rw/s/RRUIA
- u33XeUh/zIqBdG1YdhQua3SIsHn1v4B863LhI5FPZe0OddFOil9rwSExbyJ8ruaCM7wG
- /HKVCwCOv6MlgzxPrzl/Q9pk0cKuVtqsxIvrH5a4zhf4zY1BqoouOLpr6msnFYEYeilU
- cSWQARIiFbWYMtYL7Bu8gIB3PZfbj2+NZ/qo9OmFTGAeIeXqpurhymVBWrrdxLsw/5gq
- 7nX93ZOyO5KLEcBW0pmQkA1jQvpu8VyD93AdMHGkrHHUX1RG8+FzDv3Pmq0snA5t4NJr
- IZcA==
-X-Gm-Message-State: AOAM5320RTSRC0e/lznYt4Tu8Vo6ODf9QKWQkUt0cas1TxSVfgS+j2wR
- oUAeA/w91TwD7KSbtFh7BkCwgLtW9Cxj9o68E0RbrWhUfurS4pfEmKfS5eVsB9hBtvsmHwhnW7S
- HhkYk8ZoaIY/48ck=
-X-Received: by 2002:a17:906:9bc2:: with SMTP id
- de2mr8196933ejc.340.1620843481415; 
- Wed, 12 May 2021 11:18:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxX4Ly2HkzGNvBFD6JgIGA0GLTKjzO+GaTxq2tgRwEfV2g1dFGj6MdwrrCci/iq0PFURPqRrQ==
-X-Received: by 2002:a17:906:9bc2:: with SMTP id
- de2mr8196915ejc.340.1620843481189; 
- Wed, 12 May 2021 11:18:01 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c65ab.dip0.t-ipconnect.de. [91.12.101.171])
- by smtp.gmail.com with ESMTPSA id y10sm280628ejh.105.2021.05.12.11.18.00
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZvY9QSjy81jn8oTFimr9EM1j8zt9ktsZmA3DSotjzSc=;
+ b=coTPf7rGEe3KMGmLjKxGDBbwYk0JMn9k/rSt44FJYP/gRx8Gs3BLDJlUtzIzJANKdM
+ S5NkQrdWexnNMxFBAFZExv/TEGfDyVPVnHTUfBehXwJww0IWslHAQMdLzpE1hPuiv+x7
+ BpfB4VwhkaawHBWKWufkHSBBhNisPEH5nZ5bCy3+f/SYPWxmGdjzjFWcN9qTqiHy79Zr
+ rHri8SugNMHheTOtoa76/GJPLIIYtZe4CUM4YWO5oZmkrcn9fWHFW54pi/UxvqUSL1bI
+ RiBd+zd5heacoWE4kI+EDM58zTI8mepxOmNk5x1A2aPPoQdkffVEhknO97OM0vSYLZmX
+ t5AA==
+X-Gm-Message-State: AOAM532VwFHiM0aDPfsHuS8vN4qzaA4oNBL8yv8xHJ6VqVo17EfrrxFT
+ /GMMF1yRuhCEAhu3AHw7Ei9bvw==
+X-Google-Smtp-Source: ABdhPJzLhDbNnWaAGXZEsZFJEegspWkK5BKNCROJuNL18V+a/UiRUzqvKIiKi3g9ecoRN5RqhTESww==
+X-Received: by 2002:a37:486:: with SMTP id 128mr35531525qke.23.1620843617723; 
+ Wed, 12 May 2021 11:20:17 -0700 (PDT)
+Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id g64sm624284qkf.41.2021.05.12.11.20.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 May 2021 11:18:00 -0700 (PDT)
-Subject: Re: [PATCH 30/72] softfloat: Move pick_nan_muladd to
- softfloat-parts.c.inc
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210508014802.892561-1-richard.henderson@linaro.org>
- <20210508014802.892561-31-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <15c4ae34-4e1d-bede-a0ca-8e8aed49a9ed@redhat.com>
-Date: Wed, 12 May 2021 20:18:00 +0200
+ Wed, 12 May 2021 11:20:17 -0700 (PDT)
+Subject: Re: [PATCH 07/11] target/ppc: added KVM fallback to fpscr manipulation
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
+ qemu-devel@nongnu.org
+References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
+ <20210512140813.112884-8-bruno.larsen@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a9ac8b35-faae-167d-ff78-4b7ddd8f75c9@linaro.org>
+Date: Wed, 12 May 2021 13:20:14 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210508014802.892561-31-richard.henderson@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210512140813.112884-8-bruno.larsen@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,153 +89,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.05.21 03:47, Richard Henderson wrote:
-> At the same time, convert to pointers, rename to pick_nan_muladd$N
-> and define a macro for pick_nan_muladd using QEMU_GENERIC.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   fpu/softfloat.c           | 53 ++++++++++-----------------------------
->   fpu/softfloat-parts.c.inc | 40 +++++++++++++++++++++++++++++
->   2 files changed, 53 insertions(+), 40 deletions(-)
-> 
-> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-> index 77efaedeaa..40ee294e35 100644
-> --- a/fpu/softfloat.c
-> +++ b/fpu/softfloat.c
-> @@ -720,6 +720,18 @@ static FloatParts128 *parts128_pick_nan(FloatParts128 *a, FloatParts128 *b,
->   
->   #define parts_pick_nan(A, B, S)    PARTS_GENERIC_64_128(pick_nan, A)(A, B, S)
->   
-> +static FloatParts64 *parts64_pick_nan_muladd(FloatParts64 *a, FloatParts64 *b,
-> +                                             FloatParts64 *c, float_status *s,
-> +                                             int ab_mask, int abc_mask);
-> +static FloatParts128 *parts128_pick_nan_muladd(FloatParts128 *a,
-> +                                               FloatParts128 *b,
-> +                                               FloatParts128 *c,
-> +                                               float_status *s,
-> +                                               int ab_mask, int abc_mask);
-> +
-> +#define parts_pick_nan_muladd(A, B, C, S, ABM, ABCM) \
-> +    PARTS_GENERIC_64_128(pick_nan_muladd, A)(A, B, C, S, ABM, ABCM)
-> +
->   /*
->    * Helper functions for softfloat-parts.c.inc, per-size operations.
->    */
-> @@ -947,45 +959,6 @@ static FloatParts64 round_canonical(FloatParts64 p, float_status *s,
->       return p;
->   }
->   
-> -static FloatParts64 pick_nan_muladd(FloatParts64 a, FloatParts64 b, FloatParts64 c,
-> -                                  bool inf_zero, float_status *s)
-> -{
-> -    int which;
-> -
-> -    if (is_snan(a.cls) || is_snan(b.cls) || is_snan(c.cls)) {
-> -        float_raise(float_flag_invalid, s);
-> -    }
-> -
-> -    which = pickNaNMulAdd(a.cls, b.cls, c.cls, inf_zero, s);
-> -
-> -    if (s->default_nan_mode) {
-> -        /* Note that this check is after pickNaNMulAdd so that function
-> -         * has an opportunity to set the Invalid flag.
-> -         */
-> -        which = 3;
-> -    }
-> -
-> -    switch (which) {
-> -    case 0:
-> -        break;
-> -    case 1:
-> -        a = b;
-> -        break;
-> -    case 2:
-> -        a = c;
-> -        break;
-> -    case 3:
-> -        parts_default_nan(&a, s);
-> -        break;
-> -    default:
-> -        g_assert_not_reached();
-> -    }
-> -
-> -    if (is_snan(a.cls)) {
-> -        parts_silence_nan(&a, s);
-> -    }
-> -    return a;
-> -}
->   
->   #define partsN(NAME)   parts64_##NAME
->   #define FloatPartsN    FloatParts64
-> @@ -1496,7 +1469,7 @@ static FloatParts64 muladd_floats(FloatParts64 a, FloatParts64 b, FloatParts64 c
->        * off to the target-specific pick-a-NaN routine.
->        */
->       if (unlikely(abc_mask & float_cmask_anynan)) {
-> -        return pick_nan_muladd(a, b, c, inf_zero, s);
-> +        return *parts_pick_nan_muladd(&a, &b, &c, s, ab_mask, abc_mask);
->       }
->   
->       if (inf_zero) {
-> diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-> index 11a71650f7..a78d61ea07 100644
-> --- a/fpu/softfloat-parts.c.inc
-> +++ b/fpu/softfloat-parts.c.inc
-> @@ -60,3 +60,43 @@ static FloatPartsN *partsN(pick_nan)(FloatPartsN *a, FloatPartsN *b,
->       }
->       return a;
+On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 104a308abb..a8a720eb48 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -2947,3 +2947,17 @@ bool kvm_arch_cpu_check_are_resettable(void)
+>   {
+>       return true;
 >   }
 > +
-> +static FloatPartsN *partsN(pick_nan_muladd)(FloatPartsN *a, FloatPartsN *b,
-> +                                            FloatPartsN *c, float_status *s,
-> +                                            int ab_mask, int abc_mask)
+> +void kvmppc_store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask)
 > +{
-> +    int which;
-> +
-> +    if (unlikely(abc_mask & float_cmask_snan)) {
-> +        float_raise(float_flag_invalid, s);
+> +    CPUState *cs = env_cpu(env);
+> +    struct kvm_one_reg reg;
+> +    int ret;
+> +    reg.id = KVM_REG_PPC_FPSCR;
+> +    reg.addr = (uintptr_t) &env->fpscr;
+> +    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+> +    if (ret < 0)
+> +    {
+> +        fprintf(stderr, "Unable to set FPSCR to KVM: %s", strerror(errno));
 > +    }
-> +
-> +    which = pickNaNMulAdd(a->cls, b->cls, c->cls,
-> +                          ab_mask == float_cmask_infzero, s);
-> +
-> +    if (s->default_nan_mode || which == 3) {
-> +        /*
-> +         * Note that this check is after pickNaNMulAdd so that function
-> +         * has an opportunity to set the Invalid flag for infzero.
-> +         */
-> +        parts_default_nan(a, s);
-> +        return a;
-> +    }
-> +
-> +    switch (which) {
-> +    case 0:
-> +        break;
-> +    case 1:
-> +        a = b;
-> +        break;
-> +    case 2:
-> +        a = c;
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +    if (is_snan(a->cls)) {
-> +        parts_silence_nan(a, s);
-> +    }
-> +    return a;
 > +}
-> 
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+This is all unnecessary.  All you need to do is store to env->fpscr and the 
+value will be synced back with kvm_put_fp.
 
--- 
-Thanks,
+I'll note that some of the trouble you may be having with extracting 
+helper_store_fpscr to a ppc_store_fpscr function is due to an existing bug in 
+the tcg code:
 
-David / dhildenb
+Storing to fpscr should *never* raise an exception -- see MTFSF, MTFSB0, 
+MTFSB1.  Thus the mucking about with cs->exception_index and env->error_code is 
+incorrect.
 
+In addition, the masking is being done weirdly and could use a complete overhaul.
+
+This could all be rewritten as
+
+-- %< -- cpu.h
+
+  /* Invalid operation exception summary */
+- #define fpscr_ix ((env->fpscr) & ((1 << FPSCR_VXSNAN) ...
++ #define FPSCR_IX  ((1 << FPSCR_VXSNAN) | ...)
+
+-- %< -- cpu.c
+
+// move fpscr_set_rounding_mode here
+
+void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
+{
+     /* Recompute exception summary state. */
+     val &= ~(FP_VX | FP_FEX);
+     if (val & FPSCR_IX) {
+         val |= FP_VX;
+     }
+     if ((val >> FPSCR_XX) & (val >> FPSCR_XE) & 0x1f) {
+         val |= FP_FEX;
+     }
+     env->fpscr = val;
+     if (tcg_enabled()) {
+         fpscr_set_rounding_mode(env);
+     }
+}
+
+-- %< -- fpu_helper.c
+
+void helper_store_fpscr(CPUPPCState *env, target_ulong val,
+                         uint32_t nibbles)
+{
+     target_ulong mask = 0;
+
+     /* TODO: Push this expansion back to translation time. */
+     for (int i = 0; i < sizeof(target_ulong) * 2; ++i) {
+         if (nibbles & (1 << i)) {
+             mask |= (target_ulong)0xf << (4 * i);
+         }
+     }
+
+     val = (val & mask) | (env->fpscr & ~mask);
+     ppc_store_fpscr(env, val);
+}
+
+void helper_fpscr_clrbit(CPUPPCState *env, uint32_t bit)
+{
+     uint32_t mask = 1u << bit;
+     if (env->fpscr & mask) {
+         ppc_store_fpscr(env, env->fpscr & ~mask);
+     }
+}
+
+void helper_fpscr_setbit(CPUPPCState *env, uint32_t bit)
+{
+     uint32_t mask = 1u << bit;
+     if (!(env->fpscr & mask)) {
+         ppc_store_fpscr(env, env->fpscr | mask);
+     }
+}
+
+There are a couple of other uses of fpscr_set_rounding_mode, where the 
+softfloat value is changed temporarily (do_fri, VSX_ROUND).  These should 
+simply save the previous softfloat value (using get_float_rounding_mode) around 
+the operation instead of re-computing from fpscr.
+
+Which leaves us with exactly one use of fpscr_set_rounding_mode, which can then 
+be moved to cpu.c next to ppc_store_fpscr.
+
+
+r~
 
