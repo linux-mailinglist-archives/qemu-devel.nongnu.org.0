@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3295E37EFCA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:34:41 +0200 (CEST)
-Received: from localhost ([::1]:48734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C665137EFEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:42:15 +0200 (CEST)
+Received: from localhost ([::1]:51334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgyNE-0004eQ-85
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54364)
+	id 1lgyUY-0006q5-QY
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:42:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgyLr-0003xQ-9L
- for qemu-devel@nongnu.org; Wed, 12 May 2021 19:33:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgyLo-0001bY-8O
- for qemu-devel@nongnu.org; Wed, 12 May 2021 19:33:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620862390;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=snJJPYX8VKL63Bb2CNcI5IcQDuPwFGhoDL4TTnVeyvc=;
- b=eVPQ8VU3+9P/qSBJ/9MVRldi53I/9ah+NkVaqmcX+8fTin+2avUWQR66qG5TyXUVU49NMi
- wtCQbvodlNYMkN39CvSCdvXInlR83BFDnekx3uWmQqXEsNqDVz88h7aPDYUP1ac8YCMcOc
- 9TcDGNy70tqg+EqiSBPDt5fbP9hT6cs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-vNrNYyYDOt67MlenNHYnTw-1; Wed, 12 May 2021 19:33:08 -0400
-X-MC-Unique: vNrNYyYDOt67MlenNHYnTw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 447441007467
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 23:33:07 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5CA75D9D7;
- Wed, 12 May 2021 23:32:59 +0000 (UTC)
-Subject: Re: [PATCH v3 5/9] qapi: add IfNot
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
- <20210429134032.1125111-6-marcandre.lureau@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <3c15973f-e049-c046-b657-88b586e88529@redhat.com>
-Date: Wed, 12 May 2021 19:32:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lgyTI-00061T-4y; Wed, 12 May 2021 19:40:56 -0400
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:37715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lgyTG-0006it-GI; Wed, 12 May 2021 19:40:55 -0400
+Received: by mail-il1-x131.google.com with SMTP id j12so21652714ils.4;
+ Wed, 12 May 2021 16:40:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VmoptVDPUya889qnWxY3zvOr/LlrmJRJBYYjyNJqpRA=;
+ b=DHJKNYLlXK9GbhESklAmnpV0hFj/wvBg08FhksLas8FsG27lMViuIybb6LvRwRd9ft
+ qwGxbrkP5474nhf7VPLJj4aIZ+RGmDzJZWjY7P05aVN6cPVDbgDnVPjpqNfQyoCnh7u5
+ rEycTD+2y7SuhyAN1yjbK0D3sbBQKCEr5VhfEiZNHPcxxRc7TWHwM3p42VlQkoYawrj/
+ tor5RSFfKz3E/ujPUZGVc4tQNh3dp4kKx731MMpF1vVWqsC1h3+1bclG1hPk6oDJDmFc
+ qF4eo4aUJ8E5JsRR4P/kNGCoyuFVH2Ejp8Y73n5S2nxuwOcQS8f+yu1tjk7BW4QDiNRk
+ dFuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VmoptVDPUya889qnWxY3zvOr/LlrmJRJBYYjyNJqpRA=;
+ b=gByn8xZ4JNTLmY2et1W2uqyne0+DIEbrjYalGfC/Eep7kaFx8JCH5U7pZxHcj+qrdf
+ Hgerk0anrsH5ZrswxDI4y4EiJbstC7xkxBa7z40jFlYwGbsWewa5lpqFFnuuYF6RixYj
+ eb4lzWROeHefJVxU65X83yLxSMoH6qFlj7r1Szzvr9JXFrbTuH8wjn+rIi/VxCVozwNE
+ AEF7cT7jazynAQDRaVybTZ6Uxj+MXaXifWMqq6jZ8HpTPNZhL+cGmJWBT61u6whnfTFp
+ VohbHpxEaaP/s00RpyEGifAVQP9cpEjEm92CYhQYIsOJ43y3DGapeXDk/McANNwvlihw
+ xPig==
+X-Gm-Message-State: AOAM530DjA+arEvM2xALyMT/xV8kkOOqUpyt+hbRkdaMxbIFpYxf8/0e
+ Vx8YJzDknuzvyTxsvUXTo8hcyMQiiUCa41ch1Q0=
+X-Google-Smtp-Source: ABdhPJxZw00V4H1z2oL0Yo+QR2F12qhSNw+0MUqR5cts/F91Fkeky9rnJc5KDD5KXWkCQ5u0VTBVmVB5/sOojEYxgL4=
+X-Received: by 2002:a05:6e02:1566:: with SMTP id
+ k6mr223068ilu.227.1620862853020; 
+ Wed, 12 May 2021 16:40:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210429134032.1125111-6-marcandre.lureau@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210511100722.18065-1-ruinland@andestech.com>
+ <CAKmqyKO35O+bichwKQVeZ2tPT+2G-hweds1VY6oJc_bqkuG8Zw@mail.gmail.com>
+ <CAEUhbmUZi17xzoSU9jwJubeqwi+gzXQ0p6kSDY2T579wCdQopg@mail.gmail.com>
+In-Reply-To: <CAEUhbmUZi17xzoSU9jwJubeqwi+gzXQ0p6kSDY2T579wCdQopg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 13 May 2021 09:40:26 +1000
+Message-ID: <CAKmqyKMvtf0CakQS4TG8UAYT6XFqMSbMu08FLss=D=b=i-MOKw@mail.gmail.com>
+Subject: Re: [PATCH V2 0/2] Proposing custom CSR handling logic
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,74 +78,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com
+Cc: Dylan Jhong <dylan@andestech.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "Alan Quey-Liang Kao\(\(\(\(\(\(\(\(\(\(\)" <alankao@andestech.com>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/21 9:40 AM, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Introduce IfNot predicate class, for 'not' condition expressions.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   scripts/qapi/common.py | 22 ++++++++++++++++++++++
->   1 file changed, 22 insertions(+)
-> 
-> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-> index 102d347348..6236bfc457 100644
-> --- a/scripts/qapi/common.py
-> +++ b/scripts/qapi/common.py
-> @@ -224,6 +224,28 @@ def __eq__(self, other: object) -> bool:
->           return self.option == other.option
->   
->   
-> +class IfNot(IfPredicate):
-> +    def __init__(self, pred: IfPredicate):
-> +        self.pred = pred
-> +
-> +    def docgen(self) -> str:
-> +        return "not " + self.pred.docgen()
-> +
-> +    def cgen(self) -> str:
-> +        return "!" + self.pred.cgen()
-> +
-> +    def __bool__(self) -> bool:
-> +        return bool(self.pred)
-> +
-> +    def __repr__(self) -> str:
-> +        return f"IfNot({self.pred!r})"
-> +
-> +    def __eq__(self, other: object) -> bool:
-> +        if not isinstance(other, type(self)):
-> +            return False
-> +        return self.pred == other.pred
-> +
-> +
+On Thu, May 13, 2021 at 12:47 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Wed, May 12, 2021 at 2:03 PM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Tue, May 11, 2021 at 8:07 PM Ruinland Chuan-Tzu Tsai
+> > <ruinland@andestech.com> wrote:
+> > >
+> > > Hi all,
+> > >
+> > > My sincere apology that I missed the patch to include our own CSR table
+> > > into the patch series and there were plenty of typos.
+> > > Thus I'm sending out V2 of these tiny patches.
+> > >
+> > > I agree with Alistair's comment on not introducing intrusive code which
+> > > will interfere the generic code structure. Yet since there are
+> > > possibilities that some custom CSRs/instructions could be once drafted/
+> > > proposed by vendors at first, and made themselves into the standard
+> > > as the implementation become widely adopted.
+> > >
+> > > So in this patch set, we humbly utilzed a glib hash table for inserting
+> > > the `struct riscv_custom_csr_operations`, check if the CSR is a non
+> > > standard one, and then proceed the desired behavior.
+> > >
+> > > Once the non-standard CSRs make themselves into the specification,
+> > > people could easily plug-and-use the code into CSR operation table
+> > > inside `csr.c`.
+> > >
+> > > Ones may have concerns regarding the check code would introduce
+> > > further overhead. For those considerations, I guess it could be solved
+> > > by introducing a build option such as '--enable-riscv-vendor-features'
+> > > to toggle the code.
+> > >
+> > > Cordially yours,
+> > > Ruinland ChuanTzu Tsai
+> > >
+> > > Ruinland Chuan-Tzu Tsai (2):
+> > >   Adding premliminary support for custom CSR handling mechanism
+> > >   Adding custom Andes CSR table.
+> >
+> > Thanks for the patches.
+> >
+> > Can you please include:
+> >  wangjunqiang@iscas.ac.cn
+> >  qemu-devel@nongnu.org
+> >  bin.meng@windriver.com
+> >
+> > on future patches so everyone is included.
+>
+> Thanks Alistair!
+>
+> >
+> > >
+> > >  target/riscv/cpu.c           |  28 ++++++++
+> > >  target/riscv/cpu.h           |  12 +++-
+> > >  target/riscv/cpu_bits.h      | 115 ++++++++++++++++++++++++++++++++
+> > >  target/riscv/csr.c           | 107 ++++++++++++++++++++++++++++--
+> > >  target/riscv/csr_andes.inc.c | 125 +++++++++++++++++++++++++++++++++++
+> > >  5 files changed, 381 insertions(+), 6 deletions(-)
+>
+> I didn't see the original patch set in the ML, nor does it show up on
+> patchwork. I wonder is it posted on the ML?
 
-Seems fine. Lot of boilerplate going on, but I don't have quick ideas 
-for reducing it.
+It might not have. It is an early version and needs some more work,
+but it does seem to be on the right track. I left a few comments but
+hopefully the next version will make it to the mailing list.
 
-So far we have:
+I will CC you on the response so you can see.
 
-IfPredicate (abstract)
+Alistair
 
-IfOption (wraps a <str>)
-IfNot (wraps <IfPredicate>)
-IfPredicateList (wraps <List[IfPredicate]>)
-   - IfAll
-   - IfAny
-
-with fairly similar methods and boilerplate. I'm itching to reduce it a 
-little, somehow...
-
---js
-
->   class IfPredicateList(IfPredicate):
->       C_SEP = ""
->       DOC_SEP = ""
-> 
-
-Tested-by: John Snow <jsnow@redhat.com>
-
+>
+> Regards,
+> Bin
 
