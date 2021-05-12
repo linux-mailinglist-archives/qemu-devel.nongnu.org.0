@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AFC37B519
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 06:43:37 +0200 (CEST)
-Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2070937B51A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 06:44:48 +0200 (CEST)
+Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lggie-0006l7-09
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 00:43:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53336)
+	id 1lggjn-0000DK-7f
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 00:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgghk-00063f-3f
- for qemu-devel@nongnu.org; Wed, 12 May 2021 00:42:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42391)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgghl-000647-D3
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 00:42:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgghf-0005n3-Tx
- for qemu-devel@nongnu.org; Wed, 12 May 2021 00:42:38 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgghj-0005q0-R3
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 00:42:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620794554;
+ s=mimecast20190719; t=1620794559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=j/ZbWW8qsxDyq9IN77ZfKNDomWdmWvlFCCcbDKHb+uM=;
- b=DOfVvojgQypGi+wPVQAZcwAU29dmCFssjExZtVXi+WoY1cWf5ZTHOsG85V7DQceR6dyws9
- lsPxeNInJWeBv0jR0tSfjNplfOyx3w+Qg8xpX+jZeyUBmsEHDNbBj/Ipo1c+l8sNpNG/vR
- j9vu9qAuGiMCFotuIYVFDouN4lEWBEQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-7IdVqRNfMKiOECR7NFUOig-1; Wed, 12 May 2021 00:42:32 -0400
-X-MC-Unique: 7IdVqRNfMKiOECR7NFUOig-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o18-20020a1ca5120000b02901333a56d46eso174195wme.8
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 21:42:32 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NAmU7rsSu4yY05SolpQM+issNDGmpH9ZTRh1JJ5Osss=;
+ b=PVxgLzW0oXiaXkY/iZb6X8VU3iPrCubQb12s4+TWuIjCQISi5FuPBvtlm+8sgsExaXsxPb
+ BWukRwZ4K0Jn1BgQLKEQwa3Io0ocWF1azUOudYqp8i026ChERsRhrOdxrX8u0/0f501y4F
+ XFxhNJFvBPRSnmh1okTzbjLxJDXv65A=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-v7seU_DpNGOWQ9iTWfIiMQ-1; Wed, 12 May 2021 00:42:37 -0400
+X-MC-Unique: v7seU_DpNGOWQ9iTWfIiMQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ c13-20020a5d6ccd0000b029010ec741b84bso953446wrc.23
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 21:42:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/pCfhzyP6eS7AG1WV9Ro3Z7XjCRDW4nv/AmE74GN5s0=;
- b=n4veBO036EUChF9ccIrA9PhzGl7FclyS0x1f1tTLxEfxdzzYOyWO+wq3SETEg78kiJ
- RZByS9//SlHSdf8Ny/vrrTAFqdpKfL3vfm4NE33HnCsa51pnMHsAj0R9JgqA0c4Zhjb7
- IQnzsuahL6baKW9F/SOkZL0oErE1TJi9zDRcB0fulmCloHqh5u3Bi6rDQ6xwQU3DbfUC
- HpRTTGyXTrF/ix+T2+hzwiixmhyQ/kpC8rKRBLQ9sn/azt0aSR/4dj9DtV/CDMsRYUY3
- GTJw8YLJrEZyWtv2zlP9bdzV2P5F7IynaTp3+fwW+IoCw1MSgepATUxhMc994M6ZHm4L
- 8yXQ==
-X-Gm-Message-State: AOAM531lbH+Q7aNBsMBYAamQXQ636Bggn4GY90DiufeCcGRp73rDFY1t
- No5k/aTgtlljzVt9hbUKUa0OatsIFVYl0Rn1uBlcDz5DdwUxcFwJSMpTu/QTum9t3W0NlrgoXkl
- iaot0VhC8PdFnfYvG3xTx4mJzBIYz3IbWLKWdjIymqrrw4UyobxjXxM6QNOijH/Bi
-X-Received: by 2002:adf:eec4:: with SMTP id a4mr42951858wrp.159.1620794551440; 
- Tue, 11 May 2021 21:42:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx4zK5uJ9mBIuLSqjSrlLqJxfbaJr9XdztarOTm1iZ5BkmYumIkqR9tJyujTX+UzFSKRD8Rjw==
-X-Received: by 2002:adf:eec4:: with SMTP id a4mr42951835wrp.159.1620794551233; 
- Tue, 11 May 2021 21:42:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NAmU7rsSu4yY05SolpQM+issNDGmpH9ZTRh1JJ5Osss=;
+ b=ZGHLgWuPgQRg+PIscmZRKy4yn7RydT/rfpIpFOHQQA2n5+FhlXvYW1IK2j4GLrzfjD
+ F/01zuDn8oMEW8URpitD9q1+qewHLsn7/y/VQh67QY+Gljz+TFPR8gXk9ruA9dN+n95W
+ csTd51VdXFFeobM9TPqt58mFzyzv29prZ5HpfytFTUgmEM2mgoO5en9gTrHLm5VTs3Gt
+ 8oM13u/f44AuEHCZFwj9Xi6AgIvgFBG07C94wkgp4uITlvMKCxzYcaRFiRgA8W1PpmYl
+ JOaeQc2AEPeg61tPLVs3LEfHUFGnQ/ZyV9Nshaxbx25UAHMf35gAg4T7AZVp7DlaK8lN
+ Q/UA==
+X-Gm-Message-State: AOAM531yUXruqeHC3pJDAoZCGlUEOzzxPBLeDwEG3gseelih+tDKJbUy
+ Y6SiFz+cV+dvUPuELyOYFqeEvbK3sOiqu11kKcpQxg6URAKpE0UST7DFCtqYWYOHWUlAZ2bsZIO
+ 35Xh+2aKf/6YV6xGj676oO6iDVcb+dYEuCDtRjtrGrlgit7hy0wTW+pOnrs+D4mUQ
+X-Received: by 2002:a5d:64c7:: with SMTP id f7mr41639853wri.257.1620794556435; 
+ Tue, 11 May 2021 21:42:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxItVLkB47E8TP00Z9d8vG0eC/W7dtUmgfyv6ifehXhtcKq6PFSgEayq4yq1T1VdeYRHHeLmA==
+X-Received: by 2002:a5d:64c7:: with SMTP id f7mr41639830wri.257.1620794556242; 
+ Tue, 11 May 2021 21:42:36 -0700 (PDT)
 Received: from localhost.localdomain (39.red-81-40-121.staticip.rima-tde.net.
  [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id z66sm5693885wmc.4.2021.05.11.21.42.29
+ by smtp.gmail.com with ESMTPSA id n2sm30067814wmb.32.2021.05.11.21.42.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 21:42:30 -0700 (PDT)
+ Tue, 11 May 2021 21:42:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/1] gitlab-ci: Add KVM x86 cross-build jobs
-Date: Wed, 12 May 2021 06:42:27 +0200
-Message-Id: <20210512044228.3254073-1-philmd@redhat.com>
+Subject: [PATCH 1/1] gitlab-ci: Add KVM x86 cross-build jobs
+Date: Wed, 12 May 2021 06:42:28 +0200
+Message-Id: <20210512044228.3254073-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210512044228.3254073-1-philmd@redhat.com>
+References: <20210512044228.3254073-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -101,24 +104,34 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a job to avoid breaking x86 KVM-only builds (the feature recently=0D
-added by Claudio):=0D
-https://gitlab.com/philmd/qemu/-/jobs/1255115665=0D
-=0D
-Paolo, (assuming Thomas Acks the patch), could you queue it on top=0D
-of your current pull request?=0D
-=0D
-Based-on: <20210511081350.419428-1-pbonzini@redhat.com>=0D
-https://gitlab.com/bonzini/qemu.git tags/for-upstream=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (1):=0D
-  gitlab-ci: Add KVM x86 cross-build jobs=0D
-=0D
- .gitlab-ci.d/crossbuilds.yml | 8 ++++++++=0D
- 1 file changed, 8 insertions(+)=0D
-=0D
---=20=0D
-2.26.3=0D
-=0D
+Add a new job to cross-build the x86 target without the
+TCG/XEN accelerators (IOW: only KVM accelerator enabled).
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ .gitlab-ci.d/crossbuilds.yml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index e44e4b49a25..a8eac2cddba 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -198,6 +198,14 @@ cross-win64-system:
+   variables:
+     IMAGE: fedora-win64-cross
+ 
++cross-i386-kvm-only:
++  extends: .cross_accel_build_job
++  needs:
++    job: i386-fedora-cross-container
++  variables:
++    IMAGE: fedora-i386-cross
++    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-xen
++
+ cross-amd64-xen-only:
+   extends: .cross_accel_build_job
+   needs:
+-- 
+2.26.3
 
 
