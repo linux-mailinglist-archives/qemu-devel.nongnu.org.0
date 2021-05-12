@@ -2,98 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B1337B557
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 07:11:10 +0200 (CEST)
-Received: from localhost ([::1]:58904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBE237B55E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 07:17:50 +0200 (CEST)
+Received: from localhost ([::1]:44482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgh9J-0003hm-2K
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 01:11:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57448)
+	id 1lghFl-0004pr-Vp
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 01:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgh74-0001ss-M5
- for qemu-devel@nongnu.org; Wed, 12 May 2021 01:08:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgh70-0005W4-IK
- for qemu-devel@nongnu.org; Wed, 12 May 2021 01:08:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620796124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qOMZjGtqxOQlsN+U1IEb0tEKh8Ml+YaaJkvn+j4SU1I=;
- b=QE2zhUek9+lJaBkLqHgsjDXSM7fhr2EZ0GypCXPV9Kr2Ts7fvOEyN1I0fkbUEX2I3xxeBf
- tGqhlBIPkPoaKE/hqJpiFNXMudd1/3HMSZQYlq+HI5/mon0FOnlYXUHc3bkUzjjfFS57TI
- N/XuXkPfEqlQQAWeX5CrrPq9qGXTAxw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-CQYww5ohNxiMxd9dnwM8fQ-1; Wed, 12 May 2021 01:08:40 -0400
-X-MC-Unique: CQYww5ohNxiMxd9dnwM8fQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 91-20020adf94640000b029010b019075afso9607909wrq.17
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 22:08:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qOMZjGtqxOQlsN+U1IEb0tEKh8Ml+YaaJkvn+j4SU1I=;
- b=kYt1bmeKnp57StOocQxnBDnizrStIgLe+Lvg+flDGTsubu5O63lOICsgPyvfDpJvWN
- mlX1CiiiIwy9gdjw1R2GzaI2CFWVDAaeOFT9QNTg4i9oCreB90Q1AqUCGwAaRx6Nc1MK
- 80dFifrFZcb7WYyBe3idyG6GPP5FJE4yc0yFtMc4aXsjLaV4I7O8JPeFPpjuQ+x/ckOJ
- z5AT4I+T7rewC0nI9bUaG7BA8fexHswwicdOedKnf0b5XgnEpDqlKKux9it14cVSxE4+
- YGU6/eYjyfH6XrJGU7ytG6xEH/vl86IRFOvziymH8DF7uXwnFpV76z7/rpLYNNxbuagi
- 2Axg==
-X-Gm-Message-State: AOAM532M5agfHrmcjmD7ebfLP4TxfWqJbuTzAj2SXsYSw0DWxeny9dln
- RDY2viNLQ0xfLfuxke45vzPRxWOUsoAFarT762jT3Nd6D7wMtVza3OAeMGV0Jzd7umZpysj07sA
- oG3l6RZAN0O+XdtE=
-X-Received: by 2002:a1c:540b:: with SMTP id i11mr9602594wmb.40.1620796119074; 
- Tue, 11 May 2021 22:08:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwc3MCGRVChDhxzUHlHpcPjgIpl7G+qEmNzzretF+0zA9hMC9wGVALFEdMpoT7wWEcR7Itqrg==
-X-Received: by 2002:a1c:540b:: with SMTP id i11mr9602572wmb.40.1620796118789; 
- Tue, 11 May 2021 22:08:38 -0700 (PDT)
-Received: from [192.168.1.36] (39.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.39])
- by smtp.gmail.com with ESMTPSA id a15sm32588297wrx.9.2021.05.11.22.08.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 22:08:38 -0700 (PDT)
-Subject: Re: [RFC PATCH 1/5] hw/mem/nvdimm: Use Kconfig 'imply' instead of
- 'depends on'
-To: Thomas Huth <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
-References: <20210511155354.3069141-1-philmd@redhat.com>
- <20210511155354.3069141-2-philmd@redhat.com> <YJs8anLs1zL3nPdS@yekko>
- <21e0a306-ccfb-a627-1496-14f831fe80a7@redhat.com>
- <dba0c284-b279-5e5b-74c9-2da719a8ce2e@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <87594332-49d3-2859-c893-9071200e8713@redhat.com>
-Date: Wed, 12 May 2021 07:08:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lghE1-0003Hr-5n
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 01:16:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43162)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lghDl-0001Sj-TA
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 01:16:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lghDj-0005r1-3F
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 05:15:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 15E592E8136
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 05:15:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <dba0c284-b279-5e5b-74c9-2da719a8ce2e@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 12 May 2021 05:10:06 -0000
+From: Thomas Huth <1899539@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pkirk08 th-huth
+X-Launchpad-Bug-Reporter: p kirkham (pkirk08)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <160254104097.31568.12578553334917554127.malonedeb@wampee.canonical.com>
+Message-Id: <162079620628.31184.11605828971460533417.malone@gac.canonical.com>
+Subject: [Bug 1899539] Re: keyboard errors in DOS,
+ found links to similar errors for reference
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
+X-Launchpad-Hash: abd812a229f0dfddcfc631d8288a7b314ee01469
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,46 +70,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Igor Mammedov <imammedo@redhat.com>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, qemu-ppc@nongnu.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1899539 <1899539@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/21 6:53 AM, Thomas Huth wrote:
-> On 12/05/2021 05.57, Philippe Mathieu-Daudé wrote:
->> On 5/12/21 4:24 AM, David Gibson wrote:
->>> On Tue, May 11, 2021 at 05:53:50PM +0200, Philippe Mathieu-Daudé wrote:
->>>> Per the kconfig.rst:
->>>>
->>>>    A device should be listed [...] ``imply`` if (depending on
->>>>    the QEMU command line) the board may or  may not be started
->>>>    without it.
->>>>
->>>> This is the case with the NVDIMM device, so use the 'imply'
->>>> weak reverse dependency to select the symbol.
->>>
->>> Uh.. It should definitely be possible to start a pseries machine
->>> without NVDIMM.  I would have guessed the same for PC.
->>
->> Yes, this is what this patch does. With it we can build with:
->> CONFIG_NVDIMM=n
-> 
-> But with "imply" you could end up with a PSERIES that does not have
-> NVDIMM when also using --without-default-devices, couldn't you?
+Hmm, you likely need the whole patch series, and not only a single
+patch...
 
-Not currently, because of the CONFIG_NVDIMM=y.
+If you've got a git checkout and b4 installed, you could try:
 
-> Why don't you use "select" instead of "imply" ?
+ b4 am a898b0d5-7086-9699-ae8b-9524ad319b01@t-online.de
+ git am ./v2_20210507_vr_qemu_ps_2_controller_related_fixes.mbx
 
-Because as David said earlier:
+Otherwise it's maybe easier to wait until the patches have been
+merged...
 
-"It should definitely be possible to start a pseries machine
-without NVDIMM."
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1899539
+
+Title:
+  keyboard errors in DOS, found links to similar errors for reference
+
+Status in QEMU:
+  New
+
+Bug description:
+  OS: slackware 14.2, updated. qemu version: 4.1.0 (from slackbuild
+  script)
+
+  command line: qemu-system-i386 -hda msdos.vhd
+
+  Description of problem: MSDOS 6.22 disk image running gwbasic 3.23.
+  Cursor keys and sometimes letter keys are repeated. Cursor keys
+  seemingly always, letter keys seem to happen when typing too fast.
+  Numpad arrows are not affected.  Also insert key doesnt seem to work
+  at all.
+
+  Have found one similar current bug, Bug #1574246 Drunken keyboard in
+  go32v2 programs
+  https://bugs.launchpad.net/qemu/+bug/1574246?comments=3Dall and a much
+  older vbox bug report that seems very similar,
+  https://www.virtualbox.org/ticket/58 , and for some reason mentions a
+  qemu patch.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1899539/+subscriptions
 
