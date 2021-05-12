@@ -2,79 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A692B37B691
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 09:07:11 +0200 (CEST)
-Received: from localhost ([::1]:49032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7615B37B693
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 09:08:14 +0200 (CEST)
+Received: from localhost ([::1]:51740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgixa-0008Ae-9A
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 03:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48738)
+	id 1lgiyb-0001dG-JP
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 03:08:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lgiwM-0007Vb-73
- for qemu-devel@nongnu.org; Wed, 12 May 2021 03:05:54 -0400
-Received: from mga02.intel.com ([134.134.136.20]:29076)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgixK-0000Bc-UK
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 03:06:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lgiwJ-0002Gw-Do
- for qemu-devel@nongnu.org; Wed, 12 May 2021 03:05:53 -0400
-IronPort-SDR: fkcRhzXXu6L2k3WNFm8qakwNYQXqz4Z1tSuxFbtHLBT119GnT2/RGBSwR03d8djROcPxxOCgGR
- iaM8gYRC08OA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="186769683"
-X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; d="scan'208";a="186769683"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2021 00:05:45 -0700
-IronPort-SDR: w102LNBKXEqI4zIP2ZF4dIjdyvPnm66e1E0s479trRZzcetHd0Nu/hOXpVRFkpGGwX5M26hepA
- 3ux6qfuX9sWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; d="scan'208";a="625131767"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by fmsmga005.fm.intel.com with ESMTP; 12 May 2021 00:05:44 -0700
-Received: from shsmsx606.ccr.corp.intel.com (10.109.6.216) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 12 May 2021 00:05:43 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX606.ccr.corp.intel.com (10.109.6.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 12 May 2021 15:05:41 +0800
-Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
- SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2106.013;
- Wed, 12 May 2021 15:05:41 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>, Gerd Hoffmann
- <kraxel@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: RE: [PATCH V6 0/6] Passthrough specific network traffic in COLO
-Thread-Topic: [PATCH V6 0/6] Passthrough specific network traffic in COLO
-Thread-Index: AQHXNfjlRIjnq99tzk2zKjLrwVWDearJUGqQgBY7ixA=
-Date: Wed, 12 May 2021 07:05:41 +0000
-Message-ID: <a3c43db01ab4440da66cc17f2252a584@intel.com>
-References: <20210420151537.64360-1-chen.zhang@intel.com>
- <17dd014de70d4181858198d0187e4fea@intel.com>
-In-Reply-To: <17dd014de70d4181858198d0187e4fea@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgixH-0002zl-Ry
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 03:06:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620803210;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ls2Ewyn1WlCpL1g7Aod452c/DWrSE1zqr3Iq/Gcrl6I=;
+ b=g65jSxQ2sThCd4/GirdhVUY0var7h1sZwsJu1CTB9ljjyZJcXJiyOmeWPO4mZDfXSPMk0m
+ iPKH2PpNS1S4YQb8/Qg75OxTVoWVRX52E47CgGJGDJUgaDc0ctdA7GR7ftmp2c7gr14sUA
+ 2Fr3PUyZLfv+o91Kwcsrd4VdgVyXB8I=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-578-W3c7LPRiO3ik_YNkF5Y9Gg-1; Wed, 12 May 2021 03:06:48 -0400
+X-MC-Unique: W3c7LPRiO3ik_YNkF5Y9Gg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ d8-20020a0564020008b0290387d38e3ce0so12328966edu.1
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 00:06:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ls2Ewyn1WlCpL1g7Aod452c/DWrSE1zqr3Iq/Gcrl6I=;
+ b=fZijCd/U1dqDA3QOrZzPDTQ6jrZ6OwxRc4rHKSAtFfKwTkSarcp5eOVeKzUAUNbZXJ
+ u8JbLFMJT3XqqOlKuQM2BcX3OBGX21YIJLoLks36z2KXPZaEfQ1x0agLwaHt3n+ViNxN
+ 8FxxrGPL31asVhy+KMpisNV6Gi5Rm5ARzFL0+l4zNGlh4C5sF2yQ2/dV6UkMxFaZgzYR
+ VZuP+8SZB1DlHOoOy3W5A/L2irCUd9UyIwPWOK+xoRFhokgZ8j/iZnIJprOIdYE+AGUa
+ p+XB4jE0F2Hynj1FQWpaNRuKNV35kTgbkKkgTwVBhjpaoJp92i8A7U2+uX3+HZsUZoI1
+ tFVA==
+X-Gm-Message-State: AOAM532hMdwEOWewdQKuySVzO+V7nVuN07po4cdPF9v+M+u2TuAfLK6o
+ xZMCAPOq0ylh/yVucjFu02GWIcy9xa52PYDKuSvxSEPa53AsxrNHXHNliNmolswjL1+dMRlw0MS
+ 0fMu9lC0gJAxS0LE=
+X-Received: by 2002:a17:906:248e:: with SMTP id
+ e14mr34935074ejb.249.1620803207686; 
+ Wed, 12 May 2021 00:06:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwMkDw14oOqFdFLCW4y/FTIQmHbb4FJ7WE0q9XTvviRAGrDMJhNWsOPTMJ9R9EsdDVeikBUYg==
+X-Received: by 2002:a17:906:248e:: with SMTP id
+ e14mr34935043ejb.249.1620803207362; 
+ Wed, 12 May 2021 00:06:47 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id g11sm13278489eje.7.2021.05.12.00.06.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 May 2021 00:06:46 -0700 (PDT)
+Subject: Re: [PATCH v3 31/33] block/nbd: add nbd_clinent_connected() helper
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
+ <20210416080911.83197-32-vsementsov@virtuozzo.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5ebc87b7-d76a-6cca-b389-3965b97002b4@redhat.com>
+Date: Wed, 12 May 2021 09:06:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.20; envelope-from=chen.zhang@intel.com;
- helo=mga02.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210416080911.83197-32-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,122 +104,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, Zhang Chen <zhangckid@gmail.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ rvkagan@yandex-team.ru, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus, Jason and Dave.
+On 16/04/21 10:09, Vladimir Sementsov-Ogievskiy wrote:
+> We already have two similar helpers for other state. Let's add another
+> one for convenience.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
 
-This series has been modified according to previous suggestions.=20
-Please review it again to make sure I fully understand comments.
+The whole usage of load-acquire for the connected state is completely 
+meaningless, but that's not your fault. :)  For now let's keep it as is, 
+and we'll clean it up later.
 
-Thanks
-Chen
-
-> -----Original Message-----
-> From: Qemu-devel <qemu-devel-
-> bounces+chen.zhang=3Dintel.com@nongnu.org> On Behalf Of Zhang, Chen
-> Sent: Wednesday, April 28, 2021 11:27 AM
-> To: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
-> devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Dr. David Alan
-> Gilbert <dgilbert@redhat.com>; Markus Armbruster <armbru@redhat.com>;
-> Daniel P. Berrang=E9 <berrange@redhat.com>; Gerd Hoffmann
-> <kraxel@redhat.com>; Li Zhijian <lizhijian@cn.fujitsu.com>
-> Cc: Lukas Straub <lukasstraub2@web.de>; Zhang Chen
-> <zhangckid@gmail.com>
-> Subject: RE: [PATCH V6 0/6] Passthrough specific network traffic in COLO
->=20
-> Please give me for comments for this series, Ping....
->=20
-> Thanks
-> Chen
->=20
-> > -----Original Message-----
-> > From: Zhang, Chen <chen.zhang@intel.com>
-> > Sent: Tuesday, April 20, 2021 11:16 PM
-> > To: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
-> > devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Dr. David Alan
-> > Gilbert <dgilbert@redhat.com>; Markus Armbruster
-> <armbru@redhat.com>;
-> > Daniel P. Berrang=E9 <berrange@redhat.com>; Gerd Hoffmann
-> > <kraxel@redhat.com>; Li Zhijian <lizhijian@cn.fujitsu.com>
-> > Cc: Zhang Chen <zhangckid@gmail.com>; Zhang, Chen
-> > <chen.zhang@intel.com>; Lukas Straub <lukasstraub2@web.de>
-> > Subject: [PATCH V6 0/6] Passthrough specific network traffic in COLO
-> >
-> > Due to some real user scenarios don't need to monitor all traffic.
-> > And qemu net-filter also need function to more detailed flow control.
-> > This series give user ability to passthrough kinds of COLO network stre=
-am.
-> >
-> > For example, windows guest user want to enable windows remote
-> desktop
-> > to touch guest(UDP/TCP 3389), This case use UDP and TCP mixed, and the
-> > tcp part payload always different caused by real desktop display
-> > data(for guest time/ mouse display....).
-> >
-> > Another case is some real user application will actively transmit
-> > information include guest time part, primary guest send data with time
-> > 10:01.000, At the same time secondary guest send data with time
-> > 10:01.001, it will always trigger COLO checkpoint(live migrate) to drop=
- guest
-> performance.
-> >
-> >   V6:
-> >     - Change QAPI IPFlowSpec protocol from enum to str.
-> >     - Use getprotobyname to handle the protocols.
-> >     - Optimize code in net.
-> >
-> >   V5:
-> >     - Squash original 1-3 QAPI patches together.
-> >     - Rename some data structures to avoid misunderstanding.
-> >     - Reuse InetSocketAddressBase in IPFlowSpec.
-> >     - Add new function in util/qemu-sockets.c to parse
-> >       InetSocketAddressBase.
-> >     - Update HMP command define to reuse current code.
-> >     - Add more comments.
-> >
-> >   V4:
-> >     - Fix QAPI code conflict for V6.0 merged patches.
-> >     - Note this feature for V6.1.
-> >
-> >   V3:
-> >     - Add COLO passthrough list lock.
-> >     - Add usage demo and more comments.
-> >
-> >   V2:
-> >     - Add the n-tuple support.
-> >     - Add some qapi definitions.
-> >     - Support multi colo-compare objects.
-> >     - Support setup each rules for each objects individually.
-> >     - Clean up COLO compare definition to .h file.
-> >     - Rebase HMP command for stable tree.
-> >     - Add redundant rules check.
-> >
-> >
-> > Zhang Chen (6):
-> >   qapi/net: Add IPFlowSpec and QMP command for COLO passthrough
-> >   util/qemu-sockets.c: Add inet_parse_base to handle
-> >     InetSocketAddressBase
-> >   hmp-commands: Add new HMP command for COLO passthrough
-> >   net/colo-compare: Move data structure and define to .h file.
-> >   net/colo-compare: Add passthrough list to CompareState
-> >   net/net.c: Add handler for COLO passthrough connection
-> >
-> >  hmp-commands.hx        |  26 +++++++
-> >  include/monitor/hmp.h  |   2 +
-> >  include/qemu/sockets.h |   1 +
-> >  monitor/hmp-cmds.c     |  82 ++++++++++++++++++++
-> >  net/colo-compare.c     | 162 +++++++++++-----------------------------
-> >  net/colo-compare.h     | 118 +++++++++++++++++++++++++++++
-> >  net/net.c              | 166
-> +++++++++++++++++++++++++++++++++++++++++
-> >  qapi/net.json          |  68 +++++++++++++++++
-> >  util/qemu-sockets.c    |  14 ++++
-> >  9 files changed, 519 insertions(+), 120 deletions(-)
-> >
-> > --
-> > 2.25.1
->=20
+Paolo
 
 
