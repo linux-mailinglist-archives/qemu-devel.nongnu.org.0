@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B898F37C9EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:50:13 +0200 (CEST)
-Received: from localhost ([::1]:38678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F4937CA41
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:53:49 +0200 (CEST)
+Received: from localhost ([::1]:44312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgs3o-0001ZY-KY
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:50:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48532)
+	id 1lgs7I-0005c2-Ts
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:53:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgrxC-0004BY-Fl
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:43:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44735)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgrx6-0003pg-VM
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:43:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620837795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Pg4WWR11+C6QB+MmPuxnZ598tg/zCDGTZGEyuSvhc/Y=;
- b=CGXrmtpzzGDgER6whAVei1ETUnQ7hf7y2vlD+IPTwQ/86fRTa+6tBPnJoJclo0GWzL2+fF
- 3x1iXYIoOQWdwgafil0PyC63JfcOm4r6Iyrz2oBX+wQCkZXkHtjCDBJKDgfoehIfZacCSh
- cW4CA3jFuOxhCVKYR6O7JEppFzKbcSY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-K9WShe7NP7eNzkbdH3uexQ-1; Wed, 12 May 2021 12:43:12 -0400
-X-MC-Unique: K9WShe7NP7eNzkbdH3uexQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 058B31012D92;
- Wed, 12 May 2021 16:43:11 +0000 (UTC)
-Received: from localhost (ovpn-115-51.ams2.redhat.com [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82E1460CE6;
- Wed, 12 May 2021 16:42:59 +0000 (UTC)
-Date: Wed, 12 May 2021 17:42:58 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V3 00/22] Live Update
-Message-ID: <YJwFkhlYISA9INwO@stefanha-x1.localdomain>
-References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgs4t-0003uC-W5
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:51:20 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39686)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgs4n-00088N-3u
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:51:15 -0400
+Received: by mail-wr1-x434.google.com with SMTP id v12so24300220wrq.6
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 09:51:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=8Gd6VlzfMx9JIrx5W8WKW8DiF/IPUdvaBFDZSHdY2R4=;
+ b=AmVnu72WMrAoOvXp2RL8bpjGICFPrJuDDC3wRztzdmsJxRgROxLsBIUWHXRycAtx9/
+ ic3DlY+HqHnqOJ4YWU5V3AwgLXvIK5vTHhbJQ33beMsPbcCZFSoyV6IaKFpsjngkpZOA
+ LflPbNlZAxgHzHwjLJJkKin1ZpD1E/Hx02fMpr39/vFKkYoZm2dNOwk0AJ5E+kNwJL3U
+ hVXXCqm1iHqnep5l/554EBDVFtKmyRaTK1l4jlJpUS5cgIw1b0EHH/6TtR/ZWlCvOuLx
+ sPQ2k8WCULNlLtY+mM9fcJNevAa7XgSvWyIAvkre+2THR/aI96HsZaKwYWaJpHY/+QGE
+ C6Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=8Gd6VlzfMx9JIrx5W8WKW8DiF/IPUdvaBFDZSHdY2R4=;
+ b=dIyiJ7Dwi8OgERjVnU9YkGh7JYMnEvD8gUM8NVIbKmbSLfzHmqA1lX/H2OvgTEkuJJ
+ s9dwP1TpfZQxWvD3BWIyX/D2Mkk87vpe3rHSScpUSPpKmmz4EMpDPBJVlGyiSarTaCi7
+ F/+mcU0P7byLSo5v6Ynw2gUnKGXcXwu8IgM+Gk5oK+SUsWNS9t92vYwhRj1yHKuolWk8
+ oDlvMhXP9wVNNyh2mm9NnGf2NgLvLzm5FNVNDVcyOUiPrm9BWOnoNCJ8658WSHZ+qnXH
+ eW6cR/vkGnPx3glOdUtURr333u2mHugdTmtltqVCwrUql5DCn6K2pVb4WpkExTfXNPk4
+ 4vpQ==
+X-Gm-Message-State: AOAM532gZnyopGsbgp/hWb6QSWZXW/IeufrSAUxSfcTEfCnLvpTRupxR
+ D+CsH7dQFNJHXN1uPKd+mLQvUg==
+X-Google-Smtp-Source: ABdhPJyWJN1VxGx3wrBA5FZBK7xntjP8NHScpJGUGlaImudQRrl6PlArZgKRJ9Kotvs64g25WPQFSA==
+X-Received: by 2002:a5d:6085:: with SMTP id w5mr47933811wrt.14.1620838271244; 
+ Wed, 12 May 2021 09:51:11 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y2sm7465452wmq.45.2021.05.12.09.51.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 May 2021 09:51:10 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 591AC1FF7E;
+ Wed, 12 May 2021 17:51:09 +0100 (BST)
+References: <20210508014802.892561-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 00/72] Convert floatx80 and float128 to FloatParts
+Date: Wed, 12 May 2021 17:47:17 +0100
+In-reply-to: <20210508014802.892561-1-richard.henderson@linaro.org>
+Message-ID: <87bl9fgaki.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FF8oNhgXYx8kkWYd"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,73 +86,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---FF8oNhgXYx8kkWYd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 07, 2021 at 05:24:58AM -0700, Steve Sistare wrote:
-> Provide the cprsave and cprload commands for live update.  These save and
-> restore VM state, with minimal guest pause time, so that qemu may be upda=
-ted
-> to a new version in between.
->=20
-> cprsave stops the VM and saves vmstate to an ordinary file.  It supports =
-two
-> modes: restart and reboot.  For restart, cprsave exec's the qemu binary (=
-or
-> /usr/bin/qemu-exec if it exists) with the same argv.  qemu restarts in a
-> paused state and waits for the cprload command.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-I think cprsave/cprload could be generalized by using QMP to stash the
-file descriptors. The 'getfd' QMP command already exists and QEMU code
-already opens fds passed using this mechanism.
+> Reorg everything using QEMU_GENERIC and multiple inclusion to
+> reduce the amount of code duplication between the formats.
+>
+> The use of QEMU_GENERIC means that we need to use pointers instead
+> of structures, which means that even the smaller float formats
+> need rearranging.
 
-I haven't checked but it may be possible to drop some patches by reusing
-QEMU's monitor file descriptor passing since the code already knows how
-to open from 'getfd' fds.
+I did a basic some basic benchmarks which show no issues (although I
+suspect hardfloat is hiding any true cost of the softfloat itself):
 
-The reason why using QMP is interesting is because it eliminates the
-need for execve(2). QEMU may be unable to execute a program due to
-chroot, seccomp, etc.
+#+name: run-float-benchmarks
+#+begin_src shell :results output :async
+  ./fp-bench add -p single
+  ./fp-bench add -p double
+  ./fp-bench mul -p single
+  ./fp-bench mul -p double
+  ./fp-bench muladd -p single
+  ./fp-bench muladd -p double
+#+end_src
 
-QMP would enable cprsave/cprload to work both with and without
-execve(2).
+#+RESULTS: run-float-benchmarks-after
+: 374.77 MFlops
+: 287.58 MFlops
+: 371.55 MFlops
+: 281.48 MFlops
+: 370.76 MFlops
+: 287.39 MFlops
 
-One tricky thing with this approach might be startup ordering: how to
-get fds via the QMP monitor in the new process before processing the
-entire command-line.
+#+RESULTS: run-float-benchmarks-before
+: 362.40 MFlops
+: 278.65 MFlops
+: 360.68 MFlops
+: 280.92 MFlops
+: 360.75 MFlops
+: 280.76 MFlops
 
-Stefan
+I guess what would be really telling is if a ext80 benchmark exhibited
+any slowdown.
 
---FF8oNhgXYx8kkWYd
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> I've carried it through to completion within fpu/, so that we don't
+> have (much) of the legacy code remaining.  There is some floatx80
+> stuff in target/m68k and target/i386 that's still hanging around.
+>
+>
+> r~
+>
+>
+> Alex Benn=C3=A9e (1):
+>   tests/fp: add quad support to the benchmark utility
+>
+> Richard Henderson (71):
+>   qemu/host-utils: Use __builtin_bitreverseN
+>   qemu/host-utils: Add wrappers for overflow builtins
+>   qemu/host-utils: Add wrappers for carry builtins
+>   accel/tcg: Use add/sub overflow routines in tcg-runtime-gvec.c
+>   softfloat: Move the binary point to the msb
+>   softfloat: Inline float_raise
+>   softfloat: Use float_raise in more places
+>   softfloat: Tidy a * b + inf return
+>   softfloat: Add float_cmask and constants
+>   softfloat: Use return_nan in float_to_float
+>   softfloat: fix return_nan vs default_nan_mode
+>   target/mips: Set set_default_nan_mode with set_snan_bit_is_one
+>   softfloat: Do not produce a default_nan from parts_silence_nan
+>   softfloat: Rename FloatParts to FloatParts64
+>   softfloat: Move type-specific pack/unpack routines
+>   softfloat: Use pointers with parts_default_nan
+>   softfloat: Use pointers with unpack_raw
+>   softfloat: Use pointers with ftype_unpack_raw
+>   softfloat: Use pointers with pack_raw
+>   softfloat: Use pointers with ftype_pack_raw
+>   softfloat: Use pointers with ftype_unpack_canonical
+>   softfloat: Use pointers with ftype_round_pack_canonical
+>   softfloat: Use pointers with parts_silence_nan
+>   softfloat: Rearrange FloatParts64
+>   softfloat: Convert float128_silence_nan to parts
+>   softfloat: Convert float128_default_nan to parts
+>   softfloat: Move return_nan to softfloat-parts.c.inc
+>   softfloat: Move pick_nan to softfloat-parts.c.inc
+>   softfloat: Move pick_nan_muladd to softfloat-parts.c.inc
+>   softfloat: Move sf_canonicalize to softfloat-parts.c.inc
+>   softfloat: Move round_canonical to softfloat-parts.c.inc
+>   softfloat: Use uadd64_carry, usub64_borrow in softfloat-macros.h
+>   softfloat: Move addsub_floats to softfloat-parts.c.inc
+>   softfloat: Implement float128_add/sub via parts
+>   softfloat: Move mul_floats to softfloat-parts.c.inc
+>   softfloat: Move muladd_floats to softfloat-parts.c.inc
+>   softfloat: Use mulu64 for mul64To128
+>   softfloat: Use add192 in mul128To256
+>   softfloat: Tidy mul128By64To192
+>   softfloat: Introduce sh[lr]_double primitives
+>   softfloat: Move div_floats to softfloat-parts.c.inc
+>   softfloat: Split float_to_float
+>   softfloat: Convert float-to-float conversions with float128
+>   softfloat: Move round_to_int to softfloat-parts.c.inc
+>   softfloat: Move rount_to_int_and_pack to softfloat-parts.c.inc
+>   softfloat: Move rount_to_uint_and_pack to softfloat-parts.c.inc
+>   softfloat: Move int_to_float to softfloat-parts.c.inc
+>   softfloat: Move uint_to_float to softfloat-parts.c.inc
+>   softfloat: Move minmax_flags to softfloat-parts.c.inc
+>   softfloat: Move compare_floats to softfloat-parts.c.inc
+>   softfloat: Move scalbn_decomposed to softfloat-parts.c.inc
+>   softfloat: Move sqrt_float to softfloat-parts.c.inc
+>   softfloat: Split out parts_uncanon_normal
+>   softfloat: Reduce FloatFmt
+>   softfloat: Introduce Floatx80RoundPrec
+>   softfloat: Adjust parts_uncanon_normal for floatx80
+>   tests/fp/fp-test: Reverse order of floatx80 precision tests
+>   softfloat: Convert floatx80_add/sub to FloatParts
+>   softfloat: Convert floatx80_mul to FloatParts
+>   softfloat: Convert floatx80_div to FloatParts
+>   softfloat: Convert floatx80_sqrt to FloatParts
+>   softfloat: Convert floatx80_round to FloatParts
+>   softfloat: Convert floatx80_round_to_int to FloatParts
+>   softfloat: Convert integer to floatx80 to FloatParts
+>   softfloat: Convert floatx80 float conversions to FloatParts
+>   softfloat: Convert floatx80 to integer to FloatParts
+>   softfloat: Convert floatx80_scalbn to FloatParts
+>   softfloat: Convert floatx80 compare to FloatParts
+>   softfloat: Convert float32_exp2 to FloatParts
+>   softfloat: Move floatN_log2 to softfloat-parts.c.inc
+>   softfloat: Convert modrem operations to FloatParts
+>
+>  include/fpu/softfloat-helpers.h  |    5 +-
+>  include/fpu/softfloat-macros.h   |  247 +-
+>  include/fpu/softfloat-types.h    |   10 +-
+>  include/fpu/softfloat.h          |   11 +-
+>  include/qemu/host-utils.h        |  291 ++
+>  target/mips/fpu_helper.h         |   10 +-
+>  accel/tcg/tcg-runtime-gvec.c     |   36 +-
+>  fpu/softfloat.c                  | 7760 ++++++++++--------------------
+>  linux-user/arm/nwfpe/fpa11.c     |   41 +-
+>  target/i386/tcg/fpu_helper.c     |   79 +-
+>  target/m68k/fpu_helper.c         |   50 +-
+>  target/m68k/softfloat.c          |   90 +-
+>  tests/fp/fp-bench.c              |   88 +-
+>  tests/fp/fp-test-log2.c          |  118 +
+>  tests/fp/fp-test.c               |   11 +-
+>  fpu/softfloat-parts-addsub.c.inc |   62 +
+>  fpu/softfloat-parts.c.inc        | 1480 ++++++
+>  fpu/softfloat-specialize.c.inc   |  424 +-
+>  tests/fp/wrap.c.inc              |   12 +
+>  tests/fp/meson.build             |   11 +
+>  20 files changed, 4886 insertions(+), 5950 deletions(-)
+>  create mode 100644 tests/fp/fp-test-log2.c
+>  create mode 100644 fpu/softfloat-parts-addsub.c.inc
+>  create mode 100644 fpu/softfloat-parts.c.inc
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCcBZIACgkQnKSrs4Gr
-c8jYEwf/RBGnLt9skKOND2VsaWoKPVv4sSj8SdRpe4n9O5Cv5Rcy5wy7hmAZejOn
-PSw6XW9guwfCYbYwED+H6x+XV9TZ68/27awcQ+XGtiCOuV2it97Q9SXecFr18whz
-j8XmxkRVq4VuY4SSf6s9lk8Pzahh+wQtExV3C0kY7Qommm93Dn/Ynk0Nvu/tUD0O
-gQEkDJzV1WRB+Vp/iSnYhdt8NUBickbQcB1LDYiDSLYpOG2Cb3xw1Ec6oPqS/FUE
-oYax8ovgQ9BoLiywY73yYrLi5VbNO39laZYxPpRADOGLs7UcJGzkTGUIURfhyylM
-93d16OMcuknXvuA/Dq0PXkHPuW+hTg==
-=AB/s
------END PGP SIGNATURE-----
-
---FF8oNhgXYx8kkWYd--
-
+--=20
+Alex Benn=C3=A9e
 
