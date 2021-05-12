@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0620B37CEFD
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:26:27 +0200 (CEST)
-Received: from localhost ([::1]:42792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9915C37CEA4
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:22:59 +0200 (CEST)
+Received: from localhost ([::1]:34784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgscs-0002hR-2a
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:26:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59460)
+	id 1lgsZW-00055Z-KT
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:22:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUH-0006zu-BZ
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUH-0006zM-4N
  for qemu-devel@nongnu.org; Wed, 12 May 2021 13:17:33 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:40599)
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:41495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUE-0008G5-SY
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:17:33 -0400
-Received: by mail-io1-xd36.google.com with SMTP id z24so22425590ioj.7
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 10:17:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUE-0008GW-SV
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:17:32 -0400
+Received: by mail-io1-xd29.google.com with SMTP id n10so22389712ion.8
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 10:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u9Nxu8HC0qcCp6GbZrO8NGZAy8juOzXwTelo6GKVH+g=;
- b=isGWoAsjiw+X++O0wzE4pxqYAIgGQ9jh0nh3QaQiRV1cox2QZveqgkuR4m0qCOA7Uc
- dISoHwaLDWJX+Q+OJzvvKGz7HK2eiYCO2ekIUkzKfaCxFYxy5SHrGjx+bFzaYCeZEj9i
- Q2xAcxqF7sosL9L7ndNHz4ubgkxfTai1eaLj3FvXCrqSjsGxpiTv01KlS3+uFD/NW+8O
- PqC1ugVJn2UnQRKW9mk7hAvRSeGO14E0925eWM86h+O4+nlpyYg3iRrdZ3tyVpc/Midz
- Xf3MWvN6vBlAp5+uCfUJXqb8K35LgRy3+P97OGTqfufjruU2zvZi2mt4KuMyRUyIkeNa
- Iv6w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=J8Y1xFsUbnggFmWIJScpTRSuMSFl+Bq/LAbgdOuZaAs=;
+ b=nmVhV9qb6kxVodbtl6/yoxzEeJSUjI9fnBwnYjU3JCpzi2wqJeJf0lWMbZmMJhrLnl
+ 7XJcUCkoPcrpsJtaxfKQ8CeGiSXLGBAv3PY9s9zF1atoFWJb4cMqVLtbCLFnNhfnnfPW
+ ZsRQ4KvcIN8pB6AHEwli51Eke73lRoN7etAN8CM6GogpCqkcQw6n47aSf48k+d0tGzw0
+ GsobFmrw4Hh6edSW7RsnyIRlKsjw3LY1xwwDnKHQgrLDSv++obVICRWz4W4r9G51iwIz
+ ACVcdlyQAWp0rSrvqRKzcLwNNGGjp13KGz318niqQ3b7MfZRARHvIVD9Bb1xxvQ9rfb5
+ 0lrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u9Nxu8HC0qcCp6GbZrO8NGZAy8juOzXwTelo6GKVH+g=;
- b=dUS+vKEXCJfnJ2qHjK06YmmMWEjmFTIAT+rHKHZevxX7cOHavIJCvxJGxoFrsbL8Q1
- rGPvvi10UUU2ZVc8lHQQThjD1rAI29hINPIRrScRrWF3cnJu5RmK5FGo5nJD8vWAPGWK
- Luw4UkY9xGlQTk1pIEeYRjSGcLF6jdEfs12e7YM2P328t2dCtsDsjHHer+kV48ZvAgEb
- Y/ZztD+19/VlL1ieOjqWl4ySav0lDyEj5WZ7OcHIuYGYYYELjp/0AaKiQbFLrThYswfA
- sbPeIlUDQxkUtAy658+PRh/SM0N1igdMar/D2tSWmD+nELc2LjIGpDmBzyxM4dmmZT5C
- gEKQ==
-X-Gm-Message-State: AOAM530Iz0ful/qsdum3cQpzRoquRrlh2Elr3k0dFCJCQAG4kWAYVP7h
- SfERuOcQMWQWbvoTmiqadnCKPpyq+WyaVA==
-X-Google-Smtp-Source: ABdhPJy0UEYGAR0AH7//QpSyiu+EZJS/4EJrfBihHW2tx6QTEc1mCxjLZ+fK4wMQvBN3m7JAOKCmsw==
-X-Received: by 2002:a6b:156:: with SMTP id 83mr6498287iob.22.1620839848040;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=J8Y1xFsUbnggFmWIJScpTRSuMSFl+Bq/LAbgdOuZaAs=;
+ b=dlX/WRhiUBCgt8fB7Je6HoSGXW3zkVJNCvDek8lO9cFz3vwu2jKpvokbNdy3kMfuv8
+ MAzFi/jHvwkqKYYWx3+A1RTb4CT4xNig4ubP+Cm3uPOS1913n3TgsJ0oyZIu5uzEbYFN
+ GRq0CeUo4J2jy2kb3iudlJJuOdw0AC3cwhCBtCVqF0UC8V+oLhUfjS7XJb1lln12roij
+ oMciFpetq5JjdQFeYcG2dbwrNQNXmxPM+jow9+0FI5p7cZF9USoBVHWHQIEaGE/27AnV
+ ZBe67wYpBBz9fUuYkNJl3TC8TppRlHShwtj98djT6ZPCg1CbYUGytKHYQwbYKxJYS6PW
+ +7XQ==
+X-Gm-Message-State: AOAM532nDNnnnd5q16H5AVHHVMHgLaRswzZq5s7Ymf9cAmUeYDsMfzkw
+ lJGQRcebE+++NbmVggEHgn27fevZG3stSQ==
+X-Google-Smtp-Source: ABdhPJwEpXLPSzsmNIgf3nxdVx1PZmCGNDZwQUdlup8bfo0b7mZh4t8bny/hU3FQu2GEYfcdbeJ+0Q==
+X-Received: by 2002:a02:5142:: with SMTP id s63mr32918307jaa.82.1620839848698; 
  Wed, 12 May 2021 10:17:28 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id d2sm192064ile.18.2021.05.12.10.17.27
+ by smtp.gmail.com with ESMTPSA id d2sm192064ile.18.2021.05.12.10.17.28
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 12 May 2021 10:17:27 -0700 (PDT)
+ Wed, 12 May 2021 10:17:28 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/20] bsd-user style tweaks and start cleanup
-Date: Wed, 12 May 2021 11:17:00 -0600
-Message-Id: <20210512171720.46744-1-imp@bsdimp.com>
+Subject: [PULL 01/20] bsd-user: whitespace changes
+Date: Wed, 12 May 2021 11:17:01 -0600
+Message-Id: <20210512171720.46744-2-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
+In-Reply-To: <20210512171720.46744-1-imp@bsdimp.com>
+References: <20210512171720.46744-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd36.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -79,125 +81,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Warner Losh <imp@bsdimp.com>
+Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f9a576a818044133f8564e0d243ebd97df0b3280:
+Space after keywords, no space for function calls and spaces around operators.
 
-  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20210506' into staging (2021-05-11 13:03:44 +0100)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Warner Losh <imp@bsdimp.com>
+---
+ bsd-user/main.c | 40 ++++++++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/bsdimp/qemu.git tags/pull-bsd-user-20210511
-
-for you to fetch changes up to afcbcff80bf81a3399e24c7908b17776e1489df9:
-
-  bsd-user: rename linux_binprm to bsd_binprm (2021-05-11 13:53:52 -0600)
-
-----------------------------------------------------------------
-
-pull-bsd-user-20210511 is the next round of cleanups to bsd-user in merging the
-bsd-user fork into qemu. It contains a number of style commits, as well as 3
-commits that start to change things: Some unused files are deleted, building the
-sparc and sparc64 targets are removed, and a structure is renamed.
-
-The next set of pull requests will start to execute the following plan:
-1. Move existing code around to have a structure similar to the bsd-user fork.
-2. Incrementally merge groups of system calls, focused on making x86 work.
-3. Once the groups of system calls are all merged, additional platforms will
-   be added back.
-4. Concurrently, as changes are requested as part of the merge happen, those
-   changes will be merged into the fork.
-5. Eventually, there will be no diference, and the bsd-user fork will only
-   be a staging area for cutting-edge features prior to upstreaming into
-   qemu mainline.
-
-The bsd-user code in qemu has a lot of style issues. This cleans up a number in
-the files touched. However, the checkpatch.pl detects some incremental issues in
-the commits. The following are expected, but are corrected in later hashes in
-this branch. MAINTAINERS does not need to be updated, since all the files added
-or deleted are covered under existing regexp in MAINTAINERS.
-
-Checking all commits since f9a576a818044133f8564e0d243ebd97df0b3280...
-d60c3b932e2fa06aba5d7aa1c451b5d287095dc8:101: ERROR: consider using qemu_strtol in preference to strtol
-d60c3b932e2fa06aba5d7aa1c451b5d287095dc8:142: ERROR: braces {} are necessary for all arms of this statement
-d60c3b932e2fa06aba5d7aa1c451b5d287095dc8:145: ERROR: braces {} are necessary for all arms of this statement
-total: 3 errors, 0 warnings, 119 lines checked
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:148: WARNING: line over 80 characters
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:330: ERROR: braces {} are necessary for all arms of this statement
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:340: ERROR: braces {} are necessary for all arms of this statement
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:381: ERROR: space prohibited between function name and open parenthesis '('
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:390: ERROR: spaces required around that '<' (ctx:VxV)
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:408: WARNING: Block comments use a leading /* on a separate line
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:409: WARNING: Block comments use * on subsequent lines
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:409: WARNING: Block comments use a trailing */ on a separate line
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:441: WARNING: line over 80 characters
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:445: WARNING: line over 80 characters
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:502: ERROR: line over 90 characters
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:551: ERROR: space required after that ',' (ctx:VxV)
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:552: ERROR: space required after that ',' (ctx:VxV)
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:587: ERROR: space required after that ';' (ctx:VxV)
-b4bebeee1dee8d333bfa105a6c28fec5eb34b147:623: ERROR: suspect code indent for conditional statements (12, 14)
-total: 9 errors, 6 warnings, 664 lines checked
-86545e7afe3f822b8561c7ceee7540fc3b19c3f0:31: ERROR: space required after that ';' (ctx:VxV)
-86545e7afe3f822b8561c7ceee7540fc3b19c3f0:40: ERROR: space required after that ';' (ctx:VxV)
-total: 2 errors, 0 warnings, 60 lines checked
-Use of uninitialized value $acpi_testexpected in string eq at scripts/checkpatch.pl line 1529.
-65d58c91ef1a15ad945ece367983437576f8e82b:22: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-total: 0 errors, 1 warnings, 14 lines checked
-Use of uninitialized value $acpi_testexpected in string eq at scripts/checkpatch.pl line 1529.
-f8ce39701b5be032fb3f9c05e8adb4055f70eec2:21: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-total: 0 errors, 1 warnings, 0 lines checked
-   FAIL one or more commits failed scripts/checkpatch.pl
-Cleaning up file based variables
-ERROR: Job failed: exit code 1
-
-Warner Losh (20):
-      bsd-user: whitespace changes
-      bsd-user: style tweak: use C not C++ comments
-      bsd-user: style tweak: Remove #if 0'd code
-      bsd-user: style tweak: Use preferred block comments
-      bsd-user: Remove commented out code
-      bsd-user: style tweak: move extern to header file
-      bsd-user: style tweak: remove spacing after '*' and add after }
-      bsd-user: style tweak: Use preferred block comments
-      bsd-user: style tweak: don't assign in if statements
-      bsd-user: style tweak: use {} for all if statements, format else correctly
-      bsd-user: style tweak: use {} consistently in for / if / else statements
-      bsd-user: use qemu_strtoul in preference to strtol
-      bsd-user: whitespace changes
-      bsd-user: style tweak: keyword space (
-      bsd-user: style tweak: keyword space (
-      bsd-user: style tweak: Remove #if 0'd code
-      bsd-user: style tweak: keyword space (
-      bsd-user: remove target_signal.h, it's unused
-      bsd-user: Stop building the sparc targets
-      bsd-user: rename linux_binprm to bsd_binprm
-
- bsd-user/bsdload.c                           |   4 +-
- bsd-user/elfload.c                           | 328 +++++++++++++--------------
- bsd-user/i386/target_signal.h                |  20 --
- bsd-user/main.c                              | 290 ++++++++---------------
- bsd-user/mmap.c                              |  22 +-
- bsd-user/qemu.h                              | 127 ++++++-----
- bsd-user/signal.c                            |   1 -
- bsd-user/sparc/target_signal.h               |  27 ---
- bsd-user/sparc64/target_signal.h             |  27 ---
- bsd-user/strace.c                            |   8 -
- bsd-user/syscall.c                           |  18 +-
- bsd-user/uaccess.c                           |   2 +-
- bsd-user/x86_64/target_signal.h              |  19 --
- default-configs/targets/sparc-bsd-user.mak   |   3 -
- default-configs/targets/sparc64-bsd-user.mak |   4 -
- 15 files changed, 348 insertions(+), 552 deletions(-)
- delete mode 100644 bsd-user/i386/target_signal.h
- delete mode 100644 bsd-user/sparc/target_signal.h
- delete mode 100644 bsd-user/sparc64/target_signal.h
- delete mode 100644 bsd-user/x86_64/target_signal.h
- delete mode 100644 default-configs/targets/sparc-bsd-user.mak
- delete mode 100644 default-configs/targets/sparc64-bsd-user.mak
-
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 36a889d084..079520737b 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -149,13 +149,13 @@ void cpu_loop(CPUX86State *env)
+     abi_ulong pc;
+     //target_siginfo_t info;
+ 
+-    for(;;) {
++    for (;;) {
+         cpu_exec_start(cs);
+         trapnr = cpu_exec(cs);
+         cpu_exec_end(cs);
+         process_queued_cpu_work(cs);
+ 
+-        switch(trapnr) {
++        switch (trapnr) {
+         case 0x80:
+             /* syscall from int $0x80 */
+             if (bsd_type == target_freebsd) {
+@@ -344,7 +344,7 @@ void cpu_loop(CPUX86State *env)
+             {
+                 int sig;
+ 
+-                sig = gdb_handlesig (env, TARGET_SIGTRAP);
++                sig = gdb_handlesig(env, TARGET_SIGTRAP);
+                 if (sig)
+                   {
+                     info.si_signo = sig;
+@@ -397,7 +397,7 @@ static inline void save_window_offset(CPUSPARCState *env, int cwp1)
+     printf("win_overflow: sp_ptr=0x" TARGET_ABI_FMT_lx " save_cwp=%d\n",
+            sp_ptr, cwp1);
+ #endif
+-    for(i = 0; i < 16; i++) {
++    for (i = 0; i < 16; i++) {
+         /* FIXME - what to do if put_user() fails? */
+         put_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
+         sp_ptr += sizeof(abi_ulong);
+@@ -447,7 +447,7 @@ static void restore_window(CPUSPARCState *env)
+     printf("win_underflow: sp_ptr=0x" TARGET_ABI_FMT_lx " load_cwp=%d\n",
+            sp_ptr, cwp1);
+ #endif
+-    for(i = 0; i < 16; i++) {
++    for (i = 0; i < 16; i++) {
+         /* FIXME - what to do if get_user() fails? */
+         get_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
+         sp_ptr += sizeof(abi_ulong);
+@@ -467,7 +467,7 @@ static void flush_windows(CPUSPARCState *env)
+     int offset, cwp1;
+ 
+     offset = 1;
+-    for(;;) {
++    for (;;) {
+         /* if restore would invoke restore_window(), then we can stop */
+         cwp1 = cpu_cwp_inc(env, env->cwp + offset);
+ #ifndef TARGET_SPARC64
+@@ -647,11 +647,11 @@ void cpu_loop(CPUSPARCState *env)
+ #ifdef TARGET_SPARC64
+         badtrap:
+ #endif
+-            printf ("Unhandled trap: 0x%x\n", trapnr);
++            printf("Unhandled trap: 0x%x\n", trapnr);
+             cpu_dump_state(cs, stderr, 0);
+-            exit (1);
++            exit(1);
+         }
+-        process_pending_signals (env);
++        process_pending_signals(env);
+     }
+ }
+ 
+@@ -824,15 +824,15 @@ int main(int argc, char **argv)
+         } else if (!strcmp(r, "cpu")) {
+             cpu_model = argv[optind++];
+             if (is_help_option(cpu_model)) {
+-/* XXX: implement xxx_cpu_list for targets that still miss it */
++                /* XXX: implement xxx_cpu_list for targets that still miss it */
+ #if defined(cpu_list)
+-                    cpu_list();
++                cpu_list();
+ #endif
+                 exit(1);
+             }
+         } else if (!strcmp(r, "B")) {
+-           guest_base = strtol(argv[optind++], NULL, 0);
+-           have_guest_base = true;
++            guest_base = strtol(argv[optind++], NULL, 0);
++            have_guest_base = true;
+         } else if (!strcmp(r, "drop-ld-preload")) {
+             (void) envlist_unsetenv(envlist, "LD_PRELOAD");
+         } else if (!strcmp(r, "bsd")) {
+@@ -957,7 +957,7 @@ int main(int argc, char **argv)
+         }
+     }
+ 
+-    if (loader_exec(filename, argv+optind, target_environ, regs, info) != 0) {
++    if (loader_exec(filename, argv + optind, target_environ, regs, info) != 0) {
+         printf("Error loading %s\n", filename);
+         _exit(1);
+     }
+@@ -1052,8 +1052,8 @@ int main(int argc, char **argv)
+     env->idt.limit = 255;
+ #endif
+     env->idt.base = target_mmap(0, sizeof(uint64_t) * (env->idt.limit + 1),
+-                                PROT_READ|PROT_WRITE,
+-                                MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
++                                PROT_READ | PROT_WRITE,
++                                MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
+     idt_table = g2h_untagged(env->idt.base);
+     set_idt(0, 0);
+     set_idt(1, 0);
+@@ -1081,8 +1081,8 @@ int main(int argc, char **argv)
+     {
+         uint64_t *gdt_table;
+         env->gdt.base = target_mmap(0, sizeof(uint64_t) * TARGET_GDT_ENTRIES,
+-                                    PROT_READ|PROT_WRITE,
+-                                    MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
++                                    PROT_READ | PROT_WRITE,
++                                    MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
+         env->gdt.limit = sizeof(uint64_t) * TARGET_GDT_ENTRIES - 1;
+         gdt_table = g2h_untagged(env->gdt.base);
+ #ifdef TARGET_ABI32
+@@ -1122,9 +1122,9 @@ int main(int argc, char **argv)
+         env->pc = regs->pc;
+         env->npc = regs->npc;
+         env->y = regs->y;
+-        for(i = 0; i < 8; i++)
++        for (i = 0; i < 8; i++)
+             env->gregs[i] = regs->u_regs[i];
+-        for(i = 0; i < 8; i++)
++        for (i = 0; i < 8; i++)
+             env->regwptr[i] = regs->u_regs[i + 8];
+     }
+ #else
 -- 
 2.22.1
 
