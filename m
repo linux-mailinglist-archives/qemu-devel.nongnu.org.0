@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6AE437EFFA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:43:32 +0200 (CEST)
-Received: from localhost ([::1]:53472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2847937F015
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:50:28 +0200 (CEST)
+Received: from localhost ([::1]:59208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgyVn-0008KO-Qm
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:43:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55866)
+	id 1lgycV-0003zt-06
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:50:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lgyUo-0007d9-Kd; Wed, 12 May 2021 19:42:30 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:41892)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lgyUk-0007uj-U4; Wed, 12 May 2021 19:42:29 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id n10so23374076ion.8;
- Wed, 12 May 2021 16:42:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2X0xAvpbVStNPB8amhCNjIWW8KAIpmmzRvfahINlerg=;
- b=V8TwYt3Cf9Dgad3YYGuC3rNrFmene21L9MsYfjQcCtZbC2VdTcgmk4oNb6NsJCG1Xd
- Z2PtePWp6+BUjRuuTnJGuOa14pJQBS/tuoWAoOdIPBfxgILgtLq74jyOS0NbIG9JV0EW
- OViUOdCY9CM11vFuuAV/0blPPYEJGKOgcoXXmXd7E/uVA75eHfzOYPNMoHEw9/+RHEGc
- sYlAWVNFpX31UtnpaVL/vs6sDpOoHPltdQ7EKgmI/5aP+iMtaDFP0sT9bbqd88dM/u2Z
- onRhSCImUp/Iic37z1z6y+u+XMMyE2HXR+yD2/W1h9Vk/Tj7vkwx9sAhK6OSLD0CfuVG
- YrYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2X0xAvpbVStNPB8amhCNjIWW8KAIpmmzRvfahINlerg=;
- b=l8FqeIIMiSIGpOId0al9JiT/y6z0eZB38aqQ8ZuSGwtXwINfkpBPV8xvJd6Q0+xgpa
- iYfsMWgxTki3mGH0zdobhxMjA5fh5/EbOKGPIiQArWIHuk+b3CbtWnf7b1ZgBNeKabbf
- cdStZJzbQLOgW9d4NecJAveizEYZV0R8xsihjKDkrT8g8vhhRNxH0mlFmUFWUvEx7hUX
- CaxAJYVtiocyNpFtSExghA+A/doJXgLvk6pPX3P4ui4/lfX89flBt/Iab72bMz8EGDY2
- dhVDbdIfq0GJC4+cfWNyWmmcM+tO5x/+v0AI0ohbpsBnAbqLBBXHTfKqhk8GY6edPZJu
- X9qg==
-X-Gm-Message-State: AOAM532r4aS1dukWWU6z29Xt3Gr/N8xZL3SVBCr25YlXWE2qaF9EwUPo
- WMltaDfF4UkWZ2vR0JS+BXrk3KnFFIq51aJF0nE=
-X-Google-Smtp-Source: ABdhPJysRRddvhV3OAXVN2s82m/oZSuE6uHztMKZAACuesmALJaup3ck+rAu+1RflN5MV11q/g0QbzZn+l3WLwHyJuE=
-X-Received: by 2002:a5d:878e:: with SMTP id f14mr28570836ion.176.1620862945334; 
- Wed, 12 May 2021 16:42:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgya8-0001uR-EB
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 19:48:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41990)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgya3-00033w-Gy
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 19:47:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620863274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WEcTiyc82piB9o8Ohc5+bT/XmOgECrAb6P3qnrRhjEs=;
+ b=OPHPVRtZfvWXbUviLdPu824l/KS1oDtWTirwEwgT0xk/Vqu4g95HZpr87biUD8/Wk1VJcO
+ v5d5FU30OeNTOyhldlU7tcs8PBAEkGIvSYg+FZf0mpop042VqAo5VtK+6YID2u50bJSqPP
+ 6V68OiqnV8afyr0n03hTP5fUoznMrWA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-74-0jiPT3QyP4uf7RT_rfEEWQ-1; Wed, 12 May 2021 19:47:51 -0400
+X-MC-Unique: 0jiPT3QyP4uf7RT_rfEEWQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB8D4801B12
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 23:47:50 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A0865D736;
+ Wed, 12 May 2021 23:47:46 +0000 (UTC)
+Subject: Re: [PATCH v3 6/9] qapi: normalize 'if' condition to IfPredicate tree
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
+ <20210429134032.1125111-7-marcandre.lureau@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <ba1046ca-3d92-40c2-e1e5-58ba0ac9baaf@redhat.com>
+Date: Wed, 12 May 2021 19:47:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210511100722.18065-1-ruinland@andestech.com>
- <20210511100722.18065-2-ruinland@andestech.com>
- <CAKmqyKP1O0LNGX-u1UkR6uke5N0h+T5vS=7DmZ947KLsCOnv=Q@mail.gmail.com>
-In-Reply-To: <CAKmqyKP1O0LNGX-u1UkR6uke5N0h+T5vS=7DmZ947KLsCOnv=Q@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 13 May 2021 09:41:59 +1000
-Message-ID: <CAKmqyKOxTvtGj-kS463iFz1+eoD_71LyTxfGmE66o2zgwYKvCQ@mail.gmail.com>
-Subject: Re: [PATCH V2 1/2] Adding premliminary support for custom CSR
- handling mechanism
-To: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210429134032.1125111-7-marcandre.lureau@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,457 +81,478 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dylan Jhong <dylan@andestech.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "Alan Quey-Liang Kao\(\(\(\(\(\(\(\(\(\(\)" <alankao@andestech.com>
+Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 12, 2021 at 4:16 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Tue, May 11, 2021 at 8:07 PM Ruinland Chuan-Tzu Tsai
-> <ruinland@andestech.com> wrote:
-> >
-> > Introduce ax25 and custom CSR handling mechanism to RISC-V platform.
-> > This is just a POC in which we add Andes custom CSR table directly
-> > into the generic code which is undresiable and requires overhaul.
-> >
-> > Signed-off-by: Dylan Jhong <dylan@andestech.com>
+On 4/29/21 9:40 AM, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Modify check_if() to build an IfPredicate tree (the schema
+> documentation is updated in a following patch).
+> 
 
-+ Others so everyone knows what is going on.
+I'm wondering if check_if() is the right place to do this. It's 
+certainly convenient, but we don't build any other domain-specific types 
+here at all -- that all happens in schema.py.
 
-Alistair
+Before this patch, the return value from expr.py is conceivably 
+something you'd get "exactly as-is" from a JSON parser. This patch would 
+end that, and collapses the waveform.
 
->
-> Thanks for the patch.
->
-> This seems like a good start. I have left some comments inline.
->
-> Why do we need a hash table? Couldn't we just have a second
-> riscv_csr_operations array?
->
-> > ---
-> >  target/riscv/cpu.c      |  28 ++++++++++
-> >  target/riscv/cpu.h      |  12 ++++-
-> >  target/riscv/cpu_bits.h | 115 ++++++++++++++++++++++++++++++++++++++++
-> >  target/riscv/csr.c      | 107 +++++++++++++++++++++++++++++++++++--
-> >  4 files changed, 256 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 7401325..6dbe9d9 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -34,6 +34,8 @@
-> >
-> >  static const char riscv_exts[26] = "IEMAFDQCLBJTPVNSUHKORWXYZG";
-> >
-> > +GHashTable * custom_csr_map;
->
-> This should be part of CPURISCVState instead of a global
->
-> > +
-> >  const char * const riscv_int_regnames[] = {
-> >    "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
-> >    "x7/t2",   "x8/s0",  "x9/s1",  "x10/a0", "x11/a1", "x12/a2",  "x13/a3",
-> > @@ -159,6 +161,31 @@ static void rv64_base_cpu_init(Object *obj)
-> >      set_misa(env, RV64);
-> >  }
-> >
-> > +static void ax25_cpu_init(Object *obj)
-> > +{
-> > +    CPURISCVState *env = &RISCV_CPU(obj)->env;
-> > +    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
-> > +    set_priv_version(env, PRIV_VERSION_1_10_0);
-> > +
-> > +    /* setup custom csr handler hash table */
-> > +    setup_custom_csr();
-> > +
-> > +}
-> > +
-> > +void setup_custom_csr(void) {
-> > +    custom_csr_map = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL, NULL);
-> > +    int i;
-> > +    for (i = 0; i < MAX_CUSTOM_CSR_NUM; i++) {
-> > +        if (andes_custom_csr_table[i].csrno != 0) {
-> > +            g_hash_table_insert(custom_csr_map,
-> > +                GINT_TO_POINTER(andes_custom_csr_table[i].csrno),
-> > +                &andes_custom_csr_table[i].csr_opset);
-> > +        } else {
-> > +            break;
-> > +        }
-> > +    }
-> > +}
-> > +
-> >  static void rv64_sifive_u_cpu_init(Object *obj)
-> >  {
-> >      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> > @@ -705,6 +732,7 @@ static const TypeInfo riscv_cpu_type_infos[] = {
-> >      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
-> >  #elif defined(TARGET_RISCV64)
-> >      DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
-> > +    DEFINE_CPU(TYPE_RISCV_CPU_AX25,             ax25_cpu_init),
->
-> Let's add the CPU in a separate patch.
->
-> >      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
-> >      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
-> >  #endif
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 0edb282..a2f656c 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -37,6 +37,7 @@
-> >  #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
-> >  #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
-> >  #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
-> > +#define TYPE_RISCV_CPU_AX25             RISCV_CPU_TYPE_NAME("andes-ax25")
-> >  #define TYPE_RISCV_CPU_IBEX             RISCV_CPU_TYPE_NAME("lowrisc-ibex")
-> >  #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
-> >  #define TYPE_RISCV_CPU_SIFIVE_E34       RISCV_CPU_TYPE_NAME("sifive-e34")
-> > @@ -485,16 +486,25 @@ typedef struct {
-> >      riscv_csr_op_fn op;
-> >  } riscv_csr_operations;
-> >
-> > +typedef struct {
-> > +    int csrno;
-> > +    riscv_csr_operations csr_opset;
-> > +    } riscv_custom_csr_operations;
-> > +
-> >  /* CSR function table constants */
-> >  enum {
-> > -    CSR_TABLE_SIZE = 0x1000
-> > +    CSR_TABLE_SIZE = 0x1000,
-> > +    MAX_CUSTOM_CSR_NUM = 100
-> >  };
-> >
-> >  /* CSR function table */
-> > +extern riscv_custom_csr_operations andes_custom_csr_table[MAX_CUSTOM_CSR_NUM];
-> >  extern riscv_csr_operations csr_ops[CSR_TABLE_SIZE];
-> > +extern GHashTable *custom_csr_map;
-> >
-> >  void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops);
-> >  void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
-> > +void setup_custom_csr(void);
-> >
-> >  void riscv_cpu_register_gdb_regs_for_features(CPUState *cs);
-> >
-> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > index caf4599..639bc0a 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
-> > @@ -259,6 +259,7 @@
-> >  #define CSR_TDATA1          0x7a1
-> >  #define CSR_TDATA2          0x7a2
-> >  #define CSR_TDATA3          0x7a3
-> > +#define CSR_TINFO           0x7a4
->
-> Why add this?
->
-> >
-> >  /* Debug Mode Registers */
-> >  #define CSR_DCSR            0x7b0
-> > @@ -593,3 +594,117 @@
-> >  #define MIE_SSIE                           (1 << IRQ_S_SOFT)
-> >  #define MIE_USIE                           (1 << IRQ_U_SOFT)
-> >  #endif
-> > +
-> > +/* ========= AndeStar V5 machine mode CSRs ========= */
-> > +/* Configuration Registers */
-> > +#define CSR_MICM_CFG            0xfc0
-> > +#define CSR_MDCM_CFG            0xfc1
-> > +#define CSR_MMSC_CFG            0xfc2
-> > +#define CSR_MMSC_CFG2           0xfc3
-> > +#define CSR_MVEC_CFG            0xfc7
-> > +
-> > +/* Crash Debug CSRs */
-> > +#define CSR_MCRASH_STATESAVE    0xfc8
-> > +#define CSR_MSTATUS_CRASHSAVE   0xfc9
-> > +
-> > +/* Memory CSRs */
-> > +#define CSR_MILMB               0x7c0
-> > +#define CSR_MDLMB               0x7c1
-> > +#define CSR_MECC_CODE           0x7C2
-> > +#define CSR_MNVEC               0x7c3
-> > +#define CSR_MCACHE_CTL          0x7ca
-> > +#define CSR_MCCTLBEGINADDR      0x7cb
-> > +#define CSR_MCCTLCOMMAND        0x7cc
-> > +#define CSR_MCCTLDATA           0x7cd
-> > +#define CSR_MPPIB               0x7f0
-> > +#define CSR_MFIOB               0x7f1
-> > +
-> > +/* Hardware Stack Protection & Recording */
-> > +#define CSR_MHSP_CTL            0x7c6
-> > +#define CSR_MSP_BOUND           0x7c7
-> > +#define CSR_MSP_BASE            0x7c8
-> > +#define CSR_MXSTATUS            0x7c4
-> > +#define CSR_MDCAUSE             0x7c9
-> > +#define CSR_MSLIDELEG           0x7d5
-> > +#define CSR_MSAVESTATUS         0x7d6
-> > +#define CSR_MSAVEEPC1           0x7d7
-> > +#define CSR_MSAVECAUSE1         0x7d8
-> > +#define CSR_MSAVEEPC2           0x7d9
-> > +#define CSR_MSAVECAUSE2         0x7da
-> > +#define CSR_MSAVEDCAUSE1        0x7db
-> > +#define CSR_MSAVEDCAUSE2        0x7dc
-> > +
-> > +/* Control CSRs */
-> > +#define CSR_MPFT_CTL            0x7c5
-> > +#define CSR_MMISC_CTL           0x7d0
-> > +#define CSR_MCLK_CTL            0x7df
-> > +
-> > +/* Counter related CSRs */
-> > +#define CSR_MCOUNTERWEN         0x7ce
-> > +#define CSR_MCOUNTERINTEN       0x7cf
-> > +#define CSR_MCOUNTERMASK_M      0x7d1
-> > +#define CSR_MCOUNTERMASK_S      0x7d2
-> > +#define CSR_MCOUNTERMASK_U      0x7d3
-> > +#define CSR_MCOUNTEROVF         0x7d4
-> > +
-> > +/* Enhanced CLIC CSRs */
-> > +#define CSR_MIRQ_ENTRY          0x7ec
-> > +#define CSR_MINTSEL_JAL         0x7ed
-> > +#define CSR_PUSHMCAUSE          0x7ee
-> > +#define CSR_PUSHMEPC            0x7ef
-> > +#define CSR_PUSHMXSTATUS        0x7eb
-> > +
-> > +/* Andes Physical Memory Attribute(PMA) CSRs */
-> > +#define CSR_PMACFG0             0xbc0
-> > +#define CSR_PMACFG1             0xbc1
-> > +#define CSR_PMACFG2             0xbc2
-> > +#define CSR_PMACFG3             0xbc3
-> > +#define CSR_PMAADDR0            0xbd0
-> > +#define CSR_PMAADDR1            0xbd1
-> > +#define CSR_PMAADDR2            0xbd2
-> > +#define CSR_PMAADDR3            0xbd2
-> > +#define CSR_PMAADDR4            0xbd4
-> > +#define CSR_PMAADDR5            0xbd5
-> > +#define CSR_PMAADDR6            0xbd6
-> > +#define CSR_PMAADDR7            0xbd7
-> > +#define CSR_PMAADDR8            0xbd8
-> > +#define CSR_PMAADDR9            0xbd9
-> > +#define CSR_PMAADDR10           0xbda
-> > +#define CSR_PMAADDR11           0xbdb
-> > +#define CSR_PMAADDR12           0xbdc
-> > +#define CSR_PMAADDR13           0xbdd
-> > +#define CSR_PMAADDR14           0xbde
-> > +#define CSR_PMAADDR15           0xbdf
-> > +
-> > +/* ========= AndeStar V5 supervisor mode CSRs ========= */
-> > +/* Supervisor trap registers */
-> > +#define CSR_SLIE                0x9c4
-> > +#define CSR_SLIP                0x9c5
-> > +#define CSR_SDCAUSE             0x9c9
-> > +
-> > +/* Supervisor counter registers */
-> > +#define CSR_SCOUNTERINTEN       0x9cf
-> > +#define CSR_SCOUNTERMASK_M      0x9d1
-> > +#define CSR_SCOUNTERMASK_S      0x9d2
-> > +#define CSR_SCOUNTERMASK_U      0x9d3
-> > +#define CSR_SCOUNTEROVF         0x9d4
-> > +#define CSR_SCOUNTINHIBIT       0x9e0
-> > +#define CSR_SHPMEVENT3          0x9e3
-> > +#define CSR_SHPMEVENT4          0x9e4
-> > +#define CSR_SHPMEVENT5          0x9e5
-> > +#define CSR_SHPMEVENT6          0x9e6
-> > +
-> > +/* Supervisor control registers */
-> > +#define CSR_SCCTLDATA           0x9cd
-> > +#define CSR_SMISC_CTL           0x9d0
-> > +
-> > +/* ========= AndeStar V5 user mode CSRs ========= */
-> > +/* User mode control registers */
-> > +#define CSR_UITB                0x800
-> > +#define CSR_UCODE               0x801
-> > +#define CSR_UDCAUSE             0x809
-> > +#define CSR_UCCTLBEGINADDR      0x80b
-> > +#define CSR_UCCTLCOMMAND        0x80c
-> > +#define CSR_WFE                 0x810
-> > +#define CSR_SLEEPVALUE          0x811
-> > +#define CSR_TXEVT               0x812
->
-> Ideally this should be a seperate file
->
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index fd2e636..b81efcf 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -523,6 +523,14 @@ static int read_misa(CPURISCVState *env, int csrno, target_ulong *val)
-> >      return 0;
-> >  }
-> >
-> > +
-> > +// XXX: This is just a write stub for developing custom CSR handler,
-> > +// if the behavior of writting such CSR is not presentable in QEMU and doesn't
-> > +// affect the functionality, just stub it.
-> > +static int write_stub(CPURISCVState *env, int csrno, target_ulong val) {
-> > +    return 0;
-> > +}
->
-> Is this needed?
->
-> > +
-> >  static int write_misa(CPURISCVState *env, int csrno, target_ulong val)
-> >  {
-> >      if (!riscv_feature(env, RISCV_FEATURE_MISA)) {
-> > @@ -1264,6 +1272,76 @@ static int write_pmpaddr(CPURISCVState *env, int csrno, target_ulong val)
-> >
-> >  #endif
-> >
-> > +
-> > +/* Custom CSR related routines and data structures */
-> > +
-> > +gpointer is_custom_csr(int);
->
-> Just make this function static instead of having a declaration in the C file.
->
-> > +
-> > +gpointer is_custom_csr(int csrno) {
-> > +    gpointer ret;
-> > +    ret = g_hash_table_lookup(custom_csr_map, GINT_TO_POINTER(csrno));
-> > +    return ret;
-> > +    }
-> > +
-> > +int try_handle_custom_csr(CPURISCVState *env, int csrno,
-> > +    target_ulong *ret_value, target_ulong new_value, target_ulong write_mask,
-> > +    riscv_csr_operations *opset);
-> > +
-> > +// XXX: This part is mainly duplicate from riscv_csrrw, we need to redo the logic
-> > +int try_handle_custom_csr(CPURISCVState *env, int csrno,
-> > +    target_ulong *ret_value, target_ulong new_value, target_ulong write_mask,
-> > +    riscv_csr_operations *opset) {
-> > +
-> > +    int ret = 0;
-> > +    target_ulong old_value;
-> > +
-> > +    /* check predicate */
-> > +    if (!opset->predicate) {
-> > +        return -RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +    ret = opset->predicate(env, csrno);
-> > +    if (ret < 0) {
-> > +        return ret;
-> > +    }
-> > +
-> > +    /* execute combined read/write operation if it exists */
-> > +    if (opset->op) {
-> > +        return opset->op(env, csrno, ret_value, new_value, write_mask);
-> > +    }
-> > +
-> > +    /* if no accessor exists then return failure */
-> > +    if (!opset->read) {
-> > +        return -RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    /* read old value */
-> > +    ret = opset->read(env, csrno, &old_value);
-> > +    if (ret < 0) {
-> > +        return ret;
-> > +    }
-> > +
-> > +    /* write value if writable and write mask set, otherwise drop writes */
-> > +    if (write_mask) {
-> > +        new_value = (old_value & ~write_mask) | (new_value & write_mask);
-> > +        if (opset->write) {
-> > +            ret = opset->write(env, csrno, new_value);
-> > +            if (ret < 0) {
-> > +                return ret;
-> > +            }
-> > +        }
-> > +    }
-> > +
-> > +    /* return old value */
-> > +    if (ret_value) {
-> > +        *ret_value = old_value;
-> > +    }
-> > +
-> > +    return 0;
-> > +
-> > +
-> > +
-> > +    }
->
-> It would be nice if we could reuse the existing CSR access function.
-> Could we make the current one more generic and just call it?
->
-> > +
-> >  /*
-> >   * riscv_csrrw - read and/or update control and status register
-> >   *
-> > @@ -1283,7 +1361,7 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-> >      /* check privileges and return -1 if check fails */
-> >  #if !defined(CONFIG_USER_ONLY)
-> >      int effective_priv = env->priv;
-> > -    int read_only = get_field(csrno, 0xC00) == 3;
-> > +    /* int read_only = get_field(csrno, 0xC00) == 3; */
->
-> Don't comment this out.
->
-> >
-> >      if (riscv_has_ext(env, RVH) &&
-> >          env->priv == PRV_S &&
-> > @@ -1296,10 +1374,12 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-> >          effective_priv++;
-> >      }
-> >
-> > -    if ((write_mask && read_only) ||
-> > -        (!env->debugger && (effective_priv < get_field(csrno, 0x300)))) {
-> > -        return -RISCV_EXCP_ILLEGAL_INST;
-> > -    }
-> > +    /*
-> > +     * if ((write_mask && read_only) ||
-> > +     *   (!env->debugger && (effective_priv < get_field(csrno, 0x300)))) {
-> > +     *   return -RISCV_EXCP_ILLEGAL_INST;
-> > +     * }
-> > +     */
-> >  #endif
-> >
-> >      /* ensure the CSR extension is enabled. */
-> > @@ -1307,6 +1387,12 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-> >          return -RISCV_EXCP_ILLEGAL_INST;
-> >      }
-> >
-> > +    /* try handle_custom_csr */
-> > +    riscv_csr_operations *custom_csr_opset = (riscv_csr_operations *) is_custom_csr(csrno);
-> > +    if(NULL != custom_csr_opset) {
-> > +        return try_handle_custom_csr(env, csrno, ret_value, new_value, write_mask, custom_csr_opset);
-> > +    }
-> > +
-> >      /* check predicate */
-> >      if (!csr_ops[csrno].predicate) {
-> >          return -RISCV_EXCP_ILLEGAL_INST;
-> > @@ -1351,6 +1437,14 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-> >      return 0;
-> >  }
-> >
-> > +/* Andes Custom Registers */
-> > +static int read_mmsc_cfg(CPURISCVState *env, int csrno, target_ulong *val)
-> > +{
-> > +    /* enable pma probe */
-> > +    *val = 0x40000000;
-> > +    return 0;
-> > +}
-> > +
-> >  /*
-> >   * Debugger support.  If not in user mode, set env->debugger before the
-> >   * riscv_csrrw call and clear it after the call.
-> > @@ -1369,6 +1463,8 @@ int riscv_csrrw_debug(CPURISCVState *env, int csrno, target_ulong *ret_value,
-> >      return ret;
-> >  }
-> >
-> > +#include "csr_andes.inc.c"
->
-> This doesn't seem to be used.
->
-> > +
-> >  /* Control and Status Register function table */
-> >  riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      /* User Floating-Point CSRs */
-> > @@ -1645,3 +1741,4 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      [CSR_MHPMCOUNTER31H] = { "mhpmcounter31h", any32,  read_zero },
-> >  #endif /* !CONFIG_USER_ONLY */
-> >  };
-> > +
-> > --
-> > 2.17.1
-> >
+I think we should build a function that turns the raw (or slightly 
+normalized) 'ifcond' AST into the IfPredicate object like we do for 
+other structures, like Members, Features, etc.
+
+I'd also like the documentation changes to eventually be squashed 
+directly into this patch if it changes syntax, but keeping it separate 
+during review makes sense.
+
+Tentatively, I think the expanded "IF" syntax makes sense.
+
+'if': 'COND'
+'if': ['COND']
+'if': { 'any': ['COND'] }
+
+Seems fine. I want to play around a little bit with a JsonSchema for it 
+though to make sure that it's something I can provide good IntelliSense 
+tooltips for in e.g. vscode. (A bit of a pipe-dream side project, I 
+admit, but if you'll humor me I'd like the chance to give it a shot. 
+Some constructs are simply easier to type and validate than others.)
+
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+Tested-by: John Snow <jsnow@redhat.com>
+
+> ---
+>   tests/unit/test-qmp-cmds.c                    |  1 +
+>   scripts/qapi/expr.py                          | 62 ++++++++++++++-----
+>   scripts/qapi/schema.py                        | 13 +---
+>   tests/qapi-schema/bad-if.err                  |  3 +-
+>   tests/qapi-schema/doc-good.out                | 12 ++--
+>   tests/qapi-schema/enum-if-invalid.err         |  3 +-
+>   tests/qapi-schema/features-if-invalid.err     |  2 +-
+>   tests/qapi-schema/qapi-schema-test.json       | 20 +++---
+>   tests/qapi-schema/qapi-schema-test.out        | 59 ++++++++++--------
+>   .../qapi-schema/struct-member-if-invalid.err  |  2 +-
+>   10 files changed, 106 insertions(+), 71 deletions(-)
+> 
+> diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
+> index 1b0b7d99df..83efa39720 100644
+> --- a/tests/unit/test-qmp-cmds.c
+> +++ b/tests/unit/test-qmp-cmds.c
+> @@ -51,6 +51,7 @@ FeatureStruct1 *qmp_test_features0(bool has_fs0, FeatureStruct0 *fs0,
+>                                      bool has_cfs1, CondFeatureStruct1 *cfs1,
+>                                      bool has_cfs2, CondFeatureStruct2 *cfs2,
+>                                      bool has_cfs3, CondFeatureStruct3 *cfs3,
+> +                                   bool has_cfs4, CondFeatureStruct4 *cfs4,
+>                                      Error **errp)
+>   {
+>       return g_new0(FeatureStruct1, 1);
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index 496f7e0333..0a97a6f020 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -42,7 +42,14 @@
+>       cast,
+>   )
+>   
+> -from .common import c_name
+> +from .common import (
+> +    IfAll,
+> +    IfAny,
+> +    IfNot,
+> +    IfOption,
+> +    IfPredicate,
+> +    c_name,
+> +)
+>   from .error import QAPISemError
+>   from .parser import QAPIDoc
+>   from .source import QAPISourceInfo
+> @@ -261,6 +268,10 @@ def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) -> None:
+>       """
+>       Normalize and validate the ``if`` member of an object.
+>   
+> +    The ``if`` field may be either a ``str``, a ``List[str]`` or a dict.
+> +    A ``str`` element or a ``List[str]`` will be normalized to
+> +    ``IfAll([str])``.
+> +
+>       The ``if`` member may be either a ``str`` or a ``List[str]``.
+>       A ``str`` value will be normalized to ``List[str]``.
+>   
+> @@ -281,25 +292,44 @@ def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) -> None:
+>       if ifcond is None:
+>           return
+>   
+> -    if isinstance(ifcond, list):
+> -        if not ifcond:
+> -            raise QAPISemError(
+> -                info, "'if' condition [] of %s is useless" % source)
+> -    else:
+> -        # Normalize to a list
+> -        ifcond = expr['if'] = [ifcond]
+> -
+> -    for elt in ifcond:
+> -        if not isinstance(elt, str):
+> +    def normalize(cond: Union[str, List[str], object]) -> IfPredicate:
+> +        if isinstance(cond, str):
+> +            if not cond.strip():
+> +                raise QAPISemError(
+> +                    info,
+> +                    "'if' condition '%s' of %s makes no sense"
+> +                    % (cond, source))
+> +            return IfOption(cond)
+> +        if isinstance(cond, list):
+> +            cond = {"all": cond}
+> +        if not isinstance(cond, dict):
+>               raise QAPISemError(
+>                   info,
+> -                "'if' condition of %s must be a string or a list of strings"
+> -                % source)
+> -        if not elt.strip():
+> +                "'if' condition of %s must be a string, "
+> +                "a list of strings or a dict" % source)
+> +        if len(cond) != 1:
+>               raise QAPISemError(
+>                   info,
+> -                "'if' condition '%s' of %s makes no sense"
+> -                % (elt, source))
+> +                "'if' condition dict of %s must have one key: "
+> +                "'all', 'any' or 'not'" % source)
+> +        check_keys(cond, info, "'if' condition", [],
+> +                   ["all", "any", "not"])
+> +        oper, operands = next(iter(cond.items()))
+> +        if oper == "not":
+> +            return IfNot(normalize(operands))
+> +        if not operands:
+> +            raise QAPISemError(
+> +                info, "'if' condition [] of %s is useless" % source)
+> +        if not isinstance(operands, list):
+> +            raise QAPISemError(
+> +                info, "'%s' condition of %s must be a list" % (oper, source))
+> +        operands = [normalize(o) for o in operands]
+> +        return IfAll(operands) if oper == "all" else IfAny(operands)
+> +
+> +    ifcond = expr.get('if')
+> +    if ifcond is None:
+> +        return
+> +    expr['if'] = normalize(ifcond)
+>   
+>   
+>   def normalize_members(members: object) -> None:
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 366a53ab64..61664a4c5e 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -19,22 +19,15 @@
+>   import re
+>   from typing import Optional
+>   
+> -from .common import (
+> -    POINTER_SUFFIX,
+> -    IfAll,
+> -    IfOption,
+> -    c_name,
+> -    mcgen,
+> -)
+> +from .common import POINTER_SUFFIX, c_name, mcgen
+>   from .error import QAPISemError, QAPISourceError
+>   from .expr import check_exprs
+>   from .parser import QAPISchemaParser
+>   
+>   
+>   class QAPISchemaIfCond:
+> -    def __init__(self, ifcond=None):
+> -        pred_list = [IfOption(opt) for opt in ifcond or []]
+> -        self.pred = IfAll(pred_list)
+> +    def __init__(self, pred=None):
+> +        self.pred = pred
+>   
+>       def gen_doc(self):
+>           if self.pred:
+> diff --git a/tests/qapi-schema/bad-if.err b/tests/qapi-schema/bad-if.err
+> index f83dee65da..454fbae387 100644
+> --- a/tests/qapi-schema/bad-if.err
+> +++ b/tests/qapi-schema/bad-if.err
+> @@ -1,2 +1,3 @@
+>   bad-if.json: In struct 'TestIfStruct':
+> -bad-if.json:2: 'if' condition of struct must be a string or a list of strings
+> +bad-if.json:2: 'if' condition has unknown key 'value'
+> +Valid keys are 'all', 'any', 'not'.
+> diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
+> index 6bf996f539..ca7e53f3b5 100644
+> --- a/tests/qapi-schema/doc-good.out
+> +++ b/tests/qapi-schema/doc-good.out
+> @@ -12,15 +12,15 @@ enum QType
+>   module doc-good.json
+>   enum Enum
+>       member one
+> -        if IfAll(['defined(IFONE)'])
+> +        if 'defined(IFONE)'
+>       member two
+> -    if IfAll(['defined(IFCOND)'])
+> +    if 'defined(IFCOND)'
+>       feature enum-feat
+>   object Base
+>       member base1: Enum optional=False
+>   object Variant1
+>       member var1: str optional=False
+> -        if IfAll(['defined(IFSTR)'])
+> +        if 'defined(IFSTR)'
+>           feature member-feat
+>       feature variant1-feat
+>   object Variant2
+> @@ -29,7 +29,7 @@ object Object
+>       tag base1
+>       case one: Variant1
+>       case two: Variant2
+> -        if IfAll(['IFTWO'])
+> +        if 'IFTWO'
+>       feature union-feat1
+>   object q_obj_Variant1-wrapper
+>       member data: Variant1 optional=False
+> @@ -38,13 +38,13 @@ object q_obj_Variant2-wrapper
+>   enum SugaredUnionKind
+>       member one
+>       member two
+> -        if IfAll(['IFTWO'])
+> +        if 'IFTWO'
+>   object SugaredUnion
+>       member type: SugaredUnionKind optional=False
+>       tag type
+>       case one: q_obj_Variant1-wrapper
+>       case two: q_obj_Variant2-wrapper
+> -        if IfAll(['IFTWO'])
+> +        if 'IFTWO'
+>       feature union-feat2
+>   alternate Alternate
+>       tag type
+> diff --git a/tests/qapi-schema/enum-if-invalid.err b/tests/qapi-schema/enum-if-invalid.err
+> index 0556dc967b..3bb84075a9 100644
+> --- a/tests/qapi-schema/enum-if-invalid.err
+> +++ b/tests/qapi-schema/enum-if-invalid.err
+> @@ -1,2 +1,3 @@
+>   enum-if-invalid.json: In enum 'TestIfEnum':
+> -enum-if-invalid.json:2: 'if' condition of 'data' member 'bar' must be a string or a list of strings
+> +enum-if-invalid.json:2: 'if' condition has unknown key 'val'
+> +Valid keys are 'all', 'any', 'not'.
+> diff --git a/tests/qapi-schema/features-if-invalid.err b/tests/qapi-schema/features-if-invalid.err
+> index f63b89535e..724a810086 100644
+> --- a/tests/qapi-schema/features-if-invalid.err
+> +++ b/tests/qapi-schema/features-if-invalid.err
+> @@ -1,2 +1,2 @@
+>   features-if-invalid.json: In struct 'Stru':
+> -features-if-invalid.json:2: 'if' condition of 'features' member 'f' must be a string or a list of strings
+> +features-if-invalid.json:2: 'if' condition of 'features' member 'f' must be a string, a list of strings or a dict
+> diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+> index 84b9d41f15..2d5e480b44 100644
+> --- a/tests/qapi-schema/qapi-schema-test.json
+> +++ b/tests/qapi-schema/qapi-schema-test.json
+> @@ -231,8 +231,8 @@
+>   
+>   { 'union': 'TestIfUnion', 'data':
+>     { 'foo': 'TestStruct',
+> -    'bar': { 'type': 'str', 'if': 'defined(TEST_IF_UNION_BAR)'} },
+> -  'if': 'defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)' }
+> +    'union-bar': { 'type': 'str', 'if': 'defined(TEST_IF_UNION_BAR)'} },
+> +  'if': ['defined(TEST_IF_UNION)', 'defined(TEST_IF_STRUCT)'] }
+>   
+>   { 'command': 'test-if-union-cmd',
+>     'data': { 'union-cmd-arg': 'TestIfUnion' },
+> @@ -241,11 +241,10 @@
+>   { 'alternate': 'TestIfAlternate', 'data':
+>     { 'foo': 'int',
+>       'bar': { 'type': 'TestStruct', 'if': 'defined(TEST_IF_ALT_BAR)'} },
+> -  'if': 'defined(TEST_IF_ALT) && defined(TEST_IF_STRUCT)' }
+> +  'if': {'all': ['defined(TEST_IF_ALT)', 'defined(TEST_IF_STRUCT)'] } }
+>   
+> -{ 'command': 'test-if-alternate-cmd',
+> -  'data': { 'alt-cmd-arg': 'TestIfAlternate' },
+> -  'if': 'defined(TEST_IF_ALT)' }
+> +{ 'command': 'test-if-alternate-cmd', 'data': { 'alt-cmd-arg': 'TestIfAlternate' },
+> +  'if': {'all': ['defined(TEST_IF_ALT)', {'not': 'defined(TEST_IF_NOT_ALT)'}] } }
+>   
+>   { 'command': 'test-if-cmd',
+>     'data': {
+> @@ -259,7 +258,7 @@
+>   { 'event': 'TEST_IF_EVENT', 'data':
+>     { 'foo': 'TestIfStruct',
+>       'bar': { 'type': ['TestIfEnum'], 'if': 'defined(TEST_IF_EVT_BAR)' } },
+> -  'if': 'defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)' }
+> +  'if': ['defined(TEST_IF_EVT)', 'defined(TEST_IF_STRUCT)'] }
+>   
+>   # test 'features'
+>   
+> @@ -290,6 +289,10 @@
+>     'data': { 'foo': 'int' },
+>     'features': [ { 'name': 'feature1', 'if': [ 'defined(TEST_IF_COND_1)',
+>                                                 'defined(TEST_IF_COND_2)'] } ] }
+> +{ 'struct': 'CondFeatureStruct4',
+> +  'data': { 'foo': 'int' },
+> +  'features': [ { 'name': 'feature1', 'if': {'any': ['defined(TEST_IF_COND_1)',
+> +                                                     'defined(TEST_IF_COND_2)'] } } ] }
+>   
+>   { 'enum': 'FeatureEnum1',
+>     'data': [ 'eins', 'zwei', 'drei' ],
+> @@ -313,7 +316,8 @@
+>               '*fs4': 'FeatureStruct4',
+>               '*cfs1': 'CondFeatureStruct1',
+>               '*cfs2': 'CondFeatureStruct2',
+> -            '*cfs3': 'CondFeatureStruct3' },
+> +            '*cfs3': 'CondFeatureStruct3',
+> +            '*cfs4': 'CondFeatureStruct4' },
+>     'returns': 'FeatureStruct1',
+>     'features': [] }
+>   
+> diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
+> index c2d303aa18..f859bf648d 100644
+> --- a/tests/qapi-schema/qapi-schema-test.out
+> +++ b/tests/qapi-schema/qapi-schema-test.out
+> @@ -298,49 +298,49 @@ command __org.qemu_x-command q_obj___org.qemu_x-command-arg -> __org.qemu_x-Unio
+>   object TestIfStruct
+>       member foo: int optional=False
+>       member bar: int optional=False
+> -        if IfAll(['defined(TEST_IF_STRUCT_BAR)'])
+> -    if IfAll(['defined(TEST_IF_STRUCT)'])
+> +        if 'defined(TEST_IF_STRUCT_BAR)'
+> +    if 'defined(TEST_IF_STRUCT)'
+>   enum TestIfEnum
+>       member foo
+>       member bar
+> -        if IfAll(['defined(TEST_IF_ENUM_BAR)'])
+> -    if IfAll(['defined(TEST_IF_ENUM)'])
+> +        if 'defined(TEST_IF_ENUM_BAR)'
+> +    if 'defined(TEST_IF_ENUM)'
+>   object q_obj_TestStruct-wrapper
+>       member data: TestStruct optional=False
+>   enum TestIfUnionKind
+>       member foo
+> -    member bar
+> -        if IfAll(['defined(TEST_IF_UNION_BAR)'])
+> -    if IfAll(['defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)'])
+> +    member union-bar
+> +        if 'defined(TEST_IF_UNION_BAR)'
+> +    if IfAll(['defined(TEST_IF_UNION)', 'defined(TEST_IF_STRUCT)'])
+>   object TestIfUnion
+>       member type: TestIfUnionKind optional=False
+>       tag type
+>       case foo: q_obj_TestStruct-wrapper
+> -    case bar: q_obj_str-wrapper
+> -        if IfAll(['defined(TEST_IF_UNION_BAR)'])
+> -    if IfAll(['defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)'])
+> +    case union-bar: q_obj_str-wrapper
+> +        if 'defined(TEST_IF_UNION_BAR)'
+> +    if IfAll(['defined(TEST_IF_UNION)', 'defined(TEST_IF_STRUCT)'])
+>   object q_obj_test-if-union-cmd-arg
+>       member union-cmd-arg: TestIfUnion optional=False
+> -    if IfAll(['defined(TEST_IF_UNION)'])
+> +    if 'defined(TEST_IF_UNION)'
+>   command test-if-union-cmd q_obj_test-if-union-cmd-arg -> None
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+> -    if IfAll(['defined(TEST_IF_UNION)'])
+> +    if 'defined(TEST_IF_UNION)'
+>   alternate TestIfAlternate
+>       tag type
+>       case foo: int
+>       case bar: TestStruct
+> -        if IfAll(['defined(TEST_IF_ALT_BAR)'])
+> -    if IfAll(['defined(TEST_IF_ALT) && defined(TEST_IF_STRUCT)'])
+> +        if 'defined(TEST_IF_ALT_BAR)'
+> +    if IfAll(['defined(TEST_IF_ALT)', 'defined(TEST_IF_STRUCT)'])
+>   object q_obj_test-if-alternate-cmd-arg
+>       member alt-cmd-arg: TestIfAlternate optional=False
+> -    if IfAll(['defined(TEST_IF_ALT)'])
+> +    if IfAll(['defined(TEST_IF_ALT)', IfNot('defined(TEST_IF_NOT_ALT)')])
+>   command test-if-alternate-cmd q_obj_test-if-alternate-cmd-arg -> None
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+> -    if IfAll(['defined(TEST_IF_ALT)'])
+> +    if IfAll(['defined(TEST_IF_ALT)', IfNot('defined(TEST_IF_NOT_ALT)')])
+>   object q_obj_test-if-cmd-arg
+>       member foo: TestIfStruct optional=False
+>       member bar: TestIfEnum optional=False
+> -        if IfAll(['defined(TEST_IF_CMD_BAR)'])
+> +        if 'defined(TEST_IF_CMD_BAR)'
+>       if IfAll(['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)'])
+>   command test-if-cmd q_obj_test-if-cmd-arg -> UserDefThree
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+> @@ -348,15 +348,15 @@ command test-if-cmd q_obj_test-if-cmd-arg -> UserDefThree
+>   command test-cmd-return-def-three None -> UserDefThree
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+>   array TestIfEnumList TestIfEnum
+> -    if IfAll(['defined(TEST_IF_ENUM)'])
+> +    if 'defined(TEST_IF_ENUM)'
+>   object q_obj_TEST_IF_EVENT-arg
+>       member foo: TestIfStruct optional=False
+>       member bar: TestIfEnumList optional=False
+> -        if IfAll(['defined(TEST_IF_EVT_BAR)'])
+> -    if IfAll(['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)'])
+> +        if 'defined(TEST_IF_EVT_BAR)'
+> +    if IfAll(['defined(TEST_IF_EVT)', 'defined(TEST_IF_STRUCT)'])
+>   event TEST_IF_EVENT q_obj_TEST_IF_EVENT-arg
+>       boxed=False
+> -    if IfAll(['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)'])
+> +    if IfAll(['defined(TEST_IF_EVT)', 'defined(TEST_IF_STRUCT)'])
+>   object FeatureStruct0
+>       member foo: int optional=False
+>   object FeatureStruct1
+> @@ -379,17 +379,21 @@ object FeatureStruct4
+>   object CondFeatureStruct1
+>       member foo: int optional=False
+>       feature feature1
+> -        if IfAll(['defined(TEST_IF_FEATURE_1)'])
+> +        if 'defined(TEST_IF_FEATURE_1)'
+>   object CondFeatureStruct2
+>       member foo: int optional=False
+>       feature feature1
+> -        if IfAll(['defined(TEST_IF_FEATURE_1)'])
+> +        if 'defined(TEST_IF_FEATURE_1)'
+>       feature feature2
+> -        if IfAll(['defined(TEST_IF_FEATURE_2)'])
+> +        if 'defined(TEST_IF_FEATURE_2)'
+>   object CondFeatureStruct3
+>       member foo: int optional=False
+>       feature feature1
+>           if IfAll(['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)'])
+> +object CondFeatureStruct4
+> +    member foo: int optional=False
+> +    feature feature1
+> +        if IfAny(['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)'])
+>   enum FeatureEnum1
+>       member eins
+>       member zwei
+> @@ -417,6 +421,7 @@ object q_obj_test-features0-arg
+>       member cfs1: CondFeatureStruct1 optional=True
+>       member cfs2: CondFeatureStruct2 optional=True
+>       member cfs3: CondFeatureStruct3 optional=True
+> +    member cfs4: CondFeatureStruct4 optional=True
+>   command test-features0 q_obj_test-features0-arg -> FeatureStruct1
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+>   command test-command-features1 None -> None
+> @@ -429,13 +434,13 @@ command test-command-features3 None -> None
+>   command test-command-cond-features1 None -> None
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+>       feature feature1
+> -        if IfAll(['defined(TEST_IF_FEATURE_1)'])
+> +        if 'defined(TEST_IF_FEATURE_1)'
+>   command test-command-cond-features2 None -> None
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+>       feature feature1
+> -        if IfAll(['defined(TEST_IF_FEATURE_1)'])
+> +        if 'defined(TEST_IF_FEATURE_1)'
+>       feature feature2
+> -        if IfAll(['defined(TEST_IF_FEATURE_2)'])
+> +        if 'defined(TEST_IF_FEATURE_2)'
+>   command test-command-cond-features3 None -> None
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+>       feature feature1
+> diff --git a/tests/qapi-schema/struct-member-if-invalid.err b/tests/qapi-schema/struct-member-if-invalid.err
+> index 42e7fdae3c..c18157c1f9 100644
+> --- a/tests/qapi-schema/struct-member-if-invalid.err
+> +++ b/tests/qapi-schema/struct-member-if-invalid.err
+> @@ -1,2 +1,2 @@
+>   struct-member-if-invalid.json: In struct 'Stru':
+> -struct-member-if-invalid.json:2: 'if' condition of 'data' member 'member' must be a string or a list of strings
+> +struct-member-if-invalid.json:2: 'if' condition of 'data' member 'member' must be a string, a list of strings or a dict
+> 
+
 
