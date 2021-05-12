@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2FC37D3C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:13:53 +0200 (CEST)
-Received: from localhost ([::1]:59880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8E237D3CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:19:58 +0200 (CEST)
+Received: from localhost ([::1]:43822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lguIq-0006v8-2b
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:13:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53516)
+	id 1lguOj-0006qh-Pr
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:19:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu2Y-0006TA-0E; Wed, 12 May 2021 14:57:02 -0400
+ id 1lgu2a-0006Vq-ML; Wed, 12 May 2021 14:57:04 -0400
 Received: from [201.28.113.2] (port=20812 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu2W-0007uU-3q; Wed, 12 May 2021 14:57:01 -0400
+ id 1lgu2Z-0007uU-4q; Wed, 12 May 2021 14:57:04 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 15:56:03 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id D4F968000C2;
- Wed, 12 May 2021 15:56:02 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 35F7F80139F;
+ Wed, 12 May 2021 15:56:03 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 12/31] target/ppc: Replace POWERPC_EXCP_BRANCH with
- DISAS_NORETURN
-Date: Wed, 12 May 2021 15:54:22 -0300
-Message-Id: <20210512185441.3619828-13-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 13/31] target/ppc: Remove DisasContext.exception
+Date: Wed, 12 May 2021 15:54:23 -0300
+Message-Id: <20210512185441.3619828-14-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 May 2021 18:56:03.0234 (UTC)
- FILETIME=[74C6D820:01D74760]
+X-OriginalArrivalTime: 12 May 2021 18:56:03.0562 (UTC)
+ FILETIME=[74F8E4A0:01D74760]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,98 +63,112 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The translation of branch instructions always results in exit from
-the TB.  Remove the synthetic "exception" after no more uses.
+Now that we have removed all of the fake exceptions, and all real
+exceptions exit via DISAS_NORETURN, we can remove this field.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- linux-user/ppc/cpu_loop.c | 3 ---
- target/ppc/cpu.h          | 2 --
- target/ppc/translate.c    | 8 ++------
- 3 files changed, 2 insertions(+), 11 deletions(-)
+v4:
+- Remove the field.
+- Changes applied to gen_scv on rebase.
+---
+ target/ppc/translate.c | 30 ++++--------------------------
+ 1 file changed, 4 insertions(+), 26 deletions(-)
 
-diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
-index fe526693d2..fa91ea0eed 100644
---- a/linux-user/ppc/cpu_loop.c
-+++ b/linux-user/ppc/cpu_loop.c
-@@ -423,9 +423,6 @@ void cpu_loop(CPUPPCState *env)
-             cpu_abort(cs, "Maintenance exception while in user mode. "
-                       "Aborting\n");
-             break;
--        case POWERPC_EXCP_BRANCH:   /* branch instruction:                   */
--            /* We just stopped because of a branch. Go on */
--            break;
-         case POWERPC_EXCP_SYSCALL_USER:
-             /* system call in user-mode emulation */
-             /* WARNING:
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 22456f9a72..1c3486e9d0 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -131,8 +131,6 @@ enum {
-     POWERPC_EXCP_SYSCALL_VECTORED = 102, /* scv exception                     */
-     /* EOL                                                                   */
-     POWERPC_EXCP_NB       = 103,
--    /* QEMU exceptions: used internally during code translation              */
--    POWERPC_EXCP_BRANCH       = 0x201, /* branch instruction                 */
-     /* QEMU exceptions: special cases we want to stop translation            */
-     POWERPC_EXCP_SYSCALL_USER = 0x203, /* System call in user mode only      */
- };
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index db6f11d632..43320d2b8b 100644
+index 43320d2b8b..606897fa75 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -4695,7 +4695,6 @@ static void gen_b(DisasContext *ctx)
- {
-     target_ulong li, target;
- 
--    ctx->exception = POWERPC_EXCP_BRANCH;
-     /* sign extend LI */
-     li = LI(ctx->opcode);
-     li = (li ^ 0x02000000) - 0x02000000;
-@@ -4709,6 +4708,7 @@ static void gen_b(DisasContext *ctx)
-     }
-     gen_update_cfar(ctx, ctx->cia);
-     gen_goto_tb(ctx, 0, target);
-+    ctx->base.is_jmp = DISAS_NORETURN;
+@@ -156,7 +156,6 @@ struct DisasContext {
+     DisasContextBase base;
+     target_ulong cia;  /* current instruction address */
+     uint32_t opcode;
+-    uint32_t exception;
+     /* Routine used to access memory */
+     bool pr, hv, dr, le_mode;
+     bool lazy_tlb_flush;
+@@ -258,15 +257,12 @@ static void gen_exception_err(DisasContext *ctx, uint32_t excp, uint32_t error)
+      * These are all synchronous exceptions, we set the PC back to the
+      * faulting instruction
+      */
+-    if (ctx->exception == POWERPC_EXCP_NONE) {
+-        gen_update_nip(ctx, ctx->cia);
+-    }
++    gen_update_nip(ctx, ctx->cia);
+     t0 = tcg_const_i32(excp);
+     t1 = tcg_const_i32(error);
+     gen_helper_raise_exception_err(cpu_env, t0, t1);
+     tcg_temp_free_i32(t0);
+     tcg_temp_free_i32(t1);
+-    ctx->exception = excp;
+     ctx->base.is_jmp = DISAS_NORETURN;
  }
  
- #define BCOND_IM  0
-@@ -4721,7 +4721,6 @@ static void gen_bcond(DisasContext *ctx, int type)
-     uint32_t bo = BO(ctx->opcode);
-     TCGLabel *l1;
-     TCGv target;
--    ctx->exception = POWERPC_EXCP_BRANCH;
- 
-     if (type == BCOND_LR || type == BCOND_CTR || type == BCOND_TAR) {
-         target = tcg_temp_local_new();
-@@ -4828,6 +4827,7 @@ static void gen_bcond(DisasContext *ctx, int type)
-         gen_set_label(l1);
-         gen_goto_tb(ctx, 1, ctx->base.pc_next);
-     }
-+    ctx->base.is_jmp = DISAS_NORETURN;
+@@ -278,13 +274,10 @@ static void gen_exception(DisasContext *ctx, uint32_t excp)
+      * These are all synchronous exceptions, we set the PC back to the
+      * faulting instruction
+      */
+-    if (ctx->exception == POWERPC_EXCP_NONE) {
+-        gen_update_nip(ctx, ctx->cia);
+-    }
++    gen_update_nip(ctx, ctx->cia);
+     t0 = tcg_const_i32(excp);
+     gen_helper_raise_exception(cpu_env, t0);
+     tcg_temp_free_i32(t0);
+-    ctx->exception = excp;
+     ctx->base.is_jmp = DISAS_NORETURN;
  }
  
- static void gen_bc(DisasContext *ctx)
-@@ -9293,7 +9293,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     /* Check trace mode exceptions */
-     if (unlikely(ctx->singlestep_enabled & CPU_SINGLE_STEP &&
-                  (ctx->base.pc_next <= 0x100 || ctx->base.pc_next > 0xF00) &&
--                 ctx->exception != POWERPC_EXCP_BRANCH &&
-                  ctx->base.is_jmp != DISAS_NORETURN)) {
-         uint32_t excp = gen_prep_dbgex(ctx);
-         gen_exception_nip(ctx, excp, ctx->base.pc_next);
-@@ -9309,9 +9308,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-         switch (ctx->exception) {
-         case POWERPC_EXCP_NONE:
-             break;
--        case POWERPC_EXCP_BRANCH:
--            ctx->base.is_jmp = DISAS_NORETURN;
+@@ -297,7 +290,6 @@ static void gen_exception_nip(DisasContext *ctx, uint32_t excp,
+     t0 = tcg_const_i32(excp);
+     gen_helper_raise_exception(cpu_env, t0);
+     tcg_temp_free_i32(t0);
+-    ctx->exception = excp;
+     ctx->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+@@ -4996,13 +4988,10 @@ static void gen_scv(DisasContext *ctx)
+     uint32_t lev = (ctx->opcode >> 5) & 0x7F;
+ 
+     /* Set the PC back to the faulting instruction. */
+-    if (ctx->exception == POWERPC_EXCP_NONE) {
+-        gen_update_nip(ctx, ctx->cia);
+-    }
++    gen_update_nip(ctx, ctx->cia);
+     gen_helper_scv(cpu_env, tcg_constant_i32(lev));
+ 
+-    /* This need not be exact, just not POWERPC_EXCP_NONE */
+-    ctx->exception = POWERPC_SYSCALL_VECTORED;
++    ctx->base.is_jmp = DISAS_NORETURN;
+ }
+ #endif
+ #endif
+@@ -9196,7 +9185,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     uint32_t hflags = ctx->base.tb->flags;
+     int bound;
+ 
+-    ctx->exception = POWERPC_EXCP_NONE;
+     ctx->spr_cb = env->spr_cb;
+     ctx->pr = (hflags >> HFLAGS_PR) & 1;
+     ctx->mem_idx = (hflags >> HFLAGS_DMMU_IDX) & 7;
+@@ -9303,16 +9291,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+                  "temporaries\n", opc1(ctx->opcode), opc2(ctx->opcode),
+                  opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
+     }
+-
+-    if (ctx->base.is_jmp == DISAS_NEXT) {
+-        switch (ctx->exception) {
+-        case POWERPC_EXCP_NONE:
 -            break;
-         default:
-             /* Every other ctx->exception should have set NORETURN. */
-             g_assert_not_reached();
+-        default:
+-            /* Every other ctx->exception should have set NORETURN. */
+-            g_assert_not_reached();
+-        }
+-    }
+ }
+ 
+ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
 -- 
 2.25.1
 
