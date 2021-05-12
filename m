@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A0537BA51
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:27:24 +0200 (CEST)
-Received: from localhost ([::1]:50208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6852337BA40
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:23:06 +0200 (CEST)
+Received: from localhost ([::1]:41750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgm5L-00033a-PE
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:27:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60052)
+	id 1lgm1B-0005ei-E4
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:23:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lglz7-00038q-UZ
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:20:57 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:51845)
+ id 1lglz9-0003AH-BN
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:20:59 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:50730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lglz6-0003T5-8E
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:20:57 -0400
-Received: by mail-wm1-x336.google.com with SMTP id u133so1223062wmg.1
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:20:55 -0700 (PDT)
+ id 1lglz7-0003UX-Od
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:20:59 -0400
+Received: by mail-wm1-x331.google.com with SMTP id n84so12680387wma.0
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:20:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IkHtkDFEKBaCfxsckkEHPNxsTtMBckHgpjARuueXkuQ=;
- b=MMFB7rBELciHip+7gOHzZLoHK93UOVNjiSBGLX5b/F4p4LohIqhPCpTqZoIF0alCXv
- y7WMbqwLzeavhg7IZzHS9Xk42G97nxAuSlLsWn3l4N7TqKLP8Pw5jeHESmrqZjFO6BVU
- aik7rDNg+VEZkanFtzc66XABoBhuCFNdAiyGNwvJlIYuy3vaugncdGOUUPI4JiUgi1lD
- 6r2Gxwjj1Tk0Mj69anLtruLDsAf31Dg6fg94UmSUGTSO0xz5bt8oxxEsChtojeft5Ock
- WZnoNQOO4EX3jgMgpKXg2JLI/0Nf5iFpk1FXzRHUqFGkwLuXcuEkS/U1NiEzvvYPn7fF
- QD6A==
+ bh=TuKozATKQ3Td5Fp2Tf/kZG/QQ+gsJcItcXeBYs6um/I=;
+ b=P8NWa9iW7iSICPcPLN8NbQKUvf/P6CJjrr8J9hvWxkWGzwmjPl9/shVssgGC7GUn5B
+ PoByOPkDfEIIpZaItBcVHiKJMYSAdInP0vLZcQrzv9coRbsgAEbSwYxFN0/GES+YL1dS
+ Dy28KoVu87eSsKX6NYikD5F0k7J01SC7PnLFuIX4FblrhcAFrLBGKOEZtPMAl3x7PdbH
+ I0K7f/XneYl28jHtKXDGa1IZoTAPrqfD2MZWFLTNwHUq4RBGdl8swtF5knIb0/HK014c
+ lGVPk1E2YhakSTy6+c9C3qj4nf/PFmTG0g1bYZ+t7dB5QME6NGotuV/7oxvd1OrQiE1M
+ J/HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IkHtkDFEKBaCfxsckkEHPNxsTtMBckHgpjARuueXkuQ=;
- b=RZQOBZz2Nok46p7PjULjIW8IdKBW+J2nrBjNPerZvwvqEET+5xuj1U5P0iMVXHvKAy
- cwUplAbWom1ViMmEV8CvTlg5Ns+xlByC838VX8MGCsCkl3w20m/5Iwpvzj1mOMmZk0AQ
- m6MFvFgYypkZTaGLnm3chpN2L1dIvG1NfJHNwZV+B2rNYs5oSDTQ3v+NeJItsy3xkBE7
- mHQzSdlFimIWvD/Kp9SzZCb5WPe7g9b5nqiEVYvHiBLOk3RkBUSGZpDbh9eD26LHHAgZ
- HYc945ddVJzlBHN7pab4iUUiMkZCPzz0nAfEeGpeKlNpZYjroGTor90OpddZaBf99YHi
- YIAA==
-X-Gm-Message-State: AOAM53009DSmAaNW++n16LpzKaQlswQamgK+Cbx8Z/PSiqVTtTTdtZaK
- AEDJO08tgpPhqE4bAp/xVzVCUA==
-X-Google-Smtp-Source: ABdhPJxT0pVOezRNNMMTyP7ERmojknm8bZtTOIt0ol5TT1p4TQdZfb9tnaX1ZshO0WUYGGM8cxPs5A==
-X-Received: by 2002:a05:600c:293:: with SMTP id
- 19mr38178261wmk.144.1620814854399; 
- Wed, 12 May 2021 03:20:54 -0700 (PDT)
+ bh=TuKozATKQ3Td5Fp2Tf/kZG/QQ+gsJcItcXeBYs6um/I=;
+ b=Z0SO+BUIZQEOtW/26Eo7kLKOVCWDfoVMMdbkBNwuObSRLBb6eekqSWmEiBxen/CdPt
+ 6+Ua3lOWXV/FzsaxLaju4Cq5dTwoQXBmM5zDvGqgEvvXly1GSVIyItDb5VNIRfmnsaTy
+ KfFgIXRoUbINkjCJhvKAL6wsupfpogIK5RCCIFMRd2Z8ZO0Btm7qAJbi48MCgJlpNobM
+ ib21B8LQwtlhgo7R8lI/gt2eSjASkEHO6p6+u3DwzM0hM4c56WKRT1C6KMmA9CeoW2dj
+ jbF/UJ0rz3mbCl3gNJ0eccnJe9YHxtMrMJ6uCO4Vj0KfhbRJR+hIbZCo1FE2ZGode5i3
+ oxfg==
+X-Gm-Message-State: AOAM532urphXZ+fI8zvefP2ozaugZm+cLxKnoJFrAXuOIR5IqpVV30JN
+ 7yoD8sRsbcg60bpW6mVR5TTDaA==
+X-Google-Smtp-Source: ABdhPJz+esCxnMqU69uZXMhN6UveMJOh2FGK9YR6+aYmJ2nCSFQKDfTRiMFN+9uopY5c839tVPtDlw==
+X-Received: by 2002:a1c:750b:: with SMTP id o11mr10791629wmc.188.1620814856275; 
+ Wed, 12 May 2021 03:20:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m13sm30700035wrw.86.2021.05.12.03.20.51
+ by smtp.gmail.com with ESMTPSA id f1sm3350739wrr.63.2021.05.12.03.20.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 12 May 2021 03:20:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3955D1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 4FB4A1FF8C;
  Wed, 12 May 2021 11:20:51 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 01/31] checkpatch: Fix use of uninitialized value
-Date: Wed, 12 May 2021 11:20:21 +0100
-Message-Id: <20210512102051.12134-2-alex.bennee@linaro.org>
+Subject: [PATCH v3 02/31] tests/docker: fix copying of executable in "update"
+Date: Wed, 12 May 2021 11:20:22 +0100
+Message-Id: <20210512102051.12134-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210512102051.12134-1-alex.bennee@linaro.org>
 References: <20210512102051.12134-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,47 +86,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Isaku Yamahata <isaku.yamahata@intel.com>,
- berrange@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, f4bug@amsat.org,
- Greg Kurz <groug@kaod.org>, stefanha@redhat.com, crosa@redhat.com,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
  pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+We have the same symlink chasing problem when doing an "update"
+operation. Fix that.
 
-checkfilename() doesn't always set $acpi_testexpected. Fix the following
-warning:
-
-Use of uninitialized value $acpi_testexpected in string eq at
- ./scripts/checkpatch.pl line 1529.
-
-Fixes: d2f1af0e4120 ("checkpatch: don't emit warning on newly created acpi data files")
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Isaku Yamahata <isaku.yamahata@intel.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210408164610.14229-1-alex.bennee@linaro.org>
-Message-Id: <161786467973.295167.5612704777283969903.stgit@bahia.lan>
+Based-on: 5e33f7fead ("tests/docker: better handle symlinked libs")
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 ---
- scripts/checkpatch.pl | 1 +
- 1 file changed, 1 insertion(+)
+ tests/docker/docker.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 8f7053ec9b..3d185cceac 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1532,6 +1532,7 @@ sub process {
- 		     ($line =~ /\{\s*([\w\/\.\-]*)\s*\=\>\s*([\w\/\.\-]*)\s*\}/ &&
- 		      (defined($1) || defined($2)))) &&
-                       !(($realfile ne '') &&
-+                        defined($acpi_testexpected) &&
-                         ($realfile eq $acpi_testexpected))) {
- 			$reported_maintainer_file = 1;
- 			WARN("added, moved or deleted file(s), does MAINTAINERS need updating?\n" . $herecurr);
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index d28df4c140..0435a55d10 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -548,7 +548,14 @@ def run(self, args, argv):
+         libs = _get_so_libs(args.executable)
+         if libs:
+             for l in libs:
+-                tmp_tar.add(os.path.realpath(l), arcname=l)
++                so_path = os.path.dirname(l)
++                name = os.path.basename(l)
++                real_l = os.path.realpath(l)
++                try:
++                    tmp_tar.add(real_l, arcname="%s/%s" % (so_path, name))
++                except FileNotFoundError:
++                    print("Couldn't add %s/%s to archive" % (so_path, name))
++                    pass
+ 
+         # Create a Docker buildfile
+         df = StringIO()
 -- 
 2.20.1
 
