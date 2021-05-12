@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9607737BBE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:34:58 +0200 (CEST)
-Received: from localhost ([::1]:37802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A521637BBD9
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:33:42 +0200 (CEST)
+Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgn8j-0008BF-MB
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
+	id 1lgn7V-0006Lp-QP
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:33:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgn4l-0002aE-AB
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:30:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36950)
+ id 1lgn4j-0002XN-Gs
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:30:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgn4h-0002gm-Je
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:30:51 -0400
+ id 1lgn4h-0002fW-In
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:30:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgn4g-0004yt-7S
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:30:46 +0000
+ id 1lgn4f-0004zc-B2
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:30:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2780A2E8187
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:30:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 439E72E8187
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:30:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 11:23:31 -0000
-From: Thomas Huth <1908781@bugs.launchpad.net>
+Date: Wed, 12 May 2021 11:24:46 -0000
+From: Thomas Huth <1912107@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: i386 tcg
+X-Launchpad-Bug-Tags: feature-request linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bmerry th-huth
-X-Launchpad-Bug-Reporter: Bruce Merry (bmerry)
+X-Launchpad-Bug-Commenters: artoria2e5 th-huth
+X-Launchpad-Bug-Reporter: Mingye Wang (artoria2e5)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160838096979.13338.4117053689039136240.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162081861177.23763.6236896098584647635.malone@soybean.canonical.com>
-Subject: [Bug 1908781] Re: x86-64 not faulting when CS.L = 1 and CS.D = 1
+References: <161090862069.30717.14713485848942415507.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162081868681.7999.13240959151931967991.malone@wampee.canonical.com>
+Subject: [Bug 1912107] Re: Option to constrain linux-user exec() to emulated
+ CPU only
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
-X-Launchpad-Hash: 7391b96ee1a6ade71c31d0029e2051e43aaf83e0
+X-Launchpad-Hash: 0b822d22ba110199ae02ae8427ad0a4ff1202225
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908781 <1908781@bugs.launchpad.net>
+Reply-To: Bug 1912107 <1912107@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -105,9 +106,7 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
-** Tags added: tcg
-
-** Tags added: i386
+** Tags added: feature-request linux-user
 
 ** Changed in: qemu
        Status: New =3D> Incomplete
@@ -116,31 +115,32 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908781
+https://bugs.launchpad.net/bugs/1912107
 
 Title:
-  x86-64 not faulting when CS.L =3D 1 and CS.D =3D 1
+  Option to constrain linux-user exec() to emulated CPU only
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  In a UEFI application I accidentally created a code segment descriptor
-  where both the L and D bits were 1. This is supposed to generate a GP
-  fault (e.g. see page 2942 of
-  https://software.intel.com/sites/default/files/managed/39/c5/325462
-  -sdm-vol-1-2abcd-3abcd.pdf). When running with KVM a fault did indeed
-  occur, but when not specifying any acceleration, no fault occurred.
+  When trying to reproduce a bug someone reported on an actual AMD K10[1], =
+=E2=80=8BI tried to directly throw `qemu_x86-64 -cpu =
 
-  Let me know if you need me to develop a minimum example to debug from.
-  At the moment it's all part of a slightly more complicated bit of
-  code.
+  =E2=80=8Bphenom path/to/wrongly-labelled-instruction-set/gcc 1.c` at the =
+problem, but failed to get an "illegal instruction" as expected. A quick in=
+vestigation reveals that the error is actually caused by one of gcc's child=
+ processess, and that the said process is being ran directly on the host. A=
+ similar problem happens with trying to call stuff with /usr/bin/env.
 
-  Version: 5.2.0 (compiled from source)
-  Command line options: -smp cores=3D4 -m 8192 (plus whatever uefi-run adds=
- to plug in OVMF and my UEFI application).
-  Environment: Ubuntu 20.04 on Ryzen 3700X
+   =E2=80=8B[1]: https://github.com/Homebrew/brew/issues/1034
+
+  Since both the host and the guest are x86_64, I deemed binfmt
+  inapplicable to my case. I believe that QEMU should offer a way to
+  modify exec() and other spawning syscalls so that execution remains on
+  an emulated CPU in such a case. Call it an extra layer of binfmt, if
+  you must.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908781/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1912107/+subscriptions
 
