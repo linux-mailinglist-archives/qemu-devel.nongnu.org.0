@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7BE37C779
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:27:51 +0200 (CEST)
-Received: from localhost ([::1]:53964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4913E37C77A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:28:02 +0200 (CEST)
+Received: from localhost ([::1]:54406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgriA-0006Sh-P1
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41242)
+	id 1lgriL-0006m9-5N
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:28:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lgrf2-0003Q3-Rx
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:24:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54684)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lgrf5-0003QF-FS
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:24:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lgrer-0000Sm-Cu
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:24:36 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lgrer-0000Su-Ar
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:24:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1620836664;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2gdgpr1Eml/gbyzPL7J/VNir4Aqh5LXBsLZGkEqerUk=;
- b=cd7L5S9xFbgGgqVy7bPu1i+gcD2gHee/ftyGHdLn6+/IkUM7GciX1QNeSwF2BziPZvvwDN
- OmKTUtscXCDioBNprkTD2R9d0p6dEcQsFjwsrXBeTsMy9c24R101TjIz46JB9Uc0yquVfn
- 7wVrEV5V98h5nqV+Ncaw1B3ujHiGntc=
+ bh=0AhsLl2h6m6sddcjW3Y98q2EcGbMCAtYZabDtKmlPX0=;
+ b=ZVBBYOP3pVm53cmUS5Xd7rR3snClUGF4Dx8it/KZBUh8owQuRnWQSX99rW04c9JfE0bknU
+ hXH+vYO5GzzXyl/WG4nl6np5FQczxJXM1vOjdbbSNM3lv1mGzUqQBXr1uZJN3uNUXN7uyv
+ 1XTCuZVKUlhS2i9LP+SiaPLKd1p2Rg0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-MQxXldTFOFWEtrkaVPGQIg-1; Wed, 12 May 2021 12:24:19 -0400
-X-MC-Unique: MQxXldTFOFWEtrkaVPGQIg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-3-XNuiQOvjNaORfIb1SQlrGg-1; Wed, 12 May 2021 12:24:21 -0400
+X-MC-Unique: XNuiQOvjNaORfIb1SQlrGg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62297801B12;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD534107ACE4;
  Wed, 12 May 2021 16:24:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-17.ams2.redhat.com
  [10.36.114.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BAAC1B058;
- Wed, 12 May 2021 16:24:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A16A75D6A8;
+ Wed, 12 May 2021 16:24:17 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 048A81138529; Wed, 12 May 2021 18:24:13 +0200 (CEST)
+ id 212091138468; Wed, 12 May 2021 18:24:13 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] Remove the deprecated moxie target
-Date: Wed, 12 May 2021 18:24:09 +0200
-Message-Id: <20210512162412.338120-3-armbru@redhat.com>
+Subject: [PULL 5/5] Drop the deprecated unicore32 target
+Date: Wed, 12 May 2021 18:24:12 +0200
+Message-Id: <20210512162412.338120-6-armbru@redhat.com>
 In-Reply-To: <20210512162412.338120-1-armbru@redhat.com>
 References: <20210512162412.338120-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,1054 +80,1592 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+ Guan Xuetao <gxt@mprc.pku.edu.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Target unicore32 was deprecated in commit 8e4ff4a8d2b, v5.2.0.  See
+there for rationale.
 
-There are no known users of this CPU anymore, and there are no
-binaries available online which could be used for regression tests,
-so the code has likely completely bit-rotten already. It's been
-marked as deprecated since two releases now and nobody spoke up
-that there is still a need to keep it, thus let's remove it now.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210430160355.698194-1-thuth@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-[Commit message typos fixed, trivial conflicts resolved]
+Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20210503084034.3804963-3-armbru@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/system/deprecated.rst                |   8 -
- docs/system/removed-features.rst          |   7 +
- default-configs/devices/moxie-softmmu.mak |   5 -
- default-configs/targets/moxie-softmmu.mak |   2 -
- meson.build                               |   1 -
- qapi/machine.json                         |   2 +-
- qapi/misc-target.json                     |   2 +-
- include/disas/dis-asm.h                   |   1 -
- include/elf.h                             |   3 -
- include/exec/poison.h                     |   2 -
- include/hw/elf_ops.h                      |   8 -
- include/sysemu/arch_init.h                |   1 -
- target/moxie/cpu-param.h                  |  17 -
- target/moxie/cpu.h                        | 123 ---
- target/moxie/helper.h                     |   5 -
- target/moxie/machine.h                    |   1 -
- target/moxie/mmu.h                        |  19 -
- disas/moxie.c                             | 360 ---------
- hw/moxie/moxiesim.c                       | 155 ----
- softmmu/arch_init.c                       |   2 -
- target/moxie/cpu.c                        | 161 ----
- target/moxie/helper.c                     | 120 ---
- target/moxie/machine.c                    |  19 -
- target/moxie/mmu.c                        |  32 -
- target/moxie/translate.c                  | 892 ----------------------
- tests/qtest/boot-serial-test.c            |   8 -
- tests/qtest/machine-none-test.c           |   1 -
- fpu/softfloat-specialize.c.inc            |   2 +-
- .gitlab-ci.yml                            |   6 +-
- MAINTAINERS                               |   8 -
- disas/meson.build                         |   1 -
- hw/Kconfig                                |   1 -
- hw/meson.build                            |   1 -
- hw/moxie/Kconfig                          |   3 -
- hw/moxie/meson.build                      |   4 -
- target/meson.build                        |   1 -
- target/moxie/meson.build                  |  14 -
- tests/qtest/meson.build                   |   2 -
- 38 files changed, 13 insertions(+), 1987 deletions(-)
- delete mode 100644 default-configs/devices/moxie-softmmu.mak
- delete mode 100644 default-configs/targets/moxie-softmmu.mak
- delete mode 100644 target/moxie/cpu-param.h
- delete mode 100644 target/moxie/cpu.h
- delete mode 100644 target/moxie/helper.h
- delete mode 100644 target/moxie/machine.h
- delete mode 100644 target/moxie/mmu.h
- delete mode 100644 disas/moxie.c
- delete mode 100644 hw/moxie/moxiesim.c
- delete mode 100644 target/moxie/cpu.c
- delete mode 100644 target/moxie/helper.c
- delete mode 100644 target/moxie/machine.c
- delete mode 100644 target/moxie/mmu.c
- delete mode 100644 target/moxie/translate.c
- delete mode 100644 hw/moxie/Kconfig
- delete mode 100644 hw/moxie/meson.build
- delete mode 100644 target/moxie/meson.build
+ docs/system/deprecated.rst                    |    8 -
+ docs/system/removed-features.rst              |    7 +
+ configure                                     |    2 +-
+ default-configs/devices/unicore32-softmmu.mak |    6 -
+ default-configs/targets/unicore32-softmmu.mak |    1 -
+ qapi/machine.json                             |    2 +-
+ include/elf.h                                 |    3 +-
+ include/exec/poison.h                         |    1 -
+ include/hw/unicore32/puv3.h                   |   40 -
+ include/sysemu/arch_init.h                    |    1 -
+ target/unicore32/cpu-param.h                  |   17 -
+ target/unicore32/cpu-qom.h                    |   37 -
+ target/unicore32/cpu.h                        |  168 --
+ target/unicore32/helper.h                     |   62 -
+ hw/dma/puv3_dma.c                             |  119 -
+ hw/gpio/puv3_gpio.c                           |  154 --
+ hw/intc/puv3_intc.c                           |  147 --
+ hw/misc/puv3_pm.c                             |  159 --
+ hw/timer/puv3_ost.c                           |  166 --
+ hw/unicore32/puv3.c                           |  145 --
+ softmmu/arch_init.c                           |    2 -
+ target/unicore32/cpu.c                        |  174 --
+ target/unicore32/helper.c                     |  183 --
+ target/unicore32/op_helper.c                  |  244 --
+ target/unicore32/softmmu.c                    |  280 ---
+ target/unicore32/translate.c                  | 2083 -----------------
+ target/unicore32/ucf64_helper.c               |  324 ---
+ tests/qtest/machine-none-test.c               |    1 -
+ fpu/softfloat-specialize.c.inc                |   11 +-
+ .gitlab-ci.yml                                |    2 +-
+ MAINTAINERS                                   |   15 -
+ hw/Kconfig                                    |    1 -
+ hw/dma/meson.build                            |    1 -
+ hw/gpio/meson.build                           |    1 -
+ hw/intc/meson.build                           |    1 -
+ hw/meson.build                                |    1 -
+ hw/misc/meson.build                           |    3 -
+ hw/timer/meson.build                          |    1 -
+ hw/unicore32/Kconfig                          |    5 -
+ hw/unicore32/meson.build                      |    5 -
+ target/meson.build                            |    1 -
+ target/unicore32/meson.build                  |   14 -
+ 42 files changed, 16 insertions(+), 4582 deletions(-)
+ delete mode 100644 default-configs/devices/unicore32-softmmu.mak
+ delete mode 100644 default-configs/targets/unicore32-softmmu.mak
+ delete mode 100644 include/hw/unicore32/puv3.h
+ delete mode 100644 target/unicore32/cpu-param.h
+ delete mode 100644 target/unicore32/cpu-qom.h
+ delete mode 100644 target/unicore32/cpu.h
+ delete mode 100644 target/unicore32/helper.h
+ delete mode 100644 hw/dma/puv3_dma.c
+ delete mode 100644 hw/gpio/puv3_gpio.c
+ delete mode 100644 hw/intc/puv3_intc.c
+ delete mode 100644 hw/misc/puv3_pm.c
+ delete mode 100644 hw/timer/puv3_ost.c
+ delete mode 100644 hw/unicore32/puv3.c
+ delete mode 100644 target/unicore32/cpu.c
+ delete mode 100644 target/unicore32/helper.c
+ delete mode 100644 target/unicore32/op_helper.c
+ delete mode 100644 target/unicore32/softmmu.c
+ delete mode 100644 target/unicore32/translate.c
+ delete mode 100644 target/unicore32/ucf64_helper.c
+ delete mode 100644 hw/unicore32/Kconfig
+ delete mode 100644 hw/unicore32/meson.build
+ delete mode 100644 target/unicore32/meson.build
 
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index f9169077ae..cd91c4528f 100644
+index 1199fe93c0..abbf8243a3 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
 @@ -198,14 +198,6 @@ from Linux upstream kernel, declare it deprecated.
  System emulator CPUS
  --------------------
  
--``moxie`` CPU (since 5.2.0)
--'''''''''''''''''''''''''''
+-``unicore32`` CPUs (since 5.2.0)
+-''''''''''''''''''''''''''''''''
 -
--The ``moxie`` guest CPU support is deprecated and will be removed in
--a future version of QEMU. It's unclear whether anybody is still using
--CPU emulation in QEMU, and there are no test images available to make
--sure that the code is still working.
+-The ``unicore32`` guest CPU support is deprecated and will be removed in
+-a future version of QEMU. Support for this CPU was removed from the
+-upstream Linux kernel, and there is no available upstream toolchain
+-to build binaries for it.
 -
- ``lm32`` CPUs (since 5.2.0)
- '''''''''''''''''''''''''''
+ ``Icelake-Client`` CPU Model (since 5.2.0)
+ ''''''''''''''''''''''''''''''''''''''''''
  
 diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index c21e6fa5ee..f49737c4ef 100644
+index 4915bc3f63..5a462ac568 100644
 --- a/docs/system/removed-features.rst
 +++ b/docs/system/removed-features.rst
-@@ -291,6 +291,13 @@ via the CPU ``mmu`` option when using the ``rv32`` or ``rv64`` CPUs.
- The ``max-cpu-compat`` property of the ``pseries`` machine type should be used
- instead.
+@@ -305,6 +305,13 @@ The only public user of this architecture was the milkymist project,
+ which has been dead for years; there was never an upstream Linux
+ port.  Removed without replacement.
  
-+``moxie`` CPU (removed in 6.1)
-+''''''''''''''''''''''''''''''
++``unicore32`` CPUs (since 6.1.0)
++''''''''''''''''''''''''''''''''
 +
-+Nobody was using this CPU emulation in QEMU, and there were no test images
-+available to make sure that the code is still working, so it has been removed
-+without replacement.
++Support for this CPU was removed from the upstream Linux kernel, and
++there is no available upstream toolchain to build binaries for it.
++Removed without replacement.
 +
  System emulator machines
  ------------------------
  
-diff --git a/default-configs/devices/moxie-softmmu.mak b/default-configs/devices/moxie-softmmu.mak
+diff --git a/configure b/configure
+index cae212988c..cc703b3e8d 100755
+--- a/configure
++++ b/configure
+@@ -1663,7 +1663,7 @@ if [ "$ARCH" = "unknown" ]; then
+ fi
+ 
+ default_target_list=""
+-deprecated_targets_list=ppc64abi32-linux-user,unicore32-softmmu
++deprecated_targets_list=ppc64abi32-linux-user
+ deprecated_features=""
+ mak_wilds=""
+ 
+diff --git a/default-configs/devices/unicore32-softmmu.mak b/default-configs/devices/unicore32-softmmu.mak
 deleted file mode 100644
-index bd50da3c58..0000000000
---- a/default-configs/devices/moxie-softmmu.mak
+index 899288e3d7..0000000000
+--- a/default-configs/devices/unicore32-softmmu.mak
 +++ /dev/null
-@@ -1,5 +0,0 @@
--# Default configuration for moxie-softmmu
+@@ -1,6 +0,0 @@
+-# Default configuration for unicore32-softmmu
 -
 -# Boards:
 -#
--CONFIG_MOXIESIM=y
-diff --git a/default-configs/targets/moxie-softmmu.mak b/default-configs/targets/moxie-softmmu.mak
+-CONFIG_PUV3=y
+-CONFIG_SEMIHOSTING=y
+diff --git a/default-configs/targets/unicore32-softmmu.mak b/default-configs/targets/unicore32-softmmu.mak
 deleted file mode 100644
-index 183e6b0ebd..0000000000
---- a/default-configs/targets/moxie-softmmu.mak
+index 57331e94fe..0000000000
+--- a/default-configs/targets/unicore32-softmmu.mak
 +++ /dev/null
-@@ -1,2 +0,0 @@
--TARGET_ARCH=moxie
--TARGET_WORDS_BIGENDIAN=y
-diff --git a/meson.build b/meson.build
-index 0b41ff4118..40e8f012ac 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1214,7 +1214,6 @@ disassemblers = {
-   'm68k' : ['CONFIG_M68K_DIS'],
-   'microblaze' : ['CONFIG_MICROBLAZE_DIS'],
-   'mips' : ['CONFIG_MIPS_DIS'],
--  'moxie' : ['CONFIG_MOXIE_DIS'],
-   'nios2' : ['CONFIG_NIOS2_DIS'],
-   'or1k' : ['CONFIG_OPENRISC_DIS'],
-   'ppc' : ['CONFIG_PPC_DIS'],
+@@ -1 +0,0 @@
+-TARGET_ARCH=unicore32
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 6e90d463fc..f1e2ccceba 100644
+index 37a7e34195..58a9c86b36 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -31,7 +31,7 @@
- { 'enum' : 'SysEmuTarget',
-   'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386', 'lm32',
+@@ -33,7 +33,7 @@
               'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
--             'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
-+             'mips64el', 'mipsel', 'nios2', 'or1k', 'ppc',
+              'mips64el', 'mipsel', 'nios2', 'or1k', 'ppc',
               'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
-              'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
+-             'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
++             'sh4eb', 'sparc', 'sparc64', 'tricore',
               'x86_64', 'xtensa', 'xtensaeb' ] }
-diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index 0c7491cd82..6200c671be 100644
---- a/qapi/misc-target.json
-+++ b/qapi/misc-target.json
-@@ -23,7 +23,7 @@
- ##
- { 'event': 'RTC_CHANGE',
-   'data': { 'offset': 'int' },
--  'if': 'defined(TARGET_ALPHA) || defined(TARGET_ARM) || defined(TARGET_HPPA) || defined(TARGET_I386) || defined(TARGET_MIPS) || defined(TARGET_MIPS64) || defined(TARGET_MOXIE) || defined(TARGET_PPC) || defined(TARGET_PPC64) || defined(TARGET_S390X) || defined(TARGET_SH4) || defined(TARGET_SPARC)' }
-+  'if': 'defined(TARGET_ALPHA) || defined(TARGET_ARM) || defined(TARGET_HPPA) || defined(TARGET_I386) || defined(TARGET_MIPS) || defined(TARGET_MIPS64) || defined(TARGET_PPC) || defined(TARGET_PPC64) || defined(TARGET_S390X) || defined(TARGET_SH4) || defined(TARGET_SPARC)' }
  
  ##
- # @rtc-reset-reinjection:
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index 4701445e80..8e985e7e94 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -443,7 +443,6 @@ int print_insn_m32r             (bfd_vma, disassemble_info*);
- int print_insn_m88k             (bfd_vma, disassemble_info*);
- int print_insn_mn10200          (bfd_vma, disassemble_info*);
- int print_insn_mn10300          (bfd_vma, disassemble_info*);
--int print_insn_moxie            (bfd_vma, disassemble_info*);
- int print_insn_ns32k            (bfd_vma, disassemble_info*);
- int print_insn_big_powerpc      (bfd_vma, disassemble_info*);
- int print_insn_little_powerpc   (bfd_vma, disassemble_info*);
 diff --git a/include/elf.h b/include/elf.h
-index 78237c9a87..33ed830ec3 100644
+index 33ed830ec3..033bcc9576 100644
 --- a/include/elf.h
 +++ b/include/elf.h
-@@ -206,9 +206,6 @@ typedef struct mips_elf_abiflags_v0 {
+@@ -174,9 +174,8 @@ typedef struct mips_elf_abiflags_v0 {
  
- #define EM_AARCH64  183
+ #define EM_OPENRISC     92        /* OpenCores OpenRISC */
  
--#define EM_MOXIE           223     /* Moxie processor family */
--#define EM_MOXIE_OLD       0xFEED
+-#define EM_UNICORE32    110     /* UniCore32 */
 -
- #define EF_AVR_MACH     0x7F       /* Mask for AVR e_flags to get core type */
+ #define EM_HEXAGON      164     /* Qualcomm Hexagon */
++
+ #define EM_RX           173     /* Renesas RX family */
  
- /* This is the info that is needed to parse the dynamic section of the file */
+ #define EM_RISCV        243     /* RISC-V */
 diff --git a/include/exec/poison.h b/include/exec/poison.h
-index 4cd3f8abb4..de972bfd8e 100644
+index b102e3cbf0..8fc7530b6e 100644
 --- a/include/exec/poison.h
 +++ b/include/exec/poison.h
-@@ -20,7 +20,6 @@
- #pragma GCC poison TARGET_ABI_MIPSO32
- #pragma GCC poison TARGET_MIPS64
- #pragma GCC poison TARGET_ABI_MIPSN64
--#pragma GCC poison TARGET_MOXIE
- #pragma GCC poison TARGET_NIOS2
- #pragma GCC poison TARGET_OPENRISC
- #pragma GCC poison TARGET_PPC
-@@ -79,7 +78,6 @@
- #pragma GCC poison CONFIG_MICROBLAZE_DIS
- #pragma GCC poison CONFIG_MIPS_DIS
- #pragma GCC poison CONFIG_NANOMIPS_DIS
--#pragma GCC poison CONFIG_MOXIE_DIS
- #pragma GCC poison CONFIG_NIOS2_DIS
- #pragma GCC poison CONFIG_PPC_DIS
- #pragma GCC poison CONFIG_RISCV_DIS
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-index 6ee458e7bc..1c37cec4ae 100644
---- a/include/hw/elf_ops.h
-+++ b/include/hw/elf_ops.h
-@@ -368,14 +368,6 @@ static int glue(load_elf, SZ)(const char *name, int fd,
-                 }
-             }
-             break;
--        case EM_MOXIE:
--            if (ehdr.e_machine != EM_MOXIE) {
--                if (ehdr.e_machine != EM_MOXIE_OLD) {
--                    ret = ELF_LOAD_WRONG_ARCH;
--                    goto fail;
--                }
--            }
--            break;
-         case EM_MIPS:
-         case EM_NANOMIPS:
-             if ((ehdr.e_machine != EM_MIPS) &&
+@@ -30,7 +30,6 @@
+ #pragma GCC poison TARGET_SPARC
+ #pragma GCC poison TARGET_SPARC64
+ #pragma GCC poison TARGET_TRICORE
+-#pragma GCC poison TARGET_UNICORE32
+ #pragma GCC poison TARGET_XTENSA
+ 
+ #pragma GCC poison TARGET_ALIGNED_ONLY
+diff --git a/include/hw/unicore32/puv3.h b/include/hw/unicore32/puv3.h
+deleted file mode 100644
+index f587a1f622..0000000000
+--- a/include/hw/unicore32/puv3.h
++++ /dev/null
+@@ -1,40 +0,0 @@
+-/*
+- * Misc PKUnity SoC declarations
+- *
+- * Copyright (C) 2010-2012 Guan Xuetao
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or any later version.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef QEMU_HW_PUV3_H
+-#define QEMU_HW_PUV3_H
+-
+-#define PUV3_REGS_OFFSET        (0x1000) /* 4K is reasonable */
+-
+-/* Hardware interrupts */
+-#define PUV3_IRQS_NR            (32)
+-
+-#define PUV3_IRQS_GPIOLOW0      (0)
+-#define PUV3_IRQS_GPIOLOW1      (1)
+-#define PUV3_IRQS_GPIOLOW2      (2)
+-#define PUV3_IRQS_GPIOLOW3      (3)
+-#define PUV3_IRQS_GPIOLOW4      (4)
+-#define PUV3_IRQS_GPIOLOW5      (5)
+-#define PUV3_IRQS_GPIOLOW6      (6)
+-#define PUV3_IRQS_GPIOLOW7      (7)
+-#define PUV3_IRQS_GPIOHIGH      (8)
+-#define PUV3_IRQS_PS2_KBD       (22)
+-#define PUV3_IRQS_PS2_AUX       (23)
+-#define PUV3_IRQS_OST0          (26)
+-
+-/* All puv3_*.c use DPRINTF for debug. */
+-#ifdef DEBUG_PUV3
+-#define DPRINTF(fmt, ...) printf("%s: " fmt , __func__, ## __VA_ARGS__)
+-#else
+-#define DPRINTF(fmt, ...) do {} while (0)
+-#endif
+-
+-#endif /* QEMU_HW_PUV3_H */
 diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 16da279696..44e3734d18 100644
+index fc002b84de..e723c467eb 100644
 --- a/include/sysemu/arch_init.h
 +++ b/include/sysemu/arch_init.h
-@@ -19,7 +19,6 @@ enum {
+@@ -17,7 +17,6 @@ enum {
+     QEMU_ARCH_SPARC = (1 << 11),
      QEMU_ARCH_XTENSA = (1 << 12),
      QEMU_ARCH_OPENRISC = (1 << 13),
-     QEMU_ARCH_UNICORE32 = (1 << 14),
--    QEMU_ARCH_MOXIE = (1 << 15),
+-    QEMU_ARCH_UNICORE32 = (1 << 14),
      QEMU_ARCH_TRICORE = (1 << 16),
      QEMU_ARCH_NIOS2 = (1 << 17),
      QEMU_ARCH_HPPA = (1 << 18),
-diff --git a/target/moxie/cpu-param.h b/target/moxie/cpu-param.h
+diff --git a/target/unicore32/cpu-param.h b/target/unicore32/cpu-param.h
 deleted file mode 100644
-index 9a40ef525c..0000000000
---- a/target/moxie/cpu-param.h
+index 94d8a5daa1..0000000000
+--- a/target/unicore32/cpu-param.h
 +++ /dev/null
 @@ -1,17 +0,0 @@
 -/*
-- * Moxie cpu parameters for qemu.
+- * UniCore32 cpu parameters for qemu.
 - *
-- * Copyright (c) 2008, 2010, 2013 Anthony Green
-- * SPDX-License-Identifier: LGPL-2.1+
+- * Copyright (C) 2010-2012 Guan Xuetao
+- * SPDX-License-Identifier: GPL-2.0+
 - */
 -
--#ifndef MOXIE_CPU_PARAM_H
--#define MOXIE_CPU_PARAM_H 1
+-#ifndef UNICORE32_CPU_PARAM_H
+-#define UNICORE32_CPU_PARAM_H 1
 -
--#define TARGET_LONG_BITS 32
--#define TARGET_PAGE_BITS 12     /* 4k */
--#define TARGET_PHYS_ADDR_SPACE_BITS 32
--#define TARGET_VIRT_ADDR_SPACE_BITS 32
--#define NB_MMU_MODES 1
+-#define TARGET_LONG_BITS                32
+-#define TARGET_PAGE_BITS                12
+-#define TARGET_PHYS_ADDR_SPACE_BITS     32
+-#define TARGET_VIRT_ADDR_SPACE_BITS     32
+-#define NB_MMU_MODES      2
 -
 -#endif
-diff --git a/target/moxie/cpu.h b/target/moxie/cpu.h
+diff --git a/target/unicore32/cpu-qom.h b/target/unicore32/cpu-qom.h
 deleted file mode 100644
-index bd6ab66084..0000000000
---- a/target/moxie/cpu.h
+index 43621e7479..0000000000
+--- a/target/unicore32/cpu-qom.h
 +++ /dev/null
-@@ -1,123 +0,0 @@
+@@ -1,37 +0,0 @@
 -/*
-- *  Moxie emulation
+- * QEMU UniCore32 CPU
 - *
-- *  Copyright (c) 2008, 2010, 2013 Anthony Green
+- * Copyright (c) 2012 SUSE LINUX Products GmbH
 - *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public
-- * License as published by the Free Software Foundation; either
-- * version 2.1 of the License, or (at your option) any later version.
-- *
-- * This library is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public License
-- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or (at your option) any
+- * later version. See the COPYING file in the top-level directory.
 - */
--
--#ifndef MOXIE_CPU_H
--#define MOXIE_CPU_H
--
--#include "exec/cpu-defs.h"
--#include "qom/object.h"
--
--#define MOXIE_EX_DIV0        0
--#define MOXIE_EX_BAD         1
--#define MOXIE_EX_IRQ         2
--#define MOXIE_EX_SWI         3
--#define MOXIE_EX_MMU_MISS    4
--#define MOXIE_EX_BREAK      16
--
--typedef struct CPUMoxieState {
--
--    uint32_t flags;               /* general execution flags */
--    uint32_t gregs[16];           /* general registers */
--    uint32_t sregs[256];          /* special registers */
--    uint32_t pc;                  /* program counter */
--    /* Instead of saving the cc value, we save the cmp arguments
--       and compute cc on demand.  */
--    uint32_t cc_a;                /* reg a for condition code calculation */
--    uint32_t cc_b;                /* reg b for condition code calculation */
--
--    void *irq[8];
--
--    /* Fields up to this point are cleared by a CPU reset */
--    struct {} end_reset_fields;
--} CPUMoxieState;
+-#ifndef QEMU_UC32_CPU_QOM_H
+-#define QEMU_UC32_CPU_QOM_H
 -
 -#include "hw/core/cpu.h"
+-#include "qom/object.h"
 -
--#define TYPE_MOXIE_CPU "moxie-cpu"
+-#define TYPE_UNICORE32_CPU "unicore32-cpu"
 -
--OBJECT_DECLARE_TYPE(MoxieCPU, MoxieCPUClass,
--                    MOXIE_CPU)
+-OBJECT_DECLARE_TYPE(UniCore32CPU, UniCore32CPUClass,
+-                    UNICORE32_CPU)
 -
 -/**
-- * MoxieCPUClass:
-- * @parent_reset: The parent class' reset handler.
+- * UniCore32CPUClass:
+- * @parent_realize: The parent class' realize handler.
 - *
-- * A Moxie CPU model.
+- * A UniCore32 CPU model.
 - */
--struct MoxieCPUClass {
+-struct UniCore32CPUClass {
 -    /*< private >*/
 -    CPUClass parent_class;
 -    /*< public >*/
 -
 -    DeviceRealize parent_realize;
--    DeviceReset parent_reset;
 -};
 -
--/**
-- * MoxieCPU:
-- * @env: #CPUMoxieState
+-
+-#endif
+diff --git a/target/unicore32/cpu.h b/target/unicore32/cpu.h
+deleted file mode 100644
+index 7a32e086ed..0000000000
+--- a/target/unicore32/cpu.h
++++ /dev/null
+@@ -1,168 +0,0 @@
+-/*
+- * UniCore32 virtual CPU header
 - *
-- * A Moxie CPU.
+- * Copyright (C) 2010-2012 Guan Xuetao
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or (at your option) any
+- * later version. See the COPYING file in the top-level directory.
 - */
--struct MoxieCPU {
+-
+-#ifndef UNICORE32_CPU_H
+-#define UNICORE32_CPU_H
+-
+-#include "cpu-qom.h"
+-#include "exec/cpu-defs.h"
+-
+-typedef struct CPUUniCore32State {
+-    /* Regs for current mode.  */
+-    uint32_t regs[32];
+-    /* Frequently accessed ASR bits are stored separately for efficiently.
+-       This contains all the other bits.  Use asr_{read,write} to access
+-       the whole ASR.  */
+-    uint32_t uncached_asr;
+-    uint32_t bsr;
+-
+-    /* Banked registers.  */
+-    uint32_t banked_bsr[6];
+-    uint32_t banked_r29[6];
+-    uint32_t banked_r30[6];
+-
+-    /* asr flag cache for faster execution */
+-    uint32_t CF; /* 0 or 1 */
+-    uint32_t VF; /* V is the bit 31. All other bits are undefined */
+-    uint32_t NF; /* N is bit 31. All other bits are undefined.  */
+-    uint32_t ZF; /* Z set if zero.  */
+-
+-    /* System control coprocessor (cp0) */
+-    struct {
+-        uint32_t c0_cpuid;
+-        uint32_t c0_cachetype;
+-        uint32_t c1_sys; /* System control register.  */
+-        uint32_t c2_base; /* MMU translation table base.  */
+-        uint32_t c3_faultstatus; /* Fault status registers.  */
+-        uint32_t c4_faultaddr; /* Fault address registers.  */
+-        uint32_t c5_cacheop; /* Cache operation registers.  */
+-        uint32_t c6_tlbop; /* TLB operation registers. */
+-    } cp0;
+-
+-    /* UniCore-F64 coprocessor state.  */
+-    struct {
+-        float64 regs[16];
+-        uint32_t xregs[32];
+-        float_status fp_status;
+-    } ucf64;
+-
+-    /* Internal CPU feature flags.  */
+-    uint32_t features;
+-
+-} CPUUniCore32State;
+-
+-/**
+- * UniCore32CPU:
+- * @env: #CPUUniCore32State
+- *
+- * A UniCore32 CPU.
+- */
+-struct UniCore32CPU {
 -    /*< private >*/
 -    CPUState parent_obj;
 -    /*< public >*/
 -
 -    CPUNegativeOffsetState neg;
--    CPUMoxieState env;
+-    CPUUniCore32State env;
 -};
 -
 -
--void moxie_cpu_do_interrupt(CPUState *cs);
--void moxie_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
--hwaddr moxie_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
--void moxie_translate_init(void);
--int cpu_moxie_signal_handler(int host_signum, void *pinfo,
--                             void *puc);
+-void uc32_cpu_do_interrupt(CPUState *cpu);
+-bool uc32_cpu_exec_interrupt(CPUState *cpu, int int_req);
+-void uc32_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+-hwaddr uc32_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
 -
--#define MOXIE_CPU_TYPE_SUFFIX "-" TYPE_MOXIE_CPU
--#define MOXIE_CPU_TYPE_NAME(model) model MOXIE_CPU_TYPE_SUFFIX
--#define CPU_RESOLVING_TYPE TYPE_MOXIE_CPU
+-#define ASR_M                   (0x1f)
+-#define ASR_MODE_USER           (0x10)
+-#define ASR_MODE_INTR           (0x12)
+-#define ASR_MODE_PRIV           (0x13)
+-#define ASR_MODE_TRAP           (0x17)
+-#define ASR_MODE_EXTN           (0x1b)
+-#define ASR_MODE_SUSR           (0x1f)
+-#define ASR_I                   (1 << 7)
+-#define ASR_V                   (1 << 28)
+-#define ASR_C                   (1 << 29)
+-#define ASR_Z                   (1 << 30)
+-#define ASR_N                   (1 << 31)
+-#define ASR_NZCV                (ASR_N | ASR_Z | ASR_C | ASR_V)
+-#define ASR_RESERVED            (~(ASR_M | ASR_I | ASR_NZCV))
 -
--#define cpu_signal_handler cpu_moxie_signal_handler
+-#define UC32_EXCP_PRIV          (1)
+-#define UC32_EXCP_ITRAP         (2)
+-#define UC32_EXCP_DTRAP         (3)
+-#define UC32_EXCP_INTR          (4)
 -
--static inline int cpu_mmu_index(CPUMoxieState *env, bool ifetch)
+-/* Return the current ASR value.  */
+-target_ulong cpu_asr_read(CPUUniCore32State *env1);
+-/* Set the ASR.  Note that some bits of mask must be all-set or all-clear.  */
+-void cpu_asr_write(CPUUniCore32State *env1, target_ulong val, target_ulong mask);
+-
+-/* UniCore-F64 system registers.  */
+-#define UC32_UCF64_FPSCR                (31)
+-#define UCF64_FPSCR_MASK                (0x27ffffff)
+-#define UCF64_FPSCR_RND_MASK            (0x7)
+-#define UCF64_FPSCR_RND(r)              (((r) >>  0) & UCF64_FPSCR_RND_MASK)
+-#define UCF64_FPSCR_TRAPEN_MASK         (0x7f)
+-#define UCF64_FPSCR_TRAPEN(r)           (((r) >> 10) & UCF64_FPSCR_TRAPEN_MASK)
+-#define UCF64_FPSCR_FLAG_MASK           (0x3ff)
+-#define UCF64_FPSCR_FLAG(r)             (((r) >> 17) & UCF64_FPSCR_FLAG_MASK)
+-#define UCF64_FPSCR_FLAG_ZERO           (1 << 17)
+-#define UCF64_FPSCR_FLAG_INFINITY       (1 << 18)
+-#define UCF64_FPSCR_FLAG_INVALID        (1 << 19)
+-#define UCF64_FPSCR_FLAG_UNDERFLOW      (1 << 20)
+-#define UCF64_FPSCR_FLAG_OVERFLOW       (1 << 21)
+-#define UCF64_FPSCR_FLAG_INEXACT        (1 << 22)
+-#define UCF64_FPSCR_FLAG_HUGEINT        (1 << 23)
+-#define UCF64_FPSCR_FLAG_DENORMAL       (1 << 24)
+-#define UCF64_FPSCR_FLAG_UNIMP          (1 << 25)
+-#define UCF64_FPSCR_FLAG_DIVZERO        (1 << 26)
+-
+-#define UC32_HWCAP_CMOV                 4 /* 1 << 2 */
+-#define UC32_HWCAP_UCF64                8 /* 1 << 3 */
+-
+-#define cpu_signal_handler              uc32_cpu_signal_handler
+-
+-int uc32_cpu_signal_handler(int host_signum, void *pinfo, void *puc);
+-
+-/* MMU modes definitions */
+-#define MMU_USER_IDX 1
+-static inline int cpu_mmu_index(CPUUniCore32State *env, bool ifetch)
 -{
--    return 0;
+-    return (env->uncached_asr & ASR_M) == ASR_MODE_USER ? 1 : 0;
 -}
 -
--typedef CPUMoxieState CPUArchState;
--typedef MoxieCPU ArchCPU;
+-typedef CPUUniCore32State CPUArchState;
+-typedef UniCore32CPU ArchCPU;
 -
 -#include "exec/cpu-all.h"
 -
--static inline void cpu_get_tb_cpu_state(CPUMoxieState *env, target_ulong *pc,
+-#define UNICORE32_CPU_TYPE_SUFFIX "-" TYPE_UNICORE32_CPU
+-#define UNICORE32_CPU_TYPE_NAME(model) model UNICORE32_CPU_TYPE_SUFFIX
+-#define CPU_RESOLVING_TYPE TYPE_UNICORE32_CPU
+-
+-static inline void cpu_get_tb_cpu_state(CPUUniCore32State *env, target_ulong *pc,
 -                                        target_ulong *cs_base, uint32_t *flags)
 -{
--    *pc = env->pc;
+-    *pc = env->regs[31];
 -    *cs_base = 0;
 -    *flags = 0;
+-    if ((env->uncached_asr & ASR_M) != ASR_MODE_USER) {
+-        *flags |= (1 << 6);
+-    }
 -}
 -
--bool moxie_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                        MMUAccessType access_type, int mmu_idx,
--                        bool probe, uintptr_t retaddr);
+-bool uc32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                       MMUAccessType access_type, int mmu_idx,
+-                       bool probe, uintptr_t retaddr);
+-void uc32_translate_init(void);
+-void switch_mode(CPUUniCore32State *, int);
 -
--#endif /* MOXIE_CPU_H */
-diff --git a/target/moxie/helper.h b/target/moxie/helper.h
+-#endif /* UNICORE32_CPU_H */
+diff --git a/target/unicore32/helper.h b/target/unicore32/helper.h
 deleted file mode 100644
-index d94ef7a17e..0000000000
---- a/target/moxie/helper.h
+index a4a5d45d1d..0000000000
+--- a/target/unicore32/helper.h
 +++ /dev/null
-@@ -1,5 +0,0 @@
--DEF_HELPER_2(raise_exception, void, env, int)
--DEF_HELPER_1(debug, void, env)
--
--DEF_HELPER_FLAGS_3(div, TCG_CALL_NO_WG, i32, env, i32, i32)
--DEF_HELPER_FLAGS_3(udiv, TCG_CALL_NO_WG, i32, env, i32, i32)
-diff --git a/target/moxie/machine.h b/target/moxie/machine.h
-deleted file mode 100644
-index a1b72907ae..0000000000
---- a/target/moxie/machine.h
-+++ /dev/null
-@@ -1 +0,0 @@
--extern const VMStateDescription vmstate_moxie_cpu;
-diff --git a/target/moxie/mmu.h b/target/moxie/mmu.h
-deleted file mode 100644
-index d80690f4d2..0000000000
---- a/target/moxie/mmu.h
-+++ /dev/null
-@@ -1,19 +0,0 @@
--#ifndef TARGET_MOXIE_MMU_H
--#define TARGET_MOXIE_MMU_H
--
--#define MOXIE_MMU_ERR_EXEC  0
--#define MOXIE_MMU_ERR_READ  1
--#define MOXIE_MMU_ERR_WRITE 2
--#define MOXIE_MMU_ERR_FLUSH 3
--
--typedef struct {
--    uint32_t phy;
--    uint32_t pfn;
--    int cause_op;
--} MoxieMMUResult;
--
--int moxie_mmu_translate(MoxieMMUResult *res,
--                        CPUMoxieState *env, uint32_t vaddr,
--                        int rw, int mmu_idx);
--
--#endif
-diff --git a/disas/moxie.c b/disas/moxie.c
-deleted file mode 100644
-index e94ab4c33d..0000000000
---- a/disas/moxie.c
-+++ /dev/null
-@@ -1,360 +0,0 @@
--/* Disassemble moxie instructions.
--   Copyright (c) 2009  Free Software Foundation, Inc.
--
--   This program is free software; you can redistribute it and/or modify
--   it under the terms of the GNU General Public License as published by
--   the Free Software Foundation; either version 2 of the License, or
--   (at your option) any later version.
--
--   This program is distributed in the hope that it will be useful,
--   but WITHOUT ANY WARRANTY; without even the implied warranty of
--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--   GNU General Public License for more details.
--
--   You should have received a copy of the GNU General Public License
--   along with this program; if not, see <http://www.gnu.org/licenses/>. */
--
--#include "qemu/osdep.h"
--#define STATIC_TABLE
--#define DEFINE_TABLE
--
--#include "disas/dis-asm.h"
--
--static void *stream;
--
--/* Form 1 instructions come in different flavors:
--
--   Some have no arguments                          (MOXIE_F1_NARG)
--   Some only use the A operand                     (MOXIE_F1_A)
--   Some use A and B registers                      (MOXIE_F1_AB)
--   Some use A and consume a 4 byte immediate value (MOXIE_F1_A4)
--   Some use just a 4 byte immediate value          (MOXIE_F1_4)
--   Some use just a 4 byte memory address           (MOXIE_F1_M)
--   Some use B and an indirect A                    (MOXIE_F1_AiB)
--   Some use A and an indirect B                    (MOXIE_F1_ABi)
--   Some consume a 4 byte immediate value and use X (MOXIE_F1_4A)
--   Some use B and an indirect A plus 4 bytes       (MOXIE_F1_AiB4)
--   Some use A and an indirect B plus 4 bytes       (MOXIE_F1_ABi4)
--
--   Form 2 instructions also come in different flavors:
--
--   Some have no arguments                          (MOXIE_F2_NARG)
--   Some use the A register and an 8-bit value      (MOXIE_F2_A8V)
--
--   Form 3 instructions also come in different flavors:
--
--   Some have no arguments                          (MOXIE_F3_NARG)
--   Some have a 10-bit PC relative operand          (MOXIE_F3_PCREL).  */
--
--#define MOXIE_F1_NARG 0x100
--#define MOXIE_F1_A    0x101
--#define MOXIE_F1_AB   0x102
--/* #define MOXIE_F1_ABC  0x103 */
--#define MOXIE_F1_A4   0x104
--#define MOXIE_F1_4    0x105
--#define MOXIE_F1_AiB  0x106
--#define MOXIE_F1_ABi  0x107
--#define MOXIE_F1_4A   0x108
--#define MOXIE_F1_AiB4 0x109
--#define MOXIE_F1_ABi4 0x10a
--#define MOXIE_F1_M    0x10b
--
--#define MOXIE_F2_NARG 0x200
--#define MOXIE_F2_A8V  0x201
--
--#define MOXIE_F3_NARG  0x300
--#define MOXIE_F3_PCREL 0x301
--
--typedef struct moxie_opc_info_t {
--    short         opcode;
--    unsigned      itype;
--    const char *  name;
--} moxie_opc_info_t;
--
--extern const moxie_opc_info_t moxie_form1_opc_info[64];
--extern const moxie_opc_info_t moxie_form2_opc_info[4];
--extern const moxie_opc_info_t moxie_form3_opc_info[16];
--
--/* The moxie processor's 16-bit instructions come in two forms:
--
--   FORM 1 instructions start with a 0 bit...
--
--   0oooooooaaaabbbb
--   0              F
--
--   ooooooo - form 1 opcode number
--   aaaa    - operand A
--   bbbb    - operand B
--
--   FORM 2 instructions start with bits "10"...
--
--   10ooaaaavvvvvvvv
--   0              F
--
--   oo       - form 2 opcode number
--   aaaa     - operand A
--   vvvvvvvv - 8-bit immediate value
--
--   FORM 3 instructions start with a bits "11"...
--
--   11oooovvvvvvvvvv
--   0              F
--
--   oooo         - form 3 opcode number
--   vvvvvvvvvv   - 10-bit immediate value.  */
--
--const moxie_opc_info_t moxie_form1_opc_info[64] =
--    {
--        { 0x00, MOXIE_F1_NARG, "nop" },
--        { 0x01, MOXIE_F1_A4,   "ldi.l" },
--        { 0x02, MOXIE_F1_AB,   "mov" },
--        { 0x03, MOXIE_F1_M,    "jsra" },
--        { 0x04, MOXIE_F1_NARG, "ret" },
--        { 0x05, MOXIE_F1_AB,   "add.l" },
--        { 0x06, MOXIE_F1_AB,   "push" },
--        { 0x07, MOXIE_F1_AB,   "pop" },
--        { 0x08, MOXIE_F1_A4,   "lda.l" },
--        { 0x09, MOXIE_F1_4A,   "sta.l" },
--        { 0x0a, MOXIE_F1_ABi,  "ld.l" },
--        { 0x0b, MOXIE_F1_AiB,  "st.l" },
--        { 0x0c, MOXIE_F1_ABi4, "ldo.l" },
--        { 0x0d, MOXIE_F1_AiB4, "sto.l" },
--        { 0x0e, MOXIE_F1_AB,   "cmp" },
--        { 0x0f, MOXIE_F1_NARG, "bad" },
--        { 0x10, MOXIE_F1_NARG, "bad" },
--        { 0x11, MOXIE_F1_NARG, "bad" },
--        { 0x12, MOXIE_F1_NARG, "bad" },
--        { 0x13, MOXIE_F1_NARG, "bad" },
--        { 0x14, MOXIE_F1_NARG, "bad" },
--        { 0x15, MOXIE_F1_NARG, "bad" },
--        { 0x16, MOXIE_F1_NARG, "bad" },
--        { 0x17, MOXIE_F1_NARG, "bad" },
--        { 0x18, MOXIE_F1_NARG, "bad" },
--        { 0x19, MOXIE_F1_A,    "jsr" },
--        { 0x1a, MOXIE_F1_M,    "jmpa" },
--        { 0x1b, MOXIE_F1_A4,   "ldi.b" },
--        { 0x1c, MOXIE_F1_ABi,  "ld.b" },
--        { 0x1d, MOXIE_F1_A4,   "lda.b" },
--        { 0x1e, MOXIE_F1_AiB,  "st.b" },
--        { 0x1f, MOXIE_F1_4A,   "sta.b" },
--        { 0x20, MOXIE_F1_A4,   "ldi.s" },
--        { 0x21, MOXIE_F1_ABi,  "ld.s" },
--        { 0x22, MOXIE_F1_A4,   "lda.s" },
--        { 0x23, MOXIE_F1_AiB,  "st.s" },
--        { 0x24, MOXIE_F1_4A,   "sta.s" },
--        { 0x25, MOXIE_F1_A,    "jmp" },
--        { 0x26, MOXIE_F1_AB,   "and" },
--        { 0x27, MOXIE_F1_AB,   "lshr" },
--        { 0x28, MOXIE_F1_AB,   "ashl" },
--        { 0x29, MOXIE_F1_AB,   "sub.l" },
--        { 0x2a, MOXIE_F1_AB,   "neg" },
--        { 0x2b, MOXIE_F1_AB,   "or" },
--        { 0x2c, MOXIE_F1_AB,   "not" },
--        { 0x2d, MOXIE_F1_AB,   "ashr" },
--        { 0x2e, MOXIE_F1_AB,   "xor" },
--        { 0x2f, MOXIE_F1_AB,   "mul.l" },
--        { 0x30, MOXIE_F1_4,    "swi" },
--        { 0x31, MOXIE_F1_AB,   "div.l" },
--        { 0x32, MOXIE_F1_AB,   "udiv.l" },
--        { 0x33, MOXIE_F1_AB,   "mod.l" },
--        { 0x34, MOXIE_F1_AB,   "umod.l" },
--        { 0x35, MOXIE_F1_NARG, "brk" },
--        { 0x36, MOXIE_F1_ABi4, "ldo.b" },
--        { 0x37, MOXIE_F1_AiB4, "sto.b" },
--        { 0x38, MOXIE_F1_ABi4, "ldo.s" },
--        { 0x39, MOXIE_F1_AiB4, "sto.s" },
--        { 0x3a, MOXIE_F1_NARG, "bad" },
--        { 0x3b, MOXIE_F1_NARG, "bad" },
--        { 0x3c, MOXIE_F1_NARG, "bad" },
--        { 0x3d, MOXIE_F1_NARG, "bad" },
--        { 0x3e, MOXIE_F1_NARG, "bad" },
--        { 0x3f, MOXIE_F1_NARG, "bad" }
--    };
--
--const moxie_opc_info_t moxie_form2_opc_info[4] =
--    {
--        { 0x00, MOXIE_F2_A8V,  "inc" },
--        { 0x01, MOXIE_F2_A8V,  "dec" },
--        { 0x02, MOXIE_F2_A8V,  "gsr" },
--        { 0x03, MOXIE_F2_A8V,  "ssr" }
--    };
--
--const moxie_opc_info_t moxie_form3_opc_info[16] =
--    {
--        { 0x00, MOXIE_F3_PCREL,"beq" },
--        { 0x01, MOXIE_F3_PCREL,"bne" },
--        { 0x02, MOXIE_F3_PCREL,"blt" },
--        { 0x03, MOXIE_F3_PCREL,"bgt" },
--        { 0x04, MOXIE_F3_PCREL,"bltu" },
--        { 0x05, MOXIE_F3_PCREL,"bgtu" },
--        { 0x06, MOXIE_F3_PCREL,"bge" },
--        { 0x07, MOXIE_F3_PCREL,"ble" },
--        { 0x08, MOXIE_F3_PCREL,"bgeu" },
--        { 0x09, MOXIE_F3_PCREL,"bleu" },
--        { 0x0a, MOXIE_F3_NARG, "bad" },
--        { 0x0b, MOXIE_F3_NARG, "bad" },
--        { 0x0c, MOXIE_F3_NARG, "bad" },
--        { 0x0d, MOXIE_F3_NARG, "bad" },
--        { 0x0e, MOXIE_F3_NARG, "bad" },
--        { 0x0f, MOXIE_F3_NARG, "bad" }
--    };
--
--/* Macros to extract operands from the instruction word.  */
--#define OP_A(i) ((i >> 4) & 0xf)
--#define OP_B(i) (i & 0xf)
--#define INST2OFFSET(o) ((((signed short)((o & ((1<<10)-1))<<6))>>6)<<1)
--
--static const char * reg_names[16] =
--    { "$fp", "$sp", "$r0", "$r1", "$r2", "$r3", "$r4", "$r5",
--      "$r6", "$r7", "$r8", "$r9", "$r10", "$r11", "$r12", "$r13" };
--
--int
--print_insn_moxie(bfd_vma addr, struct disassemble_info * info)
--{
--    int length = 2;
--    int status;
--    stream = info->stream;
--    const moxie_opc_info_t * opcode;
--    bfd_byte buffer[4];
--    unsigned short iword;
--    fprintf_function fpr = info->fprintf_func;
--
--    if ((status = info->read_memory_func(addr, buffer, 2, info)))
--        goto fail;
--    iword = (bfd_getb16(buffer) >> 16);
--
--    /* Form 1 instructions have the high bit set to 0.  */
--    if ((iword & (1<<15)) == 0) {
--        /* Extract the Form 1 opcode.  */
--        opcode = &moxie_form1_opc_info[iword >> 8];
--        switch (opcode->itype) {
--        case MOXIE_F1_NARG:
--            fpr(stream, "%s", opcode->name);
--            break;
--        case MOXIE_F1_A:
--            fpr(stream, "%s\t%s", opcode->name,
--                reg_names[OP_A(iword)]);
--            break;
--        case MOXIE_F1_AB:
--            fpr(stream, "%s\t%s, %s", opcode->name,
--                reg_names[OP_A(iword)],
--                reg_names[OP_B(iword)]);
--            break;
--        case MOXIE_F1_A4:
--            {
--                unsigned imm;
--                if ((status = info->read_memory_func(addr + 2, buffer, 4, info)))
--                    goto fail;
--                imm = bfd_getb32(buffer);
--                fpr(stream, "%s\t%s, 0x%x", opcode->name,
--                    reg_names[OP_A(iword)], imm);
--                length = 6;
--            }
--            break;
--        case MOXIE_F1_4:
--            {
--                unsigned imm;
--                if ((status = info->read_memory_func(addr + 2, buffer, 4, info)))
--                    goto fail;
--                imm = bfd_getb32(buffer);
--                fpr(stream, "%s\t0x%x", opcode->name, imm);
--                length = 6;
--            }
--            break;
--        case MOXIE_F1_M:
--            {
--                unsigned imm;
--                if ((status = info->read_memory_func(addr + 2, buffer, 4, info)))
--                    goto fail;
--                imm = bfd_getb32(buffer);
--                fpr(stream, "%s\t", opcode->name);
--                info->print_address_func((bfd_vma) imm, info);
--                length = 6;
--            }
--            break;
--        case MOXIE_F1_AiB:
--            fpr (stream, "%s\t(%s), %s", opcode->name,
--                 reg_names[OP_A(iword)], reg_names[OP_B(iword)]);
--            break;
--        case MOXIE_F1_ABi:
--            fpr(stream, "%s\t%s, (%s)", opcode->name,
--                reg_names[OP_A(iword)], reg_names[OP_B(iword)]);
--            break;
--        case MOXIE_F1_4A:
--            {
--                unsigned imm;
--                if ((status = info->read_memory_func(addr + 2, buffer, 4, info)))
--                    goto fail;
--                imm = bfd_getb32(buffer);
--                fpr(stream, "%s\t0x%x, %s",
--                    opcode->name, imm, reg_names[OP_A(iword)]);
--                length = 6;
--            }
--            break;
--        case MOXIE_F1_AiB4:
--            {
--                unsigned imm;
--                if ((status = info->read_memory_func(addr+2, buffer, 4, info)))
--                    goto fail;
--                imm = bfd_getb32(buffer);
--                fpr(stream, "%s\t0x%x(%s), %s", opcode->name,
--                    imm,
--                    reg_names[OP_A(iword)],
--                    reg_names[OP_B(iword)]);
--                length = 6;
--            }
--            break;
--        case MOXIE_F1_ABi4:
--            {
--                unsigned imm;
--                if ((status = info->read_memory_func(addr+2, buffer, 4, info)))
--                    goto fail;
--                imm = bfd_getb32(buffer);
--                fpr(stream, "%s\t%s, 0x%x(%s)",
--                    opcode->name,
--                    reg_names[OP_A(iword)],
--                    imm,
--                    reg_names[OP_B(iword)]);
--                length = 6;
--            }
--            break;
--        default:
--            abort();
--        }
--    }
--    else if ((iword & (1<<14)) == 0) {
--        /* Extract the Form 2 opcode.  */
--        opcode = &moxie_form2_opc_info[(iword >> 12) & 3];
--        switch (opcode->itype) {
--        case MOXIE_F2_A8V:
--            fpr(stream, "%s\t%s, 0x%x",
--                opcode->name,
--                reg_names[(iword >> 8) & 0xf],
--                iword & ((1 << 8) - 1));
--            break;
--        case MOXIE_F2_NARG:
--            fpr(stream, "%s", opcode->name);
--            break;
--        default:
--            abort();
--        }
--    } else {
--        /* Extract the Form 3 opcode.  */
--        opcode = &moxie_form3_opc_info[(iword >> 10) & 15];
--        switch (opcode->itype) {
--        case MOXIE_F3_PCREL:
--            fpr(stream, "%s\t", opcode->name);
--            info->print_address_func((bfd_vma) (addr + INST2OFFSET(iword) + 2),
--                                     info);
--            break;
--        default:
--            abort();
--        }
--    }
--
--    return length;
--
-- fail:
--    info->memory_error_func(status, addr, info);
--    return -1;
--}
-diff --git a/hw/moxie/moxiesim.c b/hw/moxie/moxiesim.c
-deleted file mode 100644
-index 3d255d4879..0000000000
---- a/hw/moxie/moxiesim.c
-+++ /dev/null
-@@ -1,155 +0,0 @@
+@@ -1,62 +0,0 @@
 -/*
-- * QEMU/moxiesim emulation
+- * Copyright (C) 2010-2012 Guan Xuetao
 - *
-- * Emulates a very simple machine model similar to the one used by the
-- * GDB moxie simulator.
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or (at your option) any
+- * later version. See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef CONFIG_USER_ONLY
+-DEF_HELPER_4(cp0_set, void, env, i32, i32, i32)
+-DEF_HELPER_3(cp0_get, i32, env, i32, i32)
+-DEF_HELPER_1(cp1_putc, void, i32)
+-#endif
+-
+-DEF_HELPER_2(exception, void, env, i32)
+-
+-DEF_HELPER_3(asr_write, void, env, i32, i32)
+-DEF_HELPER_1(asr_read, i32, env)
+-
+-DEF_HELPER_2(get_user_reg, i32, env, i32)
+-DEF_HELPER_3(set_user_reg, void, env, i32, i32)
+-
+-DEF_HELPER_3(add_cc, i32, env, i32, i32)
+-DEF_HELPER_3(adc_cc, i32, env, i32, i32)
+-DEF_HELPER_3(sub_cc, i32, env, i32, i32)
+-DEF_HELPER_3(sbc_cc, i32, env, i32, i32)
+-
+-DEF_HELPER_2(shl, i32, i32, i32)
+-DEF_HELPER_2(shr, i32, i32, i32)
+-DEF_HELPER_2(sar, i32, i32, i32)
+-DEF_HELPER_3(shl_cc, i32, env, i32, i32)
+-DEF_HELPER_3(shr_cc, i32, env, i32, i32)
+-DEF_HELPER_3(sar_cc, i32, env, i32, i32)
+-DEF_HELPER_3(ror_cc, i32, env, i32, i32)
+-
+-DEF_HELPER_1(ucf64_get_fpscr, i32, env)
+-DEF_HELPER_2(ucf64_set_fpscr, void, env, i32)
+-
+-DEF_HELPER_3(ucf64_adds, f32, f32, f32, env)
+-DEF_HELPER_3(ucf64_addd, f64, f64, f64, env)
+-DEF_HELPER_3(ucf64_subs, f32, f32, f32, env)
+-DEF_HELPER_3(ucf64_subd, f64, f64, f64, env)
+-DEF_HELPER_3(ucf64_muls, f32, f32, f32, env)
+-DEF_HELPER_3(ucf64_muld, f64, f64, f64, env)
+-DEF_HELPER_3(ucf64_divs, f32, f32, f32, env)
+-DEF_HELPER_3(ucf64_divd, f64, f64, f64, env)
+-DEF_HELPER_1(ucf64_negs, f32, f32)
+-DEF_HELPER_1(ucf64_negd, f64, f64)
+-DEF_HELPER_1(ucf64_abss, f32, f32)
+-DEF_HELPER_1(ucf64_absd, f64, f64)
+-DEF_HELPER_4(ucf64_cmps, void, f32, f32, i32, env)
+-DEF_HELPER_4(ucf64_cmpd, void, f64, f64, i32, env)
+-
+-DEF_HELPER_2(ucf64_sf2df, f64, f32, env)
+-DEF_HELPER_2(ucf64_df2sf, f32, f64, env)
+-
+-DEF_HELPER_2(ucf64_si2sf, f32, f32, env)
+-DEF_HELPER_2(ucf64_si2df, f64, f32, env)
+-
+-DEF_HELPER_2(ucf64_sf2si, f32, f32, env)
+-DEF_HELPER_2(ucf64_df2si, f32, f64, env)
+diff --git a/hw/dma/puv3_dma.c b/hw/dma/puv3_dma.c
+deleted file mode 100644
+index cca1e9ec21..0000000000
+--- a/hw/dma/puv3_dma.c
++++ /dev/null
+@@ -1,119 +0,0 @@
+-/*
+- * DMA device simulation in PKUnity SoC
 - *
-- * Copyright (c) 2008, 2009, 2010, 2013 Anthony Green
+- * Copyright (C) 2010-2012 Guan Xuetao
 - *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or any later version.
+- * See the COPYING file in the top-level directory.
 - */
 -
 -#include "qemu/osdep.h"
--#include "qemu/error-report.h"
+-#include "hw/sysbus.h"
+-#include "qom/object.h"
+-
+-#undef DEBUG_PUV3
+-#include "hw/unicore32/puv3.h"
+-#include "qemu/module.h"
+-#include "qemu/log.h"
+-
+-#define PUV3_DMA_CH_NR          (6)
+-#define PUV3_DMA_CH_MASK        (0xff)
+-#define PUV3_DMA_CH(offset)     ((offset) >> 8)
+-
+-#define TYPE_PUV3_DMA "puv3_dma"
+-OBJECT_DECLARE_SIMPLE_TYPE(PUV3DMAState, PUV3_DMA)
+-
+-struct PUV3DMAState {
+-    SysBusDevice parent_obj;
+-
+-    MemoryRegion iomem;
+-    uint32_t reg_CFG[PUV3_DMA_CH_NR];
+-};
+-
+-static uint64_t puv3_dma_read(void *opaque, hwaddr offset,
+-        unsigned size)
+-{
+-    PUV3DMAState *s = opaque;
+-    uint32_t ret = 0;
+-
+-    assert(PUV3_DMA_CH(offset) < PUV3_DMA_CH_NR);
+-
+-    switch (offset & PUV3_DMA_CH_MASK) {
+-    case 0x10:
+-        ret = s->reg_CFG[PUV3_DMA_CH(offset)];
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
+-                      __func__, offset);
+-    }
+-    DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
+-
+-    return ret;
+-}
+-
+-static void puv3_dma_write(void *opaque, hwaddr offset,
+-        uint64_t value, unsigned size)
+-{
+-    PUV3DMAState *s = opaque;
+-
+-    assert(PUV3_DMA_CH(offset) < PUV3_DMA_CH_NR);
+-
+-    switch (offset & PUV3_DMA_CH_MASK) {
+-    case 0x10:
+-        s->reg_CFG[PUV3_DMA_CH(offset)] = value;
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
+-                      __func__, offset);
+-    }
+-    DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
+-}
+-
+-static const MemoryRegionOps puv3_dma_ops = {
+-    .read = puv3_dma_read,
+-    .write = puv3_dma_write,
+-    .impl = {
+-        .min_access_size = 4,
+-        .max_access_size = 4,
+-    },
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-};
+-
+-static void puv3_dma_realize(DeviceState *dev, Error **errp)
+-{
+-    PUV3DMAState *s = PUV3_DMA(dev);
+-    int i;
+-
+-    for (i = 0; i < PUV3_DMA_CH_NR; i++) {
+-        s->reg_CFG[i] = 0x0;
+-    }
+-
+-    memory_region_init_io(&s->iomem, OBJECT(s), &puv3_dma_ops, s, "puv3_dma",
+-            PUV3_REGS_OFFSET);
+-    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
+-}
+-
+-static void puv3_dma_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    dc->realize = puv3_dma_realize;
+-}
+-
+-static const TypeInfo puv3_dma_info = {
+-    .name = TYPE_PUV3_DMA,
+-    .parent = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(PUV3DMAState),
+-    .class_init = puv3_dma_class_init,
+-};
+-
+-static void puv3_dma_register_type(void)
+-{
+-    type_register_static(&puv3_dma_info);
+-}
+-
+-type_init(puv3_dma_register_type)
+diff --git a/hw/gpio/puv3_gpio.c b/hw/gpio/puv3_gpio.c
+deleted file mode 100644
+index e003ae505c..0000000000
+--- a/hw/gpio/puv3_gpio.c
++++ /dev/null
+@@ -1,154 +0,0 @@
+-/*
+- * GPIO device simulation in PKUnity SoC
+- *
+- * Copyright (C) 2010-2012 Guan Xuetao
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or any later version.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#include "qemu/osdep.h"
+-#include "hw/sysbus.h"
+-#include "qom/object.h"
+-
+-#undef DEBUG_PUV3
+-#include "hw/unicore32/puv3.h"
+-#include "qemu/module.h"
+-#include "qemu/log.h"
+-
+-#define TYPE_PUV3_GPIO "puv3_gpio"
+-OBJECT_DECLARE_SIMPLE_TYPE(PUV3GPIOState, PUV3_GPIO)
+-
+-struct PUV3GPIOState {
+-    SysBusDevice parent_obj;
+-
+-    MemoryRegion iomem;
+-    qemu_irq irq[9];
+-
+-    uint32_t reg_GPLR;
+-    uint32_t reg_GPDR;
+-    uint32_t reg_GPIR;
+-};
+-
+-static uint64_t puv3_gpio_read(void *opaque, hwaddr offset,
+-        unsigned size)
+-{
+-    PUV3GPIOState *s = opaque;
+-    uint32_t ret = 0;
+-
+-    switch (offset) {
+-    case 0x00:
+-        ret = s->reg_GPLR;
+-        break;
+-    case 0x04:
+-        ret = s->reg_GPDR;
+-        break;
+-    case 0x20:
+-        ret = s->reg_GPIR;
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
+-                      __func__, offset);
+-    }
+-    DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
+-
+-    return ret;
+-}
+-
+-static void puv3_gpio_write(void *opaque, hwaddr offset,
+-        uint64_t value, unsigned size)
+-{
+-    PUV3GPIOState *s = opaque;
+-
+-    DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
+-    switch (offset) {
+-    case 0x04:
+-        s->reg_GPDR = value;
+-        break;
+-    case 0x08:
+-        if (s->reg_GPDR & value) {
+-            s->reg_GPLR |= value;
+-        } else {
+-            qemu_log_mask(LOG_GUEST_ERROR, "%s: Write gpio input port\n",
+-                          __func__);
+-        }
+-        break;
+-    case 0x0c:
+-        if (s->reg_GPDR & value) {
+-            s->reg_GPLR &= ~value;
+-        } else {
+-            qemu_log_mask(LOG_GUEST_ERROR, "%s: Write gpio input port\n",
+-                          __func__);
+-        }
+-        break;
+-    case 0x10: /* GRER */
+-    case 0x14: /* GFER */
+-    case 0x18: /* GEDR */
+-        break;
+-    case 0x20: /* GPIR */
+-        s->reg_GPIR = value;
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
+-                      __func__, offset);
+-    }
+-}
+-
+-static const MemoryRegionOps puv3_gpio_ops = {
+-    .read = puv3_gpio_read,
+-    .write = puv3_gpio_write,
+-    .impl = {
+-        .min_access_size = 4,
+-        .max_access_size = 4,
+-    },
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-};
+-
+-static void puv3_gpio_realize(DeviceState *dev, Error **errp)
+-{
+-    PUV3GPIOState *s = PUV3_GPIO(dev);
+-    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+-
+-    s->reg_GPLR = 0;
+-    s->reg_GPDR = 0;
+-
+-    /* FIXME: these irqs not handled yet */
+-    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW0]);
+-    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW1]);
+-    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW2]);
+-    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW3]);
+-    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW4]);
+-    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW5]);
+-    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW6]);
+-    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOLOW7]);
+-    sysbus_init_irq(sbd, &s->irq[PUV3_IRQS_GPIOHIGH]);
+-
+-    memory_region_init_io(&s->iomem, OBJECT(s), &puv3_gpio_ops, s, "puv3_gpio",
+-            PUV3_REGS_OFFSET);
+-    sysbus_init_mmio(sbd, &s->iomem);
+-}
+-
+-static void puv3_gpio_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    dc->realize = puv3_gpio_realize;
+-}
+-
+-static const TypeInfo puv3_gpio_info = {
+-    .name = TYPE_PUV3_GPIO,
+-    .parent = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(PUV3GPIOState),
+-    .class_init = puv3_gpio_class_init,
+-};
+-
+-static void puv3_gpio_register_type(void)
+-{
+-    type_register_static(&puv3_gpio_info);
+-}
+-
+-type_init(puv3_gpio_register_type)
+diff --git a/hw/intc/puv3_intc.c b/hw/intc/puv3_intc.c
+deleted file mode 100644
+index 65226f5e7c..0000000000
+--- a/hw/intc/puv3_intc.c
++++ /dev/null
+@@ -1,147 +0,0 @@
+-/*
+- * INTC device simulation in PKUnity SoC
+- *
+- * Copyright (C) 2010-2012 Guan Xuetao
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or any later version.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#include "qemu/osdep.h"
+-#include "hw/irq.h"
+-#include "hw/sysbus.h"
+-#include "qom/object.h"
+-
+-#undef DEBUG_PUV3
+-#include "hw/unicore32/puv3.h"
+-#include "qemu/module.h"
+-#include "qemu/log.h"
+-
+-#define TYPE_PUV3_INTC "puv3_intc"
+-OBJECT_DECLARE_SIMPLE_TYPE(PUV3INTCState, PUV3_INTC)
+-
+-struct PUV3INTCState {
+-    SysBusDevice parent_obj;
+-
+-    MemoryRegion iomem;
+-    qemu_irq parent_irq;
+-
+-    uint32_t reg_ICMR;
+-    uint32_t reg_ICPR;
+-};
+-
+-/* Update interrupt status after enabled or pending bits have been changed.  */
+-static void puv3_intc_update(PUV3INTCState *s)
+-{
+-    if (s->reg_ICMR & s->reg_ICPR) {
+-        qemu_irq_raise(s->parent_irq);
+-    } else {
+-        qemu_irq_lower(s->parent_irq);
+-    }
+-}
+-
+-/* Process a change in an external INTC input. */
+-static void puv3_intc_handler(void *opaque, int irq, int level)
+-{
+-    PUV3INTCState *s = opaque;
+-
+-    DPRINTF("irq 0x%x, level 0x%x\n", irq, level);
+-    if (level) {
+-        s->reg_ICPR |= (1 << irq);
+-    } else {
+-        s->reg_ICPR &= ~(1 << irq);
+-    }
+-    puv3_intc_update(s);
+-}
+-
+-static uint64_t puv3_intc_read(void *opaque, hwaddr offset,
+-        unsigned size)
+-{
+-    PUV3INTCState *s = opaque;
+-    uint32_t ret = 0;
+-
+-    switch (offset) {
+-    case 0x04: /* INTC_ICMR */
+-        ret = s->reg_ICMR;
+-        break;
+-    case 0x0c: /* INTC_ICIP */
+-        ret = s->reg_ICPR; /* the same value with ICPR */
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
+-                      __func__, offset);
+-    }
+-    DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
+-    return ret;
+-}
+-
+-static void puv3_intc_write(void *opaque, hwaddr offset,
+-        uint64_t value, unsigned size)
+-{
+-    PUV3INTCState *s = opaque;
+-
+-    DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
+-    switch (offset) {
+-    case 0x00: /* INTC_ICLR */
+-    case 0x14: /* INTC_ICCR */
+-        break;
+-    case 0x04: /* INTC_ICMR */
+-        s->reg_ICMR = value;
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
+-                      __func__, offset);
+-        return;
+-    }
+-    puv3_intc_update(s);
+-}
+-
+-static const MemoryRegionOps puv3_intc_ops = {
+-    .read = puv3_intc_read,
+-    .write = puv3_intc_write,
+-    .impl = {
+-        .min_access_size = 4,
+-        .max_access_size = 4,
+-    },
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-};
+-
+-static void puv3_intc_realize(DeviceState *dev, Error **errp)
+-{
+-    PUV3INTCState *s = PUV3_INTC(dev);
+-    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+-
+-    qdev_init_gpio_in(dev, puv3_intc_handler, PUV3_IRQS_NR);
+-    sysbus_init_irq(sbd, &s->parent_irq);
+-
+-    s->reg_ICMR = 0;
+-    s->reg_ICPR = 0;
+-
+-    memory_region_init_io(&s->iomem, OBJECT(s), &puv3_intc_ops, s, "puv3_intc",
+-                          PUV3_REGS_OFFSET);
+-    sysbus_init_mmio(sbd, &s->iomem);
+-}
+-
+-static void puv3_intc_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-    dc->realize = puv3_intc_realize;
+-}
+-
+-static const TypeInfo puv3_intc_info = {
+-    .name = TYPE_PUV3_INTC,
+-    .parent = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(PUV3INTCState),
+-    .class_init = puv3_intc_class_init,
+-};
+-
+-static void puv3_intc_register_type(void)
+-{
+-    type_register_static(&puv3_intc_info);
+-}
+-
+-type_init(puv3_intc_register_type)
+diff --git a/hw/misc/puv3_pm.c b/hw/misc/puv3_pm.c
+deleted file mode 100644
+index 676c23f7db..0000000000
+--- a/hw/misc/puv3_pm.c
++++ /dev/null
+@@ -1,159 +0,0 @@
+-/*
+- * Power Management device simulation in PKUnity SoC
+- *
+- * Copyright (C) 2010-2012 Guan Xuetao
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or any later version.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#include "qemu/osdep.h"
+-#include "hw/sysbus.h"
+-#include "qom/object.h"
+-
+-#undef DEBUG_PUV3
+-#include "hw/unicore32/puv3.h"
+-#include "qemu/module.h"
+-#include "qemu/log.h"
+-
+-#define TYPE_PUV3_PM "puv3_pm"
+-OBJECT_DECLARE_SIMPLE_TYPE(PUV3PMState, PUV3_PM)
+-
+-struct PUV3PMState {
+-    SysBusDevice parent_obj;
+-
+-    MemoryRegion iomem;
+-
+-    uint32_t reg_PMCR;
+-    uint32_t reg_PCGR;
+-    uint32_t reg_PLL_SYS_CFG;
+-    uint32_t reg_PLL_DDR_CFG;
+-    uint32_t reg_PLL_VGA_CFG;
+-    uint32_t reg_DIVCFG;
+-};
+-
+-static uint64_t puv3_pm_read(void *opaque, hwaddr offset,
+-        unsigned size)
+-{
+-    PUV3PMState *s = opaque;
+-    uint32_t ret = 0;
+-
+-    switch (offset) {
+-    case 0x14:
+-        ret = s->reg_PCGR;
+-        break;
+-    case 0x18:
+-        ret = s->reg_PLL_SYS_CFG;
+-        break;
+-    case 0x1c:
+-        ret = s->reg_PLL_DDR_CFG;
+-        break;
+-    case 0x20:
+-        ret = s->reg_PLL_VGA_CFG;
+-        break;
+-    case 0x24:
+-        ret = s->reg_DIVCFG;
+-        break;
+-    case 0x28: /* PLL SYS STATUS */
+-        ret = 0x00002401;
+-        break;
+-    case 0x2c: /* PLL DDR STATUS */
+-        ret = 0x00100c00;
+-        break;
+-    case 0x30: /* PLL VGA STATUS */
+-        ret = 0x00003801;
+-        break;
+-    case 0x34: /* DIV STATUS */
+-        ret = 0x22f52015;
+-        break;
+-    case 0x38: /* SW RESET */
+-        ret = 0x0;
+-        break;
+-    case 0x44: /* PLL DFC DONE */
+-        ret = 0x7;
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
+-                      __func__, offset);
+-    }
+-    DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
+-
+-    return ret;
+-}
+-
+-static void puv3_pm_write(void *opaque, hwaddr offset,
+-        uint64_t value, unsigned size)
+-{
+-    PUV3PMState *s = opaque;
+-
+-    switch (offset) {
+-    case 0x0:
+-        s->reg_PMCR = value;
+-        break;
+-    case 0x14:
+-        s->reg_PCGR = value;
+-        break;
+-    case 0x18:
+-        s->reg_PLL_SYS_CFG = value;
+-        break;
+-    case 0x1c:
+-        s->reg_PLL_DDR_CFG = value;
+-        break;
+-    case 0x20:
+-        s->reg_PLL_VGA_CFG = value;
+-        break;
+-    case 0x24:
+-    case 0x38:
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
+-                      __func__, offset);
+-    }
+-    DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
+-}
+-
+-static const MemoryRegionOps puv3_pm_ops = {
+-    .read = puv3_pm_read,
+-    .write = puv3_pm_write,
+-    .impl = {
+-        .min_access_size = 4,
+-        .max_access_size = 4,
+-    },
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-};
+-
+-static void puv3_pm_realize(DeviceState *dev, Error **errp)
+-{
+-    PUV3PMState *s = PUV3_PM(dev);
+-
+-    s->reg_PCGR = 0x0;
+-
+-    memory_region_init_io(&s->iomem, OBJECT(s), &puv3_pm_ops, s, "puv3_pm",
+-            PUV3_REGS_OFFSET);
+-    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
+-}
+-
+-static void puv3_pm_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    dc->realize = puv3_pm_realize;
+-}
+-
+-static const TypeInfo puv3_pm_info = {
+-    .name = TYPE_PUV3_PM,
+-    .parent = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(PUV3PMState),
+-    .class_init = puv3_pm_class_init,
+-};
+-
+-static void puv3_pm_register_type(void)
+-{
+-    type_register_static(&puv3_pm_info);
+-}
+-
+-type_init(puv3_pm_register_type)
+diff --git a/hw/timer/puv3_ost.c b/hw/timer/puv3_ost.c
+deleted file mode 100644
+index d5bf26b56b..0000000000
+--- a/hw/timer/puv3_ost.c
++++ /dev/null
+@@ -1,166 +0,0 @@
+-/*
+- * OSTimer device simulation in PKUnity SoC
+- *
+- * Copyright (C) 2010-2012 Guan Xuetao
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or any later version.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#include "qemu/osdep.h"
+-#include "hw/sysbus.h"
+-#include "hw/irq.h"
+-#include "hw/ptimer.h"
+-#include "qemu/module.h"
+-#include "qemu/log.h"
+-#include "qom/object.h"
+-
+-#undef DEBUG_PUV3
+-#include "hw/unicore32/puv3.h"
+-
+-#define TYPE_PUV3_OST "puv3_ost"
+-OBJECT_DECLARE_SIMPLE_TYPE(PUV3OSTState, PUV3_OST)
+-
+-/* puv3 ostimer implementation. */
+-struct PUV3OSTState {
+-    SysBusDevice parent_obj;
+-
+-    MemoryRegion iomem;
+-    qemu_irq irq;
+-    ptimer_state *ptimer;
+-
+-    uint32_t reg_OSMR0;
+-    uint32_t reg_OSCR;
+-    uint32_t reg_OSSR;
+-    uint32_t reg_OIER;
+-};
+-
+-static uint64_t puv3_ost_read(void *opaque, hwaddr offset,
+-        unsigned size)
+-{
+-    PUV3OSTState *s = opaque;
+-    uint32_t ret = 0;
+-
+-    switch (offset) {
+-    case 0x10: /* Counter Register */
+-        ret = s->reg_OSMR0 - (uint32_t)ptimer_get_count(s->ptimer);
+-        break;
+-    case 0x14: /* Status Register */
+-        ret = s->reg_OSSR;
+-        break;
+-    case 0x1c: /* Interrupt Enable Register */
+-        ret = s->reg_OIER;
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
+-                      __func__, offset);
+-    }
+-    DPRINTF("offset 0x%x, value 0x%x\n", offset, ret);
+-    return ret;
+-}
+-
+-static void puv3_ost_write(void *opaque, hwaddr offset,
+-        uint64_t value, unsigned size)
+-{
+-    PUV3OSTState *s = opaque;
+-
+-    DPRINTF("offset 0x%x, value 0x%x\n", offset, value);
+-    switch (offset) {
+-    case 0x00: /* Match Register 0 */
+-        ptimer_transaction_begin(s->ptimer);
+-        s->reg_OSMR0 = value;
+-        if (s->reg_OSMR0 > s->reg_OSCR) {
+-            ptimer_set_count(s->ptimer, s->reg_OSMR0 - s->reg_OSCR);
+-        } else {
+-            ptimer_set_count(s->ptimer, s->reg_OSMR0 +
+-                    (0xffffffff - s->reg_OSCR));
+-        }
+-        ptimer_run(s->ptimer, 2);
+-        ptimer_transaction_commit(s->ptimer);
+-        break;
+-    case 0x14: /* Status Register */
+-        assert(value == 0);
+-        if (s->reg_OSSR) {
+-            s->reg_OSSR = value;
+-            qemu_irq_lower(s->irq);
+-        }
+-        break;
+-    case 0x1c: /* Interrupt Enable Register */
+-        s->reg_OIER = value;
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
+-                      __func__, offset);
+-    }
+-}
+-
+-static const MemoryRegionOps puv3_ost_ops = {
+-    .read = puv3_ost_read,
+-    .write = puv3_ost_write,
+-    .impl = {
+-        .min_access_size = 4,
+-        .max_access_size = 4,
+-    },
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-};
+-
+-static void puv3_ost_tick(void *opaque)
+-{
+-    PUV3OSTState *s = opaque;
+-
+-    DPRINTF("ost hit when ptimer counter from 0x%x to 0x%x!\n",
+-            s->reg_OSCR, s->reg_OSMR0);
+-
+-    s->reg_OSCR = s->reg_OSMR0;
+-    if (s->reg_OIER) {
+-        s->reg_OSSR = 1;
+-        qemu_irq_raise(s->irq);
+-    }
+-}
+-
+-static void puv3_ost_realize(DeviceState *dev, Error **errp)
+-{
+-    PUV3OSTState *s = PUV3_OST(dev);
+-    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+-
+-    s->reg_OIER = 0;
+-    s->reg_OSSR = 0;
+-    s->reg_OSMR0 = 0;
+-    s->reg_OSCR = 0;
+-
+-    sysbus_init_irq(sbd, &s->irq);
+-
+-    s->ptimer = ptimer_init(puv3_ost_tick, s, PTIMER_POLICY_DEFAULT);
+-    ptimer_transaction_begin(s->ptimer);
+-    ptimer_set_freq(s->ptimer, 50 * 1000 * 1000);
+-    ptimer_transaction_commit(s->ptimer);
+-
+-    memory_region_init_io(&s->iomem, OBJECT(s), &puv3_ost_ops, s, "puv3_ost",
+-            PUV3_REGS_OFFSET);
+-    sysbus_init_mmio(sbd, &s->iomem);
+-}
+-
+-static void puv3_ost_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-
+-    dc->realize = puv3_ost_realize;
+-}
+-
+-static const TypeInfo puv3_ost_info = {
+-    .name = TYPE_PUV3_OST,
+-    .parent = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(PUV3OSTState),
+-    .class_init = puv3_ost_class_init,
+-};
+-
+-static void puv3_ost_register_type(void)
+-{
+-    type_register_static(&puv3_ost_info);
+-}
+-
+-type_init(puv3_ost_register_type)
+diff --git a/hw/unicore32/puv3.c b/hw/unicore32/puv3.c
+deleted file mode 100644
+index eacacb4249..0000000000
+--- a/hw/unicore32/puv3.c
++++ /dev/null
+@@ -1,145 +0,0 @@
+-/*
+- * Generic PKUnity SoC machine and board descriptor
+- *
+- * Copyright (C) 2010-2012 Guan Xuetao
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or any later version.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#include "qemu/osdep.h"
 -#include "qapi/error.h"
 -#include "cpu.h"
--#include "net/net.h"
--#include "sysemu/reset.h"
--#include "sysemu/sysemu.h"
+-#include "ui/console.h"
 -#include "hw/boards.h"
 -#include "hw/loader.h"
--#include "hw/char/serial.h"
--#include "elf.h"
+-#include "sysemu/qtest.h"
+-#include "hw/unicore32/puv3.h"
+-#include "hw/input/i8042.h"
+-#include "hw/irq.h"
 -
--#define PHYS_MEM_BASE 0x80000000
--#define FIRMWARE_BASE 0x1000
--#define FIRMWARE_SIZE (128 * 0x1000)
+-#define KERNEL_LOAD_ADDR        0x03000000
+-#define KERNEL_MAX_SIZE         0x00800000 /* Just a guess */
 -
--typedef struct {
--    uint64_t ram_size;
--    const char *kernel_filename;
--    const char *kernel_cmdline;
--    const char *initrd_filename;
--} LoaderParams;
+-/* PKUnity System bus (AHB): 0xc0000000 - 0xedffffff (640MB) */
+-#define PUV3_DMA_BASE           (0xc0200000) /* AHB-4 */
 -
--static void load_kernel(MoxieCPU *cpu, LoaderParams *loader_params)
+-/* PKUnity Peripheral bus (APB): 0xee000000 - 0xefffffff (128MB) */
+-#define PUV3_GPIO_BASE          (0xee500000) /* APB-5 */
+-#define PUV3_INTC_BASE          (0xee600000) /* APB-6 */
+-#define PUV3_OST_BASE           (0xee800000) /* APB-8 */
+-#define PUV3_PM_BASE            (0xeea00000) /* APB-10 */
+-#define PUV3_PS2_BASE           (0xeeb00000) /* APB-11 */
+-
+-static void puv3_intc_cpu_handler(void *opaque, int irq, int level)
 -{
--    uint64_t entry, kernel_high;
--    int64_t initrd_size;
--    long kernel_size;
--    ram_addr_t initrd_offset;
+-    UniCore32CPU *cpu = opaque;
+-    CPUState *cs = CPU(cpu);
 -
--    kernel_size = load_elf(loader_params->kernel_filename,  NULL, NULL, NULL,
--                           &entry, NULL, &kernel_high, NULL, 1, EM_MOXIE,
--                           0, 0);
+-    assert(irq == 0);
+-    if (level) {
+-        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+-    } else {
+-        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+-    }
+-}
 -
--    if (kernel_size <= 0) {
--        error_report("could not load kernel '%s'",
--                     loader_params->kernel_filename);
+-static void puv3_soc_init(CPUUniCore32State *env)
+-{
+-    qemu_irq cpu_intc, irqs[PUV3_IRQS_NR];
+-    DeviceState *dev;
+-    MemoryRegion *i8042 = g_new(MemoryRegion, 1);
+-    int i;
+-
+-    /* Initialize interrupt controller */
+-    cpu_intc = qemu_allocate_irq(puv3_intc_cpu_handler,
+-                                 env_archcpu(env), 0);
+-    dev = sysbus_create_simple("puv3_intc", PUV3_INTC_BASE, cpu_intc);
+-    for (i = 0; i < PUV3_IRQS_NR; i++) {
+-        irqs[i] = qdev_get_gpio_in(dev, i);
+-    }
+-
+-    /* Initialize minimal necessary devices for kernel booting */
+-    sysbus_create_simple("puv3_pm", PUV3_PM_BASE, NULL);
+-    sysbus_create_simple("puv3_dma", PUV3_DMA_BASE, NULL);
+-    sysbus_create_simple("puv3_ost", PUV3_OST_BASE, irqs[PUV3_IRQS_OST0]);
+-    sysbus_create_varargs("puv3_gpio", PUV3_GPIO_BASE,
+-            irqs[PUV3_IRQS_GPIOLOW0], irqs[PUV3_IRQS_GPIOLOW1],
+-            irqs[PUV3_IRQS_GPIOLOW2], irqs[PUV3_IRQS_GPIOLOW3],
+-            irqs[PUV3_IRQS_GPIOLOW4], irqs[PUV3_IRQS_GPIOLOW5],
+-            irqs[PUV3_IRQS_GPIOLOW6], irqs[PUV3_IRQS_GPIOLOW7],
+-            irqs[PUV3_IRQS_GPIOHIGH], NULL);
+-
+-    /* Keyboard (i8042), mouse disabled for nographic */
+-    i8042_mm_init(irqs[PUV3_IRQS_PS2_KBD], NULL, i8042, PUV3_REGS_OFFSET, 4);
+-    memory_region_add_subregion(get_system_memory(), PUV3_PS2_BASE, i8042);
+-}
+-
+-static void puv3_board_init(CPUUniCore32State *env, ram_addr_t ram_size)
+-{
+-    MemoryRegion *ram_memory = g_new(MemoryRegion, 1);
+-
+-    /* SDRAM at address zero.  */
+-    memory_region_init_ram(ram_memory, NULL, "puv3.ram", ram_size,
+-                           &error_fatal);
+-    memory_region_add_subregion(get_system_memory(), 0, ram_memory);
+-}
+-
+-static const GraphicHwOps no_ops;
+-
+-static void puv3_load_kernel(const char *kernel_filename)
+-{
+-    int size;
+-
+-    if (kernel_filename == NULL && qtest_enabled()) {
+-        return;
+-    }
+-    if (kernel_filename == NULL) {
+-        error_report("kernel parameter cannot be empty");
 -        exit(1);
 -    }
 -
--    /* load initrd */
--    initrd_size = 0;
--    initrd_offset = 0;
--    if (loader_params->initrd_filename) {
--        initrd_size = get_image_size(loader_params->initrd_filename);
--        if (initrd_size > 0) {
--            initrd_offset = (kernel_high + ~TARGET_PAGE_MASK)
--              & TARGET_PAGE_MASK;
--            if (initrd_offset + initrd_size > loader_params->ram_size) {
--                error_report("memory too small for initial ram disk '%s'",
--                             loader_params->initrd_filename);
--                exit(1);
--            }
--            initrd_size = load_image_targphys(loader_params->initrd_filename,
--                                              initrd_offset,
--                                              loader_params->ram_size);
--        }
--        if (initrd_size == (target_ulong)-1) {
--            error_report("could not load initial ram disk '%s'",
--                         loader_params->initrd_filename);
--            exit(1);
--        }
+-    /* only zImage format supported */
+-    size = load_image_targphys(kernel_filename, KERNEL_LOAD_ADDR,
+-            KERNEL_MAX_SIZE);
+-    if (size < 0) {
+-        error_report("Load kernel error: '%s'", kernel_filename);
+-        exit(1);
 -    }
+-
+-    /* cheat curses that we have a graphic console, only under ocd console */
+-    graphic_console_init(NULL, 0, &no_ops, NULL);
 -}
 -
--static void main_cpu_reset(void *opaque)
+-static void puv3_init(MachineState *machine)
 -{
--    MoxieCPU *cpu = opaque;
--
--    cpu_reset(CPU(cpu));
--}
--
--static void moxiesim_init(MachineState *machine)
--{
--    MoxieCPU *cpu = NULL;
 -    ram_addr_t ram_size = machine->ram_size;
 -    const char *kernel_filename = machine->kernel_filename;
--    const char *kernel_cmdline = machine->kernel_cmdline;
 -    const char *initrd_filename = machine->initrd_filename;
--    CPUMoxieState *env;
--    MemoryRegion *address_space_mem = get_system_memory();
--    MemoryRegion *ram = g_new(MemoryRegion, 1);
--    MemoryRegion *rom = g_new(MemoryRegion, 1);
--    hwaddr ram_base = 0x200000;
--    LoaderParams loader_params;
+-    CPUUniCore32State *env;
+-    UniCore32CPU *cpu;
 -
--    /* Init CPUs. */
--    cpu = MOXIE_CPU(cpu_create(machine->cpu_type));
+-    if (initrd_filename) {
+-        error_report("Please use kernel built-in initramdisk");
+-        exit(1);
+-    }
+-
+-    cpu = UNICORE32_CPU(cpu_create(machine->cpu_type));
 -    env = &cpu->env;
 -
--    qemu_register_reset(main_cpu_reset, cpu);
--
--    /* Allocate RAM. */
--    memory_region_init_ram(ram, NULL, "moxiesim.ram", ram_size, &error_fatal);
--    memory_region_add_subregion(address_space_mem, ram_base, ram);
--
--    memory_region_init_ram(rom, NULL, "moxie.rom", FIRMWARE_SIZE, &error_fatal);
--    memory_region_add_subregion(get_system_memory(), FIRMWARE_BASE, rom);
--
--    if (kernel_filename) {
--        loader_params.ram_size = ram_size;
--        loader_params.kernel_filename = kernel_filename;
--        loader_params.kernel_cmdline = kernel_cmdline;
--        loader_params.initrd_filename = initrd_filename;
--        load_kernel(cpu, &loader_params);
--    }
--    if (machine->firmware) {
--        if (load_image_targphys(machine->firmware, FIRMWARE_BASE, FIRMWARE_SIZE) < 0) {
--            error_report("Failed to load firmware '%s'", machine->firmware);
--        }
--    }
--
--    /* A single 16450 sits at offset 0x3f8.  */
--    if (serial_hd(0)) {
--        serial_mm_init(address_space_mem, 0x3f8, 0, env->irq[4],
--                       8000000/16, serial_hd(0), DEVICE_LITTLE_ENDIAN);
--    }
+-    puv3_soc_init(env);
+-    puv3_board_init(env, ram_size);
+-    puv3_load_kernel(kernel_filename);
 -}
 -
--static void moxiesim_machine_init(MachineClass *mc)
+-static void puv3_machine_init(MachineClass *mc)
 -{
--    mc->desc = "Moxie simulator platform";
--    mc->init = moxiesim_init;
+-    mc->desc = "PKUnity Version-3 based on UniCore32";
+-    mc->init = puv3_init;
 -    mc->is_default = true;
--    mc->default_cpu_type = MOXIE_CPU_TYPE_NAME("MoxieLite");
+-    mc->default_cpu_type = UNICORE32_CPU_TYPE_NAME("UniCore-II");
 -}
 -
--DEFINE_MACHINE("moxiesim", moxiesim_machine_init)
+-DEFINE_MACHINE("puv3", puv3_machine_init)
 diff --git a/softmmu/arch_init.c b/softmmu/arch_init.c
-index f09bab830c..afb0904020 100644
+index 2b90884e3a..6ff9f30bad 100644
 --- a/softmmu/arch_init.c
 +++ b/softmmu/arch_init.c
-@@ -64,8 +64,6 @@ int graphic_depth = 32;
- #define QEMU_ARCH QEMU_ARCH_MICROBLAZE
- #elif defined(TARGET_MIPS)
- #define QEMU_ARCH QEMU_ARCH_MIPS
--#elif defined(TARGET_MOXIE)
--#define QEMU_ARCH QEMU_ARCH_MOXIE
- #elif defined(TARGET_NIOS2)
- #define QEMU_ARCH QEMU_ARCH_NIOS2
- #elif defined(TARGET_OPENRISC)
-diff --git a/target/moxie/cpu.c b/target/moxie/cpu.c
+@@ -80,8 +80,6 @@ int graphic_depth = 32;
+ #define QEMU_ARCH QEMU_ARCH_SPARC
+ #elif defined(TARGET_TRICORE)
+ #define QEMU_ARCH QEMU_ARCH_TRICORE
+-#elif defined(TARGET_UNICORE32)
+-#define QEMU_ARCH QEMU_ARCH_UNICORE32
+ #elif defined(TARGET_XTENSA)
+ #define QEMU_ARCH QEMU_ARCH_XTENSA
+ #elif defined(TARGET_AVR)
+diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
 deleted file mode 100644
-index 83bec34d36..0000000000
---- a/target/moxie/cpu.c
+index 0258884f84..0000000000
+--- a/target/unicore32/cpu.c
 +++ /dev/null
-@@ -1,161 +0,0 @@
+@@ -1,174 +0,0 @@
 -/*
-- * QEMU Moxie CPU
+- * QEMU UniCore32 CPU
 - *
-- * Copyright (c) 2013 Anthony Green
+- * Copyright (c) 2010-2012 Guan Xuetao
+- * Copyright (c) 2012 SUSE LINUX Products GmbH
 - *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public
-- * License as published by the Free Software Foundation; either
-- * version 2.1 of the License, or (at your option) any later version.
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation.
 - *
-- * This library is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public License
-- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+- * Contributions from 2012-04-01 on are considered under GPL version 2,
+- * or (at your option) any later version.
 - */
 -
 -#include "qemu/osdep.h"
 -#include "qapi/error.h"
 -#include "cpu.h"
 -#include "migration/vmstate.h"
--#include "machine.h"
+-#include "exec/exec-all.h"
 -
--static void moxie_cpu_set_pc(CPUState *cs, vaddr value)
+-static void uc32_cpu_set_pc(CPUState *cs, vaddr value)
 -{
--    MoxieCPU *cpu = MOXIE_CPU(cs);
+-    UniCore32CPU *cpu = UNICORE32_CPU(cs);
 -
--    cpu->env.pc = value;
+-    cpu->env.regs[31] = value;
 -}
 -
--static bool moxie_cpu_has_work(CPUState *cs)
+-static bool uc32_cpu_has_work(CPUState *cs)
 -{
--    return cs->interrupt_request & CPU_INTERRUPT_HARD;
+-    return cs->interrupt_request &
+-        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_EXITTB);
 -}
 -
--static void moxie_cpu_reset(DeviceState *dev)
+-static inline void set_feature(CPUUniCore32State *env, int feature)
 -{
--    CPUState *s = CPU(dev);
--    MoxieCPU *cpu = MOXIE_CPU(s);
--    MoxieCPUClass *mcc = MOXIE_CPU_GET_CLASS(cpu);
--    CPUMoxieState *env = &cpu->env;
--
--    mcc->parent_reset(dev);
--
--    memset(env, 0, offsetof(CPUMoxieState, end_reset_fields));
--    env->pc = 0x1000;
+-    env->features |= feature;
 -}
 -
--static void moxie_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
+-/* CPU models */
+-
+-static ObjectClass *uc32_cpu_class_by_name(const char *cpu_model)
 -{
--    info->mach = bfd_arch_moxie;
--    info->print_insn = print_insn_moxie;
+-    ObjectClass *oc;
+-    char *typename;
+-
+-    typename = g_strdup_printf(UNICORE32_CPU_TYPE_NAME("%s"), cpu_model);
+-    oc = object_class_by_name(typename);
+-    g_free(typename);
+-    if (oc != NULL && (!object_class_dynamic_cast(oc, TYPE_UNICORE32_CPU) ||
+-                       object_class_is_abstract(oc))) {
+-        oc = NULL;
+-    }
+-    return oc;
 -}
 -
--static void moxie_cpu_realizefn(DeviceState *dev, Error **errp)
+-static void unicore_ii_cpu_initfn(Object *obj)
+-{
+-    UniCore32CPU *cpu = UNICORE32_CPU(obj);
+-    CPUUniCore32State *env = &cpu->env;
+-
+-    env->cp0.c0_cpuid = 0x4d000863;
+-    env->cp0.c0_cachetype = 0x0d152152;
+-    env->cp0.c1_sys = 0x2000;
+-    env->cp0.c2_base = 0x0;
+-    env->cp0.c3_faultstatus = 0x0;
+-    env->cp0.c4_faultaddr = 0x0;
+-    env->ucf64.xregs[UC32_UCF64_FPSCR] = 0;
+-
+-    set_feature(env, UC32_HWCAP_CMOV);
+-    set_feature(env, UC32_HWCAP_UCF64);
+-}
+-
+-static void uc32_any_cpu_initfn(Object *obj)
+-{
+-    UniCore32CPU *cpu = UNICORE32_CPU(obj);
+-    CPUUniCore32State *env = &cpu->env;
+-
+-    env->cp0.c0_cpuid = 0xffffffff;
+-    env->ucf64.xregs[UC32_UCF64_FPSCR] = 0;
+-
+-    set_feature(env, UC32_HWCAP_CMOV);
+-    set_feature(env, UC32_HWCAP_UCF64);
+-}
+-
+-static void uc32_cpu_realizefn(DeviceState *dev, Error **errp)
 -{
 -    CPUState *cs = CPU(dev);
--    MoxieCPUClass *mcc = MOXIE_CPU_GET_CLASS(dev);
+-    UniCore32CPUClass *ucc = UNICORE32_CPU_GET_CLASS(dev);
 -    Error *local_err = NULL;
 -
 -    cpu_exec_realizefn(cs, &local_err);
@@ -1137,1386 +1675,3447 @@ index 83bec34d36..0000000000
 -    }
 -
 -    qemu_init_vcpu(cs);
--    cpu_reset(cs);
 -
--    mcc->parent_realize(dev, errp);
+-    ucc->parent_realize(dev, errp);
 -}
 -
--static void moxie_cpu_initfn(Object *obj)
+-static void uc32_cpu_initfn(Object *obj)
 -{
--    MoxieCPU *cpu = MOXIE_CPU(obj);
+-    UniCore32CPU *cpu = UNICORE32_CPU(obj);
+-    CPUUniCore32State *env = &cpu->env;
 -
 -    cpu_set_cpustate_pointers(cpu);
+-
+-#ifdef CONFIG_USER_ONLY
+-    env->uncached_asr = ASR_MODE_USER;
+-    env->regs[31] = 0;
+-#else
+-    env->uncached_asr = ASR_MODE_PRIV;
+-    env->regs[31] = 0x03000000;
+-#endif
 -}
 -
--static ObjectClass *moxie_cpu_class_by_name(const char *cpu_model)
--{
--    ObjectClass *oc;
--    char *typename;
--
--    typename = g_strdup_printf(MOXIE_CPU_TYPE_NAME("%s"), cpu_model);
--    oc = object_class_by_name(typename);
--    g_free(typename);
--    if (oc != NULL && (!object_class_dynamic_cast(oc, TYPE_MOXIE_CPU) ||
--                       object_class_is_abstract(oc))) {
--        return NULL;
--    }
--    return oc;
--}
+-static const VMStateDescription vmstate_uc32_cpu = {
+-    .name = "cpu",
+-    .unmigratable = 1,
+-};
 -
 -#include "hw/core/tcg-cpu-ops.h"
 -
--static struct TCGCPUOps moxie_tcg_ops = {
--    .initialize = moxie_translate_init,
--    .tlb_fill = moxie_cpu_tlb_fill,
+-static struct TCGCPUOps uc32_tcg_ops = {
+-    .initialize = uc32_translate_init,
+-    .cpu_exec_interrupt = uc32_cpu_exec_interrupt,
+-    .tlb_fill = uc32_cpu_tlb_fill,
 -
 -#ifndef CONFIG_USER_ONLY
--    .do_interrupt = moxie_cpu_do_interrupt,
+-    .do_interrupt = uc32_cpu_do_interrupt,
 -#endif /* !CONFIG_USER_ONLY */
 -};
 -
--static void moxie_cpu_class_init(ObjectClass *oc, void *data)
+-static void uc32_cpu_class_init(ObjectClass *oc, void *data)
 -{
 -    DeviceClass *dc = DEVICE_CLASS(oc);
 -    CPUClass *cc = CPU_CLASS(oc);
--    MoxieCPUClass *mcc = MOXIE_CPU_CLASS(oc);
+-    UniCore32CPUClass *ucc = UNICORE32_CPU_CLASS(oc);
 -
--    device_class_set_parent_realize(dc, moxie_cpu_realizefn,
--                                    &mcc->parent_realize);
--    device_class_set_parent_reset(dc, moxie_cpu_reset, &mcc->parent_reset);
+-    device_class_set_parent_realize(dc, uc32_cpu_realizefn,
+-                                    &ucc->parent_realize);
 -
--    cc->class_by_name = moxie_cpu_class_by_name;
--
--    cc->has_work = moxie_cpu_has_work;
--    cc->dump_state = moxie_cpu_dump_state;
--    cc->set_pc = moxie_cpu_set_pc;
--#ifndef CONFIG_USER_ONLY
--    cc->get_phys_page_debug = moxie_cpu_get_phys_page_debug;
--    cc->vmsd = &vmstate_moxie_cpu;
--#endif
--    cc->disas_set_info = moxie_cpu_disas_set_info;
--    cc->tcg_ops = &moxie_tcg_ops;
+-    cc->class_by_name = uc32_cpu_class_by_name;
+-    cc->has_work = uc32_cpu_has_work;
+-    cc->dump_state = uc32_cpu_dump_state;
+-    cc->set_pc = uc32_cpu_set_pc;
+-    cc->get_phys_page_debug = uc32_cpu_get_phys_page_debug;
+-    dc->vmsd = &vmstate_uc32_cpu;
+-    cc->tcg_ops = &uc32_tcg_ops;
 -}
 -
--static void moxielite_initfn(Object *obj)
--{
--    /* Set cpu feature flags */
--}
--
--static void moxie_any_initfn(Object *obj)
--{
--    /* Set cpu feature flags */
--}
--
--#define DEFINE_MOXIE_CPU_TYPE(cpu_model, initfn) \
--    {                                            \
--        .parent = TYPE_MOXIE_CPU,                \
--        .instance_init = initfn,                 \
--        .name = MOXIE_CPU_TYPE_NAME(cpu_model),  \
+-#define DEFINE_UNICORE32_CPU_TYPE(cpu_model, initfn) \
+-    {                                                \
+-        .parent = TYPE_UNICORE32_CPU,                \
+-        .instance_init = initfn,                     \
+-        .name = UNICORE32_CPU_TYPE_NAME(cpu_model),  \
 -    }
 -
--static const TypeInfo moxie_cpus_type_infos[] = {
--    { /* base class should be registered first */
--        .name = TYPE_MOXIE_CPU,
+-static const TypeInfo uc32_cpu_type_infos[] = {
+-    {
+-        .name = TYPE_UNICORE32_CPU,
 -        .parent = TYPE_CPU,
--        .instance_size = sizeof(MoxieCPU),
--        .instance_init = moxie_cpu_initfn,
--        .class_size = sizeof(MoxieCPUClass),
--        .class_init = moxie_cpu_class_init,
+-        .instance_size = sizeof(UniCore32CPU),
+-        .instance_init = uc32_cpu_initfn,
+-        .abstract = true,
+-        .class_size = sizeof(UniCore32CPUClass),
+-        .class_init = uc32_cpu_class_init,
 -    },
--    DEFINE_MOXIE_CPU_TYPE("MoxieLite", moxielite_initfn),
--    DEFINE_MOXIE_CPU_TYPE("any", moxie_any_initfn),
+-    DEFINE_UNICORE32_CPU_TYPE("UniCore-II", unicore_ii_cpu_initfn),
+-    DEFINE_UNICORE32_CPU_TYPE("any", uc32_any_cpu_initfn),
 -};
 -
--DEFINE_TYPES(moxie_cpus_type_infos)
-diff --git a/target/moxie/helper.c b/target/moxie/helper.c
+-DEFINE_TYPES(uc32_cpu_type_infos)
+diff --git a/target/unicore32/helper.c b/target/unicore32/helper.c
 deleted file mode 100644
-index b1919f62b3..0000000000
---- a/target/moxie/helper.c
+index 704393c27f..0000000000
+--- a/target/unicore32/helper.c
 +++ /dev/null
-@@ -1,120 +0,0 @@
+@@ -1,183 +0,0 @@
 -/*
-- *  Moxie helper routines.
+- * Copyright (C) 2010-2012 Guan Xuetao
 - *
-- *  Copyright (c) 2008, 2009, 2010, 2013 Anthony Green
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation.
 - *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public
-- * License as published by the Free Software Foundation; either
-- * version 2.1 of the License, or (at your option) any later version.
-- *
-- * This library is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public License
-- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+- * Contributions from 2012-04-01 on are considered under GPL version 2,
+- * or (at your option) any later version.
 - */
 -
 -#include "qemu/osdep.h"
--
+-#include "qemu/log.h"
 -#include "cpu.h"
--#include "mmu.h"
+-#include "exec/exec-all.h"
+-#include "exec/helper-proto.h"
+-#include "semihosting/console.h"
+-
+-#undef DEBUG_UC32
+-
+-#ifdef DEBUG_UC32
+-#define DPRINTF(fmt, ...) printf("%s: " fmt , __func__, ## __VA_ARGS__)
+-#else
+-#define DPRINTF(fmt, ...) do {} while (0)
+-#endif
+-
+-#ifndef CONFIG_USER_ONLY
+-void helper_cp0_set(CPUUniCore32State *env, uint32_t val, uint32_t creg,
+-        uint32_t cop)
+-{
+-    /*
+-     * movc pp.nn, rn, #imm9
+-     *      rn: UCOP_REG_D
+-     *      nn: UCOP_REG_N
+-     *          1: sys control reg.
+-     *          2: page table base reg.
+-     *          3: data fault status reg.
+-     *          4: insn fault status reg.
+-     *          5: cache op. reg.
+-     *          6: tlb op. reg.
+-     *      imm9: split UCOP_IMM10 with bit5 is 0
+-     */
+-    switch (creg) {
+-    case 1:
+-        if (cop != 0) {
+-            goto unrecognized;
+-        }
+-        env->cp0.c1_sys = val;
+-        break;
+-    case 2:
+-        if (cop != 0) {
+-            goto unrecognized;
+-        }
+-        env->cp0.c2_base = val;
+-        break;
+-    case 3:
+-        if (cop != 0) {
+-            goto unrecognized;
+-        }
+-        env->cp0.c3_faultstatus = val;
+-        break;
+-    case 4:
+-        if (cop != 0) {
+-            goto unrecognized;
+-        }
+-        env->cp0.c4_faultaddr = val;
+-        break;
+-    case 5:
+-        switch (cop) {
+-        case 28:
+-            DPRINTF("Invalidate Entire I&D cache\n");
+-            return;
+-        case 20:
+-            DPRINTF("Invalidate Entire Icache\n");
+-            return;
+-        case 12:
+-            DPRINTF("Invalidate Entire Dcache\n");
+-            return;
+-        case 10:
+-            DPRINTF("Clean Entire Dcache\n");
+-            return;
+-        case 14:
+-            DPRINTF("Flush Entire Dcache\n");
+-            return;
+-        case 13:
+-            DPRINTF("Invalidate Dcache line\n");
+-            return;
+-        case 11:
+-            DPRINTF("Clean Dcache line\n");
+-            return;
+-        case 15:
+-            DPRINTF("Flush Dcache line\n");
+-            return;
+-        }
+-        break;
+-    case 6:
+-        if ((cop <= 6) && (cop >= 2)) {
+-            /* invalid all tlb */
+-            tlb_flush(env_cpu(env));
+-            return;
+-        }
+-        break;
+-    default:
+-        goto unrecognized;
+-    }
+-    return;
+-unrecognized:
+-    qemu_log_mask(LOG_GUEST_ERROR,
+-                  "Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
+-                  creg, cop);
+-}
+-
+-uint32_t helper_cp0_get(CPUUniCore32State *env, uint32_t creg, uint32_t cop)
+-{
+-    /*
+-     * movc rd, pp.nn, #imm9
+-     *      rd: UCOP_REG_D
+-     *      nn: UCOP_REG_N
+-     *          0: cpuid and cachetype
+-     *          1: sys control reg.
+-     *          2: page table base reg.
+-     *          3: data fault status reg.
+-     *          4: insn fault status reg.
+-     *      imm9: split UCOP_IMM10 with bit5 is 0
+-     */
+-    switch (creg) {
+-    case 0:
+-        switch (cop) {
+-        case 0:
+-            return env->cp0.c0_cpuid;
+-        case 1:
+-            return env->cp0.c0_cachetype;
+-        }
+-        break;
+-    case 1:
+-        if (cop == 0) {
+-            return env->cp0.c1_sys;
+-        }
+-        break;
+-    case 2:
+-        if (cop == 0) {
+-            return env->cp0.c2_base;
+-        }
+-        break;
+-    case 3:
+-        if (cop == 0) {
+-            return env->cp0.c3_faultstatus;
+-        }
+-        break;
+-    case 4:
+-        if (cop == 0) {
+-            return env->cp0.c4_faultaddr;
+-        }
+-        break;
+-    }
+-    qemu_log_mask(LOG_GUEST_ERROR,
+-                  "Wrong register (%d) or wrong operation (%d) in cp0_set!\n",
+-                  creg, cop);
+-    return 0;
+-}
+-
+-void helper_cp1_putc(target_ulong regval)
+-{
+-    const char c = regval;
+-
+-    qemu_semihosting_log_out(&c, sizeof(c));
+-}
+-#endif /* !CONFIG_USER_ONLY */
+-
+-bool uc32_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+-{
+-    if (interrupt_request & CPU_INTERRUPT_HARD) {
+-        UniCore32CPU *cpu = UNICORE32_CPU(cs);
+-        CPUUniCore32State *env = &cpu->env;
+-
+-        if (!(env->uncached_asr & ASR_I)) {
+-            cs->exception_index = UC32_EXCP_INTR;
+-            uc32_cpu_do_interrupt(cs);
+-            return true;
+-        }
+-    }
+-    return false;
+-}
+diff --git a/target/unicore32/op_helper.c b/target/unicore32/op_helper.c
+deleted file mode 100644
+index eeaa78601a..0000000000
+--- a/target/unicore32/op_helper.c
++++ /dev/null
+@@ -1,244 +0,0 @@
+-/*
+- *  UniCore32 helper routines
+- *
+- * Copyright (C) 2010-2012 Guan Xuetao
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or (at your option) any
+- * later version. See the COPYING file in the top-level directory.
+- */
+-#include "qemu/osdep.h"
+-#include "cpu.h"
+-#include "exec/helper-proto.h"
 -#include "exec/exec-all.h"
 -#include "exec/cpu_ldst.h"
--#include "qemu/host-utils.h"
--#include "exec/helper-proto.h"
 -
--void helper_raise_exception(CPUMoxieState *env, int ex)
+-#define SIGNBIT (uint32_t)0x80000000
+-#define SIGNBIT64 ((uint64_t)1 << 63)
+-
+-void HELPER(exception)(CPUUniCore32State *env, uint32_t excp)
 -{
 -    CPUState *cs = env_cpu(env);
 -
--    cs->exception_index = ex;
--    /* Stash the exception type.  */
--    env->sregs[2] = ex;
--    /* Stash the address where the exception occurred.  */
--    cpu_restore_state(cs, GETPC(), true);
--    env->sregs[5] = env->pc;
--    /* Jump to the exception handline routine.  */
--    env->pc = env->sregs[1];
+-    cs->exception_index = excp;
 -    cpu_loop_exit(cs);
 -}
 -
--uint32_t helper_div(CPUMoxieState *env, uint32_t a, uint32_t b)
+-static target_ulong asr_read(CPUUniCore32State *env)
 -{
--    if (unlikely(b == 0)) {
--        helper_raise_exception(env, MOXIE_EX_DIV0);
--        return 0;
--    }
--    if (unlikely(a == INT_MIN && b == -1)) {
--        return INT_MIN;
--    }
--
--    return (int32_t)a / (int32_t)b;
+-    int ZF;
+-    ZF = (env->ZF == 0);
+-    return env->uncached_asr | (env->NF & 0x80000000) | (ZF << 30) |
+-        (env->CF << 29) | ((env->VF & 0x80000000) >> 3);
 -}
 -
--uint32_t helper_udiv(CPUMoxieState *env, uint32_t a, uint32_t b)
+-target_ulong cpu_asr_read(CPUUniCore32State *env)
 -{
--    if (unlikely(b == 0)) {
--        helper_raise_exception(env, MOXIE_EX_DIV0);
--        return 0;
--    }
--    return a / b;
+-    return asr_read(env);
 -}
 -
--void helper_debug(CPUMoxieState *env)
+-target_ulong HELPER(asr_read)(CPUUniCore32State *env)
+-{
+-    return asr_read(env);
+-}
+-
+-static void asr_write(CPUUniCore32State *env, target_ulong val,
+-                      target_ulong mask)
+-{
+-    if (mask & ASR_NZCV) {
+-        env->ZF = (~val) & ASR_Z;
+-        env->NF = val;
+-        env->CF = (val >> 29) & 1;
+-        env->VF = (val << 3) & 0x80000000;
+-    }
+-
+-    if ((env->uncached_asr ^ val) & mask & ASR_M) {
+-        switch_mode(env, val & ASR_M);
+-    }
+-    mask &= ~ASR_NZCV;
+-    env->uncached_asr = (env->uncached_asr & ~mask) | (val & mask);
+-}
+-
+-void cpu_asr_write(CPUUniCore32State *env, target_ulong val, target_ulong mask)
+-{
+-    asr_write(env, val, mask);
+-}
+-
+-void HELPER(asr_write)(CPUUniCore32State *env, target_ulong val,
+-                       target_ulong mask)
+-{
+-    asr_write(env, val, mask);
+-}
+-
+-/* Access to user mode registers from privileged modes.  */
+-uint32_t HELPER(get_user_reg)(CPUUniCore32State *env, uint32_t regno)
+-{
+-    uint32_t val;
+-
+-    if (regno == 29) {
+-        val = env->banked_r29[0];
+-    } else if (regno == 30) {
+-        val = env->banked_r30[0];
+-    } else {
+-        val = env->regs[regno];
+-    }
+-    return val;
+-}
+-
+-void HELPER(set_user_reg)(CPUUniCore32State *env, uint32_t regno, uint32_t val)
+-{
+-    if (regno == 29) {
+-        env->banked_r29[0] = val;
+-    } else if (regno == 30) {
+-        env->banked_r30[0] = val;
+-    } else {
+-        env->regs[regno] = val;
+-    }
+-}
+-
+-/* ??? Flag setting arithmetic is awkward because we need to do comparisons.
+-   The only way to do that in TCG is a conditional branch, which clobbers
+-   all our temporaries.  For now implement these as helper functions.  */
+-
+-uint32_t HELPER(add_cc)(CPUUniCore32State *env, uint32_t a, uint32_t b)
+-{
+-    uint32_t result;
+-    result = a + b;
+-    env->NF = env->ZF = result;
+-    env->CF = result < a;
+-    env->VF = (a ^ b ^ -1) & (a ^ result);
+-    return result;
+-}
+-
+-uint32_t HELPER(adc_cc)(CPUUniCore32State *env, uint32_t a, uint32_t b)
+-{
+-    uint32_t result;
+-    if (!env->CF) {
+-        result = a + b;
+-        env->CF = result < a;
+-    } else {
+-        result = a + b + 1;
+-        env->CF = result <= a;
+-    }
+-    env->VF = (a ^ b ^ -1) & (a ^ result);
+-    env->NF = env->ZF = result;
+-    return result;
+-}
+-
+-uint32_t HELPER(sub_cc)(CPUUniCore32State *env, uint32_t a, uint32_t b)
+-{
+-    uint32_t result;
+-    result = a - b;
+-    env->NF = env->ZF = result;
+-    env->CF = a >= b;
+-    env->VF = (a ^ b) & (a ^ result);
+-    return result;
+-}
+-
+-uint32_t HELPER(sbc_cc)(CPUUniCore32State *env, uint32_t a, uint32_t b)
+-{
+-    uint32_t result;
+-    if (!env->CF) {
+-        result = a - b - 1;
+-        env->CF = a > b;
+-    } else {
+-        result = a - b;
+-        env->CF = a >= b;
+-    }
+-    env->VF = (a ^ b) & (a ^ result);
+-    env->NF = env->ZF = result;
+-    return result;
+-}
+-
+-/* Similarly for variable shift instructions.  */
+-
+-uint32_t HELPER(shl)(uint32_t x, uint32_t i)
+-{
+-    int shift = i & 0xff;
+-    if (shift >= 32) {
+-        return 0;
+-    }
+-    return x << shift;
+-}
+-
+-uint32_t HELPER(shr)(uint32_t x, uint32_t i)
+-{
+-    int shift = i & 0xff;
+-    if (shift >= 32) {
+-        return 0;
+-    }
+-    return (uint32_t)x >> shift;
+-}
+-
+-uint32_t HELPER(sar)(uint32_t x, uint32_t i)
+-{
+-    int shift = i & 0xff;
+-    if (shift >= 32) {
+-        shift = 31;
+-    }
+-    return (int32_t)x >> shift;
+-}
+-
+-uint32_t HELPER(shl_cc)(CPUUniCore32State *env, uint32_t x, uint32_t i)
+-{
+-    int shift = i & 0xff;
+-    if (shift >= 32) {
+-        if (shift == 32) {
+-            env->CF = x & 1;
+-        } else {
+-            env->CF = 0;
+-        }
+-        return 0;
+-    } else if (shift != 0) {
+-        env->CF = (x >> (32 - shift)) & 1;
+-        return x << shift;
+-    }
+-    return x;
+-}
+-
+-uint32_t HELPER(shr_cc)(CPUUniCore32State *env, uint32_t x, uint32_t i)
+-{
+-    int shift = i & 0xff;
+-    if (shift >= 32) {
+-        if (shift == 32) {
+-            env->CF = (x >> 31) & 1;
+-        } else {
+-            env->CF = 0;
+-        }
+-        return 0;
+-    } else if (shift != 0) {
+-        env->CF = (x >> (shift - 1)) & 1;
+-        return x >> shift;
+-    }
+-    return x;
+-}
+-
+-uint32_t HELPER(sar_cc)(CPUUniCore32State *env, uint32_t x, uint32_t i)
+-{
+-    int shift = i & 0xff;
+-    if (shift >= 32) {
+-        env->CF = (x >> 31) & 1;
+-        return (int32_t)x >> 31;
+-    } else if (shift != 0) {
+-        env->CF = (x >> (shift - 1)) & 1;
+-        return (int32_t)x >> shift;
+-    }
+-    return x;
+-}
+-
+-uint32_t HELPER(ror_cc)(CPUUniCore32State *env, uint32_t x, uint32_t i)
+-{
+-    int shift1, shift;
+-    shift1 = i & 0xff;
+-    shift = shift1 & 0x1f;
+-    if (shift == 0) {
+-        if (shift1 != 0) {
+-            env->CF = (x >> 31) & 1;
+-        }
+-        return x;
+-    } else {
+-        env->CF = (x >> (shift - 1)) & 1;
+-        return ((uint32_t)x >> shift) | (x << (32 - shift));
+-    }
+-}
+diff --git a/target/unicore32/softmmu.c b/target/unicore32/softmmu.c
+deleted file mode 100644
+index cbdaa500b7..0000000000
+--- a/target/unicore32/softmmu.c
++++ /dev/null
+@@ -1,280 +0,0 @@
+-/*
+- * Softmmu related functions
+- *
+- * Copyright (C) 2010-2012 Guan Xuetao
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or any later version.
+- * See the COPYING file in the top-level directory.
+- */
+-#ifdef CONFIG_USER_ONLY
+-#error This file only exist under softmmu circumstance
+-#endif
+-
+-#include "qemu/osdep.h"
+-#include "cpu.h"
+-#include "exec/exec-all.h"
+-#include "qemu/error-report.h"
+-
+-#undef DEBUG_UC32
+-
+-#ifdef DEBUG_UC32
+-#define DPRINTF(fmt, ...) printf("%s: " fmt , __func__, ## __VA_ARGS__)
+-#else
+-#define DPRINTF(fmt, ...) do {} while (0)
+-#endif
+-
+-#define SUPERPAGE_SIZE             (1 << 22)
+-#define UC32_PAGETABLE_READ        (1 << 8)
+-#define UC32_PAGETABLE_WRITE       (1 << 7)
+-#define UC32_PAGETABLE_EXEC        (1 << 6)
+-#define UC32_PAGETABLE_EXIST       (1 << 2)
+-#define PAGETABLE_TYPE(x)          ((x) & 3)
+-
+-
+-/* Map CPU modes onto saved register banks.  */
+-static inline int bank_number(CPUUniCore32State *env, int mode)
+-{
+-    switch (mode) {
+-    case ASR_MODE_USER:
+-    case ASR_MODE_SUSR:
+-        return 0;
+-    case ASR_MODE_PRIV:
+-        return 1;
+-    case ASR_MODE_TRAP:
+-        return 2;
+-    case ASR_MODE_EXTN:
+-        return 3;
+-    case ASR_MODE_INTR:
+-        return 4;
+-    }
+-    cpu_abort(env_cpu(env), "Bad mode %x\n", mode);
+-    return -1;
+-}
+-
+-void switch_mode(CPUUniCore32State *env, int mode)
+-{
+-    int old_mode;
+-    int i;
+-
+-    old_mode = env->uncached_asr & ASR_M;
+-    if (mode == old_mode) {
+-        return;
+-    }
+-
+-    i = bank_number(env, old_mode);
+-    env->banked_r29[i] = env->regs[29];
+-    env->banked_r30[i] = env->regs[30];
+-    env->banked_bsr[i] = env->bsr;
+-
+-    i = bank_number(env, mode);
+-    env->regs[29] = env->banked_r29[i];
+-    env->regs[30] = env->banked_r30[i];
+-    env->bsr = env->banked_bsr[i];
+-}
+-
+-/* Handle a CPU exception.  */
+-void uc32_cpu_do_interrupt(CPUState *cs)
+-{
+-    UniCore32CPU *cpu = UNICORE32_CPU(cs);
+-    CPUUniCore32State *env = &cpu->env;
+-    uint32_t addr;
+-    int new_mode;
+-
+-    switch (cs->exception_index) {
+-    case UC32_EXCP_PRIV:
+-        new_mode = ASR_MODE_PRIV;
+-        addr = 0x08;
+-        break;
+-    case UC32_EXCP_ITRAP:
+-        DPRINTF("itrap happened at %x\n", env->regs[31]);
+-        new_mode = ASR_MODE_TRAP;
+-        addr = 0x0c;
+-        break;
+-    case UC32_EXCP_DTRAP:
+-        DPRINTF("dtrap happened at %x\n", env->regs[31]);
+-        new_mode = ASR_MODE_TRAP;
+-        addr = 0x10;
+-        break;
+-    case UC32_EXCP_INTR:
+-        new_mode = ASR_MODE_INTR;
+-        addr = 0x18;
+-        break;
+-    default:
+-        cpu_abort(cs, "Unhandled exception 0x%x\n", cs->exception_index);
+-        return;
+-    }
+-    /* High vectors.  */
+-    if (env->cp0.c1_sys & (1 << 13)) {
+-        addr += 0xffff0000;
+-    }
+-
+-    switch_mode(env, new_mode);
+-    env->bsr = cpu_asr_read(env);
+-    env->uncached_asr = (env->uncached_asr & ~ASR_M) | new_mode;
+-    env->uncached_asr |= ASR_I;
+-    /* The PC already points to the proper instruction.  */
+-    env->regs[30] = env->regs[31];
+-    env->regs[31] = addr;
+-    cs->interrupt_request |= CPU_INTERRUPT_EXITTB;
+-}
+-
+-static int get_phys_addr_ucv2(CPUUniCore32State *env, uint32_t address,
+-        int access_type, int is_user, uint32_t *phys_ptr, int *prot,
+-        target_ulong *page_size)
 -{
 -    CPUState *cs = env_cpu(env);
+-    int code;
+-    uint32_t table;
+-    uint32_t desc;
+-    uint32_t phys_addr;
 -
--    cs->exception_index = EXCP_DEBUG;
--    cpu_loop_exit(cs);
+-    /* Pagetable walk.  */
+-    /* Lookup l1 descriptor.  */
+-    table = env->cp0.c2_base & 0xfffff000;
+-    table |= (address >> 20) & 0xffc;
+-    desc = ldl_phys(cs->as, table);
+-    code = 0;
+-    switch (PAGETABLE_TYPE(desc)) {
+-    case 3:
+-        /* Superpage  */
+-        if (!(desc & UC32_PAGETABLE_EXIST)) {
+-            code = 0x0b; /* superpage miss */
+-            goto do_fault;
+-        }
+-        phys_addr = (desc & 0xffc00000) | (address & 0x003fffff);
+-        *page_size = SUPERPAGE_SIZE;
+-        break;
+-    case 0:
+-        /* Lookup l2 entry.  */
+-        if (is_user) {
+-            DPRINTF("PGD address %x, desc %x\n", table, desc);
+-        }
+-        if (!(desc & UC32_PAGETABLE_EXIST)) {
+-            code = 0x05; /* second pagetable miss */
+-            goto do_fault;
+-        }
+-        table = (desc & 0xfffff000) | ((address >> 10) & 0xffc);
+-        desc = ldl_phys(cs->as, table);
+-        /* 4k page.  */
+-        if (is_user) {
+-            DPRINTF("PTE address %x, desc %x\n", table, desc);
+-        }
+-        if (!(desc & UC32_PAGETABLE_EXIST)) {
+-            code = 0x08; /* page miss */
+-            goto do_fault;
+-        }
+-        switch (PAGETABLE_TYPE(desc)) {
+-        case 0:
+-            phys_addr = (desc & 0xfffff000) | (address & 0xfff);
+-            *page_size = TARGET_PAGE_SIZE;
+-            break;
+-        default:
+-            cpu_abort(cs, "wrong page type!");
+-        }
+-        break;
+-    default:
+-        cpu_abort(cs, "wrong page type!");
+-    }
+-
+-    *phys_ptr = phys_addr;
+-    *prot = 0;
+-    /* Check access permissions.  */
+-    if (desc & UC32_PAGETABLE_READ) {
+-        *prot |= PAGE_READ;
+-    } else {
+-        if (is_user && (access_type == 0)) {
+-            code = 0x11; /* access unreadable area */
+-            goto do_fault;
+-        }
+-    }
+-
+-    if (desc & UC32_PAGETABLE_WRITE) {
+-        *prot |= PAGE_WRITE;
+-    } else {
+-        if (is_user && (access_type == 1)) {
+-            code = 0x12; /* access unwritable area */
+-            goto do_fault;
+-        }
+-    }
+-
+-    if (desc & UC32_PAGETABLE_EXEC) {
+-        *prot |= PAGE_EXEC;
+-    } else {
+-        if (is_user && (access_type == 2)) {
+-            code = 0x13; /* access unexecutable area */
+-            goto do_fault;
+-        }
+-    }
+-
+-do_fault:
+-    return code;
 -}
 -
--bool moxie_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                        MMUAccessType access_type, int mmu_idx,
--                        bool probe, uintptr_t retaddr)
+-bool uc32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                       MMUAccessType access_type, int mmu_idx,
+-                       bool probe, uintptr_t retaddr)
 -{
--    MoxieCPU *cpu = MOXIE_CPU(cs);
--    CPUMoxieState *env = &cpu->env;
--    MoxieMMUResult res;
--    int prot, miss;
+-    UniCore32CPU *cpu = UNICORE32_CPU(cs);
+-    CPUUniCore32State *env = &cpu->env;
+-    uint32_t phys_addr;
+-    target_ulong page_size;
+-    int prot;
+-    int ret, is_user;
 -
--    address &= TARGET_PAGE_MASK;
--    prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
--    miss = moxie_mmu_translate(&res, env, address, access_type, mmu_idx);
--    if (likely(!miss)) {
--        tlb_set_page(cs, address, res.phy, prot, mmu_idx, TARGET_PAGE_SIZE);
+-    ret = 1;
+-    is_user = mmu_idx == MMU_USER_IDX;
+-
+-    if ((env->cp0.c1_sys & 1) == 0) {
+-        /* MMU disabled.  */
+-        phys_addr = address;
+-        prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+-        page_size = TARGET_PAGE_SIZE;
+-        ret = 0;
+-    } else {
+-        if ((address & (1 << 31)) || (is_user)) {
+-            ret = get_phys_addr_ucv2(env, address, access_type, is_user,
+-                                    &phys_addr, &prot, &page_size);
+-            if (is_user) {
+-                DPRINTF("user space access: ret %x, address %" VADDR_PRIx ", "
+-                        "access_type %x, phys_addr %x, prot %x\n",
+-                        ret, address, access_type, phys_addr, prot);
+-            }
+-        } else {
+-            /*IO memory */
+-            phys_addr = address | (1 << 31);
+-            prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+-            page_size = TARGET_PAGE_SIZE;
+-            ret = 0;
+-        }
+-    }
+-
+-    if (ret == 0) {
+-        /* Map a single page.  */
+-        phys_addr &= TARGET_PAGE_MASK;
+-        address &= TARGET_PAGE_MASK;
+-        tlb_set_page(cs, address, phys_addr, prot, mmu_idx, page_size);
 -        return true;
 -    }
+-
 -    if (probe) {
 -        return false;
 -    }
 -
--    cs->exception_index = MOXIE_EX_MMU_MISS;
+-    env->cp0.c3_faultstatus = ret;
+-    env->cp0.c4_faultaddr = address;
+-    if (access_type == 2) {
+-        cs->exception_index = UC32_EXCP_ITRAP;
+-    } else {
+-        cs->exception_index = UC32_EXCP_DTRAP;
+-    }
 -    cpu_loop_exit_restore(cs, retaddr);
 -}
 -
--void moxie_cpu_do_interrupt(CPUState *cs)
+-hwaddr uc32_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 -{
--    switch (cs->exception_index) {
--    case MOXIE_EX_BREAK:
--        break;
--    default:
--        break;
--    }
+-    error_report("function uc32_cpu_get_phys_page_debug not "
+-                    "implemented, aborting");
+-    return -1;
 -}
--
--hwaddr moxie_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
--{
--    MoxieCPU *cpu = MOXIE_CPU(cs);
--    uint32_t phy = addr;
--    MoxieMMUResult res;
--    int miss;
--
--    miss = moxie_mmu_translate(&res, &cpu->env, addr, 0, 0);
--    if (!miss) {
--        phy = res.phy;
--    }
--    return phy;
--}
-diff --git a/target/moxie/machine.c b/target/moxie/machine.c
+diff --git a/target/unicore32/translate.c b/target/unicore32/translate.c
 deleted file mode 100644
-index d0f177048c..0000000000
---- a/target/moxie/machine.c
+index 370709c9ea..0000000000
+--- a/target/unicore32/translate.c
 +++ /dev/null
-@@ -1,19 +0,0 @@
--#include "qemu/osdep.h"
--#include "cpu.h"
--#include "machine.h"
--#include "migration/cpu.h"
--
--const VMStateDescription vmstate_moxie_cpu = {
--    .name = "cpu",
--    .version_id = 1,
--    .minimum_version_id = 1,
--    .fields = (VMStateField[]) {
--        VMSTATE_UINT32(flags, CPUMoxieState),
--        VMSTATE_UINT32_ARRAY(gregs, CPUMoxieState, 16),
--        VMSTATE_UINT32_ARRAY(sregs, CPUMoxieState, 256),
--        VMSTATE_UINT32(pc, CPUMoxieState),
--        VMSTATE_UINT32(cc_a, CPUMoxieState),
--        VMSTATE_UINT32(cc_b, CPUMoxieState),
--        VMSTATE_END_OF_LIST()
--    }
--};
-diff --git a/target/moxie/mmu.c b/target/moxie/mmu.c
-deleted file mode 100644
-index 87783a36f8..0000000000
---- a/target/moxie/mmu.c
-+++ /dev/null
-@@ -1,32 +0,0 @@
+@@ -1,2083 +0,0 @@
 -/*
-- *  Moxie mmu emulation.
+- *  UniCore32 translation
 - *
-- *  Copyright (c) 2008, 2013 Anthony Green
+- * Copyright (C) 2010-2012 Guan Xuetao
 - *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public
-- * License as published by the Free Software Foundation; either
-- * version 2.1 of the License, or (at your option) any later version.
-- *
-- * This library is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public License
-- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or (at your option) any
+- * later version. See the COPYING file in the top-level directory.
 - */
--
 -#include "qemu/osdep.h"
 -
 -#include "cpu.h"
--#include "mmu.h"
--
--int moxie_mmu_translate(MoxieMMUResult *res,
--                       CPUMoxieState *env, uint32_t vaddr,
--                       int rw, int mmu_idx)
--{
--    /* Perform no translation yet.  */
--    res->phy = vaddr;
--    return 0;
--}
-diff --git a/target/moxie/translate.c b/target/moxie/translate.c
-deleted file mode 100644
-index 24a742b25e..0000000000
---- a/target/moxie/translate.c
-+++ /dev/null
-@@ -1,892 +0,0 @@
--/*
-- *  Moxie emulation for qemu: main translation routines.
-- *
-- *  Copyright (c) 2009, 2013 Anthony Green
-- *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public License
-- * as published by the Free Software Foundation; either version 2.1 of
-- * the License, or (at your option) any later version.
-- *
-- * This library is distributed in the hope that it will be useful, but
-- * WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public License
-- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-- */
--
--/* For information on the Moxie architecture, see
-- *    http://moxielogic.org/wiki
-- */
--
--#include "qemu/osdep.h"
--
--#include "cpu.h"
--#include "exec/exec-all.h"
 -#include "disas/disas.h"
+-#include "exec/exec-all.h"
 -#include "tcg/tcg-op.h"
+-#include "qemu/log.h"
 -#include "exec/cpu_ldst.h"
+-#include "exec/translator.h"
 -#include "qemu/qemu-print.h"
 -
 -#include "exec/helper-proto.h"
 -#include "exec/helper-gen.h"
+-
+-#include "trace-tcg.h"
 -#include "exec/log.h"
 -
--/* This is the state at translation time.  */
+-
+-/* internal defines */
 -typedef struct DisasContext {
+-    target_ulong pc;
+-    int is_jmp;
+-    /* Nonzero if this instruction has been conditionally skipped.  */
+-    int condjmp;
+-    /* The label that will be jumped to when the instruction is skipped.  */
+-    TCGLabel *condlabel;
 -    TranslationBlock *tb;
--    target_ulong pc, saved_pc;
--    uint32_t opcode;
--    uint32_t fp_status;
--    /* Routine used to access memory */
--    int memidx;
--    int bstate;
--    target_ulong btarget;
 -    int singlestep_enabled;
+-#ifndef CONFIG_USER_ONLY
+-    int user;
+-#endif
 -} DisasContext;
 -
--enum {
--    BS_NONE     = 0, /* We go out of the TB without reaching a branch or an
--                      * exception condition */
--    BS_STOP     = 1, /* We want to stop translation for any reason */
--    BS_BRANCH   = 2, /* We reached a branch condition     */
--    BS_EXCP     = 3, /* We reached an exception condition */
--};
+-#ifndef CONFIG_USER_ONLY
+-#define IS_USER(s)      (s->user)
+-#else
+-#define IS_USER(s)      1
+-#endif
 -
--static TCGv cpu_pc;
--static TCGv cpu_gregs[16];
--static TCGv cc_a, cc_b;
+-/* is_jmp field values */
+-#define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
+-#define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
+-#define DISAS_TB_JUMP DISAS_TARGET_2 /* only pc was modified statically */
+-/* These instructions trap after executing, so defer them until after the
+-   conditional executions state has been updated.  */
+-#define DISAS_SYSCALL DISAS_TARGET_3
+-
+-static TCGv_i32 cpu_R[32];
+-
+-/* FIXME:  These should be removed.  */
+-static TCGv cpu_F0s, cpu_F1s;
+-static TCGv_i64 cpu_F0d, cpu_F1d;
 -
 -#include "exec/gen-icount.h"
 -
--#define REG(x) (cpu_gregs[x])
+-static const char *regnames[] = {
+-      "r00", "r01", "r02", "r03", "r04", "r05", "r06", "r07",
+-      "r08", "r09", "r10", "r11", "r12", "r13", "r14", "r15",
+-      "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
+-      "r24", "r25", "r26", "r27", "r28", "r29", "r30", "pc" };
 -
--/* Extract the signed 10-bit offset from a 16-bit branch
--   instruction.  */
--static int extract_branch_offset(int opcode)
--{
--  return (((signed short)((opcode & ((1 << 10) - 1)) << 6)) >> 6) << 1;
--}
--
--void moxie_cpu_dump_state(CPUState *cs, FILE *f, int flags)
--{
--    MoxieCPU *cpu = MOXIE_CPU(cs);
--    CPUMoxieState *env = &cpu->env;
--    int i;
--    qemu_fprintf(f, "pc=0x%08x\n", env->pc);
--    qemu_fprintf(f, "$fp=0x%08x $sp=0x%08x $r0=0x%08x $r1=0x%08x\n",
--                 env->gregs[0], env->gregs[1], env->gregs[2], env->gregs[3]);
--    for (i = 4; i < 16; i += 4) {
--        qemu_fprintf(f, "$r%d=0x%08x $r%d=0x%08x $r%d=0x%08x $r%d=0x%08x\n",
--                     i - 2, env->gregs[i], i - 1, env->gregs[i + 1],
--                     i, env->gregs[i + 2], i + 1, env->gregs[i + 3]);
--    }
--    for (i = 4; i < 16; i += 4) {
--        qemu_fprintf(f, "sr%d=0x%08x sr%d=0x%08x sr%d=0x%08x sr%d=0x%08x\n",
--                     i - 2, env->sregs[i], i - 1, env->sregs[i + 1],
--                     i, env->sregs[i + 2], i + 1, env->sregs[i + 3]);
--    }
--}
--
--void moxie_translate_init(void)
+-/* initialize TCG globals.  */
+-void uc32_translate_init(void)
 -{
 -    int i;
--    static const char * const gregnames[16] = {
--        "$fp", "$sp", "$r0", "$r1",
--        "$r2", "$r3", "$r4", "$r5",
--        "$r6", "$r7", "$r8", "$r9",
--        "$r10", "$r11", "$r12", "$r13"
--    };
 -
--    cpu_pc = tcg_global_mem_new_i32(cpu_env,
--                                    offsetof(CPUMoxieState, pc), "$pc");
--    for (i = 0; i < 16; i++)
--        cpu_gregs[i] = tcg_global_mem_new_i32(cpu_env,
--                                              offsetof(CPUMoxieState, gregs[i]),
--                                              gregnames[i]);
--
--    cc_a = tcg_global_mem_new_i32(cpu_env,
--                                  offsetof(CPUMoxieState, cc_a), "cc_a");
--    cc_b = tcg_global_mem_new_i32(cpu_env,
--                                  offsetof(CPUMoxieState, cc_b), "cc_b");
+-    for (i = 0; i < 32; i++) {
+-        cpu_R[i] = tcg_global_mem_new_i32(cpu_env,
+-                                offsetof(CPUUniCore32State, regs[i]), regnames[i]);
+-    }
 -}
 -
--static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
+-static int num_temps;
+-
+-/* Allocate a temporary variable.  */
+-static TCGv_i32 new_tmp(void)
 -{
--    if (unlikely(ctx->singlestep_enabled)) {
--        return false;
+-    num_temps++;
+-    return tcg_temp_new_i32();
+-}
+-
+-/* Release a temporary variable.  */
+-static void dead_tmp(TCGv tmp)
+-{
+-    tcg_temp_free(tmp);
+-    num_temps--;
+-}
+-
+-static inline TCGv load_cpu_offset(int offset)
+-{
+-    TCGv tmp = new_tmp();
+-    tcg_gen_ld_i32(tmp, cpu_env, offset);
+-    return tmp;
+-}
+-
+-#define load_cpu_field(name) load_cpu_offset(offsetof(CPUUniCore32State, name))
+-
+-static inline void store_cpu_offset(TCGv var, int offset)
+-{
+-    tcg_gen_st_i32(var, cpu_env, offset);
+-    dead_tmp(var);
+-}
+-
+-#define store_cpu_field(var, name) \
+-    store_cpu_offset(var, offsetof(CPUUniCore32State, name))
+-
+-/* Set a variable to the value of a CPU register.  */
+-static void load_reg_var(DisasContext *s, TCGv var, int reg)
+-{
+-    if (reg == 31) {
+-        uint32_t addr;
+-        /* normaly, since we updated PC */
+-        addr = (long)s->pc;
+-        tcg_gen_movi_i32(var, addr);
+-    } else {
+-        tcg_gen_mov_i32(var, cpu_R[reg]);
 -    }
+-}
+-
+-/* Create a new temporary and set it to the value of a CPU register.  */
+-static inline TCGv load_reg(DisasContext *s, int reg)
+-{
+-    TCGv tmp = new_tmp();
+-    load_reg_var(s, tmp, reg);
+-    return tmp;
+-}
+-
+-/* Set a CPU register.  The source must be a temporary and will be
+-   marked as dead.  */
+-static void store_reg(DisasContext *s, int reg, TCGv var)
+-{
+-    if (reg == 31) {
+-        tcg_gen_andi_i32(var, var, ~3);
+-        s->is_jmp = DISAS_JUMP;
+-    }
+-    tcg_gen_mov_i32(cpu_R[reg], var);
+-    dead_tmp(var);
+-}
+-
+-/* Value extensions.  */
+-#define gen_uxtb(var)           tcg_gen_ext8u_i32(var, var)
+-#define gen_uxth(var)           tcg_gen_ext16u_i32(var, var)
+-#define gen_sxtb(var)           tcg_gen_ext8s_i32(var, var)
+-#define gen_sxth(var)           tcg_gen_ext16s_i32(var, var)
+-
+-#define UCOP_REG_M              (((insn) >>  0) & 0x1f)
+-#define UCOP_REG_N              (((insn) >> 19) & 0x1f)
+-#define UCOP_REG_D              (((insn) >> 14) & 0x1f)
+-#define UCOP_REG_S              (((insn) >>  9) & 0x1f)
+-#define UCOP_REG_LO             (((insn) >> 14) & 0x1f)
+-#define UCOP_REG_HI             (((insn) >>  9) & 0x1f)
+-#define UCOP_SH_OP              (((insn) >>  6) & 0x03)
+-#define UCOP_SH_IM              (((insn) >>  9) & 0x1f)
+-#define UCOP_OPCODES            (((insn) >> 25) & 0x0f)
+-#define UCOP_IMM_9              (((insn) >>  0) & 0x1ff)
+-#define UCOP_IMM10              (((insn) >>  0) & 0x3ff)
+-#define UCOP_IMM14              (((insn) >>  0) & 0x3fff)
+-#define UCOP_COND               (((insn) >> 25) & 0x0f)
+-#define UCOP_CMOV_COND          (((insn) >> 19) & 0x0f)
+-#define UCOP_CPNUM              (((insn) >> 10) & 0x0f)
+-#define UCOP_UCF64_FMT          (((insn) >> 24) & 0x03)
+-#define UCOP_UCF64_FUNC         (((insn) >>  6) & 0x0f)
+-#define UCOP_UCF64_COND         (((insn) >>  6) & 0x0f)
+-
+-#define UCOP_SET(i)             ((insn) & (1 << (i)))
+-#define UCOP_SET_P              UCOP_SET(28)
+-#define UCOP_SET_U              UCOP_SET(27)
+-#define UCOP_SET_B              UCOP_SET(26)
+-#define UCOP_SET_W              UCOP_SET(25)
+-#define UCOP_SET_L              UCOP_SET(24)
+-#define UCOP_SET_S              UCOP_SET(24)
+-
+-#define ILLEGAL         cpu_abort(env_cpu(env),                         \
+-                        "Illegal UniCore32 instruction %x at line %d!", \
+-                        insn, __LINE__)
 -
 -#ifndef CONFIG_USER_ONLY
--    return (ctx->tb->pc & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
+-static void disas_cp0_insn(CPUUniCore32State *env, DisasContext *s,
+-        uint32_t insn)
+-{
+-    TCGv tmp, tmp2, tmp3;
+-    if ((insn & 0xfe000000) == 0xe0000000) {
+-        tmp2 = new_tmp();
+-        tmp3 = new_tmp();
+-        tcg_gen_movi_i32(tmp2, UCOP_REG_N);
+-        tcg_gen_movi_i32(tmp3, UCOP_IMM10);
+-        if (UCOP_SET_L) {
+-            tmp = new_tmp();
+-            gen_helper_cp0_get(tmp, cpu_env, tmp2, tmp3);
+-            store_reg(s, UCOP_REG_D, tmp);
+-        } else {
+-            tmp = load_reg(s, UCOP_REG_D);
+-            gen_helper_cp0_set(cpu_env, tmp, tmp2, tmp3);
+-            dead_tmp(tmp);
+-        }
+-        dead_tmp(tmp2);
+-        dead_tmp(tmp3);
+-        return;
+-    }
+-    ILLEGAL;
+-}
+-
+-static void disas_ocd_insn(CPUUniCore32State *env, DisasContext *s,
+-        uint32_t insn)
+-{
+-    TCGv tmp;
+-
+-    if ((insn & 0xff003fff) == 0xe1000400) {
+-        /*
+-         * movc rd, pp.nn, #imm9
+-         *      rd: UCOP_REG_D
+-         *      nn: UCOP_REG_N (must be 0)
+-         *      imm9: 0
+-         */
+-        if (UCOP_REG_N == 0) {
+-            tmp = new_tmp();
+-            tcg_gen_movi_i32(tmp, 0);
+-            store_reg(s, UCOP_REG_D, tmp);
+-            return;
+-        } else {
+-            ILLEGAL;
+-        }
+-    }
+-    if ((insn & 0xff003fff) == 0xe0000401) {
+-        /*
+-         * movc pp.nn, rn, #imm9
+-         *      rn: UCOP_REG_D
+-         *      nn: UCOP_REG_N (must be 1)
+-         *      imm9: 1
+-         */
+-        if (UCOP_REG_N == 1) {
+-            tmp = load_reg(s, UCOP_REG_D);
+-            gen_helper_cp1_putc(tmp);
+-            dead_tmp(tmp);
+-            return;
+-        } else {
+-            ILLEGAL;
+-        }
+-    }
+-    ILLEGAL;
+-}
+-#endif
+-
+-static inline void gen_set_asr(TCGv var, uint32_t mask)
+-{
+-    TCGv tmp_mask = tcg_const_i32(mask);
+-    gen_helper_asr_write(cpu_env, var, tmp_mask);
+-    tcg_temp_free_i32(tmp_mask);
+-}
+-/* Set NZCV flags from the high 4 bits of var.  */
+-#define gen_set_nzcv(var) gen_set_asr(var, ASR_NZCV)
+-
+-static void gen_exception(int excp)
+-{
+-    TCGv tmp = new_tmp();
+-    tcg_gen_movi_i32(tmp, excp);
+-    gen_helper_exception(cpu_env, tmp);
+-    dead_tmp(tmp);
+-}
+-
+-#define gen_set_CF(var) tcg_gen_st_i32(var, cpu_env, offsetof(CPUUniCore32State, CF))
+-
+-/* Set CF to the top bit of var.  */
+-static void gen_set_CF_bit31(TCGv var)
+-{
+-    TCGv tmp = new_tmp();
+-    tcg_gen_shri_i32(tmp, var, 31);
+-    gen_set_CF(tmp);
+-    dead_tmp(tmp);
+-}
+-
+-/* Set N and Z flags from var.  */
+-static inline void gen_logic_CC(TCGv var)
+-{
+-    tcg_gen_st_i32(var, cpu_env, offsetof(CPUUniCore32State, NF));
+-    tcg_gen_st_i32(var, cpu_env, offsetof(CPUUniCore32State, ZF));
+-}
+-
+-/* dest = T0 + T1 + CF. */
+-static void gen_add_carry(TCGv dest, TCGv t0, TCGv t1)
+-{
+-    TCGv tmp;
+-    tcg_gen_add_i32(dest, t0, t1);
+-    tmp = load_cpu_field(CF);
+-    tcg_gen_add_i32(dest, dest, tmp);
+-    dead_tmp(tmp);
+-}
+-
+-/* dest = T0 - T1 + CF - 1.  */
+-static void gen_sub_carry(TCGv dest, TCGv t0, TCGv t1)
+-{
+-    TCGv tmp;
+-    tcg_gen_sub_i32(dest, t0, t1);
+-    tmp = load_cpu_field(CF);
+-    tcg_gen_add_i32(dest, dest, tmp);
+-    tcg_gen_subi_i32(dest, dest, 1);
+-    dead_tmp(tmp);
+-}
+-
+-static void shifter_out_im(TCGv var, int shift)
+-{
+-    TCGv tmp = new_tmp();
+-    if (shift == 0) {
+-        tcg_gen_andi_i32(tmp, var, 1);
+-    } else {
+-        tcg_gen_shri_i32(tmp, var, shift);
+-        if (shift != 31) {
+-            tcg_gen_andi_i32(tmp, tmp, 1);
+-        }
+-    }
+-    gen_set_CF(tmp);
+-    dead_tmp(tmp);
+-}
+-
+-/* Shift by immediate.  Includes special handling for shift == 0.  */
+-static inline void gen_uc32_shift_im(TCGv var, int shiftop, int shift,
+-        int flags)
+-{
+-    switch (shiftop) {
+-    case 0: /* LSL */
+-        if (shift != 0) {
+-            if (flags) {
+-                shifter_out_im(var, 32 - shift);
+-            }
+-            tcg_gen_shli_i32(var, var, shift);
+-        }
+-        break;
+-    case 1: /* LSR */
+-        if (shift == 0) {
+-            if (flags) {
+-                tcg_gen_shri_i32(var, var, 31);
+-                gen_set_CF(var);
+-            }
+-            tcg_gen_movi_i32(var, 0);
+-        } else {
+-            if (flags) {
+-                shifter_out_im(var, shift - 1);
+-            }
+-            tcg_gen_shri_i32(var, var, shift);
+-        }
+-        break;
+-    case 2: /* ASR */
+-        if (shift == 0) {
+-            shift = 32;
+-        }
+-        if (flags) {
+-            shifter_out_im(var, shift - 1);
+-        }
+-        if (shift == 32) {
+-            shift = 31;
+-        }
+-        tcg_gen_sari_i32(var, var, shift);
+-        break;
+-    case 3: /* ROR/RRX */
+-        if (shift != 0) {
+-            if (flags) {
+-                shifter_out_im(var, shift - 1);
+-            }
+-            tcg_gen_rotri_i32(var, var, shift); break;
+-        } else {
+-            TCGv tmp = load_cpu_field(CF);
+-            if (flags) {
+-                shifter_out_im(var, 0);
+-            }
+-            tcg_gen_shri_i32(var, var, 1);
+-            tcg_gen_shli_i32(tmp, tmp, 31);
+-            tcg_gen_or_i32(var, var, tmp);
+-            dead_tmp(tmp);
+-        }
+-    }
+-};
+-
+-static inline void gen_uc32_shift_reg(TCGv var, int shiftop,
+-                                     TCGv shift, int flags)
+-{
+-    if (flags) {
+-        switch (shiftop) {
+-        case 0:
+-            gen_helper_shl_cc(var, cpu_env, var, shift);
+-            break;
+-        case 1:
+-            gen_helper_shr_cc(var, cpu_env, var, shift);
+-            break;
+-        case 2:
+-            gen_helper_sar_cc(var, cpu_env, var, shift);
+-            break;
+-        case 3:
+-            gen_helper_ror_cc(var, cpu_env, var, shift);
+-            break;
+-        }
+-    } else {
+-        switch (shiftop) {
+-        case 0:
+-            gen_helper_shl(var, var, shift);
+-            break;
+-        case 1:
+-            gen_helper_shr(var, var, shift);
+-            break;
+-        case 2:
+-            gen_helper_sar(var, var, shift);
+-            break;
+-        case 3:
+-            tcg_gen_andi_i32(shift, shift, 0x1f);
+-            tcg_gen_rotr_i32(var, var, shift);
+-            break;
+-        }
+-    }
+-    dead_tmp(shift);
+-}
+-
+-static void gen_test_cc(int cc, TCGLabel *label)
+-{
+-    TCGv tmp;
+-    TCGv tmp2;
+-    TCGLabel *inv;
+-
+-    switch (cc) {
+-    case 0: /* eq: Z */
+-        tmp = load_cpu_field(ZF);
+-        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, label);
+-        break;
+-    case 1: /* ne: !Z */
+-        tmp = load_cpu_field(ZF);
+-        tcg_gen_brcondi_i32(TCG_COND_NE, tmp, 0, label);
+-        break;
+-    case 2: /* cs: C */
+-        tmp = load_cpu_field(CF);
+-        tcg_gen_brcondi_i32(TCG_COND_NE, tmp, 0, label);
+-        break;
+-    case 3: /* cc: !C */
+-        tmp = load_cpu_field(CF);
+-        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, label);
+-        break;
+-    case 4: /* mi: N */
+-        tmp = load_cpu_field(NF);
+-        tcg_gen_brcondi_i32(TCG_COND_LT, tmp, 0, label);
+-        break;
+-    case 5: /* pl: !N */
+-        tmp = load_cpu_field(NF);
+-        tcg_gen_brcondi_i32(TCG_COND_GE, tmp, 0, label);
+-        break;
+-    case 6: /* vs: V */
+-        tmp = load_cpu_field(VF);
+-        tcg_gen_brcondi_i32(TCG_COND_LT, tmp, 0, label);
+-        break;
+-    case 7: /* vc: !V */
+-        tmp = load_cpu_field(VF);
+-        tcg_gen_brcondi_i32(TCG_COND_GE, tmp, 0, label);
+-        break;
+-    case 8: /* hi: C && !Z */
+-        inv = gen_new_label();
+-        tmp = load_cpu_field(CF);
+-        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, inv);
+-        dead_tmp(tmp);
+-        tmp = load_cpu_field(ZF);
+-        tcg_gen_brcondi_i32(TCG_COND_NE, tmp, 0, label);
+-        gen_set_label(inv);
+-        break;
+-    case 9: /* ls: !C || Z */
+-        tmp = load_cpu_field(CF);
+-        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, label);
+-        dead_tmp(tmp);
+-        tmp = load_cpu_field(ZF);
+-        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, label);
+-        break;
+-    case 10: /* ge: N == V -> N ^ V == 0 */
+-        tmp = load_cpu_field(VF);
+-        tmp2 = load_cpu_field(NF);
+-        tcg_gen_xor_i32(tmp, tmp, tmp2);
+-        dead_tmp(tmp2);
+-        tcg_gen_brcondi_i32(TCG_COND_GE, tmp, 0, label);
+-        break;
+-    case 11: /* lt: N != V -> N ^ V != 0 */
+-        tmp = load_cpu_field(VF);
+-        tmp2 = load_cpu_field(NF);
+-        tcg_gen_xor_i32(tmp, tmp, tmp2);
+-        dead_tmp(tmp2);
+-        tcg_gen_brcondi_i32(TCG_COND_LT, tmp, 0, label);
+-        break;
+-    case 12: /* gt: !Z && N == V */
+-        inv = gen_new_label();
+-        tmp = load_cpu_field(ZF);
+-        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, inv);
+-        dead_tmp(tmp);
+-        tmp = load_cpu_field(VF);
+-        tmp2 = load_cpu_field(NF);
+-        tcg_gen_xor_i32(tmp, tmp, tmp2);
+-        dead_tmp(tmp2);
+-        tcg_gen_brcondi_i32(TCG_COND_GE, tmp, 0, label);
+-        gen_set_label(inv);
+-        break;
+-    case 13: /* le: Z || N != V */
+-        tmp = load_cpu_field(ZF);
+-        tcg_gen_brcondi_i32(TCG_COND_EQ, tmp, 0, label);
+-        dead_tmp(tmp);
+-        tmp = load_cpu_field(VF);
+-        tmp2 = load_cpu_field(NF);
+-        tcg_gen_xor_i32(tmp, tmp, tmp2);
+-        dead_tmp(tmp2);
+-        tcg_gen_brcondi_i32(TCG_COND_LT, tmp, 0, label);
+-        break;
+-    default:
+-        fprintf(stderr, "Bad condition code 0x%x\n", cc);
+-        abort();
+-    }
+-    dead_tmp(tmp);
+-}
+-
+-static const uint8_t table_logic_cc[16] = {
+-    1, /* and */    1, /* xor */    0, /* sub */    0, /* rsb */
+-    0, /* add */    0, /* adc */    0, /* sbc */    0, /* rsc */
+-    1, /* andl */   1, /* xorl */   0, /* cmp */    0, /* cmn */
+-    1, /* orr */    1, /* mov */    1, /* bic */    1, /* mvn */
+-};
+-
+-/* Set PC state from an immediate address.  */
+-static inline void gen_bx_im(DisasContext *s, uint32_t addr)
+-{
+-    s->is_jmp = DISAS_UPDATE;
+-    tcg_gen_movi_i32(cpu_R[31], addr & ~3);
+-}
+-
+-/* Set PC state from var.  var is marked as dead.  */
+-static inline void gen_bx(DisasContext *s, TCGv var)
+-{
+-    s->is_jmp = DISAS_UPDATE;
+-    tcg_gen_andi_i32(cpu_R[31], var, ~3);
+-    dead_tmp(var);
+-}
+-
+-static inline void store_reg_bx(DisasContext *s, int reg, TCGv var)
+-{
+-    store_reg(s, reg, var);
+-}
+-
+-static inline TCGv gen_ld8s(TCGv addr, int index)
+-{
+-    TCGv tmp = new_tmp();
+-    tcg_gen_qemu_ld8s(tmp, addr, index);
+-    return tmp;
+-}
+-
+-static inline TCGv gen_ld8u(TCGv addr, int index)
+-{
+-    TCGv tmp = new_tmp();
+-    tcg_gen_qemu_ld8u(tmp, addr, index);
+-    return tmp;
+-}
+-
+-static inline TCGv gen_ld16s(TCGv addr, int index)
+-{
+-    TCGv tmp = new_tmp();
+-    tcg_gen_qemu_ld16s(tmp, addr, index);
+-    return tmp;
+-}
+-
+-static inline TCGv gen_ld16u(TCGv addr, int index)
+-{
+-    TCGv tmp = new_tmp();
+-    tcg_gen_qemu_ld16u(tmp, addr, index);
+-    return tmp;
+-}
+-
+-static inline TCGv gen_ld32(TCGv addr, int index)
+-{
+-    TCGv tmp = new_tmp();
+-    tcg_gen_qemu_ld32u(tmp, addr, index);
+-    return tmp;
+-}
+-
+-static inline void gen_st8(TCGv val, TCGv addr, int index)
+-{
+-    tcg_gen_qemu_st8(val, addr, index);
+-    dead_tmp(val);
+-}
+-
+-static inline void gen_st16(TCGv val, TCGv addr, int index)
+-{
+-    tcg_gen_qemu_st16(val, addr, index);
+-    dead_tmp(val);
+-}
+-
+-static inline void gen_st32(TCGv val, TCGv addr, int index)
+-{
+-    tcg_gen_qemu_st32(val, addr, index);
+-    dead_tmp(val);
+-}
+-
+-static inline void gen_set_pc_im(uint32_t val)
+-{
+-    tcg_gen_movi_i32(cpu_R[31], val);
+-}
+-
+-/* Force a TB lookup after an instruction that changes the CPU state.  */
+-static inline void gen_lookup_tb(DisasContext *s)
+-{
+-    tcg_gen_movi_i32(cpu_R[31], s->pc & ~1);
+-    s->is_jmp = DISAS_UPDATE;
+-}
+-
+-static inline void gen_add_data_offset(DisasContext *s, unsigned int insn,
+-        TCGv var)
+-{
+-    int val;
+-    TCGv offset;
+-
+-    if (UCOP_SET(29)) {
+-        /* immediate */
+-        val = UCOP_IMM14;
+-        if (!UCOP_SET_U) {
+-            val = -val;
+-        }
+-        if (val != 0) {
+-            tcg_gen_addi_i32(var, var, val);
+-        }
+-    } else {
+-        /* shift/register */
+-        offset = load_reg(s, UCOP_REG_M);
+-        gen_uc32_shift_im(offset, UCOP_SH_OP, UCOP_SH_IM, 0);
+-        if (!UCOP_SET_U) {
+-            tcg_gen_sub_i32(var, var, offset);
+-        } else {
+-            tcg_gen_add_i32(var, var, offset);
+-        }
+-        dead_tmp(offset);
+-    }
+-}
+-
+-static inline void gen_add_datah_offset(DisasContext *s, unsigned int insn,
+-        TCGv var)
+-{
+-    int val;
+-    TCGv offset;
+-
+-    if (UCOP_SET(26)) {
+-        /* immediate */
+-        val = (insn & 0x1f) | ((insn >> 4) & 0x3e0);
+-        if (!UCOP_SET_U) {
+-            val = -val;
+-        }
+-        if (val != 0) {
+-            tcg_gen_addi_i32(var, var, val);
+-        }
+-    } else {
+-        /* register */
+-        offset = load_reg(s, UCOP_REG_M);
+-        if (!UCOP_SET_U) {
+-            tcg_gen_sub_i32(var, var, offset);
+-        } else {
+-            tcg_gen_add_i32(var, var, offset);
+-        }
+-        dead_tmp(offset);
+-    }
+-}
+-
+-static inline long ucf64_reg_offset(int reg)
+-{
+-    if (reg & 1) {
+-        return offsetof(CPUUniCore32State, ucf64.regs[reg >> 1])
+-          + offsetof(CPU_DoubleU, l.upper);
+-    } else {
+-        return offsetof(CPUUniCore32State, ucf64.regs[reg >> 1])
+-          + offsetof(CPU_DoubleU, l.lower);
+-    }
+-}
+-
+-#define ucf64_gen_ld32(reg)      load_cpu_offset(ucf64_reg_offset(reg))
+-#define ucf64_gen_st32(var, reg) store_cpu_offset(var, ucf64_reg_offset(reg))
+-
+-/* UniCore-F64 single load/store I_offset */
+-static void do_ucf64_ldst_i(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    int offset;
+-    TCGv tmp;
+-    TCGv addr;
+-
+-    addr = load_reg(s, UCOP_REG_N);
+-    if (!UCOP_SET_P && !UCOP_SET_W) {
+-        ILLEGAL;
+-    }
+-
+-    if (UCOP_SET_P) {
+-        offset = UCOP_IMM10 << 2;
+-        if (!UCOP_SET_U) {
+-            offset = -offset;
+-        }
+-        if (offset != 0) {
+-            tcg_gen_addi_i32(addr, addr, offset);
+-        }
+-    }
+-
+-    if (UCOP_SET_L) { /* load */
+-        tmp = gen_ld32(addr, IS_USER(s));
+-        ucf64_gen_st32(tmp, UCOP_REG_D);
+-    } else { /* store */
+-        tmp = ucf64_gen_ld32(UCOP_REG_D);
+-        gen_st32(tmp, addr, IS_USER(s));
+-    }
+-
+-    if (!UCOP_SET_P) {
+-        offset = UCOP_IMM10 << 2;
+-        if (!UCOP_SET_U) {
+-            offset = -offset;
+-        }
+-        if (offset != 0) {
+-            tcg_gen_addi_i32(addr, addr, offset);
+-        }
+-    }
+-    if (UCOP_SET_W) {
+-        store_reg(s, UCOP_REG_N, addr);
+-    } else {
+-        dead_tmp(addr);
+-    }
+-}
+-
+-/* UniCore-F64 load/store multiple words */
+-static void do_ucf64_ldst_m(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    unsigned int i;
+-    int j, n, freg;
+-    TCGv tmp;
+-    TCGv addr;
+-
+-    if (UCOP_REG_D != 0) {
+-        ILLEGAL;
+-    }
+-    if (UCOP_REG_N == 31) {
+-        ILLEGAL;
+-    }
+-    if ((insn << 24) == 0) {
+-        ILLEGAL;
+-    }
+-
+-    addr = load_reg(s, UCOP_REG_N);
+-
+-    n = 0;
+-    for (i = 0; i < 8; i++) {
+-        if (UCOP_SET(i)) {
+-            n++;
+-        }
+-    }
+-
+-    if (UCOP_SET_U) {
+-        if (UCOP_SET_P) { /* pre increment */
+-            tcg_gen_addi_i32(addr, addr, 4);
+-        } /* unnecessary to do anything when post increment */
+-    } else {
+-        if (UCOP_SET_P) { /* pre decrement */
+-            tcg_gen_addi_i32(addr, addr, -(n * 4));
+-        } else { /* post decrement */
+-            if (n != 1) {
+-                tcg_gen_addi_i32(addr, addr, -((n - 1) * 4));
+-            }
+-        }
+-    }
+-
+-    freg = ((insn >> 8) & 3) << 3; /* freg should be 0, 8, 16, 24 */
+-
+-    for (i = 0, j = 0; i < 8; i++, freg++) {
+-        if (!UCOP_SET(i)) {
+-            continue;
+-        }
+-
+-        if (UCOP_SET_L) { /* load */
+-            tmp = gen_ld32(addr, IS_USER(s));
+-            ucf64_gen_st32(tmp, freg);
+-        } else { /* store */
+-            tmp = ucf64_gen_ld32(freg);
+-            gen_st32(tmp, addr, IS_USER(s));
+-        }
+-
+-        j++;
+-        /* unnecessary to add after the last transfer */
+-        if (j != n) {
+-            tcg_gen_addi_i32(addr, addr, 4);
+-        }
+-    }
+-
+-    if (UCOP_SET_W) { /* write back */
+-        if (UCOP_SET_U) {
+-            if (!UCOP_SET_P) { /* post increment */
+-                tcg_gen_addi_i32(addr, addr, 4);
+-            } /* unnecessary to do anything when pre increment */
+-        } else {
+-            if (UCOP_SET_P) {
+-                /* pre decrement */
+-                if (n != 1) {
+-                    tcg_gen_addi_i32(addr, addr, -((n - 1) * 4));
+-                }
+-            } else {
+-                /* post decrement */
+-                tcg_gen_addi_i32(addr, addr, -(n * 4));
+-            }
+-        }
+-        store_reg(s, UCOP_REG_N, addr);
+-    } else {
+-        dead_tmp(addr);
+-    }
+-}
+-
+-/* UniCore-F64 mrc/mcr */
+-static void do_ucf64_trans(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    TCGv tmp;
+-
+-    if ((insn & 0xfe0003ff) == 0xe2000000) {
+-        /* control register */
+-        if ((UCOP_REG_N != UC32_UCF64_FPSCR) || (UCOP_REG_D == 31)) {
+-            ILLEGAL;
+-        }
+-        if (UCOP_SET(24)) {
+-            /* CFF */
+-            tmp = new_tmp();
+-            gen_helper_ucf64_get_fpscr(tmp, cpu_env);
+-            store_reg(s, UCOP_REG_D, tmp);
+-        } else {
+-            /* CTF */
+-            tmp = load_reg(s, UCOP_REG_D);
+-            gen_helper_ucf64_set_fpscr(cpu_env, tmp);
+-            dead_tmp(tmp);
+-            gen_lookup_tb(s);
+-        }
+-        return;
+-    }
+-    if ((insn & 0xfe0003ff) == 0xe0000000) {
+-        /* general register */
+-        if (UCOP_REG_D == 31) {
+-            ILLEGAL;
+-        }
+-        if (UCOP_SET(24)) { /* MFF */
+-            tmp = ucf64_gen_ld32(UCOP_REG_N);
+-            store_reg(s, UCOP_REG_D, tmp);
+-        } else { /* MTF */
+-            tmp = load_reg(s, UCOP_REG_D);
+-            ucf64_gen_st32(tmp, UCOP_REG_N);
+-        }
+-        return;
+-    }
+-    if ((insn & 0xfb000000) == 0xe9000000) {
+-        /* MFFC */
+-        if (UCOP_REG_D != 31) {
+-            ILLEGAL;
+-        }
+-        if (UCOP_UCF64_COND & 0x8) {
+-            ILLEGAL;
+-        }
+-
+-        tmp = new_tmp();
+-        tcg_gen_movi_i32(tmp, UCOP_UCF64_COND);
+-        if (UCOP_SET(26)) {
+-            tcg_gen_ld_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_N));
+-            tcg_gen_ld_i64(cpu_F1d, cpu_env, ucf64_reg_offset(UCOP_REG_M));
+-            gen_helper_ucf64_cmpd(cpu_F0d, cpu_F1d, tmp, cpu_env);
+-        } else {
+-            tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_N));
+-            tcg_gen_ld_i32(cpu_F1s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
+-            gen_helper_ucf64_cmps(cpu_F0s, cpu_F1s, tmp, cpu_env);
+-        }
+-        dead_tmp(tmp);
+-        return;
+-    }
+-    ILLEGAL;
+-}
+-
+-/* UniCore-F64 convert instructions */
+-static void do_ucf64_fcvt(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    if (UCOP_UCF64_FMT == 3) {
+-        ILLEGAL;
+-    }
+-    if (UCOP_REG_N != 0) {
+-        ILLEGAL;
+-    }
+-    switch (UCOP_UCF64_FUNC) {
+-    case 0: /* cvt.s */
+-        switch (UCOP_UCF64_FMT) {
+-        case 1 /* d */:
+-            tcg_gen_ld_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_M));
+-            gen_helper_ucf64_df2sf(cpu_F0s, cpu_F0d, cpu_env);
+-            tcg_gen_st_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_D));
+-            break;
+-        case 2 /* w */:
+-            tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
+-            gen_helper_ucf64_si2sf(cpu_F0s, cpu_F0s, cpu_env);
+-            tcg_gen_st_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_D));
+-            break;
+-        default /* s */:
+-            ILLEGAL;
+-            break;
+-        }
+-        break;
+-    case 1: /* cvt.d */
+-        switch (UCOP_UCF64_FMT) {
+-        case 0 /* s */:
+-            tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
+-            gen_helper_ucf64_sf2df(cpu_F0d, cpu_F0s, cpu_env);
+-            tcg_gen_st_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_D));
+-            break;
+-        case 2 /* w */:
+-            tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
+-            gen_helper_ucf64_si2df(cpu_F0d, cpu_F0s, cpu_env);
+-            tcg_gen_st_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_D));
+-            break;
+-        default /* d */:
+-            ILLEGAL;
+-            break;
+-        }
+-        break;
+-    case 4: /* cvt.w */
+-        switch (UCOP_UCF64_FMT) {
+-        case 0 /* s */:
+-            tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
+-            gen_helper_ucf64_sf2si(cpu_F0s, cpu_F0s, cpu_env);
+-            tcg_gen_st_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_D));
+-            break;
+-        case 1 /* d */:
+-            tcg_gen_ld_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_M));
+-            gen_helper_ucf64_df2si(cpu_F0s, cpu_F0d, cpu_env);
+-            tcg_gen_st_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_D));
+-            break;
+-    default /* w */:
+-            ILLEGAL;
+-            break;
+-        }
+-        break;
+-    default:
+-        ILLEGAL;
+-    }
+-}
+-
+-/* UniCore-F64 compare instructions */
+-static void do_ucf64_fcmp(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    if (UCOP_SET(25)) {
+-        ILLEGAL;
+-    }
+-    if (UCOP_REG_D != 0) {
+-        ILLEGAL;
+-    }
+-
+-    ILLEGAL; /* TODO */
+-    if (UCOP_SET(24)) {
+-        tcg_gen_ld_i64(cpu_F0d, cpu_env, ucf64_reg_offset(UCOP_REG_N));
+-        tcg_gen_ld_i64(cpu_F1d, cpu_env, ucf64_reg_offset(UCOP_REG_M));
+-        /* gen_helper_ucf64_cmpd(cpu_F0d, cpu_F1d, cpu_env); */
+-    } else {
+-        tcg_gen_ld_i32(cpu_F0s, cpu_env, ucf64_reg_offset(UCOP_REG_N));
+-        tcg_gen_ld_i32(cpu_F1s, cpu_env, ucf64_reg_offset(UCOP_REG_M));
+-        /* gen_helper_ucf64_cmps(cpu_F0s, cpu_F1s, cpu_env); */
+-    }
+-}
+-
+-#define gen_helper_ucf64_movs(x, y)      do { } while (0)
+-#define gen_helper_ucf64_movd(x, y)      do { } while (0)
+-
+-#define UCF64_OP1(name)    do {                           \
+-        if (UCOP_REG_N != 0) {                            \
+-            ILLEGAL;                                      \
+-        }                                                 \
+-        switch (UCOP_UCF64_FMT) {                         \
+-        case 0 /* s */:                                   \
+-            tcg_gen_ld_i32(cpu_F0s, cpu_env,              \
+-                           ucf64_reg_offset(UCOP_REG_M)); \
+-            gen_helper_ucf64_##name##s(cpu_F0s, cpu_F0s); \
+-            tcg_gen_st_i32(cpu_F0s, cpu_env,              \
+-                           ucf64_reg_offset(UCOP_REG_D)); \
+-            break;                                        \
+-        case 1 /* d */:                                   \
+-            tcg_gen_ld_i64(cpu_F0d, cpu_env,              \
+-                           ucf64_reg_offset(UCOP_REG_M)); \
+-            gen_helper_ucf64_##name##d(cpu_F0d, cpu_F0d); \
+-            tcg_gen_st_i64(cpu_F0d, cpu_env,              \
+-                           ucf64_reg_offset(UCOP_REG_D)); \
+-            break;                                        \
+-        case 2 /* w */:                                   \
+-            ILLEGAL;                                      \
+-            break;                                        \
+-        }                                                 \
+-    } while (0)
+-
+-#define UCF64_OP2(name)    do {                           \
+-        switch (UCOP_UCF64_FMT) {                         \
+-        case 0 /* s */:                                   \
+-            tcg_gen_ld_i32(cpu_F0s, cpu_env,              \
+-                           ucf64_reg_offset(UCOP_REG_N)); \
+-            tcg_gen_ld_i32(cpu_F1s, cpu_env,              \
+-                           ucf64_reg_offset(UCOP_REG_M)); \
+-            gen_helper_ucf64_##name##s(cpu_F0s,           \
+-                           cpu_F0s, cpu_F1s, cpu_env);    \
+-            tcg_gen_st_i32(cpu_F0s, cpu_env,              \
+-                           ucf64_reg_offset(UCOP_REG_D)); \
+-            break;                                        \
+-        case 1 /* d */:                                   \
+-            tcg_gen_ld_i64(cpu_F0d, cpu_env,              \
+-                           ucf64_reg_offset(UCOP_REG_N)); \
+-            tcg_gen_ld_i64(cpu_F1d, cpu_env,              \
+-                           ucf64_reg_offset(UCOP_REG_M)); \
+-            gen_helper_ucf64_##name##d(cpu_F0d,           \
+-                           cpu_F0d, cpu_F1d, cpu_env);    \
+-            tcg_gen_st_i64(cpu_F0d, cpu_env,              \
+-                           ucf64_reg_offset(UCOP_REG_D)); \
+-            break;                                        \
+-        case 2 /* w */:                                   \
+-            ILLEGAL;                                      \
+-            break;                                        \
+-        }                                                 \
+-    } while (0)
+-
+-/* UniCore-F64 data processing */
+-static void do_ucf64_datap(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    if (UCOP_UCF64_FMT == 3) {
+-        ILLEGAL;
+-    }
+-    switch (UCOP_UCF64_FUNC) {
+-    case 0: /* add */
+-        UCF64_OP2(add);
+-        break;
+-    case 1: /* sub */
+-        UCF64_OP2(sub);
+-        break;
+-    case 2: /* mul */
+-        UCF64_OP2(mul);
+-        break;
+-    case 4: /* div */
+-        UCF64_OP2(div);
+-        break;
+-    case 5: /* abs */
+-        UCF64_OP1(abs);
+-        break;
+-    case 6: /* mov */
+-        UCF64_OP1(mov);
+-        break;
+-    case 7: /* neg */
+-        UCF64_OP1(neg);
+-        break;
+-    default:
+-        ILLEGAL;
+-    }
+-}
+-
+-/* Disassemble an F64 instruction */
+-static void disas_ucf64_insn(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    if (!UCOP_SET(29)) {
+-        if (UCOP_SET(26)) {
+-            do_ucf64_ldst_m(env, s, insn);
+-        } else {
+-            do_ucf64_ldst_i(env, s, insn);
+-        }
+-    } else {
+-        if (UCOP_SET(5)) {
+-            switch ((insn >> 26) & 0x3) {
+-            case 0:
+-                do_ucf64_datap(env, s, insn);
+-                break;
+-            case 1:
+-                ILLEGAL;
+-                break;
+-            case 2:
+-                do_ucf64_fcvt(env, s, insn);
+-                break;
+-            case 3:
+-                do_ucf64_fcmp(env, s, insn);
+-                break;
+-            }
+-        } else {
+-            do_ucf64_trans(env, s, insn);
+-        }
+-    }
+-}
+-
+-static inline bool use_goto_tb(DisasContext *s, uint32_t dest)
+-{
+-#ifndef CONFIG_USER_ONLY
+-    return (s->tb->pc & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
 -#else
 -    return true;
 -#endif
 -}
 -
--static inline void gen_goto_tb(CPUMoxieState *env, DisasContext *ctx,
--                               int n, target_ulong dest)
+-static inline void gen_goto_tb(DisasContext *s, int n, uint32_t dest)
 -{
--    if (use_goto_tb(ctx, dest)) {
+-    if (use_goto_tb(s, dest)) {
 -        tcg_gen_goto_tb(n);
--        tcg_gen_movi_i32(cpu_pc, dest);
--        tcg_gen_exit_tb(ctx->tb, n);
+-        gen_set_pc_im(dest);
+-        tcg_gen_exit_tb(s->tb, n);
 -    } else {
--        tcg_gen_movi_i32(cpu_pc, dest);
--        if (ctx->singlestep_enabled) {
--            gen_helper_debug(cpu_env);
--        }
+-        gen_set_pc_im(dest);
 -        tcg_gen_exit_tb(NULL, 0);
 -    }
 -}
 -
--static int decode_opc(MoxieCPU *cpu, DisasContext *ctx)
+-static inline void gen_jmp(DisasContext *s, uint32_t dest)
 -{
--    CPUMoxieState *env = &cpu->env;
--
--    /* Local cache for the instruction opcode.  */
--    int opcode;
--    /* Set the default instruction length.  */
--    int length = 2;
--
--    /* Examine the 16-bit opcode.  */
--    opcode = ctx->opcode;
--
--    /* Decode instruction.  */
--    if (opcode & (1 << 15)) {
--        if (opcode & (1 << 14)) {
--            /* This is a Form 3 instruction.  */
--            int inst = (opcode >> 10 & 0xf);
--
--#define BRANCH(cond)                                                         \
--    do {                                                                     \
--        TCGLabel *l1 = gen_new_label();                                      \
--        tcg_gen_brcond_i32(cond, cc_a, cc_b, l1);                            \
--        gen_goto_tb(env, ctx, 1, ctx->pc+2);                                 \
--        gen_set_label(l1);                                                   \
--        gen_goto_tb(env, ctx, 0, extract_branch_offset(opcode) + ctx->pc+2); \
--        ctx->bstate = BS_BRANCH;                                             \
--    } while (0)
--
--            switch (inst) {
--            case 0x00: /* beq */
--                BRANCH(TCG_COND_EQ);
--                break;
--            case 0x01: /* bne */
--                BRANCH(TCG_COND_NE);
--                break;
--            case 0x02: /* blt */
--                BRANCH(TCG_COND_LT);
--                break;
--            case 0x03: /* bgt */
--                BRANCH(TCG_COND_GT);
--                break;
--            case 0x04: /* bltu */
--                BRANCH(TCG_COND_LTU);
--                break;
--            case 0x05: /* bgtu */
--                BRANCH(TCG_COND_GTU);
--                break;
--            case 0x06: /* bge */
--                BRANCH(TCG_COND_GE);
--                break;
--            case 0x07: /* ble */
--                BRANCH(TCG_COND_LE);
--                break;
--            case 0x08: /* bgeu */
--                BRANCH(TCG_COND_GEU);
--                break;
--            case 0x09: /* bleu */
--                BRANCH(TCG_COND_LEU);
--                break;
--            default:
--                {
--                    TCGv temp = tcg_temp_new_i32();
--                    tcg_gen_movi_i32(cpu_pc, ctx->pc);
--                    tcg_gen_movi_i32(temp, MOXIE_EX_BAD);
--                    gen_helper_raise_exception(cpu_env, temp);
--                    tcg_temp_free_i32(temp);
--                }
--                break;
--            }
--        } else {
--            /* This is a Form 2 instruction.  */
--            int inst = (opcode >> 12 & 0x3);
--            switch (inst) {
--            case 0x00: /* inc */
--                {
--                    int a = (opcode >> 8) & 0xf;
--                    unsigned int v = (opcode & 0xff);
--                    tcg_gen_addi_i32(REG(a), REG(a), v);
--                }
--                break;
--            case 0x01: /* dec */
--                {
--                    int a = (opcode >> 8) & 0xf;
--                    unsigned int v = (opcode & 0xff);
--                    tcg_gen_subi_i32(REG(a), REG(a), v);
--                }
--                break;
--            case 0x02: /* gsr */
--                {
--                    int a = (opcode >> 8) & 0xf;
--                    unsigned v = (opcode & 0xff);
--                    tcg_gen_ld_i32(REG(a), cpu_env,
--                                   offsetof(CPUMoxieState, sregs[v]));
--                }
--                break;
--            case 0x03: /* ssr */
--                {
--                    int a = (opcode >> 8) & 0xf;
--                    unsigned v = (opcode & 0xff);
--                    tcg_gen_st_i32(REG(a), cpu_env,
--                                   offsetof(CPUMoxieState, sregs[v]));
--                }
--                break;
--            default:
--                {
--                    TCGv temp = tcg_temp_new_i32();
--                    tcg_gen_movi_i32(cpu_pc, ctx->pc);
--                    tcg_gen_movi_i32(temp, MOXIE_EX_BAD);
--                    gen_helper_raise_exception(cpu_env, temp);
--                    tcg_temp_free_i32(temp);
--                }
--                break;
--            }
--        }
+-    if (unlikely(s->singlestep_enabled)) {
+-        /* An indirect jump so that we still trigger the debug exception.  */
+-        gen_bx_im(s, dest);
 -    } else {
--        /* This is a Form 1 instruction.  */
--        int inst = opcode >> 8;
--        switch (inst) {
--        case 0x00: /* nop */
--            break;
--        case 0x01: /* ldi.l (immediate) */
--            {
--                int reg = (opcode >> 4) & 0xf;
--                int val = cpu_ldl_code(env, ctx->pc+2);
--                tcg_gen_movi_i32(REG(reg), val);
--                length = 6;
+-        gen_goto_tb(s, 0, dest);
+-        s->is_jmp = DISAS_TB_JUMP;
+-    }
+-}
+-
+-/* Returns nonzero if access to the PSR is not permitted. Marks t0 as dead. */
+-static int gen_set_psr(DisasContext *s, uint32_t mask, int bsr, TCGv t0)
+-{
+-    TCGv tmp;
+-    if (bsr) {
+-        /* ??? This is also undefined in system mode.  */
+-        if (IS_USER(s)) {
+-            return 1;
+-        }
+-
+-        tmp = load_cpu_field(bsr);
+-        tcg_gen_andi_i32(tmp, tmp, ~mask);
+-        tcg_gen_andi_i32(t0, t0, mask);
+-        tcg_gen_or_i32(tmp, tmp, t0);
+-        store_cpu_field(tmp, bsr);
+-    } else {
+-        gen_set_asr(t0, mask);
+-    }
+-    dead_tmp(t0);
+-    gen_lookup_tb(s);
+-    return 0;
+-}
+-
+-/* Generate an old-style exception return. Marks pc as dead. */
+-static void gen_exception_return(DisasContext *s, TCGv pc)
+-{
+-    TCGv tmp;
+-    store_reg(s, 31, pc);
+-    tmp = load_cpu_field(bsr);
+-    gen_set_asr(tmp, 0xffffffff);
+-    dead_tmp(tmp);
+-    s->is_jmp = DISAS_UPDATE;
+-}
+-
+-static void disas_coproc_insn(CPUUniCore32State *env, DisasContext *s,
+-        uint32_t insn)
+-{
+-    switch (UCOP_CPNUM) {
+-#ifndef CONFIG_USER_ONLY
+-    case 0:
+-        disas_cp0_insn(env, s, insn);
+-        break;
+-    case 1:
+-        disas_ocd_insn(env, s, insn);
+-        break;
+-#endif
+-    case 2:
+-        disas_ucf64_insn(env, s, insn);
+-        break;
+-    default:
+-        /* Unknown coprocessor. */
+-        cpu_abort(env_cpu(env), "Unknown coprocessor!");
+-    }
+-}
+-
+-/* data processing instructions */
+-static void do_datap(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    TCGv tmp;
+-    TCGv tmp2;
+-    int logic_cc;
+-
+-    if (UCOP_OPCODES == 0x0f || UCOP_OPCODES == 0x0d) {
+-        if (UCOP_SET(23)) { /* CMOV instructions */
+-            if ((UCOP_CMOV_COND == 0xe) || (UCOP_CMOV_COND == 0xf)) {
+-                ILLEGAL;
 -            }
--            break;
--        case 0x02: /* mov (register-to-register) */
--            {
--                int dest  = (opcode >> 4) & 0xf;
--                int src = opcode & 0xf;
--                tcg_gen_mov_i32(REG(dest), REG(src));
--            }
--            break;
--        case 0x03: /* jsra */
--            {
--                TCGv t1 = tcg_temp_new_i32();
--                TCGv t2 = tcg_temp_new_i32();
--
--                tcg_gen_movi_i32(t1, ctx->pc + 6);
--
--                /* Make space for the static chain and return address.  */
--                tcg_gen_subi_i32(t2, REG(1), 8);
--                tcg_gen_mov_i32(REG(1), t2);
--                tcg_gen_qemu_st32(t1, REG(1), ctx->memidx);
--
--                /* Push the current frame pointer.  */
--                tcg_gen_subi_i32(t2, REG(1), 4);
--                tcg_gen_mov_i32(REG(1), t2);
--                tcg_gen_qemu_st32(REG(0), REG(1), ctx->memidx);
--
--                /* Set the pc and $fp.  */
--                tcg_gen_mov_i32(REG(0), REG(1));
--
--                gen_goto_tb(env, ctx, 0, cpu_ldl_code(env, ctx->pc+2));
--
--                tcg_temp_free_i32(t1);
--                tcg_temp_free_i32(t2);
--
--                ctx->bstate = BS_BRANCH;
--                length = 6;
--            }
--            break;
--        case 0x04: /* ret */
--            {
--                TCGv t1 = tcg_temp_new_i32();
--
--                /* The new $sp is the old $fp.  */
--                tcg_gen_mov_i32(REG(1), REG(0));
--
--                /* Pop the frame pointer.  */
--                tcg_gen_qemu_ld32u(REG(0), REG(1), ctx->memidx);
--                tcg_gen_addi_i32(t1, REG(1), 4);
--                tcg_gen_mov_i32(REG(1), t1);
--
--
--                /* Pop the return address and skip over the static chain
--                   slot.  */
--                tcg_gen_qemu_ld32u(cpu_pc, REG(1), ctx->memidx);
--                tcg_gen_addi_i32(t1, REG(1), 8);
--                tcg_gen_mov_i32(REG(1), t1);
--
--                tcg_temp_free_i32(t1);
--
--                /* Jump... */
--                tcg_gen_exit_tb(NULL, 0);
--
--                ctx->bstate = BS_BRANCH;
--            }
--            break;
--        case 0x05: /* add.l */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                tcg_gen_add_i32(REG(a), REG(a), REG(b));
--            }
--            break;
--        case 0x06: /* push */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                TCGv t1 = tcg_temp_new_i32();
--                tcg_gen_subi_i32(t1, REG(a), 4);
--                tcg_gen_mov_i32(REG(a), t1);
--                tcg_gen_qemu_st32(REG(b), REG(a), ctx->memidx);
--                tcg_temp_free_i32(t1);
--            }
--            break;
--        case 0x07: /* pop */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--                TCGv t1 = tcg_temp_new_i32();
--
--                tcg_gen_qemu_ld32u(REG(b), REG(a), ctx->memidx);
--                tcg_gen_addi_i32(t1, REG(a), 4);
--                tcg_gen_mov_i32(REG(a), t1);
--                tcg_temp_free_i32(t1);
--            }
--            break;
--        case 0x08: /* lda.l */
--            {
--                int reg = (opcode >> 4) & 0xf;
--
--                TCGv ptr = tcg_temp_new_i32();
--                tcg_gen_movi_i32(ptr, cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_ld32u(REG(reg), ptr, ctx->memidx);
--                tcg_temp_free_i32(ptr);
--
--                length = 6;
--            }
--            break;
--        case 0x09: /* sta.l */
--            {
--                int val = (opcode >> 4) & 0xf;
--
--                TCGv ptr = tcg_temp_new_i32();
--                tcg_gen_movi_i32(ptr, cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_st32(REG(val), ptr, ctx->memidx);
--                tcg_temp_free_i32(ptr);
--
--                length = 6;
--            }
--            break;
--        case 0x0a: /* ld.l (register indirect) */
--            {
--                int src  = opcode & 0xf;
--                int dest = (opcode >> 4) & 0xf;
--
--                tcg_gen_qemu_ld32u(REG(dest), REG(src), ctx->memidx);
--            }
--            break;
--        case 0x0b: /* st.l */
--            {
--                int dest = (opcode >> 4) & 0xf;
--                int val  = opcode & 0xf;
--
--                tcg_gen_qemu_st32(REG(val), REG(dest), ctx->memidx);
--            }
--            break;
--        case 0x0c: /* ldo.l */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                TCGv t1 = tcg_temp_new_i32();
--                TCGv t2 = tcg_temp_new_i32();
--                tcg_gen_addi_i32(t1, REG(b), cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_ld32u(t2, t1, ctx->memidx);
--                tcg_gen_mov_i32(REG(a), t2);
--
--                tcg_temp_free_i32(t1);
--                tcg_temp_free_i32(t2);
--
--                length = 6;
--            }
--            break;
--        case 0x0d: /* sto.l */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                TCGv t1 = tcg_temp_new_i32();
--                TCGv t2 = tcg_temp_new_i32();
--                tcg_gen_addi_i32(t1, REG(a), cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_st32(REG(b), t1, ctx->memidx);
--
--                tcg_temp_free_i32(t1);
--                tcg_temp_free_i32(t2);
--
--                length = 6;
--            }
--            break;
--        case 0x0e: /* cmp */
--            {
--                int a  = (opcode >> 4) & 0xf;
--                int b  = opcode & 0xf;
--
--                tcg_gen_mov_i32(cc_a, REG(a));
--                tcg_gen_mov_i32(cc_b, REG(b));
--            }
--            break;
--        case 0x19: /* jsr */
--            {
--                int fnreg = (opcode >> 4) & 0xf;
--
--                /* Load the stack pointer into T0.  */
--                TCGv t1 = tcg_temp_new_i32();
--                TCGv t2 = tcg_temp_new_i32();
--
--                tcg_gen_movi_i32(t1, ctx->pc+2);
--
--                /* Make space for the static chain and return address.  */
--                tcg_gen_subi_i32(t2, REG(1), 8);
--                tcg_gen_mov_i32(REG(1), t2);
--                tcg_gen_qemu_st32(t1, REG(1), ctx->memidx);
--
--                /* Push the current frame pointer.  */
--                tcg_gen_subi_i32(t2, REG(1), 4);
--                tcg_gen_mov_i32(REG(1), t2);
--                tcg_gen_qemu_st32(REG(0), REG(1), ctx->memidx);
--
--                /* Set the pc and $fp.  */
--                tcg_gen_mov_i32(REG(0), REG(1));
--                tcg_gen_mov_i32(cpu_pc, REG(fnreg));
--                tcg_temp_free_i32(t1);
--                tcg_temp_free_i32(t2);
--                tcg_gen_exit_tb(NULL, 0);
--                ctx->bstate = BS_BRANCH;
--            }
--            break;
--        case 0x1a: /* jmpa */
--            {
--                tcg_gen_movi_i32(cpu_pc, cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_exit_tb(NULL, 0);
--                ctx->bstate = BS_BRANCH;
--                length = 6;
--            }
--            break;
--        case 0x1b: /* ldi.b (immediate) */
--            {
--                int reg = (opcode >> 4) & 0xf;
--                int val = cpu_ldl_code(env, ctx->pc+2);
--                tcg_gen_movi_i32(REG(reg), val);
--                length = 6;
--            }
--            break;
--        case 0x1c: /* ld.b (register indirect) */
--            {
--                int src  = opcode & 0xf;
--                int dest = (opcode >> 4) & 0xf;
--
--                tcg_gen_qemu_ld8u(REG(dest), REG(src), ctx->memidx);
--            }
--            break;
--        case 0x1d: /* lda.b */
--            {
--                int reg = (opcode >> 4) & 0xf;
--
--                TCGv ptr = tcg_temp_new_i32();
--                tcg_gen_movi_i32(ptr, cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_ld8u(REG(reg), ptr, ctx->memidx);
--                tcg_temp_free_i32(ptr);
--
--                length = 6;
--            }
--            break;
--        case 0x1e: /* st.b */
--            {
--                int dest = (opcode >> 4) & 0xf;
--                int val  = opcode & 0xf;
--
--                tcg_gen_qemu_st8(REG(val), REG(dest), ctx->memidx);
--            }
--            break;
--        case 0x1f: /* sta.b */
--            {
--                int val = (opcode >> 4) & 0xf;
--
--                TCGv ptr = tcg_temp_new_i32();
--                tcg_gen_movi_i32(ptr, cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_st8(REG(val), ptr, ctx->memidx);
--                tcg_temp_free_i32(ptr);
--
--                length = 6;
--            }
--            break;
--        case 0x20: /* ldi.s (immediate) */
--            {
--                int reg = (opcode >> 4) & 0xf;
--                int val = cpu_ldl_code(env, ctx->pc+2);
--                tcg_gen_movi_i32(REG(reg), val);
--                length = 6;
--            }
--            break;
--        case 0x21: /* ld.s (register indirect) */
--            {
--                int src  = opcode & 0xf;
--                int dest = (opcode >> 4) & 0xf;
--
--                tcg_gen_qemu_ld16u(REG(dest), REG(src), ctx->memidx);
--            }
--            break;
--        case 0x22: /* lda.s */
--            {
--                int reg = (opcode >> 4) & 0xf;
--
--                TCGv ptr = tcg_temp_new_i32();
--                tcg_gen_movi_i32(ptr, cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_ld16u(REG(reg), ptr, ctx->memidx);
--                tcg_temp_free_i32(ptr);
--
--                length = 6;
--            }
--            break;
--        case 0x23: /* st.s */
--            {
--                int dest = (opcode >> 4) & 0xf;
--                int val  = opcode & 0xf;
--
--                tcg_gen_qemu_st16(REG(val), REG(dest), ctx->memidx);
--            }
--            break;
--        case 0x24: /* sta.s */
--            {
--                int val = (opcode >> 4) & 0xf;
--
--                TCGv ptr = tcg_temp_new_i32();
--                tcg_gen_movi_i32(ptr, cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_st16(REG(val), ptr, ctx->memidx);
--                tcg_temp_free_i32(ptr);
--
--                length = 6;
--            }
--            break;
--        case 0x25: /* jmp */
--            {
--                int reg = (opcode >> 4) & 0xf;
--                tcg_gen_mov_i32(cpu_pc, REG(reg));
--                tcg_gen_exit_tb(NULL, 0);
--                ctx->bstate = BS_BRANCH;
--            }
--            break;
--        case 0x26: /* and */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                tcg_gen_and_i32(REG(a), REG(a), REG(b));
--            }
--            break;
--        case 0x27: /* lshr */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                TCGv sv = tcg_temp_new_i32();
--                tcg_gen_andi_i32(sv, REG(b), 0x1f);
--                tcg_gen_shr_i32(REG(a), REG(a), sv);
--                tcg_temp_free_i32(sv);
--            }
--            break;
--        case 0x28: /* ashl */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                TCGv sv = tcg_temp_new_i32();
--                tcg_gen_andi_i32(sv, REG(b), 0x1f);
--                tcg_gen_shl_i32(REG(a), REG(a), sv);
--                tcg_temp_free_i32(sv);
--            }
--            break;
--        case 0x29: /* sub.l */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                tcg_gen_sub_i32(REG(a), REG(a), REG(b));
--            }
--            break;
--        case 0x2a: /* neg */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                tcg_gen_neg_i32(REG(a), REG(b));
--            }
--            break;
--        case 0x2b: /* or */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                tcg_gen_or_i32(REG(a), REG(a), REG(b));
--            }
--            break;
--        case 0x2c: /* not */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                tcg_gen_not_i32(REG(a), REG(b));
--            }
--            break;
--        case 0x2d: /* ashr */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                TCGv sv = tcg_temp_new_i32();
--                tcg_gen_andi_i32(sv, REG(b), 0x1f);
--                tcg_gen_sar_i32(REG(a), REG(a), sv);
--                tcg_temp_free_i32(sv);
--            }
--            break;
--        case 0x2e: /* xor */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                tcg_gen_xor_i32(REG(a), REG(a), REG(b));
--            }
--            break;
--        case 0x2f: /* mul.l */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                tcg_gen_mul_i32(REG(a), REG(a), REG(b));
--            }
--            break;
--        case 0x30: /* swi */
--            {
--                int val = cpu_ldl_code(env, ctx->pc+2);
--
--                TCGv temp = tcg_temp_new_i32();
--                tcg_gen_movi_i32(temp, val);
--                tcg_gen_st_i32(temp, cpu_env,
--                               offsetof(CPUMoxieState, sregs[3]));
--                tcg_gen_movi_i32(cpu_pc, ctx->pc);
--                tcg_gen_movi_i32(temp, MOXIE_EX_SWI);
--                gen_helper_raise_exception(cpu_env, temp);
--                tcg_temp_free_i32(temp);
--
--                length = 6;
--            }
--            break;
--        case 0x31: /* div.l */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--                tcg_gen_movi_i32(cpu_pc, ctx->pc);
--                gen_helper_div(REG(a), cpu_env, REG(a), REG(b));
--            }
--            break;
--        case 0x32: /* udiv.l */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--                tcg_gen_movi_i32(cpu_pc, ctx->pc);
--                gen_helper_udiv(REG(a), cpu_env, REG(a), REG(b));
--            }
--            break;
--        case 0x33: /* mod.l */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--                tcg_gen_rem_i32(REG(a), REG(a), REG(b));
--            }
--            break;
--        case 0x34: /* umod.l */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--                tcg_gen_remu_i32(REG(a), REG(a), REG(b));
--            }
--            break;
--        case 0x35: /* brk */
--            {
--                TCGv temp = tcg_temp_new_i32();
--                tcg_gen_movi_i32(cpu_pc, ctx->pc);
--                tcg_gen_movi_i32(temp, MOXIE_EX_BREAK);
--                gen_helper_raise_exception(cpu_env, temp);
--                tcg_temp_free_i32(temp);
--            }
--            break;
--        case 0x36: /* ldo.b */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                TCGv t1 = tcg_temp_new_i32();
--                TCGv t2 = tcg_temp_new_i32();
--                tcg_gen_addi_i32(t1, REG(b), cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_ld8u(t2, t1, ctx->memidx);
--                tcg_gen_mov_i32(REG(a), t2);
--
--                tcg_temp_free_i32(t1);
--                tcg_temp_free_i32(t2);
--
--                length = 6;
--            }
--            break;
--        case 0x37: /* sto.b */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                TCGv t1 = tcg_temp_new_i32();
--                TCGv t2 = tcg_temp_new_i32();
--                tcg_gen_addi_i32(t1, REG(a), cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_st8(REG(b), t1, ctx->memidx);
--
--                tcg_temp_free_i32(t1);
--                tcg_temp_free_i32(t2);
--
--                length = 6;
--            }
--            break;
--        case 0x38: /* ldo.s */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                TCGv t1 = tcg_temp_new_i32();
--                TCGv t2 = tcg_temp_new_i32();
--                tcg_gen_addi_i32(t1, REG(b), cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_ld16u(t2, t1, ctx->memidx);
--                tcg_gen_mov_i32(REG(a), t2);
--
--                tcg_temp_free_i32(t1);
--                tcg_temp_free_i32(t2);
--
--                length = 6;
--            }
--            break;
--        case 0x39: /* sto.s */
--            {
--                int a = (opcode >> 4) & 0xf;
--                int b = opcode & 0xf;
--
--                TCGv t1 = tcg_temp_new_i32();
--                TCGv t2 = tcg_temp_new_i32();
--                tcg_gen_addi_i32(t1, REG(a), cpu_ldl_code(env, ctx->pc+2));
--                tcg_gen_qemu_st16(REG(b), t1, ctx->memidx);
--                tcg_temp_free_i32(t1);
--                tcg_temp_free_i32(t2);
--
--                length = 6;
--            }
--            break;
--        default:
--            {
--                TCGv temp = tcg_temp_new_i32();
--                tcg_gen_movi_i32(cpu_pc, ctx->pc);
--                tcg_gen_movi_i32(temp, MOXIE_EX_BAD);
--                gen_helper_raise_exception(cpu_env, temp);
--                tcg_temp_free_i32(temp);
--             }
--            break;
+-            /* if not always execute, we generate a conditional jump to
+-               next instruction */
+-            s->condlabel = gen_new_label();
+-            gen_test_cc(UCOP_CMOV_COND ^ 1, s->condlabel);
+-            s->condjmp = 1;
 -        }
 -    }
 -
--    return length;
+-    logic_cc = table_logic_cc[UCOP_OPCODES] & (UCOP_SET_S >> 24);
+-
+-    if (UCOP_SET(29)) {
+-        unsigned int val;
+-        /* immediate operand */
+-        val = UCOP_IMM_9;
+-        if (UCOP_SH_IM) {
+-            val = (val >> UCOP_SH_IM) | (val << (32 - UCOP_SH_IM));
+-        }
+-        tmp2 = new_tmp();
+-        tcg_gen_movi_i32(tmp2, val);
+-        if (logic_cc && UCOP_SH_IM) {
+-            gen_set_CF_bit31(tmp2);
+-        }
+-   } else {
+-        /* register */
+-        tmp2 = load_reg(s, UCOP_REG_M);
+-        if (UCOP_SET(5)) {
+-            tmp = load_reg(s, UCOP_REG_S);
+-            gen_uc32_shift_reg(tmp2, UCOP_SH_OP, tmp, logic_cc);
+-        } else {
+-            gen_uc32_shift_im(tmp2, UCOP_SH_OP, UCOP_SH_IM, logic_cc);
+-        }
+-    }
+-
+-    if (UCOP_OPCODES != 0x0f && UCOP_OPCODES != 0x0d) {
+-        tmp = load_reg(s, UCOP_REG_N);
+-    } else {
+-        tmp = NULL;
+-    }
+-
+-    switch (UCOP_OPCODES) {
+-    case 0x00:
+-        tcg_gen_and_i32(tmp, tmp, tmp2);
+-        if (logic_cc) {
+-            gen_logic_CC(tmp);
+-        }
+-        store_reg_bx(s, UCOP_REG_D, tmp);
+-        break;
+-    case 0x01:
+-        tcg_gen_xor_i32(tmp, tmp, tmp2);
+-        if (logic_cc) {
+-            gen_logic_CC(tmp);
+-        }
+-        store_reg_bx(s, UCOP_REG_D, tmp);
+-        break;
+-    case 0x02:
+-        if (UCOP_SET_S && UCOP_REG_D == 31) {
+-            /* SUBS r31, ... is used for exception return.  */
+-            if (IS_USER(s)) {
+-                ILLEGAL;
+-            }
+-            gen_helper_sub_cc(tmp, cpu_env, tmp, tmp2);
+-            gen_exception_return(s, tmp);
+-        } else {
+-            if (UCOP_SET_S) {
+-                gen_helper_sub_cc(tmp, cpu_env, tmp, tmp2);
+-            } else {
+-                tcg_gen_sub_i32(tmp, tmp, tmp2);
+-            }
+-            store_reg_bx(s, UCOP_REG_D, tmp);
+-        }
+-        break;
+-    case 0x03:
+-        if (UCOP_SET_S) {
+-            gen_helper_sub_cc(tmp, cpu_env, tmp2, tmp);
+-        } else {
+-            tcg_gen_sub_i32(tmp, tmp2, tmp);
+-        }
+-        store_reg_bx(s, UCOP_REG_D, tmp);
+-        break;
+-    case 0x04:
+-        if (UCOP_SET_S) {
+-            gen_helper_add_cc(tmp, cpu_env, tmp, tmp2);
+-        } else {
+-            tcg_gen_add_i32(tmp, tmp, tmp2);
+-        }
+-        store_reg_bx(s, UCOP_REG_D, tmp);
+-        break;
+-    case 0x05:
+-        if (UCOP_SET_S) {
+-            gen_helper_adc_cc(tmp, cpu_env, tmp, tmp2);
+-        } else {
+-            gen_add_carry(tmp, tmp, tmp2);
+-        }
+-        store_reg_bx(s, UCOP_REG_D, tmp);
+-        break;
+-    case 0x06:
+-        if (UCOP_SET_S) {
+-            gen_helper_sbc_cc(tmp, cpu_env, tmp, tmp2);
+-        } else {
+-            gen_sub_carry(tmp, tmp, tmp2);
+-        }
+-        store_reg_bx(s, UCOP_REG_D, tmp);
+-        break;
+-    case 0x07:
+-        if (UCOP_SET_S) {
+-            gen_helper_sbc_cc(tmp, cpu_env, tmp2, tmp);
+-        } else {
+-            gen_sub_carry(tmp, tmp2, tmp);
+-        }
+-        store_reg_bx(s, UCOP_REG_D, tmp);
+-        break;
+-    case 0x08:
+-        if (UCOP_SET_S) {
+-            tcg_gen_and_i32(tmp, tmp, tmp2);
+-            gen_logic_CC(tmp);
+-        }
+-        dead_tmp(tmp);
+-        break;
+-    case 0x09:
+-        if (UCOP_SET_S) {
+-            tcg_gen_xor_i32(tmp, tmp, tmp2);
+-            gen_logic_CC(tmp);
+-        }
+-        dead_tmp(tmp);
+-        break;
+-    case 0x0a:
+-        if (UCOP_SET_S) {
+-            gen_helper_sub_cc(tmp, cpu_env, tmp, tmp2);
+-        }
+-        dead_tmp(tmp);
+-        break;
+-    case 0x0b:
+-        if (UCOP_SET_S) {
+-            gen_helper_add_cc(tmp, cpu_env, tmp, tmp2);
+-        }
+-        dead_tmp(tmp);
+-        break;
+-    case 0x0c:
+-        tcg_gen_or_i32(tmp, tmp, tmp2);
+-        if (logic_cc) {
+-            gen_logic_CC(tmp);
+-        }
+-        store_reg_bx(s, UCOP_REG_D, tmp);
+-        break;
+-    case 0x0d:
+-        if (logic_cc && UCOP_REG_D == 31) {
+-            /* MOVS r31, ... is used for exception return.  */
+-            if (IS_USER(s)) {
+-                ILLEGAL;
+-            }
+-            gen_exception_return(s, tmp2);
+-        } else {
+-            if (logic_cc) {
+-                gen_logic_CC(tmp2);
+-            }
+-            store_reg_bx(s, UCOP_REG_D, tmp2);
+-        }
+-        break;
+-    case 0x0e:
+-        tcg_gen_andc_i32(tmp, tmp, tmp2);
+-        if (logic_cc) {
+-            gen_logic_CC(tmp);
+-        }
+-        store_reg_bx(s, UCOP_REG_D, tmp);
+-        break;
+-    default:
+-    case 0x0f:
+-        tcg_gen_not_i32(tmp2, tmp2);
+-        if (logic_cc) {
+-            gen_logic_CC(tmp2);
+-        }
+-        store_reg_bx(s, UCOP_REG_D, tmp2);
+-        break;
+-    }
+-    if (UCOP_OPCODES != 0x0f && UCOP_OPCODES != 0x0d) {
+-        dead_tmp(tmp2);
+-    }
+-}
+-
+-/* multiply */
+-static void do_mult(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    TCGv tmp, tmp2, tmp3, tmp4;
+-
+-    if (UCOP_SET(27)) {
+-        /* 64 bit mul */
+-        tmp = load_reg(s, UCOP_REG_M);
+-        tmp2 = load_reg(s, UCOP_REG_N);
+-        if (UCOP_SET(26)) {
+-            tcg_gen_muls2_i32(tmp, tmp2, tmp, tmp2);
+-        } else {
+-            tcg_gen_mulu2_i32(tmp, tmp2, tmp, tmp2);
+-        }
+-        if (UCOP_SET(25)) { /* mult accumulate */
+-            tmp3 = load_reg(s, UCOP_REG_LO);
+-            tmp4 = load_reg(s, UCOP_REG_HI);
+-            tcg_gen_add2_i32(tmp, tmp2, tmp, tmp2, tmp3, tmp4);
+-            dead_tmp(tmp3);
+-            dead_tmp(tmp4);
+-        }
+-        store_reg(s, UCOP_REG_LO, tmp);
+-        store_reg(s, UCOP_REG_HI, tmp2);
+-    } else {
+-        /* 32 bit mul */
+-        tmp = load_reg(s, UCOP_REG_M);
+-        tmp2 = load_reg(s, UCOP_REG_N);
+-        tcg_gen_mul_i32(tmp, tmp, tmp2);
+-        dead_tmp(tmp2);
+-        if (UCOP_SET(25)) {
+-            /* Add */
+-            tmp2 = load_reg(s, UCOP_REG_S);
+-            tcg_gen_add_i32(tmp, tmp, tmp2);
+-            dead_tmp(tmp2);
+-        }
+-        if (UCOP_SET_S) {
+-            gen_logic_CC(tmp);
+-        }
+-        store_reg(s, UCOP_REG_D, tmp);
+-    }
+-}
+-
+-/* miscellaneous instructions */
+-static void do_misc(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    unsigned int val;
+-    TCGv tmp;
+-
+-    if ((insn & 0xffffffe0) == 0x10ffc120) {
+-        /* Trivial implementation equivalent to bx.  */
+-        tmp = load_reg(s, UCOP_REG_M);
+-        gen_bx(s, tmp);
+-        return;
+-    }
+-
+-    if ((insn & 0xfbffc000) == 0x30ffc000) {
+-        /* PSR = immediate */
+-        val = UCOP_IMM_9;
+-        if (UCOP_SH_IM) {
+-            val = (val >> UCOP_SH_IM) | (val << (32 - UCOP_SH_IM));
+-        }
+-        tmp = new_tmp();
+-        tcg_gen_movi_i32(tmp, val);
+-        if (gen_set_psr(s, ~ASR_RESERVED, UCOP_SET_B, tmp)) {
+-            ILLEGAL;
+-        }
+-        return;
+-    }
+-
+-    if ((insn & 0xfbffffe0) == 0x12ffc020) {
+-        /* PSR.flag = reg */
+-        tmp = load_reg(s, UCOP_REG_M);
+-        if (gen_set_psr(s, ASR_NZCV, UCOP_SET_B, tmp)) {
+-            ILLEGAL;
+-        }
+-        return;
+-    }
+-
+-    if ((insn & 0xfbffffe0) == 0x10ffc020) {
+-        /* PSR = reg */
+-        tmp = load_reg(s, UCOP_REG_M);
+-        if (gen_set_psr(s, ~ASR_RESERVED, UCOP_SET_B, tmp)) {
+-            ILLEGAL;
+-        }
+-        return;
+-    }
+-
+-    if ((insn & 0xfbf83fff) == 0x10f80000) {
+-        /* reg = PSR */
+-        if (UCOP_SET_B) {
+-            if (IS_USER(s)) {
+-                ILLEGAL;
+-            }
+-            tmp = load_cpu_field(bsr);
+-        } else {
+-            tmp = new_tmp();
+-            gen_helper_asr_read(tmp, cpu_env);
+-        }
+-        store_reg(s, UCOP_REG_D, tmp);
+-        return;
+-    }
+-
+-    if ((insn & 0xfbf83fe0) == 0x12f80120) {
+-        /* clz */
+-        tmp = load_reg(s, UCOP_REG_M);
+-        if (UCOP_SET(26)) {
+-            /* clo */
+-            tcg_gen_not_i32(tmp, tmp);
+-        }
+-        tcg_gen_clzi_i32(tmp, tmp, 32);
+-        store_reg(s, UCOP_REG_D, tmp);
+-        return;
+-    }
+-
+-    /* otherwise */
+-    ILLEGAL;
+-}
+-
+-/* load/store I_offset and R_offset */
+-static void do_ldst_ir(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    unsigned int mmu_idx;
+-    TCGv tmp;
+-    TCGv tmp2;
+-
+-    tmp2 = load_reg(s, UCOP_REG_N);
+-    mmu_idx = (IS_USER(s) || (!UCOP_SET_P && UCOP_SET_W));
+-
+-    /* immediate */
+-    if (UCOP_SET_P) {
+-        gen_add_data_offset(s, insn, tmp2);
+-    }
+-
+-    if (UCOP_SET_L) {
+-        /* load */
+-        if (UCOP_SET_B) {
+-            tmp = gen_ld8u(tmp2, mmu_idx);
+-        } else {
+-            tmp = gen_ld32(tmp2, mmu_idx);
+-        }
+-    } else {
+-        /* store */
+-        tmp = load_reg(s, UCOP_REG_D);
+-        if (UCOP_SET_B) {
+-            gen_st8(tmp, tmp2, mmu_idx);
+-        } else {
+-            gen_st32(tmp, tmp2, mmu_idx);
+-        }
+-    }
+-    if (!UCOP_SET_P) {
+-        gen_add_data_offset(s, insn, tmp2);
+-        store_reg(s, UCOP_REG_N, tmp2);
+-    } else if (UCOP_SET_W) {
+-        store_reg(s, UCOP_REG_N, tmp2);
+-    } else {
+-        dead_tmp(tmp2);
+-    }
+-    if (UCOP_SET_L) {
+-        /* Complete the load.  */
+-        if (UCOP_REG_D == 31) {
+-            gen_bx(s, tmp);
+-        } else {
+-            store_reg(s, UCOP_REG_D, tmp);
+-        }
+-    }
+-}
+-
+-/* SWP instruction */
+-static void do_swap(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    TCGv addr;
+-    TCGv tmp;
+-    TCGv tmp2;
+-
+-    if ((insn & 0xff003fe0) != 0x40000120) {
+-        ILLEGAL;
+-    }
+-
+-    /* ??? This is not really atomic.  However we know
+-       we never have multiple CPUs running in parallel,
+-       so it is good enough.  */
+-    addr = load_reg(s, UCOP_REG_N);
+-    tmp = load_reg(s, UCOP_REG_M);
+-    if (UCOP_SET_B) {
+-        tmp2 = gen_ld8u(addr, IS_USER(s));
+-        gen_st8(tmp, addr, IS_USER(s));
+-    } else {
+-        tmp2 = gen_ld32(addr, IS_USER(s));
+-        gen_st32(tmp, addr, IS_USER(s));
+-    }
+-    dead_tmp(addr);
+-    store_reg(s, UCOP_REG_D, tmp2);
+-}
+-
+-/* load/store hw/sb */
+-static void do_ldst_hwsb(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    TCGv addr;
+-    TCGv tmp;
+-
+-    if (UCOP_SH_OP == 0) {
+-        do_swap(env, s, insn);
+-        return;
+-    }
+-
+-    addr = load_reg(s, UCOP_REG_N);
+-    if (UCOP_SET_P) {
+-        gen_add_datah_offset(s, insn, addr);
+-    }
+-
+-    if (UCOP_SET_L) { /* load */
+-        switch (UCOP_SH_OP) {
+-        case 1:
+-            tmp = gen_ld16u(addr, IS_USER(s));
+-            break;
+-        case 2:
+-            tmp = gen_ld8s(addr, IS_USER(s));
+-            break;
+-        default: /* see do_swap */
+-        case 3:
+-            tmp = gen_ld16s(addr, IS_USER(s));
+-            break;
+-        }
+-    } else { /* store */
+-        if (UCOP_SH_OP != 1) {
+-            ILLEGAL;
+-        }
+-        tmp = load_reg(s, UCOP_REG_D);
+-        gen_st16(tmp, addr, IS_USER(s));
+-    }
+-    /* Perform base writeback before the loaded value to
+-       ensure correct behavior with overlapping index registers. */
+-    if (!UCOP_SET_P) {
+-        gen_add_datah_offset(s, insn, addr);
+-        store_reg(s, UCOP_REG_N, addr);
+-    } else if (UCOP_SET_W) {
+-        store_reg(s, UCOP_REG_N, addr);
+-    } else {
+-        dead_tmp(addr);
+-    }
+-    if (UCOP_SET_L) {
+-        /* Complete the load.  */
+-        store_reg(s, UCOP_REG_D, tmp);
+-    }
+-}
+-
+-/* load/store multiple words */
+-static void do_ldst_m(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    unsigned int val, i, mmu_idx;
+-    int j, n, reg, user, loaded_base;
+-    TCGv tmp;
+-    TCGv tmp2;
+-    TCGv addr;
+-    TCGv loaded_var;
+-
+-    if (UCOP_SET(7)) {
+-        ILLEGAL;
+-    }
+-    /* XXX: store correct base if write back */
+-    user = 0;
+-    if (UCOP_SET_B) { /* S bit in instruction table */
+-        if (IS_USER(s)) {
+-            ILLEGAL; /* only usable in supervisor mode */
+-        }
+-        if (UCOP_SET(18) == 0) { /* pc reg */
+-            user = 1;
+-        }
+-    }
+-
+-    mmu_idx = (IS_USER(s) || (!UCOP_SET_P && UCOP_SET_W));
+-    addr = load_reg(s, UCOP_REG_N);
+-
+-    /* compute total size */
+-    loaded_base = 0;
+-    loaded_var = NULL;
+-    n = 0;
+-    for (i = 0; i < 6; i++) {
+-        if (UCOP_SET(i)) {
+-            n++;
+-        }
+-    }
+-    for (i = 9; i < 19; i++) {
+-        if (UCOP_SET(i)) {
+-            n++;
+-        }
+-    }
+-    /* XXX: test invalid n == 0 case ? */
+-    if (UCOP_SET_U) {
+-        if (UCOP_SET_P) {
+-            /* pre increment */
+-            tcg_gen_addi_i32(addr, addr, 4);
+-        } else {
+-            /* post increment */
+-        }
+-    } else {
+-        if (UCOP_SET_P) {
+-            /* pre decrement */
+-            tcg_gen_addi_i32(addr, addr, -(n * 4));
+-        } else {
+-            /* post decrement */
+-            if (n != 1) {
+-                tcg_gen_addi_i32(addr, addr, -((n - 1) * 4));
+-            }
+-        }
+-    }
+-
+-    j = 0;
+-    reg = UCOP_SET(6) ? 16 : 0;
+-    for (i = 0; i < 19; i++, reg++) {
+-        if (i == 6) {
+-            i = i + 3;
+-        }
+-        if (UCOP_SET(i)) {
+-            if (UCOP_SET_L) { /* load */
+-                tmp = gen_ld32(addr, mmu_idx);
+-                if (reg == 31) {
+-                    gen_bx(s, tmp);
+-                } else if (user) {
+-                    tmp2 = tcg_const_i32(reg);
+-                    gen_helper_set_user_reg(cpu_env, tmp2, tmp);
+-                    tcg_temp_free_i32(tmp2);
+-                    dead_tmp(tmp);
+-                } else if (reg == UCOP_REG_N) {
+-                    loaded_var = tmp;
+-                    loaded_base = 1;
+-                } else {
+-                    store_reg(s, reg, tmp);
+-                }
+-            } else { /* store */
+-                if (reg == 31) {
+-                    /* special case: r31 = PC + 4 */
+-                    val = (long)s->pc;
+-                    tmp = new_tmp();
+-                    tcg_gen_movi_i32(tmp, val);
+-                } else if (user) {
+-                    tmp = new_tmp();
+-                    tmp2 = tcg_const_i32(reg);
+-                    gen_helper_get_user_reg(tmp, cpu_env, tmp2);
+-                    tcg_temp_free_i32(tmp2);
+-                } else {
+-                    tmp = load_reg(s, reg);
+-                }
+-                gen_st32(tmp, addr, mmu_idx);
+-            }
+-            j++;
+-            /* no need to add after the last transfer */
+-            if (j != n) {
+-                tcg_gen_addi_i32(addr, addr, 4);
+-            }
+-        }
+-    }
+-    if (UCOP_SET_W) { /* write back */
+-        if (UCOP_SET_U) {
+-            if (UCOP_SET_P) {
+-                /* pre increment */
+-            } else {
+-                /* post increment */
+-                tcg_gen_addi_i32(addr, addr, 4);
+-            }
+-        } else {
+-            if (UCOP_SET_P) {
+-                /* pre decrement */
+-                if (n != 1) {
+-                    tcg_gen_addi_i32(addr, addr, -((n - 1) * 4));
+-                }
+-            } else {
+-                /* post decrement */
+-                tcg_gen_addi_i32(addr, addr, -(n * 4));
+-            }
+-        }
+-        store_reg(s, UCOP_REG_N, addr);
+-    } else {
+-        dead_tmp(addr);
+-    }
+-    if (loaded_base) {
+-        store_reg(s, UCOP_REG_N, loaded_var);
+-    }
+-    if (UCOP_SET_B && !user) {
+-        /* Restore ASR from BSR.  */
+-        tmp = load_cpu_field(bsr);
+-        gen_set_asr(tmp, 0xffffffff);
+-        dead_tmp(tmp);
+-        s->is_jmp = DISAS_UPDATE;
+-    }
+-}
+-
+-/* branch (and link) */
+-static void do_branch(CPUUniCore32State *env, DisasContext *s, uint32_t insn)
+-{
+-    unsigned int val;
+-    int32_t offset;
+-    TCGv tmp;
+-
+-    if (UCOP_COND == 0xf) {
+-        ILLEGAL;
+-    }
+-
+-    if (UCOP_COND != 0xe) {
+-        /* if not always execute, we generate a conditional jump to
+-           next instruction */
+-        s->condlabel = gen_new_label();
+-        gen_test_cc(UCOP_COND ^ 1, s->condlabel);
+-        s->condjmp = 1;
+-    }
+-
+-    val = (int32_t)s->pc;
+-    if (UCOP_SET_L) {
+-        tmp = new_tmp();
+-        tcg_gen_movi_i32(tmp, val);
+-        store_reg(s, 30, tmp);
+-    }
+-    offset = (((int32_t)insn << 8) >> 8);
+-    val += (offset << 2); /* unicore is pc+4 */
+-    gen_jmp(s, val);
+-}
+-
+-static void disas_uc32_insn(CPUUniCore32State *env, DisasContext *s)
+-{
+-    unsigned int insn;
+-
+-    insn = cpu_ldl_code(env, s->pc);
+-    s->pc += 4;
+-
+-    /* UniCore instructions class:
+-     * AAAB BBBC xxxx xxxx xxxx xxxD xxEx xxxx
+-     * AAA  : see switch case
+-     * BBBB : opcodes or cond or PUBW
+-     * C    : S OR L
+-     * D    : 8
+-     * E    : 5
+-     */
+-    switch (insn >> 29) {
+-    case 0x0:
+-        if (UCOP_SET(5) && UCOP_SET(8) && !UCOP_SET(28)) {
+-            do_mult(env, s, insn);
+-            break;
+-        }
+-
+-        if (UCOP_SET(8)) {
+-            do_misc(env, s, insn);
+-            break;
+-        }
+-        /* fallthrough */
+-    case 0x1:
+-        if (((UCOP_OPCODES >> 2) == 2) && !UCOP_SET_S) {
+-            do_misc(env, s, insn);
+-            break;
+-        }
+-        do_datap(env, s, insn);
+-        break;
+-
+-    case 0x2:
+-        if (UCOP_SET(8) && UCOP_SET(5)) {
+-            do_ldst_hwsb(env, s, insn);
+-            break;
+-        }
+-        if (UCOP_SET(8) || UCOP_SET(5)) {
+-            ILLEGAL;
+-        }
+-        /* fallthrough */
+-    case 0x3:
+-        do_ldst_ir(env, s, insn);
+-        break;
+-
+-    case 0x4:
+-        if (UCOP_SET(8)) {
+-            ILLEGAL; /* extended instructions */
+-        }
+-        do_ldst_m(env, s, insn);
+-        break;
+-    case 0x5:
+-        do_branch(env, s, insn);
+-        break;
+-    case 0x6:
+-        /* Coprocessor.  */
+-        disas_coproc_insn(env, s, insn);
+-        break;
+-    case 0x7:
+-        if (!UCOP_SET(28)) {
+-            disas_coproc_insn(env, s, insn);
+-            break;
+-        }
+-        if ((insn & 0xff000000) == 0xff000000) { /* syscall */
+-            gen_set_pc_im(s->pc);
+-            s->is_jmp = DISAS_SYSCALL;
+-            break;
+-        }
+-        ILLEGAL;
+-    }
 -}
 -
 -/* generate intermediate code for basic block 'tb'.  */
 -void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
 -{
--    CPUMoxieState *env = cs->env_ptr;
--    MoxieCPU *cpu = env_archcpu(env);
--    DisasContext ctx;
+-    CPUUniCore32State *env = cs->env_ptr;
+-    DisasContext dc1, *dc = &dc1;
 -    target_ulong pc_start;
+-    uint32_t page_start;
 -    int num_insns;
 -
+-    /* generate intermediate code */
+-    num_temps = 0;
+-
 -    pc_start = tb->pc;
--    ctx.pc = pc_start;
--    ctx.saved_pc = -1;
--    ctx.tb = tb;
--    ctx.memidx = 0;
--    ctx.singlestep_enabled = 0;
--    ctx.bstate = BS_NONE;
+-
+-    dc->tb = tb;
+-
+-    dc->is_jmp = DISAS_NEXT;
+-    dc->pc = pc_start;
+-    dc->singlestep_enabled = cs->singlestep_enabled;
+-    dc->condjmp = 0;
+-    cpu_F0s = tcg_temp_new_i32();
+-    cpu_F1s = tcg_temp_new_i32();
+-    cpu_F0d = tcg_temp_new_i64();
+-    cpu_F1d = tcg_temp_new_i64();
+-    page_start = pc_start & TARGET_PAGE_MASK;
 -    num_insns = 0;
+-
+-#ifndef CONFIG_USER_ONLY
+-    if ((env->uncached_asr & ASR_M) == ASR_MODE_USER) {
+-        dc->user = 1;
+-    } else {
+-        dc->user = 0;
+-    }
+-#endif
 -
 -    gen_tb_start(tb);
 -    do {
--        tcg_gen_insn_start(ctx.pc);
+-        tcg_gen_insn_start(dc->pc);
 -        num_insns++;
 -
--        if (unlikely(cpu_breakpoint_test(cs, ctx.pc, BP_ANY))) {
--            tcg_gen_movi_i32(cpu_pc, ctx.pc);
--            gen_helper_debug(cpu_env);
--            ctx.bstate = BS_EXCP;
+-        if (unlikely(cpu_breakpoint_test(cs, dc->pc, BP_ANY))) {
+-            gen_set_pc_im(dc->pc);
+-            gen_exception(EXCP_DEBUG);
+-            dc->is_jmp = DISAS_JUMP;
 -            /* The address covered by the breakpoint must be included in
 -               [tb->pc, tb->pc + tb->size) in order to for it to be
 -               properly cleared -- thus we increment the PC here so that
 -               the logic setting tb->size below does the right thing.  */
--            ctx.pc += 2;
+-            dc->pc += 4;
 -            goto done_generating;
 -        }
 -
--        ctx.opcode = cpu_lduw_code(env, ctx.pc);
--        ctx.pc += decode_opc(cpu, &ctx);
+-        if (num_insns == max_insns && (tb_cflags(tb) & CF_LAST_IO)) {
+-            gen_io_start();
+-        }
 -
--        if (num_insns >= max_insns) {
--            break;
--        }
--        if (cs->singlestep_enabled) {
--            break;
--        }
--        if ((ctx.pc & (TARGET_PAGE_SIZE - 1)) == 0) {
--            break;
--        }
--    } while (ctx.bstate == BS_NONE && !tcg_op_buf_full());
+-        disas_uc32_insn(env, dc);
 -
--    if (cs->singlestep_enabled) {
--        tcg_gen_movi_tl(cpu_pc, ctx.pc);
--        gen_helper_debug(cpu_env);
--    } else {
--        switch (ctx.bstate) {
--        case BS_STOP:
--        case BS_NONE:
--            gen_goto_tb(env, &ctx, 0, ctx.pc);
--            break;
--        case BS_EXCP:
--            tcg_gen_exit_tb(NULL, 0);
--            break;
--        case BS_BRANCH:
--        default:
--            break;
+-        if (num_temps) {
+-            fprintf(stderr, "Internal resource leak before %08x\n", dc->pc);
+-            num_temps = 0;
+-        }
+-
+-        if (dc->condjmp && !dc->is_jmp) {
+-            gen_set_label(dc->condlabel);
+-            dc->condjmp = 0;
+-        }
+-        /* Translation stops when a conditional branch is encountered.
+-         * Otherwise the subsequent code could get translated several times.
+-         * Also stop translation when a page boundary is reached.  This
+-         * ensures prefetch aborts occur at the right place.  */
+-    } while (!dc->is_jmp && !tcg_op_buf_full() &&
+-             !cs->singlestep_enabled &&
+-             !singlestep &&
+-             dc->pc - page_start < TARGET_PAGE_SIZE &&
+-             num_insns < max_insns);
+-
+-    if (tb_cflags(tb) & CF_LAST_IO) {
+-        if (dc->condjmp) {
+-            /* FIXME:  This can theoretically happen with self-modifying
+-               code.  */
+-            cpu_abort(cs, "IO on conditional branch instruction");
 -        }
 -    }
-- done_generating:
+-
+-    /* At this stage dc->condjmp will only be set when the skipped
+-       instruction was a conditional branch or trap, and the PC has
+-       already been written.  */
+-    if (unlikely(cs->singlestep_enabled)) {
+-        /* Make sure the pc is updated, and raise a debug exception.  */
+-        if (dc->condjmp) {
+-            if (dc->is_jmp == DISAS_SYSCALL) {
+-                gen_exception(UC32_EXCP_PRIV);
+-            } else {
+-                gen_exception(EXCP_DEBUG);
+-            }
+-            gen_set_label(dc->condlabel);
+-        }
+-        if (dc->condjmp || !dc->is_jmp) {
+-            gen_set_pc_im(dc->pc);
+-            dc->condjmp = 0;
+-        }
+-        if (dc->is_jmp == DISAS_SYSCALL && !dc->condjmp) {
+-            gen_exception(UC32_EXCP_PRIV);
+-        } else {
+-            gen_exception(EXCP_DEBUG);
+-        }
+-    } else {
+-        /* While branches must always occur at the end of an IT block,
+-           there are a few other things that can cause us to terminate
+-           the TB in the middel of an IT block:
+-            - Exception generating instructions (bkpt, swi, undefined).
+-            - Page boundaries.
+-            - Hardware watchpoints.
+-           Hardware breakpoints have already been handled and skip this code.
+-         */
+-        switch (dc->is_jmp) {
+-        case DISAS_NEXT:
+-            gen_goto_tb(dc, 1, dc->pc);
+-            break;
+-        default:
+-        case DISAS_JUMP:
+-        case DISAS_UPDATE:
+-            /* indicate that the hash table must be used to find the next TB */
+-            tcg_gen_exit_tb(NULL, 0);
+-            break;
+-        case DISAS_TB_JUMP:
+-            /* nothing more to generate */
+-            break;
+-        case DISAS_SYSCALL:
+-            gen_exception(UC32_EXCP_PRIV);
+-            break;
+-        }
+-        if (dc->condjmp) {
+-            gen_set_label(dc->condlabel);
+-            gen_goto_tb(dc, 1, dc->pc);
+-            dc->condjmp = 0;
+-        }
+-    }
+-
+-done_generating:
 -    gen_tb_end(tb, num_insns);
 -
--    tb->size = ctx.pc - pc_start;
+-#ifdef DEBUG_DISAS
+-    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
+-        && qemu_log_in_addr_range(pc_start)) {
+-        FILE *logfile = qemu_log_lock();
+-        qemu_log("----------------\n");
+-        qemu_log("IN: %s\n", lookup_symbol(pc_start));
+-        log_target_disas(cs, pc_start, dc->pc - pc_start);
+-        qemu_log("\n");
+-        qemu_log_unlock(logfile);
+-    }
+-#endif
+-    tb->size = dc->pc - pc_start;
 -    tb->icount = num_insns;
 -}
 -
--void restore_state_to_opc(CPUMoxieState *env, TranslationBlock *tb,
--                          target_ulong *data)
--{
--    env->pc = data[0];
--}
-diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-index d74509b1c5..d40adddafa 100644
---- a/tests/qtest/boot-serial-test.c
-+++ b/tests/qtest/boot-serial-test.c
-@@ -61,13 +61,6 @@ static const uint8_t kernel_plml605[] = {
-     0xfc, 0xff, 0x00, 0xb8                  /* bri   -4  loop */
- };
- 
--static const uint8_t bios_moxiesim[] = {
--    0x20, 0x10, 0x00, 0x00, 0x03, 0xf8,     /* ldi.s r1,0x3f8 */
--    0x1b, 0x20, 0x00, 0x00, 0x00, 0x54,     /* ldi.b r2,'T' */
--    0x1e, 0x12,                             /* st.b  r1,r2 */
--    0x1a, 0x00, 0x00, 0x00, 0x10, 0x00      /* jmpa  0x1000 */
+-static const char *cpu_mode_names[16] = {
+-    "USER", "REAL", "INTR", "PRIV", "UM14", "UM15", "UM16", "TRAP",
+-    "UM18", "UM19", "UM1A", "EXTN", "UM1C", "UM1D", "UM1E", "SUSR"
 -};
 -
- static const uint8_t bios_raspi2[] = {
-     0x08, 0x30, 0x9f, 0xe5,                 /* ldr   r3,[pc,#8]    Get base */
-     0x54, 0x20, 0xa0, 0xe3,                 /* mov     r2,#'T' */
-@@ -145,7 +138,6 @@ static testdef_t tests[] = {
-       sizeof(kernel_pls3adsp1800), kernel_pls3adsp1800 },
-     { "microblazeel", "petalogix-ml605", "", "TT",
-       sizeof(kernel_plml605), kernel_plml605 },
--    { "moxie", "moxiesim", "", "TT", sizeof(bios_moxiesim), 0, bios_moxiesim },
-     { "arm", "raspi2", "", "TT", sizeof(bios_raspi2), 0, bios_raspi2 },
-     /* For hppa, force bios to output to serial by disabling graphics. */
-     { "hppa", "hppa", "-vga none", "SeaBIOS wants SYSTEM HALT" },
+-#undef UCF64_DUMP_STATE
+-#ifdef UCF64_DUMP_STATE
+-static void cpu_dump_state_ucf64(CPUUniCore32State *env, int flags)
+-{
+-    int i;
+-    union {
+-        uint32_t i;
+-        float s;
+-    } s0, s1;
+-    CPU_DoubleU d;
+-    /* ??? This assumes float64 and double have the same layout.
+-       Oh well, it's only debug dumps.  */
+-    union {
+-        float64 f64;
+-        double d;
+-    } d0;
+-
+-    for (i = 0; i < 16; i++) {
+-        d.d = env->ucf64.regs[i];
+-        s0.i = d.l.lower;
+-        s1.i = d.l.upper;
+-        d0.f64 = d.d;
+-        qemu_fprintf(f, "s%02d=%08x(%8g) s%02d=%08x(%8g)",
+-                     i * 2, (int)s0.i, s0.s,
+-                     i * 2 + 1, (int)s1.i, s1.s);
+-        qemu_fprintf(f, " d%02d=%" PRIx64 "(%8g)\n",
+-                     i, (uint64_t)d0.f64, d0.d);
+-    }
+-    qemu_fprintf(f, "FPSCR: %08x\n", (int)env->ucf64.xregs[UC32_UCF64_FPSCR]);
+-}
+-#else
+-#define cpu_dump_state_ucf64(env, file, pr, flags)      do { } while (0)
+-#endif
+-
+-void uc32_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+-{
+-    UniCore32CPU *cpu = UNICORE32_CPU(cs);
+-    CPUUniCore32State *env = &cpu->env;
+-    int i;
+-    uint32_t psr;
+-
+-    for (i = 0; i < 32; i++) {
+-        qemu_fprintf(f, "R%02d=%08x", i, env->regs[i]);
+-        if ((i % 4) == 3) {
+-            qemu_fprintf(f, "\n");
+-        } else {
+-            qemu_fprintf(f, " ");
+-        }
+-    }
+-    psr = cpu_asr_read(env);
+-    qemu_fprintf(f, "PSR=%08x %c%c%c%c %s\n",
+-                 psr,
+-                 psr & (1 << 31) ? 'N' : '-',
+-                 psr & (1 << 30) ? 'Z' : '-',
+-                 psr & (1 << 29) ? 'C' : '-',
+-                 psr & (1 << 28) ? 'V' : '-',
+-                 cpu_mode_names[psr & 0xf]);
+-
+-    if (flags & CPU_DUMP_FPU) {
+-        cpu_dump_state_ucf64(env, f, cpu_fprintf, flags);
+-    }
+-}
+-
+-void restore_state_to_opc(CPUUniCore32State *env, TranslationBlock *tb,
+-                          target_ulong *data)
+-{
+-    env->regs[31] = data[0];
+-}
+diff --git a/target/unicore32/ucf64_helper.c b/target/unicore32/ucf64_helper.c
+deleted file mode 100644
+index 12a91900f6..0000000000
+--- a/target/unicore32/ucf64_helper.c
++++ /dev/null
+@@ -1,324 +0,0 @@
+-/*
+- * UniCore-F64 simulation helpers for QEMU.
+- *
+- * Copyright (C) 2010-2012 Guan Xuetao
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation, or any later version.
+- * See the COPYING file in the top-level directory.
+- */
+-#include "qemu/osdep.h"
+-#include "cpu.h"
+-#include "exec/helper-proto.h"
+-#include "fpu/softfloat.h"
+-
+-/*
+- * The convention used for UniCore-F64 instructions:
+- *  Single precition routines have a "s" suffix
+- *  Double precision routines have a "d" suffix.
+- */
+-
+-/* Convert host exception flags to f64 form.  */
+-static inline int ucf64_exceptbits_from_host(int host_bits)
+-{
+-    int target_bits = 0;
+-
+-    if (host_bits & float_flag_invalid) {
+-        target_bits |= UCF64_FPSCR_FLAG_INVALID;
+-    }
+-    if (host_bits & float_flag_divbyzero) {
+-        target_bits |= UCF64_FPSCR_FLAG_DIVZERO;
+-    }
+-    if (host_bits & float_flag_overflow) {
+-        target_bits |= UCF64_FPSCR_FLAG_OVERFLOW;
+-    }
+-    if (host_bits & float_flag_underflow) {
+-        target_bits |= UCF64_FPSCR_FLAG_UNDERFLOW;
+-    }
+-    if (host_bits & float_flag_inexact) {
+-        target_bits |= UCF64_FPSCR_FLAG_INEXACT;
+-    }
+-    return target_bits;
+-}
+-
+-uint32_t HELPER(ucf64_get_fpscr)(CPUUniCore32State *env)
+-{
+-    int i;
+-    uint32_t fpscr;
+-
+-    fpscr = (env->ucf64.xregs[UC32_UCF64_FPSCR] & UCF64_FPSCR_MASK);
+-    i = get_float_exception_flags(&env->ucf64.fp_status);
+-    fpscr |= ucf64_exceptbits_from_host(i);
+-    return fpscr;
+-}
+-
+-/* Convert ucf64 exception flags to target form.  */
+-static inline int ucf64_exceptbits_to_host(int target_bits)
+-{
+-    int host_bits = 0;
+-
+-    if (target_bits & UCF64_FPSCR_FLAG_INVALID) {
+-        host_bits |= float_flag_invalid;
+-    }
+-    if (target_bits & UCF64_FPSCR_FLAG_DIVZERO) {
+-        host_bits |= float_flag_divbyzero;
+-    }
+-    if (target_bits & UCF64_FPSCR_FLAG_OVERFLOW) {
+-        host_bits |= float_flag_overflow;
+-    }
+-    if (target_bits & UCF64_FPSCR_FLAG_UNDERFLOW) {
+-        host_bits |= float_flag_underflow;
+-    }
+-    if (target_bits & UCF64_FPSCR_FLAG_INEXACT) {
+-        host_bits |= float_flag_inexact;
+-    }
+-    return host_bits;
+-}
+-
+-void HELPER(ucf64_set_fpscr)(CPUUniCore32State *env, uint32_t val)
+-{
+-    UniCore32CPU *cpu = env_archcpu(env);
+-    int i;
+-    uint32_t changed;
+-
+-    changed = env->ucf64.xregs[UC32_UCF64_FPSCR];
+-    env->ucf64.xregs[UC32_UCF64_FPSCR] = (val & UCF64_FPSCR_MASK);
+-
+-    changed ^= val;
+-    if (changed & (UCF64_FPSCR_RND_MASK)) {
+-        i = UCF64_FPSCR_RND(val);
+-        switch (i) {
+-        case 0:
+-            i = float_round_nearest_even;
+-            break;
+-        case 1:
+-            i = float_round_to_zero;
+-            break;
+-        case 2:
+-            i = float_round_up;
+-            break;
+-        case 3:
+-            i = float_round_down;
+-            break;
+-        default: /* 100 and 101 not implement */
+-            cpu_abort(CPU(cpu), "Unsupported UniCore-F64 round mode");
+-        }
+-        set_float_rounding_mode(i, &env->ucf64.fp_status);
+-    }
+-
+-    i = ucf64_exceptbits_to_host(UCF64_FPSCR_TRAPEN(val));
+-    set_float_exception_flags(i, &env->ucf64.fp_status);
+-}
+-
+-float32 HELPER(ucf64_adds)(float32 a, float32 b, CPUUniCore32State *env)
+-{
+-    return float32_add(a, b, &env->ucf64.fp_status);
+-}
+-
+-float64 HELPER(ucf64_addd)(float64 a, float64 b, CPUUniCore32State *env)
+-{
+-    return float64_add(a, b, &env->ucf64.fp_status);
+-}
+-
+-float32 HELPER(ucf64_subs)(float32 a, float32 b, CPUUniCore32State *env)
+-{
+-    return float32_sub(a, b, &env->ucf64.fp_status);
+-}
+-
+-float64 HELPER(ucf64_subd)(float64 a, float64 b, CPUUniCore32State *env)
+-{
+-    return float64_sub(a, b, &env->ucf64.fp_status);
+-}
+-
+-float32 HELPER(ucf64_muls)(float32 a, float32 b, CPUUniCore32State *env)
+-{
+-    return float32_mul(a, b, &env->ucf64.fp_status);
+-}
+-
+-float64 HELPER(ucf64_muld)(float64 a, float64 b, CPUUniCore32State *env)
+-{
+-    return float64_mul(a, b, &env->ucf64.fp_status);
+-}
+-
+-float32 HELPER(ucf64_divs)(float32 a, float32 b, CPUUniCore32State *env)
+-{
+-    return float32_div(a, b, &env->ucf64.fp_status);
+-}
+-
+-float64 HELPER(ucf64_divd)(float64 a, float64 b, CPUUniCore32State *env)
+-{
+-    return float64_div(a, b, &env->ucf64.fp_status);
+-}
+-
+-float32 HELPER(ucf64_negs)(float32 a)
+-{
+-    return float32_chs(a);
+-}
+-
+-float64 HELPER(ucf64_negd)(float64 a)
+-{
+-    return float64_chs(a);
+-}
+-
+-float32 HELPER(ucf64_abss)(float32 a)
+-{
+-    return float32_abs(a);
+-}
+-
+-float64 HELPER(ucf64_absd)(float64 a)
+-{
+-    return float64_abs(a);
+-}
+-
+-void HELPER(ucf64_cmps)(float32 a, float32 b, uint32_t c,
+-        CPUUniCore32State *env)
+-{
+-    FloatRelation flag = float32_compare_quiet(a, b, &env->ucf64.fp_status);
+-    env->CF = 0;
+-    switch (c & 0x7) {
+-    case 0: /* F */
+-        break;
+-    case 1: /* UN */
+-        if (flag == 2) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 2: /* EQ */
+-        if (flag == 0) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 3: /* UEQ */
+-        if ((flag == 0) || (flag == 2)) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 4: /* OLT */
+-        if (flag == -1) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 5: /* ULT */
+-        if ((flag == -1) || (flag == 2)) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 6: /* OLE */
+-        if ((flag == -1) || (flag == 0)) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 7: /* ULE */
+-        if (flag != 1) {
+-            env->CF = 1;
+-        }
+-        break;
+-    }
+-    env->ucf64.xregs[UC32_UCF64_FPSCR] = (env->CF << 29)
+-                    | (env->ucf64.xregs[UC32_UCF64_FPSCR] & 0x0fffffff);
+-}
+-
+-void HELPER(ucf64_cmpd)(float64 a, float64 b, uint32_t c,
+-        CPUUniCore32State *env)
+-{
+-    FloatRelation flag = float64_compare_quiet(a, b, &env->ucf64.fp_status);
+-    env->CF = 0;
+-    switch (c & 0x7) {
+-    case 0: /* F */
+-        break;
+-    case 1: /* UN */
+-        if (flag == 2) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 2: /* EQ */
+-        if (flag == 0) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 3: /* UEQ */
+-        if ((flag == 0) || (flag == 2)) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 4: /* OLT */
+-        if (flag == -1) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 5: /* ULT */
+-        if ((flag == -1) || (flag == 2)) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 6: /* OLE */
+-        if ((flag == -1) || (flag == 0)) {
+-            env->CF = 1;
+-        }
+-        break;
+-    case 7: /* ULE */
+-        if (flag != 1) {
+-            env->CF = 1;
+-        }
+-        break;
+-    }
+-    env->ucf64.xregs[UC32_UCF64_FPSCR] = (env->CF << 29)
+-                    | (env->ucf64.xregs[UC32_UCF64_FPSCR] & 0x0fffffff);
+-}
+-
+-/* Helper routines to perform bitwise copies between float and int.  */
+-static inline float32 ucf64_itos(uint32_t i)
+-{
+-    union {
+-        uint32_t i;
+-        float32 s;
+-    } v;
+-
+-    v.i = i;
+-    return v.s;
+-}
+-
+-static inline uint32_t ucf64_stoi(float32 s)
+-{
+-    union {
+-        uint32_t i;
+-        float32 s;
+-    } v;
+-
+-    v.s = s;
+-    return v.i;
+-}
+-
+-/* Integer to float conversion.  */
+-float32 HELPER(ucf64_si2sf)(float32 x, CPUUniCore32State *env)
+-{
+-    return int32_to_float32(ucf64_stoi(x), &env->ucf64.fp_status);
+-}
+-
+-float64 HELPER(ucf64_si2df)(float32 x, CPUUniCore32State *env)
+-{
+-    return int32_to_float64(ucf64_stoi(x), &env->ucf64.fp_status);
+-}
+-
+-/* Float to integer conversion.  */
+-float32 HELPER(ucf64_sf2si)(float32 x, CPUUniCore32State *env)
+-{
+-    return ucf64_itos(float32_to_int32(x, &env->ucf64.fp_status));
+-}
+-
+-float32 HELPER(ucf64_df2si)(float64 x, CPUUniCore32State *env)
+-{
+-    return ucf64_itos(float64_to_int32(x, &env->ucf64.fp_status));
+-}
+-
+-/* floating point conversion */
+-float64 HELPER(ucf64_sf2df)(float32 x, CPUUniCore32State *env)
+-{
+-    return float32_to_float64(x, &env->ucf64.fp_status);
+-}
+-
+-float32 HELPER(ucf64_df2sf)(float64 x, CPUUniCore32State *env)
+-{
+-    return float64_to_float32(x, &env->ucf64.fp_status);
+-}
 diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
-index aab06b9fc2..5feada15dc 100644
+index 0ec1549648..138101b46a 100644
 --- a/tests/qtest/machine-none-test.c
 +++ b/tests/qtest/machine-none-test.c
-@@ -40,7 +40,6 @@ static struct arch2cpu cpus_map[] = {
-     { "mipsel", "I7200" },
-     { "mips64", "20Kc" },
-     { "mips64el", "I6500" },
--    { "moxie", "MoxieLite" },
-     { "nios2", "FIXME" },
-     { "or1k", "or1200" },
-     { "ppc", "604" },
+@@ -49,7 +49,6 @@ static struct arch2cpu cpus_map[] = {
+     { "sparc", "LEON2" },
+     { "sparc64", "Fujitsu Sparc64" },
+     { "tricore", "tc1796" },
+-    { "unicore32", "UniCore-II" },
+     { "xtensa", "dc233c" },
+     { "xtensaeb", "fsf" },
+     { "hppa", "hppa" },
 diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
-index 9ea318f3e2..60df67d441 100644
+index 9b4cbf4f98..3f01e1b8c5 100644
 --- a/fpu/softfloat-specialize.c.inc
 +++ b/fpu/softfloat-specialize.c.inc
-@@ -152,7 +152,7 @@ static FloatParts parts_default_nan(float_status *status)
-     /* This case is true for Alpha, ARM, MIPS, OpenRISC, PPC, RISC-V,
-      * S390, SH4, TriCore, and Xtensa.  I cannot find documentation
-      * for Unicore32; the choice from the original commit is unchanged.
--     * Our other supported targets, CRIS, LM32, Moxie, Nios2, and Tile,
-+     * Our other supported targets, CRIS, LM32, and Nios2,
-      * do not have floating-point.
+@@ -103,7 +103,7 @@ static inline bool snan_bit_is_one(float_status *status)
+ {
+ #if defined(TARGET_MIPS)
+     return status->snan_bit_is_one;
+-#elif defined(TARGET_HPPA) || defined(TARGET_UNICORE32) || defined(TARGET_SH4)
++#elif defined(TARGET_HPPA) || defined(TARGET_SH4)
+     return 1;
+ #else
+     return 0;
+@@ -149,11 +149,10 @@ static FloatParts parts_default_nan(float_status *status)
+     sign = 1;
+     frac = ~0ULL;
+ #else
+-    /* This case is true for Alpha, ARM, MIPS, OpenRISC, PPC, RISC-V,
+-     * S390, SH4, TriCore, and Xtensa.  I cannot find documentation
+-     * for Unicore32; the choice from the original commit is unchanged.
+-     * Our other supported targets, CRIS, Nios2, and Tile,
+-     * do not have floating-point.
++    /*
++     * This case is true for Alpha, ARM, MIPS, OpenRISC, PPC, RISC-V,
++     * S390, SH4, TriCore, and Xtensa.  Our other supported targets,
++     * CRIS, Nios2, and Tile, do not have floating-point.
       */
      if (snan_bit_is_one(status)) {
+         /* set all bits other than msb */
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index dcb6317aac..da6570799b 100644
+index e0d941b779..9876f73040 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -89,7 +89,7 @@ build-system-alpine:
-   variables:
-     IMAGE: alpine
-     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
--      moxie-softmmu microblazeel-softmmu mips64el-softmmu
-+      microblazeel-softmmu mips64el-softmmu
-     MAKE_CHECK_ARGS: check-build
-     CONFIGURE_ARGS: --enable-docs --enable-trace-backends=log,simple,syslog
-   artifacts:
-@@ -125,7 +125,7 @@ build-system-ubuntu:
-     IMAGE: ubuntu2004
-     CONFIGURE_ARGS: --enable-docs --enable-fdt=system --enable-slirp=system
-     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
--      moxie-softmmu microblazeel-softmmu mips64el-softmmu
-+      microblazeel-softmmu mips64el-softmmu
-     MAKE_CHECK_ARGS: check-build
+@@ -624,7 +624,7 @@ build-deprecated:
+     IMAGE: debian-all-test-cross
+     CONFIGURE_ARGS: --disable-tools
+     MAKE_CHECK_ARGS: build-tcg
+-    TARGETS: ppc64abi32-linux-user unicore32-softmmu
++    TARGETS: ppc64abi32-linux-user
    artifacts:
      expire_in: 2 days
-@@ -684,7 +684,7 @@ build-tci:
-   variables:
-     IMAGE: debian-all-test-cross
-   script:
--    - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
-+    - TARGETS="aarch64 alpha arm hppa m68k microblaze ppc64 s390x x86_64"
-     - mkdir build
-     - cd build
-     - ../configure --enable-tcg-interpreter
+     paths:
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 06642d9799..50884fef15 100644
+index 96855fbc73..607648b56c 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -258,14 +258,6 @@ MIPS TCG CPUs (nanoMIPS ISA)
- S: Orphan
- F: disas/nanomips.*
+@@ -318,13 +318,6 @@ F: hw/sparc64/
+ F: include/hw/sparc/sparc64.h
+ F: disas/sparc.c
  
--Moxie TCG CPUs
--M: Anthony Green <green@moxielogic.com>
+-UniCore32 TCG CPUs
+-M: Guan Xuetao <gxt@mprc.pku.edu.cn>
 -S: Maintained
--F: target/moxie/
--F: disas/moxie.c
--F: hw/moxie/
--F: default-configs/*/moxie-softmmu.mak
+-F: target/unicore32/
+-F: hw/unicore32/
+-F: include/hw/unicore32/
 -
- NiosII TCG CPUs
- M: Chris Wulff <crwulff@gmail.com>
- M: Marek Vasut <marex@denx.de>
-diff --git a/disas/meson.build b/disas/meson.build
-index 4c8da01877..39a5475ff6 100644
---- a/disas/meson.build
-+++ b/disas/meson.build
-@@ -13,7 +13,6 @@ common_ss.add(when: 'CONFIG_LM32_DIS', if_true: files('lm32.c'))
- common_ss.add(when: 'CONFIG_M68K_DIS', if_true: files('m68k.c'))
- common_ss.add(when: 'CONFIG_MICROBLAZE_DIS', if_true: files('microblaze.c'))
- common_ss.add(when: 'CONFIG_MIPS_DIS', if_true: files('mips.c'))
--common_ss.add(when: 'CONFIG_MOXIE_DIS', if_true: files('moxie.c'))
- common_ss.add(when: 'CONFIG_NANOMIPS_DIS', if_true: files('nanomips.cpp'))
- common_ss.add(when: 'CONFIG_NIOS2_DIS', if_true: files('nios2.c'))
- common_ss.add(when: 'CONFIG_PPC_DIS', if_true: files('ppc.c'))
+ X86 TCG CPUs
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ M: Richard Henderson <richard.henderson@linaro.org>
+@@ -1508,14 +1501,6 @@ F: hw/s390x/s390-pci*
+ F: include/hw/s390x/s390-pci*
+ L: qemu-s390x@nongnu.org
+ 
+-UniCore32 Machines
+-------------------
+-PKUnity-3 SoC initramfs-with-busybox
+-M: Guan Xuetao <gxt@mprc.pku.edu.cn>
+-S: Maintained
+-F: hw/*/puv3*
+-F: hw/unicore32/
+-
+ X86 Machines
+ ------------
+ PC
 diff --git a/hw/Kconfig b/hw/Kconfig
-index ff40bd3f7b..559b7636f4 100644
+index 10a48d1492..aa10357adf 100644
 --- a/hw/Kconfig
 +++ b/hw/Kconfig
-@@ -51,7 +51,6 @@ source lm32/Kconfig
- source m68k/Kconfig
- source microblaze/Kconfig
- source mips/Kconfig
--source moxie/Kconfig
- source nios2/Kconfig
- source openrisc/Kconfig
- source ppc/Kconfig
+@@ -60,7 +60,6 @@ source sh4/Kconfig
+ source sparc/Kconfig
+ source sparc64/Kconfig
+ source tricore/Kconfig
+-source unicore32/Kconfig
+ source xtensa/Kconfig
+ 
+ # Symbols used by multiple targets
+diff --git a/hw/dma/meson.build b/hw/dma/meson.build
+index 5c78a4e05f..f3f0661bc3 100644
+--- a/hw/dma/meson.build
++++ b/hw/dma/meson.build
+@@ -1,4 +1,3 @@
+-softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_RC4030', if_true: files('rc4030.c'))
+ softmmu_ss.add(when: 'CONFIG_PL080', if_true: files('pl080.c'))
+ softmmu_ss.add(when: 'CONFIG_PL330', if_true: files('pl330.c'))
+diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
+index 79568f00ce..7bd6a57264 100644
+--- a/hw/gpio/meson.build
++++ b/hw/gpio/meson.build
+@@ -3,7 +3,6 @@ softmmu_ss.add(when: 'CONFIG_GPIO_KEY', if_true: files('gpio_key.c'))
+ softmmu_ss.add(when: 'CONFIG_GPIO_PWR', if_true: files('gpio_pwr.c'))
+ softmmu_ss.add(when: 'CONFIG_MAX7310', if_true: files('max7310.c'))
+ softmmu_ss.add(when: 'CONFIG_PL061', if_true: files('pl061.c'))
+-softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_gpio.c'))
+ softmmu_ss.add(when: 'CONFIG_ZAURUS', if_true: files('zaurus.c'))
+ 
+ softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_gpio.c'))
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index cc7a140f3f..6e52a166e3 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -16,7 +16,6 @@ softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_avic.c', 'imx_gpcv2.c'))
+ softmmu_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic_common.c'))
+ softmmu_ss.add(when: 'CONFIG_OPENPIC', if_true: files('openpic.c'))
+ softmmu_ss.add(when: 'CONFIG_PL190', if_true: files('pl190.c'))
+-softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_intc.c'))
+ softmmu_ss.add(when: 'CONFIG_REALVIEW', if_true: files('realview_gic.c'))
+ softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_intctl.c'))
+ softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_intc.c'))
 diff --git a/hw/meson.build b/hw/meson.build
-index 8ba79b1a52..503cbc974f 100644
+index 56ce810c4b..6bdbae0e81 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -51,7 +51,6 @@ subdir('lm32')
- subdir('m68k')
- subdir('microblaze')
- subdir('mips')
--subdir('moxie')
- subdir('nios2')
- subdir('openrisc')
- subdir('ppc')
-diff --git a/hw/moxie/Kconfig b/hw/moxie/Kconfig
-deleted file mode 100644
-index 3793ef0372..0000000000
---- a/hw/moxie/Kconfig
-+++ /dev/null
-@@ -1,3 +0,0 @@
--config MOXIESIM
--    bool
--    select SERIAL
-diff --git a/hw/moxie/meson.build b/hw/moxie/meson.build
-deleted file mode 100644
-index 05a7c2e00f..0000000000
---- a/hw/moxie/meson.build
-+++ /dev/null
-@@ -1,4 +0,0 @@
--moxie_ss = ss.source_set()
--moxie_ss.add(when: 'CONFIG_MOXIESIM', if_true: files('moxiesim.c'))
+@@ -61,5 +61,4 @@ subdir('sh4')
+ subdir('sparc')
+ subdir('sparc64')
+ subdir('tricore')
+-subdir('unicore32')
+ subdir('xtensa')
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index f934d79e29..66e1648533 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -36,9 +36,6 @@ softmmu_ss.add(when: 'CONFIG_SIFIVE_E_PRCI', if_true: files('sifive_e_prci.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_U_OTP', if_true: files('sifive_u_otp.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_U_PRCI', if_true: files('sifive_u_prci.c'))
+ 
+-# PKUnity SoC devices
+-softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_pm.c'))
 -
--hw_arch += {'moxie': moxie_ss}
+ subdir('macio')
+ 
+ softmmu_ss.add(when: 'CONFIG_IVSHMEM_DEVICE', if_true: files('ivshmem.c'))
+diff --git a/hw/timer/meson.build b/hw/timer/meson.build
+index f2081d261a..157f540ecd 100644
+--- a/hw/timer/meson.build
++++ b/hw/timer/meson.build
+@@ -25,7 +25,6 @@ softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_timer.c'))
+ softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_timer.c'))
+ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_gptimer.c'))
+ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_synctimer.c'))
+-softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_ost.c'))
+ softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_timer.c'))
+ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_systmr.c'))
+ softmmu_ss.add(when: 'CONFIG_SH_TIMER', if_true: files('sh_timer.c'))
+diff --git a/hw/unicore32/Kconfig b/hw/unicore32/Kconfig
+deleted file mode 100644
+index 4443a29dd2..0000000000
+--- a/hw/unicore32/Kconfig
++++ /dev/null
+@@ -1,5 +0,0 @@
+-config PUV3
+-    bool
+-    select ISA_BUS
+-    select PCKBD
+-    select PTIMER
+diff --git a/hw/unicore32/meson.build b/hw/unicore32/meson.build
+deleted file mode 100644
+index fc26d6bcab..0000000000
+--- a/hw/unicore32/meson.build
++++ /dev/null
+@@ -1,5 +0,0 @@
+-unicore32_ss = ss.source_set()
+-# PKUnity-v3 SoC and board information
+-unicore32_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3.c'))
+-
+-hw_arch += {'unicore32': unicore32_ss}
 diff --git a/target/meson.build b/target/meson.build
-index 0e2c4b69cb..289a654caf 100644
+index ccc87f30f3..2f6940255e 100644
 --- a/target/meson.build
 +++ b/target/meson.build
-@@ -9,7 +9,6 @@ subdir('lm32')
- subdir('m68k')
- subdir('microblaze')
- subdir('mips')
--subdir('moxie')
- subdir('nios2')
- subdir('openrisc')
- subdir('ppc')
-diff --git a/target/moxie/meson.build b/target/moxie/meson.build
+@@ -17,5 +17,4 @@ subdir('s390x')
+ subdir('sh4')
+ subdir('sparc')
+ subdir('tricore')
+-subdir('unicore32')
+ subdir('xtensa')
+diff --git a/target/unicore32/meson.build b/target/unicore32/meson.build
 deleted file mode 100644
-index b4beb528cc..0000000000
---- a/target/moxie/meson.build
+index 0fa78772eb..0000000000
+--- a/target/unicore32/meson.build
 +++ /dev/null
 @@ -1,14 +0,0 @@
--moxie_ss = ss.source_set()
--moxie_ss.add(files(
+-unicore32_ss = ss.source_set()
+-unicore32_ss.add(files(
 -  'cpu.c',
 -  'helper.c',
--  'machine.c',
--  'machine.c',
+-  'op_helper.c',
 -  'translate.c',
--))
+-  'ucf64_helper.c',
+-), curses)
 -
--moxie_softmmu_ss = ss.source_set()
--moxie_softmmu_ss.add(files('mmu.c'))
+-unicore32_softmmu_ss = ss.source_set()
+-unicore32_softmmu_ss.add(files('softmmu.c'))
 -
--target_arch += {'moxie': moxie_ss}
--target_softmmu_arch += {'moxie': moxie_softmmu_ss}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 966bc93efa..49de74ff59 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -126,8 +126,6 @@ qtests_mips64el = \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
- 
--qtests_moxie = [ 'boot-serial-test' ]
--
- qtests_ppc = \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_M48T59') ? ['m48t59-test'] : []) +                     \
+-target_arch += {'unicore32': unicore32_ss}
+-target_softmmu_arch += {'unicore32': unicore32_softmmu_ss}
 -- 
 2.26.3
 
