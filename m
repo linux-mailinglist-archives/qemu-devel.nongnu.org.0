@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D86B37D3DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:29:38 +0200 (CEST)
-Received: from localhost ([::1]:39192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A5137D3CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:20:31 +0200 (CEST)
+Received: from localhost ([::1]:45506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lguY5-0006IV-05
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:29:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53616)
+	id 1lguPG-00080L-Km
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:20:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu2g-0006hE-1U; Wed, 12 May 2021 14:57:10 -0400
-Received: from [201.28.113.2] (port=20812 helo=outlook.eldorado.org.br)
+ id 1lgu3o-0000FS-HT; Wed, 12 May 2021 14:58:24 -0400
+Received: from [201.28.113.2] (port=47887 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu2e-0007uU-Id; Wed, 12 May 2021 14:57:09 -0400
+ id 1lgu3l-0000ms-3o; Wed, 12 May 2021 14:58:19 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 15:56:04 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id CA1B480139F;
- Wed, 12 May 2021 15:56:03 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 74E2780139F;
+ Wed, 12 May 2021 15:56:04 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 15/31] target/ppc: Tidy exception vs exit_tb
-Date: Wed, 12 May 2021 15:54:25 -0300
-Message-Id: <20210512185441.3619828-16-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 17/31] target/ppc: Use translator_loop_temp_check
+Date: Wed, 12 May 2021 15:54:27 -0300
+Message-Id: <20210512185441.3619828-18-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 May 2021 18:56:04.0172 (UTC)
- FILETIME=[7555F8C0:01D74760]
+X-OriginalArrivalTime: 12 May 2021 18:56:04.0844 (UTC)
+ FILETIME=[75BC82C0:01D74760]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,30 +63,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We do not need to emit an exit_tb after an exception,
-as the latter will exit via longjmp.
+The special logging is unnecessary.  It will have been done
+immediately before in the log file.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/translate.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/ppc/translate.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index bfda567ac0..9912686496 100644
+index 9912686496..cd4b34aa91 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -4651,8 +4651,9 @@ static void gen_lookup_and_goto_ptr(DisasContext *ctx)
-         } else if (sse & (CPU_SINGLE_STEP | CPU_BRANCH_STEP)) {
-             uint32_t excp = gen_prep_dbgex(ctx);
-             gen_exception(ctx, excp);
-+        } else {
-+            tcg_gen_exit_tb(NULL, 0);
-         }
--        tcg_gen_exit_tb(NULL, 0);
-     } else {
-         tcg_gen_lookup_and_goto_ptr();
-     }
+@@ -9282,11 +9282,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     handler->count++;
+ #endif
+ 
+-    if (tcg_check_temp_count()) {
+-        qemu_log("Opcode %02x %02x %02x %02x (%08x) leaked "
+-                 "temporaries\n", opc1(ctx->opcode), opc2(ctx->opcode),
+-                 opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
+-    }
++    translator_loop_temp_check(&ctx->base);
+ }
+ 
+ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
 -- 
 2.25.1
 
