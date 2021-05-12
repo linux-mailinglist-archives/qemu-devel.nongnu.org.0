@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354EC37D2B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:18:01 +0200 (CEST)
-Received: from localhost ([::1]:55378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1FE537D2C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:18:20 +0200 (CEST)
+Received: from localhost ([::1]:56766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgtQm-0002ox-7q
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:18:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43590)
+	id 1lgtR6-0003mO-1Y
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:18:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgtK3-0002Sk-OR
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:11:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33954)
+ id 1lgtK5-0002X4-2k
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:11:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgtK1-0006xF-1J
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:11:03 -0400
+ id 1lgtK1-0006xJ-8G
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:11:04 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgtJz-0000wb-3g
+ id 1lgtJz-0000xS-JI
  for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:10:59 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D1B7C2E8187
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:10:58 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6C7F42E8186
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:10:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 18:02:11 -0000
-From: Thomas Huth <1914021@bugs.launchpad.net>
+Date: Wed, 12 May 2021 18:02:45 -0000
+From: Thomas Huth <1913969@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: johndong pmaydell th-huth
-X-Launchpad-Bug-Reporter: Dong JianQiang (johndong)
+X-Launchpad-Bug-Commenters: th-huth vklimovs
+X-Launchpad-Bug-Reporter: Vjaceslavs Klimovs (vklimovs)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161217038744.31620.11534855593258118024.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162084253151.26045.17026488166896747463.malone@chaenomeles.canonical.com>
-Subject: [Bug 1914021] Re: qemu: uncaught target signal 4 (Illegal
- instruction) but gdb remote-debug exited normally
+References: <161213017826.4056.12759150225792580313.malonedeb@soybean.canonical.com>
+Message-Id: <162084256604.7322.8477338491206073978.malone@gac.canonical.com>
+Subject: [Bug 1913969] Re: unable to migrate non shared storage when TLS is
+ used
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: e46d071c29da974dac147060439e5550bcaeae8b
+X-Launchpad-Hash: ef250d063db3b56573d701646fa2c866fc8f2cb6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914021 <1914021@bugs.launchpad.net>
+Reply-To: Bug 1913969 <1913969@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -112,46 +112,42 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914021
+https://bugs.launchpad.net/bugs/1913969
 
 Title:
-  qemu: uncaught target signal 4 (Illegal instruction) but gdb remote-
-  debug exited normally
+  unable to migrate non shared storage when TLS is used
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I'm getting Illegal instruction (core dumped) when running the
-  attached a.out_err binary in qemu, but when using Gdb to remote-debug
-  the program, it exited normally. will appreciate if you can help look
-  into this qemu issue.
+  Operating system: Gentoo
+  Architecture: x86_64
+  kernel version: 5.4.72, 5.10.11
+  libvirt version: at least 6.9.0, 6.10.0, 7.0.0
+  Hypervisor and version: qemu 5.1.0, 5.2.0
 
-  readelf -h a.out_err
-  ELF Header:
-    Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
-    Class:                             ELF32
-    Data:                              2's complement, little endian
-    Version:                           1 (current)
-    OS/ABI:                            UNIX - System V
-    ABI Version:                       0
-    Type:                              EXEC (Executable file)
-    Machine:                           ARM
-    Version:                           0x1
-    Entry point address:               0x8220
-    Start of program headers:          52 (bytes into file)
-    Start of section headers:          54228 (bytes into file)
-    Flags:                             0x5000200, Version5 EABI, soft-float=
- ABI
-    Size of this header:               52 (bytes)
-    Size of program headers:           32 (bytes)
-    Number of program headers:         3
-    Size of section headers:           40 (bytes)
-    Number of section headers:         16
-    Section header string table index: 15
+  With software versions described above and following configurations:
+  libvirt:
+  key_file =3D "/etc/ssl/libvirt/server.lan.key"
+  cert_file =3D "/etc/ssl/libvirt/server.lan.crt"
+  ca_file =3D "/etc/ssl/libvirt/ca.crt"
+  log_filters=3D"3:remote 4:event 3:util.json 3:rpc 1:*"
+  log_outputs=3D"1:file:/var/log/libvirt/libvirtd.log"
+  qemu:
+  default_tls_x509_cert_dir =3D "/etc/ssl/qemu"
+  default_tls_x509_verify =3D 1
+  migration with tls:
+  virsh # migrate vm1 qemu+tls://server2.lan/system --persistent --undefine=
+source --copy-storage-all --verbose --tls
+  never succeeds. Progress stops typically at high progress amounts (95%-98=
+%), and network traffic drastically drops as well (from 1 gbps+ to nothing)=
+. domjobinfo progress also stops. Without --tls migrations succeed without =
+issues without any other changes to hosts or configurations.
 
-  qemu-arm version 4.0.0
+  Note: I reported this originally as libvirt bug:
+  https://gitlab.com/libvirt/libvirt/-/issues/108.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914021/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1913969/+subscriptions
 
