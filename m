@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0902437D3E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:36:16 +0200 (CEST)
-Received: from localhost ([::1]:52776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B5937D3EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:46:29 +0200 (CEST)
+Received: from localhost ([::1]:39114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgueV-0007Fk-2y
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
+	id 1lguoN-0000aY-QO
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:46:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgu4J-0000gM-EN
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:58:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgu4E-000143-BO
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:58:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620845925;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ejNSliYLzN/dMH8dC7Vanhun9axgFcIn4uIkzo9x45E=;
- b=jJtHVdp8FtgFVlgr7+iFqHWEF1nWPvL3vkKSUFtx8hPUgtF3NyFxRzQ58IvBftNMD5lAK2
- 3nn57CeyZe3ZhxouAmW7rZTkye8E/+t9MRpYCDxo1U1jJVb0f9AexUt2/wFVQnUF8kOoH0
- wYeJ6OeK7WemrBnADJI4EjZbG468LZ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-BZgYR_8EMeyiGbWO2BQM1g-1; Wed, 12 May 2021 14:58:42 -0400
-X-MC-Unique: BZgYR_8EMeyiGbWO2BQM1g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 247318015D4;
- Wed, 12 May 2021 18:58:41 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B17325D9D7;
- Wed, 12 May 2021 18:58:40 +0000 (UTC)
-Subject: Re: [PATCH v3 0/9] qapi: untie 'if' conditions from C preprocessor
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
- <YJq2SXW1kSyDZ7WX@stefanha-x1.localdomain>
- <CAJ+F1CJ4FNGJj7pVP90njGeyB0REoeBOf=29_6u-QCmJM+LSzA@mail.gmail.com>
- <87im3ndf10.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <d1cf00bb-edb7-696b-0172-cb532fa573ab@redhat.com>
-Date: Wed, 12 May 2021 14:58:40 -0400
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lguEk-0002Nu-Pk; Wed, 12 May 2021 15:09:38 -0400
+Received: from [201.28.113.2] (port=65047 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lguEj-0007Lp-0t; Wed, 12 May 2021 15:09:38 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 16:09:34 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id 0DF228000C2;
+ Wed, 12 May 2021 16:09:34 -0300 (-03)
+Subject: Re: [RFC PATCH 10/11] target/ppc: created tcg-stub.c file
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
+ <20210512140813.112884-11-bruno.larsen@eldorado.org.br>
+ <a80cf0c3-705e-e41a-f538-8abf492a5f4c@linaro.org>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <a2794fe7-51f0-3f12-763e-6d4bc182ec92@eldorado.org.br>
+Date: Wed, 12 May 2021 16:09:33 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <87im3ndf10.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <a80cf0c3-705e-e41a-f538-8abf492a5f4c@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------AF48C6F306AC572EB3CC99B2"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 12 May 2021 19:09:34.0396 (UTC)
+ FILETIME=[584457C0:01D74762]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,63 +60,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/21 1:43 PM, Markus Armbruster wrote:
-> Marc-André Lureau <marcandre.lureau@gmail.com> writes:
-> 
->> Hi Markus
->>
->> On Tue, May 11, 2021 at 8:53 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->>
->>> On Thu, Apr 29, 2021 at 05:40:23PM +0400, marcandre.lureau@redhat.com
->>> wrote:
->>>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
->>>>
->>>> Hi,
->>>>
->>>> This series makes the 'if' conditions less liberal, by formalizing a
->>> simple
->>>> expression tree based on bare boolean logic of configure option
->>> identifiers.
->>>>
->>>> (this allows to express conditions in Rust in my QAPI-Rust PoC series)
->>>>
->>>> This is based on John Snow QAPI pt4:
->>>> https://patchew.org/QEMU/20210421192233.3542904-1-jsnow@redhat.com/
->>>>
->>>> Based-on: <20210421192233.3542904-2-jsnow@redhat.com>
->>>>
->>>
->>
->> The patch series applies cleanly on top of master now. I checked no
->> regression between each commit, including python style checks.
-> 
-> Appears to conflict with John's "[PATCH v2 00/21] qapi: static typing
-> conversion, pt5a".  I didn't examine the conflicts.
-> 
-> Since I reviewed John's v1 recently, and git-range-diff to v2 looks
-> fairly innocent at a glance, I'd prefer not to rock that boat.  Let's
-> discuss what to do as soon as I reviewed John's v2.
-> 
+This is a multi-part message in MIME format.
+--------------AF48C6F306AC572EB3CC99B2
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-It should hopefully be very minimal. I advised Marc-Andre to rebase on 
-master as this series did not appear to touch the parser. Conflict 
-should be minimal-ish.
 
-(Maybe it's clashing in Schema just a little bit? I do touch schema.py 
-very gently...)
+On 12/05/2021 15:39, Richard Henderson wrote:
+> On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
+>> +++ b/target/ppc/tcg-stub.c
+>> @@ -0,0 +1,33 @@
+>> +
+>> +#include "qemu/osdep.h"
+>
+> All files get copyright boilerplate.
+yeah, I didn't expect this file to stick around, though, as the last 
+time we made a stub file, it ended up not being used, so I decided to go 
+the quick route
+>
+>> +#include "exec/hwaddr.h"
+>> +#include "cpu.h"
+>> +#include "hw/ppc/spapr.h"
+>> +
+>> +hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+>> +{
+>> +    return 0;
+>> +}
+>
+> This is used by gdbstub.
+>
+> If there's a way for kvm to convert a virtual address to a physical 
+> address using the hardware, then use that.  I suspect there is not.
+>
+> Otherwise, you have to keep all of the mmu page table walking stuff 
+> for kvm as well as tcg.  Which probably means that all of the other 
+> stuff that you're stubbing out is used or usable as well.
+ah, this probably means we'll need to compile mmu_helper.c too... that 
+was something we were hoping to avoid, because of the sheer size.
+>
+>
+> r~
+-- 
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
->> If you are overloaded, can I make a pull request for it?
-> 
-> Not yet, please.
-> 
+--------------AF48C6F306AC572EB3CC99B2
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-As soon as I am done sending a new version of my Python packaging and CI 
-series I will run this through the wringer and give my reviews.
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 12/05/2021 15:39, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:a80cf0c3-705e-e41a-f538-8abf492a5f4c@linaro.org">On
+      5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
+      <br>
+      <blockquote type="cite">+++ b/target/ppc/tcg-stub.c
+        <br>
+        @@ -0,0 +1,33 @@
+        <br>
+        +
+        <br>
+        +#include "qemu/osdep.h"
+        <br>
+      </blockquote>
+      <br>
+      All files get copyright boilerplate.
+      <br>
+    </blockquote>
+    yeah, I didn't expect this file to stick around, though, as the last
+    time we made a stub file, it ended up not being used, so I decided
+    to go the quick route<br>
+    <blockquote type="cite"
+      cite="mid:a80cf0c3-705e-e41a-f538-8abf492a5f4c@linaro.org">
+      <br>
+      <blockquote type="cite">+#include "exec/hwaddr.h"
+        <br>
+        +#include "cpu.h"
+        <br>
+        +#include "hw/ppc/spapr.h"
+        <br>
+        +
+        <br>
+        +hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+        <br>
+        +{
+        <br>
+        +    return 0;
+        <br>
+        +}
+        <br>
+      </blockquote>
+      <br>
+      This is used by gdbstub.
+      <br>
+      <br>
+      If there's a way for kvm to convert a virtual address to a
+      physical address using the hardware, then use that.  I suspect
+      there is not.
+      <br>
+      <br>
+      Otherwise, you have to keep all of the mmu page table walking
+      stuff for kvm as well as tcg.  Which probably means that all of
+      the other stuff that you're stubbing out is used or usable as
+      well.
+      <br>
+    </blockquote>
+    ah, this probably means we'll need to compile mmu_helper.c too...
+    that was something we were hoping to avoid, because of the sheer
+    size. <br>
+    <blockquote type="cite"
+      cite="mid:a80cf0c3-705e-e41a-f538-8abf492a5f4c@linaro.org">
+      <br>
+      <br>
+      r~
+      <br>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
 
---js
-
+--------------AF48C6F306AC572EB3CC99B2--
 
