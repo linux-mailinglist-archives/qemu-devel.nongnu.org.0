@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2AD37B42F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 04:34:04 +0200 (CEST)
-Received: from localhost ([::1]:38082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADED37B42E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 04:33:57 +0200 (CEST)
+Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgehH-0003lV-Ly
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 22:34:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35464)
+	id 1lgeh9-0003OA-VN
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 22:33:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lgeff-0001o4-01; Tue, 11 May 2021 22:32:23 -0400
-Received: from ozlabs.org ([203.11.71.1]:48267)
+ id 1lgeff-0001oP-Um; Tue, 11 May 2021 22:32:23 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54701 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lgefc-0003uY-Vp; Tue, 11 May 2021 22:32:22 -0400
+ id 1lgefc-0003uc-OA; Tue, 11 May 2021 22:32:23 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FfzMg1FJbz9sX2; Wed, 12 May 2021 12:32:13 +1000 (AEST)
+ id 4FfzMg23T1z9sWp; Wed, 12 May 2021 12:32:15 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620786735;
- bh=zWdzIevbLWun4MXmfWXa1h05wVUtNcgnYYA3jie2884=;
+ bh=QBDQe7BMDYa6P+4r5s/GEdWl2ZJLbxBOPxiykdH6Bfc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aqzBghEfJpZwyPnz0SVfzkVOEMAVTRuRGREEuR6NF4mhOqB4Yi2VjKNzCMK5sw4AW
- o4MSVQ3n8+8I1ZAby1ieQ2uJwVTLBH8VGDZ1f7Vtoc5qt80XaROCONcLSg0gfQkIdM
- cz+pFy4sWv4Skq+Xn0uhqNqX4eXuyL1yn9jf3RqA=
-Date: Wed, 12 May 2021 12:24:42 +1000
+ b=PmebKdPRu1qG6xEGKxEDqWmw2if2IzTjZTmPYkMqN6XyesswLrVOJlsvo94+kWrtL
+ YDhPyrEXKjN48E/2SggUkrjFqgOXVFQm1Gn8m1sUwVcvQc8uEULcmxqAJTLTKlpLTk
+ 21kkR+VvORmUxWcQpQ/VjLZ+UN6Mdl+Z8dd7VKA0=
+Date: Wed, 12 May 2021 12:27:16 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH 1/5] hw/mem/nvdimm: Use Kconfig 'imply' instead of
- 'depends on'
-Message-ID: <YJs8anLs1zL3nPdS@yekko>
+Subject: Re: [RFC PATCH 3/5] hw/ppc: Have pSeries depends on libfdt (via host
+ Kconfig FDT symbol)
+Message-ID: <YJs9BH+j1FAMIOjP@yekko>
 References: <20210511155354.3069141-1-philmd@redhat.com>
- <20210511155354.3069141-2-philmd@redhat.com>
+ <20210511155354.3069141-4-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qMWwRlmE27uFItL/"
+ protocol="application/pgp-signature"; boundary="IGULLemGSK/rbfx9"
 Content-Disposition: inline
-In-Reply-To: <20210511155354.3069141-2-philmd@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210511155354.3069141-4-philmd@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,103 +59,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Igor Mammedov <imammedo@redhat.com>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, qemu-ppc@nongnu.org,
+Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
  John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---qMWwRlmE27uFItL/
+--IGULLemGSK/rbfx9
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 11, 2021 at 05:53:50PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Per the kconfig.rst:
+On Tue, May 11, 2021 at 05:53:52PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Since commit fea35ca4b8e ("ppc/spapr: Receive and store device
+> tree blob from SLOF") the pSeries machine depends on the libfdt
+> fdt_check_full() call, which is available in libfdt v1.4.7.
 >=20
->   A device should be listed [...] ``imply`` if (depending on
->   the QEMU command line) the board may or  may not be started
->   without it.
->=20
-> This is the case with the NVDIMM device, so use the 'imply'
-> weak reverse dependency to select the symbol.
-
-Uh.. It should definitely be possible to start a pseries machine
-without NVDIMM.  I would have guessed the same for PC.
-
+> Add the corresponding Kconfig dependency.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+
+I don't love making this conditional.  Pseries is by far the best
+tested and most widely used ppc machine type, so it seems like it
+would break expectations to not compile this in rather than giving an
+error saying you need a newer libfdt.
+
 > ---
->  default-configs/devices/ppc64-softmmu.mak | 1 -
->  hw/arm/Kconfig                            | 1 +
->  hw/i386/Kconfig                           | 1 +
->  hw/mem/Kconfig                            | 2 --
->  hw/ppc/Kconfig                            | 1 +
->  5 files changed, 3 insertions(+), 3 deletions(-)
+>  hw/ppc/Kconfig     | 1 +
+>  hw/ppc/meson.build | 4 ++--
+>  2 files changed, 3 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/default-configs/devices/ppc64-softmmu.mak b/default-configs/=
-devices/ppc64-softmmu.mak
-> index ae0841fa3a1..cca52665d90 100644
-> --- a/default-configs/devices/ppc64-softmmu.mak
-> +++ b/default-configs/devices/ppc64-softmmu.mak
-> @@ -8,4 +8,3 @@ CONFIG_POWERNV=3Dy
-> =20
->  # For pSeries
->  CONFIG_PSERIES=3Dy
-> -CONFIG_NVDIMM=3Dy
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index b887f6a5b17..67723d9ea6a 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -6,6 +6,7 @@ config ARM_VIRT
->      imply VFIO_PLATFORM
->      imply VFIO_XGMAC
->      imply TPM_TIS_SYSBUS
-> +    imply NVDIMM
->      select ARM_GIC
->      select ACPI
->      select ARM_SMMUV3
-> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-> index 7f91f30877f..66838fa397b 100644
-> --- a/hw/i386/Kconfig
-> +++ b/hw/i386/Kconfig
-> @@ -23,6 +23,7 @@ config PC
->      imply TPM_TIS_ISA
->      imply VGA_PCI
->      imply VIRTIO_VGA
-> +    imply NVDIMM
->      select FDC
->      select I8259
->      select I8254
-> diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
-> index a0ef2cf648e..8b19fdc49f1 100644
-> --- a/hw/mem/Kconfig
-> +++ b/hw/mem/Kconfig
-> @@ -7,6 +7,4 @@ config MEM_DEVICE
-> =20
->  config NVDIMM
->      bool
-> -    default y
-> -    depends on (PC || PSERIES || ARM_VIRT)
->      select MEM_DEVICE
 > diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index e51e0e5e5ac..66e0b15d9ef 100644
+> index 66e0b15d9ef..3935b73456f 100644
 > --- a/hw/ppc/Kconfig
 > +++ b/hw/ppc/Kconfig
-> @@ -3,6 +3,7 @@ config PSERIES
+> @@ -1,5 +1,6 @@
+>  config PSERIES
+>      bool
+> +    depends on FDT
 >      imply PCI_DEVICES
 >      imply TEST_DEVICES
 >      imply VIRTIO_VGA
-> +    imply NVDIMM
->      select DIMM
->      select PCI
->      select SPAPR_VSCSI
+> diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+> index 86d6f379d1c..e82a6b4105b 100644
+> --- a/hw/ppc/meson.build
+> +++ b/hw/ppc/meson.build
+> @@ -9,7 +9,7 @@
+>  ppc_ss.add(when: 'CONFIG_FW_CFG_PPC', if_true: files('fw_cfg.c'))
+> =20
+>  # IBM pSeries (sPAPR)
+> -ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
+> +ppc_ss.add(when: 'CONFIG_PSERIES', if_true: [files(
+>    'spapr.c',
+>    'spapr_caps.c',
+>    'spapr_vio.c',
+> @@ -28,7 +28,7 @@
+>    'spapr_rtas_ddw.c',
+>    'spapr_numa.c',
+>    'pef.c',
+> -))
+> +), fdt])
+>  ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
+>  ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
+>    'spapr_pci_vfio.c',
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -163,25 +131,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---qMWwRlmE27uFItL/
+--IGULLemGSK/rbfx9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCbPGYACgkQbDjKyiDZ
-s5IhMw//XHuWL0LI52jnQCIrwW5E5UE+x9LXCm+gDEg5BtjCpmTeE2esuGGpoOrC
-W3Q2sgDe434cj4wXvCPZJ+aXPt0ktFhScDS1aGA5mkvhn2pZ6k2j63ELk/jot68x
-DMDy5NK+z8UQo3nAKc+lS3j2oECh75oBVaXvI0I8QZqIzrhzqIKwb1meJTSoAa1H
-kq5houW6R42TvPQCfbPKuMpPxnuTTpxpyvIKvHX03qqFqyayxFf5FrvEU6ccm/RX
-0Ow+f5efCGzM9FhWzWpw0ukXey7RSeYO92YtrW1c3aLJrHRuZZaA6ZUpER4tLjiG
-t/kK790CvQflts3Ge+NzMfpPFkOPtuJiqnhM353NSC3rYagNrTlnxOCa+BHTvEW+
-E2ISj5B3G+bcslrt1IgAsJGM/pkgZLT3dl1h2P+Li66mAizuWijTMvH1SjWXqHJF
-EU6xyZhaN06P0BoCR2MRhVvLKkdtI/1CZyyhlcTWXjuKORmPagfIysvldAuMmkzX
-mmZpPss5GJ18Ny1WY1fZ4jdUZa333uUoIMceays0jSlMUgUIQxAAhOXmzfgznAkV
-nDIO6ay2/JXSKzPcOmoOBA/xzs2Gt67rPhcBLuojHqD+jcQkaSLJulfJl2k1MTgF
-6R2yqeVMiBDugl4tctNF6E+plPzilTr4FnUiADifgrUZPUWD/tY=
-=AgV4
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCbPQQACgkQbDjKyiDZ
+s5JrTxAApQOG3jcT+LbVqeMVkoKENko+jpJW62mBOV1LK7ZRgYgEEPXbJe67cqKb
+cvxpl1hQBPXIZhC8KR0wncGRtYmzXrW7+EOqc6PB0+IJasgK/NCGqB8Fk9fx5PjO
+g8v/PVBkAnxN2ZocUtnaMONkq1/jkvOTDfOnBgtfR35+qgV5wevRG59d9f8iklKc
+EyNoWGmtUguj2K/iCcTJKx5CeZ6lgJucJOrOj1O428wcOqEvBOHto9FCpKUDMhG5
+Gx3KrOafySwhAUzo3eErbs+WCCeSEsqdZdeVTZN3ofHIOnZn+NcJB0e5WNy3EG/b
+HceRCQ58U/H5TIlIuPyuw/y8nVPGK96FoRjJKgWtDRsLHqNddQzupf7pyjzPfpbo
+PEVWTNmqgynx7GD2gQicKOKaQPRDAx4sA3ciXK2A+tS+QsX/W71zgXqp4YEJq0eM
+O89EdgpAcK+vPnxlvcVpYpEs4udX030r5YHDnhAdzteqtzZRCyJnh356NdZgTBVI
+fAsXoGI4YB0f1VLDZ86y0Sb8pBF6SajSu9tEZnVPhe3HNmkFB6SswVLqKMUQ2G+1
+moaHA1TySYNSb3ZB+S2VqRmU6zvr+40237dkDQESoqjOUU+AUJhxkTXoH8Xr/5mN
+HY5CpYag2p7aHsjx1wu9sqxJrN2QNMv9wDTqzs/vpfPLXMl8S10=
+=RT5x
 -----END PGP SIGNATURE-----
 
---qMWwRlmE27uFItL/--
+--IGULLemGSK/rbfx9--
 
