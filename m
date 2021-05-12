@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C13237BAE0
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:39:39 +0200 (CEST)
-Received: from localhost ([::1]:55524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFDCA37BAF0
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:40:32 +0200 (CEST)
+Received: from localhost ([::1]:57222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgmHC-00012U-9n
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33842)
+	id 1lgmI3-0002D1-Vd
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:40:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgm8W-0000YI-No
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:30:40 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41524)
+ id 1lgm8X-0000bH-Pz
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:30:41 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgm8K-0000Yp-5B
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:30:40 -0400
-Received: by mail-wr1-x435.google.com with SMTP id d11so23064015wrw.8
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:30:27 -0700 (PDT)
+ id 1lgm8N-0000aD-Cz
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:30:41 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id d11so23064162wrw.8
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:30:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MHleu5/QXcuGG15rHKSMEafttB4DD5jpS2zsXzbXm5k=;
- b=lTcDLaeBoSsEjvdpT9tScHPhMCKmmHLdy3K5X2Qc3R16IsvGXVaTqDW5p7bAcVjEgS
- 7ZlJHJr3lyGiQfm1WKlJhaYYpJmq1aO9VDB9NOjLTo36+oDsJZjinDchKhuJ8Ns/MTN3
- 2x+uPKp65p/npWuv0hwXhu7LGUs1BlY99lSQ1uKmz+ElHpdtSuqbAH1IbeQ1Gv0vCKqX
- yFOUpYzaRywQMXJ2Qk6w/0hPnqODWww7vuUiVUd+hxZBXjqDB223sgy4B500aUpA+Q+y
- SFfGCK4husEh55p1ZdI1VD5IsJ2alsbY0E5ybrZo3MtQO8Yn5g44P9ktULQDAzaEUJnN
- vOJQ==
+ bh=k04YBeQVw1SV/5Xi/ZAFYyy3Jt24dK+QTEr9uqlEOFU=;
+ b=bhERa/jn8Vq/kr2DB9xcfczWpUVJotIuK6C2IMsdhQ5hrWgQt11iSjoPGiA23yuWoY
+ 7XhkGCuxTJj1ORtSUfZvd9ybMMXLlt9SnNvd9i8JexrFXru2hvkY+HukCv/tYUI/tppl
+ GLuGziv0hgsvdickfjMgT4SAePlmxaG4g7uTtiRr7Nb9BJ4pZVE+XJKBhJOiR9hpMe6d
+ QvBgEiyYv9qLmd7suuRqJ4kg+3GdGzxbXtBwhRv6Vf0VmELCA3nZ6IXtt7HCSdKGdiIh
+ g5Uo8e1lFe+LAjfOO0mAY3knT/6A145hnP5nC4ZvrUbbaGzuoTy4IIXfLsQ2HiWlXyIK
+ gNRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MHleu5/QXcuGG15rHKSMEafttB4DD5jpS2zsXzbXm5k=;
- b=imMs9ucarW4l4rUJjewEJTvtsxgMMva+A50kZDuw6pvkGnGBy5C/xQDNsti/+X7XBs
- eIbrxzALI32BQJM5zBCyb+it2p69bhU21OA0OLzQCzuwfwndzBAVIBI3rpDZl0QPQYcW
- jao8rWFtwiEXWTlPgljC+Qmbd7bTzzT9E/LTErX9E9C8XI0AMHEWdJyxiHuZH0/0D8mL
- b8hYqbpWMly3tcCbtEIVuL2slQjovGadPjtOS1S1XdeXotfL+NRpCM1atDu/sQdZkVGG
- MRaqMIYVuh6z5eYbs6eK3JvZrB9ZXkVm3S4VDjwi7KXBRgDluicuwZt42/gS6n/+51Ui
- SBqQ==
-X-Gm-Message-State: AOAM532mxGwz23o7lOadyYm+96Af++L/9X6jHclR6Bl60xcpt2H+MnNr
- 2oSYPNtUXJpxdPyRCfaj2PsD0PJHlVFGAQ==
-X-Google-Smtp-Source: ABdhPJwHpKlhAVpsO5aJbKAuXOidq5jvC7MmKJFfNqUT0Ygg5RaC814fJJ969DZMvPp3Q+0Sc+VhNQ==
-X-Received: by 2002:adf:d1ec:: with SMTP id g12mr44984170wrd.294.1620815426697; 
- Wed, 12 May 2021 03:30:26 -0700 (PDT)
+ bh=k04YBeQVw1SV/5Xi/ZAFYyy3Jt24dK+QTEr9uqlEOFU=;
+ b=SwA3K0idSY2AQn1Aj/OVZFHQTfobPgV/2lxNGznJFg+HwB5Vm5RgM8q/xJxP5UmqNR
+ ZKO/5R0GMjxFfqGq6/xlSUVXrj55zbTt8nzklQjhiSamQmqF4C3w6MXv7khFVtNeWi7o
+ XWbUx/foVQHT8jJk5a5OvZKg6B92EmF+D1QBs9hzCMGiyuctfUebeN0Q5MgPYo7ylVf3
+ XbnnQOPIZVksE3CW70CLrPuivlKkaC9489TwVN1/AO+GZqzKOiISu49RWZb96BaGGevb
+ gfHvyVjdOaHDWMOYBX7TdQbgRE2asJwN0NYrIGIAwNJI1nx3ms28kGLIaqOgEYHNybZL
+ H6ug==
+X-Gm-Message-State: AOAM5303TTHUpmRbKIjQ6wnYmZrlF1o0yHwhdD0E7vzkwxj8Rn1VUanI
+ hGdPuwDL3cakZqkm49+MDoLc0A==
+X-Google-Smtp-Source: ABdhPJy9VKosVIN9JnNUlZpTLNKNyMHjgTjsPcBTwUkVdMn63c/iqQO+o3455ThlIc+d9fggfryXXQ==
+X-Received: by 2002:a5d:6085:: with SMTP id w5mr45625396wrt.14.1620815429320; 
+ Wed, 12 May 2021 03:30:29 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c16sm3812789wrn.92.2021.05.12.03.30.22
+ by smtp.gmail.com with ESMTPSA id y2sm6558416wmq.45.2021.05.12.03.30.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 12 May 2021 03:30:23 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1EF0C1FFB5;
+ by zen.linaroharston (Postfix) with ESMTP id 358081FFB7;
  Wed, 12 May 2021 11:20:54 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 29/31] tests/tcg: fix missing return
-Date: Wed, 12 May 2021 11:20:49 +0100
-Message-Id: <20210512102051.12134-30-alex.bennee@linaro.org>
+Subject: [PATCH  v3 30/31] tests/tcg: don't allow clang as a cross compiler
+Date: Wed, 12 May 2021 11:20:50 +0100
+Message-Id: <20210512102051.12134-31-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210512102051.12134-1-alex.bennee@linaro.org>
 References: <20210512102051.12134-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,25 +92,101 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This was picked up when clang built the test.
+Currently there are two problems.
+
+The first is clang generates a preamble (that is always executed) to
+stack xmm registers. This causes a ILLOP on the x86_64 softmmu tests
+as SSE isn't enabled.
+
+The second is the inline assembler in test-i386.c breaks clangs
+compiler and I don't know how to fix it. Even with Theodore's patch
+series (D5741445-7EFD-4AF1-8DB2-E4AFA93CBB1A@icloud.com) I still get
+compiler failures.
+
+For now lets just skip clang and allow it to fall back to the
+containers which we know have compilers which work.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/multiarch/system/memory.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/tcg/configure.sh | 33 ++++++++++++++++++++++-----------
+ 1 file changed, 22 insertions(+), 11 deletions(-)
 
-diff --git a/tests/tcg/multiarch/system/memory.c b/tests/tcg/multiarch/system/memory.c
-index eb0ec6f8eb..41c7f66e2e 100644
---- a/tests/tcg/multiarch/system/memory.c
-+++ b/tests/tcg/multiarch/system/memory.c
-@@ -326,6 +326,7 @@ static bool do_unsigned_test(init_ufn fn)
-         fn(i);
-         ok = do_unsigned_reads(i);
-     }
-+    return ok;
- #else
-     fn(0);
-     return do_unsigned_reads(0);
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 6627318adf..ed6492ce59 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -82,6 +82,9 @@ for target in $target_list; do
+   container_cross_as=
+   container_cross_ld=
+ 
++  # suppress clang
++  supress_clang=
++
+   case $target in
+     aarch64-*)
+       # We don't have any bigendian build tools so we only use this for AArch64
+@@ -119,6 +122,7 @@ for target in $target_list; do
+       container_hosts=x86_64
+       container_image=fedora-i386-cross
+       container_cross_cc=gcc
++      supress_clang=yes
+       ;;
+     m68k-*)
+       container_hosts=x86_64
+@@ -186,6 +190,7 @@ for target in $target_list; do
+       container_hosts="aarch64 ppc64el x86_64"
+       container_image=debian-amd64-cross
+       container_cross_cc=x86_64-linux-gnu-gcc
++      supress_clang=yes
+       ;;
+     xtensa*-softmmu)
+       container_hosts=x86_64
+@@ -200,6 +205,7 @@ for target in $target_list; do
+ 
+   echo "# Automatically generated by configure - do not modify" > $config_target_mak
+   echo "TARGET_NAME=$arch" >> $config_target_mak
++  echo "target=$target" >> $config_target_mak
+   case $target in
+     *-linux-user | *-bsd-user)
+       echo "CONFIG_USER_ONLY=y" >> $config_target_mak
+@@ -219,21 +225,26 @@ for target in $target_list; do
+   if eval test "x\${cross_cc_$arch}" != xyes; then
+       eval "target_compiler=\${cross_cc_$arch}"
+ 
+-      if has $target_compiler; then
+-          write_c_skeleton
+-          if ! do_compiler "$target_compiler" $target_compiler_cflags \
+-                 -o $TMPE $TMPC -static ; then
+-              # For host systems we might get away with building without -static
+-              if do_compiler "$target_compiler" $target_compiler_cflags \
+-                     -o $TMPE $TMPC ; then
++      if has "$target_compiler"; then
++          if test "$supress_clang" = yes &&
++                  $target_compiler --version | grep -qi "clang"; then
++              got_cross_cc=no
++          else
++              write_c_skeleton
++              if ! do_compiler "$target_compiler" $target_compiler_cflags \
++                   -o $TMPE $TMPC -static ; then
++                  # For host systems we might get away with building without -static
++                  if do_compiler "$target_compiler" $target_compiler_cflags \
++                                 -o $TMPE $TMPC ; then
++                      got_cross_cc=yes
++                      echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
++                      echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
++                  fi
++              else
+                   got_cross_cc=yes
+                   echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
+                   echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
+               fi
+-          else
+-              got_cross_cc=yes
+-              echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
+-              echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
+           fi
+       fi
+   fi
 -- 
 2.20.1
 
