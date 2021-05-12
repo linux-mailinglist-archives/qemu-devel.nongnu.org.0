@@ -2,67 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF7837C09B
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 16:48:41 +0200 (CEST)
-Received: from localhost ([::1]:50258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A9B37C11B
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 16:55:41 +0200 (CEST)
+Received: from localhost ([::1]:35724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgqAC-0000Wf-AK
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 10:48:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38132)
+	id 1lgqGy-0001dd-30
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 10:55:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lgq96-0007To-KH; Wed, 12 May 2021 10:47:32 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:35446)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lgq8r-0006En-HL; Wed, 12 May 2021 10:47:27 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id i4so31039652ybe.2;
- Wed, 12 May 2021 07:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TIhpazb+NZwwpQ8jJjDfqBzDHPawsuNSMAGKROJQWBM=;
- b=QHxCMOU7/ea0UUliE8mBYTDKRGOmdPkh+6MFGT7Cc2McRZu1V9S/LBGSzrKz+r3HHZ
- WssEiSB9gfXNERkh56Ordns+N3v9BmEvlEr7gHlj5hg1Ha4nuUnkuRjoXIslsnDPC21K
- p8Ez31VtiQK00LFiYDvGwdz0fU00vjicBIcaYNkRt3XRKMRvXkpzxqTLonmrRG+Firh0
- yfKczWp2Yv5k12dLNOgzxYNviorwI7YqcCggKWKOCraFSP2XnuYgaqliz9OPyC35E9HY
- MdaPfqZhr15kATwFTZTOUuxgAeSq9w8Mq4HJPfn2SaOiDvZGnIAGg3JzJQ034Gt+o7IY
- TJ/Q==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgqDE-0004hs-Hi
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 10:51:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22371)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgqD7-0000eU-Oe
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 10:51:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620831100;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Nsz7j3XPN1pL5qzERbTeETCZPBkcjrp971aD7MISoOo=;
+ b=C7TmkUtQDBdhBwW66YP0SxHeWzsEgB4ikQhav9facvhytrfhq8EGM3dRIC97g8tWgi4bgQ
+ J/z9Jp+5myLGQy54foQgbBt56I7pFdiRZlFNWBiffwDwTZ5swLbG+1FdVOVUNtLhyJfsEc
+ xMEcgBTxbw0ikwg0TjW7qCKZUElY0tk=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-0PdnqtcMMKqpc6cHgEazUg-1; Wed, 12 May 2021 10:51:38 -0400
+X-MC-Unique: 0PdnqtcMMKqpc6cHgEazUg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ cs18-20020a170906dc92b02903a8adf202d6so6243774ejc.23
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 07:51:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TIhpazb+NZwwpQ8jJjDfqBzDHPawsuNSMAGKROJQWBM=;
- b=KVJw+JG0wU8uGyndkDQx5lKEpdZkS9ODmExXapgdvZ1YF6zRMtK3WeEVOiSZ0J3qr2
- 2wDt0N4oTCyVF+60hamcChWoIKv5/0mRXK7RCtzgPmH2qwLoMLhyJSvL1Va0f/duZn1P
- VVOyH0DUS5+w5ZKnOHvwy/8WLo3Wwza7TtOk8hqgC4/vUFReZ3vxrYZyyD2L2fQUkeCn
- KIdJVG1oiZCP51Yp66jfXjV2SXEgoPQSTjBlQfeNvFf31mD5ErbyzHo06aSUIvl6Hv9E
- TagLK2Mjnczlzc9oozmOvsV17LEpg7slgp+tNzDfoLyF/AQue8EEfSodcEnGrb5+/zOQ
- oLgA==
-X-Gm-Message-State: AOAM531eHG39Rr3Z4t7t4BXnMenK/gUwXnUe3f+Z7wHOcZislB7BqLN4
- G55htfjl507p4XD+JNYIZjyDygmqS1hn2gy7G1U=
-X-Google-Smtp-Source: ABdhPJxfbB4vPpMocbdSYvmTp9EotJnR00RUSjBYLAbmmnXqVRY1aOlMjPcyLgoLhvK80trS+h0KLpSrOWSX1e9ITig=
-X-Received: by 2002:a25:99c1:: with SMTP id q1mr47340264ybo.517.1620830834041; 
- Wed, 12 May 2021 07:47:14 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Nsz7j3XPN1pL5qzERbTeETCZPBkcjrp971aD7MISoOo=;
+ b=rkCBYotJRbfgJIt5BfruL/150R2qG2R8VeAh23HiS1WFG9bV+4GSvxyRgoA1nZFaLY
+ nlUJFzEA27P5IYXZ32pNOX11784iy9wz3Vqt6LQk/MU+6c7tideDNcqUk+P4r2+A9n2b
+ wnNDDBRbX5e/CjTey8yFrm4zrtKYzBiFCodQ5fy+w/DaO1eukbFUlpqrZQzW9UH5ni1h
+ EzQpA+L+JcvWhtRhxhwjB/A5ODp4DXvQxOZn2IH/YTkrLZ8GHaEWiOlflNuey3BC0E2b
+ /0IY9csecTnThnE6teHqvTkdNBealoPz57Iedahn2+oAOKYy23+aNrZkSL8ZZaycFHDg
+ Eh0w==
+X-Gm-Message-State: AOAM532tEe5QfcoKfSWzXdWLI+gjIIM7a6h84+SyTjh4y7v5hQnlTYjs
+ QDytWbsr/ttbh3TPi6G3BCAZJxQxNXXm+uA/Pd87tLWrpiRduUMN+stfyh+XQW1Lszo20Ux6LYK
+ 7QdCyTe89BHrFN4m7yJlDsLBdrytTq9A=
+X-Received: by 2002:a05:6402:16db:: with SMTP id
+ r27mr41910752edx.375.1620831097241; 
+ Wed, 12 May 2021 07:51:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwKioCTjH9HWfWau/x567BHXF80oGl1xyp0U1PjiZYsWlgyMaGp1R0gVfRTRD3L/B3XClhfhjL/dIH9RNR+huU=
+X-Received: by 2002:a05:6402:16db:: with SMTP id
+ r27mr41910724edx.375.1620831097016; 
+ Wed, 12 May 2021 07:51:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210511100722.18065-1-ruinland@andestech.com>
- <CAKmqyKO35O+bichwKQVeZ2tPT+2G-hweds1VY6oJc_bqkuG8Zw@mail.gmail.com>
-In-Reply-To: <CAKmqyKO35O+bichwKQVeZ2tPT+2G-hweds1VY6oJc_bqkuG8Zw@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 12 May 2021 22:47:02 +0800
-Message-ID: <CAEUhbmUZi17xzoSU9jwJubeqwi+gzXQ0p6kSDY2T579wCdQopg@mail.gmail.com>
-Subject: Re: [PATCH V2 0/2] Proposing custom CSR handling logic
-To: Alistair Francis <alistair23@gmail.com>
+References: <20210511132641.1022161-1-berrange@redhat.com>
+ <20210511132641.1022161-13-berrange@redhat.com>
+ <fcb6b808-c1de-d5f3-064c-1725c49999e0@redhat.com>
+ <5b582933-6004-3549-b5fe-208c182d5efe@redhat.com>
+ <CAKJDGDZUScyzVzhwpG+d6di3Wa0+Txk0SONVXiC++dukzNeTew@mail.gmail.com>
+ <93b24ba1-0898-250f-0f8c-87bc08934220@redhat.com>
+ <YJvfcLiItG4xbnvE@redhat.com>
+In-Reply-To: <YJvfcLiItG4xbnvE@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Wed, 12 May 2021 16:51:25 +0200
+Message-ID: <CAP+75-UesRXMwgvywUxdT8FsP0zW5xfucHFk0DyqHcSu+iB6Sw@mail.gmail.com>
+Subject: Re: non-x86 runners in the Gitlab-CI (was: Re: [PATCH 12/12]
+ configure: bump min required CLang to 7.0.0 / XCode 10.2)
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,75 +97,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dylan Jhong <dylan@andestech.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "Alan Quey-Liang Kao\(\(\(\(\(\(\(\(\(\(\)" <alankao@andestech.com>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Ademar Reis Jr <areis@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 12, 2021 at 2:03 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Tue, May 11, 2021 at 8:07 PM Ruinland Chuan-Tzu Tsai
-> <ruinland@andestech.com> wrote:
-> >
-> > Hi all,
-> >
-> > My sincere apology that I missed the patch to include our own CSR table
-> > into the patch series and there were plenty of typos.
-> > Thus I'm sending out V2 of these tiny patches.
-> >
-> > I agree with Alistair's comment on not introducing intrusive code which
-> > will interfere the generic code structure. Yet since there are
-> > possibilities that some custom CSRs/instructions could be once drafted/
-> > proposed by vendors at first, and made themselves into the standard
-> > as the implementation become widely adopted.
-> >
-> > So in this patch set, we humbly utilzed a glib hash table for inserting
-> > the `struct riscv_custom_csr_operations`, check if the CSR is a non
-> > standard one, and then proceed the desired behavior.
-> >
-> > Once the non-standard CSRs make themselves into the specification,
-> > people could easily plug-and-use the code into CSR operation table
-> > inside `csr.c`.
-> >
-> > Ones may have concerns regarding the check code would introduce
-> > further overhead. For those considerations, I guess it could be solved
-> > by introducing a build option such as '--enable-riscv-vendor-features'
-> > to toggle the code.
-> >
-> > Cordially yours,
-> > Ruinland ChuanTzu Tsai
-> >
-> > Ruinland Chuan-Tzu Tsai (2):
-> >   Adding premliminary support for custom CSR handling mechanism
-> >   Adding custom Andes CSR table.
->
-> Thanks for the patches.
->
-> Can you please include:
->  wangjunqiang@iscas.ac.cn
->  qemu-devel@nongnu.org
->  bin.meng@windriver.com
->
-> on future patches so everyone is included.
+Hi Daniel,
 
-Thanks Alistair!
+On Wed, May 12, 2021 at 4:00 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+> On Wed, May 12, 2021 at 03:55:59PM +0200, Thomas Huth wrote:
+> > On 12/05/2021 15.47, Willian Rampazzo wrote:
 
+> > > I don't know if you saw this:
+> > > https://docs.travis-ci.com/user/billing-overview/#partner-queue-solut=
+ion.
+> > >
+> > > tl;dr, Travis now has support from partners to run non-x86 arch. It i=
+s
+> > > always good to have a plan B, like qemu own CI runners, but, at least=
+,
+> > > with these non-x86 arch available on Travis, we will have some time t=
+o
+> > > breathe.
+
+>   "The build job under Partner Queue Solution costs 0 credits per
+>    started minute. At the moment of introducing Partner Queue Solution
+>    active accounts on the Usage based Plans, including the Free Plan,
+>    with a balance of zero or fewer credits, balance is updated to
+>    hold 1 credit. Thus everybody can use Partner Queues without
+>    requesting Travis CI support to grant additional credits. If you
+>    run into a negative account balance after that, you still need to
+>    file an additional request."
 >
-> >
-> >  target/riscv/cpu.c           |  28 ++++++++
-> >  target/riscv/cpu.h           |  12 +++-
-> >  target/riscv/cpu_bits.h      | 115 ++++++++++++++++++++++++++++++++
-> >  target/riscv/csr.c           | 107 ++++++++++++++++++++++++++++--
-> >  target/riscv/csr_andes.inc.c | 125 +++++++++++++++++++++++++++++++++++
-> >  5 files changed, 381 insertions(+), 6 deletions(-)
+> IOW, anyone ought to be able to use non-x86 jobs, bt if you accidentally
+> run an x86 job and get into 0 (or negative) credits, then you won't even
+> be able to use non-x86 jobs.
 
-I didn't see the original patch set in the ML, nor does it show up on
-patchwork. I wonder is it posted on the ML?
+You once showed a script on GitLab triggering Travis-CI jobs and reporting
+the success/failure on GitLab (or was it Cirrus-CI?). Is it possible to use
+something similar with QEMU to integrate Travis-CI jobs with GitLab
+pipeline?
 
-Regards,
-Bin
 
