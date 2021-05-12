@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7688537D38F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:29:57 +0200 (CEST)
-Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B7037D38A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:27:12 +0200 (CEST)
+Received: from localhost ([::1]:45296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgtcK-0002AZ-GU
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:29:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44456)
+	id 1lgtZf-0006vU-9G
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:27:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgtOY-0001fL-Fa
+ id 1lgtOY-0001fF-9A
  for qemu-devel@nongnu.org; Wed, 12 May 2021 14:15:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34476)
+Received: from indium.canonical.com ([91.189.90.7]:34512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgtOW-0001Fu-0r
+ id 1lgtOW-0001Fy-0f
  for qemu-devel@nongnu.org; Wed, 12 May 2021 14:15:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgtOT-0001j4-F7
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:15:37 +0000
+ id 1lgtOU-0001ig-0F
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:15:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 708ED2E8186
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:15:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 003B42E813A
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:15:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 18:09:12 -0000
-From: Thomas Huth <1913505@bugs.launchpad.net>
+Date: Wed, 12 May 2021 18:09:34 -0000
+From: Thomas Huth <1913315@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: macos tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: balaton-4 mark-cave-ayland mishari pmaydell
- programmingkidx roolebo th-huth
-X-Launchpad-Bug-Reporter: Mishari Muqbil (mishari)
+X-Launchpad-Bug-Commenters: th-huth vt-alt
+X-Launchpad-Bug-Reporter: Vitaly Chikunov (vt-alt)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161180131265.32409.4817508561083668447.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162084295251.16886.18199378639950607389.malone@soybean.canonical.com>
-Subject: [Bug 1913505] Re: Windows XP slow on Apple M1
+References: <161167497358.4863.17291791719671024899.malonedeb@soybean.canonical.com>
+Message-Id: <162084297473.1987.10684930727573515276.malone@wampee.canonical.com>
+Subject: [Bug 1913315] Re: qemu-system-x86_64 crash: in
+ memory_region_access_valid+0x13
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: f5bde46bd18ad5dec133faebaeb52c3c4a0a42b1
+X-Launchpad-Hash: 195889fc78e4e6abe8c8a4842942ebff85b758b5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913505 <1913505@bugs.launchpad.net>
+Reply-To: Bug 1913315 <1913315@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -113,30 +112,77 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913505
+https://bugs.launchpad.net/bugs/1913315
 
 Title:
-  Windows XP slow on Apple M1
+  qemu-system-x86_64 crash: in memory_region_access_valid+0x13
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Qemu installed by using brew install qemu -s on M1
+  Recently we started to get intermittent qemu crashes. There is
+  catchsegv report:
 
-  QEMU emulator version 5.2.0
-  XP image from: https://archive.org/details/WinXPProSP3x86
+  ```
+  + qemu-system-x86_64 -m 77766M -smp 8 -nodefaults -nographic -no-reboot -=
+fsdev local,id=3Droot,path=3D/,security_model=3Dnone,multidevs=3Dremap -dev=
+ice virtio-9p-pci,fsdev=3Droot,mount_tag=3D/dev/root -device virtio-rng-pci=
+ -serial mon:stdio -kernel /usr/src/tmp/kernel-image-rt-buildroot/boot/vmli=
+nuz-4.19.165-rt-alt1.rt70 -initrd /usr/src/tmp/initramfs-4.19.165-rt-alt1.r=
+t70.img -bios bios.bin -append 'console=3DttyS0 mitigations=3Doff nokaslr q=
+uiet panic=3D-1 no_timer_check'
+  *** signal 11
+  Register dump:
 
-  Commands run:
-  $ qemu-img create -f qcow2 xpsp3.img 10G
-  $ qemu-system-i386 -m 512 -hda xpsp3.img -cdrom WinXPProSP3x86/en_windows=
-_xp_professional_with_service_pack_3_x86_cd_vl_x14-73974.iso -boot d
+   RAX: 0000000000000000   RBX: 0000034000000340   RCX: 0000000000000001
+   RDX: 0000000000000004   RSI: 0000000000000300   RDI: 0000034000000340
+   RBP: 0000000000000300   R8 : 0000000000000000   R9 : 0000034000000340
+   R10: 0000000000000370   R11: 0000000000000002   R12: 0000000000000004
+   R13: 0000000000000004   R14: 000055b473fef5e0   R15: 0000000000000002
+   RSP: 00007fd7edffae90
 
-  It's taken 3 days now with qemu running at around 94% CPU and
-  installation hasn't finished. The mouse pointer moves and occasionally
-  changes between the pointer and hourglass so it doesn't seem to have
-  frozen.
+   RIP: 000055b4717ef653   EFLAGS: 00010206
+
+   CS: 0033   FS: 0000   GS: 0000
+
+   Trap: 0000000e   Error: 00000004   OldMask: 7ffbfa77   CR2: 00000388
+
+   FPUCW: 0000037f   FPUSW: 00000000   TAG: 00000000
+   RIP: 00000000   RDP: 00000000
+
+   ST(0) 0000 0000000000000000   ST(1) 0000 0000000000000000
+   ST(2) 0000 0000000000000000   ST(3) 0000 0000000000000000
+   ST(4) 0000 0000000000000000   ST(5) 0000 0000000000000000
+   ST(6) 0000 0000000000000000   ST(7) 0000 0000000000000000
+   mxcsr: 1fa0
+   XMM0:  00000000000000000000000000000000 XMM1:  0000000000000000000000000=
+0000000
+   XMM2:  00000000000000000000000000000000 XMM3:  0000000000000000000000000=
+0000000
+   XMM4:  00000000000000000000000000000000 XMM5:  0000000000000000000000000=
+0000000
+   XMM6:  00000000000000000000000000000000 XMM7:  0000000000000000000000000=
+0000000
+   XMM8:  00000000000000000000000000000000 XMM9:  0000000000000000000000000=
+0000000
+   XMM10: 00000000000000000000000000000000 XMM11: 0000000000000000000000000=
+0000000
+   XMM12: 00000000000000000000000000000000 XMM13: 0000000000000000000000000=
+0000000
+   XMM14: 00000000000000000000000000000000 XMM15: 0000000000000000000000000=
+0000000
+
+  Backtrace:
+  qemu-system-x86_64(memory_region_access_valid+0x13)[0x55b4717ef653]
+  qemu-system-x86_64(memory_region_dispatch_write+0x48)[0x55b4717ef8c8]
+  qemu-system-x86_64(+0x69fdfc)[0x55b471851dfc]
+  qemu-system-x86_64(helper_le_stl_mmu+0x2c5)[0x55b471858995]
+  [0x7feaed070925]
+
+  ```
+  QEMU release 5.2.0.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913505/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1913315/+subscriptions
 
