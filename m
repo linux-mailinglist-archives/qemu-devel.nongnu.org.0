@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4F0F37B559
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 07:13:31 +0200 (CEST)
-Received: from localhost ([::1]:36238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E696637B558
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 07:12:46 +0200 (CEST)
+Received: from localhost ([::1]:34944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lghBa-0007Y2-Vl
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 01:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57896)
+	id 1lghAs-0006hY-1y
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 01:12:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgh9E-0004cT-U2
- for qemu-devel@nongnu.org; Wed, 12 May 2021 01:11:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42510)
+ id 1lgh9D-0004ZN-Si
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 01:11:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgh95-0006w8-FW
- for qemu-devel@nongnu.org; Wed, 12 May 2021 01:11:04 -0400
+ id 1lgh95-0006wl-OL
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 01:11:03 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgh91-0005JX-NS
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 05:10:51 +0000
+ id 1lgh93-0005QU-7I
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 05:10:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AA0272E8189
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 05:10:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E72522E8135
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 05:10:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 05:02:13 -0000
-From: Thomas Huth <1883729@bugs.launchpad.net>
+Date: Wed, 12 May 2021 05:04:19 -0000
+From: Thomas Huth <1883728@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: usb
+X-Launchpad-Bug-Tags: fuzzer testcase usb
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: a1xndr bugs-syssec th-huth
 X-Launchpad-Bug-Reporter: Bugs SysSec (bugs-syssec)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159232162102.10413.11793430476734031615.malonedeb@gac.canonical.com>
-Message-Id: <162079573364.23763.8328638429173312342.malone@soybean.canonical.com>
-Subject: [Bug 1883729] Re: xhci_find_stream: Assertion `streamid != 0' failed.
+References: <159232150625.30008.14587531607819527800.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162079585928.30850.2169925499619442085.malone@gac.canonical.com>
+Subject: [Bug 1883728] Re: address_space_unmap: Assertion `mr != NULL' failed.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
-X-Launchpad-Hash: 1372e3fb9d8e1da986934d58ef416f10f16e0f96
+X-Launchpad-Hash: 23aba9bc7d3d6828eda12e7cc4b69f3e6f7a83b2
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,30 +71,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1883729 <1883729@bugs.launchpad.net>
+Reply-To: Bug 1883728 <1883728@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, with the new attachment from comment #5, I can also reporoduce the
-bug again. It does not reproduce with the attachments from comment #1 or
-#2 anymore, so this now seems to be a different way to run into this
-assert. Anyway, setting the status back to Confirmed since it is
-reproducible again.
+Ok, thanks for checking! So seems like this has been fixed, thus I'm
+closing the bug. If it happens again, please open a new ticket in our
+new gitlab issue tracker.
 
 ** Changed in: qemu
-       Status: Incomplete =3D> Confirmed
+       Status: Incomplete =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1883729
+https://bugs.launchpad.net/bugs/1883728
 
 Title:
-  xhci_find_stream: Assertion `streamid !=3D 0' failed.
+  address_space_unmap: Assertion `mr !=3D NULL' failed.
 
 Status in QEMU:
-  Confirmed
+  Fix Released
 
 Bug description:
   To reproduce run the QEMU with the following command line:
@@ -113,5 +111,5 @@ Bug description:
   ```
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1883729/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1883728/+subscriptions
 
