@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6943C37CEFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:24:18 +0200 (CEST)
-Received: from localhost ([::1]:38440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FCE37CF0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:30:38 +0200 (CEST)
+Received: from localhost ([::1]:55564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgsan-00087h-E3
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:24:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59650)
+	id 1lgsgv-00039a-RZ
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:30:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUb-0007Ak-31
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:17:55 -0400
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:34415)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUf-0007JE-EC
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:17:57 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:34775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUR-0008Lm-Jl
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:17:52 -0400
-Received: by mail-il1-x133.google.com with SMTP id c16so1905401ilo.1
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 10:17:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUU-0008Ma-GE
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:17:57 -0400
+Received: by mail-io1-xd32.google.com with SMTP id l21so22427207iob.1
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 10:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=o9W9TsWDfUy9rNviBTYIU9THi5aRC//53zh1Wgxdr7U=;
- b=TjbLK30iWul2RGWtUVFQCa2od4t8t4wAcAtoe4+BCdIHnBfNcnCElO88nY0Uvg78D7
- RXXZEwbaSFX9jqvzJhlnBHlaPL0TEKwnjUP2vFCaxZwPd2n65p1ztJ+dliDSXtLu21Kj
- S59D+qaAdeY2CmJJiaNZlhLrJ4he/4wf5MsCMGx92sj0Wnnk2Gnt6sjTYsvsIiHuOGFp
- /58Sj7Kf9hiw0ymVDcumOuNtaK9hKuZDxgL7NYP+qDcnv+08VLQ22KrNHrsgKZDvNr63
- yhNzTTIsICNFr1Xef/EnVZ4HDY+VqiqVrvSYvxvso7wYmkwl+o+z79kvEq5tgBgcfSXF
- EnwA==
+ bh=DcXgMF9UlcBLkEbYZL77DciaFqqy1JLy93/coOTrH2M=;
+ b=NNp/sT1XAfmZnELlDG1cJgBb97QOdah7FA87yuOHvCncPJryTbZzSxz7CUcR/9w/mv
+ x9WYxi8U9qWng9vfYgIvPa/w6ghb1dNYgIHLSvHOHoTRaSC1RiGnp5ytSosfUOq5Brdf
+ owlwuYOfWA+MS2f+igSfoq8eDepWIp6tU9NN9GQJwiMEdERHhiY/UbqIZs5mqGeBwZIO
+ Xsb4gO/YZdDyM400/RFhuxKp4h/IqUBPpKU9XsEXk9mh12zpMt9ed7zTntlcnk+pxIc2
+ Wpj9TZT7Xu9TlOD2YPKGtlx/vJ4yGJ7g3jJ6DT8piuAjflsrY02aG0CDOjaaGpL1vSrX
+ 45Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=o9W9TsWDfUy9rNviBTYIU9THi5aRC//53zh1Wgxdr7U=;
- b=Ri7IFur34D+9ls5k8w4y7VZsyurg4tHyyDM7hiOQFANlcbrqQEIWjrroW2gCh3wro9
- xfTTZ0F9zPvkMsM1o9273WfhjDIBbmKp6KjoYbP137H5Im9um5iEDqgWJmdHvKQiqFS7
- Bak7BubS4+yZnI3o4W5HfEXO3xHdDJicWrHAR49xJFN4qKwGZ+Zpayx1vL1wSuJh3+e8
- rO6Qf6/Il3gzLt7ecc3VIM2raOdsu/t7VTnnvjW6f+UXrZLvYxbx3P0kLrVkQTrpqycA
- YydGnftF8CLk7qkfHLzTO/N8Cd98BJLsy02fNKdg0DpeGYlRyRKV2Vrstyz4ZJHxWpg7
- 1ecQ==
-X-Gm-Message-State: AOAM533ryp5Omfcfr6Xxcd+yIDdEeq1RNT5RqW3xuCMa0TRpn4fxFStl
- GSAkUE/J2a89axv/9iAPiPal6c7lgCmvjw==
-X-Google-Smtp-Source: ABdhPJypX2i7SJuHFQcWRYCe60WZE4k2CdB092taMePadZfctPlgtuc+LHx2vF4/Rs261tyywjJ0Cg==
-X-Received: by 2002:a05:6e02:13ca:: with SMTP id
- v10mr29971659ilj.191.1620839861805; 
- Wed, 12 May 2021 10:17:41 -0700 (PDT)
+ bh=DcXgMF9UlcBLkEbYZL77DciaFqqy1JLy93/coOTrH2M=;
+ b=oWB9a1CrUUhyodsKLTBjVhI9+Zn2yWaJJ24qGgRI64eQ2huDFs4wQuR1eoxd3DhOIM
+ 0eiYp+Q7731PBXRgrgLt/tqlF3pNNKn6D1oMUr8jInQ4/E53dUEItUHJAuDV55He0O0a
+ hLKPcgl3KFDzpergpwchF2TPIZLZ3FtHGXnrtjvxFt1qQfs+qxyZO+xwAXaTXsQVCqEv
+ n2hifwM52KCPkIN8yxJSCGmPJJQDotgzLg6h85T0TQrrBm1cIRQ6SfNNwZAx4513z+pa
+ wi4WDOUtoA19kPBiir2ZfhGh0PvCa5RwL2tGab5TUY3fN4ksYLn9FfW0keD9TgAFsU+P
+ n84A==
+X-Gm-Message-State: AOAM533RgM8Ml1jItVD8CUwWZrNQx0r9pOeZ9NC7ea84p1Gu1YJuZQpg
+ WtXZxgDprTgvMe2/J3Mq1jiAilADz/enYA==
+X-Google-Smtp-Source: ABdhPJylKFpGQ4sf2feRgKJB3CFmkLUvzfvJrFkSvos7ADSjIg2Vm2C0mtzjBJKw8qsCGVJWf0KP0w==
+X-Received: by 2002:a05:6602:55:: with SMTP id
+ z21mr16248994ioz.54.1620839864900; 
+ Wed, 12 May 2021 10:17:44 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id d2sm192064ile.18.2021.05.12.10.17.41
+ by smtp.gmail.com with ESMTPSA id d2sm192064ile.18.2021.05.12.10.17.44
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 12 May 2021 10:17:41 -0700 (PDT)
+ Wed, 12 May 2021 10:17:44 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/20] bsd-user: style tweak: keyword space (
-Date: Wed, 12 May 2021 11:17:15 -0600
-Message-Id: <20210512171720.46744-16-imp@bsdimp.com>
+Subject: [PULL 18/20] bsd-user: remove target_signal.h, it's unused
+Date: Wed, 12 May 2021 11:17:18 -0600
+Message-Id: <20210512171720.46744-19-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210512171720.46744-1-imp@bsdimp.com>
 References: <20210512171720.46744-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::133;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x133.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd32.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,25 +87,165 @@ Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Remove the target_signal.h file. None of its contents are currently used and the
+bsd-user fork doesn't use them (so this reduces the diffs there).
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/uaccess.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ bsd-user/i386/target_signal.h    | 20 --------------------
+ bsd-user/qemu.h                  |  1 -
+ bsd-user/signal.c                |  1 -
+ bsd-user/sparc/target_signal.h   | 27 ---------------------------
+ bsd-user/sparc64/target_signal.h | 27 ---------------------------
+ bsd-user/x86_64/target_signal.h  | 19 -------------------
+ 6 files changed, 95 deletions(-)
+ delete mode 100644 bsd-user/i386/target_signal.h
+ delete mode 100644 bsd-user/sparc/target_signal.h
+ delete mode 100644 bsd-user/sparc64/target_signal.h
+ delete mode 100644 bsd-user/x86_64/target_signal.h
 
-diff --git a/bsd-user/uaccess.c b/bsd-user/uaccess.c
-index 91e2067933..89163257f4 100644
---- a/bsd-user/uaccess.c
-+++ b/bsd-user/uaccess.c
-@@ -46,7 +46,7 @@ abi_long target_strlen(abi_ulong guest_addr1)
-     int max_len, len;
+diff --git a/bsd-user/i386/target_signal.h b/bsd-user/i386/target_signal.h
+deleted file mode 100644
+index 2ef36d1f98..0000000000
+--- a/bsd-user/i386/target_signal.h
++++ /dev/null
+@@ -1,20 +0,0 @@
+-#ifndef TARGET_SIGNAL_H
+-#define TARGET_SIGNAL_H
+-
+-#include "cpu.h"
+-
+-/* this struct defines a stack used during syscall handling */
+-
+-typedef struct target_sigaltstack {
+-	abi_ulong ss_sp;
+-	abi_long ss_flags;
+-	abi_ulong ss_size;
+-} target_stack_t;
+-
+-
+-static inline abi_ulong get_sp_from_cpustate(CPUX86State *state)
+-{
+-    return state->regs[R_ESP];
+-}
+-
+-#endif /* TARGET_SIGNAL_H */
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index 8d3767964d..eb66d15df7 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -38,7 +38,6 @@ extern enum BSDType bsd_type;
  
-     guest_addr = guest_addr1;
--    for(;;) {
-+    for (;;) {
-         max_len = TARGET_PAGE_SIZE - (guest_addr & ~TARGET_PAGE_MASK);
-         ptr = lock_user(VERIFY_READ, guest_addr, max_len, 1);
-         if (!ptr)
+ #include "syscall_defs.h"
+ #include "target_syscall.h"
+-#include "target_signal.h"
+ #include "exec/gdbstub.h"
+ 
+ #if defined(CONFIG_USE_NPTL)
+diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+index f6f7aa2427..ad6d935569 100644
+--- a/bsd-user/signal.c
++++ b/bsd-user/signal.c
+@@ -19,7 +19,6 @@
+ #include "qemu/osdep.h"
+ 
+ #include "qemu.h"
+-#include "target_signal.h"
+ 
+ void signal_init(void)
+ {
+diff --git a/bsd-user/sparc/target_signal.h b/bsd-user/sparc/target_signal.h
+deleted file mode 100644
+index 5b2abba40f..0000000000
+--- a/bsd-user/sparc/target_signal.h
++++ /dev/null
+@@ -1,27 +0,0 @@
+-#ifndef TARGET_SIGNAL_H
+-#define TARGET_SIGNAL_H
+-
+-#include "cpu.h"
+-
+-/* this struct defines a stack used during syscall handling */
+-
+-typedef struct target_sigaltstack {
+-	abi_ulong ss_sp;
+-	abi_long ss_flags;
+-	abi_ulong ss_size;
+-} target_stack_t;
+-
+-
+-#ifndef UREG_I6
+-#define UREG_I6        6
+-#endif
+-#ifndef UREG_FP
+-#define UREG_FP        UREG_I6
+-#endif
+-
+-static inline abi_ulong get_sp_from_cpustate(CPUSPARCState *state)
+-{
+-    return state->regwptr[UREG_FP];
+-}
+-
+-#endif /* TARGET_SIGNAL_H */
+diff --git a/bsd-user/sparc64/target_signal.h b/bsd-user/sparc64/target_signal.h
+deleted file mode 100644
+index 5b2abba40f..0000000000
+--- a/bsd-user/sparc64/target_signal.h
++++ /dev/null
+@@ -1,27 +0,0 @@
+-#ifndef TARGET_SIGNAL_H
+-#define TARGET_SIGNAL_H
+-
+-#include "cpu.h"
+-
+-/* this struct defines a stack used during syscall handling */
+-
+-typedef struct target_sigaltstack {
+-	abi_ulong ss_sp;
+-	abi_long ss_flags;
+-	abi_ulong ss_size;
+-} target_stack_t;
+-
+-
+-#ifndef UREG_I6
+-#define UREG_I6        6
+-#endif
+-#ifndef UREG_FP
+-#define UREG_FP        UREG_I6
+-#endif
+-
+-static inline abi_ulong get_sp_from_cpustate(CPUSPARCState *state)
+-{
+-    return state->regwptr[UREG_FP];
+-}
+-
+-#endif /* TARGET_SIGNAL_H */
+diff --git a/bsd-user/x86_64/target_signal.h b/bsd-user/x86_64/target_signal.h
+deleted file mode 100644
+index 659cd401b8..0000000000
+--- a/bsd-user/x86_64/target_signal.h
++++ /dev/null
+@@ -1,19 +0,0 @@
+-#ifndef TARGET_SIGNAL_H
+-#define TARGET_SIGNAL_H
+-
+-#include "cpu.h"
+-
+-/* this struct defines a stack used during syscall handling */
+-
+-typedef struct target_sigaltstack {
+-	abi_ulong ss_sp;
+-	abi_long ss_flags;
+-	abi_ulong ss_size;
+-} target_stack_t;
+-
+-static inline abi_ulong get_sp_from_cpustate(CPUX86State *state)
+-{
+-    return state->regs[R_ESP];
+-}
+-
+-#endif /* TARGET_SIGNAL_H */
 -- 
 2.22.1
 
