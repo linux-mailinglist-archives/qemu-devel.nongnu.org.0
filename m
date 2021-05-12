@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4053D37D3B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:01:01 +0200 (CEST)
-Received: from localhost ([::1]:37946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C94037D3B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:00:59 +0200 (CEST)
+Received: from localhost ([::1]:37988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgu6O-0008E5-4N
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53148)
+	id 1lgu6M-0008Fq-3g
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:00:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu1i-0005L2-04; Wed, 12 May 2021 14:56:10 -0400
-Received: from [201.28.113.2] (port=32220 helo=outlook.eldorado.org.br)
+ id 1lgu1k-0005Me-Sd; Wed, 12 May 2021 14:56:12 -0400
+Received: from [201.28.113.2] (port=2227 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu1e-0007c5-Pe; Wed, 12 May 2021 14:56:09 -0400
+ id 1lgu1j-0007jW-0I; Wed, 12 May 2021 14:56:12 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 15:55:59 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id C1FC98000C2;
- Wed, 12 May 2021 15:55:58 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 2D23C80139F;
+ Wed, 12 May 2021 15:55:59 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 00/31] Base for adding PowerPC 64-bit instructions
-Date: Wed, 12 May 2021 15:54:10 -0300
-Message-Id: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 01/31] target/ppc: Add cia field to DisasContext
+Date: Wed, 12 May 2021 15:54:11 -0300
+Message-Id: <20210512185441.3619828-2-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
+References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 May 2021 18:55:59.0201 (UTC)
- FILETIME=[725F7510:01D74760]
+X-OriginalArrivalTime: 12 May 2021 18:55:59.0560 (UTC)
+ FILETIME=[72963C80:01D74760]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -59,90 +61,184 @@ Cc: richard.henderson@linaro.org, f4bug@amsat.org, luis.pires@eldorado.org.br,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-This series provides the basic infrastructure for adding the new 32/64-bit
-instructions in Power ISA 3.1 to target/ppc.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/translate.c | 36 +++++++++++++++++++-----------------
+ 1 file changed, 19 insertions(+), 17 deletions(-)
 
-v4:
-- Rebase on ppc-for-6.1;
-- Fold do_ldst_D and do_ldst_X;
-- Add tcg_const_tl, used to share do_ldst_D and do_ldst_X code;
-- Unfold prefixed and non-prefixed loads/stores/addi to let non-prefixed insns use the non-prefixed formats;
-- PNOP invalid suffixes;
-- setbc/setbcr/stnbc/setnbcr implemented;
-- cfuged/vcfuged implemented;
-- addpcis moved to decodetree.
-
-v3:
-- More changes for decodetree.
-- Cleanup exception/is_jmp logic to the point exception is removed.
-- Fold in Luis' isa check for prefixed insn support.
-- Share trans_* between prefixed and non-prefixed instructions.
-- Use macros to minimize the trans_* boilerplate.
-- Fix decode mistake for STHX/STHXU.
-
-v2:
-- Store current pc in ctx instead of insn_size
-- Use separate decode files for 32- and 64-bit instructions
-- Improvements to the exception/is_jmp logic
-- Use translator_loop_temp_check()
-- Moved logic to prevent translation from crossing page boundaries
-- Additional instructions using decodetree: addis, pnop, loads/stores
-- Added check for prefixed insn support in cpu flags
-
-Matheus Ferst (6):
-  target/ppc: Introduce gen_icount_io_start
-  TCG: add tcg_constant_tl
-  target/ppc: Implement setbc/setbcr/stnbc/setnbcr instructions
-  target/ppc: Implement cfuged instruction
-  target/ppc: Implement vcfuged instruction
-  target/ppc: Move addpcis to decodetree
-
-Richard Henderson (25):
-  target/ppc: Add cia field to DisasContext
-  target/ppc: Split out decode_legacy
-  target/ppc: Move DISAS_NORETURN setting into gen_exception*
-  target/ppc: Remove special case for POWERPC_SYSCALL
-  target/ppc: Remove special case for POWERPC_EXCP_TRAP
-  target/ppc: Simplify gen_debug_exception
-  target/ppc: Introduce DISAS_{EXIT,CHAIN}{,_UPDATE}
-  target/ppc: Replace POWERPC_EXCP_SYNC with DISAS_EXIT
-  target/ppc: Remove unnecessary gen_io_end calls
-  target/ppc: Replace POWERPC_EXCP_STOP with DISAS_EXIT_UPDATE
-  target/ppc: Replace POWERPC_EXCP_BRANCH with DISAS_NORETURN
-  target/ppc: Remove DisasContext.exception
-  target/ppc: Move single-step check to ppc_tr_tb_stop
-  target/ppc: Tidy exception vs exit_tb
-  target/ppc: Mark helper_raise_exception* as noreturn
-  target/ppc: Use translator_loop_temp_check
-  target/ppc: Introduce macros to check isa extensions
-  target/ppc: Move page crossing check to ppc_tr_translate_insn
-  target/ppc: Add infrastructure for prefixed insns
-  target/ppc: Move ADDI, ADDIS to decodetree, implement PADDI
-  target/ppc: Implement PNOP
-  target/ppc: Move D/DS/X-form integer loads to decodetree
-  target/ppc: Implement prefixed integer load instructions
-  target/ppc: Move D/DS/X-form integer stores to decodetree
-  target/ppc: Implement prefixed integer store instructions
-
- include/tcg/tcg-op.h                       |   2 +
- linux-user/ppc/cpu_loop.c                  |   6 -
- target/ppc/cpu.h                           |   5 +-
- target/ppc/helper.h                        |   5 +-
- target/ppc/insn32.decode                   | 112 +++
- target/ppc/insn64.decode                   | 123 +++
- target/ppc/int_helper.c                    |  39 +
- target/ppc/meson.build                     |   9 +
- target/ppc/translate.c                     | 829 ++++++++-------------
- target/ppc/translate/fixedpoint-impl.c.inc | 243 ++++++
- target/ppc/translate/vector-impl.c.inc     |  50 ++
- 11 files changed, 877 insertions(+), 546 deletions(-)
- create mode 100644 target/ppc/insn32.decode
- create mode 100644 target/ppc/insn64.decode
- create mode 100644 target/ppc/translate/fixedpoint-impl.c.inc
- create mode 100644 target/ppc/translate/vector-impl.c.inc
-
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 98850f0c30..9abe03222d 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -154,6 +154,7 @@ void ppc_translate_init(void)
+ /* internal defines */
+ struct DisasContext {
+     DisasContextBase base;
++    target_ulong cia;  /* current instruction address */
+     uint32_t opcode;
+     uint32_t exception;
+     /* Routine used to access memory */
+@@ -253,7 +254,7 @@ static void gen_exception_err(DisasContext *ctx, uint32_t excp, uint32_t error)
+      * faulting instruction
+      */
+     if (ctx->exception == POWERPC_EXCP_NONE) {
+-        gen_update_nip(ctx, ctx->base.pc_next - 4);
++        gen_update_nip(ctx, ctx->cia);
+     }
+     t0 = tcg_const_i32(excp);
+     t1 = tcg_const_i32(error);
+@@ -272,7 +273,7 @@ static void gen_exception(DisasContext *ctx, uint32_t excp)
+      * faulting instruction
+      */
+     if (ctx->exception == POWERPC_EXCP_NONE) {
+-        gen_update_nip(ctx, ctx->base.pc_next - 4);
++        gen_update_nip(ctx, ctx->cia);
+     }
+     t0 = tcg_const_i32(excp);
+     gen_helper_raise_exception(cpu_env, t0);
+@@ -4140,7 +4141,7 @@ static void gen_eieio(DisasContext *ctx)
+          */
+         if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+             qemu_log_mask(LOG_GUEST_ERROR, "invalid eieio using bit 6 at @"
+-                          TARGET_FMT_lx "\n", ctx->base.pc_next - 4);
++                          TARGET_FMT_lx "\n", ctx->cia);
+         } else {
+             bar = TCG_MO_ST_LD;
+         }
+@@ -4809,14 +4810,14 @@ static void gen_b(DisasContext *ctx)
+     li = LI(ctx->opcode);
+     li = (li ^ 0x02000000) - 0x02000000;
+     if (likely(AA(ctx->opcode) == 0)) {
+-        target = ctx->base.pc_next + li - 4;
++        target = ctx->cia + li;
+     } else {
+         target = li;
+     }
+     if (LK(ctx->opcode)) {
+         gen_setlr(ctx, ctx->base.pc_next);
+     }
+-    gen_update_cfar(ctx, ctx->base.pc_next - 4);
++    gen_update_cfar(ctx, ctx->cia);
+     gen_goto_tb(ctx, 0, target);
+ }
+ 
+@@ -4915,11 +4916,11 @@ static void gen_bcond(DisasContext *ctx, int type)
+         }
+         tcg_temp_free_i32(temp);
+     }
+-    gen_update_cfar(ctx, ctx->base.pc_next - 4);
++    gen_update_cfar(ctx, ctx->cia);
+     if (type == BCOND_IM) {
+         target_ulong li = (target_long)((int16_t)(BD(ctx->opcode)));
+         if (likely(AA(ctx->opcode) == 0)) {
+-            gen_goto_tb(ctx, 0, ctx->base.pc_next + li - 4);
++            gen_goto_tb(ctx, 0, ctx->cia + li);
+         } else {
+             gen_goto_tb(ctx, 0, li);
+         }
+@@ -5035,7 +5036,7 @@ static void gen_rfi(DisasContext *ctx)
+     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+         gen_io_start();
+     }
+-    gen_update_cfar(ctx, ctx->base.pc_next - 4);
++    gen_update_cfar(ctx, ctx->cia);
+     gen_helper_rfi(cpu_env);
+     gen_sync_exception(ctx);
+ #endif
+@@ -5052,7 +5053,7 @@ static void gen_rfid(DisasContext *ctx)
+     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+         gen_io_start();
+     }
+-    gen_update_cfar(ctx, ctx->base.pc_next - 4);
++    gen_update_cfar(ctx, ctx->cia);
+     gen_helper_rfid(cpu_env);
+     gen_sync_exception(ctx);
+ #endif
+@@ -5069,7 +5070,7 @@ static void gen_rfscv(DisasContext *ctx)
+     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+         gen_io_start();
+     }
+-    gen_update_cfar(ctx, ctx->base.pc_next - 4);
++    gen_update_cfar(ctx, ctx->cia);
+     gen_helper_rfscv(cpu_env);
+     gen_sync_exception(ctx);
+ #endif
+@@ -5112,7 +5113,7 @@ static void gen_scv(DisasContext *ctx)
+ 
+     /* Set the PC back to the faulting instruction. */
+     if (ctx->exception == POWERPC_EXCP_NONE) {
+-        gen_update_nip(ctx, ctx->base.pc_next - 4);
++        gen_update_nip(ctx, ctx->cia);
+     }
+     gen_helper_scv(cpu_env, tcg_constant_i32(lev));
+ 
+@@ -5320,7 +5321,7 @@ static inline void gen_op_mfspr(DisasContext *ctx)
+             if (sprn != SPR_PVR) {
+                 qemu_log_mask(LOG_GUEST_ERROR, "Trying to read privileged spr "
+                               "%d (0x%03x) at " TARGET_FMT_lx "\n", sprn, sprn,
+-                              ctx->base.pc_next - 4);
++                              ctx->cia);
+             }
+             gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+         }
+@@ -5334,7 +5335,7 @@ static inline void gen_op_mfspr(DisasContext *ctx)
+         /* Not defined */
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "Trying to read invalid spr %d (0x%03x) at "
+-                      TARGET_FMT_lx "\n", sprn, sprn, ctx->base.pc_next - 4);
++                      TARGET_FMT_lx "\n", sprn, sprn, ctx->cia);
+ 
+         /*
+          * The behaviour depends on MSR:PR and SPR# bit 0x10, it can
+@@ -5498,7 +5499,7 @@ static void gen_mtspr(DisasContext *ctx)
+             /* Privilege exception */
+             qemu_log_mask(LOG_GUEST_ERROR, "Trying to write privileged spr "
+                           "%d (0x%03x) at " TARGET_FMT_lx "\n", sprn, sprn,
+-                          ctx->base.pc_next - 4);
++                          ctx->cia);
+             gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+         }
+     } else {
+@@ -5512,7 +5513,7 @@ static void gen_mtspr(DisasContext *ctx)
+         /* Not defined */
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "Trying to write invalid spr %d (0x%03x) at "
+-                      TARGET_FMT_lx "\n", sprn, sprn, ctx->base.pc_next - 4);
++                      TARGET_FMT_lx "\n", sprn, sprn, ctx->cia);
+ 
+ 
+         /*
+@@ -9339,6 +9340,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     LOG_DISAS("nip=" TARGET_FMT_lx " super=%d ir=%d\n",
+               ctx->base.pc_next, ctx->mem_idx, (int)msr_ir);
+ 
++    ctx->cia = ctx->base.pc_next;
+     ctx->opcode = translator_ldl_swap(env, ctx->base.pc_next,
+                                       need_byteswap(ctx));
+ 
+@@ -9368,7 +9370,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+                       TARGET_FMT_lx " %d\n",
+                       opc1(ctx->opcode), opc2(ctx->opcode),
+                       opc3(ctx->opcode), opc4(ctx->opcode),
+-                      ctx->opcode, ctx->base.pc_next - 4, (int)msr_ir);
++                      ctx->opcode, ctx->cia, (int)msr_ir);
+     } else {
+         uint32_t inval;
+ 
+@@ -9385,7 +9387,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+                           TARGET_FMT_lx "\n", ctx->opcode & inval,
+                           opc1(ctx->opcode), opc2(ctx->opcode),
+                           opc3(ctx->opcode), opc4(ctx->opcode),
+-                          ctx->opcode, ctx->base.pc_next - 4);
++                          ctx->opcode, ctx->cia);
+             gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
+             ctx->base.is_jmp = DISAS_NORETURN;
+             return;
 -- 
 2.25.1
 
