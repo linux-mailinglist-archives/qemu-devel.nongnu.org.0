@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB5437D39F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:41:46 +0200 (CEST)
-Received: from localhost ([::1]:45064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C3137D3A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:50:00 +0200 (CEST)
+Received: from localhost ([::1]:57200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgtnk-0001X5-2y
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:41:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49800)
+	id 1lgtvj-0001f7-6E
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:49:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgtlq-00087L-8b
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:39:46 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:42716)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgtu4-0000Wl-9p
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:48:16 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:34526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgtln-00066H-Mi
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:39:45 -0400
-Received: by mail-qk1-x731.google.com with SMTP id o27so23200755qkj.9
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:39:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgtu0-00036U-K9
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:48:16 -0400
+Received: by mail-ed1-x536.google.com with SMTP id l7so28324151edb.1
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QBJuKCFso1p7XYXCnjM6Ppq3xWOItjZk8yKD51w8Rgk=;
- b=REpacniX9FrZwt36Lc5Vg1DNye5a6q7GGYqUiCkTHWyZx5h5cCywTdWYTmTzb7EyLX
- vuvFl815AqOBF+Eae4QJeDQsgWPfiDad0A9lbfDubFgTAgIq55NXPIK8LH7I3VC3EZR7
- gdyS5Uh4zk0VNlCGJfdvPOMhTXGS5dSbuUjaHWA+D9UHD+FhA2urZ1gS0VAqoP1Rlu/t
- 6DzRGYZfLdPvyPs2BUowI8E3+dwsNxSwbJARbBiPtgbLQ2S90lFOgd94WwA0QAwLb9hh
- WcYyABwbUP8FQCcbKfDrfIfzK55ivpBbS60za4bzk8xRMB0yVwX7rhQiVPLYJrbZbuoA
- SpOQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cIXujJwGmXJ8WjYvjTs2Zvo7KOvVBis/EBjP4D21e3E=;
+ b=eFcAqYmtjSu5NsEyH0NFqvgQM4JfMUJ7hpukPrrvW8a7bvFi7ltaZTPt9J+CxRsRbC
+ 48xumfZD3wg//52Gc1fKOu8dG6ElT8hWTGV19HyfXZnEgjOZrEGwY3oMzA6i6z1nBirx
+ F34Y8na4CNgKjA9+Eq5G6Kzl508YBfVVpwp3EgEcJiNTqgKF6y9tirrlx9jK8ctBWLmc
+ 5JwjM+Y8yGNbbOErFh3zKLUAs+To9sVAxnMILzHrwzE3TGmJ8Lq0ni8s426Y1zfp0SYx
+ VRtFIzL6NJNSJVSzAw8s6Kek9aLyMVpn1nN+7E5YG/DlksVwnyCqnBfBcx3x4Z/AVfam
+ DFzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QBJuKCFso1p7XYXCnjM6Ppq3xWOItjZk8yKD51w8Rgk=;
- b=Iz8JZR4vMGDQnzFNP0W/0rzONPxDKS4Sd9PanEUFNL8IYOCIsMx75cNVWA/9rFwdyW
- zbMpTV44BHELUZ+dlnAwgtOL6t0p3EiGveACSKgTv6Oy+SCSa1Wc09BSD90UMXe5JElf
- u/fOnRQLdq8fTc+AYwwEmlcyV+tGozs4//OFcra4iHN1hcM4sCcDZikE3okSUQAWQCg1
- m+go3ZSUIKYY20R/s0gR50x4OoQ2Nfmsl5H/xZxpXsRS3Ef9+MKSbBxVRFwnQDda/D7g
- uNEMyJj7cZD4Mgi7XNQwkfQDHgY6lgLnTPbm6mcYkc4Ywme1IQybbSU0DBb48reRRPVY
- 69eQ==
-X-Gm-Message-State: AOAM530KMM/qupibYle/ZRqd8Hnz/NE4PlQunOnu6q0ZbOZOQaOYB7D4
- Z+RlX2LzLxzC6i9+J9I6QTdQ0w==
-X-Google-Smtp-Source: ABdhPJyiYaqcOFHKVoHiZORWSV+IgdRjislVEcmb7TJvbGT6DDFThAi38woRtm9u3yWXoDuQS0WbRw==
-X-Received: by 2002:a05:620a:408f:: with SMTP id
- f15mr13763863qko.398.1620844781958; 
- Wed, 12 May 2021 11:39:41 -0700 (PDT)
-Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
- [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id 20sm713212qks.64.2021.05.12.11.39.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 May 2021 11:39:41 -0700 (PDT)
-Subject: Re: [RFC PATCH 10/11] target/ppc: created tcg-stub.c file
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- qemu-devel@nongnu.org
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-11-bruno.larsen@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a80cf0c3-705e-e41a-f538-8abf492a5f4c@linaro.org>
-Date: Wed, 12 May 2021 13:39:38 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cIXujJwGmXJ8WjYvjTs2Zvo7KOvVBis/EBjP4D21e3E=;
+ b=TzgUqhsLv0IoeCquzoIIfn3IEO/O4getn6LOc5sXrJYCKJQd8HjEBLHzw6/02IrRtq
+ u5sZ+3EprpZwfrTnnZrWMffeqm2CBsXPBegP6CpEAl6AkcLNm8P/JdJCrqobLuL6xci0
+ yiw0wmK56Al/TR+wBfeCc+9FwsOye7nNRK7gaUZNLwTQToZ8TDlSAqienhP+Wau6lz52
+ QrDkEqO0NR2HK00Gvat0QuWtDoVbO9KCCNVAql4H8lW6zjfkjoWYhAmgJIiduQ7zraZP
+ 6TZ+C+YSzAaR49pNPMfGOxDux6jO2KLyruqsWCpCIRjQYGKmG8gxaN+Kyz14eBGaWj5Z
+ u/FA==
+X-Gm-Message-State: AOAM530aeB4mmdEtuwTBCxh569jRhA3saNuCPa8j4I0Vl9UQT5Zdpl1E
+ smYB4G6B6P9FKx1yd+BW5/sxTNDBdLGqfA4WGGy9BQ==
+X-Google-Smtp-Source: ABdhPJzYYhRWDP6jDR17fSfKn2N/6sK1d/68AypWlAR7ND3bO8UJbkQhNfT844FrghJDTwDlhidpyFJr0+e1IsryVWU=
+X-Received: by 2002:a05:6402:12d3:: with SMTP id
+ k19mr44654104edx.52.1620845290420; 
+ Wed, 12 May 2021 11:48:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210512140813.112884-11-bruno.larsen@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x731.google.com
+References: <20210511101951.165287-1-alistair.francis@wdc.com>
+In-Reply-To: <20210511101951.165287-1-alistair.francis@wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 12 May 2021 19:46:56 +0100
+Message-ID: <CAFEAcA_aRMfGF3A2rravx9p0eb-5eFiWXycZXrNk4RBBrviLXw@mail.gmail.com>
+Subject: Re: [PULL v3 00/42] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,39 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Alistair Francis <alistair23@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
-> +++ b/target/ppc/tcg-stub.c
-> @@ -0,0 +1,33 @@
-> +
-> +#include "qemu/osdep.h"
+On Tue, 11 May 2021 at 11:20, Alistair Francis <alistair.francis@wdc.com> wrote:
+>
+> The following changes since commit e4f3ede95ce813d5705c65e1c0e1c80c70739ebb:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210505-pull-request' into staging (2021-05-10 19:55:06 +0100)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210511
+>
+> for you to fetch changes up to c30a0757f094c107e491820e3d35224eb68859c7:
+>
+>   target/riscv: Fix the RV64H decode comment (2021-05-11 20:02:07 +1000)
+>
+> ----------------------------------------------------------------
+> A large collection of RISC-V fixes, improvements and features
+>
+>  - Clenaup some left over v1.9 code
+>  - Documentation improvements
+>  - Support for the shakti_c machine
+>  - Internal cleanup of the CSR accesses
+>  - Updates to the OpenTitan platform
+>  - Support for the virtio-vga
+>  - Fix for the saturate subtract in vector extensions
+>  - Experimental support for the ePMP spec
+>  - A range of other internal code cleanups and bug fixes
+>
 
-All files get copyright boilerplate.
 
-> +#include "exec/hwaddr.h"
-> +#include "cpu.h"
-> +#include "hw/ppc/spapr.h"
-> +
-> +hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-> +{
-> +    return 0;
-> +}
+Applied, thanks.
 
-This is used by gdbstub.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
-If there's a way for kvm to convert a virtual address to a physical address 
-using the hardware, then use that.  I suspect there is not.
-
-Otherwise, you have to keep all of the mmu page table walking stuff for kvm as 
-well as tcg.  Which probably means that all of the other stuff that you're 
-stubbing out is used or usable as well.
-
-
-r~
+-- PMM
 
