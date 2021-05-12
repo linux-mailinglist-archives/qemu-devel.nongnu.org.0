@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446E537BAC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:36:27 +0200 (CEST)
-Received: from localhost ([::1]:42462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B5437BAF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:41:02 +0200 (CEST)
+Received: from localhost ([::1]:59362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgmE0-0000UN-Tn
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:36:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60258)
+	id 1lgmIX-0003fd-5M
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:41:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lglzL-0003hk-74
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:11 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:36770)
+ id 1lgm8b-0000nN-Eb
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:30:45 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lglzJ-0003hP-Dq
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:10 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- n17-20020a7bc5d10000b0290169edfadac9so2217447wmk.1
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:21:08 -0700 (PDT)
+ id 1lgm8X-0000ch-QS
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:30:45 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id x8so785377wrq.9
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VsOEBZtB0HF2JImaMnITvaw+tRLQeXiNM3E9i7SwoP8=;
- b=l163YBaw2zHHqHhyWpGcjptjVgib4g68qAoUMqipmmypqYOh98n9ScNdpOrygSKgNm
- ZvQi53IQf/B8goSY1z+XacWIFd9Cx6wm5OzOCDLj1eM71PbWtGJ3lrFIrLiA3pylwoGS
- MjNx4P2QSzcNZS19KmmrLhViBhrZ2EwoI7UWnH08PCIC+a9TnG1BP3IRAq6mdRi7cggr
- d94MQSge0nW6YGQrNflJq/inx0qseAIIa3hgRqndot8waLmmhPBcstY94cWGeH0sI/SM
- t0YUB8CAhjztMheieoPdfPX5WptaAiYkBKpFTVlbbkbIDEWGeSbhAlXxecT+sYV1bv0k
- 2Ujw==
+ bh=l97rhLDxO0XNq5HQNG4JIIr2ozVY5tElcdl90wPdeI0=;
+ b=s0+5H6cPoS6XRe3FxBqZqEc0tMsB9Yw2D63FY8kNmf8shpVwszLz3x1ZvUpXlvLi+t
+ HlxujfHwbUNnBXRcdpqRH45vQ4lrMbPOS0N2LeQaI/q8+ZOHi0CfP7dytxLFJJTybC9y
+ 75dNr9gc5G3PglSC2kEz318irdroAOsQ9zj8IizxwZN5yhWRJodtWil4ZjX0w2OjAbRv
+ CUNZ4Pk7K8X3lKAMeY17bqFrI0yUfYntIVTQw3GLMeidWH1HC6qXFiyu4zeGPTe9fifD
+ 2IoISIbVP/U9MYYfQtkMy10pjnI/9LwnDmMPPCXSdLAuUjWYM01ZPflPBKOSMV6slFNS
+ M/Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VsOEBZtB0HF2JImaMnITvaw+tRLQeXiNM3E9i7SwoP8=;
- b=Oc/4B4LbTxcGyo6hw+aAYGxKaozxHvQWoZe6yuZ8GOKa4an+dFOo2FwksP3v12ihfX
- vl5AfV2v1tq3mSX0BvMP/+RmI6/nWBi7ZGdO5/9U7peJM6204yFwU2VjziQYggdxRAod
- KC2DMlFAAbWuIChYLrg4zSi6lYUZJJktRE9RzUyAh9IvBZQ7lQsE+I/ZjMbXO6tRdMd1
- h0IDZ2+alOmv6b43fl/+0/7JIZcbJ87F7rdiWoo2dI0GpIkIFuO06yK2FB4flipixY2a
- SJyeut5a13XDS0gcIlrQkVCV+C3sSshai3iQA/+0bn+PtT4EPOmQxVpZnRQfMpVhPuMr
- APFA==
-X-Gm-Message-State: AOAM5321k7dunY6kFwkZcD7DhxBBUV1UMyV50G7nIDZKHc/5y4TVTOLr
- 2UBO1ltilxF48gOd/aflx9NYhA==
-X-Google-Smtp-Source: ABdhPJwmLMCdFHGCOY+Z1AiuH8FAClfWWma1Gm3aS4GZuVUKJXW2LETQ1/tRH3mmNaR4yE8yaoH/fA==
-X-Received: by 2002:a05:600c:4fd0:: with SMTP id
- o16mr10651729wmq.137.1620814867999; 
- Wed, 12 May 2021 03:21:07 -0700 (PDT)
+ bh=l97rhLDxO0XNq5HQNG4JIIr2ozVY5tElcdl90wPdeI0=;
+ b=MSdDwKsbSM8SdMkqnNROZqudDOFZTNIbyNhzZz57fU34VYs6fyLvf3vYMx+NRs8VcK
+ PZdqJjz01x69mGE7MO1JGeilSkz/tgD+dPoFme3gK/AGLMmqfFJp5dxy0x6EB+ARV5/K
+ 0GBjS+IonarWRXt5VtSKdMwWVIPihFAO5uyC4y1ZGA4veZ7pY2MAiSaemWW7/oGfwsWS
+ bqp/UhcSJ0ipG0x0pNCyNqbW9+FwiPNEFh+cCbLiJBCr/K1wXi8pyURa01ZFqaFnXz6M
+ WHZ3meW2q/CyOkhVEplU7dnq+6DARfyvrfG3H6xJvWCHGcoK8xTLnIbQI2/4MLizCyBl
+ W5dw==
+X-Gm-Message-State: AOAM5337w9GUVeyw8EjdEWuEnKD1NVRZUYdsooQiu4lwvhc+V7tR3c1r
+ abIaTHc5vMwD6lBirzSB2c5TYcl7SH810g==
+X-Google-Smtp-Source: ABdhPJxm9Vqt1s+UTMLpM0sckW4UbUP4sY58qjwUB48sq8jYOkklk9d9Op8iBOcjboE4fMOE84wAMw==
+X-Received: by 2002:a05:6000:12cc:: with SMTP id
+ l12mr6301489wrx.91.1620815440446; 
+ Wed, 12 May 2021 03:30:40 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b15sm347305wru.64.2021.05.12.03.20.57
+ by smtp.gmail.com with ESMTPSA id w22sm5415169wmc.13.2021.05.12.03.30.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 May 2021 03:20:59 -0700 (PDT)
+ Wed, 12 May 2021 03:30:39 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4E9CC1FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 870601FF9D;
  Wed, 12 May 2021 11:20:52 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 12/31] tests/tcg: Run timeout cmds using --foreground
-Date: Wed, 12 May 2021 11:20:32 +0100
-Message-Id: <20210512102051.12134-13-alex.bennee@linaro.org>
+Subject: [PATCH  v3 14/31] tests/tcg/tricore: Add build infrastructure
+Date: Wed, 12 May 2021 11:20:34 +0100
+Message-Id: <20210512102051.12134-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210512102051.12134-1-alex.bennee@linaro.org>
 References: <20210512102051.12134-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,39 +96,119 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-when trying to run successful short tests from the Makefile timeout would not
-terminate. Rather it would wait until the time runs out. Excerpt from the
-manpage:
+this includes the Makefile and linker script to build all the tests.
 
---foreground
-    when not running timeout directly from a shell prompt,
-    allow COMMAND to read from the TTY and get TTY signals; in this mode, chil‐
-    dren of COMMAND will not be timed out
-
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210305170045.869437-3-kbastian@mail.uni-paderborn.de>
+Message-Id: <20210305170045.869437-5-kbastian@mail.uni-paderborn.de>
 ---
- tests/tcg/Makefile.target | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ MAINTAINERS                               |  1 +
+ tests/tcg/tricore/Makefile.softmmu-target | 15 ++++++
+ tests/tcg/tricore/link.ld                 | 60 +++++++++++++++++++++++
+ 3 files changed, 76 insertions(+)
+ create mode 100644 tests/tcg/tricore/Makefile.softmmu-target
+ create mode 100644 tests/tcg/tricore/link.ld
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index cab8c6b3a2..b29fae4630 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -43,9 +43,10 @@ quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 30f1e7d4e4..a3da27843b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -378,6 +378,7 @@ S: Maintained
+ F: target/tricore/
+ F: hw/tricore/
+ F: include/hw/tricore/
++F: tests/tcg/tricore/
  
- # $1 = test name, $2 = cmd, $3 = desc
- ifdef CONFIG_USER_ONLY
--run-test = $(call quiet-command, timeout $(TIMEOUT) $2 > $1.out,"TEST",$3)
-+run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > $1.out, \
-+	"TEST",$3)
- else
--run-test = $(call quiet-command, timeout $(TIMEOUT) $2,"TEST",$3)
-+run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2,"TEST",$3)
- endif
- 
- # $1 = test name, $2 = reference
+ Multiarch Linux User Tests
+ M: Alex Bennée <alex.bennee@linaro.org>
+diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
+new file mode 100644
+index 0000000000..d64a99b95f
+--- /dev/null
++++ b/tests/tcg/tricore/Makefile.softmmu-target
+@@ -0,0 +1,15 @@
++TESTS_PATH = $(SRC_PATH)/tests/tcg/tricore
++
++LDFLAGS = -T$(TESTS_PATH)/link.ld
++ASFLAGS =
++
++QEMU_OPTS += -M tricore_testboard -nographic -kernel
++
++%.pS: $(TESTS_PATH)/%.S
++	$(HOST_CC) -E -o $@ $<
++
++%.o: %.pS
++	$(AS) $(ASFLAGS) -o $@ $<
++
++%.tst: %.o
++	$(LD) $(LDFLAGS) $< -o $@
+diff --git a/tests/tcg/tricore/link.ld b/tests/tcg/tricore/link.ld
+new file mode 100644
+index 0000000000..364bcdc00a
+--- /dev/null
++++ b/tests/tcg/tricore/link.ld
+@@ -0,0 +1,60 @@
++/* Default linker script, for normal executables */
++OUTPUT_FORMAT("elf32-tricore")
++OUTPUT_ARCH(tricore)
++ENTRY(_start)
++
++/* the internal ram description */
++MEMORY
++{
++  text_ram (rx!p): org = 0x80000000, len = 15K
++  data_ram (w!xp): org = 0xd0000000, len = 130K
++}
++/*
++ * Define the sizes of the user and system stacks.
++ */
++__USTACK_SIZE = DEFINED (__USTACK_SIZE) ? __USTACK_SIZE : 1K ;
++/*
++ * Define the start address and the size of the context save area.
++ */
++__CSA_BEGIN =  0xd0000000 ;
++__CSA_SIZE =  8k ;
++__CSA_END = __CSA_BEGIN + __CSA_SIZE ;
++
++SECTIONS
++{
++  .text  :
++  {
++    *(.text)
++    . = ALIGN(8);
++  } > text_ram
++
++  .rodata :
++  {
++    *(.rodata)
++    *(.rodata1)
++  } > data_ram
++
++  .data :
++  {
++    . = ALIGN(8) ;
++    *(.data)
++    *(.data.*)
++    . = ALIGN(8) ;
++    __USTACK = . + __USTACK_SIZE -768;
++
++  } > data_ram
++  /*
++   * Allocate space for BSS sections.
++   */
++  .bss  :
++  {
++    BSS_BASE = . ;
++    *(.bss)
++    *(COMMON)
++    . = ALIGN(8) ;
++  } > data_ram
++  /* Make sure CSA, stack and heap addresses are properly aligned.  */
++  _. = ASSERT ((__CSA_BEGIN & 0x3f) == 0 , "illegal CSA start address") ;
++  _. = ASSERT ((__CSA_SIZE & 0x3f) == 0 , "illegal CSA size") ;
++
++}
 -- 
 2.20.1
 
