@@ -2,86 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E2337BED6
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 15:50:37 +0200 (CEST)
-Received: from localhost ([::1]:39904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301E637BF02
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 15:57:07 +0200 (CEST)
+Received: from localhost ([::1]:48142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgpG0-0000M2-Ly
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 09:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52872)
+	id 1lgpMH-0006N0-Nl
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 09:57:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lgpE4-0007tx-EW
- for qemu-devel@nongnu.org; Wed, 12 May 2021 09:48:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20128)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgpLP-0005bQ-9M
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 09:56:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lgpDz-00040P-8h
- for qemu-devel@nongnu.org; Wed, 12 May 2021 09:48:35 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgpLL-0000Mq-GB
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 09:56:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620827310;
+ s=mimecast20190719; t=1620827764;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q1i06e3/yOpj3yCBCCJ/EY8Q4MjmDMA82/qL4fh4cHE=;
- b=P1L7wOJ45bbdlzUAWvtdjRjI47hPJNms1dat6Lm8vJZr7zQrCUgJLaNQzfIagBDIx5kGXE
- P0NseCi1CXCxWuG/onFPL7JCFpVYByYMfn0z3yu2q2TAAKpui0ydFt3WgM1Ly2FBVhV5Ss
- Mlruq1NVXEbNWntf90/vMmI1AO8Cv4Q=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-LePgA7aTM6WwAv4PrBkGUw-1; Wed, 12 May 2021 09:48:26 -0400
-X-MC-Unique: LePgA7aTM6WwAv4PrBkGUw-1
-Received: by mail-ua1-f71.google.com with SMTP id
- z43-20020a9f372e0000b029020dcb32d820so349581uad.2
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 06:48:26 -0700 (PDT)
+ bh=hWeSEHtGV8Xi/zkDoPgg5EyLblHbHIX8Vyy3T1Dfjng=;
+ b=ftEWjLPBZvF7/KaMPHJ5vhT00evYuowh9Uu469hjs7mZXIv/i1WgL9fsuCIv7IehTDhMZm
+ 95cUCJ0P48Gv/aijeaSsq88zb74v56CIPWeXt9gxyMuBWt9EQ1KCmoyRjN357nFMHe8QNn
+ MsI9exbsq0ZRwD0R2XmxMx5uk2uJccI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-v5iHyVmFO16N2Xz82tP_zw-1; Wed, 12 May 2021 09:56:02 -0400
+X-MC-Unique: v5iHyVmFO16N2Xz82tP_zw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d20-20020adfc3d40000b029010e1a640bbfso10192612wrg.21
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 06:56:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Q1i06e3/yOpj3yCBCCJ/EY8Q4MjmDMA82/qL4fh4cHE=;
- b=cO/WNQ7TV5td18EP00h6jCjTlrnTQS/AlkB9GtPlhGZgmujyQK5YrgUgZp2FqH8WoY
- gx6WLBtmVKGF4PmtIclKO+DNJMZWzY7Xw79Xr0r9hfqUll6/8aqEW2ra+8Hj+NevAKkc
- GrLrEMKVjGkL7o2rsNYALgVXQHaKv15Pr+mEcNq814uu8kXOah+p+Sb6trd+RqZ+9KEj
- T/aoJ86LgtKYRO6l7TtOeGNtk2lAkYy9Rkm3C4ANQD2Yn5gi0UEC+JClVOEZSH/BNsV3
- 1pf4AxQa1sQnnG/ttIoa0A0aK2xLXCTv+JKaXUK7dwbZ2MpraZZqFZq3+SAuAdx+Gwc/
- saPg==
-X-Gm-Message-State: AOAM532sdU7gfH6UrGIZ66C43ZbyMysYn82T9q0HOZIBE5lvt9akryr+
- VmCfZ8hprSzfdxzUS9W2iWuHl73GuQjKb+dcvGrlqWT4I6SiBpGVAYh1HXUJPnjLuO3uqYbOMYu
- U/u8/eWJQvKoZkUKPLDdnq9qDyUVWFQw=
-X-Received: by 2002:ab0:1648:: with SMTP id l8mr31653520uae.124.1620827306007; 
- Wed, 12 May 2021 06:48:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzKnfBm2XnuQiPVbry6QvMobOjcxJujlUXyzM7UCfgF3Du8B+bxf4po0o5GQHYMIvCp2H+z0/OMO3j2xeqqtdE=
-X-Received: by 2002:ab0:1648:: with SMTP id l8mr31653490uae.124.1620827305775; 
- Wed, 12 May 2021 06:48:25 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hWeSEHtGV8Xi/zkDoPgg5EyLblHbHIX8Vyy3T1Dfjng=;
+ b=P7X+0TxqvzEHPTOx0+mu+74osHUAV6G0P2kJ+QO0e9odghNsObQGruOk5i+Gxd6hUD
+ xDYwo7TXWh4eSIlwORbRJeATtFj+/quTTTcBMwqR3dlLOekdxweWe+uacyx2iSCupAFB
+ mYbV7UOYCyd5HzW1d6CndZmwomm1AlMuU0z4mUxEA87lls/3gEmS1/t3+siePaTchadI
+ 9Uetn8UkYOV3gPQX6/MlOWSZMrIGq/01fEega/3sWhF3fLwfxSixWkGZ5v0H2tbMq4ng
+ G4l9AiQYBwkPIYMtOy/EA3fX9Qx7qfjI34Noj3HCaEkGVTDhABSarH2AUQ95jMXCovWo
+ Nk8A==
+X-Gm-Message-State: AOAM533wRLIW5T5IMMVaqZtZi/8CHh0esjLQFlMBwvHaDsAGMftp0ff+
+ zIRmaoSWyWZyOg/MAuyKMVG6xtJ4WBu4i29yRK9pbT2KTNIwv8FNYq65GqPRgGAG/hl2LqNVA6s
+ HCka8PtsKPZQhzZg=
+X-Received: by 2002:a1c:a483:: with SMTP id
+ n125mr35582357wme.159.1620827761038; 
+ Wed, 12 May 2021 06:56:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwWT6fw7aGvKsKeo1pdujZE+3oKxACxy3qmdFepXrYO5BkPSNjhe/M29CklzidnGZi8ya4aGw==
+X-Received: by 2002:a1c:a483:: with SMTP id
+ n125mr35582330wme.159.1620827760831; 
+ Wed, 12 May 2021 06:56:00 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e832bb.dip0.t-ipconnect.de.
+ [217.232.50.187])
+ by smtp.gmail.com with ESMTPSA id v18sm35304424wro.18.2021.05.12.06.55.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 May 2021 06:56:00 -0700 (PDT)
+Subject: Re: non-x86 runners in the Gitlab-CI (was: Re: [PATCH 12/12]
+ configure: bump min required CLang to 7.0.0 / XCode 10.2)
+To: Willian Rampazzo <wrampazz@redhat.com>
 References: <20210511132641.1022161-1-berrange@redhat.com>
  <20210511132641.1022161-13-berrange@redhat.com>
  <fcb6b808-c1de-d5f3-064c-1725c49999e0@redhat.com>
  <5b582933-6004-3549-b5fe-208c182d5efe@redhat.com>
-In-Reply-To: <5b582933-6004-3549-b5fe-208c182d5efe@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 12 May 2021 10:47:59 -0300
-Message-ID: <CAKJDGDZUScyzVzhwpG+d6di3Wa0+Txk0SONVXiC++dukzNeTew@mail.gmail.com>
-Subject: Re: non-x86 runners in the Gitlab-CI (was: Re: [PATCH 12/12]
- configure: bump min required CLang to 7.0.0 / XCode 10.2)
-To: Thomas Huth <thuth@redhat.com>
+ <CAKJDGDZUScyzVzhwpG+d6di3Wa0+Txk0SONVXiC++dukzNeTew@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <93b24ba1-0898-250f-0f8c-87bc08934220@redhat.com>
+Date: Wed, 12 May 2021 15:55:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAKJDGDZUScyzVzhwpG+d6di3Wa0+Txk0SONVXiC++dukzNeTew@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,69 +106,74 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
  qemu-devel <qemu-devel@nongnu.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Ademar Reis Jr <areis@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
+On 12/05/2021 15.47, Willian Rampazzo wrote:
+> Hi Thomas,
+> 
+> On Wed, May 12, 2021 at 8:54 AM Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> On 12/05/2021 13.44, Philippe Mathieu-Daudé wrote:
+>>> On 5/11/21 3:26 PM, Daniel P. Berrangé wrote:
+>>>> Several distros have been dropped since the last time we bumped the
+>>>> minimum required CLang version.
+>>>>
+>>>> Per repology, currently shipping versions are:
+>>>>
+>>>>                RHEL-8: 10.0.1
+>>>>        Debian Stretch: 7.0.1
+>>>>         Debian Buster: 7.0.1
+>>>>    openSUSE Leap 15.2: 9.0.1
+>>>>      Ubuntu LTS 18.04: 10.0.0
+>>>>      Ubuntu LTS 20.04: 11.0.0
+>>>>            FreeBSD 12: 8.0.1
+>>>>             Fedora 33: 11.0.0
+>>>>             Fedora 34: 11.1.0
+>>>>
+>>>> With this list Debian Stretch is the constraint at 7.0.1
+>>>>
+>>>> An LLVM version of 7.0.1 corresponds to macOS XCode version of 10.2
+>>>> which dates from March 2019.
+>>>
+>>> But we still rely on Travis-CI (Ubuntu Bionic 18.04 LTS)
+>>> for non-x86 targets until we have figured out who is willing
+>>> to share/maintain such non-x86 native runners on Gitlab.
+>>
+>>    Hi Cleber,
+>>
+>> by the way, what's the status of your patch series to get the dedicated CI
+>> machines (s390x, aarch64, ...) running in our Gitlab-CI? AFAIK the last
+>> iteration of your patches has been weeks ago, so I wonder whether you could
+>> finally send a new version with the requested fixes included? ... this topic
+>> slowly gets more and more urgent now that our Travis-CI is in process of
+>> dying...
+> 
+> I don't know if you saw this:
+> https://docs.travis-ci.com/user/billing-overview/#partner-queue-solution.
+> 
+> tl;dr, Travis now has support from partners to run non-x86 arch. It is
+> always good to have a plan B, like qemu own CI runners, but, at least,
+> with these non-x86 arch available on Travis, we will have some time to
+> breathe.
 
-On Wed, May 12, 2021 at 8:54 AM Thomas Huth <thuth@redhat.com> wrote:
->
-> On 12/05/2021 13.44, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 5/11/21 3:26 PM, Daniel P. Berrang=C3=A9 wrote:
-> >> Several distros have been dropped since the last time we bumped the
-> >> minimum required CLang version.
-> >>
-> >> Per repology, currently shipping versions are:
-> >>
-> >>               RHEL-8: 10.0.1
-> >>       Debian Stretch: 7.0.1
-> >>        Debian Buster: 7.0.1
-> >>   openSUSE Leap 15.2: 9.0.1
-> >>     Ubuntu LTS 18.04: 10.0.0
-> >>     Ubuntu LTS 20.04: 11.0.0
-> >>           FreeBSD 12: 8.0.1
-> >>            Fedora 33: 11.0.0
-> >>            Fedora 34: 11.1.0
-> >>
-> >> With this list Debian Stretch is the constraint at 7.0.1
-> >>
-> >> An LLVM version of 7.0.1 corresponds to macOS XCode version of 10.2
-> >> which dates from March 2019.
-> >
-> > But we still rely on Travis-CI (Ubuntu Bionic 18.04 LTS)
-> > for non-x86 targets until we have figured out who is willing
-> > to share/maintain such non-x86 native runners on Gitlab.
->
->   Hi Cleber,
->
-> by the way, what's the status of your patch series to get the dedicated C=
-I
-> machines (s390x, aarch64, ...) running in our Gitlab-CI? AFAIK the last
-> iteration of your patches has been weeks ago, so I wonder whether you cou=
-ld
-> finally send a new version with the requested fixes included? ... this to=
-pic
-> slowly gets more and more urgent now that our Travis-CI is in process of
-> dying...
+Uh, that's what we're already using in our travis.yml ... but I guess you've 
+rather missed:
 
-I don't know if you saw this:
-https://docs.travis-ci.com/user/billing-overview/#partner-queue-solution.
+  https://blog.travis-ci.com/2021-05-07-orgshutdown
 
-tl;dr, Travis now has support from partners to run non-x86 arch. It is
-always good to have a plan B, like qemu own CI runners, but, at least,
-with these non-x86 arch available on Travis, we will have some time to
-breathe.
+and on travis-ci.com, the CI minutes are not for free anymore. At least not 
+for the QEMU project. Or do you know of a sponsor who is going to pay the CI 
+minutes for us there?
 
->
->   Thomas
->
+  Thomas
 
 
