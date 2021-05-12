@@ -2,67 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA38037BC10
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:52:15 +0200 (CEST)
-Received: from localhost ([::1]:55552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24A337BC06
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:46:44 +0200 (CEST)
+Received: from localhost ([::1]:49076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgnPT-0004GS-16
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:52:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50624)
+	id 1lgnK7-00085H-M9
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgnNw-000262-3F
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:50:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40220)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgnNt-0006Rt-VT
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:50:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgnNs-0008Cf-Fc
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:50:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 66C322E8187
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:50:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgnIT-0006oA-HB
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:45:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47919)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgnIQ-00038F-Bn
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:45:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620819896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o3ElCDoOUuXWz1/xhBHN9MwYDHebQZZpXe30aD6P/Fo=;
+ b=aoxPn9dEYA67N6WS8AhhVtLoreuEjAInYMfuazIuJxfBIbEf2oQBPMcJq6/UgWn2nFsOTS
+ gDkFiCB79h7G3Zfn0JBx1hAOMTKBIYBY5yJDXxm1x7R065N1l7GBEJm9DgGu7VA9OZePdU
+ X91ZnigCoxKI/2oFTQYIIuWznWe4E3E=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-Mi1UtDCUNLepnN7BxDzaqg-1; Wed, 12 May 2021 07:44:54 -0400
+X-MC-Unique: Mi1UtDCUNLepnN7BxDzaqg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ 67-20020adf81490000b029010756d109e6so9939488wrm.13
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 04:44:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=o3ElCDoOUuXWz1/xhBHN9MwYDHebQZZpXe30aD6P/Fo=;
+ b=HgwREf8x2Io5kHyYwjaS5hny01XTw91NpwXgX4IUK6XbT395B8ND+BuBmX6BPwMJuM
+ ubn5IJzS6Zy96024WGEI7yHc1dmwamkLgekFg/rPpMdRTI5wdO7gX2Q+bStg1FBy2Z50
+ 7aIW49lgLCwBLhi77DSfQaGkdOqKEXmTmLmNLOzW6kKG5vCydrvUhZd+9yqfEW8NUKdV
+ 23+LV6QRfAP8qdHO4ncFkZwk293U9Uats2MUQLhYvmunEWh7/i9uxlAU52T/7Pqlp4kp
+ c2IZzscc+0qz1SZxCzas4O6JeX3kLCixVwniIXhqfD+Wh44dknL1edmZf74byDyDSpdM
+ eBbw==
+X-Gm-Message-State: AOAM533jNAF2WRW6C1b9Ze79eVrCysn8LOTS6zzcKcnGrJ4rkOTsIPmx
+ bCtCEb/1vky54OowJbrSWwB1THrJEB6CO7RNXAZP4vwQ4dRsiIjIz1fxJ0isPEog3r5cQ+HNzy+
+ vwz2AgOWiSUzOwig=
+X-Received: by 2002:adf:eb82:: with SMTP id t2mr41243663wrn.337.1620819893407; 
+ Wed, 12 May 2021 04:44:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzqA4u+Wr3Eg7JTqFIX0kdATK/E5hesHi6eruMC0OVJwJXvU9/zyKBV11LRREtqEixmDjIfqQ==
+X-Received: by 2002:adf:eb82:: with SMTP id t2mr41243640wrn.337.1620819893244; 
+ Wed, 12 May 2021 04:44:53 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id v20sm27036761wmj.15.2021.05.12.04.44.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 May 2021 04:44:52 -0700 (PDT)
+Subject: Re: [PATCH 12/12] configure: bump min required CLang to 7.0.0 / XCode
+ 10.2
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>
+References: <20210511132641.1022161-1-berrange@redhat.com>
+ <20210511132641.1022161-13-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <fcb6b808-c1de-d5f3-064c-1725c49999e0@redhat.com>
+Date: Wed, 12 May 2021 13:44:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 11:44:34 -0000
-From: Thomas Huth <1907909@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr cwmyung th-huth
-X-Launchpad-Bug-Reporter: Cheolwoo,Myung (cwmyung)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160778696243.15318.2318965348341715879.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162081987421.7921.7829816877778742575.malone@wampee.canonical.com>
-Subject: [Bug 1907909] Re: assertion failure in am53c974
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
-X-Launchpad-Hash: 9748e59a04b572cd09330c9f1529269aabe6f0f7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210511132641.1022161-13-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,124 +101,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907909 <1907909@bugs.launchpad.net>
+Cc: Willian Rampazzo <willianr@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you still reproduce the issue with QEMU v6.0? For me, the attached
-reproducer does not cause a crash anymore...
+On 5/11/21 3:26 PM, Daniel P. Berrangé wrote:
+> Several distros have been dropped since the last time we bumped the
+> minimum required CLang version.
+> 
+> Per repology, currently shipping versions are:
+> 
+>              RHEL-8: 10.0.1
+>      Debian Stretch: 7.0.1
+>       Debian Buster: 7.0.1
+>  openSUSE Leap 15.2: 9.0.1
+>    Ubuntu LTS 18.04: 10.0.0
+>    Ubuntu LTS 20.04: 11.0.0
+>          FreeBSD 12: 8.0.1
+>           Fedora 33: 11.0.0
+>           Fedora 34: 11.1.0
+> 
+> With this list Debian Stretch is the constraint at 7.0.1
+> 
+> An LLVM version of 7.0.1 corresponds to macOS XCode version of 10.2
+> which dates from March 2019.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+But we still rely on Travis-CI (Ubuntu Bionic 18.04 LTS)
+for non-x86 targets until we have figured out who is willing
+to share/maintain such non-x86 native runners on Gitlab.
 
--- =
+There:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907909
+$ clang --version
+clang version 6.0.0-1ubuntu2 (tags/RELEASE_600/final)
 
-Title:
-  assertion failure in am53c974
+If we don't use Travis-CI, then your patch is fine, but we
+need a previous patch removing .travis.yml.
 
-Status in QEMU:
-  Incomplete
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  configure | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 43d2470bb6..c41a3e5eef 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2050,12 +2050,12 @@ fi
+>  cat > $TMPC << EOF
+>  #if defined(__clang_major__) && defined(__clang_minor__)
+>  # ifdef __apple_build_version__
+> -#  if __clang_major__ < 5 || (__clang_major__ == 5 && __clang_minor__ < 1)
+> -#   error You need at least XCode Clang v5.1 to compile QEMU
+> +#  if __clang_major__ < 10 || (__clang_major__ == 10 && __clang_minor__ < 2)
+> +#   error You need at least XCode Clang v10.2 to compile QEMU
+>  #  endif
+>  # else
+> -#  if __clang_major__ < 3 || (__clang_major__ == 3 && __clang_minor__ < 4)
+> -#   error You need at least Clang v3.4 to compile QEMU
+> +#  if __clang_major__ < 7 || (__clang_major__ == 7 && __clang_minor__ < 0)
+> +#   error You need at least Clang v7.0 to compile QEMU
+>  #  endif
+>  # endif
+>  #elif defined(__GNUC__) && defined(__GNUC_MINOR__)
+> @@ -2068,7 +2068,7 @@ cat > $TMPC << EOF
+>  int main (void) { return 0; }
+>  EOF
+>  if ! compile_prog "" "" ; then
+> -    error_exit "You need at least GCC v6.3 or Clang v3.4 (or XCode Clang v5.1)"
+> +    error_exit "You need at least GCC v6.3 or Clang v7.0 (or XCode Clang v10.2)"
+>  fi
+>  
+>  # Accumulate -Wfoo and -Wno-bar separately.
+> 
 
-Bug description:
-  Hello,
-
-  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  am53c974 emulator.
-
-  A malicious guest user/process could use this flaw to abort the QEMU
-  process on the host, resulting in a denial of service.
-
-  This was found in version 5.2.0 (master)
-
-  =
-
-  qemu-system-i386: ../hw/scsi/esp.c:402: void esp_do_dma(ESPState *): Asse=
-rtion `s->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) - s->=
-cmdlen' failed.
-
-  #0  __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdeps/unix/sysv/linux/rais=
-e.c:51
-  51      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
-  [Current thread is 1 (Thread 0x7fdd25dc4700 (LWP 28983))]
-  gdb-peda$ bt
-  #0  0x00007fdd3f8b5f47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
-s/unix/sysv/linux/raise.c:51
-  #1  0x00007fdd3f8b78b1 in __GI_abort () at abort.c:79
-  #2  0x00007fdd3f8a742a in __assert_fail_base (fmt=3D0x7fdd3fa2ea38 "%s%s%=
-s:%u: %s%sAssertion `%s' failed.\\n%n", assertion=3Dassertion@entry=3D0x55b=
-3e11a51c6 "s->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) -=
- s->cmdlen", file=3Dfile@entry=3D0x55b3e11a4f73 "../hw/scsi/esp.c", line=3D=
-line@entry=3D0x192, function=3Dfunction@entry=3D0x55b3e11a520d "void esp_do=
-_dma(ESPState *)") at assert.c:92
-  #3  0x00007fdd3f8a74a2 in __GI___assert_fail (assertion=3D0x55b3e11a51c6 =
-"s->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) - s->cmdlen=
-", file=3D0x55b3e11a4f73 "../hw/scsi/esp.c", line=3D0x192, function=3D0x55b=
-3e11a520d "void esp_do_dma(ESPState *)") at assert.c:101
-  #4  0x000055b3e0941441 in esp_do_dma (s=3D0x55b3e49d1c88) at ../hw/scsi/e=
-sp.c:401
-  #5  0x000055b3e0944261 in handle_ti (s=3D0x55b3e49d1c88) at ../hw/scsi/es=
-p.c:549
-  #6  0x000055b3e093fdf9 in esp_dma_enable (s=3D0x55b3e49d1c88, irq=3D<opti=
-mized out>, level=3D<optimized out>)
-      at ../hw/scsi/esp.c:79
-  #7  0x000055b3e0897930 in esp_pci_dma_write (pci=3D<optimized out>, saddr=
-=3D<optimized out>, val=3D<optimized
-  out>) at ../hw/scsi/esp-pci.c:83
-  #8  0x000055b3e0897930 in esp_pci_io_write (opaque=3D<optimized out>, add=
-r=3D<optimized out>, val=3D0xcf, size=3D0x4) at ../hw/scsi/esp-pci.c:209
-  #9  0x000055b3e0e8f798 in memory_region_write_accessor (mr=3D<optimized o=
-ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
->, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...)
-      at ../softmmu/memory.c:491
-  #10 0x000055b3e0e8f58e in access_with_adjusted_size (addr=3D<optimized ou=
-t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
-imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
-, mr=3D<optimized out>, attrs=3D...) at ../softmmu/memory.c:552
-  #11 0x000055b3e0e8f58e in memory_region_dispatch_write (mr=3D0x55b3e49d1b=
-70, addr=3D<optimized out>, data=3D<optimized out>, op=3D<optimized out>, a=
-ttrs=3D...) at ../softmmu/memory.c:1501
-  #12 0x000055b3e0e21541 in address_space_stb (as=3D<optimized out>, addr=
-=3D<optimized out>, val=3D0xffffffcf, attrs=3D..., result=3D0x0) at ../memo=
-ry_ldst.c.inc:382
-  #13 0x00007fdcd84a4a7f in code_gen_buffer ()
-  #14 0x000055b3e0e57da0 in cpu_tb_exec (cpu=3D0x55b3e3c33650, itb=3D<optim=
-ized out>)
-      at ../accel/tcg/cpu-exec.c:178
-  #15 0x000055b3e0e589eb in cpu_loop_exec_tb (tb=3D<optimized out>, cpu=3D<=
-optimized out>, last_tb=3D<optimized
-  out>, tb_exit=3D<optimized out>) at ../accel/tcg/cpu-exec.c:658
-  #16 0x000055b3e0e589eb in cpu_exec (cpu=3D0x55b3e3c33650) at ../accel/tcg=
-/cpu-exec.c:771
-  #17 0x000055b3e0e87b9f in tcg_cpu_exec (cpu=3D<optimized out>) at ../acce=
-l/tcg/tcg-cpus.c:243
-  #18 0x000055b3e0e87b9f in tcg_cpu_thread_fn (arg=3D0x55b3e3c33650) at ../=
-accel/tcg/tcg-cpus.c:427
-  #19 0x000055b3e115f775 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #20 0x00007fdd3fc6f6db in start_thread (arg=3D0x7fdd25dc4700) at pthread_=
-create.c:463
-  #21 0x00007fdd3f998a3f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  To reproduce the assertion failure, please run the QEMU with the
-  following command line.
-
-  =
-
-  $ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
-disk,format=3Draw -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDis=
-k -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
-
-  Please let me know if I can provide any further info.
-
-  Thank you.
-
-  - Cheolwoo, Myung (Seoul National University)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907909/+subscriptions
 
