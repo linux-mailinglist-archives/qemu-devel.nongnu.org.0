@@ -2,47 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F9F37F01A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:53:11 +0200 (CEST)
-Received: from localhost ([::1]:35016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF1737F027
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:57:53 +0200 (CEST)
+Received: from localhost ([::1]:37744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgyf8-0006qy-NU
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:53:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57662)
+	id 1lgyjg-0000T0-Oc
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:57:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <re.mcclue@protonmail.com>)
- id 1lgyeB-0005V4-SP
- for qemu-devel@nongnu.org; Wed, 12 May 2021 19:52:11 -0400
-Received: from mail4.protonmail.ch ([185.70.40.27]:14920)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgyip-0008BL-N5
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 19:56:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <re.mcclue@protonmail.com>)
- id 1lgye4-0005Zk-V1
- for qemu-devel@nongnu.org; Wed, 12 May 2021 19:52:11 -0400
-Date: Wed, 12 May 2021 23:51:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1620863520;
- bh=SjGJ9OgxCEFpeQevSKOqMMyFm5is61VB8y1GCZhN40c=;
- h=Date:To:From:Reply-To:Subject:From;
- b=Z96BlH/bIChn+zg4Xe2REk6WIsAIzSBHPQAt1JIYuMMcvdMShh809D4nuFIqxTcTG
- h9pBp7Nw2XVB5KjCK7Rc6cTnTO/F6zCrz1Bt2IP+oJJm0hGUL0td8EevbdzAAUR9Q1
- dakSIkwFnWEsu3vxS4xRAvgKeLh92JLwf0ttC2SI=
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-From: "re.mcclue" <re.mcclue@protonmail.com>
-Subject: QEMU Memory Allocation Issue
-Message-ID: <Z6bNY9boA9cBuHnG-6-PLfzVwiyqyNjVnqy1uQ9GdkXvHlgaDvd1zRgEFuwQBPlbmmVHV_qKLes308uc8zl_VQSNUXPLDqcTjoiS6H8xv34=@protonmail.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgyil-0000Nn-1e
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 19:56:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620863814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s4h8wHvcp1x+/zZ8IzwSelDtQlMaBmm7kGZUl055RPY=;
+ b=AmgsresjcfjPgTvTLxM3xbkEoQWTfOIAjOFmaFqXJhrhWhnVoZkvE2ZdiYoUf3ZNpYQjkv
+ Eu/+IhcJkrYu0ely7AmtqYJDW3aea590DrxCEbabEeoeaJPaKUvPdl1PYGkt2TdhSddSKs
+ b4JA57Jd5P0GmH7P986bTFkASryA2T8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-581-KeiD4uk2Pa-vkx27VsMvgw-1; Wed, 12 May 2021 19:56:51 -0400
+X-MC-Unique: KeiD4uk2Pa-vkx27VsMvgw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AE08800D62
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 23:56:51 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 147DE5D9C0;
+ Wed, 12 May 2021 23:56:45 +0000 (UTC)
+Subject: Re: [PATCH v3 8/9] qapi: make 'if' condition strings simple
+ identifiers
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
+ <20210429134032.1125111-9-marcandre.lureau@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <6fcc67a8-cb4f-90f9-f34d-6f73628d449b@redhat.com>
+Date: Wed, 12 May 2021 19:56:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="b1_tXqfCNQxGAOAEfKk1C6HrrpUDdgTp6J1JVLsrmpIk"
-Received-SPF: pass client-ip=185.70.40.27;
- envelope-from=re.mcclue@protonmail.com; helo=mail4.protonmail.ch
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210429134032.1125111-9-marcandre.lureau@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,84 +82,1248 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: "re.mcclue" <re.mcclue@protonmail.com>
+Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
+On 4/29/21 9:40 AM, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Change the 'if' condition strings to be C-agnostic and be simple
+> identifiers.
+> 
 
---b1_tXqfCNQxGAOAEfKk1C6HrrpUDdgTp6J1JVLsrmpIk
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+Oh, the answer to my last question. We strip off the defined(...) stuff 
+here and now.
 
-SW5zaWRlIG9mIGdkYiwgSSdtIGdldHRpbmcgMHhkNmFkMDAwIDxlcnJvcjogQ2Fubm90IGFjY2Vz
-cyBtZW1vcnkgYXQgYWRkcmVzcyAweGQ2YWQwMDA+IGZvciBtZW1vcnkgYWxsb2NhdGlvbnMgbWFk
-ZSB3aXRoIG1tYXAoKQoKSSBydW4gcWVtdSB3aXRoOiBxZW11LXN5c3RlbS14ODZfNjQgLWVuYWJs
-ZS1rdm0gLW0gNTEyTSAtcyAtUyAtZHJpdmUgZm9ybWF0PXJhdyxmaWxlPWtlci5pbWcgLWtlcm5l
-bCAvYm9vdC92bWxpbnV6LTUuOC4wLTUwLWdlbmVyaWMgLWFwcGVuZCAicm9vdD0vZGV2L3NkYSBp
-bml0PS9zYmluL3g2NC1rZXIgbm9rYXNsciIKClRoZSBtbWFwKCkgY2FsbCBzdWNjZWVkcywgeWV0
-IHRoZSBtZW1vcnkgcmV0dXJuZWQgc2VlbXMgdG8gYmUgaW5hY2Nlc3NpYmxlLgpSdW5uaW5nIG9u
-IG15IFVidW50dSBob3N0IGl0IHdvcmtzIGZpbmUuIE1lbW9yeSBpcyB2YWxpZCBhbmQgemVyb2Vk
-LiBTbywgaXQgc2VlbXMgdG8gYmUgYW4gaXNzdWUgd2l0aCBxZW11LgoKc3RhdGljIHZvaWQgKgp4
-NjRfc3lzY2FsbF9tbWFwKHZvaWQgKmJhc2VfYWRkciwgdTY0IHNpemUsIHUzMiBtZW1vcnlfcHJv
-dGVjdGlvbiwKICAgICAgICAgICAgICAgIHUzMiBtYXBwaW5nX3Zpc2liaWxpdHksIHMzMiBmZCwg
-dTY0IGZkX29mZnNldCkKewogIHM2NCByZXN1bHQgPSAwOwogIF9fYXNtX18gX192b2xhdGlsZV9f
-KCJtb3YgcjEwLCAlNVxuIgogICAgICAgICAgICAgIm1vdiByOCwgJTZcbiIKICAgICAgICAgICAg
-ICJtb3YgcjksICU3XG4iCiAgICAgICAgICAgICAic3lzY2FsbCIKICAgICAgICAgICAgICA6ICI9
-YSIgKHJlc3VsdCkKICAgICAgICAgICAgICA6ICJhIiAoOSksCiAgICAgICAgICAgICAgICAiRCIg
-KCh1NjQpYmFzZV9hZGRyKSwKICAgICAgICAgICAgICAgICJTIiAoc2l6ZSksCiAgICAgICAgICAg
-ICAgICAiZCIgKCh1NjQpbWVtb3J5X3Byb3RlY3Rpb24pLAogICAgICAgICAgICAgICAgInIiICgo
-dTY0KW1hcHBpbmdfdmlzaWJpbGl0eSksCiAgICAgICAgICAgICAgICAiciIgKCh1NjQpZmQpLAog
-ICAgICAgICAgICAgICAgInIiIChmZF9vZmZzZXQpCiAgICAgICAgICAgICAgOiAicjEwIiwgInI4
-IiwgInI5IiwgInIxMSIsICJyY3giLCAibWVtb3J5Iik7CgogIHZvaWQgKnN5c19yZXN1bHQgPSAo
-dm9pZCAqKSgodTY0KXJlc3VsdCk7CiAgaWYgKCh1NjQpcmVzdWx0ID49ICh1NjQpKC1NQVhfRVJS
-Tk8pKSB7CiAgICBicmVha3BvaW50KCk7CiAgICBzeXNfcmVzdWx0ID0gTlVMTDsKICB9CgogIHJl
-dHVybiBzeXNfcmVzdWx0Owp9Cgp2b2lkICptZW0gPSB4NjRfc3lzY2FsbF9tbWFwKE5VTEwsIDEw
-MjQgKiAxMDI0ICogMjAwLCBQUk9UX1JFQUQgfCBQUk9UX1dSSVRFLAogICAgICAgICAgTUFQX1BS
-SVZBVEUgfCBNQVBfQU5PTllNT1VTLCAtMSwgMCk7CgpUaGFua3MKClNlbnQgd2l0aCBbUHJvdG9u
-TWFpbF0oaHR0cHM6Ly9wcm90b25tYWlsLmNvbSkgU2VjdXJlIEVtYWlsLg==
+Seems fine to me, as I like removing C-specific bits of information from 
+the QAPI schema.
 
---b1_tXqfCNQxGAOAEfKk1C6HrrpUDdgTp6J1JVLsrmpIk
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+As a "downgrade", we can't write arbitrary ifconds anymore. I only 
+skimmed this list, but ... were we using any? I won't shed a tear for 
+them, personally. This DOES give me more meaningful information to work 
+with for other generators, for other languages.
 
-PGRpdj5JbnNpZGUgb2YgZ2RiLCBJJ20gZ2V0dGluZyA8Yj4weGQ2YWQwMDAgJmx0O2Vycm9yOiBD
-YW5ub3QgYWNjZXNzIG1lbW9yeSBhdCBhZGRyZXNzIDB4ZDZhZDAwMCZndDsgPC9iPmZvciBtZW1v
-cnkgYWxsb2NhdGlvbnMgbWFkZSB3aXRoIDxiPm1tYXAoKTwvYj48YnI+PC9kaXY+PGRpdj48ZGl2
-Pjxicj48L2Rpdj48ZGl2PkkgcnVuIHFlbXUgd2l0aDogPGI+cWVtdS1zeXN0ZW0teDg2XzY0IC1l
-bmFibGUta3ZtIC1tIDUxMk0gLXMgLVMgLWRyaXZlIGZvcm1hdD1yYXcsZmlsZT1rZXIuaW1nIC1r
-ZXJuZWwgL2Jvb3Qvdm1saW51ei01LjguMC01MC1nZW5lcmljIC1hcHBlbmQgInJvb3Q9L2Rldi9z
-ZGEgaW5pdD0vc2Jpbi94NjQta2VyIG5va2FzbHIiPC9iPjxicj48L2Rpdj48ZGl2PjxkaXY+PGJy
-PjwvZGl2PjwvZGl2PjxkaXY+VGhlIDxiPm1tYXAoKTwvYj4gY2FsbCBzdWNjZWVkcywgeWV0IHRo
-ZSBtZW1vcnkgcmV0dXJuZWQgc2VlbXMgdG8gYmUgaW5hY2Nlc3NpYmxlLjxicj48L2Rpdj48ZGl2
-PlJ1bm5pbmcgb24gbXkgVWJ1bnR1IGhvc3QgaXQgd29ya3MgZmluZS4gTWVtb3J5IGlzIHZhbGlk
-IGFuZCB6ZXJvZWQuIFNvLCBpdCBzZWVtcyB0byBiZSBhbiBpc3N1ZSB3aXRoIHFlbXUuPGJyPjwv
-ZGl2PjwvZGl2PjxwcmU+PGNvZGU+c3RhdGljIHZvaWQgKg0KeDY0X3N5c2NhbGxfbW1hcCh2b2lk
-ICpiYXNlX2FkZHIsIHU2NCBzaXplLCB1MzIgbWVtb3J5X3Byb3RlY3Rpb24sDQogICAgICAgICAg
-ICAgICAgdTMyIG1hcHBpbmdfdmlzaWJpbGl0eSwgczMyIGZkLCB1NjQgZmRfb2Zmc2V0KQ0Kew0K
-ICBzNjQgcmVzdWx0ID0gMDsNCiAgX19hc21fXyBfX3ZvbGF0aWxlX18oIm1vdiByMTAsICU1XG4i
-DQogICAgICAgICAgICAgIm1vdiByOCwgJTZcbiINCiAgICAgICAgICAgICAibW92IHI5LCAlN1xu
-Ig0KICAgICAgICAgICAgICJzeXNjYWxsIg0KICAgICAgICAgICAgICA6ICI9YSIgKHJlc3VsdCkN
-CiAgICAgICAgICAgICAgOiAiYSIgKDkpLA0KICAgICAgICAgICAgICAgICJEIiAoKHU2NCliYXNl
-X2FkZHIpLA0KICAgICAgICAgICAgICAgICJTIiAoc2l6ZSksDQogICAgICAgICAgICAgICAgImQi
-ICgodTY0KW1lbW9yeV9wcm90ZWN0aW9uKSwNCiAgICAgICAgICAgICAgICAiciIgKCh1NjQpbWFw
-cGluZ192aXNpYmlsaXR5KSwNCiAgICAgICAgICAgICAgICAiciIgKCh1NjQpZmQpLA0KICAgICAg
-ICAgICAgICAgICJyIiAoZmRfb2Zmc2V0KQ0KICAgICAgICAgICAgICA6ICJyMTAiLCAicjgiLCAi
-cjkiLCAicjExIiwgInJjeCIsICJtZW1vcnkiKTsNCg0KICB2b2lkICpzeXNfcmVzdWx0ID0gKHZv
-aWQgKikoKHU2NClyZXN1bHQpOw0KICBpZiAoKHU2NClyZXN1bHQgJmd0Oz0gKHU2NCkoLU1BWF9F
-UlJOTykpIHsNCiAgICBicmVha3BvaW50KCk7DQogICAgc3lzX3Jlc3VsdCA9IE5VTEw7DQogIH0N
-Cg0KICByZXR1cm4gc3lzX3Jlc3VsdDsNCn08L2NvZGU+PGJyPjwvcHJlPjxwcmU+PGNvZGU+IHZv
-aWQgKm1lbSA9IHg2NF9zeXNjYWxsX21tYXAoTlVMTCwgMTAyNCAqIDEwMjQgKiAyMDAsIFBST1Rf
-UkVBRCB8IFBST1RfV1JJVEUsDQogICAgICAgICAgTUFQX1BSSVZBVEUgfCBNQVBfQU5PTllNT1VT
-LCAtMSwgMCk7PC9jb2RlPjxicj48L3ByZT48ZGl2PlRoYW5rczxicj48L2Rpdj48ZGl2Pjxicj48
-L2Rpdj48ZGl2IGNsYXNzPSJwcm90b25tYWlsX3NpZ25hdHVyZV9ibG9jayI+PGRpdiBjbGFzcz0i
-cHJvdG9ubWFpbF9zaWduYXR1cmVfYmxvY2stdXNlciBwcm90b25tYWlsX3NpZ25hdHVyZV9ibG9j
-ay1lbXB0eSI+PGJyPjwvZGl2PjxkaXYgY2xhc3M9InByb3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2Nr
-LXByb3RvbiI+U2VudCB3aXRoIDxhIGhyZWY9Imh0dHBzOi8vcHJvdG9ubWFpbC5jb20iIHRhcmdl
-dD0iX2JsYW5rIj5Qcm90b25NYWlsPC9hPiBTZWN1cmUgRW1haWwuPGJyPjwvZGl2PjwvZGl2Pjxk
-aXY+PGJyPjwvZGl2Pg==
+Tested-by: John Snow <jsnow@redhat.com>
 
-
---b1_tXqfCNQxGAOAEfKk1C6HrrpUDdgTp6J1JVLsrmpIk--
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   docs/devel/qapi-code-gen.txt                  |  8 +--
+>   qapi/block-core.json                          | 16 ++---
+>   qapi/block-export.json                        |  6 +-
+>   qapi/char.json                                |  8 +--
+>   qapi/machine-target.json                      | 40 ++++++-------
+>   qapi/migration.json                           | 10 ++--
+>   qapi/misc-target.json                         | 48 +++++++--------
+>   qapi/qom.json                                 | 10 ++--
+>   qapi/sockets.json                             |  4 +-
+>   qapi/ui.json                                  | 48 +++++++--------
+>   qga/qapi-schema.json                          |  8 +--
+>   scripts/qapi/common.py                        |  2 +-
+>   scripts/qapi/expr.py                          |  4 +-
+>   .../alternate-branch-if-invalid.err           |  2 +-
+>   tests/qapi-schema/bad-if-empty.err            |  2 +-
+>   tests/qapi-schema/bad-if-list.err             |  2 +-
+>   tests/qapi-schema/bad-if.json                 |  2 +-
+>   tests/qapi-schema/doc-good.json               |  6 +-
+>   tests/qapi-schema/doc-good.out                |  6 +-
+>   tests/qapi-schema/doc-good.txt                |  6 +-
+>   tests/qapi-schema/features-missing-name.json  |  2 +-
+>   tests/qapi-schema/qapi-schema-test.json       | 52 ++++++++--------
+>   tests/qapi-schema/qapi-schema-test.out        | 60 +++++++++----------
+>   tests/qapi-schema/union-branch-if-invalid.err |  2 +-
+>   24 files changed, 177 insertions(+), 177 deletions(-)
+> 
+> diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+> index c1cb6f987d..edaaf7ec40 100644
+> --- a/docs/devel/qapi-code-gen.txt
+> +++ b/docs/devel/qapi-code-gen.txt
+> @@ -791,7 +791,7 @@ will then be guarded by #if STRING for each STRING in the COND list.
+>   Example: a conditional struct
+>   
+>    { 'struct': 'IfStruct', 'data': { 'foo': 'int' },
+> -   'if': ['defined(CONFIG_FOO)', 'defined(HAVE_BAR)'] }
+> +   'if': ['CONFIG_FOO', 'HAVE_BAR'] }
+>   
+>   gets its generated code guarded like this:
+>   
+> @@ -810,7 +810,7 @@ member 'bar'
+>   
+>   { 'struct': 'IfStruct', 'data':
+>     { 'foo': 'int',
+> -    'bar': { 'type': 'int', 'if': 'defined(IFCOND)'} } }
+> +    'bar': { 'type': 'int', 'if': 'IFCOND'} } }
+>   
+>   A union's discriminator may not be conditional.
+>   
+> @@ -822,7 +822,7 @@ value 'bar'
+>   
+>   { 'enum': 'IfEnum', 'data':
+>     [ 'foo',
+> -    { 'name' : 'bar', 'if': 'defined(IFCOND)' } ] }
+> +    { 'name' : 'bar', 'if': 'IFCOND' } ] }
+>   
+>   Likewise, features can be conditional.  This requires the longhand
+>   form of FEATURE.
+> @@ -832,7 +832,7 @@ Example: a struct with conditional feature 'allow-negative-numbers'
+>   { 'struct': 'TestType',
+>     'data': { 'number': 'int' },
+>     'features': [ { 'name': 'allow-negative-numbers',
+> -                  'if': 'defined(IFCOND)' } ] }
+> +                  'if': 'IFCOND' } ] }
+>   
+>   Please note that you are responsible to ensure that the C code will
+>   compile with an arbitrary combination of conditions, since the
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 6d227924d0..82213feb18 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2779,7 +2779,7 @@
+>   ##
+>   { 'enum': 'BlockdevAioOptions',
+>     'data': [ 'threads', 'native',
+> -            { 'name': 'io_uring', 'if': 'defined(CONFIG_LINUX_IO_URING)' } ] }
+> +            { 'name': 'io_uring', 'if': 'CONFIG_LINUX_IO_URING' } ] }
+>   
+>   ##
+>   # @BlockdevCacheOptions:
+> @@ -2817,7 +2817,7 @@
+>               'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscsi',
+>               'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
+>               'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+> -            { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' },
+> +            { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
+>               'sheepdog',
+>               'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
+>   
+> @@ -2860,10 +2860,10 @@
+>               '*locking': 'OnOffAuto',
+>               '*aio': 'BlockdevAioOptions',
+>               '*drop-cache': {'type': 'bool',
+> -                            'if': 'defined(CONFIG_LINUX)'},
+> +                            'if': 'CONFIG_LINUX'},
+>               '*x-check-cache-dropped': 'bool' },
+>     'features': [ { 'name': 'dynamic-auto-read-only',
+> -                  'if': 'defined(CONFIG_POSIX)' } ] }
+> +                  'if': 'CONFIG_POSIX' } ] }
+>   
+>   ##
+>   # @BlockdevOptionsNull:
+> @@ -3683,7 +3683,7 @@
+>   # Since: 2.9
+>   ##
+>   { 'enum' : 'ReplicationMode', 'data' : [ 'primary', 'secondary' ],
+> -  'if': 'defined(CONFIG_REPLICATION)' }
+> +  'if': 'CONFIG_REPLICATION' }
+>   
+>   ##
+>   # @BlockdevOptionsReplication:
+> @@ -3702,7 +3702,7 @@
+>     'base': 'BlockdevOptionsGenericFormat',
+>     'data': { 'mode': 'ReplicationMode',
+>               '*top-id': 'str' },
+> -  'if': 'defined(CONFIG_REPLICATION)' }
+> +  'if': 'CONFIG_REPLICATION' }
+>   
+>   ##
+>   # @NFSTransport:
+> @@ -4036,7 +4036,7 @@
+>         'raw':        'BlockdevOptionsRaw',
+>         'rbd':        'BlockdevOptionsRbd',
+>         'replication': { 'type': 'BlockdevOptionsReplication',
+> -                       'if': 'defined(CONFIG_REPLICATION)' },
+> +                       'if': 'CONFIG_REPLICATION' },
+>         'sheepdog':   'BlockdevOptionsSheepdog',
+>         'ssh':        'BlockdevOptionsSsh',
+>         'throttle':   'BlockdevOptionsThrottle',
+> @@ -4338,7 +4338,7 @@
+>   # Since: 5.1
+>   ##
+>   { 'enum': 'Qcow2CompressionType',
+> -  'data': [ 'zlib', { 'name': 'zstd', 'if': 'defined(CONFIG_ZSTD)' } ] }
+> +  'data': [ 'zlib', { 'name': 'zstd', 'if': 'CONFIG_ZSTD' } ] }
+>   
+>   ##
+>   # @BlockdevCreateOptionsQcow2:
+> diff --git a/qapi/block-export.json b/qapi/block-export.json
+> index e819e70cac..319992b1b0 100644
+> --- a/qapi/block-export.json
+> +++ b/qapi/block-export.json
+> @@ -137,7 +137,7 @@
+>   { 'struct': 'BlockExportOptionsFuse',
+>     'data': { 'mountpoint': 'str',
+>               '*growable': 'bool' },
+> -  'if': 'defined(CONFIG_FUSE)' }
+> +  'if': 'CONFIG_FUSE' }
+>   
+>   ##
+>   # @NbdServerAddOptions:
+> @@ -247,7 +247,7 @@
+>   ##
+>   { 'enum': 'BlockExportType',
+>     'data': [ 'nbd', 'vhost-user-blk',
+> -            { 'name': 'fuse', 'if': 'defined(CONFIG_FUSE)' } ] }
+> +            { 'name': 'fuse', 'if': 'CONFIG_FUSE' } ] }
+>   
+>   ##
+>   # @BlockExportOptions:
+> @@ -290,7 +290,7 @@
+>         'nbd': 'BlockExportOptionsNbd',
+>         'vhost-user-blk': 'BlockExportOptionsVhostUserBlk',
+>         'fuse': { 'type': 'BlockExportOptionsFuse',
+> -                'if': 'defined(CONFIG_FUSE)' }
+> +                'if': 'CONFIG_FUSE' }
+>      } }
+>   
+>   ##
+> diff --git a/qapi/char.json b/qapi/char.json
+> index 6413970fa7..bf3f8d54e5 100644
+> --- a/qapi/char.json
+> +++ b/qapi/char.json
+> @@ -342,7 +342,7 @@
+>   { 'struct': 'ChardevSpiceChannel',
+>     'data': { 'type': 'str' },
+>     'base': 'ChardevCommon',
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # @ChardevSpicePort:
+> @@ -356,7 +356,7 @@
+>   { 'struct': 'ChardevSpicePort',
+>     'data': { 'fqdn': 'str' },
+>     'base': 'ChardevCommon',
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # @ChardevVC:
+> @@ -414,9 +414,9 @@
+>               'stdio': 'ChardevStdio',
+>               'console': 'ChardevCommon',
+>               'spicevmc': { 'type': 'ChardevSpiceChannel',
+> -                          'if': 'defined(CONFIG_SPICE)' },
+> +                          'if': 'CONFIG_SPICE' },
+>               'spiceport': { 'type': 'ChardevSpicePort',
+> -                           'if': 'defined(CONFIG_SPICE)' },
+> +                           'if': 'CONFIG_SPICE' },
+>               'vc': 'ChardevVC',
+>               'ringbuf': 'ChardevRingbuf',
+>               # next one is just for compatibility
+> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> index 9b56b81bea..f5ec4bc172 100644
+> --- a/qapi/machine-target.json
+> +++ b/qapi/machine-target.json
+> @@ -89,7 +89,7 @@
+>   ##
+>   { 'struct': 'CpuModelBaselineInfo',
+>     'data': { 'model': 'CpuModelInfo' },
+> -  'if': 'defined(TARGET_S390X)' }
+> +  'if': 'TARGET_S390X' }
+>   
+>   ##
+>   # @CpuModelCompareInfo:
+> @@ -112,7 +112,7 @@
+>   { 'struct': 'CpuModelCompareInfo',
+>     'data': { 'result': 'CpuModelCompareResult',
+>               'responsible-properties': ['str'] },
+> -  'if': 'defined(TARGET_S390X)' }
+> +  'if': 'TARGET_S390X' }
+>   
+>   ##
+>   # @query-cpu-model-comparison:
+> @@ -156,7 +156,7 @@
+>   { 'command': 'query-cpu-model-comparison',
+>     'data': { 'modela': 'CpuModelInfo', 'modelb': 'CpuModelInfo' },
+>     'returns': 'CpuModelCompareInfo',
+> -  'if': 'defined(TARGET_S390X)' }
+> +  'if': 'TARGET_S390X' }
+>   
+>   ##
+>   # @query-cpu-model-baseline:
+> @@ -200,7 +200,7 @@
+>     'data': { 'modela': 'CpuModelInfo',
+>               'modelb': 'CpuModelInfo' },
+>     'returns': 'CpuModelBaselineInfo',
+> -  'if': 'defined(TARGET_S390X)' }
+> +  'if': 'TARGET_S390X' }
+>   
+>   ##
+>   # @CpuModelExpansionInfo:
+> @@ -213,9 +213,9 @@
+>   ##
+>   { 'struct': 'CpuModelExpansionInfo',
+>     'data': { 'model': 'CpuModelInfo' },
+> -  'if': { 'any': [ 'defined(TARGET_S390X)',
+> -                   'defined(TARGET_I386)',
+> -                   'defined(TARGET_ARM)'] } }
+> +  'if': { 'any': [ 'TARGET_S390X',
+> +                   'TARGET_I386',
+> +                   'TARGET_ARM' ] } }
+>   
+>   ##
+>   # @query-cpu-model-expansion:
+> @@ -254,9 +254,9 @@
+>     'data': { 'type': 'CpuModelExpansionType',
+>               'model': 'CpuModelInfo' },
+>     'returns': 'CpuModelExpansionInfo',
+> -  'if': { 'any': [ 'defined(TARGET_S390X)',
+> -                   'defined(TARGET_I386)',
+> -                   'defined(TARGET_ARM)' ] } }
+> +  'if': { 'any': [ 'TARGET_S390X',
+> +                   'TARGET_I386',
+> +                   'TARGET_ARM' ] } }
+>   
+>   ##
+>   # @CpuDefinitionInfo:
+> @@ -320,11 +320,11 @@
+>               'typename': 'str',
+>               '*alias-of' : 'str',
+>               'deprecated' : 'bool' },
+> -  'if': { 'any': [ 'defined(TARGET_PPC)',
+> -                   'defined(TARGET_ARM)',
+> -                   'defined(TARGET_I386)',
+> -                   'defined(TARGET_S390X)',
+> -                   'defined(TARGET_MIPS)' ] } }
+> +  'if': { 'any': [ 'TARGET_PPC',
+> +                   'TARGET_ARM',
+> +                   'TARGET_I386',
+> +                   'TARGET_S390X',
+> +                   'TARGET_MIPS' ] } }
+>   
+>   ##
+>   # @query-cpu-definitions:
+> @@ -336,8 +336,8 @@
+>   # Since: 1.2
+>   ##
+>   { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
+> -  'if': { 'any': [ 'defined(TARGET_PPC)',
+> -                   'defined(TARGET_ARM)',
+> -                   'defined(TARGET_I386)',
+> -                   'defined(TARGET_S390X)',
+> -                   'defined(TARGET_MIPS)' ] } }
+> +  'if': { 'any': [ 'TARGET_PPC',
+> +                   'TARGET_ARM',
+> +                   'TARGET_I386',
+> +                   'TARGET_S390X',
+> +                   'TARGET_MIPS' ] } }
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 0b17cce46b..43e7b7620d 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -539,7 +539,7 @@
+>   ##
+>   { 'enum': 'MultiFDCompression',
+>     'data': [ 'none', 'zlib',
+> -            { 'name': 'zstd', 'if': 'defined(CONFIG_ZSTD)' } ] }
+> +            { 'name': 'zstd', 'if': 'CONFIG_ZSTD' } ] }
+>   
+>   ##
+>   # @BitmapMigrationBitmapAliasTransform:
+> @@ -1568,7 +1568,7 @@
+>   ##
+>   { 'command': 'xen-set-replication',
+>     'data': { 'enable': 'bool', 'primary': 'bool', '*failover' : 'bool' },
+> -  'if': 'defined(CONFIG_REPLICATION)' }
+> +  'if': 'CONFIG_REPLICATION' }
+>   
+>   ##
+>   # @ReplicationStatus:
+> @@ -1584,7 +1584,7 @@
+>   ##
+>   { 'struct': 'ReplicationStatus',
+>     'data': { 'error': 'bool', '*desc': 'str' },
+> -  'if': 'defined(CONFIG_REPLICATION)' }
+> +  'if': 'CONFIG_REPLICATION' }
+>   
+>   ##
+>   # @query-xen-replication-status:
+> @@ -1602,7 +1602,7 @@
+>   ##
+>   { 'command': 'query-xen-replication-status',
+>     'returns': 'ReplicationStatus',
+> -  'if': 'defined(CONFIG_REPLICATION)' }
+> +  'if': 'CONFIG_REPLICATION' }
+>   
+>   ##
+>   # @xen-colo-do-checkpoint:
+> @@ -1619,7 +1619,7 @@
+>   # Since: 2.9
+>   ##
+>   { 'command': 'xen-colo-do-checkpoint',
+> -  'if': 'defined(CONFIG_REPLICATION)' }
+> +  'if': 'CONFIG_REPLICATION' }
+>   
+>   ##
+>   # @COLOStatus:
+> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> index 2891df6890..5d3c816eb8 100644
+> --- a/qapi/misc-target.json
+> +++ b/qapi/misc-target.json
+> @@ -23,18 +23,18 @@
+>   ##
+>   { 'event': 'RTC_CHANGE',
+>     'data': { 'offset': 'int' },
+> -  'if': { 'any': [ 'defined(TARGET_ALPHA)',
+> -                   'defined(TARGET_ARM)',
+> -                   'defined(TARGET_HPPA)',
+> -                   'defined(TARGET_I386)',
+> -                   'defined(TARGET_MIPS)',
+> -                   'defined(TARGET_MIPS64)',
+> -                   'defined(TARGET_MOXIE)',
+> -                   'defined(TARGET_PPC)',
+> -                   'defined(TARGET_PPC64)',
+> -                   'defined(TARGET_S390X)',
+> -                   'defined(TARGET_SH4)',
+> -                   'defined(TARGET_SPARC)' ] } }
+> +  'if': { 'any': [ 'TARGET_ALPHA',
+> +                   'TARGET_ARM',
+> +                   'TARGET_HPPA',
+> +                   'TARGET_I386',
+> +                   'TARGET_MIPS',
+> +                   'TARGET_MIPS64',
+> +                   'TARGET_MOXIE',
+> +                   'TARGET_PPC',
+> +                   'TARGET_PPC64',
+> +                   'TARGET_S390X',
+> +                   'TARGET_SH4',
+> +                   'TARGET_SPARC' ] } }
+>   
+>   ##
+>   # @rtc-reset-reinjection:
+> @@ -53,7 +53,7 @@
+>   #
+>   ##
+>   { 'command': 'rtc-reset-reinjection',
+> -  'if': 'defined(TARGET_I386)' }
+> +  'if': 'TARGET_I386' }
+>   
+>   
+>   ##
+> @@ -80,7 +80,7 @@
+>   { 'enum': 'SevState',
+>     'data': ['uninit', 'launch-update', 'launch-secret', 'running',
+>              'send-update', 'receive-update' ],
+> -  'if': 'defined(TARGET_I386)' }
+> +  'if': 'TARGET_I386' }
+>   
+>   ##
+>   # @SevInfo:
+> @@ -112,7 +112,7 @@
+>                 'state' : 'SevState',
+>                 'handle' : 'uint32'
+>               },
+> -  'if': 'defined(TARGET_I386)'
+> +  'if': 'TARGET_I386'
+>   }
+>   
+>   ##
+> @@ -133,7 +133,7 @@
+>   #
+>   ##
+>   { 'command': 'query-sev', 'returns': 'SevInfo',
+> -  'if': 'defined(TARGET_I386)' }
+> +  'if': 'TARGET_I386' }
+>   
+>   
+>   ##
+> @@ -147,7 +147,7 @@
+>   #
+>   ##
+>   { 'struct': 'SevLaunchMeasureInfo', 'data': {'data': 'str'},
+> -  'if': 'defined(TARGET_I386)' }
+> +  'if': 'TARGET_I386' }
+>   
+>   ##
+>   # @query-sev-launch-measure:
+> @@ -165,7 +165,7 @@
+>   #
+>   ##
+>   { 'command': 'query-sev-launch-measure', 'returns': 'SevLaunchMeasureInfo',
+> -  'if': 'defined(TARGET_I386)' }
+> +  'if': 'TARGET_I386' }
+>   
+>   
+>   ##
+> @@ -190,7 +190,7 @@
+>               'cert-chain': 'str',
+>               'cbitpos': 'int',
+>               'reduced-phys-bits': 'int'},
+> -  'if': 'defined(TARGET_I386)' }
+> +  'if': 'TARGET_I386' }
+>   
+>   ##
+>   # @query-sev-capabilities:
+> @@ -210,7 +210,7 @@
+>   #
+>   ##
+>   { 'command': 'query-sev-capabilities', 'returns': 'SevCapability',
+> -  'if': 'defined(TARGET_I386)' }
+> +  'if': 'TARGET_I386' }
+>   
+>   ##
+>   # @sev-inject-launch-secret:
+> @@ -228,7 +228,7 @@
+>   ##
+>   { 'command': 'sev-inject-launch-secret',
+>     'data': { 'packet-header': 'str', 'secret': 'str', '*gpa': 'uint64' },
+> -  'if': 'defined(TARGET_I386)' }
+> +  'if': 'TARGET_I386' }
+>   
+>   ##
+>   # @dump-skeys:
+> @@ -250,7 +250,7 @@
+>   ##
+>   { 'command': 'dump-skeys',
+>     'data': { 'filename': 'str' },
+> -  'if': 'defined(TARGET_S390X)' }
+> +  'if': 'TARGET_S390X' }
+>   
+>   ##
+>   # @GICCapability:
+> @@ -275,7 +275,7 @@
+>     'data': { 'version': 'int',
+>               'emulated': 'bool',
+>               'kernel': 'bool' },
+> -  'if': 'defined(TARGET_ARM)' }
+> +  'if': 'TARGET_ARM' }
+>   
+>   ##
+>   # @query-gic-capabilities:
+> @@ -295,4 +295,4 @@
+>   #
+>   ##
+>   { 'command': 'query-gic-capabilities', 'returns': ['GICCapability'],
+> -  'if': 'defined(TARGET_ARM)' }
+> +  'if': 'TARGET_ARM' }
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index cd0e76d564..6c41ec61b0 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -603,7 +603,7 @@
+>     'data': { '*align': 'size',
+>               '*discard-data': 'bool',
+>               'mem-path': 'str',
+> -            '*pmem': { 'type': 'bool', 'if': 'defined(CONFIG_LIBPMEM)' },
+> +            '*pmem': { 'type': 'bool', 'if': 'CONFIG_LIBPMEM' },
+>               '*readonly': 'bool' } }
+>   
+>   ##
+> @@ -752,7 +752,7 @@
+>       'cryptodev-backend',
+>       'cryptodev-backend-builtin',
+>       { 'name': 'cryptodev-vhost-user',
+> -      'if': 'defined(CONFIG_VHOST_CRYPTO)' },
+> +      'if': 'CONFIG_VHOST_CRYPTO' },
+>       'dbus-vmstate',
+>       'filter-buffer',
+>       'filter-dump',
+> @@ -765,7 +765,7 @@
+>       'iothread',
+>       'memory-backend-file',
+>       { 'name': 'memory-backend-memfd',
+> -      'if': 'defined(CONFIG_LINUX)' },
+> +      'if': 'CONFIG_LINUX' },
+>       'memory-backend-ram',
+>       'pef-guest',
+>       'pr-manager-helper',
+> @@ -809,7 +809,7 @@
+>         'cryptodev-backend':          'CryptodevBackendProperties',
+>         'cryptodev-backend-builtin':  'CryptodevBackendProperties',
+>         'cryptodev-vhost-user':       { 'type': 'CryptodevVhostUserProperties',
+> -                                      'if': 'defined(CONFIG_VHOST_CRYPTO)' },
+> +                                      'if': 'CONFIG_VHOST_CRYPTO' },
+>         'dbus-vmstate':               'DBusVMStateProperties',
+>         'filter-buffer':              'FilterBufferProperties',
+>         'filter-dump':                'FilterDumpProperties',
+> @@ -822,7 +822,7 @@
+>         'iothread':                   'IothreadProperties',
+>         'memory-backend-file':        'MemoryBackendFileProperties',
+>         'memory-backend-memfd':       { 'type': 'MemoryBackendMemfdProperties',
+> -                                      'if': 'defined(CONFIG_LINUX)' },
+> +                                      'if': 'CONFIG_LINUX' },
+>         'memory-backend-ram':         'MemoryBackendProperties',
+>         'pr-manager-helper':          'PrManagerHelperProperties',
+>         'rng-builtin':                'RngProperties',
+> diff --git a/qapi/sockets.json b/qapi/sockets.json
+> index 2e83452797..a0c08aa4ba 100644
+> --- a/qapi/sockets.json
+> +++ b/qapi/sockets.json
+> @@ -86,8 +86,8 @@
+>   { 'struct': 'UnixSocketAddress',
+>     'data': {
+>       'path': 'str',
+> -    '*abstract': { 'type': 'bool', 'if': 'defined(CONFIG_LINUX)' },
+> -    '*tight': { 'type': 'bool', 'if': 'defined(CONFIG_LINUX)' } } }
+> +    '*abstract': { 'type': 'bool', 'if': 'CONFIG_LINUX' },
+> +    '*tight': { 'type': 'bool', 'if': 'CONFIG_LINUX' } } }
+>   
+>   ##
+>   # @VsockSocketAddress:
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 1052ca9c38..ec29a66c9f 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -123,7 +123,7 @@
+>     'data': { 'host': 'str',
+>               'port': 'str',
+>               'family': 'NetworkAddressFamily' },
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # @SpiceServerInfo:
+> @@ -137,7 +137,7 @@
+>   { 'struct': 'SpiceServerInfo',
+>     'base': 'SpiceBasicInfo',
+>     'data': { '*auth': 'str' },
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # @SpiceChannel:
+> @@ -163,7 +163,7 @@
+>     'base': 'SpiceBasicInfo',
+>     'data': {'connection-id': 'int', 'channel-type': 'int', 'channel-id': 'int',
+>              'tls': 'bool'},
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # @SpiceQueryMouseMode:
+> @@ -183,7 +183,7 @@
+>   ##
+>   { 'enum': 'SpiceQueryMouseMode',
+>     'data': [ 'client', 'server', 'unknown' ],
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # @SpiceInfo:
+> @@ -222,7 +222,7 @@
+>     'data': {'enabled': 'bool', 'migrated': 'bool', '*host': 'str', '*port': 'int',
+>              '*tls-port': 'int', '*auth': 'str', '*compiled-version': 'str',
+>              'mouse-mode': 'SpiceQueryMouseMode', '*channels': ['SpiceChannel']},
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # @query-spice:
+> @@ -268,7 +268,7 @@
+>   #
+>   ##
+>   { 'command': 'query-spice', 'returns': 'SpiceInfo',
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # @SPICE_CONNECTED:
+> @@ -294,7 +294,7 @@
+>   { 'event': 'SPICE_CONNECTED',
+>     'data': { 'server': 'SpiceBasicInfo',
+>               'client': 'SpiceBasicInfo' },
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # @SPICE_INITIALIZED:
+> @@ -323,7 +323,7 @@
+>   { 'event': 'SPICE_INITIALIZED',
+>     'data': { 'server': 'SpiceServerInfo',
+>               'client': 'SpiceChannel' },
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # @SPICE_DISCONNECTED:
+> @@ -349,7 +349,7 @@
+>   { 'event': 'SPICE_DISCONNECTED',
+>     'data': { 'server': 'SpiceBasicInfo',
+>               'client': 'SpiceBasicInfo' },
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # @SPICE_MIGRATE_COMPLETED:
+> @@ -365,7 +365,7 @@
+>   #
+>   ##
+>   { 'event': 'SPICE_MIGRATE_COMPLETED',
+> -  'if': 'defined(CONFIG_SPICE)' }
+> +  'if': 'CONFIG_SPICE' }
+>   
+>   ##
+>   # == VNC
+> @@ -393,7 +393,7 @@
+>               'service': 'str',
+>               'family': 'NetworkAddressFamily',
+>               'websocket': 'bool' },
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @VncServerInfo:
+> @@ -408,7 +408,7 @@
+>   { 'struct': 'VncServerInfo',
+>     'base': 'VncBasicInfo',
+>     'data': { '*auth': 'str' },
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @VncClientInfo:
+> @@ -426,7 +426,7 @@
+>   { 'struct': 'VncClientInfo',
+>     'base': 'VncBasicInfo',
+>     'data': { '*x509_dname': 'str', '*sasl_username': 'str' },
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @VncInfo:
+> @@ -469,7 +469,7 @@
+>     'data': {'enabled': 'bool', '*host': 'str',
+>              '*family': 'NetworkAddressFamily',
+>              '*service': 'str', '*auth': 'str', '*clients': ['VncClientInfo']},
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @VncPrimaryAuth:
+> @@ -481,7 +481,7 @@
+>   { 'enum': 'VncPrimaryAuth',
+>     'data': [ 'none', 'vnc', 'ra2', 'ra2ne', 'tight', 'ultra',
+>               'tls', 'vencrypt', 'sasl' ],
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @VncVencryptSubAuth:
+> @@ -496,7 +496,7 @@
+>               'tls-vnc',   'x509-vnc',
+>               'tls-plain', 'x509-plain',
+>               'tls-sasl',  'x509-sasl' ],
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @VncServerInfo2:
+> @@ -514,7 +514,7 @@
+>     'base': 'VncBasicInfo',
+>     'data': { 'auth'      : 'VncPrimaryAuth',
+>               '*vencrypt' : 'VncVencryptSubAuth' },
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @VncInfo2:
+> @@ -547,7 +547,7 @@
+>               'auth'      : 'VncPrimaryAuth',
+>               '*vencrypt' : 'VncVencryptSubAuth',
+>               '*display'  : 'str' },
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @query-vnc:
+> @@ -579,7 +579,7 @@
+>   #
+>   ##
+>   { 'command': 'query-vnc', 'returns': 'VncInfo',
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   ##
+>   # @query-vnc-servers:
+>   #
+> @@ -590,7 +590,7 @@
+>   # Since: 2.3
+>   ##
+>   { 'command': 'query-vnc-servers', 'returns': ['VncInfo2'],
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @change-vnc-password:
+> @@ -606,7 +606,7 @@
+>   ##
+>   { 'command': 'change-vnc-password',
+>     'data': { 'password': 'str' },
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @VNC_CONNECTED:
+> @@ -636,7 +636,7 @@
+>   { 'event': 'VNC_CONNECTED',
+>     'data': { 'server': 'VncServerInfo',
+>               'client': 'VncBasicInfo' },
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @VNC_INITIALIZED:
+> @@ -664,7 +664,7 @@
+>   { 'event': 'VNC_INITIALIZED',
+>     'data': { 'server': 'VncServerInfo',
+>               'client': 'VncClientInfo' },
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # @VNC_DISCONNECTED:
+> @@ -691,7 +691,7 @@
+>   { 'event': 'VNC_DISCONNECTED',
+>     'data': { 'server': 'VncServerInfo',
+>               'client': 'VncClientInfo' },
+> -  'if': 'defined(CONFIG_VNC)' }
+> +  'if': 'CONFIG_VNC' }
+>   
+>   ##
+>   # = Input
+> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+> index fb17eebde3..c60f5e669d 100644
+> --- a/qga/qapi-schema.json
+> +++ b/qga/qapi-schema.json
+> @@ -1380,7 +1380,7 @@
+>     'data': {
+>         'keys': ['str']
+>     },
+> -  'if': 'defined(CONFIG_POSIX)' }
+> +  'if': 'CONFIG_POSIX' }
+>   
+>   
+>   ##
+> @@ -1398,7 +1398,7 @@
+>   { 'command': 'guest-ssh-get-authorized-keys',
+>     'data': { 'username': 'str' },
+>     'returns': 'GuestAuthorizedKeys',
+> -  'if': 'defined(CONFIG_POSIX)' }
+> +  'if': 'CONFIG_POSIX' }
+>   
+>   ##
+>   # @guest-ssh-add-authorized-keys:
+> @@ -1416,7 +1416,7 @@
+>   ##
+>   { 'command': 'guest-ssh-add-authorized-keys',
+>     'data': { 'username': 'str', 'keys': ['str'], '*reset': 'bool' },
+> -  'if': 'defined(CONFIG_POSIX)' }
+> +  'if': 'CONFIG_POSIX' }
+>   
+>   ##
+>   # @guest-ssh-remove-authorized-keys:
+> @@ -1434,4 +1434,4 @@
+>   ##
+>   { 'command': 'guest-ssh-remove-authorized-keys',
+>     'data': { 'username': 'str', 'keys': ['str'] },
+> -  'if': 'defined(CONFIG_POSIX)' }
+> +  'if': 'CONFIG_POSIX' }
+> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+> index 6236bfc457..2a36e0366e 100644
+> --- a/scripts/qapi/common.py
+> +++ b/scripts/qapi/common.py
+> @@ -210,7 +210,7 @@ def __init__(self, option: str):
+>           self.option = option
+>   
+>       def cgen(self) -> str:
+> -        return self.option
+> +        return f"defined({self.option})"
+>   
+>       def docgen(self) -> str:
+>           return self.option
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index 0a97a6f020..a605a796db 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -294,10 +294,10 @@ def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) -> None:
+>   
+>       def normalize(cond: Union[str, List[str], object]) -> IfPredicate:
+>           if isinstance(cond, str):
+> -            if not cond.strip():
+> +            if not cond.isidentifier():
+>                   raise QAPISemError(
+>                       info,
+> -                    "'if' condition '%s' of %s makes no sense"
+> +                    "'if' condition '%s' of %s is not a valid identifier"
+>                       % (cond, source))
+>               return IfOption(cond)
+>           if isinstance(cond, list):
+> diff --git a/tests/qapi-schema/alternate-branch-if-invalid.err b/tests/qapi-schema/alternate-branch-if-invalid.err
+> index d384929c51..03bad877a3 100644
+> --- a/tests/qapi-schema/alternate-branch-if-invalid.err
+> +++ b/tests/qapi-schema/alternate-branch-if-invalid.err
+> @@ -1,2 +1,2 @@
+>   alternate-branch-if-invalid.json: In alternate 'Alt':
+> -alternate-branch-if-invalid.json:2: 'if' condition ' ' of 'data' member 'branch' makes no sense
+> +alternate-branch-if-invalid.json:2: 'if' condition ' ' of 'data' member 'branch' is not a valid identifier
+> diff --git a/tests/qapi-schema/bad-if-empty.err b/tests/qapi-schema/bad-if-empty.err
+> index a0f3effefb..5208f543ce 100644
+> --- a/tests/qapi-schema/bad-if-empty.err
+> +++ b/tests/qapi-schema/bad-if-empty.err
+> @@ -1,2 +1,2 @@
+>   bad-if-empty.json: In struct 'TestIfStruct':
+> -bad-if-empty.json:2: 'if' condition '' of struct makes no sense
+> +bad-if-empty.json:2: 'if' condition '' of struct is not a valid identifier
+> diff --git a/tests/qapi-schema/bad-if-list.err b/tests/qapi-schema/bad-if-list.err
+> index c462f11b90..fa01894d03 100644
+> --- a/tests/qapi-schema/bad-if-list.err
+> +++ b/tests/qapi-schema/bad-if-list.err
+> @@ -1,2 +1,2 @@
+>   bad-if-list.json: In struct 'TestIfStruct':
+> -bad-if-list.json:2: 'if' condition ' ' of struct makes no sense
+> +bad-if-list.json:2: 'if' condition ' ' of struct is not a valid identifier
+> diff --git a/tests/qapi-schema/bad-if.json b/tests/qapi-schema/bad-if.json
+> index 3edd1a0bf2..67818888de 100644
+> --- a/tests/qapi-schema/bad-if.json
+> +++ b/tests/qapi-schema/bad-if.json
+> @@ -1,3 +1,3 @@
+>   # check invalid 'if' type
+>   { 'struct': 'TestIfStruct', 'data': { 'foo': 'int' },
+> -  'if': { 'value': 'defined(TEST_IF_STRUCT)' } }
+> +  'if': { 'value': 'TEST_IF_STRUCT' } }
+> diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
+> index 423ea23e07..ae531e89b5 100644
+> --- a/tests/qapi-schema/doc-good.json
+> +++ b/tests/qapi-schema/doc-good.json
+> @@ -61,9 +61,9 @@
+>   # @two is undocumented
+>   ##
+>   { 'enum': 'Enum', 'data':
+> -  [ { 'name': 'one', 'if': 'defined(IFONE)' }, 'two' ],
+> +  [ { 'name': 'one', 'if': 'IFONE' }, 'two' ],
+>     'features': [ 'enum-feat' ],
+> -  'if': 'defined(IFCOND)' }
+> +  'if': 'IFCOND' }
+>   
+>   ##
+>   # @Base:
+> @@ -86,7 +86,7 @@
+>     'features': [ 'variant1-feat' ],
+>     'data': { 'var1': { 'type': 'str',
+>                         'features': [ 'member-feat' ],
+> -                      'if': 'defined(IFSTR)' } } }
+> +                      'if': 'IFSTR' } } }
+>   
+>   ##
+>   # @Variant2:
+> diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
+> index ca7e53f3b5..869d0b8636 100644
+> --- a/tests/qapi-schema/doc-good.out
+> +++ b/tests/qapi-schema/doc-good.out
+> @@ -12,15 +12,15 @@ enum QType
+>   module doc-good.json
+>   enum Enum
+>       member one
+> -        if 'defined(IFONE)'
+> +        if 'IFONE'
+>       member two
+> -    if 'defined(IFCOND)'
+> +    if 'IFCOND'
+>       feature enum-feat
+>   object Base
+>       member base1: Enum optional=False
+>   object Variant1
+>       member var1: str optional=False
+> -        if 'defined(IFSTR)'
+> +        if 'IFSTR'
+>           feature member-feat
+>       feature variant1-feat
+>   object Variant2
+> diff --git a/tests/qapi-schema/doc-good.txt b/tests/qapi-schema/doc-good.txt
+> index 726727af74..27b7ce8799 100644
+> --- a/tests/qapi-schema/doc-good.txt
+> +++ b/tests/qapi-schema/doc-good.txt
+> @@ -43,7 +43,7 @@ Example:
+>   Values
+>   ~~~~~~
+>   
+> -"one" (**If: **"defined(IFONE)")
+> +"one" (**If: **"IFONE")
+>      The _one_ {and only}
+>   
+>   "two"
+> @@ -62,7 +62,7 @@ Features
+>   If
+>   ~~
+>   
+> -"defined(IFCOND)"
+> +"IFCOND"
+>   
+>   
+>   "Base" (Object)
+> @@ -87,7 +87,7 @@ Another paragraph (but no "var": line)
+>   Members
+>   ~~~~~~~
+>   
+> -"var1": "string" (**If: **"defined(IFSTR)")
+> +"var1": "string" (**If: **"IFSTR")
+>      Not documented
+>   
+>   
+> diff --git a/tests/qapi-schema/features-missing-name.json b/tests/qapi-schema/features-missing-name.json
+> index 2314f97c00..8772c8f7b3 100644
+> --- a/tests/qapi-schema/features-missing-name.json
+> +++ b/tests/qapi-schema/features-missing-name.json
+> @@ -1,3 +1,3 @@
+>   { 'struct': 'FeatureStruct0',
+>     'data': { 'foo': 'int' },
+> -  'features': [ { 'if': 'defined(NAMELESS_FEATURES)' } ] }
+> +  'features': [ { 'if': 'NAMELESS_FEATURES' } ] }
+> diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+> index 2d5e480b44..fad64d879f 100644
+> --- a/tests/qapi-schema/qapi-schema-test.json
+> +++ b/tests/qapi-schema/qapi-schema-test.json
+> @@ -222,43 +222,43 @@
+>   
+>   { 'struct': 'TestIfStruct', 'data':
+>     { 'foo': 'int',
+> -    'bar': { 'type': 'int', 'if': 'defined(TEST_IF_STRUCT_BAR)'} },
+> -  'if': 'defined(TEST_IF_STRUCT)' }
+> +    'bar': { 'type': 'int', 'if': 'TEST_IF_STRUCT_BAR'} },
+> +  'if': 'TEST_IF_STRUCT' }
+>   
+>   { 'enum': 'TestIfEnum', 'data':
+> -  [ 'foo', { 'name' : 'bar', 'if': 'defined(TEST_IF_ENUM_BAR)' } ],
+> -  'if': 'defined(TEST_IF_ENUM)' }
+> +  [ 'foo', { 'name' : 'bar', 'if': 'TEST_IF_ENUM_BAR' } ],
+> +  'if': 'TEST_IF_ENUM' }
+>   
+>   { 'union': 'TestIfUnion', 'data':
+>     { 'foo': 'TestStruct',
+> -    'union-bar': { 'type': 'str', 'if': 'defined(TEST_IF_UNION_BAR)'} },
+> -  'if': ['defined(TEST_IF_UNION)', 'defined(TEST_IF_STRUCT)'] }
+> +    'union-bar': { 'type': 'str', 'if': 'TEST_IF_UNION_BAR'} },
+> +  'if': ['TEST_IF_UNION', 'TEST_IF_STRUCT'] }
+>   
+>   { 'command': 'test-if-union-cmd',
+>     'data': { 'union-cmd-arg': 'TestIfUnion' },
+> -  'if': 'defined(TEST_IF_UNION)' }
+> +  'if': 'TEST_IF_UNION' }
+>   
+>   { 'alternate': 'TestIfAlternate', 'data':
+>     { 'foo': 'int',
+> -    'bar': { 'type': 'TestStruct', 'if': 'defined(TEST_IF_ALT_BAR)'} },
+> -  'if': {'all': ['defined(TEST_IF_ALT)', 'defined(TEST_IF_STRUCT)'] } }
+> +    'bar': { 'type': 'TestStruct', 'if': 'TEST_IF_ALT_BAR'} },
+> +  'if': {'all': ['TEST_IF_ALT', 'TEST_IF_STRUCT'] } }
+>   
+>   { 'command': 'test-if-alternate-cmd', 'data': { 'alt-cmd-arg': 'TestIfAlternate' },
+> -  'if': {'all': ['defined(TEST_IF_ALT)', {'not': 'defined(TEST_IF_NOT_ALT)'}] } }
+> +  'if': {'all': ['TEST_IF_ALT', {'not': 'TEST_IF_NOT_ALT'}] } }
+>   
+>   { 'command': 'test-if-cmd',
+>     'data': {
+>       'foo': 'TestIfStruct',
+> -    'bar': { 'type': 'TestIfEnum', 'if': 'defined(TEST_IF_CMD_BAR)' } },
+> +    'bar': { 'type': 'TestIfEnum', 'if': 'TEST_IF_CMD_BAR' } },
+>     'returns': 'UserDefThree',
+> -  'if': ['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)'] }
+> +  'if': ['TEST_IF_CMD', 'TEST_IF_STRUCT'] }
+>   
+>   { 'command': 'test-cmd-return-def-three', 'returns': 'UserDefThree' }
+>   
+>   { 'event': 'TEST_IF_EVENT', 'data':
+>     { 'foo': 'TestIfStruct',
+> -    'bar': { 'type': ['TestIfEnum'], 'if': 'defined(TEST_IF_EVT_BAR)' } },
+> -  'if': ['defined(TEST_IF_EVT)', 'defined(TEST_IF_STRUCT)'] }
+> +    'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' } },
+> +  'if': ['TEST_IF_EVT', 'TEST_IF_STRUCT'] }
+>   
+>   # test 'features'
+>   
+> @@ -280,19 +280,19 @@
+>   
+>   { 'struct': 'CondFeatureStruct1',
+>     'data': { 'foo': 'int' },
+> -  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1)'} ] }
+> +  'features': [ { 'name': 'feature1', 'if': 'TEST_IF_FEATURE_1'} ] }
+>   { 'struct': 'CondFeatureStruct2',
+>     'data': { 'foo': 'int' },
+> -  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1)'},
+> -                { 'name': 'feature2', 'if': 'defined(TEST_IF_FEATURE_2)'} ] }
+> +  'features': [ { 'name': 'feature1', 'if': 'TEST_IF_FEATURE_1'},
+> +                { 'name': 'feature2', 'if': 'TEST_IF_FEATURE_2'} ] }
+>   { 'struct': 'CondFeatureStruct3',
+>     'data': { 'foo': 'int' },
+> -  'features': [ { 'name': 'feature1', 'if': [ 'defined(TEST_IF_COND_1)',
+> -                                              'defined(TEST_IF_COND_2)'] } ] }
+> +  'features': [ { 'name': 'feature1', 'if': [ 'TEST_IF_COND_1',
+> +                                              'TEST_IF_COND_2'] } ] }
+>   { 'struct': 'CondFeatureStruct4',
+>     'data': { 'foo': 'int' },
+> -  'features': [ { 'name': 'feature1', 'if': {'any': ['defined(TEST_IF_COND_1)',
+> -                                                     'defined(TEST_IF_COND_2)'] } } ] }
+> +  'features': [ { 'name': 'feature1', 'if': {'any': ['TEST_IF_COND_1',
+> +                                                     'TEST_IF_COND_2'] } } ] }
+>   
+>   { 'enum': 'FeatureEnum1',
+>     'data': [ 'eins', 'zwei', 'drei' ],
+> @@ -327,13 +327,13 @@
+>     'features': [ 'feature1', 'feature2' ] }
+>   
+>   { 'command': 'test-command-cond-features1',
+> -  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1)'} ] }
+> +  'features': [ { 'name': 'feature1', 'if': 'TEST_IF_FEATURE_1'} ] }
+>   { 'command': 'test-command-cond-features2',
+> -  'features': [ { 'name': 'feature1', 'if': 'defined(TEST_IF_FEATURE_1)'},
+> -                { 'name': 'feature2', 'if': 'defined(TEST_IF_FEATURE_2)'} ] }
+> +  'features': [ { 'name': 'feature1', 'if': 'TEST_IF_FEATURE_1'},
+> +                { 'name': 'feature2', 'if': 'TEST_IF_FEATURE_2'} ] }
+>   { 'command': 'test-command-cond-features3',
+> -  'features': [ { 'name': 'feature1', 'if': [ 'defined(TEST_IF_COND_1)',
+> -                                              'defined(TEST_IF_COND_2)'] } ] }
+> +  'features': [ { 'name': 'feature1', 'if': [ 'TEST_IF_COND_1',
+> +                                              'TEST_IF_COND_2' ] } ] }
+>   
+>   { 'event': 'TEST_EVENT_FEATURES0',
+>     'data': 'FeatureStruct1' }
+> diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
+> index f859bf648d..95006e60c4 100644
+> --- a/tests/qapi-schema/qapi-schema-test.out
+> +++ b/tests/qapi-schema/qapi-schema-test.out
+> @@ -298,65 +298,65 @@ command __org.qemu_x-command q_obj___org.qemu_x-command-arg -> __org.qemu_x-Unio
+>   object TestIfStruct
+>       member foo: int optional=False
+>       member bar: int optional=False
+> -        if 'defined(TEST_IF_STRUCT_BAR)'
+> -    if 'defined(TEST_IF_STRUCT)'
+> +        if 'TEST_IF_STRUCT_BAR'
+> +    if 'TEST_IF_STRUCT'
+>   enum TestIfEnum
+>       member foo
+>       member bar
+> -        if 'defined(TEST_IF_ENUM_BAR)'
+> -    if 'defined(TEST_IF_ENUM)'
+> +        if 'TEST_IF_ENUM_BAR'
+> +    if 'TEST_IF_ENUM'
+>   object q_obj_TestStruct-wrapper
+>       member data: TestStruct optional=False
+>   enum TestIfUnionKind
+>       member foo
+>       member union-bar
+> -        if 'defined(TEST_IF_UNION_BAR)'
+> -    if IfAll(['defined(TEST_IF_UNION)', 'defined(TEST_IF_STRUCT)'])
+> +        if 'TEST_IF_UNION_BAR'
+> +    if IfAll(['TEST_IF_UNION', 'TEST_IF_STRUCT'])
+>   object TestIfUnion
+>       member type: TestIfUnionKind optional=False
+>       tag type
+>       case foo: q_obj_TestStruct-wrapper
+>       case union-bar: q_obj_str-wrapper
+> -        if 'defined(TEST_IF_UNION_BAR)'
+> -    if IfAll(['defined(TEST_IF_UNION)', 'defined(TEST_IF_STRUCT)'])
+> +        if 'TEST_IF_UNION_BAR'
+> +    if IfAll(['TEST_IF_UNION', 'TEST_IF_STRUCT'])
+>   object q_obj_test-if-union-cmd-arg
+>       member union-cmd-arg: TestIfUnion optional=False
+> -    if 'defined(TEST_IF_UNION)'
+> +    if 'TEST_IF_UNION'
+>   command test-if-union-cmd q_obj_test-if-union-cmd-arg -> None
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+> -    if 'defined(TEST_IF_UNION)'
+> +    if 'TEST_IF_UNION'
+>   alternate TestIfAlternate
+>       tag type
+>       case foo: int
+>       case bar: TestStruct
+> -        if 'defined(TEST_IF_ALT_BAR)'
+> -    if IfAll(['defined(TEST_IF_ALT)', 'defined(TEST_IF_STRUCT)'])
+> +        if 'TEST_IF_ALT_BAR'
+> +    if IfAll(['TEST_IF_ALT', 'TEST_IF_STRUCT'])
+>   object q_obj_test-if-alternate-cmd-arg
+>       member alt-cmd-arg: TestIfAlternate optional=False
+> -    if IfAll(['defined(TEST_IF_ALT)', IfNot('defined(TEST_IF_NOT_ALT)')])
+> +    if IfAll(['TEST_IF_ALT', IfNot('TEST_IF_NOT_ALT')])
+>   command test-if-alternate-cmd q_obj_test-if-alternate-cmd-arg -> None
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+> -    if IfAll(['defined(TEST_IF_ALT)', IfNot('defined(TEST_IF_NOT_ALT)')])
+> +    if IfAll(['TEST_IF_ALT', IfNot('TEST_IF_NOT_ALT')])
+>   object q_obj_test-if-cmd-arg
+>       member foo: TestIfStruct optional=False
+>       member bar: TestIfEnum optional=False
+> -        if 'defined(TEST_IF_CMD_BAR)'
+> -    if IfAll(['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)'])
+> +        if 'TEST_IF_CMD_BAR'
+> +    if IfAll(['TEST_IF_CMD', 'TEST_IF_STRUCT'])
+>   command test-if-cmd q_obj_test-if-cmd-arg -> UserDefThree
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+> -    if IfAll(['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)'])
+> +    if IfAll(['TEST_IF_CMD', 'TEST_IF_STRUCT'])
+>   command test-cmd-return-def-three None -> UserDefThree
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+>   array TestIfEnumList TestIfEnum
+> -    if 'defined(TEST_IF_ENUM)'
+> +    if 'TEST_IF_ENUM'
+>   object q_obj_TEST_IF_EVENT-arg
+>       member foo: TestIfStruct optional=False
+>       member bar: TestIfEnumList optional=False
+> -        if 'defined(TEST_IF_EVT_BAR)'
+> -    if IfAll(['defined(TEST_IF_EVT)', 'defined(TEST_IF_STRUCT)'])
+> +        if 'TEST_IF_EVT_BAR'
+> +    if IfAll(['TEST_IF_EVT', 'TEST_IF_STRUCT'])
+>   event TEST_IF_EVENT q_obj_TEST_IF_EVENT-arg
+>       boxed=False
+> -    if IfAll(['defined(TEST_IF_EVT)', 'defined(TEST_IF_STRUCT)'])
+> +    if IfAll(['TEST_IF_EVT', 'TEST_IF_STRUCT'])
+>   object FeatureStruct0
+>       member foo: int optional=False
+>   object FeatureStruct1
+> @@ -379,21 +379,21 @@ object FeatureStruct4
+>   object CondFeatureStruct1
+>       member foo: int optional=False
+>       feature feature1
+> -        if 'defined(TEST_IF_FEATURE_1)'
+> +        if 'TEST_IF_FEATURE_1'
+>   object CondFeatureStruct2
+>       member foo: int optional=False
+>       feature feature1
+> -        if 'defined(TEST_IF_FEATURE_1)'
+> +        if 'TEST_IF_FEATURE_1'
+>       feature feature2
+> -        if 'defined(TEST_IF_FEATURE_2)'
+> +        if 'TEST_IF_FEATURE_2'
+>   object CondFeatureStruct3
+>       member foo: int optional=False
+>       feature feature1
+> -        if IfAll(['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)'])
+> +        if IfAll(['TEST_IF_COND_1', 'TEST_IF_COND_2'])
+>   object CondFeatureStruct4
+>       member foo: int optional=False
+>       feature feature1
+> -        if IfAny(['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)'])
+> +        if IfAny(['TEST_IF_COND_1', 'TEST_IF_COND_2'])
+>   enum FeatureEnum1
+>       member eins
+>       member zwei
+> @@ -434,17 +434,17 @@ command test-command-features3 None -> None
+>   command test-command-cond-features1 None -> None
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+>       feature feature1
+> -        if 'defined(TEST_IF_FEATURE_1)'
+> +        if 'TEST_IF_FEATURE_1'
+>   command test-command-cond-features2 None -> None
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+>       feature feature1
+> -        if 'defined(TEST_IF_FEATURE_1)'
+> +        if 'TEST_IF_FEATURE_1'
+>       feature feature2
+> -        if 'defined(TEST_IF_FEATURE_2)'
+> +        if 'TEST_IF_FEATURE_2'
+>   command test-command-cond-features3 None -> None
+>       gen=True success_response=True boxed=False oob=False preconfig=False
+>       feature feature1
+> -        if IfAll(['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)'])
+> +        if IfAll(['TEST_IF_COND_1', 'TEST_IF_COND_2'])
+>   event TEST_EVENT_FEATURES0 FeatureStruct1
+>       boxed=False
+>   event TEST_EVENT_FEATURES1 None
+> diff --git a/tests/qapi-schema/union-branch-if-invalid.err b/tests/qapi-schema/union-branch-if-invalid.err
+> index dd4518233e..046187a5b9 100644
+> --- a/tests/qapi-schema/union-branch-if-invalid.err
+> +++ b/tests/qapi-schema/union-branch-if-invalid.err
+> @@ -1,2 +1,2 @@
+>   union-branch-if-invalid.json: In union 'Uni':
+> -union-branch-if-invalid.json:4: 'if' condition '' of 'data' member 'branch1' makes no sense
+> +union-branch-if-invalid.json:4: 'if' condition '' of 'data' member 'branch1' is not a valid identifier
+> 
 
 
