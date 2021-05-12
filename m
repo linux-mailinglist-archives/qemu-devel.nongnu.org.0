@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5FD37D389
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:25:36 +0200 (CEST)
-Received: from localhost ([::1]:43142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC16C37D2C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:18:21 +0200 (CEST)
+Received: from localhost ([::1]:56916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgtY7-0005Or-Sc
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:25:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44430)
+	id 1lgtR6-0003tH-P1
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:18:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgtOW-0001bl-M2
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:15:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34432)
+ id 1lgtOX-0001e0-PW
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:15:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgtOT-0001Es-Ca
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:15:40 -0400
+ id 1lgtOW-0001FD-01
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:15:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgtOS-0001ig-2k
+ id 1lgtOS-0001ig-No
  for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:15:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E4CCF2E8186
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:15:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AF7142E8186
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:15:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 18:06:23 -0000
-From: Thomas Huth <1913926@bugs.launchpad.net>
+Date: Wed, 12 May 2021 18:07:34 -0000
+From: Thomas Huth <1913913@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Tags: linux-user tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth thebrokenrail
-X-Launchpad-Bug-Reporter: Connor Nolan (thebrokenrail)
+X-Launchpad-Bug-Commenters: dniggema th-huth
+X-Launchpad-Bug-Reporter: Dirk A Niggemann (dniggema)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161206914438.15196.14441299741082258468.malonedeb@wampee.canonical.com>
-Message-Id: <162084278344.7369.10243986983005599326.malone@gac.canonical.com>
-Subject: [Bug 1913926] Re: [QEMU User-Mode] Mesa Fails To Load RadeonSI Driver
- When In Docker Image
+References: <161205186910.7685.15364607958324067276.malonedeb@gac.canonical.com>
+Message-Id: <162084285488.16584.3371443472277355304.malone@soybean.canonical.com>
+Subject: [Bug 1913913] Re: i386-linux-user returns -1 in sigcontext->trapno 
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: 2654c5d80fec74cd26178a3a1c3f607713671d22
+X-Launchpad-Hash: 9acc0f18dccaf42749ba3f569a2eaf780ceabf13
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,12 +71,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913926 <1913926@bugs.launchpad.net>
+Reply-To: Bug 1913913 <1913913@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-I think you definitely need to provide more information ... how do you
-run QEMU? Which QEMU version? etc. ... Anyway:
 
 The QEMU project is currently moving its bug tracking to another system.
 For this we need to know which bugs are still valid and which could be
@@ -109,54 +105,53 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
+** Tags added: linux-user tcg
+
 ** Changed in: qemu
        Status: New =3D> Incomplete
-
-** Tags added: linux-user
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913926
+https://bugs.launchpad.net/bugs/1913913
 
 Title:
-  [QEMU User-Mode] Mesa Fails To Load RadeonSI Driver When In Docker
-  Image
+  i386-linux-user returns -1 in sigcontext->trapno
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  # System Details
-  AMD Ryzen 7 3700U
-  Ubuntu 20.04 Focal Focus
+  QEMU development version, git commit
+  74208cd252c5da9d867270a178799abd802b9338. Behaviour has been noted in
+  5.2.0 generally.
 
-  # Dockerfile
+  Certain 16-bit windows programs crash WINE under QEMU linux-user with:
 
-  FROM arm32v7/debian:bullseye
+  0084:err:seh:segv_handler Got unexpected trap -1
+  wine: Unhandled illegal instruction at address 00006D65 (thread 0084), st=
+arting debugger...
 
-  RUN apt-get update && apt-get install -y mesa-utils
+  They run correctly on native i386.
 
-  ENTRYPOINT glxgears
+  Upon further inspection,it becomes clear these programs are failing at
+  addresses where they are making DOS calls (int 21h ie CD 21 for
+  instance).
 
-  # Instructions For Reproduction
-  1. Install Docker
-  2. Build Docker Image: docker build --tag mesa-arm-test .
-  3. Run: docker run -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/dri:/de=
-v/dri -e "DISPLAY=3D${DISPLAY}" mesa-arm-test
+  It is also clear that WINE is expecting an exception/signal at this
+  point, to patch in the actual int21h handling code inside WINE.
 
-  The Output Is:
+  However, wine uses sigcontext output extensively to do its structured
+  exception handling. sigcontext->trapno being set to -1 seems to
+  confuse it, causing it to treat the exception as an actual unhandled
+  error.
 
-  amdgpu_device_initialize: amdgpu_query_info(ACCEL_WORKING) failed (-38)
-  amdgpu: amdgpu_device_initialize failed.
-  libGL error: failed to create dri screen
-  libGL error: failed to load driver: radeonsi
-  libGL error: failed to get magic
-  libGL error: failed to load driver: radeonsi
-
-  It then appears to run using software rendering.
+  I do not know if exception_index is being left at -1 due to the case
+  of privileged instructions being executed in 16-bit ldts not being
+  handled specifically, or if there is some other illegal instruction
+  case causing this.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913926/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1913913/+subscriptions
 
