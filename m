@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E3437BAD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:38:07 +0200 (CEST)
-Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C20E37BA9E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:32:48 +0200 (CEST)
+Received: from localhost ([::1]:60240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgmFd-000503-KQ
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:38:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33840)
+	id 1lgmAZ-0001f1-9T
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:32:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgm8W-0000Y2-Lo
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:30:40 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41525)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgm8Q-0000aN-Gd
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:30:38 -0400
-Received: by mail-wr1-x435.google.com with SMTP id d11so23064282wrw.8
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:30:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KcSppdWoWdBtZqATd+Yueqjnp9HE8N2cdlmtTmEhLUY=;
- b=xb8nEC9DvYabLCgK0939aTmSTTjfSLIr6mhwMlZo94VbCtaV3YoU8SSAkj3GSOOGfn
- EPmOLLoK07U+M5AXeIiwuwlkv0nTcpHoZ2yxCzif5/BETWT0epInKg9kFTqV6o6aEZnI
- TeA7cV5lcaqjOwpizPG/R0W9qEpwwq8jW+mkMuad/XZkcXv2K+x88Ez5GFgNopIpJN24
- m22FHywgI4/Xpmt3mtaaUnnGVmBzoBpnX5Pd12kIr4UWGhh8RC8j8jRW0fqhH0kKdREI
- QPZCPBsYyKU/DwKm4DXLNP0DD/5x91hg8ur0DkTW1otf3pa9MGpPuEG+A5sPoPBJOrYo
- 0Mug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KcSppdWoWdBtZqATd+Yueqjnp9HE8N2cdlmtTmEhLUY=;
- b=RKVDM1Xp9lUHe+V1Bi4VwQbFAkFO3rZUijINgiYJuSO61ADM8OrTzed3XpSsGmdkCk
- 7l2gysY0Q8AL4i2XGEhCQ1YNmauLh+JPxwVzvUV+wgJafiQH1TDVFNZ646CLEfdXfvXz
- XK8tf3UZfKdgigQ5ZvCP83dmhr0X9EGR0BFXAN3TEf6ESTFZS35qD92gI0WdrW9SzB+T
- 4t+qUXAjPuizPkGeeXIHr104o1OGECaQVM+WHpRnRsvphSlZshlmnN4worPUUpnZ5bgi
- YL30EovBr9bwmsLi6z2bLE3eGz0ZFdlv9tk+J6VlJX9hAkVBudzuEtfEj7syr9H2jV4y
- plTg==
-X-Gm-Message-State: AOAM530YPxNCk5jzMfxfSgQCM38C/cqokhlTN+6hIcfu97sW7M8jCn2J
- gc7GV8wmxrQS3zPkKQRKzhqoMg==
-X-Google-Smtp-Source: ABdhPJyazEqL3U72vwyUdvMuNr3UYz0yh88xWzHGyFjaDVsZZbQ4kOLfKLPC0MnZKWYn0jWSizj6TA==
-X-Received: by 2002:a05:6000:12cc:: with SMTP id
- l12mr6300745wrx.91.1620815431883; 
- Wed, 12 May 2021 03:30:31 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a9sm29420558wrw.26.2021.05.12.03.30.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 May 2021 03:30:29 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4BE311FFB8;
- Wed, 12 May 2021 11:20:54 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 31/31] configure: use cc,
- not host_cc to set cross_cc for build arch
-Date: Wed, 12 May 2021 11:20:51 +0100
-Message-Id: <20210512102051.12134-32-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210512102051.12134-1-alex.bennee@linaro.org>
-References: <20210512102051.12134-1-alex.bennee@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <gustavo@noronha.eti.br>)
+ id 1lgm0p-0006ew-PR
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:22:44 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:60723)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gustavo@noronha.eti.br>)
+ id 1lgm0m-0004UL-Qs
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:22:42 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id 0C35211EC;
+ Wed, 12 May 2021 06:22:37 -0400 (EDT)
+Received: from imap36 ([10.202.2.86])
+ by compute7.internal (MEProxy); Wed, 12 May 2021 06:22:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noronha.eti.br;
+ h=mime-version:message-id:in-reply-to:references:date:from:to
+ :cc:subject:content-type; s=mesmtp; bh=eW22RI8HLTr9nFmp45qCNvxXB
+ RlOCPoafIa1FkZnfvU=; b=c5dgKzh4e5jE4J8Jl52FctgAmutv0ExCTWarIpTJK
+ MLCJMZ5MK9lMyPj+edQ4+qBhrDSrHDEpBP+EAMkf8IB457wu5uaMmK2vzIH7qciu
+ YFVTVrc58FLUnJRCkhssmjrweGGoFZPQqAISP829maR4D5i+A7Ud76XdFP1Apza3
+ 4U=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eW22RI
+ 8HLTr9nFmp45qCNvxXBRlOCPoafIa1FkZnfvU=; b=ZlZG+DYeut/AznO1++aU2e
+ 8AxL5fVNPLV0g6vCIkJC/kbzCL7uCiK+FXugXYSeHNE451b6vhsiKZFER09P0htQ
+ ktCXVYRj3KZcjn+ngGMlw0WPIVtMrTdZFG31EM1SIbF1/fEIHn4JOTe8zg03v7ig
+ KGNWODPfNxlQ/NvevpxnYUEaZz4gDtUB8L3qVoQt2Jx0ExeqSm6G2ZA08eg3DXNY
+ IVVXdGIiXrL47Ga5fR5tYPUoKFmEgTrIL5x7q7asxgp4/Hl+MX0iS4nxUbIouC+e
+ luhFlBBmAZj1Nx1VNY8iuxBDMaTcswYAcAit/rn2sInDeaJNbuLt/+g1vcnHdGTQ
+ ==
+X-ME-Sender: <xms:bKybYOmLGn75TzTlzKE-KTskyiRaBCVTL33xlZ1IdnalbwcHjOaWeg>
+ <xme:bKybYF0Ew9uwKJSjs40wEmGPiGvBk6cbFJirYlVpvBWew0MQvIf7R2Y30BOJXe3jw
+ 3XuJrUGJ63Yl8CPZg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehvddgvdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdfiuhhs
+ thgrvhhoucfpohhrohhnhhgrucfuihhlvhgrfdcuoehguhhsthgrvhhosehnohhrohhnhh
+ grrdgvthhirdgsrheqnecuggftrfgrthhtvghrnhephfdvvdefffdvudejgfehvdegffel
+ leetteejieejudehgfekgeffueevvdehgeetnecuffhomhgrihhnpehgihhthhhusgdrtg
+ homhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehg
+ uhhsthgrvhhosehnohhrohhnhhgrrdgvthhirdgsrh
+X-ME-Proxy: <xmx:bKybYMrBEGs2wL-U2YCcEFC-so6vm4qF2c80blO34V-WNTEi4vdofA>
+ <xmx:bKybYClrWbtsTm4ee3eWuyBzIb6HZUPUJf3c2MtkVi37IkSyAQyDnQ>
+ <xmx:bKybYM06aa8f-iuNJlHEClxhq5WtQ-3nfRwKzK7tEK99FnYrz7P_3g>
+ <xmx:baybYPSm24fXGxnWGN4NIK0HlEhuHUHx7K6bmxYzkTA3bgh6r8MsEA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id CCDED10E0089; Wed, 12 May 2021 06:22:36 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
+Mime-Version: 1.0
+Message-Id: <75c3eec7-81a5-4bc6-9f1d-2348390a9217@www.fastmail.com>
+In-Reply-To: <CAMVc7JUQSM=9Nkyv-EZ86iozfyD6otocCjY3quOwzPMavNuL2Q@mail.gmail.com>
+References: <20210511185538.29344-1-gustavo@noronha.eti.br>
+ <20210511185538.29344-3-gustavo@noronha.eti.br>
+ <CAMVc7JUQSM=9Nkyv-EZ86iozfyD6otocCjY3quOwzPMavNuL2Q@mail.gmail.com>
+Date: Wed, 12 May 2021 07:22:16 -0300
+From: "Gustavo Noronha Silva" <gustavo@noronha.eti.br>
+To: "Akihiko Odaki" <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v4 2/2] ui/cocoa: add option to swap Option and Command
+Content-Type: text/plain
+Received-SPF: pass client-ip=64.147.123.21;
+ envelope-from=gustavo@noronha.eti.br; helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,37 +94,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, f4bug@amsat.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: 'Peter Maydell ' <peter.maydell@linaro.org>,
+ 'Markus Armbruster ' <armbru@redhat.com>,
+ qemu Developers <qemu-devel@nongnu.org>, 'Gerd Hoffmann ' <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Otherwise you run into hilarity like trying when cross compiling a 32
-bit ARM build on a 64 bit system trying to use host_cc to build 32 bit
-test cases.
+Hey,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, May 12, 2021, at 12:06 AM, Akihiko Odaki wrote:
+> Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> 
+> I applied them to my personal tree:
+> https://github.com/akihikodaki/qemu/tree/macos
 
-diff --git a/configure b/configure
-index 1bf53961c2..daa1aa69be 100755
---- a/configure
-+++ b/configure
-@@ -1656,7 +1656,7 @@ case "$cpu" in
-     # No special flags required for other host CPUs
- esac
- 
--eval "cross_cc_${cpu}=\$host_cc"
-+eval "cross_cc_${cpu}=\$cc"
- cross_cc_vars="$cross_cc_vars cross_cc_${cpu}"
- QEMU_CFLAGS="$CPU_CFLAGS $QEMU_CFLAGS"
- 
--- 
-2.20.1
+Thank you for the review! That top one I am still to submit here, by the way. Will do once this series is through.
 
+Cheers,
+
+Gustavo
 
