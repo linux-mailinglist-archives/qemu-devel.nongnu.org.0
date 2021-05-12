@@ -2,50 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E2337B430
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 04:35:48 +0200 (CEST)
-Received: from localhost ([::1]:41578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC0737B44E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 04:54:38 +0200 (CEST)
+Received: from localhost ([::1]:45290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgeix-00068D-Cy
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 22:35:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35476)
+	id 1lgf1B-0000zY-Ks
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 22:54:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lgeff-0001oL-Pn; Tue, 11 May 2021 22:32:23 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50383 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lgf02-0000Iu-MG
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 22:53:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lgefc-0003ub-Om; Tue, 11 May 2021 22:32:23 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4FfzMg2hldz9sXb; Wed, 12 May 2021 12:32:15 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620786735;
- bh=yVGx8LT1jpenzhzRS9CC+kR2Rw7k5aQKWVRC6W8hOgo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TEZYvS+z11jMFWWkOvPHoaRuoeNDkEVlh3XTONrh8zp8h6xJVHfHsh06aKfGVbvd4
- oB0JqStDGaJnaWkv0Z3c1Av1JwAxwQhoipfX66yO6bqYTWoCtX+EAzgE5G1W/2xiiM
- JRq+vUViLRa/jMTGWbabPLu7yLdIM8q6KQ+9uEOg=
-Date: Wed, 12 May 2021 12:30:55 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH 4/5] hw/ppc/fdt: Drop dependency on libfdt
-Message-ID: <YJs938JVdO5SRYSs@yekko>
-References: <20210511155354.3069141-1-philmd@redhat.com>
- <20210511155354.3069141-5-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lgezz-0002gX-0u
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 22:53:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620788001;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Iq+vwPEtDaDziLc4DJlJzP5WjwBlRn4dJpM2jc9iPvA=;
+ b=QfxVf554XYzJaxNcjuzFjBuPnh3RnfEJSoVNFnCdw+jFdyFohb/YiD9CpSQ+WDhEmAqlRh
+ 9XAI3kOPTKotVnrUfF1kPvXBVNVVP7C3/yhuq4kFnba8vLoYNz+3uazbCZ/Ccb/tMz8QLm
+ +Dcqks+X7bbDy2SJOFcclKCCcp34FRE=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-uP9YkW2UMt-qjfKoCrt-9Q-1; Tue, 11 May 2021 22:53:18 -0400
+X-MC-Unique: uP9YkW2UMt-qjfKoCrt-9Q-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ k9-20020a63d1090000b029021091ebb84cso12830018pgg.3
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 19:53:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Iq+vwPEtDaDziLc4DJlJzP5WjwBlRn4dJpM2jc9iPvA=;
+ b=mzLozBkBJntjhFLHiBZG7dht/5zbBV2WQ/eJDMiD7ZYWSuXs29uBo3wM+ToCu/32wL
+ O9sDWMaW3aGSUPyoZQyBvwzqGvqAxrJPG1DfmjV1cno5yMFNhCBLMl9SmTq1QNWEp/H8
+ /Nr1HmNsRpfUQImoPP328Tex6GaauayEnj/5S/8yto2eBRL4Mi20gqbcSqfFfkHCPOg3
+ NLQZxTRjXWvkyEUihnYA+ufEIKzhQ3HKVJyRN+9qmZC7+QJh0SJwp9Cl6I10f+TUyJtK
+ 2nnGCa/BY9bJ3/dnVAm/htbhEcRQolmTXx9SsT9AayWe7NT4+79ML4QTwb1k+Oo8qlsW
+ r65Q==
+X-Gm-Message-State: AOAM530296+nVP1JKtxsAH8W2LZXSzgJSgnMWjDHqi+XqB+Ig+YbhEyD
+ IZAQIuz9dx4D/tiPXUREdI7T4yWP7rvikozr6groy3aipF4Gy/WzuwViXkYA15YoIEgr50ZLqeC
+ PvqrFYNiPp58MlmU=
+X-Received: by 2002:a17:902:ed06:b029:ed:4436:1e0f with SMTP id
+ b6-20020a170902ed06b02900ed44361e0fmr32175291pld.47.1620787997407; 
+ Tue, 11 May 2021 19:53:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwiKS+gnXTAOouOeCoWGEHQmzKHmkcrves8YVCxcqAVu3qlDJRrS7+EXPPpO1vmClWHw67aeg==
+X-Received: by 2002:a17:902:ed06:b029:ed:4436:1e0f with SMTP id
+ b6-20020a170902ed06b02900ed44361e0fmr32175279pld.47.1620787997122; 
+ Tue, 11 May 2021 19:53:17 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id v2sm5628560pfv.97.2021.05.11.19.53.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 May 2021 19:53:16 -0700 (PDT)
+Subject: Re: [PULL 00/10] Net patches
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <1620458319-5670-1-git-send-email-jasowang@redhat.com>
+ <CAFEAcA9uVxbnJt_kcuy5RE3n2sDYk4y3bsEQCPFchvqbpmUMxQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <867fa7c4-be5d-d219-8a44-028808440f66@redhat.com>
+Date: Wed, 12 May 2021 10:53:08 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Li/0E0h/KzyZbp22"
-Content-Disposition: inline
-In-Reply-To: <20210511155354.3069141-5-philmd@redhat.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAFEAcA9uVxbnJt_kcuy5RE3n2sDYk4y3bsEQCPFchvqbpmUMxQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,80 +102,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Andrew Melnychenko <andrew@daynix.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Li/0E0h/KzyZbp22
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+在 2021/5/12 上午4:20, Peter Maydell 写道:
+> On Sat, 8 May 2021 at 08:18, Jason Wang <jasowang@redhat.com> wrote:
+>> The following changes since commit d90f154867ec0ec22fd719164b88716e8fd48672:
+>>
+>>    Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504' into staging (2021-05-05 20:29:14 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>    https://github.com/jasowang/qemu.git tags/net-pull-request
+>>
+>> for you to fetch changes up to 2bdeb0c2564c36b218ac73e21d7a6f6accb49091:
+>>
+>>    tap-bsd: Remove special casing for older OpenBSD releases (2021-05-08 13:59:12 +0800)
+>>
+>> ----------------------------------------------------------------
+>>
+>> ---------------------------------------------------------------
+> This causes meson to emit a warning on one of my build machines:
+>
+> Run-time dependency libkeyutils found: NO (tried pkgconfig)
+> Checking for function "gettid" : NO (cached)
+> Run-time dependency fuse3 found: NO (tried pkgconfig)
+> Found CMake: /usr/bin/cmake (2.8.12.2)
+> WARNING: The version of CMake /usr/bin/cmake is 2.8.12.2 but version
+>> =3.4 is required
+> Run-time dependency libbpf found: NO (tried pkgconfig and cmake)
+> Has header "linux/btrfs.h" : YES (cached)
+> Has header "libdrm/drm.h" : YES (cached)
+>
+>
+> We shouldn't be looking for cmake at all.
+>
+> thanks
+> -- PMM
 
-On Tue, May 11, 2021 at 05:53:53PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> hw/ppc/fdt.c defines the ppc_create_page_sizes_prop() function,
-> which is unrelated to the libfdt. Remove the incorrect library
-> dependency on the file.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-This is definitely wrong as it stands.  AFAICT this doesn't add a
-build of hw/ppc/fdt.c anywhere, but it is definitely needed by both
-pseries and powernv machine types, who select FDT_PPC for this exact
-reason.
+Right, the reason is method is not specified when detecting libbpf so 
+meson may try cmake:
 
-I will grant you that it is badly named.  It is in fact related to
-libfdt, just rather indirectly.
+libbpf = dependency('libbpf', required: get_option('bpf'),)
 
-> ---
->  hw/ppc/meson.build | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-> index e82a6b4105b..580e6e42c8a 100644
-> --- a/hw/ppc/meson.build
-> +++ b/hw/ppc/meson.build
-> @@ -3,9 +3,9 @@
->    'ppc.c',
->    'ppc_booke.c',
->  ))
-> -ppc_ss.add(when: 'CONFIG_FDT_PPC', if_true: [files(
-> +ppc_ss.add(when: 'CONFIG_FDT_PPC', if_true: files(
->    'fdt.c',
-> -), fdt])
-> +))
->  ppc_ss.add(when: 'CONFIG_FW_CFG_PPC', if_true: files('fw_cfg.c'))
-> =20
->  # IBM pSeries (sPAPR)
+Andrew, want to repost the series (with possible style warnings)?
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Thanks
 
---Li/0E0h/KzyZbp22
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCbPd8ACgkQbDjKyiDZ
-s5JcDxAAoB9Ux+n1eMG3kp9OXWOzWkEfAtzzsqMG3MM46yZl9aWF1eSTnAoUvNV0
-qswJ9UaGz54L9v+ejSag9iBZ3Mp7SEvZd6mK33mi5u/iMHynQCKQ4oZLD6XJTR0R
-MNQW0lvxvrx4q6vJ+Oo+YEUJClRb04HCF8mOfsRPBBKFt0VqYyAPgTsaLc7mQB1B
-2o7pKh10/BLhVrbGhxme0L+DNRppf4bePlmBqPxJKF3LSVCj/FCOg6EcPsBVwRtv
-GN3ci/PY32tJpLRSDAqubIvKlk7tuFxX6LAIozK5G66Z6bk4MYvh8j8qGNuvWzXU
-yMdyjX7XhqEugW48+lHmsQbVRU5PHuMyN8fZ4QdhDjUrDJ7wwVhy2jU85jUfaSO+
-xnv6jLKm3GUmZiR7AmpCGd9RZA++889Herm7+wAcpFu6puro+r8NTuvEM4p4RsoN
-Lj/26MLnUcjuIYbRHBq+F9F3aX4dwLg13n5txxaNVu01BgPBKKuNdelvacRgXnqH
-91f8VM2a6SCaxZUep4UIahQ0jrG5TjiOa2YmmxAh8O4FAjZwGpVgtkXnjlNqXbA2
-nQTDTCVMtpbAeP4BlstoJeglY4tHfx7+HzJmfAzSjIXkJr1J/dqcdpwdDbq6oPQQ
-d26ooSaBodTS6C6+6Ixtm4BhgUjDGw1cE1vs8Q2aSYqsAiuqfrM=
-=qT59
------END PGP SIGNATURE-----
-
---Li/0E0h/KzyZbp22--
 
