@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7E837B9E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:02:09 +0200 (CEST)
-Received: from localhost ([::1]:57760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7607837BA14
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:10:18 +0200 (CEST)
+Received: from localhost ([::1]:33876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lglgs-0004sb-Aa
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:02:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56448)
+	id 1lglon-00088n-4M
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:10:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lglfD-0003yr-Fc
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:00:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27059)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lglnq-0007Rz-NB
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:09:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lglf9-0007V6-6a
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:00:22 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lglnk-0004r7-6w
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:09:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620813618;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4t+SFTZ/GD7EFsx/GbS7pvR9Ui8/Bkn5qbVAYerIrVE=;
- b=C9j0kotrHKnWyJC7L12tFUhLff5RCGlzkrcjkq2atFwJJBgUGYhRDYAPoyaw9HzctquBQg
- 0bvo618eulI2ndBTzOrjDz4scCysuxDmjlTjXEF0gc8FllImWP5YzKdR1pH0USUUDVODwg
- ueEwG9cT6dTy5Cv8wPZAemuH/4S2PQg=
+ s=mimecast20190719; t=1620814149;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YZLfAr+YU12OhzcQUPRxWwvOyaQlIe+F0dDKlaE2x+M=;
+ b=FDMGYlCB3iOTq/RbGerU3xUwKb0lgK5Ysuk4FkOBf2+WevO22XAnpyp87qhjXNHGPYi9HQ
+ kpg+9O0OygmpV8H+iPxVxnp+ioqzQR7icS/QFhR69u6Sf6aGwLp8BrkDJglE8hyMXbcpGt
+ 56qp6zpOKAHlhbimVi9sXJZf+F14nZM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-7cLusVHXP2q_DvtdTicstg-1; Wed, 12 May 2021 06:00:03 -0400
-X-MC-Unique: 7cLusVHXP2q_DvtdTicstg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-276-_5HFL03-PUigtMbO8vyYuA-1; Wed, 12 May 2021 06:09:07 -0400
+X-MC-Unique: _5HFL03-PUigtMbO8vyYuA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F389FC8E;
- Wed, 12 May 2021 10:00:02 +0000 (UTC)
-Received: from redhat.com (ovpn-114-167.ams2.redhat.com [10.36.114.167])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F8C51059591;
- Wed, 12 May 2021 09:59:55 +0000 (UTC)
-Date: Wed, 12 May 2021 10:59:52 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, eblake@redhat.com,
- mreitz@redhat.com, kwolf@redhat.com, den@openvz.org,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 21/33] qemu-socket: pass monitor link to socket_get_fd
- directly
-Message-ID: <YJunGNZSSBVq236l@redhat.com>
-References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
- <20210416080911.83197-22-vsementsov@virtuozzo.com>
- <YH1OuUYuLYkHY2ni@redhat.com> <YJuic4P8LxL2K3SQ@rvkaganb.lan>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26A25801817
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 10:09:07 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D97F15D9D7;
+ Wed, 12 May 2021 10:09:06 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] add Visual Studio Code configuration
+Date: Wed, 12 May 2021 06:09:06 -0400
+Message-Id: <20210512100906.621504-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YJuic4P8LxL2K3SQ@rvkaganb.lan>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -88,95 +76,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: eesposit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 12, 2021 at 12:40:03PM +0300, Roman Kagan wrote:
-> On Mon, Apr 19, 2021 at 10:34:49AM +0100, Daniel P. Berrangé wrote:
-> > On Fri, Apr 16, 2021 at 11:08:59AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > Detecting monitor by current coroutine works bad when we are not in
-> > > coroutine context. And that's exactly so in nbd reconnect code, where
-> > > qio_channel_socket_connect_sync() is called from thread.
-> > > 
-> > > Add a possibility to pass monitor by hand, to be used in the following
-> > > commit.
-> > > 
-> > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > > ---
-> > >  include/io/channel-socket.h    | 20 ++++++++++++++++++++
-> > >  include/qemu/sockets.h         |  2 +-
-> > >  io/channel-socket.c            | 17 +++++++++++++----
-> > >  tests/unit/test-util-sockets.c | 16 ++++++++--------
-> > >  util/qemu-sockets.c            | 10 +++++-----
-> > >  5 files changed, 47 insertions(+), 18 deletions(-)
-> > > 
-> > > diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
-> > > index e747e63514..6d0915420d 100644
-> > > --- a/include/io/channel-socket.h
-> > > +++ b/include/io/channel-socket.h
-> > > @@ -78,6 +78,23 @@ qio_channel_socket_new_fd(int fd,
-> > >                            Error **errp);
-> > >  
-> > >  
-> > > +/**
-> > > + * qio_channel_socket_connect_sync_mon:
-> > > + * @ioc: the socket channel object
-> > > + * @addr: the address to connect to
-> > > + * @mon: current monitor. If NULL, it will be detected by
-> > > + *       current coroutine.
-> > > + * @errp: pointer to a NULL-initialized error object
-> > > + *
-> > > + * Attempt to connect to the address @addr. This method
-> > > + * will run in the foreground so the caller will not regain
-> > > + * execution control until the connection is established or
-> > > + * an error occurs.
-> > > + */
-> > > +int qio_channel_socket_connect_sync_mon(QIOChannelSocket *ioc,
-> > > +                                        SocketAddress *addr,
-> > > +                                        Monitor *mon,
-> > > +                                        Error **errp);
-> > 
-> > I don't really like exposing the concept of the QEMU monitor in
-> > the IO layer APIs. IMHO these ought to remain completely separate
-> > subsystems from the API pov,
-> 
-> Agreed. 
-> 
-> > and we ought to fix this problem by
-> > making monitor_cur() work better in the scenario required.
-> 
-> Would it make sense instead to resolve the fdstr into actual file
-> descriptor number in the context where monitor_cur() works and makes
-> sense, prior to passing it to the connection thread?
+Add configurations to build files with Visual Studio Code and
+to retrieve the search path for headers from the compile_commands.json
+file.
 
-Yes, arguably the root problem is caused by the util/qemu-sockets.c
-code directly referring to the current monitor. This has resultde in
-the slightly strange scenario where we have two distinct semantics
-for the 'fd' SocketAddressType
+Using this configuration requires installing the Meson extension and
+using a build subdirectory that matches the one configured in the
+Meson extension itself.
 
- @fd: decimal is for file descriptor number, otherwise a file descriptor name.
-      Named file descriptors are permitted in monitor commands, in combination
-      with the 'getfd' command. Decimal file descriptors are permitted at
-      startup or other contexts where no monitor context is active.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ .vscode/c_cpp_properties.json | 13 +++++++++++++
+ .vscode/settings.json         | 11 +++++++++++
+ .vscode/tasks.json            | 23 +++++++++++++++++++++++
+ scripts/rebuild.py            | 22 ++++++++++++++++++++++
+ 4 files changed, 69 insertions(+)
+ create mode 100644 .vscode/c_cpp_properties.json
+ create mode 100644 .vscode/settings.json
+ create mode 100644 .vscode/tasks.json
+ create mode 100755 scripts/rebuild.py
 
-Now these distinct semantics kinda make sense from the POV of the
-management application, but we've let the dual semantics propagate
-all the way down our I/O stack.
-
-Folowing your idea, we could have  'socket_address_resolve_monitor_fd'
-method which takes a 'SocketAddress' and returns a new 'SocketAddress'
-with the real FD filled in.  We then call this method in any codepath
-which is getting a 'SocketAddress' struct from the monitor.
-
-The util/qemu-sockets.c code then only has to think about real FDs,
-and the monitor_get_fd() call only occurs right at the top level.
-
-Regards,
-Daniel
+diff --git a/.vscode/c_cpp_properties.json b/.vscode/c_cpp_properties.json
+new file mode 100644
+index 0000000000..43f5fc1b4d
+--- /dev/null
++++ b/.vscode/c_cpp_properties.json
+@@ -0,0 +1,13 @@
++{
++    "configurations": [
++        {
++            "name": "qemu",
++            "includePath": [ "${default}", "${workspaceFolder}/linux-headers/**", "${workspaceFolder}/include/**", "${workspaceFolder}/+build/**"],
++            "compileCommands": "${workspaceFolder}/${config:mesonbuild.buildFolder}/compile_commands.json",
++            "intelliSenseMode": "linux-gcc-x64",
++            "cStandard": "c11",
++            "cppStandard": "c++14"
++        }
++    ],
++    "version": 4
++}
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+new file mode 100644
+index 0000000000..efbbb4f88b
+--- /dev/null
++++ b/.vscode/settings.json
+@@ -0,0 +1,11 @@
++{
++	"files.associations": {
++		"*.mak": "makefile",
++		"*.c.inc": "c",
++		"*.h.inc": "c",
++		"*.json": "python",
++		"*.rst.inc": "restructuredtext",
++		"*.vert": "glsl",
++		"*.frag": "glsl"
++	}
++}
+diff --git a/.vscode/tasks.json b/.vscode/tasks.json
+new file mode 100644
+index 0000000000..362821043e
+--- /dev/null
++++ b/.vscode/tasks.json
+@@ -0,0 +1,23 @@
++{
++	"version": "2.0.0",
++	"tasks": [
++		{
++			"type": "cppbuild",
++			"label": "C/C++: build active file with compile_commands.json",
++			"command": "python3",
++			"args": [
++				"${workspaceFolder}/scripts/rebuild.py", "${file}"
++			],
++			"options": {
++				"cwd": "${workspaceFolder}/${config:mesonbuild.buildFolder}"
++			},
++			"problemMatcher": [
++				"$gcc"
++			],
++			"group": {
++				"kind": "build",
++				"isDefault": true
++			}
++		}
++	]
++}
+diff --git a/scripts/rebuild.py b/scripts/rebuild.py
+new file mode 100755
+index 0000000000..e35e08f42d
+--- /dev/null
++++ b/scripts/rebuild.py
+@@ -0,0 +1,22 @@
++#! /usr/bin/env python3
++#
++# Author: Paolo Bonzini <pbonzini@redhat.com>
++#
++# This program compiles the input files using commands from the
++# compile_commands.json file.  (Unlike Make/ninja, the _source_
++# file is passed to the program rather than the targe).  It is
++# mostly intended to be called from editors.
++
++import os
++import sys
++import json
++
++with open('compile_commands.json') as f:
++    cc_json = json.load(f)
++
++paths = set((os.path.relpath(i) for i in sys.argv[1:]))
++for i in cc_json:
++    if i['file'] in paths:
++        os.chdir(i['directory'])
++        print(i['command'])
++        os.system(i['command'])
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.26.2
 
 
