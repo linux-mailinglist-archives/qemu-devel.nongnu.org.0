@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCDB37BA9C
+	by mail.lfdr.de (Postfix) with ESMTPS id C759937BA9D
 	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:32:29 +0200 (CEST)
-Received: from localhost ([::1]:58882 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:58880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgmAG-0000b1-1g
+	id 1lgmAG-0000b0-Q9
 	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:32:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60146)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lglzE-0003N5-Sv
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:04 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36533)
+ id 1lglzK-0003gT-TV
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:10 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lglzD-0003co-7r
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:04 -0400
-Received: by mail-wr1-x433.google.com with SMTP id m9so23058990wrx.3
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:21:02 -0700 (PDT)
+ id 1lglzI-0003gP-DV
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:10 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ j3-20020a05600c4843b02901484662c4ebso2746265wmo.0
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:21:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7CQ/6kaWzCVdnPOK3LKkrtiffwfVdv2ArDXooaU7BUU=;
- b=QrJw/wShCkY0h46YkkVeNQ5HovIuaVxZwYmBjr0fmL3jUH3Za6rnw8c5kLOD1pfYCq
- HHcZ1almp2cygzHWTxVa65ftVedFNLQe3uxd7EtUY0Pn1S0bDD0yMc9d173eJpTSmVUq
- wA2kgQFUUNr3xno6Pxw3GlWIwnZjoB5ZC4YjvJkhBU0hQD3+B+JnenYDbuLCsponR8zc
- uK4Kdy/TBGQUzHyV9p87/i5YP1y4BkHRMp5riyjKI3tM1QP3o8mgLRZMouF6be3a48BL
- ZoHNKmIA/lPy8Yg9UfnZDWAA88u7J16uVPTbWskFhhTL9+YzyAoCcAyyRb+8vruIcwvo
- PAZA==
+ bh=+bRC0Et+Ybmra+FhUpwC3CZYHeRVawT5fsMVpUvmvv0=;
+ b=y+1LzMuX+RZzVGT2x91CAnDV8Tb3U3VO8ZiWSRHEmniAr5STTWw9uqYZgOQ8Q6hvSK
+ aDcGtxDT2qJCISu+me5gkpWy88HWJXamruT/DPHh24JPe+QWTZonhu4ZetGpdOtNZ/d1
+ 7caZIWlvgT/VVjdi2+K698QSJ86Wqzb4jC0fl6Yvgc4bxKe0w55pe2GY0Pn2pJKjK0z8
+ ebunSLaxRFhPE+/xn8EFNtpPfwxrKACwBo6Xai+veKncbKVTxzpLhbiNZaAMqLmlFs7A
+ b0RzqrmImE9vvnScNQwQc7ZZ5WV3PZ63d45qEUJyvVtAOzgi6DznUlAxFzIGFhDscUGs
+ 6/+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7CQ/6kaWzCVdnPOK3LKkrtiffwfVdv2ArDXooaU7BUU=;
- b=PABPY+zzbUE66b6ad14Esg+fvokTPZefN7uSS36J5ncAz4cqa0nNnLV32GXF7IspTo
- N4bDYQcgIqgjxuqNq7Wq4DHLXP/kE3Pb/LsHpQbTXK+vru+7gWt/qliDOEsbG4o5oX3b
- yzKcm6aqgzraVQcFyWkkLCj7p5EupyDWQmfyMNB6QgdFjWGB0Sjll19djcSrHJGSLyUg
- 68obcmSoPVPJgbG2xaClWBNoHcAedxjED4wVShhYSEtNE2FJAZ/QfCQDmKL0UOqTNLbd
- jI1Gf1AVyaG/SoIsCHNauXtJWkuI8TxNVGdMY1pVf65vSCXebzSTkmOqARwiiqO7UmEZ
- 27ow==
-X-Gm-Message-State: AOAM533HsviTJQT4o8tPA94cH+gAZFJ2XO35bRVARwfeb2+iJNzE4/Uk
- BdRtRhj1MpnmF1khr+1WGgvbaA==
-X-Google-Smtp-Source: ABdhPJwoHg3P9QRnxRHvZvtfqnwFLQ1LPKY/LyZTJwmsxPeczbVidEWBeE1lNwVQKUGnA36Cd9ZAqQ==
-X-Received: by 2002:adf:e8c3:: with SMTP id k3mr2804018wrn.255.1620814861920; 
- Wed, 12 May 2021 03:21:01 -0700 (PDT)
+ bh=+bRC0Et+Ybmra+FhUpwC3CZYHeRVawT5fsMVpUvmvv0=;
+ b=BVEqEHwW6ezJ6uhr7ofpjzLctb2pBHfIANZCFziBViXXGjWxlklvXMr0eW+sr/87A9
+ dTEM9dv0517sJzEAUnLFEsJLQsFk+jeSZEpbBHGNWiSSzE7CMVbGbqXEftCFEPB8m1PO
+ jUEKhjJwdB9oiMlygy+e9Tz+2iAY4DdQT3R0UeOB1D+kDF67gsnxTLERNLy6orHFANRA
+ XaztGS0x6YocO0z1O7sJZkvEmEkX4pzZwsmE1Jz15c/uTqS7n++tP370EzOSwBXA1BGV
+ oMLqoUAOy/EDCnpdzTOIP2CNDpLnet/hTuY8akv3p8Vfm7YehH+fppF2zXl0MbzTdPwO
+ 3VeA==
+X-Gm-Message-State: AOAM531mC34joZfIdqtMG5j+LbfM8yQDs0oLehVbuj/3/VHshIBWL0bh
+ ByFOP1aL8LJ9aSjco7O3alRiHg==
+X-Google-Smtp-Source: ABdhPJyAcx7RgZOL1pgrhRVp/IhYAQLMlOypGJPA7Mq+bIC/4oyVayZ4De2WSmq4fRAJ5T+Px6UD+w==
+X-Received: by 2002:a1c:7ec2:: with SMTP id z185mr8126981wmc.138.1620814867061; 
+ Wed, 12 May 2021 03:21:07 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w22sm5394957wmc.13.2021.05.12.03.20.54
+ by smtp.gmail.com with ESMTPSA id n2sm30873730wmb.32.2021.05.12.03.20.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 May 2021 03:20:58 -0700 (PDT)
+ Wed, 12 May 2021 03:20:59 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E11841FF96;
- Wed, 12 May 2021 11:20:51 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 1FEA91FF99;
+ Wed, 12 May 2021 11:20:52 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 08/31] gitlab: add build-user-hexagon test
-Date: Wed, 12 May 2021 11:20:28 +0100
-Message-Id: <20210512102051.12134-9-alex.bennee@linaro.org>
+Subject: [PATCH v3 10/31] tests/docker: Added libbpf library to the docker
+ files.
+Date: Wed, 12 May 2021 11:20:30 +0100
+Message-Id: <20210512102051.12134-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210512102051.12134-1-alex.bennee@linaro.org>
 References: <20210512102051.12134-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,50 +88,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+Cc: fam@euphon.net, Andrew Melnychenko <andrew@daynix.com>, berrange@redhat.com,
  f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+ Thomas Huth <thuth@redhat.com>, pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We special case this as the container with the cross compiler for the
-tests takes so long to build it is manually uploaded into the
-registry.
+From: Andrew Melnychenko <andrew@daynix.com>
 
+The series of patches for eBPF RSS adds libbpf dependency for qemu.
+https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg08887.html
+
+With this patch, libbpf added:
+  Alpine - added libbpf-dev
+  Centos 8 - added libbpf-devel
+  Fedora - added libbpf-devel
+
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210305092328.31792-7-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210406082947.672708-2-andrew@daynix.com>
 ---
- .gitlab-ci.yml | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ tests/docker/dockerfiles/alpine.docker  | 1 +
+ tests/docker/dockerfiles/centos8.docker | 1 +
+ tests/docker/dockerfiles/fedora.docker  | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index dcb6317aac..aa3f1dbdef 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -417,6 +417,17 @@ build-user-static:
-     CONFIGURE_ARGS: --disable-tools --disable-system --static
-     MAKE_CHECK_ARGS: check-tcg
- 
-+# Because the hexagon cross-compiler takes so long to build we don't rely
-+# on the CI system to build it and hence this job has no dependency
-+# declared. The image is manually uploaded.
-+build-user-hexagon:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: debian-hexagon-cross
-+    TARGETS: hexagon-linux-user
-+    CONFIGURE_ARGS: --disable-tools --disable-docs --enable-debug-tcg
-+    MAKE_CHECK_ARGS: check-tcg
-+
- # Only build the softmmu targets we have check-tcg tests for
- build-some-softmmu:
-   <<: *native_build_job_definition
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+index d63a269aef..998a7584ed 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -19,6 +19,7 @@ ENV PACKAGES \
+ 	gnutls-dev \
+ 	gtk+3.0-dev \
+ 	libaio-dev \
++	libbpf-dev \
+ 	libcap-ng-dev \
+ 	libjpeg-turbo-dev \
+ 	libnfs-dev \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index a8c6c528b0..efc1349cc8 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -14,6 +14,7 @@ ENV PACKAGES \
+     git \
+     glib2-devel \
+     libaio-devel \
++    libbpf-devel \
+     libepoxy-devel \
+     libfdt-devel \
+     libgcrypt-devel \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 915fdc1845..483f2d9f83 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -32,6 +32,7 @@ ENV PACKAGES \
+     libcurl-devel \
+     libepoxy-devel \
+     libfdt-devel \
++    libbpf-devel \
+     libiscsi-devel \
+     libjpeg-devel \
+     libpmem-devel \
 -- 
 2.20.1
 
