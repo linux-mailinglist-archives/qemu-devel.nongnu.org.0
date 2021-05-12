@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A352C37D4F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 23:48:52 +0200 (CEST)
-Received: from localhost ([::1]:59458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38CB537D51A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 23:50:41 +0200 (CEST)
+Received: from localhost ([::1]:39234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgwip-0003WQ-Na
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 17:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35680)
+	id 1lgwka-0000Rl-9X
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 17:50:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwgz-0000nr-Ql
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwgx-0000mc-Pn
  for qemu-devel@nongnu.org; Wed, 12 May 2021 17:46:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23485)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwgv-0007ge-4m
- for qemu-devel@nongnu.org; Wed, 12 May 2021 17:46:57 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwgw-0007hF-2M
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 17:46:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620856012;
+ s=mimecast20190719; t=1620856013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uBvBDPav6xvmQm82GofvgIrCGu6g8/LKkdDHgtH1lZ8=;
- b=LhxYkthbm6qccY2FNwpbnmiLD1U5d4SlWVpYV4N/NhHNbG5fvxLbH9WrKW4+0JiJXdx7Ur
- k67Kjie3d61PAdqvwE5/qbUUFOdHv+uFWkUkXrmSaqQAI4P/pOil8STPwaVMLivQ75u4OM
- xz6r8hAyaNCEuOuodRWo+LI+KbBvt0E=
+ bh=PRoXjpL1COvPFgYOg27IMS77Yp8odkYELVhLzf88+3w=;
+ b=gnoX3EuUtB9lSxpED4Wkcmc64wES0pjjNXnerSmnG/DIwdQTDqbo8U3GGQxWAjTQsPHRaX
+ 11OyLd4ZlqnyoMZ4p4EWR/5qfSuLkAIQQAlGP/2ms4c8uv96UtPsCGHJU3BhzlOJWnU8Va
+ 8+0q2R6lqvG54E0iScRoLmf3kuc25zw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-fjxI_zlvNLu5WQuxp95gBw-1; Wed, 12 May 2021 17:46:50 -0400
-X-MC-Unique: fjxI_zlvNLu5WQuxp95gBw-1
+ us-mta-586-coVwtcv7N42KBqvkTBtcqw-1; Wed, 12 May 2021 17:46:51 -0400
+X-MC-Unique: coVwtcv7N42KBqvkTBtcqw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F33548015F7;
- Wed, 12 May 2021 21:46:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA72E107ACE8;
+ Wed, 12 May 2021 21:46:50 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2DC4B5D6AC;
- Wed, 12 May 2021 21:46:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26D0E5D6AC;
+ Wed, 12 May 2021 21:46:50 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/10] python/console_socket: Add a pylint ignore
-Date: Wed, 12 May 2021 17:46:36 -0400
-Message-Id: <20210512214642.2803189-5-jsnow@redhat.com>
+Subject: [PATCH 05/10] python/machine: Disable pylint warning for open() in
+ _pre_launch
+Date: Wed, 12 May 2021 17:46:37 -0400
+Message-Id: <20210512214642.2803189-6-jsnow@redhat.com>
 In-Reply-To: <20210512214642.2803189-1-jsnow@redhat.com>
 References: <20210512214642.2803189-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,25 +83,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We manage cleaning up this resource ourselves. Pylint should shush.
+Shift the open() call later so that the pylint pragma applies *only* to
+that one open() call. Add a note that suggests why this is safe: the
+resource is unconditionally cleaned up in _post_shutdown().
+
+_post_shutdown is called after failed launches (see launch()), and
+unconditionally after every call to shutdown(), and therefore also on
+__exit__.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/console_socket.py | 1 +
- 1 file changed, 1 insertion(+)
+ python/qemu/machine.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-index 87237bebef7..8c4ff598ad7 100644
---- a/python/qemu/console_socket.py
-+++ b/python/qemu/console_socket.py
-@@ -39,6 +39,7 @@ def __init__(self, address: str, file: Optional[str] = None,
-         self.connect(address)
-         self._logfile = None
-         if file:
-+            # pylint: disable=consider-using-with
-             self._logfile = open(file, "bw")
-         self._open = True
-         self._drain_thread = None
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index c13ff9b32bf..8f86303b48f 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -308,7 +308,6 @@ def _pre_launch(self) -> None:
+         self._temp_dir = tempfile.mkdtemp(prefix="qemu-machine-",
+                                           dir=self._test_dir)
+         self._qemu_log_path = os.path.join(self._temp_dir, self._name + ".log")
+-        self._qemu_log_file = open(self._qemu_log_path, 'wb')
+ 
+         if self._console_set:
+             self._remove_files.append(self._console_address)
+@@ -323,6 +322,11 @@ def _pre_launch(self) -> None:
+                 nickname=self._name
+             )
+ 
++        # NOTE: Make sure any opened resources are *definitely* freed in
++        # _post_shutdown()!
++        # pylint: disable=consider-using-with
++        self._qemu_log_file = open(self._qemu_log_path, 'wb')
++
+     def _post_launch(self) -> None:
+         if self._qmp_connection:
+             self._qmp.accept()
 -- 
 2.30.2
 
