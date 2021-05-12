@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470C837C748
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:02:11 +0200 (CEST)
-Received: from localhost ([::1]:56798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF6D37C752
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:05:39 +0200 (CEST)
+Received: from localhost ([::1]:37492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgrJK-0001Vy-8A
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54452)
+	id 1lgrMg-0007d1-13
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:05:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgrAy-0007tf-GC
- for qemu-devel@nongnu.org; Wed, 12 May 2021 11:53:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51648)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgrAe-0004iG-BR
- for qemu-devel@nongnu.org; Wed, 12 May 2021 11:53:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620834791;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=s2LtQ/HURu6Cg+gumGCDrO3/lIg021wQko+DVA/aph4=;
- b=jEX3lh2udxJGcs4Je38MKzQk55n2IJWeVEJtiW6QeTYZYGZ0Dc0Rork1uX3PFDGBJwlWNB
- d74v43slrk6KwqCaJRl0vX58xThR+3zwm++nj/gZBhTzncrfHiswZer4lBBizS7rK4ywlk
- XqEsf0DmG6wJyMyaCzsRASOJyPQqgbQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-P2JMIPSWP5aLG7CJWCYZSw-1; Wed, 12 May 2021 11:53:07 -0400
-X-MC-Unique: P2JMIPSWP5aLG7CJWCYZSw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B15D8106BB2A;
- Wed, 12 May 2021 15:53:06 +0000 (UTC)
-Received: from localhost (ovpn-115-51.ams2.redhat.com [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D28C6091A;
- Wed, 12 May 2021 15:53:05 +0000 (UTC)
-Date: Wed, 12 May 2021 16:53:04 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 4/6] progressmeter: protect with a mutex
-Message-ID: <YJv54J32rxqjGhP8@stefanha-x1.localdomain>
-References: <20210510085941.22769-1-eesposit@redhat.com>
- <20210510085941.22769-5-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgrDY-0003ve-K0
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 11:56:12 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:43834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgrDV-0006Rj-M8
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 11:56:12 -0400
+Received: by mail-ej1-x634.google.com with SMTP id l4so35733619ejc.10
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 08:56:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=akLROyEp+YLqUBuRhdFEdu3VPEXWVcj5g0jkfCgj5xQ=;
+ b=XuR0hbFuG7v+f8xGluFVRA0/1KyV4rx6eZvN2oXFt94dcLxPCTKWhqvIyCBDpOl07n
+ XKHvN+YEhbEY9VT7ZTgI+tqi2rwDR951X4YBpHta0PsM6AZ3j8iiuijU6UyBiCIcAQnf
+ OOfg/kX8Bj29WQmVWcVFFkAkAbWIxGdxB2K8lP/vK+Em/xeeG8BIK3ReLbQPdRwT50lx
+ 2l6bKUXiEa3Lv9JhxRGCaimy+4PM6qRhbcKZIiknRJuTE7M9JanGHh8MP7FSplZC9JQs
+ RrSc74pFh8bzE2u180XMBiaRfeRrEslMvIxZ8rEI9Lq+LvsjqBpeyXbycPo2XUumXlxk
+ scZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=akLROyEp+YLqUBuRhdFEdu3VPEXWVcj5g0jkfCgj5xQ=;
+ b=YvqIJYB8Y15YYtadXH9Y+PB5URgZ7SVcq3tCEVlUYi1QUFW9QhQOvTfn+jPsw0+SDo
+ 6NUL+wcnvgZidWWEIRth9x2fhqNUCpNmPpz4DSdonGnohD/USC/1344SrI4Lp8nfCac1
+ iKdOJ5qac2j/WQntcDA7wbEZCbV5q1tcKVf4h9etFcLiMHOy/ktdmT2Fymlx7dQxf8u9
+ 5IHpTa5K/4LIjJUHV47AhumEyvxcbeHTPJSOxXvk2doZgdzC96M4Wd++nC+p7aGyrSYK
+ 3nT90nVpvPOG+eY8SJBeFXtyTYZCigPSFwyphlELB3Z5zwjwuvvFzn4DttgP7Lesl33y
+ kWDg==
+X-Gm-Message-State: AOAM530voS63D7hzc0Pf26bjO42+ytFbY9UXE9lQ0J8APENhbRjmNL/Z
+ LsOcyvPY/YQFUeG3AzJFQhD9wAKbQkTOZW0xz+a2Iw==
+X-Google-Smtp-Source: ABdhPJxf8QNqQQEOdnBpIFjFMUKpSyYgOVAcBtmL0P5sVPvRkyoWlCt4bmDGhLq1HLOSG9b7f0sv2LvgYta0tGpl0QE=
+X-Received: by 2002:a17:906:11cc:: with SMTP id
+ o12mr38817895eja.85.1620834967765; 
+ Wed, 12 May 2021 08:56:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210510085941.22769-5-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zWghNzOESOTUuR5q"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210510130617.320981-1-marcandre.lureau@redhat.com>
+ <CAFEAcA_mj-9EC2WhUKd4QN8xGk4JMjyr6_ycOD5ukZAGRdrjMg@mail.gmail.com>
+ <CAJ+F1CLB4uMQsggZKX5kGBtSr14rZ7mW5rr4dwMi=hn4TTpHag@mail.gmail.com>
+In-Reply-To: <CAJ+F1CLB4uMQsggZKX5kGBtSr14rZ7mW5rr4dwMi=hn4TTpHag@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 12 May 2021 16:54:53 +0100
+Message-ID: <CAFEAcA8L6Qks-bZtbpgbmSaKcGB2waTEKpOtvZ_PQ7vxdzZ2pg@mail.gmail.com>
+Subject: Re: [PULL v2 0/1] readthedoc theme patch
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,59 +81,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---zWghNzOESOTUuR5q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 12 May 2021 at 16:17, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi
+>
+> On Wed, May 12, 2021 at 5:47 PM Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+>>
+>> On Mon, 10 May 2021 at 14:06, <marcandre.lureau@redhat.com> wrote:
+>> >
+>> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> >
+>> > The following changes since commit d90f154867ec0ec22fd719164b88716e8fd=
+48672:
+>> >
+>> >   Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-202=
+10504' into staging (2021-05-05 20:29:14 +0100)
+>> >
+>> > are available in the Git repository at:
+>> >
+>> >   git@gitlab.com:marcandre.lureau/qemu.git tags/rtd-pull-request
+>> >
+>> > for you to fetch changes up to f1852f5d7e6fc2ead874261c0388b1889825700=
+0:
+>> >
+>> >   sphinx: adopt kernel readthedoc theme (2021-05-10 15:12:09 +0400)
+>> >
+>> > ----------------------------------------------------------------
+>> > Pull request
+>> >
+>> > ----------------------------------------------------------------
+>> >
+>> > Marc-Andr=C3=A9 Lureau (1):
+>> >   sphinx: adopt kernel readthedoc theme
+>>
+>> NetBSD now complains:
+>>
+>> Configuring 60-edk2-x86_64.json using configuration
+>> Program qemu-keymap found: NO
+>> Program sphinx-build found: YES
+>> ../docs/meson.build:30: WARNING: /usr/bin/sphinx-build:
+>> Configuration error:
+>> There is a programable error in your configuration file:
+>>
+>> Traceback (most recent call last):
+>>   File "conf.py", line 154, in <module>
+>>     import sphinx_rtd_theme
+>> ModuleNotFoundError: No module named 'sphinx_rtd_theme'
+>>
+>> During handling of the above exception, another exception occurred:
+>>
+>> Traceback (most recent call last):
+>>   File "/usr/lib/python3/dist-packages/sphinx/config.py", line 157, in _=
+_init__
+>>     execfile_(filename, config)
+>>   File "/usr/lib/python3/dist-packages/sphinx/util/pycompat.py", line
+>> 150, in execfile_
+>>     exec_(code, _globals)
+>>   File "conf.py", line 157, in <module>
+>>     'The Sphinx \'sphinx_rtd_theme\' HTML theme was not found.\n'
+>> sphinx.errors.ConfigError: The Sphinx 'sphinx_rtd_theme' HTML theme
+>> was not found.
+>>
+>>
+>>
+>> Program python3 found: YES (/usr/bin/python3)
+>> Program diff found: YES
+>> Program dbus-daemon found: YES
+>>
+>>
+>> as does freebsd and openbsd. Can we get the theme added to the VM
+>> configs for those ?
 
-On Mon, May 10, 2021 at 10:59:39AM +0200, Emanuele Giuseppe Esposito wrote:
-> Progressmeter is protected by the AioContext mutex, which
-> is taken by the block jobs and their caller (like blockdev).
->=20
-> We would like to remove the dependency of block layer code on the
-> AioContext mutex, since most drivers and the core I/O code are already
-> not relying on it.
->=20
-> The simplest thing to do is to add a mutex to be able to provide
-> an accurate snapshot of the progress values to the caller.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  blockjob.c                    | 33 +++++++++++++++++++++++++--------
->  include/qemu/progress_meter.h | 31 +++++++++++++++++++++++++++++++
->  job-qmp.c                     |  8 ++++++--
->  job.c                         |  3 +++
->  qemu-img.c                    |  9 ++++++---
->  5 files changed, 71 insertions(+), 13 deletions(-)
+> What is used for the BSD configs? If it's tests/vm, I don't see readthedo=
+c being installed there, and vm-build-* should work (at least some work for=
+ me, freebsd fails with ssh issue here)
 
-Unlike the next two patches where I had comments, here adding the lock
-makes sense to me - the point of the progress meter is to report numbers
-to the monitor thread so thread-safety is a key part of the API's value.
+It's tests/vm.  The build doesn't fail, but the printing of the WARNING
+is caught by my wrapper scripts (which grep for various warning/error
+words to catch issues which don't trigger complete build failures).
+Adding the theme to the configs would mean that we can continue to
+test docs builds on those platforms.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---zWghNzOESOTUuR5q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCb+eAACgkQnKSrs4Gr
-c8i4XwgAqW0MTHhH/PTpItmlauW9wegtfzxWDMfkyykSUFPDxknsSlcMiXELgV6p
-xSBxRXYrii5O4xaAK05EfZ30FIbiE/7qHs8JNiG39rz8CC6ZvRUKt2xwNK7nLPFS
-VFK3JRKIdz2rAfcxQidSKUxrkG4rAnC6Em0FHxnT+uP5LqfYa3jQqZ136xaFPQQ6
-gCvOY+CTjyxch7G57w6fmdzsuo8g5iUjPnJQb7fDM173s/BMvNXZ6A0Vn53FdKfL
-LwcWAR+AzMkfEcedbILGSKFCvzg1wxnGnEw5Ha6lyTjGdIrQHcrzFOfBmzhCj4ce
-54fLFVm30NBtYbv+RtnzzvqIcAF+xQ==
-=YKpr
------END PGP SIGNATURE-----
-
---zWghNzOESOTUuR5q--
-
+thanks
+-- PMM
 
