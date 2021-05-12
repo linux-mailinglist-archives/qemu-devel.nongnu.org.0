@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B5C37C760
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:10:45 +0200 (CEST)
-Received: from localhost ([::1]:57600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 129E037C763
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:13:46 +0200 (CEST)
+Received: from localhost ([::1]:34726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgrRc-0004Wb-9M
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:10:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
+	id 1lgrUX-0008Rj-3S
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgrN8-0002fV-Sf
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:06:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24268)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgrN5-0003rp-5y
- for qemu-devel@nongnu.org; Wed, 12 May 2021 12:06:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620835561;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=U9BT1srrARPSGy5aDYfiInQUXNENEr/AA0MDcG3KJg8=;
- b=ZU6XHhCw5jHJaxC27HIQ4wp521ET/JUFURTAz/+IMaOsgaTeEomYKaA7nMuB98NPghmJzN
- w4qjZq6x/gUNNogpGIzDJxtvhZmAdArzq6E3m098D1qDnWn/KKaCBiaYxZLF2JabL/XYKs
- nDjcyZFlzbw+BgZDNvAMaj0Cu64jKXs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-8roR7ofkP6KejV-LWw4-tw-1; Wed, 12 May 2021 12:05:59 -0400
-X-MC-Unique: 8roR7ofkP6KejV-LWw4-tw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6448A1922961;
- Wed, 12 May 2021 16:05:58 +0000 (UTC)
-Received: from localhost (ovpn-115-51.ams2.redhat.com [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D5DE1E6;
- Wed, 12 May 2021 16:05:54 +0000 (UTC)
-Date: Wed, 12 May 2021 17:05:53 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 0/4] virtio: Improve boot time of virtio-scsi-pci and
- virtio-blk-pci
-Message-ID: <YJv84RIViv6KvCHb@stefanha-x1.localdomain>
-References: <20210507165905.748196-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lgrOQ-0006IQ-St
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:07:26 -0400
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:44568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lgrOO-0004jd-FS
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 12:07:26 -0400
+Received: by mail-qt1-x82a.google.com with SMTP id y12so17569793qtx.11
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 09:07:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Rhx/vEPkUE5wAJhRa9puML+p8F5Gzc4gc+uQHKDiogk=;
+ b=Mef7YJzCBYuctaK+Nb+A74j/5Lyun1498jBPRhBliSB22pkjTqKpbD2r2ZuVm98PXN
+ EswqeTntOR7gfKCP5x6zdRrh0MMsPpYxQfUj1IVe9u0Bkb9rL18jov4MP32aXCGbRbWw
+ LLqKHBj2K6SRyJu1m0lY9rJXGnlt7qu0rwgcEzZQaA+V02pnvS+O0pvx4W6BUmnR446S
+ HcevYG6DFS7+ii4cjcgSd8es2yYxzkOhJ1XUEvCoUxyo2Gr8UNZEM788raPg0qJEgSMj
+ OExKkRg6ObDb/YAIT2x4qRDAPUhZfq40peXF53XUfzgfCZoGYvoNgBFdU09f6PmDTURu
+ qJvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Rhx/vEPkUE5wAJhRa9puML+p8F5Gzc4gc+uQHKDiogk=;
+ b=fQIlp0+GvOWPDOsuIRCmhaR4bYq/AcYTlE0AT2S0wkWAxV1U8g6yULIF4NLfGf+dmK
+ OKdKjL1LT4KsGCO1D2bzIZrzPbHMAF+SF/dz5ZGHVnsLZiccj5A1XXFAGsIawqu9eclW
+ jd/N0d+NAjkGFlW4nhAVAIk6+r3w1QUCIZw24xsHaWSPu2kkBN5snzzVbnEnSjj0vKnw
+ iGV61Aq2Dxy/YywGcjrT17lWvihqhLyoYWa3Gg1e5jJ4CZod2YGyWcCTLCrzYVnP/Wta
+ JsCQhSchGOZ+6YPo1qqh0NaTo/C74FM8oar2Ya2dek9QPKJsMpNrPmzw2eiDNhWOGlvj
+ 2sIQ==
+X-Gm-Message-State: AOAM532ZrRISv2GJyety7wG+AeRka9wIdXMhOPOhzpRNEqqguO+JKP2m
+ ICDJds/D0j2GHNPf+SQCoH7Yyg==
+X-Google-Smtp-Source: ABdhPJzrbZf8/NV3rXIeCYrAMx6Il/cqFFXJMnLDXDyuzTMiZGDZAafR6PcuTlvJHaxny8dEA96UHg==
+X-Received: by 2002:ac8:5dcc:: with SMTP id e12mr22394488qtx.70.1620835643371; 
+ Wed, 12 May 2021 09:07:23 -0700 (PDT)
+Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id z11sm285525qto.95.2021.05.12.09.07.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 May 2021 09:07:23 -0700 (PDT)
+Subject: Re: [PATCH v6 26/82] target/arm: Implement SVE2 SHRN, RSHRN
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ <20210430202610.1136687-27-richard.henderson@linaro.org>
+ <CAFEAcA_OknopgKOtwAoiLrKEXmtNDYpQ5EycnkzBuNbc7WLWag@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <2aaae8fa-a3d9-a88e-53f8-eba2c789e55c@linaro.org>
+Date: Wed, 12 May 2021 11:07:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210507165905.748196-1-groug@kaod.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NYu4nCYvJK5eBz7F"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAFEAcA_OknopgKOtwAoiLrKEXmtNDYpQ5EycnkzBuNbc7WLWag@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,135 +89,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---NYu4nCYvJK5eBz7F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/12/21 3:52 AM, Peter Maydell wrote:
+> On Fri, 30 Apr 2021 at 21:49, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>> v2: Fix typo in gen_shrnb_vec (laurent desnogues)
+>> v3: Replace DO_RSHR with an inline function
+>> ---
+>>   target/arm/helper-sve.h    |  16 ++++
+>>   target/arm/sve.decode      |   8 ++
+>>   target/arm/sve_helper.c    |  54 ++++++++++++-
+>>   target/arm/translate-sve.c | 160 +++++++++++++++++++++++++++++++++++++
+>>   4 files changed, 236 insertions(+), 2 deletions(-)
+> 
+>> -#undef DO_SHR
+>> -#undef DO_SHL
+> 
+> Did we want to move the #undef DO_SHR/DO_SHL rather than just deleting them ?
+> (I have to admit I'm not sure to what extent undeffing all of these macros is
+> worth the effort -- I ran into similar minor awkwardness in the MVE
+> helper .c file.)
 
-On Fri, May 07, 2021 at 06:59:01PM +0200, Greg Kurz wrote:
-> Now that virtio-scsi-pci and virtio-blk-pci map 1 virtqueue per vCPU,
-> a serious slow down may be observed on setups with a big enough number
-> of vCPUs.
->=20
-> Exemple with a pseries guest on a bi-POWER9 socket system (128 HW threads=
-):
->=20
->               virtio-scsi      virtio-blk
->=20
-> 1=09=090m20.922s=090m21.346s
-> 2=09=090m21.230s=090m20.350s
-> 4=09=090m21.761s=090m20.997s
-> 8=09=090m22.770s=090m20.051s
-> 16=09=090m22.038s=090m19.994s
-> 32=09=090m22.928s=090m20.803s
-> 64=09=090m26.583s=090m22.953s
-> 128=09=090m41.273s=090m32.333s
-> 256=09=092m4.727s =091m16.924s
-> 384=09=096m5.563s =093m26.186s
->=20
-> Both perf and gprof indicate that QEMU is hogging CPUs when setting up
-> the ioeventfds:
->=20
->  67.88%  swapper         [kernel.kallsyms]  [k] power_pmu_enable
->   9.47%  qemu-kvm        [kernel.kallsyms]  [k] smp_call_function_single
->   8.64%  qemu-kvm        [kernel.kallsyms]  [k] power_pmu_enable
-> =3D>2.79%  qemu-kvm        qemu-kvm           [.] memory_region_ioeventfd=
-_before
-> =3D>2.12%  qemu-kvm        qemu-kvm           [.] address_space_update_io=
-eventfds
->   0.56%  kworker/8:0-mm  [kernel.kallsyms]  [k] smp_call_function_single
->=20
-> address_space_update_ioeventfds() is called when committing an MR
-> transaction, i.e. for each ioeventfd with the current code base,
-> and it internally loops on all ioventfds:
->=20
-> static void address_space_update_ioeventfds(AddressSpace *as)
-> {
-> [...]
->     FOR_EACH_FLAT_RANGE(fr, view) {
->         for (i =3D 0; i < fr->mr->ioeventfd_nb; ++i) {
->=20
-> This means that the setup of ioeventfds for these devices has
-> quadratic time complexity.
->=20
-> This series simply changes the device models to extend the transaction
-> to all virtqueueues, like already done in the past in the generic
-> code with 710fccf80d78 ("virtio: improve virtio devices initialization
-> time").
->=20
-> Only virtio-scsi and virtio-blk are covered here, but a similar change
-> might also be beneficial to other device types such as host-scsi-pci,
-> vhost-user-scsi-pci and vhost-user-blk-pci.
->=20
->               virtio-scsi      virtio-blk
->=20
-> 1=09=090m21.271s=090m22.076s
-> 2=09=090m20.912s=090m19.716s
-> 4=09=090m20.508s=090m19.310s
-> 8=09=090m21.374s=090m20.273s
-> 16=09=090m21.559s=090m21.374s
-> 32=09=090m22.532s=090m21.271s
-> 64=09=090m26.550s=090m22.007s
-> 128=09=090m29.115s=090m27.446s
-> 256=09=090m44.752s=090m41.004s
-> 384=09=091m2.884s=090m58.023s
->=20
-> This should fix https://bugzilla.redhat.com/show_bug.cgi?id=3D1927108
-> which reported the issue for virtio-scsi-pci.
->=20
-> Changes since v1:
-> - Add some comments (Stefan)
-> - Drop optimization on the error path in patch 2 (Stefan)
->=20
-> Changes since RFC:
->=20
-> As suggested by Stefan, splimplify the code by directly beginning and
-> committing the memory transaction from the device model, without all
-> the virtio specific proxying code and no changes needed in the memory
-> subsystem.
->=20
-> Greg Kurz (4):
->   virtio-blk: Fix rollback path in virtio_blk_data_plane_start()
->   virtio-blk: Configure all host notifiers in a single MR transaction
->   virtio-scsi: Set host notifiers and callbacks separately
->   virtio-scsi: Configure all host notifiers in a single MR transaction
->=20
->  hw/block/dataplane/virtio-blk.c | 45 ++++++++++++++++++++-
->  hw/scsi/virtio-scsi-dataplane.c | 72 ++++++++++++++++++++++++---------
->  2 files changed, 97 insertions(+), 20 deletions(-)
->=20
-> --=20
-> 2.26.3
->=20
+Yeah, I'm not sure.  I've vaguely been thinking that the "operation" defines, 
+such as this one, should stay defined
+but that the expansion ones, such as...
 
-Thanks, applied to my block tree:
-https://gitlab.com/stefanha/qemu/commits/block
+> 
+>>   #undef DO_ASRD
+>>   #undef DO_ZPZI
+>>   #undef DO_ZPZI_D
 
-Stefan
+... these should only stay for their "scope".  But even that could be 
+considered pointless.
 
---NYu4nCYvJK5eBz7F
-Content-Type: application/pgp-signature; name="signature.asc"
+AFAIR, DO_SHR/DO_SHL are pre-existing from the SVE1 work?
 
------BEGIN PGP SIGNATURE-----
+>> +#define DO_SHRNB(NAME, TYPEW, TYPEN, OP) \
+>> +void HELPER(NAME)(void *vd, void *vn, uint32_t desc)         \
+>> +{                                                            \
+>> +    intptr_t i, opr_sz = simd_oprsz(desc);                   \
+>> +    int shift = simd_data(desc);                             \
+>> +    for (i = 0; i < opr_sz; i += sizeof(TYPEW)) {            \
+>> +        TYPEW nn = *(TYPEW *)(vn + i);                       \
+>> +        *(TYPEW *)(vd + i) = (TYPEN)OP(nn, shift);           \
+>> +    }                                                        \
+>> +}
+> 
+> Doesn't this need some H() macros, the way the T version does ?
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCb/OEACgkQnKSrs4Gr
-c8hJPAgAyMGTWpdGDCG/vLaGz6a1yKQOFqfoMZW2tOboSmZY1MFeafcZFDuXIpmG
-+Cj+cJGoO6N8CdXLfrR7gfXRE+Eyv4wvRiuOW8UyPM7p3dn/qc3z7cD+qrlVaFN+
-xFwOn6j2QpefqxAhMCh50TbDTbkXXapH93f/lkDOlK5yfPvn1D8qMCoSwftdEJgc
-eeXI5Xqfty+bUFmURxb9y3IGy9Ogw5j3Iyop8eiwwOHpmHpdzdKOOCvOHDBirg7o
-ynGSdpfNvovEwE8hMkXwueGMmO+Eta06IA8HmCGelKK9Csp21iRWEYNf1sLfu1Ia
-t7NQELaMqY/R1pGcCByAbYwAuXdq/Q==
-=9Umt
------END PGP SIGNATURE-----
+No.  In the "B" version, we're manipulating strict columns (TYPEW in both VN 
+and VD), and do not care in which order the columns are processed.
 
---NYu4nCYvJK5eBz7F--
+The "T" version reads TYPEW and writes TYPEN, which makes us have to care more 
+about addressing.
 
+
+r~
 
