@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2453937C448
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 17:30:54 +0200 (CEST)
-Received: from localhost ([::1]:54718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC8D37C3B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 17:21:55 +0200 (CEST)
+Received: from localhost ([::1]:36574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgqp3-0002JQ-6E
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 11:30:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48236)
+	id 1lgqgM-0006rn-4k
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 11:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgqk2-0004hx-DI
- for qemu-devel@nongnu.org; Wed, 12 May 2021 11:25:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52974)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgqjz-0004t7-U3
- for qemu-devel@nongnu.org; Wed, 12 May 2021 11:25:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgqjx-0001D0-IU
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 15:25:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8A90F2E8058
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 15:25:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lgqeJ-00056x-NZ
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 11:19:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38771)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lgqeG-0001Qo-Dn
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 11:19:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620832783;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QojuVRlnklgAJ/bD51ZvZJ2U2WK07kDwQbJcvHLCNEA=;
+ b=R47q8XyzupdTKeeXAS81X+s0v9qGwZF5Hd9+0bLLBE7yxF7LvUDTpqgbbbbMLDZybNjfCJ
+ SyNSFlYRwSGAOvCmj2Mfq7l71ifIa0x3oNPLLe1ZzsvXBCVpbf2KTNAmv+vB9IbyWW4Npk
+ r1dquoBfq0a2L+stDwqChFyJp4Xw+nQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-krAjhWI9O2uXaX9c9mkgvQ-1; Wed, 12 May 2021 11:19:41 -0400
+X-MC-Unique: krAjhWI9O2uXaX9c9mkgvQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EDB18189D4;
+ Wed, 12 May 2021 15:19:40 +0000 (UTC)
+Received: from localhost (ovpn-115-51.ams2.redhat.com [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6AEA5C8AA;
+ Wed, 12 May 2021 15:19:39 +0000 (UTC)
+Date: Wed, 12 May 2021 16:19:38 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH 6/6] aiopool: protect with a mutex
+Message-ID: <YJvyCmFMlsbyni0L@stefanha-x1.localdomain>
+References: <20210510085941.22769-1-eesposit@redhat.com>
+ <20210510085941.22769-7-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 15:17:41 -0000
-From: Thomas Huth <1910696@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: readconfig spice
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anatol edacval sven-koehler th-huth
-X-Launchpad-Bug-Reporter: Edvinas Valatka (edacval)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161009834109.3567.5030676858811031897.malonedeb@wampee.canonical.com>
-Message-Id: <162083266204.23763.10445264567232161947.malone@soybean.canonical.com>
-Subject: [Bug 1910696] Re: Qemu fails to start with error " There is no option
- group 'spice'"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
-X-Launchpad-Hash: 52c1f46715d7f2759959ce11b66a61306110a45e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210510085941.22769-7-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="tNyTxOVvBu4nqu8i"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,74 +79,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1910696 <1910696@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
+--tNyTxOVvBu4nqu8i
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
+On Mon, May 10, 2021 at 10:59:41AM +0200, Emanuele Giuseppe Esposito wrote:
+> Divide the fields in AioTaskPool in IN and Status, and
+> introduce a CoQueue instead of .wait to take care of suspending
+> and resuming the calling coroutine, and a lock to protect the
+> busy_tasks counter accesses and the AioTask .ret field.
 
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
+The thread-safety concerns with the aio_task.h API are unclear to me.
+The API is designed to have a "main" coroutine that adds task
+functions to the pool and waits for them to complete. Task functions
+execute in coroutines (up to the pool's max_busy_tasks limit).
 
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
+It seems like the API was designed to be called only from its main
+coroutine so why make everything thread-safe? Is there a caller that
+shares an AioTaskPool between threads? Or will the task functions switch
+threads somehow?
 
-    https://gitlab.com/qemu-project/qemu/-/issues
+What exactly is the new thread-safety model? Please document it.
+Unfortunately aio_task.h doesn't have doc comments already but it will
+be necessary if there are thread-safety concerns.
 
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
+--tNyTxOVvBu4nqu8i
+Content-Type: application/pgp-signature; name="signature.asc"
 
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" or "Confirmed" within the next 60 days (other-
-wise it will get closed as "Expired"). We will then eventually migrate
-the ticket automatically to the new system (but you won't be the reporter
-of the bug in the new system and thus you won't get notified on changes
-anymore).
+-----BEGIN PGP SIGNATURE-----
 
-Thank you and sorry for the inconvenience.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCb8goACgkQnKSrs4Gr
+c8isgAf/WYpTvtflct2mgV8rcS65mmGhZiAPH40QWCxbWsM0GAyEhtIByZP9sue3
+AMbNmsMcHbVMdKR3DHerYItUMw28AdIU2fqwv954vIIhEHBTL9kBVcZhfSHZDqJd
+jwjjAO7hh8N8yLHDOUsosU+ENhZsBeUB7jvytmd6Ka1SzrVRn4jsW5I+QXfiJD+0
+BA5qO4f77Mhp6Miw9VIwZFhVS6cehKWxsWJA+pjvUmJCSglxM8PM7ejlBge3i2Of
+vl9eD7TjG+iCNAyoAG1V8CZ10jmtF0gQJTs4qGvwOvOwSQKOgHvgGISArfJ+ddIr
+Pu5ulbUM3vBTf4Ow4eeGY3P19HmJ0Q==
+=HAZ2
+-----END PGP SIGNATURE-----
 
+--tNyTxOVvBu4nqu8i--
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1910696
-
-Title:
-  Qemu fails to start with error " There is no option group 'spice'"
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  After upgrade from 5.1.0 to 5.2.0, qemu fails on start with error:
-  `
-  /usr/bin/qemu-system-x86_64 -S -name trinti -uuid f8ad2ff6-8808-4f42-8f0b=
--9e23acd20f84 -daemonize -cpu host -nographic -serial chardev:console -node=
-faults -no-reboot -no-user-config -sandbox on,obsolete=3Ddeny,elevateprivil=
-eges=3Dallow,spawn=3Ddeny,resourcecontrol=3Ddeny -readconfig /var/log/lxd/t=
-rinti/qemu.conf -pidfile /var/log/lxd/trinti/qemu.pid -D /var/log/lxd/trint=
-i/qemu.log -chroot /var/lib/lxd/virtual-machines/trinti -smbios type=3D2,ma=
-nufacturer=3DCanonical Ltd.,product=3DLXD -runas nobody: =
-
-  qemu-system-x86_64:/var/log/lxd/trinti/qemu.conf:27: There is no option g=
-roup 'spice'
-  qemu-system-x86_64: -readconfig /var/log/lxd/trinti/qemu.conf: read confi=
-g /var/log/lxd/trinti/qemu.conf: Invalid argument
-  `
-  Bisected to first bad commit: https://github.com/qemu/qemu/commit/cbe5fa1=
-1789035c43fd2108ac6f45848954954b5
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1910696/+subscriptions
 
