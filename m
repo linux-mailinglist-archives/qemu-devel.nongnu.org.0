@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F48837CEFF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:26:51 +0200 (CEST)
-Received: from localhost ([::1]:43430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B551A37CEFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:26:49 +0200 (CEST)
+Received: from localhost ([::1]:43300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgsdG-0003AN-5M
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:26:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59584)
+	id 1lgsdE-00035H-PP
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUU-00078W-NN
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:17:49 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:38599)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUV-00078Z-LU
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:17:50 -0400
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:33612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUI-0008J5-G2
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1lgsUK-0008Kd-7J
  for qemu-devel@nongnu.org; Wed, 12 May 2021 13:17:46 -0400
-Received: by mail-il1-x12b.google.com with SMTP id c3so20815547ils.5
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 10:17:33 -0700 (PDT)
+Received: by mail-il1-x12f.google.com with SMTP id z1so12940234ils.0
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 10:17:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lcNhuk+/UP+YWgfFE7/i6JSUSQF0xDtbR8oIBcbnvUg=;
- b=rZxBW9T1C/P0K1FvKei6HG1iuWwfaQ3EDyVoVxkxRunii34upwn9++0YpaoYC2pqsH
- iNqvyT9giJnb4xmjGPdH109sUH+SEN3B8zgWYjGAvZtQYGquUQTVsx8EEUMP6jAxQ/KG
- gwsnBoyBsqXoSj3o9PoUSyX1K3rKqnT84Kwdun1Tu8YV0KxNByYxMJiLNmv1rfu5CmEs
- GdpX3c0mPeZBLEl62obSF6iTPyqXnPoazn3VFHBbJzn7XTFlV7ZEEaB560KXQwRWz2yT
- tp17mr4GEVWRj8i1hTyxKbCWBwTs7aAfuAZJR1D43+VwDuGD+IaQYpAWyr1oz/9YkbUK
- KrSg==
+ bh=WmsTH6YeQ6QLzMbKIKIH647DYkY/XXINReCjYAIywDM=;
+ b=jU3N8HXLumCmcQJcucuEP6FEeIvJRgqxz6Ls1NAEPChtmnegIxgkEdZM4d714oUGiG
+ Ee0h5ni5rInlum90ZNBhJZcYww9KW3ikxpwzF6cpDRPMEO/t4GeaHGr5x/erU0BgV50z
+ 8BjIVQaxTnx0azPiZXkkCWNGH2r2uDmrEWfDVWPFo3iqWmePsuqkq7wkYmpDltfXYtXY
+ FzfonS+ig7GNN0tm2VZouLGdXBfcbYnsHDfq1+KvBCtyVyLox2AoLULhYDCESnTSzuNw
+ Wv065Wp+dw4wrYNiWZEyd9d0ROfgNKnM86u5txw6Pg3Q8Ls6P1cM2oOzAqwJ+HuGryGB
+ GkBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lcNhuk+/UP+YWgfFE7/i6JSUSQF0xDtbR8oIBcbnvUg=;
- b=Zgvaaz1P7JG826GJ8Ydy8+bKutZjK8YeGREn4sC5MtXjZAlrKmEjzaZ2xNuOsMa9Vv
- Qd4Os/G5VpIxCDm2QrNLZwO4bSdD82mMdcXSbIxwBwDmMYS11aLQFDLhDucrRuJQodr4
- jow3UnEPoln0k8LOIVsULfCS7NXH096wrXhwx7iJ1xIyTKGHrAjEa1H/DzsG8Lg3EP+n
- N0DXiUFjdtaiBkf+61KX/iFeUj/LaC+svcRrEshosBQsJE+zv+ZEgCqgkcItRjiVR3LI
- vK6AVx9AxSVDDMPeNca3pPOn2C3fVaD0QqvgZH5b2/WE+mMbfNY9/uoVtfCi3uBKWLGR
- wY3A==
-X-Gm-Message-State: AOAM531AZOymkNoJaYjDxrq7xFY4PMTOHMjQ6FNCcoQd59+2T0PDbO7Q
- irygtItlTIxQo/oaJ9tbQp0vNNYOqE1heg==
-X-Google-Smtp-Source: ABdhPJwCce/Jw+h+ZcPA8esMYaZ4g53eMwE+Wgd3JFVga46hbd6HKqCjp8yfEhImsivql2MTzgyvcQ==
-X-Received: by 2002:a92:d2c5:: with SMTP id w5mr7759026ilg.146.1620839852194; 
- Wed, 12 May 2021 10:17:32 -0700 (PDT)
+ bh=WmsTH6YeQ6QLzMbKIKIH647DYkY/XXINReCjYAIywDM=;
+ b=Dh9oSiPGYSBiFvIhiiGHAiLYmWKpGvI183nHbiuT6QTsrudEAQjB1zsWmCuvgP/NqA
+ 6rPCfIPYTM3eJeObU9pdcoOn4qx7hZTjbVaP+8X+i+S0oWraJ4jXCOIyxM54Nv1NkuKo
+ 5iA2E5xagBimd0SHnXAMu4hACQJn88jQ3bvVgCVD53930oZlpuwTtSlshWLQDN7ef3gs
+ 4TovTuF8jyO1eau76/3aNuYfK43W6h8u0ahtJKBoJmLWf9i8GID7SUORTHwP7IMwhH0B
+ 3wSflT65WDx1+QcQ/2V+nRjOupdShF7ppQq1vJudB5ZJWbMqN58V0MgTbQ3A2JtJlLpn
+ OJmQ==
+X-Gm-Message-State: AOAM531EXXfCPS7DzLQGPMcvLsqNzUS2TcdGFS+OkB9z+LZc6EYST+we
+ Eg//62dmk1hgXHMjzF+Mj8Asah1nf++REA==
+X-Google-Smtp-Source: ABdhPJwWcJwMg/AgiQHUyGybyBsSBVX/TLf3zzBVlriVeQlzYuoju9phDJG2Xbu+oGQ/TWHCytTFvA==
+X-Received: by 2002:a05:6e02:1a4b:: with SMTP id
+ u11mr31905409ilv.258.1620839854501; 
+ Wed, 12 May 2021 10:17:34 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id d2sm192064ile.18.2021.05.12.10.17.31
+ by smtp.gmail.com with ESMTPSA id d2sm192064ile.18.2021.05.12.10.17.33
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 12 May 2021 10:17:31 -0700 (PDT)
+ Wed, 12 May 2021 10:17:34 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/20] bsd-user: Remove commented out code
-Date: Wed, 12 May 2021 11:17:05 -0600
-Message-Id: <20210512171720.46744-6-imp@bsdimp.com>
+Subject: [PULL 07/20] bsd-user: style tweak: remove spacing after '*' and add
+ after }
+Date: Wed, 12 May 2021 11:17:07 -0600
+Message-Id: <20210512171720.46744-8-imp@bsdimp.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210512171720.46744-1-imp@bsdimp.com>
 References: <20210512171720.46744-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12b;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -86,36 +88,61 @@ Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove dead code that's been commented out forever.
-
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/qemu.h | 4 ----
- 1 file changed, 4 deletions(-)
+ bsd-user/qemu.h | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index b836b603af..7ccc8ad397 100644
+index 5a82722281..de20e8329a 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -71,7 +71,6 @@ struct image_info {
- 
- struct sigqueue {
-     struct sigqueue *next;
--    //target_siginfo_t info;
+@@ -124,19 +124,19 @@ struct linux_binprm {
+         int argc, envc;
+         char **argv;
+         char **envp;
+-        char * filename;        /* Name of binary */
++        char *filename;         /* Name of binary */
  };
  
- struct emulated_sigtable {
-@@ -193,9 +192,6 @@ extern int do_strace;
- /* signal.c */
- void process_pending_signals(CPUArchState *cpu_env);
- void signal_init(void);
--//int queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
--//void host_to_target_siginfo(target_siginfo_t *tinfo, const siginfo_t *info);
--//void target_to_host_siginfo(siginfo_t *info, const target_siginfo_t *tinfo);
- long do_sigreturn(CPUArchState *env);
- long do_rt_sigreturn(CPUArchState *env);
- abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
+ void do_init_thread(struct target_pt_regs *regs, struct image_info *infop);
+ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+                               abi_ulong stringp, int push_ptr);
+-int loader_exec(const char * filename, char ** argv, char ** envp,
+-             struct target_pt_regs * regs, struct image_info *infop);
++int loader_exec(const char *filename, char **argv, char **envp,
++             struct target_pt_regs *regs, struct image_info *infop);
+ 
+-int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
+-                    struct image_info * info);
+-int load_flt_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
+-                    struct image_info * info);
++int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
++                    struct image_info *info);
++int load_flt_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
++                    struct image_info *info);
+ 
+ abi_long memcpy_to_target(abi_ulong dest, const void *src,
+                           unsigned long len);
+@@ -246,7 +246,7 @@ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+         break;\
+     default:\
+         abort();\
+-    }\
++    } \
+     0;\
+ })
+ 
+@@ -270,7 +270,7 @@ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
+         /* avoid warning */\
+         x = 0;\
+         abort();\
+-    }\
++    } \
+     0;\
+ })
+ 
 -- 
 2.22.1
 
