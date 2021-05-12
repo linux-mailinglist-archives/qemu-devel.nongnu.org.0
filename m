@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9909037D3C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:11:28 +0200 (CEST)
-Received: from localhost ([::1]:55766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3CC37D3C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:13:44 +0200 (CEST)
+Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lguGV-00042M-IW
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:11:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53236)
+	id 1lguIg-0006lg-OX
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:13:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu1q-0005WG-5u; Wed, 12 May 2021 14:56:18 -0400
-Received: from [201.28.113.2] (port=32220 helo=outlook.eldorado.org.br)
+ id 1lgu1v-0005iu-Sk; Wed, 12 May 2021 14:56:23 -0400
+Received: from [201.28.113.2] (port=20812 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu1o-0007c5-Jv; Wed, 12 May 2021 14:56:17 -0400
+ id 1lgu1u-0007uU-Dc; Wed, 12 May 2021 14:56:23 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 15:56:00 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 15:56:01 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 8C72C80139F;
+ by power9a (Postfix) with ESMTP id D7D468000C2;
  Wed, 12 May 2021 15:56:00 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 05/31] target/ppc: Remove special case for POWERPC_EXCP_TRAP
-Date: Wed, 12 May 2021 15:54:15 -0300
-Message-Id: <20210512185441.3619828-6-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 06/31] target/ppc: Simplify gen_debug_exception
+Date: Wed, 12 May 2021 15:54:16 -0300
+Message-Id: <20210512185441.3619828-7-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 May 2021 18:56:00.0890 (UTC)
- FILETIME=[73612DA0:01D74760]
+X-OriginalArrivalTime: 12 May 2021 18:56:01.0234 (UTC)
+ FILETIME=[7395AB20:01D74760]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- TVD_SUBJ_WIPE_DEBT=1.004 autolearn=no autolearn_force=no
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,28 +63,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Since POWERPC_EXCP_TRAP is raised by gen_exception_err,
-we will have also set DISAS_NORETURN.
+Two of the call sites that use gen_debug_exception have already
+updated NIP.  Only ppc_tr_breakpoint_check requires the update.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/translate.c | 1 -
- 1 file changed, 1 deletion(-)
+ target/ppc/translate.c | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 2303bf259a..23de04a08e 100644
+index 23de04a08e..7b23f85c11 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -9416,7 +9416,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     /* Check trace mode exceptions */
-     if (unlikely(ctx->singlestep_enabled & CPU_SINGLE_STEP &&
-                  (ctx->base.pc_next <= 0x100 || ctx->base.pc_next > 0xF00) &&
--                 ctx->exception != POWERPC_EXCP_TRAP &&
-                  ctx->exception != POWERPC_EXCP_BRANCH &&
-                  ctx->base.is_jmp != DISAS_NORETURN)) {
-         uint32_t excp = gen_prep_dbgex(ctx);
+@@ -326,19 +326,7 @@ static uint32_t gen_prep_dbgex(DisasContext *ctx)
+ 
+ static void gen_debug_exception(DisasContext *ctx)
+ {
+-    TCGv_i32 t0;
+-
+-    /*
+-     * These are all synchronous exceptions, we set the PC back to the
+-     * faulting instruction
+-     */
+-    if ((ctx->exception != POWERPC_EXCP_BRANCH) &&
+-        (ctx->exception != POWERPC_EXCP_SYNC)) {
+-        gen_update_nip(ctx, ctx->base.pc_next);
+-    }
+-    t0 = tcg_const_i32(EXCP_DEBUG);
+-    gen_helper_raise_exception(cpu_env, t0);
+-    tcg_temp_free_i32(t0);
++    gen_helper_raise_exception(cpu_env, tcg_constant_i32(EXCP_DEBUG));
+     ctx->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+@@ -9377,6 +9365,7 @@ static bool ppc_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+ 
++    gen_update_nip(ctx, ctx->base.pc_next);
+     gen_debug_exception(ctx);
+     /*
+      * The address covered by the breakpoint must be included in
 -- 
 2.25.1
 
