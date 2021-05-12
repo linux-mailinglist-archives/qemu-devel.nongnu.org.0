@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B11B37C536
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 17:38:55 +0200 (CEST)
-Received: from localhost ([::1]:47098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0B837C537
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 17:38:58 +0200 (CEST)
+Received: from localhost ([::1]:47352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgqwo-0008Io-BO
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 11:38:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50876)
+	id 1lgqwr-0008Tn-MT
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 11:38:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgquz-0006Ib-B8
- for qemu-devel@nongnu.org; Wed, 12 May 2021 11:37:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51367)
+ id 1lgqv1-0006Me-BB
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 11:37:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgqux-0003XX-RE
- for qemu-devel@nongnu.org; Wed, 12 May 2021 11:37:01 -0400
+ id 1lgquz-0003ZZ-Pb
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 11:37:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620833818;
+ s=mimecast20190719; t=1620833821;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=28LJIPUwgWpQSdwzoD91N+gllAMviWeBf8zedDEeCL0=;
- b=hSvxWPNCxsBFaehisGHYmMWNg7mt/MnccMihicaQf0hjtU/fvmMznh4T/FYYj2zuTe7dvJ
- Br7iY2TJBqpP7ExEFGtot3V21/2dHwMuKIswXTvtQT/oArW4CiaMD2M6u6HQk9DfZwBtBj
- VplVWGJagXonEc6E6nDeuvJzQ1xEiwg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BWJ5jwhKRKM4dPmzEgfCr0owtOZEAzvwL7BVTs36R7o=;
+ b=eK+YHLSrj8wLJt8E62Ar7BmH2MnP215v11Y/eFAeA5EhmO75OMemw9ISCDXVVUzfDMLJ9k
+ 2tmeD2Hxd5vUoZdJufa+R5UAevbJmQAzBMdVtID6yM7rT9TizV7g6gbOraZfe4Jlu7ro58
+ MfbIQ3mNxW33NemDvJKSb0ww3Q0dZ54=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-v1TbN4DJOEas7rrzLEZ8PQ-1; Wed, 12 May 2021 11:36:57 -0400
-X-MC-Unique: v1TbN4DJOEas7rrzLEZ8PQ-1
+ us-mta-500-wSLHC3z8NsGXjEE09ofriQ-1; Wed, 12 May 2021 11:36:59 -0400
+X-MC-Unique: wSLHC3z8NsGXjEE09ofriQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 419BC1020C36
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 15:36:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD5B3107ACCA
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 15:36:57 +0000 (UTC)
 Received: from localhost.redhat.com (ovpn-114-167.ams2.redhat.com
  [10.36.114.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F2BC6091A;
- Wed, 12 May 2021 15:36:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 948A26091A;
+ Wed, 12 May 2021 15:36:56 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] net/tap: minor fixes to interaction with the bridge
- helper
-Date: Wed, 12 May 2021 16:36:52 +0100
-Message-Id: <20210512153654.1178035-1-berrange@redhat.com>
+Subject: [PATCH v2 1/2] net/tap: fix FreeBSD portability problem receiving TAP
+ FD
+Date: Wed, 12 May 2021 16:36:53 +0100
+Message-Id: <20210512153654.1178035-2-berrange@redhat.com>
+In-Reply-To: <20210512153654.1178035-1-berrange@redhat.com>
+References: <20210512153654.1178035-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -77,30 +80,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
+Cc: Connor Kuehl <ckuehl@redhat.com>, Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU fails to report a good error message if the bridge helper exits=0D
-with success code, but forgets to pass back an FD.=0D
-=0D
-There is also a minor portability problem impacting FreeBSD/NetBSD=0D
-dealing with cmsg initialization.=0D
-=0D
-Changed in v2:=0D
-=0D
- - include helper binary name in error message=0D
-=0D
-Daniel P. Berrang=C3=A9 (2):=0D
-  net/tap: fix FreeBSD portability problem receiving TAP FD=0D
-  net/tap: fix error reporting when bridge helper forgets to send an FD=0D
-=0D
- net/tap.c | 36 +++++++++++++++++++++++++-----------=0D
- 1 file changed, 25 insertions(+), 11 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+The CMSG_LEN and CMSG_SPACE macros must not be assumed to return the
+same value. The msg_controllen field must be initialized using
+CMSG_SPACE when using SCM_RIGHTS.
+
+This ought to fix any FD receive issues users might be hitting on
+64-bit FeeBSD / NetBSD platforms. The flaw was noticed first in
+GNULIB
+
+   https://lists.gnu.org/archive/html/bug-gnulib/2021-02/msg00066.html
+
+and QEMU's code has the same logic bug.
+
+Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ net/tap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/tap.c b/net/tap.c
+index bae895e287..276a9077fc 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -467,7 +467,7 @@ static int recv_fd(int c)
+     cmsg->cmsg_level = SOL_SOCKET;
+     cmsg->cmsg_type = SCM_RIGHTS;
+     cmsg->cmsg_len = CMSG_LEN(sizeof(fd));
+-    msg.msg_controllen = cmsg->cmsg_len;
++    msg.msg_controllen = CMSG_SPACE(sizeof(fd));
+ 
+     iov.iov_base = req;
+     iov.iov_len = sizeof(req);
+-- 
+2.31.1
 
 
