@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD39D37BCA3
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 14:37:13 +0200 (CEST)
-Received: from localhost ([::1]:38550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B36237BCA7
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 14:38:32 +0200 (CEST)
+Received: from localhost ([::1]:40696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgo6y-0007m8-CS
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 08:37:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33740)
+	id 1lgo8F-0000ou-AL
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 08:38:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgo5y-0006Sa-6g
- for qemu-devel@nongnu.org; Wed, 12 May 2021 08:36:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59557)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgo5s-0007vT-D1
- for qemu-devel@nongnu.org; Wed, 12 May 2021 08:36:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620822962;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E/hMpcKtxm2KmcYXf5i7VSLu3SsJCmmiDQXAS6gwwMk=;
- b=Gl3f5OcCOsmXe5AjgngXRcaX81gltJx2MU3rCmXXNRwsXScKmMcltxHFsX43zXIvAtTd9J
- S4NyB2IuYQk6iAF24bQ/c4gqzD+0cfzXBfDIcAm0I4OXPKEYj5opVdxAOFO5KNjVkLZVYA
- bOtLZEON8ehaIFgWAa8D581yyAomx48=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-GHGTl3qPNYyamop0Yo_U6Q-1; Wed, 12 May 2021 08:25:38 -0400
-X-MC-Unique: GHGTl3qPNYyamop0Yo_U6Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CDA46D254;
- Wed, 12 May 2021 12:25:37 +0000 (UTC)
-Received: from redhat.com (ovpn-114-167.ams2.redhat.com [10.36.114.167])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 04005189A5;
- Wed, 12 May 2021 12:25:27 +0000 (UTC)
-Date: Wed, 12 May 2021 13:25:25 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 12/12] configure: bump min required CLang to 7.0.0 /
- XCode 10.2
-Message-ID: <YJvJNdsGmp+cCPuZ@redhat.com>
-References: <20210511132641.1022161-1-berrange@redhat.com>
- <20210511132641.1022161-13-berrange@redhat.com>
- <fcb6b808-c1de-d5f3-064c-1725c49999e0@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lgo6Q-0007dF-9E
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 08:36:38 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:40466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lgo6O-0008Lq-GC
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 08:36:38 -0400
+Received: by mail-ej1-x632.google.com with SMTP id n2so34735738ejy.7
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 05:36:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=w0AKHWJ+tfkb0x80o+KDlZftvQMhfVLt/AARxlnsBao=;
+ b=oU25LKIc595vM34QKF+qPvkzGctPBO0mExCirks7o4zCviGI8UBBBaP0SllQtLY0Fp
+ RrdggwYh5dVHxz0QCmElTLrVtjYhp07tife+3S6peKj2/xTyy9wjW+kmbC/9eLV3Z2N2
+ /jUL3+2e2KLg20rqrTgC6E6n8E2Q2Y+bys/6b488MLOjTAUaoJU+eIQsAOAuIhHrOfxB
+ jTszryql91Kkcgx1/swzWdqMK+G8ulBHC3rtia2Kc0S6+dmVUMPpN2FSnht7hZhZzc1z
+ doIzw3d9eEcksbBxkF3u9gRIxUXyjbiXrHlrBTMqockcZ/X+Cg3wrbz39CSAhqVD9ACr
+ zN2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=w0AKHWJ+tfkb0x80o+KDlZftvQMhfVLt/AARxlnsBao=;
+ b=k+eDSGBfPhSGHC5eqMqHhyN9EdpEF4o/UWbLt7g6rTBVXw78fIX9Am1n8Phd597Axo
+ 3Pb5vBxc59X2YhgJtgQuKnHHhTvemqdOXDo7ac7HYWOYNN4zhSl7OibzWnz1uzFgx8HD
+ pb43DsXLCdftHW6iR64x6ad6Q7JqnjNhetkbnnAqzqBaC1KVRubPmiMVMMSi4xBOXDKF
+ wtI+KuoDuxKa60EQI192OtPaat71cz3uxKhiJb+7+7aWFjbN++xUvEiLUYFle3x2aR8i
+ NBvHTIfvIYx8KOSL5pfnVOuyIfKxLrgttzmFZVSRHR/xJ/nRF+nxeTMjkZWCz0Z2nLok
+ wDUQ==
+X-Gm-Message-State: AOAM531u74CAQJlhnaLBlYjzPRhtrnvStrsOxsxmfdW9P6Fp1qLV6YC8
+ cpOp/TMJX2oMTyHWFvih9ECiVGXk1vrGc7Xe4PA=
+X-Google-Smtp-Source: ABdhPJzyrCR/796lZ/EcEMRw2PR/NLWCcG/tzZm4LQ0IRz7n9jmGGMfQsr9ewDcsL6X76o74AgI+MQbOyMPdEdpiK9Y=
+X-Received: by 2002:a17:906:80cd:: with SMTP id
+ a13mr37135761ejx.109.1620822994226; 
+ Wed, 12 May 2021 05:36:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <fcb6b808-c1de-d5f3-064c-1725c49999e0@redhat.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
+ <20210429134032.1125111-3-marcandre.lureau@redhat.com>
+ <YJqzVkWfOo3MPzj2@stefanha-x1.localdomain>
+In-Reply-To: <YJqzVkWfOo3MPzj2@stefanha-x1.localdomain>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 12 May 2021 16:36:22 +0400
+Message-ID: <CAJ+F1CLvnv=NDMPQKqoQR1y4GgrfFn2p=_H8n87mS6MwpWb1fw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/9] qapi: move gen_if/gen_endif to QAPISchemaIfCond
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000d092be05c2214239"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,60 +79,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 12, 2021 at 01:44:51PM +0200, Philippe Mathieu-Daudé wrote:
-> On 5/11/21 3:26 PM, Daniel P. Berrangé wrote:
-> > Several distros have been dropped since the last time we bumped the
-> > minimum required CLang version.
-> > 
-> > Per repology, currently shipping versions are:
-> > 
-> >              RHEL-8: 10.0.1
-> >      Debian Stretch: 7.0.1
-> >       Debian Buster: 7.0.1
-> >  openSUSE Leap 15.2: 9.0.1
-> >    Ubuntu LTS 18.04: 10.0.0
-> >    Ubuntu LTS 20.04: 11.0.0
-> >          FreeBSD 12: 8.0.1
-> >           Fedora 33: 11.0.0
-> >           Fedora 34: 11.1.0
-> > 
-> > With this list Debian Stretch is the constraint at 7.0.1
-> > 
-> > An LLVM version of 7.0.1 corresponds to macOS XCode version of 10.2
-> > which dates from March 2019.
-> 
-> But we still rely on Travis-CI (Ubuntu Bionic 18.04 LTS)
-> for non-x86 targets until we have figured out who is willing
-> to share/maintain such non-x86 native runners on Gitlab.
-> 
-> There:
-> 
-> $ clang --version
-> clang version 6.0.0-1ubuntu2 (tags/RELEASE_600/final)
-> 
-> If we don't use Travis-CI, then your patch is fine, but we
-> need a previous patch removing .travis.yml.
+--000000000000d092be05c2214239
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Bioic has clang 10 available so not sure why you're seeing
-version 6 there
+Hi
 
-  https://packages.ubuntu.com/bionic/clang-10
+On Tue, May 11, 2021 at 8:42 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
 
+> On Thu, Apr 29, 2021 at 05:40:25PM +0400, marcandre.lureau@redhat.com
+> wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Move the generating function to the QAPISchemaIfCond class.
+>
+> I'm not familiar enough with the QAPI code generator to know whether
+> schema.py is supposed to generate C code directly. Otherwise this
+> refactoring makes sense.
+>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+I made the QAPISchemaIfCond simple enough so it can generate C or
+doc-friendly conditions in a couple of lines. So it has both data and
+generation in its current form. We could make it use a visitor pattern for
+the generation, but that's overkill at this point.
 
+thanks for the review!
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000d092be05c2214239
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 11, 2021 at 8:42 PM Ste=
+fan Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com">stefanha@gmail.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
+ Thu, Apr 29, 2021 at 05:40:25PM +0400, <a href=3D"mailto:marcandre.lureau@=
+redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> wrote:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; Move the generating function to the QAPISchemaIfCond class.<br>
+<br>
+I&#39;m not familiar enough with the QAPI code generator to know whether<br=
+>
+schema.py is supposed to generate C code directly. Otherwise this<br>
+refactoring makes sense.<br>
+</blockquote></div><div><br></div><div>I made the QAPISchemaIfCond simple e=
+nough so it can generate C or doc-friendly conditions in a couple of lines.=
+ So it has both data and generation in its current form. We could make it u=
+se a visitor pattern for the generation, but that&#39;s overkill at this po=
+int.</div><div><br></div><div>thanks for the review!</div><br>-- <br><div d=
+ir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000d092be05c2214239--
 
