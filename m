@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB92637CD22
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:12:44 +0200 (CEST)
-Received: from localhost ([::1]:47154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67AC637CE59
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:19:02 +0200 (CEST)
+Received: from localhost ([::1]:53846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgsPb-0002Hi-Ug
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57398)
+	id 1lgsVh-00076j-Fa
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:19:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgsLx-0005pF-WD
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:08:58 -0400
-Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:39430)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgsLw-00037v-6v
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:08:57 -0400
-Received: by mail-qv1-xf31.google.com with SMTP id q5so12417185qvv.6
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 10:08:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZKpTyOA9vrJQWLtq2uFIadBbqbpGUzY9zNWjNxIc+Ys=;
- b=c5n3up6yOEvgdo/g1nO5Qx7IP1ZwMECU/NOp569nuoUarSKON5udveOQuHbqD+PExh
- O3vGjO7DWCvJSfnIdceTWKYC8K3AEKcRwY5/suWUpsgYqRLY+zYl12PFcpArtUf/HHK8
- IDk0VQvlemMTDTlj33PBLQV02QHlm63hBG4bcmw/aNFieNEd2+5waU+7qz67x83jEzeM
- 7t7UwyLcrprk6qQVvmzHWX986eS2X5YAkgwlCA6GVBl/2+BxcIpFMcYMErHIbGZ+w3GJ
- A699UTkPOuU06XAs3WdxmyiEs2pl/MYu86Ut6Laoo5csvkAveZvzGh3g2AmNdOgliU6+
- TBWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZKpTyOA9vrJQWLtq2uFIadBbqbpGUzY9zNWjNxIc+Ys=;
- b=CdMnKJkBcPR77jvQKsKJoXWRIuXmymHKEXRcig6i9vjv8nhH11yeTG1AOi3k9bTQYD
- XwCgW+Tsy8/EviJEPVar8LDMzk35hnJRWgMCdqUfpRIjezIQk46iULAwFcpAI8anrhrS
- may+sRx5/+ToDyNUQcIQYtASXnLBPGF3XFYNU/pqUhDmdhnFaTv05RsYCTa3nPdZyiMJ
- +r97x643zF7TQVOq/BZAdnFuAbL6Tq0GrbVVJzKrZfguV2YHoHnE4C33Qb2bf/bu7Er9
- a48NWDuKtAIIAy+4dykWyr1qsmGlazSX6rEwHQAEFsw09+HhDqSqzxmFCS8UCPXnr65S
- XlEw==
-X-Gm-Message-State: AOAM530op32jhYF9zLEwAv1FOJba88t2PBB5ZOC9IH4fv6pe+Q0YcgZE
- X8KUas3eamjnlX284HstLaGnTw==
-X-Google-Smtp-Source: ABdhPJwRu8daruqbwI0PS4ubFf6AiXckoNqMaWCIZF8sJsswDLaNBhvVj1LK1pb4giL/Jj5S8dXGuw==
-X-Received: by 2002:a0c:f603:: with SMTP id r3mr36124589qvm.59.1620839335042; 
- Wed, 12 May 2021 10:08:55 -0700 (PDT)
-Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
- [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id z187sm453382qkb.129.2021.05.12.10.08.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 May 2021 10:08:54 -0700 (PDT)
-Subject: Re: [PATCH 06/11] target/ppc: updated vscr manipulation in machine.c
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- qemu-devel@nongnu.org
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-7-bruno.larsen@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <38a6063e-7b38-4469-891c-b5fce2be4ce7@linaro.org>
-Date: Wed, 12 May 2021 12:08:52 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgsSu-0004Ps-MH
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:16:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58184)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgsSm-0007Tv-8a
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:16:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620839759;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZkKt9d5aCe1vFTDc8+oN5JrHEzuTRVb2OtrFGIHNSeo=;
+ b=WBf51eejGhkTq35SncuCLoe+fe1mGhY1OoQMSyNULZmB4gBYaKx2ORpA37gqAgFgBdZWbF
+ 3MFjOA+zULD+06jJ8DJDHIvTH0EyF0TyzFTLsQTfpfRsTdTyrwJ7tnrRXB3Kf5QyX9mitx
+ X5VxLMfZ7vcX8wsUu2OCWL3uO6vlT0Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-VysyjTu_MuOsA9JOKoHYhQ-1; Wed, 12 May 2021 13:15:55 -0400
+X-MC-Unique: VysyjTu_MuOsA9JOKoHYhQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 431948030CF;
+ Wed, 12 May 2021 17:15:54 +0000 (UTC)
+Received: from thuth.com (ovpn-112-6.ams2.redhat.com [10.36.112.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 785C961094;
+ Wed, 12 May 2021 17:15:52 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: [PATCH 0/3] Fix Travis-CI / compiling with older versions of Clang
+Date: Wed, 12 May 2021 19:15:47 +0200
+Message-Id: <20210512171550.476130-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210512140813.112884-7-bruno.larsen@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,24 +74,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
-> Updated the code in machine.c to use the generic ppc_{store,get}_vscr
-> instead of helper style functions, so it can build without TCG
-> 
-> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
-> ---
->   target/ppc/machine.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
+My last pull request enabled compiling the s390-ccw bios with Clang.
+However, I only tested it with Clang version 11, and older versions
+of Clang are a little bit more picky. Fix those issues now, too, so
+that the corresponding job with Clang on s390x in the Travis-CI works
+correctly again.
 
-Squash this into patch 1.
+Thomas Huth (3):
+  pc-bios/s390-ccw: Fix inline assembly for older versions of Clang
+  pc-bios/s390-ccw/Makefile: Check more compiler flags for Clang
+  pc-bios/s390-ccw: Add a proper prototype for main()
 
+ pc-bios/s390-ccw/Makefile   | 7 ++++---
+ pc-bios/s390-ccw/helper.h   | 2 +-
+ pc-bios/s390-ccw/jump2ipl.c | 4 ++--
+ pc-bios/s390-ccw/main.c     | 3 +--
+ pc-bios/s390-ccw/menu.c     | 8 ++++----
+ pc-bios/s390-ccw/s390-ccw.h | 1 +
+ pc-bios/s390-ccw/virtio.c   | 2 +-
+ 7 files changed, 14 insertions(+), 13 deletions(-)
 
-r~
+-- 
+2.27.0
+
 
