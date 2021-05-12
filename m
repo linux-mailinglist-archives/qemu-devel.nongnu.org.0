@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9A2137D35C
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:19:53 +0200 (CEST)
-Received: from localhost ([::1]:60368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C51637D386
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:23:34 +0200 (CEST)
+Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgtSa-0006GF-OZ
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:19:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
+	id 1lgtW9-0003HP-8U
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:23:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lgtPa-0003JZ-92
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:16:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45172)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgtQH-0003wJ-Rm
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:17:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lgtPU-0001xG-9i
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:16:46 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgtQ8-0002Q9-Im
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:17:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620843397;
+ s=mimecast20190719; t=1620843439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GC251dwXY5DzaSZezHdt8VLNxUlE3lnMe2OThf4pO1k=;
- b=PMutFCQdDA/Br4sFxHLIJF3v6QJcpN0LFbGjYNq57M28ukinLiEmPWYNmiJEaKzNrZGceZ
- lbg0eLdDcIq/U7xoI5lWEia99XY6vM5TNkhNMB6J/mF5Y6qHbCMxMkxvofvpUn/cqhFPxo
- Ab5KCqaOCjOjq8ehhZz6/qIpXPlXxHk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-nORvo0WPOdmjVb7m6h436g-1; Wed, 12 May 2021 14:16:35 -0400
-X-MC-Unique: nORvo0WPOdmjVb7m6h436g-1
-Received: by mail-ed1-f71.google.com with SMTP id
- o12-20020aa7d3cc0000b02903891695ceabso13304517edr.3
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:16:35 -0700 (PDT)
+ bh=eoyfk9NnQ9AbcG7Q6fJLuxt6kwST0YMCumLwcgd3cc8=;
+ b=Tux5fVCvzH9RZIo7g97B7XkjZCctp2o0stHgbjRLZ2O01KGsxbx9GRDECiAnbkkMiL+OXE
+ pCkK3pNl7VoxCr8E0tuf5TCLHjDH6ir4arP//r8vP+bBO/hQM7p4rT2R+2dznpjdPJ9yMt
+ YeyMeZo5SOrFVqqAxUWCQtLVcXl89AU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-LoKhnsivOayhUu2jfMVZnw-1; Wed, 12 May 2021 14:17:02 -0400
+X-MC-Unique: LoKhnsivOayhUu2jfMVZnw-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ z15-20020a170906074fb029038ca4d43d48so7544455ejb.17
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:17:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=GC251dwXY5DzaSZezHdt8VLNxUlE3lnMe2OThf4pO1k=;
- b=QDAHwnHO7aqkM+R0m4VBdjy06iET1Xywy4QHJBp2KTHAfMtk5HPSNl72IjQZxOo7oI
- OABZDuE01XwEMbZJNq1Ec0MUkRPFd3c+g7MeAkCvxpCDta4wxM/WW3RveganO8tiM0dE
- ZPkXLdABhrZ3lSloSuYN8TCbb5azFHUJeA+S+ZHw/iquDKyVfst0c9PtZK7RBqUX6s/B
- sHQiSPdqUlIOgpTyW09aaGlAVPGYLzM+CHCOnku9Iuxa5ruREkbIF49S96Saf0IXSSgj
- exW0DLaCxYsy8jHWyvxmSiVpk9cs7v9yVJiL6bkNA+5sB4W5Qnk6M4+LZYcJyc1YcBYJ
- sBOA==
-X-Gm-Message-State: AOAM530mn+3nQb0zl7QHXsgX5Tw+gOI7as9c6y1hB24/n2N1ZfCybb6w
- bRfL35nEmjP483wDIBw8b7dQCvVhR1bCgaZBJ9ryQvZocKyIo+fPIXwTFgDjw0U1bauOtQ3nkmy
- JnCCvHCLIc6+d6MY=
-X-Received: by 2002:aa7:cb84:: with SMTP id r4mr44936603edt.187.1620843394409; 
- Wed, 12 May 2021 11:16:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/okvnmLRZzIGwkqsI9l4pJoBvXO0HoR7X6woNX/7x4oUkW3cSfk8CCVsWVw64xk6/gEEWSw==
-X-Received: by 2002:aa7:cb84:: with SMTP id r4mr44936563edt.187.1620843394047; 
- Wed, 12 May 2021 11:16:34 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c65ab.dip0.t-ipconnect.de. [91.12.101.171])
- by smtp.gmail.com with ESMTPSA id f7sm290103ejz.95.2021.05.12.11.16.33
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eoyfk9NnQ9AbcG7Q6fJLuxt6kwST0YMCumLwcgd3cc8=;
+ b=tdHNeTskiTYxyTjGbETyExDajYqsCxgMZXzYuSKRiofwrcWdBDbJgojQjhQ3PblZqc
+ yB25YAVicOF/MJaRHI16ks3ZQD5YirojrodZ/DH6N1oJSxNH3HJZtX0NH4oBGDX3GQv1
+ p16bYMcok28TmCf+mLML2qhHEOJz2zUKItxWN+FfZZyPTVar1tokEvP+MvCoil3ciBpp
+ zR3h90t1prYy+YMMY3/zR5EfgGdhHSLcZieFYNSmS5k/V7LisY6a/y+TsHv856wrcsL+
+ NRxTGrY46n/LxqiPcd93oVEzZMxMcJQ0tG8EO7Cim+rjWIHto/iTRtpw7r06y1SGoEX5
+ v+EA==
+X-Gm-Message-State: AOAM531H6vIhy41qN6jCuhV6JErNsBCePEV08PRwiWQ+Z6fkxq4Hfgev
+ UqbxKXPxYja3I7ThU4BtH39whszOBtnkuXD0DBdAMl9ghtYPmZeHvk84gVra6kwi6nOQqnr0Rku
+ K6LyrVCY/ZRYldDE=
+X-Received: by 2002:a17:906:9444:: with SMTP id
+ z4mr39134846ejx.330.1620843421208; 
+ Wed, 12 May 2021 11:17:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzdAK3fykzGVtjsuKfeJEIs7ih72j2OoNu98hnCrcftu5Ird98SBqVUGEm+y1fiDiIIFS2W8Q==
+X-Received: by 2002:a17:906:9444:: with SMTP id
+ z4mr39134833ejx.330.1620843420995; 
+ Wed, 12 May 2021 11:17:00 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id zo6sm291412ejb.77.2021.05.12.11.16.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 May 2021 11:16:33 -0700 (PDT)
-Subject: Re: [PATCH 29/72] softfloat: Move pick_nan to softfloat-parts.c.inc
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210508014802.892561-1-richard.henderson@linaro.org>
- <20210508014802.892561-30-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <24f81b2c-ae42-ab34-3b57-08514d32620e@redhat.com>
-Date: Wed, 12 May 2021 20:16:33 +0200
+ Wed, 12 May 2021 11:17:00 -0700 (PDT)
+Subject: Re: [PATCH] add Visual Studio Code configuration
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210512100906.621504-1-pbonzini@redhat.com>
+ <68f9e434-352d-e98c-9bd1-2fd291d2d9be@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <786362f4-4881-6bb7-2eaa-a7f876555f9e@redhat.com>
+Date: Wed, 12 May 2021 20:16:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210508014802.892561-30-richard.henderson@linaro.org>
+In-Reply-To: <68f9e434-352d-e98c-9bd1-2fd291d2d9be@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -99,189 +104,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: eesposit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.05.21 03:47, Richard Henderson wrote:
-> At the same time, convert to pointers, rename to parts$N_pick_nan
-> and define a macro for parts_pick_nan using QEMU_GENERIC.
+On 12/05/21 13:08, Philippe Mathieu-Daudé wrote:
+>> --- /dev/null
+>> +++ b/.vscode/c_cpp_properties.json
+>> @@ -0,0 +1,13 @@
+>> +{
+>> +    "configurations": [
+>> +        {
+>> +            "name": "qemu",
+>> +            "includePath": [ "${default}", "${workspaceFolder}/linux-headers/**", "${workspaceFolder}/include/**", "${workspaceFolder}/+build/**"],
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   fpu/softfloat.c           | 62 ++++++++++++++++++++++-----------------
->   fpu/softfloat-parts.c.inc | 25 ++++++++++++++++
->   2 files changed, 60 insertions(+), 27 deletions(-)
+> Not sure about +build... This produces:
+
+Oops, should be ${workspaceFolder}/${config:mesonbuild.buildFolder}/**.
+
+>> diff --git a/.vscode/settings.json b/.vscode/settings.json
+>> new file mode 100644
+>> index 0000000000..efbbb4f88b
+>> --- /dev/null
+>> +++ b/.vscode/settings.json
+>> @@ -0,0 +1,11 @@
+>> +{
+>> +	"files.associations": {
+>> +		"*.mak": "makefile",
+>> +		"*.c.inc": "c",
+>> +		"*.h.inc": "c",
+>> +		"*.json": "python",
 > 
-> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-> index 5b26696078..77efaedeaa 100644
-> --- a/fpu/softfloat.c
-> +++ b/fpu/softfloat.c
-> @@ -713,10 +713,39 @@ static void parts128_return_nan(FloatParts128 *a, float_status *s);
->   
->   #define parts_return_nan(P, S)     PARTS_GENERIC_64_128(return_nan, P)(P, S)
->   
-> +static FloatParts64 *parts64_pick_nan(FloatParts64 *a, FloatParts64 *b,
-> +                                      float_status *s);
-> +static FloatParts128 *parts128_pick_nan(FloatParts128 *a, FloatParts128 *b,
-> +                                        float_status *s);
-> +
-> +#define parts_pick_nan(A, B, S)    PARTS_GENERIC_64_128(pick_nan, A)(A, B, S)
-> +
->   /*
->    * Helper functions for softfloat-parts.c.inc, per-size operations.
->    */
->   
-> +#define FRAC_GENERIC_64_128(NAME, P) \
-> +    QEMU_GENERIC(P, (FloatParts128 *, frac128_##NAME), frac64_##NAME)
-> +
-> +static int frac64_cmp(FloatParts64 *a, FloatParts64 *b)
-> +{
-> +    return a->frac == b->frac ? 0 : a->frac < b->frac ? -1 : 1;
-> +}
-> +
-> +static int frac128_cmp(FloatParts128 *a, FloatParts128 *b)
-> +{
-> +    uint64_t ta = a->frac_hi, tb = b->frac_hi;
-> +    if (ta == tb) {
-> +        ta = a->frac_lo, tb = b->frac_lo;
-> +        if (ta == tb) {
-> +            return 0;
-> +        }
-> +    }
-> +    return ta < tb ? -1 : 1;
-> +}
-> +
-> +#define frac_cmp(A, B)  FRAC_GENERIC_64_128(cmp, A)(A, B)
-> +
->   static void frac128_shl(FloatParts128 *a, int c)
->   {
->       shift128Left(a->frac_hi, a->frac_lo, c, &a->frac_hi, &a->frac_lo);
-> @@ -918,27 +947,6 @@ static FloatParts64 round_canonical(FloatParts64 p, float_status *s,
->       return p;
->   }
->   
-> -static FloatParts64 pick_nan(FloatParts64 a, FloatParts64 b, float_status *s)
-> -{
-> -    if (is_snan(a.cls) || is_snan(b.cls)) {
-> -        float_raise(float_flag_invalid, s);
-> -    }
-> -
-> -    if (s->default_nan_mode) {
-> -        parts_default_nan(&a, s);
-> -    } else {
-> -        if (pickNaN(a.cls, b.cls,
-> -                    a.frac > b.frac ||
-> -                    (a.frac == b.frac && a.sign < b.sign), s)) {
-> -            a = b;
-> -        }
-> -        if (is_snan(a.cls)) {
-> -            parts_silence_nan(&a, s);
-> -        }
-> -    }
-> -    return a;
-> -}
-> -
->   static FloatParts64 pick_nan_muladd(FloatParts64 a, FloatParts64 b, FloatParts64 c,
->                                     bool inf_zero, float_status *s)
->   {
-> @@ -1106,7 +1114,7 @@ static FloatParts64 addsub_floats(FloatParts64 a, FloatParts64 b, bool subtract,
->               return a;
->           }
->           if (is_nan(a.cls) || is_nan(b.cls)) {
-> -            return pick_nan(a, b, s);
-> +            return *parts_pick_nan(&a, &b, s);
->           }
->           if (a.cls == float_class_inf) {
->               if (b.cls == float_class_inf) {
-> @@ -1144,7 +1152,7 @@ static FloatParts64 addsub_floats(FloatParts64 a, FloatParts64 b, bool subtract,
->               return a;
->           }
->           if (is_nan(a.cls) || is_nan(b.cls)) {
-> -            return pick_nan(a, b, s);
-> +            return *parts_pick_nan(&a, &b, s);
->           }
->           if (a.cls == float_class_inf || b.cls == float_class_zero) {
->               return a;
-> @@ -1360,7 +1368,7 @@ static FloatParts64 mul_floats(FloatParts64 a, FloatParts64 b, float_status *s)
->       }
->       /* handle all the NaN cases */
->       if (is_nan(a.cls) || is_nan(b.cls)) {
-> -        return pick_nan(a, b, s);
-> +        return *parts_pick_nan(&a, &b, s);
->       }
->       /* Inf * Zero == NaN */
->       if ((a.cls == float_class_inf && b.cls == float_class_zero) ||
-> @@ -1887,7 +1895,7 @@ static FloatParts64 div_floats(FloatParts64 a, FloatParts64 b, float_status *s)
->       }
->       /* handle all the NaN cases */
->       if (is_nan(a.cls) || is_nan(b.cls)) {
-> -        return pick_nan(a, b, s);
-> +        return *parts_pick_nan(&a, &b, s);
->       }
->       /* 0/0 or Inf/Inf */
->       if (a.cls == b.cls
-> @@ -3295,14 +3303,14 @@ static FloatParts64 minmax_floats(FloatParts64 a, FloatParts64 b, bool ismin,
->                * the invalid exception is raised.
->                */
->               if (is_snan(a.cls) || is_snan(b.cls)) {
-> -                return pick_nan(a, b, s);
-> +                return *parts_pick_nan(&a, &b, s);
->               } else if (is_nan(a.cls) && !is_nan(b.cls)) {
->                   return b;
->               } else if (is_nan(b.cls) && !is_nan(a.cls)) {
->                   return a;
->               }
->           }
-> -        return pick_nan(a, b, s);
-> +        return *parts_pick_nan(&a, &b, s);
->       } else {
->           int a_exp, b_exp;
->   
-> diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-> index 2a3075d6fe..11a71650f7 100644
-> --- a/fpu/softfloat-parts.c.inc
-> +++ b/fpu/softfloat-parts.c.inc
-> @@ -35,3 +35,28 @@ static void partsN(return_nan)(FloatPartsN *a, float_status *s)
->           g_assert_not_reached();
->       }
->   }
-> +
-> +static FloatPartsN *partsN(pick_nan)(FloatPartsN *a, FloatPartsN *b,
-> +                                     float_status *s)
-> +{
-> +    if (is_snan(a->cls) || is_snan(b->cls)) {
-> +        float_raise(float_flag_invalid, s);
-> +    }
-> +
-> +    if (s->default_nan_mode) {
-> +        parts_default_nan(a, s);
-> +    } else {
-> +        int cmp = frac_cmp(a, b);
-> +        if (cmp == 0) {
-> +            cmp = a->sign < b->sign;
-> +        }
-> +
-> +        if (pickNaN(a->cls, b->cls, cmp > 0, s)) {
-> +            a = b;
-> +        }
-> +        if (is_snan(a->cls)) {
-> +            parts_silence_nan(a, s);
-> +        }
-> +    }
-> +    return a;
-> +}
+> When opening .json I get many:
 > 
+> "true" is not defined (Pylance reportUndefinedVariable)
+> "false" is not defined (Pylance reportUndefinedVariable)
 
-I find the "*parts_pick_nan(&a, &b, s);" part a little ugly to read, but 
-as long as this function isn't inline there isn't much the compiler 
-could optimize when passing by value instead, so
+I'll remove this then.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+>> diff --git a/.vscode/tasks.json b/.vscode/tasks.json
+>> new file mode 100644
+>> index 0000000000..362821043e
+>> --- /dev/null
+>> +++ b/.vscode/tasks.json
+>> @@ -0,0 +1,23 @@
+>> +{
+>> +	"version": "2.0.0",
+>> +	"tasks": [
+>> +		{
+>> +			"type": "cppbuild",
+>> +			"label": "C/C++: build active file with compile_commands.json",
+>> +			"command": "python3",
+>> +			"args": [
+>> +				"${workspaceFolder}/scripts/rebuild.py", "${file}"
+>> +			],
+>> +			"options": {
+>> +				"cwd": "${workspaceFolder}/${config:mesonbuild.buildFolder}"
+>> +			},
+>> +			"problemMatcher": [
+>> +				"$gcc"
+>> +			],
+>> +			"group": {
+>> +				"kind": "build",
+>> +				"isDefault": true
+>> +			}
+>> +		}
+>> +	]
+>> +}
+>> diff --git a/scripts/rebuild.py b/scripts/rebuild.py
+>> new file mode 100755
+>> index 0000000000..e35e08f42d
+>> --- /dev/null
+>> +++ b/scripts/rebuild.py
+>> @@ -0,0 +1,22 @@
+>> +#! /usr/bin/env python3
+>> +#
+>> +# Author: Paolo Bonzini <pbonzini@redhat.com>
+>> +#
+>> +# This program compiles the input files using commands from the
+>> +# compile_commands.json file.  (Unlike Make/ninja, the _source_
+>> +# file is passed to the program rather than the targe).  It is
+> 
+> Typo "target"
+> 
+>> +# mostly intended to be called from editors.
+>> +
+>> +import os
+>> +import sys
+>> +import json
+>> +
+>> +with open('compile_commands.json') as f:
+>> +    cc_json = json.load(f)
+>> +
+>> +paths = set((os.path.relpath(i) for i in sys.argv[1:]))
+>> +for i in cc_json:
+>> +    if i['file'] in paths:
+>> +        os.chdir(i['directory'])
+>> +        print(i['command'])
+>> +        os.system(i['command'])
+>>
+> 
+> I got these warnings:
+> 
+> [5/12/2021, 12:24:04 PM]
+> "${workspaceFolder}/builddir/compile_commands.json" could not be found.
+> 'includePath' from c_cpp_properties.json in folder 'qemu' will be used
+> instead.
 
--- 
-Thanks,
+"builddir" must be your mesonbuild.buildFolder.  You must first run 
+"configure" manually in that directory (or adjust the configuration of 
+the Meson extension if that's what you prefer).
 
-David / dhildenb
+Once you do that, Ctrl+Shift+B works.
+
+Paolo
 
 
