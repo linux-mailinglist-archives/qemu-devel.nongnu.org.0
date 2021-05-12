@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2847937F015
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:50:28 +0200 (CEST)
-Received: from localhost ([::1]:59208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9474B37F019
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:52:47 +0200 (CEST)
+Received: from localhost ([::1]:33378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgycV-0003zt-06
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:50:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56888)
+	id 1lgyek-0005lf-Lb
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgya8-0001uR-EB
- for qemu-devel@nongnu.org; Wed, 12 May 2021 19:48:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41990)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgydY-0004x0-M0
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 19:51:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgya3-00033w-Gy
- for qemu-devel@nongnu.org; Wed, 12 May 2021 19:47:59 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgydW-0005K3-Pn
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 19:51:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620863274;
+ s=mimecast20190719; t=1620863489;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WEcTiyc82piB9o8Ohc5+bT/XmOgECrAb6P3qnrRhjEs=;
- b=OPHPVRtZfvWXbUviLdPu824l/KS1oDtWTirwEwgT0xk/Vqu4g95HZpr87biUD8/Wk1VJcO
- v5d5FU30OeNTOyhldlU7tcs8PBAEkGIvSYg+FZf0mpop042VqAo5VtK+6YID2u50bJSqPP
- 6V68OiqnV8afyr0n03hTP5fUoznMrWA=
+ bh=esB72gugQvbf7TrzQxu+nCdSFDnpO+fbJr2wf8YkUl0=;
+ b=d+0ic5VZVGSDIR927hxOjwEvUfE3EAut6rVivGyMl8xotW1w5+qM3PaM7lnaNBcV+ebWAp
+ Lnkwr8DZLjrGft7hoT+3kd5dYZHDobpMfkYCFA8xiq5lReVBjPPtIa/SJ/6RLq28IMleQH
+ wMo9JihZ8oh7ZnNPaCq5opawu72/sho=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-0jiPT3QyP4uf7RT_rfEEWQ-1; Wed, 12 May 2021 19:47:51 -0400
-X-MC-Unique: 0jiPT3QyP4uf7RT_rfEEWQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-552-gaLl87CTPZWp3xSJLnxwUQ-1; Wed, 12 May 2021 19:51:25 -0400
+X-MC-Unique: gaLl87CTPZWp3xSJLnxwUQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB8D4801B12
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 23:47:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C06AEFC93
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 23:51:24 +0000 (UTC)
 Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A0865D736;
- Wed, 12 May 2021 23:47:46 +0000 (UTC)
-Subject: Re: [PATCH v3 6/9] qapi: normalize 'if' condition to IfPredicate tree
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D00FC19D9F;
+ Wed, 12 May 2021 23:51:17 +0000 (UTC)
+Subject: Re: [PATCH v3 7/9] qapi: convert 'if' C-expressions to the new syntax
+ tree
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
- <20210429134032.1125111-7-marcandre.lureau@redhat.com>
+ <20210429134032.1125111-8-marcandre.lureau@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <ba1046ca-3d92-40c2-e1e5-58ba0ac9baaf@redhat.com>
-Date: Wed, 12 May 2021 19:47:45 -0400
+Message-ID: <4ed66620-1e7a-fbc1-78c2-1919484a7ff2@redhat.com>
+Date: Wed, 12 May 2021 19:51:17 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210429134032.1125111-7-marcandre.lureau@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210429134032.1125111-8-marcandre.lureau@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,471 +89,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 4/29/21 9:40 AM, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Modify check_if() to build an IfPredicate tree (the schema
-> documentation is updated in a following patch).
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   qapi/machine-target.json | 20 ++++++++++++++++----
+>   qapi/misc-target.json    | 13 ++++++++++++-
+>   2 files changed, 28 insertions(+), 5 deletions(-)
+> 
+> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> index e7811654b7..9b56b81bea 100644
+> --- a/qapi/machine-target.json
+> +++ b/qapi/machine-target.json
+> @@ -213,7 +213,9 @@
+>   ##
+>   { 'struct': 'CpuModelExpansionInfo',
+>     'data': { 'model': 'CpuModelInfo' },
+> -  'if': 'defined(TARGET_S390X) || defined(TARGET_I386) || defined(TARGET_ARM)' }
+> +  'if': { 'any': [ 'defined(TARGET_S390X)',
+> +                   'defined(TARGET_I386)',
+> +                   'defined(TARGET_ARM)'] } }
+>   
+>   ##
+>   # @query-cpu-model-expansion:
+> @@ -252,7 +254,9 @@
+>     'data': { 'type': 'CpuModelExpansionType',
+>               'model': 'CpuModelInfo' },
+>     'returns': 'CpuModelExpansionInfo',
+> -  'if': 'defined(TARGET_S390X) || defined(TARGET_I386) || defined(TARGET_ARM)' }
+> +  'if': { 'any': [ 'defined(TARGET_S390X)',
+> +                   'defined(TARGET_I386)',
+> +                   'defined(TARGET_ARM)' ] } }
+>   
+>   ##
+>   # @CpuDefinitionInfo:
+> @@ -316,7 +320,11 @@
+>               'typename': 'str',
+>               '*alias-of' : 'str',
+>               'deprecated' : 'bool' },
+> -  'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
+> +  'if': { 'any': [ 'defined(TARGET_PPC)',
+> +                   'defined(TARGET_ARM)',
+> +                   'defined(TARGET_I386)',
+> +                   'defined(TARGET_S390X)',
+> +                   'defined(TARGET_MIPS)' ] } }
+>   
+>   ##
+>   # @query-cpu-definitions:
+> @@ -328,4 +336,8 @@
+>   # Since: 1.2
+>   ##
+>   { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
+> -  'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
+> +  'if': { 'any': [ 'defined(TARGET_PPC)',
+> +                   'defined(TARGET_ARM)',
+> +                   'defined(TARGET_I386)',
+> +                   'defined(TARGET_S390X)',
+> +                   'defined(TARGET_MIPS)' ] } }
+> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> index 0c7491cd82..2891df6890 100644
+> --- a/qapi/misc-target.json
+> +++ b/qapi/misc-target.json
+> @@ -23,7 +23,18 @@
+>   ##
+>   { 'event': 'RTC_CHANGE',
+>     'data': { 'offset': 'int' },
+> -  'if': 'defined(TARGET_ALPHA) || defined(TARGET_ARM) || defined(TARGET_HPPA) || defined(TARGET_I386) || defined(TARGET_MIPS) || defined(TARGET_MIPS64) || defined(TARGET_MOXIE) || defined(TARGET_PPC) || defined(TARGET_PPC64) || defined(TARGET_S390X) || defined(TARGET_SH4) || defined(TARGET_SPARC)' }
+> +  'if': { 'any': [ 'defined(TARGET_ALPHA)',
+> +                   'defined(TARGET_ARM)',
+> +                   'defined(TARGET_HPPA)',
+> +                   'defined(TARGET_I386)',
+> +                   'defined(TARGET_MIPS)',
+> +                   'defined(TARGET_MIPS64)',
+> +                   'defined(TARGET_MOXIE)',
+> +                   'defined(TARGET_PPC)',
+> +                   'defined(TARGET_PPC64)',
+> +                   'defined(TARGET_S390X)',
+> +                   'defined(TARGET_SH4)',
+> +                   'defined(TARGET_SPARC)' ] } }
+>   
+>   ##
+>   # @rtc-reset-reinjection:
 > 
 
-I'm wondering if check_if() is the right place to do this. It's 
-certainly convenient, but we don't build any other domain-specific types 
-here at all -- that all happens in schema.py.
+I suppose these are necessary to convert because they were a single 
+giant string, and not actually a list.
 
-Before this patch, the return value from expr.py is conceivably 
-something you'd get "exactly as-is" from a JSON parser. This patch would 
-end that, and collapses the waveform.
+If you're going to keep the list-of-strings sugar, is it worth just 
+changing these to a list of strings?
 
-I think we should build a function that turns the raw (or slightly 
-normalized) 'ifcond' AST into the IfPredicate object like we do for 
-other structures, like Members, Features, etc.
-
-I'd also like the documentation changes to eventually be squashed 
-directly into this patch if it changes syntax, but keeping it separate 
-during review makes sense.
-
-Tentatively, I think the expanded "IF" syntax makes sense.
-
-'if': 'COND'
-'if': ['COND']
-'if': { 'any': ['COND'] }
-
-Seems fine. I want to play around a little bit with a JsonSchema for it 
-though to make sure that it's something I can provide good IntelliSense 
-tooltips for in e.g. vscode. (A bit of a pipe-dream side project, I 
-admit, but if you'll humor me I'd like the chance to give it a shot. 
-Some constructs are simply easier to type and validate than others.)
-
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+(How does your rust generator handle the defined(xxx) strings? does it 
+strip the defined(...) off somehow?)
 
 Tested-by: John Snow <jsnow@redhat.com>
 
-> ---
->   tests/unit/test-qmp-cmds.c                    |  1 +
->   scripts/qapi/expr.py                          | 62 ++++++++++++++-----
->   scripts/qapi/schema.py                        | 13 +---
->   tests/qapi-schema/bad-if.err                  |  3 +-
->   tests/qapi-schema/doc-good.out                | 12 ++--
->   tests/qapi-schema/enum-if-invalid.err         |  3 +-
->   tests/qapi-schema/features-if-invalid.err     |  2 +-
->   tests/qapi-schema/qapi-schema-test.json       | 20 +++---
->   tests/qapi-schema/qapi-schema-test.out        | 59 ++++++++++--------
->   .../qapi-schema/struct-member-if-invalid.err  |  2 +-
->   10 files changed, 106 insertions(+), 71 deletions(-)
-> 
-> diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
-> index 1b0b7d99df..83efa39720 100644
-> --- a/tests/unit/test-qmp-cmds.c
-> +++ b/tests/unit/test-qmp-cmds.c
-> @@ -51,6 +51,7 @@ FeatureStruct1 *qmp_test_features0(bool has_fs0, FeatureStruct0 *fs0,
->                                      bool has_cfs1, CondFeatureStruct1 *cfs1,
->                                      bool has_cfs2, CondFeatureStruct2 *cfs2,
->                                      bool has_cfs3, CondFeatureStruct3 *cfs3,
-> +                                   bool has_cfs4, CondFeatureStruct4 *cfs4,
->                                      Error **errp)
->   {
->       return g_new0(FeatureStruct1, 1);
-> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-> index 496f7e0333..0a97a6f020 100644
-> --- a/scripts/qapi/expr.py
-> +++ b/scripts/qapi/expr.py
-> @@ -42,7 +42,14 @@
->       cast,
->   )
->   
-> -from .common import c_name
-> +from .common import (
-> +    IfAll,
-> +    IfAny,
-> +    IfNot,
-> +    IfOption,
-> +    IfPredicate,
-> +    c_name,
-> +)
->   from .error import QAPISemError
->   from .parser import QAPIDoc
->   from .source import QAPISourceInfo
-> @@ -261,6 +268,10 @@ def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) -> None:
->       """
->       Normalize and validate the ``if`` member of an object.
->   
-> +    The ``if`` field may be either a ``str``, a ``List[str]`` or a dict.
-> +    A ``str`` element or a ``List[str]`` will be normalized to
-> +    ``IfAll([str])``.
-> +
->       The ``if`` member may be either a ``str`` or a ``List[str]``.
->       A ``str`` value will be normalized to ``List[str]``.
->   
-> @@ -281,25 +292,44 @@ def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) -> None:
->       if ifcond is None:
->           return
->   
-> -    if isinstance(ifcond, list):
-> -        if not ifcond:
-> -            raise QAPISemError(
-> -                info, "'if' condition [] of %s is useless" % source)
-> -    else:
-> -        # Normalize to a list
-> -        ifcond = expr['if'] = [ifcond]
-> -
-> -    for elt in ifcond:
-> -        if not isinstance(elt, str):
-> +    def normalize(cond: Union[str, List[str], object]) -> IfPredicate:
-> +        if isinstance(cond, str):
-> +            if not cond.strip():
-> +                raise QAPISemError(
-> +                    info,
-> +                    "'if' condition '%s' of %s makes no sense"
-> +                    % (cond, source))
-> +            return IfOption(cond)
-> +        if isinstance(cond, list):
-> +            cond = {"all": cond}
-> +        if not isinstance(cond, dict):
->               raise QAPISemError(
->                   info,
-> -                "'if' condition of %s must be a string or a list of strings"
-> -                % source)
-> -        if not elt.strip():
-> +                "'if' condition of %s must be a string, "
-> +                "a list of strings or a dict" % source)
-> +        if len(cond) != 1:
->               raise QAPISemError(
->                   info,
-> -                "'if' condition '%s' of %s makes no sense"
-> -                % (elt, source))
-> +                "'if' condition dict of %s must have one key: "
-> +                "'all', 'any' or 'not'" % source)
-> +        check_keys(cond, info, "'if' condition", [],
-> +                   ["all", "any", "not"])
-> +        oper, operands = next(iter(cond.items()))
-> +        if oper == "not":
-> +            return IfNot(normalize(operands))
-> +        if not operands:
-> +            raise QAPISemError(
-> +                info, "'if' condition [] of %s is useless" % source)
-> +        if not isinstance(operands, list):
-> +            raise QAPISemError(
-> +                info, "'%s' condition of %s must be a list" % (oper, source))
-> +        operands = [normalize(o) for o in operands]
-> +        return IfAll(operands) if oper == "all" else IfAny(operands)
-> +
-> +    ifcond = expr.get('if')
-> +    if ifcond is None:
-> +        return
-> +    expr['if'] = normalize(ifcond)
->   
->   
->   def normalize_members(members: object) -> None:
-> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-> index 366a53ab64..61664a4c5e 100644
-> --- a/scripts/qapi/schema.py
-> +++ b/scripts/qapi/schema.py
-> @@ -19,22 +19,15 @@
->   import re
->   from typing import Optional
->   
-> -from .common import (
-> -    POINTER_SUFFIX,
-> -    IfAll,
-> -    IfOption,
-> -    c_name,
-> -    mcgen,
-> -)
-> +from .common import POINTER_SUFFIX, c_name, mcgen
->   from .error import QAPISemError, QAPISourceError
->   from .expr import check_exprs
->   from .parser import QAPISchemaParser
->   
->   
->   class QAPISchemaIfCond:
-> -    def __init__(self, ifcond=None):
-> -        pred_list = [IfOption(opt) for opt in ifcond or []]
-> -        self.pred = IfAll(pred_list)
-> +    def __init__(self, pred=None):
-> +        self.pred = pred
->   
->       def gen_doc(self):
->           if self.pred:
-> diff --git a/tests/qapi-schema/bad-if.err b/tests/qapi-schema/bad-if.err
-> index f83dee65da..454fbae387 100644
-> --- a/tests/qapi-schema/bad-if.err
-> +++ b/tests/qapi-schema/bad-if.err
-> @@ -1,2 +1,3 @@
->   bad-if.json: In struct 'TestIfStruct':
-> -bad-if.json:2: 'if' condition of struct must be a string or a list of strings
-> +bad-if.json:2: 'if' condition has unknown key 'value'
-> +Valid keys are 'all', 'any', 'not'.
-> diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
-> index 6bf996f539..ca7e53f3b5 100644
-> --- a/tests/qapi-schema/doc-good.out
-> +++ b/tests/qapi-schema/doc-good.out
-> @@ -12,15 +12,15 @@ enum QType
->   module doc-good.json
->   enum Enum
->       member one
-> -        if IfAll(['defined(IFONE)'])
-> +        if 'defined(IFONE)'
->       member two
-> -    if IfAll(['defined(IFCOND)'])
-> +    if 'defined(IFCOND)'
->       feature enum-feat
->   object Base
->       member base1: Enum optional=False
->   object Variant1
->       member var1: str optional=False
-> -        if IfAll(['defined(IFSTR)'])
-> +        if 'defined(IFSTR)'
->           feature member-feat
->       feature variant1-feat
->   object Variant2
-> @@ -29,7 +29,7 @@ object Object
->       tag base1
->       case one: Variant1
->       case two: Variant2
-> -        if IfAll(['IFTWO'])
-> +        if 'IFTWO'
->       feature union-feat1
->   object q_obj_Variant1-wrapper
->       member data: Variant1 optional=False
-> @@ -38,13 +38,13 @@ object q_obj_Variant2-wrapper
->   enum SugaredUnionKind
->       member one
->       member two
-> -        if IfAll(['IFTWO'])
-> +        if 'IFTWO'
->   object SugaredUnion
->       member type: SugaredUnionKind optional=False
->       tag type
->       case one: q_obj_Variant1-wrapper
->       case two: q_obj_Variant2-wrapper
-> -        if IfAll(['IFTWO'])
-> +        if 'IFTWO'
->       feature union-feat2
->   alternate Alternate
->       tag type
-> diff --git a/tests/qapi-schema/enum-if-invalid.err b/tests/qapi-schema/enum-if-invalid.err
-> index 0556dc967b..3bb84075a9 100644
-> --- a/tests/qapi-schema/enum-if-invalid.err
-> +++ b/tests/qapi-schema/enum-if-invalid.err
-> @@ -1,2 +1,3 @@
->   enum-if-invalid.json: In enum 'TestIfEnum':
-> -enum-if-invalid.json:2: 'if' condition of 'data' member 'bar' must be a string or a list of strings
-> +enum-if-invalid.json:2: 'if' condition has unknown key 'val'
-> +Valid keys are 'all', 'any', 'not'.
-> diff --git a/tests/qapi-schema/features-if-invalid.err b/tests/qapi-schema/features-if-invalid.err
-> index f63b89535e..724a810086 100644
-> --- a/tests/qapi-schema/features-if-invalid.err
-> +++ b/tests/qapi-schema/features-if-invalid.err
-> @@ -1,2 +1,2 @@
->   features-if-invalid.json: In struct 'Stru':
-> -features-if-invalid.json:2: 'if' condition of 'features' member 'f' must be a string or a list of strings
-> +features-if-invalid.json:2: 'if' condition of 'features' member 'f' must be a string, a list of strings or a dict
-> diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
-> index 84b9d41f15..2d5e480b44 100644
-> --- a/tests/qapi-schema/qapi-schema-test.json
-> +++ b/tests/qapi-schema/qapi-schema-test.json
-> @@ -231,8 +231,8 @@
->   
->   { 'union': 'TestIfUnion', 'data':
->     { 'foo': 'TestStruct',
-> -    'bar': { 'type': 'str', 'if': 'defined(TEST_IF_UNION_BAR)'} },
-> -  'if': 'defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)' }
-> +    'union-bar': { 'type': 'str', 'if': 'defined(TEST_IF_UNION_BAR)'} },
-> +  'if': ['defined(TEST_IF_UNION)', 'defined(TEST_IF_STRUCT)'] }
->   
->   { 'command': 'test-if-union-cmd',
->     'data': { 'union-cmd-arg': 'TestIfUnion' },
-> @@ -241,11 +241,10 @@
->   { 'alternate': 'TestIfAlternate', 'data':
->     { 'foo': 'int',
->       'bar': { 'type': 'TestStruct', 'if': 'defined(TEST_IF_ALT_BAR)'} },
-> -  'if': 'defined(TEST_IF_ALT) && defined(TEST_IF_STRUCT)' }
-> +  'if': {'all': ['defined(TEST_IF_ALT)', 'defined(TEST_IF_STRUCT)'] } }
->   
-> -{ 'command': 'test-if-alternate-cmd',
-> -  'data': { 'alt-cmd-arg': 'TestIfAlternate' },
-> -  'if': 'defined(TEST_IF_ALT)' }
-> +{ 'command': 'test-if-alternate-cmd', 'data': { 'alt-cmd-arg': 'TestIfAlternate' },
-> +  'if': {'all': ['defined(TEST_IF_ALT)', {'not': 'defined(TEST_IF_NOT_ALT)'}] } }
->   
->   { 'command': 'test-if-cmd',
->     'data': {
-> @@ -259,7 +258,7 @@
->   { 'event': 'TEST_IF_EVENT', 'data':
->     { 'foo': 'TestIfStruct',
->       'bar': { 'type': ['TestIfEnum'], 'if': 'defined(TEST_IF_EVT_BAR)' } },
-> -  'if': 'defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)' }
-> +  'if': ['defined(TEST_IF_EVT)', 'defined(TEST_IF_STRUCT)'] }
->   
->   # test 'features'
->   
-> @@ -290,6 +289,10 @@
->     'data': { 'foo': 'int' },
->     'features': [ { 'name': 'feature1', 'if': [ 'defined(TEST_IF_COND_1)',
->                                                 'defined(TEST_IF_COND_2)'] } ] }
-> +{ 'struct': 'CondFeatureStruct4',
-> +  'data': { 'foo': 'int' },
-> +  'features': [ { 'name': 'feature1', 'if': {'any': ['defined(TEST_IF_COND_1)',
-> +                                                     'defined(TEST_IF_COND_2)'] } } ] }
->   
->   { 'enum': 'FeatureEnum1',
->     'data': [ 'eins', 'zwei', 'drei' ],
-> @@ -313,7 +316,8 @@
->               '*fs4': 'FeatureStruct4',
->               '*cfs1': 'CondFeatureStruct1',
->               '*cfs2': 'CondFeatureStruct2',
-> -            '*cfs3': 'CondFeatureStruct3' },
-> +            '*cfs3': 'CondFeatureStruct3',
-> +            '*cfs4': 'CondFeatureStruct4' },
->     'returns': 'FeatureStruct1',
->     'features': [] }
->   
-> diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
-> index c2d303aa18..f859bf648d 100644
-> --- a/tests/qapi-schema/qapi-schema-test.out
-> +++ b/tests/qapi-schema/qapi-schema-test.out
-> @@ -298,49 +298,49 @@ command __org.qemu_x-command q_obj___org.qemu_x-command-arg -> __org.qemu_x-Unio
->   object TestIfStruct
->       member foo: int optional=False
->       member bar: int optional=False
-> -        if IfAll(['defined(TEST_IF_STRUCT_BAR)'])
-> -    if IfAll(['defined(TEST_IF_STRUCT)'])
-> +        if 'defined(TEST_IF_STRUCT_BAR)'
-> +    if 'defined(TEST_IF_STRUCT)'
->   enum TestIfEnum
->       member foo
->       member bar
-> -        if IfAll(['defined(TEST_IF_ENUM_BAR)'])
-> -    if IfAll(['defined(TEST_IF_ENUM)'])
-> +        if 'defined(TEST_IF_ENUM_BAR)'
-> +    if 'defined(TEST_IF_ENUM)'
->   object q_obj_TestStruct-wrapper
->       member data: TestStruct optional=False
->   enum TestIfUnionKind
->       member foo
-> -    member bar
-> -        if IfAll(['defined(TEST_IF_UNION_BAR)'])
-> -    if IfAll(['defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)'])
-> +    member union-bar
-> +        if 'defined(TEST_IF_UNION_BAR)'
-> +    if IfAll(['defined(TEST_IF_UNION)', 'defined(TEST_IF_STRUCT)'])
->   object TestIfUnion
->       member type: TestIfUnionKind optional=False
->       tag type
->       case foo: q_obj_TestStruct-wrapper
-> -    case bar: q_obj_str-wrapper
-> -        if IfAll(['defined(TEST_IF_UNION_BAR)'])
-> -    if IfAll(['defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)'])
-> +    case union-bar: q_obj_str-wrapper
-> +        if 'defined(TEST_IF_UNION_BAR)'
-> +    if IfAll(['defined(TEST_IF_UNION)', 'defined(TEST_IF_STRUCT)'])
->   object q_obj_test-if-union-cmd-arg
->       member union-cmd-arg: TestIfUnion optional=False
-> -    if IfAll(['defined(TEST_IF_UNION)'])
-> +    if 'defined(TEST_IF_UNION)'
->   command test-if-union-cmd q_obj_test-if-union-cmd-arg -> None
->       gen=True success_response=True boxed=False oob=False preconfig=False
-> -    if IfAll(['defined(TEST_IF_UNION)'])
-> +    if 'defined(TEST_IF_UNION)'
->   alternate TestIfAlternate
->       tag type
->       case foo: int
->       case bar: TestStruct
-> -        if IfAll(['defined(TEST_IF_ALT_BAR)'])
-> -    if IfAll(['defined(TEST_IF_ALT) && defined(TEST_IF_STRUCT)'])
-> +        if 'defined(TEST_IF_ALT_BAR)'
-> +    if IfAll(['defined(TEST_IF_ALT)', 'defined(TEST_IF_STRUCT)'])
->   object q_obj_test-if-alternate-cmd-arg
->       member alt-cmd-arg: TestIfAlternate optional=False
-> -    if IfAll(['defined(TEST_IF_ALT)'])
-> +    if IfAll(['defined(TEST_IF_ALT)', IfNot('defined(TEST_IF_NOT_ALT)')])
->   command test-if-alternate-cmd q_obj_test-if-alternate-cmd-arg -> None
->       gen=True success_response=True boxed=False oob=False preconfig=False
-> -    if IfAll(['defined(TEST_IF_ALT)'])
-> +    if IfAll(['defined(TEST_IF_ALT)', IfNot('defined(TEST_IF_NOT_ALT)')])
->   object q_obj_test-if-cmd-arg
->       member foo: TestIfStruct optional=False
->       member bar: TestIfEnum optional=False
-> -        if IfAll(['defined(TEST_IF_CMD_BAR)'])
-> +        if 'defined(TEST_IF_CMD_BAR)'
->       if IfAll(['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)'])
->   command test-if-cmd q_obj_test-if-cmd-arg -> UserDefThree
->       gen=True success_response=True boxed=False oob=False preconfig=False
-> @@ -348,15 +348,15 @@ command test-if-cmd q_obj_test-if-cmd-arg -> UserDefThree
->   command test-cmd-return-def-three None -> UserDefThree
->       gen=True success_response=True boxed=False oob=False preconfig=False
->   array TestIfEnumList TestIfEnum
-> -    if IfAll(['defined(TEST_IF_ENUM)'])
-> +    if 'defined(TEST_IF_ENUM)'
->   object q_obj_TEST_IF_EVENT-arg
->       member foo: TestIfStruct optional=False
->       member bar: TestIfEnumList optional=False
-> -        if IfAll(['defined(TEST_IF_EVT_BAR)'])
-> -    if IfAll(['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)'])
-> +        if 'defined(TEST_IF_EVT_BAR)'
-> +    if IfAll(['defined(TEST_IF_EVT)', 'defined(TEST_IF_STRUCT)'])
->   event TEST_IF_EVENT q_obj_TEST_IF_EVENT-arg
->       boxed=False
-> -    if IfAll(['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)'])
-> +    if IfAll(['defined(TEST_IF_EVT)', 'defined(TEST_IF_STRUCT)'])
->   object FeatureStruct0
->       member foo: int optional=False
->   object FeatureStruct1
-> @@ -379,17 +379,21 @@ object FeatureStruct4
->   object CondFeatureStruct1
->       member foo: int optional=False
->       feature feature1
-> -        if IfAll(['defined(TEST_IF_FEATURE_1)'])
-> +        if 'defined(TEST_IF_FEATURE_1)'
->   object CondFeatureStruct2
->       member foo: int optional=False
->       feature feature1
-> -        if IfAll(['defined(TEST_IF_FEATURE_1)'])
-> +        if 'defined(TEST_IF_FEATURE_1)'
->       feature feature2
-> -        if IfAll(['defined(TEST_IF_FEATURE_2)'])
-> +        if 'defined(TEST_IF_FEATURE_2)'
->   object CondFeatureStruct3
->       member foo: int optional=False
->       feature feature1
->           if IfAll(['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)'])
-> +object CondFeatureStruct4
-> +    member foo: int optional=False
-> +    feature feature1
-> +        if IfAny(['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)'])
->   enum FeatureEnum1
->       member eins
->       member zwei
-> @@ -417,6 +421,7 @@ object q_obj_test-features0-arg
->       member cfs1: CondFeatureStruct1 optional=True
->       member cfs2: CondFeatureStruct2 optional=True
->       member cfs3: CondFeatureStruct3 optional=True
-> +    member cfs4: CondFeatureStruct4 optional=True
->   command test-features0 q_obj_test-features0-arg -> FeatureStruct1
->       gen=True success_response=True boxed=False oob=False preconfig=False
->   command test-command-features1 None -> None
-> @@ -429,13 +434,13 @@ command test-command-features3 None -> None
->   command test-command-cond-features1 None -> None
->       gen=True success_response=True boxed=False oob=False preconfig=False
->       feature feature1
-> -        if IfAll(['defined(TEST_IF_FEATURE_1)'])
-> +        if 'defined(TEST_IF_FEATURE_1)'
->   command test-command-cond-features2 None -> None
->       gen=True success_response=True boxed=False oob=False preconfig=False
->       feature feature1
-> -        if IfAll(['defined(TEST_IF_FEATURE_1)'])
-> +        if 'defined(TEST_IF_FEATURE_1)'
->       feature feature2
-> -        if IfAll(['defined(TEST_IF_FEATURE_2)'])
-> +        if 'defined(TEST_IF_FEATURE_2)'
->   command test-command-cond-features3 None -> None
->       gen=True success_response=True boxed=False oob=False preconfig=False
->       feature feature1
-> diff --git a/tests/qapi-schema/struct-member-if-invalid.err b/tests/qapi-schema/struct-member-if-invalid.err
-> index 42e7fdae3c..c18157c1f9 100644
-> --- a/tests/qapi-schema/struct-member-if-invalid.err
-> +++ b/tests/qapi-schema/struct-member-if-invalid.err
-> @@ -1,2 +1,2 @@
->   struct-member-if-invalid.json: In struct 'Stru':
-> -struct-member-if-invalid.json:2: 'if' condition of 'data' member 'member' must be a string or a list of strings
-> +struct-member-if-invalid.json:2: 'if' condition of 'data' member 'member' must be a string, a list of strings or a dict
-> 
+--js
 
 
