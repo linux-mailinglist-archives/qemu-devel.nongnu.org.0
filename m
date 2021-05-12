@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5838A37BB70
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:07:36 +0200 (CEST)
-Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3E137BBB6
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:24:50 +0200 (CEST)
+Received: from localhost ([::1]:45764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgmiF-0003vD-Fh
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:07:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41176)
+	id 1lgmyw-0002SY-1l
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:24:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgmfd-00029b-HI
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:04:53 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:43721)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgmqC-0006Ib-Er
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:15:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgmfb-0004Kw-2m
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:04:53 -0400
-Received: by mail-ed1-x531.google.com with SMTP id s6so26503810edu.10
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 04:04:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QwT480Ss6qwoth8rc0//EezPFJAIuWXxVMlCKTHHUUw=;
- b=fRbobRCcQYsm3+ror8VqjAmMCH/ECAnG6f8MWPR9PoHHXHUU4qCvB+oRZGLb9ZgEHu
- VAinFX7VrYmwyA0CItrKOrVfi6khW0dh02L40zuEcd/Z90VwFJyFU4oyH1to2RzKFmju
- uWNKOHAKvctP39AAXiWgBwHWn3x+MFNYDdqhUmSbwhy06seBOiFoUCLNKPkV4C3AESqL
- 88hllizwRXgay6NT9bY4l3pZ4CfwYyESabSvo2DnicSiSCIuoGyv9Xppg++fuYl31WiH
- 3rWXS9UkXK2/Os5LOF8CjUQs3Igt9sBXXwnj9zEvF0EbOHSVJ/glQgswRjoIznE4rUst
- EvsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QwT480Ss6qwoth8rc0//EezPFJAIuWXxVMlCKTHHUUw=;
- b=ObGLv0/QYzaO280BzZMkYy2tzne7ExR3gs9zROjiI25EfNJPpCIvAxI2D+dFSU+5wb
- D1ZcZa69OmVcq8QpN1ccS631tV7QMgjJwIqOmXY3Qip1NFyROoCDMbxXG565XuHF00yz
- yyHc+y6y8R7KjUvXQ5J5dMzMhSLRTgmh+OHyYbLP2YPRFA6GpvMaduTU3hfRKIRvRHta
- Yzjex31NfJXxsT5Q6mzb4v+c+Ka2YV7xwopg7PSCcKRA/8C98aRZx/fcZSZgLKPno9Bi
- 8Ez93E+Uwob1S4xzPcfyU3ELl/BDoPKEvy0R0X0AoXwYSC9MWcAaW16giT7hzVrU2K4f
- XVJA==
-X-Gm-Message-State: AOAM531J4Du+8gtMl8K76NCMoO1nKaS3OAPlBvD1o8M4ZJm57FOl1Mhh
- Jd3wlQWsGj4k1iT6/m2MzjgNF1nv18oOVUkVu6RprDklGj0=
-X-Google-Smtp-Source: ABdhPJz4hGFm7Cg/DlVWC6zWGe4WptPEY/QhB+HWDx7crvwtf+bPkKZyBOKPxphLxnY/y/deLSaC7+U81jf620FaYEI=
-X-Received: by 2002:a05:6402:416:: with SMTP id
- q22mr42656067edv.204.1620817489446; 
- Wed, 12 May 2021 04:04:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgmq7-0001lt-3g
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:15:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lgmq4-00017U-QW
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:15:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A62F82E8187
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:15:40 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210510125340.903323-1-anthony.perard@citrix.com>
-In-Reply-To: <20210510125340.903323-1-anthony.perard@citrix.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 May 2021 12:03:36 +0100
-Message-ID: <CAFEAcA_Tu0NMZfVG44MUscDBX5i9Uz5rwqPWn5Gku8zN+T8ZpQ@mail.gmail.com>
-Subject: Re: [PULL 0/3] xen queue 2021-05-10
-To: Anthony PERARD <anthony.perard@citrix.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 12 May 2021 11:06:54 -0000
+From: Thomas Huth <1910605@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lthoang th-huth
+X-Launchpad-Bug-Reporter: Linh Hoang (lthoang)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161005904521.27189.16928489496057445235.malonedeb@soybean.canonical.com>
+Message-Id: <162081761463.31434.18233551369652057315.malone@gac.canonical.com>
+Subject: [Bug 1910605] Re: qemu-arm-static ioctl USBDEVFS_BULK return -1
+ (EFAULT) Bad address
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
+X-Launchpad-Hash: e0d448b28fabea1ca6328e4d2ab82d82fbc2c33c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,38 +72,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1910605 <1910605@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 May 2021 at 13:53, Anthony PERARD <anthony.perard@citrix.com> wrote:
->
-> The following changes since commit 4cc10cae64c51e17844dc4358481c393d7bf1ed4:
->
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-05-06 18:56:17 +0100)
->
-> are available in the Git repository at:
->
->   https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20210510
->
-> for you to fetch changes up to 1898293990702c5601e225dac9afd2402fc46e2d:
->
->   xen-block: Use specific blockdev driver (2021-05-10 13:43:58 +0100)
->
-> ----------------------------------------------------------------
-> Xen patches
->
-> - Avoid mmap race involving Xen's mapcache
-> - Fix xenforeignmemory_resource leak at exit
-> - Fix xen-block to choose a driver for the disk image when created via
->   xenstore.
->
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting the bug state to "Incomplete" now.
+
+If the bug has already been fixed in the latest upstream version of QEMU,
+then please close this ticket as "Fix released".
+
+If it is not fixed yet and you think that this bug report here is still
+valid, then you have two options:
+
+1) If you already have an account on gitlab.com, please open a new ticket
+for this problem in our new tracker here:
+
+    https://gitlab.com/qemu-project/qemu/-/issues
+
+and then close this ticket here on Launchpad (or let it expire auto-
+matically after 60 days). Please mention the URL of this bug ticket on
+Launchpad in the new ticket on GitLab.
+
+2) If you don't have an account on gitlab.com and don't intend to get
+one, but still would like to keep this ticket opened, then please switch
+the state back to "New" or "Confirmed" within the next 60 days (other-
+wise it will get closed as "Expired"). We will then eventually migrate
+the ticket automatically to the new system (but you won't be the reporter
+of the bug in the new system and thus you won't get notified on changes
+anymore).
+
+Thank you and sorry for the inconvenience.
 
 
-Applied, thanks.
+** Tags added: linux-user
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+** Tags added: arm
 
--- PMM
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1910605
+
+Title:
+  qemu-arm-static ioctl USBDEVFS_BULK return -1 (EFAULT) Bad address
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+
+  Snippet of code sample:
+
+  struct usbdevfs_bulktransfer Bulk;
+  Bulk.ep =3D hUsb->UsbOut;          =
+
+  Bulk.len =3D Len;          =
+
+  Bulk.data =3D (void *)pData;          =
+
+  Bulk.timeout =3D Timeout;
+  Bytes =3D ioctl(hUsb->fd, USBDEVFS_BULK, &Bulk)
+
+  The above code sample return -1 (EFAULT) Bad address when using qemu-
+  arm-static but is running ok when on qemu-aarch64-static.
+
+  I use a 64-bit intel laptop
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1910605/+subscriptions
 
