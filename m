@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA69237D179
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:56:48 +0200 (CEST)
-Received: from localhost ([::1]:38660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5D137D391
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:31:04 +0200 (CEST)
+Received: from localhost ([::1]:52412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgt6F-0007Pk-L2
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:56:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40232)
+	id 1lgtdP-0003Ta-8q
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgt5G-0006du-CN
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:55:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60752)
+ id 1lgtQZ-0004Av-Kt
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:17:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgt5E-0005bl-6W
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:55:46 -0400
+ id 1lgtQX-0002Ys-QW
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:17:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgt5C-0008AA-4P
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 17:55:42 +0000
+ id 1lgtJt-0000hJ-2U
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:10:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 152912E813A
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 17:55:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C814B2E8188
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:10:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 17:46:59 -0000
-From: Izorkin <1924738@bugs.launchpad.net>
+Date: Wed, 12 May 2021 17:57:03 -0000
+From: Thomas Huth <1924738@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: dgilbert-h izorkin
 X-Launchpad-Bug-Reporter: Izorkin (izorkin)
-X-Launchpad-Bug-Modifier: Izorkin (izorkin)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
 References: <161856700090.8743.17887923677613364195.malonedeb@gac.canonical.com>
-Message-Id: <162084161932.6944.5471131131576259415.malone@gac.canonical.com>
+Message-Id: <162084222468.26326.13379912675767236816.launchpad@chaenomeles.canonical.com>
 Subject: [Bug 1924738] Re: Failed to restore domain - error load load
  virtio-balloon:virtio
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +49,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: 3758cce90d0de3feb503f30f7489b78c6603a3c0
+X-Launchpad-Hash: fe98438282949c3262600963643579dacb998a42
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,11 +74,8 @@ Reply-To: Bug 1924738 <1924738@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-a) Checked for versions 5.2.0 and 6.0.0rc.
-b) Save and restore with pc-i440fx-5.1.
-c) Used OS Linux NixOS Unstable.
-If clean install NixOS system - the error is not reproduced. It was not pos=
-sible to track what affects the restore domain.
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
 -- =
 
@@ -91,7 +87,7 @@ Title:
   Failed to restore domain - error load load virtio-balloon:virtio
 
 Status in QEMU:
-  Incomplete
+  New
 
 Bug description:
   I noticed a domain restore error on my virtual machines.
