@@ -2,72 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6DB37B75B
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 10:04:12 +0200 (CEST)
-Received: from localhost ([::1]:48618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FB337B75A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 10:03:40 +0200 (CEST)
+Received: from localhost ([::1]:47262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgjql-0005lG-9e
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 04:04:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59824)
+	id 1lgjqF-0004r2-87
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 04:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgjod-0003YG-4J
- for qemu-devel@nongnu.org; Wed, 12 May 2021 04:01:59 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:39664)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgjoa-0003pk-Uc
- for qemu-devel@nongnu.org; Wed, 12 May 2021 04:01:58 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id f24so33624562ejc.6
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 01:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9uP92nBtmpwIzLFaI7dLdeoIeAXBLseUGfFOw8NKaT0=;
- b=rpDfW1ZzbIY4j8LNp8QA0hDL3B7tbhXXyPDWZDLYiugjx1A3gZxAx1lhAO5hi4d8kl
- L0kFE6k3JRKpS4lySVQ91GaGMsGtu67MsRHoFwPZ3bjl6HdcZ3W0vWcHqjCNDowb54+f
- yfex34qo2BUEyPzwCoXzzEvqxurOj6mV5Jwy1NZPGD7vX0Suu5EOYaYpcwMuMq4RYEJ3
- 7tPiDrRBI5cbndJiy7qmlfVYXBCs6XmcSSDyWT7Ddl29D3zea3s82TlcjNRcEsjbfVB2
- NDoarKImIDI69oxvEaOvsk/06q2YAs+HrxdbsqOMae2kn8pOLTCEMrac+GKZphjIny9R
- 9QRg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgjo8-0002xs-EQ
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 04:01:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lgjo5-0003Wp-NZ
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 04:01:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620806484;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2QaMG998QEIBKsKEBTTUX9A1gi30ebRlTGsajf/BQ/c=;
+ b=e8CxjQ+RBu936MUswySkUzsRN8BV6NTOfVI96skhVRqg5/P97Vw9yLj2H9z7+2Vqk+kcMm
+ Vgm2wyMpGZWMOR7x88JFv5cfGBa49tcG8R3TYz0JDQliYiUeiqKnY875an0P/Wru7i1dPx
+ IwmG/8MC1Mrw99kyhHdnDhNjaQp2gOE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-J7Z_Dl3kMIWNIPC7uQtafQ-1; Wed, 12 May 2021 04:01:23 -0400
+X-MC-Unique: J7Z_Dl3kMIWNIPC7uQtafQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ bm3-20020a0564020b03b0290387c8b79486so12360124edb.20
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 01:01:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9uP92nBtmpwIzLFaI7dLdeoIeAXBLseUGfFOw8NKaT0=;
- b=IwNfF6C0iTT5YFJ79k4ldCrmg6QaQDst7DHqLJDzOgxcgI/ngtsXE0AgpUakdjpY7q
- T2j5keYgvE89vtfVxodHjpE789tdOckPZUeSSCQnW62Lx3ThdE5oYb8EKnMefoLxWsCg
- pxOs96L/oyD/9S/3LBllVF5e98f+KbNMxNwp4US910LYJcAVpmdlO+YX4X9VHc+hcjoD
- amMnUU4R4SxH+j/VVksadbUIocS1OKM4m4GvneW8oTTrd+DNLLMYxr5zYxxpHUYN8RgX
- gu12IZULPx+2VmlvjPDFazcxE25SR58RffpHtCpJpN4al4TBtSRQg1uxBB7sNtP+hsM3
- wIxw==
-X-Gm-Message-State: AOAM532VwB9cGFL4ivNA2eQPa4UXLDwIyIbwoe2jLj+XKG/JizYvoLok
- P7FzVbls5ONgbo/3EpdCTcpyGLyF9stCuO3bbKpCFw==
-X-Google-Smtp-Source: ABdhPJz5i3OVEoXvVvi7IPVW3TIedSLsrvKKODTJMF5aOx6UAdye2FABf1CHosoXgy96kVEYMNTB/Usv0EJvs53BXhU=
-X-Received: by 2002:a17:906:d1d2:: with SMTP id
- bs18mr14233786ejb.56.1620806515354; 
- Wed, 12 May 2021 01:01:55 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2QaMG998QEIBKsKEBTTUX9A1gi30ebRlTGsajf/BQ/c=;
+ b=J7AzSQogjaeaftafjGlxbWOVG5qerXOdMAGuFj44EN9pbLr3S30Xj1UB0IBZzHhOLT
+ TPAAwvn98fXVw9W1jG4Oc4iUI/sd9thKiUcg24Y7kpI4gxbwcOlrE7jksXgfTvSpJ5dG
+ kLtQLnNZeMju+kkEQEECmnZQQfWZpQDGTZFVY/kJagVq55t39g1E/4CIv6TYhMKaz4WR
+ EQCMC7ItzO1/+SxOj9yBA4z4aAgK+xDzdFHGvatZ1q21AXseDNVeDDNFns7P6HyCI4jw
+ uC4t156+nPeV0h07gZV37T0+m+EakOOrC6JfmsZTBrkJZ1mrYxQyleg7nlckjFnE0+9c
+ cV4A==
+X-Gm-Message-State: AOAM530lTL1RMYCdl8wRknHW3YTivpoF4yGx/FzJDSVcKJnm2q3u044x
+ UVlEqCeM73oLlnIDqo1/Mml0LAImXl939FcCYcMv/QYDdtl3tn5B/xPbgl4ydLnsfKAmu5sDQUT
+ EdJbjYUHJMGpDs8Y=
+X-Received: by 2002:a17:906:48d2:: with SMTP id
+ d18mr36818072ejt.9.1620806482049; 
+ Wed, 12 May 2021 01:01:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtnbzlodyh08qsYNBUlW+cV8Sws0WvZdRKDFVB39sOkQkgr07HE9n7u7Y1uobFnOEeFV8m9Q==
+X-Received: by 2002:a17:906:48d2:: with SMTP id
+ d18mr36818052ejt.9.1620806481883; 
+ Wed, 12 May 2021 01:01:21 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id z7sm17191089edi.39.2021.05.12.01.01.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 May 2021 01:01:21 -0700 (PDT)
+Subject: Re: [RFC PATCH 3/5] hw/ppc: Have pSeries depends on libfdt (via host
+ Kconfig FDT symbol)
+To: David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20210511155354.3069141-1-philmd@redhat.com>
+ <20210511155354.3069141-4-philmd@redhat.com> <YJs9BH+j1FAMIOjP@yekko>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <83800531-8c99-0dca-d324-484dd6c57df6@redhat.com>
+Date: Wed, 12 May 2021 10:01:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <YJrKRsF4/38QheKn@apples.localdomain>
- <8a68cd84-1ddf-361d-0f0d-bcf03e94363b@redhat.com>
-In-Reply-To: <8a68cd84-1ddf-361d-0f0d-bcf03e94363b@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 May 2021 09:00:42 +0100
-Message-ID: <CAFEAcA-7M0947Fmthnak8VBKoA9LqgN6wVuXbts7XbeLNKbVtw@mail.gmail.com>
-Subject: Re: making a qdev bus available from a (non-qtree?) device
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <YJs9BH+j1FAMIOjP@yekko>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,22 +105,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 May 2021 at 04:39, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
-> IIUC, while we can have unattached drives, we can't (by design) have
-> qdev unattached to qbus.
+On 12/05/21 04:27, David Gibson wrote:
+> On Tue, May 11, 2021 at 05:53:52PM +0200, Philippe Mathieu-Daudé wrote:
+>> Since commit fea35ca4b8e ("ppc/spapr: Receive and store device
+>> tree blob from SLOF") the pSeries machine depends on the libfdt
+>> fdt_check_full() call, which is available in libfdt v1.4.7.
+>>
+>> Add the corresponding Kconfig dependency.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
+> I don't love making this conditional.  Pseries is by far the best
+> tested and most widely used ppc machine type, so it seems like it
+> would break expectations to not compile this in rather than giving an
+> error saying you need a newer libfdt.
 
-You can (and we do), but it is a bit of a problem because a
-device not attached to a qbus will not get automatically reset,
-and so you need to arrange to reset it manually somehow.
+It's not conditional; if libfdt is not found, scripts/minikconf.py will 
+tell you about the contradiction between CONFIG_PSERIES=y and 
+"CONFIG_PSERIES depends on FDT".
 
+So we still have the same "fdt_required" logic that is already in 
+meson.build, but expressed as Kconfig rules instead of a random line in 
+default-configs/targets.
 
--- PMM
+Paolo
+
 
