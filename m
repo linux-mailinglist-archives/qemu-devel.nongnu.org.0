@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5CF37C747
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:02:06 +0200 (CEST)
-Received: from localhost ([::1]:56288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A457637C75A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 18:08:33 +0200 (CEST)
+Received: from localhost ([::1]:48616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgrJE-00013P-PR
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:02:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55012)
+	id 1lgrPU-0006rS-AR
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 12:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgrD5-0003JF-Qa
- for qemu-devel@nongnu.org; Wed, 12 May 2021 11:55:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27747)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lgrGq-0000TL-Ax
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 11:59:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lgrD3-0006CO-S7
- for qemu-devel@nongnu.org; Wed, 12 May 2021 11:55:43 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lgrGn-00006n-O2
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 11:59:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620834941;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1620835172;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jGsA5QiUsAhJmnKTnJ6IsGJVTsvhcooOP/3EyCxgaao=;
- b=I83A4pkp9EbV7GVvpX2+YqzspraJnw3hk7VJn8aS+eiZFJL60ugPPR3MiiPPe2i3SU0VDV
- 3LKVikTnR00PxARTnWvMLGcIKwHU8jEJ6Os/hTrlOl0Kc42VaVQJdRA4aaNprH3giYNyZa
- lNz7TivY8jQHX9cMWY8rl+T1adfUY1M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-2K96L7gbO5G00499l1ngJA-1; Wed, 12 May 2021 11:55:36 -0400
-X-MC-Unique: 2K96L7gbO5G00499l1ngJA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F404F188E3CC;
- Wed, 12 May 2021 15:55:34 +0000 (UTC)
-Received: from redhat.com (ovpn-114-167.ams2.redhat.com [10.36.114.167])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE25B60657;
- Wed, 12 May 2021 15:55:23 +0000 (UTC)
-Date: Wed, 12 May 2021 16:55:20 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] travis-ci: Use clang-10 for the [s390x] Clang
- (disable-tcg) job
-Message-ID: <YJv6aJZm2GHM4Gae@redhat.com>
-References: <20210512152231.3423265-1-philmd@redhat.com>
- <32b21c1c-0d55-d92a-390e-f7d6059d03a9@redhat.com>
- <d9eadf82-3fa6-8a52-7822-8da9a9114459@redhat.com>
+ bh=tD4Yq80u5T6wYTctCmcFTMkkoBcbhHm0B/zN4mkA7/M=;
+ b=GTC/uGh9CqcM3laLJPQCg1kLKsS1509m4h4vqLa31bGUZVSdxCbsMdSJPwm4QiQZOuqPWb
+ Phzjab3VBtqZlaC4ZkPbsX9Sf9DERGqsbnssNqSahb5kzP858h+X1Q3pJYlfKRuyoBnqn3
+ cTMB8dhpl7jSOmR3Neq1cukCnn54T9g=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-JcqQynZjPm6G5kYslYGCkA-1; Wed, 12 May 2021 11:59:30 -0400
+X-MC-Unique: JcqQynZjPm6G5kYslYGCkA-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ 143-20020aca04950000b02901e5c79a4c8fso13076722oie.12
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 08:59:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tD4Yq80u5T6wYTctCmcFTMkkoBcbhHm0B/zN4mkA7/M=;
+ b=XCSohwuAbN2P08dtjm/0QY7TCtoJuXQ6rwRirXEsF+hXeuflQTHu1TD0uorl8sg2cO
+ QnFLFZKBq+9E/nNUiVia7M++fI1Vp3L+mG8X6173rXrlFYKDiNOMlJmolP6aQdW46pc8
+ 7nxdO+HNhhaUwsNDUX86N+ssBmO6oAQG0O9OYaJqNE5zOvYeyNQ2bKuVuPr50nSr7j5F
+ mphdSIYdvcLT+197tL2VNmlg6g7SJ6jyrI3DHobflVcnrQncJGuVST1onknc8NZ15MMC
+ 3NjvSsuu2PR6EjiLjh1/JNP6lwd+3eTLunO9aEGpxv7nBYiY6+RgECCwz1lenAHyTRR1
+ UDDw==
+X-Gm-Message-State: AOAM533vhIG4e2FgdWYWxZmULSN7cscp3uP970ZpOwdqoAXLuX4gTDSq
+ q2BYyHHrtXoj5e4RikmuRbd36qWcWMh45pdVEfSDnXNqDoqbm6G7wOS3l3FUjcdUTZdZx+SGEDO
+ iBQ5EDfU9+PK96u4=
+X-Received: by 2002:a54:4798:: with SMTP id o24mr12862175oic.13.1620835169845; 
+ Wed, 12 May 2021 08:59:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyIW6iU+gcvMp49/3l+XSPmHu8AChxtEr6yrJR58X3J3jfGswzOcZF1niEVZifvjZ4rdJAfvQ==
+X-Received: by 2002:a54:4798:: with SMTP id o24mr12862162oic.13.1620835169641; 
+ Wed, 12 May 2021 08:59:29 -0700 (PDT)
+Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id
+ t22sm36272otd.25.2021.05.12.08.59.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 May 2021 08:59:29 -0700 (PDT)
+Subject: Re: [PATCH 1/3] virtiofsd: Find original inode ID of mount points
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20210512125544.9536-1-mreitz@redhat.com>
+ <20210512125544.9536-2-mreitz@redhat.com>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <cc7c5224-901a-95f0-836e-134eb9c4568b@redhat.com>
+Date: Wed, 12 May 2021 10:59:28 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <d9eadf82-3fa6-8a52-7822-8da9a9114459@redhat.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210512125544.9536-2-mreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,102 +99,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 12, 2021 at 05:44:10PM +0200, Thomas Huth wrote:
-> On 12/05/2021 17.26, Philippe Mathieu-Daudé wrote:
-> > On 5/12/21 5:22 PM, Philippe Mathieu-Daudé wrote:
-> > > On Ubuntu Bionic 18.04 LTS clang binary points to the 6.0 version:
-> > > 
-> > >    $ clang --version
-> > >    clang version 6.0.0-1ubuntu2 (tags/RELEASE_600/final)
-> > > 
-> > > However we can install clang-10 from the bionic-updates stream [*]
-> > > and use it, to silent the following warnings:
-> > > 
-> > >       CC      pc-bios/s390-ccw/main.o
-> > >    clang: warning: optimization flag '-fno-delete-null-pointer-checks' is not supported [-Wignored-optimization-argument]
-> > >    clang: warning: argument unused during compilation: '-msoft-float' [-Wunused-command-line-argument]
-> > >    /home/travis/build/qemu/qemu/pc-bios/s390-ccw/main.c:284:5: warning: no previous prototype for function 'main' [-Wmissing-prototypes]
-> > >    int main(void)
-> > >        ^
-> > >    1 warning generated.
-> > >    clang: warning: optimization flag '-fno-delete-null-pointer-checks' is not supported [-Wignored-optimization-argument]
-> > > 
-> > > [*] https://packages.ubuntu.com/bionic-updates/clang-10
-> > > 
-> > > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > > ---
-> > > However this doesn't resolve:
-> > > 
-> > >      /home/travis/build/philmd/qemu/pc-bios/s390-ccw/jump2ipl.c:67:18: error: invalid operand for instruction
-> > >          asm volatile("lghi 1,1\n\t"
-> > >                       ^
-> > >      <inline asm>:1:7: note: instantiated into assembly here
-> > >              lghi 1,1
-> > >                   ^
-> > >      /home/travis/build/philmd/qemu/pc-bios/s390-ccw/jump2ipl.c:67:29: error: invalid operand for instruction
-> > >          asm volatile("lghi 1,1\n\t"
-> > >                                  ^
-> > >      <inline asm>:2:7: note: instantiated into assembly here
-> > >              diag 1,1,0x308
-> > >                   ^
-> > >      2 errors generated.
-> > >      Makefile:20: recipe for target 'jump2ipl.o' failed
-> > >      make[1]: *** [jump2ipl.o] Error 1
-> > > 
-> > > (see https://travis-ci.org/github/philmd/qemu/jobs/770920106#L1803,
-> > > https://travis-ci.org/github/philmd/qemu/jobs/770920522#L1818 for
-> > > more errors).
-> > > ---
-> > >   .travis.yml | 3 ++-
-> > >   1 file changed, 2 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/.travis.yml b/.travis.yml
-> > > index 4609240b5aa..9c0deea9a06 100644
-> > > --- a/.travis.yml
-> > > +++ b/.travis.yml
-> > > @@ -278,6 +278,7 @@ jobs:
-> > >         compiler: clang
-> > >         addons:
-> > >           apt_packages:
-> > > +          - clang-10
-> > >             - libaio-dev
-> > >             - libattr1-dev
-> > >             - libbrlapi-dev
-> > > @@ -303,7 +304,7 @@ jobs:
-> > >         env:
-> > >           - TEST_CMD="make check-unit"
-> > >           - CONFIG="--disable-containers --disable-tcg --enable-kvm
-> > > -                  --disable-tools --host-cc=clang --cxx=clang++"
-> > > +                  --disable-tools --host-cc=clang-10 --cc=clang-10 --cxx=clang++-10"
-> > 
-> > I forgot to mention we were missing the --cc= flag, so s390-ccw
-> > was built with an inconsistent $CC. I might respin this part
-> > separately.
+On 5/12/21 7:55 AM, Max Reitz wrote:
+> Mount point directories represent two inodes: On one hand, they are a
+> normal directory on their parent filesystem.  On the other, they are
+> the
+> root node of the filesystem mounted there.  Thus, they have two inode
+> IDs.
 > 
-> I think the configure script uses the same compiler as --host-cc for --cc if
-> it is not specified. So depending on whether Daniel sets the minimum version
-> to 6.3 or 6.0, we either can use this patch or we don't need it at all.
+> Right now, we only report the latter inode ID (i.e. the inode ID of
+> the
+> mounted filesystem's root node).  This is fine once the guest has
+> auto-mounted a submount there (so this inode ID goes with a device ID
+> that is distinct from the parent filesystem), but before the
+> auto-mount,
+> they have the device ID of the parent and the inode ID for the
+> submount.
+> This is problematic because this is likely exactly the same
+> st_dev/st_ino combination as the parent filesystem's root node.  This
+> leads to problems for example with `find`, which will thus complain
+> about a filesystem loop if it has visited the parent filesystem's root
+> node before, and then refuse to descend into the submount.
+> 
+> There is a way to find the mount directory's original inode ID, and
+> that
+> is to readdir(3) the parent directory, look for the mount directory,
+> and
+> read the dirent.d_ino field.  Using this, we can let lookup and
+> readdirplus return that original inode ID, which the guest will thus
+> show until the submount is auto-mounted.  (Then, it will invoke
+> getattr
+> and that stat(2) call will return the inode ID for the submount.)
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
 
-I'm going to set min to 6.0.0, because I expect most users on ubuntu
-will install the default "clang" and not realize there are extra
-clang-NNN versions
+This is a clever way of uncovering the inode ID.
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
 
 
