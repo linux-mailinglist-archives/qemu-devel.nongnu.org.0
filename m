@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA7937BBA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:16:32 +0200 (CEST)
-Received: from localhost ([::1]:54274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0199537BB80
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:13:26 +0200 (CEST)
+Received: from localhost ([::1]:46196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgmqt-0005jL-6c
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42318)
+	id 1lgmnt-0000Fc-0X
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:13:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgmle-0006gx-AU
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:11:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60052)
+ id 1lgmlZ-0006eU-0O
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:11:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgmlX-0007iE-9y
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:11:06 -0400
+ id 1lgmlW-0007hN-Pk
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:11:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgmlU-0000Xu-QC
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:10:56 +0000
+ id 1lgmlT-0000U0-Un
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:10:55 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C49CD2E8135
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:10:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CC23B2E8193
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:10:55 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 11:02:26 -0000
-From: Thomas Huth <1886097@bugs.launchpad.net>
+Date: Wed, 12 May 2021 11:02:37 -0000
+From: Thomas Huth <1888818@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: langston0 th-huth
-X-Launchpad-Bug-Reporter: Langston (langston0)
+X-Launchpad-Bug-Commenters: th-huth xavier-ding
+X-Launchpad-Bug-Reporter: xuan (xavier-ding)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159372304166.1717.6838286421660212766.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162081734705.23083.10499249264990088452.malone@soybean.canonical.com>
-Subject: [Bug 1886097] Re: Error in user-mode calculation of ELF program's brk
+References: <159558183424.11837.7512442025195132206.malonedeb@wampee.canonical.com>
+Message-Id: <162081735724.31075.17380265348196779838.malone@gac.canonical.com>
+Subject: [Bug 1888818] Re: Multi-queue vhost-user fails to reconnect with qemu
+ version >=4.2
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
-X-Launchpad-Hash: e082352caa089923d5669832b237b4139d247835
+X-Launchpad-Hash: d93ef7cf79c0bfa05b5d52ea72ae8d6c5f40539b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1886097 <1886097@bugs.launchpad.net>
+Reply-To: Bug 1888818 <1888818@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -79,82 +79,94 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/276
+ https://gitlab.com/qemu-project/qemu/-/issues/277
 
 
 ** Changed in: qemu
        Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #276
-   https://gitlab.com/qemu-project/qemu/-/issues/276
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #277
+   https://gitlab.com/qemu-project/qemu/-/issues/277
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1886097
+https://bugs.launchpad.net/bugs/1888818
 
 Title:
-  Error in user-mode calculation of ELF program's brk
+  Multi-queue vhost-user fails to reconnect with qemu version >=3D4.2
 
 Status in QEMU:
   Expired
 
 Bug description:
-  There's a discrepancy between the way QEMU user-mode and Linux
-  calculate the initial program break for statically-linked binaries. I
-  have a binary with the following segments:
+  Test Environment:
+  DPDK version: DPDK v20.08
+  Other software versions: qemu4.2.0, qemu5.0.0.
+  OS: Linux 4.15.0-20-generic
+  Compiler: gcc (Ubuntu 7.3.0-16ubuntu3) 8.4.0
+  Hardware platform: Purley.
+  Test Setup
+  Steps to reproduce
+  List the steps to reproduce the issue.
 
-    Program Headers:
-      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Ali=
-gn
-      EXIDX          0x065a14 0x00075a14 0x00075a14 0x00588 0x00588 R   0x4
-      PHDR           0x0a3000 0x000a3000 0x000a3000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x0a3000 0x000a3000 0x000a3000 0x00160 0x00160 R   0x1=
-000
-      LOAD           0x000000 0x00010000 0x00010000 0x65fa0 0x65fa0 R E 0x1=
-0000
-      LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x1=
-0000
-      NOTE           0x000114 0x00010114 0x00010114 0x00044 0x00044 R   0x4
-      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x8
-      GNU_RELRO      0x066b7c 0x00086b7c 0x00086b7c 0x00484 0x00484 R   0x1
-      LOAD           0x07e000 0x00089000 0x00089000 0x03ff4 0x03ff4 R E 0x1=
-000
-      LOAD           0x098000 0x00030000 0x00030000 0x01000 0x01000 RW  0x1=
-000
+  Test flow
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D
+  1. Launch vhost-user testpmd as port0 with 2 queues:
 
-  The call to set_brk in Linux's binfmt_elf.c receives these arguments:
+  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
+  =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
+vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
+--rxq=3D2
+  testpmd>start
 
-    set_brk(0xa3160, 0xa3160, 1)
-    =
+  3. Launch qemu with virtio-net:
 
-  Whereas in QEMU, info->brk gets set to 0x88f00. When the binary is run in=
- QEMU, it crashes on the second call to brk, whereas it runs fine on real A=
-RM hardware. I think the trouble is that the program break is set to an add=
-ress lower than the virtual address of a LOAD segment (the program headers,=
- in this case).
+  =C2=A0taskset -c 13 \
+  =C2=A0=C2=A0=C2=A0=C2=A0qemu-system-x86_64 -name us-vhost-vm1 \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cpu host -enable-kvm -m 2048 -=
+object memory-backend-file,id=3Dmem,size=3D2048M,mem-path=3D/mnt/huge,share=
+=3Don \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-numa node,memdev=3Dmem \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-mem-prealloc -monitor unix:/tm=
+p/vm2_monitor.sock,server,nowait -netdev user,id=3Dyinan,hostfwd=3Dtcp:127.=
+0.0.1:6005-:22 -device e1000,netdev=3Dyinan \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-smp cores=3D1,sockets=3D1 -dri=
+ve file=3D/home/osimg/ubuntu16.img  \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-chardev socket,id=3Dchar0,path=
+=3D./vhost-net,server \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev type=3Dvhost-user,id=3D=
+mynet1,chardev=3Dchar0,vhostforce,queues=3D2 \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,mac=3D52=
+:54:00:00:00:01,netdev=3Dmynet1,mrg_rxbuf=3Don,csum=3Don,gso=3Don,host_tso4=
+=3Don,guest_tso4=3Don,mq=3Don,vectors=3D15 \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-vnc :10 -daemonize
 
-  I believe that this discrepancy arises because in QEMU, info->brk is
-  only incremented when the LOAD segment in question has PROT_WRITE. For
-  this binary, the LOAD segment with write permissions and the highest
-  virtual address is
+  6. Quit testpmd and restart vhost-user :
 
-    LOAD           0x066b7c 0x00086b7c 0x00086b7c 0x02384 0x02384 RW  0x100=
-00
-      =
+  testpmd>quit
+  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
+  =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
+vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
+--rxq=3D2
 
-  which overlaps with the TLS segment:
+  Expected Result:
+  After the vhost-user is killed then re-launched, the virtio-net can conne=
+ct back to vhost-user again.
 
-      TLS            0x066b7c 0x00086b7c 0x00086b7c 0x00010 0x00030 R   0x4
-      =
+  Actual Result:
+  Vhost-user relaunch failed with continous log printed"VHOST_CONFIG: Proce=
+ssing VHOST_USER_SET_FEATURES failed.
 
-  However, the Linux kernel puts the program break after the loadable segme=
-nt with the highest virtual address, regardless of flags. So I think the fi=
-x is for QEMU to do the same.
+  Analysis:
+  This is a regression bug, bad commit: c6beefd674f
+  When vhost-user quits, QEMU doesnot save acked features for each virtio-n=
+et after vhost-user quits. When vhost-user reconnects to QEMU, QEMU sends t=
+wo different features(one is the true acked feature while the another is 0x=
+40000000) to vhost-user successively which causing vhost-user exits abnorma=
+lly.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1886097/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1888818/+subscriptions
 
