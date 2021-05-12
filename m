@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FD437B55A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 07:16:33 +0200 (CEST)
-Received: from localhost ([::1]:41822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D0437B579
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 07:31:46 +0200 (CEST)
+Received: from localhost ([::1]:47512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lghEW-0002tS-O1
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 01:16:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58398)
+	id 1lghTD-0007cd-7j
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 01:31:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lghAs-0008G1-EA
- for qemu-devel@nongnu.org; Wed, 12 May 2021 01:12:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51088)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lghSF-0006kA-FU
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 01:30:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lghAq-000851-Qq
- for qemu-devel@nongnu.org; Wed, 12 May 2021 01:12:46 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lghSC-0001fa-LH
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 01:30:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620796364;
+ s=mimecast20190719; t=1620797438;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Jy6X3uXsOX2+ZS1fqvueseKT+GWrB5QyysBOESbmvBE=;
- b=L63vSVRVnBkLjrDyDRYQDz2cvo6Uh4ZHn0bBCJfzHyK3kCufvsKKhElRo2zFbCqAJVyAEc
- TZzRw1hHerI49kxfwGZxSaChtZExpYCysvTq5MA/cAczPCMr3ykc12aB18dYZSQzv9hzC6
- lIMMTU3FT/v2jjToml+U2DtW8qThVM8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-D9LzmimZNX-RX4aoZQkKMA-1; Wed, 12 May 2021 01:12:42 -0400
-X-MC-Unique: D9LzmimZNX-RX4aoZQkKMA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 1-20020adf93810000b029010fd5ac4ed7so86409wrp.15
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 22:12:42 -0700 (PDT)
+ bh=EQDcYaoo7UtIJkYj5FKIdeNZ+9RoFiL4ckcKofajUFE=;
+ b=aDZ5FDY6LttTfPC/ShMibAawZgzP0XrKCSryJ8etqZaaw7gzRlOGWldCcl/ozbU3YqAeUW
+ wn5PAEAVUFWJ3DNhyVgSSOkekxk+/ZunXpS+ccUr/plJhVA5ejI/9qQ7waDM+46IwWvilo
+ luajzpeBLVWbChn7sBkw6BLImWmLA6E=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-zAdR5dWqNkO5awiAk2zlOQ-1; Wed, 12 May 2021 01:30:36 -0400
+X-MC-Unique: zAdR5dWqNkO5awiAk2zlOQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ g17-20020a05600c0011b029014399f816a3so1125749wmc.7
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 22:30:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Jy6X3uXsOX2+ZS1fqvueseKT+GWrB5QyysBOESbmvBE=;
- b=U3kBkSInmrflbulds08/HgJAHZuIP0l4zKq27VHltRto6mfqOs9Z1Gt69t+pz2xR1v
- 0pVjZqjZ80+P0cMia2jBIFaKdUGLsQSK1DmopSneIKVop/NGJyaU374kvWYUBd5u4mql
- NB35xr91kVuFDwdFIOfQNSW13Ax3NBdITRGi2xVfAX1eB7hUXEbAoNQv0DyyepTaytGP
- e/lpPNcHpwApNzqB+C0jbzMjhKgFpj0n5pVaU6qIKh4HcTltUJE5x3IjmHIPrgVSfNYb
- 7BUkghTgRRhJcm4BhWgyPVQq3Iuqtc+EJCUwf/uHyvv+z1i8s3wiQkyf0+WM33wMJXuD
- 6EVg==
-X-Gm-Message-State: AOAM531wwTqbI/Axr6bR61pJ9ClHPJEsP1NYrmGwmf8y2DrX+/nMRzCp
- vOFsZNVxVS7uF9U309ojx5W0PraRfY6ilNW/lEt64X50kWy6cYMz8NE/RDHOsBAmZJGJvvoUHa4
- QnnoitXX9A32JCgw=
-X-Received: by 2002:adf:f90c:: with SMTP id b12mr20686959wrr.409.1620796361407; 
- Tue, 11 May 2021 22:12:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxCyD7WT2h7qFR8sJQ/EQGPVfwVIovguMky5rX3gqYDbEoELHvQFfHE4sjUZeYu5WgfWJA56w==
-X-Received: by 2002:adf:f90c:: with SMTP id b12mr20686941wrr.409.1620796361237; 
- Tue, 11 May 2021 22:12:41 -0700 (PDT)
+ bh=EQDcYaoo7UtIJkYj5FKIdeNZ+9RoFiL4ckcKofajUFE=;
+ b=RFZd+lZbjExGTJ/G6F3AqUFMk3EfPaiwAhoLRVTKYQR8aBlvllq3ZrZunwizUDU3jL
+ K+U1uKqFtG0fJ2TnZPz7FS7OVfHSzxE8KKy3ZD+LeD3OotQMScd9eCnc/sCkSbbLjL9B
+ 0m9I1Jjq28DJLNE5UwK0lBQQI4AqscjMPQXLiPsUI5ZbPIrgh7NrM3imzwWDe7D/S15H
+ tF8tAUWPyM/TTDf6aYh9wIxHviYdapUrQXSA07cT2Gydg4eXMZ2m8JbsCZOkqtzLGH8r
+ mw07d9alM/qjIyQQuyNyVPtQm9hKVM2S138gYji1Bgk85aIbZAQVwbmdXdCvnvRVIX3T
+ gYHg==
+X-Gm-Message-State: AOAM531X4BMx4kmGyNw+G5qi204UnenkJfyMYj4WxruLEfr4S8o0POf6
+ /kAThEEHgwscC70HOh7S/m+IHPuKz5eLN9UpnotIC6Krog+JlchDeENbeN6a6QRLnHv0Ze2MRNF
+ r9zlw9UChEJRypDI=
+X-Received: by 2002:adf:f891:: with SMTP id u17mr43363045wrp.352.1620797435807; 
+ Tue, 11 May 2021 22:30:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7eyYTg9yArGZVtQa4WtoivtiwKXWtnrYLivX0i22H31Mdv8ftTdtsj+4CvtHRUtexkp5UoA==
+X-Received: by 2002:adf:f891:: with SMTP id u17mr43363013wrp.352.1620797435583; 
+ Tue, 11 May 2021 22:30:35 -0700 (PDT)
 Received: from thuth.remote.csb (pd9e835ac.dip0.t-ipconnect.de.
  [217.232.53.172])
- by smtp.gmail.com with ESMTPSA id p10sm28630729wrr.58.2021.05.11.22.12.40
+ by smtp.gmail.com with ESMTPSA id a76sm3494473wmd.16.2021.05.11.22.30.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 22:12:40 -0700 (PDT)
-Subject: Re: [PATCH] configure: Only clone softfloat-3 repositories if TCG is
- enabled
+ Tue, 11 May 2021 22:30:35 -0700 (PDT)
+Subject: Re: [RFC PATCH 1/5] hw/mem/nvdimm: Use Kconfig 'imply' instead of
+ 'depends on'
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210512045821.3257963-1-philmd@redhat.com>
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20210511155354.3069141-1-philmd@redhat.com>
+ <20210511155354.3069141-2-philmd@redhat.com> <YJs8anLs1zL3nPdS@yekko>
+ <21e0a306-ccfb-a627-1496-14f831fe80a7@redhat.com>
+ <dba0c284-b279-5e5b-74c9-2da719a8ce2e@redhat.com>
+ <87594332-49d3-2859-c893-9071200e8713@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <afeea06f-b778-6d62-daf6-99fa4286b056@redhat.com>
-Date: Wed, 12 May 2021 07:12:39 +0200
+Message-ID: <79d124be-c881-3007-13ff-4422d2da0b1c@redhat.com>
+Date: Wed, 12 May 2021 07:30:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210512045821.3257963-1-philmd@redhat.com>
+In-Reply-To: <87594332-49d3-2859-c893-9071200e8713@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -100,50 +104,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, "Emilio G . Cota" <cota@braap.org>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Igor Mammedov <imammedo@redhat.com>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, qemu-ppc@nongnu.org,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/05/2021 06.58, Philippe Mathieu-Daudé wrote:
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   configure | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
+On 12/05/2021 07.08, Philippe Mathieu-Daudé wrote:
+> On 5/12/21 6:53 AM, Thomas Huth wrote:
+>> On 12/05/2021 05.57, Philippe Mathieu-Daudé wrote:
+>>> On 5/12/21 4:24 AM, David Gibson wrote:
+>>>> On Tue, May 11, 2021 at 05:53:50PM +0200, Philippe Mathieu-Daudé wrote:
+>>>>> Per the kconfig.rst:
+>>>>>
+>>>>>     A device should be listed [...] ``imply`` if (depending on
+>>>>>     the QEMU command line) the board may or  may not be started
+>>>>>     without it.
+>>>>>
+>>>>> This is the case with the NVDIMM device, so use the 'imply'
+>>>>> weak reverse dependency to select the symbol.
+>>>>
+>>>> Uh.. It should definitely be possible to start a pseries machine
+>>>> without NVDIMM.  I would have guessed the same for PC.
+>>>
+>>> Yes, this is what this patch does. With it we can build with:
+>>> CONFIG_NVDIMM=n
+>>
+>> But with "imply" you could end up with a PSERIES that does not have
+>> NVDIMM when also using --without-default-devices, couldn't you?
 > 
-> diff --git a/configure b/configure
-> index 5877a6b2bfe..e0e02623e3e 100755
-> --- a/configure
-> +++ b/configure
-> @@ -257,8 +257,6 @@ if test -e "$source_path/.git"
->   then
->       git_submodules_action="update"
->       git_submodules="ui/keycodemapdb"
-> -    git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
-> -    git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
->   else
->       git_submodules_action="ignore"
->       git_submodules=""
-> @@ -2277,6 +2275,11 @@ if test "$solaris" = "yes" ; then
->     fi
->   fi
->   
-> +if test "$tcg" = "enabled"; then
-
-Shouldn't there be a check here, too, whether git submodules are enabled at 
-all or not?
-
-  Thomas
-
-
-> +    git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
-> +    git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
-> +fi
-> +
->   if test -z "${target_list+xxx}" ; then
->       default_targets=yes
->       for target in $default_target_list; do
+> Not currently, because of the CONFIG_NVDIMM=y.
 > 
+>> Why don't you use "select" instead of "imply" ?
+> 
+> Because as David said earlier:
+> 
+> "It should definitely be possible to start a pseries machine
+> without NVDIMM."
+
+Oops, sorry, looks like I did not have enough coffee yet and misread David's 
+comment ... patch looks fine, indeed.
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
 
