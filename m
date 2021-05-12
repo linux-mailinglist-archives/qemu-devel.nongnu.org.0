@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6A737D0FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:47:42 +0200 (CEST)
-Received: from localhost ([::1]:43678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D693A37CFE5
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 19:37:31 +0200 (CEST)
+Received: from localhost ([::1]:47882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgsxR-0008HY-1G
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:47:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34012)
+	id 1lgsna-0000Ij-Sj
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 13:37:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgsh0-0005bt-Nb
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:30:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58120)
+ id 1lgslj-0005bI-Ky
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:35:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgsgy-0007ND-FM
- for qemu-devel@nongnu.org; Wed, 12 May 2021 13:30:42 -0400
+ id 1lgsle-0001kB-Uy
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 13:35:35 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgsgw-0005H0-8b
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 17:30:38 +0000
+ id 1lgsld-0005aj-0Z
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 17:35:29 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0BE542E8186
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 17:30:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 016C72E8136
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 17:35:29 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 17:22:40 -0000
-From: "Dr. David Alan Gilbert" <1924738@bugs.launchpad.net>
+Date: Wed, 12 May 2021 17:25:52 -0000
+From: Thomas Huth <1924738@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -40,9 +40,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: dgilbert-h izorkin
 X-Launchpad-Bug-Reporter: Izorkin (izorkin)
-X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
 References: <161856700090.8743.17887923677613364195.malonedeb@gac.canonical.com>
-Message-Id: <162084016081.25979.15255226099640038001.malone@chaenomeles.canonical.com>
+Message-Id: <162084035322.1146.4514585457612146337.launchpad@wampee.canonical.com>
 Subject: [Bug 1924738] Re: Failed to restore domain - error load load
  virtio-balloon:virtio
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: c4b88e5b77257a5a49bb6d4271271480562eff46
+X-Launchpad-Hash: 9add3f755cf70e1b1a9b960da8911c53799b4959
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,10 +75,8 @@ Reply-To: Bug 1924738 <1924738@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you just clarify:
-  a) Which version of qemu are you running?
-  b) Was the save done with the pc-i440fx-5.1 as well as the load?
-  c) What guest are you running?
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
 -- =
 
