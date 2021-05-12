@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D600C37BC15
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:54:31 +0200 (CEST)
-Received: from localhost ([::1]:58454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC6637BC16
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:55:20 +0200 (CEST)
+Received: from localhost ([::1]:60580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgnRe-0006Iu-Rc
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:54:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51146)
+	id 1lgnSR-0007li-Jt
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:55:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgnQT-0005YY-Pj
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:53:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32429)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgnRB-0006RE-Fj
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:54:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgnQO-00081I-O0
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:53:17 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lgnR9-0008UK-VX
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:54:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620820391;
+ s=mimecast20190719; t=1620820439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RD3CKpXeajvf6yFymGThZc1jBPALTmJVkf5gQvXvZ5c=;
- b=ZXaXbjcaUPIbD92mdCOxpwisCyXZQ6UTj3nNTyw+76ukUiJYLbQ7dMMfXnAZn7OJ1j+wb2
- Eef3wHwNc9VfQBkA2FvYFR2dwKoVpb0kBJHHTtmq59Odp8AOgdDg3YaBC3QbM4xl13GEUh
- IrnPdx8NcBv5H+cqGNkspDTCf6GWm2g=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-je57n0eXOee7V2t3DgUrBA-1; Wed, 12 May 2021 07:53:09 -0400
-X-MC-Unique: je57n0eXOee7V2t3DgUrBA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- g206-20020a1c39d70000b029016ac627fbe9so767428wma.9
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 04:53:09 -0700 (PDT)
+ bh=P8UFc5Lg/oBgRZ97cuZ+j729n731PdZeIxVf1IQvK2s=;
+ b=KfsPFHyPLYtz1bQQBrFId4Q9kZp7w22P6kSHly2leRFH61enhLJiebdIbR/odqh1+X2idV
+ SIJZacn5jLd59dOw1fPx2RuSTPfakK+MrjK2A78Hyghmj8suesEHJfQkMTfFJ1cfQ5CfK2
+ Lx96e2LzsZVYnpRsJ7XP8XzjgxwN4Vc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-514-1tJARhyBO4KgZxqqpKnsvA-1; Wed, 12 May 2021 07:53:58 -0400
+X-MC-Unique: 1tJARhyBO4KgZxqqpKnsvA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v5-20020adf9e450000b029010e708f05b3so5738527wre.6
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 04:53:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RD3CKpXeajvf6yFymGThZc1jBPALTmJVkf5gQvXvZ5c=;
- b=on1GQUqGO7zbJ2ho0t6aNyGbe5bIs/6I9BjuHfT1BxuRHbReENA8K0B9WMmkDlRsv+
- Aqkt0w23rxap+tMbt6O/pvOE906/e2DH1leU34vm+xe2rPoqiBd4OVAaIjcZUKYVoE6t
- n0wzqaTU3lM6laOhE/mVg8v8RSTEFaLNCARh9PTznjoq4QknfCAjFNME8jinbL1swY64
- UjZHGyLl4oLqmUEWiTQo+ddGMuV/wzYHWilAJhz6s0NmV+wkHxEZBpWI/DAIKY8RiuhJ
- /T1xTmdAOjbjog/GQnyO7t8zV5+Yqd2sl/s3NF3ANtjyQeaA7mJWjmWthxsue0ipbCRA
- aueA==
-X-Gm-Message-State: AOAM531GftXkQ3ul86gRbHM7HpclTyLZvdsrY/KuNJOA6Dd6ywagyfZE
- Zoi9Yl66dpfXhGb8XtqLRYj17soyTRGN2HM9gz9Kz84eDM4dJgzkI5br2NyL7GumchYW1tHY34a
- ZKI2sJuVsRydE8ys=
-X-Received: by 2002:adf:df8d:: with SMTP id z13mr1728512wrl.267.1620820388471; 
- Wed, 12 May 2021 04:53:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVSomf7IXVy5IHaVGaIC36X8xI3cISQ+qlPmVJ+vlRVdOfVvqoYzLujtuZAZ4i+ArdiLdSRg==
-X-Received: by 2002:adf:df8d:: with SMTP id z13mr1728481wrl.267.1620820388237; 
- Wed, 12 May 2021 04:53:08 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id i3sm34942718wrb.46.2021.05.12.04.53.07
+ bh=P8UFc5Lg/oBgRZ97cuZ+j729n731PdZeIxVf1IQvK2s=;
+ b=aNJHdlBjM0YbmF0xaLgGSS5aZWDtYcCFFC8h4N1qg/IE/LaUurEJkA/g+ipHiMbly5
+ SqvgHvefEhbeI4O/qGH/VFcH+NCzmR6+QdmOIe7kOxZaRO6ETYqysV6IrTytDKtaMU9q
+ JG1A9UeRgcDrYcHTTg/YO3G91cmm75MbZP6vspA1qEX4vCSFrnjOUWt3bhZg+U36lZ6D
+ /Ra+Afo2Vz2QXNfPGFAKsUswShXcPHaHSQb7fQ2oHb3/BCKOKKGlMYOwMkrYYzOjR0oR
+ AbR8d/UDtbFIE1/fPfITt0GR/FxeCSPV53JyCZAob42OrL1z/z80tNg7lgWRJJ8i3HbV
+ V0/Q==
+X-Gm-Message-State: AOAM532cVA1kgZPAs91ZCoTRFSExK64p4gGTjK1oSLbR+DwujbPAS8x6
+ APXpsz8gY0ntetuPNojHppG2iRb8wdkTitBb129PuP5NvqkjSjhziQXuYkaScRysBmURmT/k3z5
+ 764VoqyMBjdHc7CE=
+X-Received: by 2002:a1c:23c9:: with SMTP id j192mr5846504wmj.131.1620820436877; 
+ Wed, 12 May 2021 04:53:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwn6QMaElGaWkHvhvv2kI3gTnVaI2569GhDnLVa5i+4NNz8rvA7xsLY2iRH8zX+HvlaQzCFwg==
+X-Received: by 2002:a1c:23c9:: with SMTP id j192mr5846488wmj.131.1620820436686; 
+ Wed, 12 May 2021 04:53:56 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e835ac.dip0.t-ipconnect.de.
+ [217.232.53.172])
+ by smtp.gmail.com with ESMTPSA id l18sm30627988wrt.97.2021.05.12.04.53.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 May 2021 04:53:07 -0700 (PDT)
-Subject: Re: [PULL 8/9] pc-bios/s390-ccw: Allow building with Clang, too
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210510073524.85951-1-thuth@redhat.com>
- <20210510073524.85951-9-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e35749b2-2452-4a6c-2eb3-81a969a2704a@redhat.com>
-Date: Wed, 12 May 2021 13:53:06 +0200
+ Wed, 12 May 2021 04:53:56 -0700 (PDT)
+Subject: non-x86 runners in the Gitlab-CI (was: Re: [PATCH 12/12] configure:
+ bump min required CLang to 7.0.0 / XCode 10.2)
+To: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
+References: <20210511132641.1022161-1-berrange@redhat.com>
+ <20210511132641.1022161-13-berrange@redhat.com>
+ <fcb6b808-c1de-d5f3-064c-1725c49999e0@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <5b582933-6004-3549-b5fe-208c182d5efe@redhat.com>
+Date: Wed, 12 May 2021 13:53:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210510073524.85951-9-thuth@redhat.com>
+In-Reply-To: <fcb6b808-c1de-d5f3-064c-1725c49999e0@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,109 +100,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- cohuck@redhat.com, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Ademar Reis Jr <areis@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/10/21 9:35 AM, Thomas Huth wrote:
-> Clang unfortunately does not support generating code for the z900
-> architecture level and starts with the z10 instead. Thus to be able
-> to support compiling with Clang, we have to check for the supported
-> compiler flags. The disadvantage is of course that the bios image
-> will only run with z10 guest CPUs upwards (which is what most people
-> use anyway), so just in case let's also emit a warning in that case
-> (we will continue to ship firmware images that have been pre-built
-> with GCC in future releases, so this should not impact normal users,
-> too).
+On 12/05/2021 13.44, Philippe Mathieu-Daudé wrote:
+> On 5/11/21 3:26 PM, Daniel P. Berrangé wrote:
+>> Several distros have been dropped since the last time we bumped the
+>> minimum required CLang version.
+>>
+>> Per repology, currently shipping versions are:
+>>
+>>               RHEL-8: 10.0.1
+>>       Debian Stretch: 7.0.1
+>>        Debian Buster: 7.0.1
+>>   openSUSE Leap 15.2: 9.0.1
+>>     Ubuntu LTS 18.04: 10.0.0
+>>     Ubuntu LTS 20.04: 11.0.0
+>>           FreeBSD 12: 8.0.1
+>>            Fedora 33: 11.0.0
+>>            Fedora 34: 11.1.0
+>>
+>> With this list Debian Stretch is the constraint at 7.0.1
+>>
+>> An LLVM version of 7.0.1 corresponds to macOS XCode version of 10.2
+>> which dates from March 2019.
 > 
-> Message-Id: <20210502174836.838816-5-thuth@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  configure                 | 9 ++++++++-
->  pc-bios/s390-ccw/Makefile | 3 ++-
->  2 files changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 4f374b4889..5ebc937746 100755
-> --- a/configure
-> +++ b/configure
-> @@ -5417,9 +5417,16 @@ if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
->  fi
->  
->  # Only build s390-ccw bios if we're on s390x and the compiler has -march=z900
-> +# or -march=z10 (which is the lowest architecture level that Clang supports)
->  if test "$cpu" = "s390x" ; then
->    write_c_skeleton
-> -  if compile_prog "-march=z900" ""; then
-> +  compile_prog "-march=z900" ""
-> +  has_z900=$?
-> +  if [ $has_z900 = 0 ] || compile_prog "-march=z10" ""; then
-> +    if [ $has_z900 != 0 ]; then
-> +      echo "WARNING: Your compiler does not support the z900!"
-> +      echo "         The s390-ccw bios will only work with guest CPUs >= z10."
-> +    fi
->      roms="$roms s390-ccw"
->      # SLOF is required for building the s390-ccw firmware on s390x,
->      # since it is using the libnet code from SLOF for network booting.
-> diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-> index 83fb1afb73..cee9d2c63b 100644
-> --- a/pc-bios/s390-ccw/Makefile
-> +++ b/pc-bios/s390-ccw/Makefile
-> @@ -34,7 +34,8 @@ QEMU_CFLAGS += $(call cc-option,-Werror $(QEMU_CFLAGS),-Wno-stringop-overflow)
->  QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -fno-common -fPIE
->  QEMU_CFLAGS += -fwrapv -fno-strict-aliasing -fno-asynchronous-unwind-tables
->  QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-stack-protector)
-> -QEMU_CFLAGS += -msoft-float -march=z900
-> +QEMU_CFLAGS += -msoft-float
-> +QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS),-march=z900,-march=z10)
->  QEMU_CFLAGS += -std=gnu99
->  LDFLAGS += -Wl,-pie -nostdlib
+> But we still rely on Travis-CI (Ubuntu Bionic 18.04 LTS)
+> for non-x86 targets until we have figured out who is willing
+> to share/maintain such non-x86 native runners on Gitlab.
 
-This broke the travis-ci  "[s390x] Clang (disable-tcg)" job:
-https://travis-ci.org/github/qemu/qemu/jobs/770794417#L1776
+  Hi Cleber,
 
-Description:	Ubuntu 18.04.4 LTS
-Release:	18.04
-Codename:	bionic
+by the way, what's the status of your patch series to get the dedicated CI 
+machines (s390x, aarch64, ...) running in our Gitlab-CI? AFAIK the last 
+iteration of your patches has been weeks ago, so I wonder whether you could 
+finally send a new version with the requested fixes included? ... this topic 
+slowly gets more and more urgent now that our Travis-CI is in process of 
+dying...
 
-$ clang --version
-clang version 6.0.0-1ubuntu2 (tags/RELEASE_600/final)
-Target: s390x-ibm-linux-gnu
-
-  CC      pc-bios/s390-ccw/main.o
-clang: warning: optimization flag '-fno-delete-null-pointer-checks' is
-not supported [-Wignored-optimization-argument]
-clang: warning: argument unused during compilation: '-msoft-float'
-[-Wunused-command-line-argument]
-/home/travis/build/qemu/qemu/pc-bios/s390-ccw/main.c:284:5: warning: no
-previous prototype for function 'main' [-Wmissing-prototypes]
-int main(void)
-    ^
-1 warning generated.
-clang: warning: optimization flag '-fno-delete-null-pointer-checks' is
-not supported [-Wignored-optimization-argument]
-
-  CC      pc-bios/s390-ccw/jump2ipl.o
-/home/travis/build/qemu/qemu/pc-bios/s390-ccw/jump2ipl.c:67:18: error:
-invalid operand for instruction
-    asm volatile("lghi 1,1\n\t"
-                 ^
-<inline asm>:1:7: note: instantiated into assembly here
-        lghi 1,1
-             ^
-/home/travis/build/qemu/qemu/pc-bios/s390-ccw/jump2ipl.c:67:29: error:
-invalid operand for instruction
-    asm volatile("lghi 1,1\n\t"
-                            ^
-<inline asm>:2:7: note: instantiated into assembly here
-        diag 1,1,0x308
-             ^
-2 errors generated.
-Makefile:20: recipe for target 'jump2ipl.o' failed
-make[1]: *** [jump2ipl.o] Error 1
+  Thomas
 
 
