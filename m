@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85CE37D3B8
+	by mail.lfdr.de (Postfix) with ESMTPS id 4091237D3B7
 	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:02:28 +0200 (CEST)
-Received: from localhost ([::1]:40028 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:39994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgu7n-0001Mv-T7
+	id 1lgu7n-0001LU-A3
 	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53352)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu1y-0005pM-Ov; Wed, 12 May 2021 14:56:26 -0400
+ id 1lgu21-0005vH-Kh; Wed, 12 May 2021 14:56:29 -0400
 Received: from [201.28.113.2] (port=20812 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu1x-0007uU-17; Wed, 12 May 2021 14:56:26 -0400
+ id 1lgu1z-0007uU-Vs; Wed, 12 May 2021 14:56:29 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 15:56:01 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 37A1280139F;
+ by power9a (Postfix) with ESMTP id 84E1B8000C2;
  Wed, 12 May 2021 15:56:01 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 07/31] target/ppc: Introduce DISAS_{EXIT,CHAIN}{,_UPDATE}
-Date: Wed, 12 May 2021 15:54:17 -0300
-Message-Id: <20210512185441.3619828-8-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 08/31] target/ppc: Replace POWERPC_EXCP_SYNC with DISAS_EXIT
+Date: Wed, 12 May 2021 15:54:18 -0300
+Message-Id: <20210512185441.3619828-9-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 May 2021 18:56:01.0546 (UTC)
- FILETIME=[73C546A0:01D74760]
+X-OriginalArrivalTime: 12 May 2021 18:56:01.0874 (UTC)
+ FILETIME=[73F75320:01D74760]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,123 +63,135 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Rewrite ppc_tr_tb_stop to handle these new codes.
-
-Convert ctx->exception into these new codes at the end of
-ppc_tr_translate_insn, prior to pushing the change back
-throughout translate.c.
+Remove the synthetic "exception" after no more uses.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/translate.c | 75 ++++++++++++++++++++++++++++++++++++------
- 1 file changed, 65 insertions(+), 10 deletions(-)
+ target/ppc/cpu.h       |  1 -
+ target/ppc/translate.c | 27 +++++++++------------------
+ 2 files changed, 9 insertions(+), 19 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 7b23f85c11..4bebb00bb2 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -182,6 +182,11 @@ struct DisasContext {
-     uint64_t insns_flags2;
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 98fcf1c4d6..503de6db85 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -135,7 +135,6 @@ enum {
+     POWERPC_EXCP_STOP         = 0x200, /* stop translation                   */
+     POWERPC_EXCP_BRANCH       = 0x201, /* branch instruction                 */
+     /* QEMU exceptions: special cases we want to stop translation            */
+-    POWERPC_EXCP_SYNC         = 0x202, /* context synchronizing instruction  */
+     POWERPC_EXCP_SYSCALL_USER = 0x203, /* System call in user mode only      */
  };
  
-+#define DISAS_EXIT         DISAS_TARGET_0  /* exit to main loop, pc updated */
-+#define DISAS_EXIT_UPDATE  DISAS_TARGET_1  /* exit to main loop, pc stale */
-+#define DISAS_CHAIN        DISAS_TARGET_2  /* lookup next tb, pc updated */
-+#define DISAS_CHAIN_UPDATE DISAS_TARGET_3  /* lookup next tb, pc stale */
-+
- /* Return true iff byteswap is needed in a scalar memop */
- static inline bool need_byteswap(const DisasContext *ctx)
- {
-@@ -9417,28 +9422,78 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-                  opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
-     }
- 
--    if (ctx->base.is_jmp == DISAS_NEXT
--        && ctx->exception != POWERPC_EXCP_NONE) {
--        ctx->base.is_jmp = DISAS_TOO_MANY;
-+    if (ctx->base.is_jmp == DISAS_NEXT) {
-+        switch (ctx->exception) {
-+        case POWERPC_EXCP_NONE:
-+            break;
-+        case POWERPC_EXCP_BRANCH:
-+            ctx->base.is_jmp = DISAS_NORETURN;
-+            break;
-+        case POWERPC_EXCP_SYNC:
-+        case POWERPC_EXCP_STOP:
-+            ctx->base.is_jmp = DISAS_EXIT;
-+            break;
-+        default:
-+            /* Every other ctx->exception should have set NORETURN. */
-+            g_assert_not_reached();
-+        }
-     }
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 4bebb00bb2..88fe24ef95 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -359,14 +359,6 @@ static inline void gen_stop_exception(DisasContext *ctx)
+     ctx->exception = POWERPC_EXCP_STOP;
  }
  
- static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
- {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+    DisasJumpType is_jmp = ctx->base.is_jmp;
-+    target_ulong nip = ctx->base.pc_next;
+-#ifndef CONFIG_USER_ONLY
+-/* No need to update nip here, as execution flow will change */
+-static inline void gen_sync_exception(DisasContext *ctx)
+-{
+-    ctx->exception = POWERPC_EXCP_SYNC;
+-}
+-#endif
+-
+ /*****************************************************************************/
+ /* SPR READ/WRITE CALLBACKS */
  
--    if (ctx->base.is_jmp == DISAS_NORETURN) {
-+    if (is_jmp == DISAS_NORETURN) {
-+        /* We have already exited the TB. */
-         return;
+@@ -5035,7 +5027,7 @@ static void gen_rfi(DisasContext *ctx)
      }
- 
--    if (ctx->exception == POWERPC_EXCP_NONE) {
--        gen_goto_tb(ctx, 0, ctx->base.pc_next);
--    } else if (ctx->exception != POWERPC_EXCP_BRANCH) {
--        if (unlikely(ctx->base.singlestep_enabled)) {
--            gen_debug_exception(ctx);
-+    /* Honor single stepping. */
-+    if (unlikely(ctx->base.singlestep_enabled)) {
-+        switch (is_jmp) {
-+        case DISAS_TOO_MANY:
-+        case DISAS_EXIT_UPDATE:
-+        case DISAS_CHAIN_UPDATE:
-+            gen_update_nip(ctx, nip);
-+            break;
-+        case DISAS_EXIT:
-+        case DISAS_CHAIN:
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
--        /* Generate the return instruction */
-+        gen_debug_exception(ctx);
-+        return;
-+    }
-+
-+    switch (is_jmp) {
-+    case DISAS_TOO_MANY:
-+        if (use_goto_tb(ctx, nip)) {
-+            tcg_gen_goto_tb(0);
-+            gen_update_nip(ctx, nip);
-+            tcg_gen_exit_tb(ctx->base.tb, 0);
-+            break;
-+        }
-+        /* fall through */
-+    case DISAS_CHAIN_UPDATE:
-+        gen_update_nip(ctx, nip);
-+        /* fall through */
-+    case DISAS_CHAIN:
-+        tcg_gen_lookup_and_goto_ptr();
-+        break;
-+
-+    case DISAS_EXIT_UPDATE:
-+        gen_update_nip(ctx, nip);
-+        /* fall through */
-+    case DISAS_EXIT:
-         tcg_gen_exit_tb(NULL, 0);
-+        break;
-+
-+    default:
-+        g_assert_not_reached();
-     }
+     gen_update_cfar(ctx, ctx->cia);
+     gen_helper_rfi(cpu_env);
+-    gen_sync_exception(ctx);
++    ctx->base.is_jmp = DISAS_EXIT;
+ #endif
  }
  
+@@ -5052,7 +5044,7 @@ static void gen_rfid(DisasContext *ctx)
+     }
+     gen_update_cfar(ctx, ctx->cia);
+     gen_helper_rfid(cpu_env);
+-    gen_sync_exception(ctx);
++    ctx->base.is_jmp = DISAS_EXIT;
+ #endif
+ }
+ 
+@@ -5069,7 +5061,7 @@ static void gen_rfscv(DisasContext *ctx)
+     }
+     gen_update_cfar(ctx, ctx->cia);
+     gen_helper_rfscv(cpu_env);
+-    gen_sync_exception(ctx);
++    ctx->base.is_jmp = DISAS_EXIT;
+ #endif
+ }
+ #endif
+@@ -5082,7 +5074,7 @@ static void gen_hrfid(DisasContext *ctx)
+     /* Restore CPU state */
+     CHK_HV;
+     gen_helper_hrfid(cpu_env);
+-    gen_sync_exception(ctx);
++    ctx->base.is_jmp = DISAS_EXIT;
+ #endif
+ }
+ #endif
+@@ -6923,7 +6915,7 @@ static void gen_rfsvc(DisasContext *ctx)
+     CHK_SV;
+ 
+     gen_helper_rfsvc(cpu_env);
+-    gen_sync_exception(ctx);
++    ctx->base.is_jmp = DISAS_EXIT;
+ #endif /* defined(CONFIG_USER_ONLY) */
+ }
+ 
+@@ -7303,7 +7295,7 @@ static void gen_rfci_40x(DisasContext *ctx)
+     CHK_SV;
+     /* Restore CPU state */
+     gen_helper_40x_rfci(cpu_env);
+-    gen_sync_exception(ctx);
++    ctx->base.is_jmp = DISAS_EXIT;
+ #endif /* defined(CONFIG_USER_ONLY) */
+ }
+ 
+@@ -7315,7 +7307,7 @@ static void gen_rfci(DisasContext *ctx)
+     CHK_SV;
+     /* Restore CPU state */
+     gen_helper_rfci(cpu_env);
+-    gen_sync_exception(ctx);
++    ctx->base.is_jmp = DISAS_EXIT;
+ #endif /* defined(CONFIG_USER_ONLY) */
+ }
+ 
+@@ -7330,7 +7322,7 @@ static void gen_rfdi(DisasContext *ctx)
+     CHK_SV;
+     /* Restore CPU state */
+     gen_helper_rfdi(cpu_env);
+-    gen_sync_exception(ctx);
++    ctx->base.is_jmp = DISAS_EXIT;
+ #endif /* defined(CONFIG_USER_ONLY) */
+ }
+ 
+@@ -7343,7 +7335,7 @@ static void gen_rfmci(DisasContext *ctx)
+     CHK_SV;
+     /* Restore CPU state */
+     gen_helper_rfmci(cpu_env);
+-    gen_sync_exception(ctx);
++    ctx->base.is_jmp = DISAS_EXIT;
+ #endif /* defined(CONFIG_USER_ONLY) */
+ }
+ 
+@@ -9429,7 +9421,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+         case POWERPC_EXCP_BRANCH:
+             ctx->base.is_jmp = DISAS_NORETURN;
+             break;
+-        case POWERPC_EXCP_SYNC:
+         case POWERPC_EXCP_STOP:
+             ctx->base.is_jmp = DISAS_EXIT;
+             break;
 -- 
 2.25.1
 
