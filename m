@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112D737D28D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:13:10 +0200 (CEST)
-Received: from localhost ([::1]:45804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D30537D2AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:14:33 +0200 (CEST)
+Received: from localhost ([::1]:50530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgtM5-0004dp-4m
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:13:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43550)
+	id 1lgtNQ-0007qY-5T
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:14:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgtK2-0002Pe-1W
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:11:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33848)
+ id 1lgtK3-0002RY-55
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:11:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgtK0-0006x6-4Q
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:11:01 -0400
+ id 1lgtK0-0006vw-6j
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:11:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgtJx-0000wb-1u
+ id 1lgtJx-0000xG-Lt
  for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:10:57 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CC6E72E8187
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:10:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8262D2E8187
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:10:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 17:59:00 -0000
-From: Thomas Huth <1914667@bugs.launchpad.net>
+Date: Wed, 12 May 2021 17:59:13 -0000
+From: Thomas Huth <1914294@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -41,16 +41,16 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: programmingkidx th-huth
 X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161248158218.12871.10682279346002918371.malonedeb@soybean.canonical.com>
-Message-Id: <162084234042.1837.3552846234792232173.malone@wampee.canonical.com>
-Subject: [Bug 1914667] Re: High cpu usage when guest is idle on
- qemu-system-i386
+References: <161229965531.12871.15940133447161704311.malonedeb@soybean.canonical.com>
+Message-Id: <162084235374.7494.16114052205167761340.malone@gac.canonical.com>
+Subject: [Bug 1914294] Re: Windows XP displays black screen when smp option is
+ used
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: 1920bfb9517f5c44b85b43b6421cc429446d2069
+X-Launchpad-Hash: c277692e083cc082bc74fe5cf2374ba980cc6b99
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914667 <1914667@bugs.launchpad.net>
+Reply-To: Bug 1914294 <1914294@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -112,38 +112,29 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914667
+https://bugs.launchpad.net/bugs/1914294
 
 Title:
-  High cpu usage when guest is idle on qemu-system-i386
+  Windows XP displays black screen when smp option is used
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  When running Windows XP in qemu-system-i386, the cpu usage of QEMU is
-  about 100% even when the guest CPU usage is close to 2%. The host cpu
-  usage should be low when the guest cpu usage is low.
+  When I use Windows XP with the -smp option, the screen goes black. The
+  only thing I can see is a cursor. I have tried -smp 2, -smp cores=3D4,
+  and -smp cores=3D2.
 
-  Command: qemu-system-i386 -hda <Windows XP HD image>
+  My info:
 
-  Using this command also shows around 100% host CPU usage:
-  qemu-system-i386 -m 700 -hda <Windows XP HD image> -usb -device usb-audio=
- -net nic,model=3Drtl8139 -net user -hdb mountable.img -soundhw pcspk
-
-  Using the Penryn CPU option also saw this problem:
-  qemu-system-i386 -hda <Windows XP HD image> -m 700 -cpu Penryn-v1
-
-  Using "-cpu pentium2" saw the same high host cpu usage.
-
-  =
-
-  My Info:
-  M1 MacBook Air
+  Host:
+  M1 Mac
   Mac OS 11.1
-  qemu-system-i386 version 5.2 (1ba089f2255bfdb071be3ce6ac6c3069e8012179)
-  Windows XP SP3 Build 2600
+  QEMU 5.2 at cf7ca7d5b9faca13f1f8e3ea92cfb2f741eb0c0e.
+
+  Guest:
+  32-bit Windows XP SP3 build 2600.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914667/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1914294/+subscriptions
 
