@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B5437BAF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:41:02 +0200 (CEST)
-Received: from localhost ([::1]:59362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6F837BAD3
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:38:26 +0200 (CEST)
+Received: from localhost ([::1]:50808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgmIX-0003fd-5M
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:41:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
+	id 1lgmG1-0006Fh-MC
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:38:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgm8b-0000nN-Eb
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:30:45 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42801)
+ id 1lglzO-0003tt-Qn
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:14 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgm8X-0000ch-QS
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:30:45 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id x8so785377wrq.9
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:30:41 -0700 (PDT)
+ id 1lglzN-0003jf-0d
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:14 -0400
+Received: by mail-wr1-x433.google.com with SMTP id q5so3583874wrs.4
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:21:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l97rhLDxO0XNq5HQNG4JIIr2ozVY5tElcdl90wPdeI0=;
- b=s0+5H6cPoS6XRe3FxBqZqEc0tMsB9Yw2D63FY8kNmf8shpVwszLz3x1ZvUpXlvLi+t
- HlxujfHwbUNnBXRcdpqRH45vQ4lrMbPOS0N2LeQaI/q8+ZOHi0CfP7dytxLFJJTybC9y
- 75dNr9gc5G3PglSC2kEz318irdroAOsQ9zj8IizxwZN5yhWRJodtWil4ZjX0w2OjAbRv
- CUNZ4Pk7K8X3lKAMeY17bqFrI0yUfYntIVTQw3GLMeidWH1HC6qXFiyu4zeGPTe9fifD
- 2IoISIbVP/U9MYYfQtkMy10pjnI/9LwnDmMPPCXSdLAuUjWYM01ZPflPBKOSMV6slFNS
- M/Qg==
+ bh=yICXcB9Xc8sS5oqCx+QbGc9GZYDuZZrT+QLlCYTqMtM=;
+ b=K0aoahjRUf9DsO9fZsnpyVNzl9+Ffrf5nDnWTeJuxaqQf/lvp8V0GRgm65+dEu1B3V
+ AfmhkPkFohQ4W8ZnuTxCbjtw+B4acx1b7NGBHFJRQPVZAxHuzGPRXOlzNUU3RRymyDkD
+ 96LclPUffB/owSk5M3xE5CmDlLMho+/4rIpwGKH9WjjL4CwvzCofNPcdGUmMtWG56Q3e
+ IArz3n+5du0uu2Dn2RM1nS1kfklf1DL3qoadn8RU9aAWLxqmrAr+lE2hCsPLoP1e6fOs
+ /VqUn+3K0Dh51qpch7VNeFBi3Y5O51S9qQrvjscDOLX/ufKENumVpwVrrH3DyAa+IGav
+ viTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l97rhLDxO0XNq5HQNG4JIIr2ozVY5tElcdl90wPdeI0=;
- b=MSdDwKsbSM8SdMkqnNROZqudDOFZTNIbyNhzZz57fU34VYs6fyLvf3vYMx+NRs8VcK
- PZdqJjz01x69mGE7MO1JGeilSkz/tgD+dPoFme3gK/AGLMmqfFJp5dxy0x6EB+ARV5/K
- 0GBjS+IonarWRXt5VtSKdMwWVIPihFAO5uyC4y1ZGA4veZ7pY2MAiSaemWW7/oGfwsWS
- bqp/UhcSJ0ipG0x0pNCyNqbW9+FwiPNEFh+cCbLiJBCr/K1wXi8pyURa01ZFqaFnXz6M
- WHZ3meW2q/CyOkhVEplU7dnq+6DARfyvrfG3H6xJvWCHGcoK8xTLnIbQI2/4MLizCyBl
- W5dw==
-X-Gm-Message-State: AOAM5337w9GUVeyw8EjdEWuEnKD1NVRZUYdsooQiu4lwvhc+V7tR3c1r
- abIaTHc5vMwD6lBirzSB2c5TYcl7SH810g==
-X-Google-Smtp-Source: ABdhPJxm9Vqt1s+UTMLpM0sckW4UbUP4sY58qjwUB48sq8jYOkklk9d9Op8iBOcjboE4fMOE84wAMw==
-X-Received: by 2002:a05:6000:12cc:: with SMTP id
- l12mr6301489wrx.91.1620815440446; 
- Wed, 12 May 2021 03:30:40 -0700 (PDT)
+ bh=yICXcB9Xc8sS5oqCx+QbGc9GZYDuZZrT+QLlCYTqMtM=;
+ b=OK/m+W9tHB0zVmecSZkKLeQDOqAaDFLnrswuN1kX6t/y8WLfw08uNKrMfO74GLSHBu
+ gOwvJF79WRVyZH5lhFsOjc9dcAmRcycmMgDI3y4n/a0e26/3o512Msw4Y1voStGlIpX8
+ wtZi/mgDCL5o/FK33Vk+UdonrSXtY1IaRPVfnrNY4zDXqUKfuqjeu6EknTor2BC7NLoJ
+ tgmPr/BpdUYGKJwBDpbep38eWfCM7he5vBy5aX+EViNm+Ss70NU/p89P4ioC9dwbzLMF
+ ELMuYjwuPhbwi9U6rUQJ2Pul2fD8IItr3o8pccFDWHNtdDQ6QA9mIL0/m1bg0EF1pPoy
+ Lvxg==
+X-Gm-Message-State: AOAM532kbuXl3lB89KOypewvni9v9fbnHkYFcNLXSqhkOIfjdymiTrbT
+ YUoiInX6qKeONyDqn1IIyIDrng==
+X-Google-Smtp-Source: ABdhPJyTEKI820XD910/iVuyl7m+e9bD/HvMxvILiXxfrKdN7Oq3faDbAECg39VB1UJ0twzdAVfPZg==
+X-Received: by 2002:adf:f78d:: with SMTP id q13mr9401803wrp.405.1620814871603; 
+ Wed, 12 May 2021 03:21:11 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w22sm5415169wmc.13.2021.05.12.03.30.29
+ by smtp.gmail.com with ESMTPSA id m6sm31453243wrp.29.2021.05.12.03.20.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 May 2021 03:30:39 -0700 (PDT)
+ Wed, 12 May 2021 03:21:09 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 870601FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id 9BB5A1FF9E;
  Wed, 12 May 2021 11:20:52 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 14/31] tests/tcg/tricore: Add build infrastructure
-Date: Wed, 12 May 2021 11:20:34 +0100
-Message-Id: <20210512102051.12134-15-alex.bennee@linaro.org>
+Subject: [PATCH  v3 15/31] configure: Emit HOST_CC to config-host.mak
+Date: Wed, 12 May 2021 11:20:35 +0100
+Message-Id: <20210512102051.12134-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210512102051.12134-1-alex.bennee@linaro.org>
 References: <20210512102051.12134-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,119 +95,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-this includes the Makefile and linker script to build all the tests.
+this is needed by the tricore-tcg-tests as tricore-gcc is not easily
+available. Thus we rely on the HOST_CC to do the preprocessing of the
+tricore assembly files.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210305170045.869437-5-kbastian@mail.uni-paderborn.de>
+Message-Id: <20210305170045.869437-6-kbastian@mail.uni-paderborn.de>
 ---
- MAINTAINERS                               |  1 +
- tests/tcg/tricore/Makefile.softmmu-target | 15 ++++++
- tests/tcg/tricore/link.ld                 | 60 +++++++++++++++++++++++
- 3 files changed, 76 insertions(+)
- create mode 100644 tests/tcg/tricore/Makefile.softmmu-target
- create mode 100644 tests/tcg/tricore/link.ld
+ configure | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 30f1e7d4e4..a3da27843b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -378,6 +378,7 @@ S: Maintained
- F: target/tricore/
- F: hw/tricore/
- F: include/hw/tricore/
-+F: tests/tcg/tricore/
- 
- Multiarch Linux User Tests
- M: Alex Bennée <alex.bennee@linaro.org>
-diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-new file mode 100644
-index 0000000000..d64a99b95f
---- /dev/null
-+++ b/tests/tcg/tricore/Makefile.softmmu-target
-@@ -0,0 +1,15 @@
-+TESTS_PATH = $(SRC_PATH)/tests/tcg/tricore
-+
-+LDFLAGS = -T$(TESTS_PATH)/link.ld
-+ASFLAGS =
-+
-+QEMU_OPTS += -M tricore_testboard -nographic -kernel
-+
-+%.pS: $(TESTS_PATH)/%.S
-+	$(HOST_CC) -E -o $@ $<
-+
-+%.o: %.pS
-+	$(AS) $(ASFLAGS) -o $@ $<
-+
-+%.tst: %.o
-+	$(LD) $(LDFLAGS) $< -o $@
-diff --git a/tests/tcg/tricore/link.ld b/tests/tcg/tricore/link.ld
-new file mode 100644
-index 0000000000..364bcdc00a
---- /dev/null
-+++ b/tests/tcg/tricore/link.ld
-@@ -0,0 +1,60 @@
-+/* Default linker script, for normal executables */
-+OUTPUT_FORMAT("elf32-tricore")
-+OUTPUT_ARCH(tricore)
-+ENTRY(_start)
-+
-+/* the internal ram description */
-+MEMORY
-+{
-+  text_ram (rx!p): org = 0x80000000, len = 15K
-+  data_ram (w!xp): org = 0xd0000000, len = 130K
-+}
-+/*
-+ * Define the sizes of the user and system stacks.
-+ */
-+__USTACK_SIZE = DEFINED (__USTACK_SIZE) ? __USTACK_SIZE : 1K ;
-+/*
-+ * Define the start address and the size of the context save area.
-+ */
-+__CSA_BEGIN =  0xd0000000 ;
-+__CSA_SIZE =  8k ;
-+__CSA_END = __CSA_BEGIN + __CSA_SIZE ;
-+
-+SECTIONS
-+{
-+  .text  :
-+  {
-+    *(.text)
-+    . = ALIGN(8);
-+  } > text_ram
-+
-+  .rodata :
-+  {
-+    *(.rodata)
-+    *(.rodata1)
-+  } > data_ram
-+
-+  .data :
-+  {
-+    . = ALIGN(8) ;
-+    *(.data)
-+    *(.data.*)
-+    . = ALIGN(8) ;
-+    __USTACK = . + __USTACK_SIZE -768;
-+
-+  } > data_ram
-+  /*
-+   * Allocate space for BSS sections.
-+   */
-+  .bss  :
-+  {
-+    BSS_BASE = . ;
-+    *(.bss)
-+    *(COMMON)
-+    . = ALIGN(8) ;
-+  } > data_ram
-+  /* Make sure CSA, stack and heap addresses are properly aligned.  */
-+  _. = ASSERT ((__CSA_BEGIN & 0x3f) == 0 , "illegal CSA start address") ;
-+  _. = ASSERT ((__CSA_SIZE & 0x3f) == 0 , "illegal CSA size") ;
-+
-+}
+diff --git a/configure b/configure
+index f3fe75db9d..1bf53961c2 100755
+--- a/configure
++++ b/configure
+@@ -6172,6 +6172,7 @@ echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
+ echo "MESON=$meson" >> $config_host_mak
+ echo "NINJA=$ninja" >> $config_host_mak
+ echo "CC=$cc" >> $config_host_mak
++echo "HOST_CC=$host_cc" >> $config_host_mak
+ if $iasl -h > /dev/null 2>&1; then
+   echo "CONFIG_IASL=$iasl" >> $config_host_mak
+ fi
 -- 
 2.20.1
 
