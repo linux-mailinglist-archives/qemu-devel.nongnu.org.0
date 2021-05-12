@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3297037B327
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 02:45:20 +0200 (CEST)
-Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EE137B323
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 02:44:25 +0200 (CEST)
+Received: from localhost ([::1]:60108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgd03-0001Ai-77
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 20:45:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48844)
+	id 1lgczA-0008Qu-B7
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 20:44:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgcve-0005Mt-HN
- for qemu-devel@nongnu.org; Tue, 11 May 2021 20:40:46 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:41944)
+ id 1lgcvs-0005xG-Ua
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 20:41:01 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:37447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgcvc-000241-Vk
- for qemu-devel@nongnu.org; Tue, 11 May 2021 20:40:46 -0400
-Received: by mail-ot1-x331.google.com with SMTP id
- 36-20020a9d0ba70000b02902e0a0a8fe36so12828367oth.8
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 17:40:44 -0700 (PDT)
+ id 1lgcvq-0002Ew-K3
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 20:41:00 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id k25so20785571oic.4
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 17:40:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DDxkI1ovy5MjUFJCBcLTUiStdNRmVhVneBvEVuF0GCM=;
- b=ZqrksRLBtuMTRSdDe7yrzcUoF8ZEn1XQfbuobGPC7unrALThwVVqr2MqcJQmIh506m
- 0oatCllSR/VEjOrNu0YNEroQr+snfLWcT4Fp/K0KhVCt3HRjU3l2bc/fxe8TRC1ZKsXZ
- oABH/A4jQ/Wh8nDsYPiTXEcUAIxXfGTuYjSUEOWoAOCWhou3dNoA7q+3CxV8gxcLe7x9
- ELRNiCc+d/IkD/pC42h4KXVins1zLG+eND4YlrOHGJNkDsRuZ6KSW+zoGXyEHfn0phS1
- tKbZNLdfi839z78NSseIUItmvmlPUIJgb4zI5lPjlUJhOXV0selkolmED1w7nvp9Bjaz
- MMFg==
+ bh=pDL1S4jlSlMTRNF2xDawm0tE8upVMWbMmOZLbtHcgVg=;
+ b=NpV/LZn2qFc470cE6cIKBoNRxFSEZW5fVHfIiyGb3w9hnwvCr3UqywAEtVx+BBp7wv
+ AomNTjJvDcLUaIo7u+cAKRmYV8jAUB/uT+BTdPdC//UFHBJ8I8HLLwCGoL18QaP2I8Bi
+ qS0n3msaYcfEFVC5ekWNxT+XmZjBjP3J4EvmWwABtBUSKuv3OjCepsFBGThz4sYjMwtu
+ FVDpXimCbuoIwqd+Ky1+8UczlVcMbnRFt7+lJkIh7KVDp+7XYopmgnawwDzU+8QG+VBQ
+ Ld+wDoBzmUkGQRjA6wHq0lzDnq++qH+8iOneet0JYaJXcXVi6B28iHsfNIUpDaKobJAP
+ 8zhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DDxkI1ovy5MjUFJCBcLTUiStdNRmVhVneBvEVuF0GCM=;
- b=f0lwf6sbn5TSKBloO1O7R/RIE4/uljhZmGPzTPU8h0TpFxBBH2fmErvWLtVZMuVHXl
- YYKxPDYBvmw1k/uL7XdgKa6qaM1ls0nginB7wOReg9xUvMnKB6xY0Dinpp56DmvRFMYq
- 7Ns8Xp5x5WIV/jN4vE6GwdkwCkuh12oqudtoYtSNOxJWmL9jDNJt3n8KZoC/pGArCEGe
- Y47kyhrfDTK2xFFb0DbRep57G4j5iGfqSA8D3ZeOsad0lscrbMuKevVqV7k8QpXQ/7Ob
- +S7uI3ChBIxVhBbfWbxWkIm04hdKOpoI7JzO1wKO2LbXVFz1mGclMxoZH1G25v2iFusR
- V+aQ==
-X-Gm-Message-State: AOAM533lTKCkdvwiOyoga9VjAyYnYpgTDvO8Rq1XDF4Zlw4t4awujOv9
- VkTOHuzvEu5oRVYL+vUuIqvM7g==
-X-Google-Smtp-Source: ABdhPJxi5OEOMYyn5oqvIc2ILM7opIJkEiKB7+BjdNhCe45dLEkHcYcOQCRGdeaZFE9DtS5WAUjYsg==
-X-Received: by 2002:a05:6830:1ac7:: with SMTP id
- r7mr22672578otc.167.1620780043757; 
- Tue, 11 May 2021 17:40:43 -0700 (PDT)
+ bh=pDL1S4jlSlMTRNF2xDawm0tE8upVMWbMmOZLbtHcgVg=;
+ b=gdJkI43jXGNOTWL/gekpsg/j55XGHw5MH8x1uDzFJ7lx1GwlQRzPl3C0Rm0RFlu36b
+ 76eeaKIWeG/dVoeN5tduYyTYDFP69DD4rmPDEfm2aEdad9MLf2lzpaDPiy1G3wpzrMGe
+ eH5DOvdN1KZ8NxtchmOZIUlYKgv5qC3cM6qfdrkn+Aiqd9TW3Mjvb81c136mayrm5nDH
+ 2I0hEnxdh2EDSAxJP2+nwn+hQW3hUKdzEzZ9FTcuqHxp23TGoqjkGibFLT9D/6c+Nb0g
+ yDdmgmz5hb1g+xWA/kmfl1rh4d9E35OH5fdtqlmWjFWe3Kd0ywLQKNVp/FRF+acivadQ
+ C4Tw==
+X-Gm-Message-State: AOAM5303rJfe6LXbrq+LfQ7x51PP2kAX4yyeSK8HzIozb9XHXGTeiYsg
+ bLORbwU0+zDQbUtNFvuw/i8tgw==
+X-Google-Smtp-Source: ABdhPJy3qomrqoMd882iU+67EOk5g1LcYolwlS5GNYZZycXnfx6QLDZQKFxnNzOhZF2lpF3rhjyoeA==
+X-Received: by 2002:aca:2818:: with SMTP id 24mr23531019oix.67.1620780057380; 
+ Tue, 11 May 2021 17:40:57 -0700 (PDT)
 Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id e39sm4158637ote.62.2021.05.11.17.40.42
+ by smtp.gmail.com with ESMTPSA id f21sm454961oou.24.2021.05.11.17.40.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 17:40:43 -0700 (PDT)
-Subject: Re: [PATCH 04/12] crypto: drop back compatibility typedefs for nettle
+ Tue, 11 May 2021 17:40:57 -0700 (PDT)
+Subject: Re: [PATCH 05/12] crypto: bump min gcrypt to 1.7.6, dropping RHEL-7
+ support
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210511132641.1022161-1-berrange@redhat.com>
- <20210511132641.1022161-5-berrange@redhat.com>
+ <20210511132641.1022161-6-berrange@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1e364ce8-2232-ae79-5936-3a57d2ecf775@linaro.org>
-Date: Tue, 11 May 2021 19:40:41 -0500
+Message-ID: <345fd406-a212-12cf-d35b-e07e8fb7f197@linaro.org>
+Date: Tue, 11 May 2021 19:40:54 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210511132641.1022161-5-berrange@redhat.com>
+In-Reply-To: <20210511132641.1022161-6-berrange@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x331.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,15 +99,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/11/21 8:26 AM, Daniel P. Berrangé wrote:
-> Now that we only support modern nettle, we don't need to have local
-> typedefs to mask the real nettle types.
+> It has been over two years since RHEL-8 was released, and thus per the
+> platform build policy, we no longer need to support RHEL-7 as a build
+> target. This lets us increment the minimum required gcrypt version and
+> assume that HMAC is always supported
+> 
+> Per repology, current shipping versions are:
+> 
+>               RHEL-8: 1.8.5
+>       Debian Stretch: 1.7.6
+>        Debian Buster: 1.8.4
+>   openSUSE Leap 15.2: 1.8.2
+>     Ubuntu LTS 18.04: 1.8.1
+>     Ubuntu LTS 20.04: 1.8.5
+>              FreeBSD: 1.9.2
+>            Fedora 33: 1.8.6
+>            Fedora 34: 1.9.3
+>              OpenBSD: 1.9.3
+>       macOS HomeBrew: 1.9.3
+> 
+> Debian Stretch has the oldest version and so 1.7.6 is the new minimum.
 > 
 > Signed-off-by: Daniel P. Berrangé<berrange@redhat.com>
 > ---
->   crypto/cipher-nettle.c.inc | 60 ++++++++++++++++----------------------
->   crypto/hash-nettle.c       |  6 ++--
->   crypto/hmac-nettle.c       |  8 ++---
->   3 files changed, 30 insertions(+), 44 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
