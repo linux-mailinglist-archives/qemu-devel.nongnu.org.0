@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B15537EC92
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 00:33:20 +0200 (CEST)
-Received: from localhost ([::1]:42904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2B837ECE0
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 00:36:56 +0200 (CEST)
+Received: from localhost ([::1]:55768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgxPq-0007XC-QQ
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 18:33:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43430)
+	id 1lgxTL-0007nw-5t
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 18:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lgxOC-0004vK-4k
+ id 1lgxOC-0004vd-Ou
  for qemu-devel@nongnu.org; Wed, 12 May 2021 18:31:36 -0400
-Received: from relay.sw.ru ([185.231.240.75]:55490)
+Received: from relay.sw.ru ([185.231.240.75]:55494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lgxO8-0003sV-5E
- for qemu-devel@nongnu.org; Wed, 12 May 2021 18:31:35 -0400
+ id 1lgxO8-0003sW-65
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 18:31:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
- Content-Type; bh=jKIMHQ971fd0/ATRtGq6S+1Upp4MAjJyJ73ggJBuvpM=; b=oUQCtbBDW5Xf
- ogSUohY+52BB8wJrOEm3PVWigKDZckQy1cshOY9f4GUrbxQA59aGYMvrvWf5ExWGJ94wSzhFCQUVD
- 2D6sOGtGecaTMCknX47h+V3+NNi/5i6rnyxsD6zX5JUszaT1OxmuhYSlvfx8UcksHl7syyKxEd9wh
- Lzjbs=;
+ Content-Type; bh=A0JWUOrAKW7MU5G28uWQDZnypzF4zh7je8ZCTXY3fyI=; b=hJJDxTfrYCsG
+ Uo6LZw5TqbW7GXIZqrYjVuW5vCbwR9klfh+BBjH2FfRENwYpAbcDA0Tc4ieK2+BZZeQGZJEZtxf1h
+ yC2V0LhEitT7D+YfidUIk7/6xkC/zN5vGFE6D9/CNecs8hoJvkH1Om4qbk+6EFK9KDx44ao3Q97fF
+ KNF0M=;
 Received: from [192.168.15.22] (helo=andrey-MS-7B54.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lgxO5-002Bd3-A2; Thu, 13 May 2021 01:31:29 +0300
+ id 1lgxO5-002Bd3-GB; Thu, 13 May 2021 01:31:29 +0300
 From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: Den Lunev <den@openvz.org>,
@@ -39,9 +39,10 @@ Cc: Den Lunev <den@openvz.org>,
  Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
  David Hildenbrand <david@redhat.com>,
  Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [RFC PATCH v2 2/7] migration/snapshot: Introduce qemu_ftell2() routine
-Date: Thu, 13 May 2021 01:31:22 +0300
-Message-Id: <20210512223127.586885-3-andrey.gruzdev@virtuozzo.com>
+Subject: [RFC PATCH v2 3/7] migration/snapshot: Move RAM_SAVE_FLAG_xxx defines
+ to migration/ram.h
+Date: Thu, 13 May 2021 01:31:23 +0300
+Message-Id: <20210512223127.586885-4-andrey.gruzdev@virtuozzo.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210512223127.586885-1-andrey.gruzdev@virtuozzo.com>
 References: <20210512223127.586885-1-andrey.gruzdev@virtuozzo.com>
@@ -70,47 +71,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In qemu-snapshot it is needed to retrieve current QEMUFile offset as a
-number of bytes read by qemu_get_byte()/qemu_get_buffer().
-
-The existing qemu_ftell() routine would give read position as a number
-of bytes fetched from underlying IOChannel which is not the same.
+Move RAM_SAVE_FLAG_xxx defines from migration/ram.c to migration/ram.h
 
 Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 ---
- migration/qemu-file.c | 6 ++++++
- migration/qemu-file.h | 1 +
- 2 files changed, 7 insertions(+)
+ migration/ram.c | 16 ----------------
+ migration/ram.h | 16 ++++++++++++++++
+ 2 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index d6e03dbc0e..66be5e6460 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -657,6 +657,12 @@ int64_t qemu_ftell(QEMUFile *f)
-     return f->pos;
- }
+diff --git a/migration/ram.c b/migration/ram.c
+index ace8ad431c..0359b63dde 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -63,22 +63,6 @@
+ /***********************************************************/
+ /* ram save/restore */
  
-+int64_t qemu_ftell2(QEMUFile *f)
-+{
-+    qemu_fflush(f);
-+    return f->pos + f->buf_index - f->buf_size;
-+}
-+
- int qemu_file_rate_limit(QEMUFile *f)
+-/* RAM_SAVE_FLAG_ZERO used to be named RAM_SAVE_FLAG_COMPRESS, it
+- * worked for pages that where filled with the same char.  We switched
+- * it to only search for the zero value.  And to avoid confusion with
+- * RAM_SSAVE_FLAG_COMPRESS_PAGE just rename it.
+- */
+-
+-#define RAM_SAVE_FLAG_FULL     0x01 /* Obsolete, not used anymore */
+-#define RAM_SAVE_FLAG_ZERO     0x02
+-#define RAM_SAVE_FLAG_MEM_SIZE 0x04
+-#define RAM_SAVE_FLAG_PAGE     0x08
+-#define RAM_SAVE_FLAG_EOS      0x10
+-#define RAM_SAVE_FLAG_CONTINUE 0x20
+-#define RAM_SAVE_FLAG_XBZRLE   0x40
+-/* 0x80 is reserved in migration.h start with 0x100 next */
+-#define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
+-
+ static inline bool is_zero_range(uint8_t *p, uint64_t size)
  {
-     if (f->shutdown) {
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index a9b6d6ccb7..bd1a6def02 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -124,6 +124,7 @@ void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks);
- int qemu_get_fd(QEMUFile *f);
- int qemu_fclose(QEMUFile *f);
- int64_t qemu_ftell(QEMUFile *f);
-+int64_t qemu_ftell2(QEMUFile *f);
- int64_t qemu_ftell_fast(QEMUFile *f);
- /*
-  * put_buffer without copying the buffer.
+     return buffer_is_zero(p, size);
+diff --git a/migration/ram.h b/migration/ram.h
+index 4833e9fd5b..d6498b651f 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -33,6 +33,22 @@
+ #include "exec/cpu-common.h"
+ #include "io/channel.h"
+ 
++/* RAM_SAVE_FLAG_ZERO used to be named RAM_SAVE_FLAG_COMPRESS, it
++ * worked for pages that where filled with the same char.  We switched
++ * it to only search for the zero value.  And to avoid confusion with
++ * RAM_SSAVE_FLAG_COMPRESS_PAGE just rename it.
++ */
++
++#define RAM_SAVE_FLAG_FULL     0x01 /* Obsolete, not used anymore */
++#define RAM_SAVE_FLAG_ZERO     0x02
++#define RAM_SAVE_FLAG_MEM_SIZE 0x04
++#define RAM_SAVE_FLAG_PAGE     0x08
++#define RAM_SAVE_FLAG_EOS      0x10
++#define RAM_SAVE_FLAG_CONTINUE 0x20
++#define RAM_SAVE_FLAG_XBZRLE   0x40
++/* 0x80 is reserved in migration.h start with 0x100 next */
++#define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
++
+ extern MigrationStats ram_counters;
+ extern XBZRLECacheStats xbzrle_counters;
+ extern CompressionStats compression_counters;
 -- 
 2.27.0
 
