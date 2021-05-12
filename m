@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C3137D3A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:50:00 +0200 (CEST)
-Received: from localhost ([::1]:57200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B6837D3AB
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:54:58 +0200 (CEST)
+Received: from localhost ([::1]:60276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgtvj-0001f7-6E
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:49:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51466)
+	id 1lgu0X-0003xy-VK
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:54:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgtu4-0000Wl-9p
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:48:16 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:34526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lgtu0-00036U-K9
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:48:16 -0400
-Received: by mail-ed1-x536.google.com with SMTP id l7so28324151edb.1
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:48:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cIXujJwGmXJ8WjYvjTs2Zvo7KOvVBis/EBjP4D21e3E=;
- b=eFcAqYmtjSu5NsEyH0NFqvgQM4JfMUJ7hpukPrrvW8a7bvFi7ltaZTPt9J+CxRsRbC
- 48xumfZD3wg//52Gc1fKOu8dG6ElT8hWTGV19HyfXZnEgjOZrEGwY3oMzA6i6z1nBirx
- F34Y8na4CNgKjA9+Eq5G6Kzl508YBfVVpwp3EgEcJiNTqgKF6y9tirrlx9jK8ctBWLmc
- 5JwjM+Y8yGNbbOErFh3zKLUAs+To9sVAxnMILzHrwzE3TGmJ8Lq0ni8s426Y1zfp0SYx
- VRtFIzL6NJNSJVSzAw8s6Kek9aLyMVpn1nN+7E5YG/DlksVwnyCqnBfBcx3x4Z/AVfam
- DFzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cIXujJwGmXJ8WjYvjTs2Zvo7KOvVBis/EBjP4D21e3E=;
- b=TzgUqhsLv0IoeCquzoIIfn3IEO/O4getn6LOc5sXrJYCKJQd8HjEBLHzw6/02IrRtq
- u5sZ+3EprpZwfrTnnZrWMffeqm2CBsXPBegP6CpEAl6AkcLNm8P/JdJCrqobLuL6xci0
- yiw0wmK56Al/TR+wBfeCc+9FwsOye7nNRK7gaUZNLwTQToZ8TDlSAqienhP+Wau6lz52
- QrDkEqO0NR2HK00Gvat0QuWtDoVbO9KCCNVAql4H8lW6zjfkjoWYhAmgJIiduQ7zraZP
- 6TZ+C+YSzAaR49pNPMfGOxDux6jO2KLyruqsWCpCIRjQYGKmG8gxaN+Kyz14eBGaWj5Z
- u/FA==
-X-Gm-Message-State: AOAM530aeB4mmdEtuwTBCxh569jRhA3saNuCPa8j4I0Vl9UQT5Zdpl1E
- smYB4G6B6P9FKx1yd+BW5/sxTNDBdLGqfA4WGGy9BQ==
-X-Google-Smtp-Source: ABdhPJzYYhRWDP6jDR17fSfKn2N/6sK1d/68AypWlAR7ND3bO8UJbkQhNfT844FrghJDTwDlhidpyFJr0+e1IsryVWU=
-X-Received: by 2002:a05:6402:12d3:: with SMTP id
- k19mr44654104edx.52.1620845290420; 
- Wed, 12 May 2021 11:48:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgtzY-0003F3-Ct
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:53:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37514)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgtzV-0006D9-GA
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:53:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620845631;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8QQMakYFA9H/ykPjLWVWc6bt6aKfVMcvd9UvOq0MtNE=;
+ b=cWLLNo1fWouzA1IKRcocaO1Z7eSBFUmJEbUqT1JFYc5+5my8ejjVeD1IUS/wwDaVcnX/pa
+ ELhIRqL7VjHuMRcpdLT6PVflEdP5+8jRsXTHEJNjhRdjN0eNL+kIM6xEAFKGCqaZGPN/uP
+ 8afkUQwP4vYITvGKtOhdFbv743DWJIk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-AFBkiS3yMSKGRnlSVnyM-g-1; Wed, 12 May 2021 14:53:46 -0400
+X-MC-Unique: AFBkiS3yMSKGRnlSVnyM-g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98A641922961;
+ Wed, 12 May 2021 18:53:45 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE77360657;
+ Wed, 12 May 2021 18:53:41 +0000 (UTC)
+Subject: Re: [PATCH v3 2/9] qapi: move gen_if/gen_endif to QAPISchemaIfCond
+To: Stefan Hajnoczi <stefanha@gmail.com>, marcandre.lureau@redhat.com
+References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
+ <20210429134032.1125111-3-marcandre.lureau@redhat.com>
+ <YJqzVkWfOo3MPzj2@stefanha-x1.localdomain>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <41ed2922-84f2-7d27-5fc3-39f0f180a706@redhat.com>
+Date: Wed, 12 May 2021 14:53:41 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210511101951.165287-1-alistair.francis@wdc.com>
-In-Reply-To: <20210511101951.165287-1-alistair.francis@wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 12 May 2021 19:46:56 +0100
-Message-ID: <CAFEAcA_aRMfGF3A2rravx9p0eb-5eFiWXycZXrNk4RBBrviLXw@mail.gmail.com>
-Subject: Re: [PULL v3 00/42] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YJqzVkWfOo3MPzj2@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,44 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 May 2021 at 11:20, Alistair Francis <alistair.francis@wdc.com> wrote:
->
-> The following changes since commit e4f3ede95ce813d5705c65e1c0e1c80c70739ebb:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210505-pull-request' into staging (2021-05-10 19:55:06 +0100)
->
-> are available in the Git repository at:
->
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210511
->
-> for you to fetch changes up to c30a0757f094c107e491820e3d35224eb68859c7:
->
->   target/riscv: Fix the RV64H decode comment (2021-05-11 20:02:07 +1000)
->
-> ----------------------------------------------------------------
-> A large collection of RISC-V fixes, improvements and features
->
->  - Clenaup some left over v1.9 code
->  - Documentation improvements
->  - Support for the shakti_c machine
->  - Internal cleanup of the CSR accesses
->  - Updates to the OpenTitan platform
->  - Support for the virtio-vga
->  - Fix for the saturate subtract in vector extensions
->  - Experimental support for the ePMP spec
->  - A range of other internal code cleanups and bug fixes
->
+On 5/11/21 12:39 PM, Stefan Hajnoczi wrote:
+> On Thu, Apr 29, 2021 at 05:40:25PM +0400, marcandre.lureau@redhat.com wrote:
+>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>
+>> Move the generating function to the QAPISchemaIfCond class.
+> 
+> I'm not familiar enough with the QAPI code generator to know whether
+> schema.py is supposed to generate C code directly. Otherwise this
+> refactoring makes sense.
+> 
 
+It's not supposed to, necessarily, but schema.py *does* already have 
+some "built-in" ties to the C language -- in particular its use of 
+POINTER_SUFFIX and c_name. It isn't split ultra-cleanly.
 
-Applied, thanks.
+Ideally, and I am neither asking for nor requiring this, I would like to 
+see code generator backends factored neatly such that the C generative 
+code is all in one place, or at least outside of the abstract QAPI 
+internals.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+(Maybe gen.py can be split into gen.py and c_gen.py, and the C-specific 
+bits for gen_if et al can go into c_gen.py.)
 
--- PMM
+Since you are working towards a Rust backend, I assume that the 
+C-specific portions of this code don't remain in schema.py for too long? 
+I can't imagine them being here helps you with your Rust generator, but 
+I could be wrong.
+
+--js
+
 
