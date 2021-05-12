@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC8D37C3B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 17:21:55 +0200 (CEST)
-Received: from localhost ([::1]:36574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741AD37C3BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 17:23:55 +0200 (CEST)
+Received: from localhost ([::1]:39516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgqgM-0006rn-4k
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 11:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46588)
+	id 1lgqiI-0000Ro-Ji
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 11:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgqeJ-00056x-NZ
- for qemu-devel@nongnu.org; Wed, 12 May 2021 11:19:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38771)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lgqeG-0001Qo-Dn
- for qemu-devel@nongnu.org; Wed, 12 May 2021 11:19:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620832783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QojuVRlnklgAJ/bD51ZvZJ2U2WK07kDwQbJcvHLCNEA=;
- b=R47q8XyzupdTKeeXAS81X+s0v9qGwZF5Hd9+0bLLBE7yxF7LvUDTpqgbbbbMLDZybNjfCJ
- SyNSFlYRwSGAOvCmj2Mfq7l71ifIa0x3oNPLLe1ZzsvXBCVpbf2KTNAmv+vB9IbyWW4Npk
- r1dquoBfq0a2L+stDwqChFyJp4Xw+nQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-krAjhWI9O2uXaX9c9mkgvQ-1; Wed, 12 May 2021 11:19:41 -0400
-X-MC-Unique: krAjhWI9O2uXaX9c9mkgvQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EDB18189D4;
- Wed, 12 May 2021 15:19:40 +0000 (UTC)
-Received: from localhost (ovpn-115-51.ams2.redhat.com [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E6AEA5C8AA;
- Wed, 12 May 2021 15:19:39 +0000 (UTC)
-Date: Wed, 12 May 2021 16:19:38 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 6/6] aiopool: protect with a mutex
-Message-ID: <YJvyCmFMlsbyni0L@stefanha-x1.localdomain>
-References: <20210510085941.22769-1-eesposit@redhat.com>
- <20210510085941.22769-7-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgqg8-0007Ar-Cl
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 11:21:40 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:34581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgqg6-0002T7-Ra
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 11:21:40 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id a4so35602042ejk.1
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 08:21:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yQzqJujMg8+OBARjbP9X4fTPf7LBFaB4n42rLPvtzHA=;
+ b=tlnNykyHPpAE4NIfWe9+1DBQA2kReTfoeDRRw6G1O/wUu9B30YMj0NQpO/C/4yqn3S
+ kYPGSlmNAA0QmGaMsuInygtlOHRAdnwOeuxZxcmSKJqrO/vorymnFMXAA7joGED1XqTY
+ QjHuaAPHKuRkCCCjrG0l/XHzeRUCZwDAL3iZAAXn8MixCb9t9SyMIEWIPp6vMVCVPTXv
+ SijJ7s6XQdr5UTUn/P9wlySK/n4bW/cKiwU/lxUqoIi7Hz9UHW/ByJbKkyLNMX+NAjxK
+ e1zDdTRqkVhI95H2l+dUGSJKvwa6dyR2xWd+7f1IuPqOTdHpZyH7o2os7IIzeR2VVTOU
+ GMUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yQzqJujMg8+OBARjbP9X4fTPf7LBFaB4n42rLPvtzHA=;
+ b=h8IDmzuvaexiwrAE0amFp640+lbulYH0G1+v8XVMgoCAKGMpWk260H7WmBhK3fXvVa
+ dzSlr1pwg1M5UDWDgD2Uy2XQLsKJF+gd8NdMUgEWjIkmZfgTJbgKp8XJZVZJ9YeFkA8F
+ AG/t2NvpP8l4ajyt2EiuFyD5OADHEUVt9R87JVtDPV+SEJP3HfCYdJismdVo+Qd0SRaq
+ 89t1VlqoXSlaQA6vWtb0f/ITYGoBAMVg58jwyaBGgqvzPVr4RgYL9VnLLbSkFDeoRoj1
+ fCcthrWYBOThssXN2TVSo5F61HcDg2vc2UCpka5bXlwUSKoLmnSbbV5iPwrzpeZxF8B1
+ Go5Q==
+X-Gm-Message-State: AOAM530FyJz6EZ+gsBisvk5rRiQOCbi2sgVY6p8phbOSezJ9dvyM1Fmf
+ VVlo41nSDP+INBlSoQxwh/gWeiu/ycHQs8o9fRw+sg==
+X-Google-Smtp-Source: ABdhPJzI6V57/9wXuR1v7S3Hpt/FrnkY0vFORgPDOMOPunuryzvgVdPhT0Pd4ukWLim6mrWGDq5yNj7SM1DEeuXpYp4=
+X-Received: by 2002:a17:906:eced:: with SMTP id
+ qt13mr37868587ejb.382.1620832897492; 
+ Wed, 12 May 2021 08:21:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210510085941.22769-7-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tNyTxOVvBu4nqu8i"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ <20210430202610.1136687-38-richard.henderson@linaro.org>
+In-Reply-To: <20210430202610.1136687-38-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 12 May 2021 16:20:23 +0100
+Message-ID: <CAFEAcA_SFRDtiB6v3xfkE44tNRypX7JDD_FKXgpyevkwo3cP7w@mail.gmail.com>
+Subject: Re: [PATCH v6 37/82] target/arm: Implement SVE2 complex integer
+ multiply-add
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,52 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---tNyTxOVvBu4nqu8i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, 30 Apr 2021 at 22:00, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v2: Fix do_sqrdmlah_d (laurent desnogues)
+> ---
 
-On Mon, May 10, 2021 at 10:59:41AM +0200, Emanuele Giuseppe Esposito wrote:
-> Divide the fields in AioTaskPool in IN and Status, and
-> introduce a CoQueue instead of .wait to take care of suspending
-> and resuming the calling coroutine, and a lock to protect the
-> busy_tasks counter accesses and the AioTask .ret field.
+> @@ -1448,6 +1448,48 @@ DO_SQDMLAL(sve2_sqdmlsl_zzzw_d, int64_t, int32_t,     , H1_4,
+>
+>  #undef DO_SQDMLAL
+>
+> +#define DO_CMLA(NAME, TYPE, H, OP) \
+> +void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc) \
+> +{                                                               \
+> +    intptr_t i, opr_sz = simd_oprsz(desc) / sizeof(TYPE);       \
+> +    int rot = simd_data(desc);                                  \
+> +    int sel_a = rot & 1, sel_b = sel_a ^ 1;                     \
+> +    bool sub_r = rot == 1 || rot == 2;                          \
+> +    bool sub_i = rot >= 2;                                      \
+> +    TYPE *d = vd, *n = vn, *m = vm, *a = va;                    \
+> +    for (i = 0; i < opr_sz; i += 2) {                           \
+> +        TYPE elt1_a = n[H(i + sel_a)];                          \
+> +        TYPE elt2_a = m[H(i + sel_a)];                          \
+> +        TYPE elt2_b = m[H(i + sel_b)];                          \
+> +        d[H(i)] = OP(elt1_a, elt2_a, a[H(i)], sub_r);           \
+> +        d[H(i + 1)] = OP(elt1_a, elt2_b, a[H(i + 1)], sub_i);   \
+> +    }                                                           \
+> +}
+> +
+> +#define do_cmla(N, M, A, S) (A + (N * M) * (S ? -1 : 1))
 
-The thread-safety concerns with the aio_task.h API are unclear to me.
-The API is designed to have a "main" coroutine that adds task
-functions to the pool and waits for them to complete. Task functions
-execute in coroutines (up to the pool's max_busy_tasks limit).
+Could we rename this just so it's not different-in-case-only to
+the other macro ?
 
-It seems like the API was designed to be called only from its main
-coroutine so why make everything thread-safe? Is there a caller that
-shares an AioTaskPool between threads? Or will the task functions switch
-threads somehow?
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-What exactly is the new thread-safety model? Please document it.
-Unfortunately aio_task.h doesn't have doc comments already but it will
-be necessary if there are thread-safety concerns.
-
---tNyTxOVvBu4nqu8i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCb8goACgkQnKSrs4Gr
-c8isgAf/WYpTvtflct2mgV8rcS65mmGhZiAPH40QWCxbWsM0GAyEhtIByZP9sue3
-AMbNmsMcHbVMdKR3DHerYItUMw28AdIU2fqwv954vIIhEHBTL9kBVcZhfSHZDqJd
-jwjjAO7hh8N8yLHDOUsosU+ENhZsBeUB7jvytmd6Ka1SzrVRn4jsW5I+QXfiJD+0
-BA5qO4f77Mhp6Miw9VIwZFhVS6cehKWxsWJA+pjvUmJCSglxM8PM7ejlBge3i2Of
-vl9eD7TjG+iCNAyoAG1V8CZ10jmtF0gQJTs4qGvwOvOwSQKOgHvgGISArfJ+ddIr
-Pu5ulbUM3vBTf4Ow4eeGY3P19HmJ0Q==
-=HAZ2
------END PGP SIGNATURE-----
-
---tNyTxOVvBu4nqu8i--
-
+thanks
+-- PMM
 
