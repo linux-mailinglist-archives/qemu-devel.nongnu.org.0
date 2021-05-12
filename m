@@ -2,58 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFF137D432
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 22:23:17 +0200 (CEST)
-Received: from localhost ([::1]:37310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE95A37D42C
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 22:21:04 +0200 (CEST)
+Received: from localhost ([::1]:60020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgvO0-0007Mj-S3
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 16:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42746)
+	id 1lgvLr-0003aJ-TS
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 16:21:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lgvK4-0000qb-JG
- for qemu-devel@nongnu.org; Wed, 12 May 2021 16:19:12 -0400
-Resent-Date: Wed, 12 May 2021 16:19:12 -0400
-Resent-Message-Id: <E1lgvK4-0000qb-JG@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21332)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1lgvKH-0001N9-4o; Wed, 12 May 2021 16:19:25 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39476
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lgvK1-00005G-3A
- for qemu-devel@nongnu.org; Wed, 12 May 2021 16:19:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1620850732; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=CYe8P9e8Ac1rMdgGchZEcUMvLuvL5/8Uh4YIzAMong7kSsEyx0P5+vIUp2d8wKU5MG/GHBBVNJirAYtVq85WiVVyZSlfmSsUAPA8aXyzn4vwMES6KPYX02A3EeWoGNOeZ8GdhmHJh93NEJmf6MKTEmt4zMct5PCZpV5Lbqgua1k=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1620850732;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=0XIcZDc35U4Af4aTQ0bbjKJ8yBKO00C13KUNmD+04n0=; 
- b=Hq4j6K4X1TId20L0BpsuR382h894rJULEdunaP2hUqsKVsY2P1lL+eumkNbACdIzN7T6HMI3MP0SUYfXuUi49GC2yDJokoDisgPU92aMA8wg6ExuUDa7PTtuSFIEKqlC9qqO7hly+xymtB1FnHgWELDeskdIKlrG6FMLubiQyqo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1620850730236975.5251063549091;
- Wed, 12 May 2021 13:18:50 -0700 (PDT)
-In-Reply-To: <20210512192619.537268-1-andrey.gruzdev@virtuozzo.com>
-Subject: Re: [RFC PATCH v1 0/7] migration/snapshot: External snapshot utility
-Message-ID: <162085072855.19352.5018907357316733321@d887ba82c771>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: andrey.gruzdev@virtuozzo.com
-Date: Wed, 12 May 2021 13:18:50 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1lgvKE-0000Ff-JE; Wed, 12 May 2021 16:19:24 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14CK44YJ126545; Wed, 12 May 2021 16:19:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=w1Z069c7VFjdfmE2aOViI0fp5iUp/znDHSlRZatJxpQ=;
+ b=OxbrxLuVpwpzDAcCIiY2JbcXsF3tPXT7UNtmck4v2ZYpZN+1+O2QmKOqEnlf4B6Fbjjz
+ BcKYgHnKQ9DsTeF8mmSx6t8fspS3V7PZyWHsechk3WnWoNTYeFXf26FCQLTkYCsV7pLb
+ 40CMuhq003LWoOBvPcAOHIGQvbzHmRVXICvvev5OBQDnqMSueFWYZAo8XzEiMMw9FTc1
+ yBqakg0NwsUfBG72k/Zv6S+1PI8XgqR0H26DGO9BJvBPL1/No9UCxxds5k2qArNTSXuA
+ dSPStEGeM5dgcyK/8LzXBKYC3CjwVWxBCBOHa7hiRQ//f0WWvRrDZP/hgSAlOChLGD3c ew== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38gman2esr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 May 2021 16:19:19 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14CK45w5126609;
+ Wed, 12 May 2021 16:19:18 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 38gman2esh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 May 2021 16:19:18 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14CKI3VV023206;
+ Wed, 12 May 2021 20:19:18 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma03wdc.us.ibm.com with ESMTP id 38dj9980dr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 May 2021 20:19:18 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 14CKJGge24838636
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 12 May 2021 20:19:16 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CCB067805E;
+ Wed, 12 May 2021 20:19:16 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 289A97805C;
+ Wed, 12 May 2021 20:19:16 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.160.49.189])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 12 May 2021 20:19:15 +0000 (GMT)
+Message-ID: <12fd64d4d368230b69f47a6ed67049b67553717b.camel@linux.ibm.com>
+Subject: Re: [PATCH RFC] vfio-ccw: forward halt/clear errors
+From: Eric Farman <farman@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
+Date: Wed, 12 May 2021 16:19:15 -0400
+In-Reply-To: <20210511151129.77051-1-cohuck@redhat.com>
+References: <20210511151129.77051-1-cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: i8ddk1tyfq7Ypc44-tQRPS42cIKECcpV
+X-Proofpoint-GUID: LvAXbmEpFNrd6v491Ui6Vz0jEUHmVA9v
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-12_11:2021-05-12,
+ 2021-05-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ mlxscore=0 malwarescore=0 spamscore=0 bulkscore=0 mlxlogscore=999
+ impostorscore=0 priorityscore=1501 adultscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105120130
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,142 +110,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: vsementsov@virtuozzo.com, quintela@redhat.com, armbru@redhat.com,
- david@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
- dgilbert@redhat.com, pbonzini@redhat.com, den@openvz.org,
- andrey.gruzdev@virtuozzo.com
+Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDUxMjE5MjYxOS41Mzcy
-NjgtMS1hbmRyZXkuZ3J1emRldkB2aXJ0dW96em8uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA1MTIx
-OTI2MTkuNTM3MjY4LTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbQpTdWJqZWN0OiBbUkZD
-IFBBVENIIHYxIDAvN10gbWlncmF0aW9uL3NuYXBzaG90OiBFeHRlcm5hbCBzbmFwc2hvdCB1dGls
-aXR5Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2Ug
-YmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1l
-bGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAt
-LWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAt
-LW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1
-YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNv
-bS9wYXRjaGV3LXByb2plY3QvcWVtdQogICAzMTU4OTY0Li4zZTlmNDhiICBtYXN0ZXIgICAgIC0+
-IG1hc3RlcgogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwNTExMTYzMTUxLjQ1MTY3
-LTEta3dvbGZAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwNTExMTYzMTUxLjQ1MTY3LTEta3dv
-bGZAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNTEyMTkyNjE5
-LjUzNzI2OC0xLWFuZHJleS5ncnV6ZGV2QHZpcnR1b3p6by5jb20gLT4gcGF0Y2hldy8yMDIxMDUx
-MjE5MjYxOS41MzcyNjgtMS1hbmRyZXkuZ3J1emRldkB2aXJ0dW96em8uY29tClN3aXRjaGVkIHRv
-IGEgbmV3IGJyYW5jaCAndGVzdCcKODdkOWViNyBtaWdyYXRpb24vc25hcHNob3Q6IEltcGxlbWVu
-dGF0aW9uIG9mIHFlbXUtc25hcHNob3QgbG9hZCBwYXRoIGluIHBvc3Rjb3B5IG1vZGUKZGVjZTI0
-MSBtaWdyYXRpb24vc25hcHNob3Q6IEltcGxlbWVudGF0aW9uIG9mIHFlbXUtc25hcHNob3QgbG9h
-ZCBwYXRoCmNiYWE1YjkgbWlncmF0aW9uL3NuYXBzaG90OiBJbXBsZW1lbnRhdGlvbiBvZiBxZW11
-LXNuYXBzaG90IHNhdmUgcGF0aApmOWRkNWM1IG1pZ3JhdGlvbi9zbmFwc2hvdDogQmxvY2sgbGF5
-ZXIgQUlPIHN1cHBvcnQgaW4gcWVtdS1zbmFwc2hvdAplZDliNzNkIG1pZ3JhdGlvbi9zbmFwc2hv
-dDogTW92ZSBSQU1fU0FWRV9GTEFHX3h4eCBkZWZpbmVzIHRvIG1pZ3JhdGlvbi9yYW0uaAo5MmY5
-MjYzIG1pZ3JhdGlvbi9zbmFwc2hvdDogSW50cm9kdWNlIHFlbXVfZnRlbGwyKCkgcm91dGluZQoz
-MmMzNDdhIG1pZ3JhdGlvbi9zbmFwc2hvdDogSW50cm9kdWNlIHFlbXUtc25hcHNob3QgdG9vbAoK
-PT09IE9VVFBVVCBCRUdJTiA9PT0KMS83IENoZWNraW5nIGNvbW1pdCAzMmMzNDdhMTllZjQgKG1p
-Z3JhdGlvbi9zbmFwc2hvdDogSW50cm9kdWNlIHFlbXUtc25hcHNob3QgdG9vbCkKVXNlIG9mIHVu
-aW5pdGlhbGl6ZWQgdmFsdWUgJGFjcGlfdGVzdGV4cGVjdGVkIGluIHN0cmluZyBlcSBhdCAuL3Nj
-cmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDE1MjkuCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
-ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE5OiAKbmV3
-IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyMjc6
-IEZJTEU6IHFlbXUtc25hcHNob3QuYzo2MzoKKyAgICBpbnQgcG9zdGNvcHlfcGVyY2VudDsgICAg
-ICAgLyogU3RhcnQgcG9zdGNvcHkgYWZ0ZXIgJSBvZiBub3JtYWwgcGFnZXMgbG9hZGVkICovCgpX
-QVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjc0OiBGSUxFOiBxZW11LXNuYXBzaG90
-LmM6MTEwOgorc3RhdGljIEJsb2NrQmFja2VuZCAqaW1hZ2Vfb3Blbl9vcHRzKGNvbnN0IGNoYXIg
-Km9wdHN0ciwgUURpY3QgKm9wdGlvbnMsIGludCBmbGFncykKCkVSUk9SOiBzd2l0Y2ggYW5kIGNh
-c2Ugc2hvdWxkIGJlIGF0IHRoZSBzYW1lIGluZGVudAojNDE0OiBGSUxFOiBxZW11LXNuYXBzaG90
-LmM6MjUwOgorICAgICAgICBzd2l0Y2ggKGMpIHsKKyAgICAgICAgICAgIGNhc2UgJz8nOgpbLi4u
-XQorICAgICAgICAgICAgY2FzZSAnaCc6ClsuLi5dCisgICAgICAgICAgICBjYXNlICdWJzoKWy4u
-Ll0KKyAgICAgICAgICAgIGNhc2UgJ1QnOgpbLi4uXQorICAgICAgICAgICAgY2FzZSAncic6Clsu
-Li5dCisgICAgICAgICAgICBjYXNlIE9QVElPTl9QT1NUQ09QWToKWy4uLl0KKyAgICAgICAgICAg
-IGNhc2UgT1BUSU9OX1BBR0VfU0laRToKWy4uLl0KKyAgICAgICAgICAgIGNhc2UgT1BUSU9OX1VS
-SToKWy4uLl0KKyAgICAgICAgICAgIGRlZmF1bHQ6CgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFj
-ZQojNDM2OiBGSUxFOiBxZW11LXNuYXBzaG90LmM6MjcyOgorICAgICAgICAgICAgICAgICQKCkVS
-Uk9SOiBjb25zaWRlciB1c2luZyBxZW11X3N0cnRvbCBpbiBwcmVmZXJlbmNlIHRvIHN0cnRvbAoj
-NDQ5OiBGSUxFOiBxZW11LXNuYXBzaG90LmM6Mjg1OgorICAgICAgICAgICAgICAgIHBvc3Rjb3B5
-X3BlcmNlbnQgPSBzdHJ0b2wob3B0YXJnLCAmciwgMTApOwoKV0FSTklORzogbGluZSBvdmVyIDgw
-IGNoYXJhY3RlcnMKIzQ1MDogRklMRTogcWVtdS1zbmFwc2hvdC5jOjI4NjoKKyAgICAgICAgICAg
-ICAgICBpZiAoKnIgIT0gJ1wwJyB8fCBwb3N0Y29weV9wZXJjZW50IDwgMCB8fCBwb3N0Y29weV9w
-ZXJjZW50ID4gMTAwKSB7CgpFUlJPUjogY29uc2lkZXIgdXNpbmcgcWVtdV9zdHJ0b2wgaW4gcHJl
-ZmVyZW5jZSB0byBzdHJ0b2wKIzQ2ODogRklMRTogcWVtdS1zbmFwc2hvdC5jOjMwNDoKKyAgICAg
-ICAgICAgICAgICB0YXJnZXRfcGFnZV9zaXplID0gc3RydG9sKG9wdGFyZywgJnIsIDApOwoKV0FS
-TklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQ2OTogRklMRTogcWVtdS1zbmFwc2hvdC5j
-OjMwNToKKyAgICAgICAgICAgICAgICBpZiAoKnIgIT0gJ1wwJyB8fCAodGFyZ2V0X3BhZ2Vfc2l6
-ZSAmICh0YXJnZXRfcGFnZV9zaXplIC0gMSkpICE9IDAgfHwKCkVSUk9SOiBzcGFjZSByZXF1aXJl
-ZCBhZnRlciB0aGF0ICcsJyAoY3R4OlZ4VikKIzQ5NDogRklMRTogcWVtdS1zbmFwc2hvdC5jOjMz
-MDoKKyAgICAgICAgICAgICAgICAgICAgZmQgPSBzdHJ0b2wocCwgJnIsMTApOwogICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBjb25zaWRlciB1c2luZyBxZW11
-X3N0cnRvbCBpbiBwcmVmZXJlbmNlIHRvIHN0cnRvbAojNDk0OiBGSUxFOiBxZW11LXNuYXBzaG90
-LmM6MzMwOgorICAgICAgICAgICAgICAgICAgICBmZCA9IHN0cnRvbChwLCAmciwxMCk7Cgp0b3Rh
-bDogNiBlcnJvcnMsIDUgd2FybmluZ3MsIDU2MyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzcgaGFz
-IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
-cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
-Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIvNyBDaGVja2luZyBjb21taXQgOTJmOTI2MzdiODRj
-IChtaWdyYXRpb24vc25hcHNob3Q6IEludHJvZHVjZSBxZW11X2Z0ZWxsMigpIHJvdXRpbmUpCjMv
-NyBDaGVja2luZyBjb21taXQgZWQ5YjczZGE3NzNhIChtaWdyYXRpb24vc25hcHNob3Q6IE1vdmUg
-UkFNX1NBVkVfRkxBR194eHggZGVmaW5lcyB0byBtaWdyYXRpb24vcmFtLmgpCldBUk5JTkc6IEJs
-b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM1MTogRklM
-RTogbWlncmF0aW9uL3JhbS5oOjM2OgorLyogUkFNX1NBVkVfRkxBR19aRVJPIHVzZWQgdG8gYmUg
-bmFtZWQgUkFNX1NBVkVfRkxBR19DT01QUkVTUywgaXQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJu
-aW5ncywgNDQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy83IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCjQvNyBDaGVja2luZyBjb21taXQgZjlkZDVjNTQyNjAwIChtaWdyYXRpb24vc25hcHNob3Q6
-IEJsb2NrIGxheWVyIEFJTyBzdXBwb3J0IGluIHFlbXUtc25hcHNob3QpClVzZSBvZiB1bmluaXRp
-YWxpemVkIHZhbHVlICRhY3BpX3Rlc3RleHBlY3RlZCBpbiBzdHJpbmcgZXEgYXQgLi9zY3JpcHRz
-L2NoZWNrcGF0Y2gucGwgbGluZSAxNTI5LgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRl
-ZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM4MTogCm5ldyBmaWxl
-IG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDMxNCBsaW5lcyBjaGVj
-a2VkCgpQYXRjaCA0LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNS83IENoZWNraW5nIGNv
-bW1pdCBjYmFhNWI5YmQyYTYgKG1pZ3JhdGlvbi9zbmFwc2hvdDogSW1wbGVtZW50YXRpb24gb2Yg
-cWVtdS1zbmFwc2hvdCBzYXZlIHBhdGgpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJz
-CiM1NTQ6IEZJTEU6IHFlbXUtc25hcHNob3Qtdm0uYzo1MDc6CisgICAgICAgICAgICBlcnJvcl9y
-ZXBvcnQoIlJBTSBwYWdlIHdpdGggdW5rbm93biBjb21iaW5hdGlvbiBvZiBmbGFncyAweCV4Iiwg
-ZmxhZ3MpOwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzY0ODogRklMRTogcWVt
-dS1zbmFwc2hvdC12bS5jOjYwMToKKyAgICAgICAgICAgICAgICAgICAgICAgICAoc2l6ZV90KShz
-c2l6ZV90KSAoVk1TVEFURV9IRUFERVJfRU9GX09GRlNFVCAtIGVvZl9wb3MpKTsKCldBUk5JTkc6
-IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM4MzI6IEZJTEU6IHFlbXUtc25hcHNob3Qtdm0uYzo3
-ODM6CisgICAgICAgICAgICAgKiBOb3JtYWxseSB3ZSB3aWxsIG5ldmVyIGdldCBoZXJlIHNpbmNl
-IHRoZSBlbmRpbmcgcGFydCBvZiBtaWdyYXRpb24KCnRvdGFsOiAwIGVycm9ycywgMyB3YXJuaW5n
-cywgOTAxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
-ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
-b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
-Lgo2LzcgQ2hlY2tpbmcgY29tbWl0IGRlY2UyNDE4YzA4ZCAobWlncmF0aW9uL3NuYXBzaG90OiBJ
-bXBsZW1lbnRhdGlvbiBvZiBxZW11LXNuYXBzaG90IGxvYWQgcGF0aCkKRVJST1I6IHRyYWlsaW5n
-IHdoaXRlc3BhY2UKIzI5NjogRklMRTogcWVtdS1zbmFwc2hvdC12bS5jOjk5NjoKKyAgICAgICAg
-JAoKRVJST1I6IHN3aXRjaCBhbmQgY2FzZSBzaG91bGQgYmUgYXQgdGhlIHNhbWUgaW5kZW50CiM0
-MzU6IEZJTEU6IHFlbXUtc25hcHNob3Qtdm0uYzoxMTM1OgorICAgICAgICBzd2l0Y2ggKGZsYWdz
-KSB7CisgICAgICAgICAgICBjYXNlIFJBTV9TQVZFX0ZMQUdfTUVNX1NJWkU6ClsuLi5dCisgICAg
-ICAgICAgICBjYXNlIFJBTV9TQVZFX0ZMQUdfRU9TOgpbLi4uXQorICAgICAgICAgICAgZGVmYXVs
-dDoKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM0NDY6IEZJTEU6IHFlbXUtc25h
-cHNob3Qtdm0uYzoxMTQ2OgorICAgICAgICAgICAgICAgIGVycm9yX3JlcG9ydCgiVW5rbm93biBj
-b21iaW5hdGlvbiBvZiBSQU0gcGFnZSBmbGFncyAweCV4IiwgZmxhZ3MpOwoKV0FSTklORzogbGlu
-ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzc2NTogRklMRTogcWVtdS1zbmFwc2hvdC5jOjI1ODoKKyAg
-ICBzLT5haW9fcmluZyA9IGFpb19yaW5nX25ldyhyYW1fbG9hZF9haW9fY28sIEFJT19SSU5HX1NJ
-WkUsIEFJT19SSU5HX0lORkxJR0hUKTsKCnRvdGFsOiAyIGVycm9ycywgMiB3YXJuaW5ncywgNzQx
-IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
-ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
-ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNy83
-IENoZWNraW5nIGNvbW1pdCA4N2Q5ZWI3ODUxODUgKG1pZ3JhdGlvbi9zbmFwc2hvdDogSW1wbGVt
-ZW50YXRpb24gb2YgcWVtdS1zbmFwc2hvdCBsb2FkIHBhdGggaW4gcG9zdGNvcHkgbW9kZSkKV0FS
-TklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzUxNzogRklMRTogcWVtdS1zbmFwc2hvdC12
-bS5jOjEyNzI6CisgICAgc2VuZF9jb21tYW5kKHMtPmZfZmQsIE1JR19DTURfUEFDS0FHRUQsIHNp
-emVvZihsZW5ndGgpLCAodWludDhfdCAqKSAmbGVuZ3RoKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4
-MCBjaGFyYWN0ZXJzCiM2MDM6IEZJTEU6IHFlbXUtc25hcHNob3Qtdm0uYzoxODM2OgorICAgICAg
-ICBpZiAoIXJlcyAmJiBzLT5wb3N0Y29weSAmJiAhcy0+aW5fcG9zdGNvcHkgJiYgaXNfcG9zdGNv
-cHlfc3dpdGNob3ZlcihzKSkgewoKdG90YWw6IDAgZXJyb3JzLCAyIHdhcm5pbmdzLCA2MjggbGlu
-ZXMgY2hlY2tlZAoKUGF0Y2ggNy83IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4g
-IElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0
-byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQ
-VVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBs
-b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwNTEyMTkyNjE5
-LjUzNzI2OC0xLWFuZHJleS5ncnV6ZGV2QHZpcnR1b3p6by5jb20vdGVzdGluZy5jaGVja3BhdGNo
-Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
-aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
-cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On Tue, 2021-05-11 at 17:11 +0200, Cornelia Huck wrote:
+> hsch and csch basically have two parts: execute the command,
+> and perform the halt/clear function. For fully emulated
+> subchannels, it is pretty clear how it will work: check the
+> subchannel state, and actually 'perform the halt/clear function'
+> and set cc 0 if everything looks good.
+> 
+> For passthrough subchannels, some of the checking is done
+> within QEMU, but some has to be done within the kernel. QEMU's
+> subchannel state may be such that we can perform the async
+> function, but the kernel may still get a cc != 0 when it is
+> actually executing the instruction. In that case, we need to
+> set the condition actually encountered by the kernel; if we
+> set cc 0 on error, we would actually need to inject an interrupt
+> as well.
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+> 
+> Stumbled over this during the vfio-ccw kernel locking discussions.
+> 
+> This is probably a corner case, and I'm not sure how I can actually
+> get this path excercised, but it passes my smoke tests.
+
+I'll see if I can hammer my way into some of this.
+
+> 
+> Not sure whether this is the way to go. 
+
+I think it seems reasonable.
+
+> The unit exceptions in the
+> halt/clear error paths also seem slightly fishy.
+
+It is peculiar. Looking at the old POPS references, the unit exception
+states that the --device-- detected something unusual, not really the
+subchannel (which is how vfio-ccw is behaving). But, providing some
+indication that something went seriously wrong is good. Which I guess
+was the point of the UE code, even though it's obviously set up to be
+generated after a failure on the START.
+
+I guess at the least, we need to clean up the FCTL based on the
+function that failed, rather than only cleaning up the START function.
+The UE itself may just be an extra "hey this is busted" indicator.
+
+> 
+> ---
+>  hw/s390x/css.c | 34 ++++++++++++++++++++++++++++++----
+>  hw/vfio/ccw.c  |  4 ++--
+>  2 files changed, 32 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/s390x/css.c b/hw/s390x/css.c
+> index bed46f5ec3a2..ce2e903ca25a 100644
+> --- a/hw/s390x/css.c
+> +++ b/hw/s390x/css.c
+> @@ -1206,23 +1206,49 @@ static void
+> sch_handle_start_func_virtual(SubchDev *sch)
+>  
+>  }
+>  
+> -static void sch_handle_halt_func_passthrough(SubchDev *sch)
+> +static IOInstEnding sch_handle_halt_func_passthrough(SubchDev *sch)
+>  {
+>      int ret;
+>  
+>      ret = s390_ccw_halt(sch);
+>      if (ret == -ENOSYS) {
+>          sch_handle_halt_func(sch);
+> +        return IOINST_CC_EXPECTED;
+
+This is the fallback, so makes sense. You could fold it into the switch
+table, but since that's for "stuff from the kernel" versus -ENOSYS says
+"there's no way to call the kernel" I guess this is fine too.
+
+> +    }
+> +    /*
+> +     * Some conditions may have been detected prior to starting the
+> halt
+> +     * function; map them to the correct cc.
+> +     */
+> +    switch (ret) {
+> +    case -EBUSY:
+> +        return IOINST_CC_BUSY;
+> +    case -ENODEV:
+> +    case -EACCES:
+> +        return IOINST_CC_NOT_OPERATIONAL;
+> +    default:
+> +        return IOINST_CC_EXPECTED;
+>      }
+>  }
+>  
+> -static void sch_handle_clear_func_passthrough(SubchDev *sch)
+> +static IOInstEnding sch_handle_clear_func_passthrough(SubchDev *sch)
+>  {
+>      int ret;
+>  
+>      ret = s390_ccw_clear(sch);
+>      if (ret == -ENOSYS) {
+>          sch_handle_clear_func(sch);
+> +        return IOINST_CC_EXPECTED;
+> +    }
+> +    /*
+> +     * Some conditions may have been detected prior to starting the
+> clear
+> +     * function; map them to the correct cc.
+> +     */
+> +    switch (ret) {
+> +    case -ENODEV:
+> +    case -EACCES:
+> +        return IOINST_CC_NOT_OPERATIONAL;
+> +    default:
+> +        return IOINST_CC_EXPECTED;
+>      }
+>  }
+>  
+> @@ -1265,9 +1291,9 @@ IOInstEnding
+> do_subchannel_work_passthrough(SubchDev *sch)
+>      SCHIB *schib = &sch->curr_status;
+>  
+>      if (schib->scsw.ctrl & SCSW_FCTL_CLEAR_FUNC) {
+> -        sch_handle_clear_func_passthrough(sch);
+> +        return sch_handle_clear_func_passthrough(sch);
+>      } else if (schib->scsw.ctrl & SCSW_FCTL_HALT_FUNC) {
+> -        sch_handle_halt_func_passthrough(sch);
+> +        return sch_handle_halt_func_passthrough(sch);
+>      } else if (schib->scsw.ctrl & SCSW_FCTL_START_FUNC) {
+>          return sch_handle_start_func_passthrough(sch);
+>      }
+> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> index e752c845e9e4..39275a917bd2 100644
+> --- a/hw/vfio/ccw.c
+> +++ b/hw/vfio/ccw.c
+> @@ -199,7 +199,7 @@ again:
+
+// This is for CLEAR
+
+>      case 0:
+>      case -ENODEV:
+>      case -EACCES:
+> -        return 0;
+> +        return ret;
+>      case -EFAULT:
+>      default:
+>          sch_gen_unit_exception(sch);
+> @@ -240,7 +240,7 @@ again:
+
+// This is for HALT
+
+>      case -EBUSY:
+>      case -ENODEV:
+>      case -EACCES:
+> -        return 0;
+> +        return ret;
+
+Aside: How could we get EACCES for either HALT or CLEAR? I only see
+that set in the normal request path, if we got a CC3 on the SSCH.
+
+Can we scrub them, or do we need to update kernel
+Documentation/s390/vfio-ccw.rst ? :)
+
+Eric
+
+>      case -EFAULT:
+>      default:
+>          sch_gen_unit_exception(sch);
+
 
