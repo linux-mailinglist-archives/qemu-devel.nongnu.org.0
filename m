@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BA937B454
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 04:57:26 +0200 (CEST)
-Received: from localhost ([::1]:47858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E491237B456
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 04:57:57 +0200 (CEST)
+Received: from localhost ([::1]:50454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgf3t-0002rL-R1
-	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 22:57:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37958)
+	id 1lgf4P-0004bP-14
+	for lists+qemu-devel@lfdr.de; Tue, 11 May 2021 22:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lgf2i-00022n-3w
- for qemu-devel@nongnu.org; Tue, 11 May 2021 22:56:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29724)
+ id 1lgf3D-0002tH-KV
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 22:56:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lgf2f-0004ux-5n
- for qemu-devel@nongnu.org; Tue, 11 May 2021 22:56:11 -0400
+ id 1lgf3B-0005Qb-SG
+ for qemu-devel@nongnu.org; Tue, 11 May 2021 22:56:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620788168;
+ s=mimecast20190719; t=1620788201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0zQwEI8otUkqqKeq8bINhFvKtfFUVHOHOWw7x4EJDPQ=;
- b=Is55RbfYn4c0wVhesAfrdkdCSEKYwQTPfLUX9N6eWwqmYZV24+Bx5RKjVtGTsBUmhOZNtb
- i+8z1HXdrrlCGFLdtPzAP3UzHR/h2w0PuQlBLEKpgQHI6VG+WYmYiOe+1zB4UiyTLeFmOR
- 6uZty8zL7o2dkqEGSbRcXlMJ/F3GpVI=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-0RqguxkuPUa19xYP5v-jsw-1; Tue, 11 May 2021 22:56:06 -0400
-X-MC-Unique: 0RqguxkuPUa19xYP5v-jsw-1
-Received: by mail-pl1-f199.google.com with SMTP id
- o19-20020a170902e293b02900ef869214f9so10349plc.18
- for <qemu-devel@nongnu.org>; Tue, 11 May 2021 19:56:06 -0700 (PDT)
+ bh=H7dgJ2VBvYgXlW8nrgz1xqOSk080AmTGIBqPcItbHJ8=;
+ b=SFWdZyvSgl47wG4Ei0yYdiRMxoea0SmUuuK+w6Zv8m9XFTcn5xz09fycNFe0DoJKFI7V4s
+ E0C8wDbTHpNx8q3o0ECWakmTMBjEEbpz+ogLk9wwa7S9cN1TiKw5q3ArKS1/3UDw7GmHwG
+ WjMylHO7eOtqEonKfhhgduWdH9E7oo0=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-236-U6vCit2PPwedkJB9EqXcCw-1; Tue, 11 May 2021 22:56:39 -0400
+X-MC-Unique: U6vCit2PPwedkJB9EqXcCw-1
+Received: by mail-pf1-f199.google.com with SMTP id
+ s5-20020aa78d450000b02902ace63a7e93so8477671pfe.8
+ for <qemu-devel@nongnu.org>; Tue, 11 May 2021 19:56:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=0zQwEI8otUkqqKeq8bINhFvKtfFUVHOHOWw7x4EJDPQ=;
- b=rboFecPyejyzLLXdPiW06wJFKS1Oc15/1HmZI+T8xFN5xF/SLXubOnabmRpMpVbD0C
- 6pAM8PytZk1qIC5a1Ps/BD5hgC4G1joPngIbVDFU880gfECYHg6Xn2mkrIoZ5mC8HY9L
- iHqlw/fD9jvY/xhVRcBEB8ta/GBovz/z39l4yNlqsjpq5/kLJBCZGzuvcnbYMJxi/lma
- UMYrxJCIniODGGpucFPNXAWQpsAtTL7/kjddXhqYqzT3CKeGZcVEkvTh3qkb1a4Wff0n
- 6Py6I1FsX2oSujK2T6eyCdZBfQyvZccVKIzd8EkhRPGb+YCI8o7MgBz50jAQEl8kTrih
- acZA==
-X-Gm-Message-State: AOAM5301Z+Qz5c2Wr/6GMnf2vdpUBwMi2wZAmNajtDNck5inDsAy/9Ks
- BCImZu3jjJt+U9yxLdiouTjWsLo8+YDQXkV40RlCmSNJU9OOTMWpT0UjWZ+KWXITT8mvEWmN/21
- zuk/zpvFD1CkehTc=
-X-Received: by 2002:a17:90a:aa14:: with SMTP id
- k20mr8794107pjq.88.1620788165847; 
- Tue, 11 May 2021 19:56:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJypIXyOx9ke9A0quNXF//7PNBPjWEo9rqsdrKKjTSnMQodBH/idYEpx96naaPhf0r9DxFtp8Q==
-X-Received: by 2002:a17:90a:aa14:: with SMTP id
- k20mr8794074pjq.88.1620788165532; 
- Tue, 11 May 2021 19:56:05 -0700 (PDT)
+ bh=H7dgJ2VBvYgXlW8nrgz1xqOSk080AmTGIBqPcItbHJ8=;
+ b=t0BbSkTBjeHJpDSC7PG/Ew+VfYS/P3re0u1UMb4QdcGV5OhBX62qvdJ1UoIACtlqxB
+ K5YxzX1TCthE6nEbj/LgPez7Nw3jisH+oyfepuxXnqiAgiqPuBEdbCh87CWef7xGWeNc
+ CqME6hw32fNC3XXNQz48n5UmWTDlOBSUmo6YkBtzswnyyesUxxvXZ6c4vXdoupiTrsYF
+ UoY6gAzfYa6cCxmU4Na9OVTaU5kLmcPET1bcZHCzVfPTn5ylG4PpNEZ16XVR5LWSsCU7
+ GywztM7XUTeFlHcCZPGEn07ttVWZdKN44XMOg0BQwY3yusG86Dpyi2Y0PkWMA/EfEoiU
+ nIaA==
+X-Gm-Message-State: AOAM532G1yWMGvwiiLvx2L0zZVRGH3yp8XKEr7mUphbR5uUhQeNBdGD7
+ TqRwg9UkOxG3A7+6Uhc9/ypokEAj4uLnkjzuiMueUPQMUpW6TSZbkwwyZyce5TxLHdXZj7ZveFY
+ 7rplTCW82ko4f568=
+X-Received: by 2002:a17:90b:3781:: with SMTP id
+ mz1mr5939444pjb.92.1620788198498; 
+ Tue, 11 May 2021 19:56:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSQ2rjJhej6j6lVXtiuyX9Ti34Cim6flcy/ZudBCjb5vmVDZAeSFIqKEFIM6drUWAoT7BAVQ==
+X-Received: by 2002:a17:90b:3781:: with SMTP id
+ mz1mr5939429pjb.92.1620788198246; 
+ Tue, 11 May 2021 19:56:38 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id j16sm15632697pgh.69.2021.05.11.19.56.01
+ by smtp.gmail.com with ESMTPSA id m2sm4803460pgu.85.2021.05.11.19.56.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 May 2021 19:56:04 -0700 (PDT)
-Subject: Re: [PATCH 1/3] hw/virtio: Pass virtio_feature_get_config_size() a
- const argument
+ Tue, 11 May 2021 19:56:37 -0700 (PDT)
+Subject: Re: [PATCH 2/3] virtio-blk: Constify VirtIOFeature feature_sizes[]
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210511104157.2880306-1-philmd@redhat.com>
- <20210511104157.2880306-2-philmd@redhat.com>
+ <20210511104157.2880306-3-philmd@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <fe8bbc8e-be18-a5db-414f-4008b07a6f36@redhat.com>
-Date: Wed, 12 May 2021 10:55:59 +0800
+Message-ID: <ceeaa52d-4a76-4ce9-d355-61a909040ed8@redhat.com>
+Date: Wed, 12 May 2021 10:56:32 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210511104157.2880306-2-philmd@redhat.com>
+In-Reply-To: <20210511104157.2880306-3-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -112,44 +111,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2021/5/11 下午6:41, Philippe Mathieu-Daudé 写道:
-> The VirtIOFeature structure isn't modified, mark it const.
->
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   hw/block/virtio-blk.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+> index d28979efb8d..f139cd7cc9c 100644
+> --- a/hw/block/virtio-blk.c
+> +++ b/hw/block/virtio-blk.c
+> @@ -40,7 +40,7 @@
+>    * Starting from the discard feature, we can use this array to properly
+>    * set the config size depending on the features enabled.
+>    */
+> -static VirtIOFeature feature_sizes[] = {
+> +static const VirtIOFeature feature_sizes[] = {
+>       {.flags = 1ULL << VIRTIO_BLK_F_DISCARD,
+>        .end = endof(struct virtio_blk_config, discard_sector_alignment)},
+>       {.flags = 1ULL << VIRTIO_BLK_F_WRITE_ZEROES,
 
 
 Acked-by: Jason Wang <jasowang@redhat.com>
 
-
-> ---
->   include/hw/virtio/virtio.h | 2 +-
->   hw/virtio/virtio.c         | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index b7ece7a6a89..8bab9cfb750 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -43,7 +43,7 @@ typedef struct VirtIOFeature {
->       size_t end;
->   } VirtIOFeature;
->   
-> -size_t virtio_feature_get_config_size(VirtIOFeature *features,
-> +size_t virtio_feature_get_config_size(const VirtIOFeature *features,
->                                         uint64_t host_features);
->   
->   typedef struct VirtQueue VirtQueue;
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 9e13cb9e3ad..e02544b2df7 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -2981,7 +2981,7 @@ int virtio_set_features(VirtIODevice *vdev, uint64_t val)
->       return ret;
->   }
->   
-> -size_t virtio_feature_get_config_size(VirtIOFeature *feature_sizes,
-> +size_t virtio_feature_get_config_size(const VirtIOFeature *feature_sizes,
->                                         uint64_t host_features)
->   {
->       size_t config_size = 0;
 
 
