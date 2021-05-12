@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8E237D3CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:19:58 +0200 (CEST)
-Received: from localhost ([::1]:43822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F3337D3D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:26:06 +0200 (CEST)
+Received: from localhost ([::1]:57408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lguOj-0006qh-Pr
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:19:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53542)
+	id 1lguUf-0007qG-Ag
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:26:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu2a-0006Vq-ML; Wed, 12 May 2021 14:57:04 -0400
+ id 1lgu2d-0006bk-G1; Wed, 12 May 2021 14:57:07 -0400
 Received: from [201.28.113.2] (port=20812 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu2Z-0007uU-4q; Wed, 12 May 2021 14:57:04 -0400
+ id 1lgu2b-0007uU-ST; Wed, 12 May 2021 14:57:07 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 15:56:03 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 35F7F80139F;
+ by power9a (Postfix) with ESMTP id 8314D8000C2;
  Wed, 12 May 2021 15:56:03 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 13/31] target/ppc: Remove DisasContext.exception
-Date: Wed, 12 May 2021 15:54:23 -0300
-Message-Id: <20210512185441.3619828-14-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 14/31] target/ppc: Move single-step check to ppc_tr_tb_stop
+Date: Wed, 12 May 2021 15:54:24 -0300
+Message-Id: <20210512185441.3619828-15-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 May 2021 18:56:03.0562 (UTC)
- FILETIME=[74F8E4A0:01D74760]
+X-OriginalArrivalTime: 12 May 2021 18:56:03.0843 (UTC)
+ FILETIME=[7523C530:01D74760]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,112 +63,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Now that we have removed all of the fake exceptions, and all real
-exceptions exit via DISAS_NORETURN, we can remove this field.
+When single-stepping, force max_insns to 1 in init_disas
+so that we exit the translation loop immediately.
+
+Combine the single-step checks in tb_stop, and give the
+gdb exception priority over the cpu exception, just as
+we already do in gen_lookup_and_goto_ptr.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
-v4:
-- Remove the field.
-- Changes applied to gen_scv on rebase.
----
- target/ppc/translate.c | 30 ++++--------------------------
- 1 file changed, 4 insertions(+), 26 deletions(-)
+ target/ppc/translate.c | 33 +++++++++++++++++++--------------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 43320d2b8b..606897fa75 100644
+index 606897fa75..bfda567ac0 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -156,7 +156,6 @@ struct DisasContext {
-     DisasContextBase base;
-     target_ulong cia;  /* current instruction address */
-     uint32_t opcode;
--    uint32_t exception;
-     /* Routine used to access memory */
-     bool pr, hv, dr, le_mode;
-     bool lazy_tlb_flush;
-@@ -258,15 +257,12 @@ static void gen_exception_err(DisasContext *ctx, uint32_t excp, uint32_t error)
-      * These are all synchronous exceptions, we set the PC back to the
-      * faulting instruction
-      */
--    if (ctx->exception == POWERPC_EXCP_NONE) {
--        gen_update_nip(ctx, ctx->cia);
--    }
-+    gen_update_nip(ctx, ctx->cia);
-     t0 = tcg_const_i32(excp);
-     t1 = tcg_const_i32(error);
-     gen_helper_raise_exception_err(cpu_env, t0, t1);
-     tcg_temp_free_i32(t0);
-     tcg_temp_free_i32(t1);
--    ctx->exception = excp;
-     ctx->base.is_jmp = DISAS_NORETURN;
- }
- 
-@@ -278,13 +274,10 @@ static void gen_exception(DisasContext *ctx, uint32_t excp)
-      * These are all synchronous exceptions, we set the PC back to the
-      * faulting instruction
-      */
--    if (ctx->exception == POWERPC_EXCP_NONE) {
--        gen_update_nip(ctx, ctx->cia);
--    }
-+    gen_update_nip(ctx, ctx->cia);
-     t0 = tcg_const_i32(excp);
-     gen_helper_raise_exception(cpu_env, t0);
-     tcg_temp_free_i32(t0);
--    ctx->exception = excp;
-     ctx->base.is_jmp = DISAS_NORETURN;
- }
- 
-@@ -297,7 +290,6 @@ static void gen_exception_nip(DisasContext *ctx, uint32_t excp,
-     t0 = tcg_const_i32(excp);
-     gen_helper_raise_exception(cpu_env, t0);
-     tcg_temp_free_i32(t0);
--    ctx->exception = excp;
-     ctx->base.is_jmp = DISAS_NORETURN;
- }
- 
-@@ -4996,13 +4988,10 @@ static void gen_scv(DisasContext *ctx)
-     uint32_t lev = (ctx->opcode >> 5) & 0x7F;
- 
-     /* Set the PC back to the faulting instruction. */
--    if (ctx->exception == POWERPC_EXCP_NONE) {
--        gen_update_nip(ctx, ctx->cia);
--    }
-+    gen_update_nip(ctx, ctx->cia);
-     gen_helper_scv(cpu_env, tcg_constant_i32(lev));
- 
--    /* This need not be exact, just not POWERPC_EXCP_NONE */
--    ctx->exception = POWERPC_SYSCALL_VECTORED;
-+    ctx->base.is_jmp = DISAS_NORETURN;
- }
- #endif
- #endif
-@@ -9196,7 +9185,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+@@ -9183,7 +9183,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     CPUPPCState *env = cs->env_ptr;
      uint32_t hflags = ctx->base.tb->flags;
-     int bound;
+-    int bound;
  
--    ctx->exception = POWERPC_EXCP_NONE;
      ctx->spr_cb = env->spr_cb;
      ctx->pr = (hflags >> HFLAGS_PR) & 1;
-     ctx->mem_idx = (hflags >> HFLAGS_DMMU_IDX) & 7;
-@@ -9303,16 +9291,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-                  "temporaries\n", opc1(ctx->opcode), opc2(ctx->opcode),
-                  opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
+@@ -9223,8 +9222,12 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+         ctx->singlestep_enabled |= GDBSTUB_SINGLE_STEP;
      }
--
--    if (ctx->base.is_jmp == DISAS_NEXT) {
--        switch (ctx->exception) {
--        case POWERPC_EXCP_NONE:
--            break;
--        default:
--            /* Every other ctx->exception should have set NORETURN. */
--            g_assert_not_reached();
--        }
--    }
+ 
+-    bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
+-    ctx->base.max_insns = MIN(ctx->base.max_insns, bound);
++    if (ctx->singlestep_enabled & (CPU_SINGLE_STEP | GDBSTUB_SINGLE_STEP)) {
++        ctx->base.max_insns = 1;
++    } else {
++        int bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
++        ctx->base.max_insns = MIN(ctx->base.max_insns, bound);
++    }
  }
  
- static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+ static void ppc_tr_tb_start(DisasContextBase *db, CPUState *cs)
+@@ -9278,14 +9281,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     handler->count++;
+ #endif
+ 
+-    /* Check trace mode exceptions */
+-    if (unlikely(ctx->singlestep_enabled & CPU_SINGLE_STEP &&
+-                 (ctx->base.pc_next <= 0x100 || ctx->base.pc_next > 0xF00) &&
+-                 ctx->base.is_jmp != DISAS_NORETURN)) {
+-        uint32_t excp = gen_prep_dbgex(ctx);
+-        gen_exception_nip(ctx, excp, ctx->base.pc_next);
+-    }
+-
+     if (tcg_check_temp_count()) {
+         qemu_log("Opcode %02x %02x %02x %02x (%08x) leaked "
+                  "temporaries\n", opc1(ctx->opcode), opc2(ctx->opcode),
+@@ -9298,6 +9293,7 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     DisasJumpType is_jmp = ctx->base.is_jmp;
+     target_ulong nip = ctx->base.pc_next;
++    int sse;
+ 
+     if (is_jmp == DISAS_NORETURN) {
+         /* We have already exited the TB. */
+@@ -9305,7 +9301,8 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+     }
+ 
+     /* Honor single stepping. */
+-    if (unlikely(ctx->base.singlestep_enabled)) {
++    sse = ctx->singlestep_enabled & (CPU_SINGLE_STEP | GDBSTUB_SINGLE_STEP);
++    if (unlikely(sse)) {
+         switch (is_jmp) {
+         case DISAS_TOO_MANY:
+         case DISAS_EXIT_UPDATE:
+@@ -9318,8 +9315,16 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+         default:
+             g_assert_not_reached();
+         }
+-        gen_debug_exception(ctx);
+-        return;
++
++        if (sse & GDBSTUB_SINGLE_STEP) {
++            gen_debug_exception(ctx);
++            return;
++        }
++        /* else CPU_SINGLE_STEP... */
++        if (nip <= 0x100 || nip > 0xf00) {
++            gen_exception(ctx, gen_prep_dbgex(ctx));
++            return;
++        }
+     }
+ 
+     switch (is_jmp) {
 -- 
 2.25.1
 
