@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E3937D392
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:32:49 +0200 (CEST)
-Received: from localhost ([::1]:55840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E2D37D3A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:44:10 +0200 (CEST)
+Received: from localhost ([::1]:51594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgtf5-0005wD-3S
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:32:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47440)
+	id 1lgtq4-00060v-U4
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:44:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgtbk-0002uU-OP
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:29:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27928)
+ id 1lgtd9-0005O4-Oi
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:30:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lgtbh-0000Cv-4W
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:29:19 -0400
+ id 1lgtd8-00016a-6Q
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:30:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620844155;
+ s=mimecast20190719; t=1620844245;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XwMamt25vK6J6E0ucTWJduW0An5086brZgZmt2BCUWA=;
- b=d3RT9nX+cy9c1hEDn/gYcjHp6d/hbhx0lQ+CAA8vi6PXu6QAX/rtbZt1mgYlT4KT0Irk21
- V/9smzPymyehqlzST8vrJR4eBiNPbkD+0na3aGhytovYHdnSm17DvZ1tb2hTU4TBEaICYU
- 4/IXuVcfttlAH2uFCS0k4sBmz7hCZhI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-SyMkW4Q-PXqLPas_OAyhdg-1; Wed, 12 May 2021 14:29:12 -0400
-X-MC-Unique: SyMkW4Q-PXqLPas_OAyhdg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- i19-20020a05640242d3b0290388cea34ed3so13289888edc.15
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:29:12 -0700 (PDT)
+ bh=BP7W6a8RpVCY4wpWZIAfNBiQdnheZb9+Rrgsjy/+n3Y=;
+ b=T6u3feWm/QvGFkVS2FVyFgn1hYDvNaWeMeeDswEv+5P4H79xVusYg7iNKqE1ri+FO7na9Z
+ wDknagfX3nQfPhI59KKi+lGg798//EQavUTg7ZtgkWzlhfAP5hFC6DhwbdJpR58s8k+RKT
+ E7u4GGa94OHMWEXroaa+KZE/QRmt2UY=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-KdHVY_AaNaC25ERTelKqdQ-1; Wed, 12 May 2021 14:30:44 -0400
+X-MC-Unique: KdHVY_AaNaC25ERTelKqdQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ y15-20020aa7d50f0000b02903885ee98723so13251969edq.16
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:30:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=XwMamt25vK6J6E0ucTWJduW0An5086brZgZmt2BCUWA=;
- b=Q10BJHczsgo3dHIpsotey3e7pS+Y3RLAoh90c/anetHGe1nh4vJsrykv4u1xMkvwIB
- tin9hJONH5j+zCruLmZvezv8V/Yfhk+Qd6Mo6btWs0XPkXSDxnt7YSx8JLe1G7kgxcmb
- i0nhH6v0dNZjBYgks5us+V0BfrfM8WFpfrhSuKtCoDG31PoiejBNBP5ehE0cGucx0V7q
- E7o0xB4071hIOchzj7krFJQIUmX2zu1xaJnWrVR2etxAm236/6VecCVZwQUZU2mixSgU
- DCEkQP3qLHhFdUc1ihkw+BHOPzsHT7t9Hww4F/l8PVlRB5yz6UE54VwXGZEWQm4+J4Jd
- RNxA==
-X-Gm-Message-State: AOAM532r+oLq/vXOwguTEDp+YoK5DVEacfUaZ99ipSIlGu09FDEgeppj
- s8l1pwm9YAMZLWaOQEBbU1YivW25aHtkRRexO8tKdKNoLeBqlJ85IxIprIGM3tPlQ6vtE4r8ER9
- WNVOQiACLFsBCbQKlslZJWhwj4ogna+QUd0AXuUeVL0k2G3VE4q3JXJYugkwfFntUVZs=
-X-Received: by 2002:a17:907:f86:: with SMTP id
- kb6mr38152923ejc.428.1620844151258; 
- Wed, 12 May 2021 11:29:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdwipOKbI4MAAVHSzeFfsmFt6Dc79jowl4iKNCoNcWxYGdycBkyhsFYTHXSrCEjM8WedjNgg==
-X-Received: by 2002:a17:907:f86:: with SMTP id
- kb6mr38152903ejc.428.1620844151030; 
- Wed, 12 May 2021 11:29:11 -0700 (PDT)
+ bh=BP7W6a8RpVCY4wpWZIAfNBiQdnheZb9+Rrgsjy/+n3Y=;
+ b=qklDrxXeUeQoE+8Yj3jqjXUmhdeivWDHifqf6TKZum/SBvkLua2V+dqWd1WqxRKW8y
+ pxPovLlALe6xWRYLWUYuybFK5XckAHmNDiYLR1HaFDlbvnvhhFu52paPXMPIOaBJ+vC5
+ Yge2hP63518TDlCTSAfck+qTOxNCckQv+UtND+kUAL8VTeOtSqhDZnwLl+ZIhYvwNtFI
+ rFZr45fpzc7I7iIwqmK6Zhb9WKux7wBQJerOvvKN53vrWnqE7yUiaZzXUpb8E8QCu5N/
+ p9QYDfuBzA6JWfPWFKz5RxP2fLe1bhwTi5o7JyHz69SM2ROeKNPIinnMpAhSi54h1qTA
+ J34A==
+X-Gm-Message-State: AOAM530FnegffeCuwhXWQmqSR8vGKGFg9k461kH7pLiB4tnIi4+qQMum
+ VuM96djMZXaHbqJ0TJbvj2fbbBSGsq4Nj9P8Ol3L37N/k7IOSALmwVlSRjdajH3pTCsSdThRg8o
+ HAyvIfEoX4BS6HPw=
+X-Received: by 2002:a05:6402:378:: with SMTP id
+ s24mr10388281edw.164.1620844242853; 
+ Wed, 12 May 2021 11:30:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwI3BZsueKJ/QD8ZJJ6hKH0Vppq0Dt9l6zACy0LTz3SrP7B+WhO+LH7kwhTkXrhzpjy/bigBg==
+X-Received: by 2002:a05:6402:378:: with SMTP id
+ s24mr10388261edw.164.1620844242664; 
+ Wed, 12 May 2021 11:30:42 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id b17sm434920edr.80.2021.05.12.11.29.08
+ by smtp.gmail.com with ESMTPSA id i8sm460217edu.64.2021.05.12.11.30.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 May 2021 11:29:09 -0700 (PDT)
-Subject: Re: [PATCH] add Visual Studio Code configuration
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210512100906.621504-1-pbonzini@redhat.com>
- <CAFEAcA-Vy3uG=PjKnDfaX0BoCLUDS=Za=aZ7BgG6iHc0wRYopw@mail.gmail.com>
+ Wed, 12 May 2021 11:30:41 -0700 (PDT)
+Subject: Re: [PATCH 5/6] co-shared-resource: protect with a mutex
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+References: <20210510085941.22769-1-eesposit@redhat.com>
+ <20210510085941.22769-6-eesposit@redhat.com>
+ <YJv3+y42z0Ld1nY0@stefanha-x1.localdomain>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <22e50f9b-e62a-799b-b0f2-03103119c804@redhat.com>
-Date: Wed, 12 May 2021 20:29:08 +0200
+Message-ID: <d11a9bb1-b1ce-0e7c-36b5-8b4b83c1e8fe@redhat.com>
+Date: Wed, 12 May 2021 20:30:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-Vy3uG=PjKnDfaX0BoCLUDS=Za=aZ7BgG6iHc0wRYopw@mail.gmail.com>
+In-Reply-To: <YJv3+y42z0Ld1nY0@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
@@ -103,41 +105,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/05/21 13:02, Peter Maydell wrote:
->> --- /dev/null
->> +++ b/scripts/rebuild.py
->> @@ -0,0 +1,22 @@
->> +#! /usr/bin/env python3
->> +#
->> +# Author: Paolo Bonzini <pbonzini@redhat.com>
->> +#
->> +# This program compiles the input files using commands from the
->> +# compile_commands.json file.  (Unlike Make/ninja, the _source_
->> +# file is passed to the program rather than the targe).  It is
->> +# mostly intended to be called from editors.
-> 
-> This seems weird. I don't think we should try to support multiple
-> ways of building QEMU -- editors should just run make the same
-> way everybody else does...
+On 12/05/21 17:44, Stefan Hajnoczi wrote:
+> If we follow this strategy basically any data structure used
+> by coroutines needs its own fine-grained lock (like Java's Object base
+> class which has its own lock).
 
-Right, it's possible to include a "whole build" task in tasks.json, and 
-it will invoke Make/ninja (I haven't done it yet though so it's not 
-included in this first attempt).
-
-This script instead is used to rebuild the one file that is being 
-edited, for example to check quickly for syntax errors.  I did find it 
-quite surprising that VS Code could not do this on its own, since it can 
-use compile_commands.json to retrieve the header file paths for example; 
-still, this script is not a replacement for make, as this functionality 
-of reverse-mapping from .c to .o is not available natively in either 
-Make or ninja.  It might even be handy for vim or Emacs users.
-
-(This series really should have been tagged as RFC).
+Maybe not all, but only those that use CoQueue?  Interestingly, I was a 
+bit less okay with ProgressMeter and didn't think twice about the other two.
 
 Paolo
 
