@@ -2,96 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA3C37D40F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 22:01:56 +0200 (CEST)
-Received: from localhost ([::1]:48884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F58C37D435
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 22:25:16 +0200 (CEST)
+Received: from localhost ([::1]:41918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgv3L-0001P0-37
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 16:01:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38790)
+	id 1lgvPv-00022m-Bp
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 16:25:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgv0S-0007Fb-L6
- for qemu-devel@nongnu.org; Wed, 12 May 2021 15:58:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32206)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lgv0P-0004ho-2N
- for qemu-devel@nongnu.org; Wed, 12 May 2021 15:58:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620849531;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rkMzNyHBMdovBwT5uIcFgiQS+4Hkr3a54nKyz4ZSSfw=;
- b=inEZGv4EaUt3WO0Hi3QEIuQilpbONx8Uh5laSc+eBaWS+aRaYSv4p4WGE10SLj7Iy0svcR
- sThoIB2GeHwVrixOjPzwl/+NQCQCQYxeqXdTaATTWOkGALObtEtxKl8mmrZH8afeP8OMPF
- Z3fLCoGYzoz7eusQ7AZKqh2UbHfb5qM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-x-Vtk5NoMNinVsPdK62H4A-1; Wed, 12 May 2021 15:58:50 -0400
-X-MC-Unique: x-Vtk5NoMNinVsPdK62H4A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- 67-20020adf81490000b029010756d109e6so10484090wrm.13
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 12:58:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lgv6P-0005y6-F2
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 16:05:05 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34324)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lgv6N-000870-EP
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 16:05:05 -0400
+Received: by mail-wr1-x436.google.com with SMTP id t18so24862114wry.1
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 13:05:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BkImYmcu4GtsjaR9W2SzTrb8O3eCS3h26ycLTAbUWJE=;
+ b=HeYwTjOHoaVUm+STL/3b8yvyervS095pNcMETtzp77QsG8hjQ5mfncAQXW6g5h2Bk3
+ QHC0hbkB/1eRkYoiZZ0ObU6qHRRInw7a5YyMJU9pNa887V523SZTMZvjUAGphE8GMNkJ
+ qPyUqxs+/VJVe/nXTlQaN+DcSg+siOOEXGJTJjX/ulmoEQqYZYoS7Wyq9Ny9shjQYYXy
+ U3GDFz1vCco8+MJQpLKsMPbfIB5LPPyn8MeQkVVxXbl0hxWW+mb6ZyafdztmLhjvx4Xd
+ T1h3KDxiIJA9Wg5zYHtDMPhbmpHSCMMdUmQzMVEpMbyj9PV+r49uSS3H9f3m0mI2swnk
+ 3Fcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rkMzNyHBMdovBwT5uIcFgiQS+4Hkr3a54nKyz4ZSSfw=;
- b=ctYCfjkTfYXdieEf491tJIYuPcoFG0UqFPmGLXtdcJIV0iYwhNW0LNKuANT0nXS4aq
- FNqQzYj1UgihRrEIVGclzsZKK40nPlMRCXqVal5EO6UX4EBJWQdMzAwOsPM4KlKAmVbU
- 62dMxbNb7N3KSOpdk+bwXXYoYhIP3uqWNXOgnqmVK8PC3dFHsCrQzLBaV+iXBADPegdo
- zAGxDIo6WzE0Zb0kYB7Dg18kLhSYgaR9rO2K6XTZZRmCsNguz7h62D5EIs+vgtfCHcTz
- VL+6F3DyTXk8p0MaU1CrK4sHZsitwZa24hz0ww/x0J9sHdbwRYqaF3IAVgO2rwF+y8li
- zNAg==
-X-Gm-Message-State: AOAM531C0u+IimEDtFjbDud2DsVEO58ApNna3cKf4JewoWyVFmFxRXW1
- BKVkZw0GM/KTsmYTL41tbaPewpHZVf3Y6PlqB2yzwyye0P93XNr+qjeh7heYBsHyWNG0qctKi6E
- NdsKSBpffx1Zor2s=
-X-Received: by 2002:a05:600c:19c8:: with SMTP id
- u8mr185379wmq.50.1620849529081; 
- Wed, 12 May 2021 12:58:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyN90s83A3TD9KaKwJDov6ehgRkK4v9NrM64HG8xXGvChJ+qwNzJBCUTLwVIom1JN4Kptp9ww==
-X-Received: by 2002:a05:600c:19c8:: with SMTP id
- u8mr185362wmq.50.1620849528879; 
- Wed, 12 May 2021 12:58:48 -0700 (PDT)
+ bh=BkImYmcu4GtsjaR9W2SzTrb8O3eCS3h26ycLTAbUWJE=;
+ b=KgKX8+ybWgAfvUGXyAKo2bR4TN9PJoyFWspGqyTg0bql5GZKAiwHJAm+H2miYhMRX3
+ Jkf1T/z9YkEaq98dv0IJF0OWy28/HcqcL/7Bb0xWGdn6I0evQv3pXoX8KqLQOmxL/STp
+ pfwJRpOx76PEg9YkGCHcpnX8sW13YpcyPnlBwKeFkmyBUHwxHhJvVBvSHkzOMOXgbjrW
+ GVIDKQHjLHuUd8WP1LQk/LDCaejVTJmnGDfWpH7/wRg+3LuHlRA0g3jwrsF28KKwNCM1
+ 40z89vGmb03h/F92782y8pJJK/KTGVkso3mycpQPBi8EP7plbh7r6okw7JhBub+1pzDn
+ Ao3A==
+X-Gm-Message-State: AOAM532v8tPttMbDpQUWtKKXnr9pdHlN1PGp87SUGld9s0Tl8uWcuzIL
+ NONdhKWE3u/oT53c08cl3u8=
+X-Google-Smtp-Source: ABdhPJzInPqBq9KBRZtqnH3l5HsuRG4iD7hHG9FoObWmL031BZ1poXT7nrVFEmONDfd4c7UKxS/7Hw==
+X-Received: by 2002:a5d:64e6:: with SMTP id g6mr46633687wri.216.1620849901090; 
+ Wed, 12 May 2021 13:05:01 -0700 (PDT)
 Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id c62sm667157wme.5.2021.05.12.12.58.47
+ by smtp.gmail.com with ESMTPSA id f1sm782929wrr.63.2021.05.12.13.05.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 May 2021 12:58:48 -0700 (PDT)
-Subject: Re: [PATCH 2/3] pc-bios/s390-ccw/Makefile: Check more compiler flags
- for Clang
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
-References: <20210512171550.476130-1-thuth@redhat.com>
- <20210512171550.476130-3-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4f82847f-83cc-dea0-e455-b45f69848be2@redhat.com>
-Date: Wed, 12 May 2021 21:58:47 +0200
+ Wed, 12 May 2021 13:05:00 -0700 (PDT)
+Subject: Re: [PULL 2/5] Remove the deprecated moxie target
+To: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210512162412.338120-1-armbru@redhat.com>
+ <20210512162412.338120-3-armbru@redhat.com>
+ <a8c579c8-e361-e3ef-0f4d-d902e12c7525@amsat.org>
+ <b696a2c2-1a95-8442-1b2f-2b7e02f6ef0d@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e0be626f-f2ef-71a0-bb6e-ab566a74519a@amsat.org>
+Date: Wed, 12 May 2021 22:04:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210512171550.476130-3-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <b696a2c2-1a95-8442-1b2f-2b7e02f6ef0d@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,52 +92,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Richard
-
-On 5/12/21 7:15 PM, Thomas Huth wrote:
-> Older versions of Clang do not like -fno-delete-null-pointer-checks
-> or -msoft-float. So let's add a proper check for those.
+On 5/12/21 7:07 PM, Thomas Huth wrote:
+> On 12/05/2021 18.37, Philippe Mathieu-Daudé wrote:
+>> On 5/12/21 6:24 PM, Markus Armbruster wrote:
+>>> From: Thomas Huth <thuth@redhat.com>
+>>>
+>>> There are no known users of this CPU anymore, and there are no
+>>> binaries available online which could be used for regression tests,
+>>> so the code has likely completely bit-rotten already. It's been
+>>> marked as deprecated since two releases now and nobody spoke up
+>>> that there is still a need to keep it, thus let's remove it now.
+>>
+>> Isn't it already in a pull request sent by Thomas last week?
+>> (I ask because I based a pair of branches on it)
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  pc-bios/s390-ccw/Makefile | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-> index cee9d2c63b..97008d94c9 100644
-> --- a/pc-bios/s390-ccw/Makefile
-> +++ b/pc-bios/s390-ccw/Makefile
-> @@ -31,10 +31,11 @@ OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o menu.o \
->  
->  QEMU_CFLAGS := -Wall $(filter -W%, $(QEMU_CFLAGS))
->  QEMU_CFLAGS += $(call cc-option,-Werror $(QEMU_CFLAGS),-Wno-stringop-overflow)
-> -QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -fno-common -fPIE
-> +QEMU_CFLAGS += -ffreestanding -fno-common -fPIE
+> My series got stalled because there were issues with incremental builds.
+> But Markus series here has a chance to get through since there are also
+> changes to the configure script in here, so this could cause the rebuild
+> to trigger correctly. If this pull request survives Peter's integration
+> tests, I'm happy if the moxie patch gets merged this way!
 
-OK
-
->  QEMU_CFLAGS += -fwrapv -fno-strict-aliasing -fno-asynchronous-unwind-tables
-> -QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-stack-protector)
-> -QEMU_CFLAGS += -msoft-float
-> +QEMU_CFLAGS += $(call cc-option,-Werror $(QEMU_CFLAGS),-fno-delete-null-pointer-checks)
-> +QEMU_CFLAGS += $(call cc-option,-Werror $(QEMU_CFLAGS),-fno-stack-protector)
-
-OK
-
-> +QEMU_CFLAGS += $(call cc-option,-Werror $(QEMU_CFLAGS),-msoft-float)
-
-For this one I don't understand clang... How to enforce no floating
-point code generation?
-
->  QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS),-march=z900,-march=z10)
->  QEMU_CFLAGS += -std=gnu99
->  LDFLAGS += -Wl,-pie -nostdlib
-> 
-
+Ah OK, thanks for the explanation, great then!
 
