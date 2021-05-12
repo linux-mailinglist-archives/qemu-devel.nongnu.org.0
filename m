@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED0937BA53
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:28:04 +0200 (CEST)
-Received: from localhost ([::1]:50892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B461137BA42
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 12:24:04 +0200 (CEST)
+Received: from localhost ([::1]:42880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgm5p-0003VY-IU
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:27:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60122)
+	id 1lgm27-0006Or-PS
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 06:24:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lglzD-0003IU-7j
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:03 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38668)
+ id 1lglzJ-0003cn-LU
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:09 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lglzB-0003ZX-EQ
- for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:02 -0400
-Received: by mail-wr1-x432.google.com with SMTP id l14so23047789wrx.5
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:21:00 -0700 (PDT)
+ id 1lglzG-0003fa-UR
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 06:21:09 -0400
+Received: by mail-wr1-x435.google.com with SMTP id t18so23060683wry.1
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 03:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=89FGk/7QSTLsW61jmi4iC132gql+p7Aet7f7N9abrBY=;
- b=SLxx1raCEuxOAhZ10P6ubKoM1pDlkluS3zc04Ord3kKEnR+Xpg0lU+lHZMDp2RBCUt
- xNuAK1AZoOerSv8lYbxAwflKfv78CxCqo/jVFFR40WMINDmxW9hUEAuqEaur1eF/9rvA
- mhfzYcGQv9jvgzz6A9/k/dPUPSRU2gYvMN57B3h0rrjSFRsfDzaDNf0Vnni2UMuf2G5c
- /+TgVtdVj2wSOIE/AjHPUNk0V9Z8YmcVVOsMda2AXksWb7ONCMsU5yMvhfmn+h7Bfqur
- rshwGu5GncD7gdGaxT8gEJxNswMvAGYcTKJk6hX5oXKTO98THNvUxQi0cy+rbKpKvId0
- FXlA==
+ bh=sPzJesUomMFY9absGAV+e0gSasa1u8Mhgwq7e7l5rQ4=;
+ b=ZsLvS6GA9VNr4FhF9xXNcNLQgbhsb0np6w7cD7L1bMiTZC7mip7HqDTlxuKod3tha3
+ FkhCg5MdsDeYd3YG39coNMIF0dDp5XC9yQaqBd0bQY97Q8RFRFQMybeQfXbt9SVAlHos
+ uiu4YFiI6EheGo0+cHLLMiI3YNtnrwhx7/Y4IedODOV+qCIOSLRhdgzLqsCp/soNCfa5
+ Cop4bKDnBEGYHqZM9GtZ6ei1qaNBFf1hjzkDjRWV7Mp+e4qWuyQgW3vcrwmMQ+oCP61P
+ EZ9k3rQV4QkVGFjmfwshYFRZsUc85P+vE74ryeeNueGehJy5Sz9lyeEeHmXbXFhq1ihk
+ MTIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=89FGk/7QSTLsW61jmi4iC132gql+p7Aet7f7N9abrBY=;
- b=Nyc3oZe3GidjYzoR9qCkciCdxC41mUw72L3h1/cyKn9xRxv/l3+vDa1zZHm+8UIig6
- D8vsek8jCEahts2RbhGFMfj0uRCsl2TQTOGpk+nGLWjpLVbzkqrkf7SHJfeut0H78VUv
- NBUHo6OG9HO06ArN5oais4C4i0xwErndMNb/lIZtJHkhM77ZLmxAAlmvSdsifz2hMspc
- SV1SE7gzzNHt7aScxRTZHXgno2UJ4J1nCwC6msrIjDL8rXErSPI/Vjj45QIl9Mh4O8lu
- HklC9eJlGahUwzA0xkT8yrG2DbeL3xF8/iTN+Yy2neTPhrVfsej1jIHKmL+dNAnxAO4X
- k+/w==
-X-Gm-Message-State: AOAM532t3Nf3RFf5YsO9F364YL6EFF/knLYllZKvVSuG6JYlCW4xuLW2
- hiLG5NyyAwf7lyJj67l1GaC4AA==
-X-Google-Smtp-Source: ABdhPJzfmJbLU4lj/DtffJE3CFGaN+Qragd5PxYeLHdYkpB5cqEL1aymaf01RVEkFA2wYSdq/kB3Qg==
-X-Received: by 2002:adf:f508:: with SMTP id q8mr44711320wro.109.1620814860117; 
- Wed, 12 May 2021 03:21:00 -0700 (PDT)
+ bh=sPzJesUomMFY9absGAV+e0gSasa1u8Mhgwq7e7l5rQ4=;
+ b=TL0ho+7RK+mdiOGIwpny61UdhZjiHhf0vALWA25KPw4X1rotPBxjEJtPuIZcUXKgoN
+ qkNziQuKZwhkQmsEWkMRev5YL/6wp7pVGRodGfdm2ULrMLR+AapPNRQ9gc75DoYx9He3
+ AzGGdN8zSoYCbbNJ8oSNAN9+9ft/glFUghZSAHVWj3wZUp2XYSxpwp3Jh+Z3Rv8c9nt3
+ K/bfNrZEU/KbFm1Vf7ByF847TzeG1H6EPuloYpVM+KPJ1UyCHhRteWKbly/0sHVD1pcV
+ d+MZfZKWQYLlF1FCZTGwrB2uA0izQGnrsxcAT1deFMlb1AgisS6FiQPrEBAGoghVIDL/
+ /G9A==
+X-Gm-Message-State: AOAM5337xLMxBN/Zt+D32ZsslFwmu2noBNZdzz38hdwaOeqKls2BNVlW
+ shu9Xn+JcHYfJpPsTafwHs3IKg==
+X-Google-Smtp-Source: ABdhPJy0AoljF82+5kGK2piDyr6mxU4YfEvTv3RGtJ+0UpmHZhALODu/CQltu7bwDhLRb4EK7cWpUw==
+X-Received: by 2002:a5d:4a48:: with SMTP id v8mr45028899wrs.204.1620814865538; 
+ Wed, 12 May 2021 03:21:05 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h14sm34573244wrq.45.2021.05.12.03.20.54
+ by smtp.gmail.com with ESMTPSA id c8sm5645592wmr.48.2021.05.12.03.20.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 May 2021 03:20:58 -0700 (PDT)
+ Wed, 12 May 2021 03:20:59 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 95E4C1FF91;
- Wed, 12 May 2021 11:20:51 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 040A71FF98;
+ Wed, 12 May 2021 11:20:52 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 05/31] tests/docker: add "fetch" sub-command
-Date: Wed, 12 May 2021 11:20:25 +0100
-Message-Id: <20210512102051.12134-6-alex.bennee@linaro.org>
+Subject: [PATCH v3 09/31] tests/tcg: don't iterate through other arch compilers
+Date: Wed, 12 May 2021 11:20:29 +0100
+Message-Id: <20210512102051.12134-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210512102051.12134-1-alex.bennee@linaro.org>
 References: <20210512102051.12134-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,51 +86,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This simply wraps up fetching a build from the registry and tagging it
-as the local build.
+There should only be one compiler per architecture. Those cases where
+the same compiler can deal with a different architecture should be
+explicitly set for both cross_cc and docker configurations. Otherwise
+you get strangeness like:
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+  --cross-cc-aarch64=/bin/false
+
+causing the logic to attempt to use a locally available
+arm-linux-gnueabihf-gcc rather than forcing the use of the docker
+image which is what is implied by the command line option.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/docker.py | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ tests/tcg/configure.sh | 148 ++++++++++++++++-------------------------
+ 1 file changed, 59 insertions(+), 89 deletions(-)
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 7a14058801..4d9bb7c7ed 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -515,6 +515,23 @@ def run(self, args, argv):
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 24cc847688..e6c1be5450 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -74,35 +74,6 @@ fi
  
-         return 0
+ for target in $target_list; do
+   arch=${target%%-*}
+-  case $arch in
+-    arm|armeb)
+-      arches=arm
+-      ;;
+-    aarch64|aarch64_be)
+-      arches="aarch64 arm"
+-      ;;
+-    mips*)
+-      arches=mips
+-      ;;
+-    ppc*)
+-      arches=ppc
+-      ;;
+-    sh4|sh4eb)
+-      arches=sh4
+-      ;;
+-    x86_64)
+-      arches="x86_64 i386"
+-      ;;
+-    xtensa|xtensaeb)
+-      arches=xtensa
+-      ;;
+-    alpha|cris|hexagon|hppa|i386|lm32|microblaze|microblazeel|m68k|openrisc|riscv64|s390x|sh4|sparc64)
+-      arches=$target
+-      ;;
+-    *)
+-      continue
+-      ;;
+-  esac
  
-+class FetchCommand(SubCommand):
-+    """ Fetch a docker image from the registry. Args: <tag> <registry>"""
-+    name = "fetch"
-+
-+    def args(self, parser):
-+        parser.add_argument("tag",
-+                            help="Local tag for image")
-+        parser.add_argument("registry",
-+                            help="Docker registry")
-+
-+    def run(self, args, argv):
-+        dkr = Docker()
-+        dkr.command(cmd="pull", quiet=args.quiet,
-+                    argv=["%s/%s" % (args.registry, args.tag)])
-+        dkr.command(cmd="tag", quiet=args.quiet,
-+                    argv=["%s/%s" % (args.registry, args.tag), args.tag])
-+
+   container_image=
+   case $target in
+@@ -236,70 +207,69 @@ for target in $target_list; do
+   echo "CROSS_CC_GUEST_CFLAGS=$target_compiler_cflags" >> $config_target_mak
  
- class UpdateCommand(SubCommand):
-     """ Update a docker image. Args: <tag> <actions>"""
+   got_cross_cc=no
+-  for i in $arch $arches; do
+-    if eval test "x\${cross_cc_$i+yes}" != xyes; then
+-      continue
+-    fi
+ 
+-    eval "target_compiler=\${cross_cc_$i}"
+-    if ! has $target_compiler; then
+-      continue
+-    fi
+-    write_c_skeleton
+-    if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE $TMPC -static ; then
+-      # For host systems we might get away with building without -static
+-      if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE $TMPC ; then
+-        continue
+-      fi
+-      echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
+-    else
+-      echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
+-    fi
+-    echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
++  if eval test "x\${cross_cc_$arch}" != xyes; then
++      eval "target_compiler=\${cross_cc_$arch}"
+ 
+-    # Test for compiler features for optional tests. We only do this
+-    # for cross compilers because ensuring the docker containers based
+-    # compilers is a requirememt for adding a new test that needs a
+-    # compiler feature.
+-    case $target in
+-        aarch64-*)
+-            if do_compiler "$target_compiler" $target_compiler_cflags \
+-               -march=armv8.1-a+sve -o $TMPE $TMPC; then
+-                echo "CROSS_CC_HAS_SVE=y" >> $config_target_mak
+-            fi
+-            if do_compiler "$target_compiler" $target_compiler_cflags \
+-               -march=armv8.3-a -o $TMPE $TMPC; then
+-                echo "CROSS_CC_HAS_ARMV8_3=y" >> $config_target_mak
+-            fi
+-            if do_compiler "$target_compiler" $target_compiler_cflags \
+-               -mbranch-protection=standard -o $TMPE $TMPC; then
+-                echo "CROSS_CC_HAS_ARMV8_BTI=y" >> $config_target_mak
+-            fi
+-            if do_compiler "$target_compiler" $target_compiler_cflags \
+-               -march=armv8.5-a+memtag -o $TMPE $TMPC; then
+-                echo "CROSS_CC_HAS_ARMV8_MTE=y" >> $config_target_mak
+-            fi
+-        ;;
+-        ppc*)
+-            if do_compiler "$target_compiler" $target_compiler_cflags \
+-               -mpower8-vector -o $TMPE $TMPC; then
+-                echo "CROSS_CC_HAS_POWER8_VECTOR=y" >> $config_target_mak
+-            fi
+-        ;;
+-        i386-linux-user)
+-            if do_compiler "$target_compiler" $target_compiler_cflags \
+-                -Werror -fno-pie -o $TMPE $TMPC; then
+-                echo "CROSS_CC_HAS_I386_NOPIE=y" >> $config_target_mak
+-            fi
+-        ;;
+-    esac
++      if has $target_compiler; then
++          write_c_skeleton
++          if ! do_compiler "$target_compiler" $target_compiler_cflags \
++                 -o $TMPE $TMPC -static ; then
++              # For host systems we might get away with building without -static
++              if do_compiler "$target_compiler" $target_compiler_cflags \
++                     -o $TMPE $TMPC ; then
++                  got_cross_cc=yes
++                  echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
++                  echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
++              fi
++          else
++              got_cross_cc=yes
++              echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
++              echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
++          fi
++      fi
++  fi
+ 
+-    enabled_cross_compilers="$enabled_cross_compilers $target_compiler"
+-    got_cross_cc=yes
+-    break
+-  done
++  if test $got_cross_cc = yes; then
++      # Test for compiler features for optional tests. We only do this
++      # for cross compilers because ensuring the docker containers based
++      # compilers is a requirememt for adding a new test that needs a
++      # compiler feature.
+ 
+-  if test $got_cross_cc = no && test "$container" != no && test -n "$container_image"; then
++      case $target in
++          aarch64-*)
++              if do_compiler "$target_compiler" $target_compiler_cflags \
++                             -march=armv8.1-a+sve -o $TMPE $TMPC; then
++                  echo "CROSS_CC_HAS_SVE=y" >> $config_target_mak
++              fi
++              if do_compiler "$target_compiler" $target_compiler_cflags \
++                             -march=armv8.3-a -o $TMPE $TMPC; then
++                  echo "CROSS_CC_HAS_ARMV8_3=y" >> $config_target_mak
++              fi
++              if do_compiler "$target_compiler" $target_compiler_cflags \
++                             -mbranch-protection=standard -o $TMPE $TMPC; then
++                  echo "CROSS_CC_HAS_ARMV8_BTI=y" >> $config_target_mak
++              fi
++              if do_compiler "$target_compiler" $target_compiler_cflags \
++                             -march=armv8.5-a+memtag -o $TMPE $TMPC; then
++                  echo "CROSS_CC_HAS_ARMV8_MTE=y" >> $config_target_mak
++              fi
++              ;;
++          ppc*)
++              if do_compiler "$target_compiler" $target_compiler_cflags \
++                             -mpower8-vector -o $TMPE $TMPC; then
++                  echo "CROSS_CC_HAS_POWER8_VECTOR=y" >> $config_target_mak
++              fi
++              ;;
++          i386-linux-user)
++              if do_compiler "$target_compiler" $target_compiler_cflags \
++                             -Werror -fno-pie -o $TMPE $TMPC; then
++                  echo "CROSS_CC_HAS_I386_NOPIE=y" >> $config_target_mak
++              fi
++              ;;
++      esac
++  elif test $got_cross_cc = no && test "$container" != no && \
++          test -n "$container_image"; then
+       for host in $container_hosts; do
+           if test "$host" = "$ARCH"; then
+               echo "DOCKER_IMAGE=$container_image" >> $config_target_mak
 -- 
 2.20.1
 
