@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8F137BBBF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:28:00 +0200 (CEST)
-Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57FC37BBBC
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:27:21 +0200 (CEST)
+Received: from localhost ([::1]:50764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgn1z-0007BG-EG
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:27:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44350)
+	id 1lgn1M-00060W-Nr
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgmuW-0005HB-8X
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:20:16 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34433)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgn02-0004c8-UT
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:25:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lgmuT-0004Al-3T
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:20:15 -0400
-Received: by mail-wr1-x429.google.com with SMTP id t18so23234488wry.1
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 04:20:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Ad+9+2MDnnVuK7GelgJgPn5SudwJaltU6W6vHSgmUQs=;
- b=uqo/N7xc/ULhkrQSTh1QMECLMDJG8gyP3UjVs9svOtUaa3eAp3tAjI+GZgmomcljry
- 4dOObT4/ZoMV6FHhrQANP4PtRgqO5XtcM9nuU04NDHeKhxrKD8vCsPws0zabvU+8QD2n
- 84Oe+ze7k6SMmTuCnaYSdiz1lc5yQdH8Ame94p4OOUic03sFQjO+PyZZVAi8FopjU14l
- LwruljCc73dgC4E1T3XIzUJy+OeePdIPTb0+uPIv3YBLITHgFxpuoaZZ8afU/5B2DqLt
- UmzV6Dm7t+vDhqINjVyCsnxZNLkv5nkyvkmwgi2ts1YqdCcZv4UA7FTMIFSJqf4oQvVl
- R/Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Ad+9+2MDnnVuK7GelgJgPn5SudwJaltU6W6vHSgmUQs=;
- b=iQ9j4u54BCsCtW/2b3yza7k+74uhFH2VgtWefjMLYFwSJwFzmPdOj+3eBA9XPZn0Wh
- E1vfccQoZua75VFqAdnJlYX2TKwN7PZmH4s6UO3HeQeouTmFgjT5wDdWIg5XReclJWi8
- +7N6ktMZbrPNAFQuSZ2PG6te7ct5w0LsXkwjANrWsqRlST7zB6jfoc0AcwHNNp+KTqOj
- mbvP/R1f5l2heUhrBgHXio7VgZliYPc5H0QMwV+Tac9vGXzdpGA5PPk5EzWqqZzuMXXA
- AIAonBU80uBJfYhk66PIPvplVSwqDqTpe6g5Pl9dI9yesR+Dt6iQb3xGP6c0cseEq3pe
- NyQQ==
-X-Gm-Message-State: AOAM5338NcZz/8BZgrkF/T74OpUeAzcq6BmY6zIZQiFPf7XMt6NoJIfc
- QFPB8SR73lXju/0JLw0PDsMzvA==
-X-Google-Smtp-Source: ABdhPJwR0VNCITjtC3B7Im2JLkOfJ1poR6GH/OLtHnCUCLENTO1Y7ulmPpZLymoL5yZunSa5DrNyuQ==
-X-Received: by 2002:a5d:6d8f:: with SMTP id l15mr45218594wrs.313.1620818408976; 
- Wed, 12 May 2021 04:20:08 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 61sm33805501wrm.52.2021.05.12.04.20.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 May 2021 04:20:07 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E35581FF7E;
- Wed, 12 May 2021 12:20:06 +0100 (BST)
-References: <20210508014802.892561-1-richard.henderson@linaro.org>
- <20210508014802.892561-4-richard.henderson@linaro.org>
- <87k0o6yc74.fsf@linaro.org>
- <90dc8203-522a-d3d2-15b8-ad95fd654f93@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 03/72] qemu/host-utils: Add wrappers for carry builtins
-Date: Wed, 12 May 2021 12:17:24 +0100
-In-reply-to: <90dc8203-522a-d3d2-15b8-ad95fd654f93@linaro.org>
-Message-ID: <87sg2sfbbt.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgn01-0007pI-1J
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:25:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lgmzx-0003z9-MY
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:25:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 23B282E8189
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:25:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Wed, 12 May 2021 11:20:02 -0000
+From: Thomas Huth <1911216@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr hades0506 th-huth
+X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161046678346.29947.74345360490259273.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162081840220.30850.5025088053443478596.malone@gac.canonical.com>
+Subject: [Bug 1911216] Re: abort issue locates in
+ hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
+X-Launchpad-Hash: 8012871b2c018b661a2ad021e985f39453afc534
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,57 +72,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, david@redhat.com
+Reply-To: Bug 1911216 <1911216@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi! Can you still reproduce this issue with QEMU v6.0 ? At least
+Alexander's reproducer does not seem to trigger this issue anymore...
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-> On 5/10/21 7:57 AM, Alex Benn=C3=A9e wrote:
->> Richard Henderson <richard.henderson@linaro.org> writes:
->>=20
->>> These builtins came in clang 3.8, but are not present in gcc through
->>> version 11.  Even in clang the optimization is not ideal except for
->>> x86_64, but no worse than the hand-coding that we currently do.
->> Given this statement....
->
-> I think you mis-read the "except for x86_64" part?
->
-> Anyway, these are simply bugs to be filed against clang, so that
-> hopefully clang-12 will do a good job with the builtin.  And as I
-> said, while the generated code is not ideal, it's no worse.
->
->>> +static inline uint64_t uadd64_carry(uint64_t x, uint64_t y, bool *pcar=
-ry)
->>> +{
->>> +#if __has_builtin(__builtin_addcll)
->>> +    unsigned long long c =3D *pcarry;
->>> +    x =3D __builtin_addcll(x, y, c, &c);
->> what happens when unsigned long long isn't the same as uint64_t?
->> Doesn't
->> C99 only specify a minimum?
->
-> If you only look at C99, sure.  But looking at the set of supported
-> hosts, unsigned long long is always a 64-bit type.
+-- =
 
-I guess I'm worrying about a theoretical future - but we don't worry
-about it for other ll builtins so no biggy.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1911216
 
->
->>> +    *pcarry =3D c & 1;
->> Why do we need to clamp it here? Shouldn't the compiler
->> automatically do
->> that due to the bool?
->
-> This produces a single AND insn, instead of CMP + SETcc.
+Title:
+  abort issue locates in hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
 
-Might be worth mentioning that in the commit message.=20
+Status in QEMU:
+  Incomplete
 
-Anyway:
+Bug description:
+  Hello,
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+  I found an assertion failure in hw/usb/hcd-ohci.c:1297
 
---=20
-Alex Benn=C3=A9e
+  This was found in latest version 5.2.0.
+
+  my reproduced environment is as follows:
+      Host: ubuntu 18.04
+      Guest: ubuntu 18.04
+
+  QEMU boot command line:
+  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
+=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -dev=
+ice pci-ohci,id=3Dohci -device usb-tablet,bus=3Dohci.0,port=3D1,id=3Dusbdev1
+
+  =
+
+  backtrace is as follows =
+
+  pwndbg> bt
+  #0  0x00007fdf392aa438 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
+unix/sysv/linux/raise.c:54
+  #1  0x00007fdf392ac03a in __GI_abort () at abort.c:89
+  #2  0x000055c613721118 in ohci_frame_boundary (opaque=3D0x6270000191f0) a=
+t hw/usb/hcd-ohci.c:1297
+  #3  0x000055c6140bdf0e in timerlist_run_timers (timer_list=3D0x60b00005bc=
+c0) at util/qemu-timer.c:572
+  #4  0x000055c6140be15a in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
+L) at util/qemu-timer.c:586
+  #5  0x000055c6140beac7 in qemu_clock_run_all_timers () at util/qemu-timer=
+.c:672
+  #6  0x000055c6140a1938 in main_loop_wait (nonblocking=3D0) at util/main-l=
+oop.c:523
+  #7  0x000055c6125d87e9 in qemu_main_loop () at /home/dell/qemu5-hyperviso=
+r/vm/fuzz-seedpool/hcd-ohci/qemu-5.1.0/softmmu/vl.c:1676
+  #8  0x000055c613f216ea in main (argc=3D7, argv=3D0x7fff174cdd28, envp=3D0=
+x7fff174cdd68) at /home/dell/qemu5-hypervisor/vm/fuzz-seedpool/hcd-ohci/qem=
+u-5.1.0/softmmu/main.c:49
+  #9  0x00007fdf39295840 in __libc_start_main (main=3D0x55c613f21699 <main>=
+, argc=3D7, argv=3D0x7fff174cdd28, init=3D<optimized out>, fini=3D<optimize=
+d out>, rtld_fini=3D<optimized out>, stack_end=3D0x7fff174cdd18) at ../csu/=
+libc-start.c:291
+  #10 0x000055c6120a4349 in _start ()
+
+  The poc is attached.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1911216/+subscriptions
 
