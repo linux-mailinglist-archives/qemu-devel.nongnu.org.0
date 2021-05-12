@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5AA37D3EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:44:03 +0200 (CEST)
-Received: from localhost ([::1]:34952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6FA737D3F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:48:31 +0200 (CEST)
+Received: from localhost ([::1]:42032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgum1-0006BM-Vc
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:44:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54012)
+	id 1lguqM-0002j2-Rl
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:48:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu43-0000TQ-LB; Wed, 12 May 2021 14:58:35 -0400
+ id 1lgu46-0000Xu-Uc; Wed, 12 May 2021 14:58:38 -0400
 Received: from [201.28.113.2] (port=47887 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lgu41-0000ms-TK; Wed, 12 May 2021 14:58:35 -0400
+ id 1lgu45-0000ms-Aw; Wed, 12 May 2021 14:58:38 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
  Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 15:56:06 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id C037880139F;
- Wed, 12 May 2021 15:56:05 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 17F0C8000C2;
+ Wed, 12 May 2021 15:56:06 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v4 21/31] target/ppc: Move ADDI, ADDIS to decodetree,
- implement PADDI
-Date: Wed, 12 May 2021 15:54:31 -0300
-Message-Id: <20210512185441.3619828-22-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 22/31] target/ppc: Implement PNOP
+Date: Wed, 12 May 2021 15:54:32 -0300
+Message-Id: <20210512185441.3619828-23-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 12 May 2021 18:56:06.0110 (UTC)
- FILETIME=[767DAFE0:01D74760]
+X-OriginalArrivalTime: 12 May 2021 18:56:06.0469 (UTC)
+ FILETIME=[76B47750:01D74760]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,163 +63,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+The illegal suffix behavior matches what was observed in a
+POWER10 DD2.0 machine.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
 v4:
-- addi and paddi unfolded, so that addi can use @D and @PLS_D is declared only
-  in insn64.decode;
-- Reuse trans_ADDI in trans_ADDIS.
+- Detect illegal suffixes and call gen_invalid.
 ---
- target/ppc/insn32.decode                   |  8 ++++
- target/ppc/insn64.decode                   | 12 ++++++
- target/ppc/translate.c                     | 29 --------------
- target/ppc/translate/fixedpoint-impl.c.inc | 44 ++++++++++++++++++++++
- 4 files changed, 64 insertions(+), 29 deletions(-)
+ target/ppc/insn64.decode                   | 66 ++++++++++++++++++++++
+ target/ppc/translate/fixedpoint-impl.c.inc |  8 +++
+ 2 files changed, 74 insertions(+)
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index b175441209..d93ae905a4 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -16,3 +16,11 @@
- # You should have received a copy of the GNU Lesser General Public
- # License along with this library; if not, see <http://www.gnu.org/licenses/>.
- #
-+
-+&D              rt ra si:int64_t
-+@D              ...... rt:5 ra:5 si:s16                 &D
-+
-+### Fixed-Point Arithmetic Instructions
-+
-+ADDI            001110 ..... ..... ................     @D
-+ADDIS           001111 ..... ..... ................     @D
 diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 9fc45d0614..5e6c96a326 100644
+index 5e6c96a326..56857b5e93 100644
 --- a/target/ppc/insn64.decode
 +++ b/target/ppc/insn64.decode
-@@ -16,3 +16,15 @@
- # You should have received a copy of the GNU Lesser General Public
- # License along with this library; if not, see <http://www.gnu.org/licenses/>.
- #
-+
-+# Format MLS:D and 8LS:D
-+&PLS_D          rt ra si:int64_t r:bool
-+%pls_si         32:s18 0:16
-+@PLS_D          ...... .. ... r:1 .. .................. \
-+                ...... rt:5 ra:5 ................       \
-+                &PLS_D si=%pls_si
-+
-+### Fixed-Point Arithmetic Instructions
-+
-+PADDI           000001 10 0--.-- ..................     \
-+                001110 ..... ..... ................     @PLS_D
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 64a99ff2c0..7f2ebcb442 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -1849,19 +1849,6 @@ GEN_INT_ARITH_ADD(addex, 0x05, cpu_ov, 1, 1, 0);
- /* addze  addze.  addzeo  addzeo.*/
- GEN_INT_ARITH_ADD_CONST(addze, 0x06, 0, cpu_ca, 1, 1, 0)
- GEN_INT_ARITH_ADD_CONST(addzeo, 0x16, 0, cpu_ca, 1, 1, 1)
--/* addi */
--static void gen_addi(DisasContext *ctx)
--{
--    target_long simm = SIMM(ctx->opcode);
--
--    if (rA(ctx->opcode) == 0) {
--        /* li case */
--        tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], simm);
--    } else {
--        tcg_gen_addi_tl(cpu_gpr[rD(ctx->opcode)],
--                        cpu_gpr[rA(ctx->opcode)], simm);
--    }
--}
- /* addic  addic.*/
- static inline void gen_op_addic(DisasContext *ctx, bool compute_rc0)
- {
-@@ -1881,20 +1868,6 @@ static void gen_addic_(DisasContext *ctx)
-     gen_op_addic(ctx, 1);
- }
+@@ -28,3 +28,69 @@
  
--/* addis */
--static void gen_addis(DisasContext *ctx)
--{
--    target_long simm = SIMM(ctx->opcode);
--
--    if (rA(ctx->opcode) == 0) {
--        /* lis case */
--        tcg_gen_movi_tl(cpu_gpr[rD(ctx->opcode)], simm << 16);
--    } else {
--        tcg_gen_addi_tl(cpu_gpr[rD(ctx->opcode)],
--                        cpu_gpr[rA(ctx->opcode)], simm << 16);
--    }
--}
--
- /* addpcis */
- static void gen_addpcis(DisasContext *ctx)
- {
-@@ -7906,10 +7879,8 @@ GEN_HANDLER_E(cmpeqb, 0x1F, 0x00, 0x07, 0x00600000, PPC_NONE, PPC2_ISA300),
- GEN_HANDLER_E(cmpb, 0x1F, 0x1C, 0x0F, 0x00000001, PPC_NONE, PPC2_ISA205),
- GEN_HANDLER_E(cmprb, 0x1F, 0x00, 0x06, 0x00400001, PPC_NONE, PPC2_ISA300),
- GEN_HANDLER(isel, 0x1F, 0x0F, 0xFF, 0x00000001, PPC_ISEL),
--GEN_HANDLER(addi, 0x0E, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
- GEN_HANDLER(addic, 0x0C, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
- GEN_HANDLER2(addic_, "addic.", 0x0D, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
--GEN_HANDLER(addis, 0x0F, 0xFF, 0xFF, 0x00000000, PPC_INTEGER),
- GEN_HANDLER_E(addpcis, 0x13, 0x2, 0xFF, 0x00000000, PPC_NONE, PPC2_ISA300),
- GEN_HANDLER(mulhw, 0x1F, 0x0B, 0x02, 0x00000400, PPC_INTEGER),
- GEN_HANDLER(mulhwu, 0x1F, 0x0B, 0x00, 0x00000400, PPC_INTEGER),
+ PADDI           000001 10 0--.-- ..................     \
+                 001110 ..... ..... ................     @PLS_D
++
++### Prefixed No-operation Instruction
++
++&PNOP           invalid_suffix:bool
++@PNOP           000001 11 0000-- 000000000000000000     \
++                ................................        &PNOP
++
++{
++  ## Invalid suffixes: Branch instruction
++  # bc[l][a]
++  PNOP            ................................      \
++                  010000--------------------------      @PNOP invalid_suffix=1
++  # b[l][a]
++  PNOP            ................................      \
++                  010010--------------------------      @PNOP invalid_suffix=1
++  # bclr[l]
++  PNOP            ................................      \
++                  010011---------------0000010000-      @PNOP invalid_suffix=1
++  # bcctr[l]
++  PNOP            ................................      \
++                  010011---------------1000010000-      @PNOP invalid_suffix=1
++  # bctar[l]
++  PNOP            ................................      \
++                  010011---------------1000110000-      @PNOP invalid_suffix=1
++
++  ## Invalid suffixes: rfebb
++  PNOP            ................................      \
++                  010011---------------0010010010-      @PNOP invalid_suffix=1
++
++  ## Invalid suffixes: context synchronizing other than isync
++  # sc
++  PNOP            ................................      \
++                  010001------------------------1-      @PNOP invalid_suffix=1
++  # scv
++  PNOP            ................................      \
++                  010001------------------------01      @PNOP invalid_suffix=1
++  # rfscv
++  PNOP            ................................      \
++                  010011---------------0001010010-      @PNOP invalid_suffix=1
++  # rfid
++  PNOP            ................................      \
++                  010011---------------0000010010-      @PNOP invalid_suffix=1
++  # hrfid
++  PNOP            ................................      \
++                  010011---------------0100010010-      @PNOP invalid_suffix=1
++  # urfid
++  PNOP            ................................      \
++                  010011---------------0100110010-      @PNOP invalid_suffix=1
++  # stop
++  PNOP            ................................      \
++                  010011---------------0101110010-      @PNOP invalid_suffix=1
++  # mtmsr w/ L=0
++  PNOP            ................................      \
++                  011111---------0-----0010010010-      @PNOP invalid_suffix=1
++  # mtmsrd w/ L=0
++  PNOP            ................................      \
++                  011111---------0-----0010110010-      @PNOP invalid_suffix=1
++
++  ## Invalid suffixes: Service Processor Attention
++  PNOP            ................................      \
++                  000000----------------100000000-      @PNOP invalid_suffix=1
++
++  ## Valid suffixes
++  PNOP            ................................      \
++                  --------------------------------      @PNOP invalid_suffix=0
++}
 diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index b740083605..b7ee0ff034 100644
+index b7ee0ff034..9a8da29c64 100644
 --- a/target/ppc/translate/fixedpoint-impl.c.inc
 +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -16,3 +16,47 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
+@@ -60,3 +60,11 @@ static bool trans_ADDIS(DisasContext *ctx, arg_D *a)
+     a->si <<= 16;
+     return trans_ADDI(ctx, a);
+ }
 +
-+/*
-+ * Incorporate CIA into the constant when R=1.
-+ * Validate that when R=1, RA=0.
-+ */
-+static bool resolve_PLS_D(DisasContext *ctx, arg_D *d, arg_PLS_D *a)
++static bool trans_PNOP(DisasContext *ctx, arg_PNOP *a)
 +{
-+    d->rt = a->rt;
-+    d->ra = a->ra;
-+    d->si = a->si;
-+    if (a->r) {
-+        if (unlikely(a->ra != 0)) {
-+            gen_invalid(ctx);
-+            return false;
-+        }
-+        d->si += ctx->cia;
++    if (a->invalid_suffix) {
++        gen_invalid(ctx);
 +    }
 +    return true;
-+}
-+
-+static bool trans_ADDI(DisasContext *ctx, arg_D *a)
-+{
-+    if (a->ra) {
-+        tcg_gen_addi_tl(cpu_gpr[a->rt], cpu_gpr[a->ra], a->si);
-+    } else {
-+        tcg_gen_movi_tl(cpu_gpr[a->rt], a->si);
-+    }
-+    return true;
-+}
-+
-+static bool trans_PADDI(DisasContext *ctx, arg_PLS_D *a)
-+{
-+    arg_D d;
-+    if (!resolve_PLS_D(ctx, &d, a)) {
-+        return true;
-+    }
-+    return trans_ADDI(ctx, &d);
-+}
-+
-+static bool trans_ADDIS(DisasContext *ctx, arg_D *a)
-+{
-+    a->si <<= 16;
-+    return trans_ADDI(ctx, a);
 +}
 -- 
 2.25.1
