@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57FC37BBBC
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:27:21 +0200 (CEST)
-Received: from localhost ([::1]:50764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1042437BBC4
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:29:04 +0200 (CEST)
+Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgn1M-00060W-Nr
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:27:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45796)
+	id 1lgn31-0000YJ-5Y
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:29:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgn02-0004c8-UT
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:25:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36538)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgmyN-0002ai-Bo
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:24:16 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgn01-0007pI-1J
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:25:58 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgmzx-0003z9-MY
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:25:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 23B282E8189
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:25:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgmyJ-0006gQ-OQ
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:24:15 -0400
+Received: by mail-wr1-x432.google.com with SMTP id l14so23236519wrx.5
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 04:24:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=d91UVT8e2lpv1RO9NXm5p9UG+kt3SyWB8IV1o6EwO3o=;
+ b=fPtVMOrVVN8kWioQig2u6QSvcPVs2ZIT+y0w5oeZPLrKZZch/hoW0FfTHu7DhgZ8eL
+ cAMRqw56QscTRrdCq56AYGmXcKgWn4JdCIS4OTlvMYTPi/WmF2zEZeAuQEoatC4TGaEp
+ XCgVW8UkV5iymbqMLqg6faJbmGU/pjpOorYZNJG6MyaUv6M3PwPicJg54HEtAPMsSh+B
+ 6NOCo7LC30N2+BuBJwUvFr0BUMfT0Tvi6SSJ58IZHlORDxi0Cm0pxm6BsxAuLpQKZHZo
+ X/8KLuOA3GlAeb4/ZOVVEL5JB3kRxSs1hDr0Gv4oRICJy4RsGLtkWsYkL5GcVIjTDdAs
+ eFcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=d91UVT8e2lpv1RO9NXm5p9UG+kt3SyWB8IV1o6EwO3o=;
+ b=X1aOTTWph1f4RaCG8VvwjGI/mFfeSrXMIzjOz082FGemTxsYf1G+HVkVtkchddZpJJ
+ qdkyUxJDVRhooCuPv145cobiFGdq1JIJ5zm6Cf/WJVF1jInHip+dJQHZ+rD/fGqH8DeR
+ lnKX6C3zJawy7NiwuBKDdfnTdS67tGHYS2ciem3ywyX//VL+GBHcDULNcprFYdhKUkCP
+ 6f4FUthK44iwjW0Invzpi+lYL55cVpWGJzDi0roS7PqwnVpkA4DYfRl/kzTC8PyjdjjI
+ gz0NSv76D6yI7VoYLptie9OqIPOGsW+ockRnRI2PsSXF0CC+sKwbELHNGM4e+VFVed45
+ dtDA==
+X-Gm-Message-State: AOAM531UYn7mxMDB7OgRTfG+hv2Jv0AOBmVDae768MC3sc0kLS6w/QTe
+ PXVZFHuaWdsdu1WjfFliGPFoVQ==
+X-Google-Smtp-Source: ABdhPJxj4XsQvz1ffqcUB3++JhRdzGTk96fbOy2Hc1NM6hWwswoibOLjVNkzFeX6VmK5nmCE5zJogw==
+X-Received: by 2002:adf:9cc1:: with SMTP id h1mr43139699wre.135.1620818650025; 
+ Wed, 12 May 2021 04:24:10 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j7sm26110272wmi.21.2021.05.12.04.24.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 May 2021 04:24:08 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8F1BA1FF7E;
+ Wed, 12 May 2021 12:24:07 +0100 (BST)
+References: <20210508014802.892561-1-richard.henderson@linaro.org>
+ <87bl9iyahr.fsf@linaro.org>
+ <354c8418-9700-e98d-47b1-10e564fbeeaa@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 00/72] Convert floatx80 and float128 to FloatParts
+Date: Wed, 12 May 2021 12:22:14 +0100
+In-reply-to: <354c8418-9700-e98d-47b1-10e564fbeeaa@linaro.org>
+Message-ID: <87pmxwfb54.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 11:20:02 -0000
-From: Thomas Huth <1911216@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr hades0506 th-huth
-X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161046678346.29947.74345360490259273.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162081840220.30850.5025088053443478596.malone@gac.canonical.com>
-Subject: [Bug 1911216] Re: abort issue locates in
- hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
-X-Launchpad-Hash: 8012871b2c018b661a2ad021e985f39453afc534
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,75 +88,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911216 <1911216@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi! Can you still reproduce this issue with QEMU v6.0 ? At least
-Alexander's reproducer does not seem to trigger this issue anymore...
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Richard Henderson <richard.henderson@linaro.org> writes:
 
--- =
+> On 5/10/21 8:36 AM, Alex Benn=C3=A9e wrote:
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>=20
+>>> Reorg everything using QEMU_GENERIC and multiple inclusion to
+>>> reduce the amount of code duplication between the formats.
+>>>
+>>> The use of QEMU_GENERIC means that we need to use pointers instead
+>>> of structures, which means that even the smaller float formats
+>>> need rearranging.
+>>>
+>>> I've carried it through to completion within fpu/, so that we don't
+>>> have (much) of the legacy code remaining.  There is some floatx80
+>>> stuff in target/m68k and target/i386 that's still hanging around.
+>> FWIW I could enable a few more tests...
+>
+> Ah, thanks for the reminder that these were disabled.
+> I'll add this to my patch set for v2.
+>
+>
+>> ...although extF80_lt_quiet still has some failures on equality tests:
+>
+> This turns out to be a trivial typo in the tester itself:
+>
+> diff --git a/tests/fp/wrap.c.inc b/tests/fp/wrap.c.inc
+> index cb1bb77e4c..9ff884c140 100644
+> --- a/tests/fp/wrap.c.inc
+> +++ b/tests/fp/wrap.c.inc
+> @@ -643,7 +643,7 @@ WRAP_CMP80(qemu_extF80M_eq, floatx80_eq_quiet)
+>  WRAP_CMP80(qemu_extF80M_le, floatx80_le)
+>  WRAP_CMP80(qemu_extF80M_lt, floatx80_lt)
+>  WRAP_CMP80(qemu_extF80M_le_quiet, floatx80_le_quiet)
+> -WRAP_CMP80(qemu_extF80M_lt_quiet, floatx80_le_quiet)
+> +WRAP_CMP80(qemu_extF80M_lt_quiet, floatx80_lt_quiet)
+>  #undef WRAP_CMP80
+>
+>  #define WRAP_CMP128(name, func)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911216
+\o/
 
-Title:
-  abort issue locates in hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
+I did note we are missing mulAdd tests but they seem to be missing from
+the underlying testfloat code as well. I guess we don't care that much
+for the 80bit code? Is it even used by any architectures?
 
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Hello,
-
-  I found an assertion failure in hw/usb/hcd-ohci.c:1297
-
-  This was found in latest version 5.2.0.
-
-  my reproduced environment is as follows:
-      Host: ubuntu 18.04
-      Guest: ubuntu 18.04
-
-  QEMU boot command line:
-  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
-=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -dev=
-ice pci-ohci,id=3Dohci -device usb-tablet,bus=3Dohci.0,port=3D1,id=3Dusbdev1
-
-  =
-
-  backtrace is as follows =
-
-  pwndbg> bt
-  #0  0x00007fdf392aa438 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
-unix/sysv/linux/raise.c:54
-  #1  0x00007fdf392ac03a in __GI_abort () at abort.c:89
-  #2  0x000055c613721118 in ohci_frame_boundary (opaque=3D0x6270000191f0) a=
-t hw/usb/hcd-ohci.c:1297
-  #3  0x000055c6140bdf0e in timerlist_run_timers (timer_list=3D0x60b00005bc=
-c0) at util/qemu-timer.c:572
-  #4  0x000055c6140be15a in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at util/qemu-timer.c:586
-  #5  0x000055c6140beac7 in qemu_clock_run_all_timers () at util/qemu-timer=
-.c:672
-  #6  0x000055c6140a1938 in main_loop_wait (nonblocking=3D0) at util/main-l=
-oop.c:523
-  #7  0x000055c6125d87e9 in qemu_main_loop () at /home/dell/qemu5-hyperviso=
-r/vm/fuzz-seedpool/hcd-ohci/qemu-5.1.0/softmmu/vl.c:1676
-  #8  0x000055c613f216ea in main (argc=3D7, argv=3D0x7fff174cdd28, envp=3D0=
-x7fff174cdd68) at /home/dell/qemu5-hypervisor/vm/fuzz-seedpool/hcd-ohci/qem=
-u-5.1.0/softmmu/main.c:49
-  #9  0x00007fdf39295840 in __libc_start_main (main=3D0x55c613f21699 <main>=
-, argc=3D7, argv=3D0x7fff174cdd28, init=3D<optimized out>, fini=3D<optimize=
-d out>, rtld_fini=3D<optimized out>, stack_end=3D0x7fff174cdd18) at ../csu/=
-libc-start.c:291
-  #10 0x000055c6120a4349 in _start ()
-
-  The poc is attached.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911216/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
