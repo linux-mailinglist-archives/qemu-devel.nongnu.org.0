@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC16C37D2C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:18:21 +0200 (CEST)
-Received: from localhost ([::1]:56916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7688537D38F
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:29:57 +0200 (CEST)
+Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgtR6-0003tH-P1
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:18:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44452)
+	id 1lgtcK-0002AZ-GU
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgtOX-0001e0-PW
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:15:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34456)
+ id 1lgtOY-0001fL-Fa
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:15:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgtOW-0001FD-01
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:15:41 -0400
+ id 1lgtOW-0001Fu-0r
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:15:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgtOS-0001ig-No
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:15:36 +0000
+ id 1lgtOT-0001j4-F7
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:15:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AF7142E8186
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:15:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 708ED2E8186
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:15:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 18:07:34 -0000
-From: Thomas Huth <1913913@bugs.launchpad.net>
+Date: Wed, 12 May 2021 18:09:12 -0000
+From: Thomas Huth <1913505@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user tcg
+X-Launchpad-Bug-Tags: macos tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dniggema th-huth
-X-Launchpad-Bug-Reporter: Dirk A Niggemann (dniggema)
+X-Launchpad-Bug-Commenters: balaton-4 mark-cave-ayland mishari pmaydell
+ programmingkidx roolebo th-huth
+X-Launchpad-Bug-Reporter: Mishari Muqbil (mishari)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161205186910.7685.15364607958324067276.malonedeb@gac.canonical.com>
-Message-Id: <162084285488.16584.3371443472277355304.malone@soybean.canonical.com>
-Subject: [Bug 1913913] Re: i386-linux-user returns -1 in sigcontext->trapno 
+References: <161180131265.32409.4817508561083668447.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162084295251.16886.18199378639950607389.malone@soybean.canonical.com>
+Subject: [Bug 1913505] Re: Windows XP slow on Apple M1
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: 9acc0f18dccaf42749ba3f569a2eaf780ceabf13
+X-Launchpad-Hash: f5bde46bd18ad5dec133faebaeb52c3c4a0a42b1
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913913 <1913913@bugs.launchpad.net>
+Reply-To: Bug 1913505 <1913505@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -105,8 +106,6 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
-** Tags added: linux-user tcg
-
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
@@ -114,44 +113,30 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913913
+https://bugs.launchpad.net/bugs/1913505
 
 Title:
-  i386-linux-user returns -1 in sigcontext->trapno
+  Windows XP slow on Apple M1
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  QEMU development version, git commit
-  74208cd252c5da9d867270a178799abd802b9338. Behaviour has been noted in
-  5.2.0 generally.
+  Qemu installed by using brew install qemu -s on M1
 
-  Certain 16-bit windows programs crash WINE under QEMU linux-user with:
+  QEMU emulator version 5.2.0
+  XP image from: https://archive.org/details/WinXPProSP3x86
 
-  0084:err:seh:segv_handler Got unexpected trap -1
-  wine: Unhandled illegal instruction at address 00006D65 (thread 0084), st=
-arting debugger...
+  Commands run:
+  $ qemu-img create -f qcow2 xpsp3.img 10G
+  $ qemu-system-i386 -m 512 -hda xpsp3.img -cdrom WinXPProSP3x86/en_windows=
+_xp_professional_with_service_pack_3_x86_cd_vl_x14-73974.iso -boot d
 
-  They run correctly on native i386.
-
-  Upon further inspection,it becomes clear these programs are failing at
-  addresses where they are making DOS calls (int 21h ie CD 21 for
-  instance).
-
-  It is also clear that WINE is expecting an exception/signal at this
-  point, to patch in the actual int21h handling code inside WINE.
-
-  However, wine uses sigcontext output extensively to do its structured
-  exception handling. sigcontext->trapno being set to -1 seems to
-  confuse it, causing it to treat the exception as an actual unhandled
-  error.
-
-  I do not know if exception_index is being left at -1 due to the case
-  of privileged instructions being executed in 16-bit ldts not being
-  handled specifically, or if there is some other illegal instruction
-  case causing this.
+  It's taken 3 days now with qemu running at around 94% CPU and
+  installation hasn't finished. The mouse pointer moves and occasionally
+  changes between the pointer and hourglass so it doesn't seem to have
+  frozen.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913913/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1913505/+subscriptions
 
