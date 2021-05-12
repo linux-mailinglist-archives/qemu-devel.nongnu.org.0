@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9B837D3C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:14:51 +0200 (CEST)
-Received: from localhost ([::1]:37004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A27E37D3CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 21:17:39 +0200 (CEST)
+Received: from localhost ([::1]:41824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lguJm-00026d-Q3
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:14:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54682)
+	id 1lguMU-0005QA-6K
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 15:17:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgu6Q-0002QV-Tk
- for qemu-devel@nongnu.org; Wed, 12 May 2021 15:01:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42200)
+ id 1lgu6b-0002Vz-EI
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 15:01:13 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42228)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgu6M-0002Ge-L0
- for qemu-devel@nongnu.org; Wed, 12 May 2021 15:01:02 -0400
+ id 1lgu6N-0002Hl-DT
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 15:01:13 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgu6K-0000t1-FX
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 19:00:56 +0000
+ id 1lgu6L-0000uL-VG
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 19:00:57 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6F0462E8139
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 19:00:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id EB60A2E8135
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 19:00:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 18:51:57 -0000
+Date: Wed, 12 May 2021 18:52:56 -0000
 From: Marco <1911351@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: charco pmaydell th-huth venkatesh-srinivas
 X-Launchpad-Bug-Reporter: Marco (charco)
 X-Launchpad-Bug-Modifier: Marco (charco)
 References: <161049230444.13717.10732991676985431455.malonedeb@gac.canonical.com>
-Message-Id: <162084551807.1546.3418427674217563352.malone@wampee.canonical.com>
+Message-Id: <162084557720.924.11458273043213125822.malone@wampee.canonical.com>
 Subject: [Bug 1911351] Re: x86-64 MTTCG Does not update page table entries
  atomically
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: c29dcb986697f5e95b4e03b2e5fd05f366bb1205
+X-Launchpad-Hash: 52954e5370cbf82ca113eb3f41072cabc84e96ac
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -76,11 +76,11 @@ Reply-To: Bug 1911351 <1911351@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This issue has been migrated to gitlab issue #279. See
-https://gitlab.com/qemu-project/qemu/-/issues/279
+Closing issue as it has been migrated to https://gitlab.com/qemu-
+project/qemu/-/issues/279
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #279
-   https://gitlab.com/qemu-project/qemu/-/issues/279
+** Changed in: qemu
+       Status: Incomplete =3D> Invalid
 
 -- =
 
