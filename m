@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E197037D388
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:23:51 +0200 (CEST)
-Received: from localhost ([::1]:40882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC6337D393
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 20:34:26 +0200 (CEST)
+Received: from localhost ([::1]:60526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgtWQ-0003s1-RO
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:23:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45464)
+	id 1lgtgf-0000pr-8m
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 14:34:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgtT5-0000EG-5q
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:20:23 -0400
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:41657)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgtTc-0000s6-Jd
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:20:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lgtT1-0003qJ-51
- for qemu-devel@nongnu.org; Wed, 12 May 2021 14:20:22 -0400
-Received: by mail-qk1-x72c.google.com with SMTP id l129so23141187qke.8
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:20:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZvY9QSjy81jn8oTFimr9EM1j8zt9ktsZmA3DSotjzSc=;
- b=u3Ea4Hu53osoDTCBvKP/b9xjyEbNkunofOeekzFJfUlcA26yzQsVsjQ0JTpS/yt1QB
- Obge2Gv8uFUlWFuHCEosTqJXcF7q3l5YuA3w70nGtVit+Bbd3xmG4NCRTM5rJMCt2BOn
- oZ0TbYsPknVKIw9ALixiavrtfzUyFya0f0IESgquzGYSVtk0xatZW/6bz6zgaG7/DZGG
- k00euIQW8EvKAafIEuUGY+sl7BCWgCXnviuRxJvPvAkGxJGFD00vEhJ4NN/jhOrA2hFf
- I3aNsdBxxI6bOj4NV9GKFYg+28tiCu8Wd75HE+L/vmT9ML6PzPJ+TK2Vu/2hZStU892N
- XvRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZvY9QSjy81jn8oTFimr9EM1j8zt9ktsZmA3DSotjzSc=;
- b=coTPf7rGEe3KMGmLjKxGDBbwYk0JMn9k/rSt44FJYP/gRx8Gs3BLDJlUtzIzJANKdM
- S5NkQrdWexnNMxFBAFZExv/TEGfDyVPVnHTUfBehXwJww0IWslHAQMdLzpE1hPuiv+x7
- BpfB4VwhkaawHBWKWufkHSBBhNisPEH5nZ5bCy3+f/SYPWxmGdjzjFWcN9qTqiHy79Zr
- rHri8SugNMHheTOtoa76/GJPLIIYtZe4CUM4YWO5oZmkrcn9fWHFW54pi/UxvqUSL1bI
- RiBd+zd5heacoWE4kI+EDM58zTI8mepxOmNk5x1A2aPPoQdkffVEhknO97OM0vSYLZmX
- t5AA==
-X-Gm-Message-State: AOAM532VwFHiM0aDPfsHuS8vN4qzaA4oNBL8yv8xHJ6VqVo17EfrrxFT
- /GMMF1yRuhCEAhu3AHw7Ei9bvw==
-X-Google-Smtp-Source: ABdhPJzLhDbNnWaAGXZEsZFJEegspWkK5BKNCROJuNL18V+a/UiRUzqvKIiKi3g9ecoRN5RqhTESww==
-X-Received: by 2002:a37:486:: with SMTP id 128mr35531525qke.23.1620843617723; 
- Wed, 12 May 2021 11:20:17 -0700 (PDT)
-Received: from [192.168.180.118] (163.189-204-200.bestelclientes.com.mx.
- [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id g64sm624284qkf.41.2021.05.12.11.20.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 May 2021 11:20:17 -0700 (PDT)
-Subject: Re: [PATCH 07/11] target/ppc: added KVM fallback to fpscr manipulation
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- qemu-devel@nongnu.org
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-8-bruno.larsen@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a9ac8b35-faae-167d-ff78-4b7ddd8f75c9@linaro.org>
-Date: Wed, 12 May 2021 13:20:14 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lgtTZ-0004A2-1r
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 14:20:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lgtTV-0002dY-EM
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:20:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 21E942E818D
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 18:20:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210512140813.112884-8-bruno.larsen@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 12 May 2021 18:11:42 -0000
+From: Thomas Huth <1912934@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: ppc tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bruno-clisp th-huth
+X-Launchpad-Bug-Reporter: Bruno Haible (bruno-clisp)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161147764119.28788.10484645020687886149.malonedeb@soybean.canonical.com>
+Message-Id: <162084310307.6991.12481766424666379166.malone@gac.canonical.com>
+Subject: [Bug 1912934] Re: QEMU emulation of fmadds instruction on powerpc64le
+ is buggy
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
+X-Launchpad-Hash: 2772caf1d71527fb9fc53c28c9518668bf8d4b10
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,120 +72,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Reply-To: Bug 1912934 <1912934@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 104a308abb..a8a720eb48 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -2947,3 +2947,17 @@ bool kvm_arch_cpu_check_are_resettable(void)
->   {
->       return true;
->   }
-> +
-> +void kvmppc_store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    struct kvm_one_reg reg;
-> +    int ret;
-> +    reg.id = KVM_REG_PPC_FPSCR;
-> +    reg.addr = (uintptr_t) &env->fpscr;
-> +    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
-> +    if (ret < 0)
-> +    {
-> +        fprintf(stderr, "Unable to set FPSCR to KVM: %s", strerror(errno));
-> +    }
-> +}
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting the bug state to "Incomplete" now.
 
-This is all unnecessary.  All you need to do is store to env->fpscr and the 
-value will be synced back with kvm_put_fp.
+If the bug has already been fixed in the latest upstream version of QEMU,
+then please close this ticket as "Fix released".
 
-I'll note that some of the trouble you may be having with extracting 
-helper_store_fpscr to a ppc_store_fpscr function is due to an existing bug in 
-the tcg code:
+If it is not fixed yet and you think that this bug report here is still
+valid, then you have two options:
 
-Storing to fpscr should *never* raise an exception -- see MTFSF, MTFSB0, 
-MTFSB1.  Thus the mucking about with cs->exception_index and env->error_code is 
-incorrect.
+1) If you already have an account on gitlab.com, please open a new ticket
+for this problem in our new tracker here:
 
-In addition, the masking is being done weirdly and could use a complete overhaul.
+    https://gitlab.com/qemu-project/qemu/-/issues
 
-This could all be rewritten as
+and then close this ticket here on Launchpad (or let it expire auto-
+matically after 60 days). Please mention the URL of this bug ticket on
+Launchpad in the new ticket on GitLab.
 
--- %< -- cpu.h
+2) If you don't have an account on gitlab.com and don't intend to get
+one, but still would like to keep this ticket opened, then please switch
+the state back to "New" or "Confirmed" within the next 60 days (other-
+wise it will get closed as "Expired"). We will then eventually migrate
+the ticket automatically to the new system (but you won't be the reporter
+of the bug in the new system and thus you won't get notified on changes
+anymore).
 
-  /* Invalid operation exception summary */
-- #define fpscr_ix ((env->fpscr) & ((1 << FPSCR_VXSNAN) ...
-+ #define FPSCR_IX  ((1 << FPSCR_VXSNAN) | ...)
-
--- %< -- cpu.c
-
-// move fpscr_set_rounding_mode here
-
-void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
-{
-     /* Recompute exception summary state. */
-     val &= ~(FP_VX | FP_FEX);
-     if (val & FPSCR_IX) {
-         val |= FP_VX;
-     }
-     if ((val >> FPSCR_XX) & (val >> FPSCR_XE) & 0x1f) {
-         val |= FP_FEX;
-     }
-     env->fpscr = val;
-     if (tcg_enabled()) {
-         fpscr_set_rounding_mode(env);
-     }
-}
-
--- %< -- fpu_helper.c
-
-void helper_store_fpscr(CPUPPCState *env, target_ulong val,
-                         uint32_t nibbles)
-{
-     target_ulong mask = 0;
-
-     /* TODO: Push this expansion back to translation time. */
-     for (int i = 0; i < sizeof(target_ulong) * 2; ++i) {
-         if (nibbles & (1 << i)) {
-             mask |= (target_ulong)0xf << (4 * i);
-         }
-     }
-
-     val = (val & mask) | (env->fpscr & ~mask);
-     ppc_store_fpscr(env, val);
-}
-
-void helper_fpscr_clrbit(CPUPPCState *env, uint32_t bit)
-{
-     uint32_t mask = 1u << bit;
-     if (env->fpscr & mask) {
-         ppc_store_fpscr(env, env->fpscr & ~mask);
-     }
-}
-
-void helper_fpscr_setbit(CPUPPCState *env, uint32_t bit)
-{
-     uint32_t mask = 1u << bit;
-     if (!(env->fpscr & mask)) {
-         ppc_store_fpscr(env, env->fpscr | mask);
-     }
-}
-
-There are a couple of other uses of fpscr_set_rounding_mode, where the 
-softfloat value is changed temporarily (do_fri, VSX_ROUND).  These should 
-simply save the previous softfloat value (using get_float_rounding_mode) around 
-the operation instead of re-computing from fpscr.
-
-Which leaves us with exactly one use of fpscr_set_rounding_mode, which can then 
-be moved to cpu.c next to ppc_store_fpscr.
+Thank you and sorry for the inconvenience.
 
 
-r~
+** Tags added: ppc tcg
+
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912934
+
+Title:
+  QEMU emulation of fmadds instruction on powerpc64le is buggy
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  The attached program test-fmadds.c tests the fmadds instruction on
+  powerpc64le.
+
+  Result on real hardware (POWER8E processor):
+  $ ./a.out ; echo $?
+  0
+
+  Result in Alpine Linux 3.13/powerpcle, emulated by QEMU 5.0.0 on Ubuntu 1=
+6.04:
+  $ ./a.out ; echo $?
+  32
+
+  Result in Debian 8.6.0/ppc64el, emulated by QEMU 2.9.0 on Ubuntu 16.04:
+  $ ./a.out ; echo $?
+  32
+
+  Through 'nm --dynamic qemu-system-ppc64 | grep fma' I can see that
+  QEMU is NOT using the fmaf() or fma() function from the host system's
+  libc; this function is working fine in glibc of the host system (see
+  https://www.gnu.org/software/gnulib/manual/html_node/fmaf.html ).
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912934/+subscriptions
 
