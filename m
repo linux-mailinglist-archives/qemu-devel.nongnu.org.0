@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0199537BB80
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:13:26 +0200 (CEST)
-Received: from localhost ([::1]:46196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C06E37BB6E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:05:49 +0200 (CEST)
+Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgmnt-0000Fc-0X
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:13:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42290)
+	id 1lgmgV-0001x5-Ii
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:05:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgmlZ-0006eU-0O
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:11:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60000)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgmem-0001I2-T6
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:04:00 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:37416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lgmlW-0007hN-Pk
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:11:00 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lgmlT-0000U0-Un
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:10:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CC23B2E8193
- for <qemu-devel@nongnu.org>; Wed, 12 May 2021 11:10:55 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lgmel-0003oG-6A
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:04:00 -0400
+Received: by mail-ed1-x529.google.com with SMTP id f1so4316273edt.4
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 04:03:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=h9I2zVvj2ZUli44kwo48oTtEn/c62YhcW49XVDqHrlU=;
+ b=mmGx8JgHuBkjvKwTp+BZcMyYcXfCQnKJn6UDx2eEq6VDyVcfS6b5Lq94FcDgkJLsHk
+ d3QUw4GFqwGGMzRVzRSShmNY5gBqDHiZA2XRS8N5UYxsQZ/puZnaQnAGT1t+C+FAadAI
+ 0JcIW3e8AOZJ43QJP7/sKrgNuxiC4i4ylN7XTV6e/+d+6owgQA8jrp3fVqvDKqEXKG9o
+ vdouENIDG3ZKSUQXA11MwSJlBQlgSpH7mhwAdnJXYjsfpjBs+SAMnO2prPByfMk21jzn
+ haM73lyrLNCLPGWhmOnza9P5bDLyotXFZp1MHjgBb6sfKo13fZGN/4ImepdTUbkuJkXl
+ wk8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=h9I2zVvj2ZUli44kwo48oTtEn/c62YhcW49XVDqHrlU=;
+ b=rU/jmRhpnPXLg0RVaKGMMQE5S587+6JhT7mPvRtAFn5nKYSAHhOwKztsNdcE4cZU5C
+ IZJQg6Onfn9SojI64NCXI9irYOCMjQE3j9hIW6i/TXEK23rVG1WjmfzsT8grEQjb+iEB
+ qF5zeKb6iORlQYnUjDFrjArOqo8e9jGBwjOnSDzSb0DUQ4O/Tujec7zXfZb8MyMdNvbp
+ eBf3kzwJeTuMStaVRE7mMFM4dI7TEbwD9whdib5GVU92JFKIwA+wokPgr3p0KIM6WZl2
+ 9b7kH3ES8BZbOt/JO4XNto9RirOjYDZiQlZRqbWTzlkd4dnECGA3eL6mYJRcn10skkpP
+ 9UmA==
+X-Gm-Message-State: AOAM5332ureQZxseUP11/PnhDpvBr5FkOzyfU/ZeWJ+uuqmxOqlcctsd
+ gj39qaIhF0HntHHjcufCs6sgP3l4gHZ38ojf45SMSA==
+X-Google-Smtp-Source: ABdhPJwQNX2VNcAygLEJCMSG1eFcqnWq8pJ40ZBHoAbxHz55WmLD8JX/sV6k305+ODxkXTu28/T2E6eJ6tbJAcV2u+U=
+X-Received: by 2002:a05:6402:3548:: with SMTP id
+ f8mr42028853edd.251.1620817437668; 
+ Wed, 12 May 2021 04:03:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 May 2021 11:02:37 -0000
-From: Thomas Huth <1888818@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth xavier-ding
-X-Launchpad-Bug-Reporter: xuan (xavier-ding)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159558183424.11837.7512442025195132206.malonedeb@wampee.canonical.com>
-Message-Id: <162081735724.31075.17380265348196779838.malone@gac.canonical.com>
-Subject: [Bug 1888818] Re: Multi-queue vhost-user fails to reconnect with qemu
- version >=4.2
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="37ef8bff8cdf61b994f9b61bc9239663cb29cec9"; Instance="production"
-X-Launchpad-Hash: d93ef7cf79c0bfa05b5d52ea72ae8d6c5f40539b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210512100906.621504-1-pbonzini@redhat.com>
+In-Reply-To: <20210512100906.621504-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 12 May 2021 12:02:44 +0100
+Message-ID: <CAFEAcA-Vy3uG=PjKnDfaX0BoCLUDS=Za=aZ7BgG6iHc0wRYopw@mail.gmail.com>
+Subject: Re: [PATCH] add Visual Studio Code configuration
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,102 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888818 <1888818@bugs.launchpad.net>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
+On Wed, 12 May 2021 at 11:10, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> Add configurations to build files with Visual Studio Code and
+> to retrieve the search path for headers from the compile_commands.json
+> file.
+>
+> Using this configuration requires installing the Meson extension and
+> using a build subdirectory that matches the one configured in the
+> Meson extension itself.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>> diff --git a/scripts/rebuild.py b/scripts/rebuild.py
+> new file mode 100755
+> index 0000000000..e35e08f42d
+> --- /dev/null
+> +++ b/scripts/rebuild.py
+> @@ -0,0 +1,22 @@
+> +#! /usr/bin/env python3
+> +#
+> +# Author: Paolo Bonzini <pbonzini@redhat.com>
+> +#
+> +# This program compiles the input files using commands from the
+> +# compile_commands.json file.  (Unlike Make/ninja, the _source_
+> +# file is passed to the program rather than the targe).  It is
+> +# mostly intended to be called from editors.
 
- https://gitlab.com/qemu-project/qemu/-/issues/277
+This seems weird. I don't think we should try to support multiple
+ways of building QEMU -- editors should just run make the same
+way everybody else does...
 
-
-** Changed in: qemu
-       Status: New =3D> Expired
-
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #277
-   https://gitlab.com/qemu-project/qemu/-/issues/277
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888818
-
-Title:
-  Multi-queue vhost-user fails to reconnect with qemu version >=3D4.2
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  Test Environment:
-  DPDK version: DPDK v20.08
-  Other software versions: qemu4.2.0, qemu5.0.0.
-  OS: Linux 4.15.0-20-generic
-  Compiler: gcc (Ubuntu 7.3.0-16ubuntu3) 8.4.0
-  Hardware platform: Purley.
-  Test Setup
-  Steps to reproduce
-  List the steps to reproduce the issue.
-
-  Test flow
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D
-  1. Launch vhost-user testpmd as port0 with 2 queues:
-
-  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
-  =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
-vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
---rxq=3D2
-  testpmd>start
-
-  3. Launch qemu with virtio-net:
-
-  =C2=A0taskset -c 13 \
-  =C2=A0=C2=A0=C2=A0=C2=A0qemu-system-x86_64 -name us-vhost-vm1 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cpu host -enable-kvm -m 2048 -=
-object memory-backend-file,id=3Dmem,size=3D2048M,mem-path=3D/mnt/huge,share=
-=3Don \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-numa node,memdev=3Dmem \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-mem-prealloc -monitor unix:/tm=
-p/vm2_monitor.sock,server,nowait -netdev user,id=3Dyinan,hostfwd=3Dtcp:127.=
-0.0.1:6005-:22 -device e1000,netdev=3Dyinan \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-smp cores=3D1,sockets=3D1 -dri=
-ve file=3D/home/osimg/ubuntu16.img  \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-chardev socket,id=3Dchar0,path=
-=3D./vhost-net,server \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev type=3Dvhost-user,id=3D=
-mynet1,chardev=3Dchar0,vhostforce,queues=3D2 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,mac=3D52=
-:54:00:00:00:01,netdev=3Dmynet1,mrg_rxbuf=3Don,csum=3Don,gso=3Don,host_tso4=
-=3Don,guest_tso4=3Don,mq=3Don,vectors=3D15 \
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-vnc :10 -daemonize
-
-  6. Quit testpmd and restart vhost-user :
-
-  testpmd>quit
-  ./x86_64-native-linuxapp-gcc/app/testpmd -l 2-4 -n 4 \
-  =C2=A0=C2=A0=C2=A0=C2=A0--file-prefix=3Dvhost --vdev 'net_vhost0,iface=3D=
-vhost-net,queues=3D2,client=3D1' -- -i --txd=3D1024 --rxd=3D1024 --txq=3D2 =
---rxq=3D2
-
-  Expected Result:
-  After the vhost-user is killed then re-launched, the virtio-net can conne=
-ct back to vhost-user again.
-
-  Actual Result:
-  Vhost-user relaunch failed with continous log printed"VHOST_CONFIG: Proce=
-ssing VHOST_USER_SET_FEATURES failed.
-
-  Analysis:
-  This is a regression bug, bad commit: c6beefd674f
-  When vhost-user quits, QEMU doesnot save acked features for each virtio-n=
-et after vhost-user quits. When vhost-user reconnects to QEMU, QEMU sends t=
-wo different features(one is the true acked feature while the another is 0x=
-40000000) to vhost-user successively which causing vhost-user exits abnorma=
-lly.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888818/+subscriptions
+-- PMM
 
