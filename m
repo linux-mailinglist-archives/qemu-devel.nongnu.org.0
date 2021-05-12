@@ -2,59 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF28737BBB7
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:25:59 +0200 (CEST)
-Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8F137BBBF
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 13:28:00 +0200 (CEST)
+Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgn02-0003xz-Uy
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:25:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43454)
+	id 1lgn1z-0007BG-EG
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 07:27:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lgmqo-0007Tv-Qg
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:16:26 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:38807)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lgmqm-0002Cy-ML
- for qemu-devel@nongnu.org; Wed, 12 May 2021 07:16:26 -0400
-Received: from [192.168.100.1] ([82.142.31.78]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MvJo7-1lOqQJ18Vd-00rJwN; Wed, 12 May 2021 13:16:14 +0200
-Subject: Re: [PATCH] Constify bitmask_transtbl fcntl/mmap flags_tlb[]
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210511103502.2875844-1-f4bug@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <b5f1d638-fc78-2645-eed0-400e82938bb0@vivier.eu>
-Date: Wed, 12 May 2021 13:16:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgmuW-0005HB-8X
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:20:16 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34433)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lgmuT-0004Al-3T
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 07:20:15 -0400
+Received: by mail-wr1-x429.google.com with SMTP id t18so23234488wry.1
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 04:20:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Ad+9+2MDnnVuK7GelgJgPn5SudwJaltU6W6vHSgmUQs=;
+ b=uqo/N7xc/ULhkrQSTh1QMECLMDJG8gyP3UjVs9svOtUaa3eAp3tAjI+GZgmomcljry
+ 4dOObT4/ZoMV6FHhrQANP4PtRgqO5XtcM9nuU04NDHeKhxrKD8vCsPws0zabvU+8QD2n
+ 84Oe+ze7k6SMmTuCnaYSdiz1lc5yQdH8Ame94p4OOUic03sFQjO+PyZZVAi8FopjU14l
+ LwruljCc73dgC4E1T3XIzUJy+OeePdIPTb0+uPIv3YBLITHgFxpuoaZZ8afU/5B2DqLt
+ UmzV6Dm7t+vDhqINjVyCsnxZNLkv5nkyvkmwgi2ts1YqdCcZv4UA7FTMIFSJqf4oQvVl
+ R/Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Ad+9+2MDnnVuK7GelgJgPn5SudwJaltU6W6vHSgmUQs=;
+ b=iQ9j4u54BCsCtW/2b3yza7k+74uhFH2VgtWefjMLYFwSJwFzmPdOj+3eBA9XPZn0Wh
+ E1vfccQoZua75VFqAdnJlYX2TKwN7PZmH4s6UO3HeQeouTmFgjT5wDdWIg5XReclJWi8
+ +7N6ktMZbrPNAFQuSZ2PG6te7ct5w0LsXkwjANrWsqRlST7zB6jfoc0AcwHNNp+KTqOj
+ mbvP/R1f5l2heUhrBgHXio7VgZliYPc5H0QMwV+Tac9vGXzdpGA5PPk5EzWqqZzuMXXA
+ AIAonBU80uBJfYhk66PIPvplVSwqDqTpe6g5Pl9dI9yesR+Dt6iQb3xGP6c0cseEq3pe
+ NyQQ==
+X-Gm-Message-State: AOAM5338NcZz/8BZgrkF/T74OpUeAzcq6BmY6zIZQiFPf7XMt6NoJIfc
+ QFPB8SR73lXju/0JLw0PDsMzvA==
+X-Google-Smtp-Source: ABdhPJwR0VNCITjtC3B7Im2JLkOfJ1poR6GH/OLtHnCUCLENTO1Y7ulmPpZLymoL5yZunSa5DrNyuQ==
+X-Received: by 2002:a5d:6d8f:: with SMTP id l15mr45218594wrs.313.1620818408976; 
+ Wed, 12 May 2021 04:20:08 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 61sm33805501wrm.52.2021.05.12.04.20.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 May 2021 04:20:07 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E35581FF7E;
+ Wed, 12 May 2021 12:20:06 +0100 (BST)
+References: <20210508014802.892561-1-richard.henderson@linaro.org>
+ <20210508014802.892561-4-richard.henderson@linaro.org>
+ <87k0o6yc74.fsf@linaro.org>
+ <90dc8203-522a-d3d2-15b8-ad95fd654f93@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 03/72] qemu/host-utils: Add wrappers for carry builtins
+Date: Wed, 12 May 2021 12:17:24 +0100
+In-reply-to: <90dc8203-522a-d3d2-15b8-ad95fd654f93@linaro.org>
+Message-ID: <87sg2sfbbt.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210511103502.2875844-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:T7o6HDjHibuDULfCs4ZMS3x/FSWC9yQEghANPSfeWPvisXjoTlQ
- WcbTU4b9ClNW6PrNk4BNNng0+T3eamOm8D+9i+4yUkY+562qYGUm1mzPYBGFYjywL5GfBQR
- I8Rd2QlXmiCEOelaUEzj0qy4BdN1inGrWXfuuYjlPNvDRL2ayqNXdYkNF8wMbmmFa2sNoEA
- aqLKKqDFU1Opr7rmX5gHQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:j/XlrEh7e5Q=:JeezTVikxvg4sEmRrMHkZN
- JUQ4o/86zWQHkK7mfAC0PcuaSKwDSdDcTykH1sZnDvmT73cuPoCNQo6cKGw9fqmWh2RswlVbM
- BIrBYFUYpjkEE8G2lh2Eubc90hSL2c0bADkj67TNa+k3Fu3hMUU69TBGb5BUox24dx0EWX6J7
- O63DKzbc01ZQzrbNy45UJfGADFXnHYNU9EAA1fUIuiE/EB3mHkKynaN/JkvY1zyFif5CuQu3J
- /g0PLsZM6bj+WTYiLDMIbcWd8PmHfud2YpURhGzA0qkAM8AdzItg4B94HVdafdq9/QhZ/KNCU
- krLNv4thMtt/hGeQBr/K22vpJ/rvtCMTjoezSzYqZ/s7zkDQgWcIYR6le3t4PaHYxIMKwWAkI
- oFmBT7mX0M1fgnldynwQGdZRmI5sNxm/KfjLmYsCbxkB3yAit0FwVESX79wGjqAZdm1hcT4Pq
- wKgWwZetTVqsOnOlOd+Pa+p19bLRauGqfA8B2/m2JfMsE8EhWIJ5Rra4E5Ly0eCVNPlO6tLrm
- hKAKRHeZPJdKcqJqB/NJnU=
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,40 +89,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/05/2021 à 12:35, Philippe Mathieu-Daudé a écrit :
-> Keep bitmask_transtbl in .rodata by marking the arrays const.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  linux-user/syscall.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 95d79ddc437..64f486743a9 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -365,7 +365,7 @@ _syscall5(int, sys_statx, int, dirfd, const char *, pathname, int, flags,
->  _syscall2(int, membarrier, int, cmd, int, flags)
->  #endif
->  
-> -static bitmask_transtbl fcntl_flags_tbl[] = {
-> +static const bitmask_transtbl fcntl_flags_tbl[] = {
->    { TARGET_O_ACCMODE,   TARGET_O_WRONLY,    O_ACCMODE,   O_WRONLY,    },
->    { TARGET_O_ACCMODE,   TARGET_O_RDWR,      O_ACCMODE,   O_RDWR,      },
->    { TARGET_O_CREAT,     TARGET_O_CREAT,     O_CREAT,     O_CREAT,     },
-> @@ -6062,7 +6062,7 @@ static const StructEntry struct_termios_def = {
->      .print = print_termios,
->  };
->  
-> -static bitmask_transtbl mmap_flags_tbl[] = {
-> +static const bitmask_transtbl mmap_flags_tbl[] = {
->      { TARGET_MAP_SHARED, TARGET_MAP_SHARED, MAP_SHARED, MAP_SHARED },
->      { TARGET_MAP_PRIVATE, TARGET_MAP_PRIVATE, MAP_PRIVATE, MAP_PRIVATE },
->      { TARGET_MAP_FIXED, TARGET_MAP_FIXED, MAP_FIXED, MAP_FIXED },
-> 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> On 5/10/21 7:57 AM, Alex Benn=C3=A9e wrote:
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>=20
+>>> These builtins came in clang 3.8, but are not present in gcc through
+>>> version 11.  Even in clang the optimization is not ideal except for
+>>> x86_64, but no worse than the hand-coding that we currently do.
+>> Given this statement....
+>
+> I think you mis-read the "except for x86_64" part?
+>
+> Anyway, these are simply bugs to be filed against clang, so that
+> hopefully clang-12 will do a good job with the builtin.  And as I
+> said, while the generated code is not ideal, it's no worse.
+>
+>>> +static inline uint64_t uadd64_carry(uint64_t x, uint64_t y, bool *pcar=
+ry)
+>>> +{
+>>> +#if __has_builtin(__builtin_addcll)
+>>> +    unsigned long long c =3D *pcarry;
+>>> +    x =3D __builtin_addcll(x, y, c, &c);
+>> what happens when unsigned long long isn't the same as uint64_t?
+>> Doesn't
+>> C99 only specify a minimum?
+>
+> If you only look at C99, sure.  But looking at the set of supported
+> hosts, unsigned long long is always a 64-bit type.
+
+I guess I'm worrying about a theoretical future - but we don't worry
+about it for other ll builtins so no biggy.
+
+>
+>>> +    *pcarry =3D c & 1;
+>> Why do we need to clamp it here? Shouldn't the compiler
+>> automatically do
+>> that due to the bool?
+>
+> This produces a single AND insn, instead of CMP + SETcc.
+
+Might be worth mentioning that in the commit message.=20
+
+Anyway:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
