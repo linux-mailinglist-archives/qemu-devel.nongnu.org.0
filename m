@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCCCF37D4F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 23:48:54 +0200 (CEST)
-Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B14E37D514
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 23:50:34 +0200 (CEST)
+Received: from localhost ([::1]:38910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgwir-0003dq-US
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 17:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35780)
+	id 1lgwkT-0000DX-8y
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 17:50:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwh7-0000tN-Bg
- for qemu-devel@nongnu.org; Wed, 12 May 2021 17:47:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54572)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwh5-0000rZ-GM
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 17:47:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwgx-0007ih-OY
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgwgz-0007kI-JR
  for qemu-devel@nongnu.org; Wed, 12 May 2021 17:47:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620856015;
+ s=mimecast20190719; t=1620856017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gY/lg29u2XDcIt+R2WUeT2vPrSCoSPMwfa90MHVVtL8=;
- b=L9Z7J7zBVroKcDnrs/kBjIWtKXDQwjU8vIrA93EL3fglY4xivMnTdIxGdSnQdJoCD3m0Ob
- aTKXzjBcvVry13tP+kStR6c4KrLa/X1oq0p1KMGkHbrxxczDIOfADSQvy5q8POZ/kkfveL
- ekDATbOUD2KA1vxW01eilR/v0ovt3JY=
+ bh=WcxvslPiqRtDScsP2tpRXLNfLV3/rncXdVX3EotBdLs=;
+ b=FUUMN+xRyI9Pa1wdte3XBAQRlEhryziic9gR4wemOwkKTvIFYu110RTyVWVrlYErvCYYuF
+ zEf8gH/7+gWZc7JqDms5dg8Q5K2JqxSsCWk/TBB+fMT43uud9a6a1+EBw+S+ZAeIlOP7kT
+ QFiz7Q7G7126Pb5rma+Q6RotM4GQ3Is=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-5LNvwarHMzahg6nFfdZ2_w-1; Wed, 12 May 2021 17:46:53 -0400
-X-MC-Unique: 5LNvwarHMzahg6nFfdZ2_w-1
+ us-mta-167-XGqIXiNRM7qLCFcdqvB75w-1; Wed, 12 May 2021 17:46:54 -0400
+X-MC-Unique: XGqIXiNRM7qLCFcdqvB75w-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D08F8015A8;
- Wed, 12 May 2021 21:46:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E932107ACE3;
+ Wed, 12 May 2021 21:46:53 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F6DE6267D;
- Wed, 12 May 2021 21:46:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 796195D6AC;
+ Wed, 12 May 2021 21:46:52 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/10] python/machine: disable warning for Popen in _launch()
-Date: Wed, 12 May 2021 17:46:38 -0400
-Message-Id: <20210512214642.2803189-7-jsnow@redhat.com>
+Subject: [PATCH 07/10] iotests: use subprocess.run where possible
+Date: Wed, 12 May 2021 17:46:39 -0400
+Message-Id: <20210512214642.2803189-8-jsnow@redhat.com>
 In-Reply-To: <20210512214642.2803189-1-jsnow@redhat.com>
 References: <20210512214642.2803189-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,31 +82,56 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We handle this resource rather meticulously in
-shutdown/kill/wait/__exit__ et al, through the laborious mechanisms in
-_do_shutdown().
+pylint 2.8.x adds warnings whenever we use Popen calls without using
+'with', so it's desirable to convert synchronous calls to run()
+invocations where applicable.
 
-Quiet this pylint warning here.
+(Though, this trades one pylint warning for another due to a pylint bug,
+which I've silenced with a pragma and a link to the bug.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine.py | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/qemu-iotests/iotests.py | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 8f86303b48f..0df5b2f386f 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -407,6 +407,9 @@ def _launch(self) -> None:
-                   self._args)
-         )
-         LOG.debug('VM launch command: %r', ' '.join(self._qemu_full_args))
-+
-+        # Cleaning up of this subprocess is guaranteed by _do_shutdown.
-+        # pylint: disable=consider-using-with
-         self._popen = subprocess.Popen(self._qemu_full_args,
-                                        stdin=subprocess.DEVNULL,
-                                        stdout=self._qemu_log_file,
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 5af01828951..46deb7f4dd4 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -113,15 +113,16 @@ def qemu_tool_pipe_and_status(tool: str, args: Sequence[str],
+     Run a tool and return both its output and its exit code
+     """
+     stderr = subprocess.STDOUT if connect_stderr else None
+-    subp = subprocess.Popen(args,
+-                            stdout=subprocess.PIPE,
+-                            stderr=stderr,
+-                            universal_newlines=True)
+-    output = subp.communicate()[0]
+-    if subp.returncode < 0:
++    res = subprocess.run(args,
++                         stdout=subprocess.PIPE,
++                         stderr=stderr,
++                         universal_newlines=True,
++                         check=False)
++    output = res.stdout
++    if res.returncode < 0:
+         cmd = ' '.join(args)
+-        sys.stderr.write(f'{tool} received signal {-subp.returncode}: {cmd}\n')
+-    return (output, subp.returncode)
++        sys.stderr.write(f'{tool} received signal {-res.returncode}: {cmd}\n')
++    return (output, res.returncode)
+ 
+ def qemu_img_pipe_and_status(*args: str) -> Tuple[str, int]:
+     """
+@@ -1153,6 +1154,8 @@ def _verify_virtio_scsi_pci_or_ccw() -> None:
+ 
+ 
+ def supports_quorum():
++    # https://github.com/PyCQA/astroid/issues/689
++    # pylint: disable=unsupported-membership-test
+     return 'quorum' in qemu_img_pipe('--help')
+ 
+ def verify_quorum():
 -- 
 2.30.2
 
