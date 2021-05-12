@@ -2,51 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E01F37D42B
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 22:19:12 +0200 (CEST)
-Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4B137D430
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 May 2021 22:22:36 +0200 (CEST)
+Received: from localhost ([::1]:34122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgvK2-00075B-Pq
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 16:19:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35594)
+	id 1lgvNL-0005Cc-7R
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 16:22:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lgunZ-0001lY-KS; Wed, 12 May 2021 15:45:37 -0400
-Received: from [201.28.113.2] (port=37501 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lgunX-0004CZ-SY; Wed, 12 May 2021 15:45:37 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 12 May 2021 16:45:32 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id C8E388000C2;
- Wed, 12 May 2021 16:45:31 -0300 (-03)
-Subject: Re: [PATCH v4 17/31] target/ppc: Use translator_loop_temp_check
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
- <20210512185441.3619828-18-matheus.ferst@eldorado.org.br>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <e2d193b3-99d4-d3f5-e709-071098fea331@eldorado.org.br>
-Date: Wed, 12 May 2021 16:45:31 -0300
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1lgurM-0006l3-Aa
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 15:49:34 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:38903)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1lgurI-0006gF-6R
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 15:49:32 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ q7-20020a9d57870000b02902a5c2bd8c17so21637141oth.5
+ for <qemu-devel@nongnu.org>; Wed, 12 May 2021 12:49:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=YluWeJRgWFZw3gq/0rankOlgnBZOT9VWouGONBhX1ZI=;
+ b=W6J7zB95M7MNUeRogI+JCA5EME1n4vslpvqeobTN97nr+E8DqCaykhHnZAj7hvLo2B
+ FELlLKj3Rvj1ss873Y8Wm/qXXeTvHrYuftcGtqHqr4xcGW0aZQaAVpCWlEJ1uWT+ReRV
+ m0Zo/AoHU93qW36r3CWXa7+O5dVNYtaN1Sm8qmKnZ5wEfhtoNJMd6kmpKnHje78UkbpE
+ X4+kIh0zJc9hh+D3m93AB+LDmQnIMNFKiw8cB2/pZ/8rPDDeyqJg4pjTuELSjSgvX/5W
+ guKwMNfWS8PUKxilLRjaPnLHEEv084Vd7CDvNE8pNXZ16X2B3SFcdlaXV3Go4ikBzCEt
+ nKTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YluWeJRgWFZw3gq/0rankOlgnBZOT9VWouGONBhX1ZI=;
+ b=FTBk2eQxJkNGXaDZ+fSV9Txlk0Nha+R2asOFWCSOXHkEZC4pnyw9piLHNhihwi0AH4
+ h3lv8Nl2IVO9RjPzBpGqd3FN8oaLsqVDNWlMXPFBSAgy54juPTBMKhCZ0iOE1esfr6mY
+ pZWOsUkVR/O76N7s3rqkECSNtZhSd7aA5I6Ui9g4ipAOwKMCdDaqAUyLQqPsPR336pcK
+ te0YlJu+C+elzlDcKJuUiD0hZ7aYU7TPjDddrUMJPm5wd8XuXBxPyh5i7PXfRENyaBNG
+ V+eC6U6nfBMaUibfMqOfdG6EXo0fZHlUVBUodYKxc59GXQ6i6764xZd872eUkooDTnJ2
+ dZOA==
+X-Gm-Message-State: AOAM532k1PRuZIFvTFcZkDZr3jSVb6KTbssuSPjMzivMbnfJc8BWVEJJ
+ pEO3/37otFWov2LcsH+PrM3sXw==
+X-Google-Smtp-Source: ABdhPJxVgJ1+FSb0agm7E9/6uE7m7cu2IvwHBohdkTu4jutsVkCs0lieH2VUv0K8OPA6WNRGHyAuKA==
+X-Received: by 2002:a9d:6c86:: with SMTP id c6mr13689322otr.9.1620848966689;
+ Wed, 12 May 2021 12:49:26 -0700 (PDT)
+Received: from [10.0.10.142] (c-174-52-16-57.hsd1.ut.comcast.net.
+ [174.52.16.57])
+ by smtp.gmail.com with ESMTPSA id l131sm181853oia.0.2021.05.12.12.49.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 May 2021 12:49:26 -0700 (PDT)
+Subject: Re: [PATCH v9 0/3] target/arm: add support for FEAT_TLBIRANGE and
+ FEAT_TLBIOS
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210512182337.18563-1-rebecca@nuviainc.com>
+ <875yzng318.fsf@linaro.org>
+From: Rebecca Cran <rebecca@nuviainc.com>
+Message-ID: <d78ebe03-e10a-a080-9bb6-279e333c408b@nuviainc.com>
+Date: Wed, 12 May 2021 13:49:24 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210512185441.3619828-18-matheus.ferst@eldorado.org.br>
-Content-Type: multipart/alternative;
- boundary="------------E6B555451184F490791C75A9"
+In-Reply-To: <875yzng318.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-OriginalArrivalTime: 12 May 2021 19:45:32.0148 (UTC)
- FILETIME=[5E632B40:01D74767]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=rebecca@nuviainc.com; helo=mail-ot1-x336.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,116 +90,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lagarcia@br.ibm.com, luis.pires@eldorado.org.br,
- richard.henderson@linaro.org, f4bug@amsat.org, david@gibson.dropbear.id.au
+Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------E6B555451184F490791C75A9
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 5/12/21 1:32 PM, Alex Bennée wrote:
 
+> But it's needed right? It's perfectly fine to pull someone elses patch
+> into your series if it's needed for the review. The alternative is to
+> add a "Based-on" tag to your cover letter so it's easy to find the patch
+> or series we need to apply before yours.
+> 
 
-On 12/05/2021 15:54, matheus.ferst@eldorado.org.br wrote:
-> From: Richard Henderson <richard.henderson@linaro.org>
->
-> The special logging is unnecessary.  It will have been done
-> immediately before in the log file.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
->   target/ppc/translate.c | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
->
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 9912686496..cd4b34aa91 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -9282,11 +9282,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
->       handler->count++;
->   #endif
->   
-> -    if (tcg_check_temp_count()) {
-> -        qemu_log("Opcode %02x %02x %02x %02x (%08x) leaked "
-> -                 "temporaries\n", opc1(ctx->opcode), opc2(ctx->opcode),
-> -                 opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
-> -    }
-> +    translator_loop_temp_check(&ctx->base);
->   }
->   
->   static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+Yes, it's needed. Sorry, I didn't realize there was an established 
+process for this.
 
-Reviewed-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+ From previous patches, I see the line should be:
+
+Based-on: 20210508201640.1045808-1-richard.henderson@linaro.org
+
 
 -- 
-
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
-
---------------E6B555451184F490791C75A9
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 12/05/2021 15:54,
-      <a class="moz-txt-link-abbreviated" href="mailto:matheus.ferst@eldorado.org.br">matheus.ferst@eldorado.org.br</a> wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20210512185441.3619828-18-matheus.ferst@eldorado.org.br">
-      <pre class="moz-quote-pre" wrap="">From: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
-
-The special logging is unnecessary.  It will have been done
-immediately before in the log file.
-
-Signed-off-by: Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a>
-Signed-off-by: Matheus Ferst <a class="moz-txt-link-rfc2396E" href="mailto:matheus.ferst@eldorado.org.br">&lt;matheus.ferst@eldorado.org.br&gt;</a>
----
- target/ppc/translate.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 9912686496..cd4b34aa91 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -9282,11 +9282,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     handler-&gt;count++;
- #endif
- 
--    if (tcg_check_temp_count()) {
--        qemu_log("Opcode %02x %02x %02x %02x (%08x) leaked "
--                 "temporaries\n", opc1(ctx-&gt;opcode), opc2(ctx-&gt;opcode),
--                 opc3(ctx-&gt;opcode), opc4(ctx-&gt;opcode), ctx-&gt;opcode);
--    }
-+    translator_loop_temp_check(&amp;ctx-&gt;base);
- }
- 
- static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)</pre>
-    </blockquote>
-    <p>Reviewed-by: Bruno Larsen (billionai)
-      <a class="moz-txt-link-rfc2396E" href="mailto:bruno.larsen@eldorado.org.br">&lt;bruno.larsen@eldorado.org.br&gt;</a></p>
-    <p>-- </p>
-    <div class="moz-signature">Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------E6B555451184F490791C75A9--
+Rebecca Cran
 
