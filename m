@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A6E37EF6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:17:43 +0200 (CEST)
-Received: from localhost ([::1]:52620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A82E37EF6B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 01:15:38 +0200 (CEST)
+Received: from localhost ([::1]:44816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lgy6o-00025f-6B
-	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:17:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50000)
+	id 1lgy4n-0005C3-2u
+	for lists+qemu-devel@lfdr.de; Wed, 12 May 2021 19:15:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgy2Q-0001NL-5g
- for qemu-devel@nongnu.org; Wed, 12 May 2021 19:13:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31350)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgy2U-0001Qh-AE
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 19:13:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgy2K-0005y3-SU
- for qemu-devel@nongnu.org; Wed, 12 May 2021 19:13:07 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lgy2P-00061f-QX
+ for qemu-devel@nongnu.org; Wed, 12 May 2021 19:13:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620861184;
+ s=mimecast20190719; t=1620861188;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uh/CIR1zIclHfHibVH0Qhke2ENsmGFs/MwvMAl2Hss0=;
- b=DgAjosegGoTeQdBUlwdf/9ViVai7HptRpQvXISBZsNf85xIzD0oqb3SIE8d/C8ORoEzRDs
- WMeEjzuJSyp3+EisrYlyKx7ys64rewU8fcH/eS786rbLhbfuM4hcNN4NF24T+vAoaRUIwJ
- snoW0+cIA6UxSmUwQzmFSzbcVPEz3Vg=
+ bh=Ep8m7ijP6cbxT9w3KXMf2+bqaTCjDm19HQOJdWO3D5g=;
+ b=S6yVRD2iwI3wtrgXGvcvsgF7ZIfmzjpri7QK/h3gtnmVasI8xYczuRxGFG4h/VEIQBvoBe
+ xDAOQ9y9bPhP1u4OVbW9knAbuzkfAfM/TkPemyh81auYXaqPvCEgXqQC3Eo+lDK9rwuW0O
+ nWh/IjBXZnalxXV0zR8Gq9MnNtz3xNE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-yA8OmsROOy-xSbv77-KMjA-1; Wed, 12 May 2021 19:13:00 -0400
-X-MC-Unique: yA8OmsROOy-xSbv77-KMjA-1
+ us-mta-266-x6W9EaJlMAyhl2_iIeDBww-1; Wed, 12 May 2021 19:13:03 -0400
+X-MC-Unique: x6W9EaJlMAyhl2_iIeDBww-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA3F9801817;
- Wed, 12 May 2021 23:12:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BDA5800D55;
+ Wed, 12 May 2021 23:13:01 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 349E45D736;
- Wed, 12 May 2021 23:12:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB9155D736;
+ Wed, 12 May 2021 23:12:59 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 03/25] python: create utils sub-package
-Date: Wed, 12 May 2021 19:12:19 -0400
-Message-Id: <20210512231241.2816122-4-jsnow@redhat.com>
+Subject: [PATCH v6 04/25] python: add qemu package installer
+Date: Wed, 12 May 2021 19:12:20 -0400
+Message-Id: <20210512231241.2816122-5-jsnow@redhat.com>
 In-Reply-To: <20210512231241.2816122-1-jsnow@redhat.com>
 References: <20210512231241.2816122-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -89,141 +89,137 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create a space for miscellaneous things that don't belong strictly in
-"qemu.machine" nor "qemu.qmp" packages.
+Add setup.cfg and setup.py, necessary for installing a package via
+pip. Add a ReST document (PACKAGE.rst) explaining the basics of what
+this package is for and who to contact for more information. This
+document will be used as the landing page for the package on PyPI.
+
+I am not yet using a pyproject.toml style package manifest, because
+"editable" installs are not defined (yet?) by PEP-517/518.
+
+I consider editable installs crucial for development, though they have
+(apparently) always been somewhat poorly defined.
+
+Pip now (19.2 and later) now supports editable installs for projects
+using pyproject.toml manifests, but might require the use of the
+--no-use-pep517 flag, which somewhat defeats the point.
+
+For now, while the dust settles, stick with the de-facto
+setup.py/setup.cfg combination supported by setuptools. It will be worth
+re-evaluating this point again in the future when our supported build
+platforms all ship a fairly modern pip.
+
+Additional reading on this matter:
+
+https://github.com/pypa/packaging-problems/issues/256
+https://github.com/pypa/pip/issues/6334
+https://github.com/pypa/pip/issues/6375
+https://github.com/pypa/pip/issues/6434
+https://github.com/pypa/pip/issues/6438
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine/__init__.py           |  8 --------
- python/qemu/utils/__init__.py             | 23 +++++++++++++++++++++++
- python/qemu/{machine => utils}/accel.py   |  0
- tests/acceptance/avocado_qemu/__init__.py |  4 ++--
- tests/acceptance/virtio-gpu.py            |  2 +-
- tests/vm/aarch64vm.py                     |  2 +-
- tests/vm/basevm.py                        |  3 ++-
- 7 files changed, 29 insertions(+), 13 deletions(-)
- create mode 100644 python/qemu/utils/__init__.py
- rename python/qemu/{machine => utils}/accel.py (100%)
+ python/PACKAGE.rst | 33 +++++++++++++++++++++++++++++++++
+ python/setup.cfg   | 19 +++++++++++++++++++
+ python/setup.py    | 23 +++++++++++++++++++++++
+ 3 files changed, 75 insertions(+)
+ create mode 100644 python/PACKAGE.rst
+ create mode 100644 python/setup.cfg
+ create mode 100755 python/setup.py
 
-diff --git a/python/qemu/machine/__init__.py b/python/qemu/machine/__init__.py
-index 0ac6c1e36e3..98302ea31e7 100644
---- a/python/qemu/machine/__init__.py
-+++ b/python/qemu/machine/__init__.py
-@@ -8,10 +8,6 @@
-  - QEMUQtestMachine: VM class, with a qtest socket.
- 
- - QEMUQtestProtocol: Connect to, send/receive qtest messages.
--
--- list_accel: List available accelerators
--- kvm_available: Probe for KVM support
--- tcg_available: Probe for TCG support
- """
- 
- # Copyright (C) 2020-2021 John Snow for Red Hat Inc.
-@@ -26,15 +22,11 @@
- # the COPYING file in the top-level directory.
- #
- 
--from .accel import kvm_available, list_accel, tcg_available
- from .machine import QEMUMachine
- from .qtest import QEMUQtestMachine, QEMUQtestProtocol
- 
- 
- __all__ = (
--    'list_accel',
--    'kvm_available',
--    'tcg_available',
-     'QEMUMachine',
-     'QEMUQtestProtocol',
-     'QEMUQtestMachine',
-diff --git a/python/qemu/utils/__init__.py b/python/qemu/utils/__init__.py
+diff --git a/python/PACKAGE.rst b/python/PACKAGE.rst
 new file mode 100644
-index 00000000000..edf807a93e5
+index 00000000000..1bbfe1b58e2
 --- /dev/null
-+++ b/python/qemu/utils/__init__.py
++++ b/python/PACKAGE.rst
+@@ -0,0 +1,33 @@
++QEMU Python Tooling
++===================
++
++This package provides QEMU tooling used by the QEMU project to build,
++configure, and test QEMU. It is not a fully-fledged SDK and it is subject
++to change at any time.
++
++Usage
++-----
++
++The ``qemu.qmp`` subpackage provides a library for communicating with
++QMP servers. The ``qemu.machine`` subpackage offers rudimentary
++facilities for launching and managing QEMU processes. Refer to each
++package's documentation
++(``>>> help(qemu.qmp)``, ``>>> help(qemu.machine)``)
++for more information.
++
++Contributing
++------------
++
++This package is maintained by John Snow <jsnow@redhat.com> as part of
++the QEMU source tree. Contributions are welcome and follow the `QEMU
++patch submission process
++<https://wiki.qemu.org/Contribute/SubmitAPatch>`_, which involves
++sending patches to the QEMU development mailing list.
++
++John maintains a `GitLab staging branch
++<https://gitlab.com/jsnow/qemu/-/tree/python>`_, and there is an
++official `GitLab mirror <https://gitlab.com/qemu-project/qemu>`_.
++
++Please report bugs on the `QEMU issue tracker
++<https://gitlab.com/qemu-project/qemu/-/issues>`_ and tag ``@jsnow`` in
++the report.
+diff --git a/python/setup.cfg b/python/setup.cfg
+new file mode 100644
+index 00000000000..dd71640fc2f
+--- /dev/null
++++ b/python/setup.cfg
+@@ -0,0 +1,19 @@
++[metadata]
++name = qemu
++maintainer = QEMU Developer Team
++maintainer_email = qemu-devel@nongnu.org
++url = https://www.qemu.org/
++download_url = https://www.qemu.org/download/
++description = QEMU Python Build, Debug and SDK tooling.
++long_description = file:PACKAGE.rst
++long_description_content_type = text/x-rst
++classifiers =
++    Development Status :: 3 - Alpha
++    License :: OSI Approved :: GNU General Public License v2 (GPLv2)
++    Natural Language :: English
++    Operating System :: OS Independent
++    Programming Language :: Python :: 3 :: Only
++
++[options]
++python_requires = >= 3.6
++packages = find_namespace:
+diff --git a/python/setup.py b/python/setup.py
+new file mode 100755
+index 00000000000..2014f81b757
+--- /dev/null
++++ b/python/setup.py
 @@ -0,0 +1,23 @@
++#!/usr/bin/env python3
 +"""
-+QEMU development and testing utilities
-+
-+This library provides a small handful of utilities for performing various tasks
-+not directly related to the launching of a VM.
-+
-+The only module included at present is accel; its public functions are
-+repeated here for your convenience:
-+
-+- list_accel: List available accelerators
-+- kvm_available: Probe for KVM support
-+- tcg_available: Prove for TCG support
++QEMU tooling installer script
++Copyright (c) 2020-2021 John Snow for Red Hat, Inc.
 +"""
 +
-+# pylint: disable=import-error
-+from .accel import kvm_available, list_accel, tcg_available
++import setuptools
++import pkg_resources
 +
 +
-+__all__ = (
-+    'list_accel',
-+    'kvm_available',
-+    'tcg_available',
-+)
-diff --git a/python/qemu/machine/accel.py b/python/qemu/utils/accel.py
-similarity index 100%
-rename from python/qemu/machine/accel.py
-rename to python/qemu/utils/accel.py
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index ff7bf81f1a9..5f60892c2c4 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -41,8 +41,8 @@
- sys.path.append(os.path.join(SOURCE_DIR, 'python'))
- 
- from qemu.machine import QEMUMachine
--from qemu.machine import kvm_available
--from qemu.machine import tcg_available
-+from qemu.utils import kvm_available
-+from qemu.utils import tcg_available
- 
- def is_readable_executable_file(path):
-     return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
-diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
-index 0685e30bcae..e7979343e93 100644
---- a/tests/acceptance/virtio-gpu.py
-+++ b/tests/acceptance/virtio-gpu.py
-@@ -10,7 +10,7 @@
- from avocado_qemu import exec_command_and_wait_for_pattern
- from avocado_qemu import is_readable_executable_file
- 
--from qemu.machine import kvm_available
-+from qemu.utils import kvm_available
- 
- import os
- import socket
-diff --git a/tests/vm/aarch64vm.py b/tests/vm/aarch64vm.py
-index 39ff99b0859..b00cce07eb8 100644
---- a/tests/vm/aarch64vm.py
-+++ b/tests/vm/aarch64vm.py
-@@ -14,7 +14,7 @@
- import sys
- import subprocess
- import basevm
--from qemu.machine import kvm_available
-+from qemu.utils import kvm_available
- 
- # This is the config needed for current version of QEMU.
- # This works for both kvm and tcg.
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 12d08cf2b1b..a3867fdf88e 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -19,7 +19,8 @@
- import time
- import datetime
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
--from qemu.machine import kvm_available, QEMUMachine
-+from qemu.machine import QEMUMachine
-+from qemu.utils import kvm_available
- import subprocess
- import hashlib
- import argparse
++def main():
++    """
++    QEMU tooling installer
++    """
++
++    # https://medium.com/@daveshawley/safely-using-setup-cfg-for-metadata-1babbe54c108
++    pkg_resources.require('setuptools>=39.2')
++
++    setuptools.setup()
++
++
++if __name__ == '__main__':
++    main()
 -- 
 2.30.2
 
