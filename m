@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D192A37F7F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:30:12 +0200 (CEST)
-Received: from localhost ([::1]:52228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7ABD37F7FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:31:33 +0200 (CEST)
+Received: from localhost ([::1]:55006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhATZ-0003WZ-R2
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:30:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60874)
+	id 1lhAV2-0005QY-Q1
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:31:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhAR7-0000ji-Hn
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:27:29 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:35488)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhAG5-0000Bd-Mh
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:16:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhAR5-00057X-LF
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:27:29 -0400
-Received: by mail-ej1-x636.google.com with SMTP id m12so39643377eja.2
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 05:27:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SBihDQKRXh1j3fmo0CiGTGoOEjvHZV+PVVOzXk0ivTk=;
- b=vTdu5sVWNLb5yUOFqI5SQZwHH+Uln8iNSLgWsZ/XM7O1SuuX7t5cP38tMavH+ALN3d
- WxTfqajtavlulZPqj98kJJrMcmIbmNwg39gR4YkKyMNc9BRH0bDjmTifyc6olL3robql
- r3tFrIgtPX6RF72l5MdAIfGMbiacwA5hUtcUxlzU++D4nl18SxmLwvyLYHPROZh6rNVW
- +t9E8rscOazVtbPErcfuuiZkAX/Z3bd6Pnl+FyN9bRq8m9xQF19KCEsCRvi3A7byrCt4
- houhje+I+TYikSNSax723C3UigIcAKptUHajKZ75Qdnaew38t+sAM0WMJ56QPY9uu4rG
- fTVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SBihDQKRXh1j3fmo0CiGTGoOEjvHZV+PVVOzXk0ivTk=;
- b=bSu1wVS/Bk40nvv8fCDpdRYmuEu84cMOKWDfTX+c3+LEqrxYvsxQEeSXtOsHLwP7Cb
- uQ5CThFgAAEh75ORw4Dfa+UeUie/oQSz3jFpbYCnfL6NRiVr+oWbvVVv/XhFCq0ysLkL
- 4T/hFgMW16IlELYgoYeMerm0UdRL7ngHyNcHPV1oYCoQAslwyrkNKUh5MesNtm/n3pPA
- nzem91V24t/pxp60LB9x2aEf0nV3xKzM+4mVmfNKcZB50uxeQ4kqvjglcYAbl1F0+T52
- ChNreDqGXRgLnoi9SQRHUtopd7hcCrqlR2gkEk4gxlbaTKcIzstLCKcRbQrQjf/EVhO6
- GdJQ==
-X-Gm-Message-State: AOAM533NdwZBl1CYvG3j9lzPdkGHK8+YVlFfIVgCw5GQTM+JIyNivQeB
- vTRfjJ/TcgOG8Kuq0/hspSmhq0+LKnt2ybTpE6uoLQ==
-X-Google-Smtp-Source: ABdhPJwmUByAi6O5ecjtZxoSQe7RK3v7m2CgSVwssBxOzO0004O3hJ6sjImH4fppy4k95sXdBKGRe8PZFfWaIT/69Yo=
-X-Received: by 2002:a17:906:eced:: with SMTP id
- qt13mr42930064ejb.382.1620908845948; 
- Thu, 13 May 2021 05:27:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhAFq-0007Lo-Rb
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:16:05 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lhAFj-0005Ds-1u
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:15:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0C0F72E8186
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:15:43 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210511150842.207155-1-dgilbert@redhat.com>
-In-Reply-To: <20210511150842.207155-1-dgilbert@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 May 2021 13:27:14 +0100
-Message-ID: <CAFEAcA-caAPn5Lzt=t2u7V5zWkdhbADdSQWd74v+OMOcRqD-ow@mail.gmail.com>
-Subject: Re: [PULL 00/17] migration queue
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 13 May 2021 12:03:06 -0000
+From: Thomas Huth <1915531@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: th-huth valentin.david
+X-Launchpad-Bug-Reporter: Valentin David (valentin.david)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161314621308.23829.886419770057464275.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162090738632.16840.13795772102476966752.malone@soybean.canonical.com>
+Subject: [Bug 1915531] Re: qemu-user child process hangs when forking due to
+ glib allocation
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
+X-Launchpad-Hash: f3732924dfb117a6f129818c3c7c61e87462f16c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,48 +72,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Kunkun Jiang <jiangkunkun@huawei.com>,
- huangy81@chinatelecom.cn, Markus Armbruster <armbru@redhat.com>,
- Peter Xu <peterx@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Keqian Zhu <zhukeqian1@huawei.com>
+Reply-To: Bug 1915531 <1915531@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 May 2021 at 16:08, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
->
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> The following changes since commit e4f3ede95ce813d5705c65e1c0e1c80c70739ebb:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210505-pull-request' into staging (2021-05-10 19:55:06 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/dagrh/qemu.git tags/pull-migration-20210511a
->
-> for you to fetch changes up to 872df23afc70985af5a458e0c4bd2b984559015c:
->
->   tests/migration: introduce multifd into guestperf (2021-05-11 11:26:19 +0100)
->
-> ----------------------------------------------------------------
-> Migration pull 2021-05-11
->
-> The largest change in this set is David's changes for ram block size
-> changing; then there's a pile of other cleanups and fixes.
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting the bug state to "Incomplete" now.
 
-Fails to build on the gitlab cross build job:
-https://gitlab.com/qemu-project/qemu/-/jobs/1258047823
+If the bug has already been fixed in the latest upstream version of QEMU,
+then please close this ticket as "Fix released".
 
-../migration/ram.c: In function 'host_page_from_ram_block_offset':
-../migration/ram.c:3092:12: error: cast to pointer from integer of
-different size [-Werror=int-to-pointer-cast]
-return (void *)QEMU_ALIGN_DOWN((uintptr_t)block->host + offset,
-^
+If it is not fixed yet and you think that this bug report here is still
+valid, then you have two options:
 
-thanks
--- PMM
+1) If you already have an account on gitlab.com, please open a new ticket
+for this problem in our new tracker here:
+
+    https://gitlab.com/qemu-project/qemu/-/issues
+
+and then close this ticket here on Launchpad (or let it expire auto-
+matically after 60 days). Please mention the URL of this bug ticket on
+Launchpad in the new ticket on GitLab.
+
+2) If you don't have an account on gitlab.com and don't intend to get
+one, but still would like to keep this ticket opened, then please switch
+the state back to "New" or "Confirmed" within the next 60 days (other-
+wise it will get closed as "Expired"). We will then eventually migrate
+the ticket automatically to the new system (but you won't be the reporter
+of the bug in the new system and thus you won't get notified on changes
+anymore).
+
+Thank you and sorry for the inconvenience.
+
+
+** Tags added: linux-user
+
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915531
+
+Title:
+  qemu-user child process hangs when forking due to glib allocation
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I and others have recently been using qemu-user for RISCV64 extensively. =
+We have had many hangs. We have found that hangs happen in process with mul=
+tiple threads and forking. For example
+  `cargo` (a tool for the Rust compiler).
+
+  It does not matter if there are a lot of calls to fork. What seems to
+  matter most is that there are many threads running. So this happens
+  more often on a CPU with a massive number of cores, and if nothing
+  else is really running. The hang happens in the child process of the
+  fork.
+
+  To reproduce the problem, I have attached an example of C++ program to
+  run through qemu-user.
+
+  Here are the stacks of the child processes that hanged. This is for
+  qemu c973f06521b07af0f82893b75a1d55562fffb4b5 with glib 2.66.4
+
+  -------
+  Thread 1:
+  #0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+  #1  0x00007f54e190c77c in g_mutex_lock_slowpath (mutex=3Dmutex@entry=3D0x=
+7f54e1dc7600 <allocator+96>) at ../glib/gthread-posix.c:1462
+  #2  0x00007f54e190d222 in g_mutex_lock (mutex=3Dmutex@entry=3D0x7f54e1dc7=
+600 <allocator+96>) at ../glib/gthread-posix.c:1486
+  #3  0x00007f54e18e39f2 in magazine_cache_pop_magazine (countp=3D0x7f54280=
+e6638, ix=3D2) at ../glib/gslice.c:769
+  #4  thread_memory_magazine1_reload (ix=3D2, tmem=3D0x7f54280e6600) at ../=
+glib/gslice.c:845
+  #5  g_slice_alloc (mem_size=3Dmem_size@entry=3D40) at ../glib/gslice.c:10=
+58
+  #6  0x00007f54e18f06fa in g_tree_node_new (value=3D0x7f54d4066540 <code_g=
+en_buffer+419091>, key=3D0x7f54d4066560 <code_gen_buffer+419123>) at ../gli=
+b/gtree.c:517
+  #7  g_tree_insert_internal (tree=3D0x555556aed800, key=3D0x7f54d4066560 <=
+code_gen_buffer+419123>, value=3D0x7f54d4066540 <code_gen_buffer+419091>, r=
+eplace=3D0) at ../glib/gtree.c:517
+  #8  0x00007f54e186b755 in tcg_tb_insert (tb=3D0x7f54d4066540 <code_gen_bu=
+ffer+419091>) at ../tcg/tcg.c:534
+  #9  0x00007f54e1820545 in tb_gen_code (cpu=3D0x7f54980b4b60, pc=3D2749064=
+07438, cs_base=3D0, flags=3D24832, cflags=3D-16252928) at ../accel/tcg/tran=
+slate-all.c:2118
+  #10 0x00007f54e18034a5 in tb_find (cpu=3D0x7f54980b4b60, last_tb=3D0x7f54=
+d4066440 <code_gen_buffer+418835>, tb_exit=3D0, cf_mask=3D524288) at ../acc=
+el/tcg/cpu-exec.c:462
+  #11 0x00007f54e1803bd9 in cpu_exec (cpu=3D0x7f54980b4b60) at ../accel/tcg=
+/cpu-exec.c:818
+  #12 0x00007f54e1735a4c in cpu_loop (env=3D0x7f54980bce40) at ../linux-use=
+r/riscv/cpu_loop.c:37
+  #13 0x00007f54e1844b22 in clone_func (arg=3D0x7f5402f3b080) at ../linux-u=
+ser/syscall.c:6422
+  #14 0x00007f54e191950a in start_thread (arg=3D<optimized out>) at pthread=
+_create.c:477
+  #15 0x00007f54e19a52a3 in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  Thread 2:
+  #1  0x00007f54e18a8d6e in qemu_futex_wait (f=3D0x7f54e1dc7038 <rcu_call_r=
+eady_event>, val=3D4294967295) at /var/home/valentin/repos/qemu/include/qem=
+u/futex.h:29
+  #2  0x00007f54e18a8f32 in qemu_event_wait (ev=3D0x7f54e1dc7038 <rcu_call_=
+ready_event>) at ../util/qemu-thread-posix.c:460
+  #3  0x00007f54e18c0196 in call_rcu_thread (opaque=3D0x0) at ../util/rcu.c=
+:258
+  #4  0x00007f54e18a90eb in qemu_thread_start (args=3D0x7f5428244930) at ..=
+/util/qemu-thread-posix.c:521
+  #5  0x00007f54e191950a in start_thread (arg=3D<optimized out>) at pthread=
+_create.c:477
+  #6  0x00007f54e19a52a3 in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+  -------
+
+  Thread 1 seems to be the really hanged process.
+
+  The problem is that glib is used in many places. Allocations are done
+  through g_slice. g_slice has a global state that is not fork safe.
+
+  So even though the cpu thread is set to exclusive before forking, it
+  is not enough. Because there are other uses of glib data structures
+  that are not part of the cpu loop (I think). So it seems not to be
+  synchronized by `start_exclusive`, `end_exclusive`.
+
+  So if one of the use of glib data structure is used during the fork,
+  an allocation might lock a mutex in g_slice.
+
+  When the cpu loop resumes in forked process, then the use of any glib
+  data structure might just hang on a locked mutex in g_slice.
+
+  So as a work-around we have starting using is setting environment
+  `G_SLICE=3Dalways-malloc`. This resolves the hangs.
+
+  I have opened an issue upstream:
+  https://gitlab.gnome.org/GNOME/glib/-/issues/2326
+
+  As fork documentation says, the child should be async-signal-safe.
+  However, glibc's malloc is safe in fork child even though it is not
+  async-signal-safe. So it is not that obvious where the responsability
+  is. Should glib handle this case like malloc does? Or should qemu not
+  use glib in the fork child?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915531/+subscriptions
 
