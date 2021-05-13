@@ -2,61 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B21D37FB59
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 18:18:41 +0200 (CEST)
-Received: from localhost ([::1]:35772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2B637FB53
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 18:15:58 +0200 (CEST)
+Received: from localhost ([::1]:59038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhE2q-0001Uh-BI
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 12:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37304)
+	id 1lhE0D-0006QD-Vk
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 12:15:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhDyG-0004y4-VT; Thu, 13 May 2021 12:13:58 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:58213)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhDyQ-00051h-CC
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 12:14:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhDyC-00031B-V2; Thu, 13 May 2021 12:13:56 -0400
-Received: from [192.168.100.1] ([82.142.31.78]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MTAW9-1m4Zzx1UfH-00UbFA; Thu, 13 May 2021 18:13:22 +0200
-Subject: Re: [PATCH] hw/pci-host: Do not build gpex-acpi.c if GPEX is not
- selected
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210425182124.3735214-1-f4bug@amsat.org>
- <29fc7f06-7043-598e-98fb-dae99273e5ea@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <c37b6438-0f04-0ab2-3e4e-c386256424af@vivier.eu>
-Date: Thu, 13 May 2021 18:13:20 +0200
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhDyK-00033m-9E
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 12:14:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620922438;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0tp77q5ysve0KVR1U27ldcaPxtkbPq76Nt1/HX8CJIE=;
+ b=e4wEvhmkH8hKzpXPIh2kfA9GksVA9wxX4WFcHs/U3crKEMFw9PLQ8zIHl3SS8FiyFl1ST8
+ Qto4X8ERp3p4/8OuAEnp9FdNaEt4uiGZlhcWgcaScPEm1aM0kB6pjey+NzPxhuWcoMd7kH
+ TIjAdIeUJj5SfZ3eMeYJtnCwOKEq0jY=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-110-tHLpxNBQN8yDnxP3QIdm1Q-1; Thu, 13 May 2021 12:13:56 -0400
+X-MC-Unique: tHLpxNBQN8yDnxP3QIdm1Q-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ gt39-20020a1709072da7b02903a8f7736a08so7440343ejc.1
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 09:13:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0tp77q5ysve0KVR1U27ldcaPxtkbPq76Nt1/HX8CJIE=;
+ b=g3ovs76Zh3lnO5/NqOIA1MgiuCVRfuSAgUnuwt5ZAjQVLG6Z4e1+tcyKF6l2o0WhO3
+ 4cDteUoFlkSLhKrezW+90bA7PirV/fXBu504iujsuQ7bBy5klCXiMvzCisXTDQAv/Vlc
+ 4JGFmGvVxGgSGJwbMQVvmzoQ3jcDGZQEuwbTB9aByCoWEfHkd3HmkmmNx6ZPW1ChQzEl
+ tXjn+Tl3mveCyOs0Ac5wIdz8vP/eV52su7jDA4ETaDYa2IA7fxVGvDCLy6tJrZUyou1A
+ iY5gC98LM+4otCovUQEYYXsH4LaQtvZLl9i7luS0/Qbk+AKxaDzw0f+4sDgOkFN2Gn3G
+ Ilsg==
+X-Gm-Message-State: AOAM532ZGPXdvlEsBgCorP7Q9OKYfuQ5AG42O82H/mdHr7G4MJZoi5bs
+ RPXb5WeoIP6fVknewtc3nCAMm8arcYwfcsjgGUnprz7/GUVKykKzw0094bXG1Dty2Owq38mIekg
+ lA0Cg+0TXENQ1BWY=
+X-Received: by 2002:a17:906:924a:: with SMTP id
+ c10mr5096000ejx.415.1620922435120; 
+ Thu, 13 May 2021 09:13:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwmHc5wP7ETs1/lxu6k9RoW9ntCzULeHWcuUNnOp6J9N10U/p7qOTGvE5vKn5eLFKQzIL4/jQ==
+X-Received: by 2002:a17:906:924a:: with SMTP id
+ c10mr5095969ejx.415.1620922434792; 
+ Thu, 13 May 2021 09:13:54 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id hz15sm2044803ejc.57.2021.05.13.09.13.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 May 2021 09:13:54 -0700 (PDT)
+Subject: Re: [PATCH] migration/rdma: Fix cm_event used before being initialized
+To: Li Zhijian <lizhijian@cn.fujitsu.com>, quintela@redhat.com,
+ dgilbert@redhat.com
+References: <20210513113750.22970-1-lizhijian@cn.fujitsu.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <56d58cef-1ef0-b68e-9ae3-673767a89074@redhat.com>
+Date: Thu, 13 May 2021 18:13:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <29fc7f06-7043-598e-98fb-dae99273e5ea@amsat.org>
+In-Reply-To: <20210513113750.22970-1-lizhijian@cn.fujitsu.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sVH3/sYr97DVT8AryU/Lgls9mWzY3xS9I3nKwVD5UGl/F/bIhqx
- 7uUHVG+HnTI10cYeaIfkl0cj2ii+bDsb4EVxU05T1iBiRSaPBcz4QF8NTjYUnbRXy3d/jOu
- s3FWxicaXajXBb7lwyIMBOt9g3RqUApt/lsDpYtcRhrmHvMwWHdJ86FdIxW0MaUshT5s/Yc
- P3Pd7KH4WW6cGnTKhWq1Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vblcubMTc30=:w9ug9H5GpNhdx01n59NIIC
- 4xO7/lvLK9H55ILrpt13nat+rL2NmZ5XnJCAyifUqpMpteAAMa+27pzsJxEa0IFw1OX3jqEqB
- xD2Tu4EH3qNTR/bdlIHo8t+omXUPwSVM5/cCX32OjIxzMyYfXET/okkVGuFj1y8my72rHGEG3
- Z/MKRpdVDhZA/o/n9/RGbkbH4+CTFFU30ru/0wMGzHcZJJ6IgFSHi419i/1KcG3Y0Lm4Fd48B
- Th1Drnz7wjIicbg+NGI8zbc6RePj9SaBX9rla4M5SJql7cG5wVobtHRj44Re3+oyr0Xyu0V3g
- k38NYfukOVc0/TfdZTXZZdX/J0I95i//JgNyM0cXjpguxK7FZKdZjhf5m/rVrz9JXQDDNnGg6
- tlPnNJN5m77RaLUOMyemB3Ee7G5XHu+ZK8bdYEu/1jH+2BY0xYO8LhrzegWoHsWLMzlPOSbKt
- iGC0zjJV2icE6F4I5kYmtct79Z69pnTdL5jFPp8dr1ay5YA+K01j6RXhCRFEI/eTq6oRyAs3B
- jKSrStX/D7XyjoN0S7Xmuw=
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,63 +101,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Xingang Wang <wangxingang5@huawei.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- Jiahui Cen <cenjiahui@huawei.com>, Yubo Miao <miaoyubo@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, Yuval Shaia <yuval.shaia.ml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/05/2021 à 05:36, Philippe Mathieu-Daudé a écrit :
-> Cc'ing qemu-trivial (patch reviewed).
-
-Applied to my trivial-patches branch.
-
-Thanks,
-Laurent
-
-> On 4/25/21 8:21 PM, Philippe Mathieu-Daudé wrote:
->> Since its introduction in commit 5b85eabe68f ("acpi: add
->> acpi_dsdt_add_gpex") we build gpex-acpi.c if ACPI is selected,
->> even if the GPEX_HOST device isn't build. Add the missing
->> Kconfig dependency.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> The gpex*.c files aren't covered by any MAINTAINERS section:
->>
->> $ ./scripts/get_maintainer.pl -f hw/pci-host/gpex.c -f hw/pci-host/gpex-acpi.c
->> get_maintainer.pl: No maintainers found, printing recent contributors.
->> get_maintainer.pl: Do not blindly cc: them on patches!  Use common sense.
->>
->> Markus Armbruster <armbru@redhat.com> (commit_signer:2/2=100%)
->> Paolo Bonzini <pbonzini@redhat.com> (commit_signer:2/2=100%)
->> Alistair Francis <alistair.francis@wdc.com> (commit_signer:1/2=50%)
->> "Philippe Mathieu-Daudé" <philmd@redhat.com> (commit_signer:1/2=50%)
->> "Michael S. Tsirkin" <mst@redhat.com> (commit_signer:14/8=100%)
->> Jiahui Cen <cenjiahui@huawei.com> (commit_signer:6/8=75%)
->> Igor Mammedov <imammedo@redhat.com> (commit_signer:4/8=50%)
->> Gerd Hoffmann <kraxel@redhat.com> (commit_signer:2/8=25%)
->> Yubo Miao <miaoyubo@huawei.com> (commit_signer:2/8=25%)
->> qemu-devel@nongnu.org (open list:All patches CC here)
->> ---
->>  hw/pci-host/meson.build | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
->> index 87a896973e7..d52dce77cbd 100644
->> --- a/hw/pci-host/meson.build
->> +++ b/hw/pci-host/meson.build
->> @@ -3,7 +3,7 @@
->>  pci_ss.add(when: 'CONFIG_PCI_BONITO', if_true: files('bonito.c'))
->>  pci_ss.add(when: 'CONFIG_PCI_EXPRESS_DESIGNWARE', if_true: files('designware.c'))
->>  pci_ss.add(when: 'CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', if_true: files('gpex.c'))
->> -pci_ss.add(when: 'CONFIG_ACPI', if_true: files('gpex-acpi.c'))
->> +pci_ss.add(when: ['CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', 'CONFIG_ACPI'], if_true: files('gpex-acpi.c'))
->>  pci_ss.add(when: 'CONFIG_PCI_EXPRESS_Q35', if_true: files('q35.c'))
->>  pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true: files('xilinx-pcie.c'))
->>  pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
->>
+On 5/13/21 1:37 PM, Li Zhijian wrote:
+> A segmentation fault was triggered when i try to abort a postcopy + rdma
+> migration.
 > 
+> since rdma_ack_cm_event releases a uninitialized cm_event in thise case.
+> 
+> like below:
+> 2496     ret = rdma_get_cm_event(rdma->channel, &cm_event);
+> 2497     if (ret) {
+> 2498         perror("rdma_get_cm_event after rdma_connect");
+> 2499         ERROR(errp, "connecting to destination!");
+> 2500         rdma_ack_cm_event(cm_event); <<<< cause segmentation fault
+> 2501         goto err_rdma_source_connect;
+> 2502     }
+> 
+> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+> ---
+>  migration/rdma.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index 00eac34232..2dadb62aed 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -2466,7 +2466,7 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp)
+>                                            .private_data = &cap,
+>                                            .private_data_len = sizeof(cap),
+>                                          };
+> -    struct rdma_cm_event *cm_event;
+> +    struct rdma_cm_event *cm_event = NULL;
+>      int ret;
+>  
+>      /*
+> 
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
