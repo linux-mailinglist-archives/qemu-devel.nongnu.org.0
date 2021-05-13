@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E972437F561
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:12:07 +0200 (CEST)
-Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2880237F57E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:19:33 +0200 (CEST)
+Received: from localhost ([::1]:36054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh8K6-000485-Ud
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:12:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53784)
+	id 1lh8RI-0006WL-6K
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:19:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh84x-0007jW-DS
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50873)
+ id 1lh84z-0007oy-2k
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh84u-000727-RK
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:27 -0400
+ id 1lh84x-00074w-51
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620899783;
+ s=mimecast20190719; t=1620899786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3vOIIAY/tYBejDOWUJDjTEHAYCHRHiTnLMfMZBBCbBo=;
- b=Gk209uhfNB84BAPk4BM2ir9mpu9dt6TeHxlVwC3V67d7uH2v4+TBBtZiTnB3wgP3r7KYlz
- dgrtGWNzwDjs2JojmPVkXgG1uWts8EWLAGuGf9w5b8fR7SSP4ljVaXxutr6T4E6PZNU3zQ
- +1VPfaDfBb5rP7KkOK+WS/6wO82XEaE=
+ bh=KkmTdF24x9Vmome0dmlgKfSNkVwvQZe2qc1PzwEHAVc=;
+ b=JvJUXyM24BIDckLHLKTMWXy9b19GNclawWrqbSbRyegCv8vWhbXvSqiNr7muYVV1R0cfxX
+ P8UQvsTaye6L1xaeChqasIMpgibZY5JVk1GG5JThusbA5J4cjsHXu8n5VfUw9q5CppxA7g
+ V0/R0hAfMEQoUPojgWMUoabiY8gbJlk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-GtXVKxm5Pm6UBlINLUoiVQ-1; Thu, 13 May 2021 05:56:21 -0400
-X-MC-Unique: GtXVKxm5Pm6UBlINLUoiVQ-1
+ us-mta-452-wsk0JqKcNregXKnyqpCAig-1; Thu, 13 May 2021 05:56:24 -0400
+X-MC-Unique: wsk0JqKcNregXKnyqpCAig-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A07B6800D55;
- Thu, 13 May 2021 09:56:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F721106BB31;
+ Thu, 13 May 2021 09:56:23 +0000 (UTC)
 Received: from localhost.redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43747100763C;
- Thu, 13 May 2021 09:56:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A63010016F4;
+ Thu, 13 May 2021 09:56:20 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/22] tests/docker: expand ubuntu1804 package list
-Date: Thu, 13 May 2021 10:55:10 +0100
-Message-Id: <20210513095519.1213675-14-berrange@redhat.com>
+Subject: [PATCH v3 14/22] tests/docker: expand ubuntu2004 package list
+Date: Thu, 13 May 2021 10:55:11 +0100
+Message-Id: <20210513095519.1213675-15-berrange@redhat.com>
 In-Reply-To: <20210513095519.1213675-1-berrange@redhat.com>
 References: <20210513095519.1213675-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -95,18 +95,18 @@ conceivably use in any scenario.
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/ubuntu1804.docker | 61 +++++++++++++++++++++-
- 1 file changed, 60 insertions(+), 1 deletion(-)
+ tests/docker/dockerfiles/ubuntu2004.docker | 50 +++++++++++++++++++++-
+ 1 file changed, 48 insertions(+), 2 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index f063cfe921..c2cd5a9e9a 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -1,52 +1,111 @@
- FROM docker.io/library/ubuntu:18.04
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index d655d020fb..8be4c40c9e 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,24 +1,43 @@
+ FROM docker.io/library/ubuntu:20.04
  ENV PACKAGES \
 +    bc \
-+    bsdmainutils \
+     bsdmainutils \
 +    bzip2 \
 +    ca-certificates \
      ccache \
@@ -118,11 +118,10 @@ index f063cfe921..c2cd5a9e9a 100644
 +    findutils \
 +    g++ \
      gcc \
-+    gcovr \
-+    genisoimage \
+     gcovr \
+     genisoimage \
      gettext \
      git \
-+    glusterfs-common \
 +    hostname \
      libaio-dev \
 +    libasan5 \
@@ -142,14 +141,12 @@ index f063cfe921..c2cd5a9e9a 100644
      libgbm-dev \
 +    libgcrypt20-dev \
 +    libglib2.0-dev \
++    libglusterfs-dev \
 +    libgnutls28-dev \
      libgtk-3-dev \
      libibverbs-dev \
      libiscsi-dev \
-     libjemalloc-dev \
-     libjpeg-turbo8-dev \
-+    liblttng-ust-dev \
-     liblzo2-dev \
+@@ -29,38 +48,65 @@ ENV PACKAGES \
      libncursesw5-dev \
      libnfs-dev \
      libnuma-dev \
@@ -164,6 +161,7 @@ index f063cfe921..c2cd5a9e9a 100644
      libsdl2-dev \
 +    libsdl2-image-dev \
      libseccomp-dev \
+     libslirp-dev \
      libsnappy-dev \
      libspice-protocol-dev \
      libspice-server-dev \
@@ -185,30 +183,31 @@ index f063cfe921..c2cd5a9e9a 100644
 +    locales \
      make \
 +    multipath-tools \
-+    netcat-openbsd \
+     ncat \
 +    nettle-dev \
      ninja-build \
 +    openssh-client \
 +    perl-base \
 +    pkgconf \
 +    python3 \
-+    python3-numpy \
-+    python3-opencv \
+     python3-numpy \
+     python3-opencv \
+-    python3-pil \
 +    python3-pillow \
-+    python3-pip \
+     python3-pip \
 +    python3-setuptools \
      python3-sphinx \
-+    python3-venv \
+     python3-venv \
 +    python3-wheel \
      python3-yaml \
-+    rpm2cpio \
+     rpm2cpio \
 +    sed \
      sparse \
--    xfslibs-dev
 +    systemtap-sdt-dev \
 +    tar \
-+    tesseract-ocr \
-+    tesseract-ocr-eng \
+     tesseract-ocr \
+     tesseract-ocr-eng \
+-    xfslibs-dev
 +    texinfo \
 +    xfslibs-dev \
 +    zlib1g-dev
