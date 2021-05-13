@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4323C37FCB7
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:45:08 +0200 (CEST)
-Received: from localhost ([::1]:42242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067FF37FCFD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:56:29 +0200 (CEST)
+Received: from localhost ([::1]:50406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhFOV-00051Z-41
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:45:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54886)
+	id 1lhFZU-0004sU-2a
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:56:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lhFHw-0006Hr-0b
- for qemu-devel@nongnu.org; Thu, 13 May 2021 13:38:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26088)
+ id 1lhFI6-0006uf-W3
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:38:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lhFHu-0001L3-6B
- for qemu-devel@nongnu.org; Thu, 13 May 2021 13:38:19 -0400
+ id 1lhFI5-0001S8-29
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:38:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620927497;
+ s=mimecast20190719; t=1620927508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kut2k8AQFD2uy14NKFAlyp3n85fRNitFkihyuY071Hg=;
- b=Q8d0frJBKy44NR9skj84YhhCLyq0zxDDVlIx6IqCDzNLZcDxfxETjCNjvcp8hP7lzGaKT0
- MW1AnWHtFQDXvEcnSFqoIKx7bP1juVq31/fvKEXvBjwSHJpHgZJg0PEupT/km97Q183+vx
- ijHXtHJy9Vmb3rHbdd2fwgHH1tVWHQg=
+ bh=YpMB6wYHrqrT0ERT4lCuvQP7hCGn90BBsR620tsPKzE=;
+ b=P9d06o4Nhimurey0khnLaVzmohLlSBmkjq6fO3/nW6WE759JR1rKeZS/v6xjjyz0dDS2Yo
+ mNFSqlLkKOg2RIg9XJbU/f3DxMkKgsTU2zHnHsuedu1nX+8/WeO0/o7UDhy2fkIYh8ZqZp
+ MvsbKuetDoaMYwfqJ24yko5Ynl8upGY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-QlD_ODQKNjiZCMrP0rPeeA-1; Thu, 13 May 2021 13:38:15 -0400
-X-MC-Unique: QlD_ODQKNjiZCMrP0rPeeA-1
+ us-mta-517-lKWawRotOvKnTbnLSlgZzg-1; Thu, 13 May 2021 13:38:26 -0400
+X-MC-Unique: lKWawRotOvKnTbnLSlgZzg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFB6780006E;
- Thu, 13 May 2021 17:38:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 569FC8015D0;
+ Thu, 13 May 2021 17:38:25 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-200.ams2.redhat.com
  [10.36.113.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 15EAC5D6AC;
- Thu, 13 May 2021 17:38:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 065C55D6AC;
+ Thu, 13 May 2021 17:38:14 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, zhukeqian1@huawei.com,
  jiangkunkun@huawei.com, armbru@redhat.com, peter.maydell@linaro.org,
  huangy81@chinatelecom.cn
-Subject: [PULL 10/17] migration/ram: Discard RAM when growing RAM blocks after
- ram_postcopy_incoming_init()
-Date: Thu, 13 May 2021 18:37:30 +0100
-Message-Id: <20210513173737.279402-11-dgilbert@redhat.com>
+Subject: [PULL 11/17] migration/ram: Simplify host page handling in
+ ram_load_postcopy()
+Date: Thu, 13 May 2021 18:37:31 +0100
+Message-Id: <20210513173737.279402-12-dgilbert@redhat.com>
 In-Reply-To: <20210513173737.279402-1-dgilbert@redhat.com>
 References: <20210513173737.279402-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -61,7 +61,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -88,80 +88,125 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-In case we grow our RAM after ram_postcopy_incoming_init() (e.g., when
-synchronizing the RAM block state with the migration source), the resized
-part would not get discarded. Let's perform that when being notified
-about a resize while postcopy has been advised, but is not listening
-yet. With precopy, the process is as following:
+Add two new helper functions. This will come in come handy once we want to
+handle ram block resizes while postcopy is active.
 
-1. VM created
-- RAM blocks are created
-2. Incomming migration started
-- Postcopy is advised
-- All pages in RAM blocks are discarded
-3. Precopy starts
-- RAM blocks are resized to match the size on the migration source.
-- RAM pages from precopy stream are loaded
-- Uffd handler is registered, postcopy starts listening
-4. Guest started, postcopy running
-- Pagefaults get resolved, pages get placed
+Note that ram_block_from_stream() will already print proper errors.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210429112708.12291-7-david@redhat.com>
+Message-Id: <20210429112708.12291-8-david@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  dgilbert: Added brackets in host_page_from_ram_block_offset
+     to cause uintptr_t to cast the sum, to fix armhf-cross build
 ---
- migration/ram.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ migration/ram.c | 55 ++++++++++++++++++++++++++++---------------------
+ 1 file changed, 32 insertions(+), 23 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 77922c445e..e1d081d334 100644
+index e1d081d334..26ed42b87d 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -4099,6 +4099,7 @@ static SaveVMHandlers savevm_ram_handlers = {
- static void ram_mig_ram_block_resized(RAMBlockNotifier *n, void *host,
-                                       size_t old_size, size_t new_size)
- {
-+    PostcopyState ps = postcopy_state_get();
-     ram_addr_t offset;
-     RAMBlock *rb = qemu_ram_block_from_host(host, false, &offset);
-     Error *err = NULL;
-@@ -4119,6 +4120,35 @@ static void ram_mig_ram_block_resized(RAMBlockNotifier *n, void *host,
-         error_free(err);
-         migration_cancel();
-     }
-+
-+    switch (ps) {
-+    case POSTCOPY_INCOMING_ADVISE:
-+        /*
-+         * Update what ram_postcopy_incoming_init()->init_range() does at the
-+         * time postcopy was advised. Syncing RAM blocks with the source will
-+         * result in RAM resizes.
-+         */
-+        if (old_size < new_size) {
-+            if (ram_discard_range(rb->idstr, old_size, new_size - old_size)) {
-+                error_report("RAM block '%s' discard of resized RAM failed",
-+                             rb->idstr);
-+            }
-+        }
-+        break;
-+    case POSTCOPY_INCOMING_NONE:
-+    case POSTCOPY_INCOMING_RUNNING:
-+    case POSTCOPY_INCOMING_END:
-+        /*
-+         * Once our guest is running, postcopy does no longer care about
-+         * resizes. When growing, the new memory was not available on the
-+         * source, no handler needed.
-+         */
-+        break;
-+    default:
-+        error_report("RAM block '%s' resized during postcopy state: %d",
-+                     rb->idstr, ps);
-+        exit(-1);
-+    }
+@@ -3085,6 +3085,20 @@ static inline void *host_from_ram_block_offset(RAMBlock *block,
+     return block->host + offset;
  }
  
- static RAMBlockNotifier ram_mig_ram_notifier = {
++static void *host_page_from_ram_block_offset(RAMBlock *block,
++                                             ram_addr_t offset)
++{
++    /* Note: Explicitly no check against offset_in_ramblock(). */
++    return (void *)QEMU_ALIGN_DOWN((uintptr_t)(block->host + offset),
++                                   block->page_size);
++}
++
++static ram_addr_t host_page_offset_from_ram_block_offset(RAMBlock *block,
++                                                         ram_addr_t offset)
++{
++    return ((uintptr_t)block->host + offset) & (block->page_size - 1);
++}
++
+ static inline void *colo_cache_from_block_offset(RAMBlock *block,
+                              ram_addr_t offset, bool record_bitmap)
+ {
+@@ -3481,13 +3495,12 @@ static int ram_load_postcopy(QEMUFile *f)
+     MigrationIncomingState *mis = migration_incoming_get_current();
+     /* Temporary page that is later 'placed' */
+     void *postcopy_host_page = mis->postcopy_tmp_page;
+-    void *this_host = NULL;
++    void *host_page = NULL;
+     bool all_zero = true;
+     int target_pages = 0;
+ 
+     while (!ret && !(flags & RAM_SAVE_FLAG_EOS)) {
+         ram_addr_t addr;
+-        void *host = NULL;
+         void *page_buffer = NULL;
+         void *place_source = NULL;
+         RAMBlock *block = NULL;
+@@ -3512,9 +3525,12 @@ static int ram_load_postcopy(QEMUFile *f)
+         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
+                      RAM_SAVE_FLAG_COMPRESS_PAGE)) {
+             block = ram_block_from_stream(f, flags);
++            if (!block) {
++                ret = -EINVAL;
++                break;
++            }
+ 
+-            host = host_from_ram_block_offset(block, addr);
+-            if (!host) {
++            if (!offset_in_ramblock(block, addr)) {
+                 error_report("Illegal RAM offset " RAM_ADDR_FMT, addr);
+                 ret = -EINVAL;
+                 break;
+@@ -3532,19 +3548,17 @@ static int ram_load_postcopy(QEMUFile *f)
+              * of a host page in one chunk.
+              */
+             page_buffer = postcopy_host_page +
+-                          ((uintptr_t)host & (block->page_size - 1));
++                          host_page_offset_from_ram_block_offset(block, addr);
++            /* If all TP are zero then we can optimise the place */
+             if (target_pages == 1) {
+-                this_host = (void *)QEMU_ALIGN_DOWN((uintptr_t)host,
+-                                                    block->page_size);
+-            } else {
++                host_page = host_page_from_ram_block_offset(block, addr);
++            } else if (host_page != host_page_from_ram_block_offset(block,
++                                                                    addr)) {
+                 /* not the 1st TP within the HP */
+-                if (QEMU_ALIGN_DOWN((uintptr_t)host, block->page_size) !=
+-                    (uintptr_t)this_host) {
+-                    error_report("Non-same host page %p/%p",
+-                                  host, this_host);
+-                    ret = -EINVAL;
+-                    break;
+-                }
++                error_report("Non-same host page %p/%p", host_page,
++                             host_page_from_ram_block_offset(block, addr));
++                ret = -EINVAL;
++                break;
+             }
+ 
+             /*
+@@ -3623,16 +3637,11 @@ static int ram_load_postcopy(QEMUFile *f)
+         }
+ 
+         if (!ret && place_needed) {
+-            /* This gets called at the last target page in the host page */
+-            void *place_dest = (void *)QEMU_ALIGN_DOWN((uintptr_t)host,
+-                                                       block->page_size);
+-
+             if (all_zero) {
+-                ret = postcopy_place_page_zero(mis, place_dest,
+-                                               block);
++                ret = postcopy_place_page_zero(mis, host_page, block);
+             } else {
+-                ret = postcopy_place_page(mis, place_dest,
+-                                          place_source, block);
++                ret = postcopy_place_page(mis, host_page, place_source,
++                                          block);
+             }
+             place_needed = false;
+             target_pages = 0;
 -- 
 2.31.1
 
