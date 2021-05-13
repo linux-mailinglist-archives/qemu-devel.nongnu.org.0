@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E4637FF78
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 22:51:38 +0200 (CEST)
-Received: from localhost ([::1]:57362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1131A37FF95
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 23:05:21 +0200 (CEST)
+Received: from localhost ([::1]:38036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhIJ0-0002Xl-08
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 16:51:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35034)
+	id 1lhIWF-0000ei-JL
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 17:05:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lhII3-00016p-Ae
- for qemu-devel@nongnu.org; Thu, 13 May 2021 16:50:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53454)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lhITY-0006bj-QX
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 17:02:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lhII1-00034h-OR
- for qemu-devel@nongnu.org; Thu, 13 May 2021 16:50:39 -0400
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lhITP-0002Q4-Hm
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 17:02:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620939037;
+ s=mimecast20190719; t=1620939741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xmt78oDGURZ3Re9g3myJDucSdvestEJlflxOZ66AXq4=;
- b=QeBbW6tVZl85xRcncnZTtT1YfAWEoMrdD88yK0dRT51fyPgdq4DO66zstZtMf+KYjV3Ex5
- lo060K1CiYstYx3MVXLCN5SBqCNTySOG/nKCZQRzoIMzDBjy1sliwu82yzqtbEkNuJZP7N
- xvxYpzdZ74wpHKH3Bw7Cp08Y7zVbsos=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-AjbbmN33PFKch7EfEbedMA-1; Thu, 13 May 2021 16:50:35 -0400
-X-MC-Unique: AjbbmN33PFKch7EfEbedMA-1
-Received: by mail-oo1-f69.google.com with SMTP id
- r194-20020a4a37cb0000b02901fef0451710so13529948oor.15
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 13:50:35 -0700 (PDT)
+ bh=3tZaij37AksZa6/oW2MLPgxkfY5ipUOiwYKj84XrO8s=;
+ b=AZAywzmgI14BpiV+d083u41EgzaVqbumT3oW3grGzVa/Ey8ejY45uF3iQz39ETAWVQ4f6r
+ XRXXC5I0s7zRh5xfpcYfuVyJhWsPvwfLpewAOGp8DX59upG98ODUucumE2cd6BLKglEjzT
+ hsEkedEJxIDok/VTLUqVAW/02aqSWaM=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-_9xnR8OTNAOKbKQJjOwDmg-1; Thu, 13 May 2021 17:02:20 -0400
+X-MC-Unique: _9xnR8OTNAOKbKQJjOwDmg-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ k13-20020ac8140d0000b02901bad0e39d8fso18773787qtj.6
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 14:02:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Xmt78oDGURZ3Re9g3myJDucSdvestEJlflxOZ66AXq4=;
- b=G+lOwb0m7mW09NP5LX79F5fNDO/dcMvcL9hNTvJyAoJz0eXwCyUwQoRuT5BdP2Bspk
- GgClfLZoEXTr/LCqOt8lASntehW2ZRcswkUFHUQuDYJyzVHrr7RU1pFRjeFXbCaQpL/k
- /dpjc/TJFZPTmg5XlBCtCWnUqUVtBbcgP/SjnzFf+Q6AYdA2gy8YRukQaxOEBMsboOAE
- cs9/r/ZfZx7ydlH6xip1HhiW3sLzk4BmZfgpBoCc18tedQMsQu7PJ/gJZsnaGuLnUpQH
- xP3IbES8/dCijbD7LmRR2qBhRwuDEKRyERCcwMBPmTlz4tO7w/YqjIjAI2YBW2vN1K5A
- EzeQ==
-X-Gm-Message-State: AOAM530dJI5LHBlh50vqAikMp5PubmMwXwhHE/xMEOLn44flur+IAVhC
- jnkrmr4NyJk7rtusVu3xeC/CYl2V7o5Iqia3ltA6Viqywr0/0EpayKlCrfeNvBg3ybwXgKf8b+V
- EJ1N+oJk+s9fmUzA=
-X-Received: by 2002:a9d:bd1:: with SMTP id 75mr36758432oth.140.1620939034766; 
- Thu, 13 May 2021 13:50:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzzry+eTzzCRKILoxsdoJsfmIuEG/RP2IfSWk0f5Qz+wopVXaW19CD/M3mS+qDFMd0kFwo+tw==
-X-Received: by 2002:a9d:bd1:: with SMTP id 75mr36758422oth.140.1620939034623; 
- Thu, 13 May 2021 13:50:34 -0700 (PDT)
-Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
- by smtp.gmail.com with ESMTPSA id
- w25sm917457otq.40.2021.05.13.13.50.33
+ bh=3tZaij37AksZa6/oW2MLPgxkfY5ipUOiwYKj84XrO8s=;
+ b=IqD71uYfPbR+6HeD6uufHy3RSCbRWo38LNOJDSJmMZ3l9uHOu1zLhqOlJOuB1hFMAH
+ guz4KXGfC7tkrTJeHTNJn53SWZWnOCD1Htn9/G9Hkeso8FsmerwEARvaRtqCg2hdC+IQ
+ r4Bj3bKu08OIrC8oFKRAWUpbkOYIdgmMewyPDPwGo2yUEriGNzV1UTeM0cVAdx/9V+oR
+ gsUucTf4WbAkKkv5QEdFVH8OEy6Tm+IjF827Re7iKNP4sv1PQnmKDI5S9VY2JcMSgrhd
+ xd3xKdhP4dql5C/1ynZPUa+p2sV/V3FHp7fs4RlDK7TtN10c3lJbHFQdClZe+a3E8fsp
+ Dbcw==
+X-Gm-Message-State: AOAM533v10lrx5uvStj/Ox2UgR4PtyIqS9TioMO1+jXiu2rWIZjDCj7K
+ KiVOunK93+SS4LT27mh8buWBpdeNKSBS/jwuwpREPajOvpN5F6dN9x+cpkZxapiXhe/Ehri3WQ6
+ DD+ExbUHQqae9SNM=
+X-Received: by 2002:ac8:7fc5:: with SMTP id b5mr39717313qtk.122.1620939739670; 
+ Thu, 13 May 2021 14:02:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyiEUJ1lwSDKmcHrxG/Qwn0XvtwuhX94BXfhksfmHusn6AyeNJ5WKPAlWBsbmsaddB6TyyXUg==
+X-Received: by 2002:ac8:7fc5:: with SMTP id b5mr39717296qtk.122.1620939739504; 
+ Thu, 13 May 2021 14:02:19 -0700 (PDT)
+Received: from [192.168.1.108] ([177.194.71.112])
+ by smtp.gmail.com with ESMTPSA id o135sm3313340qke.124.2021.05.13.14.02.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 May 2021 13:50:34 -0700 (PDT)
-Subject: Re: [Virtio-fs] [PATCH 0/7] virtiofsd: Few cleanups in
- virtio_send_data_iov()
-To: Vivek Goyal <vgoyal@redhat.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com
-References: <20210511213736.281016-1-vgoyal@redhat.com>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <34daab90-0e71-20c1-139d-ac0e084f8ed0@redhat.com>
-Date: Thu, 13 May 2021 15:50:33 -0500
+ Thu, 13 May 2021 14:02:19 -0700 (PDT)
+Subject: Re: [Qemu-devel] [PATCH] MAINTAINERS: convert to JSON
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20190401112945.25592-1-pbonzini@redhat.com>
+ <c75b2eb6-4127-61e3-20e0-b572de89668d@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Message-ID: <e49b9ef9-2d01-7a0d-38a1-2891c52a4279@redhat.com>
+Date: Thu, 13 May 2021 18:02:15 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210511213736.281016-1-vgoyal@redhat.com>
+In-Reply-To: <c75b2eb6-4127-61e3-20e0-b572de89668d@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -100,36 +101,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: John Snow <jsnow@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Matteo Croce <mcroce@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/21 4:37 PM, Vivek Goyal wrote:
-> Hi,
-> 
-> Code in virtio_send_data_iov() little twisted and complicated. This
-> patch series just tries to simplify it a bit to make it little easier
-> to read this piece of code.
-> 
-> Thanks
-> Vivek
-> 
-> Vivek Goyal (7):
->   virtiofsd: Check for EINTR in preadv() and retry
->   virtiofsd: Get rid of unreachable code in read
->   virtiofsd: Use iov_discard_front() to skip bytes
->   virtiofsd: get rid of in_sg_left variable
->   virtiofsd: Simplify skip byte logic
->   virtiofsd: Check EOF before short read
->   virtiofsd: Set req->reply_sent right after sending reply
-> 
->  tools/virtiofsd/fuse_virtio.c | 67 +++++++++++------------------------
->  1 file changed, 21 insertions(+), 46 deletions(-)
+FYI, I had to setup Thunderbird to reply to you because Gmail web 
+interface was crashing when I was trying to expand the e-mail to delete 
+the code. So, as Peter mentioned, a nice April fools' joke.
+
+
+On 5/13/21 3:32 PM, Philippe Mathieu-Daudé wrote:
+> Cc'ing John/Willian/Wainer
 > 
 
-With the codestyle fix to appease the bot:
+I think I understand why you brought this thread back now. Finding a way 
+to correlate maintainers and tags is, indeed, a nice feature that can 
+help with your idea about correlating tags and maintainers to use on tests.
 
-Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+The problem I see is that JSON is a good machine-readable file. It is a 
+pain to edit it manually. So, despite the April fools' joke, my 
+suggestion would be to create the JSON or any other machine-readable 
+file from the MAINTAINERS file using a script.
 
-(For the series)
+> On 4/1/19 1:29 PM, Paolo Bonzini wrote:
+>> JSON is already in wide use within QEMU for QMP and QAPI, enable
+>> wider usage of MAINTAINERS by applying a well-defined machine-readable
+>> format.
+>>
+>> Converting scripts/getmaintainers.pl is left for next year.
+
+Year-base contribution!
 
 
