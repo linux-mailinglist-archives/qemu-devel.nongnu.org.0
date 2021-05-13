@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D45037FD01
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:56:49 +0200 (CEST)
-Received: from localhost ([::1]:51172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E19C37FD03
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:57:49 +0200 (CEST)
+Received: from localhost ([::1]:53790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhFZo-0005S1-Gu
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:56:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57828)
+	id 1lhFam-0007GW-KV
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:57:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lhFXc-0002NS-9F
- for qemu-devel@nongnu.org; Thu, 13 May 2021 13:54:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50156)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lhFYs-0005Be-Cw
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:55:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lhFXZ-0001sK-Dd
- for qemu-devel@nongnu.org; Thu, 13 May 2021 13:54:32 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lhFYq-0002kW-SD
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:55:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620928468;
+ s=mimecast20190719; t=1620928548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2GL9N99r7ckNA/g/yNnDk9vr4wdNDCA7CqBydDZOaq0=;
- b=bzxs+Hv2lja8s3EUjrlYn7XCsVVizuao6lGVD/3OE28kUSulj2faX51jRosrMihdL7sF6q
- 5ZlcSTJnaTzRo4HvuKdTsO012nAobqt3YbkAOsHPJ147X3jjzWcDXOF20rL4LE9OygKqWU
- tHVN8s5JxfhfyHos3LRFqcqOXKRy2II=
+ bh=IatxSZNK5Qw+tqwyPNkzqxPcvdyy4k+0uytbQAjdcao=;
+ b=cmlMB+MWudltiMxokP7UinhFgFczaodhJ0o6hMo//CdCNTDWj3PAGm8vn8jgBtjyXjHu2q
+ GLpaP5I16DYF7cMVQoGmIF+wTQJjWticUQhkx8PaNbzEo5wPR9gjEV1eL/LpoByukUH2B1
+ wjWFvCaXJNSo5uQy57wJp54joH34F4s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-SO8PKDOrPAG1caUQGX8yyw-1; Thu, 13 May 2021 13:54:26 -0400
-X-MC-Unique: SO8PKDOrPAG1caUQGX8yyw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-405-xQysxJTgOlaqJV2SUHJI2Q-1; Thu, 13 May 2021 13:55:46 -0400
+X-MC-Unique: xQysxJTgOlaqJV2SUHJI2Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EBE081841D;
- Thu, 13 May 2021 17:54:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DED08107ACED;
+ Thu, 13 May 2021 17:55:44 +0000 (UTC)
 Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 447B64D730;
- Thu, 13 May 2021 17:54:23 +0000 (UTC)
-Subject: Re: [PATCH v3 01/15] python: qemu: add timer parameter for qmp.accept
- socket
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07AF0687C6;
+ Thu, 13 May 2021 17:55:39 +0000 (UTC)
+Subject: Re: [PATCH v3 02/15] python: qemu: pass the wrapper field from
+ QEMUQtestmachine to QEMUMachine
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 References: <20210414170352.29927-1-eesposit@redhat.com>
- <20210414170352.29927-2-eesposit@redhat.com>
+ <20210414170352.29927-3-eesposit@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <3a6bacd3-1d40-2fc5-9268-5f2d7fae4cf1@redhat.com>
-Date: Thu, 13 May 2021 13:54:22 -0400
+Message-ID: <9b387d12-d0e0-6477-5669-142a2f7c9d80@redhat.com>
+Date: Thu, 13 May 2021 13:55:39 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210414170352.29927-2-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210414170352.29927-3-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,45 +89,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/14/21 1:03 PM, Emanuele Giuseppe Esposito wrote:
-> Add a new _qmp_timer field to the QEMUMachine class.
-> The default timer is 15 sec, as per the default in the
-> qmp accept() function.
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Fine enough for now.
-
-What's the exact need for this change, exactly? Is it just to prevent 
-any unbounded blocking waits? I assume this came up in development or 
-you'd not have added it.
+Assuming it doesn't make the linter explode, which I didn't run:
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->   python/qemu/machine.py | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   python/qemu/qtest.py | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-> index 6e44bda337..12752142c9 100644
-> --- a/python/qemu/machine.py
-> +++ b/python/qemu/machine.py
-> @@ -110,6 +110,7 @@ def __init__(self,
->           self._binary = binary
->           self._args = list(args)
->           self._wrapper = wrapper
-> +        self._qmp_timer = 15.0
->   
->           self._name = name or "qemu-%d" % os.getpid()
->           self._test_dir = test_dir
-> @@ -323,7 +324,7 @@ def _pre_launch(self) -> None:
->   
->       def _post_launch(self) -> None:
->           if self._qmp_connection:
-> -            self._qmp.accept()
-> +            self._qmp.accept(self._qmp_timer)
->   
->       def _post_shutdown(self) -> None:
->           """
+> diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
+> index 39a0cf62fe..c18eae96c6 100644
+> --- a/python/qemu/qtest.py
+> +++ b/python/qemu/qtest.py
+> @@ -111,6 +111,7 @@ class QEMUQtestMachine(QEMUMachine):
+>       def __init__(self,
+>                    binary: str,
+>                    args: Sequence[str] = (),
+> +                 wrapper: Sequence[str] = (),
+>                    name: Optional[str] = None,
+>                    test_dir: str = "/var/tmp",
+>                    socket_scm_helper: Optional[str] = None,
+> @@ -119,7 +120,8 @@ def __init__(self,
+>               name = "qemu-%d" % os.getpid()
+>           if sock_dir is None:
+>               sock_dir = test_dir
+> -        super().__init__(binary, args, name=name, test_dir=test_dir,
+> +        super().__init__(binary, args, wrapper=wrapper, name=name,
+> +                         test_dir=test_dir,
+>                            socket_scm_helper=socket_scm_helper,
+>                            sock_dir=sock_dir)
+>           self._qtest: Optional[QEMUQtestProtocol] = None
 > 
 
 
