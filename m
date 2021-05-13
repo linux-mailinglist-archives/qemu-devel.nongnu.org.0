@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9EBC37F552
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:06:07 +0200 (CEST)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C661B37F55B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:10:12 +0200 (CEST)
+Received: from localhost ([::1]:45630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh8EI-0004U7-Vc
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:06:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53926)
+	id 1lh8IF-00023J-Qw
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh85J-0000NK-Oq
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59161)
+ id 1lh85V-00011n-HC
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:57:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh85H-0007GR-2b
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:49 -0400
+ id 1lh85S-0007N5-Qt
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:57:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620899806;
+ s=mimecast20190719; t=1620899818;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7aG7DDGtwLcif1sZ3ePiY0AamvOr0Bf7mO9zJZr+2dU=;
- b=ggHTq6kBHsLk33WjF6z7ClrImVIcTNkyn8HSND9eSNTR7OXDzvayE6HzVEW67AlJCnAjxN
- FT2N0J5UGNDoFpKkG262r2r2DLml0yKIJM/HCw2Lb/enucDtTVb9powvzINQcZ3jxJn1dw
- 2YreYu3QBT1hCE6Sm8989rqTwiis4O8=
+ bh=radszD5/aa5m3TmsomcQXZfNd0Y09tjmIaEIePKStDg=;
+ b=IJSqDbwf35b/reup2ggJyMwIQGi5X9uZszB37o0bmCQPg8NG7N3EBCFodXLIWKPd0tVsOo
+ 7waWteFzqw+N1kiptbvOreVyuhcG0eExaSKH4VhU4JonEKBs/XhVp4iQwXo9aUEYWgm0Yr
+ l8JK6vyjTjWQl0ygVHetMb8kbtv1Ywc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-537-4Zo58anqOBeBA3r-Zo-pBA-1; Thu, 13 May 2021 05:56:44 -0400
-X-MC-Unique: 4Zo58anqOBeBA3r-Zo-pBA-1
+ us-mta-375-IEF5HhDJPzCtGLb8RjWApg-1; Thu, 13 May 2021 05:56:56 -0400
+X-MC-Unique: IEF5HhDJPzCtGLb8RjWApg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 703791860C80;
- Thu, 13 May 2021 09:56:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7575D8015A8;
+ Thu, 13 May 2021 09:56:55 +0000 (UTC)
 Received: from localhost.redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2479E10023AF;
- Thu, 13 May 2021 09:56:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BED2010027A5;
+ Thu, 13 May 2021 09:56:43 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/22] tests/docker: auto-generate ubuntu1804 with lcitool
-Date: Thu, 13 May 2021 10:55:16 +0100
-Message-Id: <20210513095519.1213675-20-berrange@redhat.com>
+Subject: [PATCH v3 20/22] tests/docker: auto-generate ubuntu2004 with lcitool
+Date: Thu, 13 May 2021 10:55:17 +0100
+Message-Id: <20210513095519.1213675-21-berrange@redhat.com>
 In-Reply-To: <20210513095519.1213675-1-berrange@redhat.com>
 References: <20210513095519.1213675-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -95,37 +95,37 @@ Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
  tests/docker/dockerfiles-refresh.py        |   6 +
- tests/docker/dockerfiles/ubuntu1804.docker | 247 ++++++++++++---------
- 2 files changed, 143 insertions(+), 110 deletions(-)
+ tests/docker/dockerfiles/ubuntu2004.docker | 249 ++++++++++++---------
+ 2 files changed, 144 insertions(+), 111 deletions(-)
 
 diff --git a/tests/docker/dockerfiles-refresh.py b/tests/docker/dockerfiles-refresh.py
-index 8f6047f9b0..e39a6c1192 100755
+index e39a6c1192..df2dfc60e8 100755
 --- a/tests/docker/dockerfiles-refresh.py
 +++ b/tests/docker/dockerfiles-refresh.py
-@@ -53,5 +53,11 @@ def generate_image(filename, host, cross=None, trailer=None):
- try:
-    generate_image("centos8.docker", "centos-8")
-    generate_image("fedora.docker", "fedora-33")
+@@ -59,5 +59,11 @@ def generate_image(filename, host, cross=None, trailer=None):
+ 
+    generate_image("ubuntu1804.docker", "ubuntu-1804",
+                   trailer="".join(skipssh))
 +
-+   skipssh = ["# https://bugs.launchpad.net/qemu/+bug/1838763\n",
-+              "ENV QEMU_CONFIGURE_OPTS --disable-libssh\n"]
-+
-+   generate_image("ubuntu1804.docker", "ubuntu-1804",
-+                  trailer="".join(skipssh))
++   tsanhack = ["# Apply patch https://reviews.llvm.org/D75820\n",
++               "# This is required for TSan in clang-10 to compile with QEMU.\n",
++               "RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h\n"]
++   generate_image("ubuntu2004.docker", "ubuntu-2004",
++                  trailer="".join(tsanhack))
  except Exception as ex:
     print(str(ex), file=sys.stderr)
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index c2cd5a9e9a..533c7e5dc7 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -1,114 +1,141 @@
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 8be4c40c9e..c935da6916 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,116 +1,143 @@
 +# THIS FILE WAS AUTO-GENERATED
 +#
-+#  $ lcitool dockerfile ubuntu-1804 qemu
++#  $ lcitool dockerfile ubuntu-2004 qemu
 +#
 +# https://gitlab.com/libvirt/libvirt-ci/-/commit/1c5d87ecd2283614a8b0c31cead0b6d7883afd28
 +
- FROM docker.io/library/ubuntu:18.04
+ FROM docker.io/library/ubuntu:20.04
 -ENV PACKAGES \
 -    bc \
 -    bsdmainutils \
@@ -144,7 +144,6 @@ index c2cd5a9e9a..533c7e5dc7 100644
 -    genisoimage \
 -    gettext \
 -    git \
--    glusterfs-common \
 -    hostname \
 -    libaio-dev \
 -    libasan5 \
@@ -164,6 +163,7 @@ index c2cd5a9e9a..533c7e5dc7 100644
 -    libgbm-dev \
 -    libgcrypt20-dev \
 -    libglib2.0-dev \
+-    libglusterfs-dev \
 -    libgnutls28-dev \
 -    libgtk-3-dev \
 -    libibverbs-dev \
@@ -186,6 +186,7 @@ index c2cd5a9e9a..533c7e5dc7 100644
 -    libsdl2-dev \
 -    libsdl2-image-dev \
 -    libseccomp-dev \
+-    libslirp-dev \
 -    libsnappy-dev \
 -    libspice-protocol-dev \
 -    libspice-server-dev \
@@ -207,7 +208,7 @@ index c2cd5a9e9a..533c7e5dc7 100644
 -    locales \
 -    make \
 -    multipath-tools \
--    netcat-openbsd \
+-    ncat \
 -    nettle-dev \
 -    ninja-build \
 -    openssh-client \
@@ -259,7 +260,6 @@ index c2cd5a9e9a..533c7e5dc7 100644
 +            genisoimage \
 +            gettext \
 +            git \
-+            glusterfs-common \
 +            hostname \
 +            libaio-dev \
 +            libasan5 \
@@ -279,6 +279,7 @@ index c2cd5a9e9a..533c7e5dc7 100644
 +            libgbm-dev \
 +            libgcrypt20-dev \
 +            libglib2.0-dev \
++            libglusterfs-dev \
 +            libgnutls28-dev \
 +            libgtk-3-dev \
 +            libibverbs-dev \
@@ -301,6 +302,7 @@ index c2cd5a9e9a..533c7e5dc7 100644
 +            libsdl2-dev \
 +            libsdl2-image-dev \
 +            libseccomp-dev \
++            libslirp-dev \
 +            libsnappy-dev \
 +            libspice-protocol-dev \
 +            libspice-server-dev \
@@ -322,7 +324,7 @@ index c2cd5a9e9a..533c7e5dc7 100644
 +            locales \
 +            make \
 +            multipath-tools \
-+            netcat-openbsd \
++            ncat \
 +            nettle-dev \
 +            ninja-build \
 +            openssh-client \
@@ -368,8 +370,9 @@ index c2cd5a9e9a..533c7e5dc7 100644
 +ENV NINJA "/usr/bin/ninja"
 +ENV PYTHON "/usr/bin/python3"
 +ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
- # https://bugs.launchpad.net/qemu/+bug/1838763
- ENV QEMU_CONFIGURE_OPTS --disable-libssh
+ # Apply patch https://reviews.llvm.org/D75820
+ # This is required for TSan in clang-10 to compile with QEMU.
+ RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
 -- 
 2.31.1
 
