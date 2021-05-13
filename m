@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B4AF37FB23
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 17:59:48 +0200 (CEST)
-Received: from localhost ([::1]:55902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A28E37FB31
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 18:03:55 +0200 (CEST)
+Received: from localhost ([::1]:59496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhDkZ-0000cp-1i
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 11:59:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60740)
+	id 1lhDoY-00038a-7V
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 12:03:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhDik-0008C2-JE; Thu, 13 May 2021 11:57:54 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:57233)
+ id 1lhDjn-00014j-Gs; Thu, 13 May 2021 11:58:59 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:37563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhDii-0001s1-Tc; Thu, 13 May 2021 11:57:54 -0400
+ id 1lhDjl-0002fT-5C; Thu, 13 May 2021 11:58:59 -0400
 Received: from [192.168.100.1] ([82.142.31.78]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M6EOc-1lad4U3woi-006bFd; Thu, 13 May 2021 17:57:47 +0200
-Subject: Re: [PATCH trivial] qapi: spelling fix (addtional)
-To: Kevin Wolf <kwolf@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>
-References: <20210508093315.393274-1-mjt@msgid.tls.msk.ru>
- <YJkExu14294jutI/@merkur.fritz.box>
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MI5YH-1lkqUO3oIh-00F9uh; Thu, 13 May 2021 17:58:52 +0200
+Subject: Re: [PATCH trivial] hw/gpio/aspeed: spelling fix (addtional)
+To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
+References: <20210508093615.411920-1-mjt@msgid.tls.msk.ru>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <49aaabc9-463f-8bc6-53bc-b6fefb9a6d02@vivier.eu>
-Date: Thu, 13 May 2021 17:57:44 +0200
+Message-ID: <7d955825-c84f-297d-de69-33045177947e@vivier.eu>
+Date: Thu, 13 May 2021 17:58:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YJkExu14294jutI/@merkur.fritz.box>
+In-Reply-To: <20210508093615.411920-1-mjt@msgid.tls.msk.ru>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Nbl3ek/eb9k79joY8vm139AphSfbBYb7ogKSvCABMuFmg4P1yI4
- /6szKA13slJOfEngASIQ7ThVtF4c6Lc1UrRaNtk1/Qk5++sxr8Gg0PzD/t5S4fPH9Mh+ZNm
- BqMowznEeTeKYiWC17dA464PFD6J7MHv9g9C08g5eCm5ZEAm1qvtUemX3l6Vugk9nVsSpSm
- XEUNaIu4UoN3JQAzF+LXw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:J6ue0yUmio0=:Fmky8Rih6WL51pTW1YcNiA
- Sj59xi8JKvOpXQXFy3yf2/laXFv5fMRc2gKyDZNzKAucHGQmDH/iqTK9KpWsazlGP7WsPpCzQ
- ukSbGNwo/vyLx7X76Br7gxDK9N/ZmKge/UdS4aGPZrKPp/85jJSqRS0+XAnZka1br2eGPENvR
- NNOdv4uUAhL3qWkmohqRpauz3dqgUXrwkiJld4geMhXXsbcdxp/CnhhJppT7kp3Vmhtoe5655
- TBnylZbZvEV5SSIII1d7TPfucFb9r0oHX/oiO7V31lB1o0BU0BZGZM3cbSWm4vMId6YQf4e7+
- xK0ry4ouKfB/tQzS2NkN3QP5xg3NDWLXvm6NER+IUiu9hpSBTuvTTFZrDEY9uXzKbSLTeZdR3
- +jWHJ1nOsJZ2X7GKdYOHwja5slEQ5QCuQGIZJzKgDdMxWyFni7M0OyukG/kBDP+0iM6qPEgNA
- qaIIxjggQlXO91RP/+3XmiWjUU6ho1RZ/xbPnaLuPeqqMtJLg3AE8JOEDtMLVECt48MQ16hQt
- hIJk7N2cNZPk6/U82/PAWI=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:QCq2q3ORBC2DkYOkfL/1u4fK6AANADXlSOhfarozV2PajqI8oeT
+ 1K3K13LC/8I3pDit/UeWZLt/szqKe6PBJ8jQ/6ig7KAAsvrc+/gQ4Vk+VMz42CEKmGjsGdQ
+ pEnjyPBmP0UmGhMFna082RqwQVaYuj1wGEVLiSkgcRtgek8t4i19NUOTOYzCNGRqa0RRWuX
+ TMSfJux4b9qMW0BtMZdWw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TPFNopJMfuU=:xaxIe1wxxIhtghmpq7aweY
+ 7FGxEv/32mDnThx4RSJpIE6VrQSGs1kvTxXz7GnBiDr1oGWUBu/p5CamHG9Q/0jSTs2AT2e+E
+ YVfOycuQ/8Q/gIjzhMDRdNFRatpvcLBVHWMEwkiPwgxDqrxcyDkL6bQY/HPBRzPIIbg9r+yoS
+ DispInJAqBB0L70o8gDr5cL+mV1rDKOb4lfcOqhu6+pNtvWi4Ov9NDpUJor+m/Hw01VSKi0CM
+ UTtEx7XEQrpUCnU/OfIvBNSV/v2BSMJ5adfZZKLn1A6KuENxEschDGUjDbbTIpWLempmN1NLz
+ yZJzO3h3HCmje2IsXFdPMjo6HrnPruSqX2HVKvFRRsTuj0fPTx44Q9+vb9iKPgALjeqGG/yeB
+ itfn6qa2OH16y71ELLK9YML5+Z13lvdSWwlVcJdWIGMuJQBHgAbOBk7G6J/Nm/dPMW/gRrNLA
+ jEUVbilqMzIwIcra3wNVvEevojxNqUI8GJxp0GRVjNKt2MbqbdUlrl6fvxN32CVhBUvR/RVT/
+ o+0SbwYxSiIJq5Wk6Aiov8=
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,27 +66,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, rashmica.g@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 10/05/2021 à 12:02, Kevin Wolf a écrit :
-> Am 08.05.2021 um 11:33 hat Michael Tokarev geschrieben:
->> Fixes: 3d0d3c30ae3a259bff176f85a3efa2d0816695af
->> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+Le 08/05/2021 à 11:36, Michael Tokarev a écrit :
+> Fixes: 36d737ee82b2972167e97901c5271ba3f904ba71
+> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+> ---
+>  hw/gpio/aspeed_gpio.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-> 
-> I'm also applying this to my block branch because this is how the patch
-> that introduced it was merged, but if qemu-trivial merges first, this is
-> fine.
-> 
-> Kevin
-> 
+> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+> index 985a259e05..34d8acb0e3 100644
+> --- a/hw/gpio/aspeed_gpio.c
+> +++ b/hw/gpio/aspeed_gpio.c
+> @@ -170,7 +170,7 @@
+>  /* AST2600 only - 1.8V gpios */
+>  /*
+>   * The AST2600 has same 3.6V gpios as the AST2400 (memory offsets 0x0-0x198)
+> - * and addtional 1.8V gpios (memory offsets 0x800-0x9D4).
+> + * and additional 1.8V gpios (memory offsets 0x800-0x9D4).
+>   */
+>  #define GPIO_1_8V_REG_OFFSET          0x800
+>  #define GPIO_1_8V_ABCD_DATA_VALUE     ((0x800 - GPIO_1_8V_REG_OFFSET) >> 2)
 > 
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
