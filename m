@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E25E37FCC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:48:18 +0200 (CEST)
-Received: from localhost ([::1]:50986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048AB37FCB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:45:11 +0200 (CEST)
+Received: from localhost ([::1]:42446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhFRZ-0002Yl-4d
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:48:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54744)
+	id 1lhFOY-00059N-29
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:45:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lhFHY-0005F2-I0
- for qemu-devel@nongnu.org; Thu, 13 May 2021 13:37:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42525)
+ id 1lhFHZ-0005FA-0s
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:37:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lhFHV-00015x-MB
+ id 1lhFHX-00017S-8G
  for qemu-devel@nongnu.org; Thu, 13 May 2021 13:37:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620927473;
+ s=mimecast20190719; t=1620927474;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=itjEzLw2yCT5c7Y7df0J7BR6P6ss6ZSyBTaOr3G63VU=;
- b=Xmp7l6Fk57e2aQ1XKs6fgsHDvTiB/tGCHUdDxAHWPm5bhAG4kVapdnrWl8XaS6idMeQBXK
- krpfTsLA14XQlgcMstYNQ3AyfW/fpma9ewa/y/vJPmLm1UpMg6qL1xjLJ9DLbzs7vyM/Wg
- k2Fvx1a3CLV15fSVMMdmhTFxfTZYB3E=
+ bh=bvPzD05Q5eMGhLmbAKUJqAkee5+TTYcJwpga4//Zteg=;
+ b=ecrAI2wo1UIZLvTcqgKZ12szTt5r5+46PdUZUPqj8nD9fb64TgDv6O7I5W8lr8MGD6f1qc
+ W+0YcCW4RMOzaaXEPfpzSJB8FqsZ+HjDG+P9PQ8TSq6uJW5lTznUx7UJC01JnUwYpbhEnZ
+ 0Jw40O7W25Xks0NOkAzZj5J84LJf1kM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-1m5iYlA9NxO74X5NeXAK0g-1; Thu, 13 May 2021 13:37:50 -0400
-X-MC-Unique: 1m5iYlA9NxO74X5NeXAK0g-1
+ us-mta-218-UjTB9dJdM0igSCkNwnJ5bA-1; Thu, 13 May 2021 13:37:52 -0400
+X-MC-Unique: UjTB9dJdM0igSCkNwnJ5bA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D6C41927800;
- Thu, 13 May 2021 17:37:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FE581007B05;
+ Thu, 13 May 2021 17:37:51 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-200.ams2.redhat.com
  [10.36.113.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA2B35D6AC;
- Thu, 13 May 2021 17:37:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA49F5D6AC;
+ Thu, 13 May 2021 17:37:49 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, zhukeqian1@huawei.com,
  jiangkunkun@huawei.com, armbru@redhat.com, peter.maydell@linaro.org,
  huangy81@chinatelecom.cn
-Subject: [PULL 02/17] migration/ram: Reduce unnecessary rate limiting
-Date: Thu, 13 May 2021 18:37:22 +0100
-Message-Id: <20210513173737.279402-3-dgilbert@redhat.com>
+Subject: [PULL 03/17] migration/ram: Optimize ram_save_host_page()
+Date: Thu, 13 May 2021 18:37:23 +0100
+Message-Id: <20210513173737.279402-4-dgilbert@redhat.com>
 In-Reply-To: <20210513173737.279402-1-dgilbert@redhat.com>
 References: <20210513173737.279402-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -87,40 +87,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kunkun Jiang <jiangkunkun@huawei.com>
 
-When the host page is a huge page and something is sent in the
-current iteration, migration_rate_limit() should be executed.
-If not, it can be omitted.
+Starting from pss->page, ram_save_host_page() will check every page
+and send the dirty pages up to the end of the current host page or
+the boundary of used_length of the block. If the host page size is
+a huge page, the step "check" will take a lot of time.
+
+It will improve performance to use migration_bitmap_find_dirty().
+
+Tested on Kunpeng 920; VM parameters: 1U 4G (page size 1G)
+The time of ram_save_host_page() in the last round of ram saving:
+before optimize: 9250us		after optimize: 34us
 
 Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
 Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20210316125716.1243-2-jiangkunkun@huawei.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20210316125716.1243-3-jiangkunkun@huawei.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/ram.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ migration/ram.c | 39 +++++++++++++++++++--------------------
+ 1 file changed, 19 insertions(+), 20 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index bee2756cd3..00b579b981 100644
+index 00b579b981..bb52bd97db 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -2035,8 +2035,13 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+@@ -2013,6 +2013,8 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+     int tmppages, pages = 0;
+     size_t pagesize_bits =
+         qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
++    unsigned long hostpage_boundary =
++        QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);
+     unsigned long start_page = pss->page;
+     int res;
  
-         pages += tmppages;
-         pss->page++;
--        /* Allow rate limiting to happen in the middle of huge pages */
--        migration_rate_limit();
-+        /*
-+         * Allow rate limiting to happen in the middle of huge pages if
-+         * something is sent in the current iteration.
-+         */
-+        if (pagesize_bits > 1 && tmppages > 0) {
-+            migration_rate_limit();
-+        }
-     } while ((pss->page & (pagesize_bits - 1)) &&
+@@ -2023,30 +2025,27 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+ 
+     do {
+         /* Check the pages is dirty and if it is send it */
+-        if (!migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+-            pss->page++;
+-            continue;
+-        }
+-
+-        tmppages = ram_save_target_page(rs, pss, last_stage);
+-        if (tmppages < 0) {
+-            return tmppages;
+-        }
++        if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
++            tmppages = ram_save_target_page(rs, pss, last_stage);
++            if (tmppages < 0) {
++                return tmppages;
++            }
+ 
+-        pages += tmppages;
+-        pss->page++;
+-        /*
+-         * Allow rate limiting to happen in the middle of huge pages if
+-         * something is sent in the current iteration.
+-         */
+-        if (pagesize_bits > 1 && tmppages > 0) {
+-            migration_rate_limit();
++            pages += tmppages;
++            /*
++             * Allow rate limiting to happen in the middle of huge pages if
++             * something is sent in the current iteration.
++             */
++            if (pagesize_bits > 1 && tmppages > 0) {
++                migration_rate_limit();
++            }
+         }
+-    } while ((pss->page & (pagesize_bits - 1)) &&
++        pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
++    } while ((pss->page < hostpage_boundary) &&
               offset_in_ramblock(pss->block,
                                  ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
+-    /* The offset we leave with is the last one we looked at */
+-    pss->page--;
++    /* The offset we leave with is the min boundary of host page and block */
++    pss->page = MIN(pss->page, hostpage_boundary) - 1;
+ 
+     res = ram_save_release_protection(rs, pss, start_page);
+     return (res < 0 ? res : pages);
 -- 
 2.31.1
 
