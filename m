@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A25837F600
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:54:52 +0200 (CEST)
-Received: from localhost ([::1]:60644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E0D37F609
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:56:25 +0200 (CEST)
+Received: from localhost ([::1]:38734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh8zT-0003Yk-8W
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:54:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39378)
+	id 1lh90y-0007k6-L6
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lh8uh-0003YN-Ha
- for qemu-devel@nongnu.org; Thu, 13 May 2021 06:49:59 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:36556)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lh8v2-0004Md-KB
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 06:50:16 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lh8uf-0004AY-9K
- for qemu-devel@nongnu.org; Thu, 13 May 2021 06:49:55 -0400
-Received: by mail-ej1-x629.google.com with SMTP id c20so3849604ejm.3
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 03:49:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lh8uy-0004Jb-5l
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 06:50:16 -0400
+Received: by mail-wr1-x434.google.com with SMTP id q5so7003350wrs.4
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 03:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hSkMw/ImLL2Mr3IS+864xbBtJJEtKnuBqALEId8wJMQ=;
- b=A0ibHRgHQ+hxWN5RUxbreSK0L5QM1FUDDOOnYsbqvHmjNqF2Cvacv5qQaE5gtHcGg8
- VKy4dyncQOi8Ul2hEshaVYj8ulxIoPglwR2o8tW2h/uDUV/kiUzAyKra/h/agRSVo7Jo
- wSjENLz6r2gf+EqUNFyA2KuXN3OK1OUBj0xXsF979PvEdd5bGV11CZGTkC1u9mBnPprU
- mq8i/odN0H83Sssss0o/v8bmnp7sCmfj88gV7dTNfuUIYuuFCv7EWnfte99bb4cSYQh2
- 1HCnyoNnwWsMHi79Ny1p/wYRw+cE493IaoSVVKeGZtqJ++VMmz2mcMsfbHRGy3a+3jKt
- zkZw==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=BcoYery22UugYJT/pJG9N7fEipWl+dHOGCKsr7sVGqk=;
+ b=zdg6poNizq+OXa1juU8NQDgDWp7VShCRWVlmYmqiWy58Ndl2L6cislLWD9TUKPuYwD
+ WXP0DX12RR8Vvq5x5ZhnWfKNeQHZvhUm25arcwCZdtXOPV59+zP8jt1VZejabe13IF9d
+ Np8s26FsZqmwSPkMeESdGEGl8TRjsRg8xnME8d3yg3rvAMFE1n8m2xHATQZrSG0xuQtM
+ 4bZO7Rrz9SyV2eBQFjwmz6TIRlnzcthGGeC0LgTzPXKXRVqbAjOMh3OqswGfIHPWBvxk
+ eHYxMbsWsD9ezedJ0zUsmcHQA04YReTJI7aGiamyfZNCYdhDgJEk3OWYYKMheOJeXBKC
+ HHVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hSkMw/ImLL2Mr3IS+864xbBtJJEtKnuBqALEId8wJMQ=;
- b=GZmgHJ8WVnIowuyJ2D3jMCp1SPzMP18P/CQ0eGudT61nlrikmgbT3hgMBTOSX2p3i7
- pWrjBH0x+mepC+tvWoKhQ4gx5OAScfiTjpJLZ45ThR4VqHEWqeO+8N94DdIoB+AT3L1A
- H+PJ4T4KdZIwF4mMMXkUWUTwp/zKg+5IuXcVtVFIF3TCe3ed3koAK01XTiTrPfiFnXYR
- AK7Hq/RKKqf51W/nT4mUAwEZiwGpd55YtrdcYRxpj6KyoOFwxu+k0osacRQ8m5hcOmus
- nxUxtuXP8060yYPUmXCVBbpYysmkErUtA1LQCOvFYQPR/uvBZXq1T+Obzd/FgWA4JWWB
- aIhQ==
-X-Gm-Message-State: AOAM532FgglG1xtc5MoifSKDp45OESwCdacBd7MKXmmwy4vbVRIK0I0D
- 1bh9bRKizGkFs6Q2wOSAi8aPa8sFLPDXcI8ZnrJd7Q==
-X-Google-Smtp-Source: ABdhPJybGkLwuleChxpqY0iCA2JCDqVTR9Rw9hQnpoufWlLCJf4lV4t3kA4y/c9+eUGxAxNHVDVcTZkSwcucYnyfAHY=
-X-Received: by 2002:a17:906:980a:: with SMTP id
- lm10mr13506587ejb.482.1620902992008; 
- Thu, 13 May 2021 03:49:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-51-richard.henderson@linaro.org>
-In-Reply-To: <20210430202610.1136687-51-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 May 2021 11:49:40 +0100
-Message-ID: <CAFEAcA9XDSdSpD_5_WJN+0EQ1C3x-ZDFJ9HkU3hrgAuiWSwChQ@mail.gmail.com>
-Subject: Re: [PATCH v6 50/82] target/arm: Split out formats for 2 vectors + 1
- index
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=BcoYery22UugYJT/pJG9N7fEipWl+dHOGCKsr7sVGqk=;
+ b=if38lmj0KNF6KTuTzLx/6SbDYn4j74Rg/AP7mVRAZcn1PjwTMbrvu+JI7PH1B2xHtg
+ ud2H0qxy2pypFXeeidBdCoqTxF2ggURU7iWGxyVhiKeuOoq00d/+nfBTJfRfXgBP+BY5
+ 4uDcnjbqt3fgqwDo+t+ndxj46cS68A2EAzgGDpqIfRKUVgV9r9Cj9h0P6w+04wY6GksO
+ ylCL7Dcbv1ANgwHuGe1ZgZVPcfP1mv0nkuMK+FJ4+dAbWcy18ZBvLe6NhbmYnm1TZO/0
+ 2fZUwnqLvifPOAoNzirtFpNWdrGJ9QNcmxDl4Q1Sgns/uMHUEGdW0RKKrMKYGO/ympQe
+ RNyw==
+X-Gm-Message-State: AOAM531XpCiwXfrYPoWQSYXfQjhbjIfq7hCND03MQs0alT5DY/gcqEoO
+ YkrG2tpoMWjitpvbv/47Fv+HJA==
+X-Google-Smtp-Source: ABdhPJwuG81FkDT9SgUWefWwpSMaGr7j57Rl8wwLEcI8uzB6UXeTq+hdQxSvGGUIwi8u0Wo5nJS38Q==
+X-Received: by 2002:adf:f88a:: with SMTP id u10mr6600429wrp.205.1620903010701; 
+ Thu, 13 May 2021 03:50:10 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a76sm6685378wmd.16.2021.05.13.03.50.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 May 2021 03:50:10 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5F4331FF7E;
+ Thu, 13 May 2021 11:50:09 +0100 (BST)
+References: <20210508014802.892561-1-richard.henderson@linaro.org>
+ <20210508014802.892561-41-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Subject: Re: [PATCH 40/72] softfloat: Tidy mul128By64To192
+Date: Thu, 13 May 2021 11:50:05 +0100
+In-reply-to: <20210508014802.892561-41-richard.henderson@linaro.org>
+Message-ID: <877dk2ewm6.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,21 +87,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 22:10, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Currently only used by FMUL, but will shortly be used more.
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Clean up the formatting and variables; no functional change.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/sve.decode | 14 ++++++++++----
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
