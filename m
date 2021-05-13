@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA9337F73C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 13:57:56 +0200 (CEST)
-Received: from localhost ([::1]:50816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B68437F73B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 13:57:55 +0200 (CEST)
+Received: from localhost ([::1]:50790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh9yV-0005ji-DF
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 07:57:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53628)
+	id 1lh9yU-0005id-I5
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 07:57:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lh9x2-00032R-SC
- for qemu-devel@nongnu.org; Thu, 13 May 2021 07:56:25 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38900)
+ id 1lh9x4-00034a-4j
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 07:56:26 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lh9wz-0004D5-BK
- for qemu-devel@nongnu.org; Thu, 13 May 2021 07:56:24 -0400
+ id 1lh9x0-0004Dt-05
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 07:56:25 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lh9wv-0000zy-M3
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 11:56:17 +0000
+ id 1lh9wx-00011K-E0
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 11:56:19 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F1F7B2E8209
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 11:56:06 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D904D2E823F
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 11:56:11 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 May 2021 11:45:51 -0000
-From: Thomas Huth <1917940@bugs.launchpad.net>
+Date: Thu, 13 May 2021 11:47:02 -0000
+From: Thomas Huth <1916269@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: i386
+X-Launchpad-Bug-Tags: i386 tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jrtc27 th-huth
-X-Launchpad-Bug-Reporter: Jessica Clarke (jrtc27)
+X-Launchpad-Bug-Commenters: arichardson th-huth
+X-Launchpad-Bug-Reporter: Alexander Richardson (arichardson)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161497253793.31770.9218035606388599691.malonedeb@gac.canonical.com>
-Message-Id: <162090635115.827.8010239730919041182.malone@wampee.canonical.com>
-Subject: [Bug 1917940] Re: -bios edk2-$arch-code doesn't work for x86
+References: <161375459275.29060.15778429539023668893.malonedeb@soybean.canonical.com>
+Message-Id: <162090642223.16933.12841846987748781475.malone@soybean.canonical.com>
+Subject: [Bug 1916269] Re: TCG: QEMU incorrectly raises exception on SSE4.2
+ CRC32 instruction
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: 7001b1a46cd46f92da2cc4815c3218c93edd9e27
+X-Launchpad-Hash: 49ee5cdaf91411f5dbad4f08a9f3028bdaaffc29
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917940 <1917940@bugs.launchpad.net>
+Reply-To: Bug 1916269 <1916269@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -105,43 +106,50 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
+** Tags added: i386 tcg
+
 ** Changed in: qemu
        Status: New =3D> Incomplete
-
-** Tags added: i386
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917940
+https://bugs.launchpad.net/bugs/1916269
 
 Title:
-  -bios edk2-$arch-code doesn't work for x86
+  TCG: QEMU incorrectly raises exception on SSE4.2 CRC32 instruction
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Whilst creating a flash device is recommended, -bios <file> is
-  extremely useful in many cases as it automatically searches
-  $PREFIX/share/qemu rather than requiring the caller (be it a human or
-  a script) to work out where that directory is for the QEMU being
-  called and prepend it to the file name.
+  If I run FreeBSD on QEMU 5.2 with TCG acceleration -cpu Nehalem, I get
+  a FPU exception when executing crc32
+  (https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=3D253617). This is
+  not a problem with the default CPU (or KVM) since that does not
+  support SSE 4.2.
 
-  Currently, all the x86 EDK2 FD code files are 3653632 bytes in size,
-  or 0x37c000 bytes. However, for some reason I cannot find the answer
-  to (I traced the code back to
-  7587cf44019d593bb12703e7046bd7738996c55c), x86's -bios only allows
-  files that are multiples of 64K in size (x86_bios_rom_init), which
-  would require the EDK2 ROMs to be rounded up to 0x380000 bytes. If I
-  delete the check, QEMU is able to load the only-16K-multiple-sized
-  EDK2 and boot an OS just fine. If I pad EDK2 with 16K of zeroes at the
-  *start* (since the ROM gets mapped counting backwards), it also works
-  just fine (but padding at the *end* doesn't). Please therefore either
-  relax the check in x86_bios_rom_init or ensure the EDK2 binary is
-  suitably padded.
+  Attaching GDB shows this is triggered in
+  target/i386/tcg/translate.c:3067
+
+      /* simple MMX/SSE operation */
+      if (s->flags & HF_TS_MASK) {
+          gen_exception(s, EXCP07_PREX, pc_start - s->cs_base);
+          return;
+      }
+
+  However, according to
+  https://software.intel.com/sites/default/files/m/8/b/8/D9156103.pdf,
+  page 61 the CRC32 instruction works no matter what the value of the TS
+  bit.
+
+  The code sequence in question is:
+  0xffffffff8105a4de <+126>:	f2 48 0f 38 f1 de	crc32q %rsi,%rbx
+  0xffffffff8105a4e4 <+132>:	f2 48 0f 38 f1 ca	crc32q %rdx,%rcx.
+
+  This should work even with the FPU disabled.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917940/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1916269/+subscriptions
 
