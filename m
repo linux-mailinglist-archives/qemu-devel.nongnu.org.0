@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3FC437F7CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:23:46 +0200 (CEST)
-Received: from localhost ([::1]:35252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6CE37F7CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:23:48 +0200 (CEST)
+Received: from localhost ([::1]:35294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhANV-0000Us-KH
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:23:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59576)
+	id 1lhANX-0000Wb-9B
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhAK8-00061R-D3
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:20:16 -0400
-Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:39877)
+ id 1lhAK8-00061w-Ok
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:20:17 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:41739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhAK6-0001GP-0F
+ id 1lhAK6-0001GX-Dq
  for qemu-devel@nongnu.org; Thu, 13 May 2021 08:20:16 -0400
-Received: by mail-qt1-x82a.google.com with SMTP id f8so15384943qth.6
+Received: by mail-qt1-x82b.google.com with SMTP id t20so15258120qtx.8
  for <qemu-devel@nongnu.org>; Thu, 13 May 2021 05:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KdbIg3rlUjFYkOGX6SZXklYcLzrscr/66Cx3ugBj720=;
- b=PJ7Lz7Bd7b5BSpNPvo0QQJRA5+3vWxRdZtApO5sC3SZbjThpRGRgdcpN3wwPSChHtF
- hM7ZcUZETux1U9Ply8PcFjGxO5S6u8m9yew87G08AgvIdzGfQgwNXDVst8Bnkt5GsVvm
- hqknfF9xriH92KC2ZOzQu11DeWSskiELPUrt9qnGABN2+yPkfEANbZQNMMaO/KsfgWNk
- 8Bi8JH1hYmp9lnYHVpmm0UQgLa4jqmoPCpMSdL1i1y9aDW/ZMkT7yQxe9uDtNYNfI/cc
- Il1mj0Izcxo5pJHd9QyeEkE/lZMOtvXIYy9gdTlwg4tmYh0flF1jgKapZTaHq30JdWUH
- Et2Q==
+ bh=XBNO43ndtkHe3HspPtwZPAlVXKJsSD5gwavNah1YJ6o=;
+ b=odounVDkwM9Wwv/e7AgnKS82o6mwKSBFVzddxEYLB9dZ9q4KYU/ihykOsqxmUY1ITY
+ nzum+FoYtYmsQE+tlPp/McYAG/SeKyiYIgRWIxEx3hX8y7iuOCM9dQjANat34ZX/MUss
+ WCy0sp4RQI/k7ToMWi26lBhNfZbJvpLc/rYTVKmvQAMCSZzCV7KDP75zoQ8WB7jCtflW
+ X1DMLawJXPJO1FTUI/hP1HxDts58vgaS5mmMXC9TW1jnGoflfq/9rfOT28BheHiXu+Zm
+ GpUI4oVqI74qzxwwJQ0kvWfn7u8Exv+5iuXFNcN0BJ5GJD2Dr70vXY0vwqMPyE7kbbmh
+ RReg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KdbIg3rlUjFYkOGX6SZXklYcLzrscr/66Cx3ugBj720=;
- b=YVulL7Xs3Txtmt+0jx3YtO8bFojv31TiH3x7fiKaEAicRJXHda72F7rOvy1eELCBoN
- 7xd7MYgWyFMkxl0u56C8k1qQFFrIxHvhI2HDWmYDzmNRUB2ChTaImB3OZRnQ80976LXc
- wocfXmqNTYtL0hrW9r06LqzYPtMij60DyDkqO1TMou0/SGkM+ZbkqZEtO9AE/WlzkpL9
- CRgHuI2/QJVrDcChWbu2aFmgwI9cu+hl6DmkpkMENhl+R4iP/drpWWu1e+CETHh0Mo2x
- 0K/0a+fEoiU+3ZCMFOsVTlKjfDAT/8X9jzQVkveq17lK+al6lP+F0ihNCrz87KmWgaog
- rf1g==
-X-Gm-Message-State: AOAM533+a+OaZaEjQebJMHqTH3CByJP4wFWNIkVM8lrLQ7R8FZ416qiF
- GuO5VDG+BrJqmX9JOh1A5fCVC+jbWs6I8eBGDhw=
-X-Google-Smtp-Source: ABdhPJyQm18rSWB4WUzsATbhx4u7o0Em9yczzc0DY5tNN6GHbHkj5HQeQu7oQ7Di1P02JLqsHpB2Bw==
-X-Received: by 2002:ac8:1014:: with SMTP id z20mr37695654qti.65.1620908412208; 
- Thu, 13 May 2021 05:20:12 -0700 (PDT)
+ bh=XBNO43ndtkHe3HspPtwZPAlVXKJsSD5gwavNah1YJ6o=;
+ b=UrJbrwC1dr/XERRng016JCG6ui19fjO5MMXf1u14AvmOimZtnyn+Pggdq8k2cLUtgD
+ tUVSWFZHbjseCARHYepZyGObwXGBsYLu1zoTka0NjIpiIFL9s9r3VQTQIOC6vnmUaKQo
+ /o6i2ZCgDyddgqj3Bxypfrscx7I92KMY5llpl5OWCWr4TZdyAPeJXBLMBeX3zZDVeb87
+ p0Xj2gvVVkwaamOyJjn9Opi2zGzIp0HBnECip4cWLY4RCyCirsPnPvzFM3dz6NkCAwwC
+ 3dTfhDMmb6PkZz+IHdZvNRDgrKxrHmi51s3h98VtdcJPNLtcalENllwNiibrFyt/enXd
+ 7CyA==
+X-Gm-Message-State: AOAM533wstIS7YaqYPRWqSoUjT5ZJp8zloWaidQ+16WM0IRhtI0peTON
+ jTZZf7/EjABggx+pa32A8Jji7US5Cuu2hEBLr+4=
+X-Google-Smtp-Source: ABdhPJxZur472MJCmYxcBAzb8YvKPijFuU30reodLcDXaCXyFMlU+MdLBRVB+Tn17W0her05TburWg==
+X-Received: by 2002:a05:622a:138c:: with SMTP id
+ o12mr39155299qtk.190.1620908413319; 
+ Thu, 13 May 2021 05:20:13 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id b3sm847262qtg.55.2021.05.13.05.20.11
+ by smtp.gmail.com with ESMTPSA id b3sm847262qtg.55.2021.05.13.05.20.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 May 2021 05:20:12 -0700 (PDT)
+ Thu, 13 May 2021 05:20:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] exec/gen-icount.h: Add missing "exec/exec-all.h" include
-Date: Thu, 13 May 2021 07:20:06 -0500
-Message-Id: <20210513122008.207491-3-richard.henderson@linaro.org>
+Subject: [PULL 3/4] tcg: Use correct trap number for page faults on *BSD
+ systems
+Date: Thu, 13 May 2021 07:20:07 -0500
+Message-Id: <20210513122008.207491-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210513122008.207491-1-richard.henderson@linaro.org>
 References: <20210513122008.207491-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,47 +85,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, Mark Johnston <markj@FreeBSD.org>,
+ Warner Losh <imp@bsdimp.com>, Juergen Lock <nox@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Warner Losh <imp@bsdimp.com>
 
-When including "exec/gen-icount.h" we get:
+The trap number for a page fault on BSD systems is T_PAGEFLT not 0xe. 0xe is
+used by Linux and represents the intel hardware trap vector. The BSD kernels,
+however, translate this to T_PAGEFLT in their Xpage, Xtrap0e, Xtrap14, etc fault
+handlers. This is true for i386 and x86_64, though the name of the trap hanlder
+can very on the flavor of BSD. As far as I can tell, Linux doesn't provide a
+define for this value. Invent a new one (PAGE_FAULT_TRAP) and use it instead to
+avoid uglier ifdefs.
 
-  include/exec/gen-icount.h: In function ‘gen_tb_start’:
-  include/exec/gen-icount.h:40:9: error: implicit declaration of function ‘tb_cflags’ [-Werror=implicit-function-declaration]
-     40 |     if (tb_cflags(tb) & CF_USE_ICOUNT) {
-        |         ^~~~~~~~~
-  include/exec/gen-icount.h:40:9: error: nested extern declaration of ‘tb_cflags’ [-Werror=nested-externs]
-  include/exec/gen-icount.h:40:25: error: ‘CF_USE_ICOUNT’ undeclared (first use in this function); did you mean ‘CPU_COUNT’?
-     40 |     if (tb_cflags(tb) & CF_USE_ICOUNT) {
-        |                         ^~~~~~~~~~~~~
-        |                         CPU_COUNT
-
-Since tb_cflags() is declared in "exec/exec-all.h", include this
-header in "exec/gen-icount.h".
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210422064128.2318616-3-f4bug@amsat.org>
+Signed-off-by: Mark Johnston <markj@FreeBSD.org>
+Signed-off-by: Juergen Lock <nox@FreeBSD.org>
+[ Rework to avoid ifdefs and expand it to i386 ]
+Signed-off-by: Warner Losh <imp@bsdimp.com>
+Message-Id: <20210506173826.72832-1-imp@bsdimp.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/gen-icount.h | 1 +
- 1 file changed, 1 insertion(+)
+ accel/tcg/user-exec.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
-index 298e01eef4..467529d84c 100644
---- a/include/exec/gen-icount.h
-+++ b/include/exec/gen-icount.h
-@@ -1,6 +1,7 @@
- #ifndef GEN_ICOUNT_H
- #define GEN_ICOUNT_H
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index fb2d43e6a9..d2acf6e82c 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -259,6 +259,7 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+ #define TRAP_sig(context)    ((context)->uc_mcontext.__gregs[_REG_TRAPNO])
+ #define ERROR_sig(context)   ((context)->uc_mcontext.__gregs[_REG_ERR])
+ #define MASK_sig(context)    ((context)->uc_sigmask)
++#define PAGE_FAULT_TRAP      T_PAGEFLT
+ #elif defined(__FreeBSD__) || defined(__DragonFly__)
+ #include <ucontext.h>
  
-+#include "exec/exec-all.h"
- #include "qemu/timer.h"
+@@ -266,16 +267,19 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+ #define TRAP_sig(context)    ((context)->uc_mcontext.mc_trapno)
+ #define ERROR_sig(context)   ((context)->uc_mcontext.mc_err)
+ #define MASK_sig(context)    ((context)->uc_sigmask)
++#define PAGE_FAULT_TRAP      T_PAGEFLT
+ #elif defined(__OpenBSD__)
+ #define EIP_sig(context)     ((context)->sc_eip)
+ #define TRAP_sig(context)    ((context)->sc_trapno)
+ #define ERROR_sig(context)   ((context)->sc_err)
+ #define MASK_sig(context)    ((context)->sc_mask)
++#define PAGE_FAULT_TRAP      T_PAGEFLT
+ #else
+ #define EIP_sig(context)     ((context)->uc_mcontext.gregs[REG_EIP])
+ #define TRAP_sig(context)    ((context)->uc_mcontext.gregs[REG_TRAPNO])
+ #define ERROR_sig(context)   ((context)->uc_mcontext.gregs[REG_ERR])
+ #define MASK_sig(context)    ((context)->uc_sigmask)
++#define PAGE_FAULT_TRAP      0xe
+ #endif
  
- /* Helpers for instruction counting code generation.  */
+ int cpu_signal_handler(int host_signum, void *pinfo,
+@@ -301,7 +305,8 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+     pc = EIP_sig(uc);
+     trapno = TRAP_sig(uc);
+     return handle_cpu_signal(pc, info,
+-                             trapno == 0xe ? (ERROR_sig(uc) >> 1) & 1 : 0,
++                             trapno == PAGE_FAULT_TRAP ?
++                             (ERROR_sig(uc) >> 1) & 1 : 0,
+                              &MASK_sig(uc));
+ }
+ 
+@@ -312,11 +317,13 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+ #define TRAP_sig(context)     ((context)->uc_mcontext.__gregs[_REG_TRAPNO])
+ #define ERROR_sig(context)    ((context)->uc_mcontext.__gregs[_REG_ERR])
+ #define MASK_sig(context)     ((context)->uc_sigmask)
++#define PAGE_FAULT_TRAP       T_PAGEFLT
+ #elif defined(__OpenBSD__)
+ #define PC_sig(context)       ((context)->sc_rip)
+ #define TRAP_sig(context)     ((context)->sc_trapno)
+ #define ERROR_sig(context)    ((context)->sc_err)
+ #define MASK_sig(context)     ((context)->sc_mask)
++#define PAGE_FAULT_TRAP       T_PAGEFLT
+ #elif defined(__FreeBSD__) || defined(__DragonFly__)
+ #include <ucontext.h>
+ 
+@@ -324,11 +331,13 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+ #define TRAP_sig(context)     ((context)->uc_mcontext.mc_trapno)
+ #define ERROR_sig(context)    ((context)->uc_mcontext.mc_err)
+ #define MASK_sig(context)     ((context)->uc_sigmask)
++#define PAGE_FAULT_TRAP       T_PAGEFLT
+ #else
+ #define PC_sig(context)       ((context)->uc_mcontext.gregs[REG_RIP])
+ #define TRAP_sig(context)     ((context)->uc_mcontext.gregs[REG_TRAPNO])
+ #define ERROR_sig(context)    ((context)->uc_mcontext.gregs[REG_ERR])
+ #define MASK_sig(context)     ((context)->uc_sigmask)
++#define PAGE_FAULT_TRAP       0xe
+ #endif
+ 
+ int cpu_signal_handler(int host_signum, void *pinfo,
+@@ -346,7 +355,8 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+ 
+     pc = PC_sig(uc);
+     return handle_cpu_signal(pc, info,
+-                             TRAP_sig(uc) == 0xe ? (ERROR_sig(uc) >> 1) & 1 : 0,
++                             TRAP_sig(uc) == PAGE_FAULT_TRAP ?
++                             (ERROR_sig(uc) >> 1) & 1 : 0,
+                              &MASK_sig(uc));
+ }
+ 
 -- 
 2.25.1
 
