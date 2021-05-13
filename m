@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0FF337F23B
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 06:32:17 +0200 (CEST)
-Received: from localhost ([::1]:36366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F03137F247
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 06:34:27 +0200 (CEST)
+Received: from localhost ([::1]:44614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh31E-0003pM-MK
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 00:32:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43558)
+	id 1lh33K-00013y-83
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 00:34:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lh2sY-0007Hq-Fi; Thu, 13 May 2021 00:23:18 -0400
-Received: from ozlabs.org ([203.11.71.1]:40343)
+ id 1lh2sY-0007Hp-Do; Thu, 13 May 2021 00:23:18 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:37751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lh2sT-0004Z7-0a; Thu, 13 May 2021 00:23:15 -0400
+ id 1lh2sT-0004ZE-8K; Thu, 13 May 2021 00:23:15 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fgdms57Nmz9t1Q; Thu, 13 May 2021 14:22:53 +1000 (AEST)
+ id 4Fgdms4mhvz9t0J; Thu, 13 May 2021 14:22:53 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620879773;
- bh=sfb5ytSGsUYyu48iMV7SjuvtjbkxHytCwEcuvVSF91k=;
+ bh=N0SUHp0RaLEZ0Jrve8kF2eF6QV38MNS9r65aFKmvQBs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NMph4qjgInAV1Ffzh56NHzSCIHNwVWclUovobYWVZdN77tLz3GIX/wvBlWOXs0UKP
- deUh48CQFOVKrdpsPQ2xwBIX5LH3vv4vx3iVXTV/z4hhdP+ESbps6yItEHb83LBN8H
- p10OjdbSCKhDl9gFJKBQUTs9D4a3Md6j8fiB1ZvY=
-Date: Thu, 13 May 2021 14:03:17 +1000
+ b=mn1g2DeOpZXQ3Y8nJvwjiSdlmNaYuV3gZ35KeXxIQpOEOpu2N7JnkfhYMO5Aeb9Uz
+ MlcyqDQ2e8q5GiQgPWEME+q6mknI3T/TH1zkVJXqxXsTzTknlL38gjLITaByYVqZq+
+ V7p/yzVkvqKjW4aSfVFYXrWGeqL/bKCJY1vb1MO0=
+Date: Thu, 13 May 2021 14:03:48 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: matheus.ferst@eldorado.org.br
-Subject: Re: [PATCH v4 01/31] target/ppc: Add cia field to DisasContext
-Message-ID: <YJylBc/vVpfbKEyr@yekko>
+Subject: Re: [PATCH v4 02/31] target/ppc: Split out decode_legacy
+Message-ID: <YJylJHMKdbXbbfzE@yekko>
 References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
- <20210512185441.3619828-2-matheus.ferst@eldorado.org.br>
+ <20210512185441.3619828-3-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hLQQyeJA7wgDnfzT"
+ protocol="application/pgp-signature"; boundary="siuCQLZCqTzQh/R5"
 Content-Disposition: inline
-In-Reply-To: <20210512185441.3619828-2-matheus.ferst@eldorado.org.br>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210512185441.3619828-3-matheus.ferst@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,206 +65,175 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---hLQQyeJA7wgDnfzT
+--siuCQLZCqTzQh/R5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 12, 2021 at 03:54:11PM -0300, matheus.ferst@eldorado.org.br wro=
+On Wed, May 12, 2021 at 03:54:12PM -0300, matheus.ferst@eldorado.org.br wro=
 te:
 > From: Richard Henderson <richard.henderson@linaro.org>
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 > Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 > Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Applied to ppc-for-6.1, thanks.
+Applied to ppc-for-6.1.
 
 > ---
->  target/ppc/translate.c | 36 +++++++++++++++++++-----------------
->  1 file changed, 19 insertions(+), 17 deletions(-)
+>  target/ppc/translate.c | 115 +++++++++++++++++++++++------------------
+>  1 file changed, 64 insertions(+), 51 deletions(-)
 >=20
 > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 98850f0c30..9abe03222d 100644
+> index 9abe03222d..3ad4c7163d 100644
 > --- a/target/ppc/translate.c
 > +++ b/target/ppc/translate.c
-> @@ -154,6 +154,7 @@ void ppc_translate_init(void)
->  /* internal defines */
->  struct DisasContext {
->      DisasContextBase base;
-> +    target_ulong cia;  /* current instruction address */
->      uint32_t opcode;
->      uint32_t exception;
->      /* Routine used to access memory */
-> @@ -253,7 +254,7 @@ static void gen_exception_err(DisasContext *ctx, uint=
-32_t excp, uint32_t error)
->       * faulting instruction
->       */
->      if (ctx->exception =3D=3D POWERPC_EXCP_NONE) {
-> -        gen_update_nip(ctx, ctx->base.pc_next - 4);
-> +        gen_update_nip(ctx, ctx->cia);
->      }
->      t0 =3D tcg_const_i32(excp);
->      t1 =3D tcg_const_i32(error);
-> @@ -272,7 +273,7 @@ static void gen_exception(DisasContext *ctx, uint32_t=
- excp)
->       * faulting instruction
->       */
->      if (ctx->exception =3D=3D POWERPC_EXCP_NONE) {
-> -        gen_update_nip(ctx, ctx->base.pc_next - 4);
-> +        gen_update_nip(ctx, ctx->cia);
->      }
->      t0 =3D tcg_const_i32(excp);
->      gen_helper_raise_exception(cpu_env, t0);
-> @@ -4140,7 +4141,7 @@ static void gen_eieio(DisasContext *ctx)
->           */
->          if (!(ctx->insns_flags2 & PPC2_ISA300)) {
->              qemu_log_mask(LOG_GUEST_ERROR, "invalid eieio using bit 6 at=
- @"
-> -                          TARGET_FMT_lx "\n", ctx->base.pc_next - 4);
-> +                          TARGET_FMT_lx "\n", ctx->cia);
->          } else {
->              bar =3D TCG_MO_ST_LD;
->          }
-> @@ -4809,14 +4810,14 @@ static void gen_b(DisasContext *ctx)
->      li =3D LI(ctx->opcode);
->      li =3D (li ^ 0x02000000) - 0x02000000;
->      if (likely(AA(ctx->opcode) =3D=3D 0)) {
-> -        target =3D ctx->base.pc_next + li - 4;
-> +        target =3D ctx->cia + li;
->      } else {
->          target =3D li;
->      }
->      if (LK(ctx->opcode)) {
->          gen_setlr(ctx, ctx->base.pc_next);
->      }
-> -    gen_update_cfar(ctx, ctx->base.pc_next - 4);
-> +    gen_update_cfar(ctx, ctx->cia);
->      gen_goto_tb(ctx, 0, target);
+> @@ -9253,6 +9253,62 @@ void ppc_cpu_dump_statistics(CPUState *cs, int fla=
+gs)
+>  #endif
 >  }
 > =20
-> @@ -4915,11 +4916,11 @@ static void gen_bcond(DisasContext *ctx, int type)
->          }
->          tcg_temp_free_i32(temp);
->      }
-> -    gen_update_cfar(ctx, ctx->base.pc_next - 4);
-> +    gen_update_cfar(ctx, ctx->cia);
->      if (type =3D=3D BCOND_IM) {
->          target_ulong li =3D (target_long)((int16_t)(BD(ctx->opcode)));
->          if (likely(AA(ctx->opcode) =3D=3D 0)) {
-> -            gen_goto_tb(ctx, 0, ctx->base.pc_next + li - 4);
-> +            gen_goto_tb(ctx, 0, ctx->cia + li);
->          } else {
->              gen_goto_tb(ctx, 0, li);
->          }
-> @@ -5035,7 +5036,7 @@ static void gen_rfi(DisasContext *ctx)
->      if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
->          gen_io_start();
->      }
-> -    gen_update_cfar(ctx, ctx->base.pc_next - 4);
-> +    gen_update_cfar(ctx, ctx->cia);
->      gen_helper_rfi(cpu_env);
->      gen_sync_exception(ctx);
->  #endif
-> @@ -5052,7 +5053,7 @@ static void gen_rfid(DisasContext *ctx)
->      if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
->          gen_io_start();
->      }
-> -    gen_update_cfar(ctx, ctx->base.pc_next - 4);
-> +    gen_update_cfar(ctx, ctx->cia);
->      gen_helper_rfid(cpu_env);
->      gen_sync_exception(ctx);
->  #endif
-> @@ -5069,7 +5070,7 @@ static void gen_rfscv(DisasContext *ctx)
->      if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
->          gen_io_start();
->      }
-> -    gen_update_cfar(ctx, ctx->base.pc_next - 4);
-> +    gen_update_cfar(ctx, ctx->cia);
->      gen_helper_rfscv(cpu_env);
->      gen_sync_exception(ctx);
->  #endif
-> @@ -5112,7 +5113,7 @@ static void gen_scv(DisasContext *ctx)
+> +static bool decode_legacy(PowerPCCPU *cpu, DisasContext *ctx, uint32_t i=
+nsn)
+> +{
+> +    opc_handler_t **table, *handler;
+> +    uint32_t inval;
+> +
+> +    ctx->opcode =3D insn;
+> +
+> +    LOG_DISAS("translate opcode %08x (%02x %02x %02x %02x) (%s)\n",
+> +              insn, opc1(insn), opc2(insn), opc3(insn), opc4(insn),
+> +              ctx->le_mode ? "little" : "big");
+> +
+> +    table =3D cpu->opcodes;
+> +    handler =3D table[opc1(insn)];
+> +    if (is_indirect_opcode(handler)) {
+> +        table =3D ind_table(handler);
+> +        handler =3D table[opc2(insn)];
+> +        if (is_indirect_opcode(handler)) {
+> +            table =3D ind_table(handler);
+> +            handler =3D table[opc3(insn)];
+> +            if (is_indirect_opcode(handler)) {
+> +                table =3D ind_table(handler);
+> +                handler =3D table[opc4(insn)];
+> +            }
+> +        }
+> +    }
+> +
+> +    /* Is opcode *REALLY* valid ? */
+> +    if (unlikely(handler->handler =3D=3D &gen_invalid)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "invalid/unsupported opcode: "
+> +                      "%02x - %02x - %02x - %02x (%08x) "
+> +                      TARGET_FMT_lx "\n",
+> +                      opc1(insn), opc2(insn), opc3(insn), opc4(insn),
+> +                      insn, ctx->cia);
+> +        return false;
+> +    }
+> +
+> +    if (unlikely(handler->type & (PPC_SPE | PPC_SPE_SINGLE | PPC_SPE_DOU=
+BLE)
+> +                 && Rc(insn))) {
+> +        inval =3D handler->inval2;
+> +    } else {
+> +        inval =3D handler->inval1;
+> +    }
+> +
+> +    if (unlikely((insn & inval) !=3D 0)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "invalid bits: %08x for opcode: "
+> +                      "%02x - %02x - %02x - %02x (%08x) "
+> +                      TARGET_FMT_lx "\n", insn & inval,
+> +                      opc1(insn), opc2(insn), opc3(insn), opc4(insn),
+> +                      insn, ctx->cia);
+> +        return false;
+> +    }
+> +
+> +    handler->handler(ctx);
+> +    return true;
+> +}
+> +
+>  static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState=
+ *cs)
+>  {
+>      DisasContext *ctx =3D container_of(dcbase, DisasContext, base);
+> @@ -9334,66 +9390,23 @@ static void ppc_tr_translate_insn(DisasContextBas=
+e *dcbase, CPUState *cs)
+>      DisasContext *ctx =3D container_of(dcbase, DisasContext, base);
+>      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+>      CPUPPCState *env =3D cs->env_ptr;
+> -    opc_handler_t **table, *handler;
+> +    uint32_t insn;
+> +    bool ok;
 > =20
->      /* Set the PC back to the faulting instruction. */
->      if (ctx->exception =3D=3D POWERPC_EXCP_NONE) {
-> -        gen_update_nip(ctx, ctx->base.pc_next - 4);
-> +        gen_update_nip(ctx, ctx->cia);
->      }
->      gen_helper_scv(cpu_env, tcg_constant_i32(lev));
-> =20
-> @@ -5320,7 +5321,7 @@ static inline void gen_op_mfspr(DisasContext *ctx)
->              if (sprn !=3D SPR_PVR) {
->                  qemu_log_mask(LOG_GUEST_ERROR, "Trying to read privilege=
-d spr "
->                                "%d (0x%03x) at " TARGET_FMT_lx "\n", sprn=
-, sprn,
-> -                              ctx->base.pc_next - 4);
-> +                              ctx->cia);
->              }
->              gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
->          }
-> @@ -5334,7 +5335,7 @@ static inline void gen_op_mfspr(DisasContext *ctx)
->          /* Not defined */
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "Trying to read invalid spr %d (0x%03x) at "
-> -                      TARGET_FMT_lx "\n", sprn, sprn, ctx->base.pc_next =
-- 4);
-> +                      TARGET_FMT_lx "\n", sprn, sprn, ctx->cia);
-> =20
->          /*
->           * The behaviour depends on MSR:PR and SPR# bit 0x10, it can
-> @@ -5498,7 +5499,7 @@ static void gen_mtspr(DisasContext *ctx)
->              /* Privilege exception */
->              qemu_log_mask(LOG_GUEST_ERROR, "Trying to write privileged s=
-pr "
->                            "%d (0x%03x) at " TARGET_FMT_lx "\n", sprn, sp=
-rn,
-> -                          ctx->base.pc_next - 4);
-> +                          ctx->cia);
->              gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
->          }
->      } else {
-> @@ -5512,7 +5513,7 @@ static void gen_mtspr(DisasContext *ctx)
->          /* Not defined */
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "Trying to write invalid spr %d (0x%03x) at "
-> -                      TARGET_FMT_lx "\n", sprn, sprn, ctx->base.pc_next =
-- 4);
-> +                      TARGET_FMT_lx "\n", sprn, sprn, ctx->cia);
-> =20
-> =20
->          /*
-> @@ -9339,6 +9340,7 @@ static void ppc_tr_translate_insn(DisasContextBase =
-*dcbase, CPUState *cs)
+>      LOG_DISAS("----------------\n");
 >      LOG_DISAS("nip=3D" TARGET_FMT_lx " super=3D%d ir=3D%d\n",
 >                ctx->base.pc_next, ctx->mem_idx, (int)msr_ir);
 > =20
-> +    ctx->cia =3D ctx->base.pc_next;
->      ctx->opcode =3D translator_ldl_swap(env, ctx->base.pc_next,
->                                        need_byteswap(ctx));
+>      ctx->cia =3D ctx->base.pc_next;
+> -    ctx->opcode =3D translator_ldl_swap(env, ctx->base.pc_next,
+> -                                      need_byteswap(ctx));
+> -
+> -    LOG_DISAS("translate opcode %08x (%02x %02x %02x %02x) (%s)\n",
+> -              ctx->opcode, opc1(ctx->opcode), opc2(ctx->opcode),
+> -              opc3(ctx->opcode), opc4(ctx->opcode),
+> -              ctx->le_mode ? "little" : "big");
+> +    insn =3D translator_ldl_swap(env, ctx->base.pc_next, need_byteswap(c=
+tx));
+>      ctx->base.pc_next +=3D 4;
+> -    table =3D cpu->opcodes;
+> -    handler =3D table[opc1(ctx->opcode)];
+> -    if (is_indirect_opcode(handler)) {
+> -        table =3D ind_table(handler);
+> -        handler =3D table[opc2(ctx->opcode)];
+> -        if (is_indirect_opcode(handler)) {
+> -            table =3D ind_table(handler);
+> -            handler =3D table[opc3(ctx->opcode)];
+> -            if (is_indirect_opcode(handler)) {
+> -                table =3D ind_table(handler);
+> -                handler =3D table[opc4(ctx->opcode)];
+> -            }
+> -        }
+> -    }
+> -    /* Is opcode *REALLY* valid ? */
+> -    if (unlikely(handler->handler =3D=3D &gen_invalid)) {
+> -        qemu_log_mask(LOG_GUEST_ERROR, "invalid/unsupported opcode: "
+> -                      "%02x - %02x - %02x - %02x (%08x) "
+> -                      TARGET_FMT_lx " %d\n",
+> -                      opc1(ctx->opcode), opc2(ctx->opcode),
+> -                      opc3(ctx->opcode), opc4(ctx->opcode),
+> -                      ctx->opcode, ctx->cia, (int)msr_ir);
+> -    } else {
+> -        uint32_t inval;
 > =20
-> @@ -9368,7 +9370,7 @@ static void ppc_tr_translate_insn(DisasContextBase =
-*dcbase, CPUState *cs)
->                        TARGET_FMT_lx " %d\n",
->                        opc1(ctx->opcode), opc2(ctx->opcode),
->                        opc3(ctx->opcode), opc4(ctx->opcode),
-> -                      ctx->opcode, ctx->base.pc_next - 4, (int)msr_ir);
-> +                      ctx->opcode, ctx->cia, (int)msr_ir);
->      } else {
->          uint32_t inval;
-> =20
-> @@ -9385,7 +9387,7 @@ static void ppc_tr_translate_insn(DisasContextBase =
-*dcbase, CPUState *cs)
->                            TARGET_FMT_lx "\n", ctx->opcode & inval,
->                            opc1(ctx->opcode), opc2(ctx->opcode),
->                            opc3(ctx->opcode), opc4(ctx->opcode),
-> -                          ctx->opcode, ctx->base.pc_next - 4);
-> +                          ctx->opcode, ctx->cia);
->              gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
->              ctx->base.is_jmp =3D DISAS_NORETURN;
->              return;
+> -        if (unlikely(handler->type & (PPC_SPE | PPC_SPE_SINGLE | PPC_SPE=
+_DOUBLE)
+> -                     && Rc(ctx->opcode))) {
+> -            inval =3D handler->inval2;
+> -        } else {
+> -            inval =3D handler->inval1;
+> -        }
+> -
+> -        if (unlikely((ctx->opcode & inval) !=3D 0)) {
+> -            qemu_log_mask(LOG_GUEST_ERROR, "invalid bits: %08x for opcod=
+e: "
+> -                          "%02x - %02x - %02x - %02x (%08x) "
+> -                          TARGET_FMT_lx "\n", ctx->opcode & inval,
+> -                          opc1(ctx->opcode), opc2(ctx->opcode),
+> -                          opc3(ctx->opcode), opc4(ctx->opcode),
+> -                          ctx->opcode, ctx->cia);
+> -            gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
+> -            ctx->base.is_jmp =3D DISAS_NORETURN;
+> -            return;
+> -        }
+> +    ok =3D decode_legacy(cpu, ctx, insn);
+> +    if (!ok) {
+> +        gen_invalid(ctx);
+> +        ctx->base.is_jmp =3D DISAS_NORETURN;
+>      }
+> -    (*(handler->handler))(ctx);
+> +
+>  #if defined(DO_PPC_STATISTICS)
+>      handler->count++;
+>  #endif
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -272,25 +241,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---hLQQyeJA7wgDnfzT
+--siuCQLZCqTzQh/R5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCcpQUACgkQbDjKyiDZ
-s5JJ8g//dBZe01ZCrRfJSlNfdGvgVM8zK9/gaAasXbXS/usgs5TUWRZNPEnFcxZR
-sFpvnGsERqIoGQVHlu18QMWrUu7Kmll33tnPDQCZakwdJLsFa8X6vNAYaSOyhuCq
-K6/sok4Iyq+qPwk3W1LecO2eL/ovdQQuNw2HqKK7pNThds7RTkhc3ZOJeir2EjVR
-ZNU6SOJTbdyx33CO932wlJsh1kISprJItQYUb9BUWx/UxtAvrPpqrOevL4NkNE+O
-cVXMVFOE2B8VLZeTJSvNpyIqiznqffSKy/AWAqUvGiq3OX8Q4SmHRs+VM27S4Trz
-fCxI2dn4aASXI26818JhQZfAZBE9h+LAHHsTSwEpTpMdI8JOsQD8orHqYn2TBrMz
-LbA2Ml0mpXkOTIwRjRiBB2iIDNmhVGU4ODT6Dn7Ny/kVVNF6WMOgZM+w33hzAou6
-u1t66BfW63C0qqOvuBkdvDeqI7sBLj+zPcms2PYYBisHUHnS5M5DYLMnwMhTuv/S
-uSEAGqx26tnA0yECE4/oNWKE06h6TtFrLe1DactYzre++T/Si0ml/dt82zuU9atA
-U7aPOOGu1gKiSKxdKulL2ySg1D5wx/ILrY6BcsjTWFDzsPeXeyFlqKq4eFV2b8eW
-tJA2AvJ+1o2WGVSaXWYDZS7mXbV1seMP7yWV1C3Ao6XC+B2Kg1M=
-=aQSG
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCcpSQACgkQbDjKyiDZ
+s5K8+A//eHpwNyyWPa2z1cimnNLgFVYa4DYIQndMeAhDd0hQbTEvctH2od/+kvZ8
+02a/R6bE39Q82cgcVwrWmRurjRc1TR4d6iUkP1jU6AOflCyLYtPD2MjDslE0vssR
+HmC9kK/FLMVhpwaYp7yfiEIomFp7L+/jQ7xXrdhiFnjkwPI9IJQIJ1FqeDgd4UKL
+U5wFs/UgGwfd6jwM0dzBrfj7vk/o0gCtrW+46FQaLGwHdCzDvrZ5pOr84vNouLvO
+3XzxeTqiJEVh2XyVZLLqkR+80k1a4qUJGPghcH094hHmiZbha3JxC7fstAqPggej
+0tAzXh6qBJ0DoO05O+LqTNmcklX8BMitOnkJ5bYSSgdY4jgpok5AZ8pHjwuPicSH
+XQ2lHvEJ076keQLzv7rDuIMOfsQaY/fy1LShjyKwMUNoynaX/E1OB5OK51tfxACW
+2M7MKJQeKtPpDWGcduin+S0dpPaIEVFDJOO4eTA24yv5ipqzKTsZuoPE6IKTyvhH
+2tiRaOGMn87InJLPJC1JGx9H+473rYc1Y8HNcM0TNeGf5hH47nh+YiSTSBNLhaE8
+DpOnZzM0L6uYqNI9MriZAAhSEaDtqRytqI+eAxzoWrRYJIysSyG+QqTY+WqUyEIZ
+fhWHXAhBUZ5i4oOKgJAy6iJdFSoQMWZzYNuMI6ZTm8412ZHWJFM=
+=gu9q
 -----END PGP SIGNATURE-----
 
---hLQQyeJA7wgDnfzT--
+--siuCQLZCqTzQh/R5--
 
