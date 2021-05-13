@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8922A37FB5C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 18:19:06 +0200 (CEST)
-Received: from localhost ([::1]:37092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1A337FB63
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 18:21:48 +0200 (CEST)
+Received: from localhost ([::1]:42132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhE3F-0002N7-LO
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 12:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38110)
+	id 1lhE5r-0005ma-63
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 12:21:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhE0m-0008Kf-Cm; Thu, 13 May 2021 12:16:32 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:59239)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhE0j-0004I5-AG; Thu, 13 May 2021 12:16:32 -0400
-Received: from [192.168.100.1] ([82.142.31.78]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mlejs-1lHYAt19pi-00ihB6; Thu, 13 May 2021 18:16:17 +0200
-Subject: Re: [PATCH] multi-process: Avoid logical AND of mutually exclusive
- tests
-To: Thomas Huth <thuth@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>, 
- qemu-devel@nongnu.org
-References: <1620402803-9237-1-git-send-email-jag.raman@oracle.com>
- <5798d062-ee75-1a71-4ba7-3801ed61beb6@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <cb034443-de79-3f9d-96ba-6fffb6f877e9@vivier.eu>
-Date: Thu, 13 May 2021 18:16:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lhE3H-0003tC-D2
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 12:19:07 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:45869)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lhE3E-0005Yc-Ft
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 12:19:07 -0400
+Received: by mail-ej1-x629.google.com with SMTP id c22so12552029ejd.12
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 09:19:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=pVH5hCif0vbSUOTjS1VO0oEYmFc8PTLBa8bjR2qPpj8=;
+ b=BYZlU0cid5C+77Z9BhOl3aA9ZqmymO3/ZZGYQEVuF2TWCtlTct6Swl4BxPWpFKCevU
+ orlPhAExT4ybr+J/0xrMKHHBiiMEnzeuq+6U8ZwWDAPpP0enw2cqVU6nt46xVJlb+s7R
+ zbhkChA84Beb31CnOW429P1QC6UIkSgbMS9AXNXIRrWCYdpiqym5aLN5fM7fBsxe0wkB
+ aciVmOBUy/DpxUoW3c+MJU1Jk3THRw6S1hCwSuWmLICmkdX/kKX5T+kAy6MSdHxrC3VU
+ W1ieV/3goFXISboHcgIbERJchp3a5qxElRVG4o6gEYgApmxrSPXZzLhQdfoJ6lnXR/+u
+ +SPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pVH5hCif0vbSUOTjS1VO0oEYmFc8PTLBa8bjR2qPpj8=;
+ b=TATGrQQyuwwOikLPebnKeeAnXQUJGZ26Iga17YmOymnLCS2LQC/hxiei95G96PvvMD
+ 6GrSvVDNTjwDZNmk/ddlH1geEho0oaVDZuMK5UgbuMHQkUP2Ur4Yn7W8xGpafT1a1ZsT
+ T1ILx5bSPDstkcNnddfA82v8asUeT1fsimmOB2FK7autbjakgbx7GmONF6RqyQj8+Vtv
+ LTEhuuMhDCYRL77KbaeEdjqwSYY+qj6QkqSS/ojMhE0rfxUG6vat0oC8lkC3EdhMsr+2
+ c2lFM09UdfXzNnjbvTjdvr0hA8v9gS72K8XJWRNnDqr+60jxYrEEaG0buZBLV9btqQ1C
+ B0PA==
+X-Gm-Message-State: AOAM5319iGoZ4Gc7CiEN03TqUrB/25gb6O8KmvDu3HEA9aj7sAUtyhqg
+ UDtS5EkQqxvdepvbBgsaL36z8gIBLPqupUR4GBZxIA==
+X-Google-Smtp-Source: ABdhPJymKB1xmusErSKu0nLxY1OpUflAn4jTzTJSgg+XNBFAWgWxS4QrTRHIAoPscsS/j82b8jrL5j0NbtAp6WYVG0A=
+X-Received: by 2002:a17:906:b1cc:: with SMTP id
+ bv12mr43895069ejb.407.1620922742884; 
+ Thu, 13 May 2021 09:19:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5798d062-ee75-1a71-4ba7-3801ed61beb6@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2eKgv+YsYsyz8BaxjL8HUl1DnGfntFj83+BnPFYrDuezHGEjpsO
- 6vKw8NZqkLw8x7B3OxIA1Lsn2RD2vcLbHpPVxGeoL3kCsAGluxXrJIcoORr8/aNYqqPnZLA
- tHKJOnmmM9NnLAbeSGMa8nyy2YHGF6QvM66daFdJVuezA1ZyHUEIBQMlGK5uG4Q9miSBI4e
- prYI0jduN+igSoFbUO1kg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9RK7vRCUogw=:VHGvmm1x3bjNHC0lw+SyvK
- pXymlSWpT3RzkTAEpXfhGjgLVlsY5EWN3bgDMxtvrgqt2jfA6O5M4JKOfq9c1O+t8kJKR7+Zu
- EFgksicSeHKL6Zw4Tiz+dbBENqmVgPa1i6/XQAbMBllRRHfCTkO53h7STSVwgvaXilqXm4BdA
- 6ZVryIt6XVz3BfvAb7pjbY+KOJ6bBSWgGRB43z8C8aINE1Zbq09qZ9qWZSDGXwjG1NHS1p6sU
- 8JCANj2LCmjUOm0fnMEUa5yw/+Z3J0DGVuvo3WY981dSIorWpc5Wa5JupfTjoBPkPesQ1rEsY
- jxWv7oIcOXTUAcYvUU8LTH+UqFKhEnhRi8KVU1zIN1NKbONfJ7Qt5HlPsAedP8xl9rkaJGcpQ
- m83oIroVDEaSwK6bb/2QEV80sD9h8J6la8F8M/uuJpbrwcAc72o0UlVVenb7jxgGBV3tEeixL
- ukYbtW05vIyNpuDdhuTEf4NpD5mJ/XcacCyj682CNAtDlaO1yaE3R+4GpephZd/PSlTcKVYzy
- atRYEhWd+DD+AFtWoN7nhU=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210511161504.3076204-1-philmd@redhat.com>
+In-Reply-To: <20210511161504.3076204-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 May 2021 17:18:51 +0100
+Message-ID: <CAFEAcA-=toKT+r4XXM3EfsOTmjeA9ZY688THUMtPtobNu3cPcA@mail.gmail.com>
+Subject: Re: [PULL 0/2] pflash patches for 2021-05-11
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,46 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
- QEMU Trivial <qemu-trivial@nongnu.org>, berrange@redhat.com,
- stefanha@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 08/05/2021 à 06:34, Thomas Huth a écrit :
-> On 07/05/2021 17.53, Jagannathan Raman wrote:
->> Fixes an if statement that performs a logical AND of mutually exclusive
->> tests
->>
->> Reported-by: Thomas Huth <thuth@redhat.com>
-> 
-> I just spotted the bug ticket on Launchpad :-) So whoever picks this patch up, please add this instead:
-> 
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1926995
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+On Tue, 11 May 2021 at 17:20, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> The following changes since commit f9a576a818044133f8564e0d243ebd97df0b32=
+80:
+>
+>   Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiof=
+s-20210506' into staging (2021-05-11 13:03:44 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/pflash-20210511
+>
+> for you to fetch changes up to 27545c9df24f509c6d1c1f17478281a357125554:
+>
+>   hw/block/pflash_cfi02: Do not create aliases when not necessary (2021-0=
+5-11 18:11:02 +0200)
+>
+> ----------------------------------------------------------------
+> Parallel NOR Flash patches queue
+>
+> - Simplify memory layout when no pflash_cfi02 mapping requested
+> ----------------------------------------------------------------
 
-Applied to my trivial-patches branch.
 
-Thanks,
-Laurent
+Applied, thanks.
 
->> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
->> ---
->>   hw/remote/mpqemu-link.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
->> index 9ce3152..e67a5de 100644
->> --- a/hw/remote/mpqemu-link.c
->> +++ b/hw/remote/mpqemu-link.c
->> @@ -218,7 +218,7 @@ uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, PCIProxyDev *pdev,
->>     bool mpqemu_msg_valid(MPQemuMsg *msg)
->>   {
->> -    if (msg->cmd >= MPQEMU_CMD_MAX && msg->cmd < 0) {
->> +    if (msg->cmd >= MPQEMU_CMD_MAX || msg->cmd < 0) {
->>           return false;
->>       }
-> 
-> 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
+-- PMM
 
