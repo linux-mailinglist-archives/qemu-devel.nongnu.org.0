@@ -2,53 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C200B37F815
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:38:57 +0200 (CEST)
-Received: from localhost ([::1]:45070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE4A37F809
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:36:27 +0200 (CEST)
+Received: from localhost ([::1]:39648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhAcC-0000yS-MW
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:38:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60316)
+	id 1lhAZm-0005gG-JR
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:36:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lhAOQ-0004Nr-9h; Thu, 13 May 2021 08:24:42 -0400
-Received: from [201.28.113.2] (port=58078 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1lhAOL-0003Pa-9T; Thu, 13 May 2021 08:24:38 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 13 May 2021 09:24:33 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 13AE880139F;
- Thu, 13 May 2021 09:24:33 -0300 (-03)
-Subject: Re: [PATCH v4 29/31] target/ppc: Implement cfuged instruction
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
- <20210512185441.3619828-30-matheus.ferst@eldorado.org.br>
- <49b2a677-a3cc-b944-dd4d-edd115c81039@linaro.org>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <60f639cf-50e6-d967-a24b-a862b5a9e8fd@eldorado.org.br>
-Date: Thu, 13 May 2021 09:24:32 -0300
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lhAPj-0006KM-8D
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:26:03 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:39921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lhAPe-0004AP-Jl
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:26:01 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id f8so15396213qth.6
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 05:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=tVA0M/OdrywKqwb+9zLR3Z30sVvXQ/WpefvxwKm0ZM4=;
+ b=xja1WmQ1DnFIFcTG8UXBGOYzmmmlXt+5MhpGkgegRWi9tNsdL9u2Nu//QECrru73zC
+ MfriSNHlToasoz7TapIDwCh7CIg/FtOyAQP6JztlozTP62GE2VUWYbQpCnNhcwfVlMBh
+ 6zmaDTymE3kK9DAocfOMiY+ID2Z72zTkxCCRSsCfhGjWHd6y1SUsXHSjKlcbMZf3LFO6
+ P4SOsZNXtxL5xL58bmIcyEbkFe3G2D7Eti0sanAMahocwQYOywo+2JBi84yXMGVhII6R
+ 9CrY3qcRK5X3bSa4+BVXHGD3OOndFPQKwrb0vTcFfeWnkvtEu6e/NFFsvGoEcY39GWne
+ gHNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tVA0M/OdrywKqwb+9zLR3Z30sVvXQ/WpefvxwKm0ZM4=;
+ b=qK8SNTxC80529gno+nikfaTj3kkGP3U0foRvV6AaJqDchhNpdeuwezmecm9a4QGUUm
+ Szy8HRiQZmpad6G6mv22NHZuaut7TYR6q8+W1sQ8DmOI97T0iIv9KXpxvst5nMFj/ukG
+ 1PEcfX+E7Nqkp1EWWwp2rix85w9Di5C4OWpaLNDycBwGMn41ebVdxdVynSZM6xhWq92U
+ vV16joW/4tQWar9l2KkcyClz6I758bFtieYiGvGZmYLC0K4d4mOcYqz3D/6TKNdlvPks
+ sNub6o692YtbliiZnpJW+7lXHU6vSDo0KiY+EdLCGmC+jfc5pBDO+0K7lhKkdoVzYWa2
+ fRbg==
+X-Gm-Message-State: AOAM532KTbUUMasCb5aG1z1OPf7TUFuczG5wS1aR2PoATvDdYUzR+wWy
+ gpz2JTxjdk4ecFr+rTkGoFYDWA==
+X-Google-Smtp-Source: ABdhPJy2wWNNE+lSbHjyhOdeZ37k8gAKoRzObAUhgbHri0mhnanWTeR38IDkzTYJZA195RrHafHaDA==
+X-Received: by 2002:ac8:5f4b:: with SMTP id y11mr32145782qta.158.1620908757498; 
+ Thu, 13 May 2021 05:25:57 -0700 (PDT)
+Received: from [192.168.183.155] (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id 129sm2159130qkn.44.2021.05.13.05.25.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 May 2021 05:25:57 -0700 (PDT)
+Subject: Re: [PATCH 26/72] softfloat: Convert float128_silence_nan to parts
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210508014802.892561-1-richard.henderson@linaro.org>
+ <20210508014802.892561-27-richard.henderson@linaro.org>
+ <8735urf2g6.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <525690b9-e44b-15e1-5ce8-87e3b0c186bc@linaro.org>
+Date: Thu, 13 May 2021 07:25:54 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <49b2a677-a3cc-b944-dd4d-edd115c81039@linaro.org>
+In-Reply-To: <8735urf2g6.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 13 May 2021 12:24:33.0429 (UTC)
- FILETIME=[EE2CCC50:01D747F2]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,103 +89,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
- luis.pires@eldorado.org.br, f4bug@amsat.org, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/05/2021 08:31, Richard Henderson wrote:
-> On 5/12/21 1:54 PM, matheus.ferst@eldorado.org.br wrote:
->> +    while (i) {
->> +        n = ctz64(mask);
->> +        if (n > i) {
->> +            n = i;
->> +        }
+On 5/13/21 3:34 AM, Alex Bennée wrote:
+> 
+> Richard Henderson <richard.henderson@linaro.org> writes:
+> 
+>> This is the minimal change that also introduces float128_params,
+>> float128_unpack_raw, and float128_pack_raw without running into
+>> unused symbol Werrors.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   fpu/softfloat.c                | 96 +++++++++++++++++++++++++++++-----
+>>   fpu/softfloat-specialize.c.inc | 25 +++------
+>>   2 files changed, 89 insertions(+), 32 deletions(-)
+>>
+>> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+>> index 2d6f61ee7a..073b80d502 100644
+>> --- a/fpu/softfloat.c
+>> +++ b/fpu/softfloat.c
+>> @@ -500,14 +500,12 @@ static inline __attribute__((unused)) bool is_qnan(FloatClass c)
+>>   }
+>>   
+>>   /*
+>> - * Structure holding all of the decomposed parts of a float. The
+>> - * exponent is unbiased and the fraction is normalized. All
+>> - * calculations are done with a 64 bit fraction and then rounded as
+>> - * appropriate for the final format.
+>> + * Structure holding all of the decomposed parts of a float.
+>> + * The exponent is unbiased and the fraction is normalized.
+>>    *
+>> - * Thanks to the packed FloatClass a decent compiler should be able to
+>> - * fit the whole structure into registers and avoid using the stack
+>> - * for parameter passing.
+>> + * The fraction words are stored in big-endian word ordering,
+>> + * so that truncation from a larger format to a smaller format
+>> + * can be done simply by ignoring subsequent elements.
+>>    */
+>>   
+>>   typedef struct {
+>> @@ -526,6 +524,15 @@ typedef struct {
+>>       };
+>>   } FloatParts64;
+>>   
+>> +typedef struct {
+>> +    FloatClass cls;
+>> +    bool sign;
+>> +    int32_t exp;
+>> +    uint64_t frac_hi;
+>> +    uint64_t frac_lo;
+>> +} FloatParts128;
 >> +
->> +        m = (1ll << n) - 1;
->> +        if (bit) {
->> +            right = ror64(right | (src & m), n);
->> +        } else {
->> +            left = ror64(left | (src & m), n);
->> +        }
->> +
->> +        src >>= n;
->> +        mask >>= n;
->> +        i -= n;
->> +        bit = !bit;
->> +        mask = ~mask;
->> +    }
->> +
->> +    if (bit) {
->> +        n = ctpop64(mask);
->> +    } else {
->> +        n = 64 - ctpop64(mask);
->> +    }
->> +
->> +    return left | (right >> n);
->> +}
+>> +/* These apply to the most significant word of each FloatPartsN. */
+>>   #define DECOMPOSED_BINARY_POINT    63
+>>   #define DECOMPOSED_IMPLICIT_BIT    (1ull << DECOMPOSED_BINARY_POINT)
+>>   
+>> @@ -561,11 +568,11 @@ typedef struct {
+>>       .exp_bias       = ((1 << E) - 1) >> 1,                           \
+>>       .exp_max        = (1 << E) - 1,                                  \
+>>       .frac_size      = F,                                             \
+>> -    .frac_shift     = DECOMPOSED_BINARY_POINT - F,                   \
+>> -    .frac_lsb       = 1ull << (DECOMPOSED_BINARY_POINT - F),         \
+>> -    .frac_lsbm1     = 1ull << ((DECOMPOSED_BINARY_POINT - F) - 1),   \
+>> -    .round_mask     = (1ull << (DECOMPOSED_BINARY_POINT - F)) - 1,   \
+>> -    .roundeven_mask = (2ull << (DECOMPOSED_BINARY_POINT - F)) - 1
+>> +    .frac_shift     = (-F - 1) & 63,                                 \
+>> +    .frac_lsb       = 1ull << ((-F - 1) & 63),                       \
+>> +    .frac_lsbm1     = 1ull << ((-F - 2) & 63),                       \
+>> +    .round_mask     = (1ull << ((-F - 1) & 63)) - 1,                 \
+>> +    .roundeven_mask = (2ull << ((-F - 1) & 63)) - 1
+>>
 > 
-> This doesn't correspond to the algorithm presented in the manual.  Thus 
-> this requires lots of extra commentary.
+> I have to admit I find the switch to (-F - 1) & 63 a little black
+> magical. Isn't the shift always going to end up a factor of the number
+> of exponent bits we need to move past and the natural size of the
+> original float?
+
+Yep.  But now we're looking to compute the number relative to .frac_lo, rather 
+than the entire logical fraction.
+
+
+r~
+
 > 
-> I guess I see how you're trying to process blocks at a time, instead of 
-> single bits at a time.  But I don't think the merging of data into 
-> "right" and "left" looks right.  I would have expected
+> Anyway my personal brain twisting aside it obviously works and
+> everything else looks fine so:
 > 
->      right = (right << n) | (src & m);
-> 
-> and similarly for left.
-> 
-> It doesn't look like that the ctpop at the end is correct, given how 
-> mask has been modified.  I would have thought that
-> 
->      n = ctpop64(orig_mask);
->      return (left << n) | right;
-> 
-> would be the correct answer.
-> 
-> I could be wrong about the above, but that's what the missing commentary 
-> should have helped me understand.
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > 
 
-It sure worth more comments. Yes, the idea is to process in blocks, and 
-we negate the mask to avoid deciding between ctz and cto inside the 
-loop. We use rotate instead of shift so it don't change the number of 
-zeros and ones, and then we don't need orig_mask.
-
-You'll find my test cases for cfuged and vcfuged on 
-https://github.com/PPC64/qemu/blob/ferst-tcg-cfuged/tests/tcg/ppc64le/ . 
-I got the same results by running them with this implementation and with 
-the Power10 Functional Simulator.
-
->> +static bool trans_CFUGED(DisasContext *ctx, arg_X *a)
->> +{
->> +    REQUIRE_64BIT(ctx);
->> +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
->> +#if defined(TARGET_PPC64)
->> +    gen_helper_cfuged(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
->> +#else
->> +    gen_invalid(ctx);
->> +#endif
->> +    return true;
->> +}
-> 
-> Given that this helper will also be used by vcfuged, there's no point in 
-> hiding it in a TARGET_PPC64 block, and thus you can drop the ifdefs.
-> 
-> 
-> r~
-> 
-
-If I remove it, the build for ppc will fail, because cpu_gpr is declared 
-as TCGv, and the helper uses i64 to match {get,set}_cpu_vsr{l,h}. 
-REQUIRE_64BIT makes the helper call unreachable for ppc, but it's a 
-runtime check. At build time, the compiler will check the types anyway, 
-and give us an error.
-
--- 
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software Júnior
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
