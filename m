@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0852D37FC8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:31:08 +0200 (CEST)
-Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5C537FC9F
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:40:52 +0200 (CEST)
+Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhFAx-0001SK-38
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:31:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52358)
+	id 1lhFKM-0007Yo-88
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhF8T-0008JL-19; Thu, 13 May 2021 13:28:33 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:48081)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lhFHX-0005El-TO
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:37:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhF8P-0003gC-NU; Thu, 13 May 2021 13:28:32 -0400
-Received: from [192.168.100.1] ([82.142.31.78]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MybX9-1lHlcU01SH-00yysG; Thu, 13 May 2021 19:27:39 +0200
-Subject: Re: [PATCH] target/avr: Ignore unimplemented WDR opcode
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Fred Konrad <konrad@adacore.com>, qemu-devel@nongnu.org,
- QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20210502190900.604292-1-f4bug@amsat.org>
- <36dd1481-d89e-5f1c-5715-9275df83b722@adacore.com>
- <e37dded2-7ed3-3878-7540-d693d8a45abb@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <84914648-70cc-0221-e7fe-3f0d74ec3dbe@vivier.eu>
-Date: Thu, 13 May 2021 19:27:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lhFHU-00015D-IF
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:37:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620927471;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FoCsF4K0aI3UzmKpenjR22UTkU/nWhHsEnYBzkdG+ys=;
+ b=EnlxLVAqc0e6q0zIuloB24dsQTO3pqlVmaLCLCbiWJy7WfaX8SYDAsmDZnaviqAEdWvkUv
+ k1CwkyA271/94362l7OqFlByd9VHGfE5ECAZE9FueGaiEPFFgDhr/7m7ffgcf9gBw0rQTN
+ b6JtDPnk0KpXGC5r4+zDCJV507e6Has=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-SWD2RF5vMGiD0Ph1UVVeGQ-1; Thu, 13 May 2021 13:37:47 -0400
+X-MC-Unique: SWD2RF5vMGiD0Ph1UVVeGQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73F4780ED8D;
+ Thu, 13 May 2021 17:37:45 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-113-200.ams2.redhat.com
+ [10.36.113.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 570FE5D6AC;
+ Thu, 13 May 2021 17:37:43 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, david@redhat.com, zhukeqian1@huawei.com,
+ jiangkunkun@huawei.com, armbru@redhat.com, peter.maydell@linaro.org,
+ huangy81@chinatelecom.cn
+Subject: [PULL 00/17] migration queue
+Date: Thu, 13 May 2021 18:37:20 +0100
+Message-Id: <20210513173737.279402-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <e37dded2-7ed3-3878-7540-d693d8a45abb@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ry401a9UUNyDp1PU4mqT7S4GsE3i7P+QLnpNbldBusgteDB5oRg
- ELRHDNrQRCIATATFOqM5Az1VTrmpQnXF/P60OmQOyrvSNV77Q5IX/Kxmyhx+Ba9yWUwkdHc
- QuzxNdmxI0L1+hWYJOQmfTN6v+yT8aTSBYwHyg8veoTA6RLF491C8Sfmh3VG8ErZUKhfznt
- WFjWDODm4m3SK394Kma2A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kSFfvjukpTo=:fyW+lOpNrCNoDl5jc/rQd/
- ohs8AM4AbtmEWLlzOCDIH9WiwgBpqhSEEG3qpIHBILrYTGdV80GgsHN17kVdCqP/yOK2waHaY
- pB60RJ3p8IfH0BrvU2xTGQt83M83/OG46ZXUO1rf3KErR9u5PSzTTw7ziDip8wMJBK21fJuvI
- TZhY2DG3ahRao5nhjPZCq3oue7fnokjRPm8wcNJjhJ4MQSPLPeQAKCftzBHMk+zNU9DfbTRRj
- p3fp74xM9kAmxqL11m9nD9oUYtWaNkOJtVNdHEsB6pNMpYUpL5OFDtzv4WB/tRcGh7YdBoFkm
- Y5MqQO8WCWNJO8ysValSO961rQJPCHgyMiPlzwelx9VNE1U05ve2qWfFjVgXDmUhS3OcnZVwe
- OQwCB2cwMpNUaaZC43G6eYjORfPVW606tTjIPD2XmQjEIKV7sO6V5jYNVO0y9foOwdw9PyUBt
- RfbfJvqQS0LFd7bRwyQ6AqOUfhwCo0z7WWaEUT7EPR1ybmpnkcGBV0KQMklvg3fqSH7xzWlOa
- 7Ftu1RMg3DN0skyuk62Q38=
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,82 +78,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Joaquin de Andres <me@xcancerberox.com.ar>, Michael Rolnik <mrolnik@gmail.com>
+Cc: peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 13/05/2021 à 19:04, Philippe Mathieu-Daudé a écrit :
-> Cc'ing qemu-trivial@
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Applied to my trivial-patches branch.
+The following changes since commit dab59ce031228066eb95a9c518846fcacfb0dbbf:
 
-Thanks,
-Laurent
+  Merge remote-tracking branch 'remotes/philmd/tags/pflash-20210511' into staging (2021-05-13 14:45:38 +0100)
 
-> On 5/5/21 3:35 PM, Fred Konrad wrote:
->> Le 5/2/21 à 9:09 PM, Philippe Mathieu-Daudé a écrit :
->>> Running the WDR opcode triggers a segfault:
->>>
->>>    $ cat > foo.S << EOF
->>>    > __start:
->>>    >     wdr
->>>    > EOF
->>>    $ avr-gcc -nostdlib -nostartfiles -mmcu=avr6 foo.S -o foo.elf
->>>    $ qemu-system-avr -serial mon:stdio -nographic -no-reboot \
->>>      -M mega -bios foo.elf -d in_asm --singlestep
->>>    IN:
->>>    0x00000000:  WDR
->>>    Segmentation fault (core dumped)
->>>
->>>    (gdb) bt
->>>       #0  0x00005555add0b23a in gdb_get_cpu_pid (cpu=0x5555af5a4af0)
->>> at ../gdbstub.c:718
->>>       #1  0x00005555add0b2dd in gdb_get_cpu_process
->>> (cpu=0x5555af5a4af0) at ../gdbstub.c:743
->>>       #2  0x00005555add0e477 in gdb_set_stop_cpu (cpu=0x5555af5a4af0)
->>> at ../gdbstub.c:2742
->>>       #3  0x00005555adc99b96 in cpu_handle_guest_debug
->>> (cpu=0x5555af5a4af0) at ../softmmu/cpus.c:306
->>>       #4  0x00005555adcc66ab in rr_cpu_thread_fn (arg=0x5555af5a4af0)
->>> at ../accel/tcg/tcg-accel-ops-rr.c:224
->>>       #5  0x00005555adefaf12 in qemu_thread_start
->>> (args=0x5555af5d9870) at ../util/qemu-thread-posix.c:521
->>>       #6  0x00007f692d940ea5 in start_thread () from
->>> /lib64/libpthread.so.0
->>>       #7  0x00007f692d6699fd in clone () from /lib64/libc.so.6
->>>
->>> Since the watchdog peripheral is not implemented, simply
->>> log the opcode as unimplemented and keep going.
->>>
->>> Reported-by: Fred Konrad <konrad@adacore.com>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>>   target/avr/helper.c | 6 +-----
->>>   1 file changed, 1 insertion(+), 5 deletions(-)
->>>
->>> diff --git a/target/avr/helper.c b/target/avr/helper.c
->>> index 35e10195940..981c29da453 100644
->>> --- a/target/avr/helper.c
->>> +++ b/target/avr/helper.c
->>> @@ -188,11 +188,7 @@ void helper_break(CPUAVRState *env)
->>>     void helper_wdr(CPUAVRState *env)
->>>   {
->>> -    CPUState *cs = env_cpu(env);
->>> -
->>> -    /* WD is not implemented yet, placeholder */
->>> -    cs->exception_index = EXCP_DEBUG;
->>> -    cpu_loop_exit(cs);
->>> +    qemu_log_mask(LOG_UNIMP, "WDG reset (not implemented)\n");
->>>   }
->>
->> Seems ok to me, at least better than having a segfault.
->>
->> Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
->>
->>>     /*
->>>
->>
-> 
+are available in the Git repository at:
+
+  git://github.com/dagrh/qemu.git tags/pull-migration-20210513a
+
+for you to fetch changes up to 1c3baa1ac4dee2b52837fda89d1d9deeb5da512e:
+
+  tests/migration: introduce multifd into guestperf (2021-05-13 18:21:14 +0100)
+
+----------------------------------------------------------------
+Migration pull 2021-05-13
+
+Fix of the 2021-05-11 version, with a fix to build on the armhf
+cross.
+
+The largest change in this set is David's changes for ram block size
+changing; then there's a pile of other cleanups and fixes.
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+----------------------------------------------------------------
+David Hildenbrand (11):
+      migrate/ram: remove "ram_bulk_stage" and "fpo_enabled"
+      util: vfio-helpers: Factor out and fix processing of existing ram blocks
+      numa: Teach ram block notifiers about resizeable ram blocks
+      numa: Make all callbacks of ram block notifiers optional
+      migration/ram: Handle RAM block resizes during precopy
+      exec: Relax range check in ram_block_discard_range()
+      migration/ram: Discard RAM when growing RAM blocks after ram_postcopy_incoming_init()
+      migration/ram: Simplify host page handling in ram_load_postcopy()
+      migration/ram: Handle RAM block resizes during postcopy
+      migration/multifd: Print used_length of memory block
+      migration/ram: Use offset_in_ramblock() in range checks
+
+Dr. David Alan Gilbert (1):
+      tests/migration-test: Fix "true" vs true
+
+Hyman (1):
+      tests/migration: introduce multifd into guestperf
+
+Kunkun Jiang (2):
+      migration/ram: Reduce unnecessary rate limiting
+      migration/ram: Optimize ram_save_host_page()
+
+Markus Armbruster (1):
+      migration: Drop redundant query-migrate result @blocked
+
+Peter Maydell (1):
+      tests/qtest/migration-test: Use g_autofree to avoid leaks on error paths
+
+ hw/core/numa.c                          |  41 +++++-
+ hw/i386/xen/xen-mapcache.c              |   7 +-
+ hw/virtio/virtio-balloon.c              |   4 +-
+ hw/virtio/virtio-mem.c                  |   3 -
+ include/exec/cpu-common.h               |   1 +
+ include/exec/memory.h                   |  10 +-
+ include/exec/ramblock.h                 |  10 ++
+ include/exec/ramlist.h                  |  13 +-
+ include/migration/misc.h                |   1 -
+ migration/migration.c                   |  38 ++---
+ migration/migration.h                   |   1 +
+ migration/multifd.c                     |   2 +-
+ migration/postcopy-ram.c                |  15 +-
+ migration/ram.c                         | 246 ++++++++++++++++++--------------
+ monitor/hmp-cmds.c                      |   2 +-
+ qapi/migration.json                     |   6 -
+ softmmu/physmem.c                       |  26 +++-
+ target/i386/hax/hax-mem.c               |   5 +-
+ target/i386/sev.c                       |  18 +--
+ tests/migration/guestperf/comparison.py |  14 ++
+ tests/migration/guestperf/engine.py     |  16 +++
+ tests/migration/guestperf/scenario.py   |  12 +-
+ tests/migration/guestperf/shell.py      |  10 +-
+ tests/qtest/migration-test.c            |  75 ++++------
+ util/vfio-helpers.c                     |  41 ++----
+ 25 files changed, 367 insertions(+), 250 deletions(-)
 
 
