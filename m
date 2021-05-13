@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931A637F245
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 06:33:39 +0200 (CEST)
-Received: from localhost ([::1]:40910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E84337F25A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 06:36:28 +0200 (CEST)
+Received: from localhost ([::1]:50212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh32T-0006xP-KR
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 00:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43650)
+	id 1lh35H-00055R-Jq
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 00:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lh2se-0007M0-1c; Thu, 13 May 2021 00:23:24 -0400
-Received: from ozlabs.org ([203.11.71.1]:42437)
+ id 1lh2sf-0007O4-V2; Thu, 13 May 2021 00:23:27 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:41583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lh2sa-0004fW-Nb; Thu, 13 May 2021 00:23:23 -0400
+ id 1lh2sc-0004fb-96; Thu, 13 May 2021 00:23:25 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fgdmt0HtZz9t5H; Thu, 13 May 2021 14:22:53 +1000 (AEST)
+ id 4Fgdms6zCJz9t2g; Thu, 13 May 2021 14:22:53 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620879774;
- bh=1U7xoUHdzGy+cbvD9iClsx+v3QgwyT9CJYhrlIDbTZE=;
+ d=gibson.dropbear.id.au; s=201602; t=1620879773;
+ bh=AwBzzYGrvnpGTSWSS3MnqEog5rXa68AMRbz+ulQRFlI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eMoXmTn4Q7h8COGU61U/WKOnbg9kWmkOw4SOwRbGdF/nMErg2ic1zp2vU9s5sUxfT
- BY3FqypfnU6nTwH4Ey7psby6T8OvH7qGUu0e4iTsCytjl2kQDkJM6JVhpvDOEfwT9U
- IlJJkB9kfDNlqqtSuFXDKPapTp6BhjKY9LBta4BE=
-Date: Thu, 13 May 2021 14:10:30 +1000
+ b=RUE9hgqJWSnQEYHG1l2hcT3ucRfKnCX/0qK+cEvrNrIba+D2FbWybWznDlUDPkwpa
+ EshQ071Z16vTCxCfuMhT5aHm5jAo98k2FYW5Vt5EZmpmp1kvubTipQ15MFBcBI5ErJ
+ XgYjuxFBucMSREk4cBkW7wDKuXOEfdIoly1apLjw=
+Date: Thu, 13 May 2021 14:11:19 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: matheus.ferst@eldorado.org.br
-Subject: Re: [PATCH v4 07/31] target/ppc: Introduce
- DISAS_{EXIT,CHAIN}{,_UPDATE}
-Message-ID: <YJymtojVE+pnqdT2@yekko>
+Subject: Re: [PATCH v4 08/31] target/ppc: Replace POWERPC_EXCP_SYNC with
+ DISAS_EXIT
+Message-ID: <YJym5zdD6xC6bxdb@yekko>
 References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
- <20210512185441.3619828-8-matheus.ferst@eldorado.org.br>
+ <20210512185441.3619828-9-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5DXRt+ltIIkgtn2h"
+ protocol="application/pgp-signature"; boundary="6VO/VasY2Ntiv71G"
 Content-Disposition: inline
-In-Reply-To: <20210512185441.3619828-8-matheus.ferst@eldorado.org.br>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210512185441.3619828-9-matheus.ferst@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -66,20 +66,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---5DXRt+ltIIkgtn2h
+--6VO/VasY2Ntiv71G
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 12, 2021 at 03:54:17PM -0300, matheus.ferst@eldorado.org.br wro=
+On Wed, May 12, 2021 at 03:54:18PM -0300, matheus.ferst@eldorado.org.br wro=
 te:
 > From: Richard Henderson <richard.henderson@linaro.org>
 >=20
-> Rewrite ppc_tr_tb_stop to handle these new codes.
->=20
-> Convert ctx->exception into these new codes at the end of
-> ppc_tr_translate_insn, prior to pushing the change back
-> throughout translate.c.
+> Remove the synthetic "exception" after no more uses.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
@@ -87,118 +83,138 @@ te:
 Applied to ppc-for-6.1, thanks.
 
 > ---
->  target/ppc/translate.c | 75 ++++++++++++++++++++++++++++++++++++------
->  1 file changed, 65 insertions(+), 10 deletions(-)
+>  target/ppc/cpu.h       |  1 -
+>  target/ppc/translate.c | 27 +++++++++------------------
+>  2 files changed, 9 insertions(+), 19 deletions(-)
 >=20
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 7b23f85c11..4bebb00bb2 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -182,6 +182,11 @@ struct DisasContext {
->      uint64_t insns_flags2;
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 98fcf1c4d6..503de6db85 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -135,7 +135,6 @@ enum {
+>      POWERPC_EXCP_STOP         =3D 0x200, /* stop translation            =
+       */
+>      POWERPC_EXCP_BRANCH       =3D 0x201, /* branch instruction          =
+       */
+>      /* QEMU exceptions: special cases we want to stop translation       =
+     */
+> -    POWERPC_EXCP_SYNC         =3D 0x202, /* context synchronizing instru=
+ction  */
+>      POWERPC_EXCP_SYSCALL_USER =3D 0x203, /* System call in user mode onl=
+y      */
 >  };
 > =20
-> +#define DISAS_EXIT         DISAS_TARGET_0  /* exit to main loop, pc upda=
-ted */
-> +#define DISAS_EXIT_UPDATE  DISAS_TARGET_1  /* exit to main loop, pc stal=
-e */
-> +#define DISAS_CHAIN        DISAS_TARGET_2  /* lookup next tb, pc updated=
- */
-> +#define DISAS_CHAIN_UPDATE DISAS_TARGET_3  /* lookup next tb, pc stale */
-> +
->  /* Return true iff byteswap is needed in a scalar memop */
->  static inline bool need_byteswap(const DisasContext *ctx)
->  {
-> @@ -9417,28 +9422,78 @@ static void ppc_tr_translate_insn(DisasContextBas=
-e *dcbase, CPUState *cs)
->                   opc3(ctx->opcode), opc4(ctx->opcode), ctx->opcode);
->      }
-> =20
-> -    if (ctx->base.is_jmp =3D=3D DISAS_NEXT
-> -        && ctx->exception !=3D POWERPC_EXCP_NONE) {
-> -        ctx->base.is_jmp =3D DISAS_TOO_MANY;
-> +    if (ctx->base.is_jmp =3D=3D DISAS_NEXT) {
-> +        switch (ctx->exception) {
-> +        case POWERPC_EXCP_NONE:
-> +            break;
-> +        case POWERPC_EXCP_BRANCH:
-> +            ctx->base.is_jmp =3D DISAS_NORETURN;
-> +            break;
-> +        case POWERPC_EXCP_SYNC:
-> +        case POWERPC_EXCP_STOP:
-> +            ctx->base.is_jmp =3D DISAS_EXIT;
-> +            break;
-> +        default:
-> +            /* Every other ctx->exception should have set NORETURN. */
-> +            g_assert_not_reached();
-> +        }
->      }
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 4bebb00bb2..88fe24ef95 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -359,14 +359,6 @@ static inline void gen_stop_exception(DisasContext *=
+ctx)
+>      ctx->exception =3D POWERPC_EXCP_STOP;
 >  }
 > =20
->  static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
->  {
->      DisasContext *ctx =3D container_of(dcbase, DisasContext, base);
-> +    DisasJumpType is_jmp =3D ctx->base.is_jmp;
-> +    target_ulong nip =3D ctx->base.pc_next;
+> -#ifndef CONFIG_USER_ONLY
+> -/* No need to update nip here, as execution flow will change */
+> -static inline void gen_sync_exception(DisasContext *ctx)
+> -{
+> -    ctx->exception =3D POWERPC_EXCP_SYNC;
+> -}
+> -#endif
+> -
+>  /***********************************************************************=
+******/
+>  /* SPR READ/WRITE CALLBACKS */
 > =20
-> -    if (ctx->base.is_jmp =3D=3D DISAS_NORETURN) {
-> +    if (is_jmp =3D=3D DISAS_NORETURN) {
-> +        /* We have already exited the TB. */
->          return;
+> @@ -5035,7 +5027,7 @@ static void gen_rfi(DisasContext *ctx)
 >      }
-> =20
-> -    if (ctx->exception =3D=3D POWERPC_EXCP_NONE) {
-> -        gen_goto_tb(ctx, 0, ctx->base.pc_next);
-> -    } else if (ctx->exception !=3D POWERPC_EXCP_BRANCH) {
-> -        if (unlikely(ctx->base.singlestep_enabled)) {
-> -            gen_debug_exception(ctx);
-> +    /* Honor single stepping. */
-> +    if (unlikely(ctx->base.singlestep_enabled)) {
-> +        switch (is_jmp) {
-> +        case DISAS_TOO_MANY:
-> +        case DISAS_EXIT_UPDATE:
-> +        case DISAS_CHAIN_UPDATE:
-> +            gen_update_nip(ctx, nip);
-> +            break;
-> +        case DISAS_EXIT:
-> +        case DISAS_CHAIN:
-> +            break;
-> +        default:
-> +            g_assert_not_reached();
->          }
-> -        /* Generate the return instruction */
-> +        gen_debug_exception(ctx);
-> +        return;
-> +    }
-> +
-> +    switch (is_jmp) {
-> +    case DISAS_TOO_MANY:
-> +        if (use_goto_tb(ctx, nip)) {
-> +            tcg_gen_goto_tb(0);
-> +            gen_update_nip(ctx, nip);
-> +            tcg_gen_exit_tb(ctx->base.tb, 0);
-> +            break;
-> +        }
-> +        /* fall through */
-> +    case DISAS_CHAIN_UPDATE:
-> +        gen_update_nip(ctx, nip);
-> +        /* fall through */
-> +    case DISAS_CHAIN:
-> +        tcg_gen_lookup_and_goto_ptr();
-> +        break;
-> +
-> +    case DISAS_EXIT_UPDATE:
-> +        gen_update_nip(ctx, nip);
-> +        /* fall through */
-> +    case DISAS_EXIT:
->          tcg_gen_exit_tb(NULL, 0);
-> +        break;
-> +
-> +    default:
-> +        g_assert_not_reached();
->      }
+>      gen_update_cfar(ctx, ctx->cia);
+>      gen_helper_rfi(cpu_env);
+> -    gen_sync_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT;
+>  #endif
 >  }
 > =20
+> @@ -5052,7 +5044,7 @@ static void gen_rfid(DisasContext *ctx)
+>      }
+>      gen_update_cfar(ctx, ctx->cia);
+>      gen_helper_rfid(cpu_env);
+> -    gen_sync_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT;
+>  #endif
+>  }
+> =20
+> @@ -5069,7 +5061,7 @@ static void gen_rfscv(DisasContext *ctx)
+>      }
+>      gen_update_cfar(ctx, ctx->cia);
+>      gen_helper_rfscv(cpu_env);
+> -    gen_sync_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT;
+>  #endif
+>  }
+>  #endif
+> @@ -5082,7 +5074,7 @@ static void gen_hrfid(DisasContext *ctx)
+>      /* Restore CPU state */
+>      CHK_HV;
+>      gen_helper_hrfid(cpu_env);
+> -    gen_sync_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT;
+>  #endif
+>  }
+>  #endif
+> @@ -6923,7 +6915,7 @@ static void gen_rfsvc(DisasContext *ctx)
+>      CHK_SV;
+> =20
+>      gen_helper_rfsvc(cpu_env);
+> -    gen_sync_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT;
+>  #endif /* defined(CONFIG_USER_ONLY) */
+>  }
+> =20
+> @@ -7303,7 +7295,7 @@ static void gen_rfci_40x(DisasContext *ctx)
+>      CHK_SV;
+>      /* Restore CPU state */
+>      gen_helper_40x_rfci(cpu_env);
+> -    gen_sync_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT;
+>  #endif /* defined(CONFIG_USER_ONLY) */
+>  }
+> =20
+> @@ -7315,7 +7307,7 @@ static void gen_rfci(DisasContext *ctx)
+>      CHK_SV;
+>      /* Restore CPU state */
+>      gen_helper_rfci(cpu_env);
+> -    gen_sync_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT;
+>  #endif /* defined(CONFIG_USER_ONLY) */
+>  }
+> =20
+> @@ -7330,7 +7322,7 @@ static void gen_rfdi(DisasContext *ctx)
+>      CHK_SV;
+>      /* Restore CPU state */
+>      gen_helper_rfdi(cpu_env);
+> -    gen_sync_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT;
+>  #endif /* defined(CONFIG_USER_ONLY) */
+>  }
+> =20
+> @@ -7343,7 +7335,7 @@ static void gen_rfmci(DisasContext *ctx)
+>      CHK_SV;
+>      /* Restore CPU state */
+>      gen_helper_rfmci(cpu_env);
+> -    gen_sync_exception(ctx);
+> +    ctx->base.is_jmp =3D DISAS_EXIT;
+>  #endif /* defined(CONFIG_USER_ONLY) */
+>  }
+> =20
+> @@ -9429,7 +9421,6 @@ static void ppc_tr_translate_insn(DisasContextBase =
+*dcbase, CPUState *cs)
+>          case POWERPC_EXCP_BRANCH:
+>              ctx->base.is_jmp =3D DISAS_NORETURN;
+>              break;
+> -        case POWERPC_EXCP_SYNC:
+>          case POWERPC_EXCP_STOP:
+>              ctx->base.is_jmp =3D DISAS_EXIT;
+>              break;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -206,25 +222,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---5DXRt+ltIIkgtn2h
+--6VO/VasY2Ntiv71G
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCcprYACgkQbDjKyiDZ
-s5K77RAA2c3sIDinqmLHDpcBQMmSa9ORpkcEq82Exhgcxt+m8Krn79YMEwNrnrx3
-USpJApomuZYgq3ZJ7dPA5pd45BLGpKMtJfpn9+C11XAGwIV+s+FKmZr07mmadl5j
-Bx89JvBxhf5DIRsvCIm9gO9yul/jpdi9DKltHS7FV+CqYIUtbCHgTwQQugGLENtV
-QGot49ERP9VWPy4VxiSDKn8e7I3+qYoPAq7dG8lV7ak79mRN5Um7ZB/TpzZU6sdP
-TzcoZAv0qK2iuk5ap6GdhnU8X6FlFHjJbLDl8FGEfO2oDx9O8ssidi1NnrPsK3/l
-wid/trdvYi63e4ihm66Qp/8HVrl8Uo9LasQsWW8L9sA/MXlC8SZg/g/CUb7vYfEA
-teBupNqzG/UHxJQqCUu52qO9LvgKFkMNHwjfqD4/Z0n8IC2UyYIMQ6N4Hvjmtzp9
-N87QWHpZ4cW99j7vZvihE+XP45eUMM8Sbjq+qX4k8jCcB+KB6XQLwC46zJ9Mwa4f
-QKtJvvwDt2rPlJ43b9i8Syu8ZQbAf6bh+tuTvf3LC+I///1GOzBUnl019+xq2pSz
-vKtU11o/sMM5MjL1BtvS0Q/MzphF7GgMOBlMI8kfQM8JMV3VIUlmSQwuAafSiJvm
-Vfh1MzBpqltPCeT6pjKMpNjZRH+/zboztgAA5LIdfXWV0ErHAog=
-=0Heg
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCcpucACgkQbDjKyiDZ
+s5Lddw//aezgik1la7Fy9W0Q9t8hLYNaHEtf/mAGxTNZopZrCw+ysHSniTa7MUom
+MfvDvZFaSWYFBKMAlOnW6hEikvroq9nf6jLVL03nPjjvGazkdi3lx20BR9R5T0qZ
+XnxpDh8PSzIaBDjUbY8sG6T8ZaIl381pNEGNV2LMNr6u01CTy32p9AwMKM6t+q0C
+FDJAdBmU5b7VloBNVmfNDpj2zYJBays3P4KfIatZc8F3B/b/BVftDxNtxyc+1AQO
+QpPdVUxB6HOvuo9Y0DEIXHsWcyrK961fEt9dxYXaYHNiB9d4srW81hwmPpnbA+kJ
+yymIJ4dV2eKoLXVjEWxQ1btO/y2lgEEVAK+TQmv1CoeshZaEDNl3Qz37FQaAcKjf
+qdHbAPo1ETRZ/MZzZDVi1UpPsGQCT7/kfFa95FKuczWFQxKlYTUlQSMPlwsRdonP
+YxLJfJuRdMEAaOU8jNslqAbMShfcCfn8OA85130h6Jmz9bsw/CAvQGURfFKf4hLz
+Oc+LDPktktG10n9OKpwPCLQxOBnEONlNEhQy81U61zVeKrklpqMPoDBwkPGUJ7CZ
+zLWByVOGeJqUi4l9Vx9AAf8SDRRY+ftREnPnKoUAZMASFTbr7PgPBp1zLaRYbsaw
+kXijOn0+3k534z4BzGsUCfCB4njh/TI8mlzZycqQ/7YAjcWc+S4=
+=eR0o
 -----END PGP SIGNATURE-----
 
---5DXRt+ltIIkgtn2h--
+--6VO/VasY2Ntiv71G--
 
