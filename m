@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B628037FCDF
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:53:06 +0200 (CEST)
-Received: from localhost ([::1]:40468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287F837FCD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:51:06 +0200 (CEST)
+Received: from localhost ([::1]:32894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhFWD-0006Ic-Pm
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55286)
+	id 1lhFUH-000131-51
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:51:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lhFJq-0000dm-0v
- for qemu-devel@nongnu.org; Thu, 13 May 2021 13:40:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30094)
+ id 1lhFLM-0001yh-0M
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:41:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lhFJn-0002MT-Kj
- for qemu-devel@nongnu.org; Thu, 13 May 2021 13:40:17 -0400
+ id 1lhFLK-0003Ag-5T
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:41:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620927614;
+ s=mimecast20190719; t=1620927706;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iISPOJMl6FBrBs5a39QG2IKjK56eVxk9sjFG32WpU9I=;
- b=d74UcLU2RnfS6y4kJ91SCyMND7F01UkQFl6Tmq+Yjhd8v1Ib5BdCSnUXUeQ6905fYByai7
- Ur/LmmOMxKt3I0/MdxzYveOJ1s7erfCkcvQS9UNnpT3o2jYHJSD0bW+hDGW+jvVoZmuucD
- G2qlpJWGl2sPbbb+Iu3gFSuiGTdof+Q=
+ bh=gubYvitJOx/h8k9fXo7+/YZarbHJfHz0lZJZRqyJLM4=;
+ b=FU6d2pyD2vdfIQnz+MtEfzEfuz8UdRxL8vDKSWGOlY7oLFM1UG0vCioAgYQbGSZdBRdn/X
+ DNfxitG3Tyd6fDtKuAzR4V9GALbnqzI6pI3JdCgrOx3FO0FxcjSTZCsFhuJEPG67UjuiBW
+ MCM7BQ6gt2a+8N26E5NAgZ9L0vnrIYA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-gJwK3mI3NcO_Bst0OMkM9A-1; Thu, 13 May 2021 13:40:13 -0400
-X-MC-Unique: gJwK3mI3NcO_Bst0OMkM9A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-297-Ky2dweZuP3CadoJ-Vl3w-w-1; Thu, 13 May 2021 13:41:42 -0400
+X-MC-Unique: Ky2dweZuP3CadoJ-Vl3w-w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA2F6800D55;
- Thu, 13 May 2021 17:40:11 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-113-200.ams2.redhat.com
- [10.36.113.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 30C8B5D6AC;
- Thu, 13 May 2021 17:39:49 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, david@redhat.com, zhukeqian1@huawei.com,
- jiangkunkun@huawei.com, armbru@redhat.com, peter.maydell@linaro.org,
- huangy81@chinatelecom.cn
-Subject: [PULL 17/17] tests/migration: introduce multifd into guestperf
-Date: Thu, 13 May 2021 18:37:37 +0100
-Message-Id: <20210513173737.279402-18-dgilbert@redhat.com>
-In-Reply-To: <20210513173737.279402-1-dgilbert@redhat.com>
-References: <20210513173737.279402-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E4AD1966325;
+ Thu, 13 May 2021 17:41:41 +0000 (UTC)
+Received: from work-vm (ovpn-113-200.ams2.redhat.com [10.36.113.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B3C25D9CC;
+ Thu, 13 May 2021 17:41:33 +0000 (UTC)
+Date: Thu, 13 May 2021 18:41:30 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/17] migration queue
+Message-ID: <YJ1kyhqp+DenGr2G@work-vm>
+References: <20210511150842.207155-1-dgilbert@redhat.com>
+ <CAFEAcA-caAPn5Lzt=t2u7V5zWkdhbADdSQWd74v+OMOcRqD-ow@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <CAFEAcA-caAPn5Lzt=t2u7V5zWkdhbADdSQWd74v+OMOcRqD-ow@mail.gmail.com>
+User-Agent: Mutt/2.0.6 (2021-03-06)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,158 +79,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peterx@redhat.com
+Cc: David Hildenbrand <david@redhat.com>, Kunkun Jiang <jiangkunkun@huawei.com>,
+ huangy81@chinatelecom.cn, Markus Armbruster <armbru@redhat.com>,
+ Peter Xu <peterx@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman <huangy81@chinatelecom.cn>
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Tue, 11 May 2021 at 16:08, Dr. David Alan Gilbert (git)
+> <dgilbert@redhat.com> wrote:
+> >
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> >
+> > The following changes since commit e4f3ede95ce813d5705c65e1c0e1c80c70739ebb:
+> >
+> >   Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210505-pull-request' into staging (2021-05-10 19:55:06 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://github.com/dagrh/qemu.git tags/pull-migration-20210511a
+> >
+> > for you to fetch changes up to 872df23afc70985af5a458e0c4bd2b984559015c:
+> >
+> >   tests/migration: introduce multifd into guestperf (2021-05-11 11:26:19 +0100)
+> >
+> > ----------------------------------------------------------------
+> > Migration pull 2021-05-11
+> >
+> > The largest change in this set is David's changes for ram block size
+> > changing; then there's a pile of other cleanups and fixes.
+> >
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >
+> 
+> Fails to build on the gitlab cross build job:
+> https://gitlab.com/qemu-project/qemu/-/jobs/1258047823
+> 
+> ../migration/ram.c: In function 'host_page_from_ram_block_offset':
+> ../migration/ram.c:3092:12: error: cast to pointer from integer of
+> different size [-Werror=int-to-pointer-cast]
+> return (void *)QEMU_ALIGN_DOWN((uintptr_t)block->host + offset,
+> ^
 
-Guestperf tool does not cover the multifd-enabled migration
-currently, it is worth supporting so that developers can
-analysis the migration performance with all kinds of
-migration.
+OK, resent with a pair of brackets around the (block->host + offset),
+so that the result ends up as the uintptr_t.  Seems to work for me in
+the docker test that otherwise failed.
 
-To request that multifd is enabled, with 4 channels:
-$ ./tests/migration/guestperf.py \
-    --multifd --multifd-channels 4 --output output.json
+Dave
 
-To run the entire standardized set of multifd-enabled
-comparisons, with unix migration:
-$ ./tests/migration/guestperf-batch.py \
-    --dst-host localhost --transport unix \
-    --filter compr-multifd* --output outputdir
-
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Message-Id: <cfeeb04d17ad932c42a9871294058b77429ad1b7.1616171924.git.huangy81@chinatelecom.cn>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tests/migration/guestperf/comparison.py | 14 ++++++++++++++
- tests/migration/guestperf/engine.py     | 16 ++++++++++++++++
- tests/migration/guestperf/scenario.py   | 12 ++++++++++--
- tests/migration/guestperf/shell.py      | 10 +++++++++-
- 4 files changed, 49 insertions(+), 3 deletions(-)
-
-diff --git a/tests/migration/guestperf/comparison.py b/tests/migration/guestperf/comparison.py
-index ba2edbe546..c03b3f6d7e 100644
---- a/tests/migration/guestperf/comparison.py
-+++ b/tests/migration/guestperf/comparison.py
-@@ -121,4 +121,18 @@ def __init__(self, name, scenarios):
-         Scenario("compr-xbzrle-cache-50",
-                  compression_xbzrle=True, compression_xbzrle_cache=50),
-     ]),
-+
-+
-+    # Looking at effect of multifd with
-+    # varying numbers of channels
-+    Comparison("compr-multifd", scenarios = [
-+        Scenario("compr-multifd-channels-4",
-+                 multifd=True, multifd_channels=2),
-+        Scenario("compr-multifd-channels-8",
-+                 multifd=True, multifd_channels=8),
-+        Scenario("compr-multifd-channels-32",
-+                 multifd=True, multifd_channels=32),
-+        Scenario("compr-multifd-channels-64",
-+                 multifd=True, multifd_channels=64),
-+    ]),
- ]
-diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-index 6b49aed579..208e095794 100644
---- a/tests/migration/guestperf/engine.py
-+++ b/tests/migration/guestperf/engine.py
-@@ -188,6 +188,22 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
-                                    1024 * 1024 * 1024 / 100 *
-                                    scenario._compression_xbzrle_cache))
- 
-+        if scenario._multifd:
-+            resp = src.command("migrate-set-capabilities",
-+                               capabilities = [
-+                                   { "capability": "multifd",
-+                                     "state": True }
-+                               ])
-+            resp = src.command("migrate-set-parameters",
-+                               multifd_channels=scenario._multifd_channels)
-+            resp = dst.command("migrate-set-capabilities",
-+                               capabilities = [
-+                                   { "capability": "multifd",
-+                                     "state": True }
-+                               ])
-+            resp = dst.command("migrate-set-parameters",
-+                               multifd_channels=scenario._multifd_channels)
-+
-         resp = src.command("migrate", uri=connect_uri)
- 
-         post_copy = False
-diff --git a/tests/migration/guestperf/scenario.py b/tests/migration/guestperf/scenario.py
-index 28ef36c26d..de70d9b2f5 100644
---- a/tests/migration/guestperf/scenario.py
-+++ b/tests/migration/guestperf/scenario.py
-@@ -29,7 +29,8 @@ def __init__(self, name,
-                  post_copy=False, post_copy_iters=5,
-                  auto_converge=False, auto_converge_step=10,
-                  compression_mt=False, compression_mt_threads=1,
--                 compression_xbzrle=False, compression_xbzrle_cache=10):
-+                 compression_xbzrle=False, compression_xbzrle_cache=10,
-+                 multifd=False, multifd_channels=2):
- 
-         self._name = name
- 
-@@ -56,6 +57,9 @@ def __init__(self, name,
-         self._compression_xbzrle = compression_xbzrle
-         self._compression_xbzrle_cache = compression_xbzrle_cache # percentage of guest RAM
- 
-+        self._multifd = multifd
-+        self._multifd_channels = multifd_channels
-+
-     def serialize(self):
-         return {
-             "name": self._name,
-@@ -73,6 +77,8 @@ def serialize(self):
-             "compression_mt_threads": self._compression_mt_threads,
-             "compression_xbzrle": self._compression_xbzrle,
-             "compression_xbzrle_cache": self._compression_xbzrle_cache,
-+            "multifd": self._multifd,
-+            "multifd_channels": self._multifd_channels,
-         }
- 
-     @classmethod
-@@ -92,4 +98,6 @@ def deserialize(cls, data):
-             data["compression_mt"],
-             data["compression_mt_threads"],
-             data["compression_xbzrle"],
--            data["compression_xbzrle_cache"])
-+            data["compression_xbzrle_cache"],
-+            data["multifd"],
-+            data["multifd_channels"])
-diff --git a/tests/migration/guestperf/shell.py b/tests/migration/guestperf/shell.py
-index f838888809..8a809e3dda 100644
---- a/tests/migration/guestperf/shell.py
-+++ b/tests/migration/guestperf/shell.py
-@@ -122,6 +122,11 @@ def __init__(self):
-         parser.add_argument("--compression-xbzrle", dest="compression_xbzrle", default=False, action="store_true")
-         parser.add_argument("--compression-xbzrle-cache", dest="compression_xbzrle_cache", default=10, type=int)
- 
-+        parser.add_argument("--multifd", dest="multifd", default=False,
-+                            action="store_true")
-+        parser.add_argument("--multifd-channels", dest="multifd_channels",
-+                            default=2, type=int)
-+
-     def get_scenario(self, args):
-         return Scenario(name="perfreport",
-                         downtime=args.downtime,
-@@ -142,7 +147,10 @@ def get_scenario(self, args):
-                         compression_mt_threads=args.compression_mt_threads,
- 
-                         compression_xbzrle=args.compression_xbzrle,
--                        compression_xbzrle_cache=args.compression_xbzrle_cache)
-+                        compression_xbzrle_cache=args.compression_xbzrle_cache,
-+
-+                        multifd=args.multifd,
-+                        multifd_channels=args.multifd_channels)
- 
-     def run(self, argv):
-         args = self._parser.parse_args(argv)
+> 
+> thanks
+> -- PMM
+> 
 -- 
-2.31.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
