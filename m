@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FFF537F796
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:12:21 +0200 (CEST)
-Received: from localhost ([::1]:44444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7C437F79C
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:13:48 +0200 (CEST)
+Received: from localhost ([::1]:47272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhACN-00048v-II
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56736)
+	id 1lhADr-0006AN-TT
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:13:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhA6e-0000CL-Oy
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:06:20 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41064)
+ id 1lhA6f-0000D4-5y
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:06:21 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhA6Z-0001rD-Qp
+ id 1lhA6Z-0001sB-R3
  for qemu-devel@nongnu.org; Thu, 13 May 2021 08:06:20 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhA6X-00044f-JS
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:06:13 +0000
+ id 1lhA6Y-000468-C7
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:06:14 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 902F02E8060
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:06:13 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 519F02E8060
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:06:14 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 May 2021 11:59:39 -0000
-From: Thomas Huth <1917184@bugs.launchpad.net>
+Date: Thu, 13 May 2021 12:00:05 -0000
+From: Thomas Huth <1916775@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: i386 tcg
+X-Launchpad-Bug-Tags: whpx windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jmmorlan th-huth
-X-Launchpad-Bug-Reporter: Jeffrey (jmmorlan)
+X-Launchpad-Bug-Commenters: abdurrahim-cakar ivanvx th-huth
+X-Launchpad-Bug-Reporter: Abdurrahim (abdurrahim-cakar)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161447036069.25241.974175619613922395.malonedeb@wampee.canonical.com>
-Message-Id: <162090717942.16886.11919323638782631423.malone@soybean.canonical.com>
-Subject: [Bug 1917184] Re: qemu-user vm86() segfaults handling interrupt with
- ss:sp in same page as cs:ip
+References: <161418362907.7833.18159388399676261767.malonedeb@soybean.canonical.com>
+Message-Id: <162090720553.17105.15465371324007992459.malone@soybean.canonical.com>
+Subject: [Bug 1916775] Re: Guest freezes until there is a keyboard input on
+ Windows version
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: 780934c72248694479c25c085450d15897d1a868
+X-Launchpad-Hash: 1f658a9b2afac08290154531982693561bd4e3ba
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917184 <1917184@bugs.launchpad.net>
+Reply-To: Bug 1916775 <1916775@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -106,8 +106,6 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
-** Tags added: i386 tcg
-
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
@@ -115,23 +113,48 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917184
+https://bugs.launchpad.net/bugs/1916775
 
 Title:
-  qemu-user vm86() segfaults handling interrupt with ss:sp in same page
-  as cs:ip
+  Guest freezes until there is a keyboard input on Windows version
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  When using qemu-i386 to run a program that uses vm86(), if the vm86
-  code calls an interrupt while cs:ip and ss:sp both point within the
-  same page, do_int tries to write to the page while it is not writable,
-  causing a segfault.
+  I am using Qemu for Windows and when I try to run this for Windows
+  guests then the guests are freezing and waiting for keyboard input and
+  it continues to function after I press a key. I am using Windows10
+  Home and below is the command I use to run the guest. I have suspected
+  if this is caused by random entropy but even with mouse moving it
+  gives same random locks and it continues to work as soon as I press a
+  key so maybe its not about entropy at all,
 
-  qemu version 5.2.0, x86-64 host.
+  startwinguest.bat:
+  qemu-system-x86_64 ^
+  =C2=A0-name "win" ^
+  =C2=A0-machine type=3Dq35,accel=3Dwhpx ^
+  =C2=A0-cpu EPYC,hv_relaxed,hv_time,topoext   ^
+  =C2=A0-nodefaults ^
+  =C2=A0-usb ^
+  =C2=A0-rtc base=3Dlocaltime,driftfix=3Dslew ^
+  =C2=A0-smp 6,sockets=3D1,cores=3D3,threads=3D2 ^
+  =C2=A0-m 8192 -mem-prealloc ^
+  =C2=A0-soundhw hda ^
+  =C2=A0-usbdevice tablet ^
+  =C2=A0-netdev user,id=3Dmynet0,hostfwd=3Dtcp::3390-:3389 -device virtio-n=
+et,netdev=3Dmynet0 ^
+  =C2=A0-vga std ^
+  =C2=A0-display gtk ^
+  =C2=A0-boot d ^
+  =C2=A0-device virtio-scsi-pci,id=3Dscsi0 ^
+  =C2=A0-drive "file=3D%~dp0win10.qcow2,if=3Dnone,format=3Dqcow2,discard=3D=
+unmap,aio=3Dthreads,cache=3Dwritethrough,id=3Dsomeid" ^
+  =C2=A0-device scsi-hd,drive=3Dsomeid,bus=3Dscsi0.0 ^
+  =C2=A0-drive "file=3DD:\Setups\OS\Windows\en_windows_server_2019_updated_=
+dec_2020_x64_dvd_36e0f791.iso,media=3Dcdrom,index=3D1" ^
+  =C2=A0-drive "file=3D%~dp0virtio-win-0.1.185.iso,media=3Dcdrom,index=3D2"
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917184/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1916775/+subscriptions
 
