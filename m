@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91CB37FBBD
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 18:44:45 +0200 (CEST)
-Received: from localhost ([::1]:50212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E83F37FBC1
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 18:46:33 +0200 (CEST)
+Received: from localhost ([::1]:53516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhES4-0005tH-Or
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 12:44:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40602)
+	id 1lhETo-0008JP-7G
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 12:46:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lhEDD-0002Op-LU
- for qemu-devel@nongnu.org; Thu, 13 May 2021 12:29:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56914)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
+ id 1lhEJr-0007YB-3V; Thu, 13 May 2021 12:36:16 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lhED7-0003VT-VK
- for qemu-devel@nongnu.org; Thu, 13 May 2021 12:29:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620923357;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J9qZn9QgVHrZreV/T0Lm7SWjQEmBkWaOZe/+7WLLBdM=;
- b=LU6uJkbBE7ovQkBu5X/W82wGxfdy++GVijT5mp8JvtrR73KnqYquy0++UOuqX0BwVxabTR
- tr/hNuboSee+QbiML+RmZK2M/iH+JBdjeQOaIoZk7pUCULs3qJth7QPFPXtnw9rRPSfrAk
- d+hmMt1KwPFQ0+oMsqlQ3fPnWjmOe0g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-dHPLcBydPKmnvyINEOe8vg-1; Thu, 13 May 2021 12:29:15 -0400
-X-MC-Unique: dHPLcBydPKmnvyINEOe8vg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 735AA1922025;
- Thu, 13 May 2021 16:29:14 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0386150233;
- Thu, 13 May 2021 16:29:13 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 14/14] machine: add smp compound property
-Date: Thu, 13 May 2021 12:29:01 -0400
-Message-Id: <20210513162901.1310239-15-pbonzini@redhat.com>
-In-Reply-To: <20210513162901.1310239-1-pbonzini@redhat.com>
-References: <20210513162901.1310239-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
+ id 1lhEJe-0007Ku-MA; Thu, 13 May 2021 12:36:12 -0400
+Received: from dggeml756-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FgxzZ5C9JzYhVN;
+ Fri, 14 May 2021 00:33:14 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggeml756-chm.china.huawei.com (10.1.199.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Fri, 14 May 2021 00:35:43 +0800
+Received: from dggpemm500011.china.huawei.com (7.185.36.110) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 14 May 2021 00:35:43 +0800
+Received: from dggpemm500011.china.huawei.com ([7.185.36.110]) by
+ dggpemm500011.china.huawei.com ([7.185.36.110]) with mapi id 15.01.2176.012;
+ Fri, 14 May 2021 00:35:43 +0800
+From: Andrey Shinkevich <andrey.shinkevich@huawei.com>
+To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: GICv3 for MTTCG
+Thread-Topic: GICv3 for MTTCG
+Thread-Index: AQHXRo49QQoDTg/5kkqOfm/tGkugzg==
+Date: Thu, 13 May 2021 16:35:43 +0000
+Message-ID: <7f8496377da246c38452d95bbbfc0ca7@huawei.com>
+References: <1f157423cc544731beb743287a4be5cb@huawei.com>
+ <87h7j8ez4t.fsf@linaro.org>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.227.155.55]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=andrey.shinkevich@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,334 +68,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, berrange@redhat.com, ehabkost@redhat.com,
- armbru@redhat.com
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "drjones@redhat.com" <drjones@redhat.com>, "Cota@braap.org" <Cota@braap.org>,
+ "shashi.mallela@linaro.org" <shashi.mallela@linaro.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Chengen \(William, 
+ FixNet\)" <chengen@huawei.com>, yuzenghui <yuzenghui@huawei.com>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make -smp syntactic sugar for a compound property "-machine
-smp.{cores,threads,cpu,...}".  machine_smp_parse is replaced by the
-setter for the property.
-
-numa-test will now cover the new syntax, while other tests
-still use -smp.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/core/machine.c       | 108 +++++++++++++++++++++-------------------
- softmmu/vl.c            |  33 +++++++++---
- tests/qtest/numa-test.c |  22 ++++----
- 3 files changed, 95 insertions(+), 68 deletions(-)
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 55e878fc3e..f33c9ce78c 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -19,6 +19,7 @@
- #include "hw/loader.h"
- #include "qapi/error.h"
- #include "qapi/qapi-visit-common.h"
-+#include "qapi/qapi-visit-machine.h"
- #include "qapi/visitor.h"
- #include "hw/sysbus.h"
- #include "sysemu/cpus.h"
-@@ -797,6 +798,57 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     ms->smp.sockets = sockets;
- }
- 
-+static void machine_get_smp(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
-+{
-+    MachineState *ms = MACHINE(obj);
-+    SMPConfiguration *config = &(SMPConfiguration){
-+        .has_cores = true, .cores = ms->smp.cores,
-+        .has_sockets = true, .sockets = ms->smp.sockets,
-+        .has_dies = true, .dies = ms->smp.dies,
-+        .has_threads = true, .threads = ms->smp.threads,
-+        .has_cpus = true, .cpus = ms->smp.cpus,
-+        .has_maxcpus = true, .maxcpus = ms->smp.max_cpus,
-+    };
-+    if (!visit_type_SMPConfiguration(v, name, &config, &error_abort)) {
-+        return;
-+    }
-+}
-+
-+static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
-+{
-+    MachineClass *mc = MACHINE_GET_CLASS(obj);
-+    MachineState *ms = MACHINE(obj);
-+    SMPConfiguration *config;
-+    ERRP_GUARD();
-+
-+    if (!visit_type_SMPConfiguration(v, name, &config, errp)) {
-+        return;
-+    }
-+
-+    mc->smp_parse(ms, config, errp);
-+    if (errp) {
-+        goto out_free;
-+    }
-+
-+    /* sanity-check smp_cpus and max_cpus against mc */
-+    if (ms->smp.cpus < mc->min_cpus) {
-+        error_setg(errp, "Invalid SMP CPUs %d. The min CPUs "
-+                   "supported by machine '%s' is %d",
-+                   ms->smp.cpus,
-+                   mc->name, mc->min_cpus);
-+    } else if (ms->smp.max_cpus > mc->max_cpus) {
-+        error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
-+                   "supported by machine '%s' is %d",
-+                   current_machine->smp.max_cpus,
-+                   mc->name, mc->max_cpus);
-+    }
-+
-+out_free:
-+    qapi_free_SMPConfiguration(config);
-+}
-+
- static void machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -836,6 +888,12 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "dumpdtb",
-         "Dump current dtb to a file and quit");
- 
-+    object_class_property_add(oc, "smp", "SMPConfiguration",
-+        machine_get_smp, machine_set_smp,
-+        NULL, NULL);
-+    object_class_property_set_description(oc, "smp",
-+        "CPU topology");
-+
-     object_class_property_add(oc, "phandle-start", "int",
-         machine_get_phandle_start, machine_set_phandle_start,
-         NULL, NULL);
-@@ -1124,56 +1182,6 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
-     return ret;
- }
- 
--bool machine_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
--{
--    MachineClass *mc = MACHINE_GET_CLASS(ms);
--    ERRP_GUARD();
--
--    if (opts) {
--        SMPConfiguration config = {
--            .has_cpus = !!qemu_opt_get(opts, "cpus"),
--            .cpus = qemu_opt_get_number(opts, "cpus", 0),
--            .has_sockets = !!qemu_opt_get(opts, "sockets"),
--            .sockets = qemu_opt_get_number(opts, "sockets", 0),
--            .has_dies = !!qemu_opt_get(opts, "dies"),
--            .dies = qemu_opt_get_number(opts, "dies", 0),
--            .has_cores = !!qemu_opt_get(opts, "cores"),
--            .cores = qemu_opt_get_number(opts, "cores", 0),
--            .has_threads = !!qemu_opt_get(opts, "threads"),
--            .threads = qemu_opt_get_number(opts, "threads", 0),
--            .has_maxcpus = !!qemu_opt_get(opts, "maxcpus"),
--            .maxcpus = qemu_opt_get_number(opts, "maxcpus", 0),
--        };
--
--        mc->smp_parse(ms, &config, errp);
--        if (*errp) {
--            return false;
--        }
--    }
--
--    /* sanity-check smp_cpus and max_cpus against mc */
--    if (ms->smp.cpus < mc->min_cpus) {
--        error_setg(errp, "Invalid SMP CPUs %d. The min CPUs "
--                   "supported by machine '%s' is %d",
--                   ms->smp.cpus,
--                   mc->name, mc->min_cpus);
--        return false;
--    } else if (ms->smp.max_cpus > mc->max_cpus) {
--        error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
--                   "supported by machine '%s' is %d",
--                   current_machine->smp.max_cpus,
--                   mc->name, mc->max_cpus);
--        return false;
--    }
--
--    if (ms->smp.cpus > 1) {
--        Error *blocker = NULL;
--        error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
--        replay_add_blocker(blocker);
--    }
--    return true;
--}
--
- void machine_run_board_init(MachineState *machine)
- {
-     MachineClass *machine_class = MACHINE_GET_CLASS(machine);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index de844f08d7..555385e64d 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1504,6 +1504,25 @@ static void machine_help_func(const QDict *qdict)
-     }
- }
- 
-+static void
-+machine_parse_property_opt(QemuOptsList *opts_list, const char *propname,
-+                           const char *arg, Error **errp)
-+{
-+    QDict *opts, *prop;
-+    bool help = false;
-+    ERRP_GUARD();
-+
-+    prop = keyval_parse(arg, opts_list->implied_opt_name, &help, errp);
-+    if (help) {
-+        qemu_opts_print_help(opts_list, true);
-+        return;
-+    }
-+    opts = qdict_new();
-+    qdict_put(opts, propname, prop);
-+    keyval_merge(machine_opts_dict, opts, errp);
-+    qobject_unref(opts);
-+}
-+
- static const char *pid_file;
- static Notifier qemu_unlink_pidfile_notifier;
- 
-@@ -1796,6 +1815,12 @@ static void qemu_apply_machine_options(QDict *qdict)
-         /* fall back to the -kernel/-append */
-         semihosting_arg_fallback(current_machine->kernel_filename, current_machine->kernel_cmdline);
-     }
-+
-+    if (current_machine->smp.cpus > 1) {
-+        Error *blocker = NULL;
-+        error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
-+        replay_add_blocker(blocker);
-+    }
- }
- 
- static void qemu_create_early_backends(void)
-@@ -2039,9 +2064,6 @@ static void qemu_create_machine(QDict *qdict)
-         qemu_set_hw_version(machine_class->hw_version);
-     }
- 
--    machine_smp_parse(current_machine,
--        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
--
-     /*
-      * Get the default machine options from the machine if it is not already
-      * specified either by the configuration file or by the command line.
-@@ -3325,10 +3347,7 @@ void qemu_init(int argc, char **argv, char **envp)
-                 }
-                 break;
-             case QEMU_OPTION_smp:
--                if (!qemu_opts_parse_noisily(qemu_find_opts("smp-opts"),
--                                             optarg, true)) {
--                    exit(1);
--                }
-+                machine_parse_property_opt(qemu_find_opts("smp-opts"), "smp", optarg, &error_fatal);
-                 break;
-             case QEMU_OPTION_vnc:
-                 vnc_parse(optarg);
-diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-index dc0ec571ca..c677cd63c4 100644
---- a/tests/qtest/numa-test.c
-+++ b/tests/qtest/numa-test.c
-@@ -25,7 +25,7 @@ static void test_mon_explicit(const void *data)
-     g_autofree char *s = NULL;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-smp 8 -numa node,nodeid=0,memdev=ram,cpus=0-3 "
-+    cli = make_cli(data, "-machine smp.cpus=8 -numa node,nodeid=0,memdev=ram,cpus=0-3 "
-                          "-numa node,nodeid=1,cpus=4-7");
-     qts = qtest_init(cli);
- 
-@@ -42,7 +42,7 @@ static void test_def_cpu_split(const void *data)
-     g_autofree char *s = NULL;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-smp 8 -numa node,memdev=ram -numa node");
-+    cli = make_cli(data, "-machine smp.cpus=8 -numa node,memdev=ram -numa node");
-     qts = qtest_init(cli);
- 
-     s = qtest_hmp(qts, "info numa");
-@@ -58,7 +58,7 @@ static void test_mon_partial(const void *data)
-     g_autofree char *s = NULL;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-smp 8 "
-+    cli = make_cli(data, "-machine smp.cpus=8 "
-                    "-numa node,nodeid=0,memdev=ram,cpus=0-1 "
-                    "-numa node,nodeid=1,cpus=4-5 ");
-     qts = qtest_init(cli);
-@@ -86,7 +86,7 @@ static void test_query_cpus(const void *data)
-     QTestState *qts;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-smp 8 -numa node,memdev=ram,cpus=0-3 "
-+    cli = make_cli(data, "-machine smp.cpus=8 -numa node,memdev=ram,cpus=0-3 "
-                          "-numa node,cpus=4-7");
-     qts = qtest_init(cli);
-     cpus = get_cpus(qts, &resp);
-@@ -124,7 +124,7 @@ static void pc_numa_cpu(const void *data)
-     QTestState *qts;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-cpu pentium -smp 8,sockets=2,cores=2,threads=2 "
-+    cli = make_cli(data, "-cpu pentium -machine smp.cpus=8,smp.sockets=2,smp.cores=2,smp.threads=2 "
-         "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
-         "-numa cpu,node-id=1,socket-id=0 "
-         "-numa cpu,node-id=0,socket-id=1,core-id=0 "
-@@ -177,7 +177,7 @@ static void spapr_numa_cpu(const void *data)
-     QTestState *qts;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-smp 4,cores=4 "
-+    cli = make_cli(data, "-machine smp.cpus=4,smp.cores=4 "
-         "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
-         "-numa cpu,node-id=0,core-id=0 "
-         "-numa cpu,node-id=0,core-id=1 "
-@@ -222,7 +222,7 @@ static void aarch64_numa_cpu(const void *data)
-     QTestState *qts;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-smp 2 "
-+    cli = make_cli(data, "-machine smp.cpus=2 "
-         "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
-         "-numa cpu,node-id=1,thread-id=0 "
-         "-numa cpu,node-id=0,thread-id=1");
-@@ -265,7 +265,7 @@ static void pc_dynamic_cpu_cfg(const void *data)
-     QTestState *qs;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-nodefaults --preconfig -smp 2");
-+    cli = make_cli(data, "-nodefaults --preconfig -machine smp.cpus=2");
-     qs = qtest_init(cli);
- 
-     /* create 2 numa nodes */
-@@ -324,7 +324,7 @@ static void pc_hmat_build_cfg(const void *data)
-     g_autofree char *cli = NULL;
- 
-     cli = make_cli(data, "-nodefaults --preconfig -machine hmat=on "
--                         "-smp 2,sockets=2 "
-+                         "-machine smp.cpus=2,smp.sockets=2 "
-                          "-m 128M,slots=2,maxmem=1G "
-                          "-object memory-backend-ram,size=64M,id=m0 "
-                          "-object memory-backend-ram,size=64M,id=m1 "
-@@ -453,7 +453,7 @@ static void pc_hmat_off_cfg(const void *data)
-     g_autofree char *cli = NULL;
- 
-     cli = make_cli(data, "-nodefaults --preconfig "
--                         "-smp 2,sockets=2 "
-+                         "-machine smp.cpus=2,smp.sockets=2 "
-                          "-m 128M,slots=2,maxmem=1G "
-                          "-object memory-backend-ram,size=64M,id=m0,prealloc=y "
-                          "-object memory-backend-ram,size=64M,id=m1 "
-@@ -492,7 +492,7 @@ static void pc_hmat_erange_cfg(const void *data)
-     g_autofree char *cli = NULL;
- 
-     cli = make_cli(data, "-nodefaults --preconfig -machine hmat=on "
--                         "-smp 2,sockets=2 "
-+                         "-machine smp.cpus=2,smp.sockets=2 "
-                          "-m 128M,slots=2,maxmem=1G "
-                          "-object memory-backend-ram,size=64M,id=m0 "
-                          "-object memory-backend-ram,size=64M,id=m1 "
--- 
-2.26.2
-
+Dear colleagues,=0A=
+=0A=
+Thank you all very much for your responses. Let me reply with one message.=
+=0A=
+=0A=
+I configured QEMU for AARCH64 guest:=0A=
+$ ./configure --target-list=3Daarch64-softmmu=0A=
+=0A=
+When I start QEMU with GICv3 on an x86 host:=0A=
+qemu-system-aarch64 -machine virt-6.0,accel=3Dtcg,gic-version=3D3=0A=
+=0A=
+QEMU reports this error from hw/pci/msix.c:=0A=
+error_setg(errp, "MSI-X is not supported by interrupt controller");=0A=
+=0A=
+Probably, the variable 'msi_nonbroken' would be initialized in=0A=
+hw/intc/arm_gicv3_its_common.c:=0A=
+gicv3_its_init_mmio(..)=0A=
+=0A=
+I guess that it works with KVM acceleration only rather than with TCG.=0A=
+=0A=
+The error persists after applying the series:=0A=
+https://lists.gnu.org/archive/html/qemu-arm/2021-04/msg00944.html=0A=
+"GICv3 LPI and ITS feature implementation"=0A=
+(special thanks for referring me to that)=0A=
+=0A=
+Please, make me clear and advise ideas how that error can be fixed?=0A=
+Should the MSI-X support be implemented with GICv3 extra?=0A=
+=0A=
+When successful, I would like to test QEMU for a maximum number of cores =
+=0A=
+to get the best MTTCG performance.=0A=
+Probably, we will get just some percentage of performance enhancement =0A=
+with the BQL series applied, won't we? I will test it as well.=0A=
+=0A=
+Best regards,=0A=
+Andrey Shinkevich=0A=
+=0A=
+=0A=
+On 5/12/21 6:43 PM, Alex Benn=E9e wrote:=0A=
+> =0A=
+> Andrey Shinkevich <andrey.shinkevich@huawei.com> writes:=0A=
+> =0A=
+>> Dear colleagues,=0A=
+>>=0A=
+>> I am looking for ways to accelerate the MTTCG for ARM guest on x86-64 ho=
+st.=0A=
+>> The maximum number of CPUs for MTTCG that uses GICv2 is limited by 8:=0A=
+>>=0A=
+>> include/hw/intc/arm_gic_common.h:#define GIC_NCPU 8=0A=
+>>=0A=
+>> The version 3 of the Generic Interrupt Controller (GICv3) is not=0A=
+>> supported in QEMU for some reason unknown to me. It would allow to=0A=
+>> increase the limit of CPUs and accelerate the MTTCG performance on a=0A=
+>> multiple core hypervisor.=0A=
+> =0A=
+> It is supported, you just need to select it.=0A=
+> =0A=
+>> I have got an idea to implement the Interrupt Translation Service (ITS)=
+=0A=
+>> for using by MTTCG for ARM architecture.=0A=
+> =0A=
+> There is some work to support ITS under TCG already posted:=0A=
+> =0A=
+>    Subject: [PATCH v3 0/8] GICv3 LPI and ITS feature implementation=0A=
+>    Date: Thu, 29 Apr 2021 19:41:53 -0400=0A=
+>    Message-Id: <20210429234201.125565-1-shashi.mallela@linaro.org>=0A=
+> =0A=
+> please do review and test.=0A=
+> =0A=
+>> Do you find that idea useful and feasible?=0A=
+>> If yes, how much time do you estimate for such a project to complete by=
+=0A=
+>> one developer?=0A=
+>> If no, what are reasons for not implementing GICv3 for MTTCG in QEMU?=0A=
+> =0A=
+> As far as MTTCG performance is concerned there is a degree of=0A=
+> diminishing returns to be expected as the synchronisation cost between=0A=
+> threads will eventually outweigh the gains of additional threads.=0A=
+> =0A=
+> There are a number of parts that could improve this performance. The=0A=
+> first would be picking up the BQL reduction series from your FutureWei=0A=
+> colleges who worked on the problem when they were Linaro assignees:=0A=
+> =0A=
+>    Subject: [PATCH v2 0/7] accel/tcg: remove implied BQL from cpu_handle_=
+interrupt/exception path=0A=
+>    Date: Wed, 19 Aug 2020 14:28:49 -0400=0A=
+>    Message-Id: <20200819182856.4893-1-robert.foley@linaro.org>=0A=
+> =0A=
+> There was also a longer series moving towards per-CPU locks:=0A=
+> =0A=
+>    Subject: [PATCH v10 00/73] per-CPU locks=0A=
+>    Date: Wed, 17 Jun 2020 17:01:18 -0400=0A=
+>    Message-Id: <20200617210231.4393-1-robert.foley@linaro.org>=0A=
+> =0A=
+> I believe the initial measurements showed that the BQL cost started to=0A=
+> edge up with GIC interactions. We did discuss approaches for this and I=
+=0A=
+> think one idea was use non-BQL locking for the GIC. You would need to=0A=
+> revert:=0A=
+> =0A=
+>    Subject: [PATCH-for-5.2] exec: Remove MemoryRegion::global_locking fie=
+ld=0A=
+>    Date: Thu,  6 Aug 2020 17:07:26 +0200=0A=
+>    Message-Id: <20200806150726.962-1-philmd@redhat.com>=0A=
+> =0A=
+> and then implement a more fine tuned locking in the GIC emulation=0A=
+> itself. However I think the BQL and per-CPU locks are lower hanging=0A=
+> fruit to tackle first.=0A=
+> =0A=
+>>=0A=
+>> Best regards,=0A=
+>> Andrey Shinkevich=0A=
+> =0A=
+> =0A=
+=0A=
 
