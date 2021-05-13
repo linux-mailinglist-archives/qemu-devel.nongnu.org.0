@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E84337F25A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 06:36:28 +0200 (CEST)
-Received: from localhost ([::1]:50212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A3137F25E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 06:38:07 +0200 (CEST)
+Received: from localhost ([::1]:54422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh35H-00055R-Jq
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 00:36:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43666)
+	id 1lh36t-00084s-0v
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 00:38:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lh2sf-0007O4-V2; Thu, 13 May 2021 00:23:27 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:41583)
+ id 1lh2sd-0007Lf-Vn; Thu, 13 May 2021 00:23:24 -0400
+Received: from ozlabs.org ([203.11.71.1]:35375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lh2sc-0004fb-96; Thu, 13 May 2021 00:23:25 -0400
+ id 1lh2sa-0004fU-Kr; Thu, 13 May 2021 00:23:23 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fgdms6zCJz9t2g; Thu, 13 May 2021 14:22:53 +1000 (AEST)
+ id 4Fgdmt0j60z9t5G; Thu, 13 May 2021 14:22:54 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1620879773;
- bh=AwBzzYGrvnpGTSWSS3MnqEog5rXa68AMRbz+ulQRFlI=;
+ d=gibson.dropbear.id.au; s=201602; t=1620879774;
+ bh=LsbMzOLiYyGW4mRQTCHfqFakD3FBW1dJKcNCrYE5z38=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RUE9hgqJWSnQEYHG1l2hcT3ucRfKnCX/0qK+cEvrNrIba+D2FbWybWznDlUDPkwpa
- EshQ071Z16vTCxCfuMhT5aHm5jAo98k2FYW5Vt5EZmpmp1kvubTipQ15MFBcBI5ErJ
- XgYjuxFBucMSREk4cBkW7wDKuXOEfdIoly1apLjw=
-Date: Thu, 13 May 2021 14:11:19 +1000
+ b=TZjL4d3X+CRYWWuSLamOry/2MX//vvIeWcPWIeepRSLwwfFeS+weZ88YhwdoJMgrc
+ CNe0nKHE8yGCwcP92smJWlj1zWLYBtbqrZWquUOrJSnLdSqZ/QCjejgLoaXuZt8kCT
+ G/iWt+NabnSWJkvw/FRCCtWr1wqu4jSNH+wBLr9Y=
+Date: Thu, 13 May 2021 14:12:01 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: matheus.ferst@eldorado.org.br
-Subject: Re: [PATCH v4 08/31] target/ppc: Replace POWERPC_EXCP_SYNC with
- DISAS_EXIT
-Message-ID: <YJym5zdD6xC6bxdb@yekko>
+Subject: Re: [PATCH v4 09/31] target/ppc: Remove unnecessary gen_io_end calls
+Message-ID: <YJynEdK2qSkXN5ZS@yekko>
 References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
- <20210512185441.3619828-9-matheus.ferst@eldorado.org.br>
+ <20210512185441.3619828-10-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6VO/VasY2Ntiv71G"
+ protocol="application/pgp-signature"; boundary="3moc0V4RRSDZr5Ma"
 Content-Disposition: inline
-In-Reply-To: <20210512185441.3619828-9-matheus.ferst@eldorado.org.br>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210512185441.3619828-10-matheus.ferst@eldorado.org.br>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -66,16 +65,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---6VO/VasY2Ntiv71G
+--3moc0V4RRSDZr5Ma
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 12, 2021 at 03:54:18PM -0300, matheus.ferst@eldorado.org.br wro=
+On Wed, May 12, 2021 at 03:54:19PM -0300, matheus.ferst@eldorado.org.br wro=
 te:
 > From: Richard Henderson <richard.henderson@linaro.org>
 >=20
-> Remove the synthetic "exception" after no more uses.
+> Since ba3e7926691ed33, we switched the implementation of icount
+> to always reset can_do_io at the start of the following TB.
+> Most of them were removed in 9e9b10c64911, but some were missed.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
@@ -83,138 +84,67 @@ te:
 Applied to ppc-for-6.1, thanks.
 
 > ---
->  target/ppc/cpu.h       |  1 -
->  target/ppc/translate.c | 27 +++++++++------------------
->  2 files changed, 9 insertions(+), 19 deletions(-)
+>  target/ppc/translate.c | 6 ------
+>  1 file changed, 6 deletions(-)
 >=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 98fcf1c4d6..503de6db85 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -135,7 +135,6 @@ enum {
->      POWERPC_EXCP_STOP         =3D 0x200, /* stop translation            =
-       */
->      POWERPC_EXCP_BRANCH       =3D 0x201, /* branch instruction          =
-       */
->      /* QEMU exceptions: special cases we want to stop translation       =
-     */
-> -    POWERPC_EXCP_SYNC         =3D 0x202, /* context synchronizing instru=
-ction  */
->      POWERPC_EXCP_SYSCALL_USER =3D 0x203, /* System call in user mode onl=
-y      */
->  };
-> =20
 > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 4bebb00bb2..88fe24ef95 100644
+> index 88fe24ef95..1c02e21a56 100644
 > --- a/target/ppc/translate.c
 > +++ b/target/ppc/translate.c
-> @@ -359,14 +359,6 @@ static inline void gen_stop_exception(DisasContext *=
-ctx)
->      ctx->exception =3D POWERPC_EXCP_STOP;
->  }
-> =20
-> -#ifndef CONFIG_USER_ONLY
-> -/* No need to update nip here, as execution flow will change */
-> -static inline void gen_sync_exception(DisasContext *ctx)
-> -{
-> -    ctx->exception =3D POWERPC_EXCP_SYNC;
-> -}
-> -#endif
-> -
->  /***********************************************************************=
-******/
->  /* SPR READ/WRITE CALLBACKS */
-> =20
-> @@ -5035,7 +5027,7 @@ static void gen_rfi(DisasContext *ctx)
+> @@ -568,7 +568,6 @@ static void spr_read_tbl(DisasContext *ctx, int gprn,=
+ int sprn)
 >      }
->      gen_update_cfar(ctx, ctx->cia);
->      gen_helper_rfi(cpu_env);
-> -    gen_sync_exception(ctx);
-> +    ctx->base.is_jmp =3D DISAS_EXIT;
->  #endif
->  }
-> =20
-> @@ -5052,7 +5044,7 @@ static void gen_rfid(DisasContext *ctx)
+>      gen_helper_load_tbl(cpu_gpr[gprn], cpu_env);
+>      if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> -        gen_io_end();
+>          gen_stop_exception(ctx);
 >      }
->      gen_update_cfar(ctx, ctx->cia);
->      gen_helper_rfid(cpu_env);
-> -    gen_sync_exception(ctx);
-> +    ctx->base.is_jmp =3D DISAS_EXIT;
->  #endif
 >  }
-> =20
-> @@ -5069,7 +5061,7 @@ static void gen_rfscv(DisasContext *ctx)
+> @@ -580,7 +579,6 @@ static void spr_read_tbu(DisasContext *ctx, int gprn,=
+ int sprn)
 >      }
->      gen_update_cfar(ctx, ctx->cia);
->      gen_helper_rfscv(cpu_env);
-> -    gen_sync_exception(ctx);
-> +    ctx->base.is_jmp =3D DISAS_EXIT;
->  #endif
+>      gen_helper_load_tbu(cpu_gpr[gprn], cpu_env);
+>      if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> -        gen_io_end();
+>          gen_stop_exception(ctx);
+>      }
 >  }
->  #endif
-> @@ -5082,7 +5074,7 @@ static void gen_hrfid(DisasContext *ctx)
->      /* Restore CPU state */
->      CHK_HV;
->      gen_helper_hrfid(cpu_env);
-> -    gen_sync_exception(ctx);
-> +    ctx->base.is_jmp =3D DISAS_EXIT;
->  #endif
+> @@ -605,7 +603,6 @@ static void spr_write_tbl(DisasContext *ctx, int sprn=
+, int gprn)
+>      }
+>      gen_helper_store_tbl(cpu_env, cpu_gpr[gprn]);
+>      if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> -        gen_io_end();
+>          gen_stop_exception(ctx);
+>      }
 >  }
->  #endif
-> @@ -6923,7 +6915,7 @@ static void gen_rfsvc(DisasContext *ctx)
->      CHK_SV;
-> =20
->      gen_helper_rfsvc(cpu_env);
-> -    gen_sync_exception(ctx);
-> +    ctx->base.is_jmp =3D DISAS_EXIT;
->  #endif /* defined(CONFIG_USER_ONLY) */
+> @@ -617,7 +614,6 @@ static void spr_write_tbu(DisasContext *ctx, int sprn=
+, int gprn)
+>      }
+>      gen_helper_store_tbu(cpu_env, cpu_gpr[gprn]);
+>      if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> -        gen_io_end();
+>          gen_stop_exception(ctx);
+>      }
 >  }
-> =20
-> @@ -7303,7 +7295,7 @@ static void gen_rfci_40x(DisasContext *ctx)
->      CHK_SV;
->      /* Restore CPU state */
->      gen_helper_40x_rfci(cpu_env);
-> -    gen_sync_exception(ctx);
-> +    ctx->base.is_jmp =3D DISAS_EXIT;
->  #endif /* defined(CONFIG_USER_ONLY) */
+> @@ -666,7 +662,6 @@ static void spr_read_hdecr(DisasContext *ctx, int gpr=
+n, int sprn)
+>      }
+>      gen_helper_load_hdecr(cpu_gpr[gprn], cpu_env);
+>      if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> -        gen_io_end();
+>          gen_stop_exception(ctx);
+>      }
 >  }
-> =20
-> @@ -7315,7 +7307,7 @@ static void gen_rfci(DisasContext *ctx)
->      CHK_SV;
->      /* Restore CPU state */
->      gen_helper_rfci(cpu_env);
-> -    gen_sync_exception(ctx);
-> +    ctx->base.is_jmp =3D DISAS_EXIT;
->  #endif /* defined(CONFIG_USER_ONLY) */
+> @@ -678,7 +673,6 @@ static void spr_write_hdecr(DisasContext *ctx, int sp=
+rn, int gprn)
+>      }
+>      gen_helper_store_hdecr(cpu_env, cpu_gpr[gprn]);
+>      if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> -        gen_io_end();
+>          gen_stop_exception(ctx);
+>      }
 >  }
-> =20
-> @@ -7330,7 +7322,7 @@ static void gen_rfdi(DisasContext *ctx)
->      CHK_SV;
->      /* Restore CPU state */
->      gen_helper_rfdi(cpu_env);
-> -    gen_sync_exception(ctx);
-> +    ctx->base.is_jmp =3D DISAS_EXIT;
->  #endif /* defined(CONFIG_USER_ONLY) */
->  }
-> =20
-> @@ -7343,7 +7335,7 @@ static void gen_rfmci(DisasContext *ctx)
->      CHK_SV;
->      /* Restore CPU state */
->      gen_helper_rfmci(cpu_env);
-> -    gen_sync_exception(ctx);
-> +    ctx->base.is_jmp =3D DISAS_EXIT;
->  #endif /* defined(CONFIG_USER_ONLY) */
->  }
-> =20
-> @@ -9429,7 +9421,6 @@ static void ppc_tr_translate_insn(DisasContextBase =
-*dcbase, CPUState *cs)
->          case POWERPC_EXCP_BRANCH:
->              ctx->base.is_jmp =3D DISAS_NORETURN;
->              break;
-> -        case POWERPC_EXCP_SYNC:
->          case POWERPC_EXCP_STOP:
->              ctx->base.is_jmp =3D DISAS_EXIT;
->              break;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -222,25 +152,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---6VO/VasY2Ntiv71G
+--3moc0V4RRSDZr5Ma
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCcpucACgkQbDjKyiDZ
-s5Lddw//aezgik1la7Fy9W0Q9t8hLYNaHEtf/mAGxTNZopZrCw+ysHSniTa7MUom
-MfvDvZFaSWYFBKMAlOnW6hEikvroq9nf6jLVL03nPjjvGazkdi3lx20BR9R5T0qZ
-XnxpDh8PSzIaBDjUbY8sG6T8ZaIl381pNEGNV2LMNr6u01CTy32p9AwMKM6t+q0C
-FDJAdBmU5b7VloBNVmfNDpj2zYJBays3P4KfIatZc8F3B/b/BVftDxNtxyc+1AQO
-QpPdVUxB6HOvuo9Y0DEIXHsWcyrK961fEt9dxYXaYHNiB9d4srW81hwmPpnbA+kJ
-yymIJ4dV2eKoLXVjEWxQ1btO/y2lgEEVAK+TQmv1CoeshZaEDNl3Qz37FQaAcKjf
-qdHbAPo1ETRZ/MZzZDVi1UpPsGQCT7/kfFa95FKuczWFQxKlYTUlQSMPlwsRdonP
-YxLJfJuRdMEAaOU8jNslqAbMShfcCfn8OA85130h6Jmz9bsw/CAvQGURfFKf4hLz
-Oc+LDPktktG10n9OKpwPCLQxOBnEONlNEhQy81U61zVeKrklpqMPoDBwkPGUJ7CZ
-zLWByVOGeJqUi4l9Vx9AAf8SDRRY+ftREnPnKoUAZMASFTbr7PgPBp1zLaRYbsaw
-kXijOn0+3k534z4BzGsUCfCB4njh/TI8mlzZycqQ/7YAjcWc+S4=
-=eR0o
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCcpxEACgkQbDjKyiDZ
+s5LsMQ/+Kn8sqbCGigQ46wjPA1azO+ac/7PuafLv8crO+t8roobQlqsxr5h7EPme
+meJOsuU6YUDELqEJ8z+jTPt8aFWNm4ZUowiRu8eDElro3ZRGl3MeoMyCuEwAyIek
+mn2w/JCOB7adpU7XHOsINPL3kFWRUg18xNgu+D5dhPO9CqkTVTg7ZpJIUCf0E9fr
+8F7kDM//CoCVJH+HizzhGdgToU2em3hE/3R3kMxChd8SNmrw0X+hm625Amzvjniq
+sXlWL822fV/umxbt0D3WDQFuQwtFgtuamd8K+SRb0/pBfDwr3QSGzLJYFkCOSrou
+6XqbYXALViHCtLa3h84xrV1lSTZC8Pobz32ma6DxD4SosABbrIFkewxnyMoULHzU
+zz4et3Hnbz6V4jhpAMRQS1FFynOWzDovJpGmxA+4wyzXAKNbu3SpKFhozkEky1MC
+4WK0b/WzAMZ5ipE5k37zv785WR3RlFpLtuZpgpnWV2ROAk+3Gtx52HL+P+V0wLid
+55PvvOn8x0vBhPqQBHhDDTTwNryYyhvkArtZFeJ6bGkkmV0ahXsY4VSM1z4DxNQY
+n993bwCYlpjy9HFnAaRTrygay5H+TKWkWCu6Xq3CfUgb/NMhGzo2GnKcHEvWUcfk
+Ps6JXjaEaBpEuAoXvZjiY4FCyhFPZR1g2OWUdhSHqOfoSN8qf6g=
+=0gqy
 -----END PGP SIGNATURE-----
 
---6VO/VasY2Ntiv71G--
+--3moc0V4RRSDZr5Ma--
 
