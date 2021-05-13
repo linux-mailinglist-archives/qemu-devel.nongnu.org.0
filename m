@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EADE37F520
+	by mail.lfdr.de (Postfix) with ESMTPS id C626337F521
 	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 11:58:12 +0200 (CEST)
-Received: from localhost ([::1]:48304 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:48492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh86d-00011v-27
+	id 1lh86d-0001D4-Pz
 	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 05:58:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53462)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh84B-0006jD-3K
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:55:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52416)
+ id 1lh84O-0006oA-DO
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:55:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh848-0006Z5-E5
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:55:38 -0400
+ id 1lh84H-0006fM-QK
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:55:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620899735;
+ s=mimecast20190719; t=1620899744;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BMcmF4p0t4UdVD9YrL87uVdWZXRwFCn/26k/ekkGh2U=;
- b=aLe/BZYN7JyOw6k3xAZSRaSBwwLNAR/wFRoFHqTJIPdk6dAVJCc/GS2a9YdteRIvb6vrVO
- DXenGWNLw40eunRtRcnF0q0XkuB2uFnfUGISzfOX/p6Sr3t8foae1H5Zmsmwq4UYMt23da
- Hd8aQJp6fJv6Zp2UK+6zqR6LaAyxDTE=
+ bh=k86Tutu4LKz91PHE1BHUVIhf7beaSDKO9Mg6vYTC3Kg=;
+ b=eL3bbeKeq/791+q8E+NdXknMRPbJqVdsV5nX4rYNNoQqQq3r0Cz/DDFgwqPtvpjPSg73bo
+ iuxYerPEwslUEsKrL00pnQ2JhBVkADpYc0Zef/jued6nsFUFag44IvVKSpgxSZ7HZgarr2
+ RhBRERt3ldFcuH3SvcV5jqln73agk/g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-v5lsjRHxMDSZqiuIKMpdvw-1; Thu, 13 May 2021 05:55:34 -0400
-X-MC-Unique: v5lsjRHxMDSZqiuIKMpdvw-1
+ us-mta-272-fj7cNeGIOa2WiSbdAx8lyw-1; Thu, 13 May 2021 05:55:39 -0400
+X-MC-Unique: fj7cNeGIOa2WiSbdAx8lyw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2331D8015C6;
- Thu, 13 May 2021 09:55:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDD216D4F9;
+ Thu, 13 May 2021 09:55:38 +0000 (UTC)
 Received: from localhost.redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E4EF100763C;
- Thu, 13 May 2021 09:55:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4692010027A5;
+ Thu, 13 May 2021 09:55:36 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/22] hw/usb/ccid: remove references to NSS
-Date: Thu, 13 May 2021 10:54:58 +0100
-Message-Id: <20210513095519.1213675-2-berrange@redhat.com>
+Subject: [PATCH v3 03/22] tests/docker: use project specific container
+ registries
+Date: Thu, 13 May 2021 10:55:00 +0100
+Message-Id: <20210513095519.1213675-4-berrange@redhat.com>
 In-Reply-To: <20210513095519.1213675-1-berrange@redhat.com>
 References: <20210513095519.1213675-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -89,245 +90,93 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The NSS package was previously pre-requisite for building CCID related
-features, however, this became obsolete when the libcacard library was
-spun off to a separate project:
+Since Docker Hub has started to enforce pull rate limits on clients, it
+is preferrable to use project specific container registries where they
+are available. Fedora and OpenSUSE projects provide registries.
 
-    commit 7b02f5447c64d1854468f758398c9f6fe9e5721f
-    Author: Marc-André Lureau <marcandre.lureau@redhat.com>
-    Date:   Sun Aug 30 11:48:40 2015 +0200
+The images in these registries are also refreshed on a more regular
+basis than the ones in docker hub, so the package update should
+generally be faster.
 
-        libcacard: use the standalone project
+While CentOS also has a registry it is considerably outdated compared
+to docker.io, and also only provides x86 images, while docker.io images
+are multi-arch.
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- .travis.yml                                | 12 ++++++------
- docs/ccid.txt                              | 15 +++++++--------
- scripts/coverity-scan/coverity-scan.docker |  1 -
- tests/docker/dockerfiles/centos8.docker    |  1 +
- tests/docker/dockerfiles/fedora.docker     |  2 +-
- tests/docker/dockerfiles/ubuntu.docker     |  1 -
- tests/docker/dockerfiles/ubuntu1804.docker |  1 -
- tests/docker/dockerfiles/ubuntu2004.docker |  1 -
- 8 files changed, 15 insertions(+), 19 deletions(-)
+ tests/docker/dockerfiles/fedora-cris-cross.docker  | 2 +-
+ tests/docker/dockerfiles/fedora-i386-cross.docker  | 2 +-
+ tests/docker/dockerfiles/fedora-win32-cross.docker | 2 +-
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 2 +-
+ tests/docker/dockerfiles/fedora.docker             | 2 +-
+ tests/docker/dockerfiles/opensuse-leap.docker      | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index 4609240b5a..0faddf7b4e 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -27,6 +27,7 @@ addons:
-       - libattr1-dev
-       - libbrlapi-dev
-       - libcap-ng-dev
-+      - libcacard-dev
-       - libgcc-7-dev
-       - libgnutls28-dev
-       - libgtk-3-dev
-@@ -34,7 +35,6 @@ addons:
-       - liblttng-ust-dev
-       - libncurses5-dev
-       - libnfs-dev
--      - libnss3-dev
-       - libpixman-1-dev
-       - libpng-dev
-       - librados-dev
-@@ -129,6 +129,7 @@ jobs:
-           - libaio-dev
-           - libattr1-dev
-           - libbrlapi-dev
-+          - libcacard-dev
-           - libcap-ng-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-@@ -137,7 +138,6 @@ jobs:
-           - liblttng-ust-dev
-           - libncurses5-dev
-           - libnfs-dev
--          - libnss3-dev
-           - libpixman-1-dev
-           - libpng-dev
-           - librados-dev
-@@ -163,6 +163,7 @@ jobs:
-           - libaio-dev
-           - libattr1-dev
-           - libbrlapi-dev
-+          - libcacard-dev
-           - libcap-ng-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-@@ -171,7 +172,6 @@ jobs:
-           - liblttng-ust-dev
-           - libncurses5-dev
-           - libnfs-dev
--          - libnss3-dev
-           - libpixman-1-dev
-           - libpng-dev
-           - librados-dev
-@@ -196,6 +196,7 @@ jobs:
-           - libaio-dev
-           - libattr1-dev
-           - libbrlapi-dev
-+          - libcacard-dev
-           - libcap-ng-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-@@ -204,7 +205,6 @@ jobs:
-           - liblttng-ust-dev
-           - libncurses5-dev
-           - libnfs-dev
--          - libnss3-dev
-           - libpixman-1-dev
-           - libpng-dev
-           - librados-dev
-@@ -238,6 +238,7 @@ jobs:
-         apt_packages:
-           - libaio-dev
-           - libattr1-dev
-+          - libcacard-dev
-           - libcap-ng-dev
-           - libgnutls28-dev
-           - libiscsi-dev
-@@ -245,7 +246,6 @@ jobs:
-           - liblzo2-dev
-           - libncurses-dev
-           - libnfs-dev
--          - libnss3-dev
-           - libpixman-1-dev
-           - libsdl2-dev
-           - libsdl2-image-dev
-@@ -281,6 +281,7 @@ jobs:
-           - libaio-dev
-           - libattr1-dev
-           - libbrlapi-dev
-+          - libcacard-dev
-           - libcap-ng-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-@@ -289,7 +290,6 @@ jobs:
-           - liblttng-ust-dev
-           - libncurses5-dev
-           - libnfs-dev
--          - libnss3-dev
-           - libpixman-1-dev
-           - libpng-dev
-           - librados-dev
-diff --git a/docs/ccid.txt b/docs/ccid.txt
-index c97fbd2de0..2b85b1bd42 100644
---- a/docs/ccid.txt
-+++ b/docs/ccid.txt
-@@ -34,15 +34,14 @@ reader and smart card (i.e. not backed by a physical device) using this device.
+diff --git a/tests/docker/dockerfiles/fedora-cris-cross.docker b/tests/docker/dockerfiles/fedora-cris-cross.docker
+index 1dfff6e0b9..91c373fdd3 100644
+--- a/tests/docker/dockerfiles/fedora-cris-cross.docker
++++ b/tests/docker/dockerfiles/fedora-cris-cross.docker
+@@ -2,7 +2,7 @@
+ # Cross compiler for cris system tests
+ #
  
- 2. Building
+-FROM fedora:33
++FROM registry.fedoraproject.org/fedora:33
+ ENV PACKAGES gcc-cris-linux-gnu
+ RUN dnf install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
+diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
+index 966072c08e..a03a70f5bf 100644
+--- a/tests/docker/dockerfiles/fedora-i386-cross.docker
++++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:33
++FROM registry.fedoraproject.org/fedora:33
+ ENV PACKAGES \
+     bzip2 \
+     diffutils \
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index 81b5659e9c..4901f9be17 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:33
++FROM registry.fedoraproject.org/fedora:33
  
--The cryptographic functions and access to the physical card is done via NSS.
--
--Installing NSS:
-+The cryptographic functions and access to the physical card is done via the
-+libcacard library, whose development package must be installed prior to
-+building QEMU:
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index bcb428e724..f178f593b8 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:33
++FROM registry.fedoraproject.org/fedora:33
  
- In redhat/fedora:
--    yum install nss-devel
--In ubuntu/debian:
--    apt-get install libnss3-dev
--    (not tested on ubuntu)
-+    yum install libcacard-devel
-+In ubuntu:
-+    apt-get install libcacard-dev
- 
- Configuring and building:
-     ./configure --enable-smartcard && make
-@@ -51,7 +50,7 @@ Configuring and building:
- 3. Using ccid-card-emulated with hardware
- 
- Assuming you have a working smartcard on the host with the current
--user, using NSS, qemu acts as another NSS client using ccid-card-emulated:
-+user, using libcacard, QEMU acts as another client using ccid-card-emulated:
- 
-     qemu -usb -device usb-ccid -device ccid-card-emulated
- 
-diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
-index 501ac67233..ecff6ac5b4 100644
---- a/scripts/coverity-scan/coverity-scan.docker
-+++ b/scripts/coverity-scan/coverity-scan.docker
-@@ -93,7 +93,6 @@ ENV PACKAGES \
-     mingw64-SDL2 \
-     ncurses-devel \
-     nettle-devel \
--    nss-devel \
-     numactl-devel \
-     perl \
-     perl-Test-Harness \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index a8c6c528b0..92c0ed34b8 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -14,6 +14,7 @@ ENV PACKAGES \
-     git \
-     glib2-devel \
-     libaio-devel \
-+    libcacard-devel \
-     libepoxy-devel \
-     libfdt-devel \
-     libgcrypt-devel \
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
 diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 915fdc1845..ab4bd94e14 100644
+index ab4bd94e14..501cd72daf 100644
 --- a/tests/docker/dockerfiles/fedora.docker
 +++ b/tests/docker/dockerfiles/fedora.docker
-@@ -28,6 +28,7 @@ ENV PACKAGES \
-     libasan \
-     libattr-devel \
-     libblockdev-mpath-devel \
-+    libcacard-devel \
-     libcap-ng-devel \
-     libcurl-devel \
-     libepoxy-devel \
-@@ -80,7 +81,6 @@ ENV PACKAGES \
-     ncurses-devel \
-     nettle-devel \
-     ninja-build \
--    nss-devel \
-     numactl-devel \
-     perl \
-     perl-Test-Harness \
-diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
-index b5ef7a8198..9dec1c4bc6 100644
---- a/tests/docker/dockerfiles/ubuntu.docker
-+++ b/tests/docker/dockerfiles/ubuntu.docker
-@@ -39,7 +39,6 @@ ENV PACKAGES \
-     libncurses5-dev \
-     libncursesw5-dev \
-     libnfs-dev \
--    libnss3-dev \
-     libnuma-dev \
-     libpixman-1-dev \
-     libpng-dev \
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 9b0a19ba5e..aacea8627a 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -26,7 +26,6 @@ ENV PACKAGES \
-     libncurses5-dev \
-     libncursesw5-dev \
-     libnfs-dev \
--    libnss3-dev \
-     libnuma-dev \
-     libpixman-1-dev \
-     librados-dev \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 9750016e51..7f32990bcd 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -30,7 +30,6 @@ ENV PACKAGES flex bison \
-     libncurses5-dev \
-     libncursesw5-dev \
-     libnfs-dev \
--    libnss3-dev \
-     libnuma-dev \
-     libpixman-1-dev \
-     librados-dev \
+@@ -1,4 +1,4 @@
+-FROM fedora:33
++FROM registry.fedoraproject.org/fedora:33
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 0e64893e4a..e7dc14bf99 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -1,4 +1,4 @@
+-FROM opensuse/leap:15.2
++FROM registry.opensuse.org/opensuse/leap:15.2
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
 -- 
 2.31.1
 
