@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38FD37F7F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:29:55 +0200 (CEST)
-Received: from localhost ([::1]:51874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D192A37F7F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:30:12 +0200 (CEST)
+Received: from localhost ([::1]:52228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhATR-0003IR-Gq
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:29:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
+	id 1lhATZ-0003WZ-R2
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:30:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhANn-0003BV-DK
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:24:03 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:33584)
+ id 1lhAR7-0000ji-Hn
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:27:29 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:35488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhANl-00037g-Ni
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:24:03 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id t4so39660139ejo.0
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 05:24:01 -0700 (PDT)
+ id 1lhAR5-00057X-LF
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:27:29 -0400
+Received: by mail-ej1-x636.google.com with SMTP id m12so39643377eja.2
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 05:27:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TFz3uQ3NEcT/Q3F9GeXoEG+APbnxxOumDhgQ8adfrvw=;
- b=dycxLt0g2Q0IZT6sbbnHL/kgbtxWmEDeS9vRMEBGyX0Rna8EE6N9IQWZQjOITrnAe3
- Pd1FU9oGhZvIT/fGQSMNm23H4Ejk2uXZGWBxhl4V2hGgEcLymDSD7dCPotnspyaQxIQs
- cX+YtwU21ne9dKOL3eUU3CW4+ZxZ3pgCsqQNpqijq2i8gNlMtN7cyLZ+iBlJW2i5ASAK
- Lpuv0ZRWuSpcSxZfribbiWyKy+Gj8g1cUJrzfWDGBnecSrVHmYbHCzayNkcWt9jTRBb+
- 4aSrKeuOHcTBf9ecNzCAXf3W/yg/QHUBTHIoHMkysVvOM2n994cr5iofdw8coxGBNaRw
- ZxFA==
+ :cc; bh=SBihDQKRXh1j3fmo0CiGTGoOEjvHZV+PVVOzXk0ivTk=;
+ b=vTdu5sVWNLb5yUOFqI5SQZwHH+Uln8iNSLgWsZ/XM7O1SuuX7t5cP38tMavH+ALN3d
+ WxTfqajtavlulZPqj98kJJrMcmIbmNwg39gR4YkKyMNc9BRH0bDjmTifyc6olL3robql
+ r3tFrIgtPX6RF72l5MdAIfGMbiacwA5hUtcUxlzU++D4nl18SxmLwvyLYHPROZh6rNVW
+ +t9E8rscOazVtbPErcfuuiZkAX/Z3bd6Pnl+FyN9bRq8m9xQF19KCEsCRvi3A7byrCt4
+ houhje+I+TYikSNSax723C3UigIcAKptUHajKZ75Qdnaew38t+sAM0WMJ56QPY9uu4rG
+ fTVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TFz3uQ3NEcT/Q3F9GeXoEG+APbnxxOumDhgQ8adfrvw=;
- b=EY55UZ9fLd48gqb/GOyo8OqDASmI0zN9X9haqcYDDFUZjvaVQnG4lm9umvwPRq3t8I
- x+TYzRhLTfR7nfZRz01H8j9xkAjXbh2J+pSX9JLbQGEeTkblWwN2Q6+EHfMOJQaOqi5c
- odcZBt6okD3d3seTKZ8Bf0G6YZcD6nv+ygWmjyD/3HdhHUIqug6maSAKqRStobJzWeSu
- +4hIryY9tz4ZCPd0KkQi88aNpVawgpi+hbJZmvgvo2T/y2Gl+01y1imtG8BWPxyjkSpF
- cXDwOVJ+V6vEQznVJ2KkH8ALJ4n0bHapWkKJiDgcnBkp3izDmhb07Wv/I8+oLTwGXs++
- sCgg==
-X-Gm-Message-State: AOAM5324B1DNol/1zo3mxBy21Bpr2hSzVL/G2emEciNAAvN5TVoPOp0c
- l4nTj+sXArHJpRjUmZbbfkh3u6TbgtEO09Em4cCyFg==
-X-Google-Smtp-Source: ABdhPJyVW5/H6IwnANS7Q2505TOnoWKqUl/r9evpMRm7UG9UM057NUWpbOmSAnXSUGQ50dw01+TRdmutTHQsegXFKow=
+ bh=SBihDQKRXh1j3fmo0CiGTGoOEjvHZV+PVVOzXk0ivTk=;
+ b=bSu1wVS/Bk40nvv8fCDpdRYmuEu84cMOKWDfTX+c3+LEqrxYvsxQEeSXtOsHLwP7Cb
+ uQ5CThFgAAEh75ORw4Dfa+UeUie/oQSz3jFpbYCnfL6NRiVr+oWbvVVv/XhFCq0ysLkL
+ 4T/hFgMW16IlELYgoYeMerm0UdRL7ngHyNcHPV1oYCoQAslwyrkNKUh5MesNtm/n3pPA
+ nzem91V24t/pxp60LB9x2aEf0nV3xKzM+4mVmfNKcZB50uxeQ4kqvjglcYAbl1F0+T52
+ ChNreDqGXRgLnoi9SQRHUtopd7hcCrqlR2gkEk4gxlbaTKcIzstLCKcRbQrQjf/EVhO6
+ GdJQ==
+X-Gm-Message-State: AOAM533NdwZBl1CYvG3j9lzPdkGHK8+YVlFfIVgCw5GQTM+JIyNivQeB
+ vTRfjJ/TcgOG8Kuq0/hspSmhq0+LKnt2ybTpE6uoLQ==
+X-Google-Smtp-Source: ABdhPJwmUByAi6O5ecjtZxoSQe7RK3v7m2CgSVwssBxOzO0004O3hJ6sjImH4fppy4k95sXdBKGRe8PZFfWaIT/69Yo=
 X-Received: by 2002:a17:906:eced:: with SMTP id
- qt13mr42916962ejb.382.1620908640400; 
- Thu, 13 May 2021 05:24:00 -0700 (PDT)
+ qt13mr42930064ejb.382.1620908845948; 
+ Thu, 13 May 2021 05:27:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210513124737.00002b2d@Huawei.com>
-In-Reply-To: <20210513124737.00002b2d@Huawei.com>
+References: <20210511150842.207155-1-dgilbert@redhat.com>
+In-Reply-To: <20210511150842.207155-1-dgilbert@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 May 2021 13:23:48 +0100
-Message-ID: <CAFEAcA8a+A2u=sF6L-A1ZK7hSiAd2n24Xf0J6j5LeBFa-RTMFw@mail.gmail.com>
-Subject: Re: RFC: Memory region accesses where .valid.min_access_size <
- .impl.min_access_size
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Date: Thu, 13 May 2021 13:27:14 +0100
+Message-ID: <CAFEAcA-caAPn5Lzt=t2u7V5zWkdhbADdSQWd74v+OMOcRqD-ow@mail.gmail.com>
+Subject: Re: [PULL 00/17] migration queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,41 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ben Widawsky <ben.widawsky@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- Chris Browy <cbrowy@avery-design.com>, Linuxarm <linuxarm@huawei.com>,
+Cc: David Hildenbrand <david@redhat.com>, Kunkun Jiang <jiangkunkun@huawei.com>,
+ huangy81@chinatelecom.cn, Markus Armbruster <armbru@redhat.com>,
  Peter Xu <peterx@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 May 2021 at 12:49, Jonathan Cameron
-<Jonathan.Cameron@huawei.com> wrote:
-> My initial suggestion was to fix this by adding the relatively
-> simple code needed in the driver to implement byte read / write,
-> but Ben pointed at the QEMU docs - docs/devel/memory.rst which
-> says
-> "
-> .impl.min_access_size, .impl.max_access_size define the access sizes
->    (in bytes) supported by the *implementation*; other access sizes will be
->    emulated using the ones available. For example a 4-byte write will be
->    emulated using four 1-byte writes, if .impl.max_access_size = 1.
-> "
+On Tue, 11 May 2021 at 16:08, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
 >
-> This isn't true when we have the situation where
-> .valid.min_access_size < .imp.min_access_size
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >
-> So change the docs or try to make this work?
+> The following changes since commit e4f3ede95ce813d5705c65e1c0e1c80c70739ebb:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210505-pull-request' into staging (2021-05-10 19:55:06 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/dagrh/qemu.git tags/pull-migration-20210511a
+>
+> for you to fetch changes up to 872df23afc70985af5a458e0c4bd2b984559015c:
+>
+>   tests/migration: introduce multifd into guestperf (2021-05-11 11:26:19 +0100)
+>
+> ----------------------------------------------------------------
+> Migration pull 2021-05-11
+>
+> The largest change in this set is David's changes for ram block size
+> changing; then there's a pile of other cleanups and fixes.
+>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>
 
-I don't (yet) have a view on what the in-principle right thing
-should be, but in practice: how many devices do we have which
-set .valid.min_access_size < .imp.min_access_size ? If we want
-to change the semantics we'd need to look at those to see if they
-need to be adjusted (or if they're just currently buggy and would
-be fixed by the change).
+Fails to build on the gitlab cross build job:
+https://gitlab.com/qemu-project/qemu/-/jobs/1258047823
+
+../migration/ram.c: In function 'host_page_from_ram_block_offset':
+../migration/ram.c:3092:12: error: cast to pointer from integer of
+different size [-Werror=int-to-pointer-cast]
+return (void *)QEMU_ALIGN_DOWN((uintptr_t)block->host + offset,
+^
 
 thanks
 -- PMM
