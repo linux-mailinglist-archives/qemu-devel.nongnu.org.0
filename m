@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E298B37FCA0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:41:09 +0200 (CEST)
-Received: from localhost ([::1]:33866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E25E37FCC5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:48:18 +0200 (CEST)
+Received: from localhost ([::1]:50986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhFKU-0007ed-26
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:40:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54730)
+	id 1lhFRZ-0002Yl-4d
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:48:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lhFHX-0005En-SK
- for qemu-devel@nongnu.org; Thu, 13 May 2021 13:37:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42152)
+ id 1lhFHY-0005F2-I0
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:37:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lhFHU-00014u-M2
- for qemu-devel@nongnu.org; Thu, 13 May 2021 13:37:55 -0400
+ id 1lhFHV-00015x-MB
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:37:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620927470;
+ s=mimecast20190719; t=1620927473;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0IhviWIcAHG9sHA54qQ+byFi1W6uY+aNAxt4fhqLRvU=;
- b=icKhM75Lhnv7USR6GC2ewC1IjJFjmcjr5OY98GWwRJI90uKHB7Y0sts0x3KRrQLSgoBLYm
- WC0l7yqHH4/LSZkaGT7/P0XzcqkIVpgVupu+kYPEUbn/RgMBQVqq5cIQOFtg/j9R2DeBq3
- TthTsCJVyfpWyPPhtmXBzAbq5DbvNkE=
+ bh=itjEzLw2yCT5c7Y7df0J7BR6P6ss6ZSyBTaOr3G63VU=;
+ b=Xmp7l6Fk57e2aQ1XKs6fgsHDvTiB/tGCHUdDxAHWPm5bhAG4kVapdnrWl8XaS6idMeQBXK
+ krpfTsLA14XQlgcMstYNQ3AyfW/fpma9ewa/y/vJPmLm1UpMg6qL1xjLJ9DLbzs7vyM/Wg
+ k2Fvx1a3CLV15fSVMMdmhTFxfTZYB3E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-O8Qot2FqMvCZ26hIk46YFA-1; Thu, 13 May 2021 13:37:49 -0400
-X-MC-Unique: O8Qot2FqMvCZ26hIk46YFA-1
+ us-mta-109-1m5iYlA9NxO74X5NeXAK0g-1; Thu, 13 May 2021 13:37:50 -0400
+X-MC-Unique: 1m5iYlA9NxO74X5NeXAK0g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F6B5107ACCD;
- Thu, 13 May 2021 17:37:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D6C41927800;
+ Thu, 13 May 2021 17:37:49 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-200.ams2.redhat.com
  [10.36.113.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD8CB6267D;
- Thu, 13 May 2021 17:37:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA2B35D6AC;
+ Thu, 13 May 2021 17:37:47 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, zhukeqian1@huawei.com,
  jiangkunkun@huawei.com, armbru@redhat.com, peter.maydell@linaro.org,
  huangy81@chinatelecom.cn
-Subject: [PULL 01/17] migrate/ram: remove "ram_bulk_stage" and "fpo_enabled"
-Date: Thu, 13 May 2021 18:37:21 +0100
-Message-Id: <20210513173737.279402-2-dgilbert@redhat.com>
+Subject: [PULL 02/17] migration/ram: Reduce unnecessary rate limiting
+Date: Thu, 13 May 2021 18:37:22 +0100
+Message-Id: <20210513173737.279402-3-dgilbert@redhat.com>
 In-Reply-To: <20210513173737.279402-1-dgilbert@redhat.com>
 References: <20210513173737.279402-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -85,271 +85,42 @@ Cc: peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
 
-The bulk stage is kind of weird: migration_bitmap_find_dirty() will
-indicate a dirty page, however, ram_save_host_page() will never save it, as
-migration_bitmap_clear_dirty() detects that it is not dirty.
+When the host page is a huge page and something is sent in the
+current iteration, migration_rate_limit() should be executed.
+If not, it can be omitted.
 
-We already fill the bitmap in ram_list_init_bitmaps() with ones, marking
-everything dirty - it didn't used to be that way, which is why we needed
-an explicit first bulk stage.
-
-Let's simplify: make the bitmap the single source of thuth. Explicitly
-handle the "xbzrle_enabled after first round" case.
-
-Regarding XBZRLE (implicitly handled via "ram_bulk_stage = false" right
-now), there is now a slight change in behavior:
-- Colo: When starting, it will be disabled (was implicitly enabled)
-  until the first round actually finishes.
-- Free page hinting: When starting, XBZRLE will be disabled (was implicitly
-  enabled) until the first round actually finished.
-- Snapshots: When starting, XBZRLE will be disabled. We essentially only
-  do a single run, so I guess it will never actually get disabled.
-
-Postcopy seems to indirectly disable it in ram_save_page(), so there
-shouldn't be really any change.
-
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Cc: Peter Xu <peterx@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210216105039.40680-1-david@redhat.com>
+Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20210316125716.1243-2-jiangkunkun@huawei.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/virtio/virtio-balloon.c |  4 +-
- hw/virtio/virtio-mem.c     |  3 --
- include/migration/misc.h   |  1 -
- migration/ram.c            | 78 +++++++++-----------------------------
- 4 files changed, 18 insertions(+), 68 deletions(-)
+ migration/ram.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index d120bf8f43..4b5d9e5e50 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -663,9 +663,6 @@ virtio_balloon_free_page_hint_notify(NotifierWithReturn *n, void *data)
-     }
- 
-     switch (pnd->reason) {
--    case PRECOPY_NOTIFY_SETUP:
--        precopy_enable_free_page_optimization();
--        break;
-     case PRECOPY_NOTIFY_BEFORE_BITMAP_SYNC:
-         virtio_balloon_free_page_stop(dev);
-         break;
-@@ -685,6 +682,7 @@ virtio_balloon_free_page_hint_notify(NotifierWithReturn *n, void *data)
-          */
-         virtio_balloon_free_page_done(dev);
-         break;
-+    case PRECOPY_NOTIFY_SETUP:
-     case PRECOPY_NOTIFY_COMPLETE:
-         break;
-     default:
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 655824ff81..75aa7d6f1b 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -902,9 +902,6 @@ static int virtio_mem_precopy_notify(NotifierWithReturn *n, void *data)
-     PrecopyNotifyData *pnd = data;
- 
-     switch (pnd->reason) {
--    case PRECOPY_NOTIFY_SETUP:
--        precopy_enable_free_page_optimization();
--        break;
-     case PRECOPY_NOTIFY_AFTER_BITMAP_SYNC:
-         virtio_mem_precopy_exclude_unplugged(vmem);
-         break;
-diff --git a/include/migration/misc.h b/include/migration/misc.h
-index 738675ef52..465906710d 100644
---- a/include/migration/misc.h
-+++ b/include/migration/misc.h
-@@ -37,7 +37,6 @@ void precopy_infrastructure_init(void);
- void precopy_add_notifier(NotifierWithReturn *n);
- void precopy_remove_notifier(NotifierWithReturn *n);
- int precopy_notify(PrecopyNotifyReason reason, Error **errp);
--void precopy_enable_free_page_optimization(void);
- 
- void ram_mig_init(void);
- void qemu_guest_free_page_hint(void *addr, size_t len);
 diff --git a/migration/ram.c b/migration/ram.c
-index ace8ad431c..bee2756cd3 100644
+index bee2756cd3..00b579b981 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -311,10 +311,6 @@ struct RAMState {
-     ram_addr_t last_page;
-     /* last ram version we have seen */
-     uint32_t last_version;
--    /* We are in the first round */
--    bool ram_bulk_stage;
--    /* The free page optimization is enabled */
--    bool fpo_enabled;
-     /* How many times we have dirty too many pages */
-     int dirty_rate_high_cnt;
-     /* these variables are used for bitmap sync */
-@@ -330,6 +326,8 @@ struct RAMState {
-     uint64_t xbzrle_pages_prev;
-     /* Amount of xbzrle encoded bytes since the beginning of the period */
-     uint64_t xbzrle_bytes_prev;
-+    /* Start using XBZRLE (e.g., after the first round). */
-+    bool xbzrle_enabled;
+@@ -2035,8 +2035,13 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
  
-     /* compression statistics since the beginning of the period */
-     /* amount of count that no free thread to compress data */
-@@ -383,15 +381,6 @@ int precopy_notify(PrecopyNotifyReason reason, Error **errp)
-     return notifier_with_return_list_notify(&precopy_notifier_list, &pnd);
- }
- 
--void precopy_enable_free_page_optimization(void)
--{
--    if (!ram_state) {
--        return;
--    }
--
--    ram_state->fpo_enabled = true;
--}
--
- uint64_t ram_bytes_remaining(void)
- {
-     return ram_state ? (ram_state->migration_dirty_pages * TARGET_PAGE_SIZE) :
-@@ -664,7 +653,7 @@ static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
-  */
- static void xbzrle_cache_zero_page(RAMState *rs, ram_addr_t current_addr)
- {
--    if (rs->ram_bulk_stage || !migrate_use_xbzrle()) {
-+    if (!rs->xbzrle_enabled) {
-         return;
-     }
- 
-@@ -792,23 +781,12 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
- {
-     unsigned long size = rb->used_length >> TARGET_PAGE_BITS;
-     unsigned long *bitmap = rb->bmap;
--    unsigned long next;
- 
-     if (ramblock_is_ignored(rb)) {
-         return size;
-     }
- 
--    /*
--     * When the free page optimization is enabled, we need to check the bitmap
--     * to send the non-free pages rather than all the pages in the bulk stage.
--     */
--    if (!rs->fpo_enabled && rs->ram_bulk_stage && start > 0) {
--        next = start + 1;
--    } else {
--        next = find_next_bit(bitmap, size, start);
--    }
--
--    return next;
-+    return find_next_bit(bitmap, size, start);
- }
- 
- static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-@@ -1185,8 +1163,7 @@ static int ram_save_page(RAMState *rs, PageSearchStatus *pss, bool last_stage)
-     trace_ram_save_page(block->idstr, (uint64_t)offset, p);
- 
-     XBZRLE_cache_lock();
--    if (!rs->ram_bulk_stage && !migration_in_postcopy() &&
--        migrate_use_xbzrle()) {
-+    if (rs->xbzrle_enabled && !migration_in_postcopy()) {
-         pages = save_xbzrle_page(rs, &p, current_addr, block,
-                                  offset, last_stage);
-         if (!last_stage) {
-@@ -1386,7 +1363,10 @@ static bool find_dirty_block(RAMState *rs, PageSearchStatus *pss, bool *again)
-             pss->block = QLIST_FIRST_RCU(&ram_list.blocks);
-             /* Flag that we've looped */
-             pss->complete_round = true;
--            rs->ram_bulk_stage = false;
-+            /* After the first round, enable XBZRLE. */
-+            if (migrate_use_xbzrle()) {
-+                rs->xbzrle_enabled = true;
-+            }
-         }
-         /* Didn't find anything this time, but try again on the new block */
-         *again = true;
-@@ -1800,14 +1780,6 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
-     }
- 
-     if (block) {
--        /*
--         * As soon as we start servicing pages out of order, then we have
--         * to kill the bulk stage, since the bulk stage assumes
--         * in (migration_bitmap_find_and_reset_dirty) that every page is
--         * dirty, that's no longer true.
--         */
--        rs->ram_bulk_stage = false;
--
-         /*
-          * We want the background search to continue from the queued page
-          * since the guest is likely to want other pages near to the page
-@@ -1920,15 +1892,15 @@ static bool save_page_use_compression(RAMState *rs)
-     }
- 
-     /*
--     * If xbzrle is on, stop using the data compression after first
--     * round of migration even if compression is enabled. In theory,
--     * xbzrle can do better than compression.
-+     * If xbzrle is enabled (e.g., after first round of migration), stop
-+     * using the data compression. In theory, xbzrle can do better than
-+     * compression.
-      */
--    if (rs->ram_bulk_stage || !migrate_use_xbzrle()) {
--        return true;
-+    if (rs->xbzrle_enabled) {
-+        return false;
-     }
- 
--    return false;
-+    return true;
- }
- 
- /*
-@@ -2235,8 +2207,7 @@ static void ram_state_reset(RAMState *rs)
-     rs->last_sent_block = NULL;
-     rs->last_page = 0;
-     rs->last_version = ram_list.version;
--    rs->ram_bulk_stage = true;
--    rs->fpo_enabled = false;
-+    rs->xbzrle_enabled = false;
- }
- 
- #define MAX_WAIT 50 /* ms, half buffered_file limit */
-@@ -2720,15 +2691,7 @@ static void ram_state_resume_prepare(RAMState *rs, QEMUFile *out)
-     /* This may not be aligned with current bitmaps. Recalculate. */
-     rs->migration_dirty_pages = pages;
- 
--    rs->last_seen_block = NULL;
--    rs->last_sent_block = NULL;
--    rs->last_page = 0;
--    rs->last_version = ram_list.version;
--    /*
--     * Disable the bulk stage, otherwise we'll resend the whole RAM no
--     * matter what we have sent.
--     */
--    rs->ram_bulk_stage = false;
-+    ram_state_reset(rs);
- 
-     /* Update RAMState cache of output QEMUFile */
-     rs->f = out;
-@@ -3345,16 +3308,9 @@ static void decompress_data_with_multi_threads(QEMUFile *f,
-     }
- }
- 
-- /*
--  * we must set ram_bulk_stage to false, otherwise in
--  * migation_bitmap_find_dirty the bitmap will be unused and
--  * all the pages in ram cache wil be flushed to the ram of
--  * secondary VM.
--  */
- static void colo_init_ram_state(void)
- {
-     ram_state_init(&ram_state);
--    ram_state->ram_bulk_stage = false;
- }
- 
- /*
+         pages += tmppages;
+         pss->page++;
+-        /* Allow rate limiting to happen in the middle of huge pages */
+-        migration_rate_limit();
++        /*
++         * Allow rate limiting to happen in the middle of huge pages if
++         * something is sent in the current iteration.
++         */
++        if (pagesize_bits > 1 && tmppages > 0) {
++            migration_rate_limit();
++        }
+     } while ((pss->page & (pagesize_bits - 1)) &&
+              offset_in_ramblock(pss->block,
+                                 ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
 -- 
 2.31.1
 
