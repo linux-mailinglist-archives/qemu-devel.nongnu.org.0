@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C661B37F55B
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:10:12 +0200 (CEST)
-Received: from localhost ([::1]:45630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F3337F59B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:29:39 +0200 (CEST)
+Received: from localhost ([::1]:33582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh8IF-00023J-Qw
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:10:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53948)
+	id 1lh8b4-0007Ih-AY
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:29:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh85V-00011n-HC
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:57:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29659)
+ id 1lh85f-00016t-KD
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:57:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh85S-0007N5-Qt
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:57:01 -0400
+ id 1lh85Y-0007PA-9z
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:57:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620899818;
+ s=mimecast20190719; t=1620899823;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=radszD5/aa5m3TmsomcQXZfNd0Y09tjmIaEIePKStDg=;
- b=IJSqDbwf35b/reup2ggJyMwIQGi5X9uZszB37o0bmCQPg8NG7N3EBCFodXLIWKPd0tVsOo
- 7waWteFzqw+N1kiptbvOreVyuhcG0eExaSKH4VhU4JonEKBs/XhVp4iQwXo9aUEYWgm0Yr
- l8JK6vyjTjWQl0ygVHetMb8kbtv1Ywc=
+ bh=7wymWCrAHL10lCTlo9jG+KupAZOApZWdvu/jN6s18zc=;
+ b=FN6hchAngetkvAYqijgmrGWMdT75XAQc5yxtKraZV2tB9eIRefMHt0uT/r/k/Vr6juXE9d
+ WAxmPAiW1nDBn99j5Azf2h+/s6ScrBk7JE6eGDqhcQhKl1Q1tNJtZa86Z0C2xX9/9B0jHv
+ bRLd4K4hQ/VEuVYTP07NpZsB6nEM7v0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-IEF5HhDJPzCtGLb8RjWApg-1; Thu, 13 May 2021 05:56:56 -0400
-X-MC-Unique: IEF5HhDJPzCtGLb8RjWApg-1
+ us-mta-501-cpW1JLRKMnaE-MWVUTaPJw-1; Thu, 13 May 2021 05:56:59 -0400
+X-MC-Unique: cpW1JLRKMnaE-MWVUTaPJw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7575D8015A8;
- Thu, 13 May 2021 09:56:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 416B41005D4E;
+ Thu, 13 May 2021 09:56:58 +0000 (UTC)
 Received: from localhost.redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BED2010027A5;
- Thu, 13 May 2021 09:56:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C61A810016F4;
+ Thu, 13 May 2021 09:56:55 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/22] tests/docker: auto-generate ubuntu2004 with lcitool
-Date: Thu, 13 May 2021 10:55:17 +0100
-Message-Id: <20210513095519.1213675-21-berrange@redhat.com>
+Subject: [PATCH v3 21/22] tests/docker: auto-generate opensuse-leap with
+ lcitool
+Date: Thu, 13 May 2021 10:55:18 +0100
+Message-Id: <20210513095519.1213675-22-berrange@redhat.com>
 In-Reply-To: <20210513095519.1213675-1-berrange@redhat.com>
 References: <20210513095519.1213675-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -94,267 +95,245 @@ This commit is best examined using the "-b" option to diff.
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles-refresh.py        |   6 +
- tests/docker/dockerfiles/ubuntu2004.docker | 249 ++++++++++++---------
- 2 files changed, 144 insertions(+), 111 deletions(-)
+ tests/docker/dockerfiles-refresh.py           |   1 +
+ tests/docker/dockerfiles/opensuse-leap.docker | 233 ++++++++++--------
+ 2 files changed, 127 insertions(+), 107 deletions(-)
 
 diff --git a/tests/docker/dockerfiles-refresh.py b/tests/docker/dockerfiles-refresh.py
-index e39a6c1192..df2dfc60e8 100755
+index df2dfc60e8..ba37f38383 100755
 --- a/tests/docker/dockerfiles-refresh.py
 +++ b/tests/docker/dockerfiles-refresh.py
-@@ -59,5 +59,11 @@ def generate_image(filename, host, cross=None, trailer=None):
- 
-    generate_image("ubuntu1804.docker", "ubuntu-1804",
-                   trailer="".join(skipssh))
-+
-+   tsanhack = ["# Apply patch https://reviews.llvm.org/D75820\n",
-+               "# This is required for TSan in clang-10 to compile with QEMU.\n",
-+               "RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h\n"]
-+   generate_image("ubuntu2004.docker", "ubuntu-2004",
-+                  trailer="".join(tsanhack))
+@@ -65,5 +65,6 @@ def generate_image(filename, host, cross=None, trailer=None):
+                "RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h\n"]
+    generate_image("ubuntu2004.docker", "ubuntu-2004",
+                   trailer="".join(tsanhack))
++   generate_image("opensuse-leap.docker", "opensuse-leap-152")
  except Exception as ex:
     print(str(ex), file=sys.stderr)
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 8be4c40c9e..c935da6916 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -1,116 +1,143 @@
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 0f67296a8f..b405267e81 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -1,110 +1,129 @@
 +# THIS FILE WAS AUTO-GENERATED
 +#
-+#  $ lcitool dockerfile ubuntu-2004 qemu
++#  $ lcitool dockerfile opensuse-leap-152 qemu
 +#
 +# https://gitlab.com/libvirt/libvirt-ci/-/commit/1c5d87ecd2283614a8b0c31cead0b6d7883afd28
 +
- FROM docker.io/library/ubuntu:20.04
+ FROM registry.opensuse.org/opensuse/leap:15.2
+ 
+-# Please keep this list sorted alphabetically
 -ENV PACKAGES \
+-    Mesa-devel \
+-    alsa-lib-devel \
 -    bc \
--    bsdmainutils \
+-    brlapi-devel \
 -    bzip2 \
 -    ca-certificates \
 -    ccache \
 -    clang \
--    dbus \
--    debianutils \
+-    ctags \
+-    cyrus-sasl-devel \
+-    dbus-1 \
 -    diffutils \
--    exuberant-ctags \
 -    findutils \
--    g++ \
 -    gcc \
+-    gcc-c++ \
 -    gcovr \
--    genisoimage \
--    gettext \
+-    gettext-runtime \
 -    git \
+-    glib2-devel \
+-    glibc-locale \
+-    glibc-static \
+-    glusterfs-devel \
+-    gtk3-devel \
 -    hostname \
--    libaio-dev \
--    libasan5 \
--    libasound2-dev \
--    libattr1-dev \
--    libbrlapi-dev \
--    libbz2-dev \
--    libc6-dev \
--    libcacard-dev \
--    libcap-ng-dev \
--    libcapstone-dev \
--    libcurl4-gnutls-dev \
--    libdaxctl-dev \
--    libdrm-dev \
--    libepoxy-dev \
--    libfdt-dev \
--    libgbm-dev \
--    libgcrypt20-dev \
--    libglib2.0-dev \
--    libglusterfs-dev \
--    libgnutls28-dev \
--    libgtk-3-dev \
--    libibverbs-dev \
--    libiscsi-dev \
--    libjemalloc-dev \
--    libjpeg-turbo8-dev \
--    liblttng-ust-dev \
--    liblzo2-dev \
--    libncursesw5-dev \
--    libnfs-dev \
--    libnuma-dev \
--    libpam0g-dev \
--    libpixman-1-dev \
--    libpmem-dev \
--    libpng-dev \
--    libpulse-dev \
--    librbd-dev \
--    librdmacm-dev \
--    libsasl2-dev \
--    libsdl2-dev \
--    libsdl2-image-dev \
--    libseccomp-dev \
--    libslirp-dev \
--    libsnappy-dev \
--    libspice-protocol-dev \
--    libspice-server-dev \
--    libssh-dev \
--    libsystemd-dev \
--    libtasn1-6-dev \
--    libtest-harness-perl \
+-    jemalloc-devel \
+-    libSDL2-devel \
+-    libSDL2_image-devel \
+-    libaio-devel \
+-    libasan6 \
+-    libattr-devel \
+-    libbz2-devel \
+-    libcacard-devel \
+-    libcap-ng-devel \
+-    libcurl-devel \
+-    libdrm-devel \
+-    libepoxy-devel \
+-    libfdt-devel \
+-    libgcrypt-devel \
+-    libgnutls-devel \
+-    libiscsi-devel \
+-    libjpeg8-devel \
+-    libndctl-devel \
+-    libnettle-devel \
+-    libnfs-devel \
+-    libnuma-devel \
+-    libpixman-1-0-devel \
+-    libpmem-devel \
+-    libpng16-devel \
+-    libpulse-devel \
+-    librbd-devel \
+-    libseccomp-devel \
+-    libspice-server-devel \
+-    libssh-devel \
+-    libtasn1-devel \
 -    libubsan1 \
--    libudev-dev \
--    libusb-1.0-0-dev \
--    libusbredirhost-dev \
--    libvdeplug-dev \
--    libvirglrenderer-dev \
--    libvte-2.91-dev \
--    libxen-dev \
--    libxml2-dev \
--    libzstd-dev \
+-    libudev-devel \
+-    libusb-1_0-devel \
+-    libxml2-devel \
+-    libzstd-devel \
 -    llvm \
--    locales \
+-    lttng-ust-devel \
+-    lzo-devel \
 -    make \
--    multipath-tools \
+-    mkisofs \
 -    ncat \
--    nettle-dev \
--    ninja-build \
--    openssh-client \
+-    ncurses-devel \
+-    ninja \
+-    openssh \
+-    pam-devel \
+-    perl-Test-Harness \
 -    perl-base \
--    pkgconf \
--    python3 \
+-    pkgconfig \
+-    python3-Pillow \
+-    python3-PyYAML \
+-    python3-Sphinx \
+-    python3-base \
 -    python3-numpy \
 -    python3-opencv \
--    python3-pillow \
 -    python3-pip \
 -    python3-setuptools \
--    python3-sphinx \
--    python3-venv \
+-    python3-virtualenv \
 -    python3-wheel \
--    python3-yaml \
--    rpm2cpio \
+-    rdma-core-devel \
+-    rpm \
 -    sed \
+-    snappy-devel \
 -    sparse \
--    systemtap-sdt-dev \
+-    spice-protocol-devel \
+-    systemd-devel \
+-    systemtap-sdt-devel \
 -    tar \
 -    tesseract-ocr \
--    tesseract-ocr-eng \
+-    tesseract-ocr-traineddata-english \
 -    texinfo \
--    xfslibs-dev \
--    zlib1g-dev
--RUN apt-get update && \
--    DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
--RUN dpkg -l $PACKAGES | sort > /packages.txt
- 
-+RUN export DEBIAN_FRONTEND=noninteractive && \
-+    apt-get update && \
-+    apt-get install -y eatmydata && \
-+    eatmydata apt-get dist-upgrade -y && \
-+    eatmydata apt-get install --no-install-recommends -y \
-+            bc \
-+            bsdmainutils \
-+            bzip2 \
-+            ca-certificates \
-+            ccache \
-+            clang \
-+            dbus \
-+            debianutils \
-+            diffutils \
-+            exuberant-ctags \
-+            findutils \
-+            g++ \
-+            gcc \
-+            gcovr \
-+            genisoimage \
-+            gettext \
-+            git \
-+            hostname \
-+            libaio-dev \
-+            libasan5 \
-+            libasound2-dev \
-+            libattr1-dev \
-+            libbrlapi-dev \
-+            libbz2-dev \
-+            libc6-dev \
-+            libcacard-dev \
-+            libcap-ng-dev \
-+            libcapstone-dev \
-+            libcurl4-gnutls-dev \
-+            libdaxctl-dev \
-+            libdrm-dev \
-+            libepoxy-dev \
-+            libfdt-dev \
-+            libgbm-dev \
-+            libgcrypt20-dev \
-+            libglib2.0-dev \
-+            libglusterfs-dev \
-+            libgnutls28-dev \
-+            libgtk-3-dev \
-+            libibverbs-dev \
-+            libiscsi-dev \
-+            libjemalloc-dev \
-+            libjpeg-turbo8-dev \
-+            liblttng-ust-dev \
-+            liblzo2-dev \
-+            libncursesw5-dev \
-+            libnfs-dev \
-+            libnuma-dev \
-+            libpam0g-dev \
-+            libpixman-1-dev \
-+            libpmem-dev \
-+            libpng-dev \
-+            libpulse-dev \
-+            librbd-dev \
-+            librdmacm-dev \
-+            libsasl2-dev \
-+            libsdl2-dev \
-+            libsdl2-image-dev \
-+            libseccomp-dev \
-+            libslirp-dev \
-+            libsnappy-dev \
-+            libspice-protocol-dev \
-+            libspice-server-dev \
-+            libssh-dev \
-+            libsystemd-dev \
-+            libtasn1-6-dev \
-+            libtest-harness-perl \
-+            libubsan1 \
-+            libudev-dev \
-+            libusb-1.0-0-dev \
-+            libusbredirhost-dev \
-+            libvdeplug-dev \
-+            libvirglrenderer-dev \
-+            libvte-2.91-dev \
-+            libxen-dev \
-+            libxml2-dev \
-+            libzstd-dev \
-+            llvm \
-+            locales \
-+            make \
-+            multipath-tools \
-+            ncat \
-+            nettle-dev \
-+            ninja-build \
-+            openssh-client \
-+            perl-base \
-+            pkgconf \
-+            python3 \
-+            python3-numpy \
-+            python3-opencv \
-+            python3-pillow \
-+            python3-pip \
-+            python3-setuptools \
-+            python3-sphinx \
-+            python3-venv \
-+            python3-wheel \
-+            python3-yaml \
-+            rpm2cpio \
-+            sed \
-+            sparse \
-+            systemtap-sdt-dev \
-+            tar \
-+            tesseract-ocr \
-+            tesseract-ocr-eng \
-+            texinfo \
-+            xfslibs-dev \
-+            zlib1g-dev && \
-+    eatmydata apt-get autoremove -y && \
-+    eatmydata apt-get autoclean -y && \
-+    sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
-+    dpkg-reconfigure locales && \
-+    dpkg-query --showformat '${Package}_${Version}_${Architecture}\n' --show > /packages.txt && \
+-    usbredir-devel \
+-    util-linux \
+-    virglrenderer-devel \
+-    vte-devel \
+-    which \
+-    xen-devel \
+-    xfsprogs-devel \
+-    zlib-devel
+-ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
++RUN zypper update -y && \
++    zypper install -y \
++           Mesa-devel \
++           alsa-lib-devel \
++           bc \
++           brlapi-devel \
++           bzip2 \
++           ca-certificates \
++           ccache \
++           clang \
++           ctags \
++           cyrus-sasl-devel \
++           dbus-1 \
++           diffutils \
++           findutils \
++           gcc \
++           gcc-c++ \
++           gcovr \
++           gettext-runtime \
++           git \
++           glib2-devel \
++           glibc-locale \
++           glibc-static \
++           glusterfs-devel \
++           gtk3-devel \
++           hostname \
++           jemalloc-devel \
++           libSDL2-devel \
++           libSDL2_image-devel \
++           libaio-devel \
++           libasan6 \
++           libattr-devel \
++           libbz2-devel \
++           libcacard-devel \
++           libcap-ng-devel \
++           libcurl-devel \
++           libdrm-devel \
++           libepoxy-devel \
++           libfdt-devel \
++           libgcrypt-devel \
++           libgnutls-devel \
++           libiscsi-devel \
++           libjpeg8-devel \
++           libndctl-devel \
++           libnettle-devel \
++           libnfs-devel \
++           libnuma-devel \
++           libpixman-1-0-devel \
++           libpmem-devel \
++           libpng16-devel \
++           libpulse-devel \
++           librbd-devel \
++           libseccomp-devel \
++           libspice-server-devel \
++           libssh-devel \
++           libtasn1-devel \
++           libubsan1 \
++           libudev-devel \
++           libusb-1_0-devel \
++           libxml2-devel \
++           libzstd-devel \
++           llvm \
++           lttng-ust-devel \
++           lzo-devel \
++           make \
++           mkisofs \
++           ncat \
++           ncurses-devel \
++           ninja \
++           openssh \
++           pam-devel \
++           perl-Test-Harness \
++           perl-base \
++           pkgconfig \
++           python3-Pillow \
++           python3-PyYAML \
++           python3-Sphinx \
++           python3-base \
++           python3-numpy \
++           python3-opencv \
++           python3-pip \
++           python3-setuptools \
++           python3-virtualenv \
++           python3-wheel \
++           rdma-core-devel \
++           rpm \
++           sed \
++           snappy-devel \
++           sparse \
++           spice-protocol-devel \
++           systemd-devel \
++           systemtap-sdt-devel \
++           tar \
++           tesseract-ocr \
++           tesseract-ocr-traineddata-english \
++           texinfo \
++           usbredir-devel \
++           util-linux \
++           virglrenderer-devel \
++           vte-devel \
++           which \
++           xen-devel \
++           xfsprogs-devel \
++           zlib-devel && \
++    zypper clean --all && \
++    rpm -qa | sort > /packages.txt && \
 +    mkdir -p /usr/libexec/ccache-wrappers && \
 +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
 +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/cc && \
@@ -364,15 +343,14 @@ index 8be4c40c9e..c935da6916 100644
 +
 +RUN pip3 install \
 +         meson==0.56.0
-+
+ 
+-RUN zypper update -y && zypper --non-interactive install -y $PACKAGES
+-RUN rpm -q $PACKAGES | sort > /packages.txt
 +ENV LANG "en_US.UTF-8"
 +ENV MAKE "/usr/bin/make"
 +ENV NINJA "/usr/bin/ninja"
 +ENV PYTHON "/usr/bin/python3"
 +ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
- # Apply patch https://reviews.llvm.org/D75820
- # This is required for TSan in clang-10 to compile with QEMU.
- RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
 -- 
 2.31.1
 
