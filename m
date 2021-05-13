@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF24C37F5D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:46:25 +0200 (CEST)
-Received: from localhost ([::1]:39438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F0837F601
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:54:57 +0200 (CEST)
+Received: from localhost ([::1]:32960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh8rI-0005zx-U0
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37058)
+	id 1lh8zY-0003uf-8Q
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lh8oJ-0003sO-DC
- for qemu-devel@nongnu.org; Thu, 13 May 2021 06:43:19 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33372)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lh8sX-0000ms-No
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 06:47:41 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:34542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lh8oH-0000Th-N2
- for qemu-devel@nongnu.org; Thu, 13 May 2021 06:43:19 -0400
-Received: by mail-wr1-x435.google.com with SMTP id n2so26521728wrm.0
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 03:43:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lh8sP-00032N-Nz
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 06:47:41 -0400
+Received: by mail-ej1-x629.google.com with SMTP id a4so39283458ejk.1
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 03:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=nBceKyoVMbB7CVlqiC1fxke6hUIUphDHhuKLVzzXedY=;
- b=RT4bKBSW82WHCBE/Kb0qYWUqu/z8/yRq6N2mUsBxixlJKsqNqXkWbiwrCWsvI+ySii
- HNHmVHntAl8Hi9mcSIsm7cvgYKqi9e3k17vgPLm3UQ8bR5s9ZIEjY2dZ3lMxT6Z+SzqB
- pSKwZvItWqBQ/jt4mMJ/zZdrFgP1TsllvXvDRY+8BFKyDmyWgH32JiTq7lVUBPbRUfed
- Eil95vKukDcdP0WR/MpicCGO6SXYPDiCp88/WBP7PZwXC2K2O8+ZjPEY8SQTIREsJAIT
- km0buemx067OBlRi3tHS5XsWDWqAE2BMUdZy8OpurKWTucgBn6btaGgd2YrkLqVkF4tL
- W3sA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=P+aUac3NYKfZ4y35rjBCtQwtgg4I/F3klXEtIJtPjUE=;
+ b=tAEL5tx7JZuID5plFdM3SVAXXe9yLtOF1URMQsg1SRumVryi/VL0T1h6xA/wIPmnX6
+ yEacdfp/d5AHMs40IRpqRDDMyrjvegzhDY9FVgaDtrGfbwxiOtYAMwd8GL0vojcWGkwQ
+ LUxaFy129ADRoSQkSfhNLIffWxYsNBqPrmcG6TNWV1QYpSFRkt1g9jrFtt37SbWU8N8a
+ T/Y84JZzwq//put+1+PujZe5393TzqYSJ4FP7BLU89AlF4ICDp19xIkdMDS22pnez2zU
+ zZl9KTnqnDiMilIush9PexqAMuHGpswTdvozGLG/66A13TMh1z9Yzr25kjYJsFsDEjN6
+ N19w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=nBceKyoVMbB7CVlqiC1fxke6hUIUphDHhuKLVzzXedY=;
- b=Yz4/UDpbo1iV53ce10W+otZbci4ebxcYwYsYRTH/92xQAcs6TKqRftiS5SEqkt67jC
- drx0U42ygs2I/N+nn4YCn5qTY0LGJ5Gh+BFVRLCFdaG/PbRZialIDdhynQjhxIGsyvxA
- PAWam0d93b5FASNaARI21OWccneb2Wl0PE+Wt/kOaBNNLKcn1fjIMoapgDbUAiUHepar
- 9ArmS636uhUj5kjsnm5pyfjzQTOIWYBg2YvwqIrggKDnBW5MTFoOqz3N95iUzVlKWvgz
- IZaJKJlwvXv6Ms9Q4CWqNyxOecWJ974ek2f9GbhBmbZaYpvS272ZJYBeTq2mceuit+wW
- M+NQ==
-X-Gm-Message-State: AOAM533emOPB/P9Mni9r1TmLJqMx12dqn8ffxWVqrp1qhdAyLV+NhMOt
- vlUjwR7Q8DYmzKZi91Luv8ZCAg==
-X-Google-Smtp-Source: ABdhPJyuQdk+yMJrNzP5z7CYBmgN1me7V0mVlAm5+lHhAYWoYGWJjD96F7nEvNTht3HQn8sloZTZBA==
-X-Received: by 2002:a05:6000:1887:: with SMTP id
- a7mr49932443wri.280.1620902592937; 
- Thu, 13 May 2021 03:43:12 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 16sm1951906wmi.13.2021.05.13.03.43.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 May 2021 03:43:11 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 31CFD1FF7E;
- Thu, 13 May 2021 11:43:11 +0100 (BST)
-References: <20210508014802.892561-1-richard.henderson@linaro.org>
- <20210508014802.892561-38-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 37/72] softfloat: Move muladd_floats to
- softfloat-parts.c.inc
-Date: Thu, 13 May 2021 11:43:03 +0100
-In-reply-to: <20210508014802.892561-38-richard.henderson@linaro.org>
-Message-ID: <87cztuewxs.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=P+aUac3NYKfZ4y35rjBCtQwtgg4I/F3klXEtIJtPjUE=;
+ b=P8caJc6uBli/WCnSQTLv3jprlhVCvQW2LxoaBvqKn4p0SXYskoLiwtRva0W0JGTEok
+ Nyz4gdkYQfXT93wMtVVPe+TmL6iqxZ96/Ovs9/WusfgZ1A8esR8RWDbtzJUYIfGwJWoe
+ k+91S2+27bEVRt81NQRIMKBs7MqsFuOQnHpauvaOS5KRGPNliKA6eMTXpl336L5eywHV
+ Jy8NINMLUCb+JR+NasvJ33mWOXUmHMBx7Fbby3SDnoAmSzN43CNqfHveKELzy4Pj7wj4
+ k0x0OkatsvYNlPMXxiUpfhOVrfQNPnUkqv2hJsPoFQPoKAV4tDeX8GUDUdSDr8bH/38K
+ 6Bxg==
+X-Gm-Message-State: AOAM530cSG40mGUgupOgbwk5Sza93YgXRZ4Cum316Zsr5ya5c4DJMLUW
+ oaLeQ1qUxZ3kDYDzt2eznT827p67avhZ//nBzgZqKA==
+X-Google-Smtp-Source: ABdhPJwcc1DlsKqobtt0WjtYeGAKZ6Iclgg14ZDfc3hI4moaMbjhn7OVe2edIgWAx2WqhxaZ0hwGhSyrXAjo7DOnEnM=
+X-Received: by 2002:a17:906:b1cc:: with SMTP id
+ bv12mr42425405ejb.407.1620902851961; 
+ Thu, 13 May 2021 03:47:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ <20210430202610.1136687-49-richard.henderson@linaro.org>
+In-Reply-To: <20210430202610.1136687-49-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 May 2021 11:47:20 +0100
+Message-ID: <CAFEAcA_KVJSmphodL=szHvguTpDnCU3BET1+Kn873uoX82zE_A@mail.gmail.com>
+Subject: Re: [PATCH v6 48/82] target/arm: Pass separate addend to {U,
+ S}DOT helpers
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,20 +79,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, david@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Rename to parts$N_muladd.
-> Implement float128_muladd with FloatParts128.
+On Fri, 30 Apr 2021 at 21:57, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> For SVE, we potentially have a 4th argument coming from the
+> movprfx instruction.  Currently we do not optimize movprfx,
+> so the problem is not visible.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v4: Fix double addition (zhiwei).
+> ---
+>  target/arm/helper.h         |  20 +++---
+>  target/arm/sve.decode       |   7 ++-
+>  target/arm/translate-a64.c  |  15 ++++-
+>  target/arm/translate-neon.c |  10 +--
+>  target/arm/translate-sve.c  |  13 ++--
+>  target/arm/vec_helper.c     | 120 ++++++++++++++++++++----------------
+>  6 files changed, 109 insertions(+), 76 deletions(-)
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+> index a3d80ecad0..f88e572132 100644
+> --- a/target/arm/vec_helper.c
+> +++ b/target/arm/vec_helper.c
+> @@ -375,71 +375,76 @@ void HELPER(sve2_sqrdmlsh_d)(void *vd, void *vn, void *vm,
+>   * All elements are treated equally, no matter where they are.
+>   */
+>
+> -void HELPER(gvec_sdot_b)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_sdot_b)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
+>  {
+>      intptr_t i, opr_sz = simd_oprsz(desc);
+> -    uint32_t *d = vd;
+> +    int32_t *d = vd, *a = va;
 
---=20
-Alex Benn=C3=A9e
+Why the type change ?
+
+>      int8_t *n = vn, *m = vm;
+>
+>      for (i = 0; i < opr_sz / 4; ++i) {
+> -        d[i] += n[i * 4 + 0] * m[i * 4 + 0]
+> -              + n[i * 4 + 1] * m[i * 4 + 1]
+> -              + n[i * 4 + 2] * m[i * 4 + 2]
+> -              + n[i * 4 + 3] * m[i * 4 + 3];
+> +        d[i] = (a[i] +
+> +                n[i * 4 + 0] * m[i * 4 + 0] +
+> +                n[i * 4 + 1] * m[i * 4 + 1] +
+> +                n[i * 4 + 2] * m[i * 4 + 2] +
+> +                n[i * 4 + 3] * m[i * 4 + 3]);
+>      }
+>      clear_tail(d, opr_sz, simd_maxsz(desc));
+>  }
+
+> -void HELPER(gvec_sdot_h)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_sdot_h)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
+>  {
+>      intptr_t i, opr_sz = simd_oprsz(desc);
+> -    uint64_t *d = vd;
+> +    int64_t *d = vd, *a = va;
+
+Ditto.
+
+>      int16_t *n = vn, *m = vm;
+>
+>      for (i = 0; i < opr_sz / 8; ++i) {
+> -        d[i] += (int64_t)n[i * 4 + 0] * m[i * 4 + 0]
+> -              + (int64_t)n[i * 4 + 1] * m[i * 4 + 1]
+> -              + (int64_t)n[i * 4 + 2] * m[i * 4 + 2]
+> -              + (int64_t)n[i * 4 + 3] * m[i * 4 + 3];
+> +        d[i] = (a[i] +
+> +                (int64_t)n[i * 4 + 0] * m[i * 4 + 0] +
+> +                (int64_t)n[i * 4 + 1] * m[i * 4 + 1] +
+> +                (int64_t)n[i * 4 + 2] * m[i * 4 + 2] +
+> +                (int64_t)n[i * 4 + 3] * m[i * 4 + 3]);
+>      }
+>      clear_tail(d, opr_sz, simd_maxsz(desc));
+>  }
+>
+
+> -void HELPER(gvec_sdot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_sdot_idx_b)(void *vd, void *vn, void *vm,
+> +                             void *va, uint32_t desc)
+>  {
+>      intptr_t i, segend, opr_sz = simd_oprsz(desc), opr_sz_4 = opr_sz / 4;
+>      intptr_t index = simd_data(desc);
+> -    uint32_t *d = vd;
+> +    int32_t *d = vd, *a = va;
+>      int8_t *n = vn;
+>      int8_t *m_indexed = (int8_t *)vm + H4(index) * 4;
+
+Ditto.
+
+> -void HELPER(gvec_sdot_idx_h)(void *vd, void *vn, void *vm, uint32_t desc)
+> +void HELPER(gvec_sdot_idx_h)(void *vd, void *vn, void *vm,
+> +                             void *va, uint32_t desc)
+>  {
+>      intptr_t i, opr_sz = simd_oprsz(desc), opr_sz_8 = opr_sz / 8;
+>      intptr_t index = simd_data(desc);
+> -    uint64_t *d = vd;
+> +    int64_t *d = vd, *a = va;
+>      int16_t *n = vn;
+>      int16_t *m_indexed = (int16_t *)vm + index * 4;
+
+Ditto.
+
+> @@ -509,30 +518,33 @@ void HELPER(gvec_sdot_idx_h)(void *vd, void *vn, void *vm, uint32_t desc)
+>       * Process the entire segment all at once, writing back the results
+>       * only after we've consumed all of the inputs.
+>       */
+> -    for (i = 0; i < opr_sz_8 ; i += 2) {
+> -        uint64_t d0, d1;
+> +    for (i = 0; i < opr_sz_8; i += 2) {
+> +        int64_t d0, d1;
+
+Ditto.
+
+>
+> -        d0  = n[i * 4 + 0] * (int64_t)m_indexed[i * 4 + 0];
+> +        d0  = a[i + 0];
+> +        d0 += n[i * 4 + 0] * (int64_t)m_indexed[i * 4 + 0];
+>          d0 += n[i * 4 + 1] * (int64_t)m_indexed[i * 4 + 1];
+>          d0 += n[i * 4 + 2] * (int64_t)m_indexed[i * 4 + 2];
+>          d0 += n[i * 4 + 3] * (int64_t)m_indexed[i * 4 + 3];
+> -        d1  = n[i * 4 + 4] * (int64_t)m_indexed[i * 4 + 0];
+> +
+> +        d1  = a[i + 1];
+> +        d1 += n[i * 4 + 4] * (int64_t)m_indexed[i * 4 + 0];
+>          d1 += n[i * 4 + 5] * (int64_t)m_indexed[i * 4 + 1];
+>          d1 += n[i * 4 + 6] * (int64_t)m_indexed[i * 4 + 2];
+>          d1 += n[i * 4 + 7] * (int64_t)m_indexed[i * 4 + 3];
+>
+> -        d[i + 0] += d0;
+> -        d[i + 1] += d1;
+> +        d[i + 0] = d0;
+> +        d[i + 1] = d1;
+>      }
+> -
+>      clear_tail(d, opr_sz, simd_maxsz(desc));
+>  }
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
