@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA18F37F8A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 15:21:49 +0200 (CEST)
-Received: from localhost ([::1]:34594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BC237F8CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 15:32:29 +0200 (CEST)
+Received: from localhost ([::1]:43964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhBHg-0002G6-Px
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 09:21:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43610)
+	id 1lhBRz-0000Xd-Pa
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 09:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lhBDj-0008RZ-2p
- for qemu-devel@nongnu.org; Thu, 13 May 2021 09:17:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29324)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lhBDf-0000Ny-O2
- for qemu-devel@nongnu.org; Thu, 13 May 2021 09:17:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620911856;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AWu5msn32XRU80J8I2C8B1zXU6HBgut03/l2w5lUr3w=;
- b=FFX18eE+RmmvNnCkF+ZGpwELVjvEw6fzsLqyMEOx6hJv/iw8w/pdQbQVIV+PfaMPR4uWRG
- KUCqvBJO65JS4RqQS0lhTKTTZYvJFo2e6LMXXFaD/2ZjTztZ8gbxoB3dnoIE3HEncIqhG2
- +ZeX/uhT3snSXtcF671dC359eDseYaw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-hbx0hMDWMKOiqYdSXEwsCQ-1; Thu, 13 May 2021 09:17:33 -0400
-X-MC-Unique: hbx0hMDWMKOiqYdSXEwsCQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C68C88049CA;
- Thu, 13 May 2021 13:17:31 +0000 (UTC)
-Received: from work-vm (ovpn-113-200.ams2.redhat.com [10.36.113.200])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E3DA5C6AB;
- Thu, 13 May 2021 13:17:29 +0000 (UTC)
-Date: Thu, 13 May 2021 14:17:26 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/17] migration queue
-Message-ID: <YJ0m5lUl4lWRZw4M@work-vm>
-References: <20210511150842.207155-1-dgilbert@redhat.com>
- <CAFEAcA-caAPn5Lzt=t2u7V5zWkdhbADdSQWd74v+OMOcRqD-ow@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhBQU-00089p-N4
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 09:30:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35022)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhBQS-0000hc-EP
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 09:30:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lhBQQ-00053b-7s
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 13:30:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1333C2E813A
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 13:30:50 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-caAPn5Lzt=t2u7V5zWkdhbADdSQWd74v+OMOcRqD-ow@mail.gmail.com>
-User-Agent: Mutt/2.0.6 (2021-03-06)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 13 May 2021 13:23:09 -0000
+From: Mingye Wang <1912107@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: feature-request linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: artoria2e5 th-huth
+X-Launchpad-Bug-Reporter: Mingye Wang (artoria2e5)
+X-Launchpad-Bug-Modifier: Mingye Wang (artoria2e5)
+References: <161090862069.30717.14713485848942415507.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162091219001.782.14726072358038403800.launchpad@wampee.canonical.com>
+Subject: [Bug 1912107] Re: Option to constrain linux-user exec() to emulated
+ CPU only
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
+X-Launchpad-Hash: 6e30fb29956dbf4ae12aba7348e348cb985f23bf
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,60 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Kunkun Jiang <jiangkunkun@huawei.com>,
- huangy81@chinatelecom.cn, Markus Armbruster <armbru@redhat.com>,
- Peter Xu <peterx@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Keqian Zhu <zhukeqian1@huawei.com>
+Reply-To: Bug 1912107 <1912107@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> On Tue, 11 May 2021 at 16:08, Dr. David Alan Gilbert (git)
-> <dgilbert@redhat.com> wrote:
-> >
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >
-> > The following changes since commit e4f3ede95ce813d5705c65e1c0e1c80c70739ebb:
-> >
-> >   Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210505-pull-request' into staging (2021-05-10 19:55:06 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://github.com/dagrh/qemu.git tags/pull-migration-20210511a
-> >
-> > for you to fetch changes up to 872df23afc70985af5a458e0c4bd2b984559015c:
-> >
-> >   tests/migration: introduce multifd into guestperf (2021-05-11 11:26:19 +0100)
-> >
-> > ----------------------------------------------------------------
-> > Migration pull 2021-05-11
-> >
-> > The largest change in this set is David's changes for ram block size
-> > changing; then there's a pile of other cleanups and fixes.
-> >
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >
-> 
-> Fails to build on the gitlab cross build job:
-> https://gitlab.com/qemu-project/qemu/-/jobs/1258047823
-> 
-> ../migration/ram.c: In function 'host_page_from_ram_block_offset':
-> ../migration/ram.c:3092:12: error: cast to pointer from integer of
-> different size [-Werror=int-to-pointer-cast]
-> return (void *)QEMU_ALIGN_DOWN((uintptr_t)block->host + offset,
-> ^
+** Changed in: qemu
+       Status: Incomplete =3D> Confirmed
 
-Interesting; it's compiling fine on my i686 debian chroot I normally use
-to find 32bit-isms.
+** Changed in: qemu
+       Status: Confirmed =3D> New
 
-I'll have a look.
+-- =
 
-Dave
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912107
 
-> thanks
-> -- PMM
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Title:
+  Option to constrain linux-user exec() to emulated CPU only
 
+Status in QEMU:
+  New
+
+Bug description:
+  When trying to reproduce a bug someone reported on an actual AMD K10[1], =
+=E2=80=8BI tried to directly throw `qemu_x86-64 -cpu =
+
+  =E2=80=8Bphenom path/to/wrongly-labelled-instruction-set/gcc 1.c` at the =
+problem, but failed to get an "illegal instruction" as expected. A quick in=
+vestigation reveals that the error is actually caused by one of gcc's child=
+ processess, and that the said process is being ran directly on the host. A=
+ similar problem happens with trying to call stuff with /usr/bin/env.
+
+   =E2=80=8B[1]: https://github.com/Homebrew/brew/issues/1034
+
+  Since both the host and the guest are x86_64, I deemed binfmt
+  inapplicable to my case. I believe that QEMU should offer a way to
+  modify exec() and other spawning syscalls so that execution remains on
+  an emulated CPU in such a case. Call it an extra layer of binfmt, if
+  you must.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912107/+subscriptions
 
