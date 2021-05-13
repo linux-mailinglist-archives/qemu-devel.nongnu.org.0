@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7964837FCD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:51:19 +0200 (CEST)
-Received: from localhost ([::1]:34194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 160C537FCF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 19:55:22 +0200 (CEST)
+Received: from localhost ([::1]:46216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhFUU-0001vt-FW
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:51:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56014)
+	id 1lhFYP-0001ps-2Y
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 13:55:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lhFO9-0006Sh-IW
- for qemu-devel@nongnu.org; Thu, 13 May 2021 13:44:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49804)
+ id 1lhFPg-0000hS-OL
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:46:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lhFO4-0004Xj-4U
- for qemu-devel@nongnu.org; Thu, 13 May 2021 13:44:45 -0400
+ id 1lhFPd-0005Kp-9g
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 13:46:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620927879;
+ s=mimecast20190719; t=1620927976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j0jPYJ8WskNkeX0DsMStOo0TcUYZN4EvnIndwtNmzSY=;
- b=dd49qCxEbEaYbgcSxQ3KEghwdFLv8fxvvs+4GhlgM6bIX8vCJU7DCIjBEPOnz+B7SqEn+a
- mx2dlpHv3tKhWXR13h/DgDu/aKDXlnwhAdx8r8mFZtGRvZ2URgEgbKcIusQSCxASgp4Iqy
- e57vuDeHeOUOqFwYhWDhBeyn8iRiwvY=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-x8THAkLgOa-7jh9oR1CFUw-1; Thu, 13 May 2021 13:44:38 -0400
-X-MC-Unique: x8THAkLgOa-7jh9oR1CFUw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- y15-20020aa7d50f0000b02903885ee98723so14957205edq.16
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 10:44:37 -0700 (PDT)
+ bh=Jz9xnR5RT8x2qH85x37KCKe5brKsa9hpYsfyE+AHJSM=;
+ b=PCsOTq0BJ0ZWBUHa+ECUjlAdlnGR9nZZmK8GMiOK9O81s5HsiKhmq8X4WtbkjsbBReThG8
+ pA0feHBjCFD6LjiaClAXwnRZ1aPheg1AZqFZ4sgT6+OVz7QG+Hh7fvATD7VbjYy7Tilj2x
+ xo6N1VaDokgTpTYseLjZ4fU0UTqY3Ag=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-6CeS6cMtNl6xgc4Aqh14WQ-1; Thu, 13 May 2021 13:46:14 -0400
+X-MC-Unique: 6CeS6cMtNl6xgc4Aqh14WQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ x20-20020a1709061354b02903cff4894505so2061096ejb.14
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 10:46:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=j0jPYJ8WskNkeX0DsMStOo0TcUYZN4EvnIndwtNmzSY=;
- b=ORm6PGqwQd4I0Ec6cyQNOm7Yv40qYuWM2m5myqV6Imf1TaHQDX6WLtmNIcDE0wHoNH
- 301/EVxuTkXTZ+ENDhSEsA86fsICdPXq03Kltzvvqu3MhYmSrVlghBaPrr9iB1V+Tj/Q
- uEC+33Q6pBuRwCCo7qDXEd7rFetaivGuMn/jDe9wxZvRSwB0mfZbXyGu3D8zSytovBx/
- YMrtmR7AJ62ifXi0FIYswW1b1ocddFoUkMIUdEUJPhe3U6KwPDj+PdzFJeLut2m9MbVv
- v5kvBAzWCMqiyMzh1aRCWfoj/5r91yfOvhHgpMlACm+aigUz0JhOu4LUji3yz+DWRDOP
- uWNA==
-X-Gm-Message-State: AOAM532a4JecV7y4Yxo1V2t+/Boy6I5S1AyNs3lssvupuzLbuMV0NHWQ
- NjfiJedAOlQhYEMhXCNuur7/2QeIOCB71m+PyDzs8zmUNNNA/wI8TARNcy48y4UjeRHfMMqLMCc
- dU31u6htd3ZLfFZo=
-X-Received: by 2002:a17:906:dbdc:: with SMTP id
- yc28mr24093522ejb.130.1620927876748; 
- Thu, 13 May 2021 10:44:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxy4oMsBPs8A9hJiLtDr64wr6F9SOKpSZLyCL/ae2pWlTSjY3l63MLmSFg0bOAheKrBFD+zgQ==
-X-Received: by 2002:a17:906:dbdc:: with SMTP id
- yc28mr24093505ejb.130.1620927876507; 
- Thu, 13 May 2021 10:44:36 -0700 (PDT)
+ bh=Jz9xnR5RT8x2qH85x37KCKe5brKsa9hpYsfyE+AHJSM=;
+ b=HRjrb7/mxGsLjYRDO4bhBlHT1OWOz7uCKuLH+K2ZRoxzSUKXYyitS8U0YR+aaPHNNX
+ uADOj36t0jHvrDvw95BKHwGz5LVEW2uqu95qJ/8sNlTsYK5TOLkyxIUO6wXnW2ufP4Jq
+ yt2ZlX46d+6yJb1K48d1vdTqOz9G9zQhqA0N7tFkPEV3e3VyEpTXK8Um91tk+vS0eBcj
+ EHiENNPVa7DjoNz7+FXSBSF28pBnEi2tqIbElM/SRjFtMr2j+72n/nv5Tvekx9a9lusx
+ fbQ4G1ozVoLNJimDSMq+FZGhLSiKCT5OrrM+F0GFx8GxvCGIhS5c+iVWSw8kW3UdZvyf
+ ZT5g==
+X-Gm-Message-State: AOAM533Lap2c3arYrYNz5PrR7HrCyqe7uqFSOnfyCmp9uKPMphgbLvyt
+ M6WR3FX6vZoTIIjzX0XUzfGcD+KPCEMyjpeYhMnSEv4r+/BAlxVq9nSkaVF4Qlh24nKxYqYEqSJ
+ jTHMcG/ozxaNj2ts=
+X-Received: by 2002:a17:906:4ece:: with SMTP id
+ i14mr5035374ejv.249.1620927973699; 
+ Thu, 13 May 2021 10:46:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHiaiVfLh0VZMjk8QV5XD5MtpF/20/4MDpry+93VscmI+7ttyT2z3MJAqgVKnDoPh3XgyOBg==
+X-Received: by 2002:a17:906:4ece:: with SMTP id
+ i14mr5035354ejv.249.1620927973453; 
+ Thu, 13 May 2021 10:46:13 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id z22sm2126809ejo.113.2021.05.13.10.44.35
+ by smtp.gmail.com with ESMTPSA id g11sm2783340edt.85.2021.05.13.10.46.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 May 2021 10:44:35 -0700 (PDT)
-Subject: Re: [RFC PATCH 4/9] qapi: Implement 'query-machine-phase' command
+ Thu, 13 May 2021 10:46:12 -0700 (PDT)
+Subject: Re: [RFC PATCH 2/9] replace machine phase_check with
+ machine_is_initialized/ready calls
 To: Mirela Grujic <mirela.grujic@greensocs.com>, qemu-devel@nongnu.org
 References: <20210513082549.114275-1-mirela.grujic@greensocs.com>
- <20210513082549.114275-5-mirela.grujic@greensocs.com>
+ <20210513082549.114275-3-mirela.grujic@greensocs.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b6b57511-7cef-5e0f-afbe-81a1d410e524@redhat.com>
-Date: Thu, 13 May 2021 19:44:34 +0200
+Message-ID: <dcaf4794-0661-afae-a256-5043be20aa5b@redhat.com>
+Date: Thu, 13 May 2021 19:46:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210513082549.114275-5-mirela.grujic@greensocs.com>
+In-Reply-To: <20210513082549.114275-3-mirela.grujic@greensocs.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -105,153 +106,237 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: damien.hedde@greensocs.com, edgar.iglesias@xilinx.com,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, mark.burton@greensocs.com,
- Markus Armbruster <armbru@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ mark.burton@greensocs.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 13/05/21 10:25, Mirela Grujic wrote:
-> The command returns current machine initialization phase.
->  From now on, the MachineInitPhase enum is generated.
+> Once we define MachineInitPhase in qapi, the generated enumeration
+> constants will be prefixed with the MACHINE_INIT_PHASE_.
+> We need to define the MachineInitPhase enum in qapi in order to
+> add the QMP command that will query current machine init phase.
 > 
+> Since in the existing definition of enum MachineInitPhase the
+> enumeration constants are prefixed with PHASE_, there will be a
+> massive find/replace to rename the existing enum constants.
+> We'll do this in 2 phases:
+> 1) hide explicit use of PHASE_ prefixed enums by replacing
+>      phase_check(PHASE_MACHINE_INITIALIZED) -> machine_is_initialized()
+>      phase_check(PHASE_MACHINE_READY) -> machine_is_ready()
+> 2) rename enums
+> 
+> Once 1) and 2) are done MachineInitPhase enum will be generated.
+
+Is it so much churn to just rename everything to MACHINE_INIT_PHASE_* 
+and keep phase_check() as is?  Or is it because the QAPI-generated names 
+are quite long?
+
+Paolo
+
 > Signed-off-by: Mirela Grujic <mirela.grujic@greensocs.com>
 > ---
->   qapi/machine.json          | 54 ++++++++++++++++++++++++++++++++++++++
->   include/hw/qdev-core.h     | 29 +-------------------
->   hw/core/machine-qmp-cmds.c |  9 +++++++
->   3 files changed, 64 insertions(+), 28 deletions(-)
+>   include/hw/qdev-core.h     |  2 ++
+>   hw/core/machine-qmp-cmds.c |  2 +-
+>   hw/core/machine.c          |  2 +-
+>   hw/core/qdev.c             | 12 +++++++++++-
+>   hw/pci/pci.c               |  2 +-
+>   hw/usb/core.c              |  2 +-
+>   hw/virtio/virtio-iommu.c   |  2 +-
+>   monitor/hmp.c              |  2 +-
+>   softmmu/qdev-monitor.c     |  9 ++++-----
+>   softmmu/vl.c               |  2 +-
+>   ui/console.c               |  2 +-
+>   11 files changed, 25 insertions(+), 14 deletions(-)
 > 
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 6e90d463fc..47bdbec817 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1274,3 +1274,57 @@
->   ##
->   { 'event': 'MEM_UNPLUG_ERROR',
->     'data': { 'device': 'str', 'msg': 'str' } }
-> +
-> +##
-> +# @MachineInitPhase:
-> +#
-> +# Enumeration of machine initialization phases.
-> +#
-> +# @no-machine: machine does not exist
-> +#
-> +# @machine-created: machine is created, but its accelerator is not
-> +#
-> +# @accel-created: accelerator is created, but the machine properties have not
-> +#                 been validated and machine initialization is not done yet
-> +#
-> +# @initialized: machine is initialized, thus creating any embedded devices and
-> +#               validating machine properties. Devices created at this time are
-> +#               considered to be cold-plugged.
-> +#
-> +# @ready: QEMU is ready to start CPUs and devices created at this time are
-> +#         considered to be hot-plugged. The monitor is not restricted to
-> +#         "preconfig" commands.
-> +##
-> +{ 'enum': 'MachineInitPhase',
-> +  'data': [ 'no-machine', 'machine-created', 'accel-created', 'initialized',
-> +            'ready' ] }
-> +
-> +##
-> +# @MachineInitPhaseStatus:
-> +#
-> +# Information about machine initialization phase
-> +#
-> +# @phase: the machine initialization phase
-> +#
-> +# Since:  #FIXME
-> +##
-> +{ 'struct': 'MachineInitPhaseStatus',
-> +  'data': { 'phase': 'MachineInitPhase' } }
-> +
-> +##
-> +# @query-machine-phase:
-> +#
-> +# Return machine initialization phase
-> +#
-> +# Since: #FIXME
-> +#
-> +# Returns: MachineInitPhaseStatus
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-machine-phase" }
-> +# <- { "return": { "phase": "initialized" } }
-> +#
-> +##
-> +{ 'command': 'query-machine-phase', 'returns': 'MachineInitPhaseStatus',
-> +             'allow-preconfig': true }
 > diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index dc2f63478b..ca39b77ae6 100644
+> index 6e52240d92..5e3c6d4482 100644
 > --- a/include/hw/qdev-core.h
 > +++ b/include/hw/qdev-core.h
-> @@ -1,6 +1,7 @@
->   #ifndef QDEV_CORE_H
->   #define QDEV_CORE_H
->   
-> +#include "qapi/qapi-types-machine.h"
->   #include "qemu/queue.h"
->   #include "qemu/bitmap.h"
->   #include "qemu/rcu.h"
-> @@ -811,34 +812,6 @@ void device_listener_unregister(DeviceListener *listener);
->    */
->   bool qdev_should_hide_device(QemuOpts *opts);
->   
-> -typedef enum MachineInitPhase {
-> -    /* current_machine is NULL.  */
-> -    MACHINE_INIT_PHASE_NO_MACHINE,
-> -
-> -    /* current_machine is not NULL, but current_machine->accel is NULL.  */
-> -    MACHINE_INIT_PHASE_MACHINE_CREATED,
-> -
-> -    /*
-> -     * current_machine->accel is not NULL, but the machine properties have
-> -     * not been validated and machine_class->init has not yet been called.
-> -     */
-> -    MACHINE_INIT_PHASE_ACCEL_CREATED,
-> -
-> -    /*
-> -     * machine_class->init has been called, thus creating any embedded
-> -     * devices and validating machine properties.  Devices created at
-> -     * this time are considered to be cold-plugged.
-> -     */
-> -    MACHINE_INIT_PHASE_INITIALIZED,
-> -
-> -    /*
-> -     * QEMU is ready to start CPUs and devices created at this time
-> -     * are considered to be hot-plugged.  The monitor is not restricted
-> -     * to "preconfig" commands.
-> -     */
-> -    MACHINE_INIT_PHASE_READY,
-> -} MachineInitPhase;
-> -
+> @@ -842,5 +842,7 @@ typedef enum MachineInitPhase {
 >   extern bool phase_check(MachineInitPhase phase);
 >   extern void phase_advance(MachineInitPhase phase);
 >   extern MachineInitPhase phase_get(void);
+> +extern bool machine_is_initialized(void);
+> +extern bool machine_is_ready(void);
+>   
+>   #endif
 > diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-> index be286882cc..23f837dadb 100644
+> index 68a942595a..be286882cc 100644
 > --- a/hw/core/machine-qmp-cmds.c
 > +++ b/hw/core/machine-qmp-cmds.c
-> @@ -198,3 +198,12 @@ MemdevList *qmp_query_memdev(Error **errp)
->       object_child_foreach(obj, query_memdev, &list);
->       return list;
+> @@ -149,7 +149,7 @@ HotpluggableCPUList *qmp_query_hotpluggable_cpus(Error **errp)
+>   
+>   void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
+>   {
+> -    if (phase_check(PHASE_MACHINE_INITIALIZED)) {
+> +    if (machine_is_initialized()) {
+>           error_setg(errp, "The command is permitted only before the machine has been created");
+>           return;
+>       }
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 40def78183..eba046924d 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -1239,7 +1239,7 @@ static NotifierList machine_init_done_notifiers =
+>   void qemu_add_machine_init_done_notifier(Notifier *notify)
+>   {
+>       notifier_list_add(&machine_init_done_notifiers, notify);
+> -    if (phase_check(PHASE_MACHINE_READY)) {
+> +    if (machine_is_ready()) {
+>           notify->notify(notify, NULL);
+>       }
 >   }
-> +
-> +MachineInitPhaseStatus *qmp_query_machine_phase(Error **errp)
+> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+> index 4a4a4d8c52..71906170f9 100644
+> --- a/hw/core/qdev.c
+> +++ b/hw/core/qdev.c
+> @@ -904,7 +904,7 @@ static void device_initfn(Object *obj)
+>   {
+>       DeviceState *dev = DEVICE(obj);
+>   
+> -    if (phase_check(PHASE_MACHINE_READY)) {
+> +    if (machine_is_ready()) {
+>           dev->hotplugged = 1;
+>           qdev_hot_added = true;
+>       }
+> @@ -1155,6 +1155,16 @@ MachineInitPhase phase_get(void)
+>       return machine_phase;
+>   }
+>   
+> +bool machine_is_initialized(void)
 > +{
-> +    MachineInitPhaseStatus *status = g_malloc0(sizeof(*status));
-> +
-> +    status->phase = phase_get();
-> +
-> +    return status;
+> +    return machine_phase >= PHASE_MACHINE_INITIALIZED;
 > +}
+> +
+> +bool machine_is_ready(void)
+> +{
+> +    return machine_phase >= PHASE_MACHINE_READY;
+> +}
+> +
+>   static const TypeInfo device_type_info = {
+>       .name = TYPE_DEVICE,
+>       .parent = TYPE_OBJECT,
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 8f35e13a0c..19b584c3d1 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -1071,7 +1071,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+>       address_space_init(&pci_dev->bus_master_as,
+>                          &pci_dev->bus_master_container_region, pci_dev->name);
+>   
+> -    if (phase_check(PHASE_MACHINE_READY)) {
+> +    if (machine_is_ready()) {
+>           pci_init_bus_master(pci_dev);
+>       }
+>       pci_dev->irq_state = 0;
+> diff --git a/hw/usb/core.c b/hw/usb/core.c
+> index 975f76250a..2ec0dea6a0 100644
+> --- a/hw/usb/core.c
+> +++ b/hw/usb/core.c
+> @@ -97,7 +97,7 @@ void usb_wakeup(USBEndpoint *ep, unsigned int stream)
+>       USBDevice *dev = ep->dev;
+>       USBBus *bus = usb_bus_from_device(dev);
+>   
+> -    if (!phase_check(PHASE_MACHINE_READY)) {
+> +    if (!machine_is_ready()) {
+>           /*
+>            * This is machine init cold plug.  No need to wakeup anyone,
+>            * all devices will be reset anyway.  And trying to wakeup can
+> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+> index 1b23e8e18c..8b1bcb2848 100644
+> --- a/hw/virtio/virtio-iommu.c
+> +++ b/hw/virtio/virtio-iommu.c
+> @@ -948,7 +948,7 @@ static int virtio_iommu_set_page_size_mask(IOMMUMemoryRegion *mr,
+>        * accept it. Having a different masks is possible but the guest will use
+>        * sub-optimal block sizes, so warn about it.
+>        */
+> -    if (phase_check(PHASE_MACHINE_READY)) {
+> +    if (machine_is_ready()) {
+>           int new_granule = ctz64(new_mask);
+>           int cur_granule = ctz64(cur_mask);
+>   
+> diff --git a/monitor/hmp.c b/monitor/hmp.c
+> index 6c0b33a0b1..c24511db6d 100644
+> --- a/monitor/hmp.c
+> +++ b/monitor/hmp.c
+> @@ -216,7 +216,7 @@ static bool cmd_can_preconfig(const HMPCommand *cmd)
+>   
+>   static bool cmd_available(const HMPCommand *cmd)
+>   {
+> -    return phase_check(PHASE_MACHINE_READY) || cmd_can_preconfig(cmd);
+> +    return machine_is_ready() || cmd_can_preconfig(cmd);
+>   }
+>   
+>   static void help_cmd_dump_one(Monitor *mon,
+> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+> index a9955b97a0..be8a892517 100644
+> --- a/softmmu/qdev-monitor.c
+> +++ b/softmmu/qdev-monitor.c
+> @@ -254,7 +254,7 @@ static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
+>   
+>       dc = DEVICE_CLASS(oc);
+>       if (!dc->user_creatable ||
+> -        (phase_check(PHASE_MACHINE_READY) && !dc->hotpluggable)) {
+> +        (machine_is_ready() && !dc->hotpluggable)) {
+>           error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "driver",
+>                      "a pluggable device type");
+>           return NULL;
+> @@ -636,7 +636,7 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+>           }
+>       }
+>   
+> -    if (phase_check(PHASE_MACHINE_READY) && bus && !qbus_is_hotpluggable(bus)) {
+> +    if (machine_is_ready() && bus && !qbus_is_hotpluggable(bus)) {
+>           error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
+>           return NULL;
+>       }
+> @@ -650,7 +650,7 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+>       dev = qdev_new(driver);
+>   
+>       /* Check whether the hotplug is allowed by the machine */
+> -    if (phase_check(PHASE_MACHINE_READY)) {
+> +    if (machine_is_ready()) {
+>           if (!qdev_hotplug_allowed(dev, errp)) {
+>               goto err_del_dev;
+>           }
+> @@ -998,8 +998,7 @@ int qemu_global_option(const char *str)
+>   
+>   bool qmp_command_available(const QmpCommand *cmd, Error **errp)
+>   {
+> -    if (!phase_check(PHASE_MACHINE_READY) &&
+> -        !(cmd->options & QCO_ALLOW_PRECONFIG)) {
+> +    if (!machine_is_ready() && !(cmd->options & QCO_ALLOW_PRECONFIG)) {
+>           error_setg(errp, "The command '%s' is permitted only after machine initialization has completed",
+>                      cmd->name);
+>           return false;
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index cbf62abeb4..3af9743ceb 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2636,7 +2636,7 @@ static void qemu_machine_enter_phase(MachineInitPhase target_phase,
+>   
+>   void qmp_x_exit_preconfig(Error **errp)
+>   {
+> -    if (phase_check(PHASE_MACHINE_INITIALIZED)) {
+> +    if (machine_is_initialized()) {
+>           error_setg(errp, "The command is permitted only before machine initialization");
+>           return;
+>       }
+> diff --git a/ui/console.c b/ui/console.c
+> index 2de5f4105b..3513da6a54 100644
+> --- a/ui/console.c
+> +++ b/ui/console.c
+> @@ -1353,7 +1353,7 @@ static QemuConsole *new_console(DisplayState *ds, console_type_t console_type,
+>       if (QTAILQ_EMPTY(&consoles)) {
+>           s->index = 0;
+>           QTAILQ_INSERT_TAIL(&consoles, s, next);
+> -    } else if (console_type != GRAPHIC_CONSOLE || phase_check(PHASE_MACHINE_READY)) {
+> +    } else if (console_type != GRAPHIC_CONSOLE || machine_is_ready()) {
+>           QemuConsole *last = QTAILQ_LAST(&consoles);
+>           s->index = last->index + 1;
+>           QTAILQ_INSERT_TAIL(&consoles, s, next);
 > 
-
-This command is a good idea, and we can in fact even include it already 
-in QEMU.
-
-Paolo
 
 
