@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1697737F31E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 08:36:28 +0200 (CEST)
-Received: from localhost ([::1]:46466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFB637F31B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 08:33:48 +0200 (CEST)
+Received: from localhost ([::1]:42270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh4xP-0005Wf-5u
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 02:36:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39598)
+	id 1lh4up-0002bE-GR
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 02:33:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1lh4op-0004vU-Sz
- for qemu-devel@nongnu.org; Thu, 13 May 2021 02:27:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43223)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1lh4os-0004zj-Dp
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 02:27:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1lh4oj-00048M-Ef
- for qemu-devel@nongnu.org; Thu, 13 May 2021 02:27:33 -0400
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1lh4on-00049Q-QH
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 02:27:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620887245;
+ s=mimecast20190719; t=1620887249;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D7afhQKP77Ui0XcrFILGQZEi61wmyyzprw621180ncs=;
- b=ho2Q8pM7BcF4FSSiudMmSkrJ019DURsno8iLlIQGmsWWNnF20iUHbIaIhQOq1LdTqzLvkC
- ET2ugNa5ke2ktfHUrodoeQWhH1b+XjmVO8hKKgmhxA4V5pFv79C9QEkWEZWUljk3Olk5Po
- oxS3/IRQU4V9DE+eXEamQhx/XmzueOs=
+ bh=3ahcXEwjfZCxRWip5dFAHLuioirAWCn6NQooUwScD8Q=;
+ b=SlS8nMQ/ECH2DSsivo3C8vJ88wvvnTO3KNJsmUURp+5PAujLssRpp0R31lVUfB5x3y8JDy
+ 4oisBdjwk/+A7BCGOIQrv4IoftNDWlJyKX/v0niMy1rcEmv02IJiPJlS9lzWL0O1+88HcK
+ /Kn3a5SSl2Vj62WcRIgHKQRXc4tPKqQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-x6KrmYncNWCtZKIu8jUV2w-1; Thu, 13 May 2021 02:27:21 -0400
-X-MC-Unique: x6KrmYncNWCtZKIu8jUV2w-1
+ us-mta-559-75cut3bvMYGMs_eawS-DGg-1; Thu, 13 May 2021 02:27:28 -0400
+X-MC-Unique: 75cut3bvMYGMs_eawS-DGg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D05F71883525;
- Thu, 13 May 2021 06:27:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 317411883532;
+ Thu, 13 May 2021 06:27:27 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.40.193.100])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 30B8459441;
- Thu, 13 May 2021 06:27:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F3D278627;
+ Thu, 13 May 2021 06:27:21 +0000 (UTC)
 From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v4 5/7] bios-tables-test: Allow changes in DSDT ACPI tables
-Date: Thu, 13 May 2021 08:26:40 +0200
-Message-Id: <20210513062642.3027987-6-jusual@redhat.com>
+Subject: [RFC PATCH v4 6/7] hw/acpi/ich9: Set ACPI PCI hot-plug as default on
+ Q35
+Date: Thu, 13 May 2021 08:26:41 +0200
+Message-Id: <20210513062642.3027987-7-jusual@redhat.com>
 In-Reply-To: <20210513062642.3027987-1-jusual@redhat.com>
 References: <20210513062642.3027987-1-jusual@redhat.com>
 MIME-Version: 1.0
@@ -81,31 +82,68 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All DSDT Q35 tables will be modified because ACPI hot-plug is enabled
-by default.
+Q35 has three different types of PCI devices hot-plug: PCIe Native,
+SHPC Native and ACPI hot-plug. This patch changes the default choice
+for cold-plugged bridges from PCIe Native to ACPI Hot-plug with
+ability to use SHPC and PCIe Native for hot-plugged bridges.
+
+This is a list of the PCIe Native hot-plug issues that led to this
+change:
+    * no racy behavior during boot (see 110c477c2ed)
+    * no delay during deleting - after the actual power off software
+      must wait at least 1 second before indicating about it. This case
+      is quite important for users, it even has its own bug:
+          https://bugzilla.redhat.com/show_bug.cgi?id=1594168
+    * no timer-based behavior - in addition to the previous example,
+      the attention button has a 5-second waiting period, during which
+      the operation can be canceled with a second press. While this
+      looks fine for manual button control, automation will result in
+      the need to queue or drop events, and the software receiving
+      events in all sort of unspecified combinations of attention/power
+      indicator states, which is racy and uppredictable.
+    * fixes or reduces the likelihood of the bug:
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1833187
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1657077
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1669931
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1678290
+
+To return to PCIe Native hot-plug:
+    -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
 
 Signed-off-by: Julia Suvorova <jusual@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ hw/acpi/ich9.c | 2 +-
+ hw/i386/pc.c   | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..c5167f48af 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,12 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.tis",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.nohpet",
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index f6819c4f2a..e7b2cd9719 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -425,7 +425,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
+     pm->disable_s3 = 0;
+     pm->disable_s4 = 0;
+     pm->s4_val = 2;
+-    pm->use_acpi_hotplug_bridge = false;
++    pm->use_acpi_hotplug_bridge = true;
+ 
+     object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
+                                    &pm->pm_io_base, OBJ_PROP_FLAG_READ);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 8cfaf216e7..5c2d3d11a2 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -94,7 +94,9 @@
+ #include "trace.h"
+ #include CONFIG_DEVICES
+ 
+-GlobalProperty pc_compat_6_0[] = {};
++GlobalProperty pc_compat_6_0[] = {
++    { "ICH9-LPC", "acpi-pci-hotplug-with-bridge-support", "off" },
++};
+ const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
+ 
+ GlobalProperty pc_compat_5_2[] = {
 -- 
 2.30.2
 
