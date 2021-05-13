@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0831337F732
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 13:52:44 +0200 (CEST)
-Received: from localhost ([::1]:36130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCA237F746
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 13:59:37 +0200 (CEST)
+Received: from localhost ([::1]:56308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh9tT-00043W-3c
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 07:52:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52372)
+	id 1lhA08-000114-Lh
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 07:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lh9rX-0002Jg-7r
- for qemu-devel@nongnu.org; Thu, 13 May 2021 07:50:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36506)
+ id 1lh9x4-000357-E6
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 07:56:26 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lh9rU-0000QL-7v
- for qemu-devel@nongnu.org; Thu, 13 May 2021 07:50:43 -0400
+ id 1lh9x0-0004Ds-1H
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 07:56:26 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lh9rR-0000OV-Gk
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 11:50:37 +0000
+ id 1lh9wx-0000zs-1F
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 11:56:19 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7D8E72E818A
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 11:50:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id F3EA02E8234
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 11:56:10 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 May 2021 11:44:28 -0000
-From: Thomas Huth <1917661@bugs.launchpad.net>
+Date: Thu, 13 May 2021 11:45:34 -0000
+From: Thomas Huth <1916344@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: gdb riscv
+X-Launchpad-Bug-Tags: libslirp mac networking osx podman slirp user-mode
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bog-dan-ro th-huth
-X-Launchpad-Bug-Reporter: BogDan (bog-dan-ro)
+X-Launchpad-Bug-Commenters: adamchappell imperialguy programmingkidx th-huth
+X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161479886143.24350.9355670718334050866.malonedeb@soybean.canonical.com>
-Message-Id: <162090626840.1649.15998923219478407281.malone@wampee.canonical.com>
-Subject: [Bug 1917661] Re: qemu gdb wrong registers group for riscv64
+References: <161384672086.17995.1360895646378656233.malonedeb@wampee.canonical.com>
+Message-Id: <162090633440.7840.7123814370003344081.malone@gac.canonical.com>
+Subject: [Bug 1916344] Re: User mode networking not working properly on QEMU
+ on Mac OS X host
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: 605462322b1a5d4be4deffc1df9d67303a1cf49b
+X-Launchpad-Hash: b0a4e704154e083e085802e1317bc2028fb24091
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917661 <1917661@bugs.launchpad.net>
+Reply-To: Bug 1916344 <1916344@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -108,38 +109,53 @@ Thank you and sorry for the inconvenience.
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
-** Tags added: riscv
-
-** Tags added: gdb
-
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917661
+https://bugs.launchpad.net/bugs/1916344
 
 Title:
-  qemu gdb wrong registers group for riscv64
+  User mode networking not working properly on QEMU on Mac OS X host
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Step to reproduce:
-  1. run qemu-system-riscv64 in gdb mode
-  2. attach gdb
-  3. set a breakpoint and run
-  4. print register-groups using "maintenance print register-groups" command
+  Steps to reproduce:
 
-  ...
-   sbadaddr   4162 4162   1628       8 long            all,general
-   msounteren 4163 4163   1636       8 long            all,general
-   mbadaddr   4164 4164   1644       8 long            all,general
-   htimedeltah 4165 4165   1652       8 long            all,general
+  1. Install QEMU using homebrew on Mac OS X (I tried on Catalina and Big S=
+ur)
+  2. Spin up a guest VM (say) Cent OS 8 using user mode networking.
+  3. Install podman inside the guest
+  4. Run podman pull alpine
 
-  These registers don't belong to general group, instead they belong to
-  all, system and csr groups.
+  The result is:
+
+  [root@localhost ~]# podman pull alpine
+  Resolved "alpine" as an alias (/etc/containers/registries.conf.d/shortnam=
+es.conf)
+  Trying to pull docker.io/library/alpine:latest...
+  Getting image source signatures
+  Copying blob ba3557a56b15 [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D] 2.7M=
+iB / 2.7MiB
+  =C2=A0=C2=A0unexpected EOF
+  Error: Error writing blob: error storing blob to file "/var/tmp/storage85=
+1171596/1": error happened during read: unexpected EOF
+
+  This is happening because QEMU is telling the guest that the TCP
+  connection is closed even before reading all the data from the host
+  socket and forwarding it to the guest.
+
+  This issue doesn't happen on a Linux host. So, that tells me that this
+  has something to do with QEMU installation on Mac OS X.
+
+  This could be a slirp related issue. So, QEMU/slirp may need to work
+  together on fixing this. Here's the link to the libslirp issue:
+
+  https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917661/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1916344/+subscriptions
 
