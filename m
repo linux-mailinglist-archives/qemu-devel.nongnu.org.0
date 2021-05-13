@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A4F37F9AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 16:29:02 +0200 (CEST)
-Received: from localhost ([::1]:59200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42F537F9A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 16:28:20 +0200 (CEST)
+Received: from localhost ([::1]:56514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhCKj-0000pr-Bb
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 10:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58584)
+	id 1lhCK3-0007T0-Of
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 10:28:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lhCH7-0004xc-TP
- for qemu-devel@nongnu.org; Thu, 13 May 2021 10:25:18 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:39476)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lhCH6-0007if-5s
- for qemu-devel@nongnu.org; Thu, 13 May 2021 10:25:17 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id k127so25614867qkc.6
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 07:25:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:message-id:subject:mime-version;
- bh=9LChy7ZnjlL7cENoyL54XhMMlw52vvqwymC+eOtCkWU=;
- b=WhJ53fquwOVWPKfeglnw/lUpw7MuDVMpdqRV4xZGWEaGMHrx5+vGgve26EpYhJfzkX
- TVgTMznvms3wJ22lC1WxtC1BwXVo96tZ5eAOAc0s/lmr/aLFWdIbQdwDoQzo1mX/9H2N
- GOVjyTvyUAekVCjBDogFENxHH9Ohn9Du8lkWpD6OMUbIGE7Sw1xEyde4XphIZUn/9xmw
- qkUIEXbavUUtUfxbBsB9UGd7bhnAhtt+5YXVzZA11B1iLzXX+2vso8598FbqyW4nvIdF
- N7MiqCTVZw831IZY+WnMujxB/17KDkTyzLTWvx8gtARSMDnoeCWKGayFozPjucsFn3DK
- aOAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:message-id:subject:mime-version;
- bh=9LChy7ZnjlL7cENoyL54XhMMlw52vvqwymC+eOtCkWU=;
- b=AFs51QjipxOSxcsU3R9N4yLhGfP0BTET7foBpT/LZPbq44x/vT0ayjFGtEnlNIYxyh
- G+/mVa2A2mYoI9N8xOXjC+fhspD/Tu+SH27llRveoZuTDF8kGur0kWD1cSxT90z9WCGS
- UsU2ogn2VQUMYtEmp3+wtB1UEGa06TGoynNgi1b6Ee5h5QdF7twNEQCedMVmUaVuN7g7
- X8tl2CBjCCrzHN4vFKcCQDcs8SO3x9OtTu4qpu611l1gnFwTNj91hjNTFfeyyOkg1xsO
- JbORlDcF7wLWXu/+81QJzCz0QNgjk/AbJ364oQIYsS2rbloi17egNcDb+ZYbFvgbu617
- 0g5g==
-X-Gm-Message-State: AOAM533ZRKZTYmdwXXSRpw/8/Badq6N6847P2r2pq2C2Im+hrwUwcHuM
- E2XzRLR88KeIvxO1JGDU73GammDC3v4H+w==
-X-Google-Smtp-Source: ABdhPJx89RyeKLEkl6GvW/2A7QjCRVTOtpdT+dwdehOO1jS9n/tXpmzXmpxGemK40U6pGpt+fySidQ==
-X-Received: by 2002:a05:620a:1021:: with SMTP id
- a1mr2574362qkk.399.1620915914273; 
- Thu, 13 May 2021 07:25:14 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-stsvon1503w-grc-21-142-114-142-78.dsl.bell.ca. [142.114.142.78])
- by smtp.gmail.com with ESMTPSA id y6sm2580986qkd.106.2021.05.13.07.25.14
- for <qemu-devel@nongnu.org>
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 13 May 2021 07:25:14 -0700 (PDT)
-Date: Thu, 13 May 2021 10:25:11 -0400
-From: Shashi Mallela <shashi.mallela@linaro.org>
-To: "=?utf-8?Q?qemu-devel=40nongnu.org?=" <qemu-devel@nongnu.org>
-Message-ID: <6146FAFB-FDAF-4C37-A488-9A0797CB5405@getmailspring.com>
-Subject: QEMU SMMUv3 stage 2 translation
-X-Mailer: Mailspring
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lhCHn-0005k9-QX
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 10:25:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26202)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lhCHk-0008Cz-97
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 10:25:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620915954;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=weXvaF6DXi/6EmG4dRXKYgNcLuRXwNEfMUtdkq7RrSA=;
+ b=aaMvDMJpLV3BRD6oCJKQp6wg2yEV4MEqk5ZWww5t9gsAc4daQAP9YXdG9R7/PHit5wHYbe
+ RJbQo3cT3+qhMZNwbFC76MQXIgQb7imV/9iwXwRXA6S7cAiWAYzb+z9/9wkiYjZGis6cFf
+ DhU94KNxgs+CiuJ4fzp1uIZFZlvLAp0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218--ANKkmOONLWBxk0t5dyYjg-1; Thu, 13 May 2021 10:25:52 -0400
+X-MC-Unique: -ANKkmOONLWBxk0t5dyYjg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3092188E3CA;
+ Thu, 13 May 2021 14:25:50 +0000 (UTC)
+Received: from localhost (ovpn-113-21.ams2.redhat.com [10.36.113.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2614C5D736;
+ Thu, 13 May 2021 14:25:47 +0000 (UTC)
+Date: Thu, 13 May 2021 15:25:46 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Zhang Chen <chen.zhang@intel.com>
+Subject: Re: [RFC PATCH] block/io.c: Flush parent for quorum in generic code
+Message-ID: <YJ026q2oFkTckc8u@stefanha-x1.localdomain>
+References: <20210512074957.763711-1-chen.zhang@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="609d36c7_2aba0ec6_14ca"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x72e.google.com
-X-Spam_score_int: 15
-X-Spam_score: 1.5
-X-Spam_bar: +
-X-Spam_report: (1.5 / 5.0 requ) BAYES_20=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_IMAGE_ONLY_08=1.651, HTML_IMAGE_RATIO_06=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_REMOTE_IMAGE=0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20210512074957.763711-1-chen.zhang@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="o4IPpsmItDPesDHm"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,36 +78,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "=?utf-8?Q?peter.maydell=40linaro.org?=" <peter.maydell@linaro.org>,
- Eric Auger <eric.auger@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block <qemu-block@nongnu.org>, qemu-dev <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Zhang Chen <zhangckid@gmail.com>,
+ Minghao Yuan <meeho@qq.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---609d36c7_2aba0ec6_14ca
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+--o4IPpsmItDPesDHm
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-Hi,
-
-Since the current SMMUv3 qemu implementation only supports stage 1 translation,wanted to understand if the implementation could be extended to stage 2 translation support and if yes what is the overall scope involved.This is required for sbsa-ref platforms.
-Thanks
-Shashi
-
---609d36c7_2aba0ec6_14ca
-Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 
-<div>Hi,</div><br><div>Since the current SMMUv3 qemu implementation only =
-supports stage 1 translation,wanted to understand if the implementation c=
-ould be extended to stage 2 translation support and if yes what is the ov=
-erall scope involved.This is required for sbsa-ref platforms.</div><br><d=
-iv>Thanks</div><div>Shashi</div><img class=3D=22mailspring-open=22 alt=3D=
-=22Sent from Mailspring=22 width=3D=220=22 height=3D=220=22 style=3D=22bo=
-rder:0; width:0; height:0;=22 src=3D=22https://link.getmailspring.com/ope=
-n/6146=46A=46B-=46DA=46-4C37-A488-9A0797CB5405=40getmailspring.com=3Fme=3D=
-2a4b90d6&amp;recipient=3DcWVtdS1kZXZlbEBub25nbnUub3Jn=22>
---609d36c7_2aba0ec6_14ca--
+On Wed, May 12, 2021 at 03:49:57PM +0800, Zhang Chen wrote:
+> Fix the issue from this patch:
+> [PATCH] block: Flush all children in generic code
+> From 883833e29cb800b4d92b5d4736252f4004885191
+>=20
+> Quorum driver do not have the primary child.
+> It will caused guest block flush issue when use quorum and NBD.
+> The vm guest flushes failed=EF=BC=8Cand then guest filesystem is shutdown=
+.
+>=20
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> Reported-by: Minghao Yuan <meeho@qq.com>
+> ---
+>  block/io.c | 31 ++++++++++++++++++++++---------
+>  1 file changed, 22 insertions(+), 9 deletions(-)
+...
+> +flush_data:
+> +    if (no_primary_child) {
+> +        /* Flush parent */
+> +        ret =3D bs->file ? bdrv_co_flush(bs->file->bs) : 0;
+> +    } else {
+> +        /* Flush childrens */
+> +        ret =3D 0;
+> +        QLIST_FOREACH(child, &bs->children, next) {
+> +            if (child->perm & (BLK_PERM_WRITE | BLK_PERM_WRITE_UNCHANGED=
+)) {
+> +                int this_child_ret =3D bdrv_co_flush(child->bs);
+> +                if (!ret) {
+> +                    ret =3D this_child_ret;
+> +                }
+>              }
+>          }
+
+I'm missing something:
+
+The quorum driver has a valid bs->children list even though it does not
+have a primary child. Why does QLIST_FOREACH() loop fail for you?
+
+Does this patch effectively skip bdrv_co_flush() calls on all quorum
+children? That seems wrong since children need to be flushed so that
+data is persisted.
+
+Stefan
+
+--o4IPpsmItDPesDHm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCdNuoACgkQnKSrs4Gr
+c8iL7ggAm4O+mZNxVVcu7h9oaYX9ksceOb4gVFdXmjZMvyi7be6ycJXjUHtTt0Vf
+rGuDSrgd89dyzIWwBInWkrGVx7jMuWyGEIwmD0eD/QwWps82luL5NBcPcbWQU584
+MosnRNVIN6Yaj5F72xxTSRo/IwRev0E+yEKFZZSccKcbLfi4xtblJehWpR8p2YqV
+6/9JrkPyT665OjpdPANOXi9ysSVA/JdyBGvAq83TYNd5XfWlUBYR8z3XTVwtDjvj
+rC6d5w56uLT6F2r1ZkObNHr8TYX5shUX+l76mODJZ9abZFe4XM8eCb1o44DbTdxp
+yRgGAOA7DuAW4Xxz8jLS0jY67WlmnA==
+=AtDQ
+-----END PGP SIGNATURE-----
+
+--o4IPpsmItDPesDHm--
 
 
