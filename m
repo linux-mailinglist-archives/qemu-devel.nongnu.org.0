@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5042337F886
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 15:18:42 +0200 (CEST)
-Received: from localhost ([::1]:59822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14BE37F866
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 15:07:20 +0200 (CEST)
+Received: from localhost ([::1]:44392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhBEe-0008UC-Sh
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 09:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39718)
+	id 1lhB3f-00066i-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 09:07:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1lhAyl-00008y-Fa
- for qemu-devel@nongnu.org; Thu, 13 May 2021 09:02:16 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2133)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1lhAyi-0008Nh-4R
- for qemu-devel@nongnu.org; Thu, 13 May 2021 09:02:15 -0400
-Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Fgs2m1gKhz70gTr;
- Thu, 13 May 2021 20:50:40 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 13 May 2021 15:02:02 +0200
-Received: from localhost (10.52.125.147) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 13 May
- 2021 14:02:01 +0100
-Date: Thu, 13 May 2021 14:00:18 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: RFC: Memory region accesses where .valid.min_access_size <
- .impl.min_access_size
-Message-ID: <20210513140018.00004560@Huawei.com>
-In-Reply-To: <2d5fdb5f-36d3-c998-ee36-f9d66cea7120@redhat.com>
-References: <20210513124737.00002b2d@Huawei.com>
- <CAFEAcA8a+A2u=sF6L-A1ZK7hSiAd2n24Xf0J6j5LeBFa-RTMFw@mail.gmail.com>
- <2d5fdb5f-36d3-c998-ee36-f9d66cea7120@redhat.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lhAyc-0008Ue-5t
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 09:02:06 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:37698)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lhAyY-0008KL-34
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 09:02:04 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id w3so39758918ejc.4
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 06:02:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jplbw6F74bu5if+ZTZj8T120Xzd+C2UuwKzdhRRM4Kg=;
+ b=p9usuX2SuFixE6TwaJOsPtQ7AeuYc+AnJfG1bb5xixDmPJW7mGyibEvVboZ5gS3n05
+ Q2QpibdWxOwQlt8rOEy7BxXQ6WSMG2R3PaUlYwY1r6MSTH8bmL6/QtRhTrSZA/9/c7QX
+ 6xESQou3k6Q1ZQC9hhKrTk1lFTrdkLnl6eYHFU3DHr+ENOsdxkPQNEgKiDNTxs7iXAh2
+ M3HF9+Wud4D2KtfazdwPpCbNtsgX+A00tg9dfL0rAQ/pmrKyTzsWIr0bwZ0IANvj0z1z
+ H1LeS3HwNjN94prg6HlVlLZLyL7y9l2W4HDUUxZYYJPn9kI3QMxj/tSMfBO/VzsZ+6hA
+ /fiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jplbw6F74bu5if+ZTZj8T120Xzd+C2UuwKzdhRRM4Kg=;
+ b=ZoqJcuNDXhrIie7CSZwT+emzBUOxVVR/EkAlbiRoXB89MRF83Mi+BTuahIXuxg9zRy
+ 4B6SXLkwFCCPaPKx2JiEvncMizWZBy2rat/fue2G7RnTborzDBGE5vhksWWb9I4aJbFF
+ odi7F2bp9EOcKVFLkIN4ePRDP4P9xpFO2ibS+9sCxRIr4egPRA8HXqGs9sen3b8H0+0c
+ vCF0P/i9mUapJU2ULsUxBn//6Jj6iNmrbhM3VzcM72TrwUlwUrEQsms5XDIHaH8ibJke
+ P9H8bh1/mvFG3yGWz63Wi7rOe+Vsz2qDqtjLeCQBLZ9SOdXcMJ+ighH3RV3IFWqn1OEl
+ SKRQ==
+X-Gm-Message-State: AOAM532UNUW3neS82086WtcSMQIOPJmD4yH1G7KJ6uOxC3HVR88W1s5v
+ pSGjQJ/fBTByQRT06B7vRGJ4lIM8B0G6ZOtX7AshEbb4qfc=
+X-Google-Smtp-Source: ABdhPJyv/pTXCxmo9RJWSWDgdh0dc0ZF14uBrB7zLE57uPNbejhD8yeFdZgduJ/tASQld7Bk4xBq/Avh2FNp11L7iLI=
+X-Received: by 2002:a17:906:254c:: with SMTP id
+ j12mr12999110ejb.4.1620910919128; 
+ Thu, 13 May 2021 06:01:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.52.125.147]
-X-ClientProxiedBy: lhreml753-chm.china.huawei.com (10.201.108.203) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ <20210430202610.1136687-61-richard.henderson@linaro.org>
+In-Reply-To: <20210430202610.1136687-61-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 May 2021 14:01:47 +0100
+Message-ID: <CAFEAcA8dgPGQhxtC=x_ntHJP_56h33A2E9SKzWbzgmyff3gF8A@mail.gmail.com>
+Subject: Re: [PATCH v6 60/82] target/arm: Implement SVE mixed sign dot product
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,74 +78,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, David
- Hildenbrand <david@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Chris Browy <cbrowy@avery-design.com>,
- Linuxarm <linuxarm@huawei.com>, Peter Xu <peterx@redhat.com>, QEMU
- Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 May 2021 14:36:27 +0200
-Philippe Mathieu-Daud=E9 <philmd@redhat.com> wrote:
+On Fri, 30 Apr 2021 at 22:00, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/helper.h        |  2 ++
+>  target/arm/sve.decode      |  4 ++++
+>  target/arm/translate-sve.c | 16 ++++++++++++++++
+>  target/arm/vec_helper.c    | 18 ++++++++++++++++++
+>  4 files changed, 40 insertions(+)
+>
+> diff --git a/target/arm/helper.h b/target/arm/helper.h
+> index e4c6458f98..86f938c938 100644
+> --- a/target/arm/helper.h
+> +++ b/target/arm/helper.h
+> @@ -612,6 +612,8 @@ DEF_HELPER_FLAGS_5(gvec_sdot_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+>  DEF_HELPER_FLAGS_5(gvec_udot_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+>  DEF_HELPER_FLAGS_5(gvec_sdot_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+>  DEF_HELPER_FLAGS_5(gvec_udot_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+> +DEF_HELPER_FLAGS_5(gvec_usdot_b, TCG_CALL_NO_RWG,
+> +                   void, ptr, ptr, ptr, ptr, i32)
 
-> On 5/13/21 2:23 PM, Peter Maydell wrote:
-> > On Thu, 13 May 2021 at 12:49, Jonathan Cameron
-> > <Jonathan.Cameron@huawei.com> wrote: =20
-> >> My initial suggestion was to fix this by adding the relatively
-> >> simple code needed in the driver to implement byte read / write,
-> >> but Ben pointed at the QEMU docs - docs/devel/memory.rst which
-> >> says
-> >> "
-> >> .impl.min_access_size, .impl.max_access_size define the access sizes
-> >>    (in bytes) supported by the *implementation*; other access sizes wi=
-ll be
-> >>    emulated using the ones available. For example a 4-byte write will =
-be
-> >>    emulated using four 1-byte writes, if .impl.max_access_size =3D 1.
-> >> "
-> >>
-> >> This isn't true when we have the situation where
-> >> .valid.min_access_size < .imp.min_access_size
-> >>
-> >> So change the docs or try to make this work? =20
->=20
-> See also this patch from Francisco:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg636935.html
->=20
-> And full unaligned access support from Andrew:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg461247.html
+This is one of those places where I'd take the long line even if
+checkpatch complains,
+just to maintain the parallelism with the preceding lines, but wrapping
+is fine too.
 
-Thanks - that's very similar to what I was carrying, but I think it
-only covers the read case.  That's backed up by the comment:
-/* XXX: Can't do this hack for writes */
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
->=20
-> > I don't (yet) have a view on what the in-principle right thing
-> > should be, but in practice: how many devices do we have which
-> > set .valid.min_access_size < .imp.min_access_size ? If we want
-> > to change the semantics we'd need to look at those to see if they
-> > need to be adjusted (or if they're just currently buggy and would
-> > be fixed by the change).
-
-I'm only aware of this one CXL emulated device (+ the proposed code in
-the ADC in the above patch set).  For the CXL device, working around
-this limitation is straight forward if that's the right option
-+ updating the docs to slightly reduced chances of this being hit in
-the future.
-
-Thanks,
-
-Jonathan
-
-> >=20
-> > thanks
-> > -- PMM
-> >  =20
->=20
-
+thanks
+-- PMM
 
