@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9AA537F990
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 16:19:04 +0200 (CEST)
-Received: from localhost ([::1]:44396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912D537F995
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 16:20:05 +0200 (CEST)
+Received: from localhost ([::1]:47632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhCB5-0007Ld-Lt
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 10:19:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56656)
+	id 1lhCC4-00014g-MO
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 10:20:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lhC97-0005mM-Q3
- for qemu-devel@nongnu.org; Thu, 13 May 2021 10:17:03 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:46602)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lhCAU-0007D0-5e
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 10:18:26 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:36783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lhC8x-0002u9-Iy
- for qemu-devel@nongnu.org; Thu, 13 May 2021 10:16:59 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- p14-20020a05600c358eb029015c01f207d7so4721228wmq.5
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 07:16:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lhCAS-0003by-Iv
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 10:18:25 -0400
+Received: by mail-ed1-x533.google.com with SMTP id df21so3932059edb.3
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 07:18:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=O0KtU/ntbmIwYWih2FrovVTaY7CG2uh/OSjBKvrV+FQ=;
- b=GCLkBydEkas+coH1MJJFGjjWnOAYaiBeGXG1WgZzx7Cb6ytV5twP6X+pE9fD51V8Ai
- OoXBFFRwqF9DlGP3a17OQr4vo76txwilrVpBkiNAPtBuApF00CWzIDUgnne2f0BF/IUe
- /4mgl7X/LeG3//SZF82/Uc7C9UKs5yRxLVXqtEeIjflyLH4FEVCm/eY8aqq+EKKi/te/
- S4Y4Kwo1aIcg8biLRFsnUsiKrSbCWOFdaVls2RKQlCSGz7jGZLJ3mnyNqDIThIhb5ugY
- PrNnTo74wU/Xt6WFE4NPvFy1V2HJVZ37mpe7/IgAwS21OjxiB58qdFEcWJJKFTI3yCqj
- P9Hg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OOc4gL5uPk2ACAGFRhazVHQWnGubWnzLQye6pT02Va8=;
+ b=mG+XAW5luxYONw2lp91tJweKPN4uoNLYnfLQoZKQcuMrNF8Dvk5GdnnNNAWUU9vaoc
+ scQ9sYexNiHvb9JLbjjGgDZpbk/dBYJQqOcu9+kAgEBhe20iP16f6QpA23OrBJuMrIfN
+ D2q2HQ++V/r/kdYs+345ko35HuooZ/+O+qfSdYNtp55s1dPJJogGjB220SS0V0WJ2HaE
+ LqrBG+6bLHNghFYQILma7ag1hyMEkYwymIE6Ry8SrmTjNmqO1J8HxoCxBNPgb/qyVINi
+ AVfyjEpFNE3Rt+HDWKv+WlJKhsmaugpxpyxzoz027zVRD6tCKSg1JRwiTdcSqwga6fjB
+ XijQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=O0KtU/ntbmIwYWih2FrovVTaY7CG2uh/OSjBKvrV+FQ=;
- b=hFX4UVXv0zk9MINDvhxkn1tugPTjYI3WS1seV0qndPsQWxPmDYJcEI8u84npZg+slp
- I1jbYCucievlChefeZ0GCyZheMvqnDk/lZzC5EeOEBa3havgrgwS9XmECmtASLUu61KL
- rxriBaTZTwwg6GzbwIG0nI6FDF3EjGZiZGgF+9RR//TvkiL+VJZUKsojJDhcZ79HEUkK
- wcQFDwTwO83pjmkbl1bAy1mUA5EOaA7Z/TDspOcjDYMUhOmyhMm8ryf/LsfNuD2kRazb
- 6Psc8WtrrWWyLml/dqsEbQY6P2NG77iWt1j7RbdpGJW/Sw8Ca3CSXuTOmY/QnrPH+exV
- cSiw==
-X-Gm-Message-State: AOAM533u1ehTq+EjAoPiaaP82nGM3MLVZnJdDWPGy+IRHqyC0tq2hE/h
- OATBBIAXuI0nPbA/V9+QUcbdOA==
-X-Google-Smtp-Source: ABdhPJx2sHPDyCC9EAvZwvL6yuUjQYSLhSxb38zPvDgB78RkP6nZYC6874gqS7DX2JaCyUJeRM9IRA==
-X-Received: by 2002:a7b:c93a:: with SMTP id h26mr4083945wml.107.1620915405456; 
- Thu, 13 May 2021 07:16:45 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l18sm2949721wrx.96.2021.05.13.07.16.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 May 2021 07:16:44 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 14F6A1FF7E;
- Thu, 13 May 2021 15:16:44 +0100 (BST)
-References: <20210508014802.892561-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 00/72] Convert floatx80 and float128 to FloatParts
-Date: Thu, 13 May 2021 15:13:45 +0100
-In-reply-to: <20210508014802.892561-1-richard.henderson@linaro.org>
-Message-ID: <87cztulnw3.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OOc4gL5uPk2ACAGFRhazVHQWnGubWnzLQye6pT02Va8=;
+ b=BZis1+Dmmh4weeTSUPXIJX356YrCtPDsNm7qq2NEe/i8kMtIxnXR6wdpck6EQC8/UH
+ 0Dnb2OZuv0o87rxwvlk68F+EuJHtCs8KBBIMHcK9kIYsgtHUxr/GNy11oRIj0RHhjk+8
+ Bzz5eWhk3b+Vq7rYxLqrugM5oizpl74/ezLBOEKPWdVx3QLDlhRK5+YY01gea+AcQdkL
+ XVw/H8T26Ok2Ae95yHRNyLLMUgRvER7wyOc1ZS6nhQSKY86vs4Zw09yKMx2tGZaZV600
+ vS5st7gtJahSlDa4cOJuvOb4SNUKO4G0Uhn6MroPEC1ytaivTXaHTEnksX6D/ZZel2io
+ 3LrA==
+X-Gm-Message-State: AOAM533RTjRzAAfs2IS42GiPc/FOd6QN3IRhWSrPHfM+KoCw2l74nT5k
+ AaatBTzTcV2b6TH6ZvhQNWNd5LJGJV/0SwOfM8MpXA==
+X-Google-Smtp-Source: ABdhPJxaPmbKaYE9OyYY4UroRMYxuZPuoYkpBXAZLVEEQ0LYD0wgGgtEXIoy4/YvYGlnSioeZGsav5cYZYVT4aJy/oc=
+X-Received: by 2002:a50:ab06:: with SMTP id s6mr41834238edc.100.1620915502772; 
+ Thu, 13 May 2021 07:18:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ <20210430202610.1136687-69-richard.henderson@linaro.org>
+In-Reply-To: <20210430202610.1136687-69-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 May 2021 15:18:11 +0100
+Message-ID: <CAFEAcA-T_LwSMZJbPszdS3CobzNAjJWY1gptsgZQT6bhxLKkaA@mail.gmail.com>
+Subject: Re: [PATCH v6 68/82] target/arm: Implement SVE2 FLOGB
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,31 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, david@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Reorg everything using QEMU_GENERIC and multiple inclusion to
-> reduce the amount of code duplication between the formats.
+On Fri, 30 Apr 2021 at 22:24, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> The use of QEMU_GENERIC means that we need to use pointers instead
-> of structures, which means that even the smaller float formats
-> need rearranging.
+> From: Stephen Long <steplong@quicinc.com>
 >
-> I've carried it through to completion within fpu/, so that we don't
-> have (much) of the legacy code remaining.  There is some floatx80
-> stuff in target/m68k and target/i386 that's still hanging around.
+> Signed-off-by: Stephen Long <steplong@quicinc.com>
+> Message-Id: <20200430191405.21641-1-steplong@quicinc.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v2: Fixed esz index and c++ comments
+> v3: Fixed denormal arithmetic and raise invalid.
 
-I'm going to take a break from reviewing this now I've been through
-about 2/3rds of the patches. Overall I think the series is in great
-shape and while the performance modulations are interesting they are not
-a blocker from my point of view. I'll happily take a small hit to
-performance for a more unified (and correct!) code base. However the
-frontend maintainers for those affected may take a different view.
+> +static int64_t do_float64_logb_as_int(float64 a, float_status *s)
+> +{
+> +    if (float64_is_normal(a)) {
+> +        return extract64(a, 52, 11) - 1023;
+> +    } else if (float64_is_infinity(a)) {
+> +        return INT64_MAX;
+> +    } else if (float64_is_any_nan(a) || float64_is_zero(a)) {
+> +        float_raise(float_flag_invalid, s);
+> +        return INT64_MIN;
+> +    } else {
+> +        /* denormal (see above) */
+> +        return -1023 + 12 - clz64(extract64(a, 0, 52));
+> +    }
+> +}
 
---=20
-Alex Benn=C3=A9e
+These don't look like they're handling denormal inputs quite right:
+ * should raise the input-denormal exception
+ * should flush-to-zero if that is enabled
+
+thanks
+-- PMM
 
