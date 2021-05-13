@@ -2,60 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E83F37FBC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 18:46:33 +0200 (CEST)
-Received: from localhost ([::1]:53516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA9337FBC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 18:46:43 +0200 (CEST)
+Received: from localhost ([::1]:50068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhETo-0008JP-7G
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 12:46:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41896)
+	id 1lhETy-0005ne-Om
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 12:46:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
- id 1lhEJr-0007YB-3V; Thu, 13 May 2021 12:36:16 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2422)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
- id 1lhEJe-0007Ku-MA; Thu, 13 May 2021 12:36:12 -0400
-Received: from dggeml756-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FgxzZ5C9JzYhVN;
- Fri, 14 May 2021 00:33:14 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggeml756-chm.china.huawei.com (10.1.199.158) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Fri, 14 May 2021 00:35:43 +0800
-Received: from dggpemm500011.china.huawei.com (7.185.36.110) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 14 May 2021 00:35:43 +0800
-Received: from dggpemm500011.china.huawei.com ([7.185.36.110]) by
- dggpemm500011.china.huawei.com ([7.185.36.110]) with mapi id 15.01.2176.012;
- Fri, 14 May 2021 00:35:43 +0800
-From: Andrey Shinkevich <andrey.shinkevich@huawei.com>
-To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: GICv3 for MTTCG
-Thread-Topic: GICv3 for MTTCG
-Thread-Index: AQHXRo49QQoDTg/5kkqOfm/tGkugzg==
-Date: Thu, 13 May 2021 16:35:43 +0000
-Message-ID: <7f8496377da246c38452d95bbbfc0ca7@huawei.com>
-References: <1f157423cc544731beb743287a4be5cb@huawei.com>
- <87h7j8ez4t.fsf@linaro.org>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.227.155.55]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lhEKc-0000Cb-5O; Thu, 13 May 2021 12:37:02 -0400
+Received: from [201.28.113.2] (port=25961 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lhEKY-0007v0-AR; Thu, 13 May 2021 12:37:01 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 13 May 2021 13:36:54 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id D858B80139F;
+ Thu, 13 May 2021 13:36:53 -0300 (-03)
+Subject: Re: [PATCH 07/11] target/ppc: added KVM fallback to fpscr manipulation
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
+ <20210512140813.112884-8-bruno.larsen@eldorado.org.br>
+ <a9ac8b35-faae-167d-ff78-4b7ddd8f75c9@linaro.org>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <c2fc1562-9d97-0d6f-5d24-632c2a9006dd@eldorado.org.br>
+Date: Thu, 13 May 2021 13:36:53 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=andrey.shinkevich@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a9ac8b35-faae-167d-ff78-4b7ddd8f75c9@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------6C002F69B0C48C21E8E422B9"
+Content-Language: en-US
+X-OriginalArrivalTime: 13 May 2021 16:36:54.0242 (UTC)
+ FILETIME=[2ECD8420:01D74816]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,130 +60,400 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "drjones@redhat.com" <drjones@redhat.com>, "Cota@braap.org" <Cota@braap.org>,
- "shashi.mallela@linaro.org" <shashi.mallela@linaro.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Chengen \(William, 
- FixNet\)" <chengen@huawei.com>, yuzenghui <yuzenghui@huawei.com>,
- "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dear colleagues,=0A=
-=0A=
-Thank you all very much for your responses. Let me reply with one message.=
-=0A=
-=0A=
-I configured QEMU for AARCH64 guest:=0A=
-$ ./configure --target-list=3Daarch64-softmmu=0A=
-=0A=
-When I start QEMU with GICv3 on an x86 host:=0A=
-qemu-system-aarch64 -machine virt-6.0,accel=3Dtcg,gic-version=3D3=0A=
-=0A=
-QEMU reports this error from hw/pci/msix.c:=0A=
-error_setg(errp, "MSI-X is not supported by interrupt controller");=0A=
-=0A=
-Probably, the variable 'msi_nonbroken' would be initialized in=0A=
-hw/intc/arm_gicv3_its_common.c:=0A=
-gicv3_its_init_mmio(..)=0A=
-=0A=
-I guess that it works with KVM acceleration only rather than with TCG.=0A=
-=0A=
-The error persists after applying the series:=0A=
-https://lists.gnu.org/archive/html/qemu-arm/2021-04/msg00944.html=0A=
-"GICv3 LPI and ITS feature implementation"=0A=
-(special thanks for referring me to that)=0A=
-=0A=
-Please, make me clear and advise ideas how that error can be fixed?=0A=
-Should the MSI-X support be implemented with GICv3 extra?=0A=
-=0A=
-When successful, I would like to test QEMU for a maximum number of cores =
-=0A=
-to get the best MTTCG performance.=0A=
-Probably, we will get just some percentage of performance enhancement =0A=
-with the BQL series applied, won't we? I will test it as well.=0A=
-=0A=
-Best regards,=0A=
-Andrey Shinkevich=0A=
-=0A=
-=0A=
-On 5/12/21 6:43 PM, Alex Benn=E9e wrote:=0A=
-> =0A=
-> Andrey Shinkevich <andrey.shinkevich@huawei.com> writes:=0A=
-> =0A=
->> Dear colleagues,=0A=
->>=0A=
->> I am looking for ways to accelerate the MTTCG for ARM guest on x86-64 ho=
-st.=0A=
->> The maximum number of CPUs for MTTCG that uses GICv2 is limited by 8:=0A=
->>=0A=
->> include/hw/intc/arm_gic_common.h:#define GIC_NCPU 8=0A=
->>=0A=
->> The version 3 of the Generic Interrupt Controller (GICv3) is not=0A=
->> supported in QEMU for some reason unknown to me. It would allow to=0A=
->> increase the limit of CPUs and accelerate the MTTCG performance on a=0A=
->> multiple core hypervisor.=0A=
-> =0A=
-> It is supported, you just need to select it.=0A=
-> =0A=
->> I have got an idea to implement the Interrupt Translation Service (ITS)=
-=0A=
->> for using by MTTCG for ARM architecture.=0A=
-> =0A=
-> There is some work to support ITS under TCG already posted:=0A=
-> =0A=
->    Subject: [PATCH v3 0/8] GICv3 LPI and ITS feature implementation=0A=
->    Date: Thu, 29 Apr 2021 19:41:53 -0400=0A=
->    Message-Id: <20210429234201.125565-1-shashi.mallela@linaro.org>=0A=
-> =0A=
-> please do review and test.=0A=
-> =0A=
->> Do you find that idea useful and feasible?=0A=
->> If yes, how much time do you estimate for such a project to complete by=
-=0A=
->> one developer?=0A=
->> If no, what are reasons for not implementing GICv3 for MTTCG in QEMU?=0A=
-> =0A=
-> As far as MTTCG performance is concerned there is a degree of=0A=
-> diminishing returns to be expected as the synchronisation cost between=0A=
-> threads will eventually outweigh the gains of additional threads.=0A=
-> =0A=
-> There are a number of parts that could improve this performance. The=0A=
-> first would be picking up the BQL reduction series from your FutureWei=0A=
-> colleges who worked on the problem when they were Linaro assignees:=0A=
-> =0A=
->    Subject: [PATCH v2 0/7] accel/tcg: remove implied BQL from cpu_handle_=
-interrupt/exception path=0A=
->    Date: Wed, 19 Aug 2020 14:28:49 -0400=0A=
->    Message-Id: <20200819182856.4893-1-robert.foley@linaro.org>=0A=
-> =0A=
-> There was also a longer series moving towards per-CPU locks:=0A=
-> =0A=
->    Subject: [PATCH v10 00/73] per-CPU locks=0A=
->    Date: Wed, 17 Jun 2020 17:01:18 -0400=0A=
->    Message-Id: <20200617210231.4393-1-robert.foley@linaro.org>=0A=
-> =0A=
-> I believe the initial measurements showed that the BQL cost started to=0A=
-> edge up with GIC interactions. We did discuss approaches for this and I=
-=0A=
-> think one idea was use non-BQL locking for the GIC. You would need to=0A=
-> revert:=0A=
-> =0A=
->    Subject: [PATCH-for-5.2] exec: Remove MemoryRegion::global_locking fie=
-ld=0A=
->    Date: Thu,  6 Aug 2020 17:07:26 +0200=0A=
->    Message-Id: <20200806150726.962-1-philmd@redhat.com>=0A=
-> =0A=
-> and then implement a more fine tuned locking in the GIC emulation=0A=
-> itself. However I think the BQL and per-CPU locks are lower hanging=0A=
-> fruit to tackle first.=0A=
-> =0A=
->>=0A=
->> Best regards,=0A=
->> Andrey Shinkevich=0A=
-> =0A=
-> =0A=
-=0A=
+This is a multi-part message in MIME format.
+--------------6C002F69B0C48C21E8E422B9
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+
+On 12/05/2021 15:20, Richard Henderson wrote:
+> On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
+>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+>> index 104a308abb..a8a720eb48 100644
+>> --- a/target/ppc/kvm.c
+>> +++ b/target/ppc/kvm.c
+>> @@ -2947,3 +2947,17 @@ bool kvm_arch_cpu_check_are_resettable(void)
+>>   {
+>>       return true;
+>>   }
+>> +
+>> +void kvmppc_store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask)
+>> +{
+>> +    CPUState *cs = env_cpu(env);
+>> +    struct kvm_one_reg reg;
+>> +    int ret;
+>> +    reg.id = KVM_REG_PPC_FPSCR;
+>> +    reg.addr = (uintptr_t) &env->fpscr;
+>> +    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+>> +    if (ret < 0)
+>> +    {
+>> +        fprintf(stderr, "Unable to set FPSCR to KVM: %s", 
+>> strerror(errno));
+>> +    }
+>> +}
+>
+> This is all unnecessary.  All you need to do is store to env->fpscr 
+> and the value will be synced back with kvm_put_fp.
+>
+> I'll note that some of the trouble you may be having with extracting 
+> helper_store_fpscr to a ppc_store_fpscr function is due to an existing 
+> bug in the tcg code:
+>
+> Storing to fpscr should *never* raise an exception -- see MTFSF, 
+> MTFSB0, MTFSB1.  Thus the mucking about with cs->exception_index and 
+> env->error_code is incorrect.
+>
+> In addition, the masking is being done weirdly and could use a 
+> complete overhaul.
+>
+> This could all be rewritten as
+>
+> -- %< -- cpu.h
+>
+>  /* Invalid operation exception summary */
+> - #define fpscr_ix ((env->fpscr) & ((1 << FPSCR_VXSNAN) ...
+> + #define FPSCR_IX  ((1 << FPSCR_VXSNAN) | ...)
+>
+> -- %< -- cpu.c
+>
+> // move fpscr_set_rounding_mode here
+>
+> void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
+> {
+>     /* Recompute exception summary state. */
+>     val &= ~(FP_VX | FP_FEX);
+>     if (val & FPSCR_IX) {
+>         val |= FP_VX;
+>     }
+>     if ((val >> FPSCR_XX) & (val >> FPSCR_XE) & 0x1f) {
+>         val |= FP_FEX;
+>     }
+>     env->fpscr = val;
+>     if (tcg_enabled()) {
+>         fpscr_set_rounding_mode(env);
+>     }
+> }
+>
+> -- %< -- fpu_helper.c
+>
+> void helper_store_fpscr(CPUPPCState *env, target_ulong val,
+>                         uint32_t nibbles)
+> {
+>     target_ulong mask = 0;
+>
+>     /* TODO: Push this expansion back to translation time. */
+>     for (int i = 0; i < sizeof(target_ulong) * 2; ++i) {
+>         if (nibbles & (1 << i)) {
+>             mask |= (target_ulong)0xf << (4 * i);
+>         }
+>     }
+>
+>     val = (val & mask) | (env->fpscr & ~mask);
+>     ppc_store_fpscr(env, val);
+> }
+That expansion can't be moved to translation time, because gdbstub would 
+also need that code in a variety of functions, so better to keep it in 
+that central location,
+>
+> void helper_fpscr_clrbit(CPUPPCState *env, uint32_t bit)
+> {
+>     uint32_t mask = 1u << bit;
+>     if (env->fpscr & mask) {
+>         ppc_store_fpscr(env, env->fpscr & ~mask);
+>     }
+> }
+>
+> void helper_fpscr_setbit(CPUPPCState *env, uint32_t bit)
+> {
+>     uint32_t mask = 1u << bit;
+>     if (!(env->fpscr & mask)) {
+>         ppc_store_fpscr(env, env->fpscr | mask);
+>     }
+> }
+>
+> There are a couple of other uses of fpscr_set_rounding_mode, where the 
+> softfloat value is changed temporarily (do_fri, VSX_ROUND). These 
+> should simply save the previous softfloat value (using 
+> get_float_rounding_mode) around the operation instead of re-computing 
+> from fpscr.
+>
+> Which leaves us with exactly one use of fpscr_set_rounding_mode, which 
+> can then be moved to cpu.c next to ppc_store_fpscr.
+>
+>
+> r~
+
+I was implementing this solution, but ran into a problem: We needed 
+store_fpscr for gdbstub.c, that's the original reason we made that new 
+function to begin with. This solution, although it improves the handling 
+of fpscr, doesn't fix the original problem.
+
+What I think we can do is put the logic that is in helper_store_fpscr 
+into store_fpscr, move it to cpu.c, and have the helper call the 
+non-helper function. That way we conserve helper_* as TCG-specific and 
+have the overhaul.
+
+Toughts?
+
+-- 
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+
+--------------6C002F69B0C48C21E8E422B9
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 12/05/2021 15:20, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:a9ac8b35-faae-167d-ff78-4b7ddd8f75c9@linaro.org">On
+      5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
+      <br>
+      <blockquote type="cite">diff --git a/target/ppc/kvm.c
+        b/target/ppc/kvm.c
+        <br>
+        index 104a308abb..a8a720eb48 100644
+        <br>
+        --- a/target/ppc/kvm.c
+        <br>
+        +++ b/target/ppc/kvm.c
+        <br>
+        @@ -2947,3 +2947,17 @@ bool
+        kvm_arch_cpu_check_are_resettable(void)
+        <br>
+          {
+        <br>
+              return true;
+        <br>
+          }
+        <br>
+        +
+        <br>
+        +void kvmppc_store_fpscr(CPUPPCState *env, uint64_t arg,
+        uint32_t mask)
+        <br>
+        +{
+        <br>
+        +    CPUState *cs = env_cpu(env);
+        <br>
+        +    struct kvm_one_reg reg;
+        <br>
+        +    int ret;
+        <br>
+        +    reg.id = KVM_REG_PPC_FPSCR;
+        <br>
+        +    reg.addr = (uintptr_t) &amp;env-&gt;fpscr;
+        <br>
+        +    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &amp;reg);
+        <br>
+        +    if (ret &lt; 0)
+        <br>
+        +    {
+        <br>
+        +        fprintf(stderr, "Unable to set FPSCR to KVM: %s",
+        strerror(errno));
+        <br>
+        +    }
+        <br>
+        +}
+        <br>
+      </blockquote>
+      <br>
+      This is all unnecessary.  All you need to do is store to
+      env-&gt;fpscr and the value will be synced back with kvm_put_fp.
+      <br>
+      <br>
+      I'll note that some of the trouble you may be having with
+      extracting helper_store_fpscr to a ppc_store_fpscr function is due
+      to an existing bug in the tcg code:
+      <br>
+      <br>
+      Storing to fpscr should *never* raise an exception -- see MTFSF,
+      MTFSB0, MTFSB1.  Thus the mucking about with
+      cs-&gt;exception_index and env-&gt;error_code is incorrect.
+      <br>
+      <br>
+      In addition, the masking is being done weirdly and could use a
+      complete overhaul.
+      <br>
+      <br>
+      This could all be rewritten as
+      <br>
+      <br>
+      -- %&lt; -- cpu.h
+      <br>
+      <br>
+       /* Invalid operation exception summary */
+      <br>
+      - #define fpscr_ix ((env-&gt;fpscr) &amp; ((1 &lt;&lt;
+      FPSCR_VXSNAN) ...
+      <br>
+      + #define FPSCR_IX  ((1 &lt;&lt; FPSCR_VXSNAN) | ...)
+      <br>
+      <br>
+      -- %&lt; -- cpu.c
+      <br>
+      <br>
+      // move fpscr_set_rounding_mode here
+      <br>
+      <br>
+      void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
+      <br>
+      {
+      <br>
+          /* Recompute exception summary state. */
+      <br>
+          val &amp;= ~(FP_VX | FP_FEX);
+      <br>
+          if (val &amp; FPSCR_IX) {
+      <br>
+              val |= FP_VX;
+      <br>
+          }
+      <br>
+          if ((val &gt;&gt; FPSCR_XX) &amp; (val &gt;&gt; FPSCR_XE)
+      &amp; 0x1f) {
+      <br>
+              val |= FP_FEX;
+      <br>
+          }
+      <br>
+          env-&gt;fpscr = val;
+      <br>
+          if (tcg_enabled()) {
+      <br>
+              fpscr_set_rounding_mode(env);
+      <br>
+          }
+      <br>
+      }
+      <br>
+      <br>
+      -- %&lt; -- fpu_helper.c
+      <br>
+      <br>
+      void helper_store_fpscr(CPUPPCState *env, target_ulong val,
+      <br>
+                              uint32_t nibbles)
+      <br>
+      {
+      <br>
+          target_ulong mask = 0;
+      <br>
+      <br>
+          /* TODO: Push this expansion back to translation time. */
+      <br>
+          for (int i = 0; i &lt; sizeof(target_ulong) * 2; ++i) {
+      <br>
+              if (nibbles &amp; (1 &lt;&lt; i)) {
+      <br>
+                  mask |= (target_ulong)0xf &lt;&lt; (4 * i);
+      <br>
+              }
+      <br>
+          }
+      <br>
+      <br>
+          val = (val &amp; mask) | (env-&gt;fpscr &amp; ~mask);
+      <br>
+          ppc_store_fpscr(env, val);
+      <br>
+      }
+      <br>
+    </blockquote>
+    That expansion can't be moved to translation time, because gdbstub
+    would also need that code in a variety of functions, so better to
+    keep it in that central location,
+    <blockquote type="cite"
+      cite="mid:a9ac8b35-faae-167d-ff78-4b7ddd8f75c9@linaro.org">
+      <br>
+      void helper_fpscr_clrbit(CPUPPCState *env, uint32_t bit)
+      <br>
+      {
+      <br>
+          uint32_t mask = 1u &lt;&lt; bit;
+      <br>
+          if (env-&gt;fpscr &amp; mask) {
+      <br>
+              ppc_store_fpscr(env, env-&gt;fpscr &amp; ~mask);
+      <br>
+          }
+      <br>
+      }
+      <br>
+      <br>
+      void helper_fpscr_setbit(CPUPPCState *env, uint32_t bit)
+      <br>
+      {
+      <br>
+          uint32_t mask = 1u &lt;&lt; bit;
+      <br>
+          if (!(env-&gt;fpscr &amp; mask)) {
+      <br>
+              ppc_store_fpscr(env, env-&gt;fpscr | mask);
+      <br>
+          }
+      <br>
+      }
+      <br>
+      <br>
+      There are a couple of other uses of fpscr_set_rounding_mode, where
+      the softfloat value is changed temporarily (do_fri, VSX_ROUND). 
+      These should simply save the previous softfloat value (using
+      get_float_rounding_mode) around the operation instead of
+      re-computing from fpscr.
+      <br>
+      <br>
+      Which leaves us with exactly one use of fpscr_set_rounding_mode,
+      which can then be moved to cpu.c next to ppc_store_fpscr.
+      <br>
+      <br>
+      <br>
+      r~
+      <br>
+    </blockquote>
+    <p>I was implementing this solution, but ran into a problem: We
+      needed store_fpscr for gdbstub.c, that's the original reason we
+      made that new function to begin with. This solution, although it
+      improves the handling of fpscr, doesn't fix the original problem.
+      <br>
+    </p>
+    <p>What I think we can do is put the logic that is in
+      helper_store_fpscr into store_fpscr, move it to cpu.c, and have
+      the helper call the non-helper function. That way we conserve
+      helper_* as TCG-specific and have the overhaul.</p>
+    <p>Toughts?<br>
+    </p>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------6C002F69B0C48C21E8E422B9--
 
