@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6F337F97C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 16:14:34 +0200 (CEST)
-Received: from localhost ([::1]:35988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F4337F989
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 16:18:34 +0200 (CEST)
+Received: from localhost ([::1]:42608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhC6j-0001U3-Jn
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 10:14:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55288)
+	id 1lhCAb-00066R-A3
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 10:18:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lhC4H-00078t-O2
- for qemu-devel@nongnu.org; Thu, 13 May 2021 10:12:01 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43945)
+ id 1lhC5O-0000N1-Vo
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 10:13:11 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lhC4F-0008O9-E6
- for qemu-devel@nongnu.org; Thu, 13 May 2021 10:12:01 -0400
-Received: by mail-wr1-x433.google.com with SMTP id s8so27043441wrw.10
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 07:11:58 -0700 (PDT)
+ id 1lhC5L-0000Ys-CQ
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 10:13:10 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id n2so27106237wrm.0
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 07:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=V9hvmykAevuOOCQ/mDqHOZfvp0zpZ9zjGEbSxFJG2Y8=;
- b=l6d3q90opngU8Gu9IYdIVdRrRBIFUs/WogNunvGp8sRt//QH9PfenXaNl/Jx6SYecK
- lbKiDtdepD6Ibq+M02JW+OjmCJKbbH7IefbZZPJ+eolDjJakGpTWa29el+Uv1oCC+bEj
- +uH/RpcF06JdwYARcoxiaE4m1803+Kk6KMeX+PMtuXyKgEw5RHHghCyhqG5PB3a7yLXe
- Td8YNl6f0GL8BHlmsOPoHlpHZUCWa54IMIBdb+nTFR6Vg7ls7wcoqzn3KU6eoeGJQbuI
- 7oLwEs7PYycG755qvD5BM7rlXpr1gR66j5+WwxqPCqS05+Yz56W6gJIUYebDqLS6itbH
- HMIQ==
+ bh=TJOKrUBaQIY9pH+BaNB+PHwTHDxHNYwmG1XpjVV0dFc=;
+ b=JnNCkJhJfR33/FRVzK9lbRHMnZOKlP8rUnphOaMvHVPg/EGt5QHpjn/AQm9OmgfrQ7
+ orsxp5C7CkMpKVdp1xXA+/Pwdyl6SdQbwit9Jjqzr7vy+Y6mjIZe0AfhMhINSWbuJjPo
+ ga2Q2mQYnQ+1i3YjYVW6VZhW6xN0BPsNCkB4kYGk7UvZfJFv2QDH44nVcfyJnJ5u5z34
+ c+ao/xdawH5Hds1byPLb+PG3VAfiN7DA8288mCyx6dOufTv+rNSbspDvB5WyNU08VMRc
+ /gy0EJfAlZzCL4VkZEY8iL9QDuu2hAyLv7ZuuEBl4FJljaRvXAa2kJTIK+ssyoG4v/Zr
+ LkuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=V9hvmykAevuOOCQ/mDqHOZfvp0zpZ9zjGEbSxFJG2Y8=;
- b=UAL7cxfbsx3uBdEsULTocPssYr4fT83SGbgj1EzNbO/2S4nw6j4WVqRdtfJOBr50q+
- qIWzhza2C/HErafjKmcRlci0g8lBQQCPdzKGzbaWXYh5Co4xVQirwGqOGMYs6mAXMm6F
- n3o4YE8xd1Z28GuNI5YEzwjn1RjE7+ve9y+QyN6YomxA5VKrCokcf564a5tFEreGghoN
- aq2K4NYbKy7pBVDf7RztmiDioCXXC2bbKqzCTyLWNGmIf6ZDyKzNzN10YBxDr9lh8eh2
- MwWHot5DJGSqe7AAS9xOCLCZc4GCy74PZBRNxVoxzzd7Nf4iSamWil5rvHNcpLGUQn5t
- AJjg==
-X-Gm-Message-State: AOAM531zs09yS5zXzCHntNo772TvWVOwUAGTDQ/wsNuTpQgAaQQVJf+A
- Ewvj2O8880cDPShpaHIkQBnXmA==
-X-Google-Smtp-Source: ABdhPJyNZ+pXgN2dD3x3Lhjew6TVqzwcGuq+vKBqSANi4dHcZTf+0TSJwRO1SH+90K53jD9HGYholA==
-X-Received: by 2002:a05:6000:511:: with SMTP id
- a17mr52439160wrf.351.1620915117745; 
- Thu, 13 May 2021 07:11:57 -0700 (PDT)
+ bh=TJOKrUBaQIY9pH+BaNB+PHwTHDxHNYwmG1XpjVV0dFc=;
+ b=qwn5Y7Rt7paDXGnFo53Yvc+cq/Lej2iLxN/Nrh1pY2hgVe5/bwbOoFX73tBIegSh1X
+ IwHL9wBePM/Qn8hDaTUYUlGjyGv59QhlndLBEkTetYAPnH3DUpx4qQC2k+SljRULfDkt
+ pgu+QnOrgLADtiNOcVXC7TKXMu6L7Nd9rH/DCmjW/nUPPfSVa3UX/+gUi0d/dENMniy7
+ FOvPINAb64aVICn50LIoCC2nCYhkgG68VJAukM/70X5Blu5BN/+N97GGlyn3zZQ/ekCi
+ 8pjCWi89xWnwbhGgMlsqvFD12FkdCZPG3XVYHBDtmmypJeN4vhNFXHrxDQszdOKApmxP
+ VhWg==
+X-Gm-Message-State: AOAM531eMrepc2oFzOXkigLvtDAU/5rOzmVA26GsHEd1aRLM1+mSEQSi
+ YyKWLP/1m9GZT49/AmgVjRzpyBaaXztMqw==
+X-Google-Smtp-Source: ABdhPJwXEKSczLoWw/OTCs7gIWdBbxN71SVVINLDqi360Px9TmXjtxCeXopIPAtwRsfaxjZEnV8BWg==
+X-Received: by 2002:a5d:5254:: with SMTP id k20mr54029062wrc.62.1620915185836; 
+ Thu, 13 May 2021 07:13:05 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p14sm2955230wrx.88.2021.05.13.07.11.56
+ by smtp.gmail.com with ESMTPSA id y21sm9024059wmi.15.2021.05.13.07.13.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 May 2021 07:11:56 -0700 (PDT)
+ Thu, 13 May 2021 07:13:05 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0E7001FF7E;
- Thu, 13 May 2021 15:11:56 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 8C5381FF7E;
+ Thu, 13 May 2021 15:13:04 +0100 (BST)
 References: <20210508014802.892561-1-richard.henderson@linaro.org>
- <20210508014802.892561-47-richard.henderson@linaro.org>
+ <20210508014802.892561-59-richard.henderson@linaro.org>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 46/72] softfloat: Move rount_to_int_and_pack to
- softfloat-parts.c.inc
-Date: Thu, 13 May 2021 15:11:41 +0100
-In-reply-to: <20210508014802.892561-47-richard.henderson@linaro.org>
-Message-ID: <87im3mlo43.fsf@linaro.org>
+Subject: Re: [PATCH 58/72] tests/fp/fp-test: Reverse order of floatx80
+ precision tests
+Date: Thu, 13 May 2021 15:12:59 +0100
+In-reply-to: <20210508014802.892561-59-richard.henderson@linaro.org>
+Message-ID: <87fsyqlo27.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,8 +95,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Rename to parts$N_float_to_sint.  Reimplement
-> float128_to_int{32,64}{_round_to_zero} with FloatParts128.
+> Many qemu softfloat will check floatx80_rounding_precision
+> even when berkeley testfloat will not.  So begin with
+> floatx80_precision_x, so that's the one we use
+> when !FUNC_EFF_ROUNDINGPRECISION.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
