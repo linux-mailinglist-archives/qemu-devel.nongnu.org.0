@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD7C437F79C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:13:48 +0200 (CEST)
-Received: from localhost ([::1]:47272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E1D37F775
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:08:07 +0200 (CEST)
+Received: from localhost ([::1]:40858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhADr-0006AN-TT
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56750)
+	id 1lhA8M-0001eH-6h
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:08:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhA6f-0000D4-5y
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:06:21 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41098)
+ id 1lhA6e-0000Bl-FI
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:06:20 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhA6Z-0001sB-R3
+ id 1lhA6b-0001sn-Ky
  for qemu-devel@nongnu.org; Thu, 13 May 2021 08:06:20 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhA6Y-000468-C7
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:06:14 +0000
+ id 1lhA6Z-00044k-7b
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:06:15 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 519F02E8060
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:06:14 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 36BC72E8135
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:06:15 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 May 2021 12:00:05 -0000
-From: Thomas Huth <1916775@bugs.launchpad.net>
+Date: Thu, 13 May 2021 12:00:24 -0000
+From: Thomas Huth <1916506@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: whpx windows
+X-Launchpad-Bug-Tags: acceptance avocado tests
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: abdurrahim-cakar ivanvx th-huth
-X-Launchpad-Bug-Reporter: Abdurrahim (abdurrahim-cakar)
+X-Launchpad-Bug-Commenters: cleber-gnu th-huth
+X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161418362907.7833.18159388399676261767.malonedeb@soybean.canonical.com>
-Message-Id: <162090720553.17105.15465371324007992459.malone@soybean.canonical.com>
-Subject: [Bug 1916775] Re: Guest freezes until there is a keyboard input on
- Windows version
+References: <161400927228.11180.7056675088982661405.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162090722440.1405.14629415956737408174.malone@wampee.canonical.com>
+Subject: [Bug 1916506] Re: make check-venv may leave stale and incomplete
+ tests/venv directory directory
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: 1f658a9b2afac08290154531982693561bd4e3ba
+X-Launchpad-Hash: f6e89c1e19601fd61269718ca3f652da91d63eca
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916775 <1916775@bugs.launchpad.net>
+Reply-To: Bug 1916506 <1916506@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -107,54 +107,47 @@ Thank you and sorry for the inconvenience.
 
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: Confirmed =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916775
+https://bugs.launchpad.net/bugs/1916506
 
 Title:
-  Guest freezes until there is a keyboard input on Windows version
+  make check-venv may leave stale and incomplete tests/venv directory
+  directory
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I am using Qemu for Windows and when I try to run this for Windows
-  guests then the guests are freezing and waiting for keyboard input and
-  it continues to function after I press a key. I am using Windows10
-  Home and below is the command I use to run the guest. I have suspected
-  if this is caused by random entropy but even with mouse moving it
-  gives same random locks and it continues to work as soon as I press a
-  key so maybe its not about entropy at all,
+  As reported by "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>, a "make
+  check-venv" can be run and fail to properly create a suitable virtual
+  environment, leaving the tests/venv directory which is the target for
+  "make check-venv" itself.
 
-  startwinguest.bat:
-  qemu-system-x86_64 ^
-  =C2=A0-name "win" ^
-  =C2=A0-machine type=3Dq35,accel=3Dwhpx ^
-  =C2=A0-cpu EPYC,hv_relaxed,hv_time,topoext   ^
-  =C2=A0-nodefaults ^
-  =C2=A0-usb ^
-  =C2=A0-rtc base=3Dlocaltime,driftfix=3Dslew ^
-  =C2=A0-smp 6,sockets=3D1,cores=3D3,threads=3D2 ^
-  =C2=A0-m 8192 -mem-prealloc ^
-  =C2=A0-soundhw hda ^
-  =C2=A0-usbdevice tablet ^
-  =C2=A0-netdev user,id=3Dmynet0,hostfwd=3Dtcp::3390-:3389 -device virtio-n=
-et,netdev=3Dmynet0 ^
-  =C2=A0-vga std ^
-  =C2=A0-display gtk ^
-  =C2=A0-boot d ^
-  =C2=A0-device virtio-scsi-pci,id=3Dscsi0 ^
-  =C2=A0-drive "file=3D%~dp0win10.qcow2,if=3Dnone,format=3Dqcow2,discard=3D=
-unmap,aio=3Dthreads,cache=3Dwritethrough,id=3Dsomeid" ^
-  =C2=A0-device scsi-hd,drive=3Dsomeid,bus=3Dscsi0.0 ^
-  =C2=A0-drive "file=3DD:\Setups\OS\Windows\en_windows_server_2019_updated_=
-dec_2020_x64_dvd_36e0f791.iso,media=3Dcdrom,index=3D1" ^
-  =C2=A0-drive "file=3D%~dp0virtio-win-0.1.185.iso,media=3Dcdrom,index=3D2"
+  This means that on a subsequent run:
+
+  > $ make check-venv
+  >   GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3
+  > tests/fp/berkeley-softfloat-3 dtc capstone slirp
+  > make: Nothing to be done for 'check-venv'.
+
+  And the venv will still be incomplete.  The causes of such failures to
+  create a suitable virtual environment are too many (in the reported
+  case it was because of missing *required* Python packages).  Some more
+  evolved virtual environments + Python packaging systems exist that
+  could probably be used here (Pipenv) but would add further core
+  requirements.
+
+  The current mitigation is to run "make check-clean" when the venv
+  appears to be incomplete.
+
+  The goal of this bug is to attempt to make the venv setup atomic and
+  more reliable.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916775/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1916506/+subscriptions
 
