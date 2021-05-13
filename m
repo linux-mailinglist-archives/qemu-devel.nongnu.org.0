@@ -2,83 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B8E38007D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 00:47:31 +0200 (CEST)
-Received: from localhost ([::1]:46428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 843FC380106
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 02:01:07 +0200 (CEST)
+Received: from localhost ([::1]:40798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhK78-0004ll-9B
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 18:47:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53336)
+	id 1lhLGM-0006XH-Cv
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 20:01:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhK5Y-0003uF-3h
- for qemu-devel@nongnu.org; Thu, 13 May 2021 18:45:52 -0400
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:41673)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhK5U-0002bI-OZ
- for qemu-devel@nongnu.org; Thu, 13 May 2021 18:45:51 -0400
-Received: by mail-qk1-x72a.google.com with SMTP id l129so27131202qke.8
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 15:45:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2mr+h1iefSuTDc8zgl91UCVfMzBr5SXYbeLgPaW/3H0=;
- b=PPbBk4NzDbsRQlkwWzETb8GlHxVjtDhFoAEmWQeeaZnQUz2WPQHnDwzKgqabWgZJpx
- QlLI4/3amTMvUwbWtCS2QpbziqQjrSvgz7K3h948mx8gzJiAh35KdG1Jr7fAnEo1PLEQ
- aW7KfeAOe/GkXpDu/CJK90mxqEReolNPCVCqtVk3zwLJ4vVkvjmQNR9cwuZUSe3Qmun5
- 1B7PIC2rXwRrODflOYcK+546aHTL0PrjHa5h7u3GvBnusUnij0ny6G3x9Oi6yujCh6mS
- D1YcG8ib1YN67tS3mpM5LUc4ozA/61N4l4W7vDb3rtwC8cpRz9ihcz5mySAl1N2m+P8f
- Lw6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2mr+h1iefSuTDc8zgl91UCVfMzBr5SXYbeLgPaW/3H0=;
- b=XC2bcf8DjBfDjuJnsEsNKnS5Ofn25SeRqAT/LJu2MU6yHTXtt/Pqa/w8nwyXqvt8zJ
- M3/gnw34KW5Jkt5FdH9VgoDT9ZvKDi1qifhNCSG2QkOl8GumfFdT0efBWRcwoCtEPCd7
- vmBIRuzBqZ1UFNIrxh9Oa1l7isuWzgqRrLYBJdMNYkecSZXn4Ia01D3VAnOwwZ6lrOMl
- HFz10VzTWQP6WMoADOd9KrZ+JDHsmL1UdCqC14HhkI1eSDh6A1FI1TxwVHUjNR6uVj1u
- 6mqgWhSCa+PGoOhAgBjrptqLlB8BFxr8QDEY/eNe/xLF6SMZtqYFmzSBX9afClU8S/sE
- Wbcw==
-X-Gm-Message-State: AOAM533O+jEWjcdX99aCCWs5pk0zk0PAEvLeqo7gxwM/dWmpQJe1C2FK
- Sxpq3/kYvmeGfbJsU+iV2eZ7Jg==
-X-Google-Smtp-Source: ABdhPJwafTF5Oh/9jYf6ofnv+0pBJVqcVzTmbnq0fVnWz3VrZYoN40xDKEz5+D/+tXad/LGOyKXxYw==
-X-Received: by 2002:a37:7782:: with SMTP id
- s124mr40845786qkc.305.1620945946964; 
- Thu, 13 May 2021 15:45:46 -0700 (PDT)
-Received: from [192.168.183.155] (163.189-204-200.bestelclientes.com.mx.
- [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id f132sm3656632qke.104.2021.05.13.15.45.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 May 2021 15:45:46 -0700 (PDT)
-Subject: Re: [PATCH 07/11] target/ppc: added KVM fallback to fpscr manipulation
-To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>, qemu-devel@nongnu.org
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-8-bruno.larsen@eldorado.org.br>
- <a9ac8b35-faae-167d-ff78-4b7ddd8f75c9@linaro.org>
- <c2fc1562-9d97-0d6f-5d24-632c2a9006dd@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a12f0631-dd9c-aa9f-41d6-eb0422416a0a@linaro.org>
-Date: Thu, 13 May 2021 17:45:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lhLEB-0003r4-GS; Thu, 13 May 2021 19:58:51 -0400
+Received: from ozlabs.org ([203.11.71.1]:44313)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lhLE9-0007o8-8H; Thu, 13 May 2021 19:58:51 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Fh7sd3117z9sX1; Fri, 14 May 2021 09:58:45 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1620950325;
+ bh=Dpo1G/G7sAFyYj6n9n3neR0gB48ZfFSUGw5Zjl3m0aM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cFomokIi9OAW8Jy+tJFeOdq2Z1fSQUFXzvfaqSaS9snGnqW+6mGV5mRhsSMTYX3rc
+ 2/L0MlIX6ecZm+ban8PWoOZMJsSYPprJ+gOqW2GtpFlhofHZNaHtpq8Gnoye5Sw0gi
+ Cfi3ub/WCfgeZqplu/sSiQ/YEGoWWQZOxivMxrUI=
+Date: Fri, 14 May 2021 09:35:31 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH 4/5] hw/ppc/fdt: Drop dependency on libfdt
+Message-ID: <YJ23w6xb2HxjWZIE@yekko>
+References: <20210511155354.3069141-1-philmd@redhat.com>
+ <20210511155354.3069141-5-philmd@redhat.com>
+ <YJs938JVdO5SRYSs@yekko>
+ <ead2acca-d3da-89e5-52f6-e8ae14f6e85f@redhat.com>
+ <YJyg+h7NC2ktmHSx@yekko>
+ <6a06ae7d-1010-69bc-8931-364d2655e850@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c2fc1562-9d97-0d6f-5d24-632c2a9006dd@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YNbETgu0hGTVA2xE"
+Content-Disposition: inline
+In-Reply-To: <6a06ae7d-1010-69bc-8931-364d2655e850@redhat.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,143 +62,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/21 11:36 AM, Bruno Piazera Larsen wrote:
-> 
-> On 12/05/2021 15:20, Richard Henderson wrote:
->> On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
->>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
->>> index 104a308abb..a8a720eb48 100644
->>> --- a/target/ppc/kvm.c
->>> +++ b/target/ppc/kvm.c
->>> @@ -2947,3 +2947,17 @@ bool kvm_arch_cpu_check_are_resettable(void)
->>>   {
->>>       return true;
->>>   }
->>> +
->>> +void kvmppc_store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask)
->>> +{
->>> +    CPUState *cs = env_cpu(env);
->>> +    struct kvm_one_reg reg;
->>> +    int ret;
->>> +    reg.id = KVM_REG_PPC_FPSCR;
->>> +    reg.addr = (uintptr_t) &env->fpscr;
->>> +    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
->>> +    if (ret < 0)
->>> +    {
->>> +        fprintf(stderr, "Unable to set FPSCR to KVM: %s", strerror(errno));
->>> +    }
->>> +}
->>
->> This is all unnecessary.  All you need to do is store to env->fpscr and the 
->> value will be synced back with kvm_put_fp.
->>
->> I'll note that some of the trouble you may be having with extracting 
->> helper_store_fpscr to a ppc_store_fpscr function is due to an existing bug in 
->> the tcg code:
->>
->> Storing to fpscr should *never* raise an exception -- see MTFSF, MTFSB0, 
->> MTFSB1.  Thus the mucking about with cs->exception_index and env->error_code 
->> is incorrect.
->>
->> In addition, the masking is being done weirdly and could use a complete 
->> overhaul.
->>
->> This could all be rewritten as
->>
->> -- %< -- cpu.h
->>
->>  /* Invalid operation exception summary */
->> - #define fpscr_ix ((env->fpscr) & ((1 << FPSCR_VXSNAN) ...
->> + #define FPSCR_IX  ((1 << FPSCR_VXSNAN) | ...)
->>
->> -- %< -- cpu.c
->>
->> // move fpscr_set_rounding_mode here
->>
->> void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
->> {
->>     /* Recompute exception summary state. */
->>     val &= ~(FP_VX | FP_FEX);
->>     if (val & FPSCR_IX) {
->>         val |= FP_VX;
->>     }
->>     if ((val >> FPSCR_XX) & (val >> FPSCR_XE) & 0x1f) {
->>         val |= FP_FEX;
->>     }
->>     env->fpscr = val;
->>     if (tcg_enabled()) {
->>         fpscr_set_rounding_mode(env);
->>     }
->> }
->>
->> -- %< -- fpu_helper.c
->>
->> void helper_store_fpscr(CPUPPCState *env, target_ulong val,
->>                         uint32_t nibbles)
->> {
->>     target_ulong mask = 0;
->>
->>     /* TODO: Push this expansion back to translation time. */
->>     for (int i = 0; i < sizeof(target_ulong) * 2; ++i) {
->>         if (nibbles & (1 << i)) {
->>             mask |= (target_ulong)0xf << (4 * i);
->>         }
->>     }
->>
->>     val = (val & mask) | (env->fpscr & ~mask);
->>     ppc_store_fpscr(env, val);
->> }
-> That expansion can't be moved to translation time, because gdbstub would also 
-> need that code in a variety of functions, so better to keep it in that central 
-> location,
->>
->> void helper_fpscr_clrbit(CPUPPCState *env, uint32_t bit)
->> {
->>     uint32_t mask = 1u << bit;
->>     if (env->fpscr & mask) {
->>         ppc_store_fpscr(env, env->fpscr & ~mask);
->>     }
->> }
->>
->> void helper_fpscr_setbit(CPUPPCState *env, uint32_t bit)
->> {
->>     uint32_t mask = 1u << bit;
->>     if (!(env->fpscr & mask)) {
->>         ppc_store_fpscr(env, env->fpscr | mask);
->>     }
->> }
->>
->> There are a couple of other uses of fpscr_set_rounding_mode, where the 
->> softfloat value is changed temporarily (do_fri, VSX_ROUND). These should 
->> simply save the previous softfloat value (using get_float_rounding_mode) 
->> around the operation instead of re-computing from fpscr.
->>
->> Which leaves us with exactly one use of fpscr_set_rounding_mode, which can 
->> then be moved to cpu.c next to ppc_store_fpscr.
->>
->>
->> r~
-> 
-> I was implementing this solution, but ran into a problem: We needed store_fpscr 
-> for gdbstub.c, that's the original reason we made that new function to begin 
-> with. This solution, although it improves the handling of fpscr, doesn't fix 
-> the original problem.
 
-Why not?  Did you miss the cpu.c cut at the very top?
+--YNbETgu0hGTVA2xE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> What I think we can do is put the logic that is in helper_store_fpscr into 
-> store_fpscr, move it to cpu.c, and have the helper call the non-helper 
-> function. That way we conserve helper_* as TCG-specific and have the overhaul.
+On Thu, May 13, 2021 at 05:26:37PM +0200, Paolo Bonzini wrote:
+> On 13/05/21 05:46, David Gibson wrote:
+> > > The patch makes sense in general.  The file is only needed for pserie=
+s and
+> > > powernv, not for e.g. e500 which does need fdt.
+> >=20
+> > Yes, agreed.
+> >=20
+> > > I would get rid of FDT_PPC completely.  First, before patch 3, you ca=
+n move
+> > > fdt.c to PSERIES and POWERNV (it's too small to need its own Kconfig =
+symbol)
+> > > and only leave
+> > >=20
+> > >     ppc_ss.add(when: 'CONFIG_FDT_PPC', if_true: fdt)
+> >=20
+> > Uh... why do we need even this?
+>=20
+> To tell Meson that a board requires QEMU to be linked with libfdt.  This
+> symbol is then renamed to CONFIG_LIBFDT once it can be used with all targ=
+ets
+> (rather than just hw/ppc).
 
-That is exactly what I have written above.
+Oh, I thought CONFIG_LIBFDT already did that.
 
+> > > Since you are at it, remove the silly #ifdef TARGET_PPC64 in the
+> > > hw/ppc/fdt.c file.
+> > >=20
+> > > Then in patch 3:
+> > >=20
+> > > - add to Kconfig.host
+> > >=20
+> > >      config FDT
+> > >         bool
+> > >=20
+> > >      config LIBFDT
+> > >         bool
+> > >         depends on FDT
+> >=20
+> > Um.. I'm not sure what semantic difference you're envisaging between
+> > FDT and LIBFDT.
+>=20
+> "FDT" is set by meson.build if the library is available, LIBFDT is set by
+> the board to link with the library.  In other words CONFIG_FDT is per-bui=
+ld,
+> while CONFIG_LIBFDT is per-target.
 
-r~
+Oof... that's highly non-obvious.  Could we call it HAVE_LIBFDT and
+USE_LIBFDT instead?
+
+> If a board selects LIBFDT but the library is not available, minikconf will
+> report a contradiction due to "CONFIG_PSERIES=3Dy" -> "config PSERIES sel=
+ect
+> LIBFDT" -> "config LIBFDT depends on FDT" ->  "CONFIG_FDT=3Dn".
+>=20
+> > > - for all the boards I listed in my review, add "select LIBFDT" in ad=
+dition
+> > > to "depends on FDT".
+>=20
+> This is actually unnecessary---"depends on FDT" is not needed in the boar=
+ds
+> because LIBFDT already has the dependency.
+>=20
+> Paolo
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--YNbETgu0hGTVA2xE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCdt8MACgkQbDjKyiDZ
+s5JJlRAAzdCXlJdP/yOdcBZlAgljmrBLvAT89lETzLZ6nO4kJSvXt9vSeZhURrrf
+slE/nh9ZlYtApkTwzwVOTkpROZoIFug3lTgjv+/zE6wkoJ1Y4+nnUkzbFdy10OaC
+3hZbYuyhIhuDgK69oaCyJpGVePZhlTNgOxKWqhDyK7jWTeq5azeEDMiLgw+dDbQQ
+slbQLPfLsEd4l9js+LruffbIg/oHjiGqurjn6qiuFlBkohZUMcNK+JjZCOt1aYZ4
+y59l/M1mr2xBDO/cGwh8Kop7iLMNda1x6OriTdjJDy5BQO1e2MOFMCHF4D8xayT9
+qSvSHiVFfGMqZJtobw0RmtDDFWb/oAYyvQAR3vJUN4MxX67ZiB30VbI+VxHy+eT1
+Cfp3fZuVxw11ol5mswOPeVHnUcI3ocQrJQVkuAxo8dEbr9Z+BCptpnImCf+Eh7nk
+tfvbjjZtSSatgEzb9RRSeKUtIklSY8st6Q1zGGh5m2zBKUBh22JbWEcHNM/2A+CK
+hIKKY/5C0LJe1VJ3UzmRurByTdV3qUPpCi2ECUe1oHfNms1VzATMRtX2wHC54hON
+vT/MWd/wEPvUW0YFBOYLx87CD1dOK3tW3+ZYl6sIs6XYKahY85XeReSBVqQAbsSC
+Rcwwg8Xpm5hFg6zjRM5487s8ny5j5VcrjdZ0NTfJJ5aLKgh78Mw=
+=aa+q
+-----END PGP SIGNATURE-----
+
+--YNbETgu0hGTVA2xE--
 
