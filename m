@@ -2,80 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285A437F701
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 13:44:06 +0200 (CEST)
-Received: from localhost ([::1]:54658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE82C37F728
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 13:49:33 +0200 (CEST)
+Received: from localhost ([::1]:58404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh9l7-0005g1-8b
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 07:44:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50484)
+	id 1lh9qO-0008Jp-Qi
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 07:49:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lh9hO-0002wo-SU
- for qemu-devel@nongnu.org; Thu, 13 May 2021 07:40:15 -0400
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:44977)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lh9hL-0002JK-Gm
- for qemu-devel@nongnu.org; Thu, 13 May 2021 07:40:14 -0400
-Received: by mail-qt1-x835.google.com with SMTP id y12so19463545qtx.11
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 04:40:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ijBsiBT8QwQONl96Ri9lDvzAdsuOq39eVSZlngu10JM=;
- b=eWcePguwhtzreKX+js3BCqlAKKtPln9xkPY07m4Eo0JGejOL4OxJRUaYZmR0Q2i08n
- OE3gkp57gG+8/uMHHf1iaR9Vwj6iAGKe6PaU48vvgz8viczg0ev2L/Z+dCU7GWALRu1u
- YOQQbI4za/vN57GrhgMOQn2ho9dKMcMh0MS3oQwAP0k8v/Fl3sb9P3+pPoPoDPYvkRCl
- dQ7JULrJzbRcpjs/Z1E2tKGnV4d9J5myHozHdFBe/zKMSrsI0EoQhxvVLtNWIGKItd/r
- m0TTMlFSFE7NUzffE8zxgB7tXIYZ27AN01YgulJNfUBFlkqrYD4wWBTvG9ABGeRoLH9r
- zLWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ijBsiBT8QwQONl96Ri9lDvzAdsuOq39eVSZlngu10JM=;
- b=klKsQ2GM6FQxwwYDhvrjUPvLJVqG50Xv4o0UgUMNopzu9lfmWbWd5cIwfQL0hcLx2v
- 1SIJ+D/te+wBR8KmmSnmouiEzVR3C1ENIHzddfBDHioz6YRRaV8cptBJBY+8nDvTncqJ
- KPRjknNwsRnqtaFmWZyXlQmsPu2Vg0casDZFRlG04HcLON5MqRWozxduPdxMyNwuob6E
- Kzlag0FcY5O/2L8X2vHNu6HUun3Y8dWajWfb1dZKpzkDljplVoDe7l4gNuw7cKcIS8zQ
- EAUyF7+PwrSdmTXoOMF1BpF23dhfsyxgniZKe0E1OiB3SN7rHEqzdcjMIERb+FZxGEar
- VIXQ==
-X-Gm-Message-State: AOAM531dcplMfNxI3cUECLp9VwQSuOLO4KUMhMVhlVTrEPvwwhih6D6l
- IaA3swfLy1zcExGfP6OcAZAGCA==
-X-Google-Smtp-Source: ABdhPJwIOrZEgY8O2TwHznzkGJBPlylOmOdLbgQPu8ucKnsVtIU0z4v6N0UsWyAH0qnGL9df82nvSg==
-X-Received: by 2002:ac8:59cf:: with SMTP id f15mr9506575qtf.89.1620906010109; 
- Thu, 13 May 2021 04:40:10 -0700 (PDT)
-Received: from [192.168.183.155] (163.189-204-200.bestelclientes.com.mx.
- [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id b1sm2009488qtt.67.2021.05.13.04.40.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 May 2021 04:40:09 -0700 (PDT)
-Subject: Re: [PATCH v4 31/31] target/ppc: Move addpcis to decodetree
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lh9l4-000682-6W; Thu, 13 May 2021 07:44:02 -0400
+Received: from [201.28.113.2] (port=33430 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lh9l2-0004YS-Bd; Thu, 13 May 2021 07:44:01 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 13 May 2021 08:43:56 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id D73A280139F;
+ Thu, 13 May 2021 08:43:55 -0300 (-03)
+Subject: Re: [PATCH v4 28/31] target/ppc: Implement setbc/setbcr/stnbc/setnbcr
+ instructions
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
 References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
- <20210512185441.3619828-32-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <399687e2-7770-6c3e-c74a-3586fdfbaf54@linaro.org>
-Date: Thu, 13 May 2021 06:40:06 -0500
+ <20210512185441.3619828-29-matheus.ferst@eldorado.org.br>
+ <cdee71b3-12fc-cdc2-f9ac-a132789b698a@linaro.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <271e1e13-478a-2a9c-958a-793ea6f2b3a5@eldorado.org.br>
+Date: Thu, 13 May 2021 08:43:55 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210512185441.3619828-32-matheus.ferst@eldorado.org.br>
+In-Reply-To: <cdee71b3-12fc-cdc2-f9ac-a132789b698a@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x835.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 13 May 2021 11:43:56.0274 (UTC)
+ FILETIME=[41847520:01D747ED]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,17 +67,51 @@ Cc: lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/21 1:54 PM, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
+On 13/05/2021 08:01, Richard Henderson wrote:
+> On 5/12/21 1:54 PM, matheus.ferst@eldorado.org.br wrote:
+>> +static bool do_set_bool_cond(DisasContext *ctx, arg_X_bi *a, bool 
+>> neg, bool rev)
+>> +{
+>> +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+>> +    uint32_t mask = 0x08 >> (a->bi & 0x03);
+>> +    TCGv temp = tcg_temp_new();
+>> +
+>> +    tcg_gen_extu_i32_tl(temp, cpu_crf[a->bi >> 2]);
+>> +    tcg_gen_andi_tl(temp, temp, mask);
+>> +    tcg_gen_movcond_tl(a->r?TCG_COND_EQ:TCG_COND_NE, cpu_gpr[a->rt], 
+>> temp,
+>> +                       tcg_constant_tl(0), tcg_constant_tl(a->n?-1:1),
+>> +                       tcg_constant_tl(0));
 > 
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> ---
->   target/ppc/insn32.decode                   | 6 ++++++
->   target/ppc/translate.c                     | 9 ---------
->   target/ppc/translate/fixedpoint-impl.c.inc | 7 +++++++
->   3 files changed, 13 insertions(+), 9 deletions(-)
+> Mind the spacing around ?:.
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Fixed.
 
-r~
+> Did you forget to update a->r and a->n to "neg" and "rev"?
+> It sure looks like this doesn't compile...
+> 
+
+I messed up when rebasing, the change is in the next patch. I'll fix 
+that too.
+
+> I guess this is fine with movcond, but perhaps slightly better with
+> 
+>    tcg_gen_setcondi_tl(cond, rt, temp, 0);
+>    if (neg) {
+>      tcg_gen_neg_tl(rt, rt);
+>    }
+> 
+> TCG isn't the most optimizing of compilers...
+> 
+> 
+> r~
+
+And also looks cleaner, I'll apply that too.
+
+-- 
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
