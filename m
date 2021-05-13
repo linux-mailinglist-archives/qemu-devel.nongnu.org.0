@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41EA37F5A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:32:07 +0200 (CEST)
-Received: from localhost ([::1]:39562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCAF37F5A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:34:55 +0200 (CEST)
+Received: from localhost ([::1]:44726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh8dS-00034m-PJ
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:32:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54014)
+	id 1lh8gB-0006tP-2g
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh85l-00018y-7F
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:57:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh85Y-0007Pp-Lo
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:57:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620899824;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+9Al9z3vKdyL88IvdJppFBSY4pY47JlH+BjFm2p/x0M=;
- b=UqPJVtBV/zTG1uJWoQo/fonbOwJHHMQI6AAzoSWo3bpN0zvr+pneScpwtSgEmLRIVrJKwr
- qWso+pTOhSliutNBwOXM/7bsb5lX2XrbUqsw+UDtQ957KRJ4R9YUNKglNhEjV0Emk3wRnB
- 4RLlzfvohIIYyZDs75y6CIQ7Suxa5eU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-KY6Bt7gTM7qPFXFqvYbDCA-1; Thu, 13 May 2021 05:57:02 -0400
-X-MC-Unique: KY6Bt7gTM7qPFXFqvYbDCA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B3331860C80;
- Thu, 13 May 2021 09:57:01 +0000 (UTC)
-Received: from localhost.redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9882A10074E5;
- Thu, 13 May 2021 09:56:58 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 22/22] tests/docker: remove ubuntu container
-Date: Thu, 13 May 2021 10:55:19 +0100
-Message-Id: <20210513095519.1213675-23-berrange@redhat.com>
-In-Reply-To: <20210513095519.1213675-1-berrange@redhat.com>
-References: <20210513095519.1213675-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lh8BZ-0002k5-5Z
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 06:03:17 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lh8BX-0002LG-D6
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 06:03:16 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ y124-20020a1c32820000b029010c93864955so1068981wmy.5
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 03:03:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=c+jhpmkLq/nMVmrGPFmqj+T6xljFiOCIPQ6O2dgJ4+s=;
+ b=iaBlXf2mU6uaC7TxBMewcTqiCXXA9lxFwDjl/uUWQJ/Yn4IDC82ADIIjaHWVDZkPwj
+ AFJcluwFvMtNpW53wvvVuxIWTnRQ7K9mCB/MilKLKpAfWzrcpk6XTXs/TQa8tzxGHpor
+ VYgkZpwmRi1yzza9r8PQWEhC2J6KUl+X+tFAJxGucftCqpjtJQAtL0H8uKW2rT0PSXPF
+ ttCDRyC+Sox1gZ2tUsLMSV1It47I7iGTetQqYRt64sZnXuMvQ86raXl7E7xVrLg9vOnB
+ bOGCDrh9ZNPcVF12Cc8ix217d44qWwZWXKik42uP6L1teWImXUKWg4VOh233qJQuYEmq
+ qzTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=c+jhpmkLq/nMVmrGPFmqj+T6xljFiOCIPQ6O2dgJ4+s=;
+ b=EOukNpLHKvCMkNZX6EMlOfU0Gkn4JCWaRgKA2C5D/UB4fBbARJJhZb87nixnvyRT9R
+ IqG9OnKtljHqfNNOmwG02lFQGue+sb3nrpRr6Kg+65ooG3uhs3LFvTVhIKYAzjNpp1Vy
+ Uzhj38qFj3ug1q0uJ19/iabzwegr5tejIQZC3ds8bbDiAJKfwj7wp9fLIMTMI95Ll+YT
+ 86Oq1mcp081+uJmlXPZ7WKKxDFjHi45bv4Yv/JhaVbIHksaKeea9jg7O4OfdEkJGVA4V
+ aAwIhNZcRUJAa2qDHsKwkv4NEHSw9SuAnbEHQEUUR3qnHbw4fNPHfrnpp5PPsRwZoEUt
+ zoHg==
+X-Gm-Message-State: AOAM5328ALjQbfCyxfCt5XzP1Hq1p/+wLWJbFsduRC8z9lIuG8y54I6V
+ 1QQpnargoaP8FyFgOc8fTojTvg==
+X-Google-Smtp-Source: ABdhPJwKQR6dKU0aNWoDe1BS2J+oh0slL5hfmijgcri8uC4wiAt4kJAFHR78rFEkwEkwgl+i57IFOQ==
+X-Received: by 2002:a05:600c:4ecb:: with SMTP id
+ g11mr3029675wmq.46.1620900193886; 
+ Thu, 13 May 2021 03:03:13 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v12sm406832wru.73.2021.05.13.03.03.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 May 2021 03:03:12 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5903C1FF7E;
+ Thu, 13 May 2021 11:03:12 +0100 (BST)
+References: <20210508014802.892561-1-richard.henderson@linaro.org>
+ <20210508014802.892561-35-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 34/72] softfloat: Move addsub_floats to
+ softfloat-parts.c.inc
+Date: Thu, 13 May 2021 11:03:07 +0100
+In-reply-to: <20210508014802.892561-35-richard.henderson@linaro.org>
+Message-ID: <87o8dfdk7z.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,120 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This duplicates the ubuntu2004 container but with an inconsistent set of
-packages.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- .gitlab-ci.d/containers.yml            |  5 --
- tests/docker/dockerfiles/ubuntu.docker | 69 --------------------------
- 2 files changed, 74 deletions(-)
- delete mode 100644 tests/docker/dockerfiles/ubuntu.docker
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 33e4046e23..ed31ba2e2c 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -240,11 +240,6 @@ amd64-ubuntu2004-container:
-   variables:
-     NAME: ubuntu2004
- 
--amd64-ubuntu-container:
--  <<: *container_job_definition
--  variables:
--    NAME: ubuntu
--
- amd64-opensuse-leap-container:
-   <<: *container_job_definition
-   variables:
-diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
-deleted file mode 100644
-index 752e1aa105..0000000000
---- a/tests/docker/dockerfiles/ubuntu.docker
-+++ /dev/null
-@@ -1,69 +0,0 @@
--#
--# Latest Ubuntu Release
--#
--# Useful for testing against relatively bleeding edge libraries and
--# compilers. We also have seperate recipe for the most recent LTS
--# release.
--#
--# When updating use the full tag not :latest otherwise the build
--# system won't pick up that it has changed.
--#
--
--FROM docker.io/library/ubuntu:20.04
--ENV PACKAGES \
--    ccache \
--    clang \
--    dbus \
--    gcc \
--    gettext \
--    git \
--    glusterfs-common \
--    libaio-dev \
--    libattr1-dev \
--    libbrlapi-dev \
--    libbz2-dev \
--    libcacard-dev \
--    libcap-ng-dev \
--    libcurl4-gnutls-dev \
--    libdrm-dev \
--    libepoxy-dev \
--    libfdt-dev \
--    libgbm-dev \
--    libgnutls28-dev \
--    libgtk-3-dev \
--    libibverbs-dev \
--    libiscsi-dev \
--    libjemalloc-dev \
--    libjpeg-turbo8-dev \
--    liblzo2-dev \
--    libncurses5-dev \
--    libncursesw5-dev \
--    libnfs-dev \
--    libnuma-dev \
--    libpixman-1-dev \
--    libpng-dev \
--    librados-dev \
--    librbd-dev \
--    librdmacm-dev \
--    libsasl2-dev \
--    libsdl2-dev \
--    libseccomp-dev \
--    libsnappy-dev \
--    libspice-protocol-dev \
--    libspice-server-dev \
--    libssh-dev \
--    libusb-1.0-0-dev \
--    libusbredirhost-dev \
--    libvdeplug-dev \
--    libvte-2.91-dev \
--    libxen-dev \
--    libzstd-dev \
--    make \
--    ninja-build \
--    python3-yaml \
--    python3-sphinx \
--    sparse \
--    xfslibs-dev
--RUN apt-get update && \
--    DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
--RUN dpkg -l $PACKAGES | sort > /packages.txt
--- 
-2.31.1
+> In preparation for implementing multiple sizes.  Rename to parts_addsub,
+> split out parts_add/sub_normal for future reuse with muladd.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
