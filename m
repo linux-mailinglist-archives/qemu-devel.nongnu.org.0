@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7ABD37F7FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:31:33 +0200 (CEST)
-Received: from localhost ([::1]:55006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6AAA37F806
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:35:01 +0200 (CEST)
+Received: from localhost ([::1]:35322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhAV2-0005QY-Q1
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:31:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58864)
+	id 1lhAYO-0002pE-N9
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhAG5-0000Bd-Mh
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:16:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42962)
+ id 1lhAKa-0006Je-Ey
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:20:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhAFq-0007Lo-Rb
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:16:05 -0400
+ id 1lhAKY-0001dX-Fw
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:20:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhAFj-0005Ds-1u
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:15:43 +0000
+ id 1lhAKW-0006CN-Ke
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:20:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0C0F72E8186
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:15:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5800F2E8187
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:20:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 May 2021 12:03:06 -0000
-From: Thomas Huth <1915531@bugs.launchpad.net>
+Date: Thu, 13 May 2021 12:10:39 -0000
+From: Thomas Huth <1898011@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Tags: linux-user mmap tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth valentin.david
-X-Launchpad-Bug-Reporter: Valentin David (valentin.david)
+X-Launchpad-Bug-Commenters: ksserebr rth th-huth ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: Kostya Serebryany (ksserebr)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161314621308.23829.886419770057464275.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162090738632.16840.13795772102476966752.malone@soybean.canonical.com>
-Subject: [Bug 1915531] Re: qemu-user child process hangs when forking due to
- glib allocation
+References: <160153380394.6201.10648910301442382269.malonedeb@soybean.canonical.com>
+Message-Id: <162090783979.16690.9188430876143246075.malone@soybean.canonical.com>
+Subject: [Bug 1898011] Re: mmap MAP_NORESERVE of 2^42 bytes consumes 16Gb of
+ actual RAM
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: f3732924dfb117a6f129818c3c7c61e87462f16c
+X-Launchpad-Hash: 34eac46446653faa683182abd53db4e8886ba1bc
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915531 <1915531@bugs.launchpad.net>
+Reply-To: Bug 1898011 <1898011@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -106,123 +106,61 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
-** Tags added: linux-user
-
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: Confirmed =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915531
+https://bugs.launchpad.net/bugs/1898011
 
 Title:
-  qemu-user child process hangs when forking due to glib allocation
+  mmap MAP_NORESERVE of 2^42 bytes consumes 16Gb of actual RAM
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I and others have recently been using qemu-user for RISCV64 extensively. =
-We have had many hangs. We have found that hangs happen in process with mul=
-tiple threads and forking. For example
-  `cargo` (a tool for the Rust compiler).
+  Run this program:
 
-  It does not matter if there are a lot of calls to fork. What seems to
-  matter most is that there are many threads running. So this happens
-  more often on a CPU with a massive number of cores, and if nothing
-  else is really running. The hang happens in the child process of the
-  fork.
+  #include <sys/mman.h>
+  #include <stdio.h>
+  int main() {
+          for (int i =3D 30; i <=3D 44; i++) {
+                  fprintf(stderr, "trying 2**%d\n", i);
+                  mmap((void*)0x600000000000,1ULL << i,
+                          PROT_NONE,
+                          MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED|MAP_NORESERVE=
+,-1,0);
+          }
+  }
 
-  To reproduce the problem, I have attached an example of C++ program to
-  run through qemu-user.
+  (tried qemu-x86_64 and qemu-aarch64, 4.2.1 and trunk/5.1.50)
 
-  Here are the stacks of the child processes that hanged. This is for
-  qemu c973f06521b07af0f82893b75a1d55562fffb4b5 with glib 2.66.4
+  On each iteration qemu will consume 2x more physical RAM, =
 
-  -------
-  Thread 1:
-  #0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
-  #1  0x00007f54e190c77c in g_mutex_lock_slowpath (mutex=3Dmutex@entry=3D0x=
-7f54e1dc7600 <allocator+96>) at ../glib/gthread-posix.c:1462
-  #2  0x00007f54e190d222 in g_mutex_lock (mutex=3Dmutex@entry=3D0x7f54e1dc7=
-600 <allocator+96>) at ../glib/gthread-posix.c:1486
-  #3  0x00007f54e18e39f2 in magazine_cache_pop_magazine (countp=3D0x7f54280=
-e6638, ix=3D2) at ../glib/gslice.c:769
-  #4  thread_memory_magazine1_reload (ix=3D2, tmem=3D0x7f54280e6600) at ../=
-glib/gslice.c:845
-  #5  g_slice_alloc (mem_size=3Dmem_size@entry=3D40) at ../glib/gslice.c:10=
-58
-  #6  0x00007f54e18f06fa in g_tree_node_new (value=3D0x7f54d4066540 <code_g=
-en_buffer+419091>, key=3D0x7f54d4066560 <code_gen_buffer+419123>) at ../gli=
-b/gtree.c:517
-  #7  g_tree_insert_internal (tree=3D0x555556aed800, key=3D0x7f54d4066560 <=
-code_gen_buffer+419123>, value=3D0x7f54d4066540 <code_gen_buffer+419091>, r=
-eplace=3D0) at ../glib/gtree.c:517
-  #8  0x00007f54e186b755 in tcg_tb_insert (tb=3D0x7f54d4066540 <code_gen_bu=
-ffer+419091>) at ../tcg/tcg.c:534
-  #9  0x00007f54e1820545 in tb_gen_code (cpu=3D0x7f54980b4b60, pc=3D2749064=
-07438, cs_base=3D0, flags=3D24832, cflags=3D-16252928) at ../accel/tcg/tran=
-slate-all.c:2118
-  #10 0x00007f54e18034a5 in tb_find (cpu=3D0x7f54980b4b60, last_tb=3D0x7f54=
-d4066440 <code_gen_buffer+418835>, tb_exit=3D0, cf_mask=3D524288) at ../acc=
-el/tcg/cpu-exec.c:462
-  #11 0x00007f54e1803bd9 in cpu_exec (cpu=3D0x7f54980b4b60) at ../accel/tcg=
-/cpu-exec.c:818
-  #12 0x00007f54e1735a4c in cpu_loop (env=3D0x7f54980bce40) at ../linux-use=
-r/riscv/cpu_loop.c:37
-  #13 0x00007f54e1844b22 in clone_func (arg=3D0x7f5402f3b080) at ../linux-u=
-ser/syscall.c:6422
-  #14 0x00007f54e191950a in start_thread (arg=3D<optimized out>) at pthread=
-_create.c:477
-  #15 0x00007f54e19a52a3 in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
+  e.g. when mapping 2^42 it will have RSS of 16Gb.
 
-  Thread 2:
-  #1  0x00007f54e18a8d6e in qemu_futex_wait (f=3D0x7f54e1dc7038 <rcu_call_r=
-eady_event>, val=3D4294967295) at /var/home/valentin/repos/qemu/include/qem=
-u/futex.h:29
-  #2  0x00007f54e18a8f32 in qemu_event_wait (ev=3D0x7f54e1dc7038 <rcu_call_=
-ready_event>) at ../util/qemu-thread-posix.c:460
-  #3  0x00007f54e18c0196 in call_rcu_thread (opaque=3D0x0) at ../util/rcu.c=
-:258
-  #4  0x00007f54e18a90eb in qemu_thread_start (args=3D0x7f5428244930) at ..=
-/util/qemu-thread-posix.c:521
-  #5  0x00007f54e191950a in start_thread (arg=3D<optimized out>) at pthread=
-_create.c:477
-  #6  0x00007f54e19a52a3 in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-  -------
+  On normal linux it works w/o consuming much RAM, due to MAP_NORESERVE.
 
-  Thread 1 seems to be the really hanged process.
+  Also: qemu -strace prints 0 instead of the correct size starting from siz=
+e=3D2^32
+  and prints -2147483648 for size=3D2^31. =
 
-  The problem is that glib is used in many places. Allocations are done
-  through g_slice. g_slice has a global state that is not fork safe.
 
-  So even though the cpu thread is set to exclusive before forking, it
-  is not enough. Because there are other uses of glib data structures
-  that are not part of the cpu loop (I think). So it seems not to be
-  synchronized by `start_exclusive`, `end_exclusive`.
+  mmap(0x0000600000000000,1073741824,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|MA=
+P_FIXED|MAP_NORESERVE,-1,0)
+  =3D 0x0000600000000000
 
-  So if one of the use of glib data structure is used during the fork,
-  an allocation might lock a mutex in g_slice.
+  mmap(0x0000600000000000,-2147483648,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|M=
+AP_FIXED|MAP_NORESERVE,-1,0)
+  =3D 0x0000600000000000
 
-  When the cpu loop resumes in forked process, then the use of any glib
-  data structure might just hang on a locked mutex in g_slice.
-
-  So as a work-around we have starting using is setting environment
-  `G_SLICE=3Dalways-malloc`. This resolves the hangs.
-
-  I have opened an issue upstream:
-  https://gitlab.gnome.org/GNOME/glib/-/issues/2326
-
-  As fork documentation says, the child should be async-signal-safe.
-  However, glibc's malloc is safe in fork child even though it is not
-  async-signal-safe. So it is not that obvious where the responsability
-  is. Should glib handle this case like malloc does? Or should qemu not
-  use glib in the fork child?
+  mmap(0x0000600000000000,0,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED|M=
+AP_NORESERVE,-1,0)
+  =3D 0x0000600000000000
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915531/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1898011/+subscriptions
 
