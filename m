@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 581D237F59A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:29:13 +0200 (CEST)
-Received: from localhost ([::1]:60484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41EA37F5A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:32:07 +0200 (CEST)
+Received: from localhost ([::1]:39562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh8ae-0006Nt-EX
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:29:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59012)
+	id 1lh8dS-00034m-PJ
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:32:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lh8RS-0000j7-0Z
- for qemu-devel@nongnu.org; Thu, 13 May 2021 06:19:42 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lh8RQ-0003Cu-Cs
- for qemu-devel@nongnu.org; Thu, 13 May 2021 06:19:41 -0400
-Received: by mail-wr1-x435.google.com with SMTP id r12so788310wrp.1
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 03:19:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BWAWBq+M6woac/0GbUpjkikyqtd+Sios9YAKx9HDG/A=;
- b=UCtnLGgvtug4CsNs4tjFDhBw7bNVF/H7d0FRgnYNwQ8HkesoEKXVUEr7zVPJ4gZCOf
- GQkUkBed3sN0wEXnfr/i0+61j9arStds/i4Y3bIvNmDEScmSCcXUkFxdjxoiyfkL2ozu
- scynBJGV0z8a+eQmWKN2wSU+cbSt4+p54HafdoZRod90EH1h6IYYWT3Js1vprDpW/oGC
- XB7LPaf1ugaNYTYv+yTvKm6IUJEt2X66GAt9kSrw9K5boBVGiCeFgRv999GKyHxigfTh
- Bwwjljc6vTCOytI5RIunDMm9jkh/DByWITGU57L16GyWGSfXjW5wipfrCB3+w055GpUE
- oa2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BWAWBq+M6woac/0GbUpjkikyqtd+Sios9YAKx9HDG/A=;
- b=aXu4ZdIj2n+Sv150BJOlHB25nu3jRsH4r3hkr0dkkK+Hc9yD3r4VXRtdzUttEoQMzi
- YX69isFrIgpmC8cbfYZ0RgSk5WJFC/oxQOfoDtKHDl57naj2o4C9QER7QYu7ZIq/rYEa
- MHRU88zEJnbC6lqOtwxD6pv4FIY3nvEkSIgEUT247pxnjf94c34JQxcGvQC+vJRSov7O
- n0rlV4efvc5+XugePfnvpcN4OINW3RczINZOB648XFBYoEzsSnNfyUqfI3J7K+OLaHtt
- jbYULB207wxceKeVsH2uby3bVJ/1seqYX/f1SsljE8fyy/23VEY+SD9y7dMnLjGm+BP5
- jpmQ==
-X-Gm-Message-State: AOAM5314xf7pubZccHlBx0XyOjdfhOKuOMvxLLse7Pc/mvKWIZdwcmLy
- S/Ts8AUpRr2uv7BkzAGwfR0=
-X-Google-Smtp-Source: ABdhPJxf76ojl2ppF8JAK6GhwqSrrYab5pvEvCtj4YIxrPlmJhDn32PTga5ix4ZyUIeStsRUE41F2g==
-X-Received: by 2002:a5d:53c3:: with SMTP id a3mr47836134wrw.376.1620901178754; 
- Thu, 13 May 2021 03:19:38 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id f20sm2177842wmh.41.2021.05.13.03.19.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 May 2021 03:19:38 -0700 (PDT)
-Subject: Re: [PATCH v3 09/22] tests/docker: fix mistakes in ubuntu package
- lists
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lh85l-00018y-7F
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:57:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lh85Y-0007Pp-Lo
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:57:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620899824;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+9Al9z3vKdyL88IvdJppFBSY4pY47JlH+BjFm2p/x0M=;
+ b=UqPJVtBV/zTG1uJWoQo/fonbOwJHHMQI6AAzoSWo3bpN0zvr+pneScpwtSgEmLRIVrJKwr
+ qWso+pTOhSliutNBwOXM/7bsb5lX2XrbUqsw+UDtQ957KRJ4R9YUNKglNhEjV0Emk3wRnB
+ 4RLlzfvohIIYyZDs75y6CIQ7Suxa5eU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-KY6Bt7gTM7qPFXFqvYbDCA-1; Thu, 13 May 2021 05:57:02 -0400
+X-MC-Unique: KY6Bt7gTM7qPFXFqvYbDCA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B3331860C80;
+ Thu, 13 May 2021 09:57:01 +0000 (UTC)
+Received: from localhost.redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9882A10074E5;
+ Thu, 13 May 2021 09:56:58 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 22/22] tests/docker: remove ubuntu container
+Date: Thu, 13 May 2021 10:55:19 +0100
+Message-Id: <20210513095519.1213675-23-berrange@redhat.com>
+In-Reply-To: <20210513095519.1213675-1-berrange@redhat.com>
 References: <20210513095519.1213675-1-berrange@redhat.com>
- <20210513095519.1213675-10-berrange@redhat.com>
- <6c43d991-fed9-f7c9-2aa8-f9753f8a3eae@amsat.org>
- <YJz8XMKexr4m+YxV@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d37f8c05-b1fa-c1f6-fa93-c5e630b5216e@amsat.org>
-Date: Thu, 13 May 2021 12:19:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YJz8XMKexr4m+YxV@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,33 +80,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/21 12:15 PM, Daniel P. Berrangé wrote:
-> On Thu, May 13, 2021 at 12:12:33PM +0200, Philippe Mathieu-Daudé wrote:
->> On 5/13/21 11:55 AM, Daniel P. Berrangé wrote:
->>> librados-dev is not required by QEMU directly, only librbd-dev.
->>>
->>> glusterfs-common is not directly needed by QEMU.
->>>
->>> QEMU uses ncursesw only on non-Windows hosts.
->>>
->>> The clang package is clang 10.
->>>
->>> flex and bison are not required by QEMU.
->>
->> I included them to use the same Docker file to build Linux kernel
->> we test. Not a blocker, this is the QEMU project, and I'd rather
->> get the vmlinux images prebuilt from elsewhere, so:
-> 
-> If we want containers in which we can build the kernel, we can
-> also create a dedicated set of dockerfiles containing only the
-> deps that Linux kernel builds needs, separate from QEMU.
+This duplicates the ubuntu2004 container but with an inconsistent set of
+packages.
 
-Yes, this is how I understand lci-tool can help.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ .gitlab-ci.d/containers.yml            |  5 --
+ tests/docker/dockerfiles/ubuntu.docker | 69 --------------------------
+ 2 files changed, 74 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/ubuntu.docker
+
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 33e4046e23..ed31ba2e2c 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -240,11 +240,6 @@ amd64-ubuntu2004-container:
+   variables:
+     NAME: ubuntu2004
+ 
+-amd64-ubuntu-container:
+-  <<: *container_job_definition
+-  variables:
+-    NAME: ubuntu
+-
+ amd64-opensuse-leap-container:
+   <<: *container_job_definition
+   variables:
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+deleted file mode 100644
+index 752e1aa105..0000000000
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ /dev/null
+@@ -1,69 +0,0 @@
+-#
+-# Latest Ubuntu Release
+-#
+-# Useful for testing against relatively bleeding edge libraries and
+-# compilers. We also have seperate recipe for the most recent LTS
+-# release.
+-#
+-# When updating use the full tag not :latest otherwise the build
+-# system won't pick up that it has changed.
+-#
+-
+-FROM docker.io/library/ubuntu:20.04
+-ENV PACKAGES \
+-    ccache \
+-    clang \
+-    dbus \
+-    gcc \
+-    gettext \
+-    git \
+-    glusterfs-common \
+-    libaio-dev \
+-    libattr1-dev \
+-    libbrlapi-dev \
+-    libbz2-dev \
+-    libcacard-dev \
+-    libcap-ng-dev \
+-    libcurl4-gnutls-dev \
+-    libdrm-dev \
+-    libepoxy-dev \
+-    libfdt-dev \
+-    libgbm-dev \
+-    libgnutls28-dev \
+-    libgtk-3-dev \
+-    libibverbs-dev \
+-    libiscsi-dev \
+-    libjemalloc-dev \
+-    libjpeg-turbo8-dev \
+-    liblzo2-dev \
+-    libncurses5-dev \
+-    libncursesw5-dev \
+-    libnfs-dev \
+-    libnuma-dev \
+-    libpixman-1-dev \
+-    libpng-dev \
+-    librados-dev \
+-    librbd-dev \
+-    librdmacm-dev \
+-    libsasl2-dev \
+-    libsdl2-dev \
+-    libseccomp-dev \
+-    libsnappy-dev \
+-    libspice-protocol-dev \
+-    libspice-server-dev \
+-    libssh-dev \
+-    libusb-1.0-0-dev \
+-    libusbredirhost-dev \
+-    libvdeplug-dev \
+-    libvte-2.91-dev \
+-    libxen-dev \
+-    libzstd-dev \
+-    make \
+-    ninja-build \
+-    python3-yaml \
+-    python3-sphinx \
+-    sparse \
+-    xfslibs-dev
+-RUN apt-get update && \
+-    DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+-RUN dpkg -l $PACKAGES | sort > /packages.txt
+-- 
+2.31.1
+
 
