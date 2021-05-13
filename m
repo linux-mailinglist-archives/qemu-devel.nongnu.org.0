@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7890A37F955
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 16:02:29 +0200 (CEST)
-Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE7237F958
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 16:04:13 +0200 (CEST)
+Received: from localhost ([::1]:42624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhBv1-0001Qb-TN
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 10:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52118)
+	id 1lhBwi-0003Hj-Tw
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 10:04:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhBs0-0000M5-UO
- for qemu-devel@nongnu.org; Thu, 13 May 2021 09:59:20 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:47061)
+ id 1lhBuw-0001xD-Cm
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 10:02:22 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:43542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhBrw-0001KX-Q6
- for qemu-devel@nongnu.org; Thu, 13 May 2021 09:59:20 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id u21so39956785ejo.13
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 06:59:16 -0700 (PDT)
+ id 1lhBul-0002tG-SZ
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 10:02:18 -0400
+Received: by mail-ej1-x634.google.com with SMTP id l4so40020798ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 07:02:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=T/3kmRDsJ4Ld1DIFxHM8TIbe8hbI0FMQYQAid4j+WdQ=;
- b=VLfZ0/+teGofvd0XUyAK1Mbd1iL1uFtKVRZmb4jZ2U62wic4MLZXARK2T/cjcEEjOk
- 8L679AL8yZnGuvEZMKBLOHEei+eIfFdjD7cxLxYI4mJGskcZmoPcEmueAvrKJEuIPSQC
- vUdi4lQglkoDx5IT6bmJj2/rm9+RVByg0DAhJxjj/9QyYUOz5R8Il6iMzHIb6sKzl0uN
- tXokH9zhAiuuvfk1dziqaOtmaAyP+P46kE+pJGcjKwf1P5X73b7PXWFTwtV5kZT4dq72
- amHMIiZntoIxzhSi7wg1uuwsDEjR0lxMDr4znT20vxGMXQ7b+PXm5F7AdWIT4DK+xxgd
- 4YIg==
+ :cc; bh=qUMLPrrk9OFAFKO41/XgXREeww3w4ZvYxsaZUfnNUhI=;
+ b=XbJ/F7N3kpJGiIItavj4N1IVk8uHTdH7cXGr32qQj5Upz/k0Oou2CGy6Z6JViu2Nlp
+ GredxLyxF2Zn1lSCgADUQ9rsrxd43w6N5zeFgiQ53C/sKnqpEYnJckdiBNMTPVY5TZWA
+ gW0jfyMX9hhI9ZwXKnHb0uEQ0NGLbST9SkD+lxCHewppMyd4RcbCRY1mb1M2M/RbfR9h
+ M4Ad8f4a2AsjgqQ4IK/z0Ld2qAt9OXr9v77IedmOVWGjd8aomyukEBBLUrjKLDJvxO36
+ unG4bpvQ4RgqgRdd3T6jEREGIvaDJEFi9XoZKbo8vweoHSNbOobzH69u8PZ1RsqbqfTF
+ gUbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=T/3kmRDsJ4Ld1DIFxHM8TIbe8hbI0FMQYQAid4j+WdQ=;
- b=geKuIyhJqkqgCkBC1oPLkqTlvX3CZdPBpv2U4IsGSblGRutgJiuwKW2VsT4OyK4tjx
- gkrNez/Q9jmH6RBS0J16S+5vz5r/xu49VwG+ujDNZtVJSIl+Jo7GiA6gTK9ZP0dJlf38
- ohW8XvEWhpRFDDWaFVn0vulsRsOWNnNGG8PvzA4WmjgmtmPjL7ENyD3XcomZ5vdLvuxO
- ToSz7WUt4/+NcAkQdswdtyic8H066Pkyo6akLin+D96bTsKjs5I/Nu9oyek+cQdVGxjY
- 459jEGYfUxOkOOXrisqTwPV355C1CQGz0klrO8ARfSKhhd+83Eq3FmpYAh0u6yxBozgs
- AxZA==
-X-Gm-Message-State: AOAM532MLID4j4MmI/h3bJimFBTjiTcOLfyR3bD9dyo5IPeFyWdWwRWY
- isv6k2vjX890wOWMs03iEMeVfhapVixXVWLIFnsaOQ==
-X-Google-Smtp-Source: ABdhPJw2Q9/M2zOWbiOAfvh9zl9srCWUSLpbap4Rb5AdGOKl0Zzdury2/5ppD983WArGhKfO8ULi+Cjrn5mJ00zLxW0=
-X-Received: by 2002:a17:906:364d:: with SMTP id
- r13mr44912335ejb.250.1620914354765; 
- Thu, 13 May 2021 06:59:14 -0700 (PDT)
+ bh=qUMLPrrk9OFAFKO41/XgXREeww3w4ZvYxsaZUfnNUhI=;
+ b=r04czP7cB3+204ip2dUkYeFu/zmcogOigcoGsOAJ6JwFon10YKywrBAXqxGHHu2Azf
+ HfNlnZ3u+faa+U8ZBYWOXxGXkIi0V9F8J6G8pEs+iC3TO5iDhjZsGWQ/a96mgeFcGg7y
+ HO+ESU5M5wmyoPz5mca+vjMkdAgGu8LzoYXCiiXoviVnon96b7lsaLE4DJQU7qOietT2
+ XRzes1/iyzX/ZpLYEaE0esqgYKNQYY5KUefrIYoIGn1sSfN0WrpfIaDtwTVT/DNVNTRP
+ Yveq1a09PV6i2HmnVwaS4312YP7fobdSweSAohf6LZ3yhzAOFAASwnORk13Ci1vd33IO
+ Wweg==
+X-Gm-Message-State: AOAM530Z+hnFMcPXu69Ha6PtO0wEplvQ5EQLi2dAY/5SBmPf1ziuBf5A
+ sYCbDhALPhJm9Bz50zyPEYeJnOOrBDVOhLj5z+vvfQ==
+X-Google-Smtp-Source: ABdhPJwBIzTEqiHIBzPSuBdWR3TjuiADpTp+ClfQCeTzPSbO2wVm0ANLQChSTP3MPIJncLkf2WZ4R4tqZsQGtDRZzC4=
+X-Received: by 2002:a17:906:254c:: with SMTP id
+ j12mr13271133ejb.4.1620914527580; 
+ Thu, 13 May 2021 07:02:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-65-richard.henderson@linaro.org>
-In-Reply-To: <20210430202610.1136687-65-richard.henderson@linaro.org>
+ <20210430202610.1136687-66-richard.henderson@linaro.org>
+In-Reply-To: <20210430202610.1136687-66-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 May 2021 14:59:03 +0100
-Message-ID: <CAFEAcA9PTpkrjahY-cj1wyU_LTzdKsd=KLy3+7aJT5qDK=i7uQ@mail.gmail.com>
-Subject: Re: [PATCH v6 64/82] target/arm: Implement SVE2 TBL, TBX
+Date: Thu, 13 May 2021 15:01:55 +0100
+Message-ID: <CAFEAcA8nOjVCC=PPOVKEKHg7jZJpXtnYga4Yd8KJUguPabv3kQ@mail.gmail.com>
+Subject: Re: [PATCH v6 65/82] target/arm: Implement SVE2 FCVTNT
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,22 +83,29 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 22:26, Richard Henderson
+On Fri, 30 Apr 2021 at 22:20, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > From: Stephen Long <steplong@quicinc.com>
 >
 > Signed-off-by: Stephen Long <steplong@quicinc.com>
-> Message-Id: <20200428144352.9275-1-steplong@quicinc.com>
-> [rth: rearrange the macros a little and rebase]
+> Message-Id: <20200428174332.17162-2-steplong@quicinc.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/helper-sve.h    | 10 +++++
->  target/arm/sve.decode      |  5 +++
->  target/arm/sve_helper.c    | 90 ++++++++++++++++++++++++++++++--------
->  target/arm/translate-sve.c | 33 ++++++++++++++
->  4 files changed, 119 insertions(+), 19 deletions(-)
+>  target/arm/helper-sve.h    |  5 +++++
+>  target/arm/sve.decode      |  4 ++++
+>  target/arm/sve_helper.c    | 20 ++++++++++++++++++++
+>  target/arm/translate-sve.c | 16 ++++++++++++++++
+>  4 files changed, 45 insertions(+)
 
+> +DO_FCVTNT(sve2_fcvtnt_sh, uint32_t, uint16_t, H1_4, H1_2, sve_f32_to_f16)
+> +DO_FCVTNT(sve2_fcvtnt_ds, uint64_t, uint32_t, H1_4, H1_2, float64_to_float32)
+
+Shouldn't these be using different HW and HN macros ? They're
+operating on different type sizes...
+
+
+Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
