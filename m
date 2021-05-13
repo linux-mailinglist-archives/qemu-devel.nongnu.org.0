@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1694137F20C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 06:25:04 +0200 (CEST)
-Received: from localhost ([::1]:37048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C9D37F229
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 06:26:45 +0200 (CEST)
+Received: from localhost ([::1]:45522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh2uE-0001c1-It
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 00:25:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43354)
+	id 1lh2vs-0007JH-2o
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 00:26:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lh2sM-00079k-EP; Thu, 13 May 2021 00:23:10 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:60627)
+ id 1lh2sQ-0007A1-DF; Thu, 13 May 2021 00:23:10 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:41027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lh2sK-0004NY-0G; Thu, 13 May 2021 00:23:06 -0400
+ id 1lh2sK-0004Na-8A; Thu, 13 May 2021 00:23:07 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fgdms0yTbz9sXM; Thu, 13 May 2021 14:22:53 +1000 (AEST)
+ id 4Fgdms23Jhz9sjD; Thu, 13 May 2021 14:22:53 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620879773;
- bh=Te9ec4iGZxp8T4h7vb9gyOs+3YGEQdu4WyMCmuauiS8=;
+ bh=U2guEcGYv9evQ38Sg/AZ8JqzaVgMJ/4uRFvCpj6XUm4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KdBD29YvGg12KqM7gztQSTpLzHn10GqwQSmCEM7OzQXyhpqkEcVLk4GQyfiYogpcu
- O0iM1AKLZLQ5iDwnJjBkc+vbwtTbMx8qiC4YKdZkmSkexq+gpHFMaj9N0G7h3/kRL6
- YpF+fCh45Jd/2GFkCteMW+zif5xM/HphpGBddJYM=
-Date: Thu, 13 May 2021 13:46:02 +1000
+ b=M2GBAIC++jq162B4TFr1K4OqrEyheRMFCxXZRKt3BE1vbsoS4KsQYCzXBindnN7Zb
+ IFH/SUZRfxY06N8pPSPg0WZpne1ucQrplGZfTLHaAWvuXob067LvMZiW6OUYdaA1En
+ L4okyHwTfN6kPRosWEqEmBNSLH55rvKXgBKB7IfA=
+Date: Thu, 13 May 2021 13:46:32 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH 4/5] hw/ppc/fdt: Drop dependency on libfdt
-Message-ID: <YJyg+h7NC2ktmHSx@yekko>
+Subject: Re: [RFC PATCH 3/5] hw/ppc: Have pSeries depends on libfdt (via host
+ Kconfig FDT symbol)
+Message-ID: <YJyhGJFH4C53BCFq@yekko>
 References: <20210511155354.3069141-1-philmd@redhat.com>
- <20210511155354.3069141-5-philmd@redhat.com>
- <YJs938JVdO5SRYSs@yekko>
- <ead2acca-d3da-89e5-52f6-e8ae14f6e85f@redhat.com>
+ <20210511155354.3069141-4-philmd@redhat.com>
+ <YJs9BH+j1FAMIOjP@yekko>
+ <83800531-8c99-0dca-d324-484dd6c57df6@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MG7yO6xuDdpxT3kY"
+ protocol="application/pgp-signature"; boundary="QteM4l+5PMXZadYY"
 Content-Disposition: inline
-In-Reply-To: <ead2acca-d3da-89e5-52f6-e8ae14f6e85f@redhat.com>
+In-Reply-To: <83800531-8c99-0dca-d324-484dd6c57df6@redhat.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -68,92 +69,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---MG7yO6xuDdpxT3kY
+--QteM4l+5PMXZadYY
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 12, 2021 at 09:59:00AM +0200, Paolo Bonzini wrote:
-> On 12/05/21 04:30, David Gibson wrote:
-> > On Tue, May 11, 2021 at 05:53:53PM +0200, Philippe Mathieu-Daud=E9 wrot=
+On Wed, May 12, 2021 at 10:01:20AM +0200, Paolo Bonzini wrote:
+> On 12/05/21 04:27, David Gibson wrote:
+> > On Tue, May 11, 2021 at 05:53:52PM +0200, Philippe Mathieu-Daud=E9 wrot=
 e:
-> > > hw/ppc/fdt.c defines the ppc_create_page_sizes_prop() function,
-> > > which is unrelated to the libfdt. Remove the incorrect library
-> > > dependency on the file.
+> > > Since commit fea35ca4b8e ("ppc/spapr: Receive and store device
+> > > tree blob from SLOF") the pSeries machine depends on the libfdt
+> > > fdt_check_full() call, which is available in libfdt v1.4.7.
 > > >=20
-> > > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> >=20
-> > This is definitely wrong as it stands.  AFAICT this doesn't add a
-> > build of hw/ppc/fdt.c anywhere, but it is definitely needed by both
-> > pseries and powernv machine types, who select FDT_PPC for this exact
-> > reason.
-> >=20
-> > I will grant you that it is badly named.  It is in fact related to
-> > libfdt, just rather indirectly.
->=20
-> The patch makes sense in general.  The file is only needed for pseries and
-> powernv, not for e.g. e500 which does need fdt.
-
-Yes, agreed.
-
-> I would get rid of FDT_PPC completely.  First, before patch 3, you can mo=
-ve
-> fdt.c to PSERIES and POWERNV (it's too small to need its own Kconfig symb=
-ol)
-> and only leave
->=20
->    ppc_ss.add(when: 'CONFIG_FDT_PPC', if_true: fdt)
-
-Uh... why do we need even this?
-
-> Since you are at it, remove the silly #ifdef TARGET_PPC64 in the
-> hw/ppc/fdt.c file.
->=20
-> Then in patch 3:
->=20
-> - add to Kconfig.host
->=20
->     config FDT
->        bool
->=20
->     config LIBFDT
->        bool
->        depends on FDT
-
-Um.. I'm not sure what semantic difference you're envisaging between
-FDT and LIBFDT.
-
-> - for all the boards I listed in my review, add "select LIBFDT" in additi=
-on
-> to "depends on FDT".
->=20
-> - add to meson.build
->=20
->     softmmu_ss.add(when: 'CONFIG_LIBFDT', if_true: fdt)
->=20
-> Paolo
->=20
-> > > ---
-> > >   hw/ppc/meson.build | 4 ++--
-> > >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > > Add the corresponding Kconfig dependency.
 > > >=20
-> > > diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-> > > index e82a6b4105b..580e6e42c8a 100644
-> > > --- a/hw/ppc/meson.build
-> > > +++ b/hw/ppc/meson.build
-> > > @@ -3,9 +3,9 @@
-> > >     'ppc.c',
-> > >     'ppc_booke.c',
-> > >   ))
-> > > -ppc_ss.add(when: 'CONFIG_FDT_PPC', if_true: [files(
-> > > +ppc_ss.add(when: 'CONFIG_FDT_PPC', if_true: files(
-> > >     'fdt.c',
-> > > -), fdt])
-> > > +))
-> > >   ppc_ss.add(when: 'CONFIG_FW_CFG_PPC', if_true: files('fw_cfg.c'))
-> > >   # IBM pSeries (sPAPR)
-> >=20
+> > > Signed-off-by: Philippe Mathieu-Daud=E9<philmd@redhat.com>
+> > I don't love making this conditional.  Pseries is by far the best
+> > tested and most widely used ppc machine type, so it seems like it
+> > would break expectations to not compile this in rather than giving an
+> > error saying you need a newer libfdt.
 >=20
+> It's not conditional; if libfdt is not found, scripts/minikconf.py will t=
+ell
+> you about the contradiction between CONFIG_PSERIES=3Dy and "CONFIG_PSERIES
+> depends on FDT".
+>=20
+> So we still have the same "fdt_required" logic that is already in
+> meson.build, but expressed as Kconfig rules instead of a random line in
+> default-configs/targets.
+
+Oh, ok.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -161,25 +107,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---MG7yO6xuDdpxT3kY
+--QteM4l+5PMXZadYY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCcoPoACgkQbDjKyiDZ
-s5LUiw//Xb937yqe6v0S1lfxaEdU0KzNoH5mShSfIyimA0Sg91KB0aE7z1+Z1oiF
-CEcq1ha4gHsDbMwDJAq9R5JO4E40K4ac6pU9qHAL2azXE+WcwupJxqDv6Yb2uB3l
-T8YqFvgUYzZ97m0Ac0JVl+mQlw2EuRjzG/tyd1O7d4njl9HpzLKmkwVoRAWt18lE
-JpgFIumGhUEiDwDlgbQC1t//edNK83vUdsoLJj28938E52fdBABU1s5nE8vglosR
-3rF6Upu1qmr5ghUpNCSiiIjjuegepGgyhI3qBY2Yn7lxuaOcFVubv+7EXuh9Bs7g
-evTH+kgp76/jjxkwEYGbgwFTmMMOX64tVwhgJM2YRHrEPdxBbrj7k0J46WTwiJXe
-Ij3S7Uqzl68MuHoNYydYEEHB0ciXo8bAWa7ulkF99afoJlIzhkyNFIS1Xctubum/
-vCaupm4LBZsD7TLKrfKo0LySjnBPBJGC7U1jbhefZmpLOx9+iutV0K/q4j5t1zRJ
-XO3LmHNsDklg52I8KiTJto7GlQRFSZyvfuiW8h3VU3Ti3oypT4DaMHLF+HsZb6qB
-SQtX53yMDxg7LflH7qNHRUObXLnAPukPkNqL/VsLQOoMeE4k6alca9alFhBFsKZP
-ENhq7Zb+0EijxsY4wwfaOtHASvgale4Pk2JzcEBGJEMjdLjmIGw=
-=YxDS
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCcoRgACgkQbDjKyiDZ
+s5K1eg//dlHqxewQw583fNVpjb6Q+FIBDrLq/dVJ83cARbsBfAog+v+iF9MLA+t8
+b6AN0rgsh0bV3ptHal5yz9UEko4qbVbjmW/mMEm90Xi8Fmidxs4Mq9ku9oYuqTik
+OlCUcSY3rfs0vKysnWSc19wNtWlPAO9FBDI3j/gY9MKoeVUa8uLt2crsnk+408YC
+eUgpVruMKoMnSaFvZ82lWxZIq+M4F2VqDXkkaaRupezn2zUpeYa2AgetO96utPNn
+svWGPRYnw12X4DWbkT1YMtSMr+4VHCyUicncHS/TBk1cyoXRCvtMwtjO7G4ObrgN
+W2ILaHnogAlwgEOvGgwAWEBSS6TkwrBD4jFbYwZtoB3lJ+0h9e1JZZSbvCgXIL37
+uNptHUN+ruWWXIfXTJ4BE6dDvcoCVwKKjbwCiOK572wbAi+U3uqqLp3wRgX5LChD
+g+axp+noRbfpB0EvNJV5lDtC/dS5/Q1UC1Dy6GaEnf2n99hXv19loourbmkQT4CH
+xx9Wf3KOvNt5CyF3h8SXt+27uK9gJEILzlzJQ3m7zKVGMp/avRZ7jwTHwMHn1Ok1
+tniNAXqWHu97By4nOrveMl/Q++JoLrg3Ssy/h8yDVc3bkF/0/3REmB8kJE8UFZUH
+39nKE9ppupVHvOcR/noUonCdacasvfytIT7QjAwRC2ClatlEI3A=
+=KK+C
 -----END PGP SIGNATURE-----
 
---MG7yO6xuDdpxT3kY--
+--QteM4l+5PMXZadYY--
 
