@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE61D37F5D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:48:54 +0200 (CEST)
-Received: from localhost ([::1]:44774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9C737F5F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:52:52 +0200 (CEST)
+Received: from localhost ([::1]:51984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh8th-0001It-SU
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36698)
+	id 1lh8xS-0006Em-7W
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lh8mv-0001tm-OP
- for qemu-devel@nongnu.org; Thu, 13 May 2021 06:41:53 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:44894)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lh8nB-0002Qx-Q5
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 06:42:09 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:33428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lh8mu-00089h-0O
- for qemu-devel@nongnu.org; Thu, 13 May 2021 06:41:53 -0400
-Received: by mail-ed1-x535.google.com with SMTP id t15so2764676edr.11
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 03:41:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lh8nA-0008JG-9A
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 06:42:09 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id 1so19416751qtb.0
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 03:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YRgz+940QUUeHZ6Dx+I5CLIBiAjIfalu1aRivEnE7nM=;
- b=KqEQBD7x4v1Jt3g8oYx3Nli13s73PX4OsPBswxzDWTCMxs7rXpUUAPAkDf5noY/dAY
- bhVFUfADmH29Yaa+JAAqTBWBTz9GiRzHVPLSUBE49KdLim6P+xEaYuVoEX9Ju/xmbt0s
- QKkvX0+d/X0V0aW4LEtvIQleK+22U8tlsWq6JrA8JKKXyapCa/tUtwpTIfeRVcjE7NDo
- 9/QQ0Hh5dEYKtL4s3vxl9CXzh0/e9+y3A15M9sU9+MHOG/5PYD+CTJNcf3PVGHRuqi0/
- pLHJPkzaxzSSX37LmHinn0N8W6asNbHP+lxz8PdFIGWMVXRTWSvIjNnx6I3CeWhDU4ev
- gD8Q==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wWG59j86E6zusGCWN6VOgKRmDlN8mgGM8idEkgDYLaE=;
+ b=Qb5RYHw7likRUtonREng2KR6YkVDCsFvbUEa9I/b9/4P1TiX1W52Bub6/DSWOXuVxI
+ 9fd2cQ3GSE7Hpebq5Y6b0NU0KKOYT+vUQ7cTo+24wp6q/zCyY95Eem1Ki9fGaycncnvo
+ yCI1SclxnLbV8gkc5dRIpeH1QrniKCSMMkXeLkyFgwtztkOWrHjw1W7ZgO7fCmedpTh5
+ ElbmxEwTuKOMFKhI43dBiYDys8HA/wL8itS8+pNGnsJnlsz2E7lCx0kBad6X+rv6NCNF
+ lbQogQxWzU56rNX2o0RIIL4e0qhN3tQorOTMcN3h7fyXrWNS90EER45adiOpc7TUDscI
+ qKHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YRgz+940QUUeHZ6Dx+I5CLIBiAjIfalu1aRivEnE7nM=;
- b=aD8tILk6rQ51/pSiyImHpifD5E+11+QCyhZFwqFFCwNDS43K1jKG7vh1DBu5IgtM1f
- +HX+X6wmm54juD85XMOQL8eMXPJUYMoOS0xrGggxkx+OwN9uWVDKwjMdOTHAeaKAiu8E
- qGf2IdKbrbdDHkMoC1BE4gZ4JH02+SmqnbWGafDG85p2GfPLjGutWgV9SMYM21AZ1OR+
- OX3q8OrL2YE6XqkfPV8JmGcjfgH/kmY9xd9Q37RIJgWbB7pXmDZpJxeUgRlBtv+6WUc4
- Rp5nSu4w2gTWJ/NwwFUoaajpqJSSiYnutG2i/BS8bg5vASe7XynV+HwEWnm+1Q0Hxhyl
- OYbw==
-X-Gm-Message-State: AOAM533cnhJHVBJIcggzTmDsmpqy4eIS16JZVCyRTLjIRMmIGDJArh+G
- 0smR78vsiXnCJ78ZSl0dxZNQX/VEnV096V4wvpRxCQ==
-X-Google-Smtp-Source: ABdhPJwJr6LRjGZ2f3gXx0yDcAfAAJPq86q+1Q/IZl0YykXggfHPTUErUy+60rAO7dHVi23YSoVArHVBRZR68QYmyqg=
-X-Received: by 2002:a05:6402:12d3:: with SMTP id
- k19mr48932399edx.52.1620902510414; 
- Thu, 13 May 2021 03:41:50 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wWG59j86E6zusGCWN6VOgKRmDlN8mgGM8idEkgDYLaE=;
+ b=SzYt3yrfgwS1pVNW5i8qK9KDB0zm/emzPt2zYgERI2RnT2akALuEEgTKQZxR5FLGnp
+ QNfkl5mqRZsmwGck0TaMs7Q4/kk4Ky7Ho0Gh5LWXoNUg+xAFVzVMId5R1FXAch6iyXnw
+ ZJ+10mYbx3b7ztRSmWxmy0oaz0O9QcMdCKq950BqLtjYcBU5bJBGryHaCiT4T5XdNmnp
+ hyTqhHm99sozwsRujtI5iUOEWvFLP5uEEqGJjGCD8smtq5k20IVcQF0UHTYrJY/wbvp/
+ 5iw7J/JAHNz+u99o0prT2MDSyrKO6PUEcM+AqH1akXK8vjTRaKcFn4A70r1G9u4Gq/oT
+ SmMg==
+X-Gm-Message-State: AOAM532q9P0qP2s+jwmDyCmK8qkGzBYRzB1HuUwjJci8SEb9OtdAjjjc
+ pIZcR4hlfxy6IP1QeBf3FIHrQw==
+X-Google-Smtp-Source: ABdhPJxy0Rr5UxWE6HhGcrg8W2rlxF8rLyLH45MfLlrSR8SzcCjKyI1Am3RRSdqPbAatmp1K40gRaA==
+X-Received: by 2002:ac8:5cc4:: with SMTP id s4mr36894938qta.214.1620902527312; 
+ Thu, 13 May 2021 03:42:07 -0700 (PDT)
+Received: from [192.168.183.155] (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id c141sm2043052qke.12.2021.05.13.03.42.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 May 2021 03:42:07 -0700 (PDT)
+Subject: Re: [PATCH v4 23/31] TCG: add tcg_constant_tl
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
+ <20210512185441.3619828-24-matheus.ferst@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9b38239c-e1eb-d869-1d79-124bdef7e621@linaro.org>
+Date: Thu, 13 May 2021 05:42:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-48-richard.henderson@linaro.org>
-In-Reply-To: <20210430202610.1136687-48-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 May 2021 11:41:39 +0100
-Message-ID: <CAFEAcA_8NxjLN78kMUNGa2VvqxixX2NNWcUB2nZD8eiO16dniA@mail.gmail.com>
-Subject: Re: [PATCH v6 47/82] target/arm: Implement SVE2 SPLICE, EXT
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+In-Reply-To: <20210512185441.3619828-24-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,27 +88,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Stephen Long <steplong@quicinc.com>
+Cc: lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
+ luis.pires@eldorado.org.br, f4bug@amsat.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 22:13, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> From: Stephen Long <steplong@quicinc.com>
->
-> Signed-off-by: Stephen Long <steplong@quicinc.com>
-> Message-Id: <20200423180347.9403-1-steplong@quicinc.com>
-> [rth: Rename the trans_* functions to *_sve2.]
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 5/12/21 1:54 PM, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> 
+> Used in D/DS/X-form load/store implementation.
+> 
+> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > ---
->  target/arm/sve.decode      | 11 +++++++++--
->  target/arm/translate-sve.c | 35 ++++++++++++++++++++++++++++++-----
->  2 files changed, 39 insertions(+), 7 deletions(-)
+>   include/tcg/tcg-op.h | 2 ++
+>   1 file changed, 2 insertions(+)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Ah, thanks.  Queuing to tcg-next.
 
-thanks
--- PMM
+
+r~
 
