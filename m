@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5DEF37F52E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:01:05 +0200 (CEST)
-Received: from localhost ([::1]:57274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 264FE37F52D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:01:02 +0200 (CEST)
+Received: from localhost ([::1]:56948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh89Q-0007AY-Ni
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:01:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53658)
+	id 1lh89N-0006xR-0c
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:01:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh84e-0007EK-C8
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21651)
+ id 1lh84t-0007cC-BU
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh84a-0006s7-7L
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:07 -0400
+ id 1lh84q-000702-VO
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620899763;
+ s=mimecast20190719; t=1620899779;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+6Mhd5XeycAfvk7PxD4KaujqSaPnL7L4hsRx1neTb+o=;
- b=bIsSNw1oc3h9If3hk3gstis3SKo2gWvz8DtF4mktJ60tjZu4AQW8Ujl2ySq7x8cIV+Z6l+
- DjNXWQoSiJYFJpNMwOHaiwyPSc1NzqGCajnOaadZl4aS8WyUkD5cD1rR+MY0kEtE2bY94c
- alwGsU12rDB2zKHXwBjVms7geI1bzuo=
+ bh=J4uBmpMEZbPRwIr1KFVMnkXuXpIKsQE2kC8kpOC21Mc=;
+ b=dhzTs5KlqJSoPkEFo4/Y7Wdf791MZICCyWYayapN/otgG4txOrgVgsS6LKyQ9JsFKTu1xO
+ NvDls4cVTyXsY2w+3INBEPoguiS8czneD64PGeOQEH+gRlYnF43dQQO+NWSZ6glYI8RtCo
+ RvOzuiPfTXhpq++X0G+fU7IMIzkWl6c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-600-vDWXVDHJOyyZg9oUciSTbA-1; Thu, 13 May 2021 05:56:00 -0400
-X-MC-Unique: vDWXVDHJOyyZg9oUciSTbA-1
+ us-mta-292-OnLHY3_gMHGgl_aTij3b3w-1; Thu, 13 May 2021 05:56:16 -0400
+X-MC-Unique: OnLHY3_gMHGgl_aTij3b3w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 754601860C82;
- Thu, 13 May 2021 09:55:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDCF4107ACE4;
+ Thu, 13 May 2021 09:56:14 +0000 (UTC)
 Received: from localhost.redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1363910016FC;
- Thu, 13 May 2021 09:55:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A8CB10027A5;
+ Thu, 13 May 2021 09:56:12 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/22] tests/docker: fix mistakes in fedora package list
-Date: Thu, 13 May 2021 10:55:05 +0100
-Message-Id: <20210513095519.1213675-9-berrange@redhat.com>
+Subject: [PATCH v3 11/22] tests/docker: expand centos8 package list
+Date: Thu, 13 May 2021 10:55:08 +0100
+Message-Id: <20210513095519.1213675-12-berrange@redhat.com>
 In-Reply-To: <20210513095519.1213675-1-berrange@redhat.com>
 References: <20210513095519.1213675-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -89,28 +89,121 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-libblockdev-mpath-devel is not used by QEMU, rather it wants
-device-mapper-multipath-devel.
+This is the fully expanded list of build pre-requisites QEMU can
+conceivably use in any scenario.
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/fedora.docker | 1 -
- 1 file changed, 1 deletion(-)
+ tests/docker/dockerfiles/centos8.docker | 66 +++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 6528b57a2f..1a0830eedf 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -28,7 +28,6 @@ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 06df2db5f0..c95664c65a 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -3,35 +3,101 @@ FROM docker.io/centos:8
+ RUN dnf -y update
+ ENV PACKAGES \
+     SDL2-devel \
++    alsa-lib-devel \
++    bc \
++    brlapi-devel \
+     bzip2 \
+     bzip2-devel \
++    ca-certificates \
++    capstone-devel \
++    ccache \
++    clang \
++    ctags \
++    cyrus-sasl-devel \
++    daxctl-devel \
+     dbus-daemon \
++    device-mapper-multipath-devel \
+     diffutils \
++    findutils \
+     gcc \
+     gcc-c++ \
+     genisoimage \
+     gettext \
+     git \
+     glib2-devel \
++    glibc-langpack-en \
++    glibc-static \
++    glusterfs-api-devel \
++    gnutls-devel \
++    gtk3-devel \
++    hostname \
++    jemalloc-devel \
      libaio-devel \
-     libasan \
-     libattr-devel \
--    libblockdev-mpath-devel \
++    libasan \
++    libattr-devel \
      libcacard-devel \
-     libcap-ng-devel \
-     libcurl-devel \
++    libcap-ng-devel \
++    libcurl-devel \
++    libdrm-devel \
+     libepoxy-devel \
+     libfdt-devel \
+     libgcrypt-devel \
++    libiscsi-devel \
++    libjpeg-devel \
++    libnfs-devel \
++    libpmem-devel \
++    libpng-devel \
++    librbd-devel \
++    libseccomp-devel \
++    libslirp-devel \
++    libssh-devel \
++    libtasn1-devel \
++    libubsan \
++    libudev-devel \
++    libusbx-devel \
++    libxml2-devel \
++    libzstd-devel \
++    llvm \
+     lzo-devel \
+     make \
+     mesa-libgbm-devel \
++    ncurses-devel \
+     nettle-devel \
+     ninja-build \
+     nmap-ncat \
++    numactl-devel \
++    openssh-clients \
++    pam-devel \
++    perl \
+     perl-Test-Harness \
+     pixman-devel \
++    pkgconfig \
++    pulseaudio-libs-devel \
+     python3 \
++    python3-PyYAML \
++    python3-numpy \
++    python3-pillow \
++    python3-pip \
++    python3-setuptools \
++    python3-sphinx \
++    python3-virtualenv \
++    python3-wheel \
+     rdma-core-devel \
++    rpm \
++    sed \
++    snappy-devel \
+     spice-protocol \
+     spice-server-devel \
++    systemd-devel \
+     systemtap-sdt-devel \
+     tar \
++    texinfo \
++    usbredir-devel \
++    util-linux \
++    virglrenderer-devel \
++    vte291-devel \
++    which \
++    xfsprogs-devel \
+     zlib-devel
+ 
+ RUN dnf install -y dnf-plugins-core && \
 -- 
 2.31.1
 
