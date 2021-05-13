@@ -2,52 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D532537FA4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 17:10:57 +0200 (CEST)
-Received: from localhost ([::1]:50434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D56237FA7B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 17:18:59 +0200 (CEST)
+Received: from localhost ([::1]:56928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhCzI-0000F1-El
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 11:10:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47208)
+	id 1lhD74-0005HS-A8
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 11:18:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lhCxE-0007uy-6B
- for qemu-devel@nongnu.org; Thu, 13 May 2021 11:08:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53666)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lhD5W-0004ZI-Vt
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 11:17:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lhCxA-0005Vp-8I
- for qemu-devel@nongnu.org; Thu, 13 May 2021 11:08:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BC94E613BF;
- Thu, 13 May 2021 15:08:39 +0000 (UTC)
-Date: Thu, 13 May 2021 16:08:37 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v11 2/6] arm64: kvm: Introduce MTE VM feature
-Message-ID: <20210513150835.GA6801@arm.com>
-References: <20210416154309.22129-3-steven.price@arm.com>
- <20210428170705.GB4022@arm.com>
- <c3293d47-a5f2-ea4a-6730-f5cae26d8a7e@arm.com>
- <YJGHApOCXl811VK3@arm.com>
- <329286e8-a8f3-ea1a-1802-58813255a4a5@arm.com>
- <20210507182538.GF26528@arm.com> <20210510183506.GA10910@arm.com>
- <c891d4eb-b388-1658-8c8a-e76477062463@arm.com>
- <20210512174502.GC12391@arm.com>
- <7c1cb7c8-6ab4-62bd-fa17-2fb7be6d7f09@arm.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lhD5S-0001wN-Lw
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 11:17:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620919037;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=plGZ6EYFhgfcbD6CttUJwb+KtVzvu/Hk/P8QWtV1g5I=;
+ b=f9ASSWC5ejeEftfC8NnOJHrX689K82kKQz44EfpObKpNDxr2z8glT5Kl0POvWEju5PE2HQ
+ j/a85qVPNtKKTgZCQix8CXoA9Wsyyzr1dGqZcZHhB9XwB1rhW1nORWy0XDxTHToNwlMXFE
+ 3DfIm/VMIBHAWSl5b3mGGrrHXoBqntI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-i83YhoSWOiiDSHQg0dUSMQ-1; Thu, 13 May 2021 11:17:14 -0400
+X-MC-Unique: i83YhoSWOiiDSHQg0dUSMQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32D7E1007477;
+ Thu, 13 May 2021 15:17:12 +0000 (UTC)
+Received: from localhost (ovpn-113-21.ams2.redhat.com [10.36.113.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A21D55D6AC;
+ Thu, 13 May 2021 15:17:04 +0000 (UTC)
+Date: Thu, 13 May 2021 16:17:03 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+Subject: Re: [RFC PATCH 0/9] Support for Virtio-fs daemon crash reconnection
+Message-ID: <YJ1C752kyBYW9ltm@stefanha-x1.localdomain>
+References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
+ <CAFQAk7gH7DUi0-wDANQQBHTPgdtQxv34k+6tr9vzftPLqJt6KQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <CAFQAk7gH7DUi0-wDANQQBHTPgdtQxv34k+6tr9vzftPLqJt6KQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="QoZnNghw2jTIKK7p"
 Content-Disposition: inline
-In-Reply-To: <7c1cb7c8-6ab4-62bd-fa17-2fb7be6d7f09@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,183 +79,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Xie Yongji <xieyongji@bytedance.com>,
+ virtio-fs-list <virtio-fs@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 13, 2021 at 11:57:39AM +0100, Steven Price wrote:
-> On 12/05/2021 18:45, Catalin Marinas wrote:
-> > On Wed, May 12, 2021 at 04:46:48PM +0100, Steven Price wrote:
-> >>>>>> On Thu, Apr 29, 2021 at 05:06:41PM +0100, Steven Price wrote:
-> >>>>>>> Given the changes to set_pte_at() which means that tags are restored from
-> >>>>>>> swap even if !PROT_MTE, the only race I can see remaining is the creation of
-> >>>>>>> new PROT_MTE mappings. As you mention an attempt to change mappings in the
-> >>>>>>> VMM memory space should involve a mmu notifier call which I think serialises
-> >>>>>>> this. So the remaining issue is doing this in a separate address space.
-> >>>>>>>
-> >>>>>>> So I guess the potential problem is:
-> >>>>>>>
-> >>>>>>>    * allocate memory MAP_SHARED but !PROT_MTE
-> >>>>>>>    * fork()
-> >>>>>>>    * VM causes a fault in parent address space
-> >>>>>>>    * child does a mprotect(PROT_MTE)
-> >>>>>>>
-> >>>>>>> With the last two potentially racing. Sadly I can't see a good way of
-> >>>>>>> handling that.
-[...]
-> >> 4. Sledgehammer locking in mte_sync_page_tags(), add a spinlock only for
-> >> the MTE case where we have to sync tags (see below). What the actual
-> >> performance impact of this is I've no idea. It could certainly be bad
-> >> if there are a lot of pages with MTE enabled, which sadly is exactly
-> >> the case if KVM is used with MTE :(
-> >>
-> >> --->8----
-> >> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-> >> index 0d320c060ebe..389ad40256f6 100644
-> >> --- a/arch/arm64/kernel/mte.c
-> >> +++ b/arch/arm64/kernel/mte.c
-> >> @@ -25,23 +25,33 @@
-> >>  u64 gcr_kernel_excl __ro_after_init;
-> >>  static bool report_fault_once = true;
-> >> +static spinlock_t tag_sync_lock;
-> >>  static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap,
-> >>  			       bool pte_is_tagged)
-> >>  {
-> >>  	pte_t old_pte = READ_ONCE(*ptep);
-> >> +	if (!is_swap_pte(old_pte) && !pte_is_tagged)
-> >> +		return;
-> >> +
-> >> +	spin_lock_irqsave(&tag_sync_lock, flags);
-> >> +
-> >> +	/* Recheck with the lock held */
-> >> +	if (test_bit(PG_mte_tagged, &page->flags))
-> >> +		goto out;
-> > 
-> > Can we skip the lock if the page already has the PG_mte_tagged set?
-> > That's assuming that we set the flag only after clearing the tags. The
-> > normal case where mprotect() is called on a page already mapped with
-> > PROT_MTE would not be affected.
-> 
-> It was missing from the diff context (sorry, should have double checked
-> that), but I was keeping the check in mte_sync_tags():
-> 
->   void mte_sync_tags(pte_t *ptep, pte_t pte)
->   {
-> 	struct page *page = pte_page(pte);
-> 	long i, nr_pages = compound_nr(page);
-> 	bool check_swap = nr_pages == 1;
-> 	bool pte_is_tagged = pte_tagged(pte);
-> 	unsigned long flags;
-> 
-> 	/* Early out if there's nothing to do */
-> 	if (!check_swap && !pte_is_tagged)
-> 		return;
-> 
-> 	/* if PG_mte_tagged is set, tags have already been initialised */
-> 	for (i = 0; i < nr_pages; i++, page++) {
-> 		if (!test_bit(PG_mte_tagged, &page->flags))
-> 			mte_sync_page_tags(page, ptep, check_swap,
-> 					   pte_is_tagged);
-> 	}
->   }
-> 
-> So the hit is only taken if !PG_mte_tagged - hence the "recheck" comment
-> in mte_sync_page_tags() once the lock is held. I guess if I'm going this
-> route it would make sense to refactor this to be a bit clearer.
+--QoZnNghw2jTIKK7p
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think we can go with this for now but we should still raise it with
-the mm folk, maybe they have a better idea on how to avoid the race in
-the core code. There are other architectures affected, those that use
-PG_arch_1.
+On Mon, May 10, 2021 at 10:38:05PM +0800, Jiachen Zhang wrote:
+> Hi all,
+>=20
+>=20
+> We are going to develop the v2 patch for virtio-fs crash reconnection. As
+> suggested by Marc-Andr=E9 and Stefan, except for the inflight I/O trackin=
+g
+> log area, all the other internal statuses of virtiofsd will be saved to
+> some places other than QEMU. Specifically, the three lo_maps (ino_map,
+> dirp_map, and fd_map) could be saved to several mmapped files, and the
+> opened fds could be saved to systemd. I'd like to get some feedback on ou=
+r
+> further thoughts before we work on the revision.
+>=20
+>=20
+> 1. What about by default save the opened fds as file handles to host
+> kernel, instead of saving them to systemd. After some internal discussion=
+,
+> we think introducing systemd may introduce more uncertainness to the
+> system, as we need to create one service for each daemon, and all the
+> daemons may suffer the single-point failure of the systemd process.
 
-As the kernel stands currently, we'd take the lock on any set_pte_at()
-for a tagged page when first mapped. With Peter's patches to use DC
-GZVA, the tag zeroing is done on allocation. Until those are merged, we
-could do something similar in the arch code but without the DC GZVA
-optimisation (useful if we need to cc this fix to stable):
+I don't think saving file handles works 100%. The difference between an
+open fd and a file handle is what happens when the inode is deleted. If
+an external process deletes the inode during restart and then the fd
+keeps it alive while a file handle becomes stale and the inode is gone.
 
-----------8<--------------------------
-From 9f445f794454cf139c0953391e6c30fa3f075dc1 Mon Sep 17 00:00:00 2001
-From: Catalin Marinas <catalin.marinas@arm.com>
-Date: Thu, 13 May 2021 14:15:37 +0100
-Subject: [PATCH] arm64: Handle MTE tags zeroing in
- __alloc_zeroed_user_highpage()
+Regarding systemd, it's pid 1 and cannot die - otherwise the system is
+broken.
 
-Currently, on an anonymous page fault, the kernel allocates a zeroed
-page and maps it in user space. If the mapping is tagged (PROT_MTE),
-set_pte_at() additionally clears the tags under a spinlock to avoid a
-race on the page->flags. In order to optimise the lock, clear the page
-tags on allocation in __alloc_zeroed_user_highpage() if the vma flags
-have VM_MTE set.
+But in any case I think there are multiple options here. Whether you
+choose to systemd, implement the sd_notify(3) protocol in your own
+parent process, or take a different approach like a parent process with
+clone(2) CLONE_FILES to avoid the communication overhead for saving
+every fd, I think all of those approaches would be reasonable.
 
-Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
----
- arch/arm64/include/asm/page.h |  6 ++++--
- arch/arm64/mm/fault.c         | 21 +++++++++++++++++++++
- 2 files changed, 25 insertions(+), 2 deletions(-)
+> 2. Like the btree map implementation (multikey.rs) of virtiofsd-rs, what
+> about splitting the flatten lo_map implementation, which supports to be
+> persisted to files, from passhtrough_ll.c to a new separated source file.
+> This way, maybe we can more easily wrap it with some Rust compatible
+> interfaces, and enable crash recovery for virtiofsd-rs based on it.
 
-diff --git a/arch/arm64/include/asm/page.h b/arch/arm64/include/asm/page.h
-index 012cffc574e8..97853570d0f1 100644
---- a/arch/arm64/include/asm/page.h
-+++ b/arch/arm64/include/asm/page.h
-@@ -13,6 +13,7 @@
- #ifndef __ASSEMBLY__
- 
- #include <linux/personality.h> /* for READ_IMPLIES_EXEC */
-+#include <linux/types.h>
- #include <asm/pgtable-types.h>
- 
- struct page;
-@@ -28,8 +29,9 @@ void copy_user_highpage(struct page *to, struct page *from,
- void copy_highpage(struct page *to, struct page *from);
- #define __HAVE_ARCH_COPY_HIGHPAGE
- 
--#define __alloc_zeroed_user_highpage(movableflags, vma, vaddr) \
--	alloc_page_vma(GFP_HIGHUSER | __GFP_ZERO | movableflags, vma, vaddr)
-+struct page *__alloc_zeroed_user_highpage(gfp_t movableflags,
-+					  struct vm_area_struct *vma,
-+					  unsigned long vaddr);
- #define __HAVE_ARCH_ALLOC_ZEROED_USER_HIGHPAGE
- 
- #define clear_user_page(page, vaddr, pg)	clear_page(page)
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 871c82ab0a30..5a03428e97f3 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -921,3 +921,24 @@ void do_debug_exception(unsigned long addr_if_watchpoint, unsigned int esr,
- 	debug_exception_exit(regs);
- }
- NOKPROBE_SYMBOL(do_debug_exception);
-+
-+/*
-+ * Used during anonymous page fault handling.
-+ */
-+struct page *__alloc_zeroed_user_highpage(gfp_t movableflags,
-+					  struct vm_area_struct *vma,
-+					  unsigned long vaddr)
-+{
-+	struct page *page;
-+	bool tagged = system_supports_mte() && (vma->vm_flags & VM_MTE);
-+
-+	page = alloc_page_vma(GFP_HIGHUSER | __GFP_ZERO | movableflags, vma,
-+			      vaddr);
-+	if (tagged && page) {
-+		mte_clear_page_tags(page_address(page));
-+		page_kasan_tag_reset(page);
-+		set_bit(PG_mte_tagged, &page->flags);
-+	}
-+
-+	return page;
-+}
+In the past two months I've noticed the number of virtiofsd-rs merge
+requests has increased and I think the trend is that new development is
+focussing on virtiofsd-rs.
+
+If it fits into your plans then focussing on virtiofsd-rs would be fine
+and then there is no need to worry about Rust compatible interfaces for
+C virtiofsd.
+
+> 3. What about dropping the dirp_map, and integrate the opened directory f=
+ds
+> to fd_map. The virtiofsd-rs implementation only has two maps (inodes and
+> handles). In the C version, dirp_map may also unnecessary.
+
+Maybe, but carefully:
+
+The purpose of the maps is to safely isolate the client from the
+virtiofsd's internal objects. The way I remember it is that C virtiofsd
+has a separate dirp map to prevent type confusion between regular open
+files and directories. The client must not trick the server into calling
+readdir(3) on something that's not a struct dirent because that could be
+a security issue.
+
+However, it's possible that virtiofsd-rs is able to combine the two
+because it uses syscall APIs on file descriptors instead of libc
+opendir(3) so there is no possibility of type confusion. The syscall
+would simply fail if the file descriptor is not O_DIRECTORY.
+
+Stefan
+
+--QoZnNghw2jTIKK7p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCdQu8ACgkQnKSrs4Gr
+c8gE1ggAx/DMD6vK7M03AhlZWlcNvheewGIcaYwtqHR0HV4fznYMD1n9TBClC2lc
+uv6XzzWvWP9NYr6fryuS/lug2Zd30NrRfEOEAxY3LXlWl3u80Dp2hN+UaMk0hSbS
+SpIFXyPPQVBFyO0c/yIqjteqyLBN6/2PS6ZU9fXZM5o1sP4bAdXLl0P7YhoNHvze
+T4NED1LEpI+sKAyY+7SijWS6/1W5G5t6mNK8WB6A2JAwc8lNCjvvXBeg7Nc5l7uh
+2kTIRRdnXvP7doqcZpNn0cXbvZmbbngppjDl2OrY6surIWRRfJkZhRxbGEP9vl2m
+jP2WFcOzAEoobqa4LbeP4wGfYRXkLg==
+=D/xq
+-----END PGP SIGNATURE-----
+
+--QoZnNghw2jTIKK7p--
 
 
