@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DF937F823
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:48:05 +0200 (CEST)
-Received: from localhost ([::1]:38346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C200B37F815
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:38:57 +0200 (CEST)
+Received: from localhost ([::1]:45070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhAl2-0007OR-IW
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:48:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33210)
+	id 1lhAcC-0000yS-MW
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhAUY-0006p7-EI
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:31:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45782)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhAUS-0007CN-1P
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:31:02 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhAUN-00088w-VV
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:30:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 336962E8189
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:30:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lhAOQ-0004Nr-9h; Thu, 13 May 2021 08:24:42 -0400
+Received: from [201.28.113.2] (port=58078 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1lhAOL-0003Pa-9T; Thu, 13 May 2021 08:24:38 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 13 May 2021 09:24:33 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 13AE880139F;
+ Thu, 13 May 2021 09:24:33 -0300 (-03)
+Subject: Re: [PATCH v4 29/31] target/ppc: Implement cfuged instruction
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20210512185441.3619828-1-matheus.ferst@eldorado.org.br>
+ <20210512185441.3619828-30-matheus.ferst@eldorado.org.br>
+ <49b2a677-a3cc-b944-dd4d-edd115c81039@linaro.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <60f639cf-50e6-d967-a24b-a862b5a9e8fd@eldorado.org.br>
+Date: Thu, 13 May 2021 09:24:32 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 May 2021 12:22:47 -0000
-From: Thomas Huth <1908416@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm uefi windows windows10
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: raspiduino th-huth
-X-Launchpad-Bug-Reporter: A user (raspiduino)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160813009293.16281.11756114510615914668.malonedeb@soybean.canonical.com>
-Message-Id: <162090856710.16631.13386921984493401931.malone@soybean.canonical.com>
-Subject: [Bug 1908416] Re: qemu-system-aarch64 can't run Windows 10 for ARM
- version 2004
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: ac2c07289c3ff12faeffa0892e008b241d975ccb
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <49b2a677-a3cc-b944-dd4d-edd115c81039@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 13 May 2021 12:24:33.0429 (UTC)
+ FILETIME=[EE2CCC50:01D747F2]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,81 +61,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908416 <1908416@bugs.launchpad.net>
+Cc: lagarcia@br.ibm.com, bruno.larsen@eldorado.org.br,
+ luis.pires@eldorado.org.br, f4bug@amsat.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
+On 13/05/2021 08:31, Richard Henderson wrote:
+> On 5/12/21 1:54 PM, matheus.ferst@eldorado.org.br wrote:
+>> +    while (i) {
+>> +        n = ctz64(mask);
+>> +        if (n > i) {
+>> +            n = i;
+>> +        }
+>> +
+>> +        m = (1ll << n) - 1;
+>> +        if (bit) {
+>> +            right = ror64(right | (src & m), n);
+>> +        } else {
+>> +            left = ror64(left | (src & m), n);
+>> +        }
+>> +
+>> +        src >>= n;
+>> +        mask >>= n;
+>> +        i -= n;
+>> +        bit = !bit;
+>> +        mask = ~mask;
+>> +    }
+>> +
+>> +    if (bit) {
+>> +        n = ctpop64(mask);
+>> +    } else {
+>> +        n = 64 - ctpop64(mask);
+>> +    }
+>> +
+>> +    return left | (right >> n);
+>> +}
+> 
+> This doesn't correspond to the algorithm presented in the manual.  Thus 
+> this requires lots of extra commentary.
+> 
+> I guess I see how you're trying to process blocks at a time, instead of 
+> single bits at a time.  But I don't think the merging of data into 
+> "right" and "left" looks right.  I would have expected
+> 
+>      right = (right << n) | (src & m);
+> 
+> and similarly for left.
+> 
+> It doesn't look like that the ctpop at the end is correct, given how 
+> mask has been modified.  I would have thought that
+> 
+>      n = ctpop64(orig_mask);
+>      return (left << n) | right;
+> 
+> would be the correct answer.
+> 
+> I could be wrong about the above, but that's what the missing commentary 
+> should have helped me understand.
+> 
 
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
+It sure worth more comments. Yes, the idea is to process in blocks, and 
+we negate the mask to avoid deciding between ctz and cto inside the 
+loop. We use rotate instead of shift so it don't change the number of 
+zeros and ones, and then we don't need orig_mask.
 
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
+You'll find my test cases for cfuged and vcfuged on 
+https://github.com/PPC64/qemu/blob/ferst-tcg-cfuged/tests/tcg/ppc64le/ . 
+I got the same results by running them with this implementation and with 
+the Power10 Functional Simulator.
 
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
+>> +static bool trans_CFUGED(DisasContext *ctx, arg_X *a)
+>> +{
+>> +    REQUIRE_64BIT(ctx);
+>> +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+>> +#if defined(TARGET_PPC64)
+>> +    gen_helper_cfuged(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
+>> +#else
+>> +    gen_invalid(ctx);
+>> +#endif
+>> +    return true;
+>> +}
+> 
+> Given that this helper will also be used by vcfuged, there's no point in 
+> hiding it in a TARGET_PPC64 block, and thus you can drop the ifdefs.
+> 
+> 
+> r~
+> 
 
-    https://gitlab.com/qemu-project/qemu/-/issues
+If I remove it, the build for ppc will fail, because cpu_gpr is declared 
+as TCGv, and the helper uses i64 to match {get,set}_cpu_vsr{l,h}. 
+REQUIRE_64BIT makes the helper call unreachable for ppc, but it's a 
+runtime check. At build time, the compiler will check the types anyway, 
+and give us an error.
 
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
-
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" or "Confirmed" within the next 60 days (other-
-wise it will get closed as "Expired"). We will then eventually migrate
-the ticket automatically to the new system (but you won't be the reporter
-of the bug in the new system and thus you won't get notified on changes
-anymore).
-
-Thank you and sorry for the inconvenience.
-
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908416
-
-Title:
-  qemu-system-aarch64 can't run Windows 10 for ARM version 2004
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Problem: qemu-system-aarch64 can't run Windows 10 for ARM version 2004
-  (20H2) or newer
-
-  Host OS: Windows 10 x64 version 20H2
-  CPU    : Intel Pentium Dual-core T4300 (no vt-x)
-  QEMU   : QEMU version 5.1.0 from qemu.org
-
-  cmdline: qemu-system-aarch64.exe -M virt -cpu cortex-a72 -smp 3
-  --accel tcg,thread=3Dmulti -m 2048 -pflash QEMU_EFI.img -pflash
-  QEMU_VARS.img -device VGA -device nec-usb-xhci -device usb-kbd -device
-  usb-mouse -device usb-storage,drive=3Dcdrom -drive
-  file=3D"isofile.iso",media=3Dcdrom,if=3Dnone,id=3Dcdrom
-
-  Note: QEMU_VARS and QEMU_EFI are taken from edk2
-
-  Details: From this post (https://kitsunemimi.pw/notes/posts/running-
-  windows-10-for-arm64-in-a-qemu-virtual-machine.html) and from what I
-  have tried, QEMU can't run Windows ARM newer or equal to the 2004
-  version. When we boot a 2004 iso (made from uupdump.ml), it stuck as
-  the boot screen with the Windows ARM logo and nothing else. When I
-  check the machine state and registers through the QEMU monitor, it
-  shows that the VM is still running, but the registers are completely
-  frozen! But if I try the older version, like 19H2, it works! Please
-  help!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908416/+subscriptions
+-- 
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
