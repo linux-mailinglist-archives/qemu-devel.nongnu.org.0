@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2880237F57E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:19:33 +0200 (CEST)
-Received: from localhost ([::1]:36054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F1837F55D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 12:11:56 +0200 (CEST)
+Received: from localhost ([::1]:47770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh8RI-0006WL-6K
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:19:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53804)
+	id 1lh8Jt-0003XH-7x
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 06:11:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh84z-0007oy-2k
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49657)
+ id 1lh858-0008Qw-Dm
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh84x-00074w-51
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:28 -0400
+ id 1lh856-0007Aj-Iq
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:56:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620899786;
+ s=mimecast20190719; t=1620899796;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KkmTdF24x9Vmome0dmlgKfSNkVwvQZe2qc1PzwEHAVc=;
- b=JvJUXyM24BIDckLHLKTMWXy9b19GNclawWrqbSbRyegCv8vWhbXvSqiNr7muYVV1R0cfxX
- P8UQvsTaye6L1xaeChqasIMpgibZY5JVk1GG5JThusbA5J4cjsHXu8n5VfUw9q5CppxA7g
- V0/R0hAfMEQoUPojgWMUoabiY8gbJlk=
+ bh=YoAEf6fu1BXQmAB8IPTuT5aM6yMr6Q2EZF/O13cbD+o=;
+ b=Ibayg1PfGMmDIVzliuORCd4OreQgE6e8UvPtFt0oCEfq339L542hrkvgob1lSf+BL7eRDu
+ kizMZ6jUZK93Kl/Uy2DzaL6ckdrQAxNfY+Z3Xj8DpHGdk3HhA/sLc8+JEhdIz1cJK2YauZ
+ Bh4AA9vjn9KvkyZ8x+r2vEWO36D1erg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-wsk0JqKcNregXKnyqpCAig-1; Thu, 13 May 2021 05:56:24 -0400
-X-MC-Unique: wsk0JqKcNregXKnyqpCAig-1
+ us-mta-24-KoCBUcKANz-3fKhhbJoH0w-1; Thu, 13 May 2021 05:56:34 -0400
+X-MC-Unique: KoCBUcKANz-3fKhhbJoH0w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F721106BB31;
- Thu, 13 May 2021 09:56:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E1428049C5;
+ Thu, 13 May 2021 09:56:33 +0000 (UTC)
 Received: from localhost.redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A63010016F4;
- Thu, 13 May 2021 09:56:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD1E210016F4;
+ Thu, 13 May 2021 09:56:23 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/22] tests/docker: expand ubuntu2004 package list
-Date: Thu, 13 May 2021 10:55:11 +0100
-Message-Id: <20210513095519.1213675-15-berrange@redhat.com>
+Subject: [PATCH v3 15/22] tests/docker: expand opensuse-leap package list
+Date: Thu, 13 May 2021 10:55:12 +0100
+Message-Id: <20210513095519.1213675-16-berrange@redhat.com>
 In-Reply-To: <20210513095519.1213675-1-berrange@redhat.com>
 References: <20210513095519.1213675-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -95,125 +95,122 @@ conceivably use in any scenario.
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/ubuntu2004.docker | 50 +++++++++++++++++++++-
- 1 file changed, 48 insertions(+), 2 deletions(-)
+ tests/docker/dockerfiles/opensuse-leap.docker | 57 ++++++++++++++++++-
+ 1 file changed, 56 insertions(+), 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index d655d020fb..8be4c40c9e 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -1,24 +1,43 @@
- FROM docker.io/library/ubuntu:20.04
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index ed194125a7..0f67296a8f 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -2,52 +2,107 @@ FROM registry.opensuse.org/opensuse/leap:15.2
+ 
+ # Please keep this list sorted alphabetically
  ENV PACKAGES \
-+    bc \
-     bsdmainutils \
-+    bzip2 \
++    Mesa-devel \
++    alsa-lib-devel \
+     bc \
+     brlapi-devel \
+     bzip2 \
 +    ca-certificates \
-     ccache \
-     clang \
-+    dbus \
-+    debianutils \
++    ccache \
++    clang \
++    ctags \
+     cyrus-sasl-devel \
++    dbus-1 \
 +    diffutils \
-+    exuberant-ctags \
 +    findutils \
-+    g++ \
      gcc \
-     gcovr \
-     genisoimage \
-     gettext \
+     gcc-c++ \
++    gcovr \
+     gettext-runtime \
      git \
+     glib2-devel \
++    glibc-locale \
++    glibc-static \
+     glusterfs-devel \
+     gtk3-devel \
 +    hostname \
-     libaio-dev \
-+    libasan5 \
-+    libasound2-dev \
-     libattr1-dev \
-     libbrlapi-dev \
-     libbz2-dev \
-+    libc6-dev \
-     libcacard-dev \
-     libcap-ng-dev \
-+    libcapstone-dev \
-     libcurl4-gnutls-dev \
-+    libdaxctl-dev \
-     libdrm-dev \
-     libepoxy-dev \
-     libfdt-dev \
-     libgbm-dev \
-+    libgcrypt20-dev \
-+    libglib2.0-dev \
-+    libglusterfs-dev \
-+    libgnutls28-dev \
-     libgtk-3-dev \
-     libibverbs-dev \
-     libiscsi-dev \
-@@ -29,38 +48,65 @@ ENV PACKAGES \
-     libncursesw5-dev \
-     libnfs-dev \
-     libnuma-dev \
-+    libpam0g-dev \
-     libpixman-1-dev \
-+    libpmem-dev \
-+    libpng-dev \
-+    libpulse-dev \
-     librbd-dev \
-     librdmacm-dev \
-     libsasl2-dev \
-     libsdl2-dev \
-+    libsdl2-image-dev \
-     libseccomp-dev \
-     libslirp-dev \
-     libsnappy-dev \
-     libspice-protocol-dev \
-     libspice-server-dev \
-     libssh-dev \
-+    libsystemd-dev \
-+    libtasn1-6-dev \
-+    libtest-harness-perl \
++    jemalloc-devel \
+     libSDL2-devel \
+     libSDL2_image-devel \
+     libaio-devel \
++    libasan6 \
+     libattr-devel \
++    libbz2-devel \
++    libcacard-devel \
+     libcap-ng-devel \
++    libcurl-devel \
++    libdrm-devel \
+     libepoxy-devel \
+     libfdt-devel \
++    libgcrypt-devel \
+     libgnutls-devel \
+     libiscsi-devel \
+     libjpeg8-devel \
++    libndctl-devel \
++    libnettle-devel \
++    libnfs-devel \
+     libnuma-devel \
+     libpixman-1-0-devel \
+     libpmem-devel \
+     libpng16-devel \
++    libpulse-devel \
+     librbd-devel \
+     libseccomp-devel \
+     libspice-server-devel \
+     libssh-devel \
++    libtasn1-devel \
 +    libubsan1 \
-+    libudev-dev \
-     libusb-1.0-0-dev \
-     libusbredirhost-dev \
-     libvdeplug-dev \
-+    libvirglrenderer-dev \
-     libvte-2.91-dev \
-     libxen-dev \
-+    libxml2-dev \
-     libzstd-dev \
++    libudev-devel \
++    libusb-1_0-devel \
++    libxml2-devel \
++    libzstd-devel \
 +    llvm \
-+    locales \
++    lttng-ust-devel \
+     lzo-devel \
      make \
-+    multipath-tools \
-     ncat \
-+    nettle-dev \
-     ninja-build \
-+    openssh-client \
+     mkisofs \
++    ncat \
+     ncurses-devel \
+     ninja \
+-    perl \
++    openssh \
++    pam-devel \
++    perl-Test-Harness \
 +    perl-base \
-+    pkgconf \
-+    python3 \
-     python3-numpy \
-     python3-opencv \
--    python3-pil \
-+    python3-pillow \
-     python3-pip \
++    pkgconfig \
++    python3-Pillow \
++    python3-PyYAML \
++    python3-Sphinx \
+     python3-base \
++    python3-numpy \
++    python3-opencv \
++    python3-pip \
 +    python3-setuptools \
-     python3-sphinx \
-     python3-venv \
+     python3-virtualenv \
 +    python3-wheel \
-     python3-yaml \
-     rpm2cpio \
+     rdma-core-devel \
++    rpm \
 +    sed \
-     sparse \
-+    systemtap-sdt-dev \
-+    tar \
-     tesseract-ocr \
-     tesseract-ocr-eng \
--    xfslibs-dev
+     snappy-devel \
++    sparse \
++    spice-protocol-devel \
+     systemd-devel \
+     systemtap-sdt-devel \
+     tar \
++    tesseract-ocr \
++    tesseract-ocr-traineddata-english \
 +    texinfo \
-+    xfslibs-dev \
-+    zlib1g-dev
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
- RUN dpkg -l $PACKAGES | sort > /packages.txt
+     usbredir-devel \
++    util-linux \
+     virglrenderer-devel \
+     vte-devel \
++    which \
+     xen-devel \
++    xfsprogs-devel \
+     zlib-devel
+ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
+ 
 -- 
 2.31.1
 
