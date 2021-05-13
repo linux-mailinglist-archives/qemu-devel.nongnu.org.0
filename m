@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2E537F525
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 11:59:04 +0200 (CEST)
-Received: from localhost ([::1]:51766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E4837F522
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 11:58:16 +0200 (CEST)
+Received: from localhost ([::1]:48890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh87S-0003P1-Ui
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 05:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53552)
+	id 1lh86h-0001UM-CC
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 05:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh84S-0006pV-B2
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:55:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36579)
+ id 1lh84V-00071Z-UF
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:55:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lh84I-0006ff-Md
- for qemu-devel@nongnu.org; Thu, 13 May 2021 05:55:56 -0400
+ id 1lh84T-0006nz-R6
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:55:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620899745;
+ s=mimecast20190719; t=1620899756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u0qDc4u/zZT6Mv0uJ4NixEdIM7/bS+wgO07+6ZDdnno=;
- b=ZgMTC79Urb8PUAGjZQDr09r/ghr+VioD0NaUWvEBcrOwPRYAjnlXoC67ciDdKSRsOpQf5k
- lcvhAPu48hYn2VIkhdPgQtnwt+s0SEuyaBzLSkexyqp1AudIFvgJjnx29fFPADatyzm/AP
- msJMoQtlZJwm7QCw7lREqn0rG5JXQdk=
+ bh=/fHiZtNIUfcuxWe6ngAmOWiSSUkBcdrRmg32a9D+FY0=;
+ b=K3tyTvNgP2fS6aac3y71Y4/AWh9GFbIJCtzvC8/zjAoOIs5I7pn7RurCXJeJmrh4l5Ph7b
+ PcD/xdPimC6YiiDrVGSNpWgWNC0341HYIDeuGAwkjQgjMADjvDrrt8e457pasv63KaZTa4
+ MPKwogTjdK/JdHpEf9XhoQwj2MXo/TI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-cjzzYz0OPV2CYFS1PzStNw-1; Thu, 13 May 2021 05:55:42 -0400
-X-MC-Unique: cjzzYz0OPV2CYFS1PzStNw-1
+ us-mta-455-eifnIHbrMCCrbpy0L3TnDw-1; Thu, 13 May 2021 05:55:55 -0400
+X-MC-Unique: eifnIHbrMCCrbpy0L3TnDw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DCD8106BAE5;
- Thu, 13 May 2021 09:55:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3DD0801817;
+ Thu, 13 May 2021 09:55:53 +0000 (UTC)
 Received: from localhost.redhat.com (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 266EB10027A5;
- Thu, 13 May 2021 09:55:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8847310027A5;
+ Thu, 13 May 2021 09:55:51 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/22] tests/docker: use explicit docker.io registry
-Date: Thu, 13 May 2021 10:55:01 +0100
-Message-Id: <20210513095519.1213675-5-berrange@redhat.com>
+Subject: [PATCH v3 06/22] tests/docker: fix sorting in package lists
+Date: Thu, 13 May 2021 10:55:03 +0100
+Message-Id: <20210513095519.1213675-7-berrange@redhat.com>
 In-Reply-To: <20210513095519.1213675-1-berrange@redhat.com>
 References: <20210513095519.1213675-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -89,107 +89,168 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is good practice to use an explicit registry for referencing the base
-image. This is because some distros will inject their own registries
-into the search path. For example registry.fedoraproject.org comes ahead
-of docker.io. Using an explicit registry avoids wasting time querying
-multiple registries for images that they won't have.
+This will make diffs in later patches clearer.
 
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/centos8.docker             | 2 +-
- tests/docker/dockerfiles/debian-xtensa-cross.docker | 2 +-
- tests/docker/dockerfiles/debian10.docker            | 2 +-
- tests/docker/dockerfiles/debian11.docker            | 2 +-
- tests/docker/dockerfiles/ubuntu.docker              | 2 +-
- tests/docker/dockerfiles/ubuntu1804.docker          | 2 +-
- tests/docker/dockerfiles/ubuntu2004.docker          | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
+ tests/docker/dockerfiles/centos8.docker       |  2 +-
+ tests/docker/dockerfiles/fedora.docker        |  4 ++--
+ tests/docker/dockerfiles/opensuse-leap.docker | 16 ++++++++--------
+ tests/docker/dockerfiles/ubuntu1804.docker    |  4 ++--
+ tests/docker/dockerfiles/ubuntu2004.docker    |  8 +++++---
+ 5 files changed, 18 insertions(+), 16 deletions(-)
 
 diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 92c0ed34b8..4f77c754e2 100644
+index 4f77c754e2..f1023d1cec 100644
 --- a/tests/docker/dockerfiles/centos8.docker
 +++ b/tests/docker/dockerfiles/centos8.docker
-@@ -1,4 +1,4 @@
--FROM centos:8.3.2011
-+FROM docker.io/centos:8
+@@ -21,9 +21,9 @@ ENV PACKAGES \
+     lzo-devel \
+     make \
+     mesa-libEGL-devel \
+-    nmap-ncat \
+     nettle-devel \
+     ninja-build \
++    nmap-ncat \
+     perl-Test-Harness \
+     pixman-devel \
+     python36 \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index fee33a84d1..6528b57a2f 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -2,6 +2,7 @@ FROM registry.fedoraproject.org/fedora:33
  
- RUN dnf -y update
+ # Please keep this list sorted alphabetically
  ENV PACKAGES \
-diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-index ba4148299c..2f11b3b7bc 100644
---- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
-+++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-@@ -5,7 +5,7 @@
- # using a prebuilt toolchains for Xtensa cores from:
- # https://github.com/foss-xtensa/toolchain/releases
- #
--FROM debian:stretch-slim
-+FROM docker.io/library/debian:stretch-slim
++    SDL2-devel \
+     bc \
+     brlapi-devel \
+     bzip2 \
+@@ -77,10 +78,10 @@ ENV PACKAGES \
+     mingw64-pixman \
+     mingw64-pkg-config \
+     mingw64-SDL2 \
+-    nmap-ncat \
+     ncurses-devel \
+     nettle-devel \
+     ninja-build \
++    nmap-ncat \
+     numactl-devel \
+     perl \
+     perl-Test-Harness \
+@@ -94,7 +95,6 @@ ENV PACKAGES \
+     python3-sphinx \
+     python3-virtualenv \
+     rdma-core-devel \
+-    SDL2-devel \
+     snappy-devel \
+     sparse \
+     spice-server-devel \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index e7dc14bf99..ed194125a7 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -8,46 +8,46 @@ ENV PACKAGES \
+     cyrus-sasl-devel \
+     gcc \
+     gcc-c++ \
+-    mkisofs \
+     gettext-runtime \
+     git \
+     glib2-devel \
+     glusterfs-devel \
+-    libgnutls-devel \
+     gtk3-devel \
++    libSDL2-devel \
++    libSDL2_image-devel \
+     libaio-devel \
+     libattr-devel \
+     libcap-ng-devel \
+     libepoxy-devel \
+     libfdt-devel \
++    libgnutls-devel \
+     libiscsi-devel \
+     libjpeg8-devel \
++    libnuma-devel \
++    libpixman-1-0-devel \
+     libpmem-devel \
+     libpng16-devel \
+     librbd-devel \
+     libseccomp-devel \
++    libspice-server-devel \
+     libssh-devel \
+     lzo-devel \
+     make \
+-    libSDL2_image-devel \
++    mkisofs \
+     ncurses-devel \
+     ninja \
+-    libnuma-devel \
+     perl \
+-    libpixman-1-0-devel \
+     python3-base \
+     python3-virtualenv \
+     rdma-core-devel \
+-    libSDL2-devel \
+     snappy-devel \
+-    libspice-server-devel \
+     systemd-devel \
+     systemtap-sdt-devel \
+     tar \
+     usbredir-devel \
+     virglrenderer-devel \
+-    xen-devel \
+     vte-devel \
++    xen-devel \
+     zlib-devel
+ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
  
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index d034acbd25..ad9c128370 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -7,7 +7,7 @@
- # On its own you can't build much but the docker-foo-cross targets
- # build on top of the base debian image.
- #
--FROM debian:buster-slim
-+FROM docker.io/library/debian:buster-slim
- 
- # Duplicate deb line as deb-src
- RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
-diff --git a/tests/docker/dockerfiles/debian11.docker b/tests/docker/dockerfiles/debian11.docker
-index 5adfd62d55..febf884f8f 100644
---- a/tests/docker/dockerfiles/debian11.docker
-+++ b/tests/docker/dockerfiles/debian11.docker
-@@ -8,7 +8,7 @@
- # On its own you can't build much but the docker-foo-cross targets
- # build on top of the base debian image.
- #
--FROM debian:bullseye-slim
-+FROM docker.io/library/debian:bullseye-slim
- 
- # Duplicate deb line as deb-src
- RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
-diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
-index 9dec1c4bc6..ef44b0e360 100644
---- a/tests/docker/dockerfiles/ubuntu.docker
-+++ b/tests/docker/dockerfiles/ubuntu.docker
-@@ -9,7 +9,7 @@
- # system won't pick up that it has changed.
- #
- 
--FROM ubuntu:20.04
-+FROM docker.io/library/ubuntu:20.04
- ENV PACKAGES \
-     ccache \
-     clang \
 diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index aacea8627a..751e6503f8 100644
+index 3534111637..58a373e205 100644
 --- a/tests/docker/dockerfiles/ubuntu1804.docker
 +++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -1,4 +1,4 @@
--FROM ubuntu:18.04
-+FROM docker.io/library/ubuntu:18.04
- ENV PACKAGES \
-     ccache \
-     clang \
+@@ -45,9 +45,9 @@ ENV PACKAGES \
+     libxen-dev \
+     libzstd-dev \
+     make \
+-    python3-yaml \
+-    python3-sphinx \
+     ninja-build \
++    python3-sphinx \
++    python3-yaml \
+     sparse \
+     xfslibs-dev
+ RUN apt-get update && \
 diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 7f32990bcd..0e761f4553 100644
+index 1f3dbd3b91..5044f4d9b7 100644
 --- a/tests/docker/dockerfiles/ubuntu2004.docker
 +++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -1,4 +1,4 @@
--FROM ubuntu:20.04
-+FROM docker.io/library/ubuntu:20.04
- ENV PACKAGES flex bison \
+@@ -1,8 +1,10 @@
+ FROM docker.io/library/ubuntu:20.04
+-ENV PACKAGES flex bison \
++ENV PACKAGES \
++    bison \
      bsdmainutils \
      ccache \
+     clang-10\
++    flex \
+     gcc \
+     gcovr \
+     genisoimage \
+@@ -63,8 +65,8 @@ ENV PACKAGES flex bison \
+     sparse \
+     tesseract-ocr \
+     tesseract-ocr-eng \
+-    xfslibs-dev\
+-    vim
++    vim \
++    xfslibs-dev
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+ RUN dpkg -l $PACKAGES | sort > /packages.txt
 -- 
 2.31.1
 
