@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE95437F855
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 15:01:38 +0200 (CEST)
-Received: from localhost ([::1]:60656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB1037F85E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 15:04:22 +0200 (CEST)
+Received: from localhost ([::1]:36048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhAy4-0006G3-RG
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 09:01:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37258)
+	id 1lhB0i-0000Oz-CY
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 09:04:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhAoJ-0004aR-2g
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:51:28 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:38632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhAoH-0001zp-5I
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:51:26 -0400
-Received: by mail-ej1-x636.google.com with SMTP id b25so39634120eju.5
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 05:51:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bjGwETyRrcaxYXQpUQGpvNb02HUmdWjyeRqGBHhiYqc=;
- b=BTKhNuLQqC2TRdoSsrCilZbTslePSG3L+9tdwJteZda3Al73ukH3Zw605ouQSCn8Yn
- oM3E7bcOx8kq3xLp1OKJzshbXCy2SwgTifk+8P+omYap3+ciPsix5bx+SzWHU23hbmbY
- xuL7MQMXtm2nXlz8SocoPfxdgu5Zrb7INunJwU93Gtc2q9XI6zdyqUVwL3sBoAcm9iJ4
- T9hZ3dopT2q+Y2pBhX+DTH92r43qTm94nf0QcT2AiFrPgM8uIaPHx8XmzC/uALcjkv4q
- IdohdnUDvqDc0GEDwxdN7yj7aiCb7DYNEr8jkfWartgk9P3tt5LEEeRMbMotKUp3IFy9
- gnEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bjGwETyRrcaxYXQpUQGpvNb02HUmdWjyeRqGBHhiYqc=;
- b=GN6+MTPEh1uRM4dBLOmzC72ypi5mI0LJqfzlDau+kbpO9951v5VUCagiDsk9r9yORr
- kjNrX4YcmD0iyLJ25gvUgZvGDCMpvEUWbi11vk1xkQXwJoSIBTkkGQQS8fJrzch0T+Y9
- cPYs1lt/hNQ7lkOAf0RbPYvLnwweBIsTpqxLJpBUzJZMQxyKOkxrGyZustBoNX4uxUzb
- iMuCjov7vX95usuK1oxLE/5X5kGH2hNlyUNGxr2+fZ+e0SSRfSF/1qYnRYMVaQsuxESJ
- 234v04wiTwrVBokn/LwM5zaSPACigk8XKJHPqZeCbShRHf8ozQxfFwPJ3rFWnwtrM3SK
- F6Hw==
-X-Gm-Message-State: AOAM530gBIRniUKuKObpwKaEFZleEWOS8SlS0O6SXDyYtz6aX0H6tIbJ
- R6WtsjvJBRfvWBgabIurI+pVmzByTljXhvhoVa27Ow==
-X-Google-Smtp-Source: ABdhPJy598Ds6IIkIzOHsBTLyGMsaskFkC7YkoNgp3MZsNzjQvi0L3ZmtEaX1aVTkZL09VwUFF4jXLBP7v9xPdgSAU0=
-X-Received: by 2002:a17:906:d1d2:: with SMTP id
- bs18mr21574981ejb.56.1620910283161; 
- Thu, 13 May 2021 05:51:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lhAtK-00015o-1o; Thu, 13 May 2021 08:56:38 -0400
+Received: from [201.28.113.2] (port=63520 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lhAtG-0004uY-NT; Thu, 13 May 2021 08:56:37 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 13 May 2021 09:56:28 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id 3E0B880139F;
+ Thu, 13 May 2021 09:56:28 -0300 (-03)
+Subject: Re: [RFC PATCH 10/11] target/ppc: created tcg-stub.c file
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
+ <20210512140813.112884-11-bruno.larsen@eldorado.org.br>
+ <YJykOuYj9xgjVPZQ@yekko>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <4954165f-c4fe-aad8-3d0f-070297e6722c@eldorado.org.br>
+Date: Thu, 13 May 2021 09:56:27 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-59-richard.henderson@linaro.org>
-In-Reply-To: <20210430202610.1136687-59-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 May 2021 13:51:11 +0100
-Message-ID: <CAFEAcA-m4zxP38sn+TCsFFy1=u1D38UFzateqkvpFiR2Q0-HdQ@mail.gmail.com>
-Subject: Re: [PATCH v6 58/82] target/arm: Implement SVE2 saturating multiply
- high (indexed)
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YJykOuYj9xgjVPZQ@yekko>
+Content-Type: multipart/alternative;
+ boundary="------------7046AE5CCC6B8073A174F9B3"
+Content-Language: en-US
+X-OriginalArrivalTime: 13 May 2021 12:56:28.0574 (UTC)
+ FILETIME=[63B0BBE0:01D747F7]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,23 +60,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 22:11, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper.h        | 14 ++++++
->  target/arm/sve.decode      |  8 ++++
->  target/arm/translate-sve.c |  8 ++++
->  target/arm/vec_helper.c    | 88 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 118 insertions(+)
+This is a multi-part message in MIME format.
+--------------7046AE5CCC6B8073A174F9B3
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+On 13/05/2021 00:59, David Gibson wrote:
+> On Wed, May 12, 2021 at 11:08:12AM -0300, Bruno Larsen (billionai) wrote:
+>> Created a file with stubs needed to compile disabling TCG.
+>>
+>> We're not sure about keeping the softmmu stubs in this file. if there is
+>> a better place to put them, please let us know.
+>>
+>> The other 3 functions have been stubbed because we didn't know what to
+>> do with them. Making the file compile in the !TCG case would create an
+>> ifdef hell, but extracting the functions meant moving many others as
+>> well, and there weren't any good places to put them.
+>>
+>> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+>> ---
+>>   target/ppc/tcg-stub.c | 33 +++++++++++++++++++++++++++++++++
+>>   1 file changed, 33 insertions(+)
+>>   create mode 100644 target/ppc/tcg-stub.c
+>>
+>> diff --git a/target/ppc/tcg-stub.c b/target/ppc/tcg-stub.c
+>> new file mode 100644
+>> index 0000000000..67099e2676
+>> --- /dev/null
+>> +++ b/target/ppc/tcg-stub.c
+>> @@ -0,0 +1,33 @@
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "exec/hwaddr.h"
+>> +#include "cpu.h"
+>> +#include "hw/ppc/spapr.h"
+>> +
+>> +hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+>> +{
+>> +    return 0;
+>> +}
+>> +
+>> +void dump_mmu(CPUPPCState *env)
+>> +{
+>> +}
+>> +
+>> +void ppc_tlb_invalidate_all(CPUPPCState *env)
+>> +{
+>> +}
+>> +
+>> +target_ulong softmmu_resize_hpt_prepare(PowerPCCPU *cpu,
+>> +                                        SpaprMachineState *spapr,
+>> +                                        target_ulong shift)
+>> +{
+>> +    g_assert_not_reached();
+>> +}
+>> +
+>> +target_ulong softmmu_resize_hpt_commit(PowerPCCPU* cpu,
+>> +                                       SpaprMachineState *spapr,
+>> +                                       target_ulong flags,
+>> +                                       target_ulong shift)
+>> +{
+>> +    g_assert_not_reached();
+>> +}
+> I think these last two stubs should be obsoleted by the patch from
+> Lucas I already merged "hw/ppc: moved hcalls that depend on softmmu".
+
+They aren't, when talking to him he said he wanted to use as few ifdefs 
+as possible. Which do you think is better, to go back and ifdef away 
+those calls, or keep the stubs? And if we keep the stubs, do we keep 
+them here or in hw/ppc/spapr_hcall.c, along with other stubs?
+
+-- 
+
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+
+--------------7046AE5CCC6B8073A174F9B3
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 13/05/2021 00:59, David Gibson
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:YJykOuYj9xgjVPZQ@yekko">
+      <pre class="moz-quote-pre" wrap="">On Wed, May 12, 2021 at 11:08:12AM -0300, Bruno Larsen (billionai) wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Created a file with stubs needed to compile disabling TCG.
+
+We're not sure about keeping the softmmu stubs in this file. if there is
+a better place to put them, please let us know.
+
+The other 3 functions have been stubbed because we didn't know what to
+do with them. Making the file compile in the !TCG case would create an
+ifdef hell, but extracting the functions meant moving many others as
+well, and there weren't any good places to put them.
+
+Signed-off-by: Bruno Larsen (billionai) <a class="moz-txt-link-rfc2396E" href="mailto:bruno.larsen@eldorado.org.br">&lt;bruno.larsen@eldorado.org.br&gt;</a>
+---
+ target/ppc/tcg-stub.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+ create mode 100644 target/ppc/tcg-stub.c
+
+diff --git a/target/ppc/tcg-stub.c b/target/ppc/tcg-stub.c
+new file mode 100644
+index 0000000000..67099e2676
+--- /dev/null
++++ b/target/ppc/tcg-stub.c
+@@ -0,0 +1,33 @@
++
++#include "qemu/osdep.h"
++#include "exec/hwaddr.h"
++#include "cpu.h"
++#include "hw/ppc/spapr.h"
++
++hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
++{
++    return 0;
++}
++
++void dump_mmu(CPUPPCState *env)
++{
++}
++
++void ppc_tlb_invalidate_all(CPUPPCState *env)
++{
++}
++
++target_ulong softmmu_resize_hpt_prepare(PowerPCCPU *cpu,
++                                        SpaprMachineState *spapr,
++                                        target_ulong shift)
++{
++    g_assert_not_reached();
++}
++
++target_ulong softmmu_resize_hpt_commit(PowerPCCPU* cpu,
++                                       SpaprMachineState *spapr,
++                                       target_ulong flags,
++                                       target_ulong shift)
++{
++    g_assert_not_reached();
++}
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+I think these last two stubs should be obsoleted by the patch from
+Lucas I already merged "hw/ppc: moved hcalls that depend on softmmu".
+</pre>
+    </blockquote>
+    <p>They aren't, when talking to him he said he wanted to use as few
+      ifdefs as possible. Which do you think is better, to go back and
+      ifdef away those calls, or keep the stubs? And if we keep the
+      stubs, do we keep them here or in hw/ppc/spapr_hcall.c, along with
+      other stubs?<br>
+    </p>
+    <p>-- <br>
+    </p>
+    <div class="moz-signature">Bruno Piazera Larsen<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------7046AE5CCC6B8073A174F9B3--
 
