@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15F737FDEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 21:12:39 +0200 (CEST)
-Received: from localhost ([::1]:60296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897C137FDEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 21:14:25 +0200 (CEST)
+Received: from localhost ([::1]:34338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhGlC-00023n-HX
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 15:12:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46058)
+	id 1lhGmu-0003ce-Ly
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 15:14:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lhGjr-0001IK-OS
- for qemu-devel@nongnu.org; Thu, 13 May 2021 15:11:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36327)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lhGjn-0005oi-UV
- for qemu-devel@nongnu.org; Thu, 13 May 2021 15:11:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620933070;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mVi8fAg78nITj3P3v7AZGlu4+wiB0viF8BafvvSl08c=;
- b=VKYRtGV/rlkT0YA1aVN8m9MRdgeDb6nBp2iOGpDOxZ7/sQq4RPGDRIU7EbGgNGflCz8hQl
- yk/QE7YdwdeXyzB1FHtPg4oXV6Dp1n+9cDRRLCCixi5kAyjDQ+YEc6Eb+TM/Uop/egpw5o
- 3Nz7/e7+32TlEXxI+zJxoLLJNbP0bCE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-Ne8UKScdM82xojnBtU5bTg-1; Thu, 13 May 2021 15:11:08 -0400
-X-MC-Unique: Ne8UKScdM82xojnBtU5bTg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87C2E8042C2;
- Thu, 13 May 2021 19:11:06 +0000 (UTC)
-Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF68277F18;
- Thu, 13 May 2021 19:10:29 +0000 (UTC)
-Subject: Re: [PATCH v3 03/11] Python: add utility function for retrieving port
- redirection
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210412044644.55083-1-crosa@redhat.com>
- <20210412044644.55083-4-crosa@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <f873ee02-078d-e0e4-2a2b-92e250120552@redhat.com>
-Date: Thu, 13 May 2021 15:10:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lhGlP-0002iY-Q1
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 15:12:52 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:47091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lhGlM-0006sL-MV
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 15:12:51 -0400
+Received: by mail-ej1-x633.google.com with SMTP id u21so41306323ejo.13
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:12:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Qih8cY0/5K7BkszrcRcC3R2MT9DYvphAiqANgo3Jvtw=;
+ b=fijzUPwz2UtENsxrAlOYasjEcalYZ19o82Qmeh0svOKYemLi1oLA+fmK+J0Y1YHS0H
+ UIyvrUPb0o0bHRBARasu08rUGeTCjzFuXoAklfrahTilNR+NQfwBpeP1CoOK6zAg0cSC
+ HzBWTNYJwvEKI6erSMD1raQncZ2x7zXXJU3DzPDLisihfyCl7qTt9gCm8HAWo8SNdnrP
+ ukou0x0sTt9Dutg3260AKbww8gDUlxByAPSwcHkzNqEWFujxJUfW3nd+VE9Kdg6CFtuI
+ ToMp1FlmVq4wESp6q8e51uXxybbRY3b2Y9VkplI6jT6XxKHzvgcPtOPo47NfCsYuQfai
+ l1Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Qih8cY0/5K7BkszrcRcC3R2MT9DYvphAiqANgo3Jvtw=;
+ b=d+W2+N1K++HgCReVBgx0uS+FG2pOQ/+Ad/Uq9UkPgbd0Nb1V1QhDczA2Uh7lzVi1JV
+ i6Mu3YA/88cc324rpb95xEKz/jDLnKwCfdry6vkINfq+jeFV4D8xZ37Z1/rNO4KXYyru
+ nEuSPqhbGGCJKlVA3NwCNxPjegFkhwsEyT4JHw5xD/a6aWOLEJ0Ud3yaWjEFzCnQib2J
+ jFfSrljwnoWn2jAurxukASTChMmIxHK22ojUeL//Q8XRXRe10j+XraIQ0bM56DVvIY6k
+ fJoA8Jp8P6j4o+AxbXRnXKITV3VBZJMqbzI5wFFHguwP0zqSIsKcLWYOcdAh4gvFmgLk
+ FF9g==
+X-Gm-Message-State: AOAM533laR4t7efvyhCH3ofxTJ4Rvw6CH6iD9CE63zKs3rvF3HpLTy0H
+ 7ff0jXsTBzbCf4RHvM0L4UP8wymlbMTHoM8GHgiouQ==
+X-Google-Smtp-Source: ABdhPJyp4e2xzxXgD5kq+le8NCdQOHCSo8RZqA1sDCG7Hhua18WIdkLBAGsoVR3HYlg1ti/iaURmpWDgqp1jgRADAYk=
+X-Received: by 2002:a17:906:d8cb:: with SMTP id
+ re11mr630524ejb.482.1620933166790; 
+ Thu, 13 May 2021 12:12:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210412044644.55083-4-crosa@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+References: <20210512084020.606871-1-pbonzini@redhat.com>
+In-Reply-To: <20210512084020.606871-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 May 2021 20:12:35 +0100
+Message-ID: <CAFEAcA_EkFT2UCgGsgHYrFNZNn0S42aWOzw1DC+9OEzuerFvTw@mail.gmail.com>
+Subject: Re: [PULL v2 00/32] Misc (mostly i386) patches for 2021-05-11
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,227 +79,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Beraldo Leal <bleal@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/12/21 12:46 AM, Cleber Rosa wrote:
-> Slightly different versions for the same utility code are currently
-> present on different locations.  This unifies them all, giving
-> preference to the version from virtiofs_submounts.py, because of the
-> last tweaks added to it.
-> 
-> While at it, this adds a "qemu.utils" module to host the utility
-> function and a test.
-> 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> ---
->   python/qemu/utils.py                     | 33 ++++++++++++++++++++++++
->   tests/acceptance/info_usernet.py         | 29 +++++++++++++++++++++
->   tests/acceptance/linux_ssh_mips_malta.py | 16 +++++-------
->   tests/acceptance/virtiofs_submounts.py   | 21 ++++-----------
->   tests/vm/basevm.py                       |  7 ++---
->   5 files changed, 76 insertions(+), 30 deletions(-)
->   create mode 100644 python/qemu/utils.py
->   create mode 100644 tests/acceptance/info_usernet.py
-> 
-> diff --git a/python/qemu/utils.py b/python/qemu/utils.py
-> new file mode 100644
-> index 00000000000..5ed789275ee
-> --- /dev/null
-> +++ b/python/qemu/utils.py
-> @@ -0,0 +1,33 @@
-> +"""
-> +QEMU utility library
-> +
-> +This offers miscellaneous utility functions, which may not be easily
-> +distinguishable or numerous to be in their own module.
-> +"""
-> +
-> +# Copyright (C) 2021 Red Hat Inc.
-> +#
-> +# Authors:
-> +#  Cleber Rosa <crosa@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2.  See
-> +# the COPYING file in the top-level directory.
-> +#
-> +
-> +import re
-> +from typing import Optional
-> +
-> +
-> +def get_info_usernet_hostfwd_port(info_usernet_output: str) -> Optional[int]:
-> +    """
-> +    Returns the port given to the hostfwd parameter via info usernet
-> +
-> +    :param info_usernet_output: output generated by hmp command "info usernet"
-> +    :return: the port number allocated by the hostfwd option
-> +    """
-> +    for line in info_usernet_output.split('\r\n'):
-> +        regex = r'TCP.HOST_FORWARD.*127\.0\.0\.1\s+(\d+)\s+10\.'
-> +        match = re.search(regex, line)
-> +        if match is not None:
-> +            return int(match[1])
-> +    return None
-> diff --git a/tests/acceptance/info_usernet.py b/tests/acceptance/info_usernet.py
-> new file mode 100644
-> index 00000000000..9c1fd903a0b
-> --- /dev/null
-> +++ b/tests/acceptance/info_usernet.py
-> @@ -0,0 +1,29 @@
-> +# Test for the hmp command "info usernet"
-> +#
-> +# Copyright (c) 2021 Red Hat, Inc.
-> +#
-> +# Author:
-> +#  Cleber Rosa <crosa@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +
-> +from avocado_qemu import Test
-> +
-> +from qemu.utils import get_info_usernet_hostfwd_port
-> +
-> +
-> +class InfoUsernet(Test):
-> +
-> +    def test_hostfwd(self):
-> +        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22')
-> +        self.vm.launch()
-> +        res = self.vm.command('human-monitor-command',
-> +                              command_line='info usernet')
-> +        port = get_info_usernet_hostfwd_port(res)
-> +        self.assertIsNotNone(port,
-> +                             ('"info usernet" output content does not seem to '
-> +                              'contain the redirected port'))
-> +        self.assertGreater(port, 0,
-> +                           ('Found a redirected port that is not greater than'
-> +                            ' zero'))
-> diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-> index 6dbd02d49d5..052008f02d4 100644
-> --- a/tests/acceptance/linux_ssh_mips_malta.py
-> +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> @@ -18,6 +18,8 @@
->   from avocado.utils import archive
->   from avocado.utils import ssh
->   
-> +from qemu.utils import get_info_usernet_hostfwd_port
-> +
->   
->   class LinuxSSH(Test):
->   
-> @@ -70,18 +72,14 @@ def get_kernel_info(self, endianess, wordsize):
->       def setUp(self):
->           super(LinuxSSH, self).setUp()
->   
-> -    def get_portfwd(self):
-> +    def ssh_connect(self, username, password):
-> +        self.ssh_logger = logging.getLogger('ssh')
->           res = self.vm.command('human-monitor-command',
->                                 command_line='info usernet')
-> -        line = res.split('\r\n')[2]
-> -        port = re.split(r'.*TCP.HOST_FORWARD.*127\.0\.0\.1 (\d+)\s+10\..*',
-> -                        line)[1]
-> +        port = get_info_usernet_hostfwd_port(res)
-> +        if not port:
-> +            self.cancel("Failed to retrieve SSH port")
->           self.log.debug("sshd listening on port:" + port)
-> -        return port
-> -
-> -    def ssh_connect(self, username, password):
-> -        self.ssh_logger = logging.getLogger('ssh')
-> -        port = self.get_portfwd()
->           self.ssh_session = ssh.Session(self.VM_IP, port=int(port),
->                                          user=username, password=password)
->           for i in range(10):
-> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
-> index ca64b76301f..57a7047342f 100644
-> --- a/tests/acceptance/virtiofs_submounts.py
-> +++ b/tests/acceptance/virtiofs_submounts.py
-> @@ -9,6 +9,8 @@
->   from avocado_qemu import wait_for_console_pattern
->   from avocado.utils import ssh
->   
-> +from qemu.utils import get_info_usernet_hostfwd_port
-> +
->   
->   def run_cmd(args):
->       subp = subprocess.Popen(args,
-> @@ -73,27 +75,14 @@ class VirtiofsSubmountsTest(LinuxTest):
->       :avocado: tags=accel:kvm
->       """
->   
-> -    def get_portfwd(self):
-> -        port = None
-> -
-> +    def ssh_connect(self, username, keyfile):
-> +        self.ssh_logger = logging.getLogger('ssh')
->           res = self.vm.command('human-monitor-command',
->                                 command_line='info usernet')
-> -        for line in res.split('\r\n'):
-> -            match = \
-> -                re.search(r'TCP.HOST_FORWARD.*127\.0\.0\.1\s+(\d+)\s+10\.',
-> -                          line)
-> -            if match is not None:
-> -                port = int(match[1])
-> -                break
-> -
-> +        port = get_info_usernet_hostfwd_port(res)
->           self.assertIsNotNone(port)
->           self.assertGreater(port, 0)
->           self.log.debug('sshd listening on port: %d', port)
-> -        return port
-> -
-> -    def ssh_connect(self, username, keyfile):
-> -        self.ssh_logger = logging.getLogger('ssh')
-> -        port = self.get_portfwd()
->           self.ssh_session = ssh.Session('127.0.0.1', port=port,
->                                          user=username, key=keyfile)
->           for i in range(10):
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 00f1d5ca8da..75ce07df364 100644
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -21,6 +21,7 @@
->   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
->   from qemu.accel import kvm_available
->   from qemu.machine import QEMUMachine
-> +from qemu.utils import get_info_usernet_hostfwd_port
->   import subprocess
->   import hashlib
->   import argparse
-> @@ -306,11 +307,7 @@ def boot(self, img, extra_args=[]):
->           self.console_init()
->           usernet_info = guest.qmp("human-monitor-command",
->                                    command_line="info usernet")
-> -        self.ssh_port = None
-> -        for l in usernet_info["return"].splitlines():
-> -            fields = l.split()
-> -            if "TCP[HOST_FORWARD]" in fields and "22" in fields:
-> -                self.ssh_port = l.split()[3]
-> +        self.ssh_port = get_info_usernet_hostfwd_port(usernet_info)
->           if not self.ssh_port:
->               raise Exception("Cannot find ssh port from 'info usernet':\n%s" % \
->                               usernet_info)
-> 
+On Wed, 12 May 2021 at 09:43, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit e58c7a3bba3076890592f02d2b0e596bf191b5=
+c2:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
+10510-1' into staging (2021-05-10 17:28:11 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to e804f892b90e58861edd79aafa4d1f4dbdeb3819:
+>
+>   coverity-scan: list components, move model to scripts/coverity-scan (20=
+21-05-12 04:06:50 -0400)
+>
+> ----------------------------------------------------------------
+> * AccelCPUClass and sysemu/user split for i386 (Claudio)
+> * i386 page walk unification
+> * Fix detection of gdbus-codegen
+> * Misc refactoring
+>
+> ----------------------------------------------------------------
+> v1->v2: dropped incorrect snapshot-load patch
 
-ACK on this.
+Something weird has happened here.
 
-Can we stick it on top of https://gitlab.com/jsnow/qemu/-/merge_requests/4 ?
+I think I applied v1 of this pullreq (merge commit 31589644ba069ba06c5
+now in master), and then when I came along to try to process this
+one the tag was an entirely different set of commits.
 
-(You posted this before I posted v6 of the Python series, but I am not 
-sure how close you are with this series. Actually, I'm not sure how 
-close we are on mine either.)
+Can you check whether what is in master is what you intended, and
+send a revert/fixup patch if necessary, please?
 
+PS: my scripts detected this issue:
+
+    Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.com>
+    Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.com>
+ERROR: pull request includes tag with UTF-8 error in person name
+
+which you probably want to fix before you send a future pullreq
+with those commits in. (This error is what nudged me into looking
+more closely and realizing something weird was going on...)
+
+Side note: it is more robust if you don't reuse pullreq tag names...
+
+thanks
+-- PMM
 
