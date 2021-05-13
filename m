@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2920337F227
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 06:25:22 +0200 (CEST)
-Received: from localhost ([::1]:38916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3FD37F22F
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 06:29:56 +0200 (CEST)
+Received: from localhost ([::1]:56342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh2uX-0002pi-2r
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 00:25:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43516)
+	id 1lh2yx-0006TM-Mp
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 00:29:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lh2sU-0007Eg-Cj; Thu, 13 May 2021 00:23:14 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:42053)
+ id 1lh2sY-0007Ht-Dx; Thu, 13 May 2021 00:23:18 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:49269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lh2sQ-0004Xe-IK; Thu, 13 May 2021 00:23:14 -0400
+ id 1lh2sT-0004ZG-8E; Thu, 13 May 2021 00:23:16 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fgdms3Y0Hz9svs; Thu, 13 May 2021 14:22:53 +1000 (AEST)
+ id 4Fgdms40B0z9sxS; Thu, 13 May 2021 14:22:53 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1620879773;
- bh=BemONuZHQYyN3KCcUkvxZRT5l7qDyNe28mFaXPI0gJY=;
+ bh=lKUeTq65gpyX4YTEBPWn7C6POCuHqnnrf1Z+siZUbYc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=T0CW9y6LK54yF+9FviBKIjQA57UeEu6fo8FjfKVmhWK0oR6KXPbs46adLnVgotXao
- LDwW/WGMwKdpl/PAQsLRs/zbrXly8DjO3BRaBKhzag7Sg2viA5Hg0NEfkXtX/ISY95
- 3ucp7XYCv3ePDiLtEGFKIURPPekomRA/EauUcOic=
-Date: Thu, 13 May 2021 13:53:29 +1000
+ b=V9ItLxDQk7akBon3tph3lQvsxeVNbDVKmd93u7TNwpRF4K6uD0kBFrYDmxIJeG8OU
+ TH2k883wuvZS1XS8D8zamz/orvA1Db74UF1EPp9qTd301D2LApc8aoKy/XC/raTDtD
+ lr5rpR1Nlp8rxGNP/j9CdvrHiDXqjpu5bPQvbvxc=
+Date: Thu, 13 May 2021 13:59:54 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH 05/11] target/ppc: moved ppc_store_lpcr to cpu.c
-Message-ID: <YJyiuZuWGJFMU0nb@yekko>
+Subject: Re: [RFC PATCH 10/11] target/ppc: created tcg-stub.c file
+Message-ID: <YJykOuYj9xgjVPZQ@yekko>
 References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-6-bruno.larsen@eldorado.org.br>
+ <20210512140813.112884-11-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/769adi/e+BNc9sR"
+ protocol="application/pgp-signature"; boundary="zuzwCrk9AvukcV2P"
 Content-Disposition: inline
-In-Reply-To: <20210512140813.112884-6-bruno.larsen@eldorado.org.br>
+In-Reply-To: <20210512140813.112884-11-bruno.larsen@eldorado.org.br>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -65,75 +65,70 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---/769adi/e+BNc9sR
+--zuzwCrk9AvukcV2P
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 12, 2021 at 11:08:07AM -0300, Bruno Larsen (billionai) wrote:
-> This function is used in !TCG cases, so it has been moved into a file
-> that is compiled when --disable-tcg is selected.
+On Wed, May 12, 2021 at 11:08:12AM -0300, Bruno Larsen (billionai) wrote:
+> Created a file with stubs needed to compile disabling TCG.
 >=20
-> Signed-off-by: Bruno Larsen (billionai)
-> <bruno.larsen@eldorado.org.br>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
+> We're not sure about keeping the softmmu stubs in this file. if there is
+> a better place to put them, please let us know.
+>=20
+> The other 3 functions have been stubbed because we didn't know what to
+> do with them. Making the file compile in the !TCG case would create an
+> ifdef hell, but extracting the functions meant moving many others as
+> well, and there weren't any good places to put them.
+>=20
+> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
 > ---
->  target/ppc/cpu.c         | 11 +++++++++++
->  target/ppc/misc_helper.c | 10 ----------
->  2 files changed, 11 insertions(+), 10 deletions(-)
+>  target/ppc/tcg-stub.c | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+>  create mode 100644 target/ppc/tcg-stub.c
 >=20
-> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-> index 0ab7ac1af1..8a82e2ffa8 100644
-> --- a/target/ppc/cpu.c
-> +++ b/target/ppc/cpu.c
-> @@ -24,6 +24,7 @@
->  #include "exec/log.h"
->  #include "fpu/softfloat-helpers.h"
->  #include "mmu-hash64.h"
-> +#include "helper_regs.h"
-> =20
->  target_ulong cpu_read_xer(CPUPPCState *env)
->  {
-> @@ -90,3 +91,13 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong val=
-ue)
->      /* FIXME: Should check for valid HTABMASK values in 32-bit case */
->      env->spr[SPR_SDR1] =3D value;
->  }
+> diff --git a/target/ppc/tcg-stub.c b/target/ppc/tcg-stub.c
+> new file mode 100644
+> index 0000000000..67099e2676
+> --- /dev/null
+> +++ b/target/ppc/tcg-stub.c
+> @@ -0,0 +1,33 @@
 > +
-> +void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+> +#include "qemu/osdep.h"
+> +#include "exec/hwaddr.h"
+> +#include "cpu.h"
+> +#include "hw/ppc/spapr.h"
+> +
+> +hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 > +{
-> +    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> +    CPUPPCState *env =3D &cpu->env;
-> +
-> +    env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
-> +    /* The gtse bit affects hflags */
-> +    hreg_compute_hflags(env);
+> +    return 0;
 > +}
-> diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-> index b910ac6479..442b12652c 100644
-> --- a/target/ppc/misc_helper.c
-> +++ b/target/ppc/misc_helper.c
-> @@ -255,16 +255,6 @@ target_ulong helper_clcs(CPUPPCState *env, uint32_t =
-arg)
->  /***********************************************************************=
-******/
->  /* Special registers manipulation */
-> =20
-> -void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
-> -{
-> -    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> -    CPUPPCState *env =3D &cpu->env;
-> -
-> -    env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
-> -    /* The gtse bit affects hflags */
-> -    hreg_compute_hflags(env);
-> -}
-> -
->  /*
->   * This code is lifted from MacOnLinux. It is called whenever THRM1,2
->   * or 3 is read an fixes up the values in such a way that will make
+> +
+> +void dump_mmu(CPUPPCState *env)
+> +{
+> +}
+> +
+> +void ppc_tlb_invalidate_all(CPUPPCState *env)
+> +{
+> +}
+> +
+> +target_ulong softmmu_resize_hpt_prepare(PowerPCCPU *cpu,
+> +                                        SpaprMachineState *spapr,
+> +                                        target_ulong shift)
+> +{
+> +    g_assert_not_reached();
+> +}
+> +
+> +target_ulong softmmu_resize_hpt_commit(PowerPCCPU* cpu,
+> +                                       SpaprMachineState *spapr,
+> +                                       target_ulong flags,
+> +                                       target_ulong shift)
+> +{
+> +    g_assert_not_reached();
+> +}
+
+I think these last two stubs should be obsoleted by the patch from
+Lucas I already merged "hw/ppc: moved hcalls that depend on softmmu".
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -141,25 +136,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---/769adi/e+BNc9sR
+--zuzwCrk9AvukcV2P
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCcorkACgkQbDjKyiDZ
-s5IDPBAAk5Bt4UV1M8wi3YvdIhabj75WO4Q6iZE1rpg6UpgcFHHtK7bcykT0qqu8
-EuGb/zZiHZpF5+deOz4j+o/erNTHQFGZ0vTWlozJEI+7yujyukhiJ6FMasRTbSz5
-HZOEX3EcyB+Vp9pSpEhWbIHY+ZiAJT9feDi3bO9zAc4uVx67rTcyUQQUbk99Chvd
-+Nq5Fer6RZV2fueRmjILC4FlS0Mompfzubfckvoa12lu+Uuw8ls5xSLgajnQREFF
-I6+BdCKZXMYc1xiI+77cGI9gvRflTmnluypuayDXaJZueOjdRGDTMKk3m1LdKIrH
-9XA+44ZCtv9uNUCTRIB0OGas3UJPikS8992OmlSuwc+yHwinQri+hIHSCJbXJdU6
-ypDxXrKFpgK1YDs0SM0IIv0W281TnK1xmYZAY1cPNaFYDyYqhsBrVCiaLEWcmksG
-W9mNUL3kWMYx5cU9KqThEF6DWux8fbb/9pENFFe27fCX9xD8vmknVvwyg9UNnqRO
-wqvfTgM4hQgGdcWQZtXeyabElvgBzkC+4I3ReezUsapvzw+gJW1maB9Zjwoy5RJ7
-4/4/VGnOrZCR5VmoY1P6wvfSNelWzftAiX9UVkoJiQM6YPplCwl9alfq+wN8Vobn
-iOUuyg+sXt6usF+v8fm4sNoIrzOqEgsecIWFKtFeeMx9oN1uZAM=
-=WObf
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmCcpDoACgkQbDjKyiDZ
+s5KbGRAArgKEZTGMxhnc+6vwCjshG3peub2ZiwJRdtWsIlK5SJwqBQ3nSX6mUDaU
+VmXdR86TW9qnxE26EeYIyS5kViMp56sY5ijzcCYQp0B1aTei3tFtvJYhIp6QizKv
+gCAuWJ1uJ/BUyvchcBc/k3vQYtnowm10PVnFx5WaXbDBLivF50iozG5FOP9tVKiR
+EctnaC3n/rZtN4ekNeuJQZLGpPaLNTFZ0Zp7d+IkxNHSPh+PLAByUIiT1Fn3J5tn
+jrOvn5DaD4u/yWrF3NdtV+H9ZWQNXYvD3BQQhx1Xp4VGLpCrdUrzOOS+DcPeD1CN
+leLs5esUs0um+AhsN7BHLtk4Q+DuFoxyG4qEu8HvvALHsDFmoW1u0OBxscYlIMfn
+C3pAlS/bw18GDAQmzRgcER0+Mrmm+m4muimdcoD6/lo2iW2e116tnUvQpRHshs4D
+ym3TJDUXhMuD61GdVzFTqxcgooByBdEoCdR1ZgtVxf34sm00binVLaDPG0sroR9Z
++nQwRbRal5P61Ofw/dxQ1mNX9vchd7ft1R8e9XMJv/fbB5mi3uj7+3+4alD1+hYx
+ABowWHXzMzHlI77iuqKqwh0+zv7TBDnr78HiioqrZuZJdZa8S0OP3kMIKgVNCS4y
+KIoivy7w4wlCCCFBLdHDhz1n5QHk0GiYRVpA6tz4dJfxsfX5Lpk=
+=R9eR
 -----END PGP SIGNATURE-----
 
---/769adi/e+BNc9sR--
+--zuzwCrk9AvukcV2P--
 
