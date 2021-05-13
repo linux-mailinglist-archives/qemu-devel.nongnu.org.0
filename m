@@ -2,55 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960C437F964
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 16:09:30 +0200 (CEST)
-Received: from localhost ([::1]:48798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6955137F959
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 16:06:37 +0200 (CEST)
+Received: from localhost ([::1]:46084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhC1o-0007dx-4F
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 10:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53196)
+	id 1lhBz2-0005bc-Eb
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 10:06:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1lhBw5-0003BW-OC; Thu, 13 May 2021 10:03:33 -0400
-Received: from [201.28.113.2] (port=64775 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1lhBw3-0003Ug-Or; Thu, 13 May 2021 10:03:33 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 13 May 2021 11:03:25 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id 9B13E80139F;
- Thu, 13 May 2021 11:03:24 -0300 (-03)
-Subject: Re: [PATCH 09/11] include/exec: added functions to the stubs in
- exec-all.h
-To: Richard Henderson <richard.henderson@linaro.org>,
- "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- qemu-devel@nongnu.org
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-10-bruno.larsen@eldorado.org.br>
- <c4b7cba3-eb5f-ff65-9376-da9dc8edf45f@linaro.org>
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-Message-ID: <f0fbb69b-76e9-c951-f18d-cfc4629f5f2a@eldorado.org.br>
-Date: Thu, 13 May 2021 11:03:24 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lhBwM-0003fQ-1r
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 10:03:53 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:35331)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lhBwJ-0003iL-FL
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 10:03:49 -0400
+Received: by mail-ed1-x533.google.com with SMTP id di13so31114965edb.2
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 07:03:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FNQjPOrxZ/jIIjUZAHJPYqYoWX4k4US3+xqwV5zhqZk=;
+ b=YgoHetklZWys3zj27C+p+h9tiqB7QEu7l0IRmzAQzbswtn+d1tuIunb1/cFrekBQzp
+ rIZ6QXEfqje5alCyQBBiGYPZzl8MHUCS33WPHnDu+OM7cRRLQe6em5zcU5G+WMwEoj73
+ Yg6mEZG5ZhoKTmPDnJWBxt0D47MgxIMRy2jfJ7A5TOEBmT6hpRbiwYF6BI1AoIbfALzB
+ Da1bjNLG2aDj2yjhNTgzmqeBwXLHBknZswAiJzeIdgLAKXmYF9PIgJQ2rstiwDo44ziR
+ gHjA+DVsTBY+KB4u0iKuq/H5y7n26/SDrtLJE1CZpO2dJMlGGNP/UrA4By6mRJ3MsIkk
+ /jug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FNQjPOrxZ/jIIjUZAHJPYqYoWX4k4US3+xqwV5zhqZk=;
+ b=AZvTGlFLJsLL3SlrFnECY7WbNGVVfY9MO9wJjvII+pM9LAL198tw6qBpxDJrqYXYL4
+ 0M49ebtMD9r5L9Wp4mkbcYM9+c0VgnMDVr0SbnSBEGqx9092XH01UoRxKYBmwY0oLQBa
+ WGdtQqInm/TdEdp2XJd6HdxVMbsUH+EcgTJCkPP8E+Lzx0YLu3mHf+EVgB1PilioooNe
+ GMTLx0crvCZm7vT69DUi6CtqfwAp5y65ZsTVsUMDbpb/HBjHBepa32Gh4aLMjhXoz/b2
+ 7glaQD/ykPWA7KQiu/GoJ1t0Zo6A+Ll2s2H5GgL8Ato4sLeBFzDJ0K/Ma693VOFoGPn8
+ zpvw==
+X-Gm-Message-State: AOAM531vLnINCKQutWQFpS5cP/EIGmj91vhy4ax3Rvl98wW1Nx+bXcaL
+ S/UoI4tAESm/r+wgIXU8V9gl8dZ1zR8jTFTftX1cgQ==
+X-Google-Smtp-Source: ABdhPJzJnBic+wJHbePGIyZ4x/zp5OvJTQSEBcMcIczyufQGdQJ46eb3klkqpEGhX6Tu3kS6L2f24n68qP+sJS33lqs=
+X-Received: by 2002:a05:6402:1a58:: with SMTP id
+ bf24mr10986678edb.146.1620914625953; 
+ Thu, 13 May 2021 07:03:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c4b7cba3-eb5f-ff65-9376-da9dc8edf45f@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-OriginalArrivalTime: 13 May 2021 14:03:25.0153 (UTC)
- FILETIME=[BDC20D10:01D74800]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ <20210430202610.1136687-67-richard.henderson@linaro.org>
+In-Reply-To: <20210430202610.1136687-67-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 May 2021 15:03:34 +0100
+Message-ID: <CAFEAcA89U5tdv2+zfitvXYi0yRMZ+BW03d3EOPMFV21bq23UYQ@mail.gmail.com>
+Subject: Re: [PATCH v6 66/82] target/arm: Implement SVE2 FCVTLT
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,44 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 12/05/2021 15:34, Richard Henderson wrote:
-> On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
->> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
->>
->> Added tlb_set_page and tlb_set_page_with_attrs to the
->> stubbed functions in exec-all.h  as it is needed
->> in some functions when compiling without TCG
->>
->> Signed-off-by: Lucas Mateus Castro 
->> (alqotel)<lucas.araujo@eldorado.org.br>
->> ---
->>   include/exec/exec-all.h | 10 ++++++++++
->>   1 file changed, 10 insertions(+)
+On Fri, 30 Apr 2021 at 22:33, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> No, the caller is tcg-specific already.
+> From: Stephen Long <steplong@quicinc.com>
 >
->
-> r~
-
-tlb_set_page is called by many ppc_hash64_handle_mmu_fault, 
-ppc_radix64_handle_mmu_fault and ppc_hash32_handle_mmu_fault, all of 
-which from what I've seen are only used inside #if 
-defined(CONFIG_SOFTMMU). So what is the best way to deal with these 
-tlb_set_page calls? Should these part of the _handle_mmu_fault functions 
-never be reached or should these functions never be called?
-
-If it's the latter then should we change the #if defined to #if 
-defined(CONFIG_SOFTMMU) && (CONFIG_TCG)?
+> Signed-off-by: Stephen Long <steplong@quicinc.com>
+> Message-Id: <20200428174332.17162-3-steplong@quicinc.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/helper-sve.h    |  5 +++++
+>  target/arm/sve.decode      |  2 ++
+>  target/arm/sve_helper.c    | 23 +++++++++++++++++++++++
+>  target/arm/translate-sve.c | 16 ++++++++++++++++
+>  4 files changed, 46 insertions(+)
 
 
-P.S: There was a miscommunication between me and Bruno, this should've 
-been a RFC.
+> +DO_FCVTLT(sve2_fcvtlt_hs, uint32_t, uint16_t, H1_4, H1_2, sve_f16_to_f32)
+> +DO_FCVTLT(sve2_fcvtlt_sd, uint64_t, uint32_t, H1_4, H1_2, float32_to_float64)
 
+Again, I suspect one of these has the wrong H macros.
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
