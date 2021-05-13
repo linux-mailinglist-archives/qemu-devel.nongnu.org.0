@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036CA37F2DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 08:13:03 +0200 (CEST)
-Received: from localhost ([::1]:56400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCB737F316
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 08:30:46 +0200 (CEST)
+Received: from localhost ([::1]:37964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh4aj-0007Uy-KB
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 02:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35000)
+	id 1lh4rt-00080X-Fj
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 02:30:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <katsuu@gmail.com>)
- id 1lh4Zd-0006ii-Lx; Thu, 13 May 2021 02:11:53 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:43593)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <katsuu@gmail.com>)
- id 1lh4Zc-0007ai-5e; Thu, 13 May 2021 02:11:53 -0400
-Received: by mail-ed1-x533.google.com with SMTP id s6so29678045edu.10;
- Wed, 12 May 2021 23:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YeYrCRqXI8zMLb1ULg0TwMpV+gm7WgDzm4xxyHMWg9E=;
- b=PbrIhwjJ5Dps2g0WBHCfl65/pluLORF/skYhkbpl4fWWInXnmHRoHEtMFnPy5JNY25
- mRwon/nOeGlzJyfpRB8h34McVbjbCiEFE3Ze87VRTWrhaBkOmfbezq2PVFC9KV3FUov0
- Iht+3U/NoW6zA7RcnQBK4wNVmsjPpC6qNezwwy3ohZyTGIXEN8z8wg0/WZ3DR+80rmMa
- /Vo4TUsQyvZdqR32UglezeQq+uIr6dV8LOPXvqqF3g/4znCi4iCvjHFJME5/6oxGsFQr
- RxYrGyz4cTd38+blY0PFQdESAtsJraizh5ysJHK3+obAio3baOlwlk5Z5IMi6WmtuKGw
- DzUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YeYrCRqXI8zMLb1ULg0TwMpV+gm7WgDzm4xxyHMWg9E=;
- b=jwEV/UMCf07m6q8M7bAsls28MZad95Biq913RBG83dDZ4LR+/qk81uORE85FDckwBU
- zGUVmcu2y4ifQMF6aQW+73psLNuZ8fSUd+RAH25xuMpwG9GK6q+E9XeQq6fykgVYF+9N
- vtsSiKfMUbIA8WrhPUUbdajMaPeqFQ4z3UyV5VB8v/Hmc/twHspCDmhtzSP8sP4oDtFN
- z48Ph50fm1FEeVFkNqzERZEXsL5+lNzHpYUwTgGh4CaBTbMCSmbdstF3bn7UX+87IaHi
- Yox+WFMCwmPH+xN6CB8HOnSv454hqzAFKrNh5+aTu/GW1hxUprCXNkYEZK7C3s58iGa+
- PcIQ==
-X-Gm-Message-State: AOAM533VCc9GWgY8gR3iMjXyAFM1+vPH64FLaM5QRtVu/Et8jrG4U66W
- t2DMBnzHxKJjuaQlzlIyXA+lKAeWEhzZx5oTRHwOlAg9
-X-Google-Smtp-Source: ABdhPJxLlG3S8mhV0wLuJWC043CoFLE32fj8ilqs5pJRAB7YKZW+e1VgRP1SBww1wY1wrURvw/GYlQ2huIdq3s0ku6w=
-X-Received: by 2002:a05:6402:270b:: with SMTP id
- y11mr47877738edd.332.1620886308776; 
- Wed, 12 May 2021 23:11:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <CA+pCdY3iG+pKKQqEVknnWF-W0wK36S4U1jxPvxmGAPp6FFvz1Q@mail.gmail.com>
-In-Reply-To: <CA+pCdY3iG+pKKQqEVknnWF-W0wK36S4U1jxPvxmGAPp6FFvz1Q@mail.gmail.com>
-From: Katsuhiro Ueno <uenobk@gmail.com>
-Date: Thu, 13 May 2021 15:11:32 +0900
-Message-ID: <CANrJRq+XjSjRqweBqDak8V9vi7cyNPiv8-g-irHbr6VAzo0a9w@mail.gmail.com>
-Subject: Re: [PATCH] hw/input/hid: Add support for keys of jp106 keyboard.
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1lh4pL-0005ou-5o
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 02:28:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54282)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1lh4pJ-0004Yi-Bt
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 02:28:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620887284;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=avtNRQoYq7x7Yjcpk5xesRwG8pvn2syhjp1PyJcCXCU=;
+ b=Vp9zsV4MwPKYA6E9HdDH5KAEIgS/nwfzKxG1DHG5HKjUPpJloHbivUVZdleILD/1ydbERJ
+ tRHJ7icT7rB/JpfQCpyqJKwO762LcvrARvuaSnsP5nCkJ2dJbyTP54ZTf374x65IBgnN26
+ qGoH4lNNU3c7qFyso714h2LoBYz3Q5w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-kEyCl7stOEuQ1BdHWFU6OA-1; Thu, 13 May 2021 02:26:55 -0400
+X-MC-Unique: kEyCl7stOEuQ1BdHWFU6OA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1948818400;
+ Thu, 13 May 2021 06:26:54 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.40.193.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 436C978627;
+ Thu, 13 May 2021 06:26:47 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=katsuu@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: [RFC PATCH v4 0/7] Use ACPI PCI hot-plug for Q35
+Date: Thu, 13 May 2021 08:26:35 +0200
+Message-Id: <20210513062642.3027987-1-jusual@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jusual@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jusual@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,38 +73,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.
+The patch set consists of two parts:
+patches 1-4: introduce new feature
+             'acpi-pci-hotplug-with-bridge-support' on Q35
+patches 5-7: make the feature default along with changes in ACPI tables
 
-2021-04-27 11:02 Katsuhiro Ueno <uenobk@gmail.com>:
->
-> Add support for the following keys: KATAKANAHIRAGANA, HENKAN, MUHENKAN,
-> RO, and YEN.  Before this commit, these keys did not work as expected
-> when a jp106 keyboard was connected to the guest as a usb-kbd device.
->
-> Signed-off-by: Katsuhiro Ueno <uenobk@gmail.com>
-> ---
->  hw/input/hid.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/input/hid.c b/hw/input/hid.c
-> index e1d2e46083..8aab0521f4 100644
-> --- a/hw/input/hid.c
-> +++ b/hw/input/hid.c
-> @@ -51,8 +51,8 @@ static const uint8_t hid_usage_keys[0x100] = {
->      0x45, 0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e,
->      0xe8, 0xe9, 0x71, 0x72, 0x73, 0x00, 0x00, 0x00,
->      0x00, 0x00, 0x00, 0x85, 0x00, 0x00, 0x00, 0x00,
-> -    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -    0x00, 0x00, 0x00, 0x00, 0x00, 0xe3, 0xe7, 0x65,
-> +    0x88, 0x00, 0x00, 0x87, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x8a, 0x00, 0x8b, 0x00, 0x89, 0xe7, 0x65,
->
->      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> --
-> 2.24.3 (Apple Git-128)
+This way maintainers can decide which way to choose without breaking
+the patch set.
+
+With the feature disabled Q35 falls back to the native hot-plug.
+
+Pros
+    * no racy behavior during boot (see 110c477c2ed)
+    * eject is possible - according to PCIe spec, attention button
+      press should lead to power off, and then the adapter should be
+      removed manually. As there is no power down state exists in QEMU,
+      we cannot distinguish between an eject and a power down
+      request.
+    * no delay during deleting - after the actual power off software
+      must wait at least 1 second before indicating about it. This case
+      is quite important for users, it even has its own bug:
+          https://bugzilla.redhat.com/show_bug.cgi?id=1594168
+    * no timer-based behavior - in addition to the previous example,
+      the attention button has a 5-second waiting period, during which
+      the operation can be canceled with a second press. While this
+      looks fine for manual button control, automation will result in
+      the need to queue or drop events, and the software receiving
+      events in all sort of unspecified combinations of attention/power
+      indicator states, which is racy and uppredictable.
+    * fixes or reduces the likelihood of the bugs:
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1833187
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1657077
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1669931
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1678290
+
+Cons:
+    * no access to possible features presented in slot capabilities
+      (this is only surprise removal AFAIK)
+
+v4:
+    * regain per-port control over hot-plug
+    * rebased over acpi-index changes
+    * set property on machine type to
+      make pci code more generic [Igor, Michael]
+
+v3:
+    * drop change of _OSC to allow SHPC on hotplugged bridges
+    * use 'acpi-root-pci-hotplug'
+    * add migration states [Igor]
+    * minor style changes
+
+v2:
+    * new ioport range for acpiphp [Gerd]
+    * drop find_pci_host() [Igor]
+    * explain magic numbers in _OSC [Igor]
+    * drop build_q35_pci_hotplug() wrapper [Igor]
+
+Julia Suvorova (7):
+  hw/acpi/pcihp: Enhance acpi_pcihp_disable_root_bus() to support Q35
+  hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
+  hw/acpi/ich9: Enable ACPI PCI hot-plug
+  hw/pci/pcie: Do not set HPC flag if acpihp is used
+  bios-tables-test: Allow changes in DSDT ACPI tables
+  hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35
+  bios-tables-test: Update golden binaries
+
+ hw/i386/acpi-build.h              |   5 +++
+ include/hw/acpi/ich9.h            |   5 +++
+ include/hw/acpi/pcihp.h           |   3 +-
+ include/hw/boards.h               |   1 +
+ hw/acpi/ich9.c                    |  68 ++++++++++++++++++++++++++++++
+ hw/acpi/pcihp.c                   |  22 +++++++---
+ hw/acpi/piix4.c                   |   4 +-
+ hw/core/machine.c                 |  19 +++++++++
+ hw/i386/acpi-build.c              |  32 ++++++++------
+ hw/i386/pc.c                      |   4 +-
+ hw/i386/pc_q35.c                  |   8 ++++
+ hw/pci/pcie.c                     |  11 ++++-
+ tests/data/acpi/q35/DSDT          | Bin 7859 -> 8289 bytes
+ tests/data/acpi/q35/DSDT.acpihmat | Bin 9184 -> 9614 bytes
+ tests/data/acpi/q35/DSDT.bridge   | Bin 7877 -> 11003 bytes
+ tests/data/acpi/q35/DSDT.cphp     | Bin 8323 -> 8753 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9513 -> 9943 bytes
+ tests/data/acpi/q35/DSDT.ipmibt   | Bin 7934 -> 8364 bytes
+ tests/data/acpi/q35/DSDT.memhp    | Bin 9218 -> 9648 bytes
+ tests/data/acpi/q35/DSDT.mmio64   | Bin 8990 -> 9419 bytes
+ tests/data/acpi/q35/DSDT.nohpet   | Bin 7717 -> 8147 bytes
+ tests/data/acpi/q35/DSDT.numamem  | Bin 7865 -> 8295 bytes
+ tests/data/acpi/q35/DSDT.tis      | Bin 8465 -> 8894 bytes
+ 23 files changed, 161 insertions(+), 21 deletions(-)
+
+-- 
+2.30.2
+
 
