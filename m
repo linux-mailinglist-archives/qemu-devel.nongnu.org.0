@@ -2,94 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F193337FAB4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 17:28:59 +0200 (CEST)
-Received: from localhost ([::1]:40046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD13737FAFB
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 17:47:00 +0200 (CEST)
+Received: from localhost ([::1]:46736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhDGk-0004ue-QJ
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 11:28:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51850)
+	id 1lhDYB-0002E5-FH
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 11:46:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lhDEk-0003nr-W1
- for qemu-devel@nongnu.org; Thu, 13 May 2021 11:26:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24807)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lhDWC-0001Gq-EW; Thu, 13 May 2021 11:44:56 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:47805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lhDEc-0007pb-Kd
- for qemu-devel@nongnu.org; Thu, 13 May 2021 11:26:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620919604;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4D6cKp/Wm8il6SOOb5dOZPyXKq2u1wV2Ky2u4gE42YU=;
- b=EPRcxe2fSpjS6FKYXKUWdoxPrY8T59WdO2WV3AxKbw54L7On5T8ZZ+ga5AiZzHcf54A9wp
- eIddoVRR4R+0gjczsm9sC7VtIcTluwoze/NkzIyBNRYd1XxXcRiCKa5cdP/3f7LCPlOGep
- uz1XdlopW68qV1s9gUBT9AqFNTqe4ys=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-0NN7DfiEP2ql9Te7JCbR8Q-1; Thu, 13 May 2021 11:26:41 -0400
-X-MC-Unique: 0NN7DfiEP2ql9Te7JCbR8Q-1
-Received: by mail-ed1-f72.google.com with SMTP id
- g17-20020aa7dd910000b029038843570b67so14833897edv.9
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 08:26:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4D6cKp/Wm8il6SOOb5dOZPyXKq2u1wV2Ky2u4gE42YU=;
- b=EnBuj3fgn+++mFiO/ym5FeQAGyiqKLmSls+spfpNGZfa8OgJCmsvL1hgNGEFmy5zUh
- YVsSk37lPFa65nCqROOS7dc5VdT+nw59zlpY5YrTUQ+kcSj3Y1ayb6LlyQsaPX1AE/hV
- D0Sc3r6FS8+B4eX7rBlp6rTSeKlA+pEKC45Ed3iEsKzFpY/qZIUSY4kK3X6MGycU5v0d
- 92Fjkj3l/gQoofBmjr2a/EDDjoDGKqw1l3kgfFG+NuQG99N2K/yXdKr2cUT23NDw0Qpo
- Zk2WAqdc9MeC8fEPaC75jkeRSrEDLadnv5k7EiwfO/FpqWJqJdIKpwHTF+HsISOaFjwb
- QcIw==
-X-Gm-Message-State: AOAM530w53QHM3vMe3ML/ppUMV+PTUKBA6yXgN+eIeUACS7usoFuTmmi
- s9UqTUfz2DuggvWTkS4gixtj5rTdJSspZ374xvZfB+au3zppQl6ws9y1dZJuQLmqTtW+6HbcpWj
- iiwfB31TnraPUDDU=
-X-Received: by 2002:aa7:c9c9:: with SMTP id i9mr51142438edt.17.1620919600259; 
- Thu, 13 May 2021 08:26:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxx1gbiqho4E+UgFu+wlVTJDGEcM5aYX/mdNg8YmQFxMZjhmtJBF6Dn53YVN1hLvaoQhnZq8Q==
-X-Received: by 2002:aa7:c9c9:: with SMTP id i9mr51142414edt.17.1620919600009; 
- Thu, 13 May 2021 08:26:40 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id w19sm2567765edd.52.2021.05.13.08.26.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 May 2021 08:26:39 -0700 (PDT)
-Subject: Re: [RFC PATCH 4/5] hw/ppc/fdt: Drop dependency on libfdt
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210511155354.3069141-1-philmd@redhat.com>
- <20210511155354.3069141-5-philmd@redhat.com> <YJs938JVdO5SRYSs@yekko>
- <ead2acca-d3da-89e5-52f6-e8ae14f6e85f@redhat.com> <YJyg+h7NC2ktmHSx@yekko>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6a06ae7d-1010-69bc-8931-364d2655e850@redhat.com>
-Date: Thu, 13 May 2021 17:26:37 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lhDWA-0002Od-Kn; Thu, 13 May 2021 11:44:56 -0400
+Received: from [192.168.100.1] ([82.142.31.78]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MLi0U-1lykMi3JfU-00Hg2J; Thu, 13 May 2021 17:44:40 +0200
+Subject: Re: [PATCH] backends/tpm: Replace qemu_mutex_lock calls with
+ QEMU_LOCK_GUARD
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210512070713.3286188-1-philmd@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <0091e979-9757-9a71-89fb-891933ff8987@vivier.eu>
+Date: Thu, 13 May 2021 17:44:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YJyg+h7NC2ktmHSx@yekko>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210512070713.3286188-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:4ZZbJZd1b1PNSJNr4vvceOHsTISqbdvHpJx5dlveEO1jerzPLh/
+ qISGx3VgJXGnYJL8iqvKBamFRw5U4lTMU8UhccKmtP9xQR3rB09s0LXCYFym1g/w6xwDICg
+ j+KEKYj0MtTcQKfrf57liQhbZIJQjEO/n6U8WeFoFotBnbUu0zMhhuyGs/KhGl4KqfTicZY
+ 3eFOe2aumGefxUX+XI1CA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:b81BVfIu0Ww=:yjMm3hiwP3F/bNApDOHyw8
+ hnmFX2QhA+OZfIaRTqwVi9GD6HkWtzJ+CFzJmvqPE30Qz0jl/bc6fc4uNjgCEpdbQEFMDB7NH
+ DtRLuTrmovYg5ICAdxpkokwHXtuGk3c84TOKpLWe0GVD0xOY0LLuVrAy5jpFRHhLyLvWkky2T
+ lgFb+g+fxcq5I1YX2ye6GQ6yw1oAzij2evumWN+REXxlmVY6kCqg1by5adsBZnSERUIChADDX
+ XCh8NJvd0QZiGtQa56PeetFysY88ia5kcANAbhXfNsfd6RqqQ69Jrb1NYLWCxEU6Q4PiKrL2Z
+ Ar8Nfx85STKP7ROJHVe4S4wolVLNet+fJLYGnY1UXwKW6dvEY/rbFpSMOkWqdD2RKq/LakyGo
+ 8PvWfS/RJ6cX7M99jFe7kzhFTCAOkSOPm6aEVSIShL6SXRxVgXxIyEu2WAx7x52weFFAoRa8j
+ wNosTiOKzNpQErT5HPquGGXSLNrsbeBUsxGW5BIxLMSijdlBd3xwkfMEUVjxKcZIU1SI3Nlfo
+ 3rMCJeqU0alL5OpoBpHUaw=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,62 +68,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, Christophe de Dinechin <dinechin@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/05/21 05:46, David Gibson wrote:
->> The patch makes sense in general.  The file is only needed for pseries and
->> powernv, not for e.g. e500 which does need fdt.
+Le 12/05/2021 à 09:07, Philippe Mathieu-Daudé a écrit :
+> Simplify the tpm_emulator_ctrlcmd() handler by replacing a pair of
+> qemu_mutex_lock/qemu_mutex_unlock calls by the WITH_QEMU_LOCK_GUARD
+> macro.
 > 
-> Yes, agreed.
+> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+> Reviewed-by: Christophe de Dinechin <dinechin@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  backends/tpm/tpm_emulator.c | 34 +++++++++++++++-------------------
+>  1 file changed, 15 insertions(+), 19 deletions(-)
 > 
->> I would get rid of FDT_PPC completely.  First, before patch 3, you can move
->> fdt.c to PSERIES and POWERNV (it's too small to need its own Kconfig symbol)
->> and only leave
->>
->>     ppc_ss.add(when: 'CONFIG_FDT_PPC', if_true: fdt)
+> diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
+> index a012adc1934..e5f1063ab6c 100644
+> --- a/backends/tpm/tpm_emulator.c
+> +++ b/backends/tpm/tpm_emulator.c
+> @@ -30,6 +30,7 @@
+>  #include "qemu/error-report.h"
+>  #include "qemu/module.h"
+>  #include "qemu/sockets.h"
+> +#include "qemu/lockable.h"
+>  #include "io/channel-socket.h"
+>  #include "sysemu/tpm_backend.h"
+>  #include "sysemu/tpm_util.h"
+> @@ -124,31 +125,26 @@ static int tpm_emulator_ctrlcmd(TPMEmulator *tpm, unsigned long cmd, void *msg,
+>      uint32_t cmd_no = cpu_to_be32(cmd);
+>      ssize_t n = sizeof(uint32_t) + msg_len_in;
+>      uint8_t *buf = NULL;
+> -    int ret = -1;
+>  
+> -    qemu_mutex_lock(&tpm->mutex);
+> +    WITH_QEMU_LOCK_GUARD(&tpm->mutex) {
+> +        buf = g_alloca(n);
+> +        memcpy(buf, &cmd_no, sizeof(cmd_no));
+> +        memcpy(buf + sizeof(cmd_no), msg, msg_len_in);
+>  
+> -    buf = g_alloca(n);
+> -    memcpy(buf, &cmd_no, sizeof(cmd_no));
+> -    memcpy(buf + sizeof(cmd_no), msg, msg_len_in);
+> -
+> -    n = qemu_chr_fe_write_all(dev, buf, n);
+> -    if (n <= 0) {
+> -        goto end;
+> -    }
+> -
+> -    if (msg_len_out != 0) {
+> -        n = qemu_chr_fe_read_all(dev, msg, msg_len_out);
+> +        n = qemu_chr_fe_write_all(dev, buf, n);
+>          if (n <= 0) {
+> -            goto end;
+> +            return -1;
+> +        }
+> +
+> +        if (msg_len_out != 0) {
+> +            n = qemu_chr_fe_read_all(dev, msg, msg_len_out);
+> +            if (n <= 0) {
+> +                return -1;
+> +            }
+>          }
+>      }
+>  
+> -    ret = 0;
+> -
+> -end:
+> -    qemu_mutex_unlock(&tpm->mutex);
+> -    return ret;
+> +    return 0;
+>  }
+>  
+>  static int tpm_emulator_unix_tx_bufs(TPMEmulator *tpm_emu,
 > 
-> Uh... why do we need even this?
 
-To tell Meson that a board requires QEMU to be linked with libfdt.  This 
-symbol is then renamed to CONFIG_LIBFDT once it can be used with all 
-targets (rather than just hw/ppc).
+Applied to my trivial-patches branch.
 
->> Since you are at it, remove the silly #ifdef TARGET_PPC64 in the
->> hw/ppc/fdt.c file.
->>
->> Then in patch 3:
->>
->> - add to Kconfig.host
->>
->>      config FDT
->>         bool
->>
->>      config LIBFDT
->>         bool
->>         depends on FDT
-> 
-> Um.. I'm not sure what semantic difference you're envisaging between
-> FDT and LIBFDT.
-
-"FDT" is set by meson.build if the library is available, LIBFDT is set 
-by the board to link with the library.  In other words CONFIG_FDT is 
-per-build, while CONFIG_LIBFDT is per-target.
-
-If a board selects LIBFDT but the library is not available, minikconf 
-will report a contradiction due to "CONFIG_PSERIES=y" -> "config PSERIES 
-select LIBFDT" -> "config LIBFDT depends on FDT" ->  "CONFIG_FDT=n".
-
->> - for all the boards I listed in my review, add "select LIBFDT" in addition
->> to "depends on FDT".
-
-This is actually unnecessary---"depends on FDT" is not needed in the 
-boards because LIBFDT already has the dependency.
-
-Paolo
-
+Thanks,
+Laurent
 
