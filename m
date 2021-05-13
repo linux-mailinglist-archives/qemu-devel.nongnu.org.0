@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88D937FE46
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 21:37:06 +0200 (CEST)
-Received: from localhost ([::1]:54296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D19537FE67
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 21:51:11 +0200 (CEST)
+Received: from localhost ([::1]:32854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhH8r-0001ES-Qz
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 15:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50524)
+	id 1lhHMR-0006RT-CY
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 15:51:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhH7p-0000Py-6v
- for qemu-devel@nongnu.org; Thu, 13 May 2021 15:36:01 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:37481)
+ id 1lhHKy-0005Dt-Tt
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 15:49:37 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhH7j-0005Db-PO
- for qemu-devel@nongnu.org; Thu, 13 May 2021 15:36:00 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id f1so10006379edt.4
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:35:55 -0700 (PDT)
+ id 1lhHKu-0005UC-8S
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 15:49:36 -0400
+Received: by mail-ed1-x532.google.com with SMTP id v5so21178885edc.8
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:49:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kiyOCwT9DsAkJCdxc1D1wTgaAbUmbvm8ZqvFXESkxV8=;
- b=EKbFepE60VEnyylpJPp82YVnSC62ZSWBEMThwvpEHIZlB28wa3XsD9nSvpqicPtEbO
- +4GCHnduXeuAWDWlJLO/r+PIbBx4EH8S/TcdpDl2w+3kEJz2kcQXEBMFMYSrRDE3hHaN
- AfB3VCYw18yIgFN8xUSwIHkvM/JyFKEk/zlDLdzMb6r+zJsuMNAFImmt78DFxM3UC1nL
- H5h4wegTqDkMASrJFrNefzKDETx4HFEJvan4R3g8CN6c5PGwhu1Vke9a+4DN/+8+j85x
- GcXbUjuw/NTLH08PA8AmrDkdA5t5G09Z24bEdPABniuqF+MEhd47uoJY2UD+Xaiv/4vR
- vBzQ==
+ :cc; bh=3MKnanJpetd+bgL1z3iqqnlJuHGJL8SoANkO+db6Jvs=;
+ b=wbO1Jo16KU07q65HDdBNvrqsCDHrqSbHO7gpIUwl3rhpX9x3VmOwSRA/1KbJu9v7XJ
+ eMDUrTYxCodSTrH/S21yMblU/hQAHgRir4uRlNKHobtSc8wjhQpROx1XTeLdlLNMSoor
+ GB1qRL3CDCsemvjYHLHCZKNMQhKXKMiAFwX1Au0cOGn4Yx53SSyWTuOSbGfLZNJG7Qud
+ c3aW/h5axJX5iNNHiLI9J0Dqb3DazCbIasD1ymWdxLRQq4rItRYDwqpIgOIomJg1/sP/
+ Q90954stcBL1tNqMAS3rts1Ug4M44HZ0GdlBmC7N3FD+/j9qzFwa29VOpGeFzIim/r3n
+ 8E7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kiyOCwT9DsAkJCdxc1D1wTgaAbUmbvm8ZqvFXESkxV8=;
- b=O/4mgQNSlwHHRRFMcqZULtxC/VWcNmnJWmyAh4RlQS+fcHnLZLl+vNLgnQzovZPmML
- VS8pOXgD9mtqUZ7+DszD11vmtnlmF+F0WXNvdwrDmu+Ml+Mie/WsMdT0NdGd8yjB+Fxt
- LlacfHFS22XZn5oDAahqBciF93tIyUn5K2ehJR9+4zFsWmWxw7OW5kOLVnQbA2mmUJLy
- 3ivF7WErekDBMfzfd/HrH+YfwB309eSwe0pfjKkHE11+MicDAwFdGQIZzxYKMuKY5AM4
- IOLKrBaTxYt0oK9mfelGkUwcM8A4GsRsoGFZ/f3K4ik4BZNLSmbJvm8yc2hnhSXmARJa
- FHQw==
-X-Gm-Message-State: AOAM5319j2Ism1iHb51zK+r32MX70BkMs26K13Wmf5UQ/Nl0JyvjY1QD
- jlZQbTxQy/Ekcv448bOGxXI4porOMA9m/VwDRFAm8A==
-X-Google-Smtp-Source: ABdhPJyagyiUkmn6/ad165nEJmWVPB0ApU6Dt4fOZk8Rr+bM2x3IeRIYFTArN9i9DPLSw9Pckqkks8loK2t7HfyYqQM=
-X-Received: by 2002:a05:6402:3548:: with SMTP id
- f8mr51459036edd.251.1620934554333; 
- Thu, 13 May 2021 12:35:54 -0700 (PDT)
+ bh=3MKnanJpetd+bgL1z3iqqnlJuHGJL8SoANkO+db6Jvs=;
+ b=uiuSzLQrPZ7kmsFKiRP0ECxyuNFDbbEvJ3sfNkutXjExd7XWQl0a8AdSswBC1lYCWM
+ SrGDlhzVCIF//61c1w7jb8FBo2BCkstO3qs+fBLVJP8jgbTr5x031rmkkzgFvT3r/udY
+ 8D166N0dlFs+eZ/Y0dN16zXJeVMotO1LfUD7ndHLBy30xPx4/Kqu72TmCUnmjRpTRBre
+ 9X/n7Rw8+STcuWSerqCEgvhBkr0sijyD44+p1b2RNR/SiX4Q1eL3noArBjVxgmc0IPaz
+ ZX005/saI+AwE4qkZlpPUkWkVqcTVWlJei6DYnmkEOjbRf2sUmEdxZpQ01+S/YTyUGBY
+ L8Lg==
+X-Gm-Message-State: AOAM530h6qxKQWRCBLRTNQ+Yfp8bP/7xkqx95J2OdDAJ+PcVbg0J/G01
+ oRRmWGR29C6YZeXlkIoVpcVBaOTzNSp6MnUeQ/UQrw==
+X-Google-Smtp-Source: ABdhPJzQviKRFirm4fmb0haWV8WSjln7qSrk7KV8J69aTrnqY6u/fagiSTx31V0BDgfjFYnMjTuCdmAvylpcKrHMbZ4=
+X-Received: by 2002:aa7:cb0a:: with SMTP id s10mr51648256edt.36.1620935370374; 
+ Thu, 13 May 2021 12:49:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-83-richard.henderson@linaro.org>
-In-Reply-To: <20210430202610.1136687-83-richard.henderson@linaro.org>
+ <20210430202610.1136687-81-richard.henderson@linaro.org>
+In-Reply-To: <20210430202610.1136687-81-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 May 2021 20:35:42 +0100
-Message-ID: <CAFEAcA8Fic1AfAmsAavzHzsK7aXkNEC8DfTbsa3Krga66KtAdg@mail.gmail.com>
-Subject: Re: [PATCH v6 82/82] target/arm: Enable SVE2 and related extensions
+Date: Thu, 13 May 2021 20:49:18 +0100
+Message-ID: <CAFEAcA-V+dnrcrnhOLm4ggNajvfKA4CwYLvbML2tXW2mjQJ1mw@mail.gmail.com>
+Subject: Re: [PATCH v6 80/82] target/arm: Implement integer matrix multiply
+ accumulate
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,68 +82,27 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Apr 2021 at 22:37, Richard Henderson
+On Fri, 30 Apr 2021 at 22:36, Richard Henderson
 <richard.henderson@linaro.org> wrote:
+>
+> This is {S,U,US}MMLA for both AArch64 AdvSIMD and SVE,
+> and V{S,U,US}MMLA.S8 for AArch32 NEON.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/cpu.c   |  1 +
->  target/arm/cpu64.c | 13 +++++++++++++
->  2 files changed, 14 insertions(+)
->
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index 0dd623e590..30fd5d5ff7 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -1464,6 +1464,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->
->          u = cpu->isar.id_isar6;
->          u = FIELD_DP32(u, ID_ISAR6, JSCVT, 0);
-> +        u = FIELD_DP32(u, ID_ISAR6, I8MM, 0);
->          cpu->isar.id_isar6 = u;
->
->          u = cpu->isar.mvfr0;
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index f0a9e968c9..379f90fab8 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -662,6 +662,7 @@ static void aarch64_max_initfn(Object *obj)
->          t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);
->          t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);
->          t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 2); /* ARMv8.4-RCPC */
-> +        t = FIELD_DP64(t, ID_AA64ISAR1, I8MM, 1);
->          cpu->isar.id_aa64isar1 = t;
->
->          t = cpu->isar.id_aa64pfr0;
-> @@ -702,6 +703,17 @@ static void aarch64_max_initfn(Object *obj)
->          t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1); /* TTST */
->          cpu->isar.id_aa64mmfr2 = t;
->
-> +        t = cpu->isar.id_aa64zfr0;
-> +        t = FIELD_DP64(t, ID_AA64ZFR0, SVEVER, 1);
-> +        t = FIELD_DP64(t, ID_AA64ZFR0, AES, 2);  /* PMULL */
-> +        t = FIELD_DP64(t, ID_AA64ZFR0, BITPERM, 1);
-> +        t = FIELD_DP64(t, ID_AA64ZFR0, SHA3, 1);
-> +        t = FIELD_DP64(t, ID_AA64ZFR0, SM4, 1);
-> +        t = FIELD_DP64(t, ID_AA64ZFR0, I8MM, 1);
-> +        t = FIELD_DP64(t, ID_AA64ZFR0, F32MM, 1);
-> +        t = FIELD_DP64(t, ID_AA64ZFR0, F64MM, 1);
-> +        cpu->isar.id_aa64zfr0 = t;
-> +
->          /* Replicate the same data to the 32-bit id registers.  */
->          u = cpu->isar.id_isar5;
->          u = FIELD_DP32(u, ID_ISAR5, AES, 2); /* AES + PMULL */
-> @@ -718,6 +730,7 @@ static void aarch64_max_initfn(Object *obj)
->          u = FIELD_DP32(u, ID_ISAR6, FHM, 1);
->          u = FIELD_DP32(u, ID_ISAR6, SB, 1);
->          u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
-> +        u = FIELD_DP32(u, ID_ISAR6, I8MM, 1);
->          cpu->isar.id_isar6 = u;
->
->          u = cpu->isar.id_pfr0;
+>  target/arm/helper.h           |  7 ++++
+>  target/arm/neon-shared.decode |  7 ++++
+>  target/arm/sve.decode         |  6 +++
+>  target/arm/translate-a64.c    | 18 ++++++++
+>  target/arm/translate-neon.c   | 27 ++++++++++++
+>  target/arm/translate-sve.c    | 27 ++++++++++++
+>  target/arm/vec_helper.c       | 77 +++++++++++++++++++++++++++++++++++
+>  7 files changed, 169 insertions(+)
 
-Do we need to clear any of these in the "user set has_neon and/or
-has_vfp to false" code in arm_cpu_realizefn() ?
+I have to say the decode parts for SVE and A32 (using decodetree
+were much easier to review than the A64 part...
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
