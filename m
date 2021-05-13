@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E25E37F7ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:27:54 +0200 (CEST)
-Received: from localhost ([::1]:46830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C60337F7B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 14:19:24 +0200 (CEST)
+Received: from localhost ([::1]:54712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhARV-0008NH-AX
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:27:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58856)
+	id 1lhAJH-0002vT-6D
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 08:19:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhAG2-00005v-IF
+ id 1lhAG2-00005m-GW
  for qemu-devel@nongnu.org; Thu, 13 May 2021 08:16:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42992)
+Received: from indium.canonical.com ([91.189.90.7]:43024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhAFq-0007NB-Rm
- for qemu-devel@nongnu.org; Thu, 13 May 2021 08:16:02 -0400
+ id 1lhAFp-0007NF-0h
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 08:16:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhAFj-0005IY-UY
+ id 1lhAFk-0005Hs-6E
  for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:15:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7CEF92E8187
+ by loganberry.canonical.com (Postfix) with ESMTP id DAB202E8195
  for <qemu-devel@nongnu.org>; Thu, 13 May 2021 12:15:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 May 2021 12:04:45 -0000
-From: Thomas Huth <1915327@bugs.launchpad.net>
+Date: Thu, 13 May 2021 12:09:36 -0000
+From: Thomas Huth <1898084@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Triaged; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: i386 tcg
+X-Launchpad-Bug-Tags: slirp
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: iii-i th-huth
-X-Launchpad-Bug-Reporter: Ilya Leoshkevich (iii-i)
+X-Launchpad-Bug-Commenters: pere-jobs th-huth
+X-Launchpad-Bug-Reporter: Ophir LOJKINE (pere-jobs)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161298968608.29108.9925609875505640314.malonedeb@soybean.canonical.com>
-Message-Id: <162090748514.7541.14818774229169676088.malone@gac.canonical.com>
-Subject: [Bug 1915327] Re: x86_64 cmpxchg behavior in qemu tcg does not match
- the real CPU
+References: <160157283310.5327.3681752113841049978.malonedeb@soybean.canonical.com>
+Message-Id: <162090777743.1146.11138305387243781007.launchpad@wampee.canonical.com>
+Subject: [Bug 1898084] Re: Assertion failed: (buf_len != 0), function soread, 
+ file socket.c, line 183.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: e03a8a7f9aaeded3e46224aed367446048660060
+X-Launchpad-Hash: d26cd907dd715d485e089925a32d95aad597fa89
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -60,7 +60,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,98 +72,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915327 <1915327@bugs.launchpad.net>
+Reply-To: Bug 1898084 <1898084@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
-
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
-
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
-
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
-
-    https://gitlab.com/qemu-project/qemu/-/issues
-
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
-
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" or "Confirmed" within the next 60 days (other-
-wise it will get closed as "Expired"). We will then eventually migrate
-the ticket automatically to the new system (but you won't be the reporter
-of the bug in the new system and thus you won't get notified on changes
-anymore).
-
-Thank you and sorry for the inconvenience.
-
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
-** Tags added: i386 tcg
+** Tags added: slirp
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915327
+https://bugs.launchpad.net/bugs/1898084
 
 Title:
-  x86_64 cmpxchg behavior in qemu tcg does not match the real CPU
+  Assertion failed: (buf_len !=3D 0), function soread, file socket.c, line
+  183.
 
 Status in QEMU:
-  Incomplete
+  Triaged
 
 Bug description:
-  QEMU version:
-  1214d55d1c (HEAD, origin/master, origin/HEAD) Merge remote-tracking branc=
-h 'remotes/nvme/tags/nvme-next-pull-request' into staging
+  I have a virtual raspberry py that I am running qemu 5.1.0 for MacOS.
 
-  Consider the following little program:
+  Here is the command line I used:
 
-  $ cat 1.c
-  #include <stdio.h>
-  int main() {
-    int mem =3D 0x12345678;
-    register long rax asm("rax") =3D 0x1234567812345678;
-    register int edi asm("edi") =3D 0x77777777;
-    asm("cmpxchg %[edi],%[mem]"
-        : [ mem ] "+m"(mem), [ rax ] "+r"(rax)
-        : [ edi ] "r"(edi));
-    long rax2 =3D rax;
-    printf("rax2 =3D %lx\n", rax2);
-  }
+  qemu-system-arm \
+    -M versatilepb \
+    -cpu arm1176 \
+    -m 256 \
+    -drive file=3D2020-08-20-raspios-buster-armhf-lite.img,if=3Dnone,index=
+=3D0,media=3Ddisk,format=3Draw,id=3Ddisk0 \
+    -device virtio-blk-pci,drive=3Ddisk0,disable-modern=3Don,disable-legacy=
+=3Doff \
+    -net nic -net user,hostfwd=3Dtcp::5022-:22 \
+    -dtb versatile-pb-buster-5.4.51.dtb \
+    -kernel kernel-qemu-5.4.51-buster \
+    -append "root=3D/dev/vda2 panic=3D1" \
+    -no-reboot \
+    -serial stdio
 
-  According to the Intel Manual, cmpxchg should not touch the
-  accumulator in case the values are equal, which is indeed the case on
-  the real CPU:
+  When trying to ssh from another machine while docker was running
+  inside the VM, I got the following error:
 
-  $ gcc 1.c
-  $ ./a.out =
-
-  rax2 =3D 1234567812345678
-
-  However, QEMU appears to zero extend EAX to RAX:
-
-  $ qemu-x86_64 ./a.out =
-
-  rax2 =3D 12345678
-
-  This is also the case for lock cmpxchg.
-
-  Found in BPF development context:
-  https://lore.kernel.org/bpf/b1792bb3c51eb3e94b9d27e67665d3f2209bba7e.came=
-l@linux.ibm.com
+  Assertion failed: (buf_len !=3D 0), function soread, file /private/tmp/qe=
+mu-20200813-13289-1g95loa/qemu-5.1.0/slirp/src/socket.c, line 183
+  ../boot.sh: line 12:  8592 Abort trap: 6
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915327/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1898084/+subscriptions
 
