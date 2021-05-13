@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8892837F509
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 11:49:24 +0200 (CEST)
-Received: from localhost ([::1]:59754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6883D37F50A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 May 2021 11:50:55 +0200 (CEST)
+Received: from localhost ([::1]:36014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lh7y7-0006EM-LD
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 05:49:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51232)
+	id 1lh7za-0000rr-Ej
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 05:50:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lh7vp-0003oU-Jq; Thu, 13 May 2021 05:47:01 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lh7vn-00016P-8c; Thu, 13 May 2021 05:47:00 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id d11so26289055wrw.8;
- Thu, 13 May 2021 02:46:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0dEiuFuYGXnDcMJNa+Obabish7oKVu3rrgiXIk783LQ=;
- b=aybjypKMe2X3dRGzGfKo3n5Ocqecpc8oTZ1ni1Z6Is4ab4Bzek5ibP2Wn61j/z93nu
- r99olkZmK0amKk2Yj48ThRLLeO2EBtKSKk5AcOVZwHSPblC4mS64WRGl76LNECUo00Tz
- LHdLCmWVvTpCDKaGGri8RpKgVw5G4wCtXlm7UVwHuBM+Tdi+Qr2rXHZ++IU5xsNsXR+j
- j/gXVTFp44VDTpon+fuQcBDYcKOkPnv+/eI2Cm8NeYLNY9nJSeOMaWDSjfSC2xKN9ngo
- XEhJ0S7sy1B9VpCMATZPYgx0ozw/bd5lF44kOMsYp0Ii3R5R9RQYRSswnw1NS8KAzA3m
- sU5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0dEiuFuYGXnDcMJNa+Obabish7oKVu3rrgiXIk783LQ=;
- b=QGXrrLU8GPoyAddUX+PQtlsqh2fi/YOw4OhVIgqaQDqw0I56g2lT0AX9IRLFv58mI1
- 4pF/jDEIZI2YuLJfE3BW0fKALzUqG5km6LAri2XcvPjH13v7SZO2gXEkEr2kAiPZxWAe
- Et9PjYrXbzxWGFIk5MZPGSb/hzxCyPECcBUOPhK22psL4jkmLZ4Pc2W7h2StkOYNQjFb
- ldreo/SsgGhMABIiBE2m/neCH9fzWPKI+MJKCRppuGkulNCvIB72R4eEMNbkfdVtSST0
- RrPoEdXxMyqZ5PZ9PPf2KATieF6d+dp77mXHEefntq49bJ50euIlD662sh7nySEcnoyS
- Ov2g==
-X-Gm-Message-State: AOAM532LH+j0vRZgAI9GAdqOBm52/t5gQ3iQCe58Ciu1GzcHsgzWgoRS
- xV+6q9jFXs1MUytYG/azzWY=
-X-Google-Smtp-Source: ABdhPJx9kfzqipirBTxxXvJaX/v8Tfo/cR/kC8Izr1sxk5gcWOuTKBbjW2V/HJVKkUMpMlXP/1pgNg==
-X-Received: by 2002:a5d:6b52:: with SMTP id x18mr4641447wrw.11.1620899217494; 
- Thu, 13 May 2021 02:46:57 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id b10sm2719945wrr.27.2021.05.13.02.46.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 May 2021 02:46:56 -0700 (PDT)
-Subject: Re: [PATCH v2 0/6] hw/southbridge: QOM'ify vt82c686 as
- VT82C686B_SOUTHBRIDGE
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210511041848.2743312-1-f4bug@amsat.org>
- <ecdd9299-ec2-5049-fe1e-d3c7d261d@eik.bme.hu>
- <6e9cad77-bb24-6c0a-f841-1f8a1f3515e6@amsat.org>
- <211f4a16-a521-512c-ff52-aabf7a5f13@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5d38775e-d2a7-6ae1-2483-8516e8b0c6c3@amsat.org>
-Date: Thu, 13 May 2021 11:46:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lh7wO-00053G-NA
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:47:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lh7wM-0001V7-7I
+ for qemu-devel@nongnu.org; Thu, 13 May 2021 05:47:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620899253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vwSfZhDL1X9Kqyj8js0PzzI/M+wvbG9w5dbrh4lcAw0=;
+ b=N1ZQZ7e2/Bgmh2dij/l0YXw/dfn1KLO7oV3JTOCXKC8pD0bT8mhxV40i0YmQND7Jg8p1mp
+ up90PLXQPm4vlxPpw0Y9WY9HToZizR0IapQt6rWvP+pA4ldHON2FD0B7XNaadIoEcjB/u+
+ DXOtYLUu3R+gg8H5ZDmHGKpzKNGBBR0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-yOTIXRUxMl-zZkiVY81Bjg-1; Thu, 13 May 2021 05:47:29 -0400
+X-MC-Unique: yOTIXRUxMl-zZkiVY81Bjg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7087A8005AD;
+ Thu, 13 May 2021 09:47:28 +0000 (UTC)
+Received: from localhost (ovpn-113-21.ams2.redhat.com [10.36.113.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A7C66267D;
+ Thu, 13 May 2021 09:47:24 +0000 (UTC)
+Date: Thu, 13 May 2021 10:47:22 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [ANNOUNCE] libblkio v0.1.0 preview release
+Message-ID: <YJz1qqXI8z1PQYkM@stefanha-x1.localdomain>
+References: <YIq9PpAd6nP9XTmz@stefanha-x1.localdomain>
+ <YIrV9MqlqwUhJR+B@merkur.fritz.box>
+ <YIwnI0ML0BEkQ1iE@stefanha-x1.localdomain>
+ <YJFPt5BmHXmM5+WE@merkur.fritz.box>
+ <YJLFjY9BuOd9/KJx@stefanha-x1.localdomain>
+ <YJLL7B249hN6wJTd@merkur.fritz.box>
+ <YJOs8JTGyfAb4wXO@stefanha-x1.localdomain>
+ <YJPF9KhUWm3tGX9b@merkur.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <211f4a16-a521-512c-ff52-aabf7a5f13@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YJPF9KhUWm3tGX9b@merkur.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/tDQ44NClz7J3FoM"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,70 +85,305 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
- Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: pkrempa@redhat.com, Alberto Garcia <berto@igalia.com>, slp@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, rjones@redhat.com,
+ mreitz@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Klaus Jensen <its@irrelevant.dk>, philmd@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/21 3:09 PM, BALATON Zoltan wrote:
-> On Tue, 11 May 2021, Philippe Mathieu-Daudé wrote:
->> Hi Zoltan,
->>
->> On 5/11/21 1:28 PM, BALATON Zoltan wrote:
->>> On Tue, 11 May 2021, Philippe Mathieu-Daudé wrote:
->>>> The motivation behind this series is to remove the
->>>> isa_get_irq(NULL) call to simplify the ISA generic model.
->>>>
->>>> Since v1:
->>>> - rebased on top of remotes/dg-gitlab/tags/ppc-for-6.1-20210504
->>>
->>> I'll try to have a look at these later but some notes: The pegasos2
->>> changes are now in master so if this was before that maybe rebasing on
->>> master is now enough.
->>
->> This is what this series does, simply rebase on top of your merged
->> patches.
->>
->>> However I wonder if any changes to pegasos2.c is
->>> needed due to changed init of the chip model or is that only affecting
->>> 82c686b?
->>
->> There is no change in 'init' in this series, it is only QOM boilerplate
->> code churn, no logical change intended.
->>
->>> Please also note that pegasos2 is not enabled by default due to
->>> needing undistributable firmware ROM so to test it you need to enable it
->>> in default-configs/devices/ppc-softmmu.mak
->>
->> I remember you said you were mostly interested in the VT8231, not
->> the VT82C686. This series only QOM'ify the latter.
-> 
-> OK as I said I haven't looked at it in detail.
-> 
->> What is your idea? Send the firmware off-list and explain how
->> the OS works and how (what) to test?
-> 
-> I've already sent you this info:
-> 
-> https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg01553.html
+--/tDQ44NClz7J3FoM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Well, if you have everything setup, it is easier to test and send
-a Tested-by tag.
+On Thu, May 06, 2021 at 12:33:24PM +0200, Kevin Wolf wrote:
+> Am 06.05.2021 um 10:46 hat Stefan Hajnoczi geschrieben:
+> > On Wed, May 05, 2021 at 06:46:36PM +0200, Kevin Wolf wrote:
+> > > Am 05.05.2021 um 18:19 hat Stefan Hajnoczi geschrieben:
+> > > > On Tue, May 04, 2021 at 03:44:23PM +0200, Kevin Wolf wrote:
+> > > > > Am 30.04.2021 um 17:49 hat Stefan Hajnoczi geschrieben:
+> > > > > > On Thu, Apr 29, 2021 at 05:51:16PM +0200, Kevin Wolf wrote:
+> > > > > > > Am 29.04.2021 um 16:05 hat Stefan Hajnoczi geschrieben:
+> > > > > There is one more thing I'm wondering right now: Why do we have s=
+eparate
+> > > > > states for connecting to the backend (created) and configuring it
+> > > > > (initialized)? The property setters check for the right state, bu=
+t they
+> > > > > don't really do anything that wouldn't be possible in the other s=
+tate.
+> > > > > A state machine exposed as two boolean rather than a tristate enu=
+m feels
+> > > > > a bit awkward, too, but even more so if two states could possibly=
+ be
+> > > > > enough.
+> > > > >=20
+> > > > > The reason why I'm asking is that in order to address my points, =
+it
+> > > > > would be best to have separate property accessors for each state,=
+ and
+> > > > > two pairs of accessors would make property declarations more mana=
+gable
+> > > > > than three pairs.
+> > > >=20
+> > > > There is no need to have separate boolean properties, it's just how=
+ I
+> > > > implemented it. There could be a single state property. For example=
+, a
+> > > > string that is "uninitialized", "initialized", and "started".
+> > >=20
+> > > Right. I think this would make the way the API works a bit more obvio=
+us,
+> > > though it's really only a small detail.
+> > >=20
+> > > However, my real question was why we even need those three distinct
+> > > states. From what I could see so far in the io_uring implemtation,
+> > > "uninitialized" and "started" would be enough. Everything that can be
+> > > configured in "initialized", could just as well be configured in
+> > > "uninitialized" and the state transition would both open the image fi=
+le
+> > > and apply the configuration in a single step.
+> > >=20
+> > > Do you have intentions to add features in the future where the three
+> > > separate states are actually needed because the user needs to be able=
+ to
+> > > do something while the image file is already opened, but queue
+> > > processing hasn't started yet?
+> >=20
+> > Yes, three states will be needed. Think of a virtio-blk driver where a
+> > VFIO PCI bus address or a vhost-user-blk UNIX domain socket path are
+> > needed to connect to the device. After connection completes you then
+> > have access to the block queue limits, the number of queues, etc. Once
+> > those things are configured the device can be started.
+>=20
+> You mean, the user of the library would first query some limits before
+> deciding on the right values to use for some properties?
+>=20
+> When the values come directly from the command line, this won't be the
+> case anyway, but I agree there may be cases where not the user, but the
+> application decides and then the separation would be helpful.
+>=20
+> > > > > > > Alternatives in QEMU are qdev properties (which are internall=
+y QOM
+> > > > > > > properties, but provide default implementations and are at le=
+ast
+> > > > > > > automatically read-only after realize, avoiding that whole cl=
+ass of
+> > > > > > > bugs) and QAPI.
+> > > > > > > If this was QEMU code, I would of course go for QAPI, but a l=
+ibrary is
+> > > > > > > something different and adding the code generator would proba=
+bly be a
+> > > > > > > bit too much anyway. But the idea in the resulting code would=
+ be dealing
+> > > > > > > with native structs instead of a bunch of function calls. Thi=
+s would
+> > > > > > > probably be the least error prone way for the implementation,=
+ but of
+> > > > > > > course, it would make binary compatibility a bit harder when =
+adding new
+> > > > > > > properties.
+> > > > > >=20
+> > > > > > An alternative I considered was the typestate and builder patte=
+rns:
+> > > > > >=20
+> > > > > >   /* Create a new io_uring driver in the uninitialized state */
+> > > > > >   struct blkio_iou_uninit *blkio_new_io_uring(void);
+> > > > > >=20
+> > > > > >   /* Uninitialized state property setters */
+> > > > > >   int blkio_iou_uninit_set_path(struct blkio_iou_uninit *u,
+> > > > > >                                 const char *path);
+> > > > > >   int blkio_iou_uninit_set_direct(struct blkio_iou_uninit *u,
+> > > > > >                                   bool o_direct);
+> > > > > >   ...
+> > > > > >=20
+> > > > > >   /* Transition to initialized state. Frees u on success. */
+> > > > > >   struct blkio_iou_init *blkio_iou_init(struct blkio_iou_uninit=
+ *u);
+> > > > > >=20
+> > > > > >   /* Initialized state property setters/getters */
+> > > > > >   int blkio_iou_init_get_capacity(struct blkio_iou_init *i,
+> > > > > >                                   uint64_t *capacity);
+> > > > > >   ...
+> > > > > >=20
+> > > > > >   /* Transition to started state. Frees i on success. */
+> > > > > >   struct blkio_iou_started *blkio_iou_start(struct blkio_iou_in=
+it *i);
+> > > > > >=20
+> > > > > >   ...
+> > > > > >=20
+> > > > > >   /* Transition back to initialized state. Frees s on success. =
+*/
+> > > > > >   struct blkio_iou_init *blkio_iou_stop(struct blkio_iou_starte=
+d *s);
+> > > > > >=20
+> > > > > > On the plus side:
+> > > > > >=20
+> > > > > > - No state checks are needed because an API won't even exist if=
+ it's
+> > > > > >   unavailable in a given state (uninitialized/initialized/start=
+ed).
+> > > > > >=20
+> > > > > > - State structs come with pre-initialized default values, so th=
+e caller
+> > > > > >   only needs to set non-default values. For example O_DIRECT is=
+ false by
+> > > > > >   default and callers happy with that don't need to set the pro=
+perty.
+> > > > > >=20
+> > > > > > - ABI compatibility is easy since the state structs are opaque =
+(their
+> > > > > >   size is not defined) and new properties can be added at any t=
+ime.
+> > > > > >=20
+> > > > > > On the minus side:
+> > > > > >=20
+> > > > > > - Completely static. Hard to introspect and requires a dedicate=
+d call
+> > > > > >   site for each property (applications cannot simply assign a p=
+roperty
+> > > > > >   string given to them on the command-line). This means every s=
+ingle
+> > > > > >   property must be explicitly coded into every application :(.
+> > > > >=20
+> > > > > How are you going to deal with this for QEMU integration, by the =
+way?
+> > > > > Put all the properties that we know into the QAPI schema and then=
+ some
+> > > > > way of passing key/value pairs for the rest?
+> > > >=20
+> > > > In QEMU's case let's define each property explicitly instead of pas=
+sing
+> > > > them through. That's due to QAPI's philosophy rather than libblkio.
+> > >=20
+> > > Okay, so new features in libblkio would simply be unaccessible until =
+we
+> > > update the QAPI schema. Given the overlap in developers, this shouldn=
+'t
+> > > be a problem in the foreseeable future, so this is fine with me.
+> >=20
+> > Great.
+> >=20
+> > > > > > - So many functions! This makes understanding the API harder.
+> > > > > >=20
+> > > > > > - Very verbose. The function and type names get long and there =
+is a lot
+> > > > > >   of repetition in the API.
+> > > > >=20
+> > > > > I think it wouldn't be too bad if all drivers exposed the same
+> > > > > properties, but you're explicitly expecting driver-specific prope=
+rties.
+> > > > > If drivers add an external APIs that just fail for other drivers,=
+ it
+> > > > > would indeed make understanding the API much harder.
+> > > > >=20
+> > > > > We could consider a mix where you would first create a configurat=
+ion
+> > > > > object, then use the generic property functions to set options fo=
+r it
+> > > > > and finally have a separate blkio_initialize() function where you=
+ turn
+> > > > > that config into a struct blkio that is needed to actually do I/O=
+ (and
+> > > > > also supports generic property functions for runtime option updat=
+es).
+> > > > >=20
+> > > > > I'm not sure it provides much except making the state machine mor=
+e
+> > > > > prominent than just two random bool properties.
+> > > >=20
+> > > > I prefer to keep the configuration public API as it is. We can chan=
+ge
+> > > > the properties.rs implementation however we want though.
+> > > >=20
+> > > > Do you think the public API should be a typestate API instead with
+> > > > struct blkio_init_info, struct blkio_start_info, and struct blkio
+> > > > expressing the 3 states instead?
+> > >=20
+> > > I just mentioned it as a theoretical option for a middle ground. I'm =
+not
+> > > sure if it's a good idea, and probably not worth the effort to change
+> > > it.
+> > >=20
+> > > Maybe I would give the state transitions a separate function instead =
+of
+> > > making them look like normal properties (then they could also use enu=
+ms
+> > > instead of strings or two bools). But that's not a hard preference
+> > > either.
+> >=20
+> > What do you think about this:
+> >=20
+> > The blkio instance states are:
+> >=20
+> >   created -> attached -> started -> destroyed
+> >=20
+> > It is not possible to go backwards anymore, which simplifies driver
+> > implementations and it probably won't be needed by applications.
+> >=20
+> > The "initialized" state is renamed to "attached" to make it clearer tha=
+t
+> > this means the block device has been connected/opened. Also
+> > "initialized" can be confused with "created".
+> >=20
+> > The corresponding APIs are:
+> >=20
+> > int blkio_create(const char *driver, struct blkio **bp, char **errmsg);
+> > int blkio_attach(struct blkio *bp, char **errmsg);
+> > int blkio_start(struct blkio *bp, char **errmsg);
+> > void blkio_destroy(struct blkio **bp);
+> >=20
+> > There is no way to query the state here, but that probably isn't
+> > necessary since an application setting up the blkio instance must
+> > already be aware of the state in order to configure it in the first
+> > place.
+> >=20
+> > One advantage of this approach is that it can support network drivers
+> > where the attach and start operations can take a long time while regula=
+r
+> > property accesses do not block.
+>=20
+> I like this.
+>=20
+> For properties, I think, each property will have a first state in which
+> it becomes available and then it will be available in all later states,
+> too.
+>=20
+> Currently, apart from properties that are always read-only, we only have
+> properties that are rw only in their first state and become read-only in
+> later states. It might be reasonable to assume that properties will
+> exist that can be rw in all later states, too.
+>=20
+> In their first state, most properties only store the value into the
+> config and it's the next state transition that actually makes use of
+> them. Similarly, reading usually only reads the value from the config.
+> So these parts can be automatically covered. Usually you would then only
+> need a custom implementation for property updates after the fact. I
+> think this could simplify the driver implementations a lot. I'll play
+> with this a bit more.
 
-> but I can't write a test case so if you want to automate this and make
-> it part of QEMU tests then some help with that would be appreciated.
+Hi Kevin,
+I posted a patch that introduces blkio_connect() and blkio_start():
+https://gitlab.com/libblkio/libblkio/-/merge_requests/4
 
-You are not the only want wanting that. I'm working on a solution to run
-such tests (depending on binary blobs) in your own namespace, but it
-will take me time (doing it in my free time, without help).
+Stefan
 
-> As for the firmware, once Alexey's VOF (Virtual Open Firmware, minimial
-> OF emulation in QEMU) is merged I plan to try to use that to make it
-> possible to boot some guests with that so no firmware image would be
-> needed and pegasos2 could be enabled by default. But for now a firmware
-> image is needed as guests expect an OF environment to boot.
-> 
-> Regards,
-> BALATON Zoltan
+--/tDQ44NClz7J3FoM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCc9aoACgkQnKSrs4Gr
+c8gisAf/YCIWhcJdD/dZkbpY+qyPgXoIfe4rSStJn2XVtC07l9Yd9p/qfclHwS2r
+EZzxySgTiMR8C/SM05fnELKYGLT8k59AkHisN7nspmnjezO+px3QrcAFcrhLLuJr
+Z3MS8eOzdo54pQzTpT14kzDrWYmlNwaoaGROvu3bzHVmwZJOZyB5Fb/losEIeSpd
+KSBRoc7adogGiRHl9CVBwYa0c3lqK+r8iGKjnvvRkuxU0KxLRoLD08915OjhvmEz
+JvKyZFc90me2t3uE/Zx6UM38ovOdqQVkgxIhdBpHYLwwVimawRIB2JeJbtFZDxah
+fHInN+qgF03sk+k+89PE0VCCbOHIgg==
+=mLDU
+-----END PGP SIGNATURE-----
+
+--/tDQ44NClz7J3FoM--
+
 
