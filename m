@@ -2,76 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BE7380DC4
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:07:25 +0200 (CEST)
-Received: from localhost ([::1]:41310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2967E380DC2
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:05:55 +0200 (CEST)
+Received: from localhost ([::1]:37452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhaLU-0001My-1b
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:07:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
+	id 1lhaK1-00075R-R9
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lhaA1-0007FB-AB
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:55:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20071)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lhaF9-0001DY-Io
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:00:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lha9z-0001E9-Nu
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:55:33 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lhaF4-0003nn-Qm
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:00:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621007730;
+ s=mimecast20190719; t=1621008045;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m2aNPCT9evNpN9vOciojZifiIVCoz7/TY8GYAc/okNA=;
- b=HMm1n2Zp4wQ+7n7PzcMf8R7Nt/2C7mhRKUJIQfXFhWMYj6cUxxaRQJ/AnATlOIqAkWNFJB
- DAGWrU1xuFc5XZyCWXcwOc0C8WRecOSqwj+LXlFGFePGHbsSzQmM9tyERZ0CesvKGKpXmo
- YVxN/fUcIwdnJtwwUY9mfOuHYLyrBUs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-g4h3yUPXP3eUhZFg5l8k-Q-1; Fri, 14 May 2021 11:55:26 -0400
-X-MC-Unique: g4h3yUPXP3eUhZFg5l8k-Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36F0B8005AD;
- Fri, 14 May 2021 15:55:25 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-116.ams2.redhat.com [10.36.114.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E11075D9D0;
- Fri, 14 May 2021 15:55:14 +0000 (UTC)
-Date: Fri, 14 May 2021 17:55:13 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [ANNOUNCE] libblkio v0.1.0 preview release
-Message-ID: <YJ6dYTNLivMuj7VM@merkur.fritz.box>
-References: <YIq9PpAd6nP9XTmz@stefanha-x1.localdomain>
- <YIrV9MqlqwUhJR+B@merkur.fritz.box>
- <YIwnI0ML0BEkQ1iE@stefanha-x1.localdomain>
- <YJFPt5BmHXmM5+WE@merkur.fritz.box>
- <YJLFjY9BuOd9/KJx@stefanha-x1.localdomain>
- <YJLL7B249hN6wJTd@merkur.fritz.box>
- <YJOs8JTGyfAb4wXO@stefanha-x1.localdomain>
- <YJPF9KhUWm3tGX9b@merkur.fritz.box>
- <YJz1qqXI8z1PQYkM@stefanha-x1.localdomain>
+ bh=Y8OVHE5Ts8gkv8762R9ETcDsfp0Efuq1dGSL5bvJoSo=;
+ b=LUgInJHHbo5k1hejxjRBE4sm16rPdNO8ZhjOyyYt4EHR9kJe6yEvUWQ1+qO5UvOze4VkdR
+ MyvRxCh+5Jnz9r3To5efHpCdwBqTm1mYYRkjgxkXDX876E83ZwhtfGCx+koyucaSuIwP6u
+ mHlvloR/GbZUlSJBSq1vtVKWN7kDV5g=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-483-VtwVAwVaM76iQl3BlMll1g-1; Fri, 14 May 2021 12:00:41 -0400
+X-MC-Unique: VtwVAwVaM76iQl3BlMll1g-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ h4-20020a1709067184b02903cbbd4c3d8fso4949078ejk.6
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 09:00:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Y8OVHE5Ts8gkv8762R9ETcDsfp0Efuq1dGSL5bvJoSo=;
+ b=rN4mg6qSqtkrP/1LEm6pJFH8qA7Yzy/Wigh8Idqg1diJ14BvoEgbRun0vzh1/Uk2f/
+ Rs6iaD2u0SfV/BKSmmwVQTCmUUR4bpoRM5hMG31R8Rp6Oz4X4UhsBUtTu/RNnXiPNIxF
+ LWiavYKjZAH2xHiUWYhToaZ/2r6HhVMqowzho8pINnk6mBCGNdt9JY69dXpdldo3Xh70
+ BNP4ZVmdWWtxOWSyRhynLHV2uzNoU1D4BYcgoN2jqg8zpKcQSh9yGzjGo9uExvwVWYT2
+ AgWNMYR0RP2eN1Si8+1huYYZlpHx7KYFYyrm0FJq8AFnJFHU8n6ncRezEQyZ1oJA2HsP
+ 7ipQ==
+X-Gm-Message-State: AOAM533BeDhUrEhFlWfTh8h1VBUpiluLvW6YNmlSTTVm/a2Og7AtdFZh
+ xNCwGunkJPS46OuHK3uoRIfshr3xtAHpRVmpnM+MZ4v+nhbRTUyKyj8wmIR6Tx+jHCIejSTP7U+
+ Yy/4q8pEU6qBKJ4Q=
+X-Received: by 2002:a05:6402:1713:: with SMTP id
+ y19mr12885210edu.286.1621008040298; 
+ Fri, 14 May 2021 09:00:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqmyDh+WeKe7foWO4ojc4ywWhqNcDiy8xsOk+o0B0G8k6TmVIn+zQLhm6mwaWVy1J7cdGOGg==
+X-Received: by 2002:a05:6402:1713:: with SMTP id
+ y19mr12885186edu.286.1621008040094; 
+ Fri, 14 May 2021 09:00:40 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id q10sm4756992eds.36.2021.05.14.09.00.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 May 2021 09:00:38 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/9] Initial support for machine creation via QMP
+To: Mirela Grujic <mirela.grujic@greensocs.com>, qemu-devel@nongnu.org
+References: <20210513082549.114275-1-mirela.grujic@greensocs.com>
+ <93ae82d3-f9a7-f347-a013-54ae5cdc95f7@redhat.com>
+ <5210646b-c661-882d-6c8d-0fd1772342d2@greensocs.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <61071d36-b700-8546-c19b-09c4e582bdfe@redhat.com>
+Date: Fri, 14 May 2021 18:00:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YJz1qqXI8z1PQYkM@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <5210646b-c661-882d-6c8d-0fd1772342d2@greensocs.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JRB6gLcHmsurkIYG"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,116 +104,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, Alberto Garcia <berto@igalia.com>, slp@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, rjones@redhat.com,
- mreitz@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Klaus Jensen <its@irrelevant.dk>, philmd@redhat.com,
- Markus Armbruster <armbru@redhat.com>, sgarzare@redhat.com
+Cc: damien.hedde@greensocs.com, edgar.iglesias@xilinx.com,
+ mark.burton@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---JRB6gLcHmsurkIYG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 14/05/21 14:48, Mirela Grujic wrote:
+> 
+> With our approach, transitioning to the QMP configuration suppose to 
+> happen gradually, i.e. we still specify some configuration options via 
+> command line. For your approach to be applicable to our use case we 
+> would at least need a QMP equivalent for the following:
+> 
+> qemu-system-riscv64 \
+>      -M sifive_dt \
+>      -cpu 
+> rv64,i=true,g=false,m=true,a=true,f=true,d=true,c=true,s=false,u=false,x-b=true,pmp=true,mmu=false,num-pmp-regions=8 
+> \
+>      -smp 1 \
+>      -device ...
+> 
+> AFAIU from the materials you shared, we would need to add -cpu and 
+> -device, but I don't see any reason why we wouldn't do this.
 
-Am 13.05.2021 um 11:47 hat Stefan Hajnoczi geschrieben:
-> On Thu, May 06, 2021 at 12:33:24PM +0200, Kevin Wolf wrote:
-> > Am 06.05.2021 um 10:46 hat Stefan Hajnoczi geschrieben:
-> > > What do you think about this:
-> > >=20
-> > > The blkio instance states are:
-> > >=20
-> > >   created -> attached -> started -> destroyed
-> > >=20
-> > > It is not possible to go backwards anymore, which simplifies driver
-> > > implementations and it probably won't be needed by applications.
-> > >=20
-> > > The "initialized" state is renamed to "attached" to make it clearer t=
-hat
-> > > this means the block device has been connected/opened. Also
-> > > "initialized" can be confused with "created".
-> > >=20
-> > > The corresponding APIs are:
-> > >=20
-> > > int blkio_create(const char *driver, struct blkio **bp, char **errmsg=
-);
-> > > int blkio_attach(struct blkio *bp, char **errmsg);
-> > > int blkio_start(struct blkio *bp, char **errmsg);
-> > > void blkio_destroy(struct blkio **bp);
-> > >=20
-> > > There is no way to query the state here, but that probably isn't
-> > > necessary since an application setting up the blkio instance must
-> > > already be aware of the state in order to configure it in the first
-> > > place.
-> > >=20
-> > > One advantage of this approach is that it can support network drivers
-> > > where the attach and start operations can take a long time while regu=
-lar
-> > > property accesses do not block.
-> >=20
-> > I like this.
-> >=20
-> > For properties, I think, each property will have a first state in which
-> > it becomes available and then it will be available in all later states,
-> > too.
-> >=20
-> > Currently, apart from properties that are always read-only, we only hav=
-e
-> > properties that are rw only in their first state and become read-only i=
-n
-> > later states. It might be reasonable to assume that properties will
-> > exist that can be rw in all later states, too.
-> >=20
-> > In their first state, most properties only store the value into the
-> > config and it's the next state transition that actually makes use of
-> > them. Similarly, reading usually only reads the value from the config.
-> > So these parts can be automatically covered. Usually you would then onl=
-y
-> > need a custom implementation for property updates after the fact. I
-> > think this could simplify the driver implementations a lot. I'll play
-> > with this a bit more.
->=20
-> Hi Kevin,
-> I posted a patch that introduces blkio_connect() and blkio_start():
-> https://gitlab.com/libblkio/libblkio/-/merge_requests/4
+-cpu is indeed the big one that I had not looked at so far, while 
+-device should be mostly covered by the existing device_add command.
 
-Assuming that you want review to happen on Gitlab, I added a few
-comments there.
+One possibility for -cpu is to make it an argument of machine-set too. 
+For example the above would be
 
-I'm not sure if you saw it, but on Wednesday, I also created a merge
-request for some first changes to reduce the properties boilerplate in
-the iouring module that would otherwise be duplicated for every new
-driver. Not sure if everything is a good idea, but the first patch is
-almost certainly one.
+{ 'execute': 'machine-set', arguments: {
+     'type': 'sifive_dt',
+     'smp': { 'cpus': 1 },
+     'cpu': { 'model': 'rv64', 'i': true, 'g': false, ... }
+}
 
-(However, I just realised that the test failure is not the same as on
-main, so I degraded it to a draft now. It also conflicts with your merge
-request. Next thing to learn for me is how to respin a merge request on
-Gitlab... You may want to have a look anyway.)
+> Ok, please let me know once you test, then I would run your code and
+> play with it to better understand what needs to be done. Then I might
+> come back with a couple of questions, so that we align on the TODOs. Is
+> that ok with you?
 
-Kevin
+Yes, of course.  I pushed something that at least compiles and passes a 
+basic smoke test.
 
---JRB6gLcHmsurkIYG
-Content-Type: application/pgp-signature; name="signature.asc"
+> Btw, when (in which version) did you plan to integrate the
+> qemu-qmp-* support? I guess once machine-set/accel-set is implemented,  > but maybe I'm wrong...
 
------BEGIN PGP SIGNATURE-----
+Well, the right answer is "when somebody needs it".  The things that I 
+was mostly interested in (e.g. compound properties for machines, such as 
+smp in the example above) were all enablers for qemu-qmp-* but I was not 
+really interested in the new binaries.  I did the qemu-qmp-* patches 
+mostly to validate that the 5.2/6.0 refactoring of preconfig was going 
+in the right direction.
 
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmCenWAACgkQfwmycsiP
-L9aAeBAAtCSYY72VWbfi2OFU2hmCgMtfomUI1ejsjFEzmX+zzVn8wYKPFNrWYsfV
-KHZSvbroyrTRj1VeIRgFcEL3n1AJuQ3xjiYt8Ca7Dr/tDn/EWeo95fc8fRIDA+Zd
-5MMOvXSpggCaXpssEzRq3mXFm4mOzmp+aLNVHpzcn483x8w02axRdRV1sMeXQ8Jb
-UiKIt8FZ2oO08Q5N+gH8vNwF9qfn3ifYMEWEVcDtdkDvlzkQ10oPBB1F3rZhau6f
-M4+oUKLQMsqWPrMKKvat8cyYPM/ED9qs4CBA9+olUPkRfX3mIT678cjXn/WalzOS
-L99t68UQJYWO8FNK/y2uubjm3oc7s4ZsnjbPFNiIfqUtYLYsBJ7HXnYWOU5Jo6eq
-/MI4oiB/CmWopvVYWMb0yffM5v5Bou4MSUtCpiOzPJUF/7kwpgb7pxFoD7DcFSLb
-Z3V1X8a5FRa+cXz+NebGma/o7cfI7AgYaEuSiWUvvSIJb+3jWPITs5Xgxec5gomB
-zlWPInc430/urGHcExxZEmWEmVFEbaTrKCJ4Mq2wWq+qzanLQbvGDtV/8s57ytWR
-VbpSQaf3FIm4ia1uR7wS4bg8h1XFu0Sa5I8X59+yLyR8SOSyJL9Gyqg/89nBHgkS
-dtlf0WeIHvmNKi4GAZg09fZKJAaTpw/eHHdIqU+CsPf99PBkpFk=
-=gQYw
------END PGP SIGNATURE-----
+However, if there is indeed somebody that needs it I'll contribute where 
+our interests overlap.  In particular I can take care of converting the 
+command line options to properties.
 
---JRB6gLcHmsurkIYG--
+Paolo
 
 
