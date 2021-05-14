@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2216538102A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 20:59:21 +0200 (CEST)
-Received: from localhost ([::1]:58450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED185381046
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:06:16 +0200 (CEST)
+Received: from localhost ([::1]:40006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhd1s-0003nV-7z
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 14:59:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54334)
+	id 1lhd8Z-0002Ea-Vq
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:06:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhcyV-0007eE-Pe
- for qemu-devel@nongnu.org; Fri, 14 May 2021 14:55:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34442)
+ id 1lhd3c-0005v7-S7
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:01:12 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhcyS-0002EA-Ez
- for qemu-devel@nongnu.org; Fri, 14 May 2021 14:55:51 -0400
+ id 1lhd3Q-0004sP-To
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:01:06 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhcyP-0004dt-Gr
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 18:55:45 +0000
+ id 1lhd3N-0005Ad-Je
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:00:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 68CB62E818D
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 18:55:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3757D2E8187
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:00:53 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 18:49:11 -0000
-From: Thomas Huth <1918149@bugs.launchpad.net>
+Date: Fri, 14 May 2021 18:52:19 -0000
+From: Thomas Huth <1920013@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Tags: ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: galli-leo th-huth
-X-Launchpad-Bug-Reporter: Leonardo (galli-leo)
+X-Launchpad-Bug-Commenters: cyrozap laurent-vivier th-huth
+X-Launchpad-Bug-Reporter: cyrozap (cyrozap)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161521552307.29654.2972591810140156041.malonedeb@wampee.canonical.com>
-Message-Id: <162101815129.8050.119115394511316991.malone@gac.canonical.com>
-Subject: [Bug 1918149] Re: qemu-user reports wrong fault_addr in signal handler
+References: <161607017744.16047.7761702341537087563.malonedeb@gac.canonical.com>
+Message-Id: <162101833911.20766.8002031582617324548.malone@soybean.canonical.com>
+Subject: [Bug 1920013] Re: Unable to pass-through PCIe devices from a ppc64le
+ host to an x86_64 guest
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: aec119bea66c52f353b9722bf1afabdde40abc5c
+X-Launchpad-Hash: 11b1b6be5da5228c907be38ad61f81ddd1215402
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1918149 <1918149@bugs.launchpad.net>
+Reply-To: Bug 1920013 <1920013@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -112,34 +113,51 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1918149
+https://bugs.launchpad.net/bugs/1920013
 
 Title:
-  qemu-user reports wrong fault_addr in signal handler
+  Unable to pass-through PCIe devices from a ppc64le host to an x86_64
+  guest
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  When a SEGV signal occurs and si_addr of the info struct is nil, qemu
-  still tries to translate the address from host to guest
-  (handle_cpu_signal in accel/tcg/user-exec.c). This means, that the
-  actual signal handler, will receive a fault_addr that is something
-  like 0xffffffffbf709000.
+  Attempting to pass through a PCIe device from a ppc64le host to an
+  x86_64 guest with QEMU v5.2.0-3031-g571d413b5d (built from git master)
+  fails with the following error:
 
-  I was able to get this to happen, by branching to a non canonical address=
- on aarch64.
-  I used 5.2 (commit: 553032db17). However, building from source, this only=
- seems to happen, if I use the same configure flags as the debian build:
+      include/exec/memory.h:43:IOMMU_MEMORY_REGION: Object 0x10438eb00
+  is not an instance of type qemu:iommu-memory-region
 
-  ../configure --static --target-list=3Daarch64-linux-user --disable-
-  system --enable-trace-backends=3Dsimple --disable-linux-io-uring
-  --disable-pie --extra-cflags=3D"-fstack-protector-strong -Wformat
-  -Werror=3Dformat-security -Wdate-time -D_FORTIFY_SOURCE=3D2"  --extra-
-  ldflags=3D"-Wl,-z,relro -Wl,--as-needed"
+  To reproduce this issue, simply run the following command on a POWER9
+  system:
 
-  Let me know, if you need more details.
+      qemu-system-x86_64 -machine q35 -device vfio-pci,host=3D$DBSF
+
+  Where $DBSF is a domain:bus:slot.function PCIe device address.
+
+  This also fails with QEMU 3.1.0 (from Debian Buster), so I assume this
+  has never worked. Helpfully, the error message it prints seems to
+  indicate where the problem is:
+
+      hw/vfio/spapr.c:147:vfio_spapr_create_window: Object 0x164473510
+  is not an instance of type qemu:iommu-memory-region
+
+  My kernel (Linux v5.8.0 plus some small unrelated patches) is built
+  with the page size set to 4k, so this issue shouldn't be due to a page
+  size mismatch. And as I stated earlier, my host arch is ppc64le, so it
+  shouldn't be an endianness issue, either.
+
+  I assume this should be possible (in theory) since I've seen reports
+  of others getting PCIe passthrough working with aarch64 guests on
+  x86_64 hosts, but of course that (passthrough to weird guest arch on
+  x86) is somewhat the opposite of what I'm trying to do (passthrough to
+  x86 on weird host arch) so I don't know for sure. If it is possible,
+  I'm willing to develop a fix myself, but I'm almost completely
+  unfamiliar with QEMU's internals so if anyone has any advice on where
+  to start I'd greatly appreciate it.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1918149/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1920013/+subscriptions
 
