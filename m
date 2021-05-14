@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB73380F19
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:37:26 +0200 (CEST)
-Received: from localhost ([::1]:33458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9351E380F18
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:37:24 +0200 (CEST)
+Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhbkb-0003eM-37
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:37:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37512)
+	id 1lhbkZ-0003Vs-KC
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:37:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lhbei-0002uV-3j
+ id 1lhbei-0002vG-B4
  for qemu-devel@nongnu.org; Fri, 14 May 2021 13:31:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37630)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lhbef-0007d7-On
- for qemu-devel@nongnu.org; Fri, 14 May 2021 13:31:19 -0400
+ id 1lhbeg-0007ek-Jb
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 13:31:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621013477;
+ s=mimecast20190719; t=1621013478;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MHnAauViA++BlrmkjnlS4si5DQB1PSDQbJ2KtvEMB3U=;
- b=R0nmMniXm0Yu50HXi5To30mE3Fh+KWexjzL+WZ1DACDf01mPXGyoB0Npc+zkEf52lZKMKG
- pBugmFpwtqG5Vc7Fbhqe0TKHM62SSsxGGTnxM1sw1m2Ne/NDBCiqqTi16jwDR8+GKVpF1c
- uSTB6GBw2yl1/SGhAyCM8Rg1xj254b8=
+ bh=i0AqscuC0sCHNdnaq7GsvzkwtZ9TuDvo49dEJAQy1xE=;
+ b=Jn8z4hFUxc9i8QnFuwRZrZNzKrNjhkOvd/ExWnL7tL4jf9JmtmqQQBivkZUlk1pksCugmg
+ gCEkF82/veJcyk6jX2qLUw3oI4EZWuWB+XjzMYlfwzx8lQO29b7jrrgv+WaUhpuFyW8aYQ
+ Gs3262/gof/EddYPxQlqdCf0elHS10k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-anj3IghePpC7sgyT8Wq5rg-1; Fri, 14 May 2021 13:31:15 -0400
-X-MC-Unique: anj3IghePpC7sgyT8Wq5rg-1
+ us-mta-385-lrImU6OTM3mJXhWmfqg0dw-1; Fri, 14 May 2021 13:31:16 -0400
+X-MC-Unique: lrImU6OTM3mJXhWmfqg0dw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F03B9126B
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 17:31:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E17118BA280
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 17:31:15 +0000 (UTC)
 Received: from localhost.redhat.com (ovpn-113-212.ams2.redhat.com
  [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8DFEC5C1C4;
- Fri, 14 May 2021 17:31:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACAF45C1C4;
+ Fri, 14 May 2021 17:31:14 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] docs: document usage of the authorization framework
-Date: Fri, 14 May 2021 18:31:08 +0100
-Message-Id: <20210514173110.1397741-3-berrange@redhat.com>
+Subject: [PATCH 3/4] docs: recommend SCRAM-SHA-256 SASL mech instead of SHA-1
+ variant
+Date: Fri, 14 May 2021 18:31:09 +0100
+Message-Id: <20210514173110.1397741-4-berrange@redhat.com>
 In-Reply-To: <20210514173110.1397741-1-berrange@redhat.com>
 References: <20210514173110.1397741-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -83,298 +84,78 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The authorization framework provides a way to control access to network
-services after a client has been authenticated. This documents how to
-actually use it.
+The SHA-256 variant better meats modern security expectations.
+Also warn that the password file is storing entries in clear
+text.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/system/authz.rst | 263 ++++++++++++++++++++++++++++++++++++++++++
- docs/system/index.rst |   1 +
- 2 files changed, 264 insertions(+)
- create mode 100644 docs/system/authz.rst
+ docs/system/vnc-security.rst |  7 ++++---
+ qemu.sasl                    | 11 ++++++-----
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/docs/system/authz.rst b/docs/system/authz.rst
-new file mode 100644
-index 0000000000..2276546d23
---- /dev/null
-+++ b/docs/system/authz.rst
-@@ -0,0 +1,263 @@
-+.. _client authorization:
-+
-+Client authorization
-+--------------------
-+
-+When configuring a QEMU network backend with either TLS certificates or SASL
-+authentication, access will be granted if the client successfully proves
-+their identity. If the authorization identity database is scoped to the QEMU
-+client this may be sufficient. It is common, however, for the identity database
-+to be much broader and thus authentication alone does not enable sufficient
-+access control. In this case QEMU provides a flexible system for enforcing
-+finer grained authorization on clients post-authentication.
-+
-+Identity providers
-+~~~~~~~~~~~~~~~~~~
-+
-+At the time of writing there are two authentication frameworks used by QEMU
-+that emit an identity upon completion.
-+
-+ * TLS x509 certificate distinguished name.
-+
-+   When configuring the QEMU backend as a network server with TLS, there
-+   are a choice of credentials to use. The most common scenario is to utilize
-+   x509 certificates. The simplest configuration only involves issuing
-+   certificates to the servers, allowing the client to avoid a MITM attack
-+   against their intended server.
-+
-+   It is possible, however, to enable mutual verification by requiring that
-+   the client provide a certificate to the server to prove its own identity.
-+   This is done by setting the property ``verify-peer=yes`` on the
-+   ``tls-creds-x509`` object, which is in fact the default.
-+
-+   When peer verification is enabled, client will need to be issued with a
-+   certificate by the same certificate authority as the server. If this is
-+   still not sufficiently strong access control the Distinguished Name of
-+   the certificate can be used as an identity in the QEMU authorization
-+   framework.
-+
-+ * SASL username.
-+
-+   When configuring the QEMU backend as a network server with SASL, upon
-+   completion of the SASL authentication mechanism, a username will be
-+   provided. The format of this username will vary depending on the choice
-+   of mechanism configured for SASL. It might be a simple UNIX style user
-+   ``joebloggs``, while if using Kerberos/GSSAPI it can have a realm
-+   attached ``joebloggs@QEMU.ORG``.  Whatever format the username is presented
-+   in, it can be used with the QEMU authorization framework.
-+
-+Authorization drivers
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+The QEMU authorization framework is a general purpose design with choice of
-+user customizable drivers. These are provided as objects that can be
-+created at startup using the ``-object`` argument, or at runtime using the
-+``object_add`` monitor command.
-+
-+Simple
-+^^^^^^
-+
-+This authorization driver provides a simple mechanism for granting access
-+based on an exact match against a single identity. This is useful when it is
-+known that only a single client is to be allowed access.
-+
-+A possible use case would be when configuring QEMU for an incoming live
-+migration. It is known exactly which source QEMU the migration is expected
-+to arrive from. The x509 certificate associated with this source QEMU would
-+thus be used as the identity to match against. Alternatively if the virtual
-+machine is dedicated to a specific tenant, then the VNC server would be
-+configured with SASL and the username of only that tenant listed.
-+
-+To create an instance of this driver via QMP:
-+
-+::
-+
-+   {
-+     "execute": "object-add",
-+     "arguments": {
-+       "qom-type": "authz-simple",
-+       "id": "authz0",
-+       "props": {
-+         "identity": "fred"
-+       }
-+     }
-+   }
-+
-+
-+Or via the command line
-+
-+::
-+
-+   -object authz-simple,id=authz0,identity=fred
-+
-+
-+List
-+^^^^
-+
-+In some network backends it will be desirable to grant access to a range of
-+clients. This authorization driver provides a list mechanism for granting
-+access by matching identities against a list of permitted one. Each match
-+rule has an associated policy and a catch all policy applies if no rule
-+matches. The match can either be done as an exact string comparison, or can
-+use the shell-like glob syntax, which allows for use of wildcards.
-+
-+To create an instance of this class via QMP:
-+
-+::
-+
-+   {
-+     "execute": "object-add",
-+     "arguments": {
-+       "qom-type": "authz-list",
-+       "id": "authz0",
-+       "props": {
-+         "rules": [
-+            { "match": "fred", "policy": "allow", "format": "exact" },
-+            { "match": "bob", "policy": "allow", "format": "exact" },
-+            { "match": "danb", "policy": "deny", "format": "exact" },
-+            { "match": "dan*", "policy": "allow", "format": "glob" }
-+         ],
-+         "policy": "deny"
-+       }
-+     }
-+   }
-+
-+
-+Due to the way this driver requires setting nested properties, creating
-+it on the command line will require use of the JSON syntax for ``-object``.
-+In most cases, however, the next driver will be more suitable.
-+
-+List file
-+^^^^^^^^^
-+
-+This is a variant on the previous driver that allows for a more dynamic
-+access control policy by storing the match rules in a standalone file
-+that can be reloaded automatically upon change.
-+
-+To create an instance of this class via QMP:
-+
-+::
-+
-+   {
-+     "execute": "object-add",
-+     "arguments": {
-+       "qom-type": "authz-list-file",
-+       "id": "authz0",
-+       "props": {
-+         "filename": "/etc/qemu/myvm-vnc.acl",
-+         "refresh": true
-+       }
-+     }
-+   }
-+
-+
-+If ``refresh`` is ``yes``, inotify is used to monitor for changes
-+to the file and auto-reload the rules.
-+
-+The ``myvm-vnc.acl`` file should contain the match rules in a format that
-+closely matches the previous driver:
-+
-+::
-+
-+   {
-+     "rules": [
-+       { "match": "fred", "policy": "allow", "format": "exact" },
-+       { "match": "bob", "policy": "allow", "format": "exact" },
-+       { "match": "danb", "policy": "deny", "format": "exact" },
-+       { "match": "dan*", "policy": "allow", "format": "glob" }
-+     ],
-+     "policy": "deny"
-+   }
-+
-+
-+The object can be created on the command line using
-+
-+::
-+
-+   -object authz-list-file,id=authz0,\
-+           filename=/etc/qemu/myvm-vnc.acl,refresh=on
-+
-+
-+PAM
-+^^^
-+
-+In some scenarios it might be desirable to integrate with authorization
-+mechanisms that are implemented outside of QEMU. In order to allow maximum
-+flexibility, QEMU provides a driver that uses the ``PAM`` framework.
-+
-+To create an instance of this class via QMP:
-+
-+::
-+
-+   {
-+     "execute": "object-add",
-+     "arguments": {
-+       "qom-type": "authz-pam",
-+       "id": "authz0",
-+       "parameters": {
-+         "service": "qemu-vnc-tls"
-+       }
-+     }
-+   }
-+
-+
-+The driver only uses the PAM "account" verification
-+subsystem. The above config would require a config
-+file /etc/pam.d/qemu-vnc-tls. For a simple file
-+lookup it would contain
-+
-+::
-+
-+   account requisite  pam_listfile.so item=user sense=allow \
-+           file=/etc/qemu/vnc.allow
-+
-+
-+The external file would then contain a list of usernames.
-+If x509 cert was being used as the username, a suitable
-+entry would match the distinguished name:
-+
-+::
-+
-+   CN=laptop.berrange.com,O=Berrange Home,L=London,ST=London,C=GB
-+
-+
-+On the command line it can be created using
-+
-+::
-+
-+   -object authz-pam,id=authz0,service=qemu-vnc-tls
-+
-+
-+There are a variety of PAM plugins that can be used which are not illustrated
-+here, and it is possible to implement brand new plugins using the PAM API.
-+
-+
-+Connecting backends
-+~~~~~~~~~~~~~~~~~~~
-+
-+The authorization driver is created using the ``-object`` argument and then
-+needs to be associated with a network service. The authorization driver object
-+will be given a unique ID that needs to be referenced.
-+
-+The property to set in the network service will vary depending on the type of
-+identity to verify. By convention, any network server backend that uses TLS
-+will provide ``tls-authz`` property, while any server using SASL will provide
-+a ``sasl-authz`` property.
-+
-+Thus a example using SASL and authorization for the VNC server would look
-+like:
-+
-+::
-+
-+   $QEMU --object authz-simple,id=authz0,identity=fred \
-+         --vnc 0.0.0.0:1,sasl,sasl-authz=authz0
-+
-+While to validate both the x509 certificate and SASL username:
-+
-+::
-+
-+   echo "CN=laptop.qemu.org,O=QEMU Project,L=London,ST=London,C=GB" >> tls.acl
-+   $QEMU --object authz-simple,id=authz0,identity=fred \
-+         --object authz-list-file,id=authz1,filename=tls.acl \
-+	 --object tls-creds-x509,id=tls0,dir=/etc/qemu/tls,verify-peer=yes \
-+         --vnc 0.0.0.0:1,sasl,sasl-authz=auth0,tls-creds=tls0,tls-authz=authz1
-diff --git a/docs/system/index.rst b/docs/system/index.rst
-index 6aa2f8c05c..6092eb2d91 100644
---- a/docs/system/index.rst
-+++ b/docs/system/index.rst
-@@ -31,6 +31,7 @@ Contents:
-    vnc-security
-    tls
-    secrets
-+   authz
-    gdb
-    managed-startup
-    cpu-hotplug
+diff --git a/docs/system/vnc-security.rst b/docs/system/vnc-security.rst
+index 830f6acc73..4c1769eeb8 100644
+--- a/docs/system/vnc-security.rst
++++ b/docs/system/vnc-security.rst
+@@ -168,7 +168,7 @@ used is drastically reduced. In fact only the GSSAPI SASL mechanism
+ provides an acceptable level of security by modern standards. Previous
+ versions of QEMU referred to the DIGEST-MD5 mechanism, however, it has
+ multiple serious flaws described in detail in RFC 6331 and thus should
+-never be used any more. The SCRAM-SHA-1 mechanism provides a simple
++never be used any more. The SCRAM-SHA-256 mechanism provides a simple
+ username/password auth facility similar to DIGEST-MD5, but does not
+ support session encryption, so can only be used in combination with TLS.
+ 
+@@ -191,11 +191,12 @@ reasonable configuration is
+ 
+ ::
+ 
+-   mech_list: scram-sha-1
++   mech_list: scram-sha-256
+    sasldb_path: /etc/qemu/passwd.db
+ 
+ The ``saslpasswd2`` program can be used to populate the ``passwd.db``
+-file with accounts.
++file with accounts. Note that the ``passwd.db`` file stores passwords
++in clear text.
+ 
+ Other SASL configurations will be left as an exercise for the reader.
+ Note that all mechanisms, except GSSAPI, should be combined with use of
+diff --git a/qemu.sasl b/qemu.sasl
+index fb8a92ba58..abdfc686be 100644
+--- a/qemu.sasl
++++ b/qemu.sasl
+@@ -19,15 +19,15 @@ mech_list: gssapi
+ 
+ # If using TLS with VNC, or a UNIX socket only, it is possible to
+ # enable plugins which don't provide session encryption. The
+-# 'scram-sha-1' plugin allows plain username/password authentication
++# 'scram-sha-256' plugin allows plain username/password authentication
+ # to be performed
+ #
+-#mech_list: scram-sha-1
++#mech_list: scram-sha-256
+ 
+ # You can also list many mechanisms at once, and the VNC server will
+ # negotiate which to use by considering the list enabled on the VNC
+ # client.
+-#mech_list: scram-sha-1 gssapi
++#mech_list: scram-sha-256 gssapi
+ 
+ # Some older builds of MIT kerberos on Linux ignore this option &
+ # instead need KRB5_KTNAME env var.
+@@ -38,7 +38,8 @@ mech_list: gssapi
+ # mechanism this can be commented out.
+ keytab: /etc/qemu/krb5.tab
+ 
+-# If using scram-sha-1 for username/passwds, then this is the file
++# If using scram-sha-256 for username/passwds, then this is the file
+ # containing the passwds. Use 'saslpasswd2 -a qemu [username]'
+-# to add entries, and 'sasldblistusers2 -f [sasldb_path]' to browse it
++# to add entries, and 'sasldblistusers2 -f [sasldb_path]' to browse it.
++# Note that this file stores passwords in clear text.
+ #sasldb_path: /etc/qemu/passwd.db
 -- 
 2.31.1
 
