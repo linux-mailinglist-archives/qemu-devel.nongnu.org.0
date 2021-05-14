@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51BC5380E8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:04:14 +0200 (CEST)
-Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87EF380EA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:11:07 +0200 (CEST)
+Received: from localhost ([::1]:35140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhbET-00056w-Ap
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57718)
+	id 1lhbL8-0007fL-ES
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawZ-0005Or-NE
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57245)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawe-0005fU-J3
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawW-0005pF-8k
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:43 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawX-0005pD-9q
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1621010734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Ge8Au1iXfFAEYzz9TEQv5M5xHVUbAVOsxZVf60mjwM=;
- b=Xr6yHl8reqHivEDGLllHMPi/miLUsoukvuSOLt2vVD3gaBXKKlpmFjsZ7FydTDY55m02oG
- zSC4u/qpxumKgR9ApLh/J/963NrN6d0o1brwpAV3yOaJVYZbBzkLvDAB0YWYW0ZooNnqin
- N6tUvY/+2iTVOPkWlEHzGP8shx3N/8I=
+ bh=xaWlUHkXk0yIJbXgfnbRkewFmEtLhEPWkCX4UdUsxNQ=;
+ b=ezm2NWmO7FFVYFhwagWVtFmpcZE+g9hZmOuXxB7YWGbr/qkHeKolDonYxiNM44f/IFz1hW
+ QdFKCWNWpmSnZspsEezG5zc/Jga6LJI34wB3j5txMnvAo72TgaO5b0HA6stkx/vQTWDlw3
+ P7053SKp7PN5bhoE3d3AdV9bZPh7MH0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-IXZwF6__MT6I3gURNom_Uw-1; Fri, 14 May 2021 12:45:30 -0400
-X-MC-Unique: IXZwF6__MT6I3gURNom_Uw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-166-0decN8QJN_u2B2VVJik52Q-1; Fri, 14 May 2021 12:45:32 -0400
+X-MC-Unique: 0decN8QJN_u2B2VVJik52Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A1C510074A7;
- Fri, 14 May 2021 16:45:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29D6010074CE;
+ Fri, 14 May 2021 16:45:31 +0000 (UTC)
 Received: from localhost (ovpn-114-49.ams2.redhat.com [10.36.114.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BA95077F11;
- Fri, 14 May 2021 16:45:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C621F61156;
+ Fri, 14 May 2021 16:45:30 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/19] qemu-iotests: allow passing unittest.main arguments to
- the test scripts
-Date: Fri, 14 May 2021 18:45:01 +0200
-Message-Id: <20210514164514.1057680-7-mreitz@redhat.com>
+Subject: [PULL 07/19] qemu-iotests: move command line and environment handling
+ from TestRunner to TestEnv
+Date: Fri, 14 May 2021 18:45:02 +0200
+Message-Id: <20210514164514.1057680-8-mreitz@redhat.com>
 In-Reply-To: <20210514164514.1057680-1-mreitz@redhat.com>
 References: <20210514164514.1057680-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -84,64 +84,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Python test scripts that use unittest consist of multiple tests.
-unittest.main allows selecting which tests to run, but currently this
-is not possible because the iotests wrapper ignores sys.argv.
+In the next patch, "check" will learn how to execute a test script without
+going through TestRunner.  To enable this, keep only the text output
+and subprocess handling in the TestRunner; move into TestEnv the logic
+to prepare for running a subprocess.
 
-unittest.main command line options also allow the user to pick the
-desired options for verbosity, failfast mode, etc.  While "-d" is
-currently translated to "-v", it also enables extra debug output,
-and other options are not available at all.
-
-These command line options only work if the unittest.main testRunner
-argument is a type, rather than a TestRunner instance.  Therefore, pass
-the class name and "verbosity" argument to unittest.main, and adjust for
-the different default warnings between TextTestRunner and unittest.main.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Tested-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20210323181928.311862-3-pbonzini@redhat.com>
-Message-Id: <20210503110110.476887-3-pbonzini@redhat.com>
+Message-Id: <20210323181928.311862-4-pbonzini@redhat.com>
+Message-Id: <20210503110110.476887-4-pbonzini@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/testenv.py    | 17 ++++++++++++++++-
+ tests/qemu-iotests/testrunner.py | 14 +-------------
+ 2 files changed, 17 insertions(+), 14 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 55a017577f..5ead94229f 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -1308,12 +1308,16 @@ def __init__(self, stream: Optional[TextIO] = None,
-                          resultclass=resultclass,
-                          **kwargs)
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index 6d27712617..fca3a609e0 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -25,7 +25,7 @@
+ import random
+ import subprocess
+ import glob
+-from typing import Dict, Any, Optional, ContextManager
++from typing import List, Dict, Any, Optional, ContextManager
  
--def execute_unittest(debug=False):
-+def execute_unittest(argv: List[str], debug: bool = False) -> None:
-     """Executes unittests within the calling module."""
  
--    verbosity = 2 if debug else 1
--    runner = ReproducibleTestRunner(verbosity=verbosity)
--    unittest.main(testRunner=runner)
-+    # Some tests have warnings, especially ResourceWarnings for unclosed
-+    # files and sockets.  Ignore them for now to ensure reproducibility of
-+    # the test output.
-+    unittest.main(argv=argv,
-+                  testRunner=ReproducibleTestRunner,
-+                  verbosity=2 if debug else 1,
-+                  warnings=None if sys.warnoptions else 'ignore')
+ def isxfile(path: str) -> bool:
+@@ -74,6 +74,21 @@ class TestEnv(ContextManager['TestEnv']):
+                      'CACHEMODE_IS_DEFAULT', 'IMGFMT_GENERIC', 'IMGOPTSSYNTAX',
+                      'IMGKEYSECRET', 'QEMU_DEFAULT_MACHINE', 'MALLOC_PERTURB_']
  
- def execute_setup_common(supported_fmts: Sequence[str] = (),
-                          supported_platforms: Sequence[str] = (),
-@@ -1350,7 +1354,7 @@ def execute_test(*args, test_function=None, **kwargs):
++    def prepare_subprocess(self, args: List[str]) -> Dict[str, str]:
++        if self.debug:
++            args.append('-d')
++
++        with open(args[0], encoding="utf-8") as f:
++            try:
++                if f.readline().rstrip() == '#!/usr/bin/env python3':
++                    args.insert(0, self.python)
++            except UnicodeDecodeError:  # binary test? for future.
++                pass
++
++        os_env = os.environ.copy()
++        os_env.update(self.get_env())
++        return os_env
++
+     def get_env(self) -> Dict[str, str]:
+         env = {}
+         for v in self.env_variables:
+diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+index 1fc61fcaa3..519924dc81 100644
+--- a/tests/qemu-iotests/testrunner.py
++++ b/tests/qemu-iotests/testrunner.py
+@@ -129,7 +129,6 @@ class TestRunner(ContextManager['TestRunner']):
+     def __init__(self, env: TestEnv, makecheck: bool = False,
+                  color: str = 'auto') -> None:
+         self.env = env
+-        self.test_run_env = self.env.get_env()
+         self.makecheck = makecheck
+         self.last_elapsed = LastElapsedTime('.last-elapsed-cache', env)
  
-     debug = execute_setup_common(*args, **kwargs)
-     if not test_function:
--        execute_unittest(debug)
-+        execute_unittest(sys.argv, debug)
-     else:
-         test_function()
+@@ -243,18 +242,7 @@ def do_run_test(self, test: str) -> TestResult:
+             silent_unlink(p)
  
+         args = [str(f_test.resolve())]
+-        if self.env.debug:
+-            args.append('-d')
+-
+-        with f_test.open(encoding="utf-8") as f:
+-            try:
+-                if f.readline().rstrip() == '#!/usr/bin/env python3':
+-                    args.insert(0, self.env.python)
+-            except UnicodeDecodeError:  # binary test? for future.
+-                pass
+-
+-        env = os.environ.copy()
+-        env.update(self.test_run_env)
++        env = self.env.prepare_subprocess(args)
+ 
+         t0 = time.time()
+         with f_bad.open('w', encoding="utf-8") as f:
 -- 
 2.31.1
 
