@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0183380CD9
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:26:27 +0200 (CEST)
-Received: from localhost ([::1]:54508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3F8380D1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:30:57 +0200 (CEST)
+Received: from localhost ([::1]:36820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhZhq-0006fn-PN
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:26:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36788)
+	id 1lhZmC-0005Yg-Bx
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:30:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhZVs-0005v5-4e
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:04 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:46949)
+ id 1lhZVt-0005wC-O1
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:08 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:46988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhZVq-00072F-Lh
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:03 -0400
-Received: by mail-qt1-x834.google.com with SMTP id m13so7171558qtk.13
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:14:02 -0700 (PDT)
+ id 1lhZVr-00072x-Gc
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:05 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id 76so28990224qkn.13
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:14:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JAUZoSf08wmQ4OzHJ+DwMM9rnCZ56JE9Izgi0Nl3LSA=;
- b=QQK6o1NOj2LU9IQ8S/X/KlDrqHMivwglajoMzM9Gb917mYZlvR8swYr7mFzuHBwibD
- f6OkZs5fF7wcvTYs/LqyshWC5zJw/8KtSgzDRzMtMPs8MOvIkIohc83GiuZ3UvAVdWMz
- 9Lm5VIGYwGFqWxnPBP65+7D8XqPPVB1flJ5FF+//QmPHr712G6RaV9nTHH6h+JjVzFJh
- ylNbM0Qm7NLrObNj/dDi1Q2mEUVZtASyGrAF9c7D2dnux3z8Ewi1objoKtXUAhJJ3c89
- XQkQ3d+eRTRz2KFnyYg1wzKg/R6sWWwKA0fE2lya40R9maeByE3zoGj4X6W7iQbdvkNu
- FyGQ==
+ bh=8edEzhGtq2xMFYEZpXK4wZ0FVGZmgn9bdMJp8iCQWR0=;
+ b=g37ilEz3daZUPTXd67yvR3chAn216ztyn2MSXmx2nGnySaJFqcfXFNNhQb97jreqK9
+ A+cLmKIVJtZZ4leVk1H+l190M62h5OUquSDM/zJVaby40Edxfbi63myE2qEmh3TznAff
+ hjWYfjz6y51h80XZ5EL4OMMUYTingJnL/2q3LmT69mOnhsqx/Lb4N81PCQdXiqrSCDJw
+ qabRzTpfObtbBiopS/BFQERK3ObKQjIL8vIonPSMRTOAp8RNzEGkzyDLlnM4+48PxzxU
+ V9f2oNaezR5oQB5o6je5Pf4kMp/hmoEc0qtDHxSgw3feJrX3tY8b6x6vI/0SOWYPgFRH
+ Nlbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JAUZoSf08wmQ4OzHJ+DwMM9rnCZ56JE9Izgi0Nl3LSA=;
- b=orxbQ944XS1uwMB2E6e5Ii1a6yytLiMwKW4LKOlcoU/ZS3Qvq4uLcXvHvLVIdzbWN8
- gI3XHCJhShQDVxrOkzjw/ShDA3Hl+WxrjzFm27evAq0u7jIvdWi5m9CA+U5zDQzOATGS
- WTaci3jOhuC526gfc1+1NEFUxJ89JXWduyPCqktbYTh0HKam3GolhmAS7fpFpxldHZUh
- WGmzpwtiEgEUOI5jaTGmTeQctZg/iHCSZiN3YUrmomZ5O3eQ7+JzkVacHDzCQwPst8Se
- Y1X1Q26hJMsPBKTwxbD/jEf+nrfIEl3a0hBdsuQ6T0HLaq8w2b7+Ro7qP62mkriWntg9
- MZ3Q==
-X-Gm-Message-State: AOAM532Wa1HwEbDN3n/S3iKUk/NMRaTGuooIMXLVq+fbhoeRt4g7aO4+
- mCnJM08zdlJaug2bAkYVeYgPB+z4KgiwLnIS+Us=
-X-Google-Smtp-Source: ABdhPJz517VTBjKUKLMQ6ziTVi4VuW5WifnjjDESkJC8DXmoaNgS1K/odA8vx779tzFoI8g6KNTORA==
-X-Received: by 2002:ac8:6908:: with SMTP id e8mr25695507qtr.174.1621005241754; 
- Fri, 14 May 2021 08:14:01 -0700 (PDT)
+ bh=8edEzhGtq2xMFYEZpXK4wZ0FVGZmgn9bdMJp8iCQWR0=;
+ b=V18AQmLhDb5d0/wswIApp3Eu26TS0Z0oMfW0TlvzUznlm4Lb3vqmZJmuHlB55wLbwr
+ EDR4hP8eWns1/Px1+u849F1aPA2UxclaJLhvZEjVBwaT0b6fSPnobnB8RZdUKXN+X+M2
+ 97qoiIKxshE5fr8/p5AlPTyQL9pLtRPMmtdFYUmpqVdXFzVHNjGj8ehW4OVomg7xvhbp
+ xplCAUZx5QYVwbitlVTUeyec0Kp9YGhUABJQwkGLmQBcqOnnXWrtIwMHLNmOkGVys67U
+ uIfP6Q+37DOcCuAwkl4iBgdSgjs36aI1CYjDB5uS7+m4vSzE2SznYLSBvmXGdII1IFaG
+ 9rPQ==
+X-Gm-Message-State: AOAM533hFK72EbZb9t40DO8mpazljFVWWA84kKfeo1IYC9TAJm6kpfiS
+ j0XtAVKv7znGVFpEV3CsEeOhbE5t9a8zfar7JNU=
+X-Google-Smtp-Source: ABdhPJxO7W2l1o/96E1bfPscOtBDFH0yAv/1X5Im1J4CDMcIOqvh9RY38R80Y+VxDbpD/0Z6fIYY0A==
+X-Received: by 2002:a37:68c5:: with SMTP id
+ d188mr31816815qkc.287.1621005242694; 
+ Fri, 14 May 2021 08:14:02 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id u6sm4778966qkj.117.2021.05.14.08.14.00
+ by smtp.gmail.com with ESMTPSA id u6sm4778966qkj.117.2021.05.14.08.14.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 May 2021 08:14:01 -0700 (PDT)
+ Fri, 14 May 2021 08:14:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/50] target/i386: Remove DisasContext.f_st as unused
-Date: Fri, 14 May 2021 10:13:11 -0500
-Message-Id: <20210514151342.384376-20-richard.henderson@linaro.org>
+Subject: [PATCH v2 20/50] target/i386: Reduce DisasContext.flags to uint32_t
+Date: Fri, 14 May 2021 10:13:12 -0500
+Message-Id: <20210514151342.384376-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210514151342.384376-1-richard.henderson@linaro.org>
 References: <20210514151342.384376-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x834.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,31 +88,26 @@ Cc: pbonzini@redhat.com, f4bug@amsat.org, ehabkost@redhat.com, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The value comes from tb->flags, which is uint32_t.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/i386/tcg/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 4222f09b6f..7e296b39f5 100644
+index 7e296b39f5..ca7f0a8cf4 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -101,7 +101,6 @@ typedef struct DisasContext {
-     int vex_v;  /* vex vvvv register, without 1's complement.  */
-     CCOp cc_op;  /* current CC operation */
-     bool cc_op_dirty;
--    int f_st;   /* currently unused */
-     int tf;     /* TF cpu flag */
+@@ -105,7 +105,7 @@ typedef struct DisasContext {
      int jmp_opt; /* use direct block chaining for direct jumps */
      int repz_opt; /* optimize jumps within repz instructions */
-@@ -8507,7 +8506,6 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
-     g_assert(LMA(dc) == ((flags & HF_LMA_MASK) != 0));
-     g_assert(ADDSEG(dc) == ((flags & HF_ADDSEG_MASK) != 0));
- 
--    dc->f_st = 0;
-     dc->tf = (flags >> TF_SHIFT) & 1;
-     dc->cc_op = CC_OP_DYNAMIC;
-     dc->cc_op_dirty = false;
+     int mem_index; /* select memory access functions */
+-    uint64_t flags; /* all execution flags */
++    uint32_t flags; /* all execution flags */
+     int popl_esp_hack; /* for correct popl with esp base handling */
+     int rip_offset; /* only used in x86_64, but left for simplicity */
+     int cpuid_features;
 -- 
 2.25.1
 
