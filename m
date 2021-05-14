@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C643B380D92
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:49:13 +0200 (CEST)
-Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829D4380D9B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:52:31 +0200 (CEST)
+Received: from localhost ([::1]:60154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lha3s-0002UH-QW
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:49:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37110)
+	id 1lha74-0000bJ-Hz
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:52:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhZWF-0006PG-9E
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:27 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:40615)
+ id 1lhZZ6-0003JJ-N2
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:17:24 -0400
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:39839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhZW9-000791-07
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:27 -0400
-Received: by mail-qt1-x836.google.com with SMTP id j19so22406083qtp.7
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:14:20 -0700 (PDT)
+ id 1lhZZ4-0000Co-RR
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:17:24 -0400
+Received: by mail-qt1-x832.google.com with SMTP id f8so18264845qth.6
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Y//qpe9C1BMWcI8X6km7qURux7ByBn4kvB0jecV92uw=;
- b=FKVWD8QNgduznSpCAsE/GaIW0lYt+I72vdfuZR2TXdW1J1Dc9LXEVMHuvze+Vr5yEH
- 2MZcv2i9eMRlETjZ23AT2Nmr72B40hdviTG+RrKECc91V3QLX7INyU0FPbuPG60yMTrq
- JYfFJZaALV0lm1KEKTKUA0VyO52RcoFZ5mC9grbmIg8RvFo76E0h5nRRcxdvWPFV7KJG
- hSezRBo5JHYU5b/m0et6RBjr1Zy3PHtYdLptir8gnG+rxVXtZgchxYDJYLqU+dDc3fO1
- iu2UT68sB0uSc/QA862qcT8cyCypJNbPlPOUsZlLXvSNxCdx4++iK9/uUSQBWSFlGy/S
- FmeQ==
+ bh=JxgXRwC3DPI+6mt093LWUSFLNKSWuwiSEOIYntw4KwM=;
+ b=SmIwXFNvb2R3E2Zx+mrboG+BzCziQz5FmVG0iQoaQTwAKi0+WUAE+CfxJcoe4C+iZX
+ c1X7aC56H4PlRjhICu4jK2qA9TypTC4vJuoG8i7uSYKIC+GboKIxatAWi+V4DkW1xD5K
+ IDLbU2u5I4KKPFTOzDXFflKL6sCxpy+gfFXvXOSLfOlBe9vRlpRgYOPTKmuFvZ7gI0hz
+ md9YWCCzt6CL17CUl2H5E7OAIVaH0eamY0xihLbY+ZjmhnCohisJYUmD7L/4AUj41r7X
+ BLI3GISYpUC6GUF0Tu6PbioQRKHmUOWzC++754O0rCsjbp/UoLufGNqcqgrNy7qMYYk4
+ hZ4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Y//qpe9C1BMWcI8X6km7qURux7ByBn4kvB0jecV92uw=;
- b=m4BFtFgNXCJ1XIOwQrEAjFxJrZWaHPDMaqVgyMdl1IUiNVF/XXsWTKQQ4Ma9Tmlywt
- Fdtk3FW/MQkpT3B8iwcXKp49kCsaerxeZvVzGz3DHoG/ODdC4NmcmwIUmOkJQ487AwxS
- YhI+laqtKGA1rZq3l4IySBEgeFjPBAmNjdXyvmmFbV0QQMlx+U1C7xJ+Uv3f0yg7H8L8
- E4chelxiv+IC7jcf4Riiew9qQxA6SJ1PgNPAAvJw3IL8F7VSogYR23Rl7q1FTRVePkzx
- yIKV9bKQjTW1cyIXNl+jAzOOUQSoznsUM4R8qeVGFk54wc+CH5fiiObHTQY5BL4U0qGK
- oICw==
-X-Gm-Message-State: AOAM533njoJ6ksdbm5o5Z4yqK18MgCDyACtsRyvHo7jmPQeuFp2caNJs
- HpdRHaquH+3qTP45yFY4gG1Bj6Gj6fcofjsQmbs=
-X-Google-Smtp-Source: ABdhPJzbDdiZfdUOuAj9f8qRcqQjh2ceXipkmHdOFm6zrWi6ESxOgAPZ1vjnP+pI6d9vmDGo9O1SLA==
-X-Received: by 2002:ac8:7b26:: with SMTP id l6mr44434627qtu.136.1621005260040; 
- Fri, 14 May 2021 08:14:20 -0700 (PDT)
+ bh=JxgXRwC3DPI+6mt093LWUSFLNKSWuwiSEOIYntw4KwM=;
+ b=f2EkM7AMH8+FZHrfkn8v1BB2u1MyhO7u/Uu4/BwVhlh6CVu7PnaljZm/Wt+ZWP7FjI
+ RD6w+0YuxcncXVXxyXsL7H5K3zd02LQTPHzebQeZOFEzAbE4z/uWJpJQ4cEjHbPrXOZc
+ sA/SHn6jh+WO2Va1hQQDPhOY5Iup2aAHjjuH3cCd01mvQWjopmE+9TXbB08H0ihBWbZg
+ o2G6FETUMaIR/aw/cxuTbj4wqomzsugqmH77/N06rtkk0zZZq7uhzTkIGwfy3P3JYEgo
+ 0Bd/up5vTg57Gj9tEa2tKv2/Frwk3GixiF1H7dLFjnMooLnSboZdkbkk45pRJ6z+Ij7S
+ Ot4Q==
+X-Gm-Message-State: AOAM532hHiDCqnQgEy96PI7k/Wq+zr7TMVcRWKSDOas3ufgrDAo5brvs
+ YexLNWCsnjQLmJwfnOeOhKvpvjNEqFwB4FTDH98=
+X-Google-Smtp-Source: ABdhPJz3hcRqza57VypF2mOvk5vSgiVcKIqAoUM9iyywucTaVVMBs39HhiHxF7MmajW1ykupo5HSnA==
+X-Received: by 2002:a05:622a:164a:: with SMTP id
+ y10mr4486525qtj.97.1621005441835; 
+ Fri, 14 May 2021 08:17:21 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id u6sm4778966qkj.117.2021.05.14.08.14.19
+ by smtp.gmail.com with ESMTPSA id p190sm5181972qke.13.2021.05.14.08.17.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 May 2021 08:14:19 -0700 (PDT)
+ Fri, 14 May 2021 08:17:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 39/50] target/i386: Cleanup read_crN, write_crN, lmsw
-Date: Fri, 14 May 2021 10:13:31 -0500
-Message-Id: <20210514151342.384376-40-richard.henderson@linaro.org>
+Subject: [PATCH v2 40/50] target/i386: Pass env to do_pause and do_hlt
+Date: Fri, 14 May 2021 10:13:32 -0500
+Message-Id: <20210514151342.384376-41-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210514151342.384376-1-richard.henderson@linaro.org>
 References: <20210514151342.384376-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x836.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x832.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,203 +88,88 @@ Cc: pbonzini@redhat.com, f4bug@amsat.org, ehabkost@redhat.com, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pull the svm intercept check into the translator.
-Pull the entire implementation of lmsw into the translator.
-Push the check for CR8LEG into the regno validation switch.
-Unify the gen_io_start check between read/write.
+Having the callers upcast to X86CPU is a waste, since we
+don't need it.  We even have to recover env in do_hlt.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/helper.h                 |  5 +-
- target/i386/tcg/misc_helper.c        |  8 ---
- target/i386/tcg/sysemu/misc_helper.c |  2 -
- target/i386/tcg/translate.c          | 97 +++++++++++++++-------------
- 4 files changed, 54 insertions(+), 58 deletions(-)
+ target/i386/tcg/misc_helper.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index 86484a4ec4..ebfaca66dd 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -42,9 +42,8 @@ DEF_HELPER_5(lcall_protected, void, env, int, tl, int, tl)
- DEF_HELPER_2(iret_real, void, env, int)
- DEF_HELPER_3(iret_protected, void, env, int, int)
- DEF_HELPER_3(lret_protected, void, env, int, int)
--DEF_HELPER_2(read_crN, tl, env, int)
--DEF_HELPER_3(write_crN, void, env, int, tl)
--DEF_HELPER_2(lmsw, void, env, tl)
-+DEF_HELPER_FLAGS_2(read_crN, TCG_CALL_NO_RWG, tl, env, int)
-+DEF_HELPER_FLAGS_3(write_crN, TCG_CALL_NO_RWG, void, env, int, tl)
- DEF_HELPER_1(clts, void, env)
- 
- #ifndef CONFIG_USER_ONLY
 diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
-index 0e9a4f0bfc..931dbd9db0 100644
+index 931dbd9db0..23287b330e 100644
 --- a/target/i386/tcg/misc_helper.c
 +++ b/target/i386/tcg/misc_helper.c
-@@ -60,14 +60,6 @@ void helper_cpuid(CPUX86State *env)
-     env->regs[R_EDX] = edx;
+@@ -101,19 +101,18 @@ void QEMU_NORETURN helper_rdpmc(CPUX86State *env)
+     raise_exception_err(env, EXCP06_ILLOP, 0);
  }
  
--void helper_lmsw(CPUX86State *env, target_ulong t0)
--{
--    /* only 4 lower bits of CR0 are modified. PE cannot be set to zero
--       if already set to one. */
--    t0 = (env->cr[0] & ~0xe) | (t0 & 0xf);
--    helper_write_crN(env, 0, t0);
--}
+-static QEMU_NORETURN void do_pause(X86CPU *cpu)
++static void QEMU_NORETURN do_pause(CPUX86State *env)
+ {
+-    CPUState *cs = CPU(cpu);
++    CPUState *cs = env_cpu(env);
+ 
+     /* Just let another CPU run.  */
+     cs->exception_index = EXCP_INTERRUPT;
+     cpu_loop_exit(cs);
+ }
+ 
+-static QEMU_NORETURN void do_hlt(X86CPU *cpu)
++static void QEMU_NORETURN do_hlt(CPUX86State *env)
+ {
+-    CPUState *cs = CPU(cpu);
+-    CPUX86State *env = &cpu->env;
++    CPUState *cs = env_cpu(env);
+ 
+     env->hflags &= ~HF_INHIBIT_IRQ_MASK; /* needed if sti is just before */
+     cs->halted = 1;
+@@ -123,12 +122,10 @@ static QEMU_NORETURN void do_hlt(X86CPU *cpu)
+ 
+ void QEMU_NORETURN helper_hlt(CPUX86State *env, int next_eip_addend)
+ {
+-    X86CPU *cpu = env_archcpu(env);
 -
- void helper_invlpg(CPUX86State *env, target_ulong addr)
- {
-     X86CPU *cpu = env_archcpu(env);
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-index 66e7939537..c7381ef7e8 100644
---- a/target/i386/tcg/sysemu/misc_helper.c
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -65,7 +65,6 @@ target_ulong helper_read_crN(CPUX86State *env, int reg)
- {
-     target_ulong val;
+     cpu_svm_check_intercept_param(env, SVM_EXIT_HLT, 0, GETPC());
+     env->eip += next_eip_addend;
  
--    cpu_svm_check_intercept_param(env, SVM_EXIT_READ_CR0 + reg, 0, GETPC());
-     switch (reg) {
-     default:
-         val = env->cr[reg];
-@@ -83,7 +82,6 @@ target_ulong helper_read_crN(CPUX86State *env, int reg)
+-    do_hlt(cpu);
++    do_hlt(env);
+ }
  
- void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
+ void helper_monitor(CPUX86State *env, target_ulong ptr)
+@@ -143,7 +140,6 @@ void helper_monitor(CPUX86State *env, target_ulong ptr)
+ void QEMU_NORETURN helper_mwait(CPUX86State *env, int next_eip_addend)
  {
--    cpu_svm_check_intercept_param(env, SVM_EXIT_WRITE_CR0 + reg, 0, GETPC());
-     switch (reg) {
-     case 0:
-         cpu_x86_update_cr0(env, t0);
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index d0fef4cce8..6804835712 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -7654,13 +7654,22 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-             tcg_gen_trunc_tl_i32(s->tmp2_i32, cpu_regs[R_ECX]);
-             gen_helper_wrpkru(cpu_env, s->tmp2_i32, s->tmp1_i64);
-             break;
-+
-         CASE_MODRM_OP(6): /* lmsw */
-             if (!check_cpl0(s)) {
-                 break;
-             }
-             gen_svm_check_intercept(s, SVM_EXIT_WRITE_CR0);
-             gen_ldst_modrm(env, s, modrm, MO_16, OR_TMP0, 0);
--            gen_helper_lmsw(cpu_env, s->T0);
-+            /*
-+             * Only the 4 lower bits of CR0 are modified.
-+             * PE cannot be set to zero if already set to one.
-+             */
-+            tcg_gen_ld_tl(s->T1, cpu_env, offsetof(CPUX86State, cr[0]));
-+            tcg_gen_andi_tl(s->T0, s->T0, 0xf);
-+            tcg_gen_andi_tl(s->T1, s->T1, ~0xe);
-+            tcg_gen_or_tl(s->T0, s->T0, s->T1);
-+            gen_helper_write_crN(cpu_env, tcg_constant_i32(0), s->T0);
-             gen_jmp_im(s, s->pc - s->cs_base);
-             gen_eob(s);
-             break;
-@@ -8034,58 +8043,56 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         modrm = x86_ldub_code(env, s);
-         gen_nop_modrm(env, s, modrm);
-         break;
-+
-     case 0x120: /* mov reg, crN */
-     case 0x122: /* mov crN, reg */
--        if (check_cpl0(s)) {
--            modrm = x86_ldub_code(env, s);
--            /* Ignore the mod bits (assume (modrm&0xc0)==0xc0).
--             * AMD documentation (24594.pdf) and testing of
--             * intel 386 and 486 processors all show that the mod bits
--             * are assumed to be 1's, regardless of actual values.
--             */
--            rm = (modrm & 7) | REX_B(s);
--            reg = ((modrm >> 3) & 7) | REX_R(s);
--            if (CODE64(s))
--                ot = MO_64;
--            else
--                ot = MO_32;
--            if ((prefixes & PREFIX_LOCK) && (reg == 0) &&
-+        if (!check_cpl0(s)) {
-+            break;
-+        }
-+        modrm = x86_ldub_code(env, s);
-+        /*
-+         * Ignore the mod bits (assume (modrm&0xc0)==0xc0).
-+         * AMD documentation (24594.pdf) and testing of Intel 386 and 486
-+         * processors all show that the mod bits are assumed to be 1's,
-+         * regardless of actual values.
-+         */
-+        rm = (modrm & 7) | REX_B(s);
-+        reg = ((modrm >> 3) & 7) | REX_R(s);
-+        switch (reg) {
-+        case 0:
-+            if ((prefixes & PREFIX_LOCK) &&
-                 (s->cpuid_ext3_features & CPUID_EXT3_CR8LEG)) {
-                 reg = 8;
-             }
--            switch(reg) {
--            case 0:
--            case 2:
--            case 3:
--            case 4:
--            case 8:
--                gen_update_cc_op(s);
--                gen_jmp_im(s, pc_start - s->cs_base);
--                if (b & 2) {
--                    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                        gen_io_start();
--                    }
--                    gen_op_mov_v_reg(s, ot, s->T0, rm);
--                    gen_helper_write_crN(cpu_env, tcg_const_i32(reg),
--                                         s->T0);
--                    gen_jmp_im(s, s->pc - s->cs_base);
--                    gen_eob(s);
--                } else {
--                    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                        gen_io_start();
--                    }
--                    gen_helper_read_crN(s->T0, cpu_env, tcg_const_i32(reg));
--                    gen_op_mov_reg_v(s, ot, rm, s->T0);
--                    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                        gen_jmp(s, s->pc - s->cs_base);
--                    }
--                }
--                break;
--            default:
--                goto unknown_op;
-+            break;
-+        case 2:
-+        case 3:
-+        case 4:
-+            break;
-+        default:
-+            goto unknown_op;
-+        }
-+        ot  = (CODE64(s) ? MO_64 : MO_32);
-+
-+        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+            gen_io_start();
-+        }
-+        if (b & 2) {
-+            gen_svm_check_intercept(s, SVM_EXIT_WRITE_CR0 + reg);
-+            gen_op_mov_v_reg(s, ot, s->T0, rm);
-+            gen_helper_write_crN(cpu_env, tcg_constant_i32(reg), s->T0);
-+            gen_jmp_im(s, s->pc - s->cs_base);
-+            gen_eob(s);
-+        } else {
-+            gen_svm_check_intercept(s, SVM_EXIT_READ_CR0 + reg);
-+            gen_helper_read_crN(s->T0, cpu_env, tcg_constant_i32(reg));
-+            gen_op_mov_reg_v(s, ot, rm, s->T0);
-+            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+                gen_jmp(s, s->pc - s->cs_base);
-             }
-         }
-         break;
-+
-     case 0x121: /* mov reg, drN */
-     case 0x123: /* mov drN, reg */
-         if (check_cpl0(s)) {
+     CPUState *cs = env_cpu(env);
+-    X86CPU *cpu = env_archcpu(env);
+ 
+     if ((uint32_t)env->regs[R_ECX] != 0) {
+         raise_exception_ra(env, EXCP0D_GPF, GETPC());
+@@ -153,20 +149,18 @@ void QEMU_NORETURN helper_mwait(CPUX86State *env, int next_eip_addend)
+ 
+     /* XXX: not complete but not completely erroneous */
+     if (cs->cpu_index != 0 || CPU_NEXT(cs) != NULL) {
+-        do_pause(cpu);
++        do_pause(env);
+     } else {
+-        do_hlt(cpu);
++        do_hlt(env);
+     }
+ }
+ 
+ void QEMU_NORETURN helper_pause(CPUX86State *env, int next_eip_addend)
+ {
+-    X86CPU *cpu = env_archcpu(env);
+-
+     cpu_svm_check_intercept_param(env, SVM_EXIT_PAUSE, 0, GETPC());
+     env->eip += next_eip_addend;
+ 
+-    do_pause(cpu);
++    do_pause(env);
+ }
+ 
+ void QEMU_NORETURN helper_debug(CPUX86State *env)
 -- 
 2.25.1
 
