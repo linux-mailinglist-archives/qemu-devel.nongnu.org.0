@@ -2,133 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E6E380DC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:05:41 +0200 (CEST)
-Received: from localhost ([::1]:36342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C75380DCA
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:10:25 +0200 (CEST)
+Received: from localhost ([::1]:52380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhaJo-0006Hs-59
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:05:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40782)
+	id 1lhaON-0000eT-HO
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lhZmO-0007xv-Nx; Fri, 14 May 2021 11:31:09 -0400
-Received: from mail-eopbgr140137.outbound.protection.outlook.com
- ([40.107.14.137]:55034 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lhZtX-0003I5-EN
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:38:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lhZmD-0006Ei-Q9; Fri, 14 May 2021 11:31:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MtV7xSwqwvEMmcMd394oMnpUpJqgMOUOQRFJN/8lLUOkdrKInvRSfjnGHiagT0i8dbu54C302zhlHQP0R2iL1/OrQ2dl8P6PjAjs1GjbuTsBq3wvk1MKtqGUL3vRH65oGsieRaYlN1t7GwmRt7XNFfCyHjsp6Xy541uudUkRxjzna+5/WAZ6sVhpSPasHvhH17eGORXKEG75wB21rkV9598duyjOgZswyIR5E7nwXsb1QRS8fuoDa/dza/v1mhq+NCAGH6QY/JxeB46OOFtcIdUAVE+Hv8xxNL6u2KmOVGZeYujEglX37omD/QBXCQK/7eqUY52eQTWcmSO/KCyGvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XUiB+kwzbEiS2nnSIIlXf4AH8uhtD/j1STRZd2qeXsY=;
- b=DuIWp+NgZIIG+ZsC8rew/9NEzylPTM9HYdDwN/QwE2bDoG1t1EEho3CmFbF1pzO+inMw/fcdPn5IAeSXrj+KNQUol5Fq172Jp8d+Q+uVXujCqnJBSyA8aXRW6mXeTOuZOYLuArU6dcYUplM2/9JC344Sf7d1TFBaf4I14s/mDbUQkefZ9arFXpH3bRzwcYyu5ygtYXEw2uatWISHkO14wrRNrwilYfL1Z0WN5vdF26iME1oK3nc0bf9fgtRCyZzISSda/Je36rDtYO834Av/EC+UKBs+Ny6t55QZmuJbCHSiupzoiOJCJJyVPaib+4AnQZHzRE63eP8kpIpLr68jjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XUiB+kwzbEiS2nnSIIlXf4AH8uhtD/j1STRZd2qeXsY=;
- b=pQY8wDim+ltngLTa9uojtN17InVseYqTTYxpEJDbKQxEwdWIilsqC61DHsFFghOFskKNRmEW94uwyeIaPDxTNRqZ6nyz6RsgY+gYfY9LSVFIzAZWaP2TgIVAnfMSgEiD+2EqVZcDM8DCM7DVCIiGSsEpPm4tiIM9lq9lu6trvyE=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3224.eurprd08.prod.outlook.com (2603:10a6:209:47::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.29; Fri, 14 May
- 2021 15:30:54 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4129.026; Fri, 14 May 2021
- 15:30:54 +0000
-Subject: Re: [PATCH 5/6] co-shared-resource: protect with a mutex
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210510085941.22769-1-eesposit@redhat.com>
- <20210510085941.22769-6-eesposit@redhat.com>
- <YJv3+y42z0Ld1nY0@stefanha-x1.localdomain>
- <6d1e432e-f18a-39a4-0bb6-2a14347c2905@redhat.com>
- <6b9d7c37-aaf7-1745-260b-4cce8f0891ee@virtuozzo.com>
- <8008b39d-905c-3858-a96f-8609801a4ae0@redhat.com>
-Message-ID: <24be08c6-d1f1-802c-a045-3a5c3fe102b0@virtuozzo.com>
-Date: Fri, 14 May 2021 18:30:48 +0300
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lhZtR-00016X-Do
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:38:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621006703;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tUL0tSzv0vD+pdvwL1XOC/nMpWZDSeyWNYa5M8/+s4E=;
+ b=QPLNP+L9D1Kftp/42EQ0aAwjzqeCJCrn5znJNcURBzxrBcAzXzXQU7KJnbytRrmgdBJKQu
+ 1kjsr0AE7ZRFQd+9WGuVduCwuASz/RsL5SaatyokAi/YCZkJAl89GfvYsmvID50HWRR9XM
+ UPsCGvHPe4BllKiD/ckGI/mM6ZRaeUo=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-503-bp2k6wWwNx-JEK_EGFpMUA-1; Fri, 14 May 2021 11:38:21 -0400
+X-MC-Unique: bp2k6wWwNx-JEK_EGFpMUA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ v10-20020a170906292ab02903d18e1be8f8so2417865ejd.13
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:38:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tUL0tSzv0vD+pdvwL1XOC/nMpWZDSeyWNYa5M8/+s4E=;
+ b=CYmtcsVjx4RU4tDYSbAgC+LyJBXca2RR//raY7tsjcZ7IsYRiuTkRVjtbrZ+gJvktb
+ PP98RrYUedFdkzZT8tJf/KioHMj8SF7C4bzRILT5R8zT4AeO/rOqvUdjOcU7AD1Rx7+W
+ RQTeemdiSV/zA9nsh0R84I8qJdH6SAGslKWx0CtLpEJtp+wAv2XeVu6VVr3G1YHMgtfw
+ H5b/T7fiqV6ueBUcLXr8rPyUPmC/6HuL9F6havA5ADW9XMwQRdeTRe0ZXc5PXGt9J5uC
+ eoDuas0DBTLLcRGGq50fuWOv0QWJoholXqw84eFHD3prWkmWkFLx4jxv47m0JAR3cjSw
+ RqUw==
+X-Gm-Message-State: AOAM533EGoqzcn4Ax0SPBpLpdheZNPJDjBF10GKd/cp5uRCPbMVEq12D
+ 4FdiYXHx/36GssbDDEQuJbOKbV7p9RAN5Wr2v+XHqCSfd6ogScXAmOBwaUBp3G286eHZ6kWrdlw
+ ofkrxtR2dyr/MpKg=
+X-Received: by 2002:a50:f9cc:: with SMTP id a12mr57654882edq.24.1621006699837; 
+ Fri, 14 May 2021 08:38:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSv+PbF8BxGYc1WdapF0yH6K98UV59fdoSR8S4s56GSOwBkzUCMl7eITFDsYbqnTv9K3Hx7A==
+X-Received: by 2002:a50:f9cc:: with SMTP id a12mr57654856edq.24.1621006699606; 
+ Fri, 14 May 2021 08:38:19 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id h8sm3698531ejb.104.2021.05.14.08.38.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 May 2021 08:38:18 -0700 (PDT)
+Subject: Re: [PATCH v7 00/10] KVM: Dirty ring support (QEMU part)
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+References: <20210506160549.130416-1-peterx@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <dac5f0c6-1bca-3daf-e5d2-6451dbbaca93@redhat.com>
+Date: Fri, 14 May 2021 17:38:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-In-Reply-To: <8008b39d-905c-3858-a96f-8609801a4ae0@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.249]
-X-ClientProxiedBy: PR0P264CA0249.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100::21)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.249) by
- PR0P264CA0249.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.25 via Frontend Transport; Fri, 14 May 2021 15:30:53 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ecf93dfd-db67-49cf-c953-08d916ed435a
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3224:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3224E4DBB423E8F71AF1AB70C1509@AM6PR08MB3224.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u2DMU9XloFTw16pKzWrAyXR5DGnUkq0hMi5GrPL3yJVpk1eFig4Z9XOSOtLOTwfo2oRrE28vo88Q+DFb/igNvwflEHW0GmG17Uq6gyYsg9FmEM/tgpxF1Mpws6Q5/1r+YYZF6FUbM27M0lsB6OAg6RcMy2+/+HsldNauX0bHim3rT7NXCvsOyiFf/Uio3pzKtvgYbozTnyj0M9p3wDI0FaK1hO4xCa3UjWFdGeRQHMvit7njXEXTJ5FohsG5xADSakI0Ixe+inEryzNADmzOalRXWXs6B53p+zSMWj4x1e5S028dDjU+1ocJaJdjm0h7qKb62VAEAnYp1yNdLPCRd/aPLwSGKAYzE5BwIxTYxXUBH1mCmNU3HNQNNwrKb04YI2/2Iu/S5feZ2eSD5uTJe+cA8HTIWTAwvx40sapTMGj2CtZcO8XXXApuRqgV5pDyOSIpsLoy/FYVObjjpW7PTcqjXDcB3oXz2ELJ6G/Fmv4Cz4CPYva5Yfv4VFUGxwkrNjwSU09TEdL0X8rRMTb4HOfG3sEuezBZH97WvyqNsT5KAh4ik4gj8yD8Io8N1nJkW+ggnUS4hFx/YGubRczCpQMQmxod+HEh/XuqNFphGu/Q7sbRJn4YphGwEsX+7tIQWd9Kn42cLfwHJOfzkTcsN1pXI1b9aUXrARF+dXZfpszBGU6ZDcgqN9rwisfywiFg6cXORlCiof8pI1NJ4A5QhL3Mf+mvaq6WR2PCjsLhU4o=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(346002)(376002)(396003)(366004)(39830400003)(86362001)(31696002)(6486002)(6666004)(956004)(110136005)(66556008)(66946007)(4326008)(8936002)(36756003)(38100700002)(478600001)(66476007)(52116002)(31686004)(53546011)(186003)(8676002)(26005)(2616005)(38350700002)(54906003)(5660300002)(16526019)(316002)(16576012)(83380400001)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?Windows-1252?Q?I99yaqqhsKnI9AsPwE5ii9dZzMoWBlDWPU4p6k3iofTK2r/lR7aal3cF?=
- =?Windows-1252?Q?+qrwlPO67Ej+Rl17TPHNOM1qUJLA8KuzRgUk/Oktb7maqw+SEukI1Mrw?=
- =?Windows-1252?Q?HNnMZHsX0LqBe++yICUHl6AhRJchwvvLk9zXsrsIlWppeEIRb60XFRIw?=
- =?Windows-1252?Q?/s/I6to1YJcx/TflDS/KH6pcJRg9pCV+0tL5B998K8IHY5Zrz7bp3r/A?=
- =?Windows-1252?Q?IJCWmMza8VAAorf9rL3bTxdSnM0bxYVVlRDLDpe48KLIHvc8caobp0se?=
- =?Windows-1252?Q?XsiD0CGSLKdTME7tk16C6jqaQXRUNt/Uy4ixQXBLUItca+kF1V+weUww?=
- =?Windows-1252?Q?xtlfY91IlHRWtDTyOK4rRBgDMCNHU0zWlY3W2Mb20NqG9ZcLMZAHQVQU?=
- =?Windows-1252?Q?uRchjZKqPq53FPINqVi2KP/zjYOvUmW2adXEu7fif0lh7cKnxOpznsW1?=
- =?Windows-1252?Q?JanfiAb3BGBtp7HXTzBlmSk7BGbKbE0ASsIqj23u2f+SiNx/nTA9FtU5?=
- =?Windows-1252?Q?gUdujbKOnZqkisRnZSkh7CdgbmgqmVsi6+c23GVZ4TGFQp4AU0umUknO?=
- =?Windows-1252?Q?AedNzdbB4KvIs2SNtrEXvyfvzrAX4J58N8Kdrfn66Azw9SsJMCrQ+oLa?=
- =?Windows-1252?Q?amLqVvTHANHn0halLyh83FnbHT6h6m4P3sA427Qiwb4eqGg2hLPv2ZK6?=
- =?Windows-1252?Q?oNQaqmId+urSWpQGrGDxrR+kMLvWDPYQ0Y4iydf6jGkrV9SoNGobWfUZ?=
- =?Windows-1252?Q?Oz0ts9Ko3jqZwsDYJGv6MaT7R2yHQCRfJ1BJl47u5x/384R+272rEqvK?=
- =?Windows-1252?Q?H+XsxzEiiMoFUc66CQT51s6uvsU+BaCV/n83pRC3eWZvqjbSgFux/S6A?=
- =?Windows-1252?Q?xQDmqFN8Q5RRMCsFSGUHZ35h7/QuRAHNXjJTTy9/OJd94RVwO6bvoViu?=
- =?Windows-1252?Q?0HrQqg3cSsm6HYRpMzK5dgtxH9NotD3D5tPHMIIYCpO2R+KaA8FtF3wW?=
- =?Windows-1252?Q?jo1eGknKmB4YGqzPFil6XgwyQO+lEmu14r+EpS76ZS/uS5dVQWDGbAS5?=
- =?Windows-1252?Q?LfX6dkMrxJpef8oexcXJWTzvVCZd+MzVyJtsn+jRjZi8Yw3ADotdwe/F?=
- =?Windows-1252?Q?b5uGY3T86HkyIEX4YQUN4MQVKdRjZPNEgnS9rHNuvSQTcQ2IU91yWbqx?=
- =?Windows-1252?Q?NV4Nfv0USLDUuQvoQkkoFvnJ5U/YUqN8WxUl8dIwig7+lfrFHAPX1fMg?=
- =?Windows-1252?Q?l5C9+WsMpLGGGqlAyppj/TzN1ruZO7PxIrg/Vq+zm+DwJ7qzIegwLR7f?=
- =?Windows-1252?Q?NmXiNkkhiDE2nGqR2HB/JqPjpPKzXNTiMPgu0+jU7vzj02wHNDNUh4Gx?=
- =?Windows-1252?Q?6DYds5EakGlK/AognfzjNCSZIU7Jh09ZE9WgE5HhasLYbeC1+oOdwm0b?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ecf93dfd-db67-49cf-c953-08d916ed435a
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2021 15:30:54.3695 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PAqBf4XNasipIOqFgRABOwTogVSoPt1EStlGXzhrag/EFGN3K6vmeHxcK59XJlRYFx28UbrZBIWuqiWve7z2A5dXXfReqzZXHCmOd9NCd6I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3224
-Received-SPF: pass client-ip=40.107.14.137;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210506160549.130416-1-peterx@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -142,130 +100,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Hyman <huangy81@chinatelecom.cn>, Keqian Zhu <zhukeqian1@huawei.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-From:  Vladimir Sementsov-Ogievskiy via <qemu-devel@nongnu.org>
 
-14.05.2021 17:32, Emanuele Giuseppe Esposito wrote:
+On 06/05/21 18:05, Peter Xu wrote:
+> This is v7 of the qemu dirty ring interface support.
 > 
-> 
-> On 14/05/2021 16:26, Vladimir Sementsov-Ogievskiy wrote:
->> 14.05.2021 17:10, Emanuele Giuseppe Esposito wrote:
->>>
->>>
->>> On 12/05/2021 17:44, Stefan Hajnoczi wrote:
->>>> On Mon, May 10, 2021 at 10:59:40AM +0200, Emanuele Giuseppe Esposito wrote:
->>>>> co-shared-resource is currently not thread-safe, as also reported
->>>>> in co-shared-resource.h. Add a QemuMutex because co_try_get_from_shres
->>>>> can also be invoked from non-coroutine context.
->>>>>
->>>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>>>> ---
->>>>>   util/qemu-co-shared-resource.c | 26 ++++++++++++++++++++++----
->>>>>   1 file changed, 22 insertions(+), 4 deletions(-)
->>>>
->>>> Hmm...this thread-safety change is more fine-grained than I was
->>>> expecting. If we follow this strategy basically any data structure used
->>>> by coroutines needs its own fine-grained lock (like Java's Object base
->>>> class which has its own lock).
->>>>
->>>> I'm not sure I like it since callers may still need coarser grained
->>>> locks to protect their own state or synchronize access to multiple
->>>> items of data. Also, some callers may not need thread-safety.
->>>>
->>>> Can the caller to be responsible for locking instead (e.g. using
->>>> CoMutex)?
->>>
->>> Right now co-shared-resource is being used only by block-copy, so I guess locking it from the caller or within the API won't really matter in this case.
->>>
->>> One possible idea on how to delegate this to the caller without adding additional small lock/unlock in block-copy is to move co_get_from_shres in block_copy_task_end, and calling it only when a boolean passed to block_copy_task_end is true.
->>>
->>> Otherwise make b_c_task_end always call co_get_from_shres and then include co_get_from_shres in block_copy_task_create, so that we always add and in case remove (if error) in the shared resource.
->>>
->>> Something like:
->>>
->>> diff --git a/block/block-copy.c b/block/block-copy.c
->>> index 3a447a7c3d..1e4914b0cb 100644
->>> --- a/block/block-copy.c
->>> +++ b/block/block-copy.c
->>> @@ -233,6 +233,7 @@ static coroutine_fn BlockCopyTask *block_copy_task_create(BlockCopyState *s,
->>>       /* region is dirty, so no existent tasks possible in it */
->>>       assert(!find_conflicting_task(s, offset, bytes));
->>>       QLIST_INSERT_HEAD(&s->tasks, task, list);
->>> +    co_get_from_shres(s->mem, task->bytes);
->>>       qemu_co_mutex_unlock(&s->tasks_lock);
->>>
->>>       return task;
->>> @@ -269,6 +270,7 @@ static void coroutine_fn block_copy_task_end(BlockCopyTask *task, int ret)
->>>           bdrv_set_dirty_bitmap(task->s->copy_bitmap, task->offset, task->bytes);
->>>       }
->>>       qemu_co_mutex_lock(&task->s->tasks_lock);
->>> +    co_put_to_shres(task->s->mem, task->bytes);
->>>       task->s->in_flight_bytes -= task->bytes;
->>>       QLIST_REMOVE(task, list);
->>>       progress_set_remaining(task->s->progress,
->>> @@ -379,7 +381,6 @@ static coroutine_fn int block_copy_task_run(AioTaskPool *pool,
->>>
->>>       aio_task_pool_wait_slot(pool);
->>>       if (aio_task_pool_status(pool) < 0) {
->>> -        co_put_to_shres(task->s->mem, task->bytes);
->>>           block_copy_task_end(task, -ECANCELED);
->>>           g_free(task);
->>>           return -ECANCELED;
->>> @@ -498,7 +499,6 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
->>>       }
->>>       qemu_mutex_unlock(&t->s->calls_lock);
->>>
->>> -    co_put_to_shres(t->s->mem, t->bytes);
->>>       block_copy_task_end(t, ret);
->>>
->>>       return ret;
->>> @@ -687,8 +687,6 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
->>>
->>>           trace_block_copy_process(s, task->offset);
->>>
->>> -        co_get_from_shres(s->mem, task->bytes);
->>
->> we want to get from shres here, after possible call to block_copy_task_shrink(), as task->bytes may be reduced.
-> 
-> Ah right, I missed that. So I guess if we want the caller to protect co-shared-resource, get_from_shres stays where it is, and put_ instead can still go into task_end (with a boolean enabling it).
+> v7:
+> - Rebase to latest master commit d45a5270d07
 
-honestly, I don't follow how it helps thread-safety
+Queued, thanks!
 
->>
->>> -
->>>           offset = task_end(task);
->>>           bytes = end - offset;
->>>
->>>
->>>
->>>
->>>>
->>>>> diff --git a/util/qemu-co-shared-resource.c b/util/qemu-co-shared-resource.c
->>>>> index 1c83cd9d29..c455d02a1e 100644
->>>>> --- a/util/qemu-co-shared-resource.c
->>>>> +++ b/util/qemu-co-shared-resource.c
->>>>> @@ -32,6 +32,7 @@ struct SharedResource {
->>>>>       uint64_t available;
->>>>>       CoQueue queue;
->>>>> +    QemuMutex lock;
->>>>
->>>> Please add a comment indicating what this lock protects.
->>>>
->>>> Thread safety should also be documented in the header file so API users
->>>> know what to expect.
->>>
->>> Will do, thanks.
->>>
->>> Emanuele
->>>
->>
->>
-> 
+I only made a small change to rename the property from dirty-gfn-count
+to dirty-ring-size, since (assuming the user knows what gfn means)
+it's not clear that it's related to the ring buffer support.
 
+Thanks,
 
--- 
-Best regards,
-Vladimir
+Paolo
+
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index fd8ce2e0b2..aa785b7171 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -146,9 +146,8 @@ struct KVMState
+          KVMMemoryListener *ml;
+          AddressSpace *as;
+      } *as;
+-    bool kvm_dirty_ring_enabled;    /* Whether KVM dirty ring is enabled */
+-    uint64_t kvm_dirty_ring_size;   /* Size of the per-vcpu dirty ring */
+-    uint32_t kvm_dirty_gfn_count;   /* Number of dirty GFNs per ring */
++    uint64_t kvm_dirty_ring_bytes;  /* Size of the per-vcpu dirty ring */
++    uint32_t kvm_dirty_ring_size;   /* Number of dirty GFNs per ring */
+      struct KVMDirtyRingReaper reaper;
+  };
+  
+@@ -725,14 +724,14 @@ static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)
+  static uint32_t kvm_dirty_ring_reap_one(KVMState *s, CPUState *cpu)
+  {
+      struct kvm_dirty_gfn *dirty_gfns = cpu->kvm_dirty_gfns, *cur;
+-    uint32_t gfn_count = s->kvm_dirty_gfn_count;
++    uint32_t ring_size = s->kvm_dirty_ring_size;
+      uint32_t count = 0, fetch = cpu->kvm_fetch_index;
+  
+-    assert(dirty_gfns && gfn_count);
++    assert(dirty_gfns && ring_size);
+      trace_kvm_dirty_ring_reap_vcpu(cpu->cpu_index);
+  
+      while (true) {
+-        cur = &dirty_gfns[fetch % gfn_count];
++        cur = &dirty_gfns[fetch % ring_size];
+          if (!dirty_gfn_is_dirtied(cur)) {
+              break;
+          }
+@@ -1389,7 +1388,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+                   *
+                   * Not easy.  Let's cross the fingers until it's fixed.
+                   */
+-                if (kvm_state->kvm_dirty_ring_enabled) {
++                if (kvm_state->kvm_dirty_ring_size) {
+                      kvm_dirty_ring_reap_locked(kvm_state);
+                  } else {
+                      kvm_slot_get_dirty_log(kvm_state, mem);
+@@ -2445,24 +2444,24 @@ static int kvm_init(MachineState *ms)
+       * Enable KVM dirty ring if supported, otherwise fall back to
+       * dirty logging mode
+       */
+-    if (s->kvm_dirty_gfn_count > 0) {
+-        uint64_t ring_size;
++    if (s->kvm_dirty_ring_size > 0) {
++        uint64_t ring_bytes;
+  
+-        ring_size = s->kvm_dirty_gfn_count * sizeof(struct kvm_dirty_gfn);
++        ring_bytes = s->kvm_dirty_ring_size * sizeof(struct kvm_dirty_gfn);
+  
+          /* Read the max supported pages */
+          ret = kvm_vm_check_extension(s, KVM_CAP_DIRTY_LOG_RING);
+          if (ret > 0) {
+-            if (ring_size > ret) {
+-                error_report("KVM dirty GFN count %" PRIu32 " too big "
++            if (ring_bytes > ret) {
++                error_report("KVM dirty ring size %" PRIu32 " too big "
+                               "(maximum is %ld).  Please use a smaller value.",
+-                             s->kvm_dirty_gfn_count,
++                             s->kvm_dirty_ring_size,
+                               ret / sizeof(struct kvm_dirty_gfn));
+                  ret = -EINVAL;
+                  goto err;
+              }
+  
+-            ret = kvm_vm_enable_cap(s, KVM_CAP_DIRTY_LOG_RING, 0, ring_size);
++            ret = kvm_vm_enable_cap(s, KVM_CAP_DIRTY_LOG_RING, 0, ring_bytes);
+              if (ret) {
+                  error_report("Enabling of KVM dirty ring failed: %d. "
+                               "Suggested mininum value is 1024. "
+@@ -2470,8 +2469,7 @@ static int kvm_init(MachineState *ms)
+                  goto err;
+              }
+  
+-            s->kvm_dirty_ring_size = ring_size;
+-            s->kvm_dirty_ring_enabled = true;
++            s->kvm_dirty_ring_bytes = ring_bytes;
+          }
+      }
+  
+@@ -3552,17 +3550,17 @@ bool kvm_kernel_irqchip_split(void)
+      return kvm_state->kernel_irqchip_split == ON_OFF_AUTO_ON;
+  }
+  
+-static void kvm_get_dirty_gfn_count(Object *obj, Visitor *v,
++static void kvm_get_dirty_ring_size(Object *obj, Visitor *v,
+                                      const char *name, void *opaque,
+                                      Error **errp)
+  {
+      KVMState *s = KVM_STATE(obj);
+-    uint32_t value = s->kvm_dirty_gfn_count;
++    uint32_t value = s->kvm_dirty_ring_size;
+  
+      visit_type_uint32(v, name, &value, errp);
+  }
+  
+-static void kvm_set_dirty_gfn_count(Object *obj, Visitor *v,
++static void kvm_set_dirty_ring_size(Object *obj, Visitor *v,
+                                      const char *name, void *opaque,
+                                      Error **errp)
+  {
+@@ -3576,7 +3574,7 @@ static void kvm_set_dirty_gfn_count(Object *obj, Visitor *v,
+          return;
+      }
+  
+-    s->kvm_dirty_gfn_count = value;
++    s->kvm_dirty_ring_size = value;
+  }
+  
+  static void kvm_accel_instance_init(Object *obj)
+@@ -3587,7 +3585,7 @@ static void kvm_accel_instance_init(Object *obj)
+      s->kernel_irqchip_allowed = true;
+      s->kernel_irqchip_split = ON_OFF_AUTO_AUTO;
+      /* KVM dirty ring is by default off */
+-    s->kvm_dirty_gfn_count = 0;
++    s->kvm_dirty_ring_size = 0;
+  }
+  
+  static void kvm_accel_class_init(ObjectClass *oc, void *data)
+@@ -3610,11 +3608,11 @@ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+      object_class_property_set_description(oc, "kvm-shadow-mem",
+          "KVM shadow MMU size");
+  
+-    object_class_property_add(oc, "dirty-gfn-count", "uint32",
+-        kvm_get_dirty_gfn_count, kvm_set_dirty_gfn_count,
++    object_class_property_add(oc, "dirty-ring-size", "uint32",
++        kvm_get_dirty_ring_size, kvm_set_dirty_ring_size,
+          NULL, NULL);
+-    object_class_property_set_description(oc, "dirty-gfn-count",
+-        "KVM dirty GFN count (=0 to disable dirty ring)");
++    object_class_property_set_description(oc, "dirty-ring-size",
++        "Size of KVM dirty page ring buffer (default: 0, i.e. use bitmap)");
+  }
+  
+  static const TypeInfo kvm_accel_type = {
+diff --git a/qemu-options.hx b/qemu-options.hx
+index acd8b4f6f9..31931f0923 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -141,7 +141,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+      "                kvm-shadow-mem=size of KVM shadow MMU in bytes\n"
+      "                split-wx=on|off (enable TCG split w^x mapping)\n"
+      "                tb-size=n (TCG translation block cache size)\n"
+-    "                dirty-gfn-count=n (KVM dirty ring GFN count, default 0)\n"
++    "                dirty-ring-size=n (KVM dirty ring GFN count, default 0)\n"
+      "                thread=single|multi (enable multi-threaded TCG)\n", QEMU_ARCH_ALL)
+  SRST
+  ``-accel name[,prop=value[,...]]``
+@@ -183,15 +183,15 @@ SRST
+          incompatible TCG features have been enabled (e.g.
+          icount/replay).
+  
+-    ``dirty-gfn-count=n``
+-        When KVM accelerator is used, it controls the per-vcpu KVM dirty ring
+-        size (number of entries one dirty ring contains, per-vcpu). It should
++    ``dirty-ring-size=n``
++        When the KVM accelerator is used, it controls the size of the per-vCPU
++        dirty page ring buffer (number of entries for each vCPU). It should
+          be a value that is power of two, and it should be 1024 or bigger (but
+          still less than the maximum value that the kernel supports).  4096
+          could be a good initial value if you have no idea which is the best.
+          Set this value to 0 to disable the feature.  By default, this feature
+-        is disabled (dirty-gfn-count=0).  When enabled, it'll automatically
+-        replace the kvm get dirty log feature.
++        is disabled (dirty-ring-size=0).  When enabled, KVM will instead
++        record dirty pages in a bitmap.
+  
+  ERST
+  
+
 
