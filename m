@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1829380C8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:10:29 +0200 (CEST)
-Received: from localhost ([::1]:39564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80352380CAD
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:16:47 +0200 (CEST)
+Received: from localhost ([::1]:47534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhZSO-0001pY-He
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35584)
+	id 1lhZYT-0007nb-Lt
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhZQy-0000zs-Ep
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:09:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57352)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhZQu-0005HT-PS
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:09:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621004935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jvf4taPGT+42GIf0OAzGDJcyPlkK01IKhnNIh22GHnQ=;
- b=C2lU5aHcypSsKkT8KhjtKeQ0+pHWsfIoum5eWCkCvzwPNNCt6ocfbX+I3O2+EI4qNJeB30
- XwR3cQSkvmE2EK0rlHy40cK0TnPZvfuHBDIaVMeD2kWGP0PLajlbkc3jdjdVHhM/Ij5fkh
- 2Hl+La+TWBYFSGnE4Ge8NiGb7sWHB34=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-PsW7EfdoPmyimiamS8J5xw-1; Fri, 14 May 2021 11:08:52 -0400
-X-MC-Unique: PsW7EfdoPmyimiamS8J5xw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71F48107ACCA;
- Fri, 14 May 2021 15:08:51 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-49.ams2.redhat.com
- [10.36.114.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 648215D6D1;
- Fri, 14 May 2021 15:08:50 +0000 (UTC)
-Subject: Re: [PATCH v2 0/4] iotests/297: Cover tests/
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-References: <20210512174318.59466-1-mreitz@redhat.com>
- <15a189aa-f906-9b4d-e206-b1c8c31b855c@redhat.com>
-Message-ID: <31e3e0fe-4cdd-e5eb-4fc5-8f4e68ac4f56@redhat.com>
-Date: Fri, 14 May 2021 17:08:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lhZVb-000550-8E
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:13:47 -0400
+Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:36831)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lhZVZ-0006sE-If
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:13:47 -0400
+Received: by mail-qv1-xf2c.google.com with SMTP id ez19so1210257qvb.3
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:13:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=m5pOvmri75aSMp9jUNbeNGu2Eucnq9QWheV45DR8TJ8=;
+ b=Chu/flMdl0d8e9iFiO9mzN33UuRYNa8Bo86vF1uTjLIZrm2bHQR0mWexVUji0k/xe8
+ lDg554J4XLYUg4PyNi+tEPSwYakY2VfN7lLYT75nQ9vFvd9LBLx2ryT/pux+CExIhTmG
+ qA6/+mzrYvsb7UxhG162kcSsJzBL9RyOTaUaicPzpDMPcEm0OC3gdvaxJHa6haYQUvLz
+ le/w7IfIaOhWXx0/H+9EZGnfx6D6SH2sxh4el7wo4zXZ9nM1OJsqm2k0ZIS30Ds8j6So
+ 2G2uzZfxejRTTnWhQ//q01e797QLzH10nU3NYbe0pqdGuAfoWT1voNwj6e5cqN/hSngZ
+ rUBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=m5pOvmri75aSMp9jUNbeNGu2Eucnq9QWheV45DR8TJ8=;
+ b=YRnoo2goZKzENYjzew3ePvucJjQlAwlz3PEV/4shqvYZEvD16MzLcnQCV2ZuRYN75Q
+ gDhEZWe1BurU5jaYJcuuWxlJ3i6I1jUrUHEBL6AlHCD91hcETW+BITMSKWWIQ4/1XDbp
+ 3FQZt6RXaBZZwI72d5f0aYpqiefGcrndy+RdlOrW9ptk8Y/XLnKhLZX2IQpDRxLiAFsN
+ cJoDkKfDq0Zg35WVcg92So0MzpXVniEXxSglJQAs5riIKz9HA6yDBzcB/EFsEaiC/K4Z
+ xuSfY2HZbqvMnUDmqp0I2AK4d3emnfn1sIpkX17758cFpb5Go5cE1p7uNrWKTP8TyLp+
+ ib9A==
+X-Gm-Message-State: AOAM532wv4xWpqHecXQWg9rEr+CwIDQ/UL8VxYBw4bf4MeEwr/h332No
+ NUp1kWGP7d2ouRRE/WvvE/qKeUmBxAdXrP+fu+Q=
+X-Google-Smtp-Source: ABdhPJzhxu8U632yiU61VCC/bzQQygoLn7bDjWeWUSOfDQhKi9ELsdAO06Ar9eCJb7J4sRH6V5haIg==
+X-Received: by 2002:a0c:ee23:: with SMTP id l3mr46903013qvs.55.1621005224407; 
+ Fri, 14 May 2021 08:13:44 -0700 (PDT)
+Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id u6sm4778966qkj.117.2021.05.14.08.13.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 May 2021 08:13:44 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/50] target/i386 translate cleanups
+Date: Fri, 14 May 2021 10:12:52 -0500
+Message-Id: <20210514151342.384376-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <15a189aa-f906-9b4d-e206-b1c8c31b855c@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,48 +82,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, f4bug@amsat.org, ehabkost@redhat.com, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.05.21 13:02, Max Reitz wrote:
-> On 12.05.21 19:43, Max Reitz wrote:
->> v1: 
->> https://lists.nongnu.org/archive/html/qemu-block/2021-03/msg01471.html
->>
->>
->> Hi,
->>
->> When reviewing Vladimir’s new addition to tests/, I noticed that 297 so
->> far does not cover named tests.  That isn’t so good.
->>
->> This series makes it cover them, and because tests/ is rather sparse at
->> this point, I decided to also fix up the two tests in there that don’t
->> pass pylint’s scrutiny yet.  I think it would be nice if we could keep
->> all of tests/ clean.
->>
->>
->> v2:
->> - Changed patch 2 as per Vladimir’s suggestion
->>    (i.e. don’t let discards1_sha256 and all_discards_sha256 be class
->>    variables at all)
-> 
-> Thanks for the review, applied to my block branch:
-> 
-> https://github.com/XanClic/qemu/commits/block
+Supercedes: 20210228232321.322053-1-richard.henderson@linaro.org
+("i386 cleanup part 3")
 
-...and dropping again, patch 3 embarrassingly breaks 
-migrate-bitmaps-test.  The problem seems to be that contrastingly to 
-pylint’s opinion, the `lambda self: mc(self)` is necessary, it can’t be 
-contracted to just `mc`.  I suspect that `mc` (returned by 
-`methodcaller`) has a variable argument list, and so without the lambda, 
-`setattr` adds it as a argument-less function, so when it is called, it 
-doesn’t receive the `self` parameter.  (It complains that it expected 1 
-argument, but got 0.)
+Claudio's prerequite patch set ("i386 cleanup part 2"), is now merged.
+Version 2 here fixes some minor rebase conflicts that crept in.
+Only 4 of the 50 patches have been reviewed.
 
-So we need the lambda to enforce that the `self` parameter is passed.
+Blurb from v1:
+This started out to address a fixme in Claudio's patch set, then
+wandered a bit, with cleanups and bug fixes in the code that I was
+touching.  I stopped when I reached my original goal of removing
+target/i386/tcg/user/*_stubs.c.
 
-Max
+There are a lot of patches, but hopefully they're all small
+enough to be obvious.
+
+
+r~
+
+
+Richard Henderson (50):
+  target/i386: Split out gen_exception_gpf
+  target/i386: Split out check_cpl0
+  target/i386: Unify code paths for IRET
+  target/i386: Split out check_vm86_iopl
+  target/i386: Split out check_iopl
+  target/i386: Assert PE is set for user-only
+  target/i386: Assert CPL is 3 for user-only
+  target/i386: Assert IOPL is 0 for user-only
+  target/i386: Assert !VM86 for x86_64 user-only
+  target/i386: Assert CODE32 for x86_64 user-only
+  target/i386: Assert SS32 for x86_64 user-only
+  target/i386: Assert CODE64 for x86_64 user-only
+  target/i386: Assert LMA for x86_64 user-only
+  target/i386: Assert !ADDSEG for x86_64 user-only
+  target/i386: Introduce REX_PREFIX
+  target/i386: Tidy REX_B, REX_X definition
+  target/i386: Move rex_r into DisasContext
+  target/i386: Move rex_w into DisasContext
+  target/i386: Remove DisasContext.f_st as unused
+  target/i386: Reduce DisasContext.flags to uint32_t
+  target/i386: Reduce DisasContext.override to int8_t
+  target/i386: Reduce DisasContext.prefix to uint8_t
+  target/i386: Reduce DisasContext.vex_[lv] to uint8_t
+  target/i386: Reduce DisasContext popl_esp_hack and rip_offset to
+    uint8_t
+  target/i386: Leave TF in DisasContext.flags
+  target/i386: Reduce DisasContext jmp_opt, repz_opt to bool
+  target/i386: Fix the comment for repz_opt
+  target/i386: Reorder DisasContext members
+  target/i386: Add stub generator for helper_set_dr
+  target/i386: Assert !SVME for user-only
+  target/i386: Assert !GUEST for user-only
+  target/i386: Implement skinit in translate.c
+  target/i386: Eliminate SVM helpers for user-only
+  target/i386: Mark some helpers as noreturn
+  target/i386: Simplify gen_debug usage
+  target/i386: Tidy svm_check_intercept from tcg
+  target/i386: Remove pc_start argument to gen_svm_check_intercept
+  target/i386: Remove user stub for cpu_vmexit
+  target/i386: Cleanup read_crN, write_crN, lmsw
+  target/i386: Pass env to do_pause and do_hlt
+  target/i386: Move invlpg, hlt, monitor, mwait to sysemu
+  target/i386: Unify invlpg, invlpga
+  target/i386: Inline user cpu_svm_check_intercept_param
+  target/i386: Eliminate user stubs for read/write_crN, rd/wrmsr
+  target/i386: Exit tb after wrmsr
+  target/i386: Tidy gen_check_io
+  target/i386: Pass in port to gen_check_io
+  target/i386: Create helper_check_io
+  target/i386: Move helper_check_io to sysemu
+  target/i386: Remove user-only i/o stubs
+
+ target/i386/cpu.h                    |   8 +
+ target/i386/helper.h                 |  43 +-
+ target/i386/tcg/helper-tcg.h         |   5 +-
+ target/i386/tcg/bpt_helper.c         |   2 +-
+ target/i386/tcg/excp_helper.c        |  18 +-
+ target/i386/tcg/misc_helper.c        |  79 +--
+ target/i386/tcg/seg_helper.c         |  43 --
+ target/i386/tcg/sysemu/misc_helper.c |  52 +-
+ target/i386/tcg/sysemu/seg_helper.c  |  29 +
+ target/i386/tcg/sysemu/svm_helper.c  |  30 +-
+ target/i386/tcg/translate.c          | 891 ++++++++++++++-------------
+ target/i386/tcg/user/misc_stubs.c    |  75 ---
+ target/i386/tcg/user/svm_stubs.c     |  76 ---
+ target/i386/tcg/user/meson.build     |   2 -
+ 14 files changed, 600 insertions(+), 753 deletions(-)
+ delete mode 100644 target/i386/tcg/user/misc_stubs.c
+ delete mode 100644 target/i386/tcg/user/svm_stubs.c
+
+-- 
+2.25.1
 
 
