@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E787238096C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:23:53 +0200 (CEST)
-Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB2338097B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:26:47 +0200 (CEST)
+Received: from localhost ([::1]:59288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhWrB-00016c-13
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:23:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56602)
+	id 1lhWty-0006s6-Cs
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjq-00015v-KS
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:16:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21470)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWju-000186-IB
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:16:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjg-0005BW-Pz
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:16:14 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjq-0005FH-By
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:16:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620994566;
+ s=mimecast20190719; t=1620994576;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HF3SxTmSEKrI8X6OxnaoRsEVcIUnYnkVflLN5wIotgQ=;
- b=LceyMeogUtSTB+ZvtgvmRCqFe1y538b3JJD0Jr+qX/vtblIyjyxD9XB6RJPeyLNeIqea+x
- F3Ls1v5WOXWsHIuxwqLTfqnMxrFHRD4umsh49Y7VNeIwCpWuOkkAhMQShglmATEsyncDls
- FsU8A37pJT7ccRazYOzVyj1RbkS05f0=
+ bh=V06JyM5hB4aiy1XWsA8HEuhWvMq+bzeBj4OjUp9zVmU=;
+ b=AZtF5IWwPq1ScFIc3tFptxQkHmqcL7m1Zh2ZKgo1ECnedDWaq3EQ0pxiO7ts0igfOEWLZ9
+ Qx6GtPIYbEQobpPeKMnU3M8uT+yjh7jUsI7zUxn6GPKuo3ZEJ6tpSGZaVjTrhSfIvt0sVd
+ JVNkA6i3KoW6AAar9GOQ8Ute5ugANss=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-AspEb9qZM6e8aVagubOPdg-1; Fri, 14 May 2021 08:16:03 -0400
-X-MC-Unique: AspEb9qZM6e8aVagubOPdg-1
+ us-mta-112-CU5fzaZuPay4UZlxQJ_pbQ-1; Fri, 14 May 2021 08:16:13 -0400
+X-MC-Unique: CU5fzaZuPay4UZlxQJ_pbQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C1369F92B;
- Fri, 14 May 2021 12:16:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7C15107ACC7;
+ Fri, 14 May 2021 12:16:12 +0000 (UTC)
 Received: from thuth.com (ovpn-112-191.ams2.redhat.com [10.36.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B49616060F;
- Fri, 14 May 2021 12:16:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 72E1B60CCF;
+ Fri, 14 May 2021 12:16:11 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 11/20] tests/migration-test: Fix "true" vs true
-Date: Fri, 14 May 2021 14:15:09 +0200
-Message-Id: <20210514121518.832729-12-thuth@redhat.com>
+Subject: [PULL 17/20] configure: Poison all current target-specific #defines
+Date: Fri, 14 May 2021 14:15:15 +0200
+Message-Id: <20210514121518.832729-18-thuth@redhat.com>
 In-Reply-To: <20210514121518.832729-1-thuth@redhat.com>
 References: <20210514121518.832729-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,75 +78,75 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+We are generating a lot of target-specific defines in the *-config-devices.h
+and *-config-target.h files. Using them in common code is wrong and leads
+to very subtle bugs since a "#ifdef CONFIG_SOMETHING" is not working there
+as expected. To avoid these issues, we are already poisoning many of the
+macros in include/exec/poison.h - but it's cumbersome to maintain this
+list manually. Thus let's generate an additional list of poisoned macros
+automatically from the current config switches - this should give us a
+much better test coverage via the different CI configurations.
 
-Accidental use of "true" as a boolean; spotted by coverity
-and Peter.
+Note that CONFIG_TCG (which is also defined in config-host.h) and
+CONFIG_USER_ONLY are special, so we have to filter these out.
 
-Fixes: b99784ef6c3
-Fixes: d795f47466e
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Reported-by: Coverity (CID 1432373, 1432292, 1432288)
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210414112004.943383-5-thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210504100545.112213-1-dgilbert@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/migration-test.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ Makefile              | 2 +-
+ configure             | 7 +++++++
+ include/exec/poison.h | 2 ++
+ 3 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 3a711bb492..4d989f191b 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -898,8 +898,8 @@ static void test_xbzrle(const char *uri)
+diff --git a/Makefile b/Makefile
+index bcbbec71a1..4cab10a2a4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -213,7 +213,7 @@ qemu-%.tar.bz2:
  
-     migrate_set_parameter_int(from, "xbzrle-cache-size", 33554432);
+ distclean: clean
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
+-	rm -f config-host.mak config-host.h*
++	rm -f config-host.mak config-host.h* config-poison.h
+ 	rm -f tests/tcg/config-*.mak
+ 	rm -f config-all-disas.mak config.status
+ 	rm -f roms/seabios/config.mak roms/vgabios/config.mak
+diff --git a/configure b/configure
+index f05ca143b3..0e4233fd8a 100755
+--- a/configure
++++ b/configure
+@@ -6473,6 +6473,13 @@ if test -n "${deprecated_features}"; then
+     echo "  features: ${deprecated_features}"
+ fi
  
--    migrate_set_capability(from, "xbzrle", "true");
--    migrate_set_capability(to, "xbzrle", "true");
-+    migrate_set_capability(from, "xbzrle", true);
-+    migrate_set_capability(to, "xbzrle", true);
-     /* Wait for the first serial output from the source */
-     wait_for_serial("src_serial");
++# Create list of config switches that should be poisoned in common code...
++# but filter out CONFIG_TCG and CONFIG_USER_ONLY which are special.
++sed -n -e '/CONFIG_TCG/d' -e '/CONFIG_USER_ONLY/d' \
++    -e '/^#define / { s///; s/ .*//; s/^/#pragma GCC poison /p; }' \
++    *-config-devices.h *-config-target.h | \
++    sort -u > config-poison.h
++
+ # Save the configure command line for later reuse.
+ cat <<EOD >config.status
+ #!/bin/sh
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index a527def5f0..7ad4ad18e8 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -4,6 +4,8 @@
+ #ifndef HW_POISON_H
+ #define HW_POISON_H
  
-@@ -1246,8 +1246,8 @@ static void test_multifd_tcp(const char *method)
-     migrate_set_parameter_str(from, "multifd-compression", method);
-     migrate_set_parameter_str(to, "multifd-compression", method);
- 
--    migrate_set_capability(from, "multifd", "true");
--    migrate_set_capability(to, "multifd", "true");
-+    migrate_set_capability(from, "multifd", true);
-+    migrate_set_capability(to, "multifd", true);
- 
-     /* Start incoming migration from the 1st socket */
-     rsp = wait_command(to, "{ 'execute': 'migrate-incoming',"
-@@ -1330,8 +1330,8 @@ static void test_multifd_tcp_cancel(void)
-     migrate_set_parameter_int(from, "multifd-channels", 16);
-     migrate_set_parameter_int(to, "multifd-channels", 16);
- 
--    migrate_set_capability(from, "multifd", "true");
--    migrate_set_capability(to, "multifd", "true");
-+    migrate_set_capability(from, "multifd", true);
-+    migrate_set_capability(to, "multifd", true);
- 
-     /* Start incoming migration from the 1st socket */
-     rsp = wait_command(to, "{ 'execute': 'migrate-incoming',"
-@@ -1358,7 +1358,7 @@ static void test_multifd_tcp_cancel(void)
- 
-     migrate_set_parameter_int(to2, "multifd-channels", 16);
- 
--    migrate_set_capability(to2, "multifd", "true");
-+    migrate_set_capability(to2, "multifd", true);
- 
-     /* Start incoming migration from the 1st socket */
-     rsp = wait_command(to2, "{ 'execute': 'migrate-incoming',"
++#include "config-poison.h"
++
+ #pragma GCC poison TARGET_I386
+ #pragma GCC poison TARGET_X86_64
+ #pragma GCC poison TARGET_AARCH64
 -- 
 2.27.0
 
