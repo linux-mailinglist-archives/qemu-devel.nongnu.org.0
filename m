@@ -2,83 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CF0380988
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:30:36 +0200 (CEST)
-Received: from localhost ([::1]:40948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A4938098D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:31:33 +0200 (CEST)
+Received: from localhost ([::1]:41784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhWxf-0005CS-7Y
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:30:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58490)
+	id 1lhWya-0005mZ-8d
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:31:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWuo-0002Pa-RY
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:27:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38774)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjU-0000fX-4Z
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:15:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWun-0002tl-3u
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:27:38 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjR-00054T-Bd
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:15:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620995256;
+ s=mimecast20190719; t=1620994552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=psWWFXoI18vkaSQ0hCj60qLQGpqPuttCHRHQa/YhlKI=;
- b=QzaRPguBoY6sJl+SaHdJjdwO/QOMH4yZFOE3D9E5uHgSIJdiIKutP8QRfiWavntzhU9B+p
- 2wq4QQzuLa++NiyyQmQxUv9y0OfjC1/0pLADoJ46MLtBHVLQl6kF9dkLRa9DTtffsCoFXS
- ToVOWBGGim4e7Sui3CPBe6n5B7wJeAQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-82J2X5AoPl-Vi-_evd4LCw-1; Fri, 14 May 2021 08:27:32 -0400
-X-MC-Unique: 82J2X5AoPl-Vi-_evd4LCw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- s7-20020adfc5470000b0290106eef17cbdso12622620wrf.11
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 05:27:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=psWWFXoI18vkaSQ0hCj60qLQGpqPuttCHRHQa/YhlKI=;
- b=i8WvZDgLeeHDw9EIUkDLv/l+9wT73L3Ev3N5lvqYl75fMn7Pal8bg7RBtrAyMZIt8R
- kVB843qSlst8eNWvpCA0Zkyx7RV54wiHmDoJEQaOeLS+KVw8mXgQE9OkkPg/dEBHf0eU
- N/zqywqbvkAxN/YgnLawFnY7WfXSCajRK9FKf92dLAmWbSXVcaWnzbVB8BS0UeLF7LeU
- nu8jM0BxumWXQ0YN0nBm5y56eTp5uQby5xeaJcnv964m6KlIEv+83evkbY9LPdoqsd9d
- /cFvUmoEZMZW//IQZYMJjaaW6pmc8HSXqBtZJ4ReyuSGh7fu+kvJJkTB21UjdrDdMnwf
- nMZw==
-X-Gm-Message-State: AOAM531n7lnprIF97dSgakcntaBol7VzpjDAuSWG733Zte9oDGl3vksD
- 9pLYQqJhRfGwDLeowXcAl8VX7HYKseUOQJ9MSyFknYdN61RGg4A8mTO56fAnJMWzHR19xR9wPz4
- aS7pzjRfKSHp4Yus=
-X-Received: by 2002:a1c:238d:: with SMTP id j135mr9395263wmj.170.1620995251602; 
- Fri, 14 May 2021 05:27:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyVGBh4/QprieU6YHD99O9U3MGMdAx5SJF5J+fgr+nZbdzLljMlEYedq159Xtd+imytZTJJOw==
-X-Received: by 2002:a1c:238d:: with SMTP id j135mr9395243wmj.170.1620995251403; 
- Fri, 14 May 2021 05:27:31 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e83cd9.dip0.t-ipconnect.de.
- [217.232.60.217])
- by smtp.gmail.com with ESMTPSA id f8sm4814797wmg.43.2021.05.14.05.27.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 May 2021 05:27:31 -0700 (PDT)
-Subject: Re: [PATCH v2 06/12] crypto: bump min gnutls to 3.5.18, dropping
- RHEL-7 support
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210514120415.1368922-1-berrange@redhat.com>
- <20210514120415.1368922-7-berrange@redhat.com>
+ bh=DgLI4Q7kdh4qye6yVEIAMtdffAeuik4GUlzf2Qqvfdw=;
+ b=ChBdtii8KGKRhtPqT10KBamF3ezs22H9AF8e+/LD4Aym71VWydlVcJNV/spEOq/3FrgvI5
+ vwKTTJ1AH0A08UF9odU58B4DEJ5pffNeNMhpYPO2+i6GTjDARir95lunxLIa6nn3xr0Zl6
+ DmGX6AjIwggWGIm6G0c53ptMc2G6RVM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-GHS1xsj2MrmEfDr9gbprzA-1; Fri, 14 May 2021 08:15:48 -0400
+X-MC-Unique: GHS1xsj2MrmEfDr9gbprzA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B82249F92E;
+ Fri, 14 May 2021 12:15:47 +0000 (UTC)
+Received: from thuth.com (ovpn-112-191.ams2.redhat.com [10.36.112.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4C526060F;
+ Fri, 14 May 2021 12:15:45 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b3a518fe-8e53-f531-62f7-11f292be635d@redhat.com>
-Date: Fri, 14 May 2021 14:27:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 06/20] docs/devel/qgraph: add troubleshooting information
+Date: Fri, 14 May 2021 14:15:04 +0200
+Message-Id: <20210514121518.832729-7-thuth@redhat.com>
+In-Reply-To: <20210514121518.832729-1-thuth@redhat.com>
+References: <20210514121518.832729-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210514120415.1368922-7-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -86,9 +63,9 @@ X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,80 +78,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/05/2021 14.04, Daniel P. Berrangé wrote:
-> It has been over two years since RHEL-8 was released, and thus per the
-> platform build policy, we no longer need to support RHEL-7 as a build
-> target. This lets us increment the minimum required gnutls version
-> 
-> Per repology, current shipping versions are:
-> 
->               RHEL-8: 3.6.14
->        Debian Buster: 3.6.7
->   openSUSE Leap 15.2: 3.6.7
->     Ubuntu LTS 18.04: 3.5.18
->     Ubuntu LTS 20.04: 3.6.13
->              FreeBSD: 3.6.15
->            Fedora 33: 3.6.16
->            Fedora 34: 3.7.1
->              OpenBSD: 3.6.15
->       macOS HomeBrew: 3.6.15
-> 
-> Ubuntu LTS 18.04 has the oldest version and so 3.5.18 is the new minimum.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   .gitlab-ci.yml | 15 ---------------
->   configure      |  2 +-
->   2 files changed, 1 insertion(+), 16 deletions(-)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index f44c5b08ef..f386f445d9 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -703,21 +703,6 @@ build-coroutine-sigaltstack:
->                       --enable-trace-backends=ftrace
->       MAKE_CHECK_ARGS: check-unit
->   
-> -# Most jobs test latest gcrypt or nettle builds
-> -#
-> -# These jobs test old gcrypt and nettle from RHEL7
-> -# which had some API differences.
-> -crypto-only-gnutls:
-> -  <<: *native_build_job_definition
-> -  needs:
-> -    job: amd64-centos7-container
-> -  variables:
-> -    IMAGE: centos7
-> -    TARGETS: x86_64-softmmu x86_64-linux-user
-> -    CONFIGURE_ARGS: --disable-nettle --disable-gcrypt --enable-gnutls
-> -    MAKE_CHECK_ARGS: check
-> -
-> -
->   # Check our reduced build configurations
->   build-without-default-devices:
->     <<: *native_build_job_definition
-> diff --git a/configure b/configure
-> index f077cdb9c3..2fa86ccaa1 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2790,7 +2790,7 @@ fi
->   
->   if test "$gnutls" != "no"; then
->       pass="no"
-> -    if $pkg_config --exists "gnutls >= 3.1.18"; then
-> +    if $pkg_config --exists "gnutls >= 3.5.18"; then
->           gnutls_cflags=$($pkg_config --cflags gnutls)
->           gnutls_libs=$($pkg_config --libs gnutls)
->           # Packaging for the static libraries is not always correct.
-> 
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+It can be tricky to troubleshoot qos-test when a test won't execute. Add
+an explanation of how to trace qgraph node connectivity and find which
+node has the problem.
+
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20210412143437.727560-3-stefanha@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/devel/qgraph.rst | 58 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
+
+diff --git a/docs/devel/qgraph.rst b/docs/devel/qgraph.rst
+index a9aff167ad..318534d4b0 100644
+--- a/docs/devel/qgraph.rst
++++ b/docs/devel/qgraph.rst
+@@ -92,6 +92,64 @@ The basic framework steps are the following:
+ Depending on the QEMU binary used, only some drivers/machines will be
+ available and only test that are reached by them will be executed.
+ 
++Troubleshooting unavailable tests
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++If there is no path from an available machine to a test then that test will be
++unavailable and won't execute. This can happen if a test or driver did not set
++up its qgraph node correctly. It can also happen if the necessary machine type
++or device is missing from the QEMU binary because it was compiled out or
++otherwise.
++
++It is possible to troubleshoot unavailable tests by running::
++
++  $ QTEST_QEMU_BINARY=build/qemu-system-x86_64 build/tests/qtest/qos-test --verbose
++  # ALL QGRAPH EDGES: {
++  #   src='virtio-net'
++  #      |-> dest='virtio-net-tests/vhost-user/multiqueue' type=2 (node=0x559142109e30)
++  #      |-> dest='virtio-net-tests/vhost-user/migrate' type=2 (node=0x559142109d00)
++  #   src='virtio-net-pci'
++  #      |-> dest='virtio-net' type=1 (node=0x55914210d740)
++  #   src='pci-bus'
++  #      |-> dest='virtio-net-pci' type=2 (node=0x55914210d880)
++  #   src='pci-bus-pc'
++  #      |-> dest='pci-bus' type=1 (node=0x559142103f40)
++  #   src='i440FX-pcihost'
++  #      |-> dest='pci-bus-pc' type=0 (node=0x55914210ac70)
++  #   src='x86_64/pc'
++  #      |-> dest='i440FX-pcihost' type=0 (node=0x5591421117f0)
++  #   src=''
++  #      |-> dest='x86_64/pc' type=0 (node=0x559142111600)
++  #      |-> dest='arm/raspi2' type=0 (node=0x559142110740)
++  ...
++  # }
++  # ALL QGRAPH NODES: {
++  #   name='virtio-net-tests/announce-self' type=3 cmd_line='(null)' [available]
++  #   name='arm/raspi2' type=0 cmd_line='-M raspi2 ' [UNAVAILABLE]
++  ...
++  # }
++
++The ``virtio-net-tests/announce-self`` test is listed as "available" in the
++"ALL QGRAPH NODES" output. This means the test will execute. We can follow the
++qgraph path in the "ALL QGRAPH EDGES" output as follows: '' -> 'x86_64/pc' ->
++'i440FX-pcihost' -> 'pci-bus-pc' -> 'pci-bus' -> 'virtio-net-pci' ->
++'virtio-net'. The root of the qgraph is '' and the depth first search begins
++there.
++
++The ``arm/raspi`` machine node is listed as "UNAVAILABLE". Although it is
++reachable from the root via '' -> 'arm/raspi2' the node is unavailable because
++the QEMU binary did not list it when queried by the framework. This is expected
++because we used the ``qemu-system-x86_64`` binary which does not support ARM
++machine types.
++
++If a test is unexpectedly listed as "UNAVAILABLE", first check that the "ALL
++QGRAPH EDGES" output reports edge connectivity from the root ('') to the test.
++If there is no connectivity then the qgraph nodes were not set up correctly and
++the driver or test code is incorrect. If there is connectivity, check the
++availability of each node in the path in the "ALL QGRAPH NODES" output. The
++first unavailable node in the path is the reason why the test is unavailable.
++Typically this is because the QEMU binary lacks support for the necessary
++machine type or device.
++
+ Creating a new driver and its interface
+ """""""""""""""""""""""""""""""""""""""""
+ 
+-- 
+2.27.0
 
 
