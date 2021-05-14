@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B86ED380842
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 13:16:21 +0200 (CEST)
-Received: from localhost ([::1]:47606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15E1380837
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 13:14:32 +0200 (CEST)
+Received: from localhost ([::1]:45668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhVno-0006BM-Km
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 07:16:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43966)
+	id 1lhVm3-0004sz-G3
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 07:14:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lhVkg-0003Xy-2A; Fri, 14 May 2021 07:13:06 -0400
-Received: from [201.28.113.2] (port=61282 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1lhVkc-0007QH-4q; Fri, 14 May 2021 07:13:05 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 14 May 2021 08:12:57 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id 8C9128013D0;
- Fri, 14 May 2021 08:12:57 -0300 (-03)
-Subject: Re: [PATCH 07/11] target/ppc: added KVM fallback to fpscr manipulation
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-8-bruno.larsen@eldorado.org.br>
- <a9ac8b35-faae-167d-ff78-4b7ddd8f75c9@linaro.org>
- <c2fc1562-9d97-0d6f-5d24-632c2a9006dd@eldorado.org.br>
- <a12f0631-dd9c-aa9f-41d6-eb0422416a0a@linaro.org>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <f2711a71-883a-01f5-ef22-582fd0d76064@eldorado.org.br>
-Date: Fri, 14 May 2021 08:12:57 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lhVl1-0003un-K7
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 07:13:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lhVkx-0007hH-KH
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 07:13:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1620990802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sALubWTpooPORSQ9PgMVXcXM6Ugn+Gfz+HTVDrCUwQA=;
+ b=FnVnGwrGudHpNqx6kHWORH51GTjsRNhkDTJJVqmZab7vQtHRVC8MxbD6dbAyM/LQKdbPzH
+ kTp8R+DjGfIV+qnlBxq4KoPp1GDBo1uRxsrDPZrQX1kRuIfg97qfWkkB8nPg7tjTxIuQWx
+ b3HozKmygLZyy/TsHod719dzc8qnc6s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-dJNltLNrOimMnND0xoGPtA-1; Fri, 14 May 2021 07:13:20 -0400
+X-MC-Unique: dJNltLNrOimMnND0xoGPtA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F5656D4F4;
+ Fri, 14 May 2021 11:13:19 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D389687DF;
+ Fri, 14 May 2021 11:13:14 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PULL v3 0/1] Rtd patches
+Date: Fri, 14 May 2021 15:13:09 +0400
+Message-Id: <20210514111310.1756593-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <a12f0631-dd9c-aa9f-41d6-eb0422416a0a@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------CE864E4B591E892568678BA5"
-Content-Language: en-US
-X-OriginalArrivalTime: 14 May 2021 11:12:57.0957 (UTC)
- FILETIME=[18498950:01D748B2]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,442 +76,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------CE864E4B591E892568678BA5
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
+The following changes since commit 2d3fc4e2b069494b1e9e2e4a1e3de24cbc036426=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2021-05-12' i=
+nto staging (2021-05-13 20:13:24 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git@gitlab.com:marcandre.lureau/qemu.git tags/rtd-pull-request=0D
+=0D
+for you to fetch changes up to 73e6aec6522e1edd63f631c52577b49a39bc234f:=0D
+=0D
+  sphinx: adopt kernel readthedoc theme (2021-05-14 15:05:03 +0400)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Marc-Andr=C3=A9 Lureau (1):=0D
+  sphinx: adopt kernel readthedoc theme=0D
+=0D
+ docs/_templates/editpage.html              |   5 -=0D
+ docs/conf.py                               |  52 ++++---=0D
+ docs/devel/_templates/editpage.html        |   5 -=0D
+ docs/interop/_templates/editpage.html      |   5 -=0D
+ docs/meson.build                           |   5 +-=0D
+ docs/specs/_templates/editpage.html        |   5 -=0D
+ docs/sphinx-static/theme_overrides.css     | 161 +++++++++++++++++++++=0D
+ docs/system/_templates/editpage.html       |   5 -=0D
+ docs/tools/_templates/editpage.html        |   5 -=0D
+ docs/user/_templates/editpage.html         |   5 -=0D
+ tests/docker/dockerfiles/alpine.docker     |   1 +=0D
+ tests/docker/dockerfiles/debian10.docker   |   1 +=0D
+ tests/docker/dockerfiles/fedora.docker     |   1 +=0D
+ tests/docker/dockerfiles/ubuntu.docker     |   1 +=0D
+ tests/docker/dockerfiles/ubuntu1804.docker |   1 +=0D
+ tests/docker/dockerfiles/ubuntu2004.docker |   1 +=0D
+ 16 files changed, 200 insertions(+), 59 deletions(-)=0D
+ delete mode 100644 docs/_templates/editpage.html=0D
+ delete mode 100644 docs/devel/_templates/editpage.html=0D
+ delete mode 100644 docs/interop/_templates/editpage.html=0D
+ delete mode 100644 docs/specs/_templates/editpage.html=0D
+ create mode 100644 docs/sphinx-static/theme_overrides.css=0D
+ delete mode 100644 docs/system/_templates/editpage.html=0D
+ delete mode 100644 docs/tools/_templates/editpage.html=0D
+ delete mode 100644 docs/user/_templates/editpage.html=0D
+=0D
+--=20=0D
+2.29.0=0D
+=0D
 
-On 13/05/2021 19:45, Richard Henderson wrote:
-> On 5/13/21 11:36 AM, Bruno Piazera Larsen wrote:
->>
->> On 12/05/2021 15:20, Richard Henderson wrote:
->>> On 5/12/21 9:08 AM, Bruno Larsen (billionai) wrote:
->>>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
->>>> index 104a308abb..a8a720eb48 100644
->>>> --- a/target/ppc/kvm.c
->>>> +++ b/target/ppc/kvm.c
->>>> @@ -2947,3 +2947,17 @@ bool kvm_arch_cpu_check_are_resettable(void)
->>>>   {
->>>>       return true;
->>>>   }
->>>> +
->>>> +void kvmppc_store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t 
->>>> mask)
->>>> +{
->>>> +    CPUState *cs = env_cpu(env);
->>>> +    struct kvm_one_reg reg;
->>>> +    int ret;
->>>> +    reg.id = KVM_REG_PPC_FPSCR;
->>>> +    reg.addr = (uintptr_t) &env->fpscr;
->>>> +    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
->>>> +    if (ret < 0)
->>>> +    {
->>>> +        fprintf(stderr, "Unable to set FPSCR to KVM: %s", 
->>>> strerror(errno));
->>>> +    }
->>>> +}
->>>
->>> This is all unnecessary.  All you need to do is store to env->fpscr 
->>> and the value will be synced back with kvm_put_fp.
->>>
->>> I'll note that some of the trouble you may be having with extracting 
->>> helper_store_fpscr to a ppc_store_fpscr function is due to an 
->>> existing bug in the tcg code:
->>>
->>> Storing to fpscr should *never* raise an exception -- see MTFSF, 
->>> MTFSB0, MTFSB1.  Thus the mucking about with cs->exception_index and 
->>> env->error_code is incorrect.
->>>
->>> In addition, the masking is being done weirdly and could use a 
->>> complete overhaul.
->>>
->>> This could all be rewritten as
->>>
->>> -- %< -- cpu.h
->>>
->>>  /* Invalid operation exception summary */
->>> - #define fpscr_ix ((env->fpscr) & ((1 << FPSCR_VXSNAN) ...
->>> + #define FPSCR_IX  ((1 << FPSCR_VXSNAN) | ...)
->>>
->>> -- %< -- cpu.c
->>>
->>> // move fpscr_set_rounding_mode here
->>>
->>> void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
->>> {
->>>     /* Recompute exception summary state. */
->>>     val &= ~(FP_VX | FP_FEX);
->>>     if (val & FPSCR_IX) {
->>>         val |= FP_VX;
->>>     }
->>>     if ((val >> FPSCR_XX) & (val >> FPSCR_XE) & 0x1f) {
->>>         val |= FP_FEX;
->>>     }
->>>     env->fpscr = val;
->>>     if (tcg_enabled()) {
->>>         fpscr_set_rounding_mode(env);
->>>     }
->>> }
->>>
->>> -- %< -- fpu_helper.c
->>>
->>> void helper_store_fpscr(CPUPPCState *env, target_ulong val,
->>>                         uint32_t nibbles)
->>> {
->>>     target_ulong mask = 0;
->>>
->>>     /* TODO: Push this expansion back to translation time. */
->>>     for (int i = 0; i < sizeof(target_ulong) * 2; ++i) {
->>>         if (nibbles & (1 << i)) {
->>>             mask |= (target_ulong)0xf << (4 * i);
->>>         }
->>>     }
->>>
->>>     val = (val & mask) | (env->fpscr & ~mask);
->>>     ppc_store_fpscr(env, val);
->>> }
->> That expansion can't be moved to translation time, because gdbstub 
->> would also need that code in a variety of functions, so better to 
->> keep it in that central location,
->>>
->>> void helper_fpscr_clrbit(CPUPPCState *env, uint32_t bit)
->>> {
->>>     uint32_t mask = 1u << bit;
->>>     if (env->fpscr & mask) {
->>>         ppc_store_fpscr(env, env->fpscr & ~mask);
->>>     }
->>> }
->>>
->>> void helper_fpscr_setbit(CPUPPCState *env, uint32_t bit)
->>> {
->>>     uint32_t mask = 1u << bit;
->>>     if (!(env->fpscr & mask)) {
->>>         ppc_store_fpscr(env, env->fpscr | mask);
->>>     }
->>> }
->>>
->>> There are a couple of other uses of fpscr_set_rounding_mode, where 
->>> the softfloat value is changed temporarily (do_fri, VSX_ROUND). 
->>> These should simply save the previous softfloat value (using 
->>> get_float_rounding_mode) around the operation instead of 
->>> re-computing from fpscr.
->>>
->>> Which leaves us with exactly one use of fpscr_set_rounding_mode, 
->>> which can then be moved to cpu.c next to ppc_store_fpscr.
->>>
->>>
->>> r~
->>
->> I was implementing this solution, but ran into a problem: We needed 
->> store_fpscr for gdbstub.c, that's the original reason we made that 
->> new function to begin with. This solution, although it improves the 
->> handling of fpscr, doesn't fix the original problem.
->
-> Why not?  Did you miss the cpu.c cut at the very top?
-So the plan was to have gdbstub call ppc_store_fpscr? I assumed it 
-wasn't since there is one less parameter in the new function. Now that I 
-took another look, gdbstub has the mask as 0xffffffff, so it's easier 
-than I thought.
->
->> What I think we can do is put the logic that is in helper_store_fpscr 
->> into store_fpscr, move it to cpu.c, and have the helper call the 
->> non-helper function. That way we conserve helper_* as TCG-specific 
->> and have the overhaul.
->
-> That is exactly what I have written above.
-
-Not exactly, because the expansion of nibbles into mask is still in 
-helper_store_fpscr, and that's what I meant.
-
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
-
---------------CE864E4B591E892568678BA5
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 13/05/2021 19:45, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:a12f0631-dd9c-aa9f-41d6-eb0422416a0a@linaro.org">On
-      5/13/21 11:36 AM, Bruno Piazera Larsen wrote:
-      <br>
-      <blockquote type="cite">
-        <br>
-        On 12/05/2021 15:20, Richard Henderson wrote:
-        <br>
-        <blockquote type="cite">On 5/12/21 9:08 AM, Bruno Larsen
-          (billionai) wrote:
-          <br>
-          <blockquote type="cite">diff --git a/target/ppc/kvm.c
-            b/target/ppc/kvm.c
-            <br>
-            index 104a308abb..a8a720eb48 100644
-            <br>
-            --- a/target/ppc/kvm.c
-            <br>
-            +++ b/target/ppc/kvm.c
-            <br>
-            @@ -2947,3 +2947,17 @@ bool
-            kvm_arch_cpu_check_are_resettable(void)
-            <br>
-              {
-            <br>
-                  return true;
-            <br>
-              }
-            <br>
-            +
-            <br>
-            +void kvmppc_store_fpscr(CPUPPCState *env, uint64_t arg,
-            uint32_t mask)
-            <br>
-            +{
-            <br>
-            +    CPUState *cs = env_cpu(env);
-            <br>
-            +    struct kvm_one_reg reg;
-            <br>
-            +    int ret;
-            <br>
-            +    reg.id = KVM_REG_PPC_FPSCR;
-            <br>
-            +    reg.addr = (uintptr_t) &amp;env-&gt;fpscr;
-            <br>
-            +    ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &amp;reg);
-            <br>
-            +    if (ret &lt; 0)
-            <br>
-            +    {
-            <br>
-            +        fprintf(stderr, "Unable to set FPSCR to KVM: %s",
-            strerror(errno));
-            <br>
-            +    }
-            <br>
-            +}
-            <br>
-          </blockquote>
-          <br>
-          This is all unnecessary.  All you need to do is store to
-          env-&gt;fpscr and the value will be synced back with
-          kvm_put_fp.
-          <br>
-          <br>
-          I'll note that some of the trouble you may be having with
-          extracting helper_store_fpscr to a ppc_store_fpscr function is
-          due to an existing bug in the tcg code:
-          <br>
-          <br>
-          Storing to fpscr should *never* raise an exception -- see
-          MTFSF, MTFSB0, MTFSB1.  Thus the mucking about with
-          cs-&gt;exception_index and env-&gt;error_code is incorrect.
-          <br>
-          <br>
-          In addition, the masking is being done weirdly and could use a
-          complete overhaul.
-          <br>
-          <br>
-          This could all be rewritten as
-          <br>
-          <br>
-          -- %&lt; -- cpu.h
-          <br>
-          <br>
-           /* Invalid operation exception summary */
-          <br>
-          - #define fpscr_ix ((env-&gt;fpscr) &amp; ((1 &lt;&lt;
-          FPSCR_VXSNAN) ...
-          <br>
-          + #define FPSCR_IX  ((1 &lt;&lt; FPSCR_VXSNAN) | ...)
-          <br>
-          <br>
-          -- %&lt; -- cpu.c
-          <br>
-          <br>
-          // move fpscr_set_rounding_mode here
-          <br>
-          <br>
-          void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
-          <br>
-          {
-          <br>
-              /* Recompute exception summary state. */
-          <br>
-              val &amp;= ~(FP_VX | FP_FEX);
-          <br>
-              if (val &amp; FPSCR_IX) {
-          <br>
-                  val |= FP_VX;
-          <br>
-              }
-          <br>
-              if ((val &gt;&gt; FPSCR_XX) &amp; (val &gt;&gt; FPSCR_XE)
-          &amp; 0x1f) {
-          <br>
-                  val |= FP_FEX;
-          <br>
-              }
-          <br>
-              env-&gt;fpscr = val;
-          <br>
-              if (tcg_enabled()) {
-          <br>
-                  fpscr_set_rounding_mode(env);
-          <br>
-              }
-          <br>
-          }
-          <br>
-          <br>
-          -- %&lt; -- fpu_helper.c
-          <br>
-          <br>
-          void helper_store_fpscr(CPUPPCState *env, target_ulong val,
-          <br>
-                                  uint32_t nibbles)
-          <br>
-          {
-          <br>
-              target_ulong mask = 0;
-          <br>
-          <br>
-              /* TODO: Push this expansion back to translation time. */
-          <br>
-              for (int i = 0; i &lt; sizeof(target_ulong) * 2; ++i) {
-          <br>
-                  if (nibbles &amp; (1 &lt;&lt; i)) {
-          <br>
-                      mask |= (target_ulong)0xf &lt;&lt; (4 * i);
-          <br>
-                  }
-          <br>
-              }
-          <br>
-          <br>
-              val = (val &amp; mask) | (env-&gt;fpscr &amp; ~mask);
-          <br>
-              ppc_store_fpscr(env, val);
-          <br>
-          }
-          <br>
-        </blockquote>
-        That expansion can't be moved to translation time, because
-        gdbstub would also need that code in a variety of functions, so
-        better to keep it in that central location,
-        <br>
-        <blockquote type="cite">
-          <br>
-          void helper_fpscr_clrbit(CPUPPCState *env, uint32_t bit)
-          <br>
-          {
-          <br>
-              uint32_t mask = 1u &lt;&lt; bit;
-          <br>
-              if (env-&gt;fpscr &amp; mask) {
-          <br>
-                  ppc_store_fpscr(env, env-&gt;fpscr &amp; ~mask);
-          <br>
-              }
-          <br>
-          }
-          <br>
-          <br>
-          void helper_fpscr_setbit(CPUPPCState *env, uint32_t bit)
-          <br>
-          {
-          <br>
-              uint32_t mask = 1u &lt;&lt; bit;
-          <br>
-              if (!(env-&gt;fpscr &amp; mask)) {
-          <br>
-                  ppc_store_fpscr(env, env-&gt;fpscr | mask);
-          <br>
-              }
-          <br>
-          }
-          <br>
-          <br>
-          There are a couple of other uses of fpscr_set_rounding_mode,
-          where the softfloat value is changed temporarily (do_fri,
-          VSX_ROUND). These should simply save the previous softfloat
-          value (using get_float_rounding_mode) around the operation
-          instead of re-computing from fpscr.
-          <br>
-          <br>
-          Which leaves us with exactly one use of
-          fpscr_set_rounding_mode, which can then be moved to cpu.c next
-          to ppc_store_fpscr.
-          <br>
-          <br>
-          <br>
-          r~
-          <br>
-        </blockquote>
-        <br>
-        I was implementing this solution, but ran into a problem: We
-        needed store_fpscr for gdbstub.c, that's the original reason we
-        made that new function to begin with. This solution, although it
-        improves the handling of fpscr, doesn't fix the original
-        problem.
-        <br>
-      </blockquote>
-      <br>
-      Why not?  Did you miss the cpu.c cut at the very top?
-      <br>
-    </blockquote>
-    So the plan was to have gdbstub call ppc_store_fpscr? I assumed it
-    wasn't since there is one less parameter in the new function. Now
-    that I took another look, gdbstub has the mask as 0xffffffff, so
-    it's easier than I thought.<br>
-    <blockquote type="cite"
-      cite="mid:a12f0631-dd9c-aa9f-41d6-eb0422416a0a@linaro.org">
-      <br>
-      <blockquote type="cite">What I think we can do is put the logic
-        that is in helper_store_fpscr into store_fpscr, move it to
-        cpu.c, and have the helper call the non-helper function. That
-        way we conserve helper_* as TCG-specific and have the overhaul.
-        <br>
-      </blockquote>
-      <br>
-      That is exactly what I have written above.
-      <br>
-    </blockquote>
-    <p>Not exactly, because the expansion of nibbles into mask is still
-      in helper_store_fpscr, and that's what I meant. <br>
-    </p>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------CE864E4B591E892568678BA5--
 
