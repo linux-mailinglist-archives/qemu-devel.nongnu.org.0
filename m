@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E8738034A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 07:22:24 +0200 (CEST)
-Received: from localhost ([::1]:45244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A51638035A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 07:25:52 +0200 (CEST)
+Received: from localhost ([::1]:49670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhQHG-0007vy-Tp
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 01:22:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54720)
+	id 1lhQKd-0002c1-0Q
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 01:25:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
- id 1lhQGL-0006vv-HN; Fri, 14 May 2021 01:21:25 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
- id 1lhQGI-0004tZ-Hx; Fri, 14 May 2021 01:21:25 -0400
-Received: from dggems703-chm.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FhGxb0H6PzQn4p;
- Fri, 14 May 2021 13:17:39 +0800 (CST)
-Received: from dggpemm100006.china.huawei.com (7.185.36.196) by
- dggems703-chm.china.huawei.com (10.3.19.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 14 May 2021 13:21:03 +0800
-Received: from dggpemm500011.china.huawei.com (7.185.36.110) by
- dggpemm100006.china.huawei.com (7.185.36.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 14 May 2021 13:21:03 +0800
-Received: from dggpemm500011.china.huawei.com ([7.185.36.110]) by
- dggpemm500011.china.huawei.com ([7.185.36.110]) with mapi id 15.01.2176.012;
- Fri, 14 May 2021 13:21:03 +0800
-From: Andrey Shinkevich <andrey.shinkevich@huawei.com>
-To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: GICv3 for MTTCG
-Thread-Topic: GICv3 for MTTCG
-Thread-Index: AQHXRo49QQoDTg/5kkqOfm/tGkugzg==
-Date: Fri, 14 May 2021 05:21:03 +0000
-Message-ID: <229ce1b3699c499b90533d669deed745@huawei.com>
-References: <1f157423cc544731beb743287a4be5cb@huawei.com>
- <87h7j8ez4t.fsf@linaro.org> <7f8496377da246c38452d95bbbfc0ca7@huawei.com>
- <877dk2lfee.fsf@linaro.org>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.227.155.55]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lhQJQ-0001nw-Bg; Fri, 14 May 2021 01:24:36 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:34383)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lhQJO-0007Jh-SM; Fri, 14 May 2021 01:24:36 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id j14so1627208ejy.1;
+ Thu, 13 May 2021 22:24:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nDAVwUVp0bRIy+WVyNpgD+i0qNly95gbWOd3bPz4lr0=;
+ b=Anr12DHRyfexRdZhh9mypuKZtIZtAWrVh3mHI1Z0E43HYUo6bhXUUaDMPNVOKjgmDW
+ Osz+Vq7GX9+vjVFBQv+QcZY6hwQfWsJLzIEiCUahJodHPmk3I/WR4M9yW2WKJHv8c3D7
+ Pv6qgM9tEZX/yIQWlU+e94WDHAwHknn4m5pYvbSXdHX+/3LNI2YjD8EczNGrTz1V0Oo5
+ 9mHXGsEgNLsH0iN2tuoqT1IDmMvswGJcNTkeHEw/DSeAt9hsRaZ/GgtgsAhvp7l3AmiN
+ JnHsPL9lQorZLgQdECVqlJUxluih0COoscODrUxhmuC2hw27yqeVFxkNHJBXfl4VUxEd
+ 8ywQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nDAVwUVp0bRIy+WVyNpgD+i0qNly95gbWOd3bPz4lr0=;
+ b=frjZg6eX85ahIeEoGJGdqpf5MmM4oEZvmSq6R7Sc6G4pqr0I/oQPmPjjS4jLttHf1Z
+ hb2JcJDHNR+7qMKXficZyrME3tqHjs+U/tai8zLOr1gRNfLCxg80u7hBLO9KqO469EAm
+ wWBhuS+vpHqOzjt7auUWFKpfd6C+MqN3R11Q2mWxiovCdF9zfl5RobF/jY57mBPKxIGC
+ /2zRX6/q7mHl7ydDhXf70FYRMoca0jCxQyUOCCR3GTAFMxSbGh2sMUJjOXq9khIo8CnE
+ A9wzmecJ5pPUKV5JR/RMiQ3Ft/zaxXXag2LeFD9CRN4mz72U0krEDta6KCvXNchT0MPD
+ ULzg==
+X-Gm-Message-State: AOAM530xdTErfKDfg3MRwKoeGRqu3oVhhufO1yHRsUre6sNFeU+J9jNu
+ rWuO81R045n7UjWWsZjxRV1upGF7L/cYLg==
+X-Google-Smtp-Source: ABdhPJzTc3CsQV3qJYmamQZzUgyuekCZTNkd6Fte5mFlL3vuRXRIZ8revCAZOSHE0/apL6OirkpLYQ==
+X-Received: by 2002:a17:906:d7a2:: with SMTP id
+ pk2mr47158586ejb.551.1620969872681; 
+ Thu, 13 May 2021 22:24:32 -0700 (PDT)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id hz10sm1112297ejc.40.2021.05.13.22.24.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 May 2021 22:24:32 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH] target/riscv: Remove unnecessary riscv_*_names[] declaration
+Date: Fri, 14 May 2021 13:24:35 +0800
+Message-Id: <20210514052435.2203156-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=andrey.shinkevich@huawei.com; helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,178 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "drjones@redhat.com" <drjones@redhat.com>, "Cota@braap.org" <Cota@braap.org>,
- "shashi.mallela@linaro.org" <shashi.mallela@linaro.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Chengen \(William, 
- FixNet\)" <chengen@huawei.com>, yuzenghui <yuzenghui@huawei.com>,
- "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/21 8:20 PM, Alex Benn=E9e wrote:=0A=
-> =0A=
-> Andrey Shinkevich <andrey.shinkevich@huawei.com> writes:=0A=
-> =0A=
->> Dear colleagues,=0A=
->>=0A=
->> Thank you all very much for your responses. Let me reply with one messag=
-e.=0A=
->>=0A=
->> I configured QEMU for AARCH64 guest:=0A=
->> $ ./configure --target-list=3Daarch64-softmmu=0A=
->>=0A=
->> When I start QEMU with GICv3 on an x86 host:=0A=
->> qemu-system-aarch64 -machine virt-6.0,accel=3Dtcg,gic-version=3D3=0A=
-> =0A=
-> Hmm are you sure you are running your built QEMU? For me the following=0A=
-> works fine:=0A=
-=0A=
-No doubt I run my built QEMU because I am debugging it and watching the =0A=
-run of it with gcc.=0A=
-=0A=
-> =0A=
->    ./aarch64-softmmu/qemu-system-aarch64 -machine virt-6.0,gic-version=3D=
-3,accel=3Dtcg -cpu max -serial mon:stdio -nic user,model=3Dvirtio-net-pci,h=
-ostfwd=3Dtcp::2222-:22 -device virtio-scsi-pci -device scsi-hd,drive=3Dhd0 =
--blockdev driver=3Draw,node-name=3Dhd0,discard=3Dunmap,file.driver=3Dhost_d=
-evice,file.filename=3D/dev/zvol/hackpool-0/debian-buster-arm64 -kernel=0A=
-> ~/lsrc/linux.git/builds/arm64.nopreempt/arch/arm64/boot/Image -append "co=
-nsole=3DttyAMA0 root=3D/dev/sda2" -display none -m 8G,maxmem=3D8G -smp 12=
-=0A=
-> =0A=
-> =0A=
-=0A=
-Which source code are you using for building your QEMU? Would you please =
-=0A=
-send me the link if it is a source other than github.com/qemu/qemu?=0A=
-I downloaded and pulled the latest commit 3e9f48bcdabe57f8f and applied =0A=
-the series "[PATCH v3 0/8] GICv3 LPI and ITS feature implementation" =0A=
-ONLY. Did you do the same?=0A=
-=0A=
-I have NOT applied the series "[PATCH v2 0/7] accel/tcg: remove implied =0A=
-BQL from cpu_handle_interrupt/exception path" yet because it is old and =0A=
-the manual applying takes more time (will do it later). Is it a possible =
-=0A=
-reason that my guest hangs with locks at start?=0A=
-=0A=
-Andrey=0A=
-=0A=
->>=0A=
->> QEMU reports this error from hw/pci/msix.c:=0A=
->> error_setg(errp, "MSI-X is not supported by interrupt controller");=0A=
->>=0A=
->> Probably, the variable 'msi_nonbroken' would be initialized in=0A=
->> hw/intc/arm_gicv3_its_common.c:=0A=
->> gicv3_its_init_mmio(..)=0A=
->>=0A=
->> I guess that it works with KVM acceleration only rather than with TCG.=
-=0A=
->>=0A=
->> The error persists after applying the series:=0A=
->> https://lists.gnu.org/archive/html/qemu-arm/2021-04/msg00944.html=0A=
->> "GICv3 LPI and ITS feature implementation"=0A=
->> (special thanks for referring me to that)=0A=
->>=0A=
->> Please, make me clear and advise ideas how that error can be fixed?=0A=
->> Should the MSI-X support be implemented with GICv3 extra?=0A=
->>=0A=
->> When successful, I would like to test QEMU for a maximum number of cores=
-=0A=
->> to get the best MTTCG performance.=0A=
->> Probably, we will get just some percentage of performance enhancement=0A=
->> with the BQL series applied, won't we? I will test it as well.=0A=
->>=0A=
->> Best regards,=0A=
->> Andrey Shinkevich=0A=
->>=0A=
->>=0A=
->> On 5/12/21 6:43 PM, Alex Benn=E9e wrote:=0A=
->>>=0A=
->>> Andrey Shinkevich <andrey.shinkevich@huawei.com> writes:=0A=
->>>=0A=
->>>> Dear colleagues,=0A=
->>>>=0A=
->>>> I am looking for ways to accelerate the MTTCG for ARM guest on x86-64 =
-host.=0A=
->>>> The maximum number of CPUs for MTTCG that uses GICv2 is limited by 8:=
-=0A=
->>>>=0A=
->>>> include/hw/intc/arm_gic_common.h:#define GIC_NCPU 8=0A=
->>>>=0A=
->>>> The version 3 of the Generic Interrupt Controller (GICv3) is not=0A=
->>>> supported in QEMU for some reason unknown to me. It would allow to=0A=
->>>> increase the limit of CPUs and accelerate the MTTCG performance on a=
-=0A=
->>>> multiple core hypervisor.=0A=
->>>=0A=
->>> It is supported, you just need to select it.=0A=
->>>=0A=
->>>> I have got an idea to implement the Interrupt Translation Service (ITS=
-)=0A=
->>>> for using by MTTCG for ARM architecture.=0A=
->>>=0A=
->>> There is some work to support ITS under TCG already posted:=0A=
->>>=0A=
->>>     Subject: [PATCH v3 0/8] GICv3 LPI and ITS feature implementation=0A=
->>>     Date: Thu, 29 Apr 2021 19:41:53 -0400=0A=
->>>     Message-Id: <20210429234201.125565-1-shashi.mallela@linaro.org>=0A=
->>>=0A=
->>> please do review and test.=0A=
->>>=0A=
->>>> Do you find that idea useful and feasible?=0A=
->>>> If yes, how much time do you estimate for such a project to complete b=
-y=0A=
->>>> one developer?=0A=
->>>> If no, what are reasons for not implementing GICv3 for MTTCG in QEMU?=
-=0A=
->>>=0A=
->>> As far as MTTCG performance is concerned there is a degree of=0A=
->>> diminishing returns to be expected as the synchronisation cost between=
-=0A=
->>> threads will eventually outweigh the gains of additional threads.=0A=
->>>=0A=
->>> There are a number of parts that could improve this performance. The=0A=
->>> first would be picking up the BQL reduction series from your FutureWei=
-=0A=
->>> colleges who worked on the problem when they were Linaro assignees:=0A=
->>>=0A=
->>>     Subject: [PATCH v2 0/7] accel/tcg: remove implied BQL from cpu_hand=
-le_interrupt/exception path=0A=
->>>     Date: Wed, 19 Aug 2020 14:28:49 -0400=0A=
->>>     Message-Id: <20200819182856.4893-1-robert.foley@linaro.org>=0A=
->>>=0A=
->>> There was also a longer series moving towards per-CPU locks:=0A=
->>>=0A=
->>>     Subject: [PATCH v10 00/73] per-CPU locks=0A=
->>>     Date: Wed, 17 Jun 2020 17:01:18 -0400=0A=
->>>     Message-Id: <20200617210231.4393-1-robert.foley@linaro.org>=0A=
->>>=0A=
->>> I believe the initial measurements showed that the BQL cost started to=
-=0A=
->>> edge up with GIC interactions. We did discuss approaches for this and I=
-=0A=
->>> think one idea was use non-BQL locking for the GIC. You would need to=
-=0A=
->>> revert:=0A=
->>>=0A=
->>>     Subject: [PATCH-for-5.2] exec: Remove MemoryRegion::global_locking =
-field=0A=
->>>     Date: Thu,  6 Aug 2020 17:07:26 +0200=0A=
->>>     Message-Id: <20200806150726.962-1-philmd@redhat.com>=0A=
->>>=0A=
->>> and then implement a more fine tuned locking in the GIC emulation=0A=
->>> itself. However I think the BQL and per-CPU locks are lower hanging=0A=
->>> fruit to tackle first.=0A=
->>>=0A=
->>>>=0A=
->>>> Best regards,=0A=
->>>> Andrey Shinkevich=0A=
->>>=0A=
->>>=0A=
-> =0A=
-> =0A=
-=0A=
+riscv_excp_names[] and riscv_intr_names[] are only referenced by
+target/riscv/cpu.c locally.
+
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+---
+
+ target/riscv/cpu.h | 2 --
+ target/riscv/cpu.c | 4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 7e879fb9ca..adba2ff533 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -318,8 +318,6 @@ static inline bool riscv_feature(CPURISCVState *env, int feature)
+ 
+ extern const char * const riscv_int_regnames[];
+ extern const char * const riscv_fpr_regnames[];
+-extern const char * const riscv_excp_names[];
+-extern const char * const riscv_intr_names[];
+ 
+ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
+ void riscv_cpu_do_interrupt(CPUState *cpu);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 3191fd0082..7ee31f97a3 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -51,7 +51,7 @@ const char * const riscv_fpr_regnames[] = {
+   "f30/ft10", "f31/ft11"
+ };
+ 
+-const char * const riscv_excp_names[] = {
++static const char * const riscv_excp_names[] = {
+     "misaligned_fetch",
+     "fault_fetch",
+     "illegal_instruction",
+@@ -78,7 +78,7 @@ const char * const riscv_excp_names[] = {
+     "guest_store_page_fault",
+ };
+ 
+-const char * const riscv_intr_names[] = {
++static const char * const riscv_intr_names[] = {
+     "u_software",
+     "s_software",
+     "vs_software",
+-- 
+2.25.1
+
 
