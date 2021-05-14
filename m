@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C642D38092A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:08:17 +0200 (CEST)
-Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2274938092B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:08:54 +0200 (CEST)
+Received: from localhost ([::1]:49256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhWc4-0003ws-T3
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53862)
+	id 1lhWcf-0005cr-7g
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lhWYx-0005uT-U3
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:05:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45664)
+ id 1lhWZ5-0006P8-DV
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:05:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lhWYw-0006PJ-AI
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:05:03 -0400
+ id 1lhWZ3-0006Wr-GO
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:05:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620993901;
+ s=mimecast20190719; t=1620993909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GS8Q5myV/o+9a7NsGtFfVZMhkiyyUr2i01QVxvdT8Ao=;
- b=fMgU8v1/7vEzA2nPhsNzGUWOouWobZl10s1+kPsI6M/cdlf1v8ZBvfcUc5SAUfMlRaWc96
- 2Vt0uPcMo/k3QhUMogd569VMS3X/zMxgao9R5YsQ5EyLS3d4TQHK/7uA77CGUpqiNc7n03
- ZQ+sk4rJxBsF0PYn5Bqp/DJgh/JlkVY=
+ bh=wB2nO/nngPLpdhou8ajirRF/sE+AlD0hyf1zX1q/xFk=;
+ b=Ve2fudBn6XC/TUl5u0H14J6MyTc3m/rMh8ZuCdKlI/l/4PMdkgSBa+YkrpHTLLg2yHhytT
+ tvFJxc6s2HVQTvWXeXYoeiPCxXuyVVLV1taaIKWnqFcndvO+gjZLsHi3oT5wmC+3anArPb
+ +uebb542va1u032EZe8sXhecgdbaz58=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-524-ua_w-uggObujQMPlXjIqtQ-1; Fri, 14 May 2021 08:04:58 -0400
-X-MC-Unique: ua_w-uggObujQMPlXjIqtQ-1
+ us-mta-405-mkN9KGD4NBGCNthFwTss3w-1; Fri, 14 May 2021 08:05:01 -0400
+X-MC-Unique: mkN9KGD4NBGCNthFwTss3w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A4938015F7;
- Fri, 14 May 2021 12:04:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01713800D62;
+ Fri, 14 May 2021 12:05:00 +0000 (UTC)
 Received: from localhost.redhat.com (ovpn-113-212.ams2.redhat.com
  [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D70F71A873;
- Fri, 14 May 2021 12:04:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83C4A1A873;
+ Fri, 14 May 2021 12:04:57 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/12] crypto: drop used conditional check
-Date: Fri, 14 May 2021 13:04:10 +0100
-Message-Id: <20210514120415.1368922-8-berrange@redhat.com>
+Subject: [PATCH v2 08/12] tests/vm: convert centos VM recipe to CentOS 8
+Date: Fri, 14 May 2021 13:04:11 +0100
+Message-Id: <20210514120415.1368922-9-berrange@redhat.com>
 In-Reply-To: <20210514120415.1368922-1-berrange@redhat.com>
 References: <20210514120415.1368922-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,7 +81,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <willianr@redhat.com>,
@@ -89,32 +89,48 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The condition being tested has never been set since the day the code was
-first introduced.
-
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- crypto/tlscredsx509.c | 2 --
- 1 file changed, 2 deletions(-)
+ tests/vm/centos | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index bc503bab55..d9d6f4421e 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -354,11 +354,9 @@ qcrypto_tls_creds_check_cert_pair(gnutls_x509_crt_t cert,
-             reason = "The certificate has been revoked";
-         }
+diff --git a/tests/vm/centos b/tests/vm/centos
+index efe3dbbb36..5c7bc1c1a9 100755
+--- a/tests/vm/centos
++++ b/tests/vm/centos
+@@ -26,24 +26,23 @@ class CentosVM(basevm.BaseVM):
+         export SRC_ARCHIVE=/dev/vdb;
+         sudo chmod a+r $SRC_ARCHIVE;
+         tar -xf $SRC_ARCHIVE;
+-        make docker-test-block@centos7 {verbose} J={jobs} NETWORK=1;
+-        make docker-test-quick@centos7 {verbose} J={jobs} NETWORK=1;
++        make docker-test-block@centos8 {verbose} J={jobs} NETWORK=1;
++        make docker-test-quick@centos8 {verbose} J={jobs} NETWORK=1;
+         make docker-test-mingw@fedora  {verbose} J={jobs} NETWORK=1;
+     """
  
--#ifndef GNUTLS_1_0_COMPAT
-         if (status & GNUTLS_CERT_INSECURE_ALGORITHM) {
-             reason = "The certificate uses an insecure algorithm";
-         }
--#endif
- 
-         error_setg(errp,
-                    "Our own certificate %s failed validation against %s: %s",
+     def build_image(self, img):
+-        cimg = self._download_with_cache("https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1802.qcow2.xz")
++        cimg = self._download_with_cache("https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2")
+         img_tmp = img + ".tmp"
+-        sys.stderr.write("Extracting the image...\n")
+-        subprocess.check_call(["ln", "-f", cimg, img_tmp + ".xz"])
+-        subprocess.check_call(["xz", "--keep", "-dvf", img_tmp + ".xz"])
++        subprocess.check_call(["ln", "-f", cimg, img_tmp])
+         self.exec_qemu_img("resize", img_tmp, "50G")
+         self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
+         self.wait_ssh()
+         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
+-        self.ssh_root_check("yum update -y")
+-        self.ssh_root_check("yum install -y docker make ninja-build git python3")
+-        self.ssh_root_check("systemctl enable docker")
++        self.ssh_root_check("dnf update -y")
++        self.ssh_root_check("dnf install -y dnf-plugins-core")
++        self.ssh_root_check("dnf config-manager --set-enabled powertools")
++        self.ssh_root_check("dnf install -y podman make ninja-build git python3")
+         self.ssh_root("poweroff")
+         self.wait()
+         os.rename(img_tmp, img)
 -- 
 2.31.1
 
