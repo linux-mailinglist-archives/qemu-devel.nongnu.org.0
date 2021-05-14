@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E116380715
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 12:22:58 +0200 (CEST)
-Received: from localhost ([::1]:43476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9253A380716
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 12:23:02 +0200 (CEST)
+Received: from localhost ([::1]:43724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhUy8-0007Gr-Sp
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 06:22:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60648)
+	id 1lhUyD-0007QY-NL
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 06:23:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhUwB-0005HI-Gu
- for qemu-devel@nongnu.org; Fri, 14 May 2021 06:20:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60192)
+ id 1lhUwB-0005HQ-Vt
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 06:20:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhUwA-0006AB-0t
+ id 1lhUw9-00069J-Os
  for qemu-devel@nongnu.org; Fri, 14 May 2021 06:20:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhUw5-0000sH-KW
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:20:49 +0000
+ id 1lhUw4-0000sW-9P
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:20:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 024302E81C3
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:20:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 46A3D2E8194
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:20:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 10:07:16 -0000
-From: Thomas Huth <1906948@bugs.launchpad.net>
+Date: Fri, 14 May 2021 10:07:40 -0000
+From: Thomas Huth <1914282@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: gtk gui opengl virtio
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fghgfh832 janitor th-huth
-X-Launchpad-Bug-Reporter: johannes (fghgfh832)
+X-Launchpad-Bug-Commenters: kashyapc melwitt th-huth
+X-Launchpad-Bug-Reporter: melanie witt (melwitt)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160719376548.16747.104851865616000042.malonedeb@wampee.canonical.com>
-Message-Id: <162098683669.16288.9751675330556317229.malone@soybean.canonical.com>
-Subject: [Bug 1906948] Re: Enabling OpenGL for GUI doesn't work on old laptop
+References: <161229019609.3949.15746215383583949568.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162098686018.1356.4264970112227980877.malone@wampee.canonical.com>
+Subject: [Bug 1914282] Re: block copy job sometimes hangs on the last block
+ for minutes
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: cf0085cbec71a724f0acbdd2751d4ed07af7f6c8
+X-Launchpad-Hash: 446dd0b7d8bef426c344f60f77fe2c398d72aed5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -59,7 +59,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,75 +71,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906948 <1906948@bugs.launchpad.net>
+Reply-To: Bug 1914282 <1914282@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
+Ticket has been moved to the gitlab issue tracker:
+https://gitlab.com/qemu-project/qemu/-/issues/287
+... thus I'm closing this on Launchpad now.
 
- https://gitlab.com/qemu-project/qemu/-/issues/296
-
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #287
+   https://gitlab.com/qemu-project/qemu/-/issues/287
 
 ** Changed in: qemu
-       Status: New =3D> Expired
-
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #296
-   https://gitlab.com/qemu-project/qemu/-/issues/296
+       Status: Incomplete =3D> Invalid
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906948
+https://bugs.launchpad.net/bugs/1914282
 
 Title:
-  Enabling OpenGL for GUI doesn't work on old laptop
+  block copy job sometimes hangs on the last block for minutes
 
 Status in QEMU:
-  Expired
+  Invalid
 
 Bug description:
-  QEMU start command is:
+  In openstack nova we use the block copy API to copy disks for volume
+  swap requests. In our CI gate we observed that sometimes the block
+  copy job progress will reach the last or next to last block and hang
+  there for  minutes at a time, causing CI jobs to fail as jobs timeout.
 
-  qemu-system-x86_64 -enable-kvm -m 2G -cpu host -smp 2 -cdrom
-  ./linuxmint-20-mate-64bit.iso -boot d -vga virtio -soundhw hda
-  -display gtk,gl=3Don
+  On the client (nova-compute) side, using the python bindings we see
+  the following in the openstack nova logs:
 
-  =
+  ---------------
 
-  and QEMU crashes immediately on startup and gives these error messages:
+  Jan 21 05:31:02.207785 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor: 0
+  final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
-  =
+  Jan 21 05:31:55.688227 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1049624576 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
-  qemu_gl_create_compile_shader: compile vertex error
-  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
-10, 1.20, and 1.00 ES
+  [...]
 
-  qemu_gl_create_compile_shader: compile fragment error
-  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
-10, 1.20, and 1.00 ES
+  Jan 21 05:31:55.706698 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1049624576 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
-  qemu_gl_create_compile_shader: compile vertex error
-  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
-10, 1.20, and 1.00 ES
+  Jan 21 05:31:56.175248 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1073741823 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
-  qemu_gl_create_compile_shader: compile fragment error
-  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
-10, 1.20, and 1.00 ES
+  [...]
 
-  =
+  ~2.5 minutes later, it's still going at current cursor: 1073741823
+  final cursor: 1073741824
 
-  If I remove "gl=3Don" it will boot. Does this just mean that this hardwar=
-e is too old to run QEMU with OpenGL enabled in GUI, or is this a bug? =
+  Jan 21 05:34:30.952371 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1073741823 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
+  then current cursor =3D=3D final cursor at 05:34:31.460595
 
-  Host OS is Debian 10, computer is a Lenovo laptop with Core i5-520M
-  CPU and its integrated Intel HD graphics GPU.
+  Jan 21 05:34:31.460595 ubuntu-focal-vexxhost-ca-ymq-1-0022641000 nova-
+  compute[93823]: DEBUG nova.virt.libvirt.guest [None req-d6170fbb-e023
+  -4cdb-93dc-a2e9ae9b0a56 tempest-TestVolumeSwap-1117975117 tempest-
+  TestVolumeSwap-1117975117] COPY block job progress, current cursor:
+  1073741824 final cursor: 1073741824 {{(pid=3D93823) is_job_complete
+  /opt/stack/nova/nova/virt/libvirt/guest.py:873}}
 
-  QEMU version is 3.1.0 from Debian repositories.
+  ---------------
+
+  In this excerpt the cursor reaches the next to last block at Jan 21
+  05:31:56.175248 and hangs there repeating status at the next to last
+  block until Jan 21 05:34:30.952371 (~2.5 minutes) and then the job
+  shows current cursor =3D=3D final cursor at Jan 21 05:34:31.460595.
+
+  In the corresponding qemu log, we see the block copy job report being
+  on the last block for minutes:
+
+  ---------------
+
+  021-01-21 05:31:02.206+0000: 60630: debug : qemuMonitorJSONIOProcessLine:=
+220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device"=
+: "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": true, "len": =
+1073741824, "offset": 0, "status": "running", "paused": false, "speed": 0, =
+"ready": false, "type": "mirror"}], "id": "libvirt-501"}]
+  2021-01-21 05:31:02.206+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
+239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
+uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
+t", "auto-dismiss": false, "busy": true, "len": 1073741824, "offset": 0, "s=
+tatus": "running", "paused": false, "speed": 0, "ready": false, "type": "mi=
+rror"}], "id": "libvirt-501"}
+
+  [...]
+
+  len =3D=3D offset at 05:31:56.174
+
+  2021-01-21 05:31:56.174+0000: 60630: debug : qemuMonitorJSONIOProcessLine=
+:220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device=
+": "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": true, "len":=
+ 1073741824, "offset": 1073741824, "status": "running", "paused": false, "s=
+peed": 0, "ready": false, "type": "mirror"}], "id": "libvirt-581"}]
+  2021-01-21 05:31:56.174+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
+239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
+uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
+t", "auto-dismiss": false, "busy": true, "len": 1073741824, "offset": 10737=
+41824, "status": "running", "paused": false, "speed": 0, "ready": false, "t=
+ype": "mirror"}], "id": "libvirt-581"}
+
+  [...]
+
+  ~2.5 minutes later, still len =3D=3D offset but it's still going
+
+  2021-01-21 05:34:31.459+0000: 60630: debug : qemuMonitorJSONIOProcessLine=
+:220 : Line [{"return": [{"auto-finalize": true, "io-status": "ok", "device=
+": "copy-vdb-libvirt-5-format", "auto-dismiss": false, "busy": false, "len"=
+: 1073741824, "offset": 1073741824, "status": "ready", "paused": false, "sp=
+eed": 0, "ready": true, "type": "mirror"}], "id": "libvirt-855"}]
+  2021-01-21 05:34:31.459+0000: 60630: info : qemuMonitorJSONIOProcessLine:=
+239 : QEMU_MONITOR_RECV_REPLY: mon=3D0x7fd07813ec80 reply=3D{"return": [{"a=
+uto-finalize": true, "io-status": "ok", "device": "copy-vdb-libvirt-5-forma=
+t", "auto-dismiss": false, "busy": false, "len": 1073741824, "offset": 1073=
+741824, "status": "ready", "paused": false, "speed": 0, "ready": true, "typ=
+e": "mirror"}], "id": "libvirt-855"}
+
+  and then the job finishes soon after
+
+  2021-01-21 05:34:31.467+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'waiting'(6)
+
+  2021-01-21 05:34:31.467+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'pending'(7)
+
+  2021-01-21 05:34:31.467+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'concluded'(9)
+
+  2021-01-21 05:34:31.468+0000: 60630: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-5-format'(domain: 0x7fd070075720,instance-00000013) state
+  changed to 'null'(11)
+
+  2021-01-21 05:34:31.468+0000: 60634: debug :
+  qemuBlockJobProcessEventConcludedCopyPivot:1221 : copy job 'copy-vdb-
+  libvirt-5-format' on VM 'instance-00000013' pivoted
+
+  2021-01-21 05:34:32.292+0000: 60634: debug : qemuDomainObjEndJob:9746
+  : Stopping job: modify (async=3Dnone vm=3D0x7fd070075720
+  name=3Dinstance-00000013)
+
+  ---------------
+
+  Is this normal for a block copy job to hang on the last block like
+  this for minutes at a time? Why doesn't the job close out once offset
+  =3D=3D len?
+
+  Thanks for any help you can offer.
+
+  Additional log messages have been pasted here:
+
+  https://pastebin.com/FQRu76Sn
+
+  and for completeness, these logs were taken from the following
+  openstack nova gate job:
+
+  https://zuul.opendev.org/t/openstack/build/a078a17aa9924517b329cafc3f54fe=
+d4
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906948/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1914282/+subscriptions
 
