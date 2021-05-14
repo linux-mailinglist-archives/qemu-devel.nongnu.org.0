@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F5E3808F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 13:53:44 +0200 (CEST)
-Received: from localhost ([::1]:49262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4190E380908
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 13:56:49 +0200 (CEST)
+Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhWNz-0002g9-Bo
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 07:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50876)
+	id 1lhWQy-00006a-CY
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 07:56:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lhWJV-0002cf-76
- for qemu-devel@nongnu.org; Fri, 14 May 2021 07:49:05 -0400
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:46672)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhWQ3-0007gI-K1
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 07:55:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lhWJN-0004r2-1Z
- for qemu-devel@nongnu.org; Fri, 14 May 2021 07:49:04 -0400
-Received: by mail-lf1-x132.google.com with SMTP id i9so36145299lfe.13
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 04:48:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HsiF1/EhRsF2rPRBEnHP1f/R5pxso3L25zHd/RevGm4=;
- b=WRrCsfLZhwNt6e4uV+u/mWDrgvTfUnBQFfwXkoOmGaJSe2QeGFgJW9q1Qpyk9t/puu
- F71XuzdxVhWQBzLloOvb5fVbY0n3pu5ZBQAUchJM0Y3W2EUWpg7tq35gvraSfZGLkfmx
- l+uwj9wdgHVfA3vT3rsv8DRpxWLHuHQ0BvsFUqTxa1ZnIMXF5fBisvphqF5btjhVhKjM
- RD56g7QNLCijfdOWFtdMlyBBo77kD/fNnxPeURYLYqq5Mem4epZBrjkOenDdIFeGLF+L
- DGukl0EpWEuDyjr64/B+YjyZflDxMPeOvutKiQvT4Wr4yi9H7oGtjIkVRtZmY8X4bRR5
- FMyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HsiF1/EhRsF2rPRBEnHP1f/R5pxso3L25zHd/RevGm4=;
- b=eqSvvLXzbzfNg7QTBmTaa0BMsC9OcZLknRAKr2vBQHGxroq12e4zdDD1t95fwhSpps
- IgAv/CFAcTJ8kToURL3ZtTuzXAo6YfV7IIZXUDrtmbqiyhHLdKLFI4bE8VAPjGiUkpgz
- 0oSJlDX3IqKeSTiPc9in/0o/Hw93ai2cs3aRpfF2p8G/v6YfJr+gZOWUG1dKIeF1I7kg
- mE96mEU4E08eXA8K3mwykdkuSkHWJUpstGXaIsgmwKAIypNWDYnwAxKny9r2HJ87Gdde
- BQp/Z6Bq3SOfiQfFSpjtpYlj4VN39TCqJK4nah3syqROhQPg9RytkDKXXTzpA2jc9+fh
- AnaQ==
-X-Gm-Message-State: AOAM530+99108nHMkTNNVYvWs2u06DyCjfsVsO2gkqloQDdHcTZrpYdT
- yxMKLH2XNaSxrtirSxehjB2+Ow==
-X-Google-Smtp-Source: ABdhPJyy49yaJUd1NSY6DxSZlztSrXnT0aB5u8QN/EmOOaoX2kGuIbOwinIF012Q95vvApyrKU785Q==
-X-Received: by 2002:a05:6512:5d7:: with SMTP id
- o23mr33009012lfo.301.1620992935607; 
- Fri, 14 May 2021 04:48:55 -0700 (PDT)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id t13sm583421lfc.57.2021.05.14.04.48.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 May 2021 04:48:55 -0700 (PDT)
-From: Andrew Melnychenko <andrew@daynix.com>
-To: jasowang@redhat.com,
-	mst@redhat.com
-Subject: [PATCH v8 7/7] MAINTAINERS: Added eBPF maintainers information.
-Date: Fri, 14 May 2021 14:48:35 +0300
-Message-Id: <20210514114835.267316-8-andrew@daynix.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210514114835.267316-1-andrew@daynix.com>
-References: <20210514114835.267316-1-andrew@daynix.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhWQ0-0000bx-5d
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 07:55:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lhWPx-0007n8-FD
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 11:55:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2E85E2E8186
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 11:55:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::132;
- envelope-from=andrew@daynix.com; helo=mail-lf1-x132.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 14 May 2021 11:50:20 -0000
+From: - <1910586@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd th-huth ubi-one-kenubi
+X-Launchpad-Bug-Reporter: - (ubi-one-kenubi)
+X-Launchpad-Bug-Modifier: - (ubi-one-kenubi)
+References: <161004745358.28900.17773103786496139692.malonedeb@chaenomeles.canonical.com>
+ <162081768954.8198.16989470695778091097.malone@wampee.canonical.com>
+Message-Id: <YJ5j/AyolpbGRnjE@eleven>
+Subject: Re: [Bug 1910586] Re: SD card size constraint conceptually wrong
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
+X-Launchpad-Hash: a7dbef0738bf90ef16b5ccc359f86926c04c3b3b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,37 +71,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, yuri.benditovich@daynix.com, berrange@redhat.com,
- qemu-devel@nongnu.org
+Reply-To: Bug 1910586 <1910586@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On Wed, May 12, 2021 at 11:08:09AM -0000, Thomas Huth wrote:
+> =
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 36055f14c5..c7e9a57cd9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3312,6 +3312,14 @@ F: include/hw/remote/proxy-memory-listener.h
- F: hw/remote/iohub.c
- F: include/hw/remote/iohub.h
- 
-+EBPF:
-+M: Jason Wang <jasowang@redhat.com>
-+R: Andrew Melnychenko <andrew@daynix.com>
-+R: Yuri Benditovich <yuri.benditovich@daynix.com>
-+S: Maintained
-+F: ebpf/*
-+F: tools/ebpf/*
-+
- Build and test automation
- -------------------------
- Build and test automation, general continuous integration
--- 
-2.31.1
+> If it is not fixed yet and you think that this bug report here is still
+> valid, then you have two options:
 
+Actually, you seem to have forgotten a third option: I simply don't care
+enough, especially after the patronizing response to my original report,
+to bother.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1910586
+
+Title:
+  SD card size constraint conceptually wrong
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  The patch discussed here:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg720833.html
+  introduces an artificial size constraint for SD cards
+  that has no relation to reality.
+
+  I'm trying to use an _actual_ **physical** SD card,
+  and qemu tells me its size is "invalid".
+
+  Something here appears to be conceptually wrong.
+
+  --------------------------------------------------
+  # fdisk -l /dev/sdg
+  Disk /dev/sdg: 14.84 GiB, 15931539456 bytes, 31116288 sectors
+  Disk model: USB  SD Reader  =
+
+  Units: sectors of 1 * 512 =3D 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: dos
+  Disk identifier: 0x7a0c8bb0
+
+  Device     Boot  Start      End  Sectors  Size Id Type
+  /dev/sdg1         2048   524287   522240  255M  c W95 FAT32 (LBA)
+  /dev/sdg2       524288 31116287 30592000 14.6G 83 Linux
+  # qemu-system-aarch64 -M raspi3 -m 1G -kernel vmlinuz-5.4.79-v8 -dtb bcm2=
+837-rpi-3-b-plus.dtb -append console=3DttyAMA0\ root=3D/dev/mmcblk0p2\ rw -=
+nographic -serial mon:stdio -drive file=3D/dev/sdg,format=3Draw
+  qemu-system-aarch64: Invalid SD card size: 14.8 GiB
+  SD card size has to be a power of 2, e.g. 16 GiB.
+  You can resize disk images with 'qemu-img resize <imagefile> <new-size>'
+  (note that this will lose data if you make the image smaller than it curr=
+ently is).
+  --------------------------------------------------
+
+  The same invocation with a dump of the actual image
+  resized to match qemu's odd expectations works fine.
+
+  =
+
+  This is on QEMU 5.2.0, as evidenced by the following:
+  --------------------------------------------------
+  # qemu-system-aarch64 -version
+  QEMU emulator version 5.2.0
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+  --------------------------------------------------
+
+  Is there a simple workaround that disables this rather
+  arbitrary constraint?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1910586/+subscriptions
 
