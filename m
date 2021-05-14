@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2274938092B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:08:54 +0200 (CEST)
-Received: from localhost ([::1]:49256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 838EB380933
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:10:59 +0200 (CEST)
+Received: from localhost ([::1]:55488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhWcf-0005cr-7g
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:08:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53910)
+	id 1lhWeg-0001OR-Lj
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:10:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lhWZ5-0006P8-DV
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:05:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58542)
+ id 1lhWZV-0007YN-IR
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:05:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lhWZ3-0006Wr-GO
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:05:11 -0400
+ id 1lhWZT-0006yw-UK
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:05:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620993909;
+ s=mimecast20190719; t=1620993935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wB2nO/nngPLpdhou8ajirRF/sE+AlD0hyf1zX1q/xFk=;
- b=Ve2fudBn6XC/TUl5u0H14J6MyTc3m/rMh8ZuCdKlI/l/4PMdkgSBa+YkrpHTLLg2yHhytT
- tvFJxc6s2HVQTvWXeXYoeiPCxXuyVVLV1taaIKWnqFcndvO+gjZLsHi3oT5wmC+3anArPb
- +uebb542va1u032EZe8sXhecgdbaz58=
+ bh=JX8Oq8g+jAkxzf/fZzPa1dehHZipXsBMFn/ARknt84s=;
+ b=J8zDY4UwJRvDp9fmkKlXKHmVgt+qKK/3HpZVza+kJIbvcdhyybD8UFNpHOLsnZ6pR3Y1XV
+ EQ2RN9PSmorkJ+BqcFwPpZbvNf9pmLYQjkyuJrXmRDIbUfGrZlKRS/sEvHfe6n8ZLBuJbh
+ V5YqMpByGMEmuv649DOGvNzOz4mAKQs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-mkN9KGD4NBGCNthFwTss3w-1; Fri, 14 May 2021 08:05:01 -0400
-X-MC-Unique: mkN9KGD4NBGCNthFwTss3w-1
+ us-mta-482-9dy_QafPPU6gyB09Yjuz0A-1; Fri, 14 May 2021 08:05:33 -0400
+X-MC-Unique: 9dy_QafPPU6gyB09Yjuz0A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01713800D62;
- Fri, 14 May 2021 12:05:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87CE41009479;
+ Fri, 14 May 2021 12:05:32 +0000 (UTC)
 Received: from localhost.redhat.com (ovpn-113-212.ams2.redhat.com
  [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83C4A1A873;
- Fri, 14 May 2021 12:04:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65D5919C59;
+ Fri, 14 May 2021 12:05:00 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/12] tests/vm: convert centos VM recipe to CentOS 8
-Date: Fri, 14 May 2021 13:04:11 +0100
-Message-Id: <20210514120415.1368922-9-berrange@redhat.com>
+Subject: [PATCH v2 09/12] tests/docker: drop CentOS 7 container
+Date: Fri, 14 May 2021 13:04:12 +0100
+Message-Id: <20210514120415.1368922-10-berrange@redhat.com>
 In-Reply-To: <20210514120415.1368922-1-berrange@redhat.com>
 References: <20210514120415.1368922-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -89,48 +89,85 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+It has been over two years since RHEL-8 was released, and thus per the
+platform build policy, we no longer need to support RHEL-7 as a build
+target.
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/vm/centos | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ .gitlab-ci.d/containers.yml             |  5 ---
+ tests/docker/dockerfiles/centos7.docker | 43 -------------------------
+ 2 files changed, 48 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/centos7.docker
 
-diff --git a/tests/vm/centos b/tests/vm/centos
-index efe3dbbb36..5c7bc1c1a9 100755
---- a/tests/vm/centos
-+++ b/tests/vm/centos
-@@ -26,24 +26,23 @@ class CentosVM(basevm.BaseVM):
-         export SRC_ARCHIVE=/dev/vdb;
-         sudo chmod a+r $SRC_ARCHIVE;
-         tar -xf $SRC_ARCHIVE;
--        make docker-test-block@centos7 {verbose} J={jobs} NETWORK=1;
--        make docker-test-quick@centos7 {verbose} J={jobs} NETWORK=1;
-+        make docker-test-block@centos8 {verbose} J={jobs} NETWORK=1;
-+        make docker-test-quick@centos8 {verbose} J={jobs} NETWORK=1;
-         make docker-test-mingw@fedora  {verbose} J={jobs} NETWORK=1;
-     """
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 33e4046e23..0fd792dbe7 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -26,11 +26,6 @@ amd64-alpine-container:
+   variables:
+     NAME: alpine
  
-     def build_image(self, img):
--        cimg = self._download_with_cache("https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1802.qcow2.xz")
-+        cimg = self._download_with_cache("https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2")
-         img_tmp = img + ".tmp"
--        sys.stderr.write("Extracting the image...\n")
--        subprocess.check_call(["ln", "-f", cimg, img_tmp + ".xz"])
--        subprocess.check_call(["xz", "--keep", "-dvf", img_tmp + ".xz"])
-+        subprocess.check_call(["ln", "-f", cimg, img_tmp])
-         self.exec_qemu_img("resize", img_tmp, "50G")
-         self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
-         self.wait_ssh()
-         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
--        self.ssh_root_check("yum update -y")
--        self.ssh_root_check("yum install -y docker make ninja-build git python3")
--        self.ssh_root_check("systemctl enable docker")
-+        self.ssh_root_check("dnf update -y")
-+        self.ssh_root_check("dnf install -y dnf-plugins-core")
-+        self.ssh_root_check("dnf config-manager --set-enabled powertools")
-+        self.ssh_root_check("dnf install -y podman make ninja-build git python3")
-         self.ssh_root("poweroff")
-         self.wait()
-         os.rename(img_tmp, img)
+-amd64-centos7-container:
+-  <<: *container_job_definition
+-  variables:
+-    NAME: centos7
+-
+ amd64-centos8-container:
+   <<: *container_job_definition
+   variables:
+diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
+deleted file mode 100644
+index 75fdb53c7c..0000000000
+--- a/tests/docker/dockerfiles/centos7.docker
++++ /dev/null
+@@ -1,43 +0,0 @@
+-FROM centos:7
+-RUN yum install -y epel-release centos-release-xen-48
+-
+-RUN yum -y update
+-
+-# Please keep this list sorted alphabetically
+-ENV PACKAGES \
+-    bzip2 \
+-    bzip2-devel \
+-    ccache \
+-    csnappy-devel \
+-    dbus-daemon \
+-    gcc-c++ \
+-    gcc \
+-    gettext \
+-    git \
+-    glib2-devel \
+-    glibc-static \
+-    gnutls-devel \
+-    libaio-devel \
+-    libepoxy-devel \
+-    libfdt-devel \
+-    libgcrypt-devel \
+-    librdmacm-devel \
+-    libzstd-devel \
+-    lzo-devel \
+-    make \
+-    mesa-libEGL-devel \
+-    mesa-libgbm-devel \
+-    nettle-devel \
+-    ninja-build \
+-    perl-Test-Harness \
+-    pixman-devel \
+-    python3 \
+-    SDL2-devel \
+-    spice-glib-devel \
+-    spice-server-devel \
+-    tar \
+-    vte-devel \
+-    xen-devel \
+-    zlib-devel
+-RUN yum install -y $PACKAGES
+-RUN rpm -q $PACKAGES | sort > /packages.txt
 -- 
 2.31.1
 
