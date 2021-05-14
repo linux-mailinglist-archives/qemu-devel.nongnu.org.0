@@ -2,149 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E04380BFA
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 16:37:57 +0200 (CEST)
-Received: from localhost ([::1]:46582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9796380C06
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 16:41:03 +0200 (CEST)
+Received: from localhost ([::1]:48830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhYwu-0001ux-Ej
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 10:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56434)
+	id 1lhYzu-0003Yn-O1
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 10:41:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=761afde0a=Anup.Patel@wdc.com>)
- id 1lhYsZ-0000gr-Cb; Fri, 14 May 2021 10:33:27 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:34538)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=761afde0a=Anup.Patel@wdc.com>)
- id 1lhYsW-0007A7-BA; Fri, 14 May 2021 10:33:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1621002804; x=1652538804;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=El6ly+FwAkzsS1bqEH2tsGfO1DY40r9BUXYYlBuYq10=;
- b=eLiJi+QfZNYUBCGwvF9fWQNVJVeGwWzNKV1eru6wHtFxycscsNskq+AM
- Ygsrq07SLbNtWKmTCMebUDrpt2yhckxRU0oNVXjIHLyMhQYUsMtXjZVel
- 2/wp04j46+EYYaz2xwNQoEMoBzb5LEJwBzdiCTLWCqbnksUh6IGFHpQ8F
- rXO9W3QJ0A55suGMT85AoZFndNoX0PKhI4N3qg4AN8x5XjyVWN/YaIIXV
- 4AjkRv9M2jDjAWuJnICf5syv4jHLlNLjnCk2vk0EvcbzKjqwaBVaYVXEr
- kq4HlFc1j+VL1uloadWSgb70tuORbo9ypIlQmf5FF8LXd3wnwbBSBhTTB A==;
-IronPort-SDR: R5BZtBBZsxf7yjcdKbF42BbY7UZTt6ePaQEOsrQBWFEAMm6FzorzLgHeSSQNV1z9gqCl5Brykz
- fSfYUhjGGHNHshJlyLaMK14/l6R7rh4TkVHpdyDks6n+r2z73cUt8VN97LeAxijId0qjGm1SrB
- nqGhk3CJ2+4tAh1TX+t54iXLK8WPjmAzSB3IUJZEKTMBEOaHU1K62z3QTQrmvsWYb+KrGYQR1D
- Lx27pr+zcfptlrj6lYYAkIZik68fWmftChpaXqTBiZ3emwxs/UbW3skvly1uHNliOjNAv0TOnX
- nVQ=
-X-IronPort-AV: E=Sophos;i="5.82,300,1613404800"; d="scan'208";a="167526819"
-Received: from mail-sn1anam02lp2045.outbound.protection.outlook.com (HELO
- NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.57.45])
- by ob1.hgst.iphmx.com with ESMTP; 14 May 2021 22:33:22 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cHQgNelukpMVQS8GKz8ffpYL0PYAzVaRt3S8NrkypViyLZXxtKNL/fISD27PCATBtTxTlVToOWJXi+qcmYLsIO1lgt9rNRUObt5WLbH6uYF9lqwaTXpAB/vT3RjrHwBECgScceKNw/mZVt9oSoOKmbCcVmCLx+HNAWoj7E/+Wnt6XFhKsQKxGkxSsilvBLpdEoIP8E7dxVhTRk0kpx9tY4GvsZwqMV7AwiWg9fa9FuGKjtq/FmLW0VzypvNloLvFOnRqJCH1KGAgtWiBqTbSecXPi9m9OLQAy4PYAlZAbW21K+/h9cJ4HbnnQT8vemIfAlRU2ujVoW5TwTdJ8nPCyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kFa1J7YVbYgSHSjZAWRK077pK2y5y52q/pY9BQUNF8E=;
- b=fyAE27JcNpIQ2upSM8WtGc2hY5LzNLIvpKawjhtSx1rWzEowxlyfhGL4cl1D+n/mlbAmmrtF0y9D9cZ/dzAeZC6OaUbXBXpWSHScSdLxpKEXjuOthl+qNsoNaPS4dvnaMPUT8HRnr2bqW+gpTFWZRGssTy2wJOOVjVVd+u3z6LCUaNlk92bB0Y/rDJ6WU8fITjUVHbaOhQtIdsRjgWqTC/NbHxpYS2fZdEasynatZk97kPKdI/1Ddptdk32S+y3fVVXU8T6/vLzdXzcPZqNlizDC5Ps0MvKAwQK4wYx/2i07WdFycYrFtTVUyuFR4ZMwc8WnEqKTtiH9IfDPMI4zoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kFa1J7YVbYgSHSjZAWRK077pK2y5y52q/pY9BQUNF8E=;
- b=Ft1Q92C9R7+vwkVpGSnelx56OQmij2Qwnv8xBRIxDLq9sQVwlsA7i9+CbQe2f1CeMMl2dhtD2U2AxW0SN1AGlfD5ln0A1IZsNR/Y4vKs1u3Qn+WdfudHleea2KmWIS6lTC+mIvziHUC+oa0BzcGW04Vxjj5nE/9GLPTVLWdUDmE=
-Authentication-Results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=wdc.com;
-Received: from CO6PR04MB7812.namprd04.prod.outlook.com (2603:10b6:303:138::6)
- by CO6PR04MB7810.namprd04.prod.outlook.com (2603:10b6:5:358::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Fri, 14 May
- 2021 14:33:21 +0000
-Received: from CO6PR04MB7812.namprd04.prod.outlook.com
- ([fe80::88a0:bf18:b01d:1a50]) by CO6PR04MB7812.namprd04.prod.outlook.com
- ([fe80::88a0:bf18:b01d:1a50%4]) with mapi id 15.20.4129.028; Fri, 14 May 2021
- 14:33:21 +0000
-From: Anup Patel <anup.patel@wdc.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lhYye-0002mD-EO
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 10:39:44 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:35825)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lhYyc-0002j4-R7
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 10:39:44 -0400
+Received: by mail-ed1-x530.google.com with SMTP id di13so34973111edb.2
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 07:39:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fYLngUt/zy9Q4EiH9OP2H+JBKyju4G/JEOJuu1k47PM=;
+ b=Wd0Su8b/PYfTpG0e0vZDWBFPTVvrKvdxJ1TpkOsd9bfqClz5oKh9x9EcWS+pWtVP2P
+ HsVL48VivmoBlqN/58TURucnAOcMzn5U3PLJTeb7XijA9J//PhdPCDM1OorDU+T+Y/Vs
+ gmlimRHZlkli2YFExFO4ficgU7QHXoLvQQ1KHN++6NyflCslw8DCkxJcbj9FMvoqAtJa
+ UPfBF09qbFCoaDcN8HgSHNQi6cGziaIoMpxuLOivjOWJBlRCh4DbhQRlm0uaLUJiPdin
+ NPLUWsu7szhJEin5CBffv14avyu0yPNhKGst6psKRCh3etBECbcWuEjYIasovwDlC4aW
+ ZhcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fYLngUt/zy9Q4EiH9OP2H+JBKyju4G/JEOJuu1k47PM=;
+ b=chJxLIO8lrKG01mfOE7L2/iG9I1zKqD428rYsOD3jvIIFa4TqvKZQRKb4CLRnL784A
+ KsrVQ/letCV+RMdzBAqW4mTYVjZrZd2lO6BDBY5BPW1Yf/4yO8+WLREaBeydlOgPS3iI
+ bTkxfpQjwPAy1Q6y4NMvCMsPqkt7Vu81W1w7Gp1ErsCpkwSV2ymnLZpZgaD+UyzQ/q8T
+ CmHGbywKx1vC0gSDJdOywhwSbpU6Aqd7yvfsVT5HKHAXmG9H5NUv0hZyosBlhP+gC7Da
+ k4GJE3jYv6x+8muOQRxiRh1RAx9Vv5ycNqdUmyBTL5qBVtT3Fzk6I2CuseFIlI2hrSrO
+ 1Emg==
+X-Gm-Message-State: AOAM531+Vt2b69NvIYC5r5kqos0wzUo0S/OwxeSpz2RfnyfJnAQv+Gn3
+ EZsQ7xfy0vBltHDExK6izJVYLqMvvG2g6Q==
+X-Google-Smtp-Source: ABdhPJzm5kKRLscv2Mygy3gAJkKQDENqmWBcNRm2q28lJl0qwTx8ZyFamZzlXeXwEiWSEK8VVbVOtA==
+X-Received: by 2002:aa7:cd90:: with SMTP id x16mr56495749edv.182.1621003180814; 
+ Fri, 14 May 2021 07:39:40 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id n17sm4576759eds.72.2021.05.14.07.39.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 May 2021 07:39:40 -0700 (PDT)
+Subject: Re: [PULL 0/4] tcg patch queue
 To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH 4/4] hw/riscv: virt: Use AIA INTC compatible string when
- available
-Date: Fri, 14 May 2021 20:02:42 +0530
-Message-Id: <20210514143242.377645-5-anup.patel@wdc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210514143242.377645-1-anup.patel@wdc.com>
-References: <20210514143242.377645-1-anup.patel@wdc.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [122.179.90.73]
-X-ClientProxiedBy: MAXPR0101CA0046.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:d::32) To CO6PR04MB7812.namprd04.prod.outlook.com
- (2603:10b6:303:138::6)
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210513122008.207491-1-richard.henderson@linaro.org>
+ <CAFEAcA-gMPaP5rT_CGqEFWJ6LP7S6Z9oA0OiFYrTWomRh+V36w@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ae52dbdd-3d35-19ec-57e5-9ffebf237f79@amsat.org>
+Date: Fri, 14 May 2021 16:39:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from wdc.com (122.179.90.73) by
- MAXPR0101CA0046.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:d::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend
- Transport; Fri, 14 May 2021 14:33:18 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8e9a1868-6fa6-4da9-2534-08d916e53932
-X-MS-TrafficTypeDiagnostic: CO6PR04MB7810:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR04MB78106783F1CAA9A82A213A668D509@CO6PR04MB7810.namprd04.prod.outlook.com>
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Oob-TLC-OOBClassifiers: OLM:454;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: avM9kOsZhIUpS+GELvruxvEJczojPkCFG76zVM+SnONE4ApwXr6QPMpZkeH3HSLtuogkpyRYvMZRyH2GTFkjsHScG1WkmXd4iYE9ik+ZhOcjS2U8+5hsAk0C90Cil+4cvOwiI5qqKi+W7+JwLHKfnJ0MN+CC8/s/jtpvp8ZWScSq1vR5XAg1we5kb4+Psk4xxUXtL7ykqpj4x5oSY4vsFZvti/z1MXgVjMdwqWDQl4dT+PP9boj/G2nbw0GwukxKTM5OxEqcrsH4yNImWPee0MsC2OUoVk+V40RQojj9jjd1FM4sRQZnlp+0Lf6EsO2VLou2DQLjyOMiiR0RGhXhIztzOkLv47urreNt+tr/O+hc3HDtOCfPVW51PXmHNQa2BGWQj9235p/kakQmQBAmf7shRkUEn87L3DC8Nlpqq+OtR492XNmI07hBU3KF1/cmk10lHFbUwgJbiT2xRijnrXuJzGMd1w3T84q/tkKeZf53KSflVBxJR8vArsPqazwmYbKWqOj9CHXXCAm+HI702ClMARSLMpDsS6WlFvfOhQvbjRZBzdpO2lwXanobFr2LIHQEuECgLTNSnZ5wpzDQIblpPXNrtvGAG7lmv7geze6puO4GaUE4gPVaVOCW6snlweYJ6MT7BtY9NX5Zr2m4xVQ15rxoiHShOAX0p31b0YU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR04MB7812.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(396003)(346002)(136003)(376002)(366004)(52116002)(7696005)(1076003)(26005)(5660300002)(38350700002)(83380400001)(86362001)(66556008)(478600001)(36756003)(8886007)(66476007)(66946007)(6666004)(54906003)(16526019)(110136005)(186003)(316002)(8676002)(38100700002)(55016002)(8936002)(956004)(2906002)(2616005)(4326008)(44832011);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?e97xaYqEvOTwRzYPSZz4dqZepn3DmVr6U/kLr0xBxnr137yTH8eMruhUe3uN?=
- =?us-ascii?Q?CrTSEg11vCdPHzdvdg+VlU7Y8bBI5BkO2HkHl9nRlHYqQ1f6InCm4s+KueZf?=
- =?us-ascii?Q?uSBPu9Q47P4CNspPMj5XMJN0xAVCpkEoHFuxIyw0DtHiH6J1izcaeJK5t76w?=
- =?us-ascii?Q?4Y7MKaXcGH7CPgdkRo/TJONCbTMy7jPxib2mp8utExt86JZ6SImVFN6AOEzA?=
- =?us-ascii?Q?05vQJi5BJzgrTh+wxRB7ppUzr7ErfjvuySq0Z9NAHUJ37Optuc2iUl+u5ocn?=
- =?us-ascii?Q?tSDyz6pL3ZleRXNPQYsZ5DPgBEgi1G5M0xxjMD3ZQmSW4k+R1pEZld4425D8?=
- =?us-ascii?Q?LKN3jXs1z4RvBIROQCAmVhUBZFUKTAarzgMXETbwOIJuQW76rGcPxF2e/50c?=
- =?us-ascii?Q?y+s782c4LkwUlH8svJvW3NckM4YqUZtwq3hP3+ItkEaJNKvIdwmecv0DNVUx?=
- =?us-ascii?Q?6ZMzKV1hIYQZTZ0jjzJFVU1aGSJu4SpUvssPDoYegQVp8VuAa9L8tZgY0rw/?=
- =?us-ascii?Q?ytSWe6oEQtcpVnIOPiwO1MPsmCgjJQf8+zhb42Co1d+utjCkBV5JRZLgkxCD?=
- =?us-ascii?Q?/spuwnEo234oCTNcshqar2+G9wms7Qhi4kA138sOPAcgWDNW2DIWTVE9hM81?=
- =?us-ascii?Q?pTBBw7GhSjdcuDjrjzGr2G9wkhWIiPjyL53St2Q2/kNovSaw7XH8cueFBbKK?=
- =?us-ascii?Q?mFikKj5UNfOc2JzieK0J53OoJcwoTw8AMydCRqKTuih6K0id2TdPZml9E8M4?=
- =?us-ascii?Q?+ty4uYSmPRZq9TxoPtzWjKnab0y0uCugJw4atKlNMc4qKATpeGuYDxGTovPN?=
- =?us-ascii?Q?xqLBo+hjxFsGrXiFTGQf41IwGwfgJTZGNoNBoFiRfocDDIxOGmkqBGwJq9N+?=
- =?us-ascii?Q?NcGZlRRZ/NMmRJoRSVeTaSO7I/o5/KuIOg/UYax3ueEgMFyJitdrXxL3D5dX?=
- =?us-ascii?Q?3Lr2MWsfF+8vfUxdJ8VEqP+OwKhi4M9qZGEnWhEHDhW6UWI1zcjmV+6uE52a?=
- =?us-ascii?Q?N1iM8ZaSEVGXkb0Ps1H3uUam/GHJRPXVIL3AnA0jaDluPAbvrv60EM0v5o0l?=
- =?us-ascii?Q?XUo47zyRygltP1s4TOspAeiafGhnpmuiTewO6Fn6cFNQCSFTIA3LG/faR1Pu?=
- =?us-ascii?Q?nWxIoD2yKVs/r9ySjwmE91ME7ntLy+sftr7W2CS0KJ2ymdRgYaUXSOtkPe0D?=
- =?us-ascii?Q?KsZetWDVxqymeHTO3W3v/HrMsXGwTrV6wFY20oqPHEXb/+2eNbLOPwcL/j5p?=
- =?us-ascii?Q?sXc0o27FWu9EvmvOp8dkoINiPA4PE0WA5EJdMBiBiX1AHfs/ew637+aBmGdH?=
- =?us-ascii?Q?9hc4T/3I2cTOJQyX6MlIzexx?=
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e9a1868-6fa6-4da9-2534-08d916e53932
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR04MB7812.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2021 14:33:21.4307 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QfiFxP31HO1odz3GCVfQTs2vAydFHwchjCjyVNgHYaWFTkFRZV0aLBPsaAH6qBvdh4SVDfzAc7vJIH76BSvIEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB7810
-Received-SPF: pass client-ip=216.71.154.42;
- envelope-from=prvs=761afde0a=Anup.Patel@wdc.com; helo=esa4.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA-gMPaP5rT_CGqEFWJ6LP7S6Z9oA0OiFYrTWomRh+V36w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -157,43 +90,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, Anup Patel <anup@brainfault.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should use the AIA INTC compatible string in the CPU INTC
-DT nodes when the CPUs support AIA feature. This will allow
-Linux INTC driver to use AIA local interrupt CSRs.
+On 5/14/21 1:03 PM, Peter Maydell wrote:
+> On Thu, 13 May 2021 at 13:20, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> The following changes since commit 3e9f48bcdabe57f8f90cf19f01bbbf3c86937267:
+>>
+>>   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20210511' into staging (2021-05-12 17:31:52 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210513
+>>
+>> for you to fetch changes up to 9bcf4c52f801966b10f802e65c3ecc8bbbd8c660:
+>>
+>>   tcg: Add tcg_constant_tl (2021-05-13 05:42:44 -0500)
+>>
+>> ----------------------------------------------------------------
+>> Minor gen-icount.h fix.
+>> BSD cpu_signal_handler fix.
+>> Add missing tcg_constant_tl symbol.
+>>
+> 
+> Fails to build on FreeBSD and OpenBSD:
+> 
+> 
+> ../src/accel/tcg/user-exec.c:358:46: error: use of undeclared
+> identifier 'T_PAGEFLT'
+>                              TRAP_sig(uc) == PAGE_FAULT_TRAP ?
+>                                              ^
+> ../src/accel/tcg/user-exec.c:334:31: note: expanded from macro 'PAGE_FAULT_TRAP'
+> #define PAGE_FAULT_TRAP       T_PAGEFLT
 
-Signed-off-by: Anup Patel <anup.patel@wdc.com>
----
- hw/riscv/virt.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index c0dc69ff33..981a3a06d5 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -262,8 +262,15 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-             qemu_fdt_add_subnode(fdt, intc_name);
-             intc_phandle = phandle++;
-             qemu_fdt_setprop_cell(fdt, intc_name, "phandle", intc_phandle);
--            qemu_fdt_setprop_string(fdt, intc_name, "compatible",
--                "riscv,cpu-intc");
-+            if (riscv_feature(&s->soc[socket].harts[cpu].env,
-+                              RISCV_FEATURE_AIA)) {
-+                const char intcomp[] = "riscv,cpu-intc-aia\0riscv,cpu-intc";
-+                qemu_fdt_setprop(fdt, name, "compatible",
-+                    intcomp, sizeof(intcomp));
-+            } else {
-+                qemu_fdt_setprop_string(fdt, intc_name, "compatible",
-+                    "riscv,cpu-intc");
-+            }
-             qemu_fdt_setprop(fdt, intc_name, "interrupt-controller", NULL, 0);
-             qemu_fdt_setprop_cell(fdt, intc_name, "#interrupt-cells", 1);
- 
--- 
-2.25.1
-
+Good excuse to highlight my "gitlab-ci: Allow using FreeBSD runners"
+series :)
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg806537.html
 
