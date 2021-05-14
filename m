@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A47380A9E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 15:45:15 +0200 (CEST)
-Received: from localhost ([::1]:58154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09C1380AB5
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 15:49:51 +0200 (CEST)
+Received: from localhost ([::1]:36664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhY7u-0001JG-Ki
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 09:45:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44868)
+	id 1lhYCM-00061c-Mw
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 09:49:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhY6f-0000Uk-0y
- for qemu-devel@nongnu.org; Fri, 14 May 2021 09:43:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54933)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhYBZ-0005Ak-Ke
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 09:49:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhY6c-0000BQ-H7
- for qemu-devel@nongnu.org; Fri, 14 May 2021 09:43:56 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhYBX-0003L4-8O
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 09:49:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620999833;
+ s=mimecast20190719; t=1621000138;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=hMD7Vla+JZpE2nRKKZu0fCXrN6L8KzZiY0+ffEGdkJg=;
- b=IrL4bu/1zohGAmoY87HI3UfFDstMUJRHZ1Bd5/KnJqa3akAxWwqcdujpeovNfpueHmcf6s
- 0wo30ZbEAeapror+OLemU/aHg1tSjwZfVJSISiVqwmPTApQiI6aUAnRckhJPXqjJp38Dt+
- cejg4zOuOjbbALtQVDHqmVLU3nZI8Es=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-1zoF0F4xOPqBxlkMO478HQ-1; Fri, 14 May 2021 09:43:49 -0400
-X-MC-Unique: 1zoF0F4xOPqBxlkMO478HQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- a5-20020a5d6ca50000b029011035a261adso2678517wra.17
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 06:43:48 -0700 (PDT)
+ bh=8NQnATMMwLcSfxyjGe3R7vV9VD2kXYHHaVjzezCXllw=;
+ b=TbEVOFbpPDbCEWoIY17PnnPcS72gtmuX2loXkHGNZKKBsH83KaHBePokeXATzVhUP2J0ZV
+ rw23nHKDsjlxcYerI/xnl1Wai12bbdBN7/fD0/lDvn8CS6AXtLhKXi4PhcWVPrhnvmOurR
+ w3B2r6xOIK+DHaFP66Rft0a3Ha1xY7M=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-396-yVqpu2ChMN-OhANiALk-ig-1; Fri, 14 May 2021 09:48:57 -0400
+X-MC-Unique: yVqpu2ChMN-OhANiALk-ig-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c138-20020a1c9a900000b0290173dd9788cdso103217wme.4
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 06:48:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=hMD7Vla+JZpE2nRKKZu0fCXrN6L8KzZiY0+ffEGdkJg=;
- b=KDvZoDr/xEjTO7tyPKbo1GmOlBnd7ck6r492qjzo/mcG/j3x0S6SIMsYo6WSHJqrLS
- Z95fi7kOkCgiofFh0vhEHnPJ2j1wAsudjWiY/wmmpqCI81Z4sBxx1IzGWyrrHS4gQCHl
- IbC5zAMhxu5pLoSxY5BSBQQtEfTFVxrEfZb2tsveA9mDRr/HtvCiS5+/bX+djN6Wbk51
- y/iZVR/uniKSx90yT3TzhLw+SIULTFW9sLjzGJ8SJATOOCyTrpFSeO61oYwxrfnYp4MC
- CtxFk9W4K7Je+ICQ2onaTidyYuKAN6JycSvrPVsFbgO7ZkVDDQOT8OcuuohkY/26uYHD
- oNoA==
-X-Gm-Message-State: AOAM532uPSFdix0jW28QHxFR4p9ILj6e8LY9NJ4cbb09QEkfGflbzRZ1
- 28h/U0mLulF4KW1XtpW3bLShHYPg2jlSBoDU1kv7NFptVegLIF4r/B3KNPsoAQC/g6VU0sXGDRh
- P64wguyw2Ovr2lqM=
-X-Received: by 2002:a1c:35c6:: with SMTP id c189mr9452006wma.127.1620999828036; 
- Fri, 14 May 2021 06:43:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxOD2vFBEag0hKc1Ui7gF2OocRC/jZIPhdC5jEp1yiMrl+QguydhFwjODDIvsNrTGzVIXSxUw==
-X-Received: by 2002:a1c:35c6:: with SMTP id c189mr9451986wma.127.1620999827813; 
- Fri, 14 May 2021 06:43:47 -0700 (PDT)
+ bh=8NQnATMMwLcSfxyjGe3R7vV9VD2kXYHHaVjzezCXllw=;
+ b=CDym/ucYR5ayCNlGx2DGLHOIBaXbgGiX8rM3UET3Iv3YNLmQ/sFI2fBXx8UKIAEkIb
+ rqVkY9VZclSTbWCmdhGIgAxXa9SUgK9mLpmGuc3vVejW/R6Xvc5WN5ujSvCrSTigwsRc
+ 9mO2qrQbM5sdGYbSWYH3i5Jd+X7erBXYOHzaxt3JrHtJuJyCEUlAMDBq88M/qrpZNexi
+ 1UG+UyQ3+W76az7Toeg6W/nP8bKSQwlQBQdwrZJ8bV646RzJmN9m90eHRVVM+zoKCX6x
+ SVC/+i5/OrHU8oLh1OvOyy/0Zdz2s1XwRUuHXDOv+4Ti/GcuaH5QJka9Wl5f3J8zSzYl
+ uBdQ==
+X-Gm-Message-State: AOAM531kzpg1ziC25vhXuuffArVzGTn+Z0HuY8HsC2v/Ua5/0qXN+RRC
+ 9Gl2QWNperxOtZExl4IZ1dUK7duaDLZAQVH64FpRZUiRW0urbwVbLy64ISU4G4Dn9+Xt12b+781
+ 0yH+/cs78B2sOwgA=
+X-Received: by 2002:a5d:670c:: with SMTP id o12mr7109895wru.223.1621000135818; 
+ Fri, 14 May 2021 06:48:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzioe4rEPK76p+Oj7wyMqsHgvD8J4h79dUNvt6LEzXrbIwrSznmCNEp41QDcYlo/WjkppgeTw==
+X-Received: by 2002:a5d:670c:: with SMTP id o12mr7109866wru.223.1621000135566; 
+ Fri, 14 May 2021 06:48:55 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-160-222.red.bezeqint.net.
  [79.181.160.222])
- by smtp.gmail.com with ESMTPSA id a9sm5432495wmj.1.2021.05.14.06.43.46
+ by smtp.gmail.com with ESMTPSA id p7sm6550245wrt.24.2021.05.14.06.48.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 May 2021 06:43:47 -0700 (PDT)
-Date: Fri, 14 May 2021 09:43:44 -0400
+ Fri, 14 May 2021 06:48:55 -0700 (PDT)
+Date: Fri, 14 May 2021 09:48:51 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Andrew Melnychenko <andrew@daynix.com>
-Subject: Re: [PATCH v5 0/7] eBPF RSS support for virtio-net
-Message-ID: <20210514094235-mutt-send-email-mst@kernel.org>
-References: <20210325153529.75831-1-andrew@daynix.com>
+To: Marian Postevca <posteuca@mutex.one>
+Subject: Re: [PATCH v4 0/1] Rework ACPI OEM fields handling to simplify code
+ (was: acpi: Remove duplicated code handling OEM ID and OEM table ID fields)
+Message-ID: <20210514094819-mutt-send-email-mst@kernel.org>
+References: <20210401202928.16082-1-posteuca@mutex.one>
 MIME-Version: 1.0
-In-Reply-To: <20210325153529.75831-1-andrew@daynix.com>
+In-Reply-To: <20210401202928.16082-1-posteuca@mutex.one>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -92,127 +93,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, yuri.benditovich@daynix.com, jasowang@redhat.com,
- berrange@redhat.com, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 25, 2021 at 05:35:22PM +0200, Andrew Melnychenko wrote:
-> This set of patches introduces the usage of eBPF for packet steering
-> and RSS hash calculation:
-> * RSS(Receive Side Scaling) is used to distribute network packets to
-> guest virtqueues by calculating packet hash
-> * Additionally adding support for the usage of RSS with vhost
-> 
-> The eBPF works on kernels 5.8+
-> On earlier kerneld it fails to load and the RSS feature is reported
-> only without vhost and implemented in 'in-qemu' software.
-> 
-> Implementation notes:
-> Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
-> Added libbpf dependency and eBPF support.
-> The eBPF program is part of the qemu and presented as an array
-> of BPF ELF file data. The eBPF array file initially generated by bpftool.
-> The compilation of eBPF is not part of QEMU build and can be done
-> using provided Makefile.ebpf.
-> Added changes to virtio-net and vhost, primary eBPF RSS is used.
-> 'in-qemu' RSS used in the case of hash population and as a fallback option.
-> For vhost, the hash population feature is not reported to the guest.
-> 
-> Please also see the documentation in PATCH 6/7.
+On Thu, Apr 01, 2021 at 11:29:27PM +0300, Marian Postevca wrote:
+> This patch consolidates ACPI OEM fields handling
+> by:
+> - Moving common code in PC and MICROVM to X86.
+> - Changes unnecessary dynamic memory allocation to static allocation
+> - Uses dedicated structure to keep values of fields instead of two
+>   separate strings
+> - Adds helper functions to initialize the structure
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-> Known issues:
-> * hash population not supported by eBPF RSS: 'in-qemu' RSS used
-> as a fallback, also, hash population feature is not reported to guests
-> with vhost.
+I'd like to apply this, could you please rebase on top of my tree?
+Conflicts with some changes there.
 
-Could we instead fail init when RSS is requested and vhost is
-enabled? we can't do it for on by default features but we can
-for off by default ones ...
-
-> * IPv6 extensions still in progress.
+> v2:
+> - Move the setters/getters of OEM fields to X86MachineState to
+>   remove duplication
+> - Change commit message to make it clear the second commit is
+>   a re-factor
 > 
-> Changes since v1:
-> * using libbpf instead of direct 'bpf' system call.
-> * added libbpf dependency to the configure/meson scripts.
-> * changed python script for eBPF .h file generation.
-> * changed eBPF program - reading L3 proto from ethernet frame.
-> * added TUNSETSTEERINGEBPF define for TUN.
-> * changed the maintainer's info.
-> * added license headers.
-> * refactored code.
+> v3:
+> - Rebase "acpi: Consolidate the handling of OEM ID and OEM
+>           Table ID fields to latest" to latest HEAD
+> - Dropped "acpi: Move setters/getters of oem fields to
+>            X86MachineState" since it was accepted already
 > 
-> Changes since v2:
-> * using bpftool for eBPF skeleton generation.
-> * ebpf_rss is refactored to use skeleton generated by bpftool.
-> * added/adjasted license in comment sections and in eBPF file.
-> * rss.bpf.c and Makefile.ebpf moved to the tool/ebpf folder.
-> * virtio-net eBPF rss refactored. Now eBPF initialized during realize().
+> v4:
+> - Drop helper macros and use static inline functions instead
+> - Removed variables starting with __
+> - Used consistent naming for helper functions that start with ACPI_BUILD_OEM_*
+> - Didn't drop the defines ACPI_BUILD_APPNAME6 and ACPI_BUILD_APPNAME8 since
+>   ACPI_BUILD_APPNAME8 is still used in build_header() in aml-build.c and it
+>   feels better to keep them defined together. But if others prefer to drop the
+>   ACPI_BUILD_APPNAME6 define, will resend the patch.
 > 
-> Changes since v3:
-> * rebased to last master.
-> * fixed issue with failed build without libbpf.
-> * fixed ebpf loading without rss option.
-> * refactored labels in ebpf_rss.c
+> Marian Postevca (1):
+>   acpi: Consolidate the handling of OEM ID and OEM Table ID fields
 > 
-> Changes since v4:
-> * refactored configure/meson script.
-> * added checks for load_bytes in ebpf.
-> * documentation added to the index.
-> * refactored Makefile and rss.bpf.c.
-> * rebased to last master.
-> 
-> Andrew (7):
->   net/tap: Added TUNSETSTEERINGEBPF code.
->   net: Added SetSteeringEBPF method for NetClientState.
->   ebpf: Added eBPF RSS program.
->   ebpf: Added eBPF RSS loader.
->   virtio-net: Added eBPF RSS to virtio-net.
->   docs: Added eBPF documentation.
->   MAINTAINERS: Added eBPF maintainers information.
-> 
->  MAINTAINERS                    |   8 +
->  configure                      |   8 +-
->  docs/devel/ebpf_rss.rst        | 125 ++++++++
->  docs/devel/index.rst           |   1 +
->  ebpf/ebpf_rss-stub.c           |  40 +++
->  ebpf/ebpf_rss.c                | 165 ++++++++++
->  ebpf/ebpf_rss.h                |  44 +++
->  ebpf/meson.build               |   1 +
->  ebpf/rss.bpf.skeleton.h        | 423 +++++++++++++++++++++++++
->  ebpf/trace-events              |   4 +
->  ebpf/trace.h                   |   2 +
->  hw/net/vhost_net.c             |   3 +
->  hw/net/virtio-net.c            | 115 ++++++-
->  include/hw/virtio/virtio-net.h |   4 +
->  include/net/net.h              |   2 +
->  meson.build                    |   9 +
->  meson_options.txt              |   2 +
->  net/tap-bsd.c                  |   5 +
->  net/tap-linux.c                |  13 +
->  net/tap-linux.h                |   1 +
->  net/tap-solaris.c              |   5 +
->  net/tap-stub.c                 |   5 +
->  net/tap.c                      |   9 +
->  net/tap_int.h                  |   1 +
->  net/vhost-vdpa.c               |   2 +
->  tools/ebpf/Makefile.ebpf       |  22 ++
->  tools/ebpf/rss.bpf.c           | 552 +++++++++++++++++++++++++++++++++
->  27 files changed, 1567 insertions(+), 4 deletions(-)
->  create mode 100644 docs/devel/ebpf_rss.rst
->  create mode 100644 ebpf/ebpf_rss-stub.c
->  create mode 100644 ebpf/ebpf_rss.c
->  create mode 100644 ebpf/ebpf_rss.h
->  create mode 100644 ebpf/meson.build
->  create mode 100644 ebpf/rss.bpf.skeleton.h
->  create mode 100644 ebpf/trace-events
->  create mode 100644 ebpf/trace.h
->  create mode 100755 tools/ebpf/Makefile.ebpf
->  create mode 100644 tools/ebpf/rss.bpf.c
+>  hw/acpi/hmat.h                   |  2 +-
+>  hw/i386/acpi-common.h            |  2 +-
+>  include/hw/acpi/acpi-build-oem.h | 61 +++++++++++++++++++++++++
+>  include/hw/acpi/aml-build.h      | 15 +++---
+>  include/hw/acpi/ghes.h           |  2 +-
+>  include/hw/acpi/pci.h            |  2 +-
+>  include/hw/acpi/vmgenid.h        |  2 +-
+>  include/hw/arm/virt.h            |  4 +-
+>  include/hw/i386/x86.h            |  4 +-
+>  include/hw/mem/nvdimm.h          |  4 +-
+>  hw/acpi/aml-build.c              | 27 ++++++-----
+>  hw/acpi/ghes.c                   |  5 +-
+>  hw/acpi/hmat.c                   |  4 +-
+>  hw/acpi/nvdimm.c                 | 22 +++++----
+>  hw/acpi/pci.c                    |  4 +-
+>  hw/acpi/vmgenid.c                |  6 ++-
+>  hw/arm/virt-acpi-build.c         | 40 ++++++----------
+>  hw/arm/virt.c                    | 16 +++----
+>  hw/i386/acpi-build.c             | 78 +++++++++++++++-----------------
+>  hw/i386/acpi-common.c            |  4 +-
+>  hw/i386/acpi-microvm.c           | 13 ++----
+>  hw/i386/x86.c                    | 19 ++++----
+>  22 files changed, 188 insertions(+), 148 deletions(-)
+>  create mode 100644 include/hw/acpi/acpi-build-oem.h
 > 
 > -- 
-> 2.31.0
+> 2.26.2
 
 
