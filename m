@@ -2,96 +2,158 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18F0380B3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 16:13:31 +0200 (CEST)
-Received: from localhost ([::1]:34464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F965380B4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 16:14:20 +0200 (CEST)
+Received: from localhost ([::1]:37592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhYZG-0007Ov-UP
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 10:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51338)
+	id 1lhYa3-00012m-Jl
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 10:14:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lhYWp-000591-Nn
- for qemu-devel@nongnu.org; Fri, 14 May 2021 10:10:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27976)
+ (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
+ id 1lhYYR-0007Hq-9L
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 10:12:39 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:20454)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lhYWh-0001We-Mg
- for qemu-devel@nongnu.org; Fri, 14 May 2021 10:10:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621001450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T4KVFz9XdycCYjlsMvUw7qpPNcGdoLgf7WV/3ogRkcI=;
- b=MOvFfpZVwYK5L5l53CfD9pkjPI6oU/m49xSDi5YL5X0SJerZc6GoYxJPmdcA4oYyRGRA0M
- n0BfA427v6G2Uk+CKg27St03IyPrLCwV4+K2S7f/SRDSJHw7E+6oqrs01Ts5n3Zh5ScbdA
- 5ggby+xONKbZNmVd7pzrYNiarWDTQ2g=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-6r95e_gePciQ3nBa7Wo4Fg-1; Fri, 14 May 2021 10:10:49 -0400
-X-MC-Unique: 6r95e_gePciQ3nBa7Wo4Fg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- d8-20020a0564020008b0290387d38e3ce0so16446147edu.1
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 07:10:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=T4KVFz9XdycCYjlsMvUw7qpPNcGdoLgf7WV/3ogRkcI=;
- b=knrNlkY/p15IDabGX7ESdI6EFb+iOmmiqhi9iFZZ+HrZFBpzmmLYinZgbi29cweVWo
- gKBaFTrfFn5AZvGLb7LVy0sFEsEzD60oouUzYTmXWVBTGk865wdh/1IQ9XJPa11kh5K7
- O9dnclsfqsPshAXuj5Gd4UV5K9yZDvKu6HQKXmCdfQwNNSEqvyl5qBYlFRVUEE9dIrF4
- v9HTCmyjnq4o89vd4l6CSC77Wm7wcMVJ98vtrc808TxFTt3EwNy5haqXS4FhR3FEraEl
- WfLrbO0mQ9EfVqZZwzw4BzHpaL3A8dZhwKJiplUFm4KuhaU/Klymgh0euMU+d37xhGx6
- zq6Q==
-X-Gm-Message-State: AOAM531JlMtE4ISsetQr2a+aOWI8GVc5HC2FecExTL3N9Z76S51L8rqs
- +uyNvzp6maHsp7EmClXj6YkQEE/RLgQrl5ULJUSK5okeHsUNHzch1M20RU0Hl3hjKmG6bEe8LSf
- 6nyoFHlq3y4/0N3j9tT4snmKEmc0OnDo4sUFQEap9AukSj0MZZ0bZTaliVGknF1RAoz0=
-X-Received: by 2002:a17:906:1f54:: with SMTP id
- d20mr30412776ejk.94.1621001442336; 
- Fri, 14 May 2021 07:10:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwO7e1cyOfSRTaJFqKr/Dnfxx+6z4/qHuUQG5pisKjxAldkqC03sUw+hlcLSxBmXjpDsQnI4Q==
-X-Received: by 2002:a17:906:1f54:: with SMTP id
- d20mr30412116ejk.94.1621001435408; 
- Fri, 14 May 2021 07:10:35 -0700 (PDT)
-Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id
- p14sm4575308eds.28.2021.05.14.07.10.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 May 2021 07:10:33 -0700 (PDT)
-Subject: Re: [PATCH 5/6] co-shared-resource: protect with a mutex
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20210510085941.22769-1-eesposit@redhat.com>
- <20210510085941.22769-6-eesposit@redhat.com>
- <YJv3+y42z0Ld1nY0@stefanha-x1.localdomain>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <6d1e432e-f18a-39a4-0bb6-2a14347c2905@redhat.com>
-Date: Fri, 14 May 2021 16:10:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <YJv3+y42z0Ld1nY0@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
+ (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
+ id 1lhYYN-0002W0-NY
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 10:12:39 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14EE82Ma029368; Fri, 14 May 2021 14:12:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ mime-version; s=corp-2020-01-29;
+ bh=S6+aS7rlXvm5QhS0C+XFfhvGZpTAAspYW13nZeC1hTQ=;
+ b=ORhDn479bZa60Eumldf35LeOqeVHenJS6hALJR6rfo+fq9yYO2lZmSvHOsuwTzi+WGz1
+ RRM5C1c+IHtNPJC68PCdsNPFolwsCIt8Xfs+WNxSkyEwnI6vDOB2q2RZX4V8N3ykv5/J
+ ssEeUeVSaEl2dFIteV/uX0SaByXERfhHQYdgSYv0gstseHTYNgu4f3+GqzXnwkuUjsgN
+ +r/62igh6ZtZtyReAKT7D6azh2zTlQvIeQ5DeeHNNDbiC+PuCwyvy1joJ8vFEZSxmyqw
+ OMHekGbAgufVA2y5rkLfAIhq/It0Te04IBBcCswzFefSuxeMNmKUJtw1Phne2uDPuGUW kw== 
+Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 38gpqmgpx0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 May 2021 14:12:29 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+ by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14EE7wsw104085;
+ Fri, 14 May 2021 14:12:28 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
+ by userp3030.oracle.com with ESMTP id 38gpq34kcx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 May 2021 14:12:27 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G4aQoAbL7MeCrUc6LWhTgq/vLmoy7TI/Ey9jKuiAhVH2jm4AabTC8ly79a6/mVjlui2qUQ4DRS2QIJfhjHmOBoJhgLyl9N7Y59DaA0X/30WSrP8EtLVA8thW5JTjHXOJQSdlAX2W519OBgZd+G1t8ow/Bq3uGnMF5SOAdemsAdcHKHmzFRs8XKzzOA2R+rhZH9Gj0Par38Lto3ITTSlRURJgnquPwhFrIiyu+kbTs+/LjMUXA3f6AdaWjbahS+VEoQ6JMq67ZTVzlihTmm2tRfUpgcb/stwG84RfbRg8u1/9LjQti8oWOnErOmkicRWMfcWInl8NMXZDIq34xSCY/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S6+aS7rlXvm5QhS0C+XFfhvGZpTAAspYW13nZeC1hTQ=;
+ b=oDRln/Du5+a41SfYfCzhZXXmH3WOfxEJeg1tmEq6QOM/wWfEJq7rawi41qqYJOrSYvZpeKDQB/+lm2hlvgD+C6BryeXfNvQl0KPK9nE3uENczdGzHgBYgW7KJaEYdXTJxJM0X1nigGCzXkeM/ytlPzARV5NzoQ7moUXhLawRLl8C88vFMwClG70zAUlFblllzmz0CeJfRo90AqcZyG8GN1TeYe9v2BolwCHIvh3/DN3GYr1USk7zJ6KnmF+nPnNElyecjcB2P1O4H0GE3CfTqICzOC9pupLI17Qp4D0XQF6BWdGiIRya6YiFYmIWvf5bclKjvbdroe9oD0GrvOA61w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S6+aS7rlXvm5QhS0C+XFfhvGZpTAAspYW13nZeC1hTQ=;
+ b=Zn02enP3ArdkQZ5Ra4z8EMGYhAKLMXgjMX/LFUIeX5tDkB7eJYCkxr6Vjtsps5MaOSfF5AlvPpOYMojnn6rESbu2Q8JQ+kZxkbBq05dSKErPRhzem8Y85s5UBqiy4K9+k+PdSleizWUzXD5dpK8nrFEKxvM8JIa6bCNiN2R0w8A=
+Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
+ by MWHPR1001MB2174.namprd10.prod.outlook.com (2603:10b6:301:33::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.28; Fri, 14 May
+ 2021 14:12:25 +0000
+Received: from CO1PR10MB4531.namprd10.prod.outlook.com
+ ([fe80::2c38:cf0c:fee8:d429]) by CO1PR10MB4531.namprd10.prod.outlook.com
+ ([fe80::2c38:cf0c:fee8:d429%4]) with mapi id 15.20.4129.026; Fri, 14 May 2021
+ 14:12:25 +0000
+From: Eric DeVolder <eric.devolder@oracle.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 0/7] acpi: Error Record Serialization Table, ERST,
+ support for QEMU
+Thread-Topic: [PATCH v2 0/7] acpi: Error Record Serialization Table, ERST,
+ support for QEMU
+Thread-Index: AQHW/l0dCVff4wgjP0Kaws/mveeFjqrjlXoAgAAD2W4=
+Date: Fri, 14 May 2021 14:12:25 +0000
+Message-ID: <CO1PR10MB4531202E3233581364F9AC7997509@CO1PR10MB4531.namprd10.prod.outlook.com>
+References: <1612817879-21511-1-git-send-email-eric.devolder@oracle.com>,
+ <20210514095729-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20210514095729-mutt-send-email-mst@kernel.org>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=oracle.com;
+x-originating-ip: [138.3.201.18]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ca7a3fee-5247-4e60-7bfe-08d916e24ca4
+x-ms-traffictypediagnostic: MWHPR1001MB2174:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR1001MB2174B22FFACCB4CC8EAFBC5497509@MWHPR1001MB2174.namprd10.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: BRf072oQBejyEIEnSaFGhHk9z4fXiLU3ZJxn5RMu16cDCKk1xJHYeXwf3SBcCjXjLLUj39PtrNJlcyjBRefIhhlqOFsoXI0Vk3BZLG6sfH7Snmz65pGAb4ngdq5QlmI2YSjz3O3gsaKFoP23/gAktfKvmtI/SzzcKDfhTh+V8i6EiLr9S7dkJQFinwjXzlYTQQa5Xwn1FHlLekMkflZoph4SDsEpoN0HTbqZQZZP9NZBEThnx8pnEbFCj2QgpmbKUQrwwNAYHK2w15j0Q5+M4QMjF1MDq4wLyTrlGcqTBlf/RX7OJ9Uq8lOt7j+Gnk3o5YHt0ygfsCcyVbTYgpePEH/eFX/iPwO/HwIOVpZ9YuzkgSw8MSocoSnl3C74uG5tOpdUbQlYfCprJt49wbu8g//XuzSn0C8yrsHRrWQrk2tomI0kPsAt8uBKjOHZVdfeLKMwHWUy7CW3ThrvBr4iesFerUOsLQoFMRMQj8K4r+ZFtQf5adJ5Nx6os5rgew4gOxYlgo8y6DpyzJNxADmUMI+ZovZ365PjfKrD3Ut4eV1uBof6u9ARY+jEWds6II5aYmJYyzY5T0RkeoBVwW148G2k14K/d8D/bWdSv6H1jBO9p/idX3vg4QUzyKmLLhsyCeK97SZNHBfoZBszNgrW89F8a3QScLtA2t4bAYqEu2WoVSMrr7ow5h53NeELFn28OfXnkgm8RikwqkVi6aVF5Of9frkKhe+xkgmdNSwPbLQ=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(366004)(376002)(396003)(39860400002)(346002)(8676002)(38100700002)(83380400001)(122000001)(6916009)(52536014)(7696005)(966005)(66446008)(2906002)(107886003)(86362001)(478600001)(186003)(53546011)(64756008)(4326008)(5660300002)(166002)(66946007)(316002)(26005)(54906003)(9686003)(66476007)(33656002)(71200400001)(66556008)(8936002)(55016002)(76116006)(19627405001)(6506007)(45080400002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?rYSstpLjpKzp/KFzoMM9znGKivlal1iM3k9ubFBbv29rMLps834yTL3+yxBv?=
+ =?us-ascii?Q?aLM1iwEGxngzHr0AipG/orWODWYUMrnJGSlWXzOnEJDX8Yck7t8RCc5uUXZU?=
+ =?us-ascii?Q?5hFYmCWNVBwLKvMx/5WGu2Qk562rjTUWHLVCNR3/KsUkkaSK0JMPZUpbYazs?=
+ =?us-ascii?Q?uuxc+lSsfR0WlTvQbmxqOq2g+Mj82i56tisJN/O/Aj2ghU1zAnon9/xRG5uE?=
+ =?us-ascii?Q?6SKcdEvRSD3FYdoPTr8SoYnFI/xbTgLK5W6AvJHEUgZ0iPPU7TYltTYEQmlN?=
+ =?us-ascii?Q?JAzvOeKD0hRENu+kloUMzOCGV4vtSF76nYGyQjH+6qwoll0TOVGM3KWrZVKf?=
+ =?us-ascii?Q?3Je6oes7PL6mynl+AYHeDmJ6P5oBhnXuSxkHC2FW/pa050Mtc2V7QgwKKJn1?=
+ =?us-ascii?Q?6KR8/0udumLpWoNt81erFfBrKVEgyRoItu5cOnSk1iFaw86PdWNkVdursF5f?=
+ =?us-ascii?Q?LSg+6CVnw+tWEsZvBuWnP+12Jr4Dp1YHECH2HbAC7aWdMCdH6u9Rhlg6BG4Y?=
+ =?us-ascii?Q?6MADyZGuTH7xnqgR7VecpXnnxwmxVRD+o/11sVKP9R/bu/Ek2Ls7/ww94Tfe?=
+ =?us-ascii?Q?uvNsZM9mu4ej1ZOSEKkAw/cPLyBAN10dnOgKVQTUmU0dRBP7teonfq1bl/QV?=
+ =?us-ascii?Q?BUj6fvOZhIQEWBVNiyLa8o2Js38G0cuIUETLwmqch5mVqFsQGS/gLsrsI8SG?=
+ =?us-ascii?Q?WKdygHhaYJkqQteBfsZG+0PwoSQGydTHNTD9sSZPpQ0krRfYG95X4i5W9HFg?=
+ =?us-ascii?Q?7QO8Bk78UXzNRFpsX2r4X4xELUL4a6Law2vsInZ3+Lwr27yoaMqLymSLQhVT?=
+ =?us-ascii?Q?WmoOkdNOZYzxcCs2qNiyIlWaSCvLYPTT82OwjvE8U7YDgc9XBqgY98BuG78V?=
+ =?us-ascii?Q?QQ5qgTRdJE7tGTYcCqNqEIyAnWbZOPipnnNZfbsvz39G0BwWrXHGhI14mUE7?=
+ =?us-ascii?Q?NppVQxHNiJ35b9NsUwe8NKhvRgLSB7BeDM9qlnUmzDhoMpPRe++BRtTwfs7Q?=
+ =?us-ascii?Q?mKkH21A8A2pUJprvMQu9JQb3s7J3cTOVPs2uBLQek1ZDB0XeBC0TZwxQRYDv?=
+ =?us-ascii?Q?/JwolyeCJ0Wytm343aJKvnpmyW/8aqFBgA0PuWWcGv7RZ3x15Tm/FgrKDnIc?=
+ =?us-ascii?Q?UhouBFNXedgk2XLak6Kh+n+tqwQU0W39qGDE+pE+rx8IG+lc0IGmluGN2r+M?=
+ =?us-ascii?Q?M+XiQewLLiIKcs8scXPPBULj0w+ClVW1PH3dm0QqVlvy4EVpoQFT0rJR9O11?=
+ =?us-ascii?Q?SlgpveQTyA5P5N12QXnihf9L5SyZStmQTxTOMMxFH7TFUgjcM7R6hS/l//j6?=
+ =?us-ascii?Q?AFA=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_CO1PR10MB4531202E3233581364F9AC7997509CO1PR10MB4531namp_"
+MIME-Version: 1.0
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca7a3fee-5247-4e60-7bfe-08d916e24ca4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 May 2021 14:12:25.2818 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 37k5KNeNMQgjBYl3MIACKgnVrjicvxbzRkZqEKUr2S/T/5WjrFlFGgVMAVlcCNq3yOLNW+KiFvpbciimqSlOqT2UJ2zGbrrIRVA7tTd3S/w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2174
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9984
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ suspectscore=0
+ malwarescore=0 spamscore=0 mlxscore=0 adultscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2105140114
+X-Proofpoint-GUID: O7w4JN6Kzy7VwFABzSqDQ3ySmnFHxW_e
+X-Proofpoint-ORIG-GUID: O7w4JN6Kzy7VwFABzSqDQ3ySmnFHxW_e
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=eric.devolder@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,125 +166,288 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "kwilk@oracle.com" <kwilk@oracle.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--_000_CO1PR10MB4531202E3233581364F9AC7997509CO1PR10MB4531namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Michael,
+Yes, I'm working on a v3 to accommodate items Igor has requested.
+eric
+________________________________
+From: Michael S. Tsirkin <mst@redhat.com>
+Sent: Friday, May 14, 2021 8:57 AM
+To: Eric DeVolder <eric.devolder@oracle.com>
+Cc: imammedo@redhat.com <imammedo@redhat.com>; marcel.apfelbaum@gmail.com <=
+marcel.apfelbaum@gmail.com>; pbonzini@redhat.com <pbonzini@redhat.com>; rth=
+@twiddle.net <rth@twiddle.net>; ehabkost@redhat.com <ehabkost@redhat.com>; =
+qemu-devel@nongnu.org <qemu-devel@nongnu.org>; Boris Ostrovsky <boris.ostro=
+vsky@oracle.com>; kwilk@oracle.com <kwilk@oracle.com>
+Subject: Re: [PATCH v2 0/7] acpi: Error Record Serialization Table, ERST, s=
+upport for QEMU
+
+On Mon, Feb 08, 2021 at 03:57:52PM -0500, Eric DeVolder wrote:
+> This patchset introduces support for the ACPI Error Record
+> Serialization Table, ERST.
+
+OK I'm expecting v3 I guess?
 
 
-On 12/05/2021 17:44, Stefan Hajnoczi wrote:
-> On Mon, May 10, 2021 at 10:59:40AM +0200, Emanuele Giuseppe Esposito wrote:
->> co-shared-resource is currently not thread-safe, as also reported
->> in co-shared-resource.h. Add a QemuMutex because co_try_get_from_shres
->> can also be invoked from non-coroutine context.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>   util/qemu-co-shared-resource.c | 26 ++++++++++++++++++++++----
->>   1 file changed, 22 insertions(+), 4 deletions(-)
-> 
-> Hmm...this thread-safety change is more fine-grained than I was
-> expecting. If we follow this strategy basically any data structure used
-> by coroutines needs its own fine-grained lock (like Java's Object base
-> class which has its own lock).
-> 
-> I'm not sure I like it since callers may still need coarser grained
-> locks to protect their own state or synchronize access to multiple
-> items of data. Also, some callers may not need thread-safety.
-> 
-> Can the caller to be responsible for locking instead (e.g. using
-> CoMutex)?
-
-Right now co-shared-resource is being used only by block-copy, so I 
-guess locking it from the caller or within the API won't really matter 
-in this case.
-
-One possible idea on how to delegate this to the caller without adding 
-additional small lock/unlock in block-copy is to move co_get_from_shres 
-in block_copy_task_end, and calling it only when a boolean passed to 
-block_copy_task_end is true.
-
-Otherwise make b_c_task_end always call co_get_from_shres and then 
-include co_get_from_shres in block_copy_task_create, so that we always 
-add and in case remove (if error) in the shared resource.
-
-Something like:
-
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 3a447a7c3d..1e4914b0cb 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -233,6 +233,7 @@ static coroutine_fn BlockCopyTask 
-*block_copy_task_create(BlockCopyState *s,
-      /* region is dirty, so no existent tasks possible in it */
-      assert(!find_conflicting_task(s, offset, bytes));
-      QLIST_INSERT_HEAD(&s->tasks, task, list);
-+    co_get_from_shres(s->mem, task->bytes);
-      qemu_co_mutex_unlock(&s->tasks_lock);
-
-      return task;
-@@ -269,6 +270,7 @@ static void coroutine_fn 
-block_copy_task_end(BlockCopyTask *task, int ret)
-          bdrv_set_dirty_bitmap(task->s->copy_bitmap, task->offset, 
-task->bytes);
-      }
-      qemu_co_mutex_lock(&task->s->tasks_lock);
-+    co_put_to_shres(task->s->mem, task->bytes);
-      task->s->in_flight_bytes -= task->bytes;
-      QLIST_REMOVE(task, list);
-      progress_set_remaining(task->s->progress,
-@@ -379,7 +381,6 @@ static coroutine_fn int 
-block_copy_task_run(AioTaskPool *pool,
-
-      aio_task_pool_wait_slot(pool);
-      if (aio_task_pool_status(pool) < 0) {
--        co_put_to_shres(task->s->mem, task->bytes);
-          block_copy_task_end(task, -ECANCELED);
-          g_free(task);
-          return -ECANCELED;
-@@ -498,7 +499,6 @@ static coroutine_fn int 
-block_copy_task_entry(AioTask *task)
-      }
-      qemu_mutex_unlock(&t->s->calls_lock);
-
--    co_put_to_shres(t->s->mem, t->bytes);
-      block_copy_task_end(t, ret);
-
-      return ret;
-@@ -687,8 +687,6 @@ block_copy_dirty_clusters(BlockCopyCallState 
-*call_state)
-
-          trace_block_copy_process(s, task->offset);
-
--        co_get_from_shres(s->mem, task->bytes);
--
-          offset = task_end(task);
-          bytes = end - offset;
+> Linux uses the persistent storage filesystem, pstore, to record
+> information (eg. dmesg tail) upon panics and shutdowns.  Pstore is
+> independent of, and runs before, kdump.  In certain scenarios (ie.
+> hosts/guests with root filesystems on NFS/iSCSI where networking
+> software and/or hardware fails), pstore may contain the only
+> information available for post-mortem debugging.
+>
+> Two common storage backends for the pstore filesystem are ACPI ERST
+> and UEFI. Most BIOS implement ACPI ERST; however, ACPI ERST is not
+> currently supported in QEMU, and UEFI is not utilized in all guests.
+> By implementing ACPI ERST within QEMU, then the ACPI ERST becomes a
+> viable pstore storage backend for virtual machines (as it is now for
+> bare metal machines).
+>
+> Enabling support for ACPI ERST facilitates a consistent method to
+> capture kernel panic information in a wide range of guests: from
+> resource- constrained microvms to very large guests, and in
+> particular, in direct-boot environments (which would lack UEFI
+> run-time services).
+>
+> Note that Microsoft Windows also utilizes the ACPI ERST for certain
+> crash information, if available.
+>
+> The ACPI ERST persistent storage is contained within a single backing
+> file, with a default size of 64KiB. The size and filename of the
+> backing file can be obtained from QEMU parameters.
+>
+> The ACPI specification[1], in Chapter "ACPI Platform Error Interfaces
+> (APEI)", and specifically subsection "Error Serialization", outlines
+> a method for storing error records into persistent storage.
+>
+> [1] "Advanced Configuration and Power Interface Specification",
+>     version 6.2, May 2017.
+>     https://www.uefi.org/sites/default/files/resources/ACPI_6_2.pdf
+>
+> [2] "Unified Extensible Firmware Interface Specification",
+>     version 2.8, March 2019.
+>     https://uefi.org/sites/default/files/resources/UEFI_Spec_2_8_final.pd=
+f
+>
+> Suggested-by: Konrad Wilk <konrad.wilk@oracle.com>
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+>
+> ---
+> v2: 8feb2021
+>  - Added qtest/smoke test per Paolo Bonzini
+>  - Split patch into smaller chunks, per Igo Mammedov
+>  - Did away with use of ACPI packed structures, per Igo Mammedov
+>
+> v1: 26oct2020
+>  - initial post
+>
+> ---
+> Eric DeVolder (7):
+>   ACPI ERST: bios-tables-test.c steps 1 and 2
+>   ACPI ERST: header file for erst
+>   ACPI ERST: support for ACPI ERST feature
+>   ACPI ERST: build step for ACPI ERST
+>   ACPI ERST: support ERST for x86 guest
+>   ACPI ERST: qtest for ERST
+>   ACPI ERST: bios-tables-test.c step 5
+>
+>  hw/acpi/erst.c               | 952 +++++++++++++++++++++++++++++++++++++=
+++++++
+>  hw/acpi/meson.build          |   1 +
+>  hw/i386/acpi-build.c         |   4 +
+>  include/hw/acpi/erst.h       |  77 ++++
+>  tests/data/acpi/microvm/ERST |   0
+>  tests/data/acpi/pc/ERST      | Bin 0 -> 976 bytes
+>  tests/data/acpi/q35/ERST     | Bin 0 -> 976 bytes
+>  tests/qtest/erst-test.c      | 106 +++++
+>  tests/qtest/meson.build      |   2 +
+>  9 files changed, 1142 insertions(+)
+>  create mode 100644 hw/acpi/erst.c
+>  create mode 100644 include/hw/acpi/erst.h
+>  create mode 100644 tests/data/acpi/microvm/ERST
+>  create mode 100644 tests/data/acpi/pc/ERST
+>  create mode 100644 tests/data/acpi/q35/ERST
+>  create mode 100644 tests/qtest/erst-test.c
+>
+> --
+> 1.8.3.1
 
 
+--_000_CO1PR10MB4531202E3233581364F9AC7997509CO1PR10MB4531namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Michael,</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Yes, I'm working on a v3 to accommodate items Igor has requested.</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+eric<br>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Michael S. Tsirkin &l=
+t;mst@redhat.com&gt;<br>
+<b>Sent:</b> Friday, May 14, 2021 8:57 AM<br>
+<b>To:</b> Eric DeVolder &lt;eric.devolder@oracle.com&gt;<br>
+<b>Cc:</b> imammedo@redhat.com &lt;imammedo@redhat.com&gt;; marcel.apfelbau=
+m@gmail.com &lt;marcel.apfelbaum@gmail.com&gt;; pbonzini@redhat.com &lt;pbo=
+nzini@redhat.com&gt;; rth@twiddle.net &lt;rth@twiddle.net&gt;; ehabkost@red=
+hat.com &lt;ehabkost@redhat.com&gt;; qemu-devel@nongnu.org &lt;qemu-devel@n=
+ongnu.org&gt;;
+ Boris Ostrovsky &lt;boris.ostrovsky@oracle.com&gt;; kwilk@oracle.com &lt;k=
+wilk@oracle.com&gt;<br>
+<b>Subject:</b> Re: [PATCH v2 0/7] acpi: Error Record Serialization Table, =
+ERST, support for QEMU</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Mon, Feb 08, 2021 at 03:57:52PM -0500, Eric DeV=
+older wrote:<br>
+&gt; This patchset introduces support for the ACPI Error Record<br>
+&gt; Serialization Table, ERST.<br>
+<br>
+OK I'm expecting v3 I guess?<br>
+<br>
+<br>
+&gt; Linux uses the persistent storage filesystem, pstore, to record<br>
+&gt; information (eg. dmesg tail) upon panics and shutdowns.&nbsp; Pstore i=
+s<br>
+&gt; independent of, and runs before, kdump.&nbsp; In certain scenarios (ie=
+.<br>
+&gt; hosts/guests with root filesystems on NFS/iSCSI where networking<br>
+&gt; software and/or hardware fails), pstore may contain the only<br>
+&gt; information available for post-mortem debugging.<br>
+&gt; <br>
+&gt; Two common storage backends for the pstore filesystem are ACPI ERST<br=
+>
+&gt; and UEFI. Most BIOS implement ACPI ERST; however, ACPI ERST is not<br>
+&gt; currently supported in QEMU, and UEFI is not utilized in all guests.<b=
+r>
+&gt; By implementing ACPI ERST within QEMU, then the ACPI ERST becomes a<br=
+>
+&gt; viable pstore storage backend for virtual machines (as it is now for<b=
+r>
+&gt; bare metal machines).<br>
+&gt; <br>
+&gt; Enabling support for ACPI ERST facilitates a consistent method to<br>
+&gt; capture kernel panic information in a wide range of guests: from<br>
+&gt; resource- constrained microvms to very large guests, and in<br>
+&gt; particular, in direct-boot environments (which would lack UEFI<br>
+&gt; run-time services).<br>
+&gt; <br>
+&gt; Note that Microsoft Windows also utilizes the ACPI ERST for certain<br=
+>
+&gt; crash information, if available.<br>
+&gt; <br>
+&gt; The ACPI ERST persistent storage is contained within a single backing<=
+br>
+&gt; file, with a default size of 64KiB. The size and filename of the<br>
+&gt; backing file can be obtained from QEMU parameters.<br>
+&gt; <br>
+&gt; The ACPI specification[1], in Chapter &quot;ACPI Platform Error Interf=
+aces<br>
+&gt; (APEI)&quot;, and specifically subsection &quot;Error Serialization&qu=
+ot;, outlines<br>
+&gt; a method for storing error records into persistent storage.<br>
+&gt; <br>
+&gt; [1] &quot;Advanced Configuration and Power Interface Specification&quo=
+t;,<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp; version 6.2, May 2017.<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"https://www.uefi.org/sites/default/=
+files/resources/ACPI_6_2.pdf">https://www.uefi.org/sites/default/files/reso=
+urces/ACPI_6_2.pdf</a><br>
+&gt; <br>
+&gt; [2] &quot;Unified Extensible Firmware Interface Specification&quot;,<b=
+r>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp; version 2.8, March 2019.<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"https://uefi.org/sites/default/file=
+s/resources/UEFI_Spec_2_8_final.pdf">
+https://uefi.org/sites/default/files/resources/UEFI_Spec_2_8_final.pdf</a><=
+br>
+&gt; <br>
+&gt; Suggested-by: Konrad Wilk &lt;konrad.wilk@oracle.com&gt;<br>
+&gt; Signed-off-by: Eric DeVolder &lt;eric.devolder@oracle.com&gt;<br>
+&gt; <br>
+&gt; ---<br>
+&gt; v2: 8feb2021<br>
+&gt;&nbsp; - Added qtest/smoke test per Paolo Bonzini<br>
+&gt;&nbsp; - Split patch into smaller chunks, per Igo Mammedov<br>
+&gt;&nbsp; - Did away with use of ACPI packed structures, per Igo Mammedov<=
+br>
+&gt; <br>
+&gt; v1: 26oct2020<br>
+&gt;&nbsp; - initial post<br>
+&gt; <br>
+&gt; ---<br>
+&gt; Eric DeVolder (7):<br>
+&gt;&nbsp;&nbsp; ACPI ERST: bios-tables-test.c steps 1 and 2<br>
+&gt;&nbsp;&nbsp; ACPI ERST: header file for erst<br>
+&gt;&nbsp;&nbsp; ACPI ERST: support for ACPI ERST feature<br>
+&gt;&nbsp;&nbsp; ACPI ERST: build step for ACPI ERST<br>
+&gt;&nbsp;&nbsp; ACPI ERST: support ERST for x86 guest<br>
+&gt;&nbsp;&nbsp; ACPI ERST: qtest for ERST<br>
+&gt;&nbsp;&nbsp; ACPI ERST: bios-tables-test.c step 5<br>
+&gt; <br>
+&gt;&nbsp; hw/acpi/erst.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 952 ++++++++++++++++++++++++++++++++++=
++++++++++<br>
+&gt;&nbsp; hw/acpi/meson.build&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; |&nbsp;&nbsp; 1 +<br>
+&gt;&nbsp; hw/i386/acpi-build.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; |&nbsp;&nbsp; 4 +<br>
+&gt;&nbsp; include/hw/acpi/erst.h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbs=
+p; 77 ++++<br>
+&gt;&nbsp; tests/data/acpi/microvm/ERST |&nbsp;&nbsp; 0<br>
+&gt;&nbsp; tests/data/acpi/pc/ERST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Bin 0 -&=
+gt; 976 bytes<br>
+&gt;&nbsp; tests/data/acpi/q35/ERST&nbsp;&nbsp;&nbsp;&nbsp; | Bin 0 -&gt; 9=
+76 bytes<br>
+&gt;&nbsp; tests/qtest/erst-test.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 106 ++++=
++<br>
+&gt;&nbsp; tests/qtest/meson.build&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nb=
+sp; 2 +<br>
+&gt;&nbsp; 9 files changed, 1142 insertions(+)<br>
+&gt;&nbsp; create mode 100644 hw/acpi/erst.c<br>
+&gt;&nbsp; create mode 100644 include/hw/acpi/erst.h<br>
+&gt;&nbsp; create mode 100644 tests/data/acpi/microvm/ERST<br>
+&gt;&nbsp; create mode 100644 tests/data/acpi/pc/ERST<br>
+&gt;&nbsp; create mode 100644 tests/data/acpi/q35/ERST<br>
+&gt;&nbsp; create mode 100644 tests/qtest/erst-test.c<br>
+&gt; <br>
+&gt; -- <br>
+&gt; 1.8.3.1<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
 
-> 
->> diff --git a/util/qemu-co-shared-resource.c b/util/qemu-co-shared-resource.c
->> index 1c83cd9d29..c455d02a1e 100644
->> --- a/util/qemu-co-shared-resource.c
->> +++ b/util/qemu-co-shared-resource.c
->> @@ -32,6 +32,7 @@ struct SharedResource {
->>       uint64_t available;
->>   
->>       CoQueue queue;
->> +    QemuMutex lock;
-> 
-> Please add a comment indicating what this lock protects.
-> 
-> Thread safety should also be documented in the header file so API users
-> know what to expect.
-
-Will do, thanks.
-
-Emanuele
-
+--_000_CO1PR10MB4531202E3233581364F9AC7997509CO1PR10MB4531namp_--
 
