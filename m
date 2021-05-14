@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA2A3810F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:37:56 +0200 (CEST)
-Received: from localhost ([::1]:57688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E55381103
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:39:56 +0200 (CEST)
+Received: from localhost ([::1]:36990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhddD-0001CA-LK
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:37:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60080)
+	id 1lhdf9-0006Eo-Uq
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:39:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdar-0006uT-LA
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:35:29 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44662)
+ id 1lhdaq-0006t2-Sd
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:35:28 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdap-0000be-TK
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:35:29 -0400
+ id 1lhdap-0000aQ-AO
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:35:28 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhdao-0003Kc-G3
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:35:26 +0000
+ id 1lhdan-0003Kh-DS
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:35:25 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 736BB2E804B
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:35:26 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 62D462E8136
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:35:25 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 19:29:49 -0000
-From: Thomas Huth <1913923@bugs.launchpad.net>
+Date: Fri, 14 May 2021 19:29:59 -0000
+From: Thomas Huth <1913969@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hades0506 philmd th-huth
-X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
+X-Launchpad-Bug-Commenters: dgilbert-h th-huth vklimovs
+X-Launchpad-Bug-Reporter: Vjaceslavs Klimovs (vklimovs)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161206734828.14645.4906468177399180805.malonedeb@wampee.canonical.com>
-Message-Id: <162102058925.20672.16201277913763448274.malone@soybean.canonical.com>
-Subject: [Bug 1913923] Re: assert issue locates in
- hw/net/vmxnet3.c:1793:vmxnet3_io_bar1_write: code should not be reach
+References: <161213017826.4056.12759150225792580313.malonedeb@soybean.canonical.com>
+Message-Id: <162102059920.2587.5870606236581604142.malone@wampee.canonical.com>
+Subject: [Bug 1913969] Re: unable to migrate non shared storage when TLS is
+ used
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 6c13dc0fedeb57e852054cd0fcf34e8f1e7eec39
+X-Launchpad-Hash: 69f58636974592147857c0de75de6d919afec0df
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913923 <1913923@bugs.launchpad.net>
+Reply-To: Bug 1913969 <1913969@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -79,127 +79,55 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/309
+ https://gitlab.com/qemu-project/qemu/-/issues/310
 
 
 ** Changed in: qemu
        Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #309
-   https://gitlab.com/qemu-project/qemu/-/issues/309
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #310
+   https://gitlab.com/qemu-project/qemu/-/issues/310
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913923
+https://bugs.launchpad.net/bugs/1913969
 
 Title:
-  assert issue locates in hw/net/vmxnet3.c:1793:vmxnet3_io_bar1_write:
-  code should not be reach
+  unable to migrate non shared storage when TLS is used
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hello,
+  Operating system: Gentoo
+  Architecture: x86_64
+  kernel version: 5.4.72, 5.10.11
+  libvirt version: at least 6.9.0, 6.10.0, 7.0.0
+  Hypervisor and version: qemu 5.1.0, 5.2.0
 
-  I found an assertion failure in hw/net/vmxnet3.c:1793
+  With software versions described above and following configurations:
+  libvirt:
+  key_file =3D "/etc/ssl/libvirt/server.lan.key"
+  cert_file =3D "/etc/ssl/libvirt/server.lan.crt"
+  ca_file =3D "/etc/ssl/libvirt/ca.crt"
+  log_filters=3D"3:remote 4:event 3:util.json 3:rpc 1:*"
+  log_outputs=3D"1:file:/var/log/libvirt/libvirtd.log"
+  qemu:
+  default_tls_x509_cert_dir =3D "/etc/ssl/qemu"
+  default_tls_x509_verify =3D 1
+  migration with tls:
+  virsh # migrate vm1 qemu+tls://server2.lan/system --persistent --undefine=
+source --copy-storage-all --verbose --tls
+  never succeeds. Progress stops typically at high progress amounts (95%-98=
+%), and network traffic drastically drops as well (from 1 gbps+ to nothing)=
+. domjobinfo progress also stops. Without --tls migrations succeed without =
+issues without any other changes to hosts or configurations.
 
-  This was found in latest version 5.2.0.
-
-  my reproduced is as follows:
-
-  =
-
-  cat << EOF | ./qemu-system-x86_64 \
-  -device vmxnet3 \
-  -display none -nodefaults -qtest stdio =
-
-  outl 0xcf8 0x80001014
-  outl 0xcfc 0xf0001000
-  outl 0xcf8 0x80001018
-  outl 0xcf8 0x80001004
-  outw 0xcfc 0x7
-  writel 0x5c000 0xbabefee1
-  writel 0x5c028 0x5d000
-  writel 0x5c03c 0x01010101
-  writel 0x5d038 0xe0000000 =
-
-  writel 0xf0001038 1
-  EOF
-
-  =
-
-  Backtrace is as follows:
-  #0  0x00007f6f641a5f47 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
-unix/sysv/linux/raise.c:51
-  #1  0x00007f6f641a78b1 in __GI_abort () at abort.c:79
-  #2  0x00007f6f67922315 in g_assertion_message () at /usr/lib/x86_64-linux=
--gnu/libglib-2.0.so.0
-  #3  0x00007f6f6792237a in g_assertion_message_expr () at /usr/lib/x86_64-=
-linux-gnu/libglib-2.0.so.0
-  #4  0x000055edcaec96af in vmxnet3_io_bar1_write (opaque=3D0x628000004100,=
- addr=3D56, val=3D1, size=3D4) at ../hw/net/vmxnet3.c:1793
-  #5  0x000055edcbd294c6 in memory_region_write_accessor (mr=3D0x628000006b=
-00, addr=3D56, value=3D0x7fffd52ba848, size=3D4, shift=3D0, mask=3D42949672=
-95, attrs=3D...) at ../softmmu/memory.c:491
-  #6  0x000055edcbd299be in access_with_adjusted_size (addr=3D56, value=3D0=
-x7fffd52ba848, size=3D4, access_size_min=3D4, access_size_max=3D4, access_f=
-n=3D0x55edcbd2918c <memory_region_write_accessor>, mr=3D0x628000006b00, att=
-rs=3D...) at ../softmmu/memory.c:552
-  #7  0x000055edcbd35ef2 in memory_region_dispatch_write (mr=3D0x628000006b=
-00, addr=3D56, data=3D1, op=3DMO_32, attrs=3D...) at ../softmmu/memory.c:15=
-01
-  #8  0x000055edcba1e554 in flatview_write_continue (fv=3D0x6060000619a0, a=
-ddr=3D4026535992, attrs=3D..., ptr=3D0x7fffd52bae80, len=3D4, addr1=3D56, l=
-=3D4, mr=3D0x628000006b00) at ../softmmu/physmem.c:2759
-  #9  0x000055edcba1e8c5 in flatview_write (fv=3D0x6060000619a0, addr=3D402=
-6535992, attrs=3D..., buf=3D0x7fffd52bae80, len=3D4) at ../softmmu/physmem.=
-c:2799
-  #10 0x000055edcba1f391 in address_space_write (as=3D0x608000002620, addr=
-=3D4026535992, attrs=3D..., buf=3D0x7fffd52bae80, len=3D4) at ../softmmu/ph=
-ysmem.c:2891
-  #11 0x000055edcbaff8d3 in qtest_process_command (chr=3D0x55edd03ff4a0 <qt=
-est_chr>, words=3D0x60300007f450) at ../softmmu/qtest.c:534
-  #12 0x000055edcbb04aa1 in qtest_process_inbuf (chr=3D0x55edd03ff4a0 <qtes=
-t_chr>, inbuf=3D0x61900000fd00) at ../softmmu/qtest.c:797
-  #13 0x000055edcbb04bcc in qtest_read (opaque=3D0x55edd03ff4a0 <qtest_chr>=
-, buf=3D0x7fffd52bbe30 "outl 0xcf8 0x80001014\noutl 0xcfc 0xf0001000\noutl =
-0xcf8 0x80001018\noutl 0xcf8 0x80001004\noutw 0xcfc 0x7\nwritel 0x5c000 0xb=
-abefee1\nwritel 0x5c028 0x5d000\nwritel 0x5c03c 0x01010101\nwritel 0x5d038 =
-0xe0000"..., size=3D225) at ../softmmu/qtest.c:809
-  #14 0x000055edcbe73742 in qemu_chr_be_write_impl (s=3D0x60f000002110, buf=
-=3D0x7fffd52bbe30 "outl 0xcf8 0x80001014\noutl 0xcfc 0xf0001000\noutl 0xcf8=
- 0x80001018\noutl 0xcf8 0x80001004\noutw 0xcfc 0x7\nwritel 0x5c000 0xbabefe=
-e1\nwritel 0x5c028 0x5d000\nwritel 0x5c03c 0x01010101\nwritel 0x5d038 0xe00=
-00"..., len=3D225) at ../chardev/char.c:201
-  #15 0x000055edcbe73820 in qemu_chr_be_write (s=3D0x60f000002110, buf=3D0x=
-7fffd52bbe30 "outl 0xcf8 0x80001014\noutl 0xcfc 0xf0001000\noutl 0xcf8 0x80=
-001018\noutl 0xcf8 0x80001004\noutw 0xcfc 0x7\nwritel 0x5c000 0xbabefee1\nw=
-ritel 0x5c028 0x5d000\nwritel 0x5c03c 0x01010101\nwritel 0x5d038 0xe0000"..=
-., len=3D225) at ../chardev/char.c:213
-  #16 0x000055edcbe9188e in fd_chr_read (chan=3D0x608000002520, cond=3D(G_I=
-O_IN | G_IO_HUP), opaque=3D0x60f000002110) at ../chardev/char-fd.c:68
-  #17 0x000055edcbe2379d in qio_channel_fd_source_dispatch (source=3D0x60c0=
-00025c00, callback=3D0x55edcbe915ac <fd_chr_read>, user_data=3D0x60f0000021=
-10) at ../io/channel-watch.c:84
-  #18 0x00007f6f678fb285 in g_main_context_dispatch () at /usr/lib/x86_64-l=
-inux-gnu/libglib-2.0.so.0
-  #19 0x000055edcc50b503 in glib_pollfds_poll () at ../util/main-loop.c:221
-  #20 0x000055edcc50b68b in os_host_main_loop_wait (timeout=3D0) at ../util=
-/main-loop.c:244
-  #21 0x000055edcc50b9a5 in main_loop_wait (nonblocking=3D0) at ../util/mai=
-n-loop.c:520
-  #22 0x000055edcbd8805b in qemu_main_loop () at ../softmmu/vl.c:1678
-  #23 0x000055edcab67e69 in main (argc=3D8, argv=3D0x7fffd52bd1d8, envp=3D0=
-x7fffd52bd220) at ../softmmu/main.c:50
-  #24 0x00007f6f64188b97 in __libc_start_main (main=3D0x55edcab67e2a <main>=
-, argc=3D8, argv=3D0x7fffd52bd1d8, init=3D<optimized out>, fini=3D<optimize=
-d out>, rtld_fini=3D<optimized out>, stack_end=3D0x7fffd52bd1c8) at ../csu/=
-libc-start.c:310
-  #25 0x000055edcab67d4a in _start ()
+  Note: I reported this originally as libvirt bug:
+  https://gitlab.com/libvirt/libvirt/-/issues/108.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913923/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1913969/+subscriptions
 
