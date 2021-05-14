@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6675F380D8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:45:02 +0200 (CEST)
-Received: from localhost ([::1]:42166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E2F380D43
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:35:08 +0200 (CEST)
+Received: from localhost ([::1]:43472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhZzp-0004Vh-4P
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:45:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37054)
+	id 1lhZq9-00020c-So
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:35:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhZWC-0006AB-1d
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:24 -0400
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:41579)
+ id 1lhZWB-00068H-HR
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:23 -0400
+Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:41942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhZW5-00077v-DX
+ id 1lhZW6-000785-H1
  for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:23 -0400
-Received: by mail-qt1-x832.google.com with SMTP id t20so18136924qtx.8
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:14:16 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id l129so29002157qke.8
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:14:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=roDfKVwoE/FokDKWYoRGBlgbgtAxIqlU8Xs4UzYUyTc=;
- b=fIrxxhLRjFAUbeT/0vsQePdVVFX1zv3KwvGsRabqnCHCy8hela34s+6JXm3GVk90HX
- XSKUlLfjHqX1JGjWB91Zx4QcOauZOlQJ5+3ip9QuR4o6/rs8Ng+6KnuVejG2Hh2LSUFD
- 5r/U0GNgdCC+cjxSqORzRjJNxnEmmXbh2qg4HwGi0udXY+UY/wxKhQAsPKXmj65lFEFx
- I4KEn4rsmDGwTW5Dp5/00gxyqThCQF4bj2VzeOjQHIHVMJ15tyo8aenoHTiI+ltWlkGg
- 0STMOG29BvpvWv7n6OuJcToc7aUQjMBvcmN6UoUtPL44KF4DMqNttI93nR2pQwpQsNTy
- sgZg==
+ bh=A1dgGUuYfUmlEfW2piW8mtjDMUJG7qNyIHwOhqBphag=;
+ b=ignLgo8cZZhdP3IGJWdKH0k2xl9djt6Co+T0WeeyGSG+1tbjovzSm60u5IaRrkBbtq
+ R1EmdhYgRoHdb1qTNtF4BhazXHgxjvLFpyBNX6MYYtS5fMfsWp5Vo4KbEbAGCkW8qe17
+ u1uGgjXeOj0EgLBD6EdA/qkvG2KaJikKRUzuT+Q1tsFFu+t/9XQaB59uR3lnPzNXnTQl
+ RYkclRvzLVTKtAEia6S22z8w6pmq70u6W9aEepYlE/cHdrut7gDZPXF3yuncmFIEVckJ
+ E5xQ2jgqvZn2dSJ2fB11Rd4SOj03IKkCjRXEF2T/DAdjhMmmwpPVw/NBrMoZtfienSLT
+ JgQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=roDfKVwoE/FokDKWYoRGBlgbgtAxIqlU8Xs4UzYUyTc=;
- b=KhEtYiDNJG/ZFcYSVd5mcee2EDI2X0oWYArCGwjrposTPvYcpZPCDkHRDMX9v73a9t
- ZJOKYa1vw/bJT4OdbvsH2Bwq6c71fe+hLL/8awgtI3YuMdruq8gvcrNgiEyQGeBlHuQf
- H2h8MByPxJQMAvkThnGMFGTlPHWkMv3roQQA5Oajez57urfiO+j+La2fyu4JCtwxOSPO
- KDDCey9bIsALElmoqjeHPPds4BJWHC8XzboA3CxJHOxjNy9nBaIyWWPOFuo1j3ZU518/
- lBJHtnqzhBqOmVKVlScBiss7n7zH+PdZBuBa1Z5WVZkNK+2XbMFkNThnLWIOnevsAjbr
- DiQw==
-X-Gm-Message-State: AOAM531sPXliBy/OFcEYBZohb/SO5Y/2h+YrAZgRDsNGf+QI29C4TxfL
- xInqop1PcKZ5YJ9VDIJPCIi2+SFJ0+dfdyTqfjo=
-X-Google-Smtp-Source: ABdhPJxY/LjYqLa1M/VXSNpo3U/Ujet2rcqxWgYA8C3L8iO7lLuohRzAjWdyTDWETimgnkVXEsFLVw==
-X-Received: by 2002:ac8:5f48:: with SMTP id y8mr43645506qta.69.1621005256227; 
- Fri, 14 May 2021 08:14:16 -0700 (PDT)
+ bh=A1dgGUuYfUmlEfW2piW8mtjDMUJG7qNyIHwOhqBphag=;
+ b=YbKIh25wNFv5l9a42j/ub8Mm7r2JgSQ4RnbXywYmgqwdvAhyG0vQf5dxkZJEkCyvne
+ n1Liho/ThWEEGe8x5BhPfdPXlHop0xIvuZxQGjRqnCuHuKJGDlcw8seRhY4/lYrk0mQf
+ cIGbKZIzqfXlK6tprgoWl/EMCTBHmSUgLyYxkTg8VWq6BLBzwP+s7WJB/deBf5by4pQn
+ 3pdOXFAafBYhWB5LazdAA4SSuREmu3Ezam3wno9LvZjQGptq35JmWWlva381ECiiS4Tk
+ px8BPikY4/jQ/mth1psOhvTld+jg8c1HmAojZQJW9F0hE7HUngj9B90A1nMdK+bue+a7
+ 4gwA==
+X-Gm-Message-State: AOAM530O6wzOx+2cEBdv4/4aWysPFQENGfbzYQRmCHbxRmta6wjM1Bty
+ DOJpjx/2QXrfwByzBFvEWEJbFomTc+1DSQsKDV8=
+X-Google-Smtp-Source: ABdhPJwGxlOSyDKaobXwYeHYPZ8XlzSku2HwMfif2RQwPoLMCxGOvavzjjlm4UYm23L2Vcmc5psG8g==
+X-Received: by 2002:a05:620a:15a2:: with SMTP id
+ f2mr44815686qkk.310.1621005257115; 
+ Fri, 14 May 2021 08:14:17 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id u6sm4778966qkj.117.2021.05.14.08.14.15
+ by smtp.gmail.com with ESMTPSA id u6sm4778966qkj.117.2021.05.14.08.14.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 14 May 2021 08:14:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 35/50] target/i386: Simplify gen_debug usage
-Date: Fri, 14 May 2021 10:13:27 -0500
-Message-Id: <20210514151342.384376-36-richard.henderson@linaro.org>
+Subject: [PATCH v2 36/50] target/i386: Tidy svm_check_intercept from tcg
+Date: Fri, 14 May 2021 10:13:28 -0500
+Message-Id: <20210514151342.384376-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210514151342.384376-1-richard.henderson@linaro.org>
 References: <20210514151342.384376-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x832.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x730.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,51 +88,88 @@ Cc: pbonzini@redhat.com, f4bug@amsat.org, ehabkost@redhat.com, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both invocations pass the start of the current instruction,
-which is available as s->base.pc_next.  The function sets
-is_jmp, so we can eliminate a second setting.
+The param argument to helper_svm_check_intercept_param is always 0;
+eliminate it and rename to helper_svm_check_intercept.  Fold
+gen_sve_check_intercept_param into gen_svm_check_intercept.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ target/i386/helper.h                |  2 +-
+ target/i386/tcg/sysemu/svm_helper.c |  5 ++---
+ target/i386/tcg/translate.c         | 16 ++++------------
+ 3 files changed, 7 insertions(+), 16 deletions(-)
 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 8419aaa62c..8a02c5a373 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -2614,10 +2614,10 @@ static void gen_interrupt(DisasContext *s, int intno,
-     s->base.is_jmp = DISAS_NORETURN;
+diff --git a/target/i386/helper.h b/target/i386/helper.h
+index f794d1c7c7..86484a4ec4 100644
+--- a/target/i386/helper.h
++++ b/target/i386/helper.h
+@@ -107,7 +107,7 @@ DEF_HELPER_2(inl, tl, env, i32)
+ 
+ #ifndef CONFIG_USER_ONLY
+ DEF_HELPER_FLAGS_4(bpt_io, TCG_CALL_NO_WG, void, env, i32, i32, tl)
+-DEF_HELPER_3(svm_check_intercept_param, void, env, i32, i64)
++DEF_HELPER_2(svm_check_intercept, void, env, i32)
+ DEF_HELPER_4(svm_check_io, void, env, i32, i32, i32)
+ DEF_HELPER_3(vmrun, void, env, int, int)
+ DEF_HELPER_1(vmmcall, void, env)
+diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+index 79c73d67af..b431016e72 100644
+--- a/target/i386/tcg/sysemu/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -506,10 +506,9 @@ void cpu_svm_check_intercept_param(CPUX86State *env, uint32_t type,
+     }
  }
  
--static void gen_debug(DisasContext *s, target_ulong cur_eip)
-+static void gen_debug(DisasContext *s)
+-void helper_svm_check_intercept_param(CPUX86State *env, uint32_t type,
+-                                      uint64_t param)
++void helper_svm_check_intercept(CPUX86State *env, uint32_t type)
  {
-     gen_update_cc_op(s);
--    gen_jmp_im(s, cur_eip);
-+    gen_jmp_im(s, s->base.pc_next - s->cs_base);
-     gen_helper_debug(cpu_env);
-     s->base.is_jmp = DISAS_NORETURN;
+-    cpu_svm_check_intercept_param(env, type, param, GETPC());
++    cpu_svm_check_intercept_param(env, type, 0, GETPC());
  }
-@@ -7152,7 +7152,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
- #ifdef WANT_ICEBP
-     case 0xf1: /* icebp (undocumented, exits to external debugger) */
-         gen_svm_check_intercept(s, pc_start, SVM_EXIT_ICEBP);
--        gen_debug(s, pc_start - s->cs_base);
-+        gen_debug(s);
-         break;
- #endif
-     case 0xfa: /* cli */
-@@ -8592,8 +8592,7 @@ static bool i386_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
-     /* If RF is set, suppress an internally generated breakpoint.  */
-     int flags = dc->base.tb->flags & HF_RF_MASK ? BP_GDB : BP_ANY;
-     if (bp->flags & flags) {
--        gen_debug(dc, dc->base.pc_next - dc->cs_base);
--        dc->base.is_jmp = DISAS_NORETURN;
-+        gen_debug(dc);
-         /* The address covered by the breakpoint must be included in
-            [tb->pc, tb->pc + tb->size) in order to for it to be
-            properly cleared -- thus we increment the PC here so that
+ 
+ void helper_svm_check_io(CPUX86State *env, uint32_t port, uint32_t param,
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 8a02c5a373..12ef2cf064 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -197,7 +197,7 @@ STUB_HELPER(clgi, TCGv_env env)
+ STUB_HELPER(invlpga, TCGv_env env, TCGv_i32 aflag)
+ STUB_HELPER(set_dr, TCGv_env env, TCGv_i32 reg, TCGv val)
+ STUB_HELPER(stgi, TCGv_env env)
+-STUB_HELPER(svm_check_intercept_param, TCGv_env env, TCGv_i32 t, TCGv_i64 p)
++STUB_HELPER(svm_check_intercept, TCGv_env env, TCGv_i32 type)
+ STUB_HELPER(svm_check_io, TCGv_env env, TCGv_i32 port, TCGv_i32 p, TCGv_i32 a)
+ STUB_HELPER(vmload, TCGv_env env, TCGv_i32 aflag)
+ STUB_HELPER(vmmcall, TCGv_env env)
+@@ -2423,9 +2423,8 @@ static inline int svm_is_rep(int prefixes)
+     return ((prefixes & (PREFIX_REPZ | PREFIX_REPNZ)) ? 8 : 0);
+ }
+ 
+-static inline void
+-gen_svm_check_intercept_param(DisasContext *s, target_ulong pc_start,
+-                              uint32_t type, uint64_t param)
++static void gen_svm_check_intercept(DisasContext *s, target_ulong pc_start,
++                                    uint32_t type)
+ {
+     /* no SVM activated; fast case */
+     if (likely(!GUEST(s))) {
+@@ -2433,14 +2432,7 @@ gen_svm_check_intercept_param(DisasContext *s, target_ulong pc_start,
+     }
+     gen_update_cc_op(s);
+     gen_jmp_im(s, pc_start - s->cs_base);
+-    gen_helper_svm_check_intercept_param(cpu_env, tcg_const_i32(type),
+-                                         tcg_const_i64(param));
+-}
+-
+-static inline void
+-gen_svm_check_intercept(DisasContext *s, target_ulong pc_start, uint64_t type)
+-{
+-    gen_svm_check_intercept_param(s, pc_start, type, 0);
++    gen_helper_svm_check_intercept(cpu_env, tcg_constant_i32(type));
+ }
+ 
+ static inline void gen_stack_update(DisasContext *s, int addend)
 -- 
 2.25.1
 
