@@ -2,64 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53EAE381069
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:23:03 +0200 (CEST)
-Received: from localhost ([::1]:36814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E779381094
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:24:07 +0200 (CEST)
+Received: from localhost ([::1]:40452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhdOo-0003Bw-DM
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57768)
+	id 1lhdPq-0005bd-DU
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:24:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdMi-0007k9-Uc
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41248)
+ id 1lhdMg-0007j6-0B
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdMf-00006D-VQ
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:52 -0400
+ id 1lhdMb-0008VS-N2
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhdMc-0000SO-UD
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:20:47 +0000
+ id 1lhdMY-0000EE-Mx
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:20:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0FBC22E81C8
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:20:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7F27F2E818A
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:20:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 19:10:36 -0000
-From: Thomas Huth <1915063@bugs.launchpad.net>
+Date: Fri, 14 May 2021 19:11:06 -0000
+From: Thomas Huth <1921280@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux; component=main;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux-oem-5.10;
- component=main; status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=linux-oem-5.6;
- component=main; status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Invalid; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: apport-collected focal
+X-Launchpad-Bug-Tags: hvf
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: apw babumoger dober60 imammedo markrhpearson
- paelzer sergiodj th-huth ubuntu-kernel-bot
-X-Launchpad-Bug-Reporter: David Ober (dober60)
+X-Launchpad-Bug-Commenters: mohd-akram th-huth
+X-Launchpad-Bug-Reporter: Mohamed (mohd-akram)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161281335451.16853.7070328699645987751.malonedeb@wampee.canonical.com>
-Message-Id: <162101943679.8521.8388990783907829860.malone@gac.canonical.com>
-Subject: [Bug 1915063] Re: Windows 10 wil not install using qemu-system-x86_64
+References: <161661979202.23519.15513295084745002515.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162101946698.20766.9650605196048262135.malone@soybean.canonical.com>
+Subject: [Bug 1921280] Re: OpenIndiana stuck in boot loop when using hvf
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 886dde026deb14b5d9b48d09c6beb9699005c145
+X-Launchpad-Hash: d253274509b7e623556e5425ef5f99f44028d2f6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -80,115 +71,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915063 <1915063@bugs.launchpad.net>
+Reply-To: Bug 1921280 <1921280@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch for QEMU that has been mentioned in comment #38 has been
-merged already, so I'm marking this as Fix-Released there.
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting the bug state to "Incomplete" now.
+
+If the bug has already been fixed in the latest upstream version of QEMU,
+then please close this ticket as "Fix released".
+
+If it is not fixed yet and you think that this bug report here is still
+valid, then you have two options:
+
+1) If you already have an account on gitlab.com, please open a new ticket
+for this problem in our new tracker here:
+
+    https://gitlab.com/qemu-project/qemu/-/issues
+
+and then close this ticket here on Launchpad (or let it expire auto-
+matically after 60 days). Please mention the URL of this bug ticket on
+Launchpad in the new ticket on GitLab.
+
+2) If you don't have an account on gitlab.com and don't intend to get
+one, but still would like to keep this ticket opened, then please switch
+the state back to "New" or "Confirmed" within the next 60 days (other-
+wise it will get closed as "Expired"). We will then eventually migrate
+the ticket automatically to the new system (but you won't be the reporter
+of the bug in the new system and thus you won't get notified on changes
+anymore).
+
+Thank you and sorry for the inconvenience.
+
 
 ** Changed in: qemu
-       Status: New =3D> Fix Released
+       Status: New =3D> Incomplete
+
+** Tags added: hvf
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915063
+https://bugs.launchpad.net/bugs/1921280
 
 Title:
-  Windows 10 wil not install using qemu-system-x86_64
+  OpenIndiana stuck in boot loop when using hvf
 
 Status in QEMU:
-  Fix Released
-Status in linux package in Ubuntu:
-  Confirmed
-Status in linux-oem-5.10 package in Ubuntu:
-  Fix Released
-Status in linux-oem-5.6 package in Ubuntu:
-  Confirmed
-Status in qemu package in Ubuntu:
-  Invalid
+  Incomplete
 
 Bug description:
-  Steps to reproduce
-  install virt-manager and ovmf if nopt already there
-  copy windows and virtio iso files to /var/lib/libvirt/images
+  I'm using QEMU version 5.2.0 on macOS, and running the "OpenIndiana
+  Hipster 2020.10 Text Install DVD (64-bit x86)" ISO:
 
-  Use virt-manager from local machine to create your VMs with the disk, CPU=
-s and memory required
-      Select customize configuration then select OVMF(UEFI) instead of seab=
-ios
-      set first CDROM to the windows installation iso (enable in boot optio=
-ns)
-      add a second CDROM and load with the virtio iso
-  	change spice display to VNC
+  qemu-system-x86_64 -cdrom ~/Downloads/OI-hipster-text-20201031.iso -m
+  2048 -accel hvf -cpu host
 
-    Always get a security error from windows and it fails to launch the ins=
-taller (works on RHEL and Fedora)
-  I tried updating the qemu version from Focals 4.2 to Groovy 5.0 which was=
- of no help
-  --- =
-
-  ProblemType: Bug
-  ApportVersion: 2.20.11-0ubuntu27.14
-  Architecture: amd64
-  CasperMD5CheckResult: skip
-  CurrentDesktop: ubuntu:GNOME
-  DistributionChannelDescriptor:
-   # This is the distribution channel descriptor for the OEM CDs
-   # For more information see http://wiki.ubuntu.com/DistributionChannelDes=
-criptor
-   canonical-oem-sutton-focal-amd64-20201030-422+pc-sutton-bachman-focal-am=
-d64+X00
-  DistroRelease: Ubuntu 20.04
-  InstallationDate: Installed on 2021-01-20 (19 days ago)
-  InstallationMedia: Ubuntu 20.04 "Focal" - Build amd64 LIVE Binary 2020103=
-0-14:39
-  MachineType: LENOVO 30E102Z
-  NonfreeKernelModules: nvidia_modeset nvidia
-  Package: linux (not installed)
-  ProcEnviron:
-   TERM=3Dxterm-256color
-   PATH=3D(custom, no user)
-   XDG_RUNTIME_DIR=3D<set>
-   LANG=3Den_US.UTF-8
-   SHELL=3D/bin/bash
-  ProcFB: 0 EFI VGA
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-1042-oem root=3DUUID=
-=3D389cd165-fc52-4814-b837-a1090b9c2387 ro locale=3Den_US quiet splash vt.h=
-andoff=3D7
-  ProcVersionSignature: Ubuntu 5.6.0-1042.46-oem 5.6.19
-  RelatedPackageVersions:
-   linux-restricted-modules-5.6.0-1042-oem N/A
-   linux-backports-modules-5.6.0-1042-oem  N/A
-   linux-firmware                          1.187.8
-  RfKill:
-   =
-
-  Tags:  focal
-  Uname: Linux 5.6.0-1042-oem x86_64
-  UpgradeStatus: No upgrade log present (probably fresh install)
-  UserGroups: adm cdrom dip docker kvm libvirt lpadmin plugdev sambashare s=
-udo
-  _MarkForUpload: True
-  dmi.bios.date: 07/29/2020
-  dmi.bios.vendor: LENOVO
-  dmi.bios.version: S07KT08A
-  dmi.board.name: 1046
-  dmi.board.vendor: LENOVO
-  dmi.board.version: Not Defined
-  dmi.chassis.type: 3
-  dmi.chassis.vendor: LENOVO
-  dmi.chassis.version: None
-  dmi.modalias: dmi:bvnLENOVO:bvrS07KT08A:bd07/29/2020:svnLENOVO:pn30E102Z:=
-pvrThinkStationP620:rvnLENOVO:rn1046:rvrNotDefined:cvnLENOVO:ct3:cvrNone:
-  dmi.product.family: INVALID
-  dmi.product.name: 30E102Z
-  dmi.product.sku: LENOVO_MT_30E1_BU_Think_FM_ThinkStation P620
-  dmi.product.version: ThinkStation P620
-  dmi.sys.vendor: LENOVO
+  It gets to "Booting...", stays there for a bit, and then restarts.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915063/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1921280/+subscriptions
 
