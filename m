@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3730380E81
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:57:14 +0200 (CEST)
-Received: from localhost ([::1]:58612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6609A380E89
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:59:43 +0200 (CEST)
+Received: from localhost ([::1]:37922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhb7h-0001BG-W7
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:57:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58476)
+	id 1lhbA6-0006PH-EZ
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:59:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lhay4-00085d-77
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:47:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22842)
+ id 1lhayy-0001NS-45
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:48:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lhay2-0006wf-LJ
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:47:15 -0400
+ id 1lhayv-0007DC-QC
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:48:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621010834;
+ s=mimecast20190719; t=1621010889;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9us4rGDyAZZje/NYXqCdgVavKDSg9B1dkB2usKR0jdQ=;
- b=BL3oNw0APuc6yWnBhaIY0OAuwejHz65ow2OYjxaeur+yHdGkYxVSkJzT6pa/4yrDhYvACs
- oInfXALI4RddUXtLu8c01rFXAB0G13C+Zua1EZ9+JcAgHg7Vro3yRwNQzsFyhkofue5WiJ
- cXXUpbDVq0jcBN64A0DAzPfUO6X/44Q=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-I_uLWpEPMwuOunAOW2ZNvQ-1; Fri, 14 May 2021 12:47:12 -0400
-X-MC-Unique: I_uLWpEPMwuOunAOW2ZNvQ-1
-Received: by mail-vs1-f70.google.com with SMTP id
- i16-20020a67c2100000b0290227fd428db0so13138040vsj.10
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 09:47:12 -0700 (PDT)
+ bh=6nFvyvG6BDWIpehgJBOqGRj/OL8ul4aIZEikVhYQaNw=;
+ b=LpjWlZzWfwl2Yk7oIpOWpg52J8vYMbsfXaiOSWTwhdpqU8uN4g/ycMczUbbl+O+CJhk5Kt
+ RGnwS8S5ttAvqcAkSriPFodHsdH2IIYI+lRzNKlJNhFPMWJ/l3VOZU1mQd2aK37EzUVZlD
+ AhrwAeQJwlCf1g+sYVPvtt7R4WsPSFw=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-KvX-W1KQOVSQwNU1vqunNQ-1; Fri, 14 May 2021 12:48:07 -0400
+X-MC-Unique: KvX-W1KQOVSQwNU1vqunNQ-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ r85-20020a1fc1580000b02901f918091a78so62735vkf.6
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 09:48:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=9us4rGDyAZZje/NYXqCdgVavKDSg9B1dkB2usKR0jdQ=;
- b=D73fy3aUlK4WAf4SL5lHVaHh3VpdgQJmjip3E28bCI2nm5yyyf23fgV6yFHyNylsrH
- B1LYWij4GBRJJGUQgVmb5wMDQ1cIZWswovUx8/1pxJdMTUMOKUaEfFSeRIrpc5Fy4UVK
- gnmM4rV7SctLJ8IcdernsJjhqOank/FE2cCfg/Z4qfUQaycTuUirJhQeYR5hAreULHnb
- uIYhTgDvoOGO2DCBG+3GjzKgydrb+zlFbGe7ga7Ni2kyzB9EgwG9zFXZAxvgNUU6cGhx
- tAe4mI8n0cAjyPZ3Z0sQZ5TYHQExPmPsvofszFX+TkBFEoHueL4r04XV+j5Xv9MrSEy2
- tn+A==
-X-Gm-Message-State: AOAM532+N401r6dmnnoVnAtb9LN4pimHcVBk2zJtaIsoh71AVZ9CXKd9
- Lhz9lHA2QEiJOPKB4KE8LXyHARKYiaDqAO/LuuRJ78jalaA1gE+8JgJcGi6/3hcXA3gE4GRR/lW
- Vm+Wnk3F5wNV5GC+Bt0izRa4nBDJ0FJ0=
-X-Received: by 2002:a05:6102:2f3:: with SMTP id
- j19mr2796829vsj.1.1621010832021; 
- Fri, 14 May 2021 09:47:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxOarhG8/Ajzn66204o29u8ZWRM69ZrMhVIwf8CSCdRo4JxgTs/UYclhtlNSpc/INb5KKAJ9DpmbPf+sAfiMk4=
-X-Received: by 2002:a05:6102:2f3:: with SMTP id
- j19mr2796804vsj.1.1621010831770; 
- Fri, 14 May 2021 09:47:11 -0700 (PDT)
+ bh=6nFvyvG6BDWIpehgJBOqGRj/OL8ul4aIZEikVhYQaNw=;
+ b=N5j+ms3zyXg5zDqa7FehxZVvAPANWMMYjjwn9mqdM2NQWa5cAf5w1uxoFUfAtgX7ZS
+ 9WMgUzeyyvOMISzgcfIhB3JBQKPd27OXGkrSrmXGfxR9xyW8Ep+vKnMvJ/+YPYt1gN+q
+ kYVxRoXCZshojBvkDcZsgxFZH+MOCWodkHZtyP6taN11IJwrip9+7osk+ge5+jmq09uj
+ tjW99zhXOywDdyLiMJYjwVExRi52ClRzhN2+1YftiAlULdhyBY1FNJeXOYInamjdb1iw
+ Axcdbeha62htygIRC5K6a3t8sELKEOnPciHfioltVvn/gHfni69wwxPqcZ4AhPKOVL2V
+ 79Kg==
+X-Gm-Message-State: AOAM531v4dFzlPw7LboDLQFhjKXIzVOhpxyPYDSS7M6CSzbGU8Tx26te
+ 4YjmQHC+p9P0elDz0A5bW2cmljDF8OPsx/Xf51iHigSlevAE1DG8C4YitIJkOwbE+hrw1F7LmJV
+ kI2sH7DyVmqf0K0FFk+m33dVAb2WPrWU=
+X-Received: by 2002:a1f:a388:: with SMTP id m130mr39551694vke.1.1621010886997; 
+ Fri, 14 May 2021 09:48:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw8h0hrs5z7yNmAYFNsaERoR4TeAjv+w+kzVVNi6WUpJ8qRT7yAYFESje44bUPofEN2OmSE1YoyWL7uNYu1lN8=
+X-Received: by 2002:a1f:a388:: with SMTP id m130mr39551684vke.1.1621010886806; 
+ Fri, 14 May 2021 09:48:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210514120415.1368922-1-berrange@redhat.com>
- <20210514120415.1368922-3-berrange@redhat.com>
-In-Reply-To: <20210514120415.1368922-3-berrange@redhat.com>
+ <20210514120415.1368922-2-berrange@redhat.com>
+In-Reply-To: <20210514120415.1368922-2-berrange@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 14 May 2021 13:46:45 -0300
-Message-ID: <CAKJDGDZgv_JO54jweY14UhNr1wzLg8H70-B__qpCbUm+Vj3thA@mail.gmail.com>
-Subject: Re: [PATCH v2 02/12] patchew: move quick build job from CentOS 7 to
- CentOS 8 container
+Date: Fri, 14 May 2021 13:47:40 -0300
+Message-ID: <CAKJDGDavAan3eOac7qzgDs78t5+SGv9=uXLPhEWBo2Ptns4xQg@mail.gmail.com>
+Subject: Re: [PATCH v2 01/12] gitlab: drop linux user build job for CentOS 7
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -73,7 +70,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -109,10 +106,14 @@ m> wrote:
 > platform build policy, we no longer need to support RHEL-7 as a build
 > target.
 >
+> The build-user-centos7 job was to detect a failure specific to CentOS
+> 7 and there are already other linux user jobs for other platforms.
+> Thus we can drop this job rather than move it to CentOS 8.
+>
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  .patchew.yml | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  .gitlab-ci.yml | 9 ---------
+>  1 file changed, 9 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
