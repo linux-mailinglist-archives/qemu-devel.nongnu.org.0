@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E779381094
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:24:07 +0200 (CEST)
-Received: from localhost ([::1]:40452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B46C381065
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:22:33 +0200 (CEST)
+Received: from localhost ([::1]:33894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhdPq-0005bd-DU
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:24:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57742)
+	id 1lhdOK-0001EM-74
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:22:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdMg-0007j6-0B
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41030)
+ id 1lhdMd-0007iT-Iq
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdMb-0008VS-N2
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:49 -0400
+ id 1lhdMb-0008VU-Jv
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhdMY-0000EE-Mx
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:20:42 +0000
+ id 1lhdMY-00008v-UD
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:20:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7F27F2E818A
+ by loganberry.canonical.com (Postfix) with ESMTP id E16D42E8186
  for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:20:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 19:11:06 -0000
-From: Thomas Huth <1921280@bugs.launchpad.net>
+Date: Fri, 14 May 2021 19:12:06 -0000
+From: Thomas Huth <1921082@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: hvf
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mohd-akram th-huth
-X-Launchpad-Bug-Reporter: Mohamed (mohd-akram)
+X-Launchpad-Bug-Commenters: th-huth yaoaili
+X-Launchpad-Bug-Reporter: Yao Aili (yaoaili)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161661979202.23519.15513295084745002515.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162101946698.20766.9650605196048262135.malone@soybean.canonical.com>
-Subject: [Bug 1921280] Re: OpenIndiana stuck in boot loop when using hvf
+References: <161657493730.24559.14872462058003243751.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162101952633.20672.8453366597027570285.malone@soybean.canonical.com>
+Subject: [Bug 1921082] Re: VM crash when process broadcast MCE
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: d253274509b7e623556e5425ef5f99f44028d2f6
+X-Launchpad-Hash: eb1c76df783f6183b1633deed0b3b958a72d79cb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921280 <1921280@bugs.launchpad.net>
+Reply-To: Bug 1921082 <1921082@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -108,29 +107,45 @@ Thank you and sorry for the inconvenience.
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
-** Tags added: hvf
-
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921280
+https://bugs.launchpad.net/bugs/1921082
 
 Title:
-  OpenIndiana stuck in boot loop when using hvf
+  VM crash when process broadcast MCE
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I'm using QEMU version 5.2.0 on macOS, and running the "OpenIndiana
-  Hipster 2020.10 Text Install DVD (64-bit x86)" ISO:
+  When i do memory SRAR test for VM, I meet the following issue:
 
-  qemu-system-x86_64 -cdrom ~/Downloads/OI-hipster-text-20201031.iso -m
-  2048 -accel hvf -cpu host
+  My VM has 16 vCPU, I will inject one UE error to memory which is accessed=
+ by VM, Then host MCE is raised and SIGBUS is send to VM, and qemu take con=
+trol.
+  Qemu will check the broadcast attribute by following  cpu_x86_support_mca=
+_broadcast();  =
 
-  It gets to "Booting...", stays there for a bit, and then restarts.
+
+  Then Qemu may inject MCE to all vCPU, as vCPU is just one process for
+  HOST, we can't guarantee all the vCPUs will enter MCE hander in 1S
+  sync time, and the VM may panic.
+
+  This issue will be easily fixed by expand monarch_timeout
+  configuration, but the exact monarch_timeout can't be easily got, as
+  it will depand on the num of vCPUs and current system schedule status.
+
+  I am wondering why VM need broadcast attribute for MCE, When qeme
+  process MCE event form host, it will always be signaled for one vCPU?
+  If so, why does qemu need boradcast the MCE event to all vCPUs?
+
+  Can weu just deliver LMCE to one specifc vCPU and make this behavior
+  default?
+
+  If anything wrong, Please point out.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921280/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1921082/+subscriptions
 
