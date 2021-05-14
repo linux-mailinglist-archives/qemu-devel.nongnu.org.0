@@ -2,98 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E7B3809CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:43:07 +0200 (CEST)
-Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0423809F0
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:55:18 +0200 (CEST)
+Received: from localhost ([::1]:37986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhX9m-0001kU-KK
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:43:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58950)
+	id 1lhXLZ-00086U-Uh
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:55:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWxH-00072U-9E
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:30:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53623)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWxE-0004DA-IM
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:30:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620995407;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ALRBnGF3PC/3E2tWo2lfOM6jJTl/JAOQBz5aoCBJ+GY=;
- b=Wr9INgtS0SUMeQfkun4RsYDI+bEV5jlfgd3wklc3H9/WeU56NNJlZz5FPxo6wwOLUNhiEO
- BMWRDoxrjFYRGaiq3/KjbRLjDhkMB5clt4AmP9wXVNGwEZ3iq0JnV5l/mwtENcsTyOe2ND
- AwvPcnjfk+aYOVDYX87Pl4b9oS7S/rM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-OxjrdqOPOaO4qhqExK1sCw-1; Fri, 14 May 2021 08:30:03 -0400
-X-MC-Unique: OxjrdqOPOaO4qhqExK1sCw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- t5-20020adfb7c50000b029010dd0bb24cfso12664957wre.2
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 05:30:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ALRBnGF3PC/3E2tWo2lfOM6jJTl/JAOQBz5aoCBJ+GY=;
- b=fkgv/qXwLa9CxWdcVeaiY6RvwF1znNhm70ePRpKm/OXMceTcXCF73ooC7xY20XVjiE
- A2TFVtmnKFzw9uhZGtGqxH8lToGSzrJGzV5X+NXHmrgKI6gvmUn/YqNPKkohGUglFLZS
- N7k10Ou+EX8LCa98+ZAxBYZGKJO8f7K7oROuoITcqCLGqH0ZYpnaqTAf/lbAHL5venks
- T1JgnFn4t1aDKF7gskWDNSVT04JIgLC5K5+M0mXFlHUPV6BBSMuSy3cVaXT7Htw8JSJq
- Jii9wpDr5aNecQZ3o36uhTOqv6ElvfXsBV5GN9vyR7lVocw7kbUSG/AtqJASSihrlRIf
- sjfg==
-X-Gm-Message-State: AOAM5331x+YNC3lW8pLWz5f+LSfJMPyAUuYs7CTa2HUe9lJKiU8E8hWn
- 9IOtBkX8cYgR8E7eNwPnpSa2+lE9iBlCp48olHw9GW7zbPGYPEybDhNGIWh8965b3YHkbiawgtF
- ca8+yuLtTb6Dxrcs=
-X-Received: by 2002:a05:600c:430a:: with SMTP id
- p10mr9391319wme.29.1620995402062; 
- Fri, 14 May 2021 05:30:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwFeTo6Dzl38698UXRk0n9dblrwxXThqw1AsPHhMdEq6+q6RcBuU7BNFWNO0wrAWz/kU7Urow==
-X-Received: by 2002:a05:600c:430a:: with SMTP id
- p10mr9391310wme.29.1620995401924; 
- Fri, 14 May 2021 05:30:01 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e83cd9.dip0.t-ipconnect.de.
- [217.232.60.217])
- by smtp.gmail.com with ESMTPSA id m11sm5051243wmq.33.2021.05.14.05.30.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 May 2021 05:30:01 -0700 (PDT)
-Subject: Re: [PATCH v2 10/12] configure: bump min required glib version to 2.56
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210514120415.1368922-1-berrange@redhat.com>
- <20210514120415.1368922-11-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <91dececd-09db-de99-6ba1-3c296078c531@redhat.com>
-Date: Fri, 14 May 2021 14:29:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhX8R-0000FU-Hv
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:41:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhX8P-0003DU-Bk
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:41:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lhX8K-0006gx-08
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 12:41:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BCA742E8193
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 12:41:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210514120415.1368922-11-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 14 May 2021 12:33:18 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1910586@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd th-huth ubi-one-kenubi
+X-Launchpad-Bug-Reporter: - (ubi-one-kenubi)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <161004745358.28900.17773103786496139692.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162099559858.21152.2801917621766788977.malone@soybean.canonical.com>
+Subject: [Bug 1910586] Re: SD card size constraint conceptually wrong
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
+X-Launchpad-Hash: 8303d6fde14d353917dc4a58ef07850bdd6877bb
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,44 +71,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reply-To: Bug 1910586 <1910586@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/05/2021 14.04, Daniel P. Berrangé wrote:
-> The glib version was not previously constrained by RHEL-7 since it
-> rebases fairly often. Instead SLES 12 and Ubuntu 16.04 were the
-> constraints in 00f2cfbbec63fb6f5a7789797a62ccedd22466ea. Both of
-> these are old enough that they are outside our platform support
-> matrix now.
-> 
-> Per repology, current shipping versions are:
-> 
->               RHEL-8: 2.56.4
->        Debian Buster: 2.58.3
->   openSUSE Leap 15.2: 2.62.6
->     Ubuntu LTS 18.04: 2.56.4
->     Ubuntu LTS 20.04: 2.64.6
->              FreeBSD: 2.66.7
->            Fedora 33: 2.66.8
->            Fedora 34: 2.68.1
->              OpenBSD: 2.68.1
->       macOS HomeBrew: 2.68.1
-> 
-> Thus Ubuntu LTS 18.04 / RHEL-8 are the constraint for GLib version
-> at 2.56
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   configure             |   2 +-
->   include/glib-compat.h |  13 +--
->   util/oslib-win32.c    | 204 ------------------------------------------
->   3 files changed, 3 insertions(+), 216 deletions(-)
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'invalid' now.
+Please continue with the discussion here:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+ https://gitlab.com/qemu-project/qemu/-/issues/297
 
 
+** Changed in: qemu
+       Status: Incomplete =3D> Confirmed
+
+** Changed in: qemu
+       Status: Confirmed =3D> Invalid
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #297
+   https://gitlab.com/qemu-project/qemu/-/issues/297
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1910586
+
+Title:
+  SD card size constraint conceptually wrong
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  The patch discussed here:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg720833.html
+  introduces an artificial size constraint for SD cards
+  that has no relation to reality.
+
+  I'm trying to use an _actual_ **physical** SD card,
+  and qemu tells me its size is "invalid".
+
+  Something here appears to be conceptually wrong.
+
+  --------------------------------------------------
+  # fdisk -l /dev/sdg
+  Disk /dev/sdg: 14.84 GiB, 15931539456 bytes, 31116288 sectors
+  Disk model: USB  SD Reader  =
+
+  Units: sectors of 1 * 512 =3D 512 bytes
+  Sector size (logical/physical): 512 bytes / 512 bytes
+  I/O size (minimum/optimal): 512 bytes / 512 bytes
+  Disklabel type: dos
+  Disk identifier: 0x7a0c8bb0
+
+  Device     Boot  Start      End  Sectors  Size Id Type
+  /dev/sdg1         2048   524287   522240  255M  c W95 FAT32 (LBA)
+  /dev/sdg2       524288 31116287 30592000 14.6G 83 Linux
+  # qemu-system-aarch64 -M raspi3 -m 1G -kernel vmlinuz-5.4.79-v8 -dtb bcm2=
+837-rpi-3-b-plus.dtb -append console=3DttyAMA0\ root=3D/dev/mmcblk0p2\ rw -=
+nographic -serial mon:stdio -drive file=3D/dev/sdg,format=3Draw
+  qemu-system-aarch64: Invalid SD card size: 14.8 GiB
+  SD card size has to be a power of 2, e.g. 16 GiB.
+  You can resize disk images with 'qemu-img resize <imagefile> <new-size>'
+  (note that this will lose data if you make the image smaller than it curr=
+ently is).
+  --------------------------------------------------
+
+  The same invocation with a dump of the actual image
+  resized to match qemu's odd expectations works fine.
+
+  =
+
+  This is on QEMU 5.2.0, as evidenced by the following:
+  --------------------------------------------------
+  # qemu-system-aarch64 -version
+  QEMU emulator version 5.2.0
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+  --------------------------------------------------
+
+  Is there a simple workaround that disables this rather
+  arbitrary constraint?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1910586/+subscriptions
 
