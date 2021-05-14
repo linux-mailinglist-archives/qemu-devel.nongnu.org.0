@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D79C380B2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 16:10:09 +0200 (CEST)
-Received: from localhost ([::1]:56370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F659380B36
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 16:11:09 +0200 (CEST)
+Received: from localhost ([::1]:58718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhYW0-00032F-0i
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 10:10:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50846)
+	id 1lhYWy-0004gH-Bc
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 10:11:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lhYUy-0001uE-Nm
- for qemu-devel@nongnu.org; Fri, 14 May 2021 10:09:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30524)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhYVp-0003MI-OM
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 10:09:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lhYUu-0000Bm-QG
- for qemu-devel@nongnu.org; Fri, 14 May 2021 10:09:03 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhYVo-0000oQ-0r
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 10:09:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621001339;
+ s=mimecast20190719; t=1621001395;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gq0U4smhJOd8NyYG0+OdvvpSJZFFIQhBEsVQcPVsuuY=;
- b=TRJInfIQ/t8OcyXe2mcAJRrFG/uneHW/EXQXulm1hbSdnFd01XSNYscV3e5gF8rYGDlRq4
- ZbEwSlF7uvTqnWzxd9u+bpY8S9yR2G4yLwGsmIQTPRclfKwzGNWB4ToW1eff7/YhMeIuLu
- 7g7kgRr6fQrfvMZ0jkmewjTjWK0Px10=
+ bh=H89hAj45JsULgDkW02KFGLsLfbhgocSi6FA4Fg1wmjA=;
+ b=PRs3I1RBihiJkviD4Lt+RjuSm7rlvPNwt+POOK2Po04Mglv9l9KUK/PSZx8K7O4+vMCiv+
+ tyK5/nqeoOSD7H8z5QCzvsX3cRhdAUYgfzMpETxNe6tmFp0tRIP/2JZM4kb0zaMoLfgsl5
+ W1kyxft5fIYYY+/GqAGZaXneJ8y8e60=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-3iKUTaDCO8G75z5F1legKQ-1; Fri, 14 May 2021 10:08:56 -0400
-X-MC-Unique: 3iKUTaDCO8G75z5F1legKQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-397-cGXH9Z_fNYOhWCgdw5f1zQ-1; Fri, 14 May 2021 10:09:52 -0400
+X-MC-Unique: cGXH9Z_fNYOhWCgdw5f1zQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11A9D8015A8;
- Fri, 14 May 2021 14:08:55 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-173.gru2.redhat.com
- [10.97.116.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C5A62BFEB;
- Fri, 14 May 2021 14:08:49 +0000 (UTC)
-Subject: Re: [PATCH 03/10] python/machine: use subprocess.run instead of
- subprocess.Popen
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210512214642.2803189-1-jsnow@redhat.com>
- <20210512214642.2803189-4-jsnow@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <03a2e3c2-d5e6-de83-dc44-b9c9a4e4923f@redhat.com>
-Date: Fri, 14 May 2021 11:08:46 -0300
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B4365B394;
+ Fri, 14 May 2021 14:09:51 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-49.ams2.redhat.com
+ [10.36.114.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C0E060CCF;
+ Fri, 14 May 2021 14:09:49 +0000 (UTC)
+Subject: Re: [PATCH v2] qemu-iotests: fix pylint 2.8 consider-using-with error
+From: Max Reitz <mreitz@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20210510190449.65948-1-eesposit@redhat.com>
+ <d2253d8d-89dd-1acf-e005-0fb3aee6610d@redhat.com>
+Message-ID: <6fe978ce-be8c-db43-120d-95cb66769bfe@redhat.com>
+Date: Fri, 14 May 2021 16:09:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210512214642.2803189-4-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <d2253d8d-89dd-1acf-e005-0fb3aee6610d@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -85,56 +82,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 12.05.21 19:04, Max Reitz wrote:
+> On 10.05.21 21:04, Emanuele Giuseppe Esposito wrote:
+>> pylint 2.8 introduces consider-using-with error, suggesting
+>> to use the 'with' block statement when possible.
+>>
+>> Modify all subprocess.Popen call to use the 'with' statement,
+>> except the one in __init__ of QemuIoInteractive class, since
+>> it is assigned to a class field and used in other methods.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>> v1 -> v2:
+>> * fix indentation [Max]
+>> * explain why we disabled the check in QemuIoInteractive's __init__ [Max]
+> 
+> Thanks!
+> 
+> Applied to my block branch:
+> 
+> https://github.com/XanClic/qemu/commits/block
 
-On 5/12/21 6:46 PM, John Snow wrote:
-> use run() instead of Popen() -- to assert to pylint that we are not
-> forgetting to close a long-running program.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   python/qemu/machine.py | 15 +++++++++------
->   1 file changed, 9 insertions(+), 6 deletions(-)
->
-> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-> index 41f51bd27d0..c13ff9b32bf 100644
-> --- a/python/qemu/machine.py
-> +++ b/python/qemu/machine.py
-> @@ -223,13 +223,16 @@ def send_fd_scm(self, fd: Optional[int] = None,
->               assert fd is not None
->               fd_param.append(str(fd))
->   
-> -        proc = subprocess.Popen(
-> -            fd_param, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
-> -            stderr=subprocess.STDOUT, close_fds=False
-> +        proc = subprocess.run(
-> +            fd_param,
-> +            stdin=subprocess.DEVNULL,
-> +            stdout=subprocess.PIPE,
-> +            stderr=subprocess.STDOUT,
-> +            check=True,
-> +            close_fds=False,
->           )
+I’ve just seen that the “# pylint: disable=consider-using-with” line 
+causes a warning in pylint versions that don’t know that warning…
 
-Now it might throw a CalledProcessError given that `check=True`. 
-Shouldn't it capture the exception and (possible) re-throw as an 
-QEMUMachineError?
+I’d like to squash this in:
 
-- Wainer
+> diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
+> index 7a6c0a9474..f2c0b522ac 100644
+> --- a/tests/qemu-iotests/pylintrc
+> +++ b/tests/qemu-iotests/pylintrc
+> @@ -19,6 +19,9 @@ disable=invalid-name,
+>          too-many-public-methods,
+>          # pylint warns about Optional[] etc. as unsubscriptable in 3.9
+>          unsubscriptable-object,
+> +        # Sometimes we need to disable a newly introduced pylint warning.
+> +        # Doing so should not produce a warning in older versions of pylint.
+> +        bad-option-value,
+>          # These are temporary, and should be removed:
+>          missing-docstring,
+>          too-many-return-statements,
 
-> -        output = proc.communicate()[0]
-> -        if output:
-> -            LOG.debug(output)
-> +        if proc.stdout:
-> +            LOG.debug(proc.stdout)
->   
->           return proc.returncode
->   
+Would that be OK for you?
+
+Max
 
 
