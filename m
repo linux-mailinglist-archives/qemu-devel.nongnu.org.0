@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC623806FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 12:13:41 +0200 (CEST)
-Received: from localhost ([::1]:38296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F10380725
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 12:26:27 +0200 (CEST)
+Received: from localhost ([::1]:50736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhUpA-0003DT-Dm
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 06:13:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58336)
+	id 1lhV1X-0003ou-2A
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 06:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhUml-0001lE-F4
- for qemu-devel@nongnu.org; Fri, 14 May 2021 06:11:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58866)
+ id 1lhUwE-0005LD-Bn
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 06:20:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhUmj-0008Tx-7A
- for qemu-devel@nongnu.org; Fri, 14 May 2021 06:11:11 -0400
+ id 1lhUwC-0006BM-NB
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 06:20:58 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhUmf-0006o0-Oo
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:11:05 +0000
+ id 1lhUw8-0000tn-OF
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:20:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A70E12E8197
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:11:05 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AA44E2E81EB
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:20:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 10:05:37 -0000
-From: Thomas Huth <1898011@bugs.launchpad.net>
+Date: Fri, 14 May 2021 10:06:15 -0000
+From: Thomas Huth <1899539@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user mmap tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ksserebr rth th-huth ubuntu-weilnetz
-X-Launchpad-Bug-Reporter: Kostya Serebryany (ksserebr)
+X-Launchpad-Bug-Commenters: pkirk08 th-huth
+X-Launchpad-Bug-Reporter: p kirkham (pkirk08)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160153380394.6201.10648910301442382269.malonedeb@soybean.canonical.com>
-Message-Id: <162098673773.7369.15440471382179267432.malone@gac.canonical.com>
-Subject: [Bug 1898011] Re: mmap MAP_NORESERVE of 2^42 bytes consumes 16Gb of
- actual RAM
+References: <160254104097.31568.12578553334917554127.malonedeb@wampee.canonical.com>
+Message-Id: <162098677553.16886.2398147590235619557.malone@soybean.canonical.com>
+Subject: [Bug 1899539] Re: keyboard errors in DOS,
+ found links to similar errors for reference
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
-X-Launchpad-Hash: 5afe49368e8d0bbed17cadddbbad0b2238210ee5
+X-Launchpad-Hash: 56640c46e4d63cae5a8b02f891e765d71fcadd38
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1898011 <1898011@bugs.launchpad.net>
+Reply-To: Bug 1899539 <1899539@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,67 +79,46 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/290
+ https://gitlab.com/qemu-project/qemu/-/issues/292
 
 
 ** Changed in: qemu
-       Status: Confirmed =3D> Expired
+       Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #290
-   https://gitlab.com/qemu-project/qemu/-/issues/290
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #292
+   https://gitlab.com/qemu-project/qemu/-/issues/292
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1898011
+https://bugs.launchpad.net/bugs/1899539
 
 Title:
-  mmap MAP_NORESERVE of 2^42 bytes consumes 16Gb of actual RAM
+  keyboard errors in DOS, found links to similar errors for reference
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Run this program:
+  OS: slackware 14.2, updated. qemu version: 4.1.0 (from slackbuild
+  script)
 
-  #include <sys/mman.h>
-  #include <stdio.h>
-  int main() {
-          for (int i =3D 30; i <=3D 44; i++) {
-                  fprintf(stderr, "trying 2**%d\n", i);
-                  mmap((void*)0x600000000000,1ULL << i,
-                          PROT_NONE,
-                          MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED|MAP_NORESERVE=
-,-1,0);
-          }
-  }
+  command line: qemu-system-i386 -hda msdos.vhd
 
-  (tried qemu-x86_64 and qemu-aarch64, 4.2.1 and trunk/5.1.50)
+  Description of problem: MSDOS 6.22 disk image running gwbasic 3.23.
+  Cursor keys and sometimes letter keys are repeated. Cursor keys
+  seemingly always, letter keys seem to happen when typing too fast.
+  Numpad arrows are not affected.  Also insert key doesnt seem to work
+  at all.
 
-  On each iteration qemu will consume 2x more physical RAM, =
-
-  e.g. when mapping 2^42 it will have RSS of 16Gb.
-
-  On normal linux it works w/o consuming much RAM, due to MAP_NORESERVE.
-
-  Also: qemu -strace prints 0 instead of the correct size starting from siz=
-e=3D2^32
-  and prints -2147483648 for size=3D2^31. =
-
-
-  mmap(0x0000600000000000,1073741824,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|MA=
-P_FIXED|MAP_NORESERVE,-1,0)
-  =3D 0x0000600000000000
-
-  mmap(0x0000600000000000,-2147483648,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|M=
-AP_FIXED|MAP_NORESERVE,-1,0)
-  =3D 0x0000600000000000
-
-  mmap(0x0000600000000000,0,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED|M=
-AP_NORESERVE,-1,0)
-  =3D 0x0000600000000000
+  Have found one similar current bug, Bug #1574246 Drunken keyboard in
+  go32v2 programs
+  https://bugs.launchpad.net/qemu/+bug/1574246?comments=3Dall and a much
+  older vbox bug report that seems very similar,
+  https://www.virtualbox.org/ticket/58 , and for some reason mentions a
+  qemu patch.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1898011/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1899539/+subscriptions
 
