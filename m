@@ -2,98 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4885F380BE7
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 16:34:00 +0200 (CEST)
-Received: from localhost ([::1]:60764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FA3380BF1
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 16:36:01 +0200 (CEST)
+Received: from localhost ([::1]:38632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhYt5-0000xR-17
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 10:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56094)
+	id 1lhYv2-0004ze-Uw
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 10:36:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lhYrR-000763-IM
- for qemu-devel@nongnu.org; Fri, 14 May 2021 10:32:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56775)
+ (Exim 4.90_1) (envelope-from <prvs=761afde0a=Anup.Patel@wdc.com>)
+ id 1lhYsN-0008My-4b; Fri, 14 May 2021 10:33:15 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:34517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lhYrK-0006RL-Qx
- for qemu-devel@nongnu.org; Fri, 14 May 2021 10:32:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621002729;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=17Qk7+eXXG41suy5TRc4LoTkbNkxQzS1I0RNj49pbeI=;
- b=jSNpTNLxxqGWfJvhgAu3KYe53CoSAo5uvwg7fDNY0KJQK7py3UEOcAVDDtL+zLHpdQpVRa
- 89RjujdnlpzPaAoZycOUiLzq1nikWWyiDbjhpt+QJjs6AIzcSIb+wnLqBgd+Fpq/TS1WPK
- yyMAo8gO9CH/K0nGsDqVKMi10O0mWEw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-786yHp1bPVSAxwJ3aDlH6w-1; Fri, 14 May 2021 10:32:08 -0400
-X-MC-Unique: 786yHp1bPVSAxwJ3aDlH6w-1
-Received: by mail-ej1-f72.google.com with SMTP id
- i23-20020a17090685d7b02903d089ab83fcso2942458ejy.19
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 07:32:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=17Qk7+eXXG41suy5TRc4LoTkbNkxQzS1I0RNj49pbeI=;
- b=n+LZkFAlJUu1+UiXc8RLF6Q288/ryaiUMB8cPBbfOFDMr5DVGIf55eEIJ2VGoPl1u3
- h7IVBG+c20279rgR1YohQouGUHlmNxG8wZJwQvm/xp2VjiyBTCId2OZMAWddoEOWzlGT
- Kwg1Qr87ti/09TsOPkd8xJnQpV0/5Jrz21IrougiBhvv1cCLcleaZTB+aW12edlecAX4
- TYaCyPM0DVMblNa5uo6GDnoIDnkKBEE1FSBdxBSvmmKERS9W+31NrL6I84fYNWBbK224
- W7X3ngflcP0AxWLAtgoK0/zaiiOzAGYI6e0PxKfNBuQZxJpCH2BchHlviDzzR2/UlaUO
- QdzA==
-X-Gm-Message-State: AOAM530nZgo88VT5vENoTFvVfUstzrNXn/YpFqv74vbu+CO1Y92O+g8g
- KHfz81UcJfgpihMsr7GA7dmCRjx1eWwnR0dzo3FW6Dm3rpRDIw7M/eCpdrtFOKPySrp3IuVJYkA
- 9TnF0QRxB978L0RSVPQwwaZwhtt+E79eJL88NtxIWzrlLRUF0KoRNYRdBv9YaINoVzxc=
-X-Received: by 2002:a17:906:2dca:: with SMTP id
- h10mr17266410eji.507.1621002726395; 
- Fri, 14 May 2021 07:32:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9TPZYrdQFxsXczlsheK9+sZvOia3VBG63Mz51yY9ZpKP41fATMnMps99bM1O08kbWF6QWNQ==
-X-Received: by 2002:a17:906:2dca:: with SMTP id
- h10mr17266365eji.507.1621002725985; 
- Fri, 14 May 2021 07:32:05 -0700 (PDT)
-Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id
- nc42sm3489587ejc.103.2021.05.14.07.32.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 May 2021 07:32:04 -0700 (PDT)
-Subject: Re: [PATCH 5/6] co-shared-resource: protect with a mutex
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20210510085941.22769-1-eesposit@redhat.com>
- <20210510085941.22769-6-eesposit@redhat.com>
- <YJv3+y42z0Ld1nY0@stefanha-x1.localdomain>
- <6d1e432e-f18a-39a4-0bb6-2a14347c2905@redhat.com>
- <6b9d7c37-aaf7-1745-260b-4cce8f0891ee@virtuozzo.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <8008b39d-905c-3858-a96f-8609801a4ae0@redhat.com>
-Date: Fri, 14 May 2021 16:32:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <6b9d7c37-aaf7-1745-260b-4cce8f0891ee@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <prvs=761afde0a=Anup.Patel@wdc.com>)
+ id 1lhYsK-00070E-H6; Fri, 14 May 2021 10:33:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1621002792; x=1652538792;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=CECTPKeGpOyBxUtbgIEYq10cpm++ERI9oqg8hVEXlLc=;
+ b=P5U9Htv0eoKqQwfksrvBXiGIt60YC67KUNa99kXFW2zDZo94+qFxcAWd
+ VVks47vRXcb7dsmip8rhIy/wgGMXJ8KbU7kenWDwtSB+iglpmOkrr2acb
+ id+8E3HkUc4ZALwsRRa4T6E8Ah9+Kc4URKva00SV73unUnXBNQLFc8LJT
+ s/GU9EXA0LpC1vVEKb7shu+8Vn9XnnCWQNDClxoLY63uMaeWlGu0/mCak
+ IC0/c6eW4m1OF+vdt7530WnZK2rhtNlUcoSn85MAnwpl5aSTh5EfbPxIR
+ qAB3hpbiytGxmcTe6Ji1CencT7jvTWrZ0DKnFimlYpHW8IRT6jdUhKANt g==;
+IronPort-SDR: rolCU9H37qTifdhNlY3MOo7YiSodG3XyojBfKR++KNdJpT+Z56tYqd5rsdFahHQUbF1rGynf6w
+ cnD2Y01onBi+0BcOjsWxY92anpgok45G04ikF27JznjurBUfqYCM/XOeg+ShnUSp27P48qoTN9
+ pLxiSDUMzHVy9mRrYz715lxEpDv5PRYBUD6bY+Fh24Ogio+z7Lh5KFvD/J0t+qPQWj202m6jS+
+ EnSFHSyEXOY5BhpWf1A7zu7p7kW9nw3SVKg4W2XIoiRnZ4yhSKry59vUMHsPLhZp8R/VAR0fB4
+ cDU=
+X-IronPort-AV: E=Sophos;i="5.82,300,1613404800"; d="scan'208";a="167526752"
+Received: from mail-sn1anam02lp2045.outbound.protection.outlook.com (HELO
+ NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.57.45])
+ by ob1.hgst.iphmx.com with ESMTP; 14 May 2021 22:33:08 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=L9INtERKRgl0EaIQmrgho4K7uShfzTvm3lF5kW512x2gjwGxOLD1QBtH+a8UTHPzJjs3lvhx5t1PPUAfeLH3HE1A/kcTRhlm2vtTEXYLj52tqOZifjfa8jmcqS3dLfWuWhZue9UBXjKSIEbGCUVzI0vHo5+aqFEnGJZJtgCr7M57YwxFiYsxe4ywVX+uOze/PwLpJfoXQ4V63lZNxnxQBcmBqhAhdgb/mfTQ8KYx2JSgHW/oXQK3wKM/ZMdEGXHCvVx3jt4p3u5whjWSzzCA43/8SPqZOHRmPFKcRFVARVa3IKv8ZpC5pJieHJ5LnT3QFj/kQBv25GBN6U7k88ycyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=79RmA4jo0WjWkVYpMyLeXZ8YsuWq5GimLqbVr8jWRAU=;
+ b=B+UR5uqfxpouEhl3dIeM95R+BXNF2Fw7WzHtPaxhgtu+kLyzzlJ4cw1MyEHn7U+3c6batn/WvelhjRwQFcdjo0lhh/uajV/CQhEZbUO/CB/rARra/WxmJmm0/Yyu8yqVG1Y43z1xCtH+Ngt65wD/S+XB8WUHytXfnqutxRkVa05rIbgc5q23Z4i8wTgwt23k/raxuxLMlBFXfSgwJIrhs7zMTjp9avqBpn8arW8fTsuOKisunWOof8Lx1hAKCikHFxrF6nbkHd8kGK+RpU1zItxynjE1kRUUZlqoE55l8QP+ZGMoReQcsrjlWZi5xyPmKgLLsq645spTQl6XKfwpNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=79RmA4jo0WjWkVYpMyLeXZ8YsuWq5GimLqbVr8jWRAU=;
+ b=gKanmP6FmGPB4vYPvWEfkrJgPWD64fB6nmRaFzp08Vm37kGXg8PT43aEn23HPFjgGKlq4XZPXWY5FaKzu9dNqwt/JNIXAMTq4VOF8jRXR7aKDbAr8dG0hMjE6CzewBor5bwbRInHVegLO6PuPXDdGLnw8q2LwpfOSeJMAdI/MwM=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=wdc.com;
+Received: from CO6PR04MB7812.namprd04.prod.outlook.com (2603:10b6:303:138::6)
+ by CO6PR04MB7810.namprd04.prod.outlook.com (2603:10b6:5:358::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Fri, 14 May
+ 2021 14:33:07 +0000
+Received: from CO6PR04MB7812.namprd04.prod.outlook.com
+ ([fe80::88a0:bf18:b01d:1a50]) by CO6PR04MB7812.namprd04.prod.outlook.com
+ ([fe80::88a0:bf18:b01d:1a50%4]) with mapi id 15.20.4129.028; Fri, 14 May 2021
+ 14:33:07 +0000
+From: Anup Patel <anup.patel@wdc.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Subject: [PATCH 0/4] AIA local interrupt CSR support
+Date: Fri, 14 May 2021 20:02:38 +0530
+Message-Id: <20210514143242.377645-1-anup.patel@wdc.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [122.179.90.73]
+X-ClientProxiedBy: MAXPR0101CA0046.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:d::32) To CO6PR04MB7812.namprd04.prod.outlook.com
+ (2603:10b6:303:138::6)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from wdc.com (122.179.90.73) by
+ MAXPR0101CA0046.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:d::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend
+ Transport; Fri, 14 May 2021 14:33:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7bec1e6f-2167-42e2-322d-08d916e53076
+X-MS-TrafficTypeDiagnostic: CO6PR04MB7810:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO6PR04MB7810774EC798DE60074557978D509@CO6PR04MB7810.namprd04.prod.outlook.com>
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7WzJf8sZCI2OuyRnMXQNvKbTMYrqB+zJAiJvykUNW2W9KWZUk682JXjrOlcuMVXb6ql+ks3gCFQ2Iay6WTnzIMayCAX8cTN1KWVqLhigHTdg1ttjuWJurEF1SxScA8CYy2D3Puiv39e9DJvXUArATNuruHRbFzSDTQXwdoH7UORyB9RjBi2mznzanuuV2q7yozPW4M5CYnSHS89TxVH5ceFNd54JMsozTCICjZFqUvpmDEkb2R5446Aat6HS0PRwhBRZRbcIi4YvSGhYrb0ZpTL0y3fSGw7X/2Kjy7lT/cMagloU6ETyI7txEmR6FLv0UfJbIxMrhjnAVpJwTqAZsczyZT+JVcmBKCPMd4XBJRRckOWJ80TCTYXVU3THaBcLGCJvuLBCF32kgURr3GW790yHswGGbgIKk54LjbjSChLsJQpCRlFwRZldyAmPsL4XHKE3Y9Qd7jW+d2j0Rb26hZb+QEGVs7ip9W4S0KxL/ce4PX8DhRw0fR5CwdD7A7mDsjTOFjCn5ScIiioFdC7W6CkntBHkEqWyTxOr2mymr8nAQPlt+032pl9dX9NICfyY8vuDexv7c6TqsOPQI2kSsx8SppT8qUHFWdDDloZBdmpxdVn8a1QPaYLFxZ3slhw+P5kj6V6EULPvCC/l5TJWt2g8z/OuBuXC3/3l/cPunjNDzdAcroaCmZbae5xFNc4du5B7nG96/G9Q0k6t0MDGhaPK8UDFxwUGpCkAQQ9PbFH4qYEZdpfjqblMo0xLbF9vCcVgys+TscfKjU7v1OViZA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR04MB7812.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(396003)(346002)(136003)(376002)(366004)(52116002)(7696005)(1076003)(26005)(5660300002)(38350700002)(83380400001)(86362001)(66556008)(478600001)(36756003)(8886007)(966005)(66476007)(66946007)(6666004)(54906003)(16526019)(110136005)(186003)(316002)(8676002)(38100700002)(55016002)(8936002)(956004)(2906002)(2616005)(4326008)(44832011);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?8+R5gab9AeJvWDtAHkhTJ7NFpoy/OReBhGRpuLS4Vg2tVZiTsql+WOYKprP8?=
+ =?us-ascii?Q?OrSw6RGkRPCJzG3o42/xdVCC+OqRYGG4kIBoKEDgG3AeanvE0mJ3bwnThPIL?=
+ =?us-ascii?Q?Hdqf/QTY/T/hBYl42HuU2kz/Zz/K7Ok7S7pG6xoweOF6B6oGI3mf9SfDs/ie?=
+ =?us-ascii?Q?sA/sI1dvtYWgGd4NAvx5QaKkvF2x4Qbej1kDBlY/nPCmmo2BRk7yoIW2+nRR?=
+ =?us-ascii?Q?z/w1ULwVXhsqq9sHZeCLiGJHYcm0vCbQ0Ze5ijTcanrDiJRWZoEOReQJw7U1?=
+ =?us-ascii?Q?6iXt8ODR1kDFpUhNrJ+lP7IUKwwXJLL0Wgm9qCjiZvpHaReLTRb0fRINfqYC?=
+ =?us-ascii?Q?AkwTPpHsj+C+Jfk5cT/xWid+wSMZtItzSH9/Hokwh/R0pIwsXmInAQ1ZDVvg?=
+ =?us-ascii?Q?xooNRVF3c8LfF02hJVVNrSzBggJDVkLoPBixdCWXUuWvHrXpMpU3ALbS3F87?=
+ =?us-ascii?Q?SzatxDlipt/7VuSSTQil4LF4D46HxKXOWQx9W7mVDpOV6V65NCMb2U7earH/?=
+ =?us-ascii?Q?wlBBrnf8Rx17FnyPnbw+Y8dmhFMhl26023/kd1B9Qo8iuv9+qv2hQCf5dIyl?=
+ =?us-ascii?Q?S84F8yn7e/ggdFah4wpCjR5GcdKQ3735o7J5BW+8QxzQcA4C+dN+FdKp9+/r?=
+ =?us-ascii?Q?4gdxurVTW+AjAYMYgvXpx8WruL0c9WbtRaXPoXsODky8PKh3RvPAD5yp0ZQX?=
+ =?us-ascii?Q?YCJSo32xHIAQnmqOrXyENhsRB5VRKp0ygCtrohrba42940/Xm1yT1FxptQV6?=
+ =?us-ascii?Q?TafghImzx/xvWzH+mWbQ/cVroeMUFagEWIIZogaBEc8/UpgT/A6lw4sTK4gQ?=
+ =?us-ascii?Q?BaSOJ6cymrASULY2SDCrb7L9QXhpPEqSLkhFMADpB9jXtWRA7uRHoUOwWwgv?=
+ =?us-ascii?Q?40VIu76Bm2bMLi5Mjv0kASHHlQL+XxPbrEVxCdk1bioW9kKZ8ULdnlO0YP3j?=
+ =?us-ascii?Q?JgBXNQGh586gNRr9yXaCJsXcecEhNNB7SrQ9gwUtLVBdGleI8sntxx14CHBb?=
+ =?us-ascii?Q?tVZaGqs4G2tNBAINiScwQQ9EQQzLYncDPDLNyYKfsASdQvzeXrGHzIRxcmqB?=
+ =?us-ascii?Q?IobLF7z4YXovJBFikRYcClYzeQ6Dy+7kfBKKiqpdlrMra/jChcK4m1DXx0T8?=
+ =?us-ascii?Q?A6ratkPqUQvxDiT+UNv0HDis1ONLNWXTJPgSnurySArJEVO8PuVNN4DDTtnO?=
+ =?us-ascii?Q?UuaYin0L6WMDiRl449no2JoPV3Qd+WbP/JaR/PIYycSL7g6JBp7TEljO4UmS?=
+ =?us-ascii?Q?McoLZEnyaS9zSa5cbwrLGigpDw6WKACrwXbhxTp5dwbayC3JQWPJe/twt1Ro?=
+ =?us-ascii?Q?k6PXskBctHfhM9Ez+PARl2dj?=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7bec1e6f-2167-42e2-322d-08d916e53076
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR04MB7812.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2021 14:33:07.0550 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WPG48nnH7G3AHZ/4Bs6a/PlIiZQ0YrAhYZSdXOI1MrGl82fgFmc03df0/5I30nz8DEmv868evJznDFJ4u2nspw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB7810
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=761afde0a=Anup.Patel@wdc.com; helo=esa4.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,143 +154,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The advanced interrupt architecture (AIA) extends the per-HART local
+interrupt support. Along with this, it also adds IMSIC (MSI contrllor)
+and Advanced PLIC (wired interrupt controller).
 
+The latest AIA draft specification can be found here:
+http://jhauser.us/private/RISCV-AIA/riscv-interrupts-021.pdf
 
-On 14/05/2021 16:26, Vladimir Sementsov-Ogievskiy wrote:
-> 14.05.2021 17:10, Emanuele Giuseppe Esposito wrote:
->>
->>
->> On 12/05/2021 17:44, Stefan Hajnoczi wrote:
->>> On Mon, May 10, 2021 at 10:59:40AM +0200, Emanuele Giuseppe Esposito 
->>> wrote:
->>>> co-shared-resource is currently not thread-safe, as also reported
->>>> in co-shared-resource.h. Add a QemuMutex because co_try_get_from_shres
->>>> can also be invoked from non-coroutine context.
->>>>
->>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>>> ---
->>>>   util/qemu-co-shared-resource.c | 26 ++++++++++++++++++++++----
->>>>   1 file changed, 22 insertions(+), 4 deletions(-)
->>>
->>> Hmm...this thread-safety change is more fine-grained than I was
->>> expecting. If we follow this strategy basically any data structure used
->>> by coroutines needs its own fine-grained lock (like Java's Object base
->>> class which has its own lock).
->>>
->>> I'm not sure I like it since callers may still need coarser grained
->>> locks to protect their own state or synchronize access to multiple
->>> items of data. Also, some callers may not need thread-safety.
->>>
->>> Can the caller to be responsible for locking instead (e.g. using
->>> CoMutex)?
->>
->> Right now co-shared-resource is being used only by block-copy, so I 
->> guess locking it from the caller or within the API won't really matter 
->> in this case.
->>
->> One possible idea on how to delegate this to the caller without adding 
->> additional small lock/unlock in block-copy is to move 
->> co_get_from_shres in block_copy_task_end, and calling it only when a 
->> boolean passed to block_copy_task_end is true.
->>
->> Otherwise make b_c_task_end always call co_get_from_shres and then 
->> include co_get_from_shres in block_copy_task_create, so that we always 
->> add and in case remove (if error) in the shared resource.
->>
->> Something like:
->>
->> diff --git a/block/block-copy.c b/block/block-copy.c
->> index 3a447a7c3d..1e4914b0cb 100644
->> --- a/block/block-copy.c
->> +++ b/block/block-copy.c
->> @@ -233,6 +233,7 @@ static coroutine_fn BlockCopyTask 
->> *block_copy_task_create(BlockCopyState *s,
->>       /* region is dirty, so no existent tasks possible in it */
->>       assert(!find_conflicting_task(s, offset, bytes));
->>       QLIST_INSERT_HEAD(&s->tasks, task, list);
->> +    co_get_from_shres(s->mem, task->bytes);
->>       qemu_co_mutex_unlock(&s->tasks_lock);
->>
->>       return task;
->> @@ -269,6 +270,7 @@ static void coroutine_fn 
->> block_copy_task_end(BlockCopyTask *task, int ret)
->>           bdrv_set_dirty_bitmap(task->s->copy_bitmap, task->offset, 
->> task->bytes);
->>       }
->>       qemu_co_mutex_lock(&task->s->tasks_lock);
->> +    co_put_to_shres(task->s->mem, task->bytes);
->>       task->s->in_flight_bytes -= task->bytes;
->>       QLIST_REMOVE(task, list);
->>       progress_set_remaining(task->s->progress,
->> @@ -379,7 +381,6 @@ static coroutine_fn int 
->> block_copy_task_run(AioTaskPool *pool,
->>
->>       aio_task_pool_wait_slot(pool);
->>       if (aio_task_pool_status(pool) < 0) {
->> -        co_put_to_shres(task->s->mem, task->bytes);
->>           block_copy_task_end(task, -ECANCELED);
->>           g_free(task);
->>           return -ECANCELED;
->> @@ -498,7 +499,6 @@ static coroutine_fn int 
->> block_copy_task_entry(AioTask *task)
->>       }
->>       qemu_mutex_unlock(&t->s->calls_lock);
->>
->> -    co_put_to_shres(t->s->mem, t->bytes);
->>       block_copy_task_end(t, ret);
->>
->>       return ret;
->> @@ -687,8 +687,6 @@ block_copy_dirty_clusters(BlockCopyCallState 
->> *call_state)
->>
->>           trace_block_copy_process(s, task->offset);
->>
->> -        co_get_from_shres(s->mem, task->bytes);
-> 
-> we want to get from shres here, after possible call to 
-> block_copy_task_shrink(), as task->bytes may be reduced.
+This series adds initial AIA support in QEMU which includes emulating all
+AIA local CSR. To enable AIA in QEMU, we just need to pass "x-aia=true"
+paramenter in "-cpu" QEMU command-line.
 
-Ah right, I missed that. So I guess if we want the caller to protect 
-co-shared-resource, get_from_shres stays where it is, and put_ instead 
-can still go into task_end (with a boolean enabling it).
+To test series, we require OpenSBI and Linux with AIA support which
+can be found in riscv_aia_v1 branch at:
+https://github.com/avpatel/opensbi.git
+https://github.com/avpatel/linux.git
 
-Thank you
-Emanuele
-> 
->> -
->>           offset = task_end(task);
->>           bytes = end - offset;
->>
->>
->>
->>
->>>
->>>> diff --git a/util/qemu-co-shared-resource.c 
->>>> b/util/qemu-co-shared-resource.c
->>>> index 1c83cd9d29..c455d02a1e 100644
->>>> --- a/util/qemu-co-shared-resource.c
->>>> +++ b/util/qemu-co-shared-resource.c
->>>> @@ -32,6 +32,7 @@ struct SharedResource {
->>>>       uint64_t available;
->>>>       CoQueue queue;
->>>> +    QemuMutex lock;
->>>
->>> Please add a comment indicating what this lock protects.
->>>
->>> Thread safety should also be documented in the header file so API users
->>> know what to expect.
->>
->> Will do, thanks.
->>
->> Emanuele
->>
-> 
-> 
+Anup Patel (4):
+  target/riscv: Add defines for AIA local interrupt CSRs
+  target/riscv: Add CPU feature for AIA CSRs
+  target/riscv: Implement AIA local interrupt CSRs
+  hw/riscv: virt: Use AIA INTC compatible string when available
+
+ hw/riscv/virt.c           |   11 +-
+ target/riscv/cpu.c        |   32 +-
+ target/riscv/cpu.h        |   56 +-
+ target/riscv/cpu_bits.h   |  128 +++++
+ target/riscv/cpu_helper.c |  245 ++++++++-
+ target/riscv/csr.c        | 1059 +++++++++++++++++++++++++++++++++++--
+ target/riscv/machine.c    |   26 +-
+ 7 files changed, 1454 insertions(+), 103 deletions(-)
+
+-- 
+2.25.1
 
 
