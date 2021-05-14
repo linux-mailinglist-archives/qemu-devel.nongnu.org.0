@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F175B380DCD
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:11:41 +0200 (CEST)
-Received: from localhost ([::1]:56204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A627380DFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:17:05 +0200 (CEST)
+Received: from localhost ([::1]:49260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhaPd-0003Xu-0w
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:11:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47538)
+	id 1lhaUq-0002US-E2
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:17:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhaIm-0006mU-S5
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:04:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40833)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhaIz-0006w3-CE
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:04:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhaIj-0005QS-9g
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:04:36 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhaIv-0005VD-Cf
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:04:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621008272;
+ s=mimecast20190719; t=1621008284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=gAqW+8N7iMGcapAeP6vWVExIRFMEhdprQula/BM34oc=;
- b=VGHbOGkUOqq2JbaV6J86PdqQqUlNYGdZK1syxeO5Vgu6Hp5ivC1wGlLdjpaKlPaJRosjil
- Y7yYTcBX+YPe4Hg0mag0c7wpfqZQJPWZtbauJHN2q5tQesVg4S17bFMTu22pnTNWzkyibP
- 8ns9BYV0DZeFLvkdHj7i6GiTU4G8RX0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-FQaXXPXMM76wzkNzZwHsuw-1; Fri, 14 May 2021 12:04:30 -0400
-X-MC-Unique: FQaXXPXMM76wzkNzZwHsuw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r15-20020a05600c35cfb029017373d9f318so17189wmq.4
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 09:04:30 -0700 (PDT)
+ bh=6a624dvQ4jSjgj/LCoviPdhNQTyYuKtZt78aKXVRxq8=;
+ b=P7kv539FCTRCvv0e0E2tpvr27p4PdcahrbJ8B5Kddh/5UkFvzlhqI5t3xWguBKAjywFhF8
+ +ID0+JZrX1cqa/52k6JyVKlZ6y6RRC1vbPSWh2zmgqZX5g5e2LMdPw9dHz9EBExanJIKMP
+ cMbvqQBH2YpldSRiZPeWPx6S5wuijYE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-503-vHfI90gIMuChdFY4LHzlsw-1; Fri, 14 May 2021 12:04:32 -0400
+X-MC-Unique: vHfI90gIMuChdFY4LHzlsw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r10-20020a05600c2c4ab029014b601975e1so1964447wmg.0
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 09:04:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=gAqW+8N7iMGcapAeP6vWVExIRFMEhdprQula/BM34oc=;
- b=S5JJT2gkZFzdLgr5tC13aWvFS7JIWOGR/fSZeEylhMOMg3M2OFu4oZg72noAQXPnD/
- gs3x+brduRUOSJXFQJeFnV2zZIZoKBMsphRoywHY1UuAnJVQ/N4fMSdmiZxZHdCUwL7I
- SUzFfRfKgtDIfrc4j686WKeSUSrEbYiPhG5LQ78GdrucMlviZr9b8ZTx1rJml5p2OLgL
- aI3Z/o/4PpWd95XmigG9eBWv39aHMNMkY0RIghZLL32oDDJs+3AnI88+TSy2L1TxxnY4
- qxdLQxRdRAuoYRlU/Fo6GzVbc4w6Sp5LgMZl2o92H9P77iMNu7tGEtq+fX5UiJ7PwtCl
- FwYA==
-X-Gm-Message-State: AOAM530C4MXNRzi0y3Jp0ZM0KT5XYj27hfUDEQbA8VllP5LR3IrVeiLt
- Ey/66HBkO4oqcod6HeUrfCb+fQwAb6yev0OzdXw1Stm69jPIMlUJf7DbmvrH1+2mr/XhN1olyFy
- J7RH0h+vYXmAHp8I26ZUHQhKCtt79jeXcsm5mYRc5OlWliohaeUnDQV3oekW0
-X-Received: by 2002:adf:e404:: with SMTP id g4mr59506636wrm.240.1621008269112; 
- Fri, 14 May 2021 09:04:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJye61BVi5AvNpBWDIHG6OW6asDk1aqGNtwbMRa2xBHhgAoWM6QibSnvqz/4J6cyrtTZ0p3w+w==
-X-Received: by 2002:adf:e404:: with SMTP id g4mr59506613wrm.240.1621008268930; 
- Fri, 14 May 2021 09:04:28 -0700 (PDT)
+ bh=6a624dvQ4jSjgj/LCoviPdhNQTyYuKtZt78aKXVRxq8=;
+ b=SUce+s/KHWOR21v74NcFzJuW1uYaSiDNO7uJme8HSyGRNNpAEYUwZTlAFXupEYK6XM
+ XHyfRqTga5PabHWcWn/SUaxYQD7Red59AKCuDoPFkWzroQxRLEHzNM1lXNG0fUtBj7Jb
+ HWuxsLfdF2x+yBxYs2/WvOqjfiYK7wN7oGNzKiHcHDW2i/xIHkHyCPDkCyaClRiwxnz8
+ 4+WHD8X6ZTDA8FKIsJ/3h2dSdfUCu3K8DzPtLhD0Il/wUJkRr1YLvICrDtykitYBVSQi
+ m8YcUBTBtrDkbhDDLvnhUKoIBom01KB7xhH0NnSlRjKZn3Q2Kqee0KWtSCwEqCtuGPhF
+ vxSg==
+X-Gm-Message-State: AOAM530vVDgfpgi+dbcDJeRsCLtBptZrEsCH6FHgu17MkgbLbuW+SdfW
+ T9frB4JiD2PraLqgpVO8XDElCFpcINRVgmMcYR7u+CJsrnHnZzbAmpHYhWUoa3dQtffOOFzC/QQ
+ NdvF37DOBtCpgCJ/ocby36749aCQnI2wQ5PaZWdaoFctWssLxwSGJI87NxACf
+X-Received: by 2002:adf:dcc5:: with SMTP id x5mr60791382wrm.1.1621008271454;
+ Fri, 14 May 2021 09:04:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzqfqmXSohevGZj3qm6urWV8AT9gZZUbYMHJmEegpW/VFW8Tf2H4GGkeUTpubhwUQn6BY45Tw==
+X-Received: by 2002:adf:dcc5:: with SMTP id x5mr60791350wrm.1.1621008271230;
+ Fri, 14 May 2021 09:04:31 -0700 (PDT)
 Received: from redhat.com ([2a10:800c:1fa6:0:3809:fe0c:bb87:250e])
- by smtp.gmail.com with ESMTPSA id y5sm6931593wrp.5.2021.05.14.09.04.27
+ by smtp.gmail.com with ESMTPSA id d9sm6971971wrp.47.2021.05.14.09.04.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 May 2021 09:04:28 -0700 (PDT)
-Date: Fri, 14 May 2021 12:04:26 -0400
+ Fri, 14 May 2021 09:04:30 -0700 (PDT)
+Date: Fri, 14 May 2021 12:04:29 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/16] virtio-blk: Fix rollback path in
- virtio_blk_data_plane_start()
-Message-ID: <20210514160245.91918-9-mst@redhat.com>
+Subject: [PULL 09/16] virtio-blk: Configure all host notifiers in a single MR
+ transaction
+Message-ID: <20210514160245.91918-10-mst@redhat.com>
 References: <20210514160245.91918-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210514160245.91918-1-mst@redhat.com>
@@ -94,75 +94,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-block@nongnu.org, Greg Kurz <groug@kaod.org>,
- Max Reitz <mreitz@redhat.com>, stefanha@redhat.com
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-When dataplane multiqueue support was added in QEMU 2.7, the path
-that would rollback guest notifiers assignment in case of error
-simply got dropped.
+This allows the virtio-blk-pci device to batch the setup of all its
+host notifiers. This significantly improves boot time of VMs with a
+high number of vCPUs, e.g. from 3m26.186s down to 0m58.023s for a
+pseries machine with 384 vCPUs.
 
-Later on, when Error was added to blk_set_aio_context() in QEMU 4.1,
-another error path was introduced, but it ommits to rollback both
-host and guest notifiers.
+Note that memory_region_transaction_commit() must be called before
+virtio_bus_cleanup_host_notifier() because the latter might close
+ioeventfds that the transaction still assumes to be around when it
+commits.
 
-It seems cleaner to fix the rollback path in one go. The patch is
-simple enough that it can be adjusted if backported to a pre-4.1
-QEMU.
-
-Fixes: 51b04ac5c6a6 ("virtio-blk: dataplane multiqueue support")
-Cc: stefanha@redhat.com
-Fixes: 97896a4887a0 ("block: Add Error to blk_set_aio_context()")
-Cc: kwolf@redhat.com
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20210407143501.244343-2-groug@kaod.org>
+Message-Id: <20210407143501.244343-3-groug@kaod.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/block/dataplane/virtio-blk.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ hw/block/dataplane/virtio-blk.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
-index e9050c8987..d7b5c95d26 100644
+index d7b5c95d26..cd81893d1d 100644
 --- a/hw/block/dataplane/virtio-blk.c
 +++ b/hw/block/dataplane/virtio-blk.c
-@@ -207,7 +207,7 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+@@ -198,19 +198,30 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+         goto fail_guest_notifiers;
+     }
+ 
++    memory_region_transaction_begin();
++
+     /* Set up virtqueue notify */
+     for (i = 0; i < nvqs; i++) {
+         r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, true);
+         if (r != 0) {
++            int j = i;
++
+             fprintf(stderr, "virtio-blk failed to set host notifier (%d)\n", r);
+             while (i--) {
                  virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
++            }
++
++            memory_region_transaction_commit();
++
++            while (j--) {
                  virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
              }
--            goto fail_guest_notifiers;
-+            goto fail_host_notifiers;
+             goto fail_host_notifiers;
          }
      }
  
-@@ -221,7 +221,7 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-     aio_context_release(old_context);
-     if (r < 0) {
-         error_report_err(local_err);
--        goto fail_guest_notifiers;
-+        goto fail_aio_context;
-     }
- 
-     /* Process queued requests before the ones in vring */
-@@ -245,6 +245,13 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-     aio_context_release(s->ctx);
++    memory_region_transaction_commit();
++
+     s->starting = false;
+     vblk->dataplane_started = true;
+     trace_virtio_blk_data_plane_start(s);
+@@ -246,8 +257,15 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
      return 0;
  
-+  fail_aio_context:
-+    for (i = 0; i < nvqs; i++) {
-+        virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
-+        virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
+   fail_aio_context:
++    memory_region_transaction_begin();
++
+     for (i = 0; i < nvqs; i++) {
+         virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
 +    }
-+  fail_host_notifiers:
-+    k->set_guest_notifiers(qbus->parent, nvqs, false);
-   fail_guest_notifiers:
-     /*
-      * If we failed to set up the guest notifiers queued requests will be
++
++    memory_region_transaction_commit();
++
++    for (i = 0; i < nvqs; i++) {
+         virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
+     }
+   fail_host_notifiers:
+@@ -312,8 +330,15 @@ void virtio_blk_data_plane_stop(VirtIODevice *vdev)
+ 
+     aio_context_release(s->ctx);
+ 
++    memory_region_transaction_begin();
++
+     for (i = 0; i < nvqs; i++) {
+         virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
++    }
++
++    memory_region_transaction_commit();
++
++    for (i = 0; i < nvqs; i++) {
+         virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
+     }
+ 
 -- 
 MST
 
