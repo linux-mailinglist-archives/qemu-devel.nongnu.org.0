@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFE5380F2D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:43:21 +0200 (CEST)
-Received: from localhost ([::1]:44112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624E1380F35
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:46:54 +0200 (CEST)
+Received: from localhost ([::1]:50442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhbqK-0002UK-GL
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:43:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37612)
+	id 1lhbtl-0006k7-16
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:46:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lhbfn-0004BQ-Cl
- for qemu-devel@nongnu.org; Fri, 14 May 2021 13:32:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27500)
+ id 1lhbi4-0001cx-1Q
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 13:34:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lhbfl-00084z-FV
- for qemu-devel@nongnu.org; Fri, 14 May 2021 13:32:27 -0400
+ id 1lhbi0-0000l0-Gz
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 13:34:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621013544;
+ s=mimecast20190719; t=1621013683;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YQ+9WB+23Pi+PcVZq/NIGeETo9Pj2w6oa79+h+7X6Co=;
- b=OfhW182Xn7iamZkqyCqU6wKrQ8v/Qdyzttwiz7YWipDSmD0QHA6BGOEfcXhx1X3kKPBHWl
- ICnpCn2omZecPjNoFAW0wfAcdUCZTZrOQovVZAV1Sgs/EAMNGox59qLQpWSFWi2jgp8Av7
- l19NWEEpB2s/hiRsIbSEr7jkNb+88hs=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-JBwxddKEN9Kl8m9iSNbIFw-1; Fri, 14 May 2021 13:32:17 -0400
-X-MC-Unique: JBwxddKEN9Kl8m9iSNbIFw-1
-Received: by mail-vk1-f199.google.com with SMTP id
- j199-20020a1fa0d00000b02901fb4c9e1345so105005vke.0
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:32:17 -0700 (PDT)
+ bh=NdL5cKEDtfvsIr7V29GU8p8hD/MKRbNJTq1+Rvacsqw=;
+ b=KiOEolajYXcmsbLBjCYk9KzcT3qgcYLa5v1oC2E77sOTUAPss9T4rGXyJr59q8mxQ3NKjx
+ yLxj0WvnZ3RCYyG8g7ceA85xPebREfKV9UBsBVBY62c6zK7D2v5q/Zg9f2ngeAwsmfChqo
+ 7jd+raIhfUbPtF9/3n4lC5nWu9PYFhM=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-FfFvoM5tOPO0DH-1r9Z5Rw-1; Fri, 14 May 2021 13:34:39 -0400
+X-MC-Unique: FfFvoM5tOPO0DH-1r9Z5Rw-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ h6-20020ac5cbc60000b02901fbf6b5cd7eso102098vkn.15
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:34:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=YQ+9WB+23Pi+PcVZq/NIGeETo9Pj2w6oa79+h+7X6Co=;
- b=jT7BSFpLs/uW/O0jMpbYFDX1tQe01F2FF4OHRXG0jmd/4Nqaq6mizsZSa5cjGbebxt
- XhtYA9IRYZ42tyXyFXjrVhDOvjzPnnvVRhN2kB2fZ1hiyXTrPvxmsac2jeLoMRf/fgWb
- SkQfyNE/V+BvIa6ns7P9PKJt/ITXXs0EphlZ4QeUAzzLD8ixwVXF5Dyo8o00JPO+tOaY
- XJ6oK+Oihj/X6kyLrgXiwFV+ode7UphyYMN3/7XLQaIi4C2yWJVK89wIG0FvuT87gDwC
- 9NEMcx8fIATryObjA3al+RpCOIhbzCEjYS7eRaQSkmsckzxLAPslMVKBhyyXpurAwgMH
- cUyg==
-X-Gm-Message-State: AOAM530pO/78C9UoWXO6COn4xJauQFyyprf/scjAwy/US7/gAibhUAoj
- rOxluf9wdhbmeeW7fUSH4vhYfz1Ny/u8+e6U8Id5iXObR5g63SV0hNAO4TWjCw7ZZBuRqQHKBKZ
- Yw7PpV+nne2Bdi1WUrEgoy+xctmkvA6Q=
-X-Received: by 2002:a67:6f86:: with SMTP id k128mr39761419vsc.50.1621013536943; 
- Fri, 14 May 2021 10:32:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyuM0QXdxJsx1j2gGMnvvYZPCrcA6PzBbJJebSFsnm3wS3qMSBBgKDPQfqBzAWHoQ4Mb0IpYLIE8PFLdZpuBoM=
-X-Received: by 2002:a67:6f86:: with SMTP id k128mr39761328vsc.50.1621013536672; 
- Fri, 14 May 2021 10:32:16 -0700 (PDT)
+ bh=NdL5cKEDtfvsIr7V29GU8p8hD/MKRbNJTq1+Rvacsqw=;
+ b=UrWUdvmmUKfFFYtoFaX3TnXzoIv1cgaxZuTu6oIookr37oXl3wJriL0z+w5Y4BKpAl
+ Wcs0yzGrFMKvxCqJ2d2Yme7mkjbsprRwHx/yFsQB6vDAhQLSrsnhWZq98mH1iBSGgVxG
+ itO4zoeV0L7Uqml900Q/h3ijcnFMsZY9E/naulYhoxtKj959ksHFFiYNlFIc5f44nEpr
+ U7FvjM54sOEI1jCkExXi5JGDTX2xwkEJdL7QNFgmBAnrmZxmCNyutAXN9OEPGh1rcxCr
+ 1KvP0mdAekCw06RBRCV954SQYp5kzmYBT+jmo+nWq5OYcBA5S033xrFv9ej2nauU1uNi
+ s1Mw==
+X-Gm-Message-State: AOAM532kJPtI53g9AqY/vmw/+6H8jll/rhtlw9mqY0STmvMy79OJVNnO
+ W2wNgkKgjrIncuZFaJ9B1ywTW74wyhpaNU39zazecv1kbkyryu4PsQsbxogoxjZggGBZsHZ6zEq
+ VeTeP/DiTuOWR9xtFNBNZbpMKEIdnrkY=
+X-Received: by 2002:a05:6102:2431:: with SMTP id
+ l17mr9350593vsi.45.1621013679084; 
+ Fri, 14 May 2021 10:34:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyERNX1NRAMdc4iscEUuVT8lY1L0A69snf1pqzMq4MCM4FqiOpnsGkQVi8M1OYiwFGOW9UOXVXSBRpzgyOokNo=
+X-Received: by 2002:a05:6102:2431:: with SMTP id
+ l17mr9350581vsi.45.1621013678951; 
+ Fri, 14 May 2021 10:34:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210514120415.1368922-1-berrange@redhat.com>
- <20210514120415.1368922-9-berrange@redhat.com>
-In-Reply-To: <20210514120415.1368922-9-berrange@redhat.com>
+ <20210514120415.1368922-11-berrange@redhat.com>
+In-Reply-To: <20210514120415.1368922-11-berrange@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 14 May 2021 14:31:50 -0300
-Message-ID: <CAKJDGDagY-w0o++QV5qYccEmNaH8W=rOyzLNircYKT4116HQgw@mail.gmail.com>
-Subject: Re: [PATCH v2 08/12] tests/vm: convert centos VM recipe to CentOS 8
+Date: Fri, 14 May 2021 14:34:13 -0300
+Message-ID: <CAKJDGDY+jTMKYuiLgaAePNavcmwSYyk9gOd1bjUvCJByqiJLSA@mail.gmail.com>
+Subject: Re: [PATCH v2 10/12] configure: bump min required glib version to 2.56
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -102,34 +104,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, May 14, 2021 at 9:05 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
 m> wrote:
 >
+> The glib version was not previously constrained by RHEL-7 since it
+> rebases fairly often. Instead SLES 12 and Ubuntu 16.04 were the
+> constraints in 00f2cfbbec63fb6f5a7789797a62ccedd22466ea. Both of
+> these are old enough that they are outside our platform support
+> matrix now.
+>
+> Per repology, current shipping versions are:
+>
+>              RHEL-8: 2.56.4
+>       Debian Buster: 2.58.3
+>  openSUSE Leap 15.2: 2.62.6
+>    Ubuntu LTS 18.04: 2.56.4
+>    Ubuntu LTS 20.04: 2.64.6
+>             FreeBSD: 2.66.7
+>           Fedora 33: 2.66.8
+>           Fedora 34: 2.68.1
+>             OpenBSD: 2.68.1
+>      macOS HomeBrew: 2.68.1
+>
+> Thus Ubuntu LTS 18.04 / RHEL-8 are the constraint for GLib version
+> at 2.56
+>
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  tests/vm/centos | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
+>  configure             |   2 +-
+>  include/glib-compat.h |  13 +--
+>  util/oslib-win32.c    | 204 ------------------------------------------
+>  3 files changed, 3 insertions(+), 216 deletions(-)
 >
-> diff --git a/tests/vm/centos b/tests/vm/centos
-> index efe3dbbb36..5c7bc1c1a9 100755
-> --- a/tests/vm/centos
-> +++ b/tests/vm/centos
-> @@ -26,24 +26,23 @@ class CentosVM(basevm.BaseVM):
->          export SRC_ARCHIVE=3D/dev/vdb;
->          sudo chmod a+r $SRC_ARCHIVE;
->          tar -xf $SRC_ARCHIVE;
-> -        make docker-test-block@centos7 {verbose} J=3D{jobs} NETWORK=3D1;
-> -        make docker-test-quick@centos7 {verbose} J=3D{jobs} NETWORK=3D1;
-> +        make docker-test-block@centos8 {verbose} J=3D{jobs} NETWORK=3D1;
-> +        make docker-test-quick@centos8 {verbose} J=3D{jobs} NETWORK=3D1;
->          make docker-test-mingw@fedora  {verbose} J=3D{jobs} NETWORK=3D1;
->      """
->
->      def build_image(self, img):
-> -        cimg =3D self._download_with_cache("https://cloud.centos.org/cen=
-tos/7/images/CentOS-7-x86_64-GenericCloud-1802.qcow2.xz")
-> +        cimg =3D self._download_with_cache("https://cloud.centos.org/cen=
-tos/8/x86_64/images/CentOS-8-GenericCloud-8.3.2011-20201204.2.x86_64.qcow2"=
-)
-
-I wonder why they didn't keep the compressed option for download.
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
