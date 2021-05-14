@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE7D38021E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 04:47:24 +0200 (CEST)
-Received: from localhost ([::1]:54310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDBC38021F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 04:48:39 +0200 (CEST)
+Received: from localhost ([::1]:56602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhNrH-0000nA-9A
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 22:47:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32824)
+	id 1lhNsU-0002O1-M7
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 22:48:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lhNpt-0008G6-Um; Thu, 13 May 2021 22:45:57 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:45955)
+ id 1lhNrT-0001ZV-TV; Thu, 13 May 2021 22:47:35 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:37565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lhNps-0007Bx-BF; Thu, 13 May 2021 22:45:57 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id g38so37175038ybi.12;
- Thu, 13 May 2021 19:45:55 -0700 (PDT)
+ id 1lhNrS-00005W-80; Thu, 13 May 2021 22:47:35 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id i204so5092068yba.4;
+ Thu, 13 May 2021 19:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=2LfEbFEs79EOd5GGUGJoxezKXLLMD4tromp40I6KEw4=;
- b=P9kWk6olaZM2XiqPk+EhoUUWh1D3YIeWJ3ChiZgdhEWN0d5oTxoCugjtl/56jMmJBL
- aHM3erszoCHbkF75xsQ3ZRYXdCWnR2QFhx6HZ0NWB9BAFnRxUy23d1tje5TqKQ2+cMem
- PIIhiI/xjWVrBLND7qlwKf3TolwmIfpPMIX0gkJ9MrnqbDyGymD8QCsMOtWUdeW+dvZf
- MLCHY6C9Z8GcY97Zj2NsQln7HgUE+X4+yhCTaybKPIxJRmAArxJ+4V0ZZpsfdnIZwEo1
- nYmYUUXTCdG98VlmMLzKNLGRHNDFSg7DPavFgRNT6XjnaEhTypjYEyJ1yFYoMqPOwNE7
- yD9A==
+ bh=QIZtcOhVN6GIyp0UAfVE9JWtpSm6aabauJd/INikChY=;
+ b=X+kZTkMPe1ctPFxgNQJQX3jL605vYNSahnaf7HC+krGzzojtN1Lus1g9aYi/2J9S9N
+ T+NKjNeONk9b/nf0vhMJuxUEDmX0zbp22aBLQz8qt4N6amEP3eS9sa/NQwZiusbuEi25
+ wsoaNPtT751gBV1HPoQP4XVVREvok3oIZokM4uXBdvu0eJdriSVzunlFESHmwMyEum95
+ LN2hq4PRcQFTp//v9zIpL+9NnxA/jNVVR18DWFvFapyJxHkzmx2S67q/7PwLst1Kyxuc
+ ezCwOTUJUSxLVBlfD60b0rSl7T0uNUCKMSRcQkw/7YcZ0QHhG/ORRXyiRSWewcu1RpR9
+ 5hPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=2LfEbFEs79EOd5GGUGJoxezKXLLMD4tromp40I6KEw4=;
- b=t1PGTOypD/j+dYcalM6wivXjgqBbUd9wRi0AvUbbtnBWo6/n9APq9uD2zt28al84Up
- nb6LdyeTXhHn7YW62nAoxRySPh7KvzMQALkQLsmJqctQx8TLAcLrY0jUVw6gdRDRkI/K
- +m8kmsRfkf/h7DACC/tqvfGCnnsltJ7MffdmiYKHolBXua/p96qg4glge2LQIkCfAvOf
- m1v1QtPtpkQsJqvZ+vtyd+9z7FZCU9gTSmBjJwjqCqqhjZ3dgLeBHpnEBZEPMrfymAaW
- T5DOQOVnoKfDF7nd7+Lzgvs8VSzHndeLkXYXXUBnhFVSKgZ5s+j/KiZkEhiY0WROmt15
- Po2Q==
-X-Gm-Message-State: AOAM5306VBH6+o2a038rKhGF4tZIC/S656JWJ7bny50XnG3Ezj9yxjRY
- BMqSC22/K7f4sXsKrM9tAjiqdaJEJHwPMzwdR8AEzrX3RWpaUA==
-X-Google-Smtp-Source: ABdhPJxWxppN34IR5n+UuCDVKD8NRcRRbOCvVVXp8/POhjaqRy58H5rNYCK6dArYPEesD0mJMl2zTEoLvtbr973bldc=
-X-Received: by 2002:a25:aae1:: with SMTP id t88mr59274268ybi.122.1620960355092; 
- Thu, 13 May 2021 19:45:55 -0700 (PDT)
+ bh=QIZtcOhVN6GIyp0UAfVE9JWtpSm6aabauJd/INikChY=;
+ b=eyxQDuGc6v/MeoEYQqJVi5cZKNYcTkoG+35dBwtX5N46kLgmjNI9V/dWg+/b7BC6mW
+ BdHPRZOEEa3xtzpp0uTpNIIsIL+Tf5GCy7Mz9kJ4XSGH4fnhX/rTTpDEGMXtsUKvhKHg
+ 6NR8EWzeE+edxtZVZmxgOiWCor+w0EWw6wqjKUfxHEww0QZN4G/M7ApW/Ct3wCW9Iivx
+ TTPAHNuTJ8PJaqLtNMVyC6AGyP1GGzkK3DwRlXO5qpjWMyFc3RHfSzZhcy/9ha7h8ZeC
+ zmyUvGUJ3AuQrItQ3U3dq3lByIQbTS9fEEf1uzvPzXSPTA6LGeTarbpufAQBMsP6PvRi
+ ZMOQ==
+X-Gm-Message-State: AOAM530WpbkVXGk2C9Xu5r94WCjrdcvBkwiRT47juQy+08YNy1321fYl
+ HL61x4VeIK2dEiY+HvDLMZNatddIAhrAByDK0Gw=
+X-Google-Smtp-Source: ABdhPJxFYyhc0zMueut1/Q34KLrWExleDZjbRp6Xai364UQ86tDfB/yH0v9SJgTUKy379Z6hRMuOXvjDVN8zJIl3GBg=
+X-Received: by 2002:a25:e645:: with SMTP id d66mr30013081ybh.314.1620960452805; 
+ Thu, 13 May 2021 19:47:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210513163858.3928976-1-philmd@redhat.com>
- <20210513163858.3928976-6-philmd@redhat.com>
-In-Reply-To: <20210513163858.3928976-6-philmd@redhat.com>
+ <20210513163858.3928976-7-philmd@redhat.com>
+In-Reply-To: <20210513163858.3928976-7-philmd@redhat.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 14 May 2021 10:45:41 +0800
-Message-ID: <CAEUhbmVym+XP6XQ2sA_MsVYe7CNeLKcjds0nQiGhd3Bvr6nT0w@mail.gmail.com>
-Subject: Re: [PATCH 05/10] hw/arm/Kconfig: Add missing SDHCI symbol to
- FSL_IMX25
+Date: Fri, 14 May 2021 10:47:21 +0800
+Message-ID: <CAEUhbmX6mBKQK0ubfpYgeoqrjN7OSGoa6Nt7Gz+pDaU_Qw3gjw@mail.gmail.com>
+Subject: Re: [PATCH 06/10] hw/riscv/Kconfig: Add missing dependency
+ MICROCHIP_PFSOC -> SERIAL
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -78,32 +78,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Guenter Roeck <linux@roeck-us.net>, Peter Maydell <peter.maydell@linaro.org>
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 14, 2021 at 12:56 AM Philippe Mathieu-Daud=C3=A9
+Hi Philippe,
+
+On Fri, May 14, 2021 at 12:57 AM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
 >
-> Commit bfae1772c43 ("hw/arm/fsl-imx25: Wire up eSDHC controllers")
-> added a dependency on the TYPE_IMX_USDHC model, but forgot to add
-> the Kconfig selector. Fix that to solve when built stand-alone:
+> Commit a8fb0a500a6 ("hw/char: Add Microchip PolarFire SoC MMUART
+> emulation") added a dependency on the SERIAL model, but forgot to
+> add the Kconfig selector. Fix that to solve when built the
+> MICROCHIP_PFSOC machine stand-alone:
 >
->   $ qemu-system-arm -M imx25-pdk
->   qemu-system-arm: missing object type 'imx-usdhc'
->   Aborted (core dumped)
+>   /usr/bin/ld: libcommon.fa.p/hw_char_mchp_pfsoc_mmuart.c.o: in function =
+`mchp_pfsoc_mmuart_create':
+>   hw/char/mchp_pfsoc_mmuart.c:79: undefined reference to `serial_mm_init'
 >
-> Fixes: bfae1772c43 ("hw/arm/fsl-imx25: Wire up eSDHC controllers")
+> Fixes: a8fb0a500a6 ("hw/char: Add Microchip PolarFire SoC MMUART emulatio=
+n")
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
-> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Bin Meng <bin.meng@windriver.com>
+> Cc: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  hw/arm/Kconfig | 1 +
+>  hw/riscv/Kconfig | 1 +
 >  1 file changed, 1 insertion(+)
 >
+> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+> index 86957ec7b06..b72a248809e 100644
+> --- a/hw/riscv/Kconfig
+> +++ b/hw/riscv/Kconfig
+> @@ -12,6 +12,7 @@ config MICROCHIP_PFSOC
+>      select SIFIVE_CLINT
+>      select SIFIVE_PDMA
+>      select SIFIVE_PLIC
+> +    select SERIAL
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+This dependency should be expressed by MCHP_PFSOC_MMUART in hw/char/Kconfig
+
+>      select UNIMP
+>
+>  config OPENTITAN
+> --
+
+Regards,
+Bin
 
