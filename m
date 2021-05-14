@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036E3380A29
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 15:07:55 +0200 (CEST)
-Received: from localhost ([::1]:53576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97527380A17
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 15:04:31 +0200 (CEST)
+Received: from localhost ([::1]:45806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhXXm-0002Vn-4o
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 09:07:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56062)
+	id 1lhXUU-0005YF-N3
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 09:04:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <lawrence@lawrence-XPS-15-9560.loongson.cn>)
- id 1lhSpd-0002IY-NU
- for qemu-devel@nongnu.org; Fri, 14 May 2021 04:06:01 -0400
-Received: from [114.242.206.180] (port=33226
+ id 1lhTSp-0003pO-NC
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 04:46:34 -0400
+Received: from [114.242.206.180] (port=38744
  helo=lawrence-XPS-15-9560.loongson.cn)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <lawrence@lawrence-XPS-15-9560.loongson.cn>)
- id 1lhSpb-0004P7-R7
- for qemu-devel@nongnu.org; Fri, 14 May 2021 04:06:01 -0400
+ id 1lhTSo-0004Sq-3w
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 04:46:31 -0400
 Received: by lawrence-XPS-15-9560.loongson.cn (Postfix, from userid 1000)
- id CEA1D120FFE; Fri, 14 May 2021 15:56:58 +0800 (CST)
+ id 94ADD124F8A; Fri, 14 May 2021 16:46:22 +0800 (CST)
 From: Xu Zou <sendtozouxu@gmail.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH] linux-user: Handle EXCP10_COPR properly for i386
-Date: Fri, 14 May 2021 15:56:40 +0800
-Message-Id: <20210514075640.110544-1-sendtozouxu@gmail.com>
+Date: Fri, 14 May 2021 16:46:19 +0800
+Message-Id: <20210514084619.129020-1-sendtozouxu@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -46,7 +46,7 @@ X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
  SPOOFED_FREEMAIL=0.825, SPOOFED_FREEMAIL_NO_RDNS=0.001,
  SPOOF_GMAIL_MID=1.498 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 14 May 2021 09:01:35 -0400
+X-Mailman-Approved-At: Fri, 14 May 2021 09:01:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
