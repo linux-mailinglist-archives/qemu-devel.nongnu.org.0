@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624E1380F35
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:46:54 +0200 (CEST)
-Received: from localhost ([::1]:50442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC498380F36
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:48:24 +0200 (CEST)
+Received: from localhost ([::1]:54752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhbtl-0006k7-16
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:46:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38064)
+	id 1lhbvD-0001Jz-Oo
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lhbi4-0001cx-1Q
- for qemu-devel@nongnu.org; Fri, 14 May 2021 13:34:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49601)
+ id 1lhbjC-0003Oo-PG
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 13:35:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lhbi0-0000l0-Gz
- for qemu-devel@nongnu.org; Fri, 14 May 2021 13:34:47 -0400
+ id 1lhbj7-0001Wn-RK
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 13:35:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621013683;
+ s=mimecast20190719; t=1621013752;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NdL5cKEDtfvsIr7V29GU8p8hD/MKRbNJTq1+Rvacsqw=;
- b=KiOEolajYXcmsbLBjCYk9KzcT3qgcYLa5v1oC2E77sOTUAPss9T4rGXyJr59q8mxQ3NKjx
- yLxj0WvnZ3RCYyG8g7ceA85xPebREfKV9UBsBVBY62c6zK7D2v5q/Zg9f2ngeAwsmfChqo
- 7jd+raIhfUbPtF9/3n4lC5nWu9PYFhM=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-FfFvoM5tOPO0DH-1r9Z5Rw-1; Fri, 14 May 2021 13:34:39 -0400
-X-MC-Unique: FfFvoM5tOPO0DH-1r9Z5Rw-1
-Received: by mail-vk1-f200.google.com with SMTP id
- h6-20020ac5cbc60000b02901fbf6b5cd7eso102098vkn.15
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:34:39 -0700 (PDT)
+ bh=6PpsMTKYESNfevQ4jUmTrRAz50jCPGCXpqaovuaDxdg=;
+ b=gr3kvhTjjvcxxQUK18E07uM7tVhW9vHCRusZqVxwESqtSwCOY2BtyNcUt679jgv4VOUTfx
+ tqLP+nOQOAIR3oHRfrG0pxu8Xx48rj1FZDHHCehuWaTJ0TmRARAUDttZGq1gXUuKfoYrDD
+ EfT2P2pi9jAkZIjCNir+ViTlZ0GAMc0=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-539-Bj-FnomcPruilzRBJDYmvQ-1; Fri, 14 May 2021 13:35:51 -0400
+X-MC-Unique: Bj-FnomcPruilzRBJDYmvQ-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ w23-20020a67d1970000b029022afcb86374so6975785vsi.3
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:35:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=NdL5cKEDtfvsIr7V29GU8p8hD/MKRbNJTq1+Rvacsqw=;
- b=UrWUdvmmUKfFFYtoFaX3TnXzoIv1cgaxZuTu6oIookr37oXl3wJriL0z+w5Y4BKpAl
- Wcs0yzGrFMKvxCqJ2d2Yme7mkjbsprRwHx/yFsQB6vDAhQLSrsnhWZq98mH1iBSGgVxG
- itO4zoeV0L7Uqml900Q/h3ijcnFMsZY9E/naulYhoxtKj959ksHFFiYNlFIc5f44nEpr
- U7FvjM54sOEI1jCkExXi5JGDTX2xwkEJdL7QNFgmBAnrmZxmCNyutAXN9OEPGh1rcxCr
- 1KvP0mdAekCw06RBRCV954SQYp5kzmYBT+jmo+nWq5OYcBA5S033xrFv9ej2nauU1uNi
- s1Mw==
-X-Gm-Message-State: AOAM532kJPtI53g9AqY/vmw/+6H8jll/rhtlw9mqY0STmvMy79OJVNnO
- W2wNgkKgjrIncuZFaJ9B1ywTW74wyhpaNU39zazecv1kbkyryu4PsQsbxogoxjZggGBZsHZ6zEq
- VeTeP/DiTuOWR9xtFNBNZbpMKEIdnrkY=
-X-Received: by 2002:a05:6102:2431:: with SMTP id
- l17mr9350593vsi.45.1621013679084; 
- Fri, 14 May 2021 10:34:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyERNX1NRAMdc4iscEUuVT8lY1L0A69snf1pqzMq4MCM4FqiOpnsGkQVi8M1OYiwFGOW9UOXVXSBRpzgyOokNo=
-X-Received: by 2002:a05:6102:2431:: with SMTP id
- l17mr9350581vsi.45.1621013678951; 
- Fri, 14 May 2021 10:34:38 -0700 (PDT)
+ bh=6PpsMTKYESNfevQ4jUmTrRAz50jCPGCXpqaovuaDxdg=;
+ b=HAPh2Gh5dIkntf76Za6KjFkfvd1hEjJhmXO33RUr9FwVyceYlvM640O3txK7IZVLpp
+ M/lLF04Q45t1j6mwSqGkYzAdwc8JykYOazBc2CaPsXBBeMWF1WgQzUtpPxLRltHhokSw
+ /O/X1irMzt2XyoAK2E9P772zGTRzbpEbXtAcR7/lfs21hmhRCHsi9C3opIqNXwSf+bQz
+ tK88vogAUupkXCZjr/W+gYxrIDQ+pZLxvrT4U6pMyX7H1uz5pzzVZclsi1inFU+zBynb
+ XPE/ybQ9wNJoyRATqX6ZttdWkwQN7lUPhvxooDSOuPMb3A1yZFvde2gdxLSyCJ4Ty7as
+ ttVg==
+X-Gm-Message-State: AOAM531l0p0eIrwia6v2Y0CL9H63pDNYmNPrb75jiLEpOQiIStRpiUi8
+ c+PV8OCeUy/uzV1OUdSZGhaAEImpTy5Ilo2Yy6eBcM7FkHq901IXWOBEN2VSlj+nH0+xFMYlp/m
+ F5M8ZxQ1PfbYs9q6mcgHzeRjwno5+QKM=
+X-Received: by 2002:ab0:4042:: with SMTP id h60mr45130689uad.133.1621013750935; 
+ Fri, 14 May 2021 10:35:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNx/ppzq8CJUUcyl9+2uzKhishMJWAEGglaL7BbdshCPI3l9ju6VlSrsOG7h5E6sSNnqqDD7OjpbdwQExPBXw=
+X-Received: by 2002:ab0:4042:: with SMTP id h60mr45130672uad.133.1621013750794; 
+ Fri, 14 May 2021 10:35:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210514120415.1368922-1-berrange@redhat.com>
- <20210514120415.1368922-11-berrange@redhat.com>
-In-Reply-To: <20210514120415.1368922-11-berrange@redhat.com>
+ <20210514120415.1368922-12-berrange@redhat.com>
+In-Reply-To: <20210514120415.1368922-12-berrange@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 14 May 2021 14:34:13 -0300
-Message-ID: <CAKJDGDY+jTMKYuiLgaAePNavcmwSYyk9gOd1bjUvCJByqiJLSA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/12] configure: bump min required glib version to 2.56
+Date: Fri, 14 May 2021 14:35:24 -0300
+Message-ID: <CAKJDGDZgcA5Wr8bvM_4=hNk1AHXZtn3aprpM8WoZhijG_h_xGw@mail.gmail.com>
+Subject: Re: [PATCH v2 11/12] configure: bump min required GCC to 7.5.0
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -72,7 +70,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -104,34 +102,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, May 14, 2021 at 9:05 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
 m> wrote:
 >
-> The glib version was not previously constrained by RHEL-7 since it
-> rebases fairly often. Instead SLES 12 and Ubuntu 16.04 were the
-> constraints in 00f2cfbbec63fb6f5a7789797a62ccedd22466ea. Both of
-> these are old enough that they are outside our platform support
-> matrix now.
+> Several distros have been dropped since the last time we bumped the
+> minimum required GCC version.
 >
-> Per repology, current shipping versions are:
+> Per repology, currently shipping versions are:
 >
->              RHEL-8: 2.56.4
->       Debian Buster: 2.58.3
->  openSUSE Leap 15.2: 2.62.6
->    Ubuntu LTS 18.04: 2.56.4
->    Ubuntu LTS 20.04: 2.64.6
->             FreeBSD: 2.66.7
->           Fedora 33: 2.66.8
->           Fedora 34: 2.68.1
->             OpenBSD: 2.68.1
->      macOS HomeBrew: 2.68.1
+>              RHEL-8: 8.3.1
+>       Debian Buster: 8.3.0
+>  openSUSE Leap 15.2: 7.5.0
+>    Ubuntu LTS 18.04: 7.5.0
+>    Ubuntu LTS 20.04: 9.3.0
+>             FreeBSD: 10.3.0
+>           Fedora 33: 9.2.0
+>           Fedora 34: 11.0.1
+>             OpenBSD: 8.4.0
+>      macOS HomeBrew: 11.1.0
 >
-> Thus Ubuntu LTS 18.04 / RHEL-8 are the constraint for GLib version
-> at 2.56
+> With this list Ubuntu LTS 18.04 / openSUSE Leap 15.2 are the
+> constraint at 7.5.0
 >
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  configure             |   2 +-
->  include/glib-compat.h |  13 +--
->  util/oslib-win32.c    | 204 ------------------------------------------
->  3 files changed, 3 insertions(+), 216 deletions(-)
+>  configure | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
