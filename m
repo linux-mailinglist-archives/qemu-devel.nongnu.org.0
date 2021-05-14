@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B716380DE5
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:15:21 +0200 (CEST)
-Received: from localhost ([::1]:41996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BE7380DC4
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:07:25 +0200 (CEST)
+Received: from localhost ([::1]:41310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhaTA-0005Cl-5M
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:15:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45504)
+	id 1lhaLU-0001My-1b
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:07:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lha8q-0005NB-Ix
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:54:20 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:33783)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lha8m-0000c1-9Q
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:54:18 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id f29so16899060qka.0
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:54:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PwNmiC6brTsHqT+eFjUUs+K3ZOz6GTSYbhCREKtSags=;
- b=UUV3Ta5Ypv2xXlvWLGcoYC36Amlg/fWbPkAtD5HTxY4fujPW75yQyLffYotKXkWVg6
- TfTBAa24LqF8l1WMZlK1gR8GaXDUrpn/usRqp93zMNxA7HGvHKYDF/00gIZC2RKTpwNE
- mEwXAyLEqALeqfKFUXpTgsVPrFNwB/muV1SnOK27nWC47tvQpWiDJtxuQZQvuXk0ZxcM
- luY1+yo9yr7E2GwbIbnNOrOGFy9nNg1E8SKUOzHzULkK+hNnPHe6F/cJp/+yfqYBKp6z
- XnfEaP4DjItTv2hFFXyYFo3q6erhIpPmEmDRd+xzzACIiDw34wsB7fKy5kN66DIuBGoU
- 38sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PwNmiC6brTsHqT+eFjUUs+K3ZOz6GTSYbhCREKtSags=;
- b=EL2iyoHCSPRqqZ/RyBQG2A1CMbicITlMrwuF89EVwokrOaLbxBgNly6BSLbjiqMPX7
- BWy2p8NTR+uf1FlnJCSu79Sx8o/rsYyKRVHrcEDX7Qs0mhkKIPo1YoNFvAic/7aLOPBI
- 0C43e1SqHnvQ1sEAgQkH+MleDLTYB2L82+KPyVDX0mmvNLLyDOEv3Ugb86XD65sZuhBp
- HTH2Fn2gk46Np1X1MMx4RJB+H4DpQdzjsElok6q3hW0pA2u3D6IKaZU/8Hh5DzF07ywK
- tUtmojR0ZyAQlSZ8h6aV8MyusF8Xp3yZXMAvIRXrNe4WFBIQj6Od94XbA8YyBTu3bArT
- ENpQ==
-X-Gm-Message-State: AOAM530WmA6Gvg3A7+kxCyNaOpcwznDD6Zj64CQkzf3W2jhT3DqCc4tP
- 4TnEFCSnpGgkfxvrTy+qPc82cA==
-X-Google-Smtp-Source: ABdhPJwAcrVlFEn9njhfq374gs/N+Lfy3nIOZpQQsBoYmsnFc7Fhl+tIyGxynaNkKadmuTXET2KW7w==
-X-Received: by 2002:a37:9ac1:: with SMTP id
- c184mr45200808qke.201.1621007654166; 
- Fri, 14 May 2021 08:54:14 -0700 (PDT)
-Received: from [192.168.183.76] (163.189-204-200.bestelclientes.com.mx.
- [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id z18sm4750019qki.55.2021.05.14.08.54.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 May 2021 08:54:13 -0700 (PDT)
-Subject: Re: [PATCH 0/4] linux-user/arm: fpa11 fix and cleanup
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20210423165413.338259-1-richard.henderson@linaro.org>
-Message-ID: <21e7d514-8c43-6db0-2477-7b548b187edd@linaro.org>
-Date: Fri, 14 May 2021 10:54:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lhaA1-0007FB-AB
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:55:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20071)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lha9z-0001E9-Nu
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:55:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621007730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=m2aNPCT9evNpN9vOciojZifiIVCoz7/TY8GYAc/okNA=;
+ b=HMm1n2Zp4wQ+7n7PzcMf8R7Nt/2C7mhRKUJIQfXFhWMYj6cUxxaRQJ/AnATlOIqAkWNFJB
+ DAGWrU1xuFc5XZyCWXcwOc0C8WRecOSqwj+LXlFGFePGHbsSzQmM9tyERZ0CesvKGKpXmo
+ YVxN/fUcIwdnJtwwUY9mfOuHYLyrBUs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-533-g4h3yUPXP3eUhZFg5l8k-Q-1; Fri, 14 May 2021 11:55:26 -0400
+X-MC-Unique: g4h3yUPXP3eUhZFg5l8k-Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36F0B8005AD;
+ Fri, 14 May 2021 15:55:25 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-116.ams2.redhat.com [10.36.114.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E11075D9D0;
+ Fri, 14 May 2021 15:55:14 +0000 (UTC)
+Date: Fri, 14 May 2021 17:55:13 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [ANNOUNCE] libblkio v0.1.0 preview release
+Message-ID: <YJ6dYTNLivMuj7VM@merkur.fritz.box>
+References: <YIq9PpAd6nP9XTmz@stefanha-x1.localdomain>
+ <YIrV9MqlqwUhJR+B@merkur.fritz.box>
+ <YIwnI0ML0BEkQ1iE@stefanha-x1.localdomain>
+ <YJFPt5BmHXmM5+WE@merkur.fritz.box>
+ <YJLFjY9BuOd9/KJx@stefanha-x1.localdomain>
+ <YJLL7B249hN6wJTd@merkur.fritz.box>
+ <YJOs8JTGyfAb4wXO@stefanha-x1.localdomain>
+ <YJPF9KhUWm3tGX9b@merkur.fritz.box>
+ <YJz1qqXI8z1PQYkM@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210423165413.338259-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YJz1qqXI8z1PQYkM@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="JRB6gLcHmsurkIYG"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,30 +84,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: pkrempa@redhat.com, Alberto Garcia <berto@igalia.com>, slp@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, rjones@redhat.com,
+ mreitz@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Klaus Jensen <its@irrelevant.dk>, philmd@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/23/21 11:54 AM, Richard Henderson wrote:
-> The bug fix is patch 2, the rest is a bit of tidy-up.
-> 
-> 
-> r~
-> 
-> Richard Henderson (4):
->    linux-user/arm: Split out emulate_arm_fpa11
->    linux-user/arm: Do not emulate fpa11 in thumb mode
->    linux-user/arm: Do not fill in si_code for fpa11 exceptions
->    linux-user/arm: Simplify accumulating and raising fpa11 exceptions
-> 
->   linux-user/arm/cpu_loop.c | 125 ++++++++++++++++++++------------------
->   1 file changed, 66 insertions(+), 59 deletions(-)
-> 
+--JRB6gLcHmsurkIYG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Laurent, this is all reviewed.  Do you want to take this through linux-user 
-queue, or have Peter take it through his arm queue?
+Am 13.05.2021 um 11:47 hat Stefan Hajnoczi geschrieben:
+> On Thu, May 06, 2021 at 12:33:24PM +0200, Kevin Wolf wrote:
+> > Am 06.05.2021 um 10:46 hat Stefan Hajnoczi geschrieben:
+> > > What do you think about this:
+> > >=20
+> > > The blkio instance states are:
+> > >=20
+> > >   created -> attached -> started -> destroyed
+> > >=20
+> > > It is not possible to go backwards anymore, which simplifies driver
+> > > implementations and it probably won't be needed by applications.
+> > >=20
+> > > The "initialized" state is renamed to "attached" to make it clearer t=
+hat
+> > > this means the block device has been connected/opened. Also
+> > > "initialized" can be confused with "created".
+> > >=20
+> > > The corresponding APIs are:
+> > >=20
+> > > int blkio_create(const char *driver, struct blkio **bp, char **errmsg=
+);
+> > > int blkio_attach(struct blkio *bp, char **errmsg);
+> > > int blkio_start(struct blkio *bp, char **errmsg);
+> > > void blkio_destroy(struct blkio **bp);
+> > >=20
+> > > There is no way to query the state here, but that probably isn't
+> > > necessary since an application setting up the blkio instance must
+> > > already be aware of the state in order to configure it in the first
+> > > place.
+> > >=20
+> > > One advantage of this approach is that it can support network drivers
+> > > where the attach and start operations can take a long time while regu=
+lar
+> > > property accesses do not block.
+> >=20
+> > I like this.
+> >=20
+> > For properties, I think, each property will have a first state in which
+> > it becomes available and then it will be available in all later states,
+> > too.
+> >=20
+> > Currently, apart from properties that are always read-only, we only hav=
+e
+> > properties that are rw only in their first state and become read-only i=
+n
+> > later states. It might be reasonable to assume that properties will
+> > exist that can be rw in all later states, too.
+> >=20
+> > In their first state, most properties only store the value into the
+> > config and it's the next state transition that actually makes use of
+> > them. Similarly, reading usually only reads the value from the config.
+> > So these parts can be automatically covered. Usually you would then onl=
+y
+> > need a custom implementation for property updates after the fact. I
+> > think this could simplify the driver implementations a lot. I'll play
+> > with this a bit more.
+>=20
+> Hi Kevin,
+> I posted a patch that introduces blkio_connect() and blkio_start():
+> https://gitlab.com/libblkio/libblkio/-/merge_requests/4
 
+Assuming that you want review to happen on Gitlab, I added a few
+comments there.
 
-r~
+I'm not sure if you saw it, but on Wednesday, I also created a merge
+request for some first changes to reduce the properties boilerplate in
+the iouring module that would otherwise be duplicated for every new
+driver. Not sure if everything is a good idea, but the first patch is
+almost certainly one.
+
+(However, I just realised that the test failure is not the same as on
+main, so I degraded it to a draft now. It also conflicts with your merge
+request. Next thing to learn for me is how to respin a merge request on
+Gitlab... You may want to have a look anyway.)
+
+Kevin
+
+--JRB6gLcHmsurkIYG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmCenWAACgkQfwmycsiP
+L9aAeBAAtCSYY72VWbfi2OFU2hmCgMtfomUI1ejsjFEzmX+zzVn8wYKPFNrWYsfV
+KHZSvbroyrTRj1VeIRgFcEL3n1AJuQ3xjiYt8Ca7Dr/tDn/EWeo95fc8fRIDA+Zd
+5MMOvXSpggCaXpssEzRq3mXFm4mOzmp+aLNVHpzcn483x8w02axRdRV1sMeXQ8Jb
+UiKIt8FZ2oO08Q5N+gH8vNwF9qfn3ifYMEWEVcDtdkDvlzkQ10oPBB1F3rZhau6f
+M4+oUKLQMsqWPrMKKvat8cyYPM/ED9qs4CBA9+olUPkRfX3mIT678cjXn/WalzOS
+L99t68UQJYWO8FNK/y2uubjm3oc7s4ZsnjbPFNiIfqUtYLYsBJ7HXnYWOU5Jo6eq
+/MI4oiB/CmWopvVYWMb0yffM5v5Bou4MSUtCpiOzPJUF/7kwpgb7pxFoD7DcFSLb
+Z3V1X8a5FRa+cXz+NebGma/o7cfI7AgYaEuSiWUvvSIJb+3jWPITs5Xgxec5gomB
+zlWPInc430/urGHcExxZEmWEmVFEbaTrKCJ4Mq2wWq+qzanLQbvGDtV/8s57ytWR
+VbpSQaf3FIm4ia1uR7wS4bg8h1XFu0Sa5I8X59+yLyR8SOSyJL9Gyqg/89nBHgkS
+dtlf0WeIHvmNKi4GAZg09fZKJAaTpw/eHHdIqU+CsPf99PBkpFk=
+=gQYw
+-----END PGP SIGNATURE-----
+
+--JRB6gLcHmsurkIYG--
+
 
