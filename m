@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A3C1380D88
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:43:45 +0200 (CEST)
-Received: from localhost ([::1]:38992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6675F380D8D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:45:02 +0200 (CEST)
+Received: from localhost ([::1]:42166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhZyZ-0002Cu-2f
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:43:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
+	id 1lhZzp-0004Vh-4P
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:45:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhZWD-0006Fy-8d
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:25 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:36636)
+ id 1lhZWC-0006AB-1d
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:24 -0400
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:41579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhZW4-00077m-Ob
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:24 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id t7so22456452qtn.3
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:14:15 -0700 (PDT)
+ id 1lhZW5-00077v-DX
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:14:23 -0400
+Received: by mail-qt1-x832.google.com with SMTP id t20so18136924qtx.8
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:14:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3HSNX7xQILR37B9fhGWqudnd4f+kNvZWmQhUc/otRf8=;
- b=Nh275nfx9XNR8Gej5nPqKn4QvwcKoQTyOeBZQCcDhqa2W97KrmiRolYWJWyLHw2aeB
- 1jlGMKiispHuauhUa4cXU3TE7GrVmHJVS9e3onWp8i1CWNTA/M6qrq4pYoqiGE1AhOWK
- uhcXCB10NV3dtua+rmE6aMPTq8Y6ADrXNmDJbK4ZoTfdESmksPnQWDB17gucb0Vv7DH4
- NCT3hvoZaHuUo0ynRHOZV1tFRUdTdb0V2uqtY9I0oRBmg//tndV9ifsTuf6xiNZd7+Ez
- t/TOXVSdCsfHwPwqZT+E6EJSm7MKxmnjCyse9WCKRUWZ2+IEmJ/ouHjn7woNXiKfhGSJ
- s81A==
+ bh=roDfKVwoE/FokDKWYoRGBlgbgtAxIqlU8Xs4UzYUyTc=;
+ b=fIrxxhLRjFAUbeT/0vsQePdVVFX1zv3KwvGsRabqnCHCy8hela34s+6JXm3GVk90HX
+ XSKUlLfjHqX1JGjWB91Zx4QcOauZOlQJ5+3ip9QuR4o6/rs8Ng+6KnuVejG2Hh2LSUFD
+ 5r/U0GNgdCC+cjxSqORzRjJNxnEmmXbh2qg4HwGi0udXY+UY/wxKhQAsPKXmj65lFEFx
+ I4KEn4rsmDGwTW5Dp5/00gxyqThCQF4bj2VzeOjQHIHVMJ15tyo8aenoHTiI+ltWlkGg
+ 0STMOG29BvpvWv7n6OuJcToc7aUQjMBvcmN6UoUtPL44KF4DMqNttI93nR2pQwpQsNTy
+ sgZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3HSNX7xQILR37B9fhGWqudnd4f+kNvZWmQhUc/otRf8=;
- b=FNYzC9tSqQ+bEksBtPNIpy9WfckSKi2HZfouHZ2Sj9D2A0JAvlYg3RBJtPoBjhAM8Q
- OgMglGYYrknk7ezDj9Rh7WKFuYi1OxHLB8LPrhJdNpTdM9aRO0sGz4bxsDR8YptqUqZd
- tk35YSE+6P6TcClIQW1XfeVg3olFDUFsKux9LxfzUu4wPUY4CWi96Cfc3jitfHJ5nwna
- DFf/Wv+w9Jp30I+8819ASVZR4v+cWll+M7Xu2QVWK8VvbtrI3ab3onA0sOOpB/F6K4e4
- U73nUhcJDVq6o/TOiKNXCUOAOV5PhKXghvqXTGQLZgAl4QVopQkPj1ST0Tjy8ehGThki
- eOdw==
-X-Gm-Message-State: AOAM533BcTD5t3/tfjIRuKRVNnIoeQozllytFX2dY1+xMm9smwpVP0Xm
- NuO2cewV6/K126QBe+7FjFKFulNdtHwqWGJ9aXc=
-X-Google-Smtp-Source: ABdhPJx2Uuf9XwXHmvtzRck8a43GQmdhzaGzofXiBBxXEZd3SfQOehv0qs1xTGql5lb6EVyMOWq0Bg==
-X-Received: by 2002:a05:622a:138b:: with SMTP id
- o11mr42417657qtk.170.1621005255330; 
- Fri, 14 May 2021 08:14:15 -0700 (PDT)
+ bh=roDfKVwoE/FokDKWYoRGBlgbgtAxIqlU8Xs4UzYUyTc=;
+ b=KhEtYiDNJG/ZFcYSVd5mcee2EDI2X0oWYArCGwjrposTPvYcpZPCDkHRDMX9v73a9t
+ ZJOKYa1vw/bJT4OdbvsH2Bwq6c71fe+hLL/8awgtI3YuMdruq8gvcrNgiEyQGeBlHuQf
+ H2h8MByPxJQMAvkThnGMFGTlPHWkMv3roQQA5Oajez57urfiO+j+La2fyu4JCtwxOSPO
+ KDDCey9bIsALElmoqjeHPPds4BJWHC8XzboA3CxJHOxjNy9nBaIyWWPOFuo1j3ZU518/
+ lBJHtnqzhBqOmVKVlScBiss7n7zH+PdZBuBa1Z5WVZkNK+2XbMFkNThnLWIOnevsAjbr
+ DiQw==
+X-Gm-Message-State: AOAM531sPXliBy/OFcEYBZohb/SO5Y/2h+YrAZgRDsNGf+QI29C4TxfL
+ xInqop1PcKZ5YJ9VDIJPCIi2+SFJ0+dfdyTqfjo=
+X-Google-Smtp-Source: ABdhPJxY/LjYqLa1M/VXSNpo3U/Ujet2rcqxWgYA8C3L8iO7lLuohRzAjWdyTDWETimgnkVXEsFLVw==
+X-Received: by 2002:ac8:5f48:: with SMTP id y8mr43645506qta.69.1621005256227; 
+ Fri, 14 May 2021 08:14:16 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id u6sm4778966qkj.117.2021.05.14.08.14.14
+ by smtp.gmail.com with ESMTPSA id u6sm4778966qkj.117.2021.05.14.08.14.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 May 2021 08:14:15 -0700 (PDT)
+ Fri, 14 May 2021 08:14:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 34/50] target/i386: Mark some helpers as noreturn
-Date: Fri, 14 May 2021 10:13:26 -0500
-Message-Id: <20210514151342.384376-35-richard.henderson@linaro.org>
+Subject: [PATCH v2 35/50] target/i386: Simplify gen_debug usage
+Date: Fri, 14 May 2021 10:13:27 -0500
+Message-Id: <20210514151342.384376-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210514151342.384376-1-richard.henderson@linaro.org>
 References: <20210514151342.384376-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x832.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,212 +87,51 @@ Cc: pbonzini@redhat.com, f4bug@amsat.org, ehabkost@redhat.com, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Any helper that always raises an exception or interrupt,
-or simply exits to the main loop, can be so marked.
+Both invocations pass the start of the current instruction,
+which is available as s->base.pc_next.  The function sets
+is_jmp, so we can eliminate a second setting.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/helper.h          | 18 +++++++++---------
- target/i386/tcg/bpt_helper.c  |  2 +-
- target/i386/tcg/excp_helper.c | 18 ++++++++++--------
- target/i386/tcg/misc_helper.c | 14 +++++++-------
- target/i386/tcg/translate.c   |  3 ++-
- 5 files changed, 29 insertions(+), 26 deletions(-)
+ target/i386/tcg/translate.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index d0f7f07c6c..f794d1c7c7 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -60,14 +60,14 @@ DEF_HELPER_2(sysexit, void, env, int)
- DEF_HELPER_2(syscall, void, env, int)
- DEF_HELPER_2(sysret, void, env, int)
- #endif
--DEF_HELPER_2(hlt, void, env, int)
--DEF_HELPER_2(monitor, void, env, tl)
--DEF_HELPER_2(mwait, void, env, int)
--DEF_HELPER_2(pause, void, env, int)
--DEF_HELPER_1(debug, void, env)
-+DEF_HELPER_FLAGS_2(hlt, TCG_CALL_NO_WG, noreturn, env, int)
-+DEF_HELPER_FLAGS_2(monitor, TCG_CALL_NO_WG, void, env, tl)
-+DEF_HELPER_FLAGS_2(mwait, TCG_CALL_NO_WG, noreturn, env, int)
-+DEF_HELPER_FLAGS_2(pause, TCG_CALL_NO_WG, noreturn, env, int)
-+DEF_HELPER_FLAGS_1(debug, TCG_CALL_NO_WG, noreturn, env)
- DEF_HELPER_1(reset_rf, void, env)
--DEF_HELPER_3(raise_interrupt, void, env, int, int)
--DEF_HELPER_2(raise_exception, void, env, int)
-+DEF_HELPER_FLAGS_3(raise_interrupt, TCG_CALL_NO_WG, noreturn, env, int, int)
-+DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, int)
- DEF_HELPER_1(cli, void, env)
- DEF_HELPER_1(sti, void, env)
- DEF_HELPER_1(clac, void, env)
-@@ -86,12 +86,12 @@ DEF_HELPER_2(cmpxchg8b, void, env, tl)
- DEF_HELPER_2(cmpxchg16b_unlocked, void, env, tl)
- DEF_HELPER_2(cmpxchg16b, void, env, tl)
- #endif
--DEF_HELPER_1(single_step, void, env)
-+DEF_HELPER_FLAGS_1(single_step, TCG_CALL_NO_WG, noreturn, env)
- DEF_HELPER_1(rechecking_single_step, void, env)
- DEF_HELPER_1(cpuid, void, env)
- DEF_HELPER_1(rdtsc, void, env)
- DEF_HELPER_1(rdtscp, void, env)
--DEF_HELPER_1(rdpmc, void, env)
-+DEF_HELPER_FLAGS_1(rdpmc, TCG_CALL_NO_WG, noreturn, env)
- DEF_HELPER_1(rdmsr, void, env)
- DEF_HELPER_1(wrmsr, void, env)
- 
-diff --git a/target/i386/tcg/bpt_helper.c b/target/i386/tcg/bpt_helper.c
-index fb2a65ac9c..83cd89581e 100644
---- a/target/i386/tcg/bpt_helper.c
-+++ b/target/i386/tcg/bpt_helper.c
-@@ -22,7 +22,7 @@
- #include "exec/helper-proto.h"
- #include "helper-tcg.h"
- 
--void helper_single_step(CPUX86State *env)
-+void QEMU_NORETURN helper_single_step(CPUX86State *env)
- {
- #ifndef CONFIG_USER_ONLY
-     check_hw_breakpoints(env, true);
-diff --git a/target/i386/tcg/excp_helper.c b/target/i386/tcg/excp_helper.c
-index 0183f3932e..bdae887d0a 100644
---- a/target/i386/tcg/excp_helper.c
-+++ b/target/i386/tcg/excp_helper.c
-@@ -25,12 +25,13 @@
- #include "exec/helper-proto.h"
- #include "helper-tcg.h"
- 
--void helper_raise_interrupt(CPUX86State *env, int intno, int next_eip_addend)
-+void QEMU_NORETURN helper_raise_interrupt(CPUX86State *env, int intno,
-+                                          int next_eip_addend)
- {
-     raise_interrupt(env, intno, 1, 0, next_eip_addend);
- }
- 
--void helper_raise_exception(CPUX86State *env, int exception_index)
-+void QEMU_NORETURN helper_raise_exception(CPUX86State *env, int exception_index)
- {
-     raise_exception(env, exception_index);
- }
-@@ -116,24 +117,25 @@ void QEMU_NORETURN raise_interrupt(CPUX86State *env, int intno, int is_int,
-     raise_interrupt2(env, intno, is_int, error_code, next_eip_addend, 0);
- }
- 
--void raise_exception_err(CPUX86State *env, int exception_index,
--                         int error_code)
-+void QEMU_NORETURN raise_exception_err(CPUX86State *env, int exception_index,
-+                                       int error_code)
- {
-     raise_interrupt2(env, exception_index, 0, error_code, 0, 0);
- }
- 
--void raise_exception_err_ra(CPUX86State *env, int exception_index,
--                            int error_code, uintptr_t retaddr)
-+void QEMU_NORETURN raise_exception_err_ra(CPUX86State *env, int exception_index,
-+                                          int error_code, uintptr_t retaddr)
- {
-     raise_interrupt2(env, exception_index, 0, error_code, 0, retaddr);
- }
- 
--void raise_exception(CPUX86State *env, int exception_index)
-+void QEMU_NORETURN raise_exception(CPUX86State *env, int exception_index)
- {
-     raise_interrupt2(env, exception_index, 0, 0, 0, 0);
- }
- 
--void raise_exception_ra(CPUX86State *env, int exception_index, uintptr_t retaddr)
-+void QEMU_NORETURN raise_exception_ra(CPUX86State *env, int exception_index,
-+                                      uintptr_t retaddr)
- {
-     raise_interrupt2(env, exception_index, 0, 0, 0, retaddr);
- }
-diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
-index a30379283e..0e9a4f0bfc 100644
---- a/target/i386/tcg/misc_helper.c
-+++ b/target/i386/tcg/misc_helper.c
-@@ -96,7 +96,7 @@ void helper_rdtscp(CPUX86State *env)
-     env->regs[R_ECX] = (uint32_t)(env->tsc_aux);
- }
- 
--void helper_rdpmc(CPUX86State *env)
-+void QEMU_NORETURN helper_rdpmc(CPUX86State *env)
- {
-     if (((env->cr[4] & CR4_PCE_MASK) == 0 ) &&
-         ((env->hflags & HF_CPL_MASK) != 0)) {
-@@ -109,7 +109,7 @@ void helper_rdpmc(CPUX86State *env)
-     raise_exception_err(env, EXCP06_ILLOP, 0);
- }
- 
--static void do_pause(X86CPU *cpu)
-+static QEMU_NORETURN void do_pause(X86CPU *cpu)
- {
-     CPUState *cs = CPU(cpu);
- 
-@@ -118,7 +118,7 @@ static void do_pause(X86CPU *cpu)
-     cpu_loop_exit(cs);
- }
- 
--static void do_hlt(X86CPU *cpu)
-+static QEMU_NORETURN void do_hlt(X86CPU *cpu)
- {
-     CPUState *cs = CPU(cpu);
-     CPUX86State *env = &cpu->env;
-@@ -129,7 +129,7 @@ static void do_hlt(X86CPU *cpu)
-     cpu_loop_exit(cs);
- }
- 
--void helper_hlt(CPUX86State *env, int next_eip_addend)
-+void QEMU_NORETURN helper_hlt(CPUX86State *env, int next_eip_addend)
- {
-     X86CPU *cpu = env_archcpu(env);
- 
-@@ -148,7 +148,7 @@ void helper_monitor(CPUX86State *env, target_ulong ptr)
-     cpu_svm_check_intercept_param(env, SVM_EXIT_MONITOR, 0, GETPC());
- }
- 
--void helper_mwait(CPUX86State *env, int next_eip_addend)
-+void QEMU_NORETURN helper_mwait(CPUX86State *env, int next_eip_addend)
- {
-     CPUState *cs = env_cpu(env);
-     X86CPU *cpu = env_archcpu(env);
-@@ -167,7 +167,7 @@ void helper_mwait(CPUX86State *env, int next_eip_addend)
-     }
- }
- 
--void helper_pause(CPUX86State *env, int next_eip_addend)
-+void QEMU_NORETURN helper_pause(CPUX86State *env, int next_eip_addend)
- {
-     X86CPU *cpu = env_archcpu(env);
- 
-@@ -177,7 +177,7 @@ void helper_pause(CPUX86State *env, int next_eip_addend)
-     do_pause(cpu);
- }
- 
--void helper_debug(CPUX86State *env)
-+void QEMU_NORETURN helper_debug(CPUX86State *env)
- {
-     CPUState *cs = env_cpu(env);
- 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 9af0d6f2b5..8419aaa62c 100644
+index 8419aaa62c..8a02c5a373 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -7282,6 +7282,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         gen_update_cc_op(s);
-         gen_jmp_im(s, pc_start - s->cs_base);
-         gen_helper_rdpmc(cpu_env);
-+        s->base.is_jmp = DISAS_NORETURN;
-         break;
-     case 0x134: /* sysenter */
-         /* For Intel SYSENTER is valid on 64-bit */
-@@ -7443,7 +7444,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-             gen_update_cc_op(s);
-             gen_jmp_im(s, pc_start - s->cs_base);
-             gen_helper_mwait(cpu_env, tcg_const_i32(s->pc - pc_start));
--            gen_eob(s);
-+            s->base.is_jmp = DISAS_NORETURN;
-             break;
+@@ -2614,10 +2614,10 @@ static void gen_interrupt(DisasContext *s, int intno,
+     s->base.is_jmp = DISAS_NORETURN;
+ }
  
-         case 0xca: /* clac */
+-static void gen_debug(DisasContext *s, target_ulong cur_eip)
++static void gen_debug(DisasContext *s)
+ {
+     gen_update_cc_op(s);
+-    gen_jmp_im(s, cur_eip);
++    gen_jmp_im(s, s->base.pc_next - s->cs_base);
+     gen_helper_debug(cpu_env);
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+@@ -7152,7 +7152,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+ #ifdef WANT_ICEBP
+     case 0xf1: /* icebp (undocumented, exits to external debugger) */
+         gen_svm_check_intercept(s, pc_start, SVM_EXIT_ICEBP);
+-        gen_debug(s, pc_start - s->cs_base);
++        gen_debug(s);
+         break;
+ #endif
+     case 0xfa: /* cli */
+@@ -8592,8 +8592,7 @@ static bool i386_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
+     /* If RF is set, suppress an internally generated breakpoint.  */
+     int flags = dc->base.tb->flags & HF_RF_MASK ? BP_GDB : BP_ANY;
+     if (bp->flags & flags) {
+-        gen_debug(dc, dc->base.pc_next - dc->cs_base);
+-        dc->base.is_jmp = DISAS_NORETURN;
++        gen_debug(dc);
+         /* The address covered by the breakpoint must be included in
+            [tb->pc, tb->pc + tb->size) in order to for it to be
+            properly cleared -- thus we increment the PC here so that
 -- 
 2.25.1
 
