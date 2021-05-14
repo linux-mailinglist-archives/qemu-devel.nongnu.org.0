@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1115F380242
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 05:05:34 +0200 (CEST)
-Received: from localhost ([::1]:40528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142D6380243
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 05:06:25 +0200 (CEST)
+Received: from localhost ([::1]:41954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhO8r-0002s0-1p
-	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 23:05:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35152)
+	id 1lhO9g-0003uE-7J
+	for lists+qemu-devel@lfdr.de; Thu, 13 May 2021 23:06:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lhO6a-0001f8-HR; Thu, 13 May 2021 23:03:12 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:42923)
+ id 1lhO7S-0002Nr-EW; Thu, 13 May 2021 23:04:08 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:46795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lhO6W-0003tm-P3; Thu, 13 May 2021 23:03:11 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id r8so37211680ybb.9;
- Thu, 13 May 2021 20:03:06 -0700 (PDT)
+ id 1lhO7M-0004Xs-Qm; Thu, 13 May 2021 23:04:06 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id y2so37150387ybq.13;
+ Thu, 13 May 2021 20:03:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=F42KtqwgpoYxl74o77eSqJhQ2U7nTSaw4gxVD7Wh6N4=;
- b=m29UIZpszaH7sy32d5DEAM4U9O1Bm8QFtDQwBIsk4UWKIFd1kJBlj1zkF7Xt0eD7JA
- B3+Sh+YjK8N2+90pTZm0hIRscLkHbTMsTmQk6h9F0zy30tlxVgo9+AcrmmLF4D19dQLQ
- HUR/ikvSFBjE070/xkDElmp+TQu4u1xkKpPRJbQxSduw1Gbzk07/WezKHPFUgsPv3mJs
- wmsv2NWGpdYp+VzbfpcMKjzIXnC1QRQViWU9k+ekk8Sgm9PjxlbzLHFA2n2Gu5Y0b3td
- 9+DzEG0LCMS6f+j4oolz5X4IfWGM+AfBKFET0Y5ub/p1tHgJttD+IbFBfH005hWkMRSi
- w6cw==
+ bh=VtbJlsDIUaKGhzGeeLa8k9/LzavYFrK5Lwp6srFO9TQ=;
+ b=dplKSavmPQPYkuXqdjVop+Ed5DUxPilfXO8RmHdcRmXXxMN3yzQDf5dLPRroNVO1Fy
+ BwdOWcdhFAtAa4EB0IG9JZzaPqcQ/idG0DMY7QqT+nGW6K0Zrsq+79RDg/Xf280wjxjB
+ dGlnHI8UXnLTJbzlPShMyOq73CIr/CBYVU4uWCSuDwG+Yo60XzK5F5nA79iTyM9vdrnz
+ pkMXVFAyW44yrlF89u8oq1M+VJbEIj+K1sjLP+PeiPwM4b0bvqMnYDSDKgRN55PmJAOZ
+ V8TMOrjmSe5gtY5OA+2o/h9JyVE4d8/gU/35JoFX8cd766tOZmtQ6ybThV9HIu7eDQQA
+ ViEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=F42KtqwgpoYxl74o77eSqJhQ2U7nTSaw4gxVD7Wh6N4=;
- b=PZPiPflTJ54QyKcad5V7FnHxI/891a3hMULLuuC/lYA+oZr/jkfC6sPQtfThez8aTo
- yUaY+629kbB+JEas2SZ1QkvFemhe2eezJnvGrU6Qwq0Wi+RWC/mv93J85fYpyC48Ar4D
- of3ADnZyt+WU6TP+F6BEWK6DxWwHrgaYdMsJy+QYflhVnEJPl5UCpHx29EOrb48OB22f
- FLngW0GqgqPbTi0BU98DibRvTg5z5KzAR86hh9tdD8itZzVEARSP0IOegfl7IHeGZJZg
- PVskD0ZqKbd4fz3JuNv/1laKsUkYVd55W7/yYN7xyjtGClJ3roKM5zErylRUvDBoY1jG
- l1Mg==
-X-Gm-Message-State: AOAM532V+98XxmgjF66I6sYn2bawu3to+yMhJFsG2t5xyeXp+PDQOKaS
- Xk/L4cTJVSrc95PO4/GkpMYegLyA5ZdEiSUgBqo=
-X-Google-Smtp-Source: ABdhPJw024lW5+C70MThJwQ1BHbeJZuubBKYyZeUqpLBI2RqOagG8Mh8UCJ0Yk9TABDwoYMCrM3kpA5P9wqDCMBPpu8=
-X-Received: by 2002:a25:be09:: with SMTP id h9mr63741013ybk.239.1620961385880; 
- Thu, 13 May 2021 20:03:05 -0700 (PDT)
+ bh=VtbJlsDIUaKGhzGeeLa8k9/LzavYFrK5Lwp6srFO9TQ=;
+ b=NI8FjAaefdBs4eB39BX1Pt6KS+sM0aQ9mXKFS/kuQKXj6+4mqjqn0KVLM7xoIpYwrP
+ 4/VWViJdAmRq5p4CDpZKThv4m/ShVP0GjNQWYmBdprdM/CFeP5rV+ooS5+o1bViKWtih
+ 9DB4Q1m2ROV3poLS3f8NcDFGPMjmep5kiP8jwGVsGUErDBhmYYgc2cL4lHIgN7A/YHrQ
+ 9APuyC+Z9m9MWpAZstxglwkDNfpeZ7RAdHAmeyEFX+/DD0u6BjjuOr1x4wjiI2aO1zPa
+ VI7DKR0ngQiEbOuZr3/hujJvLQPtKST9OpCHN/wZnCH+tunbsCljDM/sDxCsevmdehud
+ O4wg==
+X-Gm-Message-State: AOAM531/0WAJrlUUYmQ6kBhQ0+hpIcpjqjUnR96LqBuQTKEBX07oTTgR
+ uKqVqFVOuSMcDbpRJPXHwq4w5vhqrhlv0Gg7NEE=
+X-Google-Smtp-Source: ABdhPJx8SGQkRRRNbCJumL9cL3R0HOLAujAR1bs1Oov4pEFlQDWuDVKK+0I1YjxZPYP8jRmoxMNECHZa5phw1SPkJ2Y=
+X-Received: by 2002:a25:aae1:: with SMTP id t88mr59346115ybi.122.1620961439356; 
+ Thu, 13 May 2021 20:03:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210513163858.3928976-1-philmd@redhat.com>
- <20210513163858.3928976-2-philmd@redhat.com>
-In-Reply-To: <20210513163858.3928976-2-philmd@redhat.com>
+ <20210513163858.3928976-3-philmd@redhat.com>
+In-Reply-To: <20210513163858.3928976-3-philmd@redhat.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 14 May 2021 11:02:54 +0800
-Message-ID: <CAEUhbmW0h+kvTyrDjum8pVmm9sjn9mkTf-bLRRJqf-ocs1mgqg@mail.gmail.com>
-Subject: Re: [PATCH 01/10] hw/mem/nvdimm: Use Kconfig 'imply' instead of
- 'depends on'
+Date: Fri, 14 May 2021 11:03:47 +0800
+Message-ID: <CAEUhbmXtRJO7TVtYA22OAJ1iOObBt2Fn+FyEJfBLw=n2JXkgxg@mail.gmail.com>
+Subject: Re: [PATCH 02/10] hw/ide/Kconfig: Add missing dependency PCI -> QDEV
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,101 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ "open list:IDE" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 14, 2021 at 12:53 AM Philippe Mathieu-Daud=C3=A9
+On Fri, May 14, 2021 at 12:56 AM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
 >
-> Per the kconfig.rst:
+> The pci_ide_create_devs() function is declared i hw/ide/qdev.c:
 >
->   A device should be listed [...] ``imply`` if (depending on
->   the QEMU command line) the board may or  may not be started
->   without it.
+>  $ git grep ide_create_drive
+>  hw/ide/pci.c:491:            ide_create_drive(d->bus + bus[i], unit[i], =
+hd_table[i]);
+>  hw/ide/qdev.c:127:IDEDevice *ide_create_drive(IDEBus *bus, int unit, Dri=
+veInfo *drive)
+>  include/hw/ide/internal.h:653:IDEDevice *ide_create_drive(IDEBus *bus, i=
+nt unit, DriveInfo *drive);
 >
-> This is the case with the NVDIMM device (it is certainly possible
-> to start a machine without NVDIMM) , so use the 'imply' weak
-> reverse dependency to select the symbol.
+> Fix the correct symbol dependency to avoid build failure when
+> deselecting some machines:
 >
+>   /usr/bin/ld: libcommon.fa.p/hw_ide_pci.c.o: in function `pci_ide_create=
+_devs':
+>   hw/ide/pci.c:491: undefined reference to `ide_create_drive'
+>
+> Fixes: 8f01b41e109 ("ide: express dependencies with Kconfig")
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  default-configs/devices/ppc64-softmmu.mak | 1 -
->  hw/arm/Kconfig                            | 1 +
->  hw/i386/Kconfig                           | 1 +
->  hw/mem/Kconfig                            | 2 --
->  hw/ppc/Kconfig                            | 1 +
->  5 files changed, 3 insertions(+), 3 deletions(-)
+>  hw/ide/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/default-configs/devices/ppc64-softmmu.mak b/default-configs/=
-devices/ppc64-softmmu.mak
-> index ae0841fa3a1..cca52665d90 100644
-> --- a/default-configs/devices/ppc64-softmmu.mak
-> +++ b/default-configs/devices/ppc64-softmmu.mak
-> @@ -8,4 +8,3 @@ CONFIG_POWERNV=3Dy
->
->  # For pSeries
->  CONFIG_PSERIES=3Dy
-> -CONFIG_NVDIMM=3Dy
 
-I think only removing this one makes sense. I fail to see any
-difference of other changes in this patch.
-
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index b887f6a5b17..67723d9ea6a 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -6,6 +6,7 @@ config ARM_VIRT
->      imply VFIO_PLATFORM
->      imply VFIO_XGMAC
->      imply TPM_TIS_SYSBUS
-> +    imply NVDIMM
->      select ARM_GIC
->      select ACPI
->      select ARM_SMMUV3
-> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-> index 7f91f30877f..66838fa397b 100644
-> --- a/hw/i386/Kconfig
-> +++ b/hw/i386/Kconfig
-> @@ -23,6 +23,7 @@ config PC
->      imply TPM_TIS_ISA
->      imply VGA_PCI
->      imply VIRTIO_VGA
-> +    imply NVDIMM
->      select FDC
->      select I8259
->      select I8254
-> diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
-> index a0ef2cf648e..8b19fdc49f1 100644
-> --- a/hw/mem/Kconfig
-> +++ b/hw/mem/Kconfig
-> @@ -7,6 +7,4 @@ config MEM_DEVICE
->
->  config NVDIMM
->      bool
-> -    default y
-> -    depends on (PC || PSERIES || ARM_VIRT)
->      select MEM_DEVICE
-> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index e51e0e5e5ac..66e0b15d9ef 100644
-> --- a/hw/ppc/Kconfig
-> +++ b/hw/ppc/Kconfig
-> @@ -3,6 +3,7 @@ config PSERIES
->      imply PCI_DEVICES
->      imply TEST_DEVICES
->      imply VIRTIO_VGA
-> +    imply NVDIMM
->      select DIMM
->      select PCI
->      select SPAPR_VSCSI
-
-Regards,
-Bin
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
