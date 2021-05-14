@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09C1380AB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 15:49:51 +0200 (CEST)
-Received: from localhost ([::1]:36664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1B5380AE0
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 15:59:12 +0200 (CEST)
+Received: from localhost ([::1]:45682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhYCM-00061c-Mw
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 09:49:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45796)
+	id 1lhYLO-0003wG-SJ
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 09:59:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhYBZ-0005Ak-Ke
- for qemu-devel@nongnu.org; Fri, 14 May 2021 09:49:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52781)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhYKE-00035D-Kg
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 09:57:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40229)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhYBX-0003L4-8O
- for qemu-devel@nongnu.org; Fri, 14 May 2021 09:49:01 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhYKB-0001LD-83
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 09:57:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621000138;
+ s=mimecast20190719; t=1621000673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8NQnATMMwLcSfxyjGe3R7vV9VD2kXYHHaVjzezCXllw=;
- b=TbEVOFbpPDbCEWoIY17PnnPcS72gtmuX2loXkHGNZKKBsH83KaHBePokeXATzVhUP2J0ZV
- rw23nHKDsjlxcYerI/xnl1Wai12bbdBN7/fD0/lDvn8CS6AXtLhKXi4PhcWVPrhnvmOurR
- w3B2r6xOIK+DHaFP66Rft0a3Ha1xY7M=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-yVqpu2ChMN-OhANiALk-ig-1; Fri, 14 May 2021 09:48:57 -0400
-X-MC-Unique: yVqpu2ChMN-OhANiALk-ig-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c138-20020a1c9a900000b0290173dd9788cdso103217wme.4
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 06:48:56 -0700 (PDT)
+ bh=i7y3pxpSsNUX/76mFyjk+O15zEUKw2Ku8GqV3FoFFx8=;
+ b=hCAs7pjC/7Z7Kc2SpDtTl8p/AM1JTlu+lkqp15dBpyNckZEXMxEXkxlHtUxkQl/YDYvxW2
+ GNVgHsyj265KQ+dDqAAZCF9uzx89USIN7m6yACkXDkTkLVnYk8cM3BnY7KvryUl4CpicHf
+ s58S7pE7j0QhtKAjQimyNUDuxVViX2A=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-KLutBTpkM3WOyvs5kWXpEQ-1; Fri, 14 May 2021 09:57:46 -0400
+X-MC-Unique: KLutBTpkM3WOyvs5kWXpEQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 129-20020a1c02870000b029016fa2bab83bso1107607wmc.7
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 06:57:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=8NQnATMMwLcSfxyjGe3R7vV9VD2kXYHHaVjzezCXllw=;
- b=CDym/ucYR5ayCNlGx2DGLHOIBaXbgGiX8rM3UET3Iv3YNLmQ/sFI2fBXx8UKIAEkIb
- rqVkY9VZclSTbWCmdhGIgAxXa9SUgK9mLpmGuc3vVejW/R6Xvc5WN5ujSvCrSTigwsRc
- 9mO2qrQbM5sdGYbSWYH3i5Jd+X7erBXYOHzaxt3JrHtJuJyCEUlAMDBq88M/qrpZNexi
- 1UG+UyQ3+W76az7Toeg6W/nP8bKSQwlQBQdwrZJ8bV646RzJmN9m90eHRVVM+zoKCX6x
- SVC/+i5/OrHU8oLh1OvOyy/0Zdz2s1XwRUuHXDOv+4Ti/GcuaH5QJka9Wl5f3J8zSzYl
- uBdQ==
-X-Gm-Message-State: AOAM531kzpg1ziC25vhXuuffArVzGTn+Z0HuY8HsC2v/Ua5/0qXN+RRC
- 9Gl2QWNperxOtZExl4IZ1dUK7duaDLZAQVH64FpRZUiRW0urbwVbLy64ISU4G4Dn9+Xt12b+781
- 0yH+/cs78B2sOwgA=
-X-Received: by 2002:a5d:670c:: with SMTP id o12mr7109895wru.223.1621000135818; 
- Fri, 14 May 2021 06:48:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzioe4rEPK76p+Oj7wyMqsHgvD8J4h79dUNvt6LEzXrbIwrSznmCNEp41QDcYlo/WjkppgeTw==
-X-Received: by 2002:a5d:670c:: with SMTP id o12mr7109866wru.223.1621000135566; 
- Fri, 14 May 2021 06:48:55 -0700 (PDT)
+ bh=i7y3pxpSsNUX/76mFyjk+O15zEUKw2Ku8GqV3FoFFx8=;
+ b=t6C3vh13oFB4Xxgfc90vhqi7v0AnUWbYokrIegL3kWZcmeowSwIH+JyLWorxxLoV+P
+ aN2/GQabO3ITaRWG2LNQDXL9hq1iEQ18bOH3j1dmAPPzLbK9Y8o9n2lAg3AnBToGGMwK
+ ECBHffTriYqCl8uNuYeFV9zhZJKrmsUwd/IB/jqE5PNY/2GXn3bk97n/k0uKpeM6Vq1l
+ 08AGMRTmXEHR4uMb7eijdvyU5XpZqLzTQVw8D31UOSNIQeGwDFcBlB3iLUe4BFcYogWz
+ wAnk8/uw49PPZd5wR8OJo6rKO1ZZOW+jCcNUrIqsTiPaYjpxHm0t4pXVPAZEpNxMe0Kk
+ oRfg==
+X-Gm-Message-State: AOAM5334annjdDl8Aef02XZomrp5+7cz/oahVmQiq52SqQdybAvXykt6
+ C8d4LveosMOEf8zGDMxt7E/lRvrnJRyGCZQKTy8gF/xir5KxGEpnnfGN+KwBYxR1R6Ja3Omqh3r
+ 4dHkPSmfDW0GkcDU=
+X-Received: by 2002:a05:600c:350a:: with SMTP id
+ h10mr9790927wmq.154.1621000664702; 
+ Fri, 14 May 2021 06:57:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7Hdf5NbKY0qbYldB+rSY8XZFc9IRZSoFompG7bQxBNY0ZEM2B5eSD/j5lpKv5XR1lQVpqYQ==
+X-Received: by 2002:a05:600c:350a:: with SMTP id
+ h10mr9790906wmq.154.1621000664492; 
+ Fri, 14 May 2021 06:57:44 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-160-222.red.bezeqint.net.
  [79.181.160.222])
- by smtp.gmail.com with ESMTPSA id p7sm6550245wrt.24.2021.05.14.06.48.53
+ by smtp.gmail.com with ESMTPSA id 136sm3978256wmb.7.2021.05.14.06.57.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 May 2021 06:48:55 -0700 (PDT)
-Date: Fri, 14 May 2021 09:48:51 -0400
+ Fri, 14 May 2021 06:57:43 -0700 (PDT)
+Date: Fri, 14 May 2021 09:57:40 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Marian Postevca <posteuca@mutex.one>
-Subject: Re: [PATCH v4 0/1] Rework ACPI OEM fields handling to simplify code
- (was: acpi: Remove duplicated code handling OEM ID and OEM table ID fields)
-Message-ID: <20210514094819-mutt-send-email-mst@kernel.org>
-References: <20210401202928.16082-1-posteuca@mutex.one>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v2 0/7] acpi: Error Record Serialization Table, ERST,
+ support for QEMU
+Message-ID: <20210514095729-mutt-send-email-mst@kernel.org>
+References: <1612817879-21511-1-git-send-email-eric.devolder@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20210401202928.16082-1-posteuca@mutex.one>
+In-Reply-To: <1612817879-21511-1-git-send-email-eric.devolder@oracle.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,79 +95,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: ehabkost@redhat.com, qemu-devel@nongnu.org, kwilk@oracle.com,
+ pbonzini@redhat.com, imammedo@redhat.com, boris.ostrovsky@oracle.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 01, 2021 at 11:29:27PM +0300, Marian Postevca wrote:
-> This patch consolidates ACPI OEM fields handling
-> by:
-> - Moving common code in PC and MICROVM to X86.
-> - Changes unnecessary dynamic memory allocation to static allocation
-> - Uses dedicated structure to keep values of fields instead of two
->   separate strings
-> - Adds helper functions to initialize the structure
+On Mon, Feb 08, 2021 at 03:57:52PM -0500, Eric DeVolder wrote:
+> This patchset introduces support for the ACPI Error Record
+> Serialization Table, ERST.
+
+OK I'm expecting v3 I guess?
 
 
-I'd like to apply this, could you please rebase on top of my tree?
-Conflicts with some changes there.
-
-> v2:
-> - Move the setters/getters of OEM fields to X86MachineState to
->   remove duplication
-> - Change commit message to make it clear the second commit is
->   a re-factor
+> Linux uses the persistent storage filesystem, pstore, to record
+> information (eg. dmesg tail) upon panics and shutdowns.  Pstore is
+> independent of, and runs before, kdump.  In certain scenarios (ie.
+> hosts/guests with root filesystems on NFS/iSCSI where networking
+> software and/or hardware fails), pstore may contain the only
+> information available for post-mortem debugging.
 > 
-> v3:
-> - Rebase "acpi: Consolidate the handling of OEM ID and OEM
->           Table ID fields to latest" to latest HEAD
-> - Dropped "acpi: Move setters/getters of oem fields to
->            X86MachineState" since it was accepted already
+> Two common storage backends for the pstore filesystem are ACPI ERST
+> and UEFI. Most BIOS implement ACPI ERST; however, ACPI ERST is not
+> currently supported in QEMU, and UEFI is not utilized in all guests.
+> By implementing ACPI ERST within QEMU, then the ACPI ERST becomes a
+> viable pstore storage backend for virtual machines (as it is now for
+> bare metal machines).
 > 
-> v4:
-> - Drop helper macros and use static inline functions instead
-> - Removed variables starting with __
-> - Used consistent naming for helper functions that start with ACPI_BUILD_OEM_*
-> - Didn't drop the defines ACPI_BUILD_APPNAME6 and ACPI_BUILD_APPNAME8 since
->   ACPI_BUILD_APPNAME8 is still used in build_header() in aml-build.c and it
->   feels better to keep them defined together. But if others prefer to drop the
->   ACPI_BUILD_APPNAME6 define, will resend the patch.
+> Enabling support for ACPI ERST facilitates a consistent method to
+> capture kernel panic information in a wide range of guests: from
+> resource- constrained microvms to very large guests, and in
+> particular, in direct-boot environments (which would lack UEFI
+> run-time services).
 > 
-> Marian Postevca (1):
->   acpi: Consolidate the handling of OEM ID and OEM Table ID fields
+> Note that Microsoft Windows also utilizes the ACPI ERST for certain
+> crash information, if available.
 > 
->  hw/acpi/hmat.h                   |  2 +-
->  hw/i386/acpi-common.h            |  2 +-
->  include/hw/acpi/acpi-build-oem.h | 61 +++++++++++++++++++++++++
->  include/hw/acpi/aml-build.h      | 15 +++---
->  include/hw/acpi/ghes.h           |  2 +-
->  include/hw/acpi/pci.h            |  2 +-
->  include/hw/acpi/vmgenid.h        |  2 +-
->  include/hw/arm/virt.h            |  4 +-
->  include/hw/i386/x86.h            |  4 +-
->  include/hw/mem/nvdimm.h          |  4 +-
->  hw/acpi/aml-build.c              | 27 ++++++-----
->  hw/acpi/ghes.c                   |  5 +-
->  hw/acpi/hmat.c                   |  4 +-
->  hw/acpi/nvdimm.c                 | 22 +++++----
->  hw/acpi/pci.c                    |  4 +-
->  hw/acpi/vmgenid.c                |  6 ++-
->  hw/arm/virt-acpi-build.c         | 40 ++++++----------
->  hw/arm/virt.c                    | 16 +++----
->  hw/i386/acpi-build.c             | 78 +++++++++++++++-----------------
->  hw/i386/acpi-common.c            |  4 +-
->  hw/i386/acpi-microvm.c           | 13 ++----
->  hw/i386/x86.c                    | 19 ++++----
->  22 files changed, 188 insertions(+), 148 deletions(-)
->  create mode 100644 include/hw/acpi/acpi-build-oem.h
+> The ACPI ERST persistent storage is contained within a single backing
+> file, with a default size of 64KiB. The size and filename of the
+> backing file can be obtained from QEMU parameters.
+> 
+> The ACPI specification[1], in Chapter "ACPI Platform Error Interfaces
+> (APEI)", and specifically subsection "Error Serialization", outlines
+> a method for storing error records into persistent storage.
+> 
+> [1] "Advanced Configuration and Power Interface Specification",
+>     version 6.2, May 2017.
+>     https://www.uefi.org/sites/default/files/resources/ACPI_6_2.pdf
+> 
+> [2] "Unified Extensible Firmware Interface Specification",
+>     version 2.8, March 2019.
+>     https://uefi.org/sites/default/files/resources/UEFI_Spec_2_8_final.pdf
+> 
+> Suggested-by: Konrad Wilk <konrad.wilk@oracle.com>
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> 
+> ---
+> v2: 8feb2021
+>  - Added qtest/smoke test per Paolo Bonzini
+>  - Split patch into smaller chunks, per Igo Mammedov
+>  - Did away with use of ACPI packed structures, per Igo Mammedov
+> 
+> v1: 26oct2020
+>  - initial post
+> 
+> ---
+> Eric DeVolder (7):
+>   ACPI ERST: bios-tables-test.c steps 1 and 2
+>   ACPI ERST: header file for erst
+>   ACPI ERST: support for ACPI ERST feature
+>   ACPI ERST: build step for ACPI ERST
+>   ACPI ERST: support ERST for x86 guest
+>   ACPI ERST: qtest for ERST
+>   ACPI ERST: bios-tables-test.c step 5
+> 
+>  hw/acpi/erst.c               | 952 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/acpi/meson.build          |   1 +
+>  hw/i386/acpi-build.c         |   4 +
+>  include/hw/acpi/erst.h       |  77 ++++
+>  tests/data/acpi/microvm/ERST |   0
+>  tests/data/acpi/pc/ERST      | Bin 0 -> 976 bytes
+>  tests/data/acpi/q35/ERST     | Bin 0 -> 976 bytes
+>  tests/qtest/erst-test.c      | 106 +++++
+>  tests/qtest/meson.build      |   2 +
+>  9 files changed, 1142 insertions(+)
+>  create mode 100644 hw/acpi/erst.c
+>  create mode 100644 include/hw/acpi/erst.h
+>  create mode 100644 tests/data/acpi/microvm/ERST
+>  create mode 100644 tests/data/acpi/pc/ERST
+>  create mode 100644 tests/data/acpi/q35/ERST
+>  create mode 100644 tests/qtest/erst-test.c
 > 
 > -- 
-> 2.26.2
+> 1.8.3.1
 
 
