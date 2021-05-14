@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC2838111C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:52:31 +0200 (CEST)
-Received: from localhost ([::1]:50306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44B5381143
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:56:51 +0200 (CEST)
+Received: from localhost ([::1]:53204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhdrK-0007Oa-NA
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34250)
+	id 1lhdvW-0001Cv-V2
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:56:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdpg-00065g-M5
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:50:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47410)
+ id 1lhduk-0000Xz-Uw
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:56:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdpe-0001vk-Gi
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:50:48 -0400
+ id 1lhdug-0005RH-Rn
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:56:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhdpb-0005T1-Ic
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:50:43 +0000
+ id 1lhdue-0006mc-IU
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:55:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A75D82E819B
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:50:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 209092E81D0
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:55:53 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 19:43:02 -0000
-From: Bruno Haible <1701798@bugs.launchpad.net>
+Date: Fri, 14 May 2021 19:50:27 -0000
+From: Bruno Haible <1705118@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bruno-clisp cirosantilli cynerva pmaydell
- spirit-rc th-huth
+X-Launchpad-Bug-Commenters: bruno-clisp pmaydell th-huth
 X-Launchpad-Bug-Reporter: Bruno Haible (bruno-clisp)
 X-Launchpad-Bug-Modifier: Bruno Haible (bruno-clisp)
-References: <149890819992.24827.8096984642709091835.malonedeb@soybean.canonical.com>
-Message-Id: <162102138285.21648.8509846018978396981.malone@soybean.canonical.com>
-Subject: [Bug 1701798] Re: dynamically linked binaries crash for big-endian
- targets
+References: <150041005567.6544.17518405784140614257.malonedeb@gac.canonical.com>
+Message-Id: <162102182757.7659.15808595341048282766.malone@gac.canonical.com>
+Subject: [Bug 1705118] Re: qemu user mode: rt signals not implemented for
+ sparc guests
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 20483460bcd1fdad9827f3f123118daef47f111f
+X-Launchpad-Hash: 0ca0577ae20503a3aab348bfc1f8016d7b759022
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,229 +71,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1701798 <1701798@bugs.launchpad.net>
+Reply-To: Bug 1705118 <1705118@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The issue seems to be fixed, even without the symlink for /usr/<cpu>-linux-=
-gnu/etc/ld.so.cache.
-For m68k: since version 2.10.0.
-For s390x: since version 2.11.0.
-For the other platforms, already since 2.9.0 (strange, this contradicts my =
-original report...).
+The situation in version 6.0.0 is the same as in version 2.11.0: The
+cases ppc, ppc64, ppc64le, s390x are fixed, but the sparc64 executable
+still crashes.
 
 ** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+       Status: Incomplete =3D> New
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1701798
+https://bugs.launchpad.net/bugs/1705118
 
 Title:
-  dynamically linked binaries crash for big-endian targets
+  qemu user mode: rt signals not implemented for sparc guests
 
 Status in QEMU:
-  Fix Released
+  New
 
 Bug description:
-  On the targets
-    hppa
-    m68k
-    mips
-    mips64
-    powerpc
-    powerpc64
-    s390x
-    sparc64
-  dynamically linked binaries crash, but statically linked binaries work.
-  On the targets
-    aarch64
-    alpha
-    armhf
-    powerpc64le
-    sh4
-  both dynamically linked and statically linked binaries work.
+  The documentation
+  <https://qemu.weilnetz.de/doc/qemu-doc.html#Features> says that
+  qemu in user mode supports POSIX signal handling.
+
+  Catching SIGSEGV according to POSIX, however, does not work on
+    ppc, ppc64, ppc64le, s390x, sparc64.
+  It does work, however, on
+    aarch64, alpha, arm, hppa, m68k, mips, mips64, sh4.
 
   How to reproduce:
+  The attached program runs fine (exits with code 0) on
+    - real hardware Linux/PowerPC64 (in 32-bit and 64-bit mode),
+    - real hardware Linux/PowerPC64LE,
+    - qemu-system-s390x emulated Linux/s390x,
+    - real hardware Linux/SPARC64.
+  $ gcc -O -Wall testsigsegv.c; ./a.out; echo $?
+  0
 
-  1) On Ubuntu 16.04, install the packages
-  g++-5-aarch64-linux-gnu
-  g++-5-alpha-linux-gnu
-  g++-5-arm-linux-gnueabihf
-  g++-5-hppa-linux-gnu
-  g++-5-m68k-linux-gnu
-  g++-5-mips-linux-gnu
-  g++-5-mips64-linux-gnuabi64
-  g++-5-powerpc-linux-gnu
-  g++-5-powerpc64-linux-gnu
-  g++-5-powerpc64le-linux-gnu
-  g++-5-s390x-linux-gnu
-  g++-5-sh4-linux-gnu
-  g++-5-sparc64-linux-gnu
+  For ppc:
+  $ powerpc-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv-p=
+pc
+  $ ~/inst-qemu/2.9.0/bin/qemu-ppc testsigsegv-ppc
+  $ echo $?
+  3
 
-  2) Install qemu 2.9.0 from source (for m68k, use the 2.7.0-m68k
-  code from https://github.com/vivier/qemu-m68k.git):
-  $ ../configure --prefix=3D/home/bruno/inst-qemu/2.9.0 --target-list=3Daar=
-ch64-softmmu,alpha-softmmu,arm-softmmu,i386-softmmu,m68k-softmmu,mips-softm=
-mu,mipsel-softmmu,mips64-softmmu,mips64el-softmmu,ppc-softmmu,ppc64-softmmu=
-,s390x-softmmu,sh4-softmmu,sparc-softmmu,sparc64-softmmu,x86_64-softmmu,aar=
-ch64-linux-user,alpha-linux-user,arm-linux-user,hppa-linux-user,m68k-linux-=
-user,mips-linux-user,mipsel-linux-user,mips64-linux-user,mips64el-linux-use=
-r,ppc-linux-user,ppc64-linux-user,ppc64le-linux-user,s390x-linux-user,sh4-l=
-inux-user,sparc-linux-user,sparc64-linux-user --disable-strip --disable-wer=
-ror --enable-gtk --enable-vnc
-  $ make
-  $ make install
+  For ppc64:
+  $ powerpc64-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv=
+-ppc64
+  $ ~/inst-qemu/2.9.0/bin/qemu-ppc64 testsigsegv-ppc64
+  $ echo $?
+  3
 
-  3) Cross-compile the programs:
+  For ppc64le:
+  $ powerpc64le-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigse=
+gv-ppc64le
+  $ ~/inst-qemu/2.9.0/bin/qemu-ppc64le testsigsegv-ppc64le
+  $ echo $?
+  3
 
-  $ aarch64-linux-gnu-gcc-5 -O hello.c -o hello.aarch64
-  $ alpha-linux-gnu-gcc-5 -O hello.c -o hello.alpha
-  $ arm-linux-gnueabihf-gcc-5 -O hello.c -o hello.armhf
-  $ hppa-linux-gnu-gcc-5 -O hello.c -o hello.hppa
-  $ m68k-linux-gnu-gcc-5 -O hello.c -o hello.m68k
-  $ mips-linux-gnu-gcc-5 -O hello.c -o hello.mips
-  $ mips64-linux-gnuabi64-gcc-5 -O hello.c -o hello.mips64
-  $ powerpc-linux-gnu-gcc-5 -O hello.c -o hello.powerpc
-  $ powerpc64-linux-gnu-gcc-5 -O hello.c -o hello.powerpc64
-  $ powerpc64le-linux-gnu-gcc-5 -O hello.c -o hello.powerpc64le
-  $ s390x-linux-gnu-gcc-5 -O hello.c -o hello.s390x
-  $ sh4-linux-gnu-gcc-5 -O hello.c -o hello.sh4
-  $ sparc64-linux-gnu-gcc-5 -O hello.c -o hello.sparc64
+  For s390x:
+  $ s390x-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv-s39=
+0x
+  $ ~/inst-qemu/2.9.0/bin/qemu-s390x testsigsegv-s390x
+  $ echo $?
+  3
+  $ s390x-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -DAVOID_LINUX_S390=
+X_COMPAT -o testsigsegv-s390x-a
+  $ ~/inst-qemu/2.9.0/bin/qemu-s390x testsigsegv-s390x-a
+  $ echo $?
+  0
+  So, the test fails here because the Linux/s390x kernel omits the least
+  significant 12 bits of the fault address in the 'si_addr' field. But
+  qemu-s390x is not compatible with the Linux/s390x behaviour: it puts
+  the complete fault address in the 'si_addr' field.
 
-  4) Run the programs:
-
-  * aarch64 works:
-  $ QEMU_LD_PREFIX=3D/usr/aarch64-linux-gnu ~/inst-qemu/2.9.0/bin/qemu-aarc=
-h64 hello.aarch64
-  Hello world
-
-  * alpha works:
-  $ QEMU_LD_PREFIX=3D/usr/alpha-linux-gnu ~/inst-qemu/2.9.0/bin/qemu-alpha =
-hello.alpha =
-
-  Hello world
-
-  * armhf works:
-  $ QEMU_LD_PREFIX=3D/usr/arm-linux-gnueabihf ~/inst-qemu/2.9.0/bin/qemu-ar=
-m hello.armhf
-  Hello world
-
-  * powerpc64le works:
-  $ QEMU_LD_PREFIX=3D/usr/powerpc64le-linux-gnu ~/inst-qemu/2.9.0/bin/qemu-=
-ppc64le hello.powerpc64le
-  Hello world
-
-  * sh4 works:
-  $ QEMU_LD_PREFIX=3D/usr/sh4-linux-gnu ~/inst-qemu/2.9.0/bin/qemu-sh4 hell=
-o.sh4
-  Hello world
-
-  * =3D=3D=3D=3D=3D sparc64 does not work:
-  $ QEMU_LD_PREFIX=3D/usr/sparc64-linux-gnu ~/inst-qemu/2.9.0/bin/qemu-spar=
-c64 hello.sparc64
+  For sparc64:
+  $ sparc64-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv-s=
+parc64
+  $ ~/inst-qemu/2.9.0/bin/qemu-sparc64 testsigsegv-sparc64
   Segmentation fault (core dumped)
-
-  When I copy the file to a machine with `uname -srm` =3D "Linux 4.5.0-2-sp=
-arc64 sparc64",
-  it works:
-  $ ./hello.sparc64
-  Hello world
-
-  When I copy the file and its execution environment /usr/sparc64-linux-gnu=
- to the
-  same machine and run the binary in a chroot environment:
-  # /bin/hello.sparc64 =
-
-  Hello world
-
-  * =3D=3D=3D=3D=3D mips does not work:
-  $ QEMU_LD_PREFIX=3D/usr/mips-linux-gnu ~/inst-qemu/2.9.0/bin/qemu-mips he=
-llo.mips
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-
-  When I copy the file to a machine with `uname -srm` =3D "Linux 3.16.0-4-4=
-kc-malta mips",
-  it works:
-  $ ./hello.mips
-  Hello world
-
-  When I copy the file and its execution environment /usr/mips-linux-gnu to=
- the
-  same machine and run the binary in a chroot environment:
-  # /bin/hello.mips =
-
-  Hello world
-
-  * =3D=3D=3D=3D=3D mips64 does not work:
-  $ QEMU_LD_PREFIX=3D/usr/mips64-linux-gnuabi64 ~/inst-qemu/2.9.0/bin/qemu-=
-mips64 hello.mips64
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-
-  When I copy the file to a machine with `uname -srm` =3D "Linux 3.16.0-4-5=
-kc-malta mips64",
-  it works:
-  $ ./hello.mips64
-  Hello world
-
-  * =3D=3D=3D=3D=3D powerpc does not work:
-  $ QEMU_LD_PREFIX=3D/usr/powerpc-linux-gnu ~/inst-qemu/2.9.0/bin/qemu-ppc =
-hello.powerpc
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-
-  When I copy the file to a machine with `uname -srm` =3D "Linux 3.17.2-200=
-.fc20.ppc64p7 ppc64",
-  it works:
-  $ ./hello.powerpc
-  Hello world
-
-  * =3D=3D=3D=3D=3D powerpc64 does not work:
-  $ QEMU_LD_PREFIX=3D/usr/powerpc64-linux-gnu ~/inst-qemu/2.9.0/bin/qemu-pp=
-c64 hello.powerpc64
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-
-  When I copy the file to a machine with `uname -srm` =3D "Linux 3.17.2-200=
-.fc20.ppc64p7 ppc64",
-  it works:
-  $ ./hello.powerpc64
-  Hello world
-
-  * =3D=3D=3D=3D=3D s390x does not work:
-  $ QEMU_LD_PREFIX=3D/usr/s390x-linux-gnu ~/inst-qemu/2.9.0/bin/qemu-s390x =
-hello.s390x
-  <hangs>
-  $ QEMU_LD_PREFIX=3D/usr/s390x-linux-gnu ~/inst-qemu/2.8.1/bin/qemu-s390x =
-hello.s390x
-  qemu-s390x: /media/develdata/devel/build/qemu-2.8.1/translate-all.c:175: =
-tb_lock: Assertion `!have_tb_lock' failed.
-  Segmentation fault (core dumped)
-
-  When I copy the file to a machine with `uname -srm` =3D "Linux 3.16.0-4-s=
-390x s390x",
-  it works:
-  $ ./hello.s390x
-  Hello world
-
-  * =3D=3D=3D=3D=3D hppa does not work:
-  $ QEMU_LD_PREFIX=3D/usr/hppa-linux-gnu ~/inst-qemu/2.9.0/bin/qemu-hppa he=
-llo.hppa
-  Segmentation fault (core dumped)
-
-  * =3D=3D=3D=3D=3D m68k does not work:
-  $ QEMU_LD_PREFIX=3D/usr/m68k-linux-gnu QEMU_CPU=3Dm68020 ~/inst-qemu/2.9.=
-0/bin/qemu-m68k hello.m68k
-  qemu: uncaught target signal 4 (Illegal instruction) - core dumped
-  $ QEMU_LD_PREFIX=3D/usr/m68k-linux-gnu QEMU_CPU=3Dm68020 ~/inst-qemu/2.7.=
-0-m68k/bin/qemu-m68k hello.m68k
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-
-  =
-
-  The set of targets where it does not work is exactly the big-endian targe=
-ts.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1701798/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1705118/+subscriptions
 
