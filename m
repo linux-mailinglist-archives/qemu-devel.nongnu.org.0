@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE167381104
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:40:02 +0200 (CEST)
-Received: from localhost ([::1]:37398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DE4381109
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:41:57 +0200 (CEST)
+Received: from localhost ([::1]:43292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhdfF-0006Um-Uk
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:40:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60126)
+	id 1lhdh6-00020I-RZ
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdav-00073m-Nr
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:35:33 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44768)
+ id 1lhdau-0006zn-85
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:35:32 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdas-0000dG-NS
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:35:33 -0400
+ id 1lhdas-0000cX-3A
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:35:32 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhdar-0003Kf-95
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:35:29 +0000
+ id 1lhdaq-0003Ke-Ht
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:35:28 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3BCB12E8192
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:35:29 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8355F2E818D
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:35:28 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 19:28:44 -0000
-From: Thomas Huth <1912107@bugs.launchpad.net>
+Date: Fri, 14 May 2021 19:29:19 -0000
+From: Thomas Huth <1912224@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: feature-request linux-user
+X-Launchpad-Bug-Tags: storage
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: artoria2e5 th-huth
-X-Launchpad-Bug-Reporter: Mingye Wang (artoria2e5)
+X-Launchpad-Bug-Commenters: aarents th-huth xanclic
+X-Launchpad-Bug-Reporter: Alexandre arents (aarents)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161090862069.30717.14713485848942415507.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162102052431.7511.5702613657445277287.malone@gac.canonical.com>
-Subject: [Bug 1912107] Re: Option to constrain linux-user exec() to emulated
- CPU only
+References: <161098039664.6686.1246044899603761821.malonedeb@wampee.canonical.com>
+Message-Id: <162102055919.2052.8116041793882558126.malone@wampee.canonical.com>
+Subject: [Bug 1912224] Re: qemu may freeze during drive-mirroring on
+ fragmented FS
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 29816d97c4e568f892759fde5df2a97488f4f454
+X-Launchpad-Hash: a1b7c58fb62e174aaf869ad2688c35f64b7c4250
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, LOTS_OF_MONEY=0.001, MONEY_NOHTML=1.519,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1912107 <1912107@bugs.launchpad.net>
+Reply-To: Bug 1912224 <1912224@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,45 +80,167 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/306
+ https://gitlab.com/qemu-project/qemu/-/issues/307
 
 
 ** Changed in: qemu
        Status: New =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #306
-   https://gitlab.com/qemu-project/qemu/-/issues/306
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #307
+   https://gitlab.com/qemu-project/qemu/-/issues/307
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1912107
+https://bugs.launchpad.net/bugs/1912224
 
 Title:
-  Option to constrain linux-user exec() to emulated CPU only
+  qemu may freeze during drive-mirroring on fragmented FS
 
 Status in QEMU:
   Expired
 
 Bug description:
-  When trying to reproduce a bug someone reported on an actual AMD K10[1], =
-=E2=80=8BI tried to directly throw `qemu_x86-64 -cpu =
+  =
 
-  =E2=80=8Bphenom path/to/wrongly-labelled-instruction-set/gcc 1.c` at the =
-problem, but failed to get an "illegal instruction" as expected. A quick in=
-vestigation reveals that the error is actually caused by one of gcc's child=
- processess, and that the said process is being ran directly on the host. A=
- similar problem happens with trying to call stuff with /usr/bin/env.
+  We have odd behavior in operation where qemu freeze during long
+  seconds, We started an thread about that issue here:
+  https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05623.html
 
-   =E2=80=8B[1]: https://github.com/Homebrew/brew/issues/1034
+  It happens at least during openstack nova snapshot (qemu blockdev-mirror)
+  or live block migration(which include network copy of disk).
 
-  Since both the host and the guest are x86_64, I deemed binfmt
-  inapplicable to my case. I believe that QEMU should offer a way to
-  modify exec() and other spawning syscalls so that execution remains on
-  an emulated CPU in such a case. Call it an extra layer of binfmt, if
-  you must.
+  After further troubleshoots, it seems related to FS fragmentation on
+  host.
+
+  reproducible at least on:
+  Ubuntu 18.04.3/4.18.0-25-generic/qemu-4.0
+  Ubuntu 16.04.6/5.10.6/qemu-5.2.0-rc2
+
+  # Lets create a dedicated file system on a SSD/Nvme 60GB disk in my case:
+  $sudo mkfs.ext4 /dev/sda3
+  $sudo mount /dev/sda3 /mnt
+  $df -h /mnt
+  Filesystem      Size  Used Avail Use% Mounted on
+  /dev/sda3         59G   53M   56G   1% /mnt
+
+  #Create a fragmented disk on it using 2MB Chunks (about 30min):
+  $sudo python3 create_fragged_disk.py /mnt 2
+  Filling up FS by Creating chunks files in:  /mnt/chunks
+  We are probably full as expected!!:  [Errno 28] No space left on device
+  Creating fragged disk file:  /mnt/disk
+
+  $ls -lhs =
+
+  59G -rw-r--r-- 1 root root 59G Jan 15 14:08 /mnt/disk
+
+  $ sudo e4defrag -c /mnt/disk
+   Total/best extents                             41971/30
+   Average size per extent                        1466 KB
+   Fragmentation score                            2
+   [0-30 no problem: 31-55 a little bit fragmented: 56- needs defrag]
+   This file (/mnt/disk) does not need defragmentation.
+   Done.
+
+  # the tool^^^ says it is not enough fragmented to be able to defrag.
+
+  #Inject an image on fragmented disk
+  sudo chown ubuntu /mnt/disk
+  wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudim=
+g-amd64.img
+  qemu-img convert -O raw  bionic-server-cloudimg-amd64.img \
+                           bionic-server-cloudimg-amd64.img.raw
+  dd conv=3Dnotrunc iflag=3Dfullblock if=3Dbionic-server-cloudimg-amd64.img=
+.raw \
+                  of=3D/mnt/disk bs=3D1M
+  virt-customize -a /mnt/disk --root-password password:xxxx
+
+  # logon run console activity ex: ping -i 0.3 127.0.0.1
+  $qemu-system-x86_64 -m 2G -enable-kvm  -nographic \
+      -chardev socket,id=3Dtest,path=3D/tmp/qmp-monitor,server,nowait \
+      -mon chardev=3Dtest,mode=3Dcontrol \
+      -drive file=3D/mnt/disk,format=3Draw,if=3Dnone,id=3Ddrive-virtio-disk=
+0,cache=3Dnone,discard\
+      -device virtio-blk-pci,scsi=3Doff,drive=3Ddrive-virtio-disk0,id=3Dvir=
+tio-disk0,bootindex=3D1,write-cache=3Don
+
+  $sync
+  $echo 3 | sudo tee -a /proc/sys/vm/drop_caches
+
+  #start drive-mirror via qmp on another SSD/nvme partition
+  nc -U /tmp/qmp-monitor
+  {"execute":"qmp_capabilities"}
+  {"execute":"drive-mirror","arguments":{"device":"drive-virtio-disk0","tar=
+get":"/home/ubuntu/mirror","sync":"full","format":"qcow2"}}
+  ^^^ qemu console may start to freeze at this step.
+
+  NOTE:
+   - smaller chunk sz and bigger disk size the worst it is.
+     In operation we also have issue on 400GB disk size with average 13MB/e=
+xtent
+   - Reproducible also on xfs
+
+  =
+
+  Expected behavior:
+  -------------------
+  QEMU should remain steady, eventually only have decrease storage Performa=
+nce
+  or mirroring, because of fragmented fs.
+
+  Observed behavior:
+  -------------------
+  Perf of mirroring is still quite good even on fragmented FS,
+  but it breaks qemu.
+
+  =
+
+  ######################  create_fragged_disk.py ############
+  import sys
+  import os
+  import tempfile
+  import glob
+  import errno
+
+  MNT_DIR =3D sys.argv[1]
+  CHUNK_SZ_MB =3D int(sys.argv[2])
+  CHUNKS_DIR =3D MNT_DIR + '/chunks'
+  DISK_FILE =3D MNT_DIR + '/disk'
+
+  if not os.path.exists(CHUNKS_DIR):
+      os.makedirs(CHUNKS_DIR)
+
+  with open("/dev/urandom", "rb") as f_rand:
+       mb_rand=3Df_rand.read(1024 * 1024)
+
+  print("Filling up FS by Creating chunks files in: ",CHUNKS_DIR)
+  try:
+      while True:
+          tp =3D tempfile.NamedTemporaryFile(dir=3DCHUNKS_DIR,delete=3DFals=
+e)
+          for x in range(CHUNK_SZ_MB):
+              tp.write(mb_rand)
+          os.fsync(tp)
+          tp.close()
+  except Exception as ex:
+      print("We are probably full as expected!!: ",ex)
+
+  chunks =3D glob.glob(CHUNKS_DIR + '/*')
+
+  print("Creating fragged disk file: ",DISK_FILE)
+  with open(DISK_FILE, "w+b") as f_disk:
+      for chunk in chunks:
+          try:
+              os.unlink(chunk)
+              for x in range(CHUNK_SZ_MB):
+                  f_disk.write(mb_rand)
+              os.fsync(f_disk)
+          except IOError as ex:
+              if ex.errno !=3D errno.ENOSPC:
+                  raise
+  ###########################################################3
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1912107/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1912224/+subscriptions
 
