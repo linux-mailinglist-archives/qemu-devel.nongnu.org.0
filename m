@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2269381051
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:12:44 +0200 (CEST)
-Received: from localhost ([::1]:49064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116BB381048
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:06:51 +0200 (CEST)
+Received: from localhost ([::1]:41670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhdEp-0000MT-N0
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56506)
+	id 1lhd98-0003Rw-1J
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdDB-0006pJ-1E
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:11:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdD8-00027x-4w
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:11:00 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhdD5-0007el-Tg
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:10:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DF6892E8187
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:10:55 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lhd6Z-0000kE-Mw
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:04:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31932)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lhd6X-0006Kk-0c
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:04:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621019045;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nK4Wh+uYnF6o3hyoetGY8K6JNLZ6UFzp3T404hS+7Ck=;
+ b=J0rYso/v0Mok07DuRKTJXeSQU1trj75xH5rD0KOfBe9v9HAIN58VzG9H9gGm20gBludjE6
+ 4aLF69TU0wCNstMHQ5hJj5BR0FDXt0w0mSJpL+3us24v9LBjCVRpYrHwZ0mLZ7vjbp7prG
+ a6lrj+Y4K/cIFvWGMDNHxp28+e8bTtA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-SOxGIAMbNQSzd7iD7KQXpg-1; Fri, 14 May 2021 15:04:03 -0400
+X-MC-Unique: SOxGIAMbNQSzd7iD7KQXpg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EB5980DDEF;
+ Fri, 14 May 2021 19:04:02 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 585A760CC6;
+ Fri, 14 May 2021 19:03:58 +0000 (UTC)
+Subject: Re: [PATCH 05/10] python/machine: Disable pylint warning for open()
+ in _pre_launch
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
+References: <20210512214642.2803189-1-jsnow@redhat.com>
+ <20210512214642.2803189-6-jsnow@redhat.com>
+ <bdd7152d-5000-94a6-689c-2e527d3f5166@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <88a384db-2163-d549-a745-68a437b72962@redhat.com>
+Date: Fri, 14 May 2021 15:03:57 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 19:03:35 -0000
-From: Thomas Huth <1921635@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hp mark-cave-ayland th-huth
-X-Launchpad-Bug-Reporter: Hein-PietervanBraam (hp)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161695258717.25953.1383463253951082358.malonedeb@wampee.canonical.com>
-Message-Id: <162101901599.8727.15444338275343038178.malone@gac.canonical.com>
-Subject: [Bug 1921635] Re: ESP SCSI adapter not working with DOS ASPI drivers
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 6a8f0c04fb83522fca353618cee4982e1ede92cc
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <bdd7152d-5000-94a6-689c-2e527d3f5166@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,123 +83,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921635 <1921635@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
+On 5/14/21 10:42 AM, Wainer dos Santos Moschetta wrote:
+> Hi,
+> 
+> On 5/12/21 6:46 PM, John Snow wrote:
+>> Shift the open() call later so that the pylint pragma applies *only* to
+>> that one open() call. Add a note that suggests why this is safe: the
+>> resource is unconditionally cleaned up in _post_shutdown().
+> 
+> 
+> You can also put it in a pylint disable/enable block. E.g.:
+> 
+>      # pylint: disable=consider-using-with
+> 
+>      self._qemu_log_file = open(self._qemu_log_path, 'wb')
+> 
+>      # pylint: enable=consider-using-with
+> 
+> However I don't know if this is bad practice. :)
+> 
 
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
+I learned a new trick!
 
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> 
 
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
+Thanks. In this case I will probably leave this alone unless someone 
+else voices a strong opinion. I figure the comment protects us against 
+future oopses well enough.
 
-    https://gitlab.com/qemu-project/qemu/-/issues
+>>
+>> _post_shutdown is called after failed launches (see launch()), and
+>> unconditionally after every call to shutdown(), and therefore also on
+>> __exit__.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   python/qemu/machine.py | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+>> index c13ff9b32bf..8f86303b48f 100644
+>> --- a/python/qemu/machine.py
+>> +++ b/python/qemu/machine.py
+>> @@ -308,7 +308,6 @@ def _pre_launch(self) -> None:
+>>           self._temp_dir = tempfile.mkdtemp(prefix="qemu-machine-",
+>>                                             dir=self._test_dir)
+>>           self._qemu_log_path = os.path.join(self._temp_dir, 
+>> self._name + ".log")
+>> -        self._qemu_log_file = open(self._qemu_log_path, 'wb')
+>>           if self._console_set:
+>>               self._remove_files.append(self._console_address)
+>> @@ -323,6 +322,11 @@ def _pre_launch(self) -> None:
+>>                   nickname=self._name
+>>               )
+>> +        # NOTE: Make sure any opened resources are *definitely* freed in
+>> +        # _post_shutdown()!
+>> +        # pylint: disable=consider-using-with
+>> +        self._qemu_log_file = open(self._qemu_log_path, 'wb')
+>> +
+>>       def _post_launch(self) -> None:
+>>           if self._qmp_connection:
+>>               self._qmp.accept()
 
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
-
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" or "Confirmed" within the next 60 days (other-
-wise it will get closed as "Expired"). We will then eventually migrate
-the ticket automatically to the new system (but you won't be the reporter
-of the bug in the new system and thus you won't get notified on changes
-anymore).
-
-Thank you and sorry for the inconvenience.
-
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921635
-
-Title:
-  ESP SCSI adapter not working with DOS ASPI drivers
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  I have been trying to install the DOS ASPI drivers for the ESP scsi
-  card. Both in am53c974 and dc390 modes. Neither works but they don't
-  work in different ways.
-
-  The following things appear to be problematic:
-
-  * The am53c974 should work with the PcSCSI drivers (AMSIDA.SYS) but the A=
-SPI driver never manages to get past initializing the card. The VM never co=
-ntinues.
-  * The dc390 ASPI driver fares a little better. The ASPI driver loads and =
-is semi-functional but the drivers for the peripherals don't work.
-   - ASPI.SYS (creative name) loads
-   - TRMDISK.SYS fails to load when a cd-drive is attached and will crashs =
-scanning the scsi-id where the cd drive is attached
-   - TRMDISK.SYS loads without a CD drive attached but fails to read any sc=
-si-hd devices attached. The TFDISK.EXE formatter crashes.
-   - TRMCD.SYS loads, but can not detect any CD drives.
-
-  The various permutations:
-  am53c974 hang on ASPI driver load: (CD only attached)
-
-  ~/src/qemu/build/qemu-system-i386 -m 64 -device am53c974,id=3Dscsi0
-  -device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=
-=3D0
-  -drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddrive0 -=
-vga
-  cirrus -fda am53c974_aspi.img -bios /home/hp/src/seabios/out/bios.bin
-  -boot a  -trace 'scsi*' -trace 'esp*' -D log
-
-  dc390 crash because of CDROM attachment and loading TRMDISK.SYS (Only CD =
-attached)
-  ~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0,rombar=
-=3D0 -device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,l=
-un=3D0 -drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddri=
-ve0 -vga cirrus -fda dc390_all.img  -bios /home/hp/src/seabios/out/bios.bin=
- -boot a  -trace 'scsi*' -trace 'esp*' -D log
-
-  dc390 successful boot, but TRMDISK.SYS not working (TFDISK.EXE will crash)
-  ~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0 -device =
-scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,logica=
-l_block_size=3D512 -drive file=3Dsmall.qcow2,if=3Dnone,id=3Ddrive0 -vga cir=
-rus -fda dc390_all.img -bios /home/hp/src/seabios/out/bios.bin -boot a  -tr=
-ace 'scsi*' -trace 'esp*' -D log
-
-  dc390 successful boot, TRMDISK.SYS not loaded, only TRMCD.SYS. CDROM not =
-detected
-  ~/src/qemu/build/qemu-system-i386 -m 64 -device dc390,id=3Dscsi0,rombar=
-=3D0 -device scsi-cd,drive=3Ddrive0,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,l=
-un=3D0 -drive file=3D../Windows\ 98\ Second\ Edition.iso,if=3Dnone,id=3Ddri=
-ve0 -vga cirrus -fda dc390_cd.img  -bios /home/hp/src/seabios/out/bios.bin =
--boot a  -trace 'scsi*' -trace 'esp*' -D log
-
-  All of these tests were done on
-  7b9a3c9f94bcac23c534bc9f42a9e914b433b299 as well as the 'esp-next'
-  branch found here: https://github.com/mcayland/qemu/tree/esp-next
-
-  The bios file is a seabios master with all int13 support disabled.
-  With it enabled even less works but I figured this would be a seabios
-  bug and not a qemu one.
-
-  The actual iso and qcow2 files used don't appear the matter. the
-  'small.qcow2' is an empty drive of 100MB. I have also tried other ISOs
-  in the CD drives, or even not put any cd in the drives with the same
-  results.
-
-  I will attach all of the above images.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921635/+subscriptions
 
