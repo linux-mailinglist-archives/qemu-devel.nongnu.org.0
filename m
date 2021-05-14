@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5499138032C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 07:11:56 +0200 (CEST)
-Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E8738034A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 07:22:24 +0200 (CEST)
+Received: from localhost ([::1]:45244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhQ78-00056l-3o
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 01:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53442)
+	id 1lhQHG-0007vy-Tp
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 01:22:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lhQ5u-0004M6-Pm
- for qemu-devel@nongnu.org; Fri, 14 May 2021 01:10:39 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:41646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lhQ5t-0006aY-1I
- for qemu-devel@nongnu.org; Fri, 14 May 2021 01:10:38 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id l7so37418381ybf.8
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 22:10:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=A9/P2iTXqNZpCQMbuzUp7l5r8XomzVG2EXsrkVpZLHE=;
- b=o7qarnFpkobMJ+7UhC/4hvZKpOKz66Z1G9+m16wlmiQtJDrPa4ksm5NZ/dVybuVCwu
- 6i52K1A6JIjqM1hPxHJXcTTiNFc7hKbxGkUb+C0L5YuNZtjlaamN3Jiqu3qgyrXELq2v
- zIbzQf7tLdLyUzCU1cwEQtgVvXBsqlJoxm8qlUhSaZcq+3A9g0zBVAMEX658x4ephyrS
- 1ELKXYogm9nqgh0ZEXqjj+ABAp7058dyTJl7+5pI0hfGEw4qRA/5668Q7TUwnnRphcnS
- fH5S1MtQ/Aj4BqCoXpvPfxosg0PO7gc88RQyY28ldBP70KhhCXz0EMJNPAMGGio8z0jO
- c+AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=A9/P2iTXqNZpCQMbuzUp7l5r8XomzVG2EXsrkVpZLHE=;
- b=raSs73elx3vba9ugAla/1kRxOnZOu1Err9eKmE1s3/8QqlIDtJHLw4BIv7in4XEXnb
- h1U+uQ7PF0iwt/3N6G/b2/KoH2Y823KvJ+Cz33cVTlmWvurrIulAGHgEt0dX6YMmRj6G
- NFkt3KlCLhRxcEu9n8iqXfDwgYLbKvONsNqye3RkxOQREZLpXjqmNW5FQs8MBzDE5s0e
- ZE0rqc9ocUfX1w+ZcJTkYbjbYKthFM/yN38LVfNKVr9peRvf7425rjlAa/ExL1vP4gc9
- dY+3ui0v+C/Gs2PXie34wTxe+aip3wb86iHRzZqNSXU07scu0J2D66uRP8KzZnFSY3sD
- DfRw==
-X-Gm-Message-State: AOAM5330Eh8CilqxdGAWRGBEsYmjLCNk/hcha4iHTli2PFWVSmGgvmoy
- Cd80I+S6VbH1ycjemHXI3WTUgN+FFj/0NoW/tbc=
-X-Google-Smtp-Source: ABdhPJzY939P33qedN1indN2weTNkv45Qr8Qr4k7OaYZcxwKJN+LNC9mpCIEnqkoxBojjGr2B142lFTIrjsbOIPbifk=
-X-Received: by 2002:a05:6902:1543:: with SMTP id
- r3mr28200320ybu.332.1620969034887; 
- Thu, 13 May 2021 22:10:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210317062638.72626-1-bmeng.cn@gmail.com>
- <859cd26a-feb2-ed62-98d5-764841a468cf@redhat.com>
-In-Reply-To: <859cd26a-feb2-ed62-98d5-764841a468cf@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 14 May 2021 13:10:23 +0800
-Message-ID: <CAEUhbmUc++DiBFzTqbBSX3zacSO_2SQto36wwh8kn0zforFvSg@mail.gmail.com>
-Subject: Re: [PATCH v5 00/12] net: Pad short frames for network backends
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
+ id 1lhQGL-0006vv-HN; Fri, 14 May 2021 01:21:25 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
+ id 1lhQGI-0004tZ-Hx; Fri, 14 May 2021 01:21:25 -0400
+Received: from dggems703-chm.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FhGxb0H6PzQn4p;
+ Fri, 14 May 2021 13:17:39 +0800 (CST)
+Received: from dggpemm100006.china.huawei.com (7.185.36.196) by
+ dggems703-chm.china.huawei.com (10.3.19.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 14 May 2021 13:21:03 +0800
+Received: from dggpemm500011.china.huawei.com (7.185.36.110) by
+ dggpemm100006.china.huawei.com (7.185.36.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 14 May 2021 13:21:03 +0800
+Received: from dggpemm500011.china.huawei.com ([7.185.36.110]) by
+ dggpemm500011.china.huawei.com ([7.185.36.110]) with mapi id 15.01.2176.012;
+ Fri, 14 May 2021 13:21:03 +0800
+From: Andrey Shinkevich <andrey.shinkevich@huawei.com>
+To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: GICv3 for MTTCG
+Thread-Topic: GICv3 for MTTCG
+Thread-Index: AQHXRo49QQoDTg/5kkqOfm/tGkugzg==
+Date: Fri, 14 May 2021 05:21:03 +0000
+Message-ID: <229ce1b3699c499b90533d669deed745@huawei.com>
+References: <1f157423cc544731beb743287a4be5cb@huawei.com>
+ <87h7j8ez4t.fsf@linaro.org> <7f8496377da246c38452d95bbbfc0ca7@huawei.com>
+ <877dk2lfee.fsf@linaro.org>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.227.155.55]
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=andrey.shinkevich@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,111 +70,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "drjones@redhat.com" <drjones@redhat.com>, "Cota@braap.org" <Cota@braap.org>,
+ "shashi.mallela@linaro.org" <shashi.mallela@linaro.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Chengen \(William, 
+ FixNet\)" <chengen@huawei.com>, yuzenghui <yuzenghui@huawei.com>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jason,
-
-On Mon, Mar 22, 2021 at 3:10 PM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/3/17 =E4=B8=8B=E5=8D=882:26, Bin Meng =E5=86=99=E9=81=93:
-> > The minimum Ethernet frame length is 60 bytes. For short frames with
-> > smaller length like ARP packets (only 42 bytes), on a real world NIC
-> > it can choose either padding its length to the minimum required 60
-> > bytes, or sending it out directly to the wire. Such behavior can be
-> > hardcoded or controled by a register bit. Similarly on the receive
-> > path, NICs can choose either dropping such short frames directly or
-> > handing them over to software to handle.
-> >
-> > On the other hand, for the network backends like SLiRP/TAP, they
-> > don't expose a way to control the short frame behavior. As of today
-> > they just send/receive data from/to the other end connected to them,
-> > which means any sized packet is acceptable. So they can send and
-> > receive short frames without any problem. It is observed that ARP
-> > packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-> > these ARP packets to the other end which might be a NIC model that
-> > does not allow short frames to pass through.
-> >
-> > To provide better compatibility, for packets sent from QEMU network
-> > backends like SLiRP/TAP, we change to pad short frames before sending
-> > it out to the other end, if the other end does not forbid it via the
-> > nc->do_not_pad flag. This ensures a backend as an Ethernet sender
-> > does not violate the spec. But with this change, the behavior of
-> > dropping short frames from SLiRP/TAP interfaces in the NIC model
-> > cannot be emulated because it always receives a packet that is spec
-> > complaint. The capability of sending short frames from NIC models is
-> > still supported and short frames can still pass through SLiRP/TAP.
-> >
-> > This series should be able to fix the issue as reported with some
-> > NIC models before, that ARP requests get dropped, preventing the
-> > guest from becoming visible on the network. It was workarounded in
-> > these NIC models on the receive path, that when a short frame is
-> > received, it is padded up to 60 bytes.
-> >
-> > Changes in v5:
-> > - minor update on commit message
-> > - update the eth_pad_short_frame() comment
-> >
-> > Changes in v4:
-> > - change 'ethernet' to 'Ethernet'
-> > - do not inline the helper
-> > - check the padded buffer size to avoid buffer overflow
-> > - squash slirp/tap commits into one
-> >
-> > Changes in v3:
-> > - use 'without' instead of 'sans'
-> > - add a helper to pad short frames
-> > - add a comment to 'do_not_pad'
-> > - use the pad_short_frame() helper
-> >
-> > Bin Meng (12):
-> >    net: eth: Add a helper to pad a short Ethernet frame
-> >    net: Add a 'do_not_pad" to NetClientState
-> >    net: Pad short frames to minimum size before sending from SLiRP/TAP
-> >    hw/net: virtio-net: Initialize nc->do_not_pad to true
-> >    hw/net: e1000: Remove the logic of padding short frames in the recei=
-ve
-> >      path
-> >    hw/net: vmxnet3: Remove the logic of padding short frames in the
-> >      receive path
-> >    hw/net: i82596: Remove the logic of padding short frames in the
-> >      receive path
-> >    hw/net: ne2000: Remove the logic of padding short frames in the
-> >      receive path
-> >    hw/net: pcnet: Remove the logic of padding short frames in the recei=
-ve
-> >      path
-> >    hw/net: rtl8139: Remove the logic of padding short frames in the
-> >      receive path
-> >    hw/net: sungem: Remove the logic of padding short frames in the
-> >      receive path
-> >    hw/net: sunhme: Remove the logic of padding short frames in the
-> >      receive path
-> >
-> >   hw/net/e1000.c      | 11 +----------
-> >   hw/net/i82596.c     | 18 ------------------
-> >   hw/net/ne2000.c     | 12 ------------
-> >   hw/net/pcnet.c      |  9 ---------
-> >   hw/net/rtl8139.c    | 12 ------------
-> >   hw/net/sungem.c     | 14 --------------
-> >   hw/net/sunhme.c     | 11 -----------
-> >   hw/net/virtio-net.c |  4 ++++
-> >   hw/net/vmxnet3.c    | 10 ----------
-> >   include/net/eth.h   | 17 +++++++++++++++++
-> >   include/net/net.h   |  1 +
-> >   net/eth.c           | 17 +++++++++++++++++
-> >   net/slirp.c         | 10 ++++++++++
-> >   net/tap-win32.c     | 10 ++++++++++
-> >   net/tap.c           | 10 ++++++++++
-> >   15 files changed, 70 insertions(+), 96 deletions(-)
->
->
-> I've queued patch 1-4 for 6.0 and the reset for 6.1.
-
-It seems the reset has not been applied for 6.1?
-
-Regards,
-Bin
+On 5/13/21 8:20 PM, Alex Benn=E9e wrote:=0A=
+> =0A=
+> Andrey Shinkevich <andrey.shinkevich@huawei.com> writes:=0A=
+> =0A=
+>> Dear colleagues,=0A=
+>>=0A=
+>> Thank you all very much for your responses. Let me reply with one messag=
+e.=0A=
+>>=0A=
+>> I configured QEMU for AARCH64 guest:=0A=
+>> $ ./configure --target-list=3Daarch64-softmmu=0A=
+>>=0A=
+>> When I start QEMU with GICv3 on an x86 host:=0A=
+>> qemu-system-aarch64 -machine virt-6.0,accel=3Dtcg,gic-version=3D3=0A=
+> =0A=
+> Hmm are you sure you are running your built QEMU? For me the following=0A=
+> works fine:=0A=
+=0A=
+No doubt I run my built QEMU because I am debugging it and watching the =0A=
+run of it with gcc.=0A=
+=0A=
+> =0A=
+>    ./aarch64-softmmu/qemu-system-aarch64 -machine virt-6.0,gic-version=3D=
+3,accel=3Dtcg -cpu max -serial mon:stdio -nic user,model=3Dvirtio-net-pci,h=
+ostfwd=3Dtcp::2222-:22 -device virtio-scsi-pci -device scsi-hd,drive=3Dhd0 =
+-blockdev driver=3Draw,node-name=3Dhd0,discard=3Dunmap,file.driver=3Dhost_d=
+evice,file.filename=3D/dev/zvol/hackpool-0/debian-buster-arm64 -kernel=0A=
+> ~/lsrc/linux.git/builds/arm64.nopreempt/arch/arm64/boot/Image -append "co=
+nsole=3DttyAMA0 root=3D/dev/sda2" -display none -m 8G,maxmem=3D8G -smp 12=
+=0A=
+> =0A=
+> =0A=
+=0A=
+Which source code are you using for building your QEMU? Would you please =
+=0A=
+send me the link if it is a source other than github.com/qemu/qemu?=0A=
+I downloaded and pulled the latest commit 3e9f48bcdabe57f8f and applied =0A=
+the series "[PATCH v3 0/8] GICv3 LPI and ITS feature implementation" =0A=
+ONLY. Did you do the same?=0A=
+=0A=
+I have NOT applied the series "[PATCH v2 0/7] accel/tcg: remove implied =0A=
+BQL from cpu_handle_interrupt/exception path" yet because it is old and =0A=
+the manual applying takes more time (will do it later). Is it a possible =
+=0A=
+reason that my guest hangs with locks at start?=0A=
+=0A=
+Andrey=0A=
+=0A=
+>>=0A=
+>> QEMU reports this error from hw/pci/msix.c:=0A=
+>> error_setg(errp, "MSI-X is not supported by interrupt controller");=0A=
+>>=0A=
+>> Probably, the variable 'msi_nonbroken' would be initialized in=0A=
+>> hw/intc/arm_gicv3_its_common.c:=0A=
+>> gicv3_its_init_mmio(..)=0A=
+>>=0A=
+>> I guess that it works with KVM acceleration only rather than with TCG.=
+=0A=
+>>=0A=
+>> The error persists after applying the series:=0A=
+>> https://lists.gnu.org/archive/html/qemu-arm/2021-04/msg00944.html=0A=
+>> "GICv3 LPI and ITS feature implementation"=0A=
+>> (special thanks for referring me to that)=0A=
+>>=0A=
+>> Please, make me clear and advise ideas how that error can be fixed?=0A=
+>> Should the MSI-X support be implemented with GICv3 extra?=0A=
+>>=0A=
+>> When successful, I would like to test QEMU for a maximum number of cores=
+=0A=
+>> to get the best MTTCG performance.=0A=
+>> Probably, we will get just some percentage of performance enhancement=0A=
+>> with the BQL series applied, won't we? I will test it as well.=0A=
+>>=0A=
+>> Best regards,=0A=
+>> Andrey Shinkevich=0A=
+>>=0A=
+>>=0A=
+>> On 5/12/21 6:43 PM, Alex Benn=E9e wrote:=0A=
+>>>=0A=
+>>> Andrey Shinkevich <andrey.shinkevich@huawei.com> writes:=0A=
+>>>=0A=
+>>>> Dear colleagues,=0A=
+>>>>=0A=
+>>>> I am looking for ways to accelerate the MTTCG for ARM guest on x86-64 =
+host.=0A=
+>>>> The maximum number of CPUs for MTTCG that uses GICv2 is limited by 8:=
+=0A=
+>>>>=0A=
+>>>> include/hw/intc/arm_gic_common.h:#define GIC_NCPU 8=0A=
+>>>>=0A=
+>>>> The version 3 of the Generic Interrupt Controller (GICv3) is not=0A=
+>>>> supported in QEMU for some reason unknown to me. It would allow to=0A=
+>>>> increase the limit of CPUs and accelerate the MTTCG performance on a=
+=0A=
+>>>> multiple core hypervisor.=0A=
+>>>=0A=
+>>> It is supported, you just need to select it.=0A=
+>>>=0A=
+>>>> I have got an idea to implement the Interrupt Translation Service (ITS=
+)=0A=
+>>>> for using by MTTCG for ARM architecture.=0A=
+>>>=0A=
+>>> There is some work to support ITS under TCG already posted:=0A=
+>>>=0A=
+>>>     Subject: [PATCH v3 0/8] GICv3 LPI and ITS feature implementation=0A=
+>>>     Date: Thu, 29 Apr 2021 19:41:53 -0400=0A=
+>>>     Message-Id: <20210429234201.125565-1-shashi.mallela@linaro.org>=0A=
+>>>=0A=
+>>> please do review and test.=0A=
+>>>=0A=
+>>>> Do you find that idea useful and feasible?=0A=
+>>>> If yes, how much time do you estimate for such a project to complete b=
+y=0A=
+>>>> one developer?=0A=
+>>>> If no, what are reasons for not implementing GICv3 for MTTCG in QEMU?=
+=0A=
+>>>=0A=
+>>> As far as MTTCG performance is concerned there is a degree of=0A=
+>>> diminishing returns to be expected as the synchronisation cost between=
+=0A=
+>>> threads will eventually outweigh the gains of additional threads.=0A=
+>>>=0A=
+>>> There are a number of parts that could improve this performance. The=0A=
+>>> first would be picking up the BQL reduction series from your FutureWei=
+=0A=
+>>> colleges who worked on the problem when they were Linaro assignees:=0A=
+>>>=0A=
+>>>     Subject: [PATCH v2 0/7] accel/tcg: remove implied BQL from cpu_hand=
+le_interrupt/exception path=0A=
+>>>     Date: Wed, 19 Aug 2020 14:28:49 -0400=0A=
+>>>     Message-Id: <20200819182856.4893-1-robert.foley@linaro.org>=0A=
+>>>=0A=
+>>> There was also a longer series moving towards per-CPU locks:=0A=
+>>>=0A=
+>>>     Subject: [PATCH v10 00/73] per-CPU locks=0A=
+>>>     Date: Wed, 17 Jun 2020 17:01:18 -0400=0A=
+>>>     Message-Id: <20200617210231.4393-1-robert.foley@linaro.org>=0A=
+>>>=0A=
+>>> I believe the initial measurements showed that the BQL cost started to=
+=0A=
+>>> edge up with GIC interactions. We did discuss approaches for this and I=
+=0A=
+>>> think one idea was use non-BQL locking for the GIC. You would need to=
+=0A=
+>>> revert:=0A=
+>>>=0A=
+>>>     Subject: [PATCH-for-5.2] exec: Remove MemoryRegion::global_locking =
+field=0A=
+>>>     Date: Thu,  6 Aug 2020 17:07:26 +0200=0A=
+>>>     Message-Id: <20200806150726.962-1-philmd@redhat.com>=0A=
+>>>=0A=
+>>> and then implement a more fine tuned locking in the GIC emulation=0A=
+>>> itself. However I think the BQL and per-CPU locks are lower hanging=0A=
+>>> fruit to tackle first.=0A=
+>>>=0A=
+>>>>=0A=
+>>>> Best regards,=0A=
+>>>> Andrey Shinkevich=0A=
+>>>=0A=
+>>>=0A=
+> =0A=
+> =0A=
+=0A=
 
