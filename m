@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA7638096B
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E1C38096A
 	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:23:47 +0200 (CEST)
-Received: from localhost ([::1]:50464 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:50472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhWr4-0000hJ-ML
+	id 1lhWr4-0000hU-IW
 	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:23:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56378)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjL-0000Od-7o
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:15:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40058)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjM-0000Pj-F2
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:15:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjF-0004y6-Cl
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:15:46 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjH-0004yt-0J
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:15:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620994539;
+ s=mimecast20190719; t=1620994541;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0u+HFQE9R543mvapNT6gTSZfmmSTP9eHoQgd9lft0fU=;
- b=jMrW4WhtxLyZOKyhHxxPQb0rntnRNGVHUyXwqfa93oYbPdi3fPBeqX0i0XPilfvSwh8L++
- +0nMjkZHATLWqaehy2g8cegnWia3j+UE34y+ooMXa+0lSq1xSmJOQbp/MO3CXNHgcYeZY3
- CsgX12HX+mK82WVnT/F6ctEzXLf1W08=
+ bh=TbrYbvKB+tg1Wg5E+7pVoSnht2PpKNusrz7HPE5Il3k=;
+ b=MreE0u0F23xb1XTK347QVQ50ezvdpjQV+6FCdWSZTDrhaS0AIxgRJbSk4nnxOUtq5CeorU
+ 8QQ9cjXtdj3VVd2gj2U9ngoNGFmRTJ3waulUt+dsvs7nNonP8cXo7V5PYGXJ9qJ7MNdqQv
+ a1kPe6AcVhrhh+ISd2vMI3a42djzpsY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-tLEbTTBsPR6I-h9AsAmU8Q-1; Fri, 14 May 2021 08:15:37 -0400
-X-MC-Unique: tLEbTTBsPR6I-h9AsAmU8Q-1
+ us-mta-551-5GZgeyyCOIeZ8_yJllUSvw-1; Fri, 14 May 2021 08:15:39 -0400
+X-MC-Unique: 5GZgeyyCOIeZ8_yJllUSvw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA1FB106BAE4;
- Fri, 14 May 2021 12:15:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51DFD9F92C;
+ Fri, 14 May 2021 12:15:38 +0000 (UTC)
 Received: from thuth.com (ovpn-112-191.ams2.redhat.com [10.36.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 110FB6060F;
- Fri, 14 May 2021 12:15:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 01F296060F;
+ Fri, 14 May 2021 12:15:36 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 02/20] gitlab-ci: Replace YAML anchors by extends
- (container_job)
-Date: Fri, 14 May 2021 14:15:00 +0200
-Message-Id: <20210514121518.832729-3-thuth@redhat.com>
+Subject: [PULL 03/20] gitlab-ci: Replace YAML anchors by extends
+ (native_build_job)
+Date: Fri, 14 May 2021 14:15:01 +0200
+Message-Id: <20210514121518.832729-4-thuth@redhat.com>
 In-Reply-To: <20210514121518.832729-1-thuth@redhat.com>
 References: <20210514121518.832729-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -91,292 +91,305 @@ and is a little more flexible and readable. See:
 https://docs.gitlab.com/ee/ci/yaml/#extends
 
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210418233448.1267991-2-f4bug@amsat.org>
+Message-Id: <20210418233448.1267991-3-f4bug@amsat.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/containers.yml | 76 ++++++++++++++++++-------------------
- 1 file changed, 38 insertions(+), 38 deletions(-)
+ .gitlab-ci.yml | 64 +++++++++++++++++++++++++-------------------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 33e4046e23..4ef76d1f54 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -1,4 +1,4 @@
--.container_job_template: &container_job_definition
-+.container_job_template:
-   image: docker:stable
-   stage: containers
-   services:
-@@ -22,230 +22,230 @@
-     - docker logout
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 9876f73040..1e6caa5aff 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -13,7 +13,7 @@ include:
+   - local: '/.gitlab-ci.d/containers.yml'
+   - local: '/.gitlab-ci.d/crossbuilds.yml'
  
- amd64-alpine-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   variables:
-     NAME: alpine
+-.native_build_job_template: &native_build_job_definition
++.native_build_job_template:
+   stage: build
+   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+   before_script:
+@@ -83,7 +83,7 @@ include:
+     - du -chs ${CI_PROJECT_DIR}/avocado-cache
  
- amd64-centos7-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
+ build-system-alpine:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     - job: amd64-alpine-container
    variables:
-     NAME: centos7
+@@ -118,7 +118,7 @@ acceptance-system-alpine:
+   <<: *acceptance_definition
  
- amd64-centos8-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
+ build-system-ubuntu:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-ubuntu2004-container
    variables:
-     NAME: centos8
+@@ -152,7 +152,7 @@ acceptance-system-ubuntu:
+   <<: *acceptance_definition
  
- amd64-debian10-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
+ build-system-debian:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-debian-container
    variables:
-     NAME: debian10
+@@ -186,7 +186,7 @@ acceptance-system-debian:
+   <<: *acceptance_definition
  
- amd64-debian11-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
+ build-system-fedora:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-fedora-container
    variables:
-     NAME: debian11
+@@ -221,7 +221,7 @@ acceptance-system-fedora:
+   <<: *acceptance_definition
  
- alpha-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ build-system-centos:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-centos8-container
    variables:
-     NAME: debian-alpha-cross
+@@ -256,7 +256,7 @@ acceptance-system-centos:
+   <<: *acceptance_definition
  
- amd64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ build-system-opensuse:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-opensuse-leap-container
    variables:
-     NAME: debian-amd64-cross
+@@ -290,7 +290,7 @@ acceptance-system-opensuse:
  
- amd64-debian-user-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-all-test-cross
  
- amd64-debian-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ build-disabled:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-fedora-container
    variables:
-     NAME: debian-amd64
+@@ -376,7 +376,7 @@ build-disabled:
+ # Also use a different coroutine implementation (which is only really of
+ # interest to KVM users, i.e. with TCG disabled)
+ build-tcg-disabled:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-centos8-container
+   variables:
+@@ -399,7 +399,7 @@ build-tcg-disabled:
+             260 261 262 263 264 270 272 273 277 279
  
- arm64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ build-user:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-debian-user-cross-container
    variables:
-     NAME: debian-arm64-cross
+@@ -408,7 +408,7 @@ build-user:
+     MAKE_CHECK_ARGS: check-tcg
  
- arm64-test-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian11-container']
+ build-user-static:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-debian-user-cross-container
    variables:
-     NAME: debian-arm64-test-cross
+@@ -418,7 +418,7 @@ build-user-static:
  
- armel-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ # Only build the softmmu targets we have check-tcg tests for
+ build-some-softmmu:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-debian-user-cross-container
    variables:
-     NAME: debian-armel-cross
+@@ -431,7 +431,7 @@ build-some-softmmu:
+ # we skip sparc64-linux-user until it has been fixed somewhat
+ # we skip cris-linux-user as it doesn't use the common run loop
+ build-user-plugins:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-debian-user-cross-container
+   variables:
+@@ -441,7 +441,7 @@ build-user-plugins:
+   timeout: 1h 30m
  
- armhf-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ build-user-centos7:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-centos7-container
    variables:
-     NAME: debian-armhf-cross
+@@ -450,7 +450,7 @@ build-user-centos7:
+     MAKE_CHECK_ARGS: check-tcg
  
- hppa-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ build-some-softmmu-plugins:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-debian-user-cross-container
    variables:
-     NAME: debian-hppa-cross
+@@ -460,7 +460,7 @@ build-some-softmmu-plugins:
+     MAKE_CHECK_ARGS: check-tcg
  
- m68k-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ clang-system:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-fedora-container
    variables:
-     NAME: debian-m68k-cross
+@@ -472,7 +472,7 @@ clang-system:
+     MAKE_CHECK_ARGS: check-qtest check-tcg
  
- mips64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ clang-user:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-debian-user-cross-container
    variables:
-     NAME: debian-mips64-cross
+@@ -494,7 +494,7 @@ clang-user:
+ # Split in three sets of build/check/acceptance to limit the execution time of each
+ # job
+ build-cfi-aarch64:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+   - job: amd64-fedora-container
+   variables:
+@@ -531,7 +531,7 @@ acceptance-cfi-aarch64:
+   <<: *acceptance_definition
  
- mips64el-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ build-cfi-ppc64-s390x:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+   - job: amd64-fedora-container
    variables:
-     NAME: debian-mips64el-cross
+@@ -568,7 +568,7 @@ acceptance-cfi-ppc64-s390x:
+   <<: *acceptance_definition
  
- mips-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ build-cfi-x86_64:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+   - job: amd64-fedora-container
    variables:
-     NAME: debian-mips-cross
+@@ -605,7 +605,7 @@ acceptance-cfi-x86_64:
+   <<: *acceptance_definition
  
- mipsel-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ tsan-build:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-ubuntu2004-container
    variables:
-     NAME: debian-mipsel-cross
+@@ -617,7 +617,7 @@ tsan-build:
  
- powerpc-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ # These targets are on the way out
+ build-deprecated:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-debian-user-cross-container
    variables:
-     NAME: debian-powerpc-cross
+@@ -644,7 +644,7 @@ check-deprecated:
  
- ppc64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ # gprof/gcov are GCC features
+ gprof-gcov:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-ubuntu2004-container
    variables:
-     NAME: debian-ppc64-cross
+@@ -657,7 +657,7 @@ gprof-gcov:
+     - ${CI_PROJECT_DIR}/scripts/ci/coverage-summary.sh
  
- ppc64el-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ build-oss-fuzz:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-fedora-container
    variables:
-     NAME: debian-ppc64el-cross
+@@ -677,7 +677,7 @@ build-oss-fuzz:
+     - cd build-oss-fuzz && make check-qtest-i386 check-unit
  
- riscv64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ build-tci:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-debian-user-cross-container
    variables:
-     NAME: debian-riscv64-cross
+@@ -702,7 +702,7 @@ build-tci:
+ # Alternate coroutines implementations are only really of interest to KVM users
+ # However we can't test against KVM on Gitlab-CI so we can only run unit tests
+ build-coroutine-sigaltstack:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-ubuntu2004-container
+   variables:
+@@ -716,7 +716,7 @@ build-coroutine-sigaltstack:
+ # These jobs test old gcrypt and nettle from RHEL7
+ # which had some API differences.
+ crypto-old-nettle:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-centos7-container
+   variables:
+@@ -726,7 +726,7 @@ crypto-old-nettle:
+     MAKE_CHECK_ARGS: check
  
- s390x-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ crypto-old-gcrypt:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-centos7-container
    variables:
-     NAME: debian-s390x-cross
+@@ -736,7 +736,7 @@ crypto-old-gcrypt:
+     MAKE_CHECK_ARGS: check
  
- sh4-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ crypto-only-gnutls:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-centos7-container
    variables:
-     NAME: debian-sh4-cross
+@@ -748,7 +748,7 @@ crypto-only-gnutls:
  
- sparc64-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ # Check our reduced build configurations
+ build-without-default-devices:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-centos8-container
    variables:
-     NAME: debian-sparc64-cross
+@@ -756,7 +756,7 @@ build-without-default-devices:
+     CONFIGURE_ARGS: --without-default-devices --disable-user
  
- tricore-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   stage: containers-layer2
-   needs: ['amd64-debian10-container']
+ build-without-default-features:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-debian-container
    variables:
-     NAME: debian-tricore-cross
- 
- xtensa-debian-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
+@@ -806,7 +806,7 @@ build-libvhost-user:
+ # No targets are built here, just tools, docs, and unit tests. This
+ # also feeds into the eventual documentation deployment steps later
+ build-tools-and-docs-debian:
+-  <<: *native_build_job_definition
++  extends: .native_build_job_template
+   needs:
+     job: amd64-debian-container
    variables:
-     NAME: debian-xtensa-cross
- 
- cris-fedora-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   variables:
-     NAME: fedora-cris-cross
- 
- amd64-fedora-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   variables:
-     NAME: fedora
- 
- i386-fedora-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   variables:
-     NAME: fedora-i386-cross
- 
- win32-fedora-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   variables:
-     NAME: fedora-win32-cross
- 
- win64-fedora-cross-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   variables:
-     NAME: fedora-win64-cross
- 
- amd64-ubuntu1804-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   variables:
-     NAME: ubuntu1804
- 
- amd64-ubuntu2004-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   variables:
-     NAME: ubuntu2004
- 
- amd64-ubuntu-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   variables:
-     NAME: ubuntu
- 
- amd64-opensuse-leap-container:
--  <<: *container_job_definition
-+  extends: .container_job_template
-   variables:
-     NAME: opensuse-leap
 -- 
 2.27.0
 
