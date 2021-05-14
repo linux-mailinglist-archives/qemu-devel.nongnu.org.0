@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E55381103
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:39:56 +0200 (CEST)
-Received: from localhost ([::1]:36990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA8A38110B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:42:09 +0200 (CEST)
+Received: from localhost ([::1]:44148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhdf9-0006Eo-Uq
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:39:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60074)
+	id 1lhdhI-0002Yd-MB
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdaq-0006t2-Sd
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:35:28 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44628)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdap-0000aQ-AO
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:35:28 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhdan-0003Kh-DS
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:35:25 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 62D462E8136
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:35:25 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lhdby-0008J9-33
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:36:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lhdbu-0001KD-G1
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:36:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621020993;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TjBnVnfdz+BsCqfJMo8DmtppmjOuzb3DxElGEBhW8ZE=;
+ b=Hb2GXPLd8u6ntwWgtrTNL8xkvFQ1vXEtWAj8GLpJldc6NrGZ2KBkhKQs+x45W69VDv4URI
+ 5Jl/GggPKr/dztJ6I1O+RvnFg306rUp6MxxsVO/1qJpfYKXx/0AMeJmTTjF7cilWosM6fj
+ Zujy8Mc2GwXyabNlC/EnthwzMArHm8M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-OM6wQTjTMUuaoW9jlSc3Ig-1; Fri, 14 May 2021 15:36:31 -0400
+X-MC-Unique: OM6wQTjTMUuaoW9jlSc3Ig-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 335871007476;
+ Fri, 14 May 2021 19:36:30 +0000 (UTC)
+Received: from [10.10.117.64] (ovpn-117-64.rdu2.redhat.com [10.10.117.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C9D019D9B;
+ Fri, 14 May 2021 19:36:22 +0000 (UTC)
+Subject: Re: [PATCH 0/3] tests/acceptance: Handle tests with "cpu" tag
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20210224212654.1146167-1-wainersm@redhat.com>
+ <20210309185237.GB2155904@amachine.somewhere>
+ <d2825a6a-fcc1-7037-a574-5c0cc8ffb879@redhat.com>
+ <c834302f-b379-0509-f3b9-afb873072dda@redhat.com>
+ <20210407200137.53fshmvqjbvrnpk6@habkost.net>
+ <0b2a4372-2881-dad1-0aa5-defe685a4c64@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <1b0a9948-6442-a3a8-a106-113f3aee860d@redhat.com>
+Date: Fri, 14 May 2021 15:36:22 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 19:29:59 -0000
-From: Thomas Huth <1913969@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h th-huth vklimovs
-X-Launchpad-Bug-Reporter: Vjaceslavs Klimovs (vklimovs)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161213017826.4056.12759150225792580313.malonedeb@soybean.canonical.com>
-Message-Id: <162102059920.2587.5870606236581604142.malone@wampee.canonical.com>
-Subject: [Bug 1913969] Re: unable to migrate non shared storage when TLS is
- used
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 69f58636974592147857c0de75de6d919afec0df
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <0b2a4372-2881-dad1-0aa5-defe685a4c64@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,63 +86,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913969 <1913969@bugs.launchpad.net>
+Cc: wrampazz@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ pavel.dovgaluk@ispras.ru, Cleber Rosa <crosa@redhat.com>, pbonzini@redhat.com,
+ philmd@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
+On 4/9/21 10:53 AM, Wainer dos Santos Moschetta wrote:
+> Hi,
+> 
+> On 4/7/21 5:01 PM, Eduardo Habkost wrote:
+>> On Tue, Mar 23, 2021 at 05:01:09PM -0400, John Snow wrote:
+>>> On 3/17/21 3:16 PM, Wainer dos Santos Moschetta wrote:
+>>>> Added John and Eduardo,
+>>>>
+>>>> On 3/9/21 3:52 PM, Cleber Rosa wrote:
+>>>>> On Wed, Feb 24, 2021 at 06:26:51PM -0300, Wainer dos Santos
+>>>>> Moschetta wrote:
+>>>>>> Currently the acceptance tests tagged with "machine" have the "-M 
+>>>>>> TYPE"
+>>>>>> automatically added to the list of arguments of the QEMUMachine 
+>>>>>> object.
+>>>>>> In other words, that option is passed to the launched QEMU. On this
+>>>>>> series it is implemented the same feature but instead for tests 
+>>>>>> marked
+>>>>>> with "cpu".
+>>>>>>
+>>>>> Good!
+>>>>>
+>>>>>> There is a caveat, however, in case the test needs additional
+>>>>>> arguments to
+>>>>>> the CPU type they cannot be passed via tag, because the tags
+>>>>>> parser split
+>>>>>> values by comma. For example, in
+>>>>>> tests/acceptance/x86_cpu_model_versions.py,
+>>>>>> there are cases where:
+>>>>>>
+>>>>>>     * -cpu is set to
+>>>>>> "Cascadelake-Server,x-force-features=on,check=off,enforce=off"
+>>>>>>     * if it was tagged like
+>>>>>> "cpu:Cascadelake-Server,x-force-features=on,check=off,enforce=off"
+>>>>>>       then the parser would break it into 4 tags
+>>>>>> ("cpu:Cascadelake-Server",
+>>>>>>       "x-force-features=on", "check=off", "enforce=off")
+>>>>>>     * resulting on "-cpu Cascadelake-Server" and the remaining
+>>>>>> arguments are ignored.
+>>>>>>
+>>>>>> For the example above, one should tag it (or not at all) as
+>>>>>> "cpu:Cascadelake-Server"
+>>>>>> AND self.vm.add_args('-cpu',
+>>>>>> "Cascadelake-Server,x-force-features=on,check=off,enforce=off"),
+>>>>>> and that results on something like:
+>>>>>>
+>>>>>>     "qemu-system-x86_64 (...) -cpu Cascadelake-Server -cpu
+>>>>>> Cascadelake-Server,x-force-features=on,check=off,enforce=off".
+>>>>>>
+>>>>> There are clearly two problems here:
+>>>>>
+>>>>> 1) the tag is meant to be succinct, so that it can be used by users
+>>>>>      selecting which tests to run.  At the same time, it's a waste
+>>>>>      to throw away the other information or keep it duplicate or
+>>>>>      incosistent.
+>>>>>
+>>>>> 2) QEMUMachine doesn't keep track of command line arguments
+>>>>>      (add_args() makes it pretty clear what's doing).  But, on this 
+>>>>> type
+>>>>>      of use case, a "set_args()" is desirable, in which case it would
+>>>>>      overwrite the existing arguments for a given command line option.
+>>>> I like the idea of a "set_args()" to QEMUMachine as you describe above
+>>>> but it needs further discussion because I can see at least one corner
+>>>> case; for example, one can set the machine type as either -machine or
+>>>> -M, then what key it should be searched-and-replaced (if any) on the
+>>>> list of args?
+>>>>
+>>>> Unlike your suggestion, I thought on implement the method to deal 
+>>>> with a
+>>>> single argument at time, as:
+>>>>
+>>>>       def set_arg(self, arg: Union[str, list], value: str) -> None:
+>>>>           """
+>>>>           Set the value of an argument from the list of extra arguments
+>>>> to be
+>>>>           given to the QEMU binary. If the argument does not exist then
+>>>> it is
+>>>>           added to the list.
+>>>>
+>>>>           If the ``arg`` parameter is a list then it will search and
+>>>> replace all
+>>>>           occurencies (if any). Otherwise a new argument is added 
+>>>> and it is
+>>>>           used the first value of the ``arg`` list.
+>>>>           """
+>>>>           pass
+>>>>
+>>>> Does it sound good to you?
+>>>>
+>>>> Thanks!
+>>>>
+>>>> Wainer
+>>>>
+>>> A little hokey, but I suppose that's true of our CLI interface in 
+>>> general.
+>>>
+>>> I'd prefer not get into the business of building a "config" inside the
+>>> python module if we can help it right now, but if "setting" 
+>>> individual args
+>>> is something you truly need to do, I won't stand in the way.
+>>>
+>>> Do what's least-gross.
+>> I don't have any specific suggestions on how the API should look
+>> like, but I'm having trouble understanding the documentation
+>> above.
+>>
+>> I don't know what "it will search and replace all occurrences"
+>> means.  Occurrences of what?
+>>
+>> I don't understand what "it is used the first value of the `arg`
+>> list" means, either.  I understand you are going to use the first
+>> value of the list, but you don't say what you are going to do
+>> with it.
+> 
+> 
+> The documentation was indeed confusing but, please, disregard it. Based 
+> on John's comments on this thread I decided to not introduce yet another 
+> specialized function to QEMUMachine class. Instead I added the "args" 
+> property so that users will have access to QEMUMachine._args to change 
+> it whatever they like. You will find that implemented on the v2 of this 
+> series:
+> 
+> '[PATCH v2 0/7] tests/acceptance: Handle tests with "cpu" tag'
+> 
+> Thanks!
+> 
+> - Wainer
+> 
+> 
+>>
 
- https://gitlab.com/qemu-project/qemu/-/issues/310
+It would truly be very cool if we had a QEMUMachineConfig class that we 
+could build out properly.
 
+In the hypothetical perfect future world where we have a json-based 
+config file format that mapped perfectly to QMP commands, we could 
+create a class that represents loading and representing such a format, 
+and allow callers to change values at runtime, like:
 
-** Changed in: qemu
-       Status: New =3D> Expired
+config.machine = q35
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #310
-   https://gitlab.com/qemu-project/qemu/-/issues/310
+but this treads so absurdly close to what libvirt already does that I am 
+hesitant to work on it without addressing some of the core 
+organizational problems with our CLI first.
 
--- =
+A frequent source of anguish is how we treat multiple or repeating 
+values on the CLI, which we do not treat consistently. Many options use 
+their own parsers and consistent behavior at the API level here requires 
+a lot of special-casing.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913969
+Trying to enumerate the cases like -m/-machine and other conflicting 
+things like -drive/-blockdev and so on seems difficult to get right and 
+manage correctly. Smarter move is not to try, I think.
 
-Title:
-  unable to migrate non shared storage when TLS is used
+For now, it's sadly likely best that the caller simply reaches in and 
+fiddles with the args according to its whims like Wainer has suggested. 
+Caller knows best.
 
-Status in QEMU:
-  Expired
+If you are seeing lots of repeated boilerplate though, feel free to add 
+helper functions outside of the class for various test-users to use. 
+Document their behavior rigorously.
 
-Bug description:
-  Operating system: Gentoo
-  Architecture: x86_64
-  kernel version: 5.4.72, 5.10.11
-  libvirt version: at least 6.9.0, 6.10.0, 7.0.0
-  Hypervisor and version: qemu 5.1.0, 5.2.0
+thanks!
+--js
 
-  With software versions described above and following configurations:
-  libvirt:
-  key_file =3D "/etc/ssl/libvirt/server.lan.key"
-  cert_file =3D "/etc/ssl/libvirt/server.lan.crt"
-  ca_file =3D "/etc/ssl/libvirt/ca.crt"
-  log_filters=3D"3:remote 4:event 3:util.json 3:rpc 1:*"
-  log_outputs=3D"1:file:/var/log/libvirt/libvirtd.log"
-  qemu:
-  default_tls_x509_cert_dir =3D "/etc/ssl/qemu"
-  default_tls_x509_verify =3D 1
-  migration with tls:
-  virsh # migrate vm1 qemu+tls://server2.lan/system --persistent --undefine=
-source --copy-storage-all --verbose --tls
-  never succeeds. Progress stops typically at high progress amounts (95%-98=
-%), and network traffic drastically drops as well (from 1 gbps+ to nothing)=
-. domjobinfo progress also stops. Without --tls migrations succeed without =
-issues without any other changes to hosts or configurations.
-
-  Note: I reported this originally as libvirt bug:
-  https://gitlab.com/libvirt/libvirt/-/issues/108.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913969/+subscriptions
 
