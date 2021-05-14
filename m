@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED185381046
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:06:16 +0200 (CEST)
-Received: from localhost ([::1]:40006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A8F381039
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:03:20 +0200 (CEST)
+Received: from localhost ([::1]:35262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhd8Z-0002Ea-Vq
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:06:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55198)
+	id 1lhd5j-0007M3-Ol
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:03:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhd3c-0005v7-S7
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:01:12 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35320)
+ id 1lhd3V-0005uU-E1
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:01:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhd3Q-0004sP-To
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:01:06 -0400
+ id 1lhd3Q-0004qw-UA
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:01:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhd3N-0005Ad-Je
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:00:53 +0000
+ id 1lhd3M-0005CY-QN
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:00:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3757D2E8187
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:00:53 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 885EE2E8187
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:00:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 18:52:19 -0000
-From: Thomas Huth <1920013@bugs.launchpad.net>
+Date: Fri, 14 May 2021 18:53:36 -0000
+From: Thomas Huth <1920211@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
  assignee=None; 
-X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug-Tags: feature-request
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cyrozap laurent-vivier th-huth
-X-Launchpad-Bug-Reporter: cyrozap (cyrozap)
+X-Launchpad-Bug-Commenters: colaflash th-huth
+X-Launchpad-Bug-Reporter: kolAflash (colaflash)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161607017744.16047.7761702341537087563.malonedeb@gac.canonical.com>
-Message-Id: <162101833911.20766.8002031582617324548.malone@soybean.canonical.com>
-Subject: [Bug 1920013] Re: Unable to pass-through PCIe devices from a ppc64le
- host to an x86_64 guest
+References: <161616435594.712.2426714645893097472.malonedeb@soybean.canonical.com>
+Message-Id: <162101841667.7316.730883337027241955.malone@gac.canonical.com>
+Subject: [Bug 1920211] Re: shrink option for discard (for bad host-filesystems
+ and -backup solutions)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 11b1b6be5da5228c907be38ad61f81ddd1215402
+X-Launchpad-Hash: 527e5c06d10a7b0084c0bab4eec030d2e0c2158a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920013 <1920013@bugs.launchpad.net>
+Reply-To: Bug 1920211 <1920211@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -106,58 +106,54 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
+** Tags added: feature-request
+
 ** Changed in: qemu
        Status: New =3D> Incomplete
+
+** Changed in: qemu
+   Importance: Undecided =3D> Wishlist
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920013
+https://bugs.launchpad.net/bugs/1920211
 
 Title:
-  Unable to pass-through PCIe devices from a ppc64le host to an x86_64
-  guest
+  shrink option for discard (for bad host-filesystems and -backup
+  solutions)
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Attempting to pass through a PCIe device from a ppc64le host to an
-  x86_64 guest with QEMU v5.2.0-3031-g571d413b5d (built from git master)
-  fails with the following error:
+  When using discard=3Dunmap for virtio or scsi devices with QCOW2 images,
+  space discarded by the guest will be unmaped on the host, which is
+  basically great!
 
-      include/exec/memory.h:43:IOMMU_MEMORY_REGION: Object 0x10438eb00
-  is not an instance of type qemu:iommu-memory-region
+  This will turn the QCOW2 image into a sparse file which is efficient
+  for most scenarios. But it may be that you need to avoid big sparse
+  files on your host. For example because you need to use a backup
+  solution which doesn't support sparse files well. Or maybe the QCOW2
+  image is on a filesystem mount which doesn't support sparse files at
+  all.
 
-  To reproduce this issue, simply run the following command on a POWER9
-  system:
+  For those scenarios an alternative option for the discard setting (discar=
+d=3Dshrink) would be great, so that the QCOW2 file itself gets shrunken aga=
+in.
+  I'm not sure about how the initial growing* of QCOW2 images is implemente=
+d and if there are maybe limitations. But I hope it may be possible do the =
+inverse and actually shrink (not sparse) an QCOW2 image with internally dis=
+carded blocks.
 
-      qemu-system-x86_64 -machine q35 -device vfio-pci,host=3D$DBSF
+  =
 
-  Where $DBSF is a domain:bus:slot.function PCIe device address.
+  I'm using Qemu-5.2.0 and Linux >=3D 5.3 (host and guest).
 
-  This also fails with QEMU 3.1.0 (from Debian Buster), so I assume this
-  has never worked. Helpfully, the error message it prints seems to
-  indicate where the problem is:
-
-      hw/vfio/spapr.c:147:vfio_spapr_create_window: Object 0x164473510
-  is not an instance of type qemu:iommu-memory-region
-
-  My kernel (Linux v5.8.0 plus some small unrelated patches) is built
-  with the page size set to 4k, so this issue shouldn't be due to a page
-  size mismatch. And as I stated earlier, my host arch is ppc64le, so it
-  shouldn't be an endianness issue, either.
-
-  I assume this should be possible (in theory) since I've seen reports
-  of others getting PCIe passthrough working with aarch64 guests on
-  x86_64 hosts, but of course that (passthrough to weird guest arch on
-  x86) is somewhat the opposite of what I'm trying to do (passthrough to
-  x86 on weird host arch) so I don't know for sure. If it is possible,
-  I'm willing to develop a fix myself, but I'm almost completely
-  unfamiliar with QEMU's internals so if anyone has any advice on where
-  to start I'd greatly appreciate it.
+  *If you use "qemu-img create -f qcow2 ..." withOUT the "preallocation"
+  option.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920013/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1920211/+subscriptions
 
