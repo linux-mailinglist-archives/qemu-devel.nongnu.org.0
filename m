@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC423381028
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 20:57:33 +0200 (CEST)
-Received: from localhost ([::1]:54132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F95380FFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 20:48:29 +0200 (CEST)
+Received: from localhost ([::1]:49808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhd08-0000rN-9Q
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 14:57:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54336)
+	id 1lhcrL-0005vr-QR
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 14:48:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhcyW-0007ef-0a
- for qemu-devel@nongnu.org; Fri, 14 May 2021 14:55:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34500)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lhcqZ-00053D-Cn
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 14:47:39 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:44980)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhcyT-0002F5-UR
- for qemu-devel@nongnu.org; Fri, 14 May 2021 14:55:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhcyQ-0004WE-VV
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 18:55:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AA8B52E8194
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 18:55:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lhcqW-00050b-Lg
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 14:47:39 -0400
+Received: by mail-qk1-x735.google.com with SMTP id a2so29667711qkh.11
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 11:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=00UNbHG8R9AgyWWp8PjGmvrM0CuNWPLsA/rCZjsZ8aQ=;
+ b=N3yRHhvxxnbKqYGnkNXh/5/DtMoOHdOzDcQUY3RtyORpQhHHsxQar1K6IBjvQqy0wd
+ LLfZGdke9NxN6ECJn4hx0QSGK8yj0zMecpaHZKha4CW8iTpdnFZtq2DliJPxc0MLaxtv
+ WtCKtGDHDsIw1p2Z6kAtgrWKWGXmRLZ1AyoWN9sfsMJy6PKN2nB//UoSQiExlnziVz08
+ CmpBrldSOz8eLOeWPZN3u1DgoD0Ds81HX9HKyQTrkN3y8cV8b5/te5otNVLXC62FN9pl
+ EiNJjuh/CNlG3uBCmk8vfuVX8AKsSaKKgNEfbPB7vZ6lUob+6YpoOiBj4chOxXYFlIIg
+ 2kwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=00UNbHG8R9AgyWWp8PjGmvrM0CuNWPLsA/rCZjsZ8aQ=;
+ b=LrA7VJJa5kgE3bxf4hY23uxV0PoGejXy95E0jNDcCLU7m2mzjopg8oYLS1Hmv/8VvC
+ /WoJz5H5qCwoL4O+eapScAys5EAkFA2OPYQlNzAHs29mb2pOdaosPcrnS4zCgVVUkxxd
+ YMNVPIzlY1OQqfuyvHPdlw83DSNSbGUzFI/GaKgxM7Gtf6RmhiYNvTlPbDXAzoYDR+wa
+ Kcf0yZ7m6fQet9eHESD66uiLKvKnvk3TTmSGF2+YTaFa5qFzZXQ6/TsnjSe/0gwqmSgN
+ 7at6SpP9x8K/Ri9+Elc2qDNzrdbcClBEPJusJMzJ6GqwsZ0PSxHyGfeY9D0IZQy4Opsk
+ zqwQ==
+X-Gm-Message-State: AOAM531YhR4po7xgcNStPW9MqPcNdUnQPRWYaCla0ajaMUZpEQH6kGOx
+ fYy6cZG8tke55+6X9peILug/cw==
+X-Google-Smtp-Source: ABdhPJyPQBwQHUqIZOM/f6Kw++DbBVyL1aXVEeKbwWQ5+a5c2A7N9YnNq1nQ5qI7r3dHiu9RlbbQmg==
+X-Received: by 2002:a37:9042:: with SMTP id s63mr46147958qkd.324.1621018055449; 
+ Fri, 14 May 2021 11:47:35 -0700 (PDT)
+Received: from [192.168.183.76] (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id q13sm5308610qkn.10.2021.05.14.11.47.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 May 2021 11:47:35 -0700 (PDT)
+Subject: Re: [PATCH v6 59/82] target/arm: Implement SVE mixed sign dot product
+ (indexed)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ <20210430202610.1136687-60-richard.henderson@linaro.org>
+ <CAFEAcA-_SNn6bM52KV5z5v8tLS1e=-Si+KiC_gi-3oykV1Rzkg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <fad61fa6-cb4e-99bb-ba54-f24cc95a6c60@linaro.org>
+Date: Fri, 14 May 2021 13:47:33 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 18:46:21 -0000
-From: Thomas Huth <1910941@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr cwmyung th-huth
-X-Launchpad-Bug-Reporter: Cheolwoo,Myung (cwmyung)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161033323107.21336.4834306381083745301.malonedeb@wampee.canonical.com>
-Message-Id: <162101798187.1231.12269158325261347343.malone@wampee.canonical.com>
-Subject: [Bug 1910941] Re: Assertion `addr < cache->len && 2 <= cache->len -
- addr' in virtio-blk
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 9f14bd89fcd1a0e1d32bdcb364f6e4196c629b72
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA-_SNn6bM52KV5z5v8tLS1e=-Si+KiC_gi-3oykV1Rzkg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x735.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,141 +90,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1910941 <1910941@bugs.launchpad.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
+On 5/13/21 7:57 AM, Peter Maydell wrote:
+> Maybe we should macroify this, as unless I'm misreading them
+> gvec_sdot_idx_b, gvec_udot_idx_b, gvec_sudot_idx_b and gvec_usdot_idx_b
+> only differ in the types of the index and the data.
 
- https://gitlab.com/qemu-project/qemu/-/issues/301
+Done.
 
-
-** Changed in: qemu
-       Status: New =3D> Expired
-
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #301
-   https://gitlab.com/qemu-project/qemu/-/issues/301
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1910941
-
-Title:
-  Assertion `addr < cache->len && 2 <=3D cache->len - addr' in virtio-blk
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  Hello,
-
-  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  virtio-blk emulator.
-
-  A malicious guest user/process could use this flaw to abort the QEMU
-  process on the host, resulting in a denial of service.
-
-  This was found in version 5.2.0 (master)
-
-  ```
-
-  qemu-system-i386: /home/cwmyung/prj/hyfuzz/src/qemu-master/include/exec/m=
-emory_ldst_cached.h.inc:88: void address_space_stw_le_cached(MemoryRegionCa=
-che *, hwaddr, uint32_t, MemTxAttrs, MemTxResult *): Assertion `addr < cach=
-e->len && 2 <=3D cache->len - addr' failed.
-  [1]    1877 abort (core dumped)  /home/cwmyung/prj/hyfuzz/src/qemu-master=
-/build/i386-softmmu/qemu-system-i386
-
-  Program terminated with signal SIGABRT, Aborted.
-  #0  0x00007f71cc171f47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
-s/unix/sysv/linux/raise.c:51
-  #1  0x00007f71cc1738b1 in __GI_abort () at abort.c:79
-  #2  0x00007f71cc16342a in __assert_fail_base (fmt=3D0x7f71cc2eaa38 "%s%s%=
-s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x5653=
-7b324230 "addr < cache->len && 2 <=3D cache->len - addr", file=3Dfile@entry=
-=3D0x56537b32425c "/home/cwmyung/prj/hyfuzz/src/qemu-master/include/exec/me=
-mory_ldst_cached.h.inc", line=3Dline@entry=3D0x58, function=3Dfunction@entr=
-y=3D0x56537b3242ab "void address_space_stw_le_cached(MemoryRegionCache *, h=
-waddr, uint32_t, MemTxAttrs, MemTxResult *)") at assert.c:92
-  #3  0x00007f71cc1634a2 in __GI___assert_fail (assertion=3D0x56537b324230 =
-"addr < cache->len && 2 <=3D cache->len - addr", file=3D0x56537b32425c "/ho=
-me/cwmyung/prj/hyfuzz/src/qemu-master/include/exec/memory_ldst_cached.h.inc=
-", line=3D0x58, function=3D0x56537b3242ab "void address_space_stw_le_cached=
-(MemoryRegionCache *, hwaddr, uint32_t, MemTxAttrs, MemTxResult *)") at ass=
-ert.c:101
-  #4  0x000056537af3c917 in address_space_stw_le_cached (attrs=3D..., resul=
-t=3D<optimized out>, cache=3D<optimized out>, addr=3D<optimized out>, val=
-=3D<optimized out>) at /home/cwmyung/prj/hyfuzz/src/qemu-master/include/exe=
-c/memory_ldst_cached.h.inc:88
-  #5  0x000056537af3c917 in stw_le_phys_cached (cache=3D<optimized out>, ad=
-dr=3D<optimized out>, val=3D<optimized out>) at /home/cwmyung/prj/hyfuzz/sr=
-c/qemu-master/include/exec/memory_ldst_phys.h.inc:121
-  #6  0x000056537af3c917 in virtio_stw_phys_cached (vdev=3D<optimized out>,=
- cache=3D<optimized out>, pa=3D<optimized out>, value=3D<optimized out>) at=
- /home/cwmyung/prj/hyfuzz/src/qemu-master/include/hw/virtio/virtio-access.h=
-:196
-  #7  0x000056537af2b809 in vring_set_avail_event (vq=3D<optimized out>, va=
-l=3D0x0) at ../hw/virtio/virtio.c:429
-  #8  0x000056537af2b809 in virtio_queue_split_set_notification (vq=3D<opti=
-mized out>, enable=3D<optimized out>) at ../hw/virtio/virtio.c:438
-  #9  0x000056537af2b809 in virtio_queue_set_notification (vq=3D<optimized =
-out>, enable=3D0x1) at ../hw/virtio/virtio.c:499
-  #10 0x000056537b07ce1c in virtio_blk_handle_vq (s=3D0x56537d6bb3a0, vq=3D=
-0x56537d6c0680) at ../hw/block/virtio-blk.c:795
-  #11 0x000056537af3eb4d in virtio_queue_notify_aio_vq (vq=3D0x56537d6c0680=
-) at ../hw/virtio/virtio.c:2326
-  #12 0x000056537af3ba04 in virtio_queue_host_notifier_aio_read (n=3D<optim=
-ized out>) at ../hw/virtio/virtio.c:3533
-  #13 0x000056537b20901c in aio_dispatch_handler (ctx=3D0x56537c4179f0, nod=
-e=3D0x7f71a810b370) at ../util/aio-posix.c:329
-  #14 0x000056537b20838c in aio_dispatch_handlers (ctx=3D<optimized out>) a=
-t ../util/aio-posix.c:372
-  #15 0x000056537b20838c in aio_dispatch (ctx=3D0x56537c4179f0) at ../util/=
-aio-posix.c:382
-  #16 0x000056537b1f99cb in aio_ctx_dispatch (source=3D0x2, callback=3D0x7f=
-fc8add9f90, user_data=3D0x0) at ../util/async.c:306
-  #17 0x00007f71d1c10417 in g_main_context_dispatch () at /usr/lib/x86_64-l=
-inux-gnu/libglib-2.0.so.0
-  #18 0x000056537b1f1bab in glib_pollfds_poll () at ../util/main-loop.c:232
-  #19 0x000056537b1f1bab in os_host_main_loop_wait (timeout=3D<optimized ou=
-t>) at ../util/main-loop.c:255
-  #20 0x000056537b1f1bab in main_loop_wait (nonblocking=3D<optimized out>) =
-at ../util/main-loop.c:531
-  #21 0x000056537af879d7 in qemu_main_loop () at ../softmmu/runstate.c:720
-  #22 0x000056537a928a3b in main (argc=3D<optimized out>, argc@entry=3D0x15=
-, argv=3D<optimized out>, argv@entry=3D0x7ffc8adda718, envp=3D<optimized ou=
-t>) at ../softmmu/main.c:50
-  #23 0x00007f71cc154b97 in __libc_start_main (main=3D0x56537a928a30 <main>=
-, argc=3D0x15, argv=3D0x7ffc8adda718, init=3D<optimized out>, fini=3D<optim=
-ized out>, rtld_fini=3D<optimized out>, stack_end=3D0x7ffc8adda708) at ../c=
-su/libc-start.c:310
-  #24 0x000056537a92894a in _start ()
-
-  ```
-
-  To reproduce this issue, please run the QEMU with the following
-  command line.
-
-  ```
-
-  # To reproduce this issue, please run the QEMU process with the
-  following command line.
-
-  $ qemu-system-i386 -m 512  -drive
-  file=3Dhyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -device virtio-blk-
-  pci,drive=3Ddrive0,id=3Dvirtblk0,num-queues=3D4 -drive
-  file=3Ddisk.img,if=3Dnone,id=3Ddrive0
-
-  ```
-
-  Please let me know if I can provide any further info.
-
-  Thank you.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1910941/+subscriptions
+r~
 
