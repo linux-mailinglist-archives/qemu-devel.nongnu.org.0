@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A953802C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 06:20:34 +0200 (CEST)
-Received: from localhost ([::1]:35172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5499138032C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 07:11:56 +0200 (CEST)
+Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhPJQ-0005im-Mr
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 00:20:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46854)
+	id 1lhQ78-00056l-3o
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 01:11:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhPIW-0004pJ-5m
- for qemu-devel@nongnu.org; Fri, 14 May 2021 00:19:36 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:46795)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lhQ5u-0004M6-Pm
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 01:10:39 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:41646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhPIT-0005YK-Ji
- for qemu-devel@nongnu.org; Fri, 14 May 2021 00:19:35 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id 76so27648408qkn.13
- for <qemu-devel@nongnu.org>; Thu, 13 May 2021 21:19:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MfKiCXlDwQT9hqznflIHbvKOzaKkhvFZ7AYYtQVo3o0=;
- b=TzGZjx7Zlx6ZV5IDVBKE9DRdIDLBJxMVM5z4jt+iDgp48fhFZ5numBjgod/tdOHIsV
- RzKKVpr1HBn1LuatNQZLT/hKzx0RadcWNJzh5lRtuIifjCzzv+iWs/juFDXwAfR51ytN
- AmujgV2RCPNd4gdQMZaOu/tevOnisYOgLG5m9GcVm3KkgKR/EmFduvqnKQhW4QMh777h
- +pr1nrjQqEey9WV/odrZWujjd+nKEGzpBRPalmo6WC+6k9q/JV3WB32iWj7tU1fptK5v
- d2p6oZxq9ZciCcpNUKFr9Do+pkkPbUIqTnHxVv9Qvi5grCwe5Y7m4JcptX4jMKZFBmYQ
- uDZA==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lhQ5t-0006aY-1I
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 01:10:38 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id l7so37418381ybf.8
+ for <qemu-devel@nongnu.org>; Thu, 13 May 2021 22:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=A9/P2iTXqNZpCQMbuzUp7l5r8XomzVG2EXsrkVpZLHE=;
+ b=o7qarnFpkobMJ+7UhC/4hvZKpOKz66Z1G9+m16wlmiQtJDrPa4ksm5NZ/dVybuVCwu
+ 6i52K1A6JIjqM1hPxHJXcTTiNFc7hKbxGkUb+C0L5YuNZtjlaamN3Jiqu3qgyrXELq2v
+ zIbzQf7tLdLyUzCU1cwEQtgVvXBsqlJoxm8qlUhSaZcq+3A9g0zBVAMEX658x4ephyrS
+ 1ELKXYogm9nqgh0ZEXqjj+ABAp7058dyTJl7+5pI0hfGEw4qRA/5668Q7TUwnnRphcnS
+ fH5S1MtQ/Aj4BqCoXpvPfxosg0PO7gc88RQyY28ldBP70KhhCXz0EMJNPAMGGio8z0jO
+ c+AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MfKiCXlDwQT9hqznflIHbvKOzaKkhvFZ7AYYtQVo3o0=;
- b=IUvvkU8Lk4TeDls2NXlXgp2EhbT4mGkIXKWUqnyuKvWvQ5D2sExPP3Pl09Ff+i2xkD
- DHivdNCvUPIGDqCIuzTKjOzUjM7i807zzPcqJlVM50vhYYZhfAvEsNte1OYk4CTJPH+J
- 7p43+mDXp867fQiQFn/BHoAlIilDQ80BURkUum3KBsnhE1xNktUkeWTqPQzRF01gRtYO
- T++IakTkInKemPuAHxwwDn7NrcA4S7KJsJ/s50j4Xn0XlGHXxoh4bwjEYn6OqA2ivylP
- KKixg6D/U0hRV6tQHHVMxP9P7PrZb1gbC2KbEWpqpCJmEiJpPtziwFp3ZAMAqFfdZVrQ
- dLEA==
-X-Gm-Message-State: AOAM530i24KcWqBk9LYLmg8RXzvnHSLkv3ZOybk0FOWEXjDdEjLECsrF
- 0Pd6SqRYg/4zWDGMUjBfmKZY7A==
-X-Google-Smtp-Source: ABdhPJxsKWu1toPvUHg7WLmZLDCWGhxSkbVHVwxCGQZVYahQn9Zy3RqME/h/5f1yTCTToFwCBExO0w==
-X-Received: by 2002:a37:b107:: with SMTP id a7mr14397695qkf.366.1620965972534; 
- Thu, 13 May 2021 21:19:32 -0700 (PDT)
-Received: from [192.168.183.155] (163.189-204-200.bestelclientes.com.mx.
- [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id p190sm4196614qke.13.2021.05.13.21.19.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 May 2021 21:19:32 -0700 (PDT)
-Subject: Re: [PATCH v9 2/3] target/arm: Add support for FEAT_TLBIOS
-To: Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org
-References: <20210512182337.18563-1-rebecca@nuviainc.com>
- <20210512182337.18563-3-rebecca@nuviainc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3cac9bab-c9d5-977e-a88b-c7787c9e1eb9@linaro.org>
-Date: Thu, 13 May 2021 23:19:30 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=A9/P2iTXqNZpCQMbuzUp7l5r8XomzVG2EXsrkVpZLHE=;
+ b=raSs73elx3vba9ugAla/1kRxOnZOu1Err9eKmE1s3/8QqlIDtJHLw4BIv7in4XEXnb
+ h1U+uQ7PF0iwt/3N6G/b2/KoH2Y823KvJ+Cz33cVTlmWvurrIulAGHgEt0dX6YMmRj6G
+ NFkt3KlCLhRxcEu9n8iqXfDwgYLbKvONsNqye3RkxOQREZLpXjqmNW5FQs8MBzDE5s0e
+ ZE0rqc9ocUfX1w+ZcJTkYbjbYKthFM/yN38LVfNKVr9peRvf7425rjlAa/ExL1vP4gc9
+ dY+3ui0v+C/Gs2PXie34wTxe+aip3wb86iHRzZqNSXU07scu0J2D66uRP8KzZnFSY3sD
+ DfRw==
+X-Gm-Message-State: AOAM5330Eh8CilqxdGAWRGBEsYmjLCNk/hcha4iHTli2PFWVSmGgvmoy
+ Cd80I+S6VbH1ycjemHXI3WTUgN+FFj/0NoW/tbc=
+X-Google-Smtp-Source: ABdhPJzY939P33qedN1indN2weTNkv45Qr8Qr4k7OaYZcxwKJN+LNC9mpCIEnqkoxBojjGr2B142lFTIrjsbOIPbifk=
+X-Received: by 2002:a05:6902:1543:: with SMTP id
+ r3mr28200320ybu.332.1620969034887; 
+ Thu, 13 May 2021 22:10:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210512182337.18563-3-rebecca@nuviainc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
+References: <20210317062638.72626-1-bmeng.cn@gmail.com>
+ <859cd26a-feb2-ed62-98d5-764841a468cf@redhat.com>
+In-Reply-To: <859cd26a-feb2-ed62-98d5-764841a468cf@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 14 May 2021 13:10:23 +0800
+Message-ID: <CAEUhbmUc++DiBFzTqbBSX3zacSO_2SQto36wwh8kn0zforFvSg@mail.gmail.com>
+Subject: Re: [PATCH v5 00/12] net: Pad short frames for network backends
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,21 +80,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/21 1:23 PM, Rebecca Cran wrote:
-> ARMv8.4 adds the mandatory FEAT_TLBIOS. It provides TLBI
-> maintenance instructions that extend to the Outer Shareable domain.
-> 
-> Signed-off-by: Rebecca Cran<rebecca@nuviainc.com>
-> ---
->   target/arm/cpu.h    |  5 +++
->   target/arm/helper.c | 43 ++++++++++++++++++++
->   2 files changed, 48 insertions(+)
+Hi Jason,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Mon, Mar 22, 2021 at 3:10 PM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/3/17 =E4=B8=8B=E5=8D=882:26, Bin Meng =E5=86=99=E9=81=93:
+> > The minimum Ethernet frame length is 60 bytes. For short frames with
+> > smaller length like ARP packets (only 42 bytes), on a real world NIC
+> > it can choose either padding its length to the minimum required 60
+> > bytes, or sending it out directly to the wire. Such behavior can be
+> > hardcoded or controled by a register bit. Similarly on the receive
+> > path, NICs can choose either dropping such short frames directly or
+> > handing them over to software to handle.
+> >
+> > On the other hand, for the network backends like SLiRP/TAP, they
+> > don't expose a way to control the short frame behavior. As of today
+> > they just send/receive data from/to the other end connected to them,
+> > which means any sized packet is acceptable. So they can send and
+> > receive short frames without any problem. It is observed that ARP
+> > packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
+> > these ARP packets to the other end which might be a NIC model that
+> > does not allow short frames to pass through.
+> >
+> > To provide better compatibility, for packets sent from QEMU network
+> > backends like SLiRP/TAP, we change to pad short frames before sending
+> > it out to the other end, if the other end does not forbid it via the
+> > nc->do_not_pad flag. This ensures a backend as an Ethernet sender
+> > does not violate the spec. But with this change, the behavior of
+> > dropping short frames from SLiRP/TAP interfaces in the NIC model
+> > cannot be emulated because it always receives a packet that is spec
+> > complaint. The capability of sending short frames from NIC models is
+> > still supported and short frames can still pass through SLiRP/TAP.
+> >
+> > This series should be able to fix the issue as reported with some
+> > NIC models before, that ARP requests get dropped, preventing the
+> > guest from becoming visible on the network. It was workarounded in
+> > these NIC models on the receive path, that when a short frame is
+> > received, it is padded up to 60 bytes.
+> >
+> > Changes in v5:
+> > - minor update on commit message
+> > - update the eth_pad_short_frame() comment
+> >
+> > Changes in v4:
+> > - change 'ethernet' to 'Ethernet'
+> > - do not inline the helper
+> > - check the padded buffer size to avoid buffer overflow
+> > - squash slirp/tap commits into one
+> >
+> > Changes in v3:
+> > - use 'without' instead of 'sans'
+> > - add a helper to pad short frames
+> > - add a comment to 'do_not_pad'
+> > - use the pad_short_frame() helper
+> >
+> > Bin Meng (12):
+> >    net: eth: Add a helper to pad a short Ethernet frame
+> >    net: Add a 'do_not_pad" to NetClientState
+> >    net: Pad short frames to minimum size before sending from SLiRP/TAP
+> >    hw/net: virtio-net: Initialize nc->do_not_pad to true
+> >    hw/net: e1000: Remove the logic of padding short frames in the recei=
+ve
+> >      path
+> >    hw/net: vmxnet3: Remove the logic of padding short frames in the
+> >      receive path
+> >    hw/net: i82596: Remove the logic of padding short frames in the
+> >      receive path
+> >    hw/net: ne2000: Remove the logic of padding short frames in the
+> >      receive path
+> >    hw/net: pcnet: Remove the logic of padding short frames in the recei=
+ve
+> >      path
+> >    hw/net: rtl8139: Remove the logic of padding short frames in the
+> >      receive path
+> >    hw/net: sungem: Remove the logic of padding short frames in the
+> >      receive path
+> >    hw/net: sunhme: Remove the logic of padding short frames in the
+> >      receive path
+> >
+> >   hw/net/e1000.c      | 11 +----------
+> >   hw/net/i82596.c     | 18 ------------------
+> >   hw/net/ne2000.c     | 12 ------------
+> >   hw/net/pcnet.c      |  9 ---------
+> >   hw/net/rtl8139.c    | 12 ------------
+> >   hw/net/sungem.c     | 14 --------------
+> >   hw/net/sunhme.c     | 11 -----------
+> >   hw/net/virtio-net.c |  4 ++++
+> >   hw/net/vmxnet3.c    | 10 ----------
+> >   include/net/eth.h   | 17 +++++++++++++++++
+> >   include/net/net.h   |  1 +
+> >   net/eth.c           | 17 +++++++++++++++++
+> >   net/slirp.c         | 10 ++++++++++
+> >   net/tap-win32.c     | 10 ++++++++++
+> >   net/tap.c           | 10 ++++++++++
+> >   15 files changed, 70 insertions(+), 96 deletions(-)
+>
+>
+> I've queued patch 1-4 for 6.0 and the reset for 6.1.
 
-r~
+It seems the reset has not been applied for 6.1?
+
+Regards,
+Bin
 
