@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C35380E55
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:41:20 +0200 (CEST)
-Received: from localhost ([::1]:43116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07CC9380E4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:38:15 +0200 (CEST)
+Received: from localhost ([::1]:34728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhasJ-0004eO-K1
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:41:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54784)
+	id 1lhapJ-0007RV-P9
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lhajT-0000Gp-Qq
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lhajT-0000Go-Qe
  for qemu-devel@nongnu.org; Fri, 14 May 2021 12:32:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41241)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lhajH-0001Aj-6Y
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lhajI-0001BF-Kr
  for qemu-devel@nongnu.org; Fri, 14 May 2021 12:32:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621009918;
+ s=mimecast20190719; t=1621009919;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rfUJ8z0CeU8aENIPf/nCtzLzHptcUMc+lZqTv/ZwLEg=;
- b=f31cseCzrCZ3UkY4bX7mN+wbVR6BLBUaBEHmDiT+hgAi6oYQ3/c7/U40Uo+Nm/7LpPOXUV
- Gc4QRuwBN+buTPe9qjkzloZFDFl9UfQ+8CEIOxdIMSzAKKM05QKQyAOpuHv3gD+onIb3Jr
- 5n0pydTMWuu3mpum8fBf15RJy5a7bVI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1xyBN6Avl+NY+5P953Zq9gdqlSKkLcfRSSJm2IzHNy4=;
+ b=RvJve3WWG0LzOC2Wdu6W6vryNWyxqxCrMnyMQZiRvMhOkehnOn3SCsDSeJc5WnPxwb1S69
+ FLqFPGprUAoJ3IH2q7e6QcvTfNFMJmzFpb9xrSx+Nue+ibIt2+xKFyB24DT2uvrNkmjOH6
+ W5uf6n7J9Jsh+QL94Cm+QpwalxBTCGw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-cj_1i31MOOeqE6J6bKczIw-1; Fri, 14 May 2021 12:31:56 -0400
-X-MC-Unique: cj_1i31MOOeqE6J6bKczIw-1
+ us-mta-495-4cfhRFFjO92mxkZ9_lrDdw-1; Fri, 14 May 2021 12:31:57 -0400
+X-MC-Unique: 4cfhRFFjO92mxkZ9_lrDdw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40BFB800D55;
- Fri, 14 May 2021 16:31:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AF8280ED8B;
+ Fri, 14 May 2021 16:31:56 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-116.ams2.redhat.com [10.36.114.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4838619D9B;
- Fri, 14 May 2021 16:31:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 866E919D9B;
+ Fri, 14 May 2021 16:31:55 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 00/14] Block layer patches
-Date: Fri, 14 May 2021 18:31:10 +0200
-Message-Id: <20210514163124.251741-1-kwolf@redhat.com>
+Subject: [PULL 01/14] qcow2: set bdi->is_dirty
+Date: Fri, 14 May 2021 18:31:11 +0200
+Message-Id: <20210514163124.251741-2-kwolf@redhat.com>
+In-Reply-To: <20210514163124.251741-1-kwolf@redhat.com>
+References: <20210514163124.251741-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
@@ -77,68 +80,53 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 96662996eda78c48aadddd4e76d8615c7eb72d80:
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-  Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20210513a' into staging (2021-05-14 12:03:47 +0100)
+Set bdi->is_dirty, so that qemu-img info could show dirty flag.
 
-are available in the Git repository at:
+After this commit the following check will show '"dirty-flag": true':
 
-  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+./build/qemu-img create -f qcow2 -o lazy_refcounts=on x 1M
+./build/qemu-io x
+qemu-io> write 0 1M
 
-for you to fetch changes up to b773c9fb68ceff9a9692409d7afbc5d6865983c6:
+ After "write" command success, kill the qemu-io process:
 
-  vhost-user-blk: Check that num-queues is supported by backend (2021-05-14 18:04:27 +0200)
+kill -9 <qemu-io pid>
 
-----------------------------------------------------------------
-Block layer patches
+./build/qemu-img info --output=json x
 
-- vhost-user-blk: Fix error handling during initialisation
-- Add test cases for the vhost-user-blk export
-- Fix leaked Transaction objects
-- qcow2: Expose dirty bit in 'qemu-img info'
+This will show '"dirty-flag": true' among other things. (before this
+commit it shows '"dirty-flag": false')
 
-----------------------------------------------------------------
-Coiby Xu (1):
-      test: new qTest case to test the vhost-user-blk-server
+Note, that qcow2's dirty-bit is not a "dirty bit for the image". It
+only protects qcow2 lazy refcounts feature. So, there are a lot of
+conditions when qcow2 session may be not closed correctly, but bit is
+0. Still, when bit is set, the last session is definitely not finished
+correctly and it's better to report it.
 
-Kevin Wolf (8):
-      block: Fix Transaction leak in bdrv_root_attach_child()
-      block: Fix Transaction leak in bdrv_reopen_multiple()
-      vhost-user-blk: Make sure to set Error on realize failure
-      vhost-user-blk: Don't reconnect during initialisation
-      vhost-user-blk: Improve error reporting in realize
-      vhost-user-blk: Get more feature flags from vhost device
-      virtio: Fail if iommu_platform is requested, but unsupported
-      vhost-user-blk: Check that num-queues is supported by backend
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20210504160656.462836-1-vsementsov@virtuozzo.com>
+Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/qcow2.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Michael Tokarev (1):
-      qapi: spelling fix (addtional)
-
-Stefan Hajnoczi (3):
-      block/export: improve vu_blk_sect_range_ok()
-      tests/qtest: add multi-queue test case to vhost-user-blk-test
-      vhost-user-blk-test: test discard/write zeroes invalid inputs
-
-Vladimir Sementsov-Ogievskiy (1):
-      qcow2: set bdi->is_dirty
-
- qapi/qom.json                        |   4 +-
- include/hw/virtio/vhost.h            |   2 +
- tests/qtest/libqos/vhost-user-blk.h  |  48 ++
- block.c                              |   9 +-
- block/export/vhost-user-blk-server.c |   9 +-
- block/qcow2.c                        |   1 +
- hw/block/vhost-user-blk.c            |  85 ++-
- hw/virtio/vhost-user.c               |   5 +
- hw/virtio/virtio-bus.c               |   5 +
- tests/qtest/libqos/vhost-user-blk.c  | 130 +++++
- tests/qtest/vhost-user-blk-test.c    | 989 +++++++++++++++++++++++++++++++++++
- MAINTAINERS                          |   2 +
- tests/qtest/libqos/meson.build       |   1 +
- tests/qtest/meson.build              |   4 +
- 14 files changed, 1232 insertions(+), 62 deletions(-)
- create mode 100644 tests/qtest/libqos/vhost-user-blk.h
- create mode 100644 tests/qtest/libqos/vhost-user-blk.c
- create mode 100644 tests/qtest/vhost-user-blk-test.c
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 9727ae8fe3..39b91ef940 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -5089,6 +5089,7 @@ static int qcow2_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+     BDRVQcow2State *s = bs->opaque;
+     bdi->cluster_size = s->cluster_size;
+     bdi->vm_state_offset = qcow2_vm_state_offset(s);
++    bdi->is_dirty = s->incompatible_features & QCOW2_INCOMPAT_DIRTY;
+     return 0;
+ }
+ 
+-- 
+2.30.2
 
 
