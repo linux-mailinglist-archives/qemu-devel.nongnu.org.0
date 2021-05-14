@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4B2380FD9
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 20:35:59 +0200 (CEST)
-Received: from localhost ([::1]:42808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18DAF381029
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 20:59:21 +0200 (CEST)
+Received: from localhost ([::1]:58458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhcfG-0000An-Nx
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 14:35:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50802)
+	id 1lhd1s-0003nl-6U
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 14:59:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhccn-0005oe-LD
- for qemu-devel@nongnu.org; Fri, 14 May 2021 14:33:27 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:45030)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhcyV-0007dI-4e
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 14:55:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lhccl-0004Ze-H3
- for qemu-devel@nongnu.org; Fri, 14 May 2021 14:33:25 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id lz27so34914ejb.11
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 11:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dbB2nDghvrd/+1HD/XBxyDUztwJU9jArymD7gKh0JGg=;
- b=Y4hPtIk1YbJ/Y0j1IeBwdI0z0UZ+1jNnle4ilIIgs20FcPk0kR0xVcJaXmFwZV/+aa
- 4GapxrNbq74U2b1UWI+UYJcqLn1nZHXCQWn8w92iWdZbUtbiOBc89F3jIIw5oeX6W4Z+
- 0DQQNicHRIsUA+c9zHw1cQvXEr2nU6uOodubKXhV9fJuBGNZUXg7f8U+a3aK63GUD7GT
- Ch3dKPMp7b2otVNL0oRO2Zo6zIFKlt5aZzHMPkMn1lqoMuDTJjl/rK/wj3RRdRRSX6yh
- fl3cw+I8kXOlqhYs94I9o/YxlC4MNSfjEa3/QgKuwdLy+d8Lib+5u9VeBBI5ebxx1cTg
- 5NnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dbB2nDghvrd/+1HD/XBxyDUztwJU9jArymD7gKh0JGg=;
- b=PF+K0/todWL+ud1zXcoTr/D8wI28jDoWHlRkWu7ocrMIRIbIvjo9Y21gAsfm+AZheV
- eKtMvKHw0YYCIAjA/mAaCk/AIpdACltDWvHlyAytAwND4dZWSZUPqp4fLy+ssJHXUBAa
- i5qMmSMFJV8jdTR2FOPWGd4l9fIQDlqg4sU5KTMn9JwFBnUJs+G3oU6ErdU8dLG8OUQi
- aCFBokIFCVYUtQ5dK2OwZBcLlgfHsr/lCEGaEvOLdhyFdcqCc9v+BUb5nfWJwUklgbyw
- TIkfcMjh+pbUq82qCtD58agkd/f54M9mIZyvFBlXjEa6jFWoKB6M5h4kE56lhzPnyBtk
- 0olg==
-X-Gm-Message-State: AOAM531REXqYRaccHzzykhp9Tqjc9ZRSJR4I6qpUvrvRSyj/MdizpXOw
- WxCV3uEnaWt6lOA86lhyRmWjZeqssQxfhU8FQa7pVA==
-X-Google-Smtp-Source: ABdhPJzILd+bwTm301ztyHTKhvy02sb7QaEF6omfDpo6lfH0E8IFbZbUwNQErOgUpjlvbFcfrq1YeudEj+jCYKzK0eU=
-X-Received: by 2002:a17:906:d8cb:: with SMTP id
- re11mr5620527ejb.482.1621017201492; 
- Fri, 14 May 2021 11:33:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhcyT-0002FG-9M
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 14:55:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lhcyR-0004Tl-Jh
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 18:55:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 79AE82E8194
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 18:55:47 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210514111310.1756593-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20210514111310.1756593-1-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 May 2021 19:33:08 +0100
-Message-ID: <CAFEAcA_xf7CAqEsn5EPSht3+7wOXKvnnQ+OGGp8aDw9A_f3AEA@mail.gmail.com>
-Subject: Re: [PULL v3 0/1] Rtd patches
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Fri, 14 May 2021 18:46:05 -0000
+From: Thomas Huth <1908062@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: qiuhao th-huth
+X-Launchpad-Bug-Reporter: Qiuhao Li (qiuhao)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <160794824793.5567.9855788232054277622.malonedeb@gac.canonical.com>
+Message-Id: <162101796595.1787.1048327948176232240.malone@wampee.canonical.com>
+Subject: [Bug 1908062] Re: qemu-system-i386 virtio-vga: Assertion in
+ address_space_stw_le_cached failed again
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
+X-Launchpad-Hash: 568ff74134bc2400758d644affffbbc652a9f4b3
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,38 +72,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1908062 <1908062@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 May 2021 at 12:13, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> The following changes since commit 2d3fc4e2b069494b1e9e2e4a1e3de24cbc0364=
-26:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2021-05-12'=
- into staging (2021-05-13 20:13:24 +0100)
->
-> are available in the Git repository at:
->
->   git@gitlab.com:marcandre.lureau/qemu.git tags/rtd-pull-request
->
-> for you to fetch changes up to 73e6aec6522e1edd63f631c52577b49a39bc234f:
->
->   sphinx: adopt kernel readthedoc theme (2021-05-14 15:05:03 +0400)
->
-> ----------------------------------------------------------------
-> Pull request
->
-> ----------------------------------------------------------------
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
+
+ https://gitlab.com/qemu-project/qemu/-/issues/300
 
 
-Applied, thanks.
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #300
+   https://gitlab.com/qemu-project/qemu/-/issues/300
 
--- PMM
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1908062
+
+Title:
+  qemu-system-i386 virtio-vga: Assertion in address_space_stw_le_cached
+  failed again
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  When I was fuzzing virtio-vga device of the latest QEMU (1758428, Dec
+  12, built with --enable-sanitizers --enable-fuzzing), an assertion
+  failed in include/exec/memory_ldst_cached.h.inc.
+
+  --[ Reproducer
+
+  cat << EOF | ./build/i386-softmmu/qemu-system-i386 -machine accel=3Dqtest=
+ \
+  -machine q35 -display none -nodefaults -device virtio-vga -qtest stdio
+  outl 0xcf8 0x8000081c
+  outb 0xcfc 0xc3
+  outl 0xcf8 0x80000804
+  outb 0xcfc 0x06
+  write 0xc300001024 0x2 0x0040
+  write 0xc300001028 0x1 0x5a
+  write 0xc30000101c 0x1 0x01
+  writel 0xc30000100c 0x20000000
+  write 0xc300001016 0x3 0x80a080
+  write 0xc300003002 0x1 0x80
+  write 0x5c 0x1 0x10
+  EOF
+
+  --[ Output
+
+  =3D=3D35337=3D=3DWARNING: ASan doesn't fully support makecontext/swapcont=
+ext functions and may produce false positives in some cases!
+  [I 1607946348.442865] OPENED
+  [R +0.059305] outl 0xcf8 0x8000081c
+  OK
+  [S +0.059326] OK
+  [R +0.059338] outb 0xcfc 0xc3
+  OK
+  [S +0.059355] OK
+  [R +0.059363] outl 0xcf8 0x80000804
+  OK
+  [S +0.059369] OK
+  [R +0.059381] outb 0xcfc 0x06
+  OK
+  [S +0.061094] OK
+  [R +0.061107] write 0xc300001024 0x2 0x0040
+  OK
+  [S +0.061120] OK
+  [R +0.061127] write 0xc300001028 0x1 0x5a
+  OK
+  [S +0.061135] OK
+  [R +0.061142] write 0xc30000101c 0x1 0x01
+  OK
+  [S +0.061158] OK
+  [R +0.061167] writel 0xc30000100c 0x20000000
+  OK
+  [S +0.061212] OK
+  [R +0.061222] write 0xc300001016 0x3 0x80a080
+  OK
+  [S +0.061231] OK
+  [R +0.061238] write 0xc300003002 0x1 0x80
+  OK
+  [S +0.061247] OK
+  [R +0.061253] write 0x5c 0x1 0x10
+  OK
+  [S +0.061403] OK
+  qemu-system-i386: /home/qiuhao/hack/qemu/include/exec/memory_ldst_cached.=
+h.inc:88: void address_space_stw_le_cached(MemoryRegionCache *, hwaddr, uin=
+t32_t, MemTxAttrs, MemTxResult *): Assertion `addr < cache->len && 2 <=3D c=
+ache->len - addr' failed.
+
+  --[ Environment
+
+  Ubuntu 20.04.1 5.4.0-58-generic x86_64
+  clang: 10.0.0-4ubuntu1
+  glibc: 2.31-0ubuntu9.1
+  libglib2.0-dev: 2.64.3-1~ubuntu20.04.1
+
+  --[ Note
+
+  Alexander Bulekov found the same assertion failure on 2020-08-04,
+  https://bugs.launchpad.net/qemu/+bug/1890333, and it had been fixed in
+  commit 2d69eba5fe52045b2c8b0d04fd3806414352afc1.
+
+  Fam Zheng found the same assertion failure on 2018-09-29,
+  https://bugs.launchpad.net/qemu/+bug/1795148, and it had been fixed in
+  commit db812c4073c77c8a64db8d6663b3416a587c7b4a.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1908062/+subscriptions
 
