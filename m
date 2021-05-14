@@ -2,96 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2967E380DC2
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:05:55 +0200 (CEST)
-Received: from localhost ([::1]:37452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F48380DC5
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:09:12 +0200 (CEST)
+Received: from localhost ([::1]:47796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhaK1-00075R-R9
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:05:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46730)
+	id 1lhaND-0005tx-An
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:09:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lhaF9-0001DY-Io
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:00:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52267)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhaIQ-0005Yx-8s
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:04:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lhaF4-0003nn-Qm
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:00:51 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lhaIO-0005AN-K0
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:04:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621008045;
+ s=mimecast20190719; t=1621008252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y8OVHE5Ts8gkv8762R9ETcDsfp0Efuq1dGSL5bvJoSo=;
- b=LUgInJHHbo5k1hejxjRBE4sm16rPdNO8ZhjOyyYt4EHR9kJe6yEvUWQ1+qO5UvOze4VkdR
- MyvRxCh+5Jnz9r3To5efHpCdwBqTm1mYYRkjgxkXDX876E83ZwhtfGCx+koyucaSuIwP6u
- mHlvloR/GbZUlSJBSq1vtVKWN7kDV5g=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-VtwVAwVaM76iQl3BlMll1g-1; Fri, 14 May 2021 12:00:41 -0400
-X-MC-Unique: VtwVAwVaM76iQl3BlMll1g-1
-Received: by mail-ej1-f70.google.com with SMTP id
- h4-20020a1709067184b02903cbbd4c3d8fso4949078ejk.6
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 09:00:41 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pOBliH+1NcHu4Boph9eF167LF/oPl1NQkz8j3KCRVoc=;
+ b=EQZJ7pvJdT26dSFe7Q1I/z+2hPwbAHuSArEYqQZkCV74PdJYt7SB90GSeIoRJAcCpaYr4H
+ s+0667uRF4DiyJ8uvRISQPJQ+P0UUAa2M+QC8MAeBGbeA7o+dx86qX5rMWsAmYjvhuZ71f
+ qSRJIsPZBq6pli0GXIm6wraRDwG4yAE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-Go27_PYdPX2U4rTSZ5CXAA-1; Fri, 14 May 2021 12:04:10 -0400
+X-MC-Unique: Go27_PYdPX2U4rTSZ5CXAA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ b206-20020a1c1bd70000b02901713122405eso24750wmb.1
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 09:04:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Y8OVHE5Ts8gkv8762R9ETcDsfp0Efuq1dGSL5bvJoSo=;
- b=rN4mg6qSqtkrP/1LEm6pJFH8qA7Yzy/Wigh8Idqg1diJ14BvoEgbRun0vzh1/Uk2f/
- Rs6iaD2u0SfV/BKSmmwVQTCmUUR4bpoRM5hMG31R8Rp6Oz4X4UhsBUtTu/RNnXiPNIxF
- LWiavYKjZAH2xHiUWYhToaZ/2r6HhVMqowzho8pINnk6mBCGNdt9JY69dXpdldo3Xh70
- BNP4ZVmdWWtxOWSyRhynLHV2uzNoU1D4BYcgoN2jqg8zpKcQSh9yGzjGo9uExvwVWYT2
- AgWNMYR0RP2eN1Si8+1huYYZlpHx7KYFYyrm0FJq8AFnJFHU8n6ncRezEQyZ1oJA2HsP
- 7ipQ==
-X-Gm-Message-State: AOAM533BeDhUrEhFlWfTh8h1VBUpiluLvW6YNmlSTTVm/a2Og7AtdFZh
- xNCwGunkJPS46OuHK3uoRIfshr3xtAHpRVmpnM+MZ4v+nhbRTUyKyj8wmIR6Tx+jHCIejSTP7U+
- Yy/4q8pEU6qBKJ4Q=
-X-Received: by 2002:a05:6402:1713:: with SMTP id
- y19mr12885210edu.286.1621008040298; 
- Fri, 14 May 2021 09:00:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqmyDh+WeKe7foWO4ojc4ywWhqNcDiy8xsOk+o0B0G8k6TmVIn+zQLhm6mwaWVy1J7cdGOGg==
-X-Received: by 2002:a05:6402:1713:: with SMTP id
- y19mr12885186edu.286.1621008040094; 
- Fri, 14 May 2021 09:00:40 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q10sm4756992eds.36.2021.05.14.09.00.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 May 2021 09:00:38 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/9] Initial support for machine creation via QMP
-To: Mirela Grujic <mirela.grujic@greensocs.com>, qemu-devel@nongnu.org
-References: <20210513082549.114275-1-mirela.grujic@greensocs.com>
- <93ae82d3-f9a7-f347-a013-54ae5cdc95f7@redhat.com>
- <5210646b-c661-882d-6c8d-0fd1772342d2@greensocs.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <61071d36-b700-8546-c19b-09c4e582bdfe@redhat.com>
-Date: Fri, 14 May 2021 18:00:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=pOBliH+1NcHu4Boph9eF167LF/oPl1NQkz8j3KCRVoc=;
+ b=EVzf6wunw5uO8HqQvKgc/jc5VxAlIYsqDSJZWSJyr5n2mBmOGsd7TRYdYYK+bH0nVf
+ L9QSjhSiCoics4PuJp7NtOW8Gzb6awO+1MhAYsgg2iAVYdpdD3fgVlTUSTq+zVXPt4Kz
+ eohGa4ANjQ0Bi+Hjesmkvatx4WO6gK+HUU3y59T/OaUNniybwTpqOCpNHkKvqp6KLgFB
+ CUHhfSHtWaWzNYRU2WugIXZow7Zh4EUNV13ZX+oRDEXVXt8zn1JoprjhLtHLzVwEbAKD
+ Ho++n35NKQk92owngG68o6acMejifXWisN74bAVYhm5LP7tOnDw1p0FxdTe+RYyq7Y7Z
+ RDSg==
+X-Gm-Message-State: AOAM531/YPH2IffZaOr97UaZYjLuRLz9DOdHmpAnDpqy0ZUANqe9ozBp
+ cD/6Qna9sK5W05VjEku7mSnzjyIPAaBqQITxmmut1Qb8DpG1tsMA/qw7VSabO7wblJZ3+wJOfjL
+ GNTws9ZwcWABUdz/VpZ81jVDSq9dm/NedA67vDC+JXGQxFaNT/ak4jMKgLHar
+X-Received: by 2002:a5d:64e6:: with SMTP id g6mr58466656wri.216.1621008248844; 
+ Fri, 14 May 2021 09:04:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz7rKyaAVeGxrxSXB6QRoG7N4laWaVF0C5NSmLZmvRq14jQ1WGAp4sy2pyU/fmhqP6+SsKh8Q==
+X-Received: by 2002:a5d:64e6:: with SMTP id g6mr58466625wri.216.1621008248528; 
+ Fri, 14 May 2021 09:04:08 -0700 (PDT)
+Received: from redhat.com ([2a10:800c:1fa6:0:3809:fe0c:bb87:250e])
+ by smtp.gmail.com with ESMTPSA id y20sm380775wmi.0.2021.05.14.09.04.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 May 2021 09:04:07 -0700 (PDT)
+Date: Fri, 14 May 2021 12:04:05 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/16] pc,pci,virtio: bugfixes, improvements
+Message-ID: <20210514160245.91918-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <5210646b-c661-882d-6c8d-0fd1772342d2@greensocs.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,63 +92,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, edgar.iglesias@xilinx.com,
- mark.burton@greensocs.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/05/21 14:48, Mirela Grujic wrote:
-> 
-> With our approach, transitioning to the QMP configuration suppose to 
-> happen gradually, i.e. we still specify some configuration options via 
-> command line. For your approach to be applicable to our use case we 
-> would at least need a QMP equivalent for the following:
-> 
-> qemu-system-riscv64 \
->      -M sifive_dt \
->      -cpu 
-> rv64,i=true,g=false,m=true,a=true,f=true,d=true,c=true,s=false,u=false,x-b=true,pmp=true,mmu=false,num-pmp-regions=8 
-> \
->      -smp 1 \
->      -device ...
-> 
-> AFAIU from the materials you shared, we would need to add -cpu and 
-> -device, but I don't see any reason why we wouldn't do this.
+The following changes since commit 609d7596524ab204ccd71ef42c9eee4c7c338ea4:
 
--cpu is indeed the big one that I had not looked at so far, while 
--device should be mostly covered by the existing device_add command.
+  Update version for v6.0.0 release (2021-04-29 18:05:29 +0100)
 
-One possibility for -cpu is to make it an argument of machine-set too. 
-For example the above would be
+are available in the Git repository at:
 
-{ 'execute': 'machine-set', arguments: {
-     'type': 'sifive_dt',
-     'smp': { 'cpus': 1 },
-     'cpu': { 'model': 'rv64', 'i': true, 'g': false, ... }
-}
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-> Ok, please let me know once you test, then I would run your code and
-> play with it to better understand what needs to be done. Then I might
-> come back with a couple of questions, so that we align on the TODOs. Is
-> that ok with you?
+for you to fetch changes up to f7a6df5f5bf3acc219352a1b25573ae2082d7e42:
 
-Yes, of course.  I pushed something that at least compiles and passes a 
-basic smoke test.
+  Fix build with 64 bits time_t (2021-05-14 10:26:18 -0400)
 
-> Btw, when (in which version) did you plan to integrate the
-> qemu-qmp-* support? I guess once machine-set/accel-set is implemented,  > but maybe I'm wrong...
+----------------------------------------------------------------
+pc,pci,virtio: bugfixes, improvements
 
-Well, the right answer is "when somebody needs it".  The things that I 
-was mostly interested in (e.g. compound properties for machines, such as 
-smp in the example above) were all enablers for qemu-qmp-* but I was not 
-really interested in the new binaries.  I did the qemu-qmp-* patches 
-mostly to validate that the 5.2/6.0 refactoring of preconfig was going 
-in the right direction.
+Fixes all over the place. Faster boot for virtio. ioeventfd support for
+mmio.
 
-However, if there is indeed somebody that needs it I'll contribute where 
-our interests overlap.  In particular I can take care of converting the 
-command line options to properties.
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-Paolo
+----------------------------------------------------------------
+Fabrice Fontaine (1):
+      Fix build with 64 bits time_t
+
+Greg Kurz (5):
+      virtio-blk: Fix rollback path in virtio_blk_data_plane_start()
+      virtio-blk: Configure all host notifiers in a single MR transaction
+      virtio-scsi: Set host notifiers and callbacks separately
+      virtio-scsi: Configure all host notifiers in a single MR transaction
+      checkpatch: Fix use of uninitialized value
+
+Igor Mammedov (1):
+      x86: acpi: use offset instead of pointer when using build_header()
+
+Jean-Philippe Brucker (1):
+      amd_iommu: Fix pte_override_page_mask()
+
+Maciej S. Szmigiero (1):
+      pc-dimm: remove unnecessary get_vmstate_memory_region() method
+
+Pavel Dovgalyuk (1):
+      hw/virtio: enable ioeventfd configuring for mmio
+
+Philippe Mathieu-Daudé (3):
+      hw/virtio: Pass virtio_feature_get_config_size() a const argument
+      virtio-blk: Constify VirtIOFeature feature_sizes[]
+      virtio-net: Constify VirtIOFeature feature_sizes[]
+
+Roman Kapl (1):
+      amd_iommu: fix wrong MMIO operations
+
+Vincent Bernat (1):
+      hw/smbios: support for type 41 (onboard devices extended information)
+
+Zenghui Yu (1):
+      vhost-vdpa: Make vhost_vdpa_get_device_id() static
+
+ include/hw/firmware/smbios.h    |  14 ++++-
+ include/hw/mem/pc-dimm.h        |   5 --
+ include/hw/virtio/vhost-vdpa.h  |   2 -
+ include/hw/virtio/virtio-mmio.h |   5 ++
+ include/hw/virtio/virtio.h      |   2 +-
+ contrib/vhost-user-input/main.c |   8 ++-
+ hw/acpi/aml-build.c             |  15 +++--
+ hw/arm/virt.c                   |   7 ++-
+ hw/block/dataplane/virtio-blk.c |  36 +++++++++++-
+ hw/block/virtio-blk.c           |   2 +-
+ hw/i386/acpi-build.c            |   8 ++-
+ hw/i386/amd_iommu.c             |  10 ++--
+ hw/i386/fw_cfg.c                |   4 +-
+ hw/input/virtio-input-host.c    |   5 +-
+ hw/mem/pc-dimm.c                |  33 +++++------
+ hw/net/virtio-net.c             |   2 +-
+ hw/scsi/virtio-scsi-dataplane.c |  56 ++++++++++++------
+ hw/smbios/smbios.c              | 124 +++++++++++++++++++++++++++++++++++++++-
+ hw/virtio/vhost-vdpa.c          |   4 +-
+ hw/virtio/virtio-mmio.c         |  11 +++-
+ hw/virtio/virtio.c              |   2 +-
+ qemu-options.hx                 |  30 +++++++++-
+ scripts/checkpatch.pl           |   1 +
+ 23 files changed, 311 insertions(+), 75 deletions(-)
 
 
