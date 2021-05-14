@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180B3380362
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 07:33:39 +0200 (CEST)
-Received: from localhost ([::1]:58638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 678393803A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 08:27:05 +0200 (CEST)
+Received: from localhost ([::1]:51064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhQSA-0000Zy-3G
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 01:33:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57538)
+	id 1lhRHr-0000PL-Pq
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 02:27:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1lhQQR-0006xF-QF
- for qemu-devel@nongnu.org; Fri, 14 May 2021 01:31:51 -0400
-Received: from mga18.intel.com ([134.134.136.126]:56054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1lhQQO-0003ne-E6
- for qemu-devel@nongnu.org; Fri, 14 May 2021 01:31:51 -0400
-IronPort-SDR: pNfUzWMUvwqeEYdraPwTskuVNGNpzdII3NPu/6bGsN5reYVVhX8//KMrEx59BmKk47K+5Q2TTP
- GTSB8VE1ySzQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9983"; a="187530454"
-X-IronPort-AV: E=Sophos;i="5.82,299,1613462400"; d="scan'208";a="187530454"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2021 22:31:43 -0700
-IronPort-SDR: gMxBJtloq+ecQzMS+qVJjuRPELr4zrdKHixPRAelGppFjPmarAGIfJgF9DEvB/whEyFWXMapIS
- MqqyMBavdnTg==
-X-IronPort-AV: E=Sophos;i="5.82,299,1613462400"; d="scan'208";a="626680373"
-Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.0.151])
- ([10.238.0.151])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2021 22:31:40 -0700
-Subject: Re: [PATCH v3] i386: Add ratelimit for bus locks acquired in guest
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Marcelo Tosatti
- <mtosatti@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
-References: <20210430103305.28849-1-chenyi.qiang@intel.com>
- <717c428d-b6b8-cd75-c1dc-c3e6d126b3e0@intel.com>
-Message-ID: <70a03db8-568d-d00b-a149-6282b56eb01d@intel.com>
-Date: Fri, 14 May 2021 13:31:38 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhRGc-00088u-Qf
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 02:25:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhRGa-0006fl-Em
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 02:25:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lhRGY-0003Wc-9r
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 06:25:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 37CB72E8139
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 06:25:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <717c428d-b6b8-cd75-c1dc-c3e6d126b3e0@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=chenyi.qiang@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 14 May 2021 06:20:22 -0000
+From: Thomas Huth <1915531@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange th-huth valentin.david
+X-Launchpad-Bug-Reporter: Valentin David (valentin.david)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161314621308.23829.886419770057464275.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162097322268.16791.10053181708645130331.malone@soybean.canonical.com>
+Subject: [Bug 1915531] Re: qemu-user child process hangs when forking due to
+ glib allocation
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
+X-Launchpad-Hash: f8dbba6c0cc9bdc51dba9e10b2d771b5e5fed682
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,248 +72,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1915531 <1915531@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Cc qemu-devel@nongnu.org
+Closing this ticket on Launchpad, since it has been moved to the Gitlab
+tracker now (thanks, Valentin!)
 
-On 5/14/2021 9:07 AM, Chenyi Qiang wrote:
-> Hi Paolo, Eduardo
-> 
-> Any comments on this version?
-> 
-> On 4/30/2021 6:33 PM, Chenyi Qiang wrote:
->> A bus lock is acquired through either split locked access to writeback
->> (WB) memory or any locked access to non-WB memory. It is typically >1000
->> cycles slower than an atomic operation within a cache and can also
->> disrupts performance on other cores.
->>
->> Virtual Machines can exploit bus locks to degrade the performance of
->> system. To address this kind of performance DOS attack coming from the
->> VMs, bus lock VM exit is introduced in KVM and it can report the bus
->> locks detected in guest. If enabled in KVM, it would exit to the
->> userspace to let the user enforce throttling policies once bus locks
->> acquired in VMs.
->>
->> The availability of bus lock VM exit can be detected through the
->> KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
->> policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
->> bitmap is the only supported strategy at present. It indicates that KVM
->> will exit to userspace to handle the bus locks.
->>
->> This patch adds a ratelimit on the bus locks acquired in guest as a
->> mitigation policy.
->>
->> Introduce a new field "bus_lock_ratelimit" to record the limited speed
->> of bus locks in the target VM. The user can specify it through the
->> "bus-lock-ratelimit" as a machine property. In current implementation,
->> the default value of the speed is 0 per second, which means no
->> restrictions on the bus locks
->>
->> As for ratelimit on detected bus locks, simply set the ratelimit
->> interval to 1s and restrict the quota of bus lock occurence to the value
->> of "bus_lock_ratelimit". A potential alternative is to introduce the
->> time slice as a property which can help the user achieve more precise
->> control.
->>
->> The detail of Bus lock VM exit can be found in spec:
->> https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html 
->>
->>
->> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
->>
->> ---
->> Changes from v2:
->>    - do some rename work (bus-lock-ratelimit and BUS_LOCK_TIME_SLICE).
->>      (Eduardo)
->>    - change to register a class property at the x86_machine_class_init()
->>      and write the gettter/setter for the bus_lock_ratelimit property.
->>      (Eduardo)
->>    - add the lock to access the Ratelimit instance to avoid vcpu thread
->>      race condition. (Eduardo)
->>    - v2: 
->> https://lore.kernel.org/qemu-devel/20210420093736.17613-1-chenyi.qiang@intel.com/ 
->>
->>
->> Changes from RFC v1:
->>    - Remove the rip info output, as the rip can't reflect the bus lock
->>      position correctly. (Xiaoyao)
->>    - RFC v1: 
->> https://lore.kernel.org/qemu-devel/20210317084709.15605-1-chenyi.qiang@intel.com/ 
->>
->> ---
->>   hw/i386/x86.c         | 24 ++++++++++++++++++++++
->>   include/hw/i386/x86.h |  9 +++++++++
->>   target/i386/kvm/kvm.c | 46 +++++++++++++++++++++++++++++++++++++++++++
->>   3 files changed, 79 insertions(+)
->>
->> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->> index ed796fe6ba..d30cf27e29 100644
->> --- a/hw/i386/x86.c
->> +++ b/hw/i386/x86.c
->> @@ -1246,6 +1246,23 @@ static void x86_machine_set_oem_table_id(Object 
->> *obj, const char *value,
->>       strncpy(x86ms->oem_table_id, value, 8);
->>   }
->> +static void x86_machine_get_bus_lock_ratelimit(Object *obj, Visitor *v,
->> +                                const char *name, void *opaque, Error 
->> **errp)
->> +{
->> +    X86MachineState *x86ms = X86_MACHINE(obj);
->> +    uint64_t bus_lock_ratelimit = x86ms->bus_lock_ratelimit;
->> +
->> +    visit_type_uint64(v, name, &bus_lock_ratelimit, errp);
->> +}
->> +
->> +static void x86_machine_set_bus_lock_ratelimit(Object *obj, Visitor *v,
->> +                               const char *name, void *opaque, Error 
->> **errp)
->> +{
->> +    X86MachineState *x86ms = X86_MACHINE(obj);
->> +
->> +    visit_type_uint64(v, name, &x86ms->bus_lock_ratelimit, errp);
->> +}
->> +
->>   static void x86_machine_initfn(Object *obj)
->>   {
->>       X86MachineState *x86ms = X86_MACHINE(obj);
->> @@ -1256,6 +1273,7 @@ static void x86_machine_initfn(Object *obj)
->>       x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
->>       x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
->>       x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
->> +    x86ms->bus_lock_ratelimit = 0;
->>   }
->>   static void x86_machine_class_init(ObjectClass *oc, void *data)
->> @@ -1299,6 +1317,12 @@ static void x86_machine_class_init(ObjectClass 
->> *oc, void *data)
->>                                             "Override the default 
->> value of field OEM Table ID "
->>                                             "in ACPI table header."
->>                                             "The string may be up to 8 
->> bytes in size");
->> +
->> +    object_class_property_add(oc, X86_MACHINE_BUS_LOCK_RATELIMIT, 
->> "uint64_t",
->> +                                x86_machine_get_bus_lock_ratelimit,
->> +                                x86_machine_set_bus_lock_ratelimit, 
->> NULL, NULL);
->> +    object_class_property_set_description(oc, 
->> X86_MACHINE_BUS_LOCK_RATELIMIT,
->> +            "Set the ratelimit for the bus locks acquired in VMs");
->>   }
->>   static const TypeInfo x86_machine_info = {
->> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
->> index c09b648dff..49b130a649 100644
->> --- a/include/hw/i386/x86.h
->> +++ b/include/hw/i386/x86.h
->> @@ -74,12 +74,21 @@ struct X86MachineState {
->>        * will be translated to MSI messages in the address space.
->>        */
->>       AddressSpace *ioapic_as;
->> +
->> +    /*
->> +     * Ratelimit enforced on detected bus locks in guest.
->> +     * The default value of the bus_lock_ratelimit is 0 per second,
->> +     * which means no limitation on the guest's bus locks.
->> +     */
->> +    uint64_t bus_lock_ratelimit;
->> +    RateLimit bus_lock_ratelimit_ctrl;
->>   };
->>   #define X86_MACHINE_SMM              "smm"
->>   #define X86_MACHINE_ACPI             "acpi"
->>   #define X86_MACHINE_OEM_ID           "x-oem-id"
->>   #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
->> +#define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
->>   #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
->>   OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
->> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->> index 7fe9f52710..19b6c4a7e8 100644
->> --- a/target/i386/kvm/kvm.c
->> +++ b/target/i386/kvm/kvm.c
->> @@ -130,6 +130,9 @@ static bool has_msr_mcg_ext_ctl;
->>   static struct kvm_cpuid2 *cpuid_cache;
->>   static struct kvm_msr_list *kvm_feature_msrs;
->> +#define BUS_LOCK_SLICE_TIME 1000000000ULL /* ns */
->> +static QemuMutex bus_lock_ratelimit_lock;
->> +
->>   int kvm_has_pit_state2(void)
->>   {
->>       return has_pit_state2;
->> @@ -2267,6 +2270,28 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>           }
->>       }
->> +    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
->> +        X86MachineState *x86ms = X86_MACHINE(ms);
->> +
->> +        if (x86ms->bus_lock_ratelimit > 0) {
->> +            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
->> +            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
->> +                error_report("kvm: bus lock detection unsupported");
->> +                return -ENOTSUP;
->> +            }
->> +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
->> +                                    KVM_BUS_LOCK_DETECTION_EXIT);
->> +            if (ret < 0) {
->> +                error_report("kvm: Failed to enable bus lock 
->> detection cap: %s",
->> +                             strerror(-ret));
->> +                return ret;
->> +            }
->> +            qemu_mutex_init(&bus_lock_ratelimit_lock);
->> +            ratelimit_set_speed(&x86ms->bus_lock_ratelimit_ctrl, 
->> x86ms->bus_lock_ratelimit,
->> +                                BUS_LOCK_SLICE_TIME);
->> +        }
->> +    }
->> +
->>       return 0;
->>   }
->> @@ -4221,6 +4246,20 @@ void kvm_arch_pre_run(CPUState *cpu, struct 
->> kvm_run *run)
->>       }
->>   }
->> +static void kvm_rate_limit_on_bus_lock(void)
->> +{
->> +    MachineState *ms = MACHINE(qdev_get_machine());
->> +    X86MachineState *x86ms = X86_MACHINE(ms);
->> +
->> +    qemu_mutex_lock(&bus_lock_ratelimit_lock);
->> +    uint64_t delay_ns = 
->> ratelimit_calculate_delay(&x86ms->bus_lock_ratelimit_ctrl, 1);
->> +    qemu_mutex_unlock(&bus_lock_ratelimit_lock);
->> +
->> +    if (delay_ns) {
->> +        g_usleep(delay_ns / SCALE_US);
->> +    }
->> +}
->> +
->>   MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->>   {
->>       X86CPU *x86_cpu = X86_CPU(cpu);
->> @@ -4236,6 +4275,9 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, 
->> struct kvm_run *run)
->>       } else {
->>           env->eflags &= ~IF_MASK;
->>       }
->> +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
->> +        kvm_rate_limit_on_bus_lock();
->> +    }
->>       /* We need to protect the apic state against concurrent accesses 
->> from
->>        * different threads in case the userspace irqchip is used. */
->> @@ -4594,6 +4636,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct 
->> kvm_run *run)
->>           ioapic_eoi_broadcast(run->eoi.vector);
->>           ret = 0;
->>           break;
->> +    case KVM_EXIT_X86_BUS_LOCK:
->> +        /* already handled in kvm_arch_post_run */
->> +        ret = 0;
->> +        break;
->>       default:
->>           fprintf(stderr, "KVM: unknown exit reason %d\n", 
->> run->exit_reason);
->>           ret = -1;
->>
+** Changed in: qemu
+       Status: Incomplete =3D> Invalid
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915531
+
+Title:
+  qemu-user child process hangs when forking due to glib allocation
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  I and others have recently been using qemu-user for RISCV64 extensively. =
+We have had many hangs. We have found that hangs happen in process with mul=
+tiple threads and forking. For example
+  `cargo` (a tool for the Rust compiler).
+
+  It does not matter if there are a lot of calls to fork. What seems to
+  matter most is that there are many threads running. So this happens
+  more often on a CPU with a massive number of cores, and if nothing
+  else is really running. The hang happens in the child process of the
+  fork.
+
+  To reproduce the problem, I have attached an example of C++ program to
+  run through qemu-user.
+
+  Here are the stacks of the child processes that hanged. This is for
+  qemu c973f06521b07af0f82893b75a1d55562fffb4b5 with glib 2.66.4
+
+  -------
+  Thread 1:
+  #0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+  #1  0x00007f54e190c77c in g_mutex_lock_slowpath (mutex=3Dmutex@entry=3D0x=
+7f54e1dc7600 <allocator+96>) at ../glib/gthread-posix.c:1462
+  #2  0x00007f54e190d222 in g_mutex_lock (mutex=3Dmutex@entry=3D0x7f54e1dc7=
+600 <allocator+96>) at ../glib/gthread-posix.c:1486
+  #3  0x00007f54e18e39f2 in magazine_cache_pop_magazine (countp=3D0x7f54280=
+e6638, ix=3D2) at ../glib/gslice.c:769
+  #4  thread_memory_magazine1_reload (ix=3D2, tmem=3D0x7f54280e6600) at ../=
+glib/gslice.c:845
+  #5  g_slice_alloc (mem_size=3Dmem_size@entry=3D40) at ../glib/gslice.c:10=
+58
+  #6  0x00007f54e18f06fa in g_tree_node_new (value=3D0x7f54d4066540 <code_g=
+en_buffer+419091>, key=3D0x7f54d4066560 <code_gen_buffer+419123>) at ../gli=
+b/gtree.c:517
+  #7  g_tree_insert_internal (tree=3D0x555556aed800, key=3D0x7f54d4066560 <=
+code_gen_buffer+419123>, value=3D0x7f54d4066540 <code_gen_buffer+419091>, r=
+eplace=3D0) at ../glib/gtree.c:517
+  #8  0x00007f54e186b755 in tcg_tb_insert (tb=3D0x7f54d4066540 <code_gen_bu=
+ffer+419091>) at ../tcg/tcg.c:534
+  #9  0x00007f54e1820545 in tb_gen_code (cpu=3D0x7f54980b4b60, pc=3D2749064=
+07438, cs_base=3D0, flags=3D24832, cflags=3D-16252928) at ../accel/tcg/tran=
+slate-all.c:2118
+  #10 0x00007f54e18034a5 in tb_find (cpu=3D0x7f54980b4b60, last_tb=3D0x7f54=
+d4066440 <code_gen_buffer+418835>, tb_exit=3D0, cf_mask=3D524288) at ../acc=
+el/tcg/cpu-exec.c:462
+  #11 0x00007f54e1803bd9 in cpu_exec (cpu=3D0x7f54980b4b60) at ../accel/tcg=
+/cpu-exec.c:818
+  #12 0x00007f54e1735a4c in cpu_loop (env=3D0x7f54980bce40) at ../linux-use=
+r/riscv/cpu_loop.c:37
+  #13 0x00007f54e1844b22 in clone_func (arg=3D0x7f5402f3b080) at ../linux-u=
+ser/syscall.c:6422
+  #14 0x00007f54e191950a in start_thread (arg=3D<optimized out>) at pthread=
+_create.c:477
+  #15 0x00007f54e19a52a3 in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  Thread 2:
+  #1  0x00007f54e18a8d6e in qemu_futex_wait (f=3D0x7f54e1dc7038 <rcu_call_r=
+eady_event>, val=3D4294967295) at /var/home/valentin/repos/qemu/include/qem=
+u/futex.h:29
+  #2  0x00007f54e18a8f32 in qemu_event_wait (ev=3D0x7f54e1dc7038 <rcu_call_=
+ready_event>) at ../util/qemu-thread-posix.c:460
+  #3  0x00007f54e18c0196 in call_rcu_thread (opaque=3D0x0) at ../util/rcu.c=
+:258
+  #4  0x00007f54e18a90eb in qemu_thread_start (args=3D0x7f5428244930) at ..=
+/util/qemu-thread-posix.c:521
+  #5  0x00007f54e191950a in start_thread (arg=3D<optimized out>) at pthread=
+_create.c:477
+  #6  0x00007f54e19a52a3 in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+  -------
+
+  Thread 1 seems to be the really hanged process.
+
+  The problem is that glib is used in many places. Allocations are done
+  through g_slice. g_slice has a global state that is not fork safe.
+
+  So even though the cpu thread is set to exclusive before forking, it
+  is not enough. Because there are other uses of glib data structures
+  that are not part of the cpu loop (I think). So it seems not to be
+  synchronized by `start_exclusive`, `end_exclusive`.
+
+  So if one of the use of glib data structure is used during the fork,
+  an allocation might lock a mutex in g_slice.
+
+  When the cpu loop resumes in forked process, then the use of any glib
+  data structure might just hang on a locked mutex in g_slice.
+
+  So as a work-around we have starting using is setting environment
+  `G_SLICE=3Dalways-malloc`. This resolves the hangs.
+
+  I have opened an issue upstream:
+  https://gitlab.gnome.org/GNOME/glib/-/issues/2326
+
+  As fork documentation says, the child should be async-signal-safe.
+  However, glibc's malloc is safe in fork child even though it is not
+  async-signal-safe. So it is not that obvious where the responsability
+  is. Should glib handle this case like malloc does? Or should qemu not
+  use glib in the fork child?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915531/+subscriptions
 
