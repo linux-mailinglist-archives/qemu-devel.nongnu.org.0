@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38413804F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 10:17:54 +0200 (CEST)
-Received: from localhost ([::1]:45712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8108F3804F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 10:18:00 +0200 (CEST)
+Received: from localhost ([::1]:46174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhT18-0006Xc-0a
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 04:17:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57832)
+	id 1lhT1D-0006rN-IP
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 04:17:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lhSzm-0004d4-BQ
- for qemu-devel@nongnu.org; Fri, 14 May 2021 04:16:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39133)
+ id 1lhSzq-0004n3-O1
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 04:16:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lhSzj-00030c-IR
- for qemu-devel@nongnu.org; Fri, 14 May 2021 04:16:30 -0400
+ id 1lhSzo-00037P-Qy
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 04:16:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620980186;
+ s=mimecast20190719; t=1620980192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zr3Iiaf+0OveUmQLuc86NWVWvL7dPfwzBazdCqAqgPU=;
- b=b6o22bh3yWzFmFP2dFdxNqerMMNYlmCetcTfgg5ytZHQduGdAm+12hmzcpsKaF1OVAsdmB
- srpMvbMRKo1GeyOtFog+dx5m/wdGEcs+eIgosElCjQHmVrLd88/bmE0++eWLXKxsSP1cqM
- /mthXWpOAlM4oTP3yoX9uea2pUCHS3o=
+ bh=WPZSc6rrcoH7xWpxolUqYwV3gz939slePnRLHuNH5cI=;
+ b=KywbZs0gOH1IgjgDx+zVhWHqLDQQN5F9q2vAIDQ3EAQ41E1r3pvuzqJstxvM30qzwatQ+F
+ AGphXVpmxwJtdGPM8ihyIOIxAeMl+GPOSvfQTnQAkgwYUIEv0dRcEYK4/ly0X4Y8Z/6fJs
+ 4b2uAIZw+6lyTmXcLaBGsS4u9yrIusQ=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-20f3pydAOGWF7HOI3y64aw-1; Fri, 14 May 2021 04:16:25 -0400
-X-MC-Unique: 20f3pydAOGWF7HOI3y64aw-1
+ us-mta-552-Ns_zamAAO-in37mvmvLVbg-1; Fri, 14 May 2021 04:16:30 -0400
+X-MC-Unique: Ns_zamAAO-in37mvmvLVbg-1
 Received: by mail-ed1-f69.google.com with SMTP id
- q18-20020a50cc920000b029038cf491864cso656517edi.14
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 01:16:25 -0700 (PDT)
+ g17-20020aa7dd910000b029038843570b67so15989883edv.9
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 01:16:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zr3Iiaf+0OveUmQLuc86NWVWvL7dPfwzBazdCqAqgPU=;
- b=kTdJvEXU8HzSpB9Wpc+cBKHpPr7KfrB1/3KCnBIj6tu6gAQt4eo9fKvmX0p5q/qoZS
- vykSwod6fiZntKhjgivoN20Y4w6CCzANXYsb+coWjIr4PdnCzKvp4XSJh7COuzufkB0Z
- DhC/ecZ0kD80rqYlirOjUB5AEQzUbjPDvgf5ExHDIe3KX4U8ywmptXWaAq3V6Jzcz4w3
- +8oMEk66muOi2uCN+N2eNq+iq2d84p/wsHaNns9i5arAJBQHRx//KgbUFCsXsjKTGT9b
- /IC+U84BxiG2DgaZrVgIAKKHqK408LwzBJGum+vrLSFbmRUUhFYB3BCPW6J7KOFyPyWI
- +lsw==
-X-Gm-Message-State: AOAM531cjEFkVjPf0cLekNrIXojprfAn6CZh0P0hH2MUtuXiMDydhToz
- zn3lJdyhhKHi9+RKRE5RixznGFD378w13ZqIbL0qTtKI+BlQT0C4A/oVkuUtf6o1uGTuVQR83Wz
- 3x3nReiJv45Pvz/sd25o27wWNoFm97N5dPHUmVZfxrgZz9ES7O6Vr04CfRTwXTLvcj5c=
-X-Received: by 2002:a17:906:3ce9:: with SMTP id
- d9mr47327256ejh.172.1620980183914; 
- Fri, 14 May 2021 01:16:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJynB21oXshPcgblWlefNV8MeCzIHFwoBKkak1zg+rzHmcR7mZxBa9HaZWVF3HyyvHWItRttug==
-X-Received: by 2002:a17:906:3ce9:: with SMTP id
- d9mr47327210ejh.172.1620980183559; 
- Fri, 14 May 2021 01:16:23 -0700 (PDT)
+ bh=WPZSc6rrcoH7xWpxolUqYwV3gz939slePnRLHuNH5cI=;
+ b=EF8ZrISzNC43ZrnI801XYzr3Kv8L/Ka7ahVc7n6zJTDg2w0O2w4GqALhE6LzaZSm98
+ nanqlzvBfZEhCpxkIWj80AIUGmNK8Di9740hx0S9yRkaMm/QoPWlFeij9gdgDVrMe3gk
+ y2j9fajI6wVZIT4md/0PoUM3BU2dymsYU6U+ily++4RxMGA4YConZ0Y9ovko+c+JOPS5
+ h9JazUlfXZuWIKxXphz5TZp47JXYDL/biNeSF5JOEFqmSDFSuH28Fp5ZEDf6wvlHoTWZ
+ IuFT2nfvmh5LlOJhVvksl3X7hjq0kqxtuXoG2XU+24hdEUaEy9XMnAb4rOnDI8KPWH4m
+ oEKQ==
+X-Gm-Message-State: AOAM531vT2NUdDTQ3KjUwLIcgYxQtXGRPJrXGCeoeMYX6/bXlUsbYhGe
+ gyFHFJRBnLwQcKTd7HAkYwgPoMtZaTKl33aBAdynvEzqQwK+E8pmd0w8Ufb2GcRlL+zCoBDJbAB
+ k323ZwLvyGq1yalllQqqokK/XBdX9zFaaBVh5HjGIqVwn+ini1B+u6UEd9M+eqcBeI5U=
+X-Received: by 2002:aa7:d543:: with SMTP id u3mr55442359edr.26.1620980189021; 
+ Fri, 14 May 2021 01:16:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzyYIOFIQqU8+UOlUbH4V1/BHwBK5yunLtt3mUfwN0ignIW/eQg829yFk5jgH/U773vmhZKFw==
+X-Received: by 2002:aa7:d543:: with SMTP id u3mr55442332edr.26.1620980188829; 
+ Fri, 14 May 2021 01:16:28 -0700 (PDT)
 Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
  by smtp.gmail.com with ESMTPSA id
- ne17sm3100540ejc.56.2021.05.14.01.16.22
+ u11sm4044914edr.13.2021.05.14.01.16.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 May 2021 01:16:23 -0700 (PDT)
-Subject: Re: [PATCH v3 01/15] python: qemu: add timer parameter for qmp.accept
- socket
+ Fri, 14 May 2021 01:16:28 -0700 (PDT)
+Subject: Re: [PATCH v3 10/15] qemu_iotests: extent QMP socket timeout when
+ using valgrind
 To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
 References: <20210414170352.29927-1-eesposit@redhat.com>
- <20210414170352.29927-2-eesposit@redhat.com>
- <3a6bacd3-1d40-2fc5-9268-5f2d7fae4cf1@redhat.com>
+ <20210414170352.29927-11-eesposit@redhat.com>
+ <a7353583-27d2-762f-34b3-a4bda861057b@redhat.com>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <1039ba42-e830-36d7-5729-957cee73a008@redhat.com>
-Date: Fri, 14 May 2021 10:16:22 +0200
+Message-ID: <f265d653-e9a3-fe26-ab9a-2a8554b5a8fa@redhat.com>
+Date: Fri, 14 May 2021 10:16:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <3a6bacd3-1d40-2fc5-9268-5f2d7fae4cf1@redhat.com>
+In-Reply-To: <a7353583-27d2-762f-34b3-a4bda861057b@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -92,7 +90,7 @@ X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,50 +111,119 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 13/05/2021 19:54, John Snow wrote:
+On 13/05/2021 20:47, John Snow wrote:
 > On 4/14/21 1:03 PM, Emanuele Giuseppe Esposito wrote:
->> Add a new _qmp_timer field to the QEMUMachine class.
->> The default timer is 15 sec, as per the default in the
->> qmp accept() function.
-> 
-> Fine enough for now.
-> 
-> What's the exact need for this change, exactly? Is it just to prevent 
-> any unbounded blocking waits? I assume this came up in development or 
-> you'd not have added it.
-
-The default was already 15 sec, but since we now want to make the wait 
-unbounded if we use gdbserver or valgrind and we do it by always passing 
-the _qmp_timer to the .accept function, we need to set a default value.
-Yes, it came up while testing with gdb.
-
-> 
-> Reviewed-by: John Snow <jsnow@redhat.com>
-> 
+>> As with gdbserver, valgrind delays the test execution, so
+>> the default QMP socket timeout timeout too soon.
 >>
 >> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 >> ---
->>   python/qemu/machine.py | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>   python/qemu/machine.py        | 2 +-
+>>   tests/qemu-iotests/iotests.py | 4 ++--
+>>   2 files changed, 3 insertions(+), 3 deletions(-)
 >>
 >> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
->> index 6e44bda337..12752142c9 100644
+>> index d6142271c2..dce96e1858 100644
 >> --- a/python/qemu/machine.py
 >> +++ b/python/qemu/machine.py
->> @@ -110,6 +110,7 @@ def __init__(self,
->>           self._binary = binary
->>           self._args = list(args)
->>           self._wrapper = wrapper
->> +        self._qmp_timer = 15.0
->>           self._name = name or "qemu-%d" % os.getpid()
->>           self._test_dir = test_dir
->> @@ -323,7 +324,7 @@ def _pre_launch(self) -> None:
->>       def _post_launch(self) -> None:
->>           if self._qmp_connection:
->> -            self._qmp.accept()
->> +            self._qmp.accept(self._qmp_timer)
->>       def _post_shutdown(self) -> None:
->>           """
+>> @@ -410,7 +410,7 @@ def _launch(self) -> None:
+>>                                          shell=False,
+>>                                          close_fds=False)
+>> -        if 'gdbserver' in self._wrapper:
+>> +        if 'gdbserver' in self._wrapper or 'valgrind' in self._wrapper:
+> 
+> This approaches me suggesting that we just change __init__ to accept a 
+> parameter that lets the caller decide what kind of timeout(s) they find 
+> acceptable. They know more about what they're trying to run than we do.
+> 
+> Certainly after launch occurs, the user is free to just grab the qmp 
+> object and tinker around with the timeouts, but that does not allow us 
+> to change the timeout(s) for accept itself.
+> 
+> D'oh.
+> 
+> (Spilled milk: It was probably a mistake to make the default launch 
+> behavior here have a timeout of 15 seconds. That logic likely belongs to 
+> the iotests implementation. The default here probably ought to indeed be 
+> "wait forever".)
+> 
+> In the here and now ... would it be acceptable to change the launch() 
+> method to add a timeout parameter? It's still a little awkward, because 
+> conceptually it's a timeout for just QMP and not for the actual duration 
+> of the entire launch process.
+> 
+> But, I guess, it's *closer* to the truth.
+> 
+> If you wanted to route it that way, I take back what I said about not 
+> wanting to pass around variables to event loop hooks.
+> 
+> If we defined the timeout as something that applies exclusively to the 
+> launching process, then it'd be appropriate to route that to the 
+> launch-related functions ... and subclasses would have to be adjusted to 
+> be made aware that they're expected to operate within those parameters, 
+> which is good.
+> 
+> Sorry for my waffling back and forth on this. Let me know what the 
+> actual requirements are if you figure out which timeouts you need / 
+> don't need and I'll give you some review priority.
+
+Uhm.. I am getting a little bit confused on what to do too :)
+
+So the current plan I have for _qmp_timer is:
+
+- As Max suggested, move it in __init__ and check there for the wrapper 
+contents. If we need to block forever (gdb, valgrind), we set it to 
+None. Otherwise to 15 seconds. I think setting it always to None is not 
+ideal, because if you are testing something that deadlocks (see my 
+attempts to remove/add locks in QEMU multiqueue) and the socket is set 
+to block forever, you don't know if the test is super slow or it just 
+deadlocked.
+
+Well, one can argue that in both cases this is not the expected 
+behavior, but I think having an upper bound on each QMP command 
+execution would be good.
+
+- pass _qmp_timer directly to self._qmp.accept() in _post launch, 
+leaving _launch() intact. I think this makes sense because as you also 
+mentioned, changing _post_launch() into taking a parameter requires 
+changing also all subclasses and pass values around.
+
+Any opinion on this is very welcome.
+
+Spoiler alert I haven't tested these changes yet, but I am positive that 
+there shouldn't be any problem. (Last famous words)
+
+Emanuele
+
+
+> 
+> If you attack this series again, can you please split out the python/* 
+> patches into its own little series and CC me?
+> 
+> --js
+> 
+>>               self._qmp_timer = None
+>>           self._post_launch()
+>> diff --git a/tests/qemu-iotests/iotests.py 
+>> b/tests/qemu-iotests/iotests.py
+>> index a2e8604674..94597433fa 100644
+>> --- a/tests/qemu-iotests/iotests.py
+>> +++ b/tests/qemu-iotests/iotests.py
+>> @@ -489,7 +489,7 @@ def log(msg: Msg,
+>>   class Timeout:
+>>       def __init__(self, seconds, errmsg="Timeout"):
+>> -        if qemu_gdb:
+>> +        if qemu_gdb or qemu_valgrind:
+>>               self.seconds = 3000
+>>           else:
+>>               self.seconds = seconds
+>> @@ -700,7 +700,7 @@ def qmp_to_opts(self, obj):
+>>           return ','.join(output_list)
+>>       def get_qmp_events(self, wait: bool = False) -> List[QMPMessage]:
+>> -        if qemu_gdb:
+>> +        if qemu_gdb or qemu_valgrind:
+>>               wait = 0.0
+>>           return super().get_qmp_events(wait=wait)
 >>
 > 
 
