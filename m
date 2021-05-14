@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB08F38066B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 11:42:36 +0200 (CEST)
-Received: from localhost ([::1]:53520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC623806FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 12:13:41 +0200 (CEST)
+Received: from localhost ([::1]:38296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhUL5-000195-Fg
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 05:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46194)
+	id 1lhUpA-0003DT-Dm
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 06:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1lhUK3-0000U6-Bl
- for qemu-devel@nongnu.org; Fri, 14 May 2021 05:41:31 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2607)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1lhUJy-0006WL-Kr
- for qemu-devel@nongnu.org; Fri, 14 May 2021 05:41:31 -0400
-Received: from dggems702-chm.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4FhNkg3wyjzBvS1;
- Fri, 14 May 2021 17:38:35 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- dggems702-chm.china.huawei.com (10.3.19.179) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 14 May 2021 17:41:17 +0800
-Received: from localhost (10.52.120.239) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2176.2; Fri, 14 May
- 2021 10:41:14 +0100
-Date: Fri, 14 May 2021 10:39:28 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: RFC: Memory region accesses where .valid.min_access_size <
- .impl.min_access_size
-Message-ID: <20210514103928.000045a1@Huawei.com>
-In-Reply-To: <9cfae992-da4a-4829-bf1c-ce1efb230504@www.fastmail.com>
-References: <20210513124737.00002b2d@Huawei.com>
- <CAFEAcA8a+A2u=sF6L-A1ZK7hSiAd2n24Xf0J6j5LeBFa-RTMFw@mail.gmail.com>
- <2d5fdb5f-36d3-c998-ee36-f9d66cea7120@redhat.com>
- <20210513140018.00004560@Huawei.com>
- <9cfae992-da4a-4829-bf1c-ce1efb230504@www.fastmail.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhUml-0001lE-F4
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 06:11:11 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58866)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhUmj-0008Tx-7A
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 06:11:11 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lhUmf-0006o0-Oo
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:11:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A70E12E8197
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 10:11:05 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.52.120.239]
-X-ClientProxiedBy: lhreml706-chm.china.huawei.com (10.201.108.55) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
- envelope-from=jonathan.cameron@huawei.com; helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Fri, 14 May 2021 10:05:37 -0000
+From: Thomas Huth <1898011@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user mmap tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ksserebr rth th-huth ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: Kostya Serebryany (ksserebr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <160153380394.6201.10648910301442382269.malonedeb@soybean.canonical.com>
+Message-Id: <162098673773.7369.15440471382179267432.malone@gac.canonical.com>
+Subject: [Bug 1898011] Re: mmap MAP_NORESERVE of 2^42 bytes consumes 16Gb of
+ actual RAM
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
+X-Launchpad-Hash: 5afe49368e8d0bbed17cadddbbad0b2238210ee5
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,88 +72,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter
- Maydell <peter.maydell@linaro.org>, Ben Widawsky <ben.widawsky@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- David Hildenbrand <david@redhat.com>, Chris
- Browy <cbrowy@avery-design.com>, Linuxarm <linuxarm@huawei.com>,
- Peter Xu <peterx@redhat.com>, Cameron Esfahani via <qemu-devel@nongnu.org>,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Reply-To: Bug 1898011 <1898011@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 May 2021 11:35:57 +0930
-"Andrew Jeffery" <andrew@aj.id.au> wrote:
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-> On Thu, 13 May 2021, at 22:30, Jonathan Cameron wrote:
-> > On Thu, 13 May 2021 14:36:27 +0200
-> > Philippe Mathieu-Daud=E9 <philmd@redhat.com> wrote:
-> >  =20
-> > > On 5/13/21 2:23 PM, Peter Maydell wrote: =20
-> > > > On Thu, 13 May 2021 at 12:49, Jonathan Cameron
-> > > > <Jonathan.Cameron@huawei.com> wrote:   =20
-> > > >> My initial suggestion was to fix this by adding the relatively
-> > > >> simple code needed in the driver to implement byte read / write,
-> > > >> but Ben pointed at the QEMU docs - docs/devel/memory.rst which
-> > > >> says
-> > > >> "
-> > > >> .impl.min_access_size, .impl.max_access_size define the access siz=
-es
-> > > >>    (in bytes) supported by the *implementation*; other access size=
-s will be
-> > > >>    emulated using the ones available. For example a 4-byte write w=
-ill be
-> > > >>    emulated using four 1-byte writes, if .impl.max_access_size =3D=
- 1.
-> > > >> "
-> > > >>
-> > > >> This isn't true when we have the situation where
-> > > >> .valid.min_access_size < .imp.min_access_size
-> > > >>
-> > > >> So change the docs or try to make this work?   =20
-> > >=20
-> > > See also this patch from Francisco:
-> > > https://www.mail-archive.com/qemu-devel@nongnu.org/msg636935.html
-> > >=20
-> > > And full unaligned access support from Andrew:
-> > > https://www.mail-archive.com/qemu-devel@nongnu.org/msg461247.html =20
->=20
-> Much better to use lore.kernel.org:
->=20
-> https://lore.kernel.org/qemu-devel/20170630030058.28943-1-andrew@aj.id.au/
->=20
-> because...
->=20
-> >=20
-> > Thanks - that's very similar to what I was carrying, but I think it
-> > only covers the read case.  That's backed up by the comment:
-> > /* XXX: Can't do this hack for writes */ =20
->=20
-> It becomes easier to find Paolo's suggestion to fix that here:
->=20
-> https://lore.kernel.org/qemu-devel/cd1aba90-176f-9ec6-3e2b-d1135156a96d@r=
-edhat.com/
->=20
-> Would love to see this resolved! Unfortunately I haven't had the=20
-> bandwidth to fix it all up for ... a long time now.
->=20
-
-There is a bigger issue with writes.  You have to do a RMW cycle
-because we only want to update part of a larger region.
-
-It would worry me that this might have unexpected side effects
-in some device implementations. It also looks a bit fiddly to do given
-we'll need to pass the read callbacks to the write functions.
-
-So the read path is straight forwards, but write less so.
-
-Jonathan
+ https://gitlab.com/qemu-project/qemu/-/issues/290
 
 
-> Andrew
+** Changed in: qemu
+       Status: Confirmed =3D> Expired
 
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #290
+   https://gitlab.com/qemu-project/qemu/-/issues/290
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1898011
+
+Title:
+  mmap MAP_NORESERVE of 2^42 bytes consumes 16Gb of actual RAM
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  Run this program:
+
+  #include <sys/mman.h>
+  #include <stdio.h>
+  int main() {
+          for (int i =3D 30; i <=3D 44; i++) {
+                  fprintf(stderr, "trying 2**%d\n", i);
+                  mmap((void*)0x600000000000,1ULL << i,
+                          PROT_NONE,
+                          MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED|MAP_NORESERVE=
+,-1,0);
+          }
+  }
+
+  (tried qemu-x86_64 and qemu-aarch64, 4.2.1 and trunk/5.1.50)
+
+  On each iteration qemu will consume 2x more physical RAM, =
+
+  e.g. when mapping 2^42 it will have RSS of 16Gb.
+
+  On normal linux it works w/o consuming much RAM, due to MAP_NORESERVE.
+
+  Also: qemu -strace prints 0 instead of the correct size starting from siz=
+e=3D2^32
+  and prints -2147483648 for size=3D2^31. =
+
+
+  mmap(0x0000600000000000,1073741824,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|MA=
+P_FIXED|MAP_NORESERVE,-1,0)
+  =3D 0x0000600000000000
+
+  mmap(0x0000600000000000,-2147483648,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|M=
+AP_FIXED|MAP_NORESERVE,-1,0)
+  =3D 0x0000600000000000
+
+  mmap(0x0000600000000000,0,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED|M=
+AP_NORESERVE,-1,0)
+  =3D 0x0000600000000000
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1898011/+subscriptions
 
