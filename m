@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B46C381065
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:22:33 +0200 (CEST)
-Received: from localhost ([::1]:33894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CD81381066
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:22:35 +0200 (CEST)
+Received: from localhost ([::1]:33988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhdOK-0001EM-74
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:22:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57712)
+	id 1lhdOL-0001IB-EY
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:22:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdMd-0007iT-Iq
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41034)
+ id 1lhdMf-0007ih-0d
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhdMb-0008VU-Jv
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:47 -0400
+ id 1lhdMb-0008VT-Ny
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:20:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhdMY-00008v-UD
+ id 1lhdMZ-000093-Az
  for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:20:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E16D42E8186
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:20:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 505702E8187
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:20:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 19:12:06 -0000
-From: Thomas Huth <1921082@bugs.launchpad.net>
+Date: Fri, 14 May 2021 19:13:00 -0000
+From: Thomas Huth <1921061@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth yaoaili
-X-Launchpad-Bug-Reporter: Yao Aili (yaoaili)
+X-Launchpad-Bug-Commenters: 6-u3untu-h th-huth
+X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161657493730.24559.14872462058003243751.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162101952633.20672.8453366597027570285.malone@soybean.canonical.com>
-Subject: [Bug 1921082] Re: VM crash when process broadcast MCE
+References: <161654808841.23607.13822796780403513821.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162101958041.7851.14854330616137328745.malone@gac.canonical.com>
+Subject: [Bug 1921061] Re: Corsair iCUE Install Fails, qemu VM Reboots
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: eb1c76df783f6183b1633deed0b3b958a72d79cb
+X-Launchpad-Hash: c3f46dba966423fa75af1d96291b805e2852ae69
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921082 <1921082@bugs.launchpad.net>
+Reply-To: Bug 1921061 <1921061@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -111,41 +111,25 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921082
+https://bugs.launchpad.net/bugs/1921061
 
 Title:
-  VM crash when process broadcast MCE
+  Corsair iCUE Install Fails, qemu VM Reboots
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  When i do memory SRAR test for VM, I meet the following issue:
+  Hi,
 
-  My VM has 16 vCPU, I will inject one UE error to memory which is accessed=
- by VM, Then host MCE is raised and SIGBUS is send to VM, and qemu take con=
-trol.
-  Qemu will check the broadcast attribute by following  cpu_x86_support_mca=
-_broadcast();  =
+  I had this working before, but in the latest version of QEMU (built
+  from master), when I try to install Corsair iCUE, and it gets to the
+  driver install point =3D> my Windows 10 VM just reboots! I would be
+  happy to capture logs, but ... what logs exist for an uncontrolled
+  reboot? Thinking they are lost in the reboot :-(.
 
-
-  Then Qemu may inject MCE to all vCPU, as vCPU is just one process for
-  HOST, we can't guarantee all the vCPUs will enter MCE hander in 1S
-  sync time, and the VM may panic.
-
-  This issue will be easily fixed by expand monarch_timeout
-  configuration, but the exact monarch_timeout can't be easily got, as
-  it will depand on the num of vCPUs and current system schedule status.
-
-  I am wondering why VM need broadcast attribute for MCE, When qeme
-  process MCE event form host, it will always be signaled for one vCPU?
-  If so, why does qemu need boradcast the MCE event to all vCPUs?
-
-  Can weu just deliver LMCE to one specifc vCPU and make this behavior
-  default?
-
-  If anything wrong, Please point out.
+  Thanks!
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921082/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1921061/+subscriptions
 
