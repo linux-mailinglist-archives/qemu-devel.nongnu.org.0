@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3199D380E9B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:07:33 +0200 (CEST)
-Received: from localhost ([::1]:56470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1E3380EE4
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:26:20 +0200 (CEST)
+Received: from localhost ([::1]:34208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhbHg-0002nH-8T
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57806)
+	id 1lhbZr-0001V6-Bv
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:26:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawd-0005cJ-LR
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43523)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawX-0005Kg-ER
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawX-0005rZ-94
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:47 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawO-0005ot-AQ
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621010738;
+ s=mimecast20190719; t=1621010731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j/Xmi534/nKfJZjl1RrDQuVc7rLp99kkdByqN6WNn88=;
- b=L91eJrqKJiLloEVsoD6yWms7UeY8ZQvmRcBW2/xsXb76jCvgpx8ghCtiqlY0ZveXJoK2dp
- 2OvgfsSnYWsxoqABBXRmxrWkxzkdrmN/+GlfxTVHhYv7GoZ98rQFG8aX66Pd4Z+EniaI+F
- rPC+FyJK80BQhVmBSIt9fjG2gfHdSP8=
+ bh=dVZqoJDpkaz7GU4F0Jeixtx8PFamkNuGOCgLTshO2ss=;
+ b=UcfKhxyffANZnEUUDKuTunwriy1McPf4TrgcxjF8DjN5mTSjJebsEbT8ExoibXxPQ4nPmv
+ amP6lhnsvDA+9qFDLia0q5iqxlZ3utXLZQnvCmlbDgPfEDhwfvRTw4SsEUF2QBPQ7TANZM
+ /XElOelNf8RvtgmlU9CF6LD/oQG5oX4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-ZrYkJMLCOwu7VAHoG5Hrjw-1; Fri, 14 May 2021 12:45:24 -0400
-X-MC-Unique: ZrYkJMLCOwu7VAHoG5Hrjw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-465-Z33NiD4hNCSmSEz0YVA8EA-1; Fri, 14 May 2021 12:45:28 -0400
+X-MC-Unique: Z33NiD4hNCSmSEz0YVA8EA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4F6A501E8;
- Fri, 14 May 2021 16:45:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 186BF501FC;
+ Fri, 14 May 2021 16:45:27 +0000 (UTC)
 Received: from localhost (ovpn-114-49.ams2.redhat.com [10.36.114.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 56CFC5C241;
- Fri, 14 May 2021 16:45:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 888BF36D5;
+ Fri, 14 May 2021 16:45:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 03/19] monitor: hmp_qemu_io: acquire aio contex, fix crash
-Date: Fri, 14 May 2021 18:44:58 +0200
-Message-Id: <20210514164514.1057680-4-mreitz@redhat.com>
+Subject: [PULL 05/19] qemu-iotests: do not buffer the test output
+Date: Fri, 14 May 2021 18:45:00 +0200
+Message-Id: <20210514164514.1057680-6-mreitz@redhat.com>
 In-Reply-To: <20210514164514.1057680-1-mreitz@redhat.com>
 References: <20210514164514.1057680-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -57,13 +57,14 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ PDS_OTHER_BAD_TLD=1.997, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,223 +82,254 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Max reported the following bug:
+Instead of buffering the test output into a StringIO, patch it on
+the fly by wrapping sys.stdout's write method.  This can be
+done unconditionally, even if using -d, which makes execute_unittest
+a bit simpler.
 
-$ ./qemu-img create -f raw src.img 1G
-$ ./qemu-img create -f raw dst.img 1G
-
-$ (echo '
-   {"execute":"qmp_capabilities"}
-   {"execute":"blockdev-mirror",
-    "arguments":{"job-id":"mirror",
-                 "device":"source",
-                 "target":"target",
-                 "sync":"full",
-                 "filter-node-name":"mirror-top"}}
-'; sleep 3; echo '
-   {"execute":"human-monitor-command",
-    "arguments":{"command-line":
-                 "qemu-io mirror-top \"write 0 1G\""}}') \
-| x86_64-softmmu/qemu-system-x86_64 \
-   -qmp stdio \
-   -blockdev file,node-name=source,filename=src.img \
-   -blockdev file,node-name=target,filename=dst.img \
-   -object iothread,id=iothr0 \
-   -device virtio-blk,drive=source,iothread=iothr0
-
-crashes:
-
-0  raise () at /usr/lib/libc.so.6
-1  abort () at /usr/lib/libc.so.6
-2  error_exit
-   (err=<optimized out>,
-   msg=msg@entry=0x55fbb1634790 <__func__.27> "qemu_mutex_unlock_impl")
-   at ../util/qemu-thread-posix.c:37
-3  qemu_mutex_unlock_impl
-   (mutex=mutex@entry=0x55fbb25ab6e0,
-   file=file@entry=0x55fbb1636957 "../util/async.c",
-   line=line@entry=650)
-   at ../util/qemu-thread-posix.c:109
-4  aio_context_release (ctx=ctx@entry=0x55fbb25ab680) at ../util/async.c:650
-5  bdrv_do_drained_begin
-   (bs=bs@entry=0x55fbb3a87000, recursive=recursive@entry=false,
-   parent=parent@entry=0x0,
-   ignore_bds_parents=ignore_bds_parents@entry=false,
-   poll=poll@entry=true) at ../block/io.c:441
-6  bdrv_do_drained_begin
-   (poll=true, ignore_bds_parents=false, parent=0x0, recursive=false,
-   bs=0x55fbb3a87000) at ../block/io.c:448
-7  blk_drain (blk=0x55fbb26c5a00) at ../block/block-backend.c:1718
-8  blk_unref (blk=0x55fbb26c5a00) at ../block/block-backend.c:498
-9  blk_unref (blk=0x55fbb26c5a00) at ../block/block-backend.c:491
-10 hmp_qemu_io (mon=0x7fffaf3fc7d0, qdict=<optimized out>)
-   at ../block/monitor/block-hmp-cmds.c:628
-
-man pthread_mutex_unlock
-...
-    EPERM  The  mutex type is PTHREAD_MUTEX_ERRORCHECK or
-    PTHREAD_MUTEX_RECURSIVE, or the mutex is a robust mutex, and the
-    current thread does not own the mutex.
-
-So, thread doesn't own the mutex. And we have iothread here.
-
-Next, note that AIO_WAIT_WHILE() documents that ctx must be acquired
-exactly once by caller. But where is it acquired in the call stack?
-Seems nowhere.
-
-qemuio_command do acquire aio context.. But we need context acquired
-around blk_unref() as well and actually around blk_insert_bs() too.
-
-Let's refactor qemuio_command so that it doesn't acquire aio context
-but callers do that instead. This way we can cleanly acquire aio
-context in hmp_qemu_io() around all three calls.
-
-Reported-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210423134233.51495-1-vsementsov@virtuozzo.com>
-[mreitz: Fixed comment]
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Tested-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-Id: <20210323181928.311862-2-pbonzini@redhat.com>
+Message-Id: <20210503110110.476887-2-pbonzini@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/monitor/block-hmp-cmds.c | 31 +++++++++++++++++++++----------
- qemu-io-cmds.c                 |  8 ++++----
- qemu-io.c                      | 17 +++++++++++++++--
- 3 files changed, 40 insertions(+), 16 deletions(-)
+ tests/qemu-iotests/240.out    |  8 ++--
+ tests/qemu-iotests/245.out    |  8 ++--
+ tests/qemu-iotests/295.out    |  6 +--
+ tests/qemu-iotests/296.out    |  8 ++--
+ tests/qemu-iotests/iotests.py | 70 ++++++++++++++++++++---------------
+ 5 files changed, 56 insertions(+), 44 deletions(-)
 
-diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-index ebf1033f31..3e6670c963 100644
---- a/block/monitor/block-hmp-cmds.c
-+++ b/block/monitor/block-hmp-cmds.c
-@@ -557,8 +557,10 @@ void hmp_eject(Monitor *mon, const QDict *qdict)
+diff --git a/tests/qemu-iotests/240.out b/tests/qemu-iotests/240.out
+index e0982831ae..89ed25e506 100644
+--- a/tests/qemu-iotests/240.out
++++ b/tests/qemu-iotests/240.out
+@@ -15,7 +15,7 @@
+ {"return": {}}
+ {"execute": "blockdev-del", "arguments": {"node-name": "hd0"}}
+ {"return": {}}
+-==Attach two SCSI disks using the same block device and the same iothread==
++.==Attach two SCSI disks using the same block device and the same iothread==
+ {"execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "hd0", "read-only": true, "read-zeroes": true}}
+ {"return": {}}
+ {"execute": "object-add", "arguments": {"id": "iothread0", "qom-type": "iothread"}}
+@@ -32,7 +32,7 @@
+ {"return": {}}
+ {"execute": "blockdev-del", "arguments": {"node-name": "hd0"}}
+ {"return": {}}
+-==Attach two SCSI disks using the same block device but different iothreads==
++.==Attach two SCSI disks using the same block device but different iothreads==
+ {"execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "hd0", "read-only": true, "read-zeroes": true}}
+ {"return": {}}
+ {"execute": "object-add", "arguments": {"id": "iothread0", "qom-type": "iothread"}}
+@@ -55,7 +55,7 @@
+ {"return": {}}
+ {"execute": "blockdev-del", "arguments": {"node-name": "hd0"}}
+ {"return": {}}
+-==Attach a SCSI disks using the same block device as a NBD server==
++.==Attach a SCSI disks using the same block device as a NBD server==
+ {"execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "hd0", "read-only": true, "read-zeroes": true}}
+ {"return": {}}
+ {"execute": "nbd-server-start", "arguments": {"addr": {"data": {"path": "SOCK_DIR/PID-nbd.sock"}, "type": "unix"}}}
+@@ -68,7 +68,7 @@
+ {"return": {}}
+ {"execute": "device_add", "arguments": {"drive": "hd0", "driver": "scsi-hd", "id": "scsi-hd0"}}
+ {"return": {}}
+-....
++.
+ ----------------------------------------------------------------------
+ Ran 4 tests
  
- void hmp_qemu_io(Monitor *mon, const QDict *qdict)
- {
--    BlockBackend *blk;
-+    BlockBackend *blk = NULL;
-+    BlockDriverState *bs = NULL;
-     BlockBackend *local_blk = NULL;
-+    AioContext *ctx = NULL;
-     bool qdev = qdict_get_try_bool(qdict, "qdev", false);
-     const char *device = qdict_get_str(qdict, "device");
-     const char *command = qdict_get_str(qdict, "command");
-@@ -573,20 +575,24 @@ void hmp_qemu_io(Monitor *mon, const QDict *qdict)
-     } else {
-         blk = blk_by_name(device);
-         if (!blk) {
--            BlockDriverState *bs = bdrv_lookup_bs(NULL, device, &err);
--            if (bs) {
--                blk = local_blk = blk_new(bdrv_get_aio_context(bs),
--                                          0, BLK_PERM_ALL);
--                ret = blk_insert_bs(blk, bs, &err);
--                if (ret < 0) {
--                    goto fail;
--                }
--            } else {
-+            bs = bdrv_lookup_bs(NULL, device, &err);
-+            if (!bs) {
-                 goto fail;
-             }
-         }
-     }
+diff --git a/tests/qemu-iotests/245.out b/tests/qemu-iotests/245.out
+index 4b33dcaf5c..99c12f4f98 100644
+--- a/tests/qemu-iotests/245.out
++++ b/tests/qemu-iotests/245.out
+@@ -1,16 +1,16 @@
+-{"execute": "job-finalize", "arguments": {"id": "commit0"}}
++..{"execute": "job-finalize", "arguments": {"id": "commit0"}}
+ {"return": {}}
+ {"data": {"id": "commit0", "type": "commit"}, "event": "BLOCK_JOB_PENDING", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ {"data": {"device": "commit0", "len": 3145728, "offset": 3145728, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+-{"execute": "job-finalize", "arguments": {"id": "stream0"}}
++...{"execute": "job-finalize", "arguments": {"id": "stream0"}}
+ {"return": {}}
+ {"data": {"id": "stream0", "type": "stream"}, "event": "BLOCK_JOB_PENDING", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ {"data": {"device": "stream0", "len": 3145728, "offset": 3145728, "speed": 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+-{"execute": "job-finalize", "arguments": {"id": "stream0"}}
++.{"execute": "job-finalize", "arguments": {"id": "stream0"}}
+ {"return": {}}
+ {"data": {"id": "stream0", "type": "stream"}, "event": "BLOCK_JOB_PENDING", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ {"data": {"device": "stream0", "len": 3145728, "offset": 3145728, "speed": 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+-.....................
++...............
+ ----------------------------------------------------------------------
+ Ran 21 tests
  
-+    ctx = blk ? blk_get_aio_context(blk) : bdrv_get_aio_context(bs);
-+    aio_context_acquire(ctx);
+diff --git a/tests/qemu-iotests/295.out b/tests/qemu-iotests/295.out
+index ad34b2ca2c..5ff91f116c 100644
+--- a/tests/qemu-iotests/295.out
++++ b/tests/qemu-iotests/295.out
+@@ -4,7 +4,7 @@
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job_erase_key"}}
+ {"return": {}}
+-{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
++.{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job_erase_key"}}
+ {"return": {}}
+@@ -13,7 +13,7 @@ Job failed: Invalid password, cannot unlock any keyslot
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
+ {"return": {}}
+-{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
++.{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
+ {"return": {}}
+@@ -33,7 +33,7 @@ Job failed: All the active keyslots match the (old) password that was given and
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job_erase_key"}}
+ {"return": {}}
+-...
++.
+ ----------------------------------------------------------------------
+ Ran 3 tests
+ 
+diff --git a/tests/qemu-iotests/296.out b/tests/qemu-iotests/296.out
+index cb2859a15c..6c69735604 100644
+--- a/tests/qemu-iotests/296.out
++++ b/tests/qemu-iotests/296.out
+@@ -13,7 +13,7 @@ Job failed: Failed to get shared "consistent read" lock
+ qemu-img: Failed to get shared "consistent read" lock
+ Is another process using the image [TEST_DIR/test.img]?
+ 
+-Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
++.Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
+ 
+ Job failed: Block node is read-only
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+@@ -26,15 +26,15 @@ Job failed: Failed to get shared "consistent read" lock
+ {"return": {}}
+ {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+ {"return": {}}
+-Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
++.Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
+ 
+ {"return": {}}
+ {"error": {"class": "GenericError", "desc": "Failed to get \"write\" lock"}}
+-Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
++.Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
+ 
+ {"return": {}}
+ {"return": {}}
+-....
++.
+ ----------------------------------------------------------------------
+ Ran 4 tests
+ 
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 5af0182895..55a017577f 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -20,7 +20,6 @@
+ import bz2
+ from collections import OrderedDict
+ import faulthandler
+-import io
+ import json
+ import logging
+ import os
+@@ -32,7 +31,7 @@
+ import sys
+ import time
+ from typing import (Any, Callable, Dict, Iterable,
+-                    List, Optional, Sequence, Tuple, TypeVar)
++                    List, Optional, Sequence, TextIO, Tuple, Type, TypeVar)
+ import unittest
+ 
+ from contextlib import contextmanager
+@@ -1271,37 +1270,50 @@ def func_wrapper(*args, **kwargs):
+             return func(*args, **kwargs)
+     return func_wrapper
+ 
++# We need to filter out the time taken from the output so that
++# qemu-iotest can reliably diff the results against master output,
++# and hide skipped tests from the reference output.
 +
-+    if (bs) {
-+        blk = local_blk = blk_new(bdrv_get_aio_context(bs), 0, BLK_PERM_ALL);
-+        ret = blk_insert_bs(blk, bs, &err);
-+        if (ret < 0) {
-+            goto fail;
-+        }
-+    }
++class ReproducibleTestResult(unittest.TextTestResult):
++    def addSkip(self, test, reason):
++        # Same as TextTestResult, but print dot instead of "s"
++        unittest.TestResult.addSkip(self, test, reason)
++        if self.showAll:
++            self.stream.writeln("skipped {0!r}".format(reason))
++        elif self.dots:
++            self.stream.write(".")
++            self.stream.flush()
 +
-     /*
-      * Notably absent: Proper permission management. This is sad, but it seems
-      * almost impossible to achieve without changing the semantics and thereby
-@@ -616,6 +622,11 @@ void hmp_qemu_io(Monitor *mon, const QDict *qdict)
- 
- fail:
-     blk_unref(local_blk);
++class ReproducibleStreamWrapper:
++    def __init__(self, stream: TextIO):
++        self.stream = stream
 +
-+    if (ctx) {
-+        aio_context_release(ctx);
-+    }
++    def __getattr__(self, attr):
++        if attr in ('stream', '__getstate__'):
++            raise AttributeError(attr)
++        return getattr(self.stream, attr)
 +
-     hmp_handle_error(mon, err);
- }
- 
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 97611969cb..998b67186d 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -2457,9 +2457,12 @@ static const cmdinfo_t help_cmd = {
-     .oneline    = "help for one or all commands",
- };
- 
-+/*
-+ * Called with aio context of blk acquired. Or with qemu_get_aio_context()
-+ * context acquired if blk is NULL.
-+ */
- int qemuio_command(BlockBackend *blk, const char *cmd)
- {
--    AioContext *ctx;
-     char *input;
-     const cmdinfo_t *ct;
-     char **v;
-@@ -2471,10 +2474,7 @@ int qemuio_command(BlockBackend *blk, const char *cmd)
-     if (c) {
-         ct = find_command(v[0]);
-         if (ct) {
--            ctx = blk ? blk_get_aio_context(blk) : qemu_get_aio_context();
--            aio_context_acquire(ctx);
-             ret = command(blk, ct, c, v);
--            aio_context_release(ctx);
-         } else {
-             fprintf(stderr, "command \"%s\" not found\n", v[0]);
-             ret = -EINVAL;
-diff --git a/qemu-io.c b/qemu-io.c
-index bf902302e9..57f07501df 100644
---- a/qemu-io.c
-+++ b/qemu-io.c
-@@ -411,6 +411,19 @@ static void prep_fetchline(void *opaque)
-     *fetchable= 1;
- }
- 
-+static int do_qemuio_command(const char *cmd)
-+{
-+    int ret;
-+    AioContext *ctx =
-+        qemuio_blk ? blk_get_aio_context(qemuio_blk) : qemu_get_aio_context();
++    def write(self, arg=None):
++        arg = re.sub(r'Ran (\d+) tests? in [\d.]+s', r'Ran \1 tests', arg)
++        arg = re.sub(r' \(skipped=\d+\)', r'', arg)
++        self.stream.write(arg)
 +
-+    aio_context_acquire(ctx);
-+    ret = qemuio_command(qemuio_blk, cmd);
-+    aio_context_release(ctx);
++class ReproducibleTestRunner(unittest.TextTestRunner):
++    def __init__(self, stream: Optional[TextIO] = None,
++             resultclass: Type[unittest.TestResult] = ReproducibleTestResult,
++             **kwargs: Any) -> None:
++        rstream = ReproducibleStreamWrapper(stream or sys.stdout)
++        super().__init__(stream=rstream,           # type: ignore
++                         descriptions=True,
++                         resultclass=resultclass,
++                         **kwargs)
 +
-+    return ret;
-+}
-+
- static int command_loop(void)
- {
-     int i, fetchable = 0, prompted = 0;
-@@ -418,7 +431,7 @@ static int command_loop(void)
-     char *input;
+ def execute_unittest(debug=False):
+     """Executes unittests within the calling module."""
  
-     for (i = 0; !quit_qemu_io && i < ncmdline; i++) {
--        ret = qemuio_command(qemuio_blk, cmdline[i]);
-+        ret = do_qemuio_command(cmdline[i]);
-         if (ret < 0) {
-             last_error = ret;
-         }
-@@ -446,7 +459,7 @@ static int command_loop(void)
-         if (input == NULL) {
-             break;
-         }
--        ret = qemuio_command(qemuio_blk, input);
-+        ret = do_qemuio_command(input);
-         g_free(input);
+     verbosity = 2 if debug else 1
+-
+-    if debug:
+-        output = sys.stdout
+-    else:
+-        # We need to filter out the time taken from the output so that
+-        # qemu-iotest can reliably diff the results against master output.
+-        output = io.StringIO()
+-
+-    runner = unittest.TextTestRunner(stream=output, descriptions=True,
+-                                     verbosity=verbosity)
+-    try:
+-        # unittest.main() will use sys.exit(); so expect a SystemExit
+-        # exception
+-        unittest.main(testRunner=runner)
+-    finally:
+-        # We need to filter out the time taken from the output so that
+-        # qemu-iotest can reliably diff the results against master output.
+-        if not debug:
+-            out = output.getvalue()
+-            out = re.sub(r'Ran (\d+) tests? in [\d.]+s', r'Ran \1 tests', out)
+-
+-            # Hide skipped tests from the reference output
+-            out = re.sub(r'OK \(skipped=\d+\)', 'OK', out)
+-            out_first_line, out_rest = out.split('\n', 1)
+-            out = out_first_line.replace('s', '.') + '\n' + out_rest
+-
+-            sys.stderr.write(out)
++    runner = ReproducibleTestRunner(verbosity=verbosity)
++    unittest.main(testRunner=runner)
  
-         if (ret < 0) {
+ def execute_setup_common(supported_fmts: Sequence[str] = (),
+                          supported_platforms: Sequence[str] = (),
 -- 
 2.31.1
 
