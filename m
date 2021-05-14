@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26177380979
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:26:33 +0200 (CEST)
-Received: from localhost ([::1]:58692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E787238096C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:23:53 +0200 (CEST)
+Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhWtk-0006QK-6g
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:26:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56544)
+	id 1lhWrB-00016c-13
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjj-00015G-1p
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:16:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47601)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjq-00015v-KS
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:16:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWje-0005BO-UA
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:16:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjg-0005BW-Pz
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:16:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620994564;
+ s=mimecast20190719; t=1620994566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=14tSB4tTUTQTk3xCoqSM5N90C8CnpaBHwi7JKiwNwTo=;
- b=RT/HhJRY0hUT7Qy/XIsJwyL7NNYOsgAMBXB8YEs+SFHuaMZ1/Ou44CVAyRO/cQUNBAno85
- +4cXJd72MJzp/h9SrZljKpxHK5XO+9Ou4obItUFBlbR073PpvlwiSfK/mGxSu7TfloxwfM
- /7CdKJGGiaiCIe+Jgy9Hcr2hM5xDIUY=
+ bh=HF3SxTmSEKrI8X6OxnaoRsEVcIUnYnkVflLN5wIotgQ=;
+ b=LceyMeogUtSTB+ZvtgvmRCqFe1y538b3JJD0Jr+qX/vtblIyjyxD9XB6RJPeyLNeIqea+x
+ F3Ls1v5WOXWsHIuxwqLTfqnMxrFHRD4umsh49Y7VNeIwCpWuOkkAhMQShglmATEsyncDls
+ FsU8A37pJT7ccRazYOzVyj1RbkS05f0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-mJ0Uph67PiCFJpAJcAE9uw-1; Fri, 14 May 2021 08:16:02 -0400
-X-MC-Unique: mJ0Uph67PiCFJpAJcAE9uw-1
+ us-mta-410-AspEb9qZM6e8aVagubOPdg-1; Fri, 14 May 2021 08:16:03 -0400
+X-MC-Unique: AspEb9qZM6e8aVagubOPdg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 599C4107ACC7;
- Fri, 14 May 2021 12:16:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C1369F92B;
+ Fri, 14 May 2021 12:16:03 +0000 (UTC)
 Received: from thuth.com (ovpn-112-191.ams2.redhat.com [10.36.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 176EF60CCF;
- Fri, 14 May 2021 12:15:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B49616060F;
+ Fri, 14 May 2021 12:16:01 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 10/20] tests/qtest/npcm7xx_pwm-test.c: Avoid g_assert_true()
- for non-test assertions
-Date: Fri, 14 May 2021 14:15:08 +0200
-Message-Id: <20210514121518.832729-11-thuth@redhat.com>
+Subject: [PULL 11/20] tests/migration-test: Fix "true" vs true
+Date: Fri, 14 May 2021 14:15:09 +0200
+Message-Id: <20210514121518.832729-12-thuth@redhat.com>
 In-Reply-To: <20210514121518.832729-1-thuth@redhat.com>
 References: <20210514121518.832729-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -55,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -78,65 +77,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hao Wu <wuhaotsh@google.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Havard Skinnemoen <hskinnemoen@google.com>
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-In the glib API, the distinction between g_assert() and
-g_assert_true() is that the former is for "bug, terminate the
-application" and the latter is for "test check, on failure either
-terminate or just mark the testcase as failed".  For QEMU, g_assert()
-is always fatal, so code can assume that if the assertion fails
-execution does not proceed, but this is not true of g_assert_true().
+Accidental use of "true" as a boolean; spotted by coverity
+and Peter.
 
-In npcm7xx_pwm-test, the pwm_index() and pwm_module_index() functions
-include some assertions that are just guarding against possible bugs
-in the test code that might lead us to out-of-bounds array accesses.
-These should use g_assert() because they aren't part of what the test
-is testing and the code does not correctly handle the case where the
-condition was false.
-
-This fixes some Coverity issues where Coverity knows that
-g_assert_true() can continue when the condition is false and
-complains about the possible array overrun at various callsites.
-
-Fixes: Coverity CID 1442340, 1442341, 1442343, 1442344, 1442345, 1442346
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: b99784ef6c3
+Fixes: d795f47466e
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Reported-by: Coverity (CID 1432373, 1432292, 1432288)
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
-Message-Id: <20210505135516.21097-1-peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210504100545.112213-1-dgilbert@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/npcm7xx_pwm-test.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/migration-test.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/tests/qtest/npcm7xx_pwm-test.c b/tests/qtest/npcm7xx_pwm-test.c
-index bd15a1c294..a54fd70d27 100644
---- a/tests/qtest/npcm7xx_pwm-test.c
-+++ b/tests/qtest/npcm7xx_pwm-test.c
-@@ -201,7 +201,7 @@ static int pwm_module_index(const PWMModule *module)
- {
-     ptrdiff_t diff = module - pwm_module_list;
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 3a711bb492..4d989f191b 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -898,8 +898,8 @@ static void test_xbzrle(const char *uri)
  
--    g_assert_true(diff >= 0 && diff < ARRAY_SIZE(pwm_module_list));
-+    g_assert(diff >= 0 && diff < ARRAY_SIZE(pwm_module_list));
+     migrate_set_parameter_int(from, "xbzrle-cache-size", 33554432);
  
-     return diff;
- }
-@@ -211,7 +211,7 @@ static int pwm_index(const PWM *pwm)
- {
-     ptrdiff_t diff = pwm - pwm_list;
+-    migrate_set_capability(from, "xbzrle", "true");
+-    migrate_set_capability(to, "xbzrle", "true");
++    migrate_set_capability(from, "xbzrle", true);
++    migrate_set_capability(to, "xbzrle", true);
+     /* Wait for the first serial output from the source */
+     wait_for_serial("src_serial");
  
--    g_assert_true(diff >= 0 && diff < ARRAY_SIZE(pwm_list));
-+    g_assert(diff >= 0 && diff < ARRAY_SIZE(pwm_list));
+@@ -1246,8 +1246,8 @@ static void test_multifd_tcp(const char *method)
+     migrate_set_parameter_str(from, "multifd-compression", method);
+     migrate_set_parameter_str(to, "multifd-compression", method);
  
-     return diff;
- }
+-    migrate_set_capability(from, "multifd", "true");
+-    migrate_set_capability(to, "multifd", "true");
++    migrate_set_capability(from, "multifd", true);
++    migrate_set_capability(to, "multifd", true);
+ 
+     /* Start incoming migration from the 1st socket */
+     rsp = wait_command(to, "{ 'execute': 'migrate-incoming',"
+@@ -1330,8 +1330,8 @@ static void test_multifd_tcp_cancel(void)
+     migrate_set_parameter_int(from, "multifd-channels", 16);
+     migrate_set_parameter_int(to, "multifd-channels", 16);
+ 
+-    migrate_set_capability(from, "multifd", "true");
+-    migrate_set_capability(to, "multifd", "true");
++    migrate_set_capability(from, "multifd", true);
++    migrate_set_capability(to, "multifd", true);
+ 
+     /* Start incoming migration from the 1st socket */
+     rsp = wait_command(to, "{ 'execute': 'migrate-incoming',"
+@@ -1358,7 +1358,7 @@ static void test_multifd_tcp_cancel(void)
+ 
+     migrate_set_parameter_int(to2, "multifd-channels", 16);
+ 
+-    migrate_set_capability(to2, "multifd", "true");
++    migrate_set_capability(to2, "multifd", true);
+ 
+     /* Start incoming migration from the 1st socket */
+     rsp = wait_command(to2, "{ 'execute': 'migrate-incoming',"
 -- 
 2.27.0
 
