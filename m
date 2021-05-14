@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EFD2380EE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:27:46 +0200 (CEST)
-Received: from localhost ([::1]:38974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624FC380EAE
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 19:15:20 +0200 (CEST)
+Received: from localhost ([::1]:41776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhbbF-0004lg-4d
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57762)
+	id 1lhbPD-0003pW-DJ
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 13:15:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawb-0005SE-85
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25814)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawf-0005iD-7v
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawX-0005sL-7T
- for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:45 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lhawZ-0005vb-M9
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 12:45:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621010738;
+ s=mimecast20190719; t=1621010742;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j3AhrYadutqD4GgW6FGWhfttV+Fzcm69336eFltlUzI=;
- b=MnxdxC93l1UCcMJOwZlGZyGfyLHhhWz6lbV20wX3fLUsY4/4iN3MdNmtAbVuZYXhH/TW8W
- 80bQ8JGu844uDKXPnBkIvix4s7L3y0c6v58lOsiCuPpU+pQNSFP8ZycyCsfQJcDpssGR7j
- OCbYsMDg+CMl0Xhxz7hFxKBAzF/SGCo=
+ bh=cig0ixGhXgdJioN+hzT95qIQ6ue1Fhcydjzmn1FsSIc=;
+ b=W/EPKrt6/LveHquBJyeFtAejLQpCLwlh0swxPJ0PG0oe0n0MHeA7TfezyAdcVlqDhW9Q8U
+ lacWZkhkeGGrfcSMUCazkvIQSPLNrBqbqGhhMK3E81du7uBGq/sLNPoDXKMQFlxh6nT+i9
+ JGSSrUqKZcKnAGKC3KymssoZfP5hh0E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-j_ZHP6UKOPqZZmZ72jlwuw-1; Fri, 14 May 2021 12:45:36 -0400
-X-MC-Unique: j_ZHP6UKOPqZZmZ72jlwuw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-449-n4nRHYlaNOOp_PlgNAe1Qg-1; Fri, 14 May 2021 12:45:40 -0400
+X-MC-Unique: n4nRHYlaNOOp_PlgNAe1Qg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48FA88015DB;
- Fri, 14 May 2021 16:45:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BA711854E21;
+ Fri, 14 May 2021 16:45:39 +0000 (UTC)
 Received: from localhost (ovpn-114-49.ams2.redhat.com [10.36.114.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E44D91962F;
- Fri, 14 May 2021 16:45:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2298D5C1C4;
+ Fri, 14 May 2021 16:45:38 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/19] qemu-iotests: fix case of SOCK_DIR already in the
- environment
-Date: Fri, 14 May 2021 18:45:04 +0200
-Message-Id: <20210514164514.1057680-10-mreitz@redhat.com>
+Subject: [PULL 11/19] block/copy-on-read: use bdrv_drop_filter() and drop
+ s->active
+Date: Fri, 14 May 2021 18:45:06 +0200
+Message-Id: <20210514164514.1057680-12-mreitz@redhat.com>
 In-Reply-To: <20210514164514.1057680-1-mreitz@redhat.com>
 References: <20210514164514.1057680-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,33 +82,91 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Due to a typo, in this case the SOCK_DIR was not being created.
+Now, after huge update of block graph permission update algorithm, we
+don't need this workaround with active state of the filter. Drop it and
+use new smart bdrv_drop_filter() function.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Tested-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20210323181928.311862-6-pbonzini@redhat.com>
-Message-Id: <20210503110110.476887-6-pbonzini@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20210506194143.394141-1-vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/testenv.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/copy-on-read.c | 33 +--------------------------------
+ 1 file changed, 1 insertion(+), 32 deletions(-)
 
-diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-index cd0e39b789..0c3fe75636 100644
---- a/tests/qemu-iotests/testenv.py
-+++ b/tests/qemu-iotests/testenv.py
-@@ -120,7 +120,7 @@ def init_directories(self) -> None:
-         try:
-             self.sock_dir = os.environ['SOCK_DIR']
-             self.tmp_sock_dir = False
--            Path(self.test_dir).mkdir(parents=True, exist_ok=True)
-+            Path(self.sock_dir).mkdir(parents=True, exist_ok=True)
-         except KeyError:
-             self.sock_dir = tempfile.mkdtemp()
-             self.tmp_sock_dir = True
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index 9cad9e1b8c..c428682272 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -29,7 +29,6 @@
+ 
+ 
+ typedef struct BDRVStateCOR {
+-    bool active;
+     BlockDriverState *bottom_bs;
+     bool chain_frozen;
+ } BDRVStateCOR;
+@@ -89,7 +88,6 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+          */
+         bdrv_ref(bottom_bs);
+     }
+-    state->active = true;
+     state->bottom_bs = bottom_bs;
+ 
+     /*
+@@ -112,17 +110,6 @@ static void cor_child_perm(BlockDriverState *bs, BdrvChild *c,
+                            uint64_t perm, uint64_t shared,
+                            uint64_t *nperm, uint64_t *nshared)
+ {
+-    BDRVStateCOR *s = bs->opaque;
+-
+-    if (!s->active) {
+-        /*
+-         * While the filter is being removed
+-         */
+-        *nperm = 0;
+-        *nshared = BLK_PERM_ALL;
+-        return;
+-    }
+-
+     *nperm = perm & PERM_PASSTHROUGH;
+     *nshared = (shared & PERM_PASSTHROUGH) | PERM_UNCHANGED;
+ 
+@@ -280,32 +267,14 @@ static BlockDriver bdrv_copy_on_read = {
+ 
+ void bdrv_cor_filter_drop(BlockDriverState *cor_filter_bs)
+ {
+-    BdrvChild *child;
+-    BlockDriverState *bs;
+     BDRVStateCOR *s = cor_filter_bs->opaque;
+ 
+-    child = bdrv_filter_child(cor_filter_bs);
+-    if (!child) {
+-        return;
+-    }
+-    bs = child->bs;
+-
+-    /* Retain the BDS until we complete the graph change. */
+-    bdrv_ref(bs);
+-    /* Hold a guest back from writing while permissions are being reset. */
+-    bdrv_drained_begin(bs);
+-    /* Drop permissions before the graph change. */
+-    s->active = false;
+     /* unfreeze, as otherwise bdrv_replace_node() will fail */
+     if (s->chain_frozen) {
+         s->chain_frozen = false;
+         bdrv_unfreeze_backing_chain(cor_filter_bs, s->bottom_bs);
+     }
+-    bdrv_child_refresh_perms(cor_filter_bs, child, &error_abort);
+-    bdrv_replace_node(cor_filter_bs, bs, &error_abort);
+-
+-    bdrv_drained_end(bs);
+-    bdrv_unref(bs);
++    bdrv_drop_filter(cor_filter_bs, &error_abort);
+     bdrv_unref(cor_filter_bs);
+ }
+ 
 -- 
 2.31.1
 
