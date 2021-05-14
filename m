@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13980380878
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 13:30:53 +0200 (CEST)
-Received: from localhost ([::1]:58534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A843808D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 13:47:22 +0200 (CEST)
+Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhW1r-0005hN-IO
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 07:30:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47394)
+	id 1lhWHo-00017X-L2
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 07:47:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lhW01-00050n-0P
- for qemu-devel@nongnu.org; Fri, 14 May 2021 07:28:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lhVzx-00015X-H7
- for qemu-devel@nongnu.org; Fri, 14 May 2021 07:28:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620991732;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mQZqx0YDkhA3zX/9kBXj4jh4luXfmlEcEbZqPO4quEo=;
- b=VYDufVl5cFNQq1qv4IU0z8BPXeZbHSguPqtVBppPmT1OcBqPdb7FwNI7Py4CcJOqzS9w6Z
- a+8BsJqcF8ppdrAjMMz/CbH2pG8nJ7hwWCg6F8o4Xbd0gleA+EXkuzAx6S8FOVAn23AEZn
- YKWZEv5oEtJ8IjBdWSsaMriCv+COJMk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-um5NWk1CNMK7rrlllP5cTA-1; Fri, 14 May 2021 07:28:50 -0400
-X-MC-Unique: um5NWk1CNMK7rrlllP5cTA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D06E8015A8;
- Fri, 14 May 2021 11:28:47 +0000 (UTC)
-Received: from localhost (ovpn-114-20.ams2.redhat.com [10.36.114.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AEE4A6EF48;
- Fri, 14 May 2021 11:28:36 +0000 (UTC)
-Date: Fri, 14 May 2021 12:28:35 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Steven Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V3 07/22] cpr
-Message-ID: <YJ5e4yFxMPO31viJ@stefanha-x1.localdomain>
-References: <1620390320-301716-1-git-send-email-steven.sistare@oracle.com>
- <1620390320-301716-8-git-send-email-steven.sistare@oracle.com>
- <YJv/9uOKbYmhAyQp@stefanha-x1.localdomain>
- <008ac3a4-a187-3e9f-d82d-8279e82805b1@oracle.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhWGJ-0000Rh-08
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 07:45:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhWGG-0002ul-UA
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 07:45:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lhWGE-0005Mf-RW
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 11:45:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CD94C2E8139
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 11:45:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <008ac3a4-a187-3e9f-d82d-8279e82805b1@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uAN+J7NCwWvVXUv5"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 14 May 2021 11:40:23 -0000
+From: Thomas Huth <1916775@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: whpx windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: abdurrahim-cakar ivanvx th-huth
+X-Launchpad-Bug-Reporter: Abdurrahim (abdurrahim-cakar)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161418362907.7833.18159388399676261767.malonedeb@soybean.canonical.com>
+Message-Id: <162099242342.1146.17910551897719080188.malone@wampee.canonical.com>
+Subject: [Bug 1916775] Re: Guest freezes until there is a keyboard input on
+ Windows version
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="6b3403d85f09252210977b936e821c0b00dbe016"; Instance="production"
+X-Launchpad-Hash: 0d114bba0fa70cd3591aca9f2a6f0e27f14edc72
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,82 +72,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1916775 <1916775@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---uAN+J7NCwWvVXUv5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This ticket has been moved here (thanks, Abdurrahim):
+https://gitlab.com/qemu-project/qemu/-/issues/289
+... thus I'm closing this ticket on Launchpad now.
 
-On Thu, May 13, 2021 at 04:21:02PM -0400, Steven Sistare wrote:
-> On 5/12/2021 12:19 PM, Stefan Hajnoczi wrote:
-> > On Fri, May 07, 2021 at 05:25:05AM -0700, Steve Sistare wrote:
-> >> To use the restart mode, qemu must be started with the memfd-alloc mac=
-hine
-> >> option.  The memfd's are saved to the environment and kept open across=
- exec,
-> >> after which they are found from the environment and re-mmap'd.  Hence =
-guest
-> >> ram is preserved in place, albeit with new virtual addresses in the qe=
-mu
-> >> process.  The caller resumes the guest by calling cprload, which loads
-> >> state from the file.  If the VM was running at cprsave time, then VM
-> >> execution resumes.  cprsave supports any type of guest image and block
-> >> device, but the caller must not modify guest block devices between cpr=
-save
-> >> and cprload.
-> >=20
-> > Does QEMU's existing -object memory-backend-file on tmpfs or hugetlbfs
-> > achieve the same thing?
->=20
-> Not quite.  Various secondary anonymous memory objects are allocated via =
-ram_block_add
-> and must be preserved, such as these on x86_64. =20
->   vga.vram
->   pc.ram
->   pc.bios
->   pc.rom
->   vga.rom
->   rom@etc/acpi/tables
->   rom@etc/table-loader
->   rom@etc/acpi/rsdp
->=20
-> Even the read-only areas must be preserved rather than recreated from fil=
-es in the updated
-> qemu, as their contents may have changed.
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #289
+   https://gitlab.com/qemu-project/qemu/-/issues/289
 
-Migration knows how to save/load these RAM blocks. Only pc.ram is
-significant in size so I'm not sure it's worth special-casing the
-others?
+** Changed in: qemu
+       Status: Incomplete =3D> Invalid
 
-Stefan
+-- =
 
---uAN+J7NCwWvVXUv5
-Content-Type: application/pgp-signature; name="signature.asc"
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916775
 
------BEGIN PGP SIGNATURE-----
+Title:
+  Guest freezes until there is a keyboard input on Windows version
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmCeXuMACgkQnKSrs4Gr
-c8jHywf8CxBROYscK92rOz9ibELAFk/j/tct/KiKBU1eHvvRqR1Ml6RhvCsdQ11P
-v7BdUw5a2J3CCaWkUDEikHEX5iEtRKJteRA4HR1BuJ3jU1s5hMfbQsk04ig+tTKi
-jjU4ZWtvFjFCn5HC4YP8F9MimzRLo1mk0glswka2V1wgQb4J/dEivk2WL+FXW7Qf
-nztB93Pu/iIsQ4yp7fOc2V0W6Htqr6+WXLjXe6AeCheT7he1W6fkuYry/xyCBc0x
-n0qVsefSl50HyerXTB61UAQpBZ/aQKpRar248iVtF8S0WN8wqWtcTH3nZ0/jbHBM
-X0Iagx64qufwtnlBKLdE7DVeQIqXOA==
-=nKP4
------END PGP SIGNATURE-----
+Status in QEMU:
+  Invalid
 
---uAN+J7NCwWvVXUv5--
+Bug description:
+  I am using Qemu for Windows and when I try to run this for Windows
+  guests then the guests are freezing and waiting for keyboard input and
+  it continues to function after I press a key. I am using Windows10
+  Home and below is the command I use to run the guest. I have suspected
+  if this is caused by random entropy but even with mouse moving it
+  gives same random locks and it continues to work as soon as I press a
+  key so maybe its not about entropy at all,
 
+  startwinguest.bat:
+  qemu-system-x86_64 ^
+  =C2=A0-name "win" ^
+  =C2=A0-machine type=3Dq35,accel=3Dwhpx ^
+  =C2=A0-cpu EPYC,hv_relaxed,hv_time,topoext   ^
+  =C2=A0-nodefaults ^
+  =C2=A0-usb ^
+  =C2=A0-rtc base=3Dlocaltime,driftfix=3Dslew ^
+  =C2=A0-smp 6,sockets=3D1,cores=3D3,threads=3D2 ^
+  =C2=A0-m 8192 -mem-prealloc ^
+  =C2=A0-soundhw hda ^
+  =C2=A0-usbdevice tablet ^
+  =C2=A0-netdev user,id=3Dmynet0,hostfwd=3Dtcp::3390-:3389 -device virtio-n=
+et,netdev=3Dmynet0 ^
+  =C2=A0-vga std ^
+  =C2=A0-display gtk ^
+  =C2=A0-boot d ^
+  =C2=A0-device virtio-scsi-pci,id=3Dscsi0 ^
+  =C2=A0-drive "file=3D%~dp0win10.qcow2,if=3Dnone,format=3Dqcow2,discard=3D=
+unmap,aio=3Dthreads,cache=3Dwritethrough,id=3Dsomeid" ^
+  =C2=A0-device scsi-hd,drive=3Dsomeid,bus=3Dscsi0.0 ^
+  =C2=A0-drive "file=3DD:\Setups\OS\Windows\en_windows_server_2019_updated_=
+dec_2020_x64_dvd_36e0f791.iso,media=3Dcdrom,index=3D1" ^
+  =C2=A0-drive "file=3D%~dp0virtio-win-0.1.185.iso,media=3Dcdrom,index=3D2"
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916775/+subscriptions
 
