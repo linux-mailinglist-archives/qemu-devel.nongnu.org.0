@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A8F381039
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:03:20 +0200 (CEST)
-Received: from localhost ([::1]:35262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CFE381047
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 21:06:24 +0200 (CEST)
+Received: from localhost ([::1]:40154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhd5j-0007M3-Ol
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55146)
+	id 1lhd8g-0002KO-Qb
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 15:06:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhd3V-0005uU-E1
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:01:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35278)
+ id 1lhd3d-0005v8-1N
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:01:12 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhd3Q-0004qw-UA
- for qemu-devel@nongnu.org; Fri, 14 May 2021 15:01:00 -0400
+ id 1lhd3O-0004qu-Nl
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 15:01:08 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhd3M-0005CY-QN
+ id 1lhd3M-0005CZ-9A
  for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:00:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 885EE2E8187
+ by loganberry.canonical.com (Postfix) with ESMTP id 0E0932E8187
  for <qemu-devel@nongnu.org>; Fri, 14 May 2021 19:00:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 May 2021 18:53:36 -0000
-From: Thomas Huth <1920211@bugs.launchpad.net>
+Date: Fri, 14 May 2021 18:54:55 -0000
+From: Thomas Huth <1920871@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: feature-request
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: colaflash th-huth
-X-Launchpad-Bug-Reporter: kolAflash (colaflash)
+X-Launchpad-Bug-Commenters: taoxu92 th-huth
+X-Launchpad-Bug-Reporter: Tao Xu (taoxu92)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161616435594.712.2426714645893097472.malonedeb@soybean.canonical.com>
-Message-Id: <162101841667.7316.730883337027241955.malone@gac.canonical.com>
-Subject: [Bug 1920211] Re: shrink option for discard (for bad host-filesystems
- and -backup solutions)
+References: <161648172746.20702.497420976182520260.malonedeb@wampee.canonical.com>
+Message-Id: <162101849605.20719.6453188866186431281.malone@soybean.canonical.com>
+Subject: [Bug 1920871] Re: netperf UDP_STREAM high packet loss on QEMU tap
+ network
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 527e5c06d10a7b0084c0bab4eec030d2e0c2158a
+X-Launchpad-Hash: cbba951ff44d9a1784504559deb5d646fbd98fe8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920211 <1920211@bugs.launchpad.net>
+Reply-To: Bug 1920871 <1920871@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -106,54 +105,82 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
-** Tags added: feature-request
-
 ** Changed in: qemu
        Status: New =3D> Incomplete
-
-** Changed in: qemu
-   Importance: Undecided =3D> Wishlist
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920211
+https://bugs.launchpad.net/bugs/1920871
 
 Title:
-  shrink option for discard (for bad host-filesystems and -backup
-  solutions)
+  netperf UDP_STREAM high packet loss on QEMU tap network
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  When using discard=3Dunmap for virtio or scsi devices with QCOW2 images,
-  space discarded by the guest will be unmaped on the host, which is
-  basically great!
+  Hi, I boot a guest with "-netdev
+  tap,id=3Dhn0,vhost=3Doff,br=3Dbr0,helper=3D/usr/local/libexec/qemu-bridge-
+  helper" network option, and using "netperf -H IP -t UDP_STREAM" to
+  test guest UDP performance, I got the following output:
 
-  This will turn the QCOW2 image into a sparse file which is efficient
-  for most scenarios. But it may be that you need to avoid big sparse
-  files on your host. For example because you need to use a backup
-  solution which doesn't support sparse files well. Or maybe the QCOW2
-  image is on a filesystem mount which doesn't support sparse files at
-  all.
+  Socket  Message  Elapsed      Messages                =
 
-  For those scenarios an alternative option for the discard setting (discar=
-d=3Dshrink) would be great, so that the QCOW2 file itself gets shrunken aga=
-in.
-  I'm not sure about how the initial growing* of QCOW2 images is implemente=
-d and if there are maybe limitations. But I hope it may be possible do the =
-inverse and actually shrink (not sparse) an QCOW2 image with internally dis=
-carded blocks.
+  Size    Size     Time         Okay Errors   Throughput
+  bytes   bytes    secs            #      #   10^6bits/sec
 
-  =
+  212992   65507   10.00      144710      0    7583.56
+  212992           10.00          32              1.68
 
-  I'm using Qemu-5.2.0 and Linux >=3D 5.3 (host and guest).
+  We can find most of UDP packets are lost. But I test another host machine=
+ or use "-netdev usr,xxxxx". I can got:
+  Socket  Message  Elapsed      Messages                =
 
-  *If you use "qemu-img create -f qcow2 ..." withOUT the "preallocation"
-  option.
+  Size    Size     Time         Okay Errors   Throughput
+  bytes   bytes    secs            #      #   10^6bits/sec
+
+  212992   65507   10.00       18351      0     961.61
+  212992           10.00       18350            961.56
+
+  most of UDP packets are recived.
+
+  And If we check the tap qemu used, we can see:
+  ifconfig tap0
+  tap0: flags=3D4419<UP,BROADCAST,RUNNING,PROMISC,MULTICAST>  mtu 1500
+          inet6 fe80::ecc6:21ff:fe6f:b174  prefixlen 64  scopeid 0x20<link>
+          ether ee:c6:21:6f:b1:74  txqueuelen 1000  (Ethernet)
+          RX packets 282  bytes 30097 (29.3 KiB)
+          RX errors 0  dropped 0  overruns 0  frame 0
+          TX packets 9086214  bytes 12731596673 (11.8 GiB)
+          TX errors 0  dropped 16349024 overruns 0  carrier 0  collisions 0
+  lots of TX packets are dropped.
+
+  list other packet size:
+
+  =E2=9E=9C  boot netperf -H 192.168.199.200 -t UDP_STREAM -- -m 1
+  MIGRATED UDP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 192.168=
+.199.200 () port 0 AF_INET
+  Socket  Message  Elapsed      Messages                =
+
+  Size    Size     Time         Okay Errors   Throughput
+  bytes   bytes    secs            #      #   10^6bits/sec
+
+  212992       1   10.00     2297941      0       1.84
+  212992           10.00     1462024              1.17
+
+  =E2=9E=9C  boot netperf -H 192.168.199.200 -t UDP_STREAM -- -m 128
+  MIGRATED UDP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 192.168=
+.199.200 () port 0 AF_INET
+  Socket  Message  Elapsed      Messages                =
+
+  Size    Size     Time         Okay Errors   Throughput
+  bytes   bytes    secs            #      #   10^6bits/sec
+
+  212992     128   10.00     2311547      0     236.70
+  212992           10.00     1359834            139.25
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920211/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1920871/+subscriptions
 
