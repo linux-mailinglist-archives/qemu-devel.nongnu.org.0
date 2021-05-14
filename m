@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B16380DAD
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:56:46 +0200 (CEST)
-Received: from localhost ([::1]:41630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE3EC380DB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 18:01:35 +0200 (CEST)
+Received: from localhost ([::1]:55232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhaBB-0007IL-QU
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44734)
+	id 1lhaFq-00084E-VR
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 12:01:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lha64-00005C-VL
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:51:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lha61-0007h8-Ss
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:51:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621007483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fCsqNY7Kryr3zeQTlg1WAHpm82I+ztZqWhsOsfyye4Q=;
- b=ewnF0b0PZxz0D8c3WfnUz29aU0UJs40kwbeRF+BPoUlGesWaAShewDtBrr9VWXsYma0n9a
- J7nlBAWzIQNkvm9eKq0dA7SCR2zK4F3SNmZ5pqhSBGoiinYQWm9vbOKK0zrNL6YvLs+gif
- mwusFEpvW8mAjzdGNDrwk0er7AxxohU=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-Ql_jOl8UOd-EkKM9mbexSA-1; Fri, 14 May 2021 11:51:22 -0400
-X-MC-Unique: Ql_jOl8UOd-EkKM9mbexSA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- w6-20020a0cdf860000b02901ec995d8822so3226705qvl.23
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:51:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lhZZD-0003ka-Ij
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:17:31 -0400
+Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:41979)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lhZZB-0000GP-E8
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:17:31 -0400
+Received: by mail-qk1-x730.google.com with SMTP id l129so29012801qke.8
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:17:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=g1juOOEKnDc+LT3IkTwuNQLgCUSYTg/DRPVFzERrWIk=;
+ b=VTowO2LUt8is2i6PVICmLPkr2ChxDZV1BmrZ2MiY2iAj2B9BjUa3EKJ1gXhYjLIRR1
+ B9TXJs2OXqJ20yX9NnNcpfpuJGSgfrhhBCk6w0nf0IkFPUfjioRje0DHkr5bmx/NFqH3
+ cefK6+LhPgaDWNO7S1YamYXmvrnETk8Qwt60PMc/Y8Cxnza2e2J6ZrPvFxX9OKVX0TRE
+ 44i/r2sKGbiwgeS7aXqPSYtVDFdkldoMauZ8LhK1EXb91BhP0PI3N7MM+FC9Lf8WVlwL
+ 1S5hi9Tr+krcob6iAd+E3abFAd4FY/UHLG7vwAW4jdvOz5F8jQ32tS7cCTkbpt6AcnPQ
+ WzJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fCsqNY7Kryr3zeQTlg1WAHpm82I+ztZqWhsOsfyye4Q=;
- b=XB1knUv6xcvl0u40/AN8dbdbOb0k+NZ9JulwgjDDGv2iull0XlGOSbADyhZMUUHD9E
- weCcYMcB+anHqWtHwNPArRryabYdMrsjPcYzKPrAednuiIND4fxq5yd4sTloORsl6jbh
- F51I5mwrsapd/19usERuqFHQtgbwtE+dKRNkX3PVirwgADyziLO+hx5saXTAf+85BhY8
- 1iHzLzOPC57OHylNwaGyjY5/c5jcrE9+gdBBGKf8OjIkKJLC8FnCy+1UXsUBa5L8l3Ha
- YPh1U4cprhnfv9xMyBldFnQcd8yYg/usIg3iK5XW7ijVYTpp5rKSnx0YXGyOvuMoSgg7
- oRYQ==
-X-Gm-Message-State: AOAM532/bMg9g/wKSsn+RqPnQGQRri/sQLD9QLKOllX+wXSAdW2Bs9U7
- J2kIVySUpuWex5lQAbdxpyj300OhnqowCxBubeIzmEWizthFEiAQqiN3Y5G7tfm8SxtOnKpsq56
- 7prIHNbXUkjqodJA=
-X-Received: by 2002:a0c:e486:: with SMTP id n6mr46612138qvl.21.1621007481688; 
- Fri, 14 May 2021 08:51:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw48qQ26neETLE8pYLjgwzFAsxirlW9MyjOxCJvtexIvbzc1YsaZJGf1Q6jrcmZSijNDoWKEA==
-X-Received: by 2002:a0c:e486:: with SMTP id n6mr46612119qvl.21.1621007481508; 
- Fri, 14 May 2021 08:51:21 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-72-184-145-4-219.dsl.bell.ca.
- [184.145.4.219])
- by smtp.gmail.com with ESMTPSA id w4sm4902377qki.57.2021.05.14.08.51.19
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=g1juOOEKnDc+LT3IkTwuNQLgCUSYTg/DRPVFzERrWIk=;
+ b=Snmdw7OUkhjwN8JcNaR5WoboECvSz6viieHkPmWdVATVFUoUq+WZ/7I1VYqcrP8yQ3
+ ZoLnf20P5gH1p1Yn9SeJqO9RWGtS8Mo6q20q35Yir9vh7hEWmZznGamrJJgvDUsQZiRJ
+ fCv7OEHcsHMSfkUFIdezpYJze+JS63AQhYn3kO5kYker9EOpgwOexZK7BepAn+Inati5
+ 6A1TW5tOxiOV/Xnz1q6g/u8gbjbQwjKQEufSTnQP4/TQvA/nkS2b7WN9W9EExwL0kF6E
+ uUkm+jFjLjBW9Nx4Bbb5ZLtUTGH53iH2ha2XjCinL2jzOYAr9Pt19Etin2/7nvD2enm4
+ Cw1g==
+X-Gm-Message-State: AOAM532t5HWTdb+nVnPcLatJ5f+J4bAFYNDJQrtfx/oqiKdg1Ijz2kVf
+ uHnjTCVVC+yHQbd8WmSuWXJb+HgpTIzm8GRFyQo=
+X-Google-Smtp-Source: ABdhPJypApEvBWIBgBCtS0ncy551RAN9QlgELGiVzzCyEOfgtCeNwyZ36BeD4CfUbMnZ3YMcFQCjaA==
+X-Received: by 2002:a37:e06:: with SMTP id 6mr42656949qko.337.1621005448512;
+ Fri, 14 May 2021 08:17:28 -0700 (PDT)
+Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id p190sm5181972qke.13.2021.05.14.08.17.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 May 2021 08:51:19 -0700 (PDT)
-Date: Fri, 14 May 2021 11:51:19 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v7 00/10] KVM: Dirty ring support (QEMU part)
-Message-ID: <YJ6cdzDqu7q5Y3iE@t490s>
-References: <20210506160549.130416-1-peterx@redhat.com>
- <dac5f0c6-1bca-3daf-e5d2-6451dbbaca93@redhat.com>
+ Fri, 14 May 2021 08:17:28 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 47/50] target/i386: Pass in port to gen_check_io
+Date: Fri, 14 May 2021 10:13:39 -0500
+Message-Id: <20210514151342.384376-48-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210514151342.384376-1-richard.henderson@linaro.org>
+References: <20210514151342.384376-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <dac5f0c6-1bca-3daf-e5d2-6451dbbaca93@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x730.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,29 +83,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hyman <huangy81@chinatelecom.cn>, Keqian Zhu <zhukeqian1@huawei.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: pbonzini@redhat.com, f4bug@amsat.org, ehabkost@redhat.com, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 14, 2021 at 05:38:17PM +0200, Paolo Bonzini wrote:
-> On 06/05/21 18:05, Peter Xu wrote:
-> > This is v7 of the qemu dirty ring interface support.
-> > 
-> > v7:
-> > - Rebase to latest master commit d45a5270d07
-> 
-> Queued, thanks!
-> 
-> I only made a small change to rename the property from dirty-gfn-count
-> to dirty-ring-size, since (assuming the user knows what gfn means)
-> it's not clear that it's related to the ring buffer support.
+Pass in a pre-truncated TCGv_i32 value.  We were doing the
+truncation of EDX in multiple places, now only once per insn.
+While all callers use s->tmp2_i32, for cleanliness of the
+subroutine, use a parameter anyway.
 
-Yeah previously the only concern was to be clear it's for entry count rather
-than size in bytes, however with the man page and all places describing then
-looks good.  Thanks Paolo!
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/i386/tcg/translate.c | 55 +++++++++++++++++++------------------
+ 1 file changed, 29 insertions(+), 26 deletions(-)
 
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 02c76537a6..19bfdbd0a3 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -674,19 +674,23 @@ static void gen_helper_out_func(MemOp ot, TCGv_i32 v, TCGv_i32 n)
+     }
+ }
+ 
+-static bool gen_check_io(DisasContext *s, MemOp ot, uint32_t svm_flags)
++/*
++ * Validate that access to [port, port + 1<<ot) is allowed.
++ * Raise #GP, or VMM exit if not.
++ */
++static bool gen_check_io(DisasContext *s, MemOp ot, TCGv_i32 port,
++                         uint32_t svm_flags)
+ {
+-    tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
+     if (PE(s) && (CPL(s) > IOPL(s) || VM86(s))) {
+         switch (ot) {
+         case MO_8:
+-            gen_helper_check_iob(cpu_env, s->tmp2_i32);
++            gen_helper_check_iob(cpu_env, port);
+             break;
+         case MO_16:
+-            gen_helper_check_iow(cpu_env, s->tmp2_i32);
++            gen_helper_check_iow(cpu_env, port);
+             break;
+         case MO_32:
+-            gen_helper_check_iol(cpu_env, s->tmp2_i32);
++            gen_helper_check_iol(cpu_env, port);
+             break;
+         default:
+             tcg_abort();
+@@ -702,7 +706,7 @@ static bool gen_check_io(DisasContext *s, MemOp ot, uint32_t svm_flags)
+             svm_flags |= SVM_IOIO_REP_MASK;
+         }
+         svm_flags |= 1 << (SVM_IOIO_SIZE_SHIFT + ot);
+-        gen_helper_svm_check_io(cpu_env, s->tmp2_i32,
++        gen_helper_svm_check_io(cpu_env, port,
+                                 tcg_constant_i32(svm_flags),
+                                 tcg_constant_i32(next_eip - cur_eip));
+     }
+@@ -6479,8 +6483,10 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x6c: /* insS */
+     case 0x6d:
+         ot = mo_b_d32(b, dflag);
+-        tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
+-        if (!gen_check_io(s, ot, SVM_IOIO_TYPE_MASK | SVM_IOIO_STR_MASK)) {
++        tcg_gen_trunc_tl_i32(s->tmp2_i32, cpu_regs[R_EDX]);
++        tcg_gen_ext16u_i32(s->tmp2_i32, s->tmp2_i32);
++        if (!gen_check_io(s, ot, s->tmp2_i32,
++                          SVM_IOIO_TYPE_MASK | SVM_IOIO_STR_MASK)) {
+             break;
+         }
+         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+@@ -6499,8 +6505,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x6e: /* outsS */
+     case 0x6f:
+         ot = mo_b_d32(b, dflag);
+-        tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
+-        if (!gen_check_io(s, ot, SVM_IOIO_STR_MASK)) {
++        tcg_gen_trunc_tl_i32(s->tmp2_i32, cpu_regs[R_EDX]);
++        tcg_gen_ext16u_i32(s->tmp2_i32, s->tmp2_i32);
++        if (!gen_check_io(s, ot, s->tmp2_i32, SVM_IOIO_STR_MASK)) {
+             break;
+         }
+         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+@@ -6524,14 +6531,13 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0xe5:
+         ot = mo_b_d32(b, dflag);
+         val = x86_ldub_code(env, s);
+-        tcg_gen_movi_tl(s->T0, val);
+-        if (!gen_check_io(s, ot, SVM_IOIO_TYPE_MASK)) {
++        tcg_gen_movi_i32(s->tmp2_i32, val);
++        if (!gen_check_io(s, ot, s->tmp2_i32, SVM_IOIO_TYPE_MASK)) {
+             break;
+         }
+         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+             gen_io_start();
+         }
+-        tcg_gen_movi_i32(s->tmp2_i32, val);
+         gen_helper_in_func(ot, s->T1, s->tmp2_i32);
+         gen_op_mov_reg_v(s, ot, R_EAX, s->T1);
+         gen_bpt_io(s, s->tmp2_i32, ot);
+@@ -6543,16 +6549,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0xe7:
+         ot = mo_b_d32(b, dflag);
+         val = x86_ldub_code(env, s);
+-        tcg_gen_movi_tl(s->T0, val);
+-        if (!gen_check_io(s, ot, 0)) {
++        tcg_gen_movi_i32(s->tmp2_i32, val);
++        if (!gen_check_io(s, ot, s->tmp2_i32, 0)) {
+             break;
+         }
+-        gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
+-
+         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+             gen_io_start();
+         }
+-        tcg_gen_movi_i32(s->tmp2_i32, val);
++        gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
+         tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
+         gen_helper_out_func(ot, s->tmp2_i32, s->tmp3_i32);
+         gen_bpt_io(s, s->tmp2_i32, ot);
+@@ -6563,14 +6567,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0xec:
+     case 0xed:
+         ot = mo_b_d32(b, dflag);
+-        tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
+-        if (!gen_check_io(s, ot, SVM_IOIO_TYPE_MASK)) {
++        tcg_gen_trunc_tl_i32(s->tmp2_i32, cpu_regs[R_EDX]);
++        tcg_gen_ext16u_i32(s->tmp2_i32, s->tmp2_i32);
++        if (!gen_check_io(s, ot, s->tmp2_i32, SVM_IOIO_TYPE_MASK)) {
+             break;
+         }
+         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+             gen_io_start();
+         }
+-        tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
+         gen_helper_in_func(ot, s->T1, s->tmp2_i32);
+         gen_op_mov_reg_v(s, ot, R_EAX, s->T1);
+         gen_bpt_io(s, s->tmp2_i32, ot);
+@@ -6581,16 +6585,15 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0xee:
+     case 0xef:
+         ot = mo_b_d32(b, dflag);
+-        tcg_gen_ext16u_tl(s->T0, cpu_regs[R_EDX]);
+-        if (!gen_check_io(s, ot, 0)) {
++        tcg_gen_trunc_tl_i32(s->tmp2_i32, cpu_regs[R_EDX]);
++        tcg_gen_ext16u_i32(s->tmp2_i32, s->tmp2_i32);
++        if (!gen_check_io(s, ot, s->tmp2_i32, 0)) {
+             break;
+         }
+-        gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
+-
+         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+             gen_io_start();
+         }
+-        tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
++        gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
+         tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
+         gen_helper_out_func(ot, s->tmp2_i32, s->tmp3_i32);
+         gen_bpt_io(s, s->tmp2_i32, ot);
 -- 
-Peter Xu
+2.25.1
 
 
