@@ -2,60 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5BBD3809EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:55:10 +0200 (CEST)
-Received: from localhost ([::1]:34850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036E3380A29
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 15:07:55 +0200 (CEST)
+Received: from localhost ([::1]:53576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhXLR-0005yh-H6
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33568)
+	id 1lhXXm-0002Vn-4o
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 09:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mirela.grujic@greensocs.com>)
- id 1lhXFD-0000zp-IM
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:48:43 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:41126)
+ (Exim 4.90_1)
+ (envelope-from <lawrence@lawrence-XPS-15-9560.loongson.cn>)
+ id 1lhSpd-0002IY-NU
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 04:06:01 -0400
+Received: from [114.242.206.180] (port=33226
+ helo=lawrence-XPS-15-9560.loongson.cn)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mirela.grujic@greensocs.com>)
- id 1lhXFA-0007JK-Lr
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:48:43 -0400
-Received: from [192.168.2.107] (cable-24-135-22-90.dynamic.sbb.rs
- [24.135.22.90])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 9C83220771;
- Fri, 14 May 2021 12:48:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1620996515;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6ys/amGZzD7t2kZ3kaJEl/33RrdytjycvTdtsvtX078=;
- b=RLO3pkKHIpvyVQvbQDiqTQBZ40vUwV8nABDz2Q4vqEmWYADBJ+PyXky7LhqCC2O+8SrfSk
- E8AXMncutWm5XGVnnSPrlZ7ul/g1CycnAR8mFNAI5/BUsVVTl1JneofBx7lbfkGYlx9oQR
- +HbfqY4cgoJssRyRSBJ7BcDcEA30wbE=
-Subject: Re: [RFC PATCH 0/9] Initial support for machine creation via QMP
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210513082549.114275-1-mirela.grujic@greensocs.com>
- <93ae82d3-f9a7-f347-a013-54ae5cdc95f7@redhat.com>
-From: Mirela Grujic <mirela.grujic@greensocs.com>
-Message-ID: <5210646b-c661-882d-6c8d-0fd1772342d2@greensocs.com>
-Date: Fri, 14 May 2021 14:48:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1)
+ (envelope-from <lawrence@lawrence-XPS-15-9560.loongson.cn>)
+ id 1lhSpb-0004P7-R7
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 04:06:01 -0400
+Received: by lawrence-XPS-15-9560.loongson.cn (Postfix, from userid 1000)
+ id CEA1D120FFE; Fri, 14 May 2021 15:56:58 +0800 (CST)
+From: Xu Zou <sendtozouxu@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Handle EXCP10_COPR properly for i386
+Date: Fri, 14 May 2021 15:56:40 +0800
+Message-Id: <20210514075640.110544-1-sendtozouxu@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <93ae82d3-f9a7-f347-a013-54ae5cdc95f7@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=mirela.grujic@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 114.242.206.180 (failed)
+Received-SPF: none client-ip=114.242.206.180;
+ envelope-from=lawrence@lawrence-XPS-15-9560.loongson.cn;
+ helo=lawrence-XPS-15-9560.loongson.cn
+X-Spam_score_int: 36
+X-Spam_score: 3.6
+X-Spam_bar: +++
+X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, NML_ADSP_CUSTOM_MED=0.9,
+ NO_DNS_FOR_FROM=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ SPOOFED_FREEMAIL=0.825, SPOOFED_FREEMAIL_NO_RDNS=0.001,
+ SPOOF_GMAIL_MID=1.498 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 14 May 2021 09:01:35 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,176 +58,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, edgar.iglesias@xilinx.com,
- mark.burton@greensocs.com
+Cc: laurent@vivier.eu, Xu Zou <sendtozouxu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
+Handle EXCP10_COPR properly for i386 in cpu loop.
 
+NE flag is set to select native mode for handling floating-point
+exceptions. FWAIT instruction can raise EXCP10_COPR exception by using
+fpu_raise_exception() function.
 
-Thanks for the feedback!
+The code is based on kernel's function fpu__exception_code() in
+arch/x86/kernel/fpu/core.c.
 
+Signed-off-by: Xu Zou <sendtozouxu@gmail.com>
+---
+ linux-user/i386/cpu_loop.c | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
-On 5/13/21 7:52 PM, Paolo Bonzini wrote:
-> Hi Mirela, this is very interesting!
->
-> It's unfortunate that I completely missed the discussions in 
-> January/February.  You might have noticed that in the 5.2/6.0 
-> timeframe I worked on cleaning up the machine initialization phases 
-> and qemu_init.  The idea behind the cleanup was to identify clearly 
-> the steps from one phase to the next.  I am very happy that you are 
-> already benefitting from that work in this series and you were able to 
-> make a prototype with so little code.
+diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
+index f813e87294..e1f2911554 100644
+--- a/linux-user/i386/cpu_loop.c
++++ b/linux-user/i386/cpu_loop.c
+@@ -199,6 +199,8 @@ void cpu_loop(CPUX86State *env)
+ {
+     CPUState *cs = env_cpu(env);
+     int trapnr;
++    int si_code;
++    uint8_t status;
+     abi_ulong pc;
+     abi_ulong ret;
+ 
+@@ -315,6 +317,28 @@ void cpu_loop(CPUX86State *env)
+         case EXCP_ATOMIC:
+             cpu_exec_step_atomic(cs);
+             break;
++        case EXCP10_COPR:
++            si_code = 0;
++            status = env->fp_status.float_exception_flags;
++            if (status & float_flag_invalid) {
++                si_code = TARGET_FPE_FLTINV;
++            }
++            if (status & float_flag_divbyzero) {
++                si_code = TARGET_FPE_FLTDIV;
++            }
++            if (status & float_flag_overflow) {
++                si_code = TARGET_FPE_FLTOVF;
++            }
++            if ((status & float_flag_underflow) ||
++                (status & float_flag_input_denormal) ||
++                (status & float_flag_output_denormal)) {
++                si_code = TARGET_FPE_FLTUND;
++            }
++            if (status & float_flag_inexact) {
++                si_code = TARGET_FPE_FLTRES;
++            }
++            gen_signal(env, TARGET_SIGFPE, si_code, env->eip);
++            break;
+         default:
+             pc = env->segs[R_CS].base + env->eip;
+             EXCP_DUMP(env, "qemu: 0x%08lx: unhandled CPU exception 0x%x - aborting\n",
+@@ -327,7 +351,7 @@ void cpu_loop(CPUX86State *env)
+ 
+ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+ {
+-    env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
++    env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK | CR0_NE_MASK;
+     env->hflags |= HF_PE_MASK | HF_CPL_MASK;
+     if (env->features[FEAT_1_EDX] & CPUID_SSE) {
+         env->cr[4] |= CR4_OSFXSR_MASK;
+-- 
+2.25.1
 
-
-I was really happy to see your changes in 6.0, they simplified the 
-implementation a lot. It looked like you're up to something bigger, and 
-I'm glad that we can sync up now.
-
-
->
-> My plan was a bit more ambitious though :) and it is laid out at 
-> https://wiki.qemu.org/User:Paolo_Bonzini/Machine_init_sequence.
->
-> My plan was to have completely different binaries than the current 
-> qemu-system-*.  These would only have a handful of command line 
-> options (such as -name, -sandbox, -trace, -L) and would open a QMP 
-> connection on stdio.
->
-> All other command line option would be either considered legacy or 
-> adjusted to be part of two new QMP commands, machine-set and 
-> accel-set, which would advance through the phases like this:
->
-> PHASE_NO_MACHINE
->    -> machine-set -> PHASE_MACHINE_CREATED ->
->    -> accel-set -> PHASE_ACCEL_CREATED -> PHASE_MACHINE_INITIALIZED ->
->    -> finish-machine-init -> PHASE_MACHINE_READY
->    -> cont
->
-> I think this idea would work well with your plan below, because the 
-> preconfiguration that you need to do happens mostly at 
-> PHASE_MACHINE_INITIALIZED.
->
-> Of course, the disadvantage of my approach is that, in the initial 
-> version, a lot of capabilities of QEMU are not available (especially 
-> with respect to the UI, since there's no "display-add" command). 
-> However, the basic implementation of machine-set and accel-set should 
-> not really be *that* much more work, and it should be doable in 
-> parallel with the conversion efforts for those options.  For example, 
-> today I posted a series that maps -smp to -M (and then, SMP 
-> configuration would automatically become available in machine-set).
-
-
-With our approach, transitioning to the QMP configuration suppose to 
-happen gradually, i.e. we still specify some configuration options via 
-command line. For your approach to be applicable to our use case we 
-would at least need a QMP equivalent for the following:
-
-qemu-system-riscv64 \
-     -M sifive_dt \
-     -cpu 
-rv64,i=true,g=false,m=true,a=true,f=true,d=true,c=true,s=false,u=false,x-b=true,pmp=true,mmu=false,num-pmp-regions=8 
-\
-     -smp 1 \
-     -device ...
-
-AFAIU from the materials you shared, we would need to add -cpu and 
--device, but I don't see any reason why we wouldn't do this.
-
-
->
-> I have placed the skeleton of the work I was doing at 
-> https://gitlab.com/bonzini/qemu/ in the branch qemu-qmp-targets. You 
-> can see a sample execution at 
-> https://asciinema.org/a/TXMX8EZh8Md0fZnuE7uhfv6cO.  I have not touched 
-> some of the patches in a long time, but I plan to give them a quick 
-> test tomorrow.  Starting from the code in that branch, it should not 
-> be hard to implement the machine-set and accel-set commands in the 
-> same fashion as QEMU 5.2's implementation of object-add.
->
-
-Ok, please let me know once you test, then I would run your code and 
-play with it to better understand what needs to be done. Then I might 
-come back with a couple of questions, so that we align on the TODOs. Is 
-that ok with you?
-
-Btw, when (in which version) did you plan to integrate the qemu-qmp-* 
-support? I guess once machine-set/accel-set is implemented, but maybe 
-I'm wrong...
-
-
-> Thanks for posting these patches, I have started a light review of them.
->
-
-If we would add the support for our use case to your approach, then this 
-series would likely be split into a couple of patches that are 
-applicable and the rest that is obsolete.
-
-
-In summary, we believe it would be great to join efforts, please let us 
-know how can we help.
-
-
-Thanks,
-
-Mirela
-
-
-> Paolo
->
-> On 13/05/21 10:25, Mirela Grujic wrote:
->> The direction for this work has been set in the discussion thread:
->> "About creating machines on the command line" in January/February 2021:
->> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg01839.html
->> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg01070.html
->>
->> To customize a machine via QMP we need the ability to stop QEMU at a 
->> specific
->> machine initialization phase.
->>
->> Currently, machine initialization phases are:
->> 1) no-machine: machine does not exist yet (current_machine == NULL)
->> 2) machine-created: machine exists, but its accelerator does not
->>     (current_machine->accelerator == NULL)
->> 3) accel-created: machine's accelerator is configured
->>     (current_machine->accelerator != NULL), but machine class's 
->> init() has not
->>     been called (no properties validated, machine_init_done notifiers 
->> not
->>     registered, no sysbus, etc.)
->> 4) initialized: machine class's init() has been called, thus machine 
->> properties
->>     are validated, machine_init_done notifiers registered, sysbus 
->> realized, etc.
->>     Devices added at this phase are considered to be cold-plugged.
->> 5) ready: machine_init_done notifiers are called, then QEMU is ready 
->> to start
->>     CPUs. Devices added at this phase are considered to be hot-plugged.
->>
->> QEMU can be stopped today using the -preconfig CLI option at phase 3
->> (accel-created). This option was introduced to enable the QMP 
->> configuration of
->> parameters that affect the machine initialization. We cannot add 
->> devices at
->> this point because the machine class's init() has not been called, 
->> thus sysbus
->> does not exist yet (a device cannot be added because there is no bus 
->> to attach
->> it to).
->>
->> QEMU can be also stopped using the -S CLI option at the machine ready 
->> phase.
->> However, it is too late to add devices at this phase because the 
->> machine is
->> already configured, and any devices added at this point are 
->> considered to be
->> hot-plugged.
->>
->> Since the existing -preconfig CLI option stops QEMU too early, and 
->> the -S option
->> stops too late, we need a way to stop QEMU in between (after the 
->> machine is
->> initialized and before it becomes ready).
->
 
