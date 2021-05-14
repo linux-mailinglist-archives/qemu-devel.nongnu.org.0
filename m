@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36EC380CC4
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:21:46 +0200 (CEST)
-Received: from localhost ([::1]:36368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE2F380CCF
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 17:23:58 +0200 (CEST)
+Received: from localhost ([::1]:45630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhZdK-00033K-16
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:21:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36670)
+	id 1lhZfR-0000n1-Az
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 11:23:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhZVl-0005WL-5F
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:13:57 -0400
-Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:46990)
+ id 1lhZVn-0005gA-D6
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:13:59 -0400
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:40954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhZVj-0006xt-Af
- for qemu-devel@nongnu.org; Fri, 14 May 2021 11:13:56 -0400
-Received: by mail-qk1-x732.google.com with SMTP id 76so28989804qkn.13
- for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:13:54 -0700 (PDT)
+ id 1lhZVk-0006yb-76
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 11:13:59 -0400
+Received: by mail-qk1-x72d.google.com with SMTP id f18so7152577qko.7
+ for <qemu-devel@nongnu.org>; Fri, 14 May 2021 08:13:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=53VSGDilcCOmb1LoxSKsg+aenS/sWLsgrSIWT3KvKvU=;
- b=Xq1u1fy2F0mkZn3NTG0DP/uLWqM3jQ4e6qzjPYZGrkOM/R7rZ1wBuZjT2qU2Wi92eU
- G+W85Uw5TX+2aKPJnZjx2Rq5iWMlzKYm31xDNJGz/6iU7QLek9MDLafFJooK1VaTDxbI
- 3pjs4Vm8P4f0MbffGd+jlmEgkUDQBBBYmKpLEV1Bu01Px8e05Drwx5dBYS3KWhk4T7i5
- eq8KdIx3+JKdSydAfs3i7O/y9rRI7uwHl9uuNj+RQbrctyhOtGVXqP80Z94nUxwqAVpa
- Pm4nNtxq7ZML2JUFYphjqPxjMmDTKzP0drW0Eb38uuylOftD6+aSI8NoaHGUJp9C6hAt
- dfWg==
+ bh=uGy85OrDgVnauK85Xs6cOcVQ3zxe/WtnhuNWmWoCY8U=;
+ b=xTfSTNUmwQj0DAWNVSw3QP0+gNNw7K00Uj86kzsy9GYzPtytB5X/EEkyUJHxqx1iJc
+ Bns9aQskwrW0YlqA0Px5rVa1ix3RMNK3AYLt8dWIWbkUjAoqE/ADi8VCrM1A7+07yPua
+ BgddC8U2ciQMqd5Sdn8CEZzpU0vxZhdjzXyE/fFh5CxH0qxkKiP4ScBo00Y9LsoaK1h1
+ quJRQIg3g4aYuaoHC4hGdHPYbjbKte3wdqtEjEl1F0HcpzvQHhNqBBRMrfbd5kfeZNfL
+ AyRdy6xEvBUxImPXq/RPGrGlNcHY3lH2ysnJyeD5B6Ocs2zbTgCdN2bHTLfZfd2XVbB2
+ b1Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=53VSGDilcCOmb1LoxSKsg+aenS/sWLsgrSIWT3KvKvU=;
- b=ZXamgGKstutFDzdBkWvs+tN62h0YpqNkZZmsBPNI07iJ1hT5BdbdOAQ0ID8r/60hJh
- ZQdXxd1omC3TYZDEyQlfqnB8G5WhMt8MA2qMuuQcC02G2eJwaf8H9y5RRmTZXdQJ/ies
- 0P+Di5RhOzBlVCCS5cAeobIuZa0rwrBUE3mFh785HY1Go9FdnfNi28zFmJaevntoHQgm
- Lx/575/zT4UpX5LTeEGLZldR355n4Xd6fdBCl9j5N1bT22+uGSfF2mfxssOTqeOJ8d4D
- D4Lptr1MveeBm+ec+ny+AfkiRjce5zMH48+LXNOtNkD8hm7FzxOFe2gmisPkJ9SnR4ui
- 3PZA==
-X-Gm-Message-State: AOAM531SOzZwnfXewPVqLxAUK07UP4pOinI1zEmT2xwG4G0g4+/AfQ8O
- x5nbZT0mD1BBmuRVX7JGRDPhB4Yoii/ENO2ERdQ=
-X-Google-Smtp-Source: ABdhPJw4naxbuVT6EmWb8i9U2XxifpHfv+lEO6a8Tjk7s/KKorWsxOQYgx/Jrfzz4uqUo1cDIP/bpQ==
-X-Received: by 2002:a37:f604:: with SMTP id y4mr24346323qkj.207.1621005234436; 
- Fri, 14 May 2021 08:13:54 -0700 (PDT)
+ bh=uGy85OrDgVnauK85Xs6cOcVQ3zxe/WtnhuNWmWoCY8U=;
+ b=mc/ef/EKB5bacKQ/Rp+M8IZqi0JRmnRyw/tSo9kivHTeuC9KhqupVOOfmqAcOJ8DSS
+ kfGKyFypvv+kObz/2/qc8+gFx+vI0r/0BZwkuzlKkBYhwmo1gzZYbu0IuiKwLm7FfDxn
+ NPUpBIxJMeBNHscd/o4vHRDCFWcfqTJz2JxQ4q8fKwXUESgmeuwoeTZP/q5AC7fqOYeB
+ K9AS4LbrB8ZA9aEOMRL9xaMggfCgIA+l0GPkowAfIceJU0oPknhvCdz9NTZJSNxIvXso
+ 9Yjkdbw2xgQSXbvKUxomCdFe0hmNth2CUIB3cw5gOcnpAdBmxKbpvqJ7umEN5Rjn8Zyk
+ w1jQ==
+X-Gm-Message-State: AOAM53311ttl+cNGQbTr8vcpUgY4U+cPZuHz2n84oER5jSAI4b0TS/JZ
+ xmz9qZddFuO1KrVeH7Qzjk/PlMAkG6Hu2gaVq4I=
+X-Google-Smtp-Source: ABdhPJwpqctZolIB29epTW2tf8hF9lb1oKz2SUHhrkncnC+OPEmCRcyYSGTflplvdfuuzVkli71fCA==
+X-Received: by 2002:a05:620a:675:: with SMTP id
+ a21mr12404053qkh.333.1621005235319; 
+ Fri, 14 May 2021 08:13:55 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id u6sm4778966qkj.117.2021.05.14.08.13.53
+ by smtp.gmail.com with ESMTPSA id u6sm4778966qkj.117.2021.05.14.08.13.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 May 2021 08:13:54 -0700 (PDT)
+ Fri, 14 May 2021 08:13:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/50] target/i386: Assert SS32 for x86_64 user-only
-Date: Fri, 14 May 2021 10:13:03 -0500
-Message-Id: <20210514151342.384376-12-richard.henderson@linaro.org>
+Subject: [PATCH v2 12/50] target/i386: Assert CODE64 for x86_64 user-only
+Date: Fri, 14 May 2021 10:13:04 -0500
+Message-Id: <20210514151342.384376-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210514151342.384376-1-richard.henderson@linaro.org>
 References: <20210514151342.384376-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x732.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,94 +88,74 @@ Cc: pbonzini@redhat.com, f4bug@amsat.org, ehabkost@redhat.com, cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For user-only, SS32 == !VM86, because we are never in
-real-mode.  Since we cannot enter vm86 mode for x86_64
-user-only, SS32 is always set.
+For x86_64 user-only, there is no way to leave 64-bit mode.
 
-Since we're adding an accessor macro, pull the value
-directly out of flags otherwise.
+Without x86_64, there is no way to enter 64-bit mode.  There is
+an existing macro to aid with that; simply place it in the right
+place in the ifdef chain.
+
+Since we're adding an accessor macro, pull the value directly out
+of flags when we're not assuming a constant.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ target/i386/tcg/translate.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index b570921410..7b5031f647 100644
+index 7b5031f647..e3907f9066 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -107,7 +107,6 @@ typedef struct DisasContext {
+@@ -41,11 +41,9 @@
+ #define PREFIX_VEX    0x20
+ 
+ #ifdef TARGET_X86_64
+-#define CODE64(s) ((s)->code64)
+ #define REX_X(s) ((s)->rex_x)
+ #define REX_B(s) ((s)->rex_b)
+ #else
+-#define CODE64(s) 0
+ #define REX_X(s) 0
+ #define REX_B(s) 0
+ #endif
+@@ -102,7 +100,6 @@ typedef struct DisasContext {
+ 
+ #ifdef TARGET_X86_64
+     int lma;    /* long mode active */
+-    int code64; /* 64 bit code segment */
+     int rex_x, rex_b;
  #endif
      int vex_l;  /* vex vector length */
-     int vex_v;  /* vex vvvv register, without 1's complement.  */
--    int ss32;   /* 32 bit stack segment */
-     CCOp cc_op;  /* current CC operation */
-     bool cc_op_dirty;
- #ifdef TARGET_X86_64
-@@ -160,9 +159,11 @@ typedef struct DisasContext {
- #if defined(CONFIG_USER_ONLY) && defined(TARGET_X86_64)
- #define VM86(S)   false
- #define CODE32(S) true
-+#define SS32(S)   true
- #else
- #define VM86(S)   (((S)->flags & HF_VM_MASK) != 0)
+@@ -165,6 +162,13 @@ typedef struct DisasContext {
  #define CODE32(S) (((S)->flags & HF_CS32_MASK) != 0)
-+#define SS32(S)   (((S)->flags & HF_SS32_MASK) != 0)
+ #define SS32(S)   (((S)->flags & HF_SS32_MASK) != 0)
  #endif
++#if !defined(TARGET_X86_64)
++#define CODE64(S) false
++#elif defined(CONFIG_USER_ONLY)
++#define CODE64(S) true
++#else
++#define CODE64(S) (((S)->flags & HF_CS64_MASK) != 0)
++#endif
  
  static void gen_eob(DisasContext *s);
-@@ -352,7 +353,7 @@ static inline MemOp mo_pushpop(DisasContext *s, MemOp ot)
- /* Select the size of the stack pointer.  */
- static inline MemOp mo_stacksize(DisasContext *s)
- {
--    return CODE64(s) ? MO_64 : s->ss32 ? MO_32 : MO_16;
-+    return CODE64(s) ? MO_64 : SS32(s) ? MO_32 : MO_16;
- }
- 
- /* Select only size 64 else 32.  Used for SSE operand sizes.  */
-@@ -2451,12 +2452,12 @@ static inline void gen_pop_update(DisasContext *s, MemOp ot)
- 
- static inline void gen_stack_A0(DisasContext *s)
- {
--    gen_lea_v_seg(s, s->ss32 ? MO_32 : MO_16, cpu_regs[R_ESP], R_SS, -1);
-+    gen_lea_v_seg(s, SS32(s) ? MO_32 : MO_16, cpu_regs[R_ESP], R_SS, -1);
- }
- 
- static void gen_pusha(DisasContext *s)
- {
--    MemOp s_ot = s->ss32 ? MO_32 : MO_16;
-+    MemOp s_ot = SS32(s) ? MO_32 : MO_16;
-     MemOp d_ot = s->dflag;
-     int size = 1 << d_ot;
-     int i;
-@@ -2472,7 +2473,7 @@ static void gen_pusha(DisasContext *s)
- 
- static void gen_popa(DisasContext *s)
- {
--    MemOp s_ot = s->ss32 ? MO_32 : MO_16;
-+    MemOp s_ot = SS32(s) ? MO_32 : MO_16;
-     MemOp d_ot = s->dflag;
-     int size = 1 << d_ot;
-     int i;
-@@ -2494,7 +2495,7 @@ static void gen_popa(DisasContext *s)
- static void gen_enter(DisasContext *s, int esp_addend, int level)
- {
-     MemOp d_ot = mo_pushpop(s, s->dflag);
--    MemOp a_ot = CODE64(s) ? MO_64 : s->ss32 ? MO_32 : MO_16;
-+    MemOp a_ot = CODE64(s) ? MO_64 : SS32(s) ? MO_32 : MO_16;
-     int size = 1 << d_ot;
- 
-     /* Push BP; compute FrameTemp into T1.  */
-@@ -8496,8 +8497,8 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
+ static void gen_jr(DisasContext *s, TCGv dest);
+@@ -8497,6 +8501,7 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
      g_assert(IOPL(dc) == iopl);
      g_assert(VM86(dc) == ((flags & HF_VM_MASK) != 0));
      g_assert(CODE32(dc) == ((flags & HF_CS32_MASK) != 0));
-+    g_assert(SS32(dc) == ((flags & HF_SS32_MASK) != 0));
++    g_assert(CODE64(dc) == ((flags & HF_CS64_MASK) != 0));
+     g_assert(SS32(dc) == ((flags & HF_SS32_MASK) != 0));
  
--    dc->ss32 = (flags >> HF_SS32_SHIFT) & 1;
      dc->addseg = (flags >> HF_ADDSEG_SHIFT) & 1;
-     dc->f_st = 0;
-     dc->tf = (flags >> TF_SHIFT) & 1;
+@@ -8518,7 +8523,6 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
+     dc->cpuid_xsave_features = env->features[FEAT_XSAVE];
+ #ifdef TARGET_X86_64
+     dc->lma = (flags >> HF_LMA_SHIFT) & 1;
+-    dc->code64 = (flags >> HF_CS64_SHIFT) & 1;
+ #endif
+     dc->jmp_opt = !(dc->tf || dc->base.singlestep_enabled ||
+                     (flags & HF_INHIBIT_IRQ_MASK));
 -- 
 2.25.1
 
