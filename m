@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490023809CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:42:43 +0200 (CEST)
-Received: from localhost ([::1]:43378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942153809C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 May 2021 14:40:54 +0200 (CEST)
+Received: from localhost ([::1]:39092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhX9O-0000zj-Bp
-	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56700)
+	id 1lhX7d-0006Ul-MT
+	for lists+qemu-devel@lfdr.de; Fri, 14 May 2021 08:40:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWk0-0001GM-Ra
- for qemu-devel@nongnu.org; Fri, 14 May 2021 08:16:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48072)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWk1-0001HC-1n
+ for qemu-devel@nongnu.org; Fri, 14 May 2021 08:16:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjq-0005Fz-Fv
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lhWjv-0005Hz-P3
  for qemu-devel@nongnu.org; Fri, 14 May 2021 08:16:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1620994577;
+ s=mimecast20190719; t=1620994583;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jP1KnCaOQAK1rlZjVBFS+c5ftmWXFlXtg8ELoUTXETg=;
- b=RV+GkDZkSkqo41sI0u6O6YKF7rWQKLat2spxSeBuw2UcFkE7UC+A5VvStplIh+kRDxpwaD
- e9W9/y+Nyt4wkcY9BQA7wlvlmyT+G2Kjdt6uNo5qn9Gdr5ae77kZ2CCX8o6jiXLB43KP+U
- sFLqnIDllZnKMS54thzmQ1yrdbzkPV4=
+ bh=2mAhjO1+JAq03Oy3rABDN5VolcTtYn2nVXL56FWmAo4=;
+ b=JY7Ewq9451JKYzdwoV+7Jgdlt1z0VsEpEDQGeTsOVCld4d44yqkFQFS9xZYymXl/3aYzco
+ 3OJr1UYA62fp5Z+mwjUsSHlq0x2YUEh4MYXOvdWtDFy6mc6DKiq1BJnoGnZhzlXQFUFlSn
+ v3DbR9U7kFbtUvY6XH6FLQCDRsjvrCk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-pcm-_wp-NCqqVWv2MLVg6w-1; Fri, 14 May 2021 08:16:15 -0400
-X-MC-Unique: pcm-_wp-NCqqVWv2MLVg6w-1
+ us-mta-388-p6_cNdbKNQi3bMZGT7indA-1; Fri, 14 May 2021 08:16:19 -0400
+X-MC-Unique: p6_cNdbKNQi3bMZGT7indA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E5C19F92E;
- Fri, 14 May 2021 12:16:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28BF99F92A;
+ Fri, 14 May 2021 12:16:18 +0000 (UTC)
 Received: from thuth.com (ovpn-112-191.ams2.redhat.com [10.36.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D37C60C5D;
- Fri, 14 May 2021 12:16:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F00A56060F;
+ Fri, 14 May 2021 12:16:14 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 18/20] tests/qtest/migration-test: Use g_autofree to avoid
- leaks on error paths
-Date: Fri, 14 May 2021 14:15:16 +0200
-Message-Id: <20210514121518.832729-19-thuth@redhat.com>
+Subject: [PULL 19/20] pc-bios/s390-ccw: Fix inline assembly for older versions
+ of Clang
+Date: Fri, 14 May 2021 14:15:17 +0200
+Message-Id: <20210514121518.832729-20-thuth@redhat.com>
 In-Reply-To: <20210514121518.832729-1-thuth@redhat.com>
 References: <20210514121518.832729-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -55,8 +55,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -78,299 +78,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+Clang versions before v11.0 insist on having the %rX or %cX register
+names instead of just a number. Since our Travis-CI is currently
+still using Clang v6.0, we have to fix this to avoid failing jobs.
 
-Coverity notices that several places in the migration-test code fail
-to free memory in error-exit paths.  This is pretty unimportant in
-test case code, but we can avoid having to manually free the memory
-entirely by using g_autofree.
-
-The places where Coverity spotted a leak were relating to early exits
-not freeing 'uri' in test_precopy_unix(), do_test_validate_uuid(),
-migrate_postcopy_prepare() and test_migrate_auto_converge().  This
-patch converts all the string-allocation in the test code to
-g_autofree for consistency.
-
-Fixes: Coverity CID 1432313, 1432315, 1432352, 1432364
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20210506185819.9010-1-peter.maydell@linaro.org>
+Message-Id: <20210512171550.476130-2-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/migration-test.c | 61 ++++++++++++------------------------
- 1 file changed, 20 insertions(+), 41 deletions(-)
+ pc-bios/s390-ccw/helper.h   | 2 +-
+ pc-bios/s390-ccw/jump2ipl.c | 4 ++--
+ pc-bios/s390-ccw/menu.c     | 8 ++++----
+ pc-bios/s390-ccw/virtio.c   | 2 +-
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 4d989f191b..2b028df687 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -110,13 +110,12 @@ static void init_bootfile(const char *bootpath, void *content, size_t len)
-  */
- static void wait_for_serial(const char *side)
+diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
+index dfcfea0ff0..3d0731c4c6 100644
+--- a/pc-bios/s390-ccw/helper.h
++++ b/pc-bios/s390-ccw/helper.h
+@@ -31,7 +31,7 @@ static inline void *u32toptr(uint32_t n)
+ 
+ static inline void yield(void)
  {
--    char *serialpath = g_strdup_printf("%s/%s", tmpfs, side);
-+    g_autofree char *serialpath = g_strdup_printf("%s/%s", tmpfs, side);
-     FILE *serialfile = fopen(serialpath, "r");
-     const char *arch = qtest_get_arch();
-     int started = (strcmp(side, "src_serial") == 0 &&
-                    strcmp(arch, "ppc64") == 0) ? 0 : 1;
- 
--    g_free(serialpath);
-     do {
-         int readvalue = fgetc(serialfile);
- 
-@@ -274,10 +273,9 @@ static void check_guests_ram(QTestState *who)
- 
- static void cleanup(const char *filename)
- {
--    char *path = g_strdup_printf("%s/%s", tmpfs, filename);
-+    g_autofree char *path = g_strdup_printf("%s/%s", tmpfs, filename);
- 
-     unlink(path);
--    g_free(path);
+-    asm volatile ("diag 0,0,0x44"
++    asm volatile ("diag %%r0,%%r0,0x44"
+                   : :
+                   : "memory", "cc");
  }
- 
- static char *SocketAddress_to_str(SocketAddress *addr)
-@@ -374,11 +372,8 @@ static char *migrate_get_parameter_str(QTestState *who,
- static void migrate_check_parameter_str(QTestState *who, const char *parameter,
-                                         const char *value)
- {
--    char *result;
--
--    result = migrate_get_parameter_str(who, parameter);
-+    g_autofree char *result = migrate_get_parameter_str(who, parameter);
-     g_assert_cmpstr(result, ==, value);
--    g_free(result);
- }
- 
- static void migrate_set_parameter_str(QTestState *who, const char *parameter,
-@@ -495,12 +490,14 @@ static void migrate_start_destroy(MigrateStart *args)
- static int test_migrate_start(QTestState **from, QTestState **to,
-                               const char *uri, MigrateStart *args)
- {
--    gchar *arch_source, *arch_target;
--    gchar *cmd_source, *cmd_target;
-+    g_autofree gchar *arch_source = NULL;
-+    g_autofree gchar *arch_target = NULL;
-+    g_autofree gchar *cmd_source = NULL;
-+    g_autofree gchar *cmd_target = NULL;
-     const gchar *ignore_stderr;
--    char *bootpath = NULL;
--    char *shmem_opts;
--    char *shmem_path;
-+    g_autofree char *bootpath = NULL;
-+    g_autofree char *shmem_opts = NULL;
-+    g_autofree char *shmem_path = NULL;
-     const char *arch = qtest_get_arch();
-     const char *machine_opts = NULL;
-     const char *memory_size;
-@@ -559,8 +556,6 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-         g_assert_not_reached();
-     }
- 
--    g_free(bootpath);
--
-     if (!getenv("QTEST_LOG") && args->hide_stderr) {
-         ignore_stderr = "2>/dev/null";
-     } else {
-@@ -588,11 +583,9 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-                                  memory_size, tmpfs,
-                                  arch_source, shmem_opts, args->opts_source,
-                                  ignore_stderr);
--    g_free(arch_source);
-     if (!args->only_target) {
-         *from = qtest_init(cmd_source);
-     }
--    g_free(cmd_source);
- 
-     cmd_target = g_strdup_printf("-accel kvm -accel tcg%s%s "
-                                  "-name target,debug-threads=on "
-@@ -605,18 +598,14 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-                                  memory_size, tmpfs, uri,
-                                  arch_target, shmem_opts,
-                                  args->opts_target, ignore_stderr);
--    g_free(arch_target);
-     *to = qtest_init(cmd_target);
--    g_free(cmd_target);
- 
--    g_free(shmem_opts);
-     /*
-      * Remove shmem file immediately to avoid memory leak in test failed case.
-      * It's valid becase QEMU has already opened this file
+diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+index 73e4367e09..78f5f46533 100644
+--- a/pc-bios/s390-ccw/jump2ipl.c
++++ b/pc-bios/s390-ccw/jump2ipl.c
+@@ -64,8 +64,8 @@ void jump_to_IPL_code(uint64_t address)
+      * We use the load normal reset to keep r15 unchanged. jump_to_IPL_2
+      * can then use r15 as its stack pointer.
       */
-     if (args->use_shmem) {
-         unlink(shmem_path);
--        g_free(shmem_path);
-     }
- 
- out:
-@@ -662,7 +651,7 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
-                                     QTestState **to_ptr,
-                                     MigrateStart *args)
- {
--    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-     QTestState *from, *to;
- 
-     if (test_migrate_start(&from, &to, uri, args)) {
-@@ -684,7 +673,6 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
-     wait_for_serial("src_serial");
- 
-     migrate_qmp(from, uri, "{}");
--    g_free(uri);
- 
-     wait_for_migration_pass(from);
- 
-@@ -724,7 +712,7 @@ static void test_postcopy_recovery(void)
- {
-     MigrateStart *args = migrate_start_new();
-     QTestState *from, *to;
--    char *uri;
-+    g_autofree char *uri = NULL;
- 
-     args->hide_stderr = true;
- 
-@@ -775,7 +763,6 @@ static void test_postcopy_recovery(void)
-                               (const char * []) { "failed", "active",
-                                                   "completed", NULL });
-     migrate_qmp(from, uri, "{'resume': true}");
--    g_free(uri);
- 
-     /* Restore the postcopy bandwidth to unlimited */
-     migrate_set_parameter_int(from, "max-postcopy-bandwidth", 0);
-@@ -800,7 +787,7 @@ static void test_baddest(void)
- 
- static void test_precopy_unix(void)
- {
--    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-     MigrateStart *args = migrate_start_new();
-     QTestState *from, *to;
- 
-@@ -836,14 +823,13 @@ static void test_precopy_unix(void)
-     wait_for_migration_complete(from);
- 
-     test_migrate_end(from, to, true);
--    g_free(uri);
+-    asm volatile("lghi 1,1\n\t"
+-                 "diag 1,1,0x308\n\t"
++    asm volatile("lghi %%r1,1\n\t"
++                 "diag %%r1,%%r1,0x308\n\t"
+                  : : : "1", "memory");
+     panic("\n! IPL returns !\n");
  }
+diff --git a/pc-bios/s390-ccw/menu.c b/pc-bios/s390-ccw/menu.c
+index de8260a5d6..d601952d3e 100644
+--- a/pc-bios/s390-ccw/menu.c
++++ b/pc-bios/s390-ccw/menu.c
+@@ -36,9 +36,9 @@ static inline void enable_clock_int(void)
+     uint64_t tmp = 0;
  
- #if 0
- /* Currently upset on aarch64 TCG */
- static void test_ignore_shared(void)
- {
--    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-     QTestState *from, *to;
- 
-     if (test_migrate_start(&from, &to, uri, false, true, NULL, NULL)) {
-@@ -873,7 +859,6 @@ static void test_ignore_shared(void)
-     g_assert_cmpint(read_ram_property_int(from, "transferred"), <, 1024 * 1024);
- 
-     test_migrate_end(from, to, true);
--    g_free(uri);
+     asm volatile(
+-        "stctg      0,0,%0\n"
++        "stctg      %%c0,%%c0,%0\n"
+         "oi         6+%0, 0x8\n"
+-        "lctlg      0,0,%0"
++        "lctlg      %%c0,%%c0,%0"
+         : : "Q" (tmp) : "memory"
+     );
  }
- #endif
+@@ -48,9 +48,9 @@ static inline void disable_clock_int(void)
+     uint64_t tmp = 0;
  
-@@ -925,16 +910,15 @@ static void test_xbzrle(const char *uri)
- 
- static void test_xbzrle_unix(void)
- {
--    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
- 
-     test_xbzrle(uri);
--    g_free(uri);
+     asm volatile(
+-        "stctg      0,0,%0\n"
++        "stctg      %%c0,%%c0,%0\n"
+         "ni         6+%0, 0xf7\n"
+-        "lctlg      0,0,%0"
++        "lctlg      %%c0,%%c0,%0"
+         : : "Q" (tmp) : "memory"
+     );
  }
+diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
+index ab49840db8..5d2c6e3381 100644
+--- a/pc-bios/s390-ccw/virtio.c
++++ b/pc-bios/s390-ccw/virtio.c
+@@ -54,7 +54,7 @@ static long kvm_hypercall(unsigned long nr, unsigned long param1,
+     register ulong r_param3 asm("4") = param3;
+     register long retval asm("2");
  
- static void test_precopy_tcp(void)
- {
-     MigrateStart *args = migrate_start_new();
--    char *uri;
-+    g_autofree char *uri = NULL;
-     QTestState *from, *to;
- 
-     if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", args)) {
-@@ -971,7 +955,6 @@ static void test_precopy_tcp(void)
-     wait_for_migration_complete(from);
- 
-     test_migrate_end(from, to, true);
--    g_free(uri);
- }
- 
- static void test_migrate_fd_proto(void)
-@@ -1060,7 +1043,7 @@ static void test_migrate_fd_proto(void)
- 
- static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
- {
--    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-     QTestState *from, *to;
- 
-     if (test_migrate_start(&from, &to, uri, args)) {
-@@ -1088,7 +1071,6 @@ static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
-     }
- 
-     test_migrate_end(from, to, false);
--    g_free(uri);
- }
- 
- static void test_validate_uuid(void)
-@@ -1136,7 +1118,7 @@ static void test_validate_uuid_dst_not_set(void)
- 
- static void test_migrate_auto_converge(void)
- {
--    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-+    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-     MigrateStart *args = migrate_start_new();
-     QTestState *from, *to;
-     int64_t remaining, percentage;
-@@ -1214,7 +1196,6 @@ static void test_migrate_auto_converge(void)
-     wait_for_serial("dest_serial");
-     wait_for_migration_complete(from);
- 
--    g_free(uri);
- 
-     test_migrate_end(from, to, true);
- }
-@@ -1224,7 +1205,7 @@ static void test_multifd_tcp(const char *method)
-     MigrateStart *args = migrate_start_new();
-     QTestState *from, *to;
-     QDict *rsp;
--    char *uri;
-+    g_autofree char *uri = NULL;
- 
-     if (test_migrate_start(&from, &to, "defer", args)) {
-         return;
-@@ -1273,7 +1254,6 @@ static void test_multifd_tcp(const char *method)
-     wait_for_serial("dest_serial");
-     wait_for_migration_complete(from);
-     test_migrate_end(from, to, true);
--    g_free(uri);
- }
- 
- static void test_multifd_tcp_none(void)
-@@ -1309,7 +1289,7 @@ static void test_multifd_tcp_cancel(void)
-     MigrateStart *args = migrate_start_new();
-     QTestState *from, *to, *to2;
-     QDict *rsp;
--    char *uri;
-+    g_autofree char *uri = NULL;
- 
-     args->hide_stderr = true;
- 
-@@ -1387,7 +1367,6 @@ static void test_multifd_tcp_cancel(void)
-     wait_for_serial("dest_serial");
-     wait_for_migration_complete(from);
-     test_migrate_end(from, to2, true);
--    g_free(uri);
- }
- 
- int main(int argc, char **argv)
+-    asm volatile ("diag 2,4,0x500"
++    asm volatile ("diag %%r2,%%r4,0x500"
+                   : "=d" (retval)
+                   : "d" (r_nr), "0" (r_param1), "r"(r_param2), "d"(r_param3)
+                   : "memory", "cc");
 -- 
 2.27.0
 
