@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900AF38184A
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:25:46 +0200 (CEST)
-Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCFA381831
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:22:42 +0200 (CEST)
+Received: from localhost ([::1]:41736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhsQT-0007iu-M1
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44018)
+	id 1lhsNV-0004VV-RA
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:22:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsLf-0002L7-6h
+ id 1lhsLf-0002LY-Ep
  for qemu-devel@nongnu.org; Sat, 15 May 2021 07:20:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56450)
+Received: from indium.canonical.com ([91.189.90.7]:56476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsLb-0004O7-Ml
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:20:46 -0400
+ id 1lhsLc-0004OQ-9v
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:20:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhsLZ-0001F4-Cc
+ id 1lhsLZ-0001GE-Qg
  for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:20:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5E2032E813A
+ by loganberry.canonical.com (Postfix) with ESMTP id C8D892E813A
  for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:20:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 11:12:16 -0000
-From: Thomas Huth <1926596@bugs.launchpad.net>
+Date: Sat, 15 May 2021 11:12:53 -0000
+From: Thomas Huth <1926521@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gaenshgosavi th-huth
-X-Launchpad-Bug-Reporter: Ganesh Gosavi (gaenshgosavi)
+X-Launchpad-Bug-Commenters: laurent-vivier th-huth vitalybuka
+X-Launchpad-Bug-Reporter: Vitaly Buka (vitalybuka)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161969321576.9662.8100892144951224535.malonedeb@gac.canonical.com>
-Message-Id: <162107713696.8164.16442187568902927395.malone@gac.canonical.com>
-Subject: [Bug 1926596] Re: qemu-monitor-event command gets stuck randomly
+References: <161964685051.14413.3981056017382622620.malonedeb@wampee.canonical.com>
+Message-Id: <162107717352.21152.3117472905347794440.malone@soybean.canonical.com>
+Subject: [Bug 1926521] Re: QEMU-user ignores MADV_DONTNEED
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 8a98b312ef4d1ceab1d41b4273b1e986498b15ac
+X-Launchpad-Hash: 4a6ce62a5fa255411956981044b46082ebd23956
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926596 <1926596@bugs.launchpad.net>
+Reply-To: Bug 1926521 <1926521@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -104,11 +105,6 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
-** Summary changed:
-
-- qemu-monitor-event command stukcs randomly
-+ qemu-monitor-event command gets stuck randomly
-
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
@@ -116,56 +112,81 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926596
+https://bugs.launchpad.net/bugs/1926521
 
 Title:
-  qemu-monitor-event command gets stuck randomly
+  QEMU-user ignores MADV_DONTNEED
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  We are using kvm virtualization on our servers, We use "qemu-monitor-comm=
-and"(drive-backup) to take qcow2 backups and to monitor them we use "qemu-m=
-onitor-event" command =
+  There is comment int the code "This is a hint, so ignoring and returning =
+success is ok"
+  https://github.com/qemu/qemu/blob/b1cffefa1b163bce9aebc3416f562c1d3886eea=
+a/linux-user/syscall.c#L11941
 
-  For eg:-
-  /usr/bin/virsh qemu-monitor-event VPSNAME --event "BLOCK_JOB_COMPLETED\|B=
-LOCK_JOB_ERROR" --regex
+  But it seems incorrect with the current state of Linux
 
-  the above command stucks randomly (backup completes but still it is
-  waiting) and because of which other vms backup are stucked until we
-  kill that process.
+  "man madvise" or https://man7.org/linux/man-pages/man2/madvise.2.html
+  says the following:
+  >>  These advice values do not influence the semantics
+  >>       of the application (except in the case of MADV_DONTNEED)
 
-  Can you suggest how can we debug this further to find the actual
-  issue.
+  >> After a successful MADV_DONTNEED operation, the semantics
+  >> of memory access in the specified region are changed:
+  >> subsequent accesses of pages in the range will succeed,
+  >> but will result in either repopulating the memory contents
+  >> from the up-to-date contents of the underlying mapped file
+  >> (for shared file mappings, shared anonymous mappings, and
+  >> shmem-based techniques such as System V shared memory
+  >> segments) or zero-fill-on-demand pages for anonymous
+  >> private mappings.
+
+  Some applications use this behavior clear memory and it
+  would be nice to be able to run them on QEMU without
+  workarounds.
+
+  Reproducer on "Debian 5.10.24 x86_64 GNU/Linux" as a host.
 
   =
 
-  /usr/bin/virsh version
+  ```
+  #include "assert.h"
+  #include "stdio.h"
+  #include <sys/mman.h>
+  #include <errno.h>
 
-  Compiled against library: libvirt 4.5.0
-  Using library: libvirt 4.5.0
-  Using API: QEMU 4.5.0
-  Running hypervisor: QEMU 2.0.0
+  int main() {
+    char *P =3D (char *)mmap(0, 4096, PROT_READ | PROT_WRITE,
+                           MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    assert(P);
+    *P =3D 'A';
+    while (madvise(P, 4096, MADV_DONTNEED) =3D=3D -1 && errno =3D=3D EAGAIN=
+) {
+    }
+    assert(*P =3D=3D 0);
 
-  cat /etc/os-release
-  NAME=3D"CentOS Linux"
-  VERSION=3D"7 (Core)"
-  ID=3D"centos"
-  ID_LIKE=3D"rhel fedora"
-  VERSION_ID=3D"7"
-  PRETTY_NAME=3D"CentOS Linux 7 (Core)"
-  ANSI_COLOR=3D"0;31"
-  CPE_NAME=3D"cpe:/o:centos:centos:7"
-  HOME_URL=3D"https://www.centos.org/"
-  BUG_REPORT_URL=3D"https://bugs.centos.org/"
+    printf("OK\n");
+  }
 
-  CENTOS_MANTISBT_PROJECT=3D"CentOS-7"
-  CENTOS_MANTISBT_PROJECT_VERSION=3D"7"
-  REDHAT_SUPPORT_PRODUCT=3D"centos"
-  REDHAT_SUPPORT_PRODUCT_VERSION=3D"7"
+  /*
+  gcc /tmp/madvice.c -o /tmp/madvice
+
+  qemu-x86_64 /tmp/madvice
+  madvice: /tmp/madvice.c:13: main: Assertion `*P =3D=3D 0' failed.
+  qemu: uncaught target signal 6 (Aborted) - core dumped
+  Aborted
+
+  /tmp/madvice
+  OK
+
+  =
+
+  */
+
+  ```
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926596/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926521/+subscriptions
 
