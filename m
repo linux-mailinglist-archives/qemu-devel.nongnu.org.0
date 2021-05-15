@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D6538193C
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 16:06:51 +0200 (CEST)
-Received: from localhost ([::1]:39500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91FF7381948
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 16:16:09 +0200 (CEST)
+Received: from localhost ([::1]:54154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhuwM-00072g-2w
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 10:06:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44376)
+	id 1lhv5M-0000D8-JK
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 10:16:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhuvD-0006BI-4A
- for qemu-devel@nongnu.org; Sat, 15 May 2021 10:05:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42298)
+ id 1lhv0R-0001XE-8Y
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 10:11:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhuv8-0006PO-Hv
- for qemu-devel@nongnu.org; Sat, 15 May 2021 10:05:36 -0400
+ id 1lhv0L-0001U4-P1
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 10:11:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhuv6-0002LK-97
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:05:32 +0000
+ id 1lhv0J-0002a9-L9
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:10:55 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3CAA52E8135
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:05:32 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9C5942E813A
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:10:55 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 13:59:52 -0000
-From: Thomas Huth <1914870@bugs.launchpad.net>
+Date: Sat, 15 May 2021 14:04:14 -0000
+From: Thomas Huth <1918917@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
+X-Launchpad-Bug-Commenters: arnd-arndb dvyukov pmaydell th-huth
+X-Launchpad-Bug-Reporter: Dmitry Vyukov (dvyukov)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161262934089.14056.18327208796436481224.malonedeb@soybean.canonical.com>
-Message-Id: <162108719217.7753.7182320128723270133.malone@gac.canonical.com>
-Subject: [Bug 1914870] Re: libvixl compilation failure on Debian unstable
+References: <161554541665.16519.7546318758364401915.malonedeb@wampee.canonical.com>
+Message-Id: <162108745427.20573.6857737341885260338.malone@soybean.canonical.com>
+Subject: [Bug 1918917] Re: synchronous abort on accessing unused I/O ports on
+ aarch64
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: c263033136115ef3abc46fbe475cb3ad5a1ca1eb
+X-Launchpad-Hash: 7054452c5888464c6716e95425529e5bb5443fec
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,144 +72,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914870 <1914870@bugs.launchpad.net>
+Reply-To: Bug 1918917 <1918917@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
-
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
-
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
-
-    https://gitlab.com/qemu-project/qemu/-/issues
-
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
-
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" or "Confirmed" within the next 60 days (other-
-wise it will get closed as "Expired"). We will then eventually migrate
-the ticket automatically to the new system (but you won't be the reporter
-of the bug in the new system and thus you won't get notified on changes
-anymore).
-
-Thank you and sorry for the inconvenience.
+ https://gitlab.com/qemu-project/qemu/-/issues/317
 
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Expired
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #317
+   https://gitlab.com/qemu-project/qemu/-/issues/317
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914870
+https://bugs.launchpad.net/bugs/1918917
 
 Title:
-  libvixl compilation failure on Debian unstable
+  synchronous abort on accessing unused I/O ports on aarch64
 
 Status in QEMU:
-  Incomplete
+  Expired
 
 Bug description:
-  As of commit 0e324626306:
+  version: QEMU emulator version 5.2.0 (Debian 1:5.2+dfsg-6)
+  command line: qemu-system-aarch64 \
+  	-machine virt,virtualization=3Don,graphics=3Don,usb=3Don -cpu cortex-a57=
+ -smp 2 -m 2G \
+  	-device virtio-blk-device,drive=3Dhd0 \
+  	-drive if=3Dnone,format=3Draw,id=3Dhd0,file=3Dbuildroot \
+  	-kernel arch/arm64/boot/Image \
+  	-nographic \
+  	-device virtio-rng-pci \
+  	-net user,host=3D10.0.2.10,hostfwd=3Dtcp::10022-:22 -net nic,model=3Dvir=
+tio-net-pci \
+  	-append "root=3D/dev/vda earlyprintk=3Dserial console=3DttyAMA0 earlycon"
 
-  $ lsb_release -d
-  Description:    Debian GNU/Linux bullseye/sid
+  I am observing "synchronous external abort" when kernel tries to
+  access unused I/O ports (see below), while hardware/qemu should return
+  0xffffffff in this case.
 
-  Project version: 5.2.50
-  C compiler for the host machine: cc (gcc 10.2.1 "cc (Debian 10.2.1-6) 10.=
-2.1 20210110")
-  C linker for the host machine: cc ld.bfd 2.35.1
-  C++ compiler for the host machine: c++ (gcc 10.2.1 "c++ (Debian 10.2.1-6)=
- 10.2.1 20210110")
-  C++ linker for the host machine: c++ ld.bfd 2.35.1
+  This is factored out of this LKML thread where Arnd describes it in more =
+details:
+  https://lore.kernel.org/lkml/CAK8P3a0HVu+x0T6+K3d0v1bvU-Pes0F0CSjqm5x=3Db=
+xFgv5Y3mA@mail.gmail.com/
 
-  [6/79] Compiling C++ object libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
-  FAILED: libcommon.fa.p/disas_libvixl_vixl_utils.cc.o =
+  Internal error: synchronous external abort: 96000050 [#1] PREEMPT SMP
+  Dumping ftrace buffer:
+     (ftrace buffer empty)
+  Modules linked in:
+  CPU: 0 PID: 11231 Comm: syz-executor.1 Not tainted 5.12.0-rc2-syzkaller-0=
+0302-g28806e4d9b97 #0
+  Hardware name: linux,dummy-virt (DT)
+  pstate: 80000085 (Nzcv daIf -PAN -UAO -TCO BTYPE=3D--)
+  pc : __raw_writeb arch/arm64/include/asm/io.h:27 [inline]
+  pc : _outb include/asm-generic/io.h:501 [inline]
+  pc : logic_outb+0x3c/0x114 lib/logic_pio.c:302
+  lr : io_serial_out+0x80/0xc0 drivers/tty/serial/8250/8250_port.c:453
+  sp : ffff000015f0f980
+  x29: ffff000015f0f980 x28: ffff80001de0005d =
 
-  c++ -Ilibcommon.fa.p -I. -I.. -Iqapi -Itrace -Iui/shader -I/usr/include/c=
-apstone -I/usr/include/glib-2.0 -I/usr/lib/hppa-linux-gnu/glib-2.0/include =
--fdiagnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -We=
-rror -std=3Dgnu++11 -O2 -g -isystem /home/philmd/qemu/linux-headers -isyste=
-m linux-headers -iquote . -iquote /home/philmd/qemu -iquote /home/philmd/qe=
-mu/include -iquote /home/philmd/qemu/disas/libvixl -iquote /home/philmd/qem=
-u/tcg/hppa -iquote /home/philmd/qemu/accel/tcg -pthread -D__STDC_LIMIT_MACR=
-OS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -U_FORTIFY_SOURCE -D_FOR=
-TIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE =
--Wundef -Wwrite-strings -fno-strict-aliasing -fno-common -fwrapv -Wtype-lim=
-its -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty=
--body -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno=
--missing-include-dirs -Wno-shift-negative-value -Wno-psabi -fPIE -MD -MQ li=
-bcommon.fa.p/disas_libvixl_vixl_utils.cc.o -MF libcommon.fa.p/disas_libvixl=
-_vixl_utils.cc.o.d -o libcommon.fa.p/disas_libvixl_vixl_utils.cc.o -c ../di=
-sas/libvixl/vixl/utils.cc
-  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
-                   from ../disas/libvixl/vixl/utils.cc:27:
-  /usr/include/string.h:36:43: error: missing binary operator before token =
-"("
-     36 | #if defined __cplusplus && (__GNUC_PREREQ (4, 4) \
-        |                                           ^
-  /usr/include/string.h:53:62: error: missing binary operator before token =
-"("
-     53 | #if defined __USE_MISC || defined __USE_XOPEN || __GLIBC_USE (ISO=
-C2X)
-        |                                                              ^
-  /usr/include/string.h:165:21: error: missing binary operator before token=
- "("
-    165 |      || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X))
-        |                     ^
-  /usr/include/string.h:174:43: error: missing binary operator before token=
- "("
-    174 | #if defined __USE_XOPEN2K8 || __GLIBC_USE (LIB_EXT2) || __GLIBC_U=
-SE (ISOC2X)
-        |                                           ^
-  /usr/include/string.h:492:19: error: missing binary operator before token=
- "("
-    492 | #if __GNUC_PREREQ (3,4)
-        |                   ^
-  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
-                   from ../disas/libvixl/vixl/utils.cc:27:
-  /usr/include/string.h:28:1: error: =E2=80=98__BEGIN_DECLS=E2=80=99 does n=
-ot name a type
-     28 | __BEGIN_DECLS
-        | ^~~~~~~~~~~~~
-  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
-                   from ../disas/libvixl/vixl/utils.cc:27:
-  /usr/include/string.h:44:8: error: =E2=80=98size_t=E2=80=99 has not been =
-declared
-     44 |        size_t __n) __THROW __nonnull ((1, 2));
-        |        ^~~~~~
-  /usr/include/string.h:44:20: error: expected initializer before =E2=80=98=
-__THROW=E2=80=99
-     44 |        size_t __n) __THROW __nonnull ((1, 2));
-        |                    ^~~~~~~
-  /usr/include/string.h:47:56: error: =E2=80=98size_t=E2=80=99 has not been=
- declared
-     47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
-        |                                                        ^~~~~~
-  /usr/include/string.h:48:6: error: expected initializer before =E2=80=98_=
-_THROW=E2=80=99
-     48 |      __THROW __nonnull ((1, 2));
-        |      ^~~~~~~
-  /usr/include/string.h:61:42: error: =E2=80=98size_t=E2=80=99 has not been=
- declared
-     61 | extern void *memset (void *__s, int __c, size_t __n) __THROW __no=
-nnull ((1));
-        |                                          ^~~~~~
+  x27: ffff80001601df00 x26: ffff000015f0fc90 =
 
-  Is there a package dependency missing?
+  x25: ffff80001de00000 x24: ffff80001de00000 =
+
+  x23: ffff00000e27f600 x22: 0000000000000000 =
+
+  x21: 0000000000000002 x20: 0000000000000002 =
+
+  x19: fffffbfffe800001 x18: ffff00006a678b48 =
+
+  x17: 0000000000000000 x16: 0000000000000000 =
+
+  x15: ffff8000197be810 x14: 1fffe00002be1f0e =
+
+  x13: 1fffe00002be1e90 x12: ffff600002be1f39 =
+
+  x11: 1fffe00002be1f38 x10: ffff600002be1f38 =
+
+  x9 : dfff800000000000 x8 : 0000000000000003 =
+
+  x7 : 0000000000000001 x6 : 0000000000000004 =
+
+  x5 : ffff000015f0f9c0 x4 : dfff800000000000 =
+
+  x3 : 0000000000000001 x2 : 1ffff00003494e6b =
+
+  x1 : fffffbfffe800000 x0 : 0000000000ffbffe =
+
+  Call trace:
+   _outb include/asm-generic/io.h:501 [inline]
+   logic_outb+0x3c/0x114 lib/logic_pio.c:302
+   io_serial_out+0x80/0xc0 drivers/tty/serial/8250/8250_port.c:453
+   serial_out drivers/tty/serial/8250/8250.h:118 [inline]
+   serial8250_set_THRI drivers/tty/serial/8250/8250.h:138 [inline]
+   __start_tx drivers/tty/serial/8250/8250_port.c:1566 [inline]
+   serial8250_start_tx+0x338/0x6c0 drivers/tty/serial/8250/8250_port.c:1666
+   __uart_start.isra.0+0x10c/0x154 drivers/tty/serial/serial_core.c:127
+   uart_start+0xe0/0x210 drivers/tty/serial/serial_core.c:137
+   uart_flush_chars+0x10/0x20 drivers/tty/serial/serial_core.c:573
+   __receive_buf drivers/tty/n_tty.c:1646 [inline]
+   n_tty_receive_buf_common+0x588/0x22c0 drivers/tty/n_tty.c:1739
+   n_tty_receive_buf+0x14/0x20 drivers/tty/n_tty.c:1768
+   tiocsti drivers/tty/tty_io.c:2317 [inline]
+   tty_ioctl+0xed0/0x1aec drivers/tty/tty_io.c:2718
+   vfs_ioctl fs/ioctl.c:48 [inline]
+   __do_sys_ioctl fs/ioctl.c:753 [inline]
+   __se_sys_ioctl fs/ioctl.c:739 [inline]
+   __arm64_sys_ioctl+0x120/0x18c fs/ioctl.c:739
+   __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
+   invoke_syscall arch/arm64/kernel/syscall.c:49 [inline]
+   el0_svc_common.constprop.0+0xf0/0x2c0 arch/arm64/kernel/syscall.c:129
+   do_el0_svc+0xa4/0xd0 arch/arm64/kernel/syscall.c:168
+   el0_svc+0x24/0x34 arch/arm64/kernel/entry-common.c:416
+   el0_sync_handler+0x1a4/0x1b0 arch/arm64/kernel/entry-common.c:432
+   el0_sync+0x170/0x180 arch/arm64/kernel/entry.S:699
+  Code: d2bfd001 f2df7fe1 f2ffffe1 8b010273 (39000274) =
+
+  ---[ end trace 79cb47219936c254 ]---
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914870/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1918917/+subscriptions
 
