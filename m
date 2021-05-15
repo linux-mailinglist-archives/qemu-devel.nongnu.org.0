@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BCF381A91
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 20:37:36 +0200 (CEST)
-Received: from localhost ([::1]:39618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C830D381AA0
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 21:03:28 +0200 (CEST)
+Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhzAN-0006FM-Fk
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 14:37:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57216)
+	id 1lhzZP-0007M7-1h
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 15:03:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lhz8U-0004VY-69; Sat, 15 May 2021 14:35:38 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42754)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lhz8S-0008NW-BP; Sat, 15 May 2021 14:35:37 -0400
-Received: by mail-wr1-x430.google.com with SMTP id x8so2266085wrq.9;
- Sat, 15 May 2021 11:35:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fdQcq09KgwY4TnbErmZp9oWE2lOVdlGyle/pfMR4QNc=;
- b=t9+u7V2NR1fHPaPITXErxnhyAGiVWxrVCNuTtSoz/pB/l6V/IvwkDFpWXDGoQJuDOy
- KlQbGBqbLP8oeEq5FGx+piUEzT7znY3COzMdN5K3602KIqjjqiDdjLDhbOLDXdx2hAHf
- k6xpZ6RBjPWGSMMpw2N02PqY0pnrg16LgFVHtdx0hFM28JmryTDtd4inOqNFMVT0qQsV
- 9xMbfNM4Ual6xC/M+z2/MfXWTkPfAFW383t0s9qZjHt+2gM+ZCkfflPkZQN2dThF76ND
- uIjJJKvKUHPAntsNZ8LjY1TEo0vr+cTDqAG54+YsmRfSTMWr4BazdgQ9YbwtBjUbTzVk
- ULAg==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1lhzYQ-0006hS-LB
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 15:02:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33035)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1lhzYN-0008U6-RF
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 15:02:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621105341;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Nl59KbCFbew/darToTdwGOy4Agxn61SNfktMgDr0d78=;
+ b=W/kEFDcq8cDK87yqgqZNlQlVdhC0cLvxjwdhBF/IMk6TqPRhYgrt4dfDAGQOJor/ABstf7
+ 3G0+bSrg/CURVYzpmYs5IUD5zi3zg9DFYQAjrXBlY5aovt6D6Vme8oUIFj+10blFMp6XuO
+ /p6LDYqfefGtautZzZYJYnMDIdPeW7g=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-x1IIeUMoO3qZkT1J6oPtKA-1; Sat, 15 May 2021 15:02:18 -0400
+X-MC-Unique: x1IIeUMoO3qZkT1J6oPtKA-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ o1-20020a17090a4201b029015c8f11f550so3784735pjg.5
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 12:02:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=fdQcq09KgwY4TnbErmZp9oWE2lOVdlGyle/pfMR4QNc=;
- b=WfpI3YsOJxpiyZP01bU15U+I7IKY0aM6QsJhFgSD8aLYVwemZxxvK/aWAzOzO/KkPO
- QWi8E0cqZ/XBiODdtaW2zCvaqrTfrnBbq2czdTYXgRO6cqDfsD9HYmPiDpAgz952QQ3O
- 7SZe57vW2uyvTadbvfuVFza5rXUb5wJC9Q/1Z4j9Ut06DhgAL/ElbFOUPiDbnd7Nvl4R
- TcCRVz8PpKhhCYs7yiwKHsgJDO9nvY8rUHaA9aXHKa4/uS6Ek8QmtisMRDZ94InFnRpS
- RZx8xgT8A9rO/yEEgARRfFlsFw8919qD864BHgOXvg08X2HGy4NeSh0exmdVuRD7XI6k
- UxkA==
-X-Gm-Message-State: AOAM530wwx3u2DydyJhuIMIwfpgmb0JtbUvV+XziWcsp56JF85qWRd3O
- K1WWWmWOxibH0bp4VxU7M9fdCfzGCQOVNw==
-X-Google-Smtp-Source: ABdhPJzHJT7frSrFAlsS3feiwMfPaROdVxQ2bWti+dyw7vbnLZPIT0fMw/Lmm8xU3Vm/w+ZbUPr4rA==
-X-Received: by 2002:adf:9d48:: with SMTP id o8mr65341357wre.183.1621103733945; 
- Sat, 15 May 2021 11:35:33 -0700 (PDT)
-Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id t16sm624940wrb.66.2021.05.15.11.35.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 May 2021 11:35:33 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] disas/libvixl: Protect C system header for C++ compiler
-Date: Sat, 15 May 2021 20:35:30 +0200
-Message-Id: <20210515183531.372925-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.3
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Nl59KbCFbew/darToTdwGOy4Agxn61SNfktMgDr0d78=;
+ b=TCpcthi1lCc9TOHXzn61HOvESyy7OKcjn3a5A4ML28jVjWun2fzAJWtGnkLHDusCcs
+ 8uPG1WLncZRG9QlUtTJomqIKAJXZdAN602tqTJaWs/SCrp8ifvB21pCM7ms59D50iXYV
+ Nl3TYKbA2yNOHhxjnjTYTym1G3XtGjDLwkA72FHTrlWJv+QG+8ciRqo8OYZSk4Q1EADC
+ ebqSbVxvRQjsMydrl3eCAohla2zLvgNwNtlCLtHohyNMGXD4zvybtPppqNRRFxqSmIAQ
+ byw1m6713faUV1SPtWsqPKrkEzS00su5Ql91T7C7AeOX2AITenCfHPYfzDookwqRF4iv
+ CxkA==
+X-Gm-Message-State: AOAM530Qh242XSevtIdY+S+NWmV4Ec3i8XnQw/R6UCVe5E++boJWPeA1
+ vt9fL4X5wHUlWyDoruA7ExO7fzRbc9ocnjQqqwlgx3vsfOeypdadYX5hdw/2HxLMlTnwgV1oQrU
+ SjK08jkXmzL20SGFNxnCntJGce8FQrQo=
+X-Received: by 2002:a65:638e:: with SMTP id h14mr38546701pgv.108.1621105337474; 
+ Sat, 15 May 2021 12:02:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyiWw4BpBmgk/rRHkPKUA+d1EklHMpCcdRv5Lqzhq2K+Sry69ZcRl/2zedvAc0h9uD8wCfe2ZYyPevdd8sjC/I=
+X-Received: by 2002:a65:638e:: with SMTP id h14mr38546680pgv.108.1621105337253; 
+ Sat, 15 May 2021 12:02:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210514111310.1756593-1-marcandre.lureau@redhat.com>
+ <CAFEAcA_xf7CAqEsn5EPSht3+7wOXKvnnQ+OGGp8aDw9A_f3AEA@mail.gmail.com>
+ <48378522-0a28-b1c6-2a28-72c85202fcb2@redhat.com>
+In-Reply-To: <48378522-0a28-b1c6-2a28-72c85202fcb2@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Sat, 15 May 2021 23:02:06 +0400
+Message-ID: <CAMxuvayho0Lgyejz8KPCDfmsbHZE9ANMdKv+NCdooUHoaJyY4Q@mail.gmail.com>
+Subject: Re: [PULL v3 0/1] Rtd patches
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000c556ff05c262ff94"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,88 +91,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When selecting an ARM target on Debian unstable, we get:
+--000000000000c556ff05c262ff94
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  Compiling C++ object libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
-  FAILED: libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
-  c++ -Ilibcommon.fa.p -I. -I.. [...] -o libcommon.fa.p/disas_libvixl_vixl_utils.cc.o -c ../disas/libvixl/vixl/utils.cc
-  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
-                   from ../disas/libvixl/vixl/utils.cc:27:
-  /usr/include/string.h:36:43: error: missing binary operator before token "("
-     36 | #if defined __cplusplus && (__GNUC_PREREQ (4, 4) \
-        |                                           ^
-  /usr/include/string.h:53:62: error: missing binary operator before token "("
-     53 | #if defined __USE_MISC || defined __USE_XOPEN || __GLIBC_USE (ISOC2X)
-        |                                                              ^
-  /usr/include/string.h:165:21: error: missing binary operator before token "("
-    165 |      || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X))
-        |                     ^
-  /usr/include/string.h:174:43: error: missing binary operator before token "("
-    174 | #if defined __USE_XOPEN2K8 || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X)
-        |                                           ^
-  /usr/include/string.h:492:19: error: missing binary operator before token "("
-    492 | #if __GNUC_PREREQ (3,4)
-        |                   ^
+Hi
 
-Similarly to commit 875df03b221 ('osdep: protect qemu/osdep.h with
-extern "C"'), guard the <string.h> system header with 'extern "C"'.
+On Sat, May 15, 2021 at 5:20 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com>
+wrote:
 
-Relevant information from the host:
+> On 5/14/21 8:33 PM, Peter Maydell wrote:
+> > On Fri, 14 May 2021 at 12:13, <marcandre.lureau@redhat.com> wrote:
+> >>
+> >> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >>
+> >> The following changes since commit
+> 2d3fc4e2b069494b1e9e2e4a1e3de24cbc036426:
+> >>
+> >>   Merge remote-tracking branch
+> 'remotes/armbru/tags/pull-misc-2021-05-12' into staging (2021-05-13
+> 20:13:24 +0100)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>   git@gitlab.com:marcandre.lureau/qemu.git tags/rtd-pull-request
+> >>
+> >> for you to fetch changes up to 73e6aec6522e1edd63f631c52577b49a39bc234=
+f:
+> >>
+> >>   sphinx: adopt kernel readthedoc theme (2021-05-14 15:05:03 +0400)
+> >>
+> >> ----------------------------------------------------------------
+> >> Pull request
+> >>
+> >> ----------------------------------------------------------------
+> >
+> >
+> > Applied, thanks.
+>
+> After rebasing I'm getting:
+>
+> Program sphinx-build-3 found: YES
+> docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:
+> Configuration error:
+> There is a programmable error in your configuration file:
+>
+> Traceback (most recent call last):
+>   File "/home/phil/source/qemu/docs/conf.py", line 155, in <module>
+>     import sphinx_rtd_theme
+> ModuleNotFoundError: No module named 'sphinx_rtd_theme'
+>
+> During handling of the above exception, another exception occurred:
+>
+> Traceback (most recent call last):
+>   File "/usr/lib/python3.8/site-packages/sphinx/config.py", line 361, in
+> eval_config_file
+>     execfile_(filename, namespace)
+>   File "/usr/lib/python3.8/site-packages/sphinx/util/pycompat.py", line
+> 81, in execfile_
+>     exec(code, _globals)
+>   File "/home/phil/source/qemu/docs/conf.py", line 157, in <module>
+>     raise ConfigError(
+> sphinx.errors.ConfigError: The Sphinx 'sphinx_rtd_theme' HTML theme was
+> not found.
+>
+> Is python3-sphinx_rtd_theme a required dependency now?
+>
+>
+Yes, only If you --enable-docs. Otherwise, you should get a warning and doc
+will be disabled. Mine is less ugly than yours, not sure why:
 
-  $ lsb_release -d
-  Description:    Debian GNU/Linux 11 (bullseye)
-  $ gcc --version
-  gcc (Debian 10.2.1-6) 10.2.1 20210110
-  $ dpkg -S /usr/include/string.h
-  libc6-dev: /usr/include/string.h
-  $ apt-cache show libc6-dev
-  Package: libc6-dev
-  Version: 2.31-11
+Program sphinx-build-3 found: YES (/usr/bin/sphinx-build-3)
+../docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:
+Configuration error:
+The Sphinx 'sphinx_rtd_theme' HTML theme was not found.
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1914870
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-RFC because I've no idea about C++, but this fixes the build for me.
 
-Quick reproducer:
+Program python3 found: YES (/usr/bin/python3)
 
-  $ ../configure --disable-tools --target-list=aarch64-linux-user
+--000000000000c556ff05c262ff94
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
----
- disas/libvixl/vixl/utils.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, May 15, 2021 at 5:20 PM Phi=
+lippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@re=
+dhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">On 5/14/21 8:33 PM, Peter Maydell wrote:<br>
+&gt; On Fri, 14 May 2021 at 12:13, &lt;<a href=3D"mailto:marcandre.lureau@r=
+edhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
+u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; The following changes since commit 2d3fc4e2b069494b1e9e2e4a1e3de24=
+cbc036426:<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0Merge remote-tracking branch &#39;remotes/armbru/tags/=
+pull-misc-2021-05-12&#39; into staging (2021-05-13 20:13:24 +0100)<br>
+&gt;&gt;<br>
+&gt;&gt; are available in the Git repository at:<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0git@gitlab.com:marcandre.lureau/qemu.git tags/rtd-pull=
+-request<br>
+&gt;&gt;<br>
+&gt;&gt; for you to fetch changes up to 73e6aec6522e1edd63f631c52577b49a39b=
+c234f:<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0sphinx: adopt kernel readthedoc theme (2021-05-14 15:0=
+5:03 +0400)<br>
+&gt;&gt;<br>
+&gt;&gt; ----------------------------------------------------------------<b=
+r>
+&gt;&gt; Pull request<br>
+&gt;&gt;<br>
+&gt;&gt; ----------------------------------------------------------------<b=
+r>
+&gt; <br>
+&gt; <br>
+&gt; Applied, thanks.<br>
+<br>
+After rebasing I&#39;m getting:<br>
+<br>
+Program sphinx-build-3 found: YES<br>
+docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:<br>
+Configuration error:<br>
+There is a programmable error in your configuration file:<br>
+<br>
+Traceback (most recent call last):<br>
+=C2=A0 File &quot;/home/phil/source/qemu/docs/conf.py&quot;, line 155, in &=
+lt;module&gt;<br>
+=C2=A0 =C2=A0 import sphinx_rtd_theme<br>
+ModuleNotFoundError: No module named &#39;sphinx_rtd_theme&#39;<br>
+<br>
+During handling of the above exception, another exception occurred:<br>
+<br>
+Traceback (most recent call last):<br>
+=C2=A0 File &quot;/usr/lib/python3.8/site-packages/sphinx/config.py&quot;, =
+line 361, in<br>
+eval_config_file<br>
+=C2=A0 =C2=A0 execfile_(filename, namespace)<br>
+=C2=A0 File &quot;/usr/lib/python3.8/site-packages/sphinx/util/pycompat.py&=
+quot;, line<br>
+81, in execfile_<br>
+=C2=A0 =C2=A0 exec(code, _globals)<br>
+=C2=A0 File &quot;/home/phil/source/qemu/docs/conf.py&quot;, line 157, in &=
+lt;module&gt;<br>
+=C2=A0 =C2=A0 raise ConfigError(<br>
+sphinx.errors.ConfigError: The Sphinx &#39;sphinx_rtd_theme&#39; HTML theme=
+ was<br>
+not found.<br>
+<br>
+Is python3-sphinx_rtd_theme a required dependency now?<br>
+<br></blockquote><div><br></div><div>Yes, only If you --enable-docs. Otherw=
+ise, you should get a warning and doc will be disabled. Mine is less ugly t=
+han yours, not sure why:<br></div><div><br></div><div>Program sphinx-build-=
+3 found: YES (/usr/bin/sphinx-build-3)<br>../docs/meson.build:30: WARNING: =
+/usr/bin/sphinx-build-3: <br>Configuration error:<br>The Sphinx &#39;sphinx=
+_rtd_theme&#39; HTML theme was not found.<br><br><br>Program python3 found:=
+ YES (/usr/bin/python3)</div><div><br></div><br></div></div>
 
-diff --git a/disas/libvixl/vixl/utils.h b/disas/libvixl/vixl/utils.h
-index 5ab134e240a..fc28d7456c1 100644
---- a/disas/libvixl/vixl/utils.h
-+++ b/disas/libvixl/vixl/utils.h
-@@ -27,8 +27,10 @@
- #ifndef VIXL_UTILS_H
- #define VIXL_UTILS_H
- 
--#include <string.h>
- #include <cmath>
-+extern "C" {
-+#include <string.h>
-+}
- #include "vixl/globals.h"
- #include "vixl/compiler-intrinsics.h"
- 
--- 
-2.26.3
+--000000000000c556ff05c262ff94--
 
 
