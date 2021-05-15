@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A610381791
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:19:18 +0200 (CEST)
-Received: from localhost ([::1]:34786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0221638178B
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:17:38 +0200 (CEST)
+Received: from localhost ([::1]:59876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhrO9-0001cq-F2
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:19:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34120)
+	id 1lhrMX-0007tb-0s
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:17:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhr9z-00071z-CW; Sat, 15 May 2021 06:04:39 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:54335)
+ id 1lhr9U-000698-P3; Sat, 15 May 2021 06:04:08 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:33203)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhr9u-0006sA-Pa; Sat, 15 May 2021 06:04:37 -0400
+ id 1lhr9O-0006YV-Gp; Sat, 15 May 2021 06:04:08 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1N63NW-1lSOg302zg-016Rv7; Sat, 15
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M1pk6-1lfeE337fM-002ENN; Sat, 15
  May 2021 12:03:51 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/16] hw/avr/atmega.c: use the avr51 cpu for atmega1280
-Date: Sat, 15 May 2021 12:03:34 +0200
-Message-Id: <20210515100335.1245468-16-laurent@vivier.eu>
+Subject: [PULL 16/16] target/avr: Ignore unimplemented WDR opcode
+Date: Sat, 15 May 2021 12:03:35 +0200
+Message-Id: <20210515100335.1245468-17-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210515100335.1245468-1-laurent@vivier.eu>
 References: <20210515100335.1245468-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:IaGvjdPnZiCNCj+YRP9z/DxTQN993nu7OfbqwwHixMhluyG8SDy
- 0eDWBXAP2d59UBMnFBq5xE8SmhTWXg1UnvrSrfUokMFyuRSzSpXxGGUISYLsZzPninpyr1Q
- VEwkt9sPj9YVCpjSNFHvGmunic4mpzOusFd+wBY8hh7vwlhNr7c9Zelg61OSDQHPQl9hf1C
- XCPxo6pMGbM7gmjrvzKgg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bufLQu0WX80=:zcEP2f+8JVe4pEnKixET9Y
- JItrUW7mF56E0ARZk+sNv/ns9HQhHBEqJIHKjtJmGwbOSmJXlOTVCdm2aD57c6A3EMZrlukI/
- xeRWliW9WDmf6DZQcS/yfvlKIIy3TSeUk+nCaJIk31/i/32/dBTfMpSgh4FYvTlNakgh2Fbb/
- 0jSckwo+8z1ipmYYcm9+l0Sut8JZiTUFIErGPcdRZzjBghKYtF9p2Pq+9lkEC/F+8biU47Jiu
- FJy4Srz1agC9/GjAqqM+ihv419tOdQt26lKh1KhjygZUwSkHohsC9haYnoh3Bwi7w532BfTfc
- Ka4JkGvy8avgugbsJvt7Wcf4/BG0MAd+lDPHz/EkCpS6ObI5PioUMzN1i3MRVAnUfsRYhvjrI
- L8dO+we8sjgzNDE8d1Cr8kfvp044fl8kPX8SjABnN/F26CV4n1u7z4nmJX0exOdNOls+4M3P4
- c58gFuh9y2fFcZh+exw2Nq7izKbeiXb4lK06480T/OPpIZ9YYl/ZYW4xajAYa4/ssVuMkVom0
- 522rTJfw3wuVYYP1GwQyII=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:i06N6m7JyLmbOggG2+TVbhyyVRkybY8PRAvNcbygmUX8PJbPD6T
+ 2s3YioRSVz2LOstK0q6BeHrNdqJ6s2cEj+T4dTFwRsNq4NSpSPJrCVyLXwy4TK9se/Z/Hsi
+ MAsr3PFMTJPdortH2g0O4v70Odk7jCHi+HpTxxnkK8U7y9Rhcp2vFccdRjhJeq5Lo9yHI7g
+ RZwQbRMWMT0V1gWiOPclA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hihcMfQ5ZBc=:Y0pgcOLDbqedxBBwgvSzhQ
+ zYNKbID/VYVcr1X42UF43F9LX64VjX/IHobtEQhNnCQtY7WHBvjShf4HAEZG2eXYJOiCWLKdL
+ VBVPGH5ypqEg8Q032+AyzxbLz+YoGPQU8/r4x3pysRktnnIp40KRWzPCBcz/Wcy6GQvQDiA9B
+ FbNcPSjshlGysUhHVElY5x8syXfWd1pLba+CTloG37Ufx1zP4mYvM7i7mA94v97rYr4DJ/9J9
+ 5vB4f8brgwqrwVSuO3KfKBV1dJMPwI4vFYJfPugJHGU/9mmCQoDY4kpM/35jhcIhKMWSK4/Op
+ RR6if0+Es7VwzxuKDmvkqvdsTY7NJ7sVxIuu1W5HM2XfmrTu+NSnHViAxgC6tHjOp0LT2nCOW
+ tOcS/xG0kfeIJhZ+hUm7oxX9NxC4Q/Xo6kfmP+MpWVLUGMqG7ssZ8Rona0ut1luYEbkZ4iMGB
+ MKa1hxOBr3eF1hWDIPEzP7JORHzoqURlePrqpj1C86ZWFpb83KiC3vXc7BzDDwKURT/y1Q21M
+ IAVdZ/a9ZMPsSybMJI5ZxQ=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -63,59 +64,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Joaquin de Andres <me@xcancerberox.com.ar>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Frederic Konrad <frederic.konrad@adacore.com>,
- Frederic Konrad <konrad@adacore.com>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Fred Konrad <konrad@adacore.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frederic Konrad <konrad@adacore.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-According to the as documentation:
- (https://sourceware.org/binutils/docs-2.36/as/AVR-Options.html)
+Running the WDR opcode triggers a segfault:
 
-"Instruction set avr51 is for the enhanced AVR core with exactly 128K
- program memory space (MCU types: atmega128, atmega128a, atmega1280,
- atmega1281, atmega1284, atmega1284p, atmega128rfa1, atmega128rfr2,
- atmega1284rfr2, at90can128, at90usb1286, at90usb1287, m3000)."
+  $ cat > foo.S << EOF
+  > __start:
+  >     wdr
+  > EOF
+  $ avr-gcc -nostdlib -nostartfiles -mmcu=avr6 foo.S -o foo.elf
+  $ qemu-system-avr -serial mon:stdio -nographic -no-reboot \
+    -M mega -bios foo.elf -d in_asm --singlestep
+  IN:
+  0x00000000:  WDR
+  Segmentation fault (core dumped)
 
-But when compiling a program for atmega1280 or avr51 and trying to execute
-it:
+  (gdb) bt
+     #0  0x00005555add0b23a in gdb_get_cpu_pid (cpu=0x5555af5a4af0) at ../gdbstub.c:718
+     #1  0x00005555add0b2dd in gdb_get_cpu_process (cpu=0x5555af5a4af0) at ../gdbstub.c:743
+     #2  0x00005555add0e477 in gdb_set_stop_cpu (cpu=0x5555af5a4af0) at ../gdbstub.c:2742
+     #3  0x00005555adc99b96 in cpu_handle_guest_debug (cpu=0x5555af5a4af0) at ../softmmu/cpus.c:306
+     #4  0x00005555adcc66ab in rr_cpu_thread_fn (arg=0x5555af5a4af0) at ../accel/tcg/tcg-accel-ops-rr.c:224
+     #5  0x00005555adefaf12 in qemu_thread_start (args=0x5555af5d9870) at ../util/qemu-thread-posix.c:521
+     #6  0x00007f692d940ea5 in start_thread () from /lib64/libpthread.so.0
+     #7  0x00007f692d6699fd in clone () from /lib64/libc.so.6
 
-$ cat > test.S << EOF
-> loop:
->     rjmp loop
-> EOF
-$ avr-gcc -nostdlib -nostartfiles -mmcu=atmega1280 test.S -o test.elf
-$ qemu-system-avr -serial mon:stdio -nographic -no-reboot -M mega \
-                  -bios test.elf
-qemu-system-avr: Current machine: Arduino Mega (ATmega1280) with 'avr6' CPU
-qemu-system-avr: ELF image 'test.elf' is for 'avr51' CPU
+Since the watchdog peripheral is not implemented, simply
+log the opcode as unimplemented and keep going.
 
-So this fixes the atmega1280 class to use an avr51 CPU.
-
-Signed-off-by: Frederic Konrad <frederic.konrad@adacore.com>
-Reviewed-by: Joaquin de Andres <me@xcancerberox.com.ar>
-Message-Id: <1619637319-22299-1-git-send-email-frederic.konrad@adacore.com>
+Reported-by: Fred Konrad <konrad@adacore.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
+Message-Id: <20210502190900.604292-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/avr/atmega.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/avr/helper.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
-index 80b8a41cb5a5..0608e2d475ee 100644
---- a/hw/avr/atmega.c
-+++ b/hw/avr/atmega.c
-@@ -401,7 +401,7 @@ static void atmega1280_class_init(ObjectClass *oc, void *data)
- {
-     AtmegaMcuClass *amc = ATMEGA_MCU_CLASS(oc);
+diff --git a/target/avr/helper.c b/target/avr/helper.c
+index 35e101959404..981c29da4535 100644
+--- a/target/avr/helper.c
++++ b/target/avr/helper.c
+@@ -188,11 +188,7 @@ void helper_break(CPUAVRState *env)
  
--    amc->cpu_type = AVR_CPU_TYPE_NAME("avr6");
-+    amc->cpu_type = AVR_CPU_TYPE_NAME("avr51");
-     amc->flash_size = 128 * KiB;
-     amc->eeprom_size = 4 * KiB;
-     amc->sram_size = 8 * KiB;
+ void helper_wdr(CPUAVRState *env)
+ {
+-    CPUState *cs = env_cpu(env);
+-
+-    /* WD is not implemented yet, placeholder */
+-    cs->exception_index = EXCP_DEBUG;
+-    cpu_loop_exit(cs);
++    qemu_log_mask(LOG_UNIMP, "WDG reset (not implemented)\n");
+ }
+ 
+ /*
 -- 
 2.31.1
 
