@@ -2,48 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534F8381AD9
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 21:50:27 +0200 (CEST)
-Received: from localhost ([::1]:37052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D59FE381ADA
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 21:51:03 +0200 (CEST)
+Received: from localhost ([::1]:39430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1li0Is-00045S-E5
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 15:50:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42764)
+	id 1li0JS-0005fs-Tg
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 15:51:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1li0FX-0007wC-Fx; Sat, 15 May 2021 15:47:00 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:49260)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1li0ID-0004Ho-Uo; Sat, 15 May 2021 15:49:45 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:55091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1li0FT-0003cr-In; Sat, 15 May 2021 15:46:59 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 832F37457E7;
- Sat, 15 May 2021 21:46:53 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 62F11745708; Sat, 15 May 2021 21:46:53 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 61AFD74570E;
- Sat, 15 May 2021 21:46:53 +0200 (CEST)
-Date: Sat, 15 May 2021 21:46:53 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 09/12] hw/pci-host/Kconfig: Add missing dependency
- MV64361 -> I8259
-In-Reply-To: <20210515173716.358295-10-philmd@redhat.com>
-Message-ID: <e02c3aac-7b24-41cb-c63c-79382a8fb@eik.bme.hu>
-References: <20210515173716.358295-1-philmd@redhat.com>
- <20210515173716.358295-10-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1li0IC-0005RF-7S; Sat, 15 May 2021 15:49:45 -0400
+Received: from [192.168.100.1] ([82.142.12.230]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N4vFE-1lIs8f0TIK-010x1w; Sat, 15 May 2021 21:49:41 +0200
+Subject: Re: [PATCH 0/2] linux-user: Small fix for copy_file_range
+To: LemonBoy <thatlemon@gmail.com>, qemu-devel@nongnu.org
+References: <20210503174159.54302-1-thatlemon@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <6aae5fe4-f98b-1f47-8ba1-dede79de4652@vivier.eu>
+Date: Sat, 15 May 2021 21:49:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-412561032-1621108013=:7809"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210503174159.54302-1-thatlemon@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:bZ0MqAVLDNwQCxSeTC3/wNGWd/z5jRuKoY/HdH5KkdMT04P+pYg
+ pAiaHx3YTyKMNYJuN14AxKIHz67JqAmwp94fdWcESo3ybqB4pRhorMPU5EsGqdaLwvtnyP4
+ klTizmMUSSQrvVAu0V2i7A/6XefSvJxHXfsFtsRzA09DK9uBb4dRr88cdvFkwYbI4x6D2xO
+ sMN0ErMyh5gcwvkqyfxkA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qN6aaDXLjcU=:ZFDg/kc6SPuMlX87Mn2PHf
+ +mqlHo8knP8BmVJVT/09F4OMAyTAnUiexaZzbJNBzaoXxhHnJ5pSzG3xAxb9yFsFLgL3g1zx4
+ CxxsIVWz8pUVirKWtRfIdqqTDKWETrptFFuu+kvg4HgSYI/keAq3vgnvKP1EeHFujxpFGz/nR
+ jQJtOniggjfK2yZMZAHbZHiedp32C1H9wCNt4muT3mXZT3spijl7saMNkRQQhRgA4qbScA9/u
+ p4yp0UwuiUtLZ31ZgnEJlSNmE5Rx7Uy7PvNVS9F8N2qf9bUVSgAejpvmw6dTGXzagTkvpnkQJ
+ M405dCmUZ1SkCT8Jf6Z9WVrXr31u1b/3wW3QQr2bdvEbFx4XQzE0I/D85qGrHSa40MB+9rvkl
+ sgpi8WBDOYm7W0lhaYjBKYZKNxr0Zh+oSdjVM2Hz6Lt0G+pjYfoerVaHTea4rvuPcecf0n1Pe
+ KgwCk9NA+OH7viLiq0C4kAZOOwzOQI2aqD4fVTKi5xmWdXcFpr7/5ZKzkgdjTGHjHGaLv6hTn
+ SmDWdAYBmY11yYLrclRBS0=
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,62 +66,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Le 03/05/2021 à 19:41, LemonBoy a écrit :
+> From: Giuseppe Musacchio <thatlemon@gmail.com>
+> 
+> An unwanted sign-extension is currently making the host kernel return EOVERFLOW
+> when calling copy_file_range with a count of 0xffffffff, despite the host being
+> a 64bit platform.
+> 
+> The fix is only affecting 32bit targets on 64bit hosts, it's a no-op when the
+> target bitness matches the host one.
+> 
+> As a bonus add a pretty-printer for copy_file_range syscall.
+> 
+> Giuseppe Musacchio (2):
+>   linux-user: Add copy_file_range to strace.list
+>   linux-user: Fix erroneous conversion in copy_file_range
+> 
+>  linux-user/strace.list | 3 +++
+>  linux-user/syscall.c   | 3 ++-
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+> 
 
---3866299591-412561032-1621108013=:7809
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
 
-On Sat, 15 May 2021, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->
-> Looking at the MV64340 model source, there is a dependency on the
-> 8259 interrupt controller:
->
->  523     case MV64340_PCI_1_INTERRUPT_ACKNOWLEDGE_VIRTUAL_REG:
->  524         /* FIXME: Should this be sent via the PCI bus somehow? */
->  525         if (s->gpp_int_level && (s->gpp_value & BIT(31))) {
->  526             ret = pic_read_irq(isa_pic);
->  527         }
->  528         break;
->
-> Add it to Kconfig to avoid the following build failure:
->
->  /usr/bin/ld: libcommon.fa.p/hw_pci-host_mv64361.c.o: in function `mv64361_read':
->  hw/pci-host/mv64361.c:526: undefined reference to `isa_pic'
->  /usr/bin/ld: hw/pci-host/mv64361.c:526: undefined reference to `pic_read_irq'
->
-> Fixes: dcdf98a9015 ("hw/pci-host: Add emulation of Marvell MV64361 PPC system controller")
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Applied to my linux-user-for-6.1 branch.
 
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-
-Correct, this is a dependency that I've missed, although pegasos2 probably 
-has it already and nothing else is using this chip but it's more correct 
-to list it explicitely.
-
-> ---
-> hw/pci-host/Kconfig | 1 +
-> 1 file changed, 1 insertion(+)
->
-> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-> index 79c20bf28bb..9dc0d761815 100644
-> --- a/hw/pci-host/Kconfig
-> +++ b/hw/pci-host/Kconfig
-> @@ -76,3 +76,4 @@ config SH_PCI
-> config MV64361
->     bool
->     select PCI
-> +    select I8259
->
---3866299591-412561032-1621108013=:7809--
+Thanks,
+Laurent
 
