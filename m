@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D083038186C
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:38:57 +0200 (CEST)
-Received: from localhost ([::1]:56178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9619B38186D
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:39:41 +0200 (CEST)
+Received: from localhost ([::1]:58548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhsdE-00084g-Uf
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:38:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46428)
+	id 1lhsdw-0001En-Kr
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1lhsXi-0003wy-1u
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:33:14 -0400
-Received: from mailout05.t-online.de ([194.25.134.82]:50314)
+ id 1lhsXq-0004Oi-2g
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:33:22 -0400
+Received: from mailout05.t-online.de ([194.25.134.82]:50344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1lhsXf-0003LG-CH
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:33:13 -0400
-Received: from fwd21.aul.t-online.de (fwd21.aul.t-online.de [172.20.27.66])
- by mailout05.t-online.de (Postfix) with SMTP id B5440641C1;
- Sat, 15 May 2021 13:33:09 +0200 (CEST)
+ id 1lhsXi-0003Mb-BP
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:33:21 -0400
+Received: from fwd04.aul.t-online.de (fwd04.aul.t-online.de [172.20.26.149])
+ by mailout05.t-online.de (Postfix) with SMTP id CC1DB641C3;
+ Sat, 15 May 2021 13:33:12 +0200 (CEST)
 Received: from linpower.localnet
- (SyOrCuZpohhCJKHtTskqERfZlEOVtsahOaTAemR83o8H-pHU+Z5c1uowQ0NR+jHwmG@[79.208.18.63])
- by fwd21.t-online.de
+ (TQSeoTZvYhHZBhvR+0vmvbvZUGK7jSh3D9XHH2XSQEXvK5U8QOqFxuUuSZIbayKQni@[79.208.18.63])
+ by fwd04.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1lhsXZ-0No6XA0; Sat, 15 May 2021 13:33:05 +0200
+ esmtp id 1lhsXc-1Uz0LI0; Sat, 15 May 2021 13:33:08 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id AABEC200627; Sat, 15 May 2021 13:32:54 +0200 (CEST)
+ id ACEF6200628; Sat, 15 May 2021 13:32:54 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v3 05/11] pckbd: don't update OBF flags if KBD_STAT_OBF is set
-Date: Sat, 15 May 2021 13:32:48 +0200
-Message-Id: <20210515113254.6245-5-vr_qemu@t-online.de>
+Subject: [PATCH v3 06/11] pckbd: PS/2 keyboard throttle
+Date: Sat, 15 May 2021 13:32:49 +0200
+Message-Id: <20210515113254.6245-6-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <d00ea6b1-43c7-78a2-8c0a-35e19efb5e46@t-online.de>
 References: <d00ea6b1-43c7-78a2-8c0a-35e19efb5e46@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: SyOrCuZpohhCJKHtTskqERfZlEOVtsahOaTAemR83o8H-pHU+Z5c1uowQ0NR+jHwmG
-X-TOI-EXPURGATEID: 150726::1621078385-00002A54-43E4D81A/0/0 CLEAN NORMAL
-X-TOI-MSGID: b5e258ef-2432-491d-a055-f49fdd9fca21
+X-ID: TQSeoTZvYhHZBhvR+0vmvbvZUGK7jSh3D9XHH2XSQEXvK5U8QOqFxuUuSZIbayKQni
+X-TOI-EXPURGATEID: 150726::1621078388-00007E51-623C4B1D/0/0 CLEAN NORMAL
+X-TOI-MSGID: de8a78cb-69ef-4f19-9202-a433f242cbe8
 Received-SPF: none client-ip=194.25.134.82;
  envelope-from=volker.ruemelin@t-online.de; helo=mailout05.t-online.de
 X-Spam_score_int: -18
@@ -68,302 +68,198 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't update the OBF flags in the status register and the cor-
-responding IRQ lines if KBD_STAT_OBF is set. Otherwise this
-may change the PS/2 event type. If the guest ISR was already
-scheduled, the changed event type will be rather surprising for
-the guest.
+Limit the keyboard data rate to the serial link speed. Some old
+DOS software relies on being able to read an incoming scan-code
+more than once. After reading keyboard data from the i8042
+controller, the guest software has 1ms to read the same data
+again.
 
-This fixes a mouse event stream corruption. To reproduce the
-problem start a FreeDOS 1.2 guest with -machine pc,accel=kvm
-and -display gtk. The KVM in-kernel irqchip has to be enabled.
-Now open a text file with edit.exe in the guest and hold down
-the cursor right key and at the same time move the mouse around.
-You will quickly notice erratic mouse movements and unexpected
-mouse clicks.
+Use -global i8042.kbd-throttle=on to enable this feature.
 
-A trace file shows the mouse event stream corruption. Guest
-rip 0xce93 (f000:ce93) is the in al,0x60 instruction in the
-seabios mouse ISR, guest rip 0xceca (f000:ceca) is the
-in al,0x60 instruction in the seabios keyboard ISR.
+To see how this patch works, start a FreeDOS 1.2 guest with the
+qemu option -global i8042.kbd-throttle=on and open a text file
+with the vim 7.3 32 bit for DOS executable. Then use the cursor
+keys (not the cursor keys on the numeric keypad) to move through
+the text. Without the kbd-throttle option enabled each keystroke
+will move the cursor two positions.
 
-qemu-system-x86-5659  [007] ....   280.971116:
- tracing_mark_write: pckbd_kbd_update_irq kbd=0 aux=1
- # gtk queues a mouse event
-
-qemu-system-x86-5665  [000] ....   280.971121:
- kvm_exit: reason EXTERNAL_INTERRUPT rip 0x22da info 0 800000fd
-qemu-system-x86-5665  [000] d..1   280.971122:
- kvm_entry: vcpu 0, rip 0x22da
-qemu-system-x86-5665  [000] ....   280.971123:
- kvm_exit: reason EXTERNAL_INTERRUPT rip 0x22da info 0 800000fd
-qemu-system-x86-5665  [000] d..1   280.971124:
- kvm_entry: vcpu 0, rip 0x22da
-qemu-system-x86-5665  [000] ....   280.971126:
- kvm_exit: reason IO_INSTRUCTION rip 0x110c8c info 640008 0
-qemu-system-x86-5665  [000] ....   280.971176:
- tracing_mark_write: pckbd_kbd_read_status 0x3d
- # KBD_STAT_OBF and KBD_STAT_MOUSE_OBF set, the mouse ISR will
- # read data from the PS/2 controller.
-
-qemu-system-x86-5665  [000] d..1   280.971180:
- kvm_entry: vcpu 0, rip 0x110c8d
-qemu-system-x86-5665  [000] ....   280.971191:
- kvm_exit: reason EXTERNAL_INTERRUPT rip 0x110c8d info 0 800000f6
-qemu-system-x86-5665  [000] d..1   280.971191:
- kvm_entry: vcpu 0, rip 0x110c8d
-qemu-system-x86-5665  [000] ....   280.971193:
- kvm_exit: reason IO_INSTRUCTION rip 0xce93 info 600048 0
- # the mouse ISR wants to read data from the PS/2 controller
-
-qemu-system-x86-5659  [007] ....   280.971231:
- tracing_mark_write: pckbd_kbd_update_irq kbd=1 aux=0
-qemu-system-x86-5659  [007] ....   280.971238:
- tracing_mark_write: pckbd_kbd_update_irq kbd=1 aux=0
- # gtk queues a keyboard event 0xe0 0x4d (key right)
-
-qemu-system-x86-5665  [000] ....   280.971257:
- tracing_mark_write: pckbd_kbd_update_irq kbd=0 aux=1
-qemu-system-x86-5665  [000] ....   280.971262:
- tracing_mark_write: pckbd_kbd_update_irq kbd=1 aux=0
- # ps2_read_data() deasserts and reasserts the keyboard IRQ
-
-qemu-system-x86-5665  [000] ....   280.971266:
- tracing_mark_write: pckbd_kbd_read_data 0xe0 kbd
- # -> the mouse ISR receives keyboard data
-
-qemu-system-x86-5665  [000] d..1   280.971268:
- kvm_entry: vcpu 0, rip 0xce95
-qemu-system-x86-5665  [000] ....   280.971269:
- kvm_exit: reason IO_INSTRUCTION rip 0xe828 info a00040 0
-qemu-system-x86-5665  [000] ....   280.971270:
- kvm_ack_irq: irqchip PIC slave pin 12
-qemu-system-x86-5665  [000] d..1   280.971270:
- kvm_entry: vcpu 0, rip 0xe82a
-qemu-system-x86-5665  [000] ....   280.971271:
- kvm_exit: reason IO_INSTRUCTION rip 0xe82a info 200040 0
-qemu-system-x86-5665  [000] ....   280.971271:
- kvm_ack_irq: irqchip PIC master pin 2
-qemu-system-x86-5665  [000] d..1   280.971271:
- kvm_entry: vcpu 0, rip 0xe82c
-qemu-system-x86-5665  [000] ....   280.971272:
- kvm_exit: reason PENDING_INTERRUPT rip 0x22da info 0 0
-qemu-system-x86-5665  [000] d..1   280.971273:
- kvm_entry: vcpu 0, rip 0x22da
-qemu-system-x86-5665  [000] ....   280.971274:
- kvm_exit: reason IO_INSTRUCTION rip 0x110c8c info 640008 0
-qemu-system-x86-5665  [000] ....   280.971275:
- tracing_mark_write: pckbd_kbd_read_status 0x1d
-qemu-system-x86-5665  [000] d..1   280.971276:
- kvm_entry: vcpu 0, rip 0x110c8d
-qemu-system-x86-5665  [000] ....   280.971277:
- kvm_exit: reason IO_INSTRUCTION rip 0xceca info 600048 0
- # the keyboard ISR wants to read data from the PS/2 controller
-
-qemu-system-x86-5665  [000] ....   280.971279:
- tracing_mark_write: pckbd_kbd_update_irq kbd=0 aux=1
-qemu-system-x86-5665  [000] ....   280.971282:
- tracing_mark_write: pckbd_kbd_read_data 0x4d kbd
- # the keyboard ISR receives the second byte of the keyboard event
-
+Buglink: https://bugs.launchpad.net/bugs/1895363
+Buglink: https://bugs.launchpad.net/bugs/1897568
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- hw/input/pckbd.c | 91 ++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 68 insertions(+), 23 deletions(-)
+ hw/input/pckbd.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
 diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index 90b33954a8..8336f4e4b3 100644
+index 8336f4e4b3..ebf08c7cb8 100644
 --- a/hw/input/pckbd.c
 +++ b/hw/input/pckbd.c
-@@ -139,6 +139,7 @@ typedef struct KBDState {
+@@ -24,12 +24,14 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
++#include "qemu/timer.h"
+ #include "hw/isa/isa.h"
+ #include "migration/vmstate.h"
+ #include "hw/acpi/aml-build.h"
+ #include "hw/input/ps2.h"
+ #include "hw/irq.h"
+ #include "hw/input/i8042.h"
++#include "hw/qdev-properties.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ 
+@@ -131,17 +133,21 @@
+ #define KBD_PENDING_KBD         1
+ #define KBD_PENDING_AUX         2
+ 
++#define KBD_MIGR_TIMER_PENDING  0x1
++
+ typedef struct KBDState {
+     uint8_t write_cmd; /* if non zero, write data to port 60 is expected */
+     uint8_t status;
+     uint8_t mode;
+     uint8_t outport;
++    uint32_t migration_flags;
      bool outport_present;
      /* Bitmask of devices with data available.  */
      uint8_t pending;
-+    uint8_t obdata;
+     uint8_t obdata;
      void *kbd;
      void *mouse;
++    QEMUTimer *throttle_timer;
  
-@@ -173,6 +174,13 @@ static void kbd_update_irq_lines(KBDState *s)
-     qemu_set_irq(s->irq_mouse, irq_mouse_level);
- }
- 
-+static void kbd_deassert_irq(KBDState *s)
-+{
-+    s->status &= ~(KBD_STAT_OBF | KBD_STAT_MOUSE_OBF);
-+    s->outport &= ~(KBD_OUT_OBF | KBD_OUT_MOUSE_OBF);
-+    kbd_update_irq_lines(s);
-+}
-+
- /* update irq and KBD_STAT_[MOUSE_]OBF */
- static void kbd_update_irq(KBDState *s)
- {
-@@ -181,7 +189,6 @@ static void kbd_update_irq(KBDState *s)
-     if (s->pending) {
-         s->status |= KBD_STAT_OBF;
-         s->outport |= KBD_OUT_OBF;
--        /* kbd data takes priority over aux data.  */
-         if (s->pending == KBD_PENDING_AUX) {
-             s->status |= KBD_STAT_MOUSE_OBF;
-             s->outport |= KBD_OUT_MOUSE_OBF;
-@@ -190,26 +197,42 @@ static void kbd_update_irq(KBDState *s)
-     kbd_update_irq_lines(s);
- }
- 
-+static void kbd_safe_update_irq(KBDState *s)
-+{
-+    /*
-+     * with KBD_STAT_OBF set, a call to kbd_read_data() will eventually call
-+     * kbd_update_irq()
-+     */
-+    if (s->status & KBD_STAT_OBF) {
+     qemu_irq irq_kbd;
+     qemu_irq irq_mouse;
+@@ -206,6 +212,10 @@ static void kbd_safe_update_irq(KBDState *s)
+     if (s->status & KBD_STAT_OBF) {
+         return;
+     }
++    /* the throttle timer is pending and will call kbd_update_irq() */
++    if (s->throttle_timer && timer_pending(s->throttle_timer)) {
 +        return;
 +    }
+     if (s->pending) {
+         kbd_update_irq(s);
+     }
+@@ -235,6 +245,15 @@ static void kbd_update_aux_irq(void *opaque, int level)
+     kbd_safe_update_irq(s);
+ }
+ 
++static void kbd_throttle_timeout(void *opaque)
++{
++    KBDState *s = opaque;
++
 +    if (s->pending) {
 +        kbd_update_irq(s);
 +    }
 +}
 +
- static void kbd_update_kbd_irq(void *opaque, int level)
- {
--    KBDState *s = (KBDState *)opaque;
-+    KBDState *s = opaque;
- 
--    if (level)
-+    if (level) {
-         s->pending |= KBD_PENDING_KBD;
--    else
-+    } else {
-         s->pending &= ~KBD_PENDING_KBD;
--    kbd_update_irq(s);
-+    }
-+    kbd_safe_update_irq(s);
- }
- 
- static void kbd_update_aux_irq(void *opaque, int level)
- {
--    KBDState *s = (KBDState *)opaque;
-+    KBDState *s = opaque;
- 
--    if (level)
-+    if (level) {
-         s->pending |= KBD_PENDING_AUX;
--    else
-+    } else {
-         s->pending &= ~KBD_PENDING_AUX;
--    kbd_update_irq(s);
-+    }
-+    kbd_safe_update_irq(s);
- }
- 
  static uint64_t kbd_read_status(void *opaque, hwaddr addr,
-@@ -290,11 +313,10 @@ static void kbd_write_command(void *opaque, hwaddr addr,
-         break;
-     case KBD_CCMD_KBD_DISABLE:
-         s->mode |= KBD_MODE_DISABLE_KBD;
--        kbd_update_irq(s);
-         break;
-     case KBD_CCMD_KBD_ENABLE:
-         s->mode &= ~KBD_MODE_DISABLE_KBD;
--        kbd_update_irq(s);
-+        kbd_safe_update_irq(s);
-         break;
-     case KBD_CCMD_READ_INPORT:
-         kbd_queue(s, 0x80, 0);
-@@ -327,15 +349,19 @@ static uint64_t kbd_read_data(void *opaque, hwaddr addr,
-                               unsigned size)
+                                 unsigned size)
  {
-     KBDState *s = opaque;
--    uint32_t val;
-+    uint8_t status = s->status;
- 
--    if (s->pending == KBD_PENDING_AUX)
--        val = ps2_read_data(s->mouse);
--    else
--        val = ps2_read_data(s->kbd);
-+    if (status & KBD_STAT_OBF) {
-+        kbd_deassert_irq(s);
-+        if (status & KBD_STAT_MOUSE_OBF) {
-+            s->obdata = ps2_read_data(s->mouse);
-+        } else {
-+            s->obdata = ps2_read_data(s->kbd);
-+        }
-+    }
- 
--    trace_pckbd_kbd_read_data(val);
--    return val;
-+    trace_pckbd_kbd_read_data(s->obdata);
-+    return s->obdata;
- }
- 
- static void kbd_write_data(void *opaque, hwaddr addr,
-@@ -352,8 +378,16 @@ static void kbd_write_data(void *opaque, hwaddr addr,
-     case KBD_CCMD_WRITE_MODE:
-         s->mode = val;
-         ps2_keyboard_set_translation(s->kbd, (s->mode & KBD_MODE_KCC) != 0);
--        /* ??? */
--        kbd_update_irq(s);
-+        /*
-+         * a write to the mode byte interrupt enable flags directly updates
-+         * the irq lines
-+         */
-+        kbd_update_irq_lines(s);
-+        /*
-+         * a write to the mode byte disable interface flags may raise
-+         * an irq if there is pending data in the PS/2 queues.
-+         */
-+        kbd_safe_update_irq(s);
-         break;
-     case KBD_CCMD_WRITE_OBUF:
-         kbd_queue(s, val, 0);
-@@ -381,6 +415,8 @@ static void kbd_reset(void *opaque)
-     s->status = KBD_STAT_CMD | KBD_STAT_UNLOCKED;
-     s->outport = KBD_OUT_RESET | KBD_OUT_A20 | KBD_OUT_ONES;
+@@ -356,6 +375,10 @@ static uint64_t kbd_read_data(void *opaque, hwaddr addr,
+         if (status & KBD_STAT_MOUSE_OBF) {
+             s->obdata = ps2_read_data(s->mouse);
+         } else {
++            if (s->throttle_timer) {
++                timer_mod(s->throttle_timer,
++                          qemu_clock_get_us(QEMU_CLOCK_VIRTUAL) + 1000);
++            }
+             s->obdata = ps2_read_data(s->kbd);
+         }
+     }
+@@ -417,6 +440,9 @@ static void kbd_reset(void *opaque)
      s->outport_present = false;
-+    s->pending = 0;
-+    kbd_deassert_irq(s);
+     s->pending = 0;
+     kbd_deassert_irq(s);
++    if (s->throttle_timer) {
++        timer_del(s->throttle_timer);
++    }
  }
  
  static uint8_t kbd_outport_default(KBDState *s)
-@@ -427,7 +463,7 @@ static int kbd_post_load(void *opaque, int version_id)
+@@ -451,6 +477,18 @@ static const VMStateDescription vmstate_kbd_outport = {
+     }
+ };
  
- static const VMStateDescription vmstate_kbd = {
++static int kbd_pre_save(void *opaque)
++{
++    KBDState *s = opaque;
++
++    s->migration_flags = 0;
++    if (s->throttle_timer && timer_pending(s->throttle_timer)) {
++        s->migration_flags |= KBD_MIGR_TIMER_PENDING;
++    }
++
++    return 0;
++}
++
+ static int kbd_post_load(void *opaque, int version_id)
+ {
+     KBDState *s = opaque;
+@@ -458,6 +496,9 @@ static int kbd_post_load(void *opaque, int version_id)
+         s->outport = kbd_outport_default(s);
+     }
+     s->outport_present = false;
++    if (s->migration_flags & KBD_MIGR_TIMER_PENDING) {
++        kbd_throttle_timeout(s);
++    }
+     return 0;
+ }
+ 
+@@ -465,12 +506,14 @@ static const VMStateDescription vmstate_kbd = {
      .name = "pckbd",
--    .version_id = 3,
-+    .version_id = 4,
+     .version_id = 4,
      .minimum_version_id = 3,
++    .pre_save = kbd_pre_save,
      .post_load = kbd_post_load,
      .fields = (VMStateField[]) {
-@@ -435,6 +471,7 @@ static const VMStateDescription vmstate_kbd = {
+         VMSTATE_UINT8(write_cmd, KBDState),
          VMSTATE_UINT8(status, KBDState),
          VMSTATE_UINT8(mode, KBDState),
          VMSTATE_UINT8(pending, KBDState),
-+        VMSTATE_UINT8_V(obdata, KBDState, 4),
++        VMSTATE_UINT32_V(migration_flags, KBDState, 4),
+         VMSTATE_UINT8_V(obdata, KBDState, 4),
          VMSTATE_END_OF_LIST()
      },
-     .subsections = (const VMStateDescription*[]) {
-@@ -512,12 +549,20 @@ void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out)
-     qdev_connect_gpio_out_named(DEVICE(dev), I8042_A20_LINE, 0, a20_out);
+@@ -534,6 +577,7 @@ struct ISAKBDState {
+     ISADevice parent_obj;
+ 
+     KBDState kbd;
++    bool kbd_throttle;
+     MemoryRegion io[2];
+ };
+ 
+@@ -614,6 +658,10 @@ static void i8042_realizefn(DeviceState *dev, Error **errp)
+ 
+     s->kbd = ps2_kbd_init(kbd_update_kbd_irq, s);
+     s->mouse = ps2_mouse_init(kbd_update_aux_irq, s);
++    if (isa_s->kbd_throttle) {
++        s->throttle_timer = timer_new_us(QEMU_CLOCK_VIRTUAL,
++                                         kbd_throttle_timeout, s);
++    }
+     qemu_register_reset(kbd_reset, s);
  }
  
-+static bool vmstate_version_id_3(void *opaque, int version_id)
-+{
-+    return version_id == 3;
-+}
+@@ -645,11 +693,17 @@ static void i8042_build_aml(ISADevice *isadev, Aml *scope)
+     aml_append(scope, mou);
+ }
+ 
++static Property i8042_properties[] = {
++    DEFINE_PROP_BOOL("kbd-throttle", ISAKBDState, kbd_throttle, false),
++    DEFINE_PROP_END_OF_LIST(),
++};
 +
- static const VMStateDescription vmstate_kbd_isa = {
-     .name = "pckbd",
--    .version_id = 3,
-+    .version_id = 4,
-     .minimum_version_id = 3,
-     .fields = (VMStateField[]) {
--        VMSTATE_STRUCT(kbd, ISAKBDState, 0, vmstate_kbd, KBDState),
-+        VMSTATE_VSTRUCT_TEST(kbd, ISAKBDState, vmstate_version_id_3,
-+                             3, vmstate_kbd, KBDState, 3),
-+        VMSTATE_VSTRUCT_TEST(kbd, ISAKBDState, NULL,
-+                             4, vmstate_kbd, KBDState, 4),
-         VMSTATE_END_OF_LIST()
-     }
- };
+ static void i8042_class_initfn(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
+ 
++    device_class_set_props(dc, i8042_properties);
+     dc->realize = i8042_realizefn;
+     dc->vmsd = &vmstate_kbd_isa;
+     isa->build_aml = i8042_build_aml;
 -- 
 2.26.2
 
