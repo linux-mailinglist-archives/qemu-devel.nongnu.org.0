@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A27381A2F
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 19:39:29 +0200 (CEST)
-Received: from localhost ([::1]:59840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF48A381A31
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 19:40:15 +0200 (CEST)
+Received: from localhost ([::1]:33554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhyG8-00024X-WC
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 13:39:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47820)
+	id 1lhyGs-0003MJ-Vp
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 13:40:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhyE7-0007xV-VT
- for qemu-devel@nongnu.org; Sat, 15 May 2021 13:37:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59569)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhyEF-0008Dh-JB
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 13:37:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhyE6-0005xx-Du
- for qemu-devel@nongnu.org; Sat, 15 May 2021 13:37:23 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhyEB-00062O-Dp
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 13:37:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621100241;
+ s=mimecast20190719; t=1621100246;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7JNqGEjQzQh7OAwfD8mh/1OVsfJJeJzp5VYzdc52DQs=;
- b=ZiOswclJPp9CpCyRBKqiqaxEt4nCt8uqvXbN0BTRe8fVUMC5sJroNV9soEYsIBJjkcmiYg
- Fc/UKlqCcAm53Ur1OY+XZvI/k+ymygd9xfTtHkio3euTHJ6owOS05NUyEMtPFfz0QtRM2c
- lPmZLquZmRFQkheSgbrSO6SbrIDo4k8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wRNuc1gJMH1hkdyUyCI+kE/vTfEuz1keBAJWrXytcEA=;
+ b=d6lHMr2j3oIQOsSwOy+mdnThkPLAzy02UaCx3GNgfYG4XNHWUX+G3wwme3Zt9hEucC4XkA
+ XTpa0AtnL9olpvAhbhHbNx4jreU2lfdEpTefdhHE2TawZi7oT5HShluPnrIAv1+8XzfRV5
+ z/GasMvTmd17joJzMPhiu0XZd/MRzqQ=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-RCkBGW1-MDWMhwaUpZ3mZg-1; Sat, 15 May 2021 13:37:20 -0400
-X-MC-Unique: RCkBGW1-MDWMhwaUpZ3mZg-1
+ us-mta-223-k8x8ui-DOrqo6ocGbgar0w-1; Sat, 15 May 2021 13:37:25 -0400
+X-MC-Unique: k8x8ui-DOrqo6ocGbgar0w-1
 Received: by mail-wm1-f70.google.com with SMTP id
- l185-20020a1c25c20000b029014b0624775eso1651246wml.6
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:37:20 -0700 (PDT)
+ n127-20020a1c27850000b02901717a27c785so1648261wmn.9
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:37:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KvGopyB6K56XtfZZaGA35lYiaZ9SoAOR2uPwQdOkn9g=;
- b=cRsHGle4JtBkecvspYSuBFFk3R1T1+ligTmU4NhjNB9VWlFNKQy/xS+yLL1NTHARj4
- DemZEO4pdezWMaJ+Mc+nU2DickOWWoZ2JcOf/fg2DKAo+o/k7jDmojYvAK8/BDCz48XN
- A+uXCEAh0VZpYCUXb8m6fV2RZTPe/vQxlDKWaBz/WU9ynhv7krTGWHsX1TVHebJHp2BL
- daUbqGtm/u9wkqJfirNeeuDGetVtMvuoY5UW1EfIZ1fNEhoiCMEXoJfoQyQzwQkbCikT
- b8YlA0JST+uuVAXEkdc51iWorVLkS2ZlMCsNTDOB/xezG3BH5Ge8pZWCd69L/SKoP3Zq
- 1/aw==
-X-Gm-Message-State: AOAM531wtvD0vThdXFgE8G7qBRuZjPP1RisFGZFUKa5zuz8spf1uTakS
- 5QHD0URqWLZTyKHCHB4txBsfoxYsT+jDON80YfGxXca82hlw6Hpm6BiU9pYwu3A/KT/zzjmcUmz
- 0TsMOgu0g5SXbI9ISJY9oqE/AQcbEA9ko1T3vO41rj5B5XwDZW46vYoyQK0ojXvNg
-X-Received: by 2002:a7b:c206:: with SMTP id x6mr15222809wmi.72.1621100238897; 
- Sat, 15 May 2021 10:37:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydm6CoStYZBfM1kSqoIWHoht4u3i907Pi+qQNSNZxrddpb4lKaHW9WeyVqR9qPburQXgD1LA==
-X-Received: by 2002:a7b:c206:: with SMTP id x6mr15222780wmi.72.1621100238606; 
- Sat, 15 May 2021 10:37:18 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=wRNuc1gJMH1hkdyUyCI+kE/vTfEuz1keBAJWrXytcEA=;
+ b=ElwsItvkL/nQOb1/6hKgqhJsNNoLKIeyjkbLfQZzOywMyYyWHdu4DIANjHpcAwOpax
+ wZyvNegH4zdkForTphUAC/MTuzIHtG+fBua+MBs7IRRngdiNrKznX8mnDjVBa/5jmDFM
+ 2n2lnYetefNdT4MnvqzzJzVOyL6dsU30QGqDimHRSd4mNMRUFTPQiDSC6WoKOF366+OQ
+ Rk1hopGcRvlWBx/NfH71BLRXVxpYvNT1EDbzqEE4+qyhnki+F1NOgxX9VFWcfIISaxv7
+ B987/E6Tq0NsE6GO7kfwjiEX5tK6S4Xe7ewgrb9LhG9AQxAsDLEvrYgDW/QDSFLM5fMg
+ aurA==
+X-Gm-Message-State: AOAM533RUIPggIrxZt7JL0DAK8dv8uwclEW/amR+bdTyHAqI8G8yR9kI
+ tIS/ERfhJCleLe/k6uk9/4v8lBfJvRaoO/UXX5ciBW+IbG9SroXaCKgm2Ci6qMLoGQYMqDabj/W
+ H8Z5pwRSW4jNxSfXvSQqwnPkdmP3U7DEiaSSw9r1AXBAe6W1luO3PAnK4mvhQo0YC
+X-Received: by 2002:a05:600c:4896:: with SMTP id
+ j22mr14966983wmp.156.1621100243893; 
+ Sat, 15 May 2021 10:37:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyz2Ad0xL16eEWXWXC6gvEGKc994vEjz53rI4Fm7kubWnLVp0RG1vMfoeBQ+BzwAG7JYbnrQA==
+X-Received: by 2002:a05:600c:4896:: with SMTP id
+ j22mr14966953wmp.156.1621100243687; 
+ Sat, 15 May 2021 10:37:23 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id h15sm8174283wmq.4.2021.05.15.10.37.17
+ by smtp.gmail.com with ESMTPSA id a17sm2052985wrt.53.2021.05.15.10.37.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 May 2021 10:37:18 -0700 (PDT)
+ Sat, 15 May 2021 10:37:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/12] hw: Various Kconfig fixes
-Date: Sat, 15 May 2021 19:37:04 +0200
-Message-Id: <20210515173716.358295-1-philmd@redhat.com>
+Subject: [PATCH v2 01/12] hw/mem/nvdimm: Use Kconfig 'imply' instead of
+ 'depends on'
+Date: Sat, 15 May 2021 19:37:05 +0200
+Message-Id: <20210515173716.358295-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210515173716.358295-1-philmd@redhat.com>
+References: <20210515173716.358295-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -91,50 +97,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various Kconfig fixes when building stand-alone machine binaries.=0D
-=0D
-Since v1:=0D
-- Fixed Pegasos2 machine=0D
-- Removed SEMIHOSTING related patches (will repost them later)=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (12):=0D
-  hw/mem/nvdimm: Use Kconfig 'imply' instead of 'depends on'=0D
-  hw/ide/Kconfig: Add missing dependency PCI -> IDE_QDEV=0D
-  hw/arm/Kconfig: Add missing dependency NPCM7XX -> SMBUS=0D
-  hw/arm/Kconfig: Remove unused DS1338 symbol from i.MX25 PDK Board=0D
-  hw/arm/Kconfig: Add missing SDHCI symbol to FSL_IMX25=0D
-  hw/riscv/Kconfig: Add missing dependency MICROCHIP_PFSOC -> SERIAL=0D
-  hw/riscv/Kconfig: Restrict NUMA to Virt & Spike machines=0D
-  hw/ppc/Kconfig: Add missing dependency E500 -> DS1338 RTC=0D
-  hw/pci-host/Kconfig: Add missing dependency MV64361 -> I8259=0D
-  hw/isa/vt82c686: Add missing Kconfig dependencies (build error)=0D
-  hw/isa/vt82c686: Add missing Kconfig dependency (runtime error)=0D
-  hw/ppc/Kconfig: Add dependency PEGASOS2 -> ATI_VGA=0D
-=0D
- default-configs/devices/ppc-softmmu.mak   | 1 -=0D
- default-configs/devices/ppc64-softmmu.mak | 1 -=0D
- hw/arm/Kconfig                            | 4 +++-=0D
- hw/char/Kconfig                           | 1 +=0D
- hw/i386/Kconfig                           | 1 +=0D
- hw/ide/Kconfig                            | 2 +-=0D
- hw/isa/Kconfig                            | 4 ++++=0D
- hw/mem/Kconfig                            | 2 --=0D
- hw/pci-host/Kconfig                       | 1 +=0D
- hw/ppc/Kconfig                            | 3 +++=0D
- hw/riscv/Kconfig                          | 5 +++++=0D
- hw/riscv/meson.build                      | 2 +-=0D
- 12 files changed, 20 insertions(+), 7 deletions(-)=0D
-=0D
---=20=0D
-2.26.3=0D
-=0D
+Per the kconfig.rst:
+
+  A device should be listed [...] ``imply`` if (depending on
+  the QEMU command line) the board may or  may not be started
+  without it.
+
+This is the case with the NVDIMM device (it is certainly possible
+to start a machine without NVDIMM) , so use the 'imply' weak
+reverse dependency to select the symbol.
+
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ default-configs/devices/ppc64-softmmu.mak | 1 -
+ hw/arm/Kconfig                            | 1 +
+ hw/i386/Kconfig                           | 1 +
+ hw/mem/Kconfig                            | 2 --
+ hw/ppc/Kconfig                            | 1 +
+ 5 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/default-configs/devices/ppc64-softmmu.mak b/default-configs/devices/ppc64-softmmu.mak
+index ae0841fa3a1..cca52665d90 100644
+--- a/default-configs/devices/ppc64-softmmu.mak
++++ b/default-configs/devices/ppc64-softmmu.mak
+@@ -8,4 +8,3 @@ CONFIG_POWERNV=y
+ 
+ # For pSeries
+ CONFIG_PSERIES=y
+-CONFIG_NVDIMM=y
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index b887f6a5b17..67723d9ea6a 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -6,6 +6,7 @@ config ARM_VIRT
+     imply VFIO_PLATFORM
+     imply VFIO_XGMAC
+     imply TPM_TIS_SYSBUS
++    imply NVDIMM
+     select ARM_GIC
+     select ACPI
+     select ARM_SMMUV3
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index 7f91f30877f..66838fa397b 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -23,6 +23,7 @@ config PC
+     imply TPM_TIS_ISA
+     imply VGA_PCI
+     imply VIRTIO_VGA
++    imply NVDIMM
+     select FDC
+     select I8259
+     select I8254
+diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
+index a0ef2cf648e..8b19fdc49f1 100644
+--- a/hw/mem/Kconfig
++++ b/hw/mem/Kconfig
+@@ -7,6 +7,4 @@ config MEM_DEVICE
+ 
+ config NVDIMM
+     bool
+-    default y
+-    depends on (PC || PSERIES || ARM_VIRT)
+     select MEM_DEVICE
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index e51e0e5e5ac..66e0b15d9ef 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -3,6 +3,7 @@ config PSERIES
+     imply PCI_DEVICES
+     imply TEST_DEVICES
+     imply VIRTIO_VGA
++    imply NVDIMM
+     select DIMM
+     select PCI
+     select SPAPR_VSCSI
+-- 
+2.26.3
 
 
