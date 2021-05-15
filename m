@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0C2381967
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 16:42:54 +0200 (CEST)
-Received: from localhost ([::1]:56812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D765238196B
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 16:45:28 +0200 (CEST)
+Received: from localhost ([::1]:60210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhvVF-00058d-HK
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 10:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50306)
+	id 1lhvXj-0007UR-Vi
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 10:45:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhvTN-0003bp-Kq
+ id 1lhvTP-0003c3-DY
  for qemu-devel@nongnu.org; Sat, 15 May 2021 10:40:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44860)
+Received: from indium.canonical.com ([91.189.90.7]:44876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhvTJ-0003Q2-0G
- for qemu-devel@nongnu.org; Sat, 15 May 2021 10:40:57 -0400
+ id 1lhvTJ-0003Q4-2K
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 10:40:59 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhvTE-0005ne-NB
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:40:48 +0000
+ id 1lhvTF-0005n1-9M
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:40:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AE50E2E813A
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:40:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3933A2E8187
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:40:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 14:30:57 -0000
-From: Thomas Huth <1922887@bugs.launchpad.net>
+Date: Sat, 15 May 2021 14:32:43 -0000
+From: Thomas Huth <1883268@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Tags: arm testcase
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: muhui pmaydell th-huth
-X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
+X-Launchpad-Bug-Commenters: christophe-lyon rth th-huth
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161778201158.26656.2798489764705445614.malonedeb@wampee.canonical.com>
-Message-Id: <162108905760.1231.10069850255226863464.malone@wampee.canonical.com>
-Subject: [Bug 1922887] Re: STR in Thumb 32 decode problem
+References: <159197267869.7647.15246075911938911102.malonedeb@gac.canonical.com>
+Message-Id: <162108916335.21058.16872369132211231726.malone@soybean.canonical.com>
+Subject: [Bug 1883268] Re: random errors on aarch64 when executing
+ __aarch64_cas8_acq_rel
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 6f108853b932fabcef1cabddf133fae5a25d9701
+X-Launchpad-Hash: 8446d074838952c0cc28c0d99a32d4a2389efe4f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,68 +72,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1922887 <1922887@bugs.launchpad.net>
+Reply-To: Bug 1883268 <1883268@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch has been merged:
-https://gitlab.com/qemu-project/qemu/-/commit/8196fe9d83d6519128b5
+The QEMU project is currently moving its bug tracking to another system.
+For this we need to know which bugs are still valid and which could be
+closed already. Thus we are setting the bug state to "Incomplete" now.
+
+If the bug has already been fixed in the latest upstream version of QEMU,
+then please close this ticket as "Fix released".
+
+If it is not fixed yet and you think that this bug report here is still
+valid, then you have two options:
+
+1) If you already have an account on gitlab.com, please open a new ticket
+for this problem in our new tracker here:
+
+    https://gitlab.com/qemu-project/qemu/-/issues
+
+and then close this ticket here on Launchpad (or let it expire auto-
+matically after 60 days). Please mention the URL of this bug ticket on
+Launchpad in the new ticket on GitLab.
+
+2) If you don't have an account on gitlab.com and don't intend to get
+one, but still would like to keep this ticket opened, then please switch
+the state back to "New" or "Confirmed" within the next 60 days (other-
+wise it will get closed as "Expired"). We will then eventually migrate
+the ticket automatically to the new system (but you won't be the reporter
+of the bug in the new system and thus you won't get notified on changes
+anymore).
+
+Thank you and sorry for the inconvenience.
+
 
 ** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+       Status: In Progress =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1922887
+https://bugs.launchpad.net/bugs/1883268
 
 Title:
-  STR in Thumb 32 decode problem
+  random errors on aarch64 when executing __aarch64_cas8_acq_rel
 
 Status in QEMU:
-  Fix Committed
+  Incomplete
 
 Bug description:
-  Hi
+  Hello,
 
-  It seems that QEMU does not have a proper check on the STR instruction
-  in Thumb32 mode.
+  Since I upgraded to qemu-5.0 when executing the GCC testsuite,
+  I've noticed random failures of g++.dg/ext/sync-4.C.
 
-  Specifically, the machine code is 0xf84f0ddd, which is 0b1111 1000 0100 1=
-111 0000 1101 1101 1101. =
+  I'm attaching the source of the testcase, the binary executable and
+  the qemu traces (huge, 111MB!) starting at main (with qemu-aarch64
+  -cpu cortex-a57 -R 0 -d
+  in_asm,int,exec,cpu,unimp,guest_errors,nochain)
 
-  This is an STR (immediate, Thumb) instruction with a T4 encoding scheme.
+  The traces where generated by a CI build, I built the executable
+  manually but I expect it to be the same as the one executed by CI.
 
-  The symbols is
+  In seems the problem occurs in f13, which leads to a call to abort()
 
-  Rn =3D 1111
-  Rt =3D 0000
-  P =3D 1
-  U =3D 0
-  W =3D 1
+  The preprocessed version of f13/t13 are as follows:
+  static bool f13 (void *p) __attribute__ ((noinline));
+  static bool f13 (void *p)
+  {
+    return (__sync_bool_compare_and_swap((ditype*)p, 1, 2));
+  }
+  static void t13 ()
+  {
+    try {
+      f13(0);
+    }
+    catch (...) {
+      return;
+    }
+    abort();
+  }
 
-  The decode ASL is below:
+  =
 
-  if P =3D=3D =E2=80=981=E2=80=99 && U =3D=3D =E2=80=981=E2=80=99 && W =3D=
-=3D =E2=80=980=E2=80=99 then SEE STRT;
-  if Rn =3D=3D =E2=80=981101=E2=80=99 && P =3D=3D =E2=80=981=E2=80=99 && U =
-=3D=3D =E2=80=980=E2=80=99 && W =3D=3D =E2=80=981=E2=80=99 && imm8 =3D=3D =
-=E2=80=9800000100=E2=80=99 then SEE PUSH;
-  if Rn =3D=3D =E2=80=981111=E2=80=99 || (P =3D=3D =E2=80=980=E2=80=99 && W=
- =3D=3D =E2=80=980=E2=80=99) then UNDEFINED;
-  t =3D UInt(Rt); n =3D UInt(Rn); imm32 =3D ZeroExtend(imm8, 32);
-  index =3D (P =3D=3D =E2=80=981=E2=80=99); add =3D (U =3D=3D =E2=80=981=E2=
-=80=99); wback =3D (W =3D=3D =E2=80=981=E2=80=99);
-  if t =3D=3D 15 || (wback && n =3D=3D t) then UNPREDICTABLE;
+  When looking at the execution traces at address 0x00400c9c, main calls f1=
+3, which in turn calls __aarch64_cas8_acq_rel (at 0x00401084)
+  __aarch64_cas8_acq_rel returns to f13 (address 0x0040113c), then f13 retu=
+rns to main (0x0040108c) which then calls abort (0x00400ca0)
 
-  When Rn =3D=3D 1111, it should be an undefined instruction, which should
-  raise SEGILL signal. However, it seems that QEMU does not check this
-  constraint, which should be a bug. Many thanks
+  I'm not quite sure what's wrong :-(
 
-  Regards
-  Muhui
+  I've not noticed such random problems with native aarch64 hardware.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1922887/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1883268/+subscriptions
 
