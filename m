@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB52D3818A6
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 14:08:22 +0200 (CEST)
-Received: from localhost ([::1]:45334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6C43818C3
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 14:37:27 +0200 (CEST)
+Received: from localhost ([::1]:38714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lht5h-0005tg-2x
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 08:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53412)
+	id 1lhtXq-0004lh-4D
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 08:37:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lht2l-0003YT-57
- for qemu-devel@nongnu.org; Sat, 15 May 2021 08:05:19 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34550)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhtW2-0002j1-7v
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 08:35:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lht2j-00073k-EC
- for qemu-devel@nongnu.org; Sat, 15 May 2021 08:05:18 -0400
-Received: by mail-wr1-x436.google.com with SMTP id r12so1723185wrp.1
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 05:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NXzxBvlhcSsBsTudGIxKQWx2ipeMgGy919LJLoDTHTY=;
- b=TCWnUbzwyzuxrcpGGk0tJuT/iwoKiGi5QkOPoKffDb+W7oP0q2Y7cIjcpMCgXfeeAs
- IUbJvNQSkqMtYY3I5rjxrEDUe7g4keo3mDAQsjn758zvUmlVn/8Y1swhYxQoBtMAaZxC
- KRQtKAdeRSqQy8Goue97JW/jQg7LmrqbpS3cV+OagsKTwerTMZlKLxGLKrJmf0INUVKB
- okdbkcrJd0MCkPGLj7INlX0I7LkDlXy3tlyMivGBPrtMlXqvzqply2Kaw0+efhIhX/Ai
- VVJvzC7TNjNiNo+O+TJvfa9TO1qePGiHCeFJyLeqgqhYPuyCEc4quiJlzoXP9Zi2uiBB
- Jp8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NXzxBvlhcSsBsTudGIxKQWx2ipeMgGy919LJLoDTHTY=;
- b=UYLONENHRljFdHYwMXGgxjor2qsiP278j7uUmCdFTuqIYFO6IoSOF/pqWYLCTE1aTE
- 1eD/TfrWeEalYia7slYazk7BnG4sgem0vwb5w53O7VTfCNIjPN+CFOnEpBHE5yWQPDiF
- puaeFlWuTy3y2VBW8bHAn6Wme0F7lSsxyV0qgaQiXliLJk+HcTPhB9nB4j9apc/nzbL5
- sBbRBZ14jWjmJUdHrktl+HqPTFsIGmKjqIMuwaaXIpynsAye3aACHY05GXSRe244pJMC
- dPVZToPpldz9BV/2JYFqgXxtWspBFr2oP+Pw/nNKfERxZVNIMoh/3oDuxv3ZfaNmuHdV
- OTCQ==
-X-Gm-Message-State: AOAM53001HTIL2FVjinbjjm9JiZ1uj3b5v5HuLIIpupVlsdYSM82QrDn
- C/U/knGPxjQ+TvdMi09Xzn4=
-X-Google-Smtp-Source: ABdhPJwdZbtmvJS4/E07ki+zdGjjHDjFQEY+NY4aBS5P6xYKYtue8kJNitfAGn3XCZyF7bIT8gBk9Q==
-X-Received: by 2002:a5d:514b:: with SMTP id u11mr20635741wrt.350.1621080316008; 
- Sat, 15 May 2021 05:05:16 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id 136sm6293799wmb.7.2021.05.15.05.05.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 May 2021 05:05:15 -0700 (PDT)
-Subject: Re: [PATCH v3 00/11] PS/2 controller related fixes
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <d00ea6b1-43c7-78a2-8c0a-35e19efb5e46@t-online.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c136dc92-dd3a-4421-b0b7-86c4eadfc942@amsat.org>
-Date: Sat, 15 May 2021 14:05:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhtVy-0007Zg-2j
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 08:35:33 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lhtVv-0002uI-Rr
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 12:35:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AAEF02E8186
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 12:35:27 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <d00ea6b1-43c7-78a2-8c0a-35e19efb5e46@t-online.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 15 May 2021 12:29:35 -0000
+From: Chris Pinnock <1914117@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: chrispinnock th-huth
+X-Launchpad-Bug-Reporter: Chris Pinnock (chrispinnock)
+X-Launchpad-Bug-Modifier: Chris Pinnock (chrispinnock)
+References: <161221293549.4659.2173832767419505412.malonedeb@chaenomeles.canonical.com>
+ <162107575749.21341.5739333515299336205.malone@soybean.canonical.com>
+Message-Id: <038394B2-6300-4495-9A49-D7BB87FE527D@mac.com>
+Subject: Re: [Bug 1914117] Re: Short files returned via FTP on Qemu with
+ various architectures and OSes
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
+X-Launchpad-Hash: 5faeb6d1264d5c51a81a8dbbc7be2dea8fbcfad3
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,52 +73,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1914117 <1914117@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/15/21 1:31 PM, Volker Rümelin wrote:
-> This patch series fixes two different PS/2 mouse stream corruptions
-> and adds a feature that allows some old misbehaving DOS programs to
-> have a working keyboard. With the last few patches, the PS/2 con-
-> troller behaves more like a real controller.
-> 
-> v2:
-> Introduce the function kbd_pending() in a preliminary patch to ease
-> the review of patch "pckbd: correctly disable PS/2 communication",
-> as Phillipe suggested.
-> 
-> v3:
-> Patch "pckbd: correctly disable PS/2 communication" exposed a bug
-> in SeaBIOS. The updated patch keeps the relevant code. Until
-> SeaBIOS is fixed, the PS/2 controller command KBD_CCMD_KBD_DISABLE
-> must disable the keyboard interrupt.
-> 
-> In patch "pckbd: PS/2 keyboard throttle" in function
-> kbd_throttle_timeout() an unnecessary if statement was removed.
-> The KBD_STAT_OBF flag is never set when kbd_throttle_timeout()
-> gets called.
-> 
-> Volker Rümelin (11):
->   ps2: fix mouse stream corruption
->   ps2: don't raise an interrupt if queue is full
->   ps2: don't deassert irq twice if queue is empty
->   pckbd: split out interrupt line changing code
->   pckbd: don't update OBF flags if KBD_STAT_OBF is set
->   pckbd: PS/2 keyboard throttle
->   pckbd: add state variable for interrupt source
->   pckbd: add controller response queue
->   pckbd: add function kbd_pending()
->   pckbd: correctly disable PS/2 communication
->   pckbd: remove duplicated keyboard and mouse defines
+If it=E2=80=99s included in qemu when one downloads the sources I=E2=80=99m=
+ happy.
 
-Zoltan, you might want to test this series with your Pegasos2
-machine. It makes the keyboard detected correctly.
+Sent from my iPhone
 
-There is still a problem with the mouse interaction with the
-host. Pressing Ctrl+Alt+G to ungrab the mouse, my host mouse
-is still responding to guest events... (unrelated to this series).
+> On 15 May 2021, at 11:55, Thomas Huth <1914117@bugs.launchpad.net> wrote:
+> =
 
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-(PPC Pegasos2 so far)
+> =EF=BB=BFCould we close this ticket now if there is a workaround in libsl=
+irp now?
+> =
+
+> ** Changed in: qemu
+>       Status: New =3D> Incomplete
+> =
+
+> -- =
+
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1914117
+> =
+
+> Title:
+>  Short files returned via FTP on Qemu with various architectures and
+>  OSes
+> =
+
+> Status in QEMU:
+>  Incomplete
+> =
+
+> Bug description:
+> =
+
+>  Qemu 5.2 on Mac OS X Big Sur.
+> =
+
+>  I originally thought that it might be caused by the home-brew version of=
+ Qemu, but this evening I have removed the brew edition and compiled from s=
+cratch (using Ninja & Xcode compiler). =
+
+>  Still getting the same problem,.
+> =
+
+>  On the following architectures: =
+
+>  arm64, amd64 and sometimes i386 running NetBSD host OS; =
+
+>  i386 running OpenBSD host OS:
+> =
+
+>  I have seen a consistent problem with FTP returning short files. The
+>  file will be a couple of bytes too short. I do not believe this is a
+>  problem with the OS. Downloading the perl source code from CPAN does
+>  not work properly, nor does downloading bind from isc. I've tried this
+>  on different architectures as above.
+> =
+
+>  (Qemu 4.2 on Ubuntu/x86_64 with NetBSD/i386 seems to function fine. My
+>  gut feel is there is something not right on the Mac OS version of Qemu
+>  or a bug in 5.2 - obviously in the network layer somewhere. If you
+>  have anything you want me to try, please let me know - happy to help
+>  get a resolution.)
+> =
+
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1914117/+subscriptions
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914117
+
+Title:
+  Short files returned via FTP on Qemu with various architectures and
+  OSes
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  =
+
+  Qemu 5.2 on Mac OS X Big Sur.
+
+  I originally thought that it might be caused by the home-brew version of =
+Qemu, but this evening I have removed the brew edition and compiled from sc=
+ratch (using Ninja & Xcode compiler). =
+
+  Still getting the same problem,.
+
+  On the following architectures: =
+
+  arm64, amd64 and sometimes i386 running NetBSD host OS; =
+
+  i386 running OpenBSD host OS:
+
+  I have seen a consistent problem with FTP returning short files. The
+  file will be a couple of bytes too short. I do not believe this is a
+  problem with the OS. Downloading the perl source code from CPAN does
+  not work properly, nor does downloading bind from isc. I've tried this
+  on different architectures as above.
+
+  (Qemu 4.2 on Ubuntu/x86_64 with NetBSD/i386 seems to function fine. My
+  gut feel is there is something not right on the Mac OS version of Qemu
+  or a bug in 5.2 - obviously in the network layer somewhere. If you
+  have anything you want me to try, please let me know - happy to help
+  get a resolution.)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914117/+subscriptions
 
