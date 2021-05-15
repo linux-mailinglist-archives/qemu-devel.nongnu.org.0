@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673F5381855
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:33:15 +0200 (CEST)
-Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44D938185B
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:35:05 +0200 (CEST)
+Received: from localhost ([::1]:42694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhsXi-0002Ro-7T
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:33:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44942)
+	id 1lhsZU-0007WQ-Q7
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:35:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsQW-0008Py-VJ
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57062)
+ id 1lhsQY-0008Rl-Pj
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsQR-00072B-Nh
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:48 -0400
+ id 1lhsQR-00072M-On
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhsQL-0002Di-U6
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:37 +0000
+ id 1lhsQM-0002Gb-DR
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E2C552E8139
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 62C072E8186
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 11:18:55 -0000
-From: Thomas Huth <1924987@bugs.launchpad.net>
+Date: Sat, 15 May 2021 11:19:44 -0000
+From: Thomas Huth <1924914@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: storage
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth tigg
-X-Launchpad-Bug-Reporter: Ricky Tigg (tigg)
+X-Launchpad-Bug-Commenters: diego-viola th-huth
+X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161882313513.2580.5040892945774329423.malonedeb@gac.canonical.com>
-Message-Id: <162107753537.21152.7426659244173059516.malone@soybean.canonical.com>
-Subject: [Bug 1924987] Re: Storage | Two decimal digits precision
+References: <161875281831.22652.8172907256269796216.malonedeb@wampee.canonical.com>
+Message-Id: <162107758427.1329.4699495101141997430.malone@wampee.canonical.com>
+Subject: [Bug 1924914] Re: Running sway in a QEMU VM results in a GPU hang of
+ the guest (virtio-gpu driver)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: cecb0a24ff19203549adffcdc82fd939310d843b
+X-Launchpad-Hash: 896539b848764a60b0af39ed24f35e5f89cb39d9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1924987 <1924987@bugs.launchpad.net>
+Reply-To: Bug 1924914 <1924914@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -108,42 +108,36 @@ Thank you and sorry for the inconvenience.
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
-** Tags added: storage
-
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1924987
+https://bugs.launchpad.net/bugs/1924914
 
 Title:
-  Storage | Two decimal digits precision
+  Running sway in a QEMU VM results in a GPU hang of the guest (virtio-
+  gpu driver)
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Tested on: Fedora 34; Component: qemu-img-5.2.0-5.fc34.1.x86_64
+  System is Arch Linux (guest and host OS).
 
-  Hello. A two decimal digits precision is most appropriated on systems
-  whose storage capacities have to be saved. That is one of the reason
-  why such precision is supported in the context of creation of virtual
-  machines in several Unix/Linux virtualization platforms; virt-manager
-  is one of them. That last exhibits virtual disks size values with such
-  precision =E2=80=93 128.00 GiB =E2=80=93 nevertheless it lacks yet a ment=
-ion
-  illustrating physical disks size values.
+  Problem:
 
-  Storage values exhibited in qemu-img and virt-manager are already
-  according to a clear format; thus, values are not attached to their
-  measure units (#value# #units#).
+  Basically, when using sway on a guest and running certain applications
+  via Xwayland (on the guest), the GUI will freeze and won't be usable
+  anymore, I can still ssh to the guest and run commands.
 
-  $ qemu-img info ~/.local/share/libvirt/images/fedora_default.img | sed -n=
- '2,4p'
-  file format: qcow2
-  virtual size: 128 GiB (137438953472 bytes)
-  disk size: 147 MiB
+  This is the command I use to run my guest:
+
+  qemu-system-x86_64 -enable-kvm -cdrom
+  ~/Downloads/linux/archlinux/archlinux-2021.04.01-x86_64.iso -m 4G -vga
+  virtio -nic user,hostfwd=3Dtcp::10022-:22
+
+  This doesn't happen when I use X with i3-wm.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1924987/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1924914/+subscriptions
 
