@@ -2,82 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56338381AE5
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 22:01:16 +0200 (CEST)
-Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24C1381AE8
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 22:04:52 +0200 (CEST)
+Received: from localhost ([::1]:53368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1li0TL-0003jB-Dw
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 16:01:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44958)
+	id 1li0Wq-0007AJ-2M
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 16:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1li0R7-0002Qy-Ih; Sat, 15 May 2021 15:58:57 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38731)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1li0R3-0003AN-UU; Sat, 15 May 2021 15:58:55 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- a10-20020a05600c068ab029014dcda1971aso2974476wmn.3; 
- Sat, 15 May 2021 12:58:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Jf72rOQAJ1LNqHA18SaTpvIhG/hOPGvITA9o5FVWO9Y=;
- b=Utxqi008x/mlPQIss+PV6Cm03yNkn4CTTBWq8cpJTBYOGCxWGau12kRsLzq3vPoC5Z
- 0pn35ztK/24YHI6JHAevNRmVVSZpSHrLzfIMG5USXuUZY/NeCDNEf7aw0lKvU2W+sgaP
- U/yTi272nDe/tRT/819C/7lQ5uReAAM3BjbkArO/++UNyNYN3fs15SJmRCLRMmlaKabC
- PZh8xtzOzqCHkk5sdnL2J8xFWKlJnNYW7FkMVbo7x2OUxeUrqn2cBO+7FVB/sYEFahob
- OosZQWMb63RMtkNhbdZU/XcyUYboH68hHxcR+UT67VEwIr+1+uwn4z02tAaWeYbyis3m
- E1+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Jf72rOQAJ1LNqHA18SaTpvIhG/hOPGvITA9o5FVWO9Y=;
- b=o4oCQ7hrA9mnx8oprxE8FvKMS62PqrBL80wKfVV5caW1Aw93SH0rxCJ+vxpyuZ/goG
- 3zCloIOhfCLtFNcGRqSPcSCKU0KS7TQCXwtCYBk/FcIfL1qbk6MrExdp5k0Q3bc1wx6i
- 5Ft2TxT/db6DOwe99doGNr+Ka/tYCijsBuVQPq9s4KYoA5u1F2sV074wg/jEVvnNY9bA
- 2RR75KqPPhYtm03xjZgp7sbXVS5Pa0vp0eHJCZizt1GgS/mgH2vYPsjrzB2fC4dnxpxI
- arJI7zuW4jucymLxApQ7M5N4sgYs8IW/zcaGIzWIPocJ/tbhlrkj5FD+EIZBBU/0hG6Y
- PjWw==
-X-Gm-Message-State: AOAM532f5mcmnRCrnQTgrZXndCAyZ27FKozG8XPpkxPfa5O0E/3QskNH
- uLedvZJsuKQMrwKd1HdwlI8=
-X-Google-Smtp-Source: ABdhPJxMcnhR3F8g+KYd7wEj2u1U+ycQy0XepM8+oyLoMWs6BwAyQOBsvWnn9q19iGiIL8b/CRDaug==
-X-Received: by 2002:a1c:4d17:: with SMTP id o23mr15710760wmh.102.1621108728022; 
- Sat, 15 May 2021 12:58:48 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id b17sm10583871wrt.71.2021.05.15.12.58.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 May 2021 12:58:47 -0700 (PDT)
-Subject: Re: [PATCH v2 12/12] hw/ppc/Kconfig: Add dependency PEGASOS2 ->
- ATI_VGA
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210515173716.358295-1-philmd@redhat.com>
- <20210515173716.358295-13-philmd@redhat.com>
- <e164f246-80a6-d65b-3dc-8b9cb16d0e8@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <eae396ff-4223-a1c2-d90c-55059a9a86b1@amsat.org>
-Date: Sat, 15 May 2021 21:58:46 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1li0Rs-0003Ri-Ak
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 15:59:44 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:59313)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1li0Rp-0003cw-HR
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 15:59:43 -0400
+Received: from [192.168.100.1] ([82.142.12.230]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N5VTm-1lOwOM0aIE-016umH; Sat, 15 May 2021 21:59:32 +0200
+Subject: Re: [PATCH] linux-user/elfload: fix filling psinfo->pr_psargs
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20210413205814.22821-1-iii@linux.ibm.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <aa2dee61-91b3-7d7c-9fce-774f65857523@vivier.eu>
+Date: Sat, 15 May 2021 21:59:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <e164f246-80a6-d65b-3dc-8b9cb16d0e8@eik.bme.hu>
+In-Reply-To: <20210413205814.22821-1-iii@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Provags-ID: V03:K1:a5Ay0Nn7QbxMdXarryKnswW5MtBwqMvK2Ub897DYo1C6wqqmLVR
+ qjxsLgZfTJzzzQgcpIFjXg8f+RdhImBgqe7n0/04t64RjUS7OZ97y890RMl8fkHLkQug+cj
+ FFQ2hO81mvqD6a3OI3jNvOgcjidMiQx4mlSSfDLz7Y72d0S9mXpo3jpL9Vel+gfQ3TdQY0L
+ O/OLStuAX/lRTW8jQgRIg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+IM9QgD2JVs=:FsudFpmh00b+OfxCT9wBKh
+ C8ipAyRWFwy7imzKv/fzZqU1dSKpEv71zjt9utgke83+/gUtdAta8/MjAp9hrr3bovgUdKzLa
+ RPqsQgmOc/vImugcFFOU/PGt/UOhG9AX5O+pzQ8dcvGw/x8hHviSkPh6gtCVzoAldOl7CEitJ
+ lNENFT9FbGmy5LfGRIFh9W699ea2xP/0SP7t27kfHgF0/jdvD6TViVrOevbZD8aVAHzrIyu9J
+ tMsdG26sziLSwP1cj3PAmg4wPIEZ5bc9eGt32L02Inf1R+c/xuCie4dBadJA4AorIhvLyrLyo
+ QeCLf6cv7QpXO6vnH9UFVLNjsvNg2IR9QjcNJLXwzPGg3bNd8OxyVHgBiMqFmsXQEtbeCya8r
+ nQla6noByYZ6yWgQlaB9PRneC9ywp0+NSv7gGqgBgqbJFKoLG1hcPYZYwFyfmyAcS3tqe39Xs
+ ywgI1yLff/oBwlEWatJo+F/R6VxDSuWpCQiM/J9hdYZPJzu45tY1sYSRy301LI6LT7Kd/gPrh
+ ShMxpGfqCBzpiPClpXasjk=
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,50 +66,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/15/21 9:41 PM, BALATON Zoltan wrote:
-> On Sat, 15 May 2021, Philippe Mathieu-Daudé wrote:
->> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->> While the ATI VGA device isn't a requisite (no crash without it):
->>
->>  $ qemu-system-ppc -M pegasos2
->>  qemu-system-ppc: standard VGA not available
->>
->> it is useful to have it with the Pegasos2 machine:
->>
->>  $ qemu-system-ppc -M pegasos2 -vga none -bios pegasos2.rom -device
->> ati-vga,romfile=
->>  qemu-system-ppc: -device ati-vga,romfile=: 'ati-vga' is not a valid
->> device model name
->>
->> Add it as an implicit Kconfig dependency.
->>
->> Fixes: ba7e5ac18e7 ("hw/ppc: Add emulation of Genesi/bPlan Pegasos II")
+Le 13/04/2021 à 22:58, Ilya Leoshkevich a écrit :
+> The current code dumps the memory between arg_start and arg_end,
+> which contains the argv pointers. This results in the
 > 
-> You can list it as a fix but I regard this more an enhancement or
-> amandment to that commit as it was not broken in this regard as the
-> commit message above also explains. To me Fixes tag means more that
-> something was broken in that commit that this one patches up but I don't
-> care much about this tag. It would probably make more sense in your
-> other commits fixing missing dependencies (although not clear which
-> commit those fix as the missing dependencies were probably also missing
-> before the latest clean ups).
-
-OK, I'll reword.
-
-Thanks for reviewing this series!
-
+>     Core was generated by `<garbage>`
 > 
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> message when opening the core file in GDB. This is because the code is
+> supposed to dump the actual arg strings. Fix by using arg_strings and
+> env_strings instead of arg_start and arg_end.
 > 
-> Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>  linux-user/elfload.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index 4e45bd1539..cffcebfe45 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -3662,10 +3662,10 @@ static int fill_psinfo(struct target_elf_prpsinfo *psinfo, const TaskState *ts)
+>  
+>      (void) memset(psinfo, 0, sizeof (*psinfo));
+>  
+> -    len = ts->info->arg_end - ts->info->arg_start;
+> +    len = ts->info->env_strings - ts->info->arg_strings;
+>      if (len >= ELF_PRARGSZ)
+>          len = ELF_PRARGSZ - 1;
+> -    if (copy_from_user(&psinfo->pr_psargs, ts->info->arg_start, len))
+> +    if (copy_from_user(&psinfo->pr_psargs, ts->info->arg_strings, len))
+>          return -EFAULT;
+>      for (i = 0; i < len; i++)
+>          if (psinfo->pr_psargs[i] == 0)
+> 
+
+
+Applied to my linux-user-for-6.1 branch.
+
+Thanks,
+Laurent
 
