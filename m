@@ -2,48 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE26381ACA
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 21:38:32 +0200 (CEST)
-Received: from localhost ([::1]:40986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED42F381ACB
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 21:39:51 +0200 (CEST)
+Received: from localhost ([::1]:43960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1li07L-0004AN-Rg
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 15:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40542)
+	id 1li08c-0006Ak-Vg
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 15:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1li05f-0002bn-Os; Sat, 15 May 2021 15:36:47 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:22144)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1li07s-0005IP-Pc; Sat, 15 May 2021 15:39:04 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:54017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1li05d-0005ip-Si; Sat, 15 May 2021 15:36:47 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2008374570E;
- Sat, 15 May 2021 21:36:43 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id ECAB8745709; Sat, 15 May 2021 21:36:42 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id EB53E745708;
- Sat, 15 May 2021 21:36:42 +0200 (CEST)
-Date: Sat, 15 May 2021 21:36:42 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 11/12] hw/isa/vt82c686: Add missing Kconfig dependency
- (runtime error)
-In-Reply-To: <20210515173716.358295-12-philmd@redhat.com>
-Message-ID: <1bb490db-9635-305f-ff8b-34dd7a524cb9@eik.bme.hu>
-References: <20210515173716.358295-1-philmd@redhat.com>
- <20210515173716.358295-12-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1li07r-00072b-7K; Sat, 15 May 2021 15:39:04 -0400
+Received: from [192.168.100.1] ([82.142.12.230]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Mi2aH-1lDdFV266L-00e6do; Sat, 15 May 2021 21:39:00 +0200
+Subject: Re: [PATCH 0/4] linux-user/arm: fpa11 fix and cleanup
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210423165413.338259-1-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <ca091ab4-b657-a336-eccc-57b5cd5d4a46@vivier.eu>
+Date: Sat, 15 May 2021 21:38:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-273187842-1621107402=:7809"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210423165413.338259-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:kBAMKfbe8bGYGqNnnTwBQZpB06Fga7QVeg+56zchcL6f8m0Cj2s
+ 9Oqe59+x8EYJYjSPeWpZ9Xi1qApNYxXIbuSJ4QqN4H3wkaJe6jSxzpglbm8gYPlgPB0ARzT
+ 1XUL7/7xnEj1l+ZCtwhbXV/GfbiEexj+IN/4I/2t2xHKhbCgudb3VZBCpNuiaWo4pcryCoT
+ ca6HcSIW3fgGAgbJWFimA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wTe2dBVOnwY=:M7sS4+iQQRwo78us3LdFZZ
+ mi0oUlSv52+2ud8+8xs5OPPrafiu9D5s7vfT86engLywHfN38prsMnuKjlUVetW/686Pce97X
+ NeW420Mln6RmVFNmlgJqzoxN5keOwZLc+liX4b3ck+yL9IUJ4PIE8lZGgGNzGtzl7srt/1pBP
+ bx4ISYFsHg2/E2pISw+z7foNb+xIrEuAEp5hZ6gkOFxkcVDpbql2GshFs2TXajjxMIykJjCbk
+ /sVcBGV7X0OlPSu8I2UdzNEz6Bs6/mmsSEXpV0mPlU+dNN2SSJnn6Sibykqb0wK4fyi+4V0Bh
+ hs3GHpTKRAYxy8Zw7PwbeUq2VTMOnXmLs7+dFuL11AK19s1KcZ4SoU+ErkRh2us/Q+3UfxZRc
+ nk7Ydeoe1TWV6XficMhYf/ZWAgJX70wtIuvAxKZSxf5XPgte75ejJ5LnbODrWxi8cSfx3AvWL
+ /VwlCgp3MIPrz5iT6kib5iHxPEw3BKYqI87BAMKsEgkesV1Fq2FoibYNLnG8CBETEtwegpJmy
+ 6KkM8mF4ZLe5Vgaz5yMa3Y=
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,78 +66,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Le 23/04/2021 à 18:54, Richard Henderson a écrit :
+> The bug fix is patch 2, the rest is a bit of tidy-up.
+> 
+> 
+> r~
+> 
+> Richard Henderson (4):
+>   linux-user/arm: Split out emulate_arm_fpa11
+>   linux-user/arm: Do not emulate fpa11 in thumb mode
+>   linux-user/arm: Do not fill in si_code for fpa11 exceptions
+>   linux-user/arm: Simplify accumulating and raising fpa11 exceptions
+> 
+>  linux-user/arm/cpu_loop.c | 125 ++++++++++++++++++++------------------
+>  1 file changed, 66 insertions(+), 59 deletions(-)
+> 
 
---3866299591-273187842-1621107402=:7809
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Applied to my linux-user-for-6.1 branch.
 
-On Sat, 15 May 2021, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->
-> When building the Pegasos2 machine stand-alone we get:
->
->  $ qemu-system-ppc -M pegasos2 -bios pegasos2.rom
->  ERROR:qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
->  Bail out! ERROR:qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
->
-> Looking at the backtrace:
->
->  Thread 1 "qemu-system-ppc" received signal SIGABRT, Aborted.
->  (gdb) bt
->  #0  0x00007ffff53877d5 in raise () at /lib64/libc.so.6
->  #1  0x00007ffff5370895 in abort () at /lib64/libc.so.6
->  #2  0x00007ffff6dc4b6c in g_assertion_message_expr.cold () at /lib64/libglib-2.0.so.0
->  #3  0x00007ffff6e229ff in g_assertion_message_expr () at /lib64/libglib-2.0.so.0
->  #4  0x0000555555a0c8f4 in object_new_with_type (type=0x0) at qom/object.c:714
->  #5  0x0000555555a0c9d5 in object_new (typename=0x555555c7afe4 "isa-pit") at qom/object.c:747
->  #6  0x0000555555a053b8 in qdev_new (name=0x555555c7afe4 "isa-pit") at hw/core/qdev.c:153
->  #7  0x00005555557cdd05 in isa_new (name=0x555555c7afe4 "isa-pit") at hw/isa/isa-bus.c:160
->  #8  0x00005555557cf518 in i8254_pit_init (bus=0x55555603d140, base=64, isa_irq=0, alt_irq=0x0) at include/hw/timer/i8254.h:54
->  #9  0x00005555557d12f9 in vt8231_realize (d=0x5555563d9770, errp=0x7fffffffcc28) at hw/isa/vt82c686.c:704
->  #10 0x00005555557e1340 in pci_qdev_realize (qdev=0x5555563d9770, errp=0x7fffffffcca0) at hw/pci/pci.c:2116
->  #11 0x0000555555a06a84 in device_set_realized (obj=0x5555563d9770, value=true, errp=0x7fffffffcda8) at hw/core/qdev.c:761
->  #12 0x0000555555a0ff9e in property_set_bool (obj=0x5555563d9770, v=0x5555563da090, name=0x555555cd7881 "realized", opaque=0x5555560acf80, errp=0x7fffffffcda8) at qom/object.c:2257
->  #13 0x0000555555a0e098 in object_property_set (obj=0x5555563d9770, name=0x555555cd7881 "realized", v=0x5555563da090, errp=0x555555fc3fa0 <error_fatal>) at qom/object.c:1402
->  #14 0x0000555555a12271 in object_property_set_qobject (obj=0x5555563d9770, name=0x555555cd7881 "realized", value=0x5555563cf0a0, errp=0x555555fc3fa0 <error_fatal>) at qom/qom-qobject.c:28
->  #15 0x0000555555a0e3fb in object_property_set_bool (obj=0x5555563d9770, name=0x555555cd7881 "realized", value=true, errp=0x555555fc3fa0 <error_fatal>) at qom/object.c:1472
->  #16 0x0000555555a05b15 in qdev_realize (dev=0x5555563d9770, bus=0x5555563d32b0, errp=0x555555fc3fa0 <error_fatal>) at hw/core/qdev.c:389
->  #17 0x0000555555a05b42 in qdev_realize_and_unref (dev=0x5555563d9770, bus=0x5555563d32b0, errp=0x555555fc3fa0 <error_fatal>) at hw/core/qdev.c:396
->  #18 0x00005555557e160f in pci_realize_and_unref (dev=0x5555563d9770, bus=0x5555563d32b0, errp=0x555555fc3fa0 <error_fatal>) at hw/pci/pci.c:2181
->  #19 0x00005555557e165b in pci_create_simple_multifunction (bus=0x5555563d32b0, devfn=96, multifunction=true, name=0x555555c9b63b "vt8231-isa") at hw/pci/pci.c:2189
->  #20 0x0000555555867730 in pegasos2_init (machine=0x5555560427a0) at hw/ppc/pegasos2.c:105
->
-> The "isa-pit" type (TYPE_I8254) is missing. Add it.
->
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-
-> ---
-> hw/isa/Kconfig | 1 +
-> 1 file changed, 1 insertion(+)
->
-> diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
-> index 0703512209a..9822a90ce95 100644
-> --- a/hw/isa/Kconfig
-> +++ b/hw/isa/Kconfig
-> @@ -49,6 +49,7 @@ config VT82C686
->     select FDC
->     select USB_UHCI
->     select APM
-> +    select I8254
->     select I8257
->     select I8259
->     select MC146818RTC
->
---3866299591-273187842-1621107402=:7809--
+Thanks,
+Laurent
 
