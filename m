@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85EA638177D
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:10:51 +0200 (CEST)
-Received: from localhost ([::1]:35142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1DA381783
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:14:37 +0200 (CEST)
+Received: from localhost ([::1]:49632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhrFy-0008AQ-Gg
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:10:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33938)
+	id 1lhrJc-0000xl-Pe
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:14:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhr9J-00061E-3b; Sat, 15 May 2021 06:03:58 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:40445)
+ id 1lhr9K-00062R-PO; Sat, 15 May 2021 06:04:00 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:56187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhr9F-0006TM-GB; Sat, 15 May 2021 06:03:55 -0400
+ id 1lhr9J-0006V7-46; Sat, 15 May 2021 06:03:58 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MQvGz-1ltBG41IP9-00Nzgc; Sat, 15
- May 2021 12:03:43 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MFsd7-1li8g30TNv-00HMwA; Sat, 15
+ May 2021 12:03:44 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/16] hw/gpio/aspeed: spelling fix (addtional)
-Date: Sat, 15 May 2021 12:03:26 +0200
-Message-Id: <20210515100335.1245468-8-laurent@vivier.eu>
+Subject: [PULL 08/16] hw/timer/etraxfs_timer: Convert to 3-phase reset
+ (Resettable interface)
+Date: Sat, 15 May 2021 12:03:27 +0200
+Message-Id: <20210515100335.1245468-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210515100335.1245468-1-laurent@vivier.eu>
 References: <20210515100335.1245468-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Gef4iKC6HnN1PVPj68MKpz7+J6RjcRRixx5jlTR9SkWA1geZoFe
- rABMhwCiKJC00vFb/f/G5igk1LjNy1ljTvdHB4byOc86mNEJEiDjh9G4WFsYAVAW9o4Aqtf
- +igzVGC90guwuEpxLNpqfddmVTUDVhomywMxWfWup4Bg2UMqtW3xrAhG23LRZE/t9SSeWer
- anc3Gzvn4NjzvalQvL0Qw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:96Saw/weRM8=:nhRq8TEatdIiVr9ea1wiVz
- bDjW6co6LpVUqR61iqFA1yNFvb0qesxYCAfg5WyjLK8jlshZaq9D2QvGpikL0UDz/gWlLd8Sx
- 9nB7MnB3dMdquJrbEs1tYUKI17154Vkt16R7Zjyc8LwHfmFFUSHMlNhPU6XdBqjwZyhw7O98J
- 2Mlup8W3txGzKtjvvOMOAEpPlrh7BdLfdvdK/+walqx156wH+OqyrDqi5u0dXmYSnL3iufVaN
- gMUSZW8nKtttKXiG6ZZFnj+Bu95eVp9GIGcjaVMeiO6n+yZGMcj6CKs8Q7JtJHv0RK3WjNU4M
- g/E05E3vZkif5jyu/bzXUhEOvS1Ks0wQkkVtA6RAgKaTAM48WUSuLn1egu9ik0D8hfNhMpre+
- 3/G+k+ZFo4EjrZayrof5bmcn0J8YTc15xWU7fgYNH12Vat6Ayiy/h4TsO5dy0E86F8kuqolpP
- 143VxFIQRfJE+DKOkkyYaRBWZ5JkCrLRWEuwZ0ovMSV5UGYa0vz/SHB/2B1W4mwdM4RqNHXi6
- xD6tNaxPUtwfcpuUwJuh+Y=
+X-Provags-ID: V03:K1:yqgfvg3KKGDk3mIT/ECmJpdyRQVSmirasttAUsDRh9iI+7cQrIm
+ SXaOMbhYQc98D/2noTTSY0MH6R7xyAuN4Kd8vDnnmwDq9UkmGdOQLkZvlGMtR45w1zIFWh+
+ zcr3l5sPXIArzSv0wvj6FiaP2FWyO2rAX+Ea2cMgLoo5vk7rFdYj3fFT5PxNOC7azsTQzTM
+ G52DgCjRNE29mvkWxXrGg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8+5LOmKOGt4=:cEPMLYU43xDtaJsZ9S3J6K
+ lQIy/DxZm1wajCNW9kR/AhKuj1L4I6nuZDQHXR2YnWukpfDkvvcjK8+6hpG+jW6oKB5V1x2XI
+ IcvYtecGdmng+AhD23OyfpQQT/oFth6o8mwMX6rDB5htB3uAg79Lhwc+NeKqowr7bQ4u/hNPR
+ UtWRlYePC/CqlUzJ4dk0KqXVOcDsiiw5Q6/UW3o5hSrPVvnDNIIoV/p6VBADqXi7+YCgyiirL
+ 5c4p0I0k8QCv0/ygWcPBbbOakKzFv1+hYaHDGxK5oWiQuf97+YN0GdoByIj2irtQmmdwFnYKL
+ 3gogJD1NqH6TYSFXBfeD3X5Hw9Fa09pAT8rcZaox5jBXxb4lzOsQVNKxhAzPj7mtfi9tAf0bN
+ 0vKP8pKFgImMQUOXc1N72csx+1gm6X7pbRGssrgFEVHXQV81df8mFZ4FuejA0yFvicV4wqtVe
+ XMMiQdkNB13ynpWpKZ/Jo8bPlqQ2pOWjiTuxelCiwa4VGPSRIpWfX2VgeRcieUmekoFUozTyG
+ AVAc/g2KioAJ2KNtvum9DU=
 Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -64,36 +65,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
+Cc: qemu-trivial@nongnu.org, "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Tokarev <mjt@tls.msk.ru>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Fixes: 36d737ee82b2972167e97901c5271ba3f904ba71
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210508093615.411920-1-mjt@msgid.tls.msk.ru>
+TYPE_ETRAX_FS_TIMER is a sysbus device, so its DeviceClass::reset()
+handler is called automatically when its qbus parent is reset
+(we don't need to register it manually).
+
+Convert the generic reset to a enter/hold resettable ones, and
+remove the qemu_register_reset() call.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Message-Id: <20210502163931.552675-2-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/gpio/aspeed_gpio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/timer/etraxfs_timer.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 985a259e05b7..34d8acb0e37a 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -170,7 +170,7 @@
- /* AST2600 only - 1.8V gpios */
- /*
-  * The AST2600 has same 3.6V gpios as the AST2400 (memory offsets 0x0-0x198)
-- * and addtional 1.8V gpios (memory offsets 0x800-0x9D4).
-+ * and additional 1.8V gpios (memory offsets 0x800-0x9D4).
-  */
- #define GPIO_1_8V_REG_OFFSET          0x800
- #define GPIO_1_8V_ABCD_DATA_VALUE     ((0x800 - GPIO_1_8V_REG_OFFSET) >> 2)
+diff --git a/hw/timer/etraxfs_timer.c b/hw/timer/etraxfs_timer.c
+index 5379006086fb..4ba662190de3 100644
+--- a/hw/timer/etraxfs_timer.c
++++ b/hw/timer/etraxfs_timer.c
+@@ -309,9 +309,9 @@ static const MemoryRegionOps timer_ops = {
+     }
+ };
+ 
+-static void etraxfs_timer_reset(void *opaque)
++static void etraxfs_timer_reset_enter(Object *obj, ResetType type)
+ {
+-    ETRAXTimerState *t = opaque;
++    ETRAXTimerState *t = ETRAX_TIMER(obj);
+ 
+     ptimer_transaction_begin(t->ptimer_t0);
+     ptimer_stop(t->ptimer_t0);
+@@ -325,6 +325,12 @@ static void etraxfs_timer_reset(void *opaque)
+     t->rw_wd_ctrl = 0;
+     t->r_intr = 0;
+     t->rw_intr_mask = 0;
++}
++
++static void etraxfs_timer_reset_hold(Object *obj)
++{
++    ETRAXTimerState *t = ETRAX_TIMER(obj);
++
+     qemu_irq_lower(t->irq);
+ }
+ 
+@@ -343,14 +349,16 @@ static void etraxfs_timer_realize(DeviceState *dev, Error **errp)
+     memory_region_init_io(&t->mmio, OBJECT(t), &timer_ops, t,
+                           "etraxfs-timer", 0x5c);
+     sysbus_init_mmio(sbd, &t->mmio);
+-    qemu_register_reset(etraxfs_timer_reset, t);
+ }
+ 
+ static void etraxfs_timer_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
+ 
+     dc->realize = etraxfs_timer_realize;
++    rc->phases.enter = etraxfs_timer_reset_enter;
++    rc->phases.hold = etraxfs_timer_reset_hold;
+ }
+ 
+ static const TypeInfo etraxfs_timer_info = {
 -- 
 2.31.1
 
