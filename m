@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04456381A35
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 19:42:17 +0200 (CEST)
-Received: from localhost ([::1]:39098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F196A381A49
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 19:51:09 +0200 (CEST)
+Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhyIq-00079c-1g
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 13:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48610)
+	id 1lhyRQ-0005Rl-0g
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 13:51:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhyF2-0001uW-JF
- for qemu-devel@nongnu.org; Sat, 15 May 2021 13:38:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55219)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhyF0-0006ai-Ht
- for qemu-devel@nongnu.org; Sat, 15 May 2021 13:38:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621100297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hGHwK2BS4Tjt7sYTruLWMJBHTB2i72gwei4DqcaqGkk=;
- b=KLMlI859MsrgmBfuYjpLR6pv5fr5W7VFXKOyNrw8Y45ZTkjfVxsDVeJER+Uh5zo+1Slzr7
- 19PLegE24Qyf/VhNcLVuDzZ8uoG5nxi8x1iTQ8d0R34c39sAZ295uAVRYjdAm1288wkx8D
- Rs3WWQGSToigszQozohs1hf5lMulhNs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-JR2k9XJgP_i5W_X4GRjKfA-1; Sat, 15 May 2021 13:38:16 -0400
-X-MC-Unique: JR2k9XJgP_i5W_X4GRjKfA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n127-20020a1c27850000b02901717a27c785so1649048wmn.9
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:38:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lhyFd-00038e-GL; Sat, 15 May 2021 13:38:58 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52790)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lhyFZ-0006uf-BX; Sat, 15 May 2021 13:38:55 -0400
+Received: by mail-wm1-x329.google.com with SMTP id z130so1294877wmg.2;
+ Sat, 15 May 2021 10:38:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vousw1dWTiNV6D7JpiA2fwEK0fd2emLobvU8k1bzkvs=;
+ b=ADBqQywaOptHd7yt+zB9w4McwEt978q81W1f/BWZUWnaY+Jo8bwkidEjiH94/DUt8l
+ AANvixLvDQVPT02AW6lCHVNjque3ANmQhfpiCiLjR8azVwtr7RPQ5/EfZAgh3zFi5U9x
+ XWm2Yz/uIH30UHcG1CNqFsqggQlKVVHtIdQ8OHB3yI7+RPDlIaw8coekWyVEPvI/N+E/
+ /rrGWlPhNQ1GgN0CYHZs7zBpfESJrgunOlfZs4GBOX8tNcVJDiqXXQEZHoSBKnHMiMSr
+ WWPjOWV2cnYIFMVIU6keqy9wyo5x0AbiFP9kNzE1er96QScD61ONVYgsFUTt6SCI1EgI
+ hO/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hGHwK2BS4Tjt7sYTruLWMJBHTB2i72gwei4DqcaqGkk=;
- b=Van6jsRkuudGJEyvRXwc7v1yiqaZOLhq1rSZOpngN71yt4Fqd5UJCdZqFwzIc5JnzA
- B9zZZVCO6B6v2OBs/i9WVLHsKi/l64sF8b4WTMx2skXVYE0PfWb9Co85s12bXOaC8d8s
- RK/IQWFK6FxCa4g3VaUZGwj3xNiN5nlcfYeNPSG9yyyjZoNwVqwMP7vNlvyl9QTLNg76
- XU14uFNmriKwJ/lxqLqqn5w4gFm9jiduLe/4C0SvJj9YXFcmfS8JF08VXLe3nXh/hLNH
- zFc/CAbWhzq0AZX90KrGUb1xAqijEKV/RgGnGRXQrj/nOantcNgH3rCo0Ep+DPSEuLS/
- l7ag==
-X-Gm-Message-State: AOAM5314Odi/KFrQ8D8J+TOWELLDCYCX4hEK1PbZqCbnlQGrvWy/Bjbh
- +dj4ywsjWXUAWE6APUy3NGEhtB7UkuoSkdvpLXzm5LeMQPvW9/962bZipKPWbSLQhDvd23J0K9G
- uD86IoSTRs2mS9FdixMzRfptB9ehDODLTBcoW9iW2ZyOBWfM+Zb0EeKT40rkccZw/
-X-Received: by 2002:a5d:6291:: with SMTP id k17mr67310872wru.247.1621100295203; 
- Sat, 15 May 2021 10:38:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJziUdH0gQaG56xw1W0ltobq2jlmlmrXQ0vKqRadi5wNLYD7c6p1gpn9keAKYuORV89RZuLUbA==
-X-Received: by 2002:a5d:6291:: with SMTP id k17mr67310848wru.247.1621100294991; 
- Sat, 15 May 2021 10:38:14 -0700 (PDT)
-Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vousw1dWTiNV6D7JpiA2fwEK0fd2emLobvU8k1bzkvs=;
+ b=AP/Zn2lYZcUwjXZcr3RikduN3xl0kDR76Oeq1ObX376MwBRIKZOtGo9qjVWfUXWXjW
+ iuVBkrfQ43PSFHhEc4jbaOraBcqTw13iJJhJx1kLzLtQejJFjF0U0w72VnGU+a4q3wnF
+ OiG0Bdo9hn9K2ZiZxysqRjfPTA/yH1ievJmqEK4rhBxy7VO0BZEvDFCv6Nlpl2/5Gu+7
+ /ImVxpf6H8wviMXGwiwAPb3BIRqfBooSOr73BQzr5ltv9Gt/fWTtJWJC5AmVeP+oRzBt
+ ke/OfasIlIz62lbQjlqGKMVdSRc1rPHX256yw5D/I6M7M6/8t3upcrQBrHm2lTwCFuaO
+ 4Gqw==
+X-Gm-Message-State: AOAM5311AKly8lXwugiLHvUe880jgd5ZQwHM/BWpk0ulBR0LPFh1z8ap
+ nOUrxu3lo2viT9eHEQCjYEk=
+X-Google-Smtp-Source: ABdhPJxSauUzWib+lGXSrf3nlAhbzsHyWENNWmFe0oKDovn6BuG0eJna8RHV4YSLtxsgUuKy4tc1LQ==
+X-Received: by 2002:a7b:cd04:: with SMTP id f4mr56628167wmj.84.1621100331075; 
+ Sat, 15 May 2021 10:38:51 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id c65sm1856551wme.47.2021.05.15.10.38.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 May 2021 10:38:14 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/12] hw/ppc/Kconfig: Add dependency PEGASOS2 -> ATI_VGA
-Date: Sat, 15 May 2021 19:37:16 +0200
-Message-Id: <20210515173716.358295-13-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210515173716.358295-1-philmd@redhat.com>
-References: <20210515173716.358295-1-philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id o15sm9957567wru.42.2021.05.15.10.38.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 15 May 2021 10:38:50 -0700 (PDT)
+Subject: Re: [PATCH v2 0/6] hw/southbridge: QOM'ify vt82c686 as
+ VT82C686B_SOUTHBRIDGE
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210511041848.2743312-1-f4bug@amsat.org>
+ <ecdd9299-ec2-5049-fe1e-d3c7d261d@eik.bme.hu>
+ <6e9cad77-bb24-6c0a-f841-1f8a1f3515e6@amsat.org>
+ <211f4a16-a521-512c-ff52-aabf7a5f13@eik.bme.hu>
+ <5d38775e-d2a7-6ae1-2483-8516e8b0c6c3@amsat.org>
+ <1ebcddfc-6986-84b4-7264-a6a95e1aa9e4@eik.bme.hu>
+ <d806256f-36b3-e012-3087-6dba1b910e8a@amsat.org>
+ <bd9a3731-1721-2d66-ddb5-547d6eac65a0@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c3f36b44-ccff-f685-a439-7bb58f4b1d0f@amsat.org>
+Date: Sat, 15 May 2021 19:38:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <bd9a3731-1721-2d66-ddb5-547d6eac65a0@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,48 +94,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 5/15/21 4:37 PM, BALATON Zoltan wrote:
+> On Thu, 13 May 2021, Philippe Mathieu-Daudé wrote:
+>> On 5/13/21 1:54 PM, BALATON Zoltan wrote:
+>>> On Thu, 13 May 2021, Philippe Mathieu-Daudé wrote:
+>>>> On 5/11/21 3:09 PM, BALATON Zoltan wrote:
+>>>>> On Tue, 11 May 2021, Philippe Mathieu-Daudé wrote:
+>>>>>> Hi Zoltan,
+>>>>>>
+>>>>>> On 5/11/21 1:28 PM, BALATON Zoltan wrote:
+>>>>>>> On Tue, 11 May 2021, Philippe Mathieu-Daudé wrote:
+>>>>>>>> The motivation behind this series is to remove the
+>>>>>>>> isa_get_irq(NULL) call to simplify the ISA generic model.
+>>>>>>>>
+>>>>>>>> Since v1:
+>>>>>>>> - rebased on top of remotes/dg-gitlab/tags/ppc-for-6.1-20210504
+>>>>>>>
+>>>>>>> I'll try to have a look at these later but some notes: The pegasos2
+>>>>>>> changes are now in master so if this was before that maybe
+>>>>>>> rebasing on
+>>>>>>> master is now enough.
+>>>>>>
+>>>>>> This is what this series does, simply rebase on top of your merged
+>>>>>> patches.
+>>>>>>
+>>>>>>> However I wonder if any changes to pegasos2.c is
+>>>>>>> needed due to changed init of the chip model or is that only
+>>>>>>> affecting
+>>>>>>> 82c686b?
+>>>>>>
+>>>>>> There is no change in 'init' in this series, it is only QOM
+>>>>>> boilerplate
+>>>>>> code churn, no logical change intended.
+>>>>>>
+>>>>>>> Please also note that pegasos2 is not enabled by default due to
+>>>>>>> needing undistributable firmware ROM so to test it you need to
+>>>>>>> enable it
+>>>>>>> in default-configs/devices/ppc-softmmu.mak
+>>>>>>
+>>>>>> I remember you said you were mostly interested in the VT8231, not
+>>>>>> the VT82C686. This series only QOM'ify the latter.
+>>>>>
+>>>>> OK as I said I haven't looked at it in detail.
+>>>>>
+>>>>>> What is your idea? Send the firmware off-list and explain how
+>>>>>> the OS works and how (what) to test?
+>>>>>
+>>>>> I've already sent you this info:
+>>>>>
+>>>>> https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg01553.html
+>>>>
+>>>> Well, if you have everything setup, it is easier to test and send
+>>>> a Tested-by tag.
+>>>
+>>> I indend to test it when I'll have some time but I could not get to
+>>> it yet.
+>>>
+>>>>> but I can't write a test case so if you want to automate this and make
+>>>>> it part of QEMU tests then some help with that would be appreciated.
+>>>>
+>>>> You are not the only want wanting that. I'm working on a solution to
+>>>> run
+>>>> such tests (depending on binary blobs) in your own namespace, but it
+>>>> will take me time (doing it in my free time, without help).
+>>>
+>>> I did not mean to say you should do this urgently, just sent this as a
+>>> reminder about how this could be tested in case you forgot because
+>>> you've asked about testing.
+>>
+>> Unrelated to this series, with master (dab59ce0312) I sometime get:
+>>
+>> Initializing KBD...00000012                               FAILED.
+>>
+>> and then the mouse isn't working.
+>>
+>> Sometimes:
+>>
+>> Initializing KBD...                                       Done.
+>>
+>> and the mouse is crazy (similar to my host mouse).
+>>
+>> Anyway, there is smth wrong with patch #2 of this series:
+>> "Simplify removing unuseful qemu_allocate_irqs() call".
+> 
+> As I said before, when I've tried to do it that way first it did not
+> work for me so I introduced the indirection which fixed it but I did not
+> understand why it was needed or I forgot by now so all I remember is
+> that I could not directly connect the irq and needed the local function
+> for some reason.
 
-While the ATI VGA device isn't a requisite (no crash without it):
+OK, I'll try to figure out what the problem is and come back to you.
 
-  $ qemu-system-ppc -M pegasos2
-  qemu-system-ppc: standard VGA not available
+Regards,
 
-it is useful to have it with the Pegasos2 machine:
-
-  $ qemu-system-ppc -M pegasos2 -vga none -bios pegasos2.rom -device ati-vga,romfile=
-  qemu-system-ppc: -device ati-vga,romfile=: 'ati-vga' is not a valid device model name
-
-Add it as an implicit Kconfig dependency.
-
-Fixes: ba7e5ac18e7 ("hw/ppc: Add emulation of Genesi/bPlan Pegasos II")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/ppc/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 2e4c56eb770..e36db08665a 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -77,6 +77,7 @@ config PEGASOS2
-     select SMBUS_EEPROM
- # This should come with VT82C686
-     select ACPI_X86
-+    imply ATI_VGA
- 
- config PREP
-     bool
--- 
-2.26.3
-
+Phil.
 
