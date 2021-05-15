@@ -2,58 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E228D38184D
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:28:36 +0200 (CEST)
-Received: from localhost ([::1]:50604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C24A381856
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:33:17 +0200 (CEST)
+Received: from localhost ([::1]:35222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhsTE-0002CP-17
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:28:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44914)
+	id 1lhsXk-0002Us-3k
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:33:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsQT-0008IZ-Rh
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57118)
+ id 1lhsQW-0008Po-S8
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsQR-00072R-Q5
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:45 -0400
+ id 1lhsQM-00070o-K4
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhsQN-0002Gb-1h
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:39 +0000
+ id 1lhsQK-0002Do-06
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 053D22E8187
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id EFB5C2E8186
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 11:20:09 -0000
-From: Thomas Huth <1924912@bugs.launchpad.net>
+Date: Sat, 15 May 2021 11:18:04 -0000
+From: Thomas Huth <1926174@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kleinesfilmroellchen laurent-vivier th-huth
- ubuntu-weilnetz
-X-Launchpad-Bug-Reporter: =?utf-8?q?kleines_Filmr=C3=B6llchen_=28kleinesfil?=
- =?utf-8?q?mroellchen=29?=
+X-Launchpad-Bug-Commenters: mimox th-huth
+X-Launchpad-Bug-Reporter: Michael Monreal (mimox)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161875180735.23175.14682430598239905387.malonedeb@wampee.canonical.com>
-Message-Id: <162107760929.20623.16947794458010442453.malone@soybean.canonical.com>
-Subject: [Bug 1924912] Re: VirtIO drivers don't work on Windows: "GLib: Too
- many handles to wait for!" crash
+References: <161945243172.12386.17706296948185643927.malonedeb@wampee.canonical.com>
+Message-Id: <162107748486.20958.14385065787818181839.malone@soybean.canonical.com>
+Subject: [Bug 1926174] Re: Laggy and/or displaced mouse input on CloudReady
+ (Chrome OS) VM
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: c7e7972e49a4b1209f48bb1626c43c39f333ac16
+X-Launchpad-Hash: 872d244d9768956bba5ad42b08a9e594c471b7de
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -62,7 +59,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1924912 <1924912@bugs.launchpad.net>
+Reply-To: Bug 1926174 <1926174@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -115,84 +112,47 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1924912
+https://bugs.launchpad.net/bugs/1926174
 
 Title:
-  VirtIO drivers don't work on Windows: "GLib: Too many handles to wait
-  for!" crash
+  Laggy and/or displaced mouse input on CloudReady (Chrome OS) VM
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I ran SerenityOS <https://github.com/SerenityOS/serenity> out of WSL2
-  with native Windows QEMU. The system runs fine on the Linux QEMU (with
-  Windows X-Server). However, with Windows QEMU I get a hard crash after
-  the following output:
+  This weekend I tried to get a CloudReady (Chrome OS) VM running on
+  qemu 5.2. This seems to wok quite well, performance seems to be great
+  in fact. Only problem is mouse input.
 
-  ```
-  [#0 colonel(0:0)]: Scheduler[0]: idle loop running
-  [init_stage2(2:2)]: PCI [0000:00:00:00] PCI::ID [8086:1237]
-  [init_stage2(2:2)]: PCI [0000:00:01:00] PCI::ID [8086:7000]
-  [init_stage2(2:2)]: PCI [0000:00:01:01] PCI::ID [8086:7010]
-  [init_stage2(2:2)]: PCI [0000:00:01:02] PCI::ID [8086:7020]
-  [init_stage2(2:2)]: PCI [0000:00:01:03] PCI::ID [8086:7113]
-  [init_stage2(2:2)]: PCI [0000:00:02:00] PCI::ID [1234:1111]
-  [init_stage2(2:2)]: PCI [0000:00:03:00] PCI::ID [8086:2922]
-  [init_stage2(2:2)]: PCI [0000:00:04:00] PCI::ID [1af4:1003]
-  [init_stage2(2:2)]: PCI [0000:00:05:00] PCI::ID [1af4:1005]
-  [init_stage2(2:2)]: PCI [0000:00:06:00] PCI::ID [8086:100e]
-  [#0 init_stage2(2:2)]: BXVGA: framebuffer @ P0xf8000000
-  [#0 init_stage2(2:2)]: BXVGADevice resolution set to 1024x768 (pitch=3D40=
-96)
-  [init_stage2(2:2)]: UHCI: Controller found PCI::ID [8086:7020] @ PCI [000=
-0:00:01:02]
-  [init_stage2(2:2)]: UHCI: I/O base IO c080
-  [init_stage2(2:2)]: UHCI: Interrupt line: 11
-  [#0 init_stage2(2:2)]: UHCI: Allocated framelist at physical address P0x0=
-0e40000
-  [#0 init_stage2(2:2)]: UHCI: Framelist is at virtual address V0xc115d000
-  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f000) @ 14946304: link_ptr=3D149463=
-38, element_link_ptr=3D1
-  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f020) @ 14946336: link_ptr=3D149463=
-70, element_link_ptr=3D1
-  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f040) @ 14946368: link_ptr=3D149464=
-02, element_link_ptr=3D1
-  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f060) @ 14946400: link_ptr=3D149464=
-34, element_link_ptr=3D1
-  [#0 init_stage2(2:2)]: UHCI: QH(0xc115f080) @ 14946432: link_ptr=3D149585=
-93, element_link_ptr=3D1
-  [#0 init_stage2(2:2)]: UHCI: Reset completed
-  [#0 init_stage2(2:2)]: UHCI: Started
-  [#0 init_stage2(2:2)]: DMIExpose: SMBIOS 32bit Entry point @ P0x000f5870
-  [#0 init_stage2(2:2)]: DMIExpose: Data table @ P0x000f5890
-  [#0 init_stage2(2:2)]: VirtIOConsole: Found @ PCI [0000:00:04:00]
-  [#0 init_stage2(2:2)]: Trying to unregister unused handler (?)
-  [#0 init_stage2(2:2)]: VirtIOConsole: Multi port is not yet supported!
-  [#0 init_stage2(2:2)]: VirtIOConsole: cols: 0, rows: 0, max nr ports 0
-  qemu-system-i386.exe: warning: GLib: Too many handles to wait for!
-  ```
+  Using SDL display, there is no visible mouse unless I set "show-
+  cursor=3Don". After that the mouse pointer flickers a bit and most of
+  the time is displaced so I need to press below a button in order to
+  hit it. After switching to fullscreen and back using ctrl-alt-f this
+  effect seems to be fixed for a while but the mouse pointer does not
+  reach all parts of the emulated screen anymore.
 
-  The lines starting with [ are SerenityOS output; QEMU warns "GLib: Too
-  many handles to wait for!" and crashes right after (can't even Ctrl-C
-  in the WSL command line, force-close in Windows necessary). A window
-  is still spawned but as the OS already switched out of text mode, just
-  a black screen is visible as QEMU crashes.
+  Using SPICE instead the mouse pointer is drawn, but it is *very*
+  laggy. In fact it is only drawn every few seconds so it is unusable
+  but placement seems to be correct. Text input is instant, so general
+  emulation speed is not an issue here.
 
-  I first thought this to be an issue with SerenityOS and reported it
-  over there: <https://github.com/SerenityOS/serenity/issues/6422>. The
-  kernel devs pointed out that this seems to be a VirtIO driver/device
-  issue on the Windows build of QEMU, because the Serenity kernel tries
-  to initialize VirtIO devices which apparently crashes QEMU. There will
-  be mitigations from the SerenityOS side (by allowing to disable VirtIO
-  on boot) but it would of course be great if QEMU handled this
-  properly.
+  To reproduce, download the free image from
+  https://www.neverware.com/freedownload#home-edition-install
 
-  Version info: Both QEMU 6.0.0-rc3 and 5.2.0 exhibit this issue.
-  Windows release is 20H2, WSL2 is running Debian 10.9. SerenityOS has
-  no proper version but it was reproduced on the most current commits as
-  of 18/04/2021.
+  Then run one of the following commands:
+
+  qemu-system-x86_64 -drive driver=3Draw,file=3Dcloudready-
+  free-89.3.3-64bit.bin -machine pc,accel=3Dkvm -m 2048 -device virtio-
+  vga,virgl=3Don -display sdl,gl=3Don,show-cursor=3Don -usb -device usb-mou=
+se
+  -device intel-hda -device hda-duplex
+
+  qemu-system-x86_64 -drive driver=3Draw,file=3Dcloudready-
+  free-89.3.3-64bit.bin -machine pc,accel=3Dkvm -m 2048 -device virtio-
+  vga,virgl=3Don -display spice-app,gl=3Don -usb -device usb-mouse -device
+  intel-hda -device hda-duplex
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1924912/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926174/+subscriptions
 
