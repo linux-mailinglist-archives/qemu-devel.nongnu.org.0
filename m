@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1166038182A
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:12:16 +0200 (CEST)
-Received: from localhost ([::1]:59002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68FA238182D
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:17:19 +0200 (CEST)
+Received: from localhost ([::1]:34690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhsDO-0005B1-Tc
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:12:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42174)
+	id 1lhsII-00081N-Gn
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:17:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsC4-0003tC-JQ
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:10:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55196)
+ id 1lhsGl-0006DN-WC
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:15:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsC0-0006Zp-Hy
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:10:52 -0400
+ id 1lhsGh-0001Cu-Al
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:15:43 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhsBv-0008Mp-Oq
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:10:43 +0000
+ id 1lhsGf-0000Q4-00
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:15:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B37F92E8136
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:10:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id F26472E8050
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:15:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 11:03:40 -0000
-From: promeneur <1922430@bugs.launchpad.net>
+Date: Sat, 15 May 2021 11:06:34 -0000
+From: Thomas Huth <1922430@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
@@ -40,16 +40,16 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: epistemepromeneur th-huth
 X-Launchpad-Bug-Reporter: promeneur (epistemepromeneur)
-X-Launchpad-Bug-Modifier: promeneur (epistemepromeneur)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
 References: <161745782847.29743.8322673006861745178.malonedeb@gac.canonical.com>
-Message-Id: <162107662106.1231.7141901016222401951.malone@wampee.canonical.com>
+Message-Id: <162107679503.21294.4079477558068982437.malone@soybean.canonical.com>
 Subject: [Bug 1922430] Re: 3d accel does not take care of 1280x960 setting
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: e09ed3534c693e384fad172d9656ae13a11c7a1e
+X-Launchpad-Hash: 29e6f9d7640a7bdaf89fc2af985490dd01c19030
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,7 +74,15 @@ Reply-To: Bug 1922430 <1922430@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-done
+Ticket has been moved here (thanks!):
+https://gitlab.com/qemu-project/qemu/-/issues/315
+... so I'm closing this on Launchpad now.
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #315
+   https://gitlab.com/qemu-project/qemu/-/issues/315
+
+** Changed in: qemu
+       Status: Incomplete =3D> Invalid
 
 -- =
 
