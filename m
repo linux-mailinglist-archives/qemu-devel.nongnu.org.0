@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF48A381A31
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 19:40:15 +0200 (CEST)
-Received: from localhost ([::1]:33554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF4D381A30
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 19:40:05 +0200 (CEST)
+Received: from localhost ([::1]:33028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhyGs-0003MJ-Vp
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 13:40:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47908)
+	id 1lhyGi-0002zw-Cg
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 13:40:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhyEF-0008Dh-JB
- for qemu-devel@nongnu.org; Sat, 15 May 2021 13:37:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24617)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhyEI-0008Pu-Ey
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 13:37:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhyEB-00062O-Dp
- for qemu-devel@nongnu.org; Sat, 15 May 2021 13:37:31 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhyEG-00066J-0d
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 13:37:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621100246;
+ s=mimecast20190719; t=1621100251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wRNuc1gJMH1hkdyUyCI+kE/vTfEuz1keBAJWrXytcEA=;
- b=d6lHMr2j3oIQOsSwOy+mdnThkPLAzy02UaCx3GNgfYG4XNHWUX+G3wwme3Zt9hEucC4XkA
- XTpa0AtnL9olpvAhbhHbNx4jreU2lfdEpTefdhHE2TawZi7oT5HShluPnrIAv1+8XzfRV5
- z/GasMvTmd17joJzMPhiu0XZd/MRzqQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-223-k8x8ui-DOrqo6ocGbgar0w-1; Sat, 15 May 2021 13:37:25 -0400
-X-MC-Unique: k8x8ui-DOrqo6ocGbgar0w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n127-20020a1c27850000b02901717a27c785so1648261wmn.9
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:37:25 -0700 (PDT)
+ bh=k/10dvLOYecsAQmUGPkwxrFRTrjd5+JzocYSZHgeVfk=;
+ b=Ez/NEZ50nSNp3weLm451lazCKzrMGqFAyL2R27w61Q7JRBpqLa8LLAqBxSrScSt9hLgmKZ
+ u00GK6iHKkrKmyVQa5uv4lKnJZZRLhPWEGgoNiY11YlkHXuc+OL6vjoCC5g/7ccWC6Igv+
+ 4vpTi7JZl4JYJJNfJfyD/IfYCB/jpp0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-gmUwbCH4PuyXb2-opXWk_A-1; Sat, 15 May 2021 13:37:30 -0400
+X-MC-Unique: gmUwbCH4PuyXb2-opXWk_A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ b206-20020a1c1bd70000b02901713122405eso453691wmb.1
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:37:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wRNuc1gJMH1hkdyUyCI+kE/vTfEuz1keBAJWrXytcEA=;
- b=ElwsItvkL/nQOb1/6hKgqhJsNNoLKIeyjkbLfQZzOywMyYyWHdu4DIANjHpcAwOpax
- wZyvNegH4zdkForTphUAC/MTuzIHtG+fBua+MBs7IRRngdiNrKznX8mnDjVBa/5jmDFM
- 2n2lnYetefNdT4MnvqzzJzVOyL6dsU30QGqDimHRSd4mNMRUFTPQiDSC6WoKOF366+OQ
- Rk1hopGcRvlWBx/NfH71BLRXVxpYvNT1EDbzqEE4+qyhnki+F1NOgxX9VFWcfIISaxv7
- B987/E6Tq0NsE6GO7kfwjiEX5tK6S4Xe7ewgrb9LhG9AQxAsDLEvrYgDW/QDSFLM5fMg
- aurA==
-X-Gm-Message-State: AOAM533RUIPggIrxZt7JL0DAK8dv8uwclEW/amR+bdTyHAqI8G8yR9kI
- tIS/ERfhJCleLe/k6uk9/4v8lBfJvRaoO/UXX5ciBW+IbG9SroXaCKgm2Ci6qMLoGQYMqDabj/W
- H8Z5pwRSW4jNxSfXvSQqwnPkdmP3U7DEiaSSw9r1AXBAe6W1luO3PAnK4mvhQo0YC
-X-Received: by 2002:a05:600c:4896:: with SMTP id
- j22mr14966983wmp.156.1621100243893; 
- Sat, 15 May 2021 10:37:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyz2Ad0xL16eEWXWXC6gvEGKc994vEjz53rI4Fm7kubWnLVp0RG1vMfoeBQ+BzwAG7JYbnrQA==
-X-Received: by 2002:a05:600c:4896:: with SMTP id
- j22mr14966953wmp.156.1621100243687; 
- Sat, 15 May 2021 10:37:23 -0700 (PDT)
+ bh=k/10dvLOYecsAQmUGPkwxrFRTrjd5+JzocYSZHgeVfk=;
+ b=YatS9Ji98mjl45c3MoBE+n8DinOxKbz1IhlzhJxWvyn+0ybjcgSa1EJ6ahGSc9so9w
+ 4n5e65Vh9Asky3NdmwUb++y62F7qE2wx/i8poVFJ7VwOMz+Rdxe9EURbXdvkGyUxK0M9
+ QKB1PiIwNWzuwXOovBx27T35QtcocaLRx8zbCVptOArf35wprL4e6Ndqe2TJi/v6QJqt
+ opoifQOiycHnUecNl6qniCyO/ziO1teNUSFmxTPoi/5zrFpvNMp6NxtP36e5otSupe+w
+ 6NSTp1LGPBoHwV1JEQUGr/6WQSjE7m3GLe9/hyggxgLvle28sx0tCooDwGAkbKDa4ls3
+ A63g==
+X-Gm-Message-State: AOAM533eHNiAHG0nXvQIu8W7MrdtfzjPuedgHnFlZo8IqsVwUKAYdI+0
+ ZTet0XSBEuqlDpK1CfmrthJKpOymh1n0tmMmV7G4ma2k4z2CI2b1bWO3f+ryYRV0DB5gU3XoH+G
+ dLGZXMcU+7klHGnQIRVceuK19OvbA3+noU7I3OaBTtOHuyjYa30+CHIbvACscfd9C
+X-Received: by 2002:a05:600c:4eca:: with SMTP id
+ g10mr15474344wmq.180.1621100248624; 
+ Sat, 15 May 2021 10:37:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwBI/OGWHQJw95jKNSYxvduONqDOFNeiW3sAzEu0dZbev1126HPcjQkDuw1xmVEaAqMlhE2ew==
+X-Received: by 2002:a05:600c:4eca:: with SMTP id
+ g10mr15474322wmq.180.1621100248461; 
+ Sat, 15 May 2021 10:37:28 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id a17sm2052985wrt.53.2021.05.15.10.37.22
+ by smtp.gmail.com with ESMTPSA id q3sm8260103wrr.43.2021.05.15.10.37.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 May 2021 10:37:23 -0700 (PDT)
+ Sat, 15 May 2021 10:37:28 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/12] hw/mem/nvdimm: Use Kconfig 'imply' instead of
- 'depends on'
-Date: Sat, 15 May 2021 19:37:05 +0200
-Message-Id: <20210515173716.358295-2-philmd@redhat.com>
+Subject: [PATCH v2 02/12] hw/ide/Kconfig: Add missing dependency PCI ->
+ IDE_QDEV
+Date: Sat, 15 May 2021 19:37:06 +0200
+Message-Id: <20210515173716.358295-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210515173716.358295-1-philmd@redhat.com>
 References: <20210515173716.358295-1-philmd@redhat.com>
@@ -97,95 +97,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
+ "open list:IDE" <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the kconfig.rst:
+The pci_ide_create_devs() function is declared i hw/ide/qdev.c:
 
-  A device should be listed [...] ``imply`` if (depending on
-  the QEMU command line) the board may or  may not be started
-  without it.
+ $ git grep ide_create_drive
+ hw/ide/pci.c:491:            ide_create_drive(d->bus + bus[i], unit[i], hd_table[i]);
+ hw/ide/qdev.c:127:IDEDevice *ide_create_drive(IDEBus *bus, int unit, DriveInfo *drive)
+ include/hw/ide/internal.h:653:IDEDevice *ide_create_drive(IDEBus *bus, int unit, DriveInfo *drive);
 
-This is the case with the NVDIMM device (it is certainly possible
-to start a machine without NVDIMM) , so use the 'imply' weak
-reverse dependency to select the symbol.
+Fix the correct symbol dependency to avoid build failure when
+deselecting some machines:
 
+  /usr/bin/ld: libcommon.fa.p/hw_ide_pci.c.o: in function `pci_ide_create_devs':
+  hw/ide/pci.c:491: undefined reference to `ide_create_drive'
+
+Fixes: 8f01b41e109 ("ide: express dependencies with Kconfig")
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- default-configs/devices/ppc64-softmmu.mak | 1 -
- hw/arm/Kconfig                            | 1 +
- hw/i386/Kconfig                           | 1 +
- hw/mem/Kconfig                            | 2 --
- hw/ppc/Kconfig                            | 1 +
- 5 files changed, 3 insertions(+), 3 deletions(-)
+ hw/ide/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/default-configs/devices/ppc64-softmmu.mak b/default-configs/devices/ppc64-softmmu.mak
-index ae0841fa3a1..cca52665d90 100644
---- a/default-configs/devices/ppc64-softmmu.mak
-+++ b/default-configs/devices/ppc64-softmmu.mak
-@@ -8,4 +8,3 @@ CONFIG_POWERNV=y
- 
- # For pSeries
- CONFIG_PSERIES=y
--CONFIG_NVDIMM=y
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index b887f6a5b17..67723d9ea6a 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -6,6 +6,7 @@ config ARM_VIRT
-     imply VFIO_PLATFORM
-     imply VFIO_XGMAC
-     imply TPM_TIS_SYSBUS
-+    imply NVDIMM
-     select ARM_GIC
-     select ACPI
-     select ARM_SMMUV3
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 7f91f30877f..66838fa397b 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -23,6 +23,7 @@ config PC
-     imply TPM_TIS_ISA
-     imply VGA_PCI
-     imply VIRTIO_VGA
-+    imply NVDIMM
-     select FDC
-     select I8259
-     select I8254
-diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
-index a0ef2cf648e..8b19fdc49f1 100644
---- a/hw/mem/Kconfig
-+++ b/hw/mem/Kconfig
-@@ -7,6 +7,4 @@ config MEM_DEVICE
- 
- config NVDIMM
+diff --git a/hw/ide/Kconfig b/hw/ide/Kconfig
+index 8e2c8934549..dd85fa3619f 100644
+--- a/hw/ide/Kconfig
++++ b/hw/ide/Kconfig
+@@ -8,7 +8,7 @@ config IDE_QDEV
+ config IDE_PCI
      bool
--    default y
--    depends on (PC || PSERIES || ARM_VIRT)
-     select MEM_DEVICE
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index e51e0e5e5ac..66e0b15d9ef 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -3,6 +3,7 @@ config PSERIES
-     imply PCI_DEVICES
-     imply TEST_DEVICES
-     imply VIRTIO_VGA
-+    imply NVDIMM
-     select DIMM
-     select PCI
-     select SPAPR_VSCSI
+     depends on PCI
+-    select IDE_CORE
++    select IDE_QDEV
+ 
+ config IDE_ISA
+     bool
 -- 
 2.26.3
 
