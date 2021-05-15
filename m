@@ -2,83 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C830D381AA0
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 21:03:28 +0200 (CEST)
-Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F46381AC3
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 21:27:11 +0200 (CEST)
+Received: from localhost ([::1]:60862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhzZP-0007M7-1h
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 15:03:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33704)
+	id 1lhzwM-0006Wy-Jx
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 15:27:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lhzYQ-0006hS-LB
- for qemu-devel@nongnu.org; Sat, 15 May 2021 15:02:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33035)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lhzvP-0005U8-Vc; Sat, 15 May 2021 15:26:11 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:33519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lhzYN-0008U6-RF
- for qemu-devel@nongnu.org; Sat, 15 May 2021 15:02:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621105341;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Nl59KbCFbew/darToTdwGOy4Agxn61SNfktMgDr0d78=;
- b=W/kEFDcq8cDK87yqgqZNlQlVdhC0cLvxjwdhBF/IMk6TqPRhYgrt4dfDAGQOJor/ABstf7
- 3G0+bSrg/CURVYzpmYs5IUD5zi3zg9DFYQAjrXBlY5aovt6D6Vme8oUIFj+10blFMp6XuO
- /p6LDYqfefGtautZzZYJYnMDIdPeW7g=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-x1IIeUMoO3qZkT1J6oPtKA-1; Sat, 15 May 2021 15:02:18 -0400
-X-MC-Unique: x1IIeUMoO3qZkT1J6oPtKA-1
-Received: by mail-pj1-f70.google.com with SMTP id
- o1-20020a17090a4201b029015c8f11f550so3784735pjg.5
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 12:02:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Nl59KbCFbew/darToTdwGOy4Agxn61SNfktMgDr0d78=;
- b=TCpcthi1lCc9TOHXzn61HOvESyy7OKcjn3a5A4ML28jVjWun2fzAJWtGnkLHDusCcs
- 8uPG1WLncZRG9QlUtTJomqIKAJXZdAN602tqTJaWs/SCrp8ifvB21pCM7ms59D50iXYV
- Nl3TYKbA2yNOHhxjnjTYTym1G3XtGjDLwkA72FHTrlWJv+QG+8ciRqo8OYZSk4Q1EADC
- ebqSbVxvRQjsMydrl3eCAohla2zLvgNwNtlCLtHohyNMGXD4zvybtPppqNRRFxqSmIAQ
- byw1m6713faUV1SPtWsqPKrkEzS00su5Ql91T7C7AeOX2AITenCfHPYfzDookwqRF4iv
- CxkA==
-X-Gm-Message-State: AOAM530Qh242XSevtIdY+S+NWmV4Ec3i8XnQw/R6UCVe5E++boJWPeA1
- vt9fL4X5wHUlWyDoruA7ExO7fzRbc9ocnjQqqwlgx3vsfOeypdadYX5hdw/2HxLMlTnwgV1oQrU
- SjK08jkXmzL20SGFNxnCntJGce8FQrQo=
-X-Received: by 2002:a65:638e:: with SMTP id h14mr38546701pgv.108.1621105337474; 
- Sat, 15 May 2021 12:02:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyiWw4BpBmgk/rRHkPKUA+d1EklHMpCcdRv5Lqzhq2K+Sry69ZcRl/2zedvAc0h9uD8wCfe2ZYyPevdd8sjC/I=
-X-Received: by 2002:a65:638e:: with SMTP id h14mr38546680pgv.108.1621105337253; 
- Sat, 15 May 2021 12:02:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lhzvM-0006xW-C3; Sat, 15 May 2021 15:26:11 -0400
+Received: from [192.168.100.1] ([82.142.12.230]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MysiI-1lVZhX0LAI-00vwVn; Sat, 15 May 2021 21:25:49 +0200
+Subject: Re: [PATCH v4 17/28] linux-user: Remove dead code
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210303214708.1727801-1-f4bug@amsat.org>
+ <20210303214708.1727801-18-f4bug@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <f6b4d61e-5b70-2d9d-1943-a848374f7759@vivier.eu>
+Date: Sat, 15 May 2021 21:25:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210514111310.1756593-1-marcandre.lureau@redhat.com>
- <CAFEAcA_xf7CAqEsn5EPSht3+7wOXKvnnQ+OGGp8aDw9A_f3AEA@mail.gmail.com>
- <48378522-0a28-b1c6-2a28-72c85202fcb2@redhat.com>
-In-Reply-To: <48378522-0a28-b1c6-2a28-72c85202fcb2@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Sat, 15 May 2021 23:02:06 +0400
-Message-ID: <CAMxuvayho0Lgyejz8KPCDfmsbHZE9ANMdKv+NCdooUHoaJyY4Q@mail.gmail.com>
-Subject: Re: [PULL v3 0/1] Rtd patches
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000c556ff05c262ff94"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210303214708.1727801-18-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:kBYrzGuOYGorR32jKX3wzuZFhjzlWIm2J4kEHCGlovAT1p3/66O
+ 1aUNH3JfSvZDo9DlyBOcspIkZJ0eoIvEVgzP89aUBYtqvf5O0qYGjQ87c6ynw9KVyBCg9Yq
+ CHqjiF3T0gdbRMBcFVdWo51V/YK5VdNqVz25Ps2s0sTzPUA3i+dCeT6Ltpx7Tn4nboves0x
+ qhKz6afCn/RBdZXhxzwKw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:d5evw8aclaY=:XIaYfFh2dkD4ww/zAnr8Tz
+ h84Zv7AJrAYW77u6LjYwoemKXUZublIBuBj6WYLdBZWtIUngWEFmz1k/DE+N3B+pH15kkdfts
+ 6rm5aD3xQmNe0QCVxXRlABrH6LtRDB30cIbO3VblMmWuvNP7dR2eiyL4/gd3pI070mUg0jfxJ
+ IsqkEevGExcMsWojtFopLLIjQI4v/2/vkz4nIkpnzUmMUrXHLwVK6ysZfmXetspcR5OaEIHOl
+ qWPl+lek92EQFPa7vatO9etGzvTCYcGL4p1Eh4l/3aDX53epTuiI09HbXIAj2hWPn71g0XvJF
+ 6ug7qnEZpzChTSAgHpm9i4ZNgGsD0oB+uc7+K8LqDc99VkBfgOSpZXwZJIkO/0paE8HPdrT27
+ Q7GxySApHCP4yYS3ALcL+LCeVLJKNu/nZvv/ZwS0Z+gPhcMXnpCagxRHkk9bg4fWo3SUKwWCw
+ xELfFZn/fZHeTu8MyMM9wnICnoCxEy+HYRYgdZPKmjMnNtLJAnkSSR+B3Tb1mAxWFMhAH5tEt
+ hl4ilueQNp5ac/GW01wrjQ=
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,173 +68,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c556ff05c262ff94
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Le 03/03/2021 à 22:46, Philippe Mathieu-Daudé a écrit :
+> We can not use watchpoints in user-mode emulation because we
+> need the softmmu slow path to detect accesses to watchpointed
+> memory. This code is expanded as empty stub in "hw/core/cpu.h"
+> anyway, so we can drop it.
+> 
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  linux-user/main.c | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index 81f48ff54ed..d7af3ffbc22 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -200,7 +200,6 @@ CPUArchState *cpu_copy(CPUArchState *env)
+>      CPUState *new_cpu = cpu_create(cpu_type);
+>      CPUArchState *new_env = new_cpu->env_ptr;
+>      CPUBreakpoint *bp;
+> -    CPUWatchpoint *wp;
+>  
+>      /* Reset non arch specific state */
+>      cpu_reset(new_cpu);
+> @@ -211,13 +210,9 @@ CPUArchState *cpu_copy(CPUArchState *env)
+>         Note: Once we support ptrace with hw-debug register access, make sure
+>         BP_CPU break/watchpoints are handled correctly on clone. */
+>      QTAILQ_INIT(&new_cpu->breakpoints);
+> -    QTAILQ_INIT(&new_cpu->watchpoints);
+>      QTAILQ_FOREACH(bp, &cpu->breakpoints, entry) {
+>          cpu_breakpoint_insert(new_cpu, bp->pc, bp->flags, NULL);
+>      }
+> -    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+> -        cpu_watchpoint_insert(new_cpu, wp->vaddr, wp->len, wp->flags, NULL);
+> -    }
+>  
+>      return new_env;
+>  }
+> 
 
-Hi
+Applied to my linux-user-for-6.1 branch.
 
-On Sat, May 15, 2021 at 5:20 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com>
-wrote:
-
-> On 5/14/21 8:33 PM, Peter Maydell wrote:
-> > On Fri, 14 May 2021 at 12:13, <marcandre.lureau@redhat.com> wrote:
-> >>
-> >> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >>
-> >> The following changes since commit
-> 2d3fc4e2b069494b1e9e2e4a1e3de24cbc036426:
-> >>
-> >>   Merge remote-tracking branch
-> 'remotes/armbru/tags/pull-misc-2021-05-12' into staging (2021-05-13
-> 20:13:24 +0100)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   git@gitlab.com:marcandre.lureau/qemu.git tags/rtd-pull-request
-> >>
-> >> for you to fetch changes up to 73e6aec6522e1edd63f631c52577b49a39bc234=
-f:
-> >>
-> >>   sphinx: adopt kernel readthedoc theme (2021-05-14 15:05:03 +0400)
-> >>
-> >> ----------------------------------------------------------------
-> >> Pull request
-> >>
-> >> ----------------------------------------------------------------
-> >
-> >
-> > Applied, thanks.
->
-> After rebasing I'm getting:
->
-> Program sphinx-build-3 found: YES
-> docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:
-> Configuration error:
-> There is a programmable error in your configuration file:
->
-> Traceback (most recent call last):
->   File "/home/phil/source/qemu/docs/conf.py", line 155, in <module>
->     import sphinx_rtd_theme
-> ModuleNotFoundError: No module named 'sphinx_rtd_theme'
->
-> During handling of the above exception, another exception occurred:
->
-> Traceback (most recent call last):
->   File "/usr/lib/python3.8/site-packages/sphinx/config.py", line 361, in
-> eval_config_file
->     execfile_(filename, namespace)
->   File "/usr/lib/python3.8/site-packages/sphinx/util/pycompat.py", line
-> 81, in execfile_
->     exec(code, _globals)
->   File "/home/phil/source/qemu/docs/conf.py", line 157, in <module>
->     raise ConfigError(
-> sphinx.errors.ConfigError: The Sphinx 'sphinx_rtd_theme' HTML theme was
-> not found.
->
-> Is python3-sphinx_rtd_theme a required dependency now?
->
->
-Yes, only If you --enable-docs. Otherwise, you should get a warning and doc
-will be disabled. Mine is less ugly than yours, not sure why:
-
-Program sphinx-build-3 found: YES (/usr/bin/sphinx-build-3)
-../docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:
-Configuration error:
-The Sphinx 'sphinx_rtd_theme' HTML theme was not found.
-
-
-Program python3 found: YES (/usr/bin/python3)
-
---000000000000c556ff05c262ff94
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, May 15, 2021 at 5:20 PM Phi=
-lippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@re=
-dhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On 5/14/21 8:33 PM, Peter Maydell wrote:<br>
-&gt; On Fri, 14 May 2021 at 12:13, &lt;<a href=3D"mailto:marcandre.lureau@r=
-edhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; The following changes since commit 2d3fc4e2b069494b1e9e2e4a1e3de24=
-cbc036426:<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0Merge remote-tracking branch &#39;remotes/armbru/tags/=
-pull-misc-2021-05-12&#39; into staging (2021-05-13 20:13:24 +0100)<br>
-&gt;&gt;<br>
-&gt;&gt; are available in the Git repository at:<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0git@gitlab.com:marcandre.lureau/qemu.git tags/rtd-pull=
--request<br>
-&gt;&gt;<br>
-&gt;&gt; for you to fetch changes up to 73e6aec6522e1edd63f631c52577b49a39b=
-c234f:<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0sphinx: adopt kernel readthedoc theme (2021-05-14 15:0=
-5:03 +0400)<br>
-&gt;&gt;<br>
-&gt;&gt; ----------------------------------------------------------------<b=
-r>
-&gt;&gt; Pull request<br>
-&gt;&gt;<br>
-&gt;&gt; ----------------------------------------------------------------<b=
-r>
-&gt; <br>
-&gt; <br>
-&gt; Applied, thanks.<br>
-<br>
-After rebasing I&#39;m getting:<br>
-<br>
-Program sphinx-build-3 found: YES<br>
-docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:<br>
-Configuration error:<br>
-There is a programmable error in your configuration file:<br>
-<br>
-Traceback (most recent call last):<br>
-=C2=A0 File &quot;/home/phil/source/qemu/docs/conf.py&quot;, line 155, in &=
-lt;module&gt;<br>
-=C2=A0 =C2=A0 import sphinx_rtd_theme<br>
-ModuleNotFoundError: No module named &#39;sphinx_rtd_theme&#39;<br>
-<br>
-During handling of the above exception, another exception occurred:<br>
-<br>
-Traceback (most recent call last):<br>
-=C2=A0 File &quot;/usr/lib/python3.8/site-packages/sphinx/config.py&quot;, =
-line 361, in<br>
-eval_config_file<br>
-=C2=A0 =C2=A0 execfile_(filename, namespace)<br>
-=C2=A0 File &quot;/usr/lib/python3.8/site-packages/sphinx/util/pycompat.py&=
-quot;, line<br>
-81, in execfile_<br>
-=C2=A0 =C2=A0 exec(code, _globals)<br>
-=C2=A0 File &quot;/home/phil/source/qemu/docs/conf.py&quot;, line 157, in &=
-lt;module&gt;<br>
-=C2=A0 =C2=A0 raise ConfigError(<br>
-sphinx.errors.ConfigError: The Sphinx &#39;sphinx_rtd_theme&#39; HTML theme=
- was<br>
-not found.<br>
-<br>
-Is python3-sphinx_rtd_theme a required dependency now?<br>
-<br></blockquote><div><br></div><div>Yes, only If you --enable-docs. Otherw=
-ise, you should get a warning and doc will be disabled. Mine is less ugly t=
-han yours, not sure why:<br></div><div><br></div><div>Program sphinx-build-=
-3 found: YES (/usr/bin/sphinx-build-3)<br>../docs/meson.build:30: WARNING: =
-/usr/bin/sphinx-build-3: <br>Configuration error:<br>The Sphinx &#39;sphinx=
-_rtd_theme&#39; HTML theme was not found.<br><br><br>Program python3 found:=
- YES (/usr/bin/python3)</div><div><br></div><br></div></div>
-
---000000000000c556ff05c262ff94--
-
+Thanks,
+Laurent
 
