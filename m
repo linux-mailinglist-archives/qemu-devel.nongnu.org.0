@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C256381A20
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 19:22:11 +0200 (CEST)
-Received: from localhost ([::1]:43412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73E3381A58
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 19:56:09 +0200 (CEST)
+Received: from localhost ([::1]:44702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhxzO-0006vS-1A
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 13:22:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44788)
+	id 1lhyWG-00057l-TH
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 13:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhxyE-0005zq-4q
- for qemu-devel@nongnu.org; Sat, 15 May 2021 13:20:59 -0400
-Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:38727)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhyHg-00079X-3V
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 13:41:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhxy4-0003Zt-LO
- for qemu-devel@nongnu.org; Sat, 15 May 2021 13:20:57 -0400
-Received: by mail-qt1-x82a.google.com with SMTP id h21so1950680qtu.5
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:20:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NS4EdOOlhrcW8ppu/GnQnSaaZUpfTSbYrZEaNHxvkrI=;
- b=Q/uTDHXhDjw7FPQVV3bVJo4lm8pwVoFzXhaE1ROafHceKnLigXQIPuvy0VbeX9tQhM
- fmrZ7wLKATCBqJZWucN1IEKTMidVW8WRJgBUbRiKFkWAVXdFRhG4OmsZiUk3uLHvmBtN
- /n2RkPVsVsEyxDsEZ09BgvIVHmxbEVCaX3XsOvEqCkZDR//tZfBBfxMDPDtedv3/Lwnh
- zjkevnlnLlfcYRJlhiTI4m6BVX7FDUJF4bzjx1GxxdAqZUAWyO0uMrvNttJ+btKzYxqT
- HmaLU8VXbsmA0DNJ1cbJizRTT062LgeEk2Ha8aYxtKkJSyRjag8yKHXTBS5bHTZSgHsy
- WNGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NS4EdOOlhrcW8ppu/GnQnSaaZUpfTSbYrZEaNHxvkrI=;
- b=NoPLCZRVtI+9fmhYEyKpfSsHEpTyKi6/G2YGkWpSsXQokSAa8eiBhEbjRjeIanB2wA
- KHermIvna+3D1BhwYExAPlWi2bNZh20HtNzkJo6S41+IwQST3urIg7rmLLec3abjZC1T
- e9+VqU7cSoNYGpZ01vsmvB3JOEU8tpwHu19YI4CulZYhfO6qBq9A9CSyT160/74tHmbA
- 12f1FsRNlDeLnl/26FFIpU+Acuf5TBtkxLrXUBDpmm0GUddadaCTd87+5L5DcTiGETLc
- 0KjNvvgVzbj1eLTQwsGTxTrMkxDAM1wB4eUxV1TLk+57L4xZ7vZW4HUMwiVfdrqxuRDP
- GKcA==
-X-Gm-Message-State: AOAM533KlvDQdrv1Jh1MYoW9roQELoTLjG0HNBzgW4vR1Uyd/7i+nM3y
- /XI0FPoYN/GC7p2rnrI1Mlwr7Q==
-X-Google-Smtp-Source: ABdhPJxUYVAkx5S32iFNR7nSoG9FuqKGmdgdzULlmbQBVZZBXuPdY5IpJ5IKOuAyWmiyQrMr9B5DUA==
-X-Received: by 2002:ac8:5d0b:: with SMTP id f11mr50328913qtx.132.1621099245913; 
- Sat, 15 May 2021 10:20:45 -0700 (PDT)
-Received: from [192.168.183.51] (163.189-204-200.bestelclientes.com.mx.
- [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id h8sm6955587qtp.46.2021.05.15.10.20.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 May 2021 10:20:45 -0700 (PDT)
-Subject: Re: [PATCH v6 77/82] target/arm: Fix decode for VDOT (indexed)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-78-richard.henderson@linaro.org>
- <CAFEAcA9CA-NXEqVrT_VJJmYHDOcCZJUtQWL=qv8g052cVtEh5w@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ac0e196d-6435-8a6e-f777-47628dd88fd1@linaro.org>
-Date: Sat, 15 May 2021 12:20:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhyHW-0008Bx-9H
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 13:41:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lhyHT-0004aO-Un
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 17:40:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B85B92E8186
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 17:40:51 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9CA-NXEqVrT_VJJmYHDOcCZJUtQWL=qv8g052cVtEh5w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 15 May 2021 17:32:37 -0000
+From: Vitaly Buka <1926521@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier th-huth vitalybuka
+X-Launchpad-Bug-Reporter: Vitaly Buka (vitalybuka)
+X-Launchpad-Bug-Modifier: Vitaly Buka (vitalybuka)
+References: <161964685051.14413.3981056017382622620.malonedeb@wampee.canonical.com>
+Message-Id: <162109995790.21341.10707382828326331733.malone@soybean.canonical.com>
+Subject: [Bug 1926521] Re: QEMU-user ignores MADV_DONTNEED
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
+X-Launchpad-Hash: b98242ef0dcfd1328ed883a4e200e13f520ce2d7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,23 +71,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1926521 <1926521@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/21 2:25 PM, Peter Maydell wrote:
->> +static bool do_neon_ddda(DisasContext *s, int q, int vd, int vn, int vm,
->> +                         int data, gen_helper_gvec_4 *fn_gvec)
-> 
-> This patch seems to be doing more than its commit message suggests.
-> If we want to share code between trans_VDOT and trans_VDOT_scalar
-> can we do that refactoring in its own patch, please ?
+New issue on GitLab https://gitlab.com/qemu-project/qemu/-/issues/326
 
-It appears as if a rebasing error squashed two patches together
-(git commit --amend vs git rebase --continue after conflicts).
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #326
+   https://gitlab.com/qemu-project/qemu/-/issues/326
 
-I nearly made the identical mistake while splitting this apart again just now.  :-P
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926521
 
-r~
+Title:
+  QEMU-user ignores MADV_DONTNEED
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  There is comment int the code "This is a hint, so ignoring and returning =
+success is ok"
+  https://github.com/qemu/qemu/blob/b1cffefa1b163bce9aebc3416f562c1d3886eea=
+a/linux-user/syscall.c#L11941
+
+  But it seems incorrect with the current state of Linux
+
+  "man madvise" or https://man7.org/linux/man-pages/man2/madvise.2.html
+  says the following:
+  >>  These advice values do not influence the semantics
+  >>       of the application (except in the case of MADV_DONTNEED)
+
+  >> After a successful MADV_DONTNEED operation, the semantics
+  >> of memory access in the specified region are changed:
+  >> subsequent accesses of pages in the range will succeed,
+  >> but will result in either repopulating the memory contents
+  >> from the up-to-date contents of the underlying mapped file
+  >> (for shared file mappings, shared anonymous mappings, and
+  >> shmem-based techniques such as System V shared memory
+  >> segments) or zero-fill-on-demand pages for anonymous
+  >> private mappings.
+
+  Some applications use this behavior clear memory and it
+  would be nice to be able to run them on QEMU without
+  workarounds.
+
+  Reproducer on "Debian 5.10.24 x86_64 GNU/Linux" as a host.
+
+  =
+
+  ```
+  #include "assert.h"
+  #include "stdio.h"
+  #include <sys/mman.h>
+  #include <errno.h>
+
+  int main() {
+    char *P =3D (char *)mmap(0, 4096, PROT_READ | PROT_WRITE,
+                           MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    assert(P);
+    *P =3D 'A';
+    while (madvise(P, 4096, MADV_DONTNEED) =3D=3D -1 && errno =3D=3D EAGAIN=
+) {
+    }
+    assert(*P =3D=3D 0);
+
+    printf("OK\n");
+  }
+
+  /*
+  gcc /tmp/madvice.c -o /tmp/madvice
+
+  qemu-x86_64 /tmp/madvice
+  madvice: /tmp/madvice.c:13: main: Assertion `*P =3D=3D 0' failed.
+  qemu: uncaught target signal 6 (Aborted) - core dumped
+  Aborted
+
+  /tmp/madvice
+  OK
+
+  =
+
+  */
+
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926521/+subscriptions
 
