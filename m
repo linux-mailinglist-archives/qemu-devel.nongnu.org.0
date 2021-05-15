@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B830C381854
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:32:06 +0200 (CEST)
-Received: from localhost ([::1]:59562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 673F5381855
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:33:15 +0200 (CEST)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhsWb-0008Ll-Rt
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:32:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44966)
+	id 1lhsXi-0002Ro-7T
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsQb-0008V3-0D
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57030)
+ id 1lhsQW-0008Py-VJ
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsQR-000727-Ni
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:52 -0400
+ id 1lhsQR-00072B-Nh
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhsQL-0002Dj-GY
+ id 1lhsQL-0002Di-U6
  for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 72E962E8187
+ by loganberry.canonical.com (Postfix) with ESMTP id E2C552E8139
  for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 11:18:38 -0000
-From: Thomas Huth <1925094@bugs.launchpad.net>
+Date: Sat, 15 May 2021 11:18:55 -0000
+From: Thomas Huth <1924987@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: storage
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: matir th-huth
-X-Launchpad-Bug-Reporter: David Tomaschik (matir)
+X-Launchpad-Bug-Commenters: th-huth tigg
+X-Launchpad-Bug-Reporter: Ricky Tigg (tigg)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161888017396.16822.14585960363575040225.malonedeb@wampee.canonical.com>
-Message-Id: <162107751886.21476.6373916438110509320.malone@soybean.canonical.com>
-Subject: [Bug 1925094] Re: DISCARD support for Crypto Block Devices
+References: <161882313513.2580.5040892945774329423.malonedeb@gac.canonical.com>
+Message-Id: <162107753537.21152.7426659244173059516.malone@soybean.canonical.com>
+Subject: [Bug 1924987] Re: Storage | Two decimal digits precision
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: d71cf3cc6984c8e4869587f038dbf50eee21f5d2
+X-Launchpad-Hash: cecb0a24ff19203549adffcdc82fd939310d843b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1925094 <1925094@bugs.launchpad.net>
+Reply-To: Bug 1924987 <1924987@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -107,26 +108,42 @@ Thank you and sorry for the inconvenience.
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
+** Tags added: storage
+
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1925094
+https://bugs.launchpad.net/bugs/1924987
 
 Title:
-  DISCARD support for Crypto Block Devices
+  Storage | Two decimal digits precision
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  It appears that running `fstrim` or similar is useless when the VM is
-  on a LUKS-encrypted device using QEMU's native LUKS support.
+  Tested on: Fedora 34; Component: qemu-img-5.2.0-5.fc34.1.x86_64
 
-  Looking at the source, it seems that block/crypto.c lacks an
-  implementation for bdrv_co_pdiscard, which probably needs to delegate
-  to a per-crypto type discard helper.
+  Hello. A two decimal digits precision is most appropriated on systems
+  whose storage capacities have to be saved. That is one of the reason
+  why such precision is supported in the context of creation of virtual
+  machines in several Unix/Linux virtualization platforms; virt-manager
+  is one of them. That last exhibits virtual disks size values with such
+  precision =E2=80=93 128.00 GiB =E2=80=93 nevertheless it lacks yet a ment=
+ion
+  illustrating physical disks size values.
+
+  Storage values exhibited in qemu-img and virt-manager are already
+  according to a clear format; thus, values are not attached to their
+  measure units (#value# #units#).
+
+  $ qemu-img info ~/.local/share/libvirt/images/fedora_default.img | sed -n=
+ '2,4p'
+  file format: qcow2
+  virtual size: 128 GiB (137438953472 bytes)
+  disk size: 147 MiB
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1925094/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1924987/+subscriptions
 
