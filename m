@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE86381746
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 11:48:07 +0200 (CEST)
-Received: from localhost ([::1]:38702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EEA38175B
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 11:52:30 +0200 (CEST)
+Received: from localhost ([::1]:45428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhqty-0007S5-6Y
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 05:48:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59776)
+	id 1lhqyC-0003jf-T1
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 05:52:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhqrX-0005cc-JE
- for qemu-devel@nongnu.org; Sat, 15 May 2021 05:45:36 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46452)
+ id 1lhqwd-0002yX-2E
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 05:50:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhqrV-0003T7-1i
- for qemu-devel@nongnu.org; Sat, 15 May 2021 05:45:35 -0400
+ id 1lhqwa-0006kb-7I
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 05:50:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhqrS-0006fK-W5
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 09:45:31 +0000
+ id 1lhqwT-0007fV-Qy
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 09:50:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BBAF62E8030
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 09:45:30 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C9F552E818A
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 09:50:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 09:38:46 -0000
-From: Thomas Huth <1879955@bugs.launchpad.net>
+Date: Sat, 15 May 2021 09:40:21 -0000
+From: Thomas Huth <1924603@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: v5.1.0
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell th-huth
-X-Launchpad-Bug-Reporter: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Commenters: gdawar th-huth
+X-Launchpad-Bug-Reporter: Gautam Dawar (gdawar)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159006849314.7162.9087011214859581235.malonedeb@gac.canonical.com>
-Message-Id: <162107152673.21341.3233870028283593795.malone@soybean.canonical.com>
-Subject: [Bug 1879955] Re: target/i386/seg_helper.c: 16-bit TSS struct format
- wrong?
+References: <161851052657.18499.4390060645724242620.malonedeb@wampee.canonical.com>
+Message-Id: <162107162145.1710.12013743988231299548.malone@wampee.canonical.com>
+Subject: [Bug 1924603] Re: Incorrect feature negotiation for vhost-vdpa
+ netdevice
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: e80ea8255afd593d00965e9ac3b40da9a8c15d2b
+X-Launchpad-Hash: 5c34d912e134aeeba85a1472f9699a3eed2cf49b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1879955 <1879955@bugs.launchpad.net>
+Reply-To: Bug 1924603 <1924603@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -112,47 +113,80 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1879955
+https://bugs.launchpad.net/bugs/1924603
 
 Title:
-  target/i386/seg_helper.c: 16-bit TSS struct format wrong?
+  Incorrect feature negotiation for vhost-vdpa netdevice
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  In target/i386/seg_helper.c:switch_tss_ra() we have the following code
-  to load registers from a 16-bit TSS struct:
+  QEMU cmdline:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  ./x86_64-softmmu/qemu-system-x86_64 -machine accel=3Dkvm -m 2G -hda  /gau=
+tam/centos75_1.qcow2 -name gautam,process=3Dgautam -enable-kvm -netdev vhos=
+t-vdpa,id=3Dmynet0,vhostdev=3D/dev/vhost-vdpa-0 -device virtio-net-pci,netd=
+ev=3Dmynet0,mac=3D02:AA:BB:DD:00:20,disable-modern=3Doff,page-per-vq=3Don -=
+cpu host --nographic
 
-          /* 16 bit */
-          new_cr3 =3D 0;
-          new_eip =3D cpu_lduw_kernel_ra(env, tss_base + 0x0e, retaddr);
-          new_eflags =3D cpu_lduw_kernel_ra(env, tss_base + 0x10, retaddr);
-          for (i =3D 0; i < 8; i++) {
-              new_regs[i] =3D cpu_lduw_kernel_ra(env, tss_base + (0x12 + i =
-* 2),
-                                               retaddr) | 0xffff0000;
-          }
-          for (i =3D 0; i < 4; i++) {
-              new_segs[i] =3D cpu_lduw_kernel_ra(env, tss_base + (0x22 + i =
-* 4),
-                                               retaddr);
-          }
-          new_ldt =3D cpu_lduw_kernel_ra(env, tss_base + 0x2a, retaddr);
+  Host OS:
+  =3D=3D=3D=3D=3D=3D=3D=3D
+  Linux kernel 5.11 running on x86 host
 
-  This doesn't match up with the structure described here:
-  https://www.sandpile.org/x86/tss.htm -- which has only 2-byte slots
-  for the segment registers. It also makes the 3rd segreg use the same
-  offset as the LDTR, which is very suspicious. I suspect that this
-  should use "(0x22 + i * 2)".
+  Guest OS:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  CentOS 7.5
 
-  The code later in the same function that stores the segment registers
-  to the struct has the same bug.
+  Root cause analysis:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-  Found by code inspection; I don't have a test case to check this. As a
-  non-x86-expert I'm just going to file a bug report in case somebody
-  else feels like confirming the issue and sending a patch.
+  For vhost-vdpa netdevice, the feature negotiation results in sending
+  the superset of features received from device in call to get_features
+  vdpa ops callback.
+
+  During the feature-negotiation phase, the acknowledged feature bits
+  are initialized with backend_features  and then checked for supported
+  feature bits in vhost_ack_features():
+
+  void vhost_net_ack_features(struct vhost_net *net, uint64_t features)
+  {
+    net->dev.acked_features =3D net->dev.backend_features;
+    vhost_ack_features(&net->dev, vhost_net_get_feature_bits(net), features=
+);
+  }
+
+   =
+
+  The vhost_ack_features() function just builds up on the dev.acked_feature=
+s and never trims it down:
+
+  void vhost_ack_features(struct vhost_dev *hdev, const int *feature_bits, =
+uint64_t features)
+  {     const int *bit =3D feature_bits;
+
+        while (*bit !=3D VHOST_INVALID_FEATURE_BIT) {
+             uint64_t bit_mask =3D (1ULL << *bit);      =
+
+
+              if (features & bit_mask)
+                   hdev->acked_features |=3D bit_mask;
+
+              bit++;
+         }
+  }
+
+  Because of this hdev->acked_features is always minimally equal to the
+  value of device features and this is the value that is passed to the
+  device in set_features callback:
+
+  static int vhost_dev_set_features(struct vhost_dev *dev, bool enable_log)
+  {
+         uint64_t *features =3D dev->acked_features;
+         .....
+         r =3D dev->vhost_ops->*vhost_set_features*(dev, features);
+  }
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1879955/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1924603/+subscriptions
 
