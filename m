@@ -2,104 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093C538169A
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 09:39:53 +0200 (CEST)
-Received: from localhost ([::1]:33632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555123816C1
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 10:08:30 +0200 (CEST)
+Received: from localhost ([::1]:44570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhotr-0002t4-Hf
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 03:39:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42200)
+	id 1lhpLY-0003rz-T5
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 04:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1lhosX-0001Yd-CK; Sat, 15 May 2021 03:38:29 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59380
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vaibhav@linux.ibm.com>)
- id 1lhosT-0006SI-NF; Sat, 15 May 2021 03:38:29 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 14F7XNj3037435; Sat, 15 May 2021 03:38:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=oxzDKLJRYlc6I0CEJbLCpLA62PkfJcnGzhfThAyiypY=;
- b=I6A2Pnmt0sS4KdtUCUVIYQzvX0L+Yz440qf3L5aoMpmJ8/9gVTYsgaQ4UCW1a1VaIsZ6
- GHsQepKQxBDK5WuEnv4huEsTWMsGufmxBwuyK/zFBoMdG7TNT+bG1zFZ8zgu3dEE17z8
- 0V8lQ5duoWQTNuSFCLEMO5YSt/Cy9J2Pyy+ZrD+DXxQXV2QN7g2H/AwZ6MYw7wh74Vr7
- OhGCMAknR6ZWXk6jVqTiudnpIxhDzwpAR+GnRZ/gUAjWEpSrh8kW5m2ry7qdIY6GMbEm
- xA6bisMdDpqaAvSH7PuZLCz2sqwFXV24fJnn1KDd3rGIZkWDniZWjzCSQ5qWUw1G/nO2 bw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38j9j78g7m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 15 May 2021 03:38:10 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 14F7cAKb054661;
- Sat, 15 May 2021 03:38:10 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38j9j78g73-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 15 May 2021 03:38:10 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 14F7XNQw019276;
- Sat, 15 May 2021 07:38:08 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 38j5x7r1uh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 15 May 2021 07:38:08 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 14F7c5WZ29426172
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 15 May 2021 07:38:05 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B1748A405F;
- Sat, 15 May 2021 07:38:05 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 76F00A4054;
- Sat, 15 May 2021 07:38:01 +0000 (GMT)
-Received: from vajain21.in.ibm.com (unknown [9.199.41.126])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Sat, 15 May 2021 07:38:01 +0000 (GMT)
-Received: by vajain21.in.ibm.com (sSMTP sendmail emulation);
- Sat, 15 May 2021 13:08:00 +0530
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
-To: qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au, mst@redhat.com, imammedo@redhat.com,
- xiaoguangrong.eric@gmail.com
-Subject: [RFC PATCH v3] ppc/spapr: Add support for H_SCM_PERFORMANCE_STATS
- hcall
-Date: Sat, 15 May 2021 13:07:59 +0530
-Message-Id: <20210515073759.10505-1-vaibhav@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 9ysojjJ5lM4cCn6wP7xeP4JwMCk7U0kG
-X-Proofpoint-GUID: iSi8Q4cJ7YKBZSB2qEaX6sn2VYiSlSP7
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-05-15_04:2021-05-12,
- 2021-05-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxscore=0
- suspectscore=0 phishscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
- malwarescore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105150054
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=vaibhav@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
+ id 1lhpJt-0002ul-DT
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 04:06:45 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:58884 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <maobibo@loongson.cn>) id 1lhpJo-00080n-1e
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 04:06:45 -0400
+Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxD+4FgZ9gKtIWAA--.1553S2;
+ Sat, 15 May 2021 16:06:29 +0800 (CST)
+From: Bibo Mao <maobibo@loongson.cn>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] hw/display/qxl: Set pci rom address aligned with page size
+Date: Sat, 15 May 2021 16:06:23 +0800
+Message-Id: <1621065983-18305-1-git-send-email-maobibo@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-CM-TRANSID: AQAAf9DxD+4FgZ9gKtIWAA--.1553S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JrWDXFyDGr4kKrWrGF1UAwb_yoWDuwc_X3
+ yxuws8Gr1jvFs8Ar4UXr1SqFy8Ga1Dur48XF1jqrZIy347Kwn3CF1q9r93Wr15uFZ3Cr17
+ Za1DCas0y39xGjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbs8FF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+ 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK6svPMxAI
+ w28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI
+ 8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+ xVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
+ 8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Zr0_Wr1UMIIF0xvEx4A2
+ jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43
+ ZEXa7VUb3rc3UUUUU==
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,377 +64,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, aneesh.kumar@linux.ibm.com, groug@kaod.org,
- shivaprasadbhat@gmail.com, bharata@linux.vnet.ibm.com,
- Vaibhav Jain <vaibhav@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, maobibo <maobibo@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for H_SCM_PERFORMANCE_STATS described at [1] for
-spapr nvdimms. This enables guest to fetch performance stats[2] like
-expected life of an nvdimm ('MemLife ') etc and display them to the
-user. Linux kernel support for fetching these performance stats and
-exposing them to the user-space was done via [3].
+From: maobibo <maobibo@loongson.cn>
 
-The hcall semantics mandate that each nvdimm performance stats is
-uniquely identied by a 8-byte ascii string encoded as an unsigned
-integer (e.g 'MemLife ' == 0x4D656D4C69666520) and its value be a
-8-byte unsigned integer. These performance-stats are exchanged with
-the guest in via a guest allocated buffer called
-'requestAndResultBuffer' or rr-buffer for short. This buffer contains
-a header descibed by 'struct papr_scm_perf_stats' followed by an array
-of performance-stats described by 'struct papr_scm_perf_stat'. The
-hypervisor is expected to validate the rr-buffer header and then based
-on the request copy the needed performance-stats to the array of
-'struct papr_scm_perf_stat' following the header.
+pci memory bar size should be aligned with page size, else it will
+not be effective memslot when running in kvm mode.
 
-The patch proposes a new function h_scm_performance_stats() that
-services the H_SCM_PERFORMANCE_STATS hcall. After verifying the
-validity of the rr-buffer header via scm_perf_check_rr_buffer() it
-proceeds to fill the rr-buffer with requested performance-stats. The
-value of individual stats is retrived from individual accessor
-function for the stat which are indexed in the array
-'nvdimm_perf_stats'.
+This patch set qxl pci rom size aligned with page size of host
+machine.
 
-References:
-[1] "Hypercall Op-codes (hcalls)"
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/powerpc/papr_hcalls.rst#n269
-[2] Sysfs attribute documentation for papr_scm
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/ABI/testing/sysfs-bus-papr-pmem#n36
-[3] "powerpc/papr_scm: Fetch nvdimm performance stats from PHYP"
-https://lore.kernel.org/r/20200731064153.182203-2-vaibhav@linux.ibm.com
-
-Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+Signed-off-by: Bibo Mao <maobibo@loongson.cn>
 ---
-Changelog
+ hw/display/qxl.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Since RFC-v2:
-* s/SCM_STATS_MAX_OUTPUT_BUFFER/SCM_STATS_MIN_OUTPUT_BUFFER/ thats the
-  minimum size buffer needed to return all supported performance
-  stats. Value for this is derived from size of array 'nvdimm_perf_stats'
-* Added SCM_STATS_MAX_OUTPUT_BUFFER to indicate maximum supported
-  rr-buffer size from a guest. Value for this is derived from hard
-  limit of SCM_STATS_MAX_STATS.
-* Updated scm_perf_check_rr_buffer() to add a check for max size of
-  rr-buffer. [David]
-* Updated scm_perf_check_rr_buffer() to removed a reduntant check for
-  min size of rr-buffer [David]
-* Updated h_scm_performance_stats() to have a single allocation for
-  rr-buffer and copy it back to guest memory in a single shot. [David]
-
-Since RFC-v1:
-* Removed empty lines from code [ David ]
-* Updated struct papr_scm_perf_stat to use uint64_t for
-  statistic_id.
-* Added a hard limit on max number of stats requested to 255 [ David ]
-* Updated scm_perf_check_rr_buffer() to check for rr-buffer header
-  size [ David ]
-* Removed a redundant check from nvdimm_stat_getval() [ David ]
-* Removed a redundant call to address_space_access_valid() in
-  scm_perf_check_rr_buffer() [ David ]
-* Instead of allocating a minimum size local buffer, allocate a max
-  possible size local rr-buffer. [ David ]
-* Updated nvdimm_stat_getval() to set 'val' to '0' on error. [ David ]
-* Updated h_scm_performance_stats() to use a canned-response method
-  for simplifying num_stats==0 case [ David ].
----
- hw/ppc/spapr_nvdimm.c  | 222 +++++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr.h |  19 +++-
- 2 files changed, 240 insertions(+), 1 deletion(-)
-
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index 252204e25f..287326b9c0 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -35,6 +35,19 @@
- /* SCM device is unable to persist memory contents */
- #define PAPR_PMEM_UNARMED PPC_BIT(0)
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 2ba7563..c84f45e 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -317,11 +317,11 @@ static uint32_t qxl_crc32(const uint8_t *p, unsigned len)
  
-+/* Minimum output buffer size needed to return all nvdimm_perf_stats */
-+#define SCM_STATS_MIN_OUTPUT_BUFFER  (sizeof(struct papr_scm_perf_stats) + \
-+                                      sizeof(struct papr_scm_perf_stat) * \
-+                                      ARRAY_SIZE(nvdimm_perf_stats))
-+
-+/* Maximum number of stats that we can return back in a single stat request */
-+#define SCM_STATS_MAX_STATS 255
-+
-+/* Maximum possible output buffer to fulfill a perf-stats request */
-+#define SCM_STATS_MAX_OUTPUT_BUFFER  (sizeof(struct papr_scm_perf_stats) + \
-+                                      sizeof(struct papr_scm_perf_stat) * \
-+                                      SCM_STATS_MAX_STATS)
-+
- bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-                            uint64_t size, Error **errp)
+ static ram_addr_t qxl_rom_size(void)
  {
-@@ -502,6 +515,214 @@ static target_ulong h_scm_health(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     return H_SUCCESS;
+-#define QXL_REQUIRED_SZ (sizeof(QXLRom) + sizeof(QXLModes) + sizeof(qxl_modes))
+-#define QXL_ROM_SZ 8192
++    uint32_t rom_size;
+ 
+-    QEMU_BUILD_BUG_ON(QXL_REQUIRED_SZ > QXL_ROM_SZ);
+-    return QXL_ROM_SZ;
++    rom_size = sizeof(QXLRom) + sizeof(QXLModes) + sizeof(qxl_modes);
++    rom_size = QEMU_ALIGN_UP(rom_size, qemu_real_host_page_size);
++    return rom_size;
  }
  
-+static int perf_stat_noop(SpaprDrc *drc, uint64_t unused, uint64_t *val)
-+{
-+    *val = 0;
-+    return H_SUCCESS;
-+}
-+
-+static int perf_stat_memlife(SpaprDrc *drc, uint64_t unused, uint64_t *val)
-+{
-+    /* Assume full life available of an NVDIMM right now */
-+    *val = 100;
-+    return H_SUCCESS;
-+}
-+
-+/*
-+ * Holds all supported performance stats accessors. Each performance-statistic
-+ * is uniquely identified by a 8-byte ascii string for example: 'MemLife '
-+ * which indicate in percentage how much usage life of an nvdimm is remaining.
-+ * 'NoopStat' which is primarily used to test support for retriving performance
-+ * stats and also to replace unknown stats present in the rr-buffer.
-+ *
-+ */
-+static const struct {
-+    char stat_id[8];
-+    int  (*stat_getval)(SpaprDrc *drc, uint64_t id, uint64_t *val);
-+} nvdimm_perf_stats[] = {
-+    { "NoopStat", perf_stat_noop},
-+    { "MemLife ", perf_stat_memlife},
-+};
-+
-+/*
-+ * Given a nvdimm drc and stat-name return its value. In case given stat-name
-+ * isnt supported then return H_PARTIAL.
-+ */
-+static int nvdimm_stat_getval(SpaprDrc *drc, uint64_t id, uint64_t *val)
-+{
-+    int index;
-+    char stat_id[8];
-+
-+    /* since comparision is done */
-+    memcpy(&stat_id[0], &id, 8);
-+    *val = 0;
-+
-+    /* Lookup the stats-id in the nvdimm_perf_stats table */
-+    for (index = 0; index < ARRAY_SIZE(nvdimm_perf_stats); ++index) {
-+        if (memcmp(nvdimm_perf_stats[index].stat_id, &stat_id[0], 8) == 0) {
-+            return nvdimm_perf_stats[index].stat_getval(drc, id, val);
-+        }
-+    }
-+    return H_PARTIAL;
-+}
-+
-+/*
-+ * Given a request & result buffer header verify its contents. Also
-+ * buffer-size and number of stats requested are within our expected
-+ * sane bounds.
-+ */
-+static int scm_perf_check_rr_buffer(struct papr_scm_perf_stats *header,
-+                                    hwaddr addr, size_t size,
-+                                    uint32_t *num_stats)
-+{
-+    size_t expected_buffsize;
-+
-+    /* Verify the header eyecather and version */
-+    if (memcmp(&header->eye_catcher, SCM_STATS_EYECATCHER,
-+               sizeof(header->eye_catcher))) {
-+        return H_BAD_DATA;
-+    }
-+    if (be32_to_cpu(header->stats_version) != 0x1) {
-+        return H_NOT_AVAILABLE;
-+    }
-+
-+    /* verify that rr buffer has enough space */
-+    *num_stats = be32_to_cpu(header->num_statistics);
-+    if (*num_stats == 0) { /* Return all stats */
-+        expected_buffsize = SCM_STATS_MIN_OUTPUT_BUFFER;
-+    } else if (*num_stats > SCM_STATS_MAX_STATS) {
-+        /* Too many stats requested */
-+        return H_P3;
-+    } else { /* Return a subset of stats */
-+        expected_buffsize = sizeof(struct papr_scm_perf_stats) +
-+            (*num_stats) * sizeof(struct papr_scm_perf_stat);
-+    }
-+
-+    if (size < expected_buffsize || size > SCM_STATS_MAX_OUTPUT_BUFFER) {
-+        return H_P3;
-+    }
-+
-+    return H_SUCCESS;
-+}
-+
-+/*
-+ * For a given DRC index (R3) return one ore more performance stats of an nvdimm
-+ * device in guest allocated Request-and-result buffer (rr-buffer) (R4) of
-+ * given 'size' (R5). The rr-buffer consists of a header described by
-+ * 'struct papr_scm_perf_stats' that embeds the 'stats_version' and
-+ * 'num_statistics' fields. This is followed by an array of
-+ * 'struct papr_scm_perf_stat'. Based on the request type the writes the
-+ * performance into the array of 'struct papr_scm_perf_stat' embedded inside
-+ * the rr-buffer provided by the guest.
-+ * Special cases handled are:
-+ * 'size' == 0  : Return the maximum possible size of rr-buffer
-+ * 'size' != 0 && 'num_statistics == 0' : Return all possible performance stats
-+ *
-+ * In case there was an error fetching a specific stats (e.g stat-id unknown or
-+ * any other error) then return the stat-id in R4 and also replace its stat
-+ * entry in rr-buffer with 'NoopStat'
-+ */
-+static target_ulong h_scm_performance_stats(PowerPCCPU *cpu,
-+                                            SpaprMachineState *spapr,
-+                                            target_ulong opcode,
-+                                            target_ulong *args)
-+{
-+    SpaprDrc *drc = spapr_drc_by_index(args[0]);
-+    const hwaddr addr = args[1];
-+    size_t size = args[2];
-+    struct papr_scm_perf_stats *perfstats;
-+    struct papr_scm_perf_stat *stats;
-+    uint64_t invalid_stat = 0, stat_val;
-+    MemTxResult result;
-+    uint32_t num_stats;
-+    unsigned long rc;
-+    int index;
-+
-+    /* Ensure that the drc is valid & is valid PMEM dimm and is plugged in */
-+    if (!drc || !drc->dev ||
-+        spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
-+        return H_PARAMETER;
-+    }
-+
-+    /* Guest requested max buffer size for output buffer */
-+    if (size == 0) {
-+        args[0] = SCM_STATS_MAX_OUTPUT_BUFFER;
-+        return H_SUCCESS;
-+    }
-+
-+    /* verify size is enough to hold rr-buffer header */
-+    if (size < sizeof(struct papr_scm_perf_stats)) {
-+        return H_BAD_DATA;
-+    }
-+
-+    /* allocate enough buffer space locally for holding max stats */
-+    perfstats = g_try_malloc0(SCM_STATS_MAX_OUTPUT_BUFFER);
-+    if (!perfstats) {
-+        return H_NO_MEM;
-+    }
-+
-+    /* Read and verify rr-buffer header */
-+    result = address_space_read(&address_space_memory, addr,
-+                                MEMTXATTRS_UNSPECIFIED, perfstats,
-+                                sizeof(struct papr_scm_perf_stats));
-+    rc = (result == MEMTX_OK) ?
-+        scm_perf_check_rr_buffer(perfstats, addr, size, &num_stats) :
-+        H_PRIVILEGE;
-+    if (rc != H_SUCCESS) {
-+        g_free(perfstats);
-+        return rc;
-+    }
-+
-+    stats = &perfstats->scm_statistics[0];
-+    /* when returning all stats generate a canned response first */
-+    if (num_stats == 0) {
-+        for (index = 1; index < ARRAY_SIZE(nvdimm_perf_stats); ++index) {
-+            memcpy(&stats[index - 1].statistic_id,
-+                   &nvdimm_perf_stats[index].stat_id, 8);
-+        }
-+        num_stats = ARRAY_SIZE(nvdimm_perf_stats) - 1;
-+    } else {
-+        /* copy the rr-buffer from the guest memory */
-+        result = address_space_read(&address_space_memory,
-+                                    addr + sizeof(struct papr_scm_perf_stats),
-+                                    MEMTXATTRS_UNSPECIFIED, stats,
-+                                    size - sizeof(struct papr_scm_perf_stats));
-+        if (result != MEMTX_OK) {
-+            g_free(perfstats);
-+            return H_PRIVILEGE;
-+        }
-+    }
-+
-+    for (index = 0; index < num_stats; ++index) {
-+        rc = nvdimm_stat_getval(drc, stats[index].statistic_id, &stat_val);
-+
-+        /* On error add noop stat to rr buffer & save last inval stat-id */
-+        if (rc != H_SUCCESS) {
-+            if (!invalid_stat) {
-+                invalid_stat = stats[index].statistic_id;
-+            }
-+            memcpy(&stats[index].statistic_id, nvdimm_perf_stats[0].stat_id, 8);
-+        }
-+        /* Caller expects stat values in BE encoding */
-+        stats[index].statistic_value = cpu_to_be64(stat_val);
-+    }
-+
-+    /* Update and copy the local rr-buffer back to guest */
-+    perfstats->num_statistics = cpu_to_be32(num_stats);
-+    g_assert(size <= SCM_STATS_MAX_OUTPUT_BUFFER);
-+    result = address_space_write(&address_space_memory, addr,
-+                                 MEMTXATTRS_UNSPECIFIED, perfstats, size);
-+
-+    /* Cleanup the stats buffer */
-+    g_free(perfstats);
-+    if (result) {
-+        return H_PRIVILEGE;
-+    }
-+    /* Check if there was a failure in fetching any stat */
-+    args[0] = invalid_stat;
-+    return invalid_stat ? H_PARTIAL : H_SUCCESS;
-+}
-+
- static void spapr_scm_register_types(void)
- {
-     /* qemu/scm specific hcalls */
-@@ -511,6 +732,7 @@ static void spapr_scm_register_types(void)
-     spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
-     spapr_register_hypercall(H_SCM_UNBIND_ALL, h_scm_unbind_all);
-     spapr_register_hypercall(H_SCM_HEALTH, h_scm_health);
-+    spapr_register_hypercall(H_SCM_PERFORMANCE_STATS, h_scm_performance_stats);
- }
- 
- type_init(spapr_scm_register_types)
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index d2b5a9bdf9..6f3353b4ea 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -326,6 +326,7 @@ struct SpaprMachineState {
- #define H_P8              -61
- #define H_P9              -62
- #define H_OVERLAP         -68
-+#define H_BAD_DATA        -70
- #define H_UNSUPPORTED_FLAG -256
- #define H_MULTI_THREADS_ACTIVE -9005
- 
-@@ -539,8 +540,9 @@ struct SpaprMachineState {
- #define H_SCM_UNBIND_MEM        0x3F0
- #define H_SCM_UNBIND_ALL        0x3FC
- #define H_SCM_HEALTH            0x400
-+#define H_SCM_PERFORMANCE_STATS 0x418
- 
--#define MAX_HCALL_OPCODE        H_SCM_HEALTH
-+#define MAX_HCALL_OPCODE        H_SCM_PERFORMANCE_STATS
- 
- /* The hcalls above are standardized in PAPR and implemented by pHyp
-  * as well.
-@@ -787,6 +789,21 @@ OBJECT_DECLARE_SIMPLE_TYPE(SpaprTceTable, SPAPR_TCE_TABLE)
- DECLARE_INSTANCE_CHECKER(IOMMUMemoryRegion, SPAPR_IOMMU_MEMORY_REGION,
-                          TYPE_SPAPR_IOMMU_MEMORY_REGION)
- 
-+/* Defs and structs exchanged with guest when reporting drc perf stats */
-+#define SCM_STATS_EYECATCHER "SCMSTATS"
-+
-+struct QEMU_PACKED papr_scm_perf_stat {
-+    uint64_t statistic_id;
-+    uint64_t statistic_value;
-+};
-+
-+struct QEMU_PACKED papr_scm_perf_stats {
-+    uint8_t eye_catcher[8];    /* Should be “SCMSTATS” */
-+    uint32_t stats_version;  /* Should be 0x01 */
-+    uint32_t num_statistics; /* Number of stats following */
-+    struct papr_scm_perf_stat scm_statistics[]; /* Performance matrics */
-+};
-+
- struct SpaprTceTable {
-     DeviceState parent;
-     uint32_t liobn;
+ static void init_qxl_rom(PCIQXLDevice *d)
 -- 
-2.31.1
+1.8.3.1
 
 
