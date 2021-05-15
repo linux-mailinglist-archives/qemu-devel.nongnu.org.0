@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC2A38184C
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:28:34 +0200 (CEST)
-Received: from localhost ([::1]:50414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18DBF38184E
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:29:18 +0200 (CEST)
+Received: from localhost ([::1]:53202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhsTB-00024N-Ka
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:28:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44852)
+	id 1lhsTt-0003yF-5c
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:29:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsQM-0008G8-Qw
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56894)
+ id 1lhsQS-0008HF-1I
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsQJ-0006zx-Dn
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:38 -0400
+ id 1lhsQJ-000703-UF
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:43 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhsQH-0002Do-QB
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:33 +0000
+ id 1lhsQI-0002Di-LL
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 996B72E8186
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:33 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9E5082E8139
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 11:17:04 -0000
-From: Thomas Huth <1926246@bugs.launchpad.net>
+Date: Sat, 15 May 2021 11:17:19 -0000
+From: Thomas Huth <1926231@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier nightwend th-huth
-X-Launchpad-Bug-Reporter: Wind Li (nightwend)
+X-Launchpad-Bug-Commenters: mslade th-huth
+X-Launchpad-Bug-Reporter: Michael Slade (mslade)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161950107824.17271.5936509317690090363.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162107742489.1329.6885242791141641976.malone@wampee.canonical.com>
-Subject: [Bug 1926246] Re: chrome based apps can not be run under qemu user
- mode
+References: <161948395808.4012.2859419220100718976.malonedeb@gac.canonical.com>
+Message-Id: <162107743993.20528.10138179920163311275.malone@soybean.canonical.com>
+Subject: [Bug 1926231] Re: SCSI passthrough of SATA cdrom -> errors &
+ performance issues
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 455c017a765f7a8130b8823fec2ada92cc6c8176
+X-Launchpad-Hash: 5c2b658a72ae94a3271bc07e0baabc53e8370f8d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926246 <1926246@bugs.launchpad.net>
+Reply-To: Bug 1926231 <1926231@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -112,76 +112,78 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926246
+https://bugs.launchpad.net/bugs/1926231
 
 Title:
-  chrome based apps can not be run under qemu user mode
+  SCSI passthrough of SATA cdrom -> errors & performance issues
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  chrome uses /proc/self/exe to fork render process.
-  Here a simple code to reproduce the issue. It's output parent then child =
-but failed with qemu: unknown option 'type=3Drenderer'.
+  qemu 5.0, compiled from git
 
-  Maybe we can modify exec syscall to replace /proc/self/exe to the real
-  path.
+  I am passing through a SATA cdrom via SCSI passthrough, with this
+  libvirt XML:
 
-  //gcc -o self self.c =
+      <hostdev mode=3D'subsystem' type=3D'scsi' managed=3D'no' sgio=3D'unfi=
+ltered' rawio=3D'yes'>
+        <source>
+          <adapter name=3D'scsi_host3'/>
+          <address bus=3D'0' target=3D'0' unit=3D'0'/>
+        </source>
+        <alias name=3D'hostdev0'/>
+        <address type=3D'drive' controller=3D'0' bus=3D'0' target=3D'0' uni=
+t=3D'0'/>
+      </hostdev>
 
-  #include <stdio.h>
-  #include <sys/types.h>
-  #include <unistd.h>
-  int main(int argc, char** argv) {
-    if(argc=3D=3D1){
-      printf ("parent\n");
-  	if ( fork() =3D=3D 0 )
-      {
-          return execl("/proc/self/exe","/proc/self/exe", "--type=3Drendere=
-r",NULL);
-      }
-    } else {
-      printf ("child\n");
-    }
-    return 0;
-  }
+  It seems to mostly work, I have written discs with it, except I am
+  getting errors that cause reads to take about 5x as long as they
+  should, under certain circumstances.  It appears to be based on the
+  guest's read block size.
 
-  similar reports:
-  https://github.com/AppImage/AppImageKit/issues/965  =
+  I found that if on the guest I run, say `dd if=3D$some_large_file
+  bs=3D262144|pv > /dev/null`, `iostat` and `pv` disagree about how much
+  is being read by a factor of about 2.  Also many kernel messages like
+  this happen on the guest:
 
-  https://github.com/golang/go/issues/42080  =
+  [  190.919684] sr 0:0:0:0: [sr0] tag#160 FAILED Result: hostbyte=3DDID_OK=
+ driverbyte=3DDRIVER_SENSE cmd_age=3D0s
+  [  190.919687] sr 0:0:0:0: [sr0] tag#160 Sense Key : Aborted Command [cur=
+rent] =
 
+  [  190.919689] sr 0:0:0:0: [sr0] tag#160 Add. Sense: I/O process terminat=
+ed
+  [  190.919691] sr 0:0:0:0: [sr0] tag#160 CDB: Read(10) 28 00 00 18 a5 5a =
+00 00 80 00
+  [  190.919694] blk_update_request: I/O error, dev sr0, sector 6460776 op =
+0x0:(READ) flags 0x80700 phys_seg 5 prio class 0
 
-  Workardound:
-  compile chrome or your chrome based app with a patch to content/common/ch=
-ild_process_host_impl.cc:GetChildPath, get the realpath of /proc/self/exe:  =
+  If I change to bs=3D131072 the errors stop and performance is normal.
 
+  (262144 happens to be the block size ultimately used by md5sum, which
+  is how I got here)
 
-  diff --git a/content/common/child_process_host_impl.cc b/content/common/c=
-hild_process_host_impl.cc
-  index bc78aba80ac8..9fab74d3bae8 100644
-  --- a/content/common/child_process_host_impl.cc
-  +++ b/content/common/child_process_host_impl.cc
-  @@ -60,8 +60,12 @@ base::FilePath ChildProcessHost::GetChildPath(int flag=
-s) {
-   #if defined(OS_LINUX)
-     // Use /proc/self/exe rather than our known binary path so updates
-     // can't swap out the binary from underneath us.
-  -  if (child_path.empty() && flags & CHILD_ALLOW_SELF)
-  -    child_path =3D base::FilePath(base::kProcSelfExe);
-  +  if (child_path.empty() && flags & CHILD_ALLOW_SELF) {
-  +    if (!ReadSymbolicLink(base::FilePath(base::kProcSelfExe), &child_pat=
-h)) {
-  +      NOTREACHED() << "Unable to resolve " << base::kProcSelfExe << ".";
-  +      child_path =3D base::FilePath(base::kProcSelfExe);
-  +    }
-  +  }
-   #endif
+  I also ran strace on the qemu process while it was happening, and
+  noticed SG_IO calls like this:
 
-     // On most platforms, the child executable is the same as the
-  current
+  21748 10:06:29.330910 ioctl(22, SG_IO, {interface_id=3D'S', dxfer_directi=
+on=3DSG_DXFER_FROM_DEV, cmd_len=3D10, cmdp=3D"\x28\x00\x00\x12\x95\x5a\x00\=
+x00\x80\x00", mx_sb_len=3D252, iovec_count=3D0, dxfer_len=3D262144, timeout=
+=3D4294967295, flags=3DSG_FLAG_DIRECT_IO <unfinished ...>
+  21751 10:06:29.330976 ioctl(22, SG_IO, {interface_id=3D'S', dxfer_directi=
+on=3DSG_DXFER_FROM_DEV, cmd_len=3D10, cmdp=3D"\x28\x00\x00\x12\x94\xda\x00\=
+x00\x02\x00", mx_sb_len=3D252, iovec_count=3D0, dxfer_len=3D4096, timeout=
+=3D4294967295, flags=3DSG_FLAG_DIRECT_IO <unfinished ...>
+  21749 10:06:29.331586 ioctl(22, SG_IO, {interface_id=3D'S', dxfer_directi=
+on=3DSG_DXFER_FROM_DEV, cmd_len=3D10, cmdp=3D"\x28\x00\x00\x12\x94\xdc\x00\=
+x00\x02\x00", mx_sb_len=3D252, iovec_count=3D0, dxfer_len=3D4096, timeout=
+=3D4294967295, flags=3DSG_FLAG_DIRECT_IO <unfinished ...>
+  [etc]
+
+  I suspect qemu is the culprit because I have tried a 4.19 guest kernel
+  as well as a 5.9 one, with the same result.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926246/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926231/+subscriptions
 
