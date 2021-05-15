@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E81381851
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:30:55 +0200 (CEST)
-Received: from localhost ([::1]:57072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70EB381853
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:31:04 +0200 (CEST)
+Received: from localhost ([::1]:57212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhsVS-0006bn-C2
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:30:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44908)
+	id 1lhsVb-0006hB-QF
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsQT-0008IB-H6
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56934)
+ id 1lhsQV-0008Jt-6Z
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsQK-00070S-P8
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:45 -0400
+ id 1lhsQM-000723-IP
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:25:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhsQJ-0002Fp-GU
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:35 +0000
+ id 1lhsQL-0002Do-0f
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 766A12E8135
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0006A2E8187
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:25:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 11:17:50 -0000
-From: Thomas Huth <1926202@bugs.launchpad.net>
+Date: Sat, 15 May 2021 11:18:28 -0000
+From: Thomas Huth <1925109@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier paleozogt th-huth
-X-Launchpad-Bug-Reporter: Aaron Simmons (paleozogt)
+X-Launchpad-Bug-Commenters: hjiayz163 th-huth
+X-Launchpad-Bug-Reporter: hjiayz (hjiayz163)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161946668777.4160.5631099934527280207.malonedeb@gac.canonical.com>
-Message-Id: <162107747015.21009.15713816915732402640.malone@soybean.canonical.com>
-Subject: [Bug 1926202] Re: qemu-user can't run some ppc binaries
+References: <161888628706.6044.6118190110754714311.malonedeb@soybean.canonical.com>
+Message-Id: <162107750904.21009.7986495960924520119.malone@soybean.canonical.com>
+Subject: [Bug 1925109] Re: usbredirparser: bulk transfer length exceeds limits
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 7e46848f54f4de1c0483361e65c3319cef9cd22b
+X-Launchpad-Hash: cd95a541c8b22d7d03c7f317e2bcce6ea3075f85
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926202 <1926202@bugs.launchpad.net>
+Reply-To: Bug 1925109 <1925109@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -112,43 +111,39 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926202
+https://bugs.launchpad.net/bugs/1925109
 
 Title:
-  qemu-user can't run some ppc binaries
+  usbredirparser: bulk transfer length exceeds limits
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  qemu-user v6.0.0-rc5, built in static mode, will crash for certain ppc
-  binaries.  It seems to have something to do with glibc for some Centos
-  versions.  The problem is easiest to see with statically-linked
-  binaries.
+  2021-04-20T01:26:36.662244Z qemu-system-x86_64: usbredirparser: bulk tran=
+sfer length exceeds limits 131072 > 65536
+  2021-04-20T01:26:36.662276Z qemu-system-x86_64: usbredirparser: error usb=
+redirparser_send_* call invalid params, please report!!
+  2021-04-20T01:26:57.670412Z qemu-system-x86_64: usbredirparser: bulk tran=
+sfer length exceeds limits 131072 > 65536
+  2021-04-20T01:26:57.670445Z qemu-system-x86_64: usbredirparser: error usb=
+redirparser_send_* call invalid params, please report!!
+  2021-04-20T01:37:01.920613Z qemu-system-x86_64: usbredirparser: bulk tran=
+sfer length exceeds limits 131072 > 65536
+  2021-04-20T01:37:01.920624Z qemu-system-x86_64: usbredirparser: error usb=
+redirparser_send_* call invalid params, please report!!
+  host:
+  Linux version 5.11.15-arch1-2 (linux@archlinux) (gcc (GCC) 10.2.0, GNU ld=
+ (GNU Binutils) 2.36.1) #1 SMP PREEMPT Sat, 17 Apr 2021 00:22:30 +0000
+  guest:
+  win10 20H2
+  usb device:
+  Bus 002 Device 007: ID 0781:55ab SanDisk Corp.  SanDisk 3.2Gen1
+  size 250G
 
-  The attached Dockerfile shows how to produce a ppc binary that will
-  crash qemu-user.  Here is how to reproduce the problem:
-
-  $ uname -m
-  x86_64
-
-  $ docker run --rm --privileged multiarch/qemu-user-static --reset -p
-  yes
-
-  $ docker build -t qemu-bug:centos -f Dockerfile.centos .
-
-  $ docker run --rm -it -v$PWD:$PWD -w$PWD qemu-bug:centos cp
-  /helloworld-centos.static.ppc .
-
-  $ qemu-ppc-static --version
-  qemu-ppc version 5.2.95 (v6.0.0-rc5)
-  Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
-
-  $ qemu-ppc-static ./helloworld-centos.static.ppc
-  emu: uncaught target signal 4 (Illegal instruction) - core dumped
-  [1]    16678 illegal hardware instruction (core dumped)  qemu-ppc-static =
-./helloworld-centos.static.ppc
+  https://gitlab.freedesktop.org/spice/usbredir/-/blob/master/usbredirparse=
+r/usbredirparser.c#L32
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926202/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1925109/+subscriptions
 
