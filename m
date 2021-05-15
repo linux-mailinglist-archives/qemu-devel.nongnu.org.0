@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED9738178A
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:17:03 +0200 (CEST)
-Received: from localhost ([::1]:58792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F93381782
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:14:22 +0200 (CEST)
+Received: from localhost ([::1]:49072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhrLy-0007Be-6y
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:17:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34002)
+	id 1lhrJN-0000am-TC
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:14:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhr9R-000667-RW; Sat, 15 May 2021 06:04:07 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:60377)
+ id 1lhr9Z-0006Lh-G0; Sat, 15 May 2021 06:04:13 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:40411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhr9O-0006YS-7X; Sat, 15 May 2021 06:04:05 -0400
+ id 1lhr9X-0006e6-MC; Sat, 15 May 2021 06:04:13 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1N63NW-1lSOg00bE0-016Rv7; Sat, 15
- May 2021 12:03:48 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MG9c2-1lixce3Seq-00GXiv; Sat, 15
+ May 2021 12:03:49 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/16] hw/pci-host: Do not build gpex-acpi.c if GPEX is not
- selected
-Date: Sat, 15 May 2021 12:03:31 +0200
-Message-Id: <20210515100335.1245468-13-laurent@vivier.eu>
+Subject: [PULL 13/16] multi-process: Avoid logical AND of mutually exclusive
+ tests
+Date: Sat, 15 May 2021 12:03:32 +0200
+Message-Id: <20210515100335.1245468-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210515100335.1245468-1-laurent@vivier.eu>
 References: <20210515100335.1245468-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EgN/WUvV4VTzQjZhA5mUEZiJsExSyb0cGXbJor54drZyPAHltLM
- TBwgjUfR2O4epHirvg4QrFlrFjTVlVIqOSQ4qp+Va5H7YZD2t1xKA9DuFzpdVV+ThaLmZAs
- 9BVDHPe415s4IuXl/L2i1ezCLmshEEvXkaOIWnPmgHj76brQaLs5yP+hd7B7CyMTmfRxHHE
- n66G2Exuk0hOJy397pmtA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:c+0ig8MZqzc=:5tcSisSm8VDE7AssfRhpLj
- y2WUv+fPT47QGWEYWRg307s72EfLjGxlvvisyXc+FfjbMlQhpNH6QwjDOEOJ7xDT1tWTfiBKx
- NrIRdy24RvKGttOXrp3jrpbVnmM0y5zDK6Ui4M3W9tPJFYwlADO0pV9PgHRoGMQ50RTt3aDPu
- fL/fSJcX2KCTaQHdJnHbFEqZT71Qzm11+PW/GAb0h/wxsXL8KhfGMAymDLIBGVZM+cH9n3NLe
- kl712jWdQzmwF4lYWL6DQOSp68Q76LjK/dW5TFdjxSw13UZVD1mDDI2ia6vh7FuTC0+YekX7X
- ycDJ8moidx/i8kUrV4sI7qUiTLxEvHefy/M61LpjxIbm8K9PTGXbhRk0r9PzinDV8oNGe2If6
- B5QFpEG2e47gSAI1kvTJ1SSRz8ZTB9fJy2EmtjCsN9PA7yyuR6QwFGbOU+3MSNvTjl7yOdu85
- hNMkDRNIpVi7tl/UMoARdMKGJfjnhfmUsoFfoSr5X3Y6IKhf5AECqLBJwg3/eyu4i5OyEIUli
- +13uBjjoHEezGZcRlSC7mU=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:wKEFFUEYjwLqI1sDGGQuygA6f1s9SMR6o6KI2F8NAe0dR40ZXa2
+ R6+UGU4t2/7AJMktHz29hZNyUJKx1TBrdviZUHAxGNY/z+ZrJdDqcPG8gG9B/Pdlb4bh6x2
+ v9pd8RwDIEogyh46TjhX7zlG1HWW1AIfSGsouK69X4QwSGu6mu9R/+/tb3fIAk+8ukHtPnm
+ UJXH9sPrcmze11Yiq8L1A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JCNeap1k60U=:rJMlMSshkDr7FmJ/UPA/oX
+ PpP7Ce4eQSoP+J46PEHnsaZJSCIEzSGcm3T4p5VZufGOVjOrQr5gUx/W4dyEaVEWqVz+nMjOi
+ dGkkkw6aDsXJKcA3Ioz2Odomc9g4jFQTncDOX4uytQ1PQSc2uayH3y4K3f0bi1vqqE2WL7ECP
+ AzpVdsSdVk96vDLbLFJHz2acScP4tA5Fqq+cazW9q3SzZZ4levFy+TTB+Hf2h1agjx7fdItuI
+ Y6HyH4ECHpbRwWGtZpxq2jfDKWYMSkWOdSVx4Tu1JwAFelRGzCsynlyk301tQWfVyMfShAcjZ
+ vv/lmtOshYqIvQKGxZeofMgzlrTRduGV6V9c6x5xj+vR0rH2h01m2R+7BvsTHy57sweE6j4wG
+ EF9xSgmUCxOaApjZUwvhY6A0Nun85m1l5vbTVkEnKNcCSxXK348fZZpGyuwDE1Ou0Tj+2HyvM
+ qiiMigixp5jSBLSw1UNDR0D8VBq0SB7SxpIpCFMOWaZGLUVZzqnYRnHaPCA35C9h0s9+L3GEE
+ pYTkLkktuCuQz0IlbftNuI=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -65,42 +64,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>,
+ qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Jagannathan Raman <jag.raman@oracle.com>
 
-Since its introduction in commit 5b85eabe68f ("acpi: add
-acpi_dsdt_add_gpex") we build gpex-acpi.c if ACPI is selected,
-even if the GPEX_HOST device isn't build. Add the missing
-Kconfig dependency.
+Fixes an if statement that performs a logical AND of mutually exclusive
+tests
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20210425182124.3735214-1-f4bug@amsat.org>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1926995
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <1620402803-9237-1-git-send-email-jag.raman@oracle.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/pci-host/meson.build | 2 +-
+ hw/remote/mpqemu-link.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-index 34b3538bebf6..1698d3a1920a 100644
---- a/hw/pci-host/meson.build
-+++ b/hw/pci-host/meson.build
-@@ -3,7 +3,7 @@ pci_ss.add(when: 'CONFIG_PAM', if_true: files('pam.c'))
- pci_ss.add(when: 'CONFIG_PCI_BONITO', if_true: files('bonito.c'))
- pci_ss.add(when: 'CONFIG_PCI_EXPRESS_DESIGNWARE', if_true: files('designware.c'))
- pci_ss.add(when: 'CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', if_true: files('gpex.c'))
--pci_ss.add(when: 'CONFIG_ACPI', if_true: files('gpex-acpi.c'))
-+pci_ss.add(when: ['CONFIG_PCI_EXPRESS_GENERIC_BRIDGE', 'CONFIG_ACPI'], if_true: files('gpex-acpi.c'))
- pci_ss.add(when: 'CONFIG_PCI_EXPRESS_Q35', if_true: files('q35.c'))
- pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true: files('xilinx-pcie.c'))
- pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
+diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
+index 9ce31526e8f2..e67a5de72ca7 100644
+--- a/hw/remote/mpqemu-link.c
++++ b/hw/remote/mpqemu-link.c
+@@ -218,7 +218,7 @@ uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, PCIProxyDev *pdev,
+ 
+ bool mpqemu_msg_valid(MPQemuMsg *msg)
+ {
+-    if (msg->cmd >= MPQEMU_CMD_MAX && msg->cmd < 0) {
++    if (msg->cmd >= MPQEMU_CMD_MAX || msg->cmd < 0) {
+         return false;
+     }
+ 
 -- 
 2.31.1
 
