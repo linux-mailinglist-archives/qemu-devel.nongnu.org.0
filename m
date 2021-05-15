@@ -2,50 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97CF8381780
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:13:07 +0200 (CEST)
-Received: from localhost ([::1]:41934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A610381791
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:19:18 +0200 (CEST)
+Received: from localhost ([::1]:34786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhrI9-0004HF-AQ
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:13:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34038)
+	id 1lhrO9-0001cq-F2
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhr9T-00066l-Bg; Sat, 15 May 2021 06:04:07 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:58307)
+ id 1lhr9z-00071z-CW; Sat, 15 May 2021 06:04:39 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:54335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhr9P-0006Ym-Og; Sat, 15 May 2021 06:04:07 -0400
+ id 1lhr9u-0006sA-Pa; Sat, 15 May 2021 06:04:37 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mzz6m-1lK7T12Lhe-00x3SJ; Sat, 15
- May 2021 12:03:49 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N63NW-1lSOg302zg-016Rv7; Sat, 15
+ May 2021 12:03:51 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/16] target/sh4: Return error if
- CPUClass::get_phys_page_debug() fails
-Date: Sat, 15 May 2021 12:03:33 +0200
-Message-Id: <20210515100335.1245468-15-laurent@vivier.eu>
+Subject: [PULL 15/16] hw/avr/atmega.c: use the avr51 cpu for atmega1280
+Date: Sat, 15 May 2021 12:03:34 +0200
+Message-Id: <20210515100335.1245468-16-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210515100335.1245468-1-laurent@vivier.eu>
 References: <20210515100335.1245468-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:G2RRtHqXg2nfmeg0dzZCcikoI1mLa1mvwB2QWIkX5JJ8ZvBRyzJ
- sk1p2m5V3TIPb8GvG2vGWKcV/oMufR41JmS+0BuV/y9Pp5a6Ss76FevqeibhZ+GExzq+Q2Q
- 09sw8GnNp9UGtBmV+1OG1ucO5AbRUJPDvF8FYT34q0SvT06GPcbHKPplpl+0tYxLpOYDruV
- aI5HSWDxOKWcR5b2s8W8w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TjMyK4ziKYs=:S7GPmj1WEUY8OKkuJG6/jD
- r/X90ApzOG7dTtiOi5Loui6uKMvRxc+upbmJma4LQWtArGme7Go7xr1e3QAyG17e6+niB0/6+
- 0lGLkrorYCtt6675O5DujNx+zk2/ykbOWy7UrSqp1L9clNoGehb8J5DH2olneKin0KNLUH+eh
- HxFRws54qiyqCBJ9UCmlEDeKyQ+sZ88fACsnppQFvBn9hVnIwlFayJTiTCmDvYmMBuHeP1XkD
- 2z4cnmsfBcYc1/S+NH/w2ht3nMgJjjfDftk1UXFLv035lOyMByNERVAZhoXAgJvQykbNbIdoT
- 5pMRhB7s9KDCzolVofL8mlQ8HlF8XZ3++DgEAr/5BRl2fdPS/BFrCg98ZeAiaxl3yIJU0AQ2F
- RiB9UdDKX9L/oTkTwmiJNbInmOwacL/bsW9Zv7SS9aL7tfbVkvOXRtE3+vboD/40DQ6K4Ny8F
- TvM4YDHi9gLE6JdkquLvkAFKBZ9ULXlHorGS9vHqwIObpZDVXK8E5oyRIikIelR4XPraVAGW3
- K0mwhdK0AlQPA6rlRDrKF4=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:IaGvjdPnZiCNCj+YRP9z/DxTQN993nu7OfbqwwHixMhluyG8SDy
+ 0eDWBXAP2d59UBMnFBq5xE8SmhTWXg1UnvrSrfUokMFyuRSzSpXxGGUISYLsZzPninpyr1Q
+ VEwkt9sPj9YVCpjSNFHvGmunic4mpzOusFd+wBY8hh7vwlhNr7c9Zelg61OSDQHPQl9hf1C
+ XCPxo6pMGbM7gmjrvzKgg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bufLQu0WX80=:zcEP2f+8JVe4pEnKixET9Y
+ JItrUW7mF56E0ARZk+sNv/ns9HQhHBEqJIHKjtJmGwbOSmJXlOTVCdm2aD57c6A3EMZrlukI/
+ xeRWliW9WDmf6DZQcS/yfvlKIIy3TSeUk+nCaJIk31/i/32/dBTfMpSgh4FYvTlNakgh2Fbb/
+ 0jSckwo+8z1ipmYYcm9+l0Sut8JZiTUFIErGPcdRZzjBghKYtF9p2Pq+9lkEC/F+8biU47Jiu
+ FJy4Srz1agC9/GjAqqM+ihv419tOdQt26lKh1KhjygZUwSkHohsC9haYnoh3Bwi7w532BfTfc
+ Ka4JkGvy8avgugbsJvt7Wcf4/BG0MAd+lDPHz/EkCpS6ObI5PioUMzN1i3MRVAnUfsRYhvjrI
+ L8dO+we8sjgzNDE8d1Cr8kfvp044fl8kPX8SjABnN/F26CV4n1u7z4nmJX0exOdNOls+4M3P4
+ c58gFuh9y2fFcZh+exw2Nq7izKbeiXb4lK06480T/OPpIZ9YYl/ZYW4xajAYa4/ssVuMkVom0
+ 522rTJfw3wuVYYP1GwQyII=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -65,57 +63,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org, Joaquin de Andres <me@xcancerberox.com.ar>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Frederic Konrad <frederic.konrad@adacore.com>,
+ Frederic Konrad <konrad@adacore.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Frederic Konrad <konrad@adacore.com>
 
-If the get_physical_address() call fails, the SH4 get_phys_page_debug()
-handler returns an uninitialized address. Instead return -1, which
-correspond to "no page found" (see cpu_get_phys_page_debug() doc
-string).
+According to the as documentation:
+ (https://sourceware.org/binutils/docs-2.36/as/AVR-Options.html)
 
-This fixes a warning emitted when building with CFLAGS=-O3
-(using GCC 10.2.1 20201125):
+"Instruction set avr51 is for the enhanced AVR core with exactly 128K
+ program memory space (MCU types: atmega128, atmega128a, atmega1280,
+ atmega1281, atmega1284, atmega1284p, atmega128rfa1, atmega128rfr2,
+ atmega1284rfr2, at90can128, at90usb1286, at90usb1287, m3000)."
 
-  target/sh4/helper.c: In function ‘superh_cpu_get_phys_page_debug’:
-  target/sh4/helper.c:446:12: warning: ‘physical’ may be used uninitialized in this function [-Wmaybe-uninitialized]
-    446 |     return physical;
-        |            ^~~~~~~~
+But when compiling a program for atmega1280 or avr51 and trying to execute
+it:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Message-Id: <20210505161046.1397608-1-f4bug@amsat.org>
+$ cat > test.S << EOF
+> loop:
+>     rjmp loop
+> EOF
+$ avr-gcc -nostdlib -nostartfiles -mmcu=atmega1280 test.S -o test.elf
+$ qemu-system-avr -serial mon:stdio -nographic -no-reboot -M mega \
+                  -bios test.elf
+qemu-system-avr: Current machine: Arduino Mega (ATmega1280) with 'avr6' CPU
+qemu-system-avr: ELF image 'test.elf' is for 'avr51' CPU
+
+So this fixes the atmega1280 class to use an avr51 CPU.
+
+Signed-off-by: Frederic Konrad <frederic.konrad@adacore.com>
+Reviewed-by: Joaquin de Andres <me@xcancerberox.com.ar>
+Message-Id: <1619637319-22299-1-git-send-email-frederic.konrad@adacore.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/sh4/helper.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ hw/avr/atmega.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/sh4/helper.c b/target/sh4/helper.c
-index bd8e034f174d..2d622081e85a 100644
---- a/target/sh4/helper.c
-+++ b/target/sh4/helper.c
-@@ -441,9 +441,12 @@ hwaddr superh_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     target_ulong physical;
-     int prot;
+diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
+index 80b8a41cb5a5..0608e2d475ee 100644
+--- a/hw/avr/atmega.c
++++ b/hw/avr/atmega.c
+@@ -401,7 +401,7 @@ static void atmega1280_class_init(ObjectClass *oc, void *data)
+ {
+     AtmegaMcuClass *amc = ATMEGA_MCU_CLASS(oc);
  
--    get_physical_address(&cpu->env, &physical, &prot, addr, MMU_DATA_LOAD);
-+    if (get_physical_address(&cpu->env, &physical, &prot, addr, MMU_DATA_LOAD)
-+            == MMU_OK) {
-+        return physical;
-+    }
- 
--    return physical;
-+    return -1;
- }
- 
- void cpu_load_tlb(CPUSH4State * env)
+-    amc->cpu_type = AVR_CPU_TYPE_NAME("avr6");
++    amc->cpu_type = AVR_CPU_TYPE_NAME("avr51");
+     amc->flash_size = 128 * KiB;
+     amc->eeprom_size = 4 * KiB;
+     amc->sram_size = 8 * KiB;
 -- 
 2.31.1
 
