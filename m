@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91FF7381948
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 16:16:09 +0200 (CEST)
-Received: from localhost ([::1]:54154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 725E7381945
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 16:13:13 +0200 (CEST)
+Received: from localhost ([::1]:48748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhv5M-0000D8-JK
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 10:16:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45170)
+	id 1lhv2W-0004xF-JD
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 10:13:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhv0R-0001XE-8Y
- for qemu-devel@nongnu.org; Sat, 15 May 2021 10:11:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42964)
+ id 1lhv0O-0001SP-GO
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 10:11:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhv0L-0001U4-P1
- for qemu-devel@nongnu.org; Sat, 15 May 2021 10:11:02 -0400
+ id 1lhv0K-0001So-FE
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 10:11:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhv0J-0002a9-L9
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:10:55 +0000
+ id 1lhv0I-0002aL-Mn
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:10:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9C5942E813A
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:10:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AB1662E8135
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:10:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 14:04:14 -0000
-From: Thomas Huth <1918917@bugs.launchpad.net>
+Date: Sat, 15 May 2021 14:04:42 -0000
+From: Thomas Huth <1920602@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Tags: i386 tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: arnd-arndb dvyukov pmaydell th-huth
-X-Launchpad-Bug-Reporter: Dmitry Vyukov (dvyukov)
+X-Launchpad-Bug-Commenters: aaro-koskinen philmd th-huth
+X-Launchpad-Bug-Reporter: Aaro Koskinen (aaro-koskinen)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161554541665.16519.7546318758364401915.malonedeb@wampee.canonical.com>
-Message-Id: <162108745427.20573.6857737341885260338.malone@soybean.canonical.com>
-Subject: [Bug 1918917] Re: synchronous abort on accessing unused I/O ports on
- aarch64
+References: <161624570188.19824.1091833072893020317.malonedeb@wampee.canonical.com>
+Message-Id: <162108748293.7565.14462301794762414147.malone@gac.canonical.com>
+Subject: [Bug 1920602] Re: QEMU crash after a QuickBASIC program integer
+ overflow
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: 7054452c5888464c6716e95425529e5bb5443fec
+X-Launchpad-Hash: 0db16f4266d2d84c1126b6ba50302ba544e7d5e7
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1918917 <1918917@bugs.launchpad.net>
+Reply-To: Bug 1920602 <1920602@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,124 +80,50 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/317
+ https://gitlab.com/qemu-project/qemu/-/issues/318
 
 
 ** Changed in: qemu
-       Status: New =3D> Expired
+       Status: Confirmed =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #317
-   https://gitlab.com/qemu-project/qemu/-/issues/317
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #318
+   https://gitlab.com/qemu-project/qemu/-/issues/318
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1918917
+https://bugs.launchpad.net/bugs/1920602
 
 Title:
-  synchronous abort on accessing unused I/O ports on aarch64
+  QEMU crash after a QuickBASIC program integer overflow
 
 Status in QEMU:
   Expired
 
 Bug description:
-  version: QEMU emulator version 5.2.0 (Debian 1:5.2+dfsg-6)
-  command line: qemu-system-aarch64 \
-  	-machine virt,virtualization=3Don,graphics=3Don,usb=3Don -cpu cortex-a57=
- -smp 2 -m 2G \
-  	-device virtio-blk-device,drive=3Dhd0 \
-  	-drive if=3Dnone,format=3Draw,id=3Dhd0,file=3Dbuildroot \
-  	-kernel arch/arm64/boot/Image \
-  	-nographic \
-  	-device virtio-rng-pci \
-  	-net user,host=3D10.0.2.10,hostfwd=3Dtcp::10022-:22 -net nic,model=3Dvir=
-tio-net-pci \
-  	-append "root=3D/dev/vda earlyprintk=3Dserial console=3DttyAMA0 earlycon"
+  A trivial program compiled with QuickBASIC 4.5 with integer overflow
+  will crash QEMU when ran under MS-DOS 5.0 or FreeDOS 1.2:
 
-  I am observing "synchronous external abort" when kernel tries to
-  access unused I/O ports (see below), while hardware/qemu should return
-  0xffffffff in this case.
+  C:\KILLER>type killer.bas
+  A% =3D VAL("99999"):PRINT A%
 
-  This is factored out of this LKML thread where Arnd describes it in more =
-details:
-  https://lore.kernel.org/lkml/CAK8P3a0HVu+x0T6+K3d0v1bvU-Pes0F0CSjqm5x=3Db=
-xFgv5Y3mA@mail.gmail.com/
+  C:\KILLER>killer.exe
+  **
+  =C2=A0=C2=A0ERROR:../qemu-5.2.0/accel/tcg/tcg-cpus.c:541:tcg_handle_inter=
+rupt: assertion failed: (qemu_mutex_iothread_locked())
+  Aborted
 
-  Internal error: synchronous external abort: 96000050 [#1] PREEMPT SMP
-  Dumping ftrace buffer:
-     (ftrace buffer empty)
-  Modules linked in:
-  CPU: 0 PID: 11231 Comm: syz-executor.1 Not tainted 5.12.0-rc2-syzkaller-0=
-0302-g28806e4d9b97 #0
-  Hardware name: linux,dummy-virt (DT)
-  pstate: 80000085 (Nzcv daIf -PAN -UAO -TCO BTYPE=3D--)
-  pc : __raw_writeb arch/arm64/include/asm/io.h:27 [inline]
-  pc : _outb include/asm-generic/io.h:501 [inline]
-  pc : logic_outb+0x3c/0x114 lib/logic_pio.c:302
-  lr : io_serial_out+0x80/0xc0 drivers/tty/serial/8250/8250_port.c:453
-  sp : ffff000015f0f980
-  x29: ffff000015f0f980 x28: ffff80001de0005d =
+  QEMU version v5.2, compiler for ARM, and started with command line:
 
-  x27: ffff80001601df00 x26: ffff000015f0fc90 =
+  qemu-system-i386 -curses -cpu 486 -m 1 -drive dos.img
 
-  x25: ffff80001de00000 x24: ffff80001de00000 =
+  The same test under Ubuntu QEMU and KVM/x86_64 (QEMU emulator version
+  4.2.1 (Debian 1:4.2-3ubuntu6.14)) will just silently hang the QEMU. On
+  DOSBOX, the machine does not die and program outputs the value -31073.
 
-  x23: ffff00000e27f600 x22: 0000000000000000 =
-
-  x21: 0000000000000002 x20: 0000000000000002 =
-
-  x19: fffffbfffe800001 x18: ffff00006a678b48 =
-
-  x17: 0000000000000000 x16: 0000000000000000 =
-
-  x15: ffff8000197be810 x14: 1fffe00002be1f0e =
-
-  x13: 1fffe00002be1e90 x12: ffff600002be1f39 =
-
-  x11: 1fffe00002be1f38 x10: ffff600002be1f38 =
-
-  x9 : dfff800000000000 x8 : 0000000000000003 =
-
-  x7 : 0000000000000001 x6 : 0000000000000004 =
-
-  x5 : ffff000015f0f9c0 x4 : dfff800000000000 =
-
-  x3 : 0000000000000001 x2 : 1ffff00003494e6b =
-
-  x1 : fffffbfffe800000 x0 : 0000000000ffbffe =
-
-  Call trace:
-   _outb include/asm-generic/io.h:501 [inline]
-   logic_outb+0x3c/0x114 lib/logic_pio.c:302
-   io_serial_out+0x80/0xc0 drivers/tty/serial/8250/8250_port.c:453
-   serial_out drivers/tty/serial/8250/8250.h:118 [inline]
-   serial8250_set_THRI drivers/tty/serial/8250/8250.h:138 [inline]
-   __start_tx drivers/tty/serial/8250/8250_port.c:1566 [inline]
-   serial8250_start_tx+0x338/0x6c0 drivers/tty/serial/8250/8250_port.c:1666
-   __uart_start.isra.0+0x10c/0x154 drivers/tty/serial/serial_core.c:127
-   uart_start+0xe0/0x210 drivers/tty/serial/serial_core.c:137
-   uart_flush_chars+0x10/0x20 drivers/tty/serial/serial_core.c:573
-   __receive_buf drivers/tty/n_tty.c:1646 [inline]
-   n_tty_receive_buf_common+0x588/0x22c0 drivers/tty/n_tty.c:1739
-   n_tty_receive_buf+0x14/0x20 drivers/tty/n_tty.c:1768
-   tiocsti drivers/tty/tty_io.c:2317 [inline]
-   tty_ioctl+0xed0/0x1aec drivers/tty/tty_io.c:2718
-   vfs_ioctl fs/ioctl.c:48 [inline]
-   __do_sys_ioctl fs/ioctl.c:753 [inline]
-   __se_sys_ioctl fs/ioctl.c:739 [inline]
-   __arm64_sys_ioctl+0x120/0x18c fs/ioctl.c:739
-   __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
-   invoke_syscall arch/arm64/kernel/syscall.c:49 [inline]
-   el0_svc_common.constprop.0+0xf0/0x2c0 arch/arm64/kernel/syscall.c:129
-   do_el0_svc+0xa4/0xd0 arch/arm64/kernel/syscall.c:168
-   el0_svc+0x24/0x34 arch/arm64/kernel/entry-common.c:416
-   el0_sync_handler+0x1a4/0x1b0 arch/arm64/kernel/entry-common.c:432
-   el0_sync+0x170/0x180 arch/arm64/kernel/entry.S:699
-  Code: d2bfd001 f2df7fe1 f2ffffe1 8b010273 (39000274) =
-
-  ---[ end trace 79cb47219936c254 ]---
+  The EXE to reproduce the issue is attached.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1918917/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1920602/+subscriptions
 
