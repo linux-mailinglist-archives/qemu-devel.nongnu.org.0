@@ -2,58 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFAE381AD7
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 21:48:44 +0200 (CEST)
-Received: from localhost ([::1]:34090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534F8381AD9
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 21:50:27 +0200 (CEST)
+Received: from localhost ([::1]:37052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1li0HC-00026b-MW
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 15:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42254)
+	id 1li0Is-00045S-E5
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 15:50:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1li0Dj-00068J-Eg; Sat, 15 May 2021 15:45:08 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:53083)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1li0FX-0007wC-Fx; Sat, 15 May 2021 15:47:00 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:49260)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1li0Df-0002NC-Dx; Sat, 15 May 2021 15:45:07 -0400
-Received: from [192.168.100.1] ([82.142.12.230]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MQNAv-1m4MaR16Lh-00MIru; Sat, 15 May 2021 21:44:58 +0200
-Subject: Re: [PATCH v2 00/15] linux-user/s390x: some signal fixes
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210428193408.233706-1-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <d8991b4d-f662-8f37-6926-6c2edb4623fb@vivier.eu>
-Date: Sat, 15 May 2021 21:44:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1li0FT-0003cr-In; Sat, 15 May 2021 15:46:59 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 832F37457E7;
+ Sat, 15 May 2021 21:46:53 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 62F11745708; Sat, 15 May 2021 21:46:53 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 61AFD74570E;
+ Sat, 15 May 2021 21:46:53 +0200 (CEST)
+Date: Sat, 15 May 2021 21:46:53 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 09/12] hw/pci-host/Kconfig: Add missing dependency
+ MV64361 -> I8259
+In-Reply-To: <20210515173716.358295-10-philmd@redhat.com>
+Message-ID: <e02c3aac-7b24-41cb-c63c-79382a8fb@eik.bme.hu>
+References: <20210515173716.358295-1-philmd@redhat.com>
+ <20210515173716.358295-10-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210428193408.233706-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:W3211n/bK9FQS2iPytfvVH33V256WkS41xbNm88bywZKPR07ENr
- Ql4Q6eEvtzi+zWtmRVHhmYpRcjzE6txriHHwz1xy3Xm2D+SLm5fIl3JhmHwwkAcOo0cmS/R
- tfOzqVwT2qV5GRmVdWdV7W0l00M462KjVbgbUQzXuxJcmR7YWVM0Bub49ptQDYRyzvnVeDX
- +XcJFt8isnMrgX5QWuwqw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Z8+akGMF3fY=:dnavDQzBIZVP9tGJtuNeWw
- GtAa3iWLpjDBn6YSDAi+Kt45a8pDvn0TnG9/U3yZ4mNutF1Qk/fbFOZQ2VA4cmBmZYOno3plR
- 8U2eIUblLYzKs5JrhRcIwJIqZHGdeOTONUWQ7x3YnSyHMly0caFYOhFuqkcLPChZt5zSFb7c6
- ilCoGTYmm2LU/jcmg3d/TL5uXO4S62o2ohc/j6nHmdFpP4oIAE2nxYqxqWCzvis9q3uPfJLG+
- h4R6I80ua5CQyzRS9mEuI7SmFGsY6qxelO+92sUpJeIoSsNv8o2x8MHyXBi7elO+oncRhtKOp
- K7Pvsla1zaf2iI/Z9QrZMz9ge30BF2pcGF338Zc/FnhT70bTnd+JZi8DO444+Z1UrM2aB0rTp
- TulRvnFkVniW1G5BEVDpJvbMnEE+7WIT3qXGkA8UXEQpFJOXYYIccSU0y37Ut2M+GGo47XzZb
- ucIrngKZMggyowii72TPRj8wE8hrTJ78YJZD8jCUuhtPoK1FrD7n9WSfPfaN77DljZN1/kXLv
- TRuL5dWHiqU423JwqA/ZuU=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed; boundary="3866299591-412561032-1621108013=:7809"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,40 +56,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, cohuck@redhat.com, qemu-s390x@nongnu.org,
- david@redhat.com
+Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 28/04/2021 à 21:33, Richard Henderson a écrit :
-> Version 2 splits lazy do-it-all patch.
-> Patch 1 has an additional fix, so I dropped the r-b.
-> 
-> r~
-> 
-> Richard Henderson (15):
->   linux-user/s390x: Fix sigframe types
->   linux-user/s390x: Use uint16_t for signal retcode
->   linux-user/s390x: Remove PSW_ADDR_AMODE
->   linux-user/s390x: Remove restore_sigregs return value
->   linux-user/s390x: Fix trace in restore_regs
->   linux-user/s390x: Fix sigcontext sregs value
->   linux-user/s390x: Use tswap_sigset in setup_rt_frame
->   linux-user/s390x: Tidy save_sigregs
->   linux-user/s390x: Clean up single-use gotos in signal.c
->   linux-user/s390x: Set psw.mask properly for the signal handler
->   linux-user/s390x: Add stub sigframe argument for last_break
->   linux-user/s390x: Fix frame_addr corruption in setup_frame
->   linux-user/s390x: Add build asserts for sigset sizes
->   linux-user/s390x: Clean up signal.c
->   linux-user/s390x: Handle vector regs in signal stack
-> 
->  linux-user/s390x/signal.c | 280 +++++++++++++++++++++++---------------
->  1 file changed, 170 insertions(+), 110 deletions(-)
-> 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Applied to my linux-user-for-6.1 branch.
+--3866299591-412561032-1621108013=:7809
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Thanks,
-Laurent
+On Sat, 15 May 2021, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>
+> Looking at the MV64340 model source, there is a dependency on the
+> 8259 interrupt controller:
+>
+>  523     case MV64340_PCI_1_INTERRUPT_ACKNOWLEDGE_VIRTUAL_REG:
+>  524         /* FIXME: Should this be sent via the PCI bus somehow? */
+>  525         if (s->gpp_int_level && (s->gpp_value & BIT(31))) {
+>  526             ret = pic_read_irq(isa_pic);
+>  527         }
+>  528         break;
+>
+> Add it to Kconfig to avoid the following build failure:
+>
+>  /usr/bin/ld: libcommon.fa.p/hw_pci-host_mv64361.c.o: in function `mv64361_read':
+>  hw/pci-host/mv64361.c:526: undefined reference to `isa_pic'
+>  /usr/bin/ld: hw/pci-host/mv64361.c:526: undefined reference to `pic_read_irq'
+>
+> Fixes: dcdf98a9015 ("hw/pci-host: Add emulation of Marvell MV64361 PPC system controller")
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+Correct, this is a dependency that I've missed, although pegasos2 probably 
+has it already and nothing else is using this chip but it's more correct 
+to list it explicitely.
+
+> ---
+> hw/pci-host/Kconfig | 1 +
+> 1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+> index 79c20bf28bb..9dc0d761815 100644
+> --- a/hw/pci-host/Kconfig
+> +++ b/hw/pci-host/Kconfig
+> @@ -76,3 +76,4 @@ config SH_PCI
+> config MV64361
+>     bool
+>     select PCI
+> +    select I8259
+>
+--3866299591-412561032-1621108013=:7809--
 
