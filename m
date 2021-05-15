@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2D13819E6
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 18:35:09 +0200 (CEST)
-Received: from localhost ([::1]:47784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFACB381A05
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 18:56:15 +0200 (CEST)
+Received: from localhost ([::1]:58112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhxFr-00049Z-Ly
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 12:35:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37956)
+	id 1lhxaI-00043G-F4
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 12:56:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lhxER-0003SG-1E
- for qemu-devel@nongnu.org; Sat, 15 May 2021 12:33:39 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:44939)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lhxXS-0001lw-9T
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 12:53:19 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:40482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lhxEP-00012D-GZ
- for qemu-devel@nongnu.org; Sat, 15 May 2021 12:33:38 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- x11-20020a05600c2a4bb02901761d2b1da1so234708wme.3
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 09:33:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lhxXQ-00080A-8U
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 12:53:17 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id j19so1905425qtp.7
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 09:53:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cjI+/zw7qHWBy3g3KaMX9/C+11XMK5MeJyqAtPi99fs=;
- b=q+stbsDCI02V3HuqX+BO9uRB5SV4HsifadDWK3xLQAnrhDj4iykqS1AqO6lF9zCvn+
- Hw4eA0p4ntH+j8jqI9NjcBmQjxv5Bg4v+CfvJ96YgFZDr0nFwVH2+PvwrMqhWoa7QM7x
- P33YiaK8Nzwjz674n7CX1Ztj9wgcTBcvQR3ml2WFt083HBZkC0ykgW2OHTPo83S6xwR4
- fUAiYDtU2NIrteOSt3BlBXHrYsCK33Iv3ONdowONfiOLPxXYALusvHXi7TqkAKEZkg9q
- 1qU/UYo4p33ML0PD5yuieJN9W4kwD50F4V4cJobKAGpmm4+uofLL7t90YMHc9j3LgIUB
- yo5A==
+ bh=GrkRmTeWIzLR1r18xTUqveCaCC36oyZeJtZGCG2Z8K8=;
+ b=lX+G+c6R5Oh4P++pSeoTLpDqt6754fAFUPxEtY0bV9aebTvQcpKcCA7FuXkocR2Lge
+ 2RbnBQnaby+B0jEwtgND/IsfNGMcFhZfG10oC7z0XKWetWrIlVXzWIh0oxXd3gMt/OTe
+ 0dJk/RzcYThYHsAZf0LKUdD2PFBX1BiiAdl3JhfCqHBxuHRr+p5xS2y2AeywQL6J3M5d
+ knU/HZVdAakI6dVmUM9uSsscvfGTjzoTZQwvdohQpFTrHgWrSJ/uNISqok2DSEa1iLbJ
+ PYEpqMUZ86ySqVNmkcxk0YUlCNzFtQkx6FbejEtazPZjRHjrUsm6XPvEL+Lhb4g0lusk
+ M0xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=cjI+/zw7qHWBy3g3KaMX9/C+11XMK5MeJyqAtPi99fs=;
- b=rBxsXnvABCyhNjybrIjd06ZdrB2UF5cv/PfxWAesYPZ4lBAJcfaTkhCyvr89JCqMW3
- R7B/Q0mo4SP08D2bslgTkbdfTdX8SSo14Gf80qabqNgjmu1KuCIODRl5AZNQCFpMkGrT
- pluDCQaGmxZf5E5tFn11uvgYtbjEFp5WkrAl96en9gCl9hWhBqW3Pkg93d23J04ZptNd
- gEF1CQulqws/4DEkDZ7iRTxW1wBVy1QJ5La0J+bptcxHlJNXKGKiU0W8R7lDGjcDIJEo
- apngWAmvj/PLFpg+WcfjU782RrQ2EpQA1FLR49Xxbh/mHl8B6Nlil5IPfc9M5vzNl5b1
- V11A==
-X-Gm-Message-State: AOAM5333dZeOgNuLKhnsu6OarCysGvyQCZBhqhhD1tZiywxzeHCPOZ+5
- zYaZAfc4Kowu7/7WHEO7fi8=
-X-Google-Smtp-Source: ABdhPJwi3bpKcfC6G8OzPyOK0gEvvpWSilrbgTUeFqiuIk8dOsaA/kPhfOVf3T4IsqzJS6mL21pkBA==
-X-Received: by 2002:a05:600c:2f17:: with SMTP id
- r23mr14812484wmn.28.1621096415936; 
- Sat, 15 May 2021 09:33:35 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id x11sm9885620wrl.13.2021.05.15.09.33.34
+ bh=GrkRmTeWIzLR1r18xTUqveCaCC36oyZeJtZGCG2Z8K8=;
+ b=W9uoIi09NhU2HanN85fLnqVRIg+vlJpny1sermpg/5IsbrKDYGgA3dtH1dEBM91RDf
+ cvo84QNZJRS3ZqgyjlsWKm2aqtoGoASUeOmNus8rWxK/iJfVGovTXEihoa8DuhfXYKNF
+ G7sQO4FTaS9JSRC/RQcTvmS2b/7Ut0AsD1rPq9p00zC14g0+yvX/0Jgn+/J2m2dKFvAx
+ S1mk9KPwR0xz5euvElcpUFJs1kFt9yUIKtYlfKjQbtS+w60AOm6y2JuelYE4k8PwQaS3
+ edVNF0l70SC+oTNd5VLqGbjfYy1BILjwTI9+U1fjdi/VOMufgTUsIQzcQL8lbHDKJY+w
+ DR8w==
+X-Gm-Message-State: AOAM532XsdCErFj5iEfeC+QWk6eZXSy3j8bX9BMSNGKSEjZmAGcQim8X
+ yizjjANSI1zzgQnQKCTwKdV7JA==
+X-Google-Smtp-Source: ABdhPJxF+Tq8eExc75e8swXhGnVVBXQ9GgI+vPy5Nj9rXtpi2/t5pA3VMefJ7EK8uL93MXRFJVxyNA==
+X-Received: by 2002:a05:622a:1189:: with SMTP id
+ m9mr41477973qtk.277.1621097595158; 
+ Sat, 15 May 2021 09:53:15 -0700 (PDT)
+Received: from [192.168.183.51] (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id c20sm7072283qtm.52.2021.05.15.09.53.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 May 2021 09:33:35 -0700 (PDT)
-Subject: Re: [PATCH v3 00/11] PS/2 controller related fixes
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <d00ea6b1-43c7-78a2-8c0a-35e19efb5e46@t-online.de>
- <c136dc92-dd3a-4421-b0b7-86c4eadfc942@amsat.org>
- <bc88eea0-b857-e732-444c-7690cb6cba9a@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <92388aa0-b0b2-1b23-57bd-9fc2e805e29b@amsat.org>
-Date: Sat, 15 May 2021 18:33:34 +0200
+ Sat, 15 May 2021 09:53:14 -0700 (PDT)
+Subject: Re: [PATCH v6 72/82] target/arm: Implement SVE2 bitwise shift
+ immediate
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210430202610.1136687-1-richard.henderson@linaro.org>
+ <20210430202610.1136687-73-richard.henderson@linaro.org>
+ <CAFEAcA8FVHHYsH+nEVmJLYYvOGk-dsStvPKD0Yu_Qp-eDJQVRw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c7e78b70-fe48-e5ab-9846-1422e2247cd1@linaro.org>
+Date: Sat, 15 May 2021 11:53:12 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <bc88eea0-b857-e732-444c-7690cb6cba9a@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFEAcA8FVHHYsH+nEVmJLYYvOGk-dsStvPKD0Yu_Qp-eDJQVRw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,67 +91,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/15/21 4:35 PM, BALATON Zoltan wrote:
-> On Sat, 15 May 2021, Philippe Mathieu-Daudé wrote:
->> On 5/15/21 1:31 PM, Volker Rümelin wrote:
->>> This patch series fixes two different PS/2 mouse stream corruptions
->>> and adds a feature that allows some old misbehaving DOS programs to
->>> have a working keyboard. With the last few patches, the PS/2 con-
->>> troller behaves more like a real controller.
->>>
->>> v2:
->>> Introduce the function kbd_pending() in a preliminary patch to ease
->>> the review of patch "pckbd: correctly disable PS/2 communication",
->>> as Phillipe suggested.
->>>
->>> v3:
->>> Patch "pckbd: correctly disable PS/2 communication" exposed a bug
->>> in SeaBIOS. The updated patch keeps the relevant code. Until
->>> SeaBIOS is fixed, the PS/2 controller command KBD_CCMD_KBD_DISABLE
->>> must disable the keyboard interrupt.
->>>
->>> In patch "pckbd: PS/2 keyboard throttle" in function
->>> kbd_throttle_timeout() an unnecessary if statement was removed.
->>> The KBD_STAT_OBF flag is never set when kbd_throttle_timeout()
->>> gets called.
->>>
->>> Volker Rümelin (11):
->>>   ps2: fix mouse stream corruption
->>>   ps2: don't raise an interrupt if queue is full
->>>   ps2: don't deassert irq twice if queue is empty
->>>   pckbd: split out interrupt line changing code
->>>   pckbd: don't update OBF flags if KBD_STAT_OBF is set
->>>   pckbd: PS/2 keyboard throttle
->>>   pckbd: add state variable for interrupt source
->>>   pckbd: add controller response queue
->>>   pckbd: add function kbd_pending()
->>>   pckbd: correctly disable PS/2 communication
->>>   pckbd: remove duplicated keyboard and mouse defines
+On 5/13/21 11:57 AM, Peter Maydell wrote:
+> On Fri, 30 Apr 2021 at 22:17, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
 >>
->> Zoltan, you might want to test this series with your Pegasos2
->> machine. It makes the keyboard detected correctly.
+>> From: Stephen Long <steplong@quicinc.com>
 >>
->> There is still a problem with the mouse interaction with the
->> host. Pressing Ctrl+Alt+G to ungrab the mouse, my host mouse
->> is still responding to guest events... (unrelated to this series).
+>> Implements SQSHL/UQSHL, SRSHR/URSHR, and SQSHLU
 >>
->> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> (PPC Pegasos2 so far)
+>> Signed-off-by: Stephen Long <steplong@quicinc.com>
+>> Message-Id: <20200430194159.24064-1-steplong@quicinc.com>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/arm/helper-sve.h    | 33 +++++++++++++++++++++
+>>   target/arm/sve.decode      |  5 ++++
+>>   target/arm/sve_helper.c    | 35 ++++++++++++++++++++++
+>>   target/arm/translate-sve.c | 60 ++++++++++++++++++++++++++++++++++++++
+>>   4 files changed, 133 insertions(+)
+>>
 > 
-> I don't get the errors you reported. Keyboard and mouse seems to work OK
-> for me with SDL on Linux and never got errors detecting it so far. What
-> config are you using?
+> 
+>> +/* SVE2 bitwise shift by immediate */
+>> +DO_ZPZI(sve2_sqshl_zpzi_b, int8_t, H1, do_sqshl_b)
+>> +DO_ZPZI(sve2_sqshl_zpzi_h, int16_t, H1_2, do_sqshl_h)
+>> +DO_ZPZI(sve2_sqshl_zpzi_s, int32_t, H1_4, do_sqshl_s)
+>> +DO_ZPZI_D(sve2_sqshl_zpzi_d, int64_t, do_sqshl_d)
+> 
+> What is the rule for when a set of operations on (8, 16, 32, 64) bit
+> values should use (H1, H2, H4, ""), and when it should
+> use (H1, H1_2, H1_4, "") ?
 
-OK, apparently a timing problem related to slow emulation.
-I can reproduce simply using "--enable-debug --extra-cflags=-ggdb",
-not without it.
+Depending on how the address arithmetic is being done, and unfortunately, you 
+have to look into the expansion macro to know.
 
-Using Volker's series it is harder to reproduce.
+If we're indexing an array of uint16_t, use H2.
+
+If we're doing byte arithmetic and casting to uint16_t* afterward, use H2_1.
+
+
+r~
 
