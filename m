@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16AA83819C8
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 18:16:58 +0200 (CEST)
-Received: from localhost ([::1]:38100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CD03819CF
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 18:26:49 +0200 (CEST)
+Received: from localhost ([::1]:43712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhwyG-0004LL-BC
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 12:16:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35998)
+	id 1lhx7o-0000tu-7g
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 12:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhwwS-00037X-Kv
- for qemu-devel@nongnu.org; Sat, 15 May 2021 12:15:04 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:43921)
+ id 1lhx6l-0008NF-QF
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 12:25:43 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:40942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lhwwQ-0001cC-Up
- for qemu-devel@nongnu.org; Sat, 15 May 2021 12:15:04 -0400
-Received: by mail-qt1-x829.google.com with SMTP id c10so1850343qtx.10
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 09:15:02 -0700 (PDT)
+ id 1lhx6k-0006jv-2I
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 12:25:43 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id f18so1930760qko.7
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 09:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=70v79L9nH49yNdd9ahFj7djnVgJ382qZ9CjA+s2HK2E=;
- b=aWhDmzPOduzyzNBiwKa5KZfA3tqrk78Oz+49GFhx170xekCcCYFHqw1w7++TABLIaG
- tAHke5KL5PEHPFOdjDqXvHxwChe5Wefm+JcXWkaUGe55seQUjQ1adpz+kVuootnao9ed
- TmSsx1Ddb6HHF/amH20zvFeYz/H5MZcPiBSxIk9o+y4NhORLWlL/vfnWHUyPCwgUAHZJ
- R2LFkdtRGjDWX62F8OUHqUFQM789gw+AP8Bd5ItacTYEI2IYohgteZ/wS/0KU7xD2BA3
- A25hDGaLtPhyi/lVRNihccSL/YW5HF9+YjjO8/g/fevPlk8/qP0NsTj4S+miV1ikcDCd
- oVpw==
+ bh=5YnQ3YIifzuU0VS0Vo8dZJ9XTMwwcIAepO0Y/B4psgo=;
+ b=uLpV4m8QOTAv/aI74U5j7NPNXo4NKMV2KQp8F0sIokmxM7xscb9BynAvo3lD3yIziy
+ xiOlOKZw61AlH/g6blQ12RMg+vUr3glCG4VhJxKT2hmMMXs49jqFn7z+cEkUVO6kvnJa
+ JxdZ7/qX04MNr6TkpkRGbpvngM0+ipC2DTG08QMkFIdvRYBWFurO8WB7qENenAVANd6s
+ WDm1vWlBtH8F0nm5QG4Tp3z5NVyyWyStJbbSGwrFW8bTApdLg8kwtlXQJzzg7NTxi/SI
+ F9AGyI+tUzWidI9EBIdAfhIz7ctrYnvw1Wc6miTtXZs4/V3V2PPAdIVyGx/D60tbfYZ/
+ albw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=70v79L9nH49yNdd9ahFj7djnVgJ382qZ9CjA+s2HK2E=;
- b=XgCMsWh+Pl40jFJ1aZNT+c7e2hVpl2AvhMlwq20lW+0RPux0HG6k/OzLm2I4UsVjVl
- 1r4AG/kTRxTwb9fs0HEcrmiI2SEv541E/jHwPHctVmb9zSbCeEetIygfvIQKwjpq7eiG
- /5f2Mu9IOAItMrfuAr6jwgMqJwYDve97TeRRVrqQ5eBy8raWseqS8EBYAopZ84ym6LNe
- ALHve6xaC7K/edIfTymYFrhjH4F5uFtQ06YXSnldJWiNFHKVKktHDGPwqyC0aJ2bOcrv
- ASBbovNEcfeaZAlV/WVtcbiN8xBwlaIvb4GsniTCFmS8PXO+WIPwQ1rdN0SiZrtzi+A2
- Nqng==
-X-Gm-Message-State: AOAM532W91D8mYTC9tW+LrTMZYj2t2UIYfPS89ww1k6uKfasS9pCNwGU
- IbTgXLWWZLAmSvwdq2AMiGpd2Q==
-X-Google-Smtp-Source: ABdhPJxlXMPidMwQx5nOO5dGXxj+mt7B4+fTO+KuTwkTRJrK/X7VbrRHaGW18ORih8+KDAVJM2YqhA==
-X-Received: by 2002:ac8:7ee8:: with SMTP id r8mr47530703qtc.56.1621095301457; 
- Sat, 15 May 2021 09:15:01 -0700 (PDT)
+ bh=5YnQ3YIifzuU0VS0Vo8dZJ9XTMwwcIAepO0Y/B4psgo=;
+ b=DUvFgkOQgbK/G+W4eAWq98XB76HjkhExFWNeSecCzACTDAPSMFfTUYbQ7d9LfNWgZ+
+ 5pBpM48+TBxUj0FDalHDvWz1UDE5c60i0MCEQlH+YVgPwE7mL54mevWr/sQbOc+4M3X/
+ 2caSV1AIuupyaZ6A9RBeyLjX/CLo3JE6INH5TE35gDbWItiJNnxGNhTDGx2CJHBpn/tM
+ pkR+1JyOWHN3ksnNkC+Zr2b+0uAPkFjSU0cShdJfN/OIa/76Y4crJAZn4lxiTFPoTlWZ
+ ZwY+UmCK9R0AkV608XN/vPRkK1yD7KORX8BiBclVpz1Udqm1HaO2z4+h+zNvotV+IHGB
+ MpUg==
+X-Gm-Message-State: AOAM5330/PIt5sgJUaoNccaJyXyaUe8NR7JIWTK9qF7U+z03rGPgaVCF
+ hBCHk6t9RNohgk0sulVHrDzsEQ==
+X-Google-Smtp-Source: ABdhPJwX1zOFJyeK3FYUAH+98tZCFCHMv089ItLB/3fPXPGUXabFKUpRLp5lMbO2K0XWQeKoSpWWXA==
+X-Received: by 2002:a37:a8c6:: with SMTP id
+ r189mr48996251qke.446.1621095940973; 
+ Sat, 15 May 2021 09:25:40 -0700 (PDT)
 Received: from [192.168.183.51] (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id c20sm7015920qtm.52.2021.05.15.09.15.00
+ by smtp.gmail.com with ESMTPSA id p190sm7286613qke.13.2021.05.15.09.25.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 May 2021 09:15:00 -0700 (PDT)
-Subject: Re: [PATCH v6 68/82] target/arm: Implement SVE2 FLOGB
+ Sat, 15 May 2021 09:25:40 -0700 (PDT)
+Subject: Re: [PATCH v6 69/82] target/arm: Share table of sve load functions
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20210430202610.1136687-1-richard.henderson@linaro.org>
- <20210430202610.1136687-69-richard.henderson@linaro.org>
- <CAFEAcA-T_LwSMZJbPszdS3CobzNAjJWY1gptsgZQT6bhxLKkaA@mail.gmail.com>
+ <20210430202610.1136687-70-richard.henderson@linaro.org>
+ <CAFEAcA87ZLW1oxFuhY_-uHjvO37Wkd3gUCJqPTttOm8VYqaAHQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5e4417b1-3a2b-809d-530c-65e8ba05591d@linaro.org>
-Date: Sat, 15 May 2021 11:14:58 -0500
+Message-ID: <050cb717-1277-0edb-0f49-29a4f488d8c7@linaro.org>
+Date: Sat, 15 May 2021 11:25:38 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-T_LwSMZJbPszdS3CobzNAjJWY1gptsgZQT6bhxLKkaA@mail.gmail.com>
+In-Reply-To: <CAFEAcA87ZLW1oxFuhY_-uHjvO37Wkd3gUCJqPTttOm8VYqaAHQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,32 +90,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Stephen Long <steplong@quicinc.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/21 9:18 AM, Peter Maydell wrote:
->> +static int64_t do_float64_logb_as_int(float64 a, float_status *s)
->> +{
->> +    if (float64_is_normal(a)) {
->> +        return extract64(a, 52, 11) - 1023;
->> +    } else if (float64_is_infinity(a)) {
->> +        return INT64_MAX;
->> +    } else if (float64_is_any_nan(a) || float64_is_zero(a)) {
->> +        float_raise(float_flag_invalid, s);
->> +        return INT64_MIN;
->> +    } else {
->> +        /* denormal (see above) */
->> +        return -1023 + 12 - clz64(extract64(a, 0, 52));
->> +    }
->> +}
+On 5/13/21 9:25 AM, Peter Maydell wrote:
+>> @@ -5551,7 +5547,9 @@ static void do_ldrq(DisasContext *s, int zt, int pg, TCGv_i64 addr, int msz)
+>>       t_pg = tcg_temp_new_ptr();
+>>       tcg_gen_addi_ptr(t_pg, cpu_env, poff);
+>>
+>> -    fns[s->be_data == MO_BE][msz](cpu_env, t_pg, addr, t_desc);
+>> +    gen_helper_gvec_mem *fn
+>> +        = ldr_fns[s->mte_active[0]][s->be_data == MO_BE][dtype][0];
+>> +    fn(cpu_env, t_pg, addr, t_desc);
 > 
-> These don't look like they're handling denormal inputs quite right:
->   * should raise the input-denormal exception
->   * should flush-to-zero if that is enabled
+> Previously we didn't take account of MTE state, and now we do.
+> Is this an intentional behaviour change?
 
-Yep, thanks.
+Amusing that I didn't even notice.
+
+> If it's fixing a bug, the commit message should say so.
+
+Yes, this is fixing a bug in LDRQ.
 
 
 r~
