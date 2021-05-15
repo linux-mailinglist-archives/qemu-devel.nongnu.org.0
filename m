@@ -2,66 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BCA43818EC
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 15:07:18 +0200 (CEST)
-Received: from localhost ([::1]:59210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32841381910
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 15:21:14 +0200 (CEST)
+Received: from localhost ([::1]:38318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhu0j-0003DG-0c
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 09:07:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34182)
+	id 1lhuEC-0000Xx-Q0
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 09:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhtz9-0002E0-2P
- for qemu-devel@nongnu.org; Sat, 15 May 2021 09:05:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhtz4-0001Oq-V6
- for qemu-devel@nongnu.org; Sat, 15 May 2021 09:05:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhtz2-0005E2-By
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 13:05:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 32D7A2E8186
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 13:05:32 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhuD4-0008DU-9g
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 09:20:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lhuD1-0002QQ-I6
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 09:20:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621084797;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NJ04ybkW+SSJkwERlSnfS9wAus5cDajFoVyGU3ts6Gc=;
+ b=MuAYSA8FkJ6ybLldB93gSqzBAM8gCUHkzO/3qFdQX2glTVeRLijpOSz3dfjetp8ezk91+Q
+ OGHGorHsqcsdMpCSYcgxQclWa3X2uuar4twAv9v4SFaKVKLL+xeTPGK0nBLdFxozM6Cf3Y
+ REDTM1S0FTSAnnz5oXYcJivMBbWjLPQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-cEwDsx1zMRKv3d89vDt1BQ-1; Sat, 15 May 2021 09:19:56 -0400
+X-MC-Unique: cEwDsx1zMRKv3d89vDt1BQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 7-20020adf95070000b02901104ad3ef04so1200772wrs.16
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 06:19:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NJ04ybkW+SSJkwERlSnfS9wAus5cDajFoVyGU3ts6Gc=;
+ b=edZxP+FT1CtnwQs3MOMmNL943fWYa/zDVRunasXJEjGSa8NpVgwXPvik5GoYhbBIX2
+ OYSUT6iIjE/CxOGoAMD1rdlfA/DOe6cOeNHEOuPuaWrDC8A2P/m1fJWK+fdQo05NLop7
+ AnhazZvxVFYwpQ8TUdi4w5J22i5GmFNv5Wq6rWfdMzcEUctvNnTaxCsMD3K9W6qlzlI/
+ eiri1Saxhm+8oaJ1+44r5v5rAQo2ehU0Npf927MZX2N0M0Z2ogDbubfHYqdx+0JtbHGl
+ QGwZ9gNzhDyFvv46o1/9DXuqF0/0gEMI+eB4D/qTeU3mumov8lHTatApM6mUhjCZL0do
+ vybg==
+X-Gm-Message-State: AOAM531aWw/1m0zSxhN+PWIvznB7lmwehtP1aRVh5pMkbevpCJnhYIax
+ yY9v1EUbjqjrhxG0XlIEHPcxFokud2ggUdLudSRnmCAJ+0csNzCn9f69KRLdpdtRsChMCW1HK72
+ zGQlh85qEb5wAX5t5VmRCxgidwOEK/fHbIZ7RR5w7I09EA3Hr2h79GiNJbU1A6u+A
+X-Received: by 2002:a05:600c:350a:: with SMTP id
+ h10mr56153234wmq.119.1621084794586; 
+ Sat, 15 May 2021 06:19:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwRh2jSnGFm+9+8z0MU2rTQWTSiLE4ZQrBkK6q8Ct3GeGItdIHcHWet+i0HznYOgSzE5gPIOg==
+X-Received: by 2002:a05:600c:350a:: with SMTP id
+ h10mr56153215wmq.119.1621084794345; 
+ Sat, 15 May 2021 06:19:54 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id f11sm14186766wmq.41.2021.05.15.06.19.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 15 May 2021 06:19:53 -0700 (PDT)
+Subject: Re: [PULL v3 0/1] Rtd patches
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20210514111310.1756593-1-marcandre.lureau@redhat.com>
+ <CAFEAcA_xf7CAqEsn5EPSht3+7wOXKvnnQ+OGGp8aDw9A_f3AEA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <48378522-0a28-b1c6-2a28-72c85202fcb2@redhat.com>
+Date: Sat, 15 May 2021 15:19:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 12:56:49 -0000
-From: Wind Li <1926246@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier nightwend th-huth
-X-Launchpad-Bug-Reporter: Wind Li (nightwend)
-X-Launchpad-Bug-Modifier: Wind Li (nightwend)
-References: <161950107824.17271.5936509317690090363.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162108341033.2004.14626236175991072733.launchpad@wampee.canonical.com>
-Subject: [Bug 1926246] Re: chrome based apps can not be run under qemu user
- mode
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: f355d0f724f186539f8a195ebc4925790480fa7d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA_xf7CAqEsn5EPSht3+7wOXKvnnQ+OGGp8aDw9A_f3AEA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,87 +102,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926246 <1926246@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> New
+On 5/14/21 8:33 PM, Peter Maydell wrote:
+> On Fri, 14 May 2021 at 12:13, <marcandre.lureau@redhat.com> wrote:
+>>
+>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>
+>> The following changes since commit 2d3fc4e2b069494b1e9e2e4a1e3de24cbc036426:
+>>
+>>   Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2021-05-12' into staging (2021-05-13 20:13:24 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   git@gitlab.com:marcandre.lureau/qemu.git tags/rtd-pull-request
+>>
+>> for you to fetch changes up to 73e6aec6522e1edd63f631c52577b49a39bc234f:
+>>
+>>   sphinx: adopt kernel readthedoc theme (2021-05-14 15:05:03 +0400)
+>>
+>> ----------------------------------------------------------------
+>> Pull request
+>>
+>> ----------------------------------------------------------------
+> 
+> 
+> Applied, thanks.
 
--- =
+After rebasing I'm getting:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926246
+Program sphinx-build-3 found: YES
+docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3:
+Configuration error:
+There is a programmable error in your configuration file:
 
-Title:
-  chrome based apps can not be run under qemu user mode
+Traceback (most recent call last):
+  File "/home/phil/source/qemu/docs/conf.py", line 155, in <module>
+    import sphinx_rtd_theme
+ModuleNotFoundError: No module named 'sphinx_rtd_theme'
 
-Status in QEMU:
-  New
+During handling of the above exception, another exception occurred:
 
-Bug description:
-  chrome uses /proc/self/exe to fork render process.
-  Here a simple code to reproduce the issue. It's output parent then child =
-but failed with qemu: unknown option 'type=3Drenderer'.
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/site-packages/sphinx/config.py", line 361, in
+eval_config_file
+    execfile_(filename, namespace)
+  File "/usr/lib/python3.8/site-packages/sphinx/util/pycompat.py", line
+81, in execfile_
+    exec(code, _globals)
+  File "/home/phil/source/qemu/docs/conf.py", line 157, in <module>
+    raise ConfigError(
+sphinx.errors.ConfigError: The Sphinx 'sphinx_rtd_theme' HTML theme was
+not found.
 
-  Maybe we can modify exec syscall to replace /proc/self/exe to the real
-  path.
+Is python3-sphinx_rtd_theme a required dependency now?
 
-  //gcc -o self self.c =
+$ lsb_release -d
+Description:    Fedora release 32 (Thirty Two)
 
-  #include <stdio.h>
-  #include <sys/types.h>
-  #include <unistd.h>
-  int main(int argc, char** argv) {
-    if(argc=3D=3D1){
-      printf ("parent\n");
-  	if ( fork() =3D=3D 0 )
-      {
-          return execl("/proc/self/exe","/proc/self/exe", "--type=3Drendere=
-r",NULL);
-      }
-    } else {
-      printf ("child\n");
-    }
-    return 0;
-  }
+Thanks,
 
-  similar reports:
-  https://github.com/AppImage/AppImageKit/issues/965  =
+Phil.
 
-  https://github.com/golang/go/issues/42080  =
-
-
-  Workardound:
-  compile chrome or your chrome based app with a patch to content/common/ch=
-ild_process_host_impl.cc:GetChildPath, get the realpath of /proc/self/exe:  =
-
-
-  diff --git a/content/common/child_process_host_impl.cc b/content/common/c=
-hild_process_host_impl.cc
-  index bc78aba80ac8..9fab74d3bae8 100644
-  --- a/content/common/child_process_host_impl.cc
-  +++ b/content/common/child_process_host_impl.cc
-  @@ -60,8 +60,12 @@ base::FilePath ChildProcessHost::GetChildPath(int flag=
-s) {
-   #if defined(OS_LINUX)
-     // Use /proc/self/exe rather than our known binary path so updates
-     // can't swap out the binary from underneath us.
-  -  if (child_path.empty() && flags & CHILD_ALLOW_SELF)
-  -    child_path =3D base::FilePath(base::kProcSelfExe);
-  +  if (child_path.empty() && flags & CHILD_ALLOW_SELF) {
-  +    if (!ReadSymbolicLink(base::FilePath(base::kProcSelfExe), &child_pat=
-h)) {
-  +      NOTREACHED() << "Unable to resolve " << base::kProcSelfExe << ".";
-  +      child_path =3D base::FilePath(base::kProcSelfExe);
-  +    }
-  +  }
-   #endif
-
-     // On most platforms, the child executable is the same as the
-  current
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926246/+subscriptions
 
