@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F93381782
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:14:22 +0200 (CEST)
-Received: from localhost ([::1]:49072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CF8381780
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:13:07 +0200 (CEST)
+Received: from localhost ([::1]:41934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhrJN-0000am-TC
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:14:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34056)
+	id 1lhrI9-0004HF-AQ
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:13:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhr9Z-0006Lh-G0; Sat, 15 May 2021 06:04:13 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:40411)
+ id 1lhr9T-00066l-Bg; Sat, 15 May 2021 06:04:07 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:58307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lhr9X-0006e6-MC; Sat, 15 May 2021 06:04:13 -0400
+ id 1lhr9P-0006Ym-Og; Sat, 15 May 2021 06:04:07 -0400
 Received: from quad ([82.142.31.78]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MG9c2-1lixce3Seq-00GXiv; Sat, 15
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mzz6m-1lK7T12Lhe-00x3SJ; Sat, 15
  May 2021 12:03:49 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/16] multi-process: Avoid logical AND of mutually exclusive
- tests
-Date: Sat, 15 May 2021 12:03:32 +0200
-Message-Id: <20210515100335.1245468-14-laurent@vivier.eu>
+Subject: [PULL 14/16] target/sh4: Return error if
+ CPUClass::get_phys_page_debug() fails
+Date: Sat, 15 May 2021 12:03:33 +0200
+Message-Id: <20210515100335.1245468-15-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210515100335.1245468-1-laurent@vivier.eu>
 References: <20210515100335.1245468-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:wKEFFUEYjwLqI1sDGGQuygA6f1s9SMR6o6KI2F8NAe0dR40ZXa2
- R6+UGU4t2/7AJMktHz29hZNyUJKx1TBrdviZUHAxGNY/z+ZrJdDqcPG8gG9B/Pdlb4bh6x2
- v9pd8RwDIEogyh46TjhX7zlG1HWW1AIfSGsouK69X4QwSGu6mu9R/+/tb3fIAk+8ukHtPnm
- UJXH9sPrcmze11Yiq8L1A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JCNeap1k60U=:rJMlMSshkDr7FmJ/UPA/oX
- PpP7Ce4eQSoP+J46PEHnsaZJSCIEzSGcm3T4p5VZufGOVjOrQr5gUx/W4dyEaVEWqVz+nMjOi
- dGkkkw6aDsXJKcA3Ioz2Odomc9g4jFQTncDOX4uytQ1PQSc2uayH3y4K3f0bi1vqqE2WL7ECP
- AzpVdsSdVk96vDLbLFJHz2acScP4tA5Fqq+cazW9q3SzZZ4levFy+TTB+Hf2h1agjx7fdItuI
- Y6HyH4ECHpbRwWGtZpxq2jfDKWYMSkWOdSVx4Tu1JwAFelRGzCsynlyk301tQWfVyMfShAcjZ
- vv/lmtOshYqIvQKGxZeofMgzlrTRduGV6V9c6x5xj+vR0rH2h01m2R+7BvsTHy57sweE6j4wG
- EF9xSgmUCxOaApjZUwvhY6A0Nun85m1l5vbTVkEnKNcCSxXK348fZZpGyuwDE1Ou0Tj+2HyvM
- qiiMigixp5jSBLSw1UNDR0D8VBq0SB7SxpIpCFMOWaZGLUVZzqnYRnHaPCA35C9h0s9+L3GEE
- pYTkLkktuCuQz0IlbftNuI=
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:G2RRtHqXg2nfmeg0dzZCcikoI1mLa1mvwB2QWIkX5JJ8ZvBRyzJ
+ sk1p2m5V3TIPb8GvG2vGWKcV/oMufR41JmS+0BuV/y9Pp5a6Ss76FevqeibhZ+GExzq+Q2Q
+ 09sw8GnNp9UGtBmV+1OG1ucO5AbRUJPDvF8FYT34q0SvT06GPcbHKPplpl+0tYxLpOYDruV
+ aI5HSWDxOKWcR5b2s8W8w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TjMyK4ziKYs=:S7GPmj1WEUY8OKkuJG6/jD
+ r/X90ApzOG7dTtiOi5Loui6uKMvRxc+upbmJma4LQWtArGme7Go7xr1e3QAyG17e6+niB0/6+
+ 0lGLkrorYCtt6675O5DujNx+zk2/ykbOWy7UrSqp1L9clNoGehb8J5DH2olneKin0KNLUH+eh
+ HxFRws54qiyqCBJ9UCmlEDeKyQ+sZ88fACsnppQFvBn9hVnIwlFayJTiTCmDvYmMBuHeP1XkD
+ 2z4cnmsfBcYc1/S+NH/w2ht3nMgJjjfDftk1UXFLv035lOyMByNERVAZhoXAgJvQykbNbIdoT
+ 5pMRhB7s9KDCzolVofL8mlQ8HlF8XZ3++DgEAr/5BRl2fdPS/BFrCg98ZeAiaxl3yIJU0AQ2F
+ RiB9UdDKX9L/oTkTwmiJNbInmOwacL/bsW9Zv7SS9aL7tfbVkvOXRtE3+vboD/40DQ6K4Ny8F
+ TvM4YDHi9gLE6JdkquLvkAFKBZ9ULXlHorGS9vHqwIObpZDVXK8E5oyRIikIelR4XPraVAGW3
+ K0mwhdK0AlQPA6rlRDrKF4=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -64,41 +65,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>,
- qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jagannathan Raman <jag.raman@oracle.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Fixes an if statement that performs a logical AND of mutually exclusive
-tests
+If the get_physical_address() call fails, the SH4 get_phys_page_debug()
+handler returns an uninitialized address. Instead return -1, which
+correspond to "no page found" (see cpu_get_phys_page_debug() doc
+string).
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1926995
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <1620402803-9237-1-git-send-email-jag.raman@oracle.com>
+This fixes a warning emitted when building with CFLAGS=-O3
+(using GCC 10.2.1 20201125):
+
+  target/sh4/helper.c: In function ‘superh_cpu_get_phys_page_debug’:
+  target/sh4/helper.c:446:12: warning: ‘physical’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+    446 |     return physical;
+        |            ^~~~~~~~
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Message-Id: <20210505161046.1397608-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/remote/mpqemu-link.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/sh4/helper.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
-index 9ce31526e8f2..e67a5de72ca7 100644
---- a/hw/remote/mpqemu-link.c
-+++ b/hw/remote/mpqemu-link.c
-@@ -218,7 +218,7 @@ uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, PCIProxyDev *pdev,
+diff --git a/target/sh4/helper.c b/target/sh4/helper.c
+index bd8e034f174d..2d622081e85a 100644
+--- a/target/sh4/helper.c
++++ b/target/sh4/helper.c
+@@ -441,9 +441,12 @@ hwaddr superh_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+     target_ulong physical;
+     int prot;
  
- bool mpqemu_msg_valid(MPQemuMsg *msg)
- {
--    if (msg->cmd >= MPQEMU_CMD_MAX && msg->cmd < 0) {
-+    if (msg->cmd >= MPQEMU_CMD_MAX || msg->cmd < 0) {
-         return false;
-     }
+-    get_physical_address(&cpu->env, &physical, &prot, addr, MMU_DATA_LOAD);
++    if (get_physical_address(&cpu->env, &physical, &prot, addr, MMU_DATA_LOAD)
++            == MMU_OK) {
++        return physical;
++    }
  
+-    return physical;
++    return -1;
+ }
+ 
+ void cpu_load_tlb(CPUSH4State * env)
 -- 
 2.31.1
 
