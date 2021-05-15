@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D20923817AA
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:34:02 +0200 (CEST)
-Received: from localhost ([::1]:40592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1BA3817AC
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:35:47 +0200 (CEST)
+Received: from localhost ([::1]:45488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhrcP-0006Kc-PM
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37428)
+	id 1lhre6-0001C7-Pz
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:35:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhrZT-0004E2-2H
+ id 1lhrZT-0004Ef-DU
  for qemu-devel@nongnu.org; Sat, 15 May 2021 06:30:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52466)
+Received: from indium.canonical.com ([91.189.90.7]:52494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhrZR-0006Dn-1z
- for qemu-devel@nongnu.org; Sat, 15 May 2021 06:30:58 -0400
+ id 1lhrZR-0006Do-1p
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 06:30:59 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhrZN-0004OZ-Vq
+ id 1lhrZO-0004OG-Nc
  for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:30:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F00A02E8187
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:30:53 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 66B3C2E8186
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:30:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 10:22:42 -0000
-From: Thomas Huth <1923648@bugs.launchpad.net>
+Date: Sat, 15 May 2021 10:23:06 -0000
+From: Thomas Huth <1923583@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: app-nap freezes macos
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nnlkcncff th-huth
-X-Launchpad-Bug-Reporter: Vasiliy Nikonov (nnlkcncff)
+X-Launchpad-Bug-Commenters: meeho th-huth
+X-Launchpad-Bug-Reporter: meeho yuen (meeho)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161833605825.22256.5828075734668933155.malonedeb@soybean.canonical.com>
-Message-Id: <162107416237.21524.7825721092022201029.malone@soybean.canonical.com>
-Subject: [Bug 1923648] Re: macOS App Nap feature gradually freezes QEMU process
+References: <161830261172.29345.7866671962411605196.malonedeb@wampee.canonical.com>
+Message-Id: <162107418648.20814.16895064246248620407.malone@soybean.canonical.com>
+Subject: [Bug 1923583] Re: colo: pvm flush failed after svm killed
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: dbaef87d59593fbd5c256af7169e85f8ec02ba7e
+X-Launchpad-Hash: ed20e4ef735f14c6e6ff9c63235f6a97b1d46a14
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1923648 <1923648@bugs.launchpad.net>
+Reply-To: Bug 1923583 <1923583@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -112,50 +111,70 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1923648
+https://bugs.launchpad.net/bugs/1923583
 
 Title:
-  macOS App Nap feature gradually freezes QEMU process
+  colo: pvm flush failed after svm killed
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  macOS version: 10.15.2
-  QEMU versions: 5.2.0 (from MacPorts)
-                 5.2.92 (v6.0.0-rc2-23-g9692c7b037)
+  Hi,
+     Primary vm flush failed after killing svm, which leads primary vm gues=
+t filesystem unavailable.
 
-  If the QEMU window is not visible (hidden, minimized or another
-  application is in full screen mode), the QEMU process gradually
-  freezes: it still runs, but the VM does not respond to external
-  requests such as Telnet or SSH until the QEMU window is visible on the
-  desktop.
+  qemu versoin: 5.2.0
+  host/guest os: CentOS Linux release 7.6.1810 (Core)
 
-  This behavior is due to the work of the macOS App Nap function:
-  https://developer.apple.com/library/archive/documentation/Performance/Con=
-ceptual/power_efficiency_guidelines_osx/AppNap.html#//apple_ref/doc/uid/TP4=
-0013929-CH2-SW1
+  Reproduce steps:
+  1. create colo vm following https://github.com/qemu/qemu/blob/master/docs=
+/COLO-FT.txt
+  2. kill secondary vm (don't remove nbd child from quorum on primary vm)an=
+d wait for a minute. the interval depends on guest os.
+  result: primary vm file system shutdown because of flush cache error.
 
-  It doesn't matter how the process is started -- as a background job or
-  as a foreground shell process in case QEMU has a desktop window.
+  After serveral tests, I found that qemu-5.0.0 worked well, and it's
+  the commit
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D883833e29cb800b4d92b5d4=
+736252f4004885191(block:
+  Flush all children in generic code) leads this change, and both
+  virtio-blk and ide turned out to be bad.
 
-  My VM does not have a display output, only a serial line, most likely
-  if the VM was using OpenGL, or playing sound (or any other App Nap
-  triggers), then the problem would never have been detected.
+  I think it's nbd(replication) flush failed leads bdrv_co_flush(quorum_bs)=
+ failed, here is the call stack.
+  #0  bdrv_co_flush (bs=3D0x56242b3cc0b0=3Dnbd_bs) at ../block/io.c:2856
+  #1  0x0000562428b0f399 in bdrv_co_flush (bs=3D0x56242b3c7e00=3Dreplicatio=
+n_bs) at ../block/io.c:2920
+  #2  0x0000562428b0f399 in bdrv_co_flush (bs=3D0x56242a4ad800=3Dquorum_bs)=
+ at ../block/io.c:2920
+  #3  0x0000562428b70d56 in blk_do_flush (blk=3D0x56242a4ad4a0) at ../block=
+/block-backend.c:1672
+  #4  0x0000562428b70d87 in blk_aio_flush_entry (opaque=3D0x7fd0980073f0) a=
+t ../block/block-backend.c:1680
+  #5  0x0000562428c5f9a7 in coroutine_trampoline (i0=3D-1409269904, i1=3D32=
+721) at ../util/coroutine-ucontext.c:173
 
-  In my case only one starting way without this problem:
-  sudo qemu-system-x86_64 -nodefaults \
-  -cpu host -accel hvf -smp 1 -m 384 \
-  -device virtio-blk-pci,drive=3Dflash0 \
-  -drive file=3D/vios-adventerprisek9-m.vmdk.SPA.156-1.T.vmdk,if=3Dnone,for=
-mat=3Dvmdk,id=3Dflash0 \
-  -device e1000,netdev=3Dlocal -netdev tap,id=3Dlocal,ifname=3Dtap0,script=
-=3Dno,downscript=3Dno \
-  -serial stdio -display none
+  While i am not sure whether i use colo inproperly? Can we assume that
+  nbd child of quorum immediately removed right after svm crashed? Or
+  it's really a bug? Does the following patch fix? Help is needed!
+  Thanks a lot=EF=BC=81
 
-  The typical way from the internet to disable App Nap doesn't work:
-  defaults write NSGlobalDomain NSAppSleepDisabled -bool YES
+  diff --git a/block/quorum.c b/block/quorum.c
+  index cfc1436..f2c0805 100644
+  --- a/block/quorum.c
+  +++ b/block/quorum.c
+  @@ -1279,7 +1279,7 @@ static BlockDriver bdrv_quorum =3D {
+       .bdrv_dirname                       =3D quorum_dirname,
+       .bdrv_co_block_status               =3D quorum_co_block_status,
+   =
+
+  -    .bdrv_co_flush_to_disk              =3D quorum_co_flush,
+  +    .bdrv_co_flush                      =3D quorum_co_flush,
+   =
+
+       .bdrv_getlength                     =3D quorum_getlength,
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1923648/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1923583/+subscriptions
 
