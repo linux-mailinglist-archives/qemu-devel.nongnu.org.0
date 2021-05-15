@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05578381968
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 16:42:55 +0200 (CEST)
-Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614CC381965
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 16:36:50 +0200 (CEST)
+Received: from localhost ([::1]:51124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhvVG-00059q-3P
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 10:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50310)
+	id 1lhvPN-000144-CT
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 10:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhvTQ-0003cP-I4
- for qemu-devel@nongnu.org; Sat, 15 May 2021 10:41:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhvTJ-0003Q3-2k
- for qemu-devel@nongnu.org; Sat, 15 May 2021 10:41:00 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhvTE-0005lX-Ff
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:40:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 354A92E8194
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 14:40:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lhvO8-00006H-GF
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 10:35:32 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:50705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lhvO6-0000aV-ET
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 10:35:32 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id CB77374570E;
+ Sat, 15 May 2021 16:35:28 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id A8421745709; Sat, 15 May 2021 16:35:28 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id A69B77456E3;
+ Sat, 15 May 2021 16:35:28 +0200 (CEST)
+Date: Sat, 15 May 2021 16:35:28 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3 00/11] PS/2 controller related fixes
+In-Reply-To: <c136dc92-dd3a-4421-b0b7-86c4eadfc942@amsat.org>
+Message-ID: <bc88eea0-b857-e732-444c-7690cb6cba9a@eik.bme.hu>
+References: <d00ea6b1-43c7-78a2-8c0a-35e19efb5e46@t-online.de>
+ <c136dc92-dd3a-4421-b0b7-86c4eadfc942@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 14:34:59 -0000
-From: Thomas Huth <1926246@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier nightwend th-huth
-X-Launchpad-Bug-Reporter: Wind Li (nightwend)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161950107824.17271.5936509317690090363.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162108929942.21058.14976097947611883515.malone@soybean.canonical.com>
-Subject: [Bug 1926246] Re: chrome based apps can not be run under qemu user
- mode
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: da630ea77ad4702c290cad2c73890d4b4111d411
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-675773645-1621089328=:75694"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,97 +58,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926246 <1926246@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-15?Q?Volker_R=FCmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
- https://gitlab.com/qemu-project/qemu/-/issues/324
+--3866299591-675773645-1621089328=:75694
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
+On Sat, 15 May 2021, Philippe Mathieu-Daudé wrote:
+> On 5/15/21 1:31 PM, Volker Rümelin wrote:
+>> This patch series fixes two different PS/2 mouse stream corruptions
+>> and adds a feature that allows some old misbehaving DOS programs to
+>> have a working keyboard. With the last few patches, the PS/2 con-
+>> troller behaves more like a real controller.
+>>
+>> v2:
+>> Introduce the function kbd_pending() in a preliminary patch to ease
+>> the review of patch "pckbd: correctly disable PS/2 communication",
+>> as Phillipe suggested.
+>>
+>> v3:
+>> Patch "pckbd: correctly disable PS/2 communication" exposed a bug
+>> in SeaBIOS. The updated patch keeps the relevant code. Until
+>> SeaBIOS is fixed, the PS/2 controller command KBD_CCMD_KBD_DISABLE
+>> must disable the keyboard interrupt.
+>>
+>> In patch "pckbd: PS/2 keyboard throttle" in function
+>> kbd_throttle_timeout() an unnecessary if statement was removed.
+>> The KBD_STAT_OBF flag is never set when kbd_throttle_timeout()
+>> gets called.
+>>
+>> Volker Rümelin (11):
+>>   ps2: fix mouse stream corruption
+>>   ps2: don't raise an interrupt if queue is full
+>>   ps2: don't deassert irq twice if queue is empty
+>>   pckbd: split out interrupt line changing code
+>>   pckbd: don't update OBF flags if KBD_STAT_OBF is set
+>>   pckbd: PS/2 keyboard throttle
+>>   pckbd: add state variable for interrupt source
+>>   pckbd: add controller response queue
+>>   pckbd: add function kbd_pending()
+>>   pckbd: correctly disable PS/2 communication
+>>   pckbd: remove duplicated keyboard and mouse defines
+>
+> Zoltan, you might want to test this series with your Pegasos2
+> machine. It makes the keyboard detected correctly.
+>
+> There is still a problem with the mouse interaction with the
+> host. Pressing Ctrl+Alt+G to ungrab the mouse, my host mouse
+> is still responding to guest events... (unrelated to this series).
+>
+> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> (PPC Pegasos2 so far)
 
-** Changed in: qemu
-       Status: New =3D> Expired
+I don't get the errors you reported. Keyboard and mouse seems to work OK 
+for me with SDL on Linux and never got errors detecting it so far. What 
+config are you using?
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #324
-   https://gitlab.com/qemu-project/qemu/-/issues/324
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926246
-
-Title:
-  chrome based apps can not be run under qemu user mode
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  chrome uses /proc/self/exe to fork render process.
-  Here a simple code to reproduce the issue. It's output parent then child =
-but failed with qemu: unknown option 'type=3Drenderer'.
-
-  Maybe we can modify exec syscall to replace /proc/self/exe to the real
-  path.
-
-  //gcc -o self self.c =
-
-  #include <stdio.h>
-  #include <sys/types.h>
-  #include <unistd.h>
-  int main(int argc, char** argv) {
-    if(argc=3D=3D1){
-      printf ("parent\n");
-  	if ( fork() =3D=3D 0 )
-      {
-          return execl("/proc/self/exe","/proc/self/exe", "--type=3Drendere=
-r",NULL);
-      }
-    } else {
-      printf ("child\n");
-    }
-    return 0;
-  }
-
-  similar reports:
-  https://github.com/AppImage/AppImageKit/issues/965  =
-
-  https://github.com/golang/go/issues/42080  =
-
-
-  Workardound:
-  compile chrome or your chrome based app with a patch to content/common/ch=
-ild_process_host_impl.cc:GetChildPath, get the realpath of /proc/self/exe:  =
-
-
-  diff --git a/content/common/child_process_host_impl.cc b/content/common/c=
-hild_process_host_impl.cc
-  index bc78aba80ac8..9fab74d3bae8 100644
-  --- a/content/common/child_process_host_impl.cc
-  +++ b/content/common/child_process_host_impl.cc
-  @@ -60,8 +60,12 @@ base::FilePath ChildProcessHost::GetChildPath(int flag=
-s) {
-   #if defined(OS_LINUX)
-     // Use /proc/self/exe rather than our known binary path so updates
-     // can't swap out the binary from underneath us.
-  -  if (child_path.empty() && flags & CHILD_ALLOW_SELF)
-  -    child_path =3D base::FilePath(base::kProcSelfExe);
-  +  if (child_path.empty() && flags & CHILD_ALLOW_SELF) {
-  +    if (!ReadSymbolicLink(base::FilePath(base::kProcSelfExe), &child_pat=
-h)) {
-  +      NOTREACHED() << "Unable to resolve " << base::kProcSelfExe << ".";
-  +      child_path =3D base::FilePath(base::kProcSelfExe);
-  +    }
-  +  }
-   #endif
-
-     // On most platforms, the child executable is the same as the
-  current
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926246/+subscriptions
+Regards,
+BALATON Zoltan
+--3866299591-675773645-1621089328=:75694--
 
