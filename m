@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A9C3817A9
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:34:02 +0200 (CEST)
-Received: from localhost ([::1]:40562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216CD3817AF
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:37:14 +0200 (CEST)
+Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhrcP-0006JY-CU
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
+	id 1lhrfV-00042R-8J
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhrZW-0004IV-23
- for qemu-devel@nongnu.org; Sat, 15 May 2021 06:31:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52518)
+ id 1lhrdv-0002Qa-8C
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 06:35:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhrZR-0006Dt-HU
- for qemu-devel@nongnu.org; Sat, 15 May 2021 06:31:01 -0400
+ id 1lhrds-0000X9-97
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 06:35:35 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhrZP-0004OE-DC
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:30:55 +0000
+ id 1lhrdq-0004p5-To
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:35:30 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 534DC2E8187
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:30:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DC0002E8135
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 10:35:30 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 10:23:52 -0000
-From: Thomas Huth <1922430@bugs.launchpad.net>
+Date: Sat, 15 May 2021 10:25:54 -0000
+From: Thomas Huth <1922391@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: epistemepromeneur th-huth
-X-Launchpad-Bug-Reporter: promeneur (epistemepromeneur)
+X-Launchpad-Bug-Commenters: he-uninett philmd th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?H=C3=A5vard_Eidnes_=28he-uninett=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161745782847.29743.8322673006861745178.malonedeb@gac.canonical.com>
-Message-Id: <162107423289.20864.15673744825929046.malone@soybean.canonical.com>
-Subject: [Bug 1922430] Re: 3d accel does not take care of 1280x960 setting
+References: <161739653585.29688.16825149829487531908.malonedeb@gac.canonical.com>
+Message-Id: <162107435494.8469.12040483206668565.malone@gac.canonical.com>
+Subject: [Bug 1922391] Re: qemu-system-ppc assertion "!mr->container" failed
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: acba1fca0896b1b34beb6f1e659f761937edd5f1
+X-Launchpad-Hash: e0132cdbff8676486de46843b1331bb97393d2e4
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,90 +71,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1922430 <1922430@bugs.launchpad.net>
+Reply-To: Bug 1922391 <1922391@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know which bugs are still valid and which could be
-closed already. Thus we are setting the bug state to "Incomplete" now.
-
-If the bug has already been fixed in the latest upstream version of QEMU,
-then please close this ticket as "Fix released".
-
-If it is not fixed yet and you think that this bug report here is still
-valid, then you have two options:
-
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
-
-    https://gitlab.com/qemu-project/qemu/-/issues
-
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
-
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" or "Confirmed" within the next 60 days (other-
-wise it will get closed as "Expired"). We will then eventually migrate
-the ticket automatically to the new system (but you won't be the reporter
-of the bug in the new system and thus you won't get notified on changes
-anymore).
-
-Thank you and sorry for the inconvenience.
-
+Philippe's fix has been merged here:
+https://gitlab.com/qemu-project/qemu/-/commit/03b3542ac93cb196bf6a6
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: Confirmed =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1922430
+https://bugs.launchpad.net/bugs/1922391
 
 Title:
-  3d accel does not take care of 1280x960 setting
+  qemu-system-ppc assertion "!mr->container" failed
 
 Status in QEMU:
-  Incomplete
+  Fix Released
 
 Bug description:
-  openSuse 15.2
-  kde plasma 5.21.3, frameworks 5.80.0
-  libvirt 7.0.0
-  qemu 5.2.0
-  virgl renderer 0.8.2
+  Hi,
 
-  here is my invocation
+  I'm trying to run the NetBSD/macppc 8.2 installer (which is 32-bit ppc) i=
+n qemu-system-ppc version 5.2.0, and I'm hitting this assertion failure
+  quite a bit into the "unpacking sets" part of the installation procedure,
+  unpacking from the install iso image.
 
-  qemu-kvm -enable-kvm \
-  -m 2048 -smp 2 -cpu host \
-  -device virtio-vga,virgl=3Don -display gtk,gl=3Don \
-  -device usb-ehci \
-  -device usb-kbd \
-  -device usb-mouse \
-  -device usb-tablet \
-  -device ich9-intel-hda \
-  -device hda-duplex,audiodev=3Dsnd0 \
-  -audiodev pa,id=3Dsnd0 \
-  -device usb-host,vendorid=3D0x046d,productid=3D0x08e5 \
-  -boot menu=3Don \
-  -nic bridge \
-  ~/QEMU_VM/android_x86_7.1-r5.img \
+  Qemu is run on a NetBSD/amd64 9.1 host system.
 
-  in the kernel command there is "vga=3D1280x960"
+  The asert message from qemu is
 
-  with "-device qxl" no problem. I get immediately a  window of size
-  1280x960.
+  assertion "!mr->container" failed: file "../softmmu/memory.c", line
+  1739, function "memory_region_finalize"
 
-  with "-device virtio-vga,virgl=3Don -display gtk,gl=3Don"
+  The stack backtrace from the core file (when built with debug symbols)
+  is
 
-  i get a tiny window.
+  Core was generated by `qemu-system-ppc'.
+  Program terminated with signal SIGABRT, Aborted.
+  #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
+  [Current thread is 1 (process 1)]
+  (gdb) where
+  #0  0x00007a8f2596791a in _lwp_kill () from /usr/lib/libc.so.12
+  #1  0x00007a8f259671ca in abort () from /usr/lib/libc.so.12
+  #2  0x00007a8f258a8507 in __assert13 () from /usr/lib/libc.so.12
+  #3  0x000000003e79d8a0 in memory_region_finalize (obj=3D<optimized out>)
+      at ../softmmu/memory.c:1739
+  #4  0x000000003e87aacc in object_deinit (type=3D0x7a8f2c280780, =
 
-  i must uncheck "zoom to fit" to get a window of size 1280x960.
+      obj=3D<optimized out>) at ../qom/object.c:671
+  #5  object_finalize (data=3D0x7a8f2b62baa0) at ../qom/object.c:685
+  #6  object_unref (objptr=3D0x7a8f2b62baa0) at ../qom/object.c:1183
+  #7  0x000000003e87aa96 in object_property_del_all (obj=3D0x7a8f2b629000)
+      at ../qom/object.c:623
+  #8  object_finalize (data=3D0x7a8f2b629000) at ../qom/object.c:684
+  #9  object_unref (objptr=3D0x7a8f2b629000) at ../qom/object.c:1183
+  #10 0x000000003e79ab6b in memory_region_unref (mr=3D<optimized out>)
+      at ../softmmu/memory.c:1787
+  #11 0x000000003e7d8eb4 in address_space_unmap (
+      as=3Das@entry=3D0x3f4731a0 <address_space_memory>, buffer=3D<optimize=
+d out>, =
+
+      len=3D<optimized out>, is_write=3D<optimized out>, access_len=3D<opti=
+mized out>)
+      at ../softmmu/physmem.c:3222
+  #12 0x000000003e66389a in dma_memory_unmap (access_len=3D<optimized out>, =
+
+      dir=3D<optimized out>, len=3D<optimized out>, buffer=3D<optimized out=
+>, =
+
+      as=3D<optimized out>)
+      at /usr/pkgsrc/emulators/qemu/work/qemu-5.2.0/include/sysemu/dma.h:145
+  #13 pmac_ide_atapi_transfer_cb (opaque=3D0x7a8f2ab4aef0, ret=3D<optimized=
+ out>)
+      at ../hw/ide/macio.c:122
+  #14 0x000000003e5b22a0 in dma_complete (ret=3D0, dbs=3D0x7a8f2bb4d380)
+      at ../softmmu/dma-helpers.c:120
+  #15 dma_blk_cb (opaque=3D0x7a8f2bb4d380, ret=3D0) at ../softmmu/dma-helpe=
+rs.c:138
+  #16 0x000000003e864ef7 in blk_aio_complete (acb=3D0x7a8f2af2be90)
+      at ../block/block-backend.c:1412
+  #17 0x000000003e9a9be1 in coroutine_trampoline (i0=3D<optimized out>, =
+
+      i1=3D<optimized out>) at ../util/coroutine-ucontext.c:173
+  #18 0x00007a8f25864150 in ?? () from /usr/lib/libc.so.12
+  Backtrace stopped: Cannot access memory at address 0x7a8e137ec000
+  (gdb) =
+
+
+  =
+
+  I start qemu with this small script:
+
+  ---
+  #!/bin/sh
+
+  MEM=3D3g
+  qemu-system-ppc \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-M mac99,via=3Dpmu \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-m $MEM  \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-nographic \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-drive id=3Dhda,format=3D=
+raw,file=3Ddisk.img \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-L pc-bios \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dnet0,ho=
+stfwd=3Dtcp::2223-:22,ipv6=3Doff \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-net nic,model=3Drtl8139,=
+netdev=3Dnet0 \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-boot d \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-cdrom NetBSD-8.2-macppc.=
+iso
+  ---
+
+  and boot the install kernel with "boot cd:ofwboot.xcf".  If someone wants
+  to replicate this I can provide more detailed instructions to repeat the
+  procedure I used to start the install.
+
+  Any hints about what more to look for?
+
+  Regards,
+
+  - H=C3=A5vard
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1922430/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1922391/+subscriptions
 
