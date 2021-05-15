@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFCF3817EE
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 12:58:18 +0200 (CEST)
-Received: from localhost ([::1]:41102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E96338181C
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:05:20 +0200 (CEST)
+Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhrzt-00017v-SB
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 06:58:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40322)
+	id 1lhs6h-0000C3-EB
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:05:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lhryn-0000Ss-VY
- for qemu-devel@nongnu.org; Sat, 15 May 2021 06:57:09 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50792)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhs2R-00025M-JT
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:00:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lhryl-0005r9-UJ
- for qemu-devel@nongnu.org; Sat, 15 May 2021 06:57:09 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id t206so997091wmf.0
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 03:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5LedTU84NPeF3kPMC7rfLq/Z+57eofcPwy2dqiOalLg=;
- b=NqScMC+F99EBw49Rzps3l8m82doHwvoHeoUI4/qB/Yo7yAhOtJS0lqFa4qy3fyJMAx
- x86BzDSaUOKNyq9q0acOOjlg9Y+6DZACCDN/ulwKilETdTyf/3oNuSFE+rd9VHPShW71
- k/FVXWqAg9KaXx9ZmSRZnVPGpi9RU53XfsJBgurHYmltgpfrY1GlBWbTErZnA77wX36a
- UwTh66CUXiHY2MqUgSKQFnOV9fL/JKKS19m1PohfIJlEYQK4Yyg+ce/aY9LNotRRUxFA
- zE07AYW116l4ZN3iBMvEVf14XtK+nacDKQHiJip9QUdPkVR1Sc7hbQRWzaRmPvahtx+u
- EjWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5LedTU84NPeF3kPMC7rfLq/Z+57eofcPwy2dqiOalLg=;
- b=NVaHGe0480CMjJL7DtYTrbtmq1t4YnDqOsA31mDy3A65Iglqc5dQ4CFXJKUsBIRv0j
- o7kxEAVVo8XXsldFP1/oDyy/DF0AqvFPcF9qN/WICG9VeHLFCmsBMS6oyVckYYQYiyL7
- 99zNY9cNl6vh9A5DC2rvK4ISxSeuByQniY/Ux+LZATgFmjYDHNSDXZ4c7fwHFHcNjm0M
- HXLiWnVm9GPyszuGGG7XSWoTOinowo+MTIx6vPPhNIm4td/E3c5Vc8rcwdNX2+3C3Qui
- RAt2/w9KJxJc7yGEv8hB0y36Lv4FhgQtiTJ5nHAVAHsQWC2MDXqFQir3KF/N3+toOP7F
- ibPw==
-X-Gm-Message-State: AOAM532El5lN3Ogu7mdiWXpHw1Hn5G0uqzZdaDrWmBKJeqxbz4/Xgcpt
- exexZQ7cbDvpDN/XI/r83dg=
-X-Google-Smtp-Source: ABdhPJyhvKFQP7gGQB713Ei8lqU5b/HisWEc/+rU+1qjB4e7H6FH4nzPkiLvgAuN8NQOXxKQoiNQFQ==
-X-Received: by 2002:a05:600c:4f8b:: with SMTP id
- n11mr54484276wmq.180.1621076226168; 
- Sat, 15 May 2021 03:57:06 -0700 (PDT)
-Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
- [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id a17sm1075434wrt.53.2021.05.15.03.57.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 May 2021 03:57:05 -0700 (PDT)
-Subject: Re: [PULL 21/38] tcg/tci: Implement the disassembler properly
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210317153444.310566-1-richard.henderson@linaro.org>
- <20210317153444.310566-22-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <3831f59a-e81e-b05d-891c-ab6e2dd8552e@amsat.org>
-Date: Sat, 15 May 2021 12:57:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lhs2O-0000Fs-Uq
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:00:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lhs2N-0007gA-I5
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:00:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8714E2E8188
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:00:51 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210317153444.310566-22-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 15 May 2021 10:52:50 -0000
+From: Thomas Huth <1705118@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bruno-clisp pmaydell th-huth
+X-Launchpad-Bug-Reporter: Bruno Haible (bruno-clisp)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <150041005567.6544.17518405784140614257.malonedeb@gac.canonical.com>
+Message-Id: <162107597006.7272.10383652905948602353.malone@gac.canonical.com>
+Subject: [Bug 1705118] Re: qemu user mode: rt signals not implemented for
+ sparc guests
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
+X-Launchpad-Hash: b85e548c1f25341b28ccad701496823376b19180
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,48 +72,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Reply-To: Bug 1705118 <1705118@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-On 3/17/21 4:34 PM, Richard Henderson wrote:
-> Actually print arguments as opposed to simply the opcodes
-> and, uselessly, the argument counts.  Reuse all of the helpers
-> developed as part of the interpreter.
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  meson.build           |   2 +-
->  include/tcg/tcg-opc.h |   2 -
->  disas/tci.c           |  61 ---------
->  tcg/tci.c             | 283 ++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 284 insertions(+), 64 deletions(-)
->  delete mode 100644 disas/tci.c
+ https://gitlab.com/qemu-project/qemu/-/issues/311
 
-> +/* Disassemble TCI bytecode. */
-> +int print_insn_tci(bfd_vma addr, disassemble_info *info)
-> +{
 
-> +    switch (op) {
-> +    case INDEX_op_br:
-> +    case INDEX_op_call:
-> +    case INDEX_op_exit_tb:
-> +    case INDEX_op_goto_tb:
-> +        tci_args_l(&tb_ptr, &ptr);
-> +        info->fprintf_func(info->stream, "%-12s  %p", op_name, ptr);
-> +        break;
+** Changed in: qemu
+       Status: New =3D> Expired
 
-I just realized ptr can be NULL:
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #311
+   https://gitlab.com/qemu-project/qemu/-/issues/311
 
-  "tcg/tci: Implement goto_ptr"
+-- =
 
-  The check in tcg_prologue_init is disabled because TCI does
-  want to use NULL to indicate exit, as opposed to branching to
-  a real epilogue.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1705118
 
-What about adding str_ptr (similar to str_c/str_r) to pretty print
-the NULL case?
+Title:
+  qemu user mode: rt signals not implemented for sparc guests
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  The documentation
+  <https://qemu.weilnetz.de/doc/qemu-doc.html#Features> says that
+  qemu in user mode supports POSIX signal handling.
+
+  Catching SIGSEGV according to POSIX, however, does not work on
+    ppc, ppc64, ppc64le, s390x, sparc64.
+  It does work, however, on
+    aarch64, alpha, arm, hppa, m68k, mips, mips64, sh4.
+
+  How to reproduce:
+  The attached program runs fine (exits with code 0) on
+    - real hardware Linux/PowerPC64 (in 32-bit and 64-bit mode),
+    - real hardware Linux/PowerPC64LE,
+    - qemu-system-s390x emulated Linux/s390x,
+    - real hardware Linux/SPARC64.
+  $ gcc -O -Wall testsigsegv.c; ./a.out; echo $?
+  0
+
+  For ppc:
+  $ powerpc-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv-p=
+pc
+  $ ~/inst-qemu/2.9.0/bin/qemu-ppc testsigsegv-ppc
+  $ echo $?
+  3
+
+  For ppc64:
+  $ powerpc64-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv=
+-ppc64
+  $ ~/inst-qemu/2.9.0/bin/qemu-ppc64 testsigsegv-ppc64
+  $ echo $?
+  3
+
+  For ppc64le:
+  $ powerpc64le-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigse=
+gv-ppc64le
+  $ ~/inst-qemu/2.9.0/bin/qemu-ppc64le testsigsegv-ppc64le
+  $ echo $?
+  3
+
+  For s390x:
+  $ s390x-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv-s39=
+0x
+  $ ~/inst-qemu/2.9.0/bin/qemu-s390x testsigsegv-s390x
+  $ echo $?
+  3
+  $ s390x-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -DAVOID_LINUX_S390=
+X_COMPAT -o testsigsegv-s390x-a
+  $ ~/inst-qemu/2.9.0/bin/qemu-s390x testsigsegv-s390x-a
+  $ echo $?
+  0
+  So, the test fails here because the Linux/s390x kernel omits the least
+  significant 12 bits of the fault address in the 'si_addr' field. But
+  qemu-s390x is not compatible with the Linux/s390x behaviour: it puts
+  the complete fault address in the 'si_addr' field.
+
+  For sparc64:
+  $ sparc64-linux-gnu-gcc-5 -O -Wall -static testsigsegv.c -o testsigsegv-s=
+parc64
+  $ ~/inst-qemu/2.9.0/bin/qemu-sparc64 testsigsegv-sparc64
+  Segmentation fault (core dumped)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1705118/+subscriptions
 
