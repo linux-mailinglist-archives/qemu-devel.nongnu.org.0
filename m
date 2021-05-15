@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B21381830
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:22:42 +0200 (CEST)
-Received: from localhost ([::1]:41664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 900AF38184A
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 May 2021 13:25:46 +0200 (CEST)
+Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lhsNV-0004SJ-6o
-	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:22:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44016)
+	id 1lhsQT-0007iu-M1
+	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 07:25:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsLe-0002Jy-Jn
- for qemu-devel@nongnu.org; Sat, 15 May 2021 07:20:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56436)
+ id 1lhsLf-0002L7-6h
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 07:20:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lhsLb-0004NZ-Ib
+ id 1lhsLb-0004O7-Ml
  for qemu-devel@nongnu.org; Sat, 15 May 2021 07:20:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lhsLY-0001FC-Re
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:20:40 +0000
+ id 1lhsLZ-0001F4-Cc
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:20:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CE8CF2E8187
- for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:20:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5E2032E813A
+ for <qemu-devel@nongnu.org>; Sat, 15 May 2021 11:20:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 May 2021 11:10:49 -0000
-From: Thomas Huth <1926782@bugs.launchpad.net>
+Date: Sat, 15 May 2021 11:12:16 -0000
+From: Thomas Huth <1926596@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anisse th-huth
-X-Launchpad-Bug-Reporter: Anisse Astier (anisse)
+X-Launchpad-Bug-Commenters: gaenshgosavi th-huth
+X-Launchpad-Bug-Reporter: Ganesh Gosavi (gaenshgosavi)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161979514177.9618.12499713444538330547.malonedeb@gac.canonical.com>
-Message-Id: <162107704937.20484.4574339413100464693.malone@soybean.canonical.com>
-Subject: [Bug 1926782] Re: configure script --extra-cflags not passed to
- config-meson.cross
+References: <161969321576.9662.8100892144951224535.malonedeb@gac.canonical.com>
+Message-Id: <162107713696.8164.16442187568902927395.malone@gac.canonical.com>
+Subject: [Bug 1926596] Re: qemu-monitor-event command gets stuck randomly
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: fae920a2edfa541ea11186a9671322302070301e
+X-Launchpad-Hash: 8a98b312ef4d1ceab1d41b4273b1e986498b15ac
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926782 <1926782@bugs.launchpad.net>
+Reply-To: Bug 1926596 <1926596@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -105,6 +104,11 @@ anymore).
 Thank you and sorry for the inconvenience.
 
 
+** Summary changed:
+
+- qemu-monitor-event command stukcs randomly
++ qemu-monitor-event command gets stuck randomly
+
 ** Changed in: qemu
        Status: New =3D> Incomplete
 
@@ -112,33 +116,56 @@ Thank you and sorry for the inconvenience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926782
+https://bugs.launchpad.net/bugs/1926596
 
 Title:
-  configure script --extra-cflags not passed to config-meson.cross
+  qemu-monitor-event command gets stuck randomly
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Since qemu 5.2, when building, the configure would not finish, but
-  would return this error instead:
+  We are using kvm virtualization on our servers, We use "qemu-monitor-comm=
+and"(drive-backup) to take qcow2 backups and to monitor them we use "qemu-m=
+onitor-event" command =
 
-     qemu ../meson.build:852:2: ERROR: C header 'sasl/sasl.h' not found
+  For eg:-
+  /usr/bin/virsh qemu-monitor-event VPSNAME --event "BLOCK_JOB_COMPLETED\|B=
+LOCK_JOB_ERROR" --regex
 
-  This is for a cross build, and I invoke qemu with the --extra-cflags
-  and --extra-ldflags containing all the proper paths to the headers,
-  libraries etc. It worked properly with qemu 3.1 to 5.1.
+  the above command stucks randomly (backup completes but still it is
+  waiting) and because of which other vms backup are stucked until we
+  kill that process.
 
-  After looking into the configure script, it seems that meson is passed
-  the CFLAGS environment variable instead of QEMU_CFLAGS, and only the
-  latter contains the --extra-cflags argument:
+  Can you suggest how can we debug this further to find the actual
+  issue.
 
-      echo "c_args =3D [${CFLAGS:+$(meson_quote $CFLAGS)}]" >> $cross
+  =
 
-  Using the CFLAGS and LDFLAGS environment variable instead of --extra-
-  cflags and --extra-ldflags fixes the issue.
+  /usr/bin/virsh version
+
+  Compiled against library: libvirt 4.5.0
+  Using library: libvirt 4.5.0
+  Using API: QEMU 4.5.0
+  Running hypervisor: QEMU 2.0.0
+
+  cat /etc/os-release
+  NAME=3D"CentOS Linux"
+  VERSION=3D"7 (Core)"
+  ID=3D"centos"
+  ID_LIKE=3D"rhel fedora"
+  VERSION_ID=3D"7"
+  PRETTY_NAME=3D"CentOS Linux 7 (Core)"
+  ANSI_COLOR=3D"0;31"
+  CPE_NAME=3D"cpe:/o:centos:centos:7"
+  HOME_URL=3D"https://www.centos.org/"
+  BUG_REPORT_URL=3D"https://bugs.centos.org/"
+
+  CENTOS_MANTISBT_PROJECT=3D"CentOS-7"
+  CENTOS_MANTISBT_PROJECT_VERSION=3D"7"
+  REDHAT_SUPPORT_PRODUCT=3D"centos"
+  REDHAT_SUPPORT_PRODUCT_VERSION=3D"7"
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926782/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926596/+subscriptions
 
