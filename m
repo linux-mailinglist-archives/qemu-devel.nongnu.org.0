@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC363820CA
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 22:08:44 +0200 (CEST)
-Received: from localhost ([::1]:56328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE71F3820D0
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 22:10:17 +0200 (CEST)
+Received: from localhost ([::1]:37544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liN47-0006dP-Ah
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 16:08:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44692)
+	id 1liN5d-0004YI-0u
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 16:10:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1liMvR-0003om-0q; Sun, 16 May 2021 15:59:45 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:45478 helo=zulu616.server4you.de)
+ id 1liMvR-0003r9-Uq; Sun, 16 May 2021 15:59:46 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:45488 helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1liMvA-0008KF-QB; Sun, 16 May 2021 15:59:44 -0400
+ id 1liMvB-0008LM-FZ; Sun, 16 May 2021 15:59:44 -0400
 Received: from localhost.localdomain
  (dynamic-095-118-089-019.95.118.pool.telefonica.de [95.118.89.19])
- by csgraf.de (Postfix) with ESMTPSA id 424136080684;
+ by csgraf.de (Postfix) with ESMTPSA id D3F9A60806A1;
  Sun, 16 May 2021 21:59:07 +0200 (CEST)
 From: Alexander Graf <agraf@csgraf.de>
 To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH v7 17/19] arm: Add Hypervisor.framework build target
-Date: Sun, 16 May 2021 21:58:53 +0200
-Message-Id: <20210516195855.28869-18-agraf@csgraf.de>
+Subject: [PATCH v7 18/19] arm: Enable Windows 10 trusted SMCCC boot call
+Date: Sun, 16 May 2021 21:58:54 +0200
+Message-Id: <20210516195855.28869-19-agraf@csgraf.de>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20210516195855.28869-1-agraf@csgraf.de>
 References: <20210516195855.28869-1-agraf@csgraf.de>
@@ -37,7 +37,7 @@ X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,73 +60,55 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have all logic in place that we need to handle Hypervisor.framework
-on Apple Silicon systems, let's add CONFIG_HVF for aarch64 as well so that we
-can build it.
+Windows 10 calls an SMCCC call via SMC unconditionally on boot. It lives
+in the trusted application call number space, but its purpose is unknown.
+
+In our current SMC implementation, we inject a UDEF for unknown SMC calls,
+including this one. However, Windows breaks on boot when we do this. Instead,
+let's return an error code.
+
+With this and -M virt,virtualization=on I can successfully boot the current
+Windows 10 Insider Preview in TCG.
 
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Tested-by: Roman Bolshakov <r.bolshakov@yadro.com> (x86 only)
-
 ---
+ target/arm/kvm-consts.h | 2 ++
+ target/arm/psci.c       | 2 ++
+ 2 files changed, 4 insertions(+)
 
-v1 -> v2:
-
-  - Fix build on 32bit arm
-
-v3 -> v4:
-
-  - Remove i386-softmmu target
-
-v6 -> v7:
-
-  - Simplify HVF matching logic in meson build file
----
- meson.build                | 7 +++++++
- target/arm/hvf/meson.build | 3 +++
- target/arm/meson.build     | 2 ++
- 3 files changed, 12 insertions(+)
- create mode 100644 target/arm/hvf/meson.build
-
-diff --git a/meson.build b/meson.build
-index 0ec7002286..551ad458ea 100644
---- a/meson.build
-+++ b/meson.build
-@@ -77,6 +77,13 @@ else
- endif
+diff --git a/target/arm/kvm-consts.h b/target/arm/kvm-consts.h
+index 580f1c1fee..4b64f98117 100644
+--- a/target/arm/kvm-consts.h
++++ b/target/arm/kvm-consts.h
+@@ -85,6 +85,8 @@ MISMATCH_CHECK(QEMU_PSCI_0_2_FN64_CPU_SUSPEND, PSCI_0_2_FN64_CPU_SUSPEND);
+ MISMATCH_CHECK(QEMU_PSCI_0_2_FN64_CPU_ON, PSCI_0_2_FN64_CPU_ON);
+ MISMATCH_CHECK(QEMU_PSCI_0_2_FN64_MIGRATE, PSCI_0_2_FN64_MIGRATE);
  
- accelerator_targets = { 'CONFIG_KVM': kvm_targets }
++#define QEMU_SMCCC_TC_WINDOWS10_BOOT 0xc3000001
 +
-+if cpu in ['aarch64']
-+  accelerator_targets += {
-+    'CONFIG_HVF': ['aarch64-softmmu']
-+  }
-+endif
-+
- if cpu in ['x86', 'x86_64', 'arm', 'aarch64']
-   # i368 emulator provides xenpv machine type for multiple architectures
-   accelerator_targets += {
-diff --git a/target/arm/hvf/meson.build b/target/arm/hvf/meson.build
-new file mode 100644
-index 0000000000..855e6cce5a
---- /dev/null
-+++ b/target/arm/hvf/meson.build
-@@ -0,0 +1,3 @@
-+arm_softmmu_ss.add(when: [hvf, 'CONFIG_HVF'], if_true: files(
-+  'hvf.c',
-+))
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index 5bfaf43b50..48004bf0e6 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -57,5 +57,7 @@ arm_softmmu_ss.add(files(
-   'psci.c',
- ))
+ /* PSCI v0.2 return values used by TCG emulation of PSCI */
  
-+subdir('hvf')
-+
- target_arch += {'arm': arm_ss}
- target_softmmu_arch += {'arm': arm_softmmu_ss}
+ /* No Trusted OS migration to worry about when offlining CPUs */
+diff --git a/target/arm/psci.c b/target/arm/psci.c
+index 6709e28013..4d11dd59c4 100644
+--- a/target/arm/psci.c
++++ b/target/arm/psci.c
+@@ -69,6 +69,7 @@ bool arm_is_psci_call(ARMCPU *cpu, int excp_type)
+     case QEMU_PSCI_0_2_FN64_CPU_SUSPEND:
+     case QEMU_PSCI_0_1_FN_MIGRATE:
+     case QEMU_PSCI_0_2_FN_MIGRATE:
++    case QEMU_SMCCC_TC_WINDOWS10_BOOT:
+         return true;
+     default:
+         return false;
+@@ -194,6 +195,7 @@ void arm_handle_psci_call(ARMCPU *cpu)
+         break;
+     case QEMU_PSCI_0_1_FN_MIGRATE:
+     case QEMU_PSCI_0_2_FN_MIGRATE:
++    case QEMU_SMCCC_TC_WINDOWS10_BOOT:
+         ret = QEMU_PSCI_RET_NOT_SUPPORTED;
+         break;
+     default:
 -- 
 2.30.1 (Apple Git-130)
 
