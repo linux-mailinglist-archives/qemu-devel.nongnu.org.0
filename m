@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3400381ED0
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 14:38:18 +0200 (CEST)
-Received: from localhost ([::1]:56502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F17381EDA
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 14:46:20 +0200 (CEST)
+Received: from localhost ([::1]:53228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liG2D-0001kX-Rr
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 08:38:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42894)
+	id 1liG9z-0001i7-IW
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 08:46:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liFyh-0007DP-Ul
- for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:39 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:39929)
+ id 1liFyi-0007E5-6f
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:40 -0400
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:38492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liFyf-0007hG-1b
+ id 1liFyg-0007hU-1F
  for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:39 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id f8so3012693qth.6
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 05:34:36 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id h21so3018221qtu.5
+ for <qemu-devel@nongnu.org>; Sun, 16 May 2021 05:34:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WCooW+37Z0FxZm2Vga9KGLb5BfCR58QdDfT18gmnbx0=;
- b=ZeDISgmZHPvHyI1DWuDMQ6dhjakWxLPKfcGiem1eP6J8lJEiQUhi2zdW6oS49jpaoh
- rD4ZVb3x9zHlaH97Nd3rGjBIvfmIIvvEvFg1Gh63K1GN1QO70gym4x56EjYpgEt4LghK
- 94xCSqLz1ulbsvLDUf1JmXfZyEIKVGBjkyqTNl7ix7JpzzqUCp2eLgjIiA7hHpPYhVHX
- sWS/ax2/4JIlVBYDFOvhjgmMUXDngEqXT63xzX2DJarVAii/moLgmzNmYk3vd7W/SyL0
- aEJhHSkCrlLqwe4O4dUzXhlhmA2CnphjywYVk66a6/xO/JRvUK2/kEuzMTGRj8zJi0vk
- 8a/w==
+ bh=vInOL7n4fh0AFReF/5gQxfmHVQY38UqwnHgnHGBM/24=;
+ b=LuHn+Zh/6j8uHB575uNaPMh3bB9898hjP5KEJtRJk7WK9pk3sYfWBSxFoDaxfyHeRA
+ i03Sgct0IUDiJdqM3O6Qy4HfVCwNPjuk4MJLl7z4AE/CfvMX+KStChhWogO5DiMXepAy
+ A6Ox/GCUng1paWtYfAX/RAwR1Cx1Ecga3rcHjDGWgz/21ip4558tRykOrpOLyjPqZDge
+ xUSFSFoEuSH5ss28ybSvfpmTUkDk1Vd0U6aR/75tM+0q63LAuTDiamzIFmXWUougLZc2
+ 8FoVLaidWtbusw3Fuf7IvBQFz6DBS7T7vpiUxxLnMBjUTIjIja7Ts6ZWdq0LOVEV4emV
+ ghgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WCooW+37Z0FxZm2Vga9KGLb5BfCR58QdDfT18gmnbx0=;
- b=Kr79T1VMYJeZwjLpgeXmxHDrv/X2f2Mqa11o49Cn/vRYp48m39X7eRuCNp2RqyXbsu
- tCZo2MdMWarNB9IHgwaFYEWKuuJ45U1e8mQdLCrnhaVsp55JVF+OxSeAMUhPR+QKFoJa
- QUyDvN9S6FSVt5yWMGlrEka9piKS4nDAfk0bX/4LB7tO5KHZxBfRp3/jIqqWwztW/d0r
- PLfXJtK57amc1vYtGdSUuyHg7688dQtwPcKkqVqr36rpckbQoSLTUgU28rwkXsiGbF1i
- E5YbUuDwZYnce0u6WseEXYXE1FYvsKH24GEjcM/QaB8BbYavQ+GabrrLLMpIBAiDKLVi
- yJ/Q==
-X-Gm-Message-State: AOAM532TXdhIekadVVEPFkq+aSiZQXbyfqGh2qmWVY9mL/myfPWFpLZi
- wF9hMJnWRMUMuK/dvb18JEvznehmTEjMMRotK38=
-X-Google-Smtp-Source: ABdhPJw40qS2V77qSnmI5m39un9s4e5rIBdm2KRn9cMFm1JhoYFsBU6z0K/TDKrufpln1cengorigg==
-X-Received: by 2002:ac8:4750:: with SMTP id k16mr35381823qtp.13.1621168476251; 
- Sun, 16 May 2021 05:34:36 -0700 (PDT)
+ bh=vInOL7n4fh0AFReF/5gQxfmHVQY38UqwnHgnHGBM/24=;
+ b=RNmMnbPk7tgdv4zPsy+bX1qduhc/FQU9hRO2tKoYVn+S9hyzVPjSpR2eagnLmNw1E6
+ NWGZC6t4fHifwa85iXcrddak3gfJrXzRqZdJ8Zbgwq028Z3hQZOXA0stTwNOYHKqflB3
+ G66TT0YSDc/BHH3fWrimOvP3crcxcHaAC9IuLnhZVN8VJ6IlsvQ5+nDmn5o7+m3aue+a
+ Z6Tclki7+q7lzWAhtYGLQ+Yb4oWJI/kxI8YV7SbU8t2joWEOHscEGvCxCUMFFza/XHik
+ Lu9xOSVDMZ4hbMR/eGlnerkted7QCADTKd7Pdl/7Wr91Cz/xwNQFzTzUhwtHSsmyP12g
+ DcMQ==
+X-Gm-Message-State: AOAM533FbOMceZsI9qiuLM5VwKaAlhlHBDaVnP/mpGyhyImIl0lrHIv9
+ a2A39IIrblylK5vxQxHfpB1svj0njDYdGpS9JmU=
+X-Google-Smtp-Source: ABdhPJzM8ZWhAU3EAawrhvUSOcJn6P1cgP4lgx0Wfuvk55oOUGfcj0jYWmMbvEL2hslxfYVewagaig==
+X-Received: by 2002:a05:622a:11cd:: with SMTP id
+ n13mr24228803qtk.37.1621168477128; 
+ Sun, 16 May 2021 05:34:37 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id s5sm8500553qkg.88.2021.05.16.05.34.35
+ by smtp.gmail.com with ESMTPSA id s5sm8500553qkg.88.2021.05.16.05.34.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 16 May 2021 05:34:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/46] accel/tcg: Use add/sub overflow routines in
- tcg-runtime-gvec.c
-Date: Sun, 16 May 2021 07:33:49 -0500
-Message-Id: <20210516123431.718318-5-richard.henderson@linaro.org>
+Subject: [PULL 05/46] tests/fp: add quad support to the benchmark utility
+Date: Sun, 16 May 2021 07:33:50 -0500
+Message-Id: <20210516123431.718318-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210516123431.718318-1-richard.henderson@linaro.org>
 References: <20210516123431.718318-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,117 +87,227 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Obvious uses of the new functions.
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Currently this only support softfloat calculations because working out
+if the hardware supports 128 bit floats needs configure magic. The 3
+op muladd operation is currently unimplemented so commented out for
+now.
+
 Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20201020163738.27700-8-alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/tcg-runtime-gvec.c | 36 ++++++++++++++++--------------------
- 1 file changed, 16 insertions(+), 20 deletions(-)
+ tests/fp/fp-bench.c | 88 ++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 83 insertions(+), 5 deletions(-)
 
-diff --git a/accel/tcg/tcg-runtime-gvec.c b/accel/tcg/tcg-runtime-gvec.c
-index 521da4a813..ac7d28c251 100644
---- a/accel/tcg/tcg-runtime-gvec.c
-+++ b/accel/tcg/tcg-runtime-gvec.c
-@@ -1073,9 +1073,8 @@ void HELPER(gvec_ssadd32)(void *d, void *a, void *b, uint32_t desc)
-     for (i = 0; i < oprsz; i += sizeof(int32_t)) {
-         int32_t ai = *(int32_t *)(a + i);
-         int32_t bi = *(int32_t *)(b + i);
--        int32_t di = ai + bi;
--        if (((di ^ ai) &~ (ai ^ bi)) < 0) {
--            /* Signed overflow.  */
-+        int32_t di;
-+        if (sadd32_overflow(ai, bi, &di)) {
-             di = (di < 0 ? INT32_MAX : INT32_MIN);
+diff --git a/tests/fp/fp-bench.c b/tests/fp/fp-bench.c
+index 4ba5e1d2d4..d319993280 100644
+--- a/tests/fp/fp-bench.c
++++ b/tests/fp/fp-bench.c
+@@ -14,6 +14,7 @@
+ #include <math.h>
+ #include <fenv.h>
+ #include "qemu/timer.h"
++#include "qemu/int128.h"
+ #include "fpu/softfloat.h"
+ 
+ /* amortize the computation of random inputs */
+@@ -50,8 +51,10 @@ static const char * const op_names[] = {
+ enum precision {
+     PREC_SINGLE,
+     PREC_DOUBLE,
++    PREC_QUAD,
+     PREC_FLOAT32,
+     PREC_FLOAT64,
++    PREC_FLOAT128,
+     PREC_MAX_NR,
+ };
+ 
+@@ -89,6 +92,7 @@ union fp {
+     double d;
+     float32 f32;
+     float64 f64;
++    float128 f128;
+     uint64_t u64;
+ };
+ 
+@@ -113,6 +117,10 @@ struct op_desc {
+ static uint64_t random_ops[MAX_OPERANDS] = {
+     SEED_A, SEED_B, SEED_C,
+ };
++
++static float128 random_quad_ops[MAX_OPERANDS] = {
++    {SEED_A, SEED_B}, {SEED_B, SEED_C}, {SEED_C, SEED_A},
++};
+ static float_status soft_status;
+ static enum precision precision;
+ static enum op operation;
+@@ -141,25 +149,45 @@ static void update_random_ops(int n_ops, enum precision prec)
+     int i;
+ 
+     for (i = 0; i < n_ops; i++) {
+-        uint64_t r = random_ops[i];
+ 
+         switch (prec) {
+         case PREC_SINGLE:
+         case PREC_FLOAT32:
++        {
++            uint64_t r = random_ops[i];
+             do {
+                 r = xorshift64star(r);
+             } while (!float32_is_normal(r));
++            random_ops[i] = r;
+             break;
++        }
+         case PREC_DOUBLE:
+         case PREC_FLOAT64:
++        {
++            uint64_t r = random_ops[i];
+             do {
+                 r = xorshift64star(r);
+             } while (!float64_is_normal(r));
++            random_ops[i] = r;
+             break;
++        }
++        case PREC_QUAD:
++        case PREC_FLOAT128:
++        {
++            float128 r = random_quad_ops[i];
++            uint64_t hi = r.high;
++            uint64_t lo = r.low;
++            do {
++                hi = xorshift64star(hi);
++                lo = xorshift64star(lo);
++                r = make_float128(hi, lo);
++            } while (!float128_is_normal(r));
++            random_quad_ops[i] = r;
++            break;
++        }
+         default:
+             g_assert_not_reached();
          }
-         *(int32_t *)(d + i) = di;
-@@ -1091,9 +1090,8 @@ void HELPER(gvec_ssadd64)(void *d, void *a, void *b, uint32_t desc)
-     for (i = 0; i < oprsz; i += sizeof(int64_t)) {
-         int64_t ai = *(int64_t *)(a + i);
-         int64_t bi = *(int64_t *)(b + i);
--        int64_t di = ai + bi;
--        if (((di ^ ai) &~ (ai ^ bi)) < 0) {
--            /* Signed overflow.  */
-+        int64_t di;
-+        if (sadd64_overflow(ai, bi, &di)) {
-             di = (di < 0 ? INT64_MAX : INT64_MIN);
+-        random_ops[i] = r;
+     }
+ }
+ 
+@@ -184,6 +212,13 @@ static void fill_random(union fp *ops, int n_ops, enum precision prec,
+                 ops[i].f64 = float64_chs(ops[i].f64);
+             }
+             break;
++        case PREC_QUAD:
++        case PREC_FLOAT128:
++            ops[i].f128 = random_quad_ops[i];
++            if (no_neg && float128_is_neg(ops[i].f128)) {
++                ops[i].f128 = float128_chs(ops[i].f128);
++            }
++            break;
+         default:
+             g_assert_not_reached();
          }
-         *(int64_t *)(d + i) = di;
-@@ -1143,9 +1141,8 @@ void HELPER(gvec_sssub32)(void *d, void *a, void *b, uint32_t desc)
-     for (i = 0; i < oprsz; i += sizeof(int32_t)) {
-         int32_t ai = *(int32_t *)(a + i);
-         int32_t bi = *(int32_t *)(b + i);
--        int32_t di = ai - bi;
--        if (((di ^ ai) & (ai ^ bi)) < 0) {
--            /* Signed overflow.  */
-+        int32_t di;
-+        if (ssub32_overflow(ai, bi, &di)) {
-             di = (di < 0 ? INT32_MAX : INT32_MIN);
+@@ -345,6 +380,41 @@ static void bench(enum precision prec, enum op op, int n_ops, bool no_neg)
+                 }
+             }
+             break;
++        case PREC_FLOAT128:
++            fill_random(ops, n_ops, prec, no_neg);
++            t0 = get_clock();
++            for (i = 0; i < OPS_PER_ITER; i++) {
++                float128 a = ops[0].f128;
++                float128 b = ops[1].f128;
++                /* float128 c = ops[2].f128; */
++
++                switch (op) {
++                case OP_ADD:
++                    res.f128 = float128_add(a, b, &soft_status);
++                    break;
++                case OP_SUB:
++                    res.f128 = float128_sub(a, b, &soft_status);
++                    break;
++                case OP_MUL:
++                    res.f128 = float128_mul(a, b, &soft_status);
++                    break;
++                case OP_DIV:
++                    res.f128 = float128_div(a, b, &soft_status);
++                    break;
++                /* case OP_FMA: */
++                /*     res.f128 = float128_muladd(a, b, c, 0, &soft_status); */
++                /*     break; */
++                case OP_SQRT:
++                    res.f128 = float128_sqrt(a, &soft_status);
++                    break;
++                case OP_CMP:
++                    res.u64 = float128_compare_quiet(a, b, &soft_status);
++                    break;
++                default:
++                    g_assert_not_reached();
++                }
++            }
++            break;
+         default:
+             g_assert_not_reached();
          }
-         *(int32_t *)(d + i) = di;
-@@ -1161,9 +1158,8 @@ void HELPER(gvec_sssub64)(void *d, void *a, void *b, uint32_t desc)
-     for (i = 0; i < oprsz; i += sizeof(int64_t)) {
-         int64_t ai = *(int64_t *)(a + i);
-         int64_t bi = *(int64_t *)(b + i);
--        int64_t di = ai - bi;
--        if (((di ^ ai) & (ai ^ bi)) < 0) {
--            /* Signed overflow.  */
-+        int64_t di;
-+        if (ssub64_overflow(ai, bi, &di)) {
-             di = (di < 0 ? INT64_MAX : INT64_MIN);
+@@ -369,7 +439,8 @@ static void bench(enum precision prec, enum op op, int n_ops, bool no_neg)
+     GEN_BENCH(bench_ ## opname ## _float, float, PREC_SINGLE, op, n_ops) \
+     GEN_BENCH(bench_ ## opname ## _double, double, PREC_DOUBLE, op, n_ops) \
+     GEN_BENCH(bench_ ## opname ## _float32, float32, PREC_FLOAT32, op, n_ops) \
+-    GEN_BENCH(bench_ ## opname ## _float64, float64, PREC_FLOAT64, op, n_ops)
++    GEN_BENCH(bench_ ## opname ## _float64, float64, PREC_FLOAT64, op, n_ops) \
++    GEN_BENCH(bench_ ## opname ## _float128, float128, PREC_FLOAT128, op, n_ops)
+ 
+ GEN_BENCH_ALL_TYPES(add, OP_ADD, 2)
+ GEN_BENCH_ALL_TYPES(sub, OP_SUB, 2)
+@@ -383,7 +454,8 @@ GEN_BENCH_ALL_TYPES(cmp, OP_CMP, 2)
+     GEN_BENCH_NO_NEG(bench_ ## name ## _float, float, PREC_SINGLE, op, n) \
+     GEN_BENCH_NO_NEG(bench_ ## name ## _double, double, PREC_DOUBLE, op, n) \
+     GEN_BENCH_NO_NEG(bench_ ## name ## _float32, float32, PREC_FLOAT32, op, n) \
+-    GEN_BENCH_NO_NEG(bench_ ## name ## _float64, float64, PREC_FLOAT64, op, n)
++    GEN_BENCH_NO_NEG(bench_ ## name ## _float64, float64, PREC_FLOAT64, op, n) \
++    GEN_BENCH_NO_NEG(bench_ ## name ## _float128, float128, PREC_FLOAT128, op, n)
+ 
+ GEN_BENCH_ALL_TYPES_NO_NEG(sqrt, OP_SQRT, 1)
+ #undef GEN_BENCH_ALL_TYPES_NO_NEG
+@@ -397,6 +469,7 @@ GEN_BENCH_ALL_TYPES_NO_NEG(sqrt, OP_SQRT, 1)
+         [PREC_DOUBLE]    = bench_ ## opname ## _double,         \
+         [PREC_FLOAT32]   = bench_ ## opname ## _float32,        \
+         [PREC_FLOAT64]   = bench_ ## opname ## _float64,        \
++        [PREC_FLOAT128]   = bench_ ## opname ## _float128,      \
+     }
+ 
+ static const bench_func_t bench_funcs[OP_MAX_NR][PREC_MAX_NR] = {
+@@ -445,7 +518,7 @@ static void usage_complete(int argc, char *argv[])
+     fprintf(stderr, " -h = show this help message.\n");
+     fprintf(stderr, " -o = floating point operation (%s). Default: %s\n",
+             op_list, op_names[0]);
+-    fprintf(stderr, " -p = floating point precision (single, double). "
++    fprintf(stderr, " -p = floating point precision (single, double, quad[soft only]). "
+             "Default: single\n");
+     fprintf(stderr, " -r = rounding mode (even, zero, down, up, tieaway). "
+             "Default: even\n");
+@@ -565,6 +638,8 @@ static void parse_args(int argc, char *argv[])
+                 precision = PREC_SINGLE;
+             } else if (!strcmp(optarg, "double")) {
+                 precision = PREC_DOUBLE;
++            } else if (!strcmp(optarg, "quad")) {
++                precision = PREC_QUAD;
+             } else {
+                 fprintf(stderr, "Unsupported precision '%s'\n", optarg);
+                 exit(EXIT_FAILURE);
+@@ -608,6 +683,9 @@ static void parse_args(int argc, char *argv[])
+         case PREC_DOUBLE:
+             precision = PREC_FLOAT64;
+             break;
++        case PREC_QUAD:
++            precision = PREC_FLOAT128;
++            break;
+         default:
+             g_assert_not_reached();
          }
-         *(int64_t *)(d + i) = di;
-@@ -1209,8 +1205,8 @@ void HELPER(gvec_usadd32)(void *d, void *a, void *b, uint32_t desc)
-     for (i = 0; i < oprsz; i += sizeof(uint32_t)) {
-         uint32_t ai = *(uint32_t *)(a + i);
-         uint32_t bi = *(uint32_t *)(b + i);
--        uint32_t di = ai + bi;
--        if (di < ai) {
-+        uint32_t di;
-+        if (uadd32_overflow(ai, bi, &di)) {
-             di = UINT32_MAX;
-         }
-         *(uint32_t *)(d + i) = di;
-@@ -1226,8 +1222,8 @@ void HELPER(gvec_usadd64)(void *d, void *a, void *b, uint32_t desc)
-     for (i = 0; i < oprsz; i += sizeof(uint64_t)) {
-         uint64_t ai = *(uint64_t *)(a + i);
-         uint64_t bi = *(uint64_t *)(b + i);
--        uint64_t di = ai + bi;
--        if (di < ai) {
-+        uint64_t di;
-+        if (uadd64_overflow(ai, bi, &di)) {
-             di = UINT64_MAX;
-         }
-         *(uint64_t *)(d + i) = di;
-@@ -1273,8 +1269,8 @@ void HELPER(gvec_ussub32)(void *d, void *a, void *b, uint32_t desc)
-     for (i = 0; i < oprsz; i += sizeof(uint32_t)) {
-         uint32_t ai = *(uint32_t *)(a + i);
-         uint32_t bi = *(uint32_t *)(b + i);
--        uint32_t di = ai - bi;
--        if (ai < bi) {
-+        uint32_t di;
-+        if (usub32_overflow(ai, bi, &di)) {
-             di = 0;
-         }
-         *(uint32_t *)(d + i) = di;
-@@ -1290,8 +1286,8 @@ void HELPER(gvec_ussub64)(void *d, void *a, void *b, uint32_t desc)
-     for (i = 0; i < oprsz; i += sizeof(uint64_t)) {
-         uint64_t ai = *(uint64_t *)(a + i);
-         uint64_t bi = *(uint64_t *)(b + i);
--        uint64_t di = ai - bi;
--        if (ai < bi) {
-+        uint64_t di;
-+        if (usub64_overflow(ai, bi, &di)) {
-             di = 0;
-         }
-         *(uint64_t *)(d + i) = di;
 -- 
 2.25.1
 
