@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDA8381ECF
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 14:38:15 +0200 (CEST)
-Received: from localhost ([::1]:56222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE214381ED6
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 14:43:13 +0200 (CEST)
+Received: from localhost ([::1]:44796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liG2A-0001ZQ-RO
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 08:38:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42864)
+	id 1liG6x-0004Vi-Qy
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 08:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liFyf-0007AE-TI
- for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:37 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:33474)
+ id 1liFyg-0007AV-9S
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:38 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:46726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liFyd-0007eE-Mb
- for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:37 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id 1so3064356qtb.0
+ id 1liFye-0007ek-7L
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:38 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id m13so2984626qtk.13
  for <qemu-devel@nongnu.org>; Sun, 16 May 2021 05:34:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OE2SstHOUvTaOB7/8Q/5yQQrmi158aC82gRKPD2FhoE=;
- b=kPNiJRzhk+sovRDgHbL6uu63EJEDCdMIzQciMV06SxACz+0WGoNLpPUm2G8FHl9hin
- ywolksV6FujM1lUgxlJiP++HpTnsoFm5v3QCURmD4lY4yxi5B2fgzoA8wB79RpdmY8mT
- TqljV15UBIuC9nGnda414ehMgDzNW78HFE0D7os7zPEEKypdLKKT+YaO31/Racv1suGl
- f/H+DjXD0f+tBYhDgMkCRbOwvlpQMyZ9xe2IXqMRmJFU9Q3ANaJw9mVWkbwxKw61Oav6
- D8a/G0rm6IUT3wa5h/wiG16DFayRzWICqNPFw8WmyjG/KMX7u7n2wPDVwcY50M4AwqXd
- UcTA==
+ bh=lkUZA1QUxVx6D7Ez3r9MoCYNO26DmbAtxbxbzUkDVlw=;
+ b=hGbSRJ4crDBrGo4NCYcjMQiD1/31bqIEEXSbIidbCwupwSKzlzOOhrkFRFkccAYvfs
+ RCbns5KcpwCFYRekEQxJqsAU6NTZ8EartV33lRhigdVI6pqimsP7CgKXgkbZ7WEQKaJF
+ 860vV1QkgVZD0KDqF9Pm8L/CGJc5ATTcp3xF4MV/9xUk8eFg31Y6OHO3PBiaHIKBYb3r
+ 8ChkafloMVdp1pU0CG0tOs+/1dlBvYRFDSO1a3RtPHLVvM3/LpMr1CxWBSn/7X3sC2/5
+ euw6/e9usJajCdY63j+V8iPHPPDctSkOug2Vzq/Y51buc0yWRrmhbKc4rKucIjZqWnqA
+ M7sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OE2SstHOUvTaOB7/8Q/5yQQrmi158aC82gRKPD2FhoE=;
- b=Z5cV728pQ659YHJBeH+fWtN4iQVV8kpbfpsV6PSMv8DGPiFEEV9z+ZulqvPlUq/eXo
- MU1ReUY21knk0sEQbAS5sv75cI4ZenFZnWz3tckhRClPedEFCFALU7s54f0t1luKexZN
- AXTWWp0Pa9ENT9S9dl5rsKlP1DiL5W+zxaHWG6DbvC9uwQwORPaz4oTpldkEJ1wZyOnH
- 2C3jYrpUnVcplX6spTnC2f/sH1LALvd1cJ7FUZ03orQfH06Zz7jAcnmlL8ENaXF5TymG
- FyKvxBHZ/FjUGuMXq7y2Jnzk9JvYZk0KYa8mxvpYQKGkZcxMKtTEC/AgvxKNA67eM6bU
- yRIQ==
-X-Gm-Message-State: AOAM530JKWBfmvi8s+8t8sjmLQSOj6qp6OkrkZgtqcC1vxqLLIn9jVJQ
- TWFs56AAZ3FpNRZVh+jyPLvJtF1C44FpTtDCyWs=
-X-Google-Smtp-Source: ABdhPJzyAELMkBj4UWMKsx4nQ2G2VLdV8R0kOhoTGhrGL/kumm9+dR4rEq3kGaOy/QljDxiX1End2Q==
-X-Received: by 2002:ac8:5553:: with SMTP id o19mr5071609qtr.308.1621168474469; 
- Sun, 16 May 2021 05:34:34 -0700 (PDT)
+ bh=lkUZA1QUxVx6D7Ez3r9MoCYNO26DmbAtxbxbzUkDVlw=;
+ b=uETi8TUu3U+pONe1saRdmbYn8qLpBxl7ZdunfXFqHaZEB9mJNU7I7IE3jKbJn5MLoa
+ B2UqEnEGKl0QD8PUS/zMNod39CZbouMs9ppGuzRkqK0Vgi4yPYYXnXa2p+cT497ypDDh
+ TbKyOePhjqLcjcx0novOR1XRIic/JxaIyNWSC+W5TYEg/gziiKvto/aggUxstdiaiLzK
+ mLH8vfXHqodVxJBlJwrLd4EsvlTarN3lHH/76NH0Yo2bGV/5Ffm4ONipnU2MK8PM0L6O
+ d2Hb17xPnb8cDafbWxBsvwnPkdPqw9oMt75hmnIyqg/Sv53UgnZ4C1UOQMA0G+zRZ4+r
+ r8Tw==
+X-Gm-Message-State: AOAM531JPx3ziOjzAvsWYI9XGngF0SaT5JkzMkRqbJ5MixCiBHKHK4R9
+ EBF0NrECgKv5Phr8pEusuGyCWgackTfLTBtlnPU=
+X-Google-Smtp-Source: ABdhPJysmZO5q+IWy8ZGqNG3RZ0tWYNX4uwZRrOC62t41Ez6pSCv6vRV4wIiwXJBT9fHm2VFrxQUTA==
+X-Received: by 2002:ac8:450c:: with SMTP id q12mr9538723qtn.327.1621168475296; 
+ Sun, 16 May 2021 05:34:35 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id s5sm8500553qkg.88.2021.05.16.05.34.33
+ by smtp.gmail.com with ESMTPSA id s5sm8500553qkg.88.2021.05.16.05.34.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 May 2021 05:34:34 -0700 (PDT)
+ Sun, 16 May 2021 05:34:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/46] qemu/host-utils: Add wrappers for overflow builtins
-Date: Sun, 16 May 2021 07:33:47 -0500
-Message-Id: <20210516123431.718318-3-richard.henderson@linaro.org>
+Subject: [PULL 03/46] qemu/host-utils: Add wrappers for carry builtins
+Date: Sun, 16 May 2021 07:33:48 -0500
+Message-Id: <20210516123431.718318-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210516123431.718318-1-richard.henderson@linaro.org>
 References: <20210516123431.718318-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,245 +89,78 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These builtins came in with gcc 5 and clang 3.8, which are
-slightly newer than our supported minimum compiler versions.
+These builtins came in clang 3.8, but are not present in gcc through
+version 11.  Even in clang the optimization is only ideal on x86_64,
+but never worse than the hand-coding that we currently do.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/host-utils.h | 225 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 225 insertions(+)
+ include/qemu/host-utils.h | 50 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
 diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index f1e52851e0..cb95626c7d 100644
+index cb95626c7d..711b221704 100644
 --- a/include/qemu/host-utils.h
 +++ b/include/qemu/host-utils.h
-@@ -356,6 +356,231 @@ static inline uint64_t revbit64(uint64_t x)
+@@ -26,6 +26,7 @@
+ #ifndef HOST_UTILS_H
+ #define HOST_UTILS_H
+ 
++#include "qemu/compiler.h"
+ #include "qemu/bswap.h"
+ 
+ #ifdef CONFIG_INT128
+@@ -581,6 +582,55 @@ static inline bool umul64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
  #endif
  }
  
 +/**
-+ * sadd32_overflow - addition with overflow indication
++ * uadd64_carry - addition with carry-in and carry-out
 + * @x, @y: addends
-+ * @ret: Output for sum
++ * @pcarry: in-out carry value
 + *
-+ * Computes *@ret = @x + @y, and returns true if and only if that
-+ * value has been truncated.
++ * Computes @x + @y + *@pcarry, placing the carry-out back
++ * into *@pcarry and returning the 64-bit sum.
 + */
-+static inline bool sadd32_overflow(int32_t x, int32_t y, int32_t *ret)
++static inline uint64_t uadd64_carry(uint64_t x, uint64_t y, bool *pcarry)
 +{
-+#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
-+    return __builtin_add_overflow(x, y, ret);
++#if __has_builtin(__builtin_addcll)
++    unsigned long long c = *pcarry;
++    x = __builtin_addcll(x, y, c, &c);
++    *pcarry = c & 1;
++    return x;
 +#else
-+    *ret = x + y;
-+    return ((*ret ^ x) & ~(x ^ y)) < 0;
++    bool c = *pcarry;
++    /* This is clang's internal expansion of __builtin_addc. */
++    c = uadd64_overflow(x, c, &x);
++    c |= uadd64_overflow(x, y, &x);
++    *pcarry = c;
++    return x;
 +#endif
 +}
 +
 +/**
-+ * sadd64_overflow - addition with overflow indication
++ * usub64_borrow - subtraction with borrow-in and borrow-out
 + * @x, @y: addends
-+ * @ret: Output for sum
++ * @pborrow: in-out borrow value
 + *
-+ * Computes *@ret = @x + @y, and returns true if and only if that
-+ * value has been truncated.
++ * Computes @x - @y - *@pborrow, placing the borrow-out back
++ * into *@pborrow and returning the 64-bit sum.
 + */
-+static inline bool sadd64_overflow(int64_t x, int64_t y, int64_t *ret)
++static inline uint64_t usub64_borrow(uint64_t x, uint64_t y, bool *pborrow)
 +{
-+#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
-+    return __builtin_add_overflow(x, y, ret);
++#if __has_builtin(__builtin_subcll)
++    unsigned long long b = *pborrow;
++    x = __builtin_subcll(x, y, b, &b);
++    *pborrow = b & 1;
++    return x;
 +#else
-+    *ret = x + y;
-+    return ((*ret ^ x) & ~(x ^ y)) < 0;
-+#endif
-+}
-+
-+/**
-+ * uadd32_overflow - addition with overflow indication
-+ * @x, @y: addends
-+ * @ret: Output for sum
-+ *
-+ * Computes *@ret = @x + @y, and returns true if and only if that
-+ * value has been truncated.
-+ */
-+static inline bool uadd32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
-+{
-+#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
-+    return __builtin_add_overflow(x, y, ret);
-+#else
-+    *ret = x + y;
-+    return *ret < x;
-+#endif
-+}
-+
-+/**
-+ * uadd64_overflow - addition with overflow indication
-+ * @x, @y: addends
-+ * @ret: Output for sum
-+ *
-+ * Computes *@ret = @x + @y, and returns true if and only if that
-+ * value has been truncated.
-+ */
-+static inline bool uadd64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
-+{
-+#if __has_builtin(__builtin_add_overflow) || __GNUC__ >= 5
-+    return __builtin_add_overflow(x, y, ret);
-+#else
-+    *ret = x + y;
-+    return *ret < x;
-+#endif
-+}
-+
-+/**
-+ * ssub32_overflow - subtraction with overflow indication
-+ * @x: Minuend
-+ * @y: Subtrahend
-+ * @ret: Output for difference
-+ *
-+ * Computes *@ret = @x - @y, and returns true if and only if that
-+ * value has been truncated.
-+ */
-+static inline bool ssub32_overflow(int32_t x, int32_t y, int32_t *ret)
-+{
-+#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
-+    return __builtin_sub_overflow(x, y, ret);
-+#else
-+    *ret = x - y;
-+    return ((*ret ^ x) & (x ^ y)) < 0;
-+#endif
-+}
-+
-+/**
-+ * ssub64_overflow - subtraction with overflow indication
-+ * @x: Minuend
-+ * @y: Subtrahend
-+ * @ret: Output for sum
-+ *
-+ * Computes *@ret = @x - @y, and returns true if and only if that
-+ * value has been truncated.
-+ */
-+static inline bool ssub64_overflow(int64_t x, int64_t y, int64_t *ret)
-+{
-+#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
-+    return __builtin_sub_overflow(x, y, ret);
-+#else
-+    *ret = x - y;
-+    return ((*ret ^ x) & (x ^ y)) < 0;
-+#endif
-+}
-+
-+/**
-+ * usub32_overflow - subtraction with overflow indication
-+ * @x: Minuend
-+ * @y: Subtrahend
-+ * @ret: Output for sum
-+ *
-+ * Computes *@ret = @x - @y, and returns true if and only if that
-+ * value has been truncated.
-+ */
-+static inline bool usub32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
-+{
-+#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
-+    return __builtin_sub_overflow(x, y, ret);
-+#else
-+    *ret = x - y;
-+    return x < y;
-+#endif
-+}
-+
-+/**
-+ * usub64_overflow - subtraction with overflow indication
-+ * @x: Minuend
-+ * @y: Subtrahend
-+ * @ret: Output for sum
-+ *
-+ * Computes *@ret = @x - @y, and returns true if and only if that
-+ * value has been truncated.
-+ */
-+static inline bool usub64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
-+{
-+#if __has_builtin(__builtin_sub_overflow) || __GNUC__ >= 5
-+    return __builtin_sub_overflow(x, y, ret);
-+#else
-+    *ret = x - y;
-+    return x < y;
-+#endif
-+}
-+
-+/**
-+ * smul32_overflow - multiplication with overflow indication
-+ * @x, @y: Input multipliers
-+ * @ret: Output for product
-+ *
-+ * Computes *@ret = @x * @y, and returns true if and only if that
-+ * value has been truncated.
-+ */
-+static inline bool smul32_overflow(int32_t x, int32_t y, int32_t *ret)
-+{
-+#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
-+    return __builtin_mul_overflow(x, y, ret);
-+#else
-+    int64_t z = (int64_t)x * y;
-+    *ret = z;
-+    return *ret != z;
-+#endif
-+}
-+
-+/**
-+ * smul64_overflow - multiplication with overflow indication
-+ * @x, @y: Input multipliers
-+ * @ret: Output for product
-+ *
-+ * Computes *@ret = @x * @y, and returns true if and only if that
-+ * value has been truncated.
-+ */
-+static inline bool smul64_overflow(int64_t x, int64_t y, int64_t *ret)
-+{
-+#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
-+    return __builtin_mul_overflow(x, y, ret);
-+#else
-+    uint64_t hi, lo;
-+    muls64(&lo, &hi, x, y);
-+    *ret = lo;
-+    return hi != ((int64_t)lo >> 63);
-+#endif
-+}
-+
-+/**
-+ * umul32_overflow - multiplication with overflow indication
-+ * @x, @y: Input multipliers
-+ * @ret: Output for product
-+ *
-+ * Computes *@ret = @x * @y, and returns true if and only if that
-+ * value has been truncated.
-+ */
-+static inline bool umul32_overflow(uint32_t x, uint32_t y, uint32_t *ret)
-+{
-+#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
-+    return __builtin_mul_overflow(x, y, ret);
-+#else
-+    uint64_t z = (uint64_t)x * y;
-+    *ret = z;
-+    return z > UINT32_MAX;
-+#endif
-+}
-+
-+/**
-+ * umul64_overflow - multiplication with overflow indication
-+ * @x, @y: Input multipliers
-+ * @ret: Output for product
-+ *
-+ * Computes *@ret = @x * @y, and returns true if and only if that
-+ * value has been truncated.
-+ */
-+static inline bool umul64_overflow(uint64_t x, uint64_t y, uint64_t *ret)
-+{
-+#if __has_builtin(__builtin_mul_overflow) || __GNUC__ >= 5
-+    return __builtin_mul_overflow(x, y, ret);
-+#else
-+    uint64_t hi;
-+    mulu64(ret, &hi, x, y);
-+    return hi != 0;
++    bool b = *pborrow;
++    b = usub64_overflow(x, b, &x);
++    b |= usub64_overflow(x, y, &x);
++    *pborrow = b;
++    return x;
 +#endif
 +}
 +
