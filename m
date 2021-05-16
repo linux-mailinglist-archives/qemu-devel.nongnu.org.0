@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8699381EFC
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 15:05:30 +0200 (CEST)
-Received: from localhost ([::1]:48746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFEC381F01
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 15:08:40 +0200 (CEST)
+Received: from localhost ([::1]:33438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liGSX-0003RL-Q8
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 09:05:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43466)
+	id 1liGVb-0003eI-Mk
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 09:08:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liFzc-0007to-PK
- for qemu-devel@nongnu.org; Sun, 16 May 2021 08:35:36 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:43934)
+ id 1liFzb-0007qQ-KP
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 08:35:35 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:36452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liFz7-0007r5-Cj
- for qemu-devel@nongnu.org; Sun, 16 May 2021 08:35:36 -0400
-Received: by mail-qk1-x736.google.com with SMTP id a22so3279117qkl.10
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 05:35:03 -0700 (PDT)
+ id 1liFz7-0007rj-Bc
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 08:35:35 -0400
+Received: by mail-qk1-x729.google.com with SMTP id c20so3322063qkm.3
+ for <qemu-devel@nongnu.org>; Sun, 16 May 2021 05:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h63JB+Xfo4tZfImqzyHHosgnDSTAKuqJZje3Qt5e7Rg=;
- b=Vt1pPGIM8nIN8AwQVN2s8p1fZVOhrgjP7dRgEKDSuBacVv56L/PQp8o3/jcFR05VAd
- YpKx2K/oy20SfjprTPqqqVeDohqSY6iyaQHdSkq6jzZGffIVSlfEGT4jq7MKZGDF4PFZ
- F5nCejZKa+Cg6Q0lwf1X0igGLR+JtVkU2fcJstRgVvq/+6eLyM8GXus+x2wbbyf3WM8K
- PFa2ztm2zGmVOLcpQ/L3G6Vwl3ihr43jC7hnneRnYphFs2nSe0EgL8Vzs8mBi4/QlCqn
- O7+7EDtdkP7JRNzdgOCbKTQC7MsMXnfjJyPKyBIuY8YVvM8IEQxeSvM6gwrk8hYN5yvu
- DESA==
+ bh=RndXytbTpyoZf87SoTBz0zxUXITxwgpEDPn6NB45UNI=;
+ b=Iyvgq1tZ+Wc/X3y9EH47MrrlnfZrHPU64rQ7pY94+3Nc0wQo2ccTHg6hSLcLSs3/zL
+ 4Z7fIhuZwZN5oa/PB0ttML1tVdBF125qddRGssIEXS4IIJAguAQyvbl4cPRopt5ZWuQQ
+ ucQAvz5a9tYRdYK8x36Xq+aV993J/ZAgpaBqTHtL3mPSKHdwHacTRUXdlPiDsm9PSHvE
+ Evw45OlpJWPPgG6Fv8KZt2CIwCKwKjDGQXwORWNan7juohfmR280uImstyDjdoBl8rY0
+ Jb9iA7ZPmvhl5uGKAToKVLi/jQIxKmiIpvTO1dLPZG90DALoyLIYqRmypSBFDC0YpQEb
+ jODQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h63JB+Xfo4tZfImqzyHHosgnDSTAKuqJZje3Qt5e7Rg=;
- b=tkCojFnjE47+gCxak/Ivr6EtsrA35hORKoT4R1lMfLMbi09wV4x3q4sl1U/0lnd5mx
- D0gIFomaKPjxzPdbDKvde6jl2a9O5NpTPSSrOK5sjKntyWiHnwuxSMdpjNLhsoGHfnZH
- 3xBFa13jmckZ8YBF0sor5GWcFB/rSCORTmDzwpyDBRlIwM9To5NrIFooMM/ZUEXTC+8d
- O60VWj1dISe11OLtfo1efrF4LPQ4Zp24vjIiQmNbQ3Mov9Cv6HhsekleaSl0Syb4nuIT
- /q7XXvQD6yfn8qHS6JJUH47wNvunaPSiPyZ2QD9PMnOy+UJElPZmzySwp5ulrXRRgLA/
- TvVg==
-X-Gm-Message-State: AOAM530HT448jbYXz2DL1JH+6R9T5i9cDRdalBfiL6o8QBa4xX0zJwFk
- xnhtmfW3mww9Aik2mxupYozsbKto9uzEHtGj9WY=
-X-Google-Smtp-Source: ABdhPJyaz+54RHgWlFx6djNriQNYNpnFs5d0dLzF9Gjl4RU+D/CCxfwJq8lZ7nKDOLLleh7BIlhOSQ==
-X-Received: by 2002:a05:620a:12b6:: with SMTP id
- x22mr52308670qki.97.1621168503103; 
- Sun, 16 May 2021 05:35:03 -0700 (PDT)
+ bh=RndXytbTpyoZf87SoTBz0zxUXITxwgpEDPn6NB45UNI=;
+ b=sgcBEC8lpy47CHSL6k4YjFq7+lpni6/g5QBO3w5lC6rZyQciMa/O1HpNMTTewjewkT
+ WnNAfQ6kZVtwEzc3XYB35Oj9fCbkXplZ/LvYvjaBIOPDsl5wSyNBam85BWIsonGPwtvT
+ F0RtTNWYwmNYuIqKTcfGrgSO72htytvMkB3Gr43LlOx3hzNL22QuX1QOv2wxtRiS1lio
+ L+ieUz1uviYs9fmxdPwaPc36wXq0YVQc8BsMGW8eGYHy1Dakn6njGE0JeOR0PgYwiRKM
+ DdMn/hiq2n7CECInVjoZ8MFsBmnJYqTFU6cRmFx7MW3Ecj1F6DDK6Q4xmakPy0zL99QX
+ x9TA==
+X-Gm-Message-State: AOAM530a4ybcaXbmDcNyU1uDwU1/hxUKkuMg9DqVRJ0M7R8Nxxg17u9z
+ Q/8431mNDK4KXU+UTgc0I9DH2dUzak3uNZuQvkQ=
+X-Google-Smtp-Source: ABdhPJwEUjEr1XBxA3GZoz7BvcbcP+aDRF2Ohj8eR8BqPJKnmErvKrZqBokuOJyEl27X+9pLfL9LTA==
+X-Received: by 2002:a37:a3d7:: with SMTP id
+ m206mr51287967qke.343.1621168504040; 
+ Sun, 16 May 2021 05:35:04 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id s5sm8500553qkg.88.2021.05.16.05.35.02
+ by smtp.gmail.com with ESMTPSA id s5sm8500553qkg.88.2021.05.16.05.35.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 May 2021 05:35:02 -0700 (PDT)
+ Sun, 16 May 2021 05:35:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/46] softfloat: Move muladd_floats to softfloat-parts.c.inc
-Date: Sun, 16 May 2021 07:34:22 -0500
-Message-Id: <20210516123431.718318-38-richard.henderson@linaro.org>
+Subject: [PULL 38/46] softfloat: Use mulu64 for mul64To128
+Date: Sun, 16 May 2021 07:34:23 -0500
+Message-Id: <20210516123431.718318-39-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210516123431.718318-1-richard.henderson@linaro.org>
 References: <20210516123431.718318-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x736.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x729.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,780 +86,56 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename to parts$N_muladd.
-Implement float128_muladd with FloatParts128.
+Via host-utils.h, we use a host widening multiply for
+64-bit hosts, and a common subroutine for 32-bit hosts.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/fpu/softfloat.h   |   2 +
- fpu/softfloat.c           | 406 ++++++++++++++++++--------------------
- tests/fp/fp-bench.c       |   8 +-
- tests/fp/fp-test.c        |   2 +-
- fpu/softfloat-parts.c.inc | 126 ++++++++++++
- tests/fp/wrap.c.inc       |  12 ++
- 6 files changed, 342 insertions(+), 214 deletions(-)
+ include/fpu/softfloat-macros.h | 23 +++--------------------
+ 1 file changed, 3 insertions(+), 20 deletions(-)
 
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 019c2ec66d..53f2c2ea3c 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -1197,6 +1197,8 @@ float128 float128_round_to_int(float128, float_status *status);
- float128 float128_add(float128, float128, float_status *status);
- float128 float128_sub(float128, float128, float_status *status);
- float128 float128_mul(float128, float128, float_status *status);
-+float128 float128_muladd(float128, float128, float128, int,
-+                         float_status *status);
- float128 float128_div(float128, float128, float_status *status);
- float128 float128_rem(float128, float128, float_status *status);
- float128 float128_sqrt(float128, float_status *status);
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index ac7959557c..571309e74f 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -716,6 +716,10 @@ static float128 float128_pack_raw(const FloatParts128 *p)
- #define PARTS_GENERIC_64_128(NAME, P) \
-     QEMU_GENERIC(P, (FloatParts128 *, parts128_##NAME), parts64_##NAME)
+diff --git a/include/fpu/softfloat-macros.h b/include/fpu/softfloat-macros.h
+index 2e3760a9c1..f6dfbe108d 100644
+--- a/include/fpu/softfloat-macros.h
++++ b/include/fpu/softfloat-macros.h
+@@ -470,27 +470,10 @@ static inline void sub192(uint64_t a0, uint64_t a1, uint64_t a2,
+ | `z0Ptr' and `z1Ptr'.
+ *----------------------------------------------------------------------------*/
  
-+#define PARTS_GENERIC_64_128_256(NAME, P) \
-+    QEMU_GENERIC(P, (FloatParts256 *, parts256_##NAME), \
-+                 (FloatParts128 *, parts128_##NAME), parts64_##NAME)
-+
- #define parts_default_nan(P, S)    PARTS_GENERIC_64_128(default_nan, P)(P, S)
- #define parts_silence_nan(P, S)    PARTS_GENERIC_64_128(silence_nan, P)(P, S)
- 
-@@ -761,15 +765,17 @@ static void parts128_uncanon(FloatParts128 *p, float_status *status,
- 
- static void parts64_add_normal(FloatParts64 *a, FloatParts64 *b);
- static void parts128_add_normal(FloatParts128 *a, FloatParts128 *b);
-+static void parts256_add_normal(FloatParts256 *a, FloatParts256 *b);
- 
- #define parts_add_normal(A, B) \
--    PARTS_GENERIC_64_128(add_normal, A)(A, B)
-+    PARTS_GENERIC_64_128_256(add_normal, A)(A, B)
- 
- static bool parts64_sub_normal(FloatParts64 *a, FloatParts64 *b);
- static bool parts128_sub_normal(FloatParts128 *a, FloatParts128 *b);
-+static bool parts256_sub_normal(FloatParts256 *a, FloatParts256 *b);
- 
- #define parts_sub_normal(A, B) \
--    PARTS_GENERIC_64_128(sub_normal, A)(A, B)
-+    PARTS_GENERIC_64_128_256(sub_normal, A)(A, B)
- 
- static FloatParts64 *parts64_addsub(FloatParts64 *a, FloatParts64 *b,
-                                     float_status *s, bool subtract);
-@@ -787,6 +793,16 @@ static FloatParts128 *parts128_mul(FloatParts128 *a, FloatParts128 *b,
- #define parts_mul(A, B, S) \
-     PARTS_GENERIC_64_128(mul, A)(A, B, S)
- 
-+static FloatParts64 *parts64_muladd(FloatParts64 *a, FloatParts64 *b,
-+                                    FloatParts64 *c, int flags,
-+                                    float_status *s);
-+static FloatParts128 *parts128_muladd(FloatParts128 *a, FloatParts128 *b,
-+                                      FloatParts128 *c, int flags,
-+                                      float_status *s);
-+
-+#define parts_muladd(A, B, C, Z, S) \
-+    PARTS_GENERIC_64_128(muladd, A)(A, B, C, Z, S)
-+
- /*
-  * Helper functions for softfloat-parts.c.inc, per-size operations.
-  */
-@@ -794,6 +810,10 @@ static FloatParts128 *parts128_mul(FloatParts128 *a, FloatParts128 *b,
- #define FRAC_GENERIC_64_128(NAME, P) \
-     QEMU_GENERIC(P, (FloatParts128 *, frac128_##NAME), frac64_##NAME)
- 
-+#define FRAC_GENERIC_64_128_256(NAME, P) \
-+    QEMU_GENERIC(P, (FloatParts256 *, frac256_##NAME), \
-+                 (FloatParts128 *, frac128_##NAME), frac64_##NAME)
-+
- static bool frac64_add(FloatParts64 *r, FloatParts64 *a, FloatParts64 *b)
+-static inline void mul64To128( uint64_t a, uint64_t b, uint64_t *z0Ptr, uint64_t *z1Ptr )
++static inline void
++mul64To128(uint64_t a, uint64_t b, uint64_t *z0Ptr, uint64_t *z1Ptr)
  {
-     return uadd64_overflow(a->frac, b->frac, &r->frac);
-@@ -807,7 +827,17 @@ static bool frac128_add(FloatParts128 *r, FloatParts128 *a, FloatParts128 *b)
-     return c;
+-    uint32_t aHigh, aLow, bHigh, bLow;
+-    uint64_t z0, zMiddleA, zMiddleB, z1;
+-
+-    aLow = a;
+-    aHigh = a>>32;
+-    bLow = b;
+-    bHigh = b>>32;
+-    z1 = ( (uint64_t) aLow ) * bLow;
+-    zMiddleA = ( (uint64_t) aLow ) * bHigh;
+-    zMiddleB = ( (uint64_t) aHigh ) * bLow;
+-    z0 = ( (uint64_t) aHigh ) * bHigh;
+-    zMiddleA += zMiddleB;
+-    z0 += ( ( (uint64_t) ( zMiddleA < zMiddleB ) )<<32 ) + ( zMiddleA>>32 );
+-    zMiddleA <<= 32;
+-    z1 += zMiddleA;
+-    z0 += ( z1 < zMiddleA );
+-    *z1Ptr = z1;
+-    *z0Ptr = z0;
+-
++    mulu64(z1Ptr, z0Ptr, a, b);
  }
  
--#define frac_add(R, A, B)  FRAC_GENERIC_64_128(add, R)(R, A, B)
-+static bool frac256_add(FloatParts256 *r, FloatParts256 *a, FloatParts256 *b)
-+{
-+    bool c = 0;
-+    r->frac_lo = uadd64_carry(a->frac_lo, b->frac_lo, &c);
-+    r->frac_lm = uadd64_carry(a->frac_lm, b->frac_lm, &c);
-+    r->frac_hm = uadd64_carry(a->frac_hm, b->frac_hm, &c);
-+    r->frac_hi = uadd64_carry(a->frac_hi, b->frac_hi, &c);
-+    return c;
-+}
-+
-+#define frac_add(R, A, B)  FRAC_GENERIC_64_128_256(add, R)(R, A, B)
- 
- static bool frac64_addi(FloatParts64 *r, FloatParts64 *a, uint64_t c)
- {
-@@ -902,7 +932,16 @@ static void frac128_neg(FloatParts128 *a)
-     a->frac_hi = usub64_borrow(0, a->frac_hi, &c);
- }
- 
--#define frac_neg(A)  FRAC_GENERIC_64_128(neg, A)(A)
-+static void frac256_neg(FloatParts256 *a)
-+{
-+    bool c = 0;
-+    a->frac_lo = usub64_borrow(0, a->frac_lo, &c);
-+    a->frac_lm = usub64_borrow(0, a->frac_lm, &c);
-+    a->frac_hm = usub64_borrow(0, a->frac_hm, &c);
-+    a->frac_hi = usub64_borrow(0, a->frac_hi, &c);
-+}
-+
-+#define frac_neg(A)  FRAC_GENERIC_64_128_256(neg, A)(A)
- 
- static int frac64_normalize(FloatParts64 *a)
- {
-@@ -933,7 +972,55 @@ static int frac128_normalize(FloatParts128 *a)
-     return 128;
- }
- 
--#define frac_normalize(A)  FRAC_GENERIC_64_128(normalize, A)(A)
-+static int frac256_normalize(FloatParts256 *a)
-+{
-+    uint64_t a0 = a->frac_hi, a1 = a->frac_hm;
-+    uint64_t a2 = a->frac_lm, a3 = a->frac_lo;
-+    int ret, shl, shr;
-+
-+    if (likely(a0)) {
-+        shl = clz64(a0);
-+        if (shl == 0) {
-+            return 0;
-+        }
-+        ret = shl;
-+    } else {
-+        if (a1) {
-+            ret = 64;
-+            a0 = a1, a1 = a2, a2 = a3, a3 = 0;
-+        } else if (a2) {
-+            ret = 128;
-+            a0 = a2, a1 = a3, a2 = 0, a3 = 0;
-+        } else if (a3) {
-+            ret = 192;
-+            a0 = a3, a1 = 0, a2 = 0, a3 = 0;
-+        } else {
-+            ret = 256;
-+            a0 = 0, a1 = 0, a2 = 0, a3 = 0;
-+            goto done;
-+        }
-+        shl = clz64(a0);
-+        if (shl == 0) {
-+            goto done;
-+        }
-+        ret += shl;
-+    }
-+
-+    shr = -shl & 63;
-+    a0 = (a0 << shl) | (a1 >> shr);
-+    a1 = (a1 << shl) | (a2 >> shr);
-+    a2 = (a2 << shl) | (a3 >> shr);
-+    a3 = (a3 << shl);
-+
-+ done:
-+    a->frac_hi = a0;
-+    a->frac_hm = a1;
-+    a->frac_lm = a2;
-+    a->frac_lo = a3;
-+    return ret;
-+}
-+
-+#define frac_normalize(A)  FRAC_GENERIC_64_128_256(normalize, A)(A)
- 
- static void frac64_shl(FloatParts64 *a, int c)
- {
-@@ -969,7 +1056,51 @@ static void frac128_shrjam(FloatParts128 *a, int c)
-     shift128RightJamming(a->frac_hi, a->frac_lo, c, &a->frac_hi, &a->frac_lo);
- }
- 
--#define frac_shrjam(A, C)  FRAC_GENERIC_64_128(shrjam, A)(A, C)
-+static void frac256_shrjam(FloatParts256 *a, int c)
-+{
-+    uint64_t a0 = a->frac_hi, a1 = a->frac_hm;
-+    uint64_t a2 = a->frac_lm, a3 = a->frac_lo;
-+    uint64_t sticky = 0;
-+    int invc;
-+
-+    if (unlikely(c == 0)) {
-+        return;
-+    } else if (likely(c < 64)) {
-+        /* nothing */
-+    } else if (likely(c < 256)) {
-+        if (unlikely(c & 128)) {
-+            sticky |= a2 | a3;
-+            a3 = a1, a2 = a0, a1 = 0, a0 = 0;
-+        }
-+        if (unlikely(c & 64)) {
-+            sticky |= a3;
-+            a3 = a2, a2 = a1, a1 = a0, a0 = 0;
-+        }
-+        c &= 63;
-+        if (c == 0) {
-+            goto done;
-+        }
-+    } else {
-+        sticky = a0 | a1 | a2 | a3;
-+        a0 = a1 = a2 = a3 = 0;
-+        goto done;
-+    }
-+
-+    invc = -c & 63;
-+    sticky |= a3 << invc;
-+    a3 = (a3 >> c) | (a2 << invc);
-+    a2 = (a2 >> c) | (a1 << invc);
-+    a1 = (a1 >> c) | (a0 << invc);
-+    a0 = (a0 >> c);
-+
-+ done:
-+    a->frac_lo = a3 | (sticky != 0);
-+    a->frac_lm = a2;
-+    a->frac_hm = a1;
-+    a->frac_hi = a0;
-+}
-+
-+#define frac_shrjam(A, C)  FRAC_GENERIC_64_128_256(shrjam, A)(A, C)
- 
- static bool frac64_sub(FloatParts64 *r, FloatParts64 *a, FloatParts64 *b)
- {
-@@ -984,7 +1115,17 @@ static bool frac128_sub(FloatParts128 *r, FloatParts128 *a, FloatParts128 *b)
-     return c;
- }
- 
--#define frac_sub(R, A, B)  FRAC_GENERIC_64_128(sub, R)(R, A, B)
-+static bool frac256_sub(FloatParts256 *r, FloatParts256 *a, FloatParts256 *b)
-+{
-+    bool c = 0;
-+    r->frac_lo = usub64_borrow(a->frac_lo, b->frac_lo, &c);
-+    r->frac_lm = usub64_borrow(a->frac_lm, b->frac_lm, &c);
-+    r->frac_hm = usub64_borrow(a->frac_hm, b->frac_hm, &c);
-+    r->frac_hi = usub64_borrow(a->frac_hi, b->frac_hi, &c);
-+    return c;
-+}
-+
-+#define frac_sub(R, A, B)  FRAC_GENERIC_64_128_256(sub, R)(R, A, B)
- 
- static void frac64_truncjam(FloatParts64 *r, FloatParts128 *a)
- {
-@@ -999,6 +1140,22 @@ static void frac128_truncjam(FloatParts128 *r, FloatParts256 *a)
- 
- #define frac_truncjam(R, A)  FRAC_GENERIC_64_128(truncjam, R)(R, A)
- 
-+static void frac64_widen(FloatParts128 *r, FloatParts64 *a)
-+{
-+    r->frac_hi = a->frac;
-+    r->frac_lo = 0;
-+}
-+
-+static void frac128_widen(FloatParts256 *r, FloatParts128 *a)
-+{
-+    r->frac_hi = a->frac_hi;
-+    r->frac_hm = a->frac_lo;
-+    r->frac_lm = 0;
-+    r->frac_lo = 0;
-+}
-+
-+#define frac_widen(A, B)  FRAC_GENERIC_64_128(widen, B)(A, B)
-+
- #define partsN(NAME)   glue(glue(glue(parts,N),_),NAME)
- #define FloatPartsN    glue(FloatParts,N)
- #define FloatPartsW    glue(FloatParts,W)
-@@ -1017,6 +1174,12 @@ static void frac128_truncjam(FloatParts128 *r, FloatParts256 *a)
- #include "softfloat-parts-addsub.c.inc"
- #include "softfloat-parts.c.inc"
- 
-+#undef  N
-+#undef  W
-+#define N            256
-+
-+#include "softfloat-parts-addsub.c.inc"
-+
- #undef  N
- #undef  W
- #undef  partsN
-@@ -1387,230 +1550,48 @@ float128_mul(float128 a, float128 b, float_status *status)
- }
- 
- /*
-- * Returns the result of multiplying the floating-point values `a' and
-- * `b' then adding 'c', with no intermediate rounding step after the
-- * multiplication. The operation is performed according to the
-- * IEC/IEEE Standard for Binary Floating-Point Arithmetic 754-2008.
-- * The flags argument allows the caller to select negation of the
-- * addend, the intermediate product, or the final result. (The
-- * difference between this and having the caller do a separate
-- * negation is that negating externally will flip the sign bit on
-- * NaNs.)
-+ * Fused multiply-add
-  */
- 
--static FloatParts64 muladd_floats(FloatParts64 a, FloatParts64 b, FloatParts64 c,
--                                int flags, float_status *s)
--{
--    bool inf_zero, p_sign;
--    bool sign_flip = flags & float_muladd_negate_result;
--    FloatClass p_class;
--    uint64_t hi, lo;
--    int p_exp;
--    int ab_mask, abc_mask;
--
--    ab_mask = float_cmask(a.cls) | float_cmask(b.cls);
--    abc_mask = float_cmask(c.cls) | ab_mask;
--    inf_zero = ab_mask == float_cmask_infzero;
--
--    /* It is implementation-defined whether the cases of (0,inf,qnan)
--     * and (inf,0,qnan) raise InvalidOperation or not (and what QNaN
--     * they return if they do), so we have to hand this information
--     * off to the target-specific pick-a-NaN routine.
--     */
--    if (unlikely(abc_mask & float_cmask_anynan)) {
--        return *parts_pick_nan_muladd(&a, &b, &c, s, ab_mask, abc_mask);
--    }
--
--    if (inf_zero) {
--        float_raise(float_flag_invalid, s);
--        parts_default_nan(&a, s);
--        return a;
--    }
--
--    if (flags & float_muladd_negate_c) {
--        c.sign ^= 1;
--    }
--
--    p_sign = a.sign ^ b.sign;
--
--    if (flags & float_muladd_negate_product) {
--        p_sign ^= 1;
--    }
--
--    if (ab_mask & float_cmask_inf) {
--        p_class = float_class_inf;
--    } else if (ab_mask & float_cmask_zero) {
--        p_class = float_class_zero;
--    } else {
--        p_class = float_class_normal;
--    }
--
--    if (c.cls == float_class_inf) {
--        if (p_class == float_class_inf && p_sign != c.sign) {
--            float_raise(float_flag_invalid, s);
--            parts_default_nan(&c, s);
--        } else {
--            c.sign ^= sign_flip;
--        }
--        return c;
--    }
--
--    if (p_class == float_class_inf) {
--        a.cls = float_class_inf;
--        a.sign = p_sign ^ sign_flip;
--        return a;
--    }
--
--    if (p_class == float_class_zero) {
--        if (c.cls == float_class_zero) {
--            if (p_sign != c.sign) {
--                p_sign = s->float_rounding_mode == float_round_down;
--            }
--            c.sign = p_sign;
--        } else if (flags & float_muladd_halve_result) {
--            c.exp -= 1;
--        }
--        c.sign ^= sign_flip;
--        return c;
--    }
--
--    /* a & b should be normals now... */
--    assert(a.cls == float_class_normal &&
--           b.cls == float_class_normal);
--
--    p_exp = a.exp + b.exp;
--
--    mul64To128(a.frac, b.frac, &hi, &lo);
--
--    /* Renormalize to the msb. */
--    if (hi & DECOMPOSED_IMPLICIT_BIT) {
--        p_exp += 1;
--    } else {
--        shortShift128Left(hi, lo, 1, &hi, &lo);
--    }
--
--    /* + add/sub */
--    if (c.cls != float_class_zero) {
--        int exp_diff = p_exp - c.exp;
--        if (p_sign == c.sign) {
--            /* Addition */
--            if (exp_diff <= 0) {
--                shift64RightJamming(hi, -exp_diff, &hi);
--                p_exp = c.exp;
--                if (uadd64_overflow(hi, c.frac, &hi)) {
--                    shift64RightJamming(hi, 1, &hi);
--                    hi |= DECOMPOSED_IMPLICIT_BIT;
--                    p_exp += 1;
--                }
--            } else {
--                uint64_t c_hi, c_lo, over;
--                shift128RightJamming(c.frac, 0, exp_diff, &c_hi, &c_lo);
--                add192(0, hi, lo, 0, c_hi, c_lo, &over, &hi, &lo);
--                if (over) {
--                    shift64RightJamming(hi, 1, &hi);
--                    hi |= DECOMPOSED_IMPLICIT_BIT;
--                    p_exp += 1;
--                }
--            }
--        } else {
--            /* Subtraction */
--            uint64_t c_hi = c.frac, c_lo = 0;
--
--            if (exp_diff <= 0) {
--                shift128RightJamming(hi, lo, -exp_diff, &hi, &lo);
--                if (exp_diff == 0
--                    &&
--                    (hi > c_hi || (hi == c_hi && lo >= c_lo))) {
--                    sub128(hi, lo, c_hi, c_lo, &hi, &lo);
--                } else {
--                    sub128(c_hi, c_lo, hi, lo, &hi, &lo);
--                    p_sign ^= 1;
--                    p_exp = c.exp;
--                }
--            } else {
--                shift128RightJamming(c_hi, c_lo,
--                                     exp_diff,
--                                     &c_hi, &c_lo);
--                sub128(hi, lo, c_hi, c_lo, &hi, &lo);
--            }
--
--            if (hi == 0 && lo == 0) {
--                a.cls = float_class_zero;
--                a.sign = s->float_rounding_mode == float_round_down;
--                a.sign ^= sign_flip;
--                return a;
--            } else {
--                int shift;
--                if (hi != 0) {
--                    shift = clz64(hi);
--                } else {
--                    shift = clz64(lo) + 64;
--                }
--                /* Normalizing to a binary point of 124 is the
--                   correct adjust for the exponent.  However since we're
--                   shifting, we might as well put the binary point back
--                   at 63 where we really want it.  Therefore shift as
--                   if we're leaving 1 bit at the top of the word, but
--                   adjust the exponent as if we're leaving 3 bits.  */
--                shift128Left(hi, lo, shift, &hi, &lo);
--                p_exp -= shift;
--            }
--        }
--    }
--    hi |= (lo != 0);
--
--    if (flags & float_muladd_halve_result) {
--        p_exp -= 1;
--    }
--
--    /* finally prepare our result */
--    a.cls = float_class_normal;
--    a.sign = p_sign ^ sign_flip;
--    a.exp = p_exp;
--    a.frac = hi;
--
--    return a;
--}
--
- float16 QEMU_FLATTEN float16_muladd(float16 a, float16 b, float16 c,
--                                                int flags, float_status *status)
-+                                    int flags, float_status *status)
- {
--    FloatParts64 pa, pb, pc, pr;
-+    FloatParts64 pa, pb, pc, *pr;
- 
-     float16_unpack_canonical(&pa, a, status);
-     float16_unpack_canonical(&pb, b, status);
-     float16_unpack_canonical(&pc, c, status);
--    pr = muladd_floats(pa, pb, pc, flags, status);
-+    pr = parts_muladd(&pa, &pb, &pc, flags, status);
- 
--    return float16_round_pack_canonical(&pr, status);
-+    return float16_round_pack_canonical(pr, status);
- }
- 
- static float32 QEMU_SOFTFLOAT_ATTR
- soft_f32_muladd(float32 a, float32 b, float32 c, int flags,
-                 float_status *status)
- {
--    FloatParts64 pa, pb, pc, pr;
-+    FloatParts64 pa, pb, pc, *pr;
- 
-     float32_unpack_canonical(&pa, a, status);
-     float32_unpack_canonical(&pb, b, status);
-     float32_unpack_canonical(&pc, c, status);
--    pr = muladd_floats(pa, pb, pc, flags, status);
-+    pr = parts_muladd(&pa, &pb, &pc, flags, status);
- 
--    return float32_round_pack_canonical(&pr, status);
-+    return float32_round_pack_canonical(pr, status);
- }
- 
- static float64 QEMU_SOFTFLOAT_ATTR
- soft_f64_muladd(float64 a, float64 b, float64 c, int flags,
-                 float_status *status)
- {
--    FloatParts64 pa, pb, pc, pr;
-+    FloatParts64 pa, pb, pc, *pr;
- 
-     float64_unpack_canonical(&pa, a, status);
-     float64_unpack_canonical(&pb, b, status);
-     float64_unpack_canonical(&pc, c, status);
--    pr = muladd_floats(pa, pb, pc, flags, status);
-+    pr = parts_muladd(&pa, &pb, &pc, flags, status);
- 
--    return float64_round_pack_canonical(&pr, status);
-+    return float64_round_pack_canonical(pr, status);
- }
- 
- static bool force_soft_fma;
-@@ -1757,23 +1738,30 @@ float64_muladd(float64 xa, float64 xb, float64 xc, int flags, float_status *s)
-     return soft_f64_muladd(ua.s, ub.s, uc.s, flags, s);
- }
- 
--/*
-- * Returns the result of multiplying the bfloat16 values `a'
-- * and `b' then adding 'c', with no intermediate rounding step after the
-- * multiplication.
-- */
--
- bfloat16 QEMU_FLATTEN bfloat16_muladd(bfloat16 a, bfloat16 b, bfloat16 c,
-                                       int flags, float_status *status)
- {
--    FloatParts64 pa, pb, pc, pr;
-+    FloatParts64 pa, pb, pc, *pr;
- 
-     bfloat16_unpack_canonical(&pa, a, status);
-     bfloat16_unpack_canonical(&pb, b, status);
-     bfloat16_unpack_canonical(&pc, c, status);
--    pr = muladd_floats(pa, pb, pc, flags, status);
-+    pr = parts_muladd(&pa, &pb, &pc, flags, status);
- 
--    return bfloat16_round_pack_canonical(&pr, status);
-+    return bfloat16_round_pack_canonical(pr, status);
-+}
-+
-+float128 QEMU_FLATTEN float128_muladd(float128 a, float128 b, float128 c,
-+                                      int flags, float_status *status)
-+{
-+    FloatParts128 pa, pb, pc, *pr;
-+
-+    float128_unpack_canonical(&pa, a, status);
-+    float128_unpack_canonical(&pb, b, status);
-+    float128_unpack_canonical(&pc, c, status);
-+    pr = parts_muladd(&pa, &pb, &pc, flags, status);
-+
-+    return float128_round_pack_canonical(pr, status);
- }
- 
- /*
-diff --git a/tests/fp/fp-bench.c b/tests/fp/fp-bench.c
-index d319993280..c24baf8535 100644
---- a/tests/fp/fp-bench.c
-+++ b/tests/fp/fp-bench.c
-@@ -386,7 +386,7 @@ static void bench(enum precision prec, enum op op, int n_ops, bool no_neg)
-             for (i = 0; i < OPS_PER_ITER; i++) {
-                 float128 a = ops[0].f128;
-                 float128 b = ops[1].f128;
--                /* float128 c = ops[2].f128; */
-+                float128 c = ops[2].f128;
- 
-                 switch (op) {
-                 case OP_ADD:
-@@ -401,9 +401,9 @@ static void bench(enum precision prec, enum op op, int n_ops, bool no_neg)
-                 case OP_DIV:
-                     res.f128 = float128_div(a, b, &soft_status);
-                     break;
--                /* case OP_FMA: */
--                /*     res.f128 = float128_muladd(a, b, c, 0, &soft_status); */
--                /*     break; */
-+                case OP_FMA:
-+                    res.f128 = float128_muladd(a, b, c, 0, &soft_status);
-+                    break;
-                 case OP_SQRT:
-                     res.f128 = float128_sqrt(a, &soft_status);
-                     break;
-diff --git a/tests/fp/fp-test.c b/tests/fp/fp-test.c
-index 5a4cad8c8b..ff131afbde 100644
---- a/tests/fp/fp-test.c
-+++ b/tests/fp/fp-test.c
-@@ -717,7 +717,7 @@ static void do_testfloat(int op, int rmode, bool exact)
-         test_abz_f128(true_abz_f128M, subj_abz_f128M);
-         break;
-     case F128_MULADD:
--        not_implemented();
-+        test_abcz_f128(slow_f128M_mulAdd, qemu_f128M_mulAdd);
-         break;
-     case F128_SQRT:
-         test_az_f128(slow_f128M_sqrt, qemu_f128M_sqrt);
-diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index 9a67ab2bea..a203811299 100644
---- a/fpu/softfloat-parts.c.inc
-+++ b/fpu/softfloat-parts.c.inc
-@@ -413,3 +413,129 @@ static FloatPartsN *partsN(mul)(FloatPartsN *a, FloatPartsN *b,
-     a->sign = sign;
-     return a;
- }
-+
-+/*
-+ * Returns the result of multiplying the floating-point values `a' and
-+ * `b' then adding 'c', with no intermediate rounding step after the
-+ * multiplication. The operation is performed according to the
-+ * IEC/IEEE Standard for Binary Floating-Point Arithmetic 754-2008.
-+ * The flags argument allows the caller to select negation of the
-+ * addend, the intermediate product, or the final result. (The
-+ * difference between this and having the caller do a separate
-+ * negation is that negating externally will flip the sign bit on NaNs.)
-+ *
-+ * Requires A and C extracted into a double-sized structure to provide the
-+ * extra space for the widening multiply.
-+ */
-+static FloatPartsN *partsN(muladd)(FloatPartsN *a, FloatPartsN *b,
-+                                   FloatPartsN *c, int flags, float_status *s)
-+{
-+    int ab_mask, abc_mask;
-+    FloatPartsW p_widen, c_widen;
-+
-+    ab_mask = float_cmask(a->cls) | float_cmask(b->cls);
-+    abc_mask = float_cmask(c->cls) | ab_mask;
-+
-+    /*
-+     * It is implementation-defined whether the cases of (0,inf,qnan)
-+     * and (inf,0,qnan) raise InvalidOperation or not (and what QNaN
-+     * they return if they do), so we have to hand this information
-+     * off to the target-specific pick-a-NaN routine.
-+     */
-+    if (unlikely(abc_mask & float_cmask_anynan)) {
-+        return parts_pick_nan_muladd(a, b, c, s, ab_mask, abc_mask);
-+    }
-+
-+    if (flags & float_muladd_negate_c) {
-+        c->sign ^= 1;
-+    }
-+
-+    /* Compute the sign of the product into A. */
-+    a->sign ^= b->sign;
-+    if (flags & float_muladd_negate_product) {
-+        a->sign ^= 1;
-+    }
-+
-+    if (unlikely(ab_mask != float_cmask_normal)) {
-+        if (unlikely(ab_mask == float_cmask_infzero)) {
-+            goto d_nan;
-+        }
-+
-+        if (ab_mask & float_cmask_inf) {
-+            if (c->cls == float_class_inf && a->sign != c->sign) {
-+                goto d_nan;
-+            }
-+            goto return_inf;
-+        }
-+
-+        g_assert(ab_mask & float_cmask_zero);
-+        if (c->cls == float_class_normal) {
-+            *a = *c;
-+            goto return_normal;
-+        }
-+        if (c->cls == float_class_zero) {
-+            if (a->sign != c->sign) {
-+                goto return_sub_zero;
-+            }
-+            goto return_zero;
-+        }
-+        g_assert(c->cls == float_class_inf);
-+    }
-+
-+    if (unlikely(c->cls == float_class_inf)) {
-+        a->sign = c->sign;
-+        goto return_inf;
-+    }
-+
-+    /* Perform the multiplication step. */
-+    p_widen.sign = a->sign;
-+    p_widen.exp = a->exp + b->exp + 1;
-+    frac_mulw(&p_widen, a, b);
-+    if (!(p_widen.frac_hi & DECOMPOSED_IMPLICIT_BIT)) {
-+        frac_add(&p_widen, &p_widen, &p_widen);
-+        p_widen.exp -= 1;
-+    }
-+
-+    /* Perform the addition step. */
-+    if (c->cls != float_class_zero) {
-+        /* Zero-extend C to less significant bits. */
-+        frac_widen(&c_widen, c);
-+        c_widen.exp = c->exp;
-+
-+        if (a->sign == c->sign) {
-+            parts_add_normal(&p_widen, &c_widen);
-+        } else if (!parts_sub_normal(&p_widen, &c_widen)) {
-+            goto return_sub_zero;
-+        }
-+    }
-+
-+    /* Narrow with sticky bit, for proper rounding later. */
-+    frac_truncjam(a, &p_widen);
-+    a->sign = p_widen.sign;
-+    a->exp = p_widen.exp;
-+
-+ return_normal:
-+    if (flags & float_muladd_halve_result) {
-+        a->exp -= 1;
-+    }
-+ finish_sign:
-+    if (flags & float_muladd_negate_result) {
-+        a->sign ^= 1;
-+    }
-+    return a;
-+
-+ return_sub_zero:
-+    a->sign = s->float_rounding_mode == float_round_down;
-+ return_zero:
-+    a->cls = float_class_zero;
-+    goto finish_sign;
-+
-+ return_inf:
-+    a->cls = float_class_inf;
-+    goto finish_sign;
-+
-+ d_nan:
-+    float_raise(float_flag_invalid, s);
-+    parts_default_nan(a, s);
-+    return a;
-+}
-diff --git a/tests/fp/wrap.c.inc b/tests/fp/wrap.c.inc
-index 0cbd20013e..cb1bb77e4c 100644
---- a/tests/fp/wrap.c.inc
-+++ b/tests/fp/wrap.c.inc
-@@ -574,6 +574,18 @@ WRAP_MULADD(qemu_f32_mulAdd, float32_muladd, float32)
- WRAP_MULADD(qemu_f64_mulAdd, float64_muladd, float64)
- #undef WRAP_MULADD
- 
-+static void qemu_f128M_mulAdd(const float128_t *ap, const float128_t *bp,
-+                              const float128_t *cp, float128_t *res)
-+{
-+    float128 a, b, c, ret;
-+
-+    a = soft_to_qemu128(*ap);
-+    b = soft_to_qemu128(*bp);
-+    c = soft_to_qemu128(*cp);
-+    ret = float128_muladd(a, b, c, 0, &qsf);
-+    *res = qemu_to_soft128(ret);
-+}
-+
- #define WRAP_CMP16(name, func, retcond)         \
-     static bool name(float16_t a, float16_t b)  \
-     {                                           \
+ /*----------------------------------------------------------------------------
 -- 
 2.25.1
 
