@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40A1381E17
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:32:00 +0200 (CEST)
-Received: from localhost ([::1]:54672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E0F381E15
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:31:49 +0200 (CEST)
+Received: from localhost ([::1]:53590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liE3z-00055X-Qa
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:31:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48994)
+	id 1liE3o-0004M8-Po
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:31:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE1V-0001TN-RI; Sun, 16 May 2021 06:29:27 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2606)
+ id 1liE1S-0001Rd-13; Sun, 16 May 2021 06:29:23 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE1M-0007B1-Af; Sun, 16 May 2021 06:29:25 -0400
-Received: from dggems701-chm.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fjdhv5Rw3zmVNP;
- Sun, 16 May 2021 18:26:23 +0800 (CST)
+ id 1liE1K-0007B7-Ta; Sun, 16 May 2021 06:29:21 -0400
+Received: from dggems702-chm.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fjdhx0qnmzmVVm;
+ Sun, 16 May 2021 18:26:25 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggems701-chm.china.huawei.com (10.3.19.178) with Microsoft SMTP Server
+ dggems702-chm.china.huawei.com (10.3.19.179) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:29:07 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:29:08 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:29:06 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:29:07 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
  <imammedo@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>, "Alistair
  Francis" <alistair.francis@wdc.com>, David Gibson
  <david@gibson.dropbear.id.au>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [RFC PATCH v3 1/9] hw/arm/virt: Disable cpu topology support on older
- machine types
-Date: Sun, 16 May 2021 18:28:52 +0800
-Message-ID: <20210516102900.28036-2-wangyanan55@huawei.com>
+Subject: [RFC PATCH v3 2/9] device_tree: Add qemu_fdt_add_path
+Date: Sun, 16 May 2021 18:28:53 +0800
+Message-ID: <20210516102900.28036-3-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210516102900.28036-1-wangyanan55@huawei.com>
 References: <20210516102900.28036-1-wangyanan55@huawei.com>
@@ -74,61 +73,98 @@ Cc: Barry Song <song.bao.hua@hisilicon.com>, zhukeqian1@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a compat variable "no_cpu_topology" used to determine if
-a machine type has enabled support of generating cpu topology
-description for the guest. Also, for compatibility we disable
-this support on older machine types.
+From: Andrew Jones <drjones@redhat.com>
 
-On existing older machine types, without cpu topology description
-in ACPI or DT, the guest will populate a cpu topology by default.
-With the topology description exposed to the guest, it will read
-the information and set up its topology as instructed, but that
-may not be the same as what was getting used by default without
-the topology description. It's possible that a user application
-has a dependency on the default topology and if the default one
-gets changed under its feat it will behave differently.
+qemu_fdt_add_path() works like qemu_fdt_add_subnode(), except it
+also adds all missing subnodes from the given path. We'll use it
+in a coming patch where we will add cpu-map to the device tree.
 
-So in summary, we only enable support of this feature on the
-latest machine type and disable it on the older ones (< 6.1)
-to avoid possible problems.
+And we also tweak an error message of qemu_fdt_add_subnode().
 
-Co-developed-by: Andrew Jones <drjones@redhat.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Andrew Jones <drjones@redhat.com>
+Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/arm/virt.c         | 5 +++++
- include/hw/arm/virt.h | 2 ++
- 2 files changed, 7 insertions(+)
+ include/sysemu/device_tree.h |  1 +
+ softmmu/device_tree.c        | 44 ++++++++++++++++++++++++++++++++++--
+ 2 files changed, 43 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 0a78532018..c07841e3a4 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2761,6 +2761,11 @@ DEFINE_VIRT_MACHINE_AS_LATEST(6, 1)
+diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+index 8a2fe55622..ef060a9759 100644
+--- a/include/sysemu/device_tree.h
++++ b/include/sysemu/device_tree.h
+@@ -121,6 +121,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *path);
+ uint32_t qemu_fdt_alloc_phandle(void *fdt);
+ int qemu_fdt_nop_node(void *fdt, const char *node_path);
+ int qemu_fdt_add_subnode(void *fdt, const char *name);
++int qemu_fdt_add_path(void *fdt, const char *path);
  
- static void virt_machine_6_0_options(MachineClass *mc)
- {
-+    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-+
-+    virt_machine_6_1_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
-+    vmc->no_cpu_topology = true;
+ #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)                 \
+     do {                                                                      \
+diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+index b621f63fba..3965c834ca 100644
+--- a/softmmu/device_tree.c
++++ b/softmmu/device_tree.c
+@@ -540,8 +540,8 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+ 
+     retval = fdt_add_subnode(fdt, parent, basename);
+     if (retval < 0) {
+-        error_report("FDT: Failed to create subnode %s: %s", name,
+-                     fdt_strerror(retval));
++        error_report("%s: Failed to create subnode %s: %s",
++                     __func__, name, fdt_strerror(retval));
+         exit(1);
+     }
+ 
+@@ -549,6 +549,46 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+     return retval;
  }
- DEFINE_VIRT_MACHINE(6, 0)
  
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 921416f918..f546dd2023 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -129,6 +129,8 @@ struct VirtMachineClass {
-     bool no_kvm_steal_time;
-     bool acpi_expose_flash;
-     bool no_secure_gpio;
-+    /* Machines < 6.1 has no support of cpu topology description for guest */
-+    bool no_cpu_topology;
- };
- 
- struct VirtMachineState {
++/*
++ * qemu_fdt_add_path: Like qemu_fdt_add_subnode(), but will add
++ * all missing subnodes from the given path.
++ */
++int qemu_fdt_add_path(void *fdt, const char *path)
++{
++    const char *name;
++    const char *p = path;
++    int namelen, retval;
++    int parent = 0;
++
++    if (path[0] != '/') {
++        return -1;
++    }
++
++    while (p) {
++        name = p + 1;
++        p = strchr(name, '/');
++        namelen = p != NULL ? p - name : strlen(name);
++
++        retval = fdt_subnode_offset_namelen(fdt, parent, name, namelen);
++        if (retval < 0 && retval != -FDT_ERR_NOTFOUND) {
++            error_report("%s: Unexpected error in finding subnode %.*s: %s",
++                         __func__, namelen, name, fdt_strerror(retval));
++            exit(1);
++        } else if (retval == -FDT_ERR_NOTFOUND) {
++            retval = fdt_add_subnode_namelen(fdt, parent, name, namelen);
++            if (retval < 0) {
++                error_report("%s: Failed to create subnode %.*s: %s",
++                             __func__, namelen, name, fdt_strerror(retval));
++                exit(1);
++            }
++        }
++
++        parent = retval;
++    }
++
++    return retval;
++}
++
+ void qemu_fdt_dumpdtb(void *fdt, int size)
+ {
+     const char *dumpdtb = current_machine->dumpdtb;
 -- 
 2.19.1
 
