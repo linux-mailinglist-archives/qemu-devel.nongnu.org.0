@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D241381E1B
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:35:14 +0200 (CEST)
-Received: from localhost ([::1]:38232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC105381E21
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:40:05 +0200 (CEST)
+Received: from localhost ([::1]:54890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liE77-0004XH-56
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49760)
+	id 1liEBo-0007FO-Lb
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:40:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE4d-0008On-81; Sun, 16 May 2021 06:32:41 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2052)
+ id 1liE4h-0008S5-3u; Sun, 16 May 2021 06:32:43 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE4a-0000kQ-QS; Sun, 16 May 2021 06:32:38 -0400
-Received: from dggems705-chm.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Fjdm049QJzmhLC;
- Sun, 16 May 2021 18:29:04 +0800 (CST)
+ id 1liE4a-0000lb-Qc; Sun, 16 May 2021 06:32:40 -0400
+Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fjdmr6cykzmVLV;
+ Sun, 16 May 2021 18:29:48 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggems705-chm.china.huawei.com (10.3.19.182) with Microsoft SMTP Server
+ dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:32:31 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:32:32 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:32:30 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:32:31 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
  <pbonzini@redhat.com>, Andrew Jones <drjones@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Shannon Zhao
  <shannon.zhaosl@gmail.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [RFC PATCH v3 0/4] hw/arm/virt: Introduce cluster cpu topology support
-Date: Sun, 16 May 2021 18:32:24 +0800
-Message-ID: <20210516103228.37792-1-wangyanan55@huawei.com>
+Subject: [RFC PATCH v3 1/4] vl.c: Add -smp,
+ clusters=* command line support for ARM cpu
+Date: Sun, 16 May 2021 18:32:25 +0800
+Message-ID: <20210516103228.37792-2-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
+In-Reply-To: <20210516103228.37792-1-wangyanan55@huawei.com>
+References: <20210516103228.37792-1-wangyanan55@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=wangyanan55@huawei.com; helo=szxga04-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=wangyanan55@huawei.com; helo=szxga05-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -71,12 +74,6 @@ Cc: Barry Song <song.bao.hua@hisilicon.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-This is v3 of the series [1] that I posted to introduce cluster cpu topology
-besides now existing sockets, cores, and threads for ARM platform.
-
-Description:
 In implementations of ARM architecture, at most there could be a
 cpu hierarchy like "sockets/dies/clusters/cores/threads" defined.
 For example, ARM64 server chip Kunpeng 920 totally has 2 sockets,
@@ -86,8 +83,8 @@ Clusters within the same NUMA share a L3 cache and cores within
 the same cluster share a L2 cache.
 
 The cache affinity of ARM cluster has been proved to improve the
-kernel scheduling performance and a patchset [2] has been posted,
-where a general sched_domain for clusters was added and a cluster
+kernel scheduling performance and a patchset has been posted, in
+which a general sched_domain for clusters was added and a cluster
 level was added in the arch-neutral cpu topology struct like below.
 
 struct cpu_topology {
@@ -108,70 +105,87 @@ the -smp, clusters=* command line support for ARM cpu, then users
 will be able to define a four-level cpu hierarchy for machines
 and it will be sockets/clusters/cores/threads.
 
-In this series, we only add the cluster concept of cpu topology
-for ARM platform currently, and only focus on exposure of the
-topology to guest through ACPI and DT.
+Because we only support clusters for ARM cpu currently, a new member
+"smp_clusters" is only added to the VirtMachineState structure.
 
-[1] https://patchwork.kernel.org/project/qemu-devel/cover/20210413083147.34236-1-wangyanan55@huawei.com/
-[2] https://patchwork.kernel.org/project/linux-arm-kernel/cover/20210420001844.9116-1-song.bao.hua@hisilicon.com/
-
-Test results about exposure of topology:
-After applying this patch series, launch a guest with virt-6.1.
-
-Cmdline: -smp 96, sockets=2, clusters=12, cores=4, threads=1
-Output:
-linux-atxcNc:~ # lscpu
-Architecture:        aarch64
-Byte Order:          Little Endian
-CPU(s):              96
-On-line CPU(s) list: 0-95
-Thread(s) per core:  1
-Core(s) per socket:  48
-Socket(s):           2
-NUMA node(s):        1
-Vendor ID:           0x48
-
-Topology information of clusters can also be got:
-cat /sys/devices/system/cpu/cpu0/topology/cluster_cpus_list: 0-3
-cat /sys/devices/system/cpu/cpu4/topology/cluster_cpus_list: 4-7
-cat /sys/devices/system/cpu/cpu8/topology/cluster_cpus_list: 8-11
-...
-
-cat /sys/devices/system/cpu/cpu95/topology/cluster_cpus_list: 92-95
-
-THINGS TO DO SOON:
-1) Run some benchmark to test the scheduling improvement of guest kernel
-   introduced by cluster level virtual topology
-2) Add some QEMU tests about ARM vcpu topology, ACPI PPTT table, and DT
-   cpu nodes. Will post in a separate patchset later.
-
+Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
+ include/hw/arm/virt.h |  1 +
+ qemu-options.hx       | 26 +++++++++++++++-----------
+ softmmu/vl.c          |  3 +++
+ 3 files changed, 19 insertions(+), 11 deletions(-)
 
-Changelogs:
-v2->v3:
-- Address comments from Philippe, and Andrew. Thanks!
-- Rebased the code on v3 of series " hw/arm/virt: Introduce cpu topology support"
-- v2: https://patchwork.kernel.org/project/qemu-devel/cover/20210413083147.34236-1-wangyanan55@huawei.com/
-
-v1->v2:
-- Only focus on cluster support for ARM platform
-- v1: https://patchwork.kernel.org/project/qemu-devel/cover/20210331095343.12172-1-wangyanan55@huawei.com/
-
----
-
-Yanan Wang (4):
-  vl.c: Add -smp, clusters=* command line support for ARM cpu
-  hw/arm/virt: Add cluster level to device tree
-  hw/arm/virt-acpi-build: Add cluster level to PPTT table
-  hw/arm/virt: Parse -smp cluster parameter in virt_smp_parse
-
- hw/arm/virt-acpi-build.c | 45 ++++++++++++++++++++++++----------------
- hw/arm/virt.c            | 44 +++++++++++++++++++++++----------------
- include/hw/arm/virt.h    |  1 +
- qemu-options.hx          | 26 +++++++++++++----------
- softmmu/vl.c             |  3 +++
- 5 files changed, 72 insertions(+), 47 deletions(-)
-
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index f546dd2023..74fff9667b 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -156,6 +156,7 @@ struct VirtMachineState {
+     char *pciehb_nodename;
+     const int *irqmap;
+     int fdt_size;
++    unsigned smp_clusters;
+     uint32_t clock_phandle;
+     uint32_t gic_phandle;
+     uint32_t msi_phandle;
+diff --git a/qemu-options.hx b/qemu-options.hx
+index bd97086c21..245eb415a6 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -184,25 +184,29 @@ SRST
+ ERST
+ 
+ DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+-    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,dies=dies][,sockets=sockets]\n"
++    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,clusters=clusters][,dies=dies][,sockets=sockets]\n"
+     "                set the number of CPUs to 'n' [default=1]\n"
+     "                maxcpus= maximum number of total cpus, including\n"
+     "                offline CPUs for hotplug, etc\n"
+-    "                cores= number of CPU cores on one socket (for PC, it's on one die)\n"
++    "                cores= number of CPU cores on one socket\n"
++    "                (it's on one die for PC, and on one cluster for ARM)\n"
+     "                threads= number of threads on one CPU core\n"
++    "                clusters= number of CPU clusters on one socket (for ARM only)\n"
+     "                dies= number of CPU dies on one socket (for PC only)\n"
+     "                sockets= number of discrete sockets in the system\n",
+         QEMU_ARCH_ALL)
+ SRST
+-``-smp [cpus=]n[,cores=cores][,threads=threads][,dies=dies][,sockets=sockets][,maxcpus=maxcpus]``
+-    Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
+-    are supported. On Sparc32 target, Linux limits the number of usable
+-    CPUs to 4. For the PC target, the number of cores per die, the
+-    number of threads per cores, the number of dies per packages and the
+-    total number of sockets can be specified. Missing values will be
+-    computed. If any on the three values is given, the total number of
+-    CPUs n can be omitted. maxcpus specifies the maximum number of
+-    hotpluggable CPUs.
++``-smp [cpus=]n[,cores=cores][,threads=threads][,clusters=clusters][,dies=dies][,sockets=sockets][,maxcpus=maxcpus]``
++    Simulate an SMP system with n CPUs. On the PC target, up to 255
++    CPUs are supported. On the Sparc32 target, Linux limits the number
++    of usable CPUs to 4. For the PC target, the number of threads per
++    core, the number of cores per die, the number of dies per package
++    and the total number of sockets can be specified. For the ARM target,
++    the number of threads per core, the number of cores per cluster, the
++    number of clusters per socket and the total number of sockets can be
++    specified. And missing values will be computed. If any of the five
++    values is given, the total number of CPUs n can be omitted. Maxcpus
++    specifies the maximum number of hotpluggable CPUs.
+ 
+     For the ARM target, at least one of cpus or maxcpus must be provided.
+     Threads will default to 1 if not provided. Sockets and cores must be
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 307944aef3..69a5c73ef7 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -719,6 +719,9 @@ static QemuOptsList qemu_smp_opts = {
+         }, {
+             .name = "dies",
+             .type = QEMU_OPT_NUMBER,
++        }, {
++            .name = "clusters",
++            .type = QEMU_OPT_NUMBER,
+         }, {
+             .name = "cores",
+             .type = QEMU_OPT_NUMBER,
 -- 
 2.19.1
 
