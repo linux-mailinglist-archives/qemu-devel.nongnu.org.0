@@ -2,61 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F54381F33
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 16:06:33 +0200 (CEST)
-Received: from localhost ([::1]:36964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D13CA381F31
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 16:03:40 +0200 (CEST)
+Received: from localhost ([::1]:35324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liHPc-0004BH-Gz
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 10:06:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57266)
+	id 1liHMp-00034b-Ts
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 10:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukas.junger@greensocs.com>)
- id 1liEhy-0003h2-9S; Sun, 16 May 2021 07:13:18 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:56514)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukas.junger@greensocs.com>)
- id 1liEhv-0000z4-9T; Sun, 16 May 2021 07:13:17 -0400
-Received: from [192.168.1.6] (b2b-109-90-5-113.unitymedia.biz [109.90.5.113])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 4FADA20775;
- Sun, 16 May 2021 11:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1621163586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eRdW3gislWrJzT0HUA2jVFKtCojm7XIvG12VM86NA4o=;
- b=n+nfn83kTiyPsM93vtkzm2/zcSZ87oddm/myf5uY0z97wz3YqHVYNpV2R5vn5DVHr1wl8h
- WCNPi8Hx5PAKt6JbW8Uz5+ee/cl3/FSwE4/rUMWlel5Bs4uaRqBkWh0+Y6yl0NTn1b9HrH
- 7eH0WeLAc4EA6gdjvvkShgS8A9kjDgI=
-Subject: Re: [PATCH 2/2] QOMify sifive_uart model
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1liHL6-0002CQ-5k
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 10:01:52 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:40888)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1liHKy-00027k-56
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 10:01:51 -0400
+Received: by mail-qk1-x731.google.com with SMTP id f18so3412174qko.7
+ for <qemu-devel@nongnu.org>; Sun, 16 May 2021 07:01:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=o0yQFUVeNgvq7Epql+6PYQIEiNZULrlbZDWa5AJF0nU=;
+ b=bQwT97ryOB4MhxWOPfAY9n2mGL5+4rNEhJN4lhTjqP2SRA04Shj8zaWWdBZHpdHAD1
+ zMvM6qRDj8vLTnaEXElEexwvnK63wwRANsOE4WW3tgTPDPgivdvDBq4tnqO+pQUeqhJD
+ tPVmu1QKaoq/Xg2Ha0xvtNq0jL1JqQfhB/neCuEK8rbBpeuQzXBOvnxJt677aMS/qtTY
+ Rcflzz6eP7p/0I9vwOGHxL/qm9CCocQ0XiNDU3xQgxqqUB6tNONhFiSqqtqwXWj9U2PL
+ Ojr3x9Cj0sD/sladlQn69nLcnGOSXcAp2ooqkYG2dvdGQU2hE5wTM4dDl2QxxkXQQw7/
+ pnaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=o0yQFUVeNgvq7Epql+6PYQIEiNZULrlbZDWa5AJF0nU=;
+ b=EufN/SJUJ6qSbDKBZ79vJEj7eikjyJSbLuCjFUbXj8tBiTCJ3ud3qFzciMJC1ofsqQ
+ E5sPRXsGU/1mFPZNmSAH0D/xzbk8Yze92jwz3FfWBd/YzSVYBlokh8oX/tmCXrPDnex+
+ lL9XtzwT9wJCRlKs8SFfjDEkqPnryA4AJl4ylYUfi3in9w4ODL/cUaw4gUinOoLgQ4Ik
+ Usedu7w+uCr1KhnT36v1W/pki48mPOp2yIbWupnNNIrEpafboxBn5POssmJBhVhJFDhS
+ tertkEtZY+3gVe8VIHlavSiJ8zejdqfFVOGoz52h3VWgpldEqnz7oqQrJEeJ84QgPW39
+ v6Lw==
+X-Gm-Message-State: AOAM532Xo8RMES0VoQzyR7KnqRM+GJS198T19zxtcoTO8J1jIYB+YUFF
+ ltVhopmyc86JrMmdfk7B8u3ytw==
+X-Google-Smtp-Source: ABdhPJxZMViCkcY+Awd8Gre7hKkA9al3M3FpcUjIoaSHgif/KkKpQSaxtIpaWtVn6ncIoxRdfsoMCA==
+X-Received: by 2002:a37:bbc3:: with SMTP id
+ l186mr48595214qkf.273.1621173702825; 
+ Sun, 16 May 2021 07:01:42 -0700 (PDT)
+Received: from [192.168.182.172] (163.189-204-200.bestelclientes.com.mx.
+ [189.204.200.163])
+ by smtp.gmail.com with ESMTPSA id e12sm8816260qtj.81.2021.05.16.07.01.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 16 May 2021 07:01:42 -0700 (PDT)
+Subject: Re: [PATCH] accel/tcg: Align data dumped at end of TB
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Lukas_J=c3=bcnger?= <lukas.juenger@greensocs.com>,
  qemu-devel@nongnu.org
-References: <20210504153456.927083-1-lukas.juenger@greensocs.com>
- <20210504153456.927083-3-lukas.juenger@greensocs.com>
- <8471d630-72c1-aef0-a0cf-9f0417334c08@amsat.org>
-From: =?UTF-8?Q?Lukas_J=c3=bcnger?= <lukas.junger@greensocs.com>
-Message-ID: <4891435d-2cc2-2109-3fa9-cd826cd23f2b@greensocs.com>
-Date: Sun, 16 May 2021 13:13:05 +0200
+References: <20210515104202.241504-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <90edde1e-b429-0364-8507-d760be8ed1fe@linaro.org>
+Date: Sun, 16 May 2021 09:01:39 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <8471d630-72c1-aef0-a0cf-9f0417334c08@amsat.org>
+In-Reply-To: <20210515104202.241504-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=lukas.junger@greensocs.com; helo=beetle.greensocs.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x731.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 16 May 2021 09:58:24 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,53 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org, bin.meng@windriver.com,
- mark.burton@greensocs.com, palmer@dabbelt.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com, luc.michel@greensocs.com
+Cc: Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/21 2:26 PM, Philippe Mathieu-Daudé wrote:
-> Hi Lukas,
->
-> On 5/4/21 5:34 PM, Lukas Jünger wrote:
->> Signed-off-by: Lukas Jünger <lukas.juenger@greensocs.com>
->> ---
->>   include/hw/char/sifive_uart.h |  6 +--
->>   hw/char/sifive_uart.c         | 72 ++++++++++++++++++++++++++++++-----
->>   2 files changed, 65 insertions(+), 13 deletions(-)
->> +static void sifive_uart_realize(DeviceState *dev, Error **errp)
->> +{
->> +    SiFiveUARTState *s = SIFIVE_UART(dev);
->> +
->> +    qemu_chr_fe_set_handlers(&s->chr, uart_can_rx, uart_rx, uart_event,
->> +                             uart_be_change, s, NULL, true);
->> +
->> +}
->> +
->> +static void sifive_uart_class_init(ObjectClass *oc, void *data)
->> +{
->> +    DeviceClass *dc = DEVICE_CLASS(oc);
->> +
->> +    dc->realize = sifive_uart_realize;
->> +    device_class_set_props(dc, sifive_uart_properties);
->> +}
-> You forgot to add the migration fields (VMState) of the SiFiveUARTState
-> structure. You might want to convert to the Fifo8 API (like the
-> SiFiveSPIState does) previous to this patch.
->
-> Regards,
->
-> Phil.
+On 5/15/21 5:42 AM, Philippe Mathieu-Daudé wrote:
+> +                qemu_log("0x%08" PRIxPTR ":  .quad  0x%0*" TCG_PRIlx "\n",
+> +                         (uintptr_t)&rx_data_gen_ptr[i],
+> +                         2 * sizeof(tcg_target_ulong), rx_data_gen_ptr[i]);
 
-Thank you for your feedback. If I understand correctly, sifive_spi does 
-not support migration currently. Would it be possible to merge this 
-QOMification without the migration feature for now, as not all devices 
-in sifive_u support it at the moment anyways? It seems it would be 
-difficult to test on my end.
+This doesn't quite work, because
 
-Best regards,
 
-Lukas
+> ../qemu/accel/tcg/translate-all.c:2045:26: error: field width specifier ‘*’ expects argument of type ‘int’, but argument 3 has type ‘long unsigned int’ [-Werror=format=]
+>  2045 |                 qemu_log("0x%08" PRIxPTR ":  .quad  0x%0*" TCG_PRIlx "\n",
+>       |                          ^~~~~~~
+>  2046 |                          (uintptr_t)&rx_data_gen_ptr[i],
+>  2047 |                          2 * sizeof(tcg_target_ulong), rx_data_gen_ptr[i]);
+>       |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       |                          |
+>       |                          long unsigned int
 
+
+However, I also noticed that we shouldn't be printing ".quad" for 32-bit hosts 
+either.  So I'll just split this into two separate qemu_log invocations, based 
+on sizeof(tcg_target_ulong).
+
+
+r~
 
