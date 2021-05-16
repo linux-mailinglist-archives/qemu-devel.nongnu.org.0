@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D45381E18
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:34:30 +0200 (CEST)
-Received: from localhost ([::1]:34756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC935381E16
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:32:00 +0200 (CEST)
+Received: from localhost ([::1]:54606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liE6P-0002CY-B7
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:34:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49020)
+	id 1liE3z-000533-Oa
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:31:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE1X-0001Up-Ve; Sun, 16 May 2021 06:29:27 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2050)
+ id 1liE1Q-0001Pu-7L; Sun, 16 May 2021 06:29:21 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE1M-0007Cw-Pr; Sun, 16 May 2021 06:29:27 -0400
-Received: from dggems705-chm.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Fjdh812cnzmgJ1;
- Sun, 16 May 2021 18:25:44 +0800 (CST)
+ id 1liE1L-0007D4-4v; Sun, 16 May 2021 06:29:19 -0400
+Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Fjdh91SqLzmh6x;
+ Sun, 16 May 2021 18:25:45 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggems705-chm.china.huawei.com (10.3.19.182) with Microsoft SMTP Server
+ dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:29:10 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:29:11 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:29:09 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:29:10 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
  <imammedo@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>, "Alistair
  Francis" <alistair.francis@wdc.com>, David Gibson
  <david@gibson.dropbear.id.au>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [RFC PATCH v3 4/9] hw/arm/virt: Initialize the present cpu members
-Date: Sun, 16 May 2021 18:28:55 +0800
-Message-ID: <20210516102900.28036-5-wangyanan55@huawei.com>
+Subject: [RFC PATCH v3 5/9] hw/arm/virt-acpi-build: Use possible cpus in
+ generation of DSDT
+Date: Sun, 16 May 2021 18:28:56 +0800
+Message-ID: <20210516102900.28036-6-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210516102900.28036-1-wangyanan55@huawei.com>
 References: <20210516102900.28036-1-wangyanan55@huawei.com>
@@ -73,38 +74,64 @@ Cc: Barry Song <song.bao.hua@hisilicon.com>, zhukeqian1@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We create and initialize a cpuobj for each present cpu in
-machvirt_init(). Now we also initialize the cpu member of
-structure CPUArchId for each present cpu in the function.
+When building ACPI tables regarding CPUs we should always build
+them for the number of possible CPUs, not the number of present
+CPUs. So we create cpu nodes in DSDT for possible cpus and then
+ensure only the present CPUs are marked useful.
 
-This will be used to determine whether a cpu is present
-when generating ACPI tables in later patches.
-
+Co-developed-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Andrew Jones <drjones@redhat.com>
 Co-developed-by: Ying Fang <fangying1@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
+Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/arm/virt.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/arm/virt-acpi-build.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index e5dcdebdbc..50e324975f 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2061,6 +2061,13 @@ static void machvirt_init(MachineState *machine)
-         }
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 60fe2e65a7..a2d8e87616 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -59,15 +59,17 @@
  
-         qdev_realize(DEVICE(cpuobj), NULL, &error_fatal);
-+
-+        /*
-+         * As ARM cpu hotplug is not supported yet, we initialize
-+         * the present cpu members here.
-+         */
-+        machine->possible_cpus->cpus[n].cpu = cpuobj;
-+
-         object_unref(cpuobj);
+ #define ACPI_BUILD_TABLE_SIZE             0x20000
+ 
+-static void acpi_dsdt_add_cpus(Aml *scope, VirtMachineState *vms)
++static void acpi_dsdt_add_cpus(Aml *scope, const CPUArchIdList *possible_cpus)
+ {
+-    MachineState *ms = MACHINE(vms);
+     uint16_t i;
+ 
+-    for (i = 0; i < ms->smp.cpus; i++) {
++    for (i = 0; i < possible_cpus->len; i++) {
+         Aml *dev = aml_device("C%.03X", i);
+         aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0007")));
+         aml_append(dev, aml_name_decl("_UID", aml_int(i)));
++        if (possible_cpus->cpus[i].cpu == NULL) {
++            aml_append(dev, aml_name_decl("_STA", aml_int(0)));
++        }
+         aml_append(scope, dev);
      }
-     fdt_add_timer_nodes(vms);
+ }
+@@ -596,6 +598,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
+     Aml *scope, *dsdt;
+     MachineState *ms = MACHINE(vms);
++    MachineClass *mc = MACHINE_GET_CLASS(vms);
++    const CPUArchIdList *possible_cpus = mc->possible_cpu_arch_ids(ms);
+     const MemMapEntry *memmap = vms->memmap;
+     const int *irqmap = vms->irqmap;
+ 
+@@ -609,7 +613,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+      * the RTC ACPI device at all when using UEFI.
+      */
+     scope = aml_scope("\\_SB");
+-    acpi_dsdt_add_cpus(scope, vms);
++    acpi_dsdt_add_cpus(scope, possible_cpus);
+     acpi_dsdt_add_uart(scope, &memmap[VIRT_UART],
+                        (irqmap[VIRT_UART] + ARM_SPI_BASE));
+     if (vmc->acpi_expose_flash) {
 -- 
 2.19.1
 
