@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684353820C2
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 22:04:45 +0200 (CEST)
-Received: from localhost ([::1]:39806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D0C3820C9
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 22:08:27 +0200 (CEST)
+Received: from localhost ([::1]:54636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liN0G-0003lE-FS
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 16:04:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44342)
+	id 1liN3q-0005Va-Eo
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 16:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1liMuo-0001zJ-Jg; Sun, 16 May 2021 15:59:06 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:45390 helo=zulu616.server4you.de)
+ id 1liMun-0001vh-Mc; Sun, 16 May 2021 15:59:05 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:45392 helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1liMul-0008Fx-Lk; Sun, 16 May 2021 15:59:06 -0400
+ id 1liMul-0008Fz-PM; Sun, 16 May 2021 15:59:05 -0400
 Received: from localhost.localdomain
  (dynamic-095-118-089-019.95.118.pool.telefonica.de [95.118.89.19])
- by csgraf.de (Postfix) with ESMTPSA id A7D3960806A0;
- Sun, 16 May 2021 21:58:59 +0200 (CEST)
+ by csgraf.de (Postfix) with ESMTPSA id 4CF9F60806A1;
+ Sun, 16 May 2021 21:59:00 +0200 (CEST)
 From: Alexander Graf <agraf@csgraf.de>
 To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH v7 05/19] hvf: Make hvf_set_phys_mem() static
-Date: Sun, 16 May 2021 21:58:41 +0200
-Message-Id: <20210516195855.28869-6-agraf@csgraf.de>
+Subject: [PATCH v7 06/19] hvf: Remove use of hv_uvaddr_t and hv_gpaddr_t
+Date: Sun, 16 May 2021 21:58:42 +0200
+Message-Id: <20210516195855.28869-7-agraf@csgraf.de>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20210516195855.28869-1-agraf@csgraf.de>
 References: <20210516195855.28869-1-agraf@csgraf.de>
@@ -60,40 +60,42 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The hvf_set_phys_mem() function is only called within the same file.
-Make it static.
+The ARM version of Hypervisor.framework no longer defines these two
+types, so let's just revert to standard ones.
 
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
 ---
- accel/hvf/hvf-accel-ops.c | 2 +-
- include/sysemu/hvf_int.h  | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ accel/hvf/hvf-accel-ops.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
-index c2136dfbb8..5bec7b4d6d 100644
+index 5bec7b4d6d..7370fcfba0 100644
 --- a/accel/hvf/hvf-accel-ops.c
 +++ b/accel/hvf/hvf-accel-ops.c
-@@ -114,7 +114,7 @@ static int do_hvf_set_memory(hvf_slot *slot, hv_memory_flags_t flags)
+@@ -109,7 +109,7 @@ static int do_hvf_set_memory(hvf_slot *slot, hv_memory_flags_t flags)
+     macslot->present = 1;
+     macslot->gpa_start = slot->start;
+     macslot->size = slot->size;
+-    ret = hv_vm_map((hv_uvaddr_t)slot->mem, slot->start, slot->size, flags);
++    ret = hv_vm_map(slot->mem, slot->start, slot->size, flags);
+     assert_hvf_ok(ret);
      return 0;
  }
- 
--void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
-+static void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
- {
-     hvf_slot *mem;
-     MemoryRegion *area = section->mr;
-diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
-index ef84a24dd9..d15fa3302a 100644
---- a/include/sysemu/hvf_int.h
-+++ b/include/sysemu/hvf_int.h
-@@ -43,7 +43,6 @@ struct HVFState {
- };
- extern HVFState *hvf_state;
- 
--void hvf_set_phys_mem(MemoryRegionSection *, bool);
- void assert_hvf_ok(hv_return_t ret);
- hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
- int hvf_put_registers(CPUState *);
+@@ -253,12 +253,12 @@ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
+     /* protect region against writes; begin tracking it */
+     if (on) {
+         slot->flags |= HVF_SLOT_LOG;
+-        hv_vm_protect((hv_gpaddr_t)slot->start, (size_t)slot->size,
++        hv_vm_protect((uintptr_t)slot->start, (size_t)slot->size,
+                       HV_MEMORY_READ);
+     /* stop tracking region*/
+     } else {
+         slot->flags &= ~HVF_SLOT_LOG;
+-        hv_vm_protect((hv_gpaddr_t)slot->start, (size_t)slot->size,
++        hv_vm_protect((uintptr_t)slot->start, (size_t)slot->size,
+                       HV_MEMORY_READ | HV_MEMORY_WRITE);
+     }
+ }
 -- 
 2.30.1 (Apple Git-130)
 
