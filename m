@@ -2,82 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BA7381E0F
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:28:27 +0200 (CEST)
-Received: from localhost ([::1]:46722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E144381E14
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:31:48 +0200 (CEST)
+Received: from localhost ([::1]:53436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liE0X-0007ys-RL
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:28:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48022)
+	id 1liE3n-0004Fq-5f
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:31:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1liDxM-0006e7-95
- for qemu-devel@nongnu.org; Sun, 16 May 2021 06:25:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47540)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1liE1O-0001Pa-DQ; Sun, 16 May 2021 06:29:18 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1liDxF-0004is-Mk
- for qemu-devel@nongnu.org; Sun, 16 May 2021 06:25:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621160700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6EBPO4Z5gBMgy/K+Mo3YUMR0X+aViAai0cyQp9fe1s4=;
- b=MnVx73SC/yzIC3fZNML47Su8vP5kWF/r9tDC3xVTf6MLxURUNu0oZO2hwqdQ9Pd9Hu++W7
- 4GMfm0qT7TZZlme90UsvfgT1meA+M7FlpDA1qdxpkhda6aHHPcAmgQ/brYYVfpUF5gSZUn
- tcmgh+MASpNxIXulEnBLtuoo67RlaI0=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-ztyMs4R-O5-waxIoXXFPpQ-1; Sun, 16 May 2021 06:24:56 -0400
-X-MC-Unique: ztyMs4R-O5-waxIoXXFPpQ-1
-Received: by mail-pg1-f200.google.com with SMTP id
- m36-20020a634c640000b02901fbb60ec3a6so2515713pgl.15
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 03:24:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6EBPO4Z5gBMgy/K+Mo3YUMR0X+aViAai0cyQp9fe1s4=;
- b=BcIIuaknjDn1HiReF4uHskm6ZfSLPQASWV/16nWdCBMTpnViDvVWY9yXXMNTzZNB6J
- pDAfyseMFkAxz91cD6AF2EFz+JgDHFMM4Od9QY0OZuZwfeUPejNHiRMriC0+A8LpBspy
- BMGOYzXQdApRgQmF4qT6ATPTFTMd3iRwh3LWkcX00upMiQF2lzYlUYQUM9WI5BRfkjV+
- vT1ai1tFsDlw5qTr0kc9rw/3kus8swkpg94635qJSOZNLsrNuYMQsbMZVfZKrM8t1E7g
- acHbQyM4ICwZ7p0tGAPnZTWU3Evdd78txp6WCd9slZzo3jE0nkariUvLVzdQxz3DJYLj
- Tt4w==
-X-Gm-Message-State: AOAM533YMwvnzJltJZn4aCbDPkofZU1WS4KSVf+u+De2ICgYC0cjkXhl
- RYjFcRJUeX/aJ8DPkqyxskaLqy5Pdy4OUCxTjcWYYVfR8YV9CiPKckpX8SjeyQexmz3ki+PBcUA
- sAEYDRlNyq4Nn1/GzzfKmcyxx1QsLx40=
-X-Received: by 2002:a17:902:ee8b:b029:ef:ab33:b835 with SMTP id
- a11-20020a170902ee8bb02900efab33b835mr14825501pld.27.1621160694843; 
- Sun, 16 May 2021 03:24:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZrn9e7kO0HYGNzOn7EdxvCxqeZBgIX/ExGxVGG0ANd6/0UfGq3LyQ+DHQ1Mr5zsjbBS41pFhnAleEhwITcp0=
-X-Received: by 2002:a17:902:ee8b:b029:ef:ab33:b835 with SMTP id
- a11-20020a170902ee8bb02900efab33b835mr14825486pld.27.1621160694590; Sun, 16
- May 2021 03:24:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1liE1K-000799-Oo; Sun, 16 May 2021 06:29:17 -0400
+Received: from dggems704-chm.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Fjdh05rsvzmhBL;
+ Sun, 16 May 2021 18:25:36 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggems704-chm.china.huawei.com (10.3.19.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Sun, 16 May 2021 18:29:03 +0800
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Sun, 16 May 2021 18:29:02 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
+ <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>, "Alistair
+ Francis" <alistair.francis@wdc.com>, David Gibson
+ <david@gibson.dropbear.id.au>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+Subject: [RFC PATCH v3 0/9] hw/arm/virt: Introduce cpu topology support
+Date: Sun, 16 May 2021 18:28:51 +0800
+Message-ID: <20210516102900.28036-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-References: <20210516030403.107723-1-liq3ea@163.com>
-In-Reply-To: <20210516030403.107723-1-liq3ea@163.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Sun, 16 May 2021 14:24:43 +0400
-Message-ID: <CAMxuvaw+QTQ7J381gf78qcj9sA8cvuHKF1V1unF8MitFpNpG6g@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] vhost-user-gpu: fix several security issues
-To: Li Qiang <liq3ea@163.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000534a1405c26fe303"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.701,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=wangyanan55@huawei.com; helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,118 +64,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>, "Qiang, Li" <liq3ea@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>, Prasad Pandit <ppandit@redhat.com>,
- "Hoffmann, Gerd" <kraxel@redhat.com>,
- Philippe Mathieu Daude <philmd@redhat.com>
+Cc: Barry Song <song.bao.hua@hisilicon.com>, zhukeqian1@huawei.com,
+ yangyicong@huawei.com, prime.zeng@hisilicon.com, wanghaibin.wang@huawei.com,
+ yuzenghui@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000534a1405c26fe303
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hi
+This is v3 of the series [1] that I posted to introduce support of
+generating cpu topology descriptions to guest.
 
-On Sun, May 16, 2021 at 7:04 AM Li Qiang <liq3ea@163.com> wrote:
+Description:
+An accurate cpu topology may help improve the cpu scheduler's decision
+making when dealing with multi-core system. So cpu topology description
+is helpful to provide guest with the right view. Dario Faggioli's talk
+in [2] also shows the virtual topology could have impact on scheduling
+performace. Thus this patch series introduces cpu topology support for
+ARM platform.
 
-> These security issue is low severity and is similar with the
-> virtio-vga/virtio-gpu device. All of them can be triggered by
-> the guest user.
->
-> Change since v1:
-> Add the CVE information:
-> Several memory leak issues is combined assigned CVE-2021-3544.
-> Information disclosure is assigned CVE-2021-3545.
-> OOB memory write access is assigned CVE-2021-3545.
->
-> Abstract 'vg_cleanup_mapping_iov' to make code more clearly.
->
-> Li Qiang (8):
->   vhost-user-gpu: fix memory disclosure in virgl_cmd_get_capset_info
->     (CVE-2021-3545)
->   vhost-user-gpu: fix resource leak in 'vg_resource_create_2d'
->     (CVE-2021-3544)
->   vhost-user-gpu: fix memory leak in vg_resource_attach_backing
->     (CVE-2021-3544)
->   vhost-user-gpu: fix memory leak while calling 'vg_resource_unref'
->     (CVE-2021-3544)
->   vhost-user-gpu: fix memory leak in 'virgl_cmd_resource_unref'
->     (CVE-2021-3544)
->   vhost-user-gpu: fix memory leak in 'virgl_resource_attach_backing'
->     (CVE-2021-3544)
->   vhost-user-gpu: fix OOB write in 'virgl_cmd_get_capset'
->     (CVE-2021-3546)
->   vhost-user-gpu: abstract vg_cleanup_mapping_iov
->
->  contrib/vhost-user-gpu/vhost-user-gpu.c | 29 ++++++++++++++++++++++---
->  contrib/vhost-user-gpu/virgl.c          | 20 +++++++++++++++--
->  contrib/vhost-user-gpu/vugpu.h          |  2 +-
->  3 files changed, 45 insertions(+), 6 deletions(-)
->
-> --
-> 2.25.1
->
->
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+In this series, both cpu-map in DT and ACPI PPTT table are introduced
+to present cpu topology to the guest. And a new helper virt_smp_parse
+not like the default one is introduced, which has more strict parsing
+rules for the -smp command line.
 
---000000000000534a1405c26fe303
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[1] https://patchwork.kernel.org/project/qemu-devel/cover/20210413080745.33004-1-wangyanan55@huawei.com/
+[2] https://kvmforum2020.sched.com/event/eE1y/virtual-topology-for-virtual-machines-friend-or-foe-dario-faggioli-suse
 
-<div dir=3D"ltr"><div dir=3D"ltr"></div><div>Hi</div><div><br></div><div><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, May =
-16, 2021 at 7:04 AM Li Qiang &lt;<a href=3D"mailto:liq3ea@163.com">liq3ea@1=
-63.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">These security issue is low severity and is similar with the<br>
-virtio-vga/virtio-gpu device. All of them can be triggered by<br>
-the guest user.<br>
-<br>
-Change since v1:<br>
-Add the CVE information:<br>
-Several memory leak issues is combined assigned CVE-2021-3544.<br>
-Information disclosure is assigned CVE-2021-3545.<br>
-OOB memory write access is assigned CVE-2021-3545.<br>
-<br>
-Abstract &#39;vg_cleanup_mapping_iov&#39; to make code more clearly.<br>
-<br>
-Li Qiang (8):<br>
-=C2=A0 vhost-user-gpu: fix memory disclosure in virgl_cmd_get_capset_info<b=
-r>
-=C2=A0 =C2=A0 (CVE-2021-3545)<br>
-=C2=A0 vhost-user-gpu: fix resource leak in &#39;vg_resource_create_2d&#39;=
-<br>
-=C2=A0 =C2=A0 (CVE-2021-3544)<br>
-=C2=A0 vhost-user-gpu: fix memory leak in vg_resource_attach_backing<br>
-=C2=A0 =C2=A0 (CVE-2021-3544)<br>
-=C2=A0 vhost-user-gpu: fix memory leak while calling &#39;vg_resource_unref=
-&#39;<br>
-=C2=A0 =C2=A0 (CVE-2021-3544)<br>
-=C2=A0 vhost-user-gpu: fix memory leak in &#39;virgl_cmd_resource_unref&#39=
-;<br>
-=C2=A0 =C2=A0 (CVE-2021-3544)<br>
-=C2=A0 vhost-user-gpu: fix memory leak in &#39;virgl_resource_attach_backin=
-g&#39;<br>
-=C2=A0 =C2=A0 (CVE-2021-3544)<br>
-=C2=A0 vhost-user-gpu: fix OOB write in &#39;virgl_cmd_get_capset&#39;<br>
-=C2=A0 =C2=A0 (CVE-2021-3546)<br>
-=C2=A0 vhost-user-gpu: abstract vg_cleanup_mapping_iov<br>
-<br>
-=C2=A0contrib/vhost-user-gpu/vhost-user-gpu.c | 29 ++++++++++++++++++++++--=
--<br>
-=C2=A0contrib/vhost-user-gpu/virgl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 20=
- +++++++++++++++--<br>
-=C2=A0contrib/vhost-user-gpu/vugpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 2 +-<br>
-=C2=A03 files changed, 45 insertions(+), 6 deletions(-)<br>
-<br>
--- <br>
-2.25.1<br>
-<br></blockquote><div><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &l=
-t;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.co=
-m</a>&gt; <br></div></div></div></div>
+Test results about exposure of topology:
+After applying this patch series, launch a guest with virt-6.1.
 
---000000000000534a1405c26fe303--
+Cmdline: -smp 96, sockets=2, cores=48, threads=1
+Output:
+linux-atxcNc:~ # lscpu
+Architecture:        aarch64
+Byte Order:          Little Endian
+CPU(s):              96
+On-line CPU(s) list: 0-95
+Thread(s) per core:  1
+Core(s) per socket:  48
+Socket(s):           2
+NUMA node(s):        1
+Vendor ID:           0x48
+
+Cmdline: -smp 96
+linux-atxcNc:~ # lscpu
+Architecture:        aarch64
+Byte Order:          Little Endian
+CPU(s):              96
+On-line CPU(s) list: 0-95
+Thread(s) per core:  1
+Core(s) per socket:  96
+Socket(s):           1
+NUMA node(s):        1
+Vendor ID:           0x48
+
+THINGS TO DO SOON:
+1) Run some benchmark to test the scheduling improvement of guest kernel
+   introduced by virtual cpu topology.
+2) Add some QEMU tests about ARM vcpu topology, ACPI PPTT table, and DT
+   cpu nodes. Will post in a separate patchset later.
+
+---
+
+Changelogs:
+v2->v3:
+- address comments from David, Philippe, and Andrew. Thanks!
+- split some change into separate commits for ease of review
+- adjust parsing rules of virt_smp_parse to be more strict
+  (after discussion with Andrew)
+- adjust author credit for the patches
+- v2: https://patchwork.kernel.org/project/qemu-devel/cover/20210413080745.33004-1-wangyanan55@huawei.com/
+
+v1->v2:
+- Address Andrew Jones's comments
+- Address Michael S. Tsirkin's comments
+- https://patchwork.kernel.org/project/qemu-devel/cover/20210225085627.2263-1-fangying1@huawei.com/
+
+---
+
+Andrew Jones (3):
+  device_tree: Add qemu_fdt_add_path
+  hw/arm/virt: Add cpu-map to device tree
+  hw/arm/virt-acpi-build: Generate PPTT table
+
+Yanan Wang (6):
+  hw/arm/virt: Disable cpu topology support on older machine types
+  hw/arm/virt: Initialize the present cpu members
+  hw/arm/virt-acpi-build: Use possible cpus in generation of DSDT
+  hw/arm/virt-acpi-build: Use possible cpus in generation of MADT
+  hw/acpi/aml-build: Add Processor hierarchy node structure
+  hw/arm/virt: Add separate -smp parsing function for ARM machines
+
+ hw/acpi/aml-build.c          |  26 ++++++
+ hw/arm/virt-acpi-build.c     |  99 ++++++++++++++++++++---
+ hw/arm/virt.c                | 148 ++++++++++++++++++++++++++++++++++-
+ include/hw/acpi/aml-build.h  |   4 +
+ include/hw/arm/virt.h        |   2 +
+ include/sysemu/device_tree.h |   1 +
+ qemu-options.hx              |   4 +
+ softmmu/device_tree.c        |  44 ++++++++++-
+ 8 files changed, 316 insertions(+), 12 deletions(-)
+
+-- 
+2.19.1
 
 
