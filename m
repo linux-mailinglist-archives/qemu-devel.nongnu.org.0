@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E0F381E15
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:31:49 +0200 (CEST)
-Received: from localhost ([::1]:53590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8894381E1A
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:35:07 +0200 (CEST)
+Received: from localhost ([::1]:37484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liE3o-0004M8-Po
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:31:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48968)
+	id 1liE6v-00042k-J6
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:35:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE1S-0001Rd-13; Sun, 16 May 2021 06:29:23 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2607)
+ id 1liE1X-0001Tr-O9; Sun, 16 May 2021 06:29:27 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE1K-0007B7-Ta; Sun, 16 May 2021 06:29:21 -0400
-Received: from dggems702-chm.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fjdhx0qnmzmVVm;
- Sun, 16 May 2021 18:26:25 +0800 (CST)
+ id 1liE1M-0007BT-13; Sun, 16 May 2021 06:29:26 -0400
+Received: from dggems703-chm.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fjdhy1g1GzmVW6;
+ Sun, 16 May 2021 18:26:26 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggems702-chm.china.huawei.com (10.3.19.179) with Microsoft SMTP Server
+ dggems703-chm.china.huawei.com (10.3.19.180) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:29:08 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:29:09 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:29:07 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:29:08 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
  <imammedo@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>, "Alistair
  Francis" <alistair.francis@wdc.com>, David Gibson
  <david@gibson.dropbear.id.au>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [RFC PATCH v3 2/9] device_tree: Add qemu_fdt_add_path
-Date: Sun, 16 May 2021 18:28:53 +0800
-Message-ID: <20210516102900.28036-3-wangyanan55@huawei.com>
+Subject: [RFC PATCH v3 3/9] hw/arm/virt: Add cpu-map to device tree
+Date: Sun, 16 May 2021 18:28:54 +0800
+Message-ID: <20210516102900.28036-4-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210516102900.28036-1-wangyanan55@huawei.com>
 References: <20210516102900.28036-1-wangyanan55@huawei.com>
@@ -53,7 +53,7 @@ X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,96 +75,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew Jones <drjones@redhat.com>
 
-qemu_fdt_add_path() works like qemu_fdt_add_subnode(), except it
-also adds all missing subnodes from the given path. We'll use it
-in a coming patch where we will add cpu-map to the device tree.
+Support device tree CPU topology descriptions.
 
-And we also tweak an error message of qemu_fdt_add_subnode().
+In accordance with the Devicetree Specification, the Linux Doc
+"arm/cpus.yaml" requires that cpus and cpu nodes in the DT are
+present. And we meet the requirement by creating /cpus/cpu@*
+nodes for members within ms->smp.cpus.
 
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: Alistair Francis <alistair.francis@wdc.com>
+Correspondingly, we should also create subnodes in cpu-map for
+the present cpus, each of which relates to an unique cpu node.
+
 Signed-off-by: Andrew Jones <drjones@redhat.com>
 Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- include/sysemu/device_tree.h |  1 +
- softmmu/device_tree.c        | 44 ++++++++++++++++++++++++++++++++++--
- 2 files changed, 43 insertions(+), 2 deletions(-)
+ hw/arm/virt.c | 41 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 40 insertions(+), 1 deletion(-)
 
-diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-index 8a2fe55622..ef060a9759 100644
---- a/include/sysemu/device_tree.h
-+++ b/include/sysemu/device_tree.h
-@@ -121,6 +121,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *path);
- uint32_t qemu_fdt_alloc_phandle(void *fdt);
- int qemu_fdt_nop_node(void *fdt, const char *node_path);
- int qemu_fdt_add_subnode(void *fdt, const char *name);
-+int qemu_fdt_add_path(void *fdt, const char *path);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index c07841e3a4..e5dcdebdbc 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -349,10 +349,11 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+     int cpu;
+     int addr_cells = 1;
+     const MachineState *ms = MACHINE(vms);
++    const VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
+     int smp_cpus = ms->smp.cpus;
  
- #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)                 \
-     do {                                                                      \
-diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-index b621f63fba..3965c834ca 100644
---- a/softmmu/device_tree.c
-+++ b/softmmu/device_tree.c
-@@ -540,8 +540,8 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+     /*
+-     * From Documentation/devicetree/bindings/arm/cpus.txt
++     *  See Linux Documentation/devicetree/bindings/arm/cpus.yaml
+      *  On ARM v8 64-bit systems value should be set to 2,
+      *  that corresponds to the MPIDR_EL1 register size.
+      *  If MPIDR_EL1[63:32] value is equal to 0 on all CPUs
+@@ -405,8 +406,46 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+                 ms->possible_cpus->cpus[cs->cpu_index].props.node_id);
+         }
  
-     retval = fdt_add_subnode(fdt, parent, basename);
-     if (retval < 0) {
--        error_report("FDT: Failed to create subnode %s: %s", name,
--                     fdt_strerror(retval));
-+        error_report("%s: Failed to create subnode %s: %s",
-+                     __func__, name, fdt_strerror(retval));
-         exit(1);
-     }
- 
-@@ -549,6 +549,46 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
-     return retval;
- }
- 
-+/*
-+ * qemu_fdt_add_path: Like qemu_fdt_add_subnode(), but will add
-+ * all missing subnodes from the given path.
-+ */
-+int qemu_fdt_add_path(void *fdt, const char *path)
-+{
-+    const char *name;
-+    const char *p = path;
-+    int namelen, retval;
-+    int parent = 0;
-+
-+    if (path[0] != '/') {
-+        return -1;
-+    }
-+
-+    while (p) {
-+        name = p + 1;
-+        p = strchr(name, '/');
-+        namelen = p != NULL ? p - name : strlen(name);
-+
-+        retval = fdt_subnode_offset_namelen(fdt, parent, name, namelen);
-+        if (retval < 0 && retval != -FDT_ERR_NOTFOUND) {
-+            error_report("%s: Unexpected error in finding subnode %.*s: %s",
-+                         __func__, namelen, name, fdt_strerror(retval));
-+            exit(1);
-+        } else if (retval == -FDT_ERR_NOTFOUND) {
-+            retval = fdt_add_subnode_namelen(fdt, parent, name, namelen);
-+            if (retval < 0) {
-+                error_report("%s: Failed to create subnode %.*s: %s",
-+                             __func__, namelen, name, fdt_strerror(retval));
-+                exit(1);
-+            }
++        if (!vmc->no_cpu_topology) {
++            qemu_fdt_setprop_cell(ms->fdt, nodename, "phandle",
++                                  qemu_fdt_alloc_phandle(ms->fdt));
 +        }
 +
-+        parent = retval;
+         g_free(nodename);
+     }
++
++    if (!vmc->no_cpu_topology) {
++        /*
++         * See Linux Documentation/devicetree/bindings/cpu/cpu-topology.txt
++         * In a SMP system, the hierarchy of CPUs is defined through four
++         * entities that are used to describe the layout of physical CPUs
++         * in the system: socket/cluster/core/thread.
++         */
++        qemu_fdt_add_subnode(ms->fdt, "/cpus/cpu-map");
++
++        for (cpu = smp_cpus - 1; cpu >= 0; cpu--) {
++            char *cpu_path = g_strdup_printf("/cpus/cpu@%d", cpu);
++            char *map_path;
++
++            if (ms->smp.threads > 1) {
++                map_path = g_strdup_printf(
++                    "/cpus/cpu-map/%s%d/%s%d/%s%d",
++                    "socket", cpu / (ms->smp.cores * ms->smp.threads),
++                    "core", (cpu / ms->smp.threads) % ms->smp.cores,
++                    "thread", cpu % ms->smp.threads);
++            } else {
++                map_path = g_strdup_printf(
++                    "/cpus/cpu-map/%s%d/%s%d",
++                    "socket", cpu / ms->smp.cores,
++                    "core", cpu % ms->smp.cores);
++            }
++            qemu_fdt_add_path(ms->fdt, map_path);
++            qemu_fdt_setprop_phandle(ms->fdt, map_path, "cpu", cpu_path);
++
++            g_free(map_path);
++            g_free(cpu_path);
++        }
 +    }
-+
-+    return retval;
-+}
-+
- void qemu_fdt_dumpdtb(void *fdt, int size)
- {
-     const char *dumpdtb = current_machine->dumpdtb;
+ }
+ 
+ static void fdt_add_its_gic_node(VirtMachineState *vms)
 -- 
 2.19.1
 
