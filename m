@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B21381E22
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:41:26 +0200 (CEST)
-Received: from localhost ([::1]:58510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D77B2381E20
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:39:59 +0200 (CEST)
+Received: from localhost ([::1]:54492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liED7-0001I8-V5
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:41:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49788)
+	id 1liEBi-0006zC-UX
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE4h-0008Ul-Qp; Sun, 16 May 2021 06:32:43 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2236)
+ id 1liE4i-0008Vv-4V; Sun, 16 May 2021 06:32:44 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE4b-0000mP-7V; Sun, 16 May 2021 06:32:43 -0400
-Received: from dggems701-chm.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Fjdmv0v76z16QXG;
- Sun, 16 May 2021 18:29:51 +0800 (CST)
+ id 1liE4c-0000nH-K0; Sun, 16 May 2021 06:32:43 -0400
+Received: from dggems702-chm.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fjdmw4fdfzmVkX;
+ Sun, 16 May 2021 18:29:52 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggems701-chm.china.huawei.com (10.3.19.178) with Microsoft SMTP Server
+ dggems702-chm.china.huawei.com (10.3.19.179) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:32:34 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:32:35 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:32:33 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:32:35 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
  <pbonzini@redhat.com>, Andrew Jones <drjones@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Shannon Zhao
  <shannon.zhaosl@gmail.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [RFC PATCH v3 3/4] hw/arm/virt-acpi-build: Add cluster level to PPTT
- table
-Date: Sun, 16 May 2021 18:32:27 +0800
-Message-ID: <20210516103228.37792-4-wangyanan55@huawei.com>
+Subject: [RFC PATCH v3 4/4] hw/arm/virt: Parse -smp cluster parameter in
+ virt_smp_parse
+Date: Sun, 16 May 2021 18:32:28 +0800
+Message-ID: <20210516103228.37792-5-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210516103228.37792-1-wangyanan55@huawei.com>
 References: <20210516103228.37792-1-wangyanan55@huawei.com>
@@ -46,8 +46,8 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=wangyanan55@huawei.com; helo=szxga04-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=wangyanan55@huawei.com; helo=szxga05-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -74,81 +74,107 @@ Cc: Barry Song <song.bao.hua@hisilicon.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a Processor Hierarchy Node of cluster level between core level
-and socket level to ARM PPTT table.
+There is a separate function virt_smp_parse() in hw/virt/arm.c used
+to parse cpu topology for the ARM machines. So add parsing of -smp
+cluster parameter in it, then total number of logical cpus will be
+calculated like: max_cpus = sockets * clusters * cores * threads.
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Note, we will assume multi-cluster in one socket is not supported
+and default the value of clusters to 1, if it's not explicitly
+specified in -smp cmdline.
+
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/arm/virt-acpi-build.c | 45 ++++++++++++++++++++++++----------------
- 1 file changed, 27 insertions(+), 18 deletions(-)
+ hw/arm/virt.c | 32 ++++++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index b03d57745a..4d09b51bb0 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -447,34 +447,43 @@ static void build_pptt(GArray *table_data, BIOSLinker *linker,
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 7de822e491..678d5ef36c 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2642,8 +2642,8 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
+  * with the -smp cmdlines when parsing them.
+  *
+  * We require that at least one of cpus or maxcpus must be provided.
+- * Threads will default to 1 if not provided. Sockets and cores must
+- * be either both provided or both not.
++ * Clusters and threads will default to 1 if they are not provided.
++ * Sockets and cores must be either both provided or both not.
+  *
+  * Note, if neither sockets nor cores are specified, we will calculate
+  * all the missing values just like smp_parse() does, but will disable
+@@ -2652,15 +2652,18 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
+ static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
+ {
+     VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(ms);
++    VirtMachineState *vms = VIRT_MACHINE(ms);
  
-     for (socket = 0; socket < ms->smp.sockets; socket++) {
-         uint32_t socket_offset = table_data->len - pptt_start;
--        int core;
-+        int cluster;
+     if (opts) {
+         unsigned cpus = qemu_opt_get_number(opts, "cpus", 0);
+         unsigned maxcpus = qemu_opt_get_number(opts, "maxcpus", 0);
+         unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
++        unsigned clusters = qemu_opt_get_number(opts, "clusters", 0);
+         unsigned cores = qemu_opt_get_number(opts, "cores", 0);
+         unsigned threads = qemu_opt_get_number(opts, "threads", 0);
  
-         build_processor_hierarchy_node(
-             table_data,
-             (1 << 0), /* ACPI 6.2 - Physical package */
-             0, socket, NULL, 0);
+-        /* Default threads to 1 if not provided */
++        /* Default clusters and threads to 1 if not provided */
++        clusters = clusters > 0 ? clusters : 1;
+         threads = threads > 0 ? threads : 1;
  
--        for (core = 0; core < ms->smp.cores; core++) {
--            uint32_t core_offset = table_data->len - pptt_start;
--            int thread;
--
--            if (ms->smp.threads <= 1) {
--                build_processor_hierarchy_node(
--                    table_data,
--                    (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
--                    (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
--                    socket_offset, uid++, NULL, 0);
--            } else {
--                build_processor_hierarchy_node(table_data, 0, socket_offset,
--                                               core, NULL, 0);
--
--                for (thread = 0; thread < ms->smp.threads; thread++) {
-+        for (cluster = 0; cluster < vms->smp_clusters; cluster++) {
-+            uint32_t cluster_offset = table_data->len - pptt_start;
-+            int core;
-+
-+            build_processor_hierarchy_node(table_data, 0, socket_offset,
-+                                           cluster, NULL, 0);
-+
-+            for (core = 0; core < ms->smp.cores; core++) {
-+                uint32_t core_offset = table_data->len - pptt_start;
-+                int thread;
-+
-+                if (ms->smp.threads <= 1) {
-                     build_processor_hierarchy_node(
-                         table_data,
-                         (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
--                        (1 << 2) | /* ACPI 6.3 - Processor is a Thread */
-                         (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
--                        core_offset, uid++, NULL, 0);
-+                        cluster_offset, uid++, NULL, 0);
-+                } else {
-+                    build_processor_hierarchy_node(table_data, 0,
-+                                                   cluster_offset,
-+                                                   core, NULL, 0);
-+
-+                    for (thread = 0; thread < ms->smp.threads; thread++) {
-+                        build_processor_hierarchy_node(
-+                            table_data,
-+                            (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
-+                            (1 << 2) | /* ACPI 6.3 - Processor is a Thread */
-+                            (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
-+                            core_offset, uid++, NULL, 0);
-+                    }
-                 }
+         if (cpus == 0 && maxcpus == 0) {
+@@ -2676,13 +2679,13 @@ static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
+             cores = 1;
+             if (cpus == 0) {
+                 sockets = 1;
+-                cpus = sockets * cores * threads;
++                cpus = sockets * clusters * cores * threads;
+             } else {
+                 maxcpus = maxcpus > 0 ? maxcpus : cpus;
+-                sockets = maxcpus / (cores * threads);
++                sockets = maxcpus / (clusters * cores * threads);
              }
+         } else if (sockets > 0 && cores > 0) {
+-            cpus = cpus > 0 ? cpus : sockets * cores * threads;
++            cpus = cpus > 0 ? cpus : sockets * clusters * cores * threads;
+             maxcpus = maxcpus > 0 ? maxcpus : cpus;
+         } else {
+             error_report("sockets and cores must be both provided "
+@@ -2695,25 +2698,26 @@ static void virt_smp_parse(MachineState *ms, QemuOpts *opts)
+             exit(1);
          }
+ 
+-        if (sockets * cores * threads < cpus) {
++        if (sockets * clusters * cores * threads < cpus) {
+             error_report("cpu topology: "
+-                         "sockets (%u) * cores (%u) * threads (%u) < "
+-                         "smp_cpus (%u)",
+-                         sockets, cores, threads, cpus);
++                         "sockets (%u) * clusters (%u) * cores (%u) * "
++                         "threads (%u) < smp_cpus (%u)",
++                         sockets, clusters, cores, threads, cpus);
+             exit(1);
+         }
+ 
+-        if (sockets * cores * threads != maxcpus) {
++        if (sockets * clusters * cores * threads != maxcpus) {
+             error_report("cpu topology: "
+-                         "sockets (%u) * cores (%u) * threads (%u) "
+-                         "!= maxcpus (%u)",
+-                         sockets, cores, threads, maxcpus);
++                         "sockets (%u) * clusters (%u) * cores (%u) * "
++                         "threads (%u) != maxcpus (%u)",
++                         sockets, clusters, cores, threads, maxcpus);
+             exit(1);
+         }
+ 
+         ms->smp.cpus = cpus;
+         ms->smp.max_cpus = maxcpus;
+         ms->smp.sockets = sockets;
++        vms->smp_clusters = clusters;
+         ms->smp.cores = cores;
+         ms->smp.threads = threads;
+     }
 -- 
 2.19.1
 
