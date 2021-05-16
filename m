@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB08381E1E
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:38:04 +0200 (CEST)
-Received: from localhost ([::1]:46148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B21381E22
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 12:41:26 +0200 (CEST)
+Received: from localhost ([::1]:58510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liE9r-0001Qm-4Y
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49786)
+	id 1liED7-0001I8-V5
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 06:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE4h-0008To-J0; Sun, 16 May 2021 06:32:43 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2421)
+ id 1liE4h-0008Ul-Qp; Sun, 16 May 2021 06:32:43 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1liE4b-0000mI-5S; Sun, 16 May 2021 06:32:43 -0400
-Received: from dggems704-chm.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fjdm23s16zPxrT;
- Sun, 16 May 2021 18:29:06 +0800 (CST)
+ id 1liE4b-0000mP-7V; Sun, 16 May 2021 06:32:43 -0400
+Received: from dggems701-chm.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Fjdmv0v76z16QXG;
+ Sun, 16 May 2021 18:29:51 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggems704-chm.china.huawei.com (10.3.19.181) with Microsoft SMTP Server
+ dggems701-chm.china.huawei.com (10.3.19.178) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:32:33 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:32:34 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sun, 16 May 2021 18:32:32 +0800
+ 15.1.2176.2; Sun, 16 May 2021 18:32:33 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
  <pbonzini@redhat.com>, Andrew Jones <drjones@redhat.com>, "Michael S .
  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Shannon Zhao
  <shannon.zhaosl@gmail.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [RFC PATCH v3 2/4] hw/arm/virt: Add cluster level to device tree
-Date: Sun, 16 May 2021 18:32:26 +0800
-Message-ID: <20210516103228.37792-3-wangyanan55@huawei.com>
+Subject: [RFC PATCH v3 3/4] hw/arm/virt-acpi-build: Add cluster level to PPTT
+ table
+Date: Sun, 16 May 2021 18:32:27 +0800
+Message-ID: <20210516103228.37792-4-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210516103228.37792-1-wangyanan55@huawei.com>
 References: <20210516103228.37792-1-wangyanan55@huawei.com>
@@ -45,8 +46,8 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=wangyanan55@huawei.com; helo=szxga05-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=wangyanan55@huawei.com; helo=szxga04-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -73,43 +74,81 @@ Cc: Barry Song <song.bao.hua@hisilicon.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a cluster level between core level and socket level to ARM
-device tree. This is also consistent with content in Linux Doc
-"Documentation/devicetree/bindings/cpu/cpu-topology.txt".
+Add a Processor Hierarchy Node of cluster level between core level
+and socket level to ARM PPTT table.
 
 Reviewed-by: Andrew Jones <drjones@redhat.com>
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/arm/virt.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ hw/arm/virt-acpi-build.c | 45 ++++++++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 18 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 44e990e3be..7de822e491 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -431,14 +431,18 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index b03d57745a..4d09b51bb0 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -447,34 +447,43 @@ static void build_pptt(GArray *table_data, BIOSLinker *linker,
  
-             if (ms->smp.threads > 1) {
-                 map_path = g_strdup_printf(
--                    "/cpus/cpu-map/%s%d/%s%d/%s%d",
--                    "socket", cpu / (ms->smp.cores * ms->smp.threads),
-+                    "/cpus/cpu-map/%s%d/%s%d/%s%d/%s%d",
-+                    "socket", cpu / (vms->smp_clusters * ms->smp.cores *
-+                    ms->smp.threads),
-+                    "cluster", (cpu / (ms->smp.cores * ms->smp.threads)) %
-+                    vms->smp_clusters,
-                     "core", (cpu / ms->smp.threads) % ms->smp.cores,
-                     "thread", cpu % ms->smp.threads);
-             } else {
-                 map_path = g_strdup_printf(
--                    "/cpus/cpu-map/%s%d/%s%d",
--                    "socket", cpu / ms->smp.cores,
-+                    "/cpus/cpu-map/%s%d/%s%d/%s%d",
-+                    "socket", cpu / (vms->smp_clusters * ms->smp.cores),
-+                    "cluster", (cpu / ms->smp.cores) % vms->smp_clusters,
-                     "core", cpu % ms->smp.cores);
+     for (socket = 0; socket < ms->smp.sockets; socket++) {
+         uint32_t socket_offset = table_data->len - pptt_start;
+-        int core;
++        int cluster;
+ 
+         build_processor_hierarchy_node(
+             table_data,
+             (1 << 0), /* ACPI 6.2 - Physical package */
+             0, socket, NULL, 0);
+ 
+-        for (core = 0; core < ms->smp.cores; core++) {
+-            uint32_t core_offset = table_data->len - pptt_start;
+-            int thread;
+-
+-            if (ms->smp.threads <= 1) {
+-                build_processor_hierarchy_node(
+-                    table_data,
+-                    (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
+-                    (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
+-                    socket_offset, uid++, NULL, 0);
+-            } else {
+-                build_processor_hierarchy_node(table_data, 0, socket_offset,
+-                                               core, NULL, 0);
+-
+-                for (thread = 0; thread < ms->smp.threads; thread++) {
++        for (cluster = 0; cluster < vms->smp_clusters; cluster++) {
++            uint32_t cluster_offset = table_data->len - pptt_start;
++            int core;
++
++            build_processor_hierarchy_node(table_data, 0, socket_offset,
++                                           cluster, NULL, 0);
++
++            for (core = 0; core < ms->smp.cores; core++) {
++                uint32_t core_offset = table_data->len - pptt_start;
++                int thread;
++
++                if (ms->smp.threads <= 1) {
+                     build_processor_hierarchy_node(
+                         table_data,
+                         (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
+-                        (1 << 2) | /* ACPI 6.3 - Processor is a Thread */
+                         (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
+-                        core_offset, uid++, NULL, 0);
++                        cluster_offset, uid++, NULL, 0);
++                } else {
++                    build_processor_hierarchy_node(table_data, 0,
++                                                   cluster_offset,
++                                                   core, NULL, 0);
++
++                    for (thread = 0; thread < ms->smp.threads; thread++) {
++                        build_processor_hierarchy_node(
++                            table_data,
++                            (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
++                            (1 << 2) | /* ACPI 6.3 - Processor is a Thread */
++                            (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
++                            core_offset, uid++, NULL, 0);
++                    }
+                 }
              }
-             qemu_fdt_add_path(ms->fdt, map_path);
+         }
 -- 
 2.19.1
 
