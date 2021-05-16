@@ -2,67 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65A538207A
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 20:52:16 +0200 (CEST)
-Received: from localhost ([::1]:50974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728743820B8
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 22:01:43 +0200 (CEST)
+Received: from localhost ([::1]:58112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liLs7-0003FL-Eu
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 14:52:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56346)
+	id 1liMxK-0005a7-9C
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 16:01:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1liLq3-0001UI-7Q
- for qemu-devel@nongnu.org; Sun, 16 May 2021 14:50:08 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:35340)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1liLq1-0003s0-5u
- for qemu-devel@nongnu.org; Sun, 16 May 2021 14:50:06 -0400
-Received: by mail-ed1-x534.google.com with SMTP id di13so4339773edb.2
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 11:50:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lum3qNnJudQLOezeUNNjVWPZpXbh05BkFdyyTNrKZZU=;
- b=ZIAf5rzz1hUR1KYbIj26W5ZGXDcPWLWSUU6OccwYImhfrYNErWWRmj13mLpz9t9cTe
- cotDx2LR2hYJi7aJ7Bje7bxbxWXtck6QODwSAlDP029fEhE3rLOJZkNe7hFil7WvlUyB
- KIcWD8ZCZS8LzjLzL/AAjhmveciWK9zid8Pm32/onqIzgVCX/66VhgoRN+rTAfbSGayo
- EUaoY/V+hOEul0fzzxLCVTPBR2Yfx4scaGtIrdP/E+pDuP4hO/6UluFb48rBLexOz0pW
- st8rx7iVUYu0wykJpRn8rCIxvlRDFWqeInu38mh7QxlsWaXiKysNXqm2nlJsxtsKyFSk
- MOyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lum3qNnJudQLOezeUNNjVWPZpXbh05BkFdyyTNrKZZU=;
- b=PACjKKOoKhHa8AkXXv3xtuTXTixHC35hOGz9K3HDHzMTwQlRdb1kdEmLDu0J8Mb0EE
- Xl3x7yD6vUvivJKSjWlhD4V6tZ0sL/Ws5ar19ssRPk33OJ6z91DNXBXQvFV+AgDa5mB3
- tc6oni029UiP2j/aTmJJYI4uOSM8uFWpJxjw70v0yhp+pmyrqkZjokKHPuWxq0D/2gU6
- FEBaz+AORV86O0zkEEFhiAJwxuQUnRCm3y9JdER9VrFUHtBo13xRXP9v6I0jSLyZslUJ
- JLx1//poJVowjcTNnZ/GmudDmcZB1MYFcJNgz0ET5ONEAWNFMok+Il7BmHCinMyAgH0n
- jnfQ==
-X-Gm-Message-State: AOAM530gTE6yCUMBXpCoAtpo9+hSm4TXDiDb7THu6SOfE3vALkVj8byI
- GZwFJ6RkpPHn+zZNtBTVdGvF9CEIYfgaBnLMQ4H6+A==
-X-Google-Smtp-Source: ABdhPJzi4gs7A7S2mA1/2Sg0jeMi1JWAnX1yRop0J9l5fPaTbknTjqK0xnsy98qmBo8ZN+7SkzM1G/W8kzg6hzMzJXI=
-X-Received: by 2002:a50:ab06:: with SMTP id s6mr58343028edc.100.1621191003733; 
- Sun, 16 May 2021 11:50:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1liMul-0001sZ-3o; Sun, 16 May 2021 15:59:03 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:45292 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1liMuh-0008Bj-PS; Sun, 16 May 2021 15:59:02 -0400
+Received: from localhost.localdomain
+ (dynamic-095-118-089-019.95.118.pool.telefonica.de [95.118.89.19])
+ by csgraf.de (Postfix) with ESMTPSA id C77C360803FB;
+ Sun, 16 May 2021 21:58:55 +0200 (CEST)
+From: Alexander Graf <agraf@csgraf.de>
+To: QEMU Developers <qemu-devel@nongnu.org>
+Subject: [PATCH v7 00/19] hvf: Implement Apple Silicon Support
+Date: Sun, 16 May 2021 21:58:36 +0200
+Message-Id: <20210516195855.28869-1-agraf@csgraf.de>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-References: <20210514160245.91918-1-mst@redhat.com>
-In-Reply-To: <20210514160245.91918-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 16 May 2021 19:49:49 +0100
-Message-ID: <CAFEAcA_hxkqLDs=mt2sC0m1Nq6uVSkjUj106DeWE+7VqROev8g@mail.gmail.com>
-Subject: Re: [PULL 00/16] pc,pci,virtio: bugfixes, improvements
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,39 +49,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 May 2021 at 17:04, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit 609d7596524ab204ccd71ef42c9eee4c7c338ea4:
->
->   Update version for v6.0.0 release (2021-04-29 18:05:29 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to f7a6df5f5bf3acc219352a1b25573ae2082d7e42:
->
->   Fix build with 64 bits time_t (2021-05-14 10:26:18 -0400)
->
-> ----------------------------------------------------------------
-> pc,pci,virtio: bugfixes, improvements
->
-> Fixes all over the place. Faster boot for virtio. ioeventfd support for
-> mmio.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
-> ----------------------------------------------------------------
+Now that Apple Silicon is widely available, people are obviously excited
+to try and run virtualized workloads on them, such as Linux and Windows.
+
+This patch set implements a fully functional version to get the ball
+going on that. With this applied, I can successfully run both Linux and
+Windows as guests. I am not aware of any limitations specific to
+Hypervisor.framework apart from:
+
+  - Live migration / savevm
+  - gdbstub debugging (SP register)
 
 
-Applied, thanks.
+Enjoy!
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+Alex
 
--- PMM
+v1 -> v2:
+
+  - New patch: hvf: Actually set SIG_IPI mask
+  - New patch: hvf: Introduce hvf vcpu struct
+  - New patch: hvf: arm: Mark CPU as dirty on reset
+  - Removed patch: hw/arm/virt: Disable highmem when on hypervisor.framework
+  - Removed patch: arm: Synchronize CPU on PSCI on
+  - Fix build on 32bit arm
+  - Merge vcpu kick function patch into ARM enablement
+  - Implement WFI handling (allows vCPUs to sleep)
+  - Synchronize system registers (fixes OVMF crashes and reboot)
+  - Don't always call cpu_synchronize_state()
+  - Use more fine grained iothread locking
+  - Populate aa64mmfr0 from hardware
+  - Make safe to ctrl-C entitlement application
+
+v2 -> v3:
+
+  - Removed patch: hvf: Actually set SIG_IPI mask
+  - New patch: hvf: arm: Add support for GICv3
+  - New patch: hvf: arm: Implement -cpu host
+  - Advance PC on SMC
+  - Use cp list interface for sysreg syncs
+  - Do not set current_cpu
+  - Fix sysreg isread mask
+  - Move sysreg handling to functions
+  - Remove WFI logic again
+  - Revert to global iothread locking
+
+v3 -> v4:
+
+  - Removed patch: hvf: arm: Mark CPU as dirty on reset
+  - New patch: hvf: Simplify post reset/init/loadvm hooks
+  - Remove i386-softmmu target (meson.build for hvf target)
+  - Combine both if statements (PSCI)
+  - Use hv.h instead of Hypervisor.h for 10.15 compat
+  - Remove manual inclusion of Hypervisor.h in common .c files
+  - No longer include Hypervisor.h in arm hvf .c files
+  - Remove unused exe_full variable
+  - Reuse exe_name variable
+
+v4 -> v5:
+
+  - Use g_free() on destroy
+
+v5 -> v6:
+
+  - Switch SYSREG() macro order to the same as asm intrinsics
+
+v6 -> v7:
+
+  - Already merged: hvf: Add hypervisor entitlement to output binaries
+  - Already merged: hvf: x86: Remove unused definitions
+  - Patch split: hvf: Move common code out
+    -> hvf: Move assert_hvf_ok() into common directory
+    -> hvf: Move vcpu thread functions into common directory
+    -> hvf: Move cpu functions into common directory
+    -> hvf: Move hvf internal definitions into common header
+    -> hvf: Make hvf_set_phys_mem() static
+    -> hvf: Remove use of hv_uvaddr_t and hv_gpaddr_t
+    -> hvf: Split out common code on vcpu init and destroy
+    -> hvf: Use cpu_synchronize_state()
+    -> hvf: Make synchronize functions static
+    -> hvf: Remove hvf-accel-ops.h
+  - New patch: hvf: arm: Implement PSCI handling
+  - New patch: arm: Enable Windows 10 trusted SMCCC boot call
+  - New patch: hvf: arm: Handle Windows 10 SMC call
+  - Removed patch: "arm: Set PSCI to 0.2 for HVF" (included above)
+  - Removed patch: "hvf: arm: Add support for GICv3" (deferred to later)
+  - Remove osdep.h include from hvf_int.h
+  - Synchronize SIMD registers as well
+  - Prepend 0x for hex values
+  - Convert DPRINTF to trace points
+  - Use main event loop (fixes gdbstub issues)
+  - Remove PSCI support, inject UDEF on HVC/SMC
+  - Change vtimer logic to look at ctl.istatus for vtimer mask sync
+  - Add kick callback again (fixes remote CPU notification)
+  - Move function define to own header
+  - Do not propagate SVE features for HVF
+  - Remove stray whitespace change
+  - Verify that EL0 and EL1 do not allow AArch32 mode
+  - Only probe host CPU features once
+  - Move WFI into function
+  - Improve comment wording
+  - Simplify HVF matching logic in meson build file
+
+Alexander Graf (18):
+  hvf: Move assert_hvf_ok() into common directory
+  hvf: Move vcpu thread functions into common directory
+  hvf: Move cpu functions into common directory
+  hvf: Move hvf internal definitions into common header
+  hvf: Make hvf_set_phys_mem() static
+  hvf: Remove use of hv_uvaddr_t and hv_gpaddr_t
+  hvf: Split out common code on vcpu init and destroy
+  hvf: Use cpu_synchronize_state()
+  hvf: Make synchronize functions static
+  hvf: Remove hvf-accel-ops.h
+  hvf: Introduce hvf vcpu struct
+  hvf: Simplify post reset/init/loadvm hooks
+  hvf: Add Apple Silicon support
+  hvf: arm: Implement -cpu host
+  hvf: arm: Implement PSCI handling
+  arm: Add Hypervisor.framework build target
+  arm: Enable Windows 10 trusted SMCCC boot call
+  hvf: arm: Handle Windows 10 SMC call
+
+Peter Collingbourne (1):
+  arm/hvf: Add a WFI handler
+
+ MAINTAINERS                     |  13 +
+ accel/hvf/hvf-accel-ops.c       | 484 ++++++++++++++++
+ accel/hvf/hvf-all.c             |  47 ++
+ accel/hvf/meson.build           |   7 +
+ accel/meson.build               |   1 +
+ include/hw/core/cpu.h           |   3 +-
+ include/sysemu/hvf_int.h        |  66 +++
+ meson.build                     |   8 +
+ target/arm/cpu.c                |  13 +-
+ target/arm/cpu.h                |   2 +
+ target/arm/hvf/hvf.c            | 959 ++++++++++++++++++++++++++++++++
+ target/arm/hvf/meson.build      |   3 +
+ target/arm/hvf/trace-events     |  11 +
+ target/arm/hvf_arm.h            |  19 +
+ target/arm/kvm-consts.h         |   2 +
+ target/arm/kvm_arm.h            |   2 -
+ target/arm/meson.build          |   2 +
+ target/arm/psci.c               |   2 +
+ target/i386/hvf/hvf-accel-ops.c | 146 -----
+ target/i386/hvf/hvf-accel-ops.h |  23 -
+ target/i386/hvf/hvf-i386.h      |  33 +-
+ target/i386/hvf/hvf.c           | 464 ++-------------
+ target/i386/hvf/meson.build     |   1 -
+ target/i386/hvf/vmx.h           |  24 +-
+ target/i386/hvf/x86.c           |  28 +-
+ target/i386/hvf/x86_descr.c     |  26 +-
+ target/i386/hvf/x86_emu.c       |  62 +--
+ target/i386/hvf/x86_mmu.c       |   4 +-
+ target/i386/hvf/x86_task.c      |  12 +-
+ target/i386/hvf/x86hvf.c        | 222 ++++----
+ target/i386/hvf/x86hvf.h        |   2 -
+ 31 files changed, 1884 insertions(+), 807 deletions(-)
+ create mode 100644 accel/hvf/hvf-accel-ops.c
+ create mode 100644 accel/hvf/hvf-all.c
+ create mode 100644 accel/hvf/meson.build
+ create mode 100644 include/sysemu/hvf_int.h
+ create mode 100644 target/arm/hvf/hvf.c
+ create mode 100644 target/arm/hvf/meson.build
+ create mode 100644 target/arm/hvf/trace-events
+ create mode 100644 target/arm/hvf_arm.h
+ delete mode 100644 target/i386/hvf/hvf-accel-ops.c
+ delete mode 100644 target/i386/hvf/hvf-accel-ops.h
+
+-- 
+2.30.1 (Apple Git-130)
+
 
