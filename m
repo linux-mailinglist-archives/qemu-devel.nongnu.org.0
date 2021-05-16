@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01D538210A
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 22:51:30 +0200 (CEST)
-Received: from localhost ([::1]:40118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82713382111
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 22:54:56 +0200 (CEST)
+Received: from localhost ([::1]:45058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liNjV-0002Th-H5
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 16:51:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54232)
+	id 1liNmp-0005uw-Ko
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 16:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liNii-0001dB-R2; Sun, 16 May 2021 16:50:40 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46788)
+ id 1liNlg-00054U-Gb; Sun, 16 May 2021 16:53:44 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liNih-0000Uh-4d; Sun, 16 May 2021 16:50:40 -0400
-Received: by mail-wr1-x432.google.com with SMTP id y14so2242257wrm.13;
- Sun, 16 May 2021 13:50:37 -0700 (PDT)
+ id 1liNlf-0002RU-3q; Sun, 16 May 2021 16:53:44 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id z17so4336871wrq.7;
+ Sun, 16 May 2021 13:53:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=jjzGDYsCt9G58r+D/CLt4yD0Z7T5oyNjPS/+wxQ6rIQ=;
- b=lRB2p+3LsED7KX5+TiYP8FiEjXnfuQfrkXZ6GNTzDo7YNUP7VY7aeNa5dMjp56H3L4
- U5tBWm8AUswLy48StgTR5mjND4bBpX172OIQZhEk+kq43ViJG5R1BcePHZeFzX7LrCPr
- V7/wakOHpc952C9omoexn8hd3YrLMF1zj4s9qKzkY+jsA2+1QJ5N6R4MNhpSB5EpCah8
- SpqQyEzmw19dYBzeIC2b0A7D/gOa9A1KTXxkYTtYxBYFWr+gq8p7ZqWIrq4hgbQ1rhln
- OYvUGDEwoFKqCp8YPIDs6WijWWkhrSuvi9l4B5d+kPsxS5AJjgZeNFgLlTWdqDDjdZGB
- 4oyA==
+ bh=CcgMbjFJSFPVhvSIhhYUtYHJ8K4LvFQPTieH0KVpcWs=;
+ b=DUeg1pXir4GU95uADMPIrteJxRx3lvrpEBaUmQ9STwKodH4PasOL8Hj5HgMpLThrqf
+ WdOBkZbnXhC5islHzUTs1t3Rr/phLS+tFfoNnzbqFetD9PTIXEMh3/NcnHpptCCmGYqU
+ TSpitLnaPpZT7a4qEmDq5Y9KHsB71A1MsdGp/jDZT1RvAJBs2xBnvdTht5x8ccm5pf30
+ r3JhOb1Ts/F8citEqdAt0Qk+I7gmyE+HY7rhdfJ3UvnWfsD+GuGqJtdBjOhw6vBBQOwp
+ GAwnkBNtvcAV0yosjn/IRftacVQH557BSIt4qJ9YA67fXfvA9w6MfJEeH8jHAOe47nj7
+ oUgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=jjzGDYsCt9G58r+D/CLt4yD0Z7T5oyNjPS/+wxQ6rIQ=;
- b=YaJDVOYXxr0SxytMIpXQ/t2AvQislOsg9j7gIE460JO5r2FKFIznk4mYun4dPkz78N
- sjXrJRSfnmDMqlVsRgLLRwBV1PnEpU9xUnvBlIMCqxXsQqjjt9RD3oMT5vtEWkOwSSf7
- OlQO/kT1tiqZuZl77HLXSRi0ehrEiL/McnnJEKUZ9RZp1Wr93y26JQwr3Qs8ZyI+4ev6
- f1/Ld/kZJaAjL4l/i4hksAwRgQuLVu5w2pU3SsJd8leH3zSRNf+ejsLgGdoGf/hONy1p
- FNnl6sVIt2r03nkPFyQi6278LiXTjT1tG5BNQxFGSRh7svIbDW6UbRH+l+aL5raHF7WY
- pHKA==
-X-Gm-Message-State: AOAM531Ga16sWvGku3AJPJqfN8s4TLkkZ6tgqeKyiwpSRwZAJKxeiEMo
- Hfzlm+gl84edYXfJCcSUzS9d6b+EwMawSw==
-X-Google-Smtp-Source: ABdhPJw0y2gRoGuPwsd8exKeeimPvC0O/HkofThbHDzPdsrUsFJDDAWKBzjSRQZ4ILMxnzw1x+AT/A==
-X-Received: by 2002:a05:6000:551:: with SMTP id
- b17mr69824234wrf.32.1621198236496; 
- Sun, 16 May 2021 13:50:36 -0700 (PDT)
+ bh=CcgMbjFJSFPVhvSIhhYUtYHJ8K4LvFQPTieH0KVpcWs=;
+ b=lieqACVK+05b+Qqep1H47sCB8x1IXwie9onT1qXpgM07baIpHC4X11ujrbyj1ouw7g
+ NKtbw4qLWMdvwLygubCgtDnL82X3bQzVAq06TZDop5Nco7DcHe+4j1Og0U2yPITKkZ58
+ CXpFrFuIEKP6G8gZ4J4r4YtCUVlr+yrcJI4GVKR1IRDCgRnx45cb0yuSXZKm9GR9SIHk
+ HUD+qx2bmlId9zz4yxLmtNf8HxRUM/dl7SuVrXZrLZNIWlJDjXcBvJTxNOUNZOIKknYN
+ t7lYejhyxVKedMZeixPaWcZl4fVBkVOz66yiDFdc8dY3TxariajVxC66BEo6cukBAPS2
+ HbYA==
+X-Gm-Message-State: AOAM531HIDirhn85PrHPIZYa8h/GYRxSPJg8j9Eevfo5geFBXg/IhK64
+ Ai+H7dL0S1skBffARK/kuemehxzRL3q4TQ==
+X-Google-Smtp-Source: ABdhPJydZuRsYCWRl9FKSbjFICgevFr3V9R/XryZ0UNR8ogEnRdcraRzvx5NNVqbX7B88DH9237rqw==
+X-Received: by 2002:a5d:4649:: with SMTP id j9mr37804728wrs.360.1621198416177; 
+ Sun, 16 May 2021 13:53:36 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id r7sm11233920wmq.18.2021.05.16.13.50.35
+ by smtp.gmail.com with ESMTPSA id v21sm18014666wml.5.2021.05.16.13.53.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 May 2021 13:50:35 -0700 (PDT)
+ Sun, 16 May 2021 13:53:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] misc: Correct relative include path
-Date: Sun, 16 May 2021 22:50:34 +0200
-Message-Id: <20210516205034.694788-1-f4bug@amsat.org>
+Subject: [PATCH v2] target/riscv: Do not include 'pmp.h' in user emulation
+Date: Sun, 16 May 2021 22:53:33 +0200
+Message-Id: <20210516205333.696094-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -82,78 +81,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-riscv@nongnu.org, qemu-trivial@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Headers should be included from the 'include/' directory,
-not from the root directory.
+Physical Memory Protection is a system feature.
+Avoid polluting the user-mode emulation by its definitions.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/acpi-common.h     | 6 +++---
- include/monitor/monitor.h | 2 +-
- hw/gpio/aspeed_gpio.c     | 2 +-
- hw/intc/ppc-uic.c         | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ target/riscv/cpu.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
-index b12cd73ea5d..a68825acf50 100644
---- a/hw/i386/acpi-common.h
-+++ b/hw/i386/acpi-common.h
-@@ -1,9 +1,9 @@
- #ifndef HW_I386_ACPI_COMMON_H
- #define HW_I386_ACPI_COMMON_H
--#include "include/hw/acpi/acpi_dev_interface.h"
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 7e879fb9ca5..0619b491a42 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -97,7 +97,9 @@ enum {
  
--#include "include/hw/acpi/bios-linker-loader.h"
--#include "include/hw/i386/x86.h"
-+#include "hw/acpi/acpi_dev_interface.h"
-+#include "hw/acpi/bios-linker-loader.h"
-+#include "hw/i386/x86.h"
+ typedef struct CPURISCVState CPURISCVState;
  
- /* Default IOAPIC ID */
- #define ACPI_BUILD_IOAPIC_ID 0x0
-diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-index af3887bb71d..1211d6e6d69 100644
---- a/include/monitor/monitor.h
-+++ b/include/monitor/monitor.h
-@@ -4,7 +4,7 @@
- #include "block/block.h"
- #include "qapi/qapi-types-misc.h"
- #include "qemu/readline.h"
--#include "include/exec/hwaddr.h"
-+#include "exec/hwaddr.h"
++#if !defined(CONFIG_USER_ONLY)
+ #include "pmp.h"
++#endif
  
- typedef struct MonitorHMP MonitorHMP;
- typedef struct MonitorOptions MonitorOptions;
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 985a259e05b..db7ef88ee56 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -10,7 +10,7 @@
- #include "qemu/host-utils.h"
- #include "qemu/log.h"
- #include "hw/gpio/aspeed_gpio.h"
--#include "include/hw/misc/aspeed_scu.h"
-+#include "hw/misc/aspeed_scu.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
- #include "hw/irq.h"
-diff --git a/hw/intc/ppc-uic.c b/hw/intc/ppc-uic.c
-index 7171de7b355..60013f2dde3 100644
---- a/hw/intc/ppc-uic.c
-+++ b/hw/intc/ppc-uic.c
-@@ -23,7 +23,7 @@
-  */
+ #define RV_VLEN_MAX 256
  
- #include "qemu/osdep.h"
--#include "include/hw/intc/ppc-uic.h"
-+#include "hw/intc/ppc-uic.h"
- #include "hw/irq.h"
- #include "cpu.h"
- #include "hw/ppc/ppc.h"
 -- 
 2.26.3
 
