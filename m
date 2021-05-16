@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBA9381C2C
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D25381C2D
 	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 05:06:17 +0200 (CEST)
-Received: from localhost ([::1]:55592 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:55610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1li76e-0003Wf-FC
+	id 1li76e-0003XF-H6
 	for lists+qemu-devel@lfdr.de; Sat, 15 May 2021 23:06:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45762)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1li74p-0000pN-Qx
- for qemu-devel@nongnu.org; Sat, 15 May 2021 23:04:23 -0400
-Received: from m12-13.163.com ([220.181.12.13]:52132)
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1li74o-0000oo-LQ
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 23:04:22 -0400
+Received: from m12-13.163.com ([220.181.12.13]:52205)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1li74k-0002dJ-U8
- for qemu-devel@nongnu.org; Sat, 15 May 2021 23:04:23 -0400
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1li74k-0002db-EF
+ for qemu-devel@nongnu.org; Sat, 15 May 2021 23:04:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=BzYCD
- 09ffMe45pwQvIaWImz53+dVi8gD6dIwEE++i/w=; b=jpCYDOB6wxrLE5Q4hv6nQ
- sGnRnZq0em23rFKL3ZxjWXMUbNdu4UL3XThMGr6PXLw0YZ9O357zTyPAgBKgpC5V
- w4mt6GzsgUbYz/Y4rHwvFf+JNxHG8yosgEWIJVWoUH8ok9H1ukeAMQbqh9F2pUUQ
- 1HPs/zh3RMhVNo94aDsOSk=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=VHEE/
+ 6PHj6HKMf1kg5MP8/mD9JXRubLwlPgxHpRSgv4=; b=ZlP+46gnHHsRz3rbNNmjr
+ 5qEga2Sn6baQeRgFtbc7ImER9fFz987xPJKlnHXzcddsCqmTezNQnpA+LL2iwUoF
+ jdp7PA9VSKuH/qIHugzouI6Ws/7ZFE+2yGC8lfXBw7e9UUeFmBEwqHvbyqQKfmcu
+ BB7+uBTJ1gUeALWgEQ7CNE=
 Received: from ubuntu.localdomain (unknown [115.200.200.157])
- by smtp9 (Coremail) with SMTP id DcCowAC3evili6Bg85SBAw--.61303S9;
- Sun, 16 May 2021 11:04:13 +0800 (CST)
+ by smtp9 (Coremail) with SMTP id DcCowAC3evili6Bg85SBAw--.61303S10;
+ Sun, 16 May 2021 11:04:14 +0800 (CST)
 From: Li Qiang <liq3ea@163.com>
 To: marcandre.lureau@redhat.com, kraxel@redhat.com, philmd@redhat.com,
  ppandit@redhat.com, mcascell@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v2 5/8] vhost-user-gpu: fix memory leak in
- 'virgl_cmd_resource_unref' (CVE-2021-3544)
-Date: Sat, 15 May 2021 20:04:00 -0700
-Message-Id: <20210516030403.107723-6-liq3ea@163.com>
+Subject: [PATCH v2 6/8] vhost-user-gpu: fix memory leak in
+ 'virgl_resource_attach_backing' (CVE-2021-3544)
+Date: Sat, 15 May 2021 20:04:01 -0700
+Message-Id: <20210516030403.107723-7-liq3ea@163.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210516030403.107723-1-liq3ea@163.com>
 References: <20210516030403.107723-1-liq3ea@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DcCowAC3evili6Bg85SBAw--.61303S9
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Wr1DXF1UGFW3Xw4rWFW3Jrb_yoWkGFg_ZF
- 4YkF18Ar45GFy093y5Zw1rAayaywna9FyqvFyfKa4Fk34rWr1jqw10q3s7Gry29r4kGF4D
- JryFyw4rCw4a9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU85CzJUUUUU==
+X-CM-TRANSID: DcCowAC3evili6Bg85SBAw--.61303S10
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKFyxCF17Kr4UXFyDCr4xtFb_yoWfCrg_ZF
+ 4Fvrn7Jr4UXFWj9w43Xw18Cayay3yrZF97AFyfKayfCFyFgw15Xw1rt3s7J347Zr4DWFnr
+ Zry0yr4rCa13ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU85l1DUUUUU==
 X-Originating-IP: [115.200.200.157]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBZgyUbVaD74ALNQABsW
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBZg6UbVaD74ALQQAAsh
 Received-SPF: pass client-ip=220.181.12.13; envelope-from=liq3ea@163.com;
  helo=m12-13.163.com
 X-Spam_score_int: -20
@@ -70,45 +70,36 @@ Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'res->iov' will be leaked if the guest trigger following sequences:
-
-	virgl_cmd_create_resource_2d
-	virgl_resource_attach_backing
-	virgl_cmd_resource_unref
-
-This patch fixes this.
+If 'virgl_renderer_resource_attach_iov' failed, the 'res_iovs' will
+be leaked.
 
 Fixes: CVE-2021-3544
 Reported-by: Li Qiang <liq3ea@163.com>
-virtio-gpu fix: 5e8e3c4c75 ("virtio-gpu: fix resource leak
-in virgl_cmd_resource_unref"
+virtio-gpu fix: 33243031da ("virtio-gpu-3d: fix memory leak
+in resource attach backing")
 
 Signed-off-by: Li Qiang <liq3ea@163.com>
 ---
- contrib/vhost-user-gpu/virgl.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ contrib/vhost-user-gpu/virgl.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/contrib/vhost-user-gpu/virgl.c b/contrib/vhost-user-gpu/virgl.c
-index 6a332d601f..c669d73a1d 100644
+index c669d73a1d..a16a311d80 100644
 --- a/contrib/vhost-user-gpu/virgl.c
 +++ b/contrib/vhost-user-gpu/virgl.c
-@@ -108,9 +108,16 @@ virgl_cmd_resource_unref(VuGpu *g,
-                          struct virtio_gpu_ctrl_command *cmd)
- {
-     struct virtio_gpu_resource_unref unref;
-+    struct iovec *res_iovs = NULL;
-+    int num_iovs = 0;
+@@ -287,8 +287,11 @@ virgl_resource_attach_backing(VuGpu *g,
+         return;
+     }
  
-     VUGPU_FILL_CMD(unref);
- 
-+    virgl_renderer_resource_detach_iov(unref.resource_id,
-+                                       &res_iovs,
-+                                       &num_iovs);
-+    g_free(res_iovs);
-+
-     virgl_renderer_resource_unref(unref.resource_id);
+-    virgl_renderer_resource_attach_iov(att_rb.resource_id,
++    ret = virgl_renderer_resource_attach_iov(att_rb.resource_id,
+                                        res_iovs, att_rb.nr_entries);
++    if (ret != 0) {
++        g_free(res_iovs);
++    }
  }
  
+ static void
 -- 
 2.25.1
 
