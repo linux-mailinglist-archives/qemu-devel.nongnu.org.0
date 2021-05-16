@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F5E381FBD
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 18:21:20 +0200 (CEST)
-Received: from localhost ([::1]:51038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B54382020
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 19:08:05 +0200 (CEST)
+Received: from localhost ([::1]:39996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liJW3-0005x6-7l
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 12:21:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57766)
+	id 1liKFH-0004Ww-In
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 13:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1liJUp-00054w-1p
- for qemu-devel@nongnu.org; Sun, 16 May 2021 12:20:03 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:44749)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1liKD6-00030b-VY; Sun, 16 May 2021 13:05:52 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1liJUn-00023r-9n
- for qemu-devel@nongnu.org; Sun, 16 May 2021 12:20:02 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id t15so4061764edr.11
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 09:20:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4m1d5JQQEWbRqHbX7Z2ZI/wXomRDudcl9CSBfNIIMrc=;
- b=fwS/GBtXxiKE6XXji9VM3xmCIyPTvEEE2hQeZXmwXK+enu2z/LMuUpOk17zHk8Fbjs
- VSPPxvcWYx/y9EujEvd7bwlZQa2byWriqJFC5esTOvbo4nLR9bWZX6NZYoM3jaCPGo8b
- xAJ6Xf+KWQ281P1x+dAMj+/oFq6oNg0oGhkUJvEY8WuMp1GlmKtqQbdERqWDIP3kKUzH
- a2HhtCGtup12rJhwFyrhXnON9IKUBXs8gYRRbUE9XiL8gamRY9uc1buPPmG8+YXKV3BI
- 0u/fo/D4TpE1BGFRsGqLJj6LX7tygrEVUjefBPHWWWIOMBmfMcUFTjr4I08uBjkd3DtE
- MDXw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1liKD4-0005pI-Ve; Sun, 16 May 2021 13:05:48 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id v12so4014150wrq.6;
+ Sun, 16 May 2021 10:05:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=F6GWTDNVPwLi8KzHyu5P6sLj6Ryz9PtZMWjQtp08sls=;
+ b=aD/GpyZaF1TH+k5USvdl5dRb24LZT1GIECZoI3J9t6j2eLQAPKVnaP7lbc83GO9zTH
+ 1jBb9QveTljQzRPkniBKhjcqZGZ6g7hVEkYOg373tozfgtLsZf7FSMxfAdNS53O0FfwZ
+ 0uoWCofpgXnhMjrvcTayEcZUK6r5znYIhB3qp0fv98LrmEvFwGNYuHS2ib4aLWmbdMsa
+ n6DaQDgFg8/224pZnO+G6U3NIxEscwAS46wDHVlr+9vb/OpVkPWdKdTVY+AYHtojL6Ty
+ erd7W5PBkx0RFXl9Nv/g0QI2wiFObbq7Qw75VNBEDUNrftfc2zp5sGhjM0T8TMbwUZKj
+ VGVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4m1d5JQQEWbRqHbX7Z2ZI/wXomRDudcl9CSBfNIIMrc=;
- b=ckTPSrHUCD/U8Al4xu5v/JrdR24OyVsATAsr2brgZgxVv92hfc0cFlczRK+CWD2/+Q
- Hrido0iELqcyFOWs0eRY+NW707tL6etvvZYBYOfglTMMWpJu4aG1EuSVNJmHDX49d+V0
- ecAdPQpQ3A2h1G49on/0HcVKjqfrU0+4omHaww3ab79wi02z4bQBJV0SjsHc1dn0F9nY
- 6XdoZrgDxLesmWM4IxsCE5Zv0WRXIgXA32ZGBhLu3NcE7gaz8hSAhwoUjYWSugb4xj1M
- EOnch83Qe696Mex+RkCDKNxmWivncUfBIKQUoIFzlOhHzgUXU6U436NLJmjj8fKe1AxE
- 5PGg==
-X-Gm-Message-State: AOAM5307V0lU4l2b9fTMkSr50KVamHdnoAcdPAQ+6ZWU3QzexuENyot2
- 3T+dib68uKfwwKR2ZKPbSBYTe398d7PFVHabkOVo2w==
-X-Google-Smtp-Source: ABdhPJxTjVerxRVbztcarVtTXfP1jvz1QwPEVNInZejP75ouvBb0i29or1nniyM5ESuANA2hIsrpFnxbrh42Trp0waA=
-X-Received: by 2002:a05:6402:416:: with SMTP id
- q22mr67046206edv.204.1621181999733; 
- Sun, 16 May 2021 09:19:59 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=F6GWTDNVPwLi8KzHyu5P6sLj6Ryz9PtZMWjQtp08sls=;
+ b=Nuo+3ox8x1UbXIlvZJiqHOckCzjjRfJ2BVtZ7U0gzGrAr6XMZbCdtScwLA18vwaywD
+ 8fdSpN0Mk3L4XovJPls/MEaLUzdxPAsufp7FNC4YpPYDe9I0/PeyFFNpgyhTIxxpeDQ5
+ 1bMRchSgYuPNxzo7LIlr5lf8k7dnDFe6aAiCl1g41qQ4e6DQUE7NZxG3ZexMmSIMcb67
+ ae2mKPkXacA8HHM9Sk0sz3Zd3Z4WkJeYOOy5TnaY5rIxM0hobmLPz5matK9ebd18F/bG
+ czKZK3AJBWY/2X9uFA9qYGYStJSNUdRaT9wJvyi63rgXgiA0EQ3CtNTKLtffNzvuyTj9
+ JaoA==
+X-Gm-Message-State: AOAM531b3psRvfDHXEGoiZMaVDWbIt9cPvvqPwlE+XR74KBQldDWfr8N
+ haXullChQdEkZVRa8bu8W+I=
+X-Google-Smtp-Source: ABdhPJz5yprmO6DUuT4eykSy9A3uyFxCsKA8MF6Jw4NpyFHCz1SjVK8wFQrQqRL7YoIwd7YsSY5Upw==
+X-Received: by 2002:a5d:5301:: with SMTP id e1mr27521779wrv.36.1621184742096; 
+ Sun, 16 May 2021 10:05:42 -0700 (PDT)
+Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
+ [83.51.215.31])
+ by smtp.gmail.com with ESMTPSA id f11sm17884608wmq.41.2021.05.16.10.05.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 16 May 2021 10:05:41 -0700 (PDT)
+Subject: Re: [PATCH] disas/libvixl: Protect C system header for C++ compiler
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210515183531.372925-1-f4bug@amsat.org>
+ <6e79e8b4-32fd-da09-239a-0ebd085612f5@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7b7a9f93-68fa-80b6-c276-e2554b55c739@amsat.org>
+Date: Sun, 16 May 2021 19:05:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210514121518.832729-1-thuth@redhat.com>
-In-Reply-To: <20210514121518.832729-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 16 May 2021 17:19:45 +0100
-Message-ID: <CAFEAcA-kj52g=E2mwD85NxLupfjcJw2grdouTqRezLJFEhEv=Q@mail.gmail.com>
-Subject: Re: [PULL 00/20] CI, qtest, and misc patches
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <6e79e8b4-32fd-da09-239a-0ebd085612f5@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,39 +87,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 May 2021 at 13:15, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter!
->
-> The following changes since commit 2d3fc4e2b069494b1e9e2e4a1e3de24cbc036426:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2021-05-12' into staging (2021-05-13 20:13:24 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/thuth/qemu.git tags/pull-request-2021-05-14
->
-> for you to fetch changes up to 568740bedf22cc8d0ec9ab1ce522a97baab5961c:
->
->   cirrus.yml: Fix the MSYS2 task (2021-05-14 13:11:48 +0200)
->
-> ----------------------------------------------------------------
-> * Replace YAML anchors by extends in the gitlab-CI yaml files
-> * Many small qtest fixes (e.g. to fix issues discovered by Coverity)
-> * Poison more config switches in common code
-> * Fix the failing Travis-CI and Cirrus-CI tasks
-> ----------------------------------------------------------------
+On 5/16/21 2:46 PM, Thomas Huth wrote:
+> On 15/05/2021 20.35, Philippe Mathieu-Daudé wrote:
+>> When selecting an ARM target on Debian unstable, we get:
+>>
+>>    Compiling C++ object libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
+>>    FAILED: libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
+>>    c++ -Ilibcommon.fa.p -I. -I.. [...] -o
+>> libcommon.fa.p/disas_libvixl_vixl_utils.cc.o -c
+>> ../disas/libvixl/vixl/utils.cc
+>>    In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+>>                     from ../disas/libvixl/vixl/utils.cc:27:
+>>    /usr/include/string.h:36:43: error: missing binary operator before
+>> token "("
+>>       36 | #if defined __cplusplus && (__GNUC_PREREQ (4, 4) \
+>>          |                                           ^
+>>    /usr/include/string.h:53:62: error: missing binary operator before
+>> token "("
+>>       53 | #if defined __USE_MISC || defined __USE_XOPEN ||
+>> __GLIBC_USE (ISOC2X)
+>>          |                                                              ^
+>>    /usr/include/string.h:165:21: error: missing binary operator before
+>> token "("
+>>      165 |      || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X))
+>>          |                     ^
+>>    /usr/include/string.h:174:43: error: missing binary operator before
+>> token "("
+>>      174 | #if defined __USE_XOPEN2K8 || __GLIBC_USE (LIB_EXT2) ||
+>> __GLIBC_USE (ISOC2X)
+>>          |                                           ^
+>>    /usr/include/string.h:492:19: error: missing binary operator before
+>> token "("
+>>      492 | #if __GNUC_PREREQ (3,4)
+>>          |                   ^
+>>
+>> Similarly to commit 875df03b221 ('osdep: protect qemu/osdep.h with
+>> extern "C"'), guard the <string.h> system header with 'extern "C"'.
+>>
+>> Relevant information from the host:
+>>
+>>    $ lsb_release -d
+>>    Description:    Debian GNU/Linux 11 (bullseye)
+>>    $ gcc --version
+>>    gcc (Debian 10.2.1-6) 10.2.1 20210110
+>>    $ dpkg -S /usr/include/string.h
+>>    libc6-dev: /usr/include/string.h
+>>    $ apt-cache show libc6-dev
+>>    Package: libc6-dev
+>>    Version: 2.31-11
+>>
+>> Buglink: https://bugs.launchpad.net/qemu/+bug/1914870
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>> RFC because I've no idea about C++, but this fixes the build for me.
+>>
+>> Quick reproducer:
+>>
+>>    $ ../configure --disable-tools --target-list=aarch64-linux-user
+>>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> Cc: Daniel P. Berrangé <berrange@redhat.com>
+>> Cc: Peter Maydell <peter.maydell@linaro.org>
+>> Cc: Richard Henderson <richard.henderson@linaro.org>
+>> Cc: Eric Blake <eblake@redhat.com>
+>> Cc: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   disas/libvixl/vixl/utils.h | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/disas/libvixl/vixl/utils.h b/disas/libvixl/vixl/utils.h
+>> index 5ab134e240a..fc28d7456c1 100644
+>> --- a/disas/libvixl/vixl/utils.h
+>> +++ b/disas/libvixl/vixl/utils.h
+>> @@ -27,8 +27,10 @@
+>>   #ifndef VIXL_UTILS_H
+>>   #define VIXL_UTILS_H
+>>   -#include <string.h>
+>>   #include <cmath>
+>> +extern "C" {
+>> +#include <string.h>
+>> +}
+> 
+> Could you please try to backport the upstream patch instead:
+> 
+> https://git.linaro.org/arm/vixl.git/commit/?id=78973f258039f6e96
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
-
--- PMM
+Yes it works, thanks!
 
