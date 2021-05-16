@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845BD381F4B
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 16:37:50 +0200 (CEST)
-Received: from localhost ([::1]:51140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D59381F46
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 16:36:33 +0200 (CEST)
+Received: from localhost ([::1]:48982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liHtt-0000ni-Kg
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 10:37:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39530)
+	id 1liHsd-0007k7-Mm
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 10:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1liHrh-00071a-2l
- for qemu-devel@nongnu.org; Sun, 16 May 2021 10:35:33 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45688)
+ id 1liHrg-00071Y-Ub
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 10:35:32 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1liHre-0006I9-S6
+ id 1liHre-0006IA-Qj
  for qemu-devel@nongnu.org; Sun, 16 May 2021 10:35:32 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1liHrc-0002Nm-Hu
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 14:35:28 +0000
+ id 1liHrd-0002QJ-1N
+ for <qemu-devel@nongnu.org>; Sun, 16 May 2021 14:35:29 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 804502E8139
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 14:35:28 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 01D2B2E8050
+ for <qemu-devel@nongnu.org>; Sun, 16 May 2021 14:35:29 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 16 May 2021 14:27:23 -0000
-From: Thomas Huth <1926996@bugs.launchpad.net>
+Date: Sun, 16 May 2021 14:29:29 -0000
+From: Thomas Huth <1926759@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee paleozogt th-huth
-X-Launchpad-Bug-Reporter: Aaron Simmons (paleozogt)
+X-Launchpad-Bug-Commenters: muhui pmaydell th-huth
+X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <162006855194.4732.10860890446320255541.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162117524388.1386.5524731862082875170.malone@wampee.canonical.com>
-Subject: [Bug 1926996] Re: qemu-user clone syscall fails
+References: <161978229375.10342.16262082750544447119.malonedeb@gac.canonical.com>
+Message-Id: <162117536946.21294.3611695309741452085.malone@soybean.canonical.com>
+Subject: [Bug 1926759] Re: WFI instruction results in unhandled CPU exception
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="5321c3f40fa4d4b847f4e47fb766e7b95ed5036c"; Instance="production"
-X-Launchpad-Hash: c396e45ee5b978eaefa5efae9d3815bc4449d2fd
+X-Launchpad-Hash: bc846ca2d4cf84dd6c31cec4780d61799fd7f041
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,78 +71,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926996 <1926996@bugs.launchpad.net>
+Reply-To: Bug 1926759 <1926759@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently moving its bug tracking to another system.
-For this we need to know how to transfer the bug to the new system if
-(if still necessary). For this we're setting the status to "Incomplete"
-now.
-
-In the unlikely case that the bug has already been fixed in the latest
-upstream version of QEMU, then please close this ticket as "Fix released".
-
-If it is not fixed yet and you think that this bug report here should be
-moved to the new system, then you have two options:
-
-1) If you already have an account on gitlab.com, please open a new ticket
-for this problem in our new tracker here:
-
-    https://gitlab.com/qemu-project/qemu/-/issues
-
-and then close this ticket here on Launchpad (or let it expire auto-
-matically after 60 days). Please mention the URL of this bug ticket on
-Launchpad in the new ticket on GitLab.
-
-2) If you don't have an account on gitlab.com and don't intend to get
-one, but still would like to keep this ticket opened, then please switch
-the state back to "New" or "Confirmed" within the next 60 days (other-
-wise it will get closed as "Expired"). We will then eventually migrate
-the ticket automatically to the new system (but you won't be the reporter
-of the bug in the new system and thus you won't get notified on changes
-anymore).
-
-Thank you and sorry for the inconvenience.
-
+Fix has been merged:
+https://gitlab.com/qemu-project/qemu/-/commit/5b2c8af89b82a671137a
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: In Progress =3D> Fix Committed
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926996
+https://bugs.launchpad.net/bugs/1926759
 
 Title:
-  qemu-user clone syscall fails
+  WFI instruction results in unhandled CPU exception
 
 Status in QEMU:
-  Incomplete
+  Fix Committed
 
 Bug description:
-  qemu-user fails to emulate clone()
-  (https://linux.die.net/man/2/clone).  The architecture doesn't seem to
-  matter, tho I've mostly been testing aarch64.
+  Hi
 
-  Attached is clone_test.c that demonstrates the problem.  Running it nativ=
-ely looks like this:
-  $ bin/x86_64/clone_test
-  The variable was 9
-  clone returned 4177: 0 Success
-  The variable is now 42
+  I refer to the WFI instruction. The bytecode is 0xe320f003. After the
+  execution, qemu exit with the following  crash log.
 
-  However, running it via qemu looks like:
-  $ qemu-aarch64-static --version
-  qemu-aarch64 version 5.2.0 (v5.2.0)
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+  qemu: unhandled CPU exception 0x10001 - aborting
+  R00=3D00000001 R01=3D40800b34 R02=3D40800b3c R03=3D000102ec
+  R04=3D00010a28 R05=3D00010158 R06=3D00087460 R07=3D00010158
+  R08=3D00000000 R09=3D00000000 R10=3D00085b7c R11=3D408009f4
+  R12=3D40800a08 R13=3D408009f0 R14=3D0001057c R15=3D000102f8
+  PSR=3D60000010 -ZC- A usr32
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x7f5c=
+21d0fa12
 
-  $ qemu-aarch64-static bin/aarch64/clone_test
-  The variable was 9
-  clone returned -1: 22 Invalid argument
-  The variable is now 9
+  WFI aims to enter a low-power state and wait for interrupt. The raised
+  exception seems not a right behavior. I can provide a testcase if you
+  needed. Many thanks.
+
+  Regards
+  Muhui
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926996/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926759/+subscriptions
 
