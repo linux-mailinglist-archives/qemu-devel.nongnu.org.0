@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3C3381EDB
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 14:46:30 +0200 (CEST)
-Received: from localhost ([::1]:53950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5384381ED7
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 14:43:15 +0200 (CEST)
+Received: from localhost ([::1]:45164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liGA9-0002BI-83
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 08:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43070)
+	id 1liG70-0004lL-Ns
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 08:43:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liFz0-0007Pz-9d
- for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:58 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:37607)
+ id 1liFz1-0007QR-LX
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 08:35:00 -0400
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:44628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liFyl-0007kz-Ts
- for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:54 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id i67so3308675qkc.4
+ id 1liFyl-0007lO-VK
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:57 -0400
+Received: by mail-qk1-x733.google.com with SMTP id a2so3284527qkh.11
  for <qemu-devel@nongnu.org>; Sun, 16 May 2021 05:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=J2jECUv0KB/VRaKbNWjXBjsVAbH6ZqCf4a3f43XZat8=;
- b=jwCh6rrfJbb1xV5SIS6Sij5OrpTm/g5qdLmso/I/C2kE/DEX7VAEfGHBmORiVbYhUh
- 5pfiOltwC5sQrQifPv2zejAIhUfETlDYBT3b8OWA+yeJ9SkeEz57KBGr4UVM6A1CWA6N
- zWZQ1r7UUTQ1kPwFfXnvK6eFlta3opfWVmw2fW+OOloLwl7XN2PA06isxycxH/JsaqxF
- R5Wo+X20b08hubWE/RG8y886IR/bLEJawu7oXXb7k8qnbhI2h3jbBz0khexP3BRupGIn
- +NzRSssbCLktewDw1nUCey9bgfqtikz9kD9baI7OuJsPtjgj1WltfOBXJr6jke8FG1Jr
- RSwg==
+ bh=AF+ruYCNDH4UlWvIHqw6UVSO6vQwfwahqfCGjxjM9+Q=;
+ b=z0jkEucPVfSO0sZKQVX5pZhn5pW0xMqsZprNhtPFV3IQiq/DfCoSjONp9G2aPbjY6G
+ P09WcrlCzvG+fPsAlXazBXxr14gZSe1YeuzFLJXFyyOrA1WTqiSjdllhUHlvgRJBUaWU
+ Mvjcg9BrIUfMKfQXB6TUPloy+0gBmdysBsyEN7Hktdc6fTChQSQGkSH4uHQoWZ4y01Ww
+ NIOgxvXbqYm/mZRxbW5rV84C04e5eo2KAdyL3qpFRPS6wA36/MN7b1owBoJGQkt8yP4O
+ 5ma/t7n43DaY/aTvBAoHce7gRXZ0Kik2WezEBrXIk1rv52TRfi4wDObtR2Aj5dVSyEiG
+ koFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=J2jECUv0KB/VRaKbNWjXBjsVAbH6ZqCf4a3f43XZat8=;
- b=VGsvnC2yLw2Qt60LcOgDlSEgnRZX8O5iJz4rWYdOjVvrUneW5Pi9y58Bh3qqKJ9o4V
- pky03ypAov1WqN54r1kByVZJ81Fxy9WHhV4ySR8gcX3gCFog7+y/VtDJlXzFSfWvSvRW
- KeyNBAevug/NPJdCxACxfzkf/NugPmbUVK2SaCuafI1KLCKLvfZ0wAbRoCuELYcF1ZZC
- gYX1BkLWTbxlt+4VWVMLn6A91Lwho827E1zYnaH2vsJrnvFEe/9oYFaSvLJYbGR2IkpO
- VZ5KZvAZa4M+djEq0yM+ImcNNOWGP7j0Pniasl10231/DAibMWwduvTNJFYMcRFtbavd
- 4zqw==
-X-Gm-Message-State: AOAM531pgBHhZT9YT4c5OcgagApqZlIZ4MjwJVGtj6ZzMoJxp7PTe8L7
- c0WXy5hE7p/dj7kRPjx7AsUkQJcSRQJMpqjDyzc=
-X-Google-Smtp-Source: ABdhPJyWrxdR4n2RnESG15IEI+esRIZ/7THg3LCuXZhtCCkdaAkL4IEEPclTvhyKSjXNbFlFqW8Ltg==
-X-Received: by 2002:a37:7306:: with SMTP id o6mr16495344qkc.38.1621168481391; 
- Sun, 16 May 2021 05:34:41 -0700 (PDT)
+ bh=AF+ruYCNDH4UlWvIHqw6UVSO6vQwfwahqfCGjxjM9+Q=;
+ b=Meupz0/v4UUHIEZrsMt8wJsO+M4VFYgqmodSrpj253RwP/vdHPrJK183g0tLJelV/v
+ nXiQxCO27cNh5XdTTaJedX059c4CCPqWqXKgkJFXz65DUbsvCPNQzdLGsdWEqBDLesL8
+ vTKs/FZc3mbrYa13WDCa+uXHIVul7G4Y0QFlREOM1gN67w4/XFeX5JIDtgcF5FH4izJs
+ BGkvt/gEEErpQVgHHxxK5smuANsDrnIzk9h468LGn6UgXW7uIBNpDieuLdktYAeSohVv
+ UpW+EzPs3qNIL6st7b6DtG4J57CTCKPllbOIHk7ir0xAM64ugYlvY0wwYQQDloQ0iCVM
+ dJfg==
+X-Gm-Message-State: AOAM532VI4g30fJwiEuxwCQEnheDkUK/d0aSRDkBy8l/n6R1pu9QLnlq
+ lmOoK6rbvK1IAGG7iE/LGp8iPnwtg3tGWmoTeyE=
+X-Google-Smtp-Source: ABdhPJyOLmZSxUg7YbyYbvPjkRkqNEoaMeze5gx/WeHiSbyr5MwlOkLu0xIR3B+YuH1kUobJu08AzQ==
+X-Received: by 2002:a37:a3d7:: with SMTP id
+ m206mr51286755qke.343.1621168482306; 
+ Sun, 16 May 2021 05:34:42 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id s5sm8500553qkg.88.2021.05.16.05.34.40
+ by smtp.gmail.com with ESMTPSA id s5sm8500553qkg.88.2021.05.16.05.34.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 May 2021 05:34:41 -0700 (PDT)
+ Sun, 16 May 2021 05:34:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/46] softfloat: Add float_cmask and constants
-Date: Sun, 16 May 2021 07:33:55 -0500
-Message-Id: <20210516123431.718318-11-richard.henderson@linaro.org>
+Subject: [PULL 11/46] softfloat: Use return_nan in float_to_float
+Date: Sun, 16 May 2021 07:33:56 -0500
+Message-Id: <20210516123431.718318-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210516123431.718318-1-richard.henderson@linaro.org>
 References: <20210516123431.718318-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x733.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,87 +91,32 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Testing more than one class at a time is better done with masks.
-This reduces the static branch count.
-
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c | 30 +++++++++++++++++++++++-------
- 1 file changed, 23 insertions(+), 7 deletions(-)
+ fpu/softfloat.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index ee4b5073b6..64edb23793 100644
+index 64edb23793..b694e38522 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -469,6 +469,20 @@ typedef enum __attribute__ ((__packed__)) {
-     float_class_snan,
- } FloatClass;
- 
-+#define float_cmask(bit)  (1u << (bit))
-+
-+enum {
-+    float_cmask_zero    = float_cmask(float_class_zero),
-+    float_cmask_normal  = float_cmask(float_class_normal),
-+    float_cmask_inf     = float_cmask(float_class_inf),
-+    float_cmask_qnan    = float_cmask(float_class_qnan),
-+    float_cmask_snan    = float_cmask(float_class_snan),
-+
-+    float_cmask_infzero = float_cmask_zero | float_cmask_inf,
-+    float_cmask_anynan  = float_cmask_qnan | float_cmask_snan,
-+};
-+
-+
- /* Simple helpers for checking if, or what kind of, NaN we have */
- static inline __attribute__((unused)) bool is_nan(FloatClass c)
- {
-@@ -1338,26 +1352,28 @@ bfloat16 QEMU_FLATTEN bfloat16_mul(bfloat16 a, bfloat16 b, float_status *status)
- static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
-                                 int flags, float_status *s)
- {
--    bool inf_zero = ((1 << a.cls) | (1 << b.cls)) ==
--                    ((1 << float_class_inf) | (1 << float_class_zero));
--    bool p_sign;
-+    bool inf_zero, p_sign;
-     bool sign_flip = flags & float_muladd_negate_result;
-     FloatClass p_class;
-     uint64_t hi, lo;
-     int p_exp;
-+    int ab_mask, abc_mask;
-+
-+    ab_mask = float_cmask(a.cls) | float_cmask(b.cls);
-+    abc_mask = float_cmask(c.cls) | ab_mask;
-+    inf_zero = ab_mask == float_cmask_infzero;
- 
-     /* It is implementation-defined whether the cases of (0,inf,qnan)
-      * and (inf,0,qnan) raise InvalidOperation or not (and what QNaN
-      * they return if they do), so we have to hand this information
-      * off to the target-specific pick-a-NaN routine.
-      */
--    if (is_nan(a.cls) || is_nan(b.cls) || is_nan(c.cls)) {
-+    if (unlikely(abc_mask & float_cmask_anynan)) {
-         return pick_nan_muladd(a, b, c, inf_zero, s);
+@@ -1931,13 +1931,7 @@ static FloatParts float_to_float(FloatParts a, const FloatFmt *dstf,
+             break;
+         }
+     } else if (is_nan(a.cls)) {
+-        if (is_snan(a.cls)) {
+-            float_raise(float_flag_invalid, s);
+-            a = parts_silence_nan(a, s);
+-        }
+-        if (s->default_nan_mode) {
+-            return parts_default_nan(s);
+-        }
++        return return_nan(a, s);
      }
- 
-     if (inf_zero) {
-         float_raise(float_flag_invalid, s);
--        s->float_exception_flags |= float_flag_invalid;
-         return parts_default_nan(s);
-     }
- 
-@@ -1371,9 +1387,9 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
-         p_sign ^= 1;
-     }
- 
--    if (a.cls == float_class_inf || b.cls == float_class_inf) {
-+    if (ab_mask & float_cmask_inf) {
-         p_class = float_class_inf;
--    } else if (a.cls == float_class_zero || b.cls == float_class_zero) {
-+    } else if (ab_mask & float_cmask_zero) {
-         p_class = float_class_zero;
-     } else {
-         p_class = float_class_normal;
+     return a;
+ }
 -- 
 2.25.1
 
