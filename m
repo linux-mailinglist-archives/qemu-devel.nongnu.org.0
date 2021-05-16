@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37954381EEB
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 14:56:51 +0200 (CEST)
-Received: from localhost ([::1]:51480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30735381EF6
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 15:02:19 +0200 (CEST)
+Received: from localhost ([::1]:39146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liGKA-00030L-0h
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 08:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44014)
+	id 1liGPS-0005MG-4y
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 09:02:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liG2A-0003m3-VL
- for qemu-devel@nongnu.org; Sun, 16 May 2021 08:38:14 -0400
-Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33]:45999)
+ id 1liFz9-0007Zl-K8
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 08:35:07 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:40954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liG27-0001NT-Mk
- for qemu-devel@nongnu.org; Sun, 16 May 2021 08:38:14 -0400
-Received: by mail-qv1-xf33.google.com with SMTP id h7so1210394qvs.12
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 05:38:11 -0700 (PDT)
+ id 1liFys-0007mT-2l
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 08:35:07 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id j19so3002381qtp.7
+ for <qemu-devel@nongnu.org>; Sun, 16 May 2021 05:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OZDvLli2igstFJD87/ITs0fbiD+10ATx9SB8oW/xrxc=;
- b=GNow779AGOPZZJFBWXsCJF/LD1wuQ/R7jcvBVsypyhP5G8azbBpaefyLTRbDjSHXf6
- okgGK5n3Vszvbgu4SbIP2YKigcMkjf0hpHwIRthY+NE3u50+qXoVDCBTeKpO+xorgVDl
- 6n+ScKiqw1rsnEcPUrrmNDn4M49vCGIL6nXLOHrSC1IiX0a/oOv9bFzTj69hRw3SVjaJ
- JYJwUP7S1vPJynoAjiAZiZV1Yb1xYnHMTmGC+pQEYz8FUL9Z9U3ho8eqnwR6TPzpNK0y
- de6gEV+MUoDPOSNDSCaX1n08W9WpIDGh7RR6XuvOCOICkuOJJ9iWuHfTDgJnItsZ/X1+
- 9Cyg==
+ bh=qwLatIcg1M2jQdAtiotIU2QCLhsJTV7Ha800ap1A6gk=;
+ b=NgZ/dI/m8zMI9E6VE/v9zUmBGWGadTA4jQESYKVMbMTDWk/oaZa2vrBCLwTuna7D4g
+ gVhtie1/jQyRZ+9Qbq/ucJBlmTdix7A2XjHuVSVTBfdZcu8qQDyTHr8HUt2ctkwE5Naz
+ ITmLoAMnXwzsRzYd8PaNCZ0F7ecyHbvwntcpMusIcfIrRSPYSfvW7CTcjCn9UC3Ihcuy
+ /G3U/wO/DwuYuLa0g+bjIJ5ckyYpZJ32aBtFDBb0T1saYqM53PkXNDRPnncPjuWC8jlh
+ VkS0sH2qoD6R3Rn93lCmzE0MOiDwwAbrpGthNbyAXNKwffM5xmVaa7ov73QE7JBLiamP
+ ktHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OZDvLli2igstFJD87/ITs0fbiD+10ATx9SB8oW/xrxc=;
- b=pIFr+1OymWiumJnC8TkTRpL9pKWEbFf4+00/D6S3+LwP6zLFwpjP6NLKMpVnf4LnGE
- z9sZQxsJEwak0FYir3CBG9VuMhu6OrmaEzwZmgU6VbCN8zU35S8BtuFNvgYDDGBQOML1
- gNYdEcDolMcV7g19cZr5omgi3l/wJX7Fa5fQ5PHkYSn8awmZWlQTXXgJHigvrdBRIzK+
- aavvtiodw37Jw/YTcweY0KAjSoijOVtBUzm86+HftiwrcM7IUKR+YPrnMNVMLHitk6bw
- Xcgpqc0MCb31jiseCibuA6xT4AlHO9fkEYAGYVjmT/eHB2tVCGwZSK2k3Yzqd2oFvfOD
- kjQw==
-X-Gm-Message-State: AOAM533ctVcQdWDHHEpQGPcE3DQRrWvsvBGz/FlhI+LcbB7l4SovniyQ
- 85MjfJI9vGI7AqL8vje5kzgauNmtOb9tYrCBOEY=
-X-Google-Smtp-Source: ABdhPJw7n4SkiyFaqu8wcyqxHG4yqxCHJhjpcOk7uc9gEIDIpoCh7c+/Y4w+1QUKgdq8Q0WsP3LFvA==
-X-Received: by 2002:a05:6214:e8f:: with SMTP id
- hf15mr28465803qvb.51.1621168690671; 
- Sun, 16 May 2021 05:38:10 -0700 (PDT)
+ bh=qwLatIcg1M2jQdAtiotIU2QCLhsJTV7Ha800ap1A6gk=;
+ b=C5U5WnQMogBZXGJ6CCChH9+rU9bPswYNy+bridJSsYFWSaF7CkRcdrBkAL1LzdwGOL
+ iRR/dglswdDs7uf8T62LM0hMnJC35V0vj/qENoaL+fMLYgU+Jz+1nmj+3uxdyVRJmJUI
+ eWw9svJDdhti4UnupVygXE2u3X2+tqRu9F0iXkuCqNDqlxg2g/xB1QfBr2SQGDRh24NB
+ byh0m9XYf6L2h8qeCUjnLvbfOEIADSuWA8pedvvgNZwpZWA4G12MYoVkg38fnQ5bfldo
+ MOenqZo0/gCPi3NvSEjSoyIfYNHZVoDkfP6SdSMv+zkD/dNVrLzGIArM1bULPRt5EG1S
+ 2GnQ==
+X-Gm-Message-State: AOAM532r91WUhQivvM91B+wP+DNTF0NijsTqU8hembpYcWRH44TgNi3T
+ VMjBTabVFH2p0vMJLRA8mO/Q1MwTth2MmZ1FDx0=
+X-Google-Smtp-Source: ABdhPJzWULCbaEFvK9rzcBWcQjw5KSgvU+UUIAs6kdaGIRcxTs1qJapjkRCmh3ro8Lgod8tvdtpagg==
+X-Received: by 2002:ac8:5854:: with SMTP id h20mr51899218qth.87.1621168487287; 
+ Sun, 16 May 2021 05:34:47 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id 195sm8180765qkj.1.2021.05.16.05.38.09
+ by smtp.gmail.com with ESMTPSA id s5sm8500553qkg.88.2021.05.16.05.34.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 May 2021 05:38:10 -0700 (PDT)
+ Sun, 16 May 2021 05:34:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 45/46] softfloat: Move round_to_int to softfloat-parts.c.inc
-Date: Sun, 16 May 2021 07:34:30 -0500
-Message-Id: <20210516123431.718318-46-richard.henderson@linaro.org>
+Subject: [PULL 17/46] softfloat: Use pointers with parts_default_nan
+Date: Sun, 16 May 2021 07:34:02 -0500
+Message-Id: <20210516123431.718318-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210516123431.718318-1-richard.henderson@linaro.org>
 References: <20210516123431.718318-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,728 +83,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the same time, convert to pointers, split out
-parts$N_round_to_int_normal, define a macro for
-parts_round_to_int using QEMU_GENERIC.
+At the same time, rename to parts64_default_nan and add a
+macro for parts_default_nan.  This will be flushed out once
+128-bit support is added.
 
-This necessarily meant some rearrangement to the
-rount_to_{,u}int_and_pack routines, so go ahead and
-convert to parts_round_to_int_normal, which in turn
-allows cleaning up of the raised exception handling.
-
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c           | 434 ++++++++++----------------------------
- fpu/softfloat-parts.c.inc | 157 ++++++++++++++
- 2 files changed, 263 insertions(+), 328 deletions(-)
+ fpu/softfloat.c                | 47 +++++++++++++++++++++++-----------
+ fpu/softfloat-specialize.c.inc |  4 +--
+ 2 files changed, 34 insertions(+), 17 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index d056b5730b..5647a05d5d 100644
+index 398a068b58..c7f95961cf 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -811,6 +811,24 @@ static FloatParts128 *parts128_div(FloatParts128 *a, FloatParts128 *b,
- #define parts_div(A, B, S) \
-     PARTS_GENERIC_64_128(div, A)(A, B, S)
+@@ -650,6 +650,8 @@ static inline float64 float64_pack_raw(FloatParts64 p)
+ *----------------------------------------------------------------------------*/
+ #include "softfloat-specialize.c.inc"
  
-+static bool parts64_round_to_int_normal(FloatParts64 *a, FloatRoundMode rm,
-+                                        int scale, int frac_size);
-+static bool parts128_round_to_int_normal(FloatParts128 *a, FloatRoundMode r,
-+                                         int scale, int frac_size);
++#define parts_default_nan  parts64_default_nan
 +
-+#define parts_round_to_int_normal(A, R, C, F) \
-+    PARTS_GENERIC_64_128(round_to_int_normal, A)(A, R, C, F)
-+
-+static void parts64_round_to_int(FloatParts64 *a, FloatRoundMode rm,
-+                                 int scale, float_status *s,
-+                                 const FloatFmt *fmt);
-+static void parts128_round_to_int(FloatParts128 *a, FloatRoundMode r,
-+                                  int scale, float_status *s,
-+                                  const FloatFmt *fmt);
-+
-+#define parts_round_to_int(A, R, C, S, F) \
-+    PARTS_GENERIC_64_128(round_to_int, A)(A, R, C, S, F)
-+
- /*
-  * Helper functions for softfloat-parts.c.inc, per-size operations.
-  */
-@@ -2285,153 +2303,52 @@ float128 float64_to_float128(float64 a, float_status *s)
+ /* Canonicalize EXP and FRAC, setting CLS.  */
+ static FloatParts64 sf_canonicalize(FloatParts64 part, const FloatFmt *parm,
+                                   float_status *status)
+@@ -848,7 +850,8 @@ static FloatParts64 return_nan(FloatParts64 a, float_status *s)
+     } else if (!s->default_nan_mode) {
+         return a;
+     }
+-    return parts_default_nan(s);
++    parts_default_nan(&a, s);
++    return a;
  }
  
- /*
-- * Rounds the floating-point value `a' to an integer, and returns the
-- * result as a floating-point value. The operation is performed
-- * according to the IEC/IEEE Standard for Binary Floating-Point
-- * Arithmetic.
-+ * Round to integral value
-  */
+ static FloatParts64 pick_nan(FloatParts64 a, FloatParts64 b, float_status *s)
+@@ -858,7 +861,7 @@ static FloatParts64 pick_nan(FloatParts64 a, FloatParts64 b, float_status *s)
+     }
  
--static FloatParts64 round_to_int(FloatParts64 a, FloatRoundMode rmode,
--                               int scale, float_status *s)
--{
--    switch (a.cls) {
--    case float_class_qnan:
--    case float_class_snan:
--        parts_return_nan(&a, s);
--        break;
--
--    case float_class_zero:
--    case float_class_inf:
--        /* already "integral" */
--        break;
--
--    case float_class_normal:
--        scale = MIN(MAX(scale, -0x10000), 0x10000);
--        a.exp += scale;
--
--        if (a.exp >= DECOMPOSED_BINARY_POINT) {
--            /* already integral */
--            break;
--        }
--        if (a.exp < 0) {
--            bool one;
--            /* all fractional */
--            float_raise(float_flag_inexact, s);
--            switch (rmode) {
--            case float_round_nearest_even:
--                one = a.exp == -1 && a.frac > DECOMPOSED_IMPLICIT_BIT;
--                break;
--            case float_round_ties_away:
--                one = a.exp == -1 && a.frac >= DECOMPOSED_IMPLICIT_BIT;
--                break;
--            case float_round_to_zero:
--                one = false;
--                break;
--            case float_round_up:
--                one = !a.sign;
--                break;
--            case float_round_down:
--                one = a.sign;
--                break;
--            case float_round_to_odd:
--                one = true;
--                break;
--            default:
--                g_assert_not_reached();
--            }
--
--            if (one) {
--                a.frac = DECOMPOSED_IMPLICIT_BIT;
--                a.exp = 0;
--            } else {
--                a.cls = float_class_zero;
--            }
--        } else {
--            uint64_t frac_lsb = DECOMPOSED_IMPLICIT_BIT >> a.exp;
--            uint64_t frac_lsbm1 = frac_lsb >> 1;
--            uint64_t rnd_even_mask = (frac_lsb - 1) | frac_lsb;
--            uint64_t rnd_mask = rnd_even_mask >> 1;
--            uint64_t inc;
--
--            switch (rmode) {
--            case float_round_nearest_even:
--                inc = ((a.frac & rnd_even_mask) != frac_lsbm1 ? frac_lsbm1 : 0);
--                break;
--            case float_round_ties_away:
--                inc = frac_lsbm1;
--                break;
--            case float_round_to_zero:
--                inc = 0;
--                break;
--            case float_round_up:
--                inc = a.sign ? 0 : rnd_mask;
--                break;
--            case float_round_down:
--                inc = a.sign ? rnd_mask : 0;
--                break;
--            case float_round_to_odd:
--                inc = a.frac & frac_lsb ? 0 : rnd_mask;
--                break;
--            default:
--                g_assert_not_reached();
--            }
--
--            if (a.frac & rnd_mask) {
--                float_raise(float_flag_inexact, s);
--                if (uadd64_overflow(a.frac, inc, &a.frac)) {
--                    a.frac >>= 1;
--                    a.frac |= DECOMPOSED_IMPLICIT_BIT;
--                    a.exp++;
--                }
--                a.frac &= ~rnd_mask;
--            }
--        }
--        break;
--    default:
--        g_assert_not_reached();
--    }
--    return a;
--}
--
- float16 float16_round_to_int(float16 a, float_status *s)
- {
--    FloatParts64 pa, pr;
-+    FloatParts64 p;
- 
--    float16_unpack_canonical(&pa, a, s);
--    pr = round_to_int(pa, s->float_rounding_mode, 0, s);
--    return float16_round_pack_canonical(&pr, s);
-+    float16_unpack_canonical(&p, a, s);
-+    parts_round_to_int(&p, s->float_rounding_mode, 0, s, &float16_params);
-+    return float16_round_pack_canonical(&p, s);
- }
- 
- float32 float32_round_to_int(float32 a, float_status *s)
- {
--    FloatParts64 pa, pr;
-+    FloatParts64 p;
- 
--    float32_unpack_canonical(&pa, a, s);
--    pr = round_to_int(pa, s->float_rounding_mode, 0, s);
--    return float32_round_pack_canonical(&pr, s);
-+    float32_unpack_canonical(&p, a, s);
-+    parts_round_to_int(&p, s->float_rounding_mode, 0, s, &float32_params);
-+    return float32_round_pack_canonical(&p, s);
- }
- 
- float64 float64_round_to_int(float64 a, float_status *s)
- {
--    FloatParts64 pa, pr;
-+    FloatParts64 p;
- 
--    float64_unpack_canonical(&pa, a, s);
--    pr = round_to_int(pa, s->float_rounding_mode, 0, s);
--    return float64_round_pack_canonical(&pr, s);
-+    float64_unpack_canonical(&p, a, s);
-+    parts_round_to_int(&p, s->float_rounding_mode, 0, s, &float64_params);
-+    return float64_round_pack_canonical(&p, s);
- }
- 
--/*
-- * Rounds the bfloat16 value `a' to an integer, and returns the
-- * result as a bfloat16 value.
-- */
--
- bfloat16 bfloat16_round_to_int(bfloat16 a, float_status *s)
- {
--    FloatParts64 pa, pr;
-+    FloatParts64 p;
- 
--    bfloat16_unpack_canonical(&pa, a, s);
--    pr = round_to_int(pa, s->float_rounding_mode, 0, s);
--    return bfloat16_round_pack_canonical(&pr, s);
-+    bfloat16_unpack_canonical(&p, a, s);
-+    parts_round_to_int(&p, s->float_rounding_mode, 0, s, &bfloat16_params);
-+    return bfloat16_round_pack_canonical(&p, s);
-+}
-+
-+float128 float128_round_to_int(float128 a, float_status *s)
-+{
-+    FloatParts128 p;
-+
-+    float128_unpack_canonical(&p, a, s);
-+    parts_round_to_int(&p, s->float_rounding_mode, 0, s, &float128_params);
-+    return float128_round_pack_canonical(&p, s);
- }
- 
- /*
-@@ -2445,48 +2362,58 @@ bfloat16 bfloat16_round_to_int(bfloat16 a, float_status *s)
-  * is returned.
- */
- 
--static int64_t round_to_int_and_pack(FloatParts64 in, FloatRoundMode rmode,
-+static int64_t round_to_int_and_pack(FloatParts64 p, FloatRoundMode rmode,
-                                      int scale, int64_t min, int64_t max,
-                                      float_status *s)
- {
-+    int flags = 0;
-     uint64_t r;
--    int orig_flags = get_float_exception_flags(s);
--    FloatParts64 p = round_to_int(in, rmode, scale, s);
- 
-     switch (p.cls) {
-     case float_class_snan:
-     case float_class_qnan:
--        s->float_exception_flags = orig_flags | float_flag_invalid;
--        return max;
-+        flags = float_flag_invalid;
-+        r = max;
+     if (s->default_nan_mode) {
+-        return parts_default_nan(s);
++        parts_default_nan(&a, s);
+     } else {
+         if (pickNaN(a.cls, b.cls,
+                     a.frac > b.frac ||
+@@ -900,7 +903,8 @@ static FloatParts64 pick_nan_muladd(FloatParts64 a, FloatParts64 b, FloatParts64
+         a = c;
+         break;
+     case 3:
+-        return parts_default_nan(s);
++        parts_default_nan(&a, s);
 +        break;
-+
-     case float_class_inf:
--        s->float_exception_flags = orig_flags | float_flag_invalid;
--        return p.sign ? min : max;
-+        flags = float_flag_invalid;
-+        r = p.sign ? min : max;
-+        break;
-+
-     case float_class_zero:
-         return 0;
-+
-     case float_class_normal:
-+        /* TODO: 62 = N - 2, frac_size for rounding */
-+        if (parts_round_to_int_normal(&p, rmode, scale, 62)) {
-+            flags = float_flag_inexact;
-+        }
-+
-         if (p.exp <= DECOMPOSED_BINARY_POINT) {
-             r = p.frac >> (DECOMPOSED_BINARY_POINT - p.exp);
-         } else {
-             r = UINT64_MAX;
-         }
-         if (p.sign) {
--            if (r <= -(uint64_t) min) {
--                return -r;
-+            if (r <= -(uint64_t)min) {
-+                r = -r;
-             } else {
--                s->float_exception_flags = orig_flags | float_flag_invalid;
--                return min;
--            }
--        } else {
--            if (r <= max) {
--                return r;
--            } else {
--                s->float_exception_flags = orig_flags | float_flag_invalid;
--                return max;
-+                flags = float_flag_invalid;
-+                r = min;
+     default:
+         g_assert_not_reached();
+     }
+@@ -1011,7 +1015,7 @@ static FloatParts64 addsub_floats(FloatParts64 a, FloatParts64 b, bool subtract,
+         if (a.cls == float_class_inf) {
+             if (b.cls == float_class_inf) {
+                 float_raise(float_flag_invalid, s);
+-                return parts_default_nan(s);
++                parts_default_nan(&a, s);
              }
-+        } else if (r > max) {
-+            flags = float_flag_invalid;
-+            r = max;
+             return a;
          }
-+        break;
-+
-     default:
-         g_assert_not_reached();
+@@ -1254,7 +1258,8 @@ static FloatParts64 mul_floats(FloatParts64 a, FloatParts64 b, float_status *s)
+     if ((a.cls == float_class_inf && b.cls == float_class_zero) ||
+         (a.cls == float_class_zero && b.cls == float_class_inf)) {
+         float_raise(float_flag_invalid, s);
+-        return parts_default_nan(s);
++        parts_default_nan(&a, s);
++        return a;
      }
-+
-+    float_raise(flags, s);
-+    return r;
- }
+     /* Multiply by 0 or Inf */
+     if (a.cls == float_class_inf || a.cls == float_class_zero) {
+@@ -1372,7 +1377,8 @@ static FloatParts64 muladd_floats(FloatParts64 a, FloatParts64 b, FloatParts64 c
  
- int8_t float16_to_int8_scalbn(float16 a, FloatRoundMode rmode, int scale,
-@@ -2749,49 +2676,59 @@ int64_t bfloat16_to_int64_round_to_zero(bfloat16 a, float_status *s)
-  *  flag.
-  */
+     if (inf_zero) {
+         float_raise(float_flag_invalid, s);
+-        return parts_default_nan(s);
++        parts_default_nan(&a, s);
++        return a;
+     }
  
--static uint64_t round_to_uint_and_pack(FloatParts64 in, FloatRoundMode rmode,
-+static uint64_t round_to_uint_and_pack(FloatParts64 p, FloatRoundMode rmode,
-                                        int scale, uint64_t max,
-                                        float_status *s)
- {
--    int orig_flags = get_float_exception_flags(s);
--    FloatParts64 p = round_to_int(in, rmode, scale, s);
-+    int flags = 0;
-     uint64_t r;
- 
-     switch (p.cls) {
-     case float_class_snan:
-     case float_class_qnan:
--        s->float_exception_flags = orig_flags | float_flag_invalid;
--        return max;
-+        flags = float_flag_invalid;
-+        r = max;
-+        break;
-+
-     case float_class_inf:
--        s->float_exception_flags = orig_flags | float_flag_invalid;
--        return p.sign ? 0 : max;
-+        flags = float_flag_invalid;
-+        r = p.sign ? 0 : max;
-+        break;
-+
-     case float_class_zero:
-         return 0;
-+
-     case float_class_normal:
-+        /* TODO: 62 = N - 2, frac_size for rounding */
-+        if (parts_round_to_int_normal(&p, rmode, scale, 62)) {
-+            flags = float_flag_inexact;
-+            if (p.cls == float_class_zero) {
-+                r = 0;
-+                break;
-+            }
-+        }
-+
-         if (p.sign) {
--            s->float_exception_flags = orig_flags | float_flag_invalid;
--            return 0;
--        }
--
--        if (p.exp <= DECOMPOSED_BINARY_POINT) {
--            r = p.frac >> (DECOMPOSED_BINARY_POINT - p.exp);
-+            flags = float_flag_invalid;
-+            r = 0;
-+        } else if (p.exp > DECOMPOSED_BINARY_POINT) {
-+            flags = float_flag_invalid;
-+            r = max;
+     if (flags & float_muladd_negate_c) {
+@@ -1396,11 +1402,11 @@ static FloatParts64 muladd_floats(FloatParts64 a, FloatParts64 b, FloatParts64 c
+     if (c.cls == float_class_inf) {
+         if (p_class == float_class_inf && p_sign != c.sign) {
+             float_raise(float_flag_invalid, s);
+-            return parts_default_nan(s);
++            parts_default_nan(&c, s);
          } else {
--            s->float_exception_flags = orig_flags | float_flag_invalid;
--            return max;
-+            r = p.frac >> (DECOMPOSED_BINARY_POINT - p.exp);
-+            if (r > max) {
-+                flags = float_flag_invalid;
-+                r = max;
-+            }
+             c.sign ^= sign_flip;
+-            return c;
          }
-+        break;
- 
--        /* For uint64 this will never trip, but if p.exp is too large
--         * to shift a decomposed fraction we shall have exited via the
--         * 3rd leg above.
--         */
--        if (r > max) {
--            s->float_exception_flags = orig_flags | float_flag_invalid;
--            return max;
--        }
--        return r;
-     default:
-         g_assert_not_reached();
++        return c;
      }
+ 
+     if (p_class == float_class_inf) {
+@@ -1764,7 +1770,8 @@ static FloatParts64 div_floats(FloatParts64 a, FloatParts64 b, float_status *s)
+         &&
+         (a.cls == float_class_inf || a.cls == float_class_zero)) {
+         float_raise(float_flag_invalid, s);
+-        return parts_default_nan(s);
++        parts_default_nan(&a, s);
++        return a;
+     }
+     /* Inf / x or 0 / x */
+     if (a.cls == float_class_inf || a.cls == float_class_zero) {
+@@ -3438,7 +3445,8 @@ static FloatParts64 sqrt_float(FloatParts64 a, float_status *s, const FloatFmt *
+     }
+     if (a.sign) {
+         float_raise(float_flag_invalid, s);
+-        return parts_default_nan(s);
++        parts_default_nan(&a, s);
++        return a;
+     }
+     if (a.cls == float_class_inf) {
+         return a;  /* sqrt(+inf) = +inf */
+@@ -3573,30 +3581,37 @@ bfloat16 QEMU_FLATTEN bfloat16_sqrt(bfloat16 a, float_status *status)
+ 
+ float16 float16_default_nan(float_status *status)
+ {
+-    FloatParts64 p = parts_default_nan(status);
++    FloatParts64 p;
 +
-+    float_raise(flags, s);
-+    return r;
++    parts_default_nan(&p, status);
+     p.frac >>= float16_params.frac_shift;
+     return float16_pack_raw(p);
  }
  
- uint8_t float16_to_uint8_scalbn(float16 a, FloatRoundMode rmode, int scale,
-@@ -6956,165 +6893,6 @@ floatx80 float128_to_floatx80(float128 a, float_status *status)
- 
+ float32 float32_default_nan(float_status *status)
+ {
+-    FloatParts64 p = parts_default_nan(status);
++    FloatParts64 p;
++
++    parts_default_nan(&p, status);
+     p.frac >>= float32_params.frac_shift;
+     return float32_pack_raw(p);
  }
  
--/*----------------------------------------------------------------------------
--| Rounds the quadruple-precision floating-point value `a' to an integer, and
--| returns the result as a quadruple-precision floating-point value.  The
--| operation is performed according to the IEC/IEEE Standard for Binary
--| Floating-Point Arithmetic.
--*----------------------------------------------------------------------------*/
--
--float128 float128_round_to_int(float128 a, float_status *status)
--{
--    bool aSign;
--    int32_t aExp;
--    uint64_t lastBitMask, roundBitsMask;
--    float128 z;
--
--    aExp = extractFloat128Exp( a );
--    if ( 0x402F <= aExp ) {
--        if ( 0x406F <= aExp ) {
--            if (    ( aExp == 0x7FFF )
--                 && ( extractFloat128Frac0( a ) | extractFloat128Frac1( a ) )
--               ) {
--                return propagateFloat128NaN(a, a, status);
--            }
--            return a;
--        }
--        lastBitMask = 1;
--        lastBitMask = ( lastBitMask<<( 0x406E - aExp ) )<<1;
--        roundBitsMask = lastBitMask - 1;
--        z = a;
--        switch (status->float_rounding_mode) {
--        case float_round_nearest_even:
--            if ( lastBitMask ) {
--                add128( z.high, z.low, 0, lastBitMask>>1, &z.high, &z.low );
--                if ( ( z.low & roundBitsMask ) == 0 ) z.low &= ~ lastBitMask;
--            }
--            else {
--                if ( (int64_t) z.low < 0 ) {
--                    ++z.high;
--                    if ( (uint64_t) ( z.low<<1 ) == 0 ) z.high &= ~1;
--                }
--            }
--            break;
--        case float_round_ties_away:
--            if (lastBitMask) {
--                add128(z.high, z.low, 0, lastBitMask >> 1, &z.high, &z.low);
--            } else {
--                if ((int64_t) z.low < 0) {
--                    ++z.high;
--                }
--            }
--            break;
--        case float_round_to_zero:
--            break;
--        case float_round_up:
--            if (!extractFloat128Sign(z)) {
--                add128(z.high, z.low, 0, roundBitsMask, &z.high, &z.low);
--            }
--            break;
--        case float_round_down:
--            if (extractFloat128Sign(z)) {
--                add128(z.high, z.low, 0, roundBitsMask, &z.high, &z.low);
--            }
--            break;
--        case float_round_to_odd:
--            /*
--             * Note that if lastBitMask == 0, the last bit is the lsb
--             * of high, and roundBitsMask == -1.
--             */
--            if ((lastBitMask ? z.low & lastBitMask : z.high & 1) == 0) {
--                add128(z.high, z.low, 0, roundBitsMask, &z.high, &z.low);
--            }
--            break;
--        default:
--            abort();
--        }
--        z.low &= ~ roundBitsMask;
--    }
--    else {
--        if ( aExp < 0x3FFF ) {
--            if ( ( ( (uint64_t) ( a.high<<1 ) ) | a.low ) == 0 ) return a;
--            float_raise(float_flag_inexact, status);
--            aSign = extractFloat128Sign( a );
--            switch (status->float_rounding_mode) {
--            case float_round_nearest_even:
--                if (    ( aExp == 0x3FFE )
--                     && (   extractFloat128Frac0( a )
--                          | extractFloat128Frac1( a ) )
--                   ) {
--                    return packFloat128( aSign, 0x3FFF, 0, 0 );
--                }
--                break;
--            case float_round_ties_away:
--                if (aExp == 0x3FFE) {
--                    return packFloat128(aSign, 0x3FFF, 0, 0);
--                }
--                break;
--            case float_round_down:
--                return
--                      aSign ? packFloat128( 1, 0x3FFF, 0, 0 )
--                    : packFloat128( 0, 0, 0, 0 );
--            case float_round_up:
--                return
--                      aSign ? packFloat128( 1, 0, 0, 0 )
--                    : packFloat128( 0, 0x3FFF, 0, 0 );
--
--            case float_round_to_odd:
--                return packFloat128(aSign, 0x3FFF, 0, 0);
--
--            case float_round_to_zero:
--                break;
--            }
--            return packFloat128( aSign, 0, 0, 0 );
--        }
--        lastBitMask = 1;
--        lastBitMask <<= 0x402F - aExp;
--        roundBitsMask = lastBitMask - 1;
--        z.low = 0;
--        z.high = a.high;
--        switch (status->float_rounding_mode) {
--        case float_round_nearest_even:
--            z.high += lastBitMask>>1;
--            if ( ( ( z.high & roundBitsMask ) | a.low ) == 0 ) {
--                z.high &= ~ lastBitMask;
--            }
--            break;
--        case float_round_ties_away:
--            z.high += lastBitMask>>1;
--            break;
--        case float_round_to_zero:
--            break;
--        case float_round_up:
--            if (!extractFloat128Sign(z)) {
--                z.high |= ( a.low != 0 );
--                z.high += roundBitsMask;
--            }
--            break;
--        case float_round_down:
--            if (extractFloat128Sign(z)) {
--                z.high |= (a.low != 0);
--                z.high += roundBitsMask;
--            }
--            break;
--        case float_round_to_odd:
--            if ((z.high & lastBitMask) == 0) {
--                z.high |= (a.low != 0);
--                z.high += roundBitsMask;
--            }
--            break;
--        default:
--            abort();
--        }
--        z.high &= ~ roundBitsMask;
--    }
--    if ( ( z.low != a.low ) || ( z.high != a.high ) ) {
--        float_raise(float_flag_inexact, status);
--    }
--    return z;
--
--}
--
- /*----------------------------------------------------------------------------
- | Returns the remainder of the quadruple-precision floating-point value `a'
- | with respect to the corresponding value `b'.  The operation is performed
-diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index f8165d92f9..b2c4624d8c 100644
---- a/fpu/softfloat-parts.c.inc
-+++ b/fpu/softfloat-parts.c.inc
-@@ -594,3 +594,160 @@ static FloatPartsN *partsN(div)(FloatPartsN *a, FloatPartsN *b,
-     a->cls = float_class_inf;
-     return a;
+ float64 float64_default_nan(float_status *status)
+ {
+-    FloatParts64 p = parts_default_nan(status);
++    FloatParts64 p;
++
++    parts_default_nan(&p, status);
+     p.frac >>= float64_params.frac_shift;
+     return float64_pack_raw(p);
  }
+ 
+ float128 float128_default_nan(float_status *status)
+ {
+-    FloatParts64 p = parts_default_nan(status);
++    FloatParts64 p;
+     float128 r;
+ 
++    parts_default_nan(&p, status);
+     /* Extrapolate from the choices made by parts_default_nan to fill
+      * in the quad-floating format.  If the low bit is set, assume we
+      * want to set all non-snan bits.
+@@ -3611,7 +3626,9 @@ float128 float128_default_nan(float_status *status)
+ 
+ bfloat16 bfloat16_default_nan(float_status *status)
+ {
+-    FloatParts64 p = parts_default_nan(status);
++    FloatParts64 p;
 +
-+/*
-+ * Rounds the floating-point value `a' to an integer, and returns the
-+ * result as a floating-point value. The operation is performed
-+ * according to the IEC/IEEE Standard for Binary Floating-Point
-+ * Arithmetic.
-+ *
-+ * parts_round_to_int_normal is an internal helper function for
-+ * normal numbers only, returning true for inexact but not directly
-+ * raising float_flag_inexact.
-+ */
-+static bool partsN(round_to_int_normal)(FloatPartsN *a, FloatRoundMode rmode,
-+                                        int scale, int frac_size)
-+{
-+    uint64_t frac_lsb, frac_lsbm1, rnd_even_mask, rnd_mask, inc;
-+    int shift_adj;
-+
-+    scale = MIN(MAX(scale, -0x10000), 0x10000);
-+    a->exp += scale;
-+
-+    if (a->exp < 0) {
-+        bool one;
-+
-+        /* All fractional */
-+        switch (rmode) {
-+        case float_round_nearest_even:
-+            one = false;
-+            if (a->exp == -1) {
-+                FloatPartsN tmp;
-+                /* Shift left one, discarding DECOMPOSED_IMPLICIT_BIT */
-+                frac_add(&tmp, a, a);
-+                /* Anything remaining means frac > 0.5. */
-+                one = !frac_eqz(&tmp);
-+            }
-+            break;
-+        case float_round_ties_away:
-+            one = a->exp == -1;
-+            break;
-+        case float_round_to_zero:
-+            one = false;
-+            break;
-+        case float_round_up:
-+            one = !a->sign;
-+            break;
-+        case float_round_down:
-+            one = a->sign;
-+            break;
-+        case float_round_to_odd:
-+            one = true;
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-+
-+        frac_clear(a);
-+        a->exp = 0;
-+        if (one) {
-+            a->frac_hi = DECOMPOSED_IMPLICIT_BIT;
-+        } else {
-+            a->cls = float_class_zero;
-+        }
-+        return true;
-+    }
-+
-+    if (a->exp >= frac_size) {
-+        /* All integral */
-+        return false;
-+    }
-+
-+    if (N > 64 && a->exp < N - 64) {
-+        /*
-+         * Rounding is not in the low word -- shift lsb to bit 2,
-+         * which leaves room for sticky and rounding bit.
-+         */
-+        shift_adj = (N - 1) - (a->exp + 2);
-+        frac_shrjam(a, shift_adj);
-+        frac_lsb = 1 << 2;
-+    } else {
-+        shift_adj = 0;
-+        frac_lsb = DECOMPOSED_IMPLICIT_BIT >> (a->exp & 63);
-+    }
-+
-+    frac_lsbm1 = frac_lsb >> 1;
-+    rnd_mask = frac_lsb - 1;
-+    rnd_even_mask = rnd_mask | frac_lsb;
-+
-+    if (!(a->frac_lo & rnd_mask)) {
-+        /* Fractional bits already clear, undo the shift above. */
-+        frac_shl(a, shift_adj);
-+        return false;
-+    }
-+
-+    switch (rmode) {
-+    case float_round_nearest_even:
-+        inc = ((a->frac_lo & rnd_even_mask) != frac_lsbm1 ? frac_lsbm1 : 0);
-+        break;
-+    case float_round_ties_away:
-+        inc = frac_lsbm1;
-+        break;
-+    case float_round_to_zero:
-+        inc = 0;
-+        break;
-+    case float_round_up:
-+        inc = a->sign ? 0 : rnd_mask;
-+        break;
-+    case float_round_down:
-+        inc = a->sign ? rnd_mask : 0;
-+        break;
-+    case float_round_to_odd:
-+        inc = a->frac_lo & frac_lsb ? 0 : rnd_mask;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    if (shift_adj == 0) {
-+        if (frac_addi(a, a, inc)) {
-+            frac_shr(a, 1);
-+            a->frac_hi |= DECOMPOSED_IMPLICIT_BIT;
-+            a->exp++;
-+        }
-+        a->frac_lo &= ~rnd_mask;
-+    } else {
-+        frac_addi(a, a, inc);
-+        a->frac_lo &= ~rnd_mask;
-+        /* Be careful shifting back, not to overflow */
-+        frac_shl(a, shift_adj - 1);
-+        if (a->frac_hi & DECOMPOSED_IMPLICIT_BIT) {
-+            a->exp++;
-+        } else {
-+            frac_add(a, a, a);
-+        }
-+    }
-+    return true;
-+}
-+
-+static void partsN(round_to_int)(FloatPartsN *a, FloatRoundMode rmode,
-+                                 int scale, float_status *s,
-+                                 const FloatFmt *fmt)
-+{
-+    switch (a->cls) {
-+    case float_class_qnan:
-+    case float_class_snan:
-+        parts_return_nan(a, s);
-+        break;
-+    case float_class_zero:
-+    case float_class_inf:
-+        break;
-+    case float_class_normal:
-+        if (parts_round_to_int_normal(a, rmode, scale, fmt->frac_size)) {
-+            float_raise(float_flag_inexact, s);
-+        }
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
++    parts_default_nan(&p, status);
+     p.frac >>= bfloat16_params.frac_shift;
+     return bfloat16_pack_raw(p);
+ }
+diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
+index bb928b0b9f..47c3652d63 100644
+--- a/fpu/softfloat-specialize.c.inc
++++ b/fpu/softfloat-specialize.c.inc
+@@ -129,7 +129,7 @@ static bool parts_is_snan_frac(uint64_t frac, float_status *status)
+ | The pattern for a default generated deconstructed floating-point NaN.
+ *----------------------------------------------------------------------------*/
+ 
+-static FloatParts64 parts_default_nan(float_status *status)
++static void parts64_default_nan(FloatParts64 *p, float_status *status)
+ {
+     bool sign = 0;
+     uint64_t frac;
+@@ -163,7 +163,7 @@ static FloatParts64 parts_default_nan(float_status *status)
+     }
+ #endif
+ 
+-    return (FloatParts64) {
++    *p = (FloatParts64) {
+         .cls = float_class_qnan,
+         .sign = sign,
+         .exp = INT_MAX,
 -- 
 2.25.1
 
