@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154523820C3
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 22:04:53 +0200 (CEST)
-Received: from localhost ([::1]:40736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D863820C7
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 22:07:28 +0200 (CEST)
+Received: from localhost ([::1]:49622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liN0N-0004NY-Vu
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 16:04:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44372)
+	id 1liN2s-0001wZ-VE
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 16:07:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1liMur-0002Cu-Nd; Sun, 16 May 2021 15:59:09 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:45414 helo=zulu616.server4you.de)
+ id 1liMv9-0003U7-AV; Sun, 16 May 2021 15:59:27 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:45422 helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1liMun-0008Gv-0F; Sun, 16 May 2021 15:59:09 -0400
+ id 1liMv7-0008Gx-21; Sun, 16 May 2021 15:59:26 -0400
 Received: from localhost.localdomain
  (dynamic-095-118-089-019.95.118.pool.telefonica.de [95.118.89.19])
- by csgraf.de (Postfix) with ESMTPSA id 284B760806B3;
+ by csgraf.de (Postfix) with ESMTPSA id C1DCB6080516;
  Sun, 16 May 2021 21:59:02 +0200 (CEST)
 From: Alexander Graf <agraf@csgraf.de>
 To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH v7 09/19] hvf: Make synchronize functions static
-Date: Sun, 16 May 2021 21:58:45 +0200
-Message-Id: <20210516195855.28869-10-agraf@csgraf.de>
+Subject: [PATCH v7 10/19] hvf: Remove hvf-accel-ops.h
+Date: Sun, 16 May 2021 21:58:46 +0200
+Message-Id: <20210516195855.28869-11-agraf@csgraf.de>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20210516195855.28869-1-agraf@csgraf.de>
 References: <20210516195855.28869-1-agraf@csgraf.de>
@@ -60,59 +60,79 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The hvf accel synchronize functions are only used as input for local
-callback functions, so we can make them static.
+We can move the definition of hvf_vcpu_exec() into our internal
+hvf header, obsoleting the need for hvf-accel-ops.h.
 
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
 ---
- accel/hvf/hvf-accel-ops.c | 6 +++---
- accel/hvf/hvf-accel-ops.h | 3 ---
- 2 files changed, 3 insertions(+), 6 deletions(-)
+ accel/hvf/hvf-accel-ops.c |  2 --
+ accel/hvf/hvf-accel-ops.h | 17 -----------------
+ include/sysemu/hvf_int.h  |  1 +
+ target/i386/hvf/hvf.c     |  2 --
+ 4 files changed, 1 insertion(+), 21 deletions(-)
+ delete mode 100644 accel/hvf/hvf-accel-ops.h
 
 diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
-index 3b599ac57c..69741ce708 100644
+index 69741ce708..14fc49791e 100644
 --- a/accel/hvf/hvf-accel-ops.c
 +++ b/accel/hvf/hvf-accel-ops.c
-@@ -214,7 +214,7 @@ static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu,
-     cpu->vcpu_dirty = false;
- }
+@@ -58,8 +58,6 @@
+ #include "sysemu/runstate.h"
+ #include "qemu/guest-random.h"
  
--void hvf_cpu_synchronize_post_reset(CPUState *cpu)
-+static void hvf_cpu_synchronize_post_reset(CPUState *cpu)
- {
-     run_on_cpu(cpu, do_hvf_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
- }
-@@ -226,7 +226,7 @@ static void do_hvf_cpu_synchronize_post_init(CPUState *cpu,
-     cpu->vcpu_dirty = false;
- }
+-#include "hvf-accel-ops.h"
+-
+ HVFState *hvf_state;
  
--void hvf_cpu_synchronize_post_init(CPUState *cpu)
-+static void hvf_cpu_synchronize_post_init(CPUState *cpu)
- {
-     run_on_cpu(cpu, do_hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
- }
-@@ -237,7 +237,7 @@ static void do_hvf_cpu_synchronize_pre_loadvm(CPUState *cpu,
-     cpu->vcpu_dirty = true;
- }
- 
--void hvf_cpu_synchronize_pre_loadvm(CPUState *cpu)
-+static void hvf_cpu_synchronize_pre_loadvm(CPUState *cpu)
- {
-     run_on_cpu(cpu, do_hvf_cpu_synchronize_pre_loadvm, RUN_ON_CPU_NULL);
- }
+ /* Memory slots */
 diff --git a/accel/hvf/hvf-accel-ops.h b/accel/hvf/hvf-accel-ops.h
-index f6192b56f0..018a4e22f6 100644
+deleted file mode 100644
+index 018a4e22f6..0000000000
 --- a/accel/hvf/hvf-accel-ops.h
-+++ b/accel/hvf/hvf-accel-ops.h
-@@ -13,8 +13,5 @@
- #include "sysemu/cpus.h"
++++ /dev/null
+@@ -1,17 +0,0 @@
+-/*
+- * Accelerator CPUS Interface
+- *
+- * Copyright 2020 SUSE LLC
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef HVF_CPUS_H
+-#define HVF_CPUS_H
+-
+-#include "sysemu/cpus.h"
+-
+-int hvf_vcpu_exec(CPUState *);
+-
+-#endif /* HVF_CPUS_H */
+diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
+index 80c1a8f946..fd1dcaf26e 100644
+--- a/include/sysemu/hvf_int.h
++++ b/include/sysemu/hvf_int.h
+@@ -46,6 +46,7 @@ extern HVFState *hvf_state;
+ void assert_hvf_ok(hv_return_t ret);
+ int hvf_arch_init_vcpu(CPUState *cpu);
+ void hvf_arch_vcpu_destroy(CPUState *cpu);
++int hvf_vcpu_exec(CPUState *);
+ hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
+ int hvf_put_registers(CPUState *);
+ int hvf_get_registers(CPUState *);
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index c7132ee370..02f7be6cfd 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -73,8 +73,6 @@
+ #include "qemu/accel.h"
+ #include "target/i386/cpu.h"
  
- int hvf_vcpu_exec(CPUState *);
--void hvf_cpu_synchronize_post_reset(CPUState *);
--void hvf_cpu_synchronize_post_init(CPUState *);
--void hvf_cpu_synchronize_pre_loadvm(CPUState *);
- 
- #endif /* HVF_CPUS_H */
+-#include "hvf-accel-ops.h"
+-
+ void vmx_update_tpr(CPUState *cpu)
+ {
+     /* TODO: need integrate APIC handling */
 -- 
 2.30.1 (Apple Git-130)
 
