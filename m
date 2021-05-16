@@ -2,83 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E90382113
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 22:59:17 +0200 (CEST)
-Received: from localhost ([::1]:50110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C257382117
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 23:09:20 +0200 (CEST)
+Received: from localhost ([::1]:53152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liNr2-00015y-GL
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 16:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
+	id 1liO0k-0003rx-Uh
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 17:09:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liNpz-0000PN-Qg
- for qemu-devel@nongnu.org; Sun, 16 May 2021 16:58:11 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1liNpy-0005Sz-3K
- for qemu-devel@nongnu.org; Sun, 16 May 2021 16:58:11 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id y14so2251584wrm.13
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 13:58:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oFF/KqTLIUGtPSFLoD2Kn7XfzezL6Jr0ZzfxlSQnccg=;
- b=oKBOYVpSPSL5yzMIL9Z7Abe0rR0cmsAZFAHEzs75vD1avJ/eHD8ulT3Z8O5TU8ujOx
- t9cu67pj/cR+hAj/AFST7oZMUKwyhPUESWupQQzJ6Gfw7qGKNCa3uWBJB+PrvDcLOvrH
- iDsIFsyPz03Vqcm9Iv8U3+59BHOBS0V3/R3Y3k8IqBD1tWt5BtWNEAHv+IDDmyDu0aQj
- WwLoL2l/MDSxi5wIwHzEspkUZnUpMRWq0kgXX5Ok1h7GovovLNFAZX7L4G+aXW6fFQFw
- vt0qaXkfjD2CYLkAqECJz2jLyTx7AEOCziL1pWHligmxG2e9FDlagHm/bRXd/Ucpbll9
- IaIQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1liNze-00033z-Ml
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 17:08:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47257)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1liNzb-0003sO-LU
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 17:08:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1621199286;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bfqAaHupwWMOVTaDdFCjfY/DJ2j/4ZhF0rhT1MGWYlI=;
+ b=eFOxHFR5Kv69DJ3UxP+a97ObBCgo+sj/lO6tYT27f1FP7wyT0Cvi6pmLbriFew4pCB5KGw
+ d/+23jOAIfBMZ/t88ohybbatCTqOKapQOm/MxCibTLofial6ckYW4OIU0/iD8jstrs04fE
+ aMcHbISNByhDnjbWkbwzEyKO64JgjJU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-6qW_dQwKMA-x9qrIqjMuIg-1; Sun, 16 May 2021 17:08:03 -0400
+X-MC-Unique: 6qW_dQwKMA-x9qrIqjMuIg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ 7-20020adf95070000b02901104ad3ef04so2829746wrs.16
+ for <qemu-devel@nongnu.org>; Sun, 16 May 2021 14:08:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oFF/KqTLIUGtPSFLoD2Kn7XfzezL6Jr0ZzfxlSQnccg=;
- b=oJvCC3kFt0/DsSaHiKA06LgMB8nQl+4zPOcFOv8CQKvqgIHvgpxQKpZTxKsdS/tgup
- CzGPM0fRwEEYqLSNcMdkfGhKIobeICfSuXC5B1MQm9leToAOC9G+diKSa11lacqC12Cj
- gLE7HH0J558SIRYl7T4ajiIK/Hij/dUbZMvuyiSBhIteIjlc2OeCIVcuDPnoI82C1jvl
- o3WFjt/XGXMmzpY4YY1Pioj2fLPfJ8Bw8DNmj6UmW+IBRYxBYZdK9wXY3KkWPZUpZrwP
- 55XCxKCuChIgNk3MNubEZrsYg97x6JZAQVAKTH/+KEj+UT+fX505pNgx/OCrTZpoLBBt
- do4g==
-X-Gm-Message-State: AOAM532+8sSvv5tBaxhlPOSYfxluorSyWVB3spfbHDUJWU+Dd/qoHSfa
- UeI0ms3hDjYge867JxD8kQQ=
-X-Google-Smtp-Source: ABdhPJxrAKNRj9A1jj8f1qVvC9te2ADsgsJPKQWqG3L+PRJSApl3Wbh6SbrteiNn+QRK4d5JST9eRQ==
-X-Received: by 2002:a5d:6dc4:: with SMTP id d4mr72656979wrz.105.1621198688581; 
- Sun, 16 May 2021 13:58:08 -0700 (PDT)
+ bh=bfqAaHupwWMOVTaDdFCjfY/DJ2j/4ZhF0rhT1MGWYlI=;
+ b=CJnydEtWgqLC4W6VKDkoc29XTpVjuys1Zg06+g9kgwY1brgl80yFfss6jfeZzeyxz7
+ wWTPcp/Pyks+MayAiRxzNmZm6Do01zG5mheekxQRcWjUDmJcldF2DRvN911m5xlroJI/
+ TmaZjTt1IdGK8i12c2xb+q8pzbuOwb2vpSRzukQ0ofckwZ+6WM6toXBNQznOZebP/4RD
+ rFgmVQCL4htbxJGYe6Y9Z40rfoYrQ5n5qRk0v+5dCUfW4iVtJeeSdP2oUYbnyRqUYITi
+ ELmaNMGpig5XYebofyLT8dJefNTb62NEiAIcaCiT7xSIVwxNvXIPU7L1LMXsDBgcIk1a
+ 7CVw==
+X-Gm-Message-State: AOAM5305KBk2skGjfb1ZANsPTvAmD8NAkVNnQfm82SrAEZCllrzqUZl6
+ Vbt5DTebN2RgqMKf73S9eem8Femg5LJgkj4o6UUK2/mPGiDyNU4e6WxZqIas5fXG54sdJu6LRR6
+ 8yuMF9xcfcfU6ldQ=
+X-Received: by 2002:a05:600c:4f90:: with SMTP id
+ n16mr20193166wmq.98.1621199282080; 
+ Sun, 16 May 2021 14:08:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFgK+a3DKMHrBC2Ze6nfKSr6DBUC4fpQ+PWaSPZmMSyCmZ1gHehZapspOCWBo0Mv9iQNIU1Q==
+X-Received: by 2002:a05:600c:4f90:: with SMTP id
+ n16mr20193146wmq.98.1621199281779; 
+ Sun, 16 May 2021 14:08:01 -0700 (PDT)
 Received: from [192.168.1.36] (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id d127sm17997774wmd.14.2021.05.16.13.58.07
+ by smtp.gmail.com with ESMTPSA id n7sm14072669wri.14.2021.05.16.14.08.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 May 2021 13:58:07 -0700 (PDT)
-Subject: Re: [PULL 17/20] configure: Poison all current target-specific
- #defines
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210514121518.832729-1-thuth@redhat.com>
- <20210514121518.832729-18-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5d6e779f-1bd8-8e71-860d-a3dccb55e7e8@amsat.org>
-Date: Sun, 16 May 2021 22:58:07 +0200
+ Sun, 16 May 2021 14:08:01 -0700 (PDT)
+Subject: Re: [PULL 06/14] test: new qTest case to test the
+ vhost-user-blk-server
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20210514163124.251741-1-kwolf@redhat.com>
+ <20210514163124.251741-7-kwolf@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f9917bdd-fcf5-1c2c-f16b-d335a07489be@redhat.com>
+Date: Sun, 16 May 2021 23:08:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210514121518.832729-18-thuth@redhat.com>
+In-Reply-To: <20210514163124.251741-7-kwolf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.296,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,82 +102,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ Coiby Xu <coiby.xu@gmail.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/14/21 2:15 PM, Thomas Huth wrote:
-> We are generating a lot of target-specific defines in the *-config-devices.h
-> and *-config-target.h files. Using them in common code is wrong and leads
-> to very subtle bugs since a "#ifdef CONFIG_SOMETHING" is not working there
-> as expected. To avoid these issues, we are already poisoning many of the
-> macros in include/exec/poison.h - but it's cumbersome to maintain this
-> list manually. Thus let's generate an additional list of poisoned macros
-> automatically from the current config switches - this should give us a
-> much better test coverage via the different CI configurations.
+On 5/14/21 6:31 PM, Kevin Wolf wrote:
+> From: Coiby Xu <coiby.xu@gmail.com>
 > 
-> Note that CONFIG_TCG (which is also defined in config-host.h) and
-> CONFIG_USER_ONLY are special, so we have to filter these out.
+> This test case has the same tests as tests/virtio-blk-test.c except for
+> tests have block_resize. Since the vhost-user-blk export only serves one
+> client one time, two exports are started by qemu-storage-daemon for the
+> hotplug test.
 > 
-> Message-Id: <20210414112004.943383-5-thuth@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Suggested-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Message-Id: <20210309094106.196911-3-stefanha@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Message-Id: <20210322092327.150720-2-stefanha@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  Makefile              | 2 +-
->  configure             | 7 +++++++
->  include/exec/poison.h | 2 ++
->  3 files changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index bcbbec71a1..4cab10a2a4 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -213,7 +213,7 @@ qemu-%.tar.bz2:
+>  tests/qtest/libqos/vhost-user-blk.h |  48 ++
+>  tests/qtest/libqos/vhost-user-blk.c | 130 +++++
+>  tests/qtest/vhost-user-blk-test.c   | 794 ++++++++++++++++++++++++++++
+>  MAINTAINERS                         |   2 +
+>  tests/qtest/libqos/meson.build      |   1 +
+>  tests/qtest/meson.build             |   4 +
+>  6 files changed, 979 insertions(+)
+>  create mode 100644 tests/qtest/libqos/vhost-user-blk.h
+>  create mode 100644 tests/qtest/libqos/vhost-user-blk.c
+>  create mode 100644 tests/qtest/vhost-user-blk-test.c
+
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index 49de74ff59..7ecb7fea51 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -231,6 +231,9 @@ if have_virtfs
+>    qos_test_ss.add(files('virtio-9p-test.c'))
+>  endif
+>  qos_test_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user-test.c'))
+> +if have_vhost_user_blk_server
+
+When building with --disable-tools I get:
+
+sh: 1: exec: ./storage-daemon/qemu-storage-daemon: not found
+
+Maybe:
+
+if have_tools and have_vhost_user_blk_server
+
+?
+
+> +  qos_test_ss.add(files('vhost-user-blk-test.c'))
+> +endif
 >  
->  distclean: clean
->  	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
-> -	rm -f config-host.mak config-host.h*
-> +	rm -f config-host.mak config-host.h* config-poison.h
->  	rm -f tests/tcg/config-*.mak
->  	rm -f config-all-disas.mak config.status
->  	rm -f roms/seabios/config.mak roms/vgabios/config.mak
-> diff --git a/configure b/configure
-> index f05ca143b3..0e4233fd8a 100755
-> --- a/configure
-> +++ b/configure
-> @@ -6473,6 +6473,13 @@ if test -n "${deprecated_features}"; then
->      echo "  features: ${deprecated_features}"
->  fi
+>  tpmemu_files = ['tpm-emu.c', 'tpm-util.c', 'tpm-tests.c']
 >  
-> +# Create list of config switches that should be poisoned in common code...
-> +# but filter out CONFIG_TCG and CONFIG_USER_ONLY which are special.
-> +sed -n -e '/CONFIG_TCG/d' -e '/CONFIG_USER_ONLY/d' \
-> +    -e '/^#define / { s///; s/ .*//; s/^/#pragma GCC poison /p; }' \
-> +    *-config-devices.h *-config-target.h | \
-> +    sort -u > config-poison.h
-
-In my --disable-system builds I'm getting:
-
-sed: can't read *-config-devices.h: No such file or directory
-
-
->  # Save the configure command line for later reuse.
->  cat <<EOD >config.status
->  #!/bin/sh
-> diff --git a/include/exec/poison.h b/include/exec/poison.h
-> index a527def5f0..7ad4ad18e8 100644
-> --- a/include/exec/poison.h
-> +++ b/include/exec/poison.h
-> @@ -4,6 +4,8 @@
->  #ifndef HW_POISON_H
->  #define HW_POISON_H
->  
-> +#include "config-poison.h"
-> +
->  #pragma GCC poison TARGET_I386
->  #pragma GCC poison TARGET_X86_64
->  #pragma GCC poison TARGET_AARCH64
+> @@ -269,6 +272,7 @@ foreach dir : target_dirs
+>    endif
+>    qtest_env.set('G_TEST_DBUS_DAEMON', meson.source_root() / 'tests/dbus-vmstate-daemon.sh')
+>    qtest_env.set('QTEST_QEMU_BINARY', './qemu-system-' + target_base)
+> +  qtest_env.set('QTEST_QEMU_STORAGE_DAEMON_BINARY', './storage-daemon/qemu-storage-daemon')
+>    
+>    foreach test : target_qtests
+>      # Executables are shared across targets, declare them only the first time we
 > 
 
 
