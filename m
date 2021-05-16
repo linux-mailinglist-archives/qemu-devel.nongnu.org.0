@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F17381EDA
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 14:46:20 +0200 (CEST)
-Received: from localhost ([::1]:53228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB5D381ED1
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 14:38:20 +0200 (CEST)
+Received: from localhost ([::1]:56710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liG9z-0001i7-IW
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 08:46:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
+	id 1liG2F-0001sh-UD
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 08:38:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liFyi-0007E5-6f
- for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:40 -0400
-Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:38492)
+ id 1liFyj-0007I3-Hw
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:41 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:34430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1liFyg-0007hU-1F
- for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:39 -0400
-Received: by mail-qt1-x82a.google.com with SMTP id h21so3018221qtu.5
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 05:34:37 -0700 (PDT)
+ id 1liFyg-0007iY-Tc
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 08:34:41 -0400
+Received: by mail-qt1-x82f.google.com with SMTP id v4so3034059qtp.1
+ for <qemu-devel@nongnu.org>; Sun, 16 May 2021 05:34:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vInOL7n4fh0AFReF/5gQxfmHVQY38UqwnHgnHGBM/24=;
- b=LuHn+Zh/6j8uHB575uNaPMh3bB9898hjP5KEJtRJk7WK9pk3sYfWBSxFoDaxfyHeRA
- i03Sgct0IUDiJdqM3O6Qy4HfVCwNPjuk4MJLl7z4AE/CfvMX+KStChhWogO5DiMXepAy
- A6Ox/GCUng1paWtYfAX/RAwR1Cx1Ecga3rcHjDGWgz/21ip4558tRykOrpOLyjPqZDge
- xUSFSFoEuSH5ss28ybSvfpmTUkDk1Vd0U6aR/75tM+0q63LAuTDiamzIFmXWUougLZc2
- 8FoVLaidWtbusw3Fuf7IvBQFz6DBS7T7vpiUxxLnMBjUTIjIja7Ts6ZWdq0LOVEV4emV
- ghgA==
+ bh=HnPXApZGOfezRUyUkfJd+r7Xafb2ezTr4qIfixFojDk=;
+ b=KGIQMHFl1Ls6/DW/wzqlkx6X7QwtjzFRZQG8Q9ggVuOU2Hii3mvI2jjCfBaMmc0PYt
+ Tf56mHfxRRMnXNsI9Qy11TaRuLhGE6vIkK4NkiE+gGOe4Xa/h2CPKKr7pxlYW3JYWkww
+ Gf1a910JpnZMBWkVlD2nHryDhNJfzmRk2aWPGTOgGEDZdQHODOys89xhme+4DvbLT6dC
+ hA/TB3yMqy1lqJGZ8dJrM3Ck8z8TLXrVwScGvbua1NL5RCfw6daiqoOw7Gl7gt7rOdwi
+ qYcAu18l1BRiPDjnYBLb3D3QJCY056bl/RmV33yM+utnJQlNdaQqf9gKfQTk84NyT64G
+ vZAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vInOL7n4fh0AFReF/5gQxfmHVQY38UqwnHgnHGBM/24=;
- b=RNmMnbPk7tgdv4zPsy+bX1qduhc/FQU9hRO2tKoYVn+S9hyzVPjSpR2eagnLmNw1E6
- NWGZC6t4fHifwa85iXcrddak3gfJrXzRqZdJ8Zbgwq028Z3hQZOXA0stTwNOYHKqflB3
- G66TT0YSDc/BHH3fWrimOvP3crcxcHaAC9IuLnhZVN8VJ6IlsvQ5+nDmn5o7+m3aue+a
- Z6Tclki7+q7lzWAhtYGLQ+Yb4oWJI/kxI8YV7SbU8t2joWEOHscEGvCxCUMFFza/XHik
- Lu9xOSVDMZ4hbMR/eGlnerkted7QCADTKd7Pdl/7Wr91Cz/xwNQFzTzUhwtHSsmyP12g
- DcMQ==
-X-Gm-Message-State: AOAM533FbOMceZsI9qiuLM5VwKaAlhlHBDaVnP/mpGyhyImIl0lrHIv9
- a2A39IIrblylK5vxQxHfpB1svj0njDYdGpS9JmU=
-X-Google-Smtp-Source: ABdhPJzM8ZWhAU3EAawrhvUSOcJn6P1cgP4lgx0Wfuvk55oOUGfcj0jYWmMbvEL2hslxfYVewagaig==
-X-Received: by 2002:a05:622a:11cd:: with SMTP id
- n13mr24228803qtk.37.1621168477128; 
+ bh=HnPXApZGOfezRUyUkfJd+r7Xafb2ezTr4qIfixFojDk=;
+ b=MCmAzZgqIPmf0fBAdh5oCbZ72O935c/A8UZRkVDSVOPATmulHSHfX+/Y5CTLCag/+R
+ QEtbWhZqDp82aPGfxrLdo3lr88jMMlzgHFdeJ6xJrGqZsxRcwWJ3rZpk9hgNe8d8LrDy
+ kRVj2F0KB/CycjfgZYS18MfH5b6Ebhx6UbFYGLIERrKlPuz7Jlt+tYyX0ViW3c1jp+nq
+ BmB736HHJRpyxicJAQZy3ZNLh6PB1AuDeb97d2uE2Tk1XTCmKxLDLcUCkuCGr/Ie0rVX
+ KpsCc3mClt8XCnM5WDh5YeFW79w3nHqGuhm9GNbIDozAZzGd5PgI9jojIo+pgZtDKrrq
+ E1mQ==
+X-Gm-Message-State: AOAM533ZTfFE0HNJtjEeIeFBZZa3tGg5AEMg9JhBbKBr2IiecKxI5RMA
+ oHAvElVvE4665YS4D3Uhe8j7gtCzGQBtjrzmlxU=
+X-Google-Smtp-Source: ABdhPJwSTEDR68TZLTx3t3GFajB1byHn85Rdnh2eK1WuRWZy/KE342s+URZKdYngkf++H4aqN4n57w==
+X-Received: by 2002:a05:622a:1049:: with SMTP id
+ f9mr51907806qte.140.1621168477868; 
  Sun, 16 May 2021 05:34:37 -0700 (PDT)
 Received: from localhost.localdomain (163.189-204-200.bestelclientes.com.mx.
  [189.204.200.163])
- by smtp.gmail.com with ESMTPSA id s5sm8500553qkg.88.2021.05.16.05.34.36
+ by smtp.gmail.com with ESMTPSA id s5sm8500553qkg.88.2021.05.16.05.34.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 May 2021 05:34:36 -0700 (PDT)
+ Sun, 16 May 2021 05:34:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/46] tests/fp: add quad support to the benchmark utility
-Date: Sun, 16 May 2021 07:33:50 -0500
-Message-Id: <20210516123431.718318-6-richard.henderson@linaro.org>
+Subject: [PULL 06/46] softfloat: Move the binary point to the msb
+Date: Sun, 16 May 2021 07:33:51 -0500
+Message-Id: <20210516123431.718318-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210516123431.718318-1-richard.henderson@linaro.org>
 References: <20210516123431.718318-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,228 +86,379 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Hildenbrand <david@redhat.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+Rather than point the binary point at msb-1, put it at the msb.
+Use uadd64_overflow to detect when addition overflows instead
+of DECOMPOSED_OVERFLOW_BIT.
 
-Currently this only support softfloat calculations because working out
-if the hardware supports 128 bit floats needs configure magic. The 3
-op muladd operation is currently unimplemented so commented out for
-now.
+This reduces the number of special cases within the code, such
+as shifting an int64_t either left or right during conversion.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20201020163738.27700-8-alex.bennee@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/fp/fp-bench.c | 88 ++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 83 insertions(+), 5 deletions(-)
+ fpu/softfloat.c | 169 +++++++++++++++++++-----------------------------
+ 1 file changed, 66 insertions(+), 103 deletions(-)
 
-diff --git a/tests/fp/fp-bench.c b/tests/fp/fp-bench.c
-index 4ba5e1d2d4..d319993280 100644
---- a/tests/fp/fp-bench.c
-+++ b/tests/fp/fp-bench.c
-@@ -14,6 +14,7 @@
- #include <math.h>
- #include <fenv.h>
- #include "qemu/timer.h"
-+#include "qemu/int128.h"
- #include "fpu/softfloat.h"
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 67cfa0fd82..cd777743f1 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -503,9 +503,8 @@ typedef struct {
+     bool sign;
+ } FloatParts;
  
- /* amortize the computation of random inputs */
-@@ -50,8 +51,10 @@ static const char * const op_names[] = {
- enum precision {
-     PREC_SINGLE,
-     PREC_DOUBLE,
-+    PREC_QUAD,
-     PREC_FLOAT32,
-     PREC_FLOAT64,
-+    PREC_FLOAT128,
-     PREC_MAX_NR,
- };
+-#define DECOMPOSED_BINARY_POINT    (64 - 2)
++#define DECOMPOSED_BINARY_POINT    63
+ #define DECOMPOSED_IMPLICIT_BIT    (1ull << DECOMPOSED_BINARY_POINT)
+-#define DECOMPOSED_OVERFLOW_BIT    (DECOMPOSED_IMPLICIT_BIT << 1)
  
-@@ -89,6 +92,7 @@ union fp {
-     double d;
-     float32 f32;
-     float64 f64;
-+    float128 f128;
-     uint64_t u64;
- };
- 
-@@ -113,6 +117,10 @@ struct op_desc {
- static uint64_t random_ops[MAX_OPERANDS] = {
-     SEED_A, SEED_B, SEED_C,
- };
-+
-+static float128 random_quad_ops[MAX_OPERANDS] = {
-+    {SEED_A, SEED_B}, {SEED_B, SEED_C}, {SEED_C, SEED_A},
-+};
- static float_status soft_status;
- static enum precision precision;
- static enum op operation;
-@@ -141,25 +149,45 @@ static void update_random_ops(int n_ops, enum precision prec)
-     int i;
- 
-     for (i = 0; i < n_ops; i++) {
--        uint64_t r = random_ops[i];
- 
-         switch (prec) {
-         case PREC_SINGLE:
-         case PREC_FLOAT32:
-+        {
-+            uint64_t r = random_ops[i];
-             do {
-                 r = xorshift64star(r);
-             } while (!float32_is_normal(r));
-+            random_ops[i] = r;
-             break;
-+        }
-         case PREC_DOUBLE:
-         case PREC_FLOAT64:
-+        {
-+            uint64_t r = random_ops[i];
-             do {
-                 r = xorshift64star(r);
-             } while (!float64_is_normal(r));
-+            random_ops[i] = r;
-             break;
-+        }
-+        case PREC_QUAD:
-+        case PREC_FLOAT128:
-+        {
-+            float128 r = random_quad_ops[i];
-+            uint64_t hi = r.high;
-+            uint64_t lo = r.low;
-+            do {
-+                hi = xorshift64star(hi);
-+                lo = xorshift64star(lo);
-+                r = make_float128(hi, lo);
-+            } while (!float128_is_normal(r));
-+            random_quad_ops[i] = r;
-+            break;
-+        }
-         default:
-             g_assert_not_reached();
-         }
--        random_ops[i] = r;
-     }
- }
- 
-@@ -184,6 +212,13 @@ static void fill_random(union fp *ops, int n_ops, enum precision prec,
-                 ops[i].f64 = float64_chs(ops[i].f64);
-             }
-             break;
-+        case PREC_QUAD:
-+        case PREC_FLOAT128:
-+            ops[i].f128 = random_quad_ops[i];
-+            if (no_neg && float128_is_neg(ops[i].f128)) {
-+                ops[i].f128 = float128_chs(ops[i].f128);
-+            }
-+            break;
-         default:
-             g_assert_not_reached();
-         }
-@@ -345,6 +380,41 @@ static void bench(enum precision prec, enum op op, int n_ops, bool no_neg)
+ /* Structure holding all of the relevant parameters for a format.
+  *   exp_size: the size of the exponent field
+@@ -657,7 +656,7 @@ static FloatParts sf_canonicalize(FloatParts part, const FloatFmt *parm,
+             part.cls = float_class_zero;
+             part.frac = 0;
+         } else {
+-            int shift = clz64(part.frac) - 1;
++            int shift = clz64(part.frac);
+             part.cls = float_class_normal;
+             part.exp = parm->frac_shift - parm->exp_bias - shift + 1;
+             part.frac <<= shift;
+@@ -727,9 +726,8 @@ static FloatParts round_canonical(FloatParts p, float_status *s,
+         if (likely(exp > 0)) {
+             if (frac & round_mask) {
+                 flags |= float_flag_inexact;
+-                frac += inc;
+-                if (frac & DECOMPOSED_OVERFLOW_BIT) {
+-                    frac >>= 1;
++                if (uadd64_overflow(frac, inc, &frac)) {
++                    frac = (frac >> 1) | DECOMPOSED_IMPLICIT_BIT;
+                     exp++;
                  }
              }
-             break;
-+        case PREC_FLOAT128:
-+            fill_random(ops, n_ops, prec, no_neg);
-+            t0 = get_clock();
-+            for (i = 0; i < OPS_PER_ITER; i++) {
-+                float128 a = ops[0].f128;
-+                float128 b = ops[1].f128;
-+                /* float128 c = ops[2].f128; */
+@@ -758,9 +756,12 @@ static FloatParts round_canonical(FloatParts p, float_status *s,
+             p.cls = float_class_zero;
+             goto do_zero;
+         } else {
+-            bool is_tiny = s->tininess_before_rounding
+-                        || (exp < 0)
+-                        || !((frac + inc) & DECOMPOSED_OVERFLOW_BIT);
++            bool is_tiny = s->tininess_before_rounding || (exp < 0);
 +
-+                switch (op) {
-+                case OP_ADD:
-+                    res.f128 = float128_add(a, b, &soft_status);
-+                    break;
-+                case OP_SUB:
-+                    res.f128 = float128_sub(a, b, &soft_status);
-+                    break;
-+                case OP_MUL:
-+                    res.f128 = float128_mul(a, b, &soft_status);
-+                    break;
-+                case OP_DIV:
-+                    res.f128 = float128_div(a, b, &soft_status);
-+                    break;
-+                /* case OP_FMA: */
-+                /*     res.f128 = float128_muladd(a, b, c, 0, &soft_status); */
-+                /*     break; */
-+                case OP_SQRT:
-+                    res.f128 = float128_sqrt(a, &soft_status);
-+                    break;
-+                case OP_CMP:
-+                    res.u64 = float128_compare_quiet(a, b, &soft_status);
-+                    break;
-+                default:
-+                    g_assert_not_reached();
-+                }
++            if (!is_tiny) {
++                uint64_t discard;
++                is_tiny = !uadd64_overflow(frac, inc, &discard);
 +            }
-+            break;
-         default:
-             g_assert_not_reached();
+ 
+             shift64RightJamming(frac, 1 - exp, &frac);
+             if (frac & round_mask) {
+@@ -985,7 +986,7 @@ static FloatParts addsub_floats(FloatParts a, FloatParts b, bool subtract,
+                 a.cls = float_class_zero;
+                 a.sign = s->float_rounding_mode == float_round_down;
+             } else {
+-                int shift = clz64(a.frac) - 1;
++                int shift = clz64(a.frac);
+                 a.frac = a.frac << shift;
+                 a.exp = a.exp - shift;
+                 a.sign = a_sign;
+@@ -1022,9 +1023,10 @@ static FloatParts addsub_floats(FloatParts a, FloatParts b, bool subtract,
+                 shift64RightJamming(a.frac, b.exp - a.exp, &a.frac);
+                 a.exp = b.exp;
+             }
+-            a.frac += b.frac;
+-            if (a.frac & DECOMPOSED_OVERFLOW_BIT) {
++
++            if (uadd64_overflow(a.frac, b.frac, &a.frac)) {
+                 shift64RightJamming(a.frac, 1, &a.frac);
++                a.frac |= DECOMPOSED_IMPLICIT_BIT;
+                 a.exp += 1;
+             }
+             return a;
+@@ -1219,16 +1221,17 @@ static FloatParts mul_floats(FloatParts a, FloatParts b, float_status *s)
+         int exp = a.exp + b.exp;
+ 
+         mul64To128(a.frac, b.frac, &hi, &lo);
+-        shift128RightJamming(hi, lo, DECOMPOSED_BINARY_POINT, &hi, &lo);
+-        if (lo & DECOMPOSED_OVERFLOW_BIT) {
+-            shift64RightJamming(lo, 1, &lo);
++        if (hi & DECOMPOSED_IMPLICIT_BIT) {
+             exp += 1;
++        } else {
++            hi <<= 1;
          }
-@@ -369,7 +439,8 @@ static void bench(enum precision prec, enum op op, int n_ops, bool no_neg)
-     GEN_BENCH(bench_ ## opname ## _float, float, PREC_SINGLE, op, n_ops) \
-     GEN_BENCH(bench_ ## opname ## _double, double, PREC_DOUBLE, op, n_ops) \
-     GEN_BENCH(bench_ ## opname ## _float32, float32, PREC_FLOAT32, op, n_ops) \
--    GEN_BENCH(bench_ ## opname ## _float64, float64, PREC_FLOAT64, op, n_ops)
-+    GEN_BENCH(bench_ ## opname ## _float64, float64, PREC_FLOAT64, op, n_ops) \
-+    GEN_BENCH(bench_ ## opname ## _float128, float128, PREC_FLOAT128, op, n_ops)
++        hi |= (lo != 0);
  
- GEN_BENCH_ALL_TYPES(add, OP_ADD, 2)
- GEN_BENCH_ALL_TYPES(sub, OP_SUB, 2)
-@@ -383,7 +454,8 @@ GEN_BENCH_ALL_TYPES(cmp, OP_CMP, 2)
-     GEN_BENCH_NO_NEG(bench_ ## name ## _float, float, PREC_SINGLE, op, n) \
-     GEN_BENCH_NO_NEG(bench_ ## name ## _double, double, PREC_DOUBLE, op, n) \
-     GEN_BENCH_NO_NEG(bench_ ## name ## _float32, float32, PREC_FLOAT32, op, n) \
--    GEN_BENCH_NO_NEG(bench_ ## name ## _float64, float64, PREC_FLOAT64, op, n)
-+    GEN_BENCH_NO_NEG(bench_ ## name ## _float64, float64, PREC_FLOAT64, op, n) \
-+    GEN_BENCH_NO_NEG(bench_ ## name ## _float128, float128, PREC_FLOAT128, op, n)
+         /* Re-use a */
+         a.exp = exp;
+         a.sign = sign;
+-        a.frac = lo;
++        a.frac = hi;
+         return a;
+     }
+     /* handle all the NaN cases */
+@@ -1411,56 +1414,41 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
  
- GEN_BENCH_ALL_TYPES_NO_NEG(sqrt, OP_SQRT, 1)
- #undef GEN_BENCH_ALL_TYPES_NO_NEG
-@@ -397,6 +469,7 @@ GEN_BENCH_ALL_TYPES_NO_NEG(sqrt, OP_SQRT, 1)
-         [PREC_DOUBLE]    = bench_ ## opname ## _double,         \
-         [PREC_FLOAT32]   = bench_ ## opname ## _float32,        \
-         [PREC_FLOAT64]   = bench_ ## opname ## _float64,        \
-+        [PREC_FLOAT128]   = bench_ ## opname ## _float128,      \
+     p_exp = a.exp + b.exp;
+ 
+-    /* Multiply of 2 62-bit numbers produces a (2*62) == 124-bit
+-     * result.
+-     */
+     mul64To128(a.frac, b.frac, &hi, &lo);
+-    /* binary point now at bit 124 */
+ 
+-    /* check for overflow */
+-    if (hi & (1ULL << (DECOMPOSED_BINARY_POINT * 2 + 1 - 64))) {
+-        shift128RightJamming(hi, lo, 1, &hi, &lo);
++    /* Renormalize to the msb. */
++    if (hi & DECOMPOSED_IMPLICIT_BIT) {
+         p_exp += 1;
++    } else {
++        shortShift128Left(hi, lo, 1, &hi, &lo);
      }
  
- static const bench_func_t bench_funcs[OP_MAX_NR][PREC_MAX_NR] = {
-@@ -445,7 +518,7 @@ static void usage_complete(int argc, char *argv[])
-     fprintf(stderr, " -h = show this help message.\n");
-     fprintf(stderr, " -o = floating point operation (%s). Default: %s\n",
-             op_list, op_names[0]);
--    fprintf(stderr, " -p = floating point precision (single, double). "
-+    fprintf(stderr, " -p = floating point precision (single, double, quad[soft only]). "
-             "Default: single\n");
-     fprintf(stderr, " -r = rounding mode (even, zero, down, up, tieaway). "
-             "Default: even\n");
-@@ -565,6 +638,8 @@ static void parse_args(int argc, char *argv[])
-                 precision = PREC_SINGLE;
-             } else if (!strcmp(optarg, "double")) {
-                 precision = PREC_DOUBLE;
-+            } else if (!strcmp(optarg, "quad")) {
-+                precision = PREC_QUAD;
+     /* + add/sub */
+-    if (c.cls == float_class_zero) {
+-        /* move binary point back to 62 */
+-        shift128RightJamming(hi, lo, DECOMPOSED_BINARY_POINT, &hi, &lo);
+-    } else {
++    if (c.cls != float_class_zero) {
+         int exp_diff = p_exp - c.exp;
+         if (p_sign == c.sign) {
+             /* Addition */
+             if (exp_diff <= 0) {
+-                shift128RightJamming(hi, lo,
+-                                     DECOMPOSED_BINARY_POINT - exp_diff,
+-                                     &hi, &lo);
+-                lo += c.frac;
++                shift64RightJamming(hi, -exp_diff, &hi);
+                 p_exp = c.exp;
++                if (uadd64_overflow(hi, c.frac, &hi)) {
++                    shift64RightJamming(hi, 1, &hi);
++                    hi |= DECOMPOSED_IMPLICIT_BIT;
++                    p_exp += 1;
++                }
              } else {
-                 fprintf(stderr, "Unsupported precision '%s'\n", optarg);
-                 exit(EXIT_FAILURE);
-@@ -608,6 +683,9 @@ static void parse_args(int argc, char *argv[])
-         case PREC_DOUBLE:
-             precision = PREC_FLOAT64;
-             break;
-+        case PREC_QUAD:
-+            precision = PREC_FLOAT128;
-+            break;
-         default:
-             g_assert_not_reached();
+-                uint64_t c_hi, c_lo;
+-                /* shift c to the same binary point as the product (124) */
+-                c_hi = c.frac >> 2;
+-                c_lo = 0;
+-                shift128RightJamming(c_hi, c_lo,
+-                                     exp_diff,
+-                                     &c_hi, &c_lo);
+-                add128(hi, lo, c_hi, c_lo, &hi, &lo);
+-                /* move binary point back to 62 */
+-                shift128RightJamming(hi, lo, DECOMPOSED_BINARY_POINT, &hi, &lo);
++                uint64_t c_hi, c_lo, over;
++                shift128RightJamming(c.frac, 0, exp_diff, &c_hi, &c_lo);
++                add192(0, hi, lo, 0, c_hi, c_lo, &over, &hi, &lo);
++                if (over) {
++                    shift64RightJamming(hi, 1, &hi);
++                    hi |= DECOMPOSED_IMPLICIT_BIT;
++                    p_exp += 1;
++                }
+             }
+-
+-            if (lo & DECOMPOSED_OVERFLOW_BIT) {
+-                shift64RightJamming(lo, 1, &lo);
+-                p_exp += 1;
+-            }
+-
+         } else {
+             /* Subtraction */
+-            uint64_t c_hi, c_lo;
+-            /* make C binary point match product at bit 124 */
+-            c_hi = c.frac >> 2;
+-            c_lo = 0;
++            uint64_t c_hi = c.frac, c_lo = 0;
+ 
+             if (exp_diff <= 0) {
+                 shift128RightJamming(hi, lo, -exp_diff, &hi, &lo);
+@@ -1495,20 +1483,15 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
+                 /* Normalizing to a binary point of 124 is the
+                    correct adjust for the exponent.  However since we're
+                    shifting, we might as well put the binary point back
+-                   at 62 where we really want it.  Therefore shift as
++                   at 63 where we really want it.  Therefore shift as
+                    if we're leaving 1 bit at the top of the word, but
+                    adjust the exponent as if we're leaving 3 bits.  */
+-                shift -= 1;
+-                if (shift >= 64) {
+-                    lo = lo << (shift - 64);
+-                } else {
+-                    hi = (hi << shift) | (lo >> (64 - shift));
+-                    lo = hi | ((lo << shift) != 0);
+-                }
+-                p_exp -= shift - 2;
++                shift128Left(hi, lo, shift, &hi, &lo);
++                p_exp -= shift;
+             }
          }
+     }
++    hi |= (lo != 0);
+ 
+     if (flags & float_muladd_halve_result) {
+         p_exp -= 1;
+@@ -1518,7 +1501,7 @@ static FloatParts muladd_floats(FloatParts a, FloatParts b, FloatParts c,
+     a.cls = float_class_normal;
+     a.sign = p_sign ^ sign_flip;
+     a.exp = p_exp;
+-    a.frac = lo;
++    a.frac = hi;
+ 
+     return a;
+ }
+@@ -1742,25 +1725,17 @@ static FloatParts div_floats(FloatParts a, FloatParts b, float_status *s)
+          * exponent to match.
+          *
+          * The udiv_qrnnd algorithm that we're using requires normalization,
+-         * i.e. the msb of the denominator must be set.  Since we know that
+-         * DECOMPOSED_BINARY_POINT is msb-1, the inputs must be shifted left
+-         * by one (more), and the remainder must be shifted right by one.
++         * i.e. the msb of the denominator must be set, which is already true.
+          */
+         if (a.frac < b.frac) {
+             exp -= 1;
+-            shift128Left(0, a.frac, DECOMPOSED_BINARY_POINT + 2, &n1, &n0);
+-        } else {
+             shift128Left(0, a.frac, DECOMPOSED_BINARY_POINT + 1, &n1, &n0);
++        } else {
++            shift128Left(0, a.frac, DECOMPOSED_BINARY_POINT, &n1, &n0);
+         }
+-        q = udiv_qrnnd(&r, n1, n0, b.frac << 1);
++        q = udiv_qrnnd(&r, n1, n0, b.frac);
+ 
+-        /*
+-         * Set lsb if there is a remainder, to set inexact.
+-         * As mentioned above, to find the actual value of the remainder we
+-         * would need to shift right, but (1) we are only concerned about
+-         * non-zero-ness, and (2) the remainder will always be even because
+-         * both inputs to the division primitive are even.
+-         */
++        /* Set lsb if there is a remainder, to set inexact. */
+         a.frac = q | (r != 0);
+         a.sign = sign;
+         a.exp = exp;
+@@ -2135,12 +2110,12 @@ static FloatParts round_to_int(FloatParts a, FloatRoundMode rmode,
+ 
+             if (a.frac & rnd_mask) {
+                 s->float_exception_flags |= float_flag_inexact;
+-                a.frac += inc;
+-                a.frac &= ~rnd_mask;
+-                if (a.frac & DECOMPOSED_OVERFLOW_BIT) {
++                if (uadd64_overflow(a.frac, inc, &a.frac)) {
+                     a.frac >>= 1;
++                    a.frac |= DECOMPOSED_IMPLICIT_BIT;
+                     a.exp++;
+                 }
++                a.frac &= ~rnd_mask;
+             }
+         }
+         break;
+@@ -2213,10 +2188,8 @@ static int64_t round_to_int_and_pack(FloatParts in, FloatRoundMode rmode,
+     case float_class_zero:
+         return 0;
+     case float_class_normal:
+-        if (p.exp < DECOMPOSED_BINARY_POINT) {
++        if (p.exp <= DECOMPOSED_BINARY_POINT) {
+             r = p.frac >> (DECOMPOSED_BINARY_POINT - p.exp);
+-        } else if (p.exp - DECOMPOSED_BINARY_POINT < 2) {
+-            r = p.frac << (p.exp - DECOMPOSED_BINARY_POINT);
+         } else {
+             r = UINT64_MAX;
+         }
+@@ -2498,10 +2471,8 @@ static uint64_t round_to_uint_and_pack(FloatParts in, FloatRoundMode rmode,
+             return 0;
+         }
+ 
+-        if (p.exp < DECOMPOSED_BINARY_POINT) {
++        if (p.exp <= DECOMPOSED_BINARY_POINT) {
+             r = p.frac >> (DECOMPOSED_BINARY_POINT - p.exp);
+-        } else if (p.exp - DECOMPOSED_BINARY_POINT < 2) {
+-            r = p.frac << (p.exp - DECOMPOSED_BINARY_POINT);
+         } else {
+             s->float_exception_flags = orig_flags | float_flag_invalid;
+             return max;
+@@ -2765,11 +2736,11 @@ static FloatParts int_to_float(int64_t a, int scale, float_status *status)
+             f = -f;
+             r.sign = true;
+         }
+-        shift = clz64(f) - 1;
++        shift = clz64(f);
+         scale = MIN(MAX(scale, -0x10000), 0x10000);
+ 
+         r.exp = DECOMPOSED_BINARY_POINT - shift + scale;
+-        r.frac = (shift < 0 ? DECOMPOSED_IMPLICIT_BIT : f << shift);
++        r.frac = f << shift;
+     }
+ 
+     return r;
+@@ -2920,21 +2891,16 @@ bfloat16 int16_to_bfloat16(int16_t a, float_status *status)
+ static FloatParts uint_to_float(uint64_t a, int scale, float_status *status)
+ {
+     FloatParts r = { .sign = false };
++    int shift;
+ 
+     if (a == 0) {
+         r.cls = float_class_zero;
+     } else {
+         scale = MIN(MAX(scale, -0x10000), 0x10000);
++        shift = clz64(a);
+         r.cls = float_class_normal;
+-        if ((int64_t)a < 0) {
+-            r.exp = DECOMPOSED_BINARY_POINT + 1 + scale;
+-            shift64RightJamming(a, 1, &a);
+-            r.frac = a;
+-        } else {
+-            int shift = clz64(a) - 1;
+-            r.exp = DECOMPOSED_BINARY_POINT - shift + scale;
+-            r.frac = a << shift;
+-        }
++        r.exp = DECOMPOSED_BINARY_POINT - shift + scale;
++        r.frac = a << shift;
+     }
+ 
+     return r;
+@@ -3475,12 +3441,9 @@ static FloatParts sqrt_float(FloatParts a, float_status *s, const FloatFmt *p)
+     /* We need two overflow bits at the top. Adding room for that is a
+      * right shift. If the exponent is odd, we can discard the low bit
+      * by multiplying the fraction by 2; that's a left shift. Combine
+-     * those and we shift right if the exponent is even.
++     * those and we shift right by 1 if the exponent is odd, otherwise 2.
+      */
+-    a_frac = a.frac;
+-    if (!(a.exp & 1)) {
+-        a_frac >>= 1;
+-    }
++    a_frac = a.frac >> (2 - (a.exp & 1));
+     a.exp >>= 1;
+ 
+     /* Bit-by-bit computation of sqrt.  */
+@@ -3488,10 +3451,10 @@ static FloatParts sqrt_float(FloatParts a, float_status *s, const FloatFmt *p)
+     s_frac = 0;
+ 
+     /* Iterate from implicit bit down to the 3 extra bits to compute a
+-     * properly rounded result. Remember we've inserted one more bit
+-     * at the top, so these positions are one less.
++     * properly rounded result. Remember we've inserted two more bits
++     * at the top, so these positions are two less.
+      */
+-    bit = DECOMPOSED_BINARY_POINT - 1;
++    bit = DECOMPOSED_BINARY_POINT - 2;
+     last_bit = MAX(p->frac_shift - 4, 0);
+     do {
+         uint64_t q = 1ULL << bit;
+@@ -3507,7 +3470,7 @@ static FloatParts sqrt_float(FloatParts a, float_status *s, const FloatFmt *p)
+     /* Undo the right shift done above. If there is any remaining
+      * fraction, the result is inexact. Set the sticky bit.
+      */
+-    a.frac = (r_frac << 1) + (a_frac != 0);
++    a.frac = (r_frac << 2) + (a_frac != 0);
+ 
+     return a;
+ }
 -- 
 2.25.1
 
