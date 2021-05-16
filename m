@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7541C381FB9
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 18:16:22 +0200 (CEST)
-Received: from localhost ([::1]:47712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F5E381FBD
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 May 2021 18:21:20 +0200 (CEST)
+Received: from localhost ([::1]:51038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1liJRE-0003HI-Sz
-	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 12:16:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56736)
+	id 1liJW3-0005x6-7l
+	for lists+qemu-devel@lfdr.de; Sun, 16 May 2021 12:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1liJO2-0000xT-P8
- for qemu-devel@nongnu.org; Sun, 16 May 2021 12:13:02 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:40912)
+ id 1liJUp-00054w-1p
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 12:20:03 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:44749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1liJO0-00057n-AN
- for qemu-devel@nongnu.org; Sun, 16 May 2021 12:13:02 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id n2so5607380ejy.7
- for <qemu-devel@nongnu.org>; Sun, 16 May 2021 09:12:59 -0700 (PDT)
+ id 1liJUn-00023r-9n
+ for qemu-devel@nongnu.org; Sun, 16 May 2021 12:20:02 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id t15so4061764edr.11
+ for <qemu-devel@nongnu.org>; Sun, 16 May 2021 09:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XoynUOz4+iGXyLuogrv4pHtuE2PMOYr63gAjwTVd2q4=;
- b=BA/GkLx4jnQQ+zgByJrsCweIkoElvRx0DRrTU3WPTN+0whSnZiS4s89bsRISrk9rIL
- /5RtoMxty21ubEqESgoCICf55UHpbTlpKhRN5Xo2mmbGX68Mm6r41LASOlApV023v/R2
- X0dBnDz5uWD427v3JCWnkdzkaikbMT6BIN0LP4N+s/ZE3xKSEMRGnjic1v2ZMTznTSG5
- SDValxT9wwatQuIWwIBOmZpnPF0Y07treflNoV4xHzQo8FrT2z4Sc5+sG6yv0YctZxFW
- 1RMqGXyFSlDiGqD/7NOUUQJYxNZnDqqbjdiAbN6Jcyhj5kzmPyTY0GLN3HYSsM0JnJlC
- i3vg==
+ :cc; bh=4m1d5JQQEWbRqHbX7Z2ZI/wXomRDudcl9CSBfNIIMrc=;
+ b=fwS/GBtXxiKE6XXji9VM3xmCIyPTvEEE2hQeZXmwXK+enu2z/LMuUpOk17zHk8Fbjs
+ VSPPxvcWYx/y9EujEvd7bwlZQa2byWriqJFC5esTOvbo4nLR9bWZX6NZYoM3jaCPGo8b
+ xAJ6Xf+KWQ281P1x+dAMj+/oFq6oNg0oGhkUJvEY8WuMp1GlmKtqQbdERqWDIP3kKUzH
+ a2HhtCGtup12rJhwFyrhXnON9IKUBXs8gYRRbUE9XiL8gamRY9uc1buPPmG8+YXKV3BI
+ 0u/fo/D4TpE1BGFRsGqLJj6LX7tygrEVUjefBPHWWWIOMBmfMcUFTjr4I08uBjkd3DtE
+ MDXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XoynUOz4+iGXyLuogrv4pHtuE2PMOYr63gAjwTVd2q4=;
- b=WeFUiX5lAIPz4n8HCtkuq5swX9PPr0aJsqHU/vN7WPJPa4F5GGUeenEum8rr5mE5Ea
- 2wUwNWyrAp7zlBTDC+TsGdmRDtz2Gh8CXY22tgHE4YV7wYYpbDTYdmGr2WAD7Rrqot/X
- 6BJs3JoHJ5P806w2KOhNZmC2KN6groLAvX2RkCEe+m2x4Uvt2aneHO2rInxAU7ZgeZQs
- XGmChaZTHM/7vvRxOY9nu8zRRTK3vyaXHR7qf4kPjxbpGpzjQaiiBTBKP3iwQELNFNMk
- PRuHAcUe59tWfFTqxWLEXXWwAmKe3HYheFT3LJhWL2H0DXUiyQHoSLfk5JoU4qfZ71m+
- MFyw==
-X-Gm-Message-State: AOAM530uf0gKaW5uZOT0ZPMStlIA2/q7KgEFIoY7ERrtKby1jZ9oiWAl
- aGe0xjLxktf92uh05VjoKYpP6XuWUA3eaqUYLHdKtQ==
-X-Google-Smtp-Source: ABdhPJwBg5uIgiYmDli3hIr8YmTR9mdjHjbNEzyKS9ORKbVxcMc3+edHT8vcj0vnZJkYgmVDFHEz78JIPWwdyc6hH+k=
-X-Received: by 2002:a17:906:9bd6:: with SMTP id
- de22mr9580474ejc.382.1621181578707; 
- Sun, 16 May 2021 09:12:58 -0700 (PDT)
+ bh=4m1d5JQQEWbRqHbX7Z2ZI/wXomRDudcl9CSBfNIIMrc=;
+ b=ckTPSrHUCD/U8Al4xu5v/JrdR24OyVsATAsr2brgZgxVv92hfc0cFlczRK+CWD2/+Q
+ Hrido0iELqcyFOWs0eRY+NW707tL6etvvZYBYOfglTMMWpJu4aG1EuSVNJmHDX49d+V0
+ ecAdPQpQ3A2h1G49on/0HcVKjqfrU0+4omHaww3ab79wi02z4bQBJV0SjsHc1dn0F9nY
+ 6XdoZrgDxLesmWM4IxsCE5Zv0WRXIgXA32ZGBhLu3NcE7gaz8hSAhwoUjYWSugb4xj1M
+ EOnch83Qe696Mex+RkCDKNxmWivncUfBIKQUoIFzlOhHzgUXU6U436NLJmjj8fKe1AxE
+ 5PGg==
+X-Gm-Message-State: AOAM5307V0lU4l2b9fTMkSr50KVamHdnoAcdPAQ+6ZWU3QzexuENyot2
+ 3T+dib68uKfwwKR2ZKPbSBYTe398d7PFVHabkOVo2w==
+X-Google-Smtp-Source: ABdhPJxTjVerxRVbztcarVtTXfP1jvz1QwPEVNInZejP75ouvBb0i29or1nniyM5ESuANA2hIsrpFnxbrh42Trp0waA=
+X-Received: by 2002:a05:6402:416:: with SMTP id
+ q22mr67046206edv.204.1621181999733; 
+ Sun, 16 May 2021 09:19:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210120224444.71840-1-agraf@csgraf.de>
- <20210120224444.71840-12-agraf@csgraf.de>
- <CAFEAcA-021U3ehg_jnAHtako-A-GRxqwjqZWotroumUxfPhdGA@mail.gmail.com>
- <223c7fbc-3a07-e97c-04eb-ef38ec3d67fe@csgraf.de>
-In-Reply-To: <223c7fbc-3a07-e97c-04eb-ef38ec3d67fe@csgraf.de>
+References: <20210514121518.832729-1-thuth@redhat.com>
+In-Reply-To: <20210514121518.832729-1-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 16 May 2021 17:12:44 +0100
-Message-ID: <CAFEAcA9zdJeNgeSihuXt4Cc9-yNDDE+Apkx-S8PBwnFidnxoRA@mail.gmail.com>
-Subject: Re: [PATCH v6 11/11] hvf: arm: Implement -cpu host
-To: Alexander Graf <agraf@csgraf.de>
+Date: Sun, 16 May 2021 17:19:45 +0100
+Message-ID: <CAFEAcA-kj52g=E2mwD85NxLupfjcJw2grdouTqRezLJFEhEv=Q@mail.gmail.com>
+Subject: Re: [PULL 00/20] CI, qtest, and misc patches
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,34 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 16 May 2021 at 12:16, Alexander Graf <agraf@csgraf.de> wrote:
+On Fri, 14 May 2021 at 13:15, Thomas Huth <thuth@redhat.com> wrote:
 >
+>  Hi Peter!
 >
-> On 28.01.21 17:55, Peter Maydell wrote:
-> > Nicer to follow the KVM approach of only doing this once
-> > and caching the results in arm_host_cpu_features, so that
-> > for a many-cores VM you don't do it once per core.
+> The following changes since commit 2d3fc4e2b069494b1e9e2e4a1e3de24cbc036426:
 >
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2021-05-12' into staging (2021-05-13 20:13:24 +0100)
 >
-> I tend to disagree. This scales nicely with the number of cores you have
-> in the system and it's blazingly fast :). I would rather like to
-> optimize for simplicity here.
+> are available in the Git repository at:
+>
+>   https://gitlab.com/thuth/qemu.git tags/pull-request-2021-05-14
+>
+> for you to fetch changes up to 568740bedf22cc8d0ec9ab1ce522a97baab5961c:
+>
+>   cirrus.yml: Fix the MSYS2 task (2021-05-14 13:11:48 +0200)
+>
+> ----------------------------------------------------------------
+> * Replace YAML anchors by extends in the gitlab-CI yaml files
+> * Many small qtest fixes (e.g. to fix issues discovered by Coverity)
+> * Poison more config switches in common code
+> * Fix the failing Travis-CI and Cirrus-CI tasks
+> ----------------------------------------------------------------
 
-How does "do something once per vCPU" scale better than
-"do something once when QEMU starts" ??
 
-I would prefer to optimise for "don't be unnecessarily
-different from how we do stuff with KVM", please.
+Applied, thanks.
 
-thanks
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
 -- PMM
 
