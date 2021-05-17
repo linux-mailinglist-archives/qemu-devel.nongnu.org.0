@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E16B383522
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B551383521
 	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 17:19:32 +0200 (CEST)
-Received: from localhost ([::1]:39274 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:39218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lif1n-0000cc-Jd
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 11:19:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42308)
+	id 1lif1m-0000aG-T1
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 11:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1liezn-0006Fi-9d
- for qemu-devel@nongnu.org; Mon, 17 May 2021 11:17:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47995)
+ id 1liezs-0006GF-Nx
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 11:17:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1liezi-0005iX-6c
- for qemu-devel@nongnu.org; Mon, 17 May 2021 11:17:26 -0400
+ id 1liezi-0005k6-6Q
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 11:17:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621264632;
+ s=mimecast20190719; t=1621264635;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GwtsGjloVAQ+r3BXAAEo6nsUh5bZB+MR83DxynqFGtQ=;
- b=AoGad+wjWtN33UtPkDZELcG+vE/6qPfPNrrX5t9kDeIdfcEWS1MSUPiXKnhOiBFtC8NTi1
- EPafNCnQC94HbcwSX95knwqnYAsaZGclXxE6jsSTJABfmUHqLT0u1miVI7zDolWhE7Gpy2
- i0L6H6+Rstt23Q7LZJYUsZTqoJNanlI=
+ bh=YRtj/MIFXCXExL9Ta6eUfNBqXs37N+8Kk58C8d0sUJ4=;
+ b=NxvUHg138/wiikNTtpckIyKB/UgfaNC4fa7/W+BfEGykaFeCeaSKs4mEkveD9OK53xy7ei
+ W3QUfy8XzEHqJD1+Ki93tkOrUNyFUUOQrEdHMpxuAnLCcN9/I4NKFUEZvmEZcmUze1OUxB
+ dvMXLQePo/n59GU+h78h4uXEHnrHSs4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-jbn-1Kb3NuywIDI8zskahQ-1; Mon, 17 May 2021 11:17:10 -0400
-X-MC-Unique: jbn-1Kb3NuywIDI8zskahQ-1
+ us-mta-127-caM0Qq3eNIWT3RQnF8OAbQ-1; Mon, 17 May 2021 11:17:13 -0400
+X-MC-Unique: caM0Qq3eNIWT3RQnF8OAbQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0754B801107;
- Mon, 17 May 2021 15:17:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 119368AB380;
+ Mon, 17 May 2021 15:17:12 +0000 (UTC)
 Received: from steredhat.redhat.com (ovpn-115-84.ams2.redhat.com
  [10.36.115.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5033C5C5E1;
- Mon, 17 May 2021 15:17:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 548F95C1D1;
+ Mon, 17 May 2021 15:17:10 +0000 (UTC)
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] docs: fix references to docs/devel/atomics.rst
-Date: Mon, 17 May 2021 17:16:59 +0200
-Message-Id: <20210517151702.109066-3-sgarzare@redhat.com>
+Subject: [PATCH 3/5] docs: fix references to docs/devel/build-system.rst
+Date: Mon, 17 May 2021 17:17:00 +0200
+Message-Id: <20210517151702.109066-4-sgarzare@redhat.com>
 In-Reply-To: <20210517151702.109066-1-sgarzare@redhat.com>
 References: <20210517151702.109066-1-sgarzare@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -87,82 +87,46 @@ Cc: "Daniel P . Berrange" <berrange@redhat.com>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 15e8699f00 ("atomics: convert to reStructuredText") converted
-docs/devel/atomics.txt to docs/devel/atomics.rst.
+Commit a14f0bf165 ("docs: convert build system documentation to rST")
+converted docs/devel/build-system.txt to docs/devel/build-system.rst.
 
 We still have several references to the old file, so let's fix them
 with the following command:
 
-  sed -i s/atomics.txt/atomics.rst/ $(git grep -l docs/devel/atomics.txt)
+  sed -i s/build-system.txt/build-system.rst/ \
+      $(git grep -l docs/devel/build-system.txt)
 
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- docs/devel/lockcnt.txt   | 2 +-
- include/qemu/atomic.h    | 4 ++--
- include/qemu/atomic128.h | 2 +-
- tcg/README               | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ MAINTAINERS                   | 2 +-
+ tests/qapi-schema/meson.build | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/docs/devel/lockcnt.txt b/docs/devel/lockcnt.txt
-index 2d85462fe3..a3fb3bc5d8 100644
---- a/docs/devel/lockcnt.txt
-+++ b/docs/devel/lockcnt.txt
-@@ -145,7 +145,7 @@ can also be more efficient in two ways:
- - on some platforms, one can implement QemuLockCnt to hold the lock
-   and the mutex in a single word, making the fast path no more expensive
-   than simply managing a counter using atomic operations (see
--  docs/devel/atomics.txt).  This can be very helpful if concurrent access to
-+  docs/devel/atomics.rst).  This can be very helpful if concurrent access to
-   the data structure is expected to be rare.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c9ab4c0f63..d74b26b8b6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3355,7 +3355,7 @@ Documentation
+ Build system architecture
+ M: Daniel P. Berrange <berrange@redhat.com>
+ S: Odd Fixes
+-F: docs/devel/build-system.txt
++F: docs/devel/build-system.rst
  
+ GIT Data Mining Config
+ M: Alex Bennée <alex.bennee@linaro.org>
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index d7163e6601..d96a300439 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -202,7 +202,7 @@ schemas = [
  
-diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
-index 8f4b3a80fb..3ccf84fd46 100644
---- a/include/qemu/atomic.h
-+++ b/include/qemu/atomic.h
-@@ -8,7 +8,7 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-  *
-- * See docs/devel/atomics.txt for discussion about the guarantees each
-+ * See docs/devel/atomics.rst for discussion about the guarantees each
-  * atomic primitive is meant to provide.
-  */
- 
-@@ -432,7 +432,7 @@
-  * sequentially consistent operations.
-  *
-  * As long as they are used as paired operations they are safe to
-- * use. See docs/devel/atomics.txt for more discussion.
-+ * use. See docs/devel/atomics.rst for more discussion.
-  */
- 
- #ifndef qatomic_mb_read
-diff --git a/include/qemu/atomic128.h b/include/qemu/atomic128.h
-index ad2bcf45b4..adb9a1a260 100644
---- a/include/qemu/atomic128.h
-+++ b/include/qemu/atomic128.h
-@@ -6,7 +6,7 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-  *
-- * See docs/devel/atomics.txt for discussion about the guarantees each
-+ * See docs/devel/atomics.rst for discussion about the guarantees each
-  * atomic primitive is meant to provide.
-  */
- 
-diff --git a/tcg/README b/tcg/README
-index 0cf9e2727c..8510d823e3 100644
---- a/tcg/README
-+++ b/tcg/README
-@@ -461,7 +461,7 @@ when MTTCG is enabled.
- The guest translators should generate this opcode for all guest instructions
- which have ordering side effects.
- 
--Please see docs/devel/atomics.txt for more information on memory barriers.
-+Please see docs/devel/atomics.rst for more information on memory barriers.
- 
- ********* 64-bit guest on 32-bit host support
+ # Because people may want to use test-qapi.py from the command line, we
+ # are not using the "#! /usr/bin/env python3" trick here.  See
+-# docs/devel/build-system.txt
++# docs/devel/build-system.rst
+ test('QAPI schema regression tests', python, args: files('test-qapi.py', schemas),
+      env: test_env, suite: ['qapi-schema', 'qapi-frontend'])
  
 -- 
 2.31.1
