@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC73382B7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:51:55 +0200 (CEST)
-Received: from localhost ([::1]:37976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E45E382B3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:38:13 +0200 (CEST)
+Received: from localhost ([::1]:37486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1libms-0005zn-H5
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35852)
+	id 1libZc-00023T-NI
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:38:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1libIJ-00061F-Cw
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:20:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48232)
+ id 1libIO-00064F-I0
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:20:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1libIA-0006LL-GD
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:20:14 -0400
+ id 1libIK-0006OU-Bn
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:20:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621250405;
+ s=mimecast20190719; t=1621250419;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v9lXiA4WNg4giItpuoNWZ3EGC8EdNd3bChB2Y0A8AhU=;
- b=hPu23ZPFfzxT7gyudGA6q1pNfSwXxSgqu8olR6DS9lfCB5wporzzT9gYvbp+qpksxi6Nn2
- EOKfp7KnfhjyWyPe9jbPAFRX658D1eE1z3nsmx3ESuOU7Xab1dTYJwnjsA63Icv0JdE74Q
- zll8DT7ZgisHXvx+upf3IBtTjuw5/L4=
+ bh=0w9XmRrvke7YqDZpY/G2uoomq560PGMLttE6Iw2dKKs=;
+ b=eCKIqJ/a4kJ1U9d2L9xs6wzTGU/5avn8Kt9i5DK0C/K9g/0UjKBl98f1WSfvZO9yWvC+TO
+ YydnnSM1uaUH6yQjqpX7xUhmIzWQRQt7b3lCHcFQ+83iMfxT9cqhDW3hjpxTqNCp4RPfaW
+ xlMxDytha4McVQFtPhiHLNgajI9JbHo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-o9mZo8z7NjKdIzT6UNL_FA-1; Mon, 17 May 2021 07:20:03 -0400
-X-MC-Unique: o9mZo8z7NjKdIzT6UNL_FA-1
+ us-mta-169-oB9gv4lDM6ylx-3WfH1dmQ-1; Mon, 17 May 2021 07:20:17 -0400
+X-MC-Unique: oB9gv4lDM6ylx-3WfH1dmQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDAAA1854E24
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 11:20:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9DA71868339;
+ Mon, 17 May 2021 11:20:15 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 97FB790BD
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 11:20:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D71719726;
+ Mon, 17 May 2021 11:20:03 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/20] configure: simplify assignment to GIT_SUBMODULES
-Date: Mon, 17 May 2021 07:19:44 -0400
-Message-Id: <20210517112001.2564006-4-pbonzini@redhat.com>
+Subject: [PULL 05/20] backends/tpm: Replace qemu_mutex_lock calls with
+ QEMU_LOCK_GUARD
+Date: Mon, 17 May 2021 07:19:46 -0400
+Message-Id: <20210517112001.2564006-6-pbonzini@redhat.com>
 In-Reply-To: <20210517112001.2564006-1-pbonzini@redhat.com>
 References: <20210517112001.2564006-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,8 +57,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -79,97 +80,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Christophe de Dinechin <dinechin@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not guard each assignment with a check for --with-git-submodules=ignore.
-To avoid a confusing "GIT" line from the Makefile, guard the git-submodule-update
-recipe so that it is empty when --with-git-submodules=ignore.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+Simplify the tpm_emulator_ctrlcmd() handler by replacing a pair of
+qemu_mutex_lock/qemu_mutex_unlock calls by the WITH_QEMU_LOCK_GUARD
+macro.
+
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Christophe de Dinechin <dinechin@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210512070713.3286188-1-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile  |  2 ++
- configure | 20 ++++++--------------
- 2 files changed, 8 insertions(+), 14 deletions(-)
+ backends/tpm/tpm_emulator.c | 34 +++++++++++++++-------------------
+ 1 file changed, 15 insertions(+), 19 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 4cab10a2a4..30f19d33bb 100644
---- a/Makefile
-+++ b/Makefile
-@@ -48,9 +48,11 @@ Makefile: .git-submodule-status
+diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
+index a012adc193..e5f1063ab6 100644
+--- a/backends/tpm/tpm_emulator.c
++++ b/backends/tpm/tpm_emulator.c
+@@ -30,6 +30,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "qemu/sockets.h"
++#include "qemu/lockable.h"
+ #include "io/channel-socket.h"
+ #include "sysemu/tpm_backend.h"
+ #include "sysemu/tpm_util.h"
+@@ -124,31 +125,26 @@ static int tpm_emulator_ctrlcmd(TPMEmulator *tpm, unsigned long cmd, void *msg,
+     uint32_t cmd_no = cpu_to_be32(cmd);
+     ssize_t n = sizeof(uint32_t) + msg_len_in;
+     uint8_t *buf = NULL;
+-    int ret = -1;
  
- .PHONY: git-submodule-update
- git-submodule-update:
-+ifneq ($(GIT_SUBMODULES_ACTION),ignore)
- 	$(call quiet-command, \
- 		(GIT="$(GIT)" "$(SRC_PATH)/scripts/git-submodule.sh" $(GIT_SUBMODULES_ACTION) $(GIT_SUBMODULES)), \
- 		"GIT","$(GIT_SUBMODULES)")
-+endif
+-    qemu_mutex_lock(&tpm->mutex);
++    WITH_QEMU_LOCK_GUARD(&tpm->mutex) {
++        buf = g_alloca(n);
++        memcpy(buf, &cmd_no, sizeof(cmd_no));
++        memcpy(buf + sizeof(cmd_no), msg, msg_len_in);
  
- # 0. ensure the build tree is okay
+-    buf = g_alloca(n);
+-    memcpy(buf, &cmd_no, sizeof(cmd_no));
+-    memcpy(buf + sizeof(cmd_no), msg, msg_len_in);
+-
+-    n = qemu_chr_fe_write_all(dev, buf, n);
+-    if (n <= 0) {
+-        goto end;
+-    }
+-
+-    if (msg_len_out != 0) {
+-        n = qemu_chr_fe_read_all(dev, msg, msg_len_out);
++        n = qemu_chr_fe_write_all(dev, buf, n);
+         if (n <= 0) {
+-            goto end;
++            return -1;
+         }
+-    }
  
-diff --git a/configure b/configure
-index 4681cbe2d7..55049fe930 100755
---- a/configure
-+++ b/configure
-@@ -256,11 +256,11 @@ gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
- if test -e "$source_path/.git"
- then
-     git_submodules_action="update"
--    git_submodules="ui/keycodemapdb"
- else
-     git_submodules_action="ignore"
--    git_submodules=""
- fi
-+
-+git_submodules="ui/keycodemapdb"
- git="git"
+-    ret = 0;
++        if (msg_len_out != 0) {
++            n = qemu_chr_fe_read_all(dev, msg, msg_len_out);
++            if (n <= 0) {
++                return -1;
++            }
++        }
++    }
  
- # Don't accept a target_list environment variable.
-@@ -3617,9 +3617,7 @@ fi
- case "$fdt" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test "$git_submodules_action" != "ignore"; then
--      git_submodules="${git_submodules} dtc"
--    fi
-+    git_submodules="${git_submodules} dtc"
-     ;;
- esac
+-end:
+-    qemu_mutex_unlock(&tpm->mutex);
+-    return ret;
++    return 0;
+ }
  
-@@ -4328,9 +4326,7 @@ fi
- case "$capstone" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test "$git_submodules_action" != "ignore"; then
--      git_submodules="${git_submodules} capstone"
--    fi
-+    git_submodules="${git_submodules} capstone"
-     ;;
- esac
- 
-@@ -5260,9 +5256,7 @@ fi
- case "$slirp" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test "$git_submodules_action" != "ignore"; then
--      git_submodules="${git_submodules} slirp"
--    fi
-+    git_submodules="${git_submodules} slirp"
-     ;;
- esac
- 
-@@ -5454,9 +5448,7 @@ if test "$cpu" = "s390x" ; then
-     roms="$roms s390-ccw"
-     # SLOF is required for building the s390-ccw firmware on s390x,
-     # since it is using the libnet code from SLOF for network booting.
--    if test "$git_submodules_action" != "ignore"; then
--      git_submodules="${git_submodules} roms/SLOF"
--    fi
-+    git_submodules="${git_submodules} roms/SLOF"
-   fi
- fi
- 
+ static int tpm_emulator_unix_tx_bufs(TPMEmulator *tpm_emu,
 -- 
 2.27.0
 
