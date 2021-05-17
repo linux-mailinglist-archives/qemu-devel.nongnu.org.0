@@ -2,140 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5726383C1E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:21:10 +0200 (CEST)
-Received: from localhost ([::1]:34306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53AA9383BFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:13:03 +0200 (CEST)
+Received: from localhost ([::1]:49074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lihrZ-0004jh-UP
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60426)
+	id 1lihji-0003Pz-5E
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:13:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lihgL-0001Tw-1W; Mon, 17 May 2021 14:09:34 -0400
-Received: from mail-db8eur05on2099.outbound.protection.outlook.com
- ([40.107.20.99]:38240 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lihgV-0001j4-Tn
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:09:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lihgI-0002AT-SL; Mon, 17 May 2021 14:09:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lxzXmSqlPJjZI0b+aOTQiFUiPnUjNu3n28T7Ur9eAUXriNfF8eHdNpFCGU6L7wAB1D3MU9kGPYyhYSDZLNn39mgC+2XJgQtTCsSwWL3z+rF+bx2pFNoDXavZgRpawZ5+5v4BKGRMeTDMf2Ks+u1rSGel/lZFfnU9hm1C31UFaDDuPdq/vq6D2UwWaipknrTjgiHlCgQWuA7shvmCEoiBvY99vYl6CJHR08zkGARDhDgMOim9dLdm31xQD0IMevES1RnIbz/sZYtkOzfFM+6R3s/z2PF6EA0ilQ96MzDif0bvQmWtkLoxOOH34Ddf7yzFYRl1JKIJXU+oImneCv86Kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V+isGFPgOJroASqPybMEJK3xDbtWIbBGR6VNexgZ7GQ=;
- b=c0SoIixOaZquq5hmpPjLprh2YAkkWW+ZZY2M/SWGL8bsdSaijo2mhdZ9rYyrc8H+8vNfA1Xa8gorzQgXo+PnEiZF1BGGSKKK2x4AeiIjWKqzylkOiaEvoosihDNAf7XBP5vnkJuhPVAAxZhJuiAE1E/3gBMjYUaCOMKctc2VjSAxO4jCbGoE5cOjgY/2W9BatgWLTCDc9ClAgj6mk01mk+4La4IZWsVaeYhHNsRw6IQtoD+niQW9OQXov5XiHeBZCOPkG0vwJ+gUbcQ0EVczG70uNhXtzHL26zKkSIwyRtZIJjIo3ox164e9JSNTzkFvYCjyljdCWezx1lbV1vSpxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V+isGFPgOJroASqPybMEJK3xDbtWIbBGR6VNexgZ7GQ=;
- b=FbaVRuXA9THrVaVpteEReV1r2h48Ru9vo0Wh4wU5Tlt6Qe2pdOy7vY2YCYWzfzfCZzbs+h5kKWz0J3MqrjW+8FRUGOWART+8rg/epV0ExFJxodmltkea6NaHVBaR2IAgfiblXiDEnhzyFYtDI3LfoYqoWOH8rrXR+bRV8yJRgjo=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3383.eurprd08.prod.outlook.com (2603:10a6:20b:50::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.28; Mon, 17 May
- 2021 18:09:28 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::b403:c1a9:6bb7:133%7]) with mapi id 15.20.4129.031; Mon, 17 May 2021
- 18:09:28 +0000
-Subject: Re: [PATCH 04/21] qdev: allow setting drive property for realized
- device
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
- ehabkost@redhat.com, berrange@redhat.com, pbonzini@redhat.com,
- jsnow@redhat.com, kwolf@redhat.com, den@openvz.org
-References: <20210517064428.16223-1-vsementsov@virtuozzo.com>
- <20210517064428.16223-6-vsementsov@virtuozzo.com>
- <90135147-4b08-3af2-cfde-aaa3dd397c17@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <c0c45ac4-46a1-bf33-f563-634a7fd5670a@virtuozzo.com>
-Date: Mon, 17 May 2021 21:09:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-In-Reply-To: <90135147-4b08-3af2-cfde-aaa3dd397c17@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.231]
-X-ClientProxiedBy: PR3P193CA0019.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:102:50::24) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.231) by
- PR3P193CA0019.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:50::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4108.25 via Frontend Transport; Mon, 17 May 2021 18:09:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4f27df19-95fe-4922-567f-08d9195ee938
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3383:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB33834B2290F4898DB8F55DEEC12D9@AM6PR08MB3383.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pNvoh0xwANHCAuAm7QBnSA8Qx1DLfDdZsnsnYgHQikByTAD5IpZrfT1u2dTPLpEkxV2A+WvoWwiebGN05jk6X4+/k8sT7dPXbB8rCWrLOO+3vK/MUI5h/1v3liWQdK0JnqKmYRYQzyX4dHRIQqgOyoa7tpYcHzS+twkrw1ElrE07HzQeXVwRexm9R56KXxW9qPXugokrQHiFLXuwZLQOeTDdJ+LbZleLPatECec39goEX/lpd5WX/uPDi8Xtsc0u2Sj5avYgAVwKFedxoz6hMjUcMtFh+Q7+lL8HZKiKQu760Rsjc5Dew8uwy+/CS8fVHilgKMpjnkAQLA3JYxiBN4vJWtILkETBrvnT9dIgwQVzBLJcB42AjciE0kGrJiH/bYdcfVV04Rj541Oom/Xk/uCx6O4H03n7y/1aXgLTTvcK/jJiTzmk6APYUJNU6gUbr41d4fPY2p8tmMTkmZxYospHN4TdOU2KJ+QWftuFjOxrWPx8vcHROcfxfimeRydxO0VBRQOfhq/t/b7EtgLKlyGmjbkspHgrfUVq6eOQvb+kO1WRVs03YJRQvEB8quSHHhB7WY2CvJPspFoW/+8QIW2sA5r7B9sc9gySd1gvHANHhYh6ibX60yTESNyU2kEPeBDdTOTmogvfLvEwOxrCtV/hDuNb6SVXgTkXrO9MiFuW2tt9SHOhq0mpvO1EFs38zbAolcQ4pvg5elXyGNtT6MIfyiqohGiKPvCqFiPiQ54=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39830400003)(136003)(346002)(396003)(376002)(36756003)(6486002)(2616005)(66556008)(31696002)(956004)(478600001)(107886003)(66476007)(38350700002)(83380400001)(38100700002)(26005)(16526019)(66946007)(31686004)(16576012)(316002)(186003)(5660300002)(52116002)(4326008)(2906002)(8676002)(53546011)(86362001)(8936002)(7416002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bDdwMnBFV0gzMEZaSUphUUwwVjY1d2htbkpIUFN5aWJiNXBINUpIVms3QlN1?=
- =?utf-8?B?Y25MRGFNQXAraVFrODRIaXU1RUFhaFYxNm9UdVI5WDRjMklVTGIyNDFuV2pR?=
- =?utf-8?B?cVBxdG1PY3J1YkR4SFRwVjVGN0RxRW9nUjhKZWtyeHErOXBXMGcxOXRBYjg1?=
- =?utf-8?B?NlRSWDJCK3cvaW5jVXlwUG5DM0xraVFLQW5KeHNCWWkyZURFblRhdE1wQUFJ?=
- =?utf-8?B?MXdqNG9pRWJvdURkbzVnK21WQ3c2clgwRUJrSlFXU1JDUnN2c0pLcU9GNGVq?=
- =?utf-8?B?SWhhcmd6MDlRL2EwWi9QMWVyNlZNcWxHZ1BPYkxYQklKNWhSV0ZUTzUwM3NG?=
- =?utf-8?B?QXpsYVhYbXBYdFJYQmFMWUpGa1BRRS9NR1c5RzVvN1RkNVNQOU94OWh3Z0dT?=
- =?utf-8?B?NnhkLzJzUFFBOTNzVXJlSlU2SkpEclJhS1c1WVVHK1BLeDJidEp1ZU1iVFZk?=
- =?utf-8?B?S3MwQURSUmlsMVhQd1lyZFFHOVZSUmlreTExanBqbnZwdm5ZaGYySkVXUkxi?=
- =?utf-8?B?SUhGdlVHMEFNUy9VclZNRndOZTJ0Rms4VkpsMWN6RzROakEvaWxERkpvZGlR?=
- =?utf-8?B?VmFQWkF4Z1liY1JpMUo4SSsrdXZLMTFzOGtmYlJickpmS1BEaFBJeGZBTi91?=
- =?utf-8?B?alU2TWZ2NElpK005Z2hDQVJFL3dwMkZFUDlKMjNUVHVtSlFOVi9iREVMVk5s?=
- =?utf-8?B?SnV0RlhBZ1NTQnFvNUw0QUxWcFBqd3A2b255SVZXZGFaMDBzdlU5Q3JoVlJK?=
- =?utf-8?B?ajRiK2QwemFrbE9URGRNK05iK1BPQjZOVjIrKytxRkpqV1N3NUl5bHZVQnl1?=
- =?utf-8?B?RVAzK2hpTkwrUEdSY3lpaW5TdXhZSjlhZlZkVkNvUU5iQ3d0QkQyU2RjMGx4?=
- =?utf-8?B?N2xibk9yd01kZ1FsSlB1Zmo1UWt3VFZrTG5McEkzM2pNbnRMNjZ2bkZsQ0M4?=
- =?utf-8?B?VlZTQUlBaE9RbUVaa0c5TWlJTDVkN21WdHZXTjQ3T0ZtQWpZeDBGamxqQjh1?=
- =?utf-8?B?clFSblFXTU9MZGgzWGs4aVZGL1dUZE5DVGt0cXRwNWNyRFEvbGJXRDJjWVlR?=
- =?utf-8?B?cXEvQW8vTm8vc3FLU2JsUVRNZHdUWmNDWUt1NDNaQlR0eURBNExUdWo3THhp?=
- =?utf-8?B?U3JIN1dDTU1ucDhEZFFMbm05aWltTzl1ZmI3ZzR0dE03QjNFQ2ZXMjIrdFJr?=
- =?utf-8?B?UzNRT2hOUWRSM2NSZnozMEh3SVA2Z0lMU0JEVjZDSjJubGpFckE4VXlEOXc3?=
- =?utf-8?B?aWFicmg4NDBiejAwOERSbWwvK0ExUGNSRUhBU0tFcFVWa01EMHJ3K0FCMWVK?=
- =?utf-8?B?WGpISXg0aFMrb29hZnFZN2VRVXMvOWhLVXZ6RDBUK2RPZGRDZEV5b1NITDlp?=
- =?utf-8?B?WlVIa1R3QWhNdVpmTDBpazY0UjE0b1ZWR2oyZDgxejNmbGdDelVwQmI3SWxI?=
- =?utf-8?B?V2JKZlBoOXBtZFRNdW5TNXAvOGxZRi9pTWlXNmg2bG1peUNad09POXAwaFdq?=
- =?utf-8?B?ZGNqWEEzRi9WZlVQZzVUblBqbkhmOVB2V05PREtwWGRTbnJRQlpueHNEanFa?=
- =?utf-8?B?QXB5TkduS1lsa2NXZ1pFOXpzbmpnQjdQV0NHVVhZKzJ6SmtnQTN2ZXZXVURp?=
- =?utf-8?B?ZWE2UFp0RFc2QkQ5UGhFQmxRS3hzcjBoY1B1RFhPM0plWENnM3lFN0N5R24y?=
- =?utf-8?B?dzFDaFowZHl5SzJFMzZCNUM2bHU0cUliWi94bGJjQXZJVGFoalE3VFBNNXhU?=
- =?utf-8?Q?zk+jqERXu+yWP87fft1Nwtlu+nMlknDy8mBzonp?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f27df19-95fe-4922-567f-08d9195ee938
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2021 18:09:28.1224 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1MXKAsLSRlfJA8mKGNy3GovE/wazeUiZ/Shy1VpB7DF7dfjF+NxWQwLesEwHMIGkVjqMAJgcHwjpBeKUC78qNKYe1yCimNNskOQpksSna78=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3383
-Received-SPF: pass client-ip=40.107.20.99;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lihgT-0002Ej-SV
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:09:43 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9144D611BF;
+ Mon, 17 May 2021 18:09:40 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1lihgQ-001v3k-MQ; Mon, 17 May 2021 19:09:38 +0100
+Date: Mon, 17 May 2021 19:09:37 +0100
+Message-ID: <87r1i5teou.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v12 8/8] KVM: arm64: Document MTE capability and ioctl
+In-Reply-To: <20210517123239.8025-9-steven.price@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-9-steven.price@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -148,74 +73,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.05.2021 18:48, Max Reitz wrote:
-> On 17.05.21 08:44, Vladimir Sementsov-Ogievskiy wrote:
->> We need an ability to insert filters above top block node, attached to
->> block device. It can't be achieved with blockdev-reopen command. So, we
->> want do it with help of qom-set.
->>
->> Intended usage:
->>
->> 1. blockdev-add, creating the filter, which child is at top node A,
->>     attached to some guest block device.
+On Mon, 17 May 2021 13:32:39 +0100,
+Steven Price <steven.price@arm.com> wrote:
 > 
-> Is a “not” missing here, i.e. “not attached to any guest block device”?  I would have thought one would create a filtered tree that is not in use by any frontend, so that the filter need not take any permissions.
-
-node A is attached.
-
-So, we have [blk] --root->  [A}
-
-And want to insert a filter between blk and A.
-
-We do
-
-1.
-
-[filter] --file--\
-                  v
-[blk] --root-->  [A]
-
-2.
-
-[blk] --root--> [filer] --file--> [A]
-
+> A new capability (KVM_CAP_ARM_MTE) identifies that the kernel supports
+> granting a guest access to the tags, and provides a mechanism for the
+> VMM to enable it.
 > 
->> 2. qom-set, to change bs attached to root blk from original node to
->>     newly create filter.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   hw/core/qdev-properties-system.c | 30 ++++++++++++++++++++++--------
->>   1 file changed, 22 insertions(+), 8 deletions(-)
+> A new ioctl (KVM_ARM_MTE_COPY_TAGS) provides a simple way for a VMM to
+> access the tags of a guest without having to maintain a PROT_MTE mapping
+> in userspace. The above capability gates access to the ioctl.
 > 
-> Looks good, just one question: (well, two, one was above)
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  Documentation/virt/kvm/api.rst | 53 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
 > 
->> diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
->> index 2760c21f11..7d97562654 100644
->> --- a/hw/core/qdev-properties-system.c
->> +++ b/hw/core/qdev-properties-system.c
-> 
-> [...]
-> 
->> @@ -196,6 +209,7 @@ static void release_drive(Object *obj, const char *name, void *opaque)
->>   const PropertyInfo qdev_prop_drive = {
->>       .name  = "str",
->>       .description = "Node name or ID of a block device to use as a backend",
->> +    .realized_set_allowed = true,
->>       .get   = get_drive,
->>       .set   = set_drive,
->>       .release = release_drive,
-> 
-> Why not for qdev_prop_drive_iothread?
-> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 22d077562149..a31661b870ba 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -5034,6 +5034,40 @@ see KVM_XEN_VCPU_SET_ATTR above.
+>  The KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST type may not be used
+>  with the KVM_XEN_VCPU_GET_ATTR ioctl.
+>  
+> +4.130 KVM_ARM_MTE_COPY_TAGS
+> +---------------------------
+> +
+> +:Capability: KVM_CAP_ARM_MTE
+> +:Architectures: arm64
+> +:Type: vm ioctl
+> +:Parameters: struct kvm_arm_copy_mte_tags
+> +:Returns: 0 on success, < 0 on error
+> +
+> +::
+> +
+> +  struct kvm_arm_copy_mte_tags {
+> +	__u64 guest_ipa;
+> +	__u64 length;
+> +	union {
+> +		void __user *addr;
+> +		__u64 padding;
+> +	};
+> +	__u64 flags;
+> +	__u64 reserved[2];
+> +  };
 
-Hmm, the only reason is that I missed that part of architecture around here, I'm new to qdev code. Will add with next version
+This doesn't exactly match the structure in the previous patch :-(.
 
+> +
+> +Copies Memory Tagging Extension (MTE) tags to/from guest tag memory. The
+> +``guest_ipa`` and ``length`` fields must be ``PAGE_SIZE`` aligned. The ``addr``
+> +fieldmust point to a buffer which the tags will be copied to or from.
+> +
+> +``flags`` specifies the direction of copy, either ``KVM_ARM_TAGS_TO_GUEST`` or
+> +``KVM_ARM_TAGS_FROM_GUEST``.
+> +
+> +The size of the buffer to store the tags is ``(length / MTE_GRANULE_SIZE)``
+
+Should we add a UAPI definition for MTE_GRANULE_SIZE?
+
+> +bytes (i.e. 1/16th of the corresponding size). Each byte contains a single tag
+> +value. This matches the format of ``PTRACE_PEEKMTETAGS`` and
+> +``PTRACE_POKEMTETAGS``.
+> +
+>  5. The kvm_run structure
+>  ========================
+>  
+> @@ -6362,6 +6396,25 @@ default.
+>  
+>  See Documentation/x86/sgx/2.Kernel-internals.rst for more details.
+>  
+> +7.26 KVM_CAP_ARM_MTE
+> +--------------------
+> +
+> +:Architectures: arm64
+> +:Parameters: none
+> +
+> +This capability indicates that KVM (and the hardware) supports exposing the
+> +Memory Tagging Extensions (MTE) to the guest. It must also be enabled by the
+> +VMM before the guest will be granted access.
+> +
+> +When enabled the guest is able to access tags associated with any memory given
+> +to the guest. KVM will ensure that the pages are flagged ``PG_mte_tagged`` so
+> +that the tags are maintained during swap or hibernation of the host; however
+> +the VMM needs to manually save/restore the tags as appropriate if the VM is
+> +migrated.
+> +
+> +When enabled the VMM may make use of the ``KVM_ARM_MTE_COPY_TAGS`` ioctl to
+> +perform a bulk copy of tags to/from the guest.
+> +
+
+Missing limitation to AArch64 guests.
+
+Thanks,
+
+	M.
 
 -- 
-Best regards,
-Vladimir
+Without deviation from the norm, progress is not possible.
 
