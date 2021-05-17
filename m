@@ -2,87 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACFD383BFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:12:26 +0200 (CEST)
-Received: from localhost ([::1]:48390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421CD383BE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 20:07:19 +0200 (CEST)
+Received: from localhost ([::1]:40800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lihj6-0002tO-Jd
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58550)
+	id 1lihe9-000611-Pq
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 14:07:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lihZI-0002u5-5s
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:02:16 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:41844)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lihZC-0007iG-7Q
- for qemu-devel@nongnu.org; Mon, 17 May 2021 14:02:15 -0400
-Received: by mail-ot1-x336.google.com with SMTP id
- 36-20020a9d0ba70000b02902e0a0a8fe36so6310238oth.8
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 11:02:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KCmaOQqQBkoxzhdjiJ1S1e9w7H8tcqvOCao6PsvgJOA=;
- b=xnKLx7j7hQpqRyuoMt33ek2T8iZRH/ly/MN78ubdXbVDM3EAnaEjdjnd/Enuwx9GUv
- 5NEGqLReI9zcFUPujlYs6ebza//Npflhp1HWjHA0JvnG0ZmOISvSqccTn5y1DB6QFXS0
- n3TCRQ2knMjB1lBxVvThHFxK/oTa+wvhsZltjVMD2i02HIc/EJyYQsINvqN3HxH3eHf6
- nwsIdzYKxT5oMLC8Bsz2u9jTigU8LL+RVi30LxoK/3X3ojfDQ7F8mmU/U3FLH7snD+J4
- 86uh7XA3oEMcMsP8s7sj/jyL1PHPW2hvAJNYhW1TPEYPJ73Lyb2vPW8jSwI5ZDSdGmTC
- VWWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KCmaOQqQBkoxzhdjiJ1S1e9w7H8tcqvOCao6PsvgJOA=;
- b=kHXBbPY+4ka4R3ccnZKewaEDN4NT6vxh4RKdxPc1h2sX1qXpt+uRMfEhwkumiqd4pe
- fst31vLBq5MbEYtgM6+MxceuPIFCRuVmbuPQ7cNd8CV4Re4ohJBHYV+BFv8RyJ04Cgsm
- SxIrODWDGdA8HL1/D91DyvxobQjzaW5FJNg5H0lbleTQ7BnkPaWjC0jmBrqS5kYh8bhF
- R2T3iWplb3KDdn/UxpHRBs4vsOT4AUpnEgvx5BUMhDfXHnMj66GOebGDjoytti2fopX7
- ovQJoyDNDsLT07ef1fFb4XqqkDnTyZutg2GgK3800dqBQ8lMGMMNCJUf5vYFPIW3eUc/
- zdmg==
-X-Gm-Message-State: AOAM530Ldf8S83qeANmzlBVL1k3skiwuseJoml0X43Q2hwzo/XuzneF1
- dmMppHGNOFcBl7W+F+gJ3qhSeg==
-X-Google-Smtp-Source: ABdhPJw353snyfzlArMGZSEIQyejSqFCn4dBQ/1VvSRpYjMzV6ccXcUSrSEm0m3+/YwQ9HH/+OODgg==
-X-Received: by 2002:a05:6830:1196:: with SMTP id
- u22mr644436otq.247.1621274528012; 
- Mon, 17 May 2021 11:02:08 -0700 (PDT)
-Received: from [172.16.22.144] ([45.235.253.15])
- by smtp.gmail.com with ESMTPSA id f9sm1793642oig.31.2021.05.17.11.02.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 May 2021 11:02:07 -0700 (PDT)
-Subject: Re: [PATCH 09/11] include/exec: added functions to the stubs in
- exec-all.h
-To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-10-bruno.larsen@eldorado.org.br>
- <c4b7cba3-eb5f-ff65-9376-da9dc8edf45f@linaro.org>
- <f0fbb69b-76e9-c951-f18d-cfc4629f5f2a@eldorado.org.br>
- <aad60a0c-1f07-24ab-821a-193047e4ad2e@linaro.org> <YKHpy53AwM8tTy3E@yekko>
- <06d4250b-4d4a-42a6-47fa-f5b75ea6c499@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <88f58334-8bae-a9bd-aac0-aa20d432595f@linaro.org>
-Date: Mon, 17 May 2021 13:02:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <06d4250b-4d4a-42a6-47fa-f5b75ea6c499@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lihbT-0004EV-3O
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:04:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51384)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1lihbR-0008GK-0V
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 14:04:30 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 86EEC61166;
+ Mon, 17 May 2021 18:04:27 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1lihbN-001uz5-NV; Mon, 17 May 2021 19:04:25 +0100
+Date: Mon, 17 May 2021 19:04:24 +0100
+Message-ID: <87sg2ltexj.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v12 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
+In-Reply-To: <20210517123239.8025-8-steven.price@arm.com>
+References: <20210517123239.8025-1-steven.price@arm.com>
+ <20210517123239.8025-8-steven.price@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,38 +73,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, qemu-devel@nongnu.org, luis.pires@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- "Bruno Larsen \(billionai\)" <bruno.larsen@eldorado.org.br>,
- matheus.ferst@eldorado.org.br
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/21 11:59 AM, Lucas Mateus Martins Araujo e Castro wrote:
-> I'm not completely sure how this should be handled, there's a 
-> get_physical_address in mmu_helper.c but it's a static function and divided by 
-> processor families instead of MMU types, so get_physical_address_* should be a 
-> new function?
+On Mon, 17 May 2021 13:32:38 +0100,
+Steven Price <steven.price@arm.com> wrote:
 > 
-> The new get_physical_address_* function would be a mmu-hash(32|64) that do 
-> something like ppc_radix64_xlate and add a function to mmu-book3s-v3 that call 
-> either the radix64 or the hash64 function and also handle real mode access.
+> The VMM may not wish to have it's own mapping of guest memory mapped
+> with PROT_MTE because this causes problems if the VMM has tag checking
+> enabled (the guest controls the tags in physical RAM and it's unlikely
+> the tags are correct for the VMM).
+> 
+> Instead add a new ioctl which allows the VMM to easily read/write the
+> tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
+> while the VMM can still read/write the tags for the purpose of
+> migration.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  arch/arm64/include/uapi/asm/kvm.h | 11 +++++
+>  arch/arm64/kvm/arm.c              | 69 +++++++++++++++++++++++++++++++
+>  include/uapi/linux/kvm.h          |  1 +
+>  3 files changed, 81 insertions(+)
+> 
+> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+> index 24223adae150..b3edde68bc3e 100644
+> --- a/arch/arm64/include/uapi/asm/kvm.h
+> +++ b/arch/arm64/include/uapi/asm/kvm.h
+> @@ -184,6 +184,17 @@ struct kvm_vcpu_events {
+>  	__u32 reserved[12];
+>  };
+>  
+> +struct kvm_arm_copy_mte_tags {
+> +	__u64 guest_ipa;
+> +	__u64 length;
+> +	void __user *addr;
+> +	__u64 flags;
+> +	__u64 reserved[2];
+> +};
+> +
+> +#define KVM_ARM_TAGS_TO_GUEST		0
+> +#define KVM_ARM_TAGS_FROM_GUEST		1
+> +
+>  /* If you need to interpret the index values, here is the key: */
+>  #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
+>  #define KVM_REG_ARM_COPROC_SHIFT	16
+> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> index e89a5e275e25..4b6c83beb75d 100644
+> --- a/arch/arm64/kvm/arm.c
+> +++ b/arch/arm64/kvm/arm.c
+> @@ -1309,6 +1309,65 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
+>  	}
+>  }
+>  
+> +static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
+> +				      struct kvm_arm_copy_mte_tags *copy_tags)
+> +{
+> +	gpa_t guest_ipa = copy_tags->guest_ipa;
+> +	size_t length = copy_tags->length;
+> +	void __user *tags = copy_tags->addr;
+> +	gpa_t gfn;
+> +	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
+> +	int ret = 0;
+> +
+> +	if (copy_tags->reserved[0] || copy_tags->reserved[1])
+> +		return -EINVAL;
+> +
+> +	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
+> +		return -EINVAL;
+> +
+> +	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
+> +		return -EINVAL;
+> +
+> +	gfn = gpa_to_gfn(guest_ipa);
+> +
+> +	mutex_lock(&kvm->slots_lock);
+> +
+> +	while (length > 0) {
+> +		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
+> +		void *maddr;
+> +		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
 
-The entry points that we are concerned about are:
-   ppc_cpu_get_phys_page_debug
-   ppc_cpu_tlb_fill
+nit: this is a compile time constant, make it a #define. This will
+avoid the confusing overloading of "num_tags" as both an input and an
+output for the mte_copy_tags-* functions.
 
-Currently there is a hook, pcc->handle_mmu_fault, which is used by 
-ppc_cpu_tlb_fill, but is insufficiently general.  We're going to remove that hook.
+> +
+> +		if (is_error_noslot_pfn(pfn)) {
+> +			ret = -EFAULT;
+> +			goto out;
+> +		}
+> +
+> +		maddr = page_address(pfn_to_page(pfn));
+> +
+> +		if (!write) {
+> +			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
+> +			kvm_release_pfn_clean(pfn);
+> +		} else {
+> +			num_tags = mte_copy_tags_from_user(maddr, tags,
+> +							   num_tags);
+> +			kvm_release_pfn_dirty(pfn);
+> +		}
+> +
+> +		if (num_tags != PAGE_SIZE / MTE_GRANULE_SIZE) {
+> +			ret = -EFAULT;
+> +			goto out;
+> +		}
+> +
+> +		gfn++;
+> +		tags += num_tags;
+> +		length -= PAGE_SIZE;
+> +	}
+> +
+> +out:
+> +	mutex_unlock(&kvm->slots_lock);
+> +	return ret;
+> +}
+> +
 
-We're going to add a new hook with the same interface as ppc_radix64_xlate that 
-will be used by both ppc_cpu_get_phys_page_debug and ppc_cpu_tlb_fill.
+nit again: I'd really prefer it if you moved this to guest.c, where we
+already have a bunch of the save/restore stuff.
 
-> Also should the tlb_set_page calls in *_handle_mmu_fault be changed to 
-> ppc_cpu_tlb_fill or the function should themselves fill it?
+>  long kvm_arch_vm_ioctl(struct file *filp,
+>  		       unsigned int ioctl, unsigned long arg)
+>  {
+> @@ -1345,6 +1404,16 @@ long kvm_arch_vm_ioctl(struct file *filp,
+>  
+>  		return 0;
+>  	}
+> +	case KVM_ARM_MTE_COPY_TAGS: {
+> +		struct kvm_arm_copy_mte_tags copy_tags;
+> +
+> +		if (!kvm_has_mte(kvm))
+> +			return -EINVAL;
+> +
+> +		if (copy_from_user(&copy_tags, argp, sizeof(copy_tags)))
+> +			return -EFAULT;
+> +		return kvm_vm_ioctl_mte_copy_tags(kvm, &copy_tags);
+> +	}
+>  	default:
+>  		return -EINVAL;
+>  	}
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 8c95ba0fadda..4c011c60d468 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -1428,6 +1428,7 @@ struct kvm_s390_ucas_mapping {
+>  /* Available with KVM_CAP_PMU_EVENT_FILTER */
+>  #define KVM_SET_PMU_EVENT_FILTER  _IOW(KVMIO,  0xb2, struct kvm_pmu_event_filter)
+>  #define KVM_PPC_SVM_OFF		  _IO(KVMIO,  0xb3)
+> +#define KVM_ARM_MTE_COPY_TAGS	  _IOR(KVMIO,  0xb4, struct kvm_arm_copy_mte_tags)
+>  
+>  /* ioctl for vm fd */
+>  #define KVM_CREATE_DEVICE	  _IOWR(KVMIO,  0xe0, struct kvm_create_device)
 
-Only ppc_cpu_tlb_fill should call tlb_set_page.
+Thanks,
 
+	M.
 
-r~
+-- 
+Without deviation from the norm, progress is not possible.
 
