@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8222383DE9
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:57:41 +0200 (CEST)
-Received: from localhost ([::1]:53024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1E0383DD1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 21:52:22 +0200 (CEST)
+Received: from localhost ([::1]:41854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lijMy-0004ga-SW
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:57:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58900)
+	id 1lijHp-0005LR-A6
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 15:52:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lijCO-0006i0-95
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:46:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21885)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lijEc-0002BG-A9
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:49:02 -0400
+Received: from mout.web.de ([217.72.192.78]:51963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lijCL-0000ip-Ro
- for qemu-devel@nongnu.org; Mon, 17 May 2021 15:46:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621280800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VrYca9AenZocUCSfnzAhTUL2GZplinlcsuCwPbC3lR0=;
- b=AEa8NcS57gA/09leDXVjHcbaRiVnZhqnuEMXFIINQiTPfYB4oVD5u4A8fJomeOPzQ6deyD
- 7Zs4E0xNxCGhJaCnADyYGEsCYXHO/ARZU7NZHKijAlAatRHvsMCHdrkNvru2uZchdAkaHt
- cjcc/f5Kxj3wGR2A/DxvrI2l5VUA2PA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-cnTn8oGdPsOC7jyZBjzA0g-1; Mon, 17 May 2021 15:46:37 -0400
-X-MC-Unique: cnTn8oGdPsOC7jyZBjzA0g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5440C107ACCA;
- Mon, 17 May 2021 19:46:36 +0000 (UTC)
-Received: from localhost (ovpn-114-21.rdu2.redhat.com [10.10.114.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EE105D703;
- Mon, 17 May 2021 19:46:29 +0000 (UTC)
-Date: Mon, 17 May 2021 15:46:29 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Chenyi Qiang <chenyi.qiang@intel.com>
-Subject: Re: [PATCH v3] i386: Add ratelimit for bus locks acquired in guest
-Message-ID: <20210517194629.k4aff57k74lukywd@habkost.net>
-References: <20210430103305.28849-1-chenyi.qiang@intel.com>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lijEa-00027G-8v
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 15:49:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1621280921;
+ bh=V8jW5z8IiSu6Gl2/FArMTPv/pFXpOZET6RD0dz5OVXQ=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=Pc2MCMDxVgXp0m6EL5SiwBXRNJnEiQzzc0wR7+yIYL8T14lol+ZlnWh/OHNrcfHsW
+ 2fRLIND6CuesPHUE2pQq0jagvn/fllNNqdQNu+o7w7+OQprFPbWi+Vjwh5EwBfUfUJ
+ uogK7AGMjevOGWKJvooXGw01bxeQp9ObkvGKCZyw=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([88.130.61.102]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LdF0f-1l0u6L3Z0j-00iUEV; Mon, 17
+ May 2021 21:48:40 +0200
+Date: Mon, 17 May 2021 21:46:38 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: leirao <lei.rao@intel.com>
+Subject: Re: [PATCH v6 00/10] Fixed some bugs and optimized some codes for COLO
+Message-ID: <20210517214638.7519781b@gecko.fritz.box>
+In-Reply-To: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
+References: <1617938456-315058-1-git-send-email-lei.rao@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210430103305.28849-1-chenyi.qiang@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/zLVyA1L_zSmacvbB3tU3rUc";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:jfsFq+DIM+8T476SHKTW5YRFwm6mbdROhw2eSqr0H7deDSm/xRr
+ q7THpYZOWYMwEfNJ1fub5bl6L1kQ6g5wVnD8wP6YAOkZTM7pb7MhIZtgYxZr2+h8IGPNJsp
+ n40KjCSFyJ+ARs8GT2dm3WU1JFksV5QHe34abcihBJE3covpgHK4v4D7mtdaMANOUlvp64V
+ FK8hwS9Cy/bMbJljNqY2Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:G8isGeUQAqw=:hl+yJiZKIDIGgNtGIgS2Oe
+ ZGoZdbfsracY8pJnLD9iV4pOh0N6p3Lwi7YwHqW+/fBbAyPX6QAVMNmwljzaE+NOXifAa9OXP
+ Op6Iysa40mf8FZnxUfJP62eSUtAz+Wozaa/14QJiksF3ddJZIbbcTwhtvD7WxBmCa+/YsvqJo
+ ZPxrkpnYB8oq7EEqQicpEGd5Mpqx5rI1sBnkzfNqcm5hpf8YUf/Qpdx8WfKyiXQ7r6CC7tzmr
+ Zh5NMBQAO3a7RaNTJ7xIfdE3rwFGffjbWjuzJpRIv1G7n8ZinkXgVJ/sug4LgYopZXT/H8wps
+ flNCarnJ/wNxoAVbYCAzPnlYQOv+/t0Kimub4eMHrTzv8dbQNYEYaBJIcqRDO6AA3iURpNZmO
+ XidpnfeyjkmcxQcfb7k8+AruZxiMXtr5qyuq0Rhgh+QY9VZHsFKRps5p1iIstiysDSDtviJ64
+ aL3fLQKl1+fkYXU1CSKMkMsIfInWJ/5eXlCO7mCUQ2pDg7Eov1kz/SgQH+skkSSRZOiets1IS
+ NplCDygOcmuMScCMYtZegcdTjTpuUELtHAr/6kCJakQcd6hLOv6uFVA4SPFrryzU/+sF0VHpu
+ KfSXc+PQ8D53njutqdJJb7u3gmYRETiyirOpJAToC4gJkF9UpkzvQ0GgiWwbvkEaXoSbHM/aX
+ L3LGrBT8HrKAa5CYQ5eTlqDoG/d03u/Z7eGNyuXQlHOmRkaGvpt/P5jTKub2yEn3tPi8T0PO2
+ P30CF3uQFaMZfm+uh7mxNueVEHtNELA9/h6rtLXKM7drR8Lo6Xt6WORg2UJgcgLp/prQF1Xkn
+ IZgqSbyvmOV6jp6sEqrFcja/JJC6NjaCet0TQS/HG9LB4mp0/Vx234uF4MoP6Eeabntls6oQ7
+ /9oHhmylidCVgIiHUThhXHOzi7nabJOfr7tZZzhlLaRl9rOADgn7OZNHCnStqACM9YKvP/qMY
+ UphhJDojzIchPVdyPI9FKjP36YcPI/mHs0uUKG3Gbo0ErGFmaHKa1euT81g92GMGyqe5cwdCS
+ iRI274fEF+XtYnJkdDPetBkotyZqkeU3cVDOI3dBPGRm34/dCsYjvczodz24KjEohiwEVlt61
+ ptfu6Q0bV7GhpNghViPRWke+KpaUgMtCzDJFWlKDCc6LujJ3T+4XGvwMXcODxmrPDnXgu8zlf
+ tvKE1NsfGF+hpPCcX7+72V4tLgSdQYvsfCV5ltwy97sMz8PwvkckMKIqF242tdoizESN4=
+Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,208 +84,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: lizhijian@cn.fujitsu.com, quintela@redhat.com, jasowang@redhat.com,
+ dgilbert@redhat.com, qemu-devel@nongnu.org, chen.zhang@intel.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Stefan
+--Sig_/zLVyA1L_zSmacvbB3tU3rUc
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I have a question about ratelimit_set_speed() below:
+On Thu,  8 Apr 2021 23:20:46 -0400
+leirao <lei.rao@intel.com> wrote:
 
-On Fri, Apr 30, 2021 at 06:33:05PM +0800, Chenyi Qiang wrote:
-> A bus lock is acquired through either split locked access to writeback
-> (WB) memory or any locked access to non-WB memory. It is typically >1000
-> cycles slower than an atomic operation within a cache and can also
-> disrupts performance on other cores.
-> 
-> Virtual Machines can exploit bus locks to degrade the performance of
-> system. To address this kind of performance DOS attack coming from the
-> VMs, bus lock VM exit is introduced in KVM and it can report the bus
-> locks detected in guest. If enabled in KVM, it would exit to the
-> userspace to let the user enforce throttling policies once bus locks
-> acquired in VMs.
-> 
-> The availability of bus lock VM exit can be detected through the
-> KVM_CAP_X86_BUS_LOCK_EXIT. The returned bitmap contains the potential
-> policies supported by KVM. The field KVM_BUS_LOCK_DETECTION_EXIT in
-> bitmap is the only supported strategy at present. It indicates that KVM
-> will exit to userspace to handle the bus locks.
-> 
-> This patch adds a ratelimit on the bus locks acquired in guest as a
-> mitigation policy.
-> 
-> Introduce a new field "bus_lock_ratelimit" to record the limited speed
-> of bus locks in the target VM. The user can specify it through the
-> "bus-lock-ratelimit" as a machine property. In current implementation,
-> the default value of the speed is 0 per second, which means no
-> restrictions on the bus locks
-> 
-> As for ratelimit on detected bus locks, simply set the ratelimit
-> interval to 1s and restrict the quota of bus lock occurence to the value
-> of "bus_lock_ratelimit". A potential alternative is to introduce the
-> time slice as a property which can help the user achieve more precise
-> control.
-> 
-> The detail of Bus lock VM exit can be found in spec:
-> https://software.intel.com/content/www/us/en/develop/download/intel-architecture-instruction-set-extensions-programming-reference.html
-> 
-> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
-> 
-> ---
-> Changes from v2:
->   - do some rename work (bus-lock-ratelimit and BUS_LOCK_TIME_SLICE).
->     (Eduardo)
->   - change to register a class property at the x86_machine_class_init()
->     and write the gettter/setter for the bus_lock_ratelimit property.
->     (Eduardo)
->   - add the lock to access the Ratelimit instance to avoid vcpu thread
->     race condition. (Eduardo)
->   - v2: https://lore.kernel.org/qemu-devel/20210420093736.17613-1-chenyi.qiang@intel.com/
-> 
-> Changes from RFC v1:
->   - Remove the rip info output, as the rip can't reflect the bus lock
->     position correctly. (Xiaoyao)
->   - RFC v1: https://lore.kernel.org/qemu-devel/20210317084709.15605-1-chenyi.qiang@intel.com/
-[...]
-> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-> index c09b648dff..49b130a649 100644
-> --- a/include/hw/i386/x86.h
-> +++ b/include/hw/i386/x86.h
-> @@ -74,12 +74,21 @@ struct X86MachineState {
->       * will be translated to MSI messages in the address space.
->       */
->      AddressSpace *ioapic_as;
-> +
-> +    /*
-> +     * Ratelimit enforced on detected bus locks in guest.
-> +     * The default value of the bus_lock_ratelimit is 0 per second,
-> +     * which means no limitation on the guest's bus locks.
-> +     */
-> +    uint64_t bus_lock_ratelimit;
-> +    RateLimit bus_lock_ratelimit_ctrl;
->  };
->  
->  #define X86_MACHINE_SMM              "smm"
->  #define X86_MACHINE_ACPI             "acpi"
->  #define X86_MACHINE_OEM_ID           "x-oem-id"
->  #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
-> +#define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
->  
->  #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
->  OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index 7fe9f52710..19b6c4a7e8 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -130,6 +130,9 @@ static bool has_msr_mcg_ext_ctl;
->  static struct kvm_cpuid2 *cpuid_cache;
->  static struct kvm_msr_list *kvm_feature_msrs;
->  
-> +#define BUS_LOCK_SLICE_TIME 1000000000ULL /* ns */
-> +static QemuMutex bus_lock_ratelimit_lock;
-> +
->  int kvm_has_pit_state2(void)
->  {
->      return has_pit_state2;
-> @@ -2267,6 +2270,28 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->          }
->      }
->  
-> +    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
-> +        X86MachineState *x86ms = X86_MACHINE(ms);
-> +
-> +        if (x86ms->bus_lock_ratelimit > 0) {
-> +            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
-> +            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
-> +                error_report("kvm: bus lock detection unsupported");
-> +                return -ENOTSUP;
-> +            }
-> +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
-> +                                    KVM_BUS_LOCK_DETECTION_EXIT);
-> +            if (ret < 0) {
-> +                error_report("kvm: Failed to enable bus lock detection cap: %s",
-> +                             strerror(-ret));
-> +                return ret;
-> +            }
-> +            qemu_mutex_init(&bus_lock_ratelimit_lock);
-> +            ratelimit_set_speed(&x86ms->bus_lock_ratelimit_ctrl, x86ms->bus_lock_ratelimit,
-> +                                BUS_LOCK_SLICE_TIME);
-> +        }
-> +    }
-> +
->      return 0;
->  }
->  
-> @@ -4221,6 +4246,20 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
->      }
->  }
->  
-> +static void kvm_rate_limit_on_bus_lock(void)
-> +{
-> +    MachineState *ms = MACHINE(qdev_get_machine());
+> From: Rao, Lei <lei.rao@intel.com>
+>=20
+> Changes since v5:
+>         --Replaced g_slice_new calls with g_slice_new0.
+>=20
+> Changes since v4:
+>         --Replaced qemu_mutex_lock calls with QEMU_LOCK_GUARD in colo_bit=
+map_clear_dirty.
+>         --Modify some minor issues about variable definition.
+>         --Add some performance test data in the commit message.
+>=20
+> Changes since v3:
+>         --Remove cpu_throttle_stop from mig_throttle_counter_reset.
+>=20
+> Changes since v2:
+>         --Add a function named packet_new_nocopy.
+>         --Continue to optimize the function of colo_flush_ram_cache.
+>=20
+> Changes since v1:
+>         --Reset the state of the auto-converge counters at every checkpoi=
+nt instead of directly disabling.
+>         --Treat the filter_send function returning zero as a normal case.
+>=20
+> The series of patches include:
+>         Fixed some bugs of qemu crash.
+>         Optimized some code to reduce the time of checkpoint.
+>         Remove some unnecessary code to improve COLO.
+>=20
+> Rao, Lei (10):
+>   Remove some duplicate trace code.
+>   Fix the qemu crash when guest shutdown during checkpoint
+>   Optimize the function of filter_send
+>   Remove migrate_set_block_enabled in checkpoint
+>   Add a function named packet_new_nocopy for COLO.
+>   Add the function of colo_compare_cleanup
+>   Reset the auto-converge counter at every checkpoint.
+>   Reduce the PVM stop time during Checkpoint
+>   Add the function of colo_bitmap_clear_dirty
+>   Fixed calculation error of pkt->header_size in fill_pkt_tcp_info()
+>=20
+>  migration/colo.c      | 10 +++----
+>  migration/migration.c |  4 +++
+>  migration/ram.c       | 83 +++++++++++++++++++++++++++++++++++++++++++++=
+++++--
+>  migration/ram.h       |  1 +
+>  net/colo-compare.c    | 25 +++++++---------
+>  net/colo-compare.h    |  1 +
+>  net/colo.c            | 25 +++++++++++-----
+>  net/colo.h            |  1 +
+>  net/filter-mirror.c   |  8 ++---
+>  net/filter-rewriter.c |  3 +-
+>  net/net.c             |  4 +++
+>  softmmu/runstate.c    |  1 +
+>  12 files changed, 129 insertions(+), 37 deletions(-)
+>=20
 
-qdev_get_machine() seems thread safe except for the first call,
-but it's not documented as such.
+I guess Zhang Chen can already take the network-related patches through his=
+ tree.
 
-Until it is documented as thread safe (which could take a while,
-considering that there are ongoing attempts to clean it up), I
-would avoid calling without the BQL, just in case.
+Regards,
+Lukas Straub
 
-> +    X86MachineState *x86ms = X86_MACHINE(ms);
-> +
-> +    qemu_mutex_lock(&bus_lock_ratelimit_lock);
-> +    uint64_t delay_ns = ratelimit_calculate_delay(&x86ms->bus_lock_ratelimit_ctrl, 1);
-> +    qemu_mutex_unlock(&bus_lock_ratelimit_lock);
-
-Stefan, ratelimit_calculate_delay() is supposed to be thread
-safe, correct?
-
-In that case, bus_lock_ratelimit_lock would be completely unnecessary.
-
-I normally prefer to avoid static variables, but in this case a
-
-   static RateLimit bus_lock_ratelimit_ctrl;
-
-variable could be the simplest solution here.
+--=20
 
 
-> +
-> +    if (delay_ns) {
-> +        g_usleep(delay_ns / SCALE_US);
-> +    }
-> +}
-> +
->  MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->  {
->      X86CPU *x86_cpu = X86_CPU(cpu);
-> @@ -4236,6 +4275,9 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->      } else {
->          env->eflags &= ~IF_MASK;
->      }
-> +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
-> +        kvm_rate_limit_on_bus_lock();
-> +    }
->  
->      /* We need to protect the apic state against concurrent accesses from
->       * different threads in case the userspace irqchip is used. */
-> @@ -4594,6 +4636,10 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
->          ioapic_eoi_broadcast(run->eoi.vector);
->          ret = 0;
->          break;
-> +    case KVM_EXIT_X86_BUS_LOCK:
-> +        /* already handled in kvm_arch_post_run */
-> +        ret = 0;
-> +        break;
->      default:
->          fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
->          ret = -1;
-> -- 
-> 2.17.1
-> 
+--Sig_/zLVyA1L_zSmacvbB3tU3rUc
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
--- 
-Eduardo
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmCiyB4ACgkQNasLKJxd
+slhoVxAAiTLu43okD3UbuHcBqJlC8hw2wFIrsVbjpunidzTZqItN9rcxxB+KqA+j
+jFNs4I7ssX7SRICYSn3W2afQ3jjT+lfv22b6n13loB9G7AsCJjf4TWPIV+YCEI9l
+EfzxPAfRHZFpYwWsWA6hnRa9+A77HbIBoy2xYeiRUIo5SmOOtBjo7q727HNbLnLL
+nh59DIIz/7C8b40PdUS6ARX0kmQE+tLz7DZ8yA8CHEXVdvB4qDfaQVTNX23fNVSG
+aImY+Pozdoq3rtwVldagqlZdC1d3QR/RXeL5OFOxWrcRLRttOgbWE+iaKNqmzN/w
+TXPMlzjVzxAeN99YBjE12gjPKlF6/+gnjS1kOfYBDeMXMyYEENakcS/Ldi7l2ZP0
+bCUcl0OvxzQzKfDdpcFM9KAVbuX9rPMOfBFpYgzpo6qbQL6T00besRgoW2lmw0Qp
+br7C85PBMg4pW/0VQ9NlWwmWnF3GQ0bxKuCASWKcifAYEZiv5xUUnj7sP4qV/450
+WJp/+R88/EA7UAHxP6K19Rj55cJOSjSGlsw/8m3mh04G3rVIW5t065QD6jVTZCHp
+QcpM1cGzLwtXYtBQfg1H/64laBS+gd0HSrEIj5eC/P7s4PPxR5SfGI9S/FsOk47M
+cglBHNq/wnllCmhzxh8ABFnIZMlPR3TP8nLI7WJTTkEXJYdYuzo=
+=MJvD
+-----END PGP SIGNATURE-----
+
+--Sig_/zLVyA1L_zSmacvbB3tU3rUc--
 
