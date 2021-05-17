@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6C8382B6D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:45:53 +0200 (CEST)
-Received: from localhost ([::1]:55502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14871382B72
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 13:48:08 +0200 (CEST)
+Received: from localhost ([::1]:59836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1libh2-0006vw-IS
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:45:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33736)
+	id 1libjD-0001Wu-4q
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 07:48:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1libA6-0004US-VQ
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:11:50 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35411)
+ id 1libAM-00055O-C9
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:12:06 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:41565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1libA4-0000d6-Q2
- for qemu-devel@nongnu.org; Mon, 17 May 2021 07:11:50 -0400
-Received: by mail-wr1-x431.google.com with SMTP id a4so5969469wrr.2
- for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:11:48 -0700 (PDT)
+ id 1libAI-0000k6-QB
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 07:12:06 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ o6-20020a05600c4fc6b029015ec06d5269so3372444wmq.0
+ for <qemu-devel@nongnu.org>; Mon, 17 May 2021 04:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fh8JZNfaRTAyd35OyZJZlm411xR5tEWJA9zZrpAqL0s=;
- b=fx0k8U5d2cZZsHIWix9fsFxGTUBHR2k5hkduFXNepuv6k54DXMn3miPMYjpqVTLS7v
- FNnKB3N3/dNh/pyGdyQriO0LjdqR6GcscOGgas3xzsz3iwGfg8Fyb0X12Tmy9PRn9XZ9
- cq9ITwop/bbmFFa9Ib3UICNcDiCf/b6ktgkY6URbk1JDdkqoLgzgTU5tAR71DaVwQ2EP
- M32vMWHlRXB0QudvmbhpftUncDpYRIMlGctqW2t5FN/fXWbd8uwxIXV9NTO6AXS4ATJr
- FtusnoByEduwgtK0lE2t5Veqg9xJVcz3vSJlTZ/LZ8rBtfo+rf3uz27kl6EzNOb4Din6
- YdXA==
+ bh=21MwD1xvRVhA8I16eM1nxg+vXsRbeWwb/Kbif9L3QsM=;
+ b=vGiP9QaoS3wdF7FHK6pPeKt6izqO1z8+Pcci5542gknK0pjX3PERdcL9HBDahB1qFr
+ cICfiuRnwJVjO6XTc7I+5sRkv+BRl3tYO8Ijumg0mz3o1kgFqQDzMidHO19stOnDDp06
+ MBgFA0sje6BBb1ERHs01ku2/JqIwGHPxnEc5husjL+W4BkffRg/wL9qA1AkkJmHzg1b8
+ GuuU0h4gK+2iGR8J++gS9XbvN4p1UrMm4tq2StQeIYH/RswiL/IwZj3cLvIRVOf0ilGj
+ ceQOXkmPmNo/LvX61d+5awrXm1+Vlc5Du51tRJA6bPF3ogrvXr0sNYxzQa+e36DZ050E
+ RwxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fh8JZNfaRTAyd35OyZJZlm411xR5tEWJA9zZrpAqL0s=;
- b=jc+1zqtVHgZkGH9aTxcSF8T6roZe7DBFwYdSffp53FM6NqUrl6+sulV2Uu7rr40gs9
- /0FenAtZXA348O7zWrrYyzv3tBJlLz0rwXBjS8adHk8UnM1AK8BWOjTSgWeMoo0DsCPK
- mRhNuDKVvBm8TwfJ6iLT+tRqmyWi9FLsdSzYF02d95PExu/FHZHAhPsUUzM/0R2nbBYq
- jJ5uSdW5ZeJrDWhHBVd/v94qWbjkQz4RWm3NgI2+aBguO9Z0D1MiAPPx7tysat3MaMD4
- v+2MJIkDKqwfUwcgV5gbbq3uCBEPa34N8VNcvKt5DJENq2c9TPL3s/KU+cipH1XU2iQz
- sCLw==
-X-Gm-Message-State: AOAM533VSkrCWKkCfZ4C8wz19DYFJwH3YWtVurL11RvrOMPhJ2WsJIme
- r/ACuv9GpHkjjYGECPC8DHjggQ5yJTXL4g==
-X-Google-Smtp-Source: ABdhPJyWHvAvihaYh9Y/yoFNZc2L+1afBCVDOKn+teWTckfcuNhE0X3AHXzodctYHuC/7CQ+gnmfWw==
-X-Received: by 2002:a5d:6d81:: with SMTP id l1mr73349866wrs.17.1621249906773; 
- Mon, 17 May 2021 04:11:46 -0700 (PDT)
+ bh=21MwD1xvRVhA8I16eM1nxg+vXsRbeWwb/Kbif9L3QsM=;
+ b=rmvPvhdvFM44tcArT3PBeXF0YidC5M88SVFxEN+opfdSc3GzRFpKUjEUR9XmcYfJkX
+ HaDhXqQhIAvt19yph3aXCwO5F3g3llPJR+SBrStKfNUfCdZdyp1J9Y5CorEtdgVUsyhn
+ M8XuVs6wHA/vYN7lKtDTf7xxUfOsDYX/kC8cCFkbOcCUTy99XJlUAUt93g7cuAPx8C9+
+ 5YnYm94E8WPCrh+Iyb8ZLJmxRkXVCQDsJKSRQXMLw0PUk5FEVG7NuebB5t3qcQiYuqsY
+ evTKqjbzwoqhSciQ2Qvo+HEoE1Wzu3mWhq95NHmk2REQ8PaRZs6oucYvloRCG8Q5GqEa
+ N/rQ==
+X-Gm-Message-State: AOAM532uQPzE5t2x3H3lEwTFuEaX0coQNcOR7QYdzD1Y7h7ynDiKJmah
+ /QkTL7yxvT7vHQI6WE83QoSY8BVDACxGig==
+X-Google-Smtp-Source: ABdhPJzKRoWRCs6oszN1DCNCHFx34Mc9kIJToD+X3rBQ94jP+QQ/MJJm47E7DIn1nsrD4z8quQct7Q==
+X-Received: by 2002:a7b:c056:: with SMTP id u22mr22676141wmc.181.1621249921208; 
+ Mon, 17 May 2021 04:12:01 -0700 (PDT)
 Received: from localhost.localdomain (31.red-83-51-215.dynamicip.rima-tde.net.
  [83.51.215.31])
- by smtp.gmail.com with ESMTPSA id g16sm17587223wmh.32.2021.05.17.04.11.45
+ by smtp.gmail.com with ESMTPSA id e10sm17265551wrw.20.2021.05.17.04.11.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 04:11:46 -0700 (PDT)
+ Mon, 17 May 2021 04:12:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/11] exec: Extract CPU I/O instructions to "cpu-io.h"
-Date: Mon, 17 May 2021 13:11:07 +0200
-Message-Id: <20210517111111.1068153-8-f4bug@amsat.org>
+Subject: [PATCH 10/11] exec: Restrict ramblock.h to sysemu/
+Date: Mon, 17 May 2021 13:11:10 +0200
+Message-Id: <20210517111111.1068153-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210517111111.1068153-1-f4bug@amsat.org>
 References: <20210517111111.1068153-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,332 +93,139 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not all architectures use an I/O bus. Extract the CPU I/O
-instruction helpers into a specific unit named cpu-io.c
-(and its equivalent "cpu-io.h" header).
+To make it clearer the ramblock.h header is sysemu specific,
+move it to the sysemu/ directory.
 
-Since what is left in ioport.c is no more target specific,
-build the file with the other softmmu objects by moving the
-file to the softmmu_ss Meson source set.
+Patch created mechanically using:
+
+  $ sed -i s,exec/ramblock.h,sysemu/ramblock.h, $(git grep -l exec/ramblock.h)
+
+Then the #ifdef'ry conditional on CONFIG_USER_ONLY has
+been replaced by an #error.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/exec/cpu-io.h             | 30 +++++++++++
- include/exec/ioport.h             |  7 ---
- hw/i386/xen/xen-hvm.c             |  1 +
- monitor/misc.c                    |  2 +-
- softmmu/cpu-io.c                  | 88 +++++++++++++++++++++++++++++++
- softmmu/ioport.c                  | 60 ---------------------
- softmmu/qtest.c                   |  1 +
- tests/qtest/fuzz/qtest_wrappers.c |  3 +-
- softmmu/meson.build               |  3 +-
- 9 files changed, 125 insertions(+), 70 deletions(-)
- create mode 100644 include/exec/cpu-io.h
- create mode 100644 softmmu/cpu-io.c
+ include/sysemu/ram_addr.h           |  2 +-
+ include/{exec => sysemu}/ramblock.h | 13 ++++++++-----
+ migration/dirtyrate.c               |  2 +-
+ migration/multifd.c                 |  2 +-
+ migration/postcopy-ram.c            |  2 +-
+ tests/qtest/fuzz/generic_fuzz.c     |  2 +-
+ MAINTAINERS                         |  2 +-
+ 7 files changed, 14 insertions(+), 11 deletions(-)
+ rename include/{exec => sysemu}/ramblock.h (92%)
 
-diff --git a/include/exec/cpu-io.h b/include/exec/cpu-io.h
-new file mode 100644
-index 00000000000..6538c451177
---- /dev/null
-+++ b/include/exec/cpu-io.h
-@@ -0,0 +1,30 @@
-+/*
-+ * QEMU CPU I/O instructions
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef CPU_IO_H
-+#define CPU_IO_H
-+
-+void cpu_outb(uint32_t addr, uint8_t val);
-+void cpu_outw(uint32_t addr, uint16_t val);
-+void cpu_outl(uint32_t addr, uint32_t val);
-+uint8_t cpu_inb(uint32_t addr);
-+uint16_t cpu_inw(uint32_t addr);
-+uint32_t cpu_inl(uint32_t addr);
-+
-+#endif /* CPU_IO_H */
-diff --git a/include/exec/ioport.h b/include/exec/ioport.h
-index d5ca8abff76..f94f71b19f0 100644
---- a/include/exec/ioport.h
-+++ b/include/exec/ioport.h
-@@ -44,13 +44,6 @@ typedef struct MemoryRegionPortio {
- extern const MemoryRegionOps unassigned_io_ops;
- #endif
- 
--void cpu_outb(uint32_t addr, uint8_t val);
--void cpu_outw(uint32_t addr, uint16_t val);
--void cpu_outl(uint32_t addr, uint32_t val);
--uint8_t cpu_inb(uint32_t addr);
--uint16_t cpu_inw(uint32_t addr);
--uint32_t cpu_inl(uint32_t addr);
--
- typedef struct PortioList {
-     const struct MemoryRegionPortio *ports;
-     Object *owner;
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index 9b432773f02..c8de325a809 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -33,6 +33,7 @@
+diff --git a/include/sysemu/ram_addr.h b/include/sysemu/ram_addr.h
+index d495c969f9f..aea30dfeb4e 100644
+--- a/include/sysemu/ram_addr.h
++++ b/include/sysemu/ram_addr.h
+@@ -27,7 +27,7 @@
  #include "sysemu/xen.h"
- #include "sysemu/xen-mapcache.h"
- #include "trace.h"
-+#include "exec/cpu-io.h"
+ #include "sysemu/tcg.h"
+ #include "exec/ramlist.h"
+-#include "exec/ramblock.h"
++#include "sysemu/ramblock.h"
  
- #include <xen/hvm/ioreq.h>
- #include <xen/hvm/e820.h>
-diff --git a/monitor/misc.c b/monitor/misc.c
-index c1fcd995805..60ee9c91a9f 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -76,7 +76,7 @@
- #include "qapi/qmp-event.h"
- #include "sysemu/cpus.h"
- #include "qemu/cutils.h"
--
-+#include "exec/cpu-io.h"
- #if defined(TARGET_S390X)
- #include "hw/s390x/storage-keys.h"
- #include "hw/s390x/storage-attributes.h"
-diff --git a/softmmu/cpu-io.c b/softmmu/cpu-io.c
-new file mode 100644
-index 00000000000..98da9d693f9
---- /dev/null
-+++ b/softmmu/cpu-io.c
-@@ -0,0 +1,88 @@
-+/*
-+ * QEMU CPU I/O instructions
-+ *
-+ * Copyright (c) 2003-2008 Fabrice Bellard
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "exec/sysemu/address-spaces.h"
-+#include "exec/cpu-io.h"
-+#include "cpu.h"
-+#include "trace.h"
-+
-+void cpu_outb(uint32_t addr, uint8_t val)
-+{
-+    trace_cpu_out(addr, 'b', val);
-+    address_space_write(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED,
-+                        &val, 1);
-+}
-+
-+void cpu_outw(uint32_t addr, uint16_t val)
-+{
-+    uint8_t buf[2];
-+
-+    trace_cpu_out(addr, 'w', val);
-+    stw_p(buf, val);
-+    address_space_write(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED,
-+                        buf, 2);
-+}
-+
-+void cpu_outl(uint32_t addr, uint32_t val)
-+{
-+    uint8_t buf[4];
-+
-+    trace_cpu_out(addr, 'l', val);
-+    stl_p(buf, val);
-+    address_space_write(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED,
-+                        buf, 4);
-+}
-+
-+uint8_t cpu_inb(uint32_t addr)
-+{
-+    uint8_t val;
-+
-+    address_space_read(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED,
-+                       &val, 1);
-+    trace_cpu_in(addr, 'b', val);
-+    return val;
-+}
-+
-+uint16_t cpu_inw(uint32_t addr)
-+{
-+    uint8_t buf[2];
-+    uint16_t val;
-+
-+    address_space_read(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED, buf, 2);
-+    val = lduw_p(buf);
-+    trace_cpu_in(addr, 'w', val);
-+    return val;
-+}
-+
-+uint32_t cpu_inl(uint32_t addr)
-+{
-+    uint8_t buf[4];
-+    uint32_t val;
-+
-+    address_space_read(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED, buf, 4);
-+    val = ldl_p(buf);
-+    trace_cpu_in(addr, 'l', val);
-+    return val;
-+}
-diff --git a/softmmu/ioport.c b/softmmu/ioport.c
-index 6ace5ec966a..6f297027cfe 100644
---- a/softmmu/ioport.c
-+++ b/softmmu/ioport.c
-@@ -26,7 +26,6 @@
+ /**
+  * clear_bmap_size: calculate clear bitmap size
+diff --git a/include/exec/ramblock.h b/include/sysemu/ramblock.h
+similarity index 92%
+rename from include/exec/ramblock.h
+rename to include/sysemu/ramblock.h
+index 664701b7594..12a1b90a19b 100644
+--- a/include/exec/ramblock.h
++++ b/include/sysemu/ramblock.h
+@@ -16,11 +16,14 @@
+  * The functions declared here will be removed soon.
   */
  
- #include "qemu/osdep.h"
--#include "cpu.h"
- #include "exec/ioport.h"
- #include "exec/sysemu/memory.h"
- #include "exec/sysemu/address-spaces.h"
-@@ -54,65 +53,6 @@ const MemoryRegionOps unassigned_io_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
+-#ifndef QEMU_EXEC_RAMBLOCK_H
+-#define QEMU_EXEC_RAMBLOCK_H
++#ifndef QEMU_SYSEMU_RAMBLOCK_H
++#define QEMU_SYSEMU_RAMBLOCK_H
+ 
+-#ifndef CONFIG_USER_ONLY
+-#include "cpu-common.h"
++#ifdef CONFIG_USER_ONLY
++#error Cannot include sysemu specific header from user emulation
++#endif
++
++#include "exec/cpu-common.h"
+ 
+ struct RAMBlock {
+     struct rcu_head rcu;
+@@ -70,5 +73,5 @@ struct RAMBlock {
+      */
+     ram_addr_t postcopy_length;
  };
- 
--void cpu_outb(uint32_t addr, uint8_t val)
--{
--    trace_cpu_out(addr, 'b', val);
--    address_space_write(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED,
--                        &val, 1);
--}
--
--void cpu_outw(uint32_t addr, uint16_t val)
--{
--    uint8_t buf[2];
--
--    trace_cpu_out(addr, 'w', val);
--    stw_p(buf, val);
--    address_space_write(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED,
--                        buf, 2);
--}
--
--void cpu_outl(uint32_t addr, uint32_t val)
--{
--    uint8_t buf[4];
--
--    trace_cpu_out(addr, 'l', val);
--    stl_p(buf, val);
--    address_space_write(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED,
--                        buf, 4);
--}
--
--uint8_t cpu_inb(uint32_t addr)
--{
--    uint8_t val;
--
--    address_space_read(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED,
--                       &val, 1);
--    trace_cpu_in(addr, 'b', val);
--    return val;
--}
--
--uint16_t cpu_inw(uint32_t addr)
--{
--    uint8_t buf[2];
--    uint16_t val;
--
--    address_space_read(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED, buf, 2);
--    val = lduw_p(buf);
--    trace_cpu_in(addr, 'w', val);
--    return val;
--}
--
--uint32_t cpu_inl(uint32_t addr)
--{
--    uint8_t buf[4];
--    uint32_t val;
--
--    address_space_read(&address_space_io, addr, MEMTXATTRS_UNSPECIFIED, buf, 4);
--    val = ldl_p(buf);
--    trace_cpu_in(addr, 'l', val);
--    return val;
--}
--
- void portio_list_init(PortioList *piolist,
-                       Object *owner,
-                       const MemoryRegionPortio *callbacks,
-diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-index f1ee4fbc369..2551296c727 100644
---- a/softmmu/qtest.c
-+++ b/softmmu/qtest.c
-@@ -31,6 +31,7 @@
- #ifdef CONFIG_PSERIES
- #include "hw/ppc/spapr_rtas.h"
+-#endif
++
  #endif
-+#include "exec/cpu-io.h"
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index ccb98147e89..5422b39784f 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -14,7 +14,7 @@
+ #include <zlib.h>
+ #include "qapi/error.h"
+ #include "cpu.h"
+-#include "exec/ramblock.h"
++#include "sysemu/ramblock.h"
+ #include "qemu/rcu_queue.h"
+ #include "qapi/qapi-commands-migration.h"
+ #include "ram.h"
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 0a4803cfccb..519f8dd4393 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -14,7 +14,7 @@
+ #include "qemu/rcu.h"
+ #include "exec/target_page.h"
+ #include "sysemu/sysemu.h"
+-#include "exec/ramblock.h"
++#include "sysemu/ramblock.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "ram.h"
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index 2e9697bdd2e..fb8c625ffc3 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -31,7 +31,7 @@
+ #include "qemu/error-report.h"
+ #include "trace.h"
+ #include "hw/boards.h"
+-#include "exec/ramblock.h"
++#include "sysemu/ramblock.h"
  
- #define MAX_IRQ 256
- 
-diff --git a/tests/qtest/fuzz/qtest_wrappers.c b/tests/qtest/fuzz/qtest_wrappers.c
-index 0580f8df860..25cf1b72705 100644
---- a/tests/qtest/fuzz/qtest_wrappers.c
-+++ b/tests/qtest/fuzz/qtest_wrappers.c
-@@ -12,8 +12,9 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "exec/sysemu/address-spaces.h"
-+#include "exec/cpu-io.h"
- #include "hw/core/cpu.h"
--#include "exec/ioport.h"
- 
- #include "fuzz.h"
- 
-diff --git a/softmmu/meson.build b/softmmu/meson.build
-index d8e03018abf..ebf063b8990 100644
---- a/softmmu/meson.build
-+++ b/softmmu/meson.build
-@@ -2,11 +2,11 @@
-   'arch_init.c',
-   'balloon.c',
-   'cpus.c',
-+  'cpu-io.c',
-   'cpu-throttle.c',
-   'datadir.c',
-   'globals.c',
-   'physmem.c',
--  'ioport.c',
-   'rtc.c',
-   'runstate.c',
-   'memory.c',
-@@ -24,6 +24,7 @@
- softmmu_ss.add(files(
-   'bootdevice.c',
-   'dma-helpers.c',
-+  'ioport.c',
-   'qdev-monitor.c',
- ), sdl, libpmem, libdaxctl)
- 
+ /* Arbitrary limit on size of each discard command,
+  * keeps them around ~200 bytes
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index 05f9c9b06f9..613427f1a57 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -21,7 +21,7 @@
+ #include "fork_fuzz.h"
+ #include "string.h"
+ #include "exec/sysemu/memory.h"
+-#include "exec/ramblock.h"
++#include "sysemu/ramblock.h"
+ #include "hw/qdev-core.h"
+ #include "hw/pci/pci.h"
+ #include "hw/boards.h"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8caf3891dba..cea4f2e438a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2402,7 +2402,7 @@ F: include/sysemu/ioport.h
+ F: include/exec/memop.h
+ F: include/exec/sysemu/memory.h
+ F: include/sysemu/ram_addr.h
+-F: include/exec/ramblock.h
++F: include/sysemu/ramblock.h
+ F: softmmu/dma-helpers.c
+ F: softmmu/ioport.c
+ F: softmmu/memory.c
 -- 
 2.26.3
 
