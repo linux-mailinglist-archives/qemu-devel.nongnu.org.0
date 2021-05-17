@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860873830DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:32:12 +0200 (CEST)
-Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C80D83830F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 May 2021 16:34:54 +0200 (CEST)
+Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lieHz-0007iR-Fd
-	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:32:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56454)
+	id 1lieKb-0005Q6-NV
+	for lists+qemu-devel@lfdr.de; Mon, 17 May 2021 10:34:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieEP-0002fW-Rp
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56445)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieET-0002ro-1Z
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieEM-00075c-Kr
- for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:29 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lieER-0007Be-97
+ for qemu-devel@nongnu.org; Mon, 17 May 2021 10:28:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1621261706;
+ s=mimecast20190719; t=1621261710;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dJiLuzr5gdwDzIJ/597xH+m/QqjcNiR0TjtGMvtOZiw=;
- b=RcpdM+PRNgvc3xW46rFKRYRY/wBkXlmgHhVkKKTzi20JefW6SL7nj19ncTEsWznft2zNwl
- +hvk47qt1VIF/6Qa1ZthBd1BOwk39Js5zNv7fxJrgT3jIRm5X3WoqcZNdsB0VqS1/EDMHk
- DkcBxaVJfL1LT9KpXmM7dP8v3gW4GUo=
+ bh=PZisAVPRHQLT4GwzU2NVZWl57xzoAf6e+d3E+WsD6S8=;
+ b=JGxWlef8/3jSEgFuN+uTgUM9PeQKVpIH4lxBAbmAACtMYgDCtjvFPgKkDAg8sj8yVCKryT
+ FsWq8hZrq+wMWi6mAFbWB1qihuWqgV6iDLKZY08t90yw+IaiW9CR7usdXzvWxInJDVDGqF
+ SRQjrosqThEvG6BBJ24oP8us7jfqFc8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-wwfbxKZnNG6CG3ZkZDRqsA-1; Mon, 17 May 2021 10:28:22 -0400
-X-MC-Unique: wwfbxKZnNG6CG3ZkZDRqsA-1
+ us-mta-494-QjsOIXm9NeG8ekGZAb36QQ-1; Mon, 17 May 2021 10:28:28 -0400
+X-MC-Unique: QjsOIXm9NeG8ekGZAb36QQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F1738049D0;
- Mon, 17 May 2021 14:28:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C008C107ACE8;
+ Mon, 17 May 2021 14:28:26 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-115-101.ams2.redhat.com [10.36.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5BD265DDAD;
- Mon, 17 May 2021 14:28:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB44E5DDAD;
+ Mon, 17 May 2021 14:28:21 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/26] s390x/tcg: Simplify vflr64() handling
-Date: Mon, 17 May 2021 16:27:22 +0200
-Message-Id: <20210517142739.38597-10-david@redhat.com>
+Subject: [PATCH v2 10/26] s390x/tcg: Simplify wfc64() handling
+Date: Mon, 17 May 2021 16:27:23 +0200
+Message-Id: <20210517142739.38597-11-david@redhat.com>
 In-Reply-To: <20210517142739.38597-1-david@redhat.com>
 References: <20210517142739.38597-1-david@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.374,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,94 +86,56 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+... and prepare for 32/128 bit support.
+
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/helper.h           |  1 -
- target/s390x/translate_vx.c.inc |  3 +--
- target/s390x/vec_fpu_helper.c   | 29 +++++++----------------------
- 3 files changed, 8 insertions(+), 25 deletions(-)
+ target/s390x/vec_fpu_helper.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/target/s390x/helper.h b/target/s390x/helper.h
-index 63039c8d73..0cfb82ee8a 100644
---- a/target/s390x/helper.h
-+++ b/target/s390x/helper.h
-@@ -263,7 +263,6 @@ DEF_HELPER_FLAGS_5(gvec_vfd64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
- DEF_HELPER_FLAGS_4(gvec_vfi64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
- DEF_HELPER_FLAGS_4(gvec_vfll32, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
- DEF_HELPER_FLAGS_4(gvec_vflr64, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
--DEF_HELPER_FLAGS_4(gvec_vflr64s, TCG_CALL_NO_WG, void, ptr, cptr, env, i32)
- DEF_HELPER_FLAGS_5(gvec_vfm64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
- DEF_HELPER_FLAGS_6(gvec_vfma64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, cptr, env, i32)
- DEF_HELPER_FLAGS_6(gvec_vfms64, TCG_CALL_NO_WG, void, ptr, cptr, cptr, cptr, env, i32)
-diff --git a/target/s390x/translate_vx.c.inc b/target/s390x/translate_vx.c.inc
-index 5ff59984b5..91e2967c49 100644
---- a/target/s390x/translate_vx.c.inc
-+++ b/target/s390x/translate_vx.c.inc
-@@ -2531,7 +2531,6 @@ static DisasJumpType op_vcdg(DisasContext *s, DisasOps *o)
-     const uint8_t fpf = get_field(s, m3);
-     const uint8_t m4 = get_field(s, m4);
-     const uint8_t erm = get_field(s, m5);
--    const bool se = extract32(m4, 3, 1);
-     gen_helper_gvec_2_ptr *fn;
- 
-     if (fpf != FPF_LONG || extract32(m4, 0, 2) || erm > 7 || erm == 2) {
-@@ -2556,7 +2555,7 @@ static DisasJumpType op_vcdg(DisasContext *s, DisasOps *o)
-         fn = gen_helper_gvec_vfi64;
-         break;
-     case 0xc5:
--        fn = se ? gen_helper_gvec_vflr64s : gen_helper_gvec_vflr64;
-+        fn = gen_helper_gvec_vflr64;
-         break;
-     default:
-         g_assert_not_reached();
 diff --git a/target/s390x/vec_fpu_helper.c b/target/s390x/vec_fpu_helper.c
-index 5c063a681a..d07bc7cd64 100644
+index d07bc7cd64..219ef19d24 100644
 --- a/target/s390x/vec_fpu_helper.c
 +++ b/target/s390x/vec_fpu_helper.c
-@@ -313,9 +313,12 @@ void HELPER(gvec_vfll32)(void *v1, const void *v2, CPUS390XState *env,
-     *(S390Vector *)v1 = tmp;
- }
- 
--static void vflr64(S390Vector *v1, const S390Vector *v2, CPUS390XState *env,
--                   bool s, bool XxC, uint8_t erm, uintptr_t retaddr)
-+void HELPER(gvec_vflr64)(void *v1, const void *v2, CPUS390XState *env,
-+                         uint32_t desc)
+@@ -203,8 +203,8 @@ static int wfc64(const S390Vector *v1, const S390Vector *v2,
+                  CPUS390XState *env, bool signal, uintptr_t retaddr)
  {
-+    const uint8_t erm = extract32(simd_data(desc), 4, 4);
-+    const bool s = extract32(simd_data(desc), 3, 1);
-+    const bool XxC = extract32(simd_data(desc), 2, 1);
+     /* only the zero-indexed elements are compared */
+-    const float64 a = s390_vec_read_element64(v1, 0);
+-    const float64 b = s390_vec_read_element64(v2, 0);
++    const float64 a = s390_vec_read_float64(v1, 0);
++    const float64 b = s390_vec_read_float64(v2, 0);
      uint8_t vxc, vec_exc = 0;
-     S390Vector tmp = {};
-     int i, old_mode;
-@@ -334,26 +337,8 @@ static void vflr64(S390Vector *v1, const S390Vector *v2, CPUS390XState *env,
-         }
-     }
-     s390_restore_bfp_rounding_mode(env, old_mode);
--    handle_ieee_exc(env, vxc, vec_exc, retaddr);
--    *v1 = tmp;
--}
--
--void HELPER(gvec_vflr64)(void *v1, const void *v2, CPUS390XState *env,
--                         uint32_t desc)
--{
--    const uint8_t erm = extract32(simd_data(desc), 4, 4);
--    const bool XxC = extract32(simd_data(desc), 2, 1);
--
--    vflr64(v1, v2, env, false, XxC, erm, GETPC());
--}
--
--void HELPER(gvec_vflr64s)(void *v1, const void *v2, CPUS390XState *env,
--                          uint32_t desc)
--{
--    const uint8_t erm = extract32(simd_data(desc), 4, 4);
--    const bool XxC = extract32(simd_data(desc), 2, 1);
--
--    vflr64(v1, v2, env, true, XxC, erm, GETPC());
-+    handle_ieee_exc(env, vxc, vec_exc, GETPC());
-+    *(S390Vector *)v1 = tmp;
+     int cmp;
+ 
+@@ -219,17 +219,18 @@ static int wfc64(const S390Vector *v1, const S390Vector *v2,
+     return float_comp_to_cc(env, cmp);
  }
  
- static void vfma64(S390Vector *v1, const S390Vector *v2, const S390Vector *v3,
+-void HELPER(gvec_wfc64)(const void *v1, const void *v2, CPUS390XState *env,
+-                        uint32_t desc)
+-{
+-    env->cc_op = wfc64(v1, v2, env, false, GETPC());
++#define DEF_GVEC_WFC_B(NAME, SIGNAL, BITS)                                     \
++void HELPER(gvec_##NAME##BITS)(const void *v1, const void *v2,                 \
++                               CPUS390XState *env, uint32_t desc)              \
++{                                                                              \
++    env->cc_op = wfc##BITS(v1, v2, env, SIGNAL, GETPC());                      \
+ }
+ 
+-void HELPER(gvec_wfk64)(const void *v1, const void *v2, CPUS390XState *env,
+-                        uint32_t desc)
+-{
+-    env->cc_op = wfc64(v1, v2, env, true, GETPC());
+-}
++#define DEF_GVEC_WFC(NAME, SIGNAL)                                             \
++     DEF_GVEC_WFC_B(NAME, SIGNAL, 64)
++
++DEF_GVEC_WFC(wfc, false)
++DEF_GVEC_WFC(wfk, true)
+ 
+ typedef bool (*vfc64_fn)(float64 a, float64 b, float_status *status);
+ static int vfc64(S390Vector *v1, const S390Vector *v2, const S390Vector *v3,
 -- 
 2.31.1
 
